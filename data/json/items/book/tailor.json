@@ -16,7 +16,7 @@
     "type": "BOOK",
     "category": "manuals",
     "name": { "str": "Beauty Magazine" },
-    "description": "This is a full-size glossy women's magazine.  There are a few simple patterns and basic sewing tips somewhere in between the fashion photos and the makeup advertisements.",
+    "description": "A full-size glossy women's magazine.  There are a few simple patterns and basic sewing tips somewhere in between the fashion photos and the makeup advertisements.",
     "weight": "180 g",
     "volume": "500 ml",
     "price": 450,

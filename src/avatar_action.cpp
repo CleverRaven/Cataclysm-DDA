@@ -351,6 +351,15 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
                     return false;
                 }
             }
+            if( critter.attitude_to( you ) == Creature::Attitude::NEUTRAL &&
+                g->safe_mode != SAFE_MODE_OFF ) {
+                const std::string msg_safe_mode = press_x( ACTION_TOGGLE_SAFEMODE );
+                add_msg( m_warning,
+                         _( "Not attacking the %1$s -- safe mode is on!  (%2$s to turn it off)" ), critter.name(),
+                         msg_safe_mode );
+                return false;
+            }
+
             you.melee_attack( critter, true );
             if( critter.is_hallucination() ) {
                 critter.die( &you );
@@ -842,11 +851,10 @@ void avatar_action::fire_ranged_mutation( Character &you, const item &fake_gun )
     you.assign_activity( player_activity( aim_activity_actor::use_mutation( fake_gun ) ), false );
 }
 
-void avatar_action::fire_ranged_bionic( avatar &you, const item &fake_gun,
-                                        const units::energy &cost_per_shot )
+void avatar_action::fire_ranged_bionic( avatar &you, const item &fake_gun )
 {
     you.assign_activity(
-        player_activity( aim_activity_actor::use_bionic( fake_gun, cost_per_shot ) ), false );
+        player_activity( aim_activity_actor::use_bionic( fake_gun ) ), false );
 }
 
 void avatar_action::fire_turret_manual( avatar &you, map &m, turret_data &turret )
@@ -1187,6 +1195,9 @@ void avatar_action::use_item( avatar &you, item_location &loc, std::string const
         if( parent_pocket && on_person && parent_pocket->will_spill() ) {
             parent_pocket->handle_liquid_or_spill( you, loc.parent_item().get_item() );
         }
+    }
+    if( loc ) {
+        loc.on_contents_changed();
     }
 
     you.recoil = MAX_RECOIL;

@@ -323,7 +323,7 @@
     "type": "TOOL",
     "name": { "str": "light hoist" },
     "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ],
-    "qualities": [ [ "LIFT", 2 ] ]
+    "qualities": [ [ "LIFT", 2 ], [ "ROPE", 2 ], [ "SUSPENDING", 2 ] ]
   },
   {
     "id": "fake_lift_medium",
@@ -331,7 +331,7 @@
     "type": "TOOL",
     "name": { "str": "sturdy hoist" },
     "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ],
-    "qualities": [ [ "LIFT", 8 ] ]
+    "qualities": [ [ "LIFT", 8 ], [ "ROPE", 2 ], [ "SUSPENDING", 2 ] ]
   },
   {
     "id": "fake_lift_heavy",
@@ -339,7 +339,7 @@
     "type": "TOOL",
     "name": { "str": "heavy-duty hoist" },
     "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ],
-    "qualities": [ [ "LIFT", 40 ] ]
+    "qualities": [ [ "LIFT", 40 ], [ "ROPE", 2 ], [ "SUSPENDING", 2 ] ]
   },
   {
     "id": "pseudo_app_oxygen_concentrator",

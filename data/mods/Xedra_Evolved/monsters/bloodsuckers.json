@@ -186,6 +186,7 @@
         "fake_per": 10,
         "ranges": [ [ 2, 14, "DEFAULT" ] ],
         "require_targeting_player": false,
+        "target_moving_vehicles": true,
         "description": "The renfield fires their Glock!"
       }
     ],
@@ -253,6 +254,7 @@
         "//": "(ferals don't care about max-effective range.)",
         "ranges": [ [ 2, 25, "DEFAULT" ] ],
         "require_targeting_player": false,
+        "target_moving_vehicles": true,
         "description": "The renfield fires their shotgun!"
       }
     ],
@@ -318,6 +320,7 @@
         "no_ammo_sound": "hiss!",
         "ranges": [ [ 0, 10, "DEFAULT" ] ],
         "require_targeting_player": false,
+        "target_moving_vehicles": true,
         "description": "The renfield shoots their flamethrower!"
       }
     ],

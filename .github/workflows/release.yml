@@ -32,10 +32,8 @@ jobs:
     steps:
       - name: Get build timestamp
         id: get-timestamp
-        uses: nanzm/get-time-action@v1.1
-        with:
-          timeZone: 0
-          format: 'YYYY-MM-DD-HHmm'
+        run: |
+          echo "time=$(/bin/date -u "+%Y-%m-%d-%H%M")" >> $GITHUB_OUTPUT
       - name: Generate environmental variables
         id: generate_env_vars
         run: |
@@ -48,7 +46,7 @@ jobs:
           tag: ${{ steps.generate_env_vars.outputs.tag_name }}  
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Push tag
         id: tag_version
         uses: mathieudutour/github-tag-action@v5.5
@@ -62,7 +60,7 @@ jobs:
           gh api \
             --method POST \
             -H "Accept: application/vnd.github.v3+json" \
-            /repos/CleverRaven/Cataclysm-DDA/releases/generate-notes \
+            /repos/${{ github.repository }}/releases/generate-notes \
             -f tag_name='${{ steps.generate_env_vars.outputs.tag_name }}' \
             -f target_commitish='master' \
             -q .body > CHANGELOG.md
@@ -184,29 +182,25 @@ jobs:
     env:
         ZSTD_CLEVEL: 17
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Get soundpack
         if: matrix.sound == 1
         run: |
           git clone --depth=1 --shallow-submodules --recurse-submodules https://github.com/Fris0uman/CDDA-Soundpacks '${{ github.workspace }}/CDDA-Soundpacks'
           mv '${{ github.workspace }}/CDDA-Soundpacks/sound/CC-Sounds' '${{ github.workspace }}/data/sound'
+      - name: Install dependencies (windows msvc) (0/3)
+        if: runner.os == 'Windows'
+        uses: lukka/get-cmake@latest
       - name: Install dependencies (windows msvc) (1/3)
         if: runner.os == 'Windows'
-        uses: microsoft/setup-msbuild@v1.0.2
+        uses: microsoft/setup-msbuild@v1.3.1
       - name: Install dependencies (windows msvc) (2/3)
         if: runner.os == 'Windows'
-        uses: lukka/run-vcpkg@v10
+        uses: lukka/run-vcpkg@v11
         id: runvcpkg
         with:
-          appendedCacheKey: ${{ hashFiles( 'msvc-full-features/vcpkg.json', '.github/vcpkg_triplets/**', '.github/vckg_ports/**' ) }}
-          # Rev this value to drop cache without changing vcpkg commit
-          prependedCacheKey: v1-${{ matrix.arch }}
           vcpkgDirectory: '${{ runner.workspace }}/b/vcpkg'
-          # We have to use at least this version of vcpkg to include fixes for yasm-tool's
-          # availability only as an x86 host tool. Keep it in sync with the builtin-baseline
-          # field in vcpkg.json. Caching happens as a post-action which runs at the end of
-          # the whole workflow, after vcpkg install happens during msbuild run.
-          vcpkgGitCommitId: 'd08e708c2111893da3cc7e49b597ee4654c8076e'
+          vcpkgGitCommitId: '5b1214315250939257ef5d62ecdcbca18cf4fb1c'
       - name: Install dependencies (windows msvc) (3/3)
         if: runner.os == 'Windows'
         run: |
@@ -278,7 +272,7 @@ jobs:
         env:
           # Enable pretty backtraces
           BACKTRACE: 1
-          CDDA_STRIPPED_PDB: 1
+          CDDA_RELEASE_BUILD: 1
           VCPKG_OVERLAY_TRIPLETS: ${{ github.workspace }}\.github\vcpkg_triplets
         run: |
           msbuild -m -p:Configuration=Release -p:Platform=${{ matrix.arch }} "-target:Cataclysm-vcpkg-static;JsonFormatter-vcpkg-static" msvc-full-features\Cataclysm-vcpkg-static.sln

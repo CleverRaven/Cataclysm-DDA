@@ -1176,11 +1176,7 @@
         "topic": "TALK_DONE",
         "condition": { "compare_num": [ { "u_val": "pos_z" }, "=", { "const": 20 } ] }
       },
-      {
-        "text": "Pain level is 21.",
-        "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "u_val": "pain" }, "=", { "const": 21 } ] }
-      },
+      { "text": "Pain level is 21.", "topic": "TALK_DONE", "condition": { "math": [ "u_pain()", "==", "21" ] } },
       {
         "text": "Bionic power is 22.",
         "topic": "TALK_DONE",
@@ -1484,11 +1480,7 @@
         "topic": "TALK_DONE",
         "effect": { "arithmetic": [ { "u_val": "pos_z" }, "=", { "const": 16 } ] }
       },
-      {
-        "text": "Sets pain to 17.",
-        "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "u_val": "pain" }, "=", { "const": 17 } ] }
-      },
+      { "text": "Sets pain to 17.", "topic": "TALK_DONE", "effect": { "math": [ "u_pain()", "=", "17" ] } },
       {
         "text": "Sets power to 18.",
         "topic": "TALK_DONE",

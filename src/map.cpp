@@ -1122,6 +1122,41 @@ bool map::deregister_vehicle_zone( zone_data &zone ) const
     return false;
 }
 
+std::set<tripoint_bub_ms> map::get_moving_vehicle_targets( const Creature &z, int max_range )
+{
+    const tripoint_bub_ms zpos( z.pos() );
+    std::set<tripoint_bub_ms> priority;
+    std::set<tripoint_bub_ms> visible;
+    for( wrapped_vehicle &v : get_vehicles() ) {
+        if( !v.v->is_moving() ) {
+            continue;
+        }
+        if( !fov_3d && v.pos.z != zpos.z() ) {
+            continue;
+        }
+        if( rl_dist( zpos, tripoint_bub_ms( v.pos ) ) > max_range + 40 ) {
+            continue; // coarse distance filter, 40 = ~24 * sqrt(2) - rough max diameter of a vehicle
+        }
+        for( const vpart_reference &vpr : v.v->get_all_parts() ) {
+            const tripoint_bub_ms vppos = static_cast<tripoint_bub_ms>( vpr.pos() );
+            if( rl_dist( zpos, vppos ) > max_range ) {
+                continue;
+            }
+            if( !z.sees( vppos ) ) {
+                continue;
+            }
+            if( vpr.has_feature( VPFLAG_CONTROLS ) ||
+                vpr.has_feature( VPFLAG_ENGINE ) ||
+                vpr.has_feature( VPFLAG_WHEEL ) ) {
+                priority.emplace( vppos );
+            } else {
+                visible.emplace( vppos );
+            }
+        }
+    }
+    return !priority.empty() ? priority : visible;
+}
+
 // 3D vehicle functions
 
 VehicleList map::get_vehicles( const tripoint &start, const tripoint &end )
@@ -4768,7 +4803,7 @@ void map::spawn_item( const tripoint &p, const itype_id &type_id, const unsigned
         //let's fail silently if we specify charges for an item that doesn't support it
         new_item.charges = charges;
     }
-    new_item = new_item.in_its_container();
+    new_item = new_item.in_its_container( new_item.count() );
     new_item.set_owner( faction_id( faction ) ); // Set faction to the container as well
     if( ( new_item.made_of( phase_id::LIQUID ) && has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) ) ||
         has_flag( ter_furn_flag::TFLAG_DESTROY_ITEM, p ) ) {
@@ -5228,7 +5263,7 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                 }
                 // TODO: BATTERIES this should be rewritten when vehicle power and items both use energy quantities
                 if( n.ammo_capacity( ammo_battery ) > n.ammo_remaining() ||
-                    ( n.type->battery && n.type->battery->max_capacity > n.energy_remaining() ) ) {
+                    ( n.type->battery && n.type->battery->max_capacity > n.energy_remaining( nullptr ) ) ) {
                     int power = recharge_part.info().bonus;
                     while( power >= 1000 || x_in_y( power, 1000 ) ) {
                         const int missing = cur_veh.discharge_battery( 1 );

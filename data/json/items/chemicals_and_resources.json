@@ -231,7 +231,7 @@
     "symbol": "*",
     "color": "light_gray",
     "description": "A handful of rock salt crystals.  Could be refined into table salt.",
-    "material": [ "stone" ],
+    "material": [ "salt", "stone" ],
     "volume": "3500 ml",
     "weight": "650 g",
     "bashing": 1
@@ -427,7 +427,7 @@
     "type": "COMESTIBLE",
     "id": "salt_water",
     "name": { "str_sp": "salt water" },
-    "material": [ "water" ],
+    "material": [ { "type": "water", "portion": 877 }, { "type": "salt", "portion": 123 } ],
     "weight": "260 g",
     "color": "light_cyan",
     "container": "bottle_plastic",
@@ -2030,10 +2030,52 @@
     "copy-from": "chem_muriatic_acid",
     "price": 0,
     "price_postapoc": 0,
-    "name": { "str_sp": "acidic blood" },
+    "name": { "str_sp": "toxic acidic blood" },
     "symbol": "~",
     "color": "red",
-    "description": "Blood mixed with acidic compounds, extremely corrosive.",
-    "weight": "262 g"
+    "description": "Blood mixed with acidic compounds, extremely corrosive, a means of refining this could net some useful chemicals."
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "blood_acid_insect",
+    "copy-from": "formic_acid",
+    "category": "chems",
+    "price_postapoc": 0,
+    "name": { "str_sp": "virulent acidic blood" },
+    "symbol": "~",
+    "color": "red",
+    "description": "Blood mixed with acidic compounds, extremely corrosive, a means of refining this could net some useful chemicals.",
+    "volume": "250 ml",
+    "weight": "305 g",
+    "stack_size": 1,
+    "container": "bottle_glass",
+    "flags": [ "DROP_ACTION_ONLY_IF_LIQUID" ],
+    "drop_action": { "type": "emit_actor", "emits": [ "emit_acid_drop" ], "scale_qty": true }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "blood_acid_plant",
+    "copy-from": "chem_acetic_acid",
+    "price": 0,
+    "price_postapoc": 0,
+    "name": { "str_sp": "putrid acidic blood" },
+    "symbol": "~",
+    "color": "green",
+    "description": "Blood mixed with acidic compounds, smells putrid, a means of refining this could net some useful chemicals.",
+    "comestible_type": "INVALID",
+    "delete": { "ammo_type": "components" },
+    "flags": [ "DROP_ACTION_ONLY_IF_LIQUID" ],
+    "drop_action": { "type": "emit_actor", "emits": [ "emit_acid_drop" ], "scale_qty": true }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "blood_acid_underground",
+    "copy-from": "chem_sulphuric_acid",
+    "price": 0,
+    "price_postapoc": 0,
+    "name": { "str_sp": "foul acidic blood" },
+    "symbol": "~",
+    "color": "red",
+    "description": "Blood mixed with acidic compounds, foul-smelling and extremely corrosive, a means of refining this could net some useful chemicals."
   }
 ]

@@ -93,9 +93,8 @@ item vehicle_part::properties_to_item() const
         tmp.active = true;
     }
 
-    // force rationalization of damage values to the middle value of each damage level so
-    // that parts will stack nicely
-    tmp.set_damage( tmp.damage_level() * itype::damage_scale );
+    // quantize damage to the middle of each damage_level so that items will stack nicely
+    tmp.set_damage( ( tmp.damage_level() - 0.5 ) * itype::damage_scale );
     return tmp;
 }
 
@@ -104,7 +103,7 @@ std::string vehicle_part::name( bool with_prefix ) const
     std::string res = info().name();
 
     if( base.engine_displacement() > 0 ) {
-        res.insert( 0, string_format( _( "%2.1fL " ), base.engine_displacement() / 100.0 ) );
+        res.insert( 0, string_format( _( "%gL " ), base.engine_displacement() / 100.0 ) );
 
     } else if( wheel_diameter() > 0 ) {
         res.insert( 0, string_format( _( "%d\" " ), wheel_diameter() ) );
@@ -123,8 +122,7 @@ std::string vehicle_part::name( bool with_prefix ) const
     }
 
     if( with_prefix ) {
-        res.insert( 0, colorize( base.damage_symbol(),
-                                 base.damage_color() ) + base.degradation_symbol() + " " );
+        res.insert( 0, base.damage_indicator() + base.degradation_symbol() + " " );
     }
     return res;
 }

@@ -587,7 +587,7 @@
         "duration": "36 hours",
         "decay_start": "24 hours"
       },
-      { "arithmetic": [ { "u_val": "pain" }, "+=", { "const": 3 } ] }
+      { "math": [ "u_pain()", "+=", "3" ] }
     ]
   },
   {
@@ -718,7 +718,7 @@
     "condition": "u_can_see",
     "effect": [
       { "u_add_effect": "nightmares", "duration": "18 hours" },
-      { "arithmetic": [ { "u_val": "pain" }, "+=", { "const": 15 } ] },
+      { "math": [ "u_pain()", "+=", "15" ] },
       { "arithmetic": [ { "u_val": "stamina" }, "-=", { "const": 300 } ] }
     ]
   },

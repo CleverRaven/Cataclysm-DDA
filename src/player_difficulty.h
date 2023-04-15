@@ -28,7 +28,7 @@ class player_difficulty
         std::string get_social_difficulty( const Character &u ) const;
 
         // helpers for the above functions
-        static double calc_armor_value( const Character &u, bodypart_id bp );
+        static double calc_armor_value( const Character &u );
         static double calc_dps_value( const Character &u );
         static int calc_social_value( const Character &u, const npc &compare );
 

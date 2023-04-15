@@ -638,6 +638,7 @@ class item : public visitable
                               int charges_in_vol = -1 ) const;
 
         units::length length() const;
+        units::length barrel_length() const;
 
         /**
          * Simplified, faster volume check for when processing time is important and exact volume is not.
@@ -1357,11 +1358,8 @@ class item : public visitable
          */
         armor_status damage_armor_transforms( damage_unit &du ) const;
 
-        /** Provide color for UI display dependent upon current item damage level */
-        nc_color damage_color() const;
-
-        /** Provide prefix symbol for UI display dependent upon current item damage level */
-        std::string damage_symbol() const;
+        // @return colorize()-ed damage indicator as string, e.g. "<color_green>++</color>"
+        std::string damage_indicator() const;
 
         /**
          * Provides a prefix for the durability state of the item. with ITEM_HEALTH_BAR enabled,
@@ -2221,14 +2219,22 @@ class item : public visitable
 
         void clear_itype_variant();
 
-        /** Quantity of energy currently loaded in tool or battery */
-        units::energy energy_remaining() const;
+        /**
+         * Quantity of shots in the gun. Looks at both ammo and available energy.
+         * @param carrier is used for UPS and bionic power
+         */
+        int shots_remaining( const Character *carrier ) const;
+
+        /**
+         * Energy available from battery/UPS/bionics
+         * @param carrier is used for UPS and bionic power.
+         */
+        units::energy energy_remaining( const Character *carrier = nullptr ) const;
 
 
         /**
-         * Quantity of ammunition currently loaded in tool, gun or auxiliary gunmod. Can include UPS and bionic
-         * If UPS/bionic power does not matter then the carrier can be nullptr
-         * @param carrier is used for UPS and bionic power
+         * Quantity of ammunition currently loaded in tool, gun or auxiliary gunmod.
+         * @param carrier is used for UPS and bionic power for tools
          */
         int ammo_remaining( const Character *carrier = nullptr ) const;
 
@@ -2285,6 +2291,17 @@ class item : public visitable
         int ammo_consume( int qty, const tripoint &pos, Character *carrier );
 
         /**
+         * Consume energy (if available) and return the amount of energy that was consumed
+         * Consume order: battery, UPS, bionic
+         * When consuming energy from batteries the consumption will round up by adding 1 kJ. More energy may be consumed than required.
+         * @param qty amount of energy that should be consumed
+         * @param pos current location of item, used for ejecting magazines and similar effects
+         * @param carrier holder of the item, used for getting UPS and bionic power
+         * @return amount of energy consumed which will be between 0 kJ and qty+1 kJ
+         */
+        units::energy energy_consume( units::energy qty, const tripoint &pos, Character *carrier );
+
+        /**
          * Consume ammo to activate item qty times (if available) and return the amount of ammo that was consumed
          * Consume order: loaded items, UPS, bionic
          * @param qty number of times to consume item activation charges
@@ -2314,7 +2331,7 @@ class item : public visitable
          *  @return itype_id::NULL_ID() if item does have a magazine for a specific ammo type */
         itype_id ammo_default( bool conversion = true ) const;
         // format a string with all the ammo that this mag can use
-        std::string print_ammo( ammotype at ) const;
+        std::string print_ammo( ammotype at, const item *gun = nullptr ) const;
 
         /** Get default ammo for the first ammotype common to an item and its current magazine or "NULL" if none exists
          * @param conversion whether to include the effect of any flags or mods which convert the type
@@ -2441,6 +2458,7 @@ class item : public visitable
          * Returns empty instance on non-gun items.
          */
         damage_instance gun_damage( bool with_ammo = true, bool shot = false ) const;
+        damage_instance gun_damage( itype_id ammo ) const;
         /**
          * The minimum force required to cycle the gun, can be overridden by mods
          */
@@ -2571,7 +2589,15 @@ class item : public visitable
         time_point birthday() const;
         void set_birthday( const time_point &bday );
         void handle_pickup_ownership( Character &c );
+
+        /**
+         * Get gun energy drain. Includes modifiers from gunmods.
+         * @return energy drained per shot
+         */
+        units::energy get_gun_energy_drain() const;
         units::energy get_gun_ups_drain() const;
+        units::energy get_gun_bionic_drain() const;
+
         void validate_ownership() const;
         inline void set_old_owner( const faction_id &temp_owner ) {
             old_owner = temp_owner;

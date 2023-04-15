@@ -270,12 +270,18 @@ static float aim_speed_dex_modifier( const Character &c, const skill_id & )
     return ( c.get_dex() - 8 ) * 0.5f;
 }
 
+static float move_mode_move_cost_modifier( const Character &c, const skill_id & )
+{
+    // Both walk and run speed drop to half their maximums as stamina approaches 0.
+    // Convert stamina to a float first to allow for decimal place carrying
+    return c.move_mode->move_speed_mult();
+}
+
 static float stamina_move_cost_modifier( const Character &c, const skill_id & )
 {
     // Both walk and run speed drop to half their maximums as stamina approaches 0.
     // Convert stamina to a float first to allow for decimal place carrying
-    float stamina_modifier = ( static_cast<float>( c.get_stamina() ) / c.get_stamina_max() + 1 ) / 2;
-    return stamina_modifier * c.move_mode->move_speed_mult();
+    return ( static_cast<float>( c.get_stamina() ) / c.get_stamina_max() + 1 ) / 2;
 }
 
 static float limb_run_cost_modifier( const Character &c, const skill_id & )
@@ -289,6 +295,7 @@ static float call_builtin( const std::string &builtin, const Character &c, const
     static const std::map<std::string, std::function<float( const Character &, const skill_id & )>>
     func_map = {
         { "limb_run_cost_modifier", limb_run_cost_modifier },
+        { "move_mode_move_cost_modifier", move_mode_move_cost_modifier },
         { "stamina_move_cost_modifier", stamina_move_cost_modifier },
         { "aim_speed_dex_modifier", aim_speed_dex_modifier },
         { "aim_speed_skill_modifier", aim_speed_skill_modifier }

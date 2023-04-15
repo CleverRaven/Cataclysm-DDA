@@ -210,7 +210,7 @@ class inventory_entry
         void reset_entry_cell_cache() const;
 
     private:
-        const item_category *custom_category = nullptr;
+        mutable item_category const *custom_category = nullptr;
     protected:
         // indents the entry if it is contained in an item
         bool _indent = true;
@@ -504,6 +504,7 @@ class inventory_column
          */
         void move_selection( scroll_direction dir );
         void move_selection_page( scroll_direction dir );
+        void scroll_selection_page( scroll_direction dir );
 
         size_t next_highlightable_index( size_t index, scroll_direction dir ) const;
 
@@ -696,6 +697,8 @@ class inventory_selector
                             item_location &loc, item_category const *entry_category = nullptr,
                             item_category const *children_category = nullptr,
                             item_location const &topmost_parent = {}, int indent = 0 );
+
+        bool drag_drop_item( item *sourceItem, item *destItem );
 
         inventory_input get_input();
         inventory_input process_input( const std::string &action, int ch );
@@ -921,8 +924,10 @@ class inventory_pick_selector : public inventory_selector
     public:
         explicit inventory_pick_selector( Character &p,
                                           const inventory_selector_preset &preset = default_preset ) :
-            inventory_selector( p, preset ) {}
-
+            inventory_selector( p, preset ) {
+            drag_enabled = false;
+        }
+        bool drag_enabled;
         item_location execute();
 };
 

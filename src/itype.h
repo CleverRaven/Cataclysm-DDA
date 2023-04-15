@@ -705,9 +705,9 @@ struct islot_gun : common_ranged_data {
     int loudness = 0;
 
     /**
-     * If this uses UPS charges, how many (per shoot), 0 for no UPS charges at all.
+     * If this uses electric energy, how much (per shot).
      */
-    int ups_charges = 0;
+    units::energy energy_drain = 0_kJ;
     /**
      * One in X chance for gun to require major cleanup after firing blackpowder shot.
      */
@@ -720,6 +720,7 @@ struct islot_gun : common_ranged_data {
      * Length of gun barrel, if positive allows sawing down of the barrel
      */
     units::volume barrel_volume = 0_ml;
+    units::length barrel_length = 0_mm;
     /**
      * Effects that are applied to the ammo when fired.
      */
@@ -822,11 +823,11 @@ struct islot_gunmod : common_ranged_data {
     /** How many moves does this gunmod take to install? */
     int install_time = -1;
 
-    /** Increases base gun UPS consumption by this many times per shot */
-    float ups_charges_multiplier = 1.0f;
+    /** Increases base gun energy consumption by this many times per shot */
+    float energy_drain_multiplier = 1.0f;
 
-    /** Increases base gun UPS consumption by this value (kJ) per shot */
-    int ups_charges_modifier = 0;
+    /** Increases base gun energy consumption by this value per shot */
+    units::energy energy_drain_modifier = 0_kJ;
 
     /** Increases base gun ammo to fire by this many times per shot */
     float ammo_to_fire_multiplier = 1.0f;
