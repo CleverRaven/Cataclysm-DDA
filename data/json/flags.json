@@ -1726,6 +1726,10 @@
     "type": "json_flag"
   },
   {
+    "id": "PAIN_IMMUNE",
+    "type": "json_flag"
+  },
+  {
     "id": "TOURNIQUET",
     "type": "json_flag"
   },
