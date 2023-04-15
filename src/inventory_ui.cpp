@@ -595,8 +595,7 @@ const item_category *inventory_entry::get_category_ptr() const
     if( !is_item() ) {
         return nullptr;
     }
-    custom_category = &any_item()->get_category_of_contents();
-    return custom_category;
+    return &any_item()->get_category_of_contents();
 }
 
 bool inventory_column::activatable() const
@@ -919,6 +918,20 @@ void inventory_column::move_selection_page( scroll_direction dir )
     highlight( index, dir );
 }
 
+void inventory_column::scroll_selection_page( scroll_direction dir )
+{
+    size_t index = highlighted_index;
+
+    while( page_of( index = next_highlightable_index( index, dir ) ) == page_index() ) {
+
+        if( index == highlighted_index && page_of( index ) == page_index() ) {
+            break; // If flipped and still on the same page - no need to flip
+        }
+    }
+
+    highlight( index, dir );
+}
+
 size_t inventory_column::get_entry_cell_width( const inventory_entry &entry,
         size_t cell_index ) const
 {
@@ -1196,7 +1209,6 @@ void inventory_column::set_collapsed( inventory_entry &entry, const bool collaps
 
 void inventory_column::on_input( const inventory_input &input )
 {
-
     if( !empty() && active ) {
         if( input.action == "DOWN" ) {
             move_selection( scroll_direction::FORWARD );
@@ -1206,6 +1218,10 @@ void inventory_column::on_input( const inventory_input &input )
             move_selection_page( scroll_direction::FORWARD );
         } else if( input.action == "PAGE_UP" ) {
             move_selection_page( scroll_direction::BACKWARD );
+        } else if( input.action == "SCROLL_DOWN" ) {
+            scroll_selection_page( scroll_direction::FORWARD );
+        } else if( input.action == "SCROLL_UP" ) {
+            scroll_selection_page( scroll_direction::BACKWARD );
         } else if( input.action == "HOME" ) {
             highlight( 0, scroll_direction::FORWARD );
         } else if( input.action == "END" ) {
@@ -1894,6 +1910,60 @@ bool inventory_selector::add_entry_rec( inventory_column &entry_column,
 
     return vis_contents;
 }
+
+bool inventory_selector::drag_drop_item( item *sourceItem, item *destItem )
+{
+    if( sourceItem == destItem ) {
+        return false;
+    }
+    auto pockets = destItem->get_all_contained_pockets();
+    if( pockets.empty() ) {
+        popup( _( "Destination has no pockets." ) );
+        return false;
+    }
+    int base_move_cost = 0;
+    auto parentContainers = u.parents( *sourceItem );
+    for( item *parent : parentContainers ) {
+        base_move_cost += parent->obtain_cost( *sourceItem );
+    }
+    std::vector<item_pocket *> containable_pockets;
+    uilist action_menu;
+    action_menu.text = _( "Select pocket" );
+    int index = 0;
+    bool any_containable = false;
+    for( item_pocket *pocket : pockets ) {
+        std::string pocket_text = string_format( _( "%s - %s/%s | %d moves" ),
+                                  pocket->get_description().translated(), vol_to_info( "", "", pocket->contains_volume() ).sValue,
+                                  vol_to_info( "", "", pocket->max_contains_volume() ).sValue, pocket->moves() + base_move_cost );
+        action_menu.addentry( index++, true, std::optional<input_event>(), pocket_text );
+        ret_val<item_pocket::contain_code> contain = pocket->can_contain( *sourceItem );
+        if( contain.success() ) {
+            any_containable = true;
+        } else {
+            action_menu.entries.back().enabled = false;
+        }
+    }
+    if( !any_containable ) {
+        popup( string_format( _( "%s contains no pockets that can contain item." ),
+                              destItem->tname( 1, false, 0, false, false, false ) ) );
+        return false;
+    }
+    action_menu.query();
+    if( action_menu.ret >= 0 && static_cast<size_t>( action_menu.ret ) < pockets.size() ) {
+        ret_val<item_pocket::contain_code> contain = pockets[action_menu.ret]->can_contain( *sourceItem );
+        if( contain.success() ) {
+            // storage should mimick character inserting
+            u.store( pockets[action_menu.ret], *sourceItem, true, base_move_cost );
+            return true;
+        } else {
+            popup( _( "Cannot put item in pocket: %s" ), contain.str() );
+            return false;
+        }
+    }
+
+    return false;
+}
+
 
 bool inventory_selector::add_contained_items( item_location &container )
 {
@@ -2688,6 +2758,8 @@ inventory_selector::inventory_selector( Character &u, const inventory_selector_p
     ctxt.register_action( "MOUSE_MOVE" );
     ctxt.register_action( "DOWN", to_translation( "Next item" ) );
     ctxt.register_action( "UP", to_translation( "Previous item" ) );
+    ctxt.register_action( "SCROLL_UP", to_translation( "Move cursor up" ) );
+    ctxt.register_action( "SCROLL_DOWN", to_translation( "Move cursor down" ) );
     ctxt.register_action( "PAGE_DOWN", to_translation( "Page down" ) );
     ctxt.register_action( "PAGE_UP", to_translation( "Page up" ) );
     ctxt.register_action( "NEXT_COLUMN", to_translation( "Next column" ) );
@@ -2698,6 +2770,7 @@ inventory_selector::inventory_selector( Character &u, const inventory_selector_p
     ctxt.register_action( "TOGGLE_FAVORITE", to_translation( "Toggle favorite" ) );
     ctxt.register_action( "HOME", to_translation( "Home" ) );
     ctxt.register_action( "END", to_translation( "End" ) );
+    ctxt.register_action( "CLICK_AND_DRAG" );
     ctxt.register_action( "SELECT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "VIEW_CATEGORY_MODE" );
@@ -2757,7 +2830,8 @@ inventory_input inventory_selector::process_input( const std::string &action, in
 {
     inventory_input res{ action, ch, nullptr };
 
-    if( res.action == "SELECT" || res.action == "COORDINATE" || res.action == "MOUSE_MOVE" ) {
+    if( res.action == "SELECT" || res.action == "COORDINATE" || res.action == "MOUSE_MOVE" ||
+        res.action == "CLICK_AND_DRAG" ) {
         std::optional<point> o_p = ctxt.get_coordinates_text( w_inv );
         if( o_p ) {
             point p = o_p.value();
@@ -2765,6 +2839,15 @@ inventory_input inventory_selector::process_input( const std::string &action, in
                 res.entry = find_entry_by_coordinate( p );
                 if( res.entry != nullptr && res.entry->is_selectable() ) {
                     return res;
+                }
+                if( res.entry == nullptr && res.action == "SELECT" ) {
+                    p.x++;
+                    res.entry = find_entry_by_coordinate( p );
+                    // if the user has clicked the coordinate just to the left of a pocket, they are clicking the pocket's expander icon
+                    if( res.entry != nullptr && res.entry->is_selectable() && res.entry->chevron ) {
+                        res.action = "SHOW_HIDE_CONTENTS";
+                        return res;
+                    }
                 }
             }
         }
@@ -3091,16 +3174,45 @@ item_location inventory_pick_selector::execute()
 {
     shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
     debug_print_timer( tp_start );
+    item_location startDragItem;
+    bool dragActive = false;
     while( true ) {
         ui_manager::redraw();
         const inventory_input input = get_input();
 
         if( input.entry != nullptr ) {
-            if( highlight( input.entry->any_item() ) ) {
-                ui_manager::redraw();
-            }
-            if( input.action == "SELECT" || input.action == "ANY_INPUT" ) {
+            if( drag_enabled && input.action == "CLICK_AND_DRAG" ) {
+                if( input.entry->is_item() ) {
+                    dragActive = true;
+                    startDragItem = input.entry->locations.front();
+                }
+            } else if( input.action == "MOUSE_MOVE" ) {
+                if( !dragActive && highlight( input.entry->any_item() ) ) {
+                    ui_manager::redraw();
+                }
+            } else if( input.action == "SELECT" ) {
+                dragActive = false;
+                item_location startDragItemCpy = startDragItem;
+                startDragItem = item_location();
+                item_location endDragItem;
+                if( input.entry->is_item() ) {
+                    endDragItem = input.entry->locations.front();
+                    if( startDragItemCpy && endDragItem && startDragItemCpy != endDragItem ) {
+                        if( drag_drop_item( startDragItemCpy.get_item(), endDragItem.get_item() ) ) {
+                            clear_items();
+                            add_character_items( u );
+                        }
+                    } else {
+                        return input.entry->any_item();
+                    }
+                }
+            } else if( input.action == "ANY_INPUT" ) {
                 return input.entry->any_item();
+            } else {
+                if( !dragActive && highlight( input.entry->any_item() ) ) {
+                    ui_manager::redraw();
+                }
+                on_input( input );
             }
         } else if( input.action == "ORGANIZE_MENU" ) {
             u.worn.organize_items_menu();
@@ -3404,6 +3516,8 @@ std::pair<const item *, const item *> inventory_compare_selector::execute()
             if( input.action == "SELECT" || input.action == "ANY_INPUT" ) {
                 toggle_entry( input.entry );
                 just_selected = input.entry;
+            } else if( input.action != "MOUSE_MOVE" ) {
+                inventory_selector::on_input( input );
             }
         } else if( input.action == "TOGGLE_ENTRY" ) {
             const auto selection( get_active_column().get_all_selected() );
@@ -4007,16 +4121,16 @@ int inventory_examiner::execute()
             if( highlight( input.entry->any_item() ) ) {
                 ui_manager::redraw();
             }
-            if( input.action == "SELECT" || input.action == "ANY_INPUT" ) {
+            if( input.action == "SELECT" ) {
                 return cleanup();
             }
         }
 
         if( input.action == "QUIT" || input.action == "CONFIRM" ) {
             return cleanup();
-        } else if( input.action == "PAGE_UP" ) {
+        } else if( input.action == "PAGE_UP" || input.action == "SCROLL_UP" ) {
             examine_window_scroll -= scroll_item_info_lines;
-        } else if( input.action == "PAGE_DOWN" ) {
+        } else if( input.action == "PAGE_DOWN" || input.action == "SCROLL_DOWN" ) {
             examine_window_scroll += scroll_item_info_lines;
         } else {
             ui->invalidate_ui(); //The player is probably doing something that requires updating the base window

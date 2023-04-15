@@ -223,6 +223,7 @@ void game_menus::inv::common( avatar &you )
     std::string filter;
     do {
         you.inv->restack( you );
+        inv_s.drag_enabled = true;
         inv_s.clear_items();
         inv_s.add_character_items( you );
         inv_s.set_filter( filter );
