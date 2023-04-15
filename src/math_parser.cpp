@@ -22,6 +22,7 @@
 #include "dialogue_helpers.h"
 #include "global_vars.h"
 #include "math_parser_func.h"
+#include "math_parser_diag.h"
 #include "math_parser_impl.h"
 #include "mission.h"
 #include "string_formatter.h"
@@ -160,9 +161,9 @@ struct parse_state {
         allows_prefix_unary = unary_ok;
     }
 
-    expect expected;
-    expect previous;
-    bool allows_prefix_unary;
+    expect expected = expect::operand;
+    expect previous = expect::eof;
+    bool allows_prefix_unary = true;
 };
 
 template<class D>
@@ -193,12 +194,7 @@ class math_exp<D>::math_exp_impl
             try {
                 _parse( str, assignment );
             } catch( std::invalid_argument const &ex ) {
-                std::ptrdiff_t const offset =
-                    str.empty()
-                    ? 0
-                    : std::clamp<std::ptrdiff_t>( last_token.data() - str.data(), 0, 80 );
-                debugmsg( "Expression parsing failed: %s\n\n%.80s\n%*s^\n", ex.what(),
-                          str.data(), offset, " " );
+                error( str, ex.what() );
                 ops = {};
                 output = {};
                 arity = {};
@@ -240,6 +236,7 @@ class math_exp<D>::math_exp_impl
         std::stack<arity_t> arity;
         thingie<D> tree{ 0.0 };
         std::string_view last_token;
+        parse_state state;
 
         void _parse( std::string_view str, bool assignment );
         void parse_string( std::string_view str, parse_state &state );
@@ -253,6 +250,8 @@ class math_exp<D>::math_exp_impl
         void new_oper();
         void new_var( std::string_view str );
         void maybe_first_argument();
+        void error( std::string_view str, std::string_view what );
+        void validate_string( std::string_view str, std::string_view label, std::string_view badlist );
         std::vector<std::string> _get_strings( std::vector<thingie<D>> const &params,
                                                size_t nparams ) const;
 };
@@ -269,7 +268,7 @@ template<class D>
 void math_exp<D>::math_exp_impl::_parse( std::string_view str, bool assignment )
 {
     constexpr std::string_view expression_separators = "+-*/^,()%";
-    parse_state state{ parse_state::expect::operand, parse_state::expect::eof, true };
+    state = {};
     for( std::string_view const token : tokenize( str, expression_separators ) ) {
         last_token = token;
         if( std::optional<std::string_view> str = get_string( token ); str ) {
@@ -347,6 +346,7 @@ void math_exp<D>::math_exp_impl::parse_string( std::string_view str, parse_state
     if( arity.empty() || !arity.top().stringy ) {
         throw std::invalid_argument( "String arguments can only be used in dialogue functions" );
     }
+    validate_string( str, "string", "\'" );
     output.emplace( std::string{ str } );
     state.set( parse_state::expect::oper, false );
 }
@@ -383,11 +383,6 @@ void math_exp<D>::math_exp_impl::parse_comma( parse_state &state )
         new_oper();
     }
     arity.top().current++;
-    if( arity.top().expected > 0 && arity.top().current > arity.top().expected ) {
-        throw std::invalid_argument( string_format(
-                                         "Too many arguments for function %s()",
-                                         arity.top().sym.data() ) );
-    }
     state.set( parse_state::expect::operand, true );
 }
 
@@ -425,11 +420,17 @@ void math_exp<D>::math_exp_impl::new_func()
 {
     if( !ops.empty() && is_function( ops.top() ) ) {
         typename std::vector<thingie<D>>::size_type const nparams = arity.top().current;
-        if( arity.top().expected > 0 && arity.top().current < arity.top().expected ) {
-            throw std::invalid_argument( string_format(
-                                             "Not enough arguments for function %s()",
-                                             arity.top().sym.data() ) );
+        if( arity.top().expected >= 0 ) {
+            if( arity.top().current < arity.top().expected ) {
+                throw std::invalid_argument(
+                    string_format( "Not enough arguments for function %s()", arity.top().sym.data() ) );
+            }
+            if( arity.top().current > arity.top().expected ) {
+                throw std::invalid_argument(
+                    string_format( "Too many arguments for function %s()", arity.top().sym.data() ) );
+            }
         }
+
         std::vector<thingie<D>> params( nparams );
         for( typename std::vector<thingie<D>>::size_type i = 0; i < nparams; i++ ) {
             params[nparams - i - 1] = std::move( output.top() );
@@ -540,7 +541,43 @@ void math_exp<D>::math_exp_impl::new_var( std::string_view str )
                 debugmsg( "Unknown scope %c in variable %.*s", str[0], str.size(), str.data() );
         }
     }
+    validate_string( scoped, "variable", " \'" );
     output.emplace( std::in_place_type_t<var<D>>(), type, "npctalk_var_" + std::string{ scoped } );
+}
+
+template<class D>
+void math_exp<D>::math_exp_impl::error( std::string_view str, std::string_view what )
+{
+    std::ptrdiff_t offset =
+        std::max<std::ptrdiff_t>( 0, last_token.data() - str.data() );
+    // center the problematic token on screen if the expression is too long
+    if( offset > 80 ) {
+        str.remove_prefix( offset - 40 );
+        offset = 40;
+    }
+    // NOLINTNEXTLINE(cata-translate-string-literal): debug message
+    std::string mess = string_format( "Expression parsing failed: %s", what.data() );
+    if( last_token == "(" && state.expected == parse_state::expect::oper &&
+        std::holds_alternative<var<D>>( output.top().data ) ) {
+        // NOLINTNEXTLINE(cata-translate-string-literal): debug message
+        mess = string_format( "%s (or unknown function %s)", mess,
+                              std::get<var<D>>( output.top().data ).varinfo.name.substr( 12 ) );
+    }
+
+    debugmsg( "%s\n\n%.80s\n%*s^\n", mess, str.data(), offset, " " );
+}
+
+template<class D>
+void math_exp<D>::math_exp_impl::validate_string( std::string_view str, std::string_view label,
+        std::string_view badlist )
+{
+    std::string_view::size_type const pos = str.find_first_of( badlist );
+    if( pos != std::string_view::npos ) {
+        last_token.remove_prefix( pos + ( label == "string" ? 1 : 0 ) );
+        // NOLINTNEXTLINE(cata-translate-string-literal): debug message
+        throw std::invalid_argument( string_format( R"(Stray " %c " inside %s operand "%.*s")",
+                                     str[pos], label.data(), str.size(), str.data() ) );
+    }
 }
 
 template<class D>

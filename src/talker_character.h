@@ -216,6 +216,7 @@ class talker_character: public talker_character_const
 
         void set_fatigue( int amount ) override;
         void mod_pain( int amount ) override;
+        void set_pain( int amount ) override;
         void mod_daily_health( int, int ) override;
         void add_morale( const morale_type &new_morale, int bonus, int max_bonus, time_duration duration,
                          time_duration decay_started, bool capped ) override;

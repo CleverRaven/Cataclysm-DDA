@@ -1,7 +1,7 @@
 #include "assign.h"
 
 void report_strict_violation( const JsonObject &jo, const std::string &message,
-                              const std::string &name )
+                              const std::string_view name )
 {
     try {
         // Let the json class do the formatting, it includes the context of the JSON data.

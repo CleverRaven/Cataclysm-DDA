@@ -16,6 +16,7 @@
 
 #include "avatar.h"
 #include "calendar.h"
+#include "cata_utility.h"
 #include "character.h"
 #include "coordinates.h"
 #include "dialogue.h"
@@ -1666,10 +1667,6 @@ std::function<double( const T & )> conditional_t<T>::get_get_dbl( J const &jo )
             return [is_npc]( const T & d ) {
                 return d.actor( is_npc )->posz();
             };
-        } else if( checked_value == "pain" ) {
-            return [is_npc]( const T & d ) {
-                return d.actor( is_npc )->pain_cur();
-            };
         } else if( checked_value == "power" ) {
             return [is_npc]( const T & d ) {
                 // Energy in milijoule
@@ -2289,11 +2286,6 @@ conditional_t<T>::get_set_dbl( const J &jo, const std::optional<dbl_or_var_part<
                 d.actor( is_npc )->set_pos( tripoint( d.actor( is_npc )->posx(), d.actor( is_npc )->posy(),
                                                       handle_min_max<T>( d, input, min, max ) ) );
             };
-        } else if( checked_value == "pain" ) {
-            return [is_npc, min, max]( const T & d, double input ) {
-                d.actor( is_npc )->mod_pain( handle_min_max<T>( d, input, min,
-                                             max ) - d.actor( is_npc )->pain_cur() );
-            };
         } else if( checked_value == "power" ) {
             return [is_npc, min, max]( const T & d, double input ) {
                 // Energy in milijoule
@@ -2699,6 +2691,8 @@ void eoc_math<T>::from_json( const JsonObject &jo, std::string const &member )
             action = oper::mod_assign;
         } else if( oper == "==" ) {
             action = oper::equal;
+        } else if( oper == "!=" ) {
+            action = oper::not_equal;
         } else if( oper == "<" ) {
             action = oper::less;
         } else if( oper == "<=" ) {
@@ -2749,8 +2743,9 @@ double eoc_math<T>::act( T const &d ) const
             lhs.assign( d, mhs.eval( d ) - 1 );
             break;
         case oper::equal:
-            // FIXME: float comparison
-            return lhs.eval( d ) == rhs.eval( d );
+            return float_equals( lhs.eval( d ), rhs.eval( d ) );
+        case oper::not_equal:
+            return !float_equals( lhs.eval( d ), rhs.eval( d ) );
         case oper::less:
             return lhs.eval( d ) < rhs.eval( d );
         case oper::equal_or_less:

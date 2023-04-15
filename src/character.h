@@ -405,6 +405,17 @@ struct pocket_data_with_parent {
     int nested_level;
 };
 
+struct speed_bonus_effect {
+    std::string description;
+    int bonus = 0;
+};
+
+struct run_cost_effect {
+    std::string description;
+    float times = 1.0;
+    float plus = 0;
+};
+
 class Character : public Creature, public visitable
 {
     public:
@@ -504,6 +515,12 @@ class Character : public Creature, public visitable
         int get_per_bonus() const;
         int get_int_bonus() const;
 
+    private:
+        /** Modifiers to character speed, with descriptions */
+        std::vector<speed_bonus_effect> speed_bonus_effects;
+
+    public:
+        std::vector<speed_bonus_effect> get_speed_bonus_effects() const;
         int get_speed() const override;
         int get_enchantment_speed_bonus() const;
         // Strength modified by limb lifting score
@@ -524,6 +541,10 @@ class Character : public Creature, public visitable
         void mod_dex_bonus( int ndex );
         void mod_per_bonus( int nper );
         void mod_int_bonus( int nint );
+
+        /** Setters for stats shared with other creatures */
+        using Creature::mod_speed_bonus;
+        void mod_speed_bonus( int nspeed, const std::string &desc );
 
         // Prints message(s) about current health
         void print_health() const;
@@ -2861,8 +2882,11 @@ class Character : public Creature, public visitable
         // Put corpse+inventory on defined om tile
         void place_corpse( const tripoint_abs_omt &om_target );
 
+        /** Modifies the movement cost and returns a list of effects */
+        std::vector<run_cost_effect> run_cost_effects( float &movecost ) const;
         /** Returns the player's modified base movement cost */
-        int  run_cost( int base_cost, bool diag = false ) const;
+        int run_cost( int base_cost, bool diag = false ) const;
+
         const pathfinding_settings &get_pathfinding_settings() const override;
         std::set<tripoint> get_path_avoid() const override;
         /**
