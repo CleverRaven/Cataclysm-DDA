@@ -100,5 +100,10 @@
     "id": "badge_cybercop",
     "type": "MIGRATION",
     "replace": "badge_marshal"
+  },
+  {
+    "id": "rm298",
+    "type": "MIGRATION",
+    "replace": "rm614_lmg"
   }
 ]
