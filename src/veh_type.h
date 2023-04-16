@@ -560,6 +560,10 @@ struct vehicle_prototype {
 class vpart_migration
 {
     public:
+        vpart_id part_id_old;
+        vpart_id part_id_new;
+        std::vector<itype_id> add_veh_tools;
+
         /** Handler for loading "vehicle_part_migration" type of json object */
         static void load( const JsonObject &jo );
 
@@ -569,11 +573,8 @@ class vpart_migration
         /** Finalizes migrations */
         static void finalize();
 
-        /** Map of deprecated vpart_id to their replacement vpart_id */
-        static const std::map<vpart_id, vpart_id> &get_migrations();
-
-        /** Find vpart_id with all migrations applied. */
-        static vpart_id migrate( const vpart_id &original );
+        /** Find the last migration entry of the given vpart_id */
+        static const vpart_migration *find_migration( const vpart_id &original );
 };
 
 #endif // CATA_SRC_VEH_TYPE_H

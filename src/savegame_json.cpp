@@ -3256,7 +3256,12 @@ void vehicle_part::deserialize( const JsonObject &data )
     vpart_id pid;
     data.read( "id", pid );
 
-    pid = vpart_migration::migrate( pid );
+    const vpart_migration *migration = vpart_migration::find_migration( pid );
+    if( migration != nullptr ) {
+        DebugLog( D_WARNING, D_MAIN ) << "vehicle_part::deserialize migrating '" << pid.str()
+                                      << "' to '" << migration->part_id_new.str() << "'";
+        pid = migration->part_id_new;
+    }
 
     std::tie( pid, variant ) = get_vpart_id_variant( pid );
 
@@ -3269,7 +3274,10 @@ void vehicle_part::deserialize( const JsonObject &data )
         data.read( "variant", variant );
     }
 
-    if( data.has_object( "base" ) ) {
+    if( migration != nullptr ) { // migration overrides the base item
+        data.get_member( "base" ); // mark member as visited
+        base = item( migration->part_id_new->base_item, calendar::turn );
+    } else if( data.has_object( "base" ) ) {
         data.read( "base", base );
     } else {
         // handle legacy format which didn't include the base item
@@ -3313,6 +3321,12 @@ void vehicle_part::deserialize( const JsonObject &data )
     data.read( "target_second_y", target.second.y );
     data.read( "target_second_z", target.second.z );
     data.read( "ammo_pref", ammo_pref );
+
+    if( migration != nullptr ) {
+        for( const itype_id &it : migration->add_veh_tools ) {
+            tools.emplace_back( item( it, calendar::turn ) );
+        }
+    }
 
     if( data.has_int( "hp" ) && id.obj().durability > 0 ) {
         // migrate legacy savegames exploiting that all base items at that time had max_damage() of 4
