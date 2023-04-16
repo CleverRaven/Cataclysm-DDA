@@ -84,8 +84,8 @@ void set_language( std::string lang )
         temp_lang = get_option<std::string>( "USE_LANG" ).empty() ? system_lang :
                     get_option<std::string>( "USE_LANG" );
     }
-        DebugLog( D_INFO, D_MAIN ) << "Setting language to: '" << temp_lang << '\'';
-        TranslationManager::GetInstance().SetLanguage( temp_lang );
+    DebugLog( D_INFO, D_MAIN ) << "Setting language to: '" << temp_lang << '\'';
+    TranslationManager::GetInstance().SetLanguage( temp_lang );
 #if defined(_WIN32)
     // Use the ANSI code page 1252 to work around some language output bugs. (#8665)
     if( setlocale( LC_ALL, ".1252" ) == nullptr ) {
