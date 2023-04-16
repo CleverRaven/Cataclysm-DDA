@@ -78,7 +78,7 @@ std::string locale_dir()
 void set_language( std::string lang )
 {
 #if defined(LOCALIZE)
-    if ( lang.empty() ) {
+    if( lang.empty() ) {
         const std::string system_lang = SystemLocale::Language().value_or( "en" );
         std::string lang_opt = get_option<std::string>( "USE_LANG" ).empty() ? system_lang :
                                get_option<std::string>( "USE_LANG" );
