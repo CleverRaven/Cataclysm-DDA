@@ -18,6 +18,7 @@
         "max_contains_volume": "25 L",
         "max_contains_weight": "30 kg",
         "max_item_length": "40 cm",
+        "priority": 1,
         "moves": 300
       },
       {
@@ -87,6 +88,7 @@
         "max_contains_weight": "50 kg",
         "max_item_length": "60 cm",
         "magazine_well": "12 L",
+        "priority": 1,
         "moves": 450
       },
       {
@@ -95,6 +97,7 @@
         "max_contains_weight": "8 kg",
         "max_item_length": "35 cm",
         "magazine_well": "1 L",
+        "priority": 1,
         "moves": 450
       },
       {
@@ -103,6 +106,7 @@
         "max_contains_weight": "2 kg",
         "max_item_length": "25 cm",
         "magazine_well": "500 ml",
+        "priority": 1,
         "moves": 450
       },
       {
@@ -111,6 +115,7 @@
         "max_contains_weight": "2 kg",
         "max_item_length": "25 cm",
         "magazine_well": "500 ml",
+        "priority": 1,
         "moves": 450
       },
       {
@@ -119,6 +124,7 @@
         "max_contains_weight": "2 kg",
         "max_item_length": "70 cm",
         "moves": 40,
+        "priority": 1,
         "flag_restriction": [ "SHEATH_KNIFE", "SHEATH_SWORD" ]
       },
       {
@@ -127,6 +133,7 @@
         "max_contains_weight": "2 kg",
         "max_item_length": "70 cm",
         "moves": 40,
+        "priority": 1,
         "flag_restriction": [ "SHEATH_KNIFE", "SHEATH_SWORD" ]
       },
       {
@@ -136,6 +143,7 @@
         "max_contains_weight": "4 kg",
         "max_item_length": "30 cm",
         "moves": 500,
+        "priority": 1,
         "description": "Pouch sized for a hydration pack."
       },
       {
@@ -220,6 +228,7 @@
         "max_contains_volume": "72 L",
         "max_contains_weight": "50 kg",
         "max_item_length": "80 cm",
+        "priority": 1,
         "moves": 450
       },
       {
@@ -227,6 +236,7 @@
         "max_contains_volume": "8 L",
         "max_contains_weight": "5 kg",
         "max_item_length": "33 cm",
+        "priority": 1,
         "moves": 200
       },
       {
@@ -260,6 +270,7 @@
         "max_contains_weight": "4 kg",
         "max_item_length": "30 cm",
         "moves": 500,
+        "priority": 1,
         "description": "Pouch sized for a hydration pack."
       },
       {
@@ -361,6 +372,7 @@
         "max_contains_weight": "40 kg",
         "max_item_length": "96 cm",
         "magazine_well": "8750 ml",
+        "priority": 1,
         "moves": 300
       }
     ],
@@ -402,6 +414,7 @@
         "max_contains_volume": "25 L",
         "max_contains_weight": "30 kg",
         "max_item_length": "40 cm",
+        "priority": 1,
         "moves": 300
       }
     ],
@@ -438,6 +451,7 @@
         "max_contains_weight": "70 kg",
         "max_item_length": "70 cm",
         "magazine_well": "10 L",
+        "priority": 1,
         "moves": 300
       },
       {
@@ -446,6 +460,7 @@
         "max_contains_weight": "10 kg",
         "max_item_length": "40 cm",
         "magazine_well": "1 L",
+        "priority": 1,
         "moves": 200
       },
       {
@@ -454,6 +469,7 @@
         "max_contains_weight": "3 kg",
         "max_item_length": "30 cm",
         "magazine_well": "800 ml",
+        "priority": 1,
         "moves": 120
       },
       {
@@ -462,6 +478,7 @@
         "max_contains_weight": "3 kg",
         "max_item_length": "30 cm",
         "magazine_well": "800 ml",
+        "priority": 1,
         "moves": 120
       },
       {
@@ -540,6 +557,7 @@
         "max_contains_volume": "50 L",
         "max_contains_weight": "50 kg",
         "max_item_length": "80 cm",
+        "priority": 1,
         "moves": 300
       }
     ],
@@ -566,6 +584,7 @@
         "max_contains_weight": "70 kg",
         "max_item_length": "75 cm",
         "magazine_well": "10 L",
+        "priority": 1,
         "moves": 300
       },
       {
@@ -574,6 +593,7 @@
         "max_contains_weight": "10 kg",
         "max_item_length": "40 cm",
         "magazine_well": "1 L",
+        "priority": 1,
         "moves": 200
       },
       {
@@ -582,6 +602,7 @@
         "max_contains_weight": "3 kg",
         "max_item_length": "30 cm",
         "magazine_well": "800 ml",
+        "priority": 1,
         "moves": 120
       },
       {
@@ -590,6 +611,7 @@
         "max_contains_weight": "3 kg",
         "max_item_length": "30 cm",
         "magazine_well": "800 ml",
+        "priority": 1,
         "moves": 120
       },
       {
@@ -670,6 +692,7 @@
         "max_contains_volume": "15 L",
         "max_contains_weight": "60 kg",
         "max_item_length": "50 cm",
+        "priority": 1,
         "moves": 300
       },
       {
@@ -792,6 +815,7 @@
         "max_contains_weight": "32 kg",
         "max_item_length": "60 cm",
         "magazine_well": "2 L",
+        "priority": 1,
         "moves": 300
       },
       {
@@ -862,6 +886,7 @@
         "max_contains_volume": "3400 ml",
         "max_contains_weight": "6 kg",
         "max_item_length": "25 cm",
+        "priority": 1,
         "moves": 100
       },
       {
@@ -870,6 +895,7 @@
         "max_contains_volume": "1800 ml",
         "max_contains_weight": "6 kg",
         "max_item_length": "22 cm",
+        "priority": 1,
         "moves": 100
       },
       {
@@ -878,6 +904,7 @@
         "max_contains_volume": "600 ml",
         "max_contains_weight": "6 kg",
         "max_item_length": "15 cm",
+        "priority": 1,
         "moves": 100
       },
       {
@@ -886,6 +913,7 @@
         "max_contains_volume": "600 ml",
         "max_contains_weight": "6 kg",
         "max_item_length": "15 cm",
+        "priority": 1,
         "moves": 100
       }
     ],
@@ -921,6 +949,7 @@
         "max_contains_volume": "30 L",
         "max_contains_weight": "24 kg",
         "max_item_length": "70 cm",
+        "priority": 1,
         "moves": 300
       }
     ],
@@ -956,6 +985,7 @@
         "max_contains_weight": "60 kg",
         "max_item_length": "55 cm",
         "magazine_well": "5 L",
+        "priority": 1,
         "moves": 300
       },
       {
@@ -1009,6 +1039,7 @@
         "max_item_length": "20 cm",
         "magazine_well": "500 ml",
         "moves": 80,
+        "priority": 1,
         "volume_encumber_modifier": 0.3
       }
     ],
@@ -1038,6 +1069,7 @@
         "max_contains_weight": "5 kg",
         "max_item_length": "25 cm",
         "magazine_well": "1 L",
+        "priority": 1,
         "moves": 80
       }
     ],
@@ -1121,6 +1153,7 @@
         "max_contains_volume": "15 L",
         "max_contains_weight": "30 kg",
         "max_item_length": "50 cm",
+        "priority": 1,
         "moves": 300
       }
     ],
@@ -1156,6 +1189,7 @@
         "max_contains_volume": "15 L",
         "max_contains_weight": "30 kg",
         "max_item_length": "50 cm",
+        "priority": 1,
         "moves": 300
       }
     ],
@@ -1207,6 +1241,7 @@
         "max_contains_weight": "10 kg",
         "max_item_volume": "65 ml",
         "watertight": true,
+        "priority": 1,
         "rigid": true
       }
     ],
@@ -1589,6 +1624,7 @@
         "max_contains_weight": "18 kg",
         "max_item_length": "50 cm",
         "magazine_well": "2500 ml",
+        "priority": 1,
         "moves": 150
       }
     ],
@@ -1626,6 +1662,7 @@
         "max_contains_weight": "40 kg",
         "max_item_length": "50 cm",
         "magazine_well": "5 L",
+        "priority": 1,
         "moves": 300
       },
       {
@@ -1635,6 +1672,7 @@
         "max_contains_weight": "4 kg",
         "max_item_length": "30 cm",
         "moves": 500,
+        "priority": 1,
         "description": "Pouch sized for a hydration pack."
       },
       {
@@ -1715,6 +1753,7 @@
         "max_contains_weight": "70 kg",
         "max_item_length": "50 cm",
         "magazine_well": "5 L",
+        "priority": 1,
         "moves": 300
       },
       {
@@ -1724,6 +1763,7 @@
         "max_contains_weight": "4 kg",
         "max_item_length": "30 cm",
         "moves": 500,
+        "priority": 1,
         "description": "Pouch sized for a hydration pack."
       },
       {
@@ -1804,6 +1844,7 @@
         "max_contains_weight": "80 kg",
         "max_item_length": "55 cm",
         "magazine_well": "8 L",
+        "priority": 1,
         "moves": 300
       },
       {
@@ -1813,6 +1854,7 @@
         "max_contains_weight": "4 kg",
         "max_item_length": "30 cm",
         "moves": 500,
+        "priority": 1,
         "description": "Pouch sized for a hydration pack."
       },
       {
@@ -1889,6 +1931,7 @@
         "max_contains_volume": "15 L",
         "max_contains_weight": "8 kg",
         "max_item_length": "40 cm",
+        "priority": 1,
         "moves": 300
       }
     ],
@@ -2049,6 +2092,7 @@
         "max_contains_weight": "60 kg",
         "max_item_length": "55 cm",
         "magazine_well": "8 L",
+        "priority": 1,
         "moves": 300
       },
       {
@@ -2057,6 +2101,7 @@
         "max_contains_weight": "10 kg",
         "max_item_length": "35 cm",
         "magazine_well": "1 L",
+        "priority": 1,
         "moves": 200
       },
       {
@@ -2065,6 +2110,7 @@
         "max_contains_weight": "3 kg",
         "max_item_length": "30 cm",
         "magazine_well": "800 ml",
+        "priority": 1,
         "moves": 120
       },
       {
@@ -2073,6 +2119,7 @@
         "max_contains_weight": "3 kg",
         "max_item_length": "30 cm",
         "magazine_well": "800 ml",
+        "priority": 1,
         "moves": 120
       },
       {
@@ -2082,6 +2129,7 @@
         "max_contains_weight": "4 kg",
         "max_item_length": "30 cm",
         "moves": 500,
+        "priority": 1,
         "description": "Pouch sized for a hydration pack."
       },
       {
@@ -2170,6 +2218,7 @@
         "max_contains_weight": "14 kg",
         "max_item_length": "40 cm",
         "magazine_well": "1 L",
+        "priority": 1,
         "moves": 250
       }
     ],
@@ -2209,6 +2258,7 @@
         "max_contains_weight": "16 kg",
         "max_item_length": "40 cm",
         "magazine_well": "2 L",
+        "priority": 1,
         "moves": 200
       }
     ],
@@ -2338,6 +2388,7 @@
         "max_contains_volume": "25 L",
         "max_contains_weight": "30 kg",
         "max_item_length": "60 cm",
+        "priority": 1,
         "moves": 300
       }
     ],
@@ -2364,6 +2415,7 @@
         "max_contains_weight": "40 kg",
         "max_item_length": "50 cm",
         "magazine_well": "4 L",
+        "priority": 1,
         "moves": 300
       },
       {
@@ -2372,6 +2424,7 @@
         "max_contains_weight": "10 kg",
         "max_item_length": "35 cm",
         "magazine_well": "500 ml",
+        "priority": 1,
         "moves": 200
       },
       {
@@ -2380,6 +2433,7 @@
         "max_contains_weight": "2 kg",
         "max_item_length": "20 cm",
         "magazine_well": "200 ml",
+        "priority": 1,
         "moves": 120
       },
       {
@@ -2388,6 +2442,7 @@
         "max_contains_weight": "2 kg",
         "max_item_length": "20 cm",
         "magazine_well": "200 ml",
+        "priority": 1,
         "moves": 120
       },
       {
@@ -2510,6 +2565,7 @@
         "max_contains_volume": "15 L",
         "max_contains_weight": "20 kg",
         "max_item_length": "35 cm",
+        "priority": 1,
         "moves": 300
       }
     ],
@@ -2567,6 +2623,7 @@
         "max_contains_weight": "80 kg",
         "max_item_length": "150 cm",
         "magazine_well": "10 L",
+        "priority": 1,
         "moves": 300
       }
     ],
@@ -2907,6 +2964,7 @@
         "max_contains_weight": "100 kg",
         "moves": 300,
         "rigid": true,
+        "priority": 1,
         "max_item_length": "150 cm"
       }
     ],
@@ -2936,6 +2994,7 @@
         "max_contains_volume": "25 L",
         "max_contains_weight": "50 kg",
         "moves": 300,
+        "priority": 1,
         "max_item_length": "60 cm"
       }
     ],
