@@ -2966,6 +2966,7 @@ void item::io( Archive &archive )
     archive.io( "active", active, false );
     archive.io( "is_favorite", is_favorite, false );
     archive.io( "item_counter", item_counter, static_cast<decltype( item_counter )>( 0 ) );
+    archive.io( "countdown_point", countdown_point, calendar::turn_max );
     archive.io( "wetness", wetness, 0 );
     archive.io( "dropped_from", dropped_from, harvest_drop_type_id::NULL_ID() );
     archive.io( "rot", rot, 0_turns );

@@ -207,6 +207,11 @@
   },
   {
     "type": "item_action",
+    "id": "countdown2",
+    "name": { "str": "Start countdown" }
+  },
+  {
+    "type": "item_action",
     "id": "unpack",
     "name": { "str": "Unpack" }
   },

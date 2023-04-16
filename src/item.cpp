@@ -13047,6 +13047,13 @@ bool item::process_internal( map &here, Character *carrier, const tripoint &pos,
             }
         }
 
+        if( calendar::turn >= countdown_point && type->countdown_action2 ) {
+            type->countdown_action2.call( carrier ? *carrier : get_avatar(), *this, false, pos );
+            if( type->countdown_destroy ) {
+                return true;
+            }
+        }
+
         for( const emit_id &e : type->emits ) {
             here.emit_field( pos, e );
         }

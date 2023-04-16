@@ -1117,6 +1117,7 @@ struct itype {
 
         /** Action to take when countdown expires */
         use_function countdown_action;
+        use_function countdown_action2;
 
         /**
         * @name Non-negative properties
@@ -1265,6 +1266,7 @@ struct itype {
 
         /** Default countdown interval (if any) for item */
         int countdown_interval = 0;
+        time_duration countdown2 = 0_seconds;
 
         /**
         * Space occupied by items of this type

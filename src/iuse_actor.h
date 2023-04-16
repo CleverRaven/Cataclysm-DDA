@@ -67,6 +67,7 @@ class iuse_transform : public iuse_actor
 
         /** if positive set transformed item active and start countdown */
         int countdown = 0;
+        time_duration target_timer = 0_seconds;
 
         /** if both this and ammo_qty are specified then set @ref target to this specific ammo */
         itype_id ammo_type;
@@ -156,6 +157,29 @@ class countdown_actor : public iuse_actor
         translation message;
 
         ~countdown_actor() override = default;
+        void load( const JsonObject &obj ) override;
+        std::optional<int> use( Character &, item &, bool, const tripoint & ) const override;
+        std::unique_ptr<iuse_actor> clone() const override;
+        ret_val<void> can_use( const Character &, const item &it, bool, const tripoint & ) const override;
+        std::string get_name() const override;
+        void info( const item &, std::vector<iteminfo> & ) const override;
+};
+
+class countdown_actor2 : public iuse_actor
+{
+    public:
+        explicit countdown_actor2( const std::string &type = "countdown2" ) : iuse_actor( type ) {}
+
+        /** if specified overrides default action name */
+        translation name;
+
+        /** turns before countdown action (defaults to @ref itype::countdown_interval) */
+        time_duration interval = 0_seconds;
+
+        /** message if player sees activation with %s replaced by item name */
+        translation message;
+
+        ~countdown_actor2() override = default;
         void load( const JsonObject &obj ) override;
         std::optional<int> use( Character &, item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;

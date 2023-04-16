@@ -1782,6 +1782,7 @@ void Item_factory::init()
     add_actor( std::make_unique<iuse_transform>() );
     add_actor( std::make_unique<unpack_actor>() );
     add_actor( std::make_unique<countdown_actor>() );
+    add_actor( std::make_unique<countdown_actor2>() );
     add_actor( std::make_unique<manualnoise_actor>() );
     add_actor( std::make_unique<musical_instrument_actor>() );
     add_actor( std::make_unique<deploy_furn_actor>() );
@@ -4024,6 +4025,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     set_use_methods_from_json( jo, "use_action", def.use_methods, def.ammo_scale );
 
     assign( jo, "countdown_interval", def.countdown_interval );
+    assign( jo, "countdown2", def.countdown2 );
     assign( jo, "countdown_destroy", def.countdown_destroy );
 
     if( jo.has_string( "countdown_action" ) ) {
@@ -4034,6 +4036,14 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         use_function fun = usage_from_object( tmp ).second;
         if( fun ) {
             def.countdown_action = fun;
+        }
+    }
+
+    if( jo.has_object( "countdown_action2" ) ) {
+        JsonObject tmp = jo.get_object( "countdown_action2" );
+        use_function fun = usage_from_object( tmp ).second;
+        if( fun ) {
+            def.countdown_action2 = fun;
         }
     }
 

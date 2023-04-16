@@ -2910,6 +2910,8 @@ class item : public visitable
         snippet_id snip_id = snippet_id::NULL_ID(); // Associated dynamic text snippet id.
         int irradiation = 0;       // Tracks radiation dosage.
         int item_counter = 0;      // generic counter to be used with item flags
+        // Time point at which countdown_action is triggered
+        time_point countdown_point = calendar::turn_max;
         units::specific_energy specific_energy = units::from_joule_per_gram(
                     -10 ); // Specific energy J/g. Negative value for unprocessed.
         units::temperature temperature = units::from_kelvin( 0 );       // Temperature of the item .
