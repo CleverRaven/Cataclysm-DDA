@@ -198,7 +198,7 @@
     "id": "mon_zombie_kevlar_0",
     "type": "MONSTER",
     "name": { "str": "Kevlar zombie" },
-    "description": "This zombie dons a uniform with heavy, bulletproof materials sewn in.  Peculiarly, the uniform seems top have become stuck to its skin in certain places, the flesh gripping its edges as though the thing's body were trying to absorb it.",
+    "description": "This zombie dons a uniform with heavy, bulletproof materials sewn in.  Peculiarly, the uniform seems to have fused to its skin in certain places, its flesh gripping the edges of its gear as though the body were trying to absorb it.",
     "looks_like": "mon_zombie_soldier",
     "default_faction": "zombie",
     "bodytype": "human",
