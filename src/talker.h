@@ -487,6 +487,7 @@ class talker
             return true;
         }
         virtual void mod_pain( int ) {}
+        virtual void set_pain( int ) {}
         virtual int pain_cur() const {
             return 0;
         }
@@ -607,5 +608,11 @@ class talker
             return 0;
         }
         virtual void set_part_hp_cur( const bodypart_id &, int ) const {}
+
+        virtual void learn_martial_art( const matype_id & ) const {}
+        virtual void forget_martial_art( const matype_id & ) const {}
+        virtual bool knows_martial_art( const matype_id & ) const {
+            return false;
+        }
 };
 #endif // CATA_SRC_TALKER_H

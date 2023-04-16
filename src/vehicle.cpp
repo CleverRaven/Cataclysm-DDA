@@ -1854,6 +1854,10 @@ bool vehicle::remove_part( const int p, RemovePartHandler &handler )
         handler.unboard( part_loc );
     }
 
+    for( const item &it : vp.tools ) {
+        handler.add_item_or_charges( part_loc, it, false );
+    }
+
     // If `p` has flag `parent_flag`, remove child with flag `child_flag`
     // Returns true if removal occurs
     const auto remove_dependent_part = [&](
@@ -2458,26 +2462,33 @@ std::optional<vpart_reference> vpart_position::part_with_tool( const itype_id &t
 {
     for( const int idx : vehicle().parts_at_relative( mount(), false ) ) {
         const vpart_reference vp( vehicle(), idx );
-        if( !vp.part().is_broken() && vp.info().has_tool( tool_type ) ) {
+        if( vp.part().is_broken() ) {
+            continue;
+        }
+        const std::map<item, input_event> tools = vehicle().prepare_tools( vp.part() );
+        if( std::find_if( tools.begin(), tools.end(),
+        [&tool_type]( const std::pair<const item, input_event> &pair ) {
+        return pair.first.typeId() == tool_type;
+        } ) != tools.end() ) {
             return vp;
         }
     }
     return std::optional<vpart_reference>();
 }
 
-std::vector<std::pair<itype_id, int>> vpart_position::get_tools() const
+std::map<item, input_event> vpart_position::get_tools() const
 {
-    std::set<std::pair<itype_id, int>> tools;
+    std::map<item, input_event> res;
     for( const int part_idx : this->vehicle().parts_at_relative( this->mount(), false ) ) {
-        const vpart_reference vp( this->vehicle(), part_idx );
-        if( vp.part().is_broken() ) {
+        const vehicle_part &vp = this->vehicle().part( part_idx );
+        if( vp.is_broken() ) {
             continue;
         }
-        std::set<std::pair<itype_id, int>> items = vp.part().info().get_pseudo_tools();
-        std::copy( items.cbegin(), items.cend(), std::inserter( tools, tools.end() ) );
+        for( const auto &[tool_item, ev] : this->vehicle().prepare_tools( vp ) ) {
+            res[tool_item] = ev;
+        }
     }
-
-    return std::vector<std::pair<itype_id, int>>( tools.cbegin(), tools.cend() );
+    return res;
 }
 
 std::optional<vpart_reference> vpart_position::part_with_feature( const std::string &f,
@@ -2551,11 +2562,6 @@ std::optional<vpart_reference> optional_vpart_position::part_with_tool(
     const itype_id &tool_type ) const
 {
     return has_value() ? value().part_with_tool( tool_type ) : std::nullopt;
-}
-
-std::vector<std::pair<itype_id, int>> optional_vpart_position::get_tools() const
-{
-    return has_value() ? value().get_tools() : std::vector<std::pair<itype_id, int>>();
 }
 
 std::string optional_vpart_position::extended_description() const
@@ -5595,6 +5601,36 @@ vehicle_stack vehicle::get_items( const int part ) const
     return const_cast<vehicle *>( this )->get_items( part );
 }
 
+std::vector<item> &vehicle::get_tools( vehicle_part &vp )
+{
+    return vp.tools;
+}
+
+const std::vector<item> &vehicle::get_tools( const vehicle_part &vp ) const
+{
+    return vp.tools;
+}
+
+std::map<item, input_event> vehicle::prepare_tools( const vehicle_part &vp ) const
+{
+    std::map<item, input_event> res;
+    for( const std::pair<itype_id, int> &pair : vp.info().get_pseudo_tools() ) {
+        item it( pair.first, calendar::turn );
+        const input_event ev( pair.second, input_event_t::keyboard_char );
+        prepare_tool( it );
+        res.emplace( it, pair.second > 0 ? ev : input_event( -1, input_event_t::error ) );
+    }
+    for( const item &it_src : vp.tools ) {
+        item it( it_src ); // make a copy
+        const input_event ev = it.invlet > 0
+                               ? input_event( it.invlet, input_event_t::keyboard_char )
+                               : input_event();
+        prepare_tool( it );
+        res.emplace( it, ev );
+    }
+    return res;
+}
+
 void vehicle::place_spawn_items()
 {
     if( !type.is_valid() ) {
@@ -7280,23 +7316,17 @@ std::list<item> vehicle::use_charges( const vpart_position &vp, const itype_id &
     const std::optional<vpart_reference> tool_vp = vp.part_with_tool( veh_tool_type );
     const std::optional<vpart_reference> cargo_vp = vp.part_with_feature( "CARGO", true );
 
-    const auto tool_wants_battery = []( const itype_id & type ) {
-        item tool( type, calendar::turn_zero );
-        item mag( tool.magazine_default() );
-        mag.clear_items();
-
-        return tool.can_contain( mag ).success() &&
-               tool.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL ).success() &&
-               tool.ammo_capacity( ammo_battery ) > 0;
-    };
-
     if( tool_vp ) { // handle vehicle tools
-        itype_id fuel_type = tool_wants_battery( type ) ? itype_battery : type;
+        const itype_id &tool_fuel_type = type->tool_slot_first_ammo();
+        // use the tool's ammo charges
+        const itype_id &fuel_type = tool_fuel_type.is_null() ? type : tool_fuel_type;
         item tmp( type, calendar::turn_zero ); // TODO: add a sane birthday arg
         // TODO: Handle water poison when crafting starts respecting it
         tmp.charges = tool_vp->vehicle().drain( fuel_type, quantity );
         quantity -= tmp.charges;
         ret.push_back( tmp );
+        add_msg_debug( debugmode::DF_VEHICLE, "drained %d %s from %s",
+                       tmp.charges, fuel_type.str(), tool_vp->vehicle().name );
 
         if( quantity == 0 ) {
             return ret;
@@ -7566,6 +7596,9 @@ void vehicle::calc_mass_center( bool use_precalc ) const
         units::mass m_part_items = 0_gram;
         m_part += vp.part().base.weight();
         for( const item &j : get_items( i ) ) {
+            m_part_items += j.weight();
+        }
+        for( const item &j : get_tools( vp.part() ) ) {
             m_part_items += j.weight();
         }
         if( vp.part().info().cargo_weight_modifier != 100 ) {

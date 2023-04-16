@@ -1,7 +1,7 @@
 #include "assign.h"
 
 void report_strict_violation( const JsonObject &jo, const std::string &message,
-                              const std::string &name )
+                              const std::string_view name )
 {
     try {
         // Let the json class do the formatting, it includes the context of the JSON data.
@@ -495,6 +495,10 @@ static void assign_dmg_relative( damage_instance &out, const damage_instance &va
             out_dmg.unconditional_damage_mult = tmp.unconditional_damage_mult +
                                                 val_dmg.unconditional_damage_mult;
 
+            for( const barrel_desc &bd : val_dmg.barrels ) {
+                out_dmg.barrels.emplace_back( bd.barrel_length, bd.amount + tmp.amount );
+            }
+
             out.add( out_dmg );
         }
     }
@@ -569,6 +573,10 @@ static void assign_dmg_proportional( const JsonObject &jo, const std::string &na
             out_dmg.unconditional_res_mult = val_dmg.unconditional_res_mult * scalar.unconditional_res_mult;
             out_dmg.unconditional_damage_mult = val_dmg.unconditional_damage_mult *
                                                 scalar.unconditional_damage_mult;
+
+            for( const barrel_desc &bd : val_dmg.barrels ) {
+                out_dmg.barrels.emplace_back( bd.barrel_length, bd.amount * scalar.amount );
+            }
 
             out.add( out_dmg );
         }

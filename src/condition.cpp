@@ -16,6 +16,7 @@
 
 #include "avatar.h"
 #include "calendar.h"
+#include "cata_utility.h"
 #include "character.h"
 #include "coordinates.h"
 #include "dialogue.h"
@@ -374,6 +375,16 @@ void conditional_t<T>::set_has_trait( const JsonObject &jo, const std::string &m
     str_or_var<T> trait_to_check = get_str_or_var<T>( jo.get_member( member ), member, true );
     condition = [trait_to_check, is_npc]( const T & d ) {
         return d.actor( is_npc )->has_trait( trait_id( trait_to_check.evaluate( d ) ) );
+    };
+}
+
+template<class T>
+void conditional_t<T>::set_has_martial_art( const JsonObject &jo, const std::string &member,
+        bool is_npc )
+{
+    str_or_var<T> style_to_check = get_str_or_var<T>( jo.get_member( member ), member, true );
+    condition = [style_to_check, is_npc]( const T & d ) {
+        return d.actor( is_npc )->knows_martial_art( matype_id( style_to_check.evaluate( d ) ) );
     };
 }
 
@@ -1656,10 +1667,6 @@ std::function<double( const T & )> conditional_t<T>::get_get_dbl( J const &jo )
             return [is_npc]( const T & d ) {
                 return d.actor( is_npc )->posz();
             };
-        } else if( checked_value == "pain" ) {
-            return [is_npc]( const T & d ) {
-                return d.actor( is_npc )->pain_cur();
-            };
         } else if( checked_value == "power" ) {
             return [is_npc]( const T & d ) {
                 // Energy in milijoule
@@ -2279,11 +2286,6 @@ conditional_t<T>::get_set_dbl( const J &jo, const std::optional<dbl_or_var_part<
                 d.actor( is_npc )->set_pos( tripoint( d.actor( is_npc )->posx(), d.actor( is_npc )->posy(),
                                                       handle_min_max<T>( d, input, min, max ) ) );
             };
-        } else if( checked_value == "pain" ) {
-            return [is_npc, min, max]( const T & d, double input ) {
-                d.actor( is_npc )->mod_pain( handle_min_max<T>( d, input, min,
-                                             max ) - d.actor( is_npc )->pain_cur() );
-            };
         } else if( checked_value == "power" ) {
             return [is_npc, min, max]( const T & d, double input ) {
                 // Energy in milijoule
@@ -2689,6 +2691,8 @@ void eoc_math<T>::from_json( const JsonObject &jo, std::string const &member )
             action = oper::mod_assign;
         } else if( oper == "==" ) {
             action = oper::equal;
+        } else if( oper == "!=" ) {
+            action = oper::not_equal;
         } else if( oper == "<" ) {
             action = oper::less;
         } else if( oper == "<=" ) {
@@ -2739,8 +2743,9 @@ double eoc_math<T>::act( T const &d ) const
             lhs.assign( d, mhs.eval( d ) - 1 );
             break;
         case oper::equal:
-            // FIXME: float comparison
-            return lhs.eval( d ) == rhs.eval( d );
+            return float_equals( lhs.eval( d ), rhs.eval( d ) );
+        case oper::not_equal:
+            return !float_equals( lhs.eval( d ), rhs.eval( d ) );
         case oper::less:
             return lhs.eval( d ) < rhs.eval( d );
         case oper::equal_or_less:
@@ -2992,6 +2997,10 @@ conditional_t<T>::conditional_t( const JsonObject &jo )
         set_has_trait( jo, "u_has_trait" );
     } else if( jo.has_member( "npc_has_trait" ) ) {
         set_has_trait( jo, "npc_has_trait", true );
+    } else if( jo.has_member( "u_has_martial_art" ) ) {
+        set_has_martial_art( jo, "u_has_martial_art" );
+    } else if( jo.has_member( "npc_has_martial_art" ) ) {
+        set_has_martial_art( jo, "npc_has_martial_art", true );
     } else if( jo.has_member( "u_has_flag" ) ) {
         set_has_flag( jo, "u_has_flag" );
     } else if( jo.has_member( "npc_has_flag" ) ) {

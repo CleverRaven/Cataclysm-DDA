@@ -635,8 +635,8 @@ void Item_factory::finalize_pre( itype &obj )
     }
 
     if( obj.longest_side == -1_mm ) {
-        units::volume effective_volume = obj.count_by_charges() ?
-                                         ( obj.volume / obj.stack_size ) : obj.volume;
+        units::volume effective_volume = obj.count_by_charges() &&
+                                         obj.stack_size > 0 ? ( obj.volume / obj.stack_size ) : obj.volume;
         obj.longest_side = units::default_length_from_volume<int>( effective_volume );
     }
 }
@@ -2633,6 +2633,7 @@ void Item_factory::load( islot_gun &slot, const JsonObject &jo, const std::strin
     assign( jo, "reload_noise", slot.reload_noise, strict );
     assign( jo, "reload_noise_volume", slot.reload_noise_volume, strict, 0 );
     assign( jo, "barrel_volume", slot.barrel_volume, strict, 0_ml );
+    assign( jo, "barrel_length", slot.barrel_length, strict, 0_mm );
     assign( jo, "built_in_mods", slot.built_in_mods, strict );
     assign( jo, "default_mods", slot.default_mods, strict );
     assign( jo, "energy_drain", slot.energy_drain, strict, 0_kJ );
@@ -3166,7 +3167,7 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
     }
 
     for( JsonValue jv : jo.get_array( "consumption_effect_on_conditions" ) ) {
-        slot.consumption_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        slot.consumption_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
 
     if( jo.has_member( "nutrition" ) && got_calories ) {

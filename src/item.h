@@ -638,6 +638,7 @@ class item : public visitable
                               int charges_in_vol = -1 ) const;
 
         units::length length() const;
+        units::length barrel_length() const;
 
         /**
          * Simplified, faster volume check for when processing time is important and exact volume is not.
@@ -1357,11 +1358,8 @@ class item : public visitable
          */
         armor_status damage_armor_transforms( damage_unit &du ) const;
 
-        /** Provide color for UI display dependent upon current item damage level */
-        nc_color damage_color() const;
-
-        /** Provide prefix symbol for UI display dependent upon current item damage level */
-        std::string damage_symbol() const;
+        // @return colorize()-ed damage indicator as string, e.g. "<color_green>++</color>"
+        std::string damage_indicator() const;
 
         /**
          * Provides a prefix for the durability state of the item. with ITEM_HEALTH_BAR enabled,
@@ -2333,7 +2331,7 @@ class item : public visitable
          *  @return itype_id::NULL_ID() if item does have a magazine for a specific ammo type */
         itype_id ammo_default( bool conversion = true ) const;
         // format a string with all the ammo that this mag can use
-        std::string print_ammo( ammotype at ) const;
+        std::string print_ammo( ammotype at, const item *gun = nullptr ) const;
 
         /** Get default ammo for the first ammotype common to an item and its current magazine or "NULL" if none exists
          * @param conversion whether to include the effect of any flags or mods which convert the type
@@ -2460,6 +2458,7 @@ class item : public visitable
          * Returns empty instance on non-gun items.
          */
         damage_instance gun_damage( bool with_ammo = true, bool shot = false ) const;
+        damage_instance gun_damage( itype_id ammo ) const;
         /**
          * The minimum force required to cycle the gun, can be overridden by mods
          */

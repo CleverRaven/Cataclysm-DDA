@@ -1,6 +1,20 @@
 [
   {
     "type": "vehicle_part",
+    "id": "ap_veh_tools_kitchen",
+    "name": "kitchen station",
+    "copy-from": "veh_tools_kitchen",
+    "extend": { "flags": [ "APPLIANCE" ] }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_veh_tools_workshop",
+    "name": "workshop station",
+    "copy-from": "veh_tools_workshop",
+    "extend": { "flags": [ "APPLIANCE" ] }
+  },
+  {
+    "type": "vehicle_part",
     "id": "ap_fridge",
     "name": { "str": "refrigerator" },
     "symbol": "H",
@@ -987,7 +1001,7 @@
       { "item": "scrap", "count": [ 4, 7 ] },
       { "item": "element", "count": [ 0, 2 ] },
       { "item": "glass_shard", "prob": 50 },
-      { "item": "motor_small", "prob": 25 }
+      { "item": "motor_micro", "prob": 25 }
     ]
   },
   {

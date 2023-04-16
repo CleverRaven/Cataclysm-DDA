@@ -427,6 +427,11 @@ bool worldfactory::has_world( const std::string &name ) const
     return all_worlds.count( name ) > 0;
 }
 
+const std::map<std::string, std::unique_ptr<WORLD>> &worldfactory::get_all_worlds() const
+{
+    return all_worlds;
+}
+
 std::vector<std::string> worldfactory::all_worldnames() const
 {
     std::vector<std::string> result;
@@ -2023,6 +2028,7 @@ void load_external_option( const JsonObject &jo )
     if( jo.has_member( "info" ) ) {
         jo.get_string( "info" );
     }
+    options_manager::update_options_cache();
 }
 
 mod_manager &worldfactory::get_mod_manager()
@@ -2038,6 +2044,30 @@ WORLD *worldfactory::get_world( const std::string &name )
         return nullptr;
     }
     return iter->second.get();
+}
+
+std::string worldfactory::get_world_name( const size_t index )
+{
+    size_t i = 0;
+    for( const auto &elem : all_worlds ) {
+        if( i == index ) {
+            return elem.first;
+        }
+        i++;
+    }
+    return "";
+}
+
+size_t worldfactory::get_world_index( const std::string &name )
+{
+    size_t i = 0;
+    for( const auto &elem : all_worlds ) {
+        if( elem.first == name ) {
+            return i;
+        }
+        i++;
+    }
+    return 0;
 }
 
 // Helper predicate to exclude files from deletion when resetting a world directory.

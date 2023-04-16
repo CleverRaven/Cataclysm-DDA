@@ -231,7 +231,7 @@
     "symbol": "*",
     "color": "light_gray",
     "description": "A handful of rock salt crystals.  Could be refined into table salt.",
-    "material": [ "stone" ],
+    "material": [ "salt", "stone" ],
     "volume": "3500 ml",
     "weight": "650 g",
     "bashing": 1
@@ -427,7 +427,7 @@
     "type": "COMESTIBLE",
     "id": "salt_water",
     "name": { "str_sp": "salt water" },
-    "material": [ "water" ],
+    "material": [ { "type": "water", "portion": 877 }, { "type": "salt", "portion": 123 } ],
     "weight": "260 g",
     "color": "light_cyan",
     "container": "bottle_plastic",

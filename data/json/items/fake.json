@@ -273,16 +273,23 @@
     "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ]
   },
   {
-    "id": "pseudo_battery",
+    "id": "pseudo_magazine",
     "type": "MAGAZINE",
     "category": "spare_parts",
-    "name": { "str": "pseudo battery", "str_pl": "pseudo batteries" },
-    "description": "Pseudo battery for pseudo items such as vehicle tools.  If you see this, then something went wrong",
+    "name": { "str": "pseudo magazine" },
+    "description": "Pseudo magazine for use in dirty vehicle hacks.  If you see this, then something went wrong",
+    "flags": [ "PSEUDO", "ZERO_WEIGHT", "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD" ],
     "ammo_type": [ "battery" ],
     "capacity": 1000000,
-    "//": "TODO: Determine appropriate arbitrary capacity for vehicle batteries",
-    "flags": [ "ZERO_WEIGHT", "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "RECHARGE", "PSEUDO" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "battery": 1000000 } } ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "airtight": true,
+        "watertight": true,
+        "rigid": true,
+        "ammo_restriction": { "battery": 1000000, "propane": 1000000 }
+      }
+    ],
     "symbol": "@",
     "color": "red"
   },
@@ -292,7 +299,7 @@
     "type": "TOOL",
     "name": { "str": "light hoist" },
     "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ],
-    "qualities": [ [ "LIFT", 2 ] ]
+    "qualities": [ [ "LIFT", 2 ], [ "ROPE", 2 ], [ "SUSPENDING", 2 ] ]
   },
   {
     "id": "fake_lift_medium",
@@ -300,7 +307,7 @@
     "type": "TOOL",
     "name": { "str": "sturdy hoist" },
     "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ],
-    "qualities": [ [ "LIFT", 8 ] ]
+    "qualities": [ [ "LIFT", 8 ], [ "ROPE", 2 ], [ "SUSPENDING", 2 ] ]
   },
   {
     "id": "fake_lift_heavy",
@@ -308,7 +315,7 @@
     "type": "TOOL",
     "name": { "str": "heavy-duty hoist" },
     "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ],
-    "qualities": [ [ "LIFT", 40 ] ]
+    "qualities": [ [ "LIFT", 40 ], [ "ROPE", 2 ], [ "SUSPENDING", 2 ] ]
   },
   {
     "id": "pseudo_app_oxygen_concentrator",

@@ -8,6 +8,10 @@
 #include "player_helpers.h"
 #include "point.h"
 
+
+static const activity_id ACT_ADD_VARIABLE_COMPLETE( "ACT_ADD_VARIABLE_COMPLETE" );
+static const activity_id ACT_ADD_VARIABLE_DURING( "ACT_ADD_VARIABLE_DURING" );
+
 static const effect_on_condition_id
 effect_on_condition_EOC_TEST_TRANSFORM_LINE( "EOC_TEST_TRANSFORM_LINE" );
 static const effect_on_condition_id
@@ -23,9 +27,19 @@ static const effect_on_condition_id
 effect_on_condition_EOC_math_test_greater_increment( "EOC_math_test_greater_increment" );
 static const effect_on_condition_id
 effect_on_condition_EOC_math_var( "EOC_math_var" );
+static const effect_on_condition_id
+effect_on_condition_EOC_math_weighted_list( "EOC_math_weighted_list" );
 static const effect_on_condition_id effect_on_condition_EOC_teleport_test( "EOC_teleport_test" );
 namespace
 {
+void complete_activity( Character &u )
+{
+    while( !u.activity.is_null() ) {
+        u.set_moves( u.get_speed() );
+        u.activity.do_turn( u );
+    }
+}
+
 void check_ter_in_radius( tripoint_abs_ms const &center, int range, ter_id const &ter )
 {
     map tm;
@@ -104,6 +118,15 @@ TEST_CASE( "EOC_math_integration", "[eoc][math_parser]" )
     int const stam_pre = get_avatar().get_stamina();
     effect_on_condition_EOC_math_diag_assign->activate( d );
     CHECK( get_avatar().get_stamina() == stam_pre / 2 );
+
+    get_avatar().set_pain( 0 );
+    get_avatar().set_stamina( 9000 );
+    effect_on_condition_EOC_math_weighted_list->activate( d );
+    CHECK( std::stod( globvars.get_global_value( "npctalk_var_weighted_var" ) ) == Approx( -999 ) );
+    get_avatar().set_pain( 9000 );
+    get_avatar().set_stamina( 0 );
+    effect_on_condition_EOC_math_weighted_list->activate( d );
+    CHECK( std::stod( globvars.get_global_value( "npctalk_var_weighted_var" ) ) == Approx( 1 ) );
 }
 
 TEST_CASE( "EOC_transform_radius", "[eoc][timed_event]" )
@@ -147,4 +170,27 @@ TEST_CASE( "EOC_transform_line", "[eoc][timed_event]" )
     check_ter_in_line( start, end, t_grass );
     effect_on_condition_EOC_TEST_TRANSFORM_LINE->activate( newDialog );
     check_ter_in_line( start, end, t_dirt );
+}
+
+TEST_CASE( "EOC_activity_finish", "[eoc][timed_event]" )
+{
+    clear_avatar();
+    clear_map();
+    get_avatar().assign_activity( ACT_ADD_VARIABLE_COMPLETE, 10 );
+
+    complete_activity( get_avatar() );
+
+    CHECK( stoi( get_avatar().get_value( "npctalk_var_activitiy_incrementer" ) ) == 1 );
+}
+
+TEST_CASE( "EOC_activity_ongoing", "[eoc][timed_event]" )
+{
+    clear_avatar();
+    clear_map();
+    get_avatar().assign_activity( ACT_ADD_VARIABLE_DURING, 300 );
+
+    complete_activity( get_avatar() );
+
+    // been going for 3 whole seconds should have incremented 3 times
+    CHECK( stoi( get_avatar().get_value( "npctalk_var_activitiy_incrementer" ) ) == 3 );
 }
