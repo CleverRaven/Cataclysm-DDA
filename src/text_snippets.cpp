@@ -67,7 +67,7 @@ void snippet_library::add_snippet_from_json( const std::string &category, const 
         snippets_by_category[category].ids.emplace_back( id );
         snippets_by_id[id] = text;
         if( jo.has_member( "effect_on_examine" ) ) {
-            EOC_by_id[id] = talk_effect_t<dialogue>( jo, "effect_on_examine" );
+            EOC_by_id[id] = talk_effect_t( jo, "effect_on_examine" );
         }
         translation name;
         optional( jo, false, "name", name );
@@ -98,7 +98,7 @@ std::optional<translation> snippet_library::get_snippet_by_id( const snippet_id 
     return it->second;
 }
 
-std::optional<talk_effect_t<dialogue>> snippet_library::get_EOC_by_id( const snippet_id &id ) const
+std::optional<talk_effect_t> snippet_library::get_EOC_by_id( const snippet_id &id ) const
 {
     const auto it = EOC_by_id.find( id );
     if( it == EOC_by_id.end() ) {

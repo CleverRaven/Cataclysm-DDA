@@ -600,14 +600,14 @@
         "duration": "36 hours",
         "decay_start": "24 hours"
       },
-      { "arithmetic": [ { "u_val": "pain" }, "+=", { "const": 3 } ] },
+      { "math": [ "u_pain()", "+=", "3" ] }
       { "math": [ "u_madness", "=", "0" ] },
       {
         "u_message": "Your mind lurches, the shapes and figures dance across your vision, you feel like your head is going to explode."
       }
     ],
     "false_effect": [
-      { "math": [ "u_pain", "+=", "3" ] },
+      { "math": [ "u_pain()", "+=", "3" ] }
       { "math": [ "u_madness", "++" ] },
       {
         "u_message": "You can't look away from the impossible shape, staring at it is making you feel sick, you have to get away!"
@@ -742,7 +742,7 @@
     "condition": "u_can_see",
     "effect": [
       { "u_add_effect": "nightmares", "duration": "18 hours" },
-      { "arithmetic": [ { "u_val": "pain" }, "+=", { "const": 3 } ] },
+      { "math": [ "u_pain()", "+=", "3" ] },
       { "arithmetic": [ { "u_val": "stamina" }, "-=", { "const": 20 } ] }
     ]
   },

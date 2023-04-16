@@ -40,6 +40,7 @@ namespace catacurses
 {
 class window;
 } // namespace catacurses
+class body_part_set;
 class Character;
 class JsonObject;
 class JsonOut;

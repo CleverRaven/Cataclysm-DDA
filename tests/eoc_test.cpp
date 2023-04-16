@@ -27,6 +27,8 @@ static const effect_on_condition_id
 effect_on_condition_EOC_math_test_greater_increment( "EOC_math_test_greater_increment" );
 static const effect_on_condition_id
 effect_on_condition_EOC_math_var( "EOC_math_var" );
+static const effect_on_condition_id
+effect_on_condition_EOC_math_weighted_list( "EOC_math_weighted_list" );
 static const effect_on_condition_id effect_on_condition_EOC_teleport_test( "EOC_teleport_test" );
 namespace
 {
@@ -116,6 +118,15 @@ TEST_CASE( "EOC_math_integration", "[eoc][math_parser]" )
     int const stam_pre = get_avatar().get_stamina();
     effect_on_condition_EOC_math_diag_assign->activate( d );
     CHECK( get_avatar().get_stamina() == stam_pre / 2 );
+
+    get_avatar().set_pain( 0 );
+    get_avatar().set_stamina( 9000 );
+    effect_on_condition_EOC_math_weighted_list->activate( d );
+    CHECK( std::stod( globvars.get_global_value( "npctalk_var_weighted_var" ) ) == Approx( -999 ) );
+    get_avatar().set_pain( 9000 );
+    get_avatar().set_stamina( 0 );
+    effect_on_condition_EOC_math_weighted_list->activate( d );
+    CHECK( std::stod( globvars.get_global_value( "npctalk_var_weighted_var" ) ) == Approx( 1 ) );
 }
 
 TEST_CASE( "EOC_transform_radius", "[eoc][timed_event]" )

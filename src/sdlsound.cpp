@@ -564,9 +564,13 @@ void sfx::load_sound_effects( const JsonObject &jsobj )
         key.night = jsobj.get_bool( "is_night" );
     }
     const int volume = jsobj.get_int( "volume", 100 );
-    std::vector<std::string> variants = jsobj.get_as_string_array( "variant" );
-    if( variants.empty() ) {
-        variants.emplace_back( "default" );
+    std::vector<std::string> variants;
+    if( jsobj.has_array( "variant" ) ) {
+        variants = jsobj.get_string_array( "variant" );
+    } else if( jsobj.has_string( "variant" ) ) {
+        variants = { jsobj.get_string( "variant" ) };
+    } else {
+        variants = { "default" };
     }
     for( const std::string &variant : variants ) {
         key.variant = variant;
@@ -597,9 +601,13 @@ void sfx::load_sound_effect_preload( const JsonObject &jsobj )
         if( aobj.has_bool( "is_night" ) ) {
             preload_key.night = aobj.get_bool( "is_night" );
         }
-        std::vector<std::string> variants = jsobj.get_as_string_array( "variant" );
-        if( variants.empty() ) {
-            variants.emplace_back( "default" );
+        std::vector<std::string> variants;
+        if( aobj.has_array( "variant" ) ) {
+            variants = aobj.get_string_array( "variant" );
+        } else if( aobj.has_string( "variant" ) ) {
+            variants = { aobj.get_string( "variant" ) };
+        } else {
+            variants = { "default" };
         }
         for( const std::string &variant : variants ) {
             preload_key.variant = variant;
@@ -877,7 +885,7 @@ void load_soundset()
         loading_ui ui( false );
         DynamicDataLoader::get_instance().load_data_from_path( soundpack_path, "core", ui );
     } catch( const std::exception &err ) {
-        dbg( D_ERROR ) << "failed to load sounds: " << err.what();
+        debugmsg( "failed to load sounds: %s", err.what() );
     }
 
     // Preload sound effects

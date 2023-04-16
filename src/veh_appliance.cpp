@@ -132,6 +132,9 @@ static bool has_battery_in_grid( vehicle *veh )
 
 void veh_app_interact::init_ui_windows()
 {
+    imenu.reset();
+    populate_app_actions();
+
     int height_info = veh->get_printable_fuel_types().size() + 2;
 
     if( !has_battery_in_grid( veh ) ) {
@@ -567,7 +570,6 @@ shared_ptr_fast<ui_adaptor> veh_app_interact::create_or_get_ui_adaptor()
 {
     shared_ptr_fast<ui_adaptor> current_ui = ui.lock();
     if( !current_ui ) {
-        populate_app_actions();
         ui = current_ui = make_shared_fast<ui_adaptor>();
         current_ui->on_screen_resize( [this]( ui_adaptor & cui ) {
             init_ui_windows();
@@ -586,15 +588,10 @@ shared_ptr_fast<ui_adaptor> veh_app_interact::create_or_get_ui_adaptor()
 void veh_app_interact::app_loop()
 {
     bool done = false;
-    bool repop_actions = false;
     while( !done ) {
-        if( repop_actions ) {
-            populate_app_actions();
-            repop_actions = false;
-        }
-
         // scope this tighter so that this ui is hidden when app_actions[ret]() triggers
         {
+            ui.reset();
             shared_ptr_fast<ui_adaptor> current_ui = create_or_get_ui_adaptor();
             ui_manager::redraw();
             shared_ptr_fast<ui_adaptor> input_ui = imenu.create_or_get_ui_adaptor();
@@ -606,7 +603,6 @@ void veh_app_interact::app_loop()
             done = true;
         } else if( imenu.entries[ret].enabled ) {
             app_actions[ret]();
-            repop_actions = true;
         }
         // Player activity queued up, close interaction menu
         if( !act.is_null() || !get_player_character().activity.is_null() ) {

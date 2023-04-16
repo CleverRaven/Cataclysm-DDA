@@ -17,6 +17,7 @@
 #include "generic_factory.h"
 #include "gun_mode.h"
 #include "item.h"
+#include "item_factory.h"
 #include "item_pocket.h"
 #include "json.h"
 #include "line.h"
@@ -941,10 +942,11 @@ void gun_actor::shoot( monster &z, const tripoint &target, const gun_mode_id &mo
 {
     z.moves -= move_cost;
 
-    item gun( gun_type );
+    itype_id mig_gun_type = item_controller->migrate_id( gun_type );
+    item gun( mig_gun_type );
     gun.gun_set_mode( mode );
 
-    itype_id ammo = ammo_type;
+    itype_id ammo = item_controller->migrate_id( ammo_type );
     if( ammo.is_null() ) {
         if( gun.magazine_integral() ) {
             ammo = gun.ammo_default();
@@ -955,10 +957,10 @@ void gun_actor::shoot( monster &z, const tripoint &target, const gun_mode_id &mo
 
     if( !ammo.is_null() ) {
         if( gun.magazine_integral() ) {
-            gun.ammo_set( ammo, z.ammo[ammo] );
+            gun.ammo_set( ammo, z.ammo[ammo_type] );
         } else {
             item mag( gun.magazine_default() );
-            mag.ammo_set( ammo, z.ammo[ammo] );
+            mag.ammo_set( ammo, z.ammo[ammo_type] );
             gun.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL );
         }
     }
@@ -967,7 +969,7 @@ void gun_actor::shoot( monster &z, const tripoint &target, const gun_mode_id &mo
         return;
     }
 
-    add_msg_debug( debugmode::DF_MATTACK, "%d ammo (%s) remaining", z.ammo[ammo],
+    add_msg_debug( debugmode::DF_MATTACK, "%d ammo (%s) remaining", z.ammo[ammo_type],
                    gun.ammo_sort_name() );
 
     if( !gun.ammo_sufficient( nullptr ) ) {
@@ -1003,8 +1005,8 @@ void gun_actor::shoot( monster &z, const tripoint &target, const gun_mode_id &mo
 
     if( throwing ) {
         tmp.throw_item( target, item( ammo, calendar::turn, 1 ) );
-        z.ammo[ammo]--;
+        z.ammo[ammo_type]--;
     } else {
-        z.ammo[ammo] -= tmp.fire_gun( target, gun.gun_current_mode().qty );
+        z.ammo[ammo_type] -= tmp.fire_gun( target, gun.gun_current_mode().qty );
     }
 }

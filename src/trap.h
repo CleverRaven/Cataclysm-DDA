@@ -11,6 +11,7 @@
 #include <vector>
 
 #include "color.h"
+#include "flat_set.h"
 #include "magic.h"
 #include "translations.h"
 #include "type_id.h"

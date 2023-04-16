@@ -487,6 +487,7 @@ class talker
             return true;
         }
         virtual void mod_pain( int ) {}
+        virtual void set_pain( int ) {}
         virtual int pain_cur() const {
             return 0;
         }
