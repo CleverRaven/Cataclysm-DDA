@@ -125,26 +125,25 @@ struct mission_fail {
     static void standard( mission * ) {}
 };
 
-template<class T>
 struct mission_target_params {
-    str_or_var<T> overmap_terrain;
+    str_or_var overmap_terrain;
     ot_match_type overmap_terrain_match_type = ot_match_type::type;
     mission *mission_pointer = nullptr;
 
     bool origin_u = true;
     std::optional<tripoint_rel_omt> offset;
-    std::optional<str_or_var<T>> replaceable_overmap_terrain;
-    std::optional<str_or_var<T>> overmap_special;
-    std::optional<dbl_or_var<T>> reveal_radius;
+    std::optional<str_or_var> replaceable_overmap_terrain;
+    std::optional<str_or_var> overmap_special;
+    std::optional<dbl_or_var> reveal_radius;
     std::optional<var_info> target_var;
-    dbl_or_var<T> min_distance;
+    dbl_or_var min_distance;
 
     bool must_see = false;
     bool cant_see = false;
     bool random = false;
     bool create_if_necessary = true;
-    dbl_or_var<T> search_range;
-    std::optional<dbl_or_var<T>> z;
+    dbl_or_var search_range;
+    std::optional<dbl_or_var> z;
     npc *guy = nullptr;
 };
 
@@ -166,30 +165,16 @@ void set_reveal( const std::string &terrain,
                  std::vector<std::function<void( mission *miss )>> &funcs );
 void set_reveal_any( const JsonArray &ja,
                      std::vector<std::function<void( mission *miss )>> &funcs );
-mission_target_params<dialogue> parse_mission_om_target( const JsonObject &jo );
-std::optional<tripoint_abs_omt> assign_mission_target( const mission_target_params<dialogue>
+mission_target_params parse_mission_om_target( const JsonObject &jo );
+std::optional<tripoint_abs_omt> assign_mission_target( const mission_target_params
         &params );
-tripoint_abs_omt get_om_terrain_pos( const mission_target_params<dialogue> &params );
+tripoint_abs_omt get_om_terrain_pos( const mission_target_params &params );
 void set_assign_om_target( const JsonObject &jo,
                            std::vector<std::function<void( mission *miss )>> &funcs );
 bool set_update_mapgen( const JsonObject &jo,
                         std::vector<std::function<void( mission *miss )>> &funcs );
 bool load_funcs( const JsonObject &jo, std::vector<std::function<void( mission *miss )>> &funcs );
 } // namespace mission_util
-
-struct mission_goal_condition_context {
-    mission_goal_condition_context() = default;
-    std::unique_ptr<talker> alpha;
-    std::unique_ptr<talker> beta;
-    bool has_alpha = false;
-    bool has_beta = false;
-    std::vector<mission *> missions_assigned;
-    mutable std::string reason;
-    bool by_radio = false;
-    talker *actor( const bool is_beta ) const {
-        return ( is_beta ? beta : alpha ).get();
-    }
-};
 
 struct mission_type {
     public:
@@ -244,7 +229,7 @@ struct mission_type {
         std::map<std::string, translation> dialogue;
 
         // A dynamic goal condition invoked by MGOAL_CONDITION.
-        std::function<bool( const mission_goal_condition_context & )> goal_condition;
+        std::function<bool( const struct dialogue & )> goal_condition;
 
         mission_type() = default;
 
@@ -269,7 +254,7 @@ struct mission_type {
          */
         static const std::vector<mission_type> &get_all();
 
-        bool test_goal_condition( const mission_goal_condition_context &d ) const;
+        bool test_goal_condition( const struct dialogue &d ) const;
 
         static void reset();
         static void load_mission_type( const JsonObject &jo, const std::string &src );

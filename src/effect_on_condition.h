@@ -50,13 +50,13 @@ struct effect_on_condition {
         eoc_type type;
         std::function<bool( const dialogue & )> condition;
         std::function<bool( const dialogue & )> deactivate_condition;
-        talk_effect_t<dialogue> true_effect;
-        talk_effect_t<dialogue> false_effect;
+        talk_effect_t true_effect;
+        talk_effect_t false_effect;
         bool has_deactivate_condition = false;
         bool has_condition = false;
         bool has_false_effect = false;
         event_type required_event;
-        duration_or_var<dialogue> recurrence;
+        duration_or_var recurrence;
         bool activate( dialogue &d ) const;
         bool check_deactivate( dialogue &d ) const;
         bool test_condition( dialogue &d ) const;

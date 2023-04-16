@@ -233,98 +233,98 @@ class spell_type
         // if the spell has a field name defined, this is where it is
         std::optional<field_type_id> field = std::nullopt;
         // the chance one_in( field_chance ) that the field spawns at a tripoint in the area of the spell
-        dbl_or_var<dialogue> field_chance;
+        dbl_or_var field_chance;
         // field intensity at spell level 0
-        dbl_or_var<dialogue> min_field_intensity;
+        dbl_or_var min_field_intensity;
         // increment of field intensity per level
-        dbl_or_var<dialogue> field_intensity_increment;
+        dbl_or_var field_intensity_increment;
         // maximum field intensity allowed
-        dbl_or_var<dialogue> max_field_intensity;
+        dbl_or_var max_field_intensity;
         // field intensity added to the map is +- ( 1 + field_intensity_variance ) * field_intensity
-        dbl_or_var<dialogue> field_intensity_variance;
+        dbl_or_var field_intensity_variance;
 
         // accuracy is a bonus against dodge, block, and spellcraft
         // which allows the target to mitigate up to 33% damage for each type of resistance
         // this could theoretically add up to 100%
 
-        dbl_or_var<dialogue> min_accuracy;
-        dbl_or_var<dialogue> accuracy_increment;
-        dbl_or_var<dialogue> max_accuracy;
+        dbl_or_var min_accuracy;
+        dbl_or_var accuracy_increment;
+        dbl_or_var max_accuracy;
 
         // minimum damage this spell can cause
-        dbl_or_var<dialogue> min_damage;
+        dbl_or_var min_damage;
         // amount of damage increase per spell level
-        dbl_or_var<dialogue> damage_increment;
+        dbl_or_var damage_increment;
         // maximum damage this spell can cause
-        dbl_or_var<dialogue> max_damage;
+        dbl_or_var max_damage;
 
         // minimum range of a spell
-        dbl_or_var<dialogue> min_range;
+        dbl_or_var min_range;
         // amount of range increase per spell level
-        dbl_or_var<dialogue> range_increment;
+        dbl_or_var range_increment;
         // max range this spell can achieve
-        dbl_or_var<dialogue> max_range;
+        dbl_or_var max_range;
 
         // minimum area of effect of a spell (radius)
         // 0 means the spell only affects the target
-        dbl_or_var<dialogue> min_aoe;
+        dbl_or_var min_aoe;
         // amount of area of effect increase per spell level (radius)
-        dbl_or_var<dialogue> aoe_increment;
+        dbl_or_var aoe_increment;
         // max area of effect of a spell (radius)
-        dbl_or_var<dialogue> max_aoe;
+        dbl_or_var max_aoe;
 
         // damage over time deals damage per turn
 
         // minimum damage over time
-        dbl_or_var<dialogue> min_dot;
+        dbl_or_var min_dot;
         // increment per spell level
-        dbl_or_var<dialogue> dot_increment;
+        dbl_or_var dot_increment;
         // max damage over time
-        dbl_or_var<dialogue> max_dot;
+        dbl_or_var max_dot;
 
         // amount of time effect lasts
 
         // minimum time for effect in moves
-        dbl_or_var<dialogue> min_duration;
+        dbl_or_var min_duration;
         // increment per spell level in moves
         // DoT is per turn, but increments can be smaller
-        dbl_or_var<dialogue> duration_increment;
+        dbl_or_var duration_increment;
         // max time for effect in moves
-        dbl_or_var<dialogue> max_duration;
+        dbl_or_var max_duration;
 
         // amount of damage that is piercing damage
         // not added to damage stat
 
         // minimum pierce damage
-        dbl_or_var<dialogue> min_pierce;
+        dbl_or_var min_pierce;
         // increment of pierce damage per spell level
-        dbl_or_var<dialogue> pierce_increment;
+        dbl_or_var pierce_increment;
         // max pierce damage
-        dbl_or_var<dialogue> max_pierce;
+        dbl_or_var max_pierce;
 
         // base energy cost of spell
-        dbl_or_var<dialogue> base_energy_cost;
+        dbl_or_var base_energy_cost;
         // increment of energy cost per spell level
-        dbl_or_var<dialogue> energy_increment;
+        dbl_or_var energy_increment;
         // max or min energy cost, based on sign of energy_increment
-        dbl_or_var<dialogue> final_energy_cost;
+        dbl_or_var final_energy_cost;
 
         // spell is restricted to being cast by only this class
         // if spell_class is empty, spell is unrestricted
         trait_id spell_class;
 
         // the difficulty of casting a spell
-        dbl_or_var<dialogue> difficulty;
+        dbl_or_var difficulty;
 
         // max level this spell can achieve
-        dbl_or_var<dialogue> max_level;
+        dbl_or_var max_level;
 
         // base amount of time to cast the spell in moves
-        dbl_or_var<dialogue> base_casting_time;
+        dbl_or_var base_casting_time;
         // increment of casting time per level
-        dbl_or_var<dialogue> casting_time_increment;
+        dbl_or_var casting_time_increment;
         // max or min casting time
-        dbl_or_var<dialogue> final_casting_time;
+        dbl_or_var final_casting_time;
 
         // Does leveling this spell lead to learning another spell?
         std::map<std::string, int> learn_spells;
