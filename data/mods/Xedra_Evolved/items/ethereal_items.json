@@ -107,7 +107,7 @@
     ]
   },
   {
-    "type": "GENERIC",
+    "type": "TOOL",
     "id": "xe_oneiric_hammer",
     "name": { "str": "Oneiric Hammer" },
     "description": "The platonic embodiment of a blacksmiths hammer.  This hammer is necessary to forge or repair items made of forged dreamstuff.",
