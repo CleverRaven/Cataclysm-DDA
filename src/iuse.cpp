@@ -8277,7 +8277,7 @@ std::optional<int> iuse::multicooker( Character *p, item *it, bool t, const trip
             }
 
             if( !cinv.has_quality( qual_SCREW_FINE ) ) {
-                p->add_msg_if_player( m_warning, _( "You need an item with %s of 1 or more to disassemble this." ),
+                p->add_msg_if_player( m_warning, _( "You need an item with %s of 1 or more to upgrade this." ),
                                       qual_SCREW_FINE.obj().name );
                 has_tools = false;
             }
