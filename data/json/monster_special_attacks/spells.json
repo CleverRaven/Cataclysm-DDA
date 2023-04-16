@@ -541,6 +541,19 @@
     "effect": "attack"
   },
   {
+    "type": "SPELL",
+    "id": "portal_severely_hurt_self",
+    "name": { "str": "Hurt Self" },
+    "description": "Touching/perceiving you is bad for the other side as well.",
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
+    "min_damage": 30,
+    "max_damage": 30,
+    "damage_type": "pure",
+    "valid_targets": [ "self" ],
+    "shape": "blast",
+    "effect": "attack"
+  },
+  {
     "type": "effect_on_condition",
     "id": "EOC_shifting_mass_attack",
     "condition": { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } },
@@ -569,8 +582,8 @@
     "name": { "str": "Impossible Shape Attack" },
     "description": "Hurts you mentally.",
     "copy-from": "base_portal",
-    "min_range": 1,
-    "max_range": 60,
+    "min_range": 50,
+    "max_range": 50,
     "effect_str": "EOC_impossible_shape_attack"
   },
   {
@@ -727,8 +740,8 @@
     "condition": "u_can_see",
     "effect": [
       { "u_add_effect": "nightmares", "duration": "18 hours" },
-      { "arithmetic": [ { "u_val": "pain" }, "+=", { "const": 15 } ] },
-      { "arithmetic": [ { "u_val": "stamina" }, "-=", { "const": 300 } ] }
+      { "arithmetic": [ { "u_val": "pain" }, "+=", { "const": 3 } ] },
+      { "arithmetic": [ { "u_val": "stamina" }, "-=", { "const": 20 } ] }
     ]
   },
   {
@@ -737,6 +750,7 @@
     "name": { "str": "Swarm Structure Action" },
     "description": "Teleports and summons monsters.",
     "copy-from": "base_portal",
+    "extra_effects": [ { "id": "portal_severely_hurt_self", "hit_self": true } ],
     "min_range": 15,
     "max_range": 15,
     "effect_str": "EOC_mon_swarm_structure_attack"

@@ -266,11 +266,11 @@
     "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
     "effect": {
       "weighted_list_eocs": [
-        [ "EOC_PORTAL_GRASS_CHANGE", { "const": 1 } ],
-        [ "EOC_PORTAL_LIGHT", { "const": 1 } ],
+        [ "EOC_PORTAL_GRASS_CHANGE", { "const": 10 } ],
+        [ "EOC_PORTAL_LIGHT", { "const": 2 } ],
         [ "EOC_PORTAL_ARTIFACT_WEAK", { "const": 1 } ],
-        [ "EOC_PORTAL_ABSENCE", { "const": 1 } ],
-        [ "EOC_PORTAL_IMPOSSIBLE_SHAPE", { "const": 1 } ],
+        [ "EOC_PORTAL_ABSENCE", { "const": 4 } ],
+        [ "EOC_PORTAL_IMPOSSIBLE_SHAPE", { "const": 5 } ],
         [ "EOC_PORTAL_SHIFTING_MASS", { "const": 1 } ],
         [ "EOC_PORTAL_MEMORIES", { "const": 1 } ],
         [ "EOC_PORTAL_GIANT_APPENDAGE", { "const": 1 } ],
@@ -292,16 +292,19 @@
       ]
     },
     "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
-    "effect": {
-      "weighted_list_eocs": [
-        [ "EOC_PORTAL_TELEPORT_STUCK_START", { "const": 2 } ],
-        [ "EOC_PORTAL_PAIN", { "const": 2 } ],
-        [ "EOC_PORTAL_HALLUCINATOR", { "const": 2 } ],
-        [ "EOC_PORTAL_SMOKE", { "const": 2 } ],
-        [ "EOC_PORTAL_SWARM_STRUCTURE", { "const": 2 } ],
-        [ "EOC_PORTAL_TAUNT", { "const": 1 } ]
-      ]
-    }
+    "effect": [
+      { "run_eocs": "EOC_PORTAL_MESSAGE" },
+      {
+        "weighted_list_eocs": [
+          [ "EOC_PORTAL_TELEPORT_STUCK_START", { "const": 2 } ],
+          [ "EOC_PORTAL_PAIN", { "const": 2 } ],
+          [ "EOC_PORTAL_HALLUCINATOR", { "const": 2 } ],
+          [ "EOC_PORTAL_SMOKE", { "const": 2 } ],
+          [ "EOC_PORTAL_SWARM_STRUCTURE", { "const": 2 } ],
+          [ "EOC_PORTAL_TAUNT", { "const": 1 } ]
+        ]
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -317,7 +320,7 @@
       ]
     },
     "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
-    "effect": [ { "run_eocs": "EOC_PORTAL_MESSAGE" }, { "math": [ "u_ire", "++" ] } ]
+    "effect": [ { "math": [ "u_ire", "++" ] }, { "u_message": "PORTAL_STORM_WITNESSED", "snippet": true } ]
   },
   {
     "type": "effect_on_condition",
@@ -570,7 +573,7 @@
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_TAUNT",
     "effect": [
-      { "u_message": "PORTAL_STORM_VOICES_3", "snippet": true },
+      { "u_message": "PORTAL_STORM_VOICES_DRAW_ATTENTION", "snippet": true },
       { "u_make_sound": "The voice was loud, it might have drawn attention to you!", "volume": 20, "type": "combat" }
     ]
   },
