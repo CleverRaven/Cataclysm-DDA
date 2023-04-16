@@ -7,9 +7,32 @@
     "add_veh_tools": [ "welder", "soldering_iron", "forge", "kiln" ]
   },
   {
+    "type": "vehicle_part_migration",
+    "//": "migration to VEH_TOOLS, remove after 0.H release",
+    "from": "afs_kitchen_rig",
+    "to": "veh_tools_kitchen",
+    "add_veh_tools": [
+      "vac_sealer",
+      "dehydrator",
+      "food_processor",
+      "press",
+      "puller",
+      "pot",
+      "pan",
+      "chemistry_set",
+      "electrolysis_kit",
+      "water_purifier"
+    ]
+  },
+  {
     "id": "afs_metal_rig",
     "type": "MIGRATION",
     "//": "migration to VEH_TOOLS, remove after 0.H release",
     "replace": "veh_tools_workshop"
+  },
+  {
+    "id": "afs_kitchen_rig",
+    "type": "MIGRATION",
+    "replace": "veh_tools_kitchen"
   }
 ]

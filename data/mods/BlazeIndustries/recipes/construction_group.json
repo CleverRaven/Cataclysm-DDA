@@ -6,11 +6,6 @@
   },
   {
     "type": "construction_group",
-    "id": "place_kitchen_rig",
-    "name": "Place KitchenMaster Cooking Buddy"
-  },
-  {
-    "type": "construction_group",
     "id": "convert_fridge_power_supply",
     "name": "Convert Fridge Power Supply"
   },
