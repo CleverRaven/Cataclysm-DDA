@@ -2825,7 +2825,7 @@ Damage resistance values, used by:
 
 ### Vehicles
 
-See also [VEHICLE_JSON.md](VEHICLE_JSON.md)
+See also [VEHICLES_JSON.md](VEHICLES_JSON.md)
 
 ```C++
 "id": "shopping_cart",                     // Internally-used name.

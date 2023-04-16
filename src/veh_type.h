@@ -524,6 +524,7 @@ struct vehicle_prototype {
         std::set<itype_id> ammo_types;
         std::pair<int, int> ammo_qty = { -1, -1 };
         itype_id fuel = itype_id::NULL_ID();
+        std::vector<itype_id> tools;
     };
 
     struct zone_def {

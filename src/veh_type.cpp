@@ -1366,6 +1366,7 @@ void vehicle_prototype::load( const JsonObject &jo )
         assign( part, "ammo_types", pt.ammo_types, true );
         assign( part, "ammo_qty", pt.ammo_qty, true, 0 );
         assign( part, "fuel", pt.fuel, true );
+        assign( part, "tools", pt.tools, true );
 
         vproto.parts.push_back( pt );
     };
@@ -1492,10 +1493,16 @@ void vehicle_prototype::finalize()
                 continue;
             }
 
-            if( blueprint.install_part( pt.pos, pt.part, pt.variant ) < 0 ) {
+            const int part_idx = blueprint.install_part( pt.pos, pt.part, pt.variant );
+            if( part_idx < 0 ) {
                 debugmsg( "init_vehicles: '%s' part '%s'(%d) can't be installed to %d,%d",
                           blueprint.name, pt.part.c_str(),
                           blueprint.part_count(), pt.pos.x, pt.pos.y );
+            } else {
+                vehicle_part &vp = blueprint.part( part_idx );
+                for( const itype_id &it : pt.tools ) {
+                    blueprint.get_tools( vp ).emplace_back( it, calendar::turn );
+                }
             }
 
             std::vector<itype_id> migrated;
