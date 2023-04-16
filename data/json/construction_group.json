@@ -1181,28 +1181,8 @@
   },
   {
     "type": "construction_group",
-    "id": "place_foodco",
-    "name": "Place FOODCO"
-  },
-  {
-    "type": "construction_group",
     "id": "place_microwave",
     "name": "Place Microwave"
-  },
-  {
-    "type": "construction_group",
-    "id": "place_chemlab",
-    "name": "Place Onboard Chemistry Lab"
-  },
-  {
-    "type": "construction_group",
-    "id": "place_weldrig",
-    "name": "Place Welding Rig"
-  },
-  {
-    "type": "construction_group",
-    "id": "place_weldkit",
-    "name": "Place Welding Kit"
   },
   {
     "type": "construction_group",
