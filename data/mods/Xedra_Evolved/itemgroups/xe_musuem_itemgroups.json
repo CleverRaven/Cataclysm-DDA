@@ -3,9 +3,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "id": "alt_shirts",
-    "items": [
-      [ "alt_tshirt", 80 ]
-    ]
+    "items": [ [ "alt_tshirt", 80 ] ]
   },
   {
     "type": "item_group",
@@ -44,16 +42,12 @@
     "type": "item_group",
     "subtype": "distribution",
     "id": "museum_plaques_visitors",
-    "items": [
-      [ "museum_plaques_visitors", 80 ]
-    ]
+    "items": [ [ "museum_plaques_visitors", 80 ] ]
   },
   {
     "type": "item_group",
     "subtype": "distribution",
     "id": "museum_plaques_items",
-    "items": [
-      [ "museum_plaques_items", 80 ]
-    ]
+    "items": [ [ "museum_plaques_items", 80 ] ]
   }
 ]
