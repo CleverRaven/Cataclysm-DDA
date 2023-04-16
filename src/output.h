@@ -1179,7 +1179,7 @@ void refresh_display();
  * @return Colorized string.
  */
 template<typename F>
-std::string colorize_symbols( const std::string &str, F color_of )
+std::string colorize_symbols( const std::string_view str, F color_of )
 {
     std::string res;
     nc_color prev_color = c_unset;

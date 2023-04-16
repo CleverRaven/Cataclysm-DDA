@@ -1090,7 +1090,7 @@ class TextJsonObject
             return jsin->get_enum_value<E>();
         }
         template<typename E, typename = typename std::enable_if<std::is_enum<E>::value>::type>
-        E get_enum_value( const std::string &name ) const {
+        E get_enum_value( const std::string_view name ) const {
             mark_visited( name );
             jsin->seek( verify_position( name ) );
             return jsin->get_enum_value<E>();
@@ -1108,7 +1108,7 @@ class TextJsonObject
 
         // get_tags returns empty set if none found
         template<typename T = std::string, typename Res = std::set<T>>
-        Res get_tags( const std::string &name ) const;
+        Res get_tags( std::string_view name ) const;
 
         // TODO: some sort of get_map(), maybe
 
@@ -1132,7 +1132,7 @@ class TextJsonObject
         // throw_on_error dictates the behavior when the member was present
         // but the read fails.
         template <typename T>
-        bool read( const std::string &name, T &t, bool throw_on_error = true ) const {
+        bool read( const std::string_view name, T &t, bool throw_on_error = true ) const {
             int pos = verify_position( name, false );
             if( !pos ) {
                 return false;
@@ -1539,7 +1539,7 @@ Res TextJsonArray::get_tags( const size_t index ) const
 }
 
 template <typename T, typename Res>
-Res TextJsonObject::get_tags( const std::string &name ) const
+Res TextJsonObject::get_tags( const std::string_view name ) const
 {
     Res res;
     int pos = verify_position( name, false );
