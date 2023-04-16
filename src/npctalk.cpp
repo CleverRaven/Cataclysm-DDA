@@ -2991,11 +2991,11 @@ void talk_effect_fun_t::set_npc_goal( const JsonObject &jo, const std::string_vi
 }
 
 void talk_effect_fun_t::set_guard_pos( const JsonObject &jo, const std::string &member,
-        bool is_npc )
+                                       bool is_npc )
 {
     std::optional<var_info> target_var = read_var_info( jo.get_object( member ) );
     bool unique_id = jo.get_bool( "unique_id", false );
-    function = [target_var, unique_id, is_npc]( const T & d ) {
+    function = [target_var, unique_id, is_npc]( dialogue const & d ) {
         npc *guy = d.actor( is_npc )->get_npc();
         if( guy ) {
             var_info cur_var = target_var.value();
