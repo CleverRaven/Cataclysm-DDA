@@ -133,6 +133,8 @@
     "relic_data": {
       "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "multiply": -1 } ] } ]
     },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "scrap_dreamdross": 5 } } ],
+    "charges_per_use": 1,
     "use_action": [
       {
         "type": "repair_item",
@@ -143,7 +145,8 @@
         "cost_scaling": 0.1,
         "move_cost": 100
       }
-    ]
+    ],
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "type": "GENERIC",
