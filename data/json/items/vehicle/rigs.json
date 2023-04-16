@@ -13,13 +13,6 @@
     "color": "light_cyan"
   },
   {
-    "id": "chemlab",
-    "copy-from": "vehicle_rig",
-    "type": "GENERIC",
-    "name": { "str": "onboard chemistry lab" },
-    "description": "Assembled from a chemistry set attached to a complex wiring harness, it is well-suited to most any chemistry project you could imagine.  Unable to utilize standard batteries, it requires an external supply of electricity to operate."
-  },
-  {
     "id": "craftrig",
     "copy-from": "vehicle_rig",
     "type": "GENERIC",

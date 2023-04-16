@@ -5,6 +5,11 @@
     "replace": "veh_tools_workshop"
   },
   {
+    "id": "chemlab",
+    "type": "MIGRATION",
+    "replace": "veh_tools_kitchen"
+  },
+  {
     "type": "vehicle_part_migration",
     "//": "migration to VEH_TOOLS, remove after 0.H release",
     "from": "ap_weldkit",
@@ -24,5 +29,19 @@
     "from": "ap_weldrig",
     "to": "veh_tools_workshop",
     "add_veh_tools": [ "welder", "soldering_iron" ]
+  },
+  {
+    "type": "vehicle_part_migration",
+    "//": "migration to VEH_TOOLS, remove after 0.H release",
+    "from": "ap_chemlab",
+    "to": "veh_tools_kitchen",
+    "add_veh_tools": [ "chemistry_set", "electrolysis_kit" ]
+  },
+  {
+    "type": "vehicle_part_migration",
+    "//": "migration to VEH_TOOLS, remove after 0.H release",
+    "from": "chemlab",
+    "to": "veh_tools_kitchen",
+    "add_veh_tools": [ "chemistry_set", "electrolysis_kit" ]
   }
 ]

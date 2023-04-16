@@ -1191,11 +1191,6 @@
   },
   {
     "type": "construction_group",
-    "id": "place_chemlab",
-    "name": "Place Onboard Chemistry Lab"
-  },
-  {
-    "type": "construction_group",
     "id": "place_arcade_machine",
     "name": "Place Arcade Machine"
   },

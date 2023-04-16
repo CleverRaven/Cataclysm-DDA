@@ -220,15 +220,6 @@
   },
   {
     "type": "vehicle_part",
-    "id": "ap_chemlab",
-    "name": { "str": "chemistry lab" },
-    "description": "A small chemistry station, including a hotplate and electrolysis setup powered by the vehicle's batteries.",
-    "item": "chemlab",
-    "flags": [ "CARGO", "OBSTACLE", "APPLIANCE" ],
-    "copy-from": "chemlab"
-  },
-  {
-    "type": "vehicle_part",
     "id": "ap_kiln",
     "description": "An electric kiln for baking brick or clay.  When plugged in and powered you could use this to harden bricks or clay.  If you attempt to craft an item that needs a kiln, you will be given the option of selecting it as a tool.",
     "flags": [ "CARGO", "OBSTACLE", "APPLIANCE" ],
