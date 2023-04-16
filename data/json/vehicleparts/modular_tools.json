@@ -156,6 +156,6 @@
     "looks_like": "welding_rig",
     "item": "veh_tools_workshop",
     "//": "allow tools here that require high power draw but no fume hood",
-    "extend": { "allowed_tools": [ "welding_kit", "welder", "forge", "kiln" ] }
+    "extend": { "allowed_tools": [ "welding_kit", "welder" ] }
   }
 ]

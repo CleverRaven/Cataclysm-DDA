@@ -28,6 +28,13 @@
   },
   {
     "type": "vehicle_part",
+    "id": "veh_tools_workshop",
+    "copy-from": "veh_tools_workshop",
+    "looks_like": "welding_rig",
+    "extend": { "allowed_tools": [ "forge", "kiln" ] }
+  },
+  {
+    "type": "vehicle_part",
     "id": "afs_fridge",
     "copy-from": "minifridge",
     "name": { "str": "refrigerator" },
