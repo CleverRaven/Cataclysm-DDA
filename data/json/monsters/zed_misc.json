@@ -562,6 +562,7 @@
       { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
       { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
     ],
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_hulk" ], 
     "vision_day": 83,
     "vision_night": 8,
     "harvest": "zombie",
