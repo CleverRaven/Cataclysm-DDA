@@ -1073,9 +1073,12 @@ void set_points( tab_manager &tabs, avatar &u, pool_type &pool )
 
 void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
 {
+    // TODO: Move this out to a common header and eliminate other separate instances of these strings.
+    static const std::array<translation, 4> stat_labels = { to_translation( "Strength" ), to_translation( "Dexterity" ), to_translation( "Intelligence" ), to_translation( "Perception" ) };
     const int max_stat_points = pool == pool_type::FREEFORM ? 20 : MAX_STAT;
+    const int min_stat_points = 4;
 
-    unsigned char sel = 1;
+    unsigned char sel = 0;
     const int iSecondColumn = std::max( 27,
                                         utf8_width( pools_to_string( u, pool ), true ) + 9 );
     input_context ctxt( "NEW_CHAR_STATS" );
@@ -1096,6 +1099,8 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
     ui.on_screen_resize( init_windows );
 
     u.reset();
+
+    std::array<int *, 4> stats = { &u.str_max, &u.dex_max, &u.int_max, &u.per_max };
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w );
@@ -1122,27 +1127,37 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
 
         draw_points( w, pool, u );
 
-        mvwprintz( w, point( 2, 6 ), c_light_gray, _( "Strength:" ) );
-        mvwprintz( w, point( 16, 6 ), c_light_gray, "%2d", u.str_max );
-        mvwprintz( w, point( 2, 7 ), c_light_gray, _( "Dexterity:" ) );
-        mvwprintz( w, point( 16, 7 ), c_light_gray, "%2d", u.dex_max );
-        mvwprintz( w, point( 2, 8 ), c_light_gray, _( "Intelligence:" ) );
-        mvwprintz( w, point( 16, 8 ), c_light_gray, "%2d", u.int_max );
-        mvwprintz( w, point( 2, 9 ), c_light_gray, _( "Perception:" ) );
-        mvwprintz( w, point( 16, 9 ), c_light_gray, "%2d", u.per_max );
+        for( int i = 0; i < 4; i++ ) {
+            mvwprintz( w, point( 2, i + 6 ), c_light_gray, "%s:", stat_labels[i].translated() );
+            mvwprintz( w, point( 16, i + 6 ), c_light_gray, "%2d", *stats[i] );
+        }
 
         werase( w_description );
         u.reset_stats();
         u.set_stored_kcal( u.get_healthy_kcal() );
         u.reset_bonuses(); // Removes pollution of stats by modifications appearing inside reset_stats(). Is reset_stats() even necessary in this context?
+
+        mvwprintz( w, point( 2, sel + 6 ), COL_SELECT, "%s:", stat_labels[sel].translated() );
+        mvwprintz( w, point( 16, sel + 6 ), c_light_gray, "%2d", *stats[sel] );
+        if( *stats[sel] <= min_stat_points ) {
+            mvwprintz( w, point( iSecondColumn, 3 ), c_red,
+                       //~ %s - stat
+                       string_format( _( "%s cannot be further decreased" ),
+                                      stat_labels[sel].translated() ) );
+        } else if( *stats[sel] >= max_stat_points ) {
+            mvwprintz( w, point( iSecondColumn, 3 ), c_red,
+                       //~ %s - stat
+                       string_format( _( "%s cannot be further increased" ),
+                                      stat_labels[sel].translated() ) );
+        } else if( *stats[sel] >= HIGH_STAT && pool != pool_type::FREEFORM ) {
+            mvwprintz( w, point( iSecondColumn, 3 ), c_light_red,
+                       //~ %s - stat
+                       string_format( _( "Increasing %s further costs 2 points" ),
+                                      stat_labels[sel].translated() ) );
+        }
+
         switch( sel ) {
-            case 1:
-                mvwprintz( w, point( 2, 6 ), COL_SELECT, _( "Strength:" ) );
-                mvwprintz( w, point( 16, 6 ), c_light_gray, "%2d", u.str_max );
-                if( u.str_max >= HIGH_STAT && pool != pool_type::FREEFORM ) {
-                    mvwprintz( w, point( iSecondColumn, 3 ), c_light_red,
-                               _( "Increasing Str further costs 2 points" ) );
-                }
+            case 0:
                 u.recalc_hp();
                 u.set_stored_kcal( u.get_healthy_kcal() );
                 mvwprintz( w_description, point_zero, COL_STAT_NEUTRAL, _( "Base HP: %d" ),
@@ -1156,13 +1171,7 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
                                 _( "Strength also makes you more resistant to many diseases and poisons, and makes actions which require brute force more effective." ) );
                 break;
 
-            case 2:
-                mvwprintz( w, point( 2, 7 ), COL_SELECT, _( "Dexterity:" ) );
-                mvwprintz( w, point( 16, 7 ), c_light_gray, "%2d", u.dex_max );
-                if( u.dex_max >= HIGH_STAT && pool != pool_type::FREEFORM ) {
-                    mvwprintz( w, point( iSecondColumn, 3 ), c_light_red,
-                               _( "Increasing Dex further costs 2 points" ) );
-                }
+            case 1:
                 mvwprintz( w_description, point_zero, COL_STAT_BONUS, _( "Melee to-hit bonus: +%.2f" ),
                            u.get_melee_hit_base() );
                 // NOLINTNEXTLINE(cata-use-named-point-constants)
@@ -1177,13 +1186,7 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
                                 _( "Dexterity also enhances many actions which require finesse." ) );
                 break;
 
-            case 3: {
-                mvwprintz( w, point( 2, 8 ), COL_SELECT, _( "Intelligence:" ) );
-                mvwprintz( w, point( 16, 8 ), c_light_gray, "%2d", u.int_max );
-                if( u.int_max >= HIGH_STAT && pool != pool_type::FREEFORM ) {
-                    mvwprintz( w, point( iSecondColumn, 3 ), c_light_red,
-                               _( "Increasing Int further costs 2 points" ) );
-                }
+            case 2: {
                 const int read_spd = u.read_speed();
                 mvwprintz( w_description, point_zero, ( read_spd == 100 ? COL_STAT_NEUTRAL :
                                                         ( read_spd < 100 ? COL_STAT_BONUS : COL_STAT_PENALTY ) ),
@@ -1196,13 +1199,7 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
             }
             break;
 
-            case 4:
-                mvwprintz( w, point( 2, 9 ), COL_SELECT, _( "Perception:" ) );
-                mvwprintz( w, point( 16, 9 ), c_light_gray, "%2d", u.per_max );
-                if( u.per_max >= HIGH_STAT && pool != pool_type::FREEFORM ) {
-                    mvwprintz( w, point( iSecondColumn, 3 ), c_light_red,
-                               _( "Increasing Per further costs 2 points" ) );
-                }
+            case 3:
                 if( u.ranged_per_mod() > 0 ) {
                     mvwprintz( w_description, point_zero, COL_STAT_PENALTY, _( "Aiming penalty: -%d" ),
                                u.ranged_per_mod() );
@@ -1221,38 +1218,20 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
         const std::string action = ctxt.handle_input();
         if( tabs.handle_input( action, ctxt ) ) {
             break; // Tab has changed or user has quit the screen
-        } else if( action == "DOWN" ) {
-            if( sel < 4 ) {
-                sel++;
-            } else {
-                sel = 1;
-            }
-        } else if( action == "UP" ) {
-            if( sel > 1 ) {
-                sel--;
-            } else {
-                sel = 4;
-            }
         } else if( action == "LEFT" ) {
-            if( sel == 1 && u.str_max > 4 ) {
-                u.str_max--;
-            } else if( sel == 2 && u.dex_max > 4 ) {
-                u.dex_max--;
-            } else if( sel == 3 && u.int_max > 4 ) {
-                u.int_max--;
-            } else if( sel == 4 && u.per_max > 4 ) {
-                u.per_max--;
+            if( *stats[sel] > min_stat_points ) {
+                ( *stats[sel] )--;
             }
+            continue;
         } else if( action == "RIGHT" ) {
-            if( sel == 1 && u.str_max < max_stat_points ) {
-                u.str_max++;
-            } else if( sel == 2 && u.dex_max < max_stat_points ) {
-                u.dex_max++;
-            } else if( sel == 3 && u.int_max < max_stat_points ) {
-                u.int_max++;
-            } else if( sel == 4 && u.per_max < max_stat_points ) {
-                u.per_max++;
+            if( *stats[sel] < max_stat_points ) {
+                ( *stats[sel] )++;
             }
+            continue;
+        } else if( action == "DOWN" ) {
+            sel = ( sel + 5 ) % 4;
+        } else if( action == "UP" ) {
+            sel = ( sel + 3 ) % 4;
         }
     } while( true );
 }

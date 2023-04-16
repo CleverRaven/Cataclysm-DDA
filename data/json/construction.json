@@ -4770,6 +4770,30 @@
   },
   {
     "type": "construction",
+    "id": "app_veh_tools_kitchen",
+    "group": "place_veh_tools_kitchen",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "veh_tools_kitchen", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance",
+    "activity_level": "BRISK_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "app_veh_tools_workshop",
+    "group": "place_veh_tools_workshop",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "veh_tools_workshop", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance",
+    "activity_level": "BRISK_EXERCISE"
+  },
+  {
+    "type": "construction",
     "id": "app_fridge",
     "group": "place_fridge",
     "category": "APPLIANCE",
@@ -4850,50 +4874,6 @@
     "pre_special": "check_empty",
     "post_special": "done_appliance",
     "activity_level": "LIGHT_EXERCISE"
-  },
-  {
-    "type": "construction",
-    "id": "app_foodco",
-    "group": "place_foodco",
-    "category": "APPLIANCE",
-    "required_skills": [ [ "fabrication", 0 ] ],
-    "time": "5 m",
-    "components": [ [ [ "craftrig", 1 ] ] ],
-    "pre_special": "check_empty",
-    "post_special": "done_appliance"
-  },
-  {
-    "type": "construction",
-    "id": "app_chemlab",
-    "group": "place_chemlab",
-    "category": "APPLIANCE",
-    "required_skills": [ [ "fabrication", 0 ] ],
-    "time": "5 m",
-    "components": [ [ [ "chemlab", 1 ] ] ],
-    "pre_special": "check_empty",
-    "post_special": "done_appliance"
-  },
-  {
-    "type": "construction",
-    "id": "app_welding_rig",
-    "group": "place_weldrig",
-    "category": "APPLIANCE",
-    "required_skills": [ [ "fabrication", 0 ] ],
-    "time": "5 m",
-    "components": [ [ [ "weldrig", 1 ] ] ],
-    "pre_special": "check_empty",
-    "post_special": "done_appliance"
-  },
-  {
-    "type": "construction",
-    "id": "app_welding_kit",
-    "group": "place_weldkit",
-    "category": "APPLIANCE",
-    "required_skills": [ [ "fabrication", 0 ] ],
-    "time": "5 m",
-    "components": [ [ [ "welding_kit", 1 ] ] ],
-    "pre_special": "check_empty",
-    "post_special": "done_appliance"
   },
   {
     "type": "construction",

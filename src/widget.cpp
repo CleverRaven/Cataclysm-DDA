@@ -67,6 +67,8 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "focus";
         case widget_var::move:
             return "move";
+        case widget_var::move_remainder:
+            return "move_remainder";
         case widget_var::move_cost:
             return "move_cost";
         case widget_var::mood:
@@ -288,7 +290,7 @@ void widget_clause::load( const JsonObject &jo )
     color = color_from_string( clr );
 
     if( jo.has_member( "condition" ) ) {
-        read_condition<dialogue>( jo, "condition", condition, false );
+        read_condition( jo, "condition", condition, false );
         has_condition = true;
     }
 
@@ -628,7 +630,12 @@ void widget::set_default_var_range( const avatar &ava )
         case widget_var::move:
             _var_min = 0;
             _var_max = 1000; // TODO: Determine better max
-            // This is a counter of remaining moves, with no normal value
+            // Move cost of last action
+            break;
+        case widget_var::move_remainder:
+            _var_min = 0;
+            _var_max = 9999; // TODO: Determine better max
+            // remaining moves for the current turn
             break;
         case widget_var::move_cost:
             _var_min = 0;
@@ -775,6 +782,9 @@ int widget::get_var_value( const avatar &ava ) const
             break;
         case widget_var::move:
             value = ava.movecounter;
+            break;
+        case widget_var::move_remainder:
+            value = ava.moves;
             break;
         case widget_var::move_cost:
             value = ava.run_cost( 100 );

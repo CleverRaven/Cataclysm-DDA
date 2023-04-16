@@ -62,7 +62,7 @@ jobs:
       run: bash ./build-scripts/requirements.sh
     - name: determine changed files
       if: ${{ github.event_name == 'pull_request' }}
-      uses: actions/github-script@v5
+      uses: actions/github-script@v6.3.3
       with:
         script: |
           var fs = require('fs');

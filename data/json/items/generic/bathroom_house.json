@@ -372,7 +372,7 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "plastic soap bottle" },
-    "description": "A squeezable bottle used to hold various bathroom soaps.",
+    "description": "A squeezable bottle used to hold various liquid soaps.",
     "looks_like": "bottle_plastic",
     "weight": "130 g",
     "volume": "502 ml",
