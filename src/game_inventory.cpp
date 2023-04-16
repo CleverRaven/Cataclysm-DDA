@@ -73,12 +73,13 @@ static const flag_id json_flag_CALORIES_INTAKE( "CALORIES_INTAKE" );
 
 static const itype_id itype_fitness_band( "fitness_band" );
 
+static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
+
 static const quality_id qual_ANESTHESIA( "ANESTHESIA" );
 
 static const requirement_id requirement_data_anesthetic( "anesthetic" );
 
 static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
-static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
 static const trait_id trait_SAPROVORE( "SAPROVORE" );
 
@@ -223,6 +224,7 @@ void game_menus::inv::common( avatar &you )
     std::string filter;
     do {
         you.inv->restack( you );
+        inv_s.drag_enabled = true;
         inv_s.clear_items();
         inv_s.add_character_items( you );
         inv_s.set_filter( filter );
@@ -1751,6 +1753,30 @@ class attach_molle_inventory_preset : public inventory_selector_preset
         const item *vest;
 };
 
+class attach_veh_tool_inventory_preset : public inventory_selector_preset
+{
+    public:
+        explicit attach_veh_tool_inventory_preset( const std::set<itype_id> &allowed_types )
+            : allowed_types( allowed_types ) { }
+
+        bool is_shown( const item_location &loc ) const override {
+            return allowed_types.count( loc->typeId() );
+        }
+
+        std::string get_denial( const item_location &loc ) const override {
+            const item &it = *loc.get_item();
+
+            if( !it.empty() || !it.toolmods().empty() ) {
+                return "item needs to be empty.";
+            }
+
+            return std::string();
+        }
+
+    private:
+        const std::set<itype_id> allowed_types;
+};
+
 class salvage_inventory_preset: public inventory_selector_preset
 {
     public:
@@ -1931,6 +1957,18 @@ item_location game_menus::inv::molle_attach( Character &you, item &tool )
                                                 vacancies ), vacancies )
                                       )
                        );
+}
+
+item_location game_menus::inv::veh_tool_attach( Character &you, const std::string &vp_name,
+        const std::set<itype_id> &allowed_types )
+{
+    return inv_internal( you, attach_veh_tool_inventory_preset( allowed_types ),
+                         string_format( _( "Attach an item to the %s" ), vp_name ), 1,
+                         string_format( _( "You don't have any items compatible with %s.\n\nAllowed equipment:\n%s" ),
+    vp_name, enumerate_as_string( allowed_types, []( const itype_id & it ) {
+        return it->nname( 1 );
+    } ) ),
+    string_format( _( "Choose a tool to attach to %s" ), vp_name ) );
 }
 
 drop_locations game_menus::inv::multidrop( Character &you )
@@ -2230,7 +2268,7 @@ static item_location autodoc_internal( Character &you, Character &patient,
     int drug_count = 0;
 
     if( !surgeon ) {//surgeon use their own anesthetic, player just need money
-        if( patient.has_trait( trait_NOPAIN ) ) {
+        if( patient.has_flag( json_flag_PAIN_IMMUNE ) ) {
             hint = _( "<color_yellow>Patient has deadened nerves.  Anesthesia unneeded.</color>" );
         } else if( patient.has_bionic( bio_painkiller ) ) {
             hint = _( "<color_yellow>Patient has Sensory Dulling CBM installed.  Anesthesia unneeded.</color>" );

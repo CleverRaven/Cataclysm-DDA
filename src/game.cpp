@@ -2971,111 +2971,166 @@ bool game::load( const std::string &world )
 
 bool game::load( const save_t &name )
 {
-    background_pane background;
-    static_popup popup;
-    popup.message( "%s", _( "Please wait…\nLoading the save…" ) );
-    ui_manager::redraw();
-    refresh_display();
+    loading_ui ui( true );
+    ui.new_context( _( "Loading the save…" ) );
 
     const cata_path worldpath = PATH_INFO::world_base_save_path_path();
     const cata_path save_file_path = PATH_INFO::world_base_save_path_path() /
                                      ( name.base_path() + SAVE_EXTENSION );
 
-    // Now load up the master game data; factions (and more?)
-    load_master();
-    u = avatar();
-    u.set_save_id( name.decoded_name() );
-    if( !read_from_file( save_file_path, [this, &save_file_path]( std::istream & is ) {
-    unserialize( is, save_file_path );
-    } ) ) {
-        return false;
-    }
+    bool abort = false;
 
-    u.load_map_memory();
-    u.get_avatar_diary()->load();
+    using named_entry = std::pair<std::string, std::function<void()>>;
+    const std::vector<named_entry> entries = {{
+            {
+                _( "Master save" ), [&]()
+                {
+                    // Now load up the master game data; factions (and more?)
+                    load_master();
+                }
+            },
+            {
+                _( "Character save" ), [&]()
+                {
 
-    const cata_path log_filename = worldpath / ( name.base_path() + SAVE_EXTENSION_LOG );
-    read_from_file_optional( log_filename.get_unrelative_path(), [this]( std::istream & is ) {
-        memorial().load( is );
-    } );
+                    u = avatar();
+                    u.set_save_id( name.decoded_name() );
+                    if( !read_from_file(
+                            save_file_path,
+                    [this, &save_file_path]( std::istream & is ) {
+                    unserialize( is, save_file_path );
+                    } ) ) {
+                        abort = true;
+                    }
+                }
+            },
+            {
+                _( "Map memory" ), [&]()
+                {
+                    u.load_map_memory();
+                }
+            },
+            {
+                _( "Diary" ), [&]()
+                {
+                    u.get_avatar_diary()->load();
+                }
+            },
+            {
+                _( "Memorial" ), [&]()
+                {
+                    const cata_path log_filename =
+                    worldpath / ( name.base_path() + SAVE_EXTENSION_LOG );
+                    read_from_file_optional(
+                        log_filename.get_unrelative_path(),
+                    [this]( std::istream & is ) {
+                        memorial().load( is );
+                    } );
+                }
+            },
+            {
+                _( "Finalizing" ), [&]()
+                {
 
 #if defined(__ANDROID__)
-    const cata_path shortcuts_filename = worldpath / ( name.base_path() + SAVE_EXTENSION_SHORTCUTS );
-    if( file_exist( shortcuts_filename ) ) {
-        load_shortcuts( shortcuts_filename );
-    }
+                    const cata_path shortcuts_filename =
+                    worldpath / ( name.base_path() + SAVE_EXTENSION_SHORTCUTS );
+                    if( file_exist( shortcuts_filename ) ) {
+                        load_shortcuts( shortcuts_filename );
+                    }
 #endif
 
-    // Now that the player's worn items are updated, their sight limits need to be
-    // recalculated. (This would be cleaner if u.worn were private.)
-    u.recalc_sight_limits();
+                    // Now that the player's worn items are updated, their sight limits need to be
+                    // recalculated. (This would be cleaner if u.worn were private.)
+                    u.recalc_sight_limits();
 
-    if( !gamemode ) {
-        gamemode = std::make_unique<special_game>();
-    }
+                    if( !gamemode ) {
+                        gamemode = std::make_unique<special_game>();
+                    }
 
-    safe_mode = get_option<bool>( "SAFEMODE" ) ? SAFE_MODE_ON : SAFE_MODE_OFF;
-    mostseen = 0; // ...and mostseen is 0, we haven't seen any monsters yet.
+                    safe_mode = get_option<bool>( "SAFEMODE" ) ? SAFE_MODE_ON : SAFE_MODE_OFF;
+                    mostseen = 0; // ...and mostseen is 0, we haven't seen any monsters yet.
 
-    init_autosave();
-    get_auto_pickup().load_character(); // Load character auto pickup rules
-    get_auto_notes_settings().load( true ); // Load character auto notes settings
-    get_safemode().load_character(); // Load character safemode rules
-    zone_manager::get_manager().load_zones(); // Load character world zones
-    read_from_file_optional_json( PATH_INFO::world_base_save_path_path() / "uistate.json", [](
-    const JsonValue & jsin ) {
-        uistate.deserialize( jsin.get_object() );
-    } );
-    reload_npcs();
-    validate_npc_followers();
-    validate_mounted_npcs();
-    validate_camps();
-    validate_linked_vehicles();
-    update_map( u );
-    for( item *&e : u.inv_dump() ) {
-        e->set_owner( get_player_character() );
-    }
-    // legacy, needs to be here as we access the map.
-    if( !u.getID().is_valid() ) {
-        // player does not have a real id, so assign a new one,
-        u.setID( assign_npc_id() );
-        // The vehicle stores the IDs of the boarded players, so update it, too.
-        if( u.in_vehicle ) {
-            if( const std::optional<vpart_reference> vp = m.veh_at(
-                        u.pos() ).part_with_feature( "BOARDABLE", true ) ) {
-                vp->part().passenger_id = u.getID();
-            }
+                    init_autosave();
+                    get_auto_pickup().load_character(); // Load character auto pickup rules
+                    get_auto_notes_settings().load( true ); // Load character auto notes settings
+                    get_safemode().load_character(); // Load character safemode rules
+                    zone_manager::get_manager().load_zones(); // Load character world zones
+                    read_from_file_optional_json(
+                        PATH_INFO::world_base_save_path_path() / "uistate.json",
+                    []( const JsonValue & jsin ) {
+                        uistate.deserialize( jsin.get_object() );
+                    } );
+                    reload_npcs();
+                    validate_npc_followers();
+                    validate_mounted_npcs();
+                    validate_camps();
+                    validate_linked_vehicles();
+                    update_map( u );
+                    for( item *&e : u.inv_dump() ) {
+                        e->set_owner( get_player_character() );
+                    }
+                    // legacy, needs to be here as we access the map.
+                    if( !u.getID().is_valid() ) {
+                        // player does not have a real id, so assign a new one,
+                        u.setID( assign_npc_id() );
+                        // The vehicle stores the IDs of the boarded players, so update it, too.
+                        if( u.in_vehicle ) {
+                            if( const std::optional<vpart_reference> vp = m.veh_at(
+                                        u.pos() ).part_with_feature( "BOARDABLE", true ) ) {
+                                vp->part().passenger_id = u.getID();
+                            }
+                        }
+                    }
+
+                    // populate calendar caches now, after active world is set, but before we do
+                    // anything else, to ensure they pick up the correct value from the save's
+                    // worldoptions
+                    calendar::set_eternal_season( ::get_option<bool>( "ETERNAL_SEASON" ) );
+                    calendar::set_season_length( ::get_option<int>( "SEASON_LENGTH" ) );
+
+                    calendar::set_eternal_night(
+                        ::get_option<std::string>( "ETERNAL_TIME_OF_DAY" ) == "night" );
+                    calendar::set_eternal_day(
+                        ::get_option<std::string>( "ETERNAL_TIME_OF_DAY" ) == "day" );
+
+                    u.reset();
+                    u.recalculate_enchantment_cache();
+                    u.enchantment_cache->activate_passive( u );
+                    events().send<event_type::game_load>( getVersionString() );
+                    time_of_last_load = std::chrono::steady_clock::now();
+                    time_played_at_last_load = std::chrono::seconds( 0 );
+                    std::optional<event_multiset::summaries_type::value_type> last_save =
+                        stats().get_events( event_type::game_save ).last();
+                    if( last_save ) {
+                        auto time_played_it = last_save->first.find( "total_time_played" );
+                        if( time_played_it != last_save->first.end() &&
+                            time_played_it->second.type() == cata_variant_type::chrono_seconds ) {
+                            time_played_at_last_load =
+                                time_played_it->second.get<std::chrono::seconds>();
+                        }
+                    }
+
+                    effect_on_conditions::load_existing_character( u );
+                    // recalculate light level for correctly resuming crafting and disassembly
+                    m.build_map_cache( m.get_abs_sub().z() );
+                }
+            },
         }
+    };
+
+    for( const named_entry &e : entries ) {
+        ui.add_entry( e.first );
     }
 
-    // populate calendar caches now, after active world is set, but before we do
-    // anything else, to ensure they pick up the correct value from the save's
-    // worldoptions
-    calendar::set_eternal_season( ::get_option<bool>( "ETERNAL_SEASON" ) );
-    calendar::set_season_length( ::get_option<int>( "SEASON_LENGTH" ) );
-
-    calendar::set_eternal_night( ::get_option<std::string>( "ETERNAL_TIME_OF_DAY" ) == "night" );
-    calendar::set_eternal_day( ::get_option<std::string>( "ETERNAL_TIME_OF_DAY" ) == "day" );
-
-    u.reset();
-    u.recalculate_enchantment_cache();
-    u.enchantment_cache->activate_passive( u );
-    events().send<event_type::game_load>( getVersionString() );
-    time_of_last_load = std::chrono::steady_clock::now();
-    time_played_at_last_load = std::chrono::seconds( 0 );
-    std::optional<event_multiset::summaries_type::value_type> last_save =
-        stats().get_events( event_type::game_save ).last();
-    if( last_save ) {
-        auto time_played_it = last_save->first.find( "total_time_played" );
-        if( time_played_it != last_save->first.end() &&
-            time_played_it->second.type() == cata_variant_type::chrono_seconds ) {
-            time_played_at_last_load = time_played_it->second.get<std::chrono::seconds>();
+    ui.show();
+    for( const named_entry &e : entries ) {
+        e.second();
+        if( abort ) {
+            return false;
         }
+        ui.proceed();
     }
-
-    effect_on_conditions::load_existing_character( u );
-    // recalculate light level for correctly resuming crafting and disassembly
-    m.build_map_cache( m.get_abs_sub().z() );
 
     return true;
 }
@@ -5917,6 +5972,8 @@ void game::examine( const tripoint &examp, bool with_pickup )
                 if( monexamine::mfriend_menu( *mon ) ) {
                     return;
                 }
+            } else if( mon->has_flag( MF_CONVERSATION ) && !mon->type->chat_topics.empty() ) {
+                get_avatar().talk_to( get_talker_for( mon ) );
             }
         } else {
             u.cant_do_mounted();

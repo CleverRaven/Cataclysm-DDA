@@ -657,7 +657,7 @@ static void grab()
         add_msg( _( "You grab the %s." ), vp->vehicle().name );
     } else if( here.has_furn( grabp ) ) { // If not, grab furniture if present
         if( !here.furn( grabp ).obj().is_movable() ) {
-            add_msg( _( "You can not grab the %s" ), here.furnname( grabp ) );
+            add_msg( _( "You can not grab the %s." ), here.furnname( grabp ) );
             return;
         }
         you.grab( object_type::FURNITURE, grabp - you.pos() );

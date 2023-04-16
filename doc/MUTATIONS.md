@@ -239,6 +239,7 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "deactivated_eocs": [ "eoc_id_1" ],         // List of effect_on_conditions that attempt to activate when this mutation is successfully deactivated.
   "enchantments": [ "ench_id_1" ],            // List of enchantments granted by this mutation.  Can be either IDs or an inline definition of the enchantment (see MAGIC.md)
   "temperature_speed_modifier": 0.5,          // If nonzero, become slower when cold, and faster when hot (1.0 gives +/-1% speed for each degree above or below 65 F).
+  "pain_modifier": 5,                         // Flat increase (for positive numbers)\ reduction (for negative) to the amount of pain recived. Reduction can go all the way to 0. Applies after pain enchantment. (so if you have Pain Resistant trait along with 5 flat pain reduction and recive 20 pain, you would gain 20*(1-0.25)-5=10 pain)
   "mana_modifier": 100,                       // Positive or negative change to total mana pool.
   "flags": [ "UNARMED_BONUS" ],               // List of flag_IDs and json_flag_IDs granted by the mutation.  Note: trait_IDs can be set and generate no errors, but they're not actually "active".
   "moncams": [ [ "mon_player_blob", 16 ] ]    // Monster cameras, ability to use friendly monster's from the list as additional source of vision. Max view distance is equal to monster's daytime vision. The number specifies the range at which it can "transmit" vision to the avatar.

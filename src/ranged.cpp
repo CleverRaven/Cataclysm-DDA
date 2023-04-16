@@ -787,14 +787,13 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
         mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
         is_mech_weapon = true;
     }
-    // Number of shots to fire is limited by the amount of remaining ammo
-    if( gun.ammo_required() ) {
-        shots = std::min( shots, static_cast<int>( gun.ammo_remaining() / gun.ammo_required() ) );
-    }
 
-    // cap our maximum burst size by the amount of UPS power left
-    if( !gun.has_flag( flag_VEHICLE ) && gun.get_gun_ups_drain() > 0_kJ ) {
-        shots = std::min( shots, static_cast<int>( available_ups() / gun.get_gun_ups_drain() ) );
+    // cap our maximum burst size by ammo and energy
+    if( !gun.has_flag( flag_VEHICLE ) ) {
+        shots = std::min( shots, gun.shots_remaining( this ) );
+    } else if( gun.ammo_required() ) {
+        // This checks ammo only. Vehicle turret energy drain is handled elsewhere.
+        shots = std::min( shots, static_cast<int>( gun.ammo_remaining() / gun.ammo_required() ) );
     }
 
     if( shots <= 0 ) {

@@ -204,6 +204,7 @@ struct mutation_branch {
         std::optional<float> healing_multiplier = std::nullopt;
         // Limb mending bonus
         std::optional<float> mending_modifier = std::nullopt;
+        std::optional<float> pain_modifier = std::nullopt;
         // Bonus HP multiplier. That is, 1.0 doubles hp, -0.5 halves it.
         std::optional<float> hp_modifier = std::nullopt;
         // Second HP modifier that stacks with first but is otherwise identical.

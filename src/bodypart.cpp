@@ -7,6 +7,7 @@
 #include <utility>
 #include <vector>
 
+#include "body_part_set.h"
 #include "debug.h"
 #include "enum_conversions.h"
 #include "generic_factory.h"
@@ -1199,7 +1200,7 @@ void stat_hp_mods::load( const JsonObject &jsobj )
     optional( jsobj, was_loaded, "str_mod", str_mod, 3.0f );
     optional( jsobj, was_loaded, "dex_mod", dex_mod, 0.0f );
     optional( jsobj, was_loaded, "int_mod", int_mod, 0.0f );
-    optional( jsobj, was_loaded, "per_mod", str_mod, 0.0f );
+    optional( jsobj, was_loaded, "per_mod", per_mod, 0.0f );
 
     optional( jsobj, was_loaded, "health_mod", health_mod, 0.0f );
 }

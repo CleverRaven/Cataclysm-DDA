@@ -910,7 +910,8 @@ bool monexamine::mfriend_menu( monster &z )
         swap_pos = 0,
         push_monster,
         rename,
-        attack
+        attack,
+        talk_to
     };
 
     uilist amenu;
@@ -922,7 +923,9 @@ bool monexamine::mfriend_menu( monster &z )
     amenu.addentry( push_monster, true, 'p', _( "Push %s" ), pet_name );
     amenu.addentry( rename, true, 'e', _( "Rename" ) );
     amenu.addentry( attack, true, 'a', _( "Attack" ) );
-
+    if( !z.type->chat_topics.empty() ) {
+        amenu.addentry( talk_to, true, 'c', _( "Talk to %s" ), pet_name );
+    }
     amenu.query();
     const int choice = amenu.ret;
 
@@ -940,6 +943,9 @@ bool monexamine::mfriend_menu( monster &z )
             if( query_yn( _( "You may be attacked!  Proceed?" ) ) ) {
                 get_player_character().melee_attack( z, true );
             }
+            break;
+        case talk_to:
+            get_avatar().talk_to( get_talker_for( z ) );
             break;
         default:
             break;

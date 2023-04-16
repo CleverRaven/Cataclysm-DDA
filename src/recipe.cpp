@@ -157,7 +157,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
     if( jo.has_member( "result_eocs" ) ) {
         result_eocs.clear();
         for( JsonValue jv : jo.get_array( "result_eocs" ) ) {
-            result_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+            result_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
         }
     }
     if( abstract ) {

@@ -1912,21 +1912,18 @@ void basecamp::scan_pseudo_items()
 
             if( expansion_map.veh_at( pos ).has_value() &&
                 expansion_map.veh_at( pos )->vehicle().is_appliance() ) {
-                const std::vector<std::pair<itype_id, int>> tools =
-                            expansion_map.veh_at( pos )->part_displayed().value().get_tools();
-
-                for( const auto &tool : tools ) {
-                    if( tool.first.obj().has_flag( flag_PSEUDO ) &&
-                        tool.first.obj().has_flag( flag_ALLOWS_REMOTE_USE ) ) {
+                for( const auto &[tool, discard_] : expansion_map.veh_at( pos )->get_tools() ) {
+                    if( tool.has_flag( flag_PSEUDO ) &&
+                        tool.has_flag( flag_ALLOWS_REMOTE_USE ) ) {
                         bool found = false;
                         for( itype_id &element : expansion.second.available_pseudo_items ) {
-                            if( element == tool.first ) {
+                            if( element == tool.typeId() ) {
                                 found = true;
                                 break;
                             }
                         }
                         if( !found ) {
-                            expansion.second.available_pseudo_items.push_back( tool.first );
+                            expansion.second.available_pseudo_items.push_back( tool.typeId() );
                         }
                     }
                 }

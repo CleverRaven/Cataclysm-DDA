@@ -41,7 +41,7 @@
       { "item": "cornmeal", "prob": 40 },
       { "item": "dry_meat", "prob": 10 },
       { "item": "dry_fish", "prob": 10 },
-      { "item": "dry_lobster", "prob": 10 },
+      { "item": "dry_lobster", "prob": 10, "container-item": "wrapper" },
       { "item": "dry_veggy", "prob": 10 },
       { "item": "dry_corn", "prob": 1 },
       { "item": "dry_fruit", "prob": 10 },
@@ -251,7 +251,7 @@
         "charges-max": 9
       },
       { "item": "dry_meat", "prob": 10 },
-      { "item": "dry_fish", "prob": 10 },
+      { "item": "dry_fish", "prob": 10, "container-item": "wrapper" },
       { "item": "dry_lobster", "prob": 10 },
       { "item": "dry_veggy", "prob": 10 },
       { "item": "dry_corn", "prob": 1 },
@@ -384,8 +384,8 @@
     "entries": [
       { "item": "syrup", "prob": 20 },
       { "item": "molasses", "prob": 15 },
-      { "item": "cooking_oil", "prob": 20 },
-      { "item": "cooking_oil2", "prob": 20 },
+      { "item": "cooking_oil", "prob": 40 },
+      { "item": "cooking_oil2", "prob": 40 },
       { "item": "honey_bottled", "prob": 15 },
       { "item": "honey_glassed", "prob": 5 },
       { "item": "jar_glass_sealed", "prob": 20 },

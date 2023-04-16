@@ -335,9 +335,12 @@ std::string trimmed_name_and_value( const std::string &name, int value,
 std::string trimmed_name_and_value( const std::string &name, const std::string &value,
                                     int field_width );
 
+void wputch( const catacurses::window &w, int ch );
 void wputch( const catacurses::window &w, nc_color FG, int ch );
 // Using int ch is deprecated, use an UTF-8 encoded string instead
+void mvwputch( const catacurses::window &w, const point &p, int ch );
 void mvwputch( const catacurses::window &w, const point &p, nc_color FG, int ch );
+void mvwputch( const catacurses::window &w, const point &p, const std::string &ch );
 void mvwputch( const catacurses::window &w, const point &p, nc_color FG, const std::string &ch );
 // Using int ch is deprecated, use an UTF-8 encoded string instead
 void mvwputch_inv( const catacurses::window &w, const point &p, nc_color FG, int ch );
@@ -1176,7 +1179,7 @@ void refresh_display();
  * @return Colorized string.
  */
 template<typename F>
-std::string colorize_symbols( const std::string &str, F color_of )
+std::string colorize_symbols( const std::string_view str, F color_of )
 {
     std::string res;
     nc_color prev_color = c_unset;

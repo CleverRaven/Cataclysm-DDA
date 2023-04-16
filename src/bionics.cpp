@@ -162,6 +162,7 @@ static const json_character_flag json_flag_BIONIC_POWER_SOURCE( "BIONIC_POWER_SO
 static const json_character_flag json_flag_BIONIC_TOGGLED( "BIONIC_TOGGLED" );
 static const json_character_flag json_flag_BIONIC_WEAPON( "BIONIC_WEAPON" );
 static const json_character_flag json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
+static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 
 static const material_id fuel_type_metabolism( "metabolism" );
 static const material_id fuel_type_sun_light( "sunlight" );
@@ -189,7 +190,6 @@ static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
 static const trait_id trait_MASOCHIST( "MASOCHIST" );
 static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
 static const trait_id trait_NONE( "NONE" );
-static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PROF_AUTODOC( "PROF_AUTODOC" );
 static const trait_id trait_PROF_MED( "PROF_MED" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
@@ -318,7 +318,7 @@ static social_modifiers load_bionic_social_mods( const JsonObject &jo )
     return ret;
 }
 
-void bionic_data::load( const JsonObject &jsobj, const std::string & )
+void bionic_data::load( const JsonObject &jsobj, const std::string &src )
 {
 
     mandatory( jsobj, was_loaded, "id", id );
@@ -383,21 +383,21 @@ void bionic_data::load( const JsonObject &jsobj, const std::string & )
     optional( jsobj, was_loaded, "deactivated_close_ui", deactivated_close_ui, false );
 
     for( JsonValue jv : jsobj.get_array( "activated_eocs" ) ) {
-        activated_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        activated_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
 
     for( JsonValue jv : jsobj.get_array( "processed_eocs" ) ) {
-        processed_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        processed_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
 
     for( JsonValue jv : jsobj.get_array( "deactivated_eocs" ) ) {
-        deactivated_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        deactivated_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
 
     int enchant_num = 0;
     for( JsonValue jv : jsobj.get_array( "enchantments" ) ) {
         std::string enchant_name = "INLINE_ENCH_" + name + "_" + std::to_string( enchant_num++ );
-        enchantments.push_back( enchantment::load_inline_enchantment( jv, "", enchant_name ) );
+        enchantments.push_back( enchantment::load_inline_enchantment( jv, src, enchant_name ) );
     }
 
     if( jsobj.has_array( "stat_bonus" ) ) {
@@ -1807,7 +1807,7 @@ void Character::bionics_uninstall_failure( int difficulty, int success, float ad
     std::set<bodypart_id> bp_hurt;
     switch( fail_type ) {
         case 1:
-            if( !has_trait( trait_NOPAIN ) ) {
+            if( !has_flag( json_flag_PAIN_IMMUNE ) ) {
                 add_msg_if_player( m_bad, _( "It really hurts!" ) );
                 mod_pain( rng( 10, 30 ) );
             }
@@ -1894,7 +1894,7 @@ void Character::bionics_uninstall_failure( monster &installer, Character &patien
     std::set<bodypart_id> bp_hurt;
     switch( fail_type ) {
         case 1:
-            if( !has_trait( trait_NOPAIN ) ) {
+            if( !has_flag( json_flag_PAIN_IMMUNE ) ) {
                 patient.add_msg_if_player( m_bad, _( "It really hurts!" ) );
                 patient.mod_pain( rng( 10, 30 ) );
             }
@@ -1947,7 +1947,7 @@ bool Character::has_enough_anesth( const itype &cbm, Character &patient ) const
         return false;
     }
 
-    if( patient.has_bionic( bio_painkiller ) || patient.has_trait( trait_NOPAIN ) ||
+    if( patient.has_bionic( bio_painkiller ) || patient.has_flag( json_flag_PAIN_IMMUNE ) ||
         has_trait( trait_DEBUG_BIONICS ) ) {
         return true;
     }
@@ -1961,7 +1961,7 @@ bool Character::has_enough_anesth( const itype &cbm, Character &patient ) const
 
 bool Character::has_enough_anesth( const itype &cbm ) const
 {
-    if( has_bionic( bio_painkiller ) || has_trait( trait_NOPAIN ) ||
+    if( has_bionic( bio_painkiller ) || has_flag( json_flag_PAIN_IMMUNE ) ||
         has_trait( trait_DEBUG_BIONICS ) ) {
         return true;
     }
@@ -2569,7 +2569,7 @@ void Character::bionics_install_failure( const bionic_id &bid, const std::string
         switch( fail_type ) {
 
             case 1:
-                if( !has_trait( trait_NOPAIN ) ) {
+                if( !has_flag( json_flag_PAIN_IMMUNE ) ) {
                     add_msg_if_player( m_bad, _( "It really hurts!" ) );
                     mod_pain( rng( 10, 30 ) );
                 }

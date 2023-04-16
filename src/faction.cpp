@@ -629,32 +629,63 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     if( rl_dist( player_abspos, global_omt_location() ) > 3 ||
         ( rl_dist( player_character.pos(), pos() ) > SEEX * 2 || !player_character.sees( pos() ) ) ) {
         if( u_has_radio && guy_has_radio ) {
-            // TODO: better range calculation than just elevation.
-            int max_range = 200;
-            max_range *= ( 1 + ( player_character.pos().z * 0.1 ) );
-            max_range *= ( 1 + ( pos().z * 0.1 ) );
-            if( is_stationed ) {
-                // if camp that NPC is at, has a radio tower
-                if( temp_camp->has_provides( "radio_tower" ) ) {
-                    max_range *= 5;
-                }
-            }
-            // if camp that player is at, has a radio tower
-            if( const std::optional<basecamp *> player_camp = overmap_buffer.find_camp(
-                        player_character.global_omt_location().xy() ) ) {
-                if( ( *player_camp )->has_provides( "radio_tower" ) ) {
-                    max_range *= 5;
-                }
-            }
-            if( ( ( player_character.pos().z >= 0 && pos().z >= 0 ) ||
-                  ( player_character.pos().z == pos().z ) ) &&
-                square_dist( player_character.global_sm_location(), global_sm_location() ) <= max_range ) {
-                retval = 2;
-                can_see = _( "Within radio range" );
-                see_color = c_light_green;
-            } else {
+            if( !( player_character.pos().z >= 0 && pos().z >= 0 ) &&
+                !( player_character.pos().z == pos().z ) ) {
+                //Early exit
                 can_see = _( "Not within radio range" );
                 see_color = c_light_red;
+            } else {
+                // TODO: better range calculation than just elevation.
+                const int base_range = 200;
+                float send_elev_boost = ( 1 + ( player_character.pos().z * 0.1 ) );
+                float recv_elev_boost = ( 1 + ( pos().z * 0.1 ) );
+                if( ( square_dist( player_character.global_sm_location(),
+                                   global_sm_location() ) <= base_range * send_elev_boost * recv_elev_boost ) ) {
+                    //Direct radio contact, both of their elevation are in effect
+                    retval = 2;
+                    can_see = _( "Within radio range" );
+                    see_color = c_light_green;
+                } else {
+                    //contact via camp radio tower
+                    int recv_range = base_range * recv_elev_boost;
+                    int send_range = base_range * send_elev_boost;
+                    const int radio_tower_boost = 5;
+                    // find camps that are near player or npc
+                    const std::vector<camp_reference> &camps_near_player = overmap_buffer.get_camps_near(
+                                player_character.global_sm_location(), send_range * radio_tower_boost );
+                    const std::vector<camp_reference> &camps_near_npc = overmap_buffer.get_camps_near(
+                                global_sm_location(), recv_range * radio_tower_boost );
+                    bool camp_to_npc = false;
+                    bool camp_to_camp = false;
+                    for( const camp_reference &i : camps_near_player ) {
+                        if( !i.camp->has_provides( "radio" ) ) {
+                            continue;
+                        }
+                        if( camp_to_camp ||
+                            square_dist( i.abs_sm_pos, global_sm_location() ) <= recv_range * radio_tower_boost ) {
+                            //one radio tower relay
+                            camp_to_npc = true;
+                            break;
+                        }
+                        for( const camp_reference &j : camps_near_npc ) {
+                            //two radio tower relays
+                            if( ( j.camp )->has_provides( "radio" ) &&
+                                ( square_dist( i.abs_sm_pos, j.abs_sm_pos ) <= base_range * radio_tower_boost *
+                                  radio_tower_boost ) ) {
+                                camp_to_camp = true;
+                                break;
+                            }
+                        }
+                    }
+                    if( camp_to_npc || camp_to_camp ) {
+                        retval = 2;
+                        can_see = _( "Within radio range" );
+                        see_color = c_light_green;
+                    } else {
+                        can_see = _( "Not within radio range" );
+                        see_color = c_light_red;
+                    }
+                }
             }
         } else if( guy_has_radio && !u_has_radio ) {
             can_see = _( "You do not have a radio" );
