@@ -97,6 +97,6 @@ inline const char *npgettext( const char *const context, const char *const msgid
 std::string locale_dir();
 
 void set_language();
-void change_language( std::string& lang );
+void change_language( const std::string &lang );
 
 #endif // CATA_SRC_TRANSLATIONS_H
