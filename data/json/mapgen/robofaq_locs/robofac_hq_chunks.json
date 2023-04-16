@@ -356,6 +356,7 @@
         { "class": "BEM_human_sample", "x": 0, "y": 0 },
         { "class": "BEM_gunrunner", "x": 0, "y": 0 },
         { "class": "BEM_drugrunner", "x": 0, "y": 0 },
+        { "class": "BEM_jabberwock", "x": 0, "y": 0 },
         { "class": "BEM_template_seller", "x": 0, "y": 0 },
         { "class": "BEM_keycard_seller", "x": 0, "y": 0 }
       ]
