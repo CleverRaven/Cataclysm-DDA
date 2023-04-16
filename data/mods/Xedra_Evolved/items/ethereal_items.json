@@ -146,7 +146,6 @@
         "move_cost": 100
       }
     ],
-    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "type": "GENERIC",
