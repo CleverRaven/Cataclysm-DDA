@@ -2,7 +2,7 @@
 Portal storms are otherworldly colisions. Evil and malicious entities from inexplainable spaces are pouring into our world. However this doesn't mean it's a good way to imediately kill the character.
 
 ## Ideas
-Portal Storms should consist of the inexplainable and the disturbing.  There should be less of a focus even on our usual nether monsters, instead leaning on even more disturbing creatures.
+Portal Storms should consist of the inexplainable and the disturbing.  There should be less of a focus even on our usual nether monsters, instead leaning on even more disturbing creatures. Portal storms should also really only be dangerous to humans, people that can percieve the otherworldly nature. Animals and the dead should have little to no interest in the other side and vice versa.
 
 ## Reminders
 Some things to keep in mind when working on Portal Storms:
