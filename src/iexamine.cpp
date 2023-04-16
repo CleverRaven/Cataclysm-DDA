@@ -4858,7 +4858,7 @@ void iexamine::ledge( Character &you, const tripoint &examp )
     if( you.has_flag( json_flag_WALL_CLING ) ) {
         cmenu.addentry( 4, true, 'C', _( "Crawl down." ) );
     }
-    cmenu.addentry( 5, true, 'd', _( "Drop item." ) );
+    cmenu.addentry( 5, true, 'd', _( "Drop items over the edge." ) );
 
     cmenu.query();
 
@@ -4952,7 +4952,7 @@ void iexamine::ledge( Character &you, const tripoint &examp )
                 obj_destination.z--;
                 distance++;
             }
-            g->drop_items_off_ledge(obj_destination, distance);
+            g->drop_items_off_ledge( obj_destination, distance );
 
             break;
         }

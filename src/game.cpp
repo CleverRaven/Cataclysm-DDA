@@ -8952,7 +8952,7 @@ void game::drop_items_off_ledge( const tripoint &pnt, int ledge_height )
 
     Creature *creature = get_creature_tracker().creature_at( pnt );
     if( creature) {
-        creature->deal_damage(nullptr, bodypart_id( "head" ), damage_instance( damage_type::BASH, damage ) );
+        creature->deal_damage( nullptr, bodypart_id( "head" ), damage_instance( damage_type::BASH, damage ) );
     }
 }
 
