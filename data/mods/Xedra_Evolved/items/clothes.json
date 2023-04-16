@@ -56,7 +56,7 @@
       },
       {
         "id": "sunnyvale_tshirt",
-        "name": { "str": "sunnyvale t-shirt", "str_pl": "sunnyvale t-shirts" },
+        "name": { "str": "sunnyvale t-shirt" },
         "description": "This t-shirt displays a purple sun rising over a town that looks like it came out of a Doctor Seus book.",
         "symbol": "o",
         "color": "dark_gray",
