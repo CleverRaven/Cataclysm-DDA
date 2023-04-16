@@ -2105,9 +2105,7 @@
     "name": "Toggle language to English",
     "category": "DEFAULTMODE",
     "id": "toggle_language_to_en",
-    "bindings": [
-      { "input_method": "keyboard_char","key": "," }
-    ]
+    "bindings": [ { "input_method": "keyboard_char", "key": "," } ]
   },
   {
     "type": "keybinding",
