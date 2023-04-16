@@ -84,6 +84,7 @@ struct grab
     translation pull_msg_npc;
     translation pull_fail_msg_npc;
     void load_grab(const JsonObject& jo );
+    bool was_loaded = false;
 };
 
 class melee_actor : public mattack_actor

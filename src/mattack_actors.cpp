@@ -300,16 +300,17 @@ bool mon_spellcasting_actor::call( monster &mon ) const
 
 void grab::load_grab( const JsonObject &jo )
 {
-    optional( jo, false, "grab_strength", grab_strength, -1 );
-    optional( jo, false, "pull_chance", pull_chance, 0 );
-    optional( jo, false, "grab_effect", grab_effect, effect_grabbed );
-    optional( jo, false, "pull_msg_u", pull_msg_u, to_translation( "%s pulls you in!" ) );
-    optional( jo, false, "pull_fail_msg_u", pull_fail_msg_u,
+    optional( jo, was_loaded, "grab_strength", grab_strength, -1 );
+    optional( jo, was_loaded, "pull_chance", pull_chance, -1 );
+    optional( jo, was_loaded, "grab_effect", grab_effect, effect_grabbed );
+    optional( jo, was_loaded, "pull_msg_u", pull_msg_u, to_translation( "%s pulls you in!" ) );
+    optional( jo, was_loaded, "pull_fail_msg_u", pull_fail_msg_u,
               to_translation( "%s strains trying to pull you in but fails!" ) );
-    optional( jo, false, "pull_msg_npc", pull_msg_npc, to_translation( "%s pulls <npcname> in!" ) );
-    optional( jo, false, "pull_fail_msg_npc", pull_fail_msg_npc,
+    optional( jo, was_loaded, "pull_msg_npc", pull_msg_npc, to_translation( "%s pulls <npcname> in!" ) );
+    optional( jo, was_loaded, "pull_fail_msg_npc", pull_fail_msg_npc,
               to_translation( "%s strains trying to pull <npcname> in but fails!" ) );
-    optional( jo, false, "pull_weight_ratio", pull_weight_ratio, 0.75f );
+    optional( jo, was_loaded, "pull_weight_ratio", pull_weight_ratio, 0.75f );
+    was_loaded = true;
 }
 
 
@@ -373,9 +374,7 @@ void melee_actor::load_internal( const JsonObject &obj, const std::string & )
         has_condition = true;
     }
     if( is_grab ) {
-        for( JsonObject inst : obj.get_array( "grab_data" ) ) {
-            grab_data.load_grab( inst );
-        }
+        grab_data.load_grab( obj.get_object( "grab_data" ) );
     }
 
     if( obj.has_array( "body_parts" ) ) {
@@ -640,6 +639,10 @@ bool melee_actor::call( monster &z ) const
                                                mon_name );
                 return true;
             }
+        } else if( grab_data.pull_chance > -1 ) {
+            // We failed the pull chance roll, return false to select a different attack
+            add_msg_debug(debugmode::DF_MATTACK, "Pull chance roll failed.", grab_data.pull_chance);
+            return false;
         }
 
         // Add filter self-effects, grabbing should be added via JSON on-hit

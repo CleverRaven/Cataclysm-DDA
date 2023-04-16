@@ -276,7 +276,7 @@ bool Character::try_remove_grab()
                                eff.get_bp()->grabbing_effect.c_str(), grabber->name() );
 
                 if( grab_break_factor > 0 ) {
-                    add_msg_if_player( m_info, martial_arts_data->get_grab_break( *this ).avatar_message.translated() );
+                    add_msg_if_player( m_info, martial_arts_data->get_grab_break( *this ).avatar_message.translated(), grabber->disp_name() );
                 } else {
                     add_msg_player_or_npc( m_good, _( "You break the %s grab on your %s!" ),
                                            _( "<npcname> the %s grab on their %s!" ), grabber->disp_name( true ),
