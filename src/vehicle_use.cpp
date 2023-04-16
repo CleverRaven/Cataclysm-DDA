@@ -89,6 +89,7 @@ static const itype_id itype_water_clean( "water_clean" );
 static const itype_id itype_water_faucet( "water_faucet" );
 static const itype_id itype_water_purifier( "water_purifier" );
 static const itype_id itype_welder( "welder" );
+static const itype_id itype_welding_kit( "welding_kit" );
 
 static const quality_id qual_SCREW( "SCREW" );
 
@@ -1699,7 +1700,10 @@ static bool use_vehicle_tool( vehicle &veh, const tripoint &vp_pos, const itype_
     // HACK: Evil hack incoming
     player_activity &act = get_player_character().activity;
     if( act.id() == ACT_REPAIR_ITEM &&
-        ( tool_type == itype_welder || tool_type == itype_soldering_iron ) ) {
+        ( tool_type == itype_welder ||
+          tool_type == itype_welding_kit ||
+          tool_type == itype_soldering_iron
+        ) ) {
         act.index = INT_MIN; // tell activity the item doesn't really exist
         act.coords.push_back( vp_pos ); // tell it to search for the tool on `pos`
         act.str_values.push_back( tool_type.str() ); // specific tool on the rig
