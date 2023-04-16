@@ -83,7 +83,7 @@ void set_language()
 #endif
 }
 
-void change_language( std::string &lang )
+void change_language( const std::string &lang )
 {
 #if defined(LOCALIZE)
     DebugLog( D_INFO, D_MAIN ) << "Setting language to: '" << lang << '\'';
