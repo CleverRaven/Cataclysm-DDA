@@ -27,13 +27,6 @@
     "description": "An electric kiln made to run off a vehicle's storage battery."
   },
   {
-    "id": "kitchen_unit",
-    "copy-from": "vehicle_rig",
-    "type": "GENERIC",
-    "name": { "str": "RV kitchen unit" },
-    "description": "A vehicle-mountable electric range and sink unit with integrated tool storage for cooking utensils."
-  },
-  {
     "id": "weldkit",
     "copy-from": "vehicle_rig",
     "type": "GENERIC",
