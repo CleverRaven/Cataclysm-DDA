@@ -6,13 +6,13 @@
 #include <iosfwd>
 #include <map>
 #include <new>
+#include <optional>
 #include <set>
 #include <string>
 #include <utility>
 #include <vector>
 
 #include "fire.h"
-#include "optional.h"
 #include "translations.h"
 #include "type_id.h"
 
@@ -48,7 +48,7 @@ struct fuel_explosion_data {
     bool fiery_explosion = false;
     float fuel_size_factor = 0.0f;
 
-    bool is_empty();
+    bool is_empty() const;
 
     bool was_loaded = false;
     void load( const JsonObject &jsobj );
@@ -57,8 +57,8 @@ struct fuel_explosion_data {
 
 struct fuel_data {
     public:
-        /** Energy of the fuel (kilojoules per charge) */
-        float energy = 0.0f;
+        /** Energy of the fuel per litre */
+        units::energy energy = 0_J;
         fuel_explosion_data explosion_data;
         std::string pump_terrain = "t_null";
         bool is_perpetual_fuel = false;
@@ -77,22 +77,15 @@ class material_type
 
     private:
         translation _name;
-        cata::optional<itype_id> _salvaged_into; // this material turns into this item when salvaged
+        std::optional<itype_id> _salvaged_into; // this material turns into this item when salvaged
         itype_id _repaired_with = itype_id( "null" ); // this material can be repaired with this item
-        float _bash_resist = 0.0f;                         // negative integers means susceptibility
-        float _cut_resist = 0.0f;
-        float _acid_resist = 0.0f;
-        float _elec_resist = 0.0f;
-        float _fire_resist = 0.0f;
-        float _bullet_resist = 0.0f;
-        float _biologic_resist = 0.0f;
-        float _cold_resist = 0.0f;
+        std::map<damage_type, float> _resistances;   // negative integers means susceptibility
         int _chip_resist = 0;                         // Resistance to physical damage of the item itself
         float _density = 1;                             // relative to "powder", which is 1
         // ability of a fabric to allow moisture vapor to be transmitted through the material
         breathability_rating _breathability = breathability_rating::IMPERMEABLE;
         // How resistant this material is to wind as a percentage - 0 to 100
-        cata::optional<int> _wind_resist;
+        std::optional<int> _wind_resist;
         float _specific_heat_liquid = 4.186f;
         float _specific_heat_solid = 2.108f;
         float _latent_heat = 334.0f;
@@ -100,7 +93,7 @@ class material_type
         bool _edible = false;
         bool _rotting = false;
         bool _soft = false;
-        bool _reinforces = false;
+        bool _uncomfortable = false;
         bool _conductive = false; // If this material conducts electricity
 
         // the thickness that sheets of this material come in, anything that uses it should be a multiple of this
@@ -132,21 +125,14 @@ class material_type
          * salvaged into any items (e.g. for powder, liquids).
          * Or a valid id of the item type that this can be salvaged
          * into (e.g. clothes made of material leather can be salvaged
-         * into lather patches).
+         * into leather patches).
          */
-        cata::optional<itype_id> salvaged_into() const;
+        std::optional<itype_id> salvaged_into() const;
         itype_id repaired_with() const;
-        float bash_resist() const;
-        float cut_resist() const;
-        float bullet_resist() const;
+        float resist( damage_type dmg_type ) const;
         std::string bash_dmg_verb() const;
         std::string cut_dmg_verb() const;
         std::string dmg_adj( int damage ) const;
-        float acid_resist() const;
-        float elec_resist() const;
-        float biological_resist() const;
-        float cold_resist() const;
-        float fire_resist() const;
         int chip_resist() const;
         float specific_heat_liquid() const;
         float specific_heat_solid() const;
@@ -162,11 +148,11 @@ class material_type
         // converts from the breathability enum to a fixed integer value from 0-100
         static int breathability_to_rating( breathability_rating breathability );
         int breathability() const;
-        cata::optional<int> wind_resist() const;
+        std::optional<int> wind_resist() const;
         bool edible() const;
         bool rotting() const;
         bool soft() const;
-        bool reinforces() const;
+        bool uncomfortable() const;
 
         double vitamin( const vitamin_id &id ) const {
             const auto iter = _vitamins.find( id );

@@ -135,11 +135,11 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             r.push_back( std::to_string( obj.get_coverage( bp, item::cover_type::COVER_MELEE ) ) );
             r.push_back( std::to_string( obj.get_coverage( bp, item::cover_type::COVER_RANGED ) ) );
             r.push_back( std::to_string( obj.get_coverage( bp, item::cover_type::COVER_VITALS ) ) );
-            r.push_back( std::to_string( obj.bash_resist() ) );
-            r.push_back( std::to_string( obj.cut_resist() ) );
-            r.push_back( std::to_string( obj.bullet_resist() ) );
-            r.push_back( std::to_string( obj.acid_resist() ) );
-            r.push_back( std::to_string( obj.fire_resist() ) );
+            r.push_back( std::to_string( obj.resist( damage_type::BASH ) ) );
+            r.push_back( std::to_string( obj.resist( damage_type::CUT ) ) );
+            r.push_back( std::to_string( obj.resist( damage_type::BULLET ) ) );
+            r.push_back( std::to_string( obj.resist( damage_type::ACID ) ) );
+            r.push_back( std::to_string( obj.resist( damage_type::HEAT ) ) );
             rows.push_back( r );
         };
 
@@ -204,7 +204,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
                 } );
             }
         }
-        for( const auto &e : locations ) {
+        for( const gunmod_location &e : locations ) {
             header.push_back( e.name() );
         }
 
@@ -226,7 +226,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
 
             r.push_back( std::to_string( who.gun_engagement_moves( obj ) ) );
 
-            for( const auto &e : locations ) {
+            for( const gunmod_location &e : locations ) {
                 const auto &vml = obj.type->gun->valid_mod_locations;
                 const auto iter = vml.find( e );
                 r.push_back( std::to_string( iter != vml.end() ? iter->second : 0 ) );
@@ -278,14 +278,14 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
 
         header = { "Result" };
 
-        for( const auto &e : sk ) {
+        for( const Skill &e : sk ) {
             header.push_back( e.ident().str() );
         }
 
         for( const recipe *e : dict ) {
             std::vector<std::string> r;
             r.push_back( e->result_name( /*decorated=*/true ) );
-            for( const auto &s : sk ) {
+            for( const Skill &s : sk ) {
                 if( e->skill_used == s.ident() ) {
                     r.push_back( std::to_string( e->difficulty ) );
                 } else {
@@ -315,7 +315,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             r.push_back( std::to_string( veh_fueled.acceleration() / 100 ) );
             r.push_back( std::to_string( veh_fueled.coeff_air_drag() ) );
             r.push_back( std::to_string( veh_fueled.coeff_rolling_drag() ) );
-            r.push_back( std::to_string( veh_fueled.static_drag( false ) ) );
+            r.push_back( std::to_string( units::to_watt( veh_fueled.static_drag( false ) ) ) );
             r.push_back( std::to_string( static_cast<int>( 50 *
                                          veh_fueled.k_traction( veh_fueled.wheel_area() ) ) ) );
             rows.push_back( r );

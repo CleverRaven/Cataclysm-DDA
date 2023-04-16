@@ -121,8 +121,8 @@
     "crit_tec": true,
     "weighting": -250,
     "messages": [
-      "Snicker-snack!  You slice through %s like hot knife slices through butter.",
-      "Snicker-snack!  <npcname> slices through %s like hot knife slices through butter."
+      "Snicker-snack!  You slice through %s like a hot knife through butter",
+      "Snicker-snack!  <npcname> slices through %s like a hot knife through butter"
     ],
     "description": "Cut damage multiply by 99, crit only",
     "attack_vectors": [ "WEAPON" ]
@@ -164,7 +164,7 @@
       { "stat": "damage", "type": "cut", "scale": 2.5 },
       { "stat": "damage", "type": "stab", "scale": 2.5 }
     ],
-    "messages": [ "With a loud crack the piston extends sending %s reeling", "<npcname> sends %s reeling" ],
+    "messages": [ "With a loud crack the piston extends, sending %s reeling", "<npcname> sends %s reeling" ],
     "description": "Stun 1 turn, knockback 2 tile, crit only, requires ammo",
     "attack_vectors": [ "WEAPON" ]
   },
@@ -313,8 +313,8 @@
     "id": "tec_bojutsu_kneestrike",
     "name": "Knee Strike",
     "messages": [
-      "After blocking %s's attack you quickly strike at their knee!",
-      "After blocking %s's attack <npcname> quickly strikes at their knee!"
+      "After blocking %s's attack you quickly strike at their knee",
+      "After blocking %s's attack <npcname> quickly strikes at their knee"
     ],
     "skill_requirements": [ { "name": "melee", "level": 2 } ],
     "melee_allowed": true,
@@ -329,8 +329,8 @@
     "id": "tec_bojutsu_frontstrike",
     "name": "Overhead Front Strike",
     "messages": [
-      "You block %s's attack and counter with a Overhead Front Strike!",
-      "<npcname> blocks %s's attack and counter with a Overhead Front Strike!"
+      "You block %s's attack and counter with a Overhead Front Strike",
+      "<npcname> blocks %s's attack and counter with a Overhead Front Strike"
     ],
     "skill_requirements": [ { "name": "melee", "level": 3 } ],
     "melee_allowed": true,
@@ -344,7 +344,7 @@
     "type": "technique",
     "id": "tec_bojutsu_rollingstrike",
     "name": "Rolling Strike",
-    "messages": [ "Using your rolling staff you quickly strike %s", "Using rolling staff <npcname> quickly strikes %s" ],
+    "messages": [ "Using your rolling staff you quickly strike %s", "Using their rolling staff <npcname> quickly strikes %s" ],
     "skill_requirements": [ { "name": "melee", "level": 3 } ],
     "melee_allowed": true,
     "required_buffs_all": [ "buff_bojutsu_onmove" ],
@@ -1081,6 +1081,86 @@
   },
   {
     "type": "technique",
+    "id": "tec_kickboxing_rapid",
+    "name": "Jab",
+    "messages": [ "You quickly jab %s", "<npcname> quickly jabs at %s" ],
+    "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
+    "unarmed_allowed": true,
+    "mult_bonuses": [
+      { "stat": "movecost", "scale": 0.5 },
+      { "stat": "damage", "type": "bash", "scale": 0.66 },
+      { "stat": "damage", "type": "cut", "scale": 0.66 },
+      { "stat": "damage", "type": "stab", "scale": 0.66 }
+    ],
+    "attack_vectors": [ "HAND" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_kickboxing_upper",
+    "name": "Uppercut",
+    "messages": [ "You uppercut %s", "<npcname> uppercuts %s" ],
+    "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
+    "unarmed_allowed": true,
+    "crit_tec": true,
+    "stun_dur": 1,
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.4 } ],
+    "attack_vectors": [ "HAND" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_kickboxing_roundhouse",
+    "name": "Roundhouse Kick",
+    "messages": [ "You roundhouse kick %s", "<npcname> roundhouse kicks %s" ],
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "mult_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 1.2 },
+      { "stat": "damage", "type": "cut", "scale": 1.2 },
+      { "stat": "damage", "type": "stab", "scale": 1.2 }
+    ],
+    "attack_vectors": [ "FOOT" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_kickboxing_sidekick",
+    "name": "Side Kick",
+    "messages": [ "You side kick %s", "<npcname> side kicks %s" ],
+    "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "mult_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 1.2 },
+      { "stat": "damage", "type": "cut", "scale": 1.2 },
+      { "stat": "damage", "type": "stab", "scale": 1.2 }
+    ],
+    "attack_vectors": [ "FOOT" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_kickboxing_straight_knee",
+    "name": "Straight Knee",
+    "messages": [ "You deliver a straight knee to %s", "<npcname> delivers a straight knee to %s" ],
+    "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
+    "unarmed_allowed": true,
+    "crit_tec": true,
+    "stun_dur": 1,
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.4 } ],
+    "attack_vectors": [ "KNEE" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_kickboxing_flying_knee",
+    "name": "Flying Knee",
+    "messages": [ "You leap and deliver a flying knee to %s", "<npcname> leaps and delivers a flying knees to %s" ],
+    "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
+    "unarmed_allowed": true,
+    "crit_tec": true,
+    "stun_dur": 1,
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.4 } ],
+    "attack_vectors": [ "KNEE" ]
+  },
+  {
+    "type": "technique",
     "id": "tec_krav_maga_rapid",
     "messages": [ "You jab at %s", "<npcname> jabs at %s" ],
     "name": "Jab",
@@ -1098,8 +1178,8 @@
   {
     "type": "technique",
     "id": "tec_krav_maga_crit",
-    "name": "Cheapshot",
-    "messages": [ "You hit %s where it hurts", "<npcname> hits %s with a cheapshot" ],
+    "name": "Cheap Shot",
+    "messages": [ "You hit %s where it hurts", "<npcname> hits %s with a cheap shot" ],
     "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
     "melee_allowed": true,
     "unarmed_allowed": true,
@@ -1402,7 +1482,7 @@
     "type": "technique",
     "id": "niten_timing_attack",
     "name": "In-One Timing",
-    "messages": [ "You strike at %s's weaknesses", "<npcname> strikes %s's weaknesses" ],
+    "messages": [ "You strike at %s's weak spot", "<npcname> strikes at %s's weak spot" ],
     "skill_requirements": [ { "name": "melee", "level": 5 } ],
     "melee_allowed": true,
     "required_buffs_all": [ "buff_niten_ondodge" ],

@@ -36,6 +36,7 @@
       "BIOLUM0",
       "BIOLUM1",
       "BIOLUM2",
+      "CAMO1",
       "CANINE_EARS",
       "CARNIVORE",
       "CEPH_EYES",
@@ -56,6 +57,7 @@
       "DEFORMED",
       "DEFORMED2",
       "DEFORMED3",
+      "DENSE_BONES",
       "DEX_UP",
       "DEX_UP_2",
       "DEX_UP_3",
@@ -86,6 +88,7 @@
       "HAIRROOTS",
       "HAS_NEMESIS",
       "HATES_BOOKS",
+      "HATES_WATER",
       "HEADBUMPS",
       "HEAVYSLEEPER2",
       "HERBIVORE",
@@ -139,6 +142,7 @@
       "MUZZLE",
       "MUZZLE_BEAR",
       "MUZZLE_LONG",
+      "MUZZLE_RAPTOR",
       "MUZZLE_RAT",
       "NAILS",
       "NAUSEA",
@@ -211,6 +215,7 @@
       "STR_UP",
       "STR_UP_2",
       "STR_UP_3",
+      "STRONG_LEGS",
       "STYLISH",
       "SUNBURN",
       "SUNLIGHT_DEPENDENT",
@@ -244,6 +249,7 @@
       "VINES2",
       "VOMITOUS",
       "WEBBED",
+      "WEBBED_FEET",
       "WEB_WALKER",
       "WHISKERS",
       "WHISKERS_RAT",
@@ -263,6 +269,35 @@
     "description": "Start as a post-threshold Prime Mutant",
     "forced_traits": "THRESH_ALPHA",
     "extend": { "traits": [ "DEX_ALPHA", "INT_ALPHA", "PER_ALPHA", "STR_ALPHA", "WAKEFUL2" ] }
+  },
+  {
+    "type": "scenario",
+    "id": "extscenario_batrachian",
+    "copy-from": "extscenario_prethresh",
+    "name": "Mutant - Batrachian Threshold",
+    "description": "Start as a post-threshold Batrachian Mutant",
+    "forced_traits": "THRESH_BATRACHIAN",
+    "extend": {
+      "traits": [
+        "AMPHIBIAN",
+        "COLDBLOOD4",
+        "DIRTSLEEPER",
+        "EATPOISON",
+        "FRESHWATEROSMOSIS",
+        "FROG_EYES",
+        "GILLS",
+        "LEAPING_LEGS",
+        "LEAPING_LEGS2",
+        "LONG_TONGUE2",
+        "PHEROMONE_AMPHIBIAN",
+        "PRED1",
+        "THIRST3",
+        "VOMITSTOMACH",
+        "WAKEFUL2",
+        "WATERSLEEP",
+        "WATERSLEEPER"
+      ]
+    }
   },
   {
     "type": "scenario",
@@ -298,7 +333,7 @@
     "name": "Mutant - Cephalopod Threshold",
     "description": "Start as a post-threshold Cephalopod Mutant",
     "forced_traits": "THRESH_CEPHALOPOD",
-    "extend": { "traits": [ "CLAWS_TENTACLE", "DEX_UP_4", "INT_UP_4", "LEG_TENT_BRACE", "SHELL2" ] }
+    "extend": { "traits": [ "CAMO2", "CEPH_MIND", "CLAWS_TENTACLE", "DEX_UP_4", "INT_UP_4", "LEG_TENT_BRACE", "SHELL2" ] }
   },
   {
     "type": "scenario",
@@ -343,7 +378,7 @@
     "name": "Mutant - Feline Threshold",
     "description": "Start as a post-threshold Feline Mutant",
     "forced_traits": "THRESH_FELINE",
-    "extend": { "traits": [ "PRED1", "PRED2", "PRED3", "SABER_TEETH" ] }
+    "extend": { "traits": [ "FELINE_FLEXIBILITY", "FELINE_LEAP", "PRED1", "PRED2", "PRED3", "SABER_TEETH" ] }
   },
   {
     "type": "scenario",

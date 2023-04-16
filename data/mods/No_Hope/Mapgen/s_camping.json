@@ -101,7 +101,7 @@
         { "group": "book_survival", "chance": 20, "x": 10, "y": 7 },
         { "group": "tools_hunting", "chance": 20, "x": 10, "y": 7 },
         { "group": "vending_food_items", "chance": 20, "x": 11, "y": 15 },
-        { "group": "vending_drink", "chance": 20, "x": 11, "y": 12 },
+        { "group": "vending_drink", "chance": 5, "x": 11, "y": 12 },
         { "group": "trash", "chance": 50, "repeat": 5, "x": 11, "y": 2 },
         { "group": "trash", "chance": 50, "repeat": 5, "x": [ 18, 20 ], "y": [ 18, 19 ] },
         { "group": "camping", "chance": 20, "x": [ 5, 6 ], "y": 17 },

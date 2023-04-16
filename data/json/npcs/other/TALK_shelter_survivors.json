@@ -1,0 +1,64 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "TALK_NPC_EVAC_SURVIVOR",
+    "dynamic_line": {
+      "npc_has_var": "knows_u",
+      "type": "dialogue",
+      "context": "first_meeting",
+      "value": "yes",
+      "yes": "<greet>.",
+      "no": "Don't come any closer!"
+    },
+    "speaker_effect": { "effect": { "npc_add_var": "knows_u", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
+    "responses": [
+      {
+        "text": "What's wrong?",
+        "topic": "TALK_NPC_EVAC_SURVIVOR_CALM",
+        "condition": { "not": { "npc_has_var": "knows_u", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
+      },
+      {
+        "text": "<greet>.",
+        "topic": "TALK_NPC_EVAC_SURVIVOR_INTRO",
+        "condition": { "npc_has_var": "knows_u", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+      },
+      { "text": "Bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_NPC_EVAC_SURVIVOR_CALM",
+    "dynamic_line": "Oh, you're not one of them.  Those <zombies>, I mean.  Come on in, just don't cause any trouble.",
+    "responses": [
+      { "text": "Alright, let's chat.", "topic": "TALK_NPC_EVAC_SURVIVOR_INTRO" },
+      { "text": "I'll be back later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_NPC_EVAC_SURVIVOR_INTRO",
+    "dynamic_line": "So, what's up?",
+    "responses": [
+      { "text": "What are you doing here?", "topic": "TALK_NPC_EVAC_SURVIVOR_STORY" },
+      { "text": "Care to trade?", "topic": "TALK_NPC_EVAC_SURVIVOR_INTRO", "effect": "start_trade" },
+      {
+        "text": "Why don't you come with me?",
+        "trial": { "type": "PERSUADE", "difficulty": -15, "mod": [ [ "value", 2 ] ] },
+        "success": { "topic": "TALK_AGREE_FOLLOW", "effect": "follow", "opinion": { "trust": 1, "value": 1 } },
+        "failure": { "topic": "TALK_DENY_FOLLOW", "effect": "deny_follow", "opinion": { "trust": 0, "fear": 0 } }
+      },
+      {
+        "text": "Any jobs you need done?",
+        "condition": { "and": [ { "not": "has_assigned_mission" }, { "not": "has_many_assigned_missions" } ] },
+        "topic": "TALK_MISSION_LIST"
+      },
+      { "text": "I gotta go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_NPC_EVAC_SURVIVOR_STORY",
+    "dynamic_line": "When shit hit the fan, I ran out here to this emergency shelter.  Fortunately, the place hadn't been looted yet and there weren't any <zombies> lurking around.",
+    "responses": [ { "text": "Wow.", "topic": "TALK_NONE" } ]
+  }
+]

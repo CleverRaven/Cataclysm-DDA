@@ -30,7 +30,7 @@
     "vision_night": 3,
     "luminance": 16,
     "harvest": "zombie",
-    "special_attacks": [ [ "SHOCKSTORM", 15 ], { "id": "smash", "throw_strength": 36, "cooldown": 30 } ],
+    "special_attacks": [ [ "PARROT", 8 ], [ "SHOCKSTORM", 15 ], { "id": "smash", "throw_strength": 36, "cooldown": 30 } ],
     "special_when_hit": [ "ZAPBACK", 75 ],
     "death_drops": "default_zombie_death_drops",
     "flags": [
@@ -77,10 +77,10 @@
     "bleed_rate": 50,
     "luminance": 8,
     "harvest": "zombie",
-    "special_attacks": [ [ "SHOCKSTORM", 25 ] ],
+    "special_attacks": [ [ "PARROT", 8 ], [ "SHOCKSTORM", 25 ] ],
     "special_when_hit": [ "ZAPBACK", 100 ],
     "death_drops": "default_zombie_death_drops",
-    "upgrades": { "half_life": 28, "into_group": "GROUP_ZOMBIE_ELECTRIC_UPGRADE" },
+    "upgrades": { "half_life": 42, "into_group": "GROUP_ZOMBIE_ELECTRIC_UPGRADE" },
     "flags": [
       "SEES",
       "HEARS",
@@ -128,6 +128,7 @@
     "vision_night": 3,
     "luminance": 16,
     "harvest": "zombie",
+    "special_attacks": [ [ "PARROT", 5 ] ],
     "emit_fields": [ { "emit_id": "emit_shock_cloud", "delay": "1 s" } ],
     "special_when_hit": [ "ZAPBACK", 75 ],
     "death_drops": "default_zombie_death_drops",
@@ -161,7 +162,7 @@
     "harvest": "zombie",
     "special_when_hit": [ "ZAPBACK", 100 ],
     "death_drops": "default_zombie_death_drops",
-    "upgrades": { "half_life": 8, "into": "mon_zombie_electric" },
+    "upgrades": { "half_life": 28, "into": "mon_zombie_electric" },
     "flags": [
       "SEES",
       "HEARS",

@@ -8,20 +8,20 @@ using InternMapType = std::unordered_map<std::string, int>;
 using ReverseLookupVecType = std::vector<const std::string *>;
 } // namespace
 
-inline static InternMapType &get_intern_map()
+static InternMapType &get_intern_map()
 {
     static InternMapType map{};
     return map;
 }
 
-inline static ReverseLookupVecType &get_reverse_lookup_vec()
+static ReverseLookupVecType &get_reverse_lookup_vec()
 {
     static ReverseLookupVecType vec{};
     return vec;
 }
 
 template<typename S>
-inline static int universal_string_id_intern( S &&s )
+static int universal_string_id_intern( S &&s )
 {
     int next_id = get_reverse_lookup_vec().size();
     const auto &pair = get_intern_map().emplace( std::forward<S>( s ), next_id );

@@ -91,6 +91,8 @@
         "kevlar",
         "kevlar_layered",
         "gutskin",
+        "denim",
+        "canvas",
         "demon_chitin",
         "black_dragon_hide"
       ],
@@ -122,6 +124,8 @@
           "kevlar_layered",
           "neoprene",
           "gutskin",
+          "denim",
+          "canvas",
           "black_dragon_hide",
           "demon_chitin"
         ],
@@ -129,27 +133,6 @@
         "tool_quality": 1,
         "cost_scaling": 0.1,
         "move_cost": 800
-      },
-      {
-        "type": "sew_advanced",
-        "materials": [
-          "cotton",
-          "leather",
-          "lycra",
-          "nylon",
-          "wool",
-          "fur",
-          "faux_fur",
-          "nomex",
-          "kevlar",
-          "neoprene",
-          "gutskin",
-          "plastic",
-          "parabolan_wool",
-          "kevlar_rigid"
-        ],
-        "skill": "tailor",
-        "clothing_mods": [ "leather_padded", "steel_padded", "kevlar_padded", "furred", "wooled" ]
       }
     ]
   },

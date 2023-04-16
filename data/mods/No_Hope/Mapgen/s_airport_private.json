@@ -125,7 +125,7 @@
         "I": { "item": "office", "chance": 30, "repeat": [ 2, 3 ] }
       },
       "place_vehicles": [
-        { "vehicle": "dealership", "x": 3, "y": 3, "chance": 50, "rotation": 180, "status": 1 },
+        { "vehicle": "dealership", "x": 3, "y": 4, "chance": 50, "rotation": 180, "status": 1 },
         { "vehicle": "dealership", "x": 3, "y": 8, "chance": 50, "rotation": 180, "status": 1 },
         { "vehicle": "dealership", "x": 3, "y": 13, "chance": 50, "rotation": 180, "status": 1 },
         { "vehicle": "dealership", "x": 3, "y": 18, "chance": 50, "rotation": 180, "status": 1 },

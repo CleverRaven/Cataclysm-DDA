@@ -52,7 +52,7 @@ class talker
         virtual monster *get_monster() {
             return nullptr;
         }
-        virtual monster *get_monster() const {
+        virtual const monster *get_monster() const {
             return nullptr;
         }
         virtual Creature *get_creature() {
@@ -89,8 +89,15 @@ class talker
         virtual int posz() const {
             return 0;
         }
-        virtual tripoint pos() const = 0;
-        virtual tripoint_abs_omt global_omt_location() const = 0;
+        virtual tripoint pos() const {
+            return {};
+        }
+        virtual tripoint_abs_ms global_pos() const {
+            return {};
+        }
+        virtual tripoint_abs_omt global_omt_location() const {
+            return {};
+        }
         virtual void set_pos( tripoint ) {}
         virtual std::string distance_to_goal() const {
             return "";
@@ -115,6 +122,9 @@ class talker
             return 0;
         }
         virtual int get_cur_hp( const bodypart_id & ) const {
+            return 0;
+        }
+        virtual int get_cur_part_temp( const bodypart_id & ) const {
             return 0;
         }
 
@@ -166,10 +176,28 @@ class talker
         virtual int get_skill_level( const skill_id & ) const {
             return 0;
         }
+        virtual int get_spell_level( const trait_id & ) const {
+            return 0;
+        }
+        virtual int get_spell_level( const spell_id & ) const {
+            return 0;
+        }
+        virtual int get_spell_exp( const spell_id & ) const {
+            return 0;
+        }
+        virtual int get_highest_spell_level() const {
+            return 0;
+        }
+        virtual void set_spell_level( const spell_id &, int ) {}
+        virtual void set_spell_exp( const spell_id &, int ) {}
         virtual void set_skill_level( const skill_id &, int ) {}
         virtual bool has_trait( const trait_id & ) const {
             return false;
         }
+        virtual bool has_recipe( const recipe_id & ) const {
+            return false;
+        }
+        virtual void learn_recipe( const recipe_id & ) {}
         virtual void mutate( const int &, const bool & ) {}
         virtual void mutate_category( const mutation_category_id &, const bool & ) {}
         virtual void set_mutation( const trait_id & ) {}
@@ -196,6 +224,10 @@ class talker
         virtual bool knows_proficiency( const proficiency_id & ) const {
             return false;
         }
+        virtual time_duration proficiency_practiced_time( const proficiency_id & ) const {
+            return 0_seconds;
+        }
+        virtual void set_proficiency_practiced_time( const proficiency_id &, int ) {}
         virtual std::vector<skill_id> skills_offered_to( const talker & ) const {
             return {};
         }
@@ -246,7 +278,7 @@ class talker
         virtual bool is_mute() const {
             return false;
         }
-        virtual void add_effect( const efftype_id &, const time_duration &, std::string, bool, bool,
+        virtual void add_effect( const efftype_id &, const time_duration &, const std::string &, bool, bool,
                                  int ) {}
         virtual void remove_effect( const efftype_id & ) {}
         virtual void add_bionic( const bionic_id & ) {}
@@ -309,6 +341,7 @@ class talker
             return {};
         }
         virtual void i_add( const item & ) {}
+        virtual void i_add_or_drop( item & ) {}
         virtual void remove_items_with( const std::function<bool( const item & )> & ) {}
         virtual bool unarmed_attack() const {
             return false;
@@ -411,7 +444,13 @@ class talker
         virtual int get_thirst() const {
             return 0;
         }
+        virtual int get_instant_thirst() const {
+            return 0;
+        }
         virtual int get_stored_kcal() const {
+            return 0;
+        }
+        virtual int get_healthy_kcal() const {
             return 0;
         }
         virtual int get_stim() const {
@@ -448,6 +487,7 @@ class talker
             return true;
         }
         virtual void mod_pain( int ) {}
+        virtual void set_pain( int ) {}
         virtual int pain_cur() const {
             return 0;
         }
@@ -459,6 +499,9 @@ class talker
         }
         virtual bool has_item_with_flag( const flag_id & ) const {
             return false;
+        }
+        virtual int item_rads( const flag_id &, aggregate_type ) const {
+            return 0;
         }
         virtual units::energy power_cur() const {
             return 0_kJ;
@@ -474,7 +517,7 @@ class talker
             return 0;
         }
         virtual void set_mana_cur( int ) {}
-        virtual void mod_healthy_mod( int, int ) {}
+        virtual void mod_daily_health( int, int ) {}
         virtual int morale_cur() const {
             return 0;
         }
@@ -554,6 +597,22 @@ class talker
         }
         virtual int get_body_temp_delta() const {
             return 0;
+        }
+        virtual std::vector<bodypart_id> get_all_body_parts( bool, bool ) const {
+            return std::vector<bodypart_id>();
+        }
+        virtual int get_part_hp_cur( const bodypart_id & ) const {
+            return 0;
+        }
+        virtual int get_part_hp_max( const bodypart_id & ) const {
+            return 0;
+        }
+        virtual void set_part_hp_cur( const bodypart_id &, int ) const {}
+
+        virtual void learn_martial_art( const matype_id & ) const {}
+        virtual void forget_martial_art( const matype_id & ) const {}
+        virtual bool knows_martial_art( const matype_id & ) const {
+            return false;
         }
 };
 #endif // CATA_SRC_TALKER_H

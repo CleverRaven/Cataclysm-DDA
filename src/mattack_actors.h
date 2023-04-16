@@ -14,7 +14,6 @@
 #include "magic.h"
 #include "mattack_common.h"
 #include "translations.h"
-#include "type_id.h"
 #include "weighted_list.h"
 
 class Creature;
@@ -30,11 +29,19 @@ class leap_actor : public mattack_actor
         float min_range = 0.0f;
         // Don't leap without a hostile target creature
         bool allow_no_target = false;
+        // Always leap, even when already adjacent to target
+        bool prefer_leap = false;
+        // Leap completely randomly regardless of target distance/direction
+        bool random_leap = false;
         int move_cost = 0;
-        // Range below which we don't consider jumping at all
+        // Range to target below which we don't consider jumping at all
         float min_consider_range = 0.0f;
         // Don't jump if distance to target is more than this
         float max_consider_range = 0.0f;
+
+        std::vector<mon_effect_data> self_effects;
+
+        translation message;
 
         leap_actor() = default;
         ~leap_actor() override = default;
@@ -49,6 +56,8 @@ class mon_spellcasting_actor : public mattack_actor
     public:
         fake_spell spell_data;
 
+        bool allow_no_target = false;
+
         mon_spellcasting_actor() = default;
         ~mon_spellcasting_actor() override = default;
 
@@ -62,8 +71,6 @@ class melee_actor : public mattack_actor
     public:
         // Maximum damage from the attack
         damage_instance damage_max_instance = damage_instance::physical( 9, 0, 0, 0 );
-        // Percent chance for the attack to happen if the mob tries it
-        int attack_chance = 100;
         // Minimum multiplier on damage above (rolled per attack)
         float min_mul = 0.5f;
         // Maximum multiplier on damage above (also per attack)
@@ -79,8 +86,12 @@ class melee_actor : public mattack_actor
         bool no_adjacent = false;
         // Determines if a special attack can be dodged
         bool dodgeable = true;
+        // Determines if UNCANNY_DODGE (or the bionic) can be used to dodge this attack
+        bool uncanny_dodgeable = true;
         // Determines if a special attack can be blocked
         bool blockable = true;
+        // Determines if effects are only applied on damagin attacks
+        bool effects_require_dmg = true;
         // If non-zero, the attack will fling targets, 10 throw_strength = 1 tile range
         int throw_strength = 0;
         // Limits on target bodypart hit sizes
@@ -95,8 +106,12 @@ class melee_actor : public mattack_actor
          */
         weighted_float_list<bodypart_str_id> body_parts;
 
-        /** Extra effects applied on damaging hit. */
+        /** Extra effects applied on hit. */
         std::vector<mon_effect_data> effects;
+        // Set of effects applied to the monster itself on attack/hit/damage
+        std::vector<mon_effect_data> self_effects_always;
+        std::vector<mon_effect_data> self_effects_onhit;
+        std::vector<mon_effect_data> self_effects_ondmg;
 
         /** Message for missed attack against the player. */
         translation miss_msg_u;
@@ -178,6 +193,8 @@ class gun_actor : public mattack_actor
         /** Number of moves required for each attack */
         int move_cost = 150;
 
+        /** Should moving vehicles be targeted */
+        bool target_moving_vehicles = false;
         /*@{*/
         /** Turrets may need to expend moves targeting before firing on certain targets */
 

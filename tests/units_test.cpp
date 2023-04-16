@@ -6,6 +6,7 @@
 #include "cata_utility.h"
 #include "cata_catch.h"
 #include "json.h"
+#include "json_loader.h"
 #include "math_defines.h"
 #include "options_helpers.h"
 #include "units.h"
@@ -43,13 +44,26 @@ TEST_CASE( "units_have_correct_ratios", "[units]" )
     CHECK( M_PI * 1_radians == 1_pi_radians );
     CHECK( 2_pi_radians == 360_degrees );
     CHECK( 60_arcmin == 1_degrees );
+
+    CHECK( 1_mW == units::from_milliwatt( 1 ) );
+    CHECK( 1_W == units::from_watt( 1 ) );
+    CHECK( 1_kW == units::from_kilowatt( 1 ) );
+
+    CHECK( 1_W * 1_seconds == 1_J );
+    CHECK( 1_seconds * 1_W == 1_J );
+    CHECK( 1_J / 1_seconds == 1_W );
+    CHECK( 1_J / 1_W == 1_seconds );
+    CHECK( 5_W * 5_minutes == 1.5_kJ );
+    CHECK( -5_W * 5_minutes == -1.5_kJ );
+    CHECK( ( 5_kJ / 5_W ) == ( 16_minutes + 40_seconds ) );
+    CHECK( ( -5_kJ / 5_W ) == -( 16_minutes + 40_seconds ) );
+    CHECK( ( 5_kJ / -5_W ) == -( 16_minutes + 40_seconds ) );
 }
 
 static units::energy parse_energy_quantity( const std::string &json )
 {
-    std::istringstream buffer( json );
-    JsonIn jsin( buffer );
-    return read_from_json_string<units::energy>( jsin.get_value(), units::energy_units );
+    JsonValue jsin = json_loader::from_string( json );
+    return read_from_json_string<units::energy>( jsin, units::energy_units );
 }
 
 TEST_CASE( "energy parsing from JSON", "[units]" )
@@ -70,11 +84,34 @@ TEST_CASE( "energy parsing from JSON", "[units]" )
     CHECK( parse_energy_quantity( "\"1 mJ -4 J 1 kJ\"" ) == 1_mJ - 4_J + 1_kJ );
 }
 
+static units::power parse_power_quantity( const std::string &json )
+{
+    JsonValue jsin = json_loader::from_string( json );
+    return read_from_json_string<units::power>( jsin, units::power_units );
+}
+
+TEST_CASE( "power parsing from JSON", "[units]" )
+{
+    CHECK_THROWS( parse_power_quantity( "\"\"" ) ); // empty string
+    CHECK_THROWS( parse_power_quantity( "27" ) ); // not a string at all
+    CHECK_THROWS( parse_power_quantity( "\"    \"" ) ); // only spaces
+    CHECK_THROWS( parse_power_quantity( "\"27\"" ) ); // no energy unit
+
+    CHECK( parse_power_quantity( "\"1 mW\"" ) == 1_mW );
+    CHECK( parse_power_quantity( "\"1 W\"" ) == 1_W );
+    CHECK( parse_power_quantity( "\"1 kW\"" ) == 1_kW );
+    CHECK( parse_power_quantity( "\"+1 mW\"" ) == 1_mW );
+    CHECK( parse_power_quantity( "\"+1 W\"" ) == 1_W );
+    CHECK( parse_power_quantity( "\"+1 kW\"" ) == 1_kW );
+
+    CHECK( parse_power_quantity( "\"1 mW 1 W 1 kW\"" ) == 1_mW + 1_W + 1_kW );
+    CHECK( parse_power_quantity( "\"1 mW -4 W 1 kW\"" ) == 1_mW - 4_W + 1_kW );
+}
+
 static time_duration parse_time_duration( const std::string &json )
 {
-    std::istringstream buffer( json );
-    JsonIn jsin( buffer );
-    return read_from_json_string<time_duration>( jsin.get_value(), time_duration::units );
+    JsonValue jsin = json_loader::from_string( json );
+    return read_from_json_string<time_duration>( jsin, time_duration::units );
 }
 
 TEST_CASE( "time_duration parsing from JSON", "[units]" )
@@ -253,9 +290,8 @@ TEST_CASE( "convert_velocity", "[units][convert][velocity]" )
 
 static units::angle parse_angle( const std::string &json )
 {
-    std::istringstream buffer( json );
-    JsonIn jsin( buffer );
-    return read_from_json_string<units::angle>( jsin.get_value(), units::angle_units );
+    JsonValue jsin = json_loader::from_string( json );
+    return read_from_json_string<units::angle>( jsin, units::angle_units );
 }
 
 TEST_CASE( "angle parsing from JSON", "[units]" )
@@ -296,4 +332,29 @@ TEST_CASE( "rounding" )
     CHECK( round_to_multiple_of( -8_degrees, 15_degrees ) == -15_degrees );
     CHECK( round_to_multiple_of( -15_degrees, 15_degrees ) == -15_degrees );
     CHECK( round_to_multiple_of( -360_degrees, 15_degrees ) == -360_degrees );
+}
+
+TEST_CASE( "Temperatures", "[temperature]" )
+{
+    SECTION( "Different units match" ) {
+        CHECK( units::to_kelvin( units::from_kelvin( 273.150 ) ) == Approx( 273.150 ) );
+        CHECK( units::to_kelvin( units::from_celsius( 0.0 ) ) == Approx( 273.150 ) );
+        CHECK( units::to_kelvin( units::from_fahrenheit( 32.0 ) ) == Approx( 273.150 ) );
+
+        CHECK( units::to_kelvin( units::from_celsius( 0 ) ) == Approx( 273.150 ) );
+        CHECK( units::to_kelvin( units::from_fahrenheit( 32 ) ) == Approx( 273.150 ) );
+
+        CHECK( units::to_kelvin( 273.150_K ) == Approx( 273.150 ) );
+
+        CHECK( units::to_fahrenheit( units::from_kelvin( 100 ) ) == Approx( -279.67 ) );
+        CHECK( units::to_celsius( units::from_kelvin( 100 ) ) == Approx( -173.15 ) );
+    }
+}
+
+TEST_CASE( "Specific energy", "[temperature]" )
+{
+    SECTION( "Different units match" ) {
+        CHECK( units::to_joule_per_gram( units::from_joule_per_gram( 100 ) ) == 100 );
+        CHECK( units::to_joule_per_gram( units::from_joule_per_gram( 100.1 ) ) == Approx( 100.1 ) );
+    }
 }

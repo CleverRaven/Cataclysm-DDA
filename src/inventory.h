@@ -27,8 +27,9 @@
 #include "visitable.h"
 
 class Character;
-class JsonIn;
+class JsonArray;
 class JsonOut;
+class JsonValue;
 class item_stack;
 class map;
 class npc;
@@ -89,6 +90,20 @@ class invlet_favorites
         std::array<itype_id, 256> ids_by_invlet;
 };
 
+struct quality_query {
+    quality_id qual;
+    int level;
+    int count;
+
+    bool operator==( const quality_query &other ) const {
+        return qual == other.qual && level == other.level && count == other.count;
+    }
+
+    bool operator<( const quality_query &other ) const {
+        return std::tie( qual, level, count ) < std::tie( other.qual, other.level, other.count );
+    }
+};
+
 class inventory : public visitable
 {
     public:
@@ -109,11 +124,13 @@ class inventory : public visitable
         inventory &operator+= ( const inventory &rhs );
         inventory &operator+= ( const item &rhs );
         inventory &operator+= ( const std::list<item> &rhs );
+        inventory &operator+= ( const item_components &rhs );
         inventory &operator+= ( const std::vector<item> &rhs );
         inventory &operator+= ( const item_stack &rhs );
         inventory  operator+ ( const inventory &rhs );
         inventory  operator+ ( const item &rhs );
         inventory  operator+ ( const std::list<item> &rhs );
+        inventory  operator+ ( const item_components &rhs );
 
         void unsort(); // flags the inventory as unsorted
         void clear();
@@ -124,8 +141,12 @@ class inventory : public visitable
         void add_item_keep_invlet( const item &newit );
         void push_back( const item &newit );
 
-        // used by form_from_map, if tool was already provisioned returns nullptr
-        item *provide_pseudo_item( const itype_id &id, int battery );
+        // provides pseudo tools (e.g. from terrain, furniture or vehicle parts )
+        // @returns pointer to tool or nullptr if tool type_id already provided
+        item *provide_pseudo_item( const item &tool );
+        // provides pseudo tool of type \p tool_type constructed at current turn
+        // @returns pointer to tool or nullptr if tool type_id is invalid or already provided
+        item *provide_pseudo_item( const itype_id &tool_type );
 
         /* Check all items for proper stacking, rearranging as needed
          * game pointer is not necessary, but if supplied, will ensure no overlap with
@@ -179,8 +200,6 @@ class inventory : public visitable
         std::list<item> use_amount( const itype_id &it, int quantity,
                                     const std::function<bool( const item & )> &filter = return_true<item> );
 
-        int leak_level( const flag_id &flag ) const; // level of leaked bad stuff from items
-
         // NPC/AI functions
         int worst_item_value( npc *p ) const;
         bool has_enough_painkiller( int pain ) const;
@@ -197,12 +216,8 @@ class inventory : public visitable
         void dump( std::vector<item *> &dest );
         void dump( std::vector<const item *> &dest ) const;
 
-        // vector rather than list because it's NOT an item stack
-        // returns all items that need processing
-        std::vector<item *> active_items();
-
-        void json_load_invcache( JsonIn &jsin );
-        void json_load_items( JsonIn &jsin );
+        void json_load_invcache( const JsonValue &jsin );
+        void json_load_items( const JsonArray &ja );
 
         void json_save_invcache( JsonOut &json ) const;
         void json_save_items( JsonOut &json ) const;
@@ -229,7 +244,7 @@ class inventory : public visitable
         void copy_invlet_of( const inventory &other );
 
         // gets a singular enchantment that is an amalgamation of all items that have active enchantments
-        enchantment get_active_enchantment_cache( const Character &owner ) const;
+        enchant_cache get_active_enchantment_cache( const Character &owner ) const;
 
         int count_item( const itype_id &item_type ) const;
 
@@ -244,17 +259,18 @@ class inventory : public visitable
         int charges_of( const itype_id &what, int limit = INT_MAX,
                         const std::function<bool( const item & )> &filter = return_true<item>,
                         const std::function<void( int )> &visitor = nullptr, bool in_tools = false ) const override;
-        int amount_of( const itype_id &what, bool pseudo = true,
-                       int limit = INT_MAX,
-                       const std::function<bool( const item & )> &filter = return_true<item> ) const override;
+        int amount_of(
+            const itype_id &what, bool pseudo = true, int limit = INT_MAX,
+            const std::function<bool( const item & )> &filter = return_true<item> ) const override;
 
-        std::pair<int, int> kcal_range( const itype_id &id,
-                                        const std::function<bool( const item & )> &filter, Character &player_character );
+        std::pair<int, int> kcal_range(
+            const itype_id &id,
+            const std::function<bool( const item & )> &filter, Character &player_character ) const;
 
         // specifically used to for displaying non-empty liquid container color in crafting screen
         bool must_use_liq_container( const itype_id &id, int to_use ) const;
         void update_liq_container_count( const itype_id &id, int count );
-        void replace_liq_container_count( const std::map<itype_id, int> newmap, bool use_max = false );
+        void replace_liq_container_count( const std::map<itype_id, int> &newmap, bool use_max = false );
 
     private:
         invlet_favorites invlet_cache;
@@ -274,6 +290,8 @@ class inventory : public visitable
          * `mutable` because this is a pure cache that doesn't affect the contained items.
          */
         mutable itype_bin binned_items;
+
+        mutable std::map<quality_query, bool> qualities_cache;
 };
 
 #endif // CATA_SRC_INVENTORY_H

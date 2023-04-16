@@ -150,7 +150,7 @@
     "harvest": "fungaloid",
     "special_attacks": [ [ "FUNGUS", 30 ] ],
     "death_function": { "effect": { "id": "death_fungus", "hit_self": true } },
-    "upgrades": { "half_life": 14, "into": "mon_fungaloid_shambler" },
+    "upgrades": { "age_grow": 31, "into": "mon_fungaloid_shambler" },
     "flags": [ "STUMBLES", "POISON", "NO_BREATHE", "NOHEAD" ]
   },
   {
@@ -327,7 +327,7 @@
     "harvest": "exempt",
     "special_attacks": [ [ "PLANT", 100 ] ],
     "death_function": { "message": "The %s disintegrates!", "corpse_type": "NO_CORPSE" },
-    "upgrades": { "half_life": 10, "into": "mon_fungaloid" },
+    "upgrades": { "age_grow": 21, "into": "mon_fungaloid" },
     "flags": [ "STUMBLES", "FLIES", "POISON", "NO_BREATHE", "NOHEAD", "NOGIB" ]
   },
   {

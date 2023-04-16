@@ -52,6 +52,7 @@
             [ "city_block_2_vitamin_shop", 20 ],
             [ "city_block_2_cellphone_shop", 20 ],
             [ "city_block_2_music_shop", 20 ],
+            [ "city_block_2_gift_shop", 20 ],
             [ "city_block_2_electronics_shop", 20 ],
             [ "city_block_2_pizza_shop", 20 ]
           ]
@@ -311,6 +312,19 @@
       "place_nested": [
         { "chunks": [ "city_block_9x9_music_shop_front" ], "x": 0, "y": 0 },
         { "chunks": [ "city_block_3x3_backroom_crates_music" ], "x": 6, "y": 12 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "combines gift shop front & back 9x9 front, 3x3 back crates.",
+    "nested_mapgen_id": "city_block_2_gift_shop",
+    "object": {
+      "mapgensize": [ 15, 15 ],
+      "place_nested": [
+        { "chunks": [ "city_block_9x9_gift_shop_front" ], "x": 0, "y": 0 },
+        { "chunks": [ "city_block_3x3_backroom_crates_gift" ], "x": 6, "y": 12 }
       ]
     }
   },

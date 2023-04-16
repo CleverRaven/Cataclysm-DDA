@@ -1,0 +1,61 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "TALK_NPC_HOMELESS_SURVIVOR",
+    "dynamic_line": {
+      "u_has_var": "talked_to_homeless",
+      "type": "dialogue",
+      "context": "first_meeting",
+      "value": "yes",
+      "yes": "Hello there.  Nice to see you again.",
+      "no": "Who are you?"
+    },
+    "speaker_effect": { "effect": { "npc_add_var": "talked_to_homeless", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
+    "responses": [
+      {
+        "text": "Nice to meet you.",
+        "topic": "TALK_NPC_HOMELESS_SURVIVOR_INTRO",
+        "condition": { "not": { "npc_has_var": "talked_to_homeless", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
+      },
+      {
+        "text": "Pleasure to see you again.",
+        "topic": "TALK_NPC_HOMELESS_SURVIVOR_INTRO",
+        "condition": { "npc_has_var": "talked_to_homeless", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+      },
+      { "text": "See ya.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_NPC_HOMELESS_SURVIVOR_INTRO",
+    "dynamic_line": "So, what's up?",
+    "responses": [
+      { "text": "What are you doing here?", "topic": "TALK_NPC_HOMELESS_SURVIVOR_STORY" },
+      { "text": "Care to trade?", "topic": "TALK_NPC_HOMELESS_SURVIVOR_INTRO", "effect": "start_trade" },
+      {
+        "text": "Why don't you come with me?",
+        "trial": { "type": "PERSUADE", "difficulty": -15, "mod": [ [ "value", 2 ] ] },
+        "success": { "topic": "TALK_AGREE_FOLLOW", "effect": "follow", "opinion": { "trust": 1, "value": 1 } },
+        "failure": { "topic": "TALK_DENY_FOLLOW", "effect": "deny_follow", "opinion": { "trust": 0, "fear": 0 } }
+      },
+      {
+        "text": "Any jobs you need done?",
+        "condition": { "and": [ { "not": "has_assigned_mission" }, { "not": "has_many_assigned_missions" } ] },
+        "topic": "TALK_MISSION_LIST"
+      },
+      { "text": "I gotta go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_NPC_HOMELESS_SURVIVOR_STORY",
+    "dynamic_line": [
+      "I was homeless before everything went down, just camping out here for a while.  Stuck up <name_b>s shunned me for my condition, but they're all dead now.  I guess I'm better off than they are.",
+      "I guess you probably wouldn't have noticed this place before shit hit the fan, but I've been down here for quite a while.",
+      "Nothing to it.  Before <the_cataclysm>, it didn't take much to find yourself here.  And I guess it just made sense to stay.  We seem to be doing better than most, anyway.",
+      "Surviving, as I always have.  Is that what you mean?",
+      "It's hard to say exactly what I'm doing out here, but I guess one thing just leads to another and… well, you're just being nice when you ask, aren't you?  It doesn't matter now anyway.  I'm here and I'm still alive."
+    ],
+    "responses": [ { "text": "Hm.", "topic": "TALK_NONE" } ]
+  }
+]

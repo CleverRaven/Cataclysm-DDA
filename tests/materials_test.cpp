@@ -15,7 +15,7 @@ static constexpr int num_iters = 1000;
 static constexpr tripoint dude_pos( HALF_MAPSIZE_X, HALF_MAPSIZE_Y, 0 );
 static constexpr tripoint target_pos( HALF_MAPSIZE_X - 10, HALF_MAPSIZE_Y, 0 );
 
-static void check_near( std::string subject, float prob, const float expected,
+static void check_near( const std::string &subject, float prob, const float expected,
                         const float tolerance )
 {
     const float low = expected - tolerance;
@@ -34,12 +34,12 @@ TEST_CASE( "Resistance vs. material portions", "[material]" )
     REQUIRE( mostly_steel.get_base_material().id == material_steel );
     REQUIRE( mostly_plastic.get_base_material().id == material_plastic );
 
-    CHECK( mostly_steel.cut_resist() > mostly_plastic.cut_resist() );
-    CHECK( mostly_steel.acid_resist() == mostly_plastic.acid_resist() );
-    CHECK( mostly_steel.bash_resist() > mostly_plastic.bash_resist() );
-    CHECK( mostly_steel.fire_resist() == mostly_plastic.fire_resist() );
-    CHECK( mostly_steel.stab_resist() > mostly_plastic.stab_resist() );
-    CHECK( mostly_steel.bullet_resist() > mostly_plastic.bullet_resist() );
+    CHECK( mostly_steel.resist( damage_type::CUT ) > mostly_plastic.resist( damage_type::CUT ) );
+    CHECK( mostly_steel.resist( damage_type::ACID ) == mostly_plastic.resist( damage_type::ACID ) );
+    CHECK( mostly_steel.resist( damage_type::BASH ) > mostly_plastic.resist( damage_type::BASH ) );
+    CHECK( mostly_steel.resist( damage_type::HEAT ) == mostly_plastic.resist( damage_type::HEAT ) );
+    CHECK( mostly_steel.resist( damage_type::STAB ) > mostly_plastic.resist( damage_type::STAB ) );
+    CHECK( mostly_steel.resist( damage_type::BULLET ) > mostly_plastic.resist( damage_type::BULLET ) );
     CHECK( mostly_steel.chip_resistance() > mostly_plastic.chip_resistance() );
 }
 
@@ -74,7 +74,7 @@ TEST_CASE( "Glass portion breakability", "[material] [slow]" )
         REQUIRE( dude.wield( mostly_glass ) );
         int shatter_count = 0;
         for( int i = 0; i < num_iters; i++ ) {
-            dealt_projectile_attack atk = dude.throw_item( target_pos, dude.get_wielded_item() );
+            dealt_projectile_attack atk = dude.throw_item( target_pos, *dude.get_wielded_item() );
             if( atk.proj.proj_effects.find( "SHATTER_SELF" ) != atk.proj.proj_effects.end() ) {
                 shatter_count++;
             }
@@ -87,7 +87,7 @@ TEST_CASE( "Glass portion breakability", "[material] [slow]" )
         REQUIRE( dude.wield( mostly_steel ) );
         int shatter_count = 0;
         for( int i = 0; i < num_iters; i++ ) {
-            dealt_projectile_attack atk = dude.throw_item( target_pos, dude.get_wielded_item() );
+            dealt_projectile_attack atk = dude.throw_item( target_pos, *dude.get_wielded_item() );
             if( atk.proj.proj_effects.find( "SHATTER_SELF" ) != atk.proj.proj_effects.end() ) {
                 shatter_count++;
             }

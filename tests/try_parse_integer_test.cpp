@@ -1,6 +1,7 @@
 #include "cata_catch.h"
 #include "try_parse_integer.h"
 
+// NOLINTNEXTLINE(modernize-avoid-c-arrays)
 TEMPLATE_TEST_CASE( "try_parse_int_simple_parsing", "[try_parse_integer]", int, long, long long )
 {
     try {
@@ -63,6 +64,7 @@ TEMPLATE_TEST_CASE( "try_parse_int_simple_parsing", "[try_parse_integer]", int, 
     }
 }
 
+// NOLINTNEXTLINE(modernize-avoid-c-arrays)
 TEMPLATE_TEST_CASE( "try_parse_int_locale_parsing", "[try_parse_integer]", int, long, long long )
 {
     SECTION( "de_DE" ) {

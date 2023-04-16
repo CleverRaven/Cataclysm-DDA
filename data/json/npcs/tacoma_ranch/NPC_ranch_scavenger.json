@@ -191,7 +191,7 @@
           "place_nested": [ { "chunks": [ "tacoma_commune_junk_shop_shed_2" ], "x": 18, "y": 19 } ],
           "set": [
             { "square": "terrain", "id": "t_dirt", "x": 23, "y": 16, "x2": 23, "y2": 17 },
-            { "point": "terrain", "id": "t_machinery_light", "x": 23, "y": 16 },
+            { "point": "furniture", "id": "f_machinery_light", "x": 23, "y": 16 },
             { "point": "furniture", "id": "f_arcade_machine", "x": 23, "y": 17 }
           ],
           "place_item": [
@@ -257,7 +257,7 @@
       "offer": "When outnumbered or forced to pull back, my scavengers have been taught to throw Molotov cocktails to keep monsters from chasing them.  We go through one or two on every mission, so we can always use a few more.  Would you be willing to make us a dozen?  I'm willing to pay you what I can for your assistance.",
       "accepted": "I'm counting on you.",
       "rejected": "Come back when you get a chance.  We need skilled survivors.",
-      "advice": "Alcohol or lamp oil is probably easier to refine rather than find in large quantities.",
+      "advice": "Alcohol or kerosene is probably easier to refine rather than find in large quantities.",
       "inquire": "Do you have the Molotov cocktails?",
       "success": "Thank you for the delivery.",
       "success_lie": "What good does this do us?",

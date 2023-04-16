@@ -7,13 +7,13 @@
 #include <iosfwd>
 #include <list>
 #include <map>
+#include <optional>
 #include <set>
 #include <utility>
 #include <vector>
 
 #include "enums.h"
 #include "item_pocket.h"
-#include "optional.h"
 #include "ret_val.h"
 #include "type_id.h"
 #include "units_fwd.h"
@@ -39,7 +39,7 @@ class item_contents
           * checks all items contained in every pocket
           * only checks CONTAINER pocket type
           */
-        std::pair<item_location, item_pocket *> best_pocket( const item &it, item_location &parent,
+        std::pair<item_location, item_pocket *> best_pocket( const item &it, item_location &this_loc,
                 const item *avoid = nullptr, bool allow_sealed = false, bool ignore_settings = false,
                 bool nested = false, bool ignore_rigidity = false );
 
@@ -54,7 +54,7 @@ class item_contents
          * Ignores mod, migration, corpse pockets
          * @param it the item being put in
          */
-        ret_val<bool> is_compatible( const item &it ) const;
+        ret_val<void> is_compatible( const item &it ) const;
 
         /**
          * returns whether an item can be physically stored within these item contents.
@@ -62,17 +62,22 @@ class item_contents
          * physical pockets.
          * @param it the item being put in
          * @param ignore_pkt_settings whether to ignore pocket autoinsert settings
+         * @param remaining_parent_volume if we are nesting things without concern for rigidity we need to be careful about overfilling pockets
+         * this tracks the remaining volume of any parent pockets
          */
-        ret_val<bool> can_contain( const item &it, const bool ignore_pkt_settings = true ) const;
-        ret_val<bool> can_contain_rigid( const item &it, const bool ignore_pkt_settings = true ) const;
+        ret_val<void> can_contain( const item &it, bool ignore_pkt_settings = true,
+                                   units::volume remaining_parent_volume = 10000000_ml ) const;
+        ret_val<void> can_contain_rigid( const item &it, bool ignore_pkt_settings = true ) const;
         bool can_contain_liquid( bool held_or_ground ) const;
+
+        bool contains_no_solids() const;
 
         /**
          * returns whether any of the pockets can be reloaded with the specified item.
          * @param ammo item to be loaded in
          * @param now whether the currently contained ammo/magazine should be taken into account
          */
-        bool can_reload_with( const item &ammo, const bool now ) const;
+        bool can_reload_with( const item &ammo, bool now ) const;
 
         // Returns true if contents are empty (ignoring item mods, since they aren't contents)
         bool empty() const;
@@ -89,14 +94,11 @@ class item_contents
         // number of pockets
         size_t size() const;
 
-    private:
         /** returns a list of pointers to all top-level items from pockets that match the predicate */
         std::list<item *> all_items_top( const std::function<bool( item_pocket & )> &filter );
         /** returns a list of pointers to all top-level items from pockets that match the predicate */
         std::list<const item *> all_items_top( const std::function<bool( const item_pocket & )> &filter )
         const;
-
-    public:
         /** returns a list of pointers to all top-level items */
         /** if unloading is true it ignores items in pockets that are flagged to not unload */
         std::list<item *> all_items_top( item_pocket::pocket_type pk_type, bool unloading = false );
@@ -126,7 +128,7 @@ class item_contents
         std::vector<item *> ebooks();
         std::vector<const item *> ebooks() const;
 
-        void update_modified_pockets( const cata::optional<const pocket_data *> &mag_or_mag_well,
+        void update_modified_pockets( const std::optional<const pocket_data *> &mag_or_mag_well,
                                       std::vector<const pocket_data *> container_pockets );
         // all magazines compatible with any pockets.
         // this only checks MAGAZINE_WELL
@@ -170,6 +172,8 @@ class item_contents
         int get_total_holsters() const;
         units::volume get_total_holster_volume() const;
         units::volume get_used_holster_volume() const;
+        units::mass get_total_holster_weight() const;
+        units::mass get_used_holster_weight() const;
 
         // gets all CONTAINER pockets contained in this item
         std::vector<const item_pocket *> get_all_contained_pockets() const;
@@ -252,10 +256,10 @@ class item_contents
         /**
          * Open a menu for the player to set pocket favorite settings for the pockets in this item_contents
          */
-        void favorite_settings_menu( const std::string &item_name );
+        void favorite_settings_menu( item *i );
 
         item_pocket *contained_where( const item &contained );
-        void on_pickup( Character &guy );
+        void on_pickup( Character &guy, item *avoid = nullptr );
         bool spill_contents( const tripoint &pos );
         // spill items that don't fit in the container
         void overflow( const tripoint &pos );
@@ -298,7 +302,9 @@ class item_contents
 
         // gets the item contained IFF one item is contained (CONTAINER pocket), otherwise a null item reference
         item &only_item();
+        item &first_item();
         const item &only_item() const;
+        const item &first_item() const;
         item *get_item_with( const std::function<bool( const item & )> &filter );
         void remove_items_if( const std::function<bool( item & )> &filter );
 
@@ -315,8 +321,10 @@ class item_contents
         void process( map &here, Character *carrier, const tripoint &pos, float insulation = 1,
                       temperature_flag flag = temperature_flag::NORMAL, float spoil_multiplier_parent = 1.0f );
 
+        void leak( map &here, Character *carrier, const tripoint &pos, item_pocket *pocke = nullptr );
+
         bool item_has_uses_recursive() const;
-        bool stacks_with( const item_contents &rhs ) const;
+        bool stacks_with( const item_contents &rhs, int depth = 0, int maxdepth = 2 ) const;
         bool same_contents( const item_contents &rhs ) const;
         // can this item be used as a funnel?
         bool is_funnel_container( units::volume &bigger_than ) const;
@@ -336,7 +344,8 @@ class item_contents
 
         // reads the items in the MOD pocket first
         void read_mods( const item_contents &read_input );
-        void combine( const item_contents &read_input, bool convert = false );
+        void combine( const item_contents &read_input, bool convert = false, bool into_bottom = false,
+                      bool restack_charges = true );
 
         void serialize( JsonOut &json ) const;
         void deserialize( const JsonObject &data );
@@ -364,5 +373,7 @@ class item_contents
 
         friend struct item_contents_helper;
 };
+
+void pocket_management_menu( const std::string &title, const std::vector<item *> &to_organize );
 
 #endif // CATA_SRC_ITEM_CONTENTS_H

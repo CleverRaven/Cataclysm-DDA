@@ -19,7 +19,7 @@
     "id": "mycenacean_hymns",
     "type": "BOOK",
     "name": { "str": "Mycenacean Hymns", "str_pl": "copies of Mycenacean Hymns" },
-    "description": "A vellum book containing the hymns central to Marloss faith.  As the verses lead to each other, the text sings of unity and promised paradise.",
+    "description": "A vellum book containing the hymns central to the Marloss faith.  As the verses lead into each other, the text sings of unity and promised paradise.",
     "weight": "368 g",
     "volume": "1 L",
     "copy-from": "holybook_abstract"
@@ -37,7 +37,7 @@
     "id": "holybook_bible2",
     "type": "BOOK",
     "name": { "str": "Eastern Orthodox Bible", "str_pl": "copies of Eastern Orthodox Bible" },
-    "description": "An English copy of the Eastern Orthodox translation of The Holy Bible.",
+    "description": "An English copy of the Eastern Orthodox translation of the Christian Bible.",
     "weight": "428 g",
     "volume": "1250 ml",
     "copy-from": "holybook_abstract"
@@ -47,6 +47,27 @@
     "type": "BOOK",
     "name": { "str": "Gideon Bible", "str_pl": "copies of Gideon Bible" },
     "description": "An English translation of the Christian Bible, distributed free of charge by Gideons International.",
+    "weight": "368 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_bible4",
+    "type": "BOOK",
+    "name": { "str": "New American Bible", "str_pl": "copies of the New Bible" },
+    "description": "An English translation of the Bible first published in 1970.  It is accepted by the Catholic dioceses of the United States of America and the Philippines.",
+    "weight": "368 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_bible5",
+    "type": "BOOK",
+    "name": {
+      "str": "The New World Translation of the Holy Scriptures",
+      "str_pl": "copies of the New World Translation of the Holy Scriptures"
+    },
+    "description": "An English translation of the Bible published by the Watch Tower Bible and Tract Society, used and distributed by Jehovah's Witnesses",
     "weight": "368 g",
     "volume": "1 L",
     "copy-from": "holybook_abstract"
@@ -144,7 +165,7 @@
     "volume": "1 L",
     "price": 550,
     "price_postapoc": 550,
-    "material": [ "paper" ],
+    "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "looks_like": "story_book",
     "color": "dark_gray",

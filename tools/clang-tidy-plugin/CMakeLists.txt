@@ -7,11 +7,13 @@ find_package(Clang REQUIRED CONFIG)
 set(CataAnalyzerSrc
         AlmostNeverAutoCheck.cpp
         AssertCheck.cpp
+        AvoidAlternativeTokensCheck.cpp
         CataTidyModule.cpp
         CombineLocalsIntoPointCheck.cpp
         DeterminismCheck.cpp
         HeaderGuardCheck.cpp
         JsonTranslationInputCheck.cpp
+        LargeInlineFunctionCheck.cpp
         LargeStackObjectCheck.cpp
         NoLongCheck.cpp
         NoStaticTranslationCheck.cpp
@@ -34,6 +36,7 @@ set(CataAnalyzerSrc
         UnsequencedCallsCheck.cpp
         UnusedStaticsCheck.cpp
         UseLocalizedSortingCheck.cpp
+        UseMdarrayCheck.cpp
         UseNamedPointConstantsCheck.cpp
         UsePointApisCheck.cpp
         UsePointArithmeticCheck.cpp
@@ -44,7 +47,7 @@ set(CataAnalyzerSrc
 if (CATA_CLANG_TIDY_EXECUTABLE)
     set(CataAnalyzerName CataAnalyzer)
     add_executable(${CataAnalyzerName} ${CataAnalyzerSrc})
-    target_link_libraries(${CataAnalyzerName} clangTidyMain)
+    target_link_libraries(${CataAnalyzerName} PRIVATE clangTidyMain)
     add_definitions(-DCATA_CLANG_TIDY_EXECUTABLE)
 else ()
     set(CataAnalyzerName CataAnalyzerPlugin)

@@ -1,0 +1,18 @@
+[
+  {
+    "type": "palette",
+    "id": "abandoned_textile_mill",
+    "terrain": {
+      "]": "t_brick_wall",
+      "+": "t_door_gray_frame",
+      "*": "t_window_empty",
+      "-": "t_strconc_floor_no_roof",
+      "=": "t_region_groundcover_barren"
+    },
+    "furniture": { "-": [ [ "f_null", 30 ], "f_rubble" ], "=": [ [ "f_null", 30 ], "f_rubble" ] },
+    "items": {
+      "=": { "item": "collapsed_building_outside", "chance": 75 },
+      "-": { "item": "collapsed_building_rubble", "chance": 75 }
+    }
+  }
+]

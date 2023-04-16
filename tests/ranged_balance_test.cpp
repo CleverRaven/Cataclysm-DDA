@@ -123,8 +123,8 @@ static std::vector<firing_statistics> firing_test( const dispersion_sources &dis
 
 static dispersion_sources get_dispersion( npc &shooter, const int aim_time, int range )
 {
-    item &gun = shooter.get_wielded_item();
-    dispersion_sources dispersion = shooter.get_weapon_dispersion( gun );
+    item_location gun = shooter.get_wielded_item();
+    dispersion_sources dispersion = shooter.get_weapon_dispersion( *gun );
 
     shooter.moves = aim_time;
     shooter.recoil = MAX_RECOIL;
@@ -149,8 +149,8 @@ static void test_shooting_scenario( npc &shooter, const int min_quickdraw_range,
         } );
         INFO( dispersion );
         INFO( "Range: " << min_quickdraw_range );
-        INFO( "Max aim speed: " << shooter.aim_per_move( shooter.get_wielded_item(), MAX_RECOIL ) );
-        INFO( "Min aim speed: " << shooter.aim_per_move( shooter.get_wielded_item(), shooter.recoil ) );
+        INFO( "Max aim speed: " << shooter.aim_per_move( *shooter.get_wielded_item(), MAX_RECOIL ) );
+        INFO( "Min aim speed: " << shooter.aim_per_move( *shooter.get_wielded_item(), shooter.recoil ) );
         CAPTURE( shooter.get_modifier( character_modifier_ranged_dispersion_manip_mod ) );
         CAPTURE( minimum_stats[0].n() );
         CAPTURE( minimum_stats[0].margin_of_error() );
@@ -165,8 +165,8 @@ static void test_shooting_scenario( npc &shooter, const int min_quickdraw_range,
                                        0.5 ) );
         INFO( dispersion );
         INFO( "Range: " << min_good_range );
-        INFO( "Max aim speed: " << shooter.aim_per_move( shooter.get_wielded_item(), MAX_RECOIL ) );
-        INFO( "Min aim speed: " << shooter.aim_per_move( shooter.get_wielded_item(), shooter.recoil ) );
+        INFO( "Max aim speed: " << shooter.aim_per_move( *shooter.get_wielded_item(), MAX_RECOIL ) );
+        INFO( "Min aim speed: " << shooter.aim_per_move( *shooter.get_wielded_item(), shooter.recoil ) );
         CAPTURE( shooter.get_modifier( character_modifier_ranged_dispersion_manip_mod ) );
         CAPTURE( good_stats.n() );
         CAPTURE( good_stats.margin_of_error() );
@@ -178,8 +178,8 @@ static void test_shooting_scenario( npc &shooter, const int min_quickdraw_range,
                                        0.1 ) );
         INFO( dispersion );
         INFO( "Range: " << max_good_range );
-        INFO( "Max aim speed: " << shooter.aim_per_move( shooter.get_wielded_item(), MAX_RECOIL ) );
-        INFO( "Min aim speed: " << shooter.aim_per_move( shooter.get_wielded_item(), shooter.recoil ) );
+        INFO( "Max aim speed: " << shooter.aim_per_move( *shooter.get_wielded_item(), MAX_RECOIL ) );
+        INFO( "Min aim speed: " << shooter.aim_per_move( *shooter.get_wielded_item(), shooter.recoil ) );
         CAPTURE( shooter.get_modifier( character_modifier_ranged_dispersion_manip_mod ) );
         CAPTURE( good_stats.n() );
         CAPTURE( good_stats.margin_of_error() );
@@ -198,13 +198,13 @@ static void test_fast_shooting( npc &shooter, const int moves, float hit_rate )
                                          Threshold( accuracy_standard, hit_rate_cap ) );
     INFO( dispersion );
     INFO( "Range: " << fast_shooting_range );
-    INFO( "Max aim speed: " << shooter.aim_per_move( shooter.get_wielded_item(), MAX_RECOIL ) );
-    INFO( "Min aim speed: " << shooter.aim_per_move( shooter.get_wielded_item(), shooter.recoil ) );
+    INFO( "Max aim speed: " << shooter.aim_per_move( *shooter.get_wielded_item(), MAX_RECOIL ) );
+    INFO( "Min aim speed: " << shooter.aim_per_move( *shooter.get_wielded_item(), shooter.recoil ) );
     CAPTURE( shooter.get_modifier( character_modifier_ranged_dispersion_manip_mod ) );
-    CAPTURE( shooter.get_wielded_item().gun_skill().str() );
-    CAPTURE( shooter.get_skill_level( shooter.get_wielded_item().gun_skill() ) );
+    CAPTURE( shooter.get_wielded_item()->gun_skill().str() );
+    CAPTURE( shooter.get_skill_level( shooter.get_wielded_item()->gun_skill() ) );
     CAPTURE( shooter.get_dex() );
-    CAPTURE( to_milliliter( shooter.get_wielded_item().volume() ) );
+    CAPTURE( to_milliliter( shooter.get_wielded_item()->volume() ) );
     CAPTURE( fast_stats.n() );
     CAPTURE( fast_stats.margin_of_error() );
     CHECK( fast_stats.avg() > hit_rate );
@@ -243,7 +243,7 @@ TEST_CASE( "unskilled_shooter_accuracy", "[ranged] [balance] [slow]" )
     standard_npc shooter( "Shooter", shooter_pos, {}, 0, 8, 8, 8, 7 );
     shooter.set_body();
     shooter.worn.wear_item( shooter, item( "backpack" ), false, false );
-    equip_shooter( shooter, { "bastsandals", "armguard_hard", "armguard_soft", "armor_chitin", "beekeeping_gloves", "mask_guy_fawkes", "cowboy_hat" } );
+    equip_shooter( shooter, { "bastsandals", "armguard_hard", "armguard_soft", "test_armor_chitin", "beekeeping_gloves", "mask_guy_fawkes", "cowboy_hat" } );
     assert_encumbrance( shooter, 10 );
 
     SECTION( "an unskilled shooter with a common pistol" ) {
@@ -440,9 +440,9 @@ TEST_CASE( "synthetic_range_test", "[.]" )
     }
 }
 
-static void shoot_monster( std::string gun_type, const std::vector<std::string> &mods,
-                           std::string ammo_type, int range,
-                           int expected_damage, std::string monster_type )
+static void shoot_monster( const std::string &gun_type, const std::vector<std::string> &mods,
+                           const std::string &ammo_type, int range,
+                           int expected_damage, const std::string &monster_type )
 {
     clear_map();
     statistics<int> damage;
@@ -454,9 +454,9 @@ static void shoot_monster( std::string gun_type, const std::vector<std::string> 
         shooter->set_body();
         arm_shooter( *shooter, gun_type, mods, ammo_type );
         shooter->recoil = 0;
-        monster &mon = spawn_test_monster( monster_type, monster_pos );
+        monster &mon = spawn_test_monster( monster_type, monster_pos, false );
         const int prev_HP = mon.get_hp();
-        shooter->fire_gun( monster_pos, 1, shooter->get_wielded_item() );
+        shooter->fire_gun( monster_pos, 1, *shooter->get_wielded_item() );
         damage.add( prev_HP - mon.get_hp() );
         if( damage.margin_of_error() < 0.05 && damage.n() > 100 ) {
             break;
@@ -504,7 +504,7 @@ TEST_CASE( "shot_features", "[gun]" "[slow]" )
     // Can't hurt at close range.
     shoot_monster( "shotgun_s", {}, "shot_bird", 5, 1, "mon_skeleton_hulk" );
     // Barely injure at point blank.
-    shoot_monster( "shotgun_s", {}, "shot_bird", 1, 18, "mon_skeleton_hulk" );
+    shoot_monster( "shotgun_s", {}, "shot_bird", 1, 25, "mon_skeleton_hulk" );
     // TODO: can't harm heavily armored enemies even at point blank.
 
     // BUCKSHOT
@@ -576,15 +576,15 @@ static constexpr float fudge_factor = 0.025;
 
 template<typename T, typename W>
 std::map<T, float> hit_distribution( const targeting_graph<T, W> &graph,
-                                     cata::optional<float> guess = cata::nullopt, int iters = 100000 )
+                                     std::optional<float> guess = std::nullopt, int iters = 100000 )
 {
     std::map<T, float> hits;
     for( int i = 0; i < iters; ++i ) {
         typename std::map<T, float>::iterator it;
         if( guess ) {
-            it = hits.emplace( graph.select( 0.0, 1.0, *guess ), 0 ).first;
+            it = hits.emplace( graph.select( 0.0, 1.0, *guess ), 0.f ).first;
         } else {
-            it = hits.emplace( graph.select( 0.0, 1.0, rng_float( 0, 1 ) ), 0 ).first;
+            it = hits.emplace( graph.select( 0.0, 1.0, rng_float( 0, 1 ) ), 0.f ).first;
         }
         ++it->second;
     }
@@ -638,21 +638,21 @@ TEST_CASE( "targeting_graph_linear_distribution", "[targeting_graph][random]" )
     }
 
     SECTION( "With a perfectly accurate hit, only the center is hit" ) {
-        hits = hit_distribution( graph, cata::optional<float>( 0 ) );
+        hits = hit_distribution( graph, std::optional<float>( 0.0f ) );
         REQUIRE( hits[0] == 1.0f );
         CHECK( hits[1] == 0.0f );
         CHECK( hits[2] == 0.0f );
     }
 
     SECTION( "With the least accurate hit, only the end is hit" ) {
-        hits = hit_distribution( graph, cata::optional<float>( 1 ) );
+        hits = hit_distribution( graph, std::optional<float>( 1.0f ) );
         REQUIRE( hits[2] == 1.0f );
         CHECK( hits[0] == 0.0f );
         CHECK( hits[1] == 0.0f );
     }
 
     SECTION( "With a middling hit, only the middle ring is hit" ) {
-        hits = hit_distribution( graph, cata::optional<float>( 0.6 ) );
+        hits = hit_distribution( graph, std::optional<float>( 0.6f ) );
         REQUIRE( hits[1] == 1.0f );
         CHECK( hits[0] == 0.0f );
         CHECK( hits[2] == 0.0f );
@@ -684,7 +684,7 @@ TEST_CASE( "targeting_graph_simple_limb_distribution", "[targeting_graph][random
         targeting_graph<int, center_target> graph;
         graph.generate( 0, parts );
 
-        std::map<int, float> hits = hit_distribution( graph, cata::optional<float>( 0.9 ) );
+        std::map<int, float> hits = hit_distribution( graph, std::optional<float>( 0.9f ) );
 
         // Check that we're within 2.5% of the expected distribution for simple targets
         // Nothing should hit the center, the hit is too inaccurate for that
@@ -814,7 +814,7 @@ TEST_CASE( "targeting_graph_complex_limb_distribution", "[targeting_graph][rando
         targeting_graph<int, center_target> graph;
         graph.generate( 0, parts );
 
-        std::map<int, float> hits = hit_distribution( graph, cata::optional<float>( 0.9 ) );
+        std::map<int, float> hits = hit_distribution( graph, std::optional<float>( 0.9f ) );
 
         // Nothing should hit the center, the hit is too inaccurate for that
         REQUIRE( hits[0] == 0.0f );
@@ -828,7 +828,7 @@ TEST_CASE( "targeting_graph_complex_limb_distribution", "[targeting_graph][rando
         std::vector<int> parts = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
         targeting_graph<int, center_target> graph;
         graph.generate( 0, parts );
-        std::map<int, float> hits = hit_distribution( graph, cata::optional<float>( 1.0 ) );
+        std::map<int, float> hits = hit_distribution( graph, std::optional<float>( 1.0f ) );
 
         REQUIRE( hits[0] == 0.0f );
         CHECK( hits[1] == Approx( 0.40 ).margin( fudge_factor ) );
@@ -1042,7 +1042,6 @@ TEST_CASE( "targeting_graph_complex_target", "[targeting_graph][random]" )
         CHECK( hits[5] == Approx( 3.0f /  8.0f ).margin( fudge_factor ) );
     }
 
-
     SECTION( "Non-equally weighted nodes" ) {
         std::vector<node> nodes = {
             {0, 12},
@@ -1160,7 +1159,7 @@ TEST_CASE( "Default_anatomy_body_part_hit_chances", "[targeting_graph][anatomy][
     const int total_hits = 1000000;
     for( int i = 0; i < total_hits; ++i ) {
         auto it = hits.emplace( tested->select_body_part_projectile_attack( 0, 1, rng_float( 0, 1 ) ),
-                                0 ).first;
+                                0.f ).first;
         ++it->second;
     }
 
@@ -1221,7 +1220,6 @@ TEST_CASE( "Default_anatomy_body_part_hit_chances", "[targeting_graph][anatomy][
      * head :  0.71%
      * torso: 72.22%
      */
-
 
     CHECK( hits.at( body_part_eyes ) == Approx( 1.0f / 2268.0f ).margin( fudge_factor / 10 ) );
     CHECK( hits.at( body_part_head ) == Approx( 4.0f / 567.0f ).margin( fudge_factor / 10 ) );

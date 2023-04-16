@@ -2,18 +2,63 @@
   {
     "id": "surface_heat",
     "type": "requirement",
-    "//": "Heat usable for heating a surface - for example a pot or frying pan.",
+    "//": "Heat usable for heating a surface - for example a pot, pan, dutch oven, etc.",
+    "//1": "Roughly 80% efficiency for a microwave or induction hotplate, 30-40% for gas/kerosene/alcohol/propane/acetylene, 20-25% for hexamine, 15-20% for an oven/charcoal, 50-60% for a regular electric cooker.  18% efficiency for improvised options like the toolkit or an arc welder.",
+    "//2": "esbit has 40kJ/u, kerosene/gasoline 34 kJ/u, propane 25kJ/u, acetylene 50kJ/u alcohol 20kJ/u. needs 2x total energy of induction.",
+    "//3": "charcoal/coal 31/u, but it is less efficient than other fossil fuels and is closer to an oven.  I'm treating the smoker as a big charcoal grill as far as efficiency is concerned.",
+    "//4": "Standards: 1 surface_heat - bake one unit of standard flour, process 2u of butter/oil, 1u of sugar_standard, cook a corn tortilla, process 100g of fruit.  2 surface_heats - cook a scrap of raw meat (30g), process milk in a recipe, apply a unit of 'batter' to a recipe, process 100g of veggy (treat very starchy stuff like potatoes, roots, cattails, as flour).",
+    "//5": "More Standards: 3 surface_heats: cook oatmeal. 4 surface_heats: cook beans, rice, or lentils, use cooked meat in a recipe, cook one unit of raw organs.  5 surface_heats: cook 1 unit of cornmeal or bread flour. 6u surface_heats: roast nuts, cook a chunk of tofu. 15u surface heat: process a chunk of fat or a unit of blood. 20u: cook a chunk of raw meat (300g)",
+    "//6": "Note that a lot of food is not cooked to boiling temperature.  As a result most comestibles that used surface_heat have been made clean water only because it is not sufficient to guarantee potability.",
+    "//7": "Ovens are terrible, this is intentional.  Typical oven uses 3x the wattage of a microwave, and bakes for often over 10x as long as the microwave does.  We cannot account for batch energy savings (multiple things in same oven) nor keeping the oven at temp (many kJ are wasted bringing it up to temp, unlike with a microwave) so efficiency is generously 0.2x that of microwave.",
+    "//8": "A good way to judge input needed is how many seconds it takes to microwave.  1kW is a good estimate for microwave power usage, and the ratios are relatively consistent between different foodstuffs.",
     "tools": [
       [
-        [ "hotplate", 1 ],
-        [ "multi_cooker", 1 ],
-        [ "char_smoker", 1 ],
-        [ "toolset", 1 ],
-        [ "fake_oven", 1 ],
-        [ "fire", -1 ],
-        [ "propane_cooker", 1 ]
+        [ "hotplate_induction", 25 ],
+        [ "microwave", 25 ],
+        [ "hotplate", 35 ],
+        [ "multi_cooker", 35 ],
+        [ "char_smoker", 4 ],
+        [ "charcoal_cooker", 4 ],
+        [ "oven", 125 ],
+        [ "esbit_stove", 2 ],
+        [ "oil_cooker", 2 ],
+        [ "gasoline_cooker", 2 ],
+        [ "propane_cooker", 2 ],
+        [ "acetylene_cooker", 1 ],
+        [ "popcan_stove", 3 ],
+        [ "fire", -1 ]
       ]
     ]
+  },
+  {
+    "id": "smoking_heat",
+    "type": "requirement",
+    "//": "Power requirement to smoke 10g of food. Half the power cost of dehydrating, assuming smoking means halfway dehydrated. Can't be done electrically, obviously.",
+    "//1": "https://www.masterclass.com/articles/how-to-smoke-meat-with-a-charcoal-smoker - roughly 1 pound charcoal per 1 pound meat (and 1 hour).",
+    "//1.5": "https://firebrandbbq.com.au/2018/03/05/lighting-charcoal-bbq-heres-much-fuel-really-need/ also says 1:1 but that it can go as low as 1:2.",
+    "//2": "Survivor doesn't care too much about quality, the important part is that it gets preserved. It is 6.24 grams of charcoal per 10 grams of food presently.",
+    "//3": "300g of meat would be 30u of this, which is about 187g of charcoal total (or 168g of coal) as an example.",
+    "tools": [ [ [ "char_smoker", 6 ] ] ]
+  },
+  {
+    "id": "dehydrating_heat",
+    "type": "requirement",
+    "//": "Power requirement to dehydrate 10g of food. Electric food dehydrators are about 30-35% efficient, which is by itself irrelevant but may eventually matter to compare other means of dehydrating.",
+    "//1": "Like above with smoking_heat, charcoal expenditure is much less efficient than just cooking something.  Since you are fully dehydrating rather than just smoking, double the cost of smoking_heat in charcoal.",
+    "//2": "Estimate given by dehydrating 3 lbs of bananas for 6 hours (https://www.freshoffthegrid.com/dehydrating-bananas/), 500w is about normal for a dehydrator. This might be different for meat, but I'm using the same values for any food at the moment.",
+    "//3": "3lbs = 1634g, time = 0.5x60x60x6 = 10800kJ. 10800kJ/163.5(10s of grams) = ~66 kJ per 10-gram",
+    "tools": [ [ [ "dehydrator", 66 ], [ "char_smoker", 12 ] ] ]
+  },
+  {
+    "id": "vacuum_sealing_standard",
+    "type": "requirement",
+    "//": "Power requirement to seal one bag, 400w for 10 seconds.  Includes the bag.",
+    "//1": "Yes, they really are that cheap, vacuum sealers are trivial to operate.",
+    "//2": "Vacuum sealed bags are an ideal environment for botulinum growth, and they cannot be heated to 125c due to bag meltage.",
+    "//3": "Therefore, indefinite storage is impossible through this method, and as such vac bags are now only 50% instead of 0% spoilage.",
+    "//4": "It's likely doable to reseal an MRE bag using a sealer and the sterilize it and its contents with heat instead of radiation, though this is speculative.",
+    "tools": [ [ [ "vac_sealer", 4 ], [ "makeshift_sealer", 8 ] ] ],
+    "components": [ [ [ "bag_plastic", 1 ], [ "plastic_bag_vac", 1 ] ] ]
   },
   {
     "id": "frying_oil",
@@ -24,19 +69,124 @@
   {
     "id": "water_boiling_heat",
     "type": "requirement",
-    "//": "Tools usable for providing heat usable for boiling water, but not necessarily for anything else.",
+    "//": "Tools usable for providing heat usable for boiling water, but not necessarily for anything else. This can use unclean water even for food recipes like boiled vegetables since it sterlizes the water.",
+    "//1": "Hypothetical maximum efficiency to clean 0.25L of water (one unit) is around 100kJ, to heat in a basement and boil for 1 minute. In theory boiling water in the middle of a summer afternoon should use less power, but we cannot model that (yet)",
+    "//2": "Roughly 75-80% efficiency for induction, 25-30% for gas/kerosene/alcohol/propane/acetylene, ~20% for hexamine, 50% for a regular electric cooker, 40% for microwave, 10% for oven/charcoal.",
+    "//3": "kerosene/gasoline 34 kJ/u, propane 25kJ/u, acetylene 50kJ/u alcohol 20kJ/u. needs 400kJ total - 100kJ/0.25.",
+    "//4": "esbit has 40kJ/u, @ ~20% efficiency that's aboout 13u",
+    "//5": "charcoal/coal 50/u, it is less efficient than other fossil fuels  at ~15%.",
+    "//6": "note that while microwaves are great for cooking food they're not great for boiling water.  Convection in general is inefficient for this process, however induction (heats the pan itself through magnetic coils) excels.",
+    "//7": "for each unit of water add an additional count of this per 15 minutes the water is kept boiling.",
     "tools": [
       [
-        [ "hotplate", 1 ],
-        [ "multi_cooker", 1 ],
-        [ "char_smoker", 1 ],
-        [ "propane_cooker", 1 ],
-        [ "toolset", 1 ],
-        [ "coffeemaker", 1 ],
-        [ "fake_oven", 1 ],
-        [ "atomic_coffeepot", -1 ],
+        [ "coffeemaker", 125 ],
+        [ "hotplate_induction", 125 ],
+        [ "hotplate", 200 ],
+        [ "microwave", 250 ],
+        [ "multi_cooker", 200 ],
+        [ "char_smoker", 30 ],
+        [ "charcoal_cooker", 30 ],
+        [ "esbit_stove", 13 ],
+        [ "oil_cooker", 12 ],
+        [ "gasoline_cooker", 12 ],
+        [ "propane_cooker", 16 ],
+        [ "acetylene_cooker", 8 ],
+        [ "popcan_stove", 20 ],
+        [ "atomic_coffeepot", 115 ],
         [ "fire", -1 ]
       ]
     ]
+  },
+  {
+    "id": "canning_acid_large",
+    "type": "requirement",
+    "//": "acidic additives to lower PH and prevent the growth of botulinum, for a 3L jar.",
+    "//1": "lemon is about 20-25% juice by weight. Formic acid is non toxic and can be safely ingested in dilute amounts.",
+    "//2": "Even many pressure canning recipes should require this for safety.",
+    "tools": [ [ [ "chem_citric_acid", 6 ], [ "formic_acid", 2 ], [ "lemon", 1 ], [ "irradiated_lemon", 1 ], [ "vinegar", 6 ] ] ]
+  },
+  {
+    "id": "canning_acid_small",
+    "type": "requirement",
+    "//": "acidic additives to lower PH and prevent the growth of botulinum.",
+    "//1": "Even many pressure canning recipes should require this for safety.",
+    "tools": [ [ [ "chem_citric_acid", 1 ], [ "vinegar", 1 ] ] ]
+  },
+  {
+    "id": "canning_low_heat",
+    "type": "requirement",
+    "//": "This is sealing glass jars using the water bath method, using acid to neutralize botulinum instead of extreme heat.",
+    "//1": "For high-acid foods, such as many fruits, extreme heat is not necessary, since boulinum can't grow if PH is 4.6. immersing low acid foods in an acidic solution is typically also sufficient",
+    "//2": "Per its longest_side (13.2cm) a 0.5L jar is about 7cm wide.  Per its longest_side (29.8cm) a 3L jar is about 11cm wide.",
+    "//3": "water needs to fill above the jar about 3-6cm.  I'm assuming half this for the radius.  Therefore 0.5L jar is immersed in an 10x18cm cylinder, and 3L jar is immersed in a 15x35cm cylinder.",
+    "//4": "accounting for displacement that means about 2u water per 0.5L jar and 12u water per 3L jar.",
+    "//5": "using water_boiling_heat as a base, a minimum cost of 2u for the temp needed to heat the water, another 2u for the jar (specific heat is lower than water but jar will contain an aqueous solution so this is an estimate, though it takes about 15 minutes for water to come to temp again after adding jars so it should be accurate) as well as another 2u for the roughly 15 minutes to seal the jar, and another 2u to represent time lost due to inefficiency and heat bleed.",
+    "tools": [
+      [ [ "water_boiling_heat", 10, "LIST" ] ],
+      [ [ "pot_canning", -1 ], [ "pot_canning_clay", -1 ] ],
+      [ [ "water", 2 ], [ "water_clean", 2 ] ]
+    ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ]
+  },
+  {
+    "id": "canning_high_heat",
+    "type": "requirement",
+    "//": "This is sealing glass jars using the water bath method, using extreme heat (125c) to neutralize botulinum, requires a pressure cooker to achieve such temperatures.",
+    "//1": "Needed for low-acid foods, such as meat and many veggies, which present suitable anerobic conditions for botulinum to grow in absence of low PH.",
+    "//2": "Per its longest_side (13.2cm) a 0.5L jar is about 7cm wide.  Per its longest_side (29.8cm) a 3L jar is about 11cm wide.",
+    "//3": "water needs to fill above the jar about 3-6cm.  I'm assuming half this for the radius.  Therefore 0.5L jar is immersed in an 10x18cm cylinder, and 3L jar is immersed in a 15x35cm cylinder.",
+    "//4": "accounting for displacement that means about 2u water per 0.5L jar and 12u water per 3L jar.",
+    "//5": "50% more energy used compared to low_heat canning. A 0.5L jar of meat would take about 1875kJ to can in ideal circumstances, compare to 1000kJ to cook normally or 4800kJ to dehydrate.",
+    "tools": [
+      [ [ "water_boiling_heat", 15, "LIST" ] ],
+      [ [ "pressure_cooker", -1 ], [ "small_pressure_vessel", -1 ] ],
+      [ [ "water", 2 ], [ "water_clean", 2 ] ]
+    ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ]
+  },
+  {
+    "id": "canning_standard",
+    "type": "requirement",
+    "//": "this is being left as a fallback for any canning recipe which hasn't yet been converted to low or high heat.",
+    "tools": [ [ [ "water_boiling_heat", 15, "LIST" ] ], [ [ "pot_canning", -1 ], [ "pot_canning_clay", -1 ] ] ]
+  },
+  {
+    "id": "canning_metal",
+    "type": "requirement",
+    "//": "Toolset required to seal a tin can.  Power costs of contents will need to reach 125c in order to kill botulinum, as usual.",
+    "//1": "The ingredients are packed into the tin can with water to ensure no air is left, then sealed, then pressure cooked. The steam pressure helps prevent the lid from bursting off, which might happen if you heated the can over a stove.",
+    "//2": "similar to pressure canning, although this is measured in 0.25L rather than 0.5L, and uses a bit less power because metal cans are more compact, more thermally conductive, and are already sealed.",
+    "//3": "treating a small tin can (0.25L) of water heated inside the bare minimum amount of water to encapsulate it, heated to 33% above boiling, for roughly 12u boiling per half_liter, lower than glass jar pressure canning.",
+    "qualities": [
+      { "id": "SAW_M", "level": 1 },
+      { "id": "HAMMER", "level": 2 },
+      { "id": "CUT", "level": 2 },
+      { "id": "COOK", "level": 3 }
+    ],
+    "tools": [
+      [ [ "water_boiling_heat", 6, "LIST" ] ],
+      [ [ "pressure_cooker", -1 ], [ "small_pressure_vessel", -1 ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "can_sealer", -1 ] ],
+      [ [ "tongs", -1 ] ]
+    ]
+  },
+  {
+    "id": "tincan_small",
+    "type": "requirement",
+    "//": "Materials for a small (0.25L) tin can.",
+    "components": [ [ [ "scrap", 1 ] ], [ [ "canister_empty", 1 ], [ "can_food", 1 ] ] ]
+  },
+  {
+    "id": "tincan_medium",
+    "type": "requirement",
+    "//": "Materials for a medium (0.5L) tin can.",
+    "components": [ [ [ "scrap", 2 ] ], [ [ "can_medium", 1 ] ] ]
+  },
+  {
+    "id": "tincan_large",
+    "type": "requirement",
+    "//": "Materials for a large (3L) tin can.",
+    "components": [ [ [ "scrap", 5 ], [ "sheet_metal_small", 1 ] ], [ [ "can_food_big", 1 ] ] ]
   }
 ]

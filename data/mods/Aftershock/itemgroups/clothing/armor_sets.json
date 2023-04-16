@@ -23,7 +23,7 @@
     "id": "afs_plastic_armor_g",
     "subtype": "collection",
     "entries": [
-      { "item": "hat_hard", "prob": 90 },
+      { "group": "afs_hard_hat", "prob": 90 },
       { "item": "legguard_hard", "prob": 40 },
       { "item": "armguard_hard", "prob": 40 },
       { "item": "chestguard_hard", "prob": 20 }

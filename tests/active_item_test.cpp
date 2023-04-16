@@ -1,5 +1,6 @@
 #include <list>
 #include <new>
+#include <optional>
 
 #include "avatar.h"
 #include "calendar.h"
@@ -7,10 +8,9 @@
 #include "item.h"
 #include "map.h"
 #include "map_helpers.h"
-#include "optional.h"
 #include "player_helpers.h"
 
-TEST_CASE( "active_items_processed_regularly", "[item]" )
+TEST_CASE( "active_items_processed_regularly", "[active_item]" )
 {
     clear_avatar();
     clear_map();
@@ -21,16 +21,16 @@ TEST_CASE( "active_items_processed_regularly", "[item]" )
     active_item.activate();
     const int active_item_ticks = active_item.charges;
     item storage( "backpack", calendar::turn_zero );
-    cata::optional<std::list<item>::iterator> wear_success = player_character.wear_item( storage );
+    std::optional<std::list<item>::iterator> wear_success = player_character.wear_item( storage );
     REQUIRE( wear_success );
 
-    item *inventory_item = player_character.try_add( active_item );
-    REQUIRE( inventory_item != nullptr );
+    item_location inventory_item = player_character.try_add( active_item );
+    REQUIRE( inventory_item != item_location::nowhere );
     REQUIRE( inventory_item->charges == active_item_ticks );
 
     bool wield_success = player_character.wield( active_item );
     REQUIRE( wield_success );
-    REQUIRE( player_character.get_wielded_item().charges == active_item_ticks );
+    REQUIRE( player_character.get_wielded_item()->charges == active_item_ticks );
 
     here.add_item( player_character.pos(), active_item );
     REQUIRE( here.i_at( player_character.pos() ).only_item().charges == active_item_ticks );
@@ -42,6 +42,6 @@ TEST_CASE( "active_items_processed_regularly", "[item]" )
 
     const int expected_ticks = active_item_ticks - 1;
     CHECK( inventory_item->charges == expected_ticks );
-    CHECK( player_character.get_wielded_item().charges == expected_ticks );
+    CHECK( player_character.get_wielded_item()->charges == expected_ticks );
     CHECK( here.i_at( player_character.pos() ).only_item().charges == expected_ticks );
 }

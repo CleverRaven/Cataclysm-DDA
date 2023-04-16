@@ -35,9 +35,11 @@ namespace clang
 {
 namespace ast_matchers
 {
+namespace
+{
 AST_POLYMORPHIC_MATCHER_P2( hasImmediateArgument,
                             AST_POLYMORPHIC_SUPPORTED_TYPES( CallExpr, CXXConstructExpr ),
-                            unsigned int, N, internal::Matcher<Expr>, InnerMatcher )
+                            unsigned int, N, ast_matchers::internal::Matcher<Expr>, InnerMatcher )
 {
     return N < Node.getNumArgs() &&
            InnerMatcher.matches( *Node.getArg( N )->IgnoreImplicit(), Finder, Builder );
@@ -51,10 +53,9 @@ AST_MATCHER_P( StringLiteral, isMarkedString, tidy::cata::TranslatorCommentsChec
     return Check->MarkedStrings.find( Loc ) != Check->MarkedStrings.end();
     static_cast<void>( Builder );
 }
+} // namespace
 } // namespace ast_matchers
-namespace tidy
-{
-namespace cata
+namespace tidy::cata
 {
 
 class TranslatorCommentsCheck::TranslatorCommentsHandler : public CommentHandler
@@ -350,6 +351,5 @@ void TranslatorCommentsCheck::onEndOfTranslationUnit()
     ClangTidyCheck::onEndOfTranslationUnit();
 }
 
-} // namespace cata
-} // namespace tidy
+} // namespace tidy::cata
 } // namespace clang

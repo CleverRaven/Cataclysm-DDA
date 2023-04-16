@@ -1,0 +1,12 @@
+[
+  {
+    "id": "xedra_jumpsuit",
+    "repairs_like": "jumpsuit",
+    "type": "ARMOR",
+    "copy-from": "jumpsuit",
+    "looks_like": "jumpsuit",
+    "name": { "str": "OA jumpsuit" },
+    "description": "A brown jumpsuit with OA written in big yellow block letters on the back.",
+    "color": "brown"
+  }
+]

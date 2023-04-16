@@ -315,7 +315,7 @@
     "symbol": "=",
     "color": "green",
     "looks_like": "arrow_fire_hardened_fletched",
-    "description": "This arrow has a small IED strapped to its tip.  Horribly inaccurate, heavy, and bulky, not only does this contraption require expert hands to pull off a shot, it requires one to loose this with a small measure of confidence that the shooter won't be caught in the blast radius.",
+    "description": "This arrow has a small IED strapped to its tip.  Horribly inaccurate, heavy, and bulky; properly firing this contraption requires expert hands, and a measure of confidence that you won't be caught in the blast radius.",
     "material": [ "steel", "powder" ],
     "volume": "100 ml",
     "price_postapoc": 400,
@@ -346,17 +346,47 @@
   },
   {
     "type": "AMMO",
+    "id": "flamable_arrow",
+    "name": { "str": "flammable arrow" },
+    "description": "This arrow has a rag soaked in a flammable liquid wrapped around the shaft near the head.  You need to light it before shooting.",
+    "weight": "75 g",
+    "volume": "100 ml",
+    "longest_side": "76 cm",
+    "price": 3500,
+    "price_postapoc": 10,
+    "bashing": 2,
+    "material": [ "wood", "steel", "cotton" ],
+    "symbol": "=",
+    "color": "brown",
+    "ammo_type": "arrow",
+    "damage": { "damage_type": "stab", "constant_damage_multiplier": 0.9 },
+    "dispersion": 285,
+    "loudness": 0,
+    "critical_multiplier": 10,
+    "effects": [ "RECOVER_35" ],
+    "use_action": {
+      "target": "arrow_flamming",
+      "target_charges": 1,
+      "msg": "You light the arrow.",
+      "active": true,
+      "need_fire": 1,
+      "menu_text": "Light arrow",
+      "type": "transform"
+    }
+  },
+  {
+    "type": "AMMO",
     "id": "arrow_flamming",
     "looks_like": "arrow_fire_hardened_fletched",
     "name": { "str": "flaming arrow" },
     "description": "This arrow has a flaming rag wrapped around the shaft near the head.  You should shoot it soon before it burns through the rag and fuel.",
-    "weight": "30 g",
+    "weight": "75 g",
     "volume": "100 ml",
-    "longest_side": "78 cm",
+    "longest_side": "76 cm",
     "price": 3500,
     "price_postapoc": 10,
     "bashing": 2,
-    "material": [ "wood" ],
+    "material": [ "wood", "steel", "cotton" ],
     "symbol": "=",
     "color": "brown",
     "ammo_type": "arrow",
@@ -368,7 +398,7 @@
     "critical_multiplier": 10,
     "countdown_interval": 20,
     "countdown_action": { "type": "transform", "target": "arrow_field_point_fletched" },
-    "effects": [ "IGNITE" ],
+    "effects": [ "IGNITE", "RECOVER_35" ],
     "flags": [ "TRADER_AVOID" ]
   },
   {
@@ -420,6 +450,7 @@
     "sight_dispersion": 3000,
     "durability": 4,
     "clip_size": 1,
+    "valid_mod_locations": [ [ "dampening", 1 ], [ "accessories", 1 ], [ "arrow rest", 1 ] ],
     "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
@@ -472,7 +503,7 @@
     "sight_dispersion": 3000,
     "durability": 6,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "dampening", 1 ] ],
+    "valid_mod_locations": [ [ "dampening", 1 ], [ "accessories", 1 ], [ "arrow rest", 1 ] ],
     "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
@@ -506,7 +537,14 @@
     "sight_dispersion": 3000,
     "durability": 6,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ],
+    "valid_mod_locations": [
+      [ "underbarrel", 1 ],
+      [ "sights", 1 ],
+      [ "accessories", 2 ],
+      [ "stabilizer", 1 ],
+      [ "dampening", 1 ],
+      [ "arrow rest", 1 ]
+    ],
     "use_action": {
       "menu_text": "Tighten Limbs",
       "type": "transform",
@@ -606,7 +644,7 @@
     "sight_dispersion": 3000,
     "durability": 6,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "dampening", 1 ] ],
+    "valid_mod_locations": [ [ "dampening", 1 ], [ "accessories", 1 ], [ "arrow rest", 1 ] ],
     "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
@@ -659,7 +697,7 @@
     "sight_dispersion": 3000,
     "durability": 6,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "dampening", 1 ] ],
+    "valid_mod_locations": [ [ "dampening", 1 ], [ "accessories", 1 ], [ "arrow rest", 1 ] ],
     "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
@@ -715,7 +753,14 @@
     "sight_dispersion": 3000,
     "durability": 6,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ],
+    "valid_mod_locations": [
+      [ "underbarrel", 1 ],
+      [ "sights", 1 ],
+      [ "accessories", 2 ],
+      [ "stabilizer", 1 ],
+      [ "dampening", 1 ],
+      [ "arrow rest", 1 ]
+    ],
     "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
@@ -726,7 +771,7 @@
     "symbol": "(",
     "color": "light_gray",
     "name": { "str": "takedown recurve bow" },
-    "description": "A modern fiberglass bow that can be taken down for storage.  For use by those of somewhat above-average strength.  Use it to disassemble it for storage but don't forget to remove any attached mods.",
+    "description": "A modern fiberglass bow that can be taken down for storage.  For use by those of somewhat above-average strength.  Use it to disassemble it for storage.",
     "price": 38000,
     "//": "Most stats copied from the recurve bow, can be adjusted later to reflect a different model.",
     "material": [ "steel", "plastic" ],
@@ -772,7 +817,14 @@
     "sight_dispersion": 3000,
     "durability": 6,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ],
+    "valid_mod_locations": [
+      [ "underbarrel", 1 ],
+      [ "sights", 1 ],
+      [ "accessories", 2 ],
+      [ "stabilizer", 1 ],
+      [ "dampening", 1 ],
+      [ "arrow rest", 1 ]
+    ],
     "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ],
     "use_action": {
@@ -788,7 +840,8 @@
   {
     "id": "takedown_recurbow_folded",
     "looks_like": "longbow",
-    "type": "GENERIC",
+    "type": "GUN",
+    "skill": "archery",
     "symbol": "(",
     "color": "light_gray",
     "name": { "str": "takedown recurve bow (folded)", "str_pl": "takedown recurve bows (folded)" },
@@ -802,6 +855,17 @@
     "//2": "When taken down.",
     "price_postapoc": 2200,
     "bashing": 12,
+    "flags": [ "NO_TURRET" ],
+    "modes": [ [ "DEFAULT", "disassembled", 0, [ "MELEE" ] ] ],
+    "valid_mod_locations": [
+      [ "underbarrel", 1 ],
+      [ "sights", 1 ],
+      [ "accessories", 2 ],
+      [ "stabilizer", 1 ],
+      [ "dampening", 1 ],
+      [ "arrow rest", 1 ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ],
     "use_action": {
       "need_wielding": true,
       "type": "transform",
@@ -859,7 +923,7 @@
     "sight_dispersion": 3000,
     "durability": 6,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "dampening", 1 ] ],
+    "valid_mod_locations": [ [ "dampening", 1 ], [ "accessories", 1 ], [ "arrow rest", 1 ] ],
     "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
@@ -921,7 +985,14 @@
     "dispersion": 1000,
     "sight_dispersion": 3000,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ],
+    "valid_mod_locations": [
+      [ "underbarrel", 1 ],
+      [ "sights", 1 ],
+      [ "accessories", 2 ],
+      [ "stabilizer", 1 ],
+      [ "dampening", 1 ],
+      [ "arrow rest", 1 ]
+    ],
     "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
@@ -974,7 +1045,7 @@
     "sight_dispersion": 3000,
     "durability": 6,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "sights", 1 ], [ "accessories", 2 ], [ "dampening", 1 ] ],
+    "valid_mod_locations": [ [ "sights", 1 ], [ "accessories", 2 ], [ "dampening", 1 ], [ "arrow rest", 1 ] ],
     "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   }

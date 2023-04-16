@@ -15,7 +15,7 @@ tripoint map_test_case::get_origin()
         return *origin;
     }
 
-    cata::optional<point> res = cata::nullopt;
+    std::optional<point> res = std::nullopt;
 
     if( anchor_char ) {
         for_each_tile( tripoint_zero, [&]( map_test_case::tile & t ) {
@@ -113,7 +113,7 @@ void map_test_case::do_internal_checks()
 
 void map_test_case::transpose()
 {
-    origin = cata::nullopt;
+    origin = std::nullopt;
     checks_complete = false;
 
     auto transpose = []( std::vector<std::string> v ) {
@@ -137,7 +137,7 @@ void map_test_case::transpose()
 
 void map_test_case::reflect_x()
 {
-    origin = cata::nullopt;
+    origin = std::nullopt;
     checks_complete = false;
 
     for( std::string &s : setup ) {
@@ -150,7 +150,7 @@ void map_test_case::reflect_x()
 
 void map_test_case::reflect_y()
 {
-    origin = cata::nullopt;
+    origin = std::nullopt;
     checks_complete = false;
 
     std::reverse( setup.begin(), setup.end() );
@@ -300,3 +300,63 @@ std::string map_test_case_common::printers::expected( map_test_case &t )
         out << t.expect_c;
     } ) );
 }
+
+// common helpers, used together with map_test_case
+namespace map_test_case_common
+{
+
+tile_predicate operator+(
+    const std::function<void( map_test_case::tile )> &f,
+    const std::function<void( map_test_case::tile )> &g )
+{
+    return [ = ]( map_test_case::tile t ) {
+        f( t );
+        g( t );
+        return true;
+    };
+}
+
+tile_predicate operator&&( const tile_predicate &f, const tile_predicate &g )
+{
+    return [ = ]( map_test_case::tile t ) {
+        return f( t ) && g( t );
+    };
+}
+
+tile_predicate operator||( const tile_predicate &f, const tile_predicate &g )
+{
+    return [ = ]( map_test_case::tile t ) {
+        return f( t ) || g( t );
+    };
+}
+
+namespace tiles
+{
+
+tile_predicate ifchar( char c, const tile_predicate &f )
+{
+    return [ = ]( map_test_case::tile t ) {
+        if( t.setup_c == c ) {
+            f( t );
+            return true;
+        }
+        return false;
+    };
+}
+
+tile_predicate ter_set(
+    ter_str_id ter,
+    tripoint shift
+)
+{
+    return [ = ]( map_test_case::tile t ) {
+        REQUIRE( ter.is_valid() );
+        tripoint p = t.p + shift;
+        get_map().ter_set( p, ter );
+        return true;
+    };
+}
+
+} // namespace tiles
+
+} // namespace map_test_case_common

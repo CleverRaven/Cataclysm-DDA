@@ -171,7 +171,7 @@
       { "trait": "STRONG_LEGS", "prob": 50 },
       { "trait": "DEX_UP_2", "prob": 50 },
       { "trait": "COLDBLOOD3", "prob": 50 },
-      { "distribution": [ { "trait": "URSINE_EYE" }, { "trait": "UGLY" } ] }
+      { "trait": "UGLY", "prob": 50 }
     ]
   },
   {
@@ -189,7 +189,7 @@
       { "trait": "LEAPING_LEGS2", "prob": 50 },
       { "trait": "EATPOISON", "prob": 50 },
       { "trait": "COLDBLOOD4", "prob": 50 },
-      { "trait": "SEESLEEP", "prob": 50 },
+      { "trait": "FROG_EYES", "prob": 50 },
       { "trait": "MUT_TOUGH", "prob": 50 }
     ]
   },

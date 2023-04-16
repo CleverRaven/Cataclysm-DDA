@@ -66,7 +66,7 @@ class read_only_visitable
         virtual int max_quality( const quality_id &qual ) const;
 
         std::pair<int, int> kcal_range( const itype_id &id,
-                                        const std::function<bool( const item & )> &filter, Character &player_character );
+                                        const std::function<bool( const item & )> &filter, Character &player_character ) const;
         /**
          * Count maximum available charges from this instance and any contained items
          * @param what ID of item to count charges of

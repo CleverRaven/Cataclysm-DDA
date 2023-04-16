@@ -107,7 +107,7 @@ static item_pocket::pocket_type guess_pocket_for( const item &container, const i
 
 static void put_into_container(
     Item_spawn_data::ItemList &items, std::size_t num_items,
-    const cata::optional<itype_id> &container_type,
+    const std::optional<itype_id> &container_type,
     time_point birthday, Item_spawn_data::overflow_behaviour on_overflow,
     const std::string &context )
 {
@@ -123,9 +123,12 @@ static void put_into_container(
     item ctr( *container_type, birthday );
     Item_spawn_data::ItemList excess;
     for( auto it = items.end() - num_items; it != items.end(); ++it ) {
-        if( ctr.can_contain( *it ).success() ) {
+        if( ctr.can_contain_directly( *it ).success() ) {
             const item_pocket::pocket_type pk_type = guess_pocket_for( ctr, *it );
             ctr.put_in( *it, pk_type );
+        } else if( ctr.is_corpse() ) {
+            const item_pocket::pocket_type pk_type = guess_pocket_for( ctr, *it );
+            ctr.force_insert_item( *it, pk_type );
         } else {
             switch( on_overflow ) {
                 case Item_spawn_data::overflow_behaviour::none:
@@ -417,12 +420,8 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
     item cont;
     if( container != nullptr ) {
         cont = container->create_single( new_item.birthday() );
-    }
-    if( cont.is_null() && new_item.type->default_container.has_value() ) {
-        const itype_id &cont_value = new_item.type->default_container.value_or( "null" );
-        if( !cont_value.is_null() ) {
-            cont = item( cont_value, new_item.birthday() );
-        }
+    } else if( new_item.type->default_container.has_value() ) {
+        cont = item( *new_item.type->default_container, new_item.birthday() );
     }
 
     int max_capacity = -1;
@@ -619,6 +618,7 @@ bool Item_modifier::remove_item( const itype_id &itemid )
 }
 
 void Item_modifier::replace_items( const std::unordered_map<itype_id, itype_id> &replacements )
+const
 {
     if( ammo ) {
         ammo->replace_items( replacements );
@@ -717,6 +717,7 @@ std::size_t Item_group::create( Item_spawn_data::ItemList &list,
     }
     const std::size_t items_created = list.size() - prev_list_size;
     put_into_container( list, items_created, container_item, birthday, on_overflow, context() );
+
     return list.size() - prev_list_size;
 }
 
@@ -891,7 +892,7 @@ static item_group_id get_unique_group_id()
     // names should not be seen anywhere.
     static const std::string unique_prefix = "\u01F7 ";
     while( true ) {
-        const item_group_id new_group( unique_prefix + std::to_string( next_id++ ) );
+        item_group_id new_group( unique_prefix + std::to_string( next_id++ ) );
         if( !item_group::group_is_defined( new_group ) ) {
             return new_group;
         }
@@ -904,7 +905,7 @@ item_group_id item_group::load_item_group( const JsonValue &value,
     if( value.test_string() ) {
         return item_group_id( value.get_string() );
     } else if( value.test_object() ) {
-        const item_group_id group = get_unique_group_id();
+        item_group_id group = get_unique_group_id();
 
         JsonObject jo = value.get_object();
         const std::string subtype = jo.get_string( "subtype", default_subtype );
@@ -912,7 +913,7 @@ item_group_id item_group::load_item_group( const JsonValue &value,
 
         return group;
     } else if( value.test_array() ) {
-        const item_group_id group = get_unique_group_id();
+        item_group_id group = get_unique_group_id();
 
         JsonArray jarr = value.get_array();
         // load_item_group needs a bool, invalid subtypes are unexpected and most likely errors

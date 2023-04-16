@@ -157,7 +157,8 @@
       },
       "gaspumps": { "@": { "fuel": "gasoline", "amount": [ 10000, 50000 ] }, "$": { "fuel": "diesel", "amount": [ 10000, 50000 ] } },
       "vehicles": { "Ø": { "vehicle": "tatra_truck", "chance": 50, "fuel": 40 } },
-      "nested": { "`": { "chunks": [ [ "mechanical_fluid", 10 ], [ "gasoline_diesel_motor_oil", 80 ], [ "null", 80 ] ] } }
+      "nested": { "`": { "chunks": [ [ "mechanical_fluid", 10 ], [ "gasoline_diesel_motor_oil", 80 ], [ "null", 80 ] ] } },
+      "liquids": { "W": { "liquid": "water_clean", "amount": [ 0, 80 ] } }
     }
   },
   {

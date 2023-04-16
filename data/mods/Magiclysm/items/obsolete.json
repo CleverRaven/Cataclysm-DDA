@@ -14,5 +14,28 @@
     "phase": "liquid",
     "category": "fuel",
     "ammo_type": "tainted_blood"
+  },
+  {
+    "id": "shotcestus",
+    "copy-from": "shotgun_base",
+    "type": "ARMOR",
+    "name": { "str": "shotcestus", "str_pl": "shotcestuses" },
+    "description": "A sawn-off double-barrel shotgun mounted on a metal cestus.  The lack of a stock to absorb recoil means some strength is required to fire.",
+    "weight": "1566 g",
+    "volume": "1500 ml",
+    "price": 20000,
+    "bashing": 12,
+    "material": [ "steel" ],
+    "techniques": [ "WBLOCK_1", "BRUTAL" ],
+    "min_strength": 7,
+    "flags": [ "DURABLE_MELEE", "NEVER_JAMS", "RELOAD_EJECT", "RELOAD_ONE", "OBSOLETE" ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 2 } } ],
+    "armor": [ { "encumbrance": 5, "coverage": 20, "covers": [ "hand_r" ] } ]
+  },
+  {
+    "type": "recipe",
+    "result": "shotcestus",
+    "obsolete": true
   }
 ]

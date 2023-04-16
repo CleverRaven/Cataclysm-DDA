@@ -36,7 +36,8 @@
   },
   {
     "type": "furniture",
-    "id": "f_small_satelitte_dish",
+    "id": "f_small_satellite_dish",
+    "alias": [ "f_small_satelitte_dish" ],
     "name": "satellite dish",
     "description": "A small sheet metal disc designed to receive radio waves from orbital satellites.  Satellites that will assuredly continue to orbit, with nothing to broadcast.",
     "symbol": "(",

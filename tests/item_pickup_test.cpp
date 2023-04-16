@@ -48,7 +48,7 @@ TEST_CASE( "putting items into inventory with put_in or i_add", "[pickup][invent
         they.worn.clear();
         // Get the backpack from the iterator returned by wear_item,
         // for the reference to the backpack that the avatar is wearing now
-        cata::optional<std::list<item>::iterator> worn = they.wear_item( backpack_map );
+        std::optional<std::list<item>::iterator> worn = they.wear_item( backpack_map );
         item &backpack = **worn;
 
         THEN( "they have a copy of the backpack" ) {
@@ -78,11 +78,11 @@ TEST_CASE( "putting items into inventory with put_in or i_add", "[pickup][invent
 
         WHEN( "using i_add to put the rope into inventory" ) {
             // Add the rope to the inventory (goes in backpack, as it's the only thing worn)
-            item &rope_new = they.i_add( rope_map );
+            item_location rope_new = they.i_add( rope_map );
 
             THEN( "a copy of the rope item is in inventory and in the backpack" ) {
-                CHECK( they.has_item( rope_new ) );
-                CHECK( backpack.has_item( rope_new ) );
+                CHECK( they.has_item( *rope_new ) );
+                CHECK( backpack.has_item( *rope_new ) );
                 CHECK( character_has_item_with_var_val( they, "uid", rope_uid ) );
             }
             THEN( "the original rope is not in inventory or the backpack" ) {
@@ -163,12 +163,12 @@ TEST_CASE( "pickup m4 with a rope in a hiking backpack", "[pickup][container]" )
         // What happens to the stuff on the ground?
         CAPTURE( here.i_at( ground ).size() );
         // Wear backpack from map and get the new item reference
-        cata::optional<std::list<item>::iterator> worn = they.wear_item( backpack_map );
+        std::optional<std::list<item>::iterator> worn = they.wear_item( backpack_map );
         item &backpack = **worn;
         REQUIRE( they.has_item( backpack ) );
         // Put the rope in
-        item &rope = they.i_add( rope_map );
-        REQUIRE( they.has_item( rope ) );
+        item_location rope = they.i_add( rope_map );
+        REQUIRE( they.has_item( *rope ) );
 
         WHEN( "they pick up the M4" ) {
             // Get item_location for m4 on the map

@@ -1,5 +1,141 @@
 [
   {
+    "id": "MISSION_ASSASSINATION",
+    "type": "mission_definition",
+    "name": { "str": "Finish your mission" },
+    "description": "Your mission required you to eliminate a certain high-ranking individual in hiding.  Your mark seems to have turned feral while escaping and the world appears to be ending, but not even that can stop you from finishing your mission.",
+    "goal": "MGOAL_KILL_MONSTER",
+    "difficulty": 4,
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "s_air_term",
+        "om_special": "o_airport",
+        "reveal_radius": 6,
+        "random": true,
+        "search_range": 90,
+        "min_distance": 15,
+        "z": 0
+      },
+      "update_mapgen": {
+        "place_monster": [
+          { "monster": "mon_feral_scientist_scalpel", "name": "The Target", "x": 11, "y": 11, "target": true },
+          { "monster": "mon_feral_labsecurity_9mm", "name": "The Guard", "x": 12, "y": 12 },
+          { "monster": "mon_feral_soldier", "name": "The Colaborator", "x": 9, "y": 9 },
+          { "monster": "mon_feral_fancy_rapier", "name": "The Aristocrat", "x": 13, "y": 13 },
+          { "monster": "mon_feral_maid_broom", "name": "The Servant", "x": 12, "y": 13 }
+        ]
+      }
+    },
+    "origins": [ "ORIGIN_GAME_START" ],
+    "value": 0,
+    "end": {
+      "effect": [
+        {
+          "u_add_morale": "morale_feeling_good",
+          "bonus": 20,
+          "max_bonus": 50,
+          "duration": "120 minutes",
+          "decay_start": "120 minutes"
+        }
+      ]
+    }
+  },
+  {
+    "id": "MISSION_ASSASSIN_CONVICT_PRISON",
+    "type": "mission_definition",
+    "name": { "str": "Kill your mark" },
+    "description": "Your employer could be no longer responding but you have decided to finish your mission.  Hunt down and kill your mark.",
+    "goal": "MGOAL_KILL_MONSTER",
+    "difficulty": 3,
+    "start": {
+      "assign_mission_target": { "om_terrain": "prison_1_3", "om_special": "Prison", "reveal_radius": 1, "search_range": 6, "min_distance": 1, "z": 0 },
+      "update_mapgen": {
+        "place_monster": [ { "monster": "mon_zombie_prisoner_brute", "name": "The Target", "x": 18, "y": 23, "target": true } ]
+      }
+    },
+    "origins": [ "ORIGIN_GAME_START" ],
+    "value": 0,
+    "end": {
+      "effect": [
+        {
+          "u_add_morale": "morale_feeling_good",
+          "bonus": 20,
+          "max_bonus": 50,
+          "duration": "60 minutes",
+          "decay_start": "60 minutes"
+        }
+      ]
+    }
+  },
+  {
+    "id": "MISSION_ASSASSIN_CONVICT_PRISON_ISLAND1",
+    "type": "mission_definition",
+    "name": { "str": "Kill your mark" },
+    "description": "Your employer could be no longer responding but you have decided to finish your mission.  Hunt down and kill your mark.",
+    "goal": "MGOAL_KILL_MONSTER",
+    "difficulty": 3,
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "prison_alcatraz_9",
+        "om_special": "Alcatraz Prison",
+        "reveal_radius": 1,
+        "search_range": 6,
+        "min_distance": 1,
+        "z": 0
+      },
+      "update_mapgen": {
+        "place_monster": [ { "monster": "mon_zombie_prisoner_brute", "name": "The Target", "x": 18, "y": 15, "target": true } ]
+      }
+    },
+    "origins": [ "ORIGIN_GAME_START" ],
+    "value": 0,
+    "end": {
+      "effect": [
+        {
+          "u_add_morale": "morale_feeling_good",
+          "bonus": 30,
+          "max_bonus": 50,
+          "duration": "60 minutes",
+          "decay_start": "60 minutes"
+        }
+      ]
+    }
+  },
+  {
+    "id": "MISSION_ASSASSIN_CONVICT_PRISON_ISLAND2",
+    "type": "mission_definition",
+    "name": { "str": "Kill your mark" },
+    "description": "Your employer could be no longer responding but you have decided to finish your mission.  Hunt down and kill your mark.",
+    "goal": "MGOAL_KILL_MONSTER",
+    "difficulty": 3,
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "prison_island_1_8",
+        "om_special": "Island prison",
+        "reveal_radius": 1,
+        "search_range": 6,
+        "min_distance": 1,
+        "z": 0
+      },
+      "update_mapgen": {
+        "place_monster": [ { "monster": "mon_zombie_prisoner_brute", "name": "The Target", "x": 18, "y": 10, "target": true } ]
+      }
+    },
+    "origins": [ "ORIGIN_GAME_START" ],
+    "value": 0,
+    "end": {
+      "effect": [
+        {
+          "u_add_morale": "morale_feeling_good",
+          "bonus": 40,
+          "max_bonus": 50,
+          "duration": "60 minutes",
+          "decay_start": "60 minutes"
+        }
+      ]
+    }
+  },
+  {
     "id": "MISSION_PATIENT",
     "type": "mission_definition",
     "name": { "str": "Life vow" },
@@ -98,8 +234,8 @@
     "type": "mission_definition",
     "name": { "str": "Find a real katana" },
     "description": "The world has ended, but as an authentic samurai you lack a katana, you must find one, quickly.",
-    "goal": "MGOAL_FIND_ITEM",
-    "item": "katana",
+    "goal": "MGOAL_CONDITION",
+    "goal_condition": { "u_has_item": "katana" },
     "difficulty": 4,
     "value": 0,
     "end": {
@@ -119,7 +255,7 @@
     "id": "MISSION_DOG_LOVER",
     "type": "mission_definition",
     "name": { "str": "Protect your canine friends" },
-    "description": "You have saved your dogs from the fall of the world, but they could still suffer from danger everywhere.  Police dogs used some kevlar harnesses for protection…  Maybe your friends could use some too?",
+    "description": "You have saved your dogs from the fall of the world, but they could still suffer from danger everywhere.  Police dogs used some Kevlar harnesses for protection…  Maybe your friends could use some too?",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 2,
     "item": "kevlar_harness",
@@ -313,6 +449,32 @@
         { "u_has_item": "dinosuit" },
         { "u_has_item": "bondage_suit" },
         { "u_has_item": "clown_suit" },
+        { "u_has_item": "sharksuit" },
+        { "u_has_item": "jumpsuit_skeleton_zipped" },
+        { "u_has_item": "maid_dress" },
+        { "u_has_item": "mummy_dress" },
+        { "u_has_item": "bee_dress" },
+        { "u_has_item": "sinister_dress" },
+        { "u_has_item": "sinister_gown" },
+        { "u_has_item": "cloak_vampire" },
+        { "u_has_item": "cloak_vampire_red" },
+        { "u_has_item": "witch_dress" },
+        { "u_has_item": "witch_dress_long" },
+        { "u_has_item": "witch_dress_short" },
+        { "u_has_item": "robe_wizard" },
+        { "u_has_item": "ninja_dress" },
+        { "u_has_item": "ninja_dress_sleeveless" },
+        { "u_has_item": "jacket_ninja" },
+        { "u_has_item": "santa_dress" },
+        { "u_has_item": "santa_dress_short" },
+        { "u_has_item": "santa_dress_long" },
+        { "u_has_item": "santa_jacket" },
+        { "u_has_item": "santa_jacket_short" },
+        { "u_has_item": "grim_reaper_robe" },
+        { "u_has_item": "grim_reaper_robe_faceless" },
+        { "u_has_item": "ghost_robe" },
+        { "u_has_item": "jedi_cloak" },
+        { "u_has_item": "sheriffshirt" },
         { "u_has_item": "zentai" }
       ]
     },
@@ -417,6 +579,137 @@
         }
       ]
     },
+    "origins": [ "ORIGIN_GAME_START" ]
+  },
+  {
+    "id": "MISSION_MANSION_START",
+    "type": "mission_definition",
+    "name": { "str": "Ready or Not" },
+    "description": "Survive all day from the crazy inhabitants of the mansion.",
+    "goal": "MGOAL_CONDITION",
+    "goal_condition": { "days_since_cataclysm": 1 },
+    "difficulty": 3,
+    "value": 0,
+    "end": {
+      "effect": [
+        {
+          "u_add_morale": "morale_feeling_good",
+          "bonus": 50,
+          "max_bonus": 50,
+          "duration": "60 minutes",
+          "decay_start": "60 minutes"
+        }
+      ]
+    },
+    "origins": [ "ORIGIN_GAME_START" ]
+  },
+  {
+    "id": "MISSION_INFECTED_START_FIND_ANTIBIOTICS",
+    "type": "mission_definition",
+    "name": { "str": "Find Antibiotics Before You Die!" },
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 1,
+    "value": 0,
+    "origins": [ "ORIGIN_GAME_START" ],
+    "item": "antibiotics"
+  },
+  {
+    "id": "MISSION_HELICOPTER_REFUEL",
+    "type": "mission_definition",
+    "name": { "str": "Refuel your helicopter." },
+    "description": "You were flying towards a nearby private airport before your forced landing.  You could still reach it by ground, and scavenge it for fuel.",
+    "goal": "MGOAL_GO_TO_TYPE",
+    "destination": "s_air_hangars",
+    "difficulty": 1,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "om_terrain": "s_air_hangars", "reveal_radius": 5, "om_special": "o_airport", "search_range": 120 }
+    },
+    "origins": [ "ORIGIN_GAME_START" ]
+  },
+  {
+    "id": "MISSION_HELICOPTER_CRASH",
+    "type": "mission_definition",
+    "name": { "str": "Return to base" },
+    "description": "Your helicopter was crashed to the ground, communications were lost with ground base, and the rest of your team died while landing, at least you still know the way back to the base.",
+    "goal": "MGOAL_GO_TO_TYPE",
+    "destination": "helipad_nw",
+    "difficulty": 4,
+    "value": 0,
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "helipad_nw",
+        "reveal_radius": 10,
+        "om_special": "military helipad",
+        "search_range": 70,
+        "min_distance": 25,
+        "z": 0
+      }
+    },
+    "origins": [ "ORIGIN_GAME_START" ]
+  },
+  {
+    "id": "MISSION_HELICOPTER_PILOT",
+    "type": "mission_definition",
+    "name": { "str": "Go to the refueling stop" },
+    "description": "Your bird is now on the ground, never again able to fly, you could search for a new one in the closest refueling stop requisitioned by the military.",
+    "goal": "MGOAL_GO_TO_TYPE",
+    "difficulty": 3,
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "s_air_helicopter_pad",
+        "om_special": "o_airport",
+        "reveal_radius": 6,
+        "random": true,
+        "search_range": 65,
+        "min_distance": 15,
+        "z": 0
+      },
+      "update_mapgen": {
+        "place_monster": [
+          { "monster": "mon_zombie_military_pilot", "x": 1, "y": 1 },
+          { "monster": "mon_feral_soldier", "x": 3, "y": 3 },
+          { "monster": "mon_zombie_soldier", "x": 7, "y": 3 },
+          { "monster": "mon_zombie_soldier", "x": 8, "y": 2 },
+          { "monster": "mon_zombie_soldier", "x": 7, "y": 6 }
+        ]
+      }
+    },
+    "origins": [ "ORIGIN_GAME_START" ],
+    "value": 0,
+    "end": {
+      "effect": [
+        {
+          "u_add_morale": "morale_feeling_good",
+          "bonus": 10,
+          "max_bonus": 50,
+          "duration": "120 minutes",
+          "decay_start": "60 minutes"
+        }
+      ]
+    }
+  },
+  {
+    "id": "MISSION_LAST_DELIVERY",
+    "type": "mission_definition",
+    "name": { "str": "Reach The Mansion And Finish This Delivery" },
+    "goal": "MGOAL_GO_TO_TYPE",
+    "destination": "mansion_c3",
+    "difficulty": 1,
+    "value": 0,
+    "start": { "assign_mission_target": { "om_terrain": "mansion_c3", "om_special": "Mansion_Road", "search_range": 200 } },
+    "origins": [ "ORIGIN_GAME_START" ]
+  },
+  {
+    "id": "MISSION_KILL_NEMESIS",
+    "type": "mission_definition",
+    "name": { "str": "Kill your pursuer" },
+    "description": "Since the start of the Cataclysm, something has been hunting you relentlessly.  You can outrun it but never truly escape it.  It won't end until one of you dies.",
+    "goal": "MGOAL_KILL_NEMESIS",
+    "difficulty": 5,
+    "value": 0,
+    "start": "kill_nemesis",
+    "end": { "effect": [ { "u_lose_trait": "HAS_NEMESIS" } ] },
     "origins": [ "ORIGIN_GAME_START" ]
   }
 ]

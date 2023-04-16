@@ -26,6 +26,7 @@
 #include "avatar.h"
 #include "cached_options.h"
 #include "cata_assert.h"
+#include "cata_scope_helpers.h"
 #include "cata_utility.h"
 #include "color.h"
 #include "compatibility.h"
@@ -90,7 +91,7 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
 {
     if( !assure_dir_exist( user_dir ) ) {
         // NOLINTNEXTLINE(misc-static-assert,cert-dcl03-c)
-        cata_fatal( "Unable to make user_dir directory.  Check permissions." );
+        cata_fatal( "Unable to make user_dir directory '%s'.  Check permissions.", user_dir );
     }
 
     PATH_INFO::init_base_path( "" );
@@ -139,7 +140,7 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
 #else
     const std::string test_world_name = "Test World";
 #endif
-    WORLDPTR test_world = world_generator->make_new_world( test_world_name, mods );
+    WORLD *test_world = world_generator->make_new_world( test_world_name, mods );
     cata_assert( test_world != nullptr );
     world_generator->set_active_world( test_world );
     cata_assert( world_generator->active_world != nullptr );

@@ -127,7 +127,7 @@
         "Ď": { "item": "SUS_junk_drawer_messy", "chance": 20 },
         "d": { "item": "SUS_office_desk", "chance": 20 },
         "F": { "item": "SUS_office_filing_cabinet", "chance": 20 },
-        "g": { "item": "SUS_fridge", "chance": 20 },
+        "g": { "item": "SUS_fridge_breakroom", "chance": 20 },
         "I": { "item": "SUS_dresser_mens", "chance": 20 },
         "l": { "item": "SUS_janitors_closet", "chance": 25 },
         "o": { "item": "SUS_oven", "chance": 20 },
@@ -155,9 +155,10 @@
           "failures": [ { "action": "alarm" } ]
         }
       },
-      "gaspumps": { "@": { "fuel": "gasoline", "amount": [ 10000, 50000 ] }, "$": { "fuel": "diesel", "amount": [ 10000, 50000 ] } },
+      "gaspumps": { "@": { "fuel": "gasoline", "amount": [ 0, 5000 ] }, "$": { "fuel": "diesel", "amount": [ 0, 5000 ] } },
       "vehicles": { "Ø": { "vehicle": "tatra_truck", "chance": 50, "fuel": 0, "status": 1 } },
-      "nested": { "`": { "chunks": [ [ "mechanical_fluid", 10 ], [ "gasoline_diesel_motor_oil", 80 ], [ "null", 80 ] ] } }
+      "nested": { "`": { "chunks": [ [ "mechanical_fluid", 10 ], [ "gasoline_diesel_motor_oil", 80 ], [ "null", 80 ] ] } },
+      "liquids": { "W": { "liquid": "water_clean", "amount": [ 0, 80 ] } }
     }
   }
 ]

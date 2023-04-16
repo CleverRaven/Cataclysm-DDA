@@ -9,6 +9,7 @@
 #include <iosfwd>
 #include <map>
 #include <new>
+#include <optional>
 #include <set>
 #include <utility>
 #include <vector>
@@ -20,7 +21,6 @@
 #include "creature.h"
 #include "damage.h"
 #include "enums.h"
-#include "optional.h"
 #include "point.h"
 #include "type_id.h"
 #include "units_fwd.h"
@@ -33,6 +33,7 @@ class JsonOut;
 class effect;
 class effect_source;
 class item;
+struct monster_plan;
 namespace catacurses
 {
 class window;
@@ -61,7 +62,6 @@ enum monster_attitude {
     MATT_IGNORE,
     MATT_FOLLOW,
     MATT_ATTACK,
-    MATT_UNKNOWN,
     NUM_MONSTER_ATTITUDES
 };
 
@@ -135,7 +135,7 @@ class monster : public Creature
 
         static std::string speed_description( float mon_speed_rating,
                                               bool immobile = false,
-                                              speed_description_id speed_desc = speed_description_id::NULL_ID() );
+                                              const speed_description_id &speed_desc = speed_description_id::NULL_ID() );
 
         // Access
         std::string get_name() const override;
@@ -172,7 +172,7 @@ class monster : public Creature
         bool swims() const;
         // Returns false if the monster is stunned, has 0 moves or otherwise wouldn't act this turn
         bool can_act() const;
-        int sight_range( int light_level ) const override;
+        int sight_range( float light_level ) const override;
         bool made_of( const material_id &m ) const override; // Returns true if it's made of m
         bool made_of_any( const std::set<material_id> &ms ) const override;
         bool made_of( phase_id p ) const; // Returns true if its phase is p
@@ -232,14 +232,20 @@ class monster : public Creature
 
         // How good of a target is given creature (checks for visibility)
         float rate_target( Creature &c, float best, bool smart = false ) const;
+        // is it mating season?
+        bool mating_angry() const;
         void plan();
+        void anger_hostile_seen( const monster_plan &mon_plan );
+        void anger_mating_season( const monster_plan &mon_plan );
+        // will change mon_plan::dist
+        void anger_cub_threatened( monster_plan &mon_plan );
         void move(); // Actual movement
         void footsteps( const tripoint &p ); // noise made by movement
         void shove_vehicle( const tripoint &remote_destination,
                             const tripoint &nearby_destination ); // shove vehicles out of the way
 
         // check if the given square could drown a drownable monster
-        bool is_aquatic_danger( const tripoint &at_pos );
+        bool is_aquatic_danger( const tripoint &at_pos ) const;
 
         // check if a monster at a position will drown and kill it if necessary
         // returns true if the monster dies
@@ -302,8 +308,8 @@ class monster : public Creature
         bool push_to( const tripoint &p, int boost, size_t depth );
 
         /** Returns innate monster bash skill, without calculating additional from helpers */
-        int bash_skill();
-        int bash_estimate();
+        int bash_skill() const;
+        int bash_estimate() const;
         /** Returns ability of monster and any cooperative helpers to
          * bash the designated target.  **/
         int group_bash_skill( const tripoint &target );
@@ -328,8 +334,8 @@ class monster : public Creature
         bool is_immune_effect( const efftype_id & ) const override;
         bool is_immune_damage( damage_type ) const override;
 
-        void make_bleed( const effect_source &source, const bodypart_id &bp, time_duration duration,
-                         int intensity = 1, bool permanent = false, bool force = false, bool defferred = false ) override;
+        void make_bleed( const effect_source &source, time_duration duration,
+                         int intensity = 1, bool permanent = false, bool force = false, bool defferred = false );
 
         const weakpoint *absorb_hit( const weakpoint_attack &attack, const bodypart_id &bp,
                                      damage_instance &dam ) override;
@@ -435,6 +441,7 @@ class monster : public Creature
 
         void die( Creature *killer ) override; //this is the die from Creature, it calls kill_mo
         void drop_items_on_death( item *corpse );
+        void spawn_dissectables_on_death( item *corpse ); //spawn dissectable CBMs into CORPSE pocket
         //spawn monster's inventory without killing it
         void generate_inventory( bool disableDrops = true );
 
@@ -450,8 +457,13 @@ class monster : public Creature
         void make_ally( const monster &z );
         // Add an item to inventory
         void add_item( const item &it );
-        // check mech power levels and modify it.
-        bool use_mech_power( int amt );
+
+        /**
+        * Consume UPS from mech battery.
+        * @param amt amount of energy to consume. Is rounded down to kJ precision. Do not use negative values.
+        * @return Actual amount of energy consumed
+        */
+        units::energy use_mech_power( units::energy amt );
         bool check_mech_powered() const;
         int mech_str_addition() const;
 
@@ -489,6 +501,7 @@ class monster : public Creature
         bool provocative_sound = false; // Are we wandering toward something we think is alive?
         int wandf = 0;       // Urge to is_wandering - Increased by sound, decrements each move
         std::vector<item> inv; // Inventory
+        std::vector<item> dissectable_inv; // spawned at death, tracked for respawn/dissection
         Character *mounted_player = nullptr; // player that is mounting this creature
         character_id mounted_player_id; // id of player that is mounting this creature ( for save/load )
         character_id dragged_foe_id; // id of character being dragged by the monster
@@ -533,7 +546,9 @@ class monster : public Creature
         int fish_population = 1;
 
         short ignoring = 0;
-        cata::optional<time_point> lastseen_turn;
+        bool aggro_character = true;
+
+        std::optional<time_point> lastseen_turn;
 
         // Stair data.
         int staircount = 0;
@@ -568,27 +583,22 @@ class monster : public Creature
 
         const pathfinding_settings &get_pathfinding_settings() const override;
         std::set<tripoint> get_path_avoid() const override;
-        // summoned monsters via spells
-        void set_summon_time( const time_duration &length );
-        // handles removing the monster if the timer runs out
-        void decrement_summon_timer();
     private:
         void process_trigger( mon_trigger trig, int amount );
         void process_trigger( mon_trigger trig, const std::function<int()> &amount_func );
 
-    private:
         int hp = 0;
         std::map<std::string, mon_special_attack> special_attacks;
-        cata::optional<tripoint_abs_ms> goal;
+        std::optional<tripoint_abs_ms> goal;
         bool dead = false;
         /** Normal upgrades **/
         int next_upgrade_time();
         bool upgrades = false;
         int upgrade_time = 0;
         bool reproduces = false;
-        cata::optional<time_point> baby_timer;
+        std::optional<time_point> baby_timer;
         bool biosignatures = false;
-        cata::optional<time_point> biosig_timer;
+        std::optional<time_point> biosig_timer;
         time_point udder_timer;
         monster_horde_attraction horde_attraction = MHA_NULL;
         /** Found path. Note: Not used by monsters that don't pathfind! **/
@@ -598,7 +608,6 @@ class monster : public Creature
         int next_patrol_point = -1;
 
         std::bitset<NUM_MEFF> effect_cache;
-        cata::optional<time_duration> summon_time_limit = cata::nullopt;
         int turns_since_target = 0;
 
         Character *find_dragged_foe();

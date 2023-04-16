@@ -201,7 +201,7 @@
       { "stat": "damage", "type": "cut", "scale": 1.2 },
       { "stat": "damage", "type": "stab", "scale": 1.2 }
     ],
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "WEAPON", "FOOT" ]
   },
   {
     "type": "technique",
@@ -324,7 +324,7 @@
       { "stat": "damage", "type": "cut", "scale": 1.33 },
       { "stat": "damage", "type": "stab", "scale": 1.33 }
     ],
-    "attack_vectors": [ "THOW" ]
+    "attack_vectors": [ "THROW" ]
   },
   {
     "type": "technique",

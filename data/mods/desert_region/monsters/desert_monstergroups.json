@@ -1,0 +1,17 @@
+[
+  {
+    "type": "monstergroup",
+    "name": "GROUP_DESERT",
+    "default": "mon_null",
+    "is_animal": true,
+    "monsters": [
+      {
+        "monster": "mon_bat",
+        "weight": 50,
+        "cost_multiplier": 2,
+        "pack_size": [ 3, 12 ],
+        "conditions": [ "DAWN", "DUSK", "SPRING", "SUMMER", "AUTUMN" ]
+      }
+    ]
+  }
+]

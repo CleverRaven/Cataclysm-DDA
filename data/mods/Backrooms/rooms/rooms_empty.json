@@ -1,0 +1,383 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mx_nothing",
+    "object": { "mapgensize": [ 1, 1 ], "rows": [ " " ], "palettes": [ "backrooms_palette" ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mx_backroom_big_empty",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "-----d-----",
+        "-         -",
+        "-         -",
+        "-         -",
+        "-         -",
+        "D         d",
+        "-         -",
+        "-         -",
+        "-         -",
+        "-         -",
+        "-----d-----"
+      ],
+      "palettes": [ "backrooms_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mx_backroom_big_empty",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "--D--?--",
+        "-      -",
+        "?      d",
+        "-      -",
+        "-      -",
+        "d      ?",
+        "-      -",
+        "--?--d--"
+      ],
+      "palettes": [ "backrooms_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mx_backroom_small_empty",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "-D--",
+        "-  ?",
+        "?  -",
+        "--d-"
+      ],
+      "palettes": [ "backrooms_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mx_backroom_small_empty",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "---?--",
+        "-    -",
+        "D    d",
+        "-    -",
+        "-    -",
+        "--?---"
+      ],
+      "palettes": [ "backrooms_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mx_vwall_nested",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "-                       ",
+        "-                       ",
+        "-                       ",
+        "-                       ",
+        "-                       ",
+        "-                       ",
+        "-                       ",
+        "-                       ",
+        "-                       ",
+        "-                       ",
+        "-                       ",
+        "-                       ",
+        "-                       ",
+        "-                       ",
+        "-                       ",
+        "-                       ",
+        "-                       ",
+        "-                       ",
+        "-                       ",
+        "-                       ",
+        "-                       ",
+        "-                       ",
+        "-                       ",
+        "-                       "
+      ],
+      "terrain": { "-": [ [ "t_backroom_wall", 90 ], [ "t_door_c", 8 ], [ "t_door_o", 2 ] ] },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mx_hwall_nested",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "------------------------",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { "-": [ [ "t_backroom_wall", 90 ], [ "t_door_c", 8 ], [ "t_door_o", 2 ] ] },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mx_wholeroom_nested_empty",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "------------------------",
+        "-                       ",
+        "-                       ",
+        "-                       ",
+        "-                       ",
+        "-                       ",
+        "-                       ",
+        "-                       ",
+        "-                       ",
+        "-                       ",
+        "-                       ",
+        "-                       ",
+        "-                       ",
+        "-                       ",
+        "-                       ",
+        "-                       ",
+        "-                       ",
+        "-                       ",
+        "-                       ",
+        "-                       ",
+        "-                       ",
+        "-                       ",
+        "-                       ",
+        "-                       "
+      ],
+      "terrain": { "-": [ [ "t_backroom_wall", 90 ], [ "t_door_c", 8 ], [ "t_door_o", 2 ] ] },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mx_h_hall_nested",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "------------------------",
+        "------------------------",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { "-": [ [ "t_carpet_backrooms", 99 ], [ "t_carpet_backrooms_light", 1 ] ] },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mx_v_hall_nested",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "--                      ",
+        "--                      ",
+        "--                      ",
+        "--                      ",
+        "--                      ",
+        "--                      ",
+        "--                      ",
+        "--                      ",
+        "--                      ",
+        "--                      ",
+        "--                      ",
+        "--                      ",
+        "--                      ",
+        "--                      ",
+        "--                      ",
+        "--                      ",
+        "--                      ",
+        "--                      ",
+        "--                      ",
+        "--                      ",
+        "--                      ",
+        "--                      ",
+        "--                      ",
+        "--                      "
+      ],
+      "terrain": { "-": [ [ "t_carpet_backrooms", 99 ], [ "t_carpet_backrooms_light", 1 ] ] },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mx_wholeroom_nested_invert",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "------------------------",
+        "-                       ",
+        "-                       ",
+        "-                       ",
+        "-                       ",
+        "-                       ",
+        "-                       ",
+        "-                       ",
+        "-                       ",
+        "-                       ",
+        "-                       ",
+        "-                       ",
+        "-                       ",
+        "-                       ",
+        "-                       ",
+        "-                       ",
+        "-                       ",
+        "-                       ",
+        "-                       ",
+        "-                       ",
+        "-                       ",
+        "-                       ",
+        "-                       ",
+        "-                       "
+      ],
+      "terrain": { "-": [ [ "t_carpet_backrooms", 99 ], [ "t_carpet_backrooms_light", 1 ] ] },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mx_h_wholehall_nested",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "------------------------",
+        "xxxxxxxxxxxxxxxxxxxxxxxx",
+        "xxxxxxxxxxxxxxxxxxxxxxxx",
+        "------------------------",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": {
+        "-": [ [ "t_backroom_wall", 90 ], [ "t_carpet_backrooms", 10 ] ],
+        "x": [ [ "t_carpet_backrooms", 99 ], [ "t_carpet_backrooms_light", 1 ] ]
+      },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mx_v_wholehall_nested",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "-xx-                    ",
+        "-xx-                    ",
+        "-xx-                    ",
+        "-xx-                    ",
+        "-xx-                    ",
+        "-xx-                    ",
+        "-xx-                    ",
+        "-xx-                    ",
+        "-xx-                    ",
+        "-xx-                    ",
+        "-xx-                    ",
+        "-xx-                    ",
+        "-xx-                    ",
+        "-xx-                    ",
+        "-xx-                    ",
+        "-xx-                    ",
+        "-xx-                    ",
+        "-xx-                    ",
+        "-xx-                    ",
+        "-xx-                    ",
+        "-xx-                    ",
+        "-xx-                    ",
+        "-xx-                    ",
+        "-xx-                    "
+      ],
+      "terrain": {
+        "-": [ [ "t_backroom_wall", 90 ], [ "t_carpet_backrooms", 10 ] ],
+        "x": [ [ "t_carpet_backrooms", 99 ], [ "t_carpet_backrooms_light", 1 ] ]
+      },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  }
+]

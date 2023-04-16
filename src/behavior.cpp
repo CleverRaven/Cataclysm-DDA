@@ -18,7 +18,8 @@ void node_t::set_strategy( const strategy_t *new_strategy )
 {
     strategy = new_strategy;
 }
-void node_t::add_predicate( std::function<status_t ( const oracle_t *, const std::string & )>
+void node_t::add_predicate( const
+                            std::function<status_t ( const oracle_t *, const std::string & )> &
                             new_predicate, const std::string &argument, const bool &invert_result )
 {
     conditions.emplace_back( std::make_tuple( new_predicate, argument, invert_result ) );

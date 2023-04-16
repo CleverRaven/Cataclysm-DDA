@@ -64,6 +64,7 @@ std::string enum_to_string<cata_variant_type>( cata_variant_type type )
         case cata_variant_type::npc_template_id: return "npc_template_id";
         case cata_variant_type::oter_id: return "oter_id";
         case cata_variant_type::oter_type_str_id: return "oter_type_str_id";
+        case cata_variant_type::overmap_special_id: return "overmap_special_id";
         case cata_variant_type::palette_id: return "palette_id";
         case cata_variant_type::point: return "point";
         case cata_variant_type::profession_id: return "profession_id";

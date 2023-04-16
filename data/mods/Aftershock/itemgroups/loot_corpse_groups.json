@@ -27,7 +27,7 @@
     "entries": [
       { "group": "afs_any_makeshift_gun", "prob": 5 },
       { "group": "afs_any_ballistic_s_gun", "prob": 10 },
-      { "group": "afs_any_laser_gun", "prob": 10 }
+      { "group": "afs_any_laser_s_gun", "prob": 10 }
     ]
   }
 ]

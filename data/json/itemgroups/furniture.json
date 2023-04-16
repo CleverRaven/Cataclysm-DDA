@@ -23,7 +23,8 @@
       { "item": "pot", "prob": 80 },
       { "item": "pot_copper", "prob": 20 },
       { "item": "pot_canning", "prob": 15 },
-      { "item": "pressure_cooker", "prob": 5 }
+      { "item": "pressure_cooker", "prob": 5 },
+      { "item": "dutch_oven", "prob": 5 }
     ]
   },
   {
@@ -39,6 +40,7 @@
       { "item": "quilt", "prob": 10 },
       { "item": "quilt_patchwork", "prob": 8 },
       { "item": "teddy_bear", "prob": 2 },
+      { "item": "shark_plushie", "prob": 2 },
       { "item": "bodypillow", "prob": 1 }
     ]
   },

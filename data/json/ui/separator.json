@@ -1,0 +1,18 @@
+[
+  {
+    "id": "separator",
+    "type": "widget",
+    "style": "layout",
+    "label": "Separator",
+    "description": "One line of empty vertical space.",
+    "arrange": "rows",
+    "width": 1,
+    "widgets": [  ]
+  },
+  {
+    "id": "separator_disabled",
+    "type": "widget",
+    "copy-from": "separator",
+    "flags": [ "W_DISABLED_BY_DEFAULT" ]
+  }
+]

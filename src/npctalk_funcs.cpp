@@ -6,6 +6,7 @@
 #include <list>
 #include <memory>
 #include <new>
+#include <optional>
 #include <set>
 #include <string>
 #include <vector>
@@ -46,7 +47,6 @@
 #include "mutation.h"
 #include "npc.h"
 #include "npctrade.h"
-#include "optional.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
@@ -114,6 +114,10 @@ void talk_function::assign_mission( npc &p )
     mission *miss = p.chatbin.mission_selected;
     if( miss == nullptr ) {
         debugmsg( "assign_mission: mission_selected == nullptr" );
+        return;
+    } else if( miss->is_assigned() ) {
+        DebugLog( D_WARNING, D_MAIN ) << "assign_mission: mission_id: " << miss->mission_id().str() <<
+                                      " is already assigned!";
         return;
     }
     miss->assign( get_avatar() );
@@ -335,7 +339,7 @@ void talk_function::goto_location( npc &p )
         if( elem == p.global_omt_location() ) {
             continue;
         }
-        cata::optional<basecamp *> camp = overmap_buffer.find_camp( elem.xy() );
+        std::optional<basecamp *> camp = overmap_buffer.find_camp( elem.xy() );
         if( !camp ) {
             continue;
         }
@@ -374,7 +378,7 @@ void talk_function::goto_location( npc &p )
     }
     p.set_mission( NPC_MISSION_TRAVELLING );
     p.chatbin.first_topic = p.chatbin.talk_friend_guard;
-    p.guard_pos = cata::nullopt;
+    p.guard_pos = std::nullopt;
     p.set_attitude( NPCATT_NULL );
 }
 
@@ -397,7 +401,7 @@ void talk_function::assign_guard( npc &p )
 
 void talk_function::abandon_camp( npc &p )
 {
-    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( p.global_omt_location().xy() );
+    std::optional<basecamp *> bcp = overmap_buffer.find_camp( p.global_omt_location().xy() );
     if( bcp ) {
         basecamp *temp_camp = *bcp;
         temp_camp->abandon_camp();
@@ -406,7 +410,7 @@ void talk_function::abandon_camp( npc &p )
 
 void talk_function::assign_camp( npc &p )
 {
-    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( p.global_omt_location().xy() );
+    std::optional<basecamp *> bcp = overmap_buffer.find_camp( p.global_omt_location().xy() );
     if( bcp ) {
         basecamp *temp_camp = *bcp;
         p.set_attitude( NPCATT_NULL );
@@ -438,13 +442,13 @@ void talk_function::stop_guard( npc &p )
     }
     p.chatbin.first_topic = p.chatbin.talk_friend;
     p.goal = npc::no_goal_point;
-    p.guard_pos = cata::nullopt;
+    p.guard_pos = std::nullopt;
     if( p.assigned_camp ) {
-        if( cata::optional<basecamp *> bcp = overmap_buffer.find_camp( ( *p.assigned_camp ).xy() ) ) {
+        if( std::optional<basecamp *> bcp = overmap_buffer.find_camp( ( *p.assigned_camp ).xy() ) ) {
             ( *bcp )->remove_assignee( p.getID() );
             ( *bcp )->validate_assignees();
         }
-        p.assigned_camp = cata::nullopt;
+        p.assigned_camp = std::nullopt;
     }
 }
 
@@ -522,9 +526,9 @@ void talk_function::bionic_remove( npc &p )
             bionic_types.push_back( bio.info().itype() );
             if( item::type_is_defined( bio.info().itype() ) ) {
                 item tmp = item( bio.id.str(), calendar::turn_zero );
-                bionic_names.push_back( tmp.tname() + " - " + format_money( 50000 + ( tmp.price( true ) / 4 ) ) );
+                bionic_names.push_back( tmp.tname() + " - " + format_money( 5000 + ( tmp.price( true ) / 4 ) ) );
             } else {
-                bionic_names.push_back( bio.id.str() + " - " + format_money( 50000 ) );
+                bionic_names.push_back( bio.id.str() + " - " + format_money( 5000 ) );
             }
             bionics.push_back( &bio );
         }
@@ -540,9 +544,9 @@ void talk_function::bionic_remove( npc &p )
 
     signed int price;
     if( item::type_is_defined( bionic_types[bionic_index] ) ) {
-        price = 50000 + ( item( bionic_types[bionic_index], calendar::turn_zero ).price( true ) / 4 );
+        price = 5000 + ( item( bionic_types[bionic_index], calendar::turn_zero ).price( true ) / 4 );
     } else {
-        price = 50000;
+        price = 5000;
     }
     if( !npc_trading::pay_npc( p, price ) ) {
         return;
@@ -696,23 +700,24 @@ static void generic_barber( const std::string &mut_type )
     hair_menu.text = menu_text;
     int index = 0;
     hair_menu.addentry( index, true, 'q', _( "Actually…  I've changed my mind." ) );
-    std::vector<trait_id> hair_muts = get_mutations_in_type( mut_type );
+    std::vector<trait_and_var> hair_muts = mutations_var_in_type( mut_type );
     Character &player_character = get_player_character();
-    trait_id cur_hair;
-    for( const trait_id &elem : hair_muts ) {
-        if( player_character.has_trait( elem ) ) {
+    trait_and_var cur_hair;
+    for( const trait_and_var &elem : hair_muts ) {
+        if( player_character.has_trait_variant( elem ) ) {
             cur_hair = elem;
         }
         index += 1;
-        hair_menu.addentry( index, true, MENU_AUTOASSIGN, elem.obj().name() );
+        hair_menu.addentry( index, true, MENU_AUTOASSIGN, elem.name() );
     }
     hair_menu.query();
     int choice = hair_menu.ret;
     if( choice != 0 ) {
-        if( player_character.has_trait( cur_hair ) ) {
-            player_character.remove_mutation( cur_hair, true );
+        if( player_character.has_trait( cur_hair.trait ) ) {
+            player_character.remove_mutation( cur_hair.trait, true );
         }
-        player_character.set_mutation( hair_muts[ choice - 1 ] );
+        const trait_and_var &chosen = hair_muts[choice - 1];
+        player_character.set_mutation( chosen.trait, chosen.trait->variant( chosen.variant ) );
         add_msg( m_info, _( "You get a trendy new cut!" ) );
     }
 }
@@ -967,6 +972,14 @@ void talk_function::drop_weapon( npc &p )
 void talk_function::player_weapon_away( npc &/*p*/ )
 {
     Character &player_character = get_player_character();
+
+    std::optional<bionic *> bionic_weapon = player_character.find_bionic_by_uid(
+            player_character.get_weapon_bionic_uid() );
+    if( bionic_weapon ) {
+        player_character.deactivate_bionic( **bionic_weapon );
+        return;
+    }
+
     player_character.i_add( player_character.remove_weapon() );
 }
 
@@ -979,10 +992,10 @@ void talk_function::player_weapon_drop( npc &/*p*/ )
 
 void talk_function::lead_to_safety( npc &p )
 {
-    mission *reach_safety__mission = mission::reserve_new( mission_MISSION_REACH_SAFETY,
-                                     character_id() );
-    reach_safety__mission->assign( get_avatar() );
-    p.goal = reach_safety__mission->get_target();
+    mission *reach_safety_mission = mission::reserve_new( mission_MISSION_REACH_SAFETY,
+                                    character_id() );
+    reach_safety_mission->assign( get_avatar() );
+    p.goal = reach_safety_mission->get_target();
     p.set_attitude( NPCATT_LEAD );
 }
 

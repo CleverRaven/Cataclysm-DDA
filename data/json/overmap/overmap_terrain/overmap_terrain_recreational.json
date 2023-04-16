@@ -1,6 +1,44 @@
 [
   {
     "type": "overmap_terrain",
+    "id": [ "park", "park_roof", "park_2", "park_3", "park_4", "park_5", "park_5_roof", "park_6", "park_7", "park_7_roof" ],
+    "copy-from": "generic_city_building",
+    "name": "park",
+    "sym": "O",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "playground", "playground_roof", "playground_1" ],
+    "copy-from": "park",
+    "name": "playground"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "dog_park" ],
+    "copy-from": "park",
+    "name": "dog park"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "volleyball_court" ],
+    "copy-from": "park",
+    "name": "volleyball court"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "tennis_court" ],
+    "copy-from": "park",
+    "name": "tennis court"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "baskeball_court" ],
+    "copy-from": "park",
+    "name": "basketball court"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [
       "pool",
       "pool_roof",
@@ -63,57 +101,48 @@
     "color": "i_blue"
   },
   {
-    "id": "skate_park",
     "type": "overmap_terrain",
+    "id": [ "skate_park", "skate_park_up", "skate_park_down" ],
     "copy-from": "generic_city_building",
     "name": "skate park",
     "sym": "O",
     "color": "light_gray"
   },
   {
-    "id": [ "small_wooded_trail", "small_wooded_trail_2" ],
     "type": "overmap_terrain",
+    "id": [ "small_wooded_trail", "small_wooded_trail_2" ],
     "copy-from": "generic_city_building",
     "name": "small wooded trail",
     "sym": "S",
     "color": "i_green"
   },
   {
-    "id": "pavilion",
     "type": "overmap_terrain",
+    "id": [ "pavilion", "pavilion_1" ],
     "copy-from": "generic_city_building",
     "name": "pavilion",
     "sym": "A",
     "color": "i_green"
   },
   {
-    "id": "pavilion_roof",
     "type": "overmap_terrain",
-    "copy-from": "generic_city_building",
-    "name": "pavilion roof",
-    "sym": "A",
-    "color": "i_green"
-  },
-  {
-    "id": "pavilion_1",
-    "type": "overmap_terrain",
-    "copy-from": "generic_city_building",
-    "looks_like": "pavilion",
+    "id": "trailer_public_10",
+    "copy-from": "generic_city_building_no_sidewalk",
     "name": "pavilion",
     "sym": "A",
     "color": "i_green"
   },
   {
-    "id": "pavilion_roof_1",
     "type": "overmap_terrain",
+    "id": [ "pavilion_roof", "pavilion_roof_1", "trailer_public_10_roof" ],
     "copy-from": "generic_city_building",
     "name": "pavilion roof",
     "sym": "A",
     "color": "i_green"
   },
   {
+    "type": "overmap_terrain",
     "id": "hunting_blind",
-    "type": "overmap_terrain",
     "name": "hunting blind",
     "sym": "H",
     "color": "i_green",
@@ -123,7 +152,7 @@
   {
     "type": "overmap_terrain",
     "id": [ "NatureTrail_1a", "NatureTrail_1b" ],
-    "copy-from": "generic_city_building_no_sidewalk",
+    "copy-from": "generic_city_building",
     "name": "nature trail",
     "sym": "S",
     "color": "i_green"
@@ -656,6 +685,42 @@
   {
     "type": "overmap_terrain",
     "id": [
+      "karting_0_0_0",
+      "karting_0_0_1",
+      "karting_0_0_2",
+      "karting_0_1_0",
+      "karting_0_1_1",
+      "karting_0_1_2",
+      "karting_0_2_0",
+      "karting_0_2_1",
+      "karting_0_2_2",
+      "karting_1_0_0",
+      "karting_1_0_1",
+      "karting_1_0_2",
+      "karting_1_1_0",
+      "karting_1_1_1",
+      "karting_1_1_2",
+      "karting_1_2_0",
+      "karting_1_2_1",
+      "karting_1_2_2",
+      "karting_2_0_0",
+      "karting_2_0_1",
+      "karting_2_0_2",
+      "karting_2_1_0",
+      "karting_2_1_1",
+      "karting_2_1_2",
+      "karting_2_2_0",
+      "karting_2_2_1",
+      "karting_2_2_2"
+    ],
+    "copy-from": "generic_city_building",
+    "name": "karting",
+    "sym": "M",
+    "color": "i_yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
       "movietheater_0_0",
       "movietheater_2_0",
       "movietheater_0_1",
@@ -672,16 +737,17 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "movietheater_1_0", "movietheater_roof_1_0" ],
+    "id": "movietheater_1_0",
     "copy-from": "generic_city_building",
     "name": "movie theater entrance",
-    "sym": "M",
-    "color": "i_yellow"
+    "sym": "+",
+    "color": "yellow"
   },
   {
     "type": "overmap_terrain",
     "id": [
       "movietheater_roof_0_0",
+      "movietheater_roof_1_0",
       "movietheater_roof_2_0",
       "movietheater_roof_0_1",
       "movietheater_roof_1_1",
@@ -691,9 +757,52 @@
       "movietheater_roof_2_2"
     ],
     "copy-from": "generic_city_building",
-    "name": "movie theater",
+    "name": "movie theater roof",
     "sym": "M",
     "color": "i_yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "car_theater_0_0",
+      "car_theater_1_0",
+      "car_theater_2_0",
+      "car_theater_0_1",
+      "car_theater_1_1",
+      "car_theater_2_1",
+      "car_theater_0_2",
+      "car_theater_1_2",
+      "car_theater_1_2_1",
+      "car_theater_1_2_2",
+      "car_theater_2_2",
+      "car_theater_0_0_1",
+      "car_theater_1_0_1",
+      "car_theater_2_0_1",
+      "car_theater_0_0_2",
+      "car_theater_1_0_2",
+      "car_theater_2_0_2"
+    ],
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "drive-in theater",
+    "sym": "M",
+    "color": "i_yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "car_theater_3_1", "car_theater_3_2", "car_theater_3_1_1", "car_theater_3_2_1", "car_theater_4_1", "car_theater_4_2" ],
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "drive-in theater entrance",
+    "sym": "+",
+    "color": "yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "car_theater_3_0",
+    "copy-from": "generic_transportation",
+    "name": "road",
+    "sym": "│",
+    "color": "dark_gray",
+    "see_cost": 2
   },
   {
     "type": "overmap_terrain",

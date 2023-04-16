@@ -1,0 +1,62 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "afs_eoc_hangover_baseline",
+    "effect": [
+      { "u_add_effect": "decreased_performance", "duration": "6 hours" },
+      { "u_add_effect": "disrupted_sleep", "duration": "8 hours" },
+      {
+        "u_add_morale": "morale_off_drugs",
+        "bonus": -20,
+        "max_bonus": -60,
+        "duration": "36 hours",
+        "decay_start": "24 hours"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "afs_eoc_hangover_speed",
+    "effect": [
+      { "u_add_effect": "post_speed_injection", "duration": "6 hours" },
+      { "u_add_effect": "disrupted_sleep", "duration": "8 hours" },
+      {
+        "u_add_morale": "morale_off_drugs",
+        "bonus": -20,
+        "max_bonus": -60,
+        "duration": "36 hours",
+        "decay_start": "24 hours"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "afs_eoc_hangover_healing",
+    "effect": [
+      { "u_add_effect": "post_healing_injection", "duration": "6 hours" },
+      { "arithmetic": [ { "u_val": "fatigue" }, "+=", { "const": 80 } ] },
+      {
+        "u_add_morale": "morale_off_drugs",
+        "bonus": -20,
+        "max_bonus": -60,
+        "duration": "36 hours",
+        "decay_start": "24 hours"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "afs_eoc_hangover_strength",
+    "effect": [
+      { "u_add_effect": "post_strength_injection", "duration": "6 hours" },
+      { "arithmetic": [ { "u_val": "fatigue" }, "+=", { "const": 80 } ] },
+      {
+        "u_add_morale": "morale_off_drugs",
+        "bonus": -20,
+        "max_bonus": -60,
+        "duration": "36 hours",
+        "decay_start": "24 hours"
+      }
+    ]
+  }
+]

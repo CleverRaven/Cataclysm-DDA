@@ -125,7 +125,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "20 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "rag", 35 ] ], [ [ "down_feather", 160 ] ] ]
+    "components": [ [ [ "cotton_patchwork", 35 ] ], [ [ "down_feather", 160 ] ] ]
   },
   {
     "result": "under_armor_shorts",
@@ -141,6 +141,6 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "2 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "rag", 2 ] ], [ [ "wire", 1 ] ], [ [ "button_plastic", 9 ] ] ]
+    "components": [ [ [ "cotton_patchwork", 2 ] ], [ [ "wire", 1 ] ], [ [ "button_plastic", 9 ] ] ]
   }
 ]

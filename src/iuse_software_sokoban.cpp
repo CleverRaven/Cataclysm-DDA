@@ -4,6 +4,7 @@
 #include <functional>
 #include <istream>
 #include <new>
+#include <optional>
 #include <stdexcept>
 #include <string>
 
@@ -12,7 +13,6 @@
 #include "color.h"
 #include "cursesdef.h"
 #include "input.h"
-#include "optional.h"
 #include "output.h"
 #include "path_info.h"
 #include "point.h"
@@ -220,8 +220,9 @@ int sokoban_game::start_game()
     int iDirY = 0;
     int iDirX = 0;
 
-    using namespace std::placeholders;
-    read_from_file( PATH_INFO::sokoban(), std::bind( &sokoban_game::parse_level, this, _1 ) );
+    read_from_file( PATH_INFO::sokoban(), [this]( std::istream & is ) {
+        parse_level( is );
+    } );
 
     catacurses::window w_sokoban;
     ui_adaptor ui;
@@ -304,7 +305,7 @@ int sokoban_game::start_game()
         }
 
         bMoved = false;
-        if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
+        if( const std::optional<tripoint> vec = ctxt.get_direction( action ) ) {
             iDirX = vec->x;
             iDirY = vec->y;
             bMoved = true;

@@ -3,7 +3,7 @@
     "id": "back_holster",
     "type": "ARMOR",
     "name": { "str": "back holster" },
-    "description": "A leather holster, big enough for a rifle or other large gun.  Designed to be strapped to the back.  Whilst initially cumbersome it becomes much easier to use with practice.  Activate to holster/draw a gun.",
+    "description": "A leather holster, big enough for a rifle or other large gun.  Designed to be strapped to the back.  Whilst initially cumbersome, it becomes much easier to use with practice.  Activate to holster/draw a gun.",
     "weight": "240 g",
     "volume": "1250 ml",
     "price": 10000,
@@ -32,7 +32,7 @@
     "id": "baldric_holster",
     "type": "ARMOR",
     "name": { "str": "baldric holster" },
-    "description": "A leather harness which can hold up to six pistol-sized guns in total, available for quick drawing.  Historically similar harnesses were used by pirates to carry multiple loaded flintlock pistols at once, as reloading them is a lengthy process.  Activate to holster/draw a gun.",
+    "description": "A leather harness which can hold up to six pistol-sized guns in total, available for quick drawing.  Historically, similar harnesses were used by pirates to carry multiple loaded flintlock pistols at once, as reloading them is a lengthy process.  Activate to holster/draw a gun.",
     "weight": "1320 g",
     "volume": "3 L",
     "price": 20000,
@@ -40,7 +40,7 @@
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "quiver_large",
-    "color": "light_gray",
+    "color": "brown",
     "material_thickness": 1,
     "pocket_data": [
       {
@@ -117,7 +117,7 @@
     "color": "brown",
     "sided": true,
     "material_thickness": 1,
-    "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "NOT_FOOTWEAR" ],
+    "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ],
     "pocket_data": [
       {
         "magazine_well": "200 ml",
@@ -130,13 +130,22 @@
       }
     ],
     "use_action": { "type": "holster" },
-    "armor": [ { "encumbrance": [ 3, 4 ], "coverage": 5, "covers": [ "foot_l", "foot_r" ] } ]
+    "armor": [
+      {
+        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 1 } ],
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_ankle_l", "foot_ankle_r" ],
+        "coverage": 25,
+        "encumbrance": [ 3, 4 ],
+        "layers": [ "BELTED" ]
+      }
+    ]
   },
   {
     "id": "bow_sling",
     "type": "ARMOR",
     "name": { "str": "bow sling" },
-    "description": "A somewhat complicated set of straps and fabric to keep your bow close to hand and (mostly) out of harms way.  Activate to holster/draw your bow.",
+    "description": "A somewhat complicated set of straps and fabric to keep your bow close to hand and (mostly) out of harm's way.  Activate to holster/draw your bow.",
     "weight": "320 g",
     "volume": "500 ml",
     "price": 8000,
@@ -152,7 +161,7 @@
         "pocket_type": "CONTAINER",
         "holster": true,
         "min_item_volume": "500 ml",
-        "max_contains_volume": "5 L",
+        "max_contains_volume": "7 L",
         "max_contains_weight": "5 kg",
         "max_item_length": "200 cm",
         "moves": 50,
@@ -197,7 +206,7 @@
     "id": "holster",
     "type": "ARMOR",
     "name": { "str": "holster" },
-    "description": "A leather strap worn on the hip for holding pistol sized guns.  Activate to holster/draw a gun.",
+    "description": "A leather strap worn on the hip for holding pistol-sized guns.  Activate to holster/draw a gun.",
     "weight": "220 g",
     "volume": "500 ml",
     "price": 9000,
@@ -233,20 +242,32 @@
   },
   {
     "id": "western_holster",
-    "copy-from": "holster",
     "type": "ARMOR",
-    "name": { "str": "western holster" },
-    "description": "A western style holster as worn by cowboys and gunfighters in the movies and on TV. Has loops across the back to hold spare ammo.  Activate to holster/draw a gun.",
+    "name": { "str": "western gun belt" },
+    "description": "A Western-style gun belt as worn by cowboys and gunfighters in the movies and on TV. Has loops across the back to hold spare ammo.  Activate to holster/draw a gun.",
     "weight": "260 g",
     "volume": "550 ml",
     "price_postapoc": 500,
     "material": [ "leather" ],
+    "symbol": "[",
+    "looks_like": "sheath",
+    "color": "light_gray",
     "sided": true,
+    "material_thickness": 2,
     "armor": [
-      { "covers": [ "torso" ], "coverage": 5, "encumbrance": [ 1, 1 ], "specifically_covers": [ "torso_lower" ] },
+      {
+        "covers": [ "torso" ],
+        "coverage": 50,
+        "specifically_covers": [ "torso_waist" ],
+        "encumbrance": [ 1, 1 ],
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 2 },
+          { "type": "steel", "covered_by_mat": 10, "thickness": 0.5 }
+        ]
+      },
       {
         "covers": [ "leg_l", "leg_r" ],
-        "coverage": 5,
+        "coverage": 40,
         "encumbrance": [ 2, 3 ],
         "specifically_covers": [ "leg_hip_r", "leg_hip_l" ]
       }
@@ -289,14 +310,15 @@
         "moves": 20
       }
     ],
-    "use_action": { "type": "holster" }
+    "use_action": { "type": "holster" },
+    "flags": [ "BELTED", "OVERSIZE" ]
   },
   {
     "id": "sholster",
     "copy-from": "holster",
     "type": "ARMOR",
     "name": { "str": "fast draw holster" },
-    "description": "A comfortable quick draw holster for small guns.  Activate to holster/draw a gun.",
+    "description": "A comfortable quick-draw holster for small guns.  Activate to holster/draw a gun.",
     "price_postapoc": 500,
     "material": [ "leather" ],
     "pocket_data": [
@@ -326,9 +348,10 @@
     "copy-from": "holster",
     "type": "ARMOR",
     "name": { "str": "shoulder holster" },
-    "description": "A comfortable quick draw holster for larger pistols.  One side holsters a gun and the other side holds two magazines.  Activate to holster/draw a gun.",
+    "description": "A comfortable quick-draw holster for larger pistols.  One side holsters a gun, and the other side holds two magazines.  Activate to holster/draw a gun.",
     "price_postapoc": 500,
     "material": [ "leather" ],
+    "repairs_like": "holster",
     "pocket_data": [
       {
         "magazine_well": "200 ml",
@@ -393,7 +416,7 @@
     "copy-from": "holster",
     "type": "ARMOR",
     "name": { "str": "belly band holster" },
-    "description": "A wide elastic belly belt with a built-in holster for pistols and a cartridge.  It is very awkward to use without practice.  Activate to holster/draw a gun.",
+    "description": "A wide elastic belly belt with a built-in holster for a pistol and a spare magazine.  It is very awkward to use without practice.  Activate to holster/draw a gun.",
     "weight": "240 g",
     "volume": "750 ml",
     "price_postapoc": 500,
@@ -467,7 +490,7 @@
     "copy-from": "holster",
     "looks_like": "holster",
     "name": { "str": "XS holster" },
-    "description": "A leather strap worn on the hip for holding pistol sized guns.  The size of the strap has been adjusted to fit someone with much smaller legs.  Activate to holster/draw a gun.",
+    "description": "A leather strap worn on the hip for holding pistol-sized guns.  The size of the strap has been adjusted to fit someone with much smaller legs.  Activate to holster/draw a gun.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "BELTED", "OVERSIZE", "UNDERSIZE", "PALS_MEDIUM" ]
   }

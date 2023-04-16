@@ -1,0 +1,302 @@
+[
+  {
+    "type": "overmap_special",
+    "id": "Canyon Mutable",
+    "subtype": "mutable",
+    "locations": [ "field", "forest_with_swamp", "subterranean_empty" ],
+    "city_distance": [ 0, -1 ],
+    "city_sizes": [ 0, -1 ],
+    "occurrences": [ 0, 3 ],
+    "flags": [ "CLASSIC" ],
+    "check_for_locations_area": [
+      { "type": [ "field", "forest_with_swamp" ], "from": [ -4, -4, 0 ], "to": [ 4, 4, 0 ] },
+      { "type": [ "subterranean_empty" ], "from": [ -16, -16, -1 ], "to": [ 16, 16, -2 ] }
+    ],
+    "joins": [ "canyon_to_canyon", "canyon_to_edge", "canyon_to_bottom" ],
+    "overmaps": {
+      "canyon_root": {
+        "overmap": "open_air",
+        "below": { "id": "canyon_to_bottom", "alternatives": [ "canyon_to_edge" ] },
+        "north": { "id": "canyon_to_canyon" },
+        "east": { "id": "canyon_to_canyon" },
+        "south": { "id": "canyon_to_canyon" },
+        "west": { "id": "canyon_to_canyon" }
+      },
+      "canyon_core_ground": {
+        "overmap": "open_air",
+        "north": { "id": "canyon_to_canyon", "alternatives": [ "canyon_to_edge" ] },
+        "east": { "id": "canyon_to_canyon", "alternatives": [ "canyon_to_edge" ] },
+        "south": { "id": "canyon_to_canyon", "alternatives": [ "canyon_to_edge" ] },
+        "west": { "id": "canyon_to_canyon", "alternatives": [ "canyon_to_edge" ] }
+      },
+      "canyon_filler_ground": {
+        "overmap": "open_air",
+        "north": { "id": "canyon_to_canyon", "type": "available", "alternatives": [ "canyon_to_edge" ] },
+        "east": { "id": "canyon_to_canyon", "type": "available", "alternatives": [ "canyon_to_edge" ] },
+        "south": { "id": "canyon_to_canyon", "type": "available", "alternatives": [ "canyon_to_edge" ] },
+        "west": { "id": "canyon_to_canyon", "type": "available", "alternatives": [ "canyon_to_edge" ] }
+      },
+      "canyon_edge_ground_v1": { "overmap": "canyon_edge_ground_v1_north", "north": { "id": "canyon_to_canyon" } },
+      "canyon_corner_ground_v1": {
+        "overmap": "canyon_corner_ground_v1_north",
+        "north": { "id": "canyon_to_canyon", "alternatives": [ "canyon_to_edge" ] },
+        "east": { "id": "canyon_to_canyon", "alternatives": [ "canyon_to_edge" ] }
+      },
+      "canyon_2way_ground_v1": {
+        "overmap": "canyon_2way_ground_v1_east",
+        "north": { "id": "canyon_to_canyon", "type": "available", "alternatives": [ "canyon_to_edge" ] },
+        "south": { "id": "canyon_to_canyon", "type": "available", "alternatives": [ "canyon_to_edge" ] }
+      },
+      "canyon_3way_ground_v1": {
+        "overmap": "canyon_3way_ground_v1_north",
+        "north": { "id": "canyon_to_canyon", "type": "available", "alternatives": [ "canyon_to_edge" ] },
+        "east": { "id": "canyon_to_canyon", "type": "available", "alternatives": [ "canyon_to_edge" ] },
+        "west": { "id": "canyon_to_canyon", "type": "available", "alternatives": [ "canyon_to_edge" ] }
+      },
+      "canyon_core": { "overmap": "open_air" },
+      "canyon_filler": { "overmap": "open_air" },
+      "canyon_root_filler": { "overmap": "open_air", "above": { "id": "canyon_to_bottom", "alternatives": [ "canyon_to_edge" ] } },
+      "canyon_bottom": { "overmap": "field" },
+      "canyon_edge_v1": { "overmap": "canyon_edge_v1_north" },
+      "canyon_corner_v1": { "overmap": "canyon_corner_v1_north" },
+      "canyon_2way_v1": { "overmap": "canyon_2way_v1_east" },
+      "canyon_3way_v1": { "overmap": "canyon_3way_v1_north" },
+      "canyon_edge_v1_bottom": { "overmap": "canyon_edge_v1_bottom_north" },
+      "canyon_corner_v1_bottom": { "overmap": "canyon_corner_v1_bottom_north" },
+      "canyon_2way_v1_bottom": { "overmap": "canyon_2way_v1_bottom_east" },
+      "canyon_3way_v1_bottom": { "overmap": "canyon_3way_v1_bottom_north" },
+      "canyon_edge_ground_v2": { "overmap": "canyon_edge_ground_v2_north", "north": { "id": "canyon_to_canyon" } },
+      "canyon_corner_ground_v2": {
+        "overmap": "canyon_corner_ground_v2_north",
+        "north": { "id": "canyon_to_canyon", "alternatives": [ "canyon_to_edge" ] },
+        "east": { "id": "canyon_to_canyon", "alternatives": [ "canyon_to_edge" ] }
+      },
+      "canyon_2way_ground_v2": {
+        "overmap": "canyon_2way_ground_v2_east",
+        "north": { "id": "canyon_to_canyon", "type": "available", "alternatives": [ "canyon_to_edge" ] },
+        "south": { "id": "canyon_to_canyon", "type": "available", "alternatives": [ "canyon_to_edge" ] }
+      },
+      "canyon_3way_ground_v2": {
+        "overmap": "canyon_3way_ground_v2_north",
+        "north": { "id": "canyon_to_canyon", "type": "available", "alternatives": [ "canyon_to_edge" ] },
+        "east": { "id": "canyon_to_canyon", "type": "available", "alternatives": [ "canyon_to_edge" ] },
+        "west": { "id": "canyon_to_canyon", "type": "available", "alternatives": [ "canyon_to_edge" ] }
+      },
+      "canyon_edge_v2": { "overmap": "canyon_edge_v2_north" },
+      "canyon_corner_v2": { "overmap": "canyon_corner_v2_north" },
+      "canyon_2way_v2": { "overmap": "canyon_2way_v2_east" },
+      "canyon_3way_v2": { "overmap": "canyon_3way_v2_north" },
+      "canyon_edge_v2_bottom": { "overmap": "canyon_edge_v2_bottom_north" },
+      "canyon_corner_v2_bottom": { "overmap": "canyon_corner_v2_bottom_north" },
+      "canyon_2way_v2_bottom": { "overmap": "canyon_2way_v2_bottom_east" },
+      "canyon_3way_v2_bottom": { "overmap": "canyon_3way_v2_bottom_north" }
+    },
+    "root": "canyon_root",
+    "phases": [
+      [
+        {
+          "name": "15-tile straight branch",
+          "chunk": [
+            { "overmap": "canyon_core_ground", "pos": [ 0, 0, 0 ] },
+            { "overmap": "canyon_core", "pos": [ 0, 0, -1 ] },
+            { "overmap": "canyon_bottom", "pos": [ 0, 0, -2 ] },
+            { "overmap": "canyon_core_ground", "pos": [ 1, 0, 0 ] },
+            { "overmap": "canyon_core", "pos": [ 1, 0, -1 ] },
+            { "overmap": "canyon_bottom", "pos": [ 1, 0, -2 ] },
+            { "overmap": "canyon_core_ground", "pos": [ 2, 0, 0 ] },
+            { "overmap": "canyon_core", "pos": [ 2, 0, -1 ] },
+            { "overmap": "canyon_bottom", "pos": [ 2, 0, -2 ] },
+            { "overmap": "canyon_core_ground", "pos": [ 3, 0, 0 ] },
+            { "overmap": "canyon_core", "pos": [ 3, 0, -1 ] },
+            { "overmap": "canyon_bottom", "pos": [ 3, 0, -2 ] },
+            { "overmap": "canyon_core_ground", "pos": [ 4, 0, 0 ] },
+            { "overmap": "canyon_core", "pos": [ 4, 0, -1 ] },
+            { "overmap": "canyon_bottom", "pos": [ 4, 0, -2 ] },
+            { "overmap": "canyon_core_ground", "pos": [ 5, 0, 0 ] },
+            { "overmap": "canyon_core", "pos": [ 5, 0, -1 ] },
+            { "overmap": "canyon_bottom", "pos": [ 5, 0, -2 ] },
+            { "overmap": "canyon_core_ground", "pos": [ 6, 0, 0 ] },
+            { "overmap": "canyon_core", "pos": [ 6, 0, -1 ] },
+            { "overmap": "canyon_bottom", "pos": [ 6, 0, -2 ] },
+            { "overmap": "canyon_core_ground", "pos": [ 7, 0, 0 ] },
+            { "overmap": "canyon_core", "pos": [ 7, 0, -1 ] },
+            { "overmap": "canyon_bottom", "pos": [ 7, 0, -2 ] },
+            { "overmap": "canyon_core_ground", "pos": [ 8, 0, 0 ] },
+            { "overmap": "canyon_core", "pos": [ 8, 0, -1 ] },
+            { "overmap": "canyon_bottom", "pos": [ 8, 0, -2 ] },
+            { "overmap": "canyon_core_ground", "pos": [ 9, 0, 0 ] },
+            { "overmap": "canyon_core", "pos": [ 9, 0, -1 ] },
+            { "overmap": "canyon_bottom", "pos": [ 9, 0, -2 ] },
+            { "overmap": "canyon_core_ground", "pos": [ 10, 0, 0 ] },
+            { "overmap": "canyon_core", "pos": [ 10, 0, -1 ] },
+            { "overmap": "canyon_bottom", "pos": [ 10, 0, -2 ] },
+            { "overmap": "canyon_core_ground", "pos": [ 11, 0, 0 ] },
+            { "overmap": "canyon_core", "pos": [ 11, 0, -1 ] },
+            { "overmap": "canyon_bottom", "pos": [ 11, 0, -2 ] },
+            { "overmap": "canyon_core_ground", "pos": [ 12, 1, 0 ] },
+            { "overmap": "canyon_core", "pos": [ 12, 1, -1 ] },
+            { "overmap": "canyon_bottom", "pos": [ 12, 1, -2 ] },
+            { "overmap": "canyon_core_ground", "pos": [ 13, 1, 0 ] },
+            { "overmap": "canyon_core", "pos": [ 13, 1, -1 ] },
+            { "overmap": "canyon_bottom", "pos": [ 13, 1, -2 ] },
+            { "overmap": "canyon_core_ground", "pos": [ 14, 1, 0 ] },
+            { "overmap": "canyon_core", "pos": [ 14, 1, -1 ] },
+            { "overmap": "canyon_bottom", "pos": [ 14, 1, -2 ] }
+          ],
+          "max": 1
+        },
+        {
+          "name": "12-tile diagonal branch",
+          "chunk": [
+            { "overmap": "canyon_core_ground", "pos": [ 0, 0, 0 ] },
+            { "overmap": "canyon_core", "pos": [ 0, 0, -1 ] },
+            { "overmap": "canyon_bottom", "pos": [ 0, 0, -2 ] },
+            { "overmap": "canyon_core_ground", "pos": [ 1, 1, 0 ] },
+            { "overmap": "canyon_core", "pos": [ 1, 1, -1 ] },
+            { "overmap": "canyon_bottom", "pos": [ 1, 1, -2 ] },
+            { "overmap": "canyon_core_ground", "pos": [ 2, 2, 0 ] },
+            { "overmap": "canyon_core", "pos": [ 2, 2, -1 ] },
+            { "overmap": "canyon_bottom", "pos": [ 2, 2, -2 ] },
+            { "overmap": "canyon_core_ground", "pos": [ 3, 3, 0 ] },
+            { "overmap": "canyon_core", "pos": [ 3, 3, -1 ] },
+            { "overmap": "canyon_bottom", "pos": [ 3, 3, -2 ] },
+            { "overmap": "canyon_core_ground", "pos": [ 4, 4, 0 ] },
+            { "overmap": "canyon_core", "pos": [ 4, 4, -1 ] },
+            { "overmap": "canyon_bottom", "pos": [ 4, 4, -2 ] },
+            { "overmap": "canyon_core_ground", "pos": [ 5, 5, 0 ] },
+            { "overmap": "canyon_core", "pos": [ 5, 5, -1 ] },
+            { "overmap": "canyon_bottom", "pos": [ 5, 5, -2 ] },
+            { "overmap": "canyon_core_ground", "pos": [ 6, 6, 0 ] },
+            { "overmap": "canyon_core", "pos": [ 6, 6, -1 ] },
+            { "overmap": "canyon_bottom", "pos": [ 6, 6, -2 ] },
+            { "overmap": "canyon_core_ground", "pos": [ 7, 7, 0 ] },
+            { "overmap": "canyon_core", "pos": [ 7, 7, -1 ] },
+            { "overmap": "canyon_bottom", "pos": [ 7, 7, -2 ] },
+            { "overmap": "canyon_core_ground", "pos": [ 8, 8, 0 ] },
+            { "overmap": "canyon_core", "pos": [ 8, 8, -1 ] },
+            { "overmap": "canyon_bottom", "pos": [ 8, 8, -2 ] },
+            { "overmap": "canyon_core_ground", "pos": [ 9, 9, 0 ] },
+            { "overmap": "canyon_core", "pos": [ 9, 9, -1 ] },
+            { "overmap": "canyon_bottom", "pos": [ 9, 9, -2 ] },
+            { "overmap": "canyon_core_ground", "pos": [ 10, 10, 0 ] },
+            { "overmap": "canyon_core", "pos": [ 10, 10, -1 ] },
+            { "overmap": "canyon_bottom", "pos": [ 10, 10, -2 ] },
+            { "overmap": "canyon_core_ground", "pos": [ 11, 11, 0 ] },
+            { "overmap": "canyon_core", "pos": [ 11, 11, -1 ] },
+            { "overmap": "canyon_bottom", "pos": [ 11, 11, -2 ] }
+          ],
+          "max": 1
+        }
+      ],
+      [
+        {
+          "name": "canyon core",
+          "chunk": [
+            { "overmap": "canyon_core_ground", "pos": [ 0, 0, 0 ] },
+            { "overmap": "canyon_core", "pos": [ 0, 0, -1 ] },
+            { "overmap": "canyon_bottom", "pos": [ 0, 0, -2 ] }
+          ],
+          "max": { "poisson": 30 }
+        }
+      ],
+      [
+        {
+          "name": "canyon edge v1",
+          "chunk": [
+            { "overmap": "canyon_edge_ground_v1", "pos": [ 0, 0, 0 ] },
+            { "overmap": "canyon_edge_v1", "pos": [ 0, 0, -1 ] },
+            { "overmap": "canyon_edge_v1_bottom", "pos": [ 0, 0, -2 ] }
+          ],
+          "weight": 1
+        },
+        {
+          "name": "canyon edge v2",
+          "chunk": [
+            { "overmap": "canyon_edge_ground_v2", "pos": [ 0, 0, 0 ] },
+            { "overmap": "canyon_edge_v2", "pos": [ 0, 0, -1 ] },
+            { "overmap": "canyon_edge_v2_bottom", "pos": [ 0, 0, -2 ] }
+          ],
+          "weight": 1
+        }
+      ],
+      [
+        {
+          "name": "canyon corner v1",
+          "chunk": [
+            { "overmap": "canyon_corner_ground_v1", "pos": [ 0, 0, 0 ] },
+            { "overmap": "canyon_corner_v1", "pos": [ 0, 0, -1 ] },
+            { "overmap": "canyon_corner_v1_bottom", "pos": [ 0, 0, -2 ] }
+          ],
+          "weight": 1
+        },
+        {
+          "name": "canyon corner v2",
+          "chunk": [
+            { "overmap": "canyon_corner_ground_v2", "pos": [ 0, 0, 0 ] },
+            { "overmap": "canyon_corner_v2", "pos": [ 0, 0, -1 ] },
+            { "overmap": "canyon_corner_v2_bottom", "pos": [ 0, 0, -2 ] }
+          ],
+          "weight": 1
+        }
+      ],
+      [
+        {
+          "name": "canyon 2way v1",
+          "chunk": [
+            { "overmap": "canyon_2way_ground_v1", "pos": [ 0, 0, 0 ] },
+            { "overmap": "canyon_2way_v1", "pos": [ 0, 0, -1 ] },
+            { "overmap": "canyon_2way_v1_bottom", "pos": [ 0, 0, -2 ] }
+          ],
+          "weight": 1
+        },
+        {
+          "name": "canyon 2way v2",
+          "chunk": [
+            { "overmap": "canyon_2way_ground_v2", "pos": [ 0, 0, 0 ] },
+            { "overmap": "canyon_2way_v2", "pos": [ 0, 0, -1 ] },
+            { "overmap": "canyon_2way_v2_bottom", "pos": [ 0, 0, -2 ] }
+          ],
+          "weight": 1
+        }
+      ],
+      [
+        {
+          "name": "canyon 3way v1",
+          "chunk": [
+            { "overmap": "canyon_3way_ground_v1", "pos": [ 0, 0, 0 ] },
+            { "overmap": "canyon_3way_v1", "pos": [ 0, 0, -1 ] },
+            { "overmap": "canyon_3way_v1_bottom", "pos": [ 0, 0, -2 ] }
+          ],
+          "weight": 1
+        },
+        {
+          "name": "canyon 3way v2",
+          "chunk": [
+            { "overmap": "canyon_3way_ground_v2", "pos": [ 0, 0, 0 ] },
+            { "overmap": "canyon_3way_v2", "pos": [ 0, 0, -1 ] },
+            { "overmap": "canyon_3way_v2_bottom", "pos": [ 0, 0, -2 ] }
+          ],
+          "weight": 1
+        }
+      ],
+      [
+        {
+          "name": "canyon filler",
+          "chunk": [
+            { "overmap": "canyon_filler_ground", "pos": [ 0, 0, 0 ] },
+            { "overmap": "canyon_filler", "pos": [ 0, 0, -1 ] },
+            { "overmap": "canyon_bottom", "pos": [ 0, 0, -2 ] }
+          ],
+          "weight": 1
+        }
+      ],
+      [
+        {
+          "name": "canyon filler root",
+          "chunk": [ { "overmap": "canyon_root_filler", "pos": [ 0, 0, -1 ] }, { "overmap": "canyon_bottom", "pos": [ 0, 0, -2 ] } ],
+          "weight": 1
+        }
+      ]
+    ]
+  }
+]

@@ -4,8 +4,8 @@
     "repairs_like": "sheet",
     "type": "ARMOR",
     "name": { "str": "American flag" },
-    "description": "A large American flag made to fly in even the worst conditions.",
-    "weight": "3404 g",
+    "description": "A large American flag, made to fly in even the worst conditions.",
+    "weight": "3200 g",
     "volume": "2 L",
     "price": 5000,
     "price_postapoc": 50,
@@ -23,6 +23,470 @@
         "encumbrance": 50,
         "coverage": 60,
         "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ]
+  },
+  {
+    "id": "pride_flag",
+    "repairs_like": "sheet",
+    "type": "ARMOR",
+    "name": { "str": "pride flag" },
+    "description": "A large rainbow flag, The colors reflect the diversity of the LGBT community and the spectrum of human sexuality and gender.",
+    "copy-from": "american_flag",
+    "symbol": "]",
+    "looks_like": "sheet",
+    "color": "pink",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "rainbow_pride_flag",
+        "name": { "str": "pride flag" },
+        "description": "A large rainbow flag, The colors reflect the diversity of the LGBT community and the spectrum of human sexuality and gender.",
+        "weight": 10
+      },
+      {
+        "id": "progress_pride_flag",
+        "name": { "str": "progress pride flag" },
+        "description": "A large rainbow flag, The colors reflect the diversity of the LGBT community and the spectrum of human sexuality and gender.  On the left side you can see a chevron that features black, brown, light blue, pink, and white stripes to bring those communities to the forefront; \"the arrow points to the right to show forward movement, while being along the left edge shows that progress still needs to be made\".",
+        "weight": 10
+      },
+      {
+        "id": "agender_pride_flag",
+        "name": { "str": "agender flag" },
+        "description": "A large green grey and black agender flag.  The black and white stripes represent complete absence of gender, grey represents being semi-genderless, and green represents non-binary gender.",
+        "weight": 2
+      },
+      {
+        "id": "bisexual_pride_flag",
+        "name": { "str": "bisexual flag" },
+        "description": "A large pink and blue bisexual flag.  The pink stripe represents homosexuality, while the blue stripe represents heterosexuality.  The purple stripe, the \"overlap\" of the blue and pink stripes, purple represents attraction regardless of sex or gender a.k.a bisexuality.",
+        "weight": 5
+      },
+      {
+        "id": "pansexual_pride_flag",
+        "name": { "str": "pansexual flag" },
+        "description": "A large pink, blue and yellow pansexual flag.  The pan-pride flag uses pink for people on the female-spectrum, blue for people on the male-spectrum, and yellow for non-binary or genderqueer people.",
+        "weight": 5
+      },
+      {
+        "id": "labrys_lesbian_pride_flag",
+        "name": { "str": "labrys lesbian flag" },
+        "description": "A large black and purple labrys lesbian flag.  On the flag you can see a labrys, a type of double-headed axe, superimposed on a downward-pointing black triangle, set against a violet background.",
+        "weight": 2
+      },
+      {
+        "id": "lesbian_pride_flag",
+        "name": { "str": "lesbian flag" },
+        "description": "A large pink, white and orange lesbian flag.  The dark orange representing \"gender non-conformity\", orange for \"independence\", light orange for \"community\", white for \"unique relationships to womanhood\", pink for \"serenity and peace\", dusty pink for \"love and sex\", and dark rose for \"femininity\".",
+        "weight": 5
+      },
+      {
+        "id": "asexual_pride_flag",
+        "name": { "str": "asexual flag" },
+        "description": "A large purple, white, grey and black asexual flag.  Black for asexuality (feeling no sexual attraction), grey for grey-asexuality and demisexuality (feeling sexual attraction only sometimes), white for non-asexual partners and allies, and purple for community.",
+        "weight": 2
+      },
+      {
+        "id": "aromantic_pride_flag",
+        "name": { "str": "aromantic flag" },
+        "description": "A large black, grey, white and green aromantic flag.  The green and light green stripes cover everyone under the aromantic spectrum, while represents nonromantic forms of love and attraction, and the gray and black represent all sexualities under the aromantic spectrum.",
+        "weight": 2
+      },
+      {
+        "id": "transgender_pride_flag",
+        "name": { "str": "transgender flag" },
+        "description": "A large white, pink, and blue transgender flag.  The stripes at the top and bottom are light blue, the traditional color for baby boys.  The stripes next to them are pink, the traditional color for baby girls.  The white stripe is for people that are nonbinary, feel that they don't have a gender.  The pattern is such that no matter which way you fly it, it is always correct, signifying finding correctness in one's life.",
+        "weight": 5
+      },
+      {
+        "id": "genderqueer_pride_flag",
+        "name": { "str": "genderqueer flag" },
+        "description": "A large green, white, and purple genderqueer flag.  Lavender, a mixture of blue and pink to represent androgynes and androgyny, white to represent agender identity, and green, the inverse of lavender, to represent all those who fall outside of the gender binary.",
+        "weight": 2
+      },
+      {
+        "id": "intersex_pride_flag",
+        "name": { "str": "intersex flag" },
+        "description": "A large yellow, and purple intersex flag.  It displays a purple circle on a yellow field.  Yellow and purple were chosen as colours as they were viewed as free from gender associations and were historically used to represent intersex people.  The circle is described as \"unbroken and unornamented, symbolizing wholeness and completeness, and our potentialities\".",
+        "weight": 2
+      },
+      {
+        "id": "genderfluid_pride_flag",
+        "name": { "str": "genderfluid flag" },
+        "description": "A large blue, black, purple, white and pink genderfluid flag.  The genderfluid flag has a pink stripe for femininity, a blue stripe for masculinity, a purple stripe for both masculinity and femininity, a black stripe for lack of gender, and a white stripe for all genders.",
+        "weight": 2
+      },
+      {
+        "id": "agender_pride_flag",
+        "name": { "str": "agender flag" },
+        "description": "A large green, white, grey and black agender flag.  The black and white stripes represent complete absence of gender, grey represents being semi-genderless, and green represents non-binary gender.  The symmetry of the pattern makes it so that it's correct no matter how it flies.",
+        "weight": 2
+      },
+      {
+        "id": "nonbinary_pride_flag",
+        "name": { "str": "non-binary flag" },
+        "description": "A large black, purple, white, and yellow non-binary flag.  Yellow for those whose gender exists outside of and without reference to the binary, white for those who have many or all genders, purple for those who feel their gender is between or a mix of female and male, and black for those who feel they are without gender.",
+        "weight": 5
+      },
+      {
+        "id": "polysexual_pride_flag",
+        "name": { "str": "polysexual flag" },
+        "description": "A large blue, green, and pink polysexual flag.  Pink for people on the female-spectrum, blue for people on the male-spectrum, and green for non-binary or genderqueer people.",
+        "weight": 2
+      },
+      {
+        "id": "leather_pride_flag",
+        "name": { "str": "leather flag" },
+        "description": "A horizontally striped black and blue leather flag with a white band in the middle and red heart in a corner.  The black represents leather; the blue represents devotion, loyalty, and community; the white represents purity and innocence; and the red heart represents love for the community.",
+        "weight": 1
+      },
+      {
+        "id": "bear_pride_flag",
+        "name": { "str": "bear flag" },
+        "description": "A large black and orange international bear brotherhood flag.  The flag displays seven horizontal stripes of colors ranging from black to brown representing the colours of different bear species, you can see a black bear paw in the upper right corner.",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "id": "national_flag",
+    "name": { "str": "national flag" },
+    "type": "ARMOR",
+    "description": "A large flag, made to fly in even the worst conditions.",
+    "copy-from": "american_flag",
+    "symbol": "[",
+    "looks_like": "sheet",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "afghan_flag",
+        "name": { "str": "Afghan flag" },
+        "description": "It has three vertical boxes of black, red, and green placed behind the royal seal of Afghanistan.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "albanian_flag",
+        "name": { "str": "Albanian flag" },
+        "description": "It's a solid red, overlaid with the crest of Albania.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "algerian_flag",
+        "name": { "str": "Algerian flag" },
+        "description": "It's divided by green and white halves, overlaid with a crescent moon and a star in red.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "andorran_flag",
+        "name": { "str": "Andorran flag" },
+        "description": "It has three vertical lines navy blue, yellow, and red, overlaid with the crest of Andorra.",
+        "weight": 3,
+        "append": true
+      },
+      {
+        "id": "angolan_flag",
+        "name": { "str": "Angolan flag" },
+        "description": "It's divided by red and black rectangles, overlaid by a gold machete, star, and half of a gear.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "argentinian_flag",
+        "name": { "str": "Argentinian flag" },
+        "description": "It has three horizontal lines of baby blue and white, with a gold star in the middle.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "armenian_flag",
+        "name": { "str": "Armenian flag" },
+        "description": "It has three stripes of red, navy blue, and orange.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "australian_flag",
+        "name": { "str": "Australian flag" },
+        "description": "It's solid navy blue, with various white stars.  In the top left corner is a miniature Union Jack.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "austrian_flag",
+        "name": { "str": "Austrian flag" },
+        "description": "It has three stripes of red and white.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "azerbaijanian_flag",
+        "name": { "str": "Azerbaijanian flag" },
+        "description": "It has three stripes of light blue, red, and green.  In the middle is a white crescent moon and star.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "antiguan_flag",
+        "name": { "str": "Antiguan flag" },
+        "description": "It has a black V-shape surrounded by red.  The bottom of the V is blue, with a rising sun immediately above.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "bahamanian_flag",
+        "name": { "str": "Bahamanain flag" },
+        "description": "It has three stripes of light blue and yellow, with a black triangle on the far-left side.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "bahrainian_flag",
+        "name": { "str": "Bahrainian flag" },
+        "description": "It has a red background with a series of white spikes on the left.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "bangladeshi_flag",
+        "name": { "str": "Bangladeshi flag" },
+        "description": "It's solid dark green, with a red circle in the middle.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "barbadian_flag",
+        "name": { "str": "Barbadian flag" },
+        "description": "It has three vertical lines of navy blue and yellow, with a black trident in the center.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "belarusian_flag",
+        "name": { "str": "Belarusian flag" },
+        "description": "It has a red and green background, with a checker pattern on the left.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "belgian_flag",
+        "name": { "str": "Belgian flag" },
+        "description": "It has three vertical stripes of black, yellow, and red.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "belizean_flag",
+        "name": { "str": "Belizean flag" },
+        "description": "It has two small stripes of red, separated by a square of blue, with the emblem of Belize in the center.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "beninian_flag",
+        "name": { "str": "Beninian flag" },
+        "description": "It is divided into squares of yellow, red, and light green.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "bhutanese_flag",
+        "name": { "str": "Bhutanese flag" },
+        "description": "It is divided into triangles of red and dark yellow, with a dragon in the center.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "bolivian_flag",
+        "name": { "str": "Bolivian flag" },
+        "description": "It has three stripes of red, yellow, and green, with the crest of Bolivia in the center.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "bosnian_flag",
+        "name": { "str": "Bosnian flag" },
+        "description": "It has a yellow triangle over a navy blue background, with white stars running along one side.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "brazilian_flag",
+        "name": { "str": "Brazilian flag" },
+        "description": "It has a yellow diamond on a light green base.  In the center of the diamond sits a blue orb with a curved, white line.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "botswanian_flag",
+        "name": { "str": "Botswanian flag" },
+        "description": "It has a black and white line running through a baby blue background.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "bruneian_flag",
+        "name": { "str": "Bruneian flag" },
+        "description": "It has a diagonal black-and-white line through a yellow background, with a red lamp in the center.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "bulgarian_flag",
+        "name": { "str": "Bulgarian flag" },
+        "description": "It has three stripes of white, green, and yellow.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "burkina_faso_flag",
+        "name": { "str": "Burkina Faso flag" },
+        "description": "It's divided into red and green, with a yellow star at the center.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "burundian_flag",
+        "name": { "str": "Burundian flag" },
+        "description": "It is divided into red and green triangles, with three stars at the center.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "ivory_coast_flag",
+        "name": { "str": "Ivory Coast flag" },
+        "description": "It has three vertical beige, white, and green stripes.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "cabo_verde_flag",
+        "name": { "str": "Cabo Verde flag" },
+        "description": "It has a thin red line in the center, surrounded by white and blue.  To the left lies an oval of gold stars.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "cambodian_flag",
+        "name": { "str": "Cambodian flag" },
+        "description": "It has three horizontal lines on navy blue and red, with a palace at the center.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "cameroon_flag",
+        "name": { "str": "Cameroon flag" },
+        "description": "It's divided into three green, red, and yellow stripes, with a golden star in the center.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "canadian_flag",
+        "name": { "str": "Canadian flag" },
+        "description": "It has three red and white stripes, with the iconic maple leaf in red.",
+        "weight": 50,
+        "append": true
+      },
+      {
+        "id": "chad_flag",
+        "name": { "str": "Chad flag" },
+        "description": "It has three stripes of navy blue, yellow, and red.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "chilean_flag",
+        "name": { "str": "Chilean flag" },
+        "description": "It has a red and white backing, with a white star on blue in the upper left corner.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "chinese_flag",
+        "name": { "str": "Chinese flag" },
+        "description": "It has a solid red back, with five yellow stars in the top left.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "columbian_flag",
+        "name": { "str": "Columbian flag" },
+        "description": "It has a yellow, navy blue, and red stripe running horizontally.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "comoros_flag",
+        "name": { "str": "Comoros flag" },
+        "description": "Four horizontal stripes of yellow, white, red, and blue serve as a backdrop for a sideways green triangle on the far left, with a white crescent moon and four stars in the center.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "congolese_flag",
+        "name": { "str": "Congolese flag" },
+        "description": "A large red stripe divides a blue background into two triangles, the upper left corner sporting a yellow star.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "costa_rican_flag",
+        "name": { "str": "Costa Rican flag" },
+        "description": "Five horizontal stripes of white, blue, and red run across it, with the coat of arms lying off-center.",
+        "weight": 10,
+        "append": true
+      }
+    ]
+  },
+  {
+    "id": "state_flag",
+    "repairs_like": "sheet",
+    "type": "ARMOR",
+    "name": { "str": "state flag" },
+    "description": "A large white flag with a shield featuring an American Native and a star which represents the state of Massachusetts.",
+    "copy-from": "american_flag",
+    "symbol": "]",
+    "looks_like": "sheet",
+    "color": "white",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "massachusetts_flag",
+        "name": { "str": "Massachusetts flag" },
+        "description": "A large white flag with a shield featuring an American Native and a star which represents the state of Massachusetts.",
+        "weight": 5
+      },
+      {
+        "id": "maine_flag",
+        "name": { "str": "Maine flag" },
+        "description": "A large blue flag featuring a moose and pine tree emblem on a shield supported by a farmer and a sailor, above is the north star and the Latin motto “Dirigo” (“I direct”), below the shield reads out the state of “Maine”.",
+        "weight": 5
+      },
+      {
+        "id": "new_hampshire_flag",
+        "name": { "str": "New Hampshire flag" },
+        "description": "A large blue flag with New Hampshire's state seal of the frigate Raleigh surrounded by laurel leaves and nine stars against a field of blue.",
+        "weight": 5
+      },
+      {
+        "id": "vermont_flag",
+        "name": { "str": "Vermont flag" },
+        "description": "A large blue flag featuring a shield with wreaths on both sides, a pine tree in a green field along with a cow and bales of wheat reside within the shield representing Vermont.",
+        "weight": 5
+      },
+      {
+        "id": "connecticut_flag",
+        "name": { "str": "Connecticut flag" },
+        "description": "A large blue flag featuring a white baroque shield with three grapevines, each bearing three bunches of purple grapes on a field of royal blue, below the shield reads “Qui Transtulit Sustinet”, which is Latin for “He who transplanted sustains” which represents the state of Connecticut.",
+        "weight": 5
+      },
+      {
+        "id": "rhode_island_flag",
+        "name": { "str": "Rhode Island flag" },
+        "description": "A large white flag of Rhode Island that features a golden anchor in the middle of it surrounded by thirteen gold stars, below the anchor is a blue banner that reads “hope”.",
+        "weight": 5
       }
     ]
   },
@@ -192,7 +656,7 @@
     "type": "ARMOR",
     "name": { "str": "wool cloak" },
     "description": "A heavy woolen cloak meant to be thrown over your body.",
-    "weight": "1525 g",
+    "weight": "900 g",
     "volume": "3750 ml",
     "price": 24500,
     "price_postapoc": 750,
@@ -212,7 +676,7 @@
     "repairs_like": "cloak",
     "type": "ARMOR",
     "name": { "str": "Jedi cloak" },
-    "description": "Long, flowing robes.  Be sure to tear them off dramatically before fighting any foes!",
+    "description": "A long, flowing robe.  Be sure to tear it off dramatically before fighting any foes!",
     "weight": "1587 g",
     "volume": "2500 ml",
     "price": 22500,
@@ -225,7 +689,7 @@
     "warmth": 5,
     "material_thickness": 0.3,
     "environmental_protection": 5,
-    "flags": [ "OVERSIZE", "OUTER", "HELMET_COMPAT" ],
+    "flags": [ "OVERSIZE", "OUTER" ],
     "armor": [
       {
         "encumbrance": 3,
@@ -270,9 +734,9 @@
     "looks_like": "optical_cloak",
     "type": "TOOL_ARMOR",
     "name": { "str": "FB51 optical cloak (on)", "str_pl": "FB51 optical cloaks (on)" },
-    "description": "A plastic cloak embedded with cameras and LEDs that will render you fully invisible to normal vision when powered and worn.  It is turned on, and continually draining power from an UPS.  Use it to turn it off.",
+    "description": "A plastic cloak embedded with cameras and LEDs that will render you fully invisible to normal vision when powered and worn.  It is turned on, and continually draining power from a UPS.  Use it to turn it off.",
     "flags": [ "USE_UPS", "OVERSIZE", "HOOD", "WATERPROOF", "OUTER", "VARSIZE", "ACTIVE_CLOAKING", "TRADER_AVOID", "SOFT" ],
-    "power_draw": 20000000,
+    "power_draw": "20 kW",
     "revert_to": "optical_cloak",
     "use_action": {
       "ammo_scale": 0,
@@ -309,7 +773,7 @@
     "symbol": "[",
     "color": "black",
     "name": { "str": "makeshift poncho" },
-    "description": "A large plastic trash bag with holes cut for the head and arms.",
+    "description": "A large plastic trash bag with holes cut out for the head and arms.",
     "price": 0,
     "price_postapoc": 0,
     "material": [ "plastic" ],

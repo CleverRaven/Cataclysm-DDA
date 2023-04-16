@@ -8,6 +8,7 @@
     "color": "light_blue",
     "move_cost": 5,
     "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "FISHABLE", "SHALLOW_WATER", "CHOCOLATE" ],
+    "connect_groups": "WATER",
     "connects_to": "WATER",
     "examine_action": "water_source"
   },
@@ -20,6 +21,7 @@
     "color": "light_blue",
     "move_cost": 5,
     "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "FISHABLE", "CHOCOLATE" ],
+    "connect_groups": "WATER",
     "connects_to": "WATER",
     "examine_action": "water_source"
   },

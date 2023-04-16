@@ -13,6 +13,9 @@
     "flags": [ "TRADER_AVOID", "NPC_THROWN" ],
     "volume": "100 ml",
     "weight": "460 g",
+    "to_hit": -2,
+    "bashing": 1,
+    "cutting": 10,
     "damage": { "damage_type": "stab", "amount": 7 },
     "range": 10,
     "dispersion": 14,
@@ -37,22 +40,6 @@
     "count": 150
   },
   {
-    "id": "moon_tear_ingot",
-    "type": "GENERIC",
-    "category": "spare_parts",
-    "name": "moon tears ingot",
-    "description": "An ingot of moon tears.  About 3cm by 7cm by 12cm in size, ready to be used for various blacksmithing tasks.",
-    "//": "not really sure how to convert density to weight in our system look at it later.",
-    "weight": "683 g",
-    "volume": "253 ml",
-    "price": 6399,
-    "bashing": 6,
-    "to_hit": -3,
-    "material": [ "moon_tears" ],
-    "symbol": "=",
-    "color": "light_blue"
-  },
-  {
     "id": "9x21mm",
     "type": "AMMO",
     "name": { "str_sp": "9x21mm Gyurza SP-10 (7N29)" },
@@ -74,5 +61,24 @@
     "dispersion": 80,
     "recoil": 500,
     "effects": [ "COOKOFF" ]
+  },
+  {
+    "id": "aetheric_charge",
+    "type": "AMMO",
+    "name": { "str_sp": "aetheric charge" },
+    "description": "Charged ether pulled out of the void between all things.",
+    "weight": "1 g",
+    "volume": "12 ml",
+    "price": "10 USD",
+    "price_postapoc": "10 USD",
+    "material": [ "forged_dreamstuff" ],
+    "symbol": "=",
+    "color": "light_blue",
+    "phase": "gas",
+    "ammo_type": "aetheric_charge",
+    "range": 12,
+    "count": 1,
+    "recoil": 900,
+    "effects": [ "INCENDIARY" ]
   }
 ]

@@ -1,0 +1,195 @@
+[
+  {
+    "id": "clothing_biker",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "Protective clothing for motorbike riding.",
+    "items": [
+      { "item": "straw_hat" },
+      { "item": "leathersandals", "prob": 80 },
+      {
+        "distribution": [ { "collection": [ { "item": "grass_cloak" }, { "item": "skirt_leather", "prob": 80 } ], "prob": 40 } ],
+        "prob": 80
+      }
+    ]
+  },
+  {
+    "id": "clothing_glasses",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "null", "prob": 10 } ]
+  },
+  {
+    "id": "clothing_watch",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "null", "prob": 10 } ]
+  },
+  {
+    "id": "clothing_hunting",
+    "type": "item_group",
+    "//": "Clothes that hunters take on hunting trips.",
+    "subtype": "distribution",
+    "entries": [ { "item": "hat_fur", "prob": 50 }, { "item": "leathersandals", "prob": 75 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "pants_male",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "pants_leather", "prob": 60 },
+      { "item": "pants_fur", "prob": 5 },
+      { "item": "hot_pants_fur", "prob": 5 },
+      { "item": "hot_pants_leather", "prob": 25 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "pants_female",
+    "subtype": "distribution",
+    "entries": [ { "group": "pants_male", "prob": 200 }, { "item": "skirt_leather", "prob": 5 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "pants",
+    "items": [ [ "leather_belt", 30 ], [ "pants_leather", 60 ], [ "skirt_leather", 5 ], [ "kilt", 2 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "shirts",
+    "items": [ [ "shirt_straw", 80 ], [ "turtleneck", 10 ], [ "poncho", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "jackets",
+    "items": [ [ "jacket_leather", 30 ], [ "apron_leather", 1 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "hatstore_hats",
+    "items": [
+      [ "hat_knit", 10 ],
+      [ "hat_fur", 20 ],
+      [ "hat_newsboy", 10 ],
+      [ "hat_sombrero", 10 ],
+      [ "straw_hat", 100 ],
+      [ "straw_fedora", 100 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "large_bags",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "backpack_leather", "prob": 28 },
+      { "item": "wicker_backpack", "prob": 38 },
+      { "item": "backpack_hiking", "prob": 3 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "small_bags",
+    "subtype": "distribution",
+    "entries": [ { "item": "purse", "prob": 40 }, { "item": "backpack_leather", "prob": 8 } ]
+  },
+  {
+    "id": "scarfs_unisex",
+    "type": "item_group",
+    "//": "unisex scarfs and fabric coverings",
+    "subtype": "distribution",
+    "items": [ { "item": "scarf_fur_long", "prob": 10 }, { "item": "scarf_fur", "prob": 20 } ]
+  },
+  {
+    "id": "shirts_unisex",
+    "type": "item_group",
+    "//": "unisex shirts",
+    "subtype": "distribution",
+    "items": [ { "item": "turtleneck", "prob": 10 }, { "item": "wool_hoodie", "prob": 10 } ]
+  },
+  {
+    "id": "shirts_womens",
+    "type": "item_group",
+    "//": "womens shirts",
+    "subtype": "distribution",
+    "items": [ { "item": "chestwrap_leather", "prob": 30 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "female_underwear_top",
+    "items": [
+      [ "null", 50 ],
+      [ "bikini_top_leather", 7 ],
+      [ "bikini_top_fur", 5 ],
+      [ "chestwrap_fur", 20 ],
+      [ "chestwrap_leather", 20 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "female_underwear_bottom",
+    "items": [ [ "null", 40 ], [ "loincloth_leather", 30 ], [ "loincloth_fur", 30 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "male_underwear_top",
+    "items": [ [ "null", 80 ], [ "chestwrap_fur", 20 ], [ "chestwrap_leather", 20 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "male_underwear_bottom",
+    "items": [ [ "null", 40 ], [ "loincloth_leather", 30 ], [ "loincloth_fur", 30 ] ]
+  },
+  {
+    "id": "coats_unisex",
+    "type": "item_group",
+    "//": "unisex coats, jackets, cloaks, etc.",
+    "subtype": "distribution",
+    "items": [
+      {
+        "distribution": [ { "item": "cloak_wool", "prob": 10 }, { "item": "cloak_leather", "prob": 20 }, { "item": "cloak_fur", "prob": 10 } ],
+        "prob": 20
+      },
+      {
+        "distribution": [
+          { "item": "duster_leather", "prob": 60 },
+          { "item": "duster_fur", "prob": 5 },
+          { "item": "sleeveless_duster_leather", "prob": 50 },
+          { "item": "sleeveless_duster_fur", "prob": 20 }
+        ],
+        "prob": 60
+      },
+      {
+        "distribution": [
+          { "item": "trenchcoat_leather", "prob": 60 },
+          { "item": "trenchcoat_fur", "prob": 5 },
+          { "item": "sleeveless_trenchcoat_leather", "prob": 30 },
+          { "item": "sleeveless_trenchcoat_fur", "prob": 10 }
+        ],
+        "prob": 40
+      },
+      {
+        "distribution": [ { "item": "peacoat", "prob": 10 }, { "item": "greatcoat", "prob": 10 }, { "item": "coat_fur", "prob": 10 } ],
+        "prob": 80
+      },
+      { "distribution": [ { "item": "jacket_leather", "prob": 50 }, { "item": "poncho", "prob": 10 } ], "prob": 60 },
+      { "distribution": [ { "item": "vest_leather", "prob": 20 } ], "prob": 40 }
+    ]
+  },
+  {
+    "id": "shoes_unisex",
+    "type": "item_group",
+    "//": "unisex shoes (there are no men's only shoes)",
+    "subtype": "distribution",
+    "items": [
+      { "distribution": [ { "item": "straw_sandals", "prob": 20 }, { "item": "leathersandals", "prob": 35 } ], "prob": 60 },
+      { "distribution": [ { "item": "mocassins", "prob": 10 } ], "prob": 70 },
+      { "distribution": [ { "item": "clogs", "prob": 20 }, { "item": "geta", "prob": 10 } ], "prob": 70 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "common_gloves",
+    "subtype": "distribution",
+    "entries": [ { "item": "gloves_leather", "prob": 15 }, { "item": "gloves_wool", "prob": 10 }, { "item": "mittens", "prob": 5 } ]
+  }
+]

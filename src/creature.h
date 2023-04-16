@@ -40,6 +40,7 @@ namespace catacurses
 {
 class window;
 } // namespace catacurses
+class body_part_set;
 class Character;
 class JsonObject;
 class JsonOut;
@@ -215,6 +216,7 @@ enum class get_body_part_flags : int {
     only_main = 1 << 0,
     sorted = 1 << 1,
     primary_type = 1 << 2,
+    only_minor = 1 << 3
 };
 
 template<>
@@ -292,7 +294,9 @@ class Creature : public viewer
         virtual bool is_fake() const;
         /** Sets a Creature's fake boolean. */
         virtual void set_fake( bool fake_value );
+        // TODO: fix point types (remove pos() and rename pos_bub() to be the new pos())
         tripoint pos() const;
+        tripoint_bub_ms pos_bub() const;
         inline int posx() const {
             return pos().x;
         }
@@ -374,13 +378,14 @@ class Creature : public viewer
         /*@{*/
         bool sees( const Creature &critter ) const override;
         bool sees( const tripoint &t, bool is_avatar = false, int range_mod = 0 ) const override;
+        bool sees( const tripoint_bub_ms &t, bool is_avatar = false, int range_mod = 0 ) const override;
         /*@}*/
 
         /**
          * How far the creature sees under the given light. Places outside this range can
          * @param light_level See @ref game::light_level.
          */
-        virtual int sight_range( int light_level ) const = 0;
+        virtual int sight_range( float light_level ) const = 0;
 
         /** Returns an approximation of the creature's strength. */
         virtual float power_rating() const = 0;
@@ -469,10 +474,6 @@ class Creature : public viewer
         virtual void deal_damage_handle_type( const effect_source &source, const damage_unit &du,
                                               bodypart_id bp, int &damage, int &pain );
 
-        // Pass handling bleed to creature/character
-        virtual void make_bleed( const effect_source &source, const bodypart_id &bp, time_duration duration,
-                                 int intensity = 1, bool permanent = false, bool force = false, bool defferred = false ) = 0;
-
         // directly decrements the damage. ONLY handles damage, doesn't
         // increase pain, apply effects, etc
         virtual void apply_damage( Creature *source, bodypart_id bp, int amount,
@@ -485,7 +486,7 @@ class Creature : public viewer
          * @param name Name of the implement used to pull the target.
          * @param p Position of the target creature.
         */
-        void longpull( const std::string name, const tripoint &p );
+        void longpull( const std::string &name, const tripoint &p );
 
         /**
          * This creature just dodged an attack - possibly special/ranged attack - from source.
@@ -506,6 +507,7 @@ class Creature : public viewer
 
         virtual bool digging() const;
         virtual bool is_on_ground() const = 0;
+        bool cant_do_underwater( bool msg = true ) const;
         virtual bool is_underwater() const;
         bool is_likely_underwater() const; // Should eventually be virtual, although not pure
         virtual bool is_warm() const; // is this creature warm, for IR vision, heat drain, etc
@@ -613,6 +615,7 @@ class Creature : public viewer
         bool has_effect_with_flag( const flag_id &flag, const bodypart_id &bp ) const;
         bool has_effect_with_flag( const flag_id &flag ) const;
         std::vector<effect> get_effects_with_flag( const flag_id &flag ) const;
+        std::vector<effect> get_effects_from_bp( const bodypart_id &bp ) const;
         std::vector<effect> get_effects() const;
 
         /** Return the effect that matches the given arguments exactly. */
@@ -632,6 +635,7 @@ class Creature : public viewer
         void set_value( const std::string &key, const std::string &value );
         void remove_value( const std::string &key );
         std::string get_value( const std::string &key ) const;
+        void clear_values();
 
         virtual units::mass get_weight() const = 0;
 
@@ -669,6 +673,7 @@ class Creature : public viewer
         virtual int get_num_blocks_bonus() const;
         virtual int get_num_dodges_bonus() const;
         virtual int get_num_dodges_base() const;
+        virtual int get_num_blocks_base() const;
 
         virtual int get_env_resist( bodypart_id bp ) const;
 
@@ -742,12 +747,19 @@ class Creature : public viewer
         std::vector<bodypart_id> get_all_body_parts_of_type(
             body_part_type::type part_type,
             get_body_part_flags flags = get_body_part_flags::none ) const;
+        bodypart_id get_random_body_part_of_type( body_part_type::type part_type ) const;
         bodypart_id get_root_body_part() const;
         /* Returns all body parts with the given flag */
         std::vector<bodypart_id> get_all_body_parts_with_flag( const json_character_flag &flag ) const;
         /* Returns the bodyparts to drench : upper/mid/lower correspond to the appropriate limb flag */
         body_part_set get_drenching_body_parts( bool upper = true, bool mid = true,
                                                 bool lower = true ) const;
+
+        /* Returns the number of bodyparts of a given type*/
+        int get_num_body_parts_of_type( body_part_type::type part_type ) const;
+
+        /* Returns the number of broken bodyparts of a given type */
+        int get_num_broken_body_parts_of_type( body_part_type::type part_type ) const;
 
         const std::map<bodypart_str_id, bodypart> &get_body() const;
         void set_body();
@@ -837,6 +849,7 @@ class Creature : public viewer
         virtual void mod_stat( const std::string &stat, float modifier );
 
         virtual void set_num_blocks_bonus( int nblocks );
+        virtual void mod_num_blocks_bonus( int nblocks );
         virtual void mod_num_dodges_bonus( int ndodges );
 
         virtual void set_armor_bash_bonus( int nbasharm );
@@ -1179,11 +1192,15 @@ class Creature : public viewer
         virtual bool is_symbol_highlighted() const;
 
         std::unordered_map<std::string, std::string> &get_values();
-
+        void clear_killer();
+        // summoned creatures via spells
+        void set_summon_time( const time_duration &length );
+        // handles removing the creature if the timer runs out
+        void decrement_summon_timer();
     protected:
         Creature *killer; // whoever killed us. this should be NULL unless we are dead
         void set_killer( Creature *killer );
-
+        std::optional<time_point> lifespan_end = std::nullopt;
         /**
          * Processes one effect on the Creature.
          * Must not remove the effect, but can set it up for removal.
@@ -1191,8 +1208,8 @@ class Creature : public viewer
         virtual void process_one_effect( effect &e, bool is_new ) = 0;
 
         pimpl<effects_map> effects;
-        static std::queue<scheduled_effect> scheduled_effects;
-        static std::queue<terminating_effect> terminating_effects;
+        std::queue<scheduled_effect, std::list<scheduled_effect>> scheduled_effects;
+        std::queue<terminating_effect, std::list<terminating_effect>> terminating_effects;
 
         std::vector<damage_over_time_data> damage_over_time_map;
 
@@ -1220,7 +1237,6 @@ class Creature : public viewer
         int cut_bonus = 0;
         int size_bonus = 0;
 
-
         float bash_mult = 0.0f;
         float cut_mult = 0.0f;
         bool melee_quiet = false;
@@ -1236,10 +1252,10 @@ class Creature : public viewer
         Creature &operator=( const Creature & );
         Creature &operator=( Creature && ) noexcept;
 
-    protected:
         virtual void on_stat_change( const std::string &, int ) {}
         virtual void on_effect_int_change( const efftype_id &, int, const bodypart_id & ) {}
-        virtual void on_damage_of_type( int, damage_type, const bodypart_id & ) {}
+        virtual void on_damage_of_type( const effect_source &, int, damage_type,
+                                        const bodypart_id & ) {}
 
     public:
         // Keep a count of moves passed in which resets every 100 turns as a result of practicing archery proficiency

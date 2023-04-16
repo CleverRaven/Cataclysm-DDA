@@ -5,6 +5,8 @@
 
 #include "enum_traits.h"
 
+struct tripoint;
+
 namespace om_direction
 {
 enum class type : int;
@@ -41,5 +43,7 @@ cube_direction operator+( cube_direction, om_direction::type );
 cube_direction operator+( cube_direction, int i );
 cube_direction operator-( cube_direction, om_direction::type );
 cube_direction operator-( cube_direction, int i );
+
+tripoint displace( cube_direction d );
 
 #endif // CATA_SRC_CUBE_DIRECTION_H

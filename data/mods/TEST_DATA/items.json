@@ -1,5 +1,22 @@
 [
   {
+    "id": "test_bomba",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "bomba" },
+    "description": "boom",
+    "weight": "397 g",
+    "volume": "270 ml",
+    "price": 1000000,
+    "price_postapoc": 1000000,
+    "symbol": "*",
+    "color": "green",
+    "initial_charges": 5,
+    "max_charges": 5,
+    "turns_per_charge": 1,
+    "flags": [ "BOMB", "DANGEROUS" ]
+  },
+  {
     "type": "GENERIC",
     "id": "fridge_test",
     "looks_like": "minifridge",
@@ -88,10 +105,53 @@
     "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
+    "id": "test_rollerskates",
+    "repairs_like": "boots_larmor",
+    "type": "ARMOR",
+    "name": { "str": "pair of rollerskates", "str_pl": "pairs of rollerskates" },
+    "description": "An old-fashioned pair of leather rollerskates with steel frames.  While quite fast on flat floors, they make it difficult to take hits or to move on rough terrain.",
+    "weight": "2720 g",
+    "volume": "3 L",
+    "price": 8500,
+    "price_postapoc": 1500,
+    "to_hit": -2,
+    "bashing": 6,
+    "material": [ "leather", "steel" ],
+    "symbol": "[",
+    "looks_like": "roller_blades",
+    "color": "brown",
+    "warmth": 30,
+    "material_thickness": 3,
+    "environmental_protection": 2,
+    "flags": [ "VARSIZE", "WATERPROOF", "ROLLER_QUAD", "REQUIRES_BALANCE" ],
+    "armor": [ { "covers": [ "foot_l", "foot_r" ], "encumbrance": 0 } ]
+  },
+  {
+    "id": "test_roller_blades",
+    "repairs_like": "boots_larmor",
+    "type": "ARMOR",
+    "name": { "str": "pair of rollerblades", "str_pl": "pairs of rollerblades" },
+    "description": "A pair of inline skates.  Very fast on flat floors, but they make it hard to move on rough terrain, take hits, or dodge effectively.",
+    "weight": "1640 g",
+    "volume": "3750 ml",
+    "price": 8500,
+    "price_postapoc": 2500,
+    "to_hit": -2,
+    "material": [ "plastic", "cotton" ],
+    "symbol": "[",
+    "looks_like": "rollerskates",
+    "color": "light_gray",
+    "warmth": 20,
+    "material_thickness": 3,
+    "environmental_protection": 2,
+    "flags": [ "VARSIZE", "WATERPROOF", "ROLLER_INLINE", "REQUIRES_BALANCE" ],
+    "armor": [ { "covers": [ "foot_l", "foot_r" ], "encumbrance": 0 } ]
+  },
+  {
     "id": "test_rag",
     "type": "TOOL",
     "category": "spare_parts",
-    "name": "TEST rag",
+    "name": "TEST cotton patchwork",
     "description": "This is a largish piece of cloth, useful in crafting and possibly for staunching bleeding.",
     "weight": "80 g",
     "volume": "250 ml",
@@ -100,7 +160,7 @@
     "symbol": ",",
     "color": "white",
     "use_action": [
-      { "type": "heal", "move_cost": 200, "used_up_item": { "id": "rag", "quantity": 1, "flags": [ "FILTHY" ] } },
+      { "type": "heal", "move_cost": 200, "used_up_item": { "id": "cotton_patchwork", "quantity": 1, "flags": [ "FILTHY" ] } },
       "WASH_HARD_ITEMS"
     ],
     "flags": [ "NO_SALVAGE" ]
@@ -110,7 +170,7 @@
     "type": "GENERIC",
     "category": "spare_parts",
     "name": "TEST rag bundle",
-    "description": "This is a bundle of 100 rags tied together with a piece of string.",
+    "description": "This is a bundle of 100 cotton patchwork pieces tied together with a piece of string.",
     "weight": "800 g",
     "volume": "2000 ml",
     "price": 0,
@@ -290,7 +350,7 @@
     "copy-from": "test_shears_off",
     "name": { "str": "electric shears (on)" },
     "description": "This is a set of electric shears designed to obtain wool from sheep.  These shears have been turned on.",
-    "power_draw": 10000,
+    "power_draw": "10 W",
     "revert_to": "test_shears_off",
     "use_action": { "type": "transform", "msg": "Your %s deactivates.", "target": "test_shears_off" },
     "qualities": [ [ "SHEAR", 3 ] ]
@@ -472,7 +532,7 @@
     "symbol": ";",
     "color": "dark_gray",
     "qualities": [ [ "PRY", 3 ], [ "HAMMER", 1 ], [ "PRYING_NAIL", 1 ] ],
-    "use_action": [ "HAMMER", "CROWBAR" ],
+    "use_action": [ "CROWBAR" ],
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "BELT_CLIP", "DURABLE_MELEE" ]
   },
@@ -493,7 +553,7 @@
     "symbol": ";",
     "color": "brown",
     "qualities": [ [ "HAMMER", 3 ], [ "PRY", 1 ], [ "HAMMER_FINE", 1 ], [ "PRYING_NAIL", 1 ] ],
-    "use_action": [ "HAMMER", "CROWBAR" ],
+    "use_action": [ "CROWBAR" ],
     "flags": [ "BELT_CLIP", "NONCONDUCTIVE" ],
     "weapon_category": [ "BATONS" ]
   },
@@ -703,7 +763,7 @@
     "color": "dark_gray",
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "qualities": [ [ "PRY", 4 ], [ "HAMMER", 2 ], [ "DIG", 1 ], [ "PRYING_NAIL", 1 ] ],
-    "use_action": [ "HAMMER", "CROWBAR" ],
+    "use_action": [ "CROWBAR" ],
     "flags": [ "DURABLE_MELEE", "BELT_CLIP" ]
   },
   {
@@ -728,7 +788,7 @@
     "symbol": "/",
     "color": "light_gray",
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
-    "qualities": [ [ "AXE", 2 ], [ "PRY", 3 ], [ "BUTCHER", -30 ] ],
+    "qualities": [ [ "AXE", 3 ], [ "PRY", 3 ], [ "BUTCHER", -30 ] ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP", "SHEATH_AXE" ],
     "use_action": [ "CROWBAR" ]
   },
@@ -747,7 +807,7 @@
     "symbol": "/",
     "color": "light_gray",
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
-    "qualities": [ [ "AXE", 2 ], [ "PRY", 3 ], [ "BUTCHER", -30 ] ],
+    "qualities": [ [ "AXE", 3 ], [ "PRY", 3 ], [ "BUTCHER", -30 ] ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP", "SHEATH_AXE" ],
     "use_action": [ "CROWBAR" ]
   },
@@ -766,7 +826,7 @@
     "symbol": "/",
     "color": "light_gray",
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
-    "qualities": [ [ "AXE", 2 ], [ "PRY", 3 ], [ "BUTCHER", -30 ] ],
+    "qualities": [ [ "AXE", 3 ], [ "PRY", 3 ], [ "BUTCHER", -30 ] ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP", "SHEATH_AXE" ],
     "use_action": [ "CROWBAR" ]
   },
@@ -844,7 +904,7 @@
     "id": "test_soldering_iron",
     "type": "TOOL",
     "name": "TEST soldering iron",
-    "description": "This is a device with a metal tip that can get very hot.  It is necessary for advanced electronics crafting.  You could also use it to cauterize wounds, if you had to.",
+    "description": "This is a device with a metal tip that can get very hot.  It is necessary for advanced electronics crafting.",
     "weight": "181 g",
     "volume": "500 ml",
     "price": 1000,
@@ -863,8 +923,7 @@
         "skill": "fabrication",
         "cost_scaling": 0.1,
         "move_cost": 1500
-      },
-      { "flame": false, "type": "cauterize" }
+      }
     ],
     "flags": [ "SPEAR", "BELT_CLIP", "ALLOWS_REMOTE_USE" ],
     "pocket_data": [
@@ -1353,7 +1412,6 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -2,
-    "healthy": 1,
     "calories": 202,
     "description": "A handful of tasty crunchy nuts from a pinecone.",
     "price": 136,
@@ -1432,7 +1490,6 @@
     "spoils_in": "7 days",
     "symbol": "o",
     "quench": 4,
-    "healthy": 1,
     "calories": 80,
     "price": 44,
     "price_postapoc": 50,
@@ -1702,6 +1759,25 @@
     "armor": [ { "encumbrance": [ 2, 15 ], "coverage": 30, "covers": [ "torso" ] } ]
   },
   {
+    "id": "test_mini_backpack",
+    "type": "ARMOR",
+    "name": "TEST backpack",
+    "description": "A small backpack designed for testing nesting issues.  Good storage for a little encumbrance.",
+    "weight": "633 g",
+    "volume": "2 L",
+    "price": 3900,
+    "price_postapoc": 16000,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "ragpouch",
+    "color": "green",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "3 L", "max_contains_weight": "30 kg", "moves": 300 } ],
+    "warmth": 6,
+    "material_thickness": 2,
+    "flags": [ "BELTED" ],
+    "armor": [ { "encumbrance": [ 2, 15 ], "coverage": 30, "covers": [ "torso" ] } ]
+  },
+  {
     "id": "test_briefcase",
     "repairs_like": "backpack_hiking",
     "type": "ARMOR",
@@ -1912,6 +1988,49 @@
     ]
   },
   {
+    "id": "test_glock_super_long",
+    "type": "GUN",
+    "copy-from": "pistol_base",
+    "name": { "str": "Test Glock" },
+    "description": "A handgun for testing barrel lengths, based on nothing.",
+    "weight": "600 g",
+    "volume": "500 ml",
+    "barrel_length": "150 mm",
+    "price": 69000,
+    "price_postapoc": 2500,
+    "to_hit": -2,
+    "bashing": 8,
+    "material": [ "plastic", "steel" ],
+    "symbol": "(",
+    "color": "dark_gray",
+    "ammo": [ "test_100mm" ],
+    "dispersion": 480,
+    "durability": 6,
+    "blackpowder_tolerance": 48,
+    "min_cycle_recoil": 380,
+    "skill": "pistol",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "test_100mm": 1 } } ]
+  },
+  {
+    "id": "barrel_glock_short",
+    "type": "GUNMOD",
+    "name": { "str": "shortened barrel" },
+    "description": "A shortened barrel results in markedly reduced accuracy and a minor increase in noise, but also greatly improves the ease with which the weapon can be carried and wielded.",
+    "volume": "0 ml",
+    "price": 12000,
+    "price_postapoc": 250,
+    "integral_longest_side": "100 mm",
+    "install_time": "0 s",
+    "material": [ "steel" ],
+    "symbol": ":",
+    "color": "light_gray",
+    "location": "barrel",
+    "mod_targets": [ "pistol" ],
+    "dispersion_modifier": 75,
+    "loudness_modifier": 2,
+    "flags": [ "IRREMOVABLE", "ZERO_WEIGHT" ]
+  },
+  {
     "id": "test_glockmag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
@@ -1970,6 +2089,40 @@
     "dispersion": 60,
     "recoil": 500,
     "effects": [ "COOKOFF" ]
+  },
+  {
+    "id": "test_100mm_ammo",
+    "type": "AMMO",
+    "name": { "str": "Test 100mm ammo" },
+    "description": "Generic 100mm ammo.",
+    "weight": "7 g",
+    "volume": "250 ml",
+    "price": 150,
+    "price_postapoc": 1000,
+    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
+    "material": [ "brass", "powder" ],
+    "symbol": "=",
+    "color": "yellow",
+    "count": 50,
+    "stack_size": 50,
+    "ammo_type": "test_100mm",
+    "casing": "9mm_casing",
+    "range": 14,
+    "damage": {
+      "damage_type": "bullet",
+      "amount": 26,
+      "barrels": [ { "barrel_length": "100 mm", "amount": 60 }, { "barrel_length": "200 mm", "amount": 70 } ]
+    },
+    "dispersion": 60,
+    "recoil": 500,
+    "effects": [ "COOKOFF" ]
+  },
+  {
+    "id": "test_100mm_ammo_relative",
+    "type": "AMMO",
+    "name": { "str": "Test 100mm ammo prop" },
+    "copy-from": "test_100mm_ammo",
+    "relative": { "damage": { "damage_type": "bullet", "amount": 1 } }
   },
   {
     "id": "test_45_ammo",
@@ -2211,7 +2364,6 @@
     "comestible_type": "DRINK",
     "symbol": "~",
     "quench": 25,
-    "healthy": 1,
     "calories": 132,
     "description": "You can only push a drink so far before it spoils.",
     "price": 38,
@@ -2258,7 +2410,6 @@
     "comestible_type": "DRINK",
     "symbol": "~",
     "quench": 10,
-    "healthy": -2,
     "addiction_potential": 3,
     "calories": 49,
     "description": "Cheap booze made from fermented tennis ball juice.  Tastes just like it sounds.",
@@ -2414,6 +2565,15 @@
     "symbol": "[",
     "looks_like": "depowered_armor",
     "color": "light_gray",
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ACTIVE",
+          "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 50 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 50 } ]
+        }
+      ]
+    },
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -2445,8 +2605,8 @@
     "type": "TOOL_ARMOR",
     "name": { "str": "test power armor (on)" },
     "description": "This is a prototype power armor just for testing.",
-    "flags": [ "USE_UPS", "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE", "TRADER_AVOID", "CLIMATE_CONTROL" ],
-    "power_draw": 4000000,
+    "flags": [ "USE_UPS", "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE", "TRADER_AVOID" ],
+    "power_draw": "4 kW",
     "revert_to": "test_power_armor",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s armor disengages.", "target": "test_power_armor" }
   },
@@ -2454,7 +2614,7 @@
     "id": "test_meower_armor",
     "type": "PET_ARMOR",
     "name": { "str": "meower armor" },
-    "description": "Sleek and lightweight kevlar cat harness with a protective hood and chestplate.  Includes a very small, inconvenient velcro pocket on the back.",
+    "description": "Sleek and lightweight Kevlar cat harness with a protective hood and chestplate.  Includes a very small, inconvenient velcro pocket on the back.",
     "weight": "300 g",
     "volume": "1 L",
     "price": 30000,
@@ -2825,6 +2985,49 @@
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
+    "type": "COMESTIBLE",
+    "id": "debug_orange",
+    "name": { "str": "orange" },
+    "weight": "140 g",
+    "color": "light_red",
+    "spoils_in": "21 days",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "quench": 8,
+    "calories": 69,
+    "description": "Sweet citrus fruit.  Also comes in juice form.",
+    "price": 180,
+    "price_postapoc": 100,
+    "material": [ "fruit" ],
+    "volume": "375 ml",
+    "fun": 3,
+    "flags": [ "FREEZERBURN", "SMOKABLE" ],
+    "smoking_result": "dry_fruit",
+    "vitamins": [ [ "vitC", 100 ], [ "calcium", 100 ], [ "iron", 100 ] ]
+  },
+  {
+    "id": "debug_vitamins",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "multivitamin" },
+    "description": "Essential dietary nutrients conveniently packaged in pill form.  An option of last resort when a balanced diet is not possible.  Excess use can cause hypervitaminosis.",
+    "weight": "1 g",
+    "volume": "100 ml",
+    "price": 500,
+    "price_postapoc": 2000,
+    "charges": 20,
+    "stack_size": 20,
+    "symbol": "!",
+    "color": "magenta",
+    "container": "bottle_plastic_pill_supplement",
+    "flags": [ "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You take the %s.",
+      "vitamins": [ [ "calcium", 100, 100 ], [ "iron", 100, 100 ], [ "vitC", 100, 100 ] ]
+    }
+  },
+  {
     "id": "test_watertight_open_sealed_multipocket_container_2x250ml",
     "type": "GENERIC",
     "category": "container",
@@ -3008,6 +3211,22 @@
   },
   {
     "type": "GENERIC",
+    "id": "test_steelball",
+    "symbol": "*",
+    "color": "white",
+    "name": { "str": "baseball" },
+    "category": "veh_parts",
+    "description": "A baseball, good for throwing at enemies.  Getting hit with one of these hurts a lot more than you might think.",
+    "price": 1000,
+    "price_postapoc": 0,
+    "material": [ "leather", "lc_steel" ],
+    "repairs_with": [ "lc_steel" ],
+    "flags": [ "NPC_THROWN" ],
+    "weight": "150 g",
+    "volume": "250 ml"
+  },
+  {
+    "type": "GENERIC",
     "id": "test_baseball_half_degradation",
     "symbol": "*",
     "color": "white",
@@ -3071,26 +3290,168 @@
     ]
   },
   {
-    "id": "test_folding_bicycle",
+    "id": "test_exo_lense_module",
     "type": "TOOL",
-    "name": { "str": "folding bicycle" },
-    "description": "This is a bicycle folded into a relatively portable package.",
-    "weight": "10160 g",
-    "volume": "76651 ml",
-    "//": "Data taken from given values/dimensions for the Brompton S1E folding bicycle",
-    "price": 35000,
-    "price_postapoc": 2000,
-    "to_hit": -5,
-    "bashing": 10,
-    "material": [ "steel" ],
-    "symbol": "0",
+    "name": { "str": "exosuit multi lense zoom module" },
+    "description": "A series of strangely shaped hexagonal lenses that flutter about inside your helmet.  As the lenses shift things around you stay perfectly in focus no matter your eyesight or distance.  It can be mounted to an exosuit helmet.",
+    "weight": "500 g",
+    "volume": "250 ml",
+    "price": "10 kUSD",
+    "to_hit": -2,
+    "bashing": 6,
+    "material": [ "lvl4ballisticglass", "qt_steel" ],
+    "symbol": "(",
+    "color": "yellow",
+    "flags": [ "CANT_WEAR", "FIX_NEARSIGHT", "FIX_FARSIGHT", "ZOOM", "EXO_HELMET_GADGET" ]
+  },
+  {
+    "id": "test_modular_exosuit",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "exosuit frame" },
+    "description": "This is a standard exosuit frame.  Designed to be modular, it can accept a variety of power supplies, defensive and offensive systems, and utility tools.  Slots exist for the torso, back, arms, and legs.",
+    "weight": "45 kg",
+    "volume": "140 L",
+    "power_armor": true,
+    "symbol": "T",
+    "looks_like": "power_armor_basic",
     "color": "light_gray",
-    "use_action": {
-      "type": "unfold_vehicle",
-      "vehicle_name": "bicycle",
-      "unfold_msg": "You painstakingly unfold the bicycle and make it ready to ride.",
-      "moves": 500
-    }
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "name": "Exosuit Underlayer",
+        "description": "A series of connections for an underlayer.",
+        "flag_restriction": [ "EXO_UNDERLAYER" ],
+        "inherits_flags": true,
+        "moves": 200
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "name": "Helmet compartment (Plate)",
+        "description": "This is a mounting point for helmet plating.",
+        "ablative": true,
+        "flag_restriction": [ "EXO_HELMET_PLATE" ],
+        "moves": 120
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "name": "Helmet Hardpoint",
+        "description": "This is a series of mounts for helmet equipment.",
+        "rigid": true,
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "5 kg",
+        "flag_restriction": [ "EXO_HELMET_GADGET" ],
+        "inherits_flags": true,
+        "moves": 60
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "name": "Torso compartment (Plate)",
+        "description": "This is a mounting point for torso armor.",
+        "ablative": true,
+        "rigid": true,
+        "max_contains_volume": "10 L",
+        "max_contains_weight": "80 kg",
+        "flag_restriction": [ "EXO_TORSO_PLATE" ],
+        "moves": 120
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "name": "Torso hardpoints",
+        "description": "This is a mount for storing items in the torso.",
+        "rigid": true,
+        "max_contains_volume": "4 L",
+        "max_contains_weight": "15 kg",
+        "max_item_length": "60 cm",
+        "flag_restriction": [ "EXO_LARGE_GADGET", "EXO_MEDIUM_GADGET", "EXO_SMALL_GADGET" ],
+        "inherits_flags": true,
+        "moves": 60
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "name": "PSU compartment",
+        "description": "This is a mounting point for power supply units and large modules.",
+        "rigid": true,
+        "max_contains_volume": "25 L",
+        "max_contains_weight": "140 kg",
+        "max_item_length": "120 cm",
+        "flag_restriction": [ "EXO_PSU", "EXO_LARGE_GADGET", "EXO_MEDIUM_GADGET", "EXO_SMALL_GADGET" ],
+        "inherits_flags": true,
+        "moves": 500
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "name": "Arm compartment (Plate)",
+        "description": "This is a mounting point for arm armor.",
+        "ablative": true,
+        "rigid": true,
+        "max_contains_volume": "12 L",
+        "max_contains_weight": "80 kg",
+        "flag_restriction": [ "EXO_ARM_PLATE" ],
+        "moves": 120
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "name": "Arm hardpoints",
+        "description": "This is a mount for storing items on the arms.",
+        "rigid": true,
+        "max_contains_volume": "10 L",
+        "max_contains_weight": "10 kg",
+        "flag_restriction": [ "EXO_MEDIUM_GADGET", "EXO_SMALL_GADGET" ],
+        "inherits_flags": true,
+        "moves": 60
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "name": "Leg compartment (Plate)",
+        "description": "This is a mounting point for leg armor.",
+        "ablative": true,
+        "rigid": true,
+        "max_contains_volume": "12 L",
+        "max_contains_weight": "80 kg",
+        "flag_restriction": [ "EXO_LEG_PLATE" ],
+        "moves": 120
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "name": "Leg hardpoints",
+        "description": "This is a mount for storing items on the legs.",
+        "rigid": true,
+        "max_contains_volume": "10 L",
+        "max_contains_weight": "10 kg",
+        "flag_restriction": [ "EXO_MEDIUM_GADGET", "EXO_SMALL_GADGET" ],
+        "inherits_flags": true,
+        "moves": 60
+      }
+    ],
+    "armor": [
+      {
+        "material": [
+          { "type": "plastic", "covered_by_mat": 80, "thickness": 2 },
+          { "type": "rubber", "covered_by_mat": 20, "thickness": 2 },
+          { "type": "lvl4ballisticglass", "covered_by_mat": 100, "thickness": 2 }
+        ],
+        "covers": [ "eyes" ],
+        "coverage": 100,
+        "encumbrance": 100,
+        "layers": [ "OUTER" ]
+      },
+      {
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 2 } ],
+        "covers": [ "head", "mouth", "torso", "arm_l", "arm_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
+        "coverage": 40,
+        "encumbrance": 20,
+        "layers": [ "OUTER" ]
+      },
+      {
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 2 } ],
+        "covers": [ "hand_l", "hand_r" ],
+        "coverage": 40,
+        "encumbrance": 20
+      }
+    ],
+    "ammo": "battery",
+    "flags": [ "USE_UPS", "STURDY", "WATERPROOF", "ELECTRIC_IMMUNE", "COMBAT_TOGGLEABLE", "OUTER", "DEAF" ],
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 10 } ] } ] }
   },
   {
     "id": "test_armor_chitin",
@@ -3329,6 +3690,75 @@
     "armor": [ { "encumbrance": 70, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
+    "id": "test_jumpsuit_lycra",
+    "type": "ARMOR",
+    "name": { "str": "test_jumpsuit_lycra" },
+    "description": "Lycra test jumpsuit",
+    "weight": "610 g",
+    "volume": "3500 ml",
+    "price": 8900,
+    "price_postapoc": 50,
+    "to_hit": -3,
+    "material": [ "lycra" ],
+    "symbol": "[",
+    "looks_like": "touring_suit",
+    "color": "yellow",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 1, 2 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 1, 1 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 95, "encumbrance": [ 1, 2 ] },
+      { "covers": [ "foot_l", "foot_r" ], "coverage": 95, "encumbrance": [ 1, 2 ] }
+    ],
+    "warmth": 60,
+    "material_thickness": 0.2
+  },
+  {
+    "id": "test_jumpsuit_fur",
+    "type": "ARMOR",
+    "name": { "str": "test_jumpsuit_fur" },
+    "description": "Fur test jumpsuit",
+    "weight": "610 g",
+    "volume": "3500 ml",
+    "price": 8900,
+    "price_postapoc": 50,
+    "to_hit": -3,
+    "material": [ "fur" ],
+    "symbol": "[",
+    "looks_like": "touring_suit",
+    "color": "yellow",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 1, 2 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 1, 1 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 95, "encumbrance": [ 1, 2 ] },
+      { "covers": [ "foot_l", "foot_r" ], "coverage": 95, "encumbrance": [ 1, 2 ] }
+    ],
+    "warmth": 60,
+    "material_thickness": 0.2
+  },
+  {
+    "id": "test_jumpsuit_cotton",
+    "type": "ARMOR",
+    "name": { "str": "test_jumpsuit_cotton" },
+    "description": "Cotton test jumpsuit",
+    "weight": "610 g",
+    "volume": "3500 ml",
+    "price": 8900,
+    "price_postapoc": 50,
+    "to_hit": -3,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "touring_suit",
+    "color": "yellow",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 1, 2 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 1, 1 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 95, "encumbrance": [ 1, 2 ] },
+      { "covers": [ "foot_l", "foot_r" ], "coverage": 95, "encumbrance": [ 1, 2 ] }
+    ],
+    "warmth": 60,
+    "material_thickness": 0.2
+  },
+  {
     "id": "test_winglets",
     "//": "Only for the test wing body parts",
     "repairs_like": "gauntlets_larmor",
@@ -3554,6 +3984,67 @@
     ]
   },
   {
+    "id": "test_ghost_vest",
+    "type": "ARMOR",
+    "category": "armor",
+    "//": "Vest with no coverage to test if it still protects",
+    "name": { "str": "US ghost vest" },
+    "description": "Ballistic armor with specialized pockets on the front, back and sides for armored plates.  The soft armor plate carrier is still protective but it won't stop high energy projectiles.",
+    "weight": "2911 g",
+    "volume": "6 L",
+    "price": 160000,
+    "price_postapoc": 1000,
+    "symbol": "[",
+    "material": [ "nylon", "kevlar" ],
+    "color": "light_gray",
+    "warmth": 15,
+    "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY" ],
+    "use_action": [ { "type": "attach_molle", "size": 6 }, { "type": "detach_molle" } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "1600 ml",
+        "max_contains_weight": "5 kg",
+        "moves": 200,
+        "description": "Pocket for front plate",
+        "flag_restriction": [ "ABLATIVE_LARGE" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "1600 ml",
+        "max_contains_weight": "5 kg",
+        "moves": 200,
+        "description": "Pocket for back plate",
+        "flag_restriction": [ "ABLATIVE_LARGE" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 200,
+        "description": "Pocket for right side plate",
+        "flag_restriction": [ "ABLATIVE_MEDIUM" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 200,
+        "description": "Pocket for left side plate",
+        "flag_restriction": [ "ABLATIVE_MEDIUM" ]
+      }
+    ],
+    "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ] } ]
+  },
+  {
     "id": "test_plate",
     "type": "ARMOR",
     "category": "armor",
@@ -3570,5 +4061,196 @@
     "non_functional": "destroyed_large_ceramic_plate",
     "flags": [ "ABLATIVE_LARGE", "CANT_WEAR" ],
     "armor": [ { "encumbrance": 2, "coverage": 45, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
+  },
+  {
+    "id": "test_armguard",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "mild test arm guard" },
+    "description": "An armguard, 1.75mm at the thickest.  This one has been made with mild steel.",
+    "weight": "3333 g",
+    "volume": "2916 ml",
+    "price": 60000,
+    "price_postapoc": 12000,
+    "to_hit": -5,
+    "bashing": 8,
+    "symbol": "[",
+    "looks_like": "armor_larmor",
+    "material": [ "lc_steel", "lc_steel_chain" ],
+    "color": "light_gray",
+    "warmth": 20,
+    "longest_side": "60 cm",
+    "sided": true,
+    "material_thickness": 4,
+    "flags": [ "OUTER", "STURDY", "CONDUCTIVE", "BLOCK_WHILE_WORN" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "lc_steel", "covered_by_mat": 95, "thickness": 0.55 },
+          { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_elbow_r", "arm_elbow_l", "arm_upper_r", "arm_upper_l" ],
+        "coverage": 100,
+        "encumbrance": 15
+      }
+    ]
+  },
+  {
+    "id": "test_consolidate",
+    "repairs_like": "trenchcoat",
+    "type": "ARMOR",
+    "name": { "str": "Item that should be simpler" },
+    "description": "This item should have only 1 armor entry in game since these three are identical.",
+    "weight": "1000 g",
+    "volume": "1500 ml",
+    "price": 5000,
+    "price_postapoc": 50,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "robe",
+    "color": "white",
+    "warmth": 10,
+    "material_thickness": 0.5,
+    "flags": [ "VARSIZE", "STURDY" ],
+    "armor": [
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100, "encumbrance": 10 },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": 10 },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": 10 }
+    ]
+  },
+  {
+    "id": "test_food",
+    "type": "GENERIC",
+    "name": { "str_sp": "food" },
+    "description": "Item to test plural form, which is the same as singular - food.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "symbol": "?",
+    "color": "dark_gray"
+  },
+  {
+    "id": "test_oxygen",
+    "type": "GENERIC",
+    "name": { "str_sp": "oxygen" },
+    "description": "Item to test plural form, which is the same as singular - oxygen.",
+    "weight": "5 g",
+    "volume": "1 ml",
+    "symbol": "?",
+    "color": "dark_gray"
+  },
+  {
+    "id": "test_item",
+    "type": "GENERIC",
+    "name": { "str": "item" },
+    "description": "Item to test plural form - items.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "symbol": "?",
+    "color": "dark_gray"
+  },
+  {
+    "id": "test_test_item",
+    "type": "GENERIC",
+    "name": { "str": "test item" },
+    "description": "Item to test plural form - test items.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "symbol": "?",
+    "color": "dark_gray"
+  },
+  {
+    "id": "test_lorry",
+    "type": "GENERIC",
+    "name": { "str": "lorry", "str_pl": "lorries" },
+    "description": "Item to test plural form - lorries.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "symbol": "?",
+    "color": "dark_gray"
+  },
+  {
+    "id": "test_mass",
+    "type": "GENERIC",
+    "name": { "str": "mass", "str_pl": "masses" },
+    "description": "Item to test plural form - masses.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "symbol": "?",
+    "color": "dark_gray"
+  },
+  {
+    "id": "test_block_of_cheese",
+    "type": "GENERIC",
+    "name": { "str": "block of cheese", "str_pl": "blocks of cheese" },
+    "description": "Item to test plural form.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "symbol": "?",
+    "color": "dark_gray"
+  },
+  {
+    "id": "test_pile_of_dirt",
+    "type": "GENERIC",
+    "name": { "str": "pile of dirt", "str_pl": "piles of dirt" },
+    "description": "Item to test plural form.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "symbol": "?",
+    "color": "dark_gray"
+  },
+  {
+    "id": "test_book",
+    "type": "BOOK",
+    "name": { "str": "Unit Testing Principles", "str_pl": "copies of Unit Testing Principles" },
+    "description": "Book about testing to test plural form.",
+    "weight": "1587 g",
+    "volume": "1500 ml",
+    "symbol": "?",
+    "color": "blue",
+    "skill": "computer",
+    "required_level": 0,
+    "max_level": 5,
+    "fun": -1
+  },
+  {
+    "id": "test_mag",
+    "type": "BOOK",
+    "name": { "str": "Journal of Testing", "str_pl": "issues of Journal of Testing" },
+    "description": "Issue about testing to test plural form.",
+    "weight": "60 g",
+    "volume": "250 ml",
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "pink",
+    "skill": "computer",
+    "max_level": 1,
+    "intelligence": 2,
+    "time": "7 m"
+  },
+  {
+    "id": "test_ups",
+    "type": "TOOL",
+    "name": { "str": "UPS3000", "str_pl": "UPS3000es" },
+    "description": "This UPS is better",
+    "weight": "680 g",
+    "volume": "2500 ml",
+    "price": 280000,
+    "price_postapoc": 1500,
+    "to_hit": -1,
+    "bashing": 8,
+    "material": [ "aluminum", "plastic" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "ammo": [ "battery" ],
+    "flags": [ "IS_UPS" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "flag_restriction": [ "BATTERY_HEAVY" ],
+        "default_magazine": "heavy_plus_battery_cell"
+      }
+    ]
   }
 ]

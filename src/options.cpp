@@ -1,6 +1,5 @@
 #include "options.h"
 
-#include <clocale>
 #include <cfloat>
 #include <climits>
 #include <clocale>
@@ -19,8 +18,10 @@
 #include "filesystem.h"
 #include "game.h"
 #include "game_constants.h"
+#include "generic_factory.h"
 #include "input.h"
 #include "json.h"
+#include "lang_stats.h"
 #include "line.h"
 #include "mapsharing.h"
 #include "output.h"
@@ -32,6 +33,7 @@
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
+#include "system_locale.h"
 #include "translations.h"
 #include "try_parse_integer.h"
 #include "ui_manager.h"
@@ -51,8 +53,142 @@
 #include <sstream>
 #include <string>
 
-std::map<std::string, std::string> TILESETS; // All found tilesets: <name, tileset_dir>
-std::map<std::string, std::string> SOUNDPACKS; // All found soundpacks: <name, soundpack_dir>
+std::map<std::string, cata_path> TILESETS; // All found tilesets: <name, tileset_dir>
+std::map<std::string, cata_path> SOUNDPACKS; // All found soundpacks: <name, soundpack_dir>
+
+namespace
+{
+
+generic_factory<option_slider> option_slider_factory( "option slider" );
+
+} // namespace
+
+/** @relates string_id */
+template<>
+const option_slider &string_id<option_slider>::obj() const
+{
+    return option_slider_factory.obj( *this );
+}
+
+/** @relates string_id */
+template<>
+bool string_id<option_slider>::is_valid() const
+{
+    return option_slider_factory.is_valid( *this );
+}
+
+void option_slider::reset()
+{
+    option_slider_factory.reset();
+}
+
+const std::vector<option_slider> &option_slider::get_all()
+{
+    return option_slider_factory.get_all();
+}
+
+void option_slider::load_option_sliders( const JsonObject &jo, const std::string &src )
+{
+    option_slider_factory.load( jo, src );
+}
+
+void option_slider::finalize_all()
+{
+    for( const option_slider &opt : option_slider::get_all() ) {
+        option_slider &o = const_cast<option_slider &>( opt );
+        o.reorder_opts();
+    }
+}
+
+void option_slider::check_consistency()
+{
+    for( const option_slider &opt : option_slider::get_all() ) {
+        opt.check();
+    }
+}
+
+void option_slider::load( const JsonObject &jo, const std::string & )
+{
+    mandatory( jo, was_loaded, "name", _name );
+    optional( jo, was_loaded, "default", _default_level, 0 );
+    optional( jo, was_loaded, "context", _context );
+    mandatory( jo, was_loaded, "levels", _levels );
+}
+
+void option_slider::option_slider_level::deserialize( const JsonObject &jo )
+{
+    mandatory( jo, false, "level", _level );
+    mandatory( jo, false, "name", _name );
+    optional( jo, false, "description", _desc );
+    _opts.clear();
+    for( JsonObject jobj : jo.get_array( "options" ) ) {
+        const std::string stype = jobj.get_string( "type" );
+        std::stringstream valss;
+        if( stype == "int" ) {
+            valss << jobj.get_int( "val" );
+        } else if( stype == "float" ) {
+            valss << jobj.get_float( "val" );
+        } else if( stype == "bool" ) {
+            valss << ( jobj.get_bool( "val" ) ? "true" : "false" );
+        } else if( stype == "string" ) {
+            valss << jobj.get_string( "val" );
+        }
+        _opts.emplace_back( jobj.get_string( "option" ), stype, valss.str() );
+    }
+}
+
+void option_slider::check() const
+{
+    std::set<int> lvls;
+    for( const option_slider_level &lvl : _levels ) {
+        if( lvl.level() < 0 || lvl.level() >= static_cast<int>( _levels.size() ) ) {
+            debugmsg( "Option slider level \"%s\" (from option slider \"%s\") has a numeric "
+                      "level of %d, but must be between 0 and %d (total number of levels minus 1)",
+                      lvl.name().translated().c_str(), id.c_str(), lvl.level(),
+                      static_cast<int>( _levels.size() ) - 1 );
+        }
+        lvls.emplace( lvl.level() );
+    }
+
+    if( lvls.size() != _levels.size() ) {
+        debugmsg( "Option slider \"%s\" has duplicate slider levels.  Each slider level must "
+                  "be unique, from 0 (zero) to %d (total number of levels minus 1)",
+                  id.c_str(), static_cast<int>( _levels.size() ) - 1 );
+    }
+
+    if( lvls.count( _default_level ) == 0 ) {
+        debugmsg( "Default slider level (%d) for option slider \"%s\" does not match any of the "
+                  "defined levels", _default_level, id.c_str() );
+    }
+}
+
+bool option_slider::option_slider_level::remove( const std::string &opt )
+{
+    auto iter = std::find_if( _opts.begin(), _opts.end(), [&opt]( const opt_slider_option & o ) {
+        return o._opt == opt;
+    } );
+    if( iter == _opts.end() ) {
+        return false;
+    }
+    _opts.erase( iter );
+    return true;
+}
+
+void option_slider::option_slider_level::apply_opts( options_manager::options_container &OPTIONS )
+const
+{
+    for( const opt_slider_option &opt : _opts ) {
+        auto iter = OPTIONS.find( opt._opt );
+        if( iter != OPTIONS.end() ) {
+            iter->second.setValue( opt._val );
+        }
+    }
+}
+
+int option_slider::random_level() const
+{
+    return rng( 0, _levels.size() - 1 );
+}
 
 // Map from old option name to pair of <new option name and map of old option value to new option value>
 // Options and values not listed here will not be changed.
@@ -60,10 +196,7 @@ static const std::map<std::string, std::pair<std::string, std::map<std::string, 
 &get_migrated_options()
 {
     static const std::map<std::string, std::pair<std::string, std::map<std::string, std::string>>> opt
-    = {
-        {"DELETE_WORLD", { "WORLD_END", { {"no", "keep" }, {"yes", "delete"} } } },
-        {"SKILL_RUST", { "SKILL_RUST", { {"int", "vanilla" }, {"intcap", "capped"} } } }
-    };
+    = { {"DELETE_WORLD", { "WORLD_END", { {"no", "keep" }, {"yes", "delete"} } } } };
     return opt;
 }
 
@@ -73,25 +206,19 @@ options_manager &get_options()
     return single_instance;
 }
 
-options_manager::options_manager() :
-    general_page_( "general", to_translation( "General" ) ),
-    interface_page_( "interface", to_translation( "Interface" ) ),
-    graphics_page_( "graphics", to_translation( "Graphics" ) ),
-    world_default_page_( "world_default", to_translation( "World Defaults" ) ),
-    debug_page_( "debug", to_translation( "Debug" ) ),
-    android_page_( "android", to_translation( "Android" ) )
+options_manager::options_manager()
 {
-    pages_.emplace_back( general_page_ );
-    pages_.emplace_back( interface_page_ );
-    pages_.emplace_back( graphics_page_ );
+    pages_.emplace_back( "general", to_translation( "General" ) );
+    pages_.emplace_back( "interface", to_translation( "Interface" ) );
+    pages_.emplace_back( "graphics", to_translation( "Graphics" ) );
     // when sharing maps only admin is allowed to change these.
     if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isAdmin() ) {
-        pages_.emplace_back( world_default_page_ );
-        pages_.emplace_back( debug_page_ );
+        pages_.emplace_back( "world_default", to_translation( "World Defaults" ) );
+        pages_.emplace_back( "debug", to_translation( "Debug" ) );
     }
 
 #if defined(__ANDROID__)
-    pages_.emplace_back( android_page_ );
+    pages_.emplace_back( "android", to_translation( "Android" ) );
 #endif
 
     enable_json( "DEFAULT_REGION" );
@@ -144,12 +271,12 @@ void options_manager::addOptionToPage( const std::string &name, const std::strin
     for( Page &p : pages_ ) {
         if( p.id_ == page ) {
             // Don't add duplicate options to the page
-            for( const cata::optional<std::string> &i : p.items_ ) {
-                if( i.has_value() && i.value() == name ) {
+            for( const PageItem &i : p.items_ ) {
+                if( i.type == ItemType::Option && i.data == name ) {
                     return;
                 }
             }
-            p.items_.emplace_back( name );
+            p.items_.emplace_back( ItemType::Option, name, adding_to_group_ );
             return;
         }
     }
@@ -422,6 +549,62 @@ void options_manager::add( const std::string &sNameIn, const std::string &sPageI
     options[sNameIn] = thisOpt;
 }
 
+void options_manager::add_empty_line( const std::string &sPageIn )
+{
+    for( Page &p : pages_ ) {
+        if( p.id_ == sPageIn ) {
+            p.items_.emplace_back( ItemType::BlankLine, "", adding_to_group_ );
+            break;
+        }
+    }
+}
+
+void options_manager::add_option_group( const std::string &page_id,
+                                        const options_manager::Group &group,
+                                        const std::function<void( const std::string & )> &entries )
+{
+    if( !adding_to_group_.empty() ) {
+        // Nested groups are not allowed
+        debugmsg( "Tried to create option group '%s' from within group '%s'.",
+                  group.id_, adding_to_group_ );
+        return;
+    }
+    for( Group &g : groups_ ) {
+        if( g.id_ == group.id_ ) {
+            debugmsg( "Option group with id '%s' already exists", group.id_ );
+            return;
+        }
+    }
+    groups_.push_back( group );
+    adding_to_group_ = groups_.back().id_;
+
+    for( Page &p : pages_ ) {
+        if( p.id_ == page_id ) {
+            p.items_.emplace_back( ItemType::GroupHeader, group.id_, adding_to_group_ );
+            break;
+        }
+    }
+
+    entries( page_id );
+
+    adding_to_group_.clear();
+}
+
+const options_manager::Group &options_manager::find_group( const std::string &id ) const
+{
+    static Group null_group;
+    if( id.empty() ) {
+        return null_group;
+    }
+    for( const Group &g : groups_ ) {
+        if( g.id_ == id ) {
+            return g;
+        }
+    }
+    debugmsg( "Option group with id '%s' does not exist.", id );
+    return null_group;
+}
+
 void options_manager::cOpt::setPrerequisites( const std::string &sOption,
         const std::vector<std::string> &sAllowedValues )
 {
@@ -638,7 +821,7 @@ std::string options_manager::cOpt::getValueName() const
         return bSet ? _( "True" ) : _( "False" );
 
     } else if( sType == "int_map" ) {
-        const cata::optional<int_and_option> opt = findInt( iSet );
+        const std::optional<int_and_option> opt = findInt( iSet );
         if( opt ) {
             if( verbose ) {
                 return string_format( _( "%d: %s" ), iSet, opt->second );
@@ -676,7 +859,7 @@ std::string options_manager::cOpt::getDefaultText( const bool bTranslated ) cons
         return string_format( _( "Default: %d - Min: %d, Max: %d" ), iDefault, iMin, iMax );
 
     } else if( sType == "int_map" ) {
-        const cata::optional<int_and_option> opt = findInt( iDefault );
+        const std::optional<int_and_option> opt = findInt( iDefault );
         if( opt ) {
             if( verbose ) {
                 return string_format( _( "Default: %d: %s" ), iDefault, opt->second );
@@ -723,12 +906,12 @@ int options_manager::cOpt::getIntPos( const int iSearch ) const
     return -1;
 }
 
-cata::optional<options_manager::int_and_option> options_manager::cOpt::findInt(
+std::optional<options_manager::int_and_option> options_manager::cOpt::findInt(
     const int iSearch ) const
 {
     int i = static_cast<int>( getIntPos( iSearch ) );
     if( i == -1 ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     return mIntValues[i];
 }
@@ -757,7 +940,7 @@ void options_manager::cOpt::setNext()
         int iMenuTextLength = utf8_width( sMenuText.translated() );
         string_input_popup()
         .width( iMaxLength > 80 ? 80 : iMaxLength < iMenuTextLength ? iMenuTextLength : iMaxLength + 1 )
-        .description( sMenuText.translated() )
+        .title( sMenuText.translated() )
         .max_length( iMaxLength )
         .edit( sSet );
 
@@ -964,6 +1147,53 @@ static std::vector<options_manager::id_and_option> build_resource_list(
     return resource_names;
 }
 
+static std::vector<options_manager::id_and_option> build_resource_list(
+    std::map<std::string, cata_path> &resource_option, const std::string &operation_name,
+    const cata_path &dirname, const std::string &filename )
+{
+    std::vector<options_manager::id_and_option> resource_names;
+
+    resource_option.clear();
+    const auto resource_dirs = get_directories_with( filename, dirname, true );
+
+    for( const cata_path &resource_dir : resource_dirs ) {
+        read_from_file( resource_dir / filename, [&]( std::istream & fin ) {
+            std::string resource_name;
+            std::string view_name;
+            // should only have 2 values inside it, otherwise is going to only load the last 2 values
+            while( !fin.eof() ) {
+                std::string sOption;
+                fin >> sOption;
+
+                if( sOption.empty() || sOption[0] == '#' ) {
+                    getline( fin, sOption );  // Empty line or comment, chomp it
+                } else {
+                    if( sOption.find( "NAME" ) != std::string::npos ) {
+                        resource_name.clear();
+                        getline( fin, resource_name );
+                        resource_name = trim( resource_name );
+                    } else if( sOption.find( "VIEW" ) != std::string::npos ) {
+                        view_name.clear();
+                        getline( fin, view_name );
+                        view_name = trim( view_name );
+                        break;
+                    }
+                }
+            }
+            resource_names.emplace_back( resource_name,
+                                         view_name.empty() ? no_translation( resource_name ) : to_translation( view_name ) );
+            if( resource_option.count( resource_name ) != 0 ) {
+                debugmsg( "Found \"%s\" duplicate with name \"%s\" (new definition will be ignored)",
+                          operation_name, resource_name );
+            } else {
+                resource_option.insert( std::pair<std::string, cata_path>( resource_name, resource_dir ) );
+            }
+        } );
+    }
+
+    return resource_names;
+}
+
 void options_manager::search_resource(
     std::map<std::string, std::string> &storage, std::vector<id_and_option> &option_list,
     const std::vector<std::string> &search_paths, const std::string &resource_name,
@@ -993,11 +1223,41 @@ void options_manager::search_resource(
     }
 }
 
+void options_manager::search_resource(
+    std::map<std::string, cata_path> &storage, std::vector<id_and_option> &option_list,
+    const std::vector<cata_path> &search_paths, const std::string &resource_name,
+    const std::string &resource_filename )
+{
+    // Clear the result containers.
+    storage.clear();
+    option_list.clear();
+
+    // Loop through each search path and add its resources.
+    for( const cata_path &search_path : search_paths ) {
+        // Get the resource list from the search path.
+        std::map<std::string, cata_path> resources;
+        std::vector<id_and_option> resource_names = build_resource_list( resources, resource_name,
+                search_path, resource_filename );
+
+        // Add any new resources from this path to the result containers.
+        // First, add to the resource mapping.
+        storage.insert( resources.begin(), resources.end() );
+        // Next, add to the option list.
+        for( const id_and_option &name : resource_names ) {
+            // Only add if not a duplicate.
+            if( std::find( option_list.begin(), option_list.end(), name ) == option_list.end() ) {
+                option_list.emplace_back( name );
+            }
+        }
+    }
+}
+
 std::vector<options_manager::id_and_option> options_manager::build_tilesets_list()
 {
     std::vector<id_and_option> result;
 
-    search_resource( TILESETS, result, { PATH_INFO::user_gfx(), PATH_INFO::gfxdir() }, "tileset",
+    search_resource( TILESETS, result, { PATH_INFO::user_gfx(), PATH_INFO::gfxdir() },
+                     "tileset",
                      PATH_INFO::tileset_conf() );
 
     // Default values
@@ -1043,35 +1303,48 @@ std::vector<options_manager::id_and_option> options_manager::get_lang_options()
 {
     std::vector<id_and_option> lang_options = {
         { "", to_translation( "System language" ) },
-        // Note: language names are in their own language and are *not* translated at all.
-        // Note: Somewhere in Github PR was better link to msdn.microsoft.com with language names.
-        // http://en.wikipedia.org/wiki/List_of_language_names
-        { "en", no_translation( R"(English)" ) },
-        { "ar", no_translation( R"(العربية)" )},
-        { "cs", no_translation( R"(Český Jazyk)" )},
-        { "da", no_translation( R"(Dansk)" )},
-        { "de", no_translation( R"(Deutsch)" ) },
-        { "el", no_translation( R"(Ελληνικά)" )},
-        { "es_AR", no_translation( R"(Español (Argentina))" ) },
-        { "es_ES", no_translation( R"(Español (España))" ) },
-        { "fr", no_translation( R"(Français)" ) },
-        { "hu", no_translation( R"(Magyar)" ) },
-        { "id", no_translation( R"(Bahasa Indonesia)" )},
-        { "is", no_translation( R"(Íslenska)" )},
-        { "it_IT", no_translation( R"(Italiano)" )},
-        { "ja", no_translation( R"(日本語)" ) },
-        { "ko", no_translation( R"(한국어)" ) },
-        { "nb", no_translation( R"(Norsk)" )},
-        { "nl", no_translation( R"(Nederlands)" )},
-        { "pl", no_translation( R"(Polski)" ) },
-        { "pt_BR", no_translation( R"(Português (Brasil))" )},
-        { "ru", no_translation( R"(Русский)" ) },
-        { "sr", no_translation( R"(Српски)" )},
-        { "tr", no_translation( R"(Türkçe)" )},
-        { "uk_UA", no_translation( R"(український)" )},
-        { "zh_CN", no_translation( R"(中文 (天朝))" ) },
-        { "zh_TW", no_translation( R"(中文 (台灣))" ) },
     };
+
+    constexpr std::array<std::pair<const char *, const char *>, 25> language_names = {{
+            // Note: language names are in their own language and are *not* translated at all.
+            // Note: Somewhere in Github PR was better link to msdn.microsoft.com with language names.
+            // http://en.wikipedia.org/wiki/List_of_language_names
+            { "en", R"(English)" },
+            { "ar", R"(العربية)" },
+            { "cs", R"(Český Jazyk)" },
+            { "da", R"(Dansk)" },
+            { "de", R"(Deutsch)" },
+            { "el", R"(Ελληνικά)" },
+            { "es_AR", R"(Español (Argentina))" },
+            { "es_ES", R"(Español (España))" },
+            { "fr", R"(Français)" },
+            { "hu", R"(Magyar)" },
+            { "id", R"(Bahasa Indonesia)" },
+            { "is", R"(Íslenska)" },
+            { "it_IT", R"(Italiano)" },
+            { "ja", R"(日本語)" },
+            { "ko", R"(한국어)" },
+            { "nb", R"(Norsk)" },
+            { "nl", R"(Nederlands)" },
+            { "pl", R"(Polski)" },
+            { "pt_BR", R"(Português (Brasil))" },
+            { "ru", R"(Русский)" },
+            { "sr", R"(Српски)" },
+            { "tr", R"(Türkçe)" },
+            { "uk_UA", R"(український)" },
+            { "zh_CN", R"(中文 (天朝))" },
+            { "zh_TW", R"(中文 (台灣))" },
+        }
+    };
+
+    for( const auto& [lang_id, lang_name] : language_names ) {
+        std::string name = lang_name;
+        if( const lang_stats *stats = lang_stats_for( lang_id ) ) {
+            name += string_format( _( " <color_dark_gray>(%.1f%%)</color>" ),
+                                   stats->percent_translated() );
+        }
+        lang_options.emplace_back( lang_id, no_translation( name ) );
+    }
 
     std::unordered_set<std::string> lang_list = get_langs_with_translation_files();
 
@@ -1104,8 +1377,9 @@ bool android_get_default_setting( const char *settings_name, bool default_value 
 
 void options_manager::Page::removeRepeatedEmptyLines()
 {
-    const auto empty = [&]( const cata::optional<std::string> &v ) -> bool {
-        return !v || get_options().get_option( *v ).is_hidden();
+    const auto empty = [&]( const PageItem & it ) -> bool {
+        return it.type == ItemType::BlankLine ||
+        ( it.type == ItemType::Option && get_options().get_option( it.data ).is_hidden() );
     };
 
     while( !items_.empty() && empty( items_.front() ) ) {
@@ -1145,7 +1419,7 @@ void options_manager::init()
 void options_manager::add_options_general()
 {
     const auto add_empty_line = [&]() {
-        general_page_.items_.emplace_back();
+        this->add_empty_line( "general" );
     };
 
     add( "DEF_CHAR_NAME", "general", to_translation( "Default character name" ),
@@ -1254,6 +1528,16 @@ void options_manager::add_options_general()
     "ALWAYS"
        );
 
+    add( "FORCE_SMART_CONTROLLER_OFF_ON_ENGINE_STOP", "general",
+         to_translation( "Force smart engine controller off" ),
+         to_translation( "If enabled, turn off the smart engine controller when you turn off the engine of the car without an electric motor." ),
+    {
+        { "disabled", to_translation( "options", "Disabled" ) },
+        { "enabled", to_translation( "Enabled" ) },
+        { "ask", to_translation( "Ask" ) }
+    }, "ask"
+       );
+
     add_empty_line();
 
     add( "SAFEMODE", "general", to_translation( "Safe mode" ),
@@ -1335,6 +1619,13 @@ void options_manager::add_options_general()
 
     get_option( "AUTO_NOTES_MAP_EXTRAS" ).setPrerequisite( "AUTO_NOTES" );
 
+    add( "AUTO_NOTES_DROPPED_FAVORITES", "general", to_translation( "Auto notes (dropped favorites)" ),
+         to_translation( "If true, automatically sets notes when player drops favorited items." ),
+         false
+       );
+
+    get_option( "AUTO_NOTES_DROPPED_FAVORITES" ).setPrerequisite( "AUTO_NOTES" );
+
     add_empty_line();
 
     add( "CIRCLEDIST", "general", to_translation( "Circular distances" ),
@@ -1398,11 +1689,13 @@ void options_manager::add_options_general()
 void options_manager::add_options_interface()
 {
     const auto add_empty_line = [&]() {
-        interface_page_.items_.emplace_back();
+        this->add_empty_line( "interface" );
     };
 
     add( "USE_LANG", "interface", to_translation( "Language" ),
-         to_translation( "Switch language." ), options_manager::get_lang_options(), "" );
+         to_translation( "Switch language.  Each percentage is the fraction of strings translated "
+                         "for that language." ),
+         options_manager::get_lang_options(), "" );
 
     add_empty_line();
 
@@ -1415,12 +1708,13 @@ void options_manager::add_options_interface()
     add( "USE_METRIC_SPEEDS", "interface", to_translation( "Speed units" ),
          to_translation( "Switch between mph, km/h, and tiles/turn." ),
     { { "mph", to_translation( "mph" ) }, { "km/h", to_translation( "km/h" ) }, { "t/t", to_translation( "tiles/turn" ) } },
-    "mph"
+    ( SystemLocale::UseMetricSystem().value_or( false ) ? "km/h" : "mph" )
        );
 
     add( "USE_METRIC_WEIGHTS", "interface", to_translation( "Mass units" ),
          to_translation( "Switch between lbs and kg." ),
-    { { "lbs", to_translation( "lbs" ) }, { "kg", to_translation( "kg" ) } }, "lbs"
+    { { "lbs", to_translation( "lbs" ) }, { "kg", to_translation( "kg" ) } },
+    ( SystemLocale::UseMetricSystem().value_or( false ) ? "kg" : "lbs" )
        );
 
     add( "VOLUME_UNITS", "interface", to_translation( "Volume units" ),
@@ -1431,7 +1725,7 @@ void options_manager::add_options_interface()
     add( "DISTANCE_UNITS", "interface", to_translation( "Distance units" ),
          to_translation( "Switch between metric and imperial distance units." ),
     { { "metric", to_translation( "Metric" ) }, { "imperial", to_translation( "Imperial" ) } },
-    "imperial" );
+    ( SystemLocale::UseMetricSystem().value_or( false ) ? "metric" : "imperial" ) );
 
     add( "24_HOUR", "interface", to_translation( "Time format" ),
          to_translation( "12h: AM/PM, e.g. 7:31 AM - Military: 24h Military, e.g. 0731 - 24h: Normal 24h, e.g. 7:31" ),
@@ -1472,6 +1766,12 @@ void options_manager::add_options_interface()
     { { "keychar", to_translation( "Symbol" ) }, { "keycode", to_translation( "Key code" ) } },
     "keychar", COPT_CURSES_HIDE );
 
+    add( "USE_PINYIN_SEARCH", "interface", to_translation( "Use pinyin in search" ),
+         to_translation( "If true, pinyin (pronunciation of Chinese characters) can be used in searching/filtering "
+                         "(may cause major slowdown when searching through too many entries.)" ),
+         false
+       );
+
     add( "FORCE_CAPITAL_YN", "interface",
          to_translation( "Force capital/modified letters in prompts" ),
          to_translation( "If true, prompts such as Y/N queries only accepts capital or modified letters, while "
@@ -1482,6 +1782,11 @@ void options_manager::add_options_interface()
     add( "SNAP_TO_TARGET", "interface", to_translation( "Snap to target" ),
          to_translation( "If true, automatically follow the crosshair when firing/throwing." ),
          false
+       );
+
+    add( "AIM_AFTER_FIRING", "interface", to_translation( "Reaim after firing" ),
+         to_translation( "If true, after firing automatically aim again if targets are available." ),
+         true
        );
 
     add( "QUERY_DISASSEMBLE", "interface", to_translation( "Query on disassembly while butchering" ),
@@ -1717,13 +2022,24 @@ void options_manager::add_options_interface()
 
     add( "ITEM_HEALTH_BAR", "interface", to_translation( "Show item health bars" ),
          // NOLINTNEXTLINE(cata-text-style): one space after "etc."
-         to_translation( "If true, show item health bars instead of reinforced, scratched etc. text." ),
+         to_translation( "If true, show item health bars instead of scratched, ripped etc. text." ),
          true
        );
 
     add( "ITEM_SYMBOLS", "interface", to_translation( "Show item symbols" ),
          to_translation( "If true, show item symbols in inventory and pick up menu." ),
          false
+       );
+
+    add( "ITEM_BODYGRAPH", "interface", to_translation( "Show armor coverage map" ),
+         to_translation( "If true, show a visual representation of armor coverage in the item info window." ),
+         true
+       );
+
+    add( "ASTERISK_POSITION", "interface", to_translation( "Favorited item's mark position" ),
+         to_translation( "Where to place mark of the favorited item (asterisk): before item's name (prefix) or after item's name (suffix)." ),
+    { { "prefix", to_translation( "Prefix" ) }, { "suffix", to_translation( "Suffix" ) } },
+    "right"
        );
 
     add_empty_line();
@@ -1758,7 +2074,7 @@ void options_manager::add_options_interface()
 void options_manager::add_options_graphics()
 {
     const auto add_empty_line = [&]() {
-        graphics_page_.items_.emplace_back();
+        this->add_empty_line( "graphics" );
     };
 
     add( "ANIMATIONS", "graphics", to_translation( "Animations" ),
@@ -1801,6 +2117,11 @@ void options_manager::add_options_graphics()
 
     get_option( "ANIMATION_DELAY" ).setPrerequisite( "ANIMATIONS" );
 
+    add( "BLINK_SPEED", "graphics", to_translation( "Blinking effects speed" ),
+         to_translation( "The speed of every blinking effects in ms." ),
+         100, 5000, 300
+       );
+
     add( "FORCE_REDRAW", "graphics", to_translation( "Force redraw" ),
          to_translation( "If true, forces the game to redraw at least once per turn." ),
          true
@@ -1841,60 +2162,66 @@ void options_manager::add_options_graphics()
 
     add_empty_line();
 
-    add( "FONT_BLENDING", "graphics", to_translation( "Font blending" ),
-         to_translation( "If true, fonts will look better." ),
-         false, COPT_CURSES_HIDE
-       );
+#if defined(TILES)
+    add_option_group( "graphics", Group( "font_params", to_translation( "Font settings" ),
+                                         to_translation( "Font display settings.  To change font type or source file, edit fonts.json in config directory." ) ),
+    [&]( const std::string & page_id ) {
+        add( "FONT_BLENDING", page_id, to_translation( "Font blending" ),
+             to_translation( "If true, fonts will look better." ),
+             false, COPT_CURSES_HIDE
+           );
 
-    add( "FONT_WIDTH", "graphics", to_translation( "Font width" ),
-         to_translation( "Set the font width.  Requires restart." ),
-         8, 100, 8, COPT_CURSES_HIDE
-       );
+        add( "FONT_WIDTH", page_id, to_translation( "Font width" ),
+             to_translation( "Set the font width.  Requires restart." ),
+             8, 100, 8, COPT_CURSES_HIDE
+           );
 
-    add( "FONT_HEIGHT", "graphics", to_translation( "Font height" ),
-         to_translation( "Set the font height.  Requires restart." ),
-         8, 100, 16, COPT_CURSES_HIDE
-       );
+        add( "FONT_HEIGHT", page_id, to_translation( "Font height" ),
+             to_translation( "Set the font height.  Requires restart." ),
+             8, 100, 16, COPT_CURSES_HIDE
+           );
 
-    add( "FONT_SIZE", "graphics", to_translation( "Font size" ),
-         to_translation( "Set the font size.  Requires restart." ),
-         8, 100, 16, COPT_CURSES_HIDE
-       );
+        add( "FONT_SIZE", page_id, to_translation( "Font size" ),
+             to_translation( "Set the font size.  Requires restart." ),
+             8, 100, 16, COPT_CURSES_HIDE
+           );
 
-    add( "MAP_FONT_WIDTH", "graphics", to_translation( "Map font width" ),
-         to_translation( "Set the map font width.  Requires restart." ),
-         8, 100, 16, COPT_CURSES_HIDE
-       );
+        add( "MAP_FONT_WIDTH", page_id, to_translation( "Map font width" ),
+             to_translation( "Set the map font width.  Requires restart." ),
+             8, 100, 16, COPT_CURSES_HIDE
+           );
 
-    add( "MAP_FONT_HEIGHT", "graphics", to_translation( "Map font height" ),
-         to_translation( "Set the map font height.  Requires restart." ),
-         8, 100, 16, COPT_CURSES_HIDE
-       );
+        add( "MAP_FONT_HEIGHT", page_id, to_translation( "Map font height" ),
+             to_translation( "Set the map font height.  Requires restart." ),
+             8, 100, 16, COPT_CURSES_HIDE
+           );
 
-    add( "MAP_FONT_SIZE", "graphics", to_translation( "Map font size" ),
-         to_translation( "Set the map font size.  Requires restart." ),
-         8, 100, 16, COPT_CURSES_HIDE
-       );
+        add( "MAP_FONT_SIZE", page_id, to_translation( "Map font size" ),
+             to_translation( "Set the map font size.  Requires restart." ),
+             8, 100, 16, COPT_CURSES_HIDE
+           );
 
-    add( "OVERMAP_FONT_WIDTH", "graphics", to_translation( "Overmap font width" ),
-         to_translation( "Set the overmap font width.  Requires restart." ),
-         8, 100, 16, COPT_CURSES_HIDE
-       );
+        add( "OVERMAP_FONT_WIDTH", page_id, to_translation( "Overmap font width" ),
+             to_translation( "Set the overmap font width.  Requires restart." ),
+             8, 100, 16, COPT_CURSES_HIDE
+           );
 
-    add( "OVERMAP_FONT_HEIGHT", "graphics", to_translation( "Overmap font height" ),
-         to_translation( "Set the overmap font height.  Requires restart." ),
-         8, 100, 16, COPT_CURSES_HIDE
-       );
+        add( "OVERMAP_FONT_HEIGHT", page_id, to_translation( "Overmap font height" ),
+             to_translation( "Set the overmap font height.  Requires restart." ),
+             8, 100, 16, COPT_CURSES_HIDE
+           );
 
-    add( "OVERMAP_FONT_SIZE", "graphics", to_translation( "Overmap font size" ),
-         to_translation( "Set the overmap font size.  Requires restart." ),
-         8, 100, 16, COPT_CURSES_HIDE
-       );
+        add( "OVERMAP_FONT_SIZE", page_id, to_translation( "Overmap font size" ),
+             to_translation( "Set the overmap font size.  Requires restart." ),
+             8, 100, 16, COPT_CURSES_HIDE
+           );
 
-    add( "USE_DRAW_ASCII_LINES_ROUTINE", "graphics", to_translation( "SDL ASCII lines" ),
-         to_translation( "If true, use SDL ASCII line drawing routine instead of Unicode Line Drawing characters.  Use this option when your selected font doesn't contain necessary glyphs." ),
-         true, COPT_CURSES_HIDE
-       );
+        add( "USE_DRAW_ASCII_LINES_ROUTINE", page_id, to_translation( "SDL ASCII lines" ),
+             to_translation( "If true, use SDL ASCII line drawing routine instead of Unicode Line Drawing characters.  Use this option when your selected font doesn't contain necessary glyphs." ),
+             true, COPT_CURSES_HIDE
+           );
+    } );
+#endif // TILES
 
     add_empty_line();
 
@@ -1916,21 +2243,48 @@ void options_manager::add_options_graphics()
          build_tilesets_list(), "UltimateCataclysm", COPT_CURSES_HIDE
        ); // populate the options dynamically
 
-    get_option( "TILES" ).setPrerequisite( "USE_TILES" );
-
-    add( "USE_TILES_OVERMAP", "graphics", to_translation( "Use tiles to display overmap" ),
-         to_translation( "If true, replaces some TTF-rendered text with tiles for overmap display." ),
+    add( "USE_DISTANT_TILES", "graphics", to_translation( "Use separate tileset for far" ),
+         to_translation( "If true, when very zoomed out you will use a separate tileset." ),
          false, COPT_CURSES_HIDE
        );
 
-    get_option( "USE_TILES_OVERMAP" ).setPrerequisite( "USE_TILES" );
+    add( "DISTANT_TILES", "graphics", to_translation( "Choose distant tileset" ),
+         to_translation( "Choose the tileset you want to use for far zoom." ),
+         build_tilesets_list(), "UltimateCataclysm", COPT_CURSES_HIDE
+       ); // populate the options dynamically
+
+    add( "SWAP_ZOOM", "graphics", to_translation( "Zoom Threshold" ),
+         to_translation( "Choose when you should swap tileset (lower is more zoomed out)." ),
+         1, 4, 2, COPT_CURSES_HIDE
+       ); // populate the options dynamically
+
+    get_option( "TILES" ).setPrerequisite( "USE_TILES" );
+    get_option( "USE_DISTANT_TILES" ).setPrerequisite( "USE_TILES" );
+    get_option( "DISTANT_TILES" ).setPrerequisite( "USE_DISTANT_TILES" );
+    get_option( "SWAP_ZOOM" ).setPrerequisite( "USE_DISTANT_TILES" );
+
+    add( "USE_OVERMAP_TILES", "graphics", to_translation( "Use tiles to display overmap" ),
+         to_translation( "If true, replaces some TTF-rendered text with tiles for overmap display." ),
+         true, COPT_CURSES_HIDE
+       );
+
+    get_option( "USE_OVERMAP_TILES" ).setPrerequisite( "USE_TILES" );
+
+    std::vector<options_manager::id_and_option> om_tilesets = build_tilesets_list();
+    // filter out iso tilesets from overmap tilesets
+    om_tilesets.erase( std::remove_if( om_tilesets.begin(), om_tilesets.end(), []( const auto & it ) {
+        static const std::string iso_suffix = "_iso";
+        const std::string &id = it.first;
+        return id.size() >= iso_suffix.size() &&
+               id.compare( id.size() - iso_suffix.size(), iso_suffix.size(), iso_suffix ) == 0;
+    } ), om_tilesets.end() );
 
     add( "OVERMAP_TILES", "graphics", to_translation( "Choose overmap tileset" ),
          to_translation( "Choose the overmap tileset you want to use." ),
-         build_tilesets_list(), "retrodays", COPT_CURSES_HIDE
+         om_tilesets, "Larwick Overmap", COPT_CURSES_HIDE
        ); // populate the options dynamically
 
-    get_option( "OVERMAP_TILES" ).setPrerequisite( "USE_TILES_OVERMAP" );
+    get_option( "OVERMAP_TILES" ).setPrerequisite( "USE_OVERMAP_TILES" );
 
     add_empty_line();
 
@@ -2055,6 +2409,16 @@ void options_manager::add_options_graphics()
 
     get_option( "PIXEL_MINIMAP_BLINK" ).setPrerequisite( "PIXEL_MINIMAP" );
 
+    add( "PIXEL_MINIMAP_BG", "graphics", to_translation( "Background color" ),
+         to_translation( "What color the minimap background should be.  Either based on color theme or (0,0,0) black." ),
+    {
+        { "theme", to_translation( "Theme" ) },
+        { "black", to_translation( "Black" ) }
+    }, "black", COPT_CURSES_HIDE
+       );
+
+    get_option( "PIXEL_MINIMAP_BLINK" ).setPrerequisite( "PIXEL_MINIMAP" );
+
     add_empty_line();
 
 #if defined(TILES)
@@ -2157,7 +2521,7 @@ void options_manager::add_options_graphics()
 void options_manager::add_options_world_default()
 {
     const auto add_empty_line = [&]() {
-        world_default_page_.items_.emplace_back();
+        this->add_empty_line( "world_default" );
     };
 
     add( "WORLD_END", "world_default", to_translation( "World end handling" ),
@@ -2222,8 +2586,8 @@ void options_manager::add_options_world_default()
     add_empty_line();
 
     add( "INITIAL_TIME", "world_default", to_translation( "Initial time" ),
-         to_translation( "Initial starting time of day on character generation." ),
-         0, 23, 8
+         to_translation( "Initial starting time of day on character generation.  Value -1 randomizes the starting time and overrides scenario setting." ),
+         -1, 23, 8
        );
 
     add( "INITIAL_DAY", "world_default", to_translation( "Initial day" ),
@@ -2282,15 +2646,22 @@ void options_manager::add_options_world_default()
 
     add( "CHARACTER_POINT_POOLS", "world_default", to_translation( "Character point pools" ),
          to_translation( "Allowed point pools for character generation." ),
-    { { "any", to_translation( "Any" ) }, { "multi_pool", to_translation( "Multi-pool only" ) }, { "no_freeform", to_translation( "No freeform" ) } },
-    "any"
+    { { "any", to_translation( "Any" ) }, { "multi_pool", to_translation( "Legacy Multipool" ) }, { "story_teller", to_translation( "Survivor" ) } },
+    "story_teller"
+       );
+
+    add_empty_line();
+
+    add( "META_PROGRESS", "world_default", to_translation( "Meta Progression" ),
+         to_translation( "Will you need to complete certain achievements to enable certain scenarios and professions?  Achievements are tracked from your memorial file so characters from any world will be checked.  Disabling this will spoil factions and situations you may otherwise stumble upon naturally.  Some scenarios are frustrating for the uninitiated and some professions skip portions of the games content.  If new to the game meta progression will help you be introduced to mechanics at a reasonable pace." ),
+         true
        );
 }
 
 void options_manager::add_options_debug()
 {
     const auto add_empty_line = [&]() {
-        debug_page_.items_.emplace_back();
+        this->add_empty_line( "debug" );
     };
 
     add( "DISTANCE_INITIAL_VISIBILITY", "debug", to_translation( "Distance initial visibility" ),
@@ -2322,22 +2693,17 @@ void options_manager::add_options_debug()
 
     add_empty_line();
 
-    add( "SKILL_TRAINING_SPEED", "debug", to_translation( "Skill training speed" ),
-         to_translation( "Scales experience gained from practicing skills and reading books.  0.5 is half as fast as default, 2.0 is twice as fast, 0.0 disables skill training except for NPC training." ),
-         0.0, 100.0, 1.0, 0.1
+    add( "DEBUG_DIFFICULTIES", "debug", to_translation( "Show values for character creation" ),
+         to_translation( "In character creation will show the underlying value that is used to determine difficulty." ),
+         false
        );
 
     add_empty_line();
 
-    add( "SKILL_RUST", "debug", to_translation( "Skill rust" ),
-         to_translation( "Set the type of skill rust.  Vanilla: Skill rust can decrease levels.  - Capped: Skill rust cannot decrease levels.  - Off: None at all." ),
-         //~ plain, default, normal
-    {   { "vanilla", to_translation( "Vanilla" ) },
-        //~ capped at a value
-        { "capped", to_translation( "Capped" ) },
-        { "off", to_translation( "Off" ) }
-    },
-    "vanilla" );
+    add( "SKILL_TRAINING_SPEED", "debug", to_translation( "Skill training speed" ),
+         to_translation( "Scales experience gained from practicing skills and reading books.  0.5 is half as fast as default, 2.0 is twice as fast, 0.0 disables skill training except for NPC training." ),
+         0.0, 100.0, 1.0, 0.1
+       );
 
     add_empty_line();
 
@@ -2351,6 +2717,37 @@ void options_manager::add_options_debug()
          0, OVERMAP_LAYERS, 4
        );
 
+    add_empty_line();
+
+    add( "PREVENT_OCCLUSION", "debug", to_translation( "Handle occlusion by high sprites" ),
+    to_translation( "Draw walls normal (Off), retracted/transparent (On), or automatically retracting/transparent near player (Auto)." ), {
+        { 0, to_translation( "Off" ) }, { 1, to_translation( "On" ) },
+        { 2, to_translation( "Auto" ) }
+    }, 2, 2
+       );
+
+    add( "PREVENT_OCCLUSION_TRANSP", "debug", to_translation( "Prevent occlusion via transparency" ),
+         to_translation( "Prevent occlusion by using semi-transparent sprites." ),
+         true
+       );
+
+    add( "PREVENT_OCCLUSION_RETRACT", "debug", to_translation( "Prevent occlusion via retraction" ),
+         to_translation( "Prevent occlusion by retracting high sprites." ),
+         true
+       );
+
+    add( "PREVENT_OCCLUSION_MIN_DIST", "debug",
+         to_translation( "Minimum distance for auto occlusion handling" ),
+         to_translation( "Minimum distance for auto occlusion handling.  Values above zero overwrite tileset settings." ),
+         0.0, 60.0, 0.0, 0.1
+       );
+
+    add( "PREVENT_OCCLUSION_MAX_DIST", "debug",
+         to_translation( "Maximum distance for auto occlusion handling" ),
+         to_translation( "Maximum distance for auto occlusion handling.  Values above zero overwrite tileset settings." ),
+         0.0, 60.0, 0.0, 0.1
+       );
+
     get_option( "FOV_3D_Z_RANGE" ).setPrerequisite( "FOV_3D" );
 }
 
@@ -2358,7 +2755,7 @@ void options_manager::add_options_android()
 {
 #if defined(__ANDROID__)
     const auto add_empty_line = [&]() {
-        android_page_.items_.emplace_back();
+        this->add_empty_line( "android" );
     };
 
     add( "ANDROID_QUICKSAVE", "android", to_translation( "Quicksave on app lose focus" ),
@@ -2373,7 +2770,6 @@ void options_manager::add_options_android()
          // take default setting from pre-game settings screen - important as there are issues with Back button on Android 9 with specific devices
          android_get_default_setting( "Trap Back button", true )
        );
-
 
     add( "ANDROID_NATIVE_UI", "android", to_translation( "Use native Android UI menus" ),
          to_translation( "If true, native Android dialogs are used for some in-game menus, "
@@ -2625,18 +3021,36 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
         ui_adaptor dummy( ui_adaptor::disable_uis_below {} );
         //try and keep SDL calls limited to source files that deal specifically with them
         try {
-            tilecontext->reinit();
-            tilecontext->load_tileset( get_option<std::string>( "TILES" ),
-                                       /*precheck=*/false, /*force=*/false,
-                                       /*pump_events=*/true );
+            closetilecontext->reinit();
+            closetilecontext->load_tileset( get_option<std::string>( "TILES" ),
+                                            /*precheck=*/false, /*force=*/false,
+                                            /*pump_events=*/true );
             //game_ui::init_ui is called when zoom is changed
             g->reset_zoom();
             g->mark_main_ui_adaptor_resize();
-            tilecontext->do_tile_loading_report();
+            closetilecontext->do_tile_loading_report();
         } catch( const std::exception &err ) {
             popup( _( "Loading the tileset failed: %s" ), err.what() );
             use_tiles = false;
             use_tiles_overmap = false;
+        }
+        if( use_far_tiles ) {
+            try {
+                if( fartilecontext->is_valid() ) {
+                    fartilecontext->reinit();
+                }
+                fartilecontext->load_tileset( get_option<std::string>( "DISTANT_TILES" ),
+                                              /*precheck=*/false, /*force=*/false,
+                                              /*pump_events=*/true );
+                //game_ui::init_ui is called when zoom is changed
+                g->reset_zoom();
+                g->mark_main_ui_adaptor_resize();
+                fartilecontext->do_tile_loading_report();
+            } catch( const std::exception &err ) {
+                popup( _( "Loading the far tileset failed: %s" ), err.what() );
+                use_tiles = false;
+                use_tiles_overmap = false;
+            }
         }
         try {
             overmap_tilecontext->reinit();
@@ -2663,7 +3077,7 @@ static void refresh_tiles( bool, bool, bool )
 #endif // TILES
 
 static void draw_borders_external(
-    const catacurses::window &w, int horizontal_level, const std::map<int, bool> &mapLines,
+    const catacurses::window &w, int horizontal_level, const std::set<int> &vert_lines,
     const bool world_options_only )
 {
     if( !world_options_only ) {
@@ -2672,18 +3086,16 @@ static void draw_borders_external(
     // intersections
     mvwputch( w, point( 0, horizontal_level ), BORDER_COLOR, LINE_XXXO ); // |-
     mvwputch( w, point( getmaxx( w ) - 1, horizontal_level ), BORDER_COLOR, LINE_XOXX ); // -|
-    for( const auto &mapLine : mapLines ) {
-        if( mapLine.second ) {
-            mvwputch( w, point( mapLine.first + 1, getmaxy( w ) - 1 ), BORDER_COLOR, LINE_XXOX ); // _|_
-        }
+    for( const int &x : vert_lines ) {
+        mvwputch( w, point( x + 1, getmaxy( w ) - 1 ), BORDER_COLOR, LINE_XXOX ); // _|_
     }
     wnoutrefresh( w );
 }
 
-static void draw_borders_internal( const catacurses::window &w, std::map<int, bool> &mapLines )
+static void draw_borders_internal( const catacurses::window &w, std::set<int> &vert_lines )
 {
     for( int i = 0; i < getmaxx( w ); ++i ) {
-        if( mapLines[i] ) {
+        if( vert_lines.count( i ) != 0 ) {
             // intersection
             mvwputch( w, point( i, 0 ), BORDER_COLOR, LINE_OXXX );
         } else {
@@ -2694,11 +3106,63 @@ static void draw_borders_internal( const catacurses::window &w, std::map<int, bo
     wnoutrefresh( w );
 }
 
-std::string options_manager::show( bool ingame, const bool world_options_only,
-                                   const std::function<bool()> &on_quit )
+std::string
+options_manager::PageItem::fmt_tooltip( const Group &group,
+                                        const options_manager::options_container &cont ) const
+{
+    switch( type ) {
+        case ItemType::BlankLine:
+            return "";
+        case ItemType::GroupHeader: {
+            return group.tooltip_.translated();
+        }
+        case ItemType::Option: {
+            const std::string &opt_name = data;
+            const cOpt &opt = cont.find( opt_name )->second;
+            std::string ret = string_format( "%s #%s",
+                                             opt.getTooltip(),
+                                             opt.getDefaultText() );
+#if defined(TILES) || defined(_WIN32)
+            if( opt_name == "TERMINAL_X" ) {
+                int new_window_width = 0;
+                new_window_width = projected_window_width();
+
+                ret += " -- ";
+                ret += string_format(
+                           n_gettext( "The window will be %d pixel wide with the selected value.",
+                                      "The window will be %d pixels wide with the selected value.",
+                                      new_window_width ), new_window_width );
+            } else if( opt_name == "TERMINAL_Y" ) {
+                int new_window_height = 0;
+                new_window_height = projected_window_height();
+
+                ret += " -- ";
+                ret += string_format(
+                           n_gettext( "The window will be %d pixel tall with the selected value.",
+                                      "The window will be %d pixels tall with the selected value.",
+                                      new_window_height ), new_window_height );
+            }
+#endif
+            return ret;
+        }
+        default:
+            cata_fatal( "invalid ItemType" );
+    }
+}
+
+/** String with color */
+struct string_col {
+    std::string s;
+    nc_color col;
+
+    string_col() : col( c_black ) { }
+    string_col( const std::string &s, nc_color col ) : s( s ), col( col ) { }
+};
+
+std::string options_manager::show( bool ingame, const bool world_options_only, bool with_tabs )
 {
     const int iWorldOptPage = std::find_if( pages_.begin(), pages_.end(), [&]( const Page & p ) {
-        return &p == &world_default_page_;
+        return p.id_ == "world_default";
     } ) - pages_.begin();
 
     // temporary alias so the code below does not need to be changed
@@ -2713,28 +3177,47 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
         ingame = false;
     }
 
-    std::map<int, bool> mapLines;
-    mapLines[4] = true;
-    mapLines[60] = true;
+    size_t sel_worldgen_tab = 1;
+    std::map<size_t, inclusive_rectangle<point>> worldgen_tab_map;
+    std::map<int, inclusive_rectangle<point>> opt_tab_map;
+    std::map<int, inclusive_rectangle<point>> opt_line_map;
+    std::set<int> vert_lines;
+    vert_lines.insert( 4 );
+    vert_lines.insert( 60 );
 
     int iCurrentPage = world_options_only ? iWorldOptPage : 0;
     int iCurrentLine = 0;
     int iStartPos = 0;
+
+    std::unordered_map<std::string, bool> groups_state;
+    groups_state.emplace( "", true ); // Non-existent group
+    for( const Group &g : groups_ ) {
+        // Start collapsed
+        groups_state.emplace( g.id_, false );
+    }
 
     input_context ctxt( "OPTIONS" );
     ctxt.register_cardinal();
     ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
     ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
     ctxt.register_action( "QUIT" );
-    ctxt.register_action( "NEXT_TAB" );
-    ctxt.register_action( "PREV_TAB" );
+    if( with_tabs || !world_options_only ) {
+        ctxt.register_action( "NEXT_TAB" );
+        ctxt.register_action( "PREV_TAB" );
+    }
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
+    // for mouse selection
+    ctxt.register_action( "SELECT" );
+    ctxt.register_action( "MOUSE_MOVE" );
+    ctxt.register_action( "SCROLL_UP" );
+    ctxt.register_action( "SCROLL_DOWN" );
 
     const int iWorldOffset = world_options_only ? 2 : 0;
     int iMinScreenWidth = 0;
-    const int iTooltipHeight = 6;
+    const int iTooltipHeight = 7;
     int iContentHeight = 0;
+    bool recalc_startpos = false;
 
     catacurses::window w_options_border;
     catacurses::window w_options_tooltip;
@@ -2742,6 +3225,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
     catacurses::window w_options;
 
     const auto init_windows = [&]( ui_adaptor & ui ) {
+        recalc_startpos = true;
         if( OPTIONS.find( "TERMINAL_X" ) != OPTIONS.end() ) {
             if( OPTIONS_OLD.find( "TERMINAL_X" ) != OPTIONS_OLD.end() ) {
                 OPTIONS_OLD["TERMINAL_X"] = OPTIONS["TERMINAL_X"];
@@ -2779,36 +3263,114 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
     ui.on_screen_resize( init_windows );
     init_windows( ui );
     ui.on_redraw( [&]( const ui_adaptor & ) {
+        werase( w_options_header );
+        werase( w_options_border );
+        werase( w_options_tooltip );
+        werase( w_options );
+
+        opt_line_map.clear();
+        opt_tab_map.clear();
         if( world_options_only ) {
-            worldfactory::draw_worldgen_tabs( w_options_border, 1 );
+            if( with_tabs ) {
+                worldgen_tab_map = worldfactory::draw_worldgen_tabs( w_options_border, sel_worldgen_tab );
+            } else {
+                werase( w_options_border );
+                draw_border( w_options_border );
+            }
         }
 
-        draw_borders_external( w_options_border, iTooltipHeight + 1 + iWorldOffset, mapLines,
+        draw_borders_external( w_options_border, iTooltipHeight + 1 + iWorldOffset, vert_lines,
                                world_options_only );
-        draw_borders_internal( w_options_header, mapLines );
+        draw_borders_internal( w_options_header, vert_lines );
 
-        Page &page = pages_[iCurrentPage];
-        auto &page_items = page.items_;
+        options_manager::options_container &cOPTIONS = ( ingame || world_options_only ) &&
+                iCurrentPage == iWorldOptPage ?
+                ACTIVE_WORLD_OPTIONS : OPTIONS;
 
-        auto &cOPTIONS = ( ingame || world_options_only ) && iCurrentPage == iWorldOptPage ?
-                         ACTIVE_WORLD_OPTIONS : OPTIONS;
+        const Page &page = pages_[iCurrentPage];
+        const std::vector<PageItem> &page_items = page.items_;
 
-        //Clear the lines
-        for( int i = 0; i < iContentHeight; i++ ) {
-            for( int j = 0; j < iMinScreenWidth - 2; j++ ) {
-                if( mapLines[j] ) {
-                    mvwputch( w_options, point( j, i ), BORDER_COLOR, LINE_XOXO );
-                } else {
-                    mvwputch( w_options, point( j, i ), c_black, ' ' );
-                }
-
-                if( i < iTooltipHeight ) {
-                    mvwputch( w_options_tooltip, point( j, i ), c_black, ' ' );
+        // Cache visible entries
+        std::vector<int> visible_items;
+        visible_items.reserve( page_items.size() );
+        int curr_line_visible = 0;
+        const auto is_visible = [&]( int i ) -> bool {
+            const PageItem &it = page_items[i];
+            switch( it.type )
+            {
+                case ItemType::GroupHeader:
+                    return true;
+                case ItemType::BlankLine:
+                case ItemType::Option:
+                    return groups_state[it.group];
+                default:
+                    cata_fatal( "invalid ItemType" );
+            }
+        };
+        for( int i = 0; i < static_cast<int>( page_items.size() ); i++ ) {
+            if( is_visible( i ) ) {
+                visible_items.push_back( i );
+                if( i == iCurrentLine ) {
+                    curr_line_visible = static_cast<int>( visible_items.size() );
                 }
             }
         }
 
-        calcStartPos( iStartPos, iCurrentLine, iContentHeight, page_items.size() );
+        // Format name & value strings for given entry
+        const auto fmt_name_value = [&]( const PageItem & it, bool is_selected )
+        -> std::pair<string_col, string_col> {
+            const char *IN_GROUP_PREFIX = ": ";
+            switch( it.type )
+            {
+                case ItemType::BlankLine: {
+                    std::string name = it.group.empty() ? "" : IN_GROUP_PREFIX;
+                    return { string_col( name, c_white ), string_col() };
+                }
+                case ItemType::GroupHeader: {
+                    bool expanded = groups_state[it.group];
+                    std::string name = expanded ? "- " : "+ ";
+                    name += find_group( it.group ).name_.translated();
+                    return std::make_pair( string_col( name, c_white ), string_col() );
+                }
+                case options_manager::ItemType::Option: {
+                    const cOpt &opt = cOPTIONS.find( it.data )->second;
+                    const bool hasPrerequisite = opt.hasPrerequisite();
+                    const bool hasPrerequisiteFulfilled = opt.checkPrerequisite();
+
+                    std::string name_prefix = it.group.empty() ? "" : IN_GROUP_PREFIX;
+                    string_col name( name_prefix + opt.getMenuText(), !hasPrerequisite ||
+                                     hasPrerequisiteFulfilled ? c_white : c_light_gray );
+
+                    nc_color cLineColor;
+                    if( hasPrerequisite && !hasPrerequisiteFulfilled ) {
+                        cLineColor = c_light_gray;
+                    } else if( opt.getValue() == "false" || opt.getValue() == "disabled" || opt.getValue() == "off" ) {
+                        cLineColor = c_light_red;
+                    } else {
+                        cLineColor = c_light_green;
+                    }
+
+                    string_col value( opt.getValueName(), is_selected ? hilite( cLineColor ) : cLineColor );
+
+                    return std::make_pair( name, value );
+                }
+                default:
+                    cata_fatal( "invalid ItemType" );
+            }
+        };
+
+        // Draw separation lines
+        for( int x : vert_lines ) {
+            for( int y = 0; y < iContentHeight; y++ ) {
+                mvwputch( w_options, point( x, y ), BORDER_COLOR, LINE_XOXO );
+            }
+        }
+
+        if( recalc_startpos ) {
+            // Update scroll position
+            calcStartPos( iStartPos, curr_line_visible, iContentHeight,
+                          static_cast<int>( visible_items.size() ) );
+        }
 
         // where the column with the names starts
         const size_t name_col = 5;
@@ -2818,53 +3380,36 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
         const size_t name_width = value_col - name_col - 2 - 3;
         const size_t value_width = getmaxx( w_options ) - value_col;
         //Draw options
-        size_t iBlankOffset = 0; // Offset when blank line is printed.
         for( int i = iStartPos;
-             i < iStartPos + ( iContentHeight > static_cast<int>( page_items.size() ) ?
-                               static_cast<int>( page_items.size() ) : iContentHeight ); i++ ) {
+             i < iStartPos + ( iContentHeight > static_cast<int>( visible_items.size() ) ?
+                               static_cast<int>( visible_items.size() ) : iContentHeight ); i++ ) {
 
             int line_pos = i - iStartPos; // Current line position in window.
 
-            mvwprintz( w_options, point( 1, line_pos ), c_white, "%d", i + 1 - iBlankOffset );
+            mvwprintz( w_options, point( 1, line_pos ), c_white, "%d", visible_items[i] + 1 );
 
-            if( iCurrentLine == i ) {
-                mvwprintz( w_options, point( name_col, line_pos ), c_yellow, ">> " );
-            } else {
-                mvwprintz( w_options, point( name_col, line_pos ), c_yellow, "   " );
+            bool is_selected = visible_items[i] == iCurrentLine;
+            if( is_selected ) {
+                mvwprintz( w_options, point( name_col, line_pos ), c_yellow, ">>" );
             }
 
-            const auto &opt_name = page_items[i];
-            if( !opt_name ) {
-                continue;
-            }
+            const PageItem &curr_item = page_items[visible_items[i]];
+            auto name_value = fmt_name_value( curr_item, is_selected );
 
-            nc_color cLineColor = c_light_green;
-            const cOpt &current_opt = cOPTIONS[*opt_name];
-            const bool hasPrerequisite = current_opt.hasPrerequisite();
-            const bool hasPrerequisiteFulfilled = current_opt.checkPrerequisite();
+            const std::string name = utf8_truncate( name_value.first.s, name_width );
+            mvwprintz( w_options, point( name_col + 3, line_pos ), name_value.first.col, name );
 
-            const std::string name = utf8_truncate( current_opt.getMenuText(), name_width );
-            mvwprintz( w_options, point( name_col + 3, line_pos ), !hasPrerequisite ||
-                       hasPrerequisiteFulfilled ? c_white : c_light_gray, name );
+            trim_and_print( w_options, point( value_col, line_pos ), value_width,
+                            name_value.second.col, name_value.second.s );
 
-            if( hasPrerequisite && !hasPrerequisiteFulfilled ) {
-                cLineColor = c_light_gray;
-
-            } else if( current_opt.getValue() == "false" || current_opt.getValue() == "disabled" ||
-                       current_opt.getValue() == "off" ) {
-                cLineColor = c_light_red;
-            }
-
-            const std::string value = utf8_truncate( current_opt.getValueName(), value_width );
-            mvwprintz( w_options, point( value_col, line_pos ),
-                       iCurrentLine == i ? hilite( cLineColor ) : cLineColor,
-                       value );
+            opt_line_map.emplace( i, inclusive_rectangle<point>( point( name_col, line_pos ),
+                                  point( value_col + value_width - 1, line_pos ) ) );
         }
 
         scrollbar()
         .offset_x( 0 )
         .offset_y( iTooltipHeight + 2 + iWorldOffset )
-        .content_size( page_items.size() )
+        .content_size( static_cast<int>( visible_items.size() ) )
         .viewport_pos( iStartPos )
         .viewport_size( iContentHeight )
         .apply( w_options_border );
@@ -2872,6 +3417,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
         wnoutrefresh( w_options_border );
 
         //Draw Tabs
+        int tab_x = 0;
         if( !world_options_only ) {
             mvwprintz( w_options_header, point( 7, 0 ), c_white, "" );
             for( int i = 0; i < static_cast<int>( pages_.size() ); i++ ) {
@@ -2881,56 +3427,23 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
                              _( "Current world" ) );
                 } else {
                     wprintz( w_options_header, iCurrentPage == i ? hilite( c_light_green ) : c_light_green,
-                             "%s", pages_[i].get().name_ );
+                             "%s", pages_[i].name_ );
                 }
                 wprintz( w_options_header, c_white, "]" );
                 wputch( w_options_header, BORDER_COLOR, LINE_OXOX );
+                tab_x++;
+                int tab_w = utf8_width( pages_[i].name_.translated(), true );
+                opt_tab_map.emplace( i, inclusive_rectangle<point>( point( 7 + tab_x, 0 ),
+                                     point( 6 + tab_x + tab_w, 0 ) ) );
+                tab_x += tab_w + 2;
             }
         }
 
         wnoutrefresh( w_options_header );
 
-        const std::string &opt_name = *page_items[iCurrentLine];
-        cOpt &current_opt = cOPTIONS[opt_name];
-
-#if defined(TILES) || defined(_WIN32)
-        if( opt_name == "TERMINAL_X" ) {
-            int new_terminal_x = 0;
-            int new_window_width = 0;
-            std::stringstream value_conversion( current_opt.getValueName() );
-
-            value_conversion >> new_terminal_x;
-            new_window_width = projected_window_width();
-
-            fold_and_print( w_options_tooltip, point_zero, iMinScreenWidth - 2, c_white,
-                            n_gettext( "%s #%s - The window will be %d pixel wide with the selected value.",
-                                       "%s #%s - The window will be %d pixels wide with the selected value.",
-                                       new_window_width ),
-                            current_opt.getTooltip(),
-                            current_opt.getDefaultText(),
-                            new_window_width );
-        } else if( opt_name == "TERMINAL_Y" ) {
-            int new_terminal_y = 0;
-            int new_window_height = 0;
-            std::stringstream value_conversion( current_opt.getValueName() );
-
-            value_conversion >> new_terminal_y;
-            new_window_height = projected_window_height();
-
-            fold_and_print( w_options_tooltip, point_zero, iMinScreenWidth - 2, c_white,
-                            n_gettext( "%s #%s -- The window will be %d pixel tall with the selected value.",
-                                       "%s #%s -- The window will be %d pixels tall with the selected value.",
-                                       new_window_height ),
-                            current_opt.getTooltip(),
-                            current_opt.getDefaultText(),
-                            new_window_height );
-        } else
-#endif
-        {
-            fold_and_print( w_options_tooltip, point_zero, iMinScreenWidth - 2, c_white, "%s #%s",
-                            current_opt.getTooltip(),
-                            current_opt.getDefaultText() );
-        }
+        const PageItem &curr_item = page_items[iCurrentLine];
+        std::string tooltip = curr_item.fmt_tooltip( find_group( curr_item.group ), cOPTIONS );
+        fold_and_print( w_options_tooltip, point_zero, iMinScreenWidth - 2, c_white, tooltip );
 
         if( ingame && iCurrentPage == iWorldOptPage ) {
             mvwprintz( w_options_tooltip, point( 3, 5 ), c_light_red, "%s", _( "Note: " ) );
@@ -2945,48 +3458,157 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
     while( true ) {
         ui_manager::redraw();
 
+        recalc_startpos = false;
         Page &page = pages_[iCurrentPage];
         auto &page_items = page.items_;
 
-        auto &cOPTIONS = ( ingame || world_options_only ) && iCurrentPage == iWorldOptPage ?
-                         ACTIVE_WORLD_OPTIONS : OPTIONS;
+        options_manager::options_container &cOPTIONS = ( ingame || world_options_only ) &&
+                iCurrentPage == iWorldOptPage ?
+                ACTIVE_WORLD_OPTIONS : OPTIONS;
 
-        const std::string &opt_name = *page_items[iCurrentLine];
-        cOpt &current_opt = cOPTIONS[opt_name];
+        std::string action = ctxt.handle_input();
 
-        const std::string action = ctxt.handle_input();
-
-        if( world_options_only && ( action == "NEXT_TAB" || action == "PREV_TAB" ||
-                                    ( action == "QUIT" && ( !on_quit || on_quit() ) ) ) ) {
+        if( world_options_only && ( action == "NEXT_TAB" || action == "PREV_TAB" || action == "QUIT" ) ) {
             return action;
         }
 
-        bool hasPrerequisite = current_opt.hasPrerequisite();
-        bool hasPrerequisiteFulfilled = current_opt.checkPrerequisite();
+        const PageItem &curr_item = page_items[iCurrentLine];
 
-        if( hasPrerequisite && !hasPrerequisiteFulfilled &&
-            ( action == "RIGHT" || action == "LEFT" || action == "CONFIRM" ) ) {
-            popup( _( "Prerequisite for this option not met!\n(%s)" ),
-                   get_options().get_option( current_opt.getPrerequisite() ).getMenuText() );
-            continue;
+        const auto on_select_option = [&]() {
+            cOpt &current_opt = cOPTIONS[curr_item.data];
+
+            bool hasPrerequisite = current_opt.hasPrerequisite();
+            bool hasPrerequisiteFulfilled = current_opt.checkPrerequisite();
+
+            if( hasPrerequisite && !hasPrerequisiteFulfilled ) {
+                popup( _( "Prerequisite for this option not met!\n(%s)" ),
+                       get_options().get_option( current_opt.getPrerequisite() ).getMenuText() );
+                return;
+            }
+
+            if( action == "LEFT" ) {
+                current_opt.setPrev();
+            } else if( action == "RIGHT" ) {
+                current_opt.setNext();
+            } else if( action == "CONFIRM" ) {
+                if( current_opt.getType() == "bool" || current_opt.getType() == "string_select" ||
+                    current_opt.getType() == "string_input" || current_opt.getType() == "int_map" ) {
+                    current_opt.setNext();
+                } else {
+                    const bool is_int = current_opt.getType() == "int";
+                    const bool is_float = current_opt.getType() == "float";
+                    const std::string old_opt_val = current_opt.getValueName();
+                    const std::string opt_val = string_input_popup()
+                                                .title( current_opt.getMenuText() )
+                                                .width( 10 )
+                                                .text( old_opt_val )
+                                                .only_digits( is_int )
+                                                .query_string();
+                    if( !opt_val.empty() && opt_val != old_opt_val ) {
+                        if( is_float ) {
+                            std::istringstream ssTemp( opt_val );
+                            // This uses the current locale, to allow the users
+                            // to use their own decimal format.
+                            float tmpFloat;
+                            ssTemp >> tmpFloat;
+                            if( ssTemp ) {
+                                current_opt.setValue( tmpFloat );
+
+                            } else {
+                                popup( _( "Invalid input: not a number" ) );
+                            }
+                        } else {
+                            // option is of type "int": string_input_popup
+                            // has taken care that the string contains
+                            // only digits, parsing is done in setValue
+                            current_opt.setValue( opt_val );
+                        }
+                    }
+                }
+            }
+        };
+
+        const auto is_selectable = [&]( int i ) -> bool {
+            const PageItem &curr_item = page_items[i];
+            switch( curr_item.type )
+            {
+                case ItemType::BlankLine:
+                    return false;
+                case ItemType::GroupHeader:
+                    return true;
+                case ItemType::Option:
+                    return groups_state[curr_item.group];
+                default:
+                    cata_fatal( "invalid ItemType" );
+            }
+        };
+
+        if( action == "MOUSE_MOVE" || action == "SELECT" ) {
+            bool found_opt = false;
+            sel_worldgen_tab = 1;
+            std::optional<point> coord = ctxt.get_coordinates_text( w_options_border );
+            if( world_options_only && with_tabs && coord.has_value() ) {
+                // worldgen tabs
+                found_opt = run_for_point_in<size_t, point>( worldgen_tab_map, *coord,
+                [&sel_worldgen_tab]( const std::pair<size_t, inclusive_rectangle<point>> &p ) {
+                    sel_worldgen_tab = p.first;
+                } ) > 0;
+                if( found_opt && action == "SELECT" && sel_worldgen_tab != 1 ) {
+                    return sel_worldgen_tab == 0 ? "PREV_TAB" : "NEXT_TAB";
+                }
+            }
+            coord = ctxt.get_coordinates_text( w_options_header );
+            if( !found_opt && coord.has_value() ) {
+                // option category tabs
+                bool new_val = false;
+                const int psize = pages_.size();
+                found_opt = run_for_point_in<int, point>( opt_tab_map, *coord,
+                [&iCurrentPage, &new_val, &psize]( const std::pair<int, inclusive_rectangle<point>> &p ) {
+                    if( p.first != iCurrentPage ) {
+                        new_val = true;
+                        iCurrentPage = clamp<int>( p.first, 0, psize - 1 );
+                    }
+                } ) > 0;
+                if( new_val ) {
+                    iCurrentLine = 0;
+                    iStartPos = 0;
+                    recalc_startpos = true;
+                    sfx::play_variant_sound( "menu_move", "default", 100 );
+                }
+            }
+            coord = ctxt.get_coordinates_text( w_options );
+            if( !found_opt && coord.has_value() ) {
+                // option lines
+                const int psize = page_items.size();
+                found_opt = run_for_point_in<int, point>( opt_line_map, *coord,
+                [&iCurrentLine, &psize]( const std::pair<int, inclusive_rectangle<point>> &p ) {
+                    iCurrentLine = clamp<int>( p.first, 0, psize - 1 );
+                } ) > 0;
+                if( found_opt && action == "SELECT" ) {
+                    action = "CONFIRM";
+                }
+            }
         }
+
         const int recmax = static_cast<int>( page_items.size() );
         const int scroll_rate = recmax > 20 ? 10 : 3;
 
-        if( action == "DOWN" ) {
+        if( action == "DOWN" || action == "SCROLL_DOWN" ) {
             do {
                 iCurrentLine++;
                 if( iCurrentLine >= recmax ) {
                     iCurrentLine = 0;
                 }
-            } while( !page_items[iCurrentLine] );
-        } else if( action == "UP" ) {
+            } while( !is_selectable( iCurrentLine ) );
+            recalc_startpos = true;
+        } else if( action == "UP" || action == "SCROLL_UP" ) {
             do {
                 iCurrentLine--;
                 if( iCurrentLine < 0 ) {
                     iCurrentLine = page_items.size() - 1;
                 }
-            } while( !page_items[iCurrentLine] );
+            } while( !is_selectable( iCurrentLine ) );
+            recalc_startpos = true;
         } else if( action == "PAGE_DOWN" ) {
             if( iCurrentLine == recmax - 1 ) {
                 iCurrentLine = 0;
@@ -2994,10 +3616,11 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
                 iCurrentLine = recmax - 1;
             } else {
                 iCurrentLine += +scroll_rate;
-                while( iCurrentLine < recmax && !page_items[iCurrentLine] ) {
+                while( iCurrentLine < recmax && !is_selectable( iCurrentLine ) ) {
                     iCurrentLine++;
                 }
             }
+            recalc_startpos = true;
         } else if( action == "PAGE_UP" ) {
             if( iCurrentLine == 0 ) {
                 iCurrentLine = recmax - 1;
@@ -3005,17 +3628,15 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
                 iCurrentLine = 0;
             } else {
                 iCurrentLine += -scroll_rate;
-                while( iCurrentLine > 0 && !page_items[iCurrentLine] ) {
+                while( iCurrentLine > 0 && !is_selectable( iCurrentLine ) ) {
                     iCurrentLine--;
                 }
             }
-        } else if( action == "RIGHT" ) {
-            current_opt.setNext();
-        } else if( action == "LEFT" ) {
-            current_opt.setPrev();
+            recalc_startpos = true;
         } else if( action == "NEXT_TAB" ) {
             iCurrentLine = 0;
             iStartPos = 0;
+            recalc_startpos = true;
             iCurrentPage++;
             if( iCurrentPage >= static_cast<int>( pages_.size() ) ) {
                 iCurrentPage = 0;
@@ -3024,45 +3645,29 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
         } else if( action == "PREV_TAB" ) {
             iCurrentLine = 0;
             iStartPos = 0;
+            recalc_startpos = true;
             iCurrentPage--;
             if( iCurrentPage < 0 ) {
                 iCurrentPage = pages_.size() - 1;
             }
             sfx::play_variant_sound( "menu_move", "default", 100 );
-        } else if( action == "CONFIRM" ) {
-            if( current_opt.getType() == "bool" || current_opt.getType() == "string_select" ||
-                current_opt.getType() == "string_input" || current_opt.getType() == "int_map" ) {
-                current_opt.setNext();
-            } else {
-                const bool is_int = current_opt.getType() == "int";
-                const bool is_float = current_opt.getType() == "float";
-                const std::string old_opt_val = current_opt.getValueName();
-                const std::string opt_val = string_input_popup()
-                                            .title( current_opt.getMenuText() )
-                                            .width( 10 )
-                                            .text( old_opt_val )
-                                            .only_digits( is_int )
-                                            .query_string();
-                if( !opt_val.empty() && opt_val != old_opt_val ) {
-                    if( is_float ) {
-                        std::istringstream ssTemp( opt_val );
-                        // This uses the current locale, to allow the users
-                        // to use their own decimal format.
-                        float tmpFloat;
-                        ssTemp >> tmpFloat;
-                        if( ssTemp ) {
-                            current_opt.setValue( tmpFloat );
-
-                        } else {
-                            popup( _( "Invalid input: not a number" ) );
-                        }
-                    } else {
-                        // option is of type "int": string_input_popup
-                        // has taken care that the string contains
-                        // only digits, parsing is done in setValue
-                        current_opt.setValue( opt_val );
-                    }
+        } else if( action == "RIGHT" || action == "LEFT" || action == "CONFIRM" ) {
+            switch( curr_item.type ) {
+                case ItemType::Option: {
+                    on_select_option();
+                    break;
                 }
+                case ItemType::GroupHeader: {
+                    bool &state = groups_state[curr_item.data];
+                    state = !state;
+                    break;
+                }
+                case ItemType::BlankLine: {
+                    // Should never happen
+                    break;
+                }
+                default:
+                    cata_fatal( "invalid ItemType" );
             }
         } else if( action == "QUIT" ) {
             break;
@@ -3091,7 +3696,8 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
                 || iter.first == "PIXEL_MINIMAP_SCALE_TO_FIT" ) {
                 pixel_minimap_changed = true;
 
-            } else if( iter.first == "TILES" || iter.first == "USE_TILES" || iter.first == "OVERMAP_TILES" ) {
+            } else if( iter.first == "TILES" || iter.first == "USE_TILES" || iter.first == "DISTANT_TILES" ||
+                       iter.first == "USE_DISTANT_TILES" || iter.first == "OVERMAP_TILES" ) {
                 used_tiles_changed = true;
 
             } else if( iter.first == "USE_LANG" ) {
@@ -3172,13 +3778,13 @@ void options_manager::serialize( JsonOut &json ) const
     json.start_array();
 
     for( const Page &p : pages_ ) {
-        for( const cata::optional<std::string> &opt_name : p.items_ ) {
-            if( !opt_name ) {
+        for( const PageItem &it : p.items_ ) {
+            if( it.type != ItemType::Option ) {
                 continue;
             }
-            const auto iter = options.find( *opt_name );
+            const auto iter = options.find( it.data );
             if( iter != options.end() ) {
-                const auto &opt = iter->second;
+                const options_manager::cOpt &opt = iter->second;
 
                 json.start_object();
 
@@ -3195,11 +3801,9 @@ void options_manager::serialize( JsonOut &json ) const
     json.end_array();
 }
 
-void options_manager::deserialize( JsonIn &jsin )
+void options_manager::deserialize( const JsonArray &ja )
 {
-    jsin.start_array();
-    while( !jsin.end_array() ) {
-        JsonObject joOptions = jsin.get_object();
+    for( JsonObject joOptions : ja ) {
         joOptions.allow_omitted_members();
 
         const std::string name = migrateOptionName( joOptions.get_string( "name" ) );
@@ -3229,23 +3833,43 @@ std::string options_manager::migrateOptionValue( const std::string &name,
     return iter_val != iter->second.second.end() ? iter_val->second : val;
 }
 
-static void update_options_cache()
+void options_manager::update_options_cache()
 {
     // cache to global due to heavy usage.
     trigdist = ::get_option<bool>( "CIRCLEDIST" );
     use_tiles = ::get_option<bool>( "USE_TILES" );
-    use_tiles_overmap = ::get_option<bool>( "USE_TILES_OVERMAP" );
+
+    prevent_occlusion = ::get_option<int>( "PREVENT_OCCLUSION" );
+    prevent_occlusion_retract = ::get_option<bool>( "PREVENT_OCCLUSION_RETRACT" );
+    prevent_occlusion_transp = ::get_option<bool>( "PREVENT_OCCLUSION_TRANSP" );
+    prevent_occlusion_min_dist = ::get_option<float>( "PREVENT_OCCLUSION_MIN_DIST" );
+    prevent_occlusion_max_dist = ::get_option<float>( "PREVENT_OCCLUSION_MAX_DIST" );
+
+    // if the tilesets are identical don't duplicate
+    use_far_tiles = ::get_option<bool>( "USE_DISTANT_TILES" ) ||
+                    ::get_option<std::string>( "TILES" ) == ::get_option<std::string>( "DISTANT_TILES" );
+    use_tiles_overmap = ::get_option<bool>( "USE_OVERMAP_TILES" );
     log_from_top = ::get_option<std::string>( "LOG_FLOW" ) == "new_top";
     message_ttl = ::get_option<int>( "MESSAGE_TTL" );
     message_cooldown = ::get_option<int>( "MESSAGE_COOLDOWN" );
     fov_3d = ::get_option<bool>( "FOV_3D" );
     fov_3d_z_range = ::get_option<int>( "FOV_3D_Z_RANGE" );
     keycode_mode = ::get_option<std::string>( "SDL_KEYBOARD_MODE" ) == "keycode";
+    use_pinyin_search = ::get_option<bool>( "USE_PINYIN_SEARCH" );
+
+    cata::options::damage_indicators.clear();
+    for( int i = 0; i < 6; i++ ) {
+        const std::string opt_name = "DAMAGE_INDICATOR_LEVEL_" + std::to_string( i );
+        const std::string val = ::has_option( opt_name )
+                                ? ::get_option<std::string>( opt_name )
+                                : "<color_pink>\?\?</color>";
+        cata::options::damage_indicators.emplace_back( val );
+    }
 }
 
-bool options_manager::save()
+bool options_manager::save() const
 {
-    const auto savefile = PATH_INFO::options();
+    const cata_path savefile = PATH_INFO::options();
 
     update_options_cache();
 
@@ -3259,8 +3883,8 @@ bool options_manager::save()
 
 void options_manager::load()
 {
-    const auto file = PATH_INFO::options();
-    read_from_file_optional_json( file, [&]( JsonIn & jsin ) {
+    const cata_path file = PATH_INFO::options();
+    read_from_file_optional_json( file, [&]( const JsonArray & jsin ) {
         deserialize( jsin );
     } );
 

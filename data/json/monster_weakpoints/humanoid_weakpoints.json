@@ -561,5 +561,59 @@
         "coverage": 7
       }
     ]
+  },
+  {
+    "type": "weakpoint_set",
+    "//": "Basically the same as wps_humanoid_body but without the head weakpoints for headless zombies.",
+    "id": "wps_humanoid_body_headless",
+    "weakpoints": [
+      {
+        "id": "arm",
+        "name": "the arm",
+        "crit_mult": { "all": 0.75 },
+        "difficulty": { "ranged": 4, "melee": 1 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [
+          { "effect": "staggered", "chance": 15, "message": "The %s is knocked off-balance!", "damage_required": [ 10, 30 ] },
+          {
+            "effect": "staggered",
+            "chance": 25,
+            "message": "The %s is knocked off-balance!",
+            "damage_required": [ 31, 100 ]
+          }
+        ],
+        "coverage": 8
+      },
+      {
+        "id": "part_grabbing",
+        "name": "the arm",
+        "//": "Gives you a higher chance of hitting the arm if the enemy is grabbing you.",
+        "crit_mult": { "all": 0.75 },
+        "effects": [
+          { "effect": "staggered", "chance": 15, "message": "The %s is knocked off-balance!", "damage_required": [ 10, 30 ] },
+          {
+            "effect": "staggered",
+            "chance": 25,
+            "message": "The %s is knocked off-balance!",
+            "damage_required": [ 31, 100 ]
+          }
+        ],
+        "required_effects": [ "grabbing" ],
+        "coverage": 8
+      },
+      {
+        "id": "leg",
+        "name": "the leg",
+        "crit_mult": { "all": 0.75 },
+        "difficulty": { "ranged": 3, "melee": 1 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [
+          { "effect": "downed", "chance": 5, "message": "The %s is knocked down!", "damage_required": [ 10, 30 ] },
+          { "effect": "downed", "chance": 15, "message": "The %s is knocked down!", "damage_required": [ 31, 50 ] },
+          { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": [ 51, 100 ] }
+        ],
+        "coverage": 15
+      }
+    ]
   }
 ]

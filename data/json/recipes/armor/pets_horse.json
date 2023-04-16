@@ -28,6 +28,7 @@
     "skills_required": [ [ "fabrication", 4 ] ],
     "using": [ [ "cordage", 7 ] ],
     "components": [ [ [ "chitin_piece", 84 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_chitinworking" },
@@ -53,7 +54,7 @@
     "proficiencies": [
       { "proficiency": "prof_chain_armour" },
       { "proficiency": "prof_closures" },
-      { "proficiency": "prof_leatherworking_basic", "time_multiplier": 2, "fail_multiplier": 1.2 }
+      { "proficiency": "prof_leatherworking_basic", "time_multiplier": 2, "skill_penalty": 0.2 }
     ]
   },
   {
@@ -65,11 +66,15 @@
     "skill_used": "tailor",
     "difficulty": 6,
     "time": "12 h 30 m",
-    "reversible": true,
     "autolearn": true,
-    "using": [ [ "sewing_standard", 190 ], [ "clasps", 4 ] ],
-    "components": [ [ [ "sheet_kevlar_layered", 56 ] ], [ [ "rag", 42 ] ], [ [ "leather", 24 ], [ "tanned_hide", 4 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_polymerworking" }, { "proficiency": "prof_closures" } ]
+    "using": [
+      [ "tailoring_leather_patchwork", 55 ],
+      [ "armor_kevlar_layered", 24 ],
+      [ "tailoring_cotton_patchwork", 143 ],
+      [ "clasps", 4 ]
+    ],
+    "proficiencies": [ { "proficiency": "prof_polymerworking" }, { "proficiency": "prof_closures" } ],
+    "//": "recipe composition is off of the item composition due to not wanting to require 280 cotton sheets for this."
   },
   {
     "result": "leather_armor_horse",
@@ -82,7 +87,7 @@
     "time": "4 h 30 m",
     "byproducts": [ [ "leather", 21 ] ],
     "using": [ [ "sewing_standard", 30 ], [ "clasps", 4 ] ],
-    "components": [ [ [ "armor_blarmor", 3 ] ], [ [ "rag", 18 ] ] ],
+    "components": [ [ [ "armor_blarmor", 3 ] ], [ [ "cotton_patchwork", 18 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_closures" },
@@ -100,7 +105,7 @@
     "skills_required": [ "tailor", 6 ],
     "time": "10 h 30 m",
     "reversible": true,
-    "using": [ [ "sewing_standard", 190 ], [ "surface_heat", 60 ], [ "clasps", 4 ] ],
+    "using": [ [ "tailoring_leather_patchwork", 55 ], [ "tailoring_cotton_patchwork", 55 ], [ "surface_heat", 60 ], [ "clasps", 4 ] ],
     "components": [
       [ [ "water", 30 ], [ "water_clean", 30 ] ],
       [
@@ -113,9 +118,7 @@
         [ "vinegar", 30 ],
         [ "pine_bough", 60 ]
       ],
-      [ [ "salt", 150 ] ],
-      [ [ "leather", 105 ], [ "tanned_hide", 17 ] ],
-      [ [ "rag", 18 ] ]
+      [ [ "salt", 150 ] ]
     ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },
@@ -145,7 +148,7 @@
     "difficulty": 4,
     "time": "6 h 30 m",
     "autolearn": true,
-    "byproducts": [ [ "rag", 6 ] ],
+    "byproducts": [ [ "leather", 6 ] ],
     "using": [ [ "sewing_standard", 35 ], [ "clasps", 4 ] ],
     "components": [ [ [ "bone_sturdy", 39, "LIST" ] ], [ [ "leather_armor_horse", 1 ] ] ],
     "proficiencies": [
@@ -175,14 +178,13 @@
       [ "textbook_armwest", 6 ],
       [ "textbook_armschina", 6 ]
     ],
-    "using": [ [ "sewing_standard", 225 ], [ "clasps", 4 ] ],
+    "using": [ [ "tailoring_leather_patchwork", 29 ], [ "clasps", 4 ] ],
     "tools": [ [ [ "surface_heat", 60, "LIST" ] ] ],
     "components": [
       [ [ "water", 30 ], [ "water_clean", 30 ] ],
       [ [ "wax", 6 ], [ "any_tallow", 24, "LIST" ], [ "vinegar", 30 ], [ "pine_bough", 60 ] ],
       [ [ "salt", 150 ] ],
-      [ [ "bone_sturdy", 39, "LIST" ] ],
-      [ [ "leather", 105 ], [ "tanned_hide", 17 ] ]
+      [ [ "bone_sturdy", 39, "LIST" ] ]
     ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },
@@ -221,7 +223,7 @@
     "autolearn": true,
     "using": [ [ "clasps", 4 ] ],
     "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "duct_tape", 350 ] ], [ [ "bag_plastic", 70 ] ], [ [ "rag", 70 ] ] ],
+    "components": [ [ [ "duct_tape", 350 ] ], [ [ "plastic_sheet", 9 ] ], [ [ "cotton_patchwork", 70 ] ] ],
     "proficiencies": [ { "proficiency": "prof_closures_waterproofing" }, { "proficiency": "prof_closures" } ]
   },
   {
@@ -236,7 +238,7 @@
     "book_learn": [ [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ], [ "textbook_armwest", 4 ], [ "textbook_armschina", 4 ] ],
     "using": [ [ "sewing_standard", 260 ] ],
     "proficiencies": [
-      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15, "time_multiplier": 1.1 },
+      { "proficiency": "prof_leatherworking_basic", "time_multiplier": 1.1, "skill_penalty": 0.15 },
       { "proficiency": "prof_closures", "time_multiplier": 1.1 },
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -252,13 +254,13 @@
     "copy-from": "cuirass_bronze",
     "category": "CC_ANIMALS",
     "subcategory": "CSC_ANIMALS_EQUINE ARMOR",
-    "skills_required": [ "fabrication", 5 ],
+    "skills_required": [ "tailor", 3 ],
     "time": "24 h",
     "book_learn": [ [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
     "using": [ [ "forging_standard", 120 ], [ "bronzesmithing_tools", 10 ] ],
     "components": [ [ [ "scrap_bronze", 60 ] ], [ [ "leather_armor_horse", 1 ] ] ],
     "proficiencies": [
-      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15, "time_multiplier": 1.1 },
+      { "proficiency": "prof_leatherworking_basic", "time_multiplier": 1.1, "skill_penalty": 0.15 },
       { "proficiency": "prof_closures", "time_multiplier": 1.1 },
       { "proficiency": "prof_armorsmithing" },
       { "proficiency": "prof_redsmithing" },
@@ -272,13 +274,13 @@
     "copy-from": "armor_lightplate",
     "category": "CC_ANIMALS",
     "subcategory": "CSC_ANIMALS_EQUINE ARMOR",
-    "skills_required": [ "fabrication", 8 ],
+    "skills_required": [ "tailor", 4 ],
     "time": "96 h",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
     "using": [ [ "blacksmithing_standard", 800 ], [ "steel_standard", 200 ], [ "fabric_leather_fur_hide", 30 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "proficiencies": [
-      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15, "time_multiplier": 1.1 },
+      { "proficiency": "prof_leatherworking_basic", "time_multiplier": 1.1, "skill_penalty": 0.15 },
       { "proficiency": "prof_closures", "time_multiplier": 1.1 },
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -293,12 +295,11 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ANIMALS",
     "subcategory": "CSC_ANIMALS_EQUINE STORAGE",
-    "skills_required": [ "tailor", 4 ],
+    "skill_used": "tailor",
+    "difficulty": 4,
     "time": "6 h",
     "autolearn": true,
-    "reversible": true,
-    "using": [ [ "sewing_standard", 40 ], [ "clasps", 2 ] ],
-    "components": [ [ [ "leather", 12 ], [ "tanned_hide", 3 ] ] ],
+    "using": [ [ "tailoring_leather_patchwork", 4 ], [ "clasps", 2 ] ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_closures" },

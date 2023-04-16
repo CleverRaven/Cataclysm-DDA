@@ -42,7 +42,7 @@
         "x": 3,
         "y": 1,
         "ammo_types": [ "40x53mm_m430a1" ],
-        "part": "mounted_mk19",
+        "part": "turret_mark19",
         "ammo": 60,
         "ammo_qty": [ 1, 25 ]
       },
@@ -143,7 +143,7 @@
       { "x": 3, "y": 1, "parts": [ "hdframe_vertical_2", "hdroof", "plating_military" ] },
       { "x": 3, "y": 1, "parts": [ { "fuel": "jp8", "part": "tank_small" }, "cam_control" ] },
       { "x": 3, "y": 1, "part": "turret_mount" },
-      { "x": 3, "y": 1, "part": "mounted_browning", "ammo": 60, "ammo_qty": [ 10, 100 ] },
+      { "x": 3, "y": 1, "part": "turret_m2browning", "ammo": 60, "ammo_qty": [ 10, 100 ] },
       { "x": 3, "y": 1, "parts": [ "seat", "seatbelt_heavyduty" ] },
       { "x": 3, "y": 2, "parts": [ "hdframe_vertical_right", "hdboard_vertical_right" ] },
       { "x": 3, "y": 2, "parts": [ "plating_military", "wheel_mount_heavy_steerable" ] },
@@ -241,7 +241,7 @@
       { "x": 3, "y": 1, "parts": [ "hdframe_vertical_2", "hdroof", "plating_military" ] },
       { "x": 3, "y": 1, "parts": [ { "fuel": "jp8", "part": "tank_small" }, "cam_control" ] },
       { "x": 3, "y": 1, "part": "turret_mount" },
-      { "x": 3, "y": 1, "part": "mounted_browning", "ammo": 60, "ammo_qty": [ 10, 100 ] },
+      { "x": 3, "y": 1, "part": "turret_m2browning", "ammo": 60, "ammo_qty": [ 10, 100 ] },
       { "x": 3, "y": 1, "parts": [ "seat", "seatbelt_heavyduty" ] },
       { "x": 3, "y": 2, "parts": [ "hdframe_vertical_right", "hdboard_vertical_right" ] },
       { "x": 3, "y": 2, "parts": [ "plating_military", "wheel_mount_heavy_steerable" ] },
@@ -329,7 +329,7 @@
         "x": 3,
         "y": 1,
         "ammo_types": [ "40x53mm_m430a1" ],
-        "part": "mounted_mk19",
+        "part": "turret_mark19",
         "ammo": 60,
         "ammo_qty": [ 1, 25 ]
       },
@@ -426,7 +426,7 @@
       { "x": -1, "y": 0, "parts": [ "hdframe_cross", "seat", "seatbelt", "hdroof" ] },
       { "x": -1, "y": 1, "parts": [ "hdframe_cross", "aisle_horizontal", "hdroof" ] },
       { "x": -1, "y": 1, "part": "turret_mount" },
-      { "x": -1, "y": 1, "ammo_types": [ "762_51" ], "part": "mounted_m240", "ammo": 60, "ammo_qty": [ 10, 100 ] },
+      { "x": -1, "y": 1, "ammo_types": [ "762_51" ], "part": "turret_m240", "ammo": 60, "ammo_qty": [ 10, 100 ] },
       { "x": -1, "y": 2, "parts": [ "hdframe_cross", "seat", "seatbelt", "hdroof" ] },
       { "x": -1, "y": 3, "parts": [ "hdframe_vertical_right", "hddoor_right" ] },
       { "x": -2, "y": -1, "parts": [ "hdframe_vertical_left", "hdboard_vertical_left" ] },
@@ -508,7 +508,7 @@
         "x": -1,
         "y": 1,
         "ammo_types": [ "40x53mm_m430a1" ],
-        "part": "mounted_mk19",
+        "part": "turret_mark19",
         "ammo": 60,
         "ammo_qty": [ 1, 25 ]
       },
@@ -588,7 +588,14 @@
       { "x": -1, "y": 0, "parts": [ "hdframe_cross", "seat", "seatbelt", "hdroof" ] },
       { "x": -1, "y": 1, "parts": [ "hdframe_cross", "aisle_horizontal", "hdroof" ] },
       { "x": -1, "y": 1, "part": "turret_mount" },
-      { "x": -1, "y": 1, "ammo_types": [ "atgm_heat" ], "part": "tow_launcher", "ammo": 60, "ammo_qty": [ 1, 1 ] },
+      {
+        "x": -1,
+        "y": 1,
+        "ammo_types": [ "atgm_heat" ],
+        "part": "turret_atgm_launcher",
+        "ammo": 60,
+        "ammo_qty": [ 1, 1 ]
+      },
       { "x": -1, "y": 2, "parts": [ "hdframe_cross", "seat", "seatbelt", "hdroof" ] },
       { "x": -1, "y": 3, "parts": [ "hdframe_vertical_right", "hddoor_right" ] },
       { "x": -2, "y": -1, "parts": [ "hdframe_vertical_left", "hdboard_vertical_left" ] },
@@ -721,7 +728,7 @@
     "name": "cannon",
     "blueprint": [ "HUH" ],
     "parts": [
-      { "x": 0, "y": 0, "parts": [ "frame_wood", "turret_mount", "mounted_3in_ordnance_rifle" ] },
+      { "x": 0, "y": 0, "parts": [ "frame_wood", "turret_mount", "turret_cannon_3in_ordnance" ] },
       { "x": 0, "y": -1, "parts": [ "frame_wood", "wheel_mount_wood", "wheel_wood" ] },
       { "x": 0, "y": 1, "parts": [ "frame_wood", "wheel_mount_wood", "wheel_wood" ] }
     ]

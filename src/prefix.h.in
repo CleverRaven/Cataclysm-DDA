@@ -1,0 +1,1 @@
+#define PREFIX "@CMAKE_INSTALL_PREFIX@"

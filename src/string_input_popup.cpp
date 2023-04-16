@@ -2,6 +2,7 @@
 
 #include <cctype>
 
+#include "cata_scope_helpers.h"
 #include "catacharset.h"
 #include "input.h"
 #include "output.h"
@@ -63,17 +64,21 @@ void string_input_popup::create_window()
                 break;
             }
         }
-        w_height += static_cast<int>( title_split.size() ) - 1;
+        title_height = static_cast<int>( title_split.size() ) - 1;
+        w_height += title_height;
     }
 
-    descformatted.clear();
     if( !_description.empty() ) {
         const int twidth = std::min( utf8_width( remove_color_tags( _description ) ), w_width - 4 );
-        descformatted = foldstring( _description, twidth );
-        w_height += descformatted.size();
+        description_height = foldstring( _description, twidth ).size();
+        w_height += description_height;
+        if( w_height > TERMY ) {
+            description_height = TERMY - 2 - title_height - 1;
+            w_height = TERMY;
+        }
     }
     // length of title + border (left) + space
-    _startx = titlesize + 2;
+    _startx = titlesize + 1;
 
     if( _max_length <= 0 ) {
         _max_length = 1024;
@@ -82,9 +87,16 @@ void string_input_popup::create_window()
 
     const int w_y = ( TERMY - w_height ) / 2;
     const int w_x = std::max( ( TERMX - w_width ) / 2, 0 );
-    w = catacurses::newwin( w_height, w_width, point( w_x, w_y ) );
-
-    _starty = w_height - 2; // The ____ looks better at the bottom right when the title folds
+    _starty = title_height;
+    w_full = catacurses::newwin( w_height, w_width, point( w_x, w_y ) );
+    if( !_description.empty() ) {
+        w_description = catacurses::newwin( description_height, w_width - 1, point( w_x,
+                                            w_y + 1 ) );
+        desc_view_ptr = std::make_unique<scrolling_text_view>( w_description );
+        desc_view_ptr->set_text( _description );
+    }
+    w_title_and_entry = catacurses::newwin( w_height - description_height - 2, w_width - 2,
+                                            point( w_x + 1, w_y + 1 + description_height ) );
 
     custom_window = false;
 }
@@ -112,6 +124,9 @@ void string_input_popup::create_context()
     ctxt->register_action( "TEXT.INPUT_FROM_FILE" );
     ctxt->register_action( "HELP_KEYBINDINGS" );
     ctxt->register_action( "ANY_INPUT" );
+    for( const auto &act : custom_actions ) {
+        ctxt->register_action( act.first, act.second );
+    }
 }
 
 void string_input_popup::show_history( utf8_wrapper &ret )
@@ -137,17 +152,17 @@ void string_input_popup::show_history( utf8_wrapper &ret )
         hmenu.w_height_setup = [&]() -> int {
             // number of lines that make up the menu window: 2*border+entries
             int height = 2 + hmenu.entries.size();
-            if( getbegy( w ) < height )
+            if( getbegy( w_full ) < height )
             {
-                height = std::max( getbegy( w ), 4 );
+                height = std::max( getbegy( w_full ), 4 );
             }
             return height;
         };
         hmenu.w_x_setup = [&]( int ) -> int {
-            return getbegx( w );
+            return getbegx( w_full );
         };
         hmenu.w_y_setup = [&]( const int height ) -> int {
-            return std::max( getbegy( w ) - height, 0 );
+            return std::max( getbegy( w_full ) - height, 0 );
         };
 
         bool finished = false;
@@ -225,20 +240,21 @@ void string_input_popup::update_input_history( utf8_wrapper &ret, bool up )
     _position = ret.length();
 }
 
-void string_input_popup::draw( const utf8_wrapper &ret, const utf8_wrapper &edit ) const
+void string_input_popup::draw( ui_adaptor *const ui, const utf8_wrapper &ret,
+                               const utf8_wrapper &edit ) const
 {
     if( !custom_window ) {
-        werase( w );
-        draw_border( w );
+        werase( w_full );
+        draw_border( w_full );
+        wnoutrefresh( w_full );
 
-        for( size_t i = 0; i < descformatted.size(); ++i ) {
-            trim_and_print( w, point( 1, 1 + i ), w_width - 2, _desc_color, descformatted[i] );
+        if( !_title.empty() ) {
+            int pos_y = 0;
+            for( int i = 0; i < static_cast<int>( title_split.size() ) - 1; i++ ) {
+                mvwprintz( w_title_and_entry, point( i, pos_y++ ), _title_color, title_split[i] );
+            }
+            trim_and_print( w_title_and_entry, point( 0, pos_y ), titlesize, _title_color, title_split.back() );
         }
-        int pos_y = descformatted.size() + 1;
-        for( int i = 0; i < static_cast<int>( title_split.size() ) - 1; i++ ) {
-            mvwprintz( w, point( i + 1, pos_y++ ), _title_color, title_split[i] );
-        }
-        right_print( w, pos_y, w_width - titlesize - 1, _title_color, title_split.back() );
     }
 
     const int scrmax = _endx - _startx;
@@ -246,9 +262,10 @@ void string_input_popup::draw( const utf8_wrapper &ret, const utf8_wrapper &edit
     const utf8_wrapper ds( ret.substr_display( shift, scrmax ) );
     int start_x_edit = _startx;
     // Clear the line
-    mvwprintw( w, point( _startx, _starty ), std::string( std::max( 0, scrmax ), ' ' ) );
+    mvwprintw( w_title_and_entry, point( _startx, _starty ), std::string( std::max( 0, scrmax ),
+               ' ' ) );
     // Print the whole input string in default color
-    mvwprintz( w, point( _startx, _starty ), _string_color, "%s", ds.c_str() );
+    mvwprintz( w_title_and_entry, point( _startx, _starty ), _string_color, "%s", ds.c_str() );
     size_t sx = ds.display_width();
     // Print the cursor in its own color
     point cursor_pos;
@@ -263,17 +280,17 @@ void string_input_popup::draw( const utf8_wrapper &ret, const utf8_wrapper &edit
         }
         const size_t left_over = ret.substr( 0, a ).display_width() - shift;
         cursor_pos = point( _startx + left_over, _starty );
-        mvwprintz( w, cursor_pos, _cursor_color, "%s", cursor.c_str() );
+        mvwprintz( w_title_and_entry, cursor_pos, _cursor_color, "%s", cursor.c_str() );
         start_x_edit += left_over;
     } else if( _max_length > 0
                && ret.display_width() >= static_cast<size_t>( _max_length ) ) {
         cursor_pos = point( _startx + sx, _starty );
-        mvwprintz( w, cursor_pos, _cursor_color, " " );
+        mvwprintz( w_title_and_entry, cursor_pos, _cursor_color, " " );
         start_x_edit += sx;
         sx++; // don't override trailing ' '
     } else {
         cursor_pos = point( _startx + sx, _starty );
-        mvwprintz( w, cursor_pos, _cursor_color, "_" );
+        mvwprintz( w_title_and_entry, cursor_pos, _cursor_color, "_" );
         start_x_edit += sx;
         sx++; // don't override trailing '_'
     }
@@ -291,16 +308,32 @@ void string_input_popup::draw( const utf8_wrapper &ret, const utf8_wrapper &edit
             }
         }
         if( l > 0 ) {
-            mvwprintz( w, point( _startx + sx, _starty ), _underscore_color, std::string( l, '_' ) );
+            mvwprintz( w_title_and_entry, point( _startx + sx, _starty ), _underscore_color, std::string( l,
+                       '_' ) );
         }
     }
     if( !edit.empty() ) {
-        mvwprintz( w, point( start_x_edit, _starty ), _cursor_color, "%s", edit.c_str() );
+        mvwprintz( w_title_and_entry, point( start_x_edit, _starty ), _cursor_color, "%s", edit.c_str() );
+    }
+    wnoutrefresh( w_title_and_entry );
+
+    std::unique_ptr<on_out_of_scope> move_cursor_and_refresh;
+    if( ui ) {
+        ui->set_cursor( w_title_and_entry, cursor_pos );
+    } else {
+        // This ensures the cursor is set last for calling UIs to record and set
+        // for screen readers and IME preview
+        move_cursor_and_refresh = std::make_unique<on_out_of_scope>( [&]() {
+            wmove( w_title_and_entry, cursor_pos );
+            wnoutrefresh( w_title_and_entry );
+        } );
     }
 
-    // Move curses cursor to text cursor for screen readers and IME preview positioning
-    wmove( w, cursor_pos );
-    wnoutrefresh( w );
+    //Draw scrolling description
+    if( !custom_window && desc_view_ptr ) {
+        desc_view_ptr->draw( _desc_color );
+        wnoutrefresh( w_description );
+    }
 }
 
 void string_input_popup::query( const bool loop, const bool draw_only )
@@ -337,7 +370,7 @@ int64_t string_input_popup::query_int64_t( const bool loop, const bool draw_only
 
 const std::string &string_input_popup::query_string( const bool loop, const bool draw_only )
 {
-    if( !custom_window && !w ) {
+    if( !custom_window && !w_full ) {
         create_window();
         _position = -1;
     }
@@ -345,6 +378,11 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
         create_context();
     }
 
+    if( desc_view_ptr ) {
+        desc_view_ptr->set_up_navigation( *ctxt, scrolling_key_scheme::no_scheme, true );
+    }
+
+    _text_changed = false;
     utf8_wrapper ret( _text );
     utf8_wrapper edit( ctxt->get_edittext() );
     if( _position == -1 ) {
@@ -355,13 +393,13 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
     std::unique_ptr<ui_adaptor> ui;
     if( !draw_only && !custom_window ) {
         ui = std::make_unique<ui_adaptor>();
-        ui->position_from_window( w );
+        ui->position_from_window( w_full );
         ui->on_screen_resize( [this]( ui_adaptor & ui ) {
             create_window();
-            ui.position_from_window( w );
+            ui.position_from_window( w_full );
         } );
-        ui->on_redraw( [&]( const ui_adaptor & ) {
-            draw( ret, edit );
+        ui->on_redraw( [&]( ui_adaptor & ui ) {
+            draw( &ui, ret, edit );
         } );
     }
 
@@ -370,6 +408,10 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
     _canceled = false;
     _confirmed = false;
     do {
+        if( _text_changed ) {
+            ret = utf8_wrapper( _text );
+            _text_changed = false;
+        }
         if( _position < 0 ) {
             _position = 0;
         }
@@ -405,7 +447,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
         if( ui ) {
             ui_manager::redraw();
         } else {
-            draw( ret, edit );
+            draw( nullptr, ret, edit );
         }
 
         if( draw_only ) {
@@ -417,13 +459,23 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
         ch = ev.type == input_event_t::keyboard_char ? ev.get_first_input() : 0;
         _handled = true;
 
-        if( callbacks[ch] ) {
-            if( callbacks[ch]() ) {
-                continue;
+        bool next_loop = false;
+        for( const auto &cb : callbacks ) {
+            if( ( !std::get<0>( cb ).empty() && std::get<0>( cb ) == action ) ||
+                ( std::get<1>( cb ) != INT_MIN && std::get<1>( cb ) == ch ) ) {
+                if( std::get<2>( cb )() ) {
+                    next_loop = true;
+                    break;
+                }
             }
         }
+        if( next_loop ) {
+            continue;
+        }
 
-        if( action == "TEXT.QUIT" ) {
+        if( desc_view_ptr && desc_view_ptr->handle_navigation( action, *ctxt ) ) {
+            // NO FURTHER ACTION REQUIRED
+        } else if( action == "TEXT.QUIT" ) {
 #if defined(__ANDROID__)
             if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
                 StopTextInput();
@@ -551,11 +603,11 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
 string_input_popup &string_input_popup::window( const catacurses::window &w, const point &start,
         int endx )
 {
-    if( !custom_window && this->w ) {
+    if( !custom_window && this->w_full ) {
         // default window already created
         return *this;
     }
-    this->w = w;
+    this->w_title_and_entry = w;
     _startx = start.x;
     _starty = start.y;
     _endx = endx;
@@ -618,5 +670,17 @@ string_input_popup &string_input_popup::text( const std::string &value )
     if( _position < 0 || static_cast<size_t>( _position ) > u8size ) {
         _position = u8size;
     }
+    _text_changed = true;
     return *this;
+}
+
+void string_input_popup::add_callback( const std::string &action,
+                                       const std::function<bool()> &callback_func )
+{
+    callbacks.emplace_back( action, INT_MIN, callback_func );
+}
+
+void string_input_popup::add_callback( int input, const std::function<bool()> &callback_func )
+{
+    callbacks.emplace_back( "", input, callback_func );
 }

@@ -40,8 +40,6 @@
 #include "translations.h"
 #include "type_id.h"
 
-static const item_group_id Item_spawn_data_forest( "forest" );
-
 static const zone_type_id zone_type_CAMP_STORAGE( "CAMP_STORAGE" );
 
 const std::map<point, base_camps::direction_data> base_camps::all_directions = {
@@ -145,9 +143,9 @@ expansion_data basecamp::parse_expansion( const std::string &terrain,
         const tripoint_abs_omt &new_pos )
 {
     expansion_data e;
-    int last_bar = terrain.find_last_of( '_' );
-    e.type = terrain.substr( base_camps::prefix_len, size_t( last_bar - base_camps::prefix_len ) );
-    e.cur_level = std::stoi( terrain.substr( size_t( last_bar + 1 ) ) );
+    size_t last_bar = terrain.find_last_of( '_' );
+    e.type = terrain.substr( base_camps::prefix_len, last_bar - base_camps::prefix_len );
+    e.cur_level = std::stoi( "0" + terrain.substr( last_bar + 1 ) );
     e.pos = new_pos;
     return e;
 }
@@ -160,7 +158,6 @@ void basecamp::add_expansion( const std::string &terrain, const tripoint_abs_omt
 
     const point dir = talk_function::om_simple_dir( omt_pos, new_pos );
     expansions[ dir ] = parse_expansion( terrain, new_pos );
-    resources_updated = false;
     reset_camp_resources();
     update_provides( terrain, expansions[ dir ] );
     directions.push_back( dir );
@@ -181,7 +178,7 @@ void basecamp::add_expansion( const std::string &bldg, const tripoint_abs_omt &n
 
 void basecamp::define_camp( const tripoint_abs_omt &p, const std::string &camp_type )
 {
-    query_new_name();
+    query_new_name( true );
     omt_pos = p;
     const oter_id &omt_ref = overmap_buffer.ter( omt_pos );
     // purging the regions guarantees all entries will start with faction_base_
@@ -208,14 +205,32 @@ void basecamp::define_camp( const tripoint_abs_omt &p, const std::string &camp_t
 }
 
 /// Returns the description for the recipe of the next building @ref bldg
-std::string basecamp::om_upgrade_description( const std::string &bldg, bool trunc ) const
+std::string basecamp::om_upgrade_description( const std::string &bldg, const mapgen_arguments &args,
+        bool trunc ) const
 {
     const recipe &making = recipe_id( bldg ).obj();
 
+    const requirement_data *reqs;
+    time_duration base_time;
+    const std::map<skill_id, int> *skills;
+
+    if( making.is_blueprint() ) {
+        auto req_it = making.blueprint_build_reqs().reqs_by_parameters.find( args );
+        cata_assert( req_it != making.blueprint_build_reqs().reqs_by_parameters.end() );
+        const build_reqs &bld_reqs = req_it->second;
+        reqs = &bld_reqs.consolidated_reqs;
+        base_time = time_duration::from_moves( bld_reqs.time );
+        skills = &bld_reqs.skills;
+    } else {
+        reqs = &making.simple_requirements();
+        base_time = making.batch_duration( get_player_character() );
+        skills = &making.required_skills;
+    }
+
     std::vector<std::string> component_print_buffer;
     const int pane = FULL_SCREEN_WIDTH;
-    const auto tools = making.simple_requirements().get_folded_tools_list( pane, c_white, _inv, 1 );
-    const auto comps = making.simple_requirements().get_folded_components_list( pane, c_white, _inv,
+    const auto tools = reqs->get_folded_tools_list( pane, c_white, _inv, 1 );
+    const auto comps = reqs->get_folded_components_list( pane, c_white, _inv,
                        making.get_component_filter(), 1 );
     component_print_buffer.insert( component_print_buffer.end(), tools.begin(), tools.end() );
     component_print_buffer.insert( component_print_buffer.end(), comps.begin(), comps.end() );
@@ -225,9 +240,9 @@ std::string basecamp::om_upgrade_description( const std::string &bldg, bool trun
         str_append( comp, elem, "\n" );
     }
     comp = string_format( _( "Notes:\n%s\n\nSkills used: %s\n%s\n" ),
-                          making.description, making.required_all_skills_string(), comp );
+                          making.description, making.required_all_skills_string( *skills ),
+                          comp );
     if( !trunc ) {
-        time_duration base_time = making.batch_duration( get_player_character() );
         comp += string_format( _( "Risk: None\nTime: %s\n" ),
                                to_string( base_camps::to_workdays( base_time ) ) );
     }
@@ -269,7 +284,7 @@ bool basecamp::has_provides( const std::string &req, const expansion_data &e_dat
     return false;
 }
 
-bool basecamp::has_provides( const std::string &req, const cata::optional<point> &dir,
+bool basecamp::has_provides( const std::string &req, const std::optional<point> &dir,
                              int level ) const
 {
     if( !dir ) {
@@ -287,16 +302,15 @@ bool basecamp::has_provides( const std::string &req, const cata::optional<point>
     return false;
 }
 
-bool basecamp::can_expand()
+bool basecamp::can_expand() const
 {
     return has_provides( "bed", base_camps::base_dir, directions.size() * 2 );
 }
 
-bool basecamp::has_water()
+bool basecamp::has_water() const
 {
-    return has_provides( "water_well" ) || has_provides( "fbmh_well_north" ) ||
-           has_provides( "faction_base_camp_12" ) || has_provides( "faction_base_kitchen_6" ) ||
-           has_provides( "faction_base_blacksmith_11" );
+    // special case required for fbmh_well_north constructed between b9162 (Jun 16, 2019) and b9644 (Sep 20, 2019)
+    return has_provides( "water_well" ) || has_provides( "fbmh_well_north" );
 }
 
 std::vector<basecamp_upgrade> basecamp::available_upgrades( const point &dir )
@@ -348,13 +362,17 @@ std::vector<basecamp_upgrade> basecamp::available_upgrades( const point &dir )
             if( !should_display ) {
                 continue;
             }
-            basecamp_upgrade data;
-            data.bldg = bldg;
-            data.name = recp.blueprint_name();
-            const auto &reqs = recp.deduped_requirements();
-            data.avail = reqs.can_make_with_inventory( _inv, recp.get_component_filter(), 1 );
-            data.in_progress = in_progress;
-            ret_data.emplace_back( data );
+            if( recp.blueprint_build_reqs().reqs_by_parameters.empty() ) {
+                debugmsg( "blueprint recipe %s lacked any blueprint_build_reqs", recp.result().str() );
+            }
+            for( const std::pair<const mapgen_arguments, build_reqs> &args_and_reqs :
+                 recp.blueprint_build_reqs().reqs_by_parameters ) {
+                const mapgen_arguments &args = args_and_reqs.first;
+                const requirement_data &reqs = args_and_reqs.second.consolidated_reqs;
+                bool can_make =
+                    reqs.can_make_with_inventory( _inv, recp.get_component_filter(), 1 );
+                ret_data.push_back( { bldg, args, recp.blueprint_name(), can_make, in_progress } );
+            }
         }
     }
     return ret_data;
@@ -377,21 +395,7 @@ std::map<recipe_id, translation> basecamp::recipe_deck( const point &dir ) const
 
 std::map<recipe_id, translation> basecamp::recipe_deck( const std::string &bldg ) const
 {
-    const std::map<recipe_id, translation> recipes = recipe_group::get_recipes_by_bldg( bldg );
-    return recipes;
-}
-
-item_group_id basecamp::get_gatherlist() const
-{
-    const auto &e = expansions.find( base_camps::base_dir );
-    if( e != expansions.end() ) {
-        const item_group_id gatherlist(
-            "gathering_" + base_camps::faction_encode_abs( e->second, 4 ) );
-        if( item_group::group_is_defined( gatherlist ) ) {
-            return gatherlist;
-        }
-    }
-    return Item_spawn_data_forest;
+    return recipe_group::get_recipes_by_bldg( bldg );
 }
 
 void basecamp::add_resource( const itype_id &camp_resource )
@@ -454,20 +458,20 @@ void basecamp::update_in_progress( const std::string &bldg, const point &dir )
 void basecamp::reset_camp_resources()
 {
     reset_camp_workers();
-    if( !resources_updated ) {
-        resources_updated = true;
-        for( auto &e : expansions ) {
-            expansion_data &e_data = e.second;
-            for( int level = 0; level <= e_data.cur_level; level++ ) {
-                const std::string &bldg = base_camps::faction_encode_abs( e_data, level );
-                if( bldg == "null" ) {
-                    break;
-                }
-                update_provides( bldg, e_data );
+    for( auto &e : expansions ) {
+        expansion_data &e_data = e.second;
+        for( int level = 0; level <= e_data.cur_level; level++ ) {
+            const std::string &bldg = base_camps::faction_encode_abs( e_data, level );
+            if( bldg == "null" ) {
+                break;
             }
-            for( const auto &bp_provides : e_data.provides ) {
-                update_resources( bp_provides.first );
-            }
+            update_provides( bldg, e_data );
+        }
+        for( const auto &bp_provides : e_data.provides ) {
+            update_resources( bp_provides.first );
+        }
+        for( itype_id &it : e.second.available_pseudo_items ) {
+            add_resource( it );
         }
     }
     form_crafting_inventory();
@@ -504,7 +508,7 @@ void basecamp::remove_assignee( character_id id )
         debugmsg( "cant find npc to remove from basecamp, on the overmap_buffer" );
         return;
     }
-    npc_to_remove->assigned_camp = cata::nullopt;
+    npc_to_remove->assigned_camp = std::nullopt;
     assigned_npcs.erase( std::remove( assigned_npcs.begin(), assigned_npcs.end(), npc_to_remove ),
                          assigned_npcs.end() );
 }
@@ -598,18 +602,29 @@ comp_list basecamp::get_mission_workers( const mission_id &miss_id, bool contain
     return available;
 }
 
-void basecamp::query_new_name()
+void basecamp::query_new_name( bool force )
 {
-    string_input_popup popup;
+    string_input_popup input_popup;
+    bool done = false;
+    bool need_input = true;
     do {
-        popup.title( _( "Name this camp" ) )
+        input_popup.title( _( "Name this camp" ) )
         .width( 40 )
-        .text( "" )
         .max_length( 25 )
         .query();
-    } while( popup.canceled() || popup.text().empty() );
-
-    name = popup.text();
+        if( input_popup.canceled() || input_popup.text().empty() ) {
+            if( name.empty() || force ) {
+                popup( _( "You need to input the base camp name." ) );
+            } else {
+                need_input = false;
+            }
+        } else {
+            done = true;
+        }
+    } while( !done && need_input );
+    if( done ) {
+        name = input_popup.text();
+    }
 }
 
 void basecamp::set_name( const std::string &new_name )
@@ -648,7 +663,7 @@ void basecamp::form_crafting_inventory( map &target_map )
     _inv.clear();
     const tripoint_abs_ms &dump_spot = get_dumping_spot();
     const tripoint &origin = target_map.getlocal( dump_spot );
-    auto &mgr = zone_manager::get_manager();
+    zone_manager &mgr = zone_manager::get_manager();
     map &here = get_map();
     if( here.check_vehicle_zones( here.get_abs_sub().z() ) ) {
         mgr.cache_vzones();
@@ -709,7 +724,19 @@ void basecamp::form_crafting_inventory( map &target_map )
     //  in the future.
     for( auto &expansion : expansions ) {
         for( itype_id &it : expansion.second.available_pseudo_items ) {
-            _inv.add_item( item( it ) );
+            item camp_item = item( it );
+            if( camp_item.is_magazine() ) {
+                for( basecamp_fuel &bcp_f : fuels ) {
+                    if( camp_item.can_reload_with( item( bcp_f.ammo_id ), false ) ) {
+                        if( bcp_f.available > 0 ) {
+                            camp_item = camp_item.ammo_set( bcp_f.ammo_id, bcp_f.available );
+                        }
+                        break;
+                    }
+                }
+            }
+
+            _inv.add_item( camp_item );
         }
     }
 }
@@ -761,8 +788,9 @@ void basecamp::load_data( const std::string &data )
 }
 
 basecamp_action_components::basecamp_action_components(
-    const recipe &making, int batch_size, basecamp &base ) :
+    const recipe &making, const mapgen_arguments &args, int batch_size, basecamp &base ) :
     making_( making ),
+    args_( args ),
     batch_size_( batch_size ),
     base_( base )
 {
@@ -772,9 +800,20 @@ bool basecamp_action_components::choose_components()
 {
     const auto filter = is_crafting_component;
     avatar &player_character = get_avatar();
-    const requirement_data *req =
-        making_.deduped_requirements().select_alternative( player_character, base_._inv, filter,
-                batch_size_ );
+    const requirement_data *req;
+    if( making_.is_blueprint() ) {
+        const std::unordered_map<mapgen_arguments, build_reqs> &reqs_map =
+            making_.blueprint_build_reqs().reqs_by_parameters;
+        auto req_it = reqs_map.find( args_ );
+        if( req_it == reqs_map.end() ) {
+            debugmsg( "invalid argument selection for recipe" );
+            return false;
+        }
+        req = &req_it->second.consolidated_reqs;
+    } else {
+        req = making_.deduped_requirements().select_alternative(
+                  player_character, base_._inv, filter, batch_size_ );
+    }
     if( !req ) {
         return false;
     }

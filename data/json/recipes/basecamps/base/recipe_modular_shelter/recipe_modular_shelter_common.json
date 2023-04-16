@@ -45,7 +45,7 @@
     ],
     "blueprint_excludes": [ { "id": "fbmc_shelter_fire" } ],
     "blueprint_resources": [ "fake_fireplace", "pot" ],
-    "components": [ [ [ "pot", 1 ], [ "rock_pot", 1 ], [ "pot_copper", 1 ], [ "clay_pot", 1 ] ] ]
+    "components": [ [ [ "pot", 1 ], [ "pot_copper", 1 ], [ "clay_pot", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -70,7 +70,7 @@
     ],
     "blueprint_excludes": [ { "id": "fbmc_shelter_fire" } ],
     "blueprint_resources": [ "fake_fireplace", "pot" ],
-    "components": [ [ [ "brazier", 1 ] ], [ [ "pot", 1 ], [ "rock_pot", 1 ], [ "pot_copper", 1 ], [ "clay_pot", 1 ] ] ]
+    "components": [ [ [ "brazier", 1 ] ], [ [ "pot", 1 ], [ "pot_copper", 1 ], [ "clay_pot", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -94,7 +94,7 @@
     ],
     "blueprint_excludes": [ { "id": "fbmc_shelter_fire" } ],
     "blueprint_resources": [ "fake_fireplace", "pot" ],
-    "components": [ [ [ "pot", 1 ], [ "rock_pot", 1 ], [ "pot_copper", 1 ], [ "clay_pot", 1 ] ] ]
+    "components": [ [ [ "pot", 1 ], [ "pot_copper", 1 ], [ "clay_pot", 1 ] ] ]
   },
   {
     "type": "recipe",

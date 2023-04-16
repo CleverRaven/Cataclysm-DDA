@@ -151,7 +151,7 @@
     "harvest": "exempt",
     "special_attacks": [ [ "DISAPPEAR", 20 ] ],
     "death_function": { "message": "The %s disappears.", "effect": { "id": "death_guilt", "min_level": 40 }, "corpse_type": "NO_CORPSE" },
-    "flags": [ "SEES", "HEARS", "NO_BREATHE", "SMELLS", "GUILT" ]
+    "flags": [ "SEES", "HEARS", "NO_BREATHE", "SMELLS" ]
   },
   {
     "id": "mon_hallu_multicooker",
@@ -275,7 +275,7 @@
     "type": "MONSTER",
     "name": { "str": "mannequin decoy" },
     "description": "A human-sized mannequin, speaking pre-recorded phrases.",
-    "looks_like": "mon_shia",
+    "looks_like": "mon_hallucinator",
     "default_faction": "factionless",
     "species": [ "UNKNOWN" ],
     "volume": "62500 ml",

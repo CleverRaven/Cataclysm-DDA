@@ -1,0 +1,51 @@
+# 78 karakterden uzun satırlar otomatik olarak alt satıra kaydırılır.
+# Aşağıdaki satır referans içindir
+##############################################################################
+<color_white>Bizi ziyaret edin:</color>
+
+<color_light_gray>* Ana Sayfa:</color>    <color_cyan>https://cataclysmdda.org</color>
+<color_light_gray>* Wiki:</color>        <color_cyan> https://cddawiki.chezzo.com/cdda_wiki</color>
+
+<color_white>Hataları rapor etmek, öneride bulunmak ve gelişmeleri takip etmek için:</color>
+
+<color_light_gray>* Github: </color><color_light_cyan>https://github.com/CleverRaven/Cataclysm-DDA/issues</color>
+<color_light_gray>* e-posta: </color><color_light_cyan>kevin.granade@gmail.com</color>
+
+<color_white>Forumlara ve sohbetlere katılmak için:</color>
+
+<color_light_gray>* Discourse:                 </color><color_cyan>https://discourse.cataclysmdda.org/</color>
+<color_light_gray>* Discord:                   </color><color_cyan>https://discord.gg/jFEc7Yp</color>
+<color_light_gray>* IRC:                       </color><color_cyan>libera.chat içinde #CataclysmDDA</color>
+<color_light_gray>* Reddit (resmi olmayan):       </color><color_cyan>https://www.reddit.com/r/cataclysmdda/</color>
+
+<color_light_gray>Diğer kullanışlı linkler ana sayfamızdan bulunabilir.</color>
+
+<color_light_gray>Oyun içinde ayarlara ana menü üzerindan erişilebilir (<color_yellow>Esc</color>).</color>
+
+<color_light_red>******************************************************************************</color>
+<color_light_red>    Deneysel sürümler için uyarı:</color>
+<color_light_red>******************************************************************************</color>
+
+<color_white>S: </color><color_yellow>Deneysel sürüm nedir?</color>
+
+<color_white>C: </color><color_light_gray>Deneysel sürümlerin amacı, ikinci kalite kontrol katmanı olmaktır. İlk kalite kontrolünden sonra test edilmek ve dengelenmek için yeni içeriğin yayınlandığı cephe hattıdır. En yeni deneysel sürümleri oynatmayı seçerek, yeni içeriği kelimenin tam anlamıyla test ederek geliştirme sürecine katıldığınızı ve hatalara ve az gelişmiş özelliklere eğilimli olduğunu unutmayın.</color>
+
+<color_white>S: </color><color_yellow>Neden deneysel sürümler var?</color>
+
+<color_white>C: </color><color_light_gray>Alfa / beta sürümü oynamak gibi düşünün - hatalar ve az gelişmiş özellikler bunun bir parçası. Sürekli entegrasyon titizlikleri nedeniyle, deneysel sürümler her zaman devam eden sürekli bir çalışma durumundadır. Deneysel, hata tespit ve özellik parlatmanın gerçekleştiği bir sanal alandır. Genel kararlılık ve denge açısından büyük ve küçük özellikler sürekli olarak bu sürümlere bırakılır. Bu nedenle, deneysel sürümler dengeyi ve istikrarı garanti etme zorluğu altında değildir. Aslında, deneysel sürümlerde hiçbir şey garanti edilmez.</color>
+
+<color_white>S: </color><color_yellow>Deneysel sürümler oynanabilir mi yani?</color>
+
+<color_white>C: </color><color_light_gray>Evet. Ancak, genel olarak deneysel sürümler kararlı olmakla birlikte, özellikler az gelişmiş bir durumda, parçalarda sunulabileceği için de garanti edilmez; ve oyunu çökertebilecek veya oyun kayıtlarını bozabilecek ciddi olanlar da dahil olmak üzere hatalar getirebilir. Nadirdir, ancak oyunun karmaşıklığı nedeniyle, deneysel sürüm ile birleşmeden önce ilk kalite kontrolü yetersiz olabilir ve her zaman insan hatasına yer vardır. Bu yüzden ilk etapta deneysel sürümler var.</color>
+
+<color_white>S: </color><color_yellow>Deneysel sürümlerde mi oynamalıyım yoksa kararlı sürümlere mi bağlı oynamalıyım?</color>
+
+<color_white>C: </color><color_light_gray>Ödül en yeni içeriğe anında erişimdir, kötü bir hata ortaya çıkarsa risk oyun ilerlemenizi silinebilmesidir. Kararlı bir sürüm ile deneysel sürümler oynamak her zaman sizin seçiminizdir, bu yüzden kendi takdirinize göre oynayın. Bir şeyler ters giderse, tüm yükü siz üstlemiş olursunuz,dikkatli olun. Önlem alın, yedekleyin. Bazen, büyük bir özellik dengelenene veya önemli bir hata giderilene kadar güncellemeyi birkaç gün ertelemek en iyisidir.</color>
+
+<color_white>S: </color><color_yellow>Herhangi bir şeye karşı dikkatli olmalı mıyım?</color>
+
+<color_white>C: </color><color_light_gray>Evet. Gördüğünüz ve görmek üzere olduğunuz her şeyin potansiyel olarak değişebileceğini unutmayın. Yeni uygulananlar da dahil olmak üzere tüm özellikler devam eden bir çalışmadır ve oyun geliştirme sürecinde değişebilir. Daha önce de belirtildiği gibi, denge ve istikrar dahil hiçbir şey garanti edilmez.</color>
+
+<color_white>S: </color><color_yellow>Peki ya deneysel sürümün riskini kabul edilemez bulursam?</color>
+
+<color_white>C: </color><color_light_gray>Risk kabul edilemezse - kararlı sürümü oynayın. Riske girmeye istekli iseniz - deneysel sürümlerin yeni eklenen içeriğinin keyfini çıkarın ve geliştirmeye katılın - hataları bildirin, öneriler gönderin veya hatta kendi içeriğinizle oyuna katkıda bulunun. Bol şans.</color>

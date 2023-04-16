@@ -35,11 +35,14 @@ class window;
  *     // Mark the resize callback to be called on the first redraw
  *     ui.mark_resize();
  *     // Things to do when redrawing the UI
- *     ui.on_redraw( [&]( const ui_adaptor & ) {
+ *     ui.on_redraw( [&]( ui_adaptor & ui ) {
  *         // Clear UI area
  *         werase( win );
  *         // Print things
  *         mvwprintw( win, point_zero, "Hello World!" );
+ *         // Record the cursor position for screen readers and IME preview to
+ *         // correctly function on curses
+ *         ui.record_cursor( win );
  *         // Write to frame buffer
  *         wnoutrefresh( win );
  *     } );
@@ -64,7 +67,7 @@ class window;
 class ui_adaptor
 {
     public:
-        using redraw_callback_t = std::function<void( const ui_adaptor & )>;
+        using redraw_callback_t = std::function<void( ui_adaptor & )>;
         using screen_resize_callback_t = std::function<void( ui_adaptor & )>;
 
         struct disable_uis_below {
@@ -132,7 +135,8 @@ class ui_adaptor
          * - Construct new `ui_adaptor` instances
          * - Deconstruct old `ui_adaptor` instances
          * - Call `redraw` or `screen_resized`
-         * - (Redraw callback) call `position_from_window`
+         * - (Redraw callback) call `position_from_window`, `position`, or
+         *   `invalidate_ui`
          * - Call any function that does these things, except for `debugmsg`
          *
          * Otherwise, display glitches or even crashes might happen.
@@ -140,6 +144,46 @@ class ui_adaptor
         void on_redraw( const redraw_callback_t &fun );
         /* See `on_redraw`. */
         void on_screen_resize( const screen_resize_callback_t &fun );
+
+        /**
+         * Automatically set the termianl cursor to a window position after
+         * drawing is done. The cursor position of the last drawn UI takes
+         * effect. This ensures the cursor is always set to the desired position
+         * even if some subsequent drawing code moves the cursor, so screen
+         * readers (and in the case of text input, the IME preview) can
+         * correctly function. This is only supposed to be called from the
+         * `on_redraw` callback on the `ui_adaptor` argument of the callback.
+         * Currently only supports curses (on tiles, the windows may have
+         * different cell sizes, so the current implementation of recording the
+         * on-screen position does not work, and screen readers do not work with
+         * the current tiles implementation anyway).
+         */
+        void set_cursor( const catacurses::window &win, const point &pos );
+        /**
+         * Record the current window cursor position and restore it when drawing
+         * is done. The most recent cursor position is recorded regardless of
+         * whether the terminal cursor is updated by refreshing the window. See
+         * also `set_cursor`.
+         */
+        void record_cursor( const catacurses::window &win );
+        /**
+         * Record the current terminal cursor position (where the cursor was
+         * placed when refreshing the last window) and restore it when drawing
+         * is done. See also `set_cursor`.
+         */
+        void record_term_cursor();
+        /**
+         * Use the terminal cursor position when the redraw callback returns.
+         * This is the default. See also `set_cursor`.
+         */
+        void default_cursor();
+        /**
+         * Do not set cursor for this `ui_adaptor`. If any higher or lower UI
+         * sets the cursor, that cursor position is used instead. If no UI sets
+         * the cursor, the final cursor position when drawing is done is used.
+         * See also `set_cursor`.
+         */
+        void disable_cursor();
 
         /**
          * Mark this `ui_adaptor` for resizing the next time it is redrawn.
@@ -176,6 +220,16 @@ class ui_adaptor
         rectangle<point> dimensions;
         redraw_callback_t redraw_cb;
         screen_resize_callback_t screen_resized_cb;
+
+        // For optimization purposes, these value may or may not be reset or
+        // modified before, during, or after drawing, so they do not necessarily
+        // indicate what the current cursor position would be, and therefore
+        // should not be made public or have a public getter.
+        enum class cursor {
+            last, custom, disabled
+        };
+        cursor cursor_type = cursor::last;
+        point cursor_pos;
 
         bool disabling_uis_below;
         bool is_debug_message_ui;

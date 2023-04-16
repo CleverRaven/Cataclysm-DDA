@@ -8,6 +8,7 @@
 #include <utility>
 #include <vector>
 
+#include "cata_path.h"
 #include "map_extras.h"
 #include "string_id.h"
 
@@ -17,9 +18,9 @@ namespace auto_notes
 class custom_symbol
 {
     private:
-        cata::optional<uint32_t> symbol;
+        std::optional<uint32_t> symbol;
 
-        cata::optional<nc_color> color;
+        std::optional<nc_color> color;
 
     public:
         std::string get_symbol_string() const {
@@ -114,15 +115,13 @@ class auto_note_settings
 
         bool was_discovered( const map_extra_id &mapExtId ) const;
 
-    public:
-        cata::optional<custom_symbol> get_custom_symbol( const map_extra_id &mapExtId ) const;
+        std::optional<custom_symbol> get_custom_symbol( const map_extra_id &mapExtId ) const;
 
         void set_custom_symbol( const map_extra_id &mapExtId, const custom_symbol &symbol,
                                 bool bCharacter );
 
         void clear_all_custom_symbols( bool bCharacter );
 
-    public:
         void load( bool bCharacter );
 
         bool save( bool bCharacter );
@@ -137,9 +136,8 @@ class auto_note_settings
 
     private:
         /// Build string containing path to the auto notes save file for the active player.
-        std::string build_save_path() const;
+        cata_path build_save_path() const;
 
-    private:
         /// This set contains the ID strings of all map extras that have auto note enabled for a character.
         std::unordered_set<map_extra_id> character_autoNoteEnabled;
 

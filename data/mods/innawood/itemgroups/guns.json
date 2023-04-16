@@ -1,0 +1,317 @@
+[
+  {
+    "type": "item_group",
+    "id": "guns_pistol_common",
+    "//": "Pistols that are reasonably prolific amongst civilians, commonly owned and reliably obtainable by citizens and that are found in many locations.",
+    "items": [ { "group": "guns_pistol_improvised", "prob": 35 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_pistol_rare",
+    "//": "Less common or prolific pistols that are still normally acquirable by civilians or that may need an NFA permit, i.e. integrally supressed or stocked handguns. This includes those weapons used by police and paramilitary forces, and older handguns which are no longer in production but that are still reasonably common to find.",
+    "items": [ { "group": "guns_pistol_improvised", "prob": 35 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_pistol_milspec",
+    "//": "US military specification pistols only ever found at military sites. These weapons must be pistols that are still in current inventory, and are still being issued in some capacity to American personnel.",
+    "//2": "Making the assumption any loaded gun will have additional ammo and mags with it.",
+    "items": [ { "group": "guns_pistol_improvised", "prob": 35 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_pistol_obscure",
+    "//": "Imported or otherwise very obscure pistols that are highly rare, but which are still, mostly, ownable by common civilian’s, either normally or via an NFA permit.  For example, reasonably modern and uncommon foreign military pistols and weapons capable of automatic forms of fire can be placed in this item group.  Purely highly rare collector quality and historically valuable guns are handled elsewhere.",
+    "items": [ { "group": "guns_pistol_improvised", "prob": 35 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_pistol_improvised",
+    "//": "Makeshift or otherwise poor quality pistols.",
+    "items": [ { "item": "pistol_flintlock", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_smg_common",
+    "//": "Semi-auto civilian SMGs owned by citizens and found in many locations.",
+    "//2": "Making the assumption any loaded gun will have additional ammo and mags with it.",
+    "items": [ { "group": "guns_smg_improvised", "prob": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_smg_common_worn",
+    "//": "Semi-auto civilian SMGs owned by citizens and found in many locations.",
+    "//2": "This is for worn items so ammo should be handled elsewhere so that mods can be added directly.",
+    "items": [ { "group": "guns_smg_improvised", "prob": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "guns_smg_common_display",
+    "//": "Empty Semi-auto civilian SMGs owned by citizens and found in many locations.",
+    "items": [ { "group": "guns_smg_improvised", "prob": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_smg_rare",
+    "//": "Less common SMGs including those only used by police/paramilitary forces.",
+    "items": [ { "group": "guns_smg_improvised", "prob": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_smg_obscure",
+    "subtype": "distribution",
+    "//": "Imported or otherwise very obscure SMGs.",
+    "items": [ { "group": "guns_smg_improvised", "prob": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_smg_improvised",
+    "//": "Makeshift or otherwise poor quality SMGs.",
+    "items": [ { "group": "archery", "prob": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_rifle_common",
+    "//": "Rifles commonly owned by citizens and found in many locations.",
+    "//2": "Making the assumption any loaded gun will have additional ammo and mags with it.",
+    "items": [ { "group": "guns_rifle_improvised", "prob": 22 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_rifle_common_worn",
+    "//": "Rifles commonly owned by citizens and found in many locations.",
+    "//2": "This is for worn items so ammo should be handled elsewhere so that mods can be added directly.",
+    "items": [ { "group": "guns_rifle_improvised", "prob": 22 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_rifle_rare",
+    "//": "Less common rifles including those only used by police/paramilitary forces.",
+    "items": [ { "group": "guns_rifle_improvised", "prob": 22 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_rifle_milspec",
+    "//": "Military specification rifles only ever found at military sites.",
+    "//2": "Making the assumption any loaded gun will have additional ammo and mags with it.",
+    "items": [ { "group": "guns_rifle_improvised", "prob": 22 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_rifle_obscure",
+    "subtype": "distribution",
+    "//": "Imported or otherwise very obscure rifles.",
+    "items": [ { "group": "guns_rifle_improvised", "prob": 22 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_rifle_improvised",
+    "//": "Makeshift or otherwise poor quality rifles.",
+    "items": [
+      { "item": "longrifle_flintlock", "prob": 30 },
+      { "item": "rifle_flintlock", "prob": 30 },
+      { "item": "carbine_flintlock", "prob": 30 },
+      { "item": "carbine_flintlock_double", "prob": 30 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_shotgun_common",
+    "//": "Shotguns commonly owned by citizens and found in many locations.",
+    "items": [ { "group": "guns_shotgun_improvised", "prob": 22 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_shotgun_common_worn",
+    "//": "Shotguns commonly owned by citizens and found in many locations.",
+    "items": [ { "group": "guns_shotgun_improvised", "prob": 22 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_shotgun_rare",
+    "//": "Uncommon or rare shotguns in civilian possession.",
+    "subtype": "distribution",
+    "items": [ { "group": "guns_shotgun_improvised", "prob": 22 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_shotgun_rare_worn",
+    "//": "Uncommon or rare shotguns in civilian possession.",
+    "//2": "ammo handled elsewhere so these can be worn.",
+    "subtype": "distribution",
+    "items": [ { "group": "guns_shotgun_improvised", "prob": 22 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_shotgun_rare_readied",
+    "subtype": "distribution",
+    "items": [ { "group": "guns_shotgun_improvised", "prob": 22 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_shotgun_milspec",
+    "//": "Military shotguns currently in service.",
+    "items": [ { "group": "guns_shotgun_improvised", "prob": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_shotgun_obscure",
+    "//": "Imported or otherwise very obscure shotguns.",
+    "//2": "Making the assumption any loaded gun will have additional ammo and mags with it.",
+    "items": [ { "group": "guns_shotgun_improvised", "prob": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_shotgun_improvised",
+    "//": "Makeshift or otherwise poor quality shotguns.",
+    "items": [ { "item": "blunderbuss", "prob": 70 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_launcher_flame",
+    "//": "Factory manufactured incendiary liquid projectors (excludes improvised weapons)",
+    "items": [ { "group": "archery", "prob": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_launcher_grenade",
+    "//": "Factory manufactured grenade launchers (excludes improvised weapons)",
+    "items": [ { "group": "archery", "prob": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_launcher_rocket",
+    "//": "Factory manufactured rocket launchers (excludes improvised weapons)",
+    "items": [ { "group": "archery", "prob": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_launcher_milspec",
+    "//": "Factory manufactured grenade and rocket launchers (excludes improvised weapons)",
+    "items": [ { "group": "archery", "prob": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_launcher_improvised",
+    "//": "Makeshift or otherwise poor quality grenade and rocket launchers",
+    "items": [ { "group": "archery", "prob": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_common",
+    "//": "Guns of all types commonly owned by citizens and found in many locations.",
+    "items": [ { "group": "guns_improvised", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_rare",
+    "//": "Less common guns of all types including those only used by police/paramilitary forces.",
+    "items": [ { "group": "guns_improvised", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_rare_static",
+    "//": "Less common guns of all types including those only used by police/paramilitary forces.",
+    "items": [ { "group": "guns_improvised", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_rare_readied",
+    "//": "Less common guns of all types including those only used by police/paramilitary forces.",
+    "items": [ { "group": "guns_improvised", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_milspec",
+    "//": "Military specification guns of all types.",
+    "items": [ { "group": "guns_improvised", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_obscure",
+    "//": "Imported or otherwise very obscure guns of all types.",
+    "items": [ { "group": "guns_improvised", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_improvised",
+    "//": "Makeshift or otherwise poor quality guns of all types.",
+    "items": [
+      { "group": "guns_pistol_improvised", "prob": 80 },
+      { "group": "guns_rifle_improvised", "prob": 100 },
+      { "group": "guns_shotgun_improvised", "prob": 100 },
+      { "group": "archery", "prob": 50 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "longguns_cop",
+    "items": [ { "group": "guns_rifle_improvised", "charges": [ 0, 1 ], "contents-item": "shoulder_strap" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "longguns_cop_loaded",
+    "//": "loaded in the back of a trunk or something",
+    "items": [ { "group": "guns_rifle_improvised", "prob": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "longguns_cop_in_field",
+    "//": "gun plus potential expended magazines",
+    "items": [ { "collection": [ { "group": "guns_shotgun_improvised" } ], "prob": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "longguns_cop_in_field_no_gun",
+    "//": "guns lost but still have mags",
+    "items": [ { "group": "archery", "prob": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "sidearms_cop",
+    "items": [ { "item": "null", "prob": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "sidearms_cop_in_field",
+    "//": "gun plus potential expended magazines",
+    "items": [ { "item": "null", "prob": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "sidearms_cop_in_field_no_gun",
+    "//": "guns lost but still have mags",
+    "items": [ { "group": "archery", "prob": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_cop",
+    "//": "Police issue weapons of all types",
+    "items": [ { "group": "guns_improvised", "prob": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_swat",
+    "//": "Guns issued to paramilitary forces in addition to standard police issue.",
+    "items": [ { "group": "guns_improvised", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_survival",
+    "//": "Guns typically carried by survivors, either improvised or thematically appropriate.",
+    "items": [ { "group": "guns_improvised", "prob": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "archery",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "crossbow", "prob": 70 },
+      { "item": "bullet_crossbow", "prob": 10 },
+      { "item": "hand_crossbow", "prob": 10 },
+      { "item": "longbow", "prob": 40 },
+      { "item": "shortbow", "prob": 20 }
+    ]
+  }
+]

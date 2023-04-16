@@ -29,7 +29,7 @@ void _consume_item( item_location elem, consume_queue &consumed, consume_cache &
     if( contents.empty() ) {
         auto it = cache.find( elem->typeId() );
         if( it == cache.end() ) {
-            int const rate = guy.myclass->get_shopkeeper_cons_rates().get_rate( *elem );
+            int const rate = guy.myclass->get_shopkeeper_cons_rates().get_rate( *elem, guy );
             int const rate_init = rate >= 0 ? rate * to_days<int>( elapsed ) : -1;
             it = cache.emplace( elem->typeId(), rate_init ).first;
         }
@@ -55,7 +55,7 @@ dest_t _get_shuffled_point_set( std::unordered_set<tripoint_abs_ms> const &set )
 // returns true if item wasn't placed
 bool _to_map( item const &it, map &here, tripoint const &dpoint_here )
 {
-    if( here.can_put_items_ter_furn( dpoint_here ) and
+    if( here.can_put_items_ter_furn( dpoint_here ) &&
         here.free_volume( dpoint_here ) >= it.volume() ) {
         item const &ret = here.add_item_or_charges( dpoint_here, it, false );
         return ret.is_null();
@@ -63,11 +63,11 @@ bool _to_map( item const &it, map &here, tripoint const &dpoint_here )
     return true;
 }
 
-bool _to_veh( item const &it, cata::optional<vpart_reference> const vp )
+bool _to_veh( item const &it, std::optional<vpart_reference> const &vp )
 {
     int const part = static_cast<int>( vp->part_index() );
     if( vp->vehicle().free_volume( part ) >= it.volume() ) {
-        cata::optional<vehicle_stack::iterator> const ret = vp->vehicle().add_item( part, it );
+        std::optional<vehicle_stack::iterator> const ret = vp->vehicle().add_item( part, it );
         return !ret.has_value();
     }
     return true;
@@ -80,13 +80,37 @@ void add_fallback_zone( npc &guy )
     zone_manager &zmgr = zone_manager::get_manager();
     tripoint_abs_ms const loc = guy.get_location();
     faction_id const &fac_id = guy.get_fac_id();
+    map &here = get_map();
 
-    if( !zmgr.has_near( zone_type_LOOT_UNSORTED, loc, PICKUP_RANGE, fac_id ) ) {
-        zmgr.add( fallback_name, zone_type_LOOT_UNSORTED, fac_id, false,
-                  true, loc.raw() + tripoint_north_west, loc.raw() + tripoint_south_east );
-        DebugLog( DebugLevel::D_WARNING, DebugClass::D_GAME )
-                << "Added a fallack loot zone for NPC trader " << guy.name;
+    if( zmgr.has_near( zone_type_LOOT_UNSORTED, loc, PICKUP_RANGE, fac_id ) ) {
+        return;
     }
+
+    std::vector<tripoint_abs_ms> points;
+    for( tripoint_abs_ms const &t : closest_points_first( loc, PICKUP_RANGE ) ) {
+        tripoint_bub_ms const t_here = here.bub_from_abs( t );
+        if( here.has_furn( t_here ) &&
+            ( here.furn( t_here )->max_volume > t_floor->max_volume ||
+              here.furn( t_here )->has_flag( ter_furn_flag::TFLAG_CONTAINER ) ) &&
+            here.can_put_items_ter_furn( t_here ) &&
+            !here.route( guy.pos_bub(), t_here, guy.get_pathfinding_settings(),
+                         guy.get_path_avoid() )
+            .empty() ) {
+            points.emplace_back( t );
+        }
+    }
+
+    if( points.empty() ) {
+        zmgr.add( fallback_name, zone_type_LOOT_UNSORTED, fac_id, false, true,
+                  loc.raw() + tripoint_north_west, loc.raw() + tripoint_south_east );
+    } else {
+        for( tripoint_abs_ms const &t : points ) {
+            zmgr.add( fallback_name, zone_type_LOOT_UNSORTED, fac_id, false, true, t.raw(),
+                      t.raw() );
+        }
+    }
+    DebugLog( DebugLevel::D_WARNING, DebugClass::D_GAME )
+            << "Added fallack loot zones for NPC trader " << guy.name;
 }
 
 std::list<item> distribute_items_to_npc_zones( std::list<item> &items, npc &guy )
@@ -111,9 +135,9 @@ std::list<item> distribute_items_to_npc_zones( std::list<item> &items, npc &guy 
         bool leftover = true;
         for( tripoint_abs_ms const &dpoint : dest ) {
             tripoint const dpoint_here = here.getlocal( dpoint );
-            cata::optional<vpart_reference> const vp =
+            std::optional<vpart_reference> const vp =
                 here.veh_at( dpoint_here ).part_with_feature( "CARGO", false );
-            if( vp and vp->vehicle().get_owner() == fac_id ) {
+            if( vp && vp->vehicle().get_owner() == fac_id ) {
                 leftover = _to_veh( it, vp );
             } else {
                 leftover = _to_map( it, here, dpoint_here );

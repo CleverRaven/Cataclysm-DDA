@@ -58,15 +58,14 @@ void mood_face_value::load( const JsonObject &jo )
     mandatory( jo, was_loaded, "face", face_ );
 }
 
-void mood_face_value::deserialize( JsonIn &jsin )
+void mood_face_value::deserialize( const JsonObject &jo )
 {
-    JsonObject data = jsin.get_object();
-    load( data );
+    load( jo );
 }
 
 const mood_face_id &avatar::character_mood_face( bool clear_cache ) const
 {
-    static cata::optional<mood_face_id> mood_face_cache;
+    static std::optional<mood_face_id> mood_face_cache;
     static bool mood_face_horizontal = false;
     const bool option_horizontal = get_option<std::string>( "MORALE_STYLE" ) == "horizontal";
 

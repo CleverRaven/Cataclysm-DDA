@@ -159,12 +159,11 @@
   {
     "type": "overmap_terrain",
     "abstract": "generic_cemetery",
+    "copy-from": "generic_city_building",
     "name": "cemetery",
     "land_use_code": "cemetery",
     "sym": "n",
-    "color": "white",
-    "see_cost": 5,
-    "mondensity": 2
+    "color": "white"
   },
   {
     "type": "overmap_terrain",

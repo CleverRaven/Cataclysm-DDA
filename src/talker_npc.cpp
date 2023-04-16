@@ -52,6 +52,7 @@ static const itype_id itype_foodperson_mask( "foodperson_mask" );
 static const itype_id itype_foodperson_mask_on( "foodperson_mask_on" );
 
 static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
+static const trait_id trait_PROF_CHURL( "PROF_CHURL" );
 static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
 static const trait_id trait_SAPROVORE( "SAPROVORE" );
 
@@ -113,7 +114,7 @@ std::vector<std::string> talker_npc::get_topics( bool radio_contact )
     avatar &player_character = get_avatar();
     std::vector<std::string> add_topics;
     // For each active mission we have, let the mission know we talked to this NPC.
-    for( auto &mission : player_character.get_active_missions() ) {
+    for( mission *&mission : player_character.get_active_missions() ) {
         mission->on_talk_with_npc( me_npc->getID() );
     }
 
@@ -128,8 +129,8 @@ std::vector<std::string> talker_npc::get_topics( bool radio_contact )
         add_topics.emplace_back( me_npc->chatbin.talk_stole_item );
     }
     int most_difficult_mission = 0;
-    for( auto &mission : me_npc->chatbin.missions ) {
-        const auto &type = mission->get_type();
+    for( mission *&mission : me_npc->chatbin.missions ) {
+        const mission_type &type = mission->get_type();
         if( type.urgent && type.difficulty > most_difficult_mission ) {
             add_topics.emplace_back( "TALK_MISSION_DESCRIBE_URGENT" );
             me_npc->chatbin.mission_selected = mission;
@@ -138,12 +139,12 @@ std::vector<std::string> talker_npc::get_topics( bool radio_contact )
     }
     most_difficult_mission = 0;
     bool chosen_urgent = false;
-    for( auto &mission : me_npc->chatbin.missions_assigned ) {
+    for( mission *&mission : me_npc->chatbin.missions_assigned ) {
         if( mission->get_assigned_player_id() != player_character.getID() ) {
             // Not assigned to the player that is currently talking to the npc
             continue;
         }
-        const auto &type = mission->get_type();
+        const mission_type &type = mission->get_type();
         if( ( type.urgent && !chosen_urgent ) || ( type.difficulty > most_difficult_mission &&
                 ( type.urgent || !chosen_urgent ) ) ) {
             chosen_urgent = type.urgent;
@@ -186,6 +187,18 @@ std::vector<std::string> talker_npc::get_topics( bool radio_contact )
             add_topics.emplace_back( "TALK_MUTE_ANGRY" );
         } else {
             add_topics.emplace_back( "TALK_MUTE" );
+        }
+    }
+    if( player_character.has_trait( trait_PROF_CHURL ) ) {
+        if( add_topics.back() == me_npc->chatbin.talk_mug ||
+            add_topics.back() == me_npc->chatbin.talk_stranger_aggressive ) {
+            me_npc->make_angry();
+            add_topics.emplace_back( "TALK_CHURL_ANGRY" );
+        } else if( ( me_npc->op_of_u.trust >= 0 ) && ( me_npc->op_of_u.anger <= 0 ) &&
+                   ( me_npc->int_cur >= 9 ) ) {
+            add_topics.emplace_back( "TALK_CHURL_TRADE" );
+        } else {
+            add_topics.emplace_back( "TALK_CHURL" );
         }
     }
 
@@ -237,12 +250,16 @@ int talker_npc::parse_mod( const std::string &attribute, const int factor ) cons
     } else if( attribute == "POS_FEAR" ) {
         modifier = std::max( 0, me_npc->op_of_u.fear );
     } else if( attribute == "AGGRESSION" ) {
+        // NOLINTNEXTLINE(bugprone-signed-char-misuse,cert-str34-c)
         modifier = me_npc->personality.aggression;
     } else if( attribute == "ALTRUISM" ) {
+        // NOLINTNEXTLINE(bugprone-signed-char-misuse,cert-str34-c)
         modifier = me_npc->personality.altruism;
     } else if( attribute == "BRAVERY" ) {
+        // NOLINTNEXTLINE(bugprone-signed-char-misuse,cert-str34-c)
         modifier = me_npc->personality.bravery;
     } else if( attribute == "COLLECTOR" ) {
+        // NOLINTNEXTLINE(bugprone-signed-char-misuse,cert-str34-c)
         modifier = me_npc->personality.collector;
     } else if( attribute == "MISSIONS" ) {
         modifier = me_npc->assigned_missions_value() / OWED_VAL;
@@ -257,9 +274,9 @@ int talker_npc::trial_chance_mod( const std::string &trial_type ) const
 {
     int chance = 0;
     if( trial_type == "lie" ) {
-        chance += - me_npc->talk_skill() + me_npc->op_of_u.trust * 3;
+        chance += - me_npc->lie_skill() + me_npc->op_of_u.trust * 3;
     } else if( trial_type == "persuade" ) {
-        chance += - static_cast<int>( me_npc->talk_skill() * 0.5 ) +
+        chance += - static_cast<int>( me_npc->persuade_skill() * 0.5 ) +
                   me_npc->op_of_u.trust * 2 + me_npc->op_of_u.value;
     } else if( trial_type == "intimidate" ) {
         chance += - me_npc->intimidation() + me_npc->op_of_u.fear * 2 -
@@ -374,7 +391,7 @@ std::string talker_npc::spell_training_text( talker &student, const spell_id &sp
     }
     const spell &temp_spell = me_npc->magic->get_spell( sp );
     const bool knows = pupil->magic->knows_spell( sp );
-    const int cost = me_npc->calc_spell_training_cost( knows, temp_spell.get_difficulty(),
+    const int cost = me_npc->calc_spell_training_cost( knows, temp_spell.get_difficulty( *pupil ),
                      temp_spell.get_level() );
     std::string text;
     if( knows ) {
@@ -521,7 +538,7 @@ std::string talker_npc::give_item_to( const bool to_use )
     }
     item &given = *loc;
 
-    if( ( &given == &player_character.get_wielded_item() &&
+    if( ( loc == player_character.get_wielded_item() &&
           given.has_flag( STATIC( flag_id( "NO_UNWIELD" ) ) ) ) ||
         ( player_character.is_worn( given ) &&
           ( given.has_flag( STATIC( flag_id( "NO_TAKEOFF" ) ) ) ||
@@ -536,13 +553,14 @@ std::string talker_npc::give_item_to( const bool to_use )
 
     bool taken = false;
     std::string reason = _( me_npc->chatbin.snip_give_nope );
-    const item &weapon = me_npc->get_wielded_item();
+    const item_location weapon = me_npc->get_wielded_item();
     int our_ammo = me_npc->ammo_count_for( weapon );
-    int new_ammo = me_npc->ammo_count_for( given );
+    int new_ammo = me_npc->ammo_count_for( loc );
     const double new_weapon_value = me_npc->weapon_value( given, new_ammo );
-    const double cur_weapon_value = me_npc->weapon_value( weapon, our_ammo );
+    const item &weap = weapon ? *weapon : null_item_reference();
+    const double cur_weapon_value = me_npc->weapon_value( weap, our_ammo );
     add_msg_debug( debugmode::DF_TALKER, "NPC evaluates own %s (%d ammo): %0.1f",
-                   weapon.typeId().str(), our_ammo, cur_weapon_value );
+                   weap.typeId().str(), our_ammo, cur_weapon_value );
     add_msg_debug( debugmode::DF_TALKER, "NPC evaluates your %s (%d ammo): %0.1f",
                    given.typeId().str(), new_ammo, new_weapon_value );
     if( to_use ) {
@@ -563,7 +581,7 @@ std::string talker_npc::give_item_to( const bool to_use )
         }// HACK: is_gun here is a hack to prevent NPCs wearing guns if they don't want to use them
         else if( !given.is_gun() && given.is_armor() ) {
             //if it is impossible to wear return why
-            ret_val<bool> can_wear = me_npc->can_wear( given, true );
+            ret_val<void> can_wear = me_npc->can_wear( given, true );
             if( !can_wear.success() ) {
                 reason = can_wear.str();
             } else {

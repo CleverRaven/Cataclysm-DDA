@@ -221,11 +221,11 @@ class SkillLevel
         void deserialize( const JsonObject &data );
     private:
         // Can be used to counter skill rust when enabled over MAX_SKILL
-        int unadjustedLevel() {
+        int unadjustedLevel() const {
             return _level;
         }
 
-        int unadjustedKnowledgeLevel() {
+        int unadjustedKnowledgeLevel() const {
             return _knowledgeLevel;
         }
 };

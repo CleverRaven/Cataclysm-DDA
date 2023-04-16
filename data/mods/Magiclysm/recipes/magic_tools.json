@@ -2,7 +2,7 @@
   {
     "result": "butchering_kit_plus_one",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "NO_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -13,14 +13,14 @@
       [ [ "knife_butcher_plus_one", 1 ] ],
       [ [ "knife_carving_plus_one", 1 ] ],
       [ [ "knife_meat_cleaver_plus_one", 1 ] ],
-      [ [ "leather", 2 ], [ "rag", 2 ] ],
+      [ [ "leather", 2 ], [ "cotton_patchwork", 2 ] ],
       [ [ "string_6", 2 ], [ "cordage_6", 2 ] ]
     ]
   },
   {
     "result": "butchering_kit_plus_two",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "NO_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -31,13 +31,13 @@
       [ [ "knife_butcher_plus_two", 1 ] ],
       [ [ "knife_carving_plus_two", 1 ] ],
       [ [ "knife_meat_cleaver_plus_two", 1 ] ],
-      [ [ "leather", 2 ], [ "rag", 2 ] ],
+      [ [ "leather", 2 ], [ "cotton_patchwork", 2 ] ],
       [ [ "string_6", 2 ], [ "cordage_6", 2 ] ]
     ]
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "result": "copper_circlet",
     "byproducts": [ [ "tinder", 1 ] ],
     "category": "CC_ENCHANTED",
@@ -53,11 +53,11 @@
       { "proficiency": "prof_redsmithing", "required": false, "time_multiplier": 3 }
     ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "scrap_copper", 1 ], [ "copper", 100 ] ], [ [ "splinter", 3 ] ] ]
+    "components": [ [ [ "scrap_copper", 1 ], [ "copper", 50 ] ], [ [ "splinter", 3 ] ] ]
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "result": "copper_infuser",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_TOOLS",
@@ -75,7 +75,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "result": "silver_infuser",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_TOOLS",
@@ -93,7 +93,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "rune_alchemist",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_TOOLS",
@@ -107,7 +107,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "cauldron_demon_chitin",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_TOOLS",
@@ -116,13 +116,13 @@
     "difficulty": 4,
     "time": "180 m",
     "book_learn": [ [ "cooking_poison", 3 ] ],
-    "proficiencies": [ { "proficiency": "prof_chitinworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 1.5 } ],
+    "proficiencies": [ { "proficiency": "prof_chitinworking", "required": false, "time_multiplier": 1.5, "skill_penalty": 0.5 } ],
     "qualities": [ { "id": "CHISEL", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
     "components": [ [ [ "demon_chitin_piece", 16 ] ], [ [ "bone_glue", 10 ] ] ]
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "demon_forge",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_TOOLS",
@@ -137,7 +137,7 @@
       { "id": "HAMMER", "level": 2 },
       { "id": "SMOOTH", "level": 1 }
     ],
-    "proficiencies": [ { "proficiency": "prof_chitinworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 1.5 } ],
+    "proficiencies": [ { "proficiency": "prof_chitinworking", "required": false, "time_multiplier": 1.5, "skill_penalty": 0.5 } ],
     "components": [
       [ [ "demon_chitin_plate", 24 ] ],
       [ [ "fireproof_mortar", 30 ] ],

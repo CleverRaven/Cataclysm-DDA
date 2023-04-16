@@ -74,7 +74,7 @@
     "symbol": "+",
     "color": "light_red",
     "open": "t_afs_space_ship_hatch_o",
-    "flags": [ "NOITEM", "DOOR", "CONNECT_TO_WALL", "MINEABLE" ],
+    "flags": [ "NOITEM", "DOOR", "CONNECT_WITH_WALL", "MINEABLE" ],
     "copy-from": "t_door_metal_lab_c",
     "bash": {
       "str_min": 200,
@@ -101,7 +101,7 @@
     "copy-from": "t_door_metal_lab_o",
     "symbol": "'",
     "color": "light_red",
-    "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "ROAD", "MINEABLE" ],
+    "flags": [ "TRANSPARENT", "FLAT", "CONNECT_WITH_WALL", "ROAD", "MINEABLE" ],
     "bash": {
       "str_min": 200,
       "str_max": 600,

@@ -1,0 +1,70 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "nursing_home_receptionist",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_computers": [
+        {
+          "x": 0,
+          "y": 0,
+          "name": "Shady Hills: Receptionist",
+          "eocs": [ "EOC_NURSING_HOME_RECEPTIONIST" ],
+          "chat_topics": [ "COMP_NURSING_HOME_RECEPTIONIST" ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "nursing_home_recep_manager",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_computers": [
+        {
+          "x": 0,
+          "y": 0,
+          "name": "Shady Hills: Reception Manager",
+          "eocs": [ "EOC_NURSING_HOME_RECEP_MANAGER" ],
+          "chat_topics": [ "COMP_NURSING_HOME_RECEP_MANAGER" ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "nursing_home_coo",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_computers": [
+        {
+          "x": 0,
+          "y": 0,
+          "name": "Shady Hills: SVP Operations",
+          "eocs": [ "EOC_NURSING_HOME_COO" ],
+          "chat_topics": [ "COMP_NURSING_HOME_COO" ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "nursing_home_sci",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_computers": [
+        {
+          "x": 0,
+          "y": 0,
+          "name": "Shady Hills: Research & Development",
+          "eocs": [ "EOC_NURSING_HOME_SCI" ],
+          "chat_topics": [ "COMP_NURSING_HOME_SCI" ]
+        }
+      ]
+    }
+  }
+]

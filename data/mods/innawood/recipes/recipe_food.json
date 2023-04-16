@@ -93,6 +93,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_forage_cooking" } ],
     "components": [ [ [ "pine_bough", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
@@ -108,6 +109,7 @@
     "autolearn": true,
     "qualities": [ { "id": "BOIL", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_forage_cooking" } ],
     "components": [ [ [ "raw_dandelion", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
@@ -123,6 +125,7 @@
     "autolearn": true,
     "qualities": [ { "id": "BOIL", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_forage_cooking" } ],
     "components": [ [ [ "raw_dandelion", 1 ] ], [ [ "raw_burdock", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
@@ -229,6 +232,7 @@
     "autolearn": true,
     "qualities": [ { "id": "BOIL", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "tools": [ [ [ "water_boiling_heat", 8, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_forage_cooking" } ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "tanbark", 2 ] ] ]
   },
   {
@@ -495,7 +499,7 @@
     "qualities": [ { "id": "BOIL", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [
       [ [ "water_boiling_heat", 2, "LIST" ] ],
-      [ [ "colander_steel", -1 ], [ "sieve_steel", -1 ], [ "sieve_primitive", -1 ], [ "rag", -1 ] ]
+      [ [ "colander_steel", -1 ], [ "sieve_steel", -1 ], [ "sieve_primitive", -1 ], [ "cotton_patchwork", -1 ] ]
     ],
     "components": [ [ [ "raw_butter", 8 ], [ "butter", 8 ] ] ]
   },
@@ -548,12 +552,12 @@
     "book_learn": [ [ "cookbook", 6 ], [ "manual_canning", 4 ] ],
     "autolearn": true,
     "container": "jar_glass_sealed",
-    "result_mult": 2,
+    "charges": 2,
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ], [ "salt_water", 1 ], [ "saline", 5 ] ],
-      [ [ "jar_glass", 1 ] ],
+      [ [ "jar_glass_sealed", 1 ] ],
       [ [ "meat_offal", 2, "LIST" ] ],
       [ [ "vinegar", 1 ] ]
     ]
@@ -572,12 +576,12 @@
     "book_learn": [ [ "cookbook", 6 ], [ "manual_canning", 4 ] ],
     "autolearn": true,
     "container": "jar_3l_glass_sealed",
-    "result_mult": 12,
+    "charges": 12,
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ] ],
     "components": [
       [ [ "water", 6 ], [ "water_clean", 6 ], [ "salt_water", 6 ], [ "saline", 30 ] ],
-      [ [ "jar_3l_glass", 1 ] ],
+      [ [ "jar_3l_glass_sealed", 1 ] ],
       [ [ "meat_offal", 12, "LIST" ] ],
       [ [ "vinegar", 6 ] ]
     ]
@@ -644,7 +648,7 @@
       { "id": "BOIL", "level": 2 },
       { "id": "CONTAIN", "level": 1 }
     ],
-    "tools": [ [ [ "surface_heat", 4, "LIST" ] ], [ [ "rag", -1 ] ] ],
+    "tools": [ [ [ "surface_heat", 4, "LIST" ] ], [ [ "cotton_patchwork", -1 ] ] ],
     "components": [ [ [ "milk_curdled", 2 ] ], [ [ "salt_water", 1 ], [ "saline", 1 ], [ "salt", 1 ], [ "seasoning_salt", 1 ] ] ]
   },
   {
@@ -760,7 +764,7 @@
     "skill_used": "cooking",
     "difficulty": 5,
     "time": "30 m",
-    "result_mult": 2,
+    "charges": 2,
     "book_learn": [ [ "manual_canning", 4 ] ],
     "autolearn": true,
     "batch_time_factors": [ 83, 5 ],
@@ -868,7 +872,7 @@
     "skill_used": "cooking",
     "difficulty": 6,
     "time": "30 m",
-    "result_mult": 2,
+    "charges": 2,
     "book_learn": [ [ "manual_canning", 4 ] ],
     "autolearn": true,
     "batch_time_factors": [ 83, 5 ],
@@ -892,7 +896,7 @@
     "skill_used": "cooking",
     "difficulty": 6,
     "time": "30 m",
-    "result_mult": 2,
+    "charges": 2,
     "book_learn": [ [ "manual_canning", 4 ] ],
     "autolearn": true,
     "batch_time_factors": [ 83, 5 ],
@@ -933,7 +937,7 @@
     "skill_used": "cooking",
     "difficulty": 6,
     "time": "40 m",
-    "result_mult": 12,
+    "charges": 12,
     "book_learn": [ [ "manual_canning", 4 ] ],
     "autolearn": true,
     "batch_time_factors": [ 83, 5 ],
@@ -957,7 +961,7 @@
     "skill_used": "cooking",
     "difficulty": 6,
     "time": "40 m",
-    "result_mult": 12,
+    "charges": 12,
     "book_learn": [ [ "manual_canning", 4 ] ],
     "autolearn": true,
     "batch_time_factors": [ 83, 5 ],
@@ -981,7 +985,7 @@
     "skill_used": "cooking",
     "difficulty": 5,
     "time": "40 m",
-    "result_mult": 12,
+    "charges": 12,
     "book_learn": [ [ "manual_canning", 4 ] ],
     "batch_time_factors": [ 83, 5 ],
     "autolearn": true,
@@ -1032,7 +1036,7 @@
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 1 } ],
     "components": [
       [ [ "meat_red", 2, "LIST" ] ],
-      [ [ "bread", 1 ], [ "flatbread", 1 ] ],
+      [ [ "any_bread", 1, "LIST" ] ],
       [
         [ "salt", 2 ],
         [ "soysauce", 2 ],
@@ -1051,6 +1055,7 @@
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
     "difficulty": 1,
+    "charges": 1,
     "time": "30 m",
     "autolearn": true,
     "batch_time_factors": [ 80, 2 ],

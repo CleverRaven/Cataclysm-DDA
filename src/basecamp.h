@@ -7,6 +7,7 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <vector>
@@ -17,14 +18,13 @@
 #include "inventory.h"
 #include "memory_fast.h"
 #include "mission_companion.h"
-#include "optional.h"
 #include "point.h"
 #include "requirements.h"
 #include "translations.h"
 #include "type_id.h"
 
-class JsonOut;
 class JsonObject;
+class JsonOut;
 class character_id;
 class npc;
 class time_duration;
@@ -111,6 +111,7 @@ struct basecamp_fuel {
 
 struct basecamp_upgrade {
     std::string bldg;
+    mapgen_arguments args;
     translation name;
     bool avail = false;
     bool in_progress = false;
@@ -175,7 +176,7 @@ class basecamp
 
         //change name of camp
         void set_name( const std::string &new_name );
-        void query_new_name();
+        void query_new_name( bool force = false );
         void abandon_camp();
         void scan_pseudo_items();
         void add_expansion( const std::string &terrain, const tripoint_abs_omt &new_pos );
@@ -188,13 +189,13 @@ class basecamp
         bool point_within_camp( const tripoint_abs_omt &p ) const;
         // upgrade levels
         bool has_provides( const std::string &req, const expansion_data &e_data, int level = 0 ) const;
-        bool has_provides( const std::string &req, const cata::optional<point> &dir = cata::nullopt,
+        bool has_provides( const std::string &req, const std::optional<point> &dir = std::nullopt,
                            int level = 0 ) const;
         void update_resources( const std::string &bldg );
         void update_provides( const std::string &bldg, expansion_data &e_data );
         void update_in_progress( const std::string &bldg, const point &dir );
 
-        bool can_expand();
+        bool can_expand() const;
         /// Returns the name of the building the current building @ref dir upgrades into,
         /// "null" if there isn't one
         std::string next_upgrade( const point &dir, int offset = 1 ) const;
@@ -217,10 +218,10 @@ class basecamp
         /// Takes all the food from the camp_food zone and increases the faction
         /// food_supply
         bool distribute_food();
-        std::string name_display_of( const mission_id miss_id );
+        std::string name_display_of( const mission_id &miss_id );
         void handle_hide_mission( const point &dir );
         void handle_reveal_mission( const point &dir );
-        bool has_water();
+        bool has_water() const;
 
         // recipes, gathering, and craft support functions
         // from a direction
@@ -231,7 +232,6 @@ class basecamp
         void form_crafting_inventory();
         void form_crafting_inventory( map &target_map );
         std::list<item> use_charges( const itype_id &fake_id, int &quantity );
-        item_group_id get_gatherlist() const;
         /**
          * spawn items or corpses based on search attempts
          * @param skill skill level of the search
@@ -264,10 +264,10 @@ class basecamp
         void add_available_recipes( mission_data &mission_key, mission_kind kind, const point &dir,
                                     const std::map<recipe_id, translation> &craft_recipes );
 
-        std::string recruit_description( int npc_count );
+        std::string recruit_description( int npc_count ) const;
         /// Provides a "guess" for some of the things your gatherers will return with
         /// to upgrade the camp
-        std::string gathering_description( const std::string &bldg );
+        std::string gathering_description();
         /// Returns a string for the number of plants that are harvestable, plots ready to plant,
         /// and ground that needs tilling
         std::string farm_description( const tripoint_abs_omt &farm_pos, size_t &plots_count,
@@ -304,19 +304,20 @@ class basecamp
                                        //  const std::vector<item*>& equipment, //  No support for extracting equipment from recipes currently..
                                        const std::map<skill_id, int> &required_skills = {} );
         void start_upgrade( const mission_id &miss_id );
-        std::string om_upgrade_description( const std::string &bldg, bool trunc = false ) const;
+        std::string om_upgrade_description( const std::string &bldg, const mapgen_arguments &,
+                                            bool trunc = false ) const;
         void start_menial_labor();
         void worker_assignment_ui();
         void job_assignment_ui();
         void start_crafting( const std::string &type, const mission_id &miss_id );
 
         /// Called when a companion is sent to cut logs
-        void start_cut_logs( const mission_id miss_id );
-        void start_clearcut( const mission_id miss_id );
-        void start_setup_hide_site( const mission_id miss_id );
-        void start_relay_hide_site( const mission_id miss_id );
+        void start_cut_logs( const mission_id &miss_id );
+        void start_clearcut( const mission_id &miss_id );
+        void start_setup_hide_site( const mission_id &miss_id );
+        void start_relay_hide_site( const mission_id &miss_id );
         /// Called when a companion is sent to start fortifications
-        void start_fortifications( const mission_id miss_id );
+        void start_fortifications( const mission_id &miss_id );
         /// Called when a companion is sent to start digging down salt water pipes
         bool common_salt_water_pipe_construction( const mission_id &miss_id,
                 expansion_salt_water_pipe *pipe,
@@ -324,16 +325,16 @@ class basecamp
         void start_salt_water_pipe( const mission_id &miss_id );
         void continue_salt_water_pipe( const mission_id &miss_id );
         void start_combat_mission( const mission_id &miss_id );
-        void start_farm_op( const tripoint_abs_omt &omt_tgt, const mission_id miss_id );
+        void start_farm_op( const tripoint_abs_omt &omt_tgt, const mission_id &miss_id );
         ///Display items listed in @ref equipment to let the player pick what to give the departing
         ///NPC, loops until quit or empty.
         std::vector<item *> give_equipment( std::vector<item *> equipment, const std::string &msg );
-        drop_locations give_equipment( Character *pc, const inventory_filter_preset preset,
-                                       const std::string &msg, const std::string title, units::volume &total_volume,
+        drop_locations give_equipment( Character *pc, const inventory_filter_preset &preset,
+                                       const std::string &msg, const std::string &title, units::volume &total_volume,
                                        units::mass &total_mass );
-        drop_locations get_equipment( tinymap *target_bay, const tripoint target, Character *pc,
-                                      const inventory_filter_preset preset,
-                                      const std::string &msg, const std::string title, units::volume &total_volume,
+        drop_locations get_equipment( tinymap *target_bay, const tripoint &target, Character *pc,
+                                      const inventory_filter_preset &preset,
+                                      const std::string &msg, const std::string &title, units::volume &total_volume,
                                       units::mass &total_mass );
 
         // mission return functions
@@ -351,15 +352,15 @@ class basecamp
         npc_ptr crafting_mission_return( const mission_id &miss_id, const std::string &return_msg,
                                          const std::string &skill, int difficulty );
         /// select a companion for any mission to return to base
-        npc_ptr emergency_recall( const mission_id miss_id );
+        npc_ptr emergency_recall( const mission_id &miss_id );
 
         /// Called to close upgrade missions, @ref miss is the name of the mission id
         /// and @ref dir is the direction of the location to be upgraded
         bool upgrade_return( const mission_id &miss_id );
 
         /// Choose which expansion you should start, called when a survey mission is completed
-        bool survey_return( const mission_id miss_id );
-        bool menial_return( const mission_id miss_id );
+        bool survey_return( const mission_id &miss_id );
+        bool menial_return( const mission_id &miss_id );
         /// Called when a companion completes a gathering @ref task mission
         bool gathering_return( const mission_id &miss_id, time_duration min_time );
         void recruit_return( const mission_id &miss_id, int score );
@@ -370,7 +371,7 @@ class basecamp
         * @param op whether to plow, plant, or harvest
         */
         bool farm_return( const mission_id &miss_id, const tripoint_abs_omt &omt_tgt );
-        void fortifications_return( const mission_id miss_id );
+        void fortifications_return( const mission_id &miss_id );
         bool salt_water_pipe_swamp_return( const mission_id &miss_id,
                                            const comp_list &npc_list );
         bool salt_water_pipe_return( const mission_id &miss_id,
@@ -396,7 +397,6 @@ class basecamp
         // lazy re-evaluation of available camp resources
         void reset_camp_resources();
         void add_resource( const itype_id &camp_resource );
-        bool resources_updated = false; // NOLINT(cata-serialize)
         // omt pos
         tripoint_abs_omt omt_pos;
         std::vector<npc_ptr> assigned_npcs; // NOLINT(cata-serialize)
@@ -417,13 +417,15 @@ class basecamp
 class basecamp_action_components
 {
     public:
-        basecamp_action_components( const recipe &making, int batch_size, basecamp & );
+        basecamp_action_components( const recipe &making, const mapgen_arguments &, int batch_size,
+                                    basecamp & );
 
         // Returns true iff all necessary components were successfully chosen
         bool choose_components();
         void consume_components();
     private:
         const recipe &making_;
+        const mapgen_arguments &args_;
         int batch_size_;
         basecamp &base_;
         std::vector<comp_selection<item_comp>> item_selections_;

@@ -415,7 +415,7 @@
       "place_vehicles": [
         { "vehicle": "portable_generator", "x": [ 16, 21 ], "y": [ 14, 15 ], "chance": 30, "rotation": 90 },
         { "vehicle": "handjack", "x": [ 16, 22 ], "y": 16, "chance": 30, "rotation": 90 },
-        { "vehicle": "forklift", "x": 18, "y": 9, "chance": 30, "rotation": 90 }
+        { "vehicle": "forklift_vehicles", "x": 18, "y": 9, "chance": 30, "rotation": 90 }
       ]
     }
   },

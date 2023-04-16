@@ -1,0 +1,79 @@
+[
+  {
+    "id": [ "BEM_ANCHOR_SELLER_1", "BEM_ANCHOR_SELLER_ASK" ],
+    "type": "talk_topic",
+    "dynamic_line": {
+      "u_has_var": "ANCHOR_SELLER_paranormal",
+      "type": "dialogue",
+      "context": "BEM_ANCHOR_SELLER",
+      "value": "yes",
+      "yes": "Sorry I rather be left alone right now",
+      "no": "&A grim expression and deep sunken eyes imply some malady that cant be simply drowned with alcohol alone.  They interrupt you just as you were about to introduce yourself.  \"This anchor im wearing, I dont think I will be needing it anymore.  I-I'm just looking for someone to rid me of it"
+    },
+    "responses": [
+      {
+        "text": "Offer to buy the anchor for 1 HGC",
+        "condition": {
+          "not": { "u_has_var": "ANCHOR_SELLER_paranormal", "type": "dialogue", "context": "BEM_ANCHOR_SELLER", "value": "yes" }
+        },
+        "topic": "BEM_ANCHOR_SELLER_2"
+      },
+      {
+        "text": "Well, whats that thing for anyways?",
+        "condition": {
+          "not": { "u_has_var": "ANCHOR_SELLER_paranormal", "type": "dialogue", "context": "BEM_ANCHOR_SELLER", "value": "yes" }
+        },
+        "topic": "BEM_ANCHOR_SELLER_ASK"
+      },
+      {
+        "text": "Sorry, I dont think I can help you.",
+        "condition": {
+          "not": { "u_has_var": "ANCHOR_SELLER_paranormal", "type": "dialogue", "context": "BEM_ANCHOR_SELLER", "value": "yes" }
+        },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Alright, see you around then.",
+        "condition": { "u_has_var": "ANCHOR_SELLER_paranormal", "type": "dialogue", "context": "BEM_ANCHOR_SELLER", "value": "yes" },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "BEM_ANCHOR_SELLER_2",
+    "type": "talk_topic",
+    "dynamic_line": "It takes only a moment to retrieve a suitable coin from your pockets, and yet your interlocutor found enough time to disappear.  Having left a sharp emptiness both in memory and the chair before you.  The anchor has been neatly folded on the table.",
+    "speaker_effect": {
+      "effect": [
+        { "u_add_var": "ANCHOR_SELLER_paranormal", "type": "dialogue", "context": "BEM_ANCHOR_SELLER", "value": "yes" },
+        { "queue_eocs": "EOC_BEM_ANCHOR_SELLER_GONE", "time_in_future": [ "0s", "0s" ] }
+      ]
+    },
+    "responses": [
+      { "text": "Take the anchor.", "effect": [ { "u_spawn_item": "dimensional_anchor", "count": 1 } ], "topic": "TALK_DONE" },
+      {
+        "text": "Take the anchor and leave the coin.  Its a deal?.",
+        "condition": { "u_has_items": { "item": "RobofacCoin", "count": 1 } },
+        "effect": [ { "u_sell_item": "RobofacCoin", "count": 1 }, { "u_spawn_item": "dimensional_anchor", "count": 1 } ],
+        "topic": "TALK_DONE"
+      },
+      { "text": "Just leave, this isn't right at all.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BEM_ANCHOR_SELLER_ASK",
+    "type": "talk_topic",
+    "dynamic_line": "The mercenary stares in silence, a flickering of the overhead lightning thankfully cuts the moment short."
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BEM_ANCHOR_SELLER_GONE",
+    "effect": [ { "mapgen_update": "nest_ancilla_bar_remove_BEM_anchor_seller" } ]
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "nest_ancilla_bar_remove_BEM_anchor_seller",
+    "object": { "remove_npcs": [ { "class": "BEM_anchor_seller", "x": 0, "y": 0 } ] }
+  }
+]

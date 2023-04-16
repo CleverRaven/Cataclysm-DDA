@@ -5,26 +5,33 @@
 #include <iosfwd>
 #include <map>
 #include <new>
+#include <optional>
 #include <set>
 #include <string>
 
 #include "calendar.h"
-#include "optional.h"
 #include "translations.h"
 #include "type_id.h"
 
 class JsonObject;
 
 struct mending_method {
-    std::string id;
-    translation name;
-    translation description;
-    translation success_msg;
-    time_duration time;
-    std::map<skill_id, int> skills;
-    requirement_id requirements;
-    cata::optional<fault_id> turns_into;
-    cata::optional<fault_id> also_mends;
+    public:
+        std::string id;
+        translation name;
+        translation description;
+        translation success_msg;
+        time_duration time;
+        std::map<std::string, std::string> set_variables;
+        std::map<skill_id, int> skills;
+        std::optional<fault_id> turns_into;
+        std::optional<fault_id> also_mends;
+        std::optional<int> heal_stages;
+
+        requirement_data get_requirements() const;
+    private:
+        friend class fault;
+        std::vector<std::pair<requirement_id, int>> requirements;
 };
 
 class fault

@@ -17,6 +17,7 @@
 #include <map>
 #include <memory>
 #include <new>
+#include <optional>
 #include <regex>
 #include <set>
 #include <sstream>
@@ -27,6 +28,7 @@
 
 #include "cached_options.h"
 #include "cata_assert.h"
+#include "cata_scope_helpers.h"
 #include "cata_utility.h"
 #include "color.h"
 #include "cursesdef.h"
@@ -34,7 +36,6 @@
 #include "get_version.h"
 #include "input.h"
 #include "mod_manager.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "path_info.h"
@@ -58,7 +59,6 @@
 #   if defined(_WIN32)
 #       include <dbghelp.h>
 #       if defined(LIBBACKTRACE)
-#           include <backtrace.h>
 #           include <winnt.h>
 #       endif
 #   elif defined(__ANDROID__)
@@ -68,6 +68,10 @@
 #       include <execinfo.h>
 #       include <unistd.h>
 #   endif
+#endif
+
+#if defined(LIBBACKTRACE)
+#   include <backtrace.h>
 #endif
 
 #if defined(TILES)
@@ -227,6 +231,7 @@ std::string filter_name( debug_filter value )
         case DF_CHARACTER: return "DF_CHARACTER";
         case DF_CHAR_CALORIES: return "DF_CHAR_CALORIES";
         case DF_CHAR_HEALTH: return "DF_CHAR_HEALTH";
+        case DF_CRAFTING: return "DF_CRAFTING";
         case DF_CREATURE: return "DF_CREATURE";
         case DF_EFFECT: return "DF_EFFECT";
         case DF_EXPLOSION: return "DF_EXPLOSION";
@@ -238,8 +243,10 @@ std::string filter_name( debug_filter value )
         case DF_MATTACK: return "DF_MATTACK";
         case DF_MELEE: return "DF_MELEE";
         case DF_MONSTER: return "DF_MONSTER";
+        case DF_MUTATION: return "DF_MUTATION";
         case DF_NPC: return "DF_NPC";
         case DF_OVERMAP: return "DF_OVERMAP";
+        case DF_RADIO: return "DF_RADIO";
         case DF_RANGED: return "DF_RANGED";
         case DF_REQUIREMENTS_MAP: return "DF_REQUIREMENTS_MAP";
         case DF_SOUND: return "DF_SOUND";
@@ -389,7 +396,7 @@ void replay_buffered_debugmsg_prompts()
     if( buffered_prompts().empty() || !catacurses::stdscr ) {
         return;
     }
-    for( const auto &prompt : buffered_prompts() ) {
+    for( const buffered_prompt_info &prompt : buffered_prompts() ) {
         debug_error_prompt(
             prompt.filename.c_str(),
             prompt.line.c_str(),
@@ -412,7 +419,7 @@ struct time_info {
         using char_t = typename Stream::char_type;
         using base   = std::basic_ostream<char_t>;
 
-        static_assert( std::is_base_of<base, Stream>::value, "" );
+        static_assert( std::is_base_of<base, Stream>::value );
 
         out << std::setfill( '0' );
         out << std::setw( 2 ) << t.hours << ':' << std::setw( 2 ) << t.minutes << ':' <<
@@ -436,7 +443,8 @@ struct repetition_folder {
 
     int repeat_count = 0;
 
-    bool test( const char *filename, const char *line, const char *funcname, const std::string &text ) {
+    bool test( const char *filename, const char *line, const char *funcname,
+               const std::string &text ) const {
         return m_filename == filename &&
                m_line == line &&
                m_funcname == funcname &&
@@ -470,7 +478,7 @@ struct repetition_folder {
         repeat_count = 0;
     }
 
-    bool timed_out() {
+    bool timed_out() const {
         const time_info now = get_time();
 
         const int now_raw = now.mseconds + 1000 * now.seconds + 60000 * now.minutes + 3600000 * now.hours;
@@ -806,11 +814,12 @@ static std::ostream &operator<<( std::ostream &out, DebugClass cl )
 }
 
 #if defined(BACKTRACE)
-#if !defined(_WIN32) && !defined(__CYGWIN__) && !defined(__ANDROID__)
+#if !defined(_WIN32) && !defined(__CYGWIN__) && !defined(__ANDROID__) && !defined(LIBBACKTRACE)
 // Verify that a string is safe for passing as an argument to addr2line.
 // In particular, we want to avoid any characters of significance to the shell.
 static bool debug_is_safe_string( const char *start, const char *finish )
 {
+    // NOLINTNEXTLINE(modernize-avoid-c-arrays)
     static constexpr char safe_chars[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                                          "abcdefghijklmnopqrstuvwxyz"
                                          "01234567890_./-+";
@@ -858,7 +867,7 @@ static std::string debug_resolve_binary( const std::string &binary, std::ostream
     return binary;
 }
 
-static cata::optional<uintptr_t> debug_compute_load_offset(
+static std::optional<uintptr_t> debug_compute_load_offset(
     const std::string &binary, const std::string &symbol,
     const std::string &offset_within_symbol_s, void *address, std::ostream &out )
 {
@@ -878,19 +887,19 @@ static cata::optional<uintptr_t> debug_compute_load_offset(
 
     // We need to try calling nm in two different ways, because one
     // works for executables and the other for libraries.
-    const char *nm_variants[] = { "nm", "nm -D" };
+    std::array<const char *, 2> nm_variants = { "nm", "nm -D" };
     for( const char *nm_variant : nm_variants ) {
         std::ostringstream cmd;
         cmd << nm_variant << ' ' << binary << " 2>&1";
         FILE *nm = popen( cmd.str().c_str(), "re" );
         if( !nm ) {
             out << "    backtrace: popen(nm) failed: " << strerror( errno ) << "\n";
-            return cata::nullopt;
+            return std::nullopt;
         }
 
-        char buf[1024];
-        while( fgets( buf, sizeof( buf ), nm ) ) {
-            std::string line( buf );
+        std::array<char, 1024> buf;
+        while( fgets( buf.data(), buf.size(), nm ) ) {
+            std::string line( buf.data() );
             while( !line.empty() && isspace( line.end()[-1] ) ) {
                 line.erase( line.end() - 1 );
             }
@@ -909,11 +918,11 @@ static cata::optional<uintptr_t> debug_compute_load_offset(
         pclose( nm );
     }
 
-    return cata::nullopt;
+    return std::nullopt;
 }
 #endif
 
-#if defined(_WIN32) && defined(LIBBACKTRACE)
+#if defined(LIBBACKTRACE)
 // wrap libbacktrace to use std::function instead of function pointers
 using bt_error_callback = std::function<void( const char *, int )>;
 using bt_full_callback = std::function<int( uintptr_t, const char *, int, const char * )>;
@@ -930,6 +939,27 @@ static backtrace_state *bt_create_state( const char *const filename, const int t
     const_cast<bt_error_callback *>( &cb ) );
 }
 
+#if !defined(_WIN32)
+static int bt_full( backtrace_state *const state, int skip, const bt_full_callback &cb_full,
+                    const bt_error_callback &cb_error )
+{
+    using cb_pair = std::pair<const bt_full_callback &, const bt_error_callback &>;
+    cb_pair cb { cb_full, cb_error };
+    return backtrace_full( state, skip,
+                           // backtrace callback
+                           []( void *const data, const uintptr_t pc, const char *const filename,
+    const int lineno, const char *const function ) -> int {
+        cb_pair &cb = *reinterpret_cast<cb_pair *>( data );
+        return cb.first( pc, filename, lineno, function );
+    },
+    // error callback
+    []( void *const data, const char *const msg, const int errnum ) {
+        cb_pair &cb = *reinterpret_cast<cb_pair *>( data );
+        cb.second( msg, errnum );
+    },
+    &cb );
+}
+#else
 static int bt_pcinfo( backtrace_state *const state, const uintptr_t pc,
                       const bt_full_callback &cb_full, const bt_error_callback &cb_error )
 {
@@ -970,6 +1000,7 @@ static int bt_syminfo( backtrace_state *const state, const uintptr_t addr,
     &cb );
 }
 #endif
+#endif
 
 #if defined(_WIN32)
 class sym_init
@@ -1004,12 +1035,13 @@ struct backtrace_module_info_t {
 };
 static std::map<DWORD64, backtrace_module_info_t> bt_module_info_map;
 #endif
-#elif !defined(__ANDROID__)
+#elif !defined(__ANDROID__) && !defined(LIBBACKTRACE)
 static constexpr int bt_cnt = 20;
+// NOLINTNEXTLINE(modernize-avoid-c-arrays)
 static void *bt[bt_cnt];
 #endif
 
-#if !defined(_WIN32) && !defined(__ANDROID__)
+#if !defined(_WIN32) && !defined(__ANDROID__) && !defined(LIBBACKTRACE)
 static void write_demangled_frame( std::ostream &out, const char *frame )
 {
 #if defined(__linux__)
@@ -1062,6 +1094,23 @@ static void write_demangled_frame( std::ostream &out, const char *frame )
 #if !defined(__ANDROID__)
 void debug_write_backtrace( std::ostream &out )
 {
+#if defined(LIBBACKTRACE)
+    auto bt_full_print = [&out]( const uintptr_t pc, const char *const filename,
+    const int lineno, const char *const function ) -> int {
+        std::string file = filename ? filename : "[unknown src]";
+        size_t src = file.find( "/src/" );
+        if( src != std::string::npos )
+        {
+            file.erase( 0, src );
+            file = "…" + file;
+        }
+        out << "\n    0x" << std::hex << pc << std::dec
+            << "    " << file << ":" << lineno
+            << "    " << ( function ? demangle( function ) : "[unknown func]" );
+        return 0;
+    };
+#endif
+
 #if defined(_WIN32)
     if( !sym_init_ ) {
         sym_init_ = std::make_unique<sym_init>();
@@ -1143,18 +1192,8 @@ void debug_write_backtrace( std::ostream &out )
                     << ", msg = " << ( msg ? msg : "[no msg]" )
                     << "),";
             } );
-            bt_pcinfo( bt_module_info.state, de_aslr_pc,
-                       // backtrace callback
-                       [&out]( const uintptr_t pc, const char *const filename,
-            const int lineno, const char *const function ) -> int {
-                out << "\n    (libbacktrace: 0x" << std::hex << pc << std::dec
-                    << "    " << ( filename ? filename : "[unknown src]" )
-                    << ":" << lineno
-                    << "    " << ( function ? function : "[unknown func]" )
-                    << "),";
-                return 0;
-            },
-            // error callback
+            bt_pcinfo( bt_module_info.state, de_aslr_pc, bt_full_print,
+                       // error callback
             [&out]( const char *const msg, const int errnum ) {
                 out << "\n    (backtrace_pcinfo failed: errno = " << errnum
                     << ", msg = " << ( msg ? msg : "[no msg]" )
@@ -1165,7 +1204,18 @@ void debug_write_backtrace( std::ostream &out )
     }
     out << "\n";
 #else
-#   if defined(__CYGWIN__)
+#   if defined(LIBBACKTRACE)
+    auto bt_error = [&out]( const char *err_msg, int errnum ) {
+        out << "\n    libbacktrace error " << errnum << ": " << err_msg;
+    };
+    static backtrace_state *bt_state = bt_create_state( nullptr, 0, bt_error );
+    if( bt_state ) {
+        bt_full( bt_state, 0, bt_full_print, bt_error );
+        out << std::endl;
+    } else {
+        out << "\n\n    Failed to initialize libbacktrace\n";
+    }
+#   elif defined(__CYGWIN__)
     // BACKTRACE is not supported under CYGWIN!
     ( void ) out;
 #   else
@@ -1206,16 +1256,16 @@ void debug_write_backtrace( std::ostream &out )
             out << "    backtrace: popen(addr2line) failed\n";
             return false;
         }
-        char buf[1024];
-        while( fgets( buf, sizeof( buf ), addr2line ) ) {
+        std::array<char, 1024> buf;
+        while( fgets( buf.data(), buf.size(), addr2line ) ) {
             out.write( "    ", 4 );
             // Strip leading directories for source file path
-            char search_for[] = "/src/";
-            char *buf_end = buf + strlen( buf );
-            char *src = std::find_end( buf, buf_end,
+            const char *search_for = "/src/";
+            char *buf_end = buf.data() + strlen( buf.data() );
+            char *src = std::find_end( buf.data(), buf_end,
                                        search_for, search_for + strlen( search_for ) );
             if( src == buf_end ) {
-                src = buf;
+                src = buf.data();
             } else {
                 out << "…";
             }
@@ -1269,7 +1319,7 @@ void debug_write_backtrace( std::ostream &out )
                 std::string symbol_name( symbolNameStart, symbolNameEnd );
                 std::string offset_within_symbol( offsetStart, offsetEnd );
 
-                cata::optional<uintptr_t> offset =
+                std::optional<uintptr_t> offset =
                     debug_compute_load_offset( binary_name, symbol_name, offset_within_symbol,
                                                bt[i], out );
                 if( offset ) {
@@ -1659,7 +1709,6 @@ static std::string windows_version()
             }
         }
 
-
         RegCloseKey( handle_key );
     }
 
@@ -1756,7 +1805,7 @@ std::string game_info::mods_loaded()
         return string_format( "%s [%s]", mod->name(), mod->ident.str() );
     } );
 
-    return join( mod_names, ",\n    " ); // note: 4 spaces for a slight offset.
+    return string_join( mod_names, ",\n    " ); // note: 4 spaces for a slight offset.
 }
 
 std::string game_info::game_report()

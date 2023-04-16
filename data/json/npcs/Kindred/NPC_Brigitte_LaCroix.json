@@ -12,7 +12,9 @@
       { "trait": "ROBUST" },
       { "trait": "SKIN_DARK" },
       { "trait": "seer_mark" },
-      { "trait": "hair_black_mohawk" }
+      { "trait": "hair_black_mohawk" },
+      { "trait": "IGNORE_SOUND" },
+      { "trait": "NO_BASH" }
     ],
     "common": false,
     "bonus_per": { "rng": [ 0, 2 ] },

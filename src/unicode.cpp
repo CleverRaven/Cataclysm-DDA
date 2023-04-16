@@ -1,6 +1,8 @@
 #include "unicode.h"
 
 #include <algorithm>
+#include <map>
+#include <set>
 #include <vector>
 
 // https://en.wikipedia.org/wiki/Unicode_block
@@ -67,4 +69,59 @@ bool is_cjk_or_emoji( const uint32_t ch )
                                       cjk_or_emoji_ranges.end(),
                                       ch, compare_range_end );
     return it != cjk_or_emoji_ranges.end() && ch >= it->first;
+}
+
+void u32_to_lowercase( char32_t &ch )
+{
+    // Reference: https://en.wikibooks.org/wiki/Unicode/Character_reference/0000-0FFF
+    if( ( 0x41 <= ch && ch <= 0x5a ) // A - Z
+        || ( 0xc0 <= ch && ch <= 0x00de ) // accented latin
+        || ( 0x410 <= ch && ch <= 0x42f ) ) { // cyrillic А - cyrillic Я
+        ch += 0x20;
+    } else if( 0x401 <= ch && ch <= 0x40f ) { // cyrillic Ё - cyrillic Џ
+        ch += 0x50;
+    } else if( ch == 0x178 ) { // latin Ÿ
+        ch = 0xff;
+    } else if( ( 0x100 <= ch && ch <= 0x137 ) // latin Ā - latin Ķ
+               || ( 0x14a <= ch && ch <= 0x177 ) // latin Ŋ - latin Ŷ
+               || ( 0x460 <= ch && ch <= 0x481 ) // cyrillic Ѡ - cyrillic Ҁ
+               || ( 0x490 <= ch && ch <= 0x4bf )  // cyrillic Ґ - cyrillic Ҿ
+               || ( 0x4d0 <= ch && ch <= 0x52f ) ) { // cyrillic Ӑ - cyrillic Ԯ
+        if( ( ch & 1 ) == 0 ) {
+            ch += 1;
+        }
+    } else if( ( 0x139 <= ch && ch <= 0x148 ) // latin Ĺ - latin Ň
+               || ( 0x179 <= ch && ch <= 0x17e ) // latin Ź - latin Ž
+               || ( 0x4c1 <= ch && ch <= 0x4cc ) ) { // cyrillic Ӂ - cyrillic Ӌ
+        if( ( ch & 1 ) == 1 ) {
+            ch += 1;
+        }
+    }
+}
+
+void remove_accent( char32_t &ch )
+{
+    static const std::vector<std::pair<char32_t, std::set<char32_t>>> accented_characters {
+        {U'a', {U'á', U'â', U'ä', U'à', U'ã', U'ā', U'å'}},
+        {U'e', {U'é', U'ê', U'ë', U'è', U'ē', U'ę'}},
+        {U'i', {U'í', U'î', U'ï', U'ì', U'ī'}},
+        {U'o', {U'ó', U'ô', U'ö', U'ò', U'õ', U'ō'}},
+        {U'u', {U'ú', U'û', U'ü', U'ù', U'ū'}},
+        {U'n', {U'ñ', U'ń'}},
+        {U'c', {U'ć', U'ç', U'č'}}
+    };
+
+    static std::map<char32_t, char32_t> lookup_table;
+    if( lookup_table.empty() ) {
+        for( const std::pair<char32_t, std::set<char32_t>> &p : accented_characters ) {
+            for( char32_t accented : p.second ) {
+                lookup_table[accented] = p.first;
+            }
+        }
+    }
+
+    auto it = lookup_table.find( ch );
+    if( it != lookup_table.end() ) {
+        ch = it->second;
+    }
 }

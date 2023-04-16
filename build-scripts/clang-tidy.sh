@@ -59,6 +59,10 @@ then
         echo "Missing FileCheck"
         exit 1
     fi
+    if ! which python && which python3
+    then
+        ln -s `which python3` $PWD/tools/clang-tidy-plugin/clang-tidy-plugin-support/bin/python
+    fi
     CATA_CLANG_TIDY=clang-tidy
     lit -v tools/clang-tidy-plugin/test
 fi
@@ -93,9 +97,7 @@ then
     TIDY="all"
 fi
 
-all_cpp_files="$( \
-    grep '"file": "' build/compile_commands.json | \
-    sed "s+.*$PWD/++;s+\"$++")"
+all_cpp_files="$(jq -r '.[].file' build/compile_commands.json)"
 if [ "$TIDY" == "all" ]
 then
     echo "Analyzing all files"

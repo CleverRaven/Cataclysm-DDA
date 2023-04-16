@@ -228,11 +228,11 @@ TEST_CASE( "ursine vision", "[character][ursine][vision]" )
             light_here = here.ambient_light_at( dummy.pos() );
             REQUIRE( light_here == Approx( LIGHT_AMBIENT_MINIMAL ) );
 
-            THEN( "unimpaired sight, with 4 tiles of range" ) {
+            THEN( "unimpaired sight, with 7 tiles of range" ) {
                 dummy.recalc_sight_limits();
                 CHECK_FALSE( dummy.sight_impaired() );
                 CHECK( dummy.unimpaired_range() == 60 );
-                CHECK( dummy.sight_range( light_here ) == 4 );
+                CHECK( dummy.sight_range( light_here ) == 7 );
             }
         }
 

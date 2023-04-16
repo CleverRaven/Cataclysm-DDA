@@ -10,6 +10,7 @@
 #include "calendar.h"
 #include "character.h"
 #include "construction.h"
+#include "effect_on_condition.h"
 #include "field.h"
 #include "game.h"
 #include "item.h"
@@ -37,7 +38,6 @@ static const activity_id ACT_CLEAR_RUBBLE( "ACT_CLEAR_RUBBLE" );
 static const activity_id ACT_CONSUME( "ACT_CONSUME" );
 static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
 static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
-static const activity_id ACT_CONSUME_FUEL_MENU( "ACT_CONSUME_FUEL_MENU" );
 static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
 static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
@@ -72,8 +72,7 @@ static const std::vector<activity_id> consuming {
     ACT_EAT_MENU,
     ACT_CONSUME_FOOD_MENU,
     ACT_CONSUME_DRINK_MENU,
-    ACT_CONSUME_MEDS_MENU,
-    ACT_CONSUME_FUEL_MENU };
+    ACT_CONSUME_MEDS_MENU };
 
 player_activity::player_activity() : type( activity_id::NULL_ID() ) { }
 
@@ -157,10 +156,10 @@ std::string player_activity::get_str_value( size_t index, const std::string &def
     return index < str_values.size() ? str_values[index] : def;
 }
 
-cata::optional<std::string> player_activity::get_progress_message( const avatar &u ) const
+std::optional<std::string> player_activity::get_progress_message( const avatar &u ) const
 {
     if( type == ACT_NULL || get_verb().empty() ) {
-        return cata::optional<std::string>();
+        return std::optional<std::string>();
     }
 
     if( type == ACT_ADV_INVENTORY ||
@@ -173,7 +172,7 @@ cata::optional<std::string> player_activity::get_progress_message( const avatar 
         type == ACT_EAT_MENU ||
         type == ACT_PICKUP_MENU ||
         type == ACT_VIEW_RECIPE ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     std::string extra_info;
@@ -209,7 +208,8 @@ cata::optional<std::string> player_activity::get_progress_message( const avatar 
         }
 
         if( type == ACT_BUILD ) {
-            partial_con *pc = get_map().partial_con_at( get_map().getlocal( u.activity.placement ) );
+            partial_con *pc =
+                get_map().partial_con_at( get_map().bub_from_abs( u.activity.placement ) );
             if( pc ) {
                 int counter = std::min( pc->counter, 10000000 );
                 const int percentage = counter / 100000;
@@ -307,6 +307,17 @@ void player_activity::do_turn( Character &you )
     }
     const bool travel_activity = id() == ACT_TRAVELLING;
     you.set_activity_level( exertion_level() );
+
+    if( !type->do_turn_EOC.is_null() ) {
+        // if we have an EOC defined in json do that
+        dialogue d( get_talker_for( you ), nullptr );
+        if( type->do_turn_EOC->type == eoc_type::ACTIVATION ) {
+            type->do_turn_EOC->activate( d );
+        } else {
+            debugmsg( "Must use an activation eoc for player activities.  Otherwise, create a non-recurring effect_on_condition for this with its condition and effects, then have a recurring one queue it." );
+        }
+    }
+
     // This might finish the activity (set it to null)
     if( actor ) {
         actor->do_turn( *this, you );
@@ -314,6 +325,7 @@ void player_activity::do_turn( Character &you )
         // Use the legacy turn function
         type->call_do_turn( this, &you );
     }
+
     // Activities should never excessively drain stamina.
     // adjusted stamina because
     // autotravel doesn't reduce stamina after do_turn()
@@ -369,6 +381,15 @@ void player_activity::do_turn( Character &you )
     if( *this && moves_left <= 0 ) {
         // Note: For some activities "finish" is a misnomer; that's why we explicitly check if the
         // type is ACT_NULL below.
+        if( !type->completion_EOC.is_null() ) {
+            // if we have an EOC defined in json do that
+            dialogue d( get_talker_for( you ), nullptr );
+            if( type->completion_EOC->type == eoc_type::ACTIVATION ) {
+                type->completion_EOC->activate( d );
+            } else {
+                debugmsg( "Must use an activation eoc for player activities.  Otherwise, create a non-recurring effect_on_condition for this with its condition and effects, then have a recurring one queue it." );
+            }
+        }
         if( actor ) {
             actor->finish( *this, you );
         } else {
@@ -480,13 +501,13 @@ void player_activity::inherit_distractions( const player_activity &other )
     }
 }
 
-
-std::map<distraction_type, std::string> player_activity::get_distractions()
+std::map<distraction_type, std::string> player_activity::get_distractions() const
 {
     std::map < distraction_type, std::string > res;
     activity_id act_id = id();
     if( act_id != ACT_AIM && moves_left > 0 ) {
-        if( !is_distraction_ignored( distraction_type::hostile_spotted_near ) ) {
+        if( uistate.distraction_hostile_close &&
+            !is_distraction_ignored( distraction_type::hostile_spotted_near ) ) {
             Creature *hostile_critter = g->is_hostile_very_close( true );
             if( hostile_critter != nullptr ) {
                 res.emplace( distraction_type::hostile_spotted_near,
@@ -494,7 +515,8 @@ std::map<distraction_type, std::string> player_activity::get_distractions()
                                             g->is_hostile_very_close( true )->get_name() ) );
             }
         }
-        if( !is_distraction_ignored( distraction_type::dangerous_field ) ) {
+        if( uistate.distraction_dangerous_field &&
+            !is_distraction_ignored( distraction_type::dangerous_field ) ) {
             field_entry *field = g->is_in_dangerous_field();
             if( field != nullptr ) {
                 res.emplace( distraction_type::dangerous_field, string_format( _( "You stand in %s!" ),
@@ -505,16 +527,29 @@ std::map<distraction_type, std::string> player_activity::get_distractions()
         // If this is too bothersome, maybe a list of just ACT_CRAFT, ACT_DIG etc
         if( std::find( consuming.begin(), consuming.end(), act_id ) == consuming.end() ) {
             avatar &player_character = get_avatar();
-            if( !is_distraction_ignored( distraction_type::hunger ) ) {
+            if( uistate.distraction_hunger &&
+                !is_distraction_ignored( distraction_type::hunger ) ) {
                 // Starvation value of 5300 equates to about 5kCal.
                 if( calendar::once_every( 2_hours ) && player_character.get_hunger() >= 300 &&
                     player_character.get_starvation() > 5300 ) {
                     res.emplace( distraction_type::hunger, _( "You are at risk of starving!" ) );
                 }
             }
-            if( !is_distraction_ignored( distraction_type::thirst ) ) {
+            if( uistate.distraction_thirst &&
+                !is_distraction_ignored( distraction_type::thirst ) ) {
                 if( player_character.get_thirst() > 520 ) {
                     res.emplace( distraction_type::thirst, _( "You are dangerously dehydrated!" ) );
+                }
+            }
+        }
+        if( uistate.distraction_temperature && !is_distraction_ignored( distraction_type::temperature ) ) {
+            for( const bodypart_id &bp : get_avatar().get_all_body_parts() ) {
+                if( get_avatar().get_part_temp_cur( bp ) > BODYTEMP_VERY_HOT ) {
+                    res.emplace( distraction_type::temperature, _( "You are overheating!" ) );
+                    break;
+                } else if( get_avatar().get_part_temp_cur( bp ) < BODYTEMP_VERY_COLD ) {
+                    res.emplace( distraction_type::temperature, _( "You are freezing!" ) );
+                    break;
                 }
             }
         }

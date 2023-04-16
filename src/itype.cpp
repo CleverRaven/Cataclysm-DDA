@@ -3,6 +3,8 @@
 #include <cstdlib>
 #include <utility>
 
+#include "ammo.h"
+#include "cata_utility.h"
 #include "character.h"
 #include "debug.h"
 #include "item.h"
@@ -38,6 +40,8 @@ std::string enum_to_string<condition_type>( condition_type data )
             return "FLAG";
         case condition_type::COMPONENT_ID:
             return "COMPONENT_ID";
+        case condition_type::COMPONENT_ID_SUBSTRING:
+            return "COMPONENT_ID_SUBSTRING";
         case condition_type::VAR:
             return "VAR";
         case condition_type::SNIPPET_ID:
@@ -64,6 +68,26 @@ std::string enum_to_string<itype_variant_kind>( itype_variant_kind data )
 }
 } // namespace io
 
+std::string itype::get_item_type_string() const
+{
+    if( tool ) {
+        return "TOOL";
+    } else if( comestible ) {
+        return "FOOD";
+    } else if( armor ) {
+        return "ARMOR";
+    } else if( book ) {
+        return "BOOK";
+    } else if( gun ) {
+        return "GUN";
+    } else if( bionic ) {
+        return "BIONIC";
+    } else if( ammo ) {
+        return "AMMO";
+    }
+    return "misc";
+}
+
 std::string itype::nname( unsigned int quantity ) const
 {
     // Always use singular form for liquids.
@@ -72,6 +96,50 @@ std::string itype::nname( unsigned int quantity ) const
         quantity = 1;
     }
     return name.translated( quantity );
+}
+
+int itype::damage_level( int damage ) const
+{
+    if( damage == 0 ) {
+        return 0;
+    }
+    if( count_by_charges() ) {
+        return 5;
+    }
+    return std::clamp( 1 + 4 * damage / damage_max(), 0, 5 );
+}
+
+bool itype::has_any_quality( const std::string &quality ) const
+{
+    return std::any_of( qualities.begin(),
+    qualities.end(), [&quality]( const std::pair<quality_id, int> &e ) {
+        return lcmatch( e.first->name, quality );
+    } ) || std::any_of( charged_qualities.begin(),
+    charged_qualities.end(), [&quality]( const std::pair<quality_id, int> &e ) {
+        return lcmatch( e.first->name, quality );
+    } );
+}
+
+int itype::charges_default() const
+{
+    if( tool ) {
+        return tool->def_charges;
+    } else if( comestible ) {
+        return comestible->def_charges;
+    } else if( ammo ) {
+        return ammo->def_charges;
+    }
+    return count_by_charges() ? 1 : 0;
+}
+
+int itype::charges_to_use() const
+{
+    if( tool ) {
+        return tool->charges_per_use;
+    } else if( comestible ) {
+        return 1;
+    }
+    return 0;
 }
 
 int itype::charges_per_volume( const units::volume &vol ) const
@@ -127,7 +195,7 @@ int itype::tick( Character &p, item &it, const tripoint &pos ) const
     return charges_to_use;
 }
 
-cata::optional<int> itype::invoke( Character &p, item &it, const tripoint &pos ) const
+std::optional<int> itype::invoke( Character &p, item &it, const tripoint &pos ) const
 {
     if( !has_use() ) {
         return 0;
@@ -139,8 +207,8 @@ cata::optional<int> itype::invoke( Character &p, item &it, const tripoint &pos )
     }
 }
 
-cata::optional<int> itype::invoke( Character &p, item &it, const tripoint &pos,
-                                   const std::string &iuse_name ) const
+std::optional<int> itype::invoke( Character &p, item &it, const tripoint &pos,
+                                  const std::string &iuse_name ) const
 {
     const use_function *use = get_use( iuse_name );
     if( use == nullptr ) {
@@ -162,7 +230,10 @@ cata::optional<int> itype::invoke( Character &p, item &it, const tripoint &pos,
 
 std::string gun_type_type::name() const
 {
-    return pgettext( "gun_type_type", name_.c_str() );
+    const itype_id gun_type_as_id( name_ );
+    return gun_type_as_id.is_valid()
+           ? gun_type_as_id->nname( 1 )
+           : pgettext( "gun_type_type", name_.c_str() );
 }
 
 bool itype::can_have_charges() const
@@ -253,6 +324,26 @@ int armor_portion_data::max_coverage( bodypart_str_id bp ) const
     return std::max( primary_max_coverage, secondary_max_coverage );
 }
 
+bool armor_portion_data::should_consolidate( const armor_portion_data &l,
+        const armor_portion_data &r )
+{
+    //check if the following are equal:
+    return l.encumber == r.encumber &&
+           l.max_encumber == r.max_encumber &&
+           l.volume_encumber_modifier == r.volume_encumber_modifier &&
+           l.coverage == r.coverage &&
+           l.cover_melee == r.cover_melee &&
+           l.cover_ranged == r.cover_ranged &&
+           l.cover_vitals == r.cover_vitals &&
+           l.env_resist == r.env_resist &&
+           l.breathability == r.breathability &&
+           l.rigid == r.rigid &&
+           l.comfortable == r.comfortable &&
+           l.rigid_layer_only == r.rigid_layer_only &&
+           l.materials == r.materials &&
+           l.layers == r.layers;
+}
+
 int armor_portion_data::calc_encumbrance( units::mass weight, bodypart_id bp ) const
 {
     // this function takes some fixed points for mass to encumbrance and interpolates them to get results for head encumbrance
@@ -321,4 +412,16 @@ std::tuple<encumbrance_modifier_type, int> armor_portion_data::convert_descripto
             break;
     }
     return { encumbrance_modifier_type::FLAT, 0 };
+}
+
+std::map<itype_id, std::set<itype_id>> islot_magazine::compatible_guns;
+
+const itype_id &itype::tool_slot_first_ammo() const
+{
+    if( tool ) {
+        for( const ammotype &at : tool->ammo_id ) {
+            return at->default_ammotype();
+        }
+    }
+    return itype_id::NULL_ID();
 }

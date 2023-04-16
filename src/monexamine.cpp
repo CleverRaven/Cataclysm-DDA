@@ -60,6 +60,7 @@ static const flag_id json_flag_TIE_UP( "TIE_UP" );
 static const itype_id itype_cash_card( "cash_card" );
 static const itype_id itype_id_military( "id_military" );
 
+static const quality_id qual_CUT( "CUT" );
 static const quality_id qual_SHEAR( "SHEAR" );
 
 static const skill_id skill_survival( "survival" );
@@ -195,7 +196,10 @@ void dump_items( monster &z )
     std::string pet_name = z.get_name();
     Character &player_character = get_player_character();
     map &here = get_map();
-    for( auto &it : z.inv ) {
+    for( item &it : z.inv ) {
+        if( it.has_var( "DESTROY_ITEM_ON_MON_DEATH" ) ) {
+            continue;
+        }
         here.add_item_or_charges( player_character.pos(), it );
     }
     z.inv.clear();
@@ -343,6 +347,16 @@ void play_with( monster &z )
     const std::string &petstr = z.type->petfood.pet;
     player_character.assign_activity(
         player_activity( play_with_pet_activity_actor( pet_name, petstr ) ) );
+}
+
+void cull( monster &z )
+{
+    Character &player_character = get_player_character();
+    if( !player_character.has_quality( qual_CUT ) ) {
+        add_msg( _( "You don't have a cutting tool." ) );
+        return;
+    }
+    z.apply_damage( nullptr, bodypart_id( "torso" ), z.get_hp() );
 }
 
 void add_leash( monster &z )
@@ -562,6 +576,7 @@ bool monexamine::pet_menu( monster &z )
         leash,
         unleash,
         play_with_pet,
+        cull_pet,
         milk,
         shear,
         pay,
@@ -633,6 +648,9 @@ bool monexamine::pet_menu( monster &z )
     if( z.has_flag( MF_CANPLAY ) ) {
         amenu.addentry( play_with_pet, true, 'y', _( "Play with %s" ), pet_name );
     }
+    if( z.has_flag( MF_CAN_BE_CULLED ) ) {
+        amenu.addentry( cull_pet, true, 'y', _( "Cull %s" ), pet_name );
+    }
     if( z.has_flag( MF_MILKABLE ) ) {
         amenu.addentry( milk, true, 'm', _( "Milk %s" ), pet_name );
     }
@@ -697,9 +715,9 @@ bool monexamine::pet_menu( monster &z )
         }
         amenu.addentry( check_bat, false, 'c', _( "%s battery level is %d%%" ), z.get_name(),
                         static_cast<int>( charge_percent ) );
-        if( player_character.get_wielded_item().is_null() && z.battery_item ) {
+        if( !player_character.get_wielded_item() && z.battery_item ) {
             amenu.addentry( mount, true, 'r', _( "Climb into the mech and take control" ) );
-        } else if( !player_character.get_wielded_item().is_null() ) {
+        } else if( player_character.get_wielded_item() ) {
             amenu.addentry( mount, false, 'r', _( "You cannot pilot the mech whilst wielding something" ) );
         } else if( !z.battery_item ) {
             amenu.addentry( mount, false, 'r', _( "This mech has a dead battery and won't turn on" ) );
@@ -755,6 +773,11 @@ bool monexamine::pet_menu( monster &z )
                 play_with( z );
             }
             break;
+        case cull_pet:
+            if( query_yn( _( "Really slaughter your %s?" ), pet_name ) ) {
+                cull( z );
+            }
+            break;
         case leash:
             add_leash( z );
             break;
@@ -806,7 +829,6 @@ bool monexamine::pet_menu( monster &z )
     }
     return true;
 }
-
 
 bool monexamine::mech_hack( monster &z )
 {
@@ -888,7 +910,8 @@ bool monexamine::mfriend_menu( monster &z )
         swap_pos = 0,
         push_monster,
         rename,
-        attack
+        attack,
+        talk_to
     };
 
     uilist amenu;
@@ -900,7 +923,9 @@ bool monexamine::mfriend_menu( monster &z )
     amenu.addentry( push_monster, true, 'p', _( "Push %s" ), pet_name );
     amenu.addentry( rename, true, 'e', _( "Rename" ) );
     amenu.addentry( attack, true, 'a', _( "Attack" ) );
-
+    if( !z.type->chat_topics.empty() ) {
+        amenu.addentry( talk_to, true, 'c', _( "Talk to %s" ), pet_name );
+    }
     amenu.query();
     const int choice = amenu.ret;
 
@@ -918,6 +943,9 @@ bool monexamine::mfriend_menu( monster &z )
             if( query_yn( _( "You may be attacked!  Proceed?" ) ) ) {
                 get_player_character().melee_attack( z, true );
             }
+            break;
+        case talk_to:
+            get_avatar().talk_to( get_talker_for( z ) );
             break;
         default:
             break;

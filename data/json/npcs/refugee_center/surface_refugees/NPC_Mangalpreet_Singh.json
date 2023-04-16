@@ -25,7 +25,12 @@
     "worn_override": "REFUGEE_Mangalpreet_worn",
     "carry_override": "REFUGEE_Mangalpreet_carried",
     "weapon_override": "EMPTY_GROUP",
-    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_SouthAsian" } ],
+    "traits": [
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_SouthAsian" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
     "skills": [
       { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
       { "skill": "cooking", "bonus": { "rng": [ 3, 4 ] } },
@@ -103,7 +108,9 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Mangalpreet_1a",
-    "dynamic_line": { "and": [ "*gives you a solemn nod of recognition.  \"", [ "Hello again.", "Hi there.", "Oh, hello there." ], "\"" ] },
+    "dynamic_line": {
+      "concatenate": [ "*gives you a solemn nod of recognition.  \"", [ "Hello again.", "Hi there.", "Oh, hello there." ], "\"" ]
+    },
     "responses": [
       { "text": "Hi, Mangalpreet.", "topic": "TALK_REFUGEE_Mangalpreet_2" },
       { "text": "Hi Mangalpreet.  I can't stay to talk.", "topic": "TALK_DONE" }
@@ -137,7 +144,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Mangalpreet_Situation",
     "dynamic_line": {
-      "and": [
+      "concatenate": [
         "I have my family.  I have the Guru Granth Sahib",
         {
           "u_compare_var": "refugee_happiness",

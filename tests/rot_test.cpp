@@ -9,7 +9,7 @@
 
 static const flag_id json_flag_FROZEN( "FROZEN" );
 
-static void set_map_temperature( int new_temperature )
+static void set_map_temperature( units::temperature new_temperature )
 {
     get_weather().temperature = new_temperature;
     get_weather().clear_temp_cache();
@@ -37,7 +37,7 @@ TEST_CASE( "Rate of rotting", "[rot]" )
         item sealed_item( "offal_canned" );
         sealed_item = sealed_item.in_its_container();
 
-        set_map_temperature( 65 ); // 18,3 C
+        set_map_temperature( units::from_fahrenheit( 65 ) ); // 18,3 C
 
         normal_item.process( get_map(), nullptr, tripoint_zero, 1, temperature_flag::NORMAL );
         sealed_item.process( get_map(), nullptr, tripoint_zero, 1, temperature_flag::NORMAL );
@@ -104,27 +104,32 @@ TEST_CASE( "Hourly rotpoints", "[rot]" )
     item normal_item( "meat_cooked" );
 
     // No rot below 32F/0C
-    CHECK( normal_item.get_hourly_rotpoints_at_temp( 30 ) == 0 );
+    CHECK( normal_item.calc_hourly_rotpoints_at_temp( units::from_celsius( 0 ) ) == 0 );
 
     // No rot above 145F/63C
-    CHECK( normal_item.get_hourly_rotpoints_at_temp( 150 ) == 0 );
+    CHECK( normal_item.calc_hourly_rotpoints_at_temp( units::from_celsius( 63 ) ) == 0 );
 
     // Make sure no off by one error at the border
-    CHECK( normal_item.get_hourly_rotpoints_at_temp( 145 ) == Approx( 20364.67 ).margin( 0.1 ) );
-    CHECK( normal_item.get_hourly_rotpoints_at_temp( 146 ) == 0 );
+    CHECK( normal_item.calc_hourly_rotpoints_at_temp( units::from_celsius( 62 ) ) == Approx(
+               20364.67 ) );
 
     // 3200 point/h at 65F/18C
-    CHECK( normal_item.get_hourly_rotpoints_at_temp( 65 ) == Approx( 3600 ).margin( 0.1 ) );
+    CHECK( normal_item.calc_hourly_rotpoints_at_temp( units::from_fahrenheit( 65 ) ) == Approx(
+               3600 ) );
 
     // Doubles after +16F
-    CHECK( normal_item.get_hourly_rotpoints_at_temp( 65 + 16 ) == Approx( 3600.0 * 2 ).margin( 0.1 ) );
+    CHECK( normal_item.calc_hourly_rotpoints_at_temp( units::from_fahrenheit( 65 + 16 ) ) == Approx(
+               3600.0 * 2 ) );
 
     // Halves after -16F
-    CHECK( normal_item.get_hourly_rotpoints_at_temp( 65 - 16 ) == Approx( 3600.0 / 2 ).margin( 0.1 ) );
+    CHECK( normal_item.calc_hourly_rotpoints_at_temp( units::from_fahrenheit( 65 - 16 ) ) == Approx(
+               3600.0 / 2 ) );
 
     // Test the linear area. Halfway between 32F/9C (0 point/hour) and 38F/3C (1117.672 point/hour)
-    CHECK( normal_item.get_hourly_rotpoints_at_temp( 35 ) == Approx( 1117.672 / 2 ).margin( 0.1 ) );
+    CHECK( normal_item.calc_hourly_rotpoints_at_temp( units::from_fahrenheit( 35 ) ) == Approx(
+               1117.672 / 2 ) );
 
     // Maximum rot at above 105 F
-    CHECK( normal_item.get_hourly_rotpoints_at_temp( 107 ) == Approx( 20364.67 ).margin( 0.1 ) );
+    CHECK( normal_item.calc_hourly_rotpoints_at_temp( units::from_fahrenheit( 107 ) ) == Approx(
+               20364.67 ) );
 }

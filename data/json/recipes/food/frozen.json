@@ -34,6 +34,7 @@
         [ "blueberries", 1 ],
         [ "blueberries_cooked", 1 ],
         [ "irradiated_blueberries", 1 ],
+        [ "wintergreen_berry", 4 ],
         [ "blackberries", 1 ],
         [ "irradiated_blackberries", 1 ],
         [ "cherries", 1 ],
@@ -66,6 +67,7 @@
         [ "blueberries", 1 ],
         [ "blueberries_cooked", 1 ],
         [ "irradiated_blueberries", 1 ],
+        [ "wintergreen_berry", 4 ],
         [ "blackberries", 1 ],
         [ "irradiated_blackberries", 1 ],
         [ "cherries", 1 ],
@@ -103,6 +105,7 @@
         [ "blueberries", 2 ],
         [ "blueberries_cooked", 2 ],
         [ "irradiated_blueberries", 2 ],
+        [ "wintergreen_berry", 4 ],
         [ "blackberries", 2 ],
         [ "irradiated_blackberries", 2 ],
         [ "cherries", 2 ],
@@ -135,6 +138,7 @@
         [ "blueberries", 2 ],
         [ "blueberries_cooked", 2 ],
         [ "irradiated_blueberries", 2 ],
+        [ "wintergreen_berry", 4 ],
         [ "blackberries", 2 ],
         [ "irradiated_blackberries", 2 ],
         [ "cherries", 2 ],
@@ -193,6 +197,7 @@
         [ "blueberries", 1 ],
         [ "blueberries_cooked", 1 ],
         [ "irradiated_blueberries", 1 ],
+        [ "wintergreen_berry", 4 ],
         [ "blackberries", 1 ],
         [ "irradiated_blackberries", 1 ]
       ],
@@ -224,6 +229,7 @@
         [ "blueberries", 1 ],
         [ "blueberries_cooked", 1 ],
         [ "irradiated_blueberries", 1 ],
+        [ "wintergreen_berry", 4 ],
         [ "blackberries", 1 ],
         [ "irradiated_blackberries", 1 ]
       ],
@@ -240,7 +246,7 @@
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
     "time": "20 m",
-    "tools": [ [ [ "bag_plastic", 2 ] ] ],
+    "tools": [ [ "bag_plastic" ] ],
     "book_learn": [ [ "mag_cooking", 0 ] ],
     "components": [
       [ [ "water_clean", 2 ] ],
@@ -261,6 +267,7 @@
         [ "blueberries", 1 ],
         [ "blueberries_cooked", 1 ],
         [ "irradiated_blueberries", 1 ],
+        [ "wintergreen_berry", 4 ],
         [ "blackberries", 1 ],
         [ "irradiated_blackberries", 1 ]
       ],
@@ -274,7 +281,7 @@
     "//": "in real life, you can use some plastic bags with the correct materials and shake up to make ice cream!",
     "copy-from": "icecream_from_bags",
     "type": "recipe",
-    "tools": [ [ [ "bag_plastic", 2 ] ] ],
+    "tools": [ [ "bag_plastic" ] ],
     "book_learn": [ [ "mag_cooking", 0 ] ],
     "components": [
       [ [ "water_clean", 2 ] ],
@@ -295,6 +302,7 @@
         [ "blueberries", 1 ],
         [ "blueberries_cooked", 1 ],
         [ "irradiated_blueberries", 1 ],
+        [ "wintergreen_berry", 4 ],
         [ "blackberries", 1 ],
         [ "irradiated_blackberries", 1 ]
       ],
@@ -358,6 +366,7 @@
         [ "blueberries", 1 ],
         [ "blueberries_cooked", 1 ],
         [ "irradiated_blueberries", 1 ],
+        [ "wintergreen_berry", 4 ],
         [ "blackberries", 1 ],
         [ "irradiated_blackberries", 1 ]
       ],
@@ -392,7 +401,7 @@
     "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ], [ "food_processor", 10 ] ] ],
     "components": [
       [ [ "water_clean", 1 ], [ "kompot", 1 ] ],
-      [ [ "juice", 1 ], [ "oj", 1 ], [ "apple_cider", 1 ], [ "lemonade", 1 ], [ "cranberry_juice", 1 ] ],
+      [ [ "sweet_juice", 1, "LIST" ] ],
       [ [ "sugar", 5 ], [ "artificial_sweetener", 5 ] ]
     ]
   },
@@ -426,6 +435,7 @@
         [ "blueberries", 1 ],
         [ "blueberries_cooked", 1 ],
         [ "irradiated_blueberries", 1 ],
+        [ "wintergreen_berry", 4 ],
         [ "blackberries", 1 ],
         [ "irradiated_blackberries", 1 ]
       ],

@@ -7,15 +7,16 @@
 
 #include "color.h"
 #include "cursesdef.h"
+#include "mdarray.h"
 #include "point.h"
 
 struct kobject {
     point pos;
     nc_color color;
-    int character = 0;
+    uint8_t character = 0;
 };
 
-static constexpr int MAXMESSAGES = 1200;
+constexpr int MAXMESSAGES = 1200;
 
 class robot_finds_kitten
 {
@@ -33,11 +34,11 @@ class robot_finds_kitten
         kobject kitten;
         kobject empty;
         static constexpr int numbogus = 20;
-        kobject bogus[MAXMESSAGES];
+        std::array<kobject, MAXMESSAGES> bogus;
         std::vector<std::string> bogus_messages;
         static constexpr int rfkLINES = 20;
         static constexpr int rfkCOLS = 60;
-        int rfkscreen[rfkCOLS][rfkLINES];
+        cata::mdarray<int, point, rfkCOLS, rfkLINES> rfkscreen;
         int nummessages = 0;
 
         enum class ui_state : int {

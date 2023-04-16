@@ -7,7 +7,7 @@
     "symbol": ".",
     "color": "red_yellow",
     "move_cost": 5,
-    "roof": "t_flat_roof",
+    "roof": "t_concrete_roof",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT" ],
     "bash": {
       "sound": "SMASH!",
@@ -22,12 +22,12 @@
     "type": "terrain",
     "id": "t_concrete_wall_flesh",
     "name": "overgrown wall",
-    "description": "A concrete wall overgrown by a  grotesque grid of veins and knotted flesh.",
+    "description": "A concrete wall overgrown by a grotesque grid of veins and knotted flesh.",
     "symbol": "LINE_OXOX",
     "color": "magenta_yellow",
     "move_cost": 0,
     "coverage": 100,
-    "roof": "t_flat_roof",
+    "roof": "t_concrete_roof",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 10,

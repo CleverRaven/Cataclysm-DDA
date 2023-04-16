@@ -84,7 +84,6 @@ class enum_bitset
             return static_cast<size_t>( static_cast<typename std::underlying_type<E>::type>( e ) );
         }
 
-    private:
         std::bitset<enum_bitset<E>::size()> bits;
 };
 

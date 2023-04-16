@@ -40,7 +40,6 @@ static const bionic_id bio_armor_arms( "bio_armor_arms" );
 static const bionic_id bio_armor_legs( "bio_armor_legs" );
 static const bionic_id bio_cqb( "bio_cqb" );
 
-static const flag_id json_flag_UNARMED_WEAPON( "UNARMED_WEAPON" );
 static const json_character_flag json_flag_ALWAYS_BLOCK( "ALWAYS_BLOCK" );
 static const json_character_flag json_flag_NONSTANDARD_BLOCK( "NONSTANDARD_BLOCK" );
 
@@ -269,7 +268,7 @@ void ma_technique::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "attack_vectors_random", attack_vectors_random, {} );
 
     for( JsonValue jv : jo.get_array( "eocs" ) ) {
-        eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
 
     reqs.load( jo, src );
@@ -306,9 +305,10 @@ void ma_buff::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "bonus_blocks", blocks_bonus, 0 );
 
     optional( jo, was_loaded, "quiet", quiet, false );
-    optional( jo, was_loaded, "throw_immune", throw_immune, false );
     optional( jo, was_loaded, "stealthy", stealthy, false );
     optional( jo, was_loaded, "melee_bash_damage_cap_bonus", melee_bash_damage_cap_bonus, false );
+
+    optional( jo, was_loaded, "flags", flags );
 
     reqs.load( jo, src );
     bonuses.load( jo );
@@ -339,7 +339,7 @@ void load_martial_art( const JsonObject &jo, const std::string &src )
 class ma_buff_reader : public generic_typed_reader<ma_buff_reader>
 {
     public:
-        mabuff_id get_next( JsonValue jin ) const {
+        mabuff_id get_next( const JsonValue &jin ) const {
             if( jin.test_string() ) {
                 return mabuff_id( jin.get_string() );
             }
@@ -349,7 +349,7 @@ class ma_buff_reader : public generic_typed_reader<ma_buff_reader>
         }
 };
 
-void martialart::load( const JsonObject &jo, const std::string & )
+void martialart::load( const JsonObject &jo, const std::string &src )
 {
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "description", description );
@@ -375,37 +375,37 @@ void martialart::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "onkill_buffs", onkill_buffs, ma_buff_reader{} );
 
     for( JsonValue jv : jo.get_array( "static_eocs" ) ) {
-        static_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        static_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
     for( JsonValue jv : jo.get_array( "onmove_eocs" ) ) {
-        onmove_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        onmove_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
     for( JsonValue jv : jo.get_array( "onpause_eocs" ) ) {
-        onpause_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        onpause_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
     for( JsonValue jv : jo.get_array( "onhit_eocs" ) ) {
-        onhit_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        onhit_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
     for( JsonValue jv : jo.get_array( "onattack_eocs" ) ) {
-        onattack_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        onattack_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
     for( JsonValue jv : jo.get_array( "ondodge_eocs" ) ) {
-        ondodge_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        ondodge_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
     for( JsonValue jv : jo.get_array( "onblock_eocs" ) ) {
-        onblock_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        onblock_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
     for( JsonValue jv : jo.get_array( "ongethit_eocs" ) ) {
-        ongethit_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        ongethit_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
     for( JsonValue jv : jo.get_array( "onmiss_eocs" ) ) {
-        onmiss_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        onmiss_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
     for( JsonValue jv : jo.get_array( "oncrit_eocs" ) ) {
-        oncrit_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        oncrit_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
     for( JsonValue jv : jo.get_array( "onkill_eocs" ) ) {
-        onkill_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        onkill_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
 
     optional( jo, was_loaded, "techniques", techniques, string_id_reader<::ma_technique> {} );
@@ -446,7 +446,7 @@ bool string_id<martialart>::is_valid() const
 std::vector<matype_id> all_martialart_types()
 {
     std::vector<matype_id> result;
-    for( const auto &ma : martialarts.get_all() ) {
+    for( const martialart &ma : martialarts.get_all() ) {
         result.push_back( ma.id );
     }
     return result;
@@ -455,7 +455,7 @@ std::vector<matype_id> all_martialart_types()
 std::vector<matype_id> autolearn_martialart_types()
 {
     std::vector<matype_id> result;
-    for( const auto &ma : martialarts.get_all() ) {
+    for( const martialart &ma : martialarts.get_all() ) {
         if( ma.autolearn_skills.empty() ) {
             continue;
         }
@@ -493,7 +493,7 @@ static void check( const ma_requirements &req, const std::string &display_text )
 
 void check_martialarts()
 {
-    for( const auto &ma : martialarts.get_all() ) {
+    for( const martialart &ma : martialarts.get_all() ) {
         for( auto technique = ma.techniques.cbegin();
              technique != ma.techniques.cend(); ++technique ) {
             if( !technique->is_valid() ) {
@@ -509,10 +509,10 @@ void check_martialarts()
             }
         }
     }
-    for( const auto &t : ma_techniques.get_all() ) {
+    for( const ma_technique &t : ma_techniques.get_all() ) {
         ::check( t.reqs, string_format( "technique %s", t.id.c_str() ) );
     }
-    for( const auto &b : ma_buffs.get_all() ) {
+    for( const ma_buff &b : ma_buffs.get_all() ) {
         ::check( b.reqs, string_format( "buff %s", b.id.c_str() ) );
     }
 }
@@ -551,7 +551,7 @@ void finalize_martial_arts()
 {
     // This adds an effect type for each ma_buff, so we can later refer to it and don't need a
     // redundant definition of those effects in json.
-    for( const auto &buff : ma_buffs.get_all() ) {
+    for( const ma_buff &buff : ma_buffs.get_all() ) {
         const ma_buff_effect_type new_eff( buff );
         // Note the slicing here: new_eff is converted to a plain effect_type, but this doesn't
         // bother us because ma_buff_effect_type does not have any members that can be sliced.
@@ -616,19 +616,17 @@ bool ma_requirements::is_valid_character( const Character &u ) const
     bool cqb = u.has_active_bionic( bio_cqb );
     // There are 4 different cases of "armedness":
     // Truly unarmed, unarmed weapon, style-allowed weapon, generic weapon
-    const item weapon = u.get_wielded_item();
+    const item_location weapon = u.get_wielded_item();
     bool melee_style = u.martial_arts_data->selected_strictly_melee();
     bool is_armed = u.is_armed();
-    bool unarmed_weapon = is_armed && u.used_weapon().has_flag( json_flag_UNARMED_WEAPON );
     bool forced_unarmed = u.martial_arts_data->selected_force_unarmed();
-    bool weapon_ok = is_valid_weapon( weapon );
-    bool style_weapon = u.martial_arts_data->selected_has_weapon( weapon.typeId() );
+    bool weapon_ok = melee_allowed && weapon && is_valid_weapon( *weapon );
+    bool style_weapon = weapon && u.martial_arts_data->selected_has_weapon( weapon->typeId() );
     bool all_weapons = u.martial_arts_data->selected_allow_all_weapons();
 
-    bool unarmed_ok = !is_armed || ( unarmed_weapon && unarmed_weapons_allowed );
-    bool melee_ok = melee_allowed && weapon_ok && ( style_weapon || all_weapons );
+    bool melee_ok = weapon_ok && ( style_weapon || all_weapons );
 
-    bool valid_unarmed = !melee_style && unarmed_allowed && unarmed_ok;
+    bool valid_unarmed = !melee_style && unarmed_allowed && !is_armed;
     bool valid_melee = !strictly_unarmed && ( forced_unarmed || melee_ok );
 
     if( !valid_unarmed && !valid_melee ) {
@@ -657,11 +655,9 @@ bool ma_requirements::is_valid_character( const Character &u ) const
         }
     }
 
-    if( !req_char_flags_all.empty() ) {
-        for( const json_character_flag &flag : req_char_flags_all ) {
-            if( !u.has_flag( flag ) ) {
-                return false;
-            }
+    for( const json_character_flag &flag : req_char_flags_all ) {
+        if( !u.has_flag( flag ) ) {
+            return false;
         }
     }
 
@@ -680,7 +676,7 @@ bool ma_requirements::is_valid_character( const Character &u ) const
     if( !weapon_categories_allowed.empty() ) {
         bool valid_weap_cat = false;
         for( const weapon_category_id &w_cat : weapon_categories_allowed ) {
-            if( u.used_weapon().typeId()->weapon_category.count( w_cat ) > 0 ) {
+            if( u.used_weapon() && u.used_weapon()->typeId()->weapon_category.count( w_cat ) > 0 ) {
                 valid_weap_cat = true;
             }
         }
@@ -820,7 +816,6 @@ std::string ma_requirements::get_description( bool buff ) const
     return dump;
 }
 
-
 ma_technique::ma_technique()
 {
     crit_tec = false;
@@ -866,8 +861,6 @@ ma_buff::ma_buff()
 
     dodges_bonus = 0; // extra dodges, like karate
     blocks_bonus = 0; // extra blocks, like karate
-
-    throw_immune = false;
 
 }
 
@@ -942,10 +935,6 @@ float ma_buff::damage_mult( const Character &u, damage_type dt ) const
 {
     return bonuses.get_mult( u, affected_stat::DAMAGE, dt );
 }
-bool ma_buff::is_throw_immune() const
-{
-    return throw_immune;
-}
 bool ma_buff::is_melee_bash_damage_cap_bonus() const
 {
     return melee_bash_damage_cap_bonus;
@@ -957,6 +946,16 @@ bool ma_buff::is_quiet() const
 bool ma_buff::is_stealthy() const
 {
     return stealthy;
+}
+
+bool ma_buff::has_flag( const json_character_flag &flag ) const
+{
+    for( const json_character_flag &q : flags ) {
+        if( q == flag ) {
+            return true;
+        }
+    }
+    return false;
 }
 
 bool ma_buff::can_melee() const
@@ -1032,7 +1031,7 @@ static void simultaneous_add( Character &u, const std::vector<mabuff_id> &buffs 
             buffer.push_back( &buff );
         }
     }
-    for( auto &elem : buffer ) {
+    for( const ma_buff *&elem : buffer ) {
         elem->apply_buff( u );
     }
 }
@@ -1040,7 +1039,7 @@ static void simultaneous_add( Character &u, const std::vector<mabuff_id> &buffs 
 void martialart::remove_all_buffs( Character &u ) const
 {
     // Remove static buffs
-    for( auto &elem : static_buffs ) {
+    for( const auto &elem : static_buffs ) {
         const efftype_id eff_id = elem->get_effect_id();
         if( u.has_effect( eff_id ) && !elem->persists ) {
             u.remove_effect( eff_id );
@@ -1048,7 +1047,7 @@ void martialart::remove_all_buffs( Character &u ) const
     }
 
     // Remove onmove buffs
-    for( auto &elem : onmove_buffs ) {
+    for( const auto &elem : onmove_buffs ) {
         const efftype_id eff_id = elem->get_effect_id();
         if( u.has_effect( eff_id ) && !elem->persists ) {
             u.remove_effect( eff_id );
@@ -1056,7 +1055,7 @@ void martialart::remove_all_buffs( Character &u ) const
     }
 
     // Remove onpause buffs
-    for( auto &elem : onpause_buffs ) {
+    for( const auto &elem : onpause_buffs ) {
         const efftype_id eff_id = elem->get_effect_id();
         if( u.has_effect( eff_id ) && !elem->persists ) {
             u.remove_effect( eff_id );
@@ -1064,7 +1063,7 @@ void martialart::remove_all_buffs( Character &u ) const
     }
 
     // Remove onhit buffs
-    for( auto &elem : onhit_buffs ) {
+    for( const auto &elem : onhit_buffs ) {
         const efftype_id eff_id = elem->get_effect_id();
         if( u.has_effect( eff_id ) && !elem->persists ) {
             u.remove_effect( eff_id );
@@ -1072,7 +1071,7 @@ void martialart::remove_all_buffs( Character &u ) const
     }
 
     // Remove onattack buffs
-    for( auto &elem : onattack_buffs ) {
+    for( const auto &elem : onattack_buffs ) {
         const efftype_id eff_id = elem->get_effect_id();
         if( u.has_effect( eff_id ) && !elem->persists ) {
             u.remove_effect( eff_id );
@@ -1080,7 +1079,7 @@ void martialart::remove_all_buffs( Character &u ) const
     }
 
     // Remove ondodge buffs
-    for( auto &elem : ondodge_buffs ) {
+    for( const auto &elem : ondodge_buffs ) {
         const efftype_id eff_id = elem->get_effect_id();
         if( u.has_effect( eff_id ) && !elem->persists ) {
             u.remove_effect( eff_id );
@@ -1088,7 +1087,7 @@ void martialart::remove_all_buffs( Character &u ) const
     }
 
     // Remove onblock buffs
-    for( auto &elem : onblock_buffs ) {
+    for( const auto &elem : onblock_buffs ) {
         const efftype_id eff_id = elem->get_effect_id();
         if( u.has_effect( eff_id ) && !elem->persists ) {
             u.remove_effect( eff_id );
@@ -1096,7 +1095,7 @@ void martialart::remove_all_buffs( Character &u ) const
     }
 
     // Remove ongethit buffs
-    for( auto &elem : ongethit_buffs ) {
+    for( const auto &elem : ongethit_buffs ) {
         const efftype_id eff_id = elem->get_effect_id();
         if( u.has_effect( eff_id ) && !elem->persists ) {
             u.remove_effect( eff_id );
@@ -1104,7 +1103,7 @@ void martialart::remove_all_buffs( Character &u ) const
     }
 
     // Remove onmiss buffs
-    for( auto &elem : onmiss_buffs ) {
+    for( const auto &elem : onmiss_buffs ) {
         const efftype_id eff_id = elem->get_effect_id();
         if( u.has_effect( eff_id ) && !elem->persists ) {
             u.remove_effect( eff_id );
@@ -1112,7 +1111,7 @@ void martialart::remove_all_buffs( Character &u ) const
     }
 
     // Remove oncrit buffs
-    for( auto &elem : oncrit_buffs ) {
+    for( const auto &elem : oncrit_buffs ) {
         const efftype_id eff_id = elem->get_effect_id();
         if( u.has_effect( eff_id ) && !elem->persists ) {
             u.remove_effect( eff_id );
@@ -1120,7 +1119,7 @@ void martialart::remove_all_buffs( Character &u ) const
     }
 
     // Remove onkill buffs
-    for( auto &elem : onkill_buffs ) {
+    for( const auto &elem : onkill_buffs ) {
         const efftype_id eff_id = elem->get_effect_id();
         if( u.has_effect( eff_id ) && !elem->persists ) {
             u.remove_effect( eff_id );
@@ -1271,22 +1270,17 @@ bool martialart::has_weapon( const itype_id &itt ) const
     } );
 }
 
-bool martialart::weapon_valid( const item &it ) const
+bool martialart::weapon_valid( const item_location &it ) const
 {
     if( allow_all_weapons ) {
         return true;
     }
 
-    if( it.is_null() && !strictly_melee ) {
+    if( !it && !strictly_melee ) {
         return true;
     }
 
-    if( has_weapon( it.typeId() ) ) {
-        return true;
-    }
-
-    if( !strictly_unarmed && !strictly_melee && !it.is_null() &&
-        it.has_flag( json_flag_UNARMED_WEAPON ) ) {
+    if( it && has_weapon( it->typeId() ) ) {
         return true;
     }
 
@@ -1305,15 +1299,18 @@ std::string martialart::get_initiate_npc_message() const
 // Player stuff
 
 // technique
-std::vector<matec_id> character_martial_arts::get_all_techniques( const item &weap,
+std::vector<matec_id> character_martial_arts::get_all_techniques( const item_location &weap,
         const Character &u ) const
 {
     std::vector<matec_id> tecs;
-    // Grab individual item techniques
-    const auto &weapon_techs = weap.get_techniques();
-    tecs.insert( tecs.end(), weapon_techs.begin(), weapon_techs.end() );
+    const martialart &style = style_selected.obj();
+
+    // Grab individual item techniques if the style allows them
+    if( weap && !style.force_unarmed ) {
+        const auto &weapon_techs = weap->get_techniques();
+        tecs.insert( tecs.end(), weapon_techs.begin(), weapon_techs.end() );
+    }
     // and martial art techniques
-    const auto &style = style_selected.obj();
     tecs.insert( tecs.end(), style.techniques.begin(), style.techniques.end() );
     // And limb techniques
     const auto &limb_techs = u.get_limb_techs();
@@ -1350,9 +1347,8 @@ ma_technique character_martial_arts::get_miss_recovery( const Character &owner )
     return get_valid_technique( owner, &ma_technique::miss_recovery );
 }
 
-
 std::string character_martial_arts::get_valid_attack_vector( const Character &user,
-        std::vector<std::string> attack_vectors ) const
+        const std::vector<std::string> &attack_vectors ) const
 {
     for( auto av : attack_vectors ) {
         if( can_use_attack_vector( user, av ) ) {
@@ -1363,7 +1359,8 @@ std::string character_martial_arts::get_valid_attack_vector( const Character &us
     return "NONE";
 }
 
-bool character_martial_arts::can_use_attack_vector( const Character &user, std::string av ) const
+bool character_martial_arts::can_use_attack_vector( const Character &user,
+        const std::string &av ) const
 {
     martialart ma = style_selected.obj();
     bool valid_weapon = ma.weapon_valid( user.get_wielded_item() );
@@ -1502,7 +1499,6 @@ void character_martial_arts::clear_all_effects( Character &owner )
 {
     style_selected->remove_all_buffs( owner );
 }
-
 
 // event handlers
 void character_martial_arts::ma_static_effects( Character &owner )
@@ -1691,12 +1687,22 @@ float Character::mabuff_attack_cost_mult() const
     return ret;
 }
 
-bool Character::is_throw_immune() const
+bool Character::has_mabuff_flag( const json_character_flag &flag ) const
 {
-    return search_ma_buff_effect( *effects, []( const ma_buff & b, const effect & ) {
-        return b.is_throw_immune();
+    return search_ma_buff_effect( *effects, [flag]( const ma_buff & b, const effect & ) {
+        return b.has_flag( flag );
     } );
 }
+
+int Character::count_mabuff_flag( const json_character_flag &flag ) const
+{
+    int ret = 0;
+    accumulate_ma_buff_effects( *effects, [&ret, flag]( const ma_buff & b, const effect & ) {
+        ret += b.has_flag( flag );
+    } );
+    return ret;
+}
+
 bool Character::is_melee_bash_damage_cap_bonus() const
 {
     return search_ma_buff_effect( *effects, []( const ma_buff & b, const effect & ) {
@@ -1777,8 +1783,7 @@ void character_martial_arts::martialart_use_message( const Character &owner ) co
         owner.add_msg_if_player( m_bad, _( "%s cannot be used with weapons." ), ma.name );
     } else {
         owner.add_msg_if_player( m_bad, _( "The %1$s is not a valid %2$s weapon." ),
-                                 owner.get_wielded_item().tname( 1,
-                                         false ), ma.name );
+                                 owner.get_wielded_item()->tname( 1, false ), ma.name );
     }
 }
 
@@ -2050,7 +2055,7 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
                     return it.typeId() == w;
                 } );
                 // Wielded weapon in cyan, weapons in player inventory in yellow
-                std::string wname = player.get_wielded_item().typeId() == w ?
+                std::string wname = player.get_wielded_item() && player.get_wielded_item()->typeId() == w ?
                                     colorize( item::nname( w ) + _( " (wielded)" ), c_light_cyan ) :
                                     carrying ? colorize( item::nname( w ), c_yellow ) : item::nname( w );
                 bool cat_found = false;
@@ -2092,8 +2097,9 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
                 std::vector<std::string> &weaps = weaps_by_cat[weapon_category_OTHER_INVALID_WEAP_CAT];
                 weaps.erase( std::unique( weaps.begin(), weaps.end() ), weaps.end() );
                 buffer += std::string( "<header>" ) + _( "OTHER" ) + std::string( ":</header> " );
-                buffer += enumerate_as_string( weaps );
+                buffer += enumerate_as_string( weaps ) + "\n";
             }
+            buffer += "--\n";
         }
 
         catacurses::window w;
@@ -2106,12 +2112,11 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
 
         ui_adaptor ui;
         ui.on_screen_resize( [&]( ui_adaptor & ui ) {
-            w = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                    point( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
-                                           TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ) );
+            w = catacurses::newwin( TERMY * 0.9, FULL_SCREEN_WIDTH,
+                                    point( TERMX - FULL_SCREEN_WIDTH, TERMY * 0.1 ) / 2 );
 
-            width = FULL_SCREEN_WIDTH - 4;
-            height = FULL_SCREEN_HEIGHT - 2;
+            width = catacurses::getmaxx( w ) - 4;
+            height = catacurses::getmaxy( w ) - 2;
 
             const auto vFolded = foldstring( text, width );
             iLines = vFolded.size();
@@ -2126,43 +2131,40 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
         } );
         ui.mark_resize();
 
-        input_context ict;
-        ict.register_action( "UP" );
-        ict.register_action( "DOWN" );
-        ict.register_action( "PAGE_UP" );
-        ict.register_action( "PAGE_DOWN" );
-        ict.register_action( "QUIT" );
-        ict.register_action( "HELP_KEYBINDINGS" );
+        scrollbar sb;
+
+        input_context ctxt;
+        sb.set_draggable( ctxt );
+        ctxt.register_navigate_ui_list();
+        ctxt.register_action( "QUIT" );
+        ctxt.register_action( "HELP_KEYBINDINGS" );
 
         ui.on_redraw( [&]( const ui_adaptor & ) {
             werase( w );
             fold_and_print_from( w, point( 2, 1 ), width, selected, c_light_gray, text );
             draw_border( w, BORDER_COLOR, string_format( _( " Style: %s " ), ma.name ) );
-            draw_scrollbar( w, selected, height, iLines, point_south, BORDER_COLOR, true );
+            sb.offset_x( 0 )
+            .offset_y( 1 )
+            .content_size( iLines )
+            .viewport_pos( selected )
+            .viewport_size( height )
+            .slot_color( BORDER_COLOR )
+            .scroll_to_last( false )
+            .apply( w );
             wnoutrefresh( w );
         } );
 
         do {
-            if( selected < 0 || iLines < height ) {
-                selected = 0;
-            } else if( selected >= iLines - height ) {
-                selected = iLines - height;
-            }
-
             ui_manager::redraw();
-            const int scroll_lines = catacurses::getmaxy( w ) - 4;
-            std::string action = ict.handle_input();
+            const size_t scroll_lines = catacurses::getmaxy( w ) - 3;
+            std::string action = ctxt.handle_input();
 
             if( action == "QUIT" ) {
                 break;
-            } else if( action == "DOWN" ) {
-                selected++;
-            } else if( action == "UP" ) {
-                selected--;
-            } else if( action == "PAGE_DOWN" ) {
-                selected += scroll_lines;
-            } else if( action == "PAGE_UP" ) {
-                selected -= scroll_lines;
+            } else if( sb.handle_dragging( action, ctxt.get_coordinates_text( catacurses::stdscr ),
+                                           selected )
+                       || navigate_ui_list( action, selected, scroll_lines, iLines - height + 1, false ) ) {
+                // NO FURTHER ACTION REQUIRED
             }
         } while( true );
     }

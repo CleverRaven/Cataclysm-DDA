@@ -3,6 +3,7 @@
 #include <iosfwd>
 #include <memory>
 #include <new>
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -24,7 +25,6 @@
 #include "material.h"
 #include "monster.h"
 #include "mtype.h"
-#include "optional.h"
 #include "player_helpers.h"
 #include "point.h"
 #include "ret_val.h"
@@ -62,15 +62,15 @@ TEST_CASE( "manhack", "[iuse_actor][manhack]" )
     clear_map();
 
     g->clear_zombies();
-    item &test_item = player_character.i_add( item( "bot_manhack", calendar::turn_zero,
-                      item::default_charges_tag{} ) );
+    item_location test_item = player_character.i_add( item( "bot_manhack", calendar::turn_zero,
+                              item::default_charges_tag{} ) );
 
-    REQUIRE( player_character.has_item( test_item ) );
+    REQUIRE( player_character.has_item( *test_item ) );
 
     monster *new_manhack = find_adjacent_monster( player_character.pos() );
     REQUIRE( new_manhack == nullptr );
 
-    player_character.invoke_item( &test_item );
+    player_character.invoke_item( &*test_item );
 
     REQUIRE( !player_character.has_item_with( []( const item & it ) {
         return it.typeId() == itype_bot_manhack;
@@ -99,7 +99,7 @@ TEST_CASE( "tool transform when activated", "[iuse][tool][transform]" )
 
         // Put battery in flashlight
         REQUIRE( flashlight.has_pocket_type( item_pocket::pocket_type::MAGAZINE_WELL ) );
-        ret_val<bool> result = flashlight.put_in( bat_cell, item_pocket::pocket_type::MAGAZINE_WELL );
+        ret_val<void> result = flashlight.put_in( bat_cell, item_pocket::pocket_type::MAGAZINE_WELL );
         REQUIRE( result.success() );
         REQUIRE( flashlight.magazine_current() );
 
@@ -142,7 +142,7 @@ static void cut_up_yields( const std::string &target )
                             cut_up_target.type->mat_portion_total;
     units::mass smallest_yield_mass = units::mass_max;
     for( const auto &mater : target_materials ) {
-        if( const cata::optional<itype_id> item_id = mater.first->salvaged_into() ) {
+        if( const std::optional<itype_id> item_id = mater.first->salvaged_into() ) {
             units::mass portioned_weight = item_id->obj().weight * ( mater.second / mat_total );
             smallest_yield_mass = std::min( smallest_yield_mass, portioned_weight );
         }
@@ -155,7 +155,7 @@ static void cut_up_yields( const std::string &target )
 
     REQUIRE( smallest_yield_mass <= cut_up_target_mass );
 
-    test_actor.cut_up( guy, tool, item_loc );
+    test_actor.try_to_cut_up( guy, tool, item_loc );
 
     map_stack salvaged_items = here.i_at( guy.pos() );
     units::mass salvaged_mass = 0_gram;

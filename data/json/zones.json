@@ -13,10 +13,16 @@
     "description": "Corpses in this zone you don't otherwise sort will have everything taken off them and dropped on the same tile."
   },
   {
+    "id": "ZONE_START_POINT",
+    "type": "LOOT_ZONE",
+    "name": "Start Point",
+    "description": "A prioritized spawn point."
+  },
+  {
     "id": "zone_unload_all",
     "type": "LOOT_ZONE",
-    "name": "Loot: Unload Containers",
+    "name": "Loot: Unload Everything",
     "can_be_personal": true,
-    "description": "Any containers in this zone you don't otherwise sort will have their contents dumped out and placed on the same tile.  This includes corpses."
+    "description": "Any containers in this zone you don't otherwise sort will have their contents dumped out and placed on the same tile.  This includes corpses, magazines, and magazine wells."
   }
 ]

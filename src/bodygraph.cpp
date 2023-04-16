@@ -73,11 +73,21 @@ void bodygraph::load( const JsonObject &jo, const std::string & )
         mandatory( jo, false, "mirror", mirror );
     } else if( !was_loaded || jo.has_array( "rows" ) ) {
         rows.clear();
+        fill_rows.clear();
         for( const JsonValue jval : jo.get_array( "rows" ) ) {
             if( !jval.test_string() ) {
                 jval.throw_error( "\"rows\" array must contain string values." );
             } else {
                 rows.emplace_back( utf8_display_split( jval.get_string() ) );
+            }
+        }
+        if( jo.has_array( "fill_rows" ) ) {
+            for( const JsonValue jval : jo.get_array( "fill_rows" ) ) {
+                if( !jval.test_string() ) {
+                    jval.throw_error( "\"rows\" array must contain string values." );
+                } else {
+                    fill_rows.emplace_back( utf8_display_split( jval.get_string() ) );
+                }
             }
         }
     }
@@ -109,9 +119,16 @@ void bodygraph::finalize()
                   BPGRAPH_MAXROWS );
     }
 
+    if( !fill_rows.empty() &&  fill_rows.size() != rows.size() ) {
+        debugmsg( "body_graph \"%s\" defines a different number of fill_rows than rows (%d vs. %d).",
+                  id.c_str(),
+                  fill_rows.size(), rows.size() );
+    }
+
     int width = -1;
     bool w_warned = false;
-    for( std::vector<std::string> &r : rows ) {
+    for( size_t i = 0; i < rows.size(); i++ ) {
+        std::vector<std::string> &r = rows[i];
         int w = r.size();
         if( width == -1 ) {
             width = w;
@@ -123,20 +140,39 @@ void bodygraph::finalize()
                       BPGRAPH_MAXCOLS );
             w_warned = true;
         }
+
         r.insert( r.begin(), ( BPGRAPH_MAXCOLS - w ) / 2, " " );
         r.insert( r.end(), BPGRAPH_MAXCOLS - r.size(), " " );
+
+        if( ! fill_rows.empty() ) {
+            std::vector<std::string> &fr = fill_rows[i];
+            if( fr.size() != r.size() ) {
+                debugmsg( "body_graph \"%s\" defines a different number of columns in fill_rows than in rows (%d vs. %d).",
+                          id.c_str(),
+                          fr.size(), w );
+            }
+            fr.insert( fr.begin(), ( BPGRAPH_MAXCOLS - w ) / 2, " " );
+            fr.insert( fr.end(), BPGRAPH_MAXCOLS - fr.size(), " " );
+        }
+
     }
 
-    for( int i = ( BPGRAPH_MAXROWS - rows.size() ) / 2; i > 0; i-- ) {
-        std::vector<std::string> r;
-        r.insert( r.begin(), BPGRAPH_MAXCOLS, " " );
-        rows.insert( rows.begin(), r );
-    }
+    for( std::vector<std::vector<std::string>> temp_rows : {
+             rows, fill_rows
+         } ) {
+        if( !temp_rows.empty() ) {
+            for( int i = ( BPGRAPH_MAXROWS - temp_rows.size() ) / 2; i > 0; i-- ) {
+                std::vector<std::string> r;
+                r.insert( r.begin(), BPGRAPH_MAXCOLS, " " );
+                temp_rows.insert( temp_rows.begin(), r );
+            }
 
-    for( int i = rows.size(); i <= BPGRAPH_MAXROWS; i++ ) {
-        std::vector<std::string> r;
-        r.insert( r.begin(), BPGRAPH_MAXCOLS, " " );
-        rows.emplace_back( r );
+            for( int i = temp_rows.size(); i <= BPGRAPH_MAXROWS; i++ ) {
+                std::vector<std::string> r;
+                r.insert( r.begin(), BPGRAPH_MAXCOLS, " " );
+                temp_rows.emplace_back( r );
+            }
+        }
     }
 }
 
@@ -174,8 +210,6 @@ void bodygraph::check() const
 
 */
 
-#define BPGRAPH_HEIGHT 24
-
 using part_tuple =
     std::tuple<bodypart_id, const sub_body_part_type *, const bodygraph_part *, bool>;
 
@@ -197,6 +231,8 @@ struct bodygraph_display {
     std::vector<part_tuple> partlist;
     bodygraph_info info;
     std::vector<std::string> info_txt;
+    int all_height = 0;
+    int all_width = 0;
     int partlist_width = 0;
     int info_width = 0;
     int sel_part = 0;
@@ -227,7 +263,8 @@ bodygraph_display::bodygraph_display( const Character *u, const bodygraph_id &id
         this->id = bodygraph_full_body;
     }
 
-    ctxt.register_directions();
+    ctxt.register_navigate_ui_list();
+    ctxt.register_leftright();
     ctxt.register_action( "SCROLL_INFOBOX_UP" );
     ctxt.register_action( "SCROLL_INFOBOX_DOWN" );
     ctxt.register_action( "PAGE_UP" );
@@ -240,28 +277,33 @@ void bodygraph_display::init_ui_windows()
 {
     partlist_width = 18;
     info_width = 18;
-    int avail_w = clamp( TERMX - ( BPGRAPH_MAXCOLS + 40 ), 0, 20 );
-    for( int i = avail_w; i > 0; i-- ) {
+    all_height = clamp( BPGRAPH_MAXROWS + 24, 0, TERMY );
+
+    int base_width = BPGRAPH_MAXCOLS + partlist_width + info_width + 4;
+    all_width = clamp( base_width + 40, 0, TERMX );
+    // distribute extra horizontal space to the parts/info columns
+    for( int i = base_width; i < all_width; i++ ) {
         if( i % 4 == 0 ) {
             partlist_width++;
         } else {
             info_width++;
         }
     }
-    int total_w = partlist_width + info_width + BPGRAPH_MAXCOLS + 4;
-    point top_left( TERMX / 2 - total_w / 2, TERMY / 2 - BPGRAPH_HEIGHT / 2 );
 
-    w_border = catacurses::newwin( BPGRAPH_HEIGHT, total_w, top_left );
+    point top_left( TERMX / 2 - all_width / 2, TERMY / 2 - all_height / 2 );
+
+    w_border = catacurses::newwin( all_height, all_width, top_left );
     //NOLINTNEXTLINE(cata-use-named-point-constants)
-    w_partlist = catacurses::newwin( BPGRAPH_HEIGHT - 2, partlist_width, top_left + point( 1, 1 ) );
+    w_partlist = catacurses::newwin( all_height - 2, partlist_width, top_left + point( 1, 1 ) );
+    int graph_vpad = clamp<int>( ( ( all_height - 3 ) - BPGRAPH_MAXROWS ) / 2, 0, all_height );
     w_graph = catacurses::newwin( BPGRAPH_MAXROWS, BPGRAPH_MAXCOLS,
-                                  top_left + point( 2 + partlist_width, 2 ) );
-    w_info = catacurses::newwin( BPGRAPH_HEIGHT - 2, info_width,
+                                  top_left + point( 2 + partlist_width, graph_vpad + 2 ) );
+    w_info = catacurses::newwin( all_height - 2, info_width,
                                  top_left + point( 3 + partlist_width + BPGRAPH_MAXCOLS, 1 ) );
 
     bh_borders = border_helper();
-    bh_borders.add_border().set( top_left, { total_w, BPGRAPH_HEIGHT } );
-    bh_borders.add_border().set( top_left + point( partlist_width + 1, 0 ), { BPGRAPH_MAXCOLS + 2, BPGRAPH_HEIGHT } );
+    bh_borders.add_border().set( top_left, { all_width, all_height } );
+    bh_borders.add_border().set( top_left + point( partlist_width + 1, 0 ), { BPGRAPH_MAXCOLS + 2, all_height } );
 }
 
 void bodygraph_display::draw_borders()
@@ -292,16 +334,16 @@ void bodygraph_display::draw_borders()
     .offset_y( 1 )
     .content_size( partlist.size() )
     .viewport_pos( top_part )
-    .viewport_size( BPGRAPH_HEIGHT - 2 )
+    .viewport_size( all_height - 2 )
     .apply( w_border );
 
     scrollbar()
     .border_color( c_white )
-    .offset_x( 3 + partlist_width + BPGRAPH_MAXCOLS + info_width )
+    .offset_x( all_width - 1 )
     .offset_y( 1 )
     .content_size( info_txt.size() )
     .viewport_pos( top_info )
-    .viewport_size( BPGRAPH_HEIGHT - 2 )
+    .viewport_size( all_height - 2 )
     .apply( w_border );
 
     wnoutrefresh( w_border );
@@ -311,7 +353,7 @@ void bodygraph_display::draw_partlist()
 {
     werase( w_partlist );
     int y = 0;
-    for( int i = top_part; y < BPGRAPH_HEIGHT - 2 && i < static_cast<int>( partlist.size() ); i++ ) {
+    for( int i = top_part; y < all_height - 2 && i < static_cast<int>( partlist.size() ); i++ ) {
         const auto bgt = partlist[i];
         std::string txt = !std::get<1>( bgt ) ?
                           std::get<0>( bgt )->name.translated() :
@@ -358,7 +400,7 @@ void bodygraph_display::draw_info()
     werase( w_info );
     if( std::get<3>( partlist[sel_part] ) ) {
         int y = 0;
-        for( unsigned i = top_info; i < info_txt.size() && y < BPGRAPH_HEIGHT - 2; i++, y++ ) {
+        for( unsigned i = top_info; i < info_txt.size() && y < all_height - 2; i++, y++ ) {
             if( info_txt[i] == "--" ) {
                 for( int x = 1; x < info_width - 2; x++ ) {
                     mvwputch( w_info, point( x, y ), c_dark_gray, LINE_OXOX );
@@ -446,12 +488,12 @@ void bodygraph_display::prepare_infotext( bool reset_pos )
     info_txt.emplace_back( string_format( "%s: %s", colorize( _( "Health" ), c_magenta ),
                                           colorize( hpbar.first, hpbar.second ) ) );
     // part wetness
-    info_txt.emplace_back( string_format( "%s: %.2f%%", colorize( _( "Wetness" ), c_magenta ),
-                                          info.wetness ) );
+    info_txt.emplace_back( string_format( "%s: %d%%", colorize( _( "Wetness" ), c_magenta ),
+                                          static_cast<int>( info.wetness * 100.0f ) ) );
     // part temperature
     const bool temp_precise = u->has_item_with_flag( STATIC( flag_id( "THERMOMETER" ) ) ) ||
                               u->has_flag( STATIC( json_character_flag( "THERMOMETER" ) ) );
-    const int temp = info.temperature.first / 100.0 * 2; // farenheit
+    const units::temperature temp = units::from_fahrenheit( info.temperature.first / 50.0 );
     info_txt.emplace_back( string_format( "%s: %s", colorize( _( "Body temp" ), c_magenta ),
                                           temp_precise ? colorize( print_temperature( temp ),
                                                   info.temperature.second ) : info.temp_approx ) );
@@ -568,32 +610,21 @@ void bodygraph_display::display()
                     prepare_infolist();
                 }
             }
-        } else if( action == "UP" ) {
-            sel_part--;
-            if( sel_part < 0 ) {
-                sel_part = partlist.size() - 1;
-            }
-            prepare_infolist();
-        } else if( action == "DOWN" ) {
-            sel_part++;
-            if( sel_part >= static_cast<int>( partlist.size() ) ) {
-                sel_part = 0;
-            }
-            prepare_infolist();
         } else if( action == "SCROLL_INFOBOX_UP" || action == "PAGE_UP" ) {
             top_info--;
         } else if( action == "SCROLL_INFOBOX_DOWN" || action == "PAGE_DOWN" ) {
             top_info++;
+        } else if( navigate_ui_list( action, sel_part, 3, partlist.size(), true ) ) {
         }
-        if( info_txt.size() >= BPGRAPH_HEIGHT - 2 ) {
-            top_info = clamp( top_info, 0, static_cast<int>( info_txt.size() ) - ( BPGRAPH_HEIGHT - 2 ) );
+        if( static_cast<int>( info_txt.size() ) >= all_height - 2 ) {
+            top_info = clamp( top_info, 0, static_cast<int>( info_txt.size() ) - ( all_height - 2 ) );
         } else {
             top_info = 0;
         }
         if( sel_part < top_part ) {
             top_part = sel_part;
-        } else if( sel_part >= top_part + ( BPGRAPH_HEIGHT - 2 ) ) {
-            top_part = sel_part - ( BPGRAPH_HEIGHT - 3 );
+        } else if( sel_part >= top_part + ( all_height - 2 ) ) {
+            top_part = sel_part - ( all_height - 3 );
         }
     }
 }
@@ -653,7 +684,7 @@ std::vector<std::string> get_bodygraph_lines( const Character &u,
                         missing_section = false;
                     }
                 }
-                sym = missing_section ? " " : iter->second.sym;
+                sym = missing_section ? " " : ( id->fill_rows.empty() ? iter->second.sym : id->fill_rows[i][j] );
             }
             if( rid->rows[i][j] == " " ) {
                 sym = " ";

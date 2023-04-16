@@ -1,0 +1,41 @@
+name: Code Style Reviewer
+
+on:
+  pull_request_target:
+    paths:
+      - '**.json'
+      - '**.cpp'
+      - '**.h'
+      - '**.c'
+  pull_request:
+    paths:
+      - '**.json'
+      - '**.cpp'
+      - '**.h'
+      - '**.c'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}-${{ github.event_name }}
+  cancel-in-progress: true
+
+jobs:
+  style-code:
+    if: ${{ github.event_name == 'pull_request_target' }}
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        ref: '${{ github.event.pull_request.head.sha }}'
+
+    - run: sudo apt-get install astyle
+
+    - run: make astyle-fast
+    - run: make style-all-json-parallel
+
+    - name: 'suggester / JSON & C++'
+      uses: reviewdog/action-suggester@v1
+      if: ${{ always() }}
+      with:
+        tool_name: 'JSON & C++ formatters'

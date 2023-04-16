@@ -21,6 +21,7 @@
     "color": "red",
     "name": { "str": "alpha sample" },
     "description": "A slurry of superiority.",
+    "looks_like": "medical_sample",
     "material": [ "hflesh", "hblood", "bone" ]
   },
   {
@@ -30,6 +31,7 @@
     "color": "green",
     "name": { "str": "frog sample" },
     "description": "A slurry of simplicity.",
+    "looks_like": "medical_sample",
     "material": [ "slime", "blood" ]
   },
   {
@@ -39,6 +41,7 @@
     "color": "light_red",
     "name": { "str": "beast sample" },
     "description": "A slurry of might.",
+    "looks_like": "medical_sample",
     "material": [ "flesh", "blood", "bone", "fur" ]
   },
   {
@@ -48,6 +51,7 @@
     "color": "cyan",
     "name": { "str": "bird sample" },
     "description": "A slurry of freedom.",
+    "looks_like": "medical_sample",
     "material": [ "bone" ]
   },
   {
@@ -57,6 +61,7 @@
     "color": "brown",
     "name": { "str": "cattle sample" },
     "description": "A slurry of tranquility.",
+    "looks_like": "medical_sample",
     "material": [ "flesh", "gutskin" ]
   },
   {
@@ -66,6 +71,7 @@
     "color": "black",
     "name": { "str": "cephalopod sample" },
     "description": "A slurry of curiosity.",
+    "looks_like": "medical_sample",
     "material": [ "flesh", "slime" ]
   },
   {
@@ -75,6 +81,7 @@
     "color": "white",
     "name": { "str": "chimera sample" },
     "description": "A slurry of adaptation.",
+    "looks_like": "medical_sample",
     "material": [ "gutskin", "bone", "fur" ]
   },
   {
@@ -84,6 +91,7 @@
     "color": "light_green",
     "name": { "str": "Elf-A sample" },
     "description": "A slurry of responsibility.",
+    "looks_like": "medical_sample",
     "material": [ "veggy", "hblood" ]
   },
   {
@@ -93,6 +101,7 @@
     "color": "light_gray",
     "name": { "str": "feline sample" },
     "description": "A slurry of flexibility.",
+    "looks_like": "medical_sample",
     "material": [ "fur", "blood" ]
   },
   {
@@ -102,6 +111,7 @@
     "color": "yellow",
     "name": { "str": "fish sample" },
     "description": "A slurry of transformation.",
+    "looks_like": "medical_sample",
     "material": [ "blood", "water" ]
   },
   {
@@ -111,6 +121,7 @@
     "color": "brown_cyan",
     "name": { "str": "snail sample" },
     "description": "A slurry of steadfastness.",
+    "looks_like": "medical_sample",
     "material": [ "chitin", "slime" ]
   },
   {
@@ -120,6 +131,7 @@
     "color": "black_red",
     "name": { "str": "human sample" },
     "description": "A slurry of purity.",
+    "looks_like": "medical_sample",
     "material": [ "hflesh", "hblood" ]
   },
   {
@@ -129,6 +141,7 @@
     "color": "brown",
     "name": { "str": "insect sample" },
     "description": "A slurry of stability.",
+    "looks_like": "medical_sample",
     "material": [ "iflesh", "chitin" ]
   },
   {
@@ -138,6 +151,7 @@
     "color": "green_cyan",
     "name": { "str": "lizard sample" },
     "description": "A slurry of healing.",
+    "looks_like": "medical_sample",
     "material": [ "flesh", "blood" ]
   },
   {
@@ -147,6 +161,7 @@
     "color": "brown",
     "name": { "str": "lupine sample" },
     "description": "A slurry of community.",
+    "looks_like": "medical_sample",
     "material": [ "fur", "flesh", "blood" ]
   },
   {
@@ -165,6 +180,7 @@
     "color": "brown",
     "name": { "str": "mouse sample" },
     "description": "A slurry of experimentation.",
+    "looks_like": "medical_sample",
     "material": [ "flesh", "bone" ]
   },
   {
@@ -174,6 +190,7 @@
     "color": "green",
     "name": { "str": "plant sample" },
     "description": "A slurry of peace.",
+    "looks_like": "medical_sample",
     "material": [ "veggy", "wood" ]
   },
   {
@@ -183,6 +200,7 @@
     "color": "red",
     "name": { "str": "raptor sample" },
     "description": "A slurry of evolution.",
+    "looks_like": "medical_sample",
     "material": [ "bone" ]
   },
   {
@@ -192,6 +210,7 @@
     "color": "light_gray",
     "name": { "str": "rabbit sample" },
     "description": "A slurry of luck.",
+    "looks_like": "medical_sample",
     "material": [ "flesh", "fur" ]
   },
   {
@@ -201,6 +220,7 @@
     "color": "brown",
     "name": { "str": "rat sample" },
     "description": "A slurry of survival.",
+    "looks_like": "medical_sample",
     "material": [ "fur", "bone" ]
   },
   {
@@ -210,6 +230,7 @@
     "color": "light_green",
     "name": { "str": "slime sample" },
     "description": "A slurry of sharing.",
+    "looks_like": "medical_sample",
     "material": [ "slime" ]
   },
   {
@@ -219,6 +240,7 @@
     "color": "dark_gray",
     "name": { "str": "spider sample" },
     "description": "A slurry of sustainability.",
+    "looks_like": "medical_sample",
     "material": [ "chitin", "fur" ]
   },
   {
@@ -228,6 +250,7 @@
     "color": "light_gray",
     "name": { "str": "troglobite sample" },
     "description": "A slurry of reliability.",
+    "looks_like": "medical_sample",
     "material": [ "flesh", "soil" ]
   },
   {
@@ -237,6 +260,7 @@
     "color": "brown",
     "name": { "str": "ursine sample" },
     "description": "A slurry of toughness.",
+    "looks_like": "medical_sample",
     "material": [ "flesh", "fur", "gutskin" ]
   }
 ]

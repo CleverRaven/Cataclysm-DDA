@@ -13,9 +13,8 @@
     "aggression": 100,
     "morale": 100,
     "luminance": 5,
-    "death_drops": { "subtype": "collection", "groups": [ [ "robots", 80 ] ], "//": "80% chance of an item from group robots" },
     "death_function": { "message": "The %s's interior compartment sizzles with destructive energy.", "corpse_type": "BROKEN" },
-    "flags": [ "SEES", "FLIES", "NOHEAD", "ELECTRONIC", "NO_BREATHE", "INTERIOR_AMMO", "STUN_IMMUNE" ]
+    "flags": [ "SEES", "FLIES", "NOHEAD", "ELECTRONIC", "NO_BREATHE", "INTERIOR_AMMO", "STUN_IMMUNE", "PACIFIST" ]
   },
   {
     "id": "mon_EMP_hack",
@@ -109,9 +108,9 @@
     "armor_cut": 8,
     "armor_bullet": 6,
     "revert_to_itype": "bot_manhack",
-    "death_drops": { "groups": [ [ "robots", 4 ], [ "manhack", 1 ] ] },
     "death_function": { "corpse_type": "BROKEN" },
-    "extend": { "flags": [ "HIT_AND_RUN" ] }
+    "extend": { "flags": [ "HIT_AND_RUN" ] },
+    "delete": { "flags": [ "PACIFIST" ] }
   },
   {
     "id": "mon_mininuke_hack",
@@ -149,6 +148,7 @@
     "color": "light_green",
     "aggression": -20,
     "morale": 70,
+    "aggro_character": false,
     "vision_day": 50,
     "vision_night": 20,
     "starting_ammo": { "123ln": 10 },
@@ -165,6 +165,7 @@
         "ranges": [ [ 0, 50, "DEFAULT" ] ],
         "require_targeting_npc": true,
         "require_targeting_monster": true,
+        "target_moving_vehicles": true,
         "laser_lock": true,
         "targeting_cost": 700,
         "targeting_timeout_extend": -10,
@@ -200,6 +201,7 @@
     "armor_cut": 2,
     "armor_bullet": 1,
     "revert_to_itype": "bot_tazer_hack",
+    "death_function": { "corpse_type": "BROKEN" },
     "special_attacks": [ [ "TAZER", 5 ] ]
   }
 ]

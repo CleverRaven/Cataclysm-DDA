@@ -1,0 +1,7 @@
+[
+  {
+    "name": "GROUP_EGG_mosasaurus",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_mosasaurus_hatchling" } ]
+  }
+]

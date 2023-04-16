@@ -123,6 +123,7 @@ enum jmapgen_setmap_op {
     JMAPGEN_SETMAP_TRAP,
     JMAPGEN_SETMAP_RADIATION,
     JMAPGEN_SETMAP_TRAP_REMOVE,
+    JMAPGEN_SETMAP_CREATURE_REMOVE,
     JMAPGEN_SETMAP_ITEM_REMOVE,
     JMAPGEN_SETMAP_FIELD_REMOVE,
     JMAPGEN_SETMAP_BASH,
@@ -133,6 +134,7 @@ enum jmapgen_setmap_op {
     JMAPGEN_SETMAP_LINE_TRAP,
     JMAPGEN_SETMAP_LINE_RADIATION,
     JMAPGEN_SETMAP_LINE_TRAP_REMOVE,
+    JMAPGEN_SETMAP_LINE_CREATURE_REMOVE,
     JMAPGEN_SETMAP_LINE_ITEM_REMOVE,
     JMAPGEN_SETMAP_LINE_FIELD_REMOVE,
     JMAPGEN_SETMAP_OPTYPE_SQUARE = 200,
@@ -141,6 +143,7 @@ enum jmapgen_setmap_op {
     JMAPGEN_SETMAP_SQUARE_TRAP,
     JMAPGEN_SETMAP_SQUARE_RADIATION,
     JMAPGEN_SETMAP_SQUARE_TRAP_REMOVE,
+    JMAPGEN_SETMAP_SQUARE_CREATURE_REMOVE,
     JMAPGEN_SETMAP_SQUARE_ITEM_REMOVE,
     JMAPGEN_SETMAP_SQUARE_FIELD_REMOVE
 };
@@ -166,7 +169,7 @@ struct jmapgen_setmap {
     ) :
         x( ix ), y( iy ), x2( ix2 ), y2( iy2 ), op( iop ), val( ival ), chance( ione_in ),
         repeat( irepeat ), rotation( irotation ),
-        fuel( ifuel ), status( istatus ), string_val( istring_val ) {}
+        fuel( ifuel ), status( istatus ), string_val( std::move( istring_val ) ) {}
 
     mapgen_phase phase() const;
 
@@ -351,7 +354,8 @@ class mapgen_palette
 
             std::string context;
             std::vector<palette_id> ancestors;
-            mapgen_parameters *parameters;
+            mapgen_parameters *top_level_parameters;
+            const mapgen_parameters *current_parameters;
             std::vector<mapgen_constraint<palette_id>> constraints;
         };
 
@@ -431,10 +435,14 @@ class mapgen_function_json_base
 
         void add_placement_coords_to( std::unordered_set<point> & ) const;
 
+        const mapgen_parameters &get_parameters() const {
+            return parameters;
+        }
+
     private:
-        json_source_location jsrcloc;
+        JsonObject jsobj;
     protected:
-        mapgen_function_json_base( const json_source_location &jsrcloc, const std::string &context );
+        mapgen_function_json_base( const JsonObject &jsobj, const std::string &context );
         virtual ~mapgen_function_json_base();
 
         void setup_common();
@@ -473,7 +481,7 @@ class mapgen_function_json : public mapgen_function_json_base, public virtual ma
         bool expects_predecessor() const override;
         void generate( mapgendata & ) override;
         mapgen_parameters get_mapgen_params( mapgen_parameter_scope ) const override;
-        mapgen_function_json( const json_source_location &jsrcloc, int w, const std::string &context,
+        mapgen_function_json( const JsonObject &jsobj, int w, const std::string &context,
                               const point &grid_offset, const point &grid_total );
         ~mapgen_function_json() override = default;
 
@@ -491,16 +499,17 @@ class mapgen_function_json : public mapgen_function_json_base, public virtual ma
 class update_mapgen_function_json : public mapgen_function_json_base
 {
     public:
-        update_mapgen_function_json( const json_source_location &jsrcloc, const std::string &context );
+        update_mapgen_function_json( const JsonObject &jsobj, const std::string &context );
         ~update_mapgen_function_json() override = default;
 
         void setup();
         bool setup_update( const JsonObject &jo );
         void finalize_parameters();
         void check() const;
-        bool update_map( const tripoint_abs_omt &omt_pos, const point &offset,
-                         mission *miss, bool verify = false,
-                         bool mirror_horizontal = false, bool mirror_vertical = false, int rotation = 0 ) const;
+        bool update_map(
+            const tripoint_abs_omt &omt_pos, const mapgen_arguments &, const point &offset,
+            mission *miss, bool verify = false, bool mirror_horizontal = false,
+            bool mirror_vertical = false, int rotation = 0 ) const;
         bool update_map( const mapgendata &md, const point &offset = point_zero,
                          bool verify = false ) const;
 
@@ -515,7 +524,7 @@ class mapgen_function_json_nested : public mapgen_function_json_base
         void setup();
         void finalize_parameters();
         void check() const;
-        mapgen_function_json_nested( const json_source_location &jsrcloc, const std::string &context );
+        mapgen_function_json_nested( const JsonObject &jsobj, const std::string &context );
         ~mapgen_function_json_nested() override = default;
 
         void nest( const mapgendata &md, const point &offset,
@@ -563,6 +572,8 @@ class update_mapgen
  */
 std::shared_ptr<mapgen_function> load_mapgen_function( const JsonObject &jio,
         const std::string &id_base, const point &offset, const point &total );
+void load_and_add_mapgen_function(
+    const JsonObject &jio, const std::string &id_base, const point &offset, const point &total );
 /*
  * Load the above directly from a file via init, as opposed to riders attached to overmap_terrain. Added check
  * for oter_mapgen / oter_mapgen_weights key, multiple possible ( i.e., [ "house_w_1", "duplex" ] )

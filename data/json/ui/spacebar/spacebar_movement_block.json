@@ -1,0 +1,61 @@
+[
+  {
+    "id": "player_movement_block",
+    "type": "widget",
+    "style": "layout",
+    "label": "4_movement block",
+    "arrange": "rows",
+    "width": 48,
+    "widgets": [ "stamina_bar_tmp", "spacebar_move_combine_group_tmp" ]
+  },
+  {
+    "id": "stamina_bar_tmp",
+    "type": "widget",
+    "style": "layout",
+    "label": "movement",
+    "arrange": "minimum_columns",
+    "widgets": [ "spacebar_separator_2", "spacebar_stamina_graph" ]
+  },
+  {
+    "id": "spacebar_stamina_graph",
+    "//": "Like the classic 5-bar stamina graph, but twice as wide",
+    "type": "widget",
+    "var": "stamina",
+    "colors": [ "c_red", "c_light_red", "c_yellow", "c_light_green", "c_green" ],
+    "label": "Stamina",
+    "style": "graph",
+    "width": 36,
+    "fill": "bucket",
+    "symbols": ".oO"
+  },
+  {
+    "id": "spacebar_move_combine_group_tmp",
+    "type": "widget",
+    "style": "layout",
+    "label": "Stamina/Speed/Move",
+    "arrange": "minimum_columns",
+    "widgets": [ "spacebar_separator_2", "spacebar_move_mode_speed", "spacebar_move_count_cost" ]
+  },
+  {
+    "id": "spacebar_move_count_cost",
+    "type": "widget",
+    "style": "layout",
+    "label": "Stamina/Speed/Move",
+    "label_align": "right",
+    "text_align": "left",
+    "width": 28,
+    "arrange": "rows",
+    "widgets": [ "move_count_mode_desc", "move_cost_num", "vehicle_fuel_desc_label" ]
+  },
+  {
+    "id": "spacebar_move_mode_speed",
+    "type": "widget",
+    "style": "layout",
+    "label": "Move",
+    "label_align": "right",
+    "text_align": "left",
+    "width": 28,
+    "arrange": "rows",
+    "widgets": [ "move_mode_desc", "speed_num", "vehicle_cruise_desc_label" ]
+  }
+]

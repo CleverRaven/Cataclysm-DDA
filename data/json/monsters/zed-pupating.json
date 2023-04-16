@@ -72,7 +72,7 @@
     "delete": { "categories": [ "CLASSIC" ] },
     "speed": 95,
     "regenerates": 10,
-    "upgrades": { "half_life": 21, "into_group": "GROUP_BRUTE_PUPA" },
+    "upgrades": { "half_life": 42, "into_group": "GROUP_BRUTE_PUPA" },
     "extend": { "flags": [ "SMALLSLUDGETRAIL", "SLUDGEPROOF" ] }
   },
   {
@@ -109,6 +109,7 @@
     "material": [ "flesh" ],
     "symbol": "Z",
     "color": "white_magenta",
+    "scents_tracked": [ "sc_human", "sc_fetid" ],
     "aggression": 100,
     "morale": 100,
     "melee_skill": 4,
@@ -160,6 +161,7 @@
     "material": [ "flesh" ],
     "symbol": "Z",
     "color": "white_magenta",
+    "scents_tracked": [ "sc_human", "sc_fetid" ],
     "aggression": 100,
     "morale": 100,
     "melee_skill": 4,

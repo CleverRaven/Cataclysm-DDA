@@ -3,6 +3,7 @@
 #include <functional>
 #include <map>
 #include <memory>
+#include <optional>
 #include <sstream>
 #include <string>
 #include <utility>
@@ -10,6 +11,7 @@
 
 #include "cata_utility.h"
 #include "cata_catch.h"
+#include "cata_scope_helpers.h"
 #include "character.h"
 #include "filesystem.h"
 #include "game.h"
@@ -20,7 +22,6 @@
 #include "monster.h"
 #include "monstergenerator.h"
 #include "mtype.h"
-#include "optional.h"
 #include "options.h"
 #include "options_helpers.h"
 #include "point.h"
@@ -81,7 +82,7 @@ static std::ostream &operator<<( std::ostream &os, track const &value )
 
 static std::ostream &operator<<( std::ostream &os, const std::vector<track> &vec )
 {
-    for( const auto &track_instance : vec ) {
+    for( const track &track_instance : vec ) {
         os << track_instance << " ";
     }
     return os;

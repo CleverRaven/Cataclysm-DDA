@@ -2,21 +2,21 @@
   {
     "result": "afs_titanium_vest",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "tailor",
     "difficulty": 1,
-    "time": 10000,
+    "time": "100 s",
     "autolearn": true,
     "reversible": true,
     "using": [ [ "sewing_standard", 14 ] ],
-    "components": [ [ [ "afs_scrap_titanium", 8 ] ], [ [ "rag", 6 ] ] ]
+    "components": [ [ [ "afs_scrap_titanium", 8 ] ], [ [ "cotton_patchwork", 6 ] ] ]
   },
   {
     "result": "afs_recall_rig",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
     "skill_used": "electronics",

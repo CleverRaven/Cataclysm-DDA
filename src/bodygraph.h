@@ -44,9 +44,10 @@ struct bodygraph_info {
 
 struct bodygraph {
     bodygraph_id id;
-    cata::optional<bodypart_id> parent_bp;
-    cata::optional<bodygraph_id> mirror;
+    std::optional<bodypart_id> parent_bp;
+    std::optional<bodygraph_id> mirror;
     std::vector<std::vector<std::string>> rows;
+    std::vector<std::vector<std::string>> fill_rows;
     std::map<std::string, bodygraph_part> parts;
     std::string fill_sym;
     nc_color fill_color = c_white;

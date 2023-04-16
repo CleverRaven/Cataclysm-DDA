@@ -52,11 +52,18 @@ class scenario
         std::vector<mission_type_id> _missions;
         std::vector<effect_on_condition_id> _eoc;
 
+        // does this scenario require a specific achiement to unlock
+        std::optional<achievement_id> _requirement;
+
         bool _custom_start_date = false;
+        bool _is_random_hour = false;
         int _start_hour = 8;
+        bool _is_random_day = false;
         int _start_day = 0;
         season_type _start_season = SPRING;
+        bool _is_random_year = false;
         int _start_year = 1;
+        time_point _start_of_cataclysm;
 
         vproto_id _starting_vehicle = vproto_id::NULL_ID();
 
@@ -92,17 +99,21 @@ class scenario
         int start_location_count() const;
         int start_location_targets_count() const;
 
+        std::optional<achievement_id> get_requirement() const;
+
         bool custom_start_date() const;
+        void rerandomize() const;
         bool is_random_hour() const;
         bool is_random_day() const;
         bool is_random_year() const;
         int start_hour() const;
         // Returns day of the season this scenario starts on
-        int day_of_season() const;
-        // Returns the day of the year this scenario starts on
         int start_day() const;
         season_type start_season() const;
         int start_year() const;
+
+        time_point start_of_cataclysm() const;
+        time_point start_of_game() const;
 
         vproto_id vehicle() const;
 
@@ -132,9 +143,14 @@ class scenario
         bool has_flag( const std::string &flag ) const;
 
         /**
-         *
+         * Do you have the necessary achievement state
          */
-        bool can_pick( const scenario &current_scenario, int points ) const;
+        ret_val<void> can_pick() const;
+
+        /**
+         * Do you have the points to afford swapping to this scenario
+         */
+        ret_val<void> can_afford( const scenario &current_scenario, int points ) const;
 
         const std::vector<mission_type_id> &missions() const;
         const std::vector<effect_on_condition_id> &eoc() const;

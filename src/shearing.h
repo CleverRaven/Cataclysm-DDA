@@ -27,7 +27,6 @@ struct shearing_entry {
 
     bool was_loaded = false;
     void load( const JsonObject &jo );
-    //void deserialize( JsonIn &jsin );
 };
 
 class shearing_data

@@ -5,6 +5,7 @@
 #include <climits>
 #include <cstddef>
 #include <iosfwd>
+#include <optional>
 #include <set>
 #include <string>
 #include <unordered_set>
@@ -14,10 +15,10 @@
 #include "calendar.h"
 #include "clone_ptr.h"
 #include "compatibility.h"
+#include "coordinates.h"
 #include "enums.h"
 #include "item_location.h"
 #include "memory_fast.h"
-#include "optional.h"
 #include "point.h"
 #include "type_id.h"
 
@@ -63,7 +64,11 @@ class player_activity
         std::vector<tripoint> coords;
         std::unordered_set<tripoint> coord_set;
         std::vector<weak_ptr_fast<monster>> monsters;
-        tripoint placement;
+        static constexpr tripoint_abs_ms invalid_place{ tripoint_min };
+        tripoint_abs_ms placement;
+        // ACT_START_ENGINES needs a relative position because the engine might
+        // be in a moving vehicle at the time.
+        tripoint_rel_ms relative_placement;
 
         bool no_drink_nearby_for_auto_consume = false; // NOLINT(cata-serialize)
         bool no_food_nearby_for_auto_consume = false; // NOLINT(cata-serialize)
@@ -123,7 +128,7 @@ class player_activity
         /**
          * Helper that returns an activity specific progress message.
          */
-        cata::optional<std::string> get_progress_message( const avatar &u ) const;
+        std::optional<std::string> get_progress_message( const avatar &u ) const;
 
         /**
          * If this returns true, the action can be continued without
@@ -179,7 +184,7 @@ class player_activity
             return !actor || actor->do_drop_invalid_inventory();
         }
 
-        std::map<distraction_type, std::string> get_distractions();
+        std::map<distraction_type, std::string> get_distractions() const;
 };
 
 #endif // CATA_SRC_PLAYER_ACTIVITY_H

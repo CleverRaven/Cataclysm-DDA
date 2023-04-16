@@ -52,8 +52,8 @@ void loading_ui::init()
             menu->reposition( ui );
         } );
         menu->reposition( *ui );
-        ui->on_redraw( [this]( const ui_adaptor & ) {
-            menu->show();
+        ui->on_redraw( [this]( ui_adaptor & ui ) {
+            menu->show( ui );
         } );
     }
 }

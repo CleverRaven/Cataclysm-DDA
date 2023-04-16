@@ -1,5 +1,5 @@
 #include <functional>
-#include <functional>
+#include <optional>
 #include <list>
 
 #include "cata_catch.h"
@@ -10,7 +10,6 @@
 #include "map.h"
 #include "map_helpers.h"
 #include "map_selector.h"
-#include "optional.h"
 #include "player_helpers.h"
 #include "point.h"
 #include "ret_val.h"
@@ -76,14 +75,14 @@ TEST_CASE( "item_in_container", "[item][item_location]" )
 {
     Character &dummy = get_player_character();
     clear_avatar();
-    item &backpack = dummy.i_add( item( "backpack" ) );
+    item_location backpack = dummy.i_add( item( "backpack" ) );
     item jeans( "jeans" );
 
-    REQUIRE( dummy.has_item( backpack ) );
+    REQUIRE( dummy.has_item( *backpack ) );
 
-    backpack.put_in( jeans, item_pocket::pocket_type::CONTAINER );
+    backpack->put_in( jeans, item_pocket::pocket_type::CONTAINER );
 
-    item_location backpack_loc( dummy, & **dummy.wear_item( backpack ) );
+    item_location backpack_loc( dummy, & **dummy.wear_item( *backpack ) );
 
     REQUIRE( dummy.has_item( *backpack_loc ) );
 

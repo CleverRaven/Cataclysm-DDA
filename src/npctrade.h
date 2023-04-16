@@ -16,20 +16,21 @@ constexpr char const *VAR_TRADE_IGNORE = "trade_ignore";
 class Character;
 class item;
 class npc;
+struct faction_price_rule;
 class item_pricing
 {
     public:
-        item_pricing( Character &c, item &it, int v, int count ) : loc( c, &it ), price( v ) {
+        item_pricing( Character &c, item &it, double v, int count ) : loc( c, &it ), price( v ) {
             set_values( count );
         }
 
-        item_pricing( item_location &&l, int v, int count ) : loc( std::move( l ) ), price( v ) {
+        item_pricing( item_location &&l, double v, int count ) : loc( std::move( l ) ), price( v ) {
             set_values( count );
         }
         void set_values( int ip_count );
 
         item_location loc;
-        int price = 0;
+        double price = 0;
         // Whether this is selected for trading
         bool selected = false;
         bool is_container = false;

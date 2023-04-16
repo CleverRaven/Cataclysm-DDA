@@ -96,7 +96,7 @@ catacurses::window catacurses::newwin( int nlines, int ncols, const point &begin
     } ) );
 }
 
-static inline int newline( cata_cursesport::WINDOW *win )
+static int newline( cata_cursesport::WINDOW *win )
 {
     if( win->cursor.y < win->height - 1 ) {
         win->cursor.y++;
@@ -108,7 +108,7 @@ static inline int newline( cata_cursesport::WINDOW *win )
 
 // move the cursor a single cell, jumps to the next line if the
 // end of a line has been reached, also sets the touched flag.
-static inline void addedchar( cata_cursesport::WINDOW *win )
+static void addedchar( cata_cursesport::WINDOW *win )
 {
     win->cursor.x++;
     win->line[win->cursor.y].touched = true;
@@ -220,7 +220,7 @@ void catacurses::wredrawln( const window &/*win*/, int /*beg_line*/, int /*num_l
 
 // Get a sequence of Unicode code points, store them in target
 // return the display width of the extracted string.
-static inline int fill( const char *&fmt, int &len, std::string &target )
+static int fill( const char *&fmt, int &len, std::string &target )
 {
     const char *const start = fmt;
     int dlen = 0; // display width
@@ -259,7 +259,7 @@ static inline int fill( const char *&fmt, int &len, std::string &target )
 // The current cell of the window, pointed to by the cursor. The next character
 // written to that window should go in this cell.
 // Returns nullptr if the cursor is invalid (outside the window).
-static inline cata_cursesport::cursecell *cur_cell( cata_cursesport::WINDOW *win )
+static cata_cursesport::cursecell *cur_cell( cata_cursesport::WINDOW *win )
 {
     if( win->cursor.y >= win->height || win->cursor.x >= win->width ) {
         return nullptr;
@@ -268,7 +268,7 @@ static inline cata_cursesport::cursecell *cur_cell( cata_cursesport::WINDOW *win
 }
 
 //The core printing function, prints characters to the array, and sets colors
-static inline void printstring( cata_cursesport::WINDOW *win, const std::string &text )
+static void printstring( cata_cursesport::WINDOW *win, const std::string &text )
 {
     using cata_cursesport::cursecell;
     win->draw = true;
