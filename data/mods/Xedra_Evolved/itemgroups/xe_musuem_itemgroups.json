@@ -62,5 +62,21 @@
       { "group": "bannerman_armor", "prob": 6 },
       { "group": "dreamer_artifact", "prob": 6 }
     ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "museum_plaques_visitors",
+    "items": [
+      [ "museum_plaques_visitors", 80 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "museum_plaques_items",
+    "items": [
+      [ "museum_plaques_items", 80 ]
+    ]
   }
 ]
