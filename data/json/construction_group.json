@@ -1181,11 +1181,6 @@
   },
   {
     "type": "construction_group",
-    "id": "place_foodco",
-    "name": "Place FOODCO"
-  },
-  {
-    "type": "construction_group",
     "id": "place_microwave",
     "name": "Place Microwave"
   },

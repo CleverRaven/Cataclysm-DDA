@@ -36,54 +36,6 @@
     "type": "vehicle_part"
   },
   {
-    "abstract": "craft_rig_abstract",
-    "breaks_into": [
-      { "count": [ 4, 7 ], "item": "steel_lump" },
-      { "count": [ 4, 7 ], "item": "steel_chunk" },
-      { "count": [ 4, 7 ], "item": "scrap" },
-      { "item": "pan", "prob": 50 },
-      { "item": "pot", "prob": 50 },
-      { "charges": 0, "item": "water_purifier", "prob": 50 },
-      { "charges": 0, "item": "vac_sealer", "prob": 50 },
-      { "charges": 0, "item": "dehydrator", "prob": 50 },
-      { "charges": 0, "item": "food_processor", "prob": 50 },
-      { "item": "press", "prob": 50 }
-    ],
-    "broken_color": "light_gray",
-    "broken_symbol": "x",
-    "categories": [ "utility" ],
-    "color": "light_green",
-    "damage_modifier": 10,
-    "damage_reduction": { "all": 20 },
-    "description": "A multi-function crafting station, with a water purifier, food dehydrator, vacuum sealer, and hand press for making ammo.  Draws power from the vehicle's batteries.  'e'xamine the tile with the kitchen buddy to access the water faucet or to purify water in a vehicle tank or in a container in your inventory.  If you attempt to craft an item that needs one of the kitchen buddy's functions, it will automatically be selected as a tool.",
-    "durability": 80,
-    "flags": [ "CARGO", "OBSTACLE", "COVERED" ],
-    "pseudo_tools": [
-      { "id": "vac_sealer" },
-      { "id": "dehydrator" },
-      { "id": "water_purifier", "hotkey": "p" },
-      { "id": "food_processor" },
-      { "id": "press" },
-      { "id": "puller" }
-    ],
-    "item": "craftrig",
-    "location": "center",
-    "looks_like": "f_sink",
-    "name": { "str": "FOODCO kitchen buddy" },
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": {
-        "skills": [ [ "mechanics", 4 ] ],
-        "time": "60 m",
-        "using": [ [ "repair_welding_standard", 2 ], [ "soldering_standard", 15 ] ]
-      }
-    },
-    "size": "50 L",
-    "symbol": "&",
-    "type": "vehicle_part"
-  },
-  {
     "abstract": "veh_forge_abstract",
     "breaks_into": [
       { "count": [ 4, 5 ], "item": "steel_lump" },
@@ -154,12 +106,6 @@
   {
     "copy-from": "kitchen_unit_abstract",
     "id": "kitchen_unit",
-    "symbol": "&",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "craft_rig_abstract",
-    "id": "craft_rig",
     "symbol": "&",
     "type": "vehicle_part"
   },
