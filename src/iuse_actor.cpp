@@ -347,8 +347,6 @@ void iuse_transform::do_transform( Character &p, item &it ) const
     }
     obj->item_counter = countdown > 0 ? countdown : obj->type->countdown_interval;
     obj->countdown_point = calendar::turn + target_timer;
-    debugmsg( "%i + %i = %i.", to_seconds<int>( calendar::turn - calendar::turn_zero ),
-              to_seconds<int>( target_timer ), to_seconds<int>( obj->countdown_point - calendar::turn_zero ) );
     obj->active = active || obj->item_counter || obj->has_temperature() || target_timer > 0_seconds;
     if( p.is_worn( *obj ) ) {
         if( !obj->is_armor() ) {

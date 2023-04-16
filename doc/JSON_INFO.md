@@ -3988,6 +3988,44 @@ The contents of use_action fields can either be a string indicating a built-in f
     }
 ```
 
+#### Delayed item action
+
+Use actions can be used with a timer delay.
+
+
+
+Timer can be set with `"countdown2"` use action.
+```
+"use_action": {
+    "type": "countdown2"
+	"name": "push button", // Optional name for the action.
+	"message": "You push the button", // Optional message shown from the action
+    "interval ": "5 seconds",  // Timer on item is set to this
+}
+```
+
+Or in `"transform"` use action.
+```
+"use_action": {
+    "type": "transform"
+    "target": "grenade_act",
+    "target_timer": "5 seconds",  // Timer on item is set to this
+}
+```
+
+When the time duration specified has passed the action in `"countdown_action2"` is triggered. This action can be any use action.
+
+```
+"countdown_action2": {
+    "type": "explosion",
+    "explosion": { "power": 240, "shrapnel": { "casing_mass": 217, "fragment_mass": 0.08 } }
+}
+```
+
+Additional options can be defined in item definitions (not in use action):
+```"countdown_destroy": true``` If set to true the item is removed after its countdown action is triggered.
+```"countdown_interval": "1 seconds"``` Timer duration set in item. Used when item spawns with active timer.
+
 ### Random Descriptions
 
 Any item with a "snippet_category" entry will have random descriptions, based on that snippet category:
