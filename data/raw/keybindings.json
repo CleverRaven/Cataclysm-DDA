@@ -2102,6 +2102,15 @@
   },
   {
     "type": "keybinding",
+    "name": "Toggle language to English",
+    "category": "DEFAULTMODE",
+    "id": "toggle_language_to_en",
+    "bindings": [
+      {"input_method": "keyboard_char","key": ","}
+    ]
+  },
+  {
+    "type": "keybinding",
     "name": "Toggle map memory",
     "category": "DEFAULTMODE",
     "id": "toggle_map_memory"

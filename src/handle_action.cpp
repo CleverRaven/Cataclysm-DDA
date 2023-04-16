@@ -2695,6 +2695,10 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             }
             break;
 
+        case ACTION_TOGGLE_LANGUAGE_TO_EN:
+            toggle_language_to_en();
+            break;
+
         case ACTION_TOGGLE_AUTO_FORAGING:
             get_options().get_option( "AUTO_FORAGING" ).setNext();
             get_options().save();
