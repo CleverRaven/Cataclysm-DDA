@@ -6,7 +6,7 @@ Portal Storms should consist of the inexplainable and the disturbing.  There sho
 
 ## Reminders
 Some things to keep in mind when working on Portal Storms:
-* Portal storms are weather: Portal storms were originally planned as a less disruptive version of acid rain. You are not writing boss fights, or end game encounters, you are writing and implementing weather effects. Try not to lose track of that.
+* Portal storms are weather: You are not writing boss fights, or end game encounters, you are writing and implementing weather effects. Try not to lose track of that.
 * Portal storms shouldn't be forced rest: It should be *possible* for a strong character to maneuver in a portal storm. It can be risky, but shouldn't be impossible.
 * Portal storm encounters don't need to be rewarding: Some encounters will be, but not every encounter needs a carrot. The variance of portal storms means that traveling the storms is a gamble, sometimes you get lucky, other times you do not.
 * Portal storms should only be *actively* dangerous with creatures hunting you when you go outside (more on this in balance).
@@ -29,13 +29,13 @@ Being outside in a portal storm should draw the attention of the malicious eniti
 
 ## Passive vs Active
 Portal storms should represent two seperate ideas.
-1. Creatures and objects from other realities pouring into ours, misshapen and incomprehensible.
-2. Active malice from powerful otherworldly figures you have drawn the ire of that want you explicitly dead.
+1. *Passively* creatures and objects from other realities are pouring into ours, misshapen and incomprehensible.
+2. *Actively* you are targeted by powerful otherworldly figures you have drawn the ire of that want you explicitly dead.
 
 With this goal in mind, portal storms are split into two categories of event. 
 
 ### `Passive` 
-These events represent goal `1` above and should reflect creatures that are more disturbing than dangerous, or behave more as obstacles than active threats. They should not be able to **actively** hunt the player. Passive effects happen whether or not the portal storm is aware of the Player. These are the effects of worlds colliding together, no intent, just chaos. 
+These events represent goal 1 in the entry above and should reflect creatures that are more disturbing than dangerous, or behave more as obstacles than active threats. They should not be able to **actively** hunt the player. Passive effects happen whether or not the portal storm is aware of the Player. These are the effects of worlds colliding together, no intent, just chaos. 
 
 Passive examples include stuff like:
 * Inexplainable shapes, immoving creatures that if you look on for too long make you go insane.
@@ -43,11 +43,11 @@ Passive examples include stuff like:
 * Giant appendages, similarly creatures with no senses, however these ones are much more dangerous if you do get into melee with them.
 
 ### `Active`
-These events represent goal `2`. This is where the designs can get more awful. These entities should be actively trying to sabotage, disrupt, and destroy the player. This doesn't mean they should be strong combatants but it does mean they should be able to percieve, track and follow the player.  These effects should *only* happen if you have built up `ire` and should cost `ire` to generate.
+These events represent goal 2 in the entry above. This is where the designs can get more awful. These entities should be actively trying to sabotage, disrupt, and destroy the player. This doesn't mean they should be strong combatants but it does mean they should be able to percieve, track and follow the player.  These effects should *only* happen if you have built up `ire` and should cost `ire` to generate.
 
 Active examples include stuff like:
 * The Person, a clairvoyant entity that attempts to follow you into buildings and on touching you causes nightmares and hallucinations
-* The Swarm Structure a mass of deadly blades that explodes into fragments on getting close to the player.
+* The Swarm Structure, a mass of deadly blades that explodes into fragments on getting close to the player.
 
 ### Non conforming storms
 This is relating to people looking to implement themed storms. All future storm concepts should at some level follow the above paradigm even if it isn't directly.
