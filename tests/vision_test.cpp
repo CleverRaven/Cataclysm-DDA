@@ -149,7 +149,6 @@ struct vision_test_case {
                       const time_point &time ) : setup( setup ), expected_results( expectedResults ), time( time ) {}
 
     void test_all() const {
-        scoped_weather_override weather_clear( WEATHER_CLEAR );
         Character &player_character = get_player_character();
         g->place_player( tripoint( 60, 60, 0 ) );
         player_character.worn.clear(); // Remove any light-emitting clothing
@@ -159,6 +158,7 @@ struct vision_test_case {
         player_character.clear_moncams();
         clear_map( -2, OVERMAP_HEIGHT );
         g->reset_light_level();
+        scoped_weather_override weather_clear( WEATHER_CLEAR );
 
         REQUIRE( !player_character.is_blind() );
         REQUIRE( !player_character.in_sleep_state() );
@@ -541,11 +541,11 @@ TEST_CASE( "vision_junction_reciprocity", "[vision][reciprocity]" )
         player_in_junction ?
         std::vector<std::string>{
             "u#  ",
-            "-- Z",
+            "---Z",
 }:
         std::vector<std::string>{
             "z#  ",
-            "-- u",
+            "---u",
         },
         player_in_junction ?
         std::vector<std::string>{
