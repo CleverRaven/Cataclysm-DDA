@@ -1378,6 +1378,7 @@
     "death_function": { "corpse_type": "NO_CORPSE", "message": "it just disappeared." },
     "flags": [
       "NO_BREATHE",
+      "CAN_OPEN_DOORS",
       "SEES",
       "HEARS",
       "ACIDPROOF",
