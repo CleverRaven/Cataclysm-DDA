@@ -175,6 +175,7 @@
 #include "ui_manager.h"
 #include "uistate.h"
 #include "units.h"
+#include "units_utility.h"
 #include "value_ptr.h"
 #include "veh_appliance.h"
 #include "veh_interact.h"
@@ -8941,6 +8942,18 @@ void game::unload_container()
 void game::drop_in_direction( const tripoint &pnt )
 {
     u.drop( game_menus::inv::multidrop( u ), pnt );
+}
+
+void game::drop_items_off_ledge( const tripoint &pnt, int ledge_height )
+{
+    units::mass wt_dropped = u.drop_items_off_ledge( game_menus::inv::multidrop( u ), pnt );
+
+    float damage = 10 * to_kilogram( wt_dropped ) * ledge_height;
+
+    Creature *creature = get_creature_tracker().creature_at( pnt );
+    if( creature) {
+        creature->deal_damage(nullptr, bodypart_id( "head" ), damage_instance( damage_type::BASH, damage ) );
+    }
 }
 
 // Used to set up the first Hotkey in the display set

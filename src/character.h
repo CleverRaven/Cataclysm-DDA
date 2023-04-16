@@ -2140,6 +2140,7 @@ class Character : public Creature, public visitable
         std::list<item *> get_dependent_worn_items( const item &it );
         /** Drops an item to the specified location */
         void drop( item_location loc, const tripoint &where );
+        units::mass drop_items_off_ledge( const drop_locations &what, const tripoint &target );
         virtual void drop( const drop_locations &what, const tripoint &target, bool stash = false );
         /** Assigns character activity to pick up items from the given drop_locations.
          *  Requires sufficient storage; items cannot be wielded or worn from this activity.

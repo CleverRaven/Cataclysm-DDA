@@ -903,6 +903,7 @@ class game
         bool prompt_dangerous_tile( const tripoint &dest_loc ) const;
         // Pick up items from the given point
         void pickup( const tripoint &p );
+        void drop_items_off_ledge( const tripoint &pnt, int ledge_height ); // Drop items off of a ledge
     private:
         void wield();
         void wield( item_location loc );

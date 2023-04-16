@@ -452,6 +452,29 @@ void Character::drop( const drop_locations &what, const tripoint &target,
     }
 }
 
+units::mass Character::drop_items_off_ledge( const drop_locations &what, const tripoint &target )
+{
+    if( what.empty() ) {
+        return 0_gram;
+    }
+    units::mass weight_dropped = 0_gram;
+
+    const tripoint placement = target - pos();
+    std::vector<drop_or_stash_item_info> items;
+    for( drop_location item_pair : what ) {
+        if( can_drop( *item_pair.first ).success() ) {
+            weight_dropped += item_pair.first.get_item()->weight();
+            items.emplace_back( item_pair.first, item_pair.second );
+        }
+    }
+
+    assign_activity( player_activity( drop_activity_actor(
+                                          items, placement, /*force_ground=*/true
+                                          ) ) );
+
+    return weight_dropped;
+}
+
 void Character::pick_up( const drop_locations &what )
 {
     if( what.empty() ) {
