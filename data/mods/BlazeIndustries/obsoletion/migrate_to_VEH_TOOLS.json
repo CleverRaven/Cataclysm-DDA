@@ -25,6 +25,13 @@
     ]
   },
   {
+    "type": "vehicle_part_migration",
+    "//": "migration to VEH_TOOLS, remove after 0.H release",
+    "from": "afs_cooking_rig",
+    "to": "veh_tools_kitchen",
+    "add_veh_tools": [ "pot", "pan", "chemistry_set", "electrolysis_kit" ]
+  },
+  {
     "id": "afs_metal_rig",
     "type": "MIGRATION",
     "//": "migration to VEH_TOOLS, remove after 0.H release",
@@ -32,6 +39,11 @@
   },
   {
     "id": "afs_kitchen_rig",
+    "type": "MIGRATION",
+    "replace": "veh_tools_kitchen"
+  },
+  {
+    "id": "afs_cooking_rig",
     "type": "MIGRATION",
     "replace": "veh_tools_kitchen"
   }

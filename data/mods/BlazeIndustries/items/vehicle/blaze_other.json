@@ -56,12 +56,5 @@
     "longest_side": "116cm",
     "price": 0,
     "price_postapoc": 10
-  },
-  {
-    "type": "GENERIC",
-    "id": "afs_cooking_rig",
-    "copy-from": "vehicle_rig",
-    "name": { "str": "cooking rig" },
-    "description": "Skillet, pot, hotplate, and chemistry set; everything you need to cook food and chemicals.  Includes proper fume vents and a separator, so you don't contaminate your food with toxic chemicals."
   }
 ]
