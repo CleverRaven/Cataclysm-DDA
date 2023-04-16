@@ -544,6 +544,7 @@ class pocket_data
         bool forbidden = false;
 
         int default_priority = 0;
+        bool default_collapsed = 0;
         using id_set = std::variant<cata::flat_set<itype_id>, item_group_id>;
         id_set default_whitelist;
         id_set default_blacklist;

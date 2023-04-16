@@ -22,6 +22,8 @@
         "rigid": true,
         "max_contains_volume": "2500 ml",
         "max_item_volume": "32 ml",
+        "priority": -1,
+        "collapsed": true,
         "max_contains_weight": "5 kg"
       }
     ],
@@ -36,7 +38,7 @@
         }
       ]
     },
-    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "COLLAPSE_CONTENTS" ]
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "30gal_barrel",
@@ -59,12 +61,13 @@
         "pocket_type": "CONTAINER",
         "watertight": true,
         "rigid": true,
+        "priority": -1,
+        "collapsed": true,
         "max_contains_volume": "112500 ml",
         "max_contains_weight": "255 kg"
       }
     ],
-    "qualities": [ [ "CONTAIN", 1 ] ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "qualities": [ [ "CONTAIN", 1 ] ]
   },
   {
     "id": "30gal_drum",
@@ -87,12 +90,13 @@
         "pocket_type": "CONTAINER",
         "watertight": true,
         "rigid": true,
+        "priority": -1,
+        "collapsed": true,
         "max_contains_volume": "100 L",
         "max_contains_weight": "250 kg"
       }
     ],
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "55gal_drum",
@@ -115,12 +119,13 @@
         "pocket_type": "CONTAINER",
         "watertight": true,
         "rigid": true,
+        "priority": -1,
+        "collapsed": true,
         "max_contains_volume": "200 L",
         "max_contains_weight": "500 kg"
       }
     ],
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "bag_canvas",
@@ -135,10 +140,18 @@
     "price_postapoc": 10,
     "to_hit": -5,
     "material": [ "canvas" ],
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "15 L", "max_contains_weight": "15 kg", "moves": 400 } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "15 L",
+        "max_contains_weight": "15 kg",
+        "priority": -1,
+        "collapsed": true,
+        "moves": 400
+      }
+    ],
     "symbol": ")",
-    "color": "brown",
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "color": "brown"
   },
   {
     "id": "bag_canvas_small",
@@ -153,10 +166,18 @@
     "price_postapoc": 10,
     "to_hit": -5,
     "material": [ "canvas" ],
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 400 } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "3 kg",
+        "priority": -1,
+        "collapsed": true,
+        "moves": 400
+      }
+    ],
     "symbol": ")",
-    "color": "brown",
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "color": "brown"
   },
   {
     "id": "bag_plastic",
@@ -170,11 +191,19 @@
     "price": 0,
     "price_postapoc": 0,
     "to_hit": -1,
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "6 L", "max_contains_weight": "10 kg", "moves": 400 } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "6 L",
+        "max_contains_weight": "10 kg",
+        "priority": -1,
+        "collapsed": true,
+        "moves": 400
+      }
+    ],
     "material": [ "plastic" ],
     "symbol": ")",
-    "color": "light_gray",
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "color": "light_gray"
   },
   {
     "id": "bag_garbage",
@@ -246,13 +275,14 @@
         "watertight": false,
         "max_contains_volume": "2500 ml",
         "max_contains_weight": "2 kg",
+        "priority": -1,
+        "collapsed": true,
         "moves": 200
       }
     ],
     "material": [ "paper" ],
     "symbol": ")",
-    "color": "white",
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "color": "white"
   },
   {
     "id": "bag_zipper",
@@ -273,12 +303,13 @@
         "max_contains_volume": "250 ml",
         "max_contains_weight": "750 g",
         "spoil_multiplier": 0.8,
+        "priority": -1,
+        "collapsed": true,
         "moves": 400
       }
     ],
     "symbol": ")",
-    "color": "light_gray",
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "color": "light_gray"
   },
   {
     "id": "bag_zipper_gallon",
@@ -374,10 +405,11 @@
         "watertight": true,
         "max_contains_volume": "500 ml",
         "max_contains_weight": "3 kg",
+        "priority": -1,
+        "collapsed": true,
         "moves": 400
       }
-    ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    ]
   },
   {
     "id": "bottle_glass",
@@ -405,11 +437,12 @@
         "max_contains_volume": "750 ml",
         "max_item_volume": "17 ml",
         "max_contains_weight": "3 kg",
+        "priority": -1,
+        "collapsed": true,
         "moves": 400
       }
     ],
-    "qualities": [ [ "BOIL", 1 ] ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "qualities": [ [ "BOIL", 1 ] ]
   },
   {
     "id": "bottle_plastic",
@@ -429,6 +462,8 @@
         "max_item_volume": "17 ml",
         "max_contains_weight": "1250 g",
         "sealed_data": { "spoil_multiplier": 0.5 },
+        "priority": -1,
+        "collapsed": true,
         "moves": 400
       }
     ],
@@ -438,8 +473,7 @@
     "material": [ "plastic" ],
     "ascii_picture": "plastic_bottle",
     "symbol": ")",
-    "color": "light_cyan",
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "color": "light_cyan"
   },
   {
     "id": "condiment_bottle_sealed",
@@ -460,6 +494,8 @@
         "max_contains_weight": "1 kg",
         "spoil_multiplier": 0.5,
         "sealed_data": { "spoil_multiplier": 0.0 },
+        "priority": -1,
+        "collapsed": true,
         "moves": 400
       }
     ],
@@ -468,8 +504,7 @@
     "to_hit": 1,
     "material": [ "plastic" ],
     "symbol": ")",
-    "color": "brown",
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "color": "brown"
   },
   {
     "id": "bottle_plastic_small",
@@ -488,6 +523,8 @@
         "max_contains_volume": "250 ml",
         "max_item_volume": "17 ml",
         "max_contains_weight": "1 kg",
+        "priority": -1,
+        "collapsed": true,
         "moves": 400
       }
     ],
@@ -496,8 +533,7 @@
     "to_hit": 1,
     "material": [ "plastic" ],
     "symbol": ")",
-    "color": "white",
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "color": "white"
   },
   {
     "id": "bottle_plastic_pill_prescription",
@@ -516,6 +552,8 @@
         "max_contains_volume": "250 ml",
         "max_item_volume": "17 ml",
         "max_contains_weight": "1 kg",
+        "priority": -1,
+        "collapsed": true,
         "moves": 400
       }
     ],
@@ -524,8 +562,7 @@
     "to_hit": 1,
     "material": [ "plastic" ],
     "symbol": ")",
-    "color": "brown",
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "color": "brown"
   },
   {
     "id": "bottle_plastic_pill_painkiller",
@@ -567,10 +604,11 @@
         "max_contains_volume": "2 L",
         "max_item_volume": "17 ml",
         "max_contains_weight": "3 kg",
+        "priority": -1,
+        "collapsed": true,
         "moves": 400
       }
-    ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    ]
   },
   {
     "id": "bowl_clay",
@@ -665,8 +703,16 @@
     "ascii_picture": "box_cigarette",
     "symbol": ")",
     "color": "white",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "90 ml", "max_contains_weight": "3 kg" } ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "90 ml",
+        "priority": -1,
+        "collapsed": true,
+        "max_contains_weight": "3 kg"
+      }
+    ]
   },
   {
     "id": "case_cigar",
@@ -707,6 +753,8 @@
         "rigid": true,
         "max_contains_volume": "540 ml",
         "max_contains_weight": "500 g",
+        "priority": -1,
+        "collapsed": true,
         "max_item_length": "11 cm"
       }
     ],
@@ -714,8 +762,7 @@
     "price_postapoc": 0,
     "material": [ "cardboard" ],
     "symbol": ")",
-    "color": "brown",
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "color": "brown"
   },
   {
     "id": "box_small",
@@ -732,6 +779,8 @@
         "rigid": true,
         "max_contains_volume": "2100 ml",
         "max_contains_weight": "8 kg",
+        "priority": -1,
+        "collapsed": true,
         "max_item_length": "20 cm"
       }
     ],
@@ -748,8 +797,7 @@
       "type": "transform",
       "moves": 500,
       "need_empty": true
-    },
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    }
   },
   {
     "id": "box_small_folded",
@@ -1237,6 +1285,8 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
+        "priority": -1,
+        "collapsed": true,
         "max_contains_volume": "3000 ml",
         "max_item_volume": "32 ml",
         "max_contains_weight": "20 kg"
@@ -1255,7 +1305,7 @@
         }
       ]
     },
-    "flags": [ "BELTED", "COLLAPSE_CONTENTS" ]
+    "flags": [ "BELTED" ]
   },
   {
     "id": "can_drink",
@@ -1281,11 +1331,12 @@
         "max_contains_volume": "250 ml",
         "max_item_volume": "10 ml",
         "max_contains_weight": "1 kg",
+        "priority": -1,
+        "collapsed": true,
         "sealed_data": { "spoil_multiplier": 0.0 }
       }
     ],
-    "qualities": [ [ "BOIL", 1 ] ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "qualities": [ [ "BOIL", 1 ] ]
   },
   {
     "id": "carton_sealed",
@@ -1309,11 +1360,12 @@
         "watertight": true,
         "max_contains_volume": "2 L",
         "max_contains_weight": "5 kg",
+        "priority": -1,
+        "collapsed": true,
         "//": "Calculated to keep shelf stable milk fresh for 304 days when sealed",
         "sealed_data": { "spoil_multiplier": 0.023 }
       }
-    ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    ]
   },
   {
     "id": "carton_milk",
@@ -1337,10 +1389,11 @@
         "watertight": true,
         "max_contains_volume": "2 L",
         "max_contains_weight": "5 kg",
+        "priority": -1,
+        "collapsed": true,
         "sealed_data": { "spoil_multiplier": 0.5 }
       }
-    ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    ]
   },
   {
     "id": "carton_egg",
@@ -1362,12 +1415,13 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": false,
+        "priority": -1,
+        "collapsed": true,
         "max_contains_volume": "600 ml",
         "max_contains_weight": "1 kg",
         "max_item_length": "45 mm"
       }
-    ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    ]
   },
   {
     "id": "plastic_bag_vac",
@@ -1388,12 +1442,13 @@
         "pocket_type": "CONTAINER",
         "open_container": true,
         "watertight": true,
+        "priority": -1,
+        "collapsed": true,
         "max_contains_volume": "500 ml",
         "max_contains_weight": "1 kg",
         "sealed_data": { "spoil_multiplier": 0.5 }
       }
-    ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    ]
   },
   {
     "id": "can_food",
@@ -1416,13 +1471,14 @@
         "rigid": true,
         "watertight": true,
         "open_container": true,
+        "priority": -1,
+        "collapsed": true,
         "max_contains_volume": "250 ml",
         "max_contains_weight": "1 kg",
         "sealed_data": { "spoil_multiplier": 0.0 }
       }
     ],
-    "qualities": [ [ "BOIL", 1 ] ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "qualities": [ [ "BOIL", 1 ] ]
   },
   {
     "id": "can_medium",
@@ -1439,14 +1495,15 @@
         "rigid": true,
         "watertight": true,
         "open_container": true,
+        "priority": -1,
+        "collapsed": true,
         "max_contains_volume": "500 ml",
         "max_contains_weight": "2 kg",
         "sealed_data": { "spoil_multiplier": 0.0 }
       }
     ],
     "qualities": [ [ "BOIL", 1 ] ],
-    "volume": "525 ml",
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "volume": "525 ml"
   },
   {
     "id": "canteen",
@@ -1468,6 +1525,8 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
+        "priority": -1,
+        "collapsed": true,
         "max_contains_volume": "1500 ml",
         "max_item_volume": "32 ml",
         "max_contains_weight": "3 kg"
@@ -1485,7 +1544,7 @@
         }
       ]
     },
-    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "COLLAPSE_CONTENTS" ]
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "thermos",
@@ -1506,12 +1565,13 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
+        "priority": -1,
+        "collapsed": true,
         "max_contains_volume": "1 L",
         "max_contains_weight": "4 kg"
       }
     ],
-    "insulation": 10,
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "insulation": 10
   },
   {
     "id": "clay_canister",
@@ -1612,12 +1672,13 @@
         "rigid": true,
         "watertight": true,
         "open_container": true,
+        "priority": -1,
+        "collapsed": true,
         "sealed_data": { "spoil_multiplier": 0.0 },
         "max_contains_volume": "250 ml",
         "max_contains_weight": "1 kg"
       }
-    ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    ]
   },
   {
     "id": "cup_foil",
@@ -1637,12 +1698,14 @@
         "pocket_type": "CONTAINER",
         "watertight": true,
         "open_container": true,
+        "priority": -1,
+        "collapsed": true,
         "max_contains_volume": "250 ml",
         "max_contains_weight": "300 g"
       }
     ],
     "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
-    "flags": [ "SOFT", "NO_REPAIR", "COLLAPSE_CONTENTS" ]
+    "flags": [ "SOFT", "NO_REPAIR" ]
   },
   {
     "id": "flask_glass",
@@ -1666,12 +1729,13 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
+        "priority": -1,
+        "collapsed": true,
         "max_contains_volume": "250 ml",
         "max_contains_weight": "1250 g"
       }
     ],
-    "qualities": [ [ "BOIL", 1 ] ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "qualities": [ [ "BOIL", 1 ] ]
   },
   {
     "id": "test_tube",
@@ -1695,12 +1759,13 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
+        "priority": -1,
+        "collapsed": true,
         "max_contains_volume": "10 ml",
         "max_contains_weight": "50 g"
       }
     ],
-    "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "beaker",
@@ -1724,12 +1789,13 @@
         "rigid": true,
         "watertight": true,
         "open_container": true,
+        "priority": -1,
+        "collapsed": true,
         "max_contains_volume": "250 ml",
         "max_contains_weight": "1 kg"
       }
     ],
-    "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "gradcylinder",
@@ -1753,14 +1819,15 @@
         "rigid": true,
         "watertight": true,
         "open_container": true,
+        "priority": -1,
+        "collapsed": true,
         "//": "sealed_data is here so the container can be sealed to avoid spilling",
         "sealed_data": { "spoil_multiplier": 1.0 },
         "max_contains_volume": "100 ml",
         "max_contains_weight": "500 g"
       }
     ],
-    "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "test_tube_micro",
@@ -1782,12 +1849,13 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
+        "priority": -1,
+        "collapsed": true,
         "max_contains_volume": "1 ml",
         "max_contains_weight": "5 g"
       }
     ],
-    "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "flask_hip",
@@ -1811,6 +1879,8 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
+        "priority": -1,
+        "collapsed": true,
         "max_contains_volume": "250 ml",
         "max_item_volume": "17 ml",
         "max_contains_weight": "1 kg"
@@ -1828,7 +1898,7 @@
       ]
     },
     "qualities": [ [ "BOIL", 1 ] ],
-    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "COLLAPSE_CONTENTS" ]
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "jar_3l_glass_sealed",
@@ -1854,11 +1924,12 @@
         "watertight": true,
         "max_contains_volume": "3 L",
         "max_contains_weight": "6 kg",
+        "priority": -1,
+        "collapsed": true,
         "sealed_data": { "spoil_multiplier": 0.0 }
       }
     ],
-    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 1 ] ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 1 ] ]
   },
   {
     "id": "jar_glass_sealed",
@@ -1881,11 +1952,12 @@
         "watertight": true,
         "max_contains_volume": "500 ml",
         "max_contains_weight": "1 kg",
+        "priority": -1,
+        "collapsed": true,
         "sealed_data": { "spoil_multiplier": 0.0 }
       }
     ],
-    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 1 ] ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 1 ] ]
   },
   {
     "id": "jerrycan",
@@ -1906,12 +1978,13 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
+        "priority": -1,
+        "collapsed": true,
         "max_contains_volume": "10 L",
         "max_item_volume": "32 ml",
         "max_contains_weight": "15 kg"
       }
-    ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    ]
   },
   {
     "id": "jerrycan_big",
@@ -1935,13 +2008,14 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
+        "priority": -1,
+        "collapsed": true,
         "max_contains_volume": "20 L",
         "max_item_volume": "32 ml",
         "max_contains_weight": "25 kg"
       }
     ],
-    "qualities": [ [ "BOIL", 1 ] ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "qualities": [ [ "BOIL", 1 ] ]
   },
   {
     "id": "jug_clay",
@@ -1989,13 +2063,14 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
+        "priority": -1,
+        "collapsed": true,
         "max_contains_volume": "3750 ml",
         "max_item_volume": "32 ml",
         "max_contains_weight": "8 kg",
         "sealed_data": { "spoil_multiplier": 0.5 }
       }
-    ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    ]
   },
   {
     "id": "keg",
@@ -2018,13 +2093,14 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
+        "priority": -1,
+        "collapsed": true,
         "max_contains_volume": "50 L",
         "max_item_volume": "50 ml",
         "max_contains_weight": "100 kg"
       }
     ],
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "keg_steel",
@@ -2047,13 +2123,14 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
+        "priority": -1,
+        "collapsed": true,
         "max_contains_volume": "50 L",
         "max_item_volume": "50 ml",
         "max_contains_weight": "120 kg"
       }
     ],
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "large_stomach_sealed",
@@ -2101,12 +2178,13 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
+        "priority": -1,
+        "collapsed": true,
         "max_contains_volume": "60 L",
         "max_contains_weight": "120 kg"
       }
     ],
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "metal_tank_little",
@@ -2130,12 +2208,13 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
+        "priority": -1,
+        "collapsed": true,
         "max_contains_volume": "2 L",
         "max_contains_weight": "4 kg"
       }
     ],
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "canteen_wood",
@@ -2404,12 +2483,13 @@
         "pocket_type": "CONTAINER",
         "watertight": true,
         "rigid": true,
+        "priority": -1,
+        "collapsed": true,
         "max_contains_volume": "100 L",
         "max_contains_weight": "200 kg"
       }
     ],
-    "qualities": [ [ "CONTAIN", 1 ] ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "qualities": [ [ "CONTAIN", 1 ] ]
   },
   {
     "id": "wrapper",
@@ -2425,8 +2505,15 @@
     "material": [ "paper" ],
     "symbol": ",",
     "color": "light_gray",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "2500 ml", "max_contains_weight": "6 kg" } ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "priority": -1,
+        "collapsed": true,
+        "max_contains_volume": "2500 ml",
+        "max_contains_weight": "6 kg"
+      }
+    ]
   },
   {
     "id": "wrapper_foil",
@@ -2441,9 +2528,17 @@
     "material": [ "aluminum" ],
     "symbol": ",",
     "color": "light_gray",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "2500 ml", "max_contains_weight": "6 kg" } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "priority": -1,
+        "collapsed": true,
+        "max_contains_volume": "2500 ml",
+        "max_contains_weight": "6 kg"
+      }
+    ],
     "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "SOFT", "NO_REPAIR", "COLLAPSE_CONTENTS" ]
+    "flags": [ "SOFT", "NO_REPAIR" ]
   },
   {
     "id": "wrapper_pr",
@@ -2454,8 +2549,15 @@
       "str": "\"DaiZoom Protein Bar, brought to you by SoyPelusa\" is emblazoned proudly upon this greaseproof wrapper."
     },
     "copy-from": "wrapper",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "225 ml", "max_contains_weight": "1 kg" } ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "priority": -1,
+        "collapsed": true,
+        "max_contains_volume": "225 ml",
+        "max_contains_weight": "1 kg"
+      }
+    ]
   },
   {
     "id": "styrofoam_cup",
@@ -2476,11 +2578,12 @@
         "pocket_type": "CONTAINER",
         "watertight": true,
         "rigid": true,
+        "priority": -1,
+        "collapsed": true,
         "max_contains_volume": "500 ml",
         "max_contains_weight": "1 kg"
       }
-    ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    ]
   },
   {
     "id": "plastic_bucket",
@@ -2501,11 +2604,12 @@
         "watertight": true,
         "rigid": true,
         "open_container": true,
+        "priority": -1,
+        "collapsed": true,
         "max_contains_volume": "4250 ml",
         "max_contains_weight": "9 kg"
       }
-    ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    ]
   },
   {
     "id": "condom",
@@ -2560,13 +2664,14 @@
         "watertight": true,
         "rigid": true,
         "open_container": true,
+        "priority": -1,
+        "collapsed": true,
         "max_contains_volume": "3 L",
         "max_contains_weight": "6 kg",
         "sealed_data": { "spoil_multiplier": 0.0 }
       }
     ],
-    "qualities": [ [ "BOIL", 1 ] ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "qualities": [ [ "BOIL", 1 ] ]
   },
   {
     "id": "survival_kit_box",
@@ -2638,13 +2743,14 @@
     "price_postapoc": 0,
     "to_hit": -2,
     "material": [ "plastic" ],
-    "flags": [ "COLLAPSE_CONTENTS" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "2700 ml",
         "max_contains_weight": "3 kg",
         "rigid": true,
+        "priority": -1,
+        "collapsed": true,
         "moves": 100
       }
     ],
@@ -2664,13 +2770,15 @@
     "price_postapoc": 10,
     "to_hit": -2,
     "material": [ "cotton", "neoprene" ],
-    "flags": [ "COLLAPSE_CONTENTS", "PALS_MEDIUM" ],
+    "flags": [ "PALS_MEDIUM" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "3200 ml",
         "max_contains_weight": "4000 g",
         "moves": 100,
+        "priority": -1,
+        "collapsed": true,
         "rigid": false
       }
     ],
@@ -2846,12 +2954,13 @@
         "max_contains_weight": "4 kg",
         "airtight": true,
         "moves": 50,
+        "priority": -1,
+        "collapsed": true,
         "sealed_data": { "spoil_multiplier": 0.0 },
         "watertight": true
       }
     ],
     "material": [ "plastic", "aluminum" ],
-    "flags": [ "COLLAPSE_CONTENTS" ],
     "symbol": ")",
     "color": "light_gray"
   },
@@ -2902,11 +3011,12 @@
         "airtight": true,
         "moves": 50,
         "sealed_data": { "spoil_multiplier": 0.0 },
+        "priority": -1,
+        "collapsed": true,
         "watertight": true
       }
     ],
     "material": [ "plastic" ],
-    "flags": [ "COLLAPSE_CONTENTS" ],
     "symbol": ")",
     "color": "light_gray"
   },
@@ -3126,11 +3236,13 @@
         "airtight": true,
         "watertight": true,
         "rigid": true,
+        "priority": -1,
+        "collapsed": true,
         "ammo_restriction": { "propane": 3000 }
       }
     ],
     "charges_per_use": 1,
-    "flags": [ "GAS_TANK", "COLLAPSE_CONTENTS" ]
+    "flags": [ "GAS_TANK" ]
   },
   {
     "id": "medium_propane_tank",
@@ -3155,11 +3267,13 @@
         "airtight": true,
         "watertight": true,
         "rigid": true,
+        "priority": -1,
+        "collapsed": true,
         "ammo_restriction": { "propane": 15000 }
       }
     ],
     "charges_per_use": 1,
-    "flags": [ "GAS_TANK", "COLLAPSE_CONTENTS" ]
+    "flags": [ "GAS_TANK" ]
   },
   {
     "id": "large_propane_tank",
@@ -3184,11 +3298,13 @@
         "airtight": true,
         "watertight": true,
         "rigid": true,
+        "priority": -1,
+        "collapsed": true,
         "ammo_restriction": { "propane": 60000 }
       }
     ],
     "charges_per_use": 1,
-    "flags": [ "GAS_TANK", "COLLAPSE_CONTENTS" ]
+    "flags": [ "GAS_TANK" ]
   },
   {
     "id": "xl_propane_tank",
@@ -3213,11 +3329,13 @@
         "airtight": true,
         "watertight": true,
         "rigid": true,
+        "priority": -1,
+        "collapsed": true,
         "ammo_restriction": { "propane": 300000 }
       }
     ],
     "charges_per_use": 1,
-    "flags": [ "GAS_TANK", "COLLAPSE_CONTENTS" ]
+    "flags": [ "GAS_TANK" ]
   },
   {
     "id": "shot_glass",
@@ -3240,11 +3358,12 @@
         "watertight": true,
         "rigid": true,
         "open_container": true,
+        "priority": -1,
+        "collapsed": true,
         "max_contains_volume": "44 ml",
         "max_contains_weight": "500 g"
       }
-    ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    ]
   },
   {
     "id": "30gal_drum_aluminum",
@@ -3267,12 +3386,13 @@
         "pocket_type": "CONTAINER",
         "watertight": true,
         "rigid": true,
+        "priority": -1,
+        "collapsed": true,
         "max_contains_volume": "100 L",
         "max_contains_weight": "250 kg"
       }
     ],
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "55gal_drum_aluminum",
@@ -3295,12 +3415,13 @@
         "pocket_type": "CONTAINER",
         "watertight": true,
         "rigid": true,
+        "priority": -1,
+        "collapsed": true,
         "max_contains_volume": "200 L",
         "max_contains_weight": "500 kg"
       }
     ],
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "squeeze_tube",
@@ -3323,12 +3444,13 @@
         "rigid": false,
         "watertight": true,
         "open_container": false,
+        "priority": -1,
+        "collapsed": true,
         "max_contains_volume": "299 ml",
         "max_contains_weight": "2500 g"
       }
     ],
-    "qualities": [ [ "CONTAIN", 1 ] ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "qualities": [ [ "CONTAIN", 1 ] ]
   },
   {
     "id": "squeeze_tube_small",
@@ -3352,12 +3474,13 @@
         "rigid": false,
         "watertight": true,
         "open_container": false,
+        "priority": -1,
+        "collapsed": true,
         "max_contains_volume": "82 ml",
         "max_contains_weight": "500 g"
       }
     ],
-    "qualities": [ [ "CONTAIN", 1 ] ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "qualities": [ [ "CONTAIN", 1 ] ]
   },
   {
     "id": "bottle_gourd",
@@ -3416,12 +3539,13 @@
         "pocket_type": "CONTAINER",
         "watertight": true,
         "rigid": true,
+        "priority": -1,
+        "collapsed": true,
         "max_contains_volume": "3785 ml",
         "max_contains_weight": "10 kg"
       }
     ],
-    "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "paint_can_plastic",
@@ -3441,12 +3565,13 @@
         "pocket_type": "CONTAINER",
         "watertight": true,
         "rigid": true,
+        "priority": -1,
+        "collapsed": true,
         "max_contains_volume": "3785 ml",
         "max_contains_weight": "10 kg"
       }
     ],
-    "qualities": [ [ "CONTAIN", 1 ] ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "qualities": [ [ "CONTAIN", 1 ] ]
   },
   {
     "id": "lunchbox",
@@ -3468,12 +3593,13 @@
         "rigid": true,
         "watertight": false,
         "open_container": false,
+        "priority": -1,
+        "collapsed": true,
         "max_contains_volume": "1100 ml",
         "max_contains_weight": "2 kg"
       }
     ],
-    "qualities": [ [ "CONTAIN", 1 ] ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "qualities": [ [ "CONTAIN", 1 ] ]
   },
   {
     "id": "pencil_case",
@@ -3494,11 +3620,12 @@
         "rigid": false,
         "watertight": false,
         "open_container": false,
+        "priority": -1,
+        "collapsed": true,
         "max_contains_volume": "1000 ml",
         "max_contains_weight": "2 kg",
         "max_item_length": "20 cm"
       }
-    ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    ]
   }
 ]

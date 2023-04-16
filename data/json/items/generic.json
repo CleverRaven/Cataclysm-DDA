@@ -3745,7 +3745,6 @@
     "price": 1,
     "price_postapoc": 10,
     "material": [ "plastic" ],
-    "flags": [ "COLLAPSE_CONTENTS" ],
     "symbol": ")",
     "color": "dark_gray",
     "pocket_data": [
@@ -3756,6 +3755,8 @@
         "max_contains_weight": "60 g",
         "max_contains_volume": "150 ml",
         "moves": 100,
+        "priority": -1,
+        "collapsed": true,
         "item_restriction": [
           "FMCNote",
           "signed_chit",
@@ -3777,6 +3778,8 @@
         "max_contains_weight": "60 g",
         "max_contains_volume": "150 ml",
         "moves": 100,
+        "priority": -1,
+        "collapsed": true,
         "item_restriction": [
           "cash_card",
           "gasdiscount_silver",
@@ -3811,6 +3814,8 @@
         "max_contains_weight": "600 g",
         "max_contains_volume": "150 ml",
         "moves": 200,
+        "priority": -1,
+        "collapsed": true,
         "item_restriction": [
           "FMCNote",
           "RobofacCoin",
@@ -3957,7 +3962,7 @@
     "price": 15000,
     "price_postapoc": 250,
     "material": [ "plastic", "leather" ],
-    "flags": [ "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "TARDIS", "COLLAPSE_CONTENTS", "POWERARMOR_COMPATIBLE" ],
+    "flags": [ "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "TARDIS", "POWERARMOR_COMPATIBLE" ],
     "weight": "708 g",
     "volume": "500 ml",
     "bashing": 1,
@@ -3970,6 +3975,8 @@
         "max_contains_weight": "600 g",
         "max_contains_volume": "500 ml",
         "moves": 400,
+        "priority": -1,
+        "collapsed": true,
         "item_restriction": [
           "cash_card",
           "gasdiscount_silver",
@@ -4235,7 +4242,6 @@
     "price": 23600,
     "price_postapoc": 200,
     "material": [ "plastic", "steel" ],
-    "flags": [ "COLLAPSE_CONTENTS" ],
     "weight": "5 kg",
     "volume": "22 L",
     "longest_side": "36 cm",
@@ -4248,6 +4254,8 @@
         "max_contains_weight": "2 kg",
         "max_contains_volume": "1 L",
         "moves": 100,
+        "priority": -1,
+        "collapsed": true,
         "item_restriction": [
           "money_one",
           "money_two",

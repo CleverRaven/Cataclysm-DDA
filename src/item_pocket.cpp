@@ -271,6 +271,7 @@ void pocket_data::load( const JsonObject &jo )
     optional( jo, was_loaded, "sealed_data", sealed_data );
 
     optional( jo, was_loaded, "priority", default_priority );
+    optional( jo, was_loaded, "collapsed", default_collapsed );
     _load_variant_list( jo, was_loaded, default_whitelist, "whitelist" );
     _load_variant_list( jo, was_loaded, default_blacklist, "blacklist" );
     optional( jo, was_loaded, "category_whitelist", default_cat_whitelist );
@@ -2370,7 +2371,7 @@ void item_pocket::favorite_settings::clear()
 
 item_pocket::favorite_settings::favorite_settings( const pocket_data *data )
     : priority_rating( data->default_priority ), category_whitelist( data->default_cat_whitelist ),
-      category_blacklist( data->default_cat_blacklist )
+      category_blacklist( data->default_cat_blacklist ), collapsed( data->default_collapsed )
 {
     _fill_set_from_variant( item_whitelist, data->default_whitelist );
     _fill_set_from_variant( item_blacklist, data->default_blacklist );

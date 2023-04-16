@@ -386,7 +386,9 @@
         "max_item_volume": "17 ml",
         "max_contains_weight": "1250 g",
         "sealed_data": { "spoil_multiplier": 0.5 },
-        "moves": 400
+        "moves": 400,
+        "priority": -1,
+        "collapsed": true
       }
     ],
     "price": 0,

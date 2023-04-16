@@ -308,18 +308,12 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
         activate();
     }
 
-    if( has_flag( flag_COLLAPSE_CONTENTS ) ) {
-        for( item_pocket *pocket : contents.get_all_standard_pockets() ) {
-            pocket->settings.set_collapse( true );
-        }
-    } else {
-        auto const mag_filter = []( item_pocket const & pck ) {
-            return pck.is_type( item_pocket::pocket_type::MAGAZINE ) ||
-                   pck.is_type( item_pocket::pocket_type::MAGAZINE_WELL );
-        };
-        for( item_pocket *pocket : contents.get_pockets( mag_filter ) ) {
-            pocket->settings.set_collapse( true );
-        }
+    auto const mag_filter = []( item_pocket const & pck ) {
+        return pck.is_type( item_pocket::pocket_type::MAGAZINE ) ||
+               pck.is_type( item_pocket::pocket_type::MAGAZINE_WELL );
+    };
+    for( item_pocket *pocket : contents.get_pockets( mag_filter ) ) {
+        pocket->settings.set_collapse( true );
     }
 
     if( has_flag( flag_NANOFAB_TEMPLATE ) ) {
