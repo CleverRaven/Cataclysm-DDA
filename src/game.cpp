@@ -635,12 +635,12 @@ void game::toggle_pixel_minimap() const
 
 void game::toggle_language_to_en()
 {
-    const std::string english = "en";
+    const std::string english = "en" ;
     static std::string secondary_lang = english;
     std::string current_lang = TranslationManager::GetInstance().GetCurrentLanguage();
     secondary_lang = current_lang != english ? current_lang : secondary_lang;
     std::string new_lang = current_lang != english ? english : secondary_lang;
-    set_language(new_lang);
+    set_language( new_lang );
 }
 
 bool game::is_tileset_isometric() const
@@ -2510,7 +2510,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "toggle_auto_foraging" );
     ctxt.register_action( "toggle_auto_pickup" );
     ctxt.register_action( "toggle_thief_mode" );
-    ctxt.register_action("toggle_language_to_en");
+    ctxt.register_action( "toggle_language_to_en" );
     ctxt.register_action( "toggle_prevent_occlusion" );
     ctxt.register_action( "diary" );
     ctxt.register_action( "action_menu" );

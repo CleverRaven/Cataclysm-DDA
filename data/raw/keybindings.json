@@ -2106,7 +2106,7 @@
     "category": "DEFAULTMODE",
     "id": "toggle_language_to_en",
     "bindings": [
-      {"input_method": "keyboard_char","key": ","}
+      { "input_method": "keyboard_char","key": "," }
     ]
   },
   {
