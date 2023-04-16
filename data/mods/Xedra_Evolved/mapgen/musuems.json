@@ -62,7 +62,7 @@
         "S": "f_sink",
         "l": "f_locker",
         "P": "f_glass_cabinet",
-        "*": [ "f_golden_monolith", "f_broken_golden_monolith" ]
+        "*": [ "f_golden_monolith", "f_broken_golden_monolith", "f_broken_golden_monolith" ]
       },
       "items": {
         "G": { "item": "museum_security", "chance": 80 },

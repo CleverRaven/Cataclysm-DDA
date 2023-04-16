@@ -4,30 +4,7 @@
     "subtype": "distribution",
     "id": "alt_shirts",
     "items": [
-      [ "alt_tshirt", 80 ],
-      [ "longshirt", 80 ],
-      [ "polo_shirt", 65 ],
-      [ "dress_shirt", 60 ],
-      [ "tank_top", 50 ],
-      [ "sweatshirt", 75 ],
-      [ "sweater", 75 ],
-      [ "turtleneck", 25 ],
-      [ "turtleneck_shirt", 25 ],
-      [ "hoodie", 65 ],
-      [ "under_armor", 20 ],
-      [ "jersey", 40 ],
-      [ "camisole", 60 ],
-      [ "tie_clipon", 10 ],
-      [ "tie_necktie", 10 ],
-      [ "tie_skinny", 10 ],
-      [ "tieclip", 5 ],
-      [ "collarpin", 5 ],
-      [ "postman_shirt", 5 ],
-      [ "halter_top", 50 ],
-      [ "linuxtshirt", 10 ],
-      [ "rashguard", 10 ],
-      [ "sleeveless_tunic", 5 ],
-      [ "poncho", 20 ]
+      [ "alt_tshirt", 80 ]
     ]
   },
   {
@@ -36,8 +13,8 @@
     "//": "Group for museum of Curiosities display case items.",
     "subtype": "distribution",
     "entries": [
-      { "group": "museum_primitive", "prob": 200 },
-      { "group": "museum_misc", "prob": 100 },
+      { "group": "museum_primitive", "prob": 100 },
+      { "group": "museum_misc", "prob": 50 },
       { "group": "xe_dreamer_spells_low", "prob": 12 },
       { "group": "xe_classless_spells_low", "prob": 25 },
       { "group": "xe_dreamsmith_spells_low", "prob": 12 },
@@ -56,8 +33,8 @@
     "//": "Group for museum of Curiosities mannequin items.",
     "subtype": "distribution",
     "entries": [
-      { "group": "museum_primitive", "prob": 100 },
-      { "group": "museum_misc", "prob": 50 },
+      { "group": "museum_primitive", "prob": 20 },
+      { "group": "museum_misc", "prob": 15 },
       { "group": "fae_furs", "prob": 12 },
       { "group": "bannerman_armor", "prob": 6 },
       { "group": "dreamer_artifact", "prob": 6 }

@@ -416,6 +416,7 @@
     "id": "t_marble_floor",
     "name": "marble floor",
     "description": "A smooth and flat flooring made of marble tiles.  Beatiful and expensive.",
+    "looks_like": "t_rock_floor",
     "symbol": ".",
     "color": "light_gray",
     "connect_groups": "MARBLEFLOOR",

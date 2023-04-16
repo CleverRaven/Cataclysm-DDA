@@ -13,7 +13,7 @@
           { "item": "pants", "chance": 100 },
           { "item": "alt_shirts", "chance": 100 },
           { "item": "museum_plaques_visitors", "chance": 100 },
-          { "item": "otherworld_gear", "chance": 10 }
+          { "item": "otherworld_gear", "chance": 50 }
         ]
       }
     }
