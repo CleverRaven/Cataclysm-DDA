@@ -84,8 +84,7 @@ void set_language( std::string lang )
                                get_option<std::string>( "USE_LANG" );
         DebugLog( D_INFO, D_MAIN ) << "Setting language to: '" << lang_opt << '\'';
         TranslationManager::GetInstance().SetLanguage( lang_opt );
-    }
-    else {
+    } else {
         TranslationManager::GetInstance().SetLanguage( lang );
     }
 #if defined(_WIN32)
