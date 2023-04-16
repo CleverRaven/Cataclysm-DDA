@@ -2,7 +2,7 @@
 Portal storms are otherworldly colisions. Evil and malicious entities from inexplainable spaces are pouring into our world. However this doesn't mean it's a good way to imediately kill the character.
 
 ## Ideas
-Portal Storms should consist of the inexplainable and the disturbing.  There should be less of a focus even on our usual nether monsters, instead leaning on even more disturbing creatures. Portal storms should also really only be dangerous to humans, people that can percieve the otherworldly nature. Animals and the dead should have little to no interest in the other side and vice versa.
+Portal Storms should consist of the inexplainable and the disturbing.  There should be less of a focus even on our usual nether monsters, instead leaning on even more disturbing creatures. 
 
 ## Reminders
 Some things to keep in mind when working on Portal Storms:
@@ -10,6 +10,7 @@ Some things to keep in mind when working on Portal Storms:
 * Portal storms shouldn't be forced rest: It should be *possible* for a strong character to maneuver in a portal storm. It can be risky, but shouldn't be impossible.
 * Portal storm encounters don't need to be rewarding: Some encounters will be, but not every encounter needs a carrot. The variance of portal storms means that traveling the storms is a gamble, sometimes you get lucky, other times you do not.
 * Portal storms should only be *actively* dangerous with creatures hunting you when you go outside (more on this in balance).
+* Portal storms are trying to destroy humans, and warp the world: Portal storms should also really only be dangerous to humans, creatures that can percieve the otherworldly nature. Animals and the dead should have little to no interest in the other side and vice versa.
 * Don't be annoying: Nothing ruins ambience as fast as tedium. Don't spam effects, don't waste the players time. Portal Storms already *show* the player they are dangerous, we do not need to *tell* the player they are scary or weird.
 * Less is more: As an extension of above, portal storm encounters should be disruptive, strange, and not overstay their welcome. Always remember there is something new coming to terrorize the player soon enough.
 * Portal storms are compounding difficulty: A player sitting in their fortified base with doors and the blinds shut **should be safe from the storm**. Storms should compound problems the player is already facing, Cataclysm is a game of **compounding difficulty** and **losing to a mistake you made 5 minutes ago**. Don't build portal storm encounters to kill high powered characters in a 1v1, they should be an additional vector to put pressure on the player and force them adapt while in the field.
