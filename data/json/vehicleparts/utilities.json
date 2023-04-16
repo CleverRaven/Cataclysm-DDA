@@ -36,40 +36,6 @@
     "type": "vehicle_part"
   },
   {
-    "abstract": "welding_rig_abstract",
-    "breaks_into": [
-      { "count": [ 3, 6 ], "item": "steel_lump" },
-      { "count": [ 3, 6 ], "item": "steel_chunk" },
-      { "count": [ 3, 6 ], "item": "scrap" },
-      { "charges": 0, "item": "welder", "prob": 50 }
-    ],
-    "broken_color": "light_red",
-    "broken_symbol": "x",
-    "categories": [ "utility" ],
-    "color": "light_red",
-    "damage_modifier": 10,
-    "damage_reduction": { "all": 24 },
-    "description": "A welding rig mounted in the vehicle, that draws power from the vehicle's batteries.  You still need glare protection.  'e'xamine the tile with the rig to use it to repair items in your inventory.  If you attempt to craft an item or perform a repair that requires a welder, you will be given the option of using the welding rig.",
-    "durability": 80,
-    "flags": [ "CARGO", "OBSTACLE", "COVERED" ],
-    "pseudo_tools": [ { "id": "welder", "hotkey": "w" }, { "id": "soldering_iron", "hotkey": "s" } ],
-    "item": "weldrig",
-    "location": "center",
-    "name": { "str": "welding rig" },
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": {
-        "skills": [ [ "mechanics", 4 ] ],
-        "time": "60 m",
-        "using": [ [ "repair_welding_standard", 1 ], [ "soldering_standard", 15 ] ]
-      }
-    },
-    "size": "50 L",
-    "symbol": "&",
-    "type": "vehicle_part"
-  },
-  {
     "abstract": "craft_rig_abstract",
     "breaks_into": [
       { "count": [ 4, 7 ], "item": "steel_lump" },
@@ -225,12 +191,6 @@
   {
     "copy-from": "kitchen_unit_abstract",
     "id": "kitchen_unit",
-    "symbol": "&",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "welding_rig_abstract",
-    "id": "welding_rig",
     "symbol": "&",
     "type": "vehicle_part"
   },

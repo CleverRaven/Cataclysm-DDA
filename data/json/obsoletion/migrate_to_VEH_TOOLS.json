@@ -1,9 +1,28 @@
 [
   {
+    "id": "weldrig",
+    "type": "MIGRATION",
+    "replace": "veh_tools_workshop"
+  },
+  {
     "type": "vehicle_part_migration",
     "//": "migration to VEH_TOOLS, remove after 0.H release",
     "from": "ap_weldkit",
     "to": "veh_tools_workshop",
     "add_veh_tools": [ "welding_kit", "soldering_iron" ]
+  },
+  {
+    "type": "vehicle_part_migration",
+    "//": "migration to VEH_TOOLS, remove after 0.H release",
+    "from": "welding_rig",
+    "to": "veh_tools_workshop",
+    "add_veh_tools": [ "welder", "soldering_iron" ]
+  },
+  {
+    "type": "vehicle_part_migration",
+    "//": "migration to VEH_TOOLS, remove after 0.H release",
+    "from": "ap_weldrig",
+    "to": "veh_tools_workshop",
+    "add_veh_tools": [ "welder", "soldering_iron" ]
   }
 ]

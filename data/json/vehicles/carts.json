@@ -198,8 +198,8 @@
     "name": "Welding Cart",
     "blueprint": [ "&" ],
     "parts": [
-      { "x": 0, "y": 0, "parts": [ "xlframe_vertical_2", "wheel_caster" ] },
-      { "x": 0, "y": 0, "parts": [ "small_storage_battery", "welding_rig" ] }
+      { "x": 0, "y": 0, "parts": [ "xlframe_vertical_2", "wheel_caster", "small_storage_battery" ] },
+      { "x": 0, "y": 0, "part": "veh_tools_workshop", "tools": [ "welder", "soldering_iron" ] }
     ],
     "items": [ { "x": 0, "y": 0, "chance": 30, "items": [ "goggles_welding" ] } ]
   },
