@@ -3,6 +3,14 @@
 ## Features:
 Tilesets: Automatically prevent occlusions via semi-transparent sprites (similar to retraction)
 Add parametric mapgen to consolidate similar basecamp definitions
+Refresh equipment spell duration on recast
+Activities can fire EOCs
+Added full mouse support to the keybindings screen
+Item summoning spells now respect keep hands free option
+prevent attacking neutral critter via move in safemode
+Fix and enhance camp radio tower
+Added sorting, showing&hiding pocket contents, and scrolling via mouse in inventory screens
+Pain immunity flag and flat pain modifier for mutations
 
 
 ## Content:
@@ -11,6 +19,13 @@ Add generic finales for generic mine
 Add new boss for physics lab
 Add 4 New Apartment Complexes
 Add several new bungalows
+map update: craft shop 2
+map update: bowling alley
+Combat Capable Mounts
+New construction: rocky obstacle
+More scenarios, achievements and EOC effects
+Map update: 3x3 hotels
+refugee caravan
 
 
 ## Interface:
@@ -18,6 +33,10 @@ Show crafting failure chances in the crafting interface
 Show addictions from hobbies in newcharacter tab
 Added ability to think to yourself in the message log
 Added Presets for pocket settings
+Prettier loading UI for loading the save
+Player display speed tab effect list is more comprehensive
+Add min/max feedback to new character stats interface
+add widget var 'move_remainder' for remaining moves in current turn
 
 
 ## Mods:
@@ -32,6 +51,11 @@ Added Presets for pocket settings
 [Magiclysm Graphical Overmap] Delete Magiclysm Graphical Overmap
 [Magiclysm] Another approach to animist summoning
 [Xedra Evolved] Add content for dreamsmiths and dreamers
+[Bombastic Perks] More perks
+[DinoMod] integrated mutation armor
+[DinoMod] therizinosaurus
+Clarify ki strike description
+updated the startup for BP to be more reliable
 
 
 ## Balance:
@@ -41,6 +65,13 @@ Add denim as a material and buff jeans
 Removed scent tracking from certain zombies
 Cody can make chainmail armor and charges more
 Rework melee, unarmed, dodge, cutting, stabbing, and bashing practice recipes to limit higher level practice actions to books
+Add bundling for synethic fabric
+Adjusting recipes using electric motors to use correct motor size relative to resulting item sizes
+Changes fur and faux fur tailoring to require Fabric Cutting 1 instead of 2
+Bread flour can now also be made with a food processor
+Ye Scots Beuk o Cuikery can teach ye how ta make sausage casings
+lower power trigger cost of alarm system bionic
+Converts most of the armor and clothing still using the old limb system to the new system with sub-limbs, part 4: Perfected pants and helpful helmets
 
 
 ## Bugfixes:
@@ -62,6 +93,21 @@ Fixes mobile home park road connections
 Flush map buffers after failing to create starting location
 Smart controller supports using only one engine
 Disassembly doesn't return items with UNRECOVERABLE flag
+FIxing nomad armor functionality
+Crash on achievement gain
+Prevent broken vp in-place replacement when racked
+Do not set charges to -1 on items that are not count by charges when filling a pocket
+Wield Wiedget hides (Folded) and tname now includes default_mods
+fix Energy consumption of 'Taste Modifier CBM' when consuming food with positive enjoyment
+Spellcasting tools no longer waste charges if you cancel out and don't actually cast the spell
+Fix erroneous limb modifier
+Fix message about rot when eating with saprophage 
+Fix using unload_everything zone to remove gunmod gets copies of gunmod.
+Ferals can use their guns in GG
+Hoists now provide ROPE 2 and SUSPENDING 2 qualities
+The code was incorrectly overriding the strength modifier with the perception modifier and not writing anything to the perception modifier.
+Prevent fire damaging unbreakable items
+Fix energy guns(AFS) on NPC
 
 
 ## Performance:
@@ -73,6 +119,9 @@ Refactor effect types to use map indirection and enums instead of strings
 Epower and power in units::power
 Update compiler support.  Now supporting gcc 8.1+, clang 10+, XCode 10.1+
 Refactor some crafting infrastructure to support removal of charges
+Modernize string_formatter
+Migrate some JSON APIs to string_view
+Port cata_utility functions to string_view
 
 
 ## Build:
@@ -80,6 +129,7 @@ Support Mac arm64 build
 
 
 ## I18N and A11Y:
+Add percentage-translated statistic to language selection
 
 
 # 0.G (Gaiman)
