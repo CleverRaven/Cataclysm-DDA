@@ -3444,6 +3444,13 @@ Any Item can be a container. To add the ability to contain things to an item, yo
     "item_restriction": [ "item_id" ],         // Only these item IDs can be placed into this pocket. Overrides ammo and flag restrictions.
     "material_restriction": [ "material_id" ], // Only items that are mainly made of this material can enter.
 	// If multiple of "flag_restriction", "material_restriction" and "item_restriction" are used simultaneously then any item that matches any of them will be accepted.
+    
+    // Default settings for this pocket. Default values are to 0/empty
+    "priority": 0,
+    "whitelist": [ "item_id", "item_id" ],  // either "item_group_id" or [ "item_id", ... ] for both blacklist and whitelist
+    "blacklist": "item_group_id",
+    "category_whitelist": [ "FOOD" ],
+    "category_blacklist": [ "MANUALS" ],
 
     "sealed_data": { "spoil_multiplier": 0.0 } // If a pocket has sealed_data, it will be sealed when the item spawns.  The sealed version of the pocket will override the unsealed version of the same datatype.
   }

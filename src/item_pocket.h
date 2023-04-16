@@ -11,6 +11,7 @@
 #include <optional>
 #include <set>
 #include <type_traits>
+#include <variant>
 #include <vector>
 
 #include "enums.h"
@@ -74,6 +75,9 @@ class item_pocket
         class favorite_settings
         {
             public:
+                favorite_settings() = default;
+                explicit favorite_settings( const pocket_data *data );
+
                 void clear();
 
                 void set_priority( int priority );
@@ -133,7 +137,7 @@ class item_pocket
         };
 
         item_pocket() = default;
-        explicit item_pocket( const pocket_data *data ) : data( data ) {}
+        explicit item_pocket( const pocket_data *data ) : settings( data ), data( data ) {}
 
         bool stacks_with( const item_pocket &rhs, int depth = 0, int maxdepth = 2 ) const;
         bool is_funnel_container( units::volume &bigger_than ) const;
@@ -538,6 +542,13 @@ class pocket_data
         bool rigid = false;
         // if true, the pocket cannot be used by the player
         bool forbidden = false;
+
+        int default_priority = 0;
+        using id_set = std::variant<cata::flat_set<itype_id>, item_group_id>;
+        id_set default_whitelist;
+        id_set default_blacklist;
+        cata::flat_set<item_category_id> default_cat_whitelist;
+        cata::flat_set<item_category_id> default_cat_blacklist;
 
         bool operator==( const pocket_data &rhs ) const;
 

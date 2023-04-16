@@ -5,6 +5,7 @@
 #include <memory>
 #include <string>
 #include <utility>
+#include <variant>
 
 #include "ammo.h"
 #include "calendar.h"
@@ -20,6 +21,7 @@
 #include "item.h"
 #include "item_category.h"
 #include "item_factory.h"
+#include "item_group.h"
 #include "item_location.h"
 #include "itype.h"
 #include "json.h"
@@ -55,6 +57,75 @@ std::string enum_to_string<item_pocket::pocket_type>( item_pocket::pocket_type d
 }
 // *INDENT-ON*
 } // namespace io
+
+namespace
+{
+template <class... Ts>
+struct overloaded : Ts... {
+    using Ts::operator()...;
+};
+template <class... Ts>
+explicit overloaded( Ts... ) -> overloaded<Ts...>;
+void _fill_set_from_variant( cata::flat_set<itype_id> &dest, pocket_data::id_set const &def )
+{
+    std::visit( overloaded{
+        [&dest]( cata::flat_set<itype_id> const & v )
+        {
+            dest = v;
+        },
+        [&dest]( item_group_id const & v )
+        {
+            for( itype const *id : item_group::every_possible_item_from( v ) ) {
+                dest.insert( id->get_id() );
+            }
+        },
+    },
+    def );
+}
+
+std::string _check_variant_ids( pocket_data::id_set const &def, std::string_view label )
+{
+    std::visit( overloaded{
+        [label]( cata::flat_set<itype_id> const & v ) -> std::string
+        {
+            for( itype_id const &id : v )
+            {
+                if( !id.is_valid() ) {
+                    return string_format( "Invalid item ID %s in pocket %s", id.c_str(),
+                                          label );
+                }
+            }
+            return {};
+        },
+        [label]( item_group_id const & v ) -> std::string
+        {
+            if( !item_group::group_is_defined( v ) )
+            {
+                return string_format( "Invalid item group ID %s in pocket %s",
+                                      v.c_str(), label );
+            }
+            return {};
+        },
+    },
+    def );
+
+    return {};
+}
+
+// FIXME: port to string_view after optional
+void _load_variant_list( JsonObject const &jo, bool was_loaded, pocket_data::id_set &def,
+                         std::string const &member )
+{
+    if( jo.has_array( member ) ) {
+        cata::flat_set<itype_id> temp;
+        optional( jo, was_loaded, member, temp );
+        def = temp;
+    } else if( jo.has_string( member ) ) {
+        def = item_group_id( jo.get_string( member ) );
+    }
+}
+
+} // namespace
 
 std::vector<item_pocket::favorite_settings> item_pocket::pocket_presets;
 
@@ -112,6 +183,23 @@ std::string pocket_data::check_definition() const
     if( ( watertight || airtight ) && min_item_volume > 0_ml ) {
         return "watertight or gastight is incompatible with min_item_volume\n";
     }
+    if( std::string ret = _check_variant_ids( default_whitelist, "whitelist" ); !ret.empty() ) {
+        return ret;
+    }
+    if( std::string ret = _check_variant_ids( default_blacklist, "blacklist" ); !ret.empty() ) {
+        return ret;
+    }
+    for( item_category_id const &id : default_cat_blacklist ) {
+        if( !id.is_valid() ) {
+            return string_format( "Invalid item category ID %s in pocket whitelist", id.c_str() );
+        }
+    }
+    for( item_category_id const &id : default_cat_whitelist ) {
+        if( !id.is_valid() ) {
+            return string_format( "Invalid item category ID %s in pocket blacklist", id.c_str() );
+        }
+    }
+
     return "";
 }
 
@@ -181,6 +269,12 @@ void pocket_data::load( const JsonObject &jo )
         holster = true;
     }
     optional( jo, was_loaded, "sealed_data", sealed_data );
+
+    optional( jo, was_loaded, "priority", default_priority );
+    _load_variant_list( jo, was_loaded, default_whitelist, "whitelist" );
+    _load_variant_list( jo, was_loaded, default_blacklist, "blacklist" );
+    optional( jo, was_loaded, "category_whitelist", default_cat_whitelist );
+    optional( jo, was_loaded, "category_blacklist", default_cat_blacklist );
 }
 
 void sealable_data::load( const JsonObject &jo )
@@ -2272,6 +2366,14 @@ void item_pocket::favorite_settings::clear()
     item_blacklist.clear();
     category_whitelist.clear();
     category_blacklist.clear();
+}
+
+item_pocket::favorite_settings::favorite_settings( const pocket_data *data )
+    : priority_rating( data->default_priority ), category_whitelist( data->default_cat_whitelist ),
+      category_blacklist( data->default_cat_blacklist )
+{
+    _fill_set_from_variant( item_whitelist, data->default_whitelist );
+    _fill_set_from_variant( item_blacklist, data->default_blacklist );
 }
 
 void item_pocket::favorite_settings::set_priority( const int priority )

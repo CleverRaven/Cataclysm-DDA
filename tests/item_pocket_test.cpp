@@ -2733,3 +2733,15 @@ TEST_CASE( "pocket_leak" )
         CHECK( bkit_has_water == top_watertight );
     }
 }
+
+TEST_CASE( "default_pocket_settings" )
+{
+    item pst( "pocket_settings_test" );
+    item_pocket *pkt = pst.get_all_standard_pockets().front();
+    CHECK( pkt->settings.priority() == 9001 );
+    CHECK( pkt->settings.get_item_whitelist()[0] == itype_id( "hammer" ) );
+    CHECK( pkt->settings.get_item_whitelist()[1] == itype_id( "bow_saw" ) );
+    CHECK( pkt->settings.get_item_blacklist()[0] == itype_id( "fridge_test" ) );
+    CHECK( pkt->settings.get_category_whitelist()[0] == item_category_id( "food" ) );
+    CHECK( pkt->settings.get_category_blacklist()[0] == item_category_id( "ammo" ) );
+}
