@@ -145,7 +145,7 @@
         "cost_scaling": 0.1,
         "move_cost": 100
       }
-    ],
+    ]
   },
   {
     "type": "GENERIC",
