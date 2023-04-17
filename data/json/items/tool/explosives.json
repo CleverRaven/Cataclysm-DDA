@@ -543,8 +543,7 @@
       "need_wielding": true,
       "target": "grenade_inc_act",
       "msg": "You pull the pin on the grenade.",
-      "target_charges": 5,
-      "active": true,
+      "target_timer": "5 seconds",
       "menu_text": "Pull pin",
       "type": "transform"
     },
@@ -565,11 +564,8 @@
     "material": [ "steel" ],
     "symbol": "*",
     "color": "light_red",
-    "initial_charges": 5,
-    "max_charges": 5,
-    "turns_per_charge": 1,
     "revert_to": "canister_empty",
-    "use_action": [ "GRENADE_INC_ACT" ],
+    "countdown_action": "GRENADE_INC_ACT",
     "flags": [ "ACT_IN_FIRE", "BOMB", "TRADER_AVOID", "DANGEROUS" ]
   },
   {
