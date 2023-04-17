@@ -268,10 +268,8 @@
       "weighted_list_eocs": [
         [ "EOC_PORTAL_GRASS_CHANGE", { "const": 10 } ],
         [ "EOC_PORTAL_LIGHT", { "const": 2 } ],
-        [ "EOC_PORTAL_ARTIFACT_WEAK", { "const": 1 } ],
         [ "EOC_PORTAL_ABSENCE", { "const": 4 } ],
         [ "EOC_PORTAL_IMPOSSIBLE_SHAPE", { "const": 5 } ],
-        [ "EOC_PORTAL_SHIFTING_MASS", { "const": 1 } ],
         [ "EOC_PORTAL_MEMORIES", { "const": 1 } ],
         [ "EOC_PORTAL_GIANT_APPENDAGE", { "const": 1 } ],
         [ "EOC_PORTAL_NPC", { "const": 1 } ]
@@ -301,7 +299,9 @@
           [ "EOC_PORTAL_HALLUCINATOR", { "const": 2 } ],
           [ "EOC_PORTAL_SMOKE", { "const": 2 } ],
           [ "EOC_PORTAL_SWARM_STRUCTURE", { "const": 2 } ],
-          [ "EOC_PORTAL_TAUNT", { "const": 1 } ]
+          [ "EOC_PORTAL_TAUNT", { "const": 1 } ],
+          [ "EOC_PORTAL_SHIFTING_MASS", { "const": 1 } ],
+          [ "EOC_PORTAL_ARTIFACT_WEAK", { "const": 1 } ]
         ]
       }
     ]
