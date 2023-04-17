@@ -177,7 +177,6 @@ void iuse_transform::load( const JsonObject &obj )
     obj.read( "target_ammo", ammo_type );
 
     obj.read( "target_timer", target_timer );
-    obj.read( "countdown", countdown );
 
     if( !ammo_type.is_empty() && !container.is_empty() ) {
         obj.throw_error_at( "target_ammo", "Transform actor specified both ammo type and container type" );
@@ -423,9 +422,7 @@ void iuse_transform::info( const item &it, std::vector<iteminfo> &dump ) const
     }
     dump.emplace_back( "TOOL", string_format( _( "<bold>Turns into</bold>: %s" ),
                        dummy.tname() ) );
-    if( countdown > 0 ) {
-        dump.emplace_back( "TOOL", _( "Countdown: " ), countdown );
-    }
+
     if( target_timer > 0_seconds ) {
         dump.emplace_back( "TOOL", _( "Countdown: " ), to_seconds<int>( target_timer ) );
     }
