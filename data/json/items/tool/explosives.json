@@ -574,7 +574,6 @@
   },
   {
     "id": "gasbomb",
-    "copy-from": "grenade_canister",
     "looks_like": "smokebomb",
     "type": "GENERIC",
     "category": "weapons",
@@ -622,6 +621,7 @@
       "menu_text": "Pull pin",
       "msg": "You pull the pin.",
       "type": "transform",
+      "target_timer": "50 seconds",
       "target": "insecticidalbomb_act"
     }
   },
@@ -850,7 +850,6 @@
     "name": { "str": "armed smoke bomb" },
     "description": "This smoke bomb has had its pin removed and is (or will shortly be) expelling thick smoke.",
     "emits": [ "emit_smoke_stream" ],
-    "countdown_interval": "100 seconds",
     "countdown_action": { "type": "transform", "target": "canister_empty" },
     "flags": [ "TRADER_AVOID" ]
   },
