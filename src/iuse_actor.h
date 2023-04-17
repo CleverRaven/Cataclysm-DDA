@@ -188,6 +188,24 @@ class countdown_actor2 : public iuse_actor
         void info( const item &, std::vector<iteminfo> & ) const override;
 };
 
+class message_iuse : public iuse_actor
+{
+    public:
+        explicit message_iuse( const std::string &type = "message" ) : iuse_actor( type ) {}
+
+        /** if specified overrides default action name */
+        translation name;
+
+        /** message if player sees activation with %s replaced by item name */
+        translation message;
+
+        ~message_iuse() override = default;
+        void load( const JsonObject &obj ) override;
+        std::optional<int> use( Character &, item &, bool, const tripoint & ) const override;
+        std::unique_ptr<iuse_actor> clone() const override;
+        std::string get_name() const override;
+};
+
 /**
  * This is a @ref iuse_actor for active items that explode when
  * their charges reaches 0.

@@ -1266,7 +1266,7 @@ struct itype {
 
         /** Default countdown interval (if any) for item */
         int countdown_interval = 0;
-        time_duration countdown2 = 0_seconds;
+        time_duration countdown_interval2 = 0_seconds;
 
         /**
         * Space occupied by items of this type

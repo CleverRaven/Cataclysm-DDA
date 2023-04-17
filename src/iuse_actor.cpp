@@ -578,7 +578,7 @@ std::optional<int> countdown_actor2::use( Character &p, item &it, bool t,
     }
 
     //it.item_counter = interval > 0 ? interval : it.type->countdown_interval;
-    //it.countdown_point = calendar::turn + interval2 > it.type->countdown2 ? interval2 : it.type->countdown2;
+    //it.countdown_point = calendar::turn + interval2 > it.type->countdown_interval2 ? interval2 : it.type->countdown_interval2;
     it.countdown_point = calendar::turn + interval;
     it.active = true;
     return 0;
@@ -612,6 +612,41 @@ void countdown_actor2::info( const item &it, std::vector<iteminfo> &dump ) const
     }
 }
 //ddddddddddddddddddddddddddddd
+
+//aaaaaaaaaaaaaaaaaaaaaaaaaaaa
+std::unique_ptr<iuse_actor> message_iuse::clone() const
+{
+    return std::make_unique<message_iuse>( *this );
+}
+
+void message_iuse::load( const JsonObject &obj )
+{
+    obj.read( "name", name );
+    obj.read( "message", message );
+}
+
+std::optional<int> message_iuse::use( Character &p, item &it, bool t,
+                                      const tripoint &pos ) const
+{
+    if( t ) {
+        return std::nullopt;
+    }
+
+    if( p.sees( pos ) && !message.empty() ) {
+        p.add_msg_if_player( m_info, message.translated(), it.tname() );
+    }
+
+    return 0;
+}
+
+std::string message_iuse::get_name() const
+{
+    if( !name.empty() ) {
+        return name.translated();
+    }
+    return iuse_actor::get_name();
+}
+//aaaaaaaaaaaaaaaaaaaaaaaaaaa
 
 std::unique_ptr<iuse_actor> explosion_iuse::clone() const
 {

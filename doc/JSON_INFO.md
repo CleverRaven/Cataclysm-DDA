@@ -4024,7 +4024,7 @@ When the time duration specified has passed the action in `"countdown_action2"` 
 
 Additional options can be defined in item definitions (not in use action):
 ```"countdown_destroy": true``` If set to true the item is removed after its countdown action is triggered.
-```"countdown_interval": "1 seconds"``` Timer duration set in item. Used when item spawns with active timer.
+```"countdown_interval2": "1 seconds"``` Timer duration set in item. Used when item spawns with active timer instead of being player activated.
 
 ### Random Descriptions
 

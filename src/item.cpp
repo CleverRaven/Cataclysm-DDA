@@ -284,6 +284,7 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
 {
     contents = item_contents( type->pockets );
     item_counter = type->countdown_interval;
+    //countdown_point = type->countdown_interval2;
     item_vars = type->item_variables;
 
     if( has_flag( flag_CORPSE ) ) {
