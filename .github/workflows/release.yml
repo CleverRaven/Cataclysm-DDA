@@ -25,10 +25,9 @@ jobs:
   release:
     name: Create Release
     runs-on: ubuntu-latest
+    permissions: write-all
     outputs:
-      upload_url: ${{ steps.create_release.outputs.upload_url }}
       timestamp: ${{ steps.get-timestamp.outputs.time }}
-      release_already_exists: ${{ steps.tag_check.outputs.exists }}
     steps:
       - name: Get build timestamp
         id: get-timestamp
@@ -39,46 +38,12 @@ jobs:
         run: |
           echo "tag_name=cdda-experimental-${{ steps.get-timestamp.outputs.time }}" >> $GITHUB_OUTPUT
           echo "release_name=Cataclysm-DDA experimental build ${{ steps.get-timestamp.outputs.time }}" >> $GITHUB_OUTPUT
-      - name: Check if there is existing git tag
-        id: tag_check
-        uses: mukunku/tag-exists-action@v1.0.0
-        with:
-          tag: ${{ steps.generate_env_vars.outputs.tag_name }}  
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/checkout@v3
-      - name: Push tag
-        id: tag_version
-        uses: mathieudutour/github-tag-action@v5.5
-        if: ${{ steps.tag_check.outputs.exists == 'false' }}
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          custom_tag: ${{ steps.generate_env_vars.outputs.tag_name }}
-          tag_prefix: ""
-      - name: "Generate release notes"
-        run: |
-          gh api \
-            --method POST \
-            -H "Accept: application/vnd.github.v3+json" \
-            /repos/${{ github.repository }}/releases/generate-notes \
-            -f tag_name='${{ steps.generate_env_vars.outputs.tag_name }}' \
-            -f target_commitish='master' \
-            -q .body > CHANGELOG.md
-      - name: Create release
-        id: create_release
-        uses: actions/create-release@v1
-        if: ${{ steps.tag_check.outputs.exists == 'false' }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ steps.generate_env_vars.outputs.tag_name }}
-          release_name: ${{ steps.generate_env_vars.outputs.release_name }}
-          body_path: ./CHANGELOG.md
-          draft: false
-          prerelease: true
+      - run: |
+          gh release create ${{ steps.generate_env_vars.outputs.tag_name }} --generate-notes --prerelease --title "${{ steps.generate_env_vars.outputs.release_name }}"
+
   builds:
     needs: release
-    if: ${{ needs.release.outputs.release_already_exists == 'false' }}
     strategy:
       fail-fast: false
       matrix:
@@ -179,6 +144,7 @@ jobs:
             content: application/aap
     name: ${{ matrix.name }}
     runs-on: ${{ matrix.os }}
+    permissions: write-all
     env:
         ZSTD_CLEVEL: 17
     steps:
@@ -285,7 +251,7 @@ jobs:
           mv Cataclysm.dmg cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.dmg
       - name: Set up JDK 8 (android)
         if: runner.os == 'Linux' && matrix.android != 'none' && matrix.mxe == 'none'
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v3
         with:
           java-version: '11'
           distribution: 'adopt'   
@@ -317,16 +283,8 @@ jobs:
                ./gradlew -Pj=$((`nproc`+0)) bundleExperimentalRelease
                mv ./app/build/outputs/bundle/experimentalRelease/*.aab ../cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.aab     
           fi
-      - name: Upload release asset
-        id: upload-release-asset 
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ needs.release.outputs.upload_url }} 
-          asset_path: cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.${{ matrix.ext }}
-          asset_name: cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.${{ matrix.ext }}
-          asset_content_type: ${{ matrix.content }}
+      - run: |
+          gh release upload cdda-experimental-${{ needs.release.outputs.timestamp }} cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.${{ matrix.ext }}
       - name: Trigger GitHub pages rebuild
         shell: bash
         run: |
