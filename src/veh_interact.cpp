@@ -1807,8 +1807,7 @@ vehicle_part *veh_interact::get_most_damaged_part() const
 
 vehicle_part *veh_interact::get_most_repairable_part() const
 {
-    vehicle_part &part = veh_utils::most_repairable_part( *veh, get_player_character() );
-    return part ? &part : nullptr;
+    return veh_utils::most_repairable_part( *veh, get_player_character() );
 }
 
 bool veh_interact::can_remove_part( int idx, const Character &you )
