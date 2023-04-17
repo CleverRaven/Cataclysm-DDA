@@ -5,7 +5,6 @@
     "category": "weapons",
     "name": { "str": "bomba" },
     "description": "boom",
-    "material": [ "test_material" ],
     "weight": "397 g",
     "volume": "270 ml",
     "price": 1000000,
@@ -21,12 +20,11 @@
     "symbol": "F",
     "color": "light_blue",
     "name": { "str": "fridge" },
-    "material": [ "steel" ],
-    "volume": "800 L",
-    "weight": "70 kg",
     "description": "A fridge for keeping food cool.  Provides some insulation from outside weather.",
     "longest_side": "1700 mm",
     "insulation": 10,
+    "volume": "800 L",
+    "weight": "70 kg",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -84,17 +82,7 @@
     "to_hit": -2,
     "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_80" ],
     "qualities": [ [ "HAMMER", 1 ] ],
-    "melee_damage": { "bash": 7 },
-    "variant_type": "generic",
-    "variants": [
-      { "id": "test_rock_blue", "name": { "str": "blue test_rock" }, "description": "It's a blue test rock", "append": true },
-      {
-        "id": "test_rock_green",
-        "name": { "str": "green test_rock" },
-        "description": "It's a green test rock",
-        "append": true
-      }
-    ]
+    "melee_damage": { "bash": 7 }
   },
   {
     "type": "TOOL_ARMOR",
@@ -410,8 +398,7 @@
         "max_contains_volume": "1500 ml",
         "max_contains_weight": "1200 g",
         "moves": 50,
-        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ],
-        "transparent": true
+        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
       },
       {
         "holster": true,
@@ -420,8 +407,7 @@
         "max_contains_volume": "1500 ml",
         "max_contains_weight": "1200 g",
         "moves": 50,
-        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ],
-        "transparent": true
+        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
       },
       {
         "holster": true,
@@ -430,8 +416,7 @@
         "max_contains_volume": "1500 ml",
         "max_contains_weight": "1200 g",
         "moves": 50,
-        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ],
-        "transparent": true
+        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
       },
       {
         "holster": true,
@@ -440,8 +425,7 @@
         "max_contains_volume": "1500 ml",
         "max_contains_weight": "1200 g",
         "moves": 50,
-        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ],
-        "transparent": true
+        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Store tool or blade", "holster_msg": "You put your %1$s in your %2$s" },
@@ -479,8 +463,7 @@
         "max_item_length": "70 cm",
         "moves": 50,
         "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ],
-        "name": "P2",
-        "transparent": true
+        "name": "P2"
       },
       {
         "holster": true,
@@ -490,8 +473,7 @@
         "max_item_length": "70 cm",
         "moves": 50,
         "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ],
-        "name": "P3",
-        "transparent": true
+        "name": "P3"
       },
       {
         "holster": true,
@@ -501,8 +483,7 @@
         "max_item_length": "70 cm",
         "moves": 50,
         "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ],
-        "name": "P4",
-        "transparent": true
+        "name": "P4"
       },
       {
         "holster": true,
@@ -512,8 +493,7 @@
         "max_item_length": "70 cm",
         "moves": 50,
         "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ],
-        "name": "P5",
-        "transparent": true
+        "name": "P5"
       },
       {
         "holster": true,
@@ -523,8 +503,7 @@
         "max_item_length": "70 cm",
         "moves": 50,
         "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ],
-        "name": "P6",
-        "transparent": true
+        "name": "P6"
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Store tool or blade", "holster_msg": "You put your %1$s in your %2$s" },
@@ -632,8 +611,7 @@
         "max_contains_weight": "1000 g",
         "max_item_length": "15 cm",
         "moves": 50,
-        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ],
-        "transparent": true
+        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
       },
       {
         "//": "Large holster for an axe or Halligan bar",
@@ -644,8 +622,7 @@
         "max_contains_weight": "4000 g",
         "max_item_length": "80 cm",
         "moves": 200,
-        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ],
-        "transparent": true
+        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
       },
       {
         "//": "Flexible water pouch for drinks or other liquid.  Integrated straw for fast access.",
@@ -1041,11 +1018,11 @@
     "type": "TOOL",
     "name": { "str": "test smartphone" },
     "description": "A popular, fancy smartphone.  Capable of making photos due to integrated camera and illuminating an area as per flashlight app, assuming it has enough charge.  The smartphone also has a clock app that includes an alarm.  Runs on a small, rechargeable power cell compatible with Unified Power Supply.",
-    "weight": "200 g",
+    "weight": "230 g",
     "volume": "100 ml",
     "price": 20000,
     "price_postapoc": 200,
-    "material": [ { "type": "aluminum", "portion": 75 }, { "type": "plastic", "portion": 25 } ],
+    "material": [ "plastic", "aluminum" ],
     "looks_like": "cell_phone",
     "symbol": ";",
     "color": "light_gray",
@@ -1073,8 +1050,7 @@
     "name": { "str": "test mp3 player" },
     "description": "Test mp3 player",
     "weight": "140 g",
-    "volume": "75 ml",
-    "material": [ { "type": "aluminum", "portion": 75 }, { "type": "plastic", "portion": 25 } ],
+    "volume": "50 ml",
     "symbol": ";",
     "ammo": [ "battery" ],
     "use_action": [ "MP3" ],
@@ -1179,42 +1155,6 @@
         "covers": [ "eyes", "mouth", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
       }
     ]
-  },
-  {
-    "id": "test_hazmat_hat",
-    "type": "ARMOR",
-    "name": "TEST hazmat hat",
-    "description": ".",
-    "weight": "5000 g",
-    "volume": "17 L",
-    "price": 117500,
-    "material": [ "plastic" ],
-    "symbol": "[",
-    "looks_like": "beekeeping_suit",
-    "color": "yellow",
-    "warmth": 40,
-    "material_thickness": 2,
-    "environmental_protection": 20,
-    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "OUTER" ],
-    "armor": [ { "encumbrance": 37, "coverage": 100, "covers": [ "head" ] } ]
-  },
-  {
-    "id": "test_hazmat_shirt",
-    "type": "ARMOR",
-    "name": "TEST hazmat shirt",
-    "description": ".",
-    "weight": "5000 g",
-    "volume": "17 L",
-    "price": 117500,
-    "material": [ "plastic" ],
-    "symbol": "[",
-    "looks_like": "beekeeping_suit",
-    "color": "yellow",
-    "warmth": 40,
-    "material_thickness": 2,
-    "environmental_protection": 20,
-    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "OUTER" ],
-    "armor": [ { "encumbrance": 37, "coverage": 100, "covers": [ "torso" ] } ]
   },
   {
     "id": "test_hazmat_suit",
@@ -1367,29 +1307,6 @@
     ]
   },
   {
-    "id": "test_zentai_resist_stab_cut",
-    "type": "ARMOR",
-    "name": { "str": "test zentai" },
-    "description": "Full-body suit completely covering all body parts, including the head, mouth, and eyes.",
-    "weight": "300 g",
-    "volume": "500 ml",
-    "price": 2500,
-    "price_postapoc": 50,
-    "material": [ "lycra_resist_override_stab" ],
-    "symbol": "[",
-    "color": "dark_gray",
-    "warmth": 20,
-    "material_thickness": 1,
-    "environmental_protection": 10,
-    "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ],
-    "armor": [
-      {
-        "coverage": 100,
-        "covers": [ "head", "mouth", "eyes", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
-      }
-    ]
-  },
-  {
     "id": "test_zentai_resist_test_fire",
     "type": "ARMOR",
     "name": { "str": "test zentai" },
@@ -1480,116 +1397,6 @@
     ]
   },
   {
-    "id": "test_waist_apron_long",
-    "type": "ARMOR",
-    "name": { "str": "long waist apron" },
-    "description": "A long waist apron made of cotton.",
-    "price_postapoc": 50,
-    "to_hit": 1,
-    "symbol": "[",
-    "looks_like": "vest_leather",
-    "volume": "1750 ml",
-    "weight": "226 g",
-    "price": 1000,
-    "material": [ "cotton" ],
-    "color": "white",
-    "warmth": 2,
-    "material_thickness": 2,
-    "environmental_protection": 1,
-    "flags": [ "POCKETS", "BELTED" ],
-    "armor": [
-      { "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ], "coverage": 100, "encumbrance": [ 1, 1 ] },
-      {
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
-        "coverage": 70,
-        "encumbrance": 2,
-        "volume_encumber_modifier": 0.3
-      }
-    ],
-    "variant_type": "generic",
-    "variants": [
-      {
-        "id": "generic_apron_cotton",
-        "name": { "str": "long waist apron" },
-        "description": "It's colored white, like the ones commonly used by chefs, professional or otherwise.",
-        "weight": 50,
-        "append": true
-      },
-      {
-        "id": "black_apron_cotton",
-        "name": { "str": "black long waist apron" },
-        "description": "It's colored black, commonly used by chefs working in the night or who just want to look cool.",
-        "color": "dark_gray",
-        "weight": 25,
-        "append": true
-      },
-      {
-        "id": "blue_apron_cotton",
-        "name": { "str": "blue long waist apron" },
-        "description": "It's a royal blue color, commonly used by supermarket workers around the world.",
-        "color": "blue",
-        "weight": 15,
-        "append": true
-      },
-      {
-        "id": "red_apron_cotton",
-        "name": { "str": "red long waist apron" },
-        "description": "It's colored red.",
-        "color": "red",
-        "weight": 10,
-        "append": true
-      },
-      {
-        "id": "pink_apron_cotton",
-        "name": { "str": "pink long waist apron" },
-        "description": "It's colored neon pink, commonly used by women or men who like pink.",
-        "color": "pink",
-        "weight": 3,
-        "append": true
-      },
-      {
-        "id": "floral_apron_cotton",
-        "name": { "str": "floral long waist apron" },
-        "description": "It has a floral design and colored yellow, perfect for cooking outdoors.",
-        "color": "yellow",
-        "weight": 2,
-        "append": true
-      },
-      {
-        "id": "camo_apron_cotton",
-        "name": { "str": "camo long waist apron" },
-        "description": "It has a camouflage pattern, perfect for chefs who want to hide in the wild.",
-        "color": "green",
-        "weight": 2,
-        "append": true
-      },
-      {
-        "id": "skull_apron",
-        "name": { "str": "skull long waist apron" },
-        "description": "It's colored black with a skull and roses pattern.  Makes you feel more fashionable just by wearing it.",
-        "color": "dark_gray",
-        "weight": 1,
-        "append": true
-      },
-      {
-        "id": "maid_apron",
-        "name": { "str": "maid long waist apron" },
-        "description": "It's colored white with black frilly decorations, commonly used with a maid dress or alone for nighttime activities.",
-        "weight": 1,
-        "append": true
-      },
-      {
-        "id": "gothic_apron",
-        "name": { "str": "gothic long waist apron" },
-        "description": "It has a jet-black color with dark red decorations, perfect for cosplay or an adventurous gourmet.",
-        "color": "light_red",
-        "weight": 1,
-        "append": true
-      }
-    ]
-  },
-  {
     "id": "test_umbrella",
     "type": "GENERIC",
     "category": "tools",
@@ -1664,8 +1471,6 @@
     "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ],
     "charges": 4,
-    "//": "stackable to keep the test using this item working",
-    "stackable": true,
     "vitamins": [ [ "iron", 9 ] ],
     "fun": 2
   },
@@ -1677,7 +1482,6 @@
     "name": { "str_sp": "test bitter almonds" },
     "description": "A variety of almonds with traces of hydrocyanic acid, potentially toxic when eaten raw.",
     "flags": [ "HIDDEN_POISON", "RAW" ],
-    "material": [ "test_material" ],
     "weight": "200 g",
     "volume": "250 ml",
     "symbol": "%",
@@ -1694,7 +1498,6 @@
     "name": { "str_sp": "test hallucinogenic nutmeg" },
     "description": "With high levels of the psychoactive myristicin, high doses of nutmeg can cause hallucinations and euphoria, along with a lot of nasty side effects.",
     "flags": [ "HIDDEN_HALLU" ],
-    "material": [ "test_material" ],
     "weight": "212 g",
     "volume": "250 ml",
     "symbol": "%",
@@ -1826,7 +1629,7 @@
     "name": "TEST small waterskin",
     "description": "A small watertight leather bag with a carrying strap, can hold 1.5 liters of water.",
     "weight": "453 g",
-    "volume": "500 ml",
+    "volume": "250 ml",
     "price": 2000,
     "to_hit": -1,
     "material": [ "leather" ],
@@ -1882,7 +1685,7 @@
         "moves": 1000
       }
     ],
-    "properties": { "burst_when_filled": "75" }
+    "properties": [ [ "burst_when_filled", "75" ] ]
   },
   {
     "id": "test_condom",
@@ -1907,7 +1710,7 @@
         "max_item_length": "26 cm"
       }
     ],
-    "properties": { "burst_when_filled": "75" }
+    "properties": [ [ "burst_when_filled", "75" ] ]
   },
   {
     "id": "test_can_drink",
@@ -1968,11 +1771,11 @@
     "description": "A large, human size, rectangular bag made of strong plastic, with a zipper in the middle.  Used to hold a dead body.",
     "weight": "1500 g",
     "volume": "1 L",
-    "material": [ "test_material" ],
     "longest_side": "40 cm",
     "price": 0,
     "price_postapoc": 10,
     "to_hit": -5,
+    "material": [ "plastic" ],
     "symbol": ")",
     "pocket_data": [
       {
@@ -2219,7 +2022,7 @@
     "volume": "2 L",
     "price": 3500,
     "price_postapoc": 500,
-    "material": [ "test_material" ],
+    "material": [ "leather" ],
     "flags": [ "REACH_ATTACK", "REACH3", "WHIP" ],
     "category": "weapons",
     "melee_damage": { "cut": 3 }
@@ -2460,11 +2263,9 @@
     "category": "food",
     "name": { "str_sp": "test liquid" },
     "description": "No clue what it's made of, but it's definitely liquid.  Only for testing, do not drink!",
-    "material": [ "test_material" ],
     "phase": "liquid",
     "weight": "250 g",
     "volume": "250 ml",
-    "charges": 1,
     "price": 50,
     "symbol": "~",
     "color": "light_blue"
@@ -2482,7 +2283,6 @@
     "category": "chems",
     "name": { "str_sp": "test gas" },
     "description": "Some mysterious substance in the form of a gas.  Only for testing, do not inhale!",
-    "material": [ "test_material" ],
     "phase": "gas",
     "weight": "250 g",
     "volume": "250 ml",
@@ -2520,9 +2320,8 @@
     "id": "test_weldtank",
     "name": { "str": "welding tank" },
     "description": "A test welding tank full of oxyacetylene.",
-    "weight": "11360 g",
-    "volume": "18 L",
-    "material": [ "steel" ],
+    "weight": "6 kg",
+    "volume": "3 L",
     "symbol": "#",
     "ammo_type": [ "weldgas" ],
     "capacity": 240,
@@ -2535,9 +2334,8 @@
     "id": "test_oxytorch",
     "name": { "str": "test acetylene torch", "str_pl": "test acetylene torches" },
     "description": "An acetylene torch.",
-    "weight": "1600 g",
+    "weight": "1 kg",
     "volume": "1 L",
-    "material": [ "steel", "plastic" ],
     "symbol": ";",
     "ammo": [ "weldgas" ],
     "qualities": [ [ "WELD", 10 ] ],
@@ -2584,7 +2382,6 @@
     "id": "test_boltcutter",
     "name": { "str": "test pair of bolt cutters" },
     "description": "Test bolt cutters.",
-    "material": [ "test_material" ],
     "weight": "1 kg",
     "volume": "1 L",
     "symbol": ";"
@@ -2642,7 +2439,6 @@
     "description": "Test hacksaw.",
     "weight": "1 kg",
     "volume": "1 L",
-    "material": [ "test_material" ],
     "symbol": ";",
     "qualities": [ [ "SAW_M", 2 ] ]
   },
@@ -2683,7 +2479,6 @@
     "price_postapoc": 50,
     "material": [ "milk" ],
     "volume": "250 ml",
-    "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
     "vitamins": [ [ "vitC", 4 ], [ "calcium", 25 ] ],
@@ -2760,13 +2555,11 @@
     "comestible_type": "MED",
     "name": { "str_sp": "test chewing gum" },
     "description": "Curiously stimulating and thirst-quenching blueberry-flavored chewing gum.",
-    "material": [ "test_material" ],
     "category": "food",
     "weight": "3 g",
     "volume": "250 ml",
     "price": 100,
     "price_postapoc": 100,
-    "stackable": true,
     "charges": 10,
     "stack_size": 100,
     "symbol": "*",
@@ -2797,7 +2590,6 @@
     "//": "*May* have been commercially traded.",
     "material": [ "flesh" ],
     "volume": "250 ml",
-    "stackable": true,
     "charges": 2,
     "stack_size": 4,
     "vitamins": [  ],
@@ -2824,10 +2616,9 @@
     "calories": 270,
     "description": "Also known as pork rinds or chicharrones, these are bits of edible fat and skin that have been fried until they are crispy and delicious.",
     "price": 170,
-    "volume": "200 ml",
+    "volume": "100 ml",
     "price_postapoc": 500,
     "material": [ "flesh" ],
-    "stackable": true,
     "charges": 4,
     "flags": [ "EATEN_HOT" ],
     "vitamins": [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 3 ] ],
@@ -3249,7 +3040,6 @@
     "phase": "liquid",
     "name": { "str_sp": "test liquid" },
     "description": "One milliliter liquid.",
-    "material": [ "test_material" ],
     "weight": "1 g",
     "volume": "1 ml",
     "symbol": "?",
@@ -3262,7 +3052,6 @@
     "ammo_type": "components",
     "name": { "str": "test solid" },
     "description": "One milliliter solid.",
-    "material": [ "test_material" ],
     "volume": "1 ml",
     "weight": "1 g",
     "symbol": "?",
@@ -3334,7 +3123,6 @@
     "volume": "100 ml",
     "price": 500,
     "price_postapoc": 2000,
-    "stackable": true,
     "charges": 20,
     "stack_size": 20,
     "symbol": "!",
@@ -3355,7 +3143,6 @@
     "description": "Some strange can from another dimension.",
     "weight": "26 g",
     "volume": "506 ml",
-    "material": [ "test_material" ],
     "symbol": "?",
     "color": "light_gray",
     "pocket_data": [
@@ -3775,36 +3562,6 @@
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 10 } ] } ] }
   },
   {
-    "id": "test_knife_combat",
-    "type": "TOOL",
-    "category": "weapons",
-    "name": { "str": "combat knife", "str_pl": "combat knives" },
-    "description": "A military combat knife.  It is light and extremely sharp, and could be deadly in either the right hands or when attached as a bayonet.",
-    "weight": "558 g",
-    "volume": "500 ml",
-    "longest_side": "30 cm",
-    "price": 10000,
-    "price_postapoc": 1250,
-    "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "good" },
-    "material": [ "steel", "plastic" ],
-    "symbol": ";",
-    "color": "dark_gray",
-    "gunmod_data": {
-      "location": "underbarrel",
-      "mod_targets": [ "shotgun", "rifle", "smg", "crossbow" ],
-      "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ],
-      "install_time": "5 s"
-    },
-    "use_action": { "type": "deploy_furn", "furn_type": "f_cardboard_box" },
-    "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
-    "techniques": [ "RAPID_TEST" ],
-    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
-    "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE", "NPC_THROWN", "ALLOWS_BODY_BLOCK", "NO_SALVAGE" ],
-    "weapon_category": [ "KNIVES" ],
-    "melee_damage": { "bash": 4, "stab": 26 }
-  },
-  {
     "id": "test_armor_chitin",
     "type": "ARMOR",
     "category": "armor",
@@ -4128,27 +3885,6 @@
     "armor": [ { "encumbrance": 70, "coverage": 100, "covers": [ "test_bird_wing_l", "test_bird_wing_r" ] } ]
   },
   {
-    "id": "test_winglets_left",
-    "//": "Only for the test wing body parts",
-    "type": "ARMOR",
-    "name": { "str": "pair of gauntlets", "str_pl": "pairs of gauntlets" },
-    "description": "A pair of big, red, 8 oz. gauntlets.  These are made from thick leather.",
-    "weight": "453 g",
-    "volume": "1 L",
-    "price": 4000,
-    "price_postapoc": 10,
-    "to_hit": 1,
-    "material": [ "leather" ],
-    "symbol": "[",
-    "looks_like": "gloves_leather",
-    "color": "red",
-    "warmth": 20,
-    "material_thickness": 3,
-    "environmental_protection": 3,
-    "flags": [ "VARSIZE", "OVERSIZE", "STURDY" ],
-    "armor": [ { "encumbrance": 100, "coverage": 100, "covers": [ "test_bird_wing_l" ] } ]
-  },
-  {
     "id": "test_robofac_armor_rig",
     "type": "ARMOR",
     "category": "ARMOR",
@@ -4157,7 +3893,7 @@
     "description": "A custom-designed extremely thick ripstop and aramid poncho for the true frontier explorer.  Striped in brown and blue, the white seal of Hub 01 is emblazoned proudly on the front.  Integrating quick access pouches attached to a waist drawstring and two waterproof internal dry bags it touts plenty of storage.  This poncho also has notable clips and velcro just below the waist and around the shoulders, perhaps something attaches there.",
     "//": "at least 3x thicker than a normal poncho",
     "weight": "960 g",
-    "volume": "2500 ml",
+    "volume": "250 ml",
     "price": 4000,
     "price_postapoc": 750,
     "symbol": "[",
@@ -4256,7 +3992,7 @@
     "name": { "str": "load bearing vest" },
     "description": "This vest covered in MOLLE webbing is designed to attach pouches, holsters and other PALS compatible accessories.  Preferred by some soldiers over directly attaching accessories to a ballistic vest as they can then be easily separated.",
     "weight": "1250 g",
-    "volume": "1500 ml",
+    "volume": "1000 ml",
     "looks_like": "vest",
     "price": 7400,
     "price_postapoc": 3000,
@@ -4801,62 +4537,5 @@
     "to_hit": -3,
     "melee_damage": { "bash": 1 },
     "revert_to": "cheese_hard"
-  },
-  {
-    "type": "COMESTIBLE",
-    "comestible_type": "FOOD",
-    "id": "test_100_kcal",
-    "category": "spare_parts",
-    "symbol": ",",
-    "color": "light_gray",
-    "name": { "str": "TEST rock cheese" },
-    "description": "A perfectly divided 100kcal portion of pure food.",
-    "price": 0,
-    "spoils_in": "360 days",
-    "calories": 100,
-    "material": [ "stone" ],
-    "weight": "100 g",
-    "volume": "250 ml",
-    "to_hit": -3,
-    "melee_damage": { "bash": 1 }
-  },
-  {
-    "type": "COMESTIBLE",
-    "comestible_type": "FOOD",
-    "id": "test_200_kcal",
-    "category": "spare_parts",
-    "symbol": ",",
-    "color": "light_gray",
-    "name": { "str": "TEST 200kcal recipe inherited" },
-    "description": "Two 100kcal portions of pure food smashed together by a rude survivor.  Not a sandwich.",
-    "price": 0,
-    "spoils_in": "360 days",
-    "//": "The purpose of this item is to make sure it gives 200kcal when crafted from 100+100, and not the set calories",
-    "calories": 185,
-    "material": [ "stone" ],
-    "weight": "100 g",
-    "volume": "250 ml",
-    "to_hit": -3,
-    "melee_damage": { "bash": 1 }
-  },
-  {
-    "type": "COMESTIBLE",
-    "comestible_type": "FOOD",
-    "id": "test_500_kcal",
-    "category": "spare_parts",
-    "symbol": ",",
-    "color": "light_gray",
-    "name": { "str": "TEST 500kcal" },
-    "description": "This one's 500kcal, and some vitamins.",
-    "price": 0,
-    "spoils_in": 0,
-    "calories": 500,
-    "material": [ "stone" ],
-    "weight": "100 g",
-    "volume": "250 ml",
-    "to_hit": -3,
-    "//": "Do not use calcium, iron or vitamin C! Those are calculated as RDAs, and you only get 96% of the listed value! No, that doesn't make any sense! But that's how it is. So use a normal vitamin. This is for a camp test, not a vitamin test...",
-    "vitamins": [ [ "mutant_toxin", 100 ], [ "mutagen", 200 ] ],
-    "melee_damage": { "bash": 1 }
   }
 ]

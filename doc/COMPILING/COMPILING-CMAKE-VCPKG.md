@@ -1,4 +1,3 @@
-# Compiling CMAKE VCPKG
 # Disclaimer
 
 **WARNING**: CMake build is **NOT** officially supported and should be used for *dev purposes ONLY*.

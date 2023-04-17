@@ -1,5 +1,4 @@
 #include "character.h"
-#include "character_attire.h"
 #include "character_martial_arts.h"
 #include "creature_tracker.h"
 #include "flag.h"
@@ -35,9 +34,6 @@ static const limb_score_id limb_score_manip( "manip" );
 
 static const skill_id skill_melee( "melee" );
 static const skill_id skill_unarmed( "unarmed" );
-
-static const trait_id trait_SLIMY( "SLIMY" );
-static const trait_id trait_VISCOUS( "VISCOUS" );
 
 bool Character::can_escape_trap( int difficulty, bool manip = false ) const
 {
@@ -160,7 +156,7 @@ void Character::try_remove_crushed()
     }
 }
 
-bool Character::try_remove_grab( bool attacking )
+bool Character::try_remove_grab()
 {
     if( is_mounted() ) {
         // Use the same calc as monster::move_effect
@@ -205,7 +201,7 @@ bool Character::try_remove_grab( bool attacking )
             monster *grabber = nullptr;
             for( const tripoint loc : surrounding ) {
                 monster *mon = creatures.creature_at<monster>( loc );
-                if( mon && mon->is_grabbing( eff.get_bp().id() ) ) {
+                if( mon && mon->has_effect( eff.get_bp()->grabbing_effect ) ) {
                     add_msg_debug( debugmode::DF_MATTACK, "Grabber %s found", mon->name() );
                     grabber = mon;
                     break;
@@ -216,13 +212,6 @@ bool Character::try_remove_grab( bool attacking )
             if( grabber == nullptr ) {
                 remove_effect( eff.get_id(), eff.get_bp() );
                 add_msg_debug( debugmode::DF_MATTACK, "Orphan grab found and removed" );
-                continue;
-            }
-
-            // Short out the check when attacking after removing any orphan grabs
-            if( attacking ) {
-                add_msg_debug( debugmode::DF_MATTACK,
-                               "Grab break check triggered by an attack, only removing orphan grabs allowed" );
                 continue;
             }
 
@@ -255,16 +244,6 @@ bool Character::try_remove_grab( bool attacking )
             escape_chance = ( skill_factor * limb_factor ) * 100 + stat_factor;
             grabber_roll = std::max( grabber_roll, escape_chance ) + rng( 1, 10 );
             escape_chance += grab_break_factor;
-            if( has_trait( trait_SLIMY ) || has_trait( trait_VISCOUS ) ) {
-                const float slime_factor = worn.clothing_wetness_mult( eff.get_bp() ) * 6;
-                // Slime offers a 6% bonus to escaping from a grab on a naked body part.
-                // Slime exudes from the skin and will only soak through clothes according to their combined breathability and coverage.
-                // Since the attacker is grabbing at the outermost layer, that 6% is multiplied by clothing_wetness_mult for that body part.
-                escape_chance += slime_factor;
-                add_msg_debug( debugmode::DF_MATTACK,
-                               "%s is slimy, escape chance increased by %f",
-                               eff.get_bp()->name, slime_factor );
-            }
             add_msg_debug( debugmode::DF_MATTACK,
                            "Attempting to break grab on %s, grab strength roll %.1f, skill factor %.1f, limb factor %.1f, stat bonus %.1f, grab break bonus %d, escape chance %.1f, final chance %.1f %%",
                            eff.get_bp()->name, grabber_roll, skill_factor, limb_factor, stat_factor, grab_break_factor,
@@ -278,32 +257,31 @@ bool Character::try_remove_grab( bool attacking )
             }
 
             // Every attempt burns some stamina - maybe some moves?
-            burn_energy_arms( -5 * eff.get_intensity() );
+            mod_stamina( -5 * eff.get_intensity() );
             if( x_in_y( escape_chance, grabber_roll ) ) {
-                grabber->remove_grab( eff.get_bp().id() );
-                add_msg_debug( debugmode::DF_MATTACK, "Removed grab effect %s from monster %s",
-                               eff.get_bp()->name, grabber->name() );
+                grabber->remove_effect( eff.get_bp()->grabbing_effect );
+                add_msg_debug( debugmode::DF_MATTACK, "Removed grab filter effect %s from monster %s",
+                               eff.get_bp()->grabbing_effect.c_str(), grabber->name() );
 
                 if( grab_break_factor > 0 ) {
                     add_msg_if_player( m_info, martial_arts_data->get_grab_break( *this ).avatar_message.translated(),
                                        grabber->disp_name() );
                 } else {
-                    add_msg_player_or_npc( m_good, _( "You break %s grab on your %s!" ),
-                                           _( "<npcname> breaks %s grab on their %s!" ), grabber->disp_name( true ),
+                    add_msg_player_or_npc( m_good, _( "You break the %s grab on your %s!" ),
+                                           _( "<npcname> the %s grab on their %s!" ), grabber->disp_name( true ),
                                            eff.get_bp()->name );
                 }
                 // Remove only this one grab
                 remove_effect( eff.get_id(), eff.get_bp() );
             } else {
-                add_msg_player_or_npc( m_bad, _( "You try to break %s grab on your %s, but fail!" ),
+                add_msg_player_or_npc( m_bad, _( "You try to break the %s grab on your %s, but fail!" ),
                                        _( "<npcname> tries to break out of the grab, but fails!" ), grabber->disp_name( true ),
                                        eff.get_bp()->name );
             }
         }
 
         // We have attempted to break every grab but have failed to break at least one
-        // Attacks only get the abbreviated grab check, grabs don't prevent attacking
-        if( has_effect_with_flag( json_flag_GRAB ) && !attacking ) {
+        if( has_effect_with_flag( json_flag_GRAB ) ) {
             return false;
         }
     }
@@ -399,9 +377,9 @@ bool Character::move_effects( bool attacking )
             remove_effect( effect_in_pit );
         }
     }
-    // Attempt to break grabs, only check for orphan grabs on attack
-    if( has_flag( json_flag_GRAB ) ) {
-        return try_remove_grab( attacking );
+    // Only attempt breaking grabs if we're grabbed and not attacking
+    if( has_flag( json_flag_GRAB ) && !attacking ) {
+        return try_remove_grab();
     }
     return true;
 }
@@ -432,7 +410,7 @@ void Character::wait_effects( bool attacking )
         try_remove_impeding_effect();
         return;
     }
-    if( has_flag( json_flag_GRAB ) && !attacking && !try_remove_grab( false ) ) {
+    if( has_flag( json_flag_GRAB ) && !attacking && !try_remove_grab() ) {
         return;
     }
 }

@@ -17,6 +17,11 @@
 #include "json.h"
 #include "units.h"
 
+namespace cata
+{
+template<typename T>
+class optional;
+} // namespace cata
 namespace detail
 {
 template<typename ...T>
@@ -29,14 +34,14 @@ class is_optional_helper<std::optional<T>> : public std::true_type
 };
 } // namespace detail
 template<typename T>
-class is_optional : public detail::is_optional_helper<std::decay_t<T>>
+class is_optional : public detail::is_optional_helper<typename std::decay<T>::type>
 {
 };
 
 void report_strict_violation( const JsonObject &jo, const std::string &message,
                               std::string_view name );
 
-template <typename T, std::enable_if_t<std::is_arithmetic_v<T>, int> = 0>
+template <typename T, typename std::enable_if<std::is_arithmetic<T>::value, int>::type = 0>
 bool assign( const JsonObject &jo, std::string_view name, T &val, bool strict = false,
              T lo = std::numeric_limits<T>::lowest(), T hi = std::numeric_limits<T>::max() )
 {
@@ -88,7 +93,7 @@ bool assign( const JsonObject &jo, std::string_view name, T &val, bool strict = 
 // and also to avoid potentially nonsensical interactions between relative and proportional.
 bool assign( const JsonObject &jo, std::string_view name, bool &val, bool strict = false );
 
-template <typename T, std::enable_if_t<std::is_arithmetic_v<T>, int> = 0>
+template <typename T, typename std::enable_if<std::is_arithmetic<T>::value, int>::type = 0>
 bool assign( const JsonObject &jo, const std::string_view name, std::pair<T, T> &val,
              bool strict = false, T lo = std::numeric_limits<T>::lowest(), T hi = std::numeric_limits<T>::max() )
 {
@@ -124,10 +129,10 @@ bool assign( const JsonObject &jo, const std::string_view name, std::pair<T, T> 
     return true;
 }
 
-// Note: is_optional excludes any types based on std::optional, which is
+// Note: is_optional excludes any types based on cata::optional, which is
 // handled below in a separate function.
-template < typename T, std::enable_if_t < std::is_class_v<T> &&!is_optional<T>::value,
-           int > = 0 >
+template < typename T, typename std::enable_if < std::is_class<T>::value &&!is_optional<T>::value,
+           int >::type = 0 >
 bool assign( const JsonObject &jo, std::string_view name, T &val, bool strict = false )
 {
     T out;
@@ -186,20 +191,20 @@ bool assign_set( const JsonObject &jo, const std::string_view name, Set &val )
 } // namespace details
 
 template <typename T>
-std::enable_if_t<std::is_constructible_v<T, std::string>, bool>assign(
+typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::type assign(
     const JsonObject &jo, const std::string_view name, std::set<T> &val, bool = false )
 {
     return details::assign_set<T, std::set<T>>( jo, name, val );
 }
 
 template <typename T>
-std::enable_if_t<std::is_constructible_v<T, std::string>, bool>assign(
+typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::type assign(
     const JsonObject &jo, const std::string_view name, cata::flat_set<T> &val, bool = false )
 {
     return details::assign_set<T, cata::flat_set<T>>( jo, name, val );
 }
 
-bool assign( const JsonObject &jo, std::string_view name, units::volume &val,
+bool assign( const JsonObject &jo, const std::string &name, units::volume &val,
              bool strict = false,
              units::volume lo = units::volume_min,
              units::volume hi = units::volume_max );
@@ -229,14 +234,13 @@ bool assign( const JsonObject &jo, std::string_view name, units::power &val,
              units::power lo = units::power_min,
              units::power hi = units::power_max );
 
-bool assign( const JsonObject &jo, const std::string &name, nc_color &val,
-             bool strict = false );
+bool assign( const JsonObject &jo, const std::string &name, nc_color &val );
 
 class time_duration;
 
 template<typename T>
-inline
-std::enable_if_t<std::is_same_v<std::decay_t<T>, time_duration>, bool>
+inline typename
+std::enable_if<std::is_same<typename std::decay<T>::type, time_duration>::value, bool>::type
 read_with_factor( const JsonObject &jo, const std::string_view name, T &val, const T &factor )
 {
     int tmp;
@@ -258,8 +262,8 @@ read_with_factor( const JsonObject &jo, const std::string_view name, T &val, con
 // will be ignored. If it is called with time_duration, it is available and the
 // *caller* is responsible for including the "calendar.h" header.
 template<typename T>
-inline
-std::enable_if_t<std::is_same_v<std::decay_t<T>, time_duration>, bool>assign(
+inline typename
+std::enable_if<std::is_same<typename std::decay<T>::type, time_duration>::value, bool>::type assign(
     const JsonObject &jo, const std::string &name, T &val, bool strict, const T &factor )
 {
     T out{};

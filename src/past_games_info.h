@@ -1,4 +1,3 @@
-#pragma once
 #ifndef CATA_SRC_PAST_GAMES_INFO_H
 #define CATA_SRC_PAST_GAMES_INFO_H
 
@@ -28,19 +27,12 @@ class past_game_info
         const std::string &avatar_name() const {
             return avatar_name_;
         }
-
-        // See past_games_info::legacy_achievement
-        bool is_legacy_achievements() const {
-            return legacy_achievements;
-        }
-
     private:
         std::vector<memorial_log_entry> log_;
         std::unique_ptr<stats_tracker> stats_;
         std::unique_ptr<achievements_tracker> achievements_;
         std::unordered_map<string_id<score>, cata_variant> scores_;
         std::string avatar_name_;
-        bool legacy_achievements;
 };
 
 struct achievement_completion_info {
@@ -48,7 +40,8 @@ struct achievement_completion_info {
 };
 
 // This class is intended to provide information about past games loaded from
-// memorial files.
+// memorial files.  It can be used for example to know what achievements have
+// been completed in past games.
 class past_games_info
 {
     public:
@@ -56,14 +49,11 @@ class past_games_info
 
         void ensure_loaded();
         void clear();
-        // Only used for checking legacy memorial achievements. Achievements from
-        // past games are now handled by class past_achievements_info
-        const achievement_completion_info *legacy_achievement( const achievement_id & ) const;
+        const achievement_completion_info *achievement( const achievement_id & ) const;
     private:
 
         bool loaded_ = false;
-        // See legacy_achievement
-        std::unordered_map<achievement_id, achievement_completion_info> legacy_achievements_;
+        std::unordered_map<achievement_id, achievement_completion_info> completed_achievements_;
         std::vector<past_game_info> info_;
 };
 

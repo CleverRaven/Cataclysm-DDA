@@ -5,7 +5,7 @@
     "dynamic_line": [
       "Hiya darlin', welcome to the shop.",
       "Hey, killer!  How's it going?",
-      { "gendered_line": "You look like you haven't eaten in days.", "relevant_genders": [ "u" ] },
+      "You look like you haven't eaten in days.",
       "Still the apocalypse out there, huh?",
       "See anything you like?"
     ],
@@ -136,8 +136,8 @@
         "text": "How is my armor coming?",
         "condition": {
           "and": [
-            { "math": [ "time_since(u_timer_artisans_u_waiting_on_armor)", "<", "time('21 d')" ] },
-            { "math": [ "u_number_artisans_blacksmith_wait", "==", "3" ] },
+            { "u_compare_time_since_var": "u_waiting_on_armor", "type": "timer", "context": "artisans", "op": "<", "time": "21 d" },
+            { "u_compare_var": "blacksmith_wait", "type": "number", "context": "artisans", "op": "==", "value": 3 },
             { "u_has_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
             { "u_has_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "armor" }
           ]
@@ -148,8 +148,8 @@
         "text": "How is my armor coming?",
         "condition": {
           "and": [
-            { "math": [ "time_since(u_timer_artisans_u_waiting_on_armor)", ">=", "time('21 d')" ] },
-            { "math": [ "u_number_artisans_blacksmith_wait", "==", "3" ] },
+            { "u_compare_time_since_var": "u_waiting_on_armor", "type": "timer", "context": "artisans", "op": ">=", "time": "21 d" },
+            { "u_compare_var": "blacksmith_wait", "type": "number", "context": "artisans", "op": "==", "value": 3 },
             { "u_has_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
             { "u_has_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "armor" }
           ]
@@ -160,8 +160,8 @@
         "text": "How is my armor coming?",
         "condition": {
           "and": [
-            { "math": [ "time_since(u_timer_artisans_u_waiting_on_armor)", "<", "time('28 d')" ] },
-            { "math": [ "u_number_artisans_blacksmith_wait", "==", "4" ] },
+            { "u_compare_time_since_var": "u_waiting_on_armor", "type": "timer", "context": "artisans", "op": "<", "time": "28 d" },
+            { "u_compare_var": "blacksmith_wait", "type": "number", "context": "artisans", "op": "==", "value": 4 },
             { "u_has_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
             { "u_has_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "armor" }
           ]
@@ -172,8 +172,8 @@
         "text": "How is my armor coming?",
         "condition": {
           "and": [
-            { "math": [ "time_since(u_timer_artisans_u_waiting_on_armor)", ">=", "time('28 d')" ] },
-            { "math": [ "u_number_artisans_blacksmith_wait", "==", "4" ] },
+            { "u_compare_time_since_var": "u_waiting_on_armor", "type": "timer", "context": "artisans", "op": ">=", "time": "28 d" },
+            { "u_compare_var": "blacksmith_wait", "type": "number", "context": "artisans", "op": "==", "value": 4 },
             { "u_has_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
             { "u_has_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "armor" }
           ]
@@ -184,8 +184,8 @@
         "text": "How is my armor coming?",
         "condition": {
           "and": [
-            { "math": [ "time_since(u_timer_artisans_u_waiting_on_armor)", "<", "time('35 d')" ] },
-            { "math": [ "u_number_artisans_blacksmith_wait", "==", "5" ] },
+            { "u_compare_time_since_var": "u_waiting_on_armor", "type": "timer", "context": "artisans", "op": "<", "time": "35 d" },
+            { "u_compare_var": "blacksmith_wait", "type": "number", "context": "artisans", "op": "==", "value": 5 },
             { "u_has_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
             { "u_has_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "armor" }
           ]
@@ -196,8 +196,8 @@
         "text": "How is my armor coming?",
         "condition": {
           "and": [
-            { "math": [ "time_since(u_timer_artisans_u_waiting_on_armor)", ">=", "time('35 d')" ] },
-            { "math": [ "u_number_artisans_blacksmith_wait", "==", "5" ] },
+            { "u_compare_time_since_var": "u_waiting_on_armor", "type": "timer", "context": "artisans", "op": ">=", "time": "35 d" },
+            { "u_compare_var": "blacksmith_wait", "type": "number", "context": "artisans", "op": "==", "value": 5 },
             { "u_has_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
             { "u_has_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "armor" }
           ]
@@ -221,22 +221,12 @@
         "effect": "start_trade"
       },
       {
-        "text": "Interesting.  When would be the next batch of merchandise ready?",
-        "topic": "TALK_BLACKSMITH_RESTOCK"
-      },
-      {
         "text": "I heard you might want some metal…",
         "topic": "TALK_BLACKSMITH_DEAL_NEGOTIATE",
         "condition": { "u_has_mission": "MISSION_SCRAPPER_SET_TRADE_ROUTE_BLACKSMITH" }
       },
       { "text": "I have to go.", "topic": "TALK_DONE" }
     ]
-  },
-  {
-    "id": "TALK_BLACKSMITH_RESTOCK",
-    "type": "talk_topic",
-    "dynamic_line": "With how the things are goin'? <interval>.",
-    "responses": [ { "text": "I'll leave you to your work then.  Bye.", "topic": "TALK_DONE" } ]
   },
   {
     "id": "TALK_BLACKSMITH_ABOUT",
@@ -406,6 +396,26 @@
       },
       { "text": "Not really interested.", "topic": "TALK_DONE" },
       { "text": "I'll think about it.", "topic": "TALK_BLACKSMITH_SERVICES" }
+    ]
+  },
+  {
+    "id": "TALK_BLACKSMITH_PROTOTYPE_NOT_FEELING_IT",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "Oh, these.  With the end of the world, Jay and I had been talking about some new projects for the wasteland warriors.  Anyways it doesn't matter anymore since, well it doesn't matter."
+    ],
+    "responses": [
+      {
+        "text": "Are you and Jay close?",
+        "condition": { "not": { "u_has_var": "blacksmith_accepted_quest", "type": "dialogue", "context": "artisans", "value": "yes" } },
+        "topic": "TALK_BLACKSMITH_JAY"
+      },
+      {
+        "text": "I'm sure we'll fix things soon!",
+        "condition": { "u_has_var": "blacksmith_accepted_quest", "type": "dialogue", "context": "artisans", "value": "yes" },
+        "topic": "TALK_BLACKSMITH_SERVICES"
+      },
+      { "text": "Alright.", "topic": "TALK_BLACKSMITH_SERVICES" }
     ]
   },
   {

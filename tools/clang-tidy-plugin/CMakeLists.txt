@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.20)
+cmake_minimum_required(VERSION 3.1.4)
 include(ExternalProject)
 
 find_package(LLVM REQUIRED CONFIG)
@@ -34,7 +34,6 @@ set(CataAnalyzerSrc
         TranslationsInDebugMessagesCheck.cpp
         TranslatorCommentsCheck.cpp
         U8PathCheck.cpp
-        UnitOverflowCheck.cpp
         UnsequencedCallsCheck.cpp
         UnusedStaticsCheck.cpp
         UseLocalizedSortingCheck.cpp
@@ -55,7 +54,6 @@ if (CATA_CLANG_TIDY_EXECUTABLE)
 else ()
     set(CataAnalyzerName CataAnalyzerPlugin)
     add_library(${CataAnalyzerName} MODULE ${CataAnalyzerSrc})
-    target_link_libraries(${CataAnalyzerName} PRIVATE clangTidy)
 endif ()
 
 target_include_directories(${CataAnalyzerName} SYSTEM PRIVATE

@@ -19,7 +19,7 @@
     "volume": "100 ml",
     "ammo_type": "crystallized_mana",
     "material": [ "crystallized_mana" ],
-    "count": 10,
+    "count": 100,
     "looks_like": "battery"
   },
   {

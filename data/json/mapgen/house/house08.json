@@ -34,7 +34,7 @@
         "........................"
       ],
       "palettes": [
-        { "distribution": [ [ "standard_domestic_palette", 10 ], [ "standard_domestic_abandoned_palette", 2 ] ] },
+        { "distribution": [ [ "standard_domestic_palette", 10 ], [ "standard_domestic_palette_abandoned", 2 ] ] },
         "standard_domestic_landscaping_palette"
       ],
       "set": [
@@ -42,7 +42,6 @@
         { "point": "terrain", "id": "t_tree", "x": [ 2, 11 ], "y": [ 16, 21 ], "repeat": [ 2, 6 ] },
         { "point": "terrain", "id": "t_tree_young", "x": [ 2, 11 ], "y": [ 16, 21 ], "repeat": [ 3, 5 ] }
       ],
-      "place_vehicles": [ { "vehicle": "rolling_trash_can", "x": 5, "y": 0, "chance": 80, "status": 0 } ],
       "place_loot": [ { "group": "guns_pistol_common", "x": 4, "y": 10, "chance": 10, "ammo": 90, "magazine": 100 } ],
       "place_nested": [
         {
@@ -99,7 +98,7 @@
         "........................"
       ],
       "palettes": [
-        { "distribution": [ [ "standard_domestic_palette", 10 ], [ "standard_domestic_abandoned_palette", 2 ] ] },
+        { "distribution": [ [ "standard_domestic_palette", 10 ], [ "standard_domestic_palette_abandoned", 2 ] ] },
         "standard_domestic_party_palette"
       ],
       "place_fields": [ { "field": "fd_blood", "x": [ 9, 11 ], "y": [ 12, 14 ], "repeat": [ 4, 6 ] } ],

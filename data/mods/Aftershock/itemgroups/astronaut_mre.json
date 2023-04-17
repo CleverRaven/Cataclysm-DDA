@@ -12,13 +12,7 @@
     "entries": [
       { "group": "mre_entrees", "count": 2 },
       { "item": "heatpack", "count": 2 },
-      {
-        "item": "crackers",
-        "count": [ 0, 2 ],
-        "container-item": "null",
-        "entry-wrapper": "mre_bag_small",
-        "sealed": true
-      }
+      { "item": "crackers", "charges": [ 0, 2 ], "container-item": "mre_bag_small", "sealed": true }
     ]
   }
 ]

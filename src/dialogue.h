@@ -11,7 +11,6 @@
 #include <utility>
 #include <vector>
 
-#include "cata_lazy.h"
 #include "dialogue_win.h"
 #include "global_vars.h"
 #include "npc.h"
@@ -43,8 +42,8 @@ enum dialogue_consequence : unsigned char {
     action
 };
 
-using talkfunction_ptr = std::add_pointer_t<void ( npc & )>;
-using dialogue_fun_ptr = std::add_pointer_t<void( npc & )>;
+using talkfunction_ptr = std::add_pointer<void ( npc & )>::type;
+using dialogue_fun_ptr = std::add_pointer<void( npc & )>::type;
 
 using trial_mod = std::pair<std::string, int>;
 
@@ -195,14 +194,11 @@ struct dialogue {
         dialogue() = default;
         dialogue( const dialogue &d );
         dialogue( dialogue && ) = default;
-        dialogue &operator=( const dialogue & );
+        dialogue &operator=( const dialogue & ) = delete;
         dialogue &operator=( dialogue && ) = default;
-        dialogue( std::unique_ptr<talker> alpha_in, std::unique_ptr<talker> beta_in );
         dialogue( std::unique_ptr<talker> alpha_in, std::unique_ptr<talker> beta_in,
-                  const std::unordered_map<std::string, std::function<bool( dialogue & )>> &cond );
-        dialogue( std::unique_ptr<talker> alpha_in, std::unique_ptr<talker> beta_in,
-                  const std::unordered_map<std::string, std::function<bool( dialogue & )>> &cond,
-                  const std::unordered_map<std::string, std::string> &ctx );
+                  const std::unordered_map<std::string, std::function<bool( dialogue & )>> &cond = {},
+                  const std::unordered_map<std::string, std::string> &ctx = {} );
         talker *actor( bool is_beta ) const;
 
         mutable itype_id cur_item;
@@ -228,7 +224,6 @@ struct dialogue {
         void set_value( const std::string &key, const std::string &value );
         void remove_value( const std::string &key );
         std::string get_value( const std::string &key ) const;
-        std::optional<std::string> maybe_get_value( const std::string &key ) const;
 
         void set_conditional( const std::string &key, const std::function<bool( dialogue & )> &value );
         bool evaluate_conditional( const std::string &key, dialogue &d );
@@ -248,12 +243,10 @@ struct dialogue {
         std::unique_ptr<talker> beta;
 
         // dialogue specific variables that can be passed down to additional EOCs but are one way
-        lazy<std::unordered_map<std::string, std::string>> context;
-        // Weirdly unnecessarily in context.
-        std::string callstack;
+        std::unordered_map<std::string, std::string> context;
 
         // conditionals that were set at the upper level
-        lazy<std::unordered_map<std::string, std::function<bool( dialogue & )>>> conditionals;
+        std::unordered_map<std::string, std::function<bool( dialogue & )>> conditionals;
 
         /**
          * Add a simple response that switches the topic to the new one. If first == true, force

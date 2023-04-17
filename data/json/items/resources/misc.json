@@ -40,16 +40,14 @@
     "symbol": "*",
     "color": "white",
     "name": { "str": "ceramic shard" },
-    "description": "A broken ceramic shard.  It is relatively heavy for its size and has a somewhat sharp edge, but it's too irregular to cut properly.",
+    "description": "A broken ceramic shard.  It is heavy and has a somewhat sharp edge, but it's too irregular to cut properly.",
     "material": [ "ceramic" ],
-    "flags": [ "TRADER_AVOID", "ALLOWS_BODY_BLOCK" ],
-    "weight": "150 g",
-    "volume": "50 ml",
-    "longest_side": "8 cm",
-    "to_hit": { "grip": "bad", "length": "hand", "surface": "line", "balance": "clumsy" },
+    "flags": [ "TRADER_AVOID" ],
+    "weight": "750 g",
+    "volume": "250 ml",
+    "to_hit": -1,
     "qualities": [ [ "BUTCHER", -66 ] ],
-    "melee_damage": { "bash": 2, "cut": 2 },
-    "weapon_category": [ "SHIVS" ]
+    "melee_damage": { "bash": 5, "cut": 2 }
   },
   {
     "type": "GENERIC",
@@ -72,7 +70,7 @@
     "id": "incendiary",
     "type": "AMMO",
     "category": "chems",
-    "name": { "str_sp": "incendiary" },
+    "name": { "str": "incendiary", "str_pl": "incendiaries" },
     "description": "Material from an incendiary round, useful in constructing incendiary ammunition.",
     "weight": "2 g",
     "volume": "500 ml",
@@ -94,21 +92,13 @@
     "description": "A single, or twin, sized mattress.",
     "weight": "20000 g",
     "volume": "300000 ml",
-    "longest_side": "190 cm",
     "price": 1000,
     "price_postapoc": 500,
     "material": [ "cotton", "steel" ],
     "symbol": "0",
     "color": "white",
-    "flags": [ "NONCONDUCTIVE", "SINGLE_USE" ],
-    "use_action": {
-      "type": "place_trap",
-      "allow_under_player": true,
-      "trap": "tr_mattress",
-      "moves": 100,
-      "practice": 0,
-      "done_message": "You lay the mattress flat on the ground."
-    }
+    "flags": [ "NONCONDUCTIVE" ],
+    "use_action": { "type": "deploy_furn", "furn_type": "f_floor_mattress" }
   },
   {
     "id": "down_mattress",
@@ -118,21 +108,12 @@
     "description": "A single, or twin, sized down-filled mattress.",
     "weight": "6 kg",
     "volume": "300000 ml",
-    "longest_side": "190 cm",
     "price": 1000,
     "price_postapoc": 750,
     "material": [ "cotton" ],
     "symbol": "0",
     "color": "white",
-    "flags": [ "SINGLE_USE" ],
-    "use_action": {
-      "type": "place_trap",
-      "allow_under_player": true,
-      "trap": "tr_down_mattress",
-      "moves": 100,
-      "practice": 0,
-      "done_message": "You lay the down mattress flat on the ground."
-    }
+    "use_action": { "type": "deploy_furn", "furn_type": "f_down_mattress" }
   },
   {
     "id": "fuse",
@@ -165,9 +146,7 @@
     "longest_side": "8 cm",
     "to_hit": -3,
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -50 ] ],
-    "flags": [ "ALLOWS_BODY_BLOCK" ],
-    "melee_damage": { "bash": 5, "cut": 3 },
-    "weapon_category": [ "SHIVS" ]
+    "melee_damage": { "bash": 5, "cut": 3 }
   },
   {
     "id": "sole_rubber",
@@ -212,6 +191,34 @@
     "price_postapoc": 50,
     "material": [ "rubber" ],
     "symbol": "=",
+    "color": "dark_gray"
+  },
+  {
+    "id": "iotv_shoulder_plate",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "ballistic shoulder protector" },
+    "description": "Nylon armor with soft armor inserts protecting the deltoid and upper arm.  Designed to be attached to US military body armor.",
+    "weight": "1000 g",
+    "volume": "600 ml",
+    "price": 60000,
+    "price_postapoc": 100,
+    "material": [ "nylon", "kevlar_layered" ],
+    "symbol": ",",
+    "color": "dark_gray"
+  },
+  {
+    "id": "iotv_groin_plate",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "ballistic groin protector" },
+    "description": "Front and back nylon armor with soft armor inserts for groin and butt protection.  Designed to be attached to US military body armor.",
+    "weight": "1500 g",
+    "volume": "1000 ml",
+    "price": 60000,
+    "price_postapoc": 100,
+    "material": [ "nylon", "kevlar_layered" ],
+    "symbol": ",",
     "color": "dark_gray"
   },
   {
@@ -287,20 +294,5 @@
     "material": [ { "type": "monolith_heavy", "portion": 19 }, { "type": "superalloy", "portion": 1 } ],
     "symbol": ",",
     "color": "dark_gray"
-  },
-  {
-    "type": "GENERIC",
-    "id": "wax_paraffin",
-    "name": { "str": "chunk of paraffin wax", "str_pl": "chunks of paraffin wax" },
-    "category": "spare_parts",
-    "weight": "225 g",
-    "color": "white",
-    "material": [ "paraffin_wax" ],
-    "symbol": "%",
-    "description": "A large chunk of paraffin wax.",
-    "price": 500,
-    "price_postapoc": 10,
-    "volume": "250 ml",
-    "flags": [ "UNRECOVERABLE" ]
   }
 ]

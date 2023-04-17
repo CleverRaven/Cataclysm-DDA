@@ -3,7 +3,6 @@
     "type": "recipe",
     "result": "faction_base_mansion_+2_0",
     "description": "We should survey the base site and set up a bulletin board.",
-    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "skill_used": "fabrication",
@@ -19,7 +18,8 @@
       { "id": "foraging" },
       { "id": "sorting" },
       { "id": "logging" },
-      { "id": "tool_storage" }
+      { "id": "tool_storage" },
+      { "id": "bed", "amount": 16 }
     ],
     "blueprint_requires": [ { "id": "not_an_upgrade" } ],
     "blueprint_name": "basic survey",
@@ -29,7 +29,6 @@
     "type": "recipe",
     "result": "faction_base_mansion_+2_radio",
     "description": "Let's set up a radio tower to improve our recruitment efforts.",
-    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,

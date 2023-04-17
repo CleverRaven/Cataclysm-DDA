@@ -50,7 +50,7 @@ class migration
         int charges = 0;
 
         // if set to true then reset item_vars std::map to the value of itype's item_variables
-        bool reset_item_vars = false;
+        bool reset_item_vars;
 
         class content
         {
@@ -166,6 +166,16 @@ class Item_factory
          * Returns the idents of all item groups that are known.
          */
         std::vector<item_group_id> get_all_group_names();
+        /**
+         * Sets the chance of the specified item in the group.
+         * @param group_id Group to add item to
+         * @param item_id Id of item to add to group
+         * @param chance The relative weight of the item. A value of 0 removes the item from the
+         * group.
+         * @return false if the group doesn't exist.
+         */
+        bool add_item_to_group( const item_group_id &, const itype_id &item_id, int chance );
+        /*@}*/
 
         /**
          * @name Item type loading
@@ -355,10 +365,7 @@ class Item_factory
         void set_qualities_from_json( const JsonObject &jo, const std::string &member, itype &def );
         void extend_qualities_from_json( const JsonObject &jo, std::string_view member, itype &def );
         void delete_qualities_from_json( const JsonObject &jo, std::string_view member, itype &def );
-        void relative_qualities_from_json( const JsonObject &jo, std::string_view member, itype &def );
-        void set_techniques_from_json( const JsonObject &jo, const std::string_view &member, itype &def );
-        void extend_techniques_from_json( const JsonObject &jo, std::string_view member, itype &def );
-        void delete_techniques_from_json( const JsonObject &jo, std::string_view member, itype &def );
+        void set_properties_from_json( const JsonObject &jo, std::string_view member, itype &def );
 
         // declared here to have friendship status with itype
         static void npc_implied_flags( itype &item_template );

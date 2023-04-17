@@ -12,7 +12,6 @@
 #include <QtWidgets/QSpinBox>
 #include <QtWidgets/QComboBox>
 #include "QtWidgets/qlabel.h"
-#include <QtWidgets/qcheckbox.h>
 
 
 namespace creator
@@ -24,7 +23,6 @@ namespace creator
         LINEEDIT,       // Just a label and a one-line text box
         MINMAX,         // Label, spinbox for minimum and a spinbox for maximum number
         NUMBER,         // Label and one spinbox holding a number
-        BOOLEAN,        // Label and one checkbox
         NUM_TYPES       // always keep at the end, number of property types
     };
 
@@ -60,7 +58,6 @@ namespace creator
         QSpinBox* prop_number;
         QSpinBox* prop_min;
         QSpinBox* prop_max;
-        QCheckBox* prop_bool;
         QLineEdit* prop_line;
         QObject* widget_to_notify;
         QPushButton* btnHide;

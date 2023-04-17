@@ -44,7 +44,7 @@
         "type": "gun",
         "cooldown": 3,
         "move_cost": 150,
-        "gun_type": "fn_fal_semi",
+        "gun_type": "fn_fal",
         "ammo_type": "762_51",
         "fake_skills": [ [ "gun", 5 ], [ "rifle", 5 ] ],
         "fake_dex": 10,
@@ -142,7 +142,7 @@
     "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "harvest": "zombie",
-    "special_attacks": [ { "id": "grab", "cooldown": 7 }, [ "scratch", 20 ] ],
+    "special_attacks": [ [ "GRAB", 7 ], [ "scratch", 20 ] ],
     "death_drops": "default_zombie_death_drops",
     "upgrades": { "half_life": 28, "into": "mon_afs_headless_horror" },
     "flags": [

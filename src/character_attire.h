@@ -59,7 +59,6 @@ struct dispose_option {
 
 class outfit
 {
-        friend class Character;
     private:
         std::list<item> worn;
     public:
@@ -113,7 +112,6 @@ class outfit
         units::volume contents_volume_with_tweaks( const std::map<const item *, int> &without ) const;
         units::volume volume_capacity_with_tweaks( const std::map<const item *, int> &without ) const;
         units::volume free_space() const;
-        units::mass free_weight_capacity() const;
         units::volume max_single_item_volume() const;
         units::length max_single_item_length() const;
         // total volume
@@ -175,6 +173,7 @@ class outfit
         std::unordered_set<bodypart_id> where_discomfort( const Character &guy ) const;
         // used in game::wield
         void insert_item_at_index( const item &clothing, int index );
+        void append_radio_items( std::list<item *> &rc_items );
         void check_and_recover_morale( player_morale &test_morale ) const;
         void absorb_damage( Character &guy, damage_unit &elem, bodypart_id bp,
                             std::list<item> &worn_remains, bool &armor_destroyed );
@@ -214,10 +213,11 @@ class outfit
         void set_fitted();
         std::vector<item> available_pockets() const;
         void write_text_memorial( std::ostream &file, const std::string &indent, const char *eol ) const;
-        std::string get_armor_display( bodypart_id bp ) const;
+        std::string get_armor_display( bodypart_id bp, unsigned int truncate = 0 ) const;
         void activate_combat_items( npc &guy );
         void deactivate_combat_items( npc &guy );
 
+        void clear();
         bool empty() const;
         item &front();
         size_t size() const;

@@ -33,6 +33,7 @@
     "id": "xs_boots_fsurvivor",
     "type": "ARMOR",
     "copy-from": "boots_fsurvivor",
+    "looks_like": "boots_fsurvivor",
     "name": { "str": "pair of XS survivor fireboots", "str_pl": "pairs of XS survivor fireboots" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -71,6 +72,7 @@
     "id": "xs_boots_hsurvivor",
     "type": "ARMOR",
     "copy-from": "boots_hsurvivor",
+    "looks_like": "boots_hsurvivor",
     "name": { "str": "pair of XS heavy survivor boots", "str_pl": "pairs of XS heavy survivor boots" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -108,6 +110,7 @@
     "id": "xs_gloves_hsurvivor",
     "type": "ARMOR",
     "copy-from": "gloves_hsurvivor",
+    "looks_like": "gloves_hsurvivor",
     "name": { "str": "pair of XS heavy survivor gloves", "str_pl": "pairs of XS heavy survivor gloves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -145,6 +148,7 @@
     "id": "xs_gloves_fsurvivor",
     "type": "ARMOR",
     "copy-from": "gloves_fsurvivor",
+    "looks_like": "gloves_fsurvivor",
     "name": { "str": "pair of XS survivor firegloves", "str_pl": "pairs of XS survivor firegloves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -176,6 +180,7 @@
     "type": "ARMOR",
     "copy-from": "hood_fsurvivor",
     "name": { "str": "XL survivor firehood" },
+    "description": "A customized armored Nomex and Kevlar hood, very strong and durable.  Made in Muspelheim.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -183,7 +188,9 @@
     "id": "xs_hood_fsurvivor",
     "type": "ARMOR",
     "copy-from": "hood_fsurvivor",
+    "looks_like": "hood_fsurvivor",
     "name": { "str": "XS survivor firehood" },
+    "description": "A customized armored Nomex and Kevlar hood, strong and durable.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -234,6 +241,7 @@
     "id": "xs_fsurvivor_suit",
     "type": "ARMOR",
     "copy-from": "fsurvivor_suit",
+    "looks_like": "fsurvivor_suit",
     "name": { "str": "XS survivor firesuit" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -274,7 +282,9 @@
     "id": "xlhsurvivor_suit",
     "type": "ARMOR",
     "copy-from": "hsurvivor_suit",
+    "looks_like": "hsurvivor_suit",
     "name": { "str": "XL heavy survivor suit" },
+    "description": "A heavy, hand-built combination armor made from a reinforced bulletproof vest and a metal-plated leather jumpsuit.  Protects from the elements as well as from harm.",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -282,7 +292,9 @@
     "id": "xshsurvivor_suit",
     "type": "ARMOR",
     "copy-from": "hsurvivor_suit",
+    "looks_like": "hsurvivor_suit",
     "name": { "str": "XS heavy survivor suit" },
+    "description": "A heavy, hand-built combination armor made from a reinforced bulletproof vest and a metal-plated leather jumpsuit.  Protects from the elements as well as from harm.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -296,15 +308,16 @@
     "volume": "6 L",
     "price": 60000,
     "price_postapoc": 4000,
-    "material": [ "kevlar_layered", "kevlar", "nylon" ],
+    "material": [ "kevlar", "cotton", "nylon" ],
     "symbol": "[",
     "looks_like": "combat_shirt",
     "color": "green",
     "armor": [
       {
         "material": [
-          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.7 },
-          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 3.3, "ignore_sheet_thickness": true }
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.55 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.15 },
+          { "type": "kevlar", "covered_by_mat": 95, "thickness": 3.3 }
         ],
         "encumbrance": [ 4, 5 ],
         "coverage": 100,
@@ -313,7 +326,8 @@
       },
       {
         "material": [
-          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.3 },
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.15 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.15 },
           { "type": "kevlar", "covered_by_mat": 90, "thickness": 2.2 }
         ],
         "encumbrance": [ 4, 5 ],
@@ -380,7 +394,7 @@
   {
     "id": "xl_lsurvivor_armor",
     "type": "ARMOR",
-    "name": { "str": "XL mercenary body armor" },
+    "name": { "str": "XL light survivor body armor" },
     "copy-from": "lsurvivor_armor",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -389,7 +403,8 @@
     "id": "xs_lsurvivor_armor",
     "type": "ARMOR",
     "copy-from": "lsurvivor_armor",
-    "name": { "str": "XS mercenary body armor" },
+    "looks_like": "lsurvivor_armor",
+    "name": { "str": "XS light survivor body armor" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -556,6 +571,7 @@
     "name": { "str": "XL winter survivor suit" },
     "copy-from": "wsurvivor_suit",
     "material": [ "kevlar_layered", "faux_fur" ],
+    "description": "A warm, heavy and oversized hand-built combination armor made from a reinforced bulletproof vest and a faux fur insulated leather jumpsuit.  Protects from the elements as well as from harm.",
     "color": "pink",
     "warmth": 65,
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },

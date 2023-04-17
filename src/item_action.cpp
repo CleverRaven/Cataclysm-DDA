@@ -4,6 +4,7 @@
 #include <iterator>
 #include <list>
 #include <memory>
+#include <new>
 #include <optional>
 #include <set>
 #include <tuple>
@@ -11,13 +12,14 @@
 #include <utility>
 
 #include "avatar.h"
+#include "calendar.h"
 #include "catacharset.h"
 #include "character.h"
 #include "clone_ptr.h"
 #include "debug.h"
 #include "flag.h"
 #include "game.h"
-#include "input_context.h"
+#include "input.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_contents.h"
@@ -25,6 +27,7 @@
 #include "item_pocket.h"
 #include "itype.h"
 #include "iuse.h"
+#include "json.h"
 #include "make_static.h"
 #include "output.h"
 #include "pimpl.h"
@@ -34,7 +37,11 @@
 #include "type_id.h"
 #include "ui.h"
 
+class Character;
+
 static const std::string errstring( "ERROR" );
+
+struct tripoint;
 
 static item_action nullaction;
 
@@ -87,7 +94,7 @@ bool item::item_has_uses_recursive( bool contents_only ) const
 bool item_contents::item_has_uses_recursive() const
 {
     for( const item_pocket &pocket : contents ) {
-        if( pocket.is_type( pocket_type::CONTAINER ) &&
+        if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) &&
             pocket.item_has_uses_recursive() ) {
             return true;
         }
@@ -147,7 +154,7 @@ item_action_map item_action_generator::map_actions_to_items( Character &you,
 
             const use_function *func = actual_item->get_use( use );
             if( !( func && func->get_actor_ptr() &&
-                   func->get_actor_ptr()->can_use( you, *actual_item, you.pos() ).success() ) ) {
+                   func->get_actor_ptr()->can_use( you, *actual_item, false, you.pos() ).success() ) ) {
                 continue;
             }
 
@@ -389,7 +396,7 @@ std::string use_function::get_type() const
     }
 }
 
-ret_val<void> iuse_actor::can_use( const Character &, const item &, const tripoint & ) const
+ret_val<void> iuse_actor::can_use( const Character &, const item &, bool, const tripoint & ) const
 {
     return ret_val<void>::make_success();
 }

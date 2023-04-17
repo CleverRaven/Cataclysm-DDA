@@ -3,6 +3,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "afs_tunnel_sinkhole_surface" ],
+    "weight": 5000000,
     "object": {
       "fallback_predecessor_mapgen": "field",
       "rows": [
@@ -40,6 +41,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "afs_tunnel_sinkhole" ],
+    "weight": 5000000,
     "object": {
       "fill_ter": "t_rock_floor",
       "rows": [

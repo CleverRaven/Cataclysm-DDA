@@ -5,7 +5,6 @@
 #include "cata_scope_helpers.h"
 #include "catacharset.h"
 #include "input.h"
-#include "input_context.h"
 #include "output.h"
 #include "point.h"
 #include "translations.h"
@@ -26,6 +25,7 @@
 #endif
 
 #include <algorithm>
+#include <cstdlib>
 #include <memory>
 #include <string>
 #include <vector>

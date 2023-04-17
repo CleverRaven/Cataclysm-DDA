@@ -2,7 +2,6 @@
   {
     "type": "recipe",
     "result": "afs_foamcrete",
-    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
     "skill_used": "chemistry",
@@ -21,7 +20,6 @@
   {
     "type": "recipe",
     "result": "xray_laser_barrel",
-    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
     "skill_used": "fabrication",
@@ -40,7 +38,6 @@
   {
     "type": "recipe",
     "result": "arrow_nano",
-    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
     "skill_used": "fabrication",

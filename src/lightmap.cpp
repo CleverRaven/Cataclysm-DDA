@@ -67,13 +67,14 @@ std::string four_quadrants::to_string() const
                           ( *this )[quadrant::SW], ( *this )[quadrant::NW] );
 }
 
-void map::add_light_from_items( const tripoint &p, const item_stack &items )
+void map::add_light_from_items( const tripoint &p, const item_stack::iterator &begin,
+                                const item_stack::iterator &end )
 {
-    for( const item &it : items ) {
+    for( auto itm_it = begin; itm_it != end; ++itm_it ) {
         float ilum = 0.0f; // brightness
         units::angle iwidth = 0_degrees; // 0-360 degrees. 0 is a circular light_source
         units::angle idir = 0_degrees;   // otherwise, it's a light_arc pointed in this direction
-        if( it.getlight( ilum, iwidth, idir ) ) {
+        if( itm_it->getlight( ilum, iwidth, idir ) ) {
             if( iwidth > 0_degrees ) {
                 apply_light_arc( p, idir, ilum, iwidth );
             } else {
@@ -207,13 +208,12 @@ bool map::build_vision_transparency_cache( const int zlev )
     bool dirty = false;
 
     bool is_crouching = player_character.is_crouching();
-    bool is_runallfours = player_character.is_runallfours();
     bool is_prone = player_character.is_prone();
     for( const tripoint &loc : points_in_radius( p, 1 ) ) {
         if( loc == p ) {
             // The tile player is standing on should always be visible
             vision_transparency_cache[p.x][p.y] = LIGHT_TRANSPARENCY_OPEN_AIR;
-        } else if( ( is_crouching || is_prone || is_runallfours ) && coverage( loc ) >= 30 ) {
+        } else if( ( is_crouching || is_prone ) && coverage( loc ) >= 30 ) {
             // If we're crouching or prone behind an obstacle, we can't see past it.
             vision_transparency_cache[loc.x][loc.y] = LIGHT_TRANSPARENCY_SOLID;
             dirty = true;
@@ -457,8 +457,9 @@ void map::generate_lightmap( const int zlev )
                         }
                     }
 
-                    if( cur_submap->get_lum( { sx, sy } ) ) {
-                        add_light_from_items( p, i_at( p ) );
+                    if( cur_submap->get_lum( { sx, sy } ) && has_items( p ) ) {
+                        map_stack items = i_at( p );
+                        add_light_from_items( p, items.begin(), items.end() );
                     }
 
                     const ter_id terrain = cur_submap->get_ter( { sx, sy } );
@@ -546,18 +547,8 @@ void map::generate_lightmap( const int zlev )
                 }
 
             } else if( vp.has_flag( VPFLAG_HALF_CIRCLE_LIGHT ) ) {
-                if( vp.has_flag( VPFLAG_WALL_MOUNTED ) ) {
-                    tileray tdir( v->face.dir() + pt->direction );
-                    tdir.advance();
-                    tripoint offset = src;
-                    offset.x = src.x + tdir.dx();
-                    offset.y = src.y + tdir.dy();
-                    add_light_source( offset, M_SQRT2 ); // Add a little surrounding light
-                    apply_light_arc( offset, v->face.dir() + pt->direction, vp.bonus, 180_degrees );
-                } else {
-                    add_light_source( src, M_SQRT2 ); // Add a little surrounding light
-                    apply_light_arc( src, v->face.dir() + pt->direction, vp.bonus, 180_degrees );
-                }
+                add_light_source( src, M_SQRT2 ); // Add a little surrounding light
+                apply_light_arc( src, v->face.dir() + pt->direction, vp.bonus, 180_degrees );
 
             } else if( vp.has_flag( VPFLAG_CIRCLE_LIGHT ) ) {
                 const bool odd_turn = calendar::once_every( 2_turns );
@@ -573,12 +564,16 @@ void map::generate_lightmap( const int zlev )
             }
         }
 
-        for( const vpart_reference &vpr : v->get_any_parts( VPFLAG_CARGO ) ) {
-            const tripoint pos = vpr.pos();
-            if( !inbounds( pos ) || vpr.info().has_flag( "COVERED" ) ) {
+        for( const vpart_reference &vp : v->get_all_parts() ) {
+            const size_t p = vp.part_index();
+            const tripoint pp = vp.pos();
+            if( !inbounds( pp ) ) {
                 continue;
             }
-            add_light_from_items( pos, vpr.items() );
+            if( vp.has_feature( VPFLAG_CARGO ) && !vp.has_feature( "COVERED" ) ) {
+                add_light_from_items( pp, v->get_items( static_cast<int>( p ) ).begin(),
+                                      v->get_items( static_cast<int>( p ) ).end() );
+            }
         }
     }
 
@@ -644,11 +639,6 @@ float map::ambient_light_at( const tripoint &p ) const
 bool map::is_transparent( const tripoint &p ) const
 {
     return light_transparency( p ) > LIGHT_TRANSPARENCY_SOLID;
-}
-
-bool map::is_transparent_wo_fields( const tripoint &p ) const
-{
-    return get_cache_ref( p.z ).transparent_cache_wo_fields[p.x][p.y];
 }
 
 float map::light_transparency( const tripoint &p ) const
@@ -790,14 +780,13 @@ bool map::pl_sees( const tripoint &t, const int max_range ) const
 
     const level_cache &map_cache = get_cache_ref( t.z );
     Character &player_character = get_player_character();
-    if( max_range >= 0 && square_dist( getglobal( t ), player_character.get_location() ) > max_range &&
+    if( max_range >= 0 && square_dist( t, player_character.pos() ) > max_range &&
         map_cache.camera_cache[t.x][t.y] == 0 ) {
         return false;    // Out of range!
     }
 
     const apparent_light_info a = apparent_light_helper( map_cache, t );
-    // avatar might not be on *this* map
-    const float light_at_player = get_map().ambient_light_at( player_character.pos() );
+    const float light_at_player = map_cache.lm[player_character.posx()][player_character.posy()].max();
     return !a.obstructed &&
            ( a.apparent_light >= player_character.get_vision_threshold( light_at_player ) ||
              map_cache.sm[t.x][t.y] > 0.0 );
@@ -1008,33 +997,52 @@ void map::build_seen_cache( const tripoint &origin, const int target_z, int exte
             &camera_cache[0][0], map_dimensions, light_transparency_solid );
     }
 
-    // Cache the caches (pointers to them)
-    array_of_grids_of<const float> transparency_caches;
-    array_of_grids_of<float> seen_caches;
-    array_of_grids_of<const bool> floor_caches;
-    vertical_direction directions_to_cast = vertical_direction::BOTH;
-    for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
-        level_cache &cur_cache = get_cache( z );
-        transparency_caches[z + OVERMAP_DEPTH] = &cur_cache.vision_transparency_cache;
-        seen_caches[z + OVERMAP_DEPTH] = camera ? &cur_cache.camera_cache : &cur_cache.seen_cache;
-        floor_caches[z + OVERMAP_DEPTH] = &cur_cache.floor_cache;
-        if( !cumulative ) {
-            std::uninitialized_fill_n(
-                &( *seen_caches[z + OVERMAP_DEPTH] )[0][0], map_dimensions, light_transparency_solid );
-        }
-        cur_cache.seen_cache_dirty = false;
-        if( origin.z == z && cur_cache.no_floor_gaps ) {
-            directions_to_cast = vertical_direction::UP;
-        }
-    }
-    if( origin.z == target_z ) {
-        ( *seen_caches[ target_z + OVERMAP_DEPTH ] )[origin.x][origin.y] = VISIBILITY_FULL;
-    }
+    if( !fov_3d ) {
+        for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
+            level_cache &cur_cache = get_cache( z );
+            mdarray &cur_out_cache = camera ? cur_cache.camera_cache : cur_cache.seen_cache;
+            if( z == target_z || cur_cache.seen_cache_dirty ) {
+                if( !cumulative ) {
+                    std::uninitialized_fill_n(
+                        &cur_out_cache[0][0], map_dimensions, light_transparency_solid );
+                }
+                cur_cache.seen_cache_dirty = false;
+            }
 
-    cast_zlight<float, sight_calc, sight_check, accumulate_transparency>(
-        seen_caches, transparency_caches, floor_caches, origin, penalty, 1.0,
-        directions_to_cast );
-    seen_cache_process_ledges( seen_caches, floor_caches, std::nullopt );
+            if( z == target_z ) {
+                out_cache[origin.x][origin.y] = VISIBILITY_FULL;
+                castLightAll<float, float, sight_calc, sight_check, update_light, accumulate_transparency>(
+                    out_cache, transparency_cache, origin.xy(), penalty );
+            }
+        }
+    } else {
+        // Cache the caches (pointers to them)
+        array_of_grids_of<const float> transparency_caches;
+        array_of_grids_of<float> seen_caches;
+        array_of_grids_of<const bool> floor_caches;
+        vertical_direction directions_to_cast = vertical_direction::BOTH;
+        for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
+            level_cache &cur_cache = get_cache( z );
+            transparency_caches[z + OVERMAP_DEPTH] = &cur_cache.vision_transparency_cache;
+            seen_caches[z + OVERMAP_DEPTH] = camera ? &cur_cache.camera_cache : &cur_cache.seen_cache;
+            floor_caches[z + OVERMAP_DEPTH] = &cur_cache.floor_cache;
+            if( !cumulative ) {
+                std::uninitialized_fill_n(
+                    &( *seen_caches[z + OVERMAP_DEPTH] )[0][0], map_dimensions, light_transparency_solid );
+            }
+            cur_cache.seen_cache_dirty = false;
+            if( origin.z == z && cur_cache.no_floor_gaps ) {
+                directions_to_cast = vertical_direction::UP;
+            }
+        }
+        if( origin.z == target_z ) {
+            ( *seen_caches[ target_z + OVERMAP_DEPTH ] )[origin.x][origin.y] = VISIBILITY_FULL;
+        }
+
+        cast_zlight<float, sight_calc, sight_check, accumulate_transparency>(
+            seen_caches, transparency_caches, floor_caches, origin, penalty, 1.0,
+            directions_to_cast );
+    }
 
     const optional_vpart_position vp = veh_at( origin );
     if( !vp ) {
@@ -1070,15 +1078,13 @@ void map::build_seen_cache( const tripoint &origin, const int target_z, int exte
         }
     }
 
-    for( const int mirror : mirrors ) {
-        const vehicle_part &vp_mirror = veh->part( mirror );
-        const vpart_info &vpi_mirror = vp_mirror.info();
-        const bool is_camera = vpi_mirror.has_flag( "CAMERA" );
+    for( int mirror : mirrors ) {
+        bool is_camera = veh->part_info( mirror ).has_flag( "CAMERA" );
         if( is_camera && cam_control < 0 ) {
             continue; // Player not at camera control, so cameras don't work
         }
 
-        const tripoint mirror_pos = veh->global_part_pos3( vp_mirror );
+        const tripoint mirror_pos = veh->global_part_pos3( mirror );
 
         // Determine how far the light has already traveled so mirrors
         // don't cheat the light distance falloff.
@@ -1087,7 +1093,8 @@ void map::build_seen_cache( const tripoint &origin, const int target_z, int exte
         if( !is_camera ) {
             offsetDistance = penalty + rl_dist( origin, mirror_pos );
         } else {
-            offsetDistance = 60 - vpi_mirror.bonus * vp_mirror.hp() / vpi_mirror.durability;
+            offsetDistance = 60 - veh->part_info( mirror ).bonus *
+                             veh->part( mirror ).hp() / veh->part_info( mirror ).durability;
             mocache = &camera_cache;
             ( *mocache )[mirror_pos.x][mirror_pos.y] = LIGHT_TRANSPARENCY_OPEN_AIR;
         }
@@ -1099,41 +1106,6 @@ void map::build_seen_cache( const tripoint &origin, const int target_z, int exte
         // at an offset appears to give reasonable results though.
         castLightAll<float, float, sight_calc, sight_check, update_light, accumulate_transparency>(
             *mocache, transparency_cache, mirror_pos.xy(), offsetDistance );
-    }
-}
-
-void map::seen_cache_process_ledges( array_of_grids_of<float> &seen_caches,
-                                     const array_of_grids_of<const bool> &floor_caches, const std::optional<tripoint> &override_p ) const
-{
-    Character &player_character = get_player_character();
-    // If override is not given, use player character for calculations
-    const tripoint origin = override_p.value_or( player_character.pos() );
-    const int min_z = std::max( origin.z - fov_3d_z_range, -OVERMAP_DEPTH );
-    // For each tile
-    for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
-        for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
-            for( int sx = 0; sx < SEEX; ++sx ) {
-                for( int sy = 0; sy < SEEY; ++sy ) {
-                    // Iterate down z-levels starting from 1 level below origin
-                    for( int sz = origin.z - 1; sz >= min_z; --sz ) {
-                        const tripoint p( sx + smx * SEEX, sy + smy * SEEY, sz );
-                        const int cache_z = sz + OVERMAP_DEPTH;
-                        // Until invisible tile reached
-                        if( ( *seen_caches[cache_z] )[p.x][p.y] == 0.0f ) {
-                            break;
-                        }
-                        // Or floor reached
-                        if( ( *floor_caches[cache_z] ) [p.x][p.y] ) {
-                            // In which case check if it should be obscured by a ledge
-                            if( override_p ? ledge_coverage( origin, p ) > 100 : ledge_coverage( player_character, p ) > 100 ) {
-                                ( *seen_caches[cache_z] )[p.x][p.y] = 0.0f;
-                            }
-                            break;
-                        }
-                    }
-                }
-            }
-        }
     }
 }
 

@@ -1,5 +1,7 @@
 #include "gamemode_tutorial.h" // IWYU pragma: associated
 
+#include <cstdlib>
+#include <iosfwd>
 #include <memory>
 #include <optional>
 
@@ -7,9 +9,13 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "character.h"
+#include "colony.h"
 #include "coordinates.h"
 #include "debug.h"
 #include "game.h"
+#include "game_constants.h"
+#include "input.h"
+#include "inventory.h"
 #include "item.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -17,6 +23,7 @@
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
+#include "pimpl.h"
 #include "point.h"
 #include "profession.h"
 #include "scent_map.h"
@@ -331,7 +338,7 @@ void tutorial_game::post_action( action_id act )
             item it( player_character.last_item, calendar::turn_zero );
             if( it.is_holster() ) {
                 add_message( tut_lesson::LESSON_HOLSTERS_ACTIVATE );
-            } else if( it.has_pocket_type( pocket_type::CONTAINER ) ) {
+            } else if( it.has_pocket_type( item_pocket::pocket_type::CONTAINER ) ) {
                 add_message( tut_lesson::LESSON_WORE_STORAGE );
             } else if( it.is_armor() ) {
                 if( it.get_env_resist() >= 2 ) {

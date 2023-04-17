@@ -355,7 +355,7 @@
   {
     "abstract": "book_martial",
     "type": "BOOK",
-    "category": "ma_manuals",
+    "category": "manuals",
     "name": { "str": "martial art manual" },
     "weight": "150 g",
     "volume": "250 ml",

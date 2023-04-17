@@ -25,7 +25,6 @@
 class advanced_inv_area;
 class advanced_inv_listitem;
 class advanced_inventory_pane;
-class cata_path;
 class diary;
 class faction;
 class item;
@@ -92,7 +91,6 @@ class avatar : public Character
 
         void store( JsonOut &json ) const;
         void load( const JsonObject &data );
-        void export_as_npc( const cata_path &path );
         void serialize( JsonOut &json ) const override;
         void deserialize( const JsonObject &data ) override;
         bool save_map_memory();
@@ -121,8 +119,6 @@ class avatar : public Character
 
         mfaction_id get_monster_faction() const override;
 
-        void witness_thievery( item * ) override {}
-
         std::string get_save_id() const {
             return save_id.empty() ? name : save_id;
         }
@@ -142,17 +138,13 @@ class avatar : public Character
         bool query_yn( const std::string &mes ) const override;
 
         void toggle_map_memory();
-        //! @copydoc map_memory::is_valid() const
-        bool is_map_memory_valid() const;
         bool should_show_map_memory() const;
-        void prepare_map_memory_region( const tripoint_abs_ms &p1, const tripoint_abs_ms &p2 );
-        const memorized_tile &get_memorized_tile( const tripoint_abs_ms &p ) const;
-        void memorize_terrain( const tripoint_abs_ms &p, std::string_view id,
-                               int subtile, int rotation );
-        void memorize_decoration( const tripoint_abs_ms &p, std::string_view id,
-                                  int subtile, int rotation );
-        void memorize_symbol( const tripoint_abs_ms &p, char32_t symbol );
-        void memorize_clear_decoration( const tripoint_abs_ms &p, std::string_view prefix = "" );
+        void prepare_map_memory_region( const tripoint &p1, const tripoint &p2 );
+        const memorized_tile &get_memorized_tile( const tripoint &p ) const;
+        void memorize_terrain( const tripoint &p, std::string_view id, int subtile, int rotation );
+        void memorize_decoration( const tripoint &p, std::string_view id, int subtile, int rotation );
+        void memorize_symbol( const tripoint &p, char32_t symbol );
+        void memorize_clear_vehicles( const tripoint &p );
 
         nc_color basic_symbol_color() const override;
         int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const override;
@@ -191,10 +183,6 @@ class avatar : public Character
          * Check @ref mission::has_failed to see which case it is.
          */
         void on_mission_finished( mission &cur_mission );
-        /**
-         * Returns true if character has the mission in their active missions list.
-         */
-        bool has_mission_id( const mission_type_id &miss_id );
 
         void remove_active_mission( mission &cur_mission );
 
@@ -236,6 +224,7 @@ class avatar : public Character
         bool has_seen_snippet( const snippet_id &snippet ) const;
         const std::set<snippet_id> &get_snippets();
 
+
         /**
          * Opens the targeting menu to pull a nearby creature towards the character.
          * @param name Name of the implement used to pull the creature. */
@@ -272,9 +261,6 @@ class avatar : public Character
         bionic *bionic_by_invlet( int ch );
 
         faction *get_faction() const override;
-        bool is_ally( const Character &p ) const override;
-        bool is_obeying( const Character &p ) const override;
-
         // Set in npc::talk_to_you for use in further NPC interactions
         bool dialogue_by_radio = false;
         // Preferred aim mode - ranged.cpp aim mode defaults to this if possible
@@ -306,9 +292,6 @@ class avatar : public Character
         bool wield( item_location target );
         bool wield( item &target ) override;
         bool wield( item &target, int obtain_cost );
-
-        item::reload_option select_ammo( const item_location &base, bool prompt = false,
-                                         bool empty = true ) override;
 
         /** gets the inventory from the avatar that is interactible via advanced inventory management */
         std::vector<advanced_inv_listitem> get_AIM_inventory( const advanced_inventory_pane &pane,
@@ -381,7 +364,6 @@ class avatar : public Character
         const mood_face_id &character_mood_face( bool clear_cache = false ) const;
 
     private:
-        npc &get_shadow_npc();
 
         // The name used to generate save filenames for this avatar. Not serialized in json.
         std::string save_id;

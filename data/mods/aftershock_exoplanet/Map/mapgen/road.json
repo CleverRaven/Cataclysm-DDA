@@ -3,6 +3,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "road_straight" ],
+    "weight": 5000000,
     "object": {
       "predecessor_mapgen": "field",
       "rows": [
@@ -40,6 +41,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "road_end" ],
+    "weight": 5000000,
     "object": {
       "predecessor_mapgen": "field",
       "rows": [
@@ -77,6 +79,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "road_curved" ],
+    "weight": 5000000,
     "object": {
       "predecessor_mapgen": "field",
       "rows": [
@@ -114,6 +117,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "road_tee" ],
+    "weight": 500000,
     "object": {
       "predecessor_mapgen": "field",
       "rows": [
@@ -154,6 +158,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "road_four_way" ],
+    "weight": 5000000,
     "object": {
       "predecessor_mapgen": "field",
       "rows": [

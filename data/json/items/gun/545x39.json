@@ -2,7 +2,7 @@
   {
     "id": "ak74",
     "copy-from": "rifle_auto",
-    "looks_like": "modular_ar15",
+    "looks_like": "ar15",
     "type": "GUN",
     "name": { "str": "AK-74M" },
     "//": "AKs likewise aren't commercially traded in the US, plus this is newer.",
@@ -10,7 +10,6 @@
     "weight": "3400 g",
     "volume": "2418 ml",
     "longest_side": "94 cm",
-    "barrel_length": "415 mm",
     "price": 390000,
     "price_postapoc": 4000,
     "to_hit": -1,
@@ -25,7 +24,6 @@
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "bore", 1 ],
-      [ "bayonet lug", 1 ],
       [ "brass catcher", 1 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],
@@ -44,7 +42,7 @@
   {
     "id": "kord",
     "copy-from": "rifle_auto",
-    "looks_like": "modular_ar15",
+    "looks_like": "ar15",
     "type": "GUN",
     "name": { "str": "Kord 6P67" },
     "//": "An exceptionally new AK style gun found illicitly as part of a quest.",
@@ -52,7 +50,6 @@
     "weight": "3250 g",
     "volume": "2418 ml",
     "longest_side": "96 cm",
-    "barrel_length": "415 mm",
     "price": 390000,
     "price_postapoc": 4000,
     "to_hit": -1,
@@ -68,7 +65,6 @@
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "bore", 1 ],
-      [ "bayonet lug", 1 ],
       [ "brass catcher", 1 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],

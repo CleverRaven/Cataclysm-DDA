@@ -3,12 +3,18 @@
 #define CATA_SRC_ACTION_H
 
 #include <functional>
+#include <iosfwd>
 #include <map>
 #include <optional>
 #include <set>
 #include <string>
 #include <vector>
 
+namespace cata
+{
+template<typename T>
+class optional;
+} // namespace cata
 struct input_event;
 struct point;
 struct tripoint;
@@ -117,8 +123,6 @@ enum action_id : int {
     ACTION_GRAB,
     /** Haul pile of items, or let go of them */
     ACTION_HAUL,
-    /** Quickly toggle hauling on/off */
-    ACTION_HAUL_TOGGLE,
     /** Butcher or disassemble objects in current square */
     ACTION_BUTCHER,
     /** Chat with something */
@@ -183,8 +187,6 @@ enum action_id : int {
     ACTION_SELECT_FIRE_MODE,
     /** Cast a spell (only if any spells are known) */
     ACTION_CAST_SPELL,
-    /** Open the insert-item menu */
-    ACTION_INSERT_ITEM,
     /** Unload container in a given direction */
     ACTION_UNLOAD_CONTAINER,
     /** Open the drop-item menu */
@@ -341,6 +343,8 @@ enum action_id : int {
     ACTION_DISPLAY_TRANSPARENCY,
     /** Toggle retracted/transparent high sprites */
     ACTION_TOGGLE_PREVENT_OCCLUSION,
+    /** Toggle reachability zones map */
+    ACTION_DISPLAY_REACHABILITY_ZONES,
     ACTION_DISPLAY_NPC_ATTACK_POTENTIAL,
     /** Toggle timing of the game hours */
     ACTION_TOGGLE_HOUR_TIMER,
@@ -463,8 +467,6 @@ bool can_action_change_worldstate( action_id act );
  * @param[in] allow_vertical Allows player to select tiles above/below them if true
  */
 std::optional<tripoint> choose_adjacent( const std::string &message, bool allow_vertical = false );
-std::optional<tripoint> choose_adjacent( const tripoint &pos, const std::string &message,
-        bool allow_vertical = false );
 
 /**
  * Request player input of a direction, possibly including vertical component
@@ -518,9 +520,6 @@ std::optional<tripoint> choose_adjacent_highlight( const std::string &message,
  * @param[in] allow_autoselect Automatically select location if there's only one valid option and the appropriate setting is enabled
  */
 std::optional<tripoint> choose_adjacent_highlight( const std::string &message,
-        const std::string &failure_message, const std::function<bool( const tripoint & )> &allowed,
-        bool allow_vertical = false, bool allow_autoselect = true );
-std::optional<tripoint> choose_adjacent_highlight( const tripoint &pos, const std::string &message,
         const std::string &failure_message, const std::function<bool( const tripoint & )> &allowed,
         bool allow_vertical = false, bool allow_autoselect = true );
 

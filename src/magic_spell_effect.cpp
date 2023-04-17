@@ -174,11 +174,8 @@ static void swap_pos( Creature &caster, const tripoint &target )
     Creature *const critter = get_creature_tracker().creature_at<Creature>( target );
     critter->setpos( caster.pos() );
     caster.setpos( target );
-
     //update map in case a monster swapped positions with the player
-    Character &you = get_player_character();
-    get_map().vertical_shift( you.posz() );
-    g->update_map( you );
+    g->update_map( get_player_character() );
 }
 
 void spell_effect::pain_split( const spell &sp, Creature &caster, const tripoint & )
@@ -492,16 +489,12 @@ static void add_effect_to_target( const tripoint &target, const spell &sp, Creat
     Character *const guy = creatures.creature_at<Character>( target );
     efftype_id spell_effect( sp.effect_data() );
     bool bodypart_effected = false;
+
     if( guy ) {
         for( const bodypart_id &bp : guy->get_all_body_parts() ) {
             if( sp.bp_is_affected( bp.id() ) ) {
-                if( sp.has_flag( spell_flag::LIQUID ) ) {
-                    guy->add_liquid_effect( spell_effect, bp, 1, dur_td, sp.has_flag( spell_flag::PERMANENT ) );
-                    bodypart_effected = true;
-                } else {
-                    guy->add_effect( spell_effect, dur_td, bp, sp.has_flag( spell_flag::PERMANENT ) );
-                    bodypart_effected = true;
-                }
+                guy->add_effect( spell_effect, dur_td, bp, sp.has_flag( spell_flag::PERMANENT ) );
+                bodypart_effected = true;
             }
         }
     }
@@ -540,35 +533,34 @@ static void damage_targets( const spell &sp, Creature &caster,
 
         dealt_projectile_attack atk = sp.get_projectile_attack( target, *cr, caster );
         const int spell_accuracy = sp.accuracy( caster );
+        double damage_mitigation_multiplier = 1.0;
+        if( const int spell_block = cr->get_block_bonus() - spell_accuracy > 0 ) {
+            const int roll = std::round( rng( 1, 20 ) );
+            // 5% per point (linear) ranging from 0-33%, capped at block score
+            damage_mitigation_multiplier -= ( 1 - 0.05 * std::max( roll, spell_block ) ) / 3.0;
+        }
+
+        if( cr->dodge_check( spell_accuracy ) ) {
+            const int spell_dodge = cr->get_dodge() - spell_accuracy;
+            const int roll = std::round( rng( 1, 20 ) );
+            // 5% per point (linear) ranging from 0-33%, capped at block score
+            damage_mitigation_multiplier -= ( 1 - 0.05 * std::max( roll, spell_dodge ) ) / 3.0;
+        }
+
+        if( const int spell_resist = cr->get_spell_resist() - spell_accuracy > 0 &&
+                                     !sp.has_flag( spell_flag::NON_MAGICAL ) ) {
+            const int roll = std::round( rng( 1, 20 ) );
+            // 5% per point (linear) ranging from 0-33%, capped at block score
+            damage_mitigation_multiplier -= ( 1 - 0.05 * std::max( roll, spell_resist ) ) / 3.0;
+        }
 
         if( !sp.effect_data().empty() ) {
             add_effect_to_target( target, sp, caster );
         }
         if( sp.damage( caster ) > 0 ) {
-            // calculate damage mitigation from various sources
-            // 5% per point (linear) ranging from 0-33%, capped at block score
-            double damage_mitigation_multiplier = 1.0;
-            if( const int spell_block = cr->get_block_bonus() - spell_accuracy > 0 ) {
-                const int roll = std::round( rng( 1, 20 ) );
-                damage_mitigation_multiplier -= ( 1 - 0.05 * std::max( roll, spell_block ) ) / 3.0;
-            }
-
-            if( cr->dodge_check( spell_accuracy ) ) {
-                const int spell_dodge = cr->get_dodge() - spell_accuracy;
-                const int roll = std::round( rng( 1, 20 ) );
-                damage_mitigation_multiplier -= ( 1 - 0.05 * std::max( roll, spell_dodge ) ) / 3.0;
-            }
-
-            if( const int spell_resist = cr->get_spell_resist() - spell_accuracy > 0 &&
-                                         !sp.has_flag( spell_flag::NON_MAGICAL ) ) {
-                const int roll = std::round( rng( 1, 20 ) );
-                damage_mitigation_multiplier -= ( 1 - 0.05 * std::max( roll, spell_resist ) ) / 3.0;
-            }
-
             for( damage_unit &val : atk.proj.impact.damage_units ) {
                 if( sp.has_flag( spell_flag::PERCENTAGE_DAMAGE ) ) {
-                    // TODO: Change once spells don't always target get_max_hitsize_bodypart(). Should target each bodypart with it's respecive %
-                    val.amount = cr->get_hp( cr->get_max_hitsize_bodypart() ) * sp.damage( caster ) / 100.0;
+                    val.amount = cr->get_hp( cr->get_root_body_part() ) * sp.damage( caster ) / 100.0;
                 }
                 val.amount *= damage_mitigation_multiplier;
             }
@@ -965,18 +957,13 @@ static void character_push_effects( Creature *caster, Character &guy, tripoint &
                                     const int push_distance, const std::vector<tripoint> &push_vec )
 {
     int dist_left = std::abs( push_distance );
-    tripoint old_pushed_point = guy.pos();
     for( const tripoint &pushed_point : push_vec ) {
         if( get_map().impassable( pushed_point ) ) {
             guy.hurtall( dist_left * 4, caster );
-            push_dest = old_pushed_point;
-            break;
-        } else if( get_creature_tracker().creature_at( pushed_point ) ) {
-            push_dest = old_pushed_point;
+            push_dest = pushed_point;
             break;
         } else {
             dist_left--;
-            old_pushed_point = pushed_point;
         }
     }
     guy.setpos( push_dest );
@@ -1042,18 +1029,13 @@ void spell_effect::directed_push( const spell &sp, Creature &caster, const tripo
                     pushed_vec = push_vec;
                 } else if( mon ) {
                     int dist_left = std::abs( push_distance );
-                    tripoint old_pushed_push_point = push_point;
                     for( const tripoint &pushed_push_point : push_vec ) {
                         if( get_map().impassable( pushed_push_point ) ) {
                             mon->apply_damage( &caster, bodypart_id(), dist_left * 10 );
-                            push_dest = old_pushed_push_point;
-                            break;
-                        } else if( creatures.creature_at( pushed_push_point ) ) {
-                            push_dest = old_pushed_push_point;
+                            push_dest = pushed_push_point;
                             break;
                         } else {
                             dist_left--;
-                            old_pushed_push_point = pushed_push_point;
                         }
                     }
                     mon->setpos( push_dest );
@@ -1146,7 +1128,7 @@ void spell_effect::recover_energy( const spell &sp, Creature &caster, const trip
         you->mod_fatigue( -healing );
     } else if( energy_source == "BIONIC" ) {
         if( healing > 0 ) {
-            you->mod_power_level( units::from_kilojoule( static_cast<std::int64_t>( healing ) ) );
+            you->mod_power_level( units::from_kilojoule( healing ) );
         } else {
             you->mod_stamina( healing );
         }
@@ -1169,6 +1151,8 @@ void spell_effect::timed_event( const spell &sp, Creature &caster, const tripoin
 {
     const std::map<std::string, timed_event_type> timed_event_map{
         { "help", timed_event_type::HELP },
+        { "wanted", timed_event_type::WANTED },
+        { "robot_attack", timed_event_type::ROBOT_ATTACK },
         { "spawn_wyrms", timed_event_type::SPAWN_WYRMS },
         { "amigara", timed_event_type::AMIGARA },
         { "roots_die", timed_event_type::ROOTS_DIE },
@@ -1260,9 +1244,8 @@ void spell_effect::spawn_summoned_vehicle( const spell &sp, Creature &caster,
         caster.add_msg_if_player( m_bad, _( "There is already a vehicle there." ) );
         return;
     }
-    if( vehicle *veh = here.add_vehicle( sp.summon_vehicle_id(), target, -90_degrees,
-                                         100, 0, false ) ) {
-        veh->unlock();
+    if( vehicle *veh = here.add_vehicle( sp.summon_vehicle_id(), target, -90_degrees, 100, 0, false, "",
+                                         false ) ) {
         veh->magic = true;
         if( !sp.has_flag( spell_flag::PERMANENT ) ) {
             veh->summon_time_limit = sp.duration_turns( caster );
@@ -1270,23 +1253,6 @@ void spell_effect::spawn_summoned_vehicle( const spell &sp, Creature &caster,
         if( caster.as_character() ) {
             veh->set_owner( *caster.as_character() );
         }
-    }
-}
-
-void spell_effect::recharge_vehicle( const spell &sp, Creature &caster,
-                                     const tripoint &target )
-{
-    ::map &here = get_map();
-    optional_vpart_position v_part_pos = here.veh_at( target );
-    if( !v_part_pos ) {
-        caster.add_msg_if_player( m_bad, _( "There's no battery there." ) );
-        return;
-    }
-    vehicle &veh = v_part_pos->vehicle();
-    if( sp.damage( caster ) >= 0 ) {
-        veh.charge_battery( sp.damage( caster ), false );
-    } else {
-        veh.discharge_battery( -sp.damage( caster ), false );
     }
 }
 
@@ -1422,8 +1388,7 @@ void spell_effect::charm_monster( const spell &sp, Creature &caster, const tripo
             continue;
         }
         sp.make_sound( potential_target, caster );
-        if( ( mon->friendly == 0 || ( mon->friendly != 0 && sp.has_flag( spell_flag::RECHARM ) ) ) &&
-            mon->get_hp() <= sp.damage( caster ) ) {
+        if( mon->friendly == 0 && mon->get_hp() <= sp.damage( caster ) ) {
             mon->unset_dest();
             mon->friendly += sp.duration( caster ) / 100;
         }
@@ -1439,8 +1404,8 @@ void spell_effect::revive( const spell &sp, Creature &caster, const tripoint &ta
         for( item &corpse : here.i_at( aoe ) ) {
             const mtype *mt = corpse.get_mtype();
             if( !( corpse.is_corpse() && corpse.can_revive() && corpse.active &&
-                   mt->has_flag( mon_flag_REVIVES ) && !mt->has_flag( mon_flag_DORMANT ) && mt->in_species( spec ) &&
-                   !mt->has_flag( mon_flag_NO_NECRO ) ) ) {
+                   mt->has_flag( MF_REVIVES ) && mt->in_species( spec ) &&
+                   !mt->has_flag( MF_NO_NECRO ) ) ) {
                 continue;
             }
             if( g->revive_corpse( aoe, corpse ) ) {
@@ -1448,37 +1413,6 @@ void spell_effect::revive( const spell &sp, Creature &caster, const tripoint &ta
                 break;
             }
         }
-    }
-}
-
-// identical to above, but checks for REVIVES && DORMANT flag. Ignores NO_NECRO.
-void spell_effect::revive_dormant( const spell &sp, Creature &caster, const tripoint &target )
-{
-    const std::set<tripoint> area = spell_effect_area( sp, target, caster );
-    ::map &here = get_map();
-    const species_id spec( sp.effect_data() );
-    for( const tripoint &aoe : area ) {
-        for( item &corpse : here.i_at( aoe ) ) {
-            const mtype *mt = corpse.get_mtype();
-            if( !( corpse.is_corpse() && corpse.can_revive() && corpse.active &&
-                   mt->has_flag( mon_flag_REVIVES ) && mt->has_flag( mon_flag_DORMANT ) && mt->in_species( spec ) ) ) {
-                continue;
-            }
-            // relaxed revive with radius.
-            if( g->revive_corpse( aoe, corpse, 3 ) ) {
-                here.i_rem( aoe, &corpse );
-                break;
-            }
-        }
-    }
-}
-
-void spell_effect::add_trap( const spell &sp, Creature &, const tripoint &target )
-{
-    ::map &here = get_map();
-    const trap_id tr_id( sp.effect_data() );
-    if( here.tr_at( target ) == tr_null ) {
-        here.trap_set( target, tr_id );
     }
 }
 
@@ -1510,20 +1444,19 @@ void spell_effect::guilt( const spell &sp, Creature &caster, const tripoint &tar
         }
         // there used to be a MAX_GUILT_DISTANCE here, but the spell's range will do this instead.
         monster &z = *caster.as_monster();
-        const int kill_count = g->get_kill_tracker().guilt_kill_count( z.type->id );
+        const int kill_count = g->get_kill_tracker().kill_count( z.type->id );
         // this is when the player stops caring altogether.
         const int max_kills = sp.damage( caster );
         // this determines how strong the morale penalty will be
         const int guilt_mult = sp.get_effective_level();
 
         // different message as we kill more of the same monster
-        std::string msg;
+        std::string msg = _( "You feel guilty for killing %s." ); // default guilt message
         game_message_type msgtype = m_bad; // default guilt message type
         std::map<int, std::string> guilt_thresholds;
-        guilt_thresholds[ ceil( max_kills * 0.25 ) ] = _( "You feel guilty for killing %s." );
-        guilt_thresholds[ ceil( max_kills * 0.5 ) ] = _( "You feel remorse for killing %s." );
-        guilt_thresholds[ ceil( max_kills * 0.75 ) ] = _( "You regret killing %s." );
-        guilt_thresholds[max_kills] = _( "You feel ashamed for killing %s." );
+        guilt_thresholds[75] = _( "You feel ashamed for killing %s." );
+        guilt_thresholds[50] = _( "You regret killing %s." );
+        guilt_thresholds[25] = _( "You feel remorse for killing %s." );
 
         Character &guy = *guilt_target;
         if( guy.has_trait( trait_PSYCHOPATH ) || guy.has_trait( trait_KILLER ) ||
@@ -1546,7 +1479,7 @@ void spell_effect::guilt( const spell &sp, Creature &caster, const tripoint &tar
             msgtype = m_neutral;
         } else {
             for( const std::pair<const int, std::string> &guilt_threshold : guilt_thresholds ) {
-                if( kill_count < guilt_threshold.first ) {
+                if( kill_count >= guilt_threshold.first ) {
                     msg = guilt_threshold.second;
                     break;
                 }
@@ -1674,7 +1607,7 @@ void spell_effect::dash( const spell &sp, Creature &caster, const tripoint &targ
     }
     avatar *caster_you = caster.as_avatar();
     auto walk_point = trajectory.begin();
-    if( here.getlocal( *walk_point ) == source ) {
+    if( *walk_point == source ) {
         ++walk_point;
     }
     // save the amount of moves the caster has so we can restore them after the dash
@@ -1684,11 +1617,9 @@ void spell_effect::dash( const spell &sp, Creature &caster, const tripoint &targ
         if( caster_you != nullptr ) {
             if( creatures.creature_at( here.getlocal( *walk_point ) ) ||
                 !g->walk_move( here.getlocal( *walk_point ), false ) ) {
-                if( walk_point != trajectory.begin() ) {
-                    --walk_point;
-                }
+                --walk_point;
                 break;
-            } else if( walk_point != trajectory.begin() ) {
+            } else {
                 sp.create_field( here.getlocal( *( walk_point - 1 ) ), caster );
                 g->draw_ter();
             }
@@ -1785,8 +1716,7 @@ void spell_effect::banishment( const spell &sp, Creature &caster, const tripoint
     }
 }
 
-void spell_effect::effect_on_condition( const spell &sp, Creature &caster,
-                                        const tripoint &target )
+void spell_effect::effect_on_condition( const spell &sp, Creature &caster, const tripoint &target )
 {
     const std::set<tripoint> area = spell_effect_area( sp, target, caster );
 
@@ -1807,8 +1737,7 @@ void spell_effect::effect_on_condition( const spell &sp, Creature &caster,
     }
 }
 
-void spell_effect::slime_split_on_death( const spell &sp, Creature &caster,
-        const tripoint &target )
+void spell_effect::slime_split_on_death( const spell &sp, Creature &caster, const tripoint &target )
 {
     sp.make_sound( target, caster );
     int mass = caster.get_speed_base();
@@ -1835,7 +1764,7 @@ void spell_effect::slime_split_on_death( const spell &sp, Creature &caster,
 
             shared_ptr_fast<monster> mon = make_shared_fast<monster>( slime_id );
             mon->ammo = mon->type->starting_ammo;
-            if( mon->will_move_to( dest ) && mon->know_danger_at( dest ) ) {
+            if( mon->will_move_to( dest ) ) {
                 if( monster *const blob = g->place_critter_around( mon, dest, 0 ) ) {
                     sp.make_sound( dest, caster );
                     if( !permanent ) {

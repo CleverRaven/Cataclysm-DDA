@@ -123,21 +123,21 @@
   {
     "type": "terrain",
     "id": "t_dirtmound",
-    "name": "upturned dirt",
-    "description": "An area of loose dirt, not easily traversable.  If examined more closely, it's quite favorable for planting seeds and the like.",
+    "name": "mound of dirt",
+    "description": "An area of heaped dirt, not easily traversable.  If examined more closely, it's quite favorable for planting seeds and the like.",
     "symbol": "#",
     "color": "brown",
     "connect_groups": "DIRTMOUND",
     "connects_to": "DIRTMOUND",
     "move_cost": 3,
-    "flags": [ "TRANSPARENT", "DIGGABLE", "MOUNTABLE", "NOCOLLIDE", "PLANTABLE", "TREE_PLANTABLE" ],
+    "flags": [ "TRANSPARENT", "DIGGABLE", "MOUNTABLE", "NOCOLLIDE", "PLANTABLE" ],
     "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100 },
     "examine_action": "dirtmound"
   },
   {
     "type": "terrain",
     "id": "t_dirtmoundfloor",
-    "name": "mound of upturned dirt",
+    "name": "mound of dirt",
     "description": "A giant hill of dirt that looks like you could crawl inside for shelter.",
     "looks_like": "t_dirtmound",
     "symbol": "#",
@@ -311,31 +311,6 @@
       "str_max": 400,
       "str_min_supported": 100,
       "items": [ { "item": "rock", "count": [ 2, 10 ] } ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_thconc_floor_no_roof",
-    "name": "concrete floor",
-    "description": "A bare and cold concrete floor.",
-    "looks_like": "t_thconc_floor",
-    "symbol": ".",
-    "color": "cyan",
-    "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAT", "ROAD" ],
-    "connect_groups": "CONCRETE",
-    "connects_to": "CONCRETE",
-    "bash": {
-      "sound": "SMASH!",
-      "ter_set": "t_null",
-      "str_min": 100,
-      "str_max": 400,
-      "str_min_supported": 150,
-      "items": [
-        { "item": "rock", "count": [ 5, 10 ] },
-        { "item": "scrap", "count": [ 5, 8 ] },
-        { "item": "rebar", "count": [ 0, 2 ] }
-      ]
     }
   },
   {

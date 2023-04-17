@@ -54,7 +54,6 @@ enum class mon_trigger : int {
     SOUND,              // Heard a sound
     PLAYER_NEAR_BABY,   // Player/npc is near a baby monster of this type
     MATING_SEASON,      // It's the monster's mating season (defined by baby_flags)
-    BRIGHT_LIGHT,       // Illumination in the monster's tile is 75% of full daylight or higher
 
     LAST               // This item must always remain last.
 };
@@ -64,145 +63,129 @@ struct enum_traits<mon_trigger> {
     static constexpr mon_trigger last = mon_trigger::LAST;
 };
 
-struct mon_flag {
-    mon_flag_str_id id = mon_flag_str_id::NULL_ID();
-    bool was_loaded = false;
-
-    void load( const JsonObject &jo, std::string_view src );
-    static void load_mon_flags( const JsonObject &jo, const std::string &src );
-    static void reset();
-    static const std::vector<mon_flag> &get_all();
+// Feel free to add to m_flags.  Order shouldn't matter, just keep it tidy!
+// And comment them well. ;)
+// TODO: And rename them to 'mon_flags'
+// TODO: And turn them into an enum class (like mon_trigger).
+enum m_flag : int {
+    MF_SEES,                // It can see you (and will run/follow)
+    MF_HEARS,               // It can hear you
+    MF_GOODHEARING,         // Pursues sounds more than most monsters
+    MF_SMELLS,              // It can smell you
+    MF_KEENNOSE,            // Keen sense of smell
+    MF_STUMBLES,            // Stumbles in its movement
+    MF_WARM,                // Warm blooded
+    MF_NEMESIS,             // Is a nemesis monster
+    MF_NOHEAD,              // Headshots not allowed!
+    MF_HARDTOSHOOT,         // It's one size smaller for ranged attacks, no less then creature_size::tiny
+    MF_GRABS,               // Its attacks may grab us!
+    MF_BASHES,              // Bashes down doors
+    MF_DESTROYS,            // Bashes down walls and more
+    MF_BORES,               // Tunnels through just about anything
+    MF_POISON,              // Poisonous to eat
+    MF_VENOM,               // Attack may poison the player
+    MF_BADVENOM,            // Attack may SEVERELY poison the player
+    MF_PARALYZE,            // Attack may paralyze the player with venom
+    MF_WEBWALK,             // Doesn't destroy webs
+    MF_DIGS,                // Digs through the ground
+    MF_CAN_DIG,             // Can dig and walk
+    MF_FLIES,               // Can fly (over water, etc)
+    MF_AQUATIC,             // Confined to water
+    MF_SWIMS,               // Treats water as 50 movement point terrain
+    MF_ATTACKMON,           // Attacks other monsters
+    MF_ANIMAL,              // Is an "animal" for purposes of the Animal Empath trait
+    MF_PLASTIC,             // Absorbs physical damage to a great degree
+    MF_SUNDEATH,            // Dies in full sunlight
+    MF_ELECTRIC,            // Shocks unarmed attackers
+    MF_ACIDPROOF,           // Immune to acid
+    MF_ACIDTRAIL,           // Leaves a trail of acid
+    MF_SHORTACIDTRAIL,      // Leaves an intermittent trail of acid
+    MF_FIREPROOF,           // Immune to fire
+    MF_IRONWROUGHT,         // Immune to cold iron and does cold iron damage instead of any cutting damage
+    MF_SLUDGEPROOF,         // Ignores the effect of sludge trails
+    MF_SLUDGETRAIL,         // Causes monster to leave a sludge trap trail when moving
+    MF_SMALLSLUDGETRAIL,    // Causes monster to leave a low intensity, 1 tile sludge pool approximately every other tile when moving
+    MF_COLDPROOF,           // Immune to cold damage
+    MF_COMBAT_MOUNT,        // Mount has better chance to ignore hostile monster fear
+    MF_FIREY,               // Burns stuff and is immune to fire
+    MF_QUEEN,               // When it dies, local populations start to die off too
+    MF_ELECTRONIC,          // e.g. a robot; affected by EMP blasts, and other stuff
+    MF_CONSOLE_DESPAWN,     // Despawns when a nearby console is properly hacked
+    MF_IMMOBILE,            // Doesn't move (e.g. turrets)
+    MF_ID_CARD_DESPAWN,     // Despawns when a science ID card is used on a nearby console
+    MF_RIDEABLE_MECH,       // A rideable mech that is immobile until ridden.
+    MF_MILITARY_MECH,       // A rideable mech that was designed for military work.
+    MF_MECH_RECON_VISION,   // This mech gives you IR night-vision.
+    MF_MECH_DEFENSIVE,      // This mech gives you thorough protection.
+    MF_HIT_AND_RUN,         // Flee for several turns after a melee attack
+    MF_PAY_BOT,             // You can pay this bot to be your friend for a time
+    MF_HUMAN,               // It's a live human, as long as it's alive
+    MF_NO_BREATHE,          // Creature can't drown and is unharmed by gas, smoke, or poison
+    MF_FLAMMABLE,           // Monster catches fire, burns, and spreads fire to nearby objects
+    MF_REVIVES,             // Monster corpse will revive after a short period of time
+    MF_VERMIN,              // Obsolete flag labeling "nuisance" or "scenery" monsters, now used to prevent loading the same.
+    MF_NOGIB,               // Creature won't leave gibs / meat chunks when killed with huge damage.
+    MF_ARTHROPOD_BLOOD,     // Forces monster to bleed hemolymph.
+    MF_ACID_BLOOD,          // Makes monster bleed acid. Fun stuff! Does not automatically dissolve in a pool of acid on death.
+    MF_BILE_BLOOD,          // Makes monster bleed bile.
+    MF_FILTHY,              // Any clothing it drops will be filthy.
+    MF_FISHABLE,            // It is fishable.
+    MF_GROUP_BASH,          // Monsters that can pile up against obstacles and add their strength together to break them.
+    MF_SWARMS,              // Monsters that like to group together and form loose packs
+    MF_GROUP_MORALE,        // Monsters that are more courageous when near friends
+    MF_INTERIOR_AMMO,       // Monster contain's its ammo inside itself, no need to load on launch. Prevents ammo from being dropped on disable.
+    MF_CLIMBS,              // Monsters that can climb certain terrain and furniture
+    MF_PACIFIST,            // Monsters that will never use melee attack, useful for having them use grab without attacking the player
+    MF_KEEP_DISTANCE,       // Attempts to keep a short distance (tracking_distance) from its current target.  The default tracking distance is 8 tiles
+    MF_PUSH_MON,            // Monsters that can push creatures out of their way
+    MF_PUSH_VEH,            // Monsters that can push vehicles out of their way
+    MF_NIGHT_INVISIBILITY,  // Monsters that are invisible in poor light conditions
+    MF_REVIVES_HEALTHY,     // When revived, this monster has full hitpoints and speed
+    MF_NO_NECRO,            // This monster can't be revived by necros. It will still rise on its own.
+    MF_AVOID_DANGER_1,      // This monster will path around some dangers instead of through them.
+    MF_AVOID_DANGER_2,      // This monster will path around most dangers instead of through them.
+    MF_AVOID_FIRE,          // This monster will path around heat-related dangers instead of through them.
+    MF_AVOID_FALL,          // This monster will path around cliffs instead of off of them.
+    MF_PRIORITIZE_TARGETS,  // This monster will prioritize targets depending on their danger levels
+    MF_NOT_HALLU,           // Monsters that will NOT appear when player's producing hallucinations
+    MF_CANPLAY,             // This monster can be played with if it's a pet.
+    MF_CAN_BE_CULLED,       // This monster can be culled if it's a pet.
+    MF_PET_MOUNTABLE,       // This monster can be mounted and ridden when tamed.
+    MF_PET_HARNESSABLE,     // This monster can be harnessed when tamed.
+    MF_DOGFOOD,             // This monster will respond to the dog whistle.
+    MF_MILKABLE,            // This monster is milkable.
+    MF_SHEARABLE,           // This monster is shearable.
+    MF_NO_BREED,            // This monster doesn't breed, even though it has breed data
+    MF_NO_FUNG_DMG,         // This monster can't be damaged by fungal spores and can't be fungalized either.
+    MF_PET_WONT_FOLLOW,     // This monster won't follow the player automatically when tamed.
+    MF_DRIPS_NAPALM,        // This monster occasionally drips napalm on move
+    MF_DRIPS_GASOLINE,      // This monster occasionally drips gasoline on move
+    MF_ELECTRIC_FIELD,      // This monster is surrounded by an electrical field that ignites flammable liquids near it
+    MF_LOUDMOVES,           // This monster makes move noises as if ~2 sizes louder, even if flying.
+    MF_CAN_OPEN_DOORS,      // This monster can open doors.
+    MF_STUN_IMMUNE,         // This monster is immune to the stun effect
+    MF_DROPS_AMMO,          // This monster drops ammo. Should not be set for monsters that use pseudo ammo.
+    MF_INSECTICIDEPROOF,    // This monster is immune to insecticide, even though it's made of bug flesh
+    MF_RANGED_ATTACKER,     // This monster has any sort of ranged attack
+    MF_CAMOUFLAGE,          // This monster is hard to spot, even in broad daylight
+    MF_WATER_CAMOUFLAGE,    // This monster is hard to spot if it is underwater, especially if you aren't
+    MF_ATTACK_UPPER,        // This monster is capable of hitting upper limbs
+    MF_ATTACK_LOWER,        // This monster is incapable of hitting upper limbs regardless of other factors
+    MF_DEADLY_VIRUS,        // This monster can inflict the zombie_virus effect
+    MF_VAMP_VIRUS,          // This monster can inflict the vampire_virus effect
+    MF_ALWAYS_VISIBLE,      // This monster can always be seen regardless of los or light or anything
+    MF_ALWAYS_SEES_YOU,     // This monster always knows where the avatar is
+    MF_ALL_SEEING,          // This monster can see everything within its vision range regardless of light or obstacles
+    MF_NEVER_WANDER,        // This monster will never join wandering hordes.
+    MF_CONVERSATION,        // This monster can engage in conversation.  Will need to have chat_topics as well.
+    MF_SILENT_DISAPPEAR,    // This monster will disappear without printing any message.
+    MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 
-// Fast access to monster flags used in game logic.
-//
-// These are only safe to use after set_mon_flag_ids is called during game load.
-// NOLINTNEXTLINE(cata-static-int_id-constants)
-extern mon_flag_id mon_flag_ACIDPROOF,
-       mon_flag_ACIDTRAIL,
-       mon_flag_ACID_BLOOD,
-       mon_flag_ALL_SEEING,
-       mon_flag_ALWAYS_SEES_YOU,
-       mon_flag_ALWAYS_VISIBLE,
-       mon_flag_ANIMAL,
-       mon_flag_AQUATIC,
-       mon_flag_ARTHROPOD_BLOOD,
-       mon_flag_ATTACKMON,
-       mon_flag_ATTACK_LOWER,
-       mon_flag_ATTACK_UPPER,
-       mon_flag_BADVENOM,
-       mon_flag_BASHES,
-       mon_flag_BILE_BLOOD,
-       mon_flag_BORES,
-       mon_flag_CAMOUFLAGE,
-       mon_flag_CANPLAY,
-       mon_flag_CAN_BE_CULLED,
-       mon_flag_CAN_DIG,
-       mon_flag_CAN_OPEN_DOORS,
-       mon_flag_CLIMBS,
-       mon_flag_COMBAT_MOUNT,
-       mon_flag_CONSOLE_DESPAWN,
-       mon_flag_CONVERSATION,
-       mon_flag_CORNERED_FIGHTER,
-       mon_flag_DEADLY_VIRUS,
-       mon_flag_DESTROYS,
-       mon_flag_DIGS,
-       mon_flag_DOGFOOD,
-       mon_flag_DORMANT,
-       mon_flag_GEN_DORMANT,
-       mon_flag_DRIPS_GASOLINE,
-       mon_flag_DRIPS_NAPALM,
-       mon_flag_DROPS_AMMO,
-       mon_flag_EATS,
-       mon_flag_ELECTRIC,
-       mon_flag_ELECTRIC_FIELD,
-       mon_flag_ELECTRONIC,
-       mon_flag_FAE_CREATURE,
-       mon_flag_FILTHY,
-       mon_flag_FIREPROOF,
-       mon_flag_FIREY,
-       mon_flag_FISHABLE,
-       mon_flag_FLIES,
-       mon_flag_GOODHEARING,
-       mon_flag_GRABS,
-       mon_flag_GROUP_BASH,
-       mon_flag_GROUP_MORALE,
-       mon_flag_GUILT_ANIMAL,
-       mon_flag_GUILT_CHILD,
-       mon_flag_GUILT_HUMAN,
-       mon_flag_GUILT_OTHERS,
-       mon_flag_HARDTOSHOOT,
-       mon_flag_HAS_MIND,
-       mon_flag_HEARS,
-       mon_flag_HIT_AND_RUN,
-       mon_flag_HUMAN,
-       mon_flag_ID_CARD_DESPAWN,
-       mon_flag_IMMOBILE,
-       mon_flag_INSECTICIDEPROOF,
-       mon_flag_INTERIOR_AMMO,
-       mon_flag_KEENNOSE,
-       mon_flag_KEEP_DISTANCE,
-       mon_flag_LOUDMOVES,
-       mon_flag_MECH_DEFENSIVE,
-       mon_flag_MECH_RECON_VISION,
-       mon_flag_MILKABLE,
-       mon_flag_NEMESIS,
-       mon_flag_NEVER_WANDER,
-       mon_flag_NIGHT_INVISIBILITY,
-       mon_flag_NOGIB,
-       mon_flag_NOHEAD,
-       mon_flag_NOT_HALLUCINATION,
-       mon_flag_NO_BREATHE,
-       mon_flag_NO_BREED,
-       mon_flag_NO_FUNG_DMG,
-       mon_flag_NO_NECRO,
-       mon_flag_PACIFIST,
-       mon_flag_PARALYZEVENOM,
-       mon_flag_PATH_AVOID_DANGER_1,
-       mon_flag_PATH_AVOID_DANGER_2,
-       mon_flag_PATH_AVOID_FALL,
-       mon_flag_PATH_AVOID_FIRE,
-       mon_flag_PAY_BOT,
-       mon_flag_PET_HARNESSABLE,
-       mon_flag_PET_MOUNTABLE,
-       mon_flag_PET_WONT_FOLLOW,
-       mon_flag_PHOTOPHOBIC,
-       mon_flag_PLASTIC,
-       mon_flag_POISON,
-       mon_flag_PRIORITIZE_TARGETS,
-       mon_flag_PUSH_MON,
-       mon_flag_PUSH_VEH,
-       mon_flag_QUEEN,
-       mon_flag_QUIETDEATH,
-       mon_flag_QUIETMOVES,
-       mon_flag_RANGED_ATTACKER,
-       mon_flag_REVIVES,
-       mon_flag_REVIVES_HEALTHY,
-       mon_flag_RIDEABLE_MECH,
-       mon_flag_SEES,
-       mon_flag_SHORTACIDTRAIL,
-       mon_flag_SILENT_DISAPPEAR,
-       mon_flag_SILENTMOVES,
-       mon_flag_SLUDGEPROOF,
-       mon_flag_SLUDGETRAIL,
-       mon_flag_SMALLSLUDGETRAIL,
-       mon_flag_SMALL_HIDER,
-       mon_flag_SMELLS,
-       mon_flag_STUMBLES,
-       mon_flag_STUN_IMMUNE,
-       mon_flag_SUNDEATH,
-       mon_flag_SWARMS,
-       mon_flag_SWIMS,
-       mon_flag_VAMP_VIRUS,
-       mon_flag_VENOM,
-       mon_flag_VERMIN,
-       mon_flag_WARM,
-       mon_flag_WATER_CAMOUFLAGE,
-       mon_flag_WEBWALK,
-       mon_flag_WIELDED_WEAPON;
-
-// Initializes all hardcoded flags above. String flags must already be loaded.
-void set_mon_flag_ids();
+template<>
+struct enum_traits<m_flag> {
+    static constexpr m_flag last = m_flag::MF_MAX;
+};
 
 /** Used to store monster effects placed on attack */
 struct mon_effect_data {
@@ -293,8 +276,7 @@ struct mtype {
         mon_action_defend sp_defense;
     private:
         ascii_art_id picture_id;
-        mon_flag_id_set flags;
-        std::set<mon_flag_str_id> pre_flags_; // used only for initial loading
+        enum_bitset<m_flag> flags;
     public:
         mtype_id id;
         mfaction_str_id default_faction;
@@ -389,6 +371,7 @@ struct mtype {
         pet_food_data petfood;
     private:
 
+
         behavior::node_t goals;
 
     public:
@@ -410,8 +393,6 @@ struct mtype {
         int speed = 0;          /** e.g. human = 100 */
         int agro = 0;           /** chance will attack [-100,100] */
         int morale = 0;         /** initial morale level at spawn */
-        int stomach_size = 0;         /** how many times this monster will eat */
-        int amount_eaten = 0;         /** how many times it has eaten */
 
         // how close the monster is willing to approach its target while under the MATT_FOLLOW attitude
         int tracking_distance = 8;
@@ -453,6 +434,8 @@ struct mtype {
         // Vision range is linearly scaled depending on lighting conditions
         int vision_day = 40;    /** vision range in bright light */
         int vision_night = 1;   /** vision range in total darkness */
+
+
 
         unsigned int def_chance; // How likely a special "defensive" move is to trigger (0-100%, default 0)
         // Monster's ability to destroy terrain and vehicles
@@ -513,10 +496,8 @@ struct mtype {
         // Used to fetch the properly pluralized monster type name
         std::string nname( unsigned int quantity = 1 ) const;
         bool has_special_attack( const std::string &attack_name ) const;
-        bool has_flag( const mon_flag_id &flag ) const {
-            return flags.contains( flag );
-        }
-        void set_flag( const mon_flag_id &flag, bool state = true );
+        bool has_flag( m_flag flag ) const;
+        void set_flag( m_flag flag, bool state = true );
         bool made_of( const material_id &material ) const;
         bool made_of_any( const std::set<material_id> &materials ) const;
         bool has_anger_trigger( mon_trigger trigger ) const;

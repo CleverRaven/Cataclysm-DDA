@@ -95,15 +95,10 @@
 #include "worldfactory.h"
 #endif
 
-#if defined(EMSCRIPTEN)
-#include <emscripten.h>
-#endif
-
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
 static const oter_type_str_id oter_type_forest_trail( "forest_trail" );
 
-static const trait_id trait_DEBUG_CLAIRVOYANCE( "DEBUG_CLAIRVOYANCE" );
 static const trait_id trait_DEBUG_NIGHTVISION( "DEBUG_NIGHTVISION" );
 
 //***********************************
@@ -173,10 +168,7 @@ static void ClearScreen()
 
 static void InitSDL()
 {
-    int init_flags = SDL_INIT_VIDEO | SDL_INIT_TIMER;
-#if defined(SOUND)
-    init_flags |= SDL_INIT_AUDIO;
-#endif
+    int init_flags = SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER;
     int ret;
 
 #if defined(SDL_HINT_WINDOWS_DISABLE_THREAD_NAMING)
@@ -256,7 +248,7 @@ static void WinCreate()
         SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, get_option<std::string>( "SCALING_MODE" ).c_str() );
     }
 
-#if !defined(__ANDROID__) && !defined(EMSCRIPTEN)
+#if !defined(__ANDROID__)
     if( get_option<std::string>( "FULLSCREEN" ) == "fullscreen" ) {
         window_flags |= SDL_WINDOW_FULLSCREEN;
         fullscreen = true;
@@ -271,10 +263,6 @@ static void WinCreate()
     } else if( get_option<std::string>( "FULLSCREEN" ) == "maximized" ) {
         window_flags |= SDL_WINDOW_MAXIMIZED;
     }
-#endif
-#if defined(EMSCRIPTEN)
-    // Without this, the game only displays in the top-left 1/4 of the window.
-    window_flags &= ~SDL_WINDOW_ALLOW_HIGHDPI;
 #endif
 
     int display = std::stoi( get_option<std::string>( "DISPLAY" ) );
@@ -313,7 +301,7 @@ static void WinCreate()
                                     ) );
     throwErrorIf( !::window, "SDL_CreateWindow failed" );
 
-#if !defined(__ANDROID__) && !defined(EMSCRIPTEN)
+#if !defined(__ANDROID__)
     // On Android SDL seems janky in windowed mode so we're fullscreen all the time.
     // Fullscreen mode is now modified so it obeys terminal width/height, rather than
     // overwriting it with this calculation.
@@ -860,29 +848,27 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
         geometry->rect( renderer, clipRect, SDL_Color() );
     }
 
-    const point s = get_window_base_tile_counts( { width, height } );
-    const half_open_rectangle<point> full_base_range = get_window_full_base_tile_range( { width, height } );
+    const point s = get_window_tile_counts( point( width, height ) );
+    const point full_s = get_window_full_tile_counts( point( width, height ) );
 
     op = point( dest.x * fontwidth, dest.y * fontheight );
-    screentile_width = s.x;
-    screentile_height = s.y;
+    // Rounding up to include incomplete tiles at the bottom/right edges
+    screentile_width = divide_round_up( width, tile_width );
+    screentile_height = divide_round_up( height, tile_height );
 
-    const half_open_rectangle<point> any_tile_range = get_window_any_tile_range( { width, height }, 0 );
-    const int min_col = any_tile_range.p_min.x;
-    const int max_col = any_tile_range.p_max.x;
-    const int min_row = any_tile_range.p_min.y;
-    const int max_row = any_tile_range.p_max.y;
+    const int min_col = 0;
+    const int max_col = s.x;
+    const int min_row = 0;
+    const int max_row = s.y;
     int height_3d = 0;
     avatar &you = get_avatar();
     const tripoint_abs_omt avatar_pos = you.global_omt_location();
-    const tripoint_abs_omt origin = center_abs_omt - point( s.x / 2, s.y / 2 );
-    const tripoint_abs_omt corner_NW = origin + any_tile_range.p_min;
-    const tripoint_abs_omt corner_SE = origin + any_tile_range.p_max + point_north_west;
+    const tripoint_abs_omt corner_NW = center_abs_omt - point( max_col / 2, max_row / 2 );
+    const tripoint_abs_omt corner_SE = corner_NW + point( max_col - 1, max_row - 1 );
     const inclusive_cuboid<tripoint> overmap_area( corner_NW.raw(), corner_SE.raw() );
     // Area of fully shown tiles
-    const tripoint_abs_omt full_corner_NW = origin + full_base_range.p_min;
-    const tripoint_abs_omt full_corner_SE = origin + full_base_range.p_max + point_north_west;
-    const inclusive_cuboid<tripoint> full_om_tile_area( full_corner_NW.raw(), full_corner_SE.raw() );
+    const tripoint_abs_omt full_corner_SE = corner_NW + full_s + point_north_west;
+    const inclusive_cuboid<tripoint> full_om_tile_area( corner_NW.raw(), full_corner_SE.raw() );
     // Debug vision allows seeing everything
     const bool has_debug_vision = you.has_trait( trait_DEBUG_NIGHTVISION );
     // sight_points is hoisted for speed reasons.
@@ -890,10 +876,8 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                              you.overmap_sight_range( g->light_level( you.posz() ) ) :
                              100;
     const bool showhordes = uistate.overmap_show_hordes;
-    const bool show_map_revealed = uistate.overmap_show_revealed_omts;
-    std::unordered_set<tripoint_abs_omt> &revealed_highlights = get_avatar().map_revealed_omts;
     const bool viewing_weather = uistate.overmap_debug_weather || uistate.overmap_visible_weather;
-    o = origin.raw().xy();
+    o = corner_NW.raw().xy();
 
     const auto global_omt_to_draw_position = []( const tripoint_abs_omt & omp ) {
         // z position is hardcoded to 0 because the things this will be used to draw should not be skipped
@@ -902,11 +886,10 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
 
     for( int row = min_row; row < max_row; row++ ) {
         for( int col = min_col; col < max_col; col++ ) {
-            const tripoint_abs_omt omp = origin + point( col, row );
+            const tripoint_abs_omt omp = corner_NW + point( col, row );
 
             const bool see = overmap_buffer.seen( omp );
-            const bool los = see && ( you.overmap_los( omp, sight_points ) || uistate.overmap_debug_mongroup ||
-                                      you.has_trait( trait_DEBUG_CLAIRVOYANCE ) );
+            const bool los = see && you.overmap_los( omp, sight_points );
             // the full string from the ter_id including _north etc.
             std::string id;
             int rotation = 0;
@@ -937,13 +920,6 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                                      0, 0, ll, false );
             }
 
-            if( blink && show_map_revealed ) {
-                auto it = revealed_highlights.find( omp );
-                if( it != revealed_highlights.end() ) {
-                    draw_from_id_string( "highlight", omp.raw(), 0, 0, lit_level::LIT, false );
-                }
-            }
-
             if( see ) {
                 if( blink && uistate.overmap_debug_mongroup ) {
                     const std::vector<mongroup *> mgroups = overmap_buffer.monsters_at( omp );
@@ -959,7 +935,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                     // a little bit of hardcoded fallbacks for hordes
                     if( find_tile_with_season( id ) ) {
                         // NOLINTNEXTLINE(cata-translate-string-literal)
-                        draw_from_id_string( string_format( "overmap_horde_%d", horde_size < 10 ? horde_size : 10 ),
+                        draw_from_id_string( string_format( "overmap_horde_%d", horde_size ),
                                              omp.raw(), 0, 0, lit_level::LIT, false );
                     } else {
                         switch( horde_size ) {
@@ -1012,22 +988,17 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                 }
             }
 
-            if( blink && uistate.overmap_show_map_notes ) {
-                if( overmap_buffer.has_note( omp ) ) {
-                    nc_color ter_color = c_black;
-                    std::string ter_sym = " ";
-                    // Display notes in all situations, even when not seen
-                    std::tie( ter_sym, ter_color, std::ignore ) =
-                        overmap_ui::get_note_display_info( overmap_buffer.note( omp ) );
+            if( blink && uistate.overmap_show_map_notes && overmap_buffer.has_note( omp ) ) {
 
-                    std::string note_name = "note_" + ter_sym + "_" + string_from_color( ter_color );
-                    draw_from_id_string( note_name, TILE_CATEGORY::OVERMAP_NOTE, "overmap_note",
-                                         omp.raw(), 0, 0, lit_level::LIT, false );
-                } else if( overmap_buffer.is_marked_dangerous( omp ) ) {
-                    draw_from_id_string( "note_X_red", TILE_CATEGORY::OVERMAP_NOTE, "overmap_note",
-                                         omp.raw(), 0, 0, lit_level::LIT, false );
+                nc_color ter_color = c_black;
+                std::string ter_sym = " ";
+                // Display notes in all situations, even when not seen
+                std::tie( ter_sym, ter_color, std::ignore ) =
+                    overmap_ui::get_note_display_info( overmap_buffer.note( omp ) );
 
-                }
+                std::string note_name = "note_" + ter_sym + "_" + string_from_color( ter_color );
+                draw_from_id_string( note_name, TILE_CATEGORY::OVERMAP_NOTE, "overmap_note",
+                                     omp.raw(), 0, 0, lit_level::LIT, false );
             }
         }
     }
@@ -1098,11 +1069,14 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     if( !viewing_weather && uistate.overmap_show_city_labels ) {
 
         const auto abs_sm_to_draw_label = [&]( const tripoint_abs_sm & city_pos, const int label_length ) {
-            const point omt_pos = global_omt_to_draw_position( project_to<coords::omt>( city_pos ) ).xy();
-            const point draw_point = player_to_screen( omt_pos );
+            const tripoint tile_draw_pos = global_omt_to_draw_position( project_to<coords::omt>
+                                           ( city_pos ) ) - o;
+            point draw_point( tile_draw_pos.x * tile_width + dest.x,
+                              tile_draw_pos.y * tile_height + dest.y );
             // center text on the tile
-            return draw_point + point( ( tile_width - label_length * fontwidth ) / 2,
-                                       ( tile_height - fontheight ) / 2 );
+            draw_point += point( ( tile_width - label_length * fontwidth ) / 2,
+                                 ( tile_height - fontheight ) / 2 );
+            return draw_point;
         };
 
         // draws a black rectangle behind a label for visibility and legibility
@@ -1118,7 +1092,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
 
         // the tiles on the overmap are overmap tiles, so we need to use
         // coordinate conversions to make sure we're in the right place.
-        const int radius = project_to<coords::sm>( tripoint_abs_omt( std::max( s.x, s.y ),
+        const int radius = project_to<coords::sm>( tripoint_abs_omt( std::min( max_col, max_row ),
                            0, 0 ) ).x() / 2;
 
         for( const city_reference &city : overmap_buffer.get_cities_near(
@@ -1180,8 +1154,10 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
         // Find screen coordinates to the right of the center tile
         auto center_sm = project_to<coords::sm>( tripoint_abs_omt( center_abs_omt.x() + 1,
                          center_abs_omt.y(), center_abs_omt.z() ) );
-        const point omt_pos = global_omt_to_draw_position( project_to<coords::omt>( center_sm ) ).xy();
-        point draw_point = player_to_screen( omt_pos );
+        const tripoint tile_draw_pos = global_omt_to_draw_position( project_to<coords::omt>
+                                       ( center_sm ) ) - o;
+        point draw_point( tile_draw_pos.x * tile_width + dest.x,
+                          tile_draw_pos.y * tile_height + dest.y );
         draw_point += point( padding, padding );
 
         // Draw notes header. Very simple label at the moment
@@ -1927,11 +1903,6 @@ void resize_term( const int cell_w, const int cell_h )
 
 void toggle_fullscreen_window()
 {
-    // Can't enter fullscreen on Emscripten.
-#if defined(EMSCRIPTEN)
-    return;
-#endif
-
     static int restore_win_w = get_option<int>( "TERMINAL_X" ) * fontwidth * scaling_factor;
     static int restore_win_h = get_option<int>( "TERMINAL_Y" ) * fontheight * scaling_factor;
 
@@ -2846,21 +2817,22 @@ static void CheckMessages()
                         // Check if we're near a vehicle, if so, vehicle controls should be top.
                         {
                             const optional_vpart_position vp = here.veh_at( pos );
-                            if( vp ) {
-                                if( const std::optional<vpart_reference> controlpart = vp.part_with_feature( "CONTROLS", true ) ) {
+                            vehicle *const veh = veh_pointer_or_null( vp );
+                            if( veh ) {
+                                if( veh->part_with_feature( vp->mount(), "CONTROLS", true ) >= 0 ) {
                                     actions.insert( ACTION_CONTROL_VEHICLE );
                                 }
-                                const std::optional<vpart_reference> openablepart = vp.part_with_feature( "OPENABLE", true );
-                                if( openablepart && openablepart->part().open && ( dx != 0 ||
+                                const int openablepart = veh->part_with_feature( vp->mount(), "OPENABLE", true );
+                                if( openablepart >= 0 && veh->part( openablepart ).open && ( dx != 0 ||
                                         dy != 0 ) ) { // an open door adjacent to us
                                     actions.insert( ACTION_CLOSE );
                                 }
-                                const std::optional<vpart_reference> curtainpart = vp.part_with_feature( "CURTAIN", true );
-                                if( curtainpart && curtainpart->part().open && ( dx != 0 || dy != 0 ) ) {
+                                const int curtainpart = veh->part_with_feature( vp->mount(), "CURTAIN", true );
+                                if( curtainpart >= 0 && veh->part( curtainpart ).open && ( dx != 0 || dy != 0 ) ) {
                                     actions.insert( ACTION_CLOSE );
                                 }
-                                const std::optional<vpart_reference> cargopart = vp.cargo();
-                                if( cargopart && ( !cargopart->items().empty() ) ) {
+                                const int cargopart = veh->part_with_feature( vp->mount(), "CARGO", true );
+                                if( cargopart >= 0 && ( !veh->get_items( cargopart ).empty() ) ) {
                                     actions.insert( ACTION_PICKUP );
                                 }
                             }

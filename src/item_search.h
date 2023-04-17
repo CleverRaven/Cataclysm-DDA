@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <cstddef>
 #include <functional>
+#include <iosfwd>
 #include <string>
 #include <vector>
 

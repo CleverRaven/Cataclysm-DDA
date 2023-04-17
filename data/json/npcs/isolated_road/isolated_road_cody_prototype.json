@@ -64,7 +64,13 @@
         "text": "Is the Obrez finished?",
         "condition": {
           "and": [
-            { "math": [ "time_since(u_timer_artisans_u_waiting_on_prototype)", "<", "time('7 d')" ] },
+            {
+              "u_compare_time_since_var": "u_waiting_on_prototype",
+              "type": "timer",
+              "context": "artisans",
+              "op": "<",
+              "time": "7 d"
+            },
             { "u_has_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "obrez" }
           ]
         },
@@ -74,7 +80,13 @@
         "text": "Is the Obrez finished?",
         "condition": {
           "and": [
-            { "math": [ "time_since(u_timer_artisans_u_waiting_on_prototype)", ">", "time('7 d')" ] },
+            {
+              "u_compare_time_since_var": "u_waiting_on_prototype",
+              "type": "timer",
+              "context": "artisans",
+              "op": ">",
+              "time": "7 d"
+            },
             { "u_has_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "obrez" }
           ]
         },
@@ -89,7 +101,13 @@
         "text": "Is the Pressin finished?",
         "condition": {
           "and": [
-            { "math": [ "time_since(u_timer_artisans_u_waiting_on_prototype)", "<", "time('7 d')" ] },
+            {
+              "u_compare_time_since_var": "u_waiting_on_prototype",
+              "type": "timer",
+              "context": "artisans",
+              "op": "<",
+              "time": "7 d"
+            },
             { "u_has_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "pressin" }
           ]
         },
@@ -99,7 +117,13 @@
         "text": "Is the Pressin finished?",
         "condition": {
           "and": [
-            { "math": [ "time_since(u_timer_artisans_u_waiting_on_prototype)", ">", "time('7 d')" ] },
+            {
+              "u_compare_time_since_var": "u_waiting_on_prototype",
+              "type": "timer",
+              "context": "artisans",
+              "op": ">",
+              "time": "7 d"
+            },
             { "u_has_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "pressin" }
           ]
         },
@@ -114,7 +138,13 @@
         "text": "Is the Louverture finished?",
         "condition": {
           "and": [
-            { "math": [ "time_since(u_timer_artisans_u_waiting_on_prototype)", "<", "time('14 d')" ] },
+            {
+              "u_compare_time_since_var": "u_waiting_on_prototype",
+              "type": "timer",
+              "context": "artisans",
+              "op": "<",
+              "time": "14 d"
+            },
             { "u_has_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "LOUVERTURE" }
           ]
         },
@@ -124,7 +154,13 @@
         "text": "Is the Louverture finished?",
         "condition": {
           "and": [
-            { "math": [ "time_since(u_timer_artisans_u_waiting_on_prototype)", ">", "time('14 d')" ] },
+            {
+              "u_compare_time_since_var": "u_waiting_on_prototype",
+              "type": "timer",
+              "context": "artisans",
+              "op": ">",
+              "time": "14 d"
+            },
             { "u_has_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "LOUVERTURE" }
           ]
         },
@@ -139,7 +175,13 @@
         "text": "Is the Disorder finished?",
         "condition": {
           "and": [
-            { "math": [ "time_since(u_timer_artisans_u_waiting_on_prototype)", "<", "time('14 d')" ] },
+            {
+              "u_compare_time_since_var": "u_waiting_on_prototype",
+              "type": "timer",
+              "context": "artisans",
+              "op": "<",
+              "time": "14 d"
+            },
             { "u_has_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "DISORDER" }
           ]
         },
@@ -149,7 +191,13 @@
         "text": "Is the Disorder finished?",
         "condition": {
           "and": [
-            { "math": [ "time_since(u_timer_artisans_u_waiting_on_prototype)", ">", "time('14 d')" ] },
+            {
+              "u_compare_time_since_var": "u_waiting_on_prototype",
+              "type": "timer",
+              "context": "artisans",
+              "op": ">",
+              "time": "14 d"
+            },
             { "u_has_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "DISORDER" }
           ]
         },
@@ -173,7 +221,7 @@
           { "u_consume_item": "mosin44", "count": 1, "popup": true },
           { "u_consume_item": "FMCNote", "count": 50, "popup": true },
           { "u_add_faction_trust": 1 },
-          { "math": [ "u_timer_artisans_u_waiting_on_prototype", "=", "time('now')" ] },
+          { "u_add_var": "u_waiting_on_prototype", "type": "timer", "context": "artisans", "time": true },
           { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
           { "u_add_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "obrez" }
         ],
@@ -188,7 +236,7 @@
           { "u_consume_item": "mosin91_30", "count": 1, "popup": true },
           { "u_consume_item": "FMCNote", "count": 50, "popup": true },
           { "u_add_faction_trust": 1 },
-          { "math": [ "u_timer_artisans_u_waiting_on_prototype", "=", "time('now')" ] },
+          { "u_add_var": "u_waiting_on_prototype", "type": "timer", "context": "artisans", "time": true },
           { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
           { "u_add_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "obrez" }
         ],
@@ -236,7 +284,7 @@
           { "u_consume_item": "switchblade", "count": 1, "popup": true },
           { "u_consume_item": "FMCNote", "count": 20, "popup": true },
           { "u_add_faction_trust": 1 },
-          { "math": [ "u_timer_artisans_u_waiting_on_prototype", "=", "time('now')" ] },
+          { "u_add_var": "u_waiting_on_prototype", "type": "timer", "context": "artisans", "time": true },
           { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
           { "u_add_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "pressin" }
         ],
@@ -256,7 +304,7 @@
           { "u_consume_item": "switchblade", "count": 1, "popup": true },
           { "u_consume_item": "FMCNote", "count": 20, "popup": true },
           { "u_add_faction_trust": 1 },
-          { "math": [ "u_timer_artisans_u_waiting_on_prototype", "=", "time('now')" ] },
+          { "u_add_var": "u_waiting_on_prototype", "type": "timer", "context": "artisans", "time": true },
           { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
           { "u_add_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "pressin" }
         ],
@@ -276,7 +324,7 @@
           { "u_consume_item": "switchblade", "count": 1, "popup": true },
           { "u_consume_item": "FMCNote", "count": 20, "popup": true },
           { "u_add_faction_trust": 1 },
-          { "math": [ "u_timer_artisans_u_waiting_on_prototype", "=", "time('now')" ] },
+          { "u_add_var": "u_waiting_on_prototype", "type": "timer", "context": "artisans", "time": true },
           { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
           { "u_add_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "pressin" }
         ],
@@ -319,7 +367,7 @@
           { "u_consume_item": "flamethrower", "count": 1, "popup": true },
           { "u_consume_item": "mace", "count": 1, "popup": true },
           { "u_add_faction_trust": 1 },
-          { "math": [ "u_timer_artisans_u_waiting_on_prototype", "=", "time('now')" ] },
+          { "u_add_var": "u_waiting_on_prototype", "type": "timer", "context": "artisans", "time": true },
           { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
           { "u_add_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "LOUVERTURE" }
         ],
@@ -367,7 +415,7 @@
           { "u_consume_item": "FMCNote", "count": 80, "popup": true },
           { "u_consume_item": "22_lr", "count": 20, "popup": true },
           { "u_add_faction_trust": 1 },
-          { "math": [ "u_timer_artisans_u_waiting_on_prototype", "=", "time('now')" ] },
+          { "u_add_var": "u_waiting_on_prototype", "type": "timer", "context": "artisans", "time": true },
           { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
           { "u_add_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "DISORDER" }
         ],

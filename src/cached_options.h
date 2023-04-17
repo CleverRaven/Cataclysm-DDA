@@ -1,4 +1,3 @@
-#pragma once
 #ifndef CATA_SRC_CACHED_OPTIONS_H
 #define CATA_SRC_CACHED_OPTIONS_H
 
@@ -10,6 +9,7 @@
 // They should be updated when the corresponding option is changed (in
 // options.cpp).
 
+extern bool fov_3d;
 extern int fov_3d_z_range;
 extern bool keycode_mode;
 extern bool log_from_top;

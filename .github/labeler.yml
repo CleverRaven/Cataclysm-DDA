@@ -62,8 +62,8 @@
 "EOC: Effects On Condition":
   - "**/**effect_on_condition**"
   - "**/effect_on_condition**"
-  - "**/**eoc**"
-  - "**/eoc**"
+  - "**/**eocs**"
+  - "**/eocs**"
   - "**/condition**"
 
 "Fields / Furniture / Terrain / Traps":
@@ -135,13 +135,13 @@
   - "**/appliance**"
 
 "Monsters":
-  - "**/**monster**"
-  - "**/monster**"
+  - "**/**monsters**"
+  - "**/monsters**"
 
 "Mutations / Traits / Professions/ Hobbies":
   - "**/**profession**"
   - "**/profession**"
-  - "**/**mutation**"
+  - "**/**mutations**"
   - "**/mutation**"
   - "**/hobbies**"
 
@@ -178,7 +178,6 @@
   - "**/**overmap**"
   - "**/overmap**"
   - "**/overmap/**"
-  - "data/json/regional_map_settings.json"
 
 "Martial Arts":
   - "**/martialart**"
@@ -258,12 +257,6 @@
 "Mods: Xedra Evolved":
   - data/mods/Xedra_Evolved/**/*
 
-"Mods: Mind Over Matter":
-  - data/mods/MindOverMatter/**/*
-
-"Mods: Sky Island":
-  - data/mods/Sky_Island/**/*
-
 "Mods":
   - any: [ 'data/mods/**' ]
     all: [ '!data/mods/TEST_DATA/**' ]
@@ -285,4 +278,4 @@
   - "src/veh_**"
  
 "Game: Defense Mode":
-  - "data/mods/Defense_Mode/**"
+  - "src/gamemode_defense**"

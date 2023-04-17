@@ -3,7 +3,7 @@
     "id": "protein_drink",
     "type": "COMESTIBLE",
     "comestible_type": "DRINK",
-    "name": { "str_sp": "protein drink" },
+    "name": { "str": "protein drink" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "soylent green drink" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "sapient green drink" } },
@@ -12,7 +12,6 @@
     "description": "A thin slurry of refined protein mixed with water.  While quite nutritious, it is not particularly tasty.",
     "weight": "278 g",
     "volume": "250 ml",
-    "charges": 1,
     "price": 200,
     "price_postapoc": 25,
     "symbol": "~",
@@ -25,7 +24,7 @@
     "calories": 100,
     "quench": 40,
     "fun": -1,
-    "vitamins": [ [ "calcium", "73 mg" ] ],
+    "vitamins": [ [ "calcium", 7 ] ],
     "flags": [ "EATEN_COLD" ]
   },
   {
@@ -41,9 +40,10 @@
     "description": "Raw, refined protein.  While quite nutritious, it is impossible to enjoy in its pure form, try adding water.",
     "//": "1 g of protein powder is 0.959 ml, 1 serving is 28g and 27ml",
     "weight": "28 g",
-    "volume": "27 ml",
-    "price": "122 cent",
-    "price_postapoc": "11 cent",
+    "volume": "243 ml",
+    "price": 1100,
+    "price_postapoc": 100,
+    "charges": 9,
     "flags": [ "EDIBLE_FROZEN" ],
     "material": [ "powder" ],
     "symbol": "%",
@@ -79,7 +79,7 @@
     "id": "protein_shake",
     "copy-from": "protein_drink",
     "type": "COMESTIBLE",
-    "name": { "str_sp": "protein shake" },
+    "name": { "str": "protein shake" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "soylent green shake" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "sapient green shake" } },
@@ -92,26 +92,26 @@
     "volume": "500 ml",
     "charges": 2,
     "quench": 20,
-    "relative": { "vitamins": [ [ "vitC", "20 mg" ] ] }
+    "relative": { "vitamins": [ [ "vitC", 20 ] ] }
   },
   {
     "id": "protein_shake_fortified",
     "copy-from": "protein_shake",
     "type": "COMESTIBLE",
-    "name": { "str_sp": "fortified protein shake" },
+    "name": { "str": "fortified protein shake" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "fortified soylent green shake" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "fortified sapient green shake" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "perturbing %s" } }
     ],
     "description": "A thick and tasty beverage made from pure refined protein and nutritious fruit.  It has been supplemented with extra vitamins and minerals.",
-    "relative": { "vitamins": [ [ "calcium", "52 mg" ], [ "iron", "940 μg" ], [ "vitC", "5 mg" ] ] }
+    "relative": { "vitamins": [ [ "calcium", 5 ], [ "iron", 5 ], [ "vitC", 5 ] ] }
   },
   {
     "id": "milk_fortified",
     "type": "COMESTIBLE",
     "comestible_type": "DRINK",
-    "name": { "str_sp": "fortified milk" },
+    "name": { "str": "fortified milk" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "soylent milk" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "sapient-enhanced milk" } },
@@ -120,7 +120,6 @@
     "description": "Milk enriched with protein powder, it's extra healthy and doesn't taste too bad.",
     "weight": "286 g",
     "volume": "250 ml",
-    "charges": 1,
     "price": 300,
     "price_postapoc": 75,
     "symbol": "~",
@@ -140,7 +139,7 @@
     "id": "protein_smoothie",
     "copy-from": "milk_fortified",
     "type": "COMESTIBLE",
-    "name": { "str_sp": "protein smoothie" },
+    "name": { "str": "protein smoothie" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "soylent smoothie" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "sapient green smoothie" } },

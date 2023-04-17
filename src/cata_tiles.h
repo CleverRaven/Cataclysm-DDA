@@ -14,7 +14,6 @@
 #include "animation.h"
 #include "cata_type_traits.h"
 #include "creature.h"
-#include "cuboid_rectangle.h"
 #include "enums.h"
 #include "lightmap.h"
 #include "line.h"
@@ -141,13 +140,8 @@ class tileset
         std::string tileset_id;
 
         bool tile_isometric = false;
-        // Unscaled default size of sprites. See cata_tiles::tile_(width|height)
-        // for more detail.
         int tile_width = 0;
         int tile_height = 0;
-        // The maximum extent of loaded sprites.
-        half_open_rectangle<point> max_tile_extent;
-        int zlevel_height = 0;
 
         float prevent_occlusion_min_dist = 0.0;
         float prevent_occlusion_max_dist = 0.0;
@@ -191,12 +185,6 @@ class tileset
         }
         int get_tile_height() const {
             return tile_height;
-        }
-        const half_open_rectangle<point> &get_max_tile_extent() const {
-            return max_tile_extent;
-        }
-        int get_zlevel_height() const {
-            return zlevel_height;
         }
         float get_tile_pixelscale() const {
             return tile_pixelscale;
@@ -243,7 +231,7 @@ class tileset
          * @param id : "raw" tile id (without season suffix)
          * @param season : season suffix encoded as season_type enum
          * @return std::nullopt if no tile is found,
-         *    std::optional with found id (e.g. "t_tree_apple_season_spring" or "t_tree_apple) and found tile.
+         *    cata::optional with found id (e.g. "t_tree_apple_season_spring" or "t_tree_apple) and found tile.
          *
          * Note: this method is guaranteed to return pointers to the keys and values stored inside the
          * `tileset::tile_ids` collection. I.e. result of this method call is invalidated when
@@ -417,22 +405,10 @@ class cata_tiles
         void draw_minimap( const point &dest, const tripoint &center, int width, int height );
 
     protected:
-        /** How many rows and columns of tiles fit into given dimensions, fully
-         ** or partially shown, but disregarding any extra contents outside the
-         ** basic x range of [0, tile_width) and the basic y range of
-         ** [0, tile_width / 2) (isometric) or [0, tile_height) (non-isometric) **/
-        point get_window_base_tile_counts( const point &size ) const;
-        /** Coordinate range of tiles at the given relative z-level that fit
-         ** into the given dimensions, fully or partially shown, according to
-         ** the maximum tile extent. May be negative, and 0 corresponds to the
-         ** first fully or partially shown base tile at relative z of 0 as
-         ** defined by `get_window_base_tile_counts`. **/
-        half_open_rectangle<point> get_window_any_tile_range( const point &size, int z ) const;
-        /** Coordinate range of fully shown tiles that fit into the given
-         ** dimensions, disregarding any extra contents outside the basic x
-         ** range of [0, tile_width] and the basic y range of [0, tile_width / 2)
-         ** (isometric) or [0, tile_height) (non-isometric) **/
-        half_open_rectangle<point> get_window_full_base_tile_range( const point &size ) const;
+        /** How many rows and columns of tiles fit into given dimensions, fully or partially shown **/
+        point get_window_tile_counts( const point &size ) const;
+        /** How many rows and columns of tiles can be fully shown in the given dimensions **/
+        point get_window_full_tile_counts( const point &size ) const;
 
         std::optional<tile_lookup_res> find_tile_with_season( const std::string &id ) const;
 
@@ -513,53 +489,50 @@ class cata_tiles
         static int get_rotation_edge_ew( char rot_to );
 
         /** Map memory */
-        bool has_memory_at( const tripoint_abs_ms &p ) const;
-        const memorized_tile &get_terrain_memory_at( const tripoint_abs_ms &p ) const;
-        const memorized_tile &get_furniture_memory_at( const tripoint_abs_ms &p ) const;
-        const memorized_tile &get_trap_memory_at( const tripoint_abs_ms &p ) const;
-        const memorized_tile &get_vpart_memory_at( const tripoint_abs_ms &p ) const;
+        bool has_memory_at( const tripoint &p ) const;
+        const memorized_tile &get_terrain_memory_at( const tripoint &p ) const;
+        const memorized_tile &get_furniture_memory_at( const tripoint &p ) const;
+        const memorized_tile &get_trap_memory_at( const tripoint &p ) const;
+        const memorized_tile &get_vpart_memory_at( const tripoint &p ) const;
 
         /** Drawing Layers */
         bool would_apply_vision_effects( visibility_type visibility ) const;
-        bool apply_vision_effects( const tripoint &pos, visibility_type visibility, int &height_3d );
-        void draw_square_below( const point &p, const nc_color &col, int sizefactor );
+        bool apply_vision_effects( const tripoint &pos, visibility_type visibility );
         bool draw_terrain( const tripoint &p, lit_level ll, int &height_3d,
-                           const std::array<bool, 5> &invisible, bool memorize_only );
+                           const std::array<bool, 5> &invisible );
         bool draw_terrain_below( const tripoint &p, lit_level ll, int &height_3d,
-                                 const std::array<bool, 5> &invisible, bool memorize_only );
-        bool draw_furniture( const tripoint &p, lit_level ll, int &height_3d,
-                             const std::array<bool, 5> &invisible, bool memorize_only );
-        bool draw_graffiti( const tripoint &p, lit_level ll, int &height_3d,
-                            const std::array<bool, 5> &invisible, bool memorize_only );
-        bool draw_trap( const tripoint &p, lit_level ll, int &height_3d,
-                        const std::array<bool, 5> &invisible, bool memorize_only );
-        bool draw_part_con( const tripoint &p, lit_level ll, int &height_3d,
-                            const std::array<bool, 5> &invisible, bool memorize_only );
-        bool draw_field_or_item( const tripoint &p, lit_level ll, int &height_3d,
-                                 const std::array<bool, 5> &invisible, bool memorize_only );
-        bool draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
-                         const std::array<bool, 5> &invisible, bool roof, bool memorize_only );
-        bool draw_vpart_no_roof( const tripoint &p, lit_level ll, int &height_3d,
-                                 const std::array<bool, 5> &invisible, bool memorize_only );
-        bool draw_vpart_roof( const tripoint &p, lit_level ll, int &height_3d,
-                              const std::array<bool, 5> &invisible, bool memorize_only );
-        bool draw_vpart_below( const tripoint &p, lit_level ll, int &height_3d,
-                               const std::array<bool, 5> &invisible, bool memorize_only );
-        bool draw_critter_at( const tripoint &p, lit_level ll, int &height_3d,
-                              const std::array<bool, 5> &invisible, bool memorize_only );
-        bool draw_critter_at_below( const tripoint &p, lit_level ll, int &height_3d,
-                                    const std::array<bool, 5> &invisible, bool memorize_only );
-        bool draw_critter_above( const tripoint &p, lit_level ll, int &height_3d,
                                  const std::array<bool, 5> &invisible );
+        bool draw_furniture( const tripoint &p, lit_level ll, int &height_3d,
+                             const std::array<bool, 5> &invisible );
+        bool draw_graffiti( const tripoint &p, lit_level ll, int &height_3d,
+                            const std::array<bool, 5> &invisible );
+        bool draw_trap( const tripoint &p, lit_level ll, int &height_3d,
+                        const std::array<bool, 5> &invisible );
+        bool draw_part_con( const tripoint &p, lit_level ll, int &height_3d,
+                            const std::array<bool, 5> &invisible );
+        bool draw_field_or_item( const tripoint &p, lit_level ll, int &height_3d,
+                                 const std::array<bool, 5> &invisible );
+        bool draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
+                         const std::array<bool, 5> &invisible, bool roof );
+        bool draw_vpart_no_roof( const tripoint &p, lit_level ll, int &height_3d,
+                                 const std::array<bool, 5> &invisible );
+        bool draw_vpart_roof( const tripoint &p, lit_level ll, int &height_3d,
+                              const std::array<bool, 5> &invisible );
+        bool draw_vpart_below( const tripoint &p, lit_level ll, int &height_3d,
+                               const std::array<bool, 5> &invisible );
+        bool draw_critter_at( const tripoint &p, lit_level ll, int &height_3d,
+                              const std::array<bool, 5> &invisible );
+        bool draw_critter_at_below( const tripoint &p, lit_level ll, int &height_3d,
+                                    const std::array<bool, 5> &invisible );
         bool draw_zone_mark( const tripoint &p, lit_level ll, int &height_3d,
-                             const std::array<bool, 5> &invisible, bool memorize_only );
+                             const std::array<bool, 5> &invisible );
         bool draw_zombie_revival_indicators( const tripoint &pos, lit_level ll, int &height_3d,
-                                             const std::array<bool, 5> &invisible, bool memorize_only );
+                                             const std::array<bool, 5> &invisible );
         void draw_zlevel_overlay( const tripoint &p, lit_level ll, int &height_3d );
         void draw_entity_with_overlays( const Character &ch, const tripoint &p, lit_level ll,
                                         int &height_3d );
 
-        bool draw_item_highlight( const tripoint &pos, int &height_3d );
+        bool draw_item_highlight( const tripoint &pos );
 
     public:
         // Animation layers
@@ -674,13 +647,14 @@ class cata_tiles
         int get_tile_width() const {
             return tile_width;
         }
-        half_open_rectangle<point> get_max_tile_extent() const {
-            return max_tile_extent;
+        float get_tile_ratiox() const {
+            return tile_ratiox;
+        }
+        float get_tile_ratioy() const {
+            return tile_ratioy;
         }
         void do_tile_loading_report();
-        std::optional<point> tile_to_player( const point &colrow ) const;
-        point player_to_tile( const point &pos ) const;
-        point player_to_screen( const point &pos ) const;
+        point player_to_screen( const point & ) const;
         static std::vector<options_manager::id_and_option> build_renderer_list();
         static std::vector<options_manager::id_and_option> build_display_list();
     private:
@@ -718,21 +692,14 @@ class cata_tiles
         tileset_cache &cache;
         std::shared_ptr<const tileset> tileset_ptr;
 
-        // the scaled default sprite width and height. in non-isometric mode,
-        // the basic tile width and height equal the default sprite width and
-        // height, but in isometric mode, the basic tile height is always
-        // `tile_width / 2`, and `tile_height` is only the default sprite height.
         int tile_height = 0;
         int tile_width = 0;
-        // The scaled maximum extent of loaded sprites.
-        half_open_rectangle<point> max_tile_extent;
-        int zlevel_height = 0;
-        // The number of visible tiles in a row or column
-        // (see get_window_base_tile_counts for detail).
+        // The width and height of the area we can draw in,
+        // measured in map coordinates, *not* in pixels.
         int screentile_width = 0;
         int screentile_height = 0;
-
-        int fog_alpha = 0;
+        float tile_ratiox = 0.0f;
+        float tile_ratioy = 0.0f;
 
         bool in_animation = false;
 
@@ -805,9 +772,6 @@ class cata_tiles
         pimpl<pixel_minimap> minimap;
 
     public:
-        // Draw caches persist data between draws and are only recalculated when dirty
-        void set_draw_cache_dirty();
-
         std::string memory_map_mode = "color_pixel_sepia";
 };
 

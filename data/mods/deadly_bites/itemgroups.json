@@ -9,17 +9,7 @@
     "id": "vet_hardrug",
     "type": "item_group",
     "copy-from": "vet_hardrug",
-    "extend": {
-      "items": [
-        {
-          "item": "antivirals",
-          "prob": 20,
-          "count": [ 1, 10 ],
-          "container-item": "null",
-          "entry-wrapper": "bottle_plastic_pill_prescription"
-        }
-      ]
-    }
+    "extend": { "items": [ { "item": "antivirals", "prob": 20, "charges": [ 1, 10 ] } ] }
   },
   {
     "type": "item_group",

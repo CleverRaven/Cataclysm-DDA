@@ -37,7 +37,6 @@
 #include "safemode_ui.h"
 #include "string_formatter.h"
 #include "translations.h"
-#include "trap.h"
 #include "type_id.h"
 #include "uistate.h"
 #include "units.h"
@@ -482,19 +481,6 @@ void sounds::process_sounds()
                 critter.hear_sound( source, vol, dist, this_centroid.provocative );
             }
         }
-        // Trigger sound-triggered traps and ensure they are still valid
-        for( const trap *trapType : trap::get_sound_triggered_traps() ) {
-            for( const tripoint &tp : get_map().trap_locations( trapType->id ) ) {
-                const int dist = sound_distance( source, tp );
-                const trap &tr = get_map().tr_at( tp );
-                // Exclude traps that certainly won't hear the sound
-                if( vol * 2 > dist ) {
-                    if( tr.triggered_by_sound( vol, dist ) ) {
-                        tr.trigger( tp );
-                    }
-                }
-            }
-        }
     }
     recent_sounds.clear();
 }
@@ -897,7 +883,7 @@ void sfx::do_vehicle_engine_sfx()
         if( !veh->is_engine_on( vp ) ) {
             continue;
         }
-        std::string variant = vp.info().id.str();
+        std::string variant = vp.info().get_id().str();
         if( sfx::has_variant_sound( "engine_working_internal", variant, seas_str, indoors, night ) ) {
             // has special sound variant for this vpart id
         } else if( veh->is_engine_type( vp, fuel_type_muscle ) ) {
@@ -926,29 +912,22 @@ void sfx::do_vehicle_engine_sfx()
         current_speed = current_speed * -1;
         in_reverse = true;
     }
-    // Getting the safe speed for a stationary vehicle is expensive and unnecessary, so the calculation
-    // is delayed until it is needed.
-    std::optional<int> safe_speed_cached;
-    auto safe_speed = [veh, &safe_speed_cached]() {
-        if( !safe_speed_cached ) {
-            safe_speed_cached = veh->safe_velocity();
-        }
-        return *safe_speed_cached;
-    };
+    double pitch = 1.0;
+    int safe_speed = veh->safe_velocity();
     int current_gear;
     if( in_reverse ) {
         current_gear = -1;
     } else if( current_speed == 0 ) {
         current_gear = 0;
-    } else if( current_speed > 0 && current_speed <= safe_speed() / 12 ) {
+    } else if( current_speed > 0 && current_speed <= safe_speed / 12 ) {
         current_gear = 1;
-    } else if( current_speed > safe_speed() / 12 && current_speed <= safe_speed() / 5 ) {
+    } else if( current_speed > safe_speed / 12 && current_speed <= safe_speed / 5 ) {
         current_gear = 2;
-    } else if( current_speed > safe_speed() / 5 && current_speed <= safe_speed() / 4 ) {
+    } else if( current_speed > safe_speed / 5 && current_speed <= safe_speed / 4 ) {
         current_gear = 3;
-    } else if( current_speed > safe_speed() / 4 && current_speed <= safe_speed() / 3 ) {
+    } else if( current_speed > safe_speed / 4 && current_speed <= safe_speed / 3 ) {
         current_gear = 4;
-    } else if( current_speed > safe_speed() / 3 && current_speed <= safe_speed() / 2 ) {
+    } else if( current_speed > safe_speed / 3 && current_speed <= safe_speed / 2 ) {
         current_gear = 5;
     } else {
         current_gear = 6;
@@ -967,14 +946,17 @@ void sfx::do_vehicle_engine_sfx()
                             get_heard_volume( player_character.pos() ), 0_degrees, 1.2, 1.2 );
         add_msg_debug( debugmode::DF_SOUND, "GEAR DOWN" );
     }
-    double pitch = 1.0;
-    if( current_gear != 0 ) {
-        if( current_gear == -1 ) {
+    if( safe_speed != 0 ) {
+        if( current_gear == 0 ) {
+            pitch = 1.0;
+        } else if( current_gear == -1 ) {
             pitch = 1.2;
-        } else if( safe_speed() != 0 ) {
-            pitch = 1.0 - static_cast<double>( current_speed ) / static_cast<double>( safe_speed() );
-            pitch = std::max( pitch, 0.5 );
+        } else {
+            pitch = 1.0 - static_cast<double>( current_speed ) / static_cast<double>( safe_speed );
         }
+    }
+    if( pitch <= 0.5 ) {
+        pitch = 0.5;
     }
 
     if( current_speed != previous_speed ) {
@@ -1045,7 +1027,7 @@ void sfx::do_vehicle_exterior_engine_sfx()
         if( !veh->is_engine_on( vp ) ) {
             continue;
         }
-        std::string variant = vp.info().id.str();
+        std::string variant = vp.info().get_id().str();
         if( sfx::has_variant_sound( "engine_working_external", variant, seas_str, indoors, night ) ) {
             // has special sound variant for this vpart id
         } else if( veh->is_engine_type( vp, fuel_type_muscle ) ) {
@@ -1763,12 +1745,17 @@ void sfx::do_footstep()
             ter_t_railroad_track_d2,
             ter_t_railroad_tie,
             ter_t_railroad_tie_d,
+            ter_t_railroad_tie_d,
             ter_t_railroad_tie_h,
             ter_t_railroad_tie_v,
+            ter_t_railroad_tie_d,
             ter_t_railroad_track_on_tie,
             ter_t_railroad_track_h_on_tie,
             ter_t_railroad_track_v_on_tie,
             ter_t_railroad_track_d_on_tie,
+            ter_t_railroad_tie,
+            ter_t_railroad_tie_h,
+            ter_t_railroad_tie_v,
             ter_t_railroad_tie_d1,
             ter_t_railroad_tie_d2,
         };
@@ -1811,7 +1798,7 @@ void sfx::do_footstep()
             return;
         }
         if( veh_displayed_part ) {
-            const std::string &part_id = veh_displayed_part->part().info().id.str();
+            const std::string &part_id = veh_displayed_part->part().info().get_id().str();
             if( has_variant_sound( "plmove", part_id, seas_str, indoors, night ) ) {
                 play_plmove_sound_variant( part_id, seas_str, indoors, night );
             } else if( veh_displayed_part->has_feature( VPFLAG_AISLE ) ) {

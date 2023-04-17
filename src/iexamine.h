@@ -6,7 +6,6 @@
 #include <list>
 #include <memory>
 #include <optional>
-#include <set>
 #include <tuple>
 #include <vector>
 
@@ -78,6 +77,7 @@ void deployed_furniture( Character &you, const tripoint &pos );
 void portable_structure( Character &you, const tripoint &examp );
 void pit( Character &you, const tripoint &examp );
 void pit_covered( Character &you, const tripoint &examp );
+void slot_machine( Character &you, const tripoint &examp );
 void safe( Character &you, const tripoint &examp );
 void gunsafe_el( Character &you, const tripoint &examp );
 void harvest_furn_nectar( Character &you, const tripoint &examp );
@@ -113,8 +113,6 @@ void water_source( Character &, const tripoint &examp );
 void finite_water_source( Character &, const tripoint &examp );
 void kiln_empty( Character &you, const tripoint &examp );
 void kiln_full( Character &you, const tripoint &examp );
-void stook_empty( Character &, const tripoint &examp );
-void stook_full( Character &, const tripoint &examp );
 void arcfurnace_empty( Character &you, const tripoint &examp );
 void arcfurnace_full( Character &you, const tripoint &examp );
 void autoclave_empty( Character &you, const tripoint &examp );

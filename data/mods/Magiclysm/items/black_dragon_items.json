@@ -28,7 +28,7 @@
     "type": "COMESTIBLE",
     "id": "black_dragon_hide_raw",
     "category": "spare_parts",
-    "name": { "str_sp": "raw black dragon hide" },
+    "name": "raw black dragon hide",
     "weight": "2500 g",
     "color": "black_white",
     "spoils_in": "3 day",
@@ -39,7 +39,8 @@
     "material": [ "black_dragon_hide", "flesh" ],
     "flags": [ "NO_SALVAGE", "TRADER_AVOID" ],
     "vitamins": [  ],
-    "volume": "4 L"
+    "volume": "4 L",
+    "stack_size": 1
   },
   {
     "id": "black_dragon_tanning_hide",
@@ -166,7 +167,7 @@
     "armor": [ { "covers": [ "head" ], "coverage": 100, "encumbrance": 32 } ],
     "material_thickness": 5,
     "environmental_protection": 3,
-    "delete": { "qualities": [ "GLARE" ], "flags": [ "SUN_GLASSES" ] }
+    "delete": { "qualities": [ [ "GLARE", 1 ] ], "flags": [ "SUN_GLASSES" ] }
   },
   {
     "id": "helmet_black_dragon_hide",

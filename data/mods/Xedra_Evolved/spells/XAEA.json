@@ -184,7 +184,7 @@
     "name": [ "Enormous power" ],
     "desc": [ "Your muscles scream with force." ],
     "apply_message": "Unleash the power.",
-    "remove_message": "The power fades away.",
+    "remove_message": "The power fade away.",
     "rating": "good",
     "show_intensity": false,
     "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 15 } ] } ]
@@ -272,7 +272,7 @@
     "max_damage": 224,
     "min_aoe": 7,
     "max_aoe": 7,
-    "message": "Silently, a part of the world nearby just disappears.",
+    "message": "Silently, a part of a world nearby just disappear.",
     "sound_description": "",
     "extra_effects": [
       { "id": "XE_line_bash" },
@@ -339,7 +339,7 @@
     "type": "effect_type",
     "name": [ "Shocker" ],
     "desc": [ "Your body emit enough energy to power some small city." ],
-    "apply_message": "Shocking clouds fly everywhere!",
+    "apply_message": "Shocking clouds fly everywhere!.",
     "remove_message": "Electric clouds are gone.",
     "rating": "good",
     "show_intensity": false,

@@ -71,8 +71,8 @@
       { "item": "steel_chunk", "count": [ 2, 4 ] },
       { "item": "scrap", "count": [ 2, 4 ] },
       { "item": "cable", "charges": [ 5, 20 ] },
-      { "item": "RAM", "count": [ 1, 4 ] },
-      { "item": "e_scrap", "count": [ 3, 8 ] }
+      { "item": "RAM", "charges": [ 1, 4 ] },
+      { "item": "e_scrap", "charges": [ 3, 8 ] }
     ],
     "variants": [ { "symbols": "$", "symbols_broken": "$" } ]
   },
@@ -192,17 +192,8 @@
       { "item": "steel_lump", "count": [ 3, 6 ] },
       { "item": "steel_chunk", "count": [ 3, 6 ] },
       { "item": "scrap", "count": [ 3, 6 ] },
-      { "item": "welder", "prob": 50 }
+      { "item": "welder", "charges": 0, "prob": 50 }
     ],
     "variants": [ { "symbols": "T", "symbols_broken": "x" } ]
-  },
-  {
-    "id": "veh_tools_kitchen",
-    "type": "vehicle_part",
-    "copy-from": "veh_tools_kitchen",
-    "description": "A table rig with a faucet for water tank access, fume hood, drawers and fixtures for storing tools, low power electric connectors and valves for for fuel tank connections.",
-    "item": "veh_tools_kitchen",
-    "looks_like": "kitchen_unit",
-    "extend": { "allowed_tools": [ "afs_atompot" ] }
   }
 ]

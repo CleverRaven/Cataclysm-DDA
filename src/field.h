@@ -7,7 +7,6 @@
 #include <vector>
 
 #include "calendar.h"
-#include "cata_lazy.h"
 #include "color.h"
 #include "enums.h"
 #include "field_type.h"
@@ -77,7 +76,6 @@ class field_entry
             return is_field_alive() && type.obj().phase == phase_id::GAS && type.obj().percent_spread > 0;
         }
 
-        void initialize_decay();
         void do_decay();
 
         std::vector<field_effect> field_effects() const;
@@ -181,7 +179,7 @@ class field
 
     private:
         // A pointer lookup table of all field effects on the current tile.
-        lazy<std::map<field_type_id, field_entry>> _field_type_list;
+        std::map<field_type_id, field_entry> _field_type_list;
         //_displayed_field_type currently is equal to the last field added to the square. You can modify this behavior in the class functions if you wish.
         field_type_id _displayed_field_type;
 };

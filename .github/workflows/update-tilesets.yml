@@ -1,10 +1,9 @@
-# This workflow runs at midnight on the 1st day of every month
+# This workflow runs at 23:00 UTC sundays
 name: "Pull Tileset Updates"
 
 on:
   schedule:
-    - cron: "0 0 1 * *"
-  workflow_dispatch:
+    - cron: "0 23 * * sun"
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -15,7 +14,7 @@ jobs:
     if: github.repository == 'CleverRaven/Cataclysm-DDA'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v3
       - name: "Get current date"
         uses: 1466587594/get-current-time@v2
         id: current-date

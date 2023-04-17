@@ -578,6 +578,13 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "s_restaurant_foodplace",
+    "copy-from": "s_restaurant_foodplace",
+    "sym": "\u00E7",
+    "color": "light_red"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "s_restaurant_foodplace_roof",
     "copy-from": "s_restaurant_foodplace_roof",
     "sym": "\u00E7",
@@ -960,6 +967,13 @@
     "id": "s_music_roof",
     "copy-from": "s_music_roof",
     "sym": "\u00E7"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "megastore_parking",
+    "copy-from": "megastore_parking",
+    "sym": "\u00F4",
+    "color": "dark_gray"
   },
   {
     "type": "overmap_terrain",

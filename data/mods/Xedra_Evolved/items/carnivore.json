@@ -16,7 +16,7 @@
     "id": "fae_fur",
     "category": "spare_parts",
     "copy-from": "raw_fur",
-    "name": { "str_sp": "raw shimmer pelt" },
+    "name": { "str": "raw shimmer pelt" },
     "weight": "114 g",
     "volume": "170 ml",
     "color": "brown_red",
@@ -32,6 +32,7 @@
     "price_postapoc": 100,
     "vitamins": [ [ "underhill_essence", 15 ] ],
     "material": [ "fae_fur", "fae_flesh" ],
+    "stack_size": 1,
     "fun": -24
   },
   {
@@ -91,7 +92,7 @@
     "volume": "250 ml",
     "spoils_in": "1 day",
     "type": "COMESTIBLE",
-    "name": { "str_sp": "cooked meat" },
+    "name": { "str": "cooked meat" },
     "description": "This is a chunk of freshly cooked fae meat.  It's filling and nutritious, but unseasoned and a bit bland.",
     "price": 750,
     "price_postapoc": 100,
@@ -114,7 +115,7 @@
     "id": "meat_smoked",
     "copy-from": "meat_cooked",
     "type": "COMESTIBLE",
-    "name": { "str_sp": "smoked meat" },
+    "name": { "str": "smoked meat" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "smoked sucker" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "smoked Narnian" } },

@@ -2,7 +2,7 @@
 #ifndef CATA_SRC_LIGHTMAP_H
 #define CATA_SRC_LIGHTMAP_H
 
-#include <cmath> // IWYU pragma: keep
+#include <cmath>
 #include <ostream>
 
 constexpr float LIGHT_SOURCE_LOCAL = 0.1f;

@@ -1,46 +1,11 @@
 [
   {
-    "type": "mapgen",
-    "method": "json",
-    "om_terrain": [ "urban_25_sewer_connector" ],
-    "object": {
-      "fill_ter": "t_thconc_floor",
-      "rows": [
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "|||||||||||||||||||     ",
-        "oooooooooooooooooo|     ",
-        "----------|o  o  o|     ",
-        "~~~~~~~~=#|o  o  o|     ",
-        "~~~~~~~~=#|o  o  o|     ",
-        "-#--------|o  o  o|     ",
-        "o=oooooooooooooooo|     ",
-        "|~o||||||||||||||||     ",
-        "|~o|                    ",
-        "|~o|                    ",
-        "|~o|                    ",
-        "|~o|                    ",
-        "|~o|                    ",
-        "|~o|                    ",
-        "|~o|                    ",
-        "|~ooooooooooooooo       "
-      ],
-      "palettes": [ "sewers" ]
-    }
-  },
-  {
     "method": "json",
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
-        "                        :!:   iiiiiiiiiiiiiiiiii",
-        "                        :!:   iZ,,JJJJ6|t|..117i",
+        "                         :    iiiiiiiiiiiiiiiiii",
+        "                        :::   iZ,,JJJJ6|t|..117i",
         "iiiiiiiiiiiiiiiiiiii    :!:   iZ,,,,,,,+,|4..2.i",
         "i......FFUUUgg.....i    :!:   iZ,,,,,,,|S|.4..Ui",
         "i.......z..........i:::::!:   iW,,,,,,,|||&&$&&i",
@@ -90,7 +55,7 @@
         "2": "f_armchair",
         "3": "f_bed",
         "4": "f_chair",
-        "5": [ "f_foot_locker", "f_foot_locker_aluminum" ],
+        "5": "f_foot_locker",
         "6": "f_trashcan",
         "7": "f_rack_wood"
       },

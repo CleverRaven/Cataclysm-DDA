@@ -5,8 +5,11 @@
 #include <iosfwd>
 #include <map>
 #include <memory>
+#include <new>
+#include <ostream>
 #include <set>
 #include <string>
+#include <type_traits>
 #include <typeinfo>
 #include <utility>
 #include <vector>
@@ -29,7 +32,7 @@
 #include "field_type.h"
 #include "game.h"
 #include "game_constants.h"
-#include "input_context.h"
+#include "input.h"
 #include "item.h"
 #include "level_cache.h"
 #include "line.h"
@@ -424,6 +427,8 @@ std::optional<tripoint> editmap::edit()
         } else if( action == "EDIT_MONSTER" ) {
             if( Creature *const critter = creatures.creature_at( target ) ) {
                 edit_critter( *critter );
+            } else if( get_map().veh_at( target ) ) {
+                edit_veh();
             }
         } else if( action == "EDIT_OVERMAP" ) {
             edit_mapgen();
@@ -725,7 +730,7 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
 
     mvwputch( w_info, point( 2, off ), terrain_type.color(), terrain_type.symbol() );
     mvwprintw( w_info, point( 4, off ), _( "%d: %s; move cost %d" ), here.ter( target ).to_i(),
-               static_cast<std::string>( terrain_type.id ),
+               terrain_type.name(),
                terrain_type.movecost
              );
     off++; // 2
@@ -733,7 +738,7 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
         mvwputch( w_info, point( 2, off ), furniture_type.color(), furniture_type.symbol() );
         mvwprintw( w_info, point( 4, off ), _( "%d: %s; move cost %d movestr %d" ),
                    here.furn( target ).to_i(),
-                   static_cast<std::string>( furniture_type.id ),
+                   furniture_type.name(),
                    furniture_type.movecost,
                    furniture_type.move_str_req
                  );
@@ -1574,6 +1579,11 @@ void editmap::edit_critter( Creature &critter )
     }
 }
 
+void editmap::edit_veh() const
+{
+    edit_json( get_map().veh_at( target )->vehicle() );
+}
+
 /*
  *  Calculate target_list based on origin and target class variables, and shapetype.
  */
@@ -1658,7 +1668,7 @@ bool editmap::move_target( const std::string &action, int moveorigin )
     if( eget_direction( mp, action ) ) {
         target.x = limited_shift( target.x, mp.x, 0, MAPSIZE_X );
         target.y = limited_shift( target.y, mp.y, 0, MAPSIZE_Y );
-        target.z = limited_shift( target.z, mp.z, -OVERMAP_DEPTH, OVERMAP_HEIGHT );
+        target.z = limited_shift( target.z, mp.z, -OVERMAP_DEPTH, OVERMAP_HEIGHT + 1 );
         if( move_origin ) {
             origin += mp;
         }

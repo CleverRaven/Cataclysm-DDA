@@ -15,7 +15,6 @@
 
 #include "enums.h"
 #include "flat_set.h"
-#include "pocket_type.h"
 #include "ret_val.h"
 #include "type_id.h"
 #include "units.h"
@@ -32,31 +31,44 @@ struct iteminfo;
 struct itype;
 struct tripoint;
 class map;
+template <typename E> struct enum_traits;
 
 class item_pocket
 {
     public:
+        enum class pocket_type : int {
+            CONTAINER,
+            MAGAZINE,
+            MAGAZINE_WELL, //holds magazines
+            MOD, // the gunmods or toolmods
+            CORPSE, // the "corpse" pocket - bionics embedded in a corpse
+            SOFTWARE, // software put into usb or some such
+            EBOOK, // holds electronic books for a device or usb
+            CABLE, // pocket for storing power/data cables and handling their connections
+            MIGRATION, // this allows items to load contents that are too big, in order to spill them later.
+            LAST
+        };
         enum class contain_code : int {
             SUCCESS,
             // only mods can go into the pocket for mods
             ERR_MOD,
             // trying to put a liquid into a non-watertight container
             ERR_LIQUID,
-            // trying to put a gas into a non-airtight container
+            // trying to put a gas in a non-airtight container
             ERR_GAS,
-            // trying to store an item that wouldn't fit even if the container were empty
+            // trying to put an item that wouldn't fit if the container were empty
             ERR_TOO_BIG,
-            // trying to store an item that would be too heavy even if the container were empty
+            // trying to put an item that wouldn't fit if the container were empty
             ERR_TOO_HEAVY,
-            // trying to store an item that's below the minimum size or length
+            // trying to put an item that wouldn't fit if the container were empty
             ERR_TOO_SMALL,
-            // pocket doesn't have sufficient volume capacity left
+            // pocket doesn't have sufficient space left
             ERR_NO_SPACE,
-            // pocket doesn't have sufficient weight capacity left
+            // pocket doesn't have sufficient weight left
             ERR_CANNOT_SUPPORT,
-            // requires a flag the item doesn't have
+            // requires a flag
             ERR_FLAG,
-            // requires the item to be a specific ammotype
+            // requires item be a specific ammotype
             ERR_AMMO
         };
 
@@ -105,9 +117,6 @@ class item_pocket
                 const std::optional<std::string> &get_preset_name() const;
                 void set_preset_name( const std::string & );
 
-                void set_was_edited();
-                bool was_edited() const;
-
                 void info( std::vector<iteminfo> &info ) const;
 
                 void serialize( JsonOut &json ) const;
@@ -122,7 +131,6 @@ class item_pocket
                 bool collapsed = false;
                 bool disabled = false;
                 bool unload = true;
-                bool player_edited = false;
         };
 
         item_pocket() = default;
@@ -184,14 +192,9 @@ class item_pocket
 
         /**
          * Can the pocket contain the specified item?
-         * @param it The item being put in
-         * @param ignore_contents If true, only check for compatible phase, size, and weight, skipping the more CPU-intensive checks against other contents. Optional, default false.
-         * @param copies_remaining An optional integer reference that will be set to the number of item copies that won't fit
+         * @param it the item being put in
          */
-        ret_val<contain_code> can_contain( const item &it, bool ignore_contents = false ) const;
-        ret_val<contain_code> can_contain( const item &it, int &copies_remaining,
-                                           bool ignore_contents = false ) const;
-
+        ret_val<contain_code> can_contain( const item &it ) const;
         bool can_contain_liquid( bool held_or_ground ) const;
         bool contains_phase( phase_id phase ) const;
 
@@ -297,7 +300,6 @@ class item_pocket
         void clear_items();
         bool has_item( const item &it ) const;
         item *get_item_with( const std::function<bool( const item & )> &filter );
-        const item *get_item_with( const std::function<bool( const item & )> &filter ) const;
         void remove_items_if( const std::function<bool( item & )> &filter );
         /**
          * Is part of the recursive call of item::process. see that function for additional comments
@@ -317,14 +319,13 @@ class item_pocket
         }
 
         // tries to put an item in the pocket. returns false if failure
-        ret_val<item *> insert_item( const item &it, bool into_bottom = false,
-                                     bool restack_charges = true, bool ignore_contents = false );
+        ret_val<contain_code> insert_item( const item &it, bool into_bottom = false,
+                                           bool restack_charges = true );
         /**
           * adds an item to the pocket with no checks
           * may create a new pocket
           */
         void add( const item &it, item **ret = nullptr );
-        void add( const item &it, int copies, std::vector<item *> &added );
         bool can_unload_liquid() const;
 
         int fill_with( const item &contained, Character &guy, int amount = 0,
@@ -412,9 +413,6 @@ class item_pocket
         bool _sealed = false;
         // list of sub body parts that can't currently support rigid ablative armor
         std::set<sub_bodypart_id> no_rigid;
-
-        ret_val<contain_code> _can_contain( const item &it, int &copies_remaining,
-                                            bool ignore_contents ) const;
 };
 
 /**
@@ -456,7 +454,7 @@ class pocket_data
 
         pocket_data() = default;
         // this constructor is used for special types of pockets, not loading
-        explicit pocket_data( pocket_type pk ) : type( pk ) {
+        explicit pocket_data( item_pocket::pocket_type pk ) : type( pk ) {
             rigid = true;
         }
 
@@ -464,7 +462,7 @@ class pocket_data
         static constexpr units::volume max_volume_for_container = 200000000_ml;
         static constexpr units::mass max_weight_for_container = 2000000_kilogram;
 
-        pocket_type type = pocket_type::CONTAINER;
+        item_pocket::pocket_type type = item_pocket::pocket_type::CONTAINER;
         // max volume of stuff the pocket can hold
         units::volume volume_capacity = max_volume_for_container;
         // max volume of item that can be contained, otherwise it spills
@@ -558,6 +556,11 @@ class pocket_data
     private:
 
         FlagsSetType flag_restrictions;
+};
+
+template<>
+struct enum_traits<item_pocket::pocket_type> {
+    static constexpr item_pocket::pocket_type last = item_pocket::pocket_type::LAST;
 };
 
 template<>

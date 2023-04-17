@@ -4,16 +4,10 @@
     "id": "TALK_REFUGEE_Refuse_Boris_Mission_1",
     "dynamic_line": [
       "Sorry, but you couldn't pay me enough to go back there.",
-      {
-        "gendered_line": "No way, sorry.  I was in there when things went bad.  It'll be hard enough to go back after it's cleaned up, I can't bear to look at it right now.",
-        "relevant_genders": [ "npc" ]
-      },
+      "No way, sorry.  I was in there when things went bad.  It'll be hard enough to go back after it's cleaned up, I can't bear to look at it right now.",
       "I can't.  Too many memories back there.  Sorry.",
       "I wish I could, but no.  I can't face the memories.",
-      {
-        "gendered_line": "Sorry, no.  That's too much to ask from me.  I was back there when it went wrong.",
-        "relevant_genders": [ "npc" ]
-      },
+      "Sorry, no.  That's too much to ask from me.  I was back there when it went wrong.",
       "You won't get much luck asking those of us who were back there I'm afraid.  Sorry."
     ],
     "speaker_effect": { "effect": { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" } },
@@ -34,7 +28,7 @@
     "speaker_effect": {
       "effect": [
         { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" },
-        { "math": [ "u_mission_cleanup_promises_Boris_mission_1", "++" ] }
+        { "u_adjust_var": "Boris_mission_1", "type": "mission", "context": "cleanup_promises", "adjustment": 1 }
       ]
     },
     "responses": [

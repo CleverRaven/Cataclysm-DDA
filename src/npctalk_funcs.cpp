@@ -12,7 +12,6 @@
 #include <vector>
 
 #include "activity_actor_definitions.h"
-#include <activity_handlers.h>
 #include "activity_type.h"
 #include "auto_pickup.h"
 #include "avatar.h"
@@ -71,7 +70,6 @@ static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
 static const activity_id ACT_MULTIPLE_FISH( "ACT_MULTIPLE_FISH" );
 static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
 static const activity_id ACT_MULTIPLE_MOP( "ACT_MULTIPLE_MOP" );
-static const activity_id ACT_MULTIPLE_READ( "ACT_MULTIPLE_READ" );
 static const activity_id ACT_SOCIALIZE( "ACT_SOCIALIZE" );
 static const activity_id ACT_TRAIN( "ACT_TRAIN" );
 static const activity_id ACT_TRAIN_TEACHER( "ACT_TRAIN_TEACHER" );
@@ -268,11 +266,6 @@ void talk_function::do_eread( npc &p )
     p.do_npc_read( true );
 }
 
-void talk_function::do_read_repeatedly( npc &p )
-{
-    p.assign_activity( ACT_MULTIPLE_READ );
-}
-
 void talk_function::dismount( npc &p )
 {
     p.npc_dismount();
@@ -335,12 +328,6 @@ void talk_function::revert_activity( npc &p )
 {
     p.revert_after_activity();
 }
-
-void talk_function::do_craft( npc &p )
-{
-    p.do_npc_craft();
-}
-
 void talk_function::do_disassembly( npc &p )
 {
     p.assign_activity( ACT_MULTIPLE_DIS );
@@ -500,9 +487,10 @@ void talk_function::insult_combat( npc &p )
     p.set_attitude( NPCATT_KILL );
 }
 
-static void bionic_install_common( npc &p, Character &patron, Character &patient )
+void talk_function::bionic_install( npc &p )
 {
-    item_location bionic = game_menus::inv::install_bionic( p, patron, patient, true );
+    avatar &player_character = get_avatar();
+    item_location bionic = game_menus::inv::install_bionic( p, player_character, true );
 
     if( !bionic ) {
         return;
@@ -512,7 +500,7 @@ static void bionic_install_common( npc &p, Character &patron, Character &patient
     tmp->set_var( VAR_TRADE_IGNORE, 1 );
     const itype &it = *tmp->type;
 
-    signed int price = npc_trading::bionic_install_price( p, patient, bionic );
+    signed int price = npc_trading::bionic_install_price( p, player_character, bionic );
     bool const ret = npc_trading::pay_npc( p, price );
     tmp->erase_var( VAR_TRADE_IGNORE );
     if( !ret ) {
@@ -520,32 +508,18 @@ static void bionic_install_common( npc &p, Character &patron, Character &patient
     }
 
     //Makes the doctor awesome at installing but not perfect
-    if( patient.can_install_bionics( it, p, false, 20 ) ) {
+    if( player_character.can_install_bionics( it, p, false, 20 ) ) {
         bionic.remove_item();
-        patient.install_bionics( it, p, false, 20 );
+        player_character.install_bionics( it, p, false, 20 );
     }
 }
 
-void talk_function::bionic_install( npc &p )
+void talk_function::bionic_remove( npc &p )
 {
-    Character &pc = get_player_character();
-    bionic_install_common( p, pc, pc );
-}
-
-void talk_function::bionic_install_allies( npc &p )
-{
-    npc *patient = pick_follower();
-    if( !patient ) {
-        return;
-    }
-    bionic_install_common( p, get_player_character(), *patient );
-}
-
-static void bionic_remove_common( npc &p, Character &patient )
-{
-    const bionic_collection all_bio = *patient.my_bionics;
+    Character &player_character = get_player_character();
+    const bionic_collection all_bio = *player_character.my_bionics;
     if( all_bio.empty() ) {
-        popup( _( "%s doesn't have any bionics installed…" ), patient.get_name() );
+        popup( _( "You don't have any bionics installed…" ) );
         return;
     }
 
@@ -585,23 +559,10 @@ static void bionic_remove_common( npc &p, Character &patient )
     }
 
     //Makes the doctor awesome at uninstalling but not perfect
-    if( patient.can_uninstall_bionic( *bionics[bionic_index], p, false, 20 ) ) {
-        patient.uninstall_bionic( *bionics[bionic_index], p, false, 20 );
+    if( player_character.can_uninstall_bionic( *bionics[bionic_index], p,
+            false, 20 ) ) {
+        player_character.uninstall_bionic( *bionics[bionic_index], p, false, 20 );
     }
-}
-
-void talk_function::bionic_remove( npc &p )
-{
-    bionic_remove_common( p, get_player_character() );
-}
-
-void talk_function::bionic_remove_allies( npc &p )
-{
-    npc *patient = pick_follower();
-    if( !patient ) {
-        return;
-    }
-    bionic_remove_common( p, *patient );
 }
 
 void talk_function::give_equipment( npc &p )
@@ -1047,7 +1008,7 @@ void talk_function::player_weapon_drop( npc &/*p*/ )
 {
     Character &player_character = get_player_character();
     item weap = player_character.remove_weapon();
-    drop_on_map( player_character, item_drop_reason::deliberate, {weap}, player_character.pos_bub() );
+    get_map().add_item_or_charges( player_character.pos(), weap );
 }
 
 void talk_function::lead_to_safety( npc &p )
@@ -1260,6 +1221,15 @@ void talk_function::set_npc_pickup( npc &p )
     p.rules.pickup_whitelist->show( p.name );
 }
 
+void talk_function::npc_die( npc &p )
+{
+    p.die( nullptr );
+    const shared_ptr_fast<npc> guy = overmap_buffer.find_npc( p.getID() );
+    if( guy && !guy->is_dead() ) {
+        guy->marked_for_death = true;
+    }
+}
+
 void talk_function::npc_thankful( npc &p )
 {
     if( p.get_attitude() == NPCATT_MUG || p.get_attitude() == NPCATT_WAIT_FOR_LEAVE ||
@@ -1277,9 +1247,4 @@ void talk_function::npc_thankful( npc &p )
 void talk_function::clear_overrides( npc &p )
 {
     p.rules.clear_overrides();
-}
-
-void talk_function::pick_style( npc &p )
-{
-    p.martial_arts_data->pick_style( p );
 }

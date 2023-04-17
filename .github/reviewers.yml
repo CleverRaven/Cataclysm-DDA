@@ -14,6 +14,7 @@ files:
     - tenmillimaster
   'data/mods/Magiclysm/**':
     - KorGgenT
+    - GuardianDll
   'data/mods/My_Sweet_Cataclysm/**':
     - Fris0uman
   'data/mods/ruralbiome/**':
@@ -24,18 +25,13 @@ files:
     - KorGgenT
   'data/mods/Xedra_Evolved/**':
     - Maleclypse
-  'data/mods/MindOverMatter/**':
-    - Standing-Storm
+    - GuardianDll
   'data/mods/innawood/**':
     - Light-Wave
   'data/mods/MA/**':
     - ZhilkinSerg
   'data/mods/No_Hope/**':
     - Night-Pryanik
-  'data/mods/Tamable_Wildlife/**':
-    - Termineitor244
-  'data/mods/Limb_WIP/**':
-    - Venera3
 
   '**/.clang-tidy':
     - jbytheway
@@ -45,6 +41,7 @@ files:
     - KorGgenT
   'tools/{spell_checker/!(dictionary.txt){,/**},!(spell_checker){,/**}}':
     - jbytheway
+    - int-ua
   'src/widget.cpp':
     - wapcaplet
     - dseguin
@@ -53,7 +50,3 @@ files:
     - dseguin
   'src/ui_manager.*':
     - Qrox
-  'data/raw/keybindings{.json,/**}':
-    - Qrox
-  'src/math_parser*':
-    - andrei8l

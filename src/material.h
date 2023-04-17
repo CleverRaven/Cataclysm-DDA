@@ -120,6 +120,7 @@ class material_type
 
         void load( const JsonObject &jsobj, std::string_view src );
         static void finalize_all();
+        void finalize();
         void check() const;
 
         material_id ident() const;
@@ -134,8 +135,6 @@ class material_type
         std::optional<itype_id> salvaged_into() const;
         itype_id repaired_with() const;
         float resist( const damage_type_id &dmg_type ) const;
-        // whether this material has an explicitly defined resistance for the specified damage type
-        bool has_dedicated_resist( const damage_type_id &dmg_type ) const;
         std::string bash_dmg_verb() const;
         std::string cut_dmg_verb() const;
         std::string dmg_adj( int damage_level ) const;

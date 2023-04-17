@@ -13,8 +13,6 @@ GG_DIR = os.path.normpath(os.path.join(
 AMMO_TYPE_WHITELIST = {
     '40x46mm',  # Grenade
     'atgm',  # Rocket
-    'atlatl',
-    'bolt_ballista',
     'barb',
     'battery',
     'BB',
@@ -56,20 +54,10 @@ ID_WHITELIST = {
     # Magazines
     '223_speedloader5',
     'coin_wrapper',
-    'exodiisapramag5',
-    'robofac_gun_40mm_3rd',
-    'robofac_gun_40mm_5rd',
-    'robofac_gun_40mm_10rd',
     'bio_shotgun_gun',
     'gasfilter_med',
-
     'gasfilter_sm',
-    'matchhead_30carbine',
-    'matchhead_30carbine_jsp',
-    "rebreather_cartridge",
-    "rebreather_cartridge_air",
-    "rebreather_cartridge_o2",
-    "rebreather_cartridge_regen"
+    "rebreather_cartridge"
 }
 
 
@@ -135,15 +123,6 @@ def items_for_which_all_ancestors(items, pred):
     return result
 
 
-def blacklisted_items(data):
-    blacklists = items_of_type(data, 'ITEM_BLACKLIST')
-    items = set()
-    for blacklist in blacklists:
-        if 'items' in blacklist:
-            items.update(set(blacklist['items']))
-    return items
-
-
 def main():
     core_data, core_errors = util.import_data()
     print('Importing Generic Guns data from %r' % GG_DIR)
@@ -154,7 +133,6 @@ def main():
         sys.exit(1)
 
     gg_migrations = get_ids(items_of_type(gg_data, 'MIGRATION'))
-    gg_blacklist = blacklisted_items(gg_data)
 
     core_guns = items_of_type(core_data, 'GUN')
 
@@ -211,7 +189,7 @@ def main():
     returncode = 0
 
     def check_missing(items, name):
-        ids = get_ids(items) - ID_WHITELIST - gg_blacklist
+        ids = get_ids(items) - ID_WHITELIST
 
         missing_migrations = ids - gg_migrations
         if missing_migrations:

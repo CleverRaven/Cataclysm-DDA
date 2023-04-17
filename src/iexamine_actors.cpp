@@ -176,7 +176,7 @@ void cardreader_examine_actor::call( Character &you, const tripoint &examp ) con
             }
             // Check 1) same overmap coords, 2) turret, 3) hostile
             if( ms_to_omt_copy( here.getabs( critter.pos() ) ) == ms_to_omt_copy( here.getabs( examp ) ) &&
-                critter.has_flag( mon_flag_ID_CARD_DESPAWN ) &&
+                critter.has_flag( MF_ID_CARD_DESPAWN ) &&
                 critter.attitude_to( you ) == Creature::Attitude::HOSTILE ) {
                 g->remove_zombie( critter );
             }
@@ -247,11 +247,9 @@ std::unique_ptr<iexamine_actor> cardreader_examine_actor::clone() const
     return std::make_unique<cardreader_examine_actor>( *this );
 }
 
-void eoc_examine_actor::call( Character &you, const tripoint &examp ) const
+void eoc_examine_actor::call( Character &you, const tripoint & ) const
 {
     dialogue d( get_talker_for( you ), nullptr );
-    d.set_value( "npctalk_var_this", get_map().furn( examp ).id().str() );
-    d.set_value( "npctalk_var_pos", get_map().getglobal( examp ).to_string() );
     for( const effect_on_condition_id &eoc : eocs ) {
         eoc->activate( d );
     }

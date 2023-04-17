@@ -13,7 +13,7 @@
         "      ",
         "      "
       ],
-      "palettes": [ "fbml_common_palette" ]
+      "palettes": [ "fbml_wood_palette" ]
     }
   },
   {
@@ -37,7 +37,7 @@
         "fdffff"
       ],
       "place_zones": [ { "type": "NPC_NO_INVESTIGATE", "faction": "your_followers", "x": [ 0, 5 ], "y": [ 0, 5 ] } ],
-      "palettes": [ "fbml_common_palette" ]
+      "palettes": [ "fbml_wood_palette" ]
     }
   },
   {
@@ -61,7 +61,7 @@
         "      "
       ],
       "place_zones": [ { "type": "NPC_NO_INVESTIGATE", "faction": "your_followers", "x": [ 0, 5 ], "y": [ 0, 5 ] } ],
-      "palettes": [ "fbml_common_palette" ]
+      "palettes": [ "fbml_wood_palette" ]
     }
   },
   {
@@ -85,7 +85,7 @@
         "    FF"
       ],
       "place_zones": [ { "type": "NPC_NO_INVESTIGATE", "faction": "your_followers", "x": [ 0, 5 ], "y": [ 0, 5 ] } ],
-      "palettes": [ "fbml_common_palette" ]
+      "palettes": [ "fbml_wood_palette" ]
     }
   },
   {
@@ -109,7 +109,7 @@
         "FFDFF "
       ],
       "place_zones": [ { "type": "NPC_NO_INVESTIGATE", "faction": "your_followers", "x": [ 0, 5 ], "y": [ 0, 5 ] } ],
-      "palettes": [ "fbml_common_palette" ]
+      "palettes": [ "fbml_wood_palette" ]
     }
   },
   {

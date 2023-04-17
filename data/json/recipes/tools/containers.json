@@ -138,7 +138,7 @@
     "difficulty": 3,
     "time": "2 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_scrap", 2 ] ],
+    "using": [ [ "blacksmithing_standard", 2 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -250,24 +250,6 @@
     "difficulty": 6,
     "time": "30 m",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 2 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_toolsmithing" }
-    ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
-    "result": "can_food",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_CONTAINERS",
-    "skill_used": "fabrication",
-    "difficulty": 6,
-    "time": "20 m",
-    "autolearn": true,
     "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
@@ -275,25 +257,6 @@
       { "proficiency": "prof_toolsmithing" }
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
-    "result": "can_food_big",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_CONTAINERS",
-    "skill_used": "fabrication",
-    "difficulty": 6,
-    "time": "30 m",
-    "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 3 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_toolsmithing" }
-    ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "components": [ [ [ "sheet_metal_small", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -319,7 +282,7 @@
     "difficulty": 8,
     "time": "7 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 80 ], [ "steel_standard", 20 ] ],
+    "using": [ [ "blacksmithing_standard", 64 ], [ "steel_standard", 20 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ]
   },
@@ -334,7 +297,7 @@
     "difficulty": 8,
     "time": "4 h 20 m",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 32 ], [ "steel_standard", 8 ] ],
+    "using": [ [ "blacksmithing_standard", 31 ], [ "steel_standard", 8 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ]
   },
@@ -367,7 +330,7 @@
     "subcategory": "CSC_OTHER_CONTAINERS",
     "skill_used": "fabrication",
     "difficulty": 8,
-    "time": "60 m",
+    "time": "60 s",
     "autolearn": true,
     "using": [ [ "welding_standard", 180 ] ],
     "//": "180cm weld",
@@ -404,13 +367,8 @@
     "book_learn": [ [ "glassblowing_book", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_glassblowing" } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [
-      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
-      [ [ "pipe", -1 ] ],
-      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
-      [ [ "forge", 150 ] ]
-    ],
-    "components": [ [ [ "glass_shard", 13 ], [ "flask_glass", 20 ], [ "test_tube", 27 ], [ "marble", 318 ] ] ]
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 150 ] ] ],
+    "components": [ [ [ "glass_shard", 5 ], [ "flask_glass", 5 ], [ "test_tube", 10 ], [ "marble", 125 ] ] ]
   },
   {
     "type": "recipe",
@@ -424,12 +382,7 @@
     "book_learn": [ [ "glassblowing_book", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_glassblowing" } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [
-      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
-      [ [ "pipe", -1 ] ],
-      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
-      [ [ "forge", 75 ] ]
-    ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 75 ] ] ],
     "components": [ [ [ "glass_shard", 3 ], [ "pipe_glass", 1 ], [ "flask_glass", 3 ], [ "test_tube", 6 ], [ "marble", 75 ] ] ]
   },
   {
@@ -444,13 +397,8 @@
     "book_learn": [ [ "glassblowing_book", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_glassblowing" } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [
-      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
-      [ [ "pipe", -1 ] ],
-      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
-      [ [ "forge", 50 ] ]
-    ],
-    "components": [ [ [ "glass_shard", 4 ], [ "flask_glass", 6 ], [ "test_tube", 8 ], [ "marble", 93 ] ] ]
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 50 ] ] ],
+    "components": [ [ [ "glass_shard", 2 ], [ "flask_glass", 2 ], [ "test_tube", 4 ], [ "marble", 50 ] ] ]
   },
   {
     "type": "recipe",
@@ -464,12 +412,7 @@
     "book_learn": [ [ "glassblowing_book", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_glassblowing" } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [
-      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
-      [ [ "pipe", -1 ] ],
-      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
-      [ [ "forge", 25 ] ]
-    ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 25 ] ] ],
     "components": [ [ [ "glass_shard", 1 ], [ "test_tube", 2 ], [ "marble", 25 ] ] ]
   },
   {
@@ -485,12 +428,7 @@
     "proficiencies": [ { "proficiency": "prof_glassblowing" } ],
     "result_mult": 2,
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [
-      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
-      [ [ "pipe", -1 ] ],
-      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
-      [ [ "forge", 5 ] ]
-    ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 5 ] ] ],
     "components": [ [ [ "glass_shard", 1 ], [ "flask_glass", 1 ], [ "marble", 25 ] ] ]
   },
   {
@@ -1115,7 +1053,7 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
     "qualities": [ { "id": "SAW_W", "level": 2 }, { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "2x4", 1 ] ], [ [ "nails", 10, "LIST" ] ] ],
+    "components": [ [ [ "2x4", 1 ] ], [ [ "nail", 10 ] ] ],
     "byproducts": [ [ "splinter", 12 ] ]
   },
   {
@@ -1131,7 +1069,7 @@
     "reversible": true,
     "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
     "qualities": [ { "id": "SAW_W", "level": 2 }, { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "2x4", 2 ] ], [ [ "nails", 20, "LIST" ] ] ]
+    "components": [ [ [ "2x4", 2 ] ], [ [ "nail", 20 ] ] ]
   },
   {
     "type": "recipe",
@@ -1146,7 +1084,7 @@
     "reversible": true,
     "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
     "qualities": [ { "id": "SAW_W", "level": 2 }, { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "2x4", 16 ] ], [ [ "nails", 40, "LIST" ] ] ]
+    "components": [ [ [ "2x4", 16 ] ], [ [ "nail", 40 ] ] ]
   },
   {
     "type": "recipe",
@@ -1161,7 +1099,7 @@
     "reversible": true,
     "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
     "qualities": [ { "id": "SAW_W", "level": 2 }, { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "2x4", 2 ] ], [ [ "wood_panel", 2 ] ], [ [ "nails", 40, "LIST" ] ] ]
+    "components": [ [ [ "2x4", 2 ] ], [ [ "wood_panel", 2 ] ], [ [ "nail", 40 ] ] ]
   },
   {
     "type": "recipe",
@@ -1258,32 +1196,6 @@
     "components": [ [ [ "tanned_hide", 9 ] ], [ [ "filament", 80, "LIST" ] ] ]
   },
   {
-    "result": "dry_bag_large",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_STORAGE",
-    "skill_used": "tailor",
-    "skills_required": [ "fabrication", 2 ],
-    "difficulty": 6,
-    "time": "6 h 40 m",
-    "autolearn": true,
-    "book_learn": [ [ "plastics_book", 4 ] ],
-    "using": [
-      [ "sewing_standard", 100 ],
-      [ "tailoring_lycra_patchwork", 10 ],
-      [ "clasps", 1 ],
-      [ "waterproofing_plastic_sheets", 40 ]
-    ],
-    "proficiencies": [
-      { "proficiency": "prof_closures" },
-      { "proficiency": "prof_closures_waterproofing" },
-      { "proficiency": "prof_plasticworking" }
-    ],
-    "components": [ [ [ "duct_tape", 400 ] ] ],
-    "byproducts": [ [ "scrap_lycra", 16 ] ]
-  },
-  {
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
     "result": "55gal_drum_aluminum",
@@ -1296,7 +1208,7 @@
     "using": [ [ "blacksmithing_standard", 64 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "components": [ [ [ "scrap_aluminum", 200 ], [ "material_aluminium_ingot", 40 ] ] ]
+    "components": [ [ [ "scrap_aluminum", 200 ], [ "material_aluminium_ingot", 16 ] ] ]
   },
   {
     "type": "recipe",
@@ -1311,7 +1223,7 @@
     "using": [ [ "blacksmithing_standard", 40 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "components": [ [ [ "scrap_aluminum", 52 ], [ "material_aluminium_ingot", 11 ] ] ]
+    "components": [ [ [ "scrap_aluminum", 52 ], [ "material_aluminium_ingot", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -1383,7 +1295,7 @@
       { "proficiency": "prof_welding" }
     ],
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "sheet_metal", 1 ] ], [ [ "scrap_aluminum", 1 ] ] ]
+    "components": [ [ [ "sheet_metal", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1408,34 +1320,5 @@
       [ [ "thermometer", 1 ] ],
       [ [ "clamp", 3 ], [ "pliers_locking", 3 ] ]
     ]
-  },
-  {
-    "result": "tankard_wooden",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_CONTAINERS",
-    "skill_used": "fabrication",
-    "difficulty": 1,
-    "time": "30 m",
-    "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 2 } ],
-    "proficiencies": [ { "proficiency": "prof_carving" } ],
-    "components": [ [ [ "2x4", 1 ] ], [ [ "stick", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "ceramic_cup",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_CONTAINERS",
-    "skill_used": "fabrication",
-    "skills_required": [ "survival", 1 ],
-    "difficulty": 2,
-    "time": "20 m",
-    "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_pottery" }, { "proficiency": "prof_pottery_glazing" } ],
-    "using": [ [ "cordage_short", 1 ], [ "glazing", 1 ], [ "earthenware_firing", 40 ] ],
-    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 2 ] ] ]
   }
 ]

@@ -35,8 +35,6 @@
       [ "PARROT", 40 ]
     ],
     "special_when_hit": [ "ZAPBACK", 100 ],
-    "weakpoint_sets": [ "wps_power_leech" ],
-    "families": [ "prof_intro_biology", "prof_wp_power_leech_basic", "prof_wp_power_leech_advanced", "prof_electromagnetics" ],
     "harvest": "flesh_plant_bloom",
     "dissect": "dissect_plant_sample_large",
     "flags": [ "SEES", "NOHEAD", "IMMOBILE", "NO_BREATHE", "QUEEN", "HARDTOSHOOT" ],
@@ -76,8 +74,6 @@
       [ "MON_LEECH_EVOLUTION", 30 ]
     ],
     "special_when_hit": [ "ZAPBACK", 100 ],
-    "weakpoint_sets": [ "wps_power_leech" ],
-    "families": [ "prof_intro_biology", "prof_wp_power_leech_basic", "prof_wp_power_leech_advanced", "prof_electromagnetics" ],
     "harvest": "flesh_plant",
     "dissect": "dissect_plant_sample_single",
     "flags": [ "SEES", "NOHEAD", "IMMOBILE", "NO_BREATHE", "HARDTOSHOOT" ],
@@ -105,8 +101,6 @@
     "vision_night": 8,
     "luminance": 200,
     "special_when_hit": [ "ZAPBACK", 100 ],
-    "weakpoint_sets": [ "wps_power_leech" ],
-    "families": [ "prof_intro_biology", "prof_wp_power_leech_basic", "prof_wp_power_leech_advanced", "prof_electromagnetics" ],
     "harvest": "flesh_plant",
     "dissect": "dissect_plant_sample_single",
     "flags": [ "SEES", "NOHEAD", "IMMOBILE", "NO_BREATHE", "HARDTOSHOOT" ],
@@ -141,8 +135,6 @@
       },
       [ "LEECH_SPAWNER", 120 ]
     ],
-    "weakpoint_sets": [ "wps_power_leech" ],
-    "families": [ "prof_intro_biology", "prof_wp_power_leech_basic", "prof_wp_power_leech_advanced", "prof_electromagnetics" ],
     "harvest": "flesh_plant",
     "dissect": "dissect_plant_sample_single",
     "flags": [ "SEES", "NOHEAD", "IMMOBILE", "NO_BREATHE" ],
@@ -186,8 +178,6 @@
       [ "EVOLVE_KILL_STRIKE", 3 ]
     ],
     "special_when_hit": [ "ZAPBACK", 100 ],
-    "weakpoint_sets": [ "wps_power_leech" ],
-    "families": [ "prof_intro_biology", "prof_wp_power_leech_basic", "prof_wp_power_leech_advanced", "prof_electromagnetics" ],
     "harvest": "flesh_plant",
     "dissect": "dissect_plant_sample_single",
     "flags": [ "SEES", "NOHEAD", "NO_BREATHE", "HARDTOSHOOT" ],
@@ -229,8 +219,6 @@
       },
       [ "EVOLVE_KILL_STRIKE", 6 ]
     ],
-    "weakpoint_sets": [ "wps_power_leech" ],
-    "families": [ "prof_intro_biology", "prof_wp_power_leech_basic", "prof_wp_power_leech_advanced", "prof_electromagnetics" ],
     "harvest": "flesh_plant",
     "dissect": "dissect_plant_sample_single",
     "flags": [ "SEES", "NOHEAD", "NO_BREATHE", "HARDTOSHOOT" ],

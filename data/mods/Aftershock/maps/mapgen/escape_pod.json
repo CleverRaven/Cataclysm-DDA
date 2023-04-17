@@ -3,6 +3,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "afs_crashed_escape_pod" ],
+    "weight": 500,
     "object": {
       "predecessor_mapgen": "field",
       "rows": [

@@ -6,6 +6,7 @@
     "categories": [ "movement" ],
     "color": "brown",
     "location": "axle",
+    "broken_color": "light_gray",
     "damage_modifier": 40,
     "folded_volume": "250 ml",
     "durability": 80,
@@ -33,12 +34,14 @@
     "id": "wheel_mount_light",
     "name": { "str": "light wheel mount" },
     "categories": [ "movement" ],
+    "color": "light_gray",
     "location": "axle",
+    "broken_color": "light_gray",
     "damage_modifier": 80,
     "folded_volume": "250 ml",
     "durability": 120,
     "description": "A piece of metal with holes suitable for a bike or motorbike wheel.",
-    "//": "25 cm weld as a conservative estimate (not much welding going on to affix bike parts).",
+    "//": "25cm weld as a conservative estimate (not much welding going on to affix bike parts).",
     "item": "wheel_mount_light",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "welding_standard", 25 ] ] },
@@ -62,12 +65,14 @@
     "id": "wheel_mount_medium",
     "name": { "str": "wheel hub assembly" },
     "categories": [ "movement" ],
+    "color": "light_gray",
     "location": "axle",
+    "broken_color": "light_gray",
     "damage_modifier": 80,
     "durability": 120,
     "description": "Connection where wheels can be connected on.  This particular one is fit for normal car wheels.",
     "item": "wheel_mount_medium",
-    "//": "100 cm weld",
+    "//": "100cm weld",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 4 ] ],
@@ -98,12 +103,14 @@
     "id": "wheel_mount_heavy",
     "name": { "str": "heavy wheel hub assembly" },
     "categories": [ "movement" ],
+    "color": "light_gray",
     "location": "axle",
+    "broken_color": "light_gray",
     "damage_modifier": 80,
     "durability": 120,
     "description": "Connection where wheels can be connected on.  This particular one is fit for large car wheels.",
     "item": "wheel_mount_heavy",
-    "//": "150 cm weld",
+    "//": "150cm weld",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 5 ] ],
@@ -135,7 +142,7 @@
     "name": { "str": "rail wheel" },
     "item": "wheel_rail",
     "location": "under",
-    "durability": 7000,
+    "durability": 180,
     "description": "A strong metal wheel.  A flange helps keep it on a rail, but makes it perform terribly when not on a rail.",
     "damage_modifier": 70,
     "breaks_into": [ { "item": "scrap", "count": [ 4, 6 ] }, { "item": "steel_chunk", "count": [ 2, 3 ] } ],
@@ -166,6 +173,7 @@
     "name": { "str": "pair of small rail wheels" },
     "item": "wheel_rail_small_pair",
     "copy-from": "rail_wheel",
+    "durability": 150,
     "description": "A pair of small rail wheels.  It performs well when riding on a pair of small rails.  It performs terribly when not on a rail.  Moreover, you can't steer it.",
     "damage_modifier": 50,
     "breaks_into": [ { "item": "scrap", "count": [ 2, 3 ] }, { "item": "steel_chunk", "count": [ 1, 2 ] } ],
@@ -194,7 +202,7 @@
       { "item": "scrap", "count": [ 50, 150 ] }
     ],
     "rolling_resistance": 0.125,
-    "//": "really big steel drum, assuming 100 cm of weld per quadrant of damage.",
+    "//": "really big steel drum, assuming 100cm of weld per quadrant of damage.",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "vehicle_fasten", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "vehicle_fasten", 1 ] ] },
@@ -223,6 +231,7 @@
       { "item": "steel_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 1, 2 ] }
     ],
+    "rolling_resistance": 1.0,
     "wheel_terrain_modifiers": { "FLAT": [ 0, 4 ], "ROAD": [ 0, 2 ] },
     "contact_area": 153,
     "requirements": {
@@ -322,8 +331,8 @@
     "wheel_terrain_modifiers": { "FLAT": [ 0, 4 ], "ROAD": [ 0, 2 ] },
     "contact_area": 40,
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "5 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "5 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "using": [ [ "adhesive_rubber", 1 ], [ "tire_rubber", 1 ] ] }
     },
     "flags": [ "WHEEL", "UNSTABLE_WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_LIGHT" ],
@@ -371,61 +380,6 @@
     },
     "flags": [ "WHEEL", "NEEDS_JACKING", "STABLE", "STEERABLE" ],
     "variants": [ { "symbols": "o", "symbols_broken": "x" } ]
-  },
-  {
-    "id": "wheel_skateboard",
-    "type": "vehicle_part",
-    "name": { "str": "skateboard wheels" },
-    "item": "wheel_skateboard",
-    "location": "under",
-    "categories": [ "movement" ],
-    "color": "dark_gray",
-    "durability": 70,
-    "description": "A set of four small wheels, for a skateboard.",
-    "damage_modifier": 50,
-    "folded_volume": "1250 ml",
-    "folding_time": "0 seconds",
-    "unfolding_time": "0 seconds",
-    "rolling_resistance": 1.5,
-    "wheel_offroad_rating": 0.3,
-    "wheel_terrain_modifiers": { "FLAT": [ 0, 6 ], "ROAD": [ 0, 3 ] },
-    "contact_area": 4,
-    "requirements": {
-      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "1 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
-      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "1 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] }
-    },
-    "flags": [ "WHEEL", "NEEDS_WHEEL_MOUNT_SKATEBOARD", "STABLE", "STEERABLE" ],
-    "variants": [ { "symbols": "o", "symbols_broken": "x" } ]
-  },
-  {
-    "id": "wheel_mount_skateboard",
-    "type": "vehicle_part",
-    "name": { "str": "skateboard trucks" },
-    "item": "wheel_mount_skateboard",
-    "location": "axle",
-    "categories": [ "movement" ],
-    "damage_modifier": 80,
-    "folded_volume": "200 ml",
-    "folding_time": "0 seconds",
-    "unfolding_time": "0 seconds",
-    "durability": 120,
-    "description": "A pair of skateboard trucks, for attaching wheels to.",
-    "flags": [ "WHEEL_MOUNT_SKATEBOARD" ],
-    "requirements": {
-      "removal": {
-        "skills": [ [ "mechanics", 0 ] ],
-        "time": "3 m",
-        "qualities": [ { "id": "WRENCH", "level": 2 }, { "id": "SCREW", "level": 1 } ]
-      },
-      "install": {
-        "skills": [ [ "mechanics", 0 ] ],
-        "time": "3 m",
-        "qualities": [ { "id": "WRENCH", "level": 2 }, { "id": "SCREW", "level": 1 } ]
-      }
-    },
-    "breaks_into": [ { "item": "scrap", "count": [ 0, 1 ] }, { "item": "scrap_aluminum", "count": [ 0, 2 ] } ],
-    "damage_reduction": { "all": 10 },
-    "variants": [ { "symbols": "-", "symbols_broken": "X" } ]
   },
   {
     "id": "wheel_10",
@@ -542,8 +496,8 @@
     "damage_modifier": 50,
     "breaks_into": [ { "item": "plastic_chunk", "count": [ 1, 3 ] } ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_1", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_1", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "4 m", "using": [ [ "vehicle_wrench_1", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "2 m", "using": [ [ "vehicle_wrench_1", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ] ] }
     },
     "rolling_resistance": 10.0,
@@ -575,9 +529,9 @@
     "wheel_terrain_modifiers": { "FLAT": [ 0, 4 ], "ROAD": [ 0, 2 ] },
     "contact_area": 20,
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "5 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "5 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "using": [ [ "adhesive_rubber", 1 ], [ "tire_rubber", 1 ] ] }
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "adhesive_rubber", 1 ], [ "tire_rubber", 1 ] ] }
     },
     "flags": [ "WHEEL", "NEEDS_JACKING", "STABLE", "STEERABLE", "NEEDS_WHEEL_MOUNT_LIGHT" ],
     "damage_reduction": { "bash": 8 },
@@ -686,6 +640,7 @@
     "type": "vehicle_part",
     "name": { "str": "banded wooden cart wheel" },
     "item": "wheel_wood_b",
+    "location": "under",
     "breaks_into": [
       { "item": "2x4", "count": [ 0, 4 ] },
       { "item": "nail", "charges": [ 5, 15 ] },

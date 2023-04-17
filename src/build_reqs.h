@@ -1,4 +1,3 @@
-#pragma once
 #ifndef CATA_SRC_BUILD_REQS_H
 #define CATA_SRC_BUILD_REQS_H
 

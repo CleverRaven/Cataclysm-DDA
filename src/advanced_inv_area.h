@@ -24,7 +24,7 @@ enum aim_location : char {
     AIM_DRAGGED,
     AIM_ALL,
     AIM_CONTAINER,
-    AIM_PARENT,
+    AIM_CONTAINER2,
     AIM_WORN,
     NUM_AIM_LOCATIONS,
     // only useful for AIM_ALL
@@ -35,7 +35,6 @@ enum aim_location : char {
 class advanced_inv_listitem;
 class item;
 class vehicle;
-class vehicle_stack;
 
 /**
  * Defines the source of item stacks.
@@ -93,6 +92,8 @@ class advanced_inv_area
 
         template <typename T>
         advanced_inv_area::itemstack i_stacked( T items );
+        // if you want vehicle cargo, specify so via `in_vehicle'
+        units::volume free_volume( bool in_vehicle = false ) const;
         int get_item_count() const;
         // Other area is actually the same item source, e.g. dragged vehicle to the south and AIM_SOUTH
         bool is_same( const advanced_inv_area &other ) const;
@@ -101,7 +102,5 @@ class advanced_inv_area
         void set_container_position();
         aim_location offset_to_location() const;
         bool can_store_in_vehicle() const;
-        // @return vehicle_stack for this area, call only if can_store_in_vehicle is true
-        vehicle_stack get_vehicle_stack() const;
 };
 #endif // CATA_SRC_ADVANCED_INV_AREA_H

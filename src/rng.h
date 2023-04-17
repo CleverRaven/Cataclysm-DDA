@@ -25,7 +25,6 @@ class tripoint_range;
 void rng_set_engine_seed( unsigned int seed );
 
 using cata_default_random_engine = std::minstd_rand0;
-cata_default_random_engine::result_type rng_get_first_seed();
 cata_default_random_engine &rng_get_engine();
 unsigned int rng_bits();
 
@@ -151,7 +150,7 @@ class is_std_array_helper<std::array<T, N>> : public std::true_type
 {
 };
 template<typename T>
-class is_std_array : public is_std_array_helper<std::decay_t<T>>
+class is_std_array : public is_std_array_helper<typename std::decay<T>::type>
 {
 };
 
@@ -161,8 +160,8 @@ class is_std_array : public is_std_array_helper<std::decay_t<T>>
  * or to the default value.
  */
 template<typename C, typename V = typename C::value_type>
-inline std::enable_if_t < !is_std_array<C>::value,
-       const V & > random_entry_ref( const C &container )
+inline typename std::enable_if < !is_std_array<C>::value,
+       const V & >::type random_entry_ref( const C &container )
 {
     if( container.empty() ) {
         static const V default_value = V();

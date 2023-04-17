@@ -20,7 +20,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "bridge" ],
-    "weight": 1000,
+    "weight": 5000000,
     "object": {
       "fill_ter": "t_open_air",
       "rows": [
@@ -56,7 +56,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "bridge" ],
-    "weight": 100,
+    "weight": 500000,
     "object": {
       "fill_ter": "t_open_air",
       "rows": [
@@ -92,6 +92,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "bridge_road" ],
+    "weight": 5000000,
     "object": {
       "fill_ter": "t_open_air",
       "rows": [
@@ -127,6 +128,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "bridgehead_ground" ],
+    "weight": 5000000,
     "object": {
       "predecessor_mapgen": "ravine_edge",
       "rows": [
@@ -162,6 +164,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "bridgehead_ramp" ],
+    "weight": 5000000,
     "object": {
       "fill_ter": "t_open_air",
       "rows": [

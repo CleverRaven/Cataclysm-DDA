@@ -54,8 +54,7 @@
       "mapgensize": [ 1, 1 ],
       "rows": [ "T" ],
       "terrain": { "T": "t_metal_floor" },
-      "items": { "T": { "item": "nano_templates", "chance": 100 } },
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+      "items": { "T": { "item": "nano_templates", "chance": 100 } }
     }
   },
   {

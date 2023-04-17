@@ -15,7 +15,6 @@
       "^": "t_metal_floor",
       "z": "t_metal_floor",
       "Z": "t_metal_floor",
-      "6": "t_metal_floor",
       "~": "t_sewage",
       "_": [ [ "t_moss", 2 ], [ "t_dirtmound", 4 ], [ "t_sewage", 4 ] ],
       "-": "t_bridge",
@@ -39,7 +38,7 @@
       "t": "f_toilet",
       "J": "f_counter",
       "R": "f_bookcase",
-      "∞": [ "f_foot_locker", "f_foot_locker_aluminum" ]
+      "∞": "f_foot_locker"
     },
     "items": {
       "_": [
@@ -56,7 +55,6 @@
       "~": { "group": "GROUP_SEWER", "chance": 2 },
       "z": { "group": "GROUP_ZOMBIE", "chance": 25 },
       "Z": { "group": "GROUP_ZOMBIE", "chance": 100 }
-    },
-    "nested": { "6": { "chunks": [ [ "null", 2 ], [ "1x1_sewermap", 1 ] ] } }
+    }
   }
 ]

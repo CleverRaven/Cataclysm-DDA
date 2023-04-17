@@ -1,10 +1,10 @@
 #include "distraction_manager.h"
 
+#include <functional>
 #include <string>
 
 #include "color.h"
 #include "cursesdef.h"
-#include "input_context.h"
 #include "output.h"
 #include "point.h"
 #include "translations.h"
@@ -37,7 +37,6 @@ static const std::vector<configurable_distraction> &get_configurable_distraction
         {&uistate.distraction_thirst,          translate_marker( "Thirst" ),                       translate_marker( "This distraction will interrupt your activity when you're dangerously dehydrated." )},
         {&uistate.distraction_temperature,     translate_marker( "Temperature" ),                  translate_marker( "This distraction will interrupt your activity when your temperature is very high or very low." )},
         {&uistate.distraction_mutation,        translate_marker( "Mutation" ),                     translate_marker( "This distraction will interrupt your activity when you gain or lose a mutation." )},
-        {&uistate.distraction_oxygen,          translate_marker( "Asphyxiation" ),                 translate_marker( "This distraction will interrupt your activity when you can't breathe." )},
     };
     return configurable_distractions;
 }

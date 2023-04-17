@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cstdlib>
+#include <functional>
 #include <list>
 #include <map>
 #include <memory>
@@ -30,7 +31,7 @@
 #include "faction_camp.h"
 #include "game.h"
 #include "game_constants.h"
-#include "input_context.h"
+#include "input.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_group.h"
@@ -149,7 +150,6 @@ std::string enum_to_string<mission_kind>( mission_kind data )
         case mission_kind::Forage_Job: return "Forage_Job";
         case mission_kind::Caravan_Commune_Center_Job: return "Caravan_Commune_Center_Job";
         case mission_kind::Camp_Distribute_Food: return "Camp_Distribute_Food";
-		case mission_kind::Camp_Determine_Leadership: return "Camp_Determine_Leadership";
         case mission_kind::Camp_Hide_Mission: return "Camp_Hide_Mission";
         case mission_kind::Camp_Reveal_Mission: return "Camp_Reveal_Mission";
         case mission_kind::Camp_Assign_Jobs: return "Camp_Assign_Jobs";
@@ -161,7 +161,6 @@ std::string enum_to_string<mission_kind>( mission_kind data )
         case mission_kind::Camp_Gather_Materials: return "Camp_Gather_Materials";
         case mission_kind::Camp_Collect_Firewood: return "Camp_Collect_Firewood";
         case mission_kind::Camp_Menial: return "Camp_Menial";
-        case mission_kind::Camp_Survey_Field: return "Camp_Survey_Field";
         case mission_kind::Camp_Survey_Expansion: return "Camp_Survey_Expansion";
         case mission_kind::Camp_Cut_Logs: return "Camp_Cut_Logs";
         case mission_kind::Camp_Clearcut: return "Camp_Clearcut";
@@ -227,10 +226,6 @@ static const std::array < miss_data, Camp_Harvest + 1 > miss_info = { {
             no_translation( "" )
         },
         {
-            "Camp_Determine_Leadership",
-            no_translation( "" )
-        },
-        {
             "Hide_Mission",
             no_translation( "" )
         },
@@ -273,10 +268,6 @@ static const std::array < miss_data, Camp_Harvest + 1 > miss_info = { {
         {
             "Camp_Menial",
             to_translation( "Performing menial labor…\n" )
-        },
-        {
-            "Camp_Survey_Field",
-            to_translation( "Surveying for suitable fields…\n" )
         },
         {
             "Camp_Survey_Expansion",
@@ -450,9 +441,6 @@ void mission_id::deserialize( const JsonValue &val )
             dir = base_camps::base_dir;
         } else if( str == "_faction_camp_menial" ) {
             id = Camp_Menial;
-            dir = base_camps::base_dir;
-        } else if( str == "_faction_camp_field" ) {
-            id = Camp_Survey_Field;
             dir = base_camps::base_dir;
         } else if( str == "_faction_camp_expansion" ) {
             id = Camp_Survey_Expansion;
@@ -835,7 +823,7 @@ void talk_function::commune_refuge_caravan( mission_data &mission_key, npc &p )
     }
 
     // Legacy compatibility. Changed during 0.F.
-    miss_id.parameters.clear();
+    miss_id.parameters = "";
     npc_list = companion_list( p, miss_id );
 
     if( !npc_list.empty() ) {
@@ -1209,7 +1197,6 @@ bool talk_function::handle_outpost_mission( const mission_entry &cur_key, npc &p
             return false;
 
         case Camp_Distribute_Food:
-        case Camp_Determine_Leadership:
         case Camp_Hide_Mission:
         case Camp_Reveal_Mission:
         case Camp_Assign_Jobs:
@@ -1221,7 +1208,6 @@ bool talk_function::handle_outpost_mission( const mission_entry &cur_key, npc &p
         case Camp_Gather_Materials:
         case Camp_Collect_Firewood:
         case Camp_Menial:
-        case Camp_Survey_Field:
         case Camp_Survey_Expansion:
         case Camp_Cut_Logs:
         case Camp_Clearcut:
@@ -1507,9 +1493,9 @@ void talk_function::field_plant( npc &p, const std::string &place )
         popup( _( "It is too cold to plant anything now." ) );
         return;
     }
-    std::vector<item *> seed_inv = player_character.cache_get_items_with( "is_seed", &item::is_seed,
-    []( const item & itm ) {
-        return itm.typeId() != itype_marloss_seed && itm.typeId() != itype_fungal_seeds;
+    std::vector<item *> seed_inv = player_character.items_with( []( const item & itm ) {
+        return itm.is_seed() && itm.typeId() != itype_marloss_seed &&
+               itm.typeId() != itype_fungal_seeds;
     } );
     if( seed_inv.empty() ) {
         popup( _( "You have no seeds to plant!" ) );
@@ -1673,6 +1659,7 @@ void talk_function::field_harvest( npc &p, const std::string &place )
             map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item & it ) {
                 return it.is_seed();
             } );
+
             if( seed != items.end() ) {
                 const islot_seed &seed_data = *seed->type->seed;
                 const item item_seed = item( seed->type, calendar::turn );
@@ -2051,7 +2038,7 @@ bool talk_function::carpenter_return( npc &p )
         ///\EFFECT_DODGE_NPC affects carpenter mission results
 
         ///\EFFECT_SURVIVAL_NPC affects carpenter mission results
-        int skill_1 = comp->get_greater_skill_or_knowledge_level( skill_fabrication );
+        int skill_1 = comp->get_skill_level( skill_fabrication );
         int skill_2 = comp->get_skill_level( skill_dodge );
         int skill_3 = comp->get_skill_level( skill_survival );
         popup( _( "While %s was framing a building, one of the walls began to collapse…" ),

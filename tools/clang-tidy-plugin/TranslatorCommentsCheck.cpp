@@ -231,7 +231,7 @@ void TranslatorCommentsCheck::registerMatchers( MatchFinder *Finder )
         );
     Finder->addMatcher(
         callExpr(
-            callee( functionDecl( hasAnyName( "_", "translation_argument_identity" ) ) ),
+            callee( functionDecl( hasAnyName( "_", "translation_argument_identity", "gettext" ) ) ),
             hasImmediateArgument( 0, stringLiteralArgumentBound )
         ),
         this

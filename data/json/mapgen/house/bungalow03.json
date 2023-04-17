@@ -6,7 +6,7 @@
     "method": "json",
     "object": {
       "palettes": [
-        "domestic_general_and_variant_palette",
+        "standard_domestic_palette",
         "standard_domestic_lino_kitchen",
         "standard_domestic_lino_bathroom",
         "standard_domestic_landscaping_palette"
@@ -50,7 +50,6 @@
       },
       "furniture": { "$": "f_rack", "&": "f_table" },
       "items": { "$": { "item": "clothing_outdoor_shoes", "chance": 50 }, "&": { "item": "table_foyer", "chance": 50 } },
-      "place_vehicles": [ { "vehicle": "rolling_trash_can", "x": 3, "y": 1, "chance": 80, "status": 0 } ],
       "place_loot": [ { "item": "laptop", "x": 5, "y": 21, "chance": 50 } ]
     }
   },

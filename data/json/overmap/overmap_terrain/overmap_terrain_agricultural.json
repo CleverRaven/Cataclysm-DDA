@@ -4,7 +4,6 @@
     "abstract": "generic_rural_road",
     "name": "rural road",
     "color": "brown",
-    "travel_cost_type": "dirt_road",
     "see_cost": 2,
     "mondensity": 2
   },
@@ -66,7 +65,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "dirt_road", "dirt_road_forest", "dirt_road_turnback", "dirt_road_farm_parking", "cabin_liam_driveway" ],
+    "id": [ "dirt_road", "dirt_road_forest", "dirt_road_turnback", "dirt_road_farm_parking" ],
     "copy-from": "generic_dirt_road",
     "sym": "│"
   },
@@ -543,18 +542,10 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "paddock_trailhead_5", "paddock_trailhead_8" ],
+    "id": [ "paddock_trailhead_5", "paddock_trailhead_8", "trail_intersection" ],
     "copy-from": "generic_rural_building",
     "name": "forest trail",
     "sym": "│",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "forest_trail_intersection" ],
-    "copy-from": "generic_rural_building",
-    "name": "forest trail",
-    "sym": "O",
     "color": "green"
   },
   {

@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <array>
 #include <cstddef>
+#include <functional>
 #include <iterator>
 #include <numeric>
 #include <optional>
@@ -16,7 +17,8 @@
 #include "color.h"
 #include "cursesdef.h"
 #include "debug.h"
-#include "input_context.h"
+#include "input.h"
+#include "json.h"
 #include "output.h"
 #include "path_info.h"
 #include "point.h"

@@ -89,7 +89,6 @@ class item_location::impl
             return nullptr;
         }
         virtual tripoint position() const = 0;
-        virtual Character *carrier() const = 0;
         virtual std::string describe( const Character * ) const = 0;
         virtual item_location obtain( Character &, int ) = 0;
         virtual units::volume volume_capacity() const = 0;
@@ -142,10 +141,6 @@ class item_location::impl::nowhere : public item_location::impl
         tripoint position() const override {
             debugmsg( "invalid use of nowhere item_location" );
             return tripoint_min;
-        }
-
-        Character *carrier() const override {
-            return nullptr;
         }
 
         std::string describe( const Character * ) const override {
@@ -221,10 +216,6 @@ class item_location::impl::item_on_map : public item_location::impl
 
         tripoint position() const override {
             return cur.pos();
-        }
-
-        Character *carrier() const override {
-            return nullptr;
         }
 
         std::string describe( const Character *ch ) const override {
@@ -350,13 +341,6 @@ class item_location::impl::item_on_person : public item_location::impl
                 return tripoint_zero;
             }
             return who->pos();
-        }
-
-        Character *carrier() const override {
-            if( !ensure_who_unpacked() ) {
-                return nullptr;
-            }
-            return who;
         }
 
         std::string describe( const Character *ch ) const override {
@@ -485,17 +469,13 @@ class item_location::impl::item_on_vehicle : public item_location::impl
             return cur.veh.global_part_pos3( cur.part );
         }
 
-        Character *carrier() const override {
-            return nullptr;
-        }
-
         std::string describe( const Character *ch ) const override {
-            const vpart_position part_pos( cur.veh, cur.part );
+            vpart_position part_pos( cur.veh, cur.part );
             std::string res;
-            if( const std::optional<std::string> label = part_pos.get_label() ) {
+            if( auto label = part_pos.get_label() ) {
                 res = colorize( *label, c_light_blue ) + " ";
             }
-            if( const std::optional<vpart_reference> cargo_part = part_pos.cargo() ) {
+            if( auto cargo_part = part_pos.part_with_feature( "CARGO", true ) ) {
                 res += cargo_part->part().name();
             } else {
                 debugmsg( "item in vehicle part without cargo storage" );
@@ -536,10 +516,9 @@ class item_location::impl::item_on_vehicle : public item_location::impl
 
         void remove_item() override {
             on_contents_changed();
-            vehicle_part &vp = cur.veh.part( cur.part );
-            item &base = vp.base;
+            item &base = cur.veh.part( cur.part ).base;
             if( &base == target() ) {
-                cur.veh.remove_part( vp ); // vehicle_part::base
+                cur.veh.remove_part( cur.part ); // vehicle_part::base
             } else {
                 cur.remove_item( *target() ); // item within CARGO
             }
@@ -555,7 +534,7 @@ class item_location::impl::item_on_vehicle : public item_location::impl
         }
 
         units::volume volume_capacity() const override {
-            return vpart_reference( cur.veh, cur.part ).items().free_volume();
+            return cur.veh.free_volume( cur.part );
         }
 
         units::mass weight_capacity() const override {
@@ -631,10 +610,6 @@ class item_location::impl::item_in_container : public item_location::impl
             } else {
                 return nullptr;
             }
-        }
-
-        Character *carrier() const override {
-            return container.carrier();
         }
 
         std::string describe( const Character * ) const override {
@@ -880,7 +855,7 @@ bool item_location::has_parent() const
     return false;
 }
 
-ret_val<void> item_location::parents_can_contain_recursive( item *it ) const
+bool item_location::parents_can_contain_recursive( item *it ) const
 {
     item_pocket *parent_pocket;
     units::mass it_weight = it->weight();
@@ -907,12 +882,10 @@ ret_val<void> item_location::parents_can_contain_recursive( item *it ) const
         it_volume = it_volume * current_pocket_data->volume_multiplier;
         it_length = it_length * std::cbrt( current_pocket_data->volume_multiplier );
 
-        if( it_weight > parent_pocket->remaining_weight() ) {
-            return ret_val<void>::make_failure( _( "item is too heavy for a parent pocket" ) );
-        } else if( it_volume > parent_pocket->remaining_volume() ) {
-            return ret_val<void>::make_failure( _( "item is too big for a parent pocket" ) );
-        } else if( it_length > parent_pocket->get_pocket_data()->max_item_length ) {
-            return ret_val<void>::make_failure( _( "item is too long for a parent pocket" ) );
+        if( it_weight > parent_pocket->remaining_weight() ||
+            it_volume > parent_pocket->remaining_volume() ||
+            it_length > parent_pocket->get_pocket_data()->max_item_length ) {
+            return false;
         }
 
         //Move up one level of containers
@@ -920,19 +893,19 @@ ret_val<void> item_location::parents_can_contain_recursive( item *it ) const
         current_pocket_data = current_pocket->get_pocket_data();
         current_location = current_location.parent_item();
     }
-    return ret_val<void>::make_success();
+    return true;
 }
 
-ret_val<int> item_location::max_charges_by_parent_recursive( const item &it ) const
+int item_location::max_charges_by_parent_recursive( const item &it ) const
 {
     if( !has_parent() ) {
-        return ret_val<int>::make_success( item::INFINITE_CHARGES );
+        return item::INFINITE_CHARGES;
     }
 
     float weight_multiplier = 1.0f;
     float volume_multiplier = 1.0f;
     units::mass max_weight = 1000_kilogram;
-    units::volume max_volume = MAX_ITEM_VOLUME;
+    units::volume max_volume = 1000_liter;
     item_location current_location = *this;
     //item_location class cannot return current pocket so use first pocket for innermost container
     //Only used for weight and volume multipliers
@@ -970,16 +943,8 @@ ret_val<int> item_location::max_charges_by_parent_recursive( const item &it ) co
         current_location = current_location.parent_item();
     }
 
-    int charges_weight = it.charges_per_weight( max_weight, true );
-    if( charges_weight == 0 ) {
-        return ret_val<int>::make_failure( 0, _( "item is too heavy for a parent pocket" ) );
-    }
-    int charges_volume = it.charges_per_volume( max_volume, true );
-    if( charges_volume == 0 ) {
-        return ret_val<int>::make_failure( 0, _( "item is too big for a parent pocket" ) );
-    }
-
-    return ret_val<int>::make_success( std::min( charges_weight, charges_volume ) );
+    int charges = std::min( it.charges_per_weight( max_weight ), it.charges_per_volume( max_volume ) );
+    return charges;
 }
 
 bool item_location::eventually_contains( item_location loc ) const
@@ -1073,12 +1038,10 @@ void item_location::make_active()
         }
         case type::vehicle: {
             dynamic_cast<impl::item_on_vehicle *>( ptr.get() )->make_active( *this );
-            break;
         }
         case type::invalid:
         case type::character: {
             // NOOP: characters don't cache active items
-            break;
         }
     }
 }
@@ -1098,14 +1061,15 @@ void item_location::set_should_stack( bool should_stack ) const
     ptr->should_stack = should_stack;
 }
 
-Character *item_location::carrier() const
-{
-    return ptr->carrier();
-}
-
 bool item_location::held_by( Character const &who ) const
 {
-    return carrier() == &who;
+    if( where() == type::character &&
+        get_creature_tracker().creature_at<Character>( position() ) == &who ) {
+        return true;
+    } else if( has_parent() ) {
+        return parent_item().held_by( who );
+    }
+    return false;
 }
 
 units::volume item_location::volume_capacity() const
@@ -1146,10 +1110,6 @@ bool item_location::protected_from_liquids() const
 std::unique_ptr<talker> get_talker_for( item_location &it )
 {
     return std::make_unique<talker_item>( &it );
-}
-std::unique_ptr<talker> get_talker_for( const item_location &it )
-{
-    return std::make_unique<talker_item_const>( &it );
 }
 std::unique_ptr<talker> get_talker_for( item_location *it )
 {

@@ -1,5 +1,4 @@
 from ..helper import get_singular_name
-from .use_action import parse_use_action
 from ..write_text import write_text
 
 
@@ -14,9 +13,6 @@ def parse_gun(json, origin):
     if "description" in json:
         write_text(json["description"], origin,
                    comment="Description of gun \"{}\"".format(name))
-
-    if "use_action" in json:
-        parse_use_action(json["use_action"], origin, name)
 
     if "variants" in json:
         for variant in json["variants"]:

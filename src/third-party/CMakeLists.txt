@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.20)
+cmake_minimum_required(VERSION 3.1.4)
 
 # Don't clang-tidy third party code
 set(CMAKE_CXX_CLANG_TIDY "")
@@ -16,7 +16,7 @@ file(GLOB FLATBUFFERS_SOURCES ${THIRD_PARTY_SOURCE_DIR}/flatbuffers/*.cpp)
 add_library(
         flatbuffers
         STATIC
-        ${FLATBUFFERS_HEADERS}
+        ${FLATBUFFER_HEADERS}
         ${FLATBUFFERS_SOURCES})
 
 target_include_directories(

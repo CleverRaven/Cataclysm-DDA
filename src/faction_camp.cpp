@@ -2,15 +2,18 @@
 
 #include <algorithm>
 #include <cstddef>
+#include <functional>
 #include <list>
 #include <map>
 #include <memory>
+#include <new>
 #include <optional>
 #include <set>
 #include <string>
 #include <unordered_set>
 #include <vector>
 
+#include "activity_handlers.h"
 #include "activity_type.h"
 #include "avatar.h"
 #include "basecamp.h"
@@ -29,9 +32,10 @@
 #include "faction.h"
 #include "flag.h"
 #include "game.h"
+#include "game_constants.h"
 #include "game_inventory.h"
 #include "iexamine.h"
-#include "input_context.h"
+#include "input.h"
 #include "inventory.h"
 #include "inventory_ui.h"
 #include "item.h"
@@ -57,6 +61,7 @@
 #include "overmap.h"
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
+#include "pimpl.h"
 #include "player_activity.h"
 #include "point.h"
 #include "recipe.h"
@@ -64,6 +69,7 @@
 #include "requirements.h"
 #include "rng.h"
 #include "skill.h"
+#include "stomach.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
@@ -99,42 +105,37 @@ static const itype_id itype_fungal_seeds( "fungal_seeds" );
 static const itype_id itype_log( "log" );
 static const itype_id itype_marloss_seed( "marloss_seed" );
 
-static const mongroup_id GROUP_CAMP_HUNTING( "GROUP_CAMP_HUNTING" );
-static const mongroup_id GROUP_CAMP_HUNTING_LARGE( "GROUP_CAMP_HUNTING_LARGE" );
-static const mongroup_id GROUP_CAMP_TRAPPING( "GROUP_CAMP_TRAPPING" );
+static const mtype_id mon_bear( "mon_bear" );
+static const mtype_id mon_beaver( "mon_beaver" );
+static const mtype_id mon_black_rat( "mon_black_rat" );
+static const mtype_id mon_chicken( "mon_chicken" );
+static const mtype_id mon_chipmunk( "mon_chipmunk" );
+static const mtype_id mon_cockatrice( "mon_cockatrice" );
+static const mtype_id mon_cougar( "mon_cougar" );
+static const mtype_id mon_cow( "mon_cow" );
+static const mtype_id mon_coyote( "mon_coyote" );
+static const mtype_id mon_deer( "mon_deer" );
+static const mtype_id mon_duck( "mon_duck" );
+static const mtype_id mon_fox_gray( "mon_fox_gray" );
+static const mtype_id mon_fox_red( "mon_fox_red" );
+static const mtype_id mon_groundhog( "mon_groundhog" );
+static const mtype_id mon_grouse( "mon_grouse" );
+static const mtype_id mon_hare( "mon_hare" );
+static const mtype_id mon_lemming( "mon_lemming" );
+static const mtype_id mon_mink( "mon_mink" );
+static const mtype_id mon_moose( "mon_moose" );
+static const mtype_id mon_muskrat( "mon_muskrat" );
+static const mtype_id mon_opossum( "mon_opossum" );
+static const mtype_id mon_otter( "mon_otter" );
+static const mtype_id mon_pheasant( "mon_pheasant" );
+static const mtype_id mon_pig( "mon_pig" );
+static const mtype_id mon_rabbit( "mon_rabbit" );
+static const mtype_id mon_squirrel( "mon_squirrel" );
+static const mtype_id mon_turkey( "mon_turkey" );
+static const mtype_id mon_weasel( "mon_weasel" );
+static const mtype_id mon_wolf( "mon_wolf" );
 
-static const oter_str_id oter_dirt_road_3way_forest_east( "dirt_road_3way_forest_east" );
-static const oter_str_id oter_dirt_road_3way_forest_north( "dirt_road_3way_forest_north" );
-static const oter_str_id oter_dirt_road_3way_forest_south( "dirt_road_3way_forest_south" );
-static const oter_str_id oter_dirt_road_3way_forest_west( "dirt_road_3way_forest_west" );
-static const oter_str_id oter_dirt_road_forest_east( "dirt_road_forest_east" );
-static const oter_str_id oter_dirt_road_forest_north( "dirt_road_forest_north" );
-static const oter_str_id oter_dirt_road_forest_south( "dirt_road_forest_south" );
-static const oter_str_id oter_dirt_road_forest_west( "dirt_road_forest_west" );
-static const oter_str_id oter_dirt_road_turn_forest_east( "dirt_road_turn_forest_east" );
-static const oter_str_id oter_dirt_road_turn_forest_north( "dirt_road_turn_forest_north" );
-static const oter_str_id oter_dirt_road_turn_forest_south( "dirt_road_turn_forest_south" );
-static const oter_str_id oter_dirt_road_turn_forest_west( "dirt_road_turn_forest_west" );
-static const oter_str_id oter_forest( "forest" );
-static const oter_str_id oter_forest_thick( "forest_thick" );
-static const oter_str_id oter_rural_road_3way_forest_east( "rural_road_3way_forest_east" );
-static const oter_str_id oter_rural_road_3way_forest_north( "rural_road_3way_forest_north" );
-static const oter_str_id oter_rural_road_3way_forest_south( "rural_road_3way_forest_south" );
-static const oter_str_id oter_rural_road_3way_forest_west( "rural_road_3way_forest_west" );
-static const oter_str_id oter_rural_road_forest_east( "rural_road_forest_east" );
-static const oter_str_id oter_rural_road_forest_north( "rural_road_forest_north" );
-static const oter_str_id oter_rural_road_forest_south( "rural_road_forest_south" );
-static const oter_str_id oter_rural_road_forest_west( "rural_road_forest_west" );
-static const oter_str_id oter_rural_road_turn1_forest_east( "rural_road_turn1_forest_east" );
-static const oter_str_id oter_rural_road_turn1_forest_north( "rural_road_turn1_forest_north" );
-static const oter_str_id oter_rural_road_turn1_forest_south( "rural_road_turn1_forest_south" );
-static const oter_str_id oter_rural_road_turn1_forest_west( "rural_road_turn1_forest_west" );
-static const oter_str_id oter_rural_road_turn_forest_east( "rural_road_turn_forest_east" );
-static const oter_str_id oter_rural_road_turn_forest_north( "rural_road_turn_forest_north" );
-static const oter_str_id oter_rural_road_turn_forest_south( "rural_road_turn_forest_south" );
-static const oter_str_id oter_rural_road_turn_forest_west( "rural_road_turn_forest_west" );
-static const oter_str_id oter_special_forest( "special_forest" );
-static const oter_str_id oter_special_forest_thick( "special_forest_thick" );
+static const oter_str_id oter_forest_wet( "forest_wet" );
 
 static const oter_type_str_id oter_type_forest_trail( "forest_trail" );
 
@@ -178,12 +179,6 @@ static const update_mapgen_id update_mapgen_faction_wall_level_N_1(
 static const std::string camp_om_fortifications_trench_parameter = faction_wall_level_n_0_string;
 static const std::string camp_om_fortifications_spiked_trench_parameter =
     faction_wall_level_n_1_string;
-
-static const std::string var_time_between_succession =
-    "npctalk_var_time_between_succession";
-
-static const std::string var_timer_time_of_last_succession =
-    "npctalk_var_timer_time_of_last_succession";
 
 //  These strings are matched against recipe group 'building_type'. Definite candidates for JSON definitions of
 //  the various UI strings corresponding to these groups.
@@ -301,8 +296,12 @@ static std::string camp_trip_description( const time_duration &total_time,
         const time_duration &travel_time,
         int distance, int trips, int need_food );
 
-/// The number of days the current camp supplies lasts at the given exertion level.
-static int camp_food_supply_days( float exertion_level );
+/// Changes the faction food supply by @ref change, 0 returns total food supply, a negative
+/// total food supply hurts morale
+static int camp_food_supply( int change = 0, bool return_days = false );
+/// Same as above but takes a time_duration and consumes from faction food supply for that
+/// duration of work
+static int camp_food_supply( time_duration work, float exertion_level = NO_EXERCISE );
 /// Returns the total charges of food time_duration @ref work costs
 static int time_to_food( time_duration work, float exertion_level = NO_EXERCISE );
 /// Changes the faction respect for you by @ref change, returns respect
@@ -348,14 +347,11 @@ static std::string mission_ui_activity_of( const mission_id &miss_id )
         case Camp_Distribute_Food:
             return _( "Distribute Food" );
 
-        case Camp_Determine_Leadership:
-            return _( "Choose New Leader" );
-
         case Camp_Hide_Mission:
-            return _( "Hide Mission(s)" );
+            return _( "Hide Mission" );
 
         case Camp_Reveal_Mission:
-            return _( "Reveal Hidden Mission(s)" );
+            return _( "Reveal Hidden Mission" );
 
         case Camp_Assign_Jobs:
             return _( "Assign Jobs" );
@@ -380,9 +376,6 @@ static std::string mission_ui_activity_of( const mission_id &miss_id )
 
         case Camp_Menial:
             return dir_abbr + _( " Menial Labor" );
-
-        case Camp_Survey_Field:
-            return _( "Survey terrain and try to convert it to Field" );
 
         case Camp_Survey_Expansion:
             return _( "Expand Base" );
@@ -571,7 +564,7 @@ static bool extract_and_check_orientation_flags( const recipe_id &recipe,
     } else if( dir == point_west ) {
         dir_string = "W";
     } else if( dir == point_zero ) {
-        dir_string.clear();  //  Will result in "hidden" flags that can actually affect the core.
+        dir_string = "";  //  Will result in "hidden" flags that can actually affect the core.
     } else if( dir == point_east ) {
         dir_string = "E";
     } else if( dir == point_south_west ) {
@@ -708,7 +701,7 @@ void talk_function::start_camp( npc &p )
     }
     std::optional<basecamp *> camp = get_basecamp( p, camp_type.str() );
     if( camp.has_value() ) {
-        for( int tab_num = base_camps::TAB_MAIN; tab_num <= base_camps::TAB_NW; tab_num++ ) {
+        for( int tab_num = base_camps::TAB_MAIN; tab_num < base_camps::TAB_NW; tab_num++ ) {
             std::vector<ui_mission_id> temp;
             camp.value()->hidden_missions.push_back( temp );
         }
@@ -758,7 +751,6 @@ void basecamp::add_available_recipes( mission_data &mission_key, mission_kind ki
 void basecamp::get_available_missions_by_dir( mission_data &mission_key, const point &dir )
 {
     std::string entry;
-    faction *yours = get_player_character().get_faction();
 
     const std::string dir_id = base_camps::all_directions.at( dir ).id;
     const std::string dir_abbr = base_camps::all_directions.at( dir ).bracket_abbr.translated();
@@ -790,24 +782,8 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
 
             if( npc_list.empty() ) {
                 std::string display_name = name_display_of( miss_id );
-                const recipe &making = *recipe_id( miss_id.parameters );
-                const int foodcost = time_to_food( base_camps::to_workdays( time_duration::from_moves(
-                                                       making.blueprint_build_reqs().reqs_by_parameters.find( miss_id.mapgen_args )->second.time ) ),
-                                                   making.exertion_level() );
-                const int available_calories = yours->food_supply.kcal();
-                bool can_upgrade = upgrade.avail;
                 entry = om_upgrade_description( upgrade.bldg, upgrade.args );
-                if( foodcost > available_calories ) {
-                    can_upgrade = false;
-                    entry += string_format( _( "Total calorie cost: %s (have %d)" ),
-                                            colorize( std::to_string( foodcost ), c_red ),
-                                            available_calories );
-                } else {
-                    entry += string_format( _( "Total calorie cost: %s (have %d)" ),
-                                            colorize( std::to_string( foodcost ), c_green ),
-                                            available_calories );
-                }
-                mission_key.add_start( miss_id, display_name, entry, can_upgrade );
+                mission_key.add_start( miss_id, display_name, entry, upgrade.avail );
             } else {
                 entry = action_of( miss_id.id );
                 bool avail = update_time_left( entry, npc_list );
@@ -1103,7 +1079,7 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
         }
 
         //  Code to deal with legacy construction (Changed during 0.F)
-        miss_id.parameters.clear();
+        miss_id.parameters = "";
         npc_list = get_mission_workers( miss_id );
 
         if( !npc_list.empty() ) {
@@ -1256,7 +1232,7 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
               !hidden_missions[size_t( base_camps::all_directions.at( dir ).tab_order )].empty() ) ) {
             {
                 const mission_id miss_id = { Camp_Hide_Mission, "", {}, dir };
-                entry = string_format( _( "Hide one or more missions to clean up the UI." ) );
+                entry = string_format( _( "Hide a mission to clean up the UI." ) );
                 mission_key.add( { miss_id, false }, name_display_of( miss_id ),
                                  entry );
             }
@@ -1267,7 +1243,7 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
                 }
 
                 const mission_id miss_id = { Camp_Reveal_Mission, "", {}, dir };
-                entry = string_format( _( "Reveal one or more missions previously hidden.\n"
+                entry = string_format( _( "Reveal a mission previously hidden.\n"
                                           "Current number of hidden missions: %d" ),
                                        count );
                 mission_key.add( { miss_id, false }, name_display_of( miss_id ),
@@ -1365,7 +1341,6 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
 void basecamp::get_available_missions( mission_data &mission_key, map &here )
 {
     std::string entry;
-    faction *yours = get_player_character().get_faction();
 
     const point &base_dir = base_camps::base_dir;
     const base_camps::direction_data &base_data = base_camps::all_directions.at( base_dir );
@@ -1374,66 +1349,11 @@ void basecamp::get_available_missions( mission_data &mission_key, map &here )
 
     // Missions that belong exclusively to the central tile
     {
-        if( directions.size() < 8 ) {
-            bool free_non_field_found = false;
-
-            for( const auto &dir : base_camps::all_directions ) {
-                if( dir.first != base_camps::base_dir && expansions.find( dir.first ) == expansions.end() &&
-                    overmap_buffer.ter_existing( omt_pos + dir.first ) != oter_id( "field" ) ) {
-                    free_non_field_found = true;
-                    break;
-                }
-            }
-
-            if( free_non_field_found ) {
-                const mission_id miss_id = { Camp_Survey_Field, "", {}, base_dir };
-                comp_list npc_list = get_mission_workers( miss_id );
-                entry = string_format( _( "Notes:\n"
-                                          "Nearby terrain can be turned into fields if it is completely "
-                                          "cleared of terrain that isn't grass or dirt.  Doing so makes that "
-                                          "terrain eligible for usage for standard base camp expansion.  Note "
-                                          "that log cutting does this conversion automatically when the trees "
-                                          "are depleted, but not all terrain can be logged.\n\n"
-                                          "Skill used: N/A\n"
-                                          "Effects:\n"
-                                          "> If the expansion direction selected is eligible for conversion into "
-                                          "a field this mission will perform that conversion.  If it is not eligible "
-                                          "you are told as much, and would have to make it suitable for conversion "
-                                          "by removing everything that isn' grass or soil.  Mining zones are useful to "
-                                          "remove pavement, for instance.  Note that removal of buildings is dangerous, "
-                                          "laborious, and may still fail to get rid of everything if e.g. a basement or "
-                                          "an opening to underground areas (such as a manhole) remains.\n\n"
-                                          "Risk: None\n"
-                                          "Intensity: Moderate\n"
-                                          "Time: 0 Hours\n"
-                                          "Positions: %d/1\n" ), npc_list.size() );
-                mission_key.add_start( miss_id, name_display_of( miss_id ),
-                                       entry, npc_list.empty() );
-                if( !npc_list.empty() ) {
-                    entry = action_of( miss_id.id );
-                    bool avail = update_time_left( entry, npc_list );
-                    mission_key.add_return( miss_id, _( "Recover Field Surveyor" ),
-                                            entry, avail );
-                }
-            }
-
-            bool possible_expansion_found = false;
-
-            for( const auto &dir : base_camps::all_directions ) {
-                if( dir.first != base_camps::base_dir && expansions.find( dir.first ) == expansions.end() ) {
-                    const oter_id &omt_ref = overmap_buffer.ter( omt_pos + dir.first );
-                    const auto &pos_expansions = recipe_group::get_recipes_by_id( "all_faction_base_expansions",
-                                                 omt_ref.id().c_str() );
-                    if( !pos_expansions.empty() ) {
-                        possible_expansion_found = true;
-                        break;
-                    }
-                }
-            }
-
+        if( can_expand() ) {
             const mission_id miss_id = { Camp_Survey_Expansion, "", {}, base_dir };
             comp_list npc_list = get_mission_workers( miss_id );
             entry = string_format( _( "Notes:\n"
+                                      "Your base has become large enough to support an expansion.  "
                                       "Expansions open up new opportunities but can be expensive and "
                                       "time-consuming.  Pick them carefully, at most 8 can be built "
                                       "at each camp.\n\n"
@@ -1441,9 +1361,9 @@ void basecamp::get_available_missions( mission_data &mission_key, map &here )
                                       "Effects:\n"
                                       "> Choose any one of the available expansions.  Starting with "
                                       "a farm is always a solid choice since food is used to support "
-                                      "companion missions and minimal investment is needed to get it going.  "
-                                      "A forge is also a great idea, allowing you to refine resources for "
-                                      "subsequent expansions, craft better gear and make charcoal.\n\n"
+                                      "companion missions and little is needed to get it going.  "
+                                      "With minimal investment, and a forge provides the resources "
+                                      "to make charcoal.\n\n"
                                       "NOTE: Actions available through expansions are located in "
                                       "separate tabs of the Camp Manager window.\n\n"
                                       "Risk: None\n"
@@ -1451,12 +1371,21 @@ void basecamp::get_available_missions( mission_data &mission_key, map &here )
                                       "Time: 3 Hours\n"
                                       "Positions: %d/1\n" ), npc_list.size() );
             mission_key.add_start( miss_id, name_display_of( miss_id ),
-                                   entry, npc_list.empty() && possible_expansion_found );
+                                   entry, npc_list.empty() );
             if( !npc_list.empty() ) {
                 entry = action_of( miss_id.id );
                 bool avail = update_time_left( entry, npc_list );
                 mission_key.add_return( miss_id, _( "Recover Surveyor" ),
                                         entry, avail );
+            }
+        } else {
+            // Unless maximum expansions have been reached, show "Expand Base",
+            // but in a disabled state, with a message about what is required.
+            if( directions.size() < 8 ) {
+                const mission_id miss_id = { Camp_Survey_Expansion, "", {}, base_dir };
+                entry = _( "You will need more beds before you can expand your base." );
+                mission_key.add_start( miss_id, name_display_of( miss_id ),
+                                       entry, false );
             }
         }
     }
@@ -1478,20 +1407,8 @@ void basecamp::get_available_missions( mission_data &mission_key, map &here )
                                       "> Rotten: 0%%\n"
                                       "> Rots in < 2 days: 60%%\n"
                                       "> Rots in < 5 days: 80%%\n\n"
-                                      "Total faction food stock: %d kcal\nor %d / %d / %d day's rations\n"
-                                      "where the days is measured for Extra / Moderate / No exercise levels" ),
-                                   yours->food_supply.kcal(), camp_food_supply_days( EXTRA_EXERCISE ),
-                                   camp_food_supply_days( MODERATE_EXERCISE ), camp_food_supply_days( NO_EXERCISE ) );
-            mission_key.add( { miss_id, false }, name_display_of( miss_id ),
-                             entry );
-        }
-        {
-            const mission_id miss_id = { Camp_Determine_Leadership, "", {}, base_dir };
-            entry = string_format( _( "Notes:\n"
-                                      "Choose a new leader for your faction.\n"
-                                      "<color_yellow>You will switch to playing as the new leader.</color>\n"
-                                      "Difficulty: N/A\n"
-                                      "Risk: None\n" ) );
+                                      "Total faction food stock: %d kcal\nor %d day's rations" ),
+                                   camp_food_supply(), camp_food_supply( 0, true ) );
             mission_key.add( { miss_id, false }, name_display_of( miss_id ),
                              entry );
         }
@@ -1559,105 +1476,6 @@ void basecamp::get_available_missions( mission_data &mission_key, map &here )
     }
 }
 
-void basecamp::choose_new_leader()
-{
-    // This is ugly, but dialogue vars are stored as strings, even if they hold data for times.
-    time_point last_succession_time = time_point::from_turn( std::stof(
-                                          get_player_character().get_value( var_timer_time_of_last_succession ) ) );
-    time_duration succession_cooldown = time_duration::from_turns( std::stof(
-                                            get_globals().get_global_value(
-                                                    var_time_between_succession ) ) );
-    time_point next_succession_chance = last_succession_time + succession_cooldown;
-    int current_time_int = to_seconds<int>( calendar::turn - calendar::turn_zero );
-    if( next_succession_chance >= calendar::turn ) {
-        popup( _( "It's too early for that.  A new leader can be chosen in %s." ),
-               to_string( next_succession_chance - calendar::turn ) );
-        return;
-    }
-    std::vector<std::string> choices;
-    int choice = 0;
-    choices.emplace_back _( "autocratic" );
-    choices.emplace_back _( "sortition" );
-    choices.emplace_back _( "democratic" );
-
-    choice = uilist( _( "Choose how the new leader will be determined." ), choices );
-
-    if( choice < 0 || static_cast<size_t>( choice ) >= choices.size() ) {
-        popup( _( "You choose to wait…" ) );
-        return;
-    }
-
-    // Autocratic
-    if( choice == 0 ) {
-        if( !query_yn(
-                _( "As an experienced leader, only you know what will be required of future leaders.  You will choose.\n\nIs this acceptable?" ) ) ) {
-            return;
-        }
-        get_avatar().control_npc_menu( false );
-        // Possible to exit menu and not choose a *new* leader. However this doesn't reset global timer. 100% on purpose, since you are "choosing" yourself.
-        get_player_character().set_value( var_timer_time_of_last_succession,
-                                          std::to_string( current_time_int ) );
-    }
-
-    // Vector of pairs containing a pointer to an NPC and their modified social score
-    std::vector<std::pair<shared_ptr_fast<npc>, int>> followers;
-    // You is still a nullptr! We never want to actually call the first value, this will crash.
-    shared_ptr_fast<npc> you;
-    followers.emplace_back( you, rng( 0, 5 ) +
-                            rng( 0, get_avatar().get_skill_level( skill_speech ) * 2 ) );
-    int charnum = 0;
-    for( const character_id &elem : g->get_follower_list() ) {
-        shared_ptr_fast<npc> follower = overmap_buffer.find_npc( elem );
-        if( follower ) {
-            // Yes this is a very barren representation of who gets elected in a democracy. Too bad!
-            int popularity = rng( 0, 5 ) + rng( 0, follower->get_skill_level( skill_speech ) * 2 );
-            followers.emplace_back( follower, popularity );
-            charnum++;
-        }
-    }
-    // Sortition
-    if( choice == 1 ) {
-        if( !query_yn(
-                _( "You will allow fate to choose the next leader.  Whether it's by dice, drawing straws, or picking names out of a hat, it will be purely random.\n\nIs this acceptable?" ) ) ) {
-            return;
-        }
-        int selected = rng( 0, charnum );
-        // Vector starts at 0, we inserted 'you' first, 0 will always be 'you' pre-sort (that's why we don't sort unless democracy is called)
-        if( selected == 0 ) {
-            popup( _( "Fate calls for you to remain in your role as leader… for now." ) );
-            get_player_character().set_value( var_timer_time_of_last_succession,
-                                              std::to_string( current_time_int ) );
-            return;
-        }
-        npc_ptr chosen = followers.at( selected ).first;
-        popup( _( "Fate chooses %s to lead your faction." ), chosen->get_name() );
-        get_avatar().control_npc( *chosen, false );
-        return;
-    }
-
-    // Democratic
-    if( choice == 2 ) {
-        if( !query_yn(
-                _( "A leader can only lead those willing to follow.  Everyone must get a say in choosing the new leader.\n\nIs this acceptable?" ) ) ) {
-            return;
-        }
-        std::sort( followers.begin(), followers.end(), []( const auto & x, const auto & y ) {
-            return x.second > y.second;
-        } );
-        npc_ptr elected = followers.at( 0 ).first;
-        // you == nullptr
-        if( elected == nullptr ) {
-            popup( _( "You win the election!" ) );
-            get_player_character().set_value( var_timer_time_of_last_succession,
-                                              std::to_string( current_time_int ) );
-            return;
-        }
-        popup( _( "%1$s wins the election with a popularity of %2$s!  The runner-up had a popularity of %3$s." ),
-               elected->get_name(), followers.at( 0 ).second, followers.at( 1 ).second );
-        get_avatar().control_npc( *elected, false );
-    }
-}
-
 bool basecamp::handle_mission( const ui_mission_id &miss_id )
 {
     if( miss_id.id.id == No_Mission ) {
@@ -1672,10 +1490,6 @@ bool basecamp::handle_mission( const ui_mission_id &miss_id )
     switch( miss_id.id.id ) {
         case Camp_Distribute_Food:
             distribute_food();
-            break;
-
-        case Camp_Determine_Leadership:
-            choose_new_leader();
             break;
 
         case Camp_Hide_Mission:
@@ -1737,8 +1551,8 @@ bool basecamp::handle_mission( const ui_mission_id &miss_id )
                                          msg,
                                          skill_construction.str(), 2 );
             } else {
-                const std::string bldg = recipe_group::get_building_of_recipe( miss_id.id.parameters );
-                start_crafting( recipe_group::get_building_of_recipe( miss_id.id.parameters ), miss_id.id );
+                start_crafting( recipe_group::get_building_of_recipe( miss_id.id.parameters ), miss_id.id,
+                                MODERATE_EXERCISE );
             }
             break;
 
@@ -1765,15 +1579,6 @@ bool basecamp::handle_mission( const ui_mission_id &miss_id )
                 menial_return( miss_id.id );
             } else {
                 start_menial_labor();
-            }
-            break;
-
-        case Camp_Survey_Field:
-            if( miss_id.ret ) {
-                survey_field_return( miss_id.id );
-            } else {
-                start_mission( miss_id.id, 0_hours, true,
-                               _( "departs to look for suitable fields…" ), false, {}, skill_gun, 0, MODERATE_EXERCISE );
             }
             break;
 
@@ -1918,8 +1723,7 @@ npc_ptr basecamp::start_mission( const mission_id &miss_id, time_duration durati
                                  const std::vector<item *> &equipment, float exertion_level,
                                  const std::map<skill_id, int> &required_skills )
 {
-    faction *yours = get_player_character().get_faction();
-    if( must_feed && yours->food_supply.kcal() < time_to_food( duration, exertion_level ) ) {
+    if( must_feed && camp_food_supply() < time_to_food( duration, exertion_level ) ) {
         popup( _( "You don't have enough food stored to feed your companion." ) );
         return nullptr;
     }
@@ -1939,11 +1743,7 @@ npc_ptr basecamp::start_mission( const mission_id &miss_id, time_duration durati
             }
             for( item *i : equipment ) {
                 int count = i->count();
-                if( i->count_by_charges() ) {
-                    target_map.use_charges( src_set_pt, i->typeId(), count );
-                } else {
-                    target_map.use_amount( src_set_pt, i->typeId(), count );
-                }
+                target_map.use_charges( src_set_pt, i->typeId(), count );
             }
             target_map.save();
         }
@@ -1952,17 +1752,17 @@ npc_ptr basecamp::start_mission( const mission_id &miss_id, time_duration durati
 }
 
 comp_list basecamp::start_multi_mission( const mission_id &miss_id,
-        bool must_feed, const std::string &desc,
+        bool must_feed, const std::string &desc, float exertion_level,
         // const std::vector<item*>& equipment, //  No support for extracting equipment from recipes currently..
         const skill_id &skill_tested, int skill_level )
 {
     std::map<skill_id, int> required_skills;
     required_skills[skill_tested] = skill_level;
-    return start_multi_mission( miss_id, must_feed, desc, required_skills );
+    return start_multi_mission( miss_id, must_feed, desc, exertion_level, required_skills );
 }
 
 comp_list basecamp::start_multi_mission( const mission_id &miss_id,
-        bool must_feed, const std::string &desc,
+        bool must_feed, const std::string &desc, float exertion_level,
         // const std::vector<item*>& equipment, //  No support for extracting equipment from recipes currently..
         const std::map<skill_id, int> &required_skills )
 {
@@ -1971,7 +1771,6 @@ comp_list basecamp::start_multi_mission( const mission_id &miss_id,
     cata_assert( req_it != making.blueprint_build_reqs().reqs_by_parameters.end() );
     const build_reqs &bld_reqs = req_it->second;
     time_duration base_time = time_duration::from_moves( bld_reqs.time );
-    faction *yours = get_player_character().get_faction();
 
     comp_list result;
 
@@ -1981,8 +1780,7 @@ comp_list basecamp::start_multi_mission( const mission_id &miss_id,
         work_days = base_camps::to_workdays( base_time / ( result.size() + 1 ) );
 
         if( must_feed &&
-            yours->food_supply.kcal() < time_to_food( work_days * ( result.size() + 1 ),
-                    making.exertion_level() ) ) {
+            camp_food_supply() < time_to_food( work_days * ( result.size() + 1 ), exertion_level ) ) {
             if( result.empty() ) {
                 popup( _( "You don't have enough food stored to feed your companion for this task." ) );
                 return result;
@@ -2014,7 +1812,7 @@ comp_list basecamp::start_multi_mission( const mission_id &miss_id,
             comp->companion_mission_time_ret = calendar::turn + work_days;
         }
         if( must_feed ) {
-            camp_food_supply( work_days * result.size(), making.exertion_level() );
+            camp_food_supply( work_days * result.size(), exertion_level );
         }
         return result;
     }
@@ -2049,46 +1847,23 @@ void basecamp::start_upgrade( const mission_id &miss_id )
         if( bld_reqs.skills.empty() ) {
             if( making.skill_used.is_valid() ) {
                 comp = start_multi_mission( miss_id, must_feed,
-                                            _( "begins to upgrade the camp…" ),
+                                            _( "begins to upgrade the camp…" ), BRISK_EXERCISE,
                                             making.skill_used, making.difficulty );
             } else {
                 comp = start_multi_mission( miss_id, must_feed,
-                                            _( "begins to upgrade the camp…" ) );
+                                            _( "begins to upgrade the camp…" ), BRISK_EXERCISE );
             }
         } else {
             comp = start_multi_mission( miss_id, must_feed, _( "begins to upgrade the camp…" ),
+                                        BRISK_EXERCISE,
                                         bld_reqs.skills );
         }
         if( comp.empty() ) {
             return;
         }
         components.consume_components();
-        const point dir = miss_id.dir.value();  //  Will always have a value
-
         update_in_progress( miss_id.parameters,
-                            dir );
-
-        bool mirror_horizontal;
-        bool mirror_vertical;
-        int rotation;
-
-        auto e = expansions.find( dir );
-        if( e == expansions.end() ) {
-            return;
-        }
-        const tripoint_abs_omt upos = e->second.pos;
-
-        extract_and_check_orientation_flags( making.ident(),
-                                             dir,
-                                             mirror_horizontal,
-                                             mirror_vertical,
-                                             rotation,
-                                             "%s failed to build the %s upgrade",
-                                             "" );
-
-        apply_construction_marker( making.get_blueprint(), upos,
-                                   miss_id.mapgen_args, mirror_horizontal,
-                                   mirror_vertical, rotation, true );
+                            miss_id.dir.value() );  //  Dir should always have a value for upgrades.
     } else {
         popup( _( "You don't have the materials for the upgrade." ) );
     }
@@ -2406,8 +2181,7 @@ void basecamp::job_assignment_ui()
 
 void basecamp::start_menial_labor()
 {
-    faction *yours = get_player_character().get_faction();
-    if( yours->food_supply.kcal() < time_to_food( 3_hours ) ) {
+    if( camp_food_supply() < time_to_food( 3_hours ) ) {
         popup( _( "You don't have enough food stored to feed your companion." ) );
         return;
     }
@@ -2421,91 +2195,10 @@ void basecamp::start_menial_labor()
     popup( _( "%s goes off to clean toilets and sort loot." ), comp->disp_name() );
 }
 
-static void change_cleared_terrain( tripoint_abs_omt forest )
-{
-    if( om_cutdown_trees_est( forest ) < 5 ) {
-        const oter_id &omt_trees = overmap_buffer.ter( forest );
-        const std::string omt_trees_string = static_cast<std::string>( omt_trees.id() );
-
-        if( omt_trees_string.find( "dirt_road" ) != std::string::npos ) {}
-
-        if( omt_trees.id() == oter_dirt_road_forest_north ) {
-            overmap_buffer.ter_set( forest, oter_id( "dirt_road_north" ) );
-        } else if( omt_trees.id() == oter_dirt_road_forest_east ) {
-            overmap_buffer.ter_set( forest, oter_id( "dirt_road_east" ) );
-        } else if( omt_trees.id() == oter_dirt_road_forest_south ) {
-            overmap_buffer.ter_set( forest, oter_id( "dirt_road_south" ) );
-        } else if( omt_trees.id() == oter_dirt_road_forest_west ) {
-            overmap_buffer.ter_set( forest, oter_id( "dirt_road_west" ) );
-        } else if( omt_trees.id() == oter_dirt_road_3way_forest_north ) {
-            overmap_buffer.ter_set( forest, oter_id( "dirt_road_3way_north" ) );
-        } else if( omt_trees.id() == oter_dirt_road_3way_forest_east ) {
-            overmap_buffer.ter_set( forest, oter_id( "dirt_road_3way_east" ) );
-        } else if( omt_trees.id() == oter_dirt_road_3way_forest_south ) {
-            overmap_buffer.ter_set( forest, oter_id( "dirt_road_3way_south" ) );
-        } else if( omt_trees.id() == oter_dirt_road_3way_forest_west ) {
-            overmap_buffer.ter_set( forest, oter_id( "dirt_road_3way_west" ) );
-        } else if( omt_trees.id() == oter_dirt_road_turn_forest_north ) {
-            overmap_buffer.ter_set( forest, oter_id( "dirt_road_turn_north" ) );
-        } else if( omt_trees.id() == oter_dirt_road_turn_forest_east ) {
-            overmap_buffer.ter_set( forest, oter_id( "dirt_road_turn_east" ) );
-        } else if( omt_trees.id() == oter_dirt_road_turn_forest_south ) {
-            overmap_buffer.ter_set( forest, oter_id( "dirt_road_turn_south" ) );
-        } else if( omt_trees.id() == oter_dirt_road_turn_forest_west ) {
-            overmap_buffer.ter_set( forest, oter_id( "dirt_road_turn_west" ) );
-        }
-
-        else if( omt_trees.id() == oter_forest || omt_trees.id() == oter_forest_thick ||
-                 omt_trees.id() == oter_special_forest || omt_trees.id() == oter_special_forest_thick ||
-                 omt_trees_string.find( "forest_trail" ) != std::string::npos ) {
-            overmap_buffer.ter_set( forest, oter_id( "field" ) );
-        } else if( omt_trees.id() == oter_rural_road_forest_north ) {
-            overmap_buffer.ter_set( forest, oter_id( "rural_road_north" ) );
-        } else if( omt_trees.id() == oter_rural_road_forest_east ) {
-            overmap_buffer.ter_set( forest, oter_id( "rural_road_east" ) );
-        } else if( omt_trees.id() == oter_rural_road_forest_south ) {
-            overmap_buffer.ter_set( forest, oter_id( "rural_road_south" ) );
-        } else if( omt_trees.id() == oter_rural_road_forest_west ) {
-            overmap_buffer.ter_set( forest, oter_id( "rural_road_west" ) );
-        } else if( omt_trees.id() == oter_rural_road_3way_forest_north ) {
-            overmap_buffer.ter_set( forest, oter_id( "rural_road_3way_north" ) );
-        } else if( omt_trees.id() == oter_rural_road_3way_forest_east ) {
-            overmap_buffer.ter_set( forest, oter_id( "rural_road_3way_east" ) );
-        } else if( omt_trees.id() == oter_rural_road_3way_forest_south ) {
-            overmap_buffer.ter_set( forest, oter_id( "rural_road_3way_south" ) );
-        } else if( omt_trees.id() == oter_rural_road_3way_forest_west ) {
-            overmap_buffer.ter_set( forest, oter_id( "rural_road_3way_west" ) );
-        } else if( omt_trees.id() == oter_rural_road_turn_forest_north ) {
-            overmap_buffer.ter_set( forest, oter_id( "rural_road_turn_north" ) );
-        } else if( omt_trees.id() == oter_rural_road_turn_forest_east ) {
-            overmap_buffer.ter_set( forest, oter_id( "rural_road_turn_east" ) );
-        } else if( omt_trees.id() == oter_rural_road_turn_forest_south ) {
-            overmap_buffer.ter_set( forest, oter_id( "rural_road_turn_south" ) );
-        } else if( omt_trees.id() == oter_rural_road_turn_forest_west ) {
-            overmap_buffer.ter_set( forest, oter_id( "rural_road_turn_west" ) );
-        } else if( omt_trees.id() == oter_rural_road_turn1_forest_north ) {
-            overmap_buffer.ter_set( forest, oter_id( "rural_road_turn1_north" ) );
-        } else if( omt_trees.id() == oter_rural_road_turn1_forest_east ) {
-            overmap_buffer.ter_set( forest, oter_id( "rural_road_turn1_east" ) );
-        } else if( omt_trees.id() == oter_rural_road_turn1_forest_south ) {
-            overmap_buffer.ter_set( forest, oter_id( "rural_road_turn1_south" ) );
-        } else if( omt_trees.id() == oter_rural_road_turn1_forest_west ) {
-            overmap_buffer.ter_set( forest, oter_id( "rural_road_turn1_west" ) );
-        } else {
-            popup( _( "%s isn't a recognized terrain.  Please file a bug report." ), omt_trees.id().c_str() );
-            return;
-        }
-        popup( _( "The logged tile has been cleared and cannot be logged further after this mission." ),
-               omt_trees.id().c_str() );
-    }
-}
-
 void basecamp::start_cut_logs( const mission_id &miss_id, float exertion_level )
 {
-    std::vector<std::string> log_sources = { "forest", "forest_thick", "forest_trail", "rural_road_forest", "rural_road_turn_forest", "rural_road_turn1_forest", "rural_road_3way_forest",
-                                             "dirt_road_forest", "dirt_road_3way_forest", "dirt_road_turn_forest", "forest_trail_intersection", "special_forest", "special_forest_thick", "forest_trail_isolated", "forest_trail_end"
-                                           };
-    popup( _( "Forests are the only valid cutting locations, with forest dirt roads, forest rural roads, and trails being valid as well.  Note that it's likely both forest and field roads look exactly the same after having been cleared." ) );
+    std::vector<std::string> log_sources = { "forest", "forest_thick", "forest_water", "forest_trail" };
+    popup( _( "Forests and swamps are the only valid cutting locations." ) );
     tripoint_abs_omt forest = om_target_tile( omt_pos, 1, 50, log_sources, ot_match_type::type );
     if( forest != tripoint_abs_omt( -999, -999, -999 ) ) {
         standard_npc sample_npc( "Temp" );
@@ -2534,17 +2227,22 @@ void basecamp::start_cut_logs( const mission_id &miss_id, float exertion_level )
             om_harvest_ter( *comp, forest, ter_id( "t_tree_young" ), 50 );
             om_harvest_itm( comp, forest, 95 );
             comp->companion_mission_time_ret = calendar::turn + work_time;
-            change_cleared_terrain( forest );
+            //If we cleared a forest...
+            if( om_cutdown_trees_est( forest ) < 5 ) {
+                const oter_id &omt_trees = overmap_buffer.ter( forest );
+                //Do this for swamps "forest_wet" if we have a swamp without trees...
+                if( omt_trees.id() != oter_forest_wet ) {
+                    overmap_buffer.ter_set( forest, oter_id( "field" ) );
+                }
+            }
         }
     }
 }
 
 void basecamp::start_clearcut( const mission_id &miss_id, float exertion_level )
 {
-    std::vector<std::string> log_sources = { "forest", "forest_thick", "forest_trail", "rural_road_forest", "rural_road_turn_forest", "rural_road_turn1_forest", "rural_road_3way_forest",
-                                             "dirt_road_forest", "dirt_road_3way_forest", "dirt_road_turn_forest", "forest_trail_intersection", "special_forest", "special_forest_thick", "forest_trail_isolated", "forest_trail_end"
-                                           };
-    popup( _( "Forests are the only valid cutting locations, with forest dirt roads, forest rural roads, and trails being valid as well.  Note that it's likely both forest and field roads look exactly the same after having been cleared." ) );
+    std::vector<std::string> log_sources = { "forest", "forest_thick", "forest_trail" };
+    popup( _( "Forests are the only valid cutting locations." ) );
     tripoint_abs_omt forest = om_target_tile( omt_pos, 1, 50, log_sources, ot_match_type::type );
     if( forest != tripoint_abs_omt( -999, -999, -999 ) ) {
         standard_npc sample_npc( "Temp" );
@@ -2569,7 +2267,10 @@ void basecamp::start_clearcut( const mission_id &miss_id, float exertion_level )
         if( comp != nullptr ) {
             om_cutdown_trees_trunks( forest, 95 );
             om_harvest_ter_break( *comp, forest, ter_id( "t_tree_young" ), 95 );
-            change_cleared_terrain( forest );
+            //If we cleared a forest...
+            if( om_cutdown_trees_est( forest ) < 5 ) {
+                overmap_buffer.ter_set( forest, oter_id( "field" ) );
+            }
         }
     }
 }
@@ -2691,63 +2392,6 @@ void basecamp::start_relay_hide_site( const mission_id &miss_id, float exertion_
     }
 }
 
-// Stupid "the const qualified parameter 'comp' is copied for each invocation; consider making it a reference [performance-unnecessary-value-param,-warnings-as-errors]" demands the pointer to be referenced...
-static void apply_fortifications( const mission_id &miss_id, const npc_ptr *comp, bool start )
-{
-    update_mapgen_id build_n{ faction_wall_level_n_0_string };
-    update_mapgen_id build_e{ "faction_wall_level_E_0" };
-    update_mapgen_id build_s{ "faction_wall_level_S_0" };
-    update_mapgen_id build_w{ "faction_wall_level_W_0" };
-    if( miss_id.parameters == faction_wall_level_n_1_string ||
-        //  Handling of old format (changed mid 0.F) below
-        ( miss_id.parameters.empty() &&
-          comp[0]->companion_mission_role_id == faction_wall_level_n_1_string ) ) {
-        build_n = update_mapgen_faction_wall_level_N_1;
-        build_e = update_mapgen_faction_wall_level_E_1;
-        build_s = update_mapgen_faction_wall_level_S_1;
-        build_w = update_mapgen_faction_wall_level_W_1;
-    }
-    update_mapgen_id build_first = build_e;
-    update_mapgen_id build_second = build_w;
-    bool build_dir_NS = comp[0]->companion_mission_points[0].y() !=
-                        comp[0]->companion_mission_points[1].y();
-    if( build_dir_NS ) {
-        build_first = build_s;
-        build_second = build_n;
-    }
-    //Add fences
-    auto &build_point = comp[0]->companion_mission_points;
-    for( size_t pt = 0; pt < build_point.size(); pt++ ) {
-        //First point is always at top or west since they are built in a line and sorted
-        if( pt == 0 ) {
-            if( !start ) {
-                run_mapgen_update_func( build_first, build_point[pt], {} );
-            }
-            apply_construction_marker( build_first, build_point[pt],
-                                       miss_id.mapgen_args, false,
-                                       false, false, start );
-        } else if( pt == build_point.size() - 1 ) {
-            if( !start ) {
-                run_mapgen_update_func( build_second, build_point[pt], {} );
-            }
-            apply_construction_marker( build_second, build_point[pt],
-                                       miss_id.mapgen_args, false,
-                                       false, false, start );
-        } else {
-            if( !start ) {
-                run_mapgen_update_func( build_first, build_point[pt], {} );
-                run_mapgen_update_func( build_second, build_point[pt], {} );
-            }
-            apply_construction_marker( build_first, build_point[pt],
-                                       miss_id.mapgen_args, false,
-                                       false, false, start );
-            apply_construction_marker( build_second, build_point[pt],
-                                       miss_id.mapgen_args, false,
-                                       false, false, start );
-        }
-    }
-}
-
 void basecamp::start_fortifications( const mission_id &miss_id, float exertion_level )
 {
     std::vector<std::string> allowed_locations = {
@@ -2829,8 +2473,7 @@ void basecamp::start_fortifications( const mission_id &miss_id, float exertion_l
         }
 
         const int batch_size = fortify_om.size() * 2 - 2;
-        mapgen_arguments arg;  //  Created with a default value.
-        basecamp_action_components components( making, arg, batch_size, *this );
+        basecamp_action_components components( making, {}, batch_size, *this );
         if( !components.choose_components() ) {
             return;
         }
@@ -2844,8 +2487,6 @@ void basecamp::start_fortifications( const mission_id &miss_id, float exertion_l
             for( tripoint_abs_omt &pt : fortify_om ) {
                 comp->companion_mission_points.push_back( pt );
             }
-
-            apply_fortifications( miss_id, &comp, true );
         }
     }
 }
@@ -3004,53 +2645,6 @@ point connection_direction_of( const point &dir, const recipe &making )
     return connection_dir;
 }
 
-static void salt_water_pipe_orientation_adjustment( const point &dir, bool &orthogonal,
-        bool &mirror_vertical, bool &mirror_horizontal, int &rotation )
-{
-    orthogonal = true;
-    mirror_horizontal = false;
-    mirror_vertical = false;
-    rotation = 0;
-
-    switch( base_camps::all_directions.at( dir ).tab_order ) {
-        case base_camps::tab_mode::TAB_MAIN: //  Should not happen. We would have had to define the same point twice.
-        case base_camps::tab_mode::TAB_N:    //  This is the reference direction for orthogonal orientations.
-            break;
-
-        case base_camps::tab_mode::TAB_NE:
-            orthogonal = false;
-            break;  //  This is the reference direction for diagonal orientations.
-
-        case base_camps::tab_mode::TAB_E:
-            rotation = 1;
-            break;
-
-        case base_camps::tab_mode::TAB_SE:
-            orthogonal = false;
-            rotation = 1;
-            break;
-
-        case base_camps::tab_mode::TAB_S:
-            mirror_vertical = true;
-            break;
-
-        case base_camps::tab_mode::TAB_SW:
-            orthogonal = false;
-            rotation = 2;
-            break;
-
-        case base_camps::tab_mode::TAB_W:
-            rotation = 1;
-            mirror_vertical = true;
-            break;
-
-        case base_camps::tab_mode::TAB_NW:
-            orthogonal = false;
-            rotation = 3;
-            break;
-    }
-}
-
 bool basecamp::common_salt_water_pipe_construction(
     const mission_id &miss_id, expansion_salt_water_pipe *pipe, int segment_number )
 {
@@ -3064,8 +2658,7 @@ bool basecamp::common_salt_water_pipe_construction(
         }
     }
 
-    mapgen_arguments arg;  //  Created with a default value.
-    basecamp_action_components components( making, arg, 1, *this );
+    basecamp_action_components components( making, {}, 1, *this );
     if( !components.choose_components() ) {
         return false;
     }
@@ -3074,97 +2667,12 @@ bool basecamp::common_salt_water_pipe_construction(
 
     if( segment_number == 0 ) {
         comp = start_multi_mission( miss_id, true,
-                                    _( "Start constructing salt water pipes…" ),
+                                    _( "Start constructing salt water pipes…" ), BRISK_EXERCISE,
                                     making.required_skills );
-
-        point connection_dir = pipe->connection_direction;
-        const int segment_number = 0;
-
-        point next_construction_direction;
-
-        if( segment_number == pipe->segments.size() - 1 ) {
-            next_construction_direction = { -connection_dir.x, -connection_dir.y };
-        } else {
-            next_construction_direction = { pipe->segments[segment_number + 1].point.x() - pipe->segments[segment_number].point.x(),
-                                            pipe->segments[segment_number + 1].point.y() - pipe->segments[segment_number].point.y()
-                                          };
-        }
-
-        bool orthogonal = true;
-        bool mirror_horizontal = false;
-        bool mirror_vertical = false;
-        int rotation = 0;
-
-        salt_water_pipe_orientation_adjustment( next_construction_direction, orthogonal, mirror_vertical,
-                                                mirror_horizontal, rotation );
-
-        if( orthogonal ) {
-            const update_mapgen_id id{ faction_expansion_salt_water_pipe_swamp_N };
-            apply_construction_marker( id, pipe->segments[segment_number].point,
-                                       miss_id.mapgen_args, mirror_horizontal,
-                                       mirror_vertical, rotation, true );
-        } else {
-            const update_mapgen_id id{ faction_expansion_salt_water_pipe_swamp_NE };
-            apply_construction_marker( id, pipe->segments[segment_number].point,
-                                       miss_id.mapgen_args, mirror_horizontal,
-                                       mirror_vertical, rotation, true );
-        }
-
     } else {
         comp = start_multi_mission( miss_id, true,
-                                    _( "Continue constructing salt water pipes…" ),
+                                    _( "Continue constructing salt water pipes…" ), BRISK_EXERCISE,
                                     making.required_skills );
-
-        point connection_dir = pipe->connection_direction;
-
-        const point previous_construction_direction = { pipe->segments[segment_number - 1].point.x() - pipe->segments[segment_number].point.x(),
-                                                        pipe->segments[segment_number - 1].point.y() - pipe->segments[segment_number].point.y()
-                                                      };
-
-        point next_construction_direction;
-
-        if( segment_number == static_cast<int>( pipe->segments.size() - 1 ) ) {
-            next_construction_direction = { -connection_dir.x, -connection_dir.y };
-        } else {
-            next_construction_direction = { pipe->segments[segment_number + 1].point.x() - pipe->segments[segment_number].point.x(),
-                                            pipe->segments[segment_number + 1].point.y() - pipe->segments[segment_number].point.y()
-                                          };
-        }
-
-        bool orthogonal = true;
-        bool mirror_horizontal = false;
-        bool mirror_vertical = false;
-        int rotation = 0;
-
-        salt_water_pipe_orientation_adjustment( previous_construction_direction, orthogonal,
-                                                mirror_vertical, mirror_horizontal, rotation );
-
-        if( orthogonal ) {
-            const update_mapgen_id id{ faction_expansion_salt_water_pipe_N };
-            apply_construction_marker( id, pipe->segments[segment_number].point,
-                                       miss_id.mapgen_args, mirror_horizontal,
-                                       mirror_vertical, rotation, true );
-        } else {
-            const update_mapgen_id id{ faction_expansion_salt_water_pipe_NE };
-            apply_construction_marker( id, pipe->segments[segment_number].point,
-                                       miss_id.mapgen_args, mirror_horizontal,
-                                       mirror_vertical, rotation, true );
-        }
-
-        salt_water_pipe_orientation_adjustment( next_construction_direction, orthogonal, mirror_vertical,
-                                                mirror_horizontal, rotation );
-
-        if( orthogonal ) {
-            const update_mapgen_id id{ faction_expansion_salt_water_pipe_N };
-            apply_construction_marker( id, pipe->segments[segment_number].point,
-                                       miss_id.mapgen_args, mirror_horizontal,
-                                       mirror_vertical, rotation, true );
-        } else {
-            const update_mapgen_id id{ faction_expansion_salt_water_pipe_NE };
-            apply_construction_marker( id, pipe->segments[segment_number].point,
-                                       miss_id.mapgen_args, mirror_horizontal,
-                                       mirror_vertical, rotation, true );
-        }
     }
 
     if( !comp.empty() ) {
@@ -3427,7 +2935,8 @@ void basecamp::start_combat_mission( const mission_id &miss_id, float exertion_l
 // and then search for the mission id without direction prefix in the recipes
 // if there's a match, the player has selected a crafting mission
 
-void basecamp::start_crafting( const std::string &type, const mission_id &miss_id )
+void basecamp::start_crafting( const std::string &type, const mission_id &miss_id,
+                               float exertion_level )
 {
     const std::map<recipe_id, translation> &recipes = recipe_deck( type );
     const auto it = recipes.find( recipe_id( miss_id.parameters ) );
@@ -3455,8 +2964,7 @@ void basecamp::start_crafting( const std::string &type, const mission_id &miss_i
             return;
         }
 
-        mapgen_arguments arg;  //  Created with a default value.
-        basecamp_action_components components( making, arg, batch_size, *this );
+        basecamp_action_components components( making, {}, batch_size, *this );
         if( !components.choose_components() ) {
             return;
         }
@@ -3464,7 +2972,7 @@ void basecamp::start_crafting( const std::string &type, const mission_id &miss_i
         time_duration work_days = base_camps::to_workdays( making.batch_duration( get_player_character(),
                                   batch_size ) );
         npc_ptr comp = start_mission( miss_id, work_days, true,
-                                      _( "begins to work…" ), false, {}, making.exertion_level(),
+                                      _( "begins to work…" ), false, {}, exertion_level,
                                       making.required_skills );
         if( comp != nullptr ) {
             components.consume_components();
@@ -3548,8 +3056,8 @@ static std::pair<size_t, std::string> farm_action( const tripoint_abs_omt &omt_t
                         item *tmp_seed = seed_inv.back();
                         seed_inv.pop_back();
                         std::list<item> used_seed;
-                        used_seed.push_back( *tmp_seed );
                         if( tmp_seed->count_by_charges() ) {
+                            used_seed.push_back( *tmp_seed );
                             tmp_seed->charges -= 1;
                             if( tmp_seed->charges > 0 ) {
                                 seed_inv.push_back( tmp_seed );
@@ -3558,9 +3066,6 @@ static std::pair<size_t, std::string> farm_action( const tripoint_abs_omt &omt_t
                         used_seed.front().set_age( 0_turns );
                         farm_map.add_item_or_charges( pos, used_seed.front() );
                         farm_map.set( pos, t_dirt, f_plant_seed );
-                        if( !tmp_seed->count_by_charges() ) {
-                            comp->companion_mission_inv.remove_item( tmp_seed );
-                        }
                     }
                 }
                 break;
@@ -3645,25 +3150,20 @@ void basecamp::start_farm_op( const tripoint_abs_omt &omt_tgt, const mission_id 
                            _( "begins to harvest the field…" ), false, {}, skill_survival, 1, exertion_level );
             break;
         case farm_ops::plant: {
-            inventory_filter_preset seed_filter( []( const item_location & loc ) {
-                return loc->is_seed() && loc->typeId() != itype_marloss_seed && loc->typeId() != itype_fungal_seeds;
-            } );
-            drop_locations seed_selection = give_basecamp_equipment( seed_filter,
-                                            _( "Which seeds do you wish to have planted?" ), _( "Selected seeds" ),
-                                            _( "You have no additional seeds to give your companions…" ) );
-            if( seed_selection.empty() ) {
+            std::vector<item *> seed_inv = _inv.items_with( farm_valid_seed );
+            if( seed_inv.empty() ) {
+                popup( _( "You have no additional seeds to give your companions…" ) );
                 return;
             }
+            std::vector<item *> plant_these = give_equipment( seed_inv,
+                                              _( "Which seeds do you wish to have planted?" ) );
             size_t seed_cnt = 0;
-            std::vector<item *> to_plant;
-            for( std::pair<item_location, int> &seeds : seed_selection ) {
-                size_t num_seeds = seeds.second;
-                item_location seed = seeds.first;
-                seed.overflow();
-                if( seed->count_by_charges() ) {
-                    seed->charges = num_seeds;
+            for( item *seeds : plant_these ) {
+                size_t num_seeds = seeds->count();
+                if( seed_cnt + num_seeds > plots_cnt ) {
+                    num_seeds = plots_cnt - seed_cnt;
+                    seeds->charges = num_seeds;
                 }
-                to_plant.push_back( &*seed );
                 seed_cnt += num_seeds;
             }
 
@@ -3672,7 +3172,7 @@ void basecamp::start_farm_op( const tripoint_abs_omt &omt_tgt, const mission_id 
             }
             work += 1_minutes * seed_cnt;
             start_mission( miss_id, work, true,
-                           _( "begins planting the field…" ), false, to_plant,
+                           _( "begins planting the field…" ), false, plant_these,
                            skill_survival, 1, exertion_level );
             break;
         }
@@ -3725,11 +3225,10 @@ void basecamp::finish_return( npc &comp, const bool fixed_time, const std::strin
     // companions subtracted food when they started the mission, but didn't mod their hunger for
     // that food.  so add it back in.
     int need_food = time_to_food( mission_time - reserve_time );
-    faction *yours = get_player_character().get_faction();
-    if( yours->food_supply.kcal() < need_food ) {
+    if( camp_food_supply() < need_food ) {
         popup( _( "Your companion seems disappointed that your pantry is empty…" ) );
     }
-    int avail_food = std::min( need_food, yours->food_supply.kcal() ) + time_to_food( reserve_time );
+    int avail_food = std::min( need_food, camp_food_supply() ) + time_to_food( reserve_time );
     // movng all the logic from talk_function::companion return here instead of polluting
     // mission_companion
     comp.reset_companion_mission();
@@ -3871,16 +3370,9 @@ bool basecamp::upgrade_return( const mission_id &miss_id )
                making.get_blueprint().str() );
         return false;
     }
-
-    apply_construction_marker( making.get_blueprint(), upos,
-                               miss_id.mapgen_args, mirror_horizontal,
-                               mirror_vertical, rotation, false );
-
     update_provides( bldg, e->second );
     update_resources( bldg );
-    if( oter_str_id( bldg ).is_valid() ) {
-        overmap_buffer.ter_set( upos, oter_id( bldg ) );
-    }
+    overmap_buffer.ter_set( upos, oter_id( bldg ) );
     const std::string msg = _( "returns from upgrading the camp having earned a bit of "
                                "experience…" );
 
@@ -3983,21 +3475,96 @@ void basecamp::fortifications_return( const mission_id &miss_id )
 {
     npc_ptr comp = companion_choose_return( miss_id, 3_hours );
     if( comp != nullptr ) {
+        update_mapgen_id build_n{ faction_wall_level_n_0_string };
+        update_mapgen_id build_e{ "faction_wall_level_E_0" };
+        update_mapgen_id build_s{ "faction_wall_level_S_0" };
+        update_mapgen_id build_w{ "faction_wall_level_W_0" };
+        if( miss_id.parameters == faction_wall_level_n_1_string ||
+            //  Handling of old format (changed mid 0.F) below
+            ( miss_id.parameters.empty() &&
+              comp->companion_mission_role_id == faction_wall_level_n_1_string ) ) {
+            build_n = update_mapgen_faction_wall_level_N_1;
+            build_e = update_mapgen_faction_wall_level_E_1;
+            build_s = update_mapgen_faction_wall_level_S_1;
+            build_w = update_mapgen_faction_wall_level_W_1;
+        }
+        update_mapgen_id build_first = build_e;
+        update_mapgen_id build_second = build_w;
+        bool build_dir_NS = comp->companion_mission_points[0].y() !=
+                            comp->companion_mission_points[1].y();
+        if( build_dir_NS ) {
+            build_first = build_s;
+            build_second = build_n;
+        }
+        //Add fences
         auto &build_point = comp->companion_mission_points;
-        for( std::vector<tripoint_abs_omt>::iterator::value_type point : build_point ) {
+        for( size_t pt = 0; pt < build_point.size(); pt++ ) {
+            //First point is always at top or west since they are built in a line and sorted
+            if( pt == 0 ) {
+                run_mapgen_update_func( build_first, build_point[pt], {} );
+            } else if( pt == build_point.size() - 1 ) {
+                run_mapgen_update_func( build_second, build_point[pt], {} );
+            } else {
+                run_mapgen_update_func( build_first, build_point[pt], {} );
+                run_mapgen_update_func( build_second, build_point[pt], {} );
+            }
             if( miss_id.parameters == faction_wall_level_n_0_string ||
                 //  Handling of old format (changed mid 0.F) below
                 ( miss_id.parameters.empty() &&
                   comp->companion_mission_role_id == faction_wall_level_n_0_string ) ) {
-                tripoint_abs_omt fort_point = point;
+                tripoint_abs_omt fort_point = build_point[pt];
                 fortifications.push_back( fort_point );
             }
         }
-
-        apply_fortifications( miss_id, &comp, false );
-
         const std::string msg = _( "returns from constructing fortifications…" );
         finish_return( *comp, true, msg, skill_construction.str(), 2 );
+    }
+}
+
+static void salt_water_pipe_orientation_adjustment( const point &dir, bool &orthogonal,
+        bool &mirror_vertical, bool &mirror_horizontal, int &rotation )
+{
+    orthogonal = true;
+    mirror_horizontal = false;
+    mirror_vertical = false;
+    rotation = 0;
+
+    switch( base_camps::all_directions.at( dir ).tab_order ) {
+        case base_camps::tab_mode::TAB_MAIN: //  Should not happen. We would have had to define the same point twice.
+        case base_camps::tab_mode::TAB_N:    //  This is the reference direction for orthogonal orientations.
+            break;
+
+        case base_camps::tab_mode::TAB_NE:
+            orthogonal = false;
+            break;  //  This is the reference direction for diagonal orientations.
+
+        case base_camps::tab_mode::TAB_E:
+            rotation = 1;
+            break;
+
+        case base_camps::tab_mode::TAB_SE:
+            orthogonal = false;
+            rotation = 1;
+            break;
+
+        case base_camps::tab_mode::TAB_S:
+            mirror_vertical = true;
+            break;
+
+        case base_camps::tab_mode::TAB_SW:
+            orthogonal = false;
+            rotation = 2;
+            break;
+
+        case base_camps::tab_mode::TAB_W:
+            rotation = 1;
+            mirror_vertical = true;
+            break;
+
+        case base_camps::tab_mode::TAB_NW:
+            orthogonal = false;
+            rotation = 3;
+            break;
     }
 }
 
@@ -4047,16 +3614,10 @@ bool basecamp::salt_water_pipe_swamp_return( const mission_id &miss_id,
         const update_mapgen_id id{ faction_expansion_salt_water_pipe_swamp_N };
         run_mapgen_update_func( id, pipe->segments[segment_number].point, {}, nullptr, true,
                                 mirror_horizontal, mirror_vertical, rotation );
-        apply_construction_marker( id, pipe->segments[segment_number].point,
-                                   miss_id.mapgen_args, mirror_horizontal,
-                                   mirror_vertical, rotation, false );
     } else {
         const update_mapgen_id id{ faction_expansion_salt_water_pipe_swamp_NE };
         run_mapgen_update_func( id, pipe->segments[segment_number].point, {}, nullptr, true,
                                 mirror_horizontal, mirror_vertical, rotation );
-        apply_construction_marker( id, pipe->segments[segment_number].point,
-                                   miss_id.mapgen_args, mirror_horizontal,
-                                   mirror_vertical, rotation, false );
     }
 
     pipe->segments[segment_number].finished = true;
@@ -4147,16 +3708,10 @@ bool basecamp::salt_water_pipe_return( const mission_id &miss_id,
         const update_mapgen_id id{ faction_expansion_salt_water_pipe_N };
         run_mapgen_update_func( id, pipe->segments[segment_number].point, {}, nullptr, true,
                                 mirror_horizontal, mirror_vertical, rotation );
-        apply_construction_marker( id, pipe->segments[segment_number].point,
-                                   miss_id.mapgen_args, mirror_horizontal,
-                                   mirror_vertical, rotation, false );
     } else {
         const update_mapgen_id id{ faction_expansion_salt_water_pipe_NE };
         run_mapgen_update_func( id, pipe->segments[segment_number].point, {}, nullptr, true,
                                 mirror_horizontal, mirror_vertical, rotation );
-        apply_construction_marker( id, pipe->segments[segment_number].point,
-                                   miss_id.mapgen_args, mirror_horizontal,
-                                   mirror_vertical, rotation, false );
     }
 
     salt_water_pipe_orientation_adjustment( next_construction_direction, orthogonal, mirror_vertical,
@@ -4166,16 +3721,10 @@ bool basecamp::salt_water_pipe_return( const mission_id &miss_id,
         const update_mapgen_id id{ faction_expansion_salt_water_pipe_N };
         run_mapgen_update_func( id, pipe->segments[segment_number].point, {}, nullptr, true,
                                 mirror_horizontal, mirror_vertical, rotation );
-        apply_construction_marker( id, pipe->segments[segment_number].point,
-                                   miss_id.mapgen_args, mirror_horizontal,
-                                   mirror_vertical, rotation, false );
     } else {
         const update_mapgen_id id{ faction_expansion_salt_water_pipe_NE };
         run_mapgen_update_func( id, pipe->segments[segment_number].point, {}, nullptr, true,
                                 mirror_horizontal, mirror_vertical, rotation );
-        apply_construction_marker( id, pipe->segments[segment_number].point,
-                                   miss_id.mapgen_args, mirror_horizontal,
-                                   mirror_vertical, rotation, false );
     }
 
     pipe->segments[segment_number].finished = true;
@@ -4273,7 +3822,7 @@ void basecamp::recruit_return( const mission_id &miss_id, int score )
         description += _( "Asking for:\n" );
         description += string_format( _( "> Food:     %10d days\n\n" ), food_desire );
         description += string_format( _( "Faction Food:%9d days\n\n" ),
-                                      camp_food_supply_days( NO_EXERCISE ) );
+                                      camp_food_supply( 0, true ) );
         description += string_format( _( "Recruit Chance: %10d%%\n\n" ),
                                       std::min( 100 * ( 10 + appeal ) / 20, 100 ) );
         description += _( "Select an option:" );
@@ -4290,7 +3839,7 @@ void basecamp::recruit_return( const mission_id &miss_id, int score )
             return;
         }
 
-        if( rec_m == 0 && food_desire + 1 <= camp_food_supply_days( NO_EXERCISE ) ) {
+        if( rec_m == 0 && food_desire + 1 <= camp_food_supply( 0, true ) ) {
             food_desire++;
             appeal++;
         }
@@ -4366,88 +3915,8 @@ void basecamp::combat_mission_return( const mission_id &miss_id )
     }
 }
 
-bool basecamp::survey_field_return( const mission_id &miss_id )
-{
-    const std::string abort_msg = _( "stops looking for terrain to turn into fields…" );
-    npc_ptr comp = companion_choose_return( miss_id, 0_hours );
-    if( comp == nullptr ) {
-        return false;
-    }
-
-    popup( _( "Select a tile up to %d tiles away." ), 1 );
-    const tripoint_abs_omt where( ui::omap::choose_point() );
-    if( where == overmap::invalid_tripoint ) {
-        return false;
-    }
-
-    int dist = rl_dist( where.xy(), omt_pos.xy() );
-    if( dist != 1 ) {
-        popup( _( "You must select a tile within %d range of the camp" ), 1 );
-        return false;
-    }
-    if( omt_pos.z() != where.z() ) {
-        popup( _( "Expansions must be on the same level as the camp" ) );
-        return false;
-    }
-    const point dir = talk_function::om_simple_dir( omt_pos, where );
-    if( expansions.find( dir ) != expansions.end() ) {
-        if( query_yn(
-                _( "You already have an expansion at that location.  Do you want to finish this mission?  If not, the mission remains active and another tile can be checked." ) ) ) {
-            finish_return( *comp, true, abort_msg, skill_construction.str(), 0 );
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    if( overmap_buffer.ter_existing( where ) == oter_id( "field" ) ) {
-        if( query_yn(
-                _( "This location is already a field.  Do you want to finish this mission?  If not, the mission remains active and another tile can be checked." ) ) ) {
-            finish_return( *comp, true, abort_msg, skill_construction.str(), 0 );
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    tinymap target;
-    target.load( project_to<coords::sm>( where ), false );
-    int mismatch_tiles = 0;
-    tripoint mapmin = tripoint( 0, 0, where.z() );
-    tripoint mapmax = tripoint( 2 * SEEX - 1, 2 * SEEY - 1, where.z() );
-    for( const tripoint &p : target.points_in_rectangle( mapmin, mapmax ) ) {
-        if( target.ter( p ) != t_dirt && target.ter( p ) != t_sand && target.ter( p ) != t_clay &&
-            target.ter( p ) != t_dirtmound && target.ter( p ) != t_grass && target.ter( p ) != t_grass_dead &&
-            target.ter( p ) != t_grass_golf && target.ter( p ) != t_grass_long &&
-            target.ter( p ) != t_grass_tall && target.ter( p ) != t_moss ) {
-            mismatch_tiles++;
-        }
-    }
-
-    if( mismatch_tiles > 0 ) {
-        if( query_yn(
-                _( "This location has %d tiles blocking it from being converted.  Do you want to finish this mission?  If not, the mission remains active and another tile can be checked." ),
-                mismatch_tiles ) ) {
-            finish_return( *comp, true, abort_msg, skill_construction.str(), 0 );
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    overmap_buffer.ter_set( where, oter_id( "field" ) );
-    if( query_yn(
-            _( "This location has now been converted into a field!  Do you want to finish the mission?  If not, the mission remains active and another tile can be checked." ) ) ) {
-        finish_return( *comp, true, abort_msg, skill_construction.str(), 0 );
-        return true;
-    } else {
-        return false;
-    }
-}
-
 bool basecamp::survey_return( const mission_id &miss_id )
 {
-    const std::string abort_msg = _( "gives up trying to create an expansion…" );
     npc_ptr comp = companion_choose_return( miss_id, 3_hours );
     if( comp == nullptr ) {
         return false;
@@ -4470,13 +3939,8 @@ bool basecamp::survey_return( const mission_id &miss_id )
     }
     const point dir = talk_function::om_simple_dir( omt_pos, where );
     if( expansions.find( dir ) != expansions.end() ) {
-        if( query_yn(
-                _( "You already have an expansion at that location.  Do you want to finish this mission?  If not, the mission remains active and another tile can be checked." ) ) ) {
-            finish_return( *comp, true, abort_msg, skill_construction.str(), 0 );
-            return true;
-        } else {
-            return false;
-        }
+        popup( _( "You already have an expansion at that location" ) );
+        return false;
     }
 
     const oter_id &omt_ref = overmap_buffer.ter( where );
@@ -4484,14 +3948,7 @@ bool basecamp::survey_return( const mission_id &miss_id )
                                  omt_ref.id().c_str() );
     if( pos_expansions.empty() ) {
         popup( _( "You can't build any expansions in a %s." ), omt_ref.id().c_str() );
-        if( query_yn(
-                _( "You can't build any expansion in a %s.  Do you want to finish this mission?  If not, the mission remains active and another tile can be checked." ),
-                omt_ref.id().c_str() ) ) {
-            finish_return( *comp, true, abort_msg, skill_construction.str(), 0 );
-            return true;
-        } else {
-            return false;
-        }
+        return false;
     }
 
     const recipe_id expansion_type = base_camps::select_camp_option( pos_expansions,
@@ -4508,13 +3965,7 @@ bool basecamp::survey_return( const mission_id &miss_id )
             rotation,
             "%s failed to build the %s expansion",
             comp->disp_name() ) ) {
-        if( query_yn(
-                _( "Do you want to finish this mission?  If not, the mission remains active and another tile can be checked." ) ) ) {
-            finish_return( *comp, true, abort_msg, skill_construction.str(), 0 );
-            return true;
-        } else {
-            return false;
-        }
+        return false;
     }
 
     if( !run_mapgen_update_func( update_mapgen_id( expansion_type.str() ), where, {}, nullptr, true,
@@ -4522,13 +3973,7 @@ bool basecamp::survey_return( const mission_id &miss_id )
         popup( _( "%s failed to add the %s expansion, perhaps there is a vehicle in the way." ),
                comp->disp_name(),
                expansion_type->blueprint_name() );
-        if( query_yn(
-                _( "Do you want to finish this mission?  If not, the mission remains active and another tile can be checked (e.g. after clearing away the obstacle)." ) ) ) {
-            finish_return( *comp, true, abort_msg, skill_construction.str(), 0 );
-            return true;
-        } else {
-            return false;
-        }
+        return false;
     }
     overmap_buffer.ter_set( where, oter_id( expansion_type.str() ) );
     add_expansion( expansion_type.str(), where, dir );
@@ -4621,7 +4066,6 @@ std::string talk_function::name_mission_tabs(
 // recipes and craft support functions
 int basecamp::recipe_batch_max( const recipe &making ) const
 {
-    faction *yours = get_player_character().get_faction();
     int max_batch = 0;
     const int max_checks = 9;
     for( size_t batch_size = 1000; batch_size > 0; batch_size /= 10 ) {
@@ -4631,7 +4075,7 @@ int basecamp::recipe_batch_max( const recipe &making ) const
             int food_req = time_to_food( work_days );
             bool can_make = making.deduped_requirements().can_make_with_inventory(
                                 _inv, making.get_component_filter(), max_batch + batch_size );
-            if( can_make && yours->food_supply.kcal() > food_req ) {
+            if( can_make && camp_food_supply() > food_req ) {
                 max_batch += batch_size;
             } else {
                 break;
@@ -4656,23 +4100,47 @@ void basecamp::search_results( int skill, const item_group_id &group_id, int att
 
 void basecamp::hunting_results( int skill, const mission_id &miss_id, int attempts, int difficulty )
 {
-    // corpses do not exist as discrete items, so we use monster groups instead
+    // no item groups for corpses, so we'll have to improvise
     weighted_int_list<mtype_id> hunting_targets;
-    for( const MonsterGroupEntry &target : GROUP_CAMP_HUNTING->monsters ) {
-        hunting_targets.add( target.name, target.frequency );
-    }
+    hunting_targets.add( mon_beaver, 10 );
+    hunting_targets.add( mon_fox_red, 10 );
+    hunting_targets.add( mon_fox_gray, 10 );
+    hunting_targets.add( mon_mink, 5 );
+    hunting_targets.add( mon_muskrat, 10 );
+    hunting_targets.add( mon_otter, 10 );
+    hunting_targets.add( mon_duck, 10 );
+    hunting_targets.add( mon_cockatrice, 1 );
     if( miss_id.id == Camp_Trapping ) {
-        for( const MonsterGroupEntry &target : GROUP_CAMP_TRAPPING->monsters ) {
-            hunting_targets.add( target.name, target.frequency );
-        }
+        hunting_targets.add( mon_black_rat, 40 );
+        hunting_targets.add( mon_chipmunk, 30 );
+        hunting_targets.add( mon_groundhog, 30 );
+        hunting_targets.add( mon_hare, 20 );
+        hunting_targets.add( mon_lemming, 40 );
+        hunting_targets.add( mon_opossum, 10 );
+        hunting_targets.add( mon_rabbit, 20 );
+        hunting_targets.add( mon_squirrel, 20 );
+        hunting_targets.add( mon_weasel, 20 );
+        hunting_targets.add( mon_chicken, 10 );
+        hunting_targets.add( mon_grouse, 10 );
+        hunting_targets.add( mon_pheasant, 10 );
+        hunting_targets.add( mon_turkey, 20 );
     } else if( miss_id.id == Camp_Hunting ) {
-        for( const MonsterGroupEntry &target : GROUP_CAMP_HUNTING_LARGE->monsters ) {
-            hunting_targets.add( target.name, target.frequency );
-        }
+        hunting_targets.add( mon_chicken, 20 );
+        // good luck hunting upland game birds without dogs
+        hunting_targets.add( mon_grouse, 2 );
+        hunting_targets.add( mon_pheasant, 2 );
+        hunting_targets.add( mon_turkey, 10 );
+        hunting_targets.add( mon_bear, 1 );
+        hunting_targets.add( mon_cougar, 5 );
+        hunting_targets.add( mon_cow, 1 );
+        hunting_targets.add( mon_coyote, 15 );
+        hunting_targets.add( mon_deer, 2 );
+        hunting_targets.add( mon_moose, 1 );
+        hunting_targets.add( mon_pig, 1 );
+        hunting_targets.add( mon_wolf, 10 );
     }
     for( int i = 0; i < attempts; i++ ) {
         if( skill > rng( 0, difficulty ) ) {
-            // TODO: replace this with MonsterGroupManager::GetResultFromGroup
             const mtype_id *target = hunting_targets.pick();
             item result = item::make_corpse( *target, calendar::turn, "" );
             if( !result.is_null() ) {
@@ -4743,7 +4211,7 @@ int om_cutdown_trees( const tripoint_abs_omt &omt_tgt, int chance, bool estimate
     int harvested = 0;
     int total = 0;
     tripoint mapmin = tripoint( 0, 0, omt_tgt.z() );
-    tripoint mapmax = tripoint( 2 * SEEX - 1, 2 * SEEY - 1, omt_tgt.z() + 1 );
+    tripoint mapmax = tripoint( 2 * SEEX - 1, 2 * SEEY - 1, omt_tgt.z() );
     for( const tripoint &p : target_bay.points_in_rectangle( mapmin, mapmax ) ) {
         if( target_bay.ter( p ).obj().has_flag( ter_furn_flag::TFLAG_TREE ) && rng( 0, 100 ) < chance ) {
             total++;
@@ -4796,18 +4264,16 @@ mass_volume om_harvest_itm( const npc_ptr &comp, const tripoint_abs_omt &omt_tgt
     tripoint mapmax = tripoint( 2 * SEEX - 1, 2 * SEEY - 1, omt_tgt.z() );
     for( const tripoint &p : target_bay.points_in_rectangle( mapmin, mapmax ) ) {
         for( const item &i : target_bay.i_at( p ) ) {
-            if( !i.made_of_from_type( phase_id::LIQUID ) ) {
-                total_m += i.weight( true );
-                total_v += i.volume( true );
-                total_num += 1;
-                if( take && x_in_y( chance, 100 ) ) {
-                    if( comp ) {
-                        comp->companion_mission_inv.push_back( i );
-                    }
-                    harvested_m += i.weight( true );
-                    harvested_v += i.volume( true );
-                    harvested_num += 1;
+            total_m += i.weight( true );
+            total_v += i.volume( true );
+            total_num += 1;
+            if( take && x_in_y( chance, 100 ) ) {
+                if( comp ) {
+                    comp->companion_mission_inv.push_back( i );
                 }
+                harvested_m += i.weight( true );
+                harvested_v += i.volume( true );
+                harvested_num += 1;
             }
         }
         if( take ) {
@@ -5098,20 +4564,26 @@ std::vector<tripoint_abs_omt> om_companion_path( const tripoint_abs_omt &start, 
 
 // camp utility functions
 // mission support functions
-drop_locations basecamp::give_basecamp_equipment( inventory_filter_preset &preset,
-        const std::string &title, const std::string &column_title, const std::string &msg_empty ) const
+std::vector<item *> basecamp::give_equipment( std::vector<item *> equipment,
+        const std::string &msg )
 {
-    inventory_multiselector inv_s( get_player_character(), preset, column_title );
+    std::vector<item *> equipment_lost;
+    do {
+        std::vector<std::string> names;
+        names.reserve( equipment.size() );
+        for( item *&i : equipment ) {
+            names.push_back( i->tname() + " [" + std::to_string( i->charges ) + "]" );
+        }
 
-    inv_s.add_basecamp_items( *this );
-    inv_s.set_title( title );
-
-    if( inv_s.empty() ) {
-        popup( std::string( msg_empty ), PF_GET_KEY );
-        return {};
-    }
-    drop_locations selected = inv_s.execute();
-    return selected;
+        // Choose item if applicable
+        const int i_index = uilist( msg, names );
+        if( i_index < 0 || static_cast<size_t>( i_index ) >= equipment.size() ) {
+            return equipment_lost;
+        }
+        equipment_lost.push_back( equipment[i_index] );
+        equipment.erase( equipment.begin() + i_index );
+    } while( !equipment.empty() );
+    return equipment_lost;
 }
 
 drop_locations basecamp::give_equipment( Character *pc, const inventory_filter_preset &preset,
@@ -5148,6 +4620,7 @@ drop_locations basecamp::give_equipment( Character *pc, const inventory_filter_p
     inventory_multiselector inv_s( *pc, preset, msg,
                                    make_raw_stats, /*allow_select_contained =*/ true );
 
+    inv_s.set_invlet_type( inventory_selector::SELECTOR_INVLET_ALPHA );
     inv_s.add_character_items( *pc );
     inv_s.add_nearby_items( PICKUP_RANGE );
     inv_s.set_title( title );
@@ -5195,6 +4668,8 @@ drop_locations basecamp::get_equipment( tinymap *target_bay, const tripoint &tar
 
     inventory_multiselector inv_s( *pc, preset, msg,
                                    make_raw_stats, /*allow_select_contained =*/ true );
+
+    inv_s.set_invlet_type( inventory_selector::SELECTOR_INVLET_ALPHA );
 
     inv_s.add_remote_map_items( target_bay, target );
     inv_s.set_title( title );
@@ -5302,11 +4777,9 @@ std::string basecamp::craft_description( const recipe_id &itm )
     for( auto &elem : component_print_buffer ) {
         str_append( comp, elem, "\n" );
     }
-    comp = string_format( _( "Skill used: %s\nDifficulty: %d\n%s\nTime: %s\nCalories per craft: %s\n" ),
+    comp = string_format( _( "Skill used: %s\nDifficulty: %d\n%s\nTime: %s\n" ),
                           making.skill_used.obj().name(), making.difficulty, comp,
-                          to_string( base_camps::to_workdays( making.batch_duration( get_player_character() ) ) ),
-                          time_to_food( base_camps::to_workdays( making.batch_duration( get_player_character() ) ),
-                                        itm.obj().exertion_level() ) );
+                          to_string( base_camps::to_workdays( making.batch_duration( get_player_character() ) ) ) );
     return comp;
 }
 
@@ -5331,8 +4804,7 @@ int basecamp::recruit_evaluation( int &sbase, int &sexpansions, int &sfaction, i
             farm++;
         }
     }
-    faction *yours = get_player_character().get_faction();
-    sfaction = std::min( yours->food_supply.kcal() / 10000, 10 );
+    sfaction = std::min( camp_food_supply() / 10000, 10 );
     sfaction += std::min( camp_discipline() / 10, 5 );
     sfaction += std::min( camp_morale() / 10, 5 );
 
@@ -5437,65 +4909,31 @@ std::string basecamp::farm_description( const tripoint_abs_omt &farm_pos, size_t
 }
 
 // food supply
-
-int camp_food_supply_days( float exertion_level )
+int camp_food_supply( int change, bool return_days )
 {
     faction *yours = get_player_character().get_faction();
-
-    return yours->food_supply.kcal() / time_to_food( 24_hours, exertion_level );
-}
-
-nutrients basecamp::camp_food_supply( nutrients &change )
-{
-    nutrients consumed;
-    faction *yours = get_player_character().get_faction();
-    if( change.calories < 0 && change.vitamins().empty() && yours->food_supply.calories > 0 ) {
-        // We've been passed a raw kcal value, we should also consume a proportional amount of vitamins
-        // Kcals are used as a proxy to consume vitamins.
-        // e.g. if you have a larder with 10k kcal, 100 vitamin A, 200 vitamin B then consuming 1000 kcal will
-        // consume 10 vitamin A and *20* vitamin B. In other words, we assume the vitamins are uniformly distributed with the kcals
-        // This isn't a perfect assumption but it's a necessary one to abstract away the food items themselves
-        double percent_consumed = std::abs( static_cast<double>( change.calories ) ) /
-                                  yours->food_supply.calories;
-        consumed = yours->food_supply;
-        consumed *= percent_consumed;
-        // Subtraction since we use the absolute value of change's calories to get the percent
-        yours->food_supply -= consumed;
-        return consumed;
-    }
     yours->food_supply += change;
-    if( yours->food_supply.kcal() < 0 ) {
-        yours->likes_u += yours->food_supply.kcal() / 1250;
-        yours->respects_u += yours->food_supply.kcal() / 625;
-        yours->trusts_u += yours->food_supply.kcal() / 625;
-        yours->food_supply.calories = 0;
+    if( yours->food_supply < 0 ) {
+        yours->likes_u += yours->food_supply / 1250;
+        yours->respects_u += yours->food_supply / 625;
+        yours->trusts_u += yours->food_supply / 625;
+        yours->food_supply = 0;
+    }
+    if( return_days ) {
+        return yours->food_supply / 2500;
     }
 
-    consumed = change;
-    //TODO: This return value is so that nutrients can actually be consumed by the workers instead of vanishing.
-    return consumed;
+    return yours->food_supply;
 }
 
-nutrients basecamp::camp_food_supply( int change )
-{
-    nutrients added;
-    // Kcal to calories
-    added.calories = ( change * 1000 );
-    return camp_food_supply( added );
-}
-
-nutrients basecamp::camp_food_supply( time_duration work, float exertion_level )
+int camp_food_supply( time_duration work, float exertion_level )
 {
     return camp_food_supply( -time_to_food( work, exertion_level ) );
 }
 
 int time_to_food( time_duration work, float exertion_level )
 {
-    const int days = to_hours<int>( work ) / 24;
-    const int work_time = days * work_day_hours + to_hours<int>( work ) - days * 24;
-
-    return base_metabolic_rate * ( work_time * exertion_level + days * work_day_rest_hours * NO_EXERCISE
-                                   + days * work_day_idle_hours * SLEEP_EXERCISE ) / 24;
+    return ( 2500 * exertion_level ) * to_hours<int>( work ) / 24;
 }
 
 static const npc &getAverageJoe()
@@ -5523,7 +4961,7 @@ bool basecamp::distribute_food()
 
     double quick_rot = 0.6 + ( has_provides( "pantry" ) ? 0.1 : 0 );
     double slow_rot = 0.8 + ( has_provides( "pantry" ) ? 0.05 : 0 );
-    nutrients nutrients_to_add;
+    int total = 0;
 
     const auto rot_multip = [&]( const item & it, item * const container ) {
         if( !it.goes_bad() ) {
@@ -5553,10 +4991,6 @@ bool basecamp::distribute_food()
         if( !it.is_comestible() ) {
             return false;
         }
-        // Always reject in-progress craft item
-        if( it.is_craft() ) {
-            return false;
-        }
         // Stuff like butchery refuse and other disgusting stuff
         if( it.get_comestible_fun() < -6 ) {
             return false;
@@ -5567,14 +5001,14 @@ bool basecamp::distribute_food()
         if( it.rotten() ) {
             return false;
         }
-        nutrients from_it = getAverageJoe().compute_effective_nutrients( it ) * it.count();
-        // Do this multiplication separately to make sure we're using the *= operator with double argument..
-        from_it *= rot_multip( it, container );
-        nutrients_to_add += from_it;
-        if( from_it.kcal() <= 0 ) {
+        const int kcal = getAverageJoe().compute_effective_nutrients( it ).kcal() * it.count() * rot_multip(
+                             it,
+                             container );
+        if( kcal <= 0 ) {
             // can happen if calories is low and rot is high.
             return false;
         }
+        total += kcal;
         return true;
     };
 
@@ -5613,13 +5047,13 @@ bool basecamp::distribute_food()
         }
     }
 
-    if( nutrients_to_add.kcal() <= 0 ) {
+    if( total <= 0 ) {
         popup( _( "No suitable items are located at the drop points…" ) );
         return false;
     }
 
-    popup( _( "You distribute %d kcal worth of food to your companions." ), nutrients_to_add.kcal() );
-    camp_food_supply( nutrients_to_add );
+    popup( _( "You distribute %d kcal worth of food to your companions." ), total );
+    camp_food_supply( total );
     return true;
 }
 
@@ -5641,7 +5075,6 @@ std::string basecamp::name_display_of( const mission_id &miss_id )
 
         //  Faction camp tasks
         case Camp_Distribute_Food:
-        case Camp_Determine_Leadership:
         case Camp_Hide_Mission:
         case Camp_Reveal_Mission:
         case Camp_Assign_Jobs:
@@ -5651,7 +5084,6 @@ std::string basecamp::name_display_of( const mission_id &miss_id )
         case Camp_Gather_Materials:
         case Camp_Collect_Firewood:
         case Camp_Menial:
-        case Camp_Survey_Field:
         case Camp_Survey_Expansion:
         case Camp_Cut_Logs:
         case Camp_Clearcut:
@@ -5714,69 +5146,50 @@ void basecamp::handle_reveal_mission( const point &dir )
         return;
     }
     const base_camps::direction_data &base_data = base_camps::all_directions.at( dir );
+    std::vector<std::string> pos_names;
+    int choice = 0;
+    pos_names.reserve( hidden_missions[size_t( base_data.tab_order )].size() );
 
-    while( true ) {
-        std::vector<std::string> pos_names;
-        int choice = 0;
-        pos_names.reserve( hidden_missions[size_t( base_data.tab_order )].size() );
-
-        for( ui_mission_id &id : hidden_missions[size_t( base_data.tab_order )] ) {
-            pos_names.push_back( name_display_of( id.id ) );
-        }
-
-        choice = uilist( _( "Select mission(s) to reveal, escape when done" ), pos_names );
-
-        if( choice < 0 || static_cast<size_t>( choice ) >= pos_names.size() ) {
-            popup( _( "You're done for now…" ) );
-            return;
-        }
-
-        hidden_missions[size_t( base_data.tab_order )].erase( hidden_missions[size_t(
-                    base_data.tab_order )].begin() + choice );
+    for( ui_mission_id &id : hidden_missions[size_t( base_data.tab_order )] ) {
+        pos_names.push_back( name_display_of( id.id ) );
     }
+
+    choice = uilist( _( "Select mission to reveal" ), pos_names );
+
+    if( choice < 0 || static_cast<size_t>( choice ) >= pos_names.size() ) {
+        popup( _( "You choose to wait…" ) );
+        return;
+    }
+
+    hidden_missions[size_t( base_data.tab_order )].erase( hidden_missions[size_t(
+                base_data.tab_order )].begin() + choice );
 }
 
 void basecamp::handle_hide_mission( const point &dir )
 {
     const base_camps::direction_data &base_data = base_camps::all_directions.at( dir );
-    const size_t previously_hidden_count = hidden_missions[size_t( base_data.tab_order )].size();
+    std::vector<std::string> pos_names;
+    std::vector<ui_mission_id> reference;
+    int choice = 0;
+    pos_names.reserve( hidden_missions[size_t( base_data.tab_order )].size() );
+    reference.reserve( hidden_missions[size_t( base_data.tab_order )].size() );
 
-    while( true ) {
-        std::vector<std::string> pos_names;
-        std::vector<ui_mission_id> reference;
-        int choice = 0;
-        pos_names.reserve( hidden_missions[size_t( base_data.tab_order )].size() );
-        reference.reserve( hidden_missions[size_t( base_data.tab_order )].size() );
-
-        for( ui_mission_id &miss_id : temp_ui_mission_keys[size_t( base_data.tab_order )] ) {
-            if( !miss_id.ret &&
-                miss_id.id.id != Camp_Reveal_Mission ) {
-
-                // Filter out the onces we're hiding in this loop, as temp_ui_mission_keys isn't refreshed
-                bool hidden = false;
-                for( size_t i = previously_hidden_count; i < hidden_missions[size_t( base_data.tab_order )].size();
-                     i++ ) {
-                    if( is_equal( hidden_missions[size_t( base_data.tab_order )].at( i ), miss_id ) ) {
-                        hidden = true;
-                        break;
-                    }
-                }
-                if( !hidden ) {
-                    pos_names.push_back( name_display_of( miss_id.id ) );
-                    reference.push_back( miss_id );
-                }
-            }
+    for( ui_mission_id &miss_id : temp_ui_mission_keys[size_t( base_data.tab_order )] ) {
+        if( !miss_id.ret &&
+            miss_id.id.id != Camp_Reveal_Mission ) {
+            pos_names.push_back( name_display_of( miss_id.id ) );
+            reference.push_back( miss_id );
         }
-
-        choice = uilist( _( "Select mission(s) to hide, escape when done" ), pos_names );
-
-        if( choice < 0 || static_cast<size_t>( choice ) >= pos_names.size() ) {
-            popup( _( "You're done for now…" ) );
-            return;
-        }
-
-        hidden_missions[size_t( base_data.tab_order )].push_back( reference[choice] );
     }
+
+    choice = uilist( _( "Select mission to hide" ), pos_names );
+
+    if( choice < 0 || static_cast<size_t>( choice ) >= pos_names.size() ) {
+        popup( _( "You choose to wait…" ) );
+        return;
+    }
+
+    hidden_missions[size_t( base_data.tab_order )].push_back( reference[choice] );
 }
 
 // morale
@@ -5798,25 +5211,7 @@ void basecamp::place_results( const item &result )
 {
     map &target_bay = get_camp_map();
     form_storage_zones( target_bay, target_bay.getglobal( target_bay.getlocal( bb_pos ) ) );
-    tripoint new_spot = target_bay.getlocal( get_dumping_spot() );
-    // Special handling for liquids
-    // find any storage-zoned LIQUIDCONT we can dump them in, set that as the item's destination instead
-    if( result.made_of( phase_id::LIQUID ) ) {
-        for( tripoint_abs_ms potential_spot : get_liquid_dumping_spot() ) {
-            // No items at a potential spot? Set the destination there and stop checking.
-            // We could check if the item at the tile are the same as the item we're placing, but liquids of the same typeid
-            // don't always mix depending on their components...
-            if( target_bay.i_at( target_bay.getlocal( potential_spot ) ).empty() ) {
-                new_spot = target_bay.getlocal( potential_spot );
-                break;
-            }
-            // We've processed the last spot and haven't found anywhere to put it, we'll end up using dumping_spot.
-            // Throw a warning to let players know what's going on. Unfortunately we can't back out of finishing the mission this deep in the process.
-            if( potential_spot == get_liquid_dumping_spot().back() ) {
-                popup( _( "No eligible locations found to place resulting liquids, placing them at random.\n\nEligible locations must be a terrain OR furniture (not item) that can contain liquid, and does not already have any items on its tile." ) );
-            }
-        }
-    }
+    const tripoint &new_spot = target_bay.getlocal( get_dumping_spot() );
     target_bay.add_item_or_charges( new_spot, result, true );
     apply_camp_ownership( target_bay, new_spot, 10 );
     target_bay.save();

@@ -10,7 +10,7 @@
     "move_cost_mod": 5,
     "required_str": -1,
     "coverage": 60,
-    "flags": [ "TRANSPARENT", "NOITEM", "MOUNTABLE", "REDUCE_SCENT", "EASY_DECONSTRUCT", "SMALL_HIDE" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "MOUNTABLE", "REDUCE_SCENT", "EASY_DECONSTRUCT" ],
     "deconstruct": {
       "items": [ { "item": "brick", "count": 400 }, { "item": "pallet", "count": 1 }, { "item": "plastic_sheet", "count": 1 } ]
     },
@@ -38,9 +38,9 @@
     "move_cost_mod": 5,
     "required_str": -1,
     "coverage": 60,
-    "flags": [ "TRANSPARENT", "NOITEM", "MOUNTABLE", "REDUCE_SCENT", "EASY_DECONSTRUCT", "SMALL_HIDE" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "MOUNTABLE", "REDUCE_SCENT", "EASY_DECONSTRUCT" ],
     "deconstruct": {
-      "items": [ { "item": "adobe_brick", "count": 400 }, { "item": "pallet", "count": 1 }, { "item": "plastic_sheet", "count": 1 } ]
+      "items": [ { "item": "brick", "count": 400 }, { "item": "pallet", "count": 1 }, { "item": "plastic_sheet", "count": 1 } ]
     },
     "bash": {
       "str_min": 30,
@@ -49,8 +49,8 @@
       "sound_fail": "bash!",
       "items": [
         { "item": "pallet", "count": 1 },
-        { "item": "adobe_brick", "count": 350 },
-        { "item": "adobe_brick", "count": 50, "damage": [ 1, 4 ] },
+        { "item": "brick", "count": 350 },
+        { "item": "brick", "count": 50, "damage": [ 1, 4 ] },
         { "item": "plastic_sheet", "count": 1, "damage": [ 2, 4 ] }
       ]
     }
@@ -66,9 +66,13 @@
     "move_cost_mod": 5,
     "required_str": -1,
     "coverage": 60,
-    "flags": [ "TRANSPARENT", "NOITEM", "MOUNTABLE", "REDUCE_SCENT", "EASY_DECONSTRUCT", "SMALL_HIDE" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "MOUNTABLE", "REDUCE_SCENT", "EASY_DECONSTRUCT" ],
     "deconstruct": {
-      "items": [ { "group": "cement_bag", "count": 64 }, { "item": "pallet", "count": 1 }, { "item": "plastic_sheet", "count": 1 } ]
+      "items": [
+        { "item": "material_cement", "container-item": "bag_canvas", "charges": 500, "count": 100 },
+        { "item": "pallet", "count": 1 },
+        { "item": "plastic_sheet", "count": 1 }
+      ]
     },
     "bash": {
       "str_min": 30,
@@ -94,7 +98,7 @@
     "move_cost_mod": 5,
     "required_str": -1,
     "coverage": 40,
-    "flags": [ "TRANSPARENT", "NOITEM", "MOUNTABLE", "REDUCE_SCENT", "EASY_DECONSTRUCT", "FLAMMABLE_ASH", "SMALL_HIDE" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "MOUNTABLE", "REDUCE_SCENT", "EASY_DECONSTRUCT", "FLAMMABLE_ASH" ],
     "deconstruct": { "items": [ { "item": "2x4", "count": 120 }, { "item": "rope_6", "count": 2 }, { "item": "pallet", "count": 1 } ] },
     "bash": {
       "str_min": 8,

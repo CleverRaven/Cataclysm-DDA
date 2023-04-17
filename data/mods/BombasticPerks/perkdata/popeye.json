@@ -33,7 +33,7 @@
     "type": "effect_type",
     "id": "spinach_strength",
     "name": [ "Strength of Spinach" ],
-    "desc": [ "You have the strength of a sailor!" ],
+    "desc": [ "You have the strength of a Sailor!" ],
     "apply_message": "You feel strong!",
     "remove_message": "Your strength deflates.",
     "rating": "good",

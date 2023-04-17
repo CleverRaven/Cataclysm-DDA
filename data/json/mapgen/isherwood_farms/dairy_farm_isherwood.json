@@ -107,11 +107,11 @@
       },
       "place_item": [
         { "item": "cattlefodder", "x": 37, "y": 15, "amount": [ 0, 4 ] },
-        { "item": "cattlefodder_large", "x": 38, "y": 6, "amount": [ 0, 4 ] },
+        { "item": "cattlefodder", "x": 38, "y": 6, "amount": [ 0, 4 ] },
         { "item": "cattlefodder", "x": 38, "y": 10, "amount": [ 0, 4 ] },
-        { "item": "cattlefodder_large", "x": 38, "y": 13, "amount": [ 0, 4 ] },
+        { "item": "cattlefodder", "x": 38, "y": 13, "amount": [ 0, 4 ] },
         { "item": "cattlefodder", "x": 39, "y": 5, "amount": [ 0, 4 ] },
-        { "item": "cattlefodder_medium", "x": 39, "y": 8, "amount": [ 0, 4 ] },
+        { "item": "cattlefodder", "x": 39, "y": 8, "amount": [ 0, 4 ] },
         { "item": "cattlefodder", "x": 39, "y": 17, "amount": [ 0, 4 ] }
       ],
       "place_vehicles": [
@@ -163,15 +163,14 @@
         ".": [ "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt" ],
         "f": "t_splitrail_fencegate_c"
       },
-      "furniture": { ".": [ [ "f_null", 29 ], [ "f_thistle", 1 ] ] },
       "place_item": [
         { "item": "cattlefodder", "x": 37, "y": 15, "amount": [ 0, 4 ] },
-        { "item": "cattlefodder_large", "x": 38, "y": 6, "amount": [ 0, 4 ] },
-        { "item": "cattlefodder_large", "x": 38, "y": 10, "amount": [ 0, 4 ] },
+        { "item": "cattlefodder", "x": 38, "y": 6, "amount": [ 0, 4 ] },
+        { "item": "cattlefodder", "x": 38, "y": 10, "amount": [ 0, 4 ] },
         { "item": "cattlefodder", "x": 38, "y": 13, "amount": [ 0, 4 ] },
-        { "item": "cattlefodder_medium", "x": 39, "y": 5, "amount": [ 0, 4 ] },
+        { "item": "cattlefodder", "x": 39, "y": 5, "amount": [ 0, 4 ] },
         { "item": "cattlefodder", "x": 39, "y": 8, "amount": [ 0, 4 ] },
-        { "item": "cattlefodder_large", "x": 39, "y": 17, "amount": [ 0, 4 ] }
+        { "item": "cattlefodder", "x": 39, "y": 17, "amount": [ 0, 4 ] }
       ]
     }
   },
@@ -193,26 +192,27 @@
         "                         .......    .......     ",
         "                         .......    .......     ",
         "                         ...&...    ...&...     ",
-        "     ---------------     .......    .......     ",
-        "     -.............-     .......    .......     ",
-        "     -.............-     .......    .......     ",
-        "     -.............-     .......    .......     ",
-        "     -.........N...-     ...&...    ...&...     ",
-        "     -.............-     .......    .......     ",
-        "     -.............5     .......    .......     ",
-        "    --.............-     .......    .......     ",
-        "    -..............-     .......    .......     ",
-        "    -.....&........-     ...&...    ...&...     ",
-        "    -..............-     .......    .......     ",
-        "    -......~...=...-     .......    .......     ",
-        "    --.............-     .......    .......     ",
-        "     --------......-                            ",
-        "            --------                            ",
+        "     |22222222222223     .......    .......     ",
+        "     |.............3     .......    .......     ",
+        "     |.............3     .......    .......     ",
+        "     |.............3     .......    .......     ",
+        "     |.........N...3     ...&...    ...&...     ",
+        "     |.............3     .......    .......     ",
+        "     |.............5     .......    .......     ",
+        "    ||.............3     .......    .......     ",
+        "    |..............3     .......    .......     ",
+        "    |.....&........3     ...&...    ...&...     ",
+        "    |..............3     .......    .......     ",
+        "    |......R...=...3     .......    .......     ",
+        "    ||.............3     .......    .......     ",
+        "     --------......3                            ",
+        "            |------3                            ",
         "                                                ",
         "                                                "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { ".": "t_shingle_flat_roof" }
+      "terrain": { ".": "t_shingle_flat_roof" },
+      "furniture": { "N": "f_TV_antenna", "R": "f_chimney" }
     }
   },
   {
@@ -293,8 +293,6 @@
         "h": "f_chair",
         "U": "f_55gal_firebarrel",
         "b": "f_bench",
-        ".": [ [ "f_null", 29 ], [ "f_thistle", 1 ] ],
-        ",": [ [ "f_null", 29 ], [ "f_thistle", 1 ] ],
         "x": "f_bench",
         "M": [ "f_crate_c", "f_cardboard_box" ]
       }
@@ -526,7 +524,6 @@
         ".$............................................$."
       ],
       "terrain": { "$": "t_splitrail_fence", ".": [ "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt" ] },
-      "furniture": { ".": [ [ "f_null", 29 ], [ "f_thistle", 1 ] ] },
       "place_monsters": [
         { "monster": "GROUP_COWS_DAIRY", "x": [ 1, 10 ], "y": [ 1, 9 ], "density": 0.5 },
         { "monster": "GROUP_COWS_DAIRY", "x": [ 1, 12 ], "y": [ 1, 12 ], "density": 0.5 },

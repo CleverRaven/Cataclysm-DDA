@@ -1,5 +1,3 @@
-# Developer Tooling
-
 ## Pre-commit hook
 
 If you have all the relevant tools installed, you can have git automatically
@@ -364,8 +362,8 @@ diff <(ls src/*.h | sed 's!.*/!!') <(for i in src/*.cpp; do echo $i; sed -n '/^#
   types, which leads to other requirements for `IWYU pragma: keep`.
 
 * IWYU seems to have particular trouble with types used in maps and
-  `cata::optional` (NOTE: cata::optional replaced with std::optional around the C++17 migration).
-  Have not looked into this in detail, but again worked around it with pragmas.
+  `cata::optional`.  Have not looked into this in detail, but again worked
+  around it with pragmas.
 
 ## Python and pyvips on Windows
 

@@ -14,7 +14,7 @@
     "morale": 100,
     "luminance": 5,
     "death_function": { "message": "The %s's interior compartment sizzles with destructive energy.", "corpse_type": "BROKEN" },
-    "flags": [ "SEES", "FLIES", "NOHEAD", "ELECTRONIC", "NO_BREATHE", "BIOLOGICALPROOF", "INTERIOR_AMMO", "STUN_IMMUNE", "PACIFIST" ]
+    "flags": [ "SEES", "FLIES", "NOHEAD", "ELECTRONIC", "NO_BREATHE", "INTERIOR_AMMO", "STUN_IMMUNE", "PACIFIST" ]
   },
   {
     "id": "mon_EMP_hack",
@@ -40,7 +40,7 @@
     "speed": 250,
     "color": "light_gray",
     "revert_to_itype": "bot_c4_hack",
-    "starting_ammo": { "c4_payload": 1 },
+    "starting_ammo": { "c4": 1 },
     "special_attacks": [ [ "KAMIKAZE", 0 ] ],
     "armor": { "cut": 4, "bullet": 3 }
   },
@@ -106,6 +106,21 @@
     "armor": { "bash": 2, "cut": 8, "bullet": 6 }
   },
   {
+    "id": "mon_mininuke_hack",
+    "copy-from": "base_drone",
+    "type": "MONSTER",
+    "name": { "str": "mininuke hack" },
+    "description": "Many times as large as a normal manhack, this flying quadcopter drone appears to have a mininuke inside.  If this is targeting you… run.",
+    "diff": 40,
+    "hp": 20,
+    "speed": 150,
+    "color": "light_green_magenta",
+    "revert_to_itype": "bot_mininuke_hack",
+    "starting_ammo": { "mininuke": 1 },
+    "special_attacks": [ [ "KAMIKAZE", 0 ] ],
+    "armor": { "bash": 1, "cut": 6, "bullet": 5 }
+  },
+  {
     "abstract": "exodii_sniper_drone",
     "type": "MONSTER",
     "name": { "str": "balloon sniper-drone" },
@@ -155,7 +170,6 @@
       "FLIES",
       "NOHEAD",
       "ELECTRONIC",
-      "BIOLOGICALPROOF",
       "NO_BREATHE",
       "INTERIOR_AMMO",
       "PATH_AVOID_DANGER_1",

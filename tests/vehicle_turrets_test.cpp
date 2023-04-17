@@ -26,9 +26,9 @@ static std::vector<const vpart_info *> all_turret_types()
 {
     std::vector<const vpart_info *> res;
 
-    for( const vpart_info &vpi : vehicles::parts::get_all() ) {
-        if( vpi.has_flag( "TURRET" ) ) {
-            res.push_back( &vpi );
+    for( const auto &e : vpart_info::all() ) {
+        if( e.second.has_flag( "TURRET" ) ) {
+            res.push_back( &e.second );
         }
     }
 
@@ -44,11 +44,10 @@ TEST_CASE( "vehicle_turret", "[vehicle][gun][magazine]" )
     for( const vpart_info *turret_vpi : all_turret_types() ) {
         SECTION( turret_vpi->name() ) {
             vehicle *veh = here.add_vehicle( STATIC( vproto_id( "test_turret_rig" ) ),
-                                             tripoint( 65, 65, here.get_abs_sub().z() ), 270_degrees, 0, 0, false );
+                                             point( 65, 65 ), 270_degrees, 0, 0, false, "", false );
             REQUIRE( veh );
-            veh->unlock();
 
-            const int turr_idx = veh->install_part( point_zero, turret_vpi->id );
+            const int turr_idx = veh->install_part( point_zero, turret_vpi->get_id() );
             REQUIRE( turr_idx >= 0 );
             vehicle_part &vp = veh->part( turr_idx );
             CHECK( vp.is_turret() );

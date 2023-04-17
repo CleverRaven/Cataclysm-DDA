@@ -3,12 +3,13 @@
 #define CATA_SRC_MAIN_MENU_H
 
 #include <cstddef>
+#include <iosfwd>
 #include <vector>
 
 #include "cuboid_rectangle.h"
 #include "cursesdef.h"
 #include "enums.h"
-#include "input_context.h"
+#include "input.h"
 #include "point.h"
 #include "worldfactory.h"
 

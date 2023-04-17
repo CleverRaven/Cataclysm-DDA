@@ -86,13 +86,13 @@ TEST_CASE( "reload_from_inventory_times", "[reload],[inventory],[balance]" )
     }
     SECTION( "reloading a bow" ) {
         SECTION( "from a duffel bag" ) {
-            check_reload_time( "longbow", "arrow_wood", "long_duffelbag", 360 );
+            check_reload_time( "longbow", "arrow_wood", "long_duffelbag", 350 );
         }
         SECTION( "from a quiver" ) {
-            check_reload_time( "longbow", "arrow_wood", "quiver", 80 );
+            check_reload_time( "longbow", "arrow_wood", "quiver", 70 );
         }
         SECTION( "from the ground" ) {
-            check_reload_time( "longbow", "arrow_wood", "", 140 );
+            check_reload_time( "longbow", "arrow_wood", "", 130 );
         }
     }
 }

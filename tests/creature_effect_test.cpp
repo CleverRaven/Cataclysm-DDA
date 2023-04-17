@@ -429,7 +429,7 @@ TEST_CASE( "monster_is_immune_effect", "[creature][monster][effect][immune]" )
         monster feye( mon_flaming_eye );
         feye.clear_effects();
         REQUIRE( feye.made_of_any( Creature::cmat_flesh ) );
-        REQUIRE( feye.has_flag( mon_flag_FLIES ) );
+        REQUIRE( feye.has_flag( MF_FLIES ) );
         REQUIRE( feye.type->in_species( species_NETHER ) );
 
         THEN( "they can bleed" ) {
@@ -482,7 +482,7 @@ TEST_CASE( "monster_is_immune_effect", "[creature][monster][effect][immune]" )
         // Razorclaw - has `MUTANT` species which doesn't have any bleeding type set, but has arthropod blood
         monster razorclaw( mon_razorclaw );
         razorclaw.clear_effects();
-        REQUIRE( razorclaw.has_flag( mon_flag_ARTHROPOD_BLOOD ) );
+        REQUIRE( razorclaw.has_flag( MF_ARTHROPOD_BLOOD ) );
 
         THEN( "they can bleed" ) {
             CHECK_FALSE( razorclaw.is_immune_effect( effect_bleed ) );

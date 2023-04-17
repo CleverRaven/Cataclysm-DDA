@@ -1,31 +1,31 @@
 [
   {
     "type": "palette",
-    "id": "fbmw_2_concrete_palette",
+    "id": "fbmw_2_2_concrete_palette",
     "terrain": { ",": "t_dirtfloor", ".": "t_thconc_floor", "+": "t_door_metal_c", "v": "t_window_no_curtains", "w": "t_sconc_wall" },
     "furniture": {  }
   },
   {
     "type": "palette",
-    "id": "fbmw_2_log_palette",
+    "id": "fbmw_2_2_log_palette",
     "terrain": { ",": "t_dirtfloor", ".": "t_floor", "+": "t_door_c", "v": "t_window_no_curtains", "w": "t_wall_log" },
     "furniture": {  }
   },
   {
     "type": "palette",
-    "id": "fbmw_2_metal_palette",
+    "id": "fbmw_2_2_metal_palette",
     "terrain": { ",": "t_dirtfloor", ".": "t_scrap_floor", "+": "t_door_metal_c", "v": "t_window_no_curtains", "w": "t_scrap_wall" },
     "furniture": {  }
   },
   {
     "type": "palette",
-    "id": "fbmw_2_migo_resin_palette",
+    "id": "fbmw_2_2_migo_resin_palette",
     "terrain": { ",": "t_dirtfloor", ".": "t_floor_resin", "+": "t_resin_hole_c", "v": "t_wall_resin_cage", "w": "t_wall_resin" },
     "furniture": {  }
   },
   {
     "type": "palette",
-    "id": "fbmw_2_rammed_earth_palette",
+    "id": "fbmw_2_2_rammed_earth_palette",
     "terrain": {
       ",": "t_dirtfloor",
       ".": "t_floor_primitive",
@@ -37,13 +37,13 @@
   },
   {
     "type": "palette",
-    "id": "fbmw_2_rock_palette",
+    "id": "fbmw_2_2_rock_palette",
     "terrain": { ",": "t_dirtfloor", ".": "t_floor", "+": "t_door_c", "v": "t_window_no_curtains", "w": "t_rock_wall" },
     "furniture": {  }
   },
   {
     "type": "palette",
-    "id": "fbmw_2_wad_palette",
+    "id": "fbmw_2_2_wad_palette",
     "terrain": {
       ",": "t_dirtfloor",
       ".": "t_floor_primitive",
@@ -55,7 +55,7 @@
   },
   {
     "type": "palette",
-    "id": "fbmw_2_wood_palette",
+    "id": "fbmw_2_2_wood_palette",
     "terrain": { ",": "t_dirtfloor", ".": "t_floor", "+": "t_door_c", "v": "t_window_no_curtains", "w": "t_wall_wood" },
     "furniture": {  }
   }

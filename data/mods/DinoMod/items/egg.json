@@ -13,9 +13,10 @@
     "healthy": 1,
     "calories": 2600,
     "description": "Pale, round egg laid by a dinosaur.",
-    "price": "125 cent",
+    "price": 500,
     "material": [ "egg" ],
-    "volume": "1700 ml",
+    "volume": "6800 ml",
+    "stack_size": 4,
     "fun": -6,
     "flags": [ "FREEZERBURN" ],
     "rot_spawn": "GROUP_EGG_DINO",
@@ -35,7 +36,7 @@
     "calories": 80,
     "description": "Pale, round egg laid by a smaller dinosaur.",
     "material": [ "egg" ],
-    "volume": "12 ml",
+    "volume": "50 ml",
     "rot_spawn": "GROUP_EGG_DINO_SMALL"
   },
   {
@@ -50,7 +51,7 @@
     "calories": 5200,
     "description": "Pale, round egg laid by a larger dinosaur.",
     "material": [ "egg" ],
-    "volume": "3400 ml",
+    "volume": "13600 ml",
     "rot_spawn": "GROUP_EGG_DINO_LARGE"
   },
   {
@@ -67,9 +68,10 @@
     "healthy": 1,
     "calories": 2600,
     "description": "Pale, football-shaped egg laid by a dinosaur.",
-    "price": "125 cent",
+    "price": 500,
     "material": [ "egg" ],
-    "volume": "1700 ml",
+    "volume": "6800 ml",
+    "stack_size": 4,
     "fun": -6,
     "flags": [ "FREEZERBURN" ],
     "rot_spawn": "GROUP_EGG_THEROPOD",
@@ -97,7 +99,7 @@
     "calories": 5200,
     "description": "Pale, football-shaped egg laid by a larger dinosaur.",
     "material": [ "egg" ],
-    "volume": "3400 ml",
+    "volume": "13600 ml",
     "rot_spawn": "GROUP_EGG_THEROPOD_LARGE"
   },
   {
@@ -155,13 +157,6 @@
     "name": "acrocanthosaurus egg",
     "copy-from": "egg_dino_theropod",
     "rot_spawn": "GROUP_EGG_acrocanthosaurus"
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "egg_giganotosaurus",
-    "name": "giganotosaurus egg",
-    "copy-from": "egg_dino_theropod",
-    "rot_spawn": "GROUP_EGG_giganotosaurus"
   },
   {
     "type": "COMESTIBLE",

@@ -5,7 +5,6 @@
     "copy-from": "bionics",
     "extend": {
       "items": [
-        [ "bio_microgen", 5 ],
         [ "bn_bio_solar", 10 ],
         [ "afs_bio_missiles", 10 ],
         [ "afs_bio_linguistic_coprocessor", 10 ],
@@ -29,7 +28,6 @@
     "id": "bionics_reaver",
     "type": "item_group",
     "items": [
-      [ "bio_microgen", 3 ],
       [ "bio_power_storage", 10 ],
       [ "bio_batteries", 10 ],
       [ "bio_metabolics", 10 ],
@@ -142,15 +140,13 @@
       [ "bio_syringe", 2 ],
       [ "bio_jointservo", 10 ],
       [ "bio_soporific", 2 ],
-      [ "bn_bio_solar", 5 ],
-      [ "bio_microgen", 2 ]
+      [ "bn_bio_solar", 5 ]
     ]
   },
   {
     "id": "bionics_op",
     "type": "item_group",
     "items": [
-      [ "bio_microgen", 3 ],
       [ "bn_bio_solar", 15 ],
       [ "afs_bio_missiles", 10 ],
       [ "afs_bio_melee_counteraction", 10 ],
@@ -186,7 +182,7 @@
   {
     "id": "afs_bionics_power",
     "type": "item_group",
-    "items": [ [ "bio_power_storage_mkII", 1 ], [ "bio_power_storage", 14 ], [ "bio_microgen", 5 ] ]
+    "items": [ [ "bio_power_storage_mkII", 1 ], [ "bio_power_storage", 14 ] ]
   },
   {
     "id": "afs_bionic_toolkit",

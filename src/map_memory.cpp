@@ -35,8 +35,8 @@ struct reg_coord_pair {
     tripoint reg;
     point sm_loc;
 
-    explicit reg_coord_pair( const tripoint_abs_sm &p ) : sm_loc( p.xy().raw() ) {
-        reg = tripoint( sm_to_mmr_remain( sm_loc.x, sm_loc.y ), p.z() );
+    explicit reg_coord_pair( const tripoint &p ) : sm_loc( p.xy() ) {
+        reg = tripoint( sm_to_mmr_remain( sm_loc.x, sm_loc.y ), p.z );
     }
 };
 
@@ -52,22 +52,22 @@ bool mm_submap::is_valid() const
     return valid;
 }
 
-const memorized_tile &mm_submap::get_tile( const point_sm_ms &p ) const
+const memorized_tile &mm_submap::get_tile( const point &p ) const
 {
     if( tiles.empty() ) {
         return default_tile;
     }
-    return tiles[p.y() * SEEX + p.x()];
+    return tiles[p.y * SEEX + p.x];
 }
 
-void mm_submap::set_tile( const point_sm_ms &p, const memorized_tile &value )
+void mm_submap::set_tile( const point &p, const memorized_tile &value )
 {
     if( tiles.empty() ) {
         // call 'reserve' first to force allocation of exact size
         tiles.reserve( SEEX * SEEY );
         tiles.resize( SEEX * SEEY, default_tile );
     }
-    tiles[p.y() * SEEX + p.x()] = value;
+    tiles[p.y * SEEX + p.x] = value;
 }
 
 mm_region::mm_region() : submaps( nullptr ) {}
@@ -176,11 +176,9 @@ bool memorized_tile::operator==( const memorized_tile &rhs ) const
            dec_id == rhs.dec_id;
 }
 
-map_memory::coord_pair::coord_pair( const tripoint_abs_ms &p )
+map_memory::coord_pair::coord_pair( const tripoint &p ) : loc( p.xy() )
 {
-    loc = point_sm_ms( p.xy().raw() );
-    point pp = ms_to_sm_remain( loc.x(), loc.y() );
-    sm = tripoint_abs_sm( pp.x, pp.y, p.z() );
+    sm = tripoint( ms_to_sm_remain( loc.x, loc.y ), p.z );
 }
 
 map_memory::map_memory()
@@ -188,14 +186,14 @@ map_memory::map_memory()
     clear_cache();
 }
 
-const memorized_tile &map_memory::get_tile( const tripoint_abs_ms &pos ) const
+const memorized_tile &map_memory::get_tile( const tripoint &pos ) const
 {
     const coord_pair p( pos );
     const mm_submap &sm = get_submap( p.sm );
     return sm.get_tile( p.loc );
 }
 
-void map_memory::set_tile_terrain( const tripoint_abs_ms &pos, const std::string_view id,
+void map_memory::set_tile_terrain( const tripoint &pos, const std::string_view id,
                                    int subtile, int rotation )
 {
     const coord_pair p( pos );
@@ -210,7 +208,7 @@ void map_memory::set_tile_terrain( const tripoint_abs_ms &pos, const std::string
     sm.set_tile( p.loc, mt );
 }
 
-void map_memory::set_tile_decoration( const tripoint_abs_ms &pos, const std::string_view id,
+void map_memory::set_tile_decoration( const tripoint &pos, const std::string_view id,
                                       int subtile, int rotation )
 {
     const coord_pair p( pos );
@@ -225,7 +223,7 @@ void map_memory::set_tile_decoration( const tripoint_abs_ms &pos, const std::str
     sm.set_tile( p.loc, mt );
 }
 
-void map_memory::set_tile_symbol( const tripoint_abs_ms &pos, char32_t symbol )
+void map_memory::set_tile_symbol( const tripoint &pos, char32_t symbol )
 {
     const coord_pair p( pos );
     mm_submap &sm = get_submap( p.sm );
@@ -237,7 +235,7 @@ void map_memory::set_tile_symbol( const tripoint_abs_ms &pos, char32_t symbol )
     sm.set_tile( p.loc, mt );
 }
 
-void map_memory::clear_tile_decoration( const tripoint_abs_ms &pos, std::string_view prefix )
+void map_memory::clear_tile_vehicles( const tripoint &pos )
 {
     const coord_pair p( pos );
     mm_submap &sm = get_submap( p.sm );
@@ -245,7 +243,7 @@ void map_memory::clear_tile_decoration( const tripoint_abs_ms &pos, std::string_
         return;
     }
     memorized_tile mt = sm.get_tile( p.loc );
-    if( string_starts_with( mt.get_dec_id(), prefix ) ) {
+    if( string_starts_with( mt.get_dec_id(), "vp_" ) ) {
         mt.set_dec_id( "" );
         mt.set_dec_rotation( 0 );
         mt.set_dec_subtile( 0 );
@@ -254,21 +252,19 @@ void map_memory::clear_tile_decoration( const tripoint_abs_ms &pos, std::string_
     sm.set_tile( p.loc, mt );
 }
 
-bool map_memory::prepare_region( const tripoint_abs_ms &p1, const tripoint_abs_ms &p2 )
+bool map_memory::prepare_region( const tripoint &p1, const tripoint &p2 )
 {
-    cata_assert( p1.z() == p2.z() );
-    cata_assert( p1.x() <= p2.x() && p1.y() <= p2.y() );
+    cata_assert( p1.z == p2.z );
+    cata_assert( p1.x <= p2.x && p1.y <= p2.y );
 
-    tripoint_abs_sm sm_p1 = coord_pair( p1 ).sm + point_north_west;
-    tripoint_abs_sm sm_p2 = coord_pair( p2 ).sm + point_south_east;
+    tripoint sm_p1 = coord_pair( p1 ).sm + point_north_west;
+    tripoint sm_p2 = coord_pair( p2 ).sm + point_south_east;
 
-    tripoint_abs_sm sm_pos = sm_p1;
-    point_rel_sm sm_size = sm_p2.xy() - sm_p1.xy();
+    tripoint sm_pos = sm_p1;
+    point sm_size = sm_p2.xy() - sm_p1.xy();
 
-    if( sm_pos.z() == cache_pos.z() ) {
-        inclusive_rectangle<point_abs_sm> rect(
-            point_abs_sm( cache_pos.xy() ),
-            point_abs_sm( cache_pos.xy() + cache_size ) );
+    if( sm_pos.z == cache_pos.z ) {
+        inclusive_rectangle<point> rect( cache_pos.xy(), cache_pos.xy() + cache_size );
         if( rect.contains( sm_p1.xy() ) && rect.contains( sm_p2.xy() ) ) {
             return false;
         }
@@ -277,24 +273,18 @@ bool map_memory::prepare_region( const tripoint_abs_ms &p1, const tripoint_abs_m
     dbg( D_INFO ) << "Preparing memory map for area: pos: " << sm_pos << " size: " << sm_size;
 
     cache_pos = sm_pos;
-    cache_size = sm_size.raw();
+    cache_size = sm_size;
     cached.clear();
-    // Loop through each z-level in vision range
-    for( int z = std::max( sm_pos.z() - fov_3d_z_range, -OVERMAP_DEPTH );
-         z <= std::min( sm_pos.z() + fov_3d_z_range, OVERMAP_HEIGHT ); z++ ) {
-        cached[z].reserve( static_cast<std::size_t>( cache_size.x ) * cache_size.y );
-        for( int dy = 0; dy < cache_size.y; dy++ ) {
-            for( int dx = 0; dx < cache_size.x; dx++ ) {
-                // Store submap pointer in cache, categorized by z-level
-                const tripoint_abs_sm smpos( cache_pos.x() + dx, cache_pos.y() + dy, z );
-                cached[z].push_back( fetch_submap( smpos ) );
-            }
+    cached.reserve( static_cast<std::size_t>( cache_size.x ) * cache_size.y );
+    for( int dy = 0; dy < cache_size.y; dy++ ) {
+        for( int dx = 0; dx < cache_size.x; dx++ ) {
+            cached.push_back( fetch_submap( cache_pos + point( dx, dy ) ) );
         }
     }
     return true;
 }
 
-shared_ptr_fast<mm_submap> map_memory::fetch_submap( const tripoint_abs_sm &sm_pos )
+shared_ptr_fast<mm_submap> map_memory::fetch_submap( const tripoint &sm_pos )
 {
     shared_ptr_fast<mm_submap> sm = find_submap( sm_pos );
     if( sm ) {
@@ -307,7 +297,7 @@ shared_ptr_fast<mm_submap> map_memory::fetch_submap( const tripoint_abs_sm &sm_p
     return allocate_submap( sm_pos );
 }
 
-shared_ptr_fast<mm_submap> map_memory::allocate_submap( const tripoint_abs_sm &sm_pos )
+shared_ptr_fast<mm_submap> map_memory::allocate_submap( const tripoint &sm_pos )
 {
     // Since all save/load operations are done on regions of submaps,
     // we need to allocate the whole region at once.
@@ -318,7 +308,7 @@ shared_ptr_fast<mm_submap> map_memory::allocate_submap( const tripoint_abs_sm &s
 
     for( size_t y = 0; y < MM_REG_SIZE; y++ ) {
         for( size_t x = 0; x < MM_REG_SIZE; x++ ) {
-            const tripoint_abs_sm pos( mmr_to_sm_copy( reg ) + tripoint( x, y, 0 ) );
+            tripoint pos = mmr_to_sm_copy( reg ) + tripoint( x, y, 0 );
             shared_ptr_fast<mm_submap> sm = make_shared_fast<mm_submap>();
             if( pos == sm_pos ) {
                 ret = sm;
@@ -330,7 +320,7 @@ shared_ptr_fast<mm_submap> map_memory::allocate_submap( const tripoint_abs_sm &s
     return ret;
 }
 
-shared_ptr_fast<mm_submap> map_memory::find_submap( const tripoint_abs_sm &sm_pos )
+shared_ptr_fast<mm_submap> map_memory::find_submap( const tripoint &sm_pos )
 {
     auto sm = submaps.find( sm_pos );
     if( sm == submaps.end() ) {
@@ -340,7 +330,7 @@ shared_ptr_fast<mm_submap> map_memory::find_submap( const tripoint_abs_sm &sm_po
     }
 }
 
-shared_ptr_fast<mm_submap> map_memory::load_submap( const tripoint_abs_sm &sm_pos )
+shared_ptr_fast<mm_submap> map_memory::load_submap( const tripoint &sm_pos )
 {
     if( test_mode ) {
         return nullptr;
@@ -371,7 +361,7 @@ shared_ptr_fast<mm_submap> map_memory::load_submap( const tripoint_abs_sm &sm_po
 
     for( size_t y = 0; y < MM_REG_SIZE; y++ ) {
         for( size_t x = 0; x < MM_REG_SIZE; x++ ) {
-            const tripoint_abs_sm pos( mmr_to_sm_copy( p.reg ) + tripoint( x, y, 0 ) );
+            tripoint pos = mmr_to_sm_copy( p.reg ) + tripoint( x, y, 0 );
             shared_ptr_fast<mm_submap> &sm = mmr.submaps[x][y];
             if( pos == sm_pos ) {
                 ret = sm;
@@ -385,50 +375,52 @@ shared_ptr_fast<mm_submap> map_memory::load_submap( const tripoint_abs_sm &sm_po
 
 static mm_submap null_mz_submap;
 static mm_submap invalid_mz_submap{ false };
-static const tripoint_abs_sm invalid_cache_pos( tripoint_min );
 
-const mm_submap &map_memory::get_submap( const tripoint_abs_sm &sm_pos ) const
+const mm_submap &map_memory::get_submap( const tripoint &sm_pos ) const
 {
-    return const_cast<map_memory *>( this )->get_submap( sm_pos );
-}
-
-mm_submap &map_memory::get_submap( const tripoint_abs_sm &sm_pos )
-{
-    if( !is_valid() ) {
+    if( cache_pos == tripoint_min ) {
+        debugmsg( "Called map_memory with an " );
         return invalid_mz_submap;
     }
-    const point_rel_sm idx = ( sm_pos - cache_pos ).xy();
-    if( idx.x() > 0 && idx.y() > 0 && idx.x() < cache_size.x && idx.y() < cache_size.y &&
-        !cached[sm_pos.z()].empty() ) {
-        return *cached[sm_pos.z()][idx.y() * cache_size.x + idx.x()];
+    const point idx = ( sm_pos - cache_pos ).xy();
+    if( idx.x > 0 && idx.y > 0 && idx.x < cache_size.x && idx.y < cache_size.y ) {
+        return *cached[idx.y * cache_size.x + idx.x];
     } else {
         return null_mz_submap;
     }
 }
 
-bool map_memory::is_valid() const
+mm_submap &map_memory::get_submap( const tripoint &sm_pos )
 {
-    return cache_pos != invalid_cache_pos;
+    if( cache_pos == tripoint_min ) {
+        return invalid_mz_submap;
+    }
+    const point idx = ( sm_pos - cache_pos ).xy();
+    if( idx.x > 0 && idx.y > 0 && idx.x < cache_size.x && idx.y < cache_size.y ) {
+        return *cached[idx.y * cache_size.x + idx.x];
+    } else {
+        return null_mz_submap;
+    }
 }
 
-void map_memory::load( const tripoint_abs_ms &pos )
+void map_memory::load( const tripoint &pos )
 {
     const coord_pair p( pos );
-    const tripoint_abs_sm start = p.sm - tripoint_rel_sm( MM_SIZE / 2, MM_SIZE / 2, 0 );
+    const tripoint start = p.sm - tripoint( MM_SIZE / 2, MM_SIZE / 2, 0 );
     dbg( D_INFO ) << "[LOAD] Loading memory map around " << p.sm << ". Loading submaps within " << start
                   << "->" << start + tripoint( MM_SIZE, MM_SIZE, 0 );
     clear_cache();
     for( int dy = 0; dy < MM_SIZE; dy++ ) {
         for( int dx = 0; dx < MM_SIZE; dx++ ) {
-            fetch_submap( start + tripoint_rel_sm( dx, dy, 0 ) );
+            fetch_submap( start + tripoint( dx, dy, 0 ) );
         }
     }
     dbg( D_INFO ) << "[LOAD] Done.";
 }
 
-bool map_memory::save( const tripoint_abs_ms &pos )
+bool map_memory::save( const tripoint &pos )
 {
-    const tripoint_abs_sm sm_center = coord_pair( pos ).sm;
+    tripoint sm_center = coord_pair( pos ).sm;
     const cata_path dirname = find_mm_dir();
     assure_dir_exist( dirname );
 
@@ -446,7 +438,7 @@ bool map_memory::save( const tripoint_abs_ms &pos )
     submaps.clear();
 
     constexpr point MM_HSIZE_P = point( MM_SIZE / 2, MM_SIZE / 2 );
-    rectangle<point_abs_sm> rect_keep( sm_center.xy() - MM_HSIZE_P, sm_center.xy() + MM_HSIZE_P );
+    rectangle<point> rect_keep( sm_center.xy() - MM_HSIZE_P, sm_center.xy() + MM_HSIZE_P );
 
     dbg( D_INFO ) << "[SAVE] Saving memory map around " << sm_center << ". Keeping submaps within " <<
                   rect_keep.p_min << "->" << rect_keep.p_max;
@@ -473,17 +465,15 @@ bool map_memory::save( const tripoint_abs_ms &pos )
             const bool res = write_to_file( path, writer, descr.c_str() );
             result = result & res;
         }
-        const tripoint_abs_sm regp_sm( mmr_to_sm_copy( regp ) );
-        const half_open_rectangle<point_abs_sm> rect_reg(
-            regp_sm.xy(),
-            regp_sm.xy() + point( MM_REG_SIZE, MM_REG_SIZE ) );
-
+        tripoint regp_sm = mmr_to_sm_copy( regp );
+        half_open_rectangle<point> rect_reg( regp_sm.xy(), regp_sm.xy() + point( MM_REG_SIZE,
+                                             MM_REG_SIZE ) );
         if( rect_reg.overlaps( rect_keep ) ) {
             dbg( D_INFO ) << "Keeping mm_region " << regp << " [" << regp_sm << "]";
             // Put submaps back
             for( size_t y = 0; y < MM_REG_SIZE; y++ ) {
                 for( size_t x = 0; x < MM_REG_SIZE; x++ ) {
-                    const tripoint_abs_sm p = regp_sm + tripoint( x, y, 0 );
+                    tripoint p = regp_sm + tripoint( x, y, 0 );
                     shared_ptr_fast<mm_submap> &sm = reg.submaps[x][y];
                     submaps.insert( std::make_pair( p, sm ) );
                 }
@@ -502,6 +492,6 @@ bool map_memory::save( const tripoint_abs_ms &pos )
 void map_memory::clear_cache()
 {
     cached.clear();
-    cache_pos = invalid_cache_pos;
+    cache_pos = tripoint_min;
     cache_size = point_zero;
 }

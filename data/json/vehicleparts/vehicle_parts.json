@@ -4,8 +4,8 @@
     "id": "ig_vp_frame",
     "subtype": "collection",
     "entries": [
-      { "item": "steel_lump", "count": [ 4, 6 ] },
-      { "item": "steel_chunk", "count": [ 4, 6 ] },
+      { "item": "hc_steel_lump", "count": [ 4, 6 ] },
+      { "item": "hc_steel_chunk", "count": [ 4, 6 ] },
       { "item": "scrap", "count": [ 4, 6 ] }
     ]
   },
@@ -25,8 +25,8 @@
     "id": "ig_vp_hdframe",
     "subtype": "collection",
     "entries": [
-      { "item": "steel_lump", "count": [ 4, 6 ] },
-      { "item": "steel_chunk", "count": [ 4, 6 ] },
+      { "item": "qt_steel_lump", "count": [ 4, 6 ] },
+      { "item": "qt_steel_chunk", "count": [ 4, 6 ] },
       { "item": "scrap", "count": [ 4, 6 ] }
     ]
   },
@@ -105,6 +105,7 @@
     "wheel_offroad_rating": 0.7,
     "wheel_terrain_modifiers": { "FLAT": [ 0, 3 ], "ROAD": [ 0, 1 ] },
     "description": "Attach this part to a beast of burden to allow it to pull your vehicle.",
+    "power": "0 W",
     "location": "structure",
     "requirements": {
       "install": { "skills": [ [ "fabrication", 1 ] ], "time": "100 s", "using": [ [ "vehicle_screw", 1 ] ] },
@@ -121,8 +122,7 @@
       "STEERABLE",
       "UNMOUNT_ON_DAMAGE",
       "UNSTABLE_WHEEL",
-      "WHEEL",
-      "HUGE_OK"
+      "WHEEL"
     ],
     "damage_reduction": { "all": 2 },
     "variants": [ { "symbols": "H", "symbols_broken": "M" } ]
@@ -135,6 +135,7 @@
     "categories": [ "movement", "operations" ],
     "color": "dark_gray",
     "broken_color": "dark_gray",
+    "damage_modifier": 100,
     "noise_factor": 10,
     "fuel_type": "animal",
     "durability": 600,
@@ -145,6 +146,7 @@
     "wheel_offroad_rating": 0.7,
     "wheel_terrain_modifiers": { "FLAT": [ 0, 3 ], "ROAD": [ 0, 1 ] },
     "description": "Attach this part to a beast of burden to allow it to pull your vehicle.  This one is reinforced with heavy chains and steel.",
+    "power": "0 W",
     "location": "structure",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "20 m", "using": [ [ "welding_standard", 10 ] ] },
@@ -161,8 +163,7 @@
       "STEERABLE",
       "UNMOUNT_ON_DAMAGE",
       "UNSTABLE_WHEEL",
-      "WHEEL",
-      "HUGE_OK"
+      "WHEEL"
     ],
     "damage_reduction": { "all": 20 },
     "variants": [ { "symbols": "H", "symbols_broken": "M" } ]
@@ -176,12 +177,14 @@
     "color": "white",
     "broken_color": "red",
     "damage_modifier": 10,
+    "noise_factor": 0,
     "fuel_type": "animal",
     "durability": 20,
     "item": "pipe",
     "m2c": 90,
     "description": "A metal handle, a creature with hands could use it to push a vehicle.",
-    "//": "10 cm weld per damage quadrant to repair, 10 cm weld to install",
+    "power": "0 W",
+    "//": "10cm weld per damage quadrant to repair, 10cm weld to install",
     "location": "structure",
     "requirements": {
       "install": { "skills": [ [ "fabrication", 1 ] ], "time": "150 s", "using": [ [ "welding_standard", 5 ] ] },
@@ -189,16 +192,7 @@
       "repair": { "skills": [ [ "fabrication", 1 ] ], "time": "5 m", "using": [ [ "repair_welding_standard", 1 ] ] }
     },
     "breaks_into": [ { "item": "scrap", "count": [ 4, 6 ] } ],
-    "flags": [
-      "ENGINE",
-      "BOARDABLE",
-      "E_STARTS_INSTANTLY",
-      "ANIMAL_CTRL",
-      "HARNESS_human",
-      "STEERABLE",
-      "UNMOUNT_ON_DAMAGE",
-      "HUGE_OK"
-    ],
+    "flags": [ "ENGINE", "BOARDABLE", "E_STARTS_INSTANTLY", "ANIMAL_CTRL", "HARNESS_human", "STEERABLE", "UNMOUNT_ON_DAMAGE" ],
     "damage_reduction": { "all": 2 },
     "variants": [ { "symbols": "-", "symbols_broken": "~" } ]
   },
@@ -213,12 +207,12 @@
     "damage_modifier": 60,
     "durability": 95,
     "description": "A small but comfortable bed.",
-    "size": "100 L",
+    "size": "50 L",
     "item": "mattress",
     "comfort": 4,
     "floor_bedding_warmth": 700,
     "location": "center",
-    "//": "10 cm weld per damage quadrant to repair, 30 cm weld to install",
+    "//": "10cm weld per damage quadrant to repair, 30cm weld to install",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "welding_standard", 30 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
@@ -242,7 +236,7 @@
     "broken_color": "light_cyan",
     "durability": 30,
     "description": "A pair of handles.  You can mount other items on top of it.",
-    "//": "10 cm weld per damage quadrant to repair, 10 cm weld to install",
+    "//": "10cm weld per damage quadrant to repair, 10cm weld to install",
     "folded_volume": "750 ml",
     "item": "pipe",
     "location": "structure",
@@ -307,12 +301,12 @@
     "looks_like": "t_metal_floor",
     "categories": [ "hull", "passengers" ],
     "color": "white",
+    "broken_color": "light_gray",
     "durability": 400,
     "description": "An aisle.",
-    "size": "100 L",
     "item": "sheet_metal",
     "location": "center",
-    "//": ".5 m square sheet of metal, likely affixed with bolts in places, assume 200 cm weld to install and 50 cm weld to repair",
+    "//": "1m square sheet of metal, likely affixed with bolts in places, assume 200cm weld to install and 50cm weld to repair",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 1 ] ],
@@ -326,7 +320,7 @@
       },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "6 m", "using": [ [ "repair_welding_standard", 5 ] ] }
     },
-    "flags": [ "AISLE", "BOARDABLE", "CARGO" ],
+    "flags": [ "AISLE", "BOARDABLE" ],
     "breaks_into": "ig_vp_sheet_metal",
     "damage_reduction": { "all": 28 },
     "variants": [
@@ -360,7 +354,8 @@
     "description": "A collapsible aisle.",
     "folded_volume": "12500 ml",
     "item": "foldwoodframe",
-    "flags": [ "AISLE", "BOARDABLE", "CARGO" ]
+    "location": "center",
+    "flags": [ "AISLE", "BOARDABLE" ]
   },
   {
     "type": "vehicle_part",
@@ -369,8 +364,9 @@
     "looks_like": "t_carpet_red",
     "categories": [ "cargo" ],
     "color": "white",
+    "broken_color": "light_gray",
     "durability": 400,
-    "description": "An aisle.  A hatch lets you access a cargo space beneath it, keeping items stored here out of the way.",
+    "description": "An aisle.  A hatch lets you access a cargo space beneath it.",
     "size": "87500 ml",
     "item": "cargo_aisle",
     "location": "center",
@@ -388,7 +384,7 @@
       },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "10 m", "using": [ [ "repair_welding_standard", 6 ] ] }
     },
-    "flags": [ "AISLE", "BOARDABLE", "CARGO", "CARGO_PASSABLE", "LOCKABLE_CARGO", "COVERED" ],
+    "flags": [ "AISLE", "BOARDABLE", "CARGO", "LOCKABLE_CARGO", "COVERED" ],
     "breaks_into": "ig_vp_sheet_metal",
     "damage_reduction": { "all": 28 },
     "variants": [ { "symbols": "=", "symbols_broken": "#" } ]
@@ -398,6 +394,7 @@
     "id": "roof_cloth",
     "name": { "str": "cloth roof" },
     "categories": [ "hull" ],
+    "color": "light_gray",
     "broken_color": "dark_gray",
     "durability": 15,
     "description": "A cloth roof.",
@@ -417,6 +414,7 @@
     "id": "roof",
     "name": { "str": "roof" },
     "categories": [ "hull" ],
+    "color": "light_gray",
     "broken_color": "dark_gray",
     "durability": 240,
     "description": "A metal roof.",
@@ -480,7 +478,6 @@
     "broken_color": "red",
     "damage_modifier": 80,
     "durability": 100,
-    "folded_volume": "2500 ml",
     "description": "A computer system hooked up to the steering and engine of the vehicle to allow it to follow simple paths.",
     "item": "programmable_autopilot",
     "looks_like": "cam_control",
@@ -508,12 +505,13 @@
     "id": "storage_battery_mount",
     "name": { "str": "swappable storage battery case" },
     "categories": [ "energy" ],
+    "color": "light_gray",
     "broken_color": "red",
     "damage_modifier": 80,
     "durability": 300,
     "description": "A battery case for storage batteries.  Allows quick removal or addition of a storage battery, if you can lift the battery.",
     "item": "it_battery_mount",
-    "//": "40 cm weld to affix",
+    "//": "40cm weld to affix",
     "location": "fuel_source",
     "requirements": {
       "install": {
@@ -542,6 +540,7 @@
     "id": "handheld_battery_mount",
     "name": { "str": "tool battery mount" },
     "categories": [ "energy" ],
+    "color": "light_gray",
     "broken_color": "red",
     "damage_modifier": 80,
     "durability": 100,
@@ -567,6 +566,7 @@
     "description": "An armored black box, a device meant to record and preserve data of a military vehicle in the field in case it gets destroyed.",
     "durability": 400,
     "categories": [ "other" ],
+    "color": "light_gray",
     "broken_color": "dark_gray",
     "flags": [ "NO_REPAIR" ],
     "requirements": {
@@ -634,12 +634,12 @@
     "damage_modifier": 80,
     "durability": 100,
     "description": "A small fridge.  When turned on, it will cool the food inside, extending the time until the food spoils.",
-    "//": "Use average consumption, not the max on the appliance rating plate. For big fridge 30 W ~ 260 kWh per annum is good, but for mini variant with decrased volume by ~ 6 time, surface area ~ 3-4 times and insulation thickness only by 2 time 10 W is good too and very close to real world variant ",
+    "//": "Use average consumption, not the max on the appliance rating plate. For big fridge 30W ~ 260kWh per annum is good, but for mini variant with decrased volume by ~ 6 time, surface area ~ 3-4 times and insulation thickness only by 2 time 10W is good too and very close to real world variant ",
     "epower": "-24 W",
     "size": "75 L",
     "item": "minifridge",
     "location": "center",
-    "//1": "20 cm weld per quadrant of damage",
+    "//1": "20cm weld per quadrant of damage",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -675,7 +675,7 @@
     "size": "75 L",
     "item": "minifreezer",
     "location": "center",
-    "//1": "20 cm weld per quadrant of damage",
+    "//1": "20cm weld per quadrant of damage",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -712,7 +712,7 @@
     "item": "washing_machine",
     "size": "40 L",
     "location": "center",
-    "//1": "20 cm weld per quadrant of damage",
+    "//1": "20cm weld per quadrant of damage",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -747,7 +747,7 @@
     "size": "40 L",
     "location": "center",
     "looks_like": "washing_machine",
-    "//1": "20 cm weld per quadrant of damage",
+    "//1": "20cm weld per quadrant of damage",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -781,7 +781,7 @@
     "item": "vh_autoclave",
     "size": "76 L",
     "location": "center",
-    "//1": "20 cm weld per quadrant of damage",
+    "//1": "20cm weld per quadrant of damage",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -806,10 +806,10 @@
     "broken_color": "brown",
     "damage_modifier": 80,
     "durability": 350,
-    "size": "300 L",
-    "//": "300 L storage based on an average station wagon trunk being around 600 L, and our cars having two tiles.",
+    "size": "200 L",
+    "//": "200 L storage based on an average sedan trunk being around 400 L, and our cars having two tiles.  We should get a taller trunk for SUVs and similar.",
     "item": "frame",
-    "//1": "120 cm weld to install, 30 cm per damage quadrant for repair",
+    "//1": "120cm weld to install, 30cm per damage quadrant for repair",
     "location": "center",
     "requirements": {
       "install": {
@@ -831,39 +831,6 @@
   },
   {
     "type": "vehicle_part",
-    "id": "trunk_sedan",
-    "name": { "str": "sedan trunk" },
-    "looks_like": "trunk",
-    "categories": [ "cargo" ],
-    "color": "brown",
-    "broken_color": "brown",
-    "damage_modifier": 80,
-    "durability": 350,
-    "size": "200 L",
-    "//": "200 L storage based on an average sedan trunk being around 400 L, and our cars having two tiles.  We should get a taller trunk for SUVs and similar.",
-    "item": "frame",
-    "//1": "120 cm weld to install, 30 cm per damage quadrant for repair",
-    "location": "center",
-    "requirements": {
-      "install": {
-        "skills": [ [ "mechanics", 1 ] ],
-        "time": "20 m",
-        "using": [ [ "welding_standard", 120 ], [ "vehicle_bolt_install", 1 ] ]
-      },
-      "removal": {
-        "skills": [ [ "mechanics", 2 ] ],
-        "time": "20 m",
-        "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
-      },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "using": [ [ "repair_welding_standard", 3 ] ] }
-    },
-    "flags": [ "CARGO", "LOCKABLE_CARGO", "COVERED", "SIMPLE_PART", "HALF_BOARD" ],
-    "breaks_into": "ig_vp_frame",
-    "damage_reduction": { "all": 30 },
-    "variants": [ { "symbols": "H", "symbols_broken": "#" } ]
-  },
-  {
-    "type": "vehicle_part",
     "id": "travois",
     "name": { "str": "travois" },
     "looks_like": "frame_wood_light_cross",
@@ -875,7 +842,7 @@
     "size": "75 L",
     "item": "frame_wood_light",
     "location": "center",
-    "flags": [ "CARGO", "BOARDABLE", "COVERED", "HUGE_OK", "CARGO_PASSABLE" ],
+    "flags": [ "CARGO", "BOARDABLE", "COVERED" ],
     "breaks_into": [ { "item": "splinter", "count": [ 3, 5 ] }, { "item": "string_36", "count": [ 10, 15 ] } ],
     "requirements": {
       "install": { "time": "10 m", "using": [ [ "rope_natural_short", 1 ] ] },
@@ -902,7 +869,7 @@
       "removal": { "skills": [ [ "fabrication", 1 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
       "repair": { "skills": [ [ "fabrication", 1 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
     },
-    "flags": [ "CARGO", "BOARDABLE", "COVERED", "LOCKABLE_CARGO", "CARGO_PASSABLE" ],
+    "flags": [ "CARGO", "BOARDABLE", "COVERED", "LOCKABLE_CARGO" ],
     "breaks_into": [ { "item": "splinter", "count": [ 3, 5 ] }, { "item": "nail", "charges": [ 10, 15 ] } ],
     "damage_reduction": { "all": 5 },
     "variants": [ { "symbols": "o", "symbols_broken": "#" } ]
@@ -926,7 +893,7 @@
       "removal": { "skills": [ [ "fabrication", 2 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
       "repair": { "skills": [ [ "fabrication", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
     },
-    "flags": [ "CARGO", "BOARDABLE", "COVERED", "LOCKABLE_CARGO", "CARGO_PASSABLE" ],
+    "flags": [ "CARGO", "BOARDABLE", "COVERED", "LOCKABLE_CARGO" ],
     "breaks_into": [ { "item": "splinter", "count": [ 3, 5 ] }, { "item": "nail", "charges": [ 10, 15 ] } ],
     "damage_reduction": { "all": 4 },
     "variants": [ { "symbols": "o", "symbols_broken": "#" } ]
@@ -938,6 +905,7 @@
     "looks_like": "f_table",
     "categories": [ "utility" ],
     "color": "red",
+    "broken_color": "light_gray",
     "damage_modifier": 60,
     "durability": 145,
     "size": "20 L",
@@ -954,7 +922,7 @@
       { "item": "splinter", "count": [ 4, 6 ] },
       { "item": "nail", "charges": [ 4, 7 ] }
     ],
-    "workbench": { "multiplier": 1.1, "mass": 150000, "volume": "20 L" },
+    "workbench": { "multiplier": 1.1, "mass": 150000, "volume": "20L" },
     "damage_reduction": { "all": 24 },
     "variants": [ { "symbols": "#", "symbols_broken": "#" } ]
   },
@@ -965,6 +933,7 @@
     "looks_like": "f_table",
     "categories": [ "utility" ],
     "color": "red",
+    "broken_color": "light_gray",
     "damage_modifier": 60,
     "durability": 145,
     "size": "20 L",
@@ -981,7 +950,7 @@
       { "item": "splinter", "count": [ 4, 6 ] },
       { "item": "nail", "charges": [ 4, 7 ] }
     ],
-    "workbench": { "multiplier": 1.1, "mass": 150000, "volume": "20 L" },
+    "workbench": { "multiplier": 1.1, "mass": 150000, "volume": "20L" },
     "damage_reduction": { "all": 16 },
     "variants": [ { "symbols": "#", "symbols_broken": "#" } ]
   },
@@ -992,6 +961,7 @@
     "looks_like": "veh_table_wood",
     "categories": [ "utility" ],
     "color": "red",
+    "broken_color": "light_gray",
     "damage_modifier": 30,
     "durability": 70,
     "size": "20 L",
@@ -1019,12 +989,13 @@
     "looks_like": "veh_table_wood",
     "categories": [ "utility" ],
     "color": "red",
+    "broken_color": "light_gray",
     "damage_modifier": 60,
     "durability": 300,
     "size": "30 L",
     "item": "workbench",
     "location": "center",
-    "//": "20 cm weld per quadrant of damage",
+    "//": "20cm weld per quadrant of damage",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -1038,7 +1009,7 @@
       { "item": "steel_chunk", "count": [ 4, 8 ] },
       { "item": "scrap", "count": [ 12, 24 ] }
     ],
-    "workbench": { "multiplier": 1.2, "mass": 300000, "volume": "30 L" },
+    "workbench": { "multiplier": 1.2, "mass": 300000, "volume": "30L" },
     "damage_reduction": { "all": 29 },
     "variants": [ { "symbols": "#", "symbols_broken": "#" } ]
   },
@@ -1051,7 +1022,8 @@
     "bonus": 15,
     "epower": "-50 W",
     "item": "workbench_with_recharger",
-    "//": "20 cm weld per quadrant of damage",
+    "location": "center",
+    "//": "20cm weld per quadrant of damage",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -1070,7 +1042,7 @@
       { "item": "scrap", "count": [ 1, 3 ] }
     ],
     "size": "29500 ml",
-    "workbench": { "volume": "29 L" },
+    "workbench": { "multiplier": 1.2, "mass": 300000, "volume": "29L" },
     "damage_reduction": { "all": 29 }
   },
   {
@@ -1081,6 +1053,7 @@
     "looks_like": "t_wall_log",
     "categories": [ "hull" ],
     "color": "brown",
+    "broken_color": "light_gray",
     "damage_modifier": 50,
     "durability": 40,
     "item": "boat_board",
@@ -1103,6 +1076,7 @@
     "looks_like": "t_wall_log",
     "categories": [ "hull" ],
     "color": "brown",
+    "broken_color": "light_gray",
     "damage_modifier": 50,
     "durability": 30,
     "item": "raft_board",
@@ -1125,6 +1099,7 @@
     "categories": [ "hull" ],
     "color": "brown",
     "looks_like": "boat_board",
+    "broken_color": "light_gray",
     "damage_modifier": 50,
     "durability": 120,
     "item": "plastic_boat_hull",
@@ -1147,11 +1122,12 @@
     "categories": [ "hull" ],
     "color": "dark_gray",
     "looks_like": "boat_board",
+    "broken_color": "light_gray",
     "damage_modifier": 50,
     "durability": 240,
     "item": "sheet_metal",
     "location": "under",
-    "//": "240 cm weld to install, 60 cm of weld per quadrant of damage",
+    "//": "240cm weld to install, 60cm of weld per quadrant of damage",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 4 ] ],
@@ -1178,6 +1154,7 @@
     "categories": [ "hull" ],
     "color": "brown",
     "looks_like": "boat_board",
+    "broken_color": "light_gray",
     "damage_modifier": 50,
     "durability": 480,
     "item": "carbonfiber_boat_hull",
@@ -1199,7 +1176,8 @@
     "looks_like": "inflatable_airbag",
     "categories": [ "hull" ],
     "color": "green",
-    "size": "85 L",
+    "size": "15 L",
+    "broken_color": "light_gray",
     "durability": 50,
     "item": "inflatable_section",
     "location": "structure",
@@ -1223,6 +1201,7 @@
     "name": { "str": "inflatable airbag" },
     "categories": [ "hull" ],
     "color": "green",
+    "broken_color": "light_gray",
     "damage_modifier": 50,
     "durability": 40,
     "item": "inflatable_airbag",
@@ -1246,6 +1225,7 @@
     "id": "sail",
     "name": { "str": "sail" },
     "categories": [ "movement", "operations" ],
+    "color": "light_gray",
     "broken_color": "red",
     "damage_modifier": 50,
     "durability": 20,
@@ -1268,9 +1248,60 @@
   },
   {
     "type": "vehicle_part",
+    "id": "hand_paddles",
+    "name": { "str": "hand paddles" },
+    "categories": [ "movement", "operations" ],
+    "color": "light_gray",
+    "broken_color": "red",
+    "damage_modifier": 50,
+    "durability": 50,
+    "power": "800 W",
+    "fuel_type": "muscle",
+    "muscle_power_factor": 40,
+    "noise_factor": 8,
+    "m2c": 45,
+    "exclusions": [ "manual" ],
+    "item": "hand_paddles",
+    "location": "engine_block",
+    "folded_volume": "500 ml",
+    "requirements": {
+      "install": { "skills": [ [ "fabrication", 1 ] ], "time": "6 m" },
+      "removal": { "skills": [ [ "fabrication", 2 ] ], "time": "6 m" },
+      "repair": { "skills": [ [ "fabrication", 2 ] ], "time": "60 m" }
+    },
+    "flags": [ "ENGINE", "CONTROLS", "MUSCLE_ARMS", "E_STARTS_INSTANTLY" ],
+    "breaks_into": [ { "item": "splinter", "count": [ 2, 4 ] } ],
+    "damage_reduction": { "all": 5 },
+    "variants": [ { "symbols": "*", "symbols_broken": "#" } ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "reins_tackle",
+    "name": { "str": "reins and tackle" },
+    "categories": [ "operations" ],
+    "color": "light_gray",
+    "broken_color": "red",
+    "durability": 80,
+    "description": "A set of leather bindings to control a creature pulling a vehicle, such as a cart.",
+    "bonus": 10,
+    "damage_modifier": 5,
+    "item": "reins_tackle",
+    "folded_volume": "250 ml",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "6 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "3 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "6 m", "using": [ [ "adhesive", 2 ] ] }
+    },
+    "flags": [ "CONTROL_ANIMAL" ],
+    "breaks_into": [ { "item": "leather", "count": [ 1, 2 ] } ],
+    "variants": [ { "symbols": "W", "symbols_broken": "X" } ]
+  },
+  {
+    "type": "vehicle_part",
     "id": "controls",
     "name": { "str": "controls" },
     "categories": [ "operations" ],
+    "color": "light_gray",
     "broken_color": "red",
     "damage_modifier": 10,
     "durability": 250,
@@ -1296,7 +1327,7 @@
         "using": [ [ "repair_welding_standard", 3 ], [ "soldering_standard", 8 ], [ "vehicle_wrench_1", 1 ], [ "vehicle_screw", 1 ] ]
       }
     },
-    "flags": [ "CONTROLS", "NEED_LEG", "INOPERABLE_SMALL" ],
+    "flags": [ "CONTROLS" ],
     "breaks_into": [
       { "item": "steel_lump" },
       { "item": "steel_chunk", "count": [ 1, 3 ] },
@@ -1305,60 +1336,6 @@
     ],
     "damage_reduction": { "all": 6 },
     "variants": [ { "symbols": "$", "symbols_broken": "$" } ]
-  },
-  {
-    "type": "vehicle_part",
-    "id": "hand_controls",
-    "name": { "str": "hand controls" },
-    "categories": [ "other" ],
-    "broken_color": "red",
-    "durability": 250,
-    "description": "A pair of adjustable rods with a simple trigger.  They easily can be easily installed on top of vehicle controls and will allow a car or similar vehicle to be driven by those who can't use their legs to do so, whether due to disability or small stature.  These are designed for automobiles and will not work on bicycle style foot pedals.",
-    "bonus": 10,
-    "folded_volume": "740 ml",
-    "item": "hand_controls",
-    "flags": [ "IGNORE_LEG_REQUIREMENT", "IGNORE_HEIGHT_REQUIREMENT", "ON_CONTROLS" ],
-    "breaks_into": [ { "item": "scrap", "count": [ 0, 2 ] }, { "item": "pipe", "count": [ 0, 1 ] } ],
-    "variants": [ { "symbols": "/", "symbols_broken": "/" } ]
-  },
-  {
-    "type": "vehicle_part",
-    "id": "pedal_extenders",
-    "name": { "str": "pedal extenders" },
-    "categories": [ "other" ],
-    "broken_color": "red",
-    "durability": 250,
-    "description": "Thick rubber pads which can be easily clamped onto gas and brake pedals to allow vehicle controls to be used even by people who are very short.",
-    "bonus": 10,
-    "folded_volume": "2 L",
-    "item": "pedal_extenders",
-    "flags": [ "IGNORE_HEIGHT_REQUIREMENT", "ON_CONTROLS" ],
-    "breaks_into": [
-      { "item": "rubber_tire_chunk", "count": [ 0, 1 ] },
-      { "item": "rubber_tire_chunk", "count": [ 0, 8 ] },
-      { "item": "clamp", "count": [ 0, 1 ] },
-      { "item": "scrap", "count": [ 0, 2 ] }
-    ],
-    "variants": [ { "symbols": ",", "symbols_broken": "," } ]
-  },
-  {
-    "type": "vehicle_part",
-    "id": "pedal_extenders_makeshift",
-    "name": { "str": "makeshift pedal extenders" },
-    "categories": [ "other" ],
-    "broken_color": "red",
-    "durability": 50,
-    "description": "Blocks of wood, taped to the pedals to allow vehicle controls to be used even by people who are very short.",
-    "bonus": 10,
-    "folded_volume": "2 L",
-    "item": "pedal_extenders_makeshift",
-    "flags": [ "IGNORE_HEIGHT_REQUIREMENT", "ON_CONTROLS" ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "350 s", "components": [ [ [ "duct_tape", 25 ] ] ] },
-      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "80 s", "using": [ [ "adhesive", 1 ] ] }
-    },
-    "breaks_into": [ { "item": "splinter", "count": [ 0, 4 ] } ],
-    "variants": [ { "symbols": ",", "symbols_broken": "," } ]
   },
   {
     "type": "vehicle_part",
@@ -1391,7 +1368,7 @@
     "categories": [ "utility" ],
     "color": "red",
     "durability": 400,
-    "//": "700 W average assuming relatively small target-actual difference",
+    "//": "700W average assuming relatively small target-actual difference",
     "epower": "-700 W",
     "bonus": 10,
     "requirements": {
@@ -1413,6 +1390,7 @@
     "item": "mountable_heater_small",
     "//": "going with half energy draw based on difference between small and large space heaters",
     "epower": "-350 W",
+    "bonus": 10,
     "folded_volume": "3750 ml",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ], [ "electronics", 1 ] ], "time": "2 m", "using": [ [ "vehicle_screw", 1 ] ] },
@@ -1423,17 +1401,6 @@
     "emissions": [ "emit_hot_air2_stream" ],
     "breaks_into": [ { "item": "steel_lump" }, { "item": "steel_chunk", "count": [ 1, 3 ] }, { "item": "scrap", "count": [ 1, 3 ] } ],
     "damage_reduction": { "all": 15 }
-  },
-  {
-    "id": "integrated_heater_small",
-    "copy-from": "mountable_heater_small",
-    "description": "Set of tubes, that move heat from the engine into the vehicle cabin, heating it up.",
-    "item": "pipe",
-    "type": "vehicle_part",
-    "location": "",
-    "name": { "str": "small integrated heater" },
-    "extend": { "flags": [ "NO_INSTALL_HIDDEN" ] },
-    "requirements": { "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "qualities": [ { "id": "SAW_M", "level": 2 } ] } }
   },
   {
     "id": "mountable_cooler",
@@ -1457,20 +1424,6 @@
     "breaks_into": [ { "item": "steel_lump" }, { "item": "steel_chunk", "count": [ 1, 3 ] }, { "item": "scrap", "count": [ 1, 3 ] } ],
     "damage_reduction": { "all": 15 },
     "variants": [ { "symbols": "C", "symbols_broken": ":" } ]
-  },
-  {
-    "id": "integrated_cooler",
-    "copy-from": "mountable_cooler",
-    "type": "vehicle_part",
-    "location": "",
-    "name": { "str": "small integrated cooler" },
-    "description": "Small set of mechanisms, that cool the vehicle out when turned on.",
-    "item": "integrated_cooler",
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ], [ "electronics", 1 ] ], "time": "3 h", "using": [ [ "vehicle_screw", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 4 ], [ "electronics", 1 ] ], "time": "3 h", "using": [ [ "vehicle_screw", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 s", "using": [ [ "adhesive", 1 ] ] }
-    }
   },
   {
     "type": "vehicle_part",
@@ -1501,6 +1454,8 @@
     "id": "muffler",
     "name": { "str": "muffler" },
     "categories": [ "other" ],
+    "color": "light_gray",
+    "broken_color": "light_gray",
     "damage_modifier": 10,
     "durability": 50,
     "description": "A metal pipe that somewhat reduces engine noise.  Also vents heat from an installed vehicle cooler.",
@@ -1534,6 +1489,7 @@
     "id": "seatbelt",
     "name": { "str": "seatbelt" },
     "categories": [ "operations", "passengers" ],
+    "color": "light_gray",
     "broken_color": "red",
     "damage_modifier": 10,
     "durability": 35,
@@ -1587,6 +1543,7 @@
     "id": "smart_engine_controller",
     "name": { "str": "smart engine controller" },
     "categories": [ "other" ],
+    "color": "light_gray",
     "broken_color": "red",
     "damage_modifier": 10,
     "durability": 35,
@@ -1615,6 +1572,7 @@
     "id": "seatbelt_heavyduty",
     "name": { "str": "5-point harness" },
     "categories": [ "operations", "passengers" ],
+    "color": "light_gray",
     "broken_color": "red",
     "damage_modifier": 10,
     "durability": 100,
@@ -1639,6 +1597,7 @@
     "looks_like": "t_door_curtain_c",
     "categories": [ "other" ],
     "color": "dark_gray",
+    "broken_color": "light_gray",
     "damage_modifier": 1,
     "durability": 200,
     "description": "A sheet over a window.",
@@ -1661,6 +1620,7 @@
     "looks_like": "v_curtain",
     "categories": [ "other" ],
     "color": "dark_gray",
+    "broken_color": "light_gray",
     "damage_modifier": 1,
     "durability": 200,
     "description": "A sheet across an aisle.",
@@ -1771,7 +1731,7 @@
     "epower": "1 W",
     "item": "wind_turbine",
     "location": "on_roof",
-    "//": "20 cm weld per quadrant of damage",
+    "//": "20cm weld per quadrant of damage",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "150 s", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "150 s", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
@@ -1805,7 +1765,7 @@
     "item": "xl_wind_turbine",
     "location": "on_roof",
     "power": "-3000 W",
-    "//": "30 cm weld per quadrant of damage",
+    "//": "30cm weld per quadrant of damage",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 3 ] ], "time": "450 s", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
       "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "450 s", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
@@ -1826,8 +1786,31 @@
   },
   {
     "type": "vehicle_part",
+    "id": "foldable_solar_panel",
+    "copy-from": "solar_panel",
+    "looks_like": "solar_panel",
+    "name": { "str": "collapsible solar array" },
+    "color": "light_blue",
+    "broken_color": "light_gray",
+    "proportional": { "epower": 0.4, "durability": 0.5 },
+    "folded_volume": "2 L",
+    "description": "A small array of solar panels designed to be able to fold into one another.",
+    "item": "folding_solar_panel"
+  },
+  {
+    "type": "vehicle_part",
+    "id": "advanced_foldable_solar_panel",
+    "copy-from": "foldable_solar_panel",
+    "name": { "str": "advanced collapsible solar array" },
+    "proportional": { "epower": 2 },
+    "description": "A small array of high-performance solar panels designed to be able to fold into one another.",
+    "item": "folding_solar_panel_v2"
+  },
+  {
+    "type": "vehicle_part",
     "id": "reinforced_solar_panel",
     "copy-from": "solar_panel",
+    "looks_like": "solar_panel",
     "name": { "str": "reinforced solar panel" },
     "color": "light_blue",
     "broken_color": "light_gray",
@@ -1856,6 +1839,7 @@
     "id": "solar_panel_v2",
     "copy-from": "solar_panel",
     "name": { "str": "advanced solar panel" },
+    "looks_like": "solar_panel",
     "description": "A high-performance solar panel.",
     "item": "solar_panel_v2",
     "proportional": { "epower": 2.0 },
@@ -1914,7 +1898,7 @@
     "damage_modifier": 80,
     "durability": 400,
     "description": "A military ASRG covered in heavy plating.  Provides constant albeit low power to your car.",
-    "//": "40 cm of weld per damage quadrant",
+    "//": "40cm of weld per damage quadrant",
     "epower": "130 W",
     "location": "center",
     "item": "compact_ASRG_containment",
@@ -1929,7 +1913,7 @@
     "breaks_into": [
       { "item": "scrap", "count": [ 4, 16 ] },
       { "item": "steel_chunk", "count": [ 1, 6 ] },
-      { "item": "plutonium", "count": [ 0, 2 ] },
+      { "item": "plutonium", "charges": [ 0, 2 ] },
       { "item": "lead", "charges": [ 12, 18 ] }
     ],
     "damage_reduction": { "all": 58 },
@@ -1941,12 +1925,14 @@
     "name": { "str": "water faucet" },
     "looks_like": "f_sink",
     "categories": [ "utility" ],
+    "color": "light_gray",
+    "broken_color": "light_gray",
     "damage_modifier": 10,
     "description": "A water faucet.",
     "durability": 45,
     "folded_volume": "250 ml",
     "item": "water_faucet",
-    "//": "10 cm weld per damage quadrant",
+    "//": "10cm weld per damage quadrant",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
@@ -1968,7 +1954,7 @@
     "description": "A towel hanger with towels.",
     "durability": 45,
     "folded_volume": "2500 ml",
-    "//": "10 cm weld per damage quadrant",
+    "//": "10cm weld per damage quadrant",
     "item": "towel_hanger",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
@@ -2009,7 +1995,7 @@
     "durability": 660,
     "item": "steel_plate",
     "location": "armor",
-    "//": "240 cm weld to install, 60 cm weld per damage quadrant",
+    "//": "240cm weld to install, 60cm weld per damage quadrant",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 2 ] ],
@@ -2038,7 +2024,7 @@
     "durability": 600,
     "item": "alloy_plate",
     "location": "armor",
-    "//": "240 cm weld to install, 60 cm weld per damage quadrant",
+    "//": "240cm weld to install, 60cm weld per damage quadrant",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 4 ] ],
@@ -2073,7 +2059,7 @@
     "description": "A spiked plate that will increase the damage delivered to someone else in collisions.",
     "item": "spiked_plate",
     "location": "armor",
-    "//": "240 cm weld to install, 60 cm weld per damage quadrant",
+    "//": "240cm weld to install, 60cm weld per damage quadrant",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 3 ] ],
@@ -2107,7 +2093,7 @@
     "durability": 780,
     "item": "hard_plate",
     "location": "armor",
-    "//": "300 cm weld to install, 80 cm weld per damage quadrant",
+    "//": "300cm weld to install, 80cm weld per damage quadrant",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 4 ] ],
@@ -2140,7 +2126,7 @@
     "durability": 700,
     "item": "mil_plate",
     "location": "armor",
-    "//": "300 cm weld to install",
+    "//": "300cm weld to install",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 6 ] ],
@@ -2168,6 +2154,7 @@
     "id": "horn_bicycle",
     "name": { "str": "bicycle horn" },
     "categories": [ "other" ],
+    "color": "light_gray",
     "broken_color": "red",
     "damage_modifier": 10,
     "durability": 75,
@@ -2189,6 +2176,7 @@
     "id": "horn_car",
     "name": { "str": "car horn" },
     "categories": [ "other" ],
+    "color": "light_gray",
     "broken_color": "red",
     "damage_modifier": 10,
     "durability": 100,
@@ -2209,6 +2197,7 @@
     "id": "horn_big",
     "name": { "str": "truck horn" },
     "categories": [ "other" ],
+    "color": "light_gray",
     "broken_color": "red",
     "damage_modifier": 10,
     "durability": 125,
@@ -2229,6 +2218,7 @@
     "id": "beeper",
     "name": { "str": "back-up beeper" },
     "categories": [ "other" ],
+    "color": "light_gray",
     "broken_color": "dark_gray",
     "damage_modifier": 10,
     "durability": 90,
@@ -2251,11 +2241,12 @@
     "name": { "str": "cargo space" },
     "looks_like": "box",
     "categories": [ "cargo" ],
+    "color": "light_gray",
     "broken_color": "dark_gray",
     "durability": 250,
     "size": "500 L",
-    "//": "Based roughly on a quarter of a 2 m x 1.2 m pickup truck bed, assuming a reasonable amount of piling up (about 80 cm, ie. sticking up around 20 cm over the sides if really stacked).  Could definitely use more subtypes.",
-    "//1": "240 cm weld to install, 60 cm per damage quadrant to repair",
+    "//": "Based roughly on a quarter of a 2m x 1.2m pickup truck bed, assuming a reasonable amount of piling up (about 80cm, ie. sticking up around 20cm over the sides if really stacked).  Could definitely use more subtypes.",
+    "//1": "240cm weld to install, 60cm per damage quadrant to repair",
     "item": "cargo_rack",
     "location": "center",
     "requirements": {
@@ -2271,7 +2262,7 @@
       },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "20 m", "using": [ [ "repair_welding_standard", 12 ] ] }
     },
-    "flags": [ "BOARDABLE", "CARGO", "COVERED", "HUGE_OK" ],
+    "flags": [ "BOARDABLE", "CARGO", "COVERED" ],
     "breaks_into": [
       { "item": "steel_lump", "count": [ 6, 8 ] },
       { "item": "steel_chunk", "count": [ 6, 8 ] },
@@ -2285,13 +2276,13 @@
     "id": "livestock_stall",
     "name": { "str": "livestock stall" },
     "categories": [ "passengers", "cargo" ],
+    "color": "light_gray",
     "looks_like": "cargo_space",
     "broken_color": "dark_gray",
     "durability": 250,
     "description": "A cargo space for carrying livestock.  'e'xamine it to capture an animal next to you, or to release the animal currently contained.  When selecting an animal to capture, choose its tile relative to you, not the part.",
-    "//1": "240 cm weld to install, 60 cm per damage quadrant to repair",
-    "size": "300 L",
-    "comfort": 2,
+    "//1": "240cm weld to install, 60cm per damage quadrant to repair",
+    "size": "200 L",
     "item": "livestock_carrier",
     "location": "center",
     "requirements": {
@@ -2307,7 +2298,7 @@
       },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "20 m", "using": [ [ "repair_welding_standard", 12 ] ] }
     },
-    "flags": [ "BOARDABLE", "CARGO", "COVERED", "CAPTURE_MONSTER_VEH", "HUGE_OK", "BED", "BELTABLE" ],
+    "flags": [ "BOARDABLE", "CARGO", "COVERED", "CAPTURE_MONSTER_VEH" ],
     "breaks_into": [
       { "item": "steel_lump", "count": [ 6, 8 ] },
       { "item": "steel_chunk", "count": [ 6, 8 ] },
@@ -2320,6 +2311,7 @@
     "type": "vehicle_part",
     "id": "animal_compartment",
     "copy-from": "livestock_stall",
+    "looks_like": "livestock_stall",
     "name": { "str": "animal compartment" },
     "durability": 125,
     "description": "A large locker for transporting smaller animals.  'e'xamine it to capture an animal next to you, or to release the animal currently contained.  When selecting an animal to capture, choose its tile relative to you, not the part.",
@@ -2381,6 +2373,7 @@
     "name": { "str": "stereo system" },
     "categories": [ "other" ],
     "color": "red",
+    "broken_color": "light_gray",
     "damage_modifier": 0,
     "durability": 60,
     "damage_reduction": { "bash": 5 },
@@ -2403,6 +2396,7 @@
     "name": { "str": "chimes" },
     "categories": [ "other" ],
     "color": "red",
+    "broken_color": "light_gray",
     "damage_modifier": 0,
     "durability": 40,
     "description": "A collection of electronic bells.  Use the vehicle's controls to turn it on or off.  When turned on, it makes noise, attracting neighborhood children.",
@@ -2438,7 +2432,7 @@
     "description": "Thick copper cable with leads on either end.  Attach one end to one vehicle and the other to another, and you can transfer electrical power between the two.",
     "item": "jumper_cable",
     "requirements": { "removal": { "time": "5 s" } },
-    "flags": [ "NO_INSTALL_HIDDEN", "UNMOUNT_ON_DAMAGE", "POWER_TRANSFER" ],
+    "flags": [ "NO_INSTALL_HIDDEN", "UNMOUNT_ON_DAMAGE", "UNMOUNT_ON_MOVE", "POWER_TRANSFER" ],
     "breaks_into": [ { "item": "cable", "charges": [ 1, 10 ] }, { "item": "plastic_chunk", "count": [ 1, 2 ] } ],
     "variants": [ { "symbols": "{", "symbols_broken": "*" } ]
   },
@@ -2456,7 +2450,7 @@
     "description": "A long orange extension cord for connecting appliances.  Currently plugged in.",
     "item": "extension_cable",
     "requirements": { "removal": { "time": "5 s" } },
-    "flags": [ "NO_INSTALL_HIDDEN", "UNMOUNT_ON_DAMAGE", "POWER_TRANSFER" ],
+    "flags": [ "NO_INSTALL_HIDDEN", "UNMOUNT_ON_DAMAGE", "UNMOUNT_ON_MOVE", "POWER_TRANSFER" ],
     "breaks_into": [ { "item": "cable", "charges": [ 1, 10 ] }, { "item": "plastic_chunk", "count": [ 1, 2 ] } ],
     "variants": [ { "symbols": "{", "symbols_broken": "*" } ]
   },
@@ -2471,17 +2465,17 @@
     "epower": "1 kW",
     "//": "Epower for POWER_TRANSFER stuff is how much percentage-wise loss there is in transmission",
     "durability": 120,
-    "description": "An extra long 30 m orange extension cord for connecting outdoor appliances.  Currently plugged in.",
+    "description": "An extra long 30m orange extension cord for connecting outdoor appliances.  Currently plugged in.",
     "item": "long_extension_cable",
     "requirements": { "removal": { "time": "5 s" } },
-    "flags": [ "NO_INSTALL_HIDDEN", "UNMOUNT_ON_DAMAGE", "POWER_TRANSFER" ],
+    "flags": [ "NO_INSTALL_HIDDEN", "UNMOUNT_ON_DAMAGE", "UNMOUNT_ON_MOVE", "POWER_TRANSFER" ],
     "breaks_into": [ { "item": "cable", "charges": [ 1, 10 ] }, { "item": "plastic_chunk", "count": [ 1, 2 ] } ],
     "variants": [ { "symbols": "{", "symbols_broken": "*" } ]
   },
   {
     "type": "vehicle_part",
     "id": "jumper_cable_heavy",
-    "name": { "str": "heavy-duty jumper cable" },
+    "name": { "str": "heavy-duty cable" },
     "categories": [ "other" ],
     "color": "yellow",
     "broken_color": "dark_gray",
@@ -2492,7 +2486,7 @@
     "//": "Epower for POWER_TRANSFER stuff is how much percentage-wise loss there is in transmission",
     "item": "jumper_cable_heavy",
     "requirements": { "removal": { "time": "5 s" } },
-    "flags": [ "NO_INSTALL_HIDDEN", "UNMOUNT_ON_DAMAGE", "POWER_TRANSFER" ],
+    "flags": [ "NO_INSTALL_HIDDEN", "UNMOUNT_ON_DAMAGE", "UNMOUNT_ON_MOVE", "POWER_TRANSFER" ],
     "breaks_into": [ { "item": "wire", "count": [ 4, 8 ] }, { "item": "plastic_chunk", "count": [ 4, 8 ] } ],
     "variants": [ { "symbols": "{", "symbols_broken": "*" } ]
   },
@@ -2507,7 +2501,7 @@
     "durability": 120,
     "description": "A heavy-duty tow cable, if the other end was attached to another vehicle, it could pull it.",
     "item": "hd_tow_cable",
-    "requirements": { "removal": { "time": "5 s" } },
+    "requirements": { "removal": { "time": 500 } },
     "flags": [ "NO_INSTALL_HIDDEN", "UNMOUNT_ON_DAMAGE", "TOW_CABLE" ],
     "breaks_into": [ { "item": "scrap", "count": [ 4, 8 ] }, { "item": "grip_hook", "count": 1 }, { "item": "cable", "count": [ 1, 4 ] } ],
     "variants": [ { "symbols": "{", "symbols_broken": "*" } ]
@@ -2519,12 +2513,13 @@
     "categories": [ "other" ],
     "color": "yellow",
     "broken_color": "dark_gray",
+    "epower": "0 W",
     "//": "Epower for POWER_TRANSFER stuff is how much percentage-wise loss there is in transmission",
     "damage_modifier": 10,
     "durability": 120,
     "item": "jumper_cable_debug",
     "requirements": { "removal": { "time": "5 s" } },
-    "flags": [ "NO_INSTALL_HIDDEN", "UNMOUNT_ON_DAMAGE", "POWER_TRANSFER" ],
+    "flags": [ "NO_INSTALL_HIDDEN", "UNMOUNT_ON_DAMAGE", "UNMOUNT_ON_MOVE", "POWER_TRANSFER" ],
     "breaks_into": [ { "item": "jumper_cable_debug" } ],
     "variants": [ { "symbols": "{", "symbols_broken": "*" } ]
   },
@@ -2538,7 +2533,7 @@
     "broken_color": "brown",
     "damage_modifier": 20,
     "durability": 75,
-    "description": "A place to sit, barely.",
+    "description": "A place to sit.",
     "item": "frame_wood_light",
     "location": "center",
     "requirements": {
@@ -2562,16 +2557,14 @@
     "damage_modifier": 60,
     "durability": 125,
     "description": "A place to sit.",
-    "comfort": 1,
     "item": "frame_wood",
     "location": "center",
-    "size": "85 L",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
     },
-    "flags": [ "SEAT", "BOARDABLE", "BELTABLE", "CARGO" ],
+    "flags": [ "SEAT", "BOARDABLE", "BELTABLE" ],
     "breaks_into": [ { "item": "splinter", "count": [ 7, 9 ] } ],
     "damage_reduction": { "all": 8 },
     "variants": [ { "symbols": "#", "symbols_broken": "*" } ]
@@ -2581,8 +2574,8 @@
     "id": "seat_wood_bench",
     "name": { "str": "wooden bench" },
     "copy-from": "seat_wood",
+    "looks_like": "seat_wood",
     "durability": 150,
-    "size": "95 L",
     "description": "A benchlike place to sit."
   },
   {
@@ -2590,6 +2583,7 @@
     "id": "roof_wood",
     "name": { "str": "wooden roof" },
     "categories": [ "hull" ],
+    "color": "light_gray",
     "broken_color": "dark_gray",
     "durability": 130,
     "description": "A wooden roof.",
@@ -2611,6 +2605,7 @@
     "name": { "str": "chitin plating" },
     "categories": [ "warfare" ],
     "color": "yellow",
+    "broken_color": "light_gray",
     "durability": 200,
     "item": "chitin_plate",
     "location": "armor",
@@ -2640,6 +2635,7 @@
     "name": { "str": "door motor" },
     "categories": [ "other" ],
     "color": "light_green",
+    "broken_color": "light_gray",
     "damage_modifier": 10,
     "durability": 50,
     "description": "A small electric motor.  Installed on the same frame as a door or curtain, it will allow you to remotely open the door or curtain from the vehicle controls.",
@@ -2650,7 +2646,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "adhesive", 1 ], [ "soldering_standard", 3 ] ] }
     },
-    "flags": [ "BOARD_INTERNAL", "DOOR_MOTOR", "UNMOUNT_ON_DAMAGE" ],
+    "flags": [ "DOOR_MOTOR", "UNMOUNT_ON_DAMAGE" ],
     "breaks_into": [ { "item": "scrap", "count": [ 4, 6 ] } ],
     "damage_reduction": { "all": 12 },
     "variants": [ { "symbols": "*", "symbols_broken": "#" } ]
@@ -2665,7 +2661,7 @@
     "damage_modifier": 10,
     "durability": 200,
     "description": "A sophisticated set of electronic controls that allow you to control the vehicle from a vehicle remote while you are not in it.  You can 'e'xamine the tile to access the controls, or use the vehicle control key (default '^').",
-    "//1": "120 cm weld to install the whole assembly, 30 cm weld per damage quadrant for repair",
+    "//1": "120cm weld to install the whole assembly, 30cm weld per damage quadrant for repair",
     "folded_volume": "2500 ml",
     "item": "drive_by_wire_controls",
     "requirements": {
@@ -2724,7 +2720,7 @@
     "folded_volume": "2 L",
     "bonus": 24,
     "item": "omnicamera",
-    "//": "Cameras without a DVR can run on under 10 W",
+    "//": "Cameras without a DVR can run on under 10W",
     "epower": "-10 W",
     "location": "on_roof",
     "requirements": {
@@ -2740,11 +2736,19 @@
     "type": "vehicle_part",
     "id": "omnicamera_reinforced",
     "copy-from": "omnicam",
+    "looks_like": "omnicam",
     "name": { "str": "reinforced security camera" },
     "categories": [ "operations" ],
+    "color": "light_red",
+    "broken_color": "red",
+    "damage_modifier": 10,
     "durability": 300,
     "description": "A small camera encased in a protective metal cage.  Will relay what it can see to a camera control station.",
+    "folded_volume": "2 L",
+    "bonus": 24,
     "item": "omnicamera_reinforced",
+    "epower": "-10 W",
+    "location": "on_roof",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "vehicle_screw", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_screw", 1 ] ] },
@@ -2760,12 +2764,13 @@
     "name": { "str": "robot controls" },
     "categories": [ "operations" ],
     "color": "white",
+    "broken_color": "light_gray",
     "damage_modifier": 10,
     "durability": 300,
     "description": "A set of controls to allow a vehicle to drive itself, or you to drive it remotely using a controller.",
     "item": "robot_controls",
     "folded_volume": "1250 ml",
-    "//1": "120 cm weld to install the whole assembly, 30 cm weld per damage quadrant for repair",
+    "//1": "120cm weld to install the whole assembly, 30cm weld per damage quadrant for repair",
     "location": "center",
     "requirements": {
       "install": {
@@ -2797,9 +2802,11 @@
     "id": "vehicle_clock",
     "name": { "str": "makeshift clock" },
     "categories": [ "other" ],
+    "color": "light_gray",
     "broken_color": "dark_gray",
     "durability": 20,
     "description": "A clock, so you know what time it is.",
+    "epower": "0 W",
     "folded_volume": "250 ml",
     "item": "wristwatch",
     "requirements": {
@@ -2819,6 +2826,7 @@
     "looks_like": "funnel",
     "categories": [ "other" ],
     "color": "brown",
+    "broken_color": "light_gray",
     "damage_modifier": 5,
     "durability": 80,
     "description": "A funnel that will collect rainwater into the tank beneath it.",
@@ -2842,6 +2850,7 @@
     "looks_like": "funnel",
     "categories": [ "other" ],
     "color": "white",
+    "broken_color": "light_gray",
     "damage_modifier": 5,
     "durability": 60,
     "description": "A funnel that will collect rainwater into the tank beneath it.",
@@ -2865,6 +2874,7 @@
     "looks_like": "funnel",
     "categories": [ "other" ],
     "color": "yellow",
+    "broken_color": "light_gray",
     "damage_modifier": 5,
     "durability": 80,
     "description": "A funnel that will collect rainwater into the tank beneath it.",
@@ -2887,6 +2897,7 @@
     "name": { "str": "funnel" },
     "categories": [ "other" ],
     "color": "yellow",
+    "broken_color": "light_gray",
     "damage_modifier": 5,
     "durability": 200,
     "description": "A funnel that will collect rainwater into the tank beneath it.",
@@ -2908,6 +2919,8 @@
     "name": { "str": "metal funnel" },
     "looks_like": "funnel",
     "categories": [ "other" ],
+    "color": "light_gray",
+    "broken_color": "light_gray",
     "damage_modifier": 30,
     "durability": 300,
     "description": "A funnel that will collect rainwater into the tank beneath it.",
@@ -2929,6 +2942,7 @@
     "id": "vehicle_scoop",
     "name": { "str": "scoop" },
     "categories": [ "utility" ],
+    "color": "light_gray",
     "broken_color": "dark_gray",
     "durability": 100,
     "description": "A scoop.  Use the vehicle controls to turn it on or off.  When turned on, it will scoop up loose items that it travels over until it's full.",
@@ -2936,7 +2950,7 @@
     "size": "100 L",
     "damage_modifier": 10,
     "item": "v_scoop_item",
-    "//1": "100 cm weld to install, 30 cm weld per damage quadrant to repair",
+    "//1": "100cm weld to install, 30cm weld per damage quadrant to repair",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 1 ] ],
@@ -2992,7 +3006,7 @@
     "item": "v_plow_item",
     "location": "under",
     "power": "-300 W",
-    "//1": "200 cm weld to install and 60 cm weld per damage quadrant to repair",
+    "//1": "200cm weld to install and 60cm weld per damage quadrant to repair",
     "transform_terrain": { "pre_flags": [ "PLOWABLE" ], "post_terrain": "t_dirtmound" },
     "requirements": {
       "install": {
@@ -3026,7 +3040,7 @@
     "location": "structure",
     "size": "12500 ml",
     "power": "-700 W",
-    "//1": "200 cm weld to install and 60 cm weld per damage quadrant to repair",
+    "//1": "200cm weld to install and 60cm weld per damage quadrant to repair",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 4 ] ],
@@ -3040,7 +3054,7 @@
       },
       "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "10 m", "using": [ [ "repair_welding_standard", 6 ] ] }
     },
-    "flags": [ "PLANTER", "PROTRUSION", "CARGO", "EXTRA_DRAG", "CARGO_PASSABLE" ],
+    "flags": [ "PLANTER", "PROTRUSION", "CARGO", "EXTRA_DRAG" ],
     "breaks_into": [ { "item": "plastic_chunk", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 1, 2 ] } ],
     "damage_reduction": { "all": 16 },
     "variants": [ { "symbols": "8", "symbols_broken": "*" } ]
@@ -3059,7 +3073,7 @@
     "location": "structure",
     "power": "-700 W",
     "size": "17500 ml",
-    "//1": "200 cm weld to install and 60 cm weld per damage quadrant to repair",
+    "//1": "200cm weld to install and 60cm weld per damage quadrant to repair",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 4 ] ],
@@ -3073,7 +3087,7 @@
       },
       "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "10 m", "using": [ [ "repair_welding_standard", 6 ] ] }
     },
-    "flags": [ "PLANTER", "PROTRUSION", "CARGO", "ADVANCED_PLANTER", "EXTRA_DRAG", "CARGO_PASSABLE" ],
+    "flags": [ "PLANTER", "PROTRUSION", "CARGO", "ADVANCED_PLANTER", "EXTRA_DRAG" ],
     "breaks_into": [
       { "item": "cable", "charges": [ 3, 6 ] },
       { "item": "e_scrap", "count": [ 4, 10 ] },
@@ -3088,15 +3102,16 @@
     "id": "reaper",
     "name": { "str": "reaper" },
     "categories": [ "utility" ],
+    "color": "light_gray",
     "broken_color": "light_blue",
     "damage_modifier": 120,
     "bonus": 7,
     "power": "-700 W",
     "durability": 200,
-    "description": "An automatic reaper.  Use the vehicle controls to turn it on or off.  When on, it will cut down plants that it travels over.  It should be placed in front of any plows in the vehicle for efficient operation.  It does not include cargo space, so harvested plants will end up on the ground.",
+    "description": "An automatic reaper.  Use the vehicle controls to turn it on or off.  When on, it will cut down plants that it travels over.  It should be placed in front of any plows in the vehicle for efficient operation.  It does not include cargo space of its own so you need install a cargo space of some kind elsewhere in the vehicle.",
     "item": "v_reaper_item",
     "location": "structure",
-    "//1": "200 cm weld to install and 60 cm weld per damage quadrant to repair",
+    "//1": "200cm weld to install and 60cm weld per damage quadrant to repair",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 4 ] ],
@@ -3120,6 +3135,7 @@
     "id": "reaper_advanced",
     "name": { "str": "advanced reaper" },
     "categories": [ "utility" ],
+    "color": "light_gray",
     "broken_color": "light_blue",
     "damage_modifier": 120,
     "bonus": 7,
@@ -3128,7 +3144,7 @@
     "//": "No need to mention re drag - already provided by EXTRA_DRAG flag.",
     "description": "An automatic reaper.  Use the vehicle controls to turn it on or off.  When on, it will cut down plants and store them in the vehicle's cargo.  It should be placed in front of any plows in the vehicle for efficient operation.  It has internal cargo space for collecting the harvest.",
     "item": "v_reaper_item_advanced",
-    "//1": "200 cm weld to install and 60 cm weld per damage quadrant to repair",
+    "//1": "200cm weld to install and 60cm weld per damage quadrant to repair",
     "location": "under",
     "size": "87500 ml",
     "requirements": {
@@ -3161,6 +3177,7 @@
     "name": { "str": "cargo lock" },
     "categories": [ "cargo" ],
     "color": "dark_gray",
+    "broken_color": "light_gray",
     "durability": 25,
     "description": "A set of locks.  Attached to a suitable cargo space, it will prevent other people from accessing the cargo and taking your stuff.",
     "folded_volume": "250 ml",
@@ -3181,11 +3198,13 @@
     "id": "turret_mount",
     "name": { "str": "turret mount" },
     "categories": [ "warfare" ],
+    "color": "light_gray",
+    "broken_color": "light_gray",
     "damage_modifier": 80,
     "durability": 320,
     "description": "A rotating, universal mount for a weapon.  If your hands are empty, you can stand on the same tile as a turret mount and 'f'ire the weapon.",
     "folded_volume": "2500 ml",
-    "//1": "60 cm weld to install and 15 cm weld per damage quadrant to repair",
+    "//1": "60cm weld to install and 15cm weld per damage quadrant to repair",
     "item": "turret_mount",
     "requirements": {
       "install": {
@@ -3200,30 +3219,6 @@
     "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] } ],
     "damage_reduction": { "all": 54 },
     "variants": [ { "symbols": "X", "symbols_broken": "X" } ]
-  },
-  {
-    "type": "vehicle_part",
-    "id": "door_lock",
-    "name": { "str": "door lock" },
-    "variants": [ { "symbols": "*", "symbols_broken": "*" } ],
-    "categories": [ "other" ],
-    "color": "light_blue",
-    "durability": 25,
-    "description": "A lock and latching mechanism.  If installed on a door, this can be used to lock it.",
-    "folded_volume": "250 ml",
-    "item": "door_lock",
-    "requirements": {
-      "install": {
-        "skills": [ [ "mechanics", 2 ], [ "traps", 1 ] ],
-        "time": "24 m",
-        "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "DRILL", "level": 2 } ]
-      },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "24 m", "qualities": [ { "id": "SCREW", "level": 1 } ] },
-      "repair": { "skills": [ [ "mechanics", 2 ], [ "traps", 1 ] ], "time": "12 m", "using": [ [ "soldering_standard", 3 ] ] }
-    },
-    "flags": [ "BOARD_INTERNAL", "DOOR_LOCKING", "UNMOUNT_ON_DAMAGE" ],
-    "breaks_into": [ { "item": "clockworks", "count": [ 0, 3 ] }, { "item": "scrap", "count": [ 2, 6 ] } ],
-    "damage_reduction": { "all": 60 }
   },
   {
     "type": "vehicle_part",
@@ -3259,11 +3254,12 @@
     "categories": [ "hull" ],
     "color": "dark_gray",
     "looks_like": "boat_board",
+    "broken_color": "light_gray",
     "damage_modifier": 50,
     "durability": 200,
     "item": "aluminum_boat_hull",
     "location": "under",
-    "//": "240 cm weld to install, 60 cm of weld per quadrant of damage",
+    "//": "240cm weld to install, 60cm of weld per quadrant of damage",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 4 ] ],
@@ -3305,9 +3301,10 @@
   {
     "type": "vehicle_part",
     "id": "stowed_fridge",
-    "name": { "str": "tied-down refrigerator" },
+    "name": { "str": "tied-down fridge" },
     "categories": [ "other" ],
     "color": "white",
+    "broken_color": "light_gray",
     "damage_modifier": 5,
     "durability": 200,
     "description": "A fridge, secured to the roof for transportation.  Not functional, but easier than carrying it with your hands.",
@@ -3331,37 +3328,11 @@
   },
   {
     "type": "vehicle_part",
-    "id": "stowed_glass_fridge",
-    "name": { "str": "tied-down glass door refrigerator" },
-    "categories": [ "other" ],
-    "color": "white",
-    "damage_modifier": 5,
-    "durability": 100,
-    "description": "A fridge, secured to the roof for transportation.  Not functional, but easier than carrying it with your hands.  Careful with the glass!",
-    "bonus": 300,
-    "item": "stowed_glass_fridge",
-    "location": "on_roof",
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m" },
-      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m" }
-    },
-    "breaks_into": [
-      { "item": "steel_lump", "count": [ 8, 13 ] },
-      { "item": "steel_chunk", "count": [ 8, 13 ] },
-      { "item": "scrap", "count": [ 8, 13 ] },
-      { "item": "hose", "prob": 50 },
-      { "item": "motor_tiny", "prob": 25 }
-    ],
-    "damage_reduction": { "all": 16 },
-    "flags": [ "EXTRA_DRAG" ],
-    "variants": [ { "symbols": "F", "symbols_broken": "*" } ]
-  },
-  {
-    "type": "vehicle_part",
     "id": "stowed_freezer",
     "name": { "str": "tied-down freezer" },
     "categories": [ "other" ],
     "color": "white",
+    "broken_color": "light_gray",
     "damage_modifier": 5,
     "durability": 200,
     "description": "A chest freezer, secured to the roof for transportation.  Not functional, but easier than carrying it with your hands.",

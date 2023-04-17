@@ -60,8 +60,7 @@
         "item_restriction": [ "afs_UICASTA30", "afs_UICASTA100drum" ]
       }
     ],
-    "melee_damage": { "bash": 12 },
-    "weapon_category": [ "AUTOMATIC_RIFLES" ]
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "afs_gibrifle",
@@ -93,7 +92,6 @@
         "item_restriction": [ "afs_UICASTA30" ]
       }
     ],
-    "melee_damage": { "bash": 12 },
-    "weapon_category": [ "AUTOMATIC_RIFLES" ]
+    "melee_damage": { "bash": 12 }
   }
 ]

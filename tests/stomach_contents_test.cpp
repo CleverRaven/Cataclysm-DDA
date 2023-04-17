@@ -126,8 +126,6 @@ TEST_CASE( "starve_test", "[starve][slow]" )
     CAPTURE( dummy.get_bmi() );
     CAPTURE( dummy.bodyweight() );
     CAPTURE( dummy.age() );
-    CAPTURE( dummy.base_bmr() );
-    CAPTURE( dummy.activity_history.average_activity() );
     CAPTURE( dummy.get_bmr() );
 
     // A specific BMR isn't the real target of this test, the number of days

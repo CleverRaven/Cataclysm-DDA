@@ -6,7 +6,6 @@ from .parsers.bionic import parse_bionic
 from .parsers.body_part import parse_body_part
 from .parsers.character_mod import parse_character_mod
 from .parsers.city import parse_city
-from .parsers.climbing_aid import parse_climbing_aid
 from .parsers.clothing_mod import parse_clothing_mod
 from .parsers.construction import parse_construction
 from .parsers.construction_category import parse_construction_category
@@ -14,7 +13,7 @@ from .parsers.construction_group import parse_construction_group
 from .parsers.damage_info_order import parse_damage_info_order
 from .parsers.damage_type import parse_damage_type
 from .parsers.dream import parse_dream
-from .parsers.effect import parse_effect_on_condition
+from .parsers.effect_on_condition import parse_effect_on_condition
 from .parsers.effect_type import parse_effect_type
 from .parsers.enchant import parse_enchant
 from .parsers.event_statistic import parse_event_statistic
@@ -114,10 +113,10 @@ parsers = {
     "book": parse_generic,
     "butchery_requirement": dummy_parser,
     "character_mod": parse_character_mod,
+    "charge_migration_blacklist": dummy_parser,
     "charge_removal_blacklist": dummy_parser,
     "city": parse_city,
     "city_building": dummy_parser,
-    "climbing_aid": parse_climbing_aid,
     "clothing_mod": parse_clothing_mod,
     "comestible": parse_generic,
     "colordef": dummy_parser,
@@ -174,7 +173,6 @@ parsers = {
     "monster_attack": parse_monster_attack,
     "monster_blacklist": dummy_parser,
     "monster_faction": dummy_parser,
-    "monster_flag": dummy_parser,
     "monster_whitelist": dummy_parser,
     "monstergroup": dummy_parser,
     "mood_face": dummy_parser,
@@ -200,7 +198,6 @@ parsers = {
     "playlist": dummy_parser,
     "practice": parse_practice,
     "profession": parse_profession,
-    "profession_group": dummy_parser,
     "profession_item_substitutions": dummy_parser,
     "proficiency": parse_proficiency,
     "proficiency_category": parse_proficiency_category,

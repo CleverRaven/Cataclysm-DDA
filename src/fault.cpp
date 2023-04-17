@@ -37,6 +37,7 @@ bool string_id<fault_fix>::is_valid() const
     return fault_fixes_all.count( *this );
 }
 
+
 /** @relates string_id */
 template<>
 const fault_fix &string_id<fault_fix>::obj() const
@@ -144,8 +145,6 @@ void fault_fix::load( const JsonObject &jo )
     assign( jo, "faults_added", f.faults_added );
     assign( jo, "mod_damage", f.mod_damage );
     assign( jo, "mod_degradation", f.mod_degradation );
-    assign( jo, "time_save_profs", f.time_save_profs, false );
-    assign( jo, "time_save_flags", f.time_save_flags, false );
 
     if( jo.has_array( "requirements" ) ) {
         for( const JsonValue &jv : jo.get_array( "requirements" ) ) {
@@ -197,7 +196,7 @@ void fault_fix::finalize()
 
 void fault_fix::check_consistency()
 {
-    for( const auto &[fix_id, fix] : fault_fixes_all ) {
+    for( auto &[fix_id, fix] : fault_fixes_all ) {
         if( fix.time < 0_turns ) {
             debugmsg( "fault_fix '%s' has negative time", fix_id.str() );
         }
@@ -221,26 +220,6 @@ void fault_fix::check_consistency()
             if( !fault_id.is_valid() ) {
                 debugmsg( "fault_fix '%s' has invalid fault_id '%s' in 'faults_added' field",
                           fix_id.str(), fault_id.str() );
-            }
-        }
-        for( const auto &[proficiency_id, mult] : fix.time_save_profs ) {
-            if( !proficiency_id.is_valid() ) {
-                debugmsg( "fault_fix %s has unknown proficiency_id '%s'",
-                          fix_id.str(), proficiency_id.str() );
-            }
-            if( mult < 0 ) {
-                debugmsg( "fault_fix '%s' has negative mend time if possessing proficiency '%s'",
-                          fix_id.str(), proficiency_id.str() );
-            }
-        }
-        for( const auto &[flag_id, mult] : fix.time_save_flags ) {
-            if( !flag_id.is_valid() ) {
-                debugmsg( "fault_fix %s has unknown flag_id '%s'",
-                          fix_id.str(), flag_id.str() );
-            }
-            if( mult < 0 ) {
-                debugmsg( "fault_fix '%s' has negative mend time if item possesses flag '%s'",
-                          fix_id.str(), flag_id.str() );
             }
         }
     }

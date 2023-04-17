@@ -392,8 +392,7 @@
         "moves": 40,
         "flag_restriction": [ "BELT_CLIP" ],
         "rigid": true,
-        "holster": true,
-        "transparent": true
+        "holster": true
       },
       {
         "pocket_type": "CONTAINER",

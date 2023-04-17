@@ -95,10 +95,6 @@ int Character::get_env_resist( bodypart_id bp ) const
 // the ITEM_ enchantments only affect the damage resistance for that one item, while the others affect all of them
 static void armor_enchantment_adjust( Character &guy, damage_unit &du )
 {
-    //If we're not dealing any damage of the given type, don't even bother.
-    if( du.amount < 0.1f ) {
-        return;
-    }
     // FIXME: hardcoded damage types -> enchantments
     if( du.type == STATIC( damage_type_id( "acid" ) ) ) {
         du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_ACID );
@@ -171,7 +167,7 @@ const weakpoint *Character::absorb_hit( const weakpoint_attack &, const bodypart
 
     double forcefield = enchantment_cache->modify_value( enchant_vals::mod::FORCEFIELD, 0.0 );
 
-    if( rng( 0, 99 ) < forcefield * 100.0 ) {
+    if( rng( 0, 99 ) < forcefield * 100 ) {
         add_msg_if_player( m_good,
                            _( "The incoming attack was made ineffective." ) );
         damage_mitigated = true;
@@ -190,24 +186,31 @@ const weakpoint *Character::absorb_hit( const weakpoint_attack &, const bodypart
 
         // The bio_ads CBM absorbs damage before hitting armor
         if( has_active_bionic( bio_ads ) ) {
-            bool absorbed = false;
-            if( elem.amount > 0 && get_power_level() > bio_ads->power_trigger ) {
+            if( elem.amount > 0 && get_power_level() > 24_kJ ) {
+                // ADS requires 25 kJ to trigger
+                // Assuming it absorbs damage at 10% efficiency, it can absorb at most 2500 J of energy
+                // Taking muzzle energy of 5.56mm ammo as a reference, 1936 J is equal to 44 damage
+                // Having this in mind, let's make 2500 J equal to 50 damage, which will be the maximum damage ADS can absorb
+                // costs energy equal to the 10x damage^2, before it is reduced, regardless of how much it is reduced
+                // a 50 damage attack would incur the whole 25kJ. A 12 damage attack would cost 1440j
+                const int max_absorption = 50;
+                units::energy power_cost = units::from_joule( std::max( -25000.0f,
+                                           elem.amount * elem.amount * -10 ) );
+
+                // If damage is higher than maximum absorption capability, lower the damage by a flat amount of this capability
+                // Otherwise, divide the damage by X times, depending on damage type
+                // FIXME: Harcoded damage types
                 if( elem.type == STATIC( damage_type_id( "bash" ) ) ) {
-                    elem.amount -= rng( 1, 4 );
-                    absorbed = true;
+                    elem.amount = elem.amount > max_absorption ? elem.amount - max_absorption : elem.amount / 2;
                 } else if( elem.type == STATIC( damage_type_id( "cut" ) ) ) {
-                    elem.amount -= rng( 2, 8 );
-                    absorbed = true;
+                    elem.amount = elem.amount > max_absorption ? elem.amount - max_absorption : elem.amount / 3;
                 } else if( elem.type == STATIC( damage_type_id( "stab" ) ) ||
-                           STATIC( damage_type_id( "bullet" ) ) ) {
-                    elem.amount -= rng( 4, 16 );
-                    absorbed = true;
+                           elem.type == STATIC( damage_type_id( "bullet" ) ) ) {
+                    elem.amount = elem.amount > max_absorption ? elem.amount - max_absorption : elem.amount / 4;
                 }
-                if( absorbed ) {
-                    mod_power_level( -bio_ads->power_trigger );
-                    add_msg_if_player( m_good,
-                                       _( "The defensive forcefield surrounding you ripples as it reduces the velocity of the incoming attack." ) );
-                }
+                mod_power_level( power_cost );
+                add_msg_if_player( m_good,
+                                   _( "The defensive forcefield surrounding your body ripples as it reduces velocity of incoming attack." ) );
             }
             if( elem.amount < 0 ) {
                 elem.amount = 0;
@@ -242,13 +245,7 @@ bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &b
     if( roll > armor.get_coverage( sbp, ctype ) ) {
         return false;
     }
-    // if this armor has the flag, try to deduct that much energy from it. If that takes it to 0 energy, turn it off before it absorbs damage.
-    if( armor.has_flag( flag_USE_POWER_WHEN_HIT ) &&
-        units::from_kilojoule( du.amount ) > armor.energy_consume( units::from_kilojoule( du.amount ),
-                pos(), nullptr ) ) {
-        armor.deactivate( nullptr, false );
-        add_msg_if_player( _( "Your %s doesn't have enough power and shuts down!" ), armor.tname() );
-    }
+
     // reduce the damage
     // -1 is passed as roll so that each material is rolled individually
     armor.mitigate_damage( du, sbp, -1 );
@@ -270,13 +267,7 @@ bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &b
     if( roll > armor.get_coverage( bp, ctype ) ) {
         return false;
     }
-    // if this armor has the flag, try to deduct that much energy from it. If that takes it to 0 energy, turn it off before it absorbs damage.
-    if( armor.has_flag( flag_USE_POWER_WHEN_HIT ) &&
-        units::from_kilojoule( du.amount ) > armor.energy_consume( units::from_kilojoule( du.amount ),
-                pos(), nullptr ) ) {
-        armor.deactivate( nullptr, false );
-        add_msg_if_player( _( "Your %s doesn't have enough power and shuts down!" ), armor.tname() );
-    }
+
     // reduce the damage
     // -1 is passed as roll so that each material is rolled individually
     armor.mitigate_damage( du, bp, -1 );
@@ -305,7 +296,7 @@ bool Character::ablative_armor_absorb( damage_unit &du, item &armor, const sub_b
             float coverage = ablative_armor.get_coverage( bp, ctype );
 
             // if the attack hits this plate
-            if( roll <= coverage ) {
+            if( roll < coverage ) {
                 damage_unit pre_mitigation = du;
 
                 // mitigate the actual damage instance

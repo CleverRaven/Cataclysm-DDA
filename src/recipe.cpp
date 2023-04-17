@@ -75,7 +75,8 @@ time_duration recipe::batch_duration( const Character &guy, int batch, float mul
 
 static bool helpers_have_proficiencies( const Character &guy, const proficiency_id &prof )
 {
-    for( Character *helper : guy.get_crafting_group() ) {
+    std::vector<npc *> helpers = guy.get_crafting_helpers();
+    for( npc *helper : helpers ) {
         if( helper->has_proficiency( prof ) ) {
             return true;
         }
@@ -194,17 +195,11 @@ void recipe::load( const JsonObject &jo, const std::string &src )
         }
     }
 
-    if( type == "recipe" ) {
-        optional( jo, was_loaded, "variant", variant_ );
-        if( !variant_.empty() && !abstract ) {
-            ident_ = recipe_id( ident_.str() + "_" + variant_ );
+    if( type == "recipe" && jo.has_string( "id_suffix" ) ) {
+        if( abstract ) {
+            jo.throw_error_at( "id_suffix", "abstract recipe cannot specify id_suffix" );
         }
-        if( jo.has_string( "id_suffix" ) ) {
-            if( abstract ) {
-                jo.throw_error_at( "id_suffix", "abstract recipe cannot specify id_suffix" );
-            }
-            ident_ = recipe_id( ident_.str() + "_" + jo.get_string( "id_suffix" ) );
-        }
+        ident_ = recipe_id( ident_.str() + "_" + jo.get_string( "id_suffix" ) );
     }
 
     if( jo.has_bool( "obsolete" ) ) {
@@ -226,7 +221,6 @@ void recipe::load( const JsonObject &jo, const std::string &src )
     // automatically set contained if we specify as container
     assign( jo, "contained", contained, strict );
     contained |= assign( jo, "container", container, strict );
-    optional( jo, false, "container_variant", container_variant );
     assign( jo, "sealed", sealed, strict );
 
     if( jo.has_array( "batch_time_factors" ) ) {
@@ -273,11 +267,10 @@ void recipe::load( const JsonObject &jo, const std::string &src )
     }
 
     // Mandatory: This recipe's exertion level
-    mandatory( jo, was_loaded, "activity_level", exertion_str );
-    // Remove after 0.H
+    // TODO: Make this mandatory, no default or 'fake' exception
+    optional( jo, was_loaded, "activity_level", exertion_str, "MODERATE_EXERCISE" );
+    // For making scripting that needs to be broken up over multiple PRs easier
     if( exertion_str == "fake" ) {
-        debugmsg( "Depreciated activity level \"fake\" found in recipe %s from source %s. Setting activity level to MODERATE_EXERCISE.",
-                  ident_.c_str(), src );
         exertion_str = "MODERATE_EXERCISE";
     }
     const auto it = activity_levels_map.find( exertion_str );
@@ -599,9 +592,6 @@ void recipe::finalize()
 
     if( contained && container.is_null() ) {
         container = item::find_type( result_ )->default_container.value_or( itype_null );
-        if( item::find_type( result_ )->default_container_variant.has_value() ) {
-            container_variant = item::find_type( result_ )->default_container_variant.value();
-        }
     }
 
     std::set<proficiency_id> required;
@@ -672,6 +662,10 @@ std::string recipe::get_consistency_error() const
         return "defines invalid result";
     }
 
+    if( charges && !item::count_by_charges( result_ ) ) {
+        return "specifies charges but result is not counted by charges";
+    }
+
     const auto is_invalid_bp = []( const std::pair<itype_id, int> &elem ) {
         return !item::type_is_defined( elem.first );
     };
@@ -708,25 +702,10 @@ std::string recipe::get_consistency_error() const
     return std::string();
 }
 
-static void set_new_comps( item &newit, int amount, item_components *used, bool is_food,
-                           bool is_cooked )
-{
-    if( is_food ) {
-        newit.components = *used;
-        newit.recipe_charges = amount;
-    } else {
-        newit.components = used->split( amount, 0, is_cooked );
-    }
-}
-
 std::vector<item> recipe::create_result( bool set_components, bool is_food,
         item_components *used ) const
 {
     item newit( result_, calendar::turn, item::default_charges_tag{} );
-
-    if( !variant().empty() ) {
-        newit.set_itype_variant( variant() );
-    }
 
     if( newit.has_flag( flag_VARSIZE ) ) {
         newit.set_flag( flag_FIT );
@@ -751,11 +730,16 @@ std::vector<item> recipe::create_result( bool set_components, bool is_food,
 
     bool is_cooked = hot_result() || removes_raw();
     if( set_components ) {
-        set_new_comps( newit, amount, used, is_food, is_cooked );
+        if( is_food ) {
+            newit.components = *used;
+            newit.recipe_charges = amount;
+        } else {
+            newit.components = used->split( amount, 0, is_cooked );
+        }
     }
 
     if( contained ) {
-        newit = newit.in_container( container, amount, sealed, container_variant );
+        newit = newit.in_container( container, amount, sealed );
         return { newit };
     } else if( newit.count_by_charges() ) {
         newit.charges = amount;
@@ -764,7 +748,7 @@ std::vector<item> recipe::create_result( bool set_components, bool is_food,
         std::vector<item> items;
         for( int i = 0; i < amount; i++ ) {
             if( set_components ) {
-                set_new_comps( newit, amount, used, is_food, is_cooked );
+                newit.components = used->split( amount, i, is_cooked );
             }
             items.push_back( newit );
         }
@@ -791,20 +775,15 @@ std::vector<item> recipe::create_results( int batch, item_components *used ) con
             item_components mult_comps = batch_comps.split( result_mult, j, is_cooked );
             std::vector<item> newits = create_result( set_components, temp.is_food(), &mult_comps );
 
-            if( !result_->count_by_charges() ) {
-                items.reserve( items.size() + newits.size() );
-                items.insert( items.end(), newits.begin(), newits.end() );
-            } else {
-                for( const item &it : newits ) {
-                    // try to combine batch results for liquid handling
-                    auto found = std::find_if( items.begin(), items.end(), [it]( const item & rhs ) {
-                        return it.can_combine( rhs );
-                    } );
-                    if( found != items.end() ) {
-                        found->combine( it );
-                    } else {
-                        items.emplace_back( it );
-                    }
+            for( const item &it : newits ) {
+                // try to combine batch results for liquid handling
+                auto found = std::find_if( items.begin(), items.end(), [it]( const item & rhs ) {
+                    return it.can_combine( rhs );
+                } );
+                if( found != items.end() ) {
+                    found->combine( it );
+                } else {
+                    items.emplace_back( it );
                 }
             }
         }
@@ -1028,7 +1007,7 @@ std::vector<proficiency_id> recipe::used_proficiencies() const
 static float get_aided_proficiency_level( const Character &crafter, const proficiency_id &prof )
 {
     float max_prof = crafter.get_proficiency_practice( prof );
-    for( const Character *helper : crafter.get_crafting_group() ) {
+    for( const npc *helper : crafter.get_crafting_helpers() ) {
         max_prof = std::max( max_prof, helper->get_proficiency_practice( prof ) );
     }
     return max_prof;
@@ -1036,10 +1015,8 @@ static float get_aided_proficiency_level( const Character &crafter, const profic
 
 static float proficiency_time_malus( const Character &crafter, const recipe_proficiency &prof )
 {
-    if( !crafter.has_proficiency( prof.id )
-        && !helpers_have_proficiencies( crafter, prof.id )
-        && prof.time_multiplier > 1.0f
-      ) {
+    if( !crafter.has_proficiency( prof.id ) &&
+        !helpers_have_proficiencies( crafter, prof.id ) && prof.time_multiplier > 1.0f ) {
         double malus = prof.time_multiplier - 1.0;
         malus *= 1.0 - crafter.crafting_inventory().get_book_proficiency_bonuses().time_factor( prof.id );
         double pl = get_aided_proficiency_level( crafter, prof.id );
@@ -1071,10 +1048,8 @@ float recipe::max_proficiency_time_maluses( const Character & ) const
 
 static float proficiency_skill_malus( const Character &crafter, const recipe_proficiency &prof )
 {
-    if( !crafter.has_proficiency( prof.id )
-        && !helpers_have_proficiencies( crafter, prof.id )
-        && prof.skill_penalty > 0.f
-      ) {
+    if( !crafter.has_proficiency( prof.id ) &&
+        !helpers_have_proficiencies( crafter, prof.id ) && prof.skill_penalty > 0.f ) {
         double malus =  prof.skill_penalty;
         malus *= 1.0 - crafter.crafting_inventory().get_book_proficiency_bonuses().fail_factor( prof.id );
         double pl = get_aided_proficiency_level( crafter, prof.id );
@@ -1142,7 +1117,7 @@ float recipe::exertion_level() const
 }
 
 // Format a vector of std::pair<skill_id, int> for the crafting menu.
-// skill colored green, yellow or red according to character skill
+// skill colored green (or yellow if beyond characters skill)
 // with the skill level (player / difficulty)
 static std::string required_skills_as_string( const std::vector<std::pair<skill_id, int>> &skills,
         const Character &c )
@@ -1153,14 +1128,7 @@ static std::string required_skills_as_string( const std::vector<std::pair<skill_
     return enumerate_as_string( skills,
     [&]( const std::pair<skill_id, int> &skill ) {
         const int player_skill = c.get_skill_level( skill.first );
-        std::string difficulty_color;
-        if( skill.second <= player_skill ) {
-            difficulty_color = "green";
-        } else if( static_cast<int>( skill.second * 0.8 ) <= player_skill ) {
-            difficulty_color = "yellow";
-        } else {
-            difficulty_color = "red";
-        }
+        std::string difficulty_color = skill.second > player_skill ? "yellow" : "green";
         return string_format( "<color_cyan>%s</color> <color_%s>(%d/%d)</color>", skill.first->name(),
                               difficulty_color, player_skill, skill.second );
     } );
@@ -1217,14 +1185,6 @@ std::string recipe::result_name( const bool decorated ) const
     std::string name;
     if( !name_.empty() ) {
         name = name_.translated();
-    } else if( !variant().empty() ) {
-        auto iter_var = std::find_if( result_->variants.begin(), result_->variants.end(),
-        [this]( const itype_variant_data & itvar ) {
-            return itvar.id == variant();
-        } );
-        if( iter_var != result_->variants.end() ) {
-            name = iter_var->alt_name.translated();
-        }
     } else {
         name = item::nname( result_ );
     }
@@ -1311,25 +1271,6 @@ std::function<bool( const item & )> recipe::get_component_filter(
                frozen_filter( component ) &&
                magazine_filter( component );
     };
-}
-
-bool recipe::npc_can_craft( std::string &reason ) const
-{
-    if( is_practice() ) {
-        reason = _( "Ordering NPC to practice is not implemented yet." );
-        return false;
-    }
-    if( result()->phase != phase_id::SOLID ) {
-        reason = _( "Ordering NPC to craft non-solid item is not implemented yet." );
-        return false;
-    }
-    for( const auto& [bp, _] : get_byproducts() ) {
-        if( bp->phase != phase_id::SOLID ) {
-            reason = _( "Ordering NPC to craft non-solid item is not implemented yet." );
-            return false;
-        }
-    }
-    return true;
 }
 
 bool recipe::is_practice() const

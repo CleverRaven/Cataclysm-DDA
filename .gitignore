@@ -10,7 +10,6 @@
 *.apk
 *.log
 /WinDepend/
-/achievements/
 /bindist/
 /build/
 /build-start-time
@@ -34,7 +33,6 @@
 /src/prefix.h
 /sound/
 /templates/
-/export_dir/
 /tools/format/json_formatter.cgi
 CataclysmWin.cscope_file_list
 CataclysmWin.depend
@@ -77,7 +75,6 @@ Directory.Build.targets
 /msvc-full-features/**/
 
 # Temporary CMakeFiles
-CMakeFiles/git-data
 CMakeUserPresets.json
 out/
 

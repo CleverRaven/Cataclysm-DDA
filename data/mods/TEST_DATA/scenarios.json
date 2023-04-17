@@ -1,47 +1,35 @@
 [
   {
     "type": "scenario",
-    "id": "test_custom_game",
-    "name": "Test custom game start date",
+    "id": "test_random_hour",
+    "name": "Test random hour",
     "points": 0,
-    "description": "Test starting on custom game start date.",
+    "description": "Test starting on random hour.",
     "allowed_locs": [ "sloc_shelter_a", "sloc_shelter_b", "sloc_shelter_c" ],
     "start_name": "Evac Shelter",
     "flags": [ "CITY_START" ],
-    "start_of_game": { "hour": 18, "day": 7, "season": "summer", "year": 4 }
+    "custom_initial_date": { "hour": -1, "season": "summer" }
   },
   {
     "type": "scenario",
-    "id": "test_custom_game_invalid",
-    "name": "Test invalid custom game start date",
+    "id": "test_random_day",
+    "name": "Test random day",
     "points": 0,
-    "description": "Test starting on custom start date that is before cataclysm start date.",
+    "description": "Test starting on random day.",
     "allowed_locs": [ "sloc_shelter_a", "sloc_shelter_b", "sloc_shelter_c" ],
     "start_name": "Evac Shelter",
     "flags": [ "CITY_START" ],
-    "start_of_game": { "hour": 3, "day": 8, "season": "spring", "year": -1 }
+    "custom_initial_date": { "day": -1, "season": "summer" }
   },
   {
     "type": "scenario",
-    "id": "test_custom_cataclysm",
-    "name": "Test custom cataclysm start date",
+    "id": "test_random_year",
+    "name": "Test random year",
     "points": 0,
-    "description": "Test starting with custom cataclysm start date.",
+    "description": "Test starting on random year.",
     "allowed_locs": [ "sloc_shelter_a", "sloc_shelter_b", "sloc_shelter_c" ],
     "start_name": "Evac Shelter",
     "flags": [ "CITY_START" ],
-    "start_of_cataclysm": { "hour": 1, "day": 9, "season": "autumn", "year": 7 }
-  },
-  {
-    "type": "scenario",
-    "id": "test_custom_both",
-    "name": "Test custom cataclysm start date and game start date",
-    "points": 0,
-    "description": "Test starting with custom cataclysm start date and on custom game start date.",
-    "allowed_locs": [ "sloc_shelter_a", "sloc_shelter_b", "sloc_shelter_c" ],
-    "start_name": "Evac Shelter",
-    "flags": [ "CITY_START" ],
-    "start_of_cataclysm": { "hour": 6, "day": 4, "season": "winter", "year": 6 },
-    "start_of_game": { "hour": 13, "day": 19, "season": "autumn", "year": 9 }
+    "custom_initial_date": { "year": -1, "season": "summer" }
   }
 ]

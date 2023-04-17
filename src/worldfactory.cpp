@@ -2,10 +2,12 @@
 
 #include <algorithm>
 #include <array>
-#include <exception>
+#include <cstdio>
+#include <cstdlib>
 #include <iterator>
 #include <memory>
 #include <set>
+#include <type_traits>
 #include <unordered_map>
 #include <utility>
 
@@ -17,17 +19,17 @@
 #include "debug.h"
 #include "enums.h"
 #include "filesystem.h"
-#include "input_context.h"
+#include "input.h"
 #include "json.h"
 #include "json_loader.h"
 #include "mod_manager.h"
+#include "name.h"
 #include "output.h"
 #include "path_info.h"
 #include "point.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
-#include "text_snippets.h"
 #include "translations.h"
 #include "ui.h"
 #include "ui_manager.h"
@@ -65,7 +67,9 @@ save_t save_t::from_base_path( const std::string &base_path )
 
 static std::string get_next_valid_worldname()
 {
-    return SNIPPET.expand( "<world_name>" );
+    std::string worldname = Name::get( nameFlags::IsWorldName );
+
+    return worldname;
 }
 
 WORLD::WORLD()
@@ -149,9 +153,6 @@ WORLD *worldfactory::make_new_world( const std::vector<mod_id> &mods )
 
 WORLD *worldfactory::make_new_world( const std::string &name, const std::vector<mod_id> &mods )
 {
-    if( !is_lexically_valid( fs::u8path( name ) ) ) {
-        return nullptr;
-    }
     std::unique_ptr<WORLD> retworld = std::make_unique<WORLD>( name );
     retworld->active_mod_order = mods;
     return add_world( std::move( retworld ) );
@@ -258,6 +259,9 @@ WORLD *worldfactory::make_new_world( special_game_type special_type )
         case special_game_type::TUTORIAL:
             worldname = "TUTORIAL";
             break;
+        case special_game_type::DEFENSE:
+            worldname = "DEFENSE";
+            break;
         default:
             return nullptr;
     }
@@ -293,7 +297,6 @@ void worldfactory::set_active_world( WORLD *world )
 bool WORLD::save( const bool is_conversion ) const
 {
     if( !assure_dir_exist( folder_path() ) ) {
-        debugmsg( "Unable to create or open world[%s] directory for saving", world_name );
         DebugLog( D_ERROR, DC_ALL ) << "Unable to create or open world[" << world_name <<
                                     "] directory for saving";
         return false;
@@ -406,7 +409,7 @@ void worldfactory::init()
             for( auto &origin_file : get_files_from_path( ".", origin_path, false ) ) {
                 std::string filename = origin_file.substr( origin_file.find_last_of( "/\\" ) );
 
-                if( rename_file( origin_file, ( newworld->folder_path() + filename ) ) ) {
+                if( rename( origin_file.c_str(), ( newworld->folder_path() + filename ).c_str() ) ) {
                     debugmsg( "Error while moving world files: %s.  World may have been corrupted",
                               strerror( errno ) );
                 }
@@ -712,16 +715,10 @@ void worldfactory::load_last_world_info()
         return;
     }
 
-    try {
-        JsonValue jsin = json_loader::from_path( lastworld_path );
-        JsonObject data = jsin.get_object();
-        last_world_name = data.get_string( "world_name" );
-        last_character_name = data.get_string( "character_name" );
-    } catch( std::exception const &e ) {
-        DebugLog( D_INFO, DC_ALL ) <<  e.what();
-        last_world_name = std::string{};
-        last_character_name = std::string{};
-    }
+    JsonValue jsin = json_loader::from_path( lastworld_path );
+    JsonObject data = jsin.get_object();
+    last_world_name = data.get_string( "world_name" );
+    last_character_name = data.get_string( "character_name" );
 }
 
 void worldfactory::save_last_world_info() const
@@ -1000,8 +997,8 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
         ctxt.register_action( "PREV_TAB" );
     }
     ctxt.register_action( "CONFIRM", to_translation( "Activate / deactivate mod" ) );
-    ctxt.register_action( "MOVE_MOD_UP" );
-    ctxt.register_action( "MOVE_MOD_DOWN" );
+    ctxt.register_action( "ADD_MOD" );
+    ctxt.register_action( "REMOVE_MOD" );
     ctxt.register_action( "SAVE_DEFAULT_MODS" );
     ctxt.register_action( "VIEW_MOD_DESCRIPTION" );
     ctxt.register_action( "FILTER" );
@@ -1371,6 +1368,7 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
             }
         }
 
+
         if( navigate_ui_list( action, cursel[active_header], scroll_rate, recmax, true ) ) {
             recalc_start = true;
         } else if( action == "LEFT" || action == "RIGHT" ) {
@@ -1390,12 +1388,12 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
                     active_header = 0;
                 }
             }
-        } else if( action == "MOVE_MOD_DOWN" ) {
+        } else if( action == "ADD_MOD" ) {
             if( active_header == 1 && active_mod_order.size() > 1 ) {
                 mman_ui->try_shift( '+', cursel[1], active_mod_order );
             }
             recalc_start = true;
-        } else if( action == "MOVE_MOD_UP" ) {
+        } else if( action == "REMOVE_MOD" ) {
             if( active_header == 1 && active_mod_order.size() > 1 ) {
                 mman_ui->try_shift( '-', cursel[1], active_mod_order );
             }

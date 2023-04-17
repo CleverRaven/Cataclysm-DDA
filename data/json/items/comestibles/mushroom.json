@@ -22,7 +22,6 @@
     "use_action": [ "POISON" ],
     "comestible_type": "FOOD",
     "symbol": "%",
-    "looks_like": "mushroom",
     "calories": 24,
     "description": "Prized by chefs and woodsmen alike, morel mushrooms are delicious but must be cooked before they are safe to eat.",
     "price": 2000,
@@ -57,11 +56,11 @@
     "spoils_in": "1 day 12 hours",
     "calories": 142,
     "description": "A delicious serving of fried morsels of morel mushroom.",
-    "price": "750 cent",
-    "price_postapoc": "25 cent",
+    "price": 1500,
+    "price_postapoc": 50,
+    "charges": 2,
     "fun": 12,
-    "flags": [ "EATEN_HOT", "FREEZERBURN" ],
-    "volume": "125 ml"
+    "flags": [ "EATEN_HOT", "FREEZERBURN" ]
   },
   {
     "type": "COMESTIBLE",

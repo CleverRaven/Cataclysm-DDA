@@ -8,11 +8,14 @@
 #include "type_id.h"
 #include "units.h"
 
-TEST_CASE( "non-solid-comestibles-are-stackable", "[item]" )
+TEST_CASE( "casings_are_stackable", "[item]" )
 {
     for( const itype *t :  item_controller->all() ) {
-        if( t->comestible && t->phase != phase_id::SOLID ) {
-            INFO( "liquid: " << t->get_id().str() )
+        bool casing = t->get_id().str().find( "_casing" ) != std::string::npos &&
+                      t->volume < 200_ml;
+
+        if( casing ) {
+            INFO( "casing: " << t->get_id().str() )
             CHECK( t->count_by_charges() );
         }
     }

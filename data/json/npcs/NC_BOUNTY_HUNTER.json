@@ -32,8 +32,7 @@
       { "item": "jacket_windbreaker", "prob": 10 },
       { "item": "jacket_leather", "prob": 80 },
       { "item": "trenchcoat", "prob": 20 },
-      { "item": "jacket_jean", "prob": 20 },
-      { "item": "vest_jean", "prob": 10 }
+      { "item": "jacket_jean", "prob": 20 }
     ]
   },
   {
@@ -60,8 +59,7 @@
     "entries": [
       { "item": "null", "prob": 20 },
       { "item": "backpack", "prob": 40 },
-      { "item": "backpack_denim", "prob": 5 },
-      { "item": "backpack_leather", "prob": 35 },
+      { "item": "backpack_leather", "prob": 40 },
       { "item": "rucksack", "prob": 5 }
     ]
   },

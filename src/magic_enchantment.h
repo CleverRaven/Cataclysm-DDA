@@ -15,7 +15,6 @@
 #include "magic.h"
 #include "type_id.h"
 #include "units_fwd.h"
-#include <monster.h>
 
 class Character;
 class Creature;
@@ -55,15 +54,12 @@ enum class mod : int {
     BONUS_DODGE,
     BONUS_BLOCK,
     MELEE_DAMAGE,
-    RANGED_DAMAGE,
     ATTACK_NOISE,
     SHOUT_NOISE,
     FOOTSTEP_NOISE,
     SIGHT_RANGE_ELECTRIC,
     MOTION_VISION_RANGE,
-    SIGHT_RANGE_FAE,
     SIGHT_RANGE_NETHER,
-    SIGHT_RANGE_MINDS,
     CARRY_WEIGHT,
     WEAPON_DISPERSION,
     SOCIAL_LIE,
@@ -127,8 +123,6 @@ enum class mod : int {
     FORCEFIELD,
     EVASION,
     OVERKILL_DAMAGE,
-    RANGE,
-    AVOID_FRIENDRY_FIRE,
     NUM_MOD
 };
 } // namespace enchant_vals
@@ -170,11 +164,6 @@ class enchantment
         // @active means the container for the enchantment is active, for comparison to active flag.
         bool is_active( const Character &guy, bool active ) const;
 
-        // same as above except for monsters. Much more limited.
-        bool is_active( const monster &mon ) const;
-
-        bool is_monster_relevant() const;
-
         // this enchantment is active when wielded.
         // shows total conditional values, so only use this when Character is not available
         bool active_wield() const;
@@ -187,7 +176,7 @@ class enchantment
         const std::set<trait_id> &get_mutations() const {
             return mutations;
         }
-        double get_value_add( enchant_vals::mod value, const Character &guy ) const;
+        int get_value_add( enchant_vals::mod value, const Character &guy ) const;
         double get_value_multiply( enchant_vals::mod value, const Character &guy ) const;
 
         body_part_set modify_bodyparts( const body_part_set &unmodified ) const;
@@ -244,12 +233,11 @@ class enchant_cache : public enchantment
         units::mass modify_value( enchant_vals::mod mod_val, units::mass value ) const;
         // adds two enchantments together and ignores their conditions
         void force_add( const enchantment &rhs, const Character &guy );
-        void force_add( const enchantment &rhs );
         void force_add( const enchant_cache &rhs );
 
         // modifies character stats, or does other passive effects
         void activate_passive( Character &guy ) const;
-        double get_value_add( enchant_vals::mod value ) const;
+        int get_value_add( enchant_vals::mod value ) const;
         double get_value_multiply( enchant_vals::mod value ) const;
         int mult_bonus( enchant_vals::mod value_type, int base_value ) const;
 
@@ -265,8 +253,6 @@ class enchant_cache : public enchantment
         // performs cooldown and distance checks before casting enchantment spells
         void cast_enchantment_spell( Character &caster, const Creature *target,
                                      const fake_spell &sp ) const;
-        //Clears all the maps and vectors in the cache.
-        void clear();
 
         // casts all the hit_you_effects on the target
         void cast_hit_you( Character &caster, const Creature &target ) const;
@@ -286,8 +272,9 @@ class enchant_cache : public enchantment
         // details of each enchantment that includes them (name and description)
         std::vector<std::pair<std::string, std::string>> details; // NOLINT(cata-serialize)
 
+
     private:
-        std::map<enchant_vals::mod, double> values_add; // NOLINT(cata-serialize)
+        std::map<enchant_vals::mod, int> values_add; // NOLINT(cata-serialize)
         // values that get multiplied to the base value
         // multipliers add to each other instead of multiply against themselves
         std::map<enchant_vals::mod, double> values_multiply; // NOLINT(cata-serialize)

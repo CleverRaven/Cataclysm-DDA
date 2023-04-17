@@ -58,10 +58,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_pizzaiolo_celebrate",
-    "dynamic_line": {
-      "gendered_line": "Ah, home sweet home.  It feels like I haven't been here for ages.  <swear>, it looks so horrible now.  I guess it's because of <the_cataclysm>.  Thank you for bringing me here, <name_g>.  Let's eat the cake.",
-      "relevant_genders": [ "npc" ]
-    },
+    "dynamic_line": "Ah, home sweet home.  It feels like I haven't been here for ages.  <swear>, it looks so horrible now.  I guess it's because of <the_cataclysm>.  Thank you for bringing me here, <name_g>.  Let's eat the cake.",
     "responses": [ { "text": "[*NOM-NOM*]", "topic": "TALK_pizzaiolo_celebrate1" } ]
   },
   {
@@ -84,23 +81,20 @@
   {
     "type": "talk_topic",
     "id": "TALK_pizzaiolo_Background",
-    "dynamic_line": {
-      "gendered_line": "I'm just a regular pizzaiolo.  My father was a pizzaiolo, my grandfather was a pizzaiolo and I also became a pizzaiolo.  I was making pizza my whole life, until some american <name_b>s ruined my business!  I couldn't do anything about this, but now, with <the_cataclysm> and <zombies> around, I have a chance to get my revenge!",
-      "relevant_genders": [ "npc" ]
-    }
+    "dynamic_line": "I'm just a regular pizzaiolo.  My father was a pizzaiolo, my grandfather was a pizzaiolo and I also became a pizzaiolo.  I was making pizza my whole life, until some american <name_b>s ruined my business!  I couldn't do anything about this, but now, with <the_cataclysm> and <zombies> around, I have a chance to get my revenge!"
   },
   {
     "id": "MISSION_pizzaiolo_1",
     "type": "mission_definition",
     "name": { "str": "Angry pizzaiolo" },
-    "description": "Bring the pizzaiolo to <color_light_blue>their rival's house</color> and don't forget to <color_yellow>bring atleast 200 units of gasoline</color>.  After you got there, talk to the pizzaiolo to start burning the house.",
+    "description": "Find some gasoline and then travel to the destination together with pizzaiolo.",
     "goal": "MGOAL_GO_TO",
     "difficulty": 0,
     "value": 10000,
     "has_generic_rewards": false,
     "start": {
       "effect": [ "follow_only", { "npc_first_topic": "MISSION_PYROMANIAC" } ],
-      "assign_mission_target": { "om_terrain": "s_restaurant", "om_special": "restraunt", "min_distance": 5, "z": 0 }
+      "assign_mission_target": { "om_terrain": "s_restaurant", "min_distance": 5, "z": 0 }
     },
     "end": {
       "effect": [
@@ -135,7 +129,7 @@
     "value": 10000,
     "start": {
       "effect": [ "follow_only", { "u_spawn_item": "bat" } ],
-      "assign_mission_target": { "om_terrain": "s_restaurant_foodplace_roof", "min_distance": 5, "z": 1 },
+      "assign_mission_target": { "om_terrain": "s_restaurant_foodplace", "min_distance": 5, "z": 0 },
       "update_mapgen": {
         "om_terrain": "s_restaurant_foodplace_roof",
         "place_npcs": [ { "class": "true_foodperson", "x": 12, "y": 19, "target": true } ]

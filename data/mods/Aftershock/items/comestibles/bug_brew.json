@@ -2,7 +2,7 @@
   {
     "type": "COMESTIBLE",
     "id": "afs_mealgrub_medium",
-    "name": { "str_sp": "mealgrub growth medium" },
+    "name": { "str": "mealgrub growth medium" },
     "description": "All sorts of organic substances rendered into a nutritious goop that can be used as a growth medium in grub aquaculture.  Urban myth claims that its original formula was just bottled industrial runoff.  Whatever the case, mealgrubs thrive within it.",
     "weight": "100 g",
     "container": "jug_plastic",
@@ -62,7 +62,7 @@
     "charges": 5,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": { "time": "76 hours", "results": [ "afs_mealgrub_jelly", "afs_mealgrub_spores" ] }
+    "brewable": { "time": "10 days", "results": [ "afs_mealgrub_jelly", "afs_mealgrub_spores" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -99,11 +99,11 @@
     "material": [ "flesh" ],
     "calories": 360,
     "healthy": 3,
-    "description": "A handful of edible and heavily genemoded grubs, each only slightly thinner than your thumb.  Engineered in the wake of the XXII century to feed an overpopulated Earth and its fledgling colonies these are a sturdy, easily grown and scalable crop.\n\nRemoved from their growth solution they'll quickly die and desiccate, as these already have.  They could be safely eaten with no further processing, for a nutritious if somewhat striking meal.",
+    "charges": 5,
+    "description": "A handful of edible and heavily genemoded grubs, each only slightly thinner than your thumb.  Engineered in the wake of the XXII century to feed an overpopulated Earth and its fledgling colonies these are sturdy, easily grown and scalable crop.\n\nRemoved from their growth solution they'll quickly die and desiccate, as these already have.  They could be safely eaten with no further processing, for a nutritious if somewhat striking meal.",
     "fun": 0,
     "freezing_point": -9999,
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 2 ], [ "bad_food", 1 ] ],
-    "volume": "44 ml"
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 2 ], [ "bad_food", 1 ] ]
   },
   {
     "type": "recipe",

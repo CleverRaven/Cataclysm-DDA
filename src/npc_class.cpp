@@ -278,11 +278,6 @@ void npc_class::load( const JsonObject &jo, const std::string_view )
     bonus_int = load_distribution( jo, "bonus_int" );
     bonus_per = load_distribution( jo, "bonus_per" );
 
-    bonus_aggression = load_distribution( jo, "bonus_aggression" );
-    bonus_bravery = load_distribution( jo, "bonus_bravery" );
-    bonus_collector = load_distribution( jo, "bonus_collector" );
-    bonus_altruism = load_distribution( jo, "bonus_altruism" );
-
     if( jo.has_member( "shopkeeper_item_group" ) ) {
         if( jo.has_array( "shopkeeper_item_group" ) &&
             jo.get_array( "shopkeeper_item_group" ).test_object() ) {
@@ -455,42 +450,22 @@ const time_duration &npc_class::get_shop_restock_interval() const
 
 int npc_class::roll_strength() const
 {
-    return bonus_str.roll();
+    return dice( 4, 3 ) + bonus_str.roll();
 }
 
 int npc_class::roll_dexterity() const
 {
-    return bonus_dex.roll();
+    return dice( 4, 3 ) + bonus_dex.roll();
 }
 
 int npc_class::roll_intelligence() const
 {
-    return bonus_int.roll();
+    return dice( 4, 3 ) + bonus_int.roll();
 }
 
 int npc_class::roll_perception() const
 {
-    return bonus_per.roll();
-}
-
-int npc_class::roll_aggression() const
-{
-    return bonus_aggression.roll();
-}
-
-int npc_class::roll_bravery() const
-{
-    return bonus_bravery.roll();
-}
-
-int npc_class::roll_collector() const
-{
-    return bonus_collector.roll();
-}
-
-int npc_class::roll_altruism() const
-{
-    return bonus_altruism.roll();
+    return dice( 4, 3 ) + bonus_per.roll();
 }
 
 int npc_class::roll_skill( const skill_id &sid ) const

@@ -2,7 +2,7 @@
   {
     "id": "afs_sungel",
     "type": "COMESTIBLE",
-    "name": { "str_sp": "sungel" },
+    "name": "sungel",
     "copy-from": "afs_sundew",
     "description": "Mixed with morphine, this sundew has congealed, and has an immense stimulative and pain-numbing effect.  With sufficient tools, it could be used to create anesthesia.",
     "stim": 50,
@@ -195,7 +195,7 @@
   {
     "id": "afs_sunesthesia",
     "type": "COMESTIBLE",
-    "name": { "str_sp": "sunesthesia" },
+    "name": "sunesthesia",
     "copy-from": "afs_sungel",
     "description": "This sungel has been mixed with several drugs and yet inherits none of their effects.  Its painkilling effect hasn't changed, but its stimulative properties have been reversed, and it could be used as anesthesia for installation of bionics.",
     "stim": -30,
@@ -364,7 +364,13 @@
     "initial_charges": 0,
     "max_charges": 0,
     "turns_per_charge": 1,
-    "use_action": { "type": "explosion", "draw_explosion_radius": 8, "draw_explosion_color": "light_blue", "emp_blast_radius": 8 },
+    "use_action": {
+      "type": "explosion",
+      "draw_explosion_radius": 8,
+      "draw_explosion_color": "light_blue",
+      "emp_blast_radius": 8,
+      "sound_volume": 0
+    },
     "flags": [ "TRADER_AVOID" ]
   }
 ]

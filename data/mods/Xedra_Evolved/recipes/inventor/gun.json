@@ -3,7 +3,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "battery_gun",
-    "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 20 ] ],
+    "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "//": "natural abilities of inventor makes him never fail his class crafts, but some profs are still required",
     "components": [
@@ -15,15 +15,15 @@
       [ [ "duct_tape", 25 ] ]
     ],
     "proficiencies": [
-      { "proficiency": "prof_elec_soldering", "time_multiplier": 2, "skill_penalty": 0, "learning_time_multiplier": 0.3 },
+      { "proficiency": "prof_elec_soldering", "time_multiplier": 2, "skill_penalty": -100, "learning_time_multiplier": 0.3 },
       {
         "proficiency": "prof_gunsmithing_improv",
         "time_multiplier": 3,
-        "skill_penalty": 0,
+        "skill_penalty": -100,
         "learning_time_multiplier": 0.3
       }
     ],
-    "time": "7 h",
+    "time": "18 h",
     "skill_used": "deduction",
     "difficulty": 5,
     "skills_required": [ "fabrication", 2 ],
@@ -35,20 +35,20 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "ray_gun",
-    "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 30 ] ],
+    "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 10 ] ],
     "qualities": [ { "id": "SAW_M", "level": 2 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "GRIND", "level": 1 } ],
     "proficiencies": [
-      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": 0, "learning_time_multiplier": 0.3 },
+      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": -100, "learning_time_multiplier": 0.3 },
       {
         "proficiency": "prof_metalworking",
         "time_multiplier": 2,
-        "skill_penalty": 0,
+        "skill_penalty": -100,
         "learning_time_multiplier": 0.3
       },
       {
         "proficiency": "prof_welding_basic",
         "time_multiplier": 2,
-        "skill_penalty": 0,
+        "skill_penalty": -100,
         "learning_time_multiplier": 0.3
       }
     ],
@@ -61,7 +61,7 @@
       [ [ "scrap", 5 ] ],
       [ [ "nuts_bolts", 5 ] ]
     ],
-    "time": "7 h",
+    "time": "18 h",
     "skill_used": "deduction",
     "difficulty": 7,
     "skills_required": [ "fabrication", 4 ],
@@ -73,20 +73,20 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "ray_rifle",
-    "using": [ [ "soldering_standard", 25 ], [ "welding_standard", 40 ] ],
+    "using": [ [ "soldering_standard", 25 ], [ "welding_standard", 20 ] ],
     "qualities": [ { "id": "SAW_M", "level": 2 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "GRIND", "level": 1 } ],
     "proficiencies": [
-      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": 0, "learning_time_multiplier": 0.3 },
+      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": -100, "learning_time_multiplier": 0.3 },
       {
         "proficiency": "prof_metalworking",
         "time_multiplier": 2,
-        "skill_penalty": 0,
+        "skill_penalty": -100,
         "learning_time_multiplier": 0.3
       },
       {
         "proficiency": "prof_welding_basic",
         "time_multiplier": 2,
-        "skill_penalty": 0,
+        "skill_penalty": -100,
         "learning_time_multiplier": 0.3
       }
     ],
@@ -99,7 +99,7 @@
       [ [ "scrap", 15 ] ],
       [ [ "nuts_bolts", 20 ] ]
     ],
-    "time": "7 h",
+    "time": "18 h",
     "skill_used": "deduction",
     "difficulty": 7,
     "skills_required": [ "fabrication", 4 ],
@@ -111,7 +111,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "death_ray",
-    "using": [ [ "soldering_standard", 40 ], [ "welding_standard", 60 ] ],
+    "using": [ [ "soldering_standard", 40 ], [ "welding_standard", 20 ] ],
     "qualities": [
       { "id": "SAW_M", "level": 2 },
       { "id": "SAW_M_FINE", "level": 1 },
@@ -119,23 +119,23 @@
       { "id": "WRENCH", "level": 1 }
     ],
     "proficiencies": [
-      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": 0, "learning_time_multiplier": 0.3 },
+      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": -100, "learning_time_multiplier": 0.3 },
       {
         "proficiency": "prof_metalworking",
         "time_multiplier": 3,
-        "skill_penalty": 0,
+        "skill_penalty": -100,
         "learning_time_multiplier": 0.3
       },
       {
         "proficiency": "prof_welding_basic",
         "time_multiplier": 3,
-        "skill_penalty": 0,
+        "skill_penalty": -100,
         "learning_time_multiplier": 0.3
       },
       {
         "proficiency": "prof_elec_circuits",
         "time_multiplier": 2,
-        "skill_penalty": 0,
+        "skill_penalty": -100,
         "learning_time_multiplier": 0.3
       }
     ],
@@ -149,7 +149,7 @@
       [ [ "nuts_bolts", 7 ] ],
       [ [ "circuit", 2 ] ]
     ],
-    "time": "7 h",
+    "time": "18 h",
     "skill_used": "deduction",
     "difficulty": 9,
     "skills_required": [ [ "fabrication", 7 ], [ "electronics", 3 ] ],
@@ -162,21 +162,21 @@
     "activity_level": "LIGHT_EXERCISE",
     "result": "bio_launcher",
     "proficiencies": [
-      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": 0, "learning_time_multiplier": 0.3 },
+      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": -100, "learning_time_multiplier": 0.3 },
       {
         "proficiency": "prof_metalworking",
         "time_multiplier": 3,
-        "skill_penalty": 0,
+        "skill_penalty": -100,
         "learning_time_multiplier": 0.3
       },
       {
         "proficiency": "prof_welding_basic",
         "time_multiplier": 3,
-        "skill_penalty": 0,
+        "skill_penalty": -100,
         "learning_time_multiplier": 0.3
       }
     ],
-    "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 140 ] ],
+    "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 20 ] ],
     "qualities": [ { "id": "SAW_M", "level": 2 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "GRIND", "level": 1 } ],
     "components": [
       [ [ "30gal_drum", 1 ], [ "55gal_drum", 1 ] ],
@@ -185,7 +185,7 @@
       [ [ "scrap", 10 ] ],
       [ [ "circuit", 1 ] ]
     ],
-    "time": "7 h",
+    "time": "18 h",
     "skill_used": "deduction",
     "difficulty": 4,
     "skills_required": [ "electronics", 5 ],
@@ -197,19 +197,19 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "bio_warhead",
-    "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 30 ] ],
+    "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 20 ] ],
     "proficiencies": [
-      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": 0, "learning_time_multiplier": 0.3 },
+      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": -100, "learning_time_multiplier": 0.3 },
       {
         "proficiency": "prof_metalworking",
         "time_multiplier": 3,
-        "skill_penalty": 0,
+        "skill_penalty": -100,
         "learning_time_multiplier": 0.3
       },
       {
         "proficiency": "prof_welding_basic",
         "time_multiplier": 3,
-        "skill_penalty": 0,
+        "skill_penalty": -100,
         "learning_time_multiplier": 0.3
       }
     ],
@@ -232,26 +232,60 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "rip_ticket",
+    "tools": [
+      [
+        [ "pen", 25 ],
+        [ "black_pen", 25 ],
+        [ "blue_pen", 25 ],
+        [ "red_pen", 25 ],
+        [ "green_pen", 25 ],
+        [ "pencil", 25 ],
+        [ "permanent_marker", 25 ],
+        [ "survival_marker", 25 ]
+      ]
+    ],
+    "components": [
+      [
+        [ "money_one", 1 ],
+        [ "money_two", 1 ],
+        [ "money_five", 1 ],
+        [ "money_ten", 1 ],
+        [ "money_twenty", 1 ],
+        [ "money_fifty", 1 ],
+        [ "money_hundred", 1 ]
+      ]
+    ],
+    "time": "6 h",
+    "skill_used": "deduction",
+    "difficulty": 5,
+    "flags": [ "SECRET" ],
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_WEAPONS"
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "ion_gun",
     "qualities": [ { "id": "SAW_M", "level": 2 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "GRIND", "level": 1 } ],
     "proficiencies": [
-      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": 0, "learning_time_multiplier": 0.3 },
+      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": -100, "learning_time_multiplier": 0.3 },
       {
         "proficiency": "prof_metalworking",
         "time_multiplier": 3,
-        "skill_penalty": 0,
+        "skill_penalty": -100,
         "learning_time_multiplier": 0.3
       },
       {
         "proficiency": "prof_welding_basic",
         "time_multiplier": 3,
-        "skill_penalty": 0,
+        "skill_penalty": -100,
         "learning_time_multiplier": 0.3
       },
       {
         "proficiency": "prof_elec_circuits",
         "time_multiplier": 2,
-        "skill_penalty": 0,
+        "skill_penalty": -100,
         "learning_time_multiplier": 0.3
       }
     ],
@@ -264,7 +298,7 @@
       [ [ "scrap", 5 ] ],
       [ [ "duct_tape", 15 ] ]
     ],
-    "time": "7 h",
+    "time": "18 h",
     "skill_used": "deduction",
     "difficulty": 7,
     "skills_required": [ "electronics", 3 ],
@@ -278,24 +312,24 @@
     "result": "inventor_sniper",
     "qualities": [ { "id": "SAW_M", "level": 2 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "GRIND", "level": 1 } ],
     "proficiencies": [
-      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": 0, "learning_time_multiplier": 0.3 },
+      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": -100, "learning_time_multiplier": 0.3 },
       {
         "proficiency": "prof_metalworking",
         "time_multiplier": 3,
-        "skill_penalty": 0,
+        "skill_penalty": -100,
         "learning_time_multiplier": 0.3
       },
       {
         "proficiency": "prof_welding_basic",
         "time_multiplier": 3,
-        "skill_penalty": 0,
+        "skill_penalty": -100,
         "learning_time_multiplier": 0.3
       }
     ],
     "components": [
       [
         [ "ar10", 1 ],
-        [ "fn_fal_semi", 1 ],
+        [ "fn_fal", 1 ],
         [ "hk417_13", 1 ],
         [ "m14ebr", 1 ],
         [ "M24", 1 ],
@@ -305,7 +339,7 @@
       ],
       [
         [ "ar10", 1 ],
-        [ "fn_fal_semi", 1 ],
+        [ "fn_fal", 1 ],
         [ "hk417_13", 1 ],
         [ "m14ebr", 1 ],
         [ "M24", 1 ],
@@ -317,7 +351,7 @@
       [ [ "scrap", 20 ] ],
       [ [ "nuts_bolts", 15 ] ]
     ],
-    "time": "7 h",
+    "time": "18 h",
     "skill_used": "deduction",
     "difficulty": 7,
     "skills_required": [ "fabrication", 3 ],
@@ -331,23 +365,23 @@
     "result": "inventor_shotgun",
     "qualities": [ { "id": "SAW_M", "level": 2 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "GRIND", "level": 1 } ],
     "proficiencies": [
-      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": 0, "learning_time_multiplier": 0.3 },
+      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": -100, "learning_time_multiplier": 0.3 },
       {
         "proficiency": "prof_metalworking",
         "time_multiplier": 3,
-        "skill_penalty": 0,
+        "skill_penalty": -100,
         "learning_time_multiplier": 0.3
       },
       {
         "proficiency": "prof_gunsmithing_improv",
         "time_multiplier": 3,
-        "skill_penalty": 0,
+        "skill_penalty": -100,
         "learning_time_multiplier": 0.3
       },
       {
         "proficiency": "prof_welding_basic",
         "time_multiplier": 3,
-        "skill_penalty": 0,
+        "skill_penalty": -100,
         "learning_time_multiplier": 0.3
       }
     ],
@@ -368,7 +402,7 @@
       [ [ "scrap", 28 ] ],
       [ [ "nuts_bolts", 60 ] ]
     ],
-    "time": "7 h",
+    "time": "18 h",
     "skill_used": "deduction",
     "difficulty": 7,
     "skills_required": [ "fabrication", 3 ],
@@ -381,25 +415,25 @@
     "activity_level": "LIGHT_EXERCISE",
     "result": "accelerator_gun",
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 50 ] ],
+    "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 20 ] ],
     "proficiencies": [
-      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": 0, "learning_time_multiplier": 0.3 },
+      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": -100, "learning_time_multiplier": 0.3 },
       {
         "proficiency": "prof_electromagnetics",
         "time_multiplier": 3,
-        "skill_penalty": 0,
+        "skill_penalty": -100,
         "learning_time_multiplier": 0.3
       },
       {
         "proficiency": "prof_gunsmithing_improv",
         "time_multiplier": 3,
-        "skill_penalty": 0,
+        "skill_penalty": -100,
         "learning_time_multiplier": 0.3
       },
       {
         "proficiency": "prof_plasticworking",
         "time_multiplier": 3,
-        "skill_penalty": 0,
+        "skill_penalty": -100,
         "learning_time_multiplier": 0.3
       }
     ],
@@ -418,7 +452,7 @@
     "skill_used": "deduction",
     "difficulty": 5,
     "skills_required": [ [ "electronics", 5 ], [ "fabrication", 5 ] ],
-    "time": "7 h",
+    "time": "18 h",
     "flags": [ "SECRET" ],
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_WEAPONS"
@@ -428,19 +462,19 @@
     "activity_level": "LIGHT_EXERCISE",
     "result": "inventor_glauncher",
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 80 ] ],
+    "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 20 ] ],
     "proficiencies": [
-      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": 0, "learning_time_multiplier": 0.3 },
+      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": -100, "learning_time_multiplier": 0.3 },
       {
         "proficiency": "prof_electromagnetics",
         "time_multiplier": 3,
-        "skill_penalty": 0,
+        "skill_penalty": -100,
         "learning_time_multiplier": 0.3
       },
       {
         "proficiency": "prof_gunsmithing_improv",
         "time_multiplier": 3,
-        "skill_penalty": 0,
+        "skill_penalty": -100,
         "learning_time_multiplier": 0.3
       }
     ],
@@ -459,7 +493,7 @@
     "skill_used": "deduction",
     "difficulty": 5,
     "skills_required": [ [ "electronics", 5 ], [ "fabrication", 5 ] ],
-    "time": "7 h",
+    "time": "18 h",
     "flags": [ "SECRET" ],
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_WEAPONS"
@@ -471,17 +505,17 @@
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "using": [ [ "soldering_standard", 20 ] ],
     "proficiencies": [
-      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": 0, "learning_time_multiplier": 0.3 },
+      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": -100, "learning_time_multiplier": 0.3 },
       {
         "proficiency": "prof_electromagnetics",
         "time_multiplier": 3,
-        "skill_penalty": 0,
+        "skill_penalty": -100,
         "learning_time_multiplier": 0.3
       },
       {
         "proficiency": "prof_gunsmithing_improv",
         "time_multiplier": 3,
-        "skill_penalty": 0,
+        "skill_penalty": -100,
         "learning_time_multiplier": 0.3
       }
     ],
@@ -498,7 +532,7 @@
     "skill_used": "deduction",
     "difficulty": 5,
     "skills_required": [ [ "electronics", 5 ], [ "fabrication", 5 ] ],
-    "time": "7 h",
+    "time": "18 h",
     "flags": [ "SECRET" ],
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_WEAPONS"
@@ -510,17 +544,17 @@
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "using": [ [ "soldering_standard", 20 ] ],
     "proficiencies": [
-      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": 0, "learning_time_multiplier": 0.3 },
+      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": -100, "learning_time_multiplier": 0.3 },
       {
         "proficiency": "prof_electromagnetics",
         "time_multiplier": 3,
-        "skill_penalty": 0,
+        "skill_penalty": -100,
         "learning_time_multiplier": 0.3
       },
       {
         "proficiency": "prof_gunsmithing_improv",
         "time_multiplier": 3,
-        "skill_penalty": 0,
+        "skill_penalty": -100,
         "learning_time_multiplier": 0.3
       }
     ],
@@ -537,7 +571,7 @@
     "skill_used": "deduction",
     "difficulty": 5,
     "skills_required": [ [ "electronics", 5 ], [ "fabrication", 5 ] ],
-    "time": "7 h",
+    "time": "18 h",
     "flags": [ "SECRET" ],
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_WEAPONS"
@@ -549,17 +583,17 @@
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "using": [ [ "soldering_standard", 20 ] ],
     "proficiencies": [
-      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": 0, "learning_time_multiplier": 0.3 },
+      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": -100, "learning_time_multiplier": 0.3 },
       {
         "proficiency": "prof_electromagnetics",
         "time_multiplier": 3,
-        "skill_penalty": 0,
+        "skill_penalty": -100,
         "learning_time_multiplier": 0.3
       },
       {
         "proficiency": "prof_gunsmithing_improv",
         "time_multiplier": 3,
-        "skill_penalty": 0,
+        "skill_penalty": -100,
         "learning_time_multiplier": 0.3
       }
     ],
@@ -576,7 +610,7 @@
     "skill_used": "deduction",
     "difficulty": 5,
     "skills_required": [ [ "electronics", 5 ], [ "fabrication", 5 ] ],
-    "time": "7 h",
+    "time": "18 h",
     "flags": [ "SECRET" ],
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_WEAPONS"
@@ -588,23 +622,23 @@
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 20 ] ],
     "proficiencies": [
-      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": 0, "learning_time_multiplier": 0.3 },
+      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": -100, "learning_time_multiplier": 0.3 },
       {
         "proficiency": "prof_electromagnetics",
         "time_multiplier": 3,
-        "skill_penalty": 0,
+        "skill_penalty": -100,
         "learning_time_multiplier": 0.3
       },
       {
         "proficiency": "prof_gunsmithing_improv",
         "time_multiplier": 3,
-        "skill_penalty": 0,
+        "skill_penalty": -100,
         "learning_time_multiplier": 0.3
       },
       {
         "proficiency": "prof_plasticworking",
         "time_multiplier": 3,
-        "skill_penalty": 0,
+        "skill_penalty": -100,
         "learning_time_multiplier": 0.3
       }
     ],
@@ -620,7 +654,7 @@
     "skill_used": "deduction",
     "difficulty": 5,
     "skills_required": [ [ "electronics", 5 ], [ "fabrication", 5 ] ],
-    "time": "33 m",
+    "time": "18 h",
     "flags": [ "SECRET" ],
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_WEAPONS"
@@ -632,23 +666,23 @@
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 20 ] ],
     "proficiencies": [
-      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": 0, "learning_time_multiplier": 0.3 },
+      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": -100, "learning_time_multiplier": 0.3 },
       {
         "proficiency": "prof_electromagnetics",
         "time_multiplier": 3,
-        "skill_penalty": 0,
+        "skill_penalty": -100,
         "learning_time_multiplier": 0.3
       },
       {
         "proficiency": "prof_gunsmithing_improv",
         "time_multiplier": 3,
-        "skill_penalty": 0,
+        "skill_penalty": -100,
         "learning_time_multiplier": 0.3
       },
       {
         "proficiency": "prof_plasticworking",
         "time_multiplier": 3,
-        "skill_penalty": 0,
+        "skill_penalty": -100,
         "learning_time_multiplier": 0.3
       }
     ],
@@ -664,7 +698,7 @@
     "skill_used": "deduction",
     "difficulty": 5,
     "skills_required": [ [ "electronics", 5 ], [ "fabrication", 5 ] ],
-    "time": "33 m",
+    "time": "18 h",
     "flags": [ "SECRET" ],
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_WEAPONS"
@@ -676,23 +710,23 @@
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 20 ] ],
     "proficiencies": [
-      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": 0, "learning_time_multiplier": 0.3 },
+      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": -100, "learning_time_multiplier": 0.3 },
       {
         "proficiency": "prof_electromagnetics",
         "time_multiplier": 3,
-        "skill_penalty": 0,
+        "skill_penalty": -100,
         "learning_time_multiplier": 0.3
       },
       {
         "proficiency": "prof_gunsmithing_improv",
         "time_multiplier": 3,
-        "skill_penalty": 0,
+        "skill_penalty": -100,
         "learning_time_multiplier": 0.3
       },
       {
         "proficiency": "prof_plasticworking",
         "time_multiplier": 3,
-        "skill_penalty": 0,
+        "skill_penalty": -100,
         "learning_time_multiplier": 0.3
       }
     ],
@@ -708,7 +742,7 @@
     "skill_used": "deduction",
     "difficulty": 5,
     "skills_required": [ [ "electronics", 5 ], [ "fabrication", 5 ] ],
-    "time": "33 m",
+    "time": "18 h",
     "flags": [ "SECRET" ],
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_WEAPONS"
@@ -718,13 +752,13 @@
     "activity_level": "LIGHT_EXERCISE",
     "result": "sonic_gun",
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 30 ] ],
+    "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 20 ] ],
     "proficiencies": [
-      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": 0, "learning_time_multiplier": 0.3 },
+      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": -100, "learning_time_multiplier": 0.3 },
       {
         "proficiency": "prof_gunsmithing_improv",
         "time_multiplier": 3,
-        "skill_penalty": 0,
+        "skill_penalty": -100,
         "learning_time_multiplier": 0.3
       }
     ],
@@ -742,7 +776,7 @@
     "skill_used": "deduction",
     "difficulty": 5,
     "skills_required": [ [ "electronics", 5 ], [ "fabrication", 5 ] ],
-    "time": "11 h",
+    "time": "18 h",
     "flags": [ "SECRET" ],
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_WEAPONS"
@@ -752,13 +786,13 @@
     "activity_level": "LIGHT_EXERCISE",
     "result": "heater_gun",
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 40 ] ],
+    "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 20 ] ],
     "proficiencies": [
-      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": 0, "learning_time_multiplier": 0.3 },
+      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": -100, "learning_time_multiplier": 0.3 },
       {
         "proficiency": "prof_gunsmithing_improv",
         "time_multiplier": 3,
-        "skill_penalty": 0,
+        "skill_penalty": -100,
         "learning_time_multiplier": 0.3
       }
     ],
@@ -777,7 +811,7 @@
     "skill_used": "deduction",
     "difficulty": 5,
     "skills_required": [ [ "electronics", 5 ], [ "fabrication", 5 ] ],
-    "time": "7 h",
+    "time": "18 h",
     "flags": [ "SECRET" ],
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_WEAPONS"
@@ -788,13 +822,18 @@
     "result": "inventor_pistol",
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "proficiencies": [
-      { "proficiency": "prof_gunsmithing_improv", "time_multiplier": 3, "skill_penalty": 0, "learning_time_multiplier": 0.3 }
+      {
+        "proficiency": "prof_gunsmithing_improv",
+        "time_multiplier": 3,
+        "skill_penalty": -100,
+        "learning_time_multiplier": 0.3
+      }
     ],
     "components": [ [ [ "pipe", 9 ] ], [ [ "scrap", 36 ] ], [ [ "nuts_bolts", 10 ] ], [ [ "duct_tape", 40 ] ] ],
     "skill_used": "deduction",
     "difficulty": 5,
     "skills_required": [ [ "fabrication", 5 ] ],
-    "time": "7 h",
+    "time": "18 h",
     "flags": [ "SECRET" ],
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_WEAPONS"

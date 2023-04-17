@@ -6,9 +6,11 @@
 #include <climits>
 #include <cstddef>
 #include <functional>
+#include <iosfwd>
 #include <limits>
 #include <list>
 #include <memory>
+#include <new>
 #include <optional>
 #include <string>
 #include <utility>
@@ -18,22 +20,25 @@
 #include "cuboid_rectangle.h"
 #include "cursesdef.h"
 #include "debug.h"
-#include "input_context.h"
+#include "input.h"
 #include "item_category.h"
 #include "item_location.h"
-#include "pocket_type.h"
+#include "item_pocket.h"
+#include "map.h"
+#include "memory_fast.h"
 #include "pimpl.h"
 #include "translations.h"
+#include "units.h"
 #include "units_fwd.h"
 
-class basecamp;
 class Character;
 class inventory_selector_preset;
 class item;
 class item_stack;
 class string_input_popup;
-class tinymap;
 class ui_adaptor;
+struct point;
+struct tripoint;
 
 enum class navigation_mode : int {
     ITEM = 0,
@@ -51,6 +56,7 @@ enum class toggle_mode : int {
 };
 
 struct inventory_input;
+struct container_data;
 struct navigation_mode_data;
 
 using drop_location = std::pair<item_location, int>;
@@ -71,8 +77,6 @@ class inventory_entry
         int custom_invlet = INT_MIN;
         std::string *cached_name = nullptr;
         std::string *cached_name_full = nullptr;
-        unsigned int contents_count = 0;
-        size_t cached_denial_space = 0;
 
         inventory_entry() = default;
 
@@ -254,7 +258,7 @@ class inventory_selector_preset
             return check_components;
         }
 
-        pocket_type get_pocket_type() const {
+        item_pocket::pocket_type get_pocket_type() const {
             return _pk_type;
         }
 
@@ -292,7 +296,7 @@ class inventory_selector_preset
         bool _indent_entries = true;
         bool _collate_entries = false;
 
-        pocket_type _pk_type = pocket_type::CONTAINER;
+        item_pocket::pocket_type _pk_type = item_pocket::pocket_type::CONTAINER;
 
     private:
         class cell_t
@@ -337,7 +341,10 @@ const inventory_selector_preset default_preset;
 class inventory_column
 {
     public:
-        explicit inventory_column( const inventory_selector_preset &preset = default_preset );
+        explicit inventory_column( const inventory_selector_preset &preset = default_preset ) : preset(
+                preset ) {
+            cells.resize( preset.get_cells_count() );
+        }
 
         virtual ~inventory_column() = default;
 
@@ -612,14 +619,12 @@ class inventory_selector
         bool add_contained_items( item_location &container, inventory_column &column,
                                   const item_category *custom_category = nullptr, item_location const &topmost_parent = {},
                                   int indent = 0 );
-        void add_contained_gunmods( Character &you, item &gun );
         void add_contained_ebooks( item_location &container );
         void add_character_items( Character &character );
         void add_map_items( const tripoint &target );
         void add_vehicle_items( const tripoint &target );
         void add_nearby_items( int radius = 1 );
         void add_remote_map_items( tinymap *remote_map, const tripoint &target );
-        void add_basecamp_items( const basecamp &camp );
         /** Remove all items */
         void clear_items();
         /** Assigns a title that will be shown on top of the menu. */
@@ -638,8 +643,6 @@ class inventory_selector
         bool empty() const;
         /** @return true when there are enabled entries to select. */
         bool has_available_choices() const;
-        uint64_t item_entry_count() const;
-        drop_location get_only_choice() const;
 
         /** Apply filter string to all columns */
         void set_filter( const std::string &str );
@@ -781,7 +784,6 @@ class inventory_selector
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         point _fixed_origin{ -1, -1 }, _fixed_size{ -1, -1 };
         bool _categorize_map_items = false;
-        bool force_single_column = false;
 
     private:
         // These functions are called from resizing/redraw callbacks of ui_adaptor
@@ -944,20 +946,6 @@ class container_inventory_selector : public inventory_pick_selector
         item_location loc;
 };
 
-std::vector<item_location> get_possible_reload_targets( const item_location &target );
-class ammo_inventory_selector : public inventory_selector
-{
-    public:
-        explicit ammo_inventory_selector( Character &you, const item_location &reload_loc,
-                                          const inventory_selector_preset &preset = default_preset );
-
-        drop_location execute();
-        void set_all_entries_chosen_count();
-    private:
-        void mod_chosen_count( inventory_entry &entry, int val );
-        const item_location reload_loc;
-};
-
 class inventory_multiselector : public inventory_selector
 {
     public:
@@ -967,7 +955,7 @@ class inventory_multiselector : public inventory_selector
                                           const std::string &selection_column_title = "",
                                           const GetStats & = {},
                                           bool allow_select_contained = false );
-        drop_locations execute( bool allow_empty = false );
+        drop_locations execute();
         void toggle_entry( inventory_entry &entry, size_t count );
     protected:
         void rearrange_columns( size_t client_width ) override;
@@ -986,20 +974,6 @@ class inventory_multiselector : public inventory_selector
     private:
         std::unique_ptr<inventory_column> selection_col;
         GetStats get_stats;
-};
-
-class inventory_haul_selector : public inventory_multiselector
-{
-    public:
-        explicit inventory_haul_selector( Character &p );
-        void apply_selection( std::vector<item_location> &items );
-};
-
-class haul_selector_preset : public inventory_selector_preset
-{
-    public:
-        bool is_shown( const item_location &item ) const override;
-        std::string get_denial( const item_location &item ) const override;
 };
 
 class inventory_compare_selector : public inventory_multiselector
@@ -1058,15 +1032,6 @@ class pickup_selector : public inventory_multiselector
         void remove_from_to_use( item_location &it );
         void add_reopen_activity();
         const std::optional<tripoint> where;
-};
-
-class unload_selector : public inventory_pick_selector
-{
-    public:
-        explicit unload_selector( Character &p, const inventory_selector_preset &preset = default_preset );
-        std::pair<item_location, bool> execute();
-    private:
-        std::string hint_string();
 };
 
 /**

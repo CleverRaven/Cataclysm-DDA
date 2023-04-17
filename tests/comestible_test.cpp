@@ -144,7 +144,7 @@ static int byproduct_calories( const recipe &recipe_obj )
 
 static bool has_mutagen_vit( const islot_comestible &comest )
 {
-    const std::map<vitamin_id, int> &vits = comest.default_nutrition.vitamins();
+    const std::map<vitamin_id, int> &vits = comest.default_nutrition.vitamins;
     for( const vitamin_id &vit : mutagen_vit_list ) {
         if( vits.find( vit ) != vits.end() && vits.at( vit ) > 0 ) {
             return true;
@@ -250,9 +250,8 @@ TEST_CASE( "cooked_veggies_get_correct_calorie_prediction", "[recipe]" )
     const Character &u = get_player_character();
 
     nutrients default_nutrition = u.compute_effective_nutrients( veggy_wild_cooked );
-    std::map<recipe_id, std::pair<nutrients, nutrients>> rec_cache;
     std::pair<nutrients, nutrients> predicted_nutrition =
-        u.compute_nutrient_range( veggy_wild_cooked, recipe_veggy_wild_cooked, rec_cache );
+        u.compute_nutrient_range( veggy_wild_cooked, recipe_veggy_wild_cooked );
 
     CHECK( default_nutrition.kcal() == predicted_nutrition.first.kcal() );
     CHECK( default_nutrition.kcal() == predicted_nutrition.second.kcal() );

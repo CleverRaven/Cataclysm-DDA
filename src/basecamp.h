@@ -3,6 +3,7 @@
 #define CATA_SRC_BASECAMP_H
 
 #include <cstddef>
+#include <iosfwd>
 #include <list>
 #include <map>
 #include <memory>
@@ -13,14 +14,13 @@
 
 #include "coordinates.h"
 #include "craft_command.h"
-#include "game_constants.h"
 #include "game_inventory.h"
 #include "inventory.h"
-#include "map.h"
+#include "memory_fast.h"
 #include "mission_companion.h"
 #include "point.h"
 #include "requirements.h"
-#include "stomach.h"
+#include "translations.h"
 #include "type_id.h"
 
 class JsonObject;
@@ -31,11 +31,9 @@ class time_duration;
 class zone_data;
 enum class farm_ops : int;
 class item;
+class mission_data;
 class recipe;
-
-const int work_day_hours = 10;
-const int work_day_rest_hours = 8;
-const int work_day_idle_hours = 6;
+class tinymap;
 
 struct expansion_data {
     std::string type;
@@ -207,6 +205,7 @@ class basecamp
         void update_provides( const std::string &bldg, expansion_data &e_data );
         void update_in_progress( const std::string &bldg, const point &dir );
 
+        bool can_expand() const;
         /// Returns the name of the building the current building @ref dir upgrades into,
         /// "null" if there isn't one
         std::string next_upgrade( const point &dir, int offset = 1 ) const;
@@ -228,14 +227,6 @@ class basecamp
         // food utility
         /// Takes all the food from the camp_food zone and increases the faction
         /// food_supply
-        /// Changes the faction food supply by @ref change, returns the amount of kcal+vitamins consumed, a negative
-        /// total food supply hurts morale
-        /// Handles vitamin consumption when only a kcal value is supplied
-        nutrients camp_food_supply( nutrients &change );
-        /// LEGACY FUNCTION. Constructs a new nutrients struct in place and forwards it
-        nutrients camp_food_supply( int change = 0 );
-        /// LEGACY FUNCTION. Calculates raw kcal cost from duration of work and exercise, then forwards it to above
-        nutrients camp_food_supply( time_duration work, float exertion_level = NO_EXERCISE );
         bool distribute_food();
         std::string name_display_of( const mission_id &miss_id );
         void handle_hide_mission( const point &dir );
@@ -273,22 +264,9 @@ class basecamp
         inline const tripoint_abs_ms &get_dumping_spot() const {
             return dumping_spot;
         }
-        inline const std::vector<tripoint_abs_ms> &get_liquid_dumping_spot() const {
-            return liquid_dumping_spots;
-        }
         // dumping spot in absolute co-ords
         inline void set_dumping_spot( const tripoint_abs_ms &spot ) {
             dumping_spot = spot;
-        }
-        inline void set_liquid_dumping_spot( const std::vector<tripoint_abs_ms> &liquid_dumps ) {
-            // Nowhere qualified to dump liquid? Dump it wherever everything else goes.
-            if( liquid_dumps.empty() ) {
-                liquid_dumping_spots.clear();
-                liquid_dumping_spots.emplace_back( dumping_spot );
-                return;
-            } //else
-            liquid_dumping_spots.clear();
-            liquid_dumping_spots = liquid_dumps;
         }
         void place_results( const item &result );
 
@@ -311,7 +289,6 @@ class basecamp
         // main mission description collection
         void get_available_missions( mission_data &mission_key, map &here );
         void get_available_missions_by_dir( mission_data &mission_key, const point &dir );
-        void choose_new_leader();
         // available companion list manipulation
         void reset_camp_workers();
         comp_list get_mission_workers( const mission_id &miss_id, bool contains = false );
@@ -329,11 +306,11 @@ class basecamp
                                const std::vector<item *> &equipment, float exertion_level,
                                const std::map<skill_id, int> &required_skills = {} );
         comp_list start_multi_mission( const mission_id &miss_id,
-                                       bool must_feed, const std::string &desc,
+                                       bool must_feed, const std::string &desc, float exertion_level,
                                        // const std::vector<item*>& equipment, //  No support for extracting equipment from recipes currently..
                                        const skill_id &skill_tested, int skill_level );
         comp_list start_multi_mission( const mission_id &miss_id,
-                                       bool must_feed, const std::string &desc,
+                                       bool must_feed, const std::string &desc, float exertion_level,
                                        //  const std::vector<item*>& equipment, //  No support for extracting equipment from recipes currently..
                                        const std::map<skill_id, int> &required_skills = {} );
         void start_upgrade( const mission_id &miss_id );
@@ -342,7 +319,7 @@ class basecamp
         void start_menial_labor();
         void worker_assignment_ui();
         void job_assignment_ui();
-        void start_crafting( const std::string &type, const mission_id &miss_id );
+        void start_crafting( const std::string &type, const mission_id &miss_id, float exertion_level );
 
         /// Called when a companion is sent to cut logs
         void start_cut_logs( const mission_id &miss_id, float exertion_level );
@@ -362,8 +339,7 @@ class basecamp
                             float exertion_level );
         ///Display items listed in @ref equipment to let the player pick what to give the departing
         ///NPC, loops until quit or empty.
-        drop_locations give_basecamp_equipment( inventory_filter_preset &preset, const std::string &title,
-                                                const std::string &column_title, const std::string &msg_empty ) const;
+        std::vector<item *> give_equipment( std::vector<item *> equipment, const std::string &msg );
         drop_locations give_equipment( Character *pc, const inventory_filter_preset &preset,
                                        const std::string &msg, const std::string &title, units::volume &total_volume,
                                        units::mass &total_mass );
@@ -392,9 +368,6 @@ class basecamp
         /// Called to close upgrade missions, @ref miss is the name of the mission id
         /// and @ref dir is the direction of the location to be upgraded
         bool upgrade_return( const mission_id &miss_id );
-
-        /// Choose which expansion slot to check for field conversion
-        bool survey_field_return( const mission_id &miss_id );
 
         /// Choose which expansion you should start, called when a survey mission is completed
         bool survey_return( const mission_id &miss_id );
@@ -459,8 +432,6 @@ class basecamp
         comp_list camp_workers; // NOLINT(cata-serialize)
         basecamp_map camp_map; // NOLINT(cata-serialize)
         tripoint_abs_ms dumping_spot;
-        // Tiles inside STORAGE-type zones that have LIQUIDCONT terrain
-        std::vector<tripoint_abs_ms> liquid_dumping_spots;
         std::vector<const zone_data *> storage_zones; // NOLINT(cata-serialize)
         std::unordered_set<tripoint_abs_ms> src_set; // NOLINT(cata-serialize)
         std::set<itype_id> fuel_types; // NOLINT(cata-serialize)

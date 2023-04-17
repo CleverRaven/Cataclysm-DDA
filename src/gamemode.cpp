@@ -1,4 +1,5 @@
 #include "gamemode.h"
+#include "gamemode_defense.h"
 #include "gamemode_tutorial.h"
 
 #include "debug.h"
@@ -12,6 +13,8 @@ std::string special_game_name( special_game_type id )
             return "Bug (gamemode.cpp:special_game_name)";
         case special_game_type::TUTORIAL:
             return _( "Tutorial" );
+        case special_game_type::DEFENSE:
+            return _( "Defense" );
         default:
             return "Uncoded (gamemode.cpp:special_game_name)";
     }
@@ -26,6 +29,9 @@ std::unique_ptr<special_game> get_special_game( special_game_type id )
             break;
         case special_game_type::TUTORIAL:
             ret = std::make_unique<tutorial_game>();
+            break;
+        case special_game_type::DEFENSE:
+            ret = std::make_unique<defense_game>();
             break;
         default:
             debugmsg( "Missing something in gamemode.cpp:get_special_game()?" );

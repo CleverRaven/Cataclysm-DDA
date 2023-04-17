@@ -1,27 +1,24 @@
 #include "do_turn.h"
 
-#if defined(EMSCRIPTEN)
-#include <emscripten.h>
-#endif
-
 #include "action.h"
 #include "avatar.h"
 #include "bionics.h"
 #include "cached_options.h"
 #include "calendar.h"
+#include "creature_tracker.h"
 #include "event_bus.h"
 #include "explosion.h"
 #include "game.h"
 #include "gamemode.h"
 #include "help.h"
-#include "input.h"
-#include "input_context.h"
+#include "kill_tracker.h"
 #include "make_static.h"
 #include "map.h"
 #include "mapbuffer.h"
 #include "memorial_logger.h"
 #include "messages.h"
 #include "mission.h"
+#include "monattack.h"
 #include "mtype.h"
 #include "music.h"
 #include "npc.h"
@@ -31,11 +28,13 @@
 #include "popup.h"
 #include "scent_map.h"
 #include "sdlsound.h"
+#include "string_input_popup.h"
 #include "stats_tracker.h"
 #include "timed_event.h"
 #include "ui_manager.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+#include "wcwidth.h"
 #include "worldfactory.h"
 
 static const activity_id ACT_AUTODRIVE( "ACT_AUTODRIVE" );
@@ -83,9 +82,6 @@ bool cleanup_at_end()
 
         // and the overmap, and the local map.
         g->save_maps(); //Omap also contains the npcs who need to be saved.
-
-        //save achievements entry
-        g->save_achievements();
 
         g->death_screen();
         std::chrono::seconds time_since_load =
@@ -259,7 +255,7 @@ void monmove()
 
         m.creature_in_field( critter );
         if( calendar::once_every( 1_days ) ) {
-            if( critter.has_flag( mon_flag_MILKABLE ) ) {
+            if( critter.has_flag( MF_MILKABLE ) ) {
                 critter.refill_udders();
             }
             critter.try_biosignature();
@@ -330,8 +326,15 @@ void monmove()
             // It has to be done before the last turn, otherwise
             // there will be no meaningful debug output.
             if( turns == 9 ) {
-                debugmsg( "NPC '%s' entered infinite loop, npc activity id: '%s'",
-                          guy.get_name(), guy.activity.id().str() );
+                debugmsg( "NPC %s entered infinite loop.  Turning on debug mode",
+                          guy.get_name() );
+                debug_mode = true;
+                // make sure the filter is active
+                if( std::find(
+                        debugmode::enabled_filters.begin(), debugmode::enabled_filters.end(),
+                        debugmode::DF_NPC ) == debugmode::enabled_filters.end() ) {
+                    debugmode::enabled_filters.emplace_back( debugmode::DF_NPC );
+                }
             }
         }
 
@@ -437,6 +440,8 @@ bool do_turn()
     mission::process_all();
     avatar &u = get_avatar();
     map &m = get_map();
+    // Set the last PC z-level position value (used in character.cpp for "fine_detail_vision_mod" NPCs function override) Check will compare last turn and current Z-levels
+    get_player_character().last_pc_zlev = get_player_character().pos().z;
     // If controlling a vehicle that is owned by someone else
     if( u.in_vehicle && u.controlling_vehicle ) {
         vehicle *veh = veh_pointer_or_null( m.veh_at( u.pos() ) );
@@ -448,11 +453,6 @@ bool do_turn()
     // Make sure players cant defy gravity by standing still, Looney tunes style.
     u.gravity_check();
 
-    // If you're inside a wall or something and haven't been telefragged, let's get you out.
-    if( m.impassable( u.pos() ) && !m.has_flag( ter_furn_flag::TFLAG_CLIMBABLE, u.pos() ) ) {
-        u.stagger();
-    }
-
     // If riding a horse - chance to spook
     if( u.is_mounted() ) {
         u.check_mount_is_spooked();
@@ -463,10 +463,7 @@ bool do_turn()
 
     // Move hordes every 2.5 min
     if( calendar::once_every( time_duration::from_minutes( 2.5 ) ) ) {
-
-        if( get_option<bool>( "WANDER_SPAWNS" ) ) {
-            overmap_buffer.move_hordes();
-        }
+        overmap_buffer.move_hordes();
         if( u.has_trait( trait_HAS_NEMESIS ) ) {
             overmap_buffer.move_nemesis();
         }
@@ -688,8 +685,6 @@ bool do_turn()
         g->first_redraw_since_waiting_started = true;
     }
 
-    m.invalidate_visibility_cache();
-
     u.update_bodytemp();
     u.update_body_wetness( *weather.weather_precise );
     u.apply_wetness_morale( weather.temperature );
@@ -720,12 +715,6 @@ bool do_turn()
     // Calculate bionic power balance
     u.power_balance = u.get_power_level() - u.power_prev_turn;
     u.power_prev_turn = u.get_power_level();
-
-#if defined(EMSCRIPTEN)
-    // This will cause a prompt to be shown if the window is closed, until the
-    // game is saved.
-    EM_ASM( window.game_unsaved = true; );
-#endif
 
     return false;
 }

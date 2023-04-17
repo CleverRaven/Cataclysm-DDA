@@ -118,8 +118,7 @@
       { "item": "string_36", "count": [ 1, 4 ], "prob": 80 },
       { "item": "string_36", "count": [ 1, 4 ], "prob": 50 },
       { "item": "string_36", "count": [ 1, 4 ], "prob": 20 },
-      { "item": "duct_tape", "prob": 40, "charges": [ 25, 400 ] },
-      { "item": "superglue", "prob": 30 },
+      { "item": "duct_tape", "prob": 40, "charges": [ 25, 400 ], "container-item": "box_small" },
       { "item": "plastic_straw", "prob": 70, "count": [ 1, 6 ] },
       { "item": "plastic_straw", "prob": 40, "count": [ 1, 6 ] },
       { "item": "corkscrew", "prob": 60 },
@@ -130,7 +129,6 @@
       { "item": "RPG_die", "prob": 10 },
       { "item": "metal_RPG_die", "prob": 1 },
       { "item": "aluminum_foil", "prob": 25 },
-      { "item": "wrapper_foil", "prob": 12, "count": [ 5, 40 ], "container-item": "wrapper_foil_roll" },
       { "item": "nuts_bolts", "prob": 20, "charges-min": 1, "charges-max": 4 },
       {
         "distribution": [
@@ -168,13 +166,13 @@
       { "item": "plastic_fork", "prob": 50 },
       { "item": "plastic_knife", "prob": 50 },
       { "item": "flyer", "prob": 70 },
-      { "item": "feces_roach", "prob": 70, "count": 4 },
+      { "item": "feces_roach", "prob": 70 },
       { "item": "lighter", "prob": 65, "charges-min": 0, "charges-max": 9 },
       { "item": "light_disposable_cell", "count": [ 1, 7 ], "prob": 60, "charges": 0 },
       { "item": "bag_plastic", "prob": 60, "count": [ 1, 5 ] },
       { "item": "corkscrew", "prob": 60 },
       { "item": "stapler", "prob": 45 },
-      { "item": "gum", "prob": 55, "count": [ 1, 2 ] },
+      { "item": "gum", "prob": 55, "charges": [ 1, 2 ] },
       { "item": "can_opener", "prob": 55 },
       { "item": "ceramic_shard", "prob": 30 },
       { "item": "e_scrap", "prob": 50, "count": [ 1, 5 ] },
@@ -185,7 +183,7 @@
       { "item": "condom", "prob": 40 },
       { "item": "razor_shaving", "prob": 40 },
       { "item": "scorecard", "prob": 40 },
-      { "item": "gummy_vitamins", "prob": 40 },
+      { "item": "gummy_vitamins", "prob": 40, "charges": 1 },
       { "item": "survnote", "prob": 25 },
       { "item": "joint_roach", "prob": 30 },
       { "item": "file", "prob": 30 },
@@ -201,7 +199,7 @@
       { "item": "button_plastic", "prob": 25, "count": [ 2, 8 ], "charges": 1 },
       { "item": "button_steel", "prob": 15, "count": [ 2, 4 ], "charges": 1 },
       { "item": "bearing", "prob": 15, "charges-min": 1, "charges-max": 3 },
-      { "prob": 15, "group": "adderall_bottle_plastic_pill_prescription_1" },
+      { "item": "adderall", "prob": 15, "charges": 1 },
       { "item": "lighter", "prob": 10, "charges-min": 0, "charges-max": 90 },
       { "item": "zipper_short_plastic", "prob": 10 },
       { "item": "bracelet_friendship", "prob": 10 },
@@ -228,12 +226,12 @@
       { "item": "dog_whistle", "prob": 6 },
       { "item": "whistle_multitool", "prob": 6 },
       { "item": "slingshot", "prob": 5 },
-      { "prob": 5, "group": "weak_antibiotic_bottle_plastic_pill_prescription_1" },
+      { "item": "weak_antibiotic", "prob": 5, "charges": 1 },
       { "item": "paint_brush", "prob": 5 },
       { "item": "chopsticks", "prob": 2 },
       { "item": "office_holepunch", "prob": 2, "count": [ 1, 3 ] },
       { "item": "nuts_bolts", "prob": 50, "charges-min": 3, "charges-max": 12 },
-      { "prob": 1, "count": 1, "group": "melatonin_tablet_bottle_plastic_pill_supplement_10" }
+      { "item": "melatonin_tablet", "prob": 1, "count": 1 }
     ]
   },
   {
@@ -264,8 +262,7 @@
       { "item": "solder_wire", "prob": 40 },
       { "item": "superglue", "prob": 40 },
       { "item": "knitting_needles", "prob": 40 },
-      { "item": "duct_tape", "prob": 40, "charges": [ 5, 160 ] },
-      { "item": "wax_paraffin", "prob": 10 },
+      { "item": "duct_tape", "prob": 40, "charges": [ 5, 160 ], "container-item": "box_small" },
       { "item": "zipper_short_plastic", "prob": 35 },
       { "item": "zipper_short_plastic", "prob": 15 },
       { "item": "felt_patch", "count": [ 1, 3 ], "prob": 30 },
@@ -283,8 +280,7 @@
       { "item": "polaroid_photo", "prob": 10 },
       { "item": "RPG_die", "prob": 10 },
       { "item": "chopsticks", "prob": 10 },
-      { "item": "soldering_iron", "prob": 10 },
-      { "item": "soldering_iron_portable", "prob": 10, "charges": [ 0, 50 ] },
+      { "item": "soldering_iron", "prob": 10, "charges": [ 0, 50 ] },
       { "item": "pipe_cleaner", "count": [ 3, 15 ], "prob": 10 },
       { "item": "balloon", "prob": 8, "count": [ 10, 20 ] },
       { "item": "bead_bracelet", "count": [ 5, 9 ], "prob": 5 },
@@ -304,13 +300,12 @@
       { "group": "tools_common", "count": 2 },
       { "item": "superglue", "prob": 90 },
       { "item": "boxcutter", "prob": 85 },
-      { "item": "duct_tape", "prob": 85, "charges": [ 5, 200 ] },
+      { "item": "duct_tape", "prob": 85, "charges": [ 5, 200 ], "container-item": "box_small" },
       { "item": "flashlight", "prob": 80, "ammo-item": "light_disposable_cell", "charges": [ 100, 300 ] },
       { "item": "toothbrush_plain", "custom-flags": [ "FILTHY" ], "prob": 80 },
       { "item": "bottle_opener", "prob": 75 },
       { "item": "pockknife", "prob": 75 },
       { "item": "cordless_drill", "prob": 70 },
-      { "item": "corded_powerdrill", "prob": 20 },
       { "item": "scissors", "prob": 65 },
       { "item": "pliers", "prob": 65 },
       { "item": "permanent_marker", "prob": 70, "charges-min": 50 },
@@ -327,8 +322,7 @@
       { "item": "hinge", "prob": 30, "count": 3 },
       { "item": "bearing", "prob": 25, "charges-min": 12, "charges-max": 75 },
       { "item": "stapler", "prob": 25 },
-      { "item": "soldering_iron", "prob": 25 },
-      { "item": "soldering_iron_portable", "prob": 150, "charges": [ 0, 50 ] },
+      { "item": "soldering_iron", "prob": 25, "charges": [ 5, 45 ] },
       { "item": "xacto", "prob": 25 },
       { "item": "kevlar_shears", "prob": 10 },
       { "item": "tin_snips", "prob": 10 },
@@ -337,11 +331,11 @@
       { "item": "old_key", "prob": 20, "count": [ 1, 6 ] },
       { "item": "office_letter_opener", "prob": 15 },
       { "item": "razor_blade", "count": [ 1, 3 ], "prob": 15 },
-      { "prob": 15, "group": "bottle_otc_painkiller_1_20" },
+      { "item": "aspirin", "prob": 15, "charges": [ 1, 20 ] },
       { "item": "reading_light", "prob": 15, "charges": [ 0, 50 ] },
       { "item": "book_binder", "prob": 15 },
       { "item": "paint_brush", "prob": 10 },
-      { "item": "gum", "prob": 10, "count": [ 1, 10 ] },
+      { "item": "gum", "prob": 10, "charges": [ 1, 10 ] },
       { "item": "comb_pocket", "prob": 10 },
       { "item": "picklocks", "prob": 5 },
       { "item": "fitness_band", "prob": 5 },
@@ -369,17 +363,15 @@
       { "item": "candle", "count": [ 1, 2 ], "prob": 75, "charges-min": 70 },
       { "item": "corkscrew", "prob": 70 },
       { "group": "adhesive_bandages_box_used", "prob": 60 },
-      { "item": "duct_tape", "prob": 40, "charges": [ 100, 400 ] },
-      { "item": "superglue", "prob": 30 },
       { "item": "light_battery_cell", "count": 4, "prob": 50, "charges": 100 },
       { "item": "deck_of_cards", "prob": 50 },
       { "item": "teleumbrella", "prob": 50 },
-      { "prob": 50, "group": "bottle_otc_painkiller_20" },
+      { "item": "aspirin", "prob": 50 },
       { "item": "fancy_sunglasses", "prob": 50 },
       { "item": "matches", "prob": 50, "charges": 20 },
       { "item": "ref_matches", "prob": 50, "charges": 32 },
       { "item": "dog_whistle", "prob": 40 },
-      { "item": "gum", "prob": 40, "count": 10 },
+      { "item": "gum", "prob": 40 },
       { "item": "multitool", "prob": 40 },
       { "item": "hairpin", "prob": 40 },
       { "item": "candlestick", "prob": 30 },
@@ -439,7 +431,7 @@
       { "item": "pot_copper", "prob": 75 },
       { "item": "stock_pot", "prob": 50 },
       { "item": "pot_canning", "prob": 25 },
-      { "item": "colander_steel", "prob": 80 },
+      { "item": "colander_steel", "prob": 40 },
       { "item": "splatter_guard", "prob": 20 },
       { "item": "pan", "count": [ 1, 2 ] },
       { "item": "steel_pan", "prob": 80 },
@@ -483,9 +475,6 @@
       { "group": "big_canned_food", "prob": 20, "count": [ 1, 2 ] },
       { "group": "dry_goods", "prob": 80, "count": [ 1, 3 ] },
       { "group": "preserved_food", "prob": 20, "count": [ 1, 2 ] },
-      { "item": "garlic", "prob": 66, "count": [ 1, 3 ] },
-      { "item": "onion", "prob": 66, "count": [ 1, 3 ] },
-      { "item": "potato", "prob": 30, "count": [ 2, 12 ] },
       { "group": "pet_food", "prob": 50 }
     ]
   },
@@ -497,13 +486,13 @@
     "subtype": "collection",
     "entries": [
       { "item": "microwave", "prob": 90 },
-      { "item": "food_processor", "prob": 70 },
+      { "item": "food_processor", "prob": 70, "charges": [ 0, 500 ] },
       { "item": "waffleiron", "prob": 45 },
-      { "item": "multi_cooker", "prob": 25 },
+      { "item": "multi_cooker", "prob": 25, "charges": [ 0, 500 ] },
       { "item": "pastaextruder", "prob": 10 },
       { "item": "dehydrator", "prob": 10 },
-      { "item": "hotplate", "prob": 10 },
-      { "item": "hotplate_induction", "prob": 1 },
+      { "item": "hotplate", "prob": 10, "charges": [ 0, 500 ] },
+      { "item": "hotplate_induction", "prob": 1, "charges": [ 0, 500 ] },
       { "collection": [ { "item": "charcoal", "prob": 70 }, { "item": "char_smoker", "prob": 100 } ], "prob": 5 },
       {
         "collection": [
@@ -526,36 +515,26 @@
     "//2": "This group is for a cupboard where coffee and tea supplies are kept.",
     "subtype": "collection",
     "entries": [
-      { "distribution": [ { "item": "coffeemaker", "prob": 90 }, { "item": "atomic_coffeepot", "prob": 10 } ], "prob": 75 },
+      {
+        "distribution": [ { "item": "coffeemaker", "prob": 90, "charges": [ 0, 500 ] }, { "item": "atomic_coffeepot", "prob": 10 } ],
+        "prob": 75
+      },
       {
         "distribution": [
           { "item": "coffee_raw", "prob": 30 },
           { "item": "instant_coffee", "prob": 40, "count": [ 1, 5 ] },
-          {
-            "item": "coffee_raw",
-            "prob": 30,
-            "count": [ 1, 200 ],
-            "container-item": "null",
-            "entry-wrapper": "can_food_big"
-          }
+          { "item": "coffee_raw", "prob": 30, "charges": [ 1, 200 ], "container-item": "can_food_big" }
         ],
         "prob": 80
       },
-      { "count": [ 1, 10 ], "prob": 80, "group": "tea_raw_bag_plastic_33" },
-      { "count": [ 1, 10 ], "prob": 40, "group": "tea_green_raw_bag_plastic_33" },
+      { "item": "tea_raw", "count": [ 1, 10 ], "prob": 80 },
+      { "item": "tea_green_raw", "count": [ 1, 10 ], "prob": 40 },
       { "item": "teapot", "prob": 70 },
       { "item": "kettle", "prob": 50 },
-      { "prob": 90, "sealed": false, "group": "sugar_jar_glass_sealed_10_120" },
+      { "item": "sugar", "charges": [ 10, 120 ], "container-item": "jar_glass_sealed", "prob": 90, "sealed": false },
       {
         "distribution": [
-          {
-            "item": "milk_powder",
-            "count": [ 5, 20 ],
-            "container-item": "null",
-            "entry-wrapper": "jar_3l_glass_sealed",
-            "prob": 60,
-            "sealed": false
-          },
+          { "item": "milk_powder", "charges": [ 5, 20 ], "container-item": "jar_glass_sealed", "prob": 60, "sealed": false },
           { "item": "con_milk", "count": [ 1, 6 ], "prob": 10 },
           { "item": "milk_evap", "count": [ 1, 6 ], "prob": 20 },
           { "item": "milk_UHT", "prob": 10 }
@@ -583,34 +562,16 @@
           { "item": "toaster" },
           {
             "distribution": [
-              { "item": "bread", "count": [ 2, 14 ], "prob": 70, "container-item": "null", "entry-wrapper": "bag_plastic" },
-              {
-                "item": "sourdough_bread",
-                "count": [ 2, 12 ],
-                "prob": 30,
-                "container-item": "null",
-                "entry-wrapper": "bag_plastic"
-              }
+              { "item": "bread", "charges": [ 2, 14 ], "prob": 70 },
+              { "item": "sourdough_bread", "charges": [ 2, 12 ], "prob": 30 }
             ],
             "prob": 80
           },
           {
             "distribution": [
-              { "item": "toastem", "count": [ 1, 8 ], "prob": 40, "container-item": "null", "entry-wrapper": "box_small" },
-              {
-                "item": "toastem2",
-                "count": [ 1, 8 ],
-                "prob": 30,
-                "container-item": "null",
-                "entry-wrapper": "box_small"
-              },
-              {
-                "item": "toastem3",
-                "count": [ 1, 8 ],
-                "prob": 30,
-                "container-item": "null",
-                "entry-wrapper": "box_small"
-              }
+              { "item": "toastem", "charges": [ 1, 8 ], "prob": 40 },
+              { "item": "toastem2", "charges": [ 1, 8 ], "prob": 30 },
+              { "item": "toastem3", "charges": [ 1, 8 ], "prob": 30 }
             ],
             "prob": 60
           }
@@ -629,14 +590,7 @@
       },
       {
         "distribution": [
-          {
-            "item": "milk_powder",
-            "count": [ 5, 20 ],
-            "container-item": "null",
-            "entry-wrapper": "jar_3l_glass_sealed",
-            "prob": 60,
-            "sealed": false
-          },
+          { "item": "milk_powder", "charges": [ 5, 20 ], "container-item": "jar_glass_sealed", "prob": 60, "sealed": false },
           { "item": "milk_evap", "count": [ 1, 6 ], "prob": 20 },
           { "item": "milk_UHT", "prob": 20 }
         ],
@@ -670,34 +624,10 @@
       {
         "distribution": [
           { "item": "pot", "prob": 20 },
-          {
-            "item": "tuna_noodle_casserole",
-            "count": 4,
-            "container-item": "null",
-            "entry-wrapper": "casserole",
-            "prob": 10
-          },
-          {
-            "item": "hot_corn_casserole",
-            "count": 4,
-            "container-item": "null",
-            "entry-wrapper": "casserole",
-            "prob": 10
-          },
-          {
-            "item": "cheesy_spinach_casserole",
-            "count": 4,
-            "container-item": "null",
-            "entry-wrapper": "casserole",
-            "prob": 5
-          },
-          {
-            "item": "lazy_lobster_casserole",
-            "count": 4,
-            "container-item": "null",
-            "entry-wrapper": "casserole",
-            "prob": 2
-          },
+          { "item": "tuna_noodle_casserole", "charges": 8, "container-item": "casserole", "prob": 10 },
+          { "item": "hot_corn_casserole", "charges": 8, "container-item": "casserole", "prob": 10 },
+          { "item": "cheesy_spinach_casserole", "charges": 8, "container-item": "casserole", "prob": 5 },
+          { "item": "lazy_lobster_casserole", "charges": 8, "container-item": "casserole", "prob": 2 },
           { "item": "pot_copper", "prob": 5 },
           { "item": "iron_pot", "prob": 5 }
         ],
@@ -728,18 +658,18 @@
     "//2": "This group is for cupboard, drawer, or rack with spices.",
     "subtype": "collection",
     "entries": [
-      { "count": [ 2, 4 ], "group": "salt_bag_plastic_100" },
-      { "group": "pepper_bag_plastic_100" },
-      { "prob": 75, "group": "cinnamon_bag_plastic_100" },
-      { "prob": 75, "group": "chilly-p_bag_plastic_100" },
-      { "prob": 15, "group": "sugar_box_small_71" },
-      { "prob": 5, "group": "artificial_sweetener_box_small_71" },
-      { "prob": 25, "group": "curry_powder_bag_plastic_100" },
-      { "prob": 25, "group": "garlic_powder_bag_plastic_100" },
-      { "prob": 10, "group": "sprinkles_bottle_plastic_small_62" },
+      { "item": "salt", "count": [ 2, 4 ] },
+      { "item": "pepper" },
+      { "item": "cinnamon", "prob": 75 },
+      { "item": "chilly-p", "prob": 75 },
+      { "item": "sugar", "prob": 15 },
+      { "item": "artificial_sweetener", "prob": 5 },
+      { "item": "curry_powder", "prob": 25 },
+      { "item": "garlic_powder", "prob": 25 },
+      { "item": "sprinkles", "prob": 10 },
       { "item": "thyme", "prob": 65 },
-      { "prob": 50, "group": "seasoning_italian_bag_plastic_100" },
-      { "prob": 50, "group": "seasoning_salt_bag_plastic_100" }
+      { "item": "seasoning_italian", "prob": 50 },
+      { "item": "seasoning_salt", "prob": 50 }
     ]
   },
   {
@@ -753,7 +683,6 @@
       { "item": "soap_holder", "prob": 40 },
       { "item": "razor_shaving", "count": [ 1, 2 ], "prob": 20 },
       { "group": "cotton_ball_bag_used", "prob": 50 },
-      { "group": "cotton_ball_bag_full", "prob": 5 },
       { "item": "comb_lice", "prob": 2 },
       { "item": "bleach", "prob": 15, "charges-min": 1 },
       { "item": "ammonia_hydroxide", "prob": 20, "charges-min": 1 },
@@ -776,78 +705,25 @@
     "entries": [
       {
         "distribution": [
-          {
-            "item": "aspirin",
-            "prob": 50,
-            "count": [ 1, 30 ],
-            "container-item": "null",
-            "entry-wrapper": "bottle_plastic_pill_painkiller"
-          },
-          {
-            "item": "acetaminophen",
-            "prob": 70,
-            "count": [ 1, 30 ],
-            "container-item": "null",
-            "entry-wrapper": "bottle_plastic_pill_painkiller"
-          },
-          {
-            "item": "ibuprofen",
-            "prob": 80,
-            "count": [ 1, 30 ],
-            "container-item": "null",
-            "entry-wrapper": "bottle_plastic_pill_painkiller"
-          },
-          {
-            "item": "naproxen",
-            "prob": 20,
-            "count": [ 1, 30 ],
-            "container-item": "null",
-            "entry-wrapper": "bottle_plastic_pill_painkiller"
-          },
-          {
-            "item": "codeine",
-            "prob": 30,
-            "count": [ 1, 15 ],
-            "container-item": "null",
-            "entry-wrapper": "bottle_plastic_pill_painkiller"
-          },
-          {
-            "item": "tramadol",
-            "prob": 10,
-            "count": [ 1, 15 ],
-            "container-item": "null",
-            "entry-wrapper": "bottle_plastic_pill_painkiller"
-          }
+          { "item": "aspirin", "prob": 160, "charges": [ 1, 30 ] },
+          { "item": "codeine", "prob": 30, "charges": [ 1, 15 ] },
+          { "item": "tramadol", "prob": 10, "charges": [ 1, 15 ] }
         ],
         "prob": 95
       },
       { "item": "comb_lice", "prob": 10 },
-      { "item": "eyedrops", "prob": 15, "count": 10 },
-      { "item": "pepto", "prob": 60, "charges-min": 1, "container-item": "bottle_plastic_small" },
-      { "prob": 60, "group": "tums_bottle_plastic_small_1_20" },
+      { "item": "eyedrops", "prob": 15 },
+      { "item": "pepto", "prob": 70, "charges-min": 1, "container-item": "bottle_plastic_small" },
       { "item": "inhaler", "prob": 25, "charges-min": 10, "charges-max": 100 },
       { "group": "tampon_box_used", "prob": 20 },
       { "group": "menstrual_pad_box_used", "prob": 20 },
       { "item": "menstrual_cup", "prob": 2 },
       { "item": "disinfectant", "prob": 40, "charges-min": 1 },
       { "group": "alcohol_wipes_box_used", "prob": 60 },
-      { "group": "alcohol_wipes_box_full", "prob": 20 },
       {
         "distribution": [
-          {
-            "item": "pills_sleep",
-            "prob": 60,
-            "count": [ 1, 10 ],
-            "container-item": "null",
-            "entry-wrapper": "bottle_plastic_pill_prescription"
-          },
-          {
-            "item": "melatonin_tablet",
-            "prob": 40,
-            "count": [ 1, 30 ],
-            "container-item": "null",
-            "entry-wrapper": "bottle_plastic_pill_prescription"
-          }
+          { "item": "pills_sleep", "prob": 60, "charges": [ 1, 10 ] },
+          { "item": "melatonin_tablet", "prob": 40, "charges": [ 1, 30 ] }
         ],
         "prob": 10
       },
@@ -867,71 +743,46 @@
       },
       {
         "distribution": [
-          {
-            "item": "vitamins",
-            "prob": 60,
-            "count-min": 1,
-            "count-max": 40,
-            "container-item": "null",
-            "entry-wrapper": "bottle_plastic_small"
-          },
+          { "item": "vitamins", "prob": 60, "charges-min": 1, "charges-max": 40, "container-item": "bottle_plastic_small" },
           {
             "item": "gummy_vitamins",
             "prob": 20,
-            "count-min": 1,
-            "count-max": 20,
-            "container-item": "null",
-            "entry-wrapper": "bottle_plastic_small"
+            "charges-min": 1,
+            "charges-max": 20,
+            "container-item": "bottle_plastic_small"
           },
           {
             "item": "calcium_tablet",
             "prob": 10,
-            "count-min": 1,
-            "count-max": 40,
-            "container-item": "null",
-            "entry-wrapper": "bottle_plastic_small"
+            "charges-min": 1,
+            "charges-max": 40,
+            "container-item": "bottle_plastic_small"
           }
         ],
         "prob": 80
       },
       {
         "distribution": [
-          {
-            "item": "weak_antibiotic",
-            "prob": 40,
-            "count-min": 1,
-            "count-max": 20,
-            "container-item": "null",
-            "entry-wrapper": "bottle_plastic_small"
-          },
+          { "item": "weak_antibiotic", "prob": 40, "charges-min": 1, "charges-max": 20, "container-item": "bottle_plastic_small" },
           {
             "item": "antibiotics",
             "prob": 10,
-            "count-min": 1,
-            "count-max": 20,
-            "container-item": "null",
-            "entry-wrapper": "bottle_plastic_small"
+            "charges-min": 1,
+            "charges-max": 20,
+            "container-item": "bottle_plastic_small"
           }
         ],
         "prob": 10
       },
       {
         "distribution": [
-          {
-            "item": "antifungal",
-            "prob": 5,
-            "count-min": 1,
-            "count-max": 10,
-            "container-item": "null",
-            "entry-wrapper": "bottle_plastic_small"
-          },
+          { "item": "antifungal", "prob": 5, "charges-min": 1, "charges-max": 10, "container-item": "bottle_plastic_small" },
           {
             "item": "antiparasitic",
             "prob": 20,
-            "count-min": 1,
-            "count-max": 10,
-            "container-item": "null",
-            "entry-wrapper": "bottle_plastic_pill_prescription"
+            "charges-min": 1,
+            "charges-max": 10,
+            "container-item": "bottle_plastic_small"
           }
         ],
         "prob": 5
@@ -1109,45 +960,5 @@
       { "group": "gloves_unisex", "prob": 30 },
       { "group": "hats_unisex", "prob": 10 }
     ]
-  },
-  {
-    "type": "item_group",
-    "id": "adderall_bottle_plastic_pill_prescription_1",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "bottle_plastic_pill_prescription",
-    "entries": [ { "item": "adderall", "container-item": "null" } ]
-  },
-  {
-    "type": "item_group",
-    "id": "weak_antibiotic_bottle_plastic_pill_prescription_1",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "bottle_plastic_pill_prescription",
-    "entries": [ { "item": "weak_antibiotic", "container-item": "null" } ]
-  },
-  {
-    "type": "item_group",
-    "id": "sugar_jar_glass_sealed_10_120",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "jar_glass_sealed",
-    "entries": [ { "item": "sugar", "container-item": "null", "count": [ 10, 120 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "garlic_powder_bag_plastic_100",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "bag_plastic",
-    "entries": [ { "item": "garlic_powder", "container-item": "null", "count": 100 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "tums_bottle_plastic_small_1_20",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "bottle_plastic_small",
-    "entries": [ { "item": "tums", "container-item": "null", "count": [ 1, 20 ] } ]
   }
 ]

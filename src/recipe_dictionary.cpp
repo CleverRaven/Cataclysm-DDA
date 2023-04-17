@@ -3,24 +3,26 @@
 #include <algorithm>
 #include <iterator>
 #include <memory>
+#include <new>
+#include <type_traits>
 #include <unordered_map>
 #include <utility>
 
 #include "cata_algo.h"
 #include "cata_utility.h"
 #include "crafting_gui.h"
-#include "display.h"
 #include "debug.h"
 #include "init.h"
-#include "input.h"
 #include "item.h"
 #include "item_factory.h"
 #include "itype.h"
+#include "json.h"
 #include "make_static.h"
 #include "mapgen.h"
 #include "output.h"
 #include "requirements.h"
 #include "skill.h"
+#include "translations.h"
 #include "uistate.h"
 #include "units.h"
 #include "value_ptr.h"
@@ -274,9 +276,6 @@ std::vector<const recipe *> recipe_subset::search(
                 }
             }
 
-            case search_type::activity_level:
-                return lcmatch( display::activity_level_str( r->exertion_level() ), txt );
-
             default:
                 return false;
         }
@@ -475,9 +474,6 @@ bool recipe_dictionary::is_item_on_loop( const itype_id &i ) const
 void recipe_dictionary::finalize_internal( std::map<recipe_id, recipe> &obj )
 {
     for( auto &elem : obj ) {
-        erase_if( elem.second.nested_category_data, [&]( const recipe_id & nest ) {
-            return !nest.is_valid() || nest->will_be_blacklisted();
-        } );
         elem.second.finalize();
         inp_mngr.pump_events();
     }
@@ -644,8 +640,8 @@ void recipe_dictionary::finalize()
 
 void recipe_dictionary::check_consistency()
 {
-    for( const auto &e : recipe_dict.recipes ) {
-        const recipe &r = e.second;
+    for( auto &e : recipe_dict.recipes ) {
+        recipe &r = e.second;
 
         if( r.category.empty() ) {
             if( !r.subcategory.empty() ) {
@@ -671,8 +667,8 @@ void recipe_dictionary::check_consistency()
         }
     }
 
-    for( const auto &e : recipe_dict.recipes ) {
-        const recipe &r = e.second;
+    for( auto &e : recipe_dict.recipes ) {
+        recipe &r = e.second;
 
         if( !r.blueprint.is_empty() && !has_update_mapgen_for( r.blueprint ) ) {
             debugmsg( "recipe %s specifies invalid construction_blueprint %s; that should be a "

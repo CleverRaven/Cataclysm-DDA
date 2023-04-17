@@ -2,7 +2,7 @@
   {
     "id": "carbine_flintlock",
     "copy-from": "rifle_flintlock",
-    "looks_like": "modular_ar15",
+    "looks_like": "ar15",
     "type": "GUN",
     "price": 40000,
     "price_postapoc": 2250,
@@ -10,7 +10,6 @@
     "description": "This short rifle design once dominated the battlefields of ancient Europe, and may yet re-earn its feared status due to its ease of handling and ability to use easily-crafted ammunition.",
     "valid_mod_locations": [
       [ "sling", 1 ],
-      [ "bayonet lug", 1 ],
       [ "grip mount", 1 ],
       [ "rail mount", 1 ],
       [ "sights mount", 1 ],
@@ -64,13 +63,13 @@
     "clip_size": 1,
     "reload": 2500,
     "valid_mod_locations": [ [ "grip mount", 1 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ], [ "underbarrel mount", 1 ] ],
-    "flags": [ "NEVER_JAMS", "EASY_CLEAN" ],
+    "flags": [ "NEVER_JAMS" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "flintlock": 1 } } ],
     "melee_damage": { "bash": 5 }
   },
   {
     "id": "rifle_flintlock",
-    "looks_like": "modular_ar15",
+    "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": { "str": "flintlock musket" },
@@ -96,14 +95,13 @@
     "reload": 3000,
     "valid_mod_locations": [
       [ "sling", 1 ],
-      [ "bayonet lug", 1 ],
       [ "underbarrel", 1 ],
       [ "grip mount", 1 ],
       [ "rail mount", 1 ],
       [ "sights mount", 1 ],
       [ "stock mount", 1 ]
     ],
-    "flags": [ "NEVER_JAMS", "DURABLE_MELEE", "EASY_CLEAN" ],
+    "flags": [ "NEVER_JAMS", "DURABLE_MELEE" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "flintlock": 1 } } ],
     "melee_damage": { "bash": 15 }
   },
@@ -128,7 +126,7 @@
     "longest_side": "1278 mm",
     "price": 42000,
     "price_postapoc": 2500,
-    "range": 12,
+    "relative": { "range": 2 },
     "proportional": { "dispersion": 0.5, "reload": 1.1 }
   }
 ]

@@ -1,4 +1,4 @@
-# Terrain/Furniture Examination Actions
+# Terrain/Furniture examination actions
 
 These are actions that will be performed when a terrain/furniture is examined.
 The hardcoded examine actions specified as a `"examine_action": "ACTION"`, where `ACTION` is replaced with one of the strings from the list below.

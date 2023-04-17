@@ -161,7 +161,7 @@ TEST_CASE( "Infections_from_filthy_clothing", "[coverage]" )
 {
     SECTION( "Full melee and ranged coverage vs. melee attack" ) {
         const float chance = get_avg_melee_dmg( "test_zentai", true );
-        check_near( "Infection chance", chance, 0.48f, 0.05f );
+        check_near( "Infection chance", chance, 0.42f, 0.05f );
     }
 
     SECTION( "No melee coverage vs. melee attack" ) {
@@ -187,7 +187,7 @@ TEST_CASE( "Ranged_coverage_vs_bullet", "[coverage] [ranged]" )
 {
     SECTION( "Full melee and ranged coverage vs. ranged attack" ) {
         const float dmg = get_avg_bullet_dmg( "test_hazmat_suit" );
-        check_near( "Average damage", dmg, 15.4f, 0.2f );
+        check_near( "Average damage", dmg, 13.6f, 0.2f );
     }
 
     SECTION( "No ranged coverage vs. ranged attack" ) {
@@ -223,8 +223,8 @@ TEST_CASE( "Ghost_ablative_vest", "[coverage]" )
 {
     SECTION( "Ablative not covered same limb" ) {
         item full = item( "test_ghost_vest" );
-        full.force_insert_item( item( "test_plate" ), pocket_type::CONTAINER );
-        full.force_insert_item( item( "test_plate" ), pocket_type::CONTAINER );
+        full.force_insert_item( item( "test_plate" ), item_pocket::pocket_type::CONTAINER );
+        full.force_insert_item( item( "test_plate" ), item_pocket::pocket_type::CONTAINER );
         item empty = item( "test_ghost_vest" );
 
         // make sure vest only covers torso_upper when it has armor in it
@@ -241,7 +241,7 @@ TEST_CASE( "Off_Limb_Ghost_ablative_vest", "[coverage]" )
 {
     SECTION( "Ablative not covered seperate limb" ) {
         item full = item( "test_ghost_vest" );
-        full.force_insert_item( item( "test_plate_skirt_super" ), pocket_type::CONTAINER );
+        full.force_insert_item( item( "test_plate_skirt_super" ), item_pocket::pocket_type::CONTAINER );
 
         standard_npc dude( "TestCharacter", dude_pos, {}, 0, 8, 8, 8, 8 );
         dude.wear_item( full, false );

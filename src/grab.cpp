@@ -83,9 +83,9 @@ bool game::grabbed_veh_move( const tripoint &dp )
     const auto &wheel_indices = grabbed_vehicle->wheelcache;
     if( grabbed_vehicle->valid_wheel_config() ) {
         //determine movecost for terrain touching wheels
-        const tripoint_bub_ms vehpos = grabbed_vehicle->pos_bub();
+        const tripoint vehpos = grabbed_vehicle->global_pos3();
         for( int p : wheel_indices ) {
-            const tripoint_bub_ms wheel_pos = vehpos + grabbed_vehicle->part( p ).precalc[0];
+            const tripoint wheel_pos = vehpos + grabbed_vehicle->part( p ).precalc[0];
             const int mapcost = m.move_cost( wheel_pos, grabbed_vehicle );
             mc += str_req / wheel_indices.size() * mapcost;
         }
@@ -114,7 +114,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
         ///\EFFECT_STR increases speed of dragging vehicles
         u.moves -= 400 * str_req / std::max( 1, str );
         ///\EFFECT_STR decreases stamina cost of dragging vehicles
-        u.burn_energy_all( -200 * str_req / std::max( 1, str ) );
+        u.mod_stamina( -200 * str_req / std::max( 1, str ) );
         const int ex = dice( 1, 6 ) - 1 + str_req;
         if( ex > str + 1 ) {
             // Pain and movement penalty if exertion exceeds character strength
@@ -202,9 +202,8 @@ bool game::grabbed_veh_move( const tripoint &dp )
 
     for( int p : wheel_indices ) {
         if( one_in( 2 ) ) {
-            vehicle_part &vp_wheel = grabbed_vehicle->part( p );
-            tripoint wheel_p = grabbed_vehicle->global_part_pos3( vp_wheel );
-            grabbed_vehicle->handle_trap( wheel_p, vp_wheel );
+            tripoint wheel_p = grabbed_vehicle->global_part_pos3( grabbed_part );
+            grabbed_vehicle->handle_trap( wheel_p, p );
         }
     }
 

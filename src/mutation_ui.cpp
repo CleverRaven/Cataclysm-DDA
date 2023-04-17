@@ -3,6 +3,7 @@
 #include <algorithm> //std::min
 #include <cstddef>
 #include <functional>
+#include <new>
 #include <string>
 #include <unordered_map>
 
@@ -10,7 +11,7 @@
 #include "color.h"
 #include "cursesdef.h"
 #include "enums.h"
-#include "input_context.h"
+#include "input.h"
 #include "inventory.h"
 #include "mutation.h"
 #include "output.h"
@@ -48,14 +49,14 @@ static const auto shortcut_desc = []( const std::string_view comment, const std:
 
 // needs extensive improvement
 
-static std::optional<trait_id> GetTrait( const std::vector<trait_id> &active,
-        const std::vector<trait_id> &passive,
-        int cursor, mutation_tab_mode tab_mode )
+static trait_id GetTrait( const std::vector<trait_id> &active,
+                          const std::vector<trait_id> &passive,
+                          int cursor, mutation_tab_mode tab_mode )
 {
-    std::optional<trait_id> mut_id;
+    trait_id mut_id;
     if( tab_mode == mutation_tab_mode::active ) {
         mut_id = active[cursor];
-    } else if( tab_mode == mutation_tab_mode::passive ) {
+    } else {
         mut_id = passive[cursor];
     }
     return mut_id;

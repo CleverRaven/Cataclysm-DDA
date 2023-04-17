@@ -1,4 +1,3 @@
-# Game Balance
 # Stat system scaling:
 Ranges below will be using strength as the example since it's the easiest to itemize, but what the numbers mean is equivalent between all stats.
 

@@ -1,4 +1,3 @@
-#pragma once
 #ifndef CATA_SRC_MATH_PARSER_FUNC_H
 #define CATA_SRC_MATH_PARSER_FUNC_H
 

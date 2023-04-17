@@ -27,7 +27,6 @@
   * [Spawn npcs with "place_npcs"](#spawn-npcs-with-place_npcs)
   * [Set variables with "place_variables"](#set-variables-with-place_variables)
   * [Spawn specific items with a "place_item" array](#spawn-specific-items-with-a-place_item-array)
-  * [Set the owner of items in a given area with "faction_owner"](#apply-faction-ownership)
   * [Extra map features with specials](#extra-map-features-with-specials)
     * [Place smoke, gas, or blood with "fields"](#place-smoke-gas-or-blood-with-fields)
     * [Place NPCs with "npcs"](#place-npcs-with-npcs)
@@ -243,25 +242,11 @@ in [`ants.json`](../data/json/mapgen/bugs/ants.json).
 ### Define mapgen "weight"
 
 (optional) When the game randomly picks mapgen functions, each function's weight value determines how rare it is. 1000
-is the default, so having two maps with the same `"om_terrain"` id, one using the default weight and the other with weight '500',
-the latter will appear half as often. Changing this to non-zero values does nothing if only one map uses the `om_terrain` id.
-(An insanely high value like 10000000 is useful for testing.)
+is the default, so adding something with weight '500' will make it appear about half as often as others using the default weight. (An insanely high value like 10000000 is useful for testing.)
 
-Values: number or [variable object](NPCs.md#variable-object) - *0 disables*
+Values: number - *0 disables*
 
 Default: 1000
-
-Examples:
-```json
-    "//": "disable this variant"
-    "weight": 0,
-    "//2": "constant weight"
-    "weight": 500,
-    "//3": "evaluated dynamically from global variable"
-    "weight": { "global_val": "my_weight" },
-    "//4": "evaluated dynamically from math expression"
-    "weight": { "math": [ "my_weight * time_since('cataclysm', 'unit': 'days')" ] }
-```
 
 
 ## How "overmap_terrain" variables affect mapgen
@@ -561,7 +546,6 @@ Value: `[ array of {objects} ]: [ { "monster": ... } ]`
 | one_or_none | Do not allow more than one to spawn due to high spawn density. If repeat is not defined or pack size is defined this defaults to true, otherwise this defaults to false. Ignored when spawning from a group.
 | friendly    | Set true to make the monster friendly. Default false.
 | name        | Extra name to display on the monster.
-| random_name | Options for generating a name for this monster. If not set, the value of name will be used. If set to "random", "female", or "male", a random unisex/female/male given name will be used. If set to "snippet", any snippets in `name` will be expanded, and that will be the name given.
 | target      | Set to true to make this into mission target. Only works when the monster is spawned from a mission.
 | spawn_data  | An optional object that contains additional details for spawning the monster.
 | use_pack_size | An optional bool, defaults to false.  If it is true and `group` is used then pack_size values from the monster group will be used.
@@ -670,21 +654,6 @@ Example:
 | custom-flags | (optional) Value: `[ "flag1", "flag2" ]`. Spawn item with specific flags.
 
 The special custom flag "ACTIVATE_ON_PLACE" causes the item to be activated as it is placed.  This is useful to have noisemakers that are already turned on as the avatar approaches.  It can also be used with explosives with a 1 second countdown to have locations explode as the avatar approaches, creating uniquely ruined terrain.
-
-## Set the owner of items in a given area with "faction_owner"
-**optional** Define an area where mapgen-spawned items will have faction ownership applied
-
-Example:
-```json
-"faction_owner": [ { "id": "exodii", "x": [ 5, 17 ], "y": [ 5, 18 ] } ],
-```
-
-| Field  | Description
-| ---    | ---
-| id     | (required) ID of the faction to apply ownership to.
-| x, y   | (required) Spawn coordinates. Value from `0-23`, or range `[ 0-23, 0-23 ]` for a random value in that range.
-
-This is an array, so multiple entries can be defined.
 
 ## Extra map features with specials
 **optional** Special map features that do more than just placing furniture / terrain.
@@ -835,7 +804,7 @@ Example:
 
 ### Place signs with "signs"
 
-Places a sign with a message written on it. Either "signage" or "snippet" must be defined.  The
+Places a sign (furniture `f_sign`) with a message written on it. Either "signage" or "snippet" must be defined.  The
 message may include tags like `<full_name>`, `<given_name>`, and `<family_name>` that will insert a randomly generated
 name, or `<city>` that will insert the nearest city name.
 
@@ -845,11 +814,10 @@ Example:
 "signs": { "P": { "signage": "Subway map: <city> stop" } }
 ```
 
-| Field     | Description
-| ---       | ---
-| signage   | (optional, string) the message that should appear on the sign.
-| snippet   | (optional, string) a category of snippets that can appear on the sign.
-| furniture | (optional, string) the furniture used to display the message, defaults to f_sign.  Furniture used needs the SIGN flag and the sign examine_action if you want the message to popup on examine (still displays in look around otherwise).
+| Field   | Description
+| ---     | ---
+| signage | (optional, string) the message that should appear on the sign.
+| snippet | (optional, string) a category of snippets that can appear on the sign.
 
 
 ### Place a vending machine and items with "vendingmachines"
@@ -887,7 +855,7 @@ Places a gas pump with fuel in it.
 | Field   | Description
 | ---     | ---
 | item    | (required, string or itemgroup object) the item group to use.
-| chance  | (optional, integer or min/max array) x in 100 chance that a loop will continue to spawn items from the group (which itself may spawn multiple items or not depending on its type, see `ITEM_SPAWN.md`), unless the chance is 100, in which case it will trigger the item group spawn exactly 1 time (see `map::place_items`). Default is 1 in 100 chance.
+| chance  | (optional, integer or min/max array) x in 100 chance that a loop will continue to spawn items from the group (which itself may spawn multiple items or not depending on its type, see `ITEM_SPAWN.md`), unless the chance is 100, in which case it will trigger the item group spawn exactly 1 time (see `map::place_items`).
 | repeat  | (optional, integer or min/max array) the number of times to repeat this placement, default is 1.
 | faction | (optional, string) the faction that owns these items.
 
@@ -1144,17 +1112,14 @@ an `update_mapgen`, as normal mapgen can just specify the terrain directly.
 
 ### Spawn nested chunks based on overmap neighbors with "place_nested"
 
-Place_nested allows for conditional spawning of chunks based on the `"id"`s and/or flags of their overmap neighbors, the joins that were used in placing a mutable overmap special or the maps' predecessors.  This is useful for creating smoother transitions between biome types or to dynamically create walls at the edges of a mutable structure.
+Place_nested allows for limited conditional spawning of chunks based on the `"id"`s of their overmap neighbors and the joins that were used in placing a mutable overmap special.  This is useful for creating smoother transitions between biome types or to dynamically create walls at the edges of a mutable structure.
 
 | Field              | Description
 | ---                | ---
 | chunks/else_chunks | (required, string) the nested_mapgen_id of the chunk that will be conditionally placed. Chunks are placed if the specified neighbor matches, and "else_chunks" otherwise.
 | x and y            | (required, int) the cardinal position in which the chunk will be placed.
-| neighbors          | (optional) Any of the neighboring overmaps that should be checked before placing the chunk.  Each direction is associated with a list of overmap `"id"` substrings.  See [JSON_INFO.md](JSON_INFO.md#Starting-locations) "terrain" section to do more advanced searches, note this field defaults to CONTAINS not TYPE.
+| neighbors          | (optional) Any of the neighboring overmaps that should be checked before placing the chunk.  Each direction is associated with a list of overmap `"id"` substrings.
 | joins              | (optional) Any mutable overmap special joins that should be checked before placing the chunk.  Each direction is associated with a list of join `"id"` strings.
-| flags              | (optional) Any overmap terrain flags that should be checked before placing the chunk.  Each direction is associated with a list of `oter_flags` flags.
-| flags_any          | (optional) Identical to flags except only requires a single direction to pass.  Useful to check if there's at least one of a flag in cardinal or orthoganal directions etc.
-| predecessors       | (optional) Any of the maps' predecessors that should be checked before placing the chunk. Only useful if using fallback_predecessor_mapgen.
 
 
 The adjacent overmaps which can be checked in this manner are:
@@ -1168,23 +1133,16 @@ Example:
 
 ```json
   "place_nested": [
-    { "chunks": [ "nest1" ], "x": 0, "y": 0, "neighbors": { "north": [ "empty_rock", "field" ] } },
-    { "chunks": [ "nest2" ], "x": 0, "y": 0, "neighbors": { "north": [ { "om_terrain": "fort", "om_terrain_match_type": "PREFIX" }, "mansion" ] } },
-    { "chunks": [ "nest3" ], "x": 0, "y": 0, "joins": { "north": [ "interior_to_exterior" ] } },
-    { "chunks": [ "nest4" ], "x": 0, "y": 0, "flags": { "north": [ "RIVER" ] }, "flags_any": { "north_east": [ "RIVER" ], "north_west": [ "RIVER" ] } },
-    { "else_chunks": [ "nest5" ], "x": 0, "y": 0, "flags": { "north_west": [ "RIVER", "LAKE", "LAKE_SHORE" ] } },
-    { "chunks": [ "nest6" ], "x": 0, "y": 0, "predecessors": [ "field", { "om_terrain": "river", "om_terrain_match_type": "PREFIX" } ] },
-    { "chunks": [ "nest7" ], "x": 0, "y": 0, "neighbors": { "north": [  { "om_terrain": "road_curved", "om_terrain_match_type": "SUBTYPE" } ] } }
+    { "chunks": [ "concrete_wall_ew" ], "x": 0, "y": 0, "neighbors": { "north": [ "empty_rock", "field" ] } },
+    { "chunks": [ "gate_north" ], "x": 0, "y": 0, "joins": { "north": [ "interior_to_exterior" ] } },
+    { "else_chunks": [ "concrete_wall_ns" ], "x": 0, "y": 0, "neighbors": { "north_west": [ "field", "microlab" ] } }
   ],
 ```
 The code excerpt above will place chunks as follows:
-* `"nest1"` if the north neighbor's om terrain contains `"field"` or `"empty_rock"`.
-* `"nest2"` if the north neighbor has the prefix `"fort"` or contains `"mansion"`, so for example `"fort_1a_north"` and `"mansion_t2u"` would match but `"house_fortified"` wouldn't.
-* `"nest3"` if the join `"interior_to_exterior"` was used to the north during mutable overmap placement.
-* `"nest4"` if the north neighboring overmap terrain has a flag `"RIVER"` and either of the north east or north west neighboring overmap terrains have a `"RIVER"` flag.
-* `"nest5"` if the north west neighboring overmap terrain has neither the `"RIVER"`, `"LAKE"` nor `"LAKE_SHORE"` flags.
-* `"nest6"` if the there's a predecessor present of either `"field"` or any overmap with the prefix `"river"`.
-* `"nest7"` if the north neighbor's om terrain is one of `"road_ne"`, `"road_es"`, `"road_sw"` and `"road_wn"`.
+* `"concrete_wall_ew"` if the north neighbor is either a field or solid rock
+* `"gate_north"` if the join `"interior_to_exterior"` was used to the north
+  during mutable overmap placement.
+* `"concrete_wall_ns"`if the north west neighbor is neither a field nor any of the microlab overmaps.
 
 
 ### Place monster corpse from a monster group with "place_corpses"

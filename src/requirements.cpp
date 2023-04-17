@@ -39,8 +39,10 @@ static const itype_id itype_char_forge( "char_forge" );
 static const itype_id itype_crucible( "crucible" );
 static const itype_id itype_fire( "fire" );
 static const itype_id itype_forge( "forge" );
+static const itype_id itype_mold_plastic( "mold_plastic" );
 static const itype_id itype_oxy_torch( "oxy_torch" );
 static const itype_id itype_press( "press" );
+static const itype_id itype_sewing_kit( "sewing_kit" );
 static const itype_id itype_welder( "welder" );
 static const itype_id itype_welder_crude( "welder_crude" );
 
@@ -989,11 +991,8 @@ nc_color item_comp::get_color( bool has_one, const read_only_visitable &crafting
         const inventory *inv = static_cast<const inventory *>( &crafting_inv );
         // Will use non-empty liquid container
         if( std::any_of( type->pockets.begin(), type->pockets.end(), []( const pocket_data & d ) {
-        return d.type == pocket_type::CONTAINER && d.watertight;
+        return d.type == item_pocket::pocket_type::CONTAINER && d.watertight;
     } ) && inv != nullptr && inv->must_use_liq_container( type, count * batch ) ) {
-            return c_magenta;
-        }
-        if( inv != nullptr && inv->must_use_hallu_poison( type, count * batch ) ) {
             return c_magenta;
         }
         // Will use favorited component
@@ -1191,6 +1190,14 @@ requirement_data requirement_data::disassembly_requirements() const
                 replaced = true;
                 break;
             }
+            //This only catches instances where the two tools are explicitly stated, and not just the required sewing quality
+            if( type == itype_sewing_kit ||
+                type == itype_mold_plastic ) {
+                new_qualities.emplace_back( qual_CUT, 1, 1 );
+                replaced = true;
+                break;
+            }
+
             if( type == itype_crucible ) {
                 replaced = true;
                 break;
@@ -1486,15 +1493,6 @@ void requirement_data::dump( JsonOut &jsout ) const
     dump_req_vec( components, jsout );
 
     jsout.end_object();
-}
-
-uint64_t requirement_data::make_hash() const
-{
-    std::ostringstream stream;
-    JsonOut json( stream );
-    dump( json );
-    std::hash<std::string> hasher;
-    return hasher( stream.str() );
 }
 
 /// Helper function for deduped_requirement_data constructor below.

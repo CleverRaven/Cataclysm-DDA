@@ -1,7 +1,0 @@
-[
-  {
-    "type": "palette",
-    "id": "trail_path_palette",
-    "terrain": { ".": "t_deaddirt" }
-  }
-]

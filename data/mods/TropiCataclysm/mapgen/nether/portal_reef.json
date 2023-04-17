@@ -3,6 +3,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "portal_reef" ],
+    "weight": 100,
     "object": {
       "rows": [
         "     ..............     ",

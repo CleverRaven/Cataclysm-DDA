@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 #
-# Modified by the Cataclysm: Dark Days Ahead project.
-#
 #===- check_clang_tidy.py - ClangTidy Test Helper ------------*- python -*--===#
 #
 # Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
@@ -22,7 +20,6 @@ Usage:
     [-check-suffix=<comma-separated-file-check-suffixes>] \
     [-check-suffixes=<comma-separated-file-check-suffixes>] \
     [-std=c++(98|11|14|17|20)[-or-later]] \
-    [-clang-tidy-binary=<path/to/clang-tidy>] \
     <source-file> <check-name> <temp-file> \
     -- [optional clang-tidy arguments]
 
@@ -33,11 +30,6 @@ Notes:
   -std=c++(98|11|14|17|20)-or-later:
     This flag will cause multiple runs within the same check_clang_tidy
     execution. Make sure you don't have shared state across these runs.
-  optional clang-tidy arguments:
-    Passed to clang-tidy. Use another `--` to separate clang-tidy and clang
-    arguments. Although optional clang-tidy arguments before the first `--`
-    is supported, care should be taken as it may cause unexpected behavior for
-    specific argument types and orders (https://github.com/CleverRaven/Cataclysm-DDA/pull/66315/files#r1247288210)
 """
 
 import argparse
@@ -90,7 +82,6 @@ class CheckRunner:
     self.original_file_name = self.temp_file_name + ".orig"
     self.expect_clang_tidy_error = args.expect_clang_tidy_error
     self.std = args.std
-    self.clang_tidy_binary = args.clang_tidy_binary
     self.check_suffix = args.check_suffix
     self.input_text = ''
     self.has_check_fixes = False
@@ -176,7 +167,7 @@ class CheckRunner:
     write_file(self.original_file_name, cleaned_test)
 
   def run_clang_tidy(self):
-    args = [self.clang_tidy_binary, self.temp_file_name, '-fix', '--checks=-*,' + self.check_name] + \
+    args = ['clang-tidy', self.temp_file_name, '-fix', '--checks=-*,' + self.check_name] + \
         self.clang_tidy_extra_args + ['--'] + self.clang_extra_args
     if self.expect_clang_tidy_error:
       args.insert(0, 'not')
@@ -260,7 +251,6 @@ def parse_arguments():
     help='comma-separated list of FileCheck suffixes')
   parser.add_argument('-std', type=csv, default=['c++11-or-later'])
   parser.add_argument('-allow-stdinc', action='store_true')
-  parser.add_argument('-clang-tidy-binary', default='clang-tidy')
   return parser.parse_known_args()
 
 

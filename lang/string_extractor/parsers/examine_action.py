@@ -1,5 +1,5 @@
 from ..write_text import write_text
-from .effect import parse_effect_on_condition
+from .effect_on_condition import parse_effect_on_condition
 
 
 def parse_examine_action(json, origin, name):
@@ -15,5 +15,4 @@ def parse_examine_action(json, origin, name):
     if "effect_on_conditions" in json:
         for eoc in json["effect_on_conditions"]:
             if type(eoc) is dict:
-                parse_effect_on_condition(eoc, origin,
-                                          "examine action of {}".format(name))
+                parse_effect_on_condition(eoc, origin)

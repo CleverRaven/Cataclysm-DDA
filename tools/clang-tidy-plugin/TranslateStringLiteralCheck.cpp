@@ -30,6 +30,7 @@ void TranslateStringLiteralCheck::registerMatchers( MatchFinder *Finder )
                                         hasAnyName(
                                             "_",
                                             "translation_argument_identity",
+                                            "gettext",
                                             "pgettext",
                                             "n_gettext",
                                             "npgettext"

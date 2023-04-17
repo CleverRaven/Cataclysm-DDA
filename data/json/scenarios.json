@@ -11,18 +11,6 @@
   },
   {
     "type": "scenario",
-    "id": "friend_liam",
-    "name": "Friends to the End",
-    "points": -10,
-    "description": "You and your friends always talked about what you'd do when the world ended… now it's come true, and you've made your way to a remote cabin your friend Liam always said to head for.  It's been a hell of a journey.  You hope Liam and the others made it in one piece.",
-    "allowed_locs": [ "sloc_liam_cabin" ],
-    "start_name": "Liam's Cabin",
-    "eoc": [ "scenario_liam" ],
-    "missions": [ "MISSION_FIND_LIAM" ],
-    "flags": [ "CITY_START", "LONE_START" ]
-  },
-  {
-    "type": "scenario",
     "id": "squatter",
     "name": "Squatter",
     "points": -1,
@@ -79,15 +67,11 @@
       "sloc_mall_food_court",
       "sloc_apartments_rooftop",
       "sloc_apartments_rooftop2",
-      "sloc_apartment_complex_roof",
       "sloc_hospital",
       "sloc_school",
-      "sloc_school_rooftop",
       "sloc_hotel_rooftop",
       "sloc_office_tower_rooftop",
-      "sloc_office_tower_2_rooftop",
-      "sloc_cathedral_rooftop",
-      "sloc_convention_center_rooftop"
+      "sloc_cathedral_rooftop"
     ],
     "start_name": "In Large Building",
     "flags": [ "CITY_START", "LONE_START" ]
@@ -152,6 +136,7 @@
       "sloc_horse_ranch",
       "sloc_lighthouse_ground",
       "sloc_lodge_ground",
+      "sloc_freshwater_research_station",
       "sloc_light_industry_scen"
     ],
     "start_name": "Safe Building",
@@ -421,7 +406,6 @@
     "forced_traits": [ "ILLITERATE", "ANTIJUNK", "STRONGSTOMACH", "SPIRITUAL" ],
     "forbidden_traits": [ "FASTREADER", "SLOWREADER" ],
     "requirement": "achievement_witnessed_portal_storm",
-    "reveal_locale": false,
     "flags": [ "CHALLENGE", "LONE_START" ]
   },
   {
@@ -475,7 +459,6 @@
       "ELECTRORECEPTORS"
     ],
     "requirement": "achievement_reach_lab_finale",
-    "reveal_locale": false,
     "flags": [ "CHALLENGE", "CITY_START", "LONE_START" ]
   },
   {
@@ -532,8 +515,7 @@
     "start_name": "Outside Town",
     "surround_groups": [ [ "GROUP_BLACK_ROAD", 70.0 ] ],
     "flags": [ "LONE_START" ],
-    "start_of_cataclysm": { "hour": 0, "day": 61, "season": "spring", "year": 1 },
-    "start_of_game": { "hour": 8, "day": 1, "season": "winter", "year": 1 },
+    "custom_initial_date": { "season": "winter" },
     "add_professions": true,
     "professions": [ "sheltered_survivor", "sheltered_militia", "winter_scavenger", "winter_army" ],
     "requirement": "achievement_survive_91_days"
@@ -558,8 +540,7 @@
     ],
     "start_name": "Outside Town",
     "flags": [ "LONE_START" ],
-    "start_of_cataclysm": { "hour": 0, "day": 61, "season": "spring", "year": 1 },
-    "start_of_game": { "hour": 8, "day": 1, "season": "summer", "year": 2 },
+    "custom_initial_date": { "season": "summer", "year": 2 },
     "add_professions": true,
     "professions": [ "sheltered_survivor", "sheltered_militia", "winter_scavenger", "winter_army" ],
     "requirement": "achievement_survive_91_days"
@@ -572,8 +553,7 @@
     "description": "It's been a year since the apocalypse, and winter is fast approaching.  You and your company have managed to gather up enough supplies to finally settle down somewhere, away from the death and destruction.  Life has been hard for you, but in your heart you still hold a vision of a bright future lying ahead.",
     "start_name": "Old Evac Shelter",
     "allowed_locs": [ "sloc_shelter_a", "sloc_shelter_b", "sloc_shelter_c" ],
-    "start_of_cataclysm": { "hour": 0, "day": 61, "season": "spring", "year": 1 },
-    "start_of_game": { "hour": 8, "day": 1, "season": "autumn", "year": 2 },
+    "custom_initial_date": { "season": "autumn", "year": 2 },
     "add_professions": true,
     "professions": [ "sheltered_survivor", "sheltered_militia", "winter_scavenger", "winter_army" ],
     "requirement": "achievement_survive_91_days",
@@ -589,8 +569,7 @@
     "allowed_locs": [ "sloc_lmoe_empty", "sloc_shelter_a", "sloc_shelter_b", "sloc_shelter_c" ],
     "start_name": "Enclosed Shelter",
     "flags": [ "LONE_START" ],
-    "start_of_cataclysm": { "hour": 0, "day": 61, "season": "spring", "year": 1 },
-    "start_of_game": { "hour": 8, "day": 1, "season": "winter", "year": 1 },
+    "custom_initial_date": { "season": "winter" },
     "professions": [ "sheltered_militia", "sheltered_survivor", "unemployed" ]
   },
   {
@@ -648,7 +627,6 @@
       "cop"
     ],
     "requirement": "achievement_reach_island_prison",
-    "reveal_locale": false,
     "flags": [ "LONE_START", "CHALLENGE" ]
   },
   {
@@ -661,10 +639,8 @@
     "start_name": "Mi-Go Camp",
     "professions": [ "captive", "rescuer" ],
     "requirement": "achievement_reach_mi-Go_encampment",
-    "reveal_locale": false,
     "flags": [ "LONE_START", "CHALLENGE" ],
-    "start_of_cataclysm": { "hour": 0, "day": 61, "season": "spring", "year": 1 },
-    "start_of_game": { "hour": 8, "day": 1, "season": "winter", "year": 1 }
+    "custom_initial_date": { "season": "winter" }
   },
   {
     "type": "scenario",
@@ -714,7 +690,6 @@
       "CHITIN",
       "ELECTRORECEPTORS"
     ],
-    "reveal_locale": false,
     "flags": [ "LONE_START" ]
   },
   {
@@ -932,7 +907,6 @@
   },
   {
     "type": "scenario",
-    "copy-from": "mutant",
     "id": "portal_dependent",
     "name": "Challenge - Portal Dependent",
     "points": -8,
@@ -941,22 +915,9 @@
     "flags": [ "CHALLENGE", "LONE_START" ],
     "start_name": "Field",
     "allowed_locs": [ "sloc_field", "sloc_forest", "sloc_desert_island" ],
-    "eoc": [ "scenario_strong_portal_storm", "scenario_portal_dependent" ],
+    "eoc": [ "scenario_strong_portal_storm" ],
     "requirement": "achievement_reach_lab_finale",
-    "reveal_locale": false,
-    "professions": [
-      "portal_traveler",
-      "churl",
-      "true_foodperson",
-      "unemployed",
-      "naked",
-      "mutant_patient",
-      "mutant_volunteer",
-      "labtech",
-      "security",
-      "medic",
-      "paranormal_investigator"
-    ]
+    "professions": [ "portal_traveler", "churl", "true_foodperson", "unemployed", "naked" ]
   },
   {
     "type": "scenario",
@@ -1046,7 +1007,6 @@
       "combat-engineer"
     ],
     "requirement": "achievement_reach_aircraft_carrier",
-    "reveal_locale": false,
     "flags": [ "CHALLENGE", "LONE_START" ]
   },
   {
@@ -1126,8 +1086,7 @@
     "description": "You were camping in the wild to let things back home cool off.  One night strange noises closed in on you and you were attacked.  You managed to get away but can feel things moving in the dark.",
     "id": "camp_attack_start",
     "points": 0,
-    "start_of_cataclysm": { "hour": 0, "day": 61, "season": "spring", "year": 1 },
-    "start_of_game": { "hour": 1, "day": 61, "season": "spring", "year": 1 },
+    "custom_initial_date": { "hour": 1 },
     "start_name": "Wilderness",
     "eoc": [ "scenario_surrounded_zombie_heavy" ],
     "allowed_locs": [
@@ -1236,20 +1195,12 @@
   {
     "type": "scenario",
     "id": "shattered_sky_start",
-    "name": "Challenge - Shattered Sky",
+    "name": "Challenge - Shattered sky",
     "points": -5,
     "description": "From up here, you watched it all fall apart.  The sky cracked and indescribable alien shapes writhed in the clouds.  The horizon has returned to normal, but you still see shadows moving in the corner of your eye and feel them calling you.",
     "forced_traits": [ "SCHIZOPHRENIC" ],
     "start_name": "Up Above",
-    "allowed_locs": [
-      "sloc_apartments_rooftop",
-      "sloc_apartments_rooftop2",
-      "sloc_hotel_rooftop",
-      "sloc_school_rooftop",
-      "sloc_office_tower_rooftop",
-      "sloc_apartment_complex_roof",
-      "sloc_convention_center_rooftop"
-    ],
+    "allowed_locs": [ "sloc_apartments_rooftop", "sloc_apartments_rooftop2", "sloc_hotel_rooftop", "sloc_office_tower_rooftop" ],
     "eoc": [ "scenario_strong_portal_storm_base" ],
     "requirement": "achievement_reach_mid_z_level",
     "flags": [ "LONE_START", "CITY_START", "CHALLENGE" ]
@@ -1279,12 +1230,11 @@
   {
     "type": "scenario",
     "id": "road_start",
-    "name": "Middle of Nowhere",
+    "name": "Middle of nowhere",
     "points": 1,
     "description": "During your escape you got lost and ended up at the wrong location.  Get your bearings and make a plan.  You'll need it.",
     "start_name": "Middle of Nowhere",
-    "allowed_locs": [ "sloc_middle_of_nowhere" ],
-    "reveal_locale": false
+    "allowed_locs": [ "sloc_middle_of_nowhere" ]
   },
   {
     "type": "scenario",
@@ -1293,19 +1243,6 @@
     "points": 1,
     "description": "When the riots came to your home, you ran underground and hid.  Now days later you are lost and hear movement echoing in the dark.",
     "start_name": "Underground",
-    "allowed_locs": [ "sloc_sewer" ],
-    "reveal_locale": false
-  },
-  {
-    "type": "scenario",
-    "id": "last_stand_start",
-    "name": "Challenge - Last Stand",
-    "points": -1,
-    "description": "Together with some others you decided to take up arms against the horde.  Now you are reconsidering whether that was a wise choice.",
-    "start_name": "Intersection",
-    "allowed_locs": [ "sloc_nesw_manhole" ],
-    "requirement": "achievement_kill_10_monsters",
-    "map_extra": "mx_laststand",
-    "flags": [ "CITY_START", "LONE_START" ]
+    "allowed_locs": [ "sloc_sewer" ]
   }
 ]

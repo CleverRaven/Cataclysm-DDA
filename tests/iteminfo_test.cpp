@@ -185,7 +185,7 @@ TEST_CASE( "item_material_category_description", "[iteminfo][material][category]
                "Material: <color_c_light_blue>Steel</color>, <color_c_light_blue>Wood</color>\n" );
 
         CHECK( item_info_str( axe, category ) ==
-               "Category: <color_c_magenta>Tools</color>\n" );
+               "Category: <color_c_magenta>TOOLS</color>\n" );
 
         CHECK( item_info_str( axe, description ) ==
                "--\n"
@@ -200,7 +200,7 @@ TEST_CASE( "item_material_category_description", "[iteminfo][material][category]
                "Material: <color_c_light_blue>Wood</color>\n" );
 
         CHECK( item_info_str( plank, category ) ==
-               "Category: <color_c_magenta>Spare parts</color>\n" );
+               "Category: <color_c_magenta>SPARE PARTS</color>\n" );
 
         CHECK( item_info_str( plank, description ) ==
                "--\n"
@@ -707,9 +707,9 @@ TEST_CASE( "techniques_when_wielded", "[iteminfo][weapon][techniques]" )
            "--\n"
            "<color_c_white>Techniques when wielded</color>:"
            " <color_c_light_blue>Brutal Strike</color>:"
-           " <color_c_cyan>Stun 1 turn, knockback 1 tile, crit only, min 2 melee</color> <color_c_cyan>* Only works on a <color_c_cyan>non-stunned mundane</color> target of <color_c_cyan>similar or smaller</color> size, may fail on enemies grabbing you</color>,"
+           " <color_c_cyan>Stun 1 turn, knockback 1 tile, crit only</color> <color_c_cyan>* Only works on a <color_c_cyan>non-stunned mundane</color> target of <color_c_cyan>similar or smaller</color> size, may fail on enemies grabbing you</color>,"
            " <color_c_light_blue>Sweep Attack</color>:"
-           " <color_c_cyan>Down 2 turns, min 3 melee</color> <color_c_cyan>* Only works on a <color_c_cyan>non-downed humanoid</color> target of <color_c_cyan>similar or smaller</color> size incapable of flight</color>, and"
+           " <color_c_cyan>Down 2 turns</color> <color_c_cyan>* Only works on a <color_c_cyan>non-downed humanoid</color> target of <color_c_cyan>similar or smaller</color> size incapable of flight</color>, and"
            " <color_c_light_blue>Block</color>:"
            " <color_c_cyan>Medium blocking ability</color> <color_c_cyan></color>\n" );
 
@@ -1230,7 +1230,7 @@ static void expected_armor_values( const item &armor, float bash, float cut, flo
 
 TEST_CASE( "armor_stats", "[armor][protection]" )
 {
-    expected_armor_values( item( itype_zentai ), 0.1f, 0.1f, 0.08f, 0.1f );
+    expected_armor_values( item( itype_zentai ), 0.2f, 0.2f, 0.16f, 0.2f );
     expected_armor_values( item( itype_tshirt ), 0.1f, 0.1f, 0.08f, 0.1f );
     expected_armor_values( item( itype_dress_shirt ), 0.1f, 0.1f, 0.08f, 0.1f );
 }
@@ -1247,7 +1247,7 @@ TEST_CASE( "armor_stats", "[armor][protection]" )
 // Materials and protection calculations are not tested here; only their display in item info.
 //
 // item::armor_protection_info
-TEST_CASE( "armor_protection", "[iteminfo][armor][protection][!mayfail]" )
+TEST_CASE( "armor_protection", "[iteminfo][armor][protection]" )
 {
     clear_avatar();
 
@@ -1279,11 +1279,11 @@ TEST_CASE( "armor_protection", "[iteminfo][armor][protection][!mayfail]" )
 
     SECTION( "moderate protection from physical and environmental damage" ) {
         // Hazmat suit, material:plastic, thickness:2
-        // 2/2/1 bash/cut/bullet x 2 thickness
+        // 2/2/2 bash/cut/bullet x 2 thickness
         // 9/1/20 acid/fire/env
         item hazmat( "test_hazmat_suit" );
         REQUIRE( hazmat.get_covered_body_parts().any() );
-        expected_armor_values( hazmat, 4, 4, 3.2, 2, 9, 1, 20 );
+        expected_armor_values( hazmat, 4, 4, 3.2, 4, 9, 1, 20 );
 
         // Protection info displayed on two lines
         CHECK( item_info_str( hazmat, protection ) ==
@@ -1294,35 +1294,11 @@ TEST_CASE( "armor_protection", "[iteminfo][armor][protection][!mayfail]" )
                "<color_c_white>Protection</color>:\n"
                "  Bash: <color_c_yellow>4.00</color>\n"
                "  Cut: <color_c_yellow>4.00</color>\n"
-               "  Ballistic: <color_c_yellow>2.00</color>\n"
+               "  Ballistic: <color_c_yellow>4.00</color>\n"
                "  Pierce: <color_c_yellow>3.20</color>\n"
                "  Acid: <color_c_yellow>9.00</color>\n"
                "  Fire: <color_c_yellow>1.00</color>\n"
                "  Environmental: <color_c_yellow>20</color>\n"
-             );
-    }
-
-    SECTION( "check that material resistances are properly overriden" ) {
-        // Zentai suit, material:lycra_resist_override_stab, thickness:1
-        // 2/2/2/50 bash/cut/bullet/stab x 1 thickness
-        item zentai( "test_zentai_resist_stab_cut" );
-        REQUIRE( zentai.get_covered_body_parts().any() );
-        expected_armor_values( zentai, 2, 2, 50, 2, 9, 2, 10 );
-
-        // Protection info displayed on two lines
-        CHECK( item_info_str( zentai, protection ) ==
-               "--\n"
-               "<color_c_white>Protection for</color>: The <color_c_cyan>arms</color>. The <color_c_cyan>eyes</color>. The <color_c_cyan>feet</color>. The <color_c_cyan>hands</color>. The <color_c_cyan>head</color>. The <color_c_cyan>legs</color>. The <color_c_cyan>mouth</color>. The <color_c_cyan>torso</color>.\n"
-               "<color_c_white>Coverage</color>: <color_c_light_blue>Close to skin</color>.\n"
-               "  Default:  <color_c_yellow>100</color>\n"
-               "<color_c_white>Protection</color>:\n"
-               "  Bash: <color_c_yellow>2.00</color>\n"
-               "  Cut: <color_c_yellow>2.00</color>\n"
-               "  Ballistic: <color_c_yellow>2.00</color>\n"
-               "  Pierce: <color_c_yellow>50.00</color>\n"
-               "  Acid: <color_c_yellow>9.00</color>\n"
-               "  Fire: <color_c_yellow>2.00</color>\n"
-               "  Environmental: <color_c_yellow>10</color>\n"
              );
     }
 
@@ -1351,16 +1327,16 @@ TEST_CASE( "armor_protection", "[iteminfo][armor][protection][!mayfail]" )
     SECTION( "pet armor with good physical and environmental protection" ) {
         // Kevlar cat harness, for reasons
         // material:layered_kevlar, thickness:2
-        // 1.5/2/5 bash/cut/bullet x 2 thickness
+        // 2/3/5 bash/cut/bullet x 2 thickness
         // 5/3/10 acid/fire/env
         item meower_armor( "test_meower_armor" );
-        expected_armor_values( meower_armor, 3, 4, 3.2, 10, 5, 3, 10 );
+        expected_armor_values( meower_armor, 4, 6, 4.8, 10, 5, 3, 10 );
 
         CHECK( item_info_str( meower_armor, protection ) ==
                "--\n"
                "<color_c_white>Protection</color>:\n"
-               "  Bash: <color_c_yellow>3.00</color>\n"
-               "  Cut: <color_c_yellow>4.00</color>\n"
+               "  Bash: <color_c_yellow>4.00</color>\n"
+               "  Cut: <color_c_yellow>6.00</color>\n"
                "  Ballistic: <color_c_yellow>10.00</color>\n"
                "  Acid: <color_c_yellow>5.00</color>\n"
                "  Fire: <color_c_yellow>3.00</color>\n"
@@ -1614,16 +1590,16 @@ TEST_CASE( "gun_or_other_ranged_weapon_attributes", "[iteminfo][weapon][gun]" )
         std::vector<iteminfo_parts> aim_stats = { iteminfo_parts::GUN_AIMING_STATS };
         CHECK( item_info_str( glock, aim_stats ) ==
                "--\n"
-               "<color_c_white>Base aim speed</color>: <color_c_yellow>29</color>\n"
+               "<color_c_white>Base aim speed</color>: <color_c_yellow>48</color>\n"
                "<color_c_cyan>Regular</color>\n"
-               "Even chance of good hit at range: <color_c_yellow>2</color>\n"
-               "Time to reach aim level: <color_c_yellow>233</color> moves\n"
-               "<color_c_cyan>Careful</color>\n"
                "Even chance of good hit at range: <color_c_yellow>3</color>\n"
-               "Time to reach aim level: <color_c_yellow>399</color> moves\n"
+               "Time to reach aim level: <color_c_yellow>99</color> moves\n"
+               "<color_c_cyan>Careful</color>\n"
+               "Even chance of good hit at range: <color_c_yellow>6</color>\n"
+               "Time to reach aim level: <color_c_yellow>165</color> moves\n"
                "<color_c_cyan>Precise</color>\n"
-               "Even chance of good hit at range: <color_c_yellow>4</color>\n"
-               "Time to reach aim level: <color_c_yellow>645</color> moves\n" );
+               "Even chance of good hit at range: <color_c_yellow>8</color>\n"
+               "Time to reach aim level: <color_c_yellow>263</color> moves\n" );
     }
 
     SECTION( "compatible magazines" ) {
@@ -1903,7 +1879,7 @@ TEST_CASE( "nutrients_in_food", "[iteminfo][food]" )
         // Values end up rounded slightly
         CHECK( item_info_str( ice_cream, { iteminfo_parts::FOOD_VITAMINS } ) ==
                "--\n"
-               "Vitamins (RDA): 83 mg Calcium (8%)\n" );
+               "Vitamins (RDA): Calcium (8%)\n" );
     }
 
     SECTION( "nutrient ranges for recipe exemplars", "[iteminfo]" ) {
@@ -1920,8 +1896,7 @@ TEST_CASE( "nutrients_in_food", "[iteminfo][food]" )
         CHECK( item_info_str( ice_cream, { iteminfo_parts::FOOD_VITAMINS } ) ==
                "--\n"
                "Nutrition will <color_cyan>vary with chosen ingredients</color>.\n"
-               "Vitamins (RDA): 63-354 mg Calcium (6-35%), 0-23 mg Iron (0-128%),"
-               " and 0-49 mg Vitamin C (0-54%)\n" );
+               "Vitamins (RDA): Calcium (6-35%), Iron (0-128%), and Vitamin C (0-56%)\n" );
     }
 }
 
@@ -2288,7 +2263,7 @@ TEST_CASE( "list_of_item_qualities", "[iteminfo][quality]" )
         // With enough charges
         int bat_charges = drill.type->charges_to_use();
         battery.ammo_set( battery.ammo_default(), bat_charges );
-        drill.put_in( battery, pocket_type::MAGAZINE_WELL );
+        drill.put_in( battery, item_pocket::pocket_type::MAGAZINE_WELL );
         REQUIRE( drill.ammo_remaining() == bat_charges );
 
         CHECK( item_info_str( drill, qualities ) ==
@@ -2487,14 +2462,14 @@ TEST_CASE( "repairable_and_with_what_tools", "[iteminfo][repair]" )
 
     CHECK( item_info_str( halligan, repaired ) ==
            "--\n"
-           "<color_c_white>Repair</color> using integrated welder, arc welder, makeshift arc welder, or high-temperature welding kit.\n"
+           "<color_c_white>Repair</color> using integrated multitool, arc welder, makeshift arc welder, or high-temperature welding kit.\n"
            "<color_c_white>With</color> <color_c_cyan>Steel</color>.\n"
          );
 
     // FIXME: Use an item that can only be repaired by test tools
     CHECK( item_info_str( hazmat, repaired ) ==
            "--\n"
-           "<color_c_white>Repair</color> using integrated welder, gunsmith repair kit, firearm repair kit, soldering iron, portable soldering iron, or TEST soldering iron.\n"
+           "<color_c_white>Repair</color> using gunsmith repair kit, firearm repair kit, soldering iron, TEST soldering iron, or integrated multitool.\n"
            "<color_c_white>With</color> <color_c_cyan>Plastic</color>.\n" );
 
     CHECK( item_info_str( rock, repaired ) ==
@@ -2801,6 +2776,7 @@ TEST_CASE( "ammo_restriction_info", "[iteminfo][ammo_restriction]" )
                "--\n"
                "Capacity: <color_c_yellow>1</color> round of arrows\n" );
 
+
     }
 }
 
@@ -2888,8 +2864,8 @@ TEST_CASE( "final_info", "[iteminfo][final]" )
 
         CHECK( item_info_str( wine_must, brew_products ) ==
                "--\n"
-               "* Fermenting this will produce <color_c_yellow>yeast</color>.\n"
-               "* Fermenting this will produce <color_c_yellow>test tennis ball wine</color>.\n" );
+               "* Fermenting this will produce <color_c_yellow>test tennis ball wine</color>.\n"
+               "* Fermenting this will produce <color_c_yellow>yeast</color>.\n" );
     }
 
     SECTION( "radioactivity" ) {
@@ -2960,7 +2936,7 @@ TEST_CASE( "item_debug_info", "[iteminfo][debug][!mayfail][.]" )
     }
 }
 
-TEST_CASE( "Armor_values_preserved_after_copy-from", "[iteminfo][armor][protection][!mayfail]" )
+TEST_CASE( "Armor_values_preserved_after_copy-from", "[iteminfo][armor][protection]" )
 {
     // Normal item definition, no copy
     item armor( itype_test_armor_chitin );

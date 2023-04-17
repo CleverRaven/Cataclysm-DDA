@@ -35,8 +35,7 @@ class item_category
 {
     private:
         /** Name of category for displaying to the user */
-        translation name_header_; // in inventory UI headers etc
-        translation name_noun_; // in descriptive text
+        translation name_;
         /** Used to sort categories when displaying.  Lower values are shown first. */
         int sort_rank_ = 0;
         /** Global spawn rate for items from category */
@@ -53,21 +52,15 @@ class item_category
         item_category() = default;
         /**
          * @param id @ref id_
-         * @param name_header @ref name_header_
-         * @param name_noun @ref name_noun_
+         * @param name @ref name_
          * @param sort_rank @ref sort_rank_
          */
-        item_category( const item_category_id &id, const translation &name_header,
-                       const translation &name_noun, const int sort_rank )
-            : name_header_( name_header ), name_noun_( name_noun )
-            , sort_rank_( sort_rank ), id( id ) {}
-        item_category( const std::string &id, const translation &name_header,
-                       const translation &name_noun, const int sort_rank )
-            : name_header_( name_header ), name_noun_( name_noun )
-            , sort_rank_( sort_rank ), id( item_category_id( id ) ) {}
+        item_category( const item_category_id &id, const translation &name, int sort_rank )
+            : name_( name ), sort_rank_( sort_rank ), id( id ) {}
+        item_category( const std::string &id, const translation &name, int sort_rank )
+            : name_( name ), sort_rank_( sort_rank ), id( item_category_id( id ) ) {}
 
-        std::string name_header() const;
-        std::string name_noun( int count ) const;
+        std::string name() const;
         item_category_id get_id() const;
         std::optional<zone_type_id> priority_zone( const item &it ) const;
         std::optional<zone_type_id> zone() const;
@@ -77,8 +70,7 @@ class item_category
         /**
          * Comparison operators
          *
-         * Used for sorting.  Will result in sorting by @ref sort_rank_, then by
-         * @ref name_header_, then by @ref id.
+         * Used for sorting.  Will result in sorting by @ref sort_rank, then by @ref name, then by @ref id.
          */
         /*@{*/
         bool operator<( const item_category &rhs ) const;

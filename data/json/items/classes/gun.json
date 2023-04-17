@@ -100,7 +100,7 @@
     "//": "diminutive backup pistols that lack underbarrel rails, sight dovetails and decent places to affix stocks.",
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "belt clip", 1 ],
+      [ "belt_clip", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
       [ "grip", 1 ],
@@ -118,7 +118,7 @@
     "type": "GUN",
     "name": { "str": "revolver" },
     "proportional": { "reload": 0.7 },
-    "extend": { "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS", "EASY_CLEAN" ] },
+    "extend": { "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS" ] },
     "//": "Revolvers exclude the muzzle location preventing installation of suppressors",
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "valid_mod_locations": [
@@ -138,7 +138,7 @@
     "type": "GUN",
     "name": { "str": "cap & ball revolver" },
     "reload": 150,
-    "extend": { "flags": [ "RELOAD_ONE", "NO_UNLOAD", "EASY_CLEAN" ] },
+    "extend": { "flags": [ "RELOAD_ONE", "NO_UNLOAD" ] },
     "//": "Slower reloads, no unloading.  Base, unskilled person should take 1.5 seconds per chamber.  No underbarrel mods, that's where the ram goes.",
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "valid_mod_locations": [ [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "stock", 1 ], [ "rail mount", 1 ], [ "sights mount", 1 ] ]
@@ -181,27 +181,6 @@
       [ "muzzle", 1 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "stock accessory", 2 ],
-      [ "underbarrel", 1 ]
-    ]
-  },
-  {
-    "abstract": "rifle_semi_vintage",
-    "copy-from": "rifle_base",
-    "type": "GUN",
-    "name": { "str": "vintage semi rifle" },
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "bore", 1 ],
-      [ "brass catcher", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 4 ],
-      [ "muzzle", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
       [ "stock accessory", 2 ],

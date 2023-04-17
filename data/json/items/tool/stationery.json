@@ -13,7 +13,7 @@
     "material": [ { "type": "plastic", "portion": 17 }, { "type": "aluminum", "portion": 3 } ],
     "symbol": ";",
     "color": "light_gray",
-    "//": "Based on https://www.amazon.com/dp/B079ZV4V3C"
+    "//": "Based on https://www.amazon.com/Amazon-Basics-Stapler-Capacity-Non-Slip/dp/B079ZV4V3C/ref=sr_1_5?crid=2ZKFCK28Z0F3E&keywords=stapler&qid=1684350703&sprefix=stapler%2Caps%2C284&sr=8-5&th=1"
   },
   {
     "id": "office_holepunch",
@@ -44,7 +44,6 @@
     "symbol": ";",
     "techniques": [ "PRECISE" ],
     "flags": [ "FRAGILE_MELEE", "BELT_CLIP", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
-    "weapon_category": [ "SHIVS" ],
     "to_hit": 1,
     "color": "light_gray",
     "melee_damage": { "bash": 2, "stab": 9 }
@@ -55,20 +54,19 @@
     "name": { "str": "pair of office scissors", "str_pl": "pairs of office scissors" },
     "description": "A long pair of heavy-duty scissors.  You can use them to cut things such as fabric or plastic apart.",
     "ascii_picture": "scissors",
-    "weight": "48 g",
-    "volume": "93 ml",
-    "longest_side": "18 cm",
-    "price": "14 USD",
+    "weight": "90 g",
+    "volume": "150 ml",
+    "longest_side": "22 cm",
+    "price": 500,
     "price_postapoc": 25,
-    "to_hit": { "grip": "solid", "length": "short", "surface": "point", "balance": "neutral" },
+    "to_hit": -1,
     "material": [ "steel", "plastic" ],
     "symbol": ",",
     "color": "light_red",
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 3 ], [ "FABRIC_CUT", 1 ] ],
-    "flags": [ "BELT_CLIP", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK", "NO_SALVAGE" ],
+    "flags": [ "BELT_CLIP", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "SHIVS" ],
-    "melee_damage": { "stab": 6 },
-    "//": "Based on https://www.amazon.com/dp/B001M0GB6Y"
+    "melee_damage": { "stab": 6 }
   },
   {
     "id": "scissors_child",
@@ -250,7 +248,28 @@
         "max_contains_volume": "2500 ml",
         "max_item_length": "300 mm",
         "moves": 150,
-        "flag_restriction": [ "PAPER_SHAPED" ]
+        "item_restriction": [
+          "paper",
+          "militarymap",
+          "survivormap",
+          "roadmap",
+          "subwaymap",
+          "trailmap",
+          "touristmap",
+          "restaurantmap",
+          "flyer",
+          "survnote",
+          "character_sheet",
+          "newest_newspaper",
+          "many_years_old_newspaper",
+          "years_old_newspaper",
+          "one_year_old_newspaper",
+          "months_old_newspaper",
+          "weeks_old_newspaper",
+          "death_note",
+          "note_mutant_alpha_boss",
+          "evac_pamphlet"
+        ]
       }
     ]
   }

@@ -21,7 +21,7 @@ TEST_CASE( "character_body_part_exposure", "[char][bodypart][exposure]" )
     std::map<bodypart_id, float> bp_exposure;
 
     GIVEN( "nothing is worn" ) {
-        dummy.clear_worn();
+        dummy.worn.clear();
 
         THEN( "exposure is 100% on all body parts" ) {
             bp_exposure = dummy.bodypart_exposure();

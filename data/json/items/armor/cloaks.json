@@ -135,12 +135,14 @@
       {
         "id": "leather_pride_flag",
         "name": { "str": "leather flag" },
-        "description": "A horizontally striped black and blue leather flag with a white band in the middle and red heart in a corner.  The black represents leather; the blue represents devotion, loyalty, and community; the white represents purity and innocence; and the red heart represents love for the community."
+        "description": "A horizontally striped black and blue leather flag with a white band in the middle and red heart in a corner.  The black represents leather; the blue represents devotion, loyalty, and community; the white represents purity and innocence; and the red heart represents love for the community.",
+        "weight": 1
       },
       {
         "id": "bear_pride_flag",
         "name": { "str": "bear flag" },
-        "description": "A large black and orange international bear brotherhood flag.  The flag displays seven horizontal stripes of colors ranging from black to brown representing the colours of different bear species, you can see a black bear paw in the upper right corner."
+        "description": "A large black and orange international bear brotherhood flag.  The flag displays seven horizontal stripes of colors ranging from black to brown representing the colours of different bear species, you can see a black bear paw in the upper right corner.",
+        "weight": 1
       }
     ]
   },
@@ -452,13 +454,6 @@
         "id": "cypriot_flag",
         "name": { "str": "Cypriot flag" },
         "description": "A white flag with a yellow emblem of the island stands in the center, two green olive branches stand below it.",
-        "weight": 10,
-        "append": true
-      },
-      {
-        "id": "central_african_flag",
-        "name": { "str": "Central African flag" },
-        "description": "A flag with horizontal stripes of blue, white, green and yellow coloration and one vertical red stripe down the middle with a star in the upper left corner.",
         "weight": 10,
         "append": true
       },
@@ -1144,7 +1139,7 @@
       {
         "id": "russian_flag",
         "name": { "str": "Russian flag" },
-        "description": "A simple horizontal tricolor flag of white, blue and red.",
+        "description": "A simple horizontal tricolor flag of white, blue and red",
         "weight": 10,
         "append": true
       },
@@ -1606,34 +1601,6 @@
     "color": "blue"
   },
   {
-    "id": "cape_catholic",
-    "type": "ARMOR",
-    "name": { "str": "ferraiolo" },
-    "description": "A long, crimson cape that reaches the ankles.  Worn by Catholic priests for ceremonious occasions.",
-    "weight": "1500 g",
-    "volume": "6 L",
-    "price": 50000,
-    "price_postapoc": 300,
-    "to_hit": -2,
-    "material": [ "cotton" ],
-    "symbol": "]",
-    "looks_like": "cloak",
-    "color": "red",
-    "warmth": 15,
-    "material_thickness": 0.5,
-    "flags": [ "OVERSIZE", "BELTED" ],
-    "armor": [
-      { "encumbrance": 6, "coverage": 95, "covers": [ "torso", "arm_r", "arm_l" ] },
-      {
-        "covers": [ "leg_l", "leg_r" ],
-        "coverage": 95,
-        "encumbrance": 6,
-        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
-        "layers": [ "BELTED" ]
-      }
-    ]
-  },
-  {
     "id": "grass_cloak",
     "type": "ARMOR",
     "name": { "str": "grass cloak" },
@@ -1650,16 +1617,7 @@
     "warmth": 10,
     "material_thickness": 0.4,
     "flags": [ "OVERSIZE", "BELTED" ],
-    "armor": [
-      { "encumbrance": 4, "coverage": 65, "covers": [ "torso" ] },
-      {
-        "covers": [ "leg_l", "leg_r" ],
-        "coverage": 65,
-        "encumbrance": 4,
-        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
-        "layers": [ "BELTED" ]
-      }
-    ]
+    "armor": [ { "encumbrance": 4, "coverage": 65, "covers": [ "torso", "leg_l", "leg_r" ] } ]
   },
   {
     "id": "cloak",
@@ -1675,49 +1633,11 @@
     "symbol": "[",
     "looks_like": "coat_rain",
     "color": "green",
-    "armor": [
-      { "encumbrance": 4, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r" ] },
-      {
-        "covers": [ "leg_l", "leg_r" ],
-        "coverage": 65,
-        "encumbrance": 4,
-        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
-        "layers": [ "BELTED" ]
-      }
-    ],
     "warmth": 30,
     "material_thickness": 0.4,
     "environmental_protection": 3,
-    "flags": [ "OVERSIZE", "HOOD", "BELTED" ]
-  },
-  {
-    "id": "cloak_denim",
-    "type": "ARMOR",
-    "name": { "str": "denim cloak" },
-    "description": "A heavy denim cloak worn over your body.  Warmer, sturdier and heavier than a cotton cloak.",
-    "//": "16.5 oz.",
-    "weight": "1800 g",
-    "volume": "4 L",
-    "price": 20000,
-    "price_postapoc": 1500,
-    "material": [ "denim" ],
-    "to_hit": -3,
-    "looks_like": "coat_rain",
-    "symbol": "[",
-    "color": "light_blue",
-    "flags": [ "OVERSIZE", "HOOD", "BELTED", "STURDY" ],
-    "armor": [
-      { "encumbrance": 8, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r" ] },
-      {
-        "covers": [ "leg_l", "leg_r" ],
-        "coverage": 65,
-        "encumbrance": 8,
-        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
-        "layers": [ "BELTED" ]
-      }
-    ],
-    "warmth": 50,
-    "material_thickness": 1.1
+    "flags": [ "OVERSIZE", "HOOD", "BELTED" ],
+    "armor": [ { "encumbrance": 4, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
   },
   {
     "id": "cloak_vampire",
@@ -1736,17 +1656,8 @@
     "warmth": 10,
     "material_thickness": 0.2,
     "environmental_protection": 1,
-    "flags": [ "OVERSIZE", "HOOD", "BELTED" ],
-    "armor": [
-      { "encumbrance": 2, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r" ] },
-      {
-        "covers": [ "leg_l", "leg_r" ],
-        "coverage": 65,
-        "encumbrance": 2,
-        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
-        "layers": [ "BELTED" ]
-      }
-    ],
+    "flags": [ "OVERSIZE", "HOOD", "BELTED", "FANCY" ],
+    "armor": [ { "encumbrance": 2, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ],
     "use_action": {
       "type": "transform",
       "msg": "Your cloak is now bathed in blood.",
@@ -1785,16 +1696,7 @@
     "warmth": 8,
     "material_thickness": 0.1,
     "flags": [ "OVERSIZE", "BELTED" ],
-    "armor": [
-      { "encumbrance": 2, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r" ] },
-      {
-        "covers": [ "leg_l", "leg_r" ],
-        "coverage": 65,
-        "encumbrance": 2,
-        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
-        "layers": [ "BELTED" ]
-      }
-    ]
+    "armor": [ { "encumbrance": 2, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
   },
   {
     "id": "cloak_fur",
@@ -1813,17 +1715,8 @@
     "warmth": 60,
     "material_thickness": 0.6,
     "environmental_protection": 3,
-    "flags": [ "OVERSIZE", "HOOD", "BELTED", "RAINPROOF" ],
-    "armor": [
-      { "encumbrance": 6, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r" ] },
-      {
-        "covers": [ "leg_l", "leg_r" ],
-        "coverage": 65,
-        "encumbrance": 6,
-        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
-        "layers": [ "BELTED" ]
-      }
-    ]
+    "flags": [ "OVERSIZE", "HOOD", "BELTED", "WATERPROOF", "RAINPROOF" ],
+    "armor": [ { "encumbrance": 6, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
   },
   {
     "id": "cloak_leather",
@@ -1842,17 +1735,8 @@
     "warmth": 40,
     "material_thickness": 1.5,
     "environmental_protection": 3,
-    "flags": [ "OVERSIZE", "HOOD", "BELTED", "RAINPROOF" ],
-    "armor": [
-      { "encumbrance": 6, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r" ] },
-      {
-        "covers": [ "leg_l", "leg_r" ],
-        "coverage": 65,
-        "encumbrance": 6,
-        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
-        "layers": [ "BELTED" ]
-      }
-    ]
+    "flags": [ "OVERSIZE", "HOOD", "BELTED", "WATERPROOF", "RAINPROOF" ],
+    "armor": [ { "encumbrance": 6, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
   },
   {
     "id": "cloak_wool",
@@ -1872,16 +1756,7 @@
     "material_thickness": 0.5,
     "environmental_protection": 3,
     "flags": [ "OVERSIZE", "HOOD", "BELTED" ],
-    "armor": [
-      { "encumbrance": 5, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r" ] },
-      {
-        "covers": [ "leg_l", "leg_r" ],
-        "coverage": 65,
-        "encumbrance": 5,
-        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
-        "layers": [ "BELTED" ]
-      }
-    ]
+    "armor": [ { "encumbrance": 5, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
   },
   {
     "id": "jedi_cloak",
@@ -1902,13 +1777,10 @@
     "environmental_protection": 5,
     "flags": [ "OVERSIZE", "BELTED" ],
     "armor": [
-      { "encumbrance": 3, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r", "head", "hand_l", "hand_r" ] },
       {
-        "covers": [ "leg_l", "leg_r" ],
-        "coverage": 65,
         "encumbrance": 3,
-        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
-        "layers": [ "BELTED" ]
+        "coverage": 65,
+        "covers": [ "leg_r", "leg_l", "torso", "arm_l", "arm_r", "head", "hand_l", "hand_r" ]
       }
     ]
   },
@@ -1938,17 +1810,8 @@
       "need_charges": 20,
       "need_charges_msg": "You don't have enough UPS charges to turn on the %s"
     },
-    "flags": [ "USE_UPS", "OVERSIZE", "HOOD", "BELTED", "SOFT", "NO_REPAIR", "RAINPROOF" ],
-    "armor": [
-      { "encumbrance": 50, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r" ] },
-      {
-        "covers": [ "leg_l", "leg_r" ],
-        "coverage": 65,
-        "encumbrance": 50,
-        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
-        "layers": [ "BELTED" ]
-      }
-    ]
+    "flags": [ "USE_UPS", "OVERSIZE", "HOOD", "WATERPROOF", "BELTED", "VARSIZE", "SOFT", "NO_REPAIR" ],
+    "armor": [ { "encumbrance": 50, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
   },
   {
     "id": "optical_cloak_on",
@@ -1957,7 +1820,18 @@
     "type": "TOOL_ARMOR",
     "name": { "str": "FB51 optical cloak (on)", "str_pl": "FB51 optical cloaks (on)" },
     "description": "A plastic cloak embedded with cameras and LEDs that will render you fully invisible to normal vision when powered and worn.  It is turned on, and continually draining power from a UPS.  Use it to turn it off.",
-    "flags": [ "USE_UPS", "OVERSIZE", "HOOD", "BELTED", "ACTIVE_CLOAKING", "TRADER_AVOID", "SOFT", "NO_REPAIR", "RAINPROOF" ],
+    "flags": [
+      "USE_UPS",
+      "OVERSIZE",
+      "HOOD",
+      "WATERPROOF",
+      "OUTER",
+      "VARSIZE",
+      "ACTIVE_CLOAKING",
+      "TRADER_AVOID",
+      "SOFT",
+      "NO_REPAIR"
+    ],
     "power_draw": "20 kW",
     "revert_to": "optical_cloak",
     "use_action": {
@@ -1972,7 +1846,7 @@
     "id": "poncho",
     "type": "ARMOR",
     "name": { "str": "wool poncho" },
-    "description": "A simple wool garment worn over the torso and upper arms.",
+    "description": "A simple wool garment worn over the torso.",
     "weight": "907 g",
     "volume": "1250 ml",
     "price": 12000,
@@ -1985,24 +1859,8 @@
     "warmth": 35,
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "BELTED", "OVERSIZE" ],
-    "armor": [
-      { "encumbrance": 5, "coverage": 85, "covers": [ "torso" ] },
-      {
-        "covers": [ "arm_l", "arm_r" ],
-        "coverage": 100,
-        "encumbrance": 5,
-        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ],
-        "layers": [ "BELTED" ]
-      },
-      {
-        "covers": [ "arm_l", "arm_r" ],
-        "coverage": 85,
-        "encumbrance": 5,
-        "specifically_covers": [ "arm_upper_r", "arm_upper_l" ],
-        "layers": [ "BELTED" ]
-      }
-    ]
+    "flags": [ "VARSIZE", "OUTER" ],
+    "armor": [ { "encumbrance": 5, "coverage": 85, "covers": [ "torso" ] } ]
   },
   {
     "id": "poncho_makeshift",
@@ -2014,69 +1872,14 @@
     "description": "A large plastic trash bag with holes cut out for the head and arms.",
     "price": 0,
     "price_postapoc": 0,
-    "material": [ "vinyl" ],
+    "material": [ "plastic" ],
     "weight": "30 g",
     "volume": "50 ml",
     "to_hit": -1,
-    "flags": [ "RAINPROOF", "OVERSIZE", "HOOD", "BELTED" ],
+    "flags": [ "WATERPROOF", "RAINPROOF", "OVERSIZE", "HOOD", "OUTER", "SOFT" ],
     "environmental_protection": 1,
     "material_thickness": 0.1,
     "armor": [ { "coverage": 90, "covers": [ "torso" ] } ]
-  },
-  {
-    "id": "folding_poncho",
-    "type": "ARMOR",
-    "category": "clothing",
-    "symbol": "[",
-    "color": "white",
-    "name": { "str": "rain poncho" },
-    "description": "A lightweight transparent plastic rain poncho with a hood.  It folds into a very compact form when not in use.",
-    "price": 5000,
-    "price_postapoc": 50,
-    "material": [ "vinyl" ],
-    "weight": "280 g",
-    "volume": "250 ml",
-    "flags": [ "RAINPROOF", "HOOD", "OVERSIZE", "BELTED", "TRANSPARENT" ],
-    "environmental_protection": 1,
-    "material_thickness": 0.4,
-    "variant_type": "generic",
-    "armor": [
-      { "covers": [ "torso" ], "specifically_covers": [ "torso_upper", "torso_lower" ], "coverage": 100 },
-      {
-        "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r", "arm_upper_r", "arm_upper_l", "arm_elbow_r", "arm_elbow_l" ],
-        "coverage": 100
-      },
-      { "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_lower_l", "arm_lower_r" ], "coverage": 90 }
-    ]
-  },
-  {
-    "id": "coat_straw",
-    "type": "ARMOR",
-    "name": { "str": "straw cape" },
-    "description": "A bulky traditional Japanese raincoat made from straw, which covers the entire body.  Also known as mino.",
-    "weight": "907 g",
-    "volume": "4 L",
-    "price": 9000,
-    "price_postapoc": 25,
-    "material": [ "dry_plant" ],
-    "symbol": "[",
-    "looks_like": "coat_winter",
-    "color": "yellow",
-    "armor": [
-      { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 80, "encumbrance": 12 },
-      { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100 },
-      {
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_upper_l", "leg_upper_r", "leg_knee_r", "leg_knee_l", "leg_hip_r", "leg_hip_l" ],
-        "coverage": 100
-      },
-      { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_lower_l", "leg_lower_r" ], "coverage": 10 },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 40, "encumbrance": 2 }
-    ],
-    "warmth": 15,
-    "material_thickness": 2,
-    "flags": [ "OVERSIZE", "RAINPROOF", "BELTED" ]
   },
   {
     "id": "snuggie",
@@ -2095,7 +1898,7 @@
     "warmth": 50,
     "material_thickness": 2,
     "environmental_protection": 1,
-    "flags": [ "UNRESTRICTED", "OUTER" ],
+    "flags": [ "OVERSIZE", "OUTER" ],
     "armor": [ { "encumbrance": 20, "coverage": 85, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
   }
 ]

@@ -10,7 +10,12 @@
         "id": "slumber",
         "text": "Eternal Slumber",
         "color": "dark_gray_red",
-        "condition": { "and": [ { "u_has_effect": "vampire_virus" }, { "math": [ "u_vitamin('human_blood_vitamin')", "<=", "-11999" ] } ] }
+        "condition": {
+          "and": [
+            { "u_has_effect": "vampire_virus" },
+            { "compare_num": [ { "u_val": "vitamin", "name": "human_blood_vitamin" }, "<=", { "const": -11999 } ] }
+          ]
+        }
       },
       {
         "id": "near_death",
@@ -19,8 +24,8 @@
         "condition": {
           "and": [
             { "u_has_effect": "vampire_virus" },
-            { "math": [ "u_vitamin('human_blood_vitamin')", "<=", "-6401" ] },
-            { "math": [ "u_vitamin('human_blood_vitamin')", ">", "-11999" ] }
+            { "compare_num": [ { "u_val": "vitamin", "name": "human_blood_vitamin" }, "<=", { "const": -6401 } ] },
+            { "compare_num": [ { "u_val": "vitamin", "name": "human_blood_vitamin" }, ">", { "const": -11999 } ] }
           ]
         }
       },
@@ -31,8 +36,8 @@
         "condition": {
           "and": [
             { "u_has_effect": "vampire_virus" },
-            { "math": [ "u_vitamin('human_blood_vitamin')", "<=", "-5601" ] },
-            { "math": [ "u_vitamin('human_blood_vitamin')", ">", "-6401" ] }
+            { "compare_num": [ { "u_val": "vitamin", "name": "human_blood_vitamin" }, "<=", { "const": -5601 } ] },
+            { "compare_num": [ { "u_val": "vitamin", "name": "human_blood_vitamin" }, ">", { "const": -6401 } ] }
           ]
         }
       },
@@ -43,8 +48,8 @@
         "condition": {
           "and": [
             { "u_has_effect": "vampire_virus" },
-            { "math": [ "u_vitamin('human_blood_vitamin')", "<=", "-4800" ] },
-            { "math": [ "u_vitamin('human_blood_vitamin')", ">", "-5601" ] }
+            { "compare_num": [ { "u_val": "vitamin", "name": "human_blood_vitamin" }, "<=", { "const": -4800 } ] },
+            { "compare_num": [ { "u_val": "vitamin", "name": "human_blood_vitamin" }, ">", { "const": -5601 } ] }
           ]
         }
       },
@@ -55,20 +60,20 @@
         "condition": {
           "and": [
             { "u_has_effect": "vampire_virus" },
-            { "math": [ "u_vitamin('human_blood_vitamin')", "<=", "1800" ] },
-            { "math": [ "u_vitamin('human_blood_vitamin')", ">", "-4800" ] }
+            { "compare_num": [ { "u_val": "vitamin", "name": "human_blood_vitamin" }, "<=", { "const": 1800 } ] },
+            { "compare_num": [ { "u_val": "vitamin", "name": "human_blood_vitamin" }, ">", { "const": -4800 } ] }
           ]
         }
       },
       {
         "id": "flush",
-        "text": "Flush",
+        "text": "FLUSH",
         "color": "light_red",
         "condition": {
           "and": [
             { "u_has_effect": "vampire_virus" },
-            { "math": [ "u_vitamin('human_blood_vitamin')", "<=", "2401" ] },
-            { "math": [ "u_vitamin('human_blood_vitamin')", ">", "1800" ] }
+            { "compare_num": [ { "u_val": "vitamin", "name": "human_blood_vitamin" }, "<=", { "const": 2401 } ] },
+            { "compare_num": [ { "u_val": "vitamin", "name": "human_blood_vitamin" }, ">", { "const": 1800 } ] }
           ]
         }
       },
@@ -79,8 +84,8 @@
         "condition": {
           "and": [
             { "u_has_effect": "vampire_virus" },
-            { "math": [ "u_vitamin('human_blood_vitamin')", "<=", "4401" ] },
-            { "math": [ "u_vitamin('human_blood_vitamin')", ">", "2401" ] }
+            { "compare_num": [ { "u_val": "vitamin", "name": "human_blood_vitamin" }, "<=", { "const": 4401 } ] },
+            { "compare_num": [ { "u_val": "vitamin", "name": "human_blood_vitamin" }, ">", { "const": 2401 } ] }
           ]
         }
       },
@@ -88,7 +93,12 @@
         "id": "swollen",
         "text": "Tick-like",
         "color": "red_cyan",
-        "condition": { "and": [ { "u_has_effect": "vampire_virus" }, { "math": [ "u_vitamin('human_blood_vitamin')", ">", "4401" ] } ] }
+        "condition": {
+          "and": [
+            { "u_has_effect": "vampire_virus" },
+            { "compare_num": [ { "u_val": "vitamin", "name": "human_blood_vitamin" }, ">", { "const": 4401 } ] }
+          ]
+        }
       }
     ]
   }

@@ -16,17 +16,7 @@ static_assert( tripoint::dimension == 3 );
 static_assert( point_abs_omt::dimension == 2 );
 static_assert( tripoint_abs_omt::dimension == 3 );
 
-// Out of bounds coords can be implicitly constructed from inbounds ones. This is used
-// to ensure a return type is NOT an inbounds one, before it can be converted.
-template <typename Point, coords::origin Origin, coords::scale Scale, bool InBounds>
-coords::coord_point<Point, Origin, Scale, InBounds> assert_not_ib( const
-        coords::coord_point<Point, Origin, Scale, InBounds> &p )
-{
-    static_assert( !InBounds );
-    return p;
-}
-
-TEST_CASE( "coordinate_strings", "[point][coords][nogame]" )
+TEST_CASE( "coordinate_strings", "[point][coords]" )
 {
     CHECK( point_abs_omt( point( 3, 4 ) ).to_string() == "(3,4)" );
 
@@ -37,7 +27,7 @@ TEST_CASE( "coordinate_strings", "[point][coords][nogame]" )
     }
 }
 
-TEST_CASE( "coordinate_operations", "[point][coords][nogame]" )
+TEST_CASE( "coordinate_operations", "[point][coords]" )
 {
     SECTION( "construct_from_raw_point" ) {
         point p = GENERATE( take( num_trials, random_points() ) );
@@ -76,9 +66,7 @@ TEST_CASE( "coordinate_operations", "[point][coords][nogame]" )
         point p1 = t1.xy();
         CAPTURE( p0, p1 );
         tripoint_abs_ms abst0( t0 );
-        tripoint_bub_ms_ib bub_ibt0 = tripoint_bub_ms_ib::make_unchecked( t0 );
         point_abs_ms abs0( p0 );
-        point_bub_ms_ib bub_ib0 = point_bub_ms_ib::make_unchecked( p0 );
         point_rel_ms rel0( p0 );
         point_rel_ms rel1( p1 );
         SECTION( "rel + rel -> rel" ) {
@@ -91,40 +79,18 @@ TEST_CASE( "coordinate_operations", "[point][coords][nogame]" )
             tripoint_abs_ms sum_t = abst0 + rel1;
             CHECK( sum_t.raw() == t0 + p1 );
         }
-        SECTION( "bub_ib + rel -> bub" ) {
-            point_bub_ms sum = assert_not_ib( bub_ib0 + rel1 );
-            CHECK( sum.raw() == p0 + p1 );
-            tripoint_bub_ms sum_t = assert_not_ib( bub_ibt0 + rel1 );
-            CHECK( sum_t.raw() == t0 + p1 );
-        }
         SECTION( "abs + raw -> abs" ) {
             point_abs_ms sum = abs0 + p1;
-            CHECK( sum.raw() == p0 + p1 );
-        }
-        SECTION( "bub_ib + raw -> bub" ) {
-            point_bub_ms sum = assert_not_ib( bub_ib0 + p1 );
             CHECK( sum.raw() == p0 + p1 );
         }
         SECTION( "rel + abs -> abs" ) {
             point_abs_ms sum = rel1 + abs0;
             CHECK( sum.raw() == p0 + p1 );
         }
-        SECTION( "rel + bub_ib -> bub" ) {
-            point_bub_ms sum = assert_not_ib( rel1 + bub_ib0 );
-            CHECK( sum.raw() == p0 + p1 );
-            tripoint_bub_ms sum_t = assert_not_ib( rel1 + bub_ibt0 );
-            CHECK( sum_t.raw() == t0 + p1 );
-        }
         SECTION( "raw + abs -> abs" ) {
             point_abs_ms sum = p1 + abs0;
             CHECK( sum.raw() == p0 + p1 );
             tripoint_abs_ms sum_t = t1 + abs0;
-            CHECK( sum_t.raw() == p0 + t1 );
-        }
-        SECTION( " raw + bub_ib -> bub" ) {
-            point_bub_ms sum = assert_not_ib( p1 + bub_ib0 );
-            CHECK( sum.raw() == p0 + p1 );
-            tripoint_bub_ms sum_t = assert_not_ib( t1 + bub_ib0 );
             CHECK( sum_t.raw() == p0 + t1 );
         }
         SECTION( "rel += rel" ) {
@@ -148,7 +114,6 @@ TEST_CASE( "coordinate_operations", "[point][coords][nogame]" )
         CAPTURE( p0, p1 );
         tripoint_abs_ms abst0( t0 );
         point_abs_ms abs0( p0 );
-        point_bub_ms_ib bub_ib0 = point_bub_ms_ib::make_unchecked( p0 );
         point_abs_ms abs1( p1 );
         point_rel_ms rel0( p0 );
         point_rel_ms rel1( p1 );
@@ -160,16 +125,8 @@ TEST_CASE( "coordinate_operations", "[point][coords][nogame]" )
             point_abs_ms diff = abs0 - rel1;
             CHECK( diff.raw() == p0 - p1 );
         }
-        SECTION( "bub_ib - rel -> bub" ) {
-            point_bub_ms diff = assert_not_ib( bub_ib0 - rel1 );
-            CHECK( diff.raw() == p0 - p1 );
-        }
         SECTION( "abs - raw -> abs" ) {
             point_abs_ms diff = abs0 - p1;
-            CHECK( diff.raw() == p0 - p1 );
-        }
-        SECTION( "bub_ib - raw -> bub" ) {
-            point_bub_ms diff = assert_not_ib( bub_ib0 - p1 );
             CHECK( diff.raw() == p0 - p1 );
         }
         SECTION( "abs - abs -> rel" ) {
@@ -193,7 +150,7 @@ TEST_CASE( "coordinate_operations", "[point][coords][nogame]" )
     }
 }
 
-TEST_CASE( "coordinate_comparison", "[point][coords][nogame]" )
+TEST_CASE( "coordinate_comparison", "[point][coords]" )
 {
     SECTION( "compare_points" ) {
         point p0 = GENERATE( take( num_trials, random_points() ) );
@@ -224,7 +181,7 @@ TEST_CASE( "coordinate_comparison", "[point][coords][nogame]" )
     }
 }
 
-TEST_CASE( "coordinate_hash", "[point][coords][nogame]" )
+TEST_CASE( "coordinate_hash", "[point][coords]" )
 {
     SECTION( "point_hash" ) {
         point p = GENERATE( take( num_trials, random_points() ) );
@@ -239,7 +196,7 @@ TEST_CASE( "coordinate_hash", "[point][coords][nogame]" )
     }
 }
 
-TEST_CASE( "coordinate_conversion_consistency", "[point][coords][nogame]" )
+TEST_CASE( "coordinate_conversion_consistency", "[point][coords]" )
 {
     // Verifies that the new coord_point-based conversions yield the same
     // results as the legacy conversion functions.
@@ -332,26 +289,10 @@ TEST_CASE( "coordinate_conversion_consistency", "[point][coords][nogame]" )
         CHECK( old_conversion == new_conversion.raw() );
     }
 
-    SECTION( "ms_to_sm_point_ib" ) {
-        point p = GENERATE( take( num_trials, random_points() ) ).abs();
-        CAPTURE( p );
-        point_bub_sm_ib new_conversion = project_to<coords::sm>( point_bub_ms_ib::make_unchecked( p ) );
-        point old_conversion = ms_to_sm_copy( p );
-        CHECK( old_conversion == new_conversion.raw() );
-    }
-
     SECTION( "sm_to_ms_point" ) {
         point p = GENERATE( take( num_trials, random_points() ) );
         CAPTURE( p );
         point_abs_ms new_conversion = project_to<coords::ms>( point_abs_sm( p ) );
-        point old_conversion = sm_to_ms_copy( p );
-        CHECK( old_conversion == new_conversion.raw() );
-    }
-
-    SECTION( "sm_to_ms_point_ib" ) {
-        point p = GENERATE( take( num_trials, random_points() ) ).abs();
-        CAPTURE( p );
-        point_bub_ms_ib new_conversion = project_to<coords::ms>( point_bub_sm_ib::make_unchecked( p ) );
         point old_conversion = sm_to_ms_copy( p );
         CHECK( old_conversion == new_conversion.raw() );
     }
@@ -384,7 +325,7 @@ TEST_CASE( "coordinate_conversion_consistency", "[point][coords][nogame]" )
     }
 }
 
-TEST_CASE( "combine_is_opposite_of_remain", "[point][coords][nogame]" )
+TEST_CASE( "combine_is_opposite_of_remain", "[point][coords]" )
 {
     SECTION( "point_point" ) {
         point p = GENERATE( take( num_trials, random_points() ) );
@@ -416,29 +357,9 @@ TEST_CASE( "combine_is_opposite_of_remain", "[point][coords][nogame]" )
         tripoint_abs_sm recombined = project_combine( quotient, remainder );
         CHECK( recombined == orig );
     }
-    SECTION( "tripoint_point_ib" ) {
-        tripoint p = GENERATE( take( num_trials, random_tripoints() ) ).abs();
-        CAPTURE( p );
-        tripoint_bub_ms_ib orig = tripoint_bub_ms_ib::make_unchecked( p );
-        tripoint_bub_sm_ib quotient;
-        point_sm_ms_ib remainder;
-        std::tie( quotient, remainder ) = project_remain<coords::sm>( orig );
-        tripoint_bub_ms_ib recombined = project_combine( quotient, remainder );
-        CHECK( recombined == orig );
-    }
-    SECTION( "tripoint_point_implicit_ib" ) {
-        tripoint p = GENERATE( take( num_trials, random_tripoints() ) );
-        CAPTURE( p );
-        tripoint_bub_ms orig( p );
-        tripoint_bub_sm quotient;
-        point_sm_ms_ib remainder;
-        std::tie( quotient, remainder ) = project_remain<coords::sm>( orig );
-        tripoint_bub_ms recombined = assert_not_ib( project_combine( quotient, remainder ) );
-        CHECK( recombined == orig );
-    }
 }
 
-TEST_CASE( "coord_point_distances", "[point][coords][nogame]" )
+TEST_CASE( "coord_point_distances", "[point][coords]" )
 {
     point_abs_omt p0;
     point_abs_omt p1( 10, 10 );
@@ -460,7 +381,7 @@ TEST_CASE( "coord_point_distances", "[point][coords][nogame]" )
     }
 }
 
-TEST_CASE( "coord_point_midpoint", "[point][coords][nogame]" )
+TEST_CASE( "coord_point_midpoint", "[point][coords]" )
 {
     point_abs_omt p0( 2, 2 );
     point_abs_omt p1( 8, 17 );

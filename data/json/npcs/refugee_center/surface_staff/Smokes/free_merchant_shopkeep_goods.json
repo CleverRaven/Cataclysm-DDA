@@ -66,16 +66,16 @@
     "items": [
       {
         "distribution": [
-          { "item": "welding_rod_steel", "prob": 65, "charges": [ 1000, 6000 ] },
-          { "item": "welding_wire_steel", "prob": 45, "charges": [ 1000, 6000 ] },
-          { "item": "brazing_rod_bronze", "prob": 25, "charges": [ 500, 4000 ] }
+          { "item": "welding_rod_steel", "prob": 65, "charges": [ 100, 600 ] },
+          { "item": "welding_wire_steel", "prob": 45, "charges": [ 100, 600 ] },
+          { "item": "brazing_rod_bronze", "prob": 25, "charges": [ 50, 400 ] }
         ]
       },
       {
         "distribution": [
-          { "item": "welding_rod_alloy", "prob": 35, "charges": [ 1000, 6000 ] },
-          { "item": "welding_wire_alloy", "prob": 15, "charges": [ 1000, 6000 ] },
-          { "item": "brazing_rod_alloy", "prob": 10, "charges": [ 500, 4000 ] }
+          { "item": "welding_rod_alloy", "prob": 35, "charges": [ 100, 600 ] },
+          { "item": "welding_wire_alloy", "prob": 15, "charges": [ 100, 600 ] },
+          { "item": "brazing_rod_alloy", "prob": 10, "charges": [ 50, 400 ] }
         ]
       }
     ]

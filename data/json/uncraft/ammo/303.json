@@ -40,7 +40,7 @@
     "time": "5 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
-      [ [ "lead", 3 ] ],
+      [ [ "lead", 4 ] ],
       [ [ "303_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
       [ [ "gunpowder_large_rifle", 33 ] ],

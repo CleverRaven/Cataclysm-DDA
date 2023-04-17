@@ -87,6 +87,7 @@
     "id": "xs_duster_survivor",
     "type": "ARMOR",
     "copy-from": "duster_survivor",
+    "looks_like": "duster_survivor",
     "name": { "str": "XS survivor duster" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -217,7 +218,7 @@
         "flag_restriction": [ "ABLATIVE_MEDIUM" ]
       }
     ],
-    "warmth": 25,
+    "warmth": 40,
     "material_thickness": 5,
     "use_action": [ { "type": "attach_molle", "size": 10 }, { "type": "detach_molle" } ],
     "valid_mods": [ "steel_padded" ],

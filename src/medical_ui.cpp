@@ -1,9 +1,12 @@
 #include <algorithm>
 #include <cmath>
 #include <cstdlib>
+#include <numeric>
+#include <set>
 #include <string>
 #include <utility>
 
+#include "action.h"
 #include "addiction.h"
 #include "avatar_action.h"
 #include "creature.h"
@@ -13,9 +16,9 @@
 #include "effect.h"
 #include "flag.h"
 #include "game.h"
-#include "input_context.h"
 #include "output.h"
 #include "ui_manager.h"
+#include "vitamin.h"
 #include "weather.h"
 
 static const efftype_id effect_bite( "bite" );
@@ -327,7 +330,7 @@ static void draw_medical_titlebar( const catacurses::window &window, avatar *pla
     const std::string TITLE_STR = "Medical";
 
     // Window Title
-    if( WIDTH - details_width - utf8_width( TITLE_STR ) > WIDTH / 2 ) {
+    if( WIDTH - ( details_width + utf8_width( TITLE_STR ) > WIDTH / 2 ) ) {
         center_print( window, 0, c_blue, _( TITLE_STR ) );
     }
 }

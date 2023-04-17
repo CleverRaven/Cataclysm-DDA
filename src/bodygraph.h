@@ -9,7 +9,6 @@
 #include "damage.h"
 
 class effect;
-class Character;
 class JsonObject;
 
 struct bodygraph_part {

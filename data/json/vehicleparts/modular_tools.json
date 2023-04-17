@@ -107,7 +107,6 @@
       "con_mix",
       "copper_pan",
       "cordless_drill",
-      "corded_powerdrill",
       "elec_hairtrimmer",
       "elec_shears",
       "electric_spinwheel",
@@ -127,10 +126,7 @@
       "vac_mold",
       "vac_sealer",
       "water_purifier",
-      "wire_draw_machine",
-      "casserole",
-      "tongs",
-      "metalworking_tongs"
+      "wire_draw_machine"
     ],
     "item": "veh_tools_abstract",
     "location": "center",

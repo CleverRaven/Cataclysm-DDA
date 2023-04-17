@@ -233,7 +233,7 @@ rotation for the referenced overmap terrains (e.g. the `_north` version for all)
 | `looks_like`      | Id of another overmap terrain to be used for the graphical tile, if this doesn't have one.       |
 | `connect_group`   | Specify that this overmap terrain might be graphically connected to its neighbours, should a tileset wish to.  It will connect to any other `overmap_terrain` with the same `connect_group`. |
 | `see_cost`        | Affects player vision on overmap. Higher values obstruct vision more.                            |
-| `travel_cost_type` | How to treat this location when planning a route using autotravel on the overmap. Valid values are `road`,`field`,`dirt_road`,`trail`,`forest`,`shore`,`swamp`,`water`,`air`,`impassable`,`other`. Some types are harder to travel through with different types of vehicles, or on foot. |
+| `travel_cost`     | Affects pathfinding cost. Higher values are harder to travel through (reference: Forest = 10 )   |
 | `extras`          | Reference to a named `map_extras` in region_settings, defines which map extras can be applied.   |
 | `mondensity`      | Summed with values for adjacent overmap terrains to influence density of monsters spawned here.  |
 | `spawns`          | Spawns added once at mapgen. Monster group, % chance, population range (min/max).                |
@@ -272,11 +272,10 @@ an exhaustive example...
     "mapgen_end": [ { "method": "builtin", "name": "road_end" } ],
     "mapgen_tee": [ { "method": "builtin", "name": "road_tee" } ],
     "mapgen_four_way": [ { "method": "builtin", "name": "road_four_way" } ],
-    "travel_cost_type": "field",
     "eoc": {
-      "id": "EOC_REFUGEE_CENTER_GENERATE", 
-      "condition": { "math": [ "refugee_centers", "<", "1" ] }, 
-      "effect": [ { "math": [ "refugee_centers", "++" ] } ]
+      "id": "EOC_REFUGEE_CENTER_GENERATE",
+      "condition": { "compare_num": [ { "global_val": "var", "var_name": "refugee_centers", "default": 0 }, "<", { "const": 1 } ] },
+      "effect": [ { "arithmetic": [ { "global_val": "var", "var_name": "refugee_centers" }, "++" ] } ]
     }
 }
 ```
@@ -390,7 +389,6 @@ original intersection.
 | `city_distance` | Min/max distance from a city edge that the special may be placed. Use -1 for unbounded.               |
 | `city_sizes`    | Min/max city size for a city that the special may be placed near. Use -1 for unbounded.               |
 | `occurrences`   | Min/max number of occurrences when placing the special. If UNIQUE flag is set, becomes X of Y chance. |
-| `priority`      | **Warning: Do not use this unnecessarily.** The generation process is executed in the order of specials with the highest value. Can be used when maps are difficult to generate. (large maps, maps that are or require dependencies etc) It is **strongly recommended** to set it to 1 (HIGH priority) or -1 (LOW priority) if used. (default = 0) |
 | `flags`         | See `Overmap specials` in [JSON_FLAGS.md](JSON_FLAGS.md).                                             |
 | `rotate`        | Whether the special can rotate. True if not specified.                                                |
 
@@ -439,11 +437,11 @@ Depending on the subtype, there are further relevant fields:
 
 ### Fixed special overmaps
 
-| Identifier  |                                                                                      Description                                                                                           |
-| ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `point`     | `[ x, y, z]` of the overmap terrain within the special.                                                                                                                                    |
-| `overmap`   | Id of the `overmap_terrain` to place at the location. If ommited no overmap_terrain is placed but the point will still be checked for valid locations when deciding if placement is valid. |
-| `locations` | List of `overmap_location` ids that this overmap terrain may be placed on. Overrides the specials overall `locations` field.                                                               |
+| Identifier  |                                Description                                 |
+| ----------- | -------------------------------------------------------------------------- |
+| `point`     | `[ x, y, z]` of the overmap terrain within the special.                    |
+| `overmap`   | Id of the `overmap_terrain` to place at the location.                      |
+| `locations` | List of `overmap_location` ids that this overmap terrain may be placed on. |
 
 ### Connections
 
@@ -453,7 +451,7 @@ Depending on the subtype, there are further relevant fields:
 | `terrain`    | Will go away in favor of `connection` eventually. Use `road`, `subway`, `sewer`, etc.              |
 | `connection` | Id of the `overmap_connection` to build. Optional for now, but you should specify it explicitly.   |
 | `from`       | Optional point `[ x, y, z]` within the special to treat as the origin of the connection.           |
-| `existing`   | Boolean, default false. If the special requires a preexisting terrain to spawn.                    |
+| `existing`   | Boolean, default false. If the special requires a preexisting terrain to spawn.				          	|
 
 ### Example mutable special
 
@@ -580,26 +578,11 @@ phases are processed strictly in order.
 Each *phase* is a list of rules.  Each *rule* specifies an overmap and an
 integer `max` and/or `weight`.
 
-Weight must always be a simple integer, but `max` may also be an object or array
+Weight must always be a simple integer, but `max` may also be an object
 defining a probability distribution over integers.  Each time the special is
-spawned, a value is sampled from that distribution.  Currently uniform, binomial
-and Poisson distributions are supported.  Uniform is specified by using an
-array such as `"max": [ 1, 5 ]` resulting in an evenly distributed 20% chance for each
-number from 1 to 5 being picked as the max.  Poisson and binomial are specified
-via an object such as `"max": { "poisson": 5 }` where 5 will be the mean of the
-poisson distribution (λ) or `"max": { "binomial": [ 5, 0.3 ] }` where 5 will be
-the number of trials and 0.3 the success probability of the binomial distribution
-( n, p ).  Both have a higher chance for values to fall closer to the mean
-(λ in the case of Poisson and n x p in the case of binomial) with Poisson being more
-symetrical while binomial can be skewed by altering p to result in most values being
-on the lower end of the range 0-n or vice versa useful to produce more consistent results
-with rarer chances of large or small values or just one kind respectively.  Hard bounds
-may be specified in addition to poisson or binomial to limit the range of possibilities,
-useful for guarenteeing a max of at least 1 or to prevent large values making overall
-size management difficult.  To do this add an array `bounds` such as
-`"max": { "poisson": 5, "bounds": [ 1, -1 ] }` in this case guarenteeing at least a max
-of 1 without bounding upper values.  Any value that would fall outside of these bounds
-becomes the relevant bound (as opposed to being rerolled).
+spawned, a value is sampled from that distribution.  Currently only a Poisson
+distribution is supported, specified via an object such as `{ "poisson": 5 }`
+where 5 will be the mean of the distribution (λ).
 
 Within each phase, the game looks for unsatisfied joins from the existing
 overmaps and attempts to find an overmap from amongst those available in its
@@ -758,27 +741,28 @@ the final phase, in some situations you can make this easier using optional
 joins.  This feature can also be used in other phases.
 
 When specifying the joins associated with an overmap in a mutable special, you
-can elaborate with a type, like this example from the [`homeless_camp_mutable`](../data/json/overmap/overmap_mutable/homeless_camp_mutable.json) overmap special:
+can elaborate with a type, like this example from the `Crater` overmap special:
 
 ```json
 "overmaps": {
-      "camp_core": {
-        "overmap": "homelesscamp_north",
-        "north": "camp_to_camp",
-        "east": "camp_to_camp",
-        "south": "camp_to_camp",
-        "west": "camp_to_camp"
-      },
-      "camp_edge": {
-        "overmap": "homelesscamp_north",
-        "north": "camp_to_camp",
-        "east": { "id": "camp_to_camp", "type": "available" },
-        "south": { "id": "camp_to_camp", "type": "available" },
-        "west": { "id": "camp_to_camp", "type": "available" }
-      }
+  "crater_core": {
+    "overmap": "crater_core",
+    "north": "crater_to_crater",
+    "east": "crater_to_crater",
+    "south": "crater_to_crater",
+    "west": "crater_to_crater"
+  },
+  "crater_edge": {
+    "overmap": "crater",
+    "north": "crater_to_crater",
+    "east": { "id": "crater_to_crater", "type": "available" },
+    "south": { "id": "crater_to_crater", "type": "available" },
+    "west": { "id": "crater_to_crater", "type": "available" }
+  }
+},
 ```
 
-The definition of `camp_edge` has one mandatory join to the north, and three
+The definition of `crater_edge` has one mandatory join to the north, and three
 'available' joins to the other cardinal directions.  The semantics of an
 'available' join are that it will not be considered an unresolved join, and
 therefore will never cause more overmaps to be placed, but it can satisfy other
@@ -789,8 +773,8 @@ The overmap will always be rotated in such a way that as many of its mandatory
 joins as possible are satisfied and available joins are left to point in other
 directions that don't currently need joins.
 
-As such, this `camp_edge` overmap can satisfy any unresolved joins for the
-`homeless_camp_mutable` special without generating any new unresolved joins of its own.  This
+As such, this `crater_edge` overmap can satisfy any unresolved joins for the
+`Crater` special without generating any new unresolved joins of its own.  This
 makes it great to finish off the special in the final phase.
 
 #### Asymmetric joins

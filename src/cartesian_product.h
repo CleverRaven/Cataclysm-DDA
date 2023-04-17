@@ -1,4 +1,3 @@
-#pragma once
 #ifndef CATA_SRC_CARTESIAN_PRODUCT_H
 #define CATA_SRC_CARTESIAN_PRODUCT_H
 

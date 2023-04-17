@@ -29,7 +29,7 @@
   },
   {
     "id": "denat_alcohol",
-    "name": { "str_sp": "denatured alcohol" },
+    "name": { "str": "denatured alcohol" },
     "copy-from": "chem_ethanol",
     "type": "AMMO",
     "description": "A high-strength ethanol solution mixed with denatonium benzoate to make it impossibly bitter to drink, so as to avoid pre-apocalyptic regulations on ethanol.  Intended for use in alcohol-burning stoves and as a solvent.",
@@ -170,7 +170,7 @@
     "count": 250,
     "stack_size": 200,
     "phase": "liquid",
-    "container": "fuel_tin",
+    "container": "bottle_plastic",
     "sealed": false,
     "symbol": "=",
     "color": "yellow",

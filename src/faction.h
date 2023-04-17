@@ -15,7 +15,6 @@
 #include "character_id.h"
 #include "color.h"
 #include "shop_cons_rate.h"
-#include "stomach.h"
 #include "translations.h"
 #include "type_id.h"
 
@@ -113,7 +112,7 @@ class faction_template
         translation desc;
         int size; // How big is our sphere of influence?
         int power; // General measure of our power
-        nutrients food_supply; //Total nutritional value held
+        int food_supply;  //Total nutritional value held
         int wealth;  //Total trade currency
         bool lone_wolf_faction; // is this a faction for just one person?
         itype_id currency; // id of the faction currency

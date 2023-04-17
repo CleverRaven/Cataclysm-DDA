@@ -33,7 +33,7 @@ struct species_type {
     bool was_loaded = false;
     translation description;
     translation footsteps;
-    std::set<mon_flag_str_id> flags;
+    enum_bitset<m_flag> flags;
     enum_bitset<mon_trigger> anger;
     enum_bitset<mon_trigger> fear;
     enum_bitset<mon_trigger> placate;
@@ -70,8 +70,6 @@ class MonsterGenerator
         // combines mtype and species information, sets bitflags
         void finalize_mtypes();
 
-        mtype generate_fake_pseudo_dormant_monster( const mtype &mon );
-
         void check_monster_definitions() const;
 
         std::optional<mon_action_death> get_death_function( const std::string &f ) const;
@@ -80,6 +78,7 @@ class MonsterGenerator
         friend struct mtype;
         friend struct species_type;
         friend class mattack_actor;
+        std::array<int, m_flag::MF_MAX> m_flag_usage_stats;
 
     private:
         MonsterGenerator();

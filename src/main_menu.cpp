@@ -13,10 +13,6 @@
 #include <optional>
 #include <string>
 
-#if defined(EMSCRIPTEN)
-#include <emscripten.h>
-#endif
-
 #include "auto_pickup.h"
 #include "avatar.h"
 #include "cata_scope_helpers.h"
@@ -53,14 +49,12 @@
 #include "wcwidth.h"
 #include "worldfactory.h"
 
-static const mod_id MOD_INFORMATION_dda( "dda" );
-
 enum class main_menu_opts : int {
     MOTD = 0,
     NEWCHAR,
     LOADCHAR,
     WORLD,
-    TUTORIAL,
+    SPECIAL,
     SETTINGS,
     HELP,
     CREDITS,
@@ -177,6 +171,17 @@ void main_menu::display_sub_menu( int sel, const point &bottom_left, int sel_lin
             //~ Message Of The Day
             display_text( mmenu_motd, _( "MOTD" ), sel_line );
             return;
+        case main_menu_opts::SPECIAL:
+            for( int i = 1; i < static_cast<int>( special_game_type::NUM_SPECIAL_GAME_TYPES ); i++ ) {
+                std::string spec_name = special_game_name( static_cast<special_game_type>( i ) );
+                nc_color clr = i == sel2 ? hilite( c_yellow ) : c_yellow;
+                sub_opts.push_back( shortcut_text( clr, spec_name ) );
+                int len = utf8_width( shortcut_text( clr, spec_name ), true );
+                if( len > xlen ) {
+                    xlen = len;
+                }
+            }
+            break;
         case main_menu_opts::SETTINGS:
             for( int i = 0; static_cast<size_t>( i ) < vSettingsSubItems.size(); ++i ) {
                 nc_color clr = i == sel2 ? hilite( c_yellow ) : c_yellow;
@@ -452,13 +457,11 @@ void main_menu::init_strings()
     vMenuItems.emplace_back( pgettext( "Main Menu", "<N|n>ew Game" ) );
     vMenuItems.emplace_back( pgettext( "Main Menu", "Lo<a|A>d" ) );
     vMenuItems.emplace_back( pgettext( "Main Menu", "<W|w>orld" ) );
-    vMenuItems.emplace_back( pgettext( "Main Menu", "T<u|U>torial Game" ) );
+    vMenuItems.emplace_back( pgettext( "Main Menu", "<S|s>pecial" ) );
     vMenuItems.emplace_back( pgettext( "Main Menu", "Se<t|T>tings" ) );
     vMenuItems.emplace_back( pgettext( "Main Menu", "H<e|E|?>lp" ) );
     vMenuItems.emplace_back( pgettext( "Main Menu", "<C|c>redits" ) );
-#if !defined(EMSCRIPTEN)
     vMenuItems.emplace_back( pgettext( "Main Menu", "<Q|q>uit" ) );
-#endif
 
     // new game menu items
     vNewGameSubItems.clear();
@@ -641,10 +644,6 @@ bool main_menu::opening_screen()
         }
     }
 
-#if defined(EMSCRIPTEN)
-    EM_ASM( window.dispatchEvent( new Event( 'menuready' ) ); );
-#endif
-
     while( !start ) {
         ui_manager::redraw();
         std::string action = ctxt.handle_input();
@@ -734,11 +733,9 @@ bool main_menu::opening_screen()
 
         // also check special keys
         if( action == "QUIT" ) {
-#if !defined(EMSCRIPTEN)
             if( query_yn( _( "Really quit?" ) ) ) {
                 return false;
             }
-#endif
         } else if( action == "LEFT" || action == "PREV_TAB" || action == "RIGHT" || action == "NEXT_TAB" ) {
             sel_line = 0;
             sel1 = inc_clamp_wrap( sel1, action == "RIGHT" || action == "NEXT_TAB",
@@ -779,7 +776,9 @@ bool main_menu::opening_screen()
                 case main_menu_opts::SETTINGS:
                     max_item_count = vSettingsSubItems.size();
                     break;
-                case main_menu_opts::TUTORIAL:
+                case main_menu_opts::SPECIAL:
+                    max_item_count = static_cast<int>( special_game_type::NUM_SPECIAL_GAME_TYPES ) - 1;
+                    break;
                 case main_menu_opts::HELP:
                 case main_menu_opts::QUIT:
                 default:
@@ -806,24 +805,22 @@ bool main_menu::opening_screen()
                     break;
                 case main_menu_opts::QUIT:
                     return false;
-                case main_menu_opts::TUTORIAL:
+                case main_menu_opts::SPECIAL:
                     if( MAP_SHARING::isSharing() ) {
                         on_error();
-                        popup( _( "Tutorial doesn't work with shared maps." ) );
-                    } else {
+                        popup( _( "Special games don't work with shared maps." ) );
+                    } else if( sel2 >= 0 && sel2 < static_cast<int>( special_game_type::NUM_SPECIAL_GAME_TYPES ) - 1 ) {
                         on_out_of_scope cleanup( [&player_character]() {
                             g->gamemode.reset();
                             player_character = avatar();
                             world_generator->set_active_world( nullptr );
                         } );
-                        g->gamemode = get_special_game( special_game_type::TUTORIAL );
+                        g->gamemode = get_special_game( static_cast<special_game_type>( sel2 + 1 ) );
                         // check world
-                        WORLD *world = world_generator->make_new_world( special_game_type::TUTORIAL );
+                        WORLD *world = world_generator->make_new_world( static_cast<special_game_type>( sel2 + 1 ) );
                         if( world == nullptr ) {
                             break;
                         }
-                        world->active_mod_order.clear();
-                        world->active_mod_order.emplace_back( MOD_INFORMATION_dda );
                         world_generator->set_active_world( world );
                         try {
                             g->setup();

@@ -17,7 +17,6 @@
 #include <set>
 #include <tuple>
 #include <utility>
-#include <variant>
 #include <vector>
 
 #include "calendar.h"
@@ -27,7 +26,6 @@
 #include "colony.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
-#include "creature.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "item.h"
@@ -40,14 +38,11 @@
 #include "mapdata.h"
 #include "maptile_fwd.h"
 #include "point.h"
+#include "reachability_cache.h"
 #include "rng.h"
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
-
-#if defined(TILES)
-#include "cata_tiles.h"
-#endif
 
 struct scent_block;
 
@@ -124,13 +119,11 @@ struct visibility_variables {
     bool variables_set = false;
     bool u_sight_impaired = false;
     bool u_is_boomered = false;
-    bool visibility_cache_dirty = true;
     // Cached values for map visibility calculations
     int g_light_level = 0;
     int u_clairvoyance = 0;
     float vision_threshold = 0.0f;
     std::optional<field_type_id> clairvoyance_field;
-    tripoint last_pos;
 };
 
 struct bash_params {
@@ -280,41 +273,6 @@ struct drawsq_params {
         //@}
 };
 
-struct tile_render_info {
-    struct common {
-        const tripoint pos;
-        // accumulator for 3d tallness of sprites rendered here so far;
-        int height_3d = 0;
-
-        common( const tripoint &pos, const int height_3d )
-            : pos( pos ), height_3d( height_3d ) {}
-    };
-
-    struct vision_effect {
-        visibility_type vis;
-
-        explicit vision_effect( const visibility_type vis )
-            : vis( vis ) {}
-    };
-
-    struct sprite {
-        lit_level ll;
-        std::array<bool, 5> invisible;
-
-        sprite( const lit_level ll, const std::array<bool, 5> &inv )
-            : ll( ll ), invisible( inv ) {}
-    };
-
-    common com;
-    std::variant<vision_effect, sprite> var;
-
-    tile_render_info( const common &com, const vision_effect &var )
-        : com( com ), var( var ) {}
-
-    tile_render_info( const common &com, const sprite &var )
-        : com( com ), var( var ) {}
-};
-
 /**
  * Manage and cache data about a part of the map.
  *
@@ -389,28 +347,36 @@ class map
         void set_outside_cache_dirty( int zlev );
         void set_floor_cache_dirty( int zlev );
         void set_pathfinding_cache_dirty( int zlev );
-        void set_pathfinding_cache_dirty( const tripoint &p );
         /*@}*/
 
+        void set_memory_seen_cache_dirty( const tripoint &p );
         void invalidate_map_cache( int zlev );
 
-        // @returns true if map memory decoration should be re/memorized
-        bool memory_cache_dec_is_dirty( const tripoint &p ) const;
-        // @returns true if map memory terrain should be re/memorized
-        bool memory_cache_ter_is_dirty( const tripoint &p ) const;
-        // sets whether map memory decoration should be re/memorized
-        void memory_cache_dec_set_dirty( const tripoint &p, bool value ) const;
-        // sets whether map memory terrain should be re/memorized
-        void memory_cache_ter_set_dirty( const tripoint &p, bool value ) const;
-        // clears map memory for points occupied by vehicle and marks "dirty" for re-memorizing
-        void memory_clear_vehicle_points( const vehicle &veh ) const;
+        bool check_seen_cache( const tripoint &p ) const {
+            std::bitset<MAPSIZE_X *MAPSIZE_Y> &memory_seen_cache =
+                get_cache( p.z ).map_memory_seen_cache;
+            return !memory_seen_cache[ p.x + p.y * MAPSIZE_Y ];
+        }
+        bool check_and_set_seen_cache( const tripoint &p ) const {
+            std::bitset<MAPSIZE_X *MAPSIZE_Y> &memory_seen_cache =
+                get_cache( p.z ).map_memory_seen_cache;
+            if( !memory_seen_cache[ p.x + p.y * MAPSIZE_Y ] ) {
+                memory_seen_cache.set( p.x + p.y * MAPSIZE_Y );
+                return true;
+            }
+            return false;
+        }
 
         /**
          * A pre-filter for bresenham LOS.
-         * true, if there might be a potential bresenham path between two points.
+         * true, if there might be is a potential bresenham path between two points.
          * false, if such path definitely not possible.
          */
-        bool has_potential_los( const tripoint &from, const tripoint &to ) const;
+        bool has_potential_los( const tripoint &from, const tripoint &to,
+                                bool bounds_check = true ) const;
+
+        int reachability_cache_value( const tripoint &p, bool vertical_cache,
+                                      reachability_cache_quadrant quadrant ) const;
 
         /**
          * Callback invoked when a vehicle has moved.
@@ -615,7 +581,6 @@ class map
          * Set to zero if the function returns false.
         **/
         bool sees( const tripoint &F, const tripoint &T, int range, int &bresenham_slope ) const;
-        point sees_cache_key( const tripoint &from, const tripoint &to ) const;
     public:
         /**
         * Returns coverage of target in relation to the observer. Target is loc2, observer is loc1.
@@ -623,9 +588,6 @@ class map
         * If there's no obstacle adjacent to the target - no coverage.
         */
         int obstacle_coverage( const tripoint &loc1, const tripoint &loc2 ) const;
-        int ledge_coverage( const Creature &viewer, const tripoint &target_p ) const;
-        int ledge_coverage( const tripoint &viewer_p, const tripoint &target_p,
-                            const float &eye_level = 1.0f ) const;
         /**
         * Returns coverage value of the tile.
         */
@@ -690,14 +652,10 @@ class map
         // TODO: fix point types (remove the first overload)
         std::vector<tripoint> route( const tripoint &f, const tripoint &t,
                                      const pathfinding_settings &settings,
-        const std::unordered_set<tripoint> &pre_closed = {{ }} ) const;
+        const std::set<tripoint> &pre_closed = {{ }} ) const;
         std::vector<tripoint_bub_ms> route( const tripoint_bub_ms &f, const tripoint_bub_ms &t,
                                             const pathfinding_settings &settings,
-        const std::unordered_set<tripoint> &pre_closed = {{ }} ) const;
-
-        // Get a straight route from f to t, only along non-rough terrain. Returns an empty vector
-        // if that is not possible.
-        std::vector<tripoint> straight_route( const tripoint &f, const tripoint &t ) const;
+        const std::set<tripoint> &pre_closed = {{ }} ) const;
 
         // Vehicles: Common to 2D and 3D
         VehicleList get_vehicles();
@@ -843,9 +801,6 @@ class map
         ter_id ter( const point &p ) const {
             return ter( tripoint( p, abs_sub.z() ) );
         }
-
-        int get_map_damage( const tripoint_bub_ms &p ) const;
-        void set_map_damage( const tripoint_bub_ms &p, int dmg );
 
         // Return a bitfield of the adjacent tiles which connect to the given
         // connect_group.  From least-significant bit the order is south, east,
@@ -1330,7 +1285,6 @@ class map
          *  Adds an item to map tile or stacks charges
          *  @param pos Where to add item
          *  @param obj Item to add
-         *  @param copies_remaining Number of identical copies of the item to create
          *  @param overflow if destination is full attempt to drop on adjacent tiles
          *  @return reference to dropped (and possibly stacked) item or null item on failure
          *  @warning function is relatively expensive and meant for user initiated actions, not mapgen
@@ -1338,11 +1292,7 @@ class map
         // TODO: fix point types (remove the first overload)
         item_location add_item_ret_loc( const tripoint &pos, item obj, bool overflow = true );
         item &add_item_or_charges( const tripoint &pos, item obj, bool overflow = true );
-        item &add_item_or_charges( const tripoint &pos, item obj, int &copies_remaining,
-                                   bool overflow = true );
         item &add_item_or_charges( const tripoint_bub_ms &pos, item obj, bool overflow = true );
-        item &add_item_or_charges( const tripoint_bub_ms &pos, item obj, int &copies_remaining,
-                                   bool overflow = true );
         item &add_item_or_charges( const point &p, const item &obj, bool overflow = true ) {
             return add_item_or_charges( tripoint( p, abs_sub.z() ), obj, overflow );
         }
@@ -1360,7 +1310,6 @@ class map
          *
          * @returns The item that got added, or nulitem.
          */
-        item &add_item( const tripoint &p, item new_item, int copies );
         item &add_item( const tripoint &p, item new_item );
         void add_item( const point &p, const item &new_item ) {
             add_item( tripoint( p, abs_sub.z() ), new_item );
@@ -1371,7 +1320,6 @@ class map
          * hot or perishable liquid to a container.
          */
         void make_active( item_location &loc );
-        void make_active( tripoint_abs_sm const &loc );
 
         /**
          * Update luminosity before and after item's transformation
@@ -1494,7 +1442,6 @@ class map
 
         // TODO: fix point types (remove the first overload)
         const trap &tr_at( const tripoint &p ) const;
-        const trap &tr_at( const tripoint_abs_ms &p ) const;
         const trap &tr_at( const tripoint_bub_ms &p ) const;
         /// See @ref trap::can_see, which is called for the trap here.
         bool can_see_trap_at( const tripoint &p, const Character &c ) const;
@@ -1512,12 +1459,9 @@ class map
          * This functions assumes the character is either on top of the trap,
          * or adjacent to it.
          */
-
         // TODO: fix point types (remove the first overload)
         void maybe_trigger_trap( const tripoint &pos, Creature &c, bool may_avoid ) const;
         void maybe_trigger_trap( const tripoint_bub_ms &pos, Creature &c, bool may_avoid ) const;
-        // Handles triggering a proximity trap. Similar but subtly different.
-        void maybe_trigger_prox_trap( const tripoint &pos, Creature &c, bool may_avoid ) const;
 
         // Spawns byproducts from items destroyed in fire.
         void create_burnproducts( const tripoint &p, const item &fuel, const units::mass &burned_mass );
@@ -1562,9 +1506,7 @@ class map
          * Get the intensity of a field entry (@ref field_entry::intensity),
          * if there is no field of that type, returns 0.
          */
-        // TODO: fix point types (remove the first overload)
         int get_field_intensity( const tripoint &p, const field_type_id &type ) const;
-        int get_field_intensity( const tripoint_bub_ms &p, const field_type_id &type ) const;
         /**
          * Increment/decrement age of field entry at point.
          * @return resulting age or `-1_turns` if not present (does *not* create a new field).
@@ -1639,13 +1581,6 @@ class map
         void remove_field( const tripoint &p, const field_type_id &field_to_remove );
         void remove_field( const tripoint_bub_ms &p, const field_type_id &field_to_remove );
         /**
-        * Deletes the field without regard for any possible need for cleanup. Circumvents
-        * the normal method of marking the field for removal which is then taken place during
-        * a regular cleanup. Intended for use with fields that have a display function only,
-        * with the effect of using it for other kinds of fields being untested.
-        */
-        void delete_field( const tripoint &p, const field_type_id &field_to_remove );
-        /**
          * Remove all field entries at location.
          */
         void clear_fields( const tripoint &p );
@@ -1665,7 +1600,7 @@ class map
             Map &m, const tripoint &p, const field_type_id &type );
 
         std::pair<item *, tripoint> _add_item_or_charges( const tripoint &pos, item obj,
-                int &copies_remaining, bool overflow = true );
+                bool overflow = true );
     public:
 
         // Splatters of various kind
@@ -1723,16 +1658,12 @@ class map
         void support_dirty( const tripoint &p );
     public:
 
-        // Returns true if terrain at p has NO flag ter_furn_flag::TFLAG_NO_FLOOR
-        // and ter_furn_flag::TFLAG_NO_FLOOR_WATER,
+        // Returns true if terrain at p has NO flag ter_furn_flag::TFLAG_NO_FLOOR,
         // if we're not in z-levels mode or if we're at lowest level
         bool has_floor( const tripoint &p ) const;
-        bool has_floor_or_water( const tripoint &p ) const;
         /** Does this tile support vehicles and furniture above it */
         bool supports_above( const tripoint &p ) const;
         bool has_floor_or_support( const tripoint &p ) const;
-        bool has_vehicle_floor( const tripoint &p ) const;
-        bool has_vehicle_floor( const tripoint_bub_ms &p ) const;
 
         /**
          * Handles map objects of given type (not creatures) falling down.
@@ -1785,25 +1716,18 @@ class map
             const tripoint &start, const tripoint &end,
             cata::mdarray<fragment_cloud, point_bub_ms> &obstacle_cache );
 
-        // this function spawns a vehicle from a blueprint \p type and adds it to this map
-        // @param type              vehicle prototype to use for constructing the vehicle
-        // @param p                 position to spawn at, in tripoint_bub_ms coords
-        // @param dir               vehicle facing to spawn at
-        // @param init_veh_fuel     value of 0 spawns the vehicle with no fuel
-        //                          value in range of [1..99] spawns exact percentage of fuel
-        //                          value of 100 spawns full tanks
-        //                          a negative value will spawns some fuel left
-        //                          can be overriden by VEHICLE_FUEL_AT_SPAWN EXTERNAL_OPTION
-        // @param init_veh_status   value of -1 spawns lightly damaged vehicle
-        //                          value of 0 spawns fully intact vehicle
-        //                          value of 1 spawns with destroyed seats / controls / tanks / tires / engines
-        //                          value of 2 spawns fully intact vehicle with no faults or security
-        //                          can be overriden by VEHICLE_STATUS_AT_SPAWN EXTERNAL_OPTION
-        // @param merge_wrecks      if true and vehicle overlaps another then both turn into wrecks
-        //                          if false and vehicle will overlap aborts and returns nullptr
+        vehicle *add_vehicle( const vgroup_id &type, const tripoint &p, const units::angle &dir,
+                              int init_veh_fuel = -1, int init_veh_status = -1,
+                              bool merge_wrecks = true, const std::string &faction = "", bool may_spawn_locked = true );
+        vehicle *add_vehicle( const vgroup_id &type, const point &p, const units::angle &dir,
+                              int init_veh_fuel = -1, int init_veh_status = -1,
+                              bool merge_wrecks = true, const std::string &faction = "", bool may_spawn_locked = true );
         vehicle *add_vehicle( const vproto_id &type, const tripoint &p, const units::angle &dir,
-                              int init_veh_fuel = -1, int init_veh_status = -1, bool merge_wrecks = true );
-
+                              int init_veh_fuel = -1, int init_veh_status = -1,
+                              bool merge_wrecks = true, const std::string &faction = "", bool may_spawn_locked = true );
+        vehicle *add_vehicle( const vproto_id &type, const point &p, const units::angle &dir,
+                              int init_veh_fuel = -1, int init_veh_status = -1,
+                              bool merge_wrecks = true, const std::string &faction = "", bool may_spawn_locked = true );
         // Light/transparency
         float light_transparency( const tripoint &p ) const;
         // Assumes 0,0 is light map center
@@ -1814,7 +1738,6 @@ class map
          * Returns whether the tile at `p` is transparent(you can look past it).
          */
         bool is_transparent( const tripoint &p ) const;
-        bool is_transparent_wo_fields( const tripoint &p ) const;
         // End of light/transparency
 
         /**
@@ -1985,6 +1908,7 @@ class map
 
         void draw_lab( mapgendata &dat );
         void draw_slimepit( const mapgendata &dat );
+        void draw_connections( const mapgendata &dat );
 
         // Builds a transparency cache and returns true if the cache was invalidated.
         // Used to determine if seen cache should be rebuilt.
@@ -2001,9 +1925,6 @@ class map
         bool build_floor_cache( int zlev );
         // We want this visible in `game`, because we want it built earlier in the turn than the rest
         void build_floor_caches();
-        void seen_cache_process_ledges( array_of_grids_of<float> &seen_caches,
-                                        const array_of_grids_of<const bool> &floor_caches,
-                                        const std::optional<tripoint> &override_p ) const;
 
     protected:
         void generate_lightmap( int zlev );
@@ -2076,9 +1997,7 @@ class map
         }
         submap *unsafe_get_submap_at( const tripoint_bub_ms &p, point_sm_ms &offset_p ) {
             tripoint_bub_sm sm;
-            point_sm_ms_ib l;
-            std::tie( sm, l ) = project_remain<coords::sm>( p );
-            offset_p = point_sm_ms( l );
+            std::tie( sm, offset_p ) = project_remain<coords::sm>( p );
             return unsafe_get_submap_at( p );
         }
         // TODO: fix point types (remove the first overload)
@@ -2090,9 +2009,7 @@ class map
         const submap *unsafe_get_submap_at(
             const tripoint_bub_ms &p, point_sm_ms &offset_p ) const {
             tripoint_bub_sm sm;
-            point_sm_ms_ib l;
-            std::tie( sm, l ) = project_remain<coords::sm>( p );
-            offset_p = point_sm_ms( l );
+            std::tie( sm, offset_p ) = project_remain<coords::sm>( p );
             return unsafe_get_submap_at( p );
         }
         submap *get_submap_at( const tripoint &p, point &offset_p ) {
@@ -2184,7 +2101,8 @@ class map
                               const units::angle &wideangle = 30_degrees );
         void apply_light_ray( cata::mdarray<bool, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &lit,
                               const tripoint &s, const tripoint &e, float luminance );
-        void add_light_from_items( const tripoint &p, const item_stack &items );
+        void add_light_from_items( const tripoint &p, const item_stack::iterator &begin,
+                                   const item_stack::iterator &end );
         std::unique_ptr<vehicle> add_vehicle_to_map( std::unique_ptr<vehicle> veh, bool merge_wrecks );
 
         // Internal methods used to bash just the selected features
@@ -2301,11 +2219,9 @@ class map
 
         const pathfinding_cache &get_pathfinding_cache_ref( int zlev ) const;
 
-        void update_pathfinding_cache( const tripoint &p ) const;
         void update_pathfinding_cache( int zlev ) const;
 
         void update_visibility_cache( int zlev );
-        void invalidate_visibility_cache();
         const visibility_variables &get_visibility_variables_cache() const;
 
         void update_submaps_with_active_items();
@@ -2354,16 +2270,6 @@ class map
 
         bool has_haulable_items( const tripoint &pos );
         std::vector<item_location> get_haulable_items( const tripoint &pos );
-
-#if defined(TILES)
-        bool draw_points_cache_dirty = true;
-        std::map<int, std::map<int, std::vector<tile_render_info>>> draw_points_cache;
-        point prev_top_left;
-        point prev_bottom_right;
-        point prev_o;
-        std::multimap<point, formatted_text> overlay_strings_cache;
-        color_block_overlay_container color_blocks_cache;
-#endif
 };
 
 map &get_map();

@@ -3,7 +3,6 @@
 
 #include "font_loader.h"
 #include "output.h"
-#include "sdl_utils.h"
 
 #if defined(_WIN32)
 #   if 1 // HACK: Hack to prevent reordering of #include "platform_win.h" by IWYU
@@ -90,111 +89,91 @@ std::unique_ptr<Font> Font::load_font( SDL_Renderer_Ptr &renderer, SDL_PixelForm
 void Font::draw_ascii_lines( const SDL_Renderer_Ptr &renderer, const GeometryRenderer_Ptr &geometry,
                              unsigned char line_id, const point &p, unsigned char color ) const
 {
-    const int horizontal_thickness = 1;
-    const int vertical_thickness = 2;
-    const int starting_x_offset = ( width - vertical_thickness ) / 2;
-    const int starting_y_offset = ( height - horizontal_thickness ) / 2;
     SDL_Color sdl_color = palette[color];
     switch( line_id ) {
         // box bottom/top side (horizontal line)
         case LINE_OXOX_C:
-            geometry->horizontal_line( renderer, p + point( 0, starting_y_offset ), p.x + width,
-                                       horizontal_thickness,
+            geometry->horizontal_line( renderer, p + point( 0, ( height / 2 ) ), p.x + width, 1,
                                        sdl_color );
             break;
         // box left/right side (vertical line)
         case LINE_XOXO_C:
-            geometry->vertical_line( renderer, p + point( starting_x_offset, 0 ), p.y + height,
-                                     vertical_thickness,
+            geometry->vertical_line( renderer, p + point( ( width / 2 ), 0 ), p.y + height, 2,
                                      sdl_color );
             break;
         // box top left
         case LINE_OXXO_C:
-            geometry->horizontal_line( renderer, p + point( starting_x_offset, starting_y_offset ),
+            geometry->horizontal_line( renderer, p + point( ( width / 2 ), ( height / 2 ) ),
                                        p.x + width,
-                                       horizontal_thickness,
+                                       1,
                                        sdl_color );
-            geometry->vertical_line( renderer, p + point( starting_x_offset, starting_y_offset ),
+            geometry->vertical_line( renderer, p + point( ( width / 2 ), ( height / 2 ) ),
                                      p.y + height,
-                                     vertical_thickness,
+                                     2,
                                      sdl_color );
             break;
         // box top right
         case LINE_OOXX_C:
-            geometry->horizontal_line( renderer, p + point( 0, starting_y_offset ),
-                                       p.x + starting_x_offset + vertical_thickness,
-                                       horizontal_thickness,
+            geometry->horizontal_line( renderer, p + point( 0, ( height / 2 ) ), p.x + ( width / 2 ), 1,
                                        sdl_color );
-            geometry->vertical_line( renderer, p + point( starting_x_offset, starting_y_offset ),
+            geometry->vertical_line( renderer, p + point( ( width / 2 ), ( height / 2 ) ),
                                      p.y + height,
-                                     vertical_thickness,
+                                     2,
                                      sdl_color );
             break;
         // box bottom right
         case LINE_XOOX_C:
-            geometry->horizontal_line( renderer, p + point( 0, starting_y_offset ),
-                                       p.x + starting_x_offset + vertical_thickness,
-                                       horizontal_thickness,
+            geometry->horizontal_line( renderer, p + point( 0, ( height / 2 ) ), p.x + ( width / 2 ), 1,
                                        sdl_color );
-            geometry->vertical_line( renderer, p + point( starting_x_offset, 0 ),
-                                     p.y + starting_y_offset + horizontal_thickness,
-                                     vertical_thickness, sdl_color );
+            geometry->vertical_line( renderer, p + point( ( width / 2 ), 0 ), p.y + ( height / 2 ) + 1,
+                                     2, sdl_color );
             break;
         // box bottom left
         case LINE_XXOO_C:
-            geometry->horizontal_line( renderer, p + point( starting_x_offset, starting_y_offset ),
+            geometry->horizontal_line( renderer, p + point( ( width / 2 ), ( height / 2 ) ),
                                        p.x + width,
-                                       horizontal_thickness,
+                                       1,
                                        sdl_color );
-            geometry->vertical_line( renderer, p + point( starting_x_offset, 0 ),
-                                     p.y + starting_y_offset + horizontal_thickness,
-                                     vertical_thickness, sdl_color );
+            geometry->vertical_line( renderer, p + point( ( width / 2 ), 0 ), p.y + ( height / 2 ) + 1,
+                                     2, sdl_color );
             break;
         // box bottom north T (left, right, up)
         case LINE_XXOX_C:
-            geometry->horizontal_line( renderer, p + point( 0, starting_y_offset ), p.x + width,
-                                       horizontal_thickness,
+            geometry->horizontal_line( renderer, p + point( 0, ( height / 2 ) ), p.x + width, 1,
                                        sdl_color );
-            geometry->vertical_line( renderer, p + point( starting_x_offset, 0 ), p.y + starting_y_offset,
-                                     vertical_thickness,
+            geometry->vertical_line( renderer, p + point( ( width / 2 ), 0 ), p.y + ( height / 2 ), 2,
                                      sdl_color );
             break;
         // box bottom east T (up, right, down)
         case LINE_XXXO_C:
-            geometry->vertical_line( renderer, p + point( starting_x_offset, 0 ), p.y + height,
-                                     vertical_thickness,
+            geometry->vertical_line( renderer, p + point( ( width / 2 ), 0 ), p.y + height, 2,
                                      sdl_color );
-            geometry->horizontal_line( renderer, p + point( starting_x_offset, starting_y_offset ),
+            geometry->horizontal_line( renderer, p + point( ( width / 2 ), ( height / 2 ) ),
                                        p.x + width,
-                                       horizontal_thickness,
+                                       1,
                                        sdl_color );
             break;
         // box bottom south T (left, right, down)
         case LINE_OXXX_C:
-            geometry->horizontal_line( renderer, p + point( 0, starting_y_offset ), p.x + width,
-                                       horizontal_thickness,
+            geometry->horizontal_line( renderer, p + point( 0, ( height / 2 ) ), p.x + width, 1,
                                        sdl_color );
-            geometry->vertical_line( renderer, p + point( starting_x_offset, starting_y_offset ),
+            geometry->vertical_line( renderer, p + point( ( width / 2 ), ( height / 2 ) ),
                                      p.y + height,
-                                     vertical_thickness,
+                                     2,
                                      sdl_color );
             break;
         // box X (left down up right)
         case LINE_XXXX_C:
-            geometry->horizontal_line( renderer, p + point( 0, starting_y_offset ), p.x + width,
-                                       horizontal_thickness,
+            geometry->horizontal_line( renderer, p + point( 0, ( height / 2 ) ), p.x + width, 1,
                                        sdl_color );
-            geometry->vertical_line( renderer, p + point( starting_x_offset, 0 ), p.y + height,
-                                     vertical_thickness,
+            geometry->vertical_line( renderer, p + point( ( width / 2 ), 0 ), p.y + height, 2,
                                      sdl_color );
             break;
         // box bottom east T (left, down, up)
         case LINE_XOXX_C:
-            geometry->vertical_line( renderer, p + point( starting_x_offset, 0 ), p.y + height,
-                                     vertical_thickness,
+            geometry->vertical_line( renderer, p + point( ( width / 2 ), 0 ), p.y + height, 2,
                                      sdl_color );
-            geometry->horizontal_line( renderer, p + point( 0, starting_y_offset ), p.x + starting_x_offset,
-                                       horizontal_thickness,
+            geometry->horizontal_line( renderer, p + point( 0, ( height / 2 ) ), p.x + ( width / 2 ), 1,
                                        sdl_color );
             break;
         default:
@@ -311,10 +290,24 @@ SDL_Texture_Ptr CachedTTFFont::create_glyph( const SDL_Renderer_Ptr &renderer,
         dbg( D_ERROR ) << "Failed to create glyph for " << ch << ": " << TTF_GetError();
         return nullptr;
     }
+    /* SDL interprets each pixel as a 32-bit number, so our masks must depend
+       on the endianness (byte order) of the machine */
+#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+    static const Uint32 rmask = 0xff000000;
+    static const Uint32 gmask = 0x00ff0000;
+    static const Uint32 bmask = 0x0000ff00;
+    static const Uint32 amask = 0x000000ff;
+#else
+    static const Uint32 rmask = 0x000000ff;
+    static const Uint32 gmask = 0x0000ff00;
+    static const Uint32 bmask = 0x00ff0000;
+    static const Uint32 amask = 0xff000000;
+#endif
     const int wf = utf8_width( ch );
     // Note: bits per pixel must be 8 to be synchronized with the surface
     // that TTF_RenderGlyph above returns. This is important for SDL_BlitScaled
-    SDL_Surface_Ptr surface = create_surface_32( width * wf, height );
+    SDL_Surface_Ptr surface = CreateRGBSurface( 0, width * wf, height, 32, rmask, gmask, bmask,
+                              amask );
     SDL_Rect src_rect = { 0, 0, sglyph->w, sglyph->h };
     SDL_Rect dst_rect = { 0, 0, width * wf, height };
     if( src_rect.w < dst_rect.w ) {
@@ -332,13 +325,10 @@ SDL_Texture_Ptr CachedTTFFont::create_glyph( const SDL_Renderer_Ptr &renderer,
         src_rect.h = dst_rect.h;
     }
 
-    // Copy without altering the source
-    SDL_SetSurfaceBlendMode( sglyph.get(), SDL_BLENDMODE_NONE );
     if( !printErrorIf( SDL_BlitSurface( sglyph.get(), &src_rect, surface.get(), &dst_rect ) != 0,
                        "SDL_BlitSurface failed" ) ) {
         sglyph = std::move( surface );
     }
-    SDL_SetSurfaceBlendMode( sglyph.get(), SDL_BLENDMODE_BLEND );
 
     return CreateTextureFromSurface( renderer, sglyph );
 }

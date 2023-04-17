@@ -236,19 +236,13 @@
     "flags": [ "VARSIZE", "STURDY", "WATERPROOF" ],
     "armor": [
       {
-        "material": [
-          { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "canvas_quilted_2", "covered_by_mat": 95, "thickness": 2.5 }
-        ],
+        "material": [ { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 3.5 } ],
         "covers": [ "torso" ],
         "coverage": 100,
         "encumbrance": 10
       },
       {
-        "material": [
-          { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "canvas_quilted_2", "covered_by_mat": 95, "thickness": 2.0 }
-        ],
+        "material": [ { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 3.0 } ],
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
         "encumbrance": 15
@@ -294,10 +288,7 @@
     "flags": [ "VARSIZE", "STURDY", "WATERPROOF" ],
     "armor": [
       {
-        "material": [
-          { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "canvas_quilted_2", "covered_by_mat": 95, "thickness": 2.5 }
-        ],
+        "material": [ { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 3.5 } ],
         "covers": [ "torso" ],
         "coverage": 100,
         "encumbrance": 10
@@ -343,10 +334,7 @@
     "flags": [ "VARSIZE", "STURDY", "WATERPROOF" ],
     "armor": [
       {
-        "material": [
-          { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "canvas_quilted_2", "covered_by_mat": 95, "thickness": 2.0 }
-        ],
+        "material": [ { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 3.0 } ],
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 100,
         "encumbrance": 15
@@ -392,10 +380,7 @@
     "flags": [ "VARSIZE", "STURDY", "SKINTIGHT", "WATERPROOF" ],
     "armor": [
       {
-        "material": [
-          { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "canvas_quilted_2", "covered_by_mat": 95, "thickness": 1.0 }
-        ],
+        "material": [ { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 2.0 } ],
         "covers": [ "head" ],
         "specifically_covers": [ "head_throat", "head_ear_l", "head_ear_r", "head_forehead", "head_crown", "head_nape" ],
         "coverage": 100,
@@ -442,10 +427,7 @@
     "flags": [ "VARSIZE", "STURDY" ],
     "armor": [
       {
-        "material": [
-          { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "canvas_quilted_2", "covered_by_mat": 95, "thickness": 1.0 }
-        ],
+        "material": [ { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 2.0 } ],
         "covers": [ "hand_l", "hand_r" ],
         "coverage": 100,
         "encumbrance": 20
@@ -496,8 +478,8 @@
     "armor": [
       {
         "material": [
-          { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 2.0 },
-          { "type": "canvas_quilted_2", "covered_by_mat": 95, "thickness": 5.5 }
+          { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 3.5 },
+          { "type": "canvas_quilted_2", "covered_by_mat": 95, "thickness": 4.0 }
         ],
         "covers": [ "torso" ],
         "coverage": 100,
@@ -505,8 +487,8 @@
       },
       {
         "material": [
-          { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 2.0 },
-          { "type": "canvas_quilted_2", "covered_by_mat": 95, "thickness": 4.0 }
+          { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 3.0 },
+          { "type": "canvas_quilted_2", "covered_by_mat": 95, "thickness": 3.0 }
         ],
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
@@ -568,22 +550,18 @@
     "armor": [
       {
         "material": [
-          { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 2.0 },
-          { "type": "canvas_quilted_2", "covered_by_mat": 95, "thickness": 5.5 }
+          { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 3.5 },
+          { "type": "canvas_quilted_2", "covered_by_mat": 95, "thickness": 4.0 }
         ],
         "covers": [ "torso" ],
         "coverage": 100,
         "encumbrance": 20
       },
       {
-        "material": [
-          { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "canvas_quilted_2", "covered_by_mat": 95, "thickness": 2.0 }
-        ],
+        "material": [ { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 3.0 } ],
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
         "encumbrance": 15,
-        "layers": [ "NORMAL" ],
         "//warmth": 30
       },
       {
@@ -640,8 +618,8 @@
     "armor": [
       {
         "material": [
-          { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 2.0 },
-          { "type": "canvas_quilted_2", "covered_by_mat": 95, "thickness": 5.5 }
+          { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 3.5 },
+          { "type": "canvas_quilted_2", "covered_by_mat": 95, "thickness": 4.0 }
         ],
         "covers": [ "torso" ],
         "coverage": 100,
@@ -698,8 +676,8 @@
     "armor": [
       {
         "material": [
-          { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 2.0 },
-          { "type": "canvas_quilted_2", "covered_by_mat": 95, "thickness": 4.0 }
+          { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 3.0 },
+          { "type": "canvas_quilted_2", "covered_by_mat": 95, "thickness": 3.0 }
         ],
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 100,
@@ -816,19 +794,13 @@
     "flags": [ "VARSIZE", "STURDY", "WATERPROOF" ],
     "armor": [
       {
-        "material": [
-          { "type": "nylon_quilted", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "nylon_quilted_2", "covered_by_mat": 95, "thickness": 2.5 }
-        ],
+        "material": [ { "type": "nylon_quilted", "covered_by_mat": 100, "thickness": 3.5 } ],
         "covers": [ "torso" ],
         "coverage": 100,
         "encumbrance": 7
       },
       {
-        "material": [
-          { "type": "nylon_quilted", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "nylon_quilted_2", "covered_by_mat": 95, "thickness": 2.0 }
-        ],
+        "material": [ { "type": "nylon_quilted", "covered_by_mat": 100, "thickness": 3.0 } ],
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
         "encumbrance": 10
@@ -874,10 +846,7 @@
     "flags": [ "VARSIZE", "STURDY", "WATERPROOF" ],
     "armor": [
       {
-        "material": [
-          { "type": "nylon_quilted", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "nylon_quilted_2", "covered_by_mat": 95, "thickness": 2.5 }
-        ],
+        "material": [ { "type": "nylon_quilted", "covered_by_mat": 100, "thickness": 3.5 } ],
         "covers": [ "torso" ],
         "coverage": 100,
         "encumbrance": 7
@@ -923,10 +892,7 @@
     "flags": [ "VARSIZE", "STURDY", "WATERPROOF" ],
     "armor": [
       {
-        "material": [
-          { "type": "nylon_quilted", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "nylon_quilted_2", "covered_by_mat": 95, "thickness": 2.0 }
-        ],
+        "material": [ { "type": "nylon_quilted", "covered_by_mat": 100, "thickness": 3.0 } ],
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 100,
         "encumbrance": 10
@@ -972,10 +938,7 @@
     "flags": [ "VARSIZE", "STURDY", "SKINTIGHT" ],
     "armor": [
       {
-        "material": [
-          { "type": "nylon_quilted", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "nylon_quilted_2", "covered_by_mat": 95, "thickness": 1.0 }
-        ],
+        "material": [ { "type": "nylon_quilted", "covered_by_mat": 100, "thickness": 2.0 } ],
         "covers": [ "head" ],
         "specifically_covers": [ "head_throat", "head_ear_l", "head_ear_r", "head_forehead", "head_crown", "head_nape" ],
         "coverage": 100,
@@ -1022,10 +985,7 @@
     "flags": [ "VARSIZE", "STURDY" ],
     "armor": [
       {
-        "material": [
-          { "type": "nylon_quilted", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "nylon_quilted_2", "covered_by_mat": 95, "thickness": 1.0 }
-        ],
+        "material": [ { "type": "nylon_quilted", "covered_by_mat": 100, "thickness": 2.0 } ],
         "covers": [ "hand_l", "hand_r" ],
         "coverage": 100,
         "encumbrance": 15
@@ -1076,8 +1036,8 @@
     "armor": [
       {
         "material": [
-          { "type": "nylon_quilted", "covered_by_mat": 100, "thickness": 2.0 },
-          { "type": "nylon_quilted_2", "covered_by_mat": 95, "thickness": 5.5 }
+          { "type": "nylon_quilted", "covered_by_mat": 100, "thickness": 3.5 },
+          { "type": "nylon_quilted_2", "covered_by_mat": 95, "thickness": 4.0 }
         ],
         "covers": [ "torso" ],
         "coverage": 100,
@@ -1085,8 +1045,8 @@
       },
       {
         "material": [
-          { "type": "nylon_quilted", "covered_by_mat": 100, "thickness": 2.0 },
-          { "type": "nylon_quilted_2", "covered_by_mat": 95, "thickness": 4.0 }
+          { "type": "nylon_quilted", "covered_by_mat": 100, "thickness": 3.0 },
+          { "type": "nylon_quilted_2", "covered_by_mat": 95, "thickness": 3.0 }
         ],
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
@@ -1148,22 +1108,18 @@
     "armor": [
       {
         "material": [
-          { "type": "nylon_quilted", "covered_by_mat": 100, "thickness": 2.0 },
-          { "type": "nylon_quilted_2", "covered_by_mat": 95, "thickness": 5.5 }
+          { "type": "nylon_quilted", "covered_by_mat": 100, "thickness": 3.5 },
+          { "type": "nylon_quilted_2", "covered_by_mat": 95, "thickness": 4.0 }
         ],
         "covers": [ "torso" ],
         "coverage": 100,
         "encumbrance": 15
       },
       {
-        "material": [
-          { "type": "nylon_quilted", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "nylon_quilted_2", "covered_by_mat": 95, "thickness": 2.0 }
-        ],
+        "material": [ { "type": "nylon_quilted", "covered_by_mat": 100, "thickness": 3.0 } ],
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
         "encumbrance": 10,
-        "layers": [ "NORMAL" ],
         "//warmth": 30
       },
       {
@@ -1220,8 +1176,8 @@
     "armor": [
       {
         "material": [
-          { "type": "nylon_quilted", "covered_by_mat": 100, "thickness": 2.0 },
-          { "type": "nylon_quilted_2", "covered_by_mat": 95, "thickness": 5.5 }
+          { "type": "nylon_quilted", "covered_by_mat": 100, "thickness": 3.5 },
+          { "type": "nylon_quilted_2", "covered_by_mat": 95, "thickness": 4.0 }
         ],
         "covers": [ "torso" ],
         "coverage": 100,
@@ -1278,8 +1234,8 @@
     "armor": [
       {
         "material": [
-          { "type": "nylon_quilted", "covered_by_mat": 100, "thickness": 2.0 },
-          { "type": "nylon_quilted_2", "covered_by_mat": 95, "thickness": 4.0 }
+          { "type": "nylon_quilted", "covered_by_mat": 100, "thickness": 3.0 },
+          { "type": "nylon_quilted_2", "covered_by_mat": 95, "thickness": 3.0 }
         ],
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 100,
@@ -1397,19 +1353,13 @@
     "flags": [ "VARSIZE", "STURDY" ],
     "armor": [
       {
-        "material": [
-          { "type": "wool_quilted", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "wool_quilted_2", "covered_by_mat": 95, "thickness": 2.5 }
-        ],
+        "material": [ { "type": "wool_quilted", "covered_by_mat": 100, "thickness": 3.5 } ],
         "covers": [ "torso" ],
         "coverage": 100,
         "encumbrance": 9
       },
       {
-        "material": [
-          { "type": "wool_quilted", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "wool_quilted_2", "covered_by_mat": 95, "thickness": 2.0 }
-        ],
+        "material": [ { "type": "wool_quilted", "covered_by_mat": 100, "thickness": 3.0 } ],
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
         "encumbrance": 13
@@ -1456,10 +1406,7 @@
     "flags": [ "VARSIZE", "STURDY" ],
     "armor": [
       {
-        "material": [
-          { "type": "wool_quilted", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "wool_quilted_2", "covered_by_mat": 95, "thickness": 2.5 }
-        ],
+        "material": [ { "type": "wool_quilted", "covered_by_mat": 100, "thickness": 3.5 } ],
         "covers": [ "torso" ],
         "coverage": 100,
         "encumbrance": 9
@@ -1505,10 +1452,7 @@
     "flags": [ "VARSIZE", "STURDY" ],
     "armor": [
       {
-        "material": [
-          { "type": "wool_quilted", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "wool_quilted_2", "covered_by_mat": 95, "thickness": 2.0 }
-        ],
+        "material": [ { "type": "wool_quilted", "covered_by_mat": 100, "thickness": 3.0 } ],
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 100,
         "encumbrance": 13
@@ -1555,10 +1499,7 @@
     "flags": [ "VARSIZE", "STURDY", "SKINTIGHT" ],
     "armor": [
       {
-        "material": [
-          { "type": "wool_quilted", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "wool_quilted_2", "covered_by_mat": 95, "thickness": 1.0 }
-        ],
+        "material": [ { "type": "wool_quilted", "covered_by_mat": 100, "thickness": 2.0 } ],
         "covers": [ "head" ],
         "specifically_covers": [ "head_throat", "head_ear_l", "head_ear_r", "head_forehead", "head_crown", "head_nape" ],
         "coverage": 100,
@@ -1606,10 +1547,7 @@
     "flags": [ "VARSIZE", "STURDY" ],
     "armor": [
       {
-        "material": [
-          { "type": "wool_quilted", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "wool_quilted_2", "covered_by_mat": 95, "thickness": 1.0 }
-        ],
+        "material": [ { "type": "wool_quilted", "covered_by_mat": 100, "thickness": 2.0 } ],
         "covers": [ "hand_l", "hand_r" ],
         "coverage": 100,
         "encumbrance": 18
@@ -1661,8 +1599,8 @@
     "armor": [
       {
         "material": [
-          { "type": "wool_quilted", "covered_by_mat": 100, "thickness": 2.0 },
-          { "type": "wool_quilted_2", "covered_by_mat": 95, "thickness": 5.5 }
+          { "type": "wool_quilted", "covered_by_mat": 100, "thickness": 3.5 },
+          { "type": "wool_quilted_2", "covered_by_mat": 95, "thickness": 4.0 }
         ],
         "covers": [ "torso" ],
         "coverage": 100,
@@ -1670,8 +1608,8 @@
       },
       {
         "material": [
-          { "type": "wool_quilted", "covered_by_mat": 100, "thickness": 2.0 },
-          { "type": "wool_quilted_2", "covered_by_mat": 95, "thickness": 4.0 }
+          { "type": "wool_quilted", "covered_by_mat": 100, "thickness": 3.0 },
+          { "type": "wool_quilted_2", "covered_by_mat": 95, "thickness": 3.0 }
         ],
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
@@ -1734,22 +1672,18 @@
     "armor": [
       {
         "material": [
-          { "type": "wool_quilted", "covered_by_mat": 100, "thickness": 2.0 },
-          { "type": "wool_quilted_2", "covered_by_mat": 95, "thickness": 5.5 }
+          { "type": "wool_quilted", "covered_by_mat": 100, "thickness": 3.5 },
+          { "type": "wool_quilted_2", "covered_by_mat": 95, "thickness": 4.0 }
         ],
         "covers": [ "torso" ],
         "coverage": 100,
         "encumbrance": 18
       },
       {
-        "material": [
-          { "type": "wool_quilted", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "wool_quilted_2", "covered_by_mat": 95, "thickness": 2.0 }
-        ],
+        "material": [ { "type": "wool_quilted", "covered_by_mat": 100, "thickness": 3.0 } ],
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
         "encumbrance": 23,
-        "layers": [ "NORMAL" ],
         "//warmth": 33
       },
       {
@@ -1807,8 +1741,8 @@
     "armor": [
       {
         "material": [
-          { "type": "wool_quilted", "covered_by_mat": 100, "thickness": 2.0 },
-          { "type": "wool_quilted_2", "covered_by_mat": 95, "thickness": 5.5 }
+          { "type": "wool_quilted", "covered_by_mat": 100, "thickness": 3.5 },
+          { "type": "wool_quilted_2", "covered_by_mat": 95, "thickness": 4.0 }
         ],
         "covers": [ "torso" ],
         "coverage": 100,
@@ -1866,8 +1800,8 @@
     "armor": [
       {
         "material": [
-          { "type": "wool_quilted", "covered_by_mat": 100, "thickness": 2.0 },
-          { "type": "wool_quilted_2", "covered_by_mat": 95, "thickness": 4.0 }
+          { "type": "wool_quilted", "covered_by_mat": 100, "thickness": 3.0 },
+          { "type": "wool_quilted_2", "covered_by_mat": 95, "thickness": 3.0 }
         ],
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 100,

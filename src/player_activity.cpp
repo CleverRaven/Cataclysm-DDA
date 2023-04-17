@@ -12,7 +12,6 @@
 #include "construction.h"
 #include "effect_on_condition.h"
 #include "field.h"
-#include "event_bus.h"
 #include "game.h"
 #include "item.h"
 #include "itype.h"
@@ -42,7 +41,6 @@ static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
 static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
 static const activity_id ACT_HACKSAW( "ACT_HACKSAW" );
 static const activity_id ACT_HEATING( "ACT_HEATING" );
-static const activity_id ACT_INVOKE_ITEM( "ACT_INVOKE_ITEM" );
 static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
 static const activity_id ACT_MIGRATION_CANCEL( "ACT_MIGRATION_CANCEL" );
 static const activity_id ACT_NULL( "ACT_NULL" );
@@ -119,9 +117,9 @@ int player_activity::get_value( size_t index, int def ) const
     return index < values.size() ? values[index] : def;
 }
 
-bool player_activity::can_resume() const
+bool player_activity::is_suspendable() const
 {
-    return type->can_resume();
+    return type->suspendable();
 }
 
 bool player_activity::is_multi_type() const
@@ -148,7 +146,6 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
         type == ACT_CONSUME_FOOD_MENU ||
         type == ACT_CONSUME_MEDS_MENU ||
         type == ACT_EAT_MENU ||
-        type == ACT_INVOKE_ITEM ||
         type == ACT_PICKUP_MENU ||
         type == ACT_VIEW_RECIPE ) {
         return std::nullopt;
@@ -217,7 +214,6 @@ void player_activity::start_or_resume( Character &who, bool resuming )
     }
     // last, as start function may have changed the type
     synchronize_type_with_actor();
-    get_event_bus().send<event_type::character_starts_activity>( who.getID(), type, resuming );
 }
 
 void player_activity::do_turn( Character &you )
@@ -240,24 +236,21 @@ void player_activity::do_turn( Character &you )
     }
     // Only do once every two minutes to loosely simulate consume times,
     // the exact amount of time is added correctly below, here we just want to prevent eating something every second
-    if( calendar::once_every( 2_minutes ) && *this && !you.is_npc() ) {
-        if( type->valid_auto_needs() && !you.has_effect( effect_nausea ) ) {
-            if( you.stomach.contains() <= you.stomach.capacity( you ) / 4 && you.get_kcal_percent() < 0.95f &&
-                !no_food_nearby_for_auto_consume ) {
-                int consume_moves = get_auto_consume_moves( you, true );
-                moves_left += consume_moves;
-                moves_total += consume_moves;
-                if( consume_moves == 0 ) {
-                    no_food_nearby_for_auto_consume = true;
-                }
+    if( calendar::once_every( 2_minutes ) && *this && !you.is_npc() && type->valid_auto_needs() &&
+        !you.has_effect( effect_nausea ) ) {
+        if( you.stomach.contains() <= you.stomach.capacity( you ) / 4 && you.get_kcal_percent() < 0.95f &&
+            !no_food_nearby_for_auto_consume ) {
+            int consume_moves = get_auto_consume_moves( you, true );
+            moves_left += consume_moves;
+            if( consume_moves == 0 ) {
+                no_food_nearby_for_auto_consume = true;
             }
-            if( you.get_thirst() > 130 && !no_drink_nearby_for_auto_consume ) {
-                int consume_moves = get_auto_consume_moves( you, false );
-                moves_left += consume_moves;
-                moves_total += consume_moves;
-                if( consume_moves == 0 ) {
-                    no_drink_nearby_for_auto_consume = true;
-                }
+        }
+        if( you.get_thirst() > 130 && !no_drink_nearby_for_auto_consume ) {
+            int consume_moves = get_auto_consume_moves( you, false );
+            moves_left += consume_moves;
+            if( consume_moves == 0 ) {
+                no_drink_nearby_for_auto_consume = true;
             }
         }
     }
@@ -298,10 +291,6 @@ void player_activity::do_turn( Character &you )
             type->do_turn_EOC->activate( d );
         } else {
             debugmsg( "Must use an activation eoc for player activities.  Otherwise, create a non-recurring effect_on_condition for this with its condition and effects, then have a recurring one queue it." );
-        }
-        // We may have canceled this via a message interrupt.
-        if( type.is_null() ) {
-            return;
         }
     }
 
@@ -346,13 +335,12 @@ void player_activity::do_turn( Character &you )
                 case UILIST_CANCEL:
                 case 2:
                     auto_resume = false;
-                    you.cancel_activity();
+                    set_to_null();
                     break;
                 case 3:
                     ignoreQuery = true;
                     break;
                 default:
-                    canceled( you );
                     break;
             }
         }
@@ -378,7 +366,6 @@ void player_activity::do_turn( Character &you )
                 debugmsg( "Must use an activation eoc for player activities.  Otherwise, create a non-recurring effect_on_condition for this with its condition and effects, then have a recurring one queue it." );
             }
         }
-        get_event_bus().send<event_type::character_finished_activity>( you.getID(), type, false );
         if( actor ) {
             actor->finish( *this, you );
         } else {
@@ -404,7 +391,6 @@ void player_activity::canceled( Character &who )
     if( *this && actor ) {
         actor->canceled( *this, who );
     }
-    get_event_bus().send<event_type::character_finished_activity>( who.getID(), type, true );
 }
 
 float player_activity::exertion_level() const
@@ -430,7 +416,7 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
     // Should be used for relative positions
     // And to forbid resuming now-invalid crafting
 
-    if( !*this || !other || !type->can_resume() ) {
+    if( !*this || !other || type->no_resume() ) {
         return false;
     }
 
@@ -526,7 +512,7 @@ std::map<distraction_type, std::string> player_activity::get_distractions() cons
     }
     if( uistate.distraction_temperature && !is_distraction_ignored( distraction_type::temperature ) ) {
         for( const bodypart_id &bp : u.get_all_body_parts() ) {
-            const units::temperature bp_temp = u.get_part_temp_cur( bp );
+            const int bp_temp = u.get_part_temp_cur( bp );
             if( bp_temp > BODYTEMP_VERY_HOT ) {
                 res.emplace( distraction_type::temperature, _( "You are overheating!" ) );
                 break;

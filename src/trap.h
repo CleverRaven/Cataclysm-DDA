@@ -65,7 +65,6 @@ bool map_regen( const tripoint &p, Creature *c, item *i );
 bool drain( const tripoint &p, Creature *c, item *i );
 bool snake( const tripoint &p, Creature *c, item *i );
 bool cast_spell( const tripoint &p, Creature *critter, item * );
-bool sound_detect( const tripoint &p, Creature *, item * );
 } // namespace trapfunc
 
 struct vehicle_handle_trap_data {
@@ -152,10 +151,6 @@ struct trap {
          * If an item with this weight or more is thrown onto the trap, it triggers.
          */
         units::mass trigger_weight = 500_gram;
-        /**
-         * Determines how much sound is needed to trigger the trap. Defined as {min,max}.
-         */
-        std::pair<int, int> sound_threshold = {0, 0};
         int funnel_radius_mm = 0;
         // For disassembly?
         std::vector<std::tuple<itype_id, int, int>> components;
@@ -163,7 +158,7 @@ struct trap {
         // data required for trapfunc::spell()
         fake_spell spell_data;
         int comfort = 0;
-        units::temperature_delta floor_bedding_warmth = 0_C_delta;
+        int floor_bedding_warmth = 0;
         vehicle_handle_trap_data vehicle_data;
         std::string name() const;
         /**
@@ -289,8 +284,6 @@ struct trap {
         void trigger( const tripoint &pos, item &item ) const;
         /*@}*/
 
-        void trigger( const tripoint &pos ) const;
-
         /**
          * If the given item is throw onto the trap, does it trigger the trap?
          */
@@ -337,13 +330,6 @@ struct trap {
          */
         static const std::vector<const trap *> &get_funnels();
         /*@}*/
-
-        /*
-         * Can the trap be triggered by sounds?
-         */
-        bool has_sound_trigger() const;
-        static const std::vector<const trap *> &get_sound_triggered_traps();
-        bool triggered_by_sound( int vol, int dist ) const;
 
         /*@{*/
         /**

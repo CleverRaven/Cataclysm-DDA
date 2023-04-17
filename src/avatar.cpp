@@ -68,7 +68,6 @@
 #include "ranged.h"
 #include "ret_val.h"
 #include "rng.h"
-#include "scenario.h"
 #include "skill.h"
 #include "stomach.h"
 #include "string_formatter.h"
@@ -95,7 +94,6 @@ static const efftype_id effect_happy( "happy" );
 static const efftype_id effect_irradiated( "irradiated" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_pkill( "pkill" );
-static const efftype_id effect_psi_stunned( "psi_stunned" );
 static const efftype_id effect_relax_gas( "relax_gas" );
 static const efftype_id effect_sad( "sad" );
 static const efftype_id effect_sleep( "sleep" );
@@ -139,7 +137,6 @@ static const trait_id trait_SHELL3( "SHELL3" );
 static const trait_id trait_STIMBOOST( "STIMBOOST" );
 static const trait_id trait_THICK_SCALES( "THICK_SCALES" );
 static const trait_id trait_THRESH_SPIDER( "THRESH_SPIDER" );
-static const trait_id trait_UNDINE_SLEEP_WATER( "UNDINE_SLEEP_WATER" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
 static const trait_id trait_WEB_WALKER( "WEB_WALKER" );
@@ -163,11 +160,24 @@ avatar::avatar( avatar && ) = default;
 // NOLINTNEXTLINE(performance-noexcept-move-constructor)
 avatar &avatar::operator=( avatar && ) = default;
 
+static void swap_npc( npc &one, npc &two, npc &tmp )
+{
+    tmp = std::move( one );
+    one = std::move( two );
+    two = std::move( tmp );
+}
+
 void avatar::control_npc( npc &np, const bool debug )
 {
     if( !np.is_player_ally() ) {
         debugmsg( "control_npc() called on non-allied npc %s", np.name );
         return;
+    }
+    if( !shadow_npc ) {
+        shadow_npc = std::make_unique<npc>();
+        shadow_npc->op_of_u.trust = 10;
+        shadow_npc->op_of_u.value = 10;
+        shadow_npc->set_attitude( NPCATT_FOLLOW );
     }
     character_id new_character = np.getID();
     const std::function<void( npc & )> update_npc = [new_character]( npc & guy ) {
@@ -175,12 +185,13 @@ void avatar::control_npc( npc &np, const bool debug )
     };
     overmap_buffer.foreach_npc( update_npc );
     mission().update_world_missions_character( get_avatar().getID(), new_character );
+    npc tmp;
     // move avatar character data into shadow npc
-    swap_character( get_shadow_npc() );
+    swap_character( *shadow_npc, tmp );
     // swap target npc with shadow npc
-    std::swap( get_shadow_npc(), np );
+    swap_npc( *shadow_npc, np, tmp );
     // move shadow npc character data into avatar
-    swap_character( get_shadow_npc() );
+    swap_character( *shadow_npc, tmp );
     // the avatar character is no longer a follower NPC
     g->remove_npc_follower( getID() );
     // the previous avatar character is now a follower
@@ -240,11 +251,6 @@ void avatar::toggle_map_memory()
     show_map_memory = !show_map_memory;
 }
 
-bool avatar::is_map_memory_valid() const
-{
-    return player_map_memory->is_valid();
-}
-
 bool avatar::should_show_map_memory() const
 {
     if( get_timed_events().get( timed_event_type::OVERRIDE_PLACE ) ) {
@@ -255,20 +261,20 @@ bool avatar::should_show_map_memory() const
 
 bool avatar::save_map_memory()
 {
-    return player_map_memory->save( get_map().getglobal( pos() ) );
+    return player_map_memory->save( get_map().getabs( pos() ) );
 }
 
 void avatar::load_map_memory()
 {
-    player_map_memory->load( get_map().getglobal( pos() ) );
+    player_map_memory->load( get_map().getabs( pos() ) );
 }
 
-void avatar::prepare_map_memory_region( const tripoint_abs_ms &p1, const tripoint_abs_ms &p2 )
+void avatar::prepare_map_memory_region( const tripoint &p1, const tripoint &p2 )
 {
     player_map_memory->prepare_region( p1, p2 );
 }
 
-const memorized_tile &avatar::get_memorized_tile( const tripoint_abs_ms &p ) const
+const memorized_tile &avatar::get_memorized_tile( const tripoint &p ) const
 {
     if( should_show_map_memory() ) {
         return player_map_memory->get_tile( p );
@@ -276,26 +282,26 @@ const memorized_tile &avatar::get_memorized_tile( const tripoint_abs_ms &p ) con
     return mm_submap::default_tile;
 }
 
-void avatar::memorize_terrain( const tripoint_abs_ms &p, const std::string_view id,
+void avatar::memorize_terrain( const tripoint &p, const std::string_view id,
                                int subtile, int rotation )
 {
     player_map_memory->set_tile_terrain( p, id, subtile, rotation );
 }
 
-void avatar::memorize_decoration( const tripoint_abs_ms &p, const std::string_view id,
+void avatar::memorize_decoration( const tripoint &p, const std::string_view id,
                                   int subtile, int rotation )
 {
     player_map_memory->set_tile_decoration( p, id, subtile, rotation );
 }
 
-void avatar::memorize_symbol( const tripoint_abs_ms &p, char32_t symbol )
+void avatar::memorize_symbol( const tripoint &p, char32_t symbol )
 {
     player_map_memory->set_tile_symbol( p, symbol );
 }
 
-void avatar::memorize_clear_decoration( const tripoint_abs_ms &p, std::string_view prefix )
+void avatar::memorize_clear_vehicles( const tripoint &p )
 {
-    player_map_memory->clear_tile_decoration( p, prefix );
+    player_map_memory->clear_tile_vehicles( p );
 }
 
 std::vector<mission *> avatar::get_active_missions() const
@@ -379,16 +385,6 @@ void avatar::on_mission_finished( mission &cur_mission )
     }
 }
 
-bool avatar::has_mission_id( const mission_type_id &miss_id )
-{
-    for( mission *miss : active_missions ) {
-        if( miss->mission_id() == miss_id ) {
-            return true;
-        }
-    }
-    return false;
-}
-
 void avatar::remove_active_mission( mission &cur_mission )
 {
     cur_mission.remove_active_world_mission( cur_mission );
@@ -436,7 +432,7 @@ bool avatar::read( item_location &book, item_location ereader )
     // spells are handled in a different place
     // src/iuse_actor.cpp -> learn_spell_actor::use
     if( book->get_use( "learn_spell" ) ) {
-        book->get_use( "learn_spell" )->call( this, *book, pos() );
+        book->get_use( "learn_spell" )->call( *this, *book, book->active, pos() );
         return true;
     }
 
@@ -474,11 +470,11 @@ bool avatar::read( item_location &book, item_location ereader )
     const std::string skill_name = skill ? skill.obj().name() : "";
 
     // Find NPCs to join the study session:
-    std::map<Character *, std::string> learners;
+    std::map<npc *, std::string> learners;
     //reading only for fun
-    std::map<Character *, std::string> fun_learners;
-    std::map<Character *, std::string> nonlearners;
-    for( Character *elem : get_crafting_helpers() ) {
+    std::map<npc *, std::string> fun_learners;
+    std::map<npc *, std::string> nonlearners;
+    for( npc *elem : get_crafting_helpers() ) {
         const book_mastery mastery = elem->get_book_mastery( *book );
         const bool morale_req = elem->fun_to_read( *book ) || elem->has_morale_to_read();
 
@@ -519,22 +515,21 @@ bool avatar::read( item_location &book, item_location ereader )
         uilist menu;
 
         // Some helpers to reduce repetition:
-        auto length = []( const std::pair<Character *, std::string> &elem ) {
+        auto length = []( const std::pair<npc *, std::string> &elem ) {
             return utf8_width( elem.first->disp_name() ) + utf8_width( elem.second );
         };
 
-        auto max_length = [&length]( const std::map<Character *, std::string> &m ) {
+        auto max_length = [&length]( const std::map<npc *, std::string> &m ) {
             auto max_ele = std::max_element( m.begin(),
-                                             m.end(), [&length]( const std::pair<Character *, std::string> &left,
-            const std::pair<Character *, std::string> &right ) {
+                                             m.end(), [&length]( const std::pair<npc *, std::string> &left,
+            const std::pair<npc *, std::string> &right ) {
                 return length( left ) < length( right );
             } );
             return max_ele == m.end() ? 0 : length( *max_ele );
         };
 
-        auto get_text = [&]( const std::map<Character *, std::string> &m,
-                             const std::pair<Character *, std::string> &elem
-        ) {
+        auto get_text =
+        [&]( const std::map<npc *, std::string> &m, const std::pair<npc *, std::string> &elem ) {
             const int lvl = elem.first->get_knowledge_level( skill );
             const std::string lvl_text = skill ? string_format( _( " | current level: %d" ), lvl ) : "";
             const std::string name_text = elem.first->disp_name() + elem.second;
@@ -565,8 +560,8 @@ bool avatar::read( item_location &book, item_location ereader )
         }
 
         if( !learners.empty() ) {
-            add_header( _( "Read until this character gains a level:" ) );
-            for( const std::pair<Character *const, std::string> &elem : learners ) {
+            add_header( _( "Read until this NPC gains a level:" ) );
+            for( const std::pair<npc *const, std::string> &elem : learners ) {
                 menu.addentry( 2 + elem.first->getID().get_value(), true, -1,
                                get_text( learners, elem ) );
             }
@@ -574,14 +569,14 @@ bool avatar::read( item_location &book, item_location ereader )
 
         if( !fun_learners.empty() ) {
             add_header( _( "Reading for fun:" ) );
-            for( const std::pair<Character *const, std::string> &elem : fun_learners ) {
+            for( const std::pair<npc *const, std::string> &elem : fun_learners ) {
                 menu.addentry( -1, false, -1, get_text( fun_learners, elem ) );
             }
         }
 
         if( !nonlearners.empty() ) {
             add_header( _( "Not participating:" ) );
-            for( const std::pair<Character *const, std::string> &elem : nonlearners ) {
+            for( const std::pair<npc *const, std::string> &elem : nonlearners ) {
                 menu.addentry( -1, false, -1, get_text( nonlearners, elem ) );
             }
         }
@@ -634,7 +629,7 @@ bool avatar::read( item_location &book, item_location ereader )
         add_msg( m_info, _( "%s studies with you." ), learners.begin()->first->disp_name() );
     } else if( !learners.empty() ) {
         const std::string them = enumerate_as_string( learners.begin(),
-        learners.end(), [&]( const std::pair<Character *, std::string> &elem ) {
+        learners.end(), [&]( const std::pair<npc *, std::string> &elem ) {
             return elem.first->disp_name();
         } );
         add_msg( m_info, _( "%s study with you." ), them );
@@ -642,7 +637,7 @@ bool avatar::read( item_location &book, item_location ereader )
 
     // Don't include the reader as it would be too redundant.
     std::set<std::string> readers;
-    for( const std::pair<Character *const, std::string> &elem : fun_learners ) {
+    for( const std::pair<npc *const, std::string> &elem : fun_learners ) {
         if( elem.first != reader ) {
             readers.insert( elem.first->disp_name() );
         }
@@ -683,7 +678,7 @@ bool avatar::read( item_location &book, item_location ereader )
     return true;
 }
 
-void avatar::grab( object_type grab_type_new, const tripoint &grab_point_new )
+void avatar::grab( object_type grab_type, const tripoint &grab_point )
 {
     const auto update_memory =
     [this]( const object_type gtype, const tripoint & gpoint, const bool erase ) {
@@ -692,27 +687,27 @@ void avatar::grab( object_type grab_type_new, const tripoint &grab_point_new )
             if( const optional_vpart_position ovp = m.veh_at( pos() + gpoint ) ) {
                 for( const tripoint &target : ovp->vehicle().get_points() ) {
                     if( erase ) {
-                        memorize_clear_decoration( m.getglobal( target ), /* prefix = */ "vp_" );
+                        memorize_clear_vehicles( m.getabs( target ) );
                     }
-                    m.memory_cache_dec_set_dirty( target, true );
+                    m.set_memory_seen_cache_dirty( target );
                 }
             }
         } else if( gtype != object_type::NONE ) {
             if( erase ) {
-                memorize_clear_decoration( m.getglobal( pos() + gpoint ) );
+                memorize_clear_vehicles( m.getabs( pos() + gpoint ) );
             }
-            m.memory_cache_dec_set_dirty( pos() + gpoint, true );
+            m.set_memory_seen_cache_dirty( pos() + gpoint );
         }
     };
     // Mark the area covered by the previous vehicle/furniture/etc for re-memorizing.
-    update_memory( grab_type, grab_point, /* erase = */ false );
-
-    grab_type = grab_type_new;
-    grab_point = grab_point_new;
-
+    update_memory( this->grab_type, this->grab_point, false );
     // Clear the map memory for the area covered by the vehicle/furniture/etc to
     // eliminate ghost vehicles/furnitures/etc.
-    update_memory( grab_type, grab_point, /* erase = */ true );
+    // FIXME: change map memory to memorize all memorizable objects and only erase vehicle part memory.
+    update_memory( grab_type, grab_point, true );
+
+    this->grab_type = grab_type;
+    this->grab_point = grab_point;
 
     path_settings->avoid_rough_terrain = grab_type != object_type::NONE;
 }
@@ -819,6 +814,9 @@ void avatar::clear_identified()
 void avatar::wake_up()
 {
     if( has_effect( effect_sleep ) ) {
+        if( calendar::turn - get_effect( effect_sleep ).get_start_time() > 2_hours ) {
+            print_health();
+        }
         // alarm was set and player hasn't slept through the alarm.
         if( has_effect( effect_alarm_clock ) && !has_effect( effect_slept_through_alarm ) ) {
             add_msg( _( "It looks like you woke up before your alarm." ) );
@@ -894,9 +892,6 @@ nc_color avatar::basic_symbol_color() const
         return c_red;
     }
     if( has_effect( effect_stunned ) ) {
-        return c_light_blue;
-    }
-    if( has_effect( effect_psi_stunned ) ) {
         return c_light_blue;
     }
     if( has_effect( effect_boomered ) ) {
@@ -1199,24 +1194,6 @@ faction *avatar::get_faction() const
     return g->faction_manager_ptr->get( faction_your_followers );
 }
 
-bool avatar::is_ally( const Character &p ) const
-{
-    if( p.getID() == getID() ) {
-        return true;
-    }
-    const npc &guy = dynamic_cast<const npc &>( p );
-    return guy.is_ally( *this );
-}
-
-bool avatar::is_obeying( const Character &p ) const
-{
-    if( p.getID() == getID() ) {
-        return true;
-    }
-    const npc &guy = dynamic_cast<const npc &>( p );
-    return guy.is_obeying( *this );
-}
-
 bool avatar::cant_see( const tripoint &p )
 {
 
@@ -1445,23 +1422,12 @@ bool avatar::wield( item &target, const int obtain_cost )
 
     weapon->on_wield( *this );
 
-    cata::event e = cata::event::make<event_type::character_wields_item>( getID(), last_item );
-    get_event_bus().send_with_talker( this, &weapon, e );
+    get_event_bus().send<event_type::character_wields_item>( getID(), last_item );
 
     inv->update_invlet( *weapon );
     inv->update_cache_with_item( *weapon );
 
     return true;
-}
-
-item::reload_option avatar::select_ammo( const item_location &base, bool prompt,
-        bool empty )
-{
-    if( !base ) {
-        return item::reload_option();
-    }
-
-    return game_menus::inv::select_ammo( *this, base, prompt, empty );
 }
 
 bool avatar::invoke_item( item *used, const tripoint &pt, int pre_obtain_moves )
@@ -1484,7 +1450,7 @@ bool avatar::invoke_item( item *used, const tripoint &pt, int pre_obtain_moves )
     umenu.hilight_disabled = true;
 
     for( const auto &e : use_methods ) {
-        const auto res = e.second.can_call( *this, *used, pt );
+        const auto res = e.second.can_call( *this, *used, false, pt );
         umenu.addentry_desc( MENU_AUTOASSIGN, res.success(), MENU_AUTOASSIGN, e.second.get_name(),
                              res.str() );
     }
@@ -1541,10 +1507,6 @@ void avatar::update_cardio_acc()
     // Cardio goal is 1000 times the ratio of kcals spent versus bmr,
     // giving a default of 1000 for no extra activity.
     const int bmr = get_bmr();
-    if( bmr == 0 ) {
-        set_cardio_acc( clamp( get_cardio_acc(), get_cardio_acc_base(), get_cardio_acc_base() * 3 ) );
-        return;
-    }
     const int last_24h_kcal = calorie_diary.front().spent;
 
     const int cardio_goal = ( last_24h_kcal * get_cardio_acc_base() ) / bmr;
@@ -1789,15 +1751,7 @@ std::unique_ptr<talker> get_talker_for( avatar *me )
 void avatar::randomize_hobbies()
 {
     hobbies.clear();
-    std::vector<profession_id> choices = get_scenario()->permitted_hobbies();
-    choices.erase( std::remove_if( choices.begin(), choices.end(),
-    [this]( const string_id<profession> &hobby ) {
-        return !prof->allows_hobby( hobby );
-    } ), choices.end() );
-    if( choices.empty() ) {
-        debugmsg( "Why would you blacklist all hobbies?" );
-        choices = profession::get_all_hobbies();
-    };
+    std::vector<profession_id> choices = profession::get_all_hobbies();
 
     int random = rng( 0, 5 );
 
@@ -1882,6 +1836,92 @@ void avatar::add_pain_msg( int val, const bodypart_id &bp ) const
                                body_part_name_accusative( bp ) );
         }
     }
+}
+
+bool character_martial_arts::pick_style( const avatar &you ) // Style selection menu
+{
+    enum style_selection {
+        KEEP_HANDS_FREE = 0,
+        STYLE_OFFSET
+    };
+
+    // Check for martial art styles known from active bionics
+    std::set<matype_id> bio_styles;
+    for( const bionic &bio : *you.my_bionics ) {
+        const std::vector<matype_id> &bio_ma_list = bio.id->ma_styles;
+        if( !bio_ma_list.empty() && you.has_active_bionic( bio.id ) ) {
+            bio_styles.insert( bio_ma_list.begin(), bio_ma_list.end() );
+        }
+    }
+    std::vector<matype_id> selectable_styles;
+    if( bio_styles.empty() ) {
+        selectable_styles = ma_styles;
+    } else {
+        selectable_styles.insert( selectable_styles.begin(), bio_styles.begin(), bio_styles.end() );
+    }
+
+    // If there are style already, cursor starts there
+    // if no selected styles, cursor starts from no-style
+
+    // Any other keys quit the menu
+    input_context ctxt( "MELEE_STYLE_PICKER", keyboard_mode::keycode );
+    ctxt.register_action( "SHOW_DESCRIPTION" );
+
+    uilist kmenu;
+    kmenu.text = string_format( _( "Select a style.\n"
+                                   "\n"
+                                   "STR: <color_white>%d</color>, DEX: <color_white>%d</color>, "
+                                   "PER: <color_white>%d</color>, INT: <color_white>%d</color>\n"
+                                   "Press [<color_yellow>%s</color>] for more info.\n" ),
+                                you.get_str(), you.get_dex(), you.get_per(), you.get_int(),
+                                ctxt.get_desc( "SHOW_DESCRIPTION" ) );
+    ma_style_callback callback( static_cast<size_t>( STYLE_OFFSET ), selectable_styles );
+    kmenu.callback = &callback;
+    kmenu.input_category = "MELEE_STYLE_PICKER";
+    kmenu.additional_actions.emplace_back( "SHOW_DESCRIPTION", translation() );
+    kmenu.desc_enabled = true;
+    kmenu.addentry_desc( KEEP_HANDS_FREE, true, 'h',
+                         keep_hands_free ? _( "Keep hands free (on)" ) : _( "Keep hands free (off)" ),
+                         _( "When this is enabled, player won't wield things unless explicitly told to." ) );
+
+    kmenu.selected = STYLE_OFFSET;
+
+    // +1 to keep "No Style" at top
+    std::sort( selectable_styles.begin() + 1, selectable_styles.end(),
+    []( const matype_id & a, const matype_id & b ) {
+        return localized_compare( a->name.translated(), b->name.translated() );
+    } );
+
+    for( size_t i = 0; i < selectable_styles.size(); i++ ) {
+        const martialart &style = selectable_styles[i].obj();
+        //Check if this style is currently selected
+        const bool selected = selectable_styles[i] == style_selected;
+        std::string entry_text = style.name.translated();
+        if( selected ) {
+            kmenu.selected = i + STYLE_OFFSET;
+            entry_text = colorize( entry_text, c_pink );
+        }
+        kmenu.addentry_desc( i + STYLE_OFFSET, true, -1, entry_text, style.description.translated() );
+    }
+
+    kmenu.query();
+    int selection = kmenu.ret;
+
+    if( selection >= STYLE_OFFSET ) {
+        // If the currect style is selected, do not change styles
+
+        avatar &u = const_cast<avatar &>( you );
+        style_selected->remove_all_buffs( u );
+        style_selected = selectable_styles[selection - STYLE_OFFSET];
+        ma_static_effects( u );
+        martialart_use_message( you );
+    } else if( selection == KEEP_HANDS_FREE ) {
+        keep_hands_free = !keep_hands_free;
+    } else {
+        return false;
+    }
+
+    return true;
 }
 
 bool avatar::wield_contents( item &container, item *internal_item, bool penalties, int base_cost )
@@ -1981,7 +2021,7 @@ void avatar::try_to_sleep( const time_duration &dur )
         // Your shell's interior is a comfortable place to sleep.
         in_shell = true;
     }
-    if( has_trait( trait_WATERSLEEP ) || has_trait( trait_UNDINE_SLEEP_WATER ) ) {
+    if( has_trait( trait_WATERSLEEP ) ) {
         if( underwater ) {
             add_msg_if_player( m_good,
                                _( "You lay beneath the waves' embrace, gazing up through the water's surface…" ) );
@@ -2040,24 +2080,6 @@ bool avatar::query_yn( const std::string &mes ) const
 void avatar::set_location( const tripoint_abs_ms &loc )
 {
     Creature::set_location( loc );
-}
-
-npc &avatar::get_shadow_npc()
-{
-    if( !shadow_npc ) {
-        shadow_npc = std::make_unique<npc>();
-        shadow_npc->op_of_u.trust = 10;
-        shadow_npc->op_of_u.value = 10;
-        shadow_npc->set_attitude( NPCATT_FOLLOW );
-    }
-    return *shadow_npc;
-}
-
-void avatar::export_as_npc( const cata_path &path )
-{
-    swap_character( get_shadow_npc() );
-    get_shadow_npc().export_to( path );
-    swap_character( get_shadow_npc() );
 }
 
 void monster_visible_info::remove_npc( npc *n )

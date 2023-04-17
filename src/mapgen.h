@@ -14,7 +14,6 @@
 
 #include "cata_variant.h"
 #include "coordinates.h"
-#include "dialogue_helpers.h"
 #include "jmapgen_flags.h"
 #include "json.h"
 #include "memory_fast.h"
@@ -38,10 +37,9 @@ using building_gen_pointer = void ( * )( mapgendata & );
 class mapgen_function
 {
     public:
-        dbl_or_var weight;
+        int weight;
     protected:
-        explicit mapgen_function( dbl_or_var w ) : weight( std::move( w ) ) { }
-        explicit mapgen_function( int w ) : weight( w ) { }
+        explicit mapgen_function( const int w ) : weight( w ) { }
     public:
         virtual ~mapgen_function() = default;
         virtual void setup() { } // throws
@@ -63,12 +61,9 @@ class mapgen_function_builtin : public virtual mapgen_function
 {
     public:
         building_gen_pointer fptr;
-        explicit mapgen_function_builtin( building_gen_pointer ptr,
-                                          int w = 1000 ) : mapgen_function( w ),
-            fptr( ptr ) { }
-        explicit mapgen_function_builtin( building_gen_pointer ptr,
-                                          dbl_or_var w ) : mapgen_function( std::move( w ) ),
-            fptr( ptr ) { }
+        explicit mapgen_function_builtin( building_gen_pointer ptr, int w = 1000 ) : mapgen_function( w ),
+            fptr( ptr ) {
+        }
         void generate( mapgendata &mgd ) override;
 };
 
@@ -317,7 +312,7 @@ class mapgen_palette
         void load_place_mapings( const JsonObject &jo, const std::string &member_name,
                                  placing_map &format_placings, const std::string &context );
 
-        void check() const;
+        void check();
 
         const mapgen_parameters &get_parameters() const {
             return parameters;
@@ -486,8 +481,7 @@ class mapgen_function_json : public mapgen_function_json_base, public virtual ma
         bool expects_predecessor() const override;
         void generate( mapgendata & ) override;
         mapgen_parameters get_mapgen_params( mapgen_parameter_scope ) const override;
-        mapgen_function_json( const JsonObject &jsobj, dbl_or_var w,
-                              const std::string &context,
+        mapgen_function_json( const JsonObject &jsobj, int w, const std::string &context,
                               const point &grid_offset, const point &grid_total );
         ~mapgen_function_json() override = default;
 

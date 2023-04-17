@@ -1,4 +1,3 @@
-#pragma once
 #ifndef CATA_SRC_TRADE_UI_H
 #define CATA_SRC_TRADE_UI_H
 
@@ -12,9 +11,9 @@
 
 #include "character.h"
 #include "cursesdef.h"
-#include "input_context.h"
 #include "inventory_ui.h"
 #include "item_location.h"
+#include "memory_fast.h"
 #include "translations.h"
 #include "ui_manager.h"
 
@@ -40,7 +39,6 @@ class trade_selector : public inventory_drop_selector
         input_context const *get_ctxt() const;
 
         static constexpr char const *ACTION_AUTOBALANCE = "AUTO_BALANCE";
-        static constexpr char const *ACTION_BANKBALANCE = "BANK_BALANCE";
         static constexpr char const *ACTION_SWITCH_PANES = "SWITCH_LISTS";
         static constexpr char const *ACTION_TRADE_OK = "CONFIRM";
         static constexpr char const *ACTION_TRADE_CANCEL = "QUIT";
@@ -75,7 +73,6 @@ class trade_ui
         struct trade_result_t {
             bool traded = false;
             currency_t balance = 0;
-            currency_t delta_bank = 0;
             currency_t value_you = 0;
             currency_t value_trader = 0;
             select_t items_you;
@@ -91,7 +88,6 @@ class trade_ui
         trade_result_t perform_trade();
         void recalc_values_cpane();
         void autobalance();
-        void bank_balance();
         void resize();
 
         constexpr static int header_size = 5;
@@ -115,8 +111,6 @@ class trade_ui
         bool _traded = false;
         currency_t _cost = 0;
         currency_t _balance = 0;
-        currency_t _bank = 0;
-        currency_t _delta_bank = 0;
         std::string const _title;
         catacurses::window _header_w;
         ui_adaptor _header_ui;

@@ -262,7 +262,9 @@
     "description": "Boots crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant but brittle.",
     "price_postapoc": 1750,
     "material": [ "acidchitin" ],
-    "relative": { "melee_damage": { "bash": 2 } }
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
+    "relative": { "melee_damage": { "bash": 2 } },
+    "material_thickness": 5
   },
   {
     "id": "xl_boots_acidchitin",
@@ -276,6 +278,7 @@
     "id": "xs_boots_acidchitin",
     "type": "ARMOR",
     "copy-from": "boots_acidchitin",
+    "looks_like": "boots_acidchitin",
     "name": { "str": "pair of XS biosilicified chitin boots", "str_pl": "pairs of XS biosilicified chitin boots" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -331,54 +334,6 @@
     "melee_damage": { "bash": 1 }
   },
   {
-    "id": "boots_denim",
-    "type": "ARMOR",
-    "name": { "str": "pair of denim boots", "str_pl": "pairs of denim boots" },
-    "description": "A pair of boots extending towards your lower leg, completely lined with denim.  Looks cool and has above average protection.",
-    "//": "Denim part is 12 oz.",
-    "weight": "1120 g",
-    "volume": "3 L",
-    "price": 6000,
-    "price_postapoc": 650,
-    "to_hit": -1,
-    "symbol": "{",
-    "color": "light_blue",
-    "looks_like": "boots",
-    "environmental_protection": 2,
-    "armor": [
-      {
-        "covers": [ "foot_l", "foot_r" ],
-        "specifically_covers": [
-          "foot_toes_r",
-          "foot_toes_l",
-          "foot_ankle_r",
-          "foot_ankle_l",
-          "foot_heel_r",
-          "foot_heel_l",
-          "foot_arch_r",
-          "foot_arch_l"
-        ],
-        "material": [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 1.5 },
-          { "type": "denim", "covered_by_mat": 100, "thickness": 0.8 }
-        ],
-        "encumbrance": 12,
-        "coverage": 100
-      },
-      {
-        "covers": [ "foot_l", "foot_r" ],
-        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
-        "material": [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 0.1 },
-          { "type": "rubber", "covered_by_mat": 100, "thickness": 6.0 }
-        ],
-        "coverage": 100
-      }
-    ],
-    "warmth": 20,
-    "flags": [ "VARSIZE", "WATERPROOF" ]
-  },
-  {
     "id": "foot_protectors_eod",
     "type": "ARMOR",
     "category": "armor",
@@ -389,32 +344,13 @@
     "price": 50000,
     "price_postapoc": 7000,
     "warmth": 10,
-    "material": [ "plastic_pad", "nomex" ],
+    "material": [ "steel", "nomex" ],
     "symbol": "[",
     "color": "light_gray",
-    "material_thickness": 14,
+    "environmental_protection": 2,
+    "material_thickness": 7,
     "flags": [ "STURDY", "OUTER" ],
-    "armor": [
-      {
-        "covers": [ "foot_l", "foot_r" ],
-        "encumbrance": 34,
-        "material": [
-          { "type": "nomex", "covered_by_mat": 100, "thickness": 1 },
-          { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 15 }
-        ],
-        "specifically_covers": [
-          "foot_toes_r",
-          "foot_toes_l",
-          "foot_ankle_l",
-          "foot_heel_l",
-          "foot_ankle_r",
-          "foot_heel_r",
-          "foot_arch_r",
-          "foot_arch_l"
-        ],
-        "coverage": 100
-      }
-    ]
+    "armor": [ { "encumbrance": 40, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ]
   },
   {
     "id": "toecaps",
@@ -504,73 +440,8 @@
     "id": "xs_boots_fur",
     "type": "ARMOR",
     "copy-from": "boots_fur",
-    "name": { "str": "pair of XS fur boots", "str_pl": "pairs of XS fur boots" },
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
-  },
-  {
-    "id": "boots_faux_fur",
-    "type": "ARMOR",
-    "name": { "str": "pair of faux fur boots", "str_pl": "pairs of faux fur boots" },
-    "description": "Boots lined with fur for warmth.",
-    "weight": "1890 g",
-    "volume": "4500 ml",
-    "price": 14000,
-    "price_postapoc": 750,
-    "to_hit": -1,
-    "material": [ "cotton", "faux_fur" ],
-    "symbol": "[",
     "looks_like": "boots_fur",
-    "color": "brown",
-    "warmth": 40,
-    "material_thickness": 3,
-    "environmental_protection": 2,
-    "flags": [ "VARSIZE", "WATERPROOF" ],
-    "armor": [
-      {
-        "covers": [ "foot_l", "foot_r" ],
-        "specifically_covers": [
-          "foot_toes_r",
-          "foot_toes_l",
-          "foot_ankle_r",
-          "foot_ankle_l",
-          "foot_heel_r",
-          "foot_heel_l",
-          "foot_arch_r",
-          "foot_arch_l"
-        ],
-        "material": [
-          { "type": "cotton", "covered_by_mat": 100, "thickness": 1.5 },
-          { "type": "faux_fur", "covered_by_mat": 100, "thickness": 1.5 }
-        ],
-        "encumbrance": 20,
-        "coverage": 100
-      },
-      {
-        "covers": [ "foot_l", "foot_r" ],
-        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
-        "material": [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 0.1 },
-          { "type": "rubber", "covered_by_mat": 100, "thickness": 4.0 }
-        ],
-        "coverage": 100
-      }
-    ],
-    "melee_damage": { "bash": 1 }
-  },
-  {
-    "id": "xl_boots_faux_fur",
-    "type": "ARMOR",
-    "name": { "str": "pair of XL faux fur boots", "str_pl": "pairs of XL faux fur boots" },
-    "copy-from": "boots_faux_fur",
-    "proportional": { "weight": 1.15, "volume": 1.15 },
-    "extend": { "flags": [ "OVERSIZE" ] }
-  },
-  {
-    "id": "xs_boots_faux_fur",
-    "type": "ARMOR",
-    "copy-from": "boots_faux_fur",
-    "name": { "str": "pair of XS faux fur boots", "str_pl": "pairs of XS faux fur boots" },
+    "name": { "str": "pair of XS fur boots", "str_pl": "pairs of XS fur boots" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -654,6 +525,7 @@
     "id": "xs_boots_larmor",
     "type": "ARMOR",
     "copy-from": "boots_larmor",
+    "looks_like": "boots_larmor",
     "name": { "str": "pair of XS leather armor boots", "str_pl": "pairs of XS leather armor boots" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -720,6 +592,7 @@
     "id": "xs_boots_plate",
     "type": "ARMOR",
     "copy-from": "boots_plate",
+    "looks_like": "boots_plate",
     "name": { "str": "pair of XS armored boots", "str_pl": "pairs of XS armored boots" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -827,6 +700,7 @@
     "id": "xs_boots_scrap",
     "type": "ARMOR",
     "copy-from": "boots_scrap",
+    "looks_like": "boots_scrap",
     "name": { "str": "pair of XS scrap boots", "str_pl": "pairs of XS scrap boots" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -866,8 +740,8 @@
     "id": "ch_sabaton_metal_sheets",
     "type": "ARMOR",
     "copy-from": "sabaton_metal_sheets",
-    "name": { "str": "pair of hardened steel sheet metal sabatons", "str_pl": "pairs of hardened steel sheet metal sabatons" },
-    "description": "Sabatons made of sheet metal, hardened to protect your feet if you drop something heavy on them.  No relation to the band, aside from being very metal.",
+    "name": { "str": "pair of case hardened sheet metal sabatons", "str_pl": "pairs of case hardened sheet metal sabatons" },
+    "description": "Sabatons made of sheet metal, case hardened to protect your feet if you drop something heavy on them.  No relation to the band, aside from being very metal.",
     "material": [ "ch_steel" ],
     "extend": { "flags": [ "STURDY" ] },
     "armor": [
@@ -998,6 +872,7 @@
       { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "600 g", "moves": 80 }
     ],
     "use_action": { "type": "holster" },
+    "extend": { "flags": [ "FANCY" ] },
     "armor": [
       {
         "covers": [ "foot_l", "foot_r" ],
@@ -1087,6 +962,7 @@
     "id": "xs_boots_winter",
     "type": "ARMOR",
     "copy-from": "boots_winter",
+    "looks_like": "boots_winter",
     "name": { "str": "pair of XS winter boots", "str_pl": "pairs of XS winter boots" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -1468,24 +1344,6 @@
     "armor": [ { "encumbrance": 5, "coverage": 65, "covers": [ "foot_l", "foot_r" ] } ]
   },
   {
-    "id": "footrags_faux_fur",
-    "type": "ARMOR",
-    "name": { "str": "pair of faux fur foot wraps", "str_pl": "pairs of faux fur foot wraps" },
-    "description": "Faux fur patches tied around your feet.  Not much of an improvement over being barefoot, but still better than nothing.",
-    "weight": "135 g",
-    "volume": "500 ml",
-    "price": 700,
-    "price_postapoc": 50,
-    "material": [ "faux_fur" ],
-    "symbol": "[",
-    "looks_like": "socks_wool",
-    "color": "brown",
-    "warmth": 18,
-    "material_thickness": 1.5,
-    "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ],
-    "armor": [ { "encumbrance": 5, "coverage": 65, "covers": [ "foot_l", "foot_r" ] } ]
-  },
-  {
     "id": "footrags_leather",
     "type": "ARMOR",
     "name": { "str": "pair of leather foot wraps", "str_pl": "pairs of leather foot wraps" },
@@ -1592,39 +1450,7 @@
         "coverage": 100
       }
     ],
-    "melee_damage": { "bash": 6 },
-    "variant_type": "generic",
-    "variants": [
-      {
-        "id": "heels_stiletto",
-        "name": { "str": "pair of stiletto heels", "str_pl": "pairs of stiletto heels" },
-        "description": "A traditional pair of tall, high-heeled shoes with a tapered, slender heel, which makes strutting fashionable, walking a challenge, and running an impossibility.  These days, they’d probably be more useful to stab a zombie’s eyes out than as footwear.",
-        "weight": 10
-      },
-      {
-        "id": "heels_block",
-        "name": { "str": "pair of block heels", "str_pl": "pairs of block heels" },
-        "description": "These are a pair of chunky, broad-based shoes with a sturdy block-like heel, and while they don’t do you any favors in the mobility department, they’re at least more comfortable to trudge about in than their peers and won't likely cause irreversible damage to your feet.",
-        "weight": 10
-      },
-      {
-        "id": "heels_wedge",
-        "name": { "str": "pair of wedges", "str_pl": "pairs of wedges" },
-        "description": "A pair of tall, high-heeled, open-toed shoes with thick wedges running the length of the shoe, serving as its heels.",
-        "weight": 10
-      },
-      {
-        "id": "heels_platform",
-        "name": { "str": "pair of platform heels", "str_pl": "pairs of platform heels" },
-        "description": "A pair of heavy, thick-soled high-heeled shoes with a ridiculously tall heel supported by an ankle strap and chunky soles.  A great choice for when you've given up on basic biomechanical function and decided that you're more than willing to risk long-term damage to your feet for the sake of a ridiculous fashion statement in the ruins of America.",
-        "weight": 10
-      },
-      {
-        "id": "heels_flag",
-        "name": { "str": "pair of liberty’s heels", "str_pl": "pairs of liberty’s heels" },
-        "description": "The shoes of patriotic ladies around the nation, these open-toed heels glitter with small golden stars embroidered along their sides, with a pair of decorative flaps styled with the image of a miniature American flag unfurling from each ankle, like wings.  The footwear’s heels consist of an adorably tiny reproduction of the Statue of Liberty situated beneath each sole, with their arms razed and supporting the shoe’s heels.  Each of the statues’ dresses is inscribed with the legend, \"America Gives You Wings!\""
-      }
-    ]
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "knee_high_boots",
@@ -1633,14 +1459,13 @@
     "description": "Very long leather boots that cover the lower legs, they are cumbersome to wear.",
     "weight": "1520 g",
     "volume": "3750 ml",
-    "longest_side": "33 cm",
     "price": 8000,
     "price_postapoc": 1250,
     "to_hit": -1,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "boots_larmor",
-    "color": "black",
+    "color": "dark_gray",
     "warmth": 20,
     "material_thickness": 2,
     "environmental_protection": 2,
@@ -1678,28 +1503,7 @@
         "encumbrance": 15
       }
     ],
-    "melee_damage": { "bash": 1 },
-    "variant_type": "generic",
-    "variants": [
-      {
-        "id": "generic_knee_high_boots",
-        "name": { "str": "pair of knee-high boots", "str_pl": "pairs of knee-high boots" },
-        "description": "Very long leather boots that cover the lower legs, they are cumbersome to wear.",
-        "weight": 10
-      },
-      {
-        "id": "jackboots",
-        "name": { "str": "pair of jackboots", "str_pl": "pairs of jackboots" },
-        "description": "A pair of sturdy, over-the-knee, laceless boots fitted with a rubberized sole: these imposing combat boots provide good traction despite their encumbering nature.  Most commonly associated with totalitarian regimes due to their use by Nazi soldiers, this style of boot is warm, protective, and produces a deeply satisfying sound while marching.",
-        "weight": 10
-      },
-      {
-        "id": "chelsea_boots",
-        "name": { "str": "pair of chelsea boots", "str_pl": "pairs of chelsea boots" },
-        "description": "A pair of knee-length, laceless boots formed from calfskin with an elastic side panel that’s designed to stretch away to facilitate simple donning and doffing, these stylish stompers are a time-old gift from Victorian-age England.  Intended for you to fashionably saunter down roadways rather than sprint for your life, this style of boot became a style staple within London during the 1960s, where they were synonymous with the mod crowd.",
-        "weight": 10
-      }
-    ]
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "motor_police_boots",
@@ -2108,53 +1912,6 @@
     ]
   },
   {
-    "id": "shoes_denim",
-    "type": "ARMOR",
-    "name": { "str": "pair of denim sneakers", "str_pl": "pairs of denim sneakers" },
-    "description": "A pair of denim shoes.  They are cool and that's about it.",
-    "//": "Denim part is 10 oz.",
-    "weight": "340 g",
-    "volume": "1500 ml",
-    "price": 5000,
-    "price_postapoc": 350,
-    "material": [ "rubber", "cotton", "denim" ],
-    "symbol": "[",
-    "color": "light_blue",
-    "looks_like": "sneakers",
-    "armor": [
-      {
-        "covers": [ "foot_l", "foot_r" ],
-        "specifically_covers": [ "foot_heel_r", "foot_heel_l", "foot_arch_r", "foot_arch_l", "foot_toes_r", "foot_toes_l" ],
-        "material": [
-          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.5 },
-          { "type": "denim", "covered_by_mat": 100, "thickness": 0.65 }
-        ],
-        "encumbrance": 5,
-        "coverage": 100
-      },
-      {
-        "covers": [ "foot_l", "foot_r" ],
-        "specifically_covers": [ "foot_ankle_r", "foot_ankle_l" ],
-        "material": [
-          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.5 },
-          { "type": "denim", "covered_by_mat": 100, "thickness": 0.65 }
-        ],
-        "coverage": 60
-      },
-      {
-        "covers": [ "foot_l", "foot_r" ],
-        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
-        "material": [
-          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.1 },
-          { "type": "rubber", "covered_by_mat": 100, "thickness": 3.0 }
-        ],
-        "coverage": 100
-      }
-    ],
-    "warmth": 25,
-    "flags": [ "VARSIZE" ]
-  },
-  {
     "id": "slippers",
     "type": "ARMOR",
     "name": { "str": "pair of slippers", "str_pl": "pairs of slippers" },
@@ -2278,6 +2035,50 @@
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
         "material": [ { "type": "paper", "covered_by_mat": 100, "thickness": 1.0 } ],
+        "coverage": 100
+      }
+    ]
+  },
+  {
+    "id": "swim_fins",
+    "type": "ARMOR",
+    "name": { "str": "pair of swim fins", "str_pl": "pairs of swim fins" },
+    "description": "A pair of rubber flippers worn on the feet, which improve swimming speed while greatly impeding the wearer's ability to walk.",
+    "weight": "680 g",
+    "volume": "1250 ml",
+    "price": 2000,
+    "price_postapoc": 250,
+    "material": [ "rubber" ],
+    "symbol": "[",
+    "looks_like": "clownshoes",
+    "color": "dark_gray",
+    "warmth": 5,
+    "material_thickness": 2.5,
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "FIN" ],
+    "armor": [
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_toes_r", "foot_toes_l" ],
+        "material": [ { "type": "rubber", "covered_by_mat": 100, "thickness": 2.5 } ],
+        "encumbrance": 25,
+        "coverage": 100
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_heel_r", "foot_heel_l" ],
+        "material": [ { "type": "rubber", "covered_by_mat": 100, "thickness": 2.5 } ],
+        "coverage": 60
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_arch_r", "foot_arch_l" ],
+        "material": [ { "type": "rubber", "covered_by_mat": 100, "thickness": 2.5 } ],
+        "coverage": 80
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
+        "material": [ { "type": "rubber", "covered_by_mat": 100, "thickness": 2.5 } ],
         "coverage": 100
       }
     ]
@@ -2459,7 +2260,6 @@
     "volume": "500 ml",
     "price": 5012,
     "price_postapoc": 2000,
-    "material": [ "budget_steel_chain", "leather" ],
     "to_hit": -1,
     "symbol": "[",
     "color": "light_red",
@@ -2547,6 +2347,7 @@
     "id": "xs_lc_chainmail_feet",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_feet",
+    "looks_like": "chainmail_feet",
     "name": { "str": "pair of XS mild steel chainmail chausses", "str_pl": "pairs of XS mild steel chainmail chausses" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -2555,9 +2356,36 @@
     "id": "mc_chainmail_feet",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_feet",
+    "material": [ "mc_steel_chain" ],
     "name": { "str": "pair of medium steel chainmail chausses", "str_pl": "pairs of medium steel chainmail chausses" },
     "description": "Customized chainmail chausses that cover the feet, like booties made of chainmail.",
-    "replace_materials": { "lc_steel_chain": "mc_steel_chain" }
+    "armor": [
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [
+          "foot_toes_r",
+          "foot_toes_l",
+          "foot_ankle_r",
+          "foot_ankle_l",
+          "foot_heel_r",
+          "foot_heel_l",
+          "foot_arch_r",
+          "foot_arch_l"
+        ],
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 }
+        ],
+        "encumbrance": 14,
+        "coverage": 100
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
+        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 4.0 } ],
+        "coverage": 100
+      }
+    ]
   },
   {
     "id": "xl_mc_chainmail_feet",
@@ -2580,9 +2408,36 @@
     "id": "hc_chainmail_feet",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_feet",
+    "material": [ "hc_steel_chain" ],
     "name": { "str": "pair of high steel chainmail chausses", "str_pl": "pairs of high steel chainmail chausses" },
     "description": "Customized chainmail chausses that cover the feet, like booties made of chainmail.",
-    "replace_materials": { "lc_steel_chain": "hc_steel_chain" }
+    "armor": [
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [
+          "foot_toes_r",
+          "foot_toes_l",
+          "foot_ankle_r",
+          "foot_ankle_l",
+          "foot_heel_r",
+          "foot_heel_l",
+          "foot_arch_r",
+          "foot_arch_l"
+        ],
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 }
+        ],
+        "encumbrance": 14,
+        "coverage": 100
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
+        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 4.0 } ],
+        "coverage": 100
+      }
+    ]
   },
   {
     "id": "xl_hc_chainmail_feet",
@@ -2604,9 +2459,36 @@
     "id": "ch_chainmail_feet",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_feet",
+    "material": [ "ch_steel_chain" ],
     "name": { "str": "pair of hardened steel chainmail chausses", "str_pl": "pairs of hardened steel chainmail chausses" },
     "description": "Customized chainmail chausses that cover the feet, like booties made of chainmail.",
-    "replace_materials": { "lc_steel_chain": "ch_steel_chain" }
+    "armor": [
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [
+          "foot_toes_r",
+          "foot_toes_l",
+          "foot_ankle_r",
+          "foot_ankle_l",
+          "foot_heel_r",
+          "foot_heel_l",
+          "foot_arch_r",
+          "foot_arch_l"
+        ],
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 }
+        ],
+        "encumbrance": 14,
+        "coverage": 100
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
+        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 4.0 } ],
+        "coverage": 100
+      }
+    ]
   },
   {
     "id": "xl_ch_chainmail_feet",
@@ -2628,9 +2510,36 @@
     "id": "qt_chainmail_feet",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_feet",
+    "material": [ "qt_steel_chain" ],
     "name": { "str": "pair of tempered steel chainmail chausses", "str_pl": "pairs of tempered steel chainmail chausses" },
     "description": "Customized chainmail chausses that cover the feet, like booties made of chainmail.",
-    "replace_materials": { "lc_steel_chain": "qt_steel_chain" }
+    "armor": [
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [
+          "foot_toes_r",
+          "foot_toes_l",
+          "foot_ankle_r",
+          "foot_ankle_l",
+          "foot_heel_r",
+          "foot_heel_l",
+          "foot_arch_r",
+          "foot_arch_l"
+        ],
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 }
+        ],
+        "encumbrance": 14,
+        "coverage": 100
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
+        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 4.0 } ],
+        "coverage": 100
+      }
+    ]
   },
   {
     "id": "xl_qt_chainmail_feet",
@@ -2672,6 +2581,7 @@
     "id": "xlnomex_socks",
     "type": "ARMOR",
     "name": { "str": "pair of XL flame-resistant socks", "str_pl": "pairs of XL flame-resistant socks" },
+    "description": "A snug-fitting pair of stockings made from thin and lightweight Nomex fabric.",
     "weight": "300 g",
     "volume": "1000 ml",
     "copy-from": "nomex_socks",
@@ -2681,7 +2591,9 @@
     "id": "xsnomex_socks",
     "type": "ARMOR",
     "copy-from": "nomex_socks",
+    "looks_like": "nomex_socks",
     "name": { "str": "pair of XS flame-resistant socks", "str_pl": "pairs of XS flame-resistant socks" },
+    "description": "A snug-fitting pair of stockings made from thin and lightweight Nomex fabric.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -2707,6 +2619,7 @@
     "id": "xlsocks",
     "type": "ARMOR",
     "name": { "str": "pair of XL socks", "str_pl": "pairs of XL socks" },
+    "description": "Socks.  Big ones.  Put 'em on your feet.",
     "weight": "58 g",
     "volume": "250 ml",
     "copy-from": "socks",
@@ -2716,7 +2629,9 @@
     "id": "xssocks",
     "type": "ARMOR",
     "copy-from": "socks",
+    "looks_like": "socks",
     "name": { "str": "pair of XS socks", "str_pl": "pairs of XS socks" },
+    "description": "Socks.  Put 'em on your feet.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -2838,6 +2753,7 @@
     "id": "xlsocks_wool",
     "type": "ARMOR",
     "name": { "str": "pair of XL wool socks", "str_pl": "pairs of XL wool socks" },
+    "description": "Warm socks made of wool for a human larger than previously thought possible.",
     "weight": "77 g",
     "volume": "500 ml",
     "copy-from": "socks_wool",
@@ -2848,6 +2764,7 @@
     "type": "ARMOR",
     "copy-from": "socks_wool",
     "name": { "str": "pair of XS wool socks", "str_pl": "pairs of XS wool socks" },
+    "description": "Warm socks made of wool for a human smaller than previously thought possible.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -2876,353 +2793,6 @@
         "encumbrance": 4
       },
       { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ], "coverage": 60 }
-    ],
-    "variant_type": "generic",
-    "variants": [
-      {
-        "id": "stockings_black",
-        "name": { "str": "pair of black stockings", "str_pl": "pairs of black stockings" },
-        "description": "This one is colored black.",
-        "weight": 140,
-        "color": "dark_gray",
-        "append": true
-      },
-      {
-        "id": "stockings_white",
-        "name": { "str": "pair of white stockings", "str_pl": "pairs of white stockings" },
-        "description": "This one is colored white",
-        "weight": 70,
-        "color": "light_gray",
-        "append": true
-      },
-      {
-        "id": "stockings_red",
-        "name": { "str": "pair of red stockings", "str_pl": "pairs of red stockings" },
-        "description": "This one is colored red.",
-        "weight": 30,
-        "color": "red",
-        "append": true
-      },
-      {
-        "id": "stockings_yellow",
-        "name": { "str": "pair of yellow stockings", "str_pl": "pairs of yellow stockings" },
-        "description": "This one is colored yellow.",
-        "weight": 10,
-        "color": "yellow",
-        "append": true
-      },
-      {
-        "id": "stockings_green",
-        "name": { "str": "pair of green stockings", "str_pl": "pairs of green stockings" },
-        "description": "This one is colored green.",
-        "weight": 40,
-        "color": "green",
-        "append": true
-      },
-      {
-        "id": "stockings_blue",
-        "name": { "str": "pair of blue stockings", "str_pl": "pairs of blue stockings" },
-        "description": "This one is colored blue.",
-        "weight": 60,
-        "color": "blue",
-        "append": true
-      },
-      {
-        "id": "stockings_purple",
-        "name": { "str": "pair of purple stockings", "str_pl": "pairs of purple stockings" },
-        "description": "This one is colored purple.",
-        "weight": 50,
-        "color": "magenta",
-        "append": true
-      },
-      {
-        "id": "stockings_pink",
-        "name": { "str": "pair of pink stockings", "str_pl": "pairs of pink stockings" },
-        "description": "This one is colored pink.",
-        "weight": 35,
-        "color": "magenta",
-        "append": true
-      },
-      {
-        "id": "stockings_sky_blue_striped",
-        "name": { "str": "pair of sky blue striped stockings", "str_pl": "pairs of sky blue and white striped stockings" },
-        "description": "This one is colored sky blue and white with a striped pattern.",
-        "weight": 20,
-        "color": "blue",
-        "append": true
-      },
-      {
-        "id": "stockings_lilac_polka_dot",
-        "name": { "str": "pair of lilac polka dot stockings", "str_pl": "pairs of lilac polka dot stockings" },
-        "description": "This one is colored lilac with a polka dot pattern.",
-        "weight": 35,
-        "color": "magenta",
-        "append": true
-      },
-      {
-        "id": "stockings_teal_checkered",
-        "name": { "str": "pair of teal checkered stockings", "str_pl": "pairs of teal and white checkered stockings" },
-        "description": "This one is colored teal and white with a checkered pattern.",
-        "weight": 20,
-        "color": "blue",
-        "append": true
-      },
-      {
-        "id": "stockings_mauve_floral",
-        "name": { "str": "pair of mauve floral stockings", "str_pl": "pairs of mauve floral stockings" },
-        "description": "This one is colored mauve with a floral pattern.",
-        "weight": 40,
-        "color": "magenta",
-        "append": true
-      },
-      {
-        "id": "stockings_coral_striped",
-        "name": { "str": "pair of coral striped stockings", "str_pl": "pairs of coral and white striped stockings" },
-        "description": "This one is colored coral and white with a striped pattern.",
-        "weight": 45,
-        "color": "light_red",
-        "append": true
-      },
-      {
-        "id": "stockings_salmon_polka_dot",
-        "name": { "str": "pair of salmon polka dot stockings", "str_pl": "pairs of salmon and black polka dot stockings" },
-        "description": "This one is colored salmon and black with a polka dot pattern.",
-        "weight": 35,
-        "color": "light_red",
-        "append": true
-      },
-      {
-        "id": "stockings_indigo_floral",
-        "name": { "str": "pair of indigo floral stockings", "str_pl": "pairs of indigo floral stockings" },
-        "description": "This one is colored indigo with a floral pattern.",
-        "weight": 45,
-        "color": "light_blue",
-        "append": true
-      },
-      {
-        "id": "stockings_olive_striped",
-        "name": { "str": "pair of olive striped stockings", "str_pl": "pairs of olive and white striped stockings" },
-        "description": "This one is colored olive and white with a striped pattern.",
-        "weight": 40,
-        "color": "green",
-        "append": true
-      },
-      {
-        "id": "stockings_magenta_polka_dot",
-        "name": { "str": "pair of magenta polka dot stockings", "str_pl": "pairs of magenta and white polka dot stockings" },
-        "description": "This one is colored magenta and white with a polka dot pattern.",
-        "weight": 35,
-        "color": "magenta",
-        "append": true
-      },
-      {
-        "id": "stockings_aqua_checkered",
-        "name": { "str": "pair of aqua checkered stockings", "str_pl": "pairs of aqua and white checkered stockings" },
-        "description": "This one is colored aqua and white with a checkered pattern.",
-        "weight": 30,
-        "color": "light_blue",
-        "append": true
-      },
-      {
-        "id": "stockings_maroon_floral",
-        "name": { "str": "pair of maroon floral stockings", "str_pl": "pairs of maroon floral stockings" },
-        "description": "This one is colored maroon with a floral pattern.",
-        "weight": 40,
-        "color": "red",
-        "append": true
-      },
-      {
-        "id": "stockings_slate_gray_striped",
-        "name": { "str": "pair of slate gray striped stockings", "str_pl": "pairs of slate gray and white striped stockings" },
-        "description": "This one is colored slate gray and white with a striped pattern.",
-        "weight": 55,
-        "color": "light_gray",
-        "append": true
-      },
-      {
-        "id": "stockings_rose_gold_polka_dot",
-        "name": { "str": "pair of rose gold polka dot stockings", "str_pl": "pairs of rose gold and black polka dot stockings" },
-        "description": "This one is colored rose gold and black with a polka dot pattern.",
-        "weight": 25,
-        "color": "light_red",
-        "append": true
-      },
-      {
-        "id": "stockings_lavender_striped",
-        "name": { "str": "pair of lavender striped stockings", "str_pl": "pairs of lavender and white striped stockings" },
-        "description": "This one is colored lavender and white with a striped pattern.",
-        "weight": 50,
-        "color": "light_red",
-        "append": true
-      },
-      {
-        "id": "stockings_burgundy_polka_dot",
-        "name": { "str": "pair of burgundy polka dot stockings", "str_pl": "pairs of burgundy and black polka dot stockings" },
-        "description": "This one is colored burgundy and black with a polka dot pattern.",
-        "weight": 45,
-        "color": "light_red",
-        "append": true
-      },
-      {
-        "id": "stockings_charcoal_gray_striped",
-        "name": { "str": "pair of charcoal gray striped stockings", "str_pl": "pairs of charcoal gray and white striped stockings" },
-        "description": "This one is colored charcoal gray and white with a striped pattern.",
-        "weight": 45,
-        "color": "dark_gray",
-        "append": true
-      },
-      {
-        "id": "stockings_plum_polka_dot",
-        "name": { "str": "pair of plum polka dot stockings", "str_pl": "pairs of plum polka and white dot stockings" },
-        "description": "This one is colored plum and white with a polka dot pattern.",
-        "weight": 20,
-        "color": "magenta",
-        "append": true
-      },
-      {
-        "id": "stockings_silver_blue_striped",
-        "name": { "str": "pair of silver blue striped stockings", "str_pl": "pairs of silver blue and white striped stockings" },
-        "description": "This one is colored silver blue with a white striped pattern.",
-        "weight": 30,
-        "color": "light_blue",
-        "append": true
-      },
-      {
-        "id": "stockings_navy_floral",
-        "name": { "str": "pair of navy floral stockings", "str_pl": "pairs of navy floral stockings" },
-        "description": "This one is colored navy with a floral pattern.",
-        "weight": 40,
-        "color": "blue",
-        "append": true
-      },
-      {
-        "id": "stockings_ivory_striped",
-        "name": { "str": "pair of ivory striped stockings", "str_pl": "pairs of ivory and black striped stockings" },
-        "description": "This one is colored ivory with a black striped pattern.",
-        "weight": 45,
-        "color": "light_gray",
-        "append": true
-      },
-      {
-        "id": "stockings_chocolate_polka_dot",
-        "name": { "str": "pair of chocolate polka dot stockings", "str_pl": "pairs of chocolate and black polka dot stockings" },
-        "description": "This one is colored chocolate and black with a polka dot pattern.",
-        "weight": 20,
-        "color": "brown",
-        "append": true
-      },
-      {
-        "id": "stockings_chocolate",
-        "name": { "str": "pair of chocolate stockings", "str_pl": "pairs of chocolate stockings" },
-        "description": "This one is colored chocolate.",
-        "weight": 80,
-        "color": "brown",
-        "append": true
-      },
-      {
-        "id": "stockings_pride_default",
-        "name": { "str": "pair of pride flag stockings", "str_pl": "pairs of pride flag stockings" },
-        "description": "This one has patterns akin to the pride flag.",
-        "weight": 80,
-        "color": "yellow",
-        "append": true
-      },
-      {
-        "id": "stockings_pride_lesbian",
-        "name": { "str": "pair of lesbian flag stockings", "str_pl": "pairs of lesbian flag stockings" },
-        "description": "This one has patterns akin to the lesbian flag.",
-        "weight": 75,
-        "color": "red",
-        "append": true
-      },
-      {
-        "id": "stockings_pride_bisexual",
-        "name": { "str": "pair of bisexual flag stockings", "str_pl": "pairs of bisexual flag stockings" },
-        "description": "This one has patterns akin to the bisexual flag.",
-        "weight": 45,
-        "color": "magenta",
-        "append": true
-      },
-      {
-        "id": "stockings_pride_transgender",
-        "name": { "str": "pair of transgender flag stockings", "str_pl": "pairs of transgender flag stockings" },
-        "description": "This one has patterns akin to the transgender flag.",
-        "weight": 90,
-        "color": "blue",
-        "append": true
-      },
-      {
-        "id": "stockings_pride_asexual",
-        "name": { "str": "pair of asexual flag stockings", "str_pl": "pairs of asexual flag stockings" },
-        "description": "This one has patterns akin to the asexual flag.",
-        "weight": 75,
-        "color": "magenta",
-        "append": true
-      },
-      {
-        "id": "stockings_pride_aromantic",
-        "name": { "str": "pair of aromantic flag stockings", "str_pl": "pairs of aromantic flag stockings" },
-        "description": "This one has patterns akin to the aromantic flag.",
-        "weight": 65,
-        "color": "green",
-        "append": true
-      },
-      {
-        "id": "stockings_pride_pansexual",
-        "name": { "str": "pair of pansexual flag stockings", "str_pl": "pairs of pansexual flag stockings" },
-        "description": "This one has patterns akin to the pansexual flag.",
-        "weight": 75,
-        "color": "blue",
-        "append": true
-      },
-      {
-        "id": "stockings_pride_genderqueer",
-        "name": { "str": "pair of genderqueer flag stockings", "str_pl": "pairs of genderqueer flag stockings" },
-        "description": "This one has patterns akin to the genderqueer flag.",
-        "weight": 55,
-        "color": "magenta",
-        "append": true
-      },
-      {
-        "id": "stockings_pride_genderfluid",
-        "name": { "str": "pair of genderfluid flag stockings", "str_pl": "pairs of genderfluid flag stockings" },
-        "description": "This one has patterns akin to the genderfluid flag.",
-        "weight": 45,
-        "color": "magenta",
-        "append": true
-      },
-      {
-        "id": "stockings_pride_agender",
-        "name": { "str": "pair of agender flag stockings", "str_pl": "pairs of agender flag stockings" },
-        "description": "This one has patterns akin to the agender flag.",
-        "weight": 45,
-        "color": "dark_gray",
-        "append": true
-      },
-      {
-        "id": "stockings_pride_nonbinary",
-        "name": { "str": "pair of non-binary flag stockings", "str_pl": "pairs of non-binary flag stockings" },
-        "description": "This one has patterns akin to the non-binary flag.",
-        "weight": 75,
-        "color": "yellow",
-        "append": true
-      },
-      {
-        "id": "stockings_pride_intersex",
-        "name": { "str": "pair of intersex flag stockings", "str_pl": "pairs of intersex flag stockings" },
-        "description": "This one has patterns akin to the intersex flag.",
-        "weight": 55,
-        "color": "yellow",
-        "append": true
-      },
-      {
-        "id": "stockings_pride_polysexual",
-        "name": { "str": "pair of polysexual flag stockings", "str_pl": "pairs of polysexual flag stockings" },
-        "description": "This one has patterns akin to the polysexual flag.",
-        "weight": 25,
-        "color": "green",
-        "append": true
-      }
     ]
   },
   {
@@ -3329,8 +2899,18 @@
     "id": "mc_sabaton",
     "type": "ARMOR",
     "copy-from": "lc_sabaton",
+    "material": [ "mc_steel" ],
     "name": { "str": "medium steel sabaton" },
-    "replace_materials": { "lc_steel": "mc_steel" }
+    "armor": [
+      {
+        "material": [ { "type": "mc_steel", "covered_by_mat": 100, "thickness": 1.25 } ],
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_toes_r", "foot_toes_l", "foot_heel_r", "foot_heel_l", "foot_arch_r", "foot_arch_l" ],
+        "coverage": 100,
+        "encumbrance": 10,
+        "layers": [ "OUTER" ]
+      }
+    ]
   },
   {
     "id": "xl_mc_sabaton",
@@ -3344,8 +2924,18 @@
     "id": "hc_sabaton",
     "type": "ARMOR",
     "copy-from": "lc_sabaton",
+    "material": [ "hc_steel" ],
     "name": { "str": "high steel sabaton" },
-    "replace_materials": { "lc_steel": "hc_steel" }
+    "armor": [
+      {
+        "material": [ { "type": "hc_steel", "covered_by_mat": 100, "thickness": 1.25 } ],
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_toes_r", "foot_toes_l", "foot_heel_r", "foot_heel_l", "foot_arch_r", "foot_arch_l" ],
+        "coverage": 100,
+        "encumbrance": 10,
+        "layers": [ "OUTER" ]
+      }
+    ]
   },
   {
     "id": "xl_hc_sabaton",
@@ -3359,8 +2949,18 @@
     "id": "ch_sabaton",
     "type": "ARMOR",
     "copy-from": "lc_sabaton",
+    "material": [ "ch_steel" ],
     "name": { "str": "hardened steel sabaton" },
-    "replace_materials": { "lc_steel": "ch_steel" }
+    "armor": [
+      {
+        "material": [ { "type": "ch_steel", "covered_by_mat": 100, "thickness": 1.25 } ],
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_toes_r", "foot_toes_l", "foot_heel_r", "foot_heel_l", "foot_arch_r", "foot_arch_l" ],
+        "coverage": 100,
+        "encumbrance": 10,
+        "layers": [ "OUTER" ]
+      }
+    ]
   },
   {
     "id": "xl_ch_sabaton",
@@ -3374,8 +2974,18 @@
     "id": "qt_sabaton",
     "type": "ARMOR",
     "copy-from": "lc_sabaton",
+    "material": [ "qt_steel" ],
     "name": { "str": "tempered steel sabaton" },
-    "replace_materials": { "lc_steel": "qt_steel" }
+    "armor": [
+      {
+        "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 1.25 } ],
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_toes_r", "foot_toes_l", "foot_heel_r", "foot_heel_l", "foot_arch_r", "foot_arch_l" ],
+        "coverage": 100,
+        "encumbrance": 10,
+        "layers": [ "OUTER" ]
+      }
+    ]
   },
   {
     "id": "xl_qt_sabaton",

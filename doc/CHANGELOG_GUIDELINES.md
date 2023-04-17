@@ -1,5 +1,3 @@
-# Changelog Guidelines
-
 These are the categories used by Pull Request Summary lines as outlined in the [PR Template](../.github/pull_request_template.md).
 In the end, it's up to the author to decide where *they* want their change to be listed, these are only guidelines, not rules.
 

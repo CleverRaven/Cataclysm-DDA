@@ -1,4 +1,3 @@
-# Compiling Flatpak
 The supplied flatpak manifest org.cataclysmdda.CataclysmDDA.json will
 download and build the latest release of Cataclysm-DDA.  An app built in
 this way should be available on flathub:

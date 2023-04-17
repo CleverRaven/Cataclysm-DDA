@@ -80,7 +80,6 @@ static const itype_id itype_e_handcuffs( "e_handcuffs" );
 static const itype_id itype_mininuke_act( "mininuke_act" );
 static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 
-static const json_character_flag json_flag_EMP_IMMUNE( "EMP_IMMUNE" );
 static const json_character_flag json_flag_GLARE_RESIST( "GLARE_RESIST" );
 
 static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
@@ -98,8 +97,8 @@ static float fragment_mass = 0.0001f;
 static float fragment_area = 0.00001f;
 // Minimum velocity resulting in skin perforation according to https://www.ncbi.nlg->m.nih.gov/pubmed/7304523
 static constexpr float MIN_EFFECTIVE_VELOCITY = 70.0f;
-// Pretty arbitrary minimum density.  1/100 chance of a fragment passing through the given square.
-static constexpr float MIN_FRAGMENT_DENSITY = 0.001f;
+// Pretty arbitrary minimum density.  1/1,000 change of a fragment passing through the given square.
+static constexpr float MIN_FRAGMENT_DENSITY = 0.0001f;
 
 explosion_data load_explosion_data( const JsonObject &jo )
 {
@@ -136,7 +135,7 @@ shrapnel_data load_shrapnel_data( const JsonObject &jo )
 namespace explosion_handler
 {
 
-int ballistic_damage( float velocity, float mass )
+static int ballistic_damage( float velocity, float mass )
 {
     // Damage is square root of Joules, dividing by 2000 because it's dividing by 2 and
     // converting mass from grams to kg. The initial term is simply a scaling factor.
@@ -155,7 +154,7 @@ static float mass_to_area( const float mass )
 // Approximate Gurney constant for Composition B and C (in m/s instead of the usual km/s).
 // Source: https://en.wikipedia.org/wiki/Gurney_equations#Gurney_constant_and_detonation_velocity
 static constexpr double TYPICAL_GURNEY_CONSTANT = 2700.0;
-float gurney_spherical( const double charge, const double mass )
+static float gurney_spherical( const double charge, const double mass )
 {
     return static_cast<float>( std::pow( ( mass / charge ) + ( 3.0 / 5.0 ),
                                          -0.5 ) * TYPICAL_GURNEY_CONSTANT );
@@ -411,7 +410,6 @@ static std::vector<tripoint> shrapnel( const Creature *source, const tripoint &s
     fragment_cloud initial_cloud = accumulate_fragment_cloud( obstacle_cache[src.x][src.y],
     { fragment_velocity, static_cast<float>( fragment_count ) }, 1 );
     visited_cache[src.x][src.y] = initial_cloud;
-    visited_cache[src.x][src.y].density = static_cast<float>( fragment_count / 2.0 );
 
     castLightAll<fragment_cloud, fragment_cloud, shrapnel_calc, shrapnel_check,
                  update_fragment_cloud, accumulate_fragment_cloud>
@@ -584,10 +582,10 @@ void flashbang( const tripoint &p, bool player_immune )
             if( dist <= 4 ) {
                 critter.add_effect( effect_stunned, time_duration::from_turns( 10 - dist ) );
             }
-            if( critter.has_flag( mon_flag_SEES ) && here.sees( critter.pos(), p, 8 ) ) {
+            if( critter.has_flag( MF_SEES ) && here.sees( critter.pos(), p, 8 ) ) {
                 critter.add_effect( effect_blind, time_duration::from_turns( 18 - dist ) );
             }
-            if( critter.has_flag( mon_flag_HEARS ) ) {
+            if( critter.has_flag( MF_HEARS ) ) {
                 critter.add_effect( effect_deaf, time_duration::from_turns( 60 - dist * 4 ) );
             }
         }
@@ -636,7 +634,7 @@ void scrambler_blast( const tripoint &p )
 {
     if( monster *const mon_ptr = get_creature_tracker().creature_at<monster>( p ) ) {
         monster &critter = *mon_ptr;
-        if( critter.has_flag( mon_flag_ELECTRONIC ) ) {
+        if( critter.has_flag( MF_ELECTRONIC ) ) {
             critter.make_friendly();
         }
         add_msg( m_warning, _( "The %s sparks and begins searching for a target!" ),
@@ -686,7 +684,7 @@ void emp_blast( const tripoint &p )
     }
     if( monster *const mon_ptr = get_creature_tracker().creature_at<monster>( p ) ) {
         monster &critter = *mon_ptr;
-        if( critter.has_flag( mon_flag_ELECTRONIC ) ) {
+        if( critter.has_flag( MF_ELECTRONIC ) ) {
             int deact_chance = 0;
             const itype_id mon_item_id = critter.type->revert_to_itype;
             switch( critter.get_size() ) {
@@ -723,7 +721,7 @@ void emp_blast( const tripoint &p )
                     critter.make_friendly();
                 }
             }
-        } else if( critter.has_flag( mon_flag_ELECTRIC_FIELD ) ) {
+        } else if( critter.has_flag( MF_ELECTRIC_FIELD ) ) {
             if( !critter.has_effect( effect_emp ) ) {
                 if( sight ) {
                     add_msg( m_good, _( "The %s's electrical field momentarily goes out!" ), critter.name() );
@@ -746,13 +744,11 @@ void emp_blast( const tripoint &p )
     }
     if( player_character.posx() == p.x && player_character.posy() == p.y &&
         player_character.posz() == p.z ) {
-        if( player_character.get_power_level() > 0_kJ &&
-            !player_character.has_flag( json_flag_EMP_IMMUNE ) ) {
+        if( player_character.get_power_level() > 0_kJ ) {
             add_msg( m_bad, _( "The EMP blast drains your power." ) );
             int max_drain = ( player_character.get_power_level() > 1000_kJ ? 1000 : units::to_kilojoule(
                                   player_character.get_power_level() ) );
-            player_character.mod_power_level( units::from_kilojoule( static_cast<std::int64_t>( -rng(
-                                                  1 + max_drain / 3, max_drain ) ) ) );
+            player_character.mod_power_level( units::from_kilojoule( -rng( 1 + max_drain / 3, max_drain ) ) );
         }
         // TODO: More effects?
         //e-handcuffs effects
@@ -768,8 +764,7 @@ void emp_blast( const tripoint &p )
         for( item_location &it : player_character.all_items_loc() ) {
             // Render any electronic stuff in player's possession non-functional
             if( it->has_flag( flag_ELECTRONIC ) && !it->is_broken() &&
-                get_option<bool>( "EMP_DISABLE_ELECTRONICS" ) &&
-                !player_character.has_flag( json_flag_EMP_IMMUNE ) ) {
+                get_option<bool>( "EMP_DISABLE_ELECTRONICS" ) ) {
                 add_msg( m_bad, _( "The EMP blast fries your %s!" ), it->tname() );
                 it->deactivate();
                 it->set_flag( flag_ITEM_BROKEN );
@@ -937,14 +932,14 @@ fragment_cloud shrapnel_calc( const fragment_cloud &initial,
                               const int &distance )
 {
     // SWAG coefficient of drag.
-    constexpr float Cd = 1.5f;
+    constexpr float Cd = 0.5f;
     fragment_cloud new_cloud;
     new_cloud.velocity = initial.velocity * std::exp( -cloud.velocity * ( (
                              Cd * fragment_area * distance ) /
                          ( 2.0f * fragment_mass ) ) );
     // Two effects, the accumulated proportion of blocked fragments,
     // and the inverse-square dilution of fragments with distance.
-    new_cloud.density = ( initial.density * cloud.density ) / ( distance * distance );
+    new_cloud.density = ( initial.density * cloud.density ) / ( distance * distance / 2.5 );
     return new_cloud;
 }
 bool shrapnel_check( const fragment_cloud &cloud, const fragment_cloud &intensity )

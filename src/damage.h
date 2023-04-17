@@ -5,7 +5,6 @@
 #include <array>
 #include <iosfwd>
 #include <map>
-#include <unordered_map>
 #include <set>
 #include <vector>
 
@@ -22,17 +21,17 @@ class JsonValue;
 class Creature;
 class item;
 class monster;
+enum m_flag : int;
 template<typename T> struct enum_traits;
 
 struct damage_type {
     damage_type_id id;
     translation name;
     std::vector<effect_on_condition_id> onhit_eocs;
-    std::vector<effect_on_condition_id> ondamage_eocs;
     skill_id skill = skill_id::NULL_ID();
     std::pair<damage_type_id, float> derived_from = { damage_type_id(), 0.0f };
     cata::flat_set<std::string> immune_flags;
-    cata::flat_set<std::string> mon_immune_flags;
+    cata::flat_set<m_flag> mon_immune_flags;
     nc_color magic_color;
     bool melee_only = false;
     bool physical = false;
@@ -45,11 +44,6 @@ struct damage_type {
 
     // Applies damage type on-hit effects
     void onhit_effects( Creature *source, Creature *target ) const;
-
-    // Applies damage type on-damage effects
-    void ondamage_effects( Creature *source, Creature *target,
-                           bodypart_str_id bp, double total_damage = 0.0,
-                           double damage_taken = 0.0 ) const;
 
     static void load_damage_types( const JsonObject &jo, const std::string &src );
     static void reset();
@@ -144,10 +138,6 @@ struct damage_instance {
     // Applies damage type on-hit effects for all damage units
     void onhit_effects( Creature *source, Creature *target ) const;
 
-    // Applies damage type on-damage effects for all damage units
-    void ondamage_effects( Creature *source, Creature *target, const damage_instance &premitigated,
-                           bodypart_str_id bp ) const;
-
     // calculates damage taking barrel length into consideration for the amount
     damage_instance di_considering_length( units::length barrel_length ) const;
 
@@ -201,9 +191,9 @@ struct dealt_damage_instance {
 };
 
 struct resistances {
-    std::unordered_map<damage_type_id, float> resist_vals;
+    std::map<damage_type_id, float> resist_vals;
 
-    resistances() = default;
+    resistances();
 
     // If to_self is true, we want armor's own resistance, not one it provides to wearer
     explicit resistances( const item &armor, bool to_self = false, int roll = 0,
@@ -215,13 +205,7 @@ struct resistances {
 
     float get_effective_resist( const damage_unit &du ) const;
 
-    resistances &operator+=( const resistances &other ) {
-        for( const auto &dam : other.resist_vals ) {
-            resist_vals[dam.first] += dam.second;
-        }
-
-        return *this;
-    }
+    resistances &operator+=( const resistances &other );
     bool operator==( const resistances &other );
     resistances operator*( float mod ) const;
     resistances operator/( float mod ) const;
@@ -234,16 +218,14 @@ damage_instance load_damage_instance_inherit( const JsonObject &jo, const damage
 damage_instance load_damage_instance_inherit( const JsonArray &jarr,
         const damage_instance &parent );
 
-resistances extend_resistances_instance( resistances ret, const JsonObject &jo );
 resistances load_resistances_instance( const JsonObject &jo,
                                        const std::set<std::string> &ignored_keys = {} );
 
 // Returns damage or resistance data
 // Handles some shorthands
-std::unordered_map<damage_type_id, float> load_damage_map( const JsonObject &jo,
+std::map<damage_type_id, float> load_damage_map( const JsonObject &jo,
         const std::set<std::string> &ignored_keys = {} );
-void finalize_damage_map( std::unordered_map<damage_type_id, float> &damage_map,
-                          bool force_derive = false,
+void finalize_damage_map( std::map<damage_type_id, float> &damage_map, bool force_derive = false,
                           float default_value = 0.0f );
 
 #endif // CATA_SRC_DAMAGE_H

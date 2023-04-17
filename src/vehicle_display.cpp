@@ -39,7 +39,7 @@ vpart_display::vpart_display()
     , variant( vpart_id::NULL_ID()->variants.begin()->second ) {}
 
 vpart_display::vpart_display( const vehicle_part &vp )
-    : id( vp.info().id )
+    : id( vp.info().get_id() )
     , variant( vp.info().variants.at( vp.variant ) ) {}
 
 std::string vpart_display::get_tileset_id() const
@@ -74,7 +74,7 @@ vpart_display vehicle::get_display_of_tile( const point &dp, bool rotate, bool i
         variant_it = vpi.variants.begin();
         const std::string fallback_variant = variant_it->first;
         debugmsg( "part '%s' uses non-existent variant '%s' setting to '%s'",
-                  vpi.id.str(), vp.variant, fallback_variant );
+                  vpi.get_id().str(), vp.variant, fallback_variant );
         vehicle_part &vp_cast = const_cast<vehicle_part &>( vp );
         vp_cast.variant = fallback_variant;
     }
@@ -121,7 +121,7 @@ vpart_display vehicle::get_display_of_tile( const point &dp, bool rotate, bool i
 
     // if cargo has items color is inverted
     const int cargo_part = part_with_feature( dp, VPFLAG_CARGO, true );
-    if( cargo_part >= 0 && !get_items( part( cargo_part ) ).empty() ) {
+    if( cargo_part >= 0 && !get_items( cargo_part ).empty() ) {
         ret.has_cargo = true;
         ret.color = invert_color( ret.color );
     }
@@ -149,8 +149,7 @@ int vehicle::print_part_list( const catacurses::window &win, int y1, const int m
     std::vector<int> pl = this->parts_at_relative( parts[p].mount, true, include_fakes );
     int y = y1;
     for( size_t i = 0; i < pl.size(); i++ ) {
-        const vehicle_part &vp = parts[pl[i]];
-        const vpart_info &vpi = vp.info();
+        const vehicle_part &vp = parts[ pl [ i ] ];
         if( !vp.is_real_or_active_fake() ) {
             continue;
         }
@@ -179,22 +178,21 @@ int vehicle::print_part_list( const catacurses::window &win, int y1, const int m
             }
         }
 
-        if( vpi.has_flag( VPFLAG_CARGO ) ) {
-            const vehicle_stack vs = get_items( vp );
+        if( part_flag( pl[i], "CARGO" ) ) {
             //~ used/total volume of a cargo vehicle part
             partname += string_format( _( " (vol: %s/%s %s)" ),
-                                       format_volume( vs.stored_volume() ),
-                                       format_volume( vs.max_volume() ),
+                                       format_volume( stored_volume( pl[i] ) ),
+                                       format_volume( max_volume( pl[i] ) ),
                                        volume_units_abbr() );
         }
 
-        const bool armor = vpi.has_flag( VPFLAG_ARMOR );
+        bool armor = part_flag( pl[i], "ARMOR" );
         std::string left_sym;
         std::string right_sym;
         if( armor ) {
             left_sym = "(";
             right_sym = ")";
-        } else if( vpi.location == part_location_structure ) {
+        } else if( part_info( pl[i] ).location == part_location_structure ) {
             left_sym = "[";
             right_sym = "]";
         } else {

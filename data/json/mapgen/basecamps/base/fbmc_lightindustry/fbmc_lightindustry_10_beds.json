@@ -1,42 +1,112 @@
 [
   {
     "type": "mapgen",
-    "update_mapgen_id": "fbmc_lightindustry_10_bed_1",
+    "update_mapgen_id": "fbmc_lightindustry_10_bed_1_mattress",
     "method": "json",
     "object": {
-      "place_nested": [ { "chunks": [ "fbmc_bed_vertical" ], "x": 19, "y": 13 }, { "chunks": [ "fbmc_bed_vertical" ], "x": 14, "y": 13 } ]
+      "place_nested": [
+        { "chunks": [ "fbmc_mattress_bed_vertical" ], "x": 19, "y": 13 },
+        { "chunks": [ "fbmc_mattress_bed_vertical" ], "x": 14, "y": 13 }
+      ]
     }
   },
   {
     "type": "mapgen",
-    "update_mapgen_id": "fbmc_lightindustry_10_bed_2",
+    "update_mapgen_id": "fbmc_lightindustry_10_bed_2_mattress",
     "method": "json",
     "object": {
-      "place_nested": [ { "chunks": [ "fbmc_bed_vertical" ], "x": 6, "y": 13 }, { "chunks": [ "fbmc_bed_vertical" ], "x": 9, "y": 13 } ]
+      "place_nested": [
+        { "chunks": [ "fbmc_mattress_bed_vertical" ], "x": 6, "y": 13 },
+        { "chunks": [ "fbmc_mattress_bed_vertical" ], "x": 9, "y": 13 }
+      ]
     }
   },
   {
     "type": "mapgen",
-    "update_mapgen_id": "fbmc_lightindustry_10_bed_3",
+    "update_mapgen_id": "fbmc_lightindustry_10_bed_3_mattress",
     "method": "json",
     "object": {
-      "place_nested": [ { "chunks": [ "fbmc_bed_vertical" ], "x": 6, "y": 7 }, { "chunks": [ "fbmc_bed_vertical" ], "x": 14, "y": 8 } ]
+      "place_nested": [
+        { "chunks": [ "fbmc_mattress_bed_vertical" ], "x": 6, "y": 7 },
+        { "chunks": [ "fbmc_mattress_bed_vertical" ], "x": 14, "y": 8 }
+      ]
     }
   },
   {
     "type": "mapgen",
-    "update_mapgen_id": "fbmc_lightindustry_10_bed_4",
+    "update_mapgen_id": "fbmc_lightindustry_10_bed_4_mattress",
     "method": "json",
     "object": {
-      "place_nested": [ { "chunks": [ "fbmc_bed_horizontal" ], "x": 6, "y": 4 }, { "chunks": [ "fbmc_bed_horizontal" ], "x": 13, "y": 4 } ]
+      "place_nested": [
+        { "chunks": [ "fbmc_mattress_bed_horizontal" ], "x": 6, "y": 4 },
+        { "chunks": [ "fbmc_mattress_bed_horizontal" ], "x": 13, "y": 4 }
+      ]
     }
   },
   {
     "type": "mapgen",
-    "update_mapgen_id": "fbmc_lightindustry_10_bed_5",
+    "update_mapgen_id": "fbmc_lightindustry_10_bed_5_mattress",
     "method": "json",
     "object": {
-      "place_nested": [ { "chunks": [ "fbmc_bed_horizontal" ], "x": 2, "y": 5 }, { "chunks": [ "fbmc_bed_horizontal" ], "x": 1, "y": 13 } ]
+      "place_nested": [
+        { "chunks": [ "fbmc_mattress_bed_horizontal" ], "x": 2, "y": 5 },
+        { "chunks": [ "fbmc_mattress_bed_horizontal" ], "x": 1, "y": 13 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_lightindustry_10_bed_1_straw",
+    "method": "json",
+    "object": {
+      "place_nested": [
+        { "chunks": [ "fbmc_straw_bed_vertical" ], "x": 19, "y": 13 },
+        { "chunks": [ "fbmc_straw_bed_vertical" ], "x": 14, "y": 13 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_lightindustry_10_bed_2_straw",
+    "method": "json",
+    "object": {
+      "place_nested": [
+        { "chunks": [ "fbmc_straw_bed_vertical" ], "x": 6, "y": 13 },
+        { "chunks": [ "fbmc_straw_bed_vertical" ], "x": 9, "y": 13 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_lightindustry_10_bed_3_straw",
+    "method": "json",
+    "object": {
+      "place_nested": [
+        { "chunks": [ "fbmc_straw_bed_vertical" ], "x": 6, "y": 7 },
+        { "chunks": [ "fbmc_straw_bed_vertical" ], "x": 14, "y": 8 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_lightindustry_10_bed_4_straw",
+    "method": "json",
+    "object": {
+      "place_nested": [
+        { "chunks": [ "fbmc_straw_bed_horizontal" ], "x": 6, "y": 4 },
+        { "chunks": [ "fbmc_straw_bed_horizontal" ], "x": 13, "y": 4 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_lightindustry_10_bed_5_straw",
+    "method": "json",
+    "object": {
+      "place_nested": [
+        { "chunks": [ "fbmc_straw_bed_horizontal" ], "x": 2, "y": 5 },
+        { "chunks": [ "fbmc_straw_bed_horizontal" ], "x": 1, "y": 13 }
+      ]
     }
   }
 ]

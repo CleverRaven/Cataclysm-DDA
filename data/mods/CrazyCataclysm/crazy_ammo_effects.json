@@ -1,7 +1,0 @@
-[
-  {
-    "id": "EXPLOSIVE_HUGE",
-    "type": "ammo_effect",
-    "explosion": { "power": 1200 }
-  }
-]

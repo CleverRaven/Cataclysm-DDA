@@ -175,7 +175,7 @@ void craft_command::execute( bool only_cache_comps )
 
         for( const auto &it : needs->get_components() ) {
             comp_selection<item_comp> is =
-                crafter->select_item_component( it, batch_size, map_inv, true, filter, true, true, rec );
+                crafter->select_item_component( it, batch_size, map_inv, true, filter, true, rec );
             if( is.use_from == usage_from::cancel ) {
                 return;
             }
@@ -185,7 +185,7 @@ void craft_command::execute( bool only_cache_comps )
         tool_selections.clear();
         for( const auto &it : needs->get_tools() ) {
             comp_selection<tool_comp> ts = crafter->select_tool_component(
-            it, batch_size, map_inv, true, true, true, []( int charges ) {
+            it, batch_size, map_inv, true, true, []( int charges ) {
                 return charges / 20 + charges % 20;
             } );
             if( ts.use_from == usage_from::cancel ) {
@@ -254,7 +254,7 @@ bool craft_command::continue_prompt_liquids( const std::function<bool( const ite
         const std::vector<pocket_data> it_pkt = it.comp.type->pockets;
         if( ( item::count_by_charges( it.comp.type ) && it.comp.count > 0 ) ||
         !std::any_of( it_pkt.begin(), it_pkt.end(), []( const pocket_data & p ) {
-        return p.type == pocket_type::CONTAINER && p.watertight;
+        return p.type == item_pocket::pocket_type::CONTAINER && p.watertight;
     } ) ) {
             continue;
         }
@@ -299,7 +299,7 @@ bool craft_command::continue_prompt_liquids( const std::function<bool( const ite
                                     cont_not_empty = true;
                                     iname = tmp_i.tname( 1U, true );
                                 }
-                                if( const std::optional<vpart_reference> vp = m.veh_at( p ).cargo() ) {
+                                if( const std::optional<vpart_reference> vp = m.veh_at( p ).part_with_feature( "CARGO", true ) ) {
                                     veh_items.emplace_back( vp.value(), tmp_i );
                                 } else {
                                     map_items.emplace_back( p, tmp_i );
@@ -342,36 +342,13 @@ bool craft_command::continue_prompt_liquids( const std::function<bool( const ite
 static std::list<item> sane_consume_items( const comp_selection<item_comp> &it, Character *crafter,
         int batch, const std::function<bool( const item & )> &filter )
 {
-    std::function<bool( const item & )> preferred_component_filter = [&filter]( const item & it ) {
-        return is_preferred_component( it ) && filter( it );
-    };
     map &m = get_map();
     const std::vector<pocket_data> it_pkt = it.comp.type->pockets;
     if( ( item::count_by_charges( it.comp.type ) && it.comp.count > 0 ) ||
     !std::any_of( it_pkt.begin(), it_pkt.end(), []( const pocket_data & p ) {
-    return p.type == pocket_type::CONTAINER && p.watertight;
+    return p.type == item_pocket::pocket_type::CONTAINER && p.watertight;
 } ) ) {
-        std::list<item> empty_consumed = crafter->consume_items( it, batch, preferred_component_filter );
-        int left_to_consume = 0;
-
-        if( !empty_consumed.empty() && empty_consumed.front().count_by_charges() ) {
-            int consumed = 0;
-            for( item &itm : empty_consumed ) {
-                consumed += itm.charges;
-            }
-            left_to_consume = it.comp.count * batch - consumed;
-        } else if( empty_consumed.size() < static_cast<size_t>( it.comp.count ) * batch ) {
-            left_to_consume = it.comp.count * batch - empty_consumed.size();
-        }
-
-        if( left_to_consume > 0 ) {
-            comp_selection<item_comp> remainder = it;
-            remainder.comp.count = 1;
-            std::list<item>used_consumed = crafter->consume_items( remainder,
-                                           left_to_consume, filter );
-            empty_consumed.splice( empty_consumed.end(), used_consumed );
-        }
-        return empty_consumed;
+        return crafter->consume_items( it, batch, filter );
     }
 
     // Everything below only occurs for item components that are liquid containers
@@ -415,9 +392,9 @@ bool craft_command::safe_to_unload_comp( const item &it )
     const std::function<bool( const item &i )> filter = []( const item & i ) {
         return !i.has_flag( flag_ZERO_WEIGHT ) && !i.has_flag( flag_NO_DROP );
     };
-    const bool valid = it.get_contents().has_any_with( filter, pocket_type::CONTAINER ) ||
-                       it.get_contents().has_any_with( filter, pocket_type::MAGAZINE ) ||
-                       it.get_contents().has_any_with( filter, pocket_type::MAGAZINE_WELL );
+    const bool valid = it.get_contents().has_any_with( filter, item_pocket::pocket_type::CONTAINER ) ||
+                       it.get_contents().has_any_with( filter, item_pocket::pocket_type::MAGAZINE ) ||
+                       it.get_contents().has_any_with( filter, item_pocket::pocket_type::MAGAZINE_WELL );
     if( valid ) {
         return true;
     }

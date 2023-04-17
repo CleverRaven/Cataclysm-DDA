@@ -28,13 +28,13 @@
 #include "game.h"
 #include "game_constants.h"
 #include "input.h"
-#include "input_context.h"
 #include "inventory.h"
 #include "item.h"
-#include "iteminfo_query.h"
 #include "item_group.h"
 #include "item_stack.h"
 #include "iuse.h"
+#include "json.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -75,6 +75,9 @@ static const construction_str_id construction_constr_veh( "constr_veh" );
 
 static const flag_id json_flag_FILTHY( "FILTHY" );
 static const flag_id json_flag_PIT( "PIT" );
+static const furn_str_id furn_f_console( "f_console" );
+static const furn_str_id furn_f_console_broken( "f_console_broken" );
+static const furn_str_id furn_f_machinery_electronic( "f_machinery_electronic" );
 
 static const item_group_id Item_spawn_data_allclothes( "allclothes" );
 static const item_group_id Item_spawn_data_grave( "grave" );
@@ -86,7 +89,6 @@ static const itype_id itype_nail( "nail" );
 static const itype_id itype_sheet( "sheet" );
 static const itype_id itype_stick( "stick" );
 static const itype_id itype_string_36( "string_36" );
-static const itype_id itype_wall_wiring( "wall_wiring" );
 
 static const mtype_id mon_skeleton( "mon_skeleton" );
 static const mtype_id mon_zombie( "mon_zombie" );
@@ -96,6 +98,7 @@ static const mtype_id mon_zombie_rot( "mon_zombie_rot" );
 
 static const quality_id qual_CUT( "CUT" );
 
+static const skill_id skill_electronics( "electronics" );
 static const skill_id skill_fabrication( "fabrication" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
@@ -110,12 +113,16 @@ static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
 static const trap_str_id tr_firewood_source( "tr_firewood_source" );
 static const trap_str_id tr_practice_target( "tr_practice_target" );
 
-static const vpart_id vpart_frame( "frame" );
+static const vpart_id vpart_frame_vertical_2( "frame_vertical_2" );
 
 static const vproto_id vehicle_prototype_none( "none" );
 
 static const std::string flag_INITIAL_PART( "INITIAL_PART" );
+static const std::string flag_APPLIANCE( "APPLIANCE" );
+static const std::string flag_CANT_DRAG( "CANT_DRAG" );
 static const std::string flag_WIRING( "WIRING" );
+
+static const int MAX_WIRE_VEHICLE_SIZE = 24;
 
 static bool finalized = false;
 
@@ -134,16 +141,18 @@ static bool check_support( const tripoint_bub_ms & ); // at least two orthogonal
 static bool check_support_below( const tripoint_bub_ms
                                  & ); // at least two orthogonal supports at the level below
 static bool check_stable( const tripoint_bub_ms & ); // tile below has a flag SUPPORTS_ROOF
+static bool check_empty_stable( const tripoint_bub_ms
+                                & ); // tile is empty, tile below has a flag SUPPORTS_ROOF
 static bool check_nofloor_above( const tripoint_bub_ms & ); // tile above has a flag NO_FLOOR
 static bool check_deconstruct( const tripoint_bub_ms
                                & ); // either terrain or furniture must be deconstructible
+static bool check_empty_up_OK( const tripoint_bub_ms & ); // tile is empty and below OVERMAP_HEIGHT
 static bool check_up_OK( const tripoint_bub_ms & ); // tile is below OVERMAP_HEIGHT
 static bool check_down_OK( const tripoint_bub_ms & ); // tile is above OVERMAP_DEPTH
-static bool check_no_trap( const tripoint_bub_ms & ); // tile doesn't contain any trap
-static bool check_ramp_high( const tripoint_bub_ms
-                             & ); // one of the adjacent tiles on the z-level above has a completed down ramp
-static bool check_no_wiring( const tripoint_bub_ms
-                             & ); // tile doesn't contain appliances/vehicle parts with WIRING flag like ap_wall_wiring
+static bool check_no_trap( const tripoint_bub_ms & );
+static bool check_ramp_low( const tripoint_bub_ms & );
+static bool check_ramp_high( const tripoint_bub_ms & );
+static bool check_no_wiring( const tripoint_bub_ms & );
 
 // Special actions to be run post-terrain-mod
 static void done_nothing( const tripoint_bub_ms &, Character & ) {}
@@ -330,23 +339,6 @@ const std::vector<construction> &get_constructions()
     return constructions;
 }
 
-static std::string furniture_qualities_string( const furn_id &fid )
-{
-    std::string ret = "\n";
-    // Make a pseudo item instance so we can use qualities_info later
-    const item pseudo( fid->crafting_pseudo_item );
-    // Set up iteminfo query to show qualities
-    std::vector<iteminfo_parts> quality_part = { iteminfo_parts::QUALITIES };
-    const iteminfo_query quality_query( quality_part );
-    // Render info into info_vec
-    std::vector<iteminfo> info_vec;
-    pseudo.qualities_info( info_vec, &quality_query, 1, false );
-    // Get a newline-separated string of quality info, then parse and print each line
-    ret += format_item_info( info_vec, {} );
-
-    return ret;
-}
-
 construction_id construction_menu( const bool blueprint )
 {
     if( !finalized ) {
@@ -483,10 +475,6 @@ construction_id construction_menu( const bool blueprint )
                                             furn_str_id( current_con->post_terrain ).obj().description,
                                             color_data
                                         );
-                        furn_id fid( current_con->post_terrain );
-                        if( !fid->crafting_pseudo_item.is_empty() ) {
-                            current_line += furniture_qualities_string( fid );
-                        }
                     } else {
                         current_line += colorize(
                                             ter_str_id( current_con->post_terrain ).obj().description,
@@ -503,10 +491,6 @@ construction_id construction_menu( const bool blueprint )
                                             furn_str_id( current_con->post_terrain ).obj().description,
                                             color_data
                                         );
-                        furn_id fid( current_con->post_terrain );
-                        if( !fid->crafting_pseudo_item.is_empty() ) {
-                            current_line += furniture_qualities_string( fid );
-                        }
                     } else {
                         current_line += colorize(
                                             ter_str_id( current_con->post_terrain ).obj().description,
@@ -924,20 +908,15 @@ bool can_construct( const construction &con, const tripoint_bub_ms &p )
     const map &here = get_map();
     const furn_id f = here.furn( p );
     const ter_id t = here.ter( p );
-    if( con.pre_specials.size() > 1 ) { // pre-functions
-        for( const auto &special : con.pre_specials ) {
-            if( !special( p ) ) {
-                return false;
-            }
-        }
-    } else if( !con.pre_special( p ) ) { // pre-function
-        return false;
-    }
-    if( !has_pre_terrain( con, p ) || // terrain type
+
+    if( !con.pre_special( p ) ||                 // pre-function
+        !has_pre_terrain( con, p ) ||            // terrain type
         !can_construct_furn_ter( con, f, t ) ) { // flags
         return false;
     }
-    if( !con.post_terrain.empty() ) { // make sure the construction would actually do something
+
+    // make sure the construction would actually do something
+    if( !con.post_terrain.empty() ) {
         if( con.post_is_furniture ) {
             return f != furn_id( con.post_terrain );
         } else {
@@ -1022,36 +1001,9 @@ void place_construction( std::vector<construction_group_str_id> const &groups )
         }
     } else {
         // Use up the components
-        for( const std::vector<item_comp> &it : con.requirements->get_components() ) {
-            for( const item_comp &comp : it ) {
-                comp_selection<item_comp> sel;
-                sel.use_from = usage_from::both;
-                sel.comp = comp;
-                std::list<item> empty_consumed = player_character.consume_items( sel, 1,
-                                                 is_preferred_crafting_component );
-
-                int left_to_consume = 0;
-
-                if( !empty_consumed.empty() && empty_consumed.front().count_by_charges() ) {
-                    int consumed = 0;
-                    for( item &itm : empty_consumed ) {
-                        consumed += itm.charges;
-                    }
-                    left_to_consume = comp.count - consumed;
-                } else if( empty_consumed.size() < static_cast<size_t>( comp.count ) ) {
-                    left_to_consume = comp.count - empty_consumed.size();
-                }
-
-                if( left_to_consume > 0 ) {
-                    comp_selection<item_comp> remainder = sel;
-                    remainder.comp.count = 1;
-                    std::list<item>used_consumed = player_character.consume_items( remainder,
-                                                   left_to_consume, is_crafting_component );
-                    empty_consumed.splice( empty_consumed.end(), used_consumed );
-                }
-
-                used.splice( used.end(), empty_consumed );
-            }
+        for( const auto &it : con.requirements->get_components() ) {
+            std::list<item> tmp = player_character.consume_items( it, 1, is_crafting_component );
+            used.splice( used.end(), tmp );
         }
     }
     pc.components = used;
@@ -1059,8 +1011,6 @@ void place_construction( std::vector<construction_group_str_id> const &groups )
     for( const auto &it : con.requirements->get_tools() ) {
         player_character.consume_tools( it );
     }
-    player_character.invalidate_crafting_inventory();
-    player_character.invalidate_weight_carried_cache();
     player_character.assign_activity( ACT_BUILD );
     player_character.activity.placement = here.getglobal( pnt );
 }
@@ -1095,10 +1045,10 @@ void complete_construction( Character *you )
     };
 
     award_xp( *you );
-    // Other friendly Characters gain exp from assisting or watching...
-    // TODO: Characters watching other Characters do stuff and learning from it
+    // Friendly NPCs gain exp from assisting or watching...
+    // TODO: NPCs watching other NPCs do stuff and learning from it
     if( you->is_avatar() ) {
-        for( Character *elem : get_avatar().get_crafting_helpers() ) {
+        for( npc *&elem : get_avatar().get_crafting_helpers() ) {
             if( elem->meets_skill_requirements( built ) ) {
                 add_msg( m_info, _( "%s assists you with the work…" ), elem->get_name() );
             } else {
@@ -1170,14 +1120,8 @@ void complete_construction( Character *you )
 
     // This comes after clearing the activity, in case the function interrupts
     // activities
-    if( built.post_specials.size() > 1 ) { // pre-functions
-        for( const auto &special : built.post_specials ) {
-            special( terp, *you );
-        }
-    } else {
-        built.post_special( terp, *you );
-    }
-    // Players will not automatically resume backlog, other Characters will.
+    built.post_special( terp, *you );
+    // npcs will automatically resume backlog, players wont.
     if( you->is_avatar() && !you->backlog.empty() &&
         you->backlog.front().id() == ACT_MULTIPLE_CONSTRUCTION ) {
         you->backlog.clear();
@@ -1187,13 +1131,12 @@ void complete_construction( Character *you )
 
 bool construct::check_channel( const tripoint_bub_ms &p )
 {
+
     map &here = get_map();
-    for( const point &offset : four_adjacent_offsets ) {
-        if( here.has_flag( ter_furn_flag::TFLAG_CURRENT, p + offset ) ) {
-            return true;
-        }
-    }
-    return false;
+    return check_empty( p ) && ( here.has_flag( ter_furn_flag::TFLAG_CURRENT, p + point_north ) ||
+                                 here.has_flag( ter_furn_flag::TFLAG_CURRENT, p + point_south ) ||
+                                 here.has_flag( ter_furn_flag::TFLAG_CURRENT, p + point_east ) ||
+                                 here.has_flag( ter_furn_flag::TFLAG_CURRENT, p + point_west ) );
 }
 
 bool construct::check_empty_lite( const tripoint_bub_ms &p )
@@ -1213,6 +1156,16 @@ bool construct::check_empty( const tripoint_bub_ms &p )
              here.i_at( p ).empty() && !here.veh_at( p ) );
 }
 
+static std::array<tripoint_bub_ms, 4> get_orthogonal_neighbors( const tripoint_bub_ms &p )
+{
+    return {{
+            p + point_north,
+            p + point_south,
+            p + point_west,
+            p + point_east
+        }};
+}
+
 bool construct::check_support( const tripoint_bub_ms &p )
 {
     map &here = get_map();
@@ -1221,8 +1174,8 @@ bool construct::check_support( const tripoint_bub_ms &p )
         return false;
     }
     int num_supports = 0;
-    for( const point &offset : four_adjacent_offsets ) {
-        if( here.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, p + offset ) ) {
+    for( const tripoint_bub_ms &nb : get_orthogonal_neighbors( p ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, nb ) ) {
             num_supports++;
         }
     }
@@ -1253,8 +1206,8 @@ bool construct::check_support_below( const tripoint_bub_ms &p )
     }
     // need two or more orthogonally adjacent supports at the Z level below
     int num_supports = 0;
-    for( const point &offset : four_adjacent_offsets ) {
-        if( here.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, p + offset + tripoint_below ) ) {
+    for( const tripoint_bub_ms &nb : get_orthogonal_neighbors( p + tripoint_below ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, nb ) ) {
             num_supports++;
         }
     }
@@ -1266,6 +1219,11 @@ bool construct::check_stable( const tripoint_bub_ms &p )
     return get_map().has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, p + tripoint_below );
 }
 
+bool construct::check_empty_stable( const tripoint_bub_ms &p )
+{
+    return check_empty( p ) && check_stable( p );
+}
+
 bool construct::check_nofloor_above( const tripoint_bub_ms &p )
 {
     return get_map().has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p + tripoint_above );
@@ -1275,14 +1233,15 @@ bool construct::check_deconstruct( const tripoint_bub_ms &p )
 {
     map &here = get_map();
     if( here.has_furn( p ) ) {
-        // Can deconstruct furniture here, make sure regular deconstruction isn't available if easy deconstruction is possible
-        if( here.has_flag_furn( ter_furn_flag::TFLAG_EASY_DECONSTRUCT, p ) ) {
-            return false;
-        }
         return here.furn( p ).obj().deconstruct.can_do;
     }
     // terrain can only be deconstructed when there is no furniture in the way
     return here.ter( p ).obj().deconstruct.can_do;
+}
+
+bool construct::check_empty_up_OK( const tripoint_bub_ms &p )
+{
+    return check_empty( p ) && check_up_OK( p );
 }
 
 bool construct::check_up_OK( const tripoint_bub_ms & )
@@ -1304,13 +1263,20 @@ bool construct::check_no_trap( const tripoint_bub_ms &p )
 
 bool construct::check_ramp_high( const tripoint_bub_ms &p )
 {
-    map &here = get_map();
-    for( const point &offset : four_adjacent_offsets ) {
-        if( here.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, p + offset + tripoint_above ) ) {
-            return true;
+    if( check_empty_stable( p ) && check_up_OK( p ) && check_nofloor_above( p ) ) {
+        for( const point &car_d : four_cardinal_directions ) {
+            // check adjacent points on the z-level above for a completed down ramp
+            if( get_map().has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, p + car_d + tripoint_above ) ) {
+                return true;
+            }
         }
     }
     return false;
+}
+
+bool construct::check_ramp_low( const tripoint_bub_ms &p )
+{
+    return check_empty_stable( p ) && check_up_OK( p ) && check_nofloor_above( p );
 }
 
 bool construct::check_no_wiring( const tripoint_bub_ms &p )
@@ -1340,7 +1306,7 @@ void construct::done_grave( const tripoint_bub_ms &p, Character &player_characte
     for( const item &it : its ) {
         if( it.is_corpse() ) {
             if( it.get_corpse_name().empty() ) {
-                if( it.get_mtype()->has_flag( mon_flag_HUMAN ) ) {
+                if( it.get_mtype()->has_flag( MF_HUMAN ) ) {
                     if( player_character.has_trait( trait_SPIRITUAL ) ) {
                         player_character.add_morale( MORALE_FUNERAL, 50, 75, 1_days, 1_hours );
                         add_msg( m_good,
@@ -1379,21 +1345,23 @@ void construct::done_grave( const tripoint_bub_ms &p, Character &player_characte
 
 static vpart_id vpart_from_item( const itype_id &item_id )
 {
-    for( const vpart_info &vpi : vehicles::parts::get_all() ) {
-        if( vpi.base_item == item_id && vpi.has_flag( flag_INITIAL_PART ) ) {
-            return vpi.id;
+    for( const auto &e : vpart_info::all() ) {
+        const vpart_info &vp = e.second;
+        if( vp.base_item == item_id && vp.has_flag( flag_INITIAL_PART ) ) {
+            return vp.get_id();
         }
     }
     // The INITIAL_PART flag is optional, if no part (based on the given item) has it, just use the
     // first part that is based in the given item (this is fine for example if there is only one
     // such type anyway).
-    for( const vpart_info &vpi : vehicles::parts::get_all() ) {
-        if( vpi.base_item == item_id ) {
-            return vpi.id;
+    for( const auto &e : vpart_info::all() ) {
+        const vpart_info &vp = e.second;
+        if( vp.base_item == item_id ) {
+            return vp.get_id();
         }
     }
     debugmsg( "item %s used by construction is not base item of any vehicle part!", item_id.c_str() );
-    return vpart_frame;
+    return vpart_frame_vertical_2;
 }
 
 void construct::done_vehicle( const tripoint_bub_ms &p, Character & )
@@ -1431,8 +1399,7 @@ void construct::done_vehicle( const tripoint_bub_ms &p, Character & )
     const item &base = components.front();
 
     veh->name = name;
-    const int partnum = veh->install_part( point_zero, vpart_from_item( base.typeId() ), item( base ) );
-    veh->part( partnum ).set_flag( vp_flag::unsalvageable_flag );
+    veh->install_part( point_zero, vpart_from_item( base.typeId() ), item( base ) );
 
     // Update the vehicle cache immediately,
     // or the vehicle will be invisible for the first couple of turns.
@@ -1441,15 +1408,77 @@ void construct::done_vehicle( const tripoint_bub_ms &p, Character & )
 
 void construct::done_wiring( const tripoint_bub_ms &p, Character &/*who*/ )
 {
-    get_map().partial_con_remove( p );
+    map &here = get_map();
 
-    place_appliance( p.raw(), vpart_from_item( itype_wall_wiring ) );
+    here.partial_con_remove( p );
+
+    // TODO: fix point types
+    vehicle *veh = here.add_vehicle( vehicle_prototype_none, p.raw(), 0_degrees, 0, 0 );
+    if( !veh ) {
+        debugmsg( "error constructing vehicle" );
+        return;
+    }
+
+    veh->install_part( point_zero, vpart_from_item( STATIC( itype_id( "wall_wiring" ) ) ) );
+    veh->name = _( "wall wiring" );
+    veh->add_tag( flag_CANT_DRAG );
+    veh->add_tag( flag_APPLIANCE );
+    veh->add_tag( flag_WIRING );
+
+    // Merge any neighbouring wire vehicles into this one if the resulting vehicle would not be too large.
+    for( const point &offset : four_adjacent_offsets ) {
+        const optional_vpart_position vp = here.veh_at( p + offset );
+        if( !vp ) {
+            continue;
+        }
+
+        bounding_box vehicle_box = veh->get_bounding_box( false );
+        point size;
+        size.x = std::abs( ( vehicle_box.p2 - vehicle_box.p1 ).x ) + 1;
+        size.y = std::abs( ( vehicle_box.p2 - vehicle_box.p1 ).y ) + 1;
+
+        vehicle &veh_target = vp->vehicle();
+        if( &veh_target != veh && veh_target.has_tag( flag_WIRING ) ) {
+            bounding_box target_vehicle_box = veh_target.get_bounding_box( false );
+
+            point target_size;
+            target_size.x = std::abs( ( target_vehicle_box.p2 - target_vehicle_box.p1 ).x ) + 1;
+            target_size.y = std::abs( ( target_vehicle_box.p2 - target_vehicle_box.p1 ).y ) + 1;
+
+            if( size.x + target_size.x <= MAX_WIRE_VEHICLE_SIZE &&
+                size.y + target_size.y <= MAX_WIRE_VEHICLE_SIZE ) {
+                if( !veh->merge_vehicle_parts( &veh_target ) ) {
+                    debugmsg( "failed to merge vehicle parts" );
+                }
+            }
+        }
+    }
+
+    // Update the vehicle cache immediately,
+    // or the wiring will be invisible for the first couple of turns.
+    here.add_vehicle_to_cache( veh );
+
+    // Connect to any neighbouring appliances or wires
+    std::unordered_set<const vehicle *> connected_vehicles;
+    for( const tripoint_bub_ms &trip : here.points_in_radius( p, 1 ) ) {
+        const optional_vpart_position vp = here.veh_at( trip );
+        if( !vp ) {
+            continue;
+        }
+        const vehicle &veh_target = vp->vehicle();
+        if( veh_target.is_appliance() || veh_target.has_tag( flag_WIRING ) ) {
+            if( connected_vehicles.find( &veh_target ) == connected_vehicles.end() ) {
+                // TODO: fix point types
+                veh->connect( p.raw(), trip.raw() );
+                connected_vehicles.insert( &veh_target );
+            }
+        }
+    }
 }
 
 void construct::done_appliance( const tripoint_bub_ms &p, Character & )
 {
     map &here = get_map();
-
     partial_con *pc = here.partial_con_at( p );
     if( !pc ) {
         debugmsg( "constructing failed: can't find partial construction" );
@@ -1474,22 +1503,27 @@ void construct::done_appliance( const tripoint_bub_ms &p, Character & )
 void construct::done_deconstruct( const tripoint_bub_ms &p, Character &player_character )
 {
     map &here = get_map();
-
-    auto deconstruction_practice_skill = [ &player_character ]( auto & skill ) {
-        if( player_character.get_skill_level( skill.id ) >= skill.min ) {
-            // Uses a modified version of the complete_construction formula using 20 minutes with halved yield before the multiplier
-            player_character.practice( skill.id,
-                                       static_cast<int>( skill.multiplier * ( 5.0 / 6.0 ) * ( 10 + 7.5 * ( skill.min +
-                                               skill.max ) ) ), skill.max );
-        }
-    };
-
     // TODO: Make this the argument
     if( here.has_furn( p ) ) {
         const furn_t &f = here.furn( p ).obj();
         if( !f.deconstruct.can_do ) {
             add_msg( m_info, _( "That %s can not be disassembled!" ), f.name() );
             return;
+        }
+        if( f.id.id() == furn_f_console_broken )  {
+            if( player_character.get_skill_level( skill_electronics ) >= 1 ) {
+                player_character.practice( skill_electronics, 20, 4 );
+            }
+        }
+        if( f.id.id() == furn_f_console )  {
+            if( player_character.get_skill_level( skill_electronics ) >= 1 ) {
+                player_character.practice( skill_electronics, 40, 8 );
+            }
+        }
+        if( f.id.id() == furn_f_machinery_electronic )  {
+            if( player_character.get_skill_level( skill_electronics ) >= 1 ) {
+                player_character.practice( skill_electronics, 40, 8 );
+            }
         }
         if( f.deconstruct.furn_set.str().empty() ) {
             here.furn_set( p, f_null );
@@ -1500,9 +1534,6 @@ void construct::done_deconstruct( const tripoint_bub_ms &p, Character &player_ch
         item &item_here = here.i_at( p ).size() != 1 ? null_item_reference() : here.i_at( p ).only_item();
         const std::vector<item *> drop = here.spawn_items( p,
                                          item_group::items_from( f.deconstruct.drop_group, calendar::turn ) );
-        if( f.deconstruct.skill.has_value() ) {
-            deconstruction_practice_skill( f.deconstruct.skill.value() );
-        }
         // if furniture has liquid in it and deconstructs into watertight containers then fill them
         if( f.has_flag( "LIQUIDCONT" ) && item_here.made_of( phase_id::LIQUID ) ) {
             for( item *it : drop ) {
@@ -1539,9 +1570,6 @@ void construct::done_deconstruct( const tripoint_bub_ms &p, Character &player_ch
         here.ter_set( p, t.deconstruct.ter_set );
         add_msg( _( "The %s is disassembled." ), t.name() );
         here.spawn_items( p, item_group::items_from( t.deconstruct.drop_group, calendar::turn ) );
-        if( t.deconstruct.skill.has_value() ) {
-            deconstruction_practice_skill( t.deconstruct.skill.value() );
-        }
     }
 }
 
@@ -1920,11 +1948,14 @@ void load_construction( const JsonObject &jo )
             { "check_support", construct::check_support },
             { "check_support_below", construct::check_support_below },
             { "check_stable", construct::check_stable },
+            { "check_empty_stable", construct::check_empty_stable },
             { "check_nofloor_above", construct::check_nofloor_above },
             { "check_deconstruct", construct::check_deconstruct },
+            { "check_empty_up_OK", construct::check_empty_up_OK },
             { "check_up_OK", construct::check_up_OK },
             { "check_down_OK", construct::check_down_OK },
             { "check_no_trap", construct::check_no_trap },
+            { "check_ramp_low", construct::check_ramp_low },
             { "check_ramp_high", construct::check_ramp_high },
             { "check_no_wiring", construct::check_no_wiring }
         }
@@ -1965,32 +1996,12 @@ void load_construction( const JsonObject &jo )
             { "deconstruct", construct::failure_deconstruct },
         }
     };
-    std::string failure_fallback = "standard";
-    if( jo.has_array( "pre_special" ) ) {
-        JsonArray jarr = jo.get_array( "pre_special" );
-        for( std::string special : jarr ) {
-            if( special == "check_deconstruct" ) {
-                failure_fallback =  "deconstruct";
-            }
-            assign_or_debugmsg( con.pre_special, special, pre_special_map );
-            con.pre_specials.push_back( con.pre_special );
-        }
-    } else {
-        const std::string special = jo.get_string( "pre_special", "" );
-        if( special == "check_deconstruct" ) {
-            failure_fallback =  "deconstruct";
-        }
-        assign_or_debugmsg( con.pre_special, special, pre_special_map );
-    }
-    if( jo.has_array( "post_special" ) ) {
-        JsonArray jarr = jo.get_array( "post_special" );
-        for( std::string special : jarr ) {
-            assign_or_debugmsg( con.post_special, special, post_special_map );
-            con.post_specials.push_back( con.post_special );
-        }
-    } else {
-        assign_or_debugmsg( con.post_special, jo.get_string( "post_special", "" ), post_special_map );
-    }
+
+    const std::string failure_fallback = jo.get_string( "pre_special", "" ) == "check_deconstruct"
+                                         ? "deconstruct" : "standard";
+
+    assign_or_debugmsg( con.pre_special, jo.get_string( "pre_special", "" ), pre_special_map );
+    assign_or_debugmsg( con.post_special, jo.get_string( "post_special", "" ), post_special_map );
     assign_or_debugmsg( con.do_turn_special, jo.get_string( "do_turn_special", "" ),
                         do_turn_special_map );
     assign_or_debugmsg( con.explain_failure, jo.get_string( "explain_failure", failure_fallback ),
@@ -2082,7 +2093,7 @@ int construction::adjusted_time() const
     int final_time = time;
     int assistants = 0;
 
-    for( Character *elem : get_avatar().get_crafting_helpers() ) {
+    for( npc *&elem : get_avatar().get_crafting_helpers() ) {
         if( elem->meets_skill_requirements( *this ) ) {
             assistants++;
         }
@@ -2115,14 +2126,15 @@ std::vector<std::string> construction::get_folded_time_string( int width ) const
 void finalize_constructions()
 {
     std::vector<item_comp> frame_items;
-    for( const vpart_info &vpi : vehicles::parts::get_all() ) {
-        if( !vpi.has_flag( flag_INITIAL_PART ) ) {
+    for( const auto &e : vpart_info::all() ) {
+        const vpart_info &vp = e.second;
+        if( !vp.has_flag( flag_INITIAL_PART ) ) {
             continue;
         }
-        if( vpi.id == vpart_frame ) {
-            frame_items.insert( frame_items.begin(), { vpi.base_item, 1 } );
+        if( vp.get_id().str() == "frame" ) {
+            frame_items.insert( frame_items.begin(), { vp.base_item, 1 } );
         } else {
-            frame_items.emplace_back( vpi.base_item, 1 );
+            frame_items.emplace_back( vp.base_item, 1 );
         }
     }
 

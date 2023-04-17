@@ -14,8 +14,7 @@
     "color": "green",
     "ammo": [ "fish_bait" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "fish_bait": 5 } } ],
-    "qualities": [ [ "FISH_TRAP", 1 ] ],
-    "tick_action": [ "FISH_TRAP_TICK" ]
+    "qualities": [ [ "FISH_TRAP", 1 ] ]
   },
   {
     "id": "fish_trap_basket",
@@ -33,8 +32,7 @@
     "color": "brown",
     "ammo": [ "fish_bait" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "fish_bait": 10 } } ],
-    "qualities": [ [ "FISH_TRAP", 1 ] ],
-    "tick_action": [ "FISH_TRAP_TICK" ]
+    "qualities": [ [ "FISH_TRAP", 1 ] ]
   },
   {
     "id": "fishing_hook_basic",
@@ -94,11 +92,12 @@
     "price_postapoc": 1500,
     "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "neutral" },
     "//": "7 lead subst. for 8 bismuth, which doesn't have its own material",
+    "//2": "plastic is stand-in for fiberglass / carbon fiber; kevlar_rigid is also an option but has no suitable item for uncraft output",
     "material": [
       { "type": "lead", "portion": 7 },
       { "type": "steel", "portion": 4 },
       { "type": "cotton", "portion": 4 },
-      { "type": "fiberglass", "portion": 3 }
+      { "type": "plastic", "portion": 3 }
     ],
     "symbol": "/",
     "color": "brown",
@@ -118,11 +117,12 @@
     "price_postapoc": 1600,
     "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "neutral" },
     "//": "7 lead subst. for 8 bismuth, which doesn't have its own material",
+    "//2": "plastic is stand-in for fiberglass / carbon fiber; kevlar_rigid is also an option but has no suitable item for uncraft output",
     "material": [
       { "type": "lead", "portion": 7 },
       { "type": "steel", "portion": 4 },
       { "type": "cotton", "portion": 4 },
-      { "type": "fiberglass", "portion": 4 }
+      { "type": "plastic", "portion": 4 }
     ],
     "symbol": "/",
     "color": "blue",
@@ -168,11 +168,12 @@
     "price_postapoc": 1750,
     "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "neutral" },
     "//": "7 lead subst. for 8 bismuth, which doesn't have its own material",
+    "//2": "plastic is stand-in for fiberglass / carbon fiber; kevlar_rigid is also an option but has no suitable item for uncraft output",
     "material": [
       { "type": "lead", "portion": 7 },
       { "type": "steel", "portion": 5 },
       { "type": "cotton", "portion": 4 },
-      { "type": "fiberglass", "portion": 4 }
+      { "type": "plastic", "portion": 4 }
     ],
     "symbol": "/",
     "color": "dark_gray",

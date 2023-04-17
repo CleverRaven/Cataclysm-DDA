@@ -16,7 +16,6 @@
     "price": 0,
     "volume": "0 ml",
     "flags": [ "TRADER_AVOID", "CORPSE", "TARDIS" ],
-    "category": "corpses",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -38,7 +37,7 @@
     "color": "white",
     "name": { "str": "desiccated corpse" },
     "description": "A badly mangled human body.  A giant puncture wound is visible on its upper chest, and something has drained most of the moisture from the carcass, leaving it desiccated and making it impossible to determine the body's age.",
-    "category": "corpses",
+    "category": "other",
     "material": [ "hflesh" ],
     "price": 0,
     "volume": "27 L",
@@ -160,7 +159,6 @@
     "name": { "str": "corpse" },
     "description": "An awful, almost unidentifiable mass of charred flesh.",
     "looks_like": "corpse_generic_human",
-    "source_monster": "mon_human_scorched",
     "material": [ "hflesh" ]
   },
   {
@@ -302,7 +300,7 @@
     "name": { "str": "mummified corpse" },
     "description": "Waxen skin drapes the remnants of an unknowable death.",
     "looks_like": "corpse_generic_human",
-    "category": "corpses",
+    "category": "other",
     "material": [ "hflesh" ],
     "price": 0,
     "volume": "30 L",

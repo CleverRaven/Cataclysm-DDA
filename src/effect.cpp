@@ -85,18 +85,6 @@ void limb_score_effect::deserialize( const JsonObject &jo )
     load( jo );
 }
 
-void effect_dur_mod::load( const JsonObject &jo )
-{
-    mandatory( jo, false, "effect_id", effect_id );
-    mandatory( jo, false, "modifier", modifier );
-    optional( jo, false, "same_bp", same_bp, false );
-}
-
-void effect_dur_mod::deserialize( const JsonObject &jo )
-{
-    load( jo );
-}
-
 /** @relates string_id */
 template<>
 const effect_type &string_id<effect_type>::obj() const
@@ -487,42 +475,6 @@ void effect_type::load_mod_data( const JsonObject &j )
         {"stamina_tick",        mod_action::TICK},
     } );
 
-    // Then blood pressure. No min/max val, as they are handled internally.
-    extract_effect( to_extract, "BLOOD_PRESSURE", {
-        {"blood_pressure_amount",      mod_action::AMOUNT},
-        {"blood_pressure_min",         mod_action::MIN},
-        {"blood_pressure_max",         mod_action::MAX},
-        {"blood_pressure_max_val",     mod_action::MAX_VAL},
-        {"blood_pressure_min_val",     mod_action::MIN_VAL},
-        {"blood_pressure_chance",      mod_action::CHANCE_TOP},
-        {"blood_pressure_chance_bot",  mod_action::CHANCE_BOT},
-        {"blood_pressure_tick",        mod_action::TICK},
-    } );
-
-    // Then Heart Rate
-    extract_effect( to_extract, "HEART_RATE", {
-        {"heart_rate_amount",      mod_action::AMOUNT},
-        {"heart_rate_min",         mod_action::MIN},
-        {"heart_rate_max",         mod_action::MAX},
-        {"heart_rate_max_val",     mod_action::MAX_VAL},
-        {"heart_rate_min_val",     mod_action::MIN_VAL},
-        {"heart_rate_chance",      mod_action::CHANCE_TOP},
-        {"heart_rate_chance_bot",  mod_action::CHANCE_BOT},
-        {"heart_rate_tick",        mod_action::TICK},
-    } );
-
-    // Then Respirato Rate
-    extract_effect( to_extract, "RESPIRATORY_RATE", {
-        {"respiratory_rate_amount",      mod_action::AMOUNT},
-        {"respiratory_rate_min",         mod_action::MIN},
-        {"respiratory_rate_max",         mod_action::MAX},
-        {"respiratory_rate_max_val",     mod_action::MAX_VAL},
-        {"respiratory_rate_min_val",     mod_action::MIN_VAL},
-        {"respiratory_rate_chance",      mod_action::CHANCE_TOP},
-        {"respiratory_rate_chance_bot",  mod_action::CHANCE_BOT},
-        {"respiratory_rate_tick",        mod_action::TICK},
-    } );
-
     // Then coughing
     extract_effect( to_extract, "COUGH", {
         {"cough_chance",      mod_action::CHANCE_TOP},
@@ -597,10 +549,9 @@ bool effect_type::has_flag( const flag_id &flag ) const
     return flags.count( flag );
 }
 
-game_message_type effect_type::get_rating( int intensity ) const
+effect_rating effect_type::get_rating() const
 {
-    intensity = std::clamp( intensity, 0, static_cast<int>( apply_msgs.size() ) - 1 );
-    return apply_msgs[intensity].second;
+    return rating;
 }
 
 bool effect_type::use_name_ints() const
@@ -617,35 +568,41 @@ bool effect_type::use_desc_ints( bool reduced ) const
     }
 }
 
-game_message_type effect_type::lose_game_message_type( int intensity ) const
+game_message_type effect_type::gain_game_message_type() const
 {
-    switch( get_rating( intensity ) ) {
-        case m_good:
-            return m_bad;
-        case m_bad:
+    switch( rating ) {
+        case e_good:
             return m_good;
-        case m_neutral:
+        case e_bad:
+            return m_bad;
+        case e_neutral:
             return m_neutral;
-        case m_mixed:
+        case e_mixed:
             return m_mixed;
         default:
             // Should never happen
             return m_neutral;
     }
 }
-void effect_type::add_apply_msg( int intensity ) const
+game_message_type effect_type::lose_game_message_type() const
 {
-    if( intensity == 0 ) {
-        return;
+    switch( rating ) {
+        case e_good:
+            return m_bad;
+        case e_bad:
+            return m_good;
+        case e_neutral:
+            return m_neutral;
+        case e_mixed:
+            return m_mixed;
+        default:
+            // Should never happen
+            return m_neutral;
     }
-    if( intensity - 1 < static_cast<int>( apply_msgs.size() ) ) {
-        add_msg( apply_msgs[intensity - 1].second,
-                 apply_msgs[intensity - 1].first.translated() );
-    } else if( !apply_msgs.empty() && !apply_msgs[0].first.empty() ) {
-        // if the apply message is empty we shouldn't show the message
-        add_msg( apply_msgs[0].second,
-                 apply_msgs[0].first.translated() );
-    }
+}
+std::string effect_type::get_apply_message() const
+{
+    return apply_message.translated();
 }
 std::string effect_type::get_apply_memorial_log( const memorial_gender gender ) const
 {
@@ -687,68 +644,30 @@ bool effect_type::load_miss_msgs( const JsonObject &jo, const std::string_view m
 {
     return jo.read( member, miss_msgs );
 }
-
-static std::optional<game_message_type> process_rating( const std::string &r )
-{
-    if( r == "good" ) {
-        return m_good;
-    } else if( r == "neutral" ) {
-        return m_neutral;
-    } else if( r == "bad" ) {
-        return m_bad;
-    } else if( r == "mixed" ) {
-        return m_mixed;
-    } else {
-        // handle errors for returning nothing above
-        return {};
-    }
-}
-
-// helps load the internal message arrays for decay and apply into the msgs vector
-static void load_msg_help( const JsonArray &ja,
-                           std::vector<std::pair<translation, game_message_type>> &apply_msgs )
-{
-    translation msg;
-    ja.read( 0, msg );
-    std::string r = ja.get_string( 1 );
-    std::optional<game_message_type> rate = process_rating( r );
-    if( !rate.has_value() ) {
-        ja.throw_error(
-            1, string_format( "Unexpected message type \"%s\"; expected \"good\", "
-                              "\"neutral\", " "\"bad\", or \"mixed\"", r ) );
-        rate = m_neutral;
-    }
-    apply_msgs.emplace_back( msg, rate.value() );
-}
-
 bool effect_type::load_decay_msgs( const JsonObject &jo, const std::string_view member )
 {
     if( jo.has_array( member ) ) {
         for( JsonArray inner : jo.get_array( member ) ) {
-            load_msg_help( inner, decay_msgs );
+            translation msg;
+            inner.read( 0, msg );
+            std::string r = inner.get_string( 1 );
+            game_message_type rate = m_neutral;
+            if( r == "good" ) {
+                rate = m_good;
+            } else if( r == "neutral" ) {
+                rate = m_neutral;
+            } else if( r == "bad" ) {
+                rate = m_bad;
+            } else if( r == "mixed" ) {
+                rate = m_mixed;
+            } else {
+                inner.throw_error(
+                    1, string_format( "Unexpected message type \"%s\"; expected \"good\", "
+                                      "\"neutral\", " "\"bad\", or \"mixed\"", r ) );
+            }
+            decay_msgs.emplace_back( msg, rate );
         }
         return true;
-    }
-    return false;
-}
-
-bool effect_type::load_apply_msgs( const JsonObject &jo, const std::string_view member )
-{
-    if( jo.has_array( member ) ) {
-        JsonArray ja = jo.get_array( member );
-        for( JsonArray inner : jo.get_array( member ) ) {
-            load_msg_help( inner, apply_msgs );
-        }
-        return true;
-    } else {
-        translation msg;
-        optional( jo, false, member, msg );
-        if( jo.has_string( "rating" ) ) {
-            std::optional<game_message_type> rate = process_rating( jo.get_string( "rating" ) );
-            apply_msgs.emplace_back( msg, rate.value() );
-        } else {
-            apply_msgs.emplace_back( msg, game_message_type::m_neutral );
-        }
     }
     return false;
 }
@@ -866,7 +785,7 @@ std::string effect::disp_desc( bool reduced ) const
 
     // Handle limb score modifiers if we have any
     if( has_flag( flag_EFFECT_LIMB_SCORE_MOD_LOCAL ) || has_flag( flag_EFFECT_LIMB_SCORE_MOD ) ) {
-        const std::string global = has_flag( flag_EFFECT_LIMB_SCORE_MOD ) ? _( "Global" ) : _( "Local" );
+        std::string global = has_flag( flag_EFFECT_LIMB_SCORE_MOD ) ? "Global" : "Local";
         for( limb_score_effect &effect : get_limb_score_data() ) {
             // Only print modifiers if they are global or if the limb has the score in the first place
             if( bp->has_limb_score( effect.score_id ) || has_flag( flag_EFFECT_LIMB_SCORE_MOD ) ) {
@@ -1216,8 +1135,6 @@ int effect::set_intensity( int val, bool alert )
         val - 1 < static_cast<int>( eff_type->decay_msgs.size() ) ) {
         add_msg( eff_type->decay_msgs[ val - 1 ].second,
                  eff_type->decay_msgs[ val - 1 ].first.translated() );
-    } else if( alert && val != 0 ) {
-        eff_type->add_apply_msg( val );
     }
 
     if( val == 0 && !eff_type->int_decay_remove ) {
@@ -1362,6 +1279,7 @@ bool effect::activated( const time_point &when, const std::string &arg, int val,
     } else if( tick < 0 ) {
         return false;
     }
+
 
     int bot = eff_type->get_mod_value( arg, mod_action::CHANCE_BOT, reduced, intensity );
 
@@ -1525,6 +1443,26 @@ void load_effect_type( const JsonObject &jo )
 
     new_etype.part_descs = jo.get_bool( "part_descs", false );
 
+    if( jo.has_member( "rating" ) ) {
+        std::string r = jo.get_string( "rating" );
+        if( r == "good" ) {
+            new_etype.rating = e_good;
+        } else if( r == "neutral" ) {
+            new_etype.rating = e_neutral;
+        } else if( r == "bad" ) {
+            new_etype.rating = e_bad;
+        } else if( r == "mixed" ) {
+            new_etype.rating = e_mixed;
+        } else {
+            jo.throw_error_at(
+                "rating",
+                string_format( "Unexpected rating \"%s\"; expected \"good\", \"neutral\", "
+                               "\"bad\", or \"mixed\"", r ) );
+        }
+    } else {
+        new_etype.rating = e_neutral;
+    }
+    jo.read( "apply_message", new_etype.apply_message );
     jo.read( "remove_message", new_etype.remove_message );
     optional( jo, false, "apply_memorial_log", new_etype.apply_memorial_log,
               text_style_check_reader() );
@@ -1558,7 +1496,6 @@ void load_effect_type( const JsonObject &jo )
 
     optional( jo, false, "vitamins", new_etype.vitamin_data );
     optional( jo, false, "limb_score_mods", new_etype.limb_score_data );
-    optional( jo, false, "effect_dur_scaling", new_etype.effect_dur_scaling );
     optional( jo, false, "chance_kill", new_etype.kill_chance );
     optional( jo, false, "chance_kill_resist", new_etype.red_kill_chance );
     optional( jo, false, "death_msg", new_etype.death_msg, to_translation( "You died." ) );
@@ -1574,7 +1511,6 @@ void load_effect_type( const JsonObject &jo )
 
     new_etype.load_miss_msgs( jo, "miss_messages" );
     new_etype.load_decay_msgs( jo, "decay_messages" );
-    new_etype.load_apply_msgs( jo, "apply_message" );
 
     new_etype.main_parts_only = jo.get_bool( "main_parts_only", false );
     new_etype.show_in_info = jo.get_bool( "show_in_info", false );
@@ -1611,10 +1547,6 @@ std::vector<limb_score_effect> effect::get_limb_score_data() const
     return eff_type->limb_score_data;
 }
 
-std::vector<effect_dur_mod> effect::get_effect_dur_scaling() const
-{
-    return eff_type->effect_dur_scaling;
-}
 
 bool effect::kill_roll( bool reduced ) const
 {

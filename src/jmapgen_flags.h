@@ -1,4 +1,3 @@
-#pragma once
 #ifndef CATA_SRC_JMAPGEN_FLAGS_H
 #define CATA_SRC_JMAPGEN_FLAGS_H
 

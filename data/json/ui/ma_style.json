@@ -435,7 +435,7 @@
       {
         "condition": { "u_has_effect": "mabuff:buff_snake_onpause" },
         "id": "buff_snake_onpause",
-        "text": "Snake's Coil"
+        "text": "Snake's Coi"
       },
       {
         "//": "Tiger Kung Fu   -------------- 30 ----------------",

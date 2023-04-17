@@ -10,8 +10,9 @@
     "skill_used": "cooking",
     "skills_required": [ "survival", 2 ],
     "time": "220 m",
-    "charges": 32,
+    "charges": 8,
     "book_learn": [ [ "cookbook", 1 ], [ "scots_cookbook", 2 ] ],
+    "result_mult": 4,
     "difficulty": 3,
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ] ],
@@ -51,9 +52,10 @@
     "difficulty": 5,
     "time": "180 m",
     "batch_time_factors": [ 83, 5 ],
-    "charges": 960,
+    "charges": 240,
     "byproducts": [ [ "ruined_chunks", 8 ] ],
     "book_learn": [ [ "offalcooking", 3 ] ],
+    "result_mult": 4,
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT_FINE", "level": 1 } ],
     "components": [ [ [ "stomach_sauropod", 1 ] ], [ [ "salt", 80 ] ], [ [ "water", 8 ], [ "water_clean", 8 ] ] ]
   }

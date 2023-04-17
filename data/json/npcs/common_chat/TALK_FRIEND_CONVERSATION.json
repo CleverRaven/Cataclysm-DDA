@@ -2,10 +2,7 @@
   {
     "id": "TALK_CONVERSATION_DANGER",
     "type": "talk_topic",
-    "dynamic_line": {
-      "gendered_line": "Are you sure?  This doesn't seem like a particularly safe place for small talk…",
-      "relevant_genders": [ "u" ]
-    },
+    "dynamic_line": "Are you sure?  This doesn't seem like a particularly safe place for small talk…",
     "responses": [
       {
         "text": "It's fine, we've got a moment.",
@@ -30,17 +27,14 @@
     "id": "TALK_FRIEND_CONVERSATION",
     "type": "talk_topic",
     "dynamic_line": "What did you want to talk about?",
-    "responses": [
-      { "text": "Actually, never mind.", "condition": "npc_following", "topic": "TALK_FRIEND" },
-      { "text": "Actually, never mind.", "condition": { "not": "npc_following" }, "topic": "TALK_DONE" }
-    ]
+    "responses": [ { "text": "Actually, never mind.", "topic": "TALK_NONE" } ]
   },
   {
     "id": "TALK_FRIEND_CHAT",
     "type": "talk_topic",
     "dynamic_line": [
       {
-        "math": [ "time_since('cataclysm', 'unit':'days') >= 100" ],
+        "days_since_cataclysm": 100,
         "yes": [
           { "u_has_item": "beer", "yes": "<chitchat_prefix_booze>  <neutralchitchat_later>", "no": "<neutralchitchat_later>" },
           {

@@ -43,6 +43,7 @@ class player_difficulty
         // difficutly is false for things going from Very Weak to Very Powerful
         static std::string format_output( float percent_band, float per );
 
+
         npc average;
 
     public:
@@ -59,5 +60,6 @@ class player_difficulty
         // call to get the details out
         std::string difficulty_to_string( const avatar &u ) const;
 };
+
 
 #endif // CATA_SRC_PLAYER_DIFFICULTY_H

@@ -17,7 +17,7 @@
 
 namespace creator
 {
-class spell_window : public QWidget
+class spell_window : public QMainWindow
 {
     public:
         spell_window( QWidget *parent = nullptr, Qt::WindowFlags flags = Qt::WindowFlags() );
@@ -52,14 +52,11 @@ class spell_window : public QWidget
 
         QLabel energy_cost_label;
         QSpinBox base_energy_cost_box;
-        void base_energy_cost_box_textchanged();
         QDoubleSpinBox energy_increment_box;
         QSpinBox final_energy_cost_box;
-        void final_energy_cost_box_textchanged();
 
         QLabel damage_label;
         QSpinBox min_damage_box;
-        void min_damage_box_textchanged();
         QDoubleSpinBox damage_increment_box;
         QSpinBox max_damage_box;
 
@@ -85,10 +82,8 @@ class spell_window : public QWidget
 
         QLabel casting_time_label;
         QSpinBox base_casting_time_box;
-        void base_casting_time_box_textchanged();
         QDoubleSpinBox casting_time_increment_box;
         QSpinBox final_casting_time_box;
-        void final_casting_time_box_textchanged();
 
         QLabel duration_label;
         QSpinBox min_duration_box;

@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_BEHAVIOR_STRATEGY_H
 #define CATA_SRC_BEHAVIOR_STRATEGY_H
 
+#include <iosfwd>
 #include <string>
 #include <unordered_map>
 #include <vector>

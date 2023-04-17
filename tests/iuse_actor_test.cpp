@@ -15,6 +15,7 @@
 #include "game.h"
 #include "item.h"
 #include "item_location.h"
+#include "item_pocket.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
@@ -25,7 +26,6 @@
 #include "monster.h"
 #include "mtype.h"
 #include "player_helpers.h"
-#include "pocket_type.h"
 #include "point.h"
 #include "ret_val.h"
 #include "type_id.h"
@@ -84,7 +84,7 @@ TEST_CASE( "manhack", "[iuse_actor][manhack]" )
 
 TEST_CASE( "tool_transform_when_activated", "[iuse][tool][transform]" )
 {
-    Character *dummy = &get_avatar();
+    Character &dummy = get_avatar();
     clear_avatar();
 
     GIVEN( "flashlight with a charged battery installed" ) {
@@ -98,8 +98,8 @@ TEST_CASE( "tool_transform_when_activated", "[iuse][tool][transform]" )
         REQUIRE( bat_cell.ammo_remaining() == bat_charges );
 
         // Put battery in flashlight
-        REQUIRE( flashlight.has_pocket_type( pocket_type::MAGAZINE_WELL ) );
-        ret_val<void> result = flashlight.put_in( bat_cell, pocket_type::MAGAZINE_WELL );
+        REQUIRE( flashlight.has_pocket_type( item_pocket::pocket_type::MAGAZINE_WELL ) );
+        ret_val<void> result = flashlight.put_in( bat_cell, item_pocket::pocket_type::MAGAZINE_WELL );
         REQUIRE( result.success() );
         REQUIRE( flashlight.magazine_current() );
 
@@ -108,7 +108,7 @@ TEST_CASE( "tool_transform_when_activated", "[iuse][tool][transform]" )
             const use_function *use = flashlight.type->get_use( "transform" );
             REQUIRE( use != nullptr );
             const iuse_transform *actor = dynamic_cast<const iuse_transform *>( use->get_actor_ptr() );
-            actor->use( dummy, flashlight, dummy->pos() );
+            actor->use( dummy, flashlight, false, dummy.pos() );
 
             THEN( "it becomes active" ) {
                 CHECK( flashlight.active );

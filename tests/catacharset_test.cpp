@@ -13,7 +13,7 @@
 #include "translations.h"
 #include "unicode.h"
 
-TEST_CASE( "utf8_width", "[catacharset][nogame]" )
+TEST_CASE( "utf8_width", "[catacharset]" )
 {
     CHECK( utf8_width( "Hello, world!", false ) == 13 );
     CHECK( utf8_width( "你好，世界！", false ) == 12 );
@@ -25,7 +25,7 @@ TEST_CASE( "utf8_width", "[catacharset][nogame]" )
     CHECK( utf8_width( "à̸̠你⃫", false ) == 3 );
 }
 
-TEST_CASE( "utf8_display_split", "[catacharset][nogame]" )
+TEST_CASE( "utf8_display_split", "[catacharset]" )
 {
     CHECK( utf8_display_split( "你好" ) == std::vector<std::string> { "你", "好" } );
     CHECK( utf8_display_split( "à" ) == std::vector<std::string> { "à" } );
@@ -34,13 +34,13 @@ TEST_CASE( "utf8_display_split", "[catacharset][nogame]" )
     CHECK( utf8_display_split( "    " ) == std::vector<std::string> { " ", " ", " ", " " } );
 }
 
-TEST_CASE( "base64", "[catacharset][nogame]" )
+TEST_CASE( "base64", "[catacharset]" )
 {
     CHECK( base64_encode( "hello" ) == "#aGVsbG8=" );
     CHECK( base64_decode( "#aGVsbG8=" ) == "hello" );
 }
 
-TEST_CASE( "utf8_to_wstr", "[catacharset][nogame]" )
+TEST_CASE( "utf8_to_wstr", "[catacharset]" )
 {
     // std::mbstowcs' returning -1 workaround
     char *result = setlocale( LC_ALL, "" );
@@ -52,7 +52,7 @@ TEST_CASE( "utf8_to_wstr", "[catacharset][nogame]" )
     REQUIRE( result );
 }
 
-TEST_CASE( "wstr_to_utf8", "[catacharset][nogame]" )
+TEST_CASE( "wstr_to_utf8", "[catacharset]" )
 {
     // std::wcstombs' returning -1 workaround
     char *result = setlocale( LC_ALL, "" );
@@ -64,7 +64,7 @@ TEST_CASE( "wstr_to_utf8", "[catacharset][nogame]" )
     REQUIRE( result );
 }
 
-TEST_CASE( "localized_compare", "[catacharset][nogame]" )
+TEST_CASE( "localized_compare", "[catacharset]" )
 {
     try {
         std::locale::global( std::locale( "en_US.UTF-8" ) );
@@ -99,7 +99,7 @@ static void check_in_place_func( const std::function<void( char32_t & )> &func,
     CHECK( ch == expected );
 }
 
-TEST_CASE( "u32_to_lowercase", "[catacharset][nogame]" )
+TEST_CASE( "u32_to_lowercase", "[catacharset]" )
 {
     // Latin
     check_in_place_func( u32_to_lowercase, U'a', U'a' );
@@ -123,7 +123,7 @@ TEST_CASE( "u32_to_lowercase", "[catacharset][nogame]" )
     check_in_place_func( u32_to_lowercase, U'😅', U'😅' );
 }
 
-TEST_CASE( "remove_accent", "[catacharset][nogame]" )
+TEST_CASE( "remove_accent", "[catacharset]" )
 {
     // Latin
     check_in_place_func( remove_accent, U'o', U'o' );
@@ -142,7 +142,7 @@ TEST_CASE( "remove_accent", "[catacharset][nogame]" )
     check_in_place_func( remove_accent, U'😅', U'😅' );
 }
 
-TEST_CASE( "utf8_view", "[catacharset][nogame]" )
+TEST_CASE( "utf8_view", "[catacharset]" )
 {
     static const std::string str{"Français中文русский"};
     static const std::vector<char32_t> expected_code_points{

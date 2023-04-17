@@ -12,6 +12,7 @@
 
 class time_duration;
 
+
 talker_monster::talker_monster( monster *new_me )
 {
     me_mon = new_me;
@@ -21,11 +22,6 @@ talker_monster::talker_monster( monster *new_me )
 std::string talker_monster_const::disp_name() const
 {
     return me_mon_const->disp_name();
-}
-
-std::string talker_monster_const::get_name() const
-{
-    return me_mon_const->get_name();
 }
 
 int talker_monster_const::posx() const
@@ -80,15 +76,9 @@ void talker_monster::add_effect( const efftype_id &new_effect, const time_durati
     me_mon->add_effect( new_effect, dur, bodypart_str_id( bp ), permanent, intensity, force );
 }
 
-void talker_monster::remove_effect( const efftype_id &old_effect, const std::string &bp )
+void talker_monster::remove_effect( const efftype_id &old_effect )
 {
-    bodypart_id target_part;
-    if( "RANDOM" == bp ) {
-        target_part = get_player_character().random_body_part( true );
-    } else {
-        target_part = bodypart_str_id( bp );
-    }
-    me_mon->remove_effect( old_effect, target_part );
+    me_mon->remove_effect( old_effect );
 }
 
 void talker_monster::mod_pain( int amount )
@@ -96,10 +86,9 @@ void talker_monster::mod_pain( int amount )
     me_mon->mod_pain( amount );
 }
 
-std::optional<std::string> talker_monster_const::maybe_get_value( const std::string &var_name )
-const
+std::string talker_monster_const:: get_value( const std::string &var_name ) const
 {
-    return me_mon_const->maybe_get_value( var_name );
+    return me_mon_const->get_value( var_name );
 }
 
 bool talker_monster_const::has_flag( const flag_id &f ) const
@@ -176,40 +165,14 @@ int talker_monster_const::get_grab_strength() const
                    me_mon_const->get_grab_strength() );
     return  me_mon_const->get_grab_strength();
 }
-
-bool talker_monster_const::can_see_location( const tripoint &pos ) const
-{
-    return me_mon_const->sees( pos );
-}
-
-int talker_monster_const::get_volume() const
-{
-    return units::to_milliliter( me_mon_const->get_volume() );
-}
-
-int talker_monster_const::get_weight() const
-{
-    return units::to_milligram( me_mon_const->get_weight() );
-}
-
 void talker_monster::set_friendly( int new_val )
 {
     me_mon->friendly = new_val;
 }
 
-bool talker_monster::get_is_alive() const
-{
-    return !me_mon->is_dead();
-}
-
 void talker_monster::die()
 {
     me_mon->die( nullptr );
-}
-
-void talker_monster::set_all_parts_hp_cur( int set ) const
-{
-    me_mon->set_hp( set );
 }
 
 std::vector<std::string> talker_monster_const::get_topics( bool )
@@ -220,16 +183,6 @@ std::vector<std::string> talker_monster_const::get_topics( bool )
 int talker_monster_const::get_cur_hp( const bodypart_id & ) const
 {
     return me_mon_const->get_hp();
-}
-
-int talker_monster_const::get_hp_max( const bodypart_id & ) const
-{
-    return me_mon_const->get_hp_max();
-}
-
-double talker_monster_const::armor_at( damage_type_id &dt, bodypart_id &bp ) const
-{
-    return me_mon_const->get_armor_type( dt, bp );
 }
 
 bool talker_monster_const::will_talk_to_u( const Character &you, bool )

@@ -1123,7 +1123,6 @@
         " 5ʋ5ʉ       "
       ],
       "palettes": [ "lab_common_palette", "lab_security_palette" ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": { "ĉ": "t_sandbox" },
       "furniture": { "!": "f_barricade_road", "A": "f_floor_canvas" },
       "place_loot": [
@@ -1158,8 +1157,7 @@
         " ʉʉ ʉʉʉʉʉ ʉ ",
         "5         ʉ5"
       ],
-      "palettes": [ "lab_common_palette", "lab_security_palette" ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+      "palettes": [ "lab_common_palette", "lab_security_palette" ]
     }
   },
   {

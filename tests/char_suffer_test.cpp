@@ -15,7 +15,6 @@
 #include "item.h"
 #include "map.h"
 #include "map_helpers.h"
-#include "options_helpers.h"
 #include "player_helpers.h"
 #include "test_statistics.h"
 #include "type_id.h"
@@ -102,10 +101,9 @@ static int test_suffer_pain_felt( Character &dummy, const time_duration &dur )
 TEST_CASE( "suffering_from_albinism", "[char][suffer][albino]" )
 {
     clear_map();
-    clear_avatar();
-    set_time_to_day();
-    scoped_weather_override clear_weather( WEATHER_CLEAR );
     avatar &dummy = get_avatar();
+    clear_character( dummy );
+    g->reset_light_level();
 
     int focus_lost = 0;
     // TODO: The random chance of pain is too unprectable to test reliably.
@@ -125,13 +123,14 @@ TEST_CASE( "suffering_from_albinism", "[char][suffer][albino]" )
     item longshirt( "test_longshirt" );
 
     GIVEN( "avatar is in sunlight with the albino trait" ) {
+        calendar::turn = calendar::turn_zero + 12_hours;
         REQUIRE( g->is_in_sunlight( dummy.pos() ) );
 
         dummy.toggle_trait( trait_ALBINO );
         REQUIRE( dummy.has_trait( trait_ALBINO ) );
 
         WHEN( "totally naked and exposed" ) {
-            dummy.clear_worn();
+            dummy.worn.clear();
 
             // 60 times * 12 bodyparts * 0.25 chance for medium effect
             THEN( "they lose 80 to 280 focus per hour" ) {
@@ -164,7 +163,7 @@ TEST_CASE( "suffering_from_albinism", "[char][suffer][albino]" )
         }
 
         WHEN( "entire body is covered with clothing" ) {
-            dummy.clear_worn();
+            dummy.worn.clear();
             dummy.wear_item( zentai, false );
 
             // WHEN( "not wearing sunglasses" ) {
@@ -208,9 +207,8 @@ TEST_CASE( "suffering_from_sunburn", "[char][suffer][sunburn]" )
 {
     clear_map();
     clear_avatar();
-    set_time_to_day();
-    scoped_weather_override clear_weather( WEATHER_CLEAR );
     Character &dummy = get_player_character();
+    g->reset_light_level();
     const std::vector<bodypart_id> body_parts_with_hp = dummy.get_all_body_parts(
                 get_body_part_flags::only_main );
 
@@ -223,6 +221,7 @@ TEST_CASE( "suffering_from_sunburn", "[char][suffer][sunburn]" )
     item longshirt( "test_longshirt" );
 
     GIVEN( "avatar is in sunlight with the solar sensitivity trait" ) {
+        calendar::turn = calendar::turn_zero + 12_hours;
         REQUIRE( g->is_in_sunlight( dummy.pos() ) );
 
         dummy.toggle_trait( trait_SUNBURN );
@@ -230,7 +229,7 @@ TEST_CASE( "suffering_from_sunburn", "[char][suffer][sunburn]" )
 
         std::map<bodypart_id, int> bp_hp_lost;
         WHEN( "totally naked and exposed, with sunglasses" ) {
-            dummy.clear_worn();
+            dummy.worn.clear();
             dummy.wear_item( shades, false );
             REQUIRE( dummy.worn_with_flag( flag_SUN_GLASSES ) );
 
@@ -253,7 +252,7 @@ TEST_CASE( "suffering_from_sunburn", "[char][suffer][sunburn]" )
         }
 
         WHEN( "naked and wielding an umbrella, with sunglasses" ) {
-            dummy.clear_worn();
+            dummy.worn.clear();
             dummy.wield( umbrella );
             REQUIRE( dummy.get_wielded_item()->has_flag( flag_RAIN_PROTECT ) );
             dummy.wear_item( shades, false );
@@ -274,7 +273,7 @@ TEST_CASE( "suffering_from_sunburn", "[char][suffer][sunburn]" )
         }
 
         WHEN( "wielding an umbrella, without sunglasses" ) {
-            dummy.clear_worn();
+            dummy.worn.clear();
             dummy.wield( umbrella );
             REQUIRE( dummy.get_wielded_item()->has_flag( flag_RAIN_PROTECT ) );
             REQUIRE_FALSE( dummy.worn_with_flag( flag_SUN_GLASSES ) );
@@ -299,7 +298,7 @@ TEST_CASE( "suffering_from_sunburn", "[char][suffer][sunburn]" )
         }
 
         WHEN( "torso and arms are 90% covered" ) {
-            dummy.clear_worn();
+            dummy.worn.clear();
             dummy.wear_item( longshirt, false );
 
             THEN( "damage to torso is 0 and halved for arms" ) {
@@ -325,7 +324,7 @@ TEST_CASE( "suffering_from_sunburn", "[char][suffer][sunburn]" )
         }
 
         WHEN( "entire body is covered" ) {
-            dummy.clear_worn();
+            dummy.worn.clear();
             dummy.wear_item( zentai, false );
 
             WHEN( "not wearing sunglasses" ) {

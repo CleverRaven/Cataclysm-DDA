@@ -19,9 +19,8 @@ def parse_body_part(json, origin):
         write_text(json["accusative_multiple"], origin,
                    comment="Accusative name of body part")
 
-    if "encumbrance_text" in json:
-        write_text(json["encumbrance_text"], origin,
-                   comment="Encumbrance text of body part \"{}\"".format(name))
+    write_text(json["encumbrance_text"], origin,
+               comment="Encumbrance text of body part \"{}\"".format(name))
 
     write_text(json["heading"], origin,
                comment="Heading of body part \"{}\"".format(name))

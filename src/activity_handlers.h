@@ -11,7 +11,6 @@
 #include <vector>
 
 #include "coordinates.h"
-#include "item_location.h"
 #include "type_id.h"
 #include "requirements.h"
 
@@ -68,12 +67,10 @@ enum class do_activity_reason : int {
     NEEDS_PLANTING,         // For farming - tile can be planted
     NEEDS_TILLING,          // For farming - tile can be tilled
     BLOCKING_TILE,           // Something has made it's way onto the tile, so the activity cannot proceed
-    NEEDS_BOOK_TO_LEARN,    // There is book to learn
     NEEDS_CHOPPING,         // There is wood there to be chopped
     NEEDS_TREE_CHOPPING,    // There is a tree there that needs to be chopped
     NEEDS_BIG_BUTCHERING,   // There is at least one corpse there to butcher, and it's a big one
     NEEDS_BUTCHERING,       // THere is at least one corpse there to butcher, and there's no need for additional tools
-    NEEDS_CUT_HARVESTING,   // There is a plant there which needs a grass-cutting tool to harvest
     ALREADY_WORKING,        // somebody is already working there
     NEEDS_VEH_DECONST,       // There is a vehicle part there that we can deconstruct, given the right tools.
     NEEDS_VEH_REPAIR,       // There is a vehicle part there that can be repaired, given the right tools.
@@ -81,7 +78,6 @@ enum class do_activity_reason : int {
     NEEDS_MINING,           // This spot can be mined, if the right tool is present.
     NEEDS_MOP,               // This spot can be mopped, if a mop is present.
     NEEDS_FISHING,           // This spot can be fished, if the right tool is present.
-    NEEDS_CRAFT,             // There is at least one item to craft.
     NEEDS_DISASSEMBLE        // There is at least one item to disassemble.
 
 };
@@ -144,9 +140,8 @@ enum class item_drop_reason : int {
 void put_into_vehicle_or_drop( Character &you, item_drop_reason, const std::list<item> &items );
 void put_into_vehicle_or_drop( Character &you, item_drop_reason, const std::list<item> &items,
                                const tripoint_bub_ms &where, bool force_ground = false );
-std::vector<item_location> drop_on_map( Character &you, item_drop_reason reason,
-                                        const std::list<item> &items,
-                                        const tripoint_bub_ms &where );
+void drop_on_map( Character &you, item_drop_reason reason, const std::list<item> &items,
+                  const tripoint_bub_ms &where );
 // used in unit tests to avoid triggering user input
 void repair_item_finish( player_activity *act, Character *you, bool no_menu );
 
@@ -181,14 +176,11 @@ void move_loot_do_turn( player_activity *act, Character *you );
 void multiple_butcher_do_turn( player_activity *act, Character *you );
 void multiple_chop_planks_do_turn( player_activity *act, Character *you );
 void multiple_construction_do_turn( player_activity *act, Character *you );
-void multiple_craft_do_turn( player_activity *act, Character *you );
 void multiple_dis_do_turn( player_activity *act, Character *you );
 void multiple_farm_do_turn( player_activity *act, Character *you );
 void multiple_fish_do_turn( player_activity *act, Character *you );
-void multiple_read_do_turn( player_activity *act, Character *you );
 void multiple_mine_do_turn( player_activity *act, Character *you );
 void multiple_mop_do_turn( player_activity *act, Character *you );
-void mutant_tree_communion_do_turn( player_activity *act, Character *you );
 void operation_do_turn( player_activity *act, Character *you );
 void pickaxe_do_turn( player_activity *act, Character *you );
 void pulp_do_turn( player_activity *act, Character *you );
@@ -219,7 +211,6 @@ void gunmod_add_finish( player_activity *act, Character *you );
 void heat_item_finish( player_activity *act, Character *you );
 void jackhammer_finish( player_activity *act, Character *you );
 void mend_item_finish( player_activity *act, Character *you );
-void mutant_tree_communion_finish( player_activity *act, Character *you );
 void operation_finish( player_activity *act, Character *you );
 void pickaxe_finish( player_activity *act, Character *you );
 void plant_seed_finish( player_activity *act, Character *you );

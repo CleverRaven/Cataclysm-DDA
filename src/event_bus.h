@@ -7,10 +7,7 @@
 
 #include "event.h"
 
-class Creature;
 class event_subscriber;
-class item_location;
-class talker;
 
 class event_bus
 {
@@ -23,8 +20,6 @@ class event_bus
         void unsubscribe( event_subscriber * );
 
         void send( const cata::event & ) const;
-        void send_with_talker( Creature *, Creature *, const cata::event & ) const;
-        void send_with_talker( Creature *, item_location *, const cata::event & ) const;
         template<event_type Type, typename... Args>
         void send( Args &&... args ) const {
             send( cata::event::make<Type>( std::forward<Args>( args )... ) );

@@ -84,16 +84,14 @@ mission *mission::reserve_new( const mission_type_id &type, const character_id &
     return &miss;
 }
 
-mission *mission::find( int id, bool ok_missing )
+mission *mission::find( int id )
 {
     const auto iter = world_missions.find( id );
     if( iter != world_missions.end() ) {
         return &iter->second;
     }
-    if( !ok_missing ) {
-        dbg( D_ERROR ) << "requested mission with uid " << id << " does not exist";
-        debugmsg( "requested mission with uid %d does not exist", id );
-    }
+    dbg( D_ERROR ) << "requested mission with uid " << id << " does not exist";
+    debugmsg( "requested mission with uid %d does not exist", id );
     return nullptr;
 }
 
@@ -130,11 +128,11 @@ void mission::process_all()
     }
 }
 
-std::vector<mission *> mission::to_ptr_vector( const std::vector<int> &vec, bool ok_missing )
+std::vector<mission *> mission::to_ptr_vector( const std::vector<int> &vec )
 {
     std::vector<mission *> result;
     for( const int &id : vec ) {
-        mission *miss = find( id, ok_missing );
+        mission *miss = find( id );
         if( miss != nullptr ) {
             result.push_back( miss );
         }
@@ -528,7 +526,7 @@ bool mission::is_complete( const character_id &_npc_id ) const
                     if( charges ) {
                         found_quantity += i.charges_of( type->item_id, item_count - found_quantity );
                     } else {
-                        found_quantity += i.amount_of( type->item_id, false, item_count - found_quantity );
+                        found_quantity += i.amount_of( type->item_id, item_count - found_quantity );
                     }
                 }
             };
@@ -537,8 +535,9 @@ bool mission::is_complete( const character_id &_npc_id ) const
                     if( here.has_items( p ) && here.accessible_items( p ) ) {
                         count_items( here.i_at( p ) );
                     }
-                    if( const std::optional<vpart_reference> ovp = here.veh_at( p ).cargo() ) {
-                        count_items( ovp->items() );
+                    if( const std::optional<vpart_reference> vp =
+                            here.veh_at( p ).part_with_feature( "CARGO", true ) ) {
+                        count_items( vp->vehicle().get_items( vp->part_index() ) );
                     }
                     if( found_quantity >= item_count ) {
                         break;
@@ -767,7 +766,7 @@ character_id mission::get_npc_id() const
     return npc_id;
 }
 
-const talk_effect_fun_t::likely_rewards_t &mission::get_likely_rewards() const
+const std::vector<std::pair<int, itype_id>> &mission::get_likely_rewards() const
 {
     return type->likely_rewards;
 }

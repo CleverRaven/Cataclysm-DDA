@@ -38,12 +38,11 @@
     "skill_used": "fabrication",
     "skills_required": [ "traps", 2 ],
     "difficulty": 3,
-    "time": "20 m",
+    "time": "30 m",
     "autolearn": true,
-    "using": [ [ "welding_standard", 5 ] ],
-    "proficiencies": [ { "proficiency": "prof_welding_basic" }, { "proficiency": "prof_metalworking" } ],
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "VISE", "level": 1 } ],
-    "components": [ [ [ "wire_barbed", 10 ], [ "wire", 10 ], [ "nails", 10, "LIST" ] ] ]
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ] ],
+    "components": [ [ [ "wire_barbed", 3 ], [ "wire", 9 ], [ "nail", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -89,7 +88,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "2x4", 3 ] ], [ [ "nails", 20, "LIST" ] ] ]
+    "components": [ [ [ "2x4", 3 ] ], [ [ "nail", 20 ] ] ]
   },
   {
     "type": "recipe",
@@ -104,7 +103,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "nailboard", 3 ] ], [ [ "nails", 2, "LIST" ] ] ]
+    "components": [ [ [ "nailboard", 3 ] ], [ [ "nail", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -119,7 +118,7 @@
     "reversible": true,
     "decomp_learn": 2,
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 44 ], [ "steel_standard", 11 ] ],
+    "using": [ [ "forging_standard", 3 ], [ "steel_standard", 11 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -128,7 +127,8 @@
       { "proficiency": "prof_trapsetting" }
     ],
     "book_learn": [ [ "mag_traps", 1 ], [ "manual_mechanics", 2 ], [ "manual_traps", 1 ], [ "howto_traps", 1 ] ],
-    "qualities": [ { "id": "WRENCH", "level": 1 } ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "WRENCH", "level": 1 } ],
+    "tools": [ [ [ "tongs", -1 ] ] ],
     "components": [ [ [ "spring", 1 ] ] ]
   },
   {
@@ -215,7 +215,7 @@
     "components": [
       [ [ "superglue", 1 ], [ "duct_tape", 75 ] ],
       [ [ "scrap", 3 ], [ "steel_chunk", 1 ], [ "canister_empty", 1 ], [ "clay_canister", 1 ], [ "can_food", 1 ] ],
-      [ [ "bb", 200 ], [ "nails", 100, "LIST" ] ],
+      [ [ "bb", 200 ], [ "nail", 100 ] ],
       [
         [ "gunpowder", 720 ],
         [ "chem_black_powder", 720 ],

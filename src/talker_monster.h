@@ -32,7 +32,6 @@ class talker_monster_const: public talker_cloner<talker_monster_const>
 
         // identity and location
         std::string disp_name() const override;
-        std::string get_name() const override;
 
         int posx() const override;
         int posy() const override;
@@ -47,7 +46,7 @@ class talker_monster_const: public talker_cloner<talker_monster_const>
         bool has_effect( const efftype_id &effect_id, const bodypart_id &bp ) const override;
         effect get_effect( const efftype_id &effect_id, const bodypart_id &bp ) const override;
 
-        std::optional<std::string> maybe_get_value( const std::string &var_name ) const override;
+        std::string get_value( const std::string &var_name ) const override;
 
         bool has_flag( const flag_id &f ) const override;
         bool has_species( const species_id &species ) const override;
@@ -62,12 +61,6 @@ class talker_monster_const: public talker_cloner<talker_monster_const>
         bool will_talk_to_u( const Character &u, bool force ) override;
         std::vector<std::string> get_topics( bool radio_contact ) override;
         int get_cur_hp( const bodypart_id & ) const override;
-        int get_hp_max( const bodypart_id & ) const override;
-        double armor_at( damage_type_id &dt, bodypart_id &bp ) const override;
-
-        bool can_see_location( const tripoint &pos ) const override;
-        int get_volume() const override;
-        int get_weight() const override;
     protected:
         talker_monster_const() = default;
         const monster *me_mon_const;
@@ -97,7 +90,7 @@ class talker_monster: public talker_cloner<talker_monster, talker_monster_const>
         void add_effect( const efftype_id &new_effect, const time_duration &dur,
                          const std::string &bp, bool permanent, bool force, int intensity
                        ) override;
-        void remove_effect( const efftype_id &old_effect, const std::string &bp ) override;
+        void remove_effect( const efftype_id &old_effect ) override;
         void mod_pain( int amount ) override;
 
         void set_value( const std::string &var_name, const std::string &value ) override;
@@ -106,10 +99,7 @@ class talker_monster: public talker_cloner<talker_monster, talker_monster_const>
         void set_anger( int ) override;
         void set_morale( int ) override;
         void set_friendly( int ) override;
-        bool get_is_alive() const override;
         void die() override;
-
-        void set_all_parts_hp_cur( int ) const override;
     protected:
         talker_monster() = default;
         monster *me_mon;

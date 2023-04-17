@@ -4,6 +4,7 @@
 
 #include <cstddef>
 #include <functional>
+#include <iosfwd>
 #include <map>
 #include <memory>
 #include <optional>
@@ -13,16 +14,17 @@
 
 #include "color.h"
 #include "cursesdef.h"
-#include "input_context.h"
+#include "input.h"
+#include "inventory.h"
 #include "item_location.h"
 #include "mapdata.h"
+#include "memory_fast.h"
 #include "player_activity.h"
 #include "point.h"
 #include "type_id.h"
 #include "units_fwd.h"
 
 class Character;
-class inventory;
 class vpart_info;
 struct requirement_data;
 
@@ -88,18 +90,12 @@ class veh_interact
         int page_size = 0;
         // height of the stats window
         const int stats_h = 8;
-        // element width defaults for 80 column display
-        int disp_w = 26; // width of the left column
-        int pane_w = 25; // width of the center and right columns
         catacurses::window w_border;
         catacurses::window w_mode;
         catacurses::window w_msg;
         catacurses::window w_disp;
         catacurses::window w_parts;
         catacurses::window w_stats;
-        catacurses::window w_stats_1;
-        catacurses::window w_stats_2;
-        catacurses::window w_stats_3;
         catacurses::window w_list;
         catacurses::window w_details;
         catacurses::window w_name;
@@ -137,7 +133,7 @@ class veh_interact
 
         /** Format list of requirements returning true if all are met */
         bool format_reqs( std::string &msg, const requirement_data &reqs,
-                          const std::map<skill_id, int> &skills, time_duration time ) const;
+                          const std::map<skill_id, int> &skills, int moves ) const;
 
         int part_at( const point &d );
         void move_cursor( const point &d, int dstart_at = 0 );
@@ -259,6 +255,9 @@ class veh_interact
         bool can_remove_part( int idx, const Character &you );
         //do install support, writes requirements to ui
         bool update_part_requirements();
+        //true if trying to install foot crank with electric engines for example
+        //writes failure to ui
+        bool is_drive_conflict();
 
         /* Vector of all vpart TYPES that can be mounted in the current square.
          * Can be converted to a vector<vpart_info>.
@@ -281,6 +280,7 @@ class veh_interact
          * Updated whenever the cursor moves. */
         ter_t terrain_here;
 
+        /* called by exec() */
         void cache_tool_availability();
         void allocate_windows();
         void do_main_loop();

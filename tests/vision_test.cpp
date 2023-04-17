@@ -20,7 +20,6 @@
 #include "mapdata.h"
 #include "mtype.h"
 #include "options_helpers.h"
-#include "player_helpers.h"
 #include "point.h"
 #include "type_id.h"
 #include "units.h"
@@ -152,7 +151,7 @@ struct vision_test_case {
     void test_all() const {
         Character &player_character = get_player_character();
         g->place_player( tripoint( 60, 60, 0 ) );
-        player_character.clear_worn(); // Remove any light-emitting clothing
+        player_character.worn.clear(); // Remove any light-emitting clothing
         player_character.clear_effects();
         player_character.clear_bionics();
         player_character.clear_mutations(); // remove mutations that potentially affect vision
@@ -198,8 +197,13 @@ struct vision_test_case {
             player_character.set_mutation( trait_MYOPIC );
         }
 
+        // test both 2d and 3d cases
+        restore_on_out_of_scope<bool> restore_fov_3d( fov_3d );
+        fov_3d = GENERATE( false, true );
+
         std::stringstream section_name;
         section_name << section_prefix;
+        section_name << ( fov_3d ? "3d" : "2d" ) << "_casting__";
         section_name << t.generate_transform_combinations();
 
         // Sanity check on player placement in relation to `t`
@@ -214,14 +218,12 @@ struct vision_test_case {
             // player's vision_threshold is based on the previous lighting level (so
             // they might, for example, have poor nightvision due to having just been
             // in daylight)
-            here.invalidate_visibility_cache();
             here.update_visibility_cache( zlev );
             // make sure floor caches are valid on all zlevels above
             for( int z = -2; z <= OVERMAP_HEIGHT; z++ ) {
                 here.invalidate_map_cache( z );
             }
             here.build_map_cache( zlev );
-            here.invalidate_visibility_cache();
             here.update_visibility_cache( zlev );
             here.invalidate_map_cache( zlev );
             here.build_map_cache( zlev );
@@ -906,7 +908,7 @@ TEST_CASE( "vision_vehicle_camera_skew", "[shadowcasting][vision][vehicle][vehic
     auto const fiddle_parts = [&]() {
         if( fiddle > 0 ) {
             std::vector<vehicle_part *> const horns = v->get_parts_at( v->global_pos3(), "HORN", {} );
-            v->remove_part( *horns.front() );
+            v->remove_part( v->index_of_part( horns.front(), true ) );
         }
         if( fiddle > 1 ) {
             REQUIRE( v->install_part( point_zero, vpart_inboard_mirror ) != -1 );
@@ -1135,15 +1137,4 @@ TEST_CASE( "vision_inside_meth_lab", "[shadowcasting][vision][moncam]" )
 
     t.test_all();
     clear_vehicles();
-}
-
-TEST_CASE( "pl_sees-oob-nocrash", "[vision]" )
-{
-    // oob crash from game::place_player_overmap() or game::start_game(), simplified
-    clear_avatar();
-    get_map().load( project_to<coords::sm>( get_avatar().get_location() ) + point_south_east, false,
-                    false );
-    get_avatar().sees( tripoint_zero ); // CRASH?
-
-    clear_avatar();
 }

@@ -115,13 +115,6 @@ const std::vector<const trap *> &trap::get_funnels()
     return funnel_traps;
 }
 
-static std::vector<const trap *> sound_triggered_traps;
-
-const std::vector<const trap *> &trap::get_sound_triggered_traps()
-{
-    return sound_triggered_traps;
-}
-
 size_t trap::count()
 {
     return trap_factory.size();
@@ -168,12 +161,9 @@ void trap::load( const JsonObject &jo, const std::string_view )
     optional( jo, was_loaded, "always_invisible", always_invisible, false );
     optional( jo, was_loaded, "funnel_radius", funnel_radius_mm, 0 );
     optional( jo, was_loaded, "comfort", comfort, 0 );
-    int legacy_floor_bedding_warmth = units::to_legacy_bodypart_temp_delta( floor_bedding_warmth );
-    optional( jo, was_loaded, "floor_bedding_warmth", legacy_floor_bedding_warmth, 0 );
-    floor_bedding_warmth = units::from_legacy_bodypart_temp_delta( legacy_floor_bedding_warmth );
+    optional( jo, was_loaded, "floor_bedding_warmth", floor_bedding_warmth, 0 );
     optional( jo, was_loaded, "spell_data", spell_data );
     assign( jo, "trigger_weight", trigger_weight );
-    optional( jo, was_loaded, "sound_threshold", sound_threshold );
     for( const JsonValue entry : jo.get_array( "drops" ) ) {
         itype_id item_type;
         int quantity = 0;
@@ -236,7 +226,6 @@ update_mapgen_id trap::map_regen_target() const
 void trap::reset()
 {
     funnel_traps.clear();
-    sound_triggered_traps.clear();
     trap_factory.reset();
 }
 
@@ -254,11 +243,11 @@ bool trap::detected_by_ground_sonar() const
 bool trap::detect_trap( const tripoint &pos, const Character &p ) const
 {
     // * Buried landmines, the silent killer, have a visibility of 10.
-    // Assuming no knowledge of traps or proficiencies, and average per/int (8 each),
-    // most characters will get a mean_roll of 6.5 against a trap that is one tile away.
-    // With a std deviation of 3, that leaves a ~12% chance of spotting a landmine when you are next to it (per turn).
-    // This gets worse if you are sleep deprived, or can't see as well.
-    // Obviously it rapidly gets better as your skills improve, with most of the improvement coming from proficiencies.
+    // Assuming no knowledge of traps or proficiencies, average per/int, and a focus of 50,
+    // most characters will get a mean_roll of 6.
+    // With a std deviation of 3, that leaves a 10% chance of spotting a landmine when you are next to it.
+    // This gets worse if you are fatigued, or can't see as well.
+    // Obviously it rapidly gets better as your skills improve.
 
     // Devices skill is helpful for spotting traps
     const float traps_skill_level = p.get_skill_level( skill_traps );
@@ -270,37 +259,37 @@ bool trap::detect_trap( const tripoint &pos, const Character &p ) const
     // Eye encumbrance will penalize spotting
     const float encumbrance_penalty = p.encumb( bodypart_id( "eyes" ) ) / 10.0f;
 
+    // Your current focus strongly affects your ability to spot things.
+    const float focus_effect = ( p.get_focus() / 25.0f ) - 2.0f;
+
     // The further away the trap is, the harder it is to spot.
     // Subtract 1 so that we don't get an unfair penalty when not quite on top of the trap.
     const int distance_penalty = rl_dist( p.pos(), pos ) - 1;
 
-    int proficiency_effect = -1;
-    // Without at least a basic traps proficiency, your skill level is effectively three levels lower.
+    int proficiency_effect = -2;
+    // Without at least a basic traps proficiency, your skill level is effectively 2 levels lower.
     if( p.has_proficiency( proficiency_prof_traps ) ) {
-        proficiency_effect += 1;
+        proficiency_effect += 2;
         // If you have the basic traps prof, negate the above penalty
     }
     if( p.has_proficiency( proficiency_prof_spotting ) ) {
-        proficiency_effect += 3;
-        // If you have the spotting proficiency, add a whopping 9 effective skill levels.
+        proficiency_effect += 4;
+        // If you have the spotting proficiency, add 4 levels.
     }
     if( p.has_proficiency( proficiency_prof_trapsetting ) ) {
         proficiency_effect += 1;
-        // Knowing how to set effective traps gives you a considerable bonus to spotting them as well.
+        // Knowing how to set traps gives you a small bonus to spotting them as well.
     }
 
-    // For every 1000 points of sleep deprivation, reduce your roll by 1.
-    // As of this writing, sleep deprivation passively increases at the rate of 1 point per minute.
-    const float fatigue_penalty = p.get_sleep_deprivation() / 1000.0f;
+    // For every 100 points of sleep deprivation after 200, reduce your roll by 1.
+    // That represents a -2 at dead tired, -4 at exhausted, and so on.
+    const float fatigue_penalty = std::min( 0, p.get_fatigue() - 200 ) / 100.0f;
 
     const float mean_roll = weighted_stat_average + ( traps_skill_level / 3.0f ) +
-                            proficiency_effect - distance_penalty - fatigue_penalty - encumbrance_penalty;
+                            proficiency_effect +
+                            focus_effect - distance_penalty - fatigue_penalty - encumbrance_penalty;
 
     const int roll = std::round( normal_roll( mean_roll, 3 ) );
-
-    add_msg_debug( debugmode::DF_CHARACTER,
-                   "Character %s rolling to detect trap %s. Actual roll: %i, average roll: %f, roll required to detect: %i.",
-                   p.get_name(), name(), roll, mean_roll, visibility );
 
     return roll > visibility;
 }
@@ -316,14 +305,6 @@ bool trap::can_see( const tripoint &pos, const Character &p ) const
         return false;
     }
     return visibility < 0 || p.knows_trap( pos );
-}
-
-void trap::trigger( const tripoint &pos ) const
-{
-    if( is_null() ) {
-        return;
-    }
-    act( pos, nullptr, nullptr );
 }
 
 void trap::trigger( const tripoint &pos, Creature &creature ) const
@@ -365,31 +346,6 @@ bool trap::triggered_by_item( const item &itm ) const
 bool trap::is_funnel() const
 {
     return !is_null() && funnel_radius_mm > 0;
-}
-
-bool trap::has_sound_trigger() const
-{
-    const bool has_sound_thresh = sound_threshold.first > 0 && sound_threshold.second > 0;
-    return !is_null() && has_sound_thresh;
-}
-
-bool trap::triggered_by_sound( int vol, int dist ) const
-{
-    const int volume = vol - dist;
-    // now determine sound threshold probabilities
-    // linear model: 0% below sound_min, 25% at sound_min, 100% at sound_max
-    const int sound_min = sound_threshold.first;
-    const int sound_max = sound_threshold.second;
-    const int sound_range = sound_max - sound_min;
-    if( volume < sound_min ) {
-        return false;
-    }
-    int sound_chance = 100;
-    if( sound_range > 0 ) {
-        sound_chance = 25 + ( 75 * ( volume - sound_min ) / sound_range );
-    }
-    //debugmsg("Sound chance: %d%%", sound_chance);
-    return !is_null() && ( rng( 0, 100 ) <= sound_chance );
 }
 
 void trap::on_disarmed( map &m, const tripoint &p ) const
@@ -439,9 +395,6 @@ void trap::finalize()
         t.loadid = t.id.id();
         if( t.is_funnel() ) {
             funnel_traps.push_back( &t );
-        }
-        if( t.has_sound_trigger() ) {
-            sound_triggered_traps.push_back( &t );
         }
     }
 

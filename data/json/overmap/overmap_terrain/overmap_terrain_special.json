@@ -130,8 +130,7 @@
       "mil_base_8f1",
       "mil_base_8h1",
       "mil_base_8i1",
-      "mil_base_8j1",
-      "s_gas_g0_roof"
+      "mil_base_8j1"
     ],
     "copy-from": "generic_air"
   },
@@ -147,8 +146,7 @@
     "name": "road",
     "looks_like": "road",
     "color": "dark_gray",
-    "see_cost": 1,
-    "travel_cost_type": "road"
+    "see_cost": 1
   },
   {
     "type": "overmap_terrain",

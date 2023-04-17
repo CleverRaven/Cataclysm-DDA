@@ -21,10 +21,10 @@
     "melee_dice_sides": 3,
     "dodge": 3,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_light_armor", "wps_humanoid_open_helmet" ],
-    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_syn_armored" ],
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_syn_armored" ],
     "vision_day": 50,
     "vision_night": 3,
-    "harvest": "zombie_humanoid",
+    "harvest": "zombie",
     "grab_strength": 20,
     "special_attacks": [ [ "SHRIEK", 20 ], { "id": "bite_humanoid", "cooldown": 5, "min_mul": 1 }, { "id": "grab", "cooldown": 7 } ],
     "death_drops": "mon_zombie_survivor_death_drops",
@@ -42,6 +42,7 @@
     "looks_like": "mon_zombie_survivor",
     "armor": { "bash": 12, "cut": 25, "bullet": 20, "electric": 3 },
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_syn_armored" ],
     "death_drops": "mon_zombie_paramilitary_death_drops"
   },
   {

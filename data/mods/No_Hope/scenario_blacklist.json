@@ -1,7 +1,0 @@
-[
-  {
-    "type": "SCENARIO_BLACKLIST",
-    "subtype": "blacklist",
-    "scenarios": [ "overrun" ]
-  }
-]

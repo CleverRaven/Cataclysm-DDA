@@ -8,7 +8,7 @@
     "known_by_u": true,
     "size": 5,
     "power": 9001,
-    "fac_food_supply": { "calories": 1, "vitamins": {  } },
+    "food_supply": 1,
     "wealth": 0,
     "currency": "FMCNote",
     "price_rules": [

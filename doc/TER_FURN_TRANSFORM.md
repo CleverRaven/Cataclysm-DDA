@@ -1,6 +1,6 @@
-# Terrain and Furniture Transforms
+# ter_furn_transform
 
-A `ter_furn_transform` is a type of json object that allows you to specify a transformation of a "tile" from one type to another.  Tile in this context can refer to field, furniture, terrain or trap.
+A ter_furn_transform is a type of json object that allows you to specify a transformation of a tile from one terrain to another terrain, and from one furniture to another furniture and one field to another field and one trap to another trap.
 
 ```json
 [
@@ -19,8 +19,7 @@ A `ter_furn_transform` is a type of json object that allows you to specify a tra
 ]
 ```
 
-The example above turns `terrain` "sand" into "dirt". It does so by comparing the direct terrain IDs.
-
+The example above turns "sand" into "dirt". It does so by comparing the direct terrain ids.
 If, however, we wanted to turn sand into "dirt or grass" we can do:
 
 ```json
@@ -30,10 +29,11 @@ If, however, we wanted to turn sand into "dirt or grass" we can do:
     "valid_terrain": [ "t_sand" ],
     "message": "sandy!"
   }
-]
+],
 ```
 
-`message_good` is optional and defaults to true.  The example chooses either dirt or grass at a 1:1 ratio, which can be modified to a 4:1 ratio:
+message_good is optional and defaults to true.
+This example chooses either dirt or grass at a 1:1 ratio. But, if you want a 4:1 ratio:
 
 ```json
 "terrain": [
@@ -45,19 +45,16 @@ If, however, we wanted to turn sand into "dirt or grass" we can do:
 ]
 ```
 
-As you can see, you can mix and match arrays with weights with single strings.  Each single string has a weight of 1.
+As you can see, you can mix and match arrays with weights with single strings. Each single string has a weight of 1.
 
-All of the above applies to `fields`, `furniture`, and `traps` as well.
+All of the above applies to furniture, fields and traps as well.
 
 ```json
-"field": [
-  { "result": "fd_null", "valid_field": [ "fd_fire" ], "message": "The fires suddenly vanishes!", "message_good": true }
-],
 "furniture": [
   {
     "result": [ [ "f_null", 4 ], "f_chair" ],
     "valid_furniture": [ "f_hay", "f_woodchips" ],
-    "message": "I need a chair"
+   "message": "I need a chair"
   }
 ]
 ```
@@ -74,9 +71,4 @@ You can also use flags instead of specific IDs for furniture, terrain and traps.
 ]
 ```
 
-A `ter_furn_transform` can have field, furniture, terrain, and trap fields.  It treats them separately, so no "if dirt, add chair".
-
-
-## How to use
-
-`ter_furn_transform` can be declared by [effect on conditions](EFFECT_ON_CONDITION.md#u_transform_radiusnpc_transform_radius), [mapgen](MAPGEN.md#apply-mapgen-transformation-with-ter_furn_transforms), and spells (see the spell effects at [MAGIC.md](MAGIC.md#spell-effects).)
+A ter_furn_transform can have terrain, furniture, field, and trap fields. It treats them separately, so no "if dirt, add chair."

@@ -41,19 +41,7 @@
           "natural_spring_east",
           "natural_spring_west",
           "cave_innawood",
-          "special_forest",
-          "stream_north",
-          "stream_east",
-          "stream_south",
-          "stream_west",
-          "stream_corner_north",
-          "stream_corner_east",
-          "stream_corner_south",
-          "stream_corner_west",
-          "stream_end_north",
-          "stream_end_east",
-          "stream_end_south",
-          "stream_end_west"
+          "special_forest"
         ]
       },
       "forest_water": { "terrains": [ "forest_water" ] }

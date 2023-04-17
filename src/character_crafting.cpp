@@ -10,6 +10,7 @@
 #include "inventory.h"
 #include "item.h"
 #include "itype.h"
+#include "npc.h"
 #include "pimpl.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
@@ -18,7 +19,7 @@
 #include "value_ptr.h"
 
 bool Character::has_recipe( const recipe *r, const inventory &crafting_inv,
-                            const std::vector<Character *> &helpers ) const
+                            const std::vector<npc *> &helpers ) const
 {
     return knows_recipe( r ) || get_available_recipes( crafting_inv, &helpers ).contains( r );
 }
@@ -158,18 +159,18 @@ recipe_subset Character::get_recipes_from_ebooks( const inventory &crafting_inv 
 }
 
 recipe_subset Character::get_available_recipes( const inventory &crafting_inv,
-        const std::vector<Character *> *helpers ) const
+        const std::vector<npc *> *helpers ) const
 {
     recipe_subset res( get_learned_recipes() );
     res.include( get_recipes_from_books( crafting_inv ) );
     res.include( get_recipes_from_ebooks( crafting_inv ) );
 
     if( helpers != nullptr ) {
-        for( Character *guy : *helpers ) {
+        for( npc *np : *helpers ) {
             // Directly form the helper's inventory
-            res.include( get_recipes_from_books( *guy->inv ) );
+            res.include( get_recipes_from_books( *np->inv ) );
             // Being told what to do
-            res.include_if( guy->get_learned_recipes(), [ this ]( const recipe & r ) {
+            res.include_if( np->get_learned_recipes(), [ this ]( const recipe & r ) {
                 return get_knowledge_level( r.skill_used ) >= static_cast<int>( r.get_difficulty(
                             *this ) * 0.8f ); // Skilled enough to understand
             } );
@@ -203,6 +204,6 @@ std::set<itype_id> Character::get_books_for_recipe( const inventory &crafting_in
 
 int Character::get_num_crafting_helpers( int max ) const
 {
-    std::vector<Character *> helpers = get_crafting_helpers();
+    std::vector<npc *> helpers = get_crafting_helpers();
     return std::min( max, static_cast<int>( helpers.size() ) );
 }

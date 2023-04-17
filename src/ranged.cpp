@@ -7,10 +7,12 @@
 #include <iterator>
 #include <map>
 #include <memory>
+#include <new>
 #include <optional>
 #include <set>
 #include <string>
 #include <tuple>
+#include <type_traits>
 #include <utility>
 #include <vector>
 
@@ -25,6 +27,7 @@
 #include "catacharset.h"
 #include "character.h"
 #include "color.h"
+#include "creature.h"
 #include "creature_tracker.h"
 #include "cursesdef.h"
 #include "damage.h"
@@ -38,9 +41,9 @@
 #include "game_constants.h"
 #include "gun_mode.h"
 #include "input.h"
-#include "input_context.h"
 #include "item.h"
 #include "item_location.h"
+#include "item_pocket.h"
 #include "itype.h"
 #include "line.h"
 #include "magic.h"
@@ -55,7 +58,6 @@
 #include "options.h"
 #include "output.h"
 #include "panels.h"
-#include "pocket_type.h"
 #include "point.h"
 #include "projectile.h"
 #include "ret_val.h"
@@ -85,9 +87,7 @@ static const ammotype ammo_84x246mm( "84x246mm" );
 static const ammotype ammo_RPG_7( "RPG-7" );
 static const ammotype ammo_arrow( "arrow" );
 static const ammotype ammo_atgm( "atgm" );
-static const ammotype ammo_atlatl( "atlatl" );
 static const ammotype ammo_bolt( "bolt" );
-static const ammotype ammo_bolt_ballista( "bolt_ballista" );
 static const ammotype ammo_flammable( "flammable" );
 static const ammotype ammo_homebrew_rocket( "homebrew_rocket" );
 static const ammotype ammo_m235( "m235" );
@@ -114,12 +114,6 @@ static const efftype_id effect_on_roof( "on_roof" );
 static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
 static const fault_id fault_gun_chamber_spent( "fault_gun_chamber_spent" );
 static const fault_id fault_gun_dirt( "fault_gun_dirt" );
-static const fault_id fault_overheat_explosion( "fault_overheat_explosion" );
-static const fault_id fault_overheat_melting( "fault_overheat_melting" );
-static const fault_id fault_overheat_safety( "fault_overheat_safety" );
-static const fault_id fault_overheat_venting( "fault_overheat_venting" );
-
-static const flag_id json_flag_FILTHY( "FILTHY" );
 
 static const material_id material_budget_steel( "budget_steel" );
 static const material_id material_case_hardened_steel( "case_hardened_steel" );
@@ -176,8 +170,7 @@ class target_ui
             Turrets,
             TurretManual,
             Reach,
-            Spell,
-            SelectOnly
+            Spell
         };
 
         // Avatar
@@ -244,6 +237,22 @@ class target_ui
         // List of visible hostile targets
         std::vector<Creature *> targets;
 
+        // 'true' if map has z levels and 3D fov is on
+        bool allow_zlevel_shift = false;
+        // Snap camera to cursor. Can be permanently toggled in settings
+        // or temporarily in this window
+        bool snap_to_target = false;
+        // If true, LEVEL_UP, LEVEL_DOWN and directional keys
+        // responsible for moving cursor will shift view instead.
+        bool shifting_view = false;
+
+        // Compact layout
+        bool compact = false;
+        // Tiny layout - when extremely short on space
+        bool tiny = false;
+        // Narrow layout - to keep in theme with
+        // "compact" and "labels-narrow" sidebar styles.
+        bool narrow = false;
         // Window
         catacurses::window w_target;
         // Input context
@@ -279,20 +288,6 @@ class target_ui
         // If true, draws turret lines
         // relevant for TargetMode::Turrets
         bool draw_turret_lines = false;
-        // Snap camera to cursor. Can be permanently toggled in settings
-        // or temporarily in this window
-        bool snap_to_target = false;
-        // If true, LEVEL_UP, LEVEL_DOWN and directional keys
-        // responsible for moving cursor will shift view instead.
-        bool shifting_view = false;
-
-        // Compact layout
-        bool compact = false;
-        // Tiny layout - when extremely short on space
-        bool tiny = false;
-        // Narrow layout - to keep in theme with
-        // "compact" and "labels-narrow" sidebar styles.
-        bool narrow = false;
 
         // Create window and set up input context
         void init_window_and_input();
@@ -413,17 +408,6 @@ class target_ui
         void on_target_accepted( bool harmful ) const;
 };
 
-target_handler::trajectory target_handler::mode_select_only( avatar &you, int range )
-{
-    target_ui ui = target_ui();
-    ui.you = &you;
-    ui.mode = target_ui::TargetMode::SelectOnly;
-    ui.range = range;
-
-    restore_on_out_of_scope<tripoint> view_offset_prev( you.view_offset );
-    return ui.run();
-}
-
 target_handler::trajectory target_handler::mode_fire( avatar &you, aim_activity_actor &activity )
 {
     target_ui ui = target_ui();
@@ -522,7 +506,7 @@ target_handler::trajectory target_handler::mode_spell( avatar &you, spell &casti
     return ui.run();
 }
 
-double occupied_tile_fraction( creature_size target_size )
+static double occupied_tile_fraction( creature_size target_size )
 {
     switch( target_size ) {
         case creature_size::tiny:
@@ -553,7 +537,7 @@ double Creature::ranged_target_size() const
             stance_factor = 0.25;
         }
     }
-    if( has_flag( mon_flag_HARDTOSHOOT ) ) {
+    if( has_flag( MF_HARDTOSHOOT ) ) {
         switch( get_size() ) {
             case creature_size::tiny:
             case creature_size::small:
@@ -588,9 +572,9 @@ int Character::gun_engagement_moves( const item &gun, int target, int start,
 {
     int mv = 0;
     double penalty = start;
-    const aim_mods_cache aim_cache = gen_aim_mods_cache( gun );
+
     while( penalty > target ) {
-        const double adj = aim_per_move( gun, penalty, attributes, { std::ref( aim_cache ) } );
+        double adj = aim_per_move( gun, penalty, attributes );
         if( adj <= MIN_RECOIL_IMPROVEMENT ) {
             break;
         }
@@ -614,11 +598,6 @@ bool Character::handle_gun_damage( item &it )
     int dirtadder = 0;
     double dirt_dbl = static_cast<double>( dirt );
     if( it.has_fault_flag( "JAMMED_GUN" ) ) {
-        add_msg_if_player( m_warning, _( "Your %s can't fire." ), it.tname() );
-        return false;
-    }
-    if( it.has_fault_flag( "RUINED_GUN" ) ) {
-        add_msg_if_player( m_bad, _( "Your %s is little more than an awkward club now." ), it.tname() );
         return false;
     }
 
@@ -754,79 +733,15 @@ bool Character::handle_gun_damage( item &it )
         }
     }
     // chance to damage gun due to high levels of dirt. Very unlikely, especially at lower levels and impossible below 5,000. Lower than the chance of a jam at the same levels. 555555... is an arbitrary number that I came up with after playing with the formula in excel. It makes sense at low, medium, and high levels of dirt.
-    // if you have a bullet loaded with match head powder this can happen randomly at any time. The chances are about the same as a recycled ammo jamming the gun
-    if( ( dirt_dbl > 5000 && x_in_y( dirt_dbl * dirt_dbl * dirt_dbl, 5555555555555 ) ) ||
-        ( curammo_effects.count( "MATCHHEAD" ) && one_in( 256 ) ) ) {
+    if( dirt_dbl > 5000 &&
+        x_in_y( dirt_dbl * dirt_dbl * dirt_dbl,
+                5555555555555 ) ) {
         add_msg_player_or_npc( m_bad, _( "Your %s is damaged by the high pressure!" ),
                                _( "<npcname>'s %s is damaged by the high pressure!" ),
                                it.tname() );
         // Don't increment until after the message
         it.inc_damage();
     }
-    return true;
-}
-
-bool Character::handle_gun_overheat( item &it )
-{
-    double overheat_modifier = 0;
-    float overheat_multiplier = 1.0f;
-    double heat_modifier = 0;
-    float heat_multiplier = 1.0f;
-    for( const item *mod : it.gunmods() ) {
-        overheat_modifier += mod->type->gunmod->overheat_threshold_modifier;
-        overheat_multiplier *= mod->type->gunmod->overheat_threshold_multiplier;
-        heat_modifier += mod->type->gunmod->heat_per_shot_modifier;
-        heat_multiplier *= mod->type->gunmod->heat_per_shot_multiplier;
-    }
-    double heat = it.get_var( "gun_heat", 0.0 );
-    double threshold = std::max( ( it.type->gun->overheat_threshold * overheat_multiplier ) +
-                                 overheat_modifier, 5.0 );
-    const islot_gun &gun_type = *it.type->gun;
-
-    if( threshold < 0.0 ) {
-        return true;
-    }
-
-    if( heat > threshold ) {
-        if( it.faults_potential().count( fault_overheat_safety ) && !one_in( gun_type.durability ) ) {
-            add_msg_if_player( m_bad,
-                               _( "Your %s displays a warning sequence as its active cooling cycle engages." ),
-                               it.tname() );
-            it.faults.insert( fault_overheat_safety );
-            return false;
-        }
-
-        //Overall the durability of the gun greatly conditions what sort of failures are possible.
-        //A durability above 8 prevents the most serious failures
-        int fault_roll = rng( 5, 15 ) - gun_type.durability;
-        if( it.faults_potential().count( fault_overheat_explosion ) && fault_roll > 9 ) {
-            add_msg_if_player( m_bad,
-                               _( "Your %s revs and chokes violently as its internal containment fields detune!" ),
-                               it.tname() );
-            add_msg_if_player( m_bad, _( "Your %s detonates!" ),
-                               it.tname() );
-            it.faults.insert( fault_overheat_melting );
-            explosion_handler::explosion( this, this->pos(), 1200, 0.4 );
-            return false;
-        } else if( it.faults_potential().count( fault_overheat_melting ) && fault_roll > 6 ) {
-            add_msg_if_player( m_bad, _( "Acrid smoke pours from your %s as its internals fuse together." ),
-                               it.tname() );
-            it.faults.insert( fault_overheat_melting );
-            return false;
-        } else if( it.faults_potential().count( fault_overheat_venting ) && fault_roll > 2 ) {
-            map &here = get_map();
-            add_msg_if_player( m_bad,
-                               _( "The cooling system of your %s chokes and vents a dense cloud of superheated coolant." ),
-                               it.tname() );
-            for( int i = 0; i < 3; i++ ) {
-                here.add_field( pos() + point( rng( -1, 1 ), rng( -1, 1 ) ), field_type_id( "fd_nuke_gas" ), 3 );
-            }
-            it.set_var( "gun_heat", heat - gun_type.cooling_value * 4.0 );
-            return false;
-        }
-    }
-    it.set_var( "gun_heat", heat + std::max( ( gun_type.heat_per_shot * heat_multiplier ) +
-                heat_modifier, 0.0 ) );
     return true;
 }
 
@@ -874,7 +789,7 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
     }
     bool is_mech_weapon = false;
     if( is_mounted() &&
-        mounted_creature->has_flag( mon_flag_RIDEABLE_MECH ) ) {
+        mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
         is_mech_weapon = true;
     }
 
@@ -916,16 +831,13 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
     int hits = 0; // total shots on target
     int delay = 0; // delayed recoil that has yet to be applied
     while( curshot != shots ) {
-        if( gun.faults.count( fault_gun_chamber_spent ) && curshot == 0 ) {
+        if( gun.has_fault_flag( "JAMMED_GUN" ) && curshot == 0 ) {
             moves -= 50;
             gun.faults.erase( fault_gun_chamber_spent );
             add_msg_if_player( _( "You cycle your %s manually." ), gun.tname() );
         }
 
         if( !handle_gun_damage( gun ) ) {
-            break;
-        }
-        if( !handle_gun_overheat( gun ) ) {
             break;
         }
 
@@ -940,10 +852,6 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
         weakpoint_attack wp_attack;
         wp_attack.weapon = &gun;
         projectile proj = make_gun_projectile( gun );
-
-        for( damage_unit &elem : proj.impact.damage_units ) {
-            elem.amount = enchantment_cache->modify_value( enchant_vals::mod::RANGED_DAMAGE, elem.amount );
-        }
         dispersion_sources dispersion = get_weapon_dispersion( gun );
         dispersion.add_range( recoil_total() );
         dispersion.add_spread( proj.shot_spread );
@@ -977,13 +885,11 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
         }
         for( std::pair<Creature *const, std::pair<int, int>> &hit_entry : targets_hit ) {
             if( monster *const m = hit_entry.first->as_monster() ) {
-                cata::event e = cata::event::make<event_type::character_ranged_attacks_monster>( getID(), gun_id,
-                                m->type->id );
-                get_event_bus().send_with_talker( this, m, e );
+                get_event_bus().send<event_type::character_ranged_attacks_monster>(
+                    getID(), gun_id, m->type->id );
             } else if( Character *const c = hit_entry.first->as_character() ) {
-                cata::event e = cata::event::make<event_type::character_ranged_attacks_character>( getID(), gun_id,
-                                c->getID(), c->get_name() );
-                get_event_bus().send_with_talker( this, c, e );
+                get_event_bus().send<event_type::character_ranged_attacks_character>(
+                    getID(), gun_id, c->getID(), c->get_name() );
             }
             if( multishot ) {
                 // TODO: Pull projectile name from the ammo entry.
@@ -1032,6 +938,7 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
             break;
         }
 
+
         // Vehicle turrets drain vehicle battery and do not care about this
         if( !gun.has_flag( flag_VEHICLE ) ) {
             const units::energy energ_req = gun.get_gun_energy_drain();
@@ -1053,14 +960,6 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
     }
     // Use different amounts of time depending on the type of gun and our skill
     moves -= time_to_attack( *this, *gun_id );
-
-    const islot_gun &firing = *gun.type->gun;
-    for( const std::pair<const bodypart_str_id, int> &hurt_part : firing.hurt_part_when_fired ) {
-        apply_damage( nullptr, bodypart_id( hurt_part.first ), hurt_part.second );
-        add_msg_player_or_npc( _( "Your %s is hurt by the recoil!" ),
-                               _( "<npcname>'s %s is hurt by the recoil!" ),
-                               body_part_name_accusative( bodypart_id( hurt_part.first ) ) );
-    }
 
     // Practice the base gun skill proportionally to number of hits, but always by one.
     if( !gun.has_flag( flag_WONT_TRAIN_MARKSMANSHIP ) ) {
@@ -1429,12 +1328,12 @@ dealt_projectile_attack Character::throw_item( const tripoint &target, const ite
     const double missed_by = dealt_attack.missed_by;
 
     if( critter && dealt_attack.hit_critter != nullptr && missed_by <= 0.1 &&
-        !critter->has_flag( mon_flag_IMMOBILE ) ) {
+        !critter->has_flag( MF_IMMOBILE ) ) {
         practice( skill_throw, final_xp_mult, MAX_SKILL );
         // TODO: Check target for existence of head
         get_event_bus().send<event_type::character_gets_headshot>( getID() );
     } else if( critter && dealt_attack.hit_critter != nullptr && missed_by > 0.0f &&
-               !critter->has_flag( mon_flag_IMMOBILE ) ) {
+               !critter->has_flag( MF_IMMOBILE ) ) {
         practice( skill_throw, final_xp_mult / ( 1.0f + missed_by ), MAX_SKILL );
     } else {
         // Pure grindy practice - cap gain at lvl 2
@@ -1493,19 +1392,16 @@ static void mod_stamina_archery( Character &you, const item &relevant )
 {
     // Set activity level to 10 * str_ratio, with 10 being max (EXTRA_EXERCISE)
     // This ratio should never be below 0 and above 1
-    const float str_ratio = static_cast<float>( relevant.get_min_str() ) / you.str_cur;
-    you.set_activity_level( 10 * str_ratio );
+    const int scaled_str_ratio = ( 10 * relevant.get_min_str() ) / you.str_cur;
+    you.set_activity_level( scaled_str_ratio );
 
-    // Calculate stamina drain based on archery, athletics skill, and effective bow strength ratio
+    // Calculate stamina drain based on archery and athletics skill
     const float archery_skill = you.get_skill_level( skill_archery );
     const float athletics_skill = you.get_skill_level( skill_swimming );
-    const float skill_modifier = ( 2.0f * archery_skill + athletics_skill ) / 3.0f;
-    const int stamina_cost = pow( 10.0f * str_ratio + 10 - skill_modifier, 2 );
+    const float skill_modifier = ( 2 * archery_skill + athletics_skill ) / 3.0f;
 
+    const int stamina_cost = pow( 20 - skill_modifier, 2 );
     you.mod_stamina( -stamina_cost );
-    add_msg_debug( debugmode::DF_RANGED,
-                   "-%i stamina: %.1f str ratio, %.1f skill mod",
-                   stamina_cost, str_ratio, skill_modifier );
 }
 
 static void do_aim( Character &you, const item &relevant, const double min_recoil )
@@ -1661,11 +1557,10 @@ static recoil_prediction predict_recoil( const Character &you, const item &weapo
 
     double predicted_recoil = start_recoil;
     int predicted_delay = 0;
-    const aim_mods_cache &aim_cache = you.gen_aim_mods_cache( weapon );
-    auto aim_cache_opt = std::make_optional( std::ref( aim_cache ) );
+
     // next loop simulates aiming until either aim mode threshold or sight_dispersion is reached
     do {
-        const double aim_amount = you.aim_per_move( weapon, predicted_recoil, target, aim_cache_opt );
+        const double aim_amount = you.aim_per_move( weapon, predicted_recoil, target );
         if( aim_amount <= MIN_RECOIL_IMPROVEMENT ) {
             break;
         }
@@ -1702,7 +1597,7 @@ static std::vector<aim_type_prediction> calculate_ranged_chances(
     const recoil_prediction aim_to_selected = predict_recoil( you, weapon, target,
             ui.get_sight_dispersion(), ui.get_selected_aim_type(), you.recoil );
 
-    const double selected_steadiness = calc_steadiness( you, weapon, pos, aim_to_selected.recoil );
+    const int selected_steadiness = calc_steadiness( you, weapon, pos, aim_to_selected.recoil );
 
     const int throw_moves = throw_cost( you, weapon );
 
@@ -1718,8 +1613,8 @@ static std::vector<aim_type_prediction> calculate_ranged_chances(
         if( mode == target_ui::TargetMode::Throw || mode == target_ui::TargetMode::ThrowBlind ) {
             prediction.moves = throw_moves;
         } else {
-            prediction.moves = predict_recoil( you, weapon, target, ui.get_sight_dispersion(), aim_type,
-                                               you.recoil ).moves + time_to_attack( you, *weapon.type );
+            prediction.moves = you.gun_engagement_moves( weapon, aim_type.threshold, you.recoil, target )
+                               + time_to_attack( you, *weapon.type );
         }
 
         // if the default method is "behind" the selected; e.g. you are in immediate
@@ -2043,7 +1938,6 @@ static projectile make_gun_projectile( const item &gun )
     proj.speed  = 1000;
     proj.impact = gun.gun_damage();
     proj.shot_impact = gun.gun_damage( true, true );
-
     proj.range = gun.gun_range();
     proj.proj_effects = gun.ammo_effects();
 
@@ -2116,28 +2010,26 @@ static void cycle_action( item &weap, const itype_id &ammo, const tripoint &pos 
     tripoint eject = tiles.empty() ? pos : random_entry( tiles );
 
     // for turrets try and drop casings or linkages directly to any CARGO part on the same tile
-    const std::optional<vpart_reference> ovp_cargo = weap.has_flag( flag_VEHICLE )
-            ? here.veh_at( pos ).cargo()
-            : std::nullopt;
+    const optional_vpart_position vp = here.veh_at( pos );
+    std::vector<vehicle_part *> cargo;
+    if( vp && weap.has_flag( flag_VEHICLE ) ) {
+        cargo = vp->vehicle().get_parts_at( pos, "CARGO", part_status_flag::any );
+    }
 
     item *brass_catcher = weap.gunmod_find_by_flag( flag_BRASS_CATCHER );
     if( !!ammo->ammo->casing ) {
-        item casing = item( *ammo->ammo->casing );
-        // blackpowder can gum up casings too
-        if( ( *ammo->ammo ).ammo_effects.count( "BLACKPOWDER" ) ) {
-            casing.set_flag( json_flag_FILTHY );
-        }
+        const itype_id casing = *ammo->ammo->casing;
         if( weap.has_flag( flag_RELOAD_EJECT ) ) {
-            weap.force_insert_item( casing.set_flag( flag_CASING ),
-                                    pocket_type::MAGAZINE );
+            weap.force_insert_item( item( casing ).set_flag( flag_CASING ),
+                                    item_pocket::pocket_type::MAGAZINE );
             weap.on_contents_changed();
         } else {
-            if( brass_catcher && brass_catcher->can_contain( casing ).success() ) {
-                brass_catcher->put_in( casing, pocket_type::CONTAINER );
-            } else if( ovp_cargo ) {
-                ovp_cargo->vehicle().add_item( ovp_cargo->part(), casing );
+            if( brass_catcher && brass_catcher->can_contain( casing.obj() ) ) {
+                brass_catcher->put_in( item( casing ), item_pocket::pocket_type::CONTAINER );
+            } else if( cargo.empty() ) {
+                here.add_item_or_charges( eject, item( casing ) );
             } else {
-                here.add_item_or_charges( eject, casing );
+                vp->vehicle().add_item( *cargo.front(), item( casing ) );
             }
 
             sfx::play_variant_sound( "fire_gun", "brass_eject", sfx::get_heard_volume( eject ),
@@ -2150,11 +2042,11 @@ static void cycle_action( item &weap, const itype_id &ammo, const tripoint &pos 
     if( mag && mag->type->magazine->linkage ) {
         item linkage( *mag->type->magazine->linkage, calendar::turn, 1 );
         if( !( brass_catcher &&
-               brass_catcher->put_in( linkage, pocket_type::CONTAINER ).success() ) ) {
-            if( ovp_cargo ) {
-                ovp_cargo->items().insert( linkage );
-            } else {
+               brass_catcher->put_in( linkage, item_pocket::pocket_type::CONTAINER ).success() ) ) {
+            if( cargo.empty() ) {
                 here.add_item_or_charges( eject, linkage );
+            } else {
+                vp->vehicle().add_item( *cargo.front(), linkage );
             }
         }
     }
@@ -2167,9 +2059,7 @@ void make_gun_sound_effect( const Character &p, bool burst, item *weapon )
         sounds::sound( p.pos(), data.volume, sounds::sound_t::combat,
                        data.sound.empty() ? _( "Bang!" ) : data.sound );
     }
-    tname::segment_bitset segs( tname::unprefixed_tname );
-    segs.set( tname::segments::CONTENTS, false );
-    p.add_msg_if_player( _( "You shoot your %1$s.  %2$s" ), weapon->tname( 1, segs ),
+    p.add_msg_if_player( _( "You shoot your %1$s.  %2$s" ), weapon->tname( 1, false, false ),
                          uppercase_first_letter( data.sound ) );
 }
 
@@ -2207,10 +2097,8 @@ item::sound_data item::gun_noise( const bool burst ) const
         return { noise, _( "whizz!" ) };
     } else if( at.count( ammo_strange_arrow ) ) {
         return { noise, _( "Crack!" ) };
-    } else if( at.count( ammo_bolt ) || at.count( ammo_bolt_ballista ) ) {
+    } else if( at.count( ammo_bolt ) ) {
         return { noise, _( "thonk!" ) };
-    } else if( at.count( ammo_atlatl ) ) {
-        return { noise, _( "swoosh!" ) };
     }
 
     auto fx = ammo_effects();
@@ -2261,7 +2149,7 @@ static double dispersion_from_skill( double skill, double weapon_dispersion )
         return 0.0;
     }
     double skill_shortfall = static_cast<double>( MAX_SKILL ) - skill;
-    double dispersion_penalty = 10 * skill_shortfall;
+    double dispersion_penalty = 3 * skill_shortfall;
     double skill_threshold = 5;
     if( skill >= skill_threshold ) {
         double post_threshold_skill_shortfall = static_cast<double>( MAX_SKILL ) - skill;
@@ -2272,7 +2160,7 @@ static double dispersion_from_skill( double skill, double weapon_dispersion )
     // Unskilled shooters suffer greater penalties, still scaling with weapon penalties.
     double pre_threshold_skill_shortfall = skill_threshold - skill;
     dispersion_penalty += weapon_dispersion *
-                          ( 1.25 + pre_threshold_skill_shortfall * 10.0 / skill_threshold );
+                          ( 1.25 + pre_threshold_skill_shortfall * 3.75 / skill_threshold );
 
     return dispersion_penalty;
 }
@@ -2408,7 +2296,7 @@ double Character::gun_value( const item &weap, int ammo ) const
             { 10.0f, 4.0f },
             { 25.0f, 3.0f },
             { 100.0f, 1.0f },
-            { 500.0f, 0.5f },
+            { 500.0f, 5.0f },
         }
     };
 
@@ -2462,6 +2350,7 @@ target_handler::trajectory target_ui::run()
 
     map &here = get_map();
     // Load settings
+    allow_zlevel_shift = get_option<bool>( "FOV_3D" );
     snap_to_target = get_option<bool>( "SNAP_TO_TARGET" );
     if( mode == TargetMode::Turrets ) {
         // Due to how cluttered the display would become, disable it by default
@@ -2677,10 +2566,8 @@ target_handler::trajectory target_ui::run()
             break;
         }
         case ExitCode::Fire: {
-            if( mode != TargetMode::SelectOnly ) {
-                bool harmful = !( mode == TargetMode::Spell && casting->damage( player_character ) <= 0 );
-                on_target_accepted( harmful );
-            }
+            bool harmful = !( mode == TargetMode::Spell && casting->damage( player_character ) <= 0 );
+            on_target_accepted( harmful );
             break;
         }
         case ExitCode::Timeout: {
@@ -2753,7 +2640,7 @@ void target_ui::init_window_and_input()
     ctxt.register_action( "zoom_out" );
     ctxt.register_action( "zoom_in" );
     ctxt.register_action( "TOGGLE_MOVE_CURSOR_VIEW" );
-    if( fov_3d_z_range > 0 ) {
+    if( allow_zlevel_shift ) {
         ctxt.register_action( "LEVEL_UP" );
         ctxt.register_action( "LEVEL_DOWN" );
     }
@@ -2861,7 +2748,7 @@ bool target_ui::set_cursor_pos( const tripoint &new_pos )
     map &here = get_map();
     if( new_pos != src ) {
         // On Z axis, make sure we do not exceed map boundaries
-        valid_pos.z = clamp( valid_pos.z, -OVERMAP_DEPTH, OVERMAP_HEIGHT - 1 );
+        valid_pos.z = clamp( valid_pos.z, -OVERMAP_DEPTH, OVERMAP_HEIGHT );
         // Or current view range
         valid_pos.z = clamp( valid_pos.z - src.z, -fov_3d_z_range, fov_3d_z_range ) + src.z;
 
@@ -3105,12 +2992,6 @@ void target_ui::set_last_target()
 
 bool target_ui::confirm_non_enemy_target()
 {
-    // Check if you are casting a spell at yourself.
-    if( mode == TargetMode::Spell && ( src == dst || spell_aoe.count( src ) == 1 ) ) {
-        if( !query_yn( _( "Really attack yourself?" ) ) ) {
-            return false;
-        }
-    }
     npc *const who = dynamic_cast<npc *>( dst_critter );
     if( who && !who->guaranteed_hostile() ) {
         return query_yn( _( "Really attack %s?" ), who->get_name().c_str() );
@@ -3220,7 +3101,7 @@ void target_ui::cycle_targets( int direction )
 void target_ui::set_view_offset( const tripoint &new_offset ) const
 {
     tripoint new_( new_offset.xy(), clamp( new_offset.z, -fov_3d_z_range, fov_3d_z_range ) );
-    new_.z = clamp( new_.z + src.z, -OVERMAP_DEPTH, OVERMAP_HEIGHT - 1 ) - src.z;
+    new_.z = clamp( new_.z + src.z, -OVERMAP_DEPTH, OVERMAP_HEIGHT ) - src.z;
 
     bool changed_z = you->view_offset.z != new_.z;
     you->view_offset = new_;
@@ -3274,10 +3155,7 @@ void target_ui::recalc_aim_turning_penalty()
     } else {
         // Raise it proportionally to how much
         // the player has to turn from previous aiming point
-        // the player loses their aim more quickly if less skilled, normalizing at 5 skill.
-        /** @EFFECT_GUN increases the penalty for reorienting aim while below 5 */
-        const double skill_penalty = std::max( 0.0, 5.0 - you->get_skill_level( skill_gun ) );
-        const double recoil_per_degree = skill_penalty * MAX_RECOIL / 180.0;
+        const double recoil_per_degree = MAX_RECOIL / 180.0;
         const units::angle angle_curr = coord_to_angle( src, curr_recoil_pos );
         const units::angle angle_desired = coord_to_angle( src, dst );
         const units::angle phi = normalize( angle_curr - angle_desired );
@@ -3521,7 +3399,7 @@ void target_ui::draw_terrain_overlay()
 
     // Draw spell AOE
     if( mode == TargetMode::Spell ) {
-        drawsq_params params = drawsq_params().highlight( true ).center( center );
+        drawsq_params params;
         for( const tripoint &tile : spell_aoe ) {
             if( tile.z != center.z ) {
                 continue;
@@ -3774,7 +3652,7 @@ void target_ui::panel_cursor_info( int &text_y )
 
     std::vector<std::string> labels;
     labels.push_back( label_range );
-    if( fov_3d_z_range > 0 ) {
+    if( allow_zlevel_shift ) {
         labels.push_back( string_format( _( "Elevation: %d" ), dst.z - src.z ) );
     }
     labels.push_back( string_format( _( "Targets: %d" ), targets.size() ) );

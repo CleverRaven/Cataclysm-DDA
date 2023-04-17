@@ -118,23 +118,22 @@
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
     "pocket_data": [
       {
-        "max_contains_volume": "5 L",
-        "max_contains_weight": "6 kg",
-        "max_item_length": "90 cm",
-        "moves": 40,
-        "flag_restriction": [ "BELT_CLIP" ],
-        "holster": true,
-        "transparent": true
-      },
-      {
-        "max_contains_volume": "5 L",
+        "max_contains_volume": "2 L",
         "max_contains_weight": "6 kg",
         "max_item_length": "90 cm",
         "moves": 40,
         "flag_restriction": [ "BELT_CLIP" ],
         "rigid": true,
-        "holster": true,
-        "transparent": true
+        "holster": true
+      },
+      {
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "6 kg",
+        "max_item_length": "90 cm",
+        "moves": 40,
+        "flag_restriction": [ "BELT_CLIP" ],
+        "rigid": true,
+        "holster": true
       },
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "moves": 60 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "moves": 60 },

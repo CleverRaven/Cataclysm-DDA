@@ -1,8 +1,0 @@
-[
-  {
-    "type": "SPECIES",
-    "id": "DM_SWEETS",
-    "flags": [ "ALL_SEEING", "NEMESIS" ],
-    "footsteps": "shlop."
-  }
-]

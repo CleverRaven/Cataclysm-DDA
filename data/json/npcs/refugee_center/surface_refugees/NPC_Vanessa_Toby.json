@@ -28,7 +28,7 @@
     "weapon_override": "REFUGEE_Vanessa_wield",
     "traits": [
       { "trait": "SKIN_TAN" },
-      { "trait": "hair_medium", "variant": "gray" },
+      { "trait": "hair_gray_medium" },
       { "group": "NPC_starting_traits" },
       { "trait": "NO_BASH" },
       { "trait": "RETURN_TO_START_POS" }
@@ -57,7 +57,7 @@
     "type": "item_group",
     "id": "REFUGEE_Vanessa_carried",
     "subtype": "collection",
-    "entries": [ { "item": "lighter" }, { "item": "ecig", "count": 40 } ]
+    "entries": [ { "item": "lighter" }, { "item": "ecig" } ]
   },
   {
     "type": "item_group",
@@ -143,7 +143,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Vanessa_1a",
-    "dynamic_line": { "gendered_line": "*peers at you for a while before speaking.  \"Oh, you're back.\"", "relevant_genders": [ "u" ] },
+    "dynamic_line": "*peers at you for a while before speaking.  \"Oh, you're back.\"",
     "responses": [
       { "text": "Hi, Vanessa.  What's up?", "topic": "TALK_REFUGEE_Vanessa_2" },
       { "text": "Nevermind.  I'm going.", "topic": "TALK_DONE" }
@@ -177,10 +177,15 @@
     "dynamic_line": {
       "concatenate": [
         {
-          "math": [ "u_counter_refugee_center_refugee_happiness", ">=", "5" ],
-          "yes": "Well, I'm stuck in a dank shitty brick building with two dozen strangers, the world's dead",
-          "no": "You want the sarcastic version, or the really sarcastic version?  I'm stuck in a dank shitty brick building with two dozen strangers, the world's dead"
+          "u_compare_var": "refugee_happiness",
+          "type": "counter",
+          "context": "refugee_center",
+          "op": ">=",
+          "value": 5,
+          "yes": "Well, I",
+          "no": "You want the sarcastic version, or the really sarcastic version?  I"
         },
+        "'m stuck in a dank shitty brick building with two dozen strangers, the world's dead",
         {
           "u_has_var": "tacoma_started",
           "type": "knowledge",
@@ -282,7 +287,7 @@
       "effect": [
         { "u_add_var": "Vanessa_Mission1", "type": "mission", "context": "flag", "value": "yes" },
         { "npc_add_var": "owed_haircut_1", "type": "mission", "context": "services", "value": "yes" },
-        { "math": [ "u_counter_refugee_center_refugee_happiness", "+=", "2" ] }
+        { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 2 }
       ]
     }
   }

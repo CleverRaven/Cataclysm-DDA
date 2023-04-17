@@ -128,11 +128,11 @@ static int has_quality_from_vpart( const vehicle &veh, int part, const quality_i
     int qty = 0;
 
     point pos = veh.part( part ).mount;
-    for( const int n : veh.parts_at_relative( pos, true ) ) {
-        const vehicle_part &vp = veh.part( n );
+    for( const int &n : veh.parts_at_relative( pos, true ) ) {
+
         // only unbroken parts can provide tool qualities
-        if( !vp.is_broken() ) {
-            auto tq = vp.info().qualities;
+        if( !veh.part( n ).is_broken() ) {
+            auto tq = veh.part_info( n ).qualities;
             auto iter = tq.find( qual );
 
             // does the part provide this quality?
@@ -243,11 +243,10 @@ static int max_quality_from_vpart( const vehicle &veh, int part, const quality_i
 
     point pos = veh.part( part ).mount;
     for( const int &n : veh.parts_at_relative( pos, true ) ) {
-        const vehicle_part &vp = veh.part( n );
 
         // only unbroken parts can provide tool qualities
-        if( !vp.is_broken() ) {
-            auto tq = vp.info().qualities;
+        if( !veh.part( n ).is_broken() ) {
+            auto tq = veh.part_info( n ).qualities;
             auto iter = tq.find( qual );
 
             // does the part provide this quality?
@@ -373,7 +372,7 @@ VisitResponse item_contents::visit_contents( const std::function<VisitResponse( 
         &func, item *parent )
 {
     for( item_pocket &pocket : contents ) {
-        if( !pocket.is_type( pocket_type::CONTAINER ) ) {
+        if( !pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
             // anything that is not CONTAINER is accessible only via its specific accessor
             continue;
         }
@@ -518,7 +517,7 @@ VisitResponse vehicle_cursor::visit_items(
     const vehicle_part &vp = veh.part( part );
     const int idx = veh.part_with_feature( vp.mount, "CARGO", true );
     if( idx >= 0 ) {
-        for( item &e : veh.get_items( veh.part( idx ) ) ) {
+        for( item &e : veh.get_items( idx ) ) {
             if( visit_internal( func, &e ) == VisitResponse::ABORT ) {
                 return VisitResponse::ABORT;
             }
@@ -566,11 +565,6 @@ std::list<item> item::remove_items_with( const std::function<bool( const item &e
     }
 
     contents.remove_internal( filter, count, res );
-
-    // updating pockets is only necessary when removing mods,
-    // but no way to determine where something got removed here
-    update_modified_pockets();
-
     return res;
 }
 
@@ -652,8 +646,6 @@ std::list<item> Character::remove_items_with( const
         // nothing to do
         return res;
     }
-
-    invalidate_weight_carried_cache();
 
     // first try and remove items from the inventory
     res = inv->remove_items_with( filter, count );
@@ -814,7 +806,7 @@ static int charges_of_internal( const T &self, const M &main, const itype_id &id
                 if( e->count_by_charges() ) {
                     qty = sum_no_wrap( qty, e->charges );
                 } else {
-                    qty = sum_no_wrap( qty, e->ammo_remaining( nullptr, true ) );
+                    qty = sum_no_wrap( qty, e->ammo_remaining() );
                 }
                 if( e->has_flag( STATIC( flag_id( "USE_UPS" ) ) ) ) {
                     found_tool_with_UPS = true;
@@ -822,7 +814,7 @@ static int charges_of_internal( const T &self, const M &main, const itype_id &id
                     found_bionic_tool = true;
                 }
             } else if( id == itype_UPS && e->has_flag( flag_IS_UPS ) ) {
-                qty = sum_no_wrap( qty, e->ammo_remaining( nullptr, true ) );
+                qty = sum_no_wrap( qty, e->ammo_remaining() );
             }
         }
         if( qty >= limit ) {

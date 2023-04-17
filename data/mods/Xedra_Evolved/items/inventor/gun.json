@@ -17,37 +17,14 @@
     "ammo": "battery",
     "ammo_to_fire": 5,
     "range": 7,
-    "ranged_damage": { "damage_type": "heat", "amount": 15 },
+    "ranged_damage": { "damage_type": "heat", "amount": 15, "armor_penetration": 2 },
     "dispersion": 15,
     "durability": 8,
     "loudness": 15,
     "reload": 250,
-    "heat_per_shot": 6,
-    "cooling_value": 3,
-    "overheat_threshold": 100,
-    "valid_mod_locations": [
-      [ "emitter", 1 ],
-      [ "lens", 1 ],
-      [ "heat sink", 1 ],
-      [ "radiator", 1 ],
-      [ "grip", 1 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel", 1 ]
-    ],
+    "valid_mod_locations": [ [ "emitter", 1 ], [ "grip", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "ammo_effects": [ "LASER" ],
-    "faults": [ "fault_overheat_explosion", "fault_overheat_venting", "fault_overheat_melting", "fault_overheat_safety" ],
-    "flags": [
-      "NEVER_JAMS",
-      "NO_SALVAGE",
-      "NO_REPAIR",
-      "NON_FOULING",
-      "NEEDS_NO_LUBE",
-      "TRADER_AVOID",
-      "OVERHEATS",
-      "INVENTOR_CRAFTED"
-    ],
+    "flags": [ "NEVER_JAMS", "NO_SALVAGE", "NO_REPAIR", "NON_FOULING", "NEEDS_NO_LUBE", "TRADER_AVOID" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -77,22 +54,17 @@
     "ammo": "battery",
     "ammo_to_fire": 15,
     "range": 16,
-    "ranged_damage": { "damage_type": "heat", "amount": 25 },
+    "ranged_damage": { "damage_type": "heat", "amount": 25, "armor_penetration": 6 },
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 5 ] ],
     "dispersion": 15,
     "durability": 8,
     "loudness": 15,
     "reload": 250,
-    "heat_per_shot": 8,
-    "cooling_value": 5,
-    "overheat_threshold": 120,
     "valid_mod_locations": [
       [ "emitter", 1 ],
-      [ "lens", 1 ],
-      [ "heat sink", 1 ],
-      [ "radiator", 1 ],
       [ "grip", 1 ],
       [ "rail", 1 ],
+      [ "lens", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
@@ -100,17 +72,7 @@
       [ "underbarrel", 1 ]
     ],
     "ammo_effects": [ "LASER", "INCENDIARY" ],
-    "faults": [ "fault_overheat_explosion", "fault_overheat_venting", "fault_overheat_melting", "fault_overheat_safety" ],
-    "flags": [
-      "NEVER_JAMS",
-      "NO_SALVAGE",
-      "NO_REPAIR",
-      "NON_FOULING",
-      "NEEDS_NO_LUBE",
-      "TRADER_AVOID",
-      "OVERHEATS",
-      "INVENTOR_CRAFTED"
-    ],
+    "flags": [ "NEVER_JAMS", "NO_SALVAGE", "NO_REPAIR", "NON_FOULING", "NEEDS_NO_LUBE", "TRADER_AVOID" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -140,40 +102,25 @@
     "ammo": "battery",
     "ammo_to_fire": 30,
     "range": 32,
-    "ranged_damage": { "damage_type": "heat", "amount": 35 },
+    "ranged_damage": { "damage_type": "heat", "amount": 35, "armor_penetration": 6 },
     "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
     "dispersion": 15,
     "durability": 8,
     "loudness": 25,
     "reload": 350,
-    "heat_per_shot": 11,
-    "cooling_value": 6,
-    "overheat_threshold": 130,
     "valid_mod_locations": [
       [ "emitter", 2 ],
-      [ "lens", 2 ],
-      [ "heat sink", 2 ],
-      [ "radiator", 2 ],
       [ "grip", 1 ],
       [ "rail", 1 ],
+      [ "lens", 2 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
       [ "stock accessory", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "ammo_effects": [ "LASER", "INCENDIARY" ],
-    "faults": [ "fault_overheat_explosion", "fault_overheat_venting", "fault_overheat_melting", "fault_overheat_safety" ],
-    "flags": [
-      "NEVER_JAMS",
-      "NO_SALVAGE",
-      "NO_REPAIR",
-      "NON_FOULING",
-      "NEEDS_NO_LUBE",
-      "TRADER_AVOID",
-      "OVERHEATS",
-      "INVENTOR_CRAFTED"
-    ],
+    "ammo_effects": [ "LASER", "INCENDIARY", "DRAW_LASER_BEAM" ],
+    "flags": [ "NEVER_JAMS", "NO_SALVAGE", "NO_REPAIR", "NON_FOULING", "NEEDS_NO_LUBE", "TRADER_AVOID" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -200,21 +147,16 @@
     "color": "magenta",
     "skill": "rifle",
     "ammo": "aetheric_charge",
-    "ammo_to_fire": 10,
+    "ammo_to_fire": 1,
     "range": 30,
     "ranged_damage": { "damage_type": "pure", "amount": 35 },
     "dispersion": 15,
     "durability": 8,
     "loudness": 45,
-    "heat_per_shot": 15,
-    "cooling_value": 6,
-    "overheat_threshold": 150,
     "valid_mod_locations": [
       [ "emitter", 1 ],
-      [ "lens", 1 ],
       [ "grip", 1 ],
-      [ "heat sink", 1 ],
-      [ "radiator", 1 ],
+      [ "lens", 1 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
@@ -222,22 +164,10 @@
       [ "stock accessory", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "ammo_effects": [ "LASER", "PLASMA_BUBBLE", "INCENDIARY" ],
-    "faults": [ "fault_overheat_explosion", "fault_overheat_venting", "fault_overheat_melting", "fault_overheat_safety" ],
-    "flags": [
-      "NEVER_JAMS",
-      "NO_SALVAGE",
-      "NO_REPAIR",
-      "NON_FOULING",
-      "NEEDS_NO_LUBE",
-      "TRADER_AVOID",
-      "OVERHEATS",
-      "NO_UNLOAD",
-      "NO_RELOAD",
-      "INVENTOR_CRAFTED"
-    ],
-    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "30 s", "regenerate_ammo": true } },
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "aetheric_charge": 4800 }, "airtight": true } ]
+    "ammo_effects": [ "LASER", "PLASMA_BUBBLE", "INCENDIARY", "DRAW_LASER_BEAM" ],
+    "flags": [ "NEVER_JAMS", "NO_SALVAGE", "NO_REPAIR", "NON_FOULING", "NEEDS_NO_LUBE", "TRADER_AVOID" ],
+    "relic_data": { "charge_info": { "recharge_condition": "worn", "recharge_type": "periodic", "time": "5 m", "regenerate_ammo": true } },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "aetheric_charge": 480 }, "airtight": true } ]
   },
   {
     "id": "bio_launcher",
@@ -258,9 +188,9 @@
     "ammo": [ "bio_warhead" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "bio_warhead": 1 } } ],
     "armor": [
-      { "encumbrance": [ 10, 12 ], "coverage": 70, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] }
+      { "encumbrance": [ 20, 22 ], "coverage": 70, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] }
     ],
-    "flags": [ "TRADER_AVOID", "PADDED", "BELTED", "OVERSIZE", "WATER_FRIENDLY", "MUNDANE", "INVENTOR_CRAFTED" ]
+    "flags": [ "TRADER_AVOID", "PADDED", "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "bio_warhead",
@@ -275,7 +205,6 @@
     "melee_damage": { "bash": 8 },
     "ammo_type": "bio_warhead",
     "material": [ "steel", "plastic" ],
-    "flags": [ "TRADER_AVOID", "WATER_FRIENDLY", "INVENTOR_CRAFTED" ],
     "symbol": "*",
     "color": "light_green"
   },
@@ -284,6 +213,22 @@
     "id": "bio_warhead",
     "name": "bio-warhead",
     "default": "bio_warhead"
+  },
+  {
+    "id": "rip_ticket",
+    "name": { "str": "vancian bill" },
+    "description": "A small bill, covered in odd symbols.  Ripping it up will cause a small dimensional tear.  It will last only a few milliseconds, yet make enough damage to kill something.",
+    "type": "TOOL",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "material": [ "paper" ],
+    "symbol": "|",
+    "color": "brown",
+    "flags": [ "NONCONDUCTIVE", "MAGIC_FOCUS", "TRADER_AVOID", "SINGLE_USE" ],
+    "use_action": { "type": "cast_spell", "spell_id": "rip_ticket", "no_fail": true, "level": 0, "need_wielding": true },
+    "max_charges": 1,
+    "charges_per_use": 1,
+    "initial_charges": 1
   },
   {
     "id": "ion_gun",
@@ -300,7 +245,7 @@
     "color": "blue",
     "charges_per_use": 30,
     "ammo": [ "battery" ],
-    "flags": [ "TRADER_AVOID", "MUNDANE", "INVENTOR_CRAFTED" ],
+    "flags": [ "TRADER_AVOID" ],
     "use_action": { "type": "cast_spell", "spell_id": "ion_shot_1", "no_fail": true, "level": 0, "need_wielding": true },
     "pocket_data": [
       {
@@ -317,7 +262,7 @@
     "looks_like": "ar15",
     "type": "GUN",
     "name": { "str_sp": "\"Repeater\"" },
-    "description": "A hand-made lever action sniper rifle with an extremely long barrel.  Logically such a barrel shouldn't function properly, but somehow it not only works well enough, it also accelerates the bullet much more than anyone could expect.  Two internal magazine tubes under the barrel accept 15 7.62x51 rounds each.",
+    "description": "Hand-made lever action sniper rifle with an extremely long barrel.  By logic such long barrel can not work properly, but somehow it not only works fine enough, it also accelerates the bullet much more than anyone can expect.  Two internal magazine tubes under the barrel accept 15 7.62x51 rounds each.",
     "weight": "3630 g",
     "volume": "5427 ml",
     "longest_side": "1678 mm",
@@ -328,7 +273,6 @@
     "min_cycle_recoil": 2700,
     "default_mods": [ "bipod" ],
     "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
-    "extend": { "flags": [ "INVENTOR_CRAFTED" ] },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "308": 30 } } ]
   },
   {
@@ -352,7 +296,7 @@
     "recoil": 300,
     "durability": 9,
     "min_cycle_recoil": 1,
-    "flags": [ "TRADER_AVOID", "NO_SALVAGE", "INVENTOR_CRAFTED" ],
+    "flags": [ "TRADER_AVOID", "NO_SALVAGE" ],
     "reload": 400,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "double", 2 ], [ "AUTO", "auto", 4 ] ],
     "built_in_mods": [ "laser_sight" ],
@@ -362,7 +306,7 @@
     "id": "accelerator_gun",
     "type": "GUN",
     "name": { "str": "acceleratron" },
-    "description": "A carbine-sized particle cannon.  It shoots microscopic particles, and due the size of projectile you don't need to reload it for decades.  Instead, you need a ton of energy to generate enough magnetic force.  The damage of the weapon is not great, but it has perfect armor penetration, and no physical armor can stop its bullets.",
+    "description": "Particle cannon of a carbine size.  It shoots a microscopic particles, and due the size of projectile, you don't need to reload it for decades.  Instead, you need a ton of energy to generate enough magnetic force.  The damage of weapon is not great, but it has perfect armor penetration, and no physical armor can stop a bullet.",
     "weight": "2880 g",
     "volume": "3930 ml",
     "longest_side": "998 mm",
@@ -379,7 +323,7 @@
     "dispersion": 15,
     "durability": 8,
     "loudness": 15,
-    "flags": [ "NEVER_JAMS", "NO_SALVAGE", "NO_REPAIR", "NON_FOULING", "NEEDS_NO_LUBE", "TRADER_AVOID", "INVENTOR_CRAFTED" ],
+    "flags": [ "NEVER_JAMS", "NO_SALVAGE", "NO_REPAIR", "NON_FOULING", "NEEDS_NO_LUBE", "TRADER_AVOID" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -397,7 +341,7 @@
     "looks_like": "ar15",
     "type": "GUN",
     "name": { "str": "inventor's grenade launcher" },
-    "description": "Transformed from a tool, this weapon can emit giant clouds of energy, destroying everything on their path.",
+    "description": "Transformed from a tool, this weapon can emit a giant clouds of energy, destroying everything on their path.",
     "weight": "2670 g",
     "volume": "3560 ml",
     "longest_side": "50 cm",
@@ -412,10 +356,11 @@
     "range": 1,
     "ammo": "battery",
     "ranged_damage": { "damage_type": "bullet", "amount": 1 },
-    "extend": { "flags": [ "NO_TURRET", "INVENTOR_CRAFTED" ] },
+    "extend": { "flags": [ "NO_TURRET" ] },
     "modes": [  ],
     "dispersion": 150,
     "durability": 9,
+    "min_cycle_recoil": 0,
     "default_mods": [ "inventor_glauncher_expl" ],
     "valid_mod_locations": [
       [ "underbarrel", 1 ],
@@ -453,7 +398,6 @@
     "material": [ "steel" ],
     "symbol": ":",
     "color": "dark_gray",
-    "flags": [ "INVENTOR_CRAFTED" ],
     "location": "energy transformer",
     "range_modifier": 35,
     "mod_targets": [ "inventor_glauncher" ],
@@ -465,7 +409,7 @@
     "dispersion_modifier": 15,
     "handling_modifier": 4,
     "loudness_modifier": 14,
-    "description": "A default energy transformer that converts the power into raw energy."
+    "description": "Default energy transformer, that convert the power into raw power."
   },
   {
     "id": "inventor_glauncher_fire",
@@ -482,7 +426,6 @@
     "material": [ "steel" ],
     "symbol": ":",
     "color": "red",
-    "flags": [ "INVENTOR_CRAFTED" ],
     "location": "energy transformer",
     "range_modifier": 35,
     "mod_targets": [ "inventor_glauncher" ],
@@ -494,7 +437,8 @@
     "dispersion_modifier": 15,
     "handling_modifier": 4,
     "loudness_modifier": 14,
-    "description": "A modified energy transformer.  It converts the power flow into a slow heat cloud that ignites everything around it."
+    "overwrite_min_cycle_recoil": 1350,
+    "description": "Modified energy transformer, that convert the power flow into slow heat cloud, that ignite everything around."
   },
   {
     "id": "inventor_glauncher_elec",
@@ -513,7 +457,6 @@
     "color": "blue",
     "location": "energy transformer",
     "//": "TODO: buff this thing somehow, emitting electricity field doesn't do any significant damage",
-    "flags": [ "INVENTOR_CRAFTED" ],
     "mod_targets": [ "inventor_glauncher" ],
     "name": { "str": "voltaic energy transformer" },
     "range_modifier": 35,
@@ -525,7 +468,8 @@
     "dispersion_modifier": 15,
     "handling_modifier": 4,
     "loudness_modifier": 14,
-    "description": "Instead of converting energy this transformer emits it as it is, generating a giant high-voltage cloud."
+    "overwrite_min_cycle_recoil": 1350,
+    "description": "Instead converting energy, this energy transformer emit it as it is, throwing a giant high-voltage cloud."
   },
   {
     "id": "inventor_glauncher_direct",
@@ -543,7 +487,6 @@
     "symbol": ":",
     "color": "blue",
     "location": "energy transformer",
-    "flags": [ "INVENTOR_CRAFTED" ],
     "mod_targets": [ "inventor_glauncher" ],
     "name": { "str": "focused energy transformer" },
     "range_modifier": 35,
@@ -553,25 +496,27 @@
     "dispersion_modifier": 15,
     "handling_modifier": 4,
     "loudness_modifier": 14,
-    "description": "A bunch of powerful lenses and reflectors that transform the energy output into a powerful directed laser beam."
+    "overwrite_min_cycle_recoil": 1350,
+    "description": "Bunch of powerful lenses and reflectors, that transform the energy output into powerful directed laser beam."
   },
   {
     "id": "inventor_grenade_noise_expl",
     "name": { "str": "inventor's noise grenade" },
-    "description": "A small energy grenade with an additional timer slapped onto it.  When triggered, the timer will start to count to 70 seconds.  As it ends a massive explosion will rip your enemies apart.",
+    "description": "Small energy grenade with additional timer slapped on it.  When triggered, the timer start to count 70 seconds, and when it end, the massive explosion rip your enemies apart.",
     "type": "TOOL",
     "weight": "300 g",
     "volume": "450 ml",
     "material": [ "steel" ],
     "symbol": "*",
     "color": "blue",
-    "flags": [ "NONCONDUCTIVE", "TRADER_AVOID", "INVENTOR_CRAFTED" ],
+    "flags": [ "NONCONDUCTIVE", "TRADER_AVOID" ],
     "use_action": {
       "need_wielding": true,
       "target": "inventor_grenade_noise_expl_act",
       "menu_text": "Activate",
-      "msg": "You trigger the mechanism, and it starts to whistle!",
-      "target_timer": "70 seconds",
+      "msg": "You trigger the mechanism, and it start to whistle!",
+      "target_charges": 70,
+      "active": true,
       "type": "transform"
     }
   },
@@ -580,33 +525,39 @@
     "type": "TOOL",
     "category": "weapons",
     "name": { "str": "inventor's noise grenade" },
-    "description": "A small energy grenade with an additional timer slapped onto it.  When triggered, the timer will start to count to 70 seconds.  As it ends a massive explosion will rip your enemies apart.",
+    "description": "Small energy grenade with additional timer slapped on it.  When triggered, the timer start to count 70 seconds, and when it end, the massive explosion rip your enemies apart.",
     "weight": "300 g",
     "volume": "450 ml",
     "material": [ "steel" ],
     "symbol": "*",
     "color": "blue",
-    "tick_action": [ { "type": "sound", "sound_message": "whistle", "sound_volume": 35, "sound_variant": "bomb_ticking" } ],
-    "countdown_action": { "type": "explosion", "explosion": { "power": 1200 } },
-    "flags": [ "TRADER_AVOID", "BOMB", "INVENTOR_CRAFTED" ]
+    "turns_per_charge": 1,
+    "use_action": {
+      "type": "explosion",
+      "sound_volume": 35,
+      "sound_msg": "whistle",
+      "no_deactivate_msg": "The internal timer is already ticking, throw it!",
+      "explosion": { "power": 1200 }
+    },
+    "flags": [ "TRADER_AVOID", "BOMB" ]
   },
   {
     "id": "inventor_grenade_noise_emp",
     "name": { "str": "inventor's noise EMP grenade" },
-    "description": "A small energy grenade with an additional timer and a whistle slapped onto it.   When triggered, the timer will start to count to 70 seconds.  As it ends a huge EMP explosion will cover the zone.",
+    "description": "Small energy grenade with additional timer with whistle slapped on it.  When triggered, the timer start to count 70 seconds, and when it end, the huge EMP explosion will cover the zone.",
     "type": "TOOL",
     "weight": "300 g",
     "volume": "450 ml",
     "material": [ "steel" ],
     "symbol": "*",
     "color": "blue",
-    "flags": [ "NONCONDUCTIVE", "TRADER_AVOID", "INVENTOR_CRAFTED" ],
+    "flags": [ "NONCONDUCTIVE", "TRADER_AVOID" ],
     "use_action": {
       "need_wielding": true,
       "target": "inventor_grenade_noise_emp_act",
       "menu_text": "Activate",
-      "msg": "You trigger the mechanism, and it starts to whistle!",
-      "target_timer": "70 seconds",
+      "msg": "You trigger the mechanism, and it start to whistle!",
+      "target_charges": 70,
       "active": true,
       "type": "transform"
     }
@@ -616,40 +567,44 @@
     "type": "TOOL",
     "category": "weapons",
     "name": { "str": "inventor's noise EMP grenade" },
-    "description": "A small energy grenade with an additional timer and a whistle slapped onto it.   When triggered, the timer will start to count to 70 seconds.  As it ends a huge EMP explosion will cover the zone.",
+    "description": "Small energy grenade with additional timer with whistle slapped on it.  When triggered, the timer start to count 70 seconds, and when it end, the huge EMP explosion will cover the zone.",
     "weight": "300 g",
     "volume": "450 ml",
     "material": [ "steel" ],
     "symbol": "*",
     "color": "blue",
-    "tick_action": [ { "type": "sound", "sound_message": "whistle", "sound_volume": 35, "sound_variant": "bomb_ticking" } ],
-    "countdown_action": {
+    "turns_per_charge": 1,
+    "use_action": {
       "type": "explosion",
+      "sound_volume": 35,
+      "sound_msg": "whistle",
+      "no_deactivate_msg": "The internal timer is already ticking, throw it!",
       "fields_type": "fd_electricity",
       "fields_radius": 5,
       "fields_min_intensity": 10,
       "fields_max_intensity": 10,
       "emp_blast_radius": 12
     },
-    "flags": [ "TRADER_AVOID", "BOMB", "INVENTOR_CRAFTED" ]
+    "flags": [ "TRADER_AVOID", "BOMB" ]
   },
   {
     "id": "inventor_grenade_noise_fire",
     "name": { "str": "inventor's noise fire grenade" },
-    "description": "A small energy grenade with an additional timer slapped onto it.  When triggered, the timer will start to count to 70 seconds.  As it ends a massive fire explosion will rip your enemies apart.",
+    "description": "Small energy grenade with additional timer slapped on it.  When triggered, the timer start to count 70 seconds, and when it end, the massive fire explosion rip your enemies apart.",
     "type": "TOOL",
     "weight": "300 g",
     "volume": "450 ml",
     "material": [ "steel" ],
     "symbol": "*",
     "color": "blue",
-    "flags": [ "NONCONDUCTIVE", "TRADER_AVOID", "INVENTOR_CRAFTED" ],
+    "flags": [ "NONCONDUCTIVE", "TRADER_AVOID" ],
     "use_action": {
       "need_wielding": true,
       "target": "inventor_grenade_noise_fire_act",
       "menu_text": "Activate",
       "msg": "You trigger the mechanism, and it start to whistle!",
-      "target_timer": "70 seconds",
+      "target_charges": 70,
+      "active": true,
       "type": "transform"
     }
   },
@@ -658,28 +613,31 @@
     "type": "TOOL",
     "category": "weapons",
     "name": { "str": "inventor's noise fire grenade" },
-    "description": "A small energy grenade with an additional timer slapped onto it.  When triggered, the timer will start to count to 70 seconds.  As it ends a massive fire explosion will rip your enemies apart.",
+    "description": "Small energy grenade with additional timer slapped on it.  When triggered, the timer start to count 70 seconds, and when it end, the massive fire explosion rip your enemies apart.",
     "weight": "300 g",
     "volume": "450 ml",
     "material": [ "steel" ],
     "symbol": "*",
     "color": "blue",
-    "tick_action": [ { "type": "sound", "sound_message": "whistle", "sound_volume": 35, "sound_variant": "bomb_ticking" } ],
-    "countdown_action": {
+    "turns_per_charge": 1,
+    "use_action": {
       "type": "explosion",
+      "sound_volume": 35,
+      "sound_msg": "whistle",
+      "no_deactivate_msg": "The internal timer is already ticking, throw it!",
       "fields_type": "fd_fire",
       "fields_radius": 4,
       "fields_min_intensity": 0,
       "fields_max_intensity": 2,
       "explosion": { "power": 225 }
     },
-    "flags": [ "TRADER_AVOID", "BOMB", "INVENTOR_CRAFTED" ]
+    "flags": [ "TRADER_AVOID", "BOMB" ]
   },
   {
     "id": "sonic_gun",
     "type": "GUN",
     "name": { "str": "sonic gun" },
-    "description": "A small, square tube with a pistol grip that can emit a sonic waves, creating cavitation and tissue damage inside living creatures.  It's pretty weak as a weapon, but using extremely high frequency sounds makes it silent for most creatures you can met.  It would be fun to listen some music using it, but alas.",
+    "description": "Small, square tube with pistol grip, that can emit a sonic waves, creating cavitation and tissue damage inside the living creatures.  Pretty weak as a weapon, using extremely high frequency sounds make it silent for most creatures you can met.  Would be fun to listen some music using it, but alas.",
     "weight": "890 g",
     "volume": "658 ml",
     "longest_side": "998 mm",
@@ -696,16 +654,7 @@
     "dispersion": 15,
     "durability": 8,
     "loudness": 0,
-    "flags": [
-      "NEVER_JAMS",
-      "NO_SALVAGE",
-      "NO_REPAIR",
-      "NON_FOULING",
-      "NEEDS_NO_LUBE",
-      "TRADER_AVOID",
-      "ELECTRONIC",
-      "INVENTOR_CRAFTED"
-    ],
+    "flags": [ "NEVER_JAMS", "NO_SALVAGE", "NO_REPAIR", "NON_FOULING", "NEEDS_NO_LUBE", "TRADER_AVOID", "ELECTRONIC" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -721,7 +670,7 @@
     "id": "heater_gun",
     "type": "TOOL",
     "name": { "str": "\"Boiler\"", "str_pl": "\"Boilers\"" },
-    "description": "A rifle-sized tool that can concentrate heat in a huge range.  It lost its ability to work as a tool as you don't want to accidentally evaporate your materials, but the damage output pays for this with interest.",
+    "description": "Rifle size tool, that can concentrate heat in a pretty huge range.  It lost it's ability to work as a tool, as you don't want accidentally evaporate your materials, but the damage output pays for this with interest.",
     "weight": "1908 g",
     "volume": "3130 ml",
     "longest_side": "1160 mm",
@@ -732,7 +681,7 @@
     "color": "blue",
     "charges_per_use": 50,
     "ammo": [ "battery" ],
-    "flags": [ "TRADER_AVOID", "INVENTOR_CRAFTED" ],
+    "flags": [ "TRADER_AVOID" ],
     "use_action": { "type": "cast_spell", "spell_id": "heat_expl_gun", "no_fail": true, "level": 0, "need_wielding": true },
     "pocket_data": [
       {
@@ -748,7 +697,7 @@
     "copy-from": "pistol_revolver",
     "type": "GUN",
     "name": { "str": "blocky pistol" },
-    "description": "A square abomination resembling a pistol, but with a collapsible outer magazine under the barrel.  This overengineered piece of metal is able to vary the size of chamber, which makes it able to shoot any round up to shotgun shells.  You spent a really long time to make it fit into a common holster.",
+    "description": "A square abomination resembling the shape of a pistol, but with a collapsible outer magazine under the barrel.  This overengineered piece of metal is able to vary the size of chamber, which makes it able to shoot any round up to shotgun shells.  You spent a really long time to make it fit into a common holster.",
     "weight": "1790 g",
     "volume": "970 ml",
     "longest_side": "30 cm",
@@ -795,11 +744,10 @@
       [ "muzzle", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT", "INVENTOR_CRAFTED" ],
+    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",
-        "rigid": true,
         "ammo_restriction": {
           "10mm": 12,
           "22": 16,

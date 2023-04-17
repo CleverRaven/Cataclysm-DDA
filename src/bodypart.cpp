@@ -29,6 +29,8 @@ const bodypart_str_id body_part_leg_r( "leg_r" );
 const bodypart_str_id body_part_mouth( "mouth" );
 const bodypart_str_id body_part_torso( "torso" );
 
+static const efftype_id effect_grabbing_appendix( "grabbing_appendix" );
+
 const sub_bodypart_str_id sub_body_part_sub_limb_debug( "sub_limb_debug" );
 
 side opposite_side( side s )
@@ -377,9 +379,7 @@ void body_part_type::load( const JsonObject &jo, const std::string_view )
 
     optional( jo, was_loaded, "env_protection", env_protection, 0 );
 
-    int legacy_fire_warmth_bonus = units::to_legacy_bodypart_temp_delta( fire_warmth_bonus );
-    optional( jo, was_loaded, "fire_warmth_bonus", legacy_fire_warmth_bonus, 0 );
-    fire_warmth_bonus = units::from_legacy_bodypart_temp_delta( legacy_fire_warmth_bonus );
+    optional( jo, was_loaded, "fire_warmth_bonus", fire_warmth_bonus, 0 );
 
     mandatory( jo, was_loaded, "main_part", main_part );
     if( main_part == id ) {
@@ -389,8 +389,6 @@ void body_part_type::load( const JsonObject &jo, const std::string_view )
     }
     mandatory( jo, was_loaded, "opposite_part", opposite_part );
 
-    optional( jo, was_loaded, "windage_effect", windage_effect, efftype_id::NULL_ID() );
-    optional( jo, was_loaded, "no_power_effect", no_power_effect, efftype_id::NULL_ID() );
     optional( jo, was_loaded, "smash_message", smash_message );
     optional( jo, was_loaded, "smash_efficiency", smash_efficiency, 0.5f );
 
@@ -406,6 +404,7 @@ void body_part_type::load( const JsonObject &jo, const std::string_view )
 
     optional( jo, was_loaded, "flags", flags );
     optional( jo, was_loaded, "conditional_flags", conditional_flags );
+    optional( jo, was_loaded, "grabbing_effect", grabbing_effect, effect_grabbing_appendix );
 
     optional( jo, was_loaded, "encumbrance_threshold", encumbrance_threshold, 0 );
     optional( jo, was_loaded, "encumbrance_limit", encumbrance_limit, 100 );
@@ -414,8 +413,6 @@ void body_part_type::load( const JsonObject &jo, const std::string_view )
     optional( jo, was_loaded, "technique_encumbrance_limit", technique_enc_limit, 50 );
     optional( jo, was_loaded, "bmi_encumbrance_threshold", bmi_encumbrance_threshold, 999 );
     optional( jo, was_loaded, "bmi_encumbrance_scalar", bmi_encumbrance_scalar, 0 );
-
-    optional( jo, was_loaded, "power_efficiency", power_efficiency, 0 );
 
     if( jo.has_member( "limb_scores" ) ) {
         limb_scores.clear();
@@ -440,8 +437,8 @@ void body_part_type::load( const JsonObject &jo, const std::string_view )
 
     if( jo.has_array( "temp_mod" ) ) {
         JsonArray temp_array = jo.get_array( "temp_mod" );
-        temp_min = units::from_legacy_bodypart_temp_delta( temp_array.get_int( 0 ) );
-        temp_max = units::from_legacy_bodypart_temp_delta( temp_array.get_int( 1 ) );
+        temp_min = temp_array.get_int( 0 );
+        temp_max = temp_array.get_int( 1 );
     }
 
     if( jo.has_array( "unarmed_damage" ) ) {
@@ -549,18 +546,6 @@ void body_part_type::check() const
         }
         if( bpls.second.score > bpls.second.max ) {
             debugmsg( "Body part %s has higher %s score than max.", id.str(), bpls.first.str() );
-        }
-    }
-
-    for( const std::pair<const damage_type_id, float> &dt : armor.resist_vals ) {
-        if( !dt.first.is_valid() ) {
-            debugmsg( "Invalid armor type \"%s\" for body part %s", dt.first.c_str(), id.c_str() );
-        }
-    }
-
-    for( const damage_unit &dt : damage.damage_units ) {
-        if( !dt.type.is_valid() ) {
-            debugmsg( "Invalid unarmed_damage type \"%s\" for body part %s", dt.type.c_str(), id.c_str() );
         }
     }
 
@@ -893,11 +878,6 @@ float bodypart::get_wetness_percentage() const
     }
 }
 
-efftype_id bodypart::get_windage_effect() const
-{
-    return id->windage_effect;
-}
-
 int bodypart::get_encumbrance_threshold() const
 {
     return id->encumbrance_threshold;
@@ -917,8 +897,8 @@ bool bodypart::has_conditional_flag( const json_character_flag &flag ) const
 std::set<matec_id> bodypart::get_limb_techs() const
 {
     std::set<matec_id> result;
-    if( !x_in_y( get_encumbrance_data().encumbrance, id->technique_enc_limit ) &&
-        hp_cur > id->health_limit ) {
+    if( !x_in_y( get_encumbrance_data().encumbrance, id->technique_enc_limit  &&
+                 hp_cur > id->health_limit ) ) {
         result.insert( id->techniques.begin(), id->techniques.end() );
     }
     return result;
@@ -1037,12 +1017,12 @@ int bodypart::get_frostbite_timer() const
     return frostbite_timer;
 }
 
-units::temperature bodypart::get_temp_cur() const
+int bodypart::get_temp_cur() const
 {
     return temp_cur;
 }
 
-units::temperature bodypart::get_temp_conv() const
+int bodypart::get_temp_conv() const
 {
     return temp_conv;
 }
@@ -1060,16 +1040,6 @@ float bodypart::get_bmi_encumbrance_scalar() const
 std::array<int, NUM_WATER_TOLERANCE> bodypart::get_mut_drench() const
 {
     return mut_drench;
-}
-
-float bodypart::get_hit_size() const
-{
-    return id->hit_size;
-}
-
-int bodypart::get_power_efficiency() const
-{
-    return id->power_efficiency;
 }
 
 void bodypart::set_hp_cur( int set )
@@ -1115,12 +1085,12 @@ void bodypart::set_wetness( int set )
     wetness = set;
 }
 
-void bodypart::set_temp_cur( units::temperature set )
+void bodypart::set_temp_cur( int set )
 {
     temp_cur = set;
 }
 
-void bodypart::set_temp_conv( units::temperature set )
+void bodypart::set_temp_conv( int set )
 {
     temp_conv = set;
 }
@@ -1160,12 +1130,12 @@ void bodypart::mod_wetness( int mod )
     wetness += mod;
 }
 
-void bodypart::mod_temp_cur( units::temperature_delta mod )
+void bodypart::mod_temp_cur( int mod )
 {
     temp_cur += mod;
 }
 
-void bodypart::mod_temp_conv( units::temperature_delta mod )
+void bodypart::mod_temp_conv( int mod )
 {
     temp_conv += mod;
 }
@@ -1186,8 +1156,8 @@ void bodypart::serialize( JsonOut &json ) const
     json.member( "damage_disinfected", damage_disinfected );
 
     json.member( "wetness", wetness );
-    json.member( "temp_cur", units::to_legacy_bodypart_temp( temp_cur ) );
-    json.member( "temp_conv", units::to_legacy_bodypart_temp( temp_conv ) );
+    json.member( "temp_cur", temp_cur );
+    json.member( "temp_conv", temp_conv );
     json.member( "frostbite_timer", frostbite_timer );
 
     json.end_object();
@@ -1203,12 +1173,8 @@ void bodypart::deserialize( const JsonObject &jo )
     jo.read( "damage_disinfected", damage_disinfected, true );
 
     jo.read( "wetness", wetness, true );
-    if( int legacy_temp_cur; jo.read( "temp_cur", legacy_temp_cur, true ) ) {
-        temp_cur = units::from_legacy_bodypart_temp( legacy_temp_cur );
-    }
-    if( int legacy_temp_conv; jo.read( "temp_conv", legacy_temp_conv, true ) ) {
-        temp_conv = units::from_legacy_bodypart_temp( legacy_temp_conv );
-    }
+    jo.read( "temp_cur", temp_cur, true );
+    jo.read( "temp_conv", temp_conv, true );
     jo.read( "frostbite_timer", frostbite_timer, true );
 
 }

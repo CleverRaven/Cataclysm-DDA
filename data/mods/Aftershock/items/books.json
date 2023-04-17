@@ -127,27 +127,6 @@
     "copy-from": "schematics_generic"
   },
   {
-    "id": "schematics_eyebot",
-    "type": "BOOK",
-    "name": { "str_sp": "eyebot schematics" },
-    "description": "Assembly plans, design specs, and technical drawings for the eyebot.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
-    "copy-from": "schematics_generic"
-  },
-  {
-    "id": "schematics_copbot",
-    "type": "BOOK",
-    "name": { "str_sp": "police bot schematics" },
-    "description": "Assembly plans, design specs, and technical drawings for the police bot.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
-    "copy-from": "schematics_generic"
-  },
-  {
-    "id": "schematics_riotbot",
-    "type": "BOOK",
-    "name": { "str_sp": "riot control bot schematics" },
-    "description": "Assembly plans, design specs, and technical drawings for the riot control bot.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
-    "copy-from": "schematics_generic"
-  },
-  {
     "id": "afs_landfall_kit_2_instructions",
     "type": "BOOK",
     "category": "manuals",
@@ -318,14 +297,5 @@
     "intelligence": 9,
     "fun": -3,
     "time": "50 m"
-  },
-  {
-    "id": "recipe_augs",
-    "type": "BOOK",
-    "copy-from": "recipe_augs",
-    "name": { "str": "Augmentative Tech Review", "str_pl": "issues of Augmentative Tech Review" },
-    "description": "This annual publication covers the various ways in which people use technology to improve their bodies.  There are a few in-depth and thoroughly illustrated articles on prosthetics, though they tend to use too much jargon.",
-    "symbol": "?",
-    "color": "pink"
   }
 ]

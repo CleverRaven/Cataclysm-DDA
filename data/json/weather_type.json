@@ -343,7 +343,11 @@
       "and": [
         { "math": [ "cause_early_portal_storm", "==", "1" ] },
         {
-          "math": [ "distance(_weather_location, portal_storm_center)", "<=", "value_or(portal_storm_distant_distance, 200)" ]
+          "compare_num": [
+            { "distance": [ { "context_val": "weather_location" }, { "global_val": "portal_storm_center" } ] },
+            "<=",
+            { "global_val": "var", "var_name": "portal_storm_distant_distance", "default": 200 }
+          ]
         }
       ]
     }
@@ -373,7 +377,11 @@
       "and": [
         { "math": [ "cause_portal_storm", "==", "1" ] },
         {
-          "math": [ "distance(_weather_location, portal_storm_center)", "<=", "value_or(portal_storm_distant_distance, 200)" ]
+          "compare_num": [
+            { "distance": [ { "context_val": "weather_location" }, { "global_val": "portal_storm_center" } ] },
+            "<=",
+            { "global_val": "var", "var_name": "portal_storm_distant_distance", "default": 200 }
+          ]
         }
       ]
     }
@@ -403,7 +411,11 @@
       "and": [
         { "math": [ "cause_portal_storm", "==", "1" ] },
         {
-          "math": [ "distance(_weather_location, portal_storm_center)", "<=", "value_or(portal_storm_close_distance, 100)" ]
+          "compare_num": [
+            { "distance": [ { "context_val": "weather_location" }, { "global_val": "portal_storm_center" } ] },
+            "<=",
+            { "global_val": "var", "var_name": "portal_storm_close_distance", "default": 100 }
+          ]
         }
       ]
     }
@@ -433,7 +445,11 @@
       "and": [
         { "math": [ "cause_portal_storm", "==", "1" ] },
         {
-          "math": [ "distance(_weather_location, portal_storm_center)", "<=", "value_or(portal_storm_distance, 50)" ]
+          "compare_num": [
+            { "distance": [ { "context_val": "weather_location" }, { "global_val": "portal_storm_center" } ] },
+            "<=",
+            { "global_val": "var", "var_name": "portal_storm_distance", "default": 50 }
+          ]
         }
       ]
     }

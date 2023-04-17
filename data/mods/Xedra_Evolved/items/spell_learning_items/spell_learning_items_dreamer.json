@@ -4,7 +4,7 @@
     "type": "GENERIC",
     "category": "artifacts",
     "looks_like": "magic_8_ball",
-    "name": { "str": "magick 8-Ball" },
+    "name": { "str": "Magick 8-Ball" },
     "description": "A fortune-telling device from the 1950s.  If you shake it and look at the bottom it will give you detailed step by step instructions on how to do… something.",
     "weight": "40 g",
     "volume": "150 ml",
@@ -221,7 +221,7 @@
     "category": "artifacts",
     "looks_like": "marble",
     "name": "odd circle",
-    "description": "A circular unit of energy, surrounded by a few other circles that almost connect around the center.",
+    "description": "Circular unit of energy, surrounded by a few other circles that almost make a connection around the center.",
     "weight": "90 g",
     "volume": "190 ml",
     "price": 2000,
@@ -230,32 +230,5 @@
     "symbol": "o",
     "color": "cyan",
     "use_action": { "type": "learn_spell", "spells": [ "spell_karma_arms" ] }
-  },
-  {
-    "id": "artifact_stalker_eyes",
-    "type": "GENERIC",
-    "category": "artifacts",
-    "name": { "str": "presence" },
-    "description": "You feel like something took a glance at this place, and it was so menacing that the world itself curled up.",
-    "weight": "1 g",
-    "volume": "1 ml",
-    "material": [ "forged_dreamstuff" ],
-    "symbol": "o",
-    "color": "white",
-    "use_action": { "type": "learn_spell", "spells": [ "spell_stalker_eyes" ] }
-  },
-  {
-    "id": "artifact_devil_tail",
-    "type": "GENERIC",
-    "category": "artifacts",
-    "name": { "str": "lizard tail" },
-    "looks_like": "fur_cat_tail",
-    "description": "A small lizard tail that was ripped off.  Looks like someone's joke.",
-    "weight": "3 g",
-    "volume": "3 ml",
-    "material": [ "forged_dreamstuff" ],
-    "symbol": "~",
-    "color": "green",
-    "use_action": { "type": "learn_spell", "spells": [ "spell_devil_tail" ] }
   }
 ]

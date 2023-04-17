@@ -1,4 +1,3 @@
-#pragma once
 #ifndef CATA_SRC_MAKE_STATIC_H
 #define CATA_SRC_MAKE_STATIC_H
 
@@ -31,7 +30,7 @@ inline const T &static_argument_identity( const T &t )
 #define STATIC(expr) \
     (([]()-> const auto &{ \
         using ExprType = std::decay_t<decltype(static_argument_identity( expr ))>; \
-        using CachedType = std::conditional_t<std::is_same_v<ExprType, const char*>, \
+        using CachedType = std::conditional_t<std::is_same<ExprType, const char*>::value, \
                            std::string, ExprType>; \
         static const CachedType _cached_expr = static_argument_identity( expr ); \
         return _cached_expr; \

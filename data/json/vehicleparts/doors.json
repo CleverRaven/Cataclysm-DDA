@@ -9,12 +9,12 @@
     "damage_reduction": { "all": 20 },
     "description": "A door.  Has a window so you can see out of it, even when closed.",
     "durability": 225,
-    "flags": [ "CARGO", "CARGO_PASSABLE", "OBSTACLE", "OPENABLE", "BOARDABLE", "WINDOW", "DOOR", "LOCKABLE_DOOR", "HUGE_OK" ],
+    "flags": [ "CARGO", "OBSTACLE", "OPENABLE", "BOARDABLE", "WINDOW", "DOOR" ],
     "item": "frame",
     "location": "center",
     "looks_like": "t_door_metal_c",
     "name": { "str": "door" },
-    "//": "30 cm of weld per quadrant of damage",
+    "//": "30cm of weld per quadrant of damage",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_bolt_install", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -59,7 +59,7 @@
       "repair": { "skills": [ [ "fabrication", 2 ] ], "time": "5 m", "using": [ [ "adhesive", 2 ] ] }
     },
     "damage_reduction": { "all": 0, "bash": 3 },
-    "delete": { "flags": [ "LOCKABLE_DOOR", "WINDOW" ] }
+    "delete": { "flags": [ "WINDOW" ] }
   },
   {
     "copy-from": "cloth_flap_door",
@@ -89,7 +89,7 @@
     "durability": 600,
     "item": "hdframe",
     "name": { "str": "heavy-duty door" },
-    "//": "40 cm of weld per quadrant of damage",
+    "//": "40cm of weld per quadrant of damage",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_bolt_install", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -115,6 +115,7 @@
     "copy-from": "door_opaque",
     "damage_modifier": 75,
     "description": "An interior door.  Solid construction means you can't see through it when closed.",
+    "durability": 240,
     "name": { "str": "internal door" },
     "type": "vehicle_part"
   },
@@ -124,21 +125,21 @@
     "description": "A strong door.  A window lets you see through it when closed.",
     "durability": 420,
     "name": { "str": "hatch" },
-    "//": "30 cm of weld per quadrant of damage, 4x that to install",
+    "//": "30cm of weld per quadrant of damage, 4x that to install",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 2 ] ],
-        "time": "70 m",
+        "time": "60 m",
         "using": [ [ "welding_standard", 120 ], [ "vehicle_bolt_install", 1 ] ]
       },
       "removal": {
         "skills": [ [ "mechanics", 2 ] ],
-        "time": "40 m",
+        "time": "15 m",
         "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
       },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "5 m", "using": [ [ "repair_welding_standard", 3 ] ] }
     },
-    "size": "200 L",
+    "size": "37500 ml",
     "extend": { "flags": [ "LOCKABLE_CARGO", "MULTISQUARE", "COVERED" ] },
     "type": "vehicle_part"
   },
@@ -161,8 +162,9 @@
     "description": "A very strong door.  A window lets you see through it when closed.",
     "durability": 900,
     "item": "hdframe",
+    "looks_like": "hatch",
     "name": { "str": "heavy-duty hatch" },
-    "//": "40 cm of weld per quadrant of damage, 4x that to install",
+    "//": "40cm of weld per quadrant of damage, 4x that to install",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 3 ] ],
@@ -171,12 +173,11 @@
       },
       "removal": {
         "skills": [ [ "mechanics", 2 ] ],
-        "time": "50 m",
+        "time": "30 m",
         "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
       },
       "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "8 m", "using": [ [ "repair_welding_standard", 4 ] ] }
     },
-    "size": "100 L",
     "type": "vehicle_part"
   },
   {
@@ -201,6 +202,7 @@
     "damage_modifier": 75,
     "durability": 160,
     "size": "0 ml",
+    "description": "A door.  Has a window so you can see out of it, even when closed.",
     "item": "frame_wood",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
@@ -209,7 +211,7 @@
     },
     "breaks_into": [ { "item": "splinter", "count": [ 7, 9 ] } ],
     "extend": { "flags": [ "SIMPLE_PART" ] },
-    "delete": { "flags": [ "CARGO", "CARGO_PASSABLE" ] },
+    "delete": { "flags": [ "CARGO" ] },
     "damage_reduction": { "all": 8 }
   },
   {
@@ -219,6 +221,7 @@
     "name": { "str": "opaque wooden door" },
     "durability": 170,
     "description": "A door.  Solid construction means you can't see through it when closed.",
+    "size": "0 ml",
     "extend": { "flags": [ "OPAQUE" ] },
     "delete": { "flags": [ "WINDOW" ] },
     "damage_reduction": { "all": 12 }
@@ -237,7 +240,7 @@
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 2 ] ] }
     },
     "extend": { "flags": [ "LOW_FINAL_AIR_DRAG", "SIMPLE_PART", "NO_ROOF_NEEDED" ] },
-    "delete": { "flags": [ "CARGO", "CARGO_PASSABLE", "COVERED", "LOCKABLE_CARGO" ] }
+    "delete": { "flags": [ "CARGO", "COVERED", "LOCKABLE_CARGO" ] }
   },
   {
     "type": "vehicle_part",
@@ -272,7 +275,7 @@
     },
     "breaks_into": "ig_vp_sheet_metal",
     "extend": { "flags": [ "OPAQUE", "SIMPLE_PART" ] },
-    "delete": { "flags": [ "CARGO", "CARGO_PASSABLE", "COVERED", "LOCKABLE_CARGO", "WINDOW" ] },
+    "delete": { "flags": [ "CARGO", "COVERED", "LOCKABLE_CARGO", "WINDOW" ] },
     "damage_reduction": { "all": 7 }
   },
   {
@@ -281,7 +284,9 @@
     "copy-from": "door_trunk",
     "name": { "str": "sliding door" },
     "looks_like": "door",
+    "durability": 150,
     "description": "A door.  A window lets you see through it when closed.",
+    "item": "frame",
     "breaks_into": "ig_vp_frame",
     "delete": { "flags": [ "LOW_FINAL_AIR_DRAG", "NO_ROOF_NEEDED", "WINDOW" ] }
   }

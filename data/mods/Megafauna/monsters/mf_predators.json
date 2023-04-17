@@ -8,7 +8,6 @@
     "bodytype": "dog",
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
-    "families": [ "prof_intro_biology", "prof_wp_megafauna" ],
     "volume": "118 L",
     "weight": "110 kg",
     "hp": 110,
@@ -53,7 +52,7 @@
       "CANPLAY",
       "GROUP_MORALE"
     ],
-    "armor": { "bash": 5, "cut": 10, "stab": 5 }
+    "armor": { "bash": 2, "cut": 2 }
   },
   {
     "id": "mon_direwolf_cub",
@@ -85,7 +84,6 @@
     "bodytype": "bear",
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
-    "families": [ "prof_intro_biology", "prof_wp_megafauna" ],
     "volume": "250 L",
     "weight": "250 kg",
     "hp": 250,
@@ -137,7 +135,7 @@
       "PET_MOUNTABLE",
       "CANPLAY"
     ],
-    "armor": { "bash": 6, "cut": 10, "stab": 5 }
+    "armor": { "bash": 6, "stab": 4 }
   },
   {
     "id": "mon_sabcat_cub",
@@ -184,7 +182,6 @@
     "bodytype": "bear",
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
-    "families": [ "prof_intro_biology", "prof_wp_megafauna" ],
     "volume": "210 L",
     "weight": "210 kg",
     "hp": 210,
@@ -221,7 +218,7 @@
       "WARM",
       "HIT_AND_RUN"
     ],
-    "armor": { "bash": 5, "cut": 10, "stab": 5 }
+    "armor": { "bash": 5, "stab": 3 }
   },
   {
     "id": "mon_cave_lion_cub",
@@ -267,7 +264,6 @@
     "bodytype": "dog",
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
-    "families": [ "prof_intro_biology" ],
     "volume": "8600 ml",
     "weight": "8600 g",
     "hp": 16,
@@ -338,10 +334,9 @@
       { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true },
       [ "LUNGE", 10 ],
       { "id": "bite_grab" },
-      { "id": "bio_op_takedown", "cooldown": 20 },
-      { "id": "grab_drag", "cooldown": 15, "grab_data": { "drag_distance": 2, "drag_movecost_mod": 0.5 } },
-      { "id": "drag_followup", "grab_data": { "drag_distance": 2, "drag_movecost_mod": 0.5 } },
-      { "id": "mutant_hoof", "dodgeable": true },
+      [ "BIO_OP_TAKEDOWN", 20 ],
+      [ "GRAB_DRAG", 15 ],
+      { "id": "mutant_hoof" },
       { "id": "scratch_grab_required", "min_mul": 1, "max_mul": 1.5 }
     ],
     "description": "A large predatory flightless bird with monstrous beak and strong legs.  Truly, the dinosaurs never went extinct, they just grew more feathers.",

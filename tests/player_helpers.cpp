@@ -14,6 +14,7 @@
 #include "game.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_pocket.h"
 #include "itype.h"
 #include "make_static.h"
 #include "map.h"
@@ -21,7 +22,6 @@
 #include "pimpl.h"
 #include "player_activity.h"
 #include "player_helpers.h"
-#include "pocket_type.h"
 #include "point.h"
 #include "profession.h"
 #include "ret_val.h"
@@ -72,13 +72,12 @@ void clear_character( Character &dummy, bool skip_nutrition )
     dummy.normalize(); // In particular this clears martial arts style
 
     // delete all worn items.
-    dummy.clear_worn();
+    dummy.worn.clear();
     dummy.calc_encumbrance();
     dummy.invalidate_crafting_inventory();
     dummy.inv->clear();
     dummy.remove_weapon();
     dummy.clear_mutations();
-    dummy.mutation_category_level.clear();
     dummy.clear_bionics();
 
     // Clear stomach and then eat a nutritious meal to normalize stomach
@@ -117,9 +116,6 @@ void clear_character( Character &dummy, bool skip_nutrition )
     for( const proficiency_id &prof : dummy.known_proficiencies() ) {
         dummy.lose_proficiency( prof, true );
     }
-    for( const proficiency_id &prof : dummy.learning_proficiencies() ) {
-        dummy.set_proficiency_practiced_time( prof, 0 );
-    }
 
     // Reset cardio_acc to baseline
     dummy.reset_cardio_acc();
@@ -152,7 +148,7 @@ void clear_character( Character &dummy, bool skip_nutrition )
     dummy.set_focus( dummy.calc_focus_equilibrium() );
 }
 
-void arm_shooter( Character &shooter, const std::string &gun_type,
+void arm_shooter( npc &shooter, const std::string &gun_type,
                   const std::vector<std::string> &mods,
                   const std::string &ammo_type )
 {
@@ -194,7 +190,7 @@ void arm_shooter( Character &shooter, const std::string &gun_type,
         gun->reload( shooter, magazine, magazine->ammo_capacity( type_of_ammo ) );
     }
     for( const std::string &mod : mods ) {
-        gun->put_in( item( itype_id( mod ) ), pocket_type::MOD );
+        gun->put_in( item( itype_id( mod ) ), item_pocket::pocket_type::MOD );
     }
     shooter.wield( *gun );
 }
@@ -205,13 +201,12 @@ void clear_avatar()
     clear_character( avatar );
     avatar.clear_identified();
     avatar.clear_nutrition();
-    avatar.reset_all_missions();
 }
 
 void equip_shooter( npc &shooter, const std::vector<std::string> &apparel )
 {
     CHECK( !shooter.in_vehicle );
-    shooter.clear_worn();
+    shooter.worn.clear();
     shooter.inv->clear();
     for( const std::string &article : apparel ) {
         shooter.wear_item( item( article ) );
@@ -293,7 +288,7 @@ item tool_with_ammo( const std::string &tool, const int qty )
     } else if( !tool_it.magazine_default().is_null() ) {
         item tool_it_mag( tool_it.magazine_default() );
         tool_it_mag.ammo_set( tool_it_mag.ammo_default(), qty );
-        tool_it.put_in( tool_it_mag, pocket_type::MAGAZINE_WELL );
+        tool_it.put_in( tool_it_mag, item_pocket::pocket_type::MAGAZINE_WELL );
     }
     return tool_it;
 }

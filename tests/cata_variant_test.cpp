@@ -19,7 +19,7 @@ static const mtype_id This_is_not_a_valid_id( "This is not a valid id" );
 static const mtype_id mon_zombie( "mon_zombie" );
 static const mtype_id zombie( "zombie" );
 
-TEST_CASE( "variant_construction", "[variant][nogame]" )
+TEST_CASE( "variant_construction", "[variant]" )
 {
     SECTION( "itype_id" ) {
         cata_variant v = cata_variant::make<cata_variant_type::itype_id>( itype_anvil );
@@ -62,7 +62,7 @@ TEST_CASE( "variant_construction", "[variant][nogame]" )
     }
 }
 
-TEST_CASE( "variant_copy_move", "[variant][nogame]" )
+TEST_CASE( "variant_copy_move", "[variant]" )
 {
     cata_variant v = cata_variant( zombie );
     cata_variant v2 = v;
@@ -75,7 +75,7 @@ TEST_CASE( "variant_copy_move", "[variant][nogame]" )
     CHECK( v5.get<mtype_id>() == zombie );
 }
 
-TEST_CASE( "variant_type_name_round_trip", "[variant][nogame]" )
+TEST_CASE( "variant_type_name_round_trip", "[variant]" )
 {
     int num_types = static_cast<int>( cata_variant_type::num_types );
     for( int i = 0; i < num_types; ++i ) {
@@ -85,14 +85,14 @@ TEST_CASE( "variant_type_name_round_trip", "[variant][nogame]" )
     }
 }
 
-TEST_CASE( "variant_default_constructor", "[variant][nogame]" )
+TEST_CASE( "variant_default_constructor", "[variant]" )
 {
     cata_variant v;
     CHECK( v.type() == cata_variant_type::void_ );
     CHECK( v.get_string().empty() );
 }
 
-TEST_CASE( "variant_serialization", "[variant][nogame]" )
+TEST_CASE( "variant_serialization", "[variant]" )
 {
     cata_variant v = cata_variant( zombie );
     std::ostringstream os;
@@ -101,7 +101,7 @@ TEST_CASE( "variant_serialization", "[variant][nogame]" )
     CHECK( os.str() == R"(["mtype_id","zombie"])" );
 }
 
-TEST_CASE( "variant_deserialization", "[variant][nogame]" )
+TEST_CASE( "variant_deserialization", "[variant]" )
 {
     JsonValue jsin = json_loader::from_string( R"(["mtype_id","zombie"])" );
     cata_variant v;
@@ -109,13 +109,13 @@ TEST_CASE( "variant_deserialization", "[variant][nogame]" )
     CHECK( v == cata_variant( zombie ) );
 }
 
-TEST_CASE( "variant_from_string", "[nogame]" )
+TEST_CASE( "variant_from_string" )
 {
     cata_variant v = cata_variant::from_string( cata_variant_type::mtype_id, "mon_zombie" );
     CHECK( v == cata_variant( mon_zombie ) );
 }
 
-TEST_CASE( "variant_type_for", "[variant][nogame]" )
+TEST_CASE( "variant_type_for", "[variant]" )
 {
     CHECK( cata_variant_type_for<bool>() == cata_variant_type::bool_ );
     CHECK( cata_variant_type_for<int>() == cata_variant_type::int_ );

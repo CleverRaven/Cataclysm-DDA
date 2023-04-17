@@ -24,6 +24,48 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
+    "result": "folding_solar_panel",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "2 h",
+    "reversible": true,
+    "autolearn": true,
+    "//": "30cm weld",
+    "using": [ [ "welding_standard", 30 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 },
+      { "proficiency": "prof_welding" }
+    ],
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "solar_panel", 1 ] ], [ [ "scrap", 2 ] ], [ [ "wire", 2 ] ], [ [ "nuts_bolts", 8 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "folding_solar_panel_v2",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "2 h",
+    "reversible": true,
+    "autolearn": true,
+    "//": "30cm weld",
+    "using": [ [ "welding_standard", 30 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 },
+      { "proficiency": "prof_welding" }
+    ],
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "solar_panel_v2", 1 ] ], [ [ "scrap", 2 ] ], [ [ "wire", 2 ] ], [ [ "nuts_bolts", 8 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "reinforced_solar_panel_v2",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -210,32 +252,6 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "ground_solar_panel",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_PARTS",
-    "skill_used": "electronics",
-    "difficulty": 2,
-    "time": "50 m",
-    "reversible": true,
-    "autolearn": true,
-    "components": [ [ [ "solar_panel", 4 ] ], [ [ "cable", 20 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "ground_solar_panel_v2",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_PARTS",
-    "skill_used": "electronics",
-    "difficulty": 2,
-    "time": "50 m",
-    "reversible": true,
-    "autolearn": true,
-    "components": [ [ [ "solar_panel_v2", 4 ] ], [ [ "cable", 20 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
     "result": "wind_turbine",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
@@ -259,7 +275,7 @@
       [ [ "motor_small", 1 ], [ "alternator_bicycle", 1 ], [ "alternator_motorbike", 1 ] ],
       [ [ "2x4", 5 ], [ "frame_wood", 1 ] ],
       [ [ "sheet_metal_small", 3 ] ],
-      [ [ "nails", 20, "LIST" ] ],
+      [ [ "nail", 20 ] ],
       [ [ "pipe", 4 ] ]
     ]
   },
@@ -302,7 +318,7 @@
         [ "motor", 2 ],
         [ "motor_large", 1 ]
       ],
-      [ [ "nails", 120, "LIST" ] ],
+      [ [ "nail", 120 ] ],
       [ [ "pipe", 20 ] ],
       [ [ "nuts_bolts", 50 ] ],
       [ [ "pipe_fittings", 10 ] ]
@@ -339,7 +355,7 @@
       [ [ "motor_small", 1 ], [ "alternator_bicycle", 1 ], [ "alternator_motorbike", 1 ] ],
       [ [ "2x4", 20 ], [ "frame_wood", 3 ] ],
       [ [ "sheet_metal_small", 6 ] ],
-      [ [ "nails", 80, "LIST" ] ],
+      [ [ "nail", 80 ] ],
       [ [ "pipe", 8 ] ],
       [ [ "wheel_wood_b", 2 ] ],
       [ [ "nuts_bolts", 20 ] ],
@@ -362,7 +378,7 @@
       [ [ "motor_small", 1 ], [ "alternator_bicycle", 1 ], [ "alternator_motorbike", 1 ] ],
       [ [ "2x4", 20 ], [ "frame_wood", 3 ] ],
       [ [ "sheet_metal_small", 6 ] ],
-      [ [ "nails", 80, "LIST" ] ],
+      [ [ "nail", 80 ] ],
       [ [ "pipe", 8 ] ],
       [ [ "wheel_wood_b", 2 ] ],
       [ [ "nuts_bolts", 20 ] ],
@@ -407,7 +423,7 @@
         [ "motor", 2 ],
         [ "motor_large", 1 ]
       ],
-      [ [ "nails", 240, "LIST" ] ],
+      [ [ "nail", 240 ] ],
       [ [ "pipe", 24 ] ],
       [ [ "wheel_wood_b", 6 ] ],
       [ [ "nuts_bolts", 42 ] ],
@@ -438,7 +454,7 @@
         [ "motor", 2 ],
         [ "motor_large", 1 ]
       ],
-      [ [ "nails", 240, "LIST" ] ],
+      [ [ "nail", 240 ] ],
       [ [ "pipe", 24 ] ],
       [ [ "wheel_wood_b", 6 ] ],
       [ [ "nuts_bolts", 42 ] ],
@@ -655,7 +671,7 @@
     "time": "1 h",
     "book_learn": [ [ "adv_chemistry", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
-    "using": [ [ "blacksmithing_standard", 12 ] ],
+    "using": [ [ "blacksmithing_standard", 1 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
       [ [ "chem_manganese_dioxide", 87 ] ],
@@ -678,7 +694,7 @@
     "time": "1 h",
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
-    "using": [ [ "blacksmithing_standard", 12 ] ],
+    "using": [ [ "blacksmithing_standard", 1 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
       [ [ "cathod_mix", 166 ] ],
@@ -700,7 +716,7 @@
     "time": "1 h 20 m",
     "book_learn": [ [ "adv_chemistry", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
-    "using": [ [ "blacksmithing_standard", 48 ] ],
+    "using": [ [ "blacksmithing_standard", 1 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
       [ [ "chem_manganese_dioxide", 348 ] ],
@@ -723,7 +739,7 @@
     "time": "1 h 20 m",
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
-    "using": [ [ "blacksmithing_standard", 48 ] ],
+    "using": [ [ "blacksmithing_standard", 1 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
       [ [ "cathod_mix", 664 ] ],
@@ -745,7 +761,7 @@
     "time": "1 h 45 m",
     "book_learn": [ [ "adv_chemistry", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
-    "using": [ [ "blacksmithing_standard", 100 ] ],
+    "using": [ [ "blacksmithing_standard", 1 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
       [ [ "chem_manganese_dioxide", 725 ] ],
@@ -768,7 +784,7 @@
     "time": "1 h 45 m",
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
-    "using": [ [ "blacksmithing_standard", 100 ] ],
+    "using": [ [ "blacksmithing_standard", 1 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
       [ [ "cathod_mix", 1328 ] ],

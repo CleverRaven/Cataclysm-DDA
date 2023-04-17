@@ -2,6 +2,7 @@
 
 #include <functional>
 #include <memory>
+#include <new>
 #include <optional>
 #include <vector>
 

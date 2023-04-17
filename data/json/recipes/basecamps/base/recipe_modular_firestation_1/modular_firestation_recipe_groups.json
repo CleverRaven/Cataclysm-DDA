@@ -96,7 +96,7 @@
     "recipes": [
       { "id": "chisel", "description": " Craft: Metalworking Chisel" },
       { "id": "hammer", "description": " Craft: Hammer" },
-      { "id": "tongs", "description": " Craft: Pair of kitchen tongs" },
+      { "id": "tongs", "description": " Craft: Metal Tongs" },
       { "id": "nail", "description": " Craft: Nail" },
       { "id": "wire", "description": " Craft: Wire" },
       { "id": "swage", "description": " Craft: Swage and Die Set" }
@@ -290,15 +290,15 @@
       { "id": "xl_armor_qt_heavyplate", "description": " Craft: Armor, XL Tempered Heavy Plate" },
       { "id": "xl_armor_qt_lightplate", "description": " Craft: Armor, XL Tempered Light Plate" },
       { "id": "xl_armor_qt_plate", "description": " Craft: Armor, XL Tempered Plate" },
-      { "id": "mc_broadsword", "description": " Craft: Sword, Medium Steel Broadsword" },
-      { "id": "mc_scimitar", "description": " Craft: Sword, Medium Steel Shamshir" },
+      { "id": "broadsword", "description": " Craft: Sword, Broadsword" },
+      { "id": "scimitar", "description": " Craft: Sword, Scimitar" },
       { "id": "fire_ax", "description": " Craft: Axe, Fire" },
       { "id": "hacksaw", "description": " Craft: Hacksaw" },
       { "id": "saw", "description": " Craft: Woodsaw" },
       { "id": "pike", "description": " Craft: Spear, Awl Pike" },
-      { "id": "mc_rapier", "description": " Craft: Sword, Medium Steel Rapier" },
+      { "id": "rapier", "description": " Craft: Sword, Rapier" },
       { "id": "halligan", "description": " Craft: Halligan Bar" },
-      { "id": "mc_zweihander", "description": " Craft: Sword, Medium Steel Zweihander" },
+      { "id": "zweihander", "description": " Craft: Sword, Zweihander" },
       { "id": "pickaxe", "description": " Craft: Pickaxe" }
     ]
   },

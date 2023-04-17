@@ -11,7 +11,6 @@
 #include "pimpl.h"
 #include "point.h"
 #include "type_id.h"
-#include "units.h"
 #include "weather_gen.h"
 #include "weather_type.h"
 
@@ -22,27 +21,29 @@ class translation;
 /**
  * @name BODYTEMP
  * Body temperature.
+ * Body temperature is measured on a scale of 0u to 10000u, where 10u = 0.02C and 5000u is 37C
+ * Outdoor temperature uses similar numbers, but on a different scale: 2200u = 22C, where 10u = 0.1C.
  * Most values can be changed with no impact on calculations.
- * Maximum heat cannot pass 57 C, otherwise the player will vomit to death.
+ * Maximum heat cannot pass 15000u, otherwise the player will vomit to death.
  */
 ///@{
 //!< More aggressive cold effects.
-constexpr units::temperature BODYTEMP_FREEZING = 28_C;
+constexpr int BODYTEMP_FREEZING = 500;
 //!< This value means frostbite occurs at the warmest temperature of 1C. If changed, the temp_conv calculation should be reexamined.
-constexpr units::temperature BODYTEMP_VERY_COLD = 31_C;
+constexpr int BODYTEMP_VERY_COLD = 2000;
 //!< Frostbite timer will not improve while below this point.
-constexpr units::temperature BODYTEMP_COLD = 34_C;
-//!< Normal body temperature.
-constexpr units::temperature BODYTEMP_NORM = 37_C;
+constexpr int BODYTEMP_COLD = 3500;
+//!< Do not change this value, it is an arbitrary anchor on which other calculations are made.
+constexpr int BODYTEMP_NORM = 5000;
 //!< Level 1 hotness.
-constexpr units::temperature BODYTEMP_HOT = 40_C;
+constexpr int BODYTEMP_HOT = 6500;
 //!< Level 2 hotness.
-constexpr units::temperature BODYTEMP_VERY_HOT = 43_C;
+constexpr int BODYTEMP_VERY_HOT = 8000;
 //!< Level 3 hotness.
-constexpr units::temperature BODYTEMP_SCORCHING = 46_C;
+constexpr int BODYTEMP_SCORCHING = 9500;
 
 //!< Additional Threshold before speed is impacted by heat.
-constexpr units::temperature_delta BODYTEMP_THRESHOLD = 1_C_delta;
+constexpr int BODYTEMP_THRESHOLD = 500;
 ///@}
 
 // Wetness percentage 0.0f is DRY

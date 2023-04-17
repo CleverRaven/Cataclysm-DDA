@@ -1,13 +1,11 @@
 [
   {
     "id": "m1911bigmag",
-    "//": "Audited from IRL measurements.",
     "type": "MAGAZINE",
     "name": { "str": "M1911 10-round magazine" },
     "description": "An extended 10-round magazine for use with the M1911 handgun.",
-    "weight": "79 g",
-    "volume": "74 ml",
-    "longest_side": "155 mm",
+    "weight": "100 g",
+    "volume": "500 ml",
     "price": 3720,
     "price_postapoc": 250,
     "material": [ "steel" ],
@@ -19,7 +17,6 @@
   },
   {
     "id": "m1911mag",
-    "//": "Previous PR, looks good.",
     "type": "MAGAZINE",
     "name": { "str": "M1911 7-round magazine" },
     "description": "A military issue 7-round magazine for use with the M1911 handgun.",

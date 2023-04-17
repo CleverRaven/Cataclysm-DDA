@@ -28,7 +28,7 @@ static const efftype_id effect_high( "high" );
 static const efftype_id effect_paincysts( "paincysts" );
 static const efftype_id effect_shakes( "shakes" );
 static const efftype_id effect_slimed( "slimed" );
-static const efftype_id effect_smoke_lungs( "smoke_lungs" );
+static const efftype_id effect_smoke( "smoke" );
 static const efftype_id effect_spores( "spores" );
 static const efftype_id effect_tapeworm( "tapeworm" );
 static const efftype_id effect_teargas( "teargas" );
@@ -42,10 +42,6 @@ static const efftype_id effect_valium( "valium" );
 static const efftype_id effect_visuals( "visuals" );
 
 static const itype_id itype_albuterol( "albuterol" );
-static const itype_id itype_antifungal( "antifungal" );
-static const itype_id itype_antiparasitic( "antiparasitic" );
-static const itype_id itype_diazepam( "diazepam" );
-static const itype_id itype_thorazine( "thorazine" );
 static const itype_id itype_towel_wet( "towel_wet" );
 
 TEST_CASE( "eyedrops", "[iuse][eyedrops]" )
@@ -93,11 +89,10 @@ TEST_CASE( "antifungal", "[iuse][antifungal]" )
     avatar dummy;
     dummy.normalize();
 
-    item_location antifungal = dummy.i_add( item( itype_antifungal, calendar::turn ) );
+    item antifungal( "antifungal", calendar::turn_zero, item::default_charges_tag{} );
 
-    REQUIRE( dummy.has_item_with( []( const item & it ) {
-        return it.typeId() == itype_antifungal;
-    } ) );
+    int charges_before = antifungal.charges;
+    REQUIRE( charges_before > 0 );
 
     GIVEN( "avatar has a fungal infection" ) {
         dummy.add_effect( effect_fungus, 1_hours );
@@ -106,10 +101,8 @@ TEST_CASE( "antifungal", "[iuse][antifungal]" )
         WHEN( "they take an antifungal drug" ) {
             dummy.consume( antifungal );
 
-            THEN( "antifungal is used up" ) {
-                CHECK_FALSE( dummy.has_item_with( []( const item & it ) {
-                    return it.typeId() == itype_antifungal;
-                } ) );
+            THEN( "one dose is depleted" ) {
+                CHECK( antifungal.charges == charges_before - 1 );
 
                 AND_THEN( "it applies the antifungal effect" ) {
                     CHECK( dummy.has_effect( effect_antifungal ) );
@@ -133,10 +126,8 @@ TEST_CASE( "antifungal", "[iuse][antifungal]" )
         WHEN( "they take an antifungal drug" ) {
             dummy.consume( antifungal );
 
-            THEN( "antifungal is used up" ) {
-                CHECK_FALSE( dummy.has_item_with( []( const item & it ) {
-                    return it.typeId() == itype_antifungal;
-                } ) );
+            THEN( "one dose is depleted" ) {
+                CHECK( antifungal.charges == charges_before - 1 );
 
                 AND_THEN( "it has no effect on the spores" ) {
                     CHECK( dummy.has_effect( effect_spores ) );
@@ -151,11 +142,10 @@ TEST_CASE( "antiparasitic", "[iuse][antiparasitic]" )
     avatar dummy;
     dummy.normalize();
 
-    item_location antiparasitic = dummy.i_add( item( itype_antiparasitic, calendar::turn ) );
+    item antiparasitic( "antiparasitic", calendar::turn_zero, item::default_charges_tag{} );
 
-    REQUIRE( dummy.has_item_with( []( const item & it ) {
-        return it.typeId() == itype_antiparasitic;
-    } ) );
+    int charges_before = antiparasitic.charges;
+    REQUIRE( charges_before > 0 );
 
     GIVEN( "avatar has parasite infections" ) {
         dummy.add_effect( effect_dermatik, 1_hours );
@@ -173,10 +163,8 @@ TEST_CASE( "antiparasitic", "[iuse][antiparasitic]" )
         WHEN( "they use an antiparasitic drug" ) {
             dummy.consume( antiparasitic );
 
-            THEN( "antiparasitic was used up" ) {
-                CHECK_FALSE( dummy.has_item_with( []( const item & it ) {
-                    return it.typeId() == itype_antiparasitic;
-                } ) );
+            THEN( "one dose is depleted" ) {
+                CHECK( antiparasitic.charges == charges_before - 1 );
 
                 AND_THEN( "it cures all parasite infections" ) {
                     CHECK_FALSE( dummy.has_effect( effect_dermatik ) );
@@ -190,20 +178,14 @@ TEST_CASE( "antiparasitic", "[iuse][antiparasitic]" )
     }
 
     GIVEN( "avatar has a fungal infection" ) {
-        REQUIRE( dummy.has_item_with( []( const item & it ) {
-            return it.typeId() == itype_antiparasitic;
-        } ) );
-
         dummy.add_effect( effect_fungus, 1_hours );
         REQUIRE( dummy.has_effect( effect_fungus ) );
 
         WHEN( "they use an antiparasitic drug" ) {
             dummy.consume( antiparasitic );
 
-            THEN( "antiparasitic was used up" ) {
-                CHECK_FALSE( dummy.has_item_with( []( const item & it ) {
-                    return it.typeId() == itype_antiparasitic;
-                } ) );
+            THEN( "one dose is depleted" ) {
+                CHECK( antiparasitic.charges == charges_before - 1 );
 
                 AND_THEN( "it has no effect on the fungal infection" ) {
                     CHECK( dummy.has_effect( effect_fungus ) );
@@ -218,11 +200,10 @@ TEST_CASE( "anticonvulsant", "[iuse][anticonvulsant]" )
     avatar dummy;
     dummy.normalize();
 
-    item_location anticonvulsant = dummy.i_add( item( itype_diazepam, calendar::turn ) );
+    item anticonvulsant( "diazepam", calendar::turn_zero, item::default_charges_tag{} );
 
-    REQUIRE( dummy.has_item_with( []( const item & it ) {
-        return it.typeId() == itype_diazepam;
-    } ) );
+    int charges_before = anticonvulsant.charges;
+    REQUIRE( charges_before > 0 );
 
     GIVEN( "avatar has the shakes" ) {
         dummy.add_effect( effect_shakes, 1_hours );
@@ -231,10 +212,8 @@ TEST_CASE( "anticonvulsant", "[iuse][anticonvulsant]" )
         WHEN( "they use an anticonvulsant drug" ) {
             dummy.consume( anticonvulsant );
 
-            THEN( "anticonvulsant was used up" ) {
-                CHECK_FALSE( dummy.has_item_with( []( const item & it ) {
-                    return it.typeId() == itype_diazepam;
-                } ) );
+            THEN( "one dose is depleted" ) {
+                CHECK( anticonvulsant.charges == charges_before - 1 );
 
                 AND_THEN( "it cures the shakes" ) {
                     CHECK_FALSE( dummy.has_effect( effect_shakes ) );
@@ -268,13 +247,13 @@ TEST_CASE( "oxygen_tank", "[iuse][oxygen_bottle]" )
     REQUIRE( dummy.get_painkiller() == 0 );
 
     GIVEN( "avatar is suffering from smoke inhalation" ) {
-        dummy.add_effect( effect_smoke_lungs, 1_hours );
-        REQUIRE( dummy.has_effect( effect_smoke_lungs ) );
+        dummy.add_effect( effect_smoke, 1_hours );
+        REQUIRE( dummy.has_effect( effect_smoke ) );
 
         THEN( "a dose of oxygen relieves the smoke inhalation" ) {
             dummy.invoke_item( &oxygen );
             CHECK( oxygen.ammo_remaining() == charges_before - 1 );
-            CHECK_FALSE( dummy.has_effect( effect_smoke_lungs ) );
+            CHECK_FALSE( dummy.has_effect( effect_smoke ) );
 
             AND_THEN( "it acts as a mild painkiller" ) {
                 CHECK( dummy.get_painkiller() == 2 );
@@ -313,7 +292,7 @@ TEST_CASE( "oxygen_tank", "[iuse][oxygen_bottle]" )
     }
 
     GIVEN( "avatar has no ill effects for the oxygen to treat" ) {
-        REQUIRE_FALSE( dummy.has_effect( effect_smoke_lungs ) );
+        REQUIRE_FALSE( dummy.has_effect( effect_smoke ) );
         REQUIRE_FALSE( dummy.has_effect( effect_teargas ) );
         REQUIRE_FALSE( dummy.has_effect( effect_asthma ) );
 
@@ -510,12 +489,12 @@ TEST_CASE( "thorazine", "[iuse][thorazine]" )
 {
     avatar dummy;
     dummy.normalize();
-    item_location thorazine = dummy.i_add( item( itype_thorazine, calendar::turn ) );
-
-    REQUIRE( dummy.has_item_with( []( const item & it ) {
-        return it.typeId() == itype_thorazine;
-    } ) );
     dummy.set_fatigue( 0 );
+
+    item thorazine( "thorazine", calendar::turn_zero, item::default_charges_tag{} );
+
+    int charges_before = thorazine.charges;
+    REQUIRE( charges_before >= 2 );
 
     GIVEN( "avatar has hallucination, visuals, and high effects" ) {
         dummy.add_effect( effect_hallu, 1_hours );
@@ -529,9 +508,7 @@ TEST_CASE( "thorazine", "[iuse][thorazine]" )
             dummy.consume( thorazine );
 
             THEN( "it relieves all those effects with a single dose" ) {
-                CHECK_FALSE( dummy.has_item_with( []( const item & it ) {
-                    return it.typeId() == itype_thorazine;
-                } ) );
+                CHECK( thorazine.charges == charges_before - 1 );
                 REQUIRE_FALSE( dummy.has_effect( effect_hallu ) );
                 REQUIRE_FALSE( dummy.has_effect( effect_visuals ) );
                 REQUIRE_FALSE( dummy.has_effect( effect_high ) );
@@ -544,22 +521,15 @@ TEST_CASE( "thorazine", "[iuse][thorazine]" )
     }
 
     GIVEN( "avatar has already taken some thorazine" ) {
-        item thora( itype_thorazine, calendar::turn );
-        dummy.consume( thora );
-
-        REQUIRE( dummy.has_item_with( []( const item & it ) {
-            return it.typeId() == itype_thorazine;
-        } ) );
-
+        dummy.consume( thorazine );
+        REQUIRE( thorazine.charges == charges_before - 1 );
         REQUIRE( dummy.has_effect( effect_took_thorazine ) );
 
         WHEN( "they take more thorazine" ) {
             dummy.consume( thorazine );
 
             THEN( "it only causes more fatigue" ) {
-                CHECK_FALSE( dummy.has_item_with( []( const item & it ) {
-                    return it.typeId() == itype_thorazine;
-                } ) );
+                CHECK( thorazine.charges == charges_before - 2 );
                 CHECK( dummy.get_fatigue() >= 20 );
             }
         }
@@ -604,12 +574,12 @@ TEST_CASE( "inhaler", "[iuse][inhaler]" )
     REQUIRE( dummy.has_item( *inhaler_loc ) );
 
     GIVEN( "avatar is suffering from smoke inhalation" ) {
-        dummy.add_effect( effect_smoke_lungs, 1_hours );
-        REQUIRE( dummy.has_effect( effect_smoke_lungs ) );
+        dummy.add_effect( effect_smoke, 1_hours );
+        REQUIRE( dummy.has_effect( effect_smoke ) );
 
         THEN( "inhaler relieves it" ) {
             dummy.use( inhaler_loc );
-            CHECK_FALSE( dummy.has_effect( effect_smoke_lungs ) );
+            CHECK_FALSE( dummy.has_effect( effect_smoke ) );
         }
     }
 

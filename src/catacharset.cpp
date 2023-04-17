@@ -349,7 +349,7 @@ std::wstring utf8_to_wstr( const std::string &str )
     std::size_t sz = std::mbstowcs( nullptr, str.c_str(), 0 );
     cata_assert( sz != static_cast<size_t>( -1 ) );
     std::wstring wstr( sz + 1, '\0' );
-    [[maybe_unused]] const size_t converted = std::mbstowcs( wstr.data(), str.c_str(), sz );
+    std::size_t converted = std::mbstowcs( wstr.data(), str.c_str(), sz );
     cata_assert( converted == sz );
     strip_trailing_nulls( wstr );
     return wstr;
@@ -368,7 +368,7 @@ std::string wstr_to_utf8( const std::wstring &wstr )
     std::size_t sz = std::wcstombs( nullptr, wstr.c_str(), 0 );
     cata_assert( sz != static_cast<size_t>( -1 ) );
     std::string str( sz + 1, '\0' );
-    [[maybe_unused]] const size_t converted = std::wcstombs( str.data(), wstr.c_str(), sz );
+    std::size_t converted = std::wcstombs( str.data(), wstr.c_str(), sz );
     cata_assert( converted == sz );
     strip_trailing_nulls( str );
     return str;
@@ -415,31 +415,21 @@ std::u32string utf8_to_utf32( const std::string_view str )
 std::vector<std::string> utf8_display_split( const std::string &s )
 {
     std::vector<std::string> result;
-    std::vector<std::string_view> parts;
-    utf8_display_split_into( s, parts );
-    result.reserve( parts.size() );
-    for( std::string_view part : parts ) {
-        result.emplace_back( part );
-    }
-    return result;
-}
-
-void utf8_display_split_into( const std::string &s, std::vector<std::string_view> &result )
-{
+    std::string current_glyph;
     const char *pos = s.c_str();
-    const char *glyph_begin = pos;
-    const char *glyph_end = pos;
     int len = s.length();
     while( len > 0 ) {
+        const char *old_pos = pos;
         const uint32_t ch = UTF8_getch( &pos, &len );
         const int width = mk_wcwidth( ch );
-        if( width > 0 && glyph_begin != glyph_end ) {
-            result.emplace_back( glyph_begin, std::distance( glyph_begin, glyph_end ) );
-            glyph_begin = glyph_end;
+        if( width > 0 && !current_glyph.empty() ) {
+            result.push_back( current_glyph );
+            current_glyph.clear();
         }
-        glyph_end = pos;
+        current_glyph += std::string( old_pos, pos );
     }
-    result.emplace_back( glyph_begin, std::distance( glyph_begin, glyph_end ) );
+    result.push_back( current_glyph );
+    return result;
 }
 
 int center_text_pos( const char *text, int start_pos, int end_pos )

@@ -13,12 +13,9 @@
 #include "map.h"
 #include "mapbuffer.h"
 #include "omdata.h"
-// #include "options_helpers.h"
-#include "output.h"
 #include "overmap.h"
 #include "overmap_types.h"
 #include "overmapbuffer.h"
-#include "test_data.h"
 #include "type_id.h"
 
 static const oter_str_id oter_cabin( "cabin" );
@@ -26,6 +23,24 @@ static const oter_str_id oter_cabin_east( "cabin_east" );
 static const oter_str_id oter_cabin_north( "cabin_north" );
 static const oter_str_id oter_cabin_south( "cabin_south" );
 static const oter_str_id oter_cabin_west( "cabin_west" );
+
+static const oter_type_str_id oter_type_ants_lab( "ants_lab" );
+static const oter_type_str_id oter_type_ants_lab_stairs( "ants_lab_stairs" );
+static const oter_type_str_id oter_type_bunker_shop_b( "bunker_shop_b" );
+static const oter_type_str_id oter_type_bunker_shop_g( "bunker_shop_g" );
+static const oter_type_str_id oter_type_ravine( "ravine" );
+static const oter_type_str_id oter_type_ravine_edge( "ravine_edge" );
+static const oter_type_str_id oter_type_ravine_floor( "ravine_floor" );
+static const oter_type_str_id oter_type_ravine_floor_edge( "ravine_floor_edge" );
+static const oter_type_str_id oter_type_rock_border( "rock_border" );
+static const oter_type_str_id oter_type_s_gas_b11( "s_gas_b11" );
+static const oter_type_str_id oter_type_s_gas_b20( "s_gas_b20" );
+static const oter_type_str_id oter_type_s_gas_b21( "s_gas_b21" );
+static const oter_type_str_id oter_type_s_gas_g0( "s_gas_g0" );
+static const oter_type_str_id oter_type_s_gas_g0_roof( "s_gas_g0_roof" );
+static const oter_type_str_id oter_type_s_gas_g1( "s_gas_g1" );
+static const oter_type_str_id oter_type_s_gas_g1_roof( "s_gas_g1_roof" );
+static const oter_type_str_id oter_type_s_restaurant_deserted_test( "s_restaurant_deserted_test" );
 
 static const overmap_special_id overmap_special_Cabin( "Cabin" );
 static const overmap_special_id overmap_special_Lab( "Lab" );
@@ -252,8 +267,7 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
     // The goal of this test is to generate a lot of overmaps, and count up how
     // many times we see each terrain, so that we can check that everything
     // generates at least sometimes.
-    // override_option override_forestosity( "OVERMAP_FOREST_LIMIT", "0.2" );
-    // override_option override_urbanity( "OVERMAP_MAXIMUM_URBANITY", "1" );
+
     struct omt_stats {
         explicit omt_stats( const tripoint_abs_omt &p ) : first_observed( p ) {}
 
@@ -278,6 +292,26 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
             ++it->second.count;
         }
     }
+
+    std::unordered_set<oter_type_id> whitelist = {
+        oter_type_ants_lab.id(), // ant lab is a very improbable spawn
+        oter_type_ants_lab_stairs.id(),
+        oter_type_bunker_shop_b.id(),
+        oter_type_bunker_shop_g.id(),
+        oter_type_ravine.id(), // ravine only in desert & Aftershock
+        oter_type_ravine_edge.id(),
+        oter_type_ravine_floor_edge.id(),
+        oter_type_ravine_floor.id(),
+        oter_type_rock_border.id(), // only in the bordered scenario
+        oter_type_s_gas_b11.id(),
+        oter_type_s_gas_b20.id(),
+        oter_type_s_gas_b21.id(),
+        oter_type_s_gas_g0.id(),
+        oter_type_s_gas_g0_roof.id(),
+        oter_type_s_gas_g1.id(),
+        oter_type_s_gas_g1_roof.id(),
+        oter_type_s_restaurant_deserted_test.id(), // only in the desert test region
+    };
 
     std::unordered_set<oter_type_id> done;
     std::vector<oter_type_id> missing;
@@ -310,7 +344,7 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
 
             if( found ) {
                 FAIL( "oter_type_id was found in map but had SHOULD_NOT_SPAWN flag" );
-            } else if( !test_data::overmap_terrain_coverage_whitelist.count( id ) ) {
+            } else if( !whitelist.count( id ) ) {
                 missing.push_back( id );
             }
         }
@@ -325,11 +359,7 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
             missing.erase( missing.begin() + max_to_report, missing.end() );
         }
         std::sort( missing.begin(), missing.end() );
-        const std::string missing_oter_type_ids = enumerate_as_string( missing,
-        []( const oter_type_id & id ) {
-            return id->id.str();
-        } );
-        CAPTURE( missing_oter_type_ids );
+        CAPTURE( missing );
         INFO( "To resolve errors about missing terrains you can either give the terrain the "
               "SHOULD_NOT_SPAWN flag (intended for terrains that should never spawn, for example "
               "test terrains or work in progress), or tweak the constraints so that the terrain "
@@ -344,20 +374,14 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
     // with that.
     int num_generated_since_last_clear = 0;
     for( const std::pair<const oter_type_id, omt_stats> &p : stats ) {
-        const std::string oter_type_id = p.first->id.str();
         const tripoint_abs_omt pos = p.second.first_observed;
-        CAPTURE( oter_type_id );
-        const std::string msg = capture_debugmsg_during( [pos, &num_generated_since_last_clear]() {
-            tinymap tm;
-            tm.load( project_to<coords::sm>( pos ), false );
+        tinymap tm;
+        tm.load( project_to<coords::sm>( pos ), false );
 
-            // Periodically clear the generated maps to save memory
-            if( ++num_generated_since_last_clear >= 64 ) {
-                MAPBUFFER.clear_outside_reality_bubble();
-                num_generated_since_last_clear = 0;
-            }
-        } );
-        CAPTURE( msg );
-        REQUIRE( msg.empty() );
+        // Periodically clear the generated maps to save memory
+        if( ++num_generated_since_last_clear >= 64 ) {
+            MAPBUFFER.clear_outside_reality_bubble();
+            num_generated_since_last_clear = 0;
+        }
     }
 }

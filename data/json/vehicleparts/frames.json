@@ -78,7 +78,7 @@
     "folded_volume": "2500 ml",
     "folding_time": "1 minute",
     "unfolding_time": "1 minute",
-    "breaks_into": [ { "item": "steel_chunk", "count": [ 0, 2 ] }, { "item": "scrap", "count": [ 1, 2 ] } ],
+    "breaks_into": [ { "item": "lc_steel_chunk", "count": [ 0, 2 ] }, { "item": "scrap", "count": [ 1, 2 ] } ],
     "//": "welds would likely occur along the circumference of the pipe, where they screw into the fittings - that's 8 ends for 4 pipes, about 5 cm each. repairing is more expensive than installing unlike most welds.",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "20 m", "using": [ [ "welding_standard", 40 ] ] },
@@ -113,7 +113,7 @@
     "type": "vehicle_part",
     "copy-from": "frame_abstract",
     "item": "frame",
-    "//": "assuming about 50 cm square for a frame's welds (200 cm total) plus 50 cm per damage quadrant for repair",
+    "//": "assuming about 50 cm square for a frame's welds (200cm total) plus 50cm per damage quadrant for repair",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 1 ] ],
@@ -145,45 +145,6 @@
       "repair": { "skills": [ [ "fabrication", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
     },
     "damage_reduction": { "all": 5 }
-  },
-  {
-    "id": "frame_wood_deck",
-    "type": "vehicle_part",
-    "name": { "str": "skateboard deck" },
-    "copy-from": "frame_abstract",
-    "item": "frame_wood_deck",
-    "looks_like": "frame_wood",
-    "folded_volume": "2500 ml",
-    "folding_time": "0 seconds",
-    "unfolding_time": "0 seconds",
-    "categories": [ "hull" ],
-    "durability": 100,
-    "description": "A light wooden skateboard deck.  Other skateboard components can be mounted on it.",
-    "power": "360 W",
-    "muscle_power_factor": 60,
-    "fuel_type": "muscle",
-    "m2c": 45,
-    "breaks_into": [ { "item": "splinter", "count": [ 3, 5 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "fabrication", 0 ] ], "time": "0 m" },
-      "removal": { "skills": [ [ "fabrication", 0 ] ], "time": "0 m" },
-      "repair": { "skills": [ [ "fabrication", 0 ] ], "time": "5 m", "using": [ [ "adhesive", 1 ] ] }
-    },
-    "extend": {
-      "flags": [
-        "MOUNTABLE",
-        "INITIAL_PART",
-        "SEAT",
-        "NONBELTABLE",
-        "SEAT_REQUIRES_BALANCE",
-        "BOARDABLE",
-        "ENGINE",
-        "E_STARTS_INSTANTLY",
-        "MUSCLE_LEGS",
-        "CONTROLS"
-      ]
-    },
-    "damage_reduction": { "all": 2 }
   },
   {
     "id": "frame_wood_light",
@@ -235,9 +196,10 @@
     "copy-from": "frame_abstract",
     "name": { "str": "extra light frame" },
     "item": "xlframe",
+    "color": "light_gray",
     "durability": 150,
     "description": "A light metal framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.",
-    "breaks_into": [ { "item": "material_aluminium_ingot", "count": [ 1, 4 ] }, { "item": "scrap_aluminum", "count": [ 3, 10 ] } ],
+    "breaks_into": [ { "item": "scrap_aluminum", "count": [ 5, 30 ] } ],
     "//": "assuming about 50 cm square for a frame's welds",
     "requirements": {
       "install": {
@@ -260,10 +222,11 @@
     "copy-from": "frame_abstract",
     "name": { "str": "foldable extra light frame" },
     "item": "foldxlframe",
+    "color": "light_gray",
     "durability": 150,
     "description": "A light metal framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.",
     "folded_volume": "2500 ml",
-    "breaks_into": [ { "item": "material_aluminium_ingot", "count": [ 1, 4 ] }, { "item": "scrap_aluminum", "count": [ 3, 10 ] } ],
+    "breaks_into": [ { "item": "scrap_aluminum", "count": [ 5, 30 ] } ],
     "//": "assuming about 50 cm square for a frame's welds",
     "requirements": {
       "install": {

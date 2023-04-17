@@ -11,10 +11,7 @@
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "flags": [ "FULL_MAGAZINE" ],
     "tools": [ [ [ "lighter", 5 ], [ "ref_lighter", 5 ], [ "surface_heat", 2, "LIST" ] ] ],
-    "components": [
-      [ [ "wax_any", 1, "LIST" ], [ "any_tallow", 4, "LIST" ], [ "edible_lard", 1, "LIST" ] ],
-      [ [ "cordage_short", 1, "LIST" ] ]
-    ]
+    "components": [ [ [ "wax", 1 ], [ "any_tallow", 4, "LIST" ], [ "edible_lard", 1, "LIST" ] ], [ [ "cordage_short", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -237,18 +234,23 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "wearable_big_light",
+    "result": "survivor_light",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "fabrication",
-    "difficulty": 1,
-    "time": "5 m",
-    "reversible": true,
+    "skill_used": "electronics",
+    "skills_required": [ "survival", 3 ],
+    "difficulty": 2,
+    "time": "25 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 2 } ],
-    "book_learn": [ [ "textbook_fabrication", 0 ], [ "manual_fabrication", 0 ], [ "mag_electronics", 0 ] ],
+    "reversible": true,
+    "using": [ [ "soldering_standard", 10 ] ],
+    "proficiencies": [ { "proficiency": "prof_elec_soldering" } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "SCREW", "level": 1 } ],
     "components": [
-      [ [ "heavy_flashlight", 1 ] ],
+      [ [ "flashlight", 1 ] ],
+      [ [ "amplifier", 1 ] ],
+      [ [ "scrap", 2 ] ],
+      [ [ "wire", 2 ] ],
       [
         [ "cotton_patchwork", 4 ],
         [ "leather", 4 ],

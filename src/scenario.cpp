@@ -12,7 +12,6 @@
 #include "mutation.h"
 #include "options.h"
 #include "past_games_info.h"
-#include "past_achievements_info.h"
 #include "profession.h"
 #include "rng.h"
 #include "start_location.h"
@@ -87,9 +86,6 @@ void scenario::load( const JsonObject &jo, const std::string_view )
     optional( jo, was_loaded, "add_professions", extra_professions );
     optional( jo, was_loaded, "professions", professions, string_id_reader<::profession> {} );
 
-    optional( jo, was_loaded, "hobbies", hobby_exclusion );
-    optional( jo, was_loaded, "whitelist_hobbies", hobbies_whitelist, true );
-
     optional( jo, was_loaded, "traits", _allowed_traits, string_id_reader<::mutation_branch> {} );
     optional( jo, was_loaded, "forced_traits", _forced_traits, string_id_reader<::mutation_branch> {} );
     optional( jo, was_loaded, "forbidden_traits", _forbidden_traits,
@@ -104,49 +100,29 @@ void scenario::load( const JsonObject &jo, const std::string_view )
 
     optional( jo, was_loaded, "requirement", _requirement );
 
-    optional( jo, was_loaded, "reveal_locale", reveal_locale, true );
-
     optional( jo, was_loaded, "eoc", _eoc, auto_flags_reader<effect_on_condition_id> {} );
 
     if( !was_loaded ) {
+        if( jo.has_member( "custom_initial_date" ) ) {
+            _custom_start_date = true;
 
-        int _start_of_cataclysm_hour = 0;
-        int _start_of_cataclysm_day = 61;
-        season_type _start_of_cataclysm_season = SPRING;
-        int _start_of_cataclysm_year = 1;
-        if( jo.has_member( "start_of_cataclysm" ) ) {
-            JsonObject jocid = jo.get_member( "start_of_cataclysm" );
-            optional( jocid, was_loaded, "hour", _start_of_cataclysm_hour );
-            optional( jocid, was_loaded, "day", _start_of_cataclysm_day );
-            optional( jocid, was_loaded, "season", _start_of_cataclysm_season );
-            optional( jocid, was_loaded, "year", _start_of_cataclysm_year );
+            JsonObject jocid = jo.get_member( "custom_initial_date" );
+            if( jocid.has_member( "hour" ) ) {
+                optional( jocid, was_loaded, "hour", _start_hour );
+                _is_random_hour = _start_hour == -1;
+            }
+            if( jocid.has_member( "day" ) ) {
+                optional( jocid, was_loaded, "day", _start_day );
+                _is_random_day = _start_day == -1;
+            }
+            if( jocid.has_member( "season" ) ) {
+                optional( jocid, was_loaded, "season", _start_season );
+            }
+            if( jocid.has_member( "year" ) ) {
+                optional( jocid, was_loaded, "year", _start_year );
+                _is_random_year = _start_year == -1;
+            }
         }
-        _default_start_of_cataclysm = calendar::turn_zero +
-                                      1_hours * _start_of_cataclysm_hour +
-                                      1_days * ( _start_of_cataclysm_day - 1 ) +
-                                      1_days * get_option<int>( "SEASON_LENGTH" ) * _start_of_cataclysm_season +
-                                      calendar::year_length() * ( _start_of_cataclysm_year - 1 )
-                                      ;
-
-        int _start_of_game_hour = 8;
-        int _start_of_game_day = 61;
-        season_type _start_of_game_season = SPRING;
-        int _start_of_game_year = 1;
-        if( jo.has_member( "start_of_game" ) ) {
-            JsonObject jocid = jo.get_member( "start_of_game" );
-            optional( jocid, was_loaded, "hour", _start_of_game_hour );
-            optional( jocid, was_loaded, "day", _start_of_game_day );
-            optional( jocid, was_loaded, "season", _start_of_game_season );
-            optional( jocid, was_loaded, "year", _start_of_game_year );
-        }
-        _default_start_of_game = calendar::turn_zero +
-                                 1_hours * _start_of_game_hour +
-                                 1_days * ( _start_of_game_day - 1 ) +
-                                 1_days * get_option<int>( "SEASON_LENGTH" ) * _start_of_game_season +
-                                 calendar::year_length() * ( _start_of_game_year - 1 )
-                                 ;
-
-        reset_calendar();
     }
 
     if( jo.has_string( "vehicle" ) ) {
@@ -213,7 +189,7 @@ void scenario::reset()
     all_scenarios.reset();
 }
 
-void scenario::finalize()
+void scenario::check_definitions()
 {
     for( const scenario &scen : all_scenarios.get_all() ) {
         scen.check_definition();
@@ -235,14 +211,6 @@ void scenario::check_definition() const
     for( const auto &p : professions ) {
         if( !p.is_valid() ) {
             debugmsg( "profession %s for scenario %s does not exist", p.c_str(), id.c_str() );
-        }
-    }
-
-    for( const string_id<profession> &hobby : hobby_exclusion ) {
-        if( !hobby.is_valid() ) {
-            debugmsg( "hobby %s for scenario %s does not exist", hobby.str(), id.str() );
-        } else if( !hobby->is_hobby() ) {
-            debugmsg( "hobby %s for scenario %s is a profession", hobby.str(), id.str() );
         }
     }
 
@@ -413,7 +381,7 @@ std::vector<string_id<profession>> scenario::permitted_professions() const
     const std::vector<profession> &all = profession::get_all();
     std::vector<string_id<profession>> &res = cached_permitted_professions;
     for( const profession &p : all ) {
-        if( p.is_hobby() || p.is_blacklisted() ) {
+        if( p.is_hobby() ) {
             continue;
         }
         const bool present = std::find( professions.begin(), professions.end(),
@@ -443,39 +411,6 @@ std::vector<string_id<profession>> scenario::permitted_professions() const
         debugmsg( "Why would you blacklist every profession?" );
         res.push_back( profession::generic()->ident() );
     }
-    return res;
-}
-
-std::vector<string_id<profession>> scenario::permitted_hobbies() const
-{
-    if( !cached_permitted_hobbies.empty() ) {
-        return cached_permitted_hobbies;
-    }
-
-    std::vector<string_id<profession>> all = profession::get_all_hobbies();
-    std::vector<string_id<profession>> &res = cached_permitted_hobbies;
-    for( const string_id<profession> &hobby : all ) {
-        if( hobby->is_blacklisted() ) {
-            continue;
-        }
-        if( scenario_traits_conflict_with_profession_traits( *hobby ) ) {
-            continue;
-        }
-        if( !hobbies_whitelist && hobby_exclusion.count( hobby ) != 0 ) {
-            continue;
-        }
-        if( hobbies_whitelist && !hobby_exclusion.empty() && hobby_exclusion.count( hobby ) == 0 ) {
-            continue;
-        }
-
-        res.push_back( hobby );
-    }
-
-    if( res.empty() ) {
-        debugmsg( "Why would you blacklist every hobby?" );
-        res.insert( res.end(), all.begin(), all.end() );
-    }
-
     return res;
 }
 
@@ -556,43 +491,68 @@ std::optional<achievement_id> scenario::get_requirement() const
     return _requirement;
 }
 
-bool scenario::get_reveal_locale() const
+bool scenario::custom_start_date() const
 {
-    return reveal_locale;
+    return _custom_start_date;
 }
 
-void scenario::normalize_calendar() const
+void scenario::rerandomize() const
 {
     scenario *hack = const_cast<scenario *>( this );
-    // We don't currently allow to start game before cataclysm
-    if( hack->_default_start_of_game < hack->_default_start_of_cataclysm ) {
-        hack->_default_start_of_game = hack->_default_start_of_cataclysm;
+
+    if( hack->is_random_hour() ) {
+        hack->_start_hour = rng( 0, 23 );
     }
-    if( hack->_start_of_game < hack->_start_of_cataclysm ) {
-        hack->_start_of_game = hack->_start_of_cataclysm;
+    if( hack->is_random_year() ) {
+        hack->_start_year = rng( 1, 11 );
+    }
+    if( hack->is_random_day() ) {
+        hack->_start_day = rng( 0, get_option<int>( "SEASON_LENGTH" ) - 1 );
+    }
+
+    // Initial day is the time of the Cataclysm. Limit it to occur on the first year.
+    hack->_start_of_cataclysm = calendar::turn_zero;
+    if( get_option<int>( "INITIAL_DAY" )  == -1 ) {
+        hack->_start_of_cataclysm += 1_days * rng( 0, get_option<int>( "SEASON_LENGTH" ) * 4 - 1 );
+    } else {
+        hack->_start_of_cataclysm += 1_days * std::min( get_option<int>( "INITIAL_DAY" ),
+                                     get_option<int>( "SEASON_LENGTH" ) * 4 );
     }
 }
 
-void scenario::reset_calendar() const
+bool scenario::is_random_hour() const
 {
-    scenario *hack = const_cast<scenario *>( this );
-    hack->_start_of_cataclysm = _default_start_of_cataclysm;
-    hack->_start_of_game = _default_start_of_game;
-    hack->normalize_calendar();
+    return _is_random_hour;
 }
 
-void scenario::change_start_of_cataclysm( const time_point &t ) const
+bool scenario::is_random_day() const
 {
-    scenario *hack = const_cast<scenario *>( this );
-    hack->_start_of_cataclysm = t;
-    hack->normalize_calendar();
+    return _is_random_day;
 }
 
-void scenario::change_start_of_game( const time_point &t ) const
+bool scenario::is_random_year() const
 {
-    scenario *hack = const_cast<scenario *>( this );
-    hack->_start_of_game = t;
-    hack->normalize_calendar();
+    return _is_random_year;
+}
+
+int scenario::start_hour() const
+{
+    return _start_hour;
+}
+
+int scenario::start_day() const
+{
+    return _start_day;
+}
+
+season_type scenario::start_season() const
+{
+    return _start_season;
+}
+
+int scenario::start_year() const
+{
+    return _start_year;
 }
 
 time_point scenario::start_of_cataclysm() const
@@ -602,7 +562,27 @@ time_point scenario::start_of_cataclysm() const
 
 time_point scenario::start_of_game() const
 {
-    return _start_of_game;
+    time_point ret;
+
+    const int options_start_hour = get_option<int>( "INITIAL_TIME" );
+
+    if( custom_start_date() ) {
+        ret = calendar::turn_zero
+              + 1_hours * ( options_start_hour == -1 ? rng( 0, 23 ) : start_hour() )
+              + 1_days * start_day()
+              + 1_days * get_option<int>( "SEASON_LENGTH" ) * start_season()
+              + calendar::year_length() * ( start_year() - 1 );
+        if( ret < start_of_cataclysm() ) {
+            // If the Cataclysm has been set to happen late or the scenario has random start it may try to start before the Cataclysm happens.
+            // That is unacceptable. So lets just jump to same day on next year.
+            ret += calendar::year_length();
+        }
+    } else {
+        ret = start_of_cataclysm()
+              + 1_hours * ( options_start_hour == -1 ? rng( 0, 23 ) : options_start_hour )
+              + 1_days * get_option<int>( "SPAWN_DELAY" );
+    }
+    return ret;
 }
 
 vproto_id scenario::vehicle() const
@@ -655,15 +635,19 @@ ret_val<void> scenario::can_afford( const scenario &current_scenario, const int 
 ret_val<void> scenario::can_pick() const
 {
     // if meta progression is disabled then skip this
-    if( get_past_achievements().is_completed( achievement_achievement_arcade_mode ) ||
+    if( get_past_games().achievement( achievement_achievement_arcade_mode ) ||
         !get_option<bool>( "META_PROGRESS" ) ) {
         return ret_val<void>::make_success();
     }
 
     if( _requirement ) {
-        const bool has_req = get_past_achievements().is_completed(
-                                 _requirement.value()->id );
-        if( !has_req ) {
+        const achievement_completion_info *other_games = get_past_games().achievement(
+                    _requirement.value()->id );
+        if( !other_games ) {
+            return ret_val<void>::make_failure(
+                       _( "You must complete the achievement \"%s\" to unlock this scenario." ),
+                       _requirement.value()->name() );
+        } else if( other_games->games_completed.empty() ) {
             return ret_val<void>::make_failure(
                        _( "You must complete the achievement \"%s\" to unlock this scenario." ),
                        _requirement.value()->name() );

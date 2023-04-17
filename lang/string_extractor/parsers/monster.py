@@ -1,6 +1,5 @@
 from ..helper import get_singular_name
 from ..write_text import write_text
-from .monster_attack import parse_monster_attack
 
 
 def parse_monster_concrete(json, origin, name):
@@ -15,9 +14,6 @@ def parse_monster_concrete(json, origin, name):
 
     if "special_attacks" in json:
         for attack in json["special_attacks"]:
-            if "type" in attack and attack["type"] == "monster_attack":
-                parse_monster_attack(attack, origin)
-                continue
             if "description" in attack:
                 write_text(attack["description"], origin,
                            comment="Description of special attack of monster "

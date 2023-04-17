@@ -48,7 +48,6 @@ enum mission_kind : int {
 
     //  Faction camp tasks
     Camp_Distribute_Food,  //  Direct action, not serialized
-    Camp_Determine_Leadership,
     Camp_Hide_Mission,     //  Direct action, not serialized
     Camp_Reveal_Mission,   //  Direct action, not serialized
     Camp_Assign_Jobs,
@@ -60,7 +59,6 @@ enum mission_kind : int {
     Camp_Gather_Materials,
     Camp_Collect_Firewood,
     Camp_Menial,
-    Camp_Survey_Field,
     Camp_Survey_Expansion,
     Camp_Cut_Logs,
     Camp_Clearcut,

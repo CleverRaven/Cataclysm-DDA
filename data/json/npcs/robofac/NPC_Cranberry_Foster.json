@@ -29,7 +29,7 @@
       { "trait": "FORGETFUL" },
       { "trait": "PACIFIST" },
       { "trait": "TRUTHTELLER" },
-      { "trait": "hair_medium", "variant": "blond" },
+      { "trait": "hair_blond_medium" },
       { "trait": "eye_color", "variant": "blue" },
       { "trait": "SKIN_PINK" }
     ],
@@ -332,13 +332,13 @@
         "condition": {
           "and": [
             { "not": { "u_has_var": "asked_gender", "type": "dialogue", "context": "robofac_merc_1", "value": "yes" } },
-            { "math": [ "n_val('npc_trust')", ">=", "3" ] }
+            { "compare_num": [ { "npc_val": "npc_trust" }, ">=", { "const": 3 } ] }
           ]
         },
         "topic": "TALK_ROBOFAC_MERC_1_GENDER"
       },
       {
-        "text": "About the gold you wanted…",
+        "text": "I have some gold to trade.",
         "condition": { "u_has_var": "has_gold_deal", "type": "general", "context": "robofac_merc_1", "value": "yes" },
         "topic": "TALK_ROBOFAC_MERC_1_GOLD_MISSION_QUERY"
       },
@@ -376,10 +376,7 @@
   {
     "id": "TALK_ROBOFAC_MERC_1_OTHER_MERCS",
     "type": "talk_topic",
-    "dynamic_line": {
-      "gendered_line": "Surprise!\"  They do jazz hands.  \"Sorry.  Well, I'm told that I'm part of a small group right now.  Maybe you were the first.",
-      "relevant_genders": [ "u" ]
-    }
+    "dynamic_line": "Surprise!\"  They do jazz hands.  \"Sorry.  Well, I'm told that I'm part of a small group right now.  Maybe you were the first."
   },
   {
     "id": "TALK_ROBOFAC_MERC_1_WHO",
@@ -441,10 +438,7 @@
   {
     "id": "TALK_ROBOFAC_MERC_1_COINS",
     "type": "talk_topic",
-    "dynamic_line": {
-      "gendered_line": "Yeah.  Have you noticed how they pay us in these tiny little gold coins?\"  Cranberry holds one up for emphasis.  \"It's bizarre.  You'd think they have a gold mine in there, but no, they don't, so they make me cross the damn world grabbing gold bars.  As far as scrip goes, it seems inconvenient as hell to make.",
-      "relevant_genders": [ "u" ]
-    },
+    "dynamic_line": "Yeah.  Have you noticed how they pay us in these tiny little gold coins?\"  Cranberry holds one up for emphasis.  \"It's bizarre.  You'd think they have a gold mine in there, but no, they don't, so they make me cross the damn world grabbing gold bars.  As far as scrip goes, it seems inconvenient as hell to make.",
     "responses": [
       { "text": "You sound frustrated about it.", "topic": "TALK_ROBOFAC_MERC_1_GOLD_MISSION" },
       { "text": "Now that you mention it, it does seem rather strange.", "topic": "TALK_ROBOFAC_MERC_1_MAIN" }
@@ -457,12 +451,9 @@
       "Thinking I should go hunt something soon…",
       "Just wondering if things will get better someday.",
       "Hmm?  Nothing, I guess I just like resting in this place.  I feel good today.",
-      { "gendered_line": "Have you ever noticed how… wait no, never mind.", "relevant_genders": [ "u" ] },
+      "Have you ever noticed how… wait no, never mind.",
       "Wondering if the whole world is like this now.  It has to be, right?  I was watching some foreign news channels when everything was going down, and it sounded like things were just as bad there…",
-      {
-        "gendered_line": "Hey, did you notice that there's working wi-fi here?  Not that anything else is online anymore, but still.",
-        "relevant_genders": [ "u" ]
-      },
+      "Hey, did you notice that there's working wi-fi here?  Not that anything else is online anymore, but still.",
       "Just vibing."
     ],
     "responses": [ { "text": "I see.", "topic": "TALK_ROBOFAC_MERC_1_MAIN" } ]
@@ -653,7 +644,7 @@
   {
     "id": "TALK_ROBOFAC_MERC_1_BACKGROUND_17",
     "type": "talk_topic",
-    "dynamic_line": "Well, no.  It was obvious they just wanted to get rid of me, but I decided I wanted to show that I was useful.  They tell me to find a crashed drone somewhere in the surrounding area and bring it back here.  No directions, of course.  Y'know, go find this drone in the middle of the woods, it'll be easy.  But I had some tools in my bag, right?  And yours truly has repaired some drones in the park service.\"\n\n\"So it takes me a whole-ass afternoon, but I find their stupid drone stuck in a tree.  I can see the camera's still on, so I pick it up and I tell the lens: 'Hey, you want me to fix it too?'  And I do.  It was just a cracked frame and the wiring to the rotors was sliced up.  The propellers themselves were fine.  So I bring it out of the woods and turn it off.  Then I open up the casing, solder up the wires, and use superglue to hold the frame together, which wasn't perfect, but I figured it'd hold until it got back home.  Then I turned it back on, and wouldn't you know, it immediately starts up and sits there for a minute, like 'What the fuck?  Why am I working again?'  And then it flies away, and I walk my smug ass back home.",
+    "dynamic_line": "Well, no.  It was obvious they just wanted to get rid of me, but I decided I wanted to show that I was useful.  They tell me to find a crashed drone somewhere in the surrounding area, looks like an eyebot but with a different paint scheme, and bring it back here.  No directions, of course.  Y'know, go find this drone in the middle of the woods, it'll be easy.  But I had some tools in my bag, right?  And yours truly has repaired some drones in the park service.\"\n\n\"So it takes me a whole-ass afternoon, but I find their stupid drone stuck in a tree.  I can see the camera's still on, so I pick it up and I tell the lens: 'Hey, you want me to fix it too?'  And I do.  It was just a cracked frame and the wiring to the rotors was sliced up.  The propellers themselves were fine.  So I bring it out of the woods and turn it off.  Then I open up the casing, solder up the wires, and use superglue to hold the frame together, which wasn't perfect, but I figured it'd hold until it got back home.  Then I turned it back on, and wouldn't you know, it immediately starts up and sits there for a minute, like 'What the fuck?  Why am I working again?'  And then it flies away, and I walk my smug ass back home.",
     "responses": [ { "text": "And *now* the rest is history.", "topic": "TALK_ROBOFAC_MERC_1_BACKGROUND_18" } ]
   },
   {
@@ -692,7 +683,7 @@
   {
     "id": "TALK_ROBOFAC_MERC_1_GOLD_MISSION",
     "type": "talk_topic",
-    "dynamic_line": "I guess I am, yeah.  Feels like a stupid fetch quest.\"  They suddenly pause.  \"Hey.  If you happen across any gold out in the world, I'll pay you to bring it back for me.  Right now my assignment stipulates eight scrip per kilo, and I'd be willing to give you all of that.  I just want something else to do.  Just maybe don't mention it to the intercom, alright?  This is supposed to be my job.",
+    "dynamic_line": "I guess I am, yeah.  Feels like a stupid fetch quest.\"  They suddenly pause.  \"Hey.  If you happen across any gold out in the world, I'll pay you to bring it back for me.  Right now my assignment stipulates eight scrip per set, and I'd be willing to give you all of that.  I just want something else to do.  Just maybe don't mention it to the intercom, alright?  This is supposed to be my job.",
     "responses": [
       {
         "text": "You got it.  I'll let you know if I find any gold.",
@@ -718,12 +709,12 @@
         "effect": [
           { "u_consume_item": "gold_small", "count": 200 },
           { "u_spawn_item": "RobofacCoin", "count": 8 },
-          { "math": [ "n_val('npc_trust')", "++" ] },
-          { "math": [ "n_val('npc_value')", "++" ] }
+          { "arithmetic": [ { "npc_val": "npc_trust" }, "++" ] },
+          { "arithmetic": [ { "npc_val": "npc_value" }, "++" ] }
         ],
         "topic": "TALK_ROBOFAC_MERC_1_GOLD_MISSION_TRADE"
       },
-      { "text": "I don't have 200 gold for you right now.", "topic": "TALK_ROBOFAC_MERC_1_MAIN" }
+      { "text": "That's all from me.", "topic": "TALK_ROBOFAC_MERC_1_MAIN" }
     ]
   },
   {
@@ -792,11 +783,11 @@
     "end": {
       "effect": [
         "stop_following",
-        { "math": [ "u_favor_owed_to_u_robofac_merc_1_favor", "++" ] },
+        { "u_adjust_var": "favor", "type": "favor_owed_to_u", "context": "robofac_merc_1", "adjustment": 1 },
         { "npc_lose_var": "temporal_follower", "type": "general", "context": "robofac_merc_1" },
         { "u_add_var": "helped_with_missions", "type": "general", "context": "robofac_merc_1", "value": "yes" },
-        { "math": [ "n_val('npc_trust')", "+=", "2" ] },
-        { "math": [ "n_val('npc_value')", "+=", "2" ] }
+        { "arithmetic": [ { "npc_val": "npc_trust" }, "+=", { "const": 2 } ] },
+        { "arithmetic": [ { "npc_val": "npc_value" }, "+=", { "const": 2 } ] }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
