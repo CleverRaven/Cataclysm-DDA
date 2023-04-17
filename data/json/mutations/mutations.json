@@ -8099,6 +8099,18 @@
   },
   {
     "type": "mutation",
+    "id": "DEBUG_SKILL_RUST",
+    "name": { "str": "Debug Skill Rust" },
+    "points": 99,
+    "description": "Disable skill rust.",
+    "types": [ "MEMORY" ],
+    "skill_rust_multiplier": 0.0,
+    "valid": false,
+    "debug": true,
+    "cancels": [ "FORGETFUL", "GOODMEMORY" ]
+  },
+  {
+    "type": "mutation",
     "id": "SQUEAMISH",
     "name": { "str": "Squeamish" },
     "points": -1,
