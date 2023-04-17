@@ -524,7 +524,7 @@ std::optional<int> countdown_actor::use( Character &p, item &it, bool t,
 }
 
 ret_val<void> countdown_actor::can_use( const Character &, const item &it, bool,
-        const tripoint & ) const
+                                        const tripoint & ) const
 {
     if( it.active ) {
         return ret_val<void>::make_failure( _( "It's already been triggered." ) );
