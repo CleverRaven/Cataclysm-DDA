@@ -2244,6 +2244,10 @@ void item::debug_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                active );
             info.emplace_back( "BASE", _( "burn: " ), "", iteminfo::lower_is_better,
                                burnt );
+            if( countdown_point != calendar::turn_max ) {
+                info.emplace_back( "BASE", _( "countdown: " ), "", iteminfo::lower_is_better,
+                                   to_seconds<int>( countdown_point - calendar::turn ) );
+            }
 
             const std::string tags_listed = enumerate_as_string( item_tags,
             []( const flag_id & f ) {

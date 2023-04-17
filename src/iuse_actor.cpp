@@ -345,9 +345,9 @@ void iuse_transform::do_transform( Character &p, item &it ) const
             it.seal();
         }
     }
-    //obj->item_counter = countdown > 0 ? countdown : obj->type->countdown_interval;
+
     obj->countdown_point = calendar::turn + target_timer;
-    obj->active = active || obj->item_counter || obj->has_temperature() || target_timer > 0_seconds;
+    obj->active = active || obj->has_temperature() || target_timer > 0_seconds;
     if( p.is_worn( *obj ) ) {
         if( !obj->is_armor() ) {
             item_location il = item_location( p, obj );
