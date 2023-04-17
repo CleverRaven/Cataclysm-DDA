@@ -43,8 +43,8 @@
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_pig", "weight": 150, "cost_multiplier": 2 },
-      { "monster": "mon_pig_piglet", "weight": 50, "pack_size": [ 1, 6 ], "ends": "7 days" },
-      { "monster": "mon_pig_piglet", "weight": 25, "pack_size": [ 1, 6 ], "starts": "7 days" }
+      { "monster": "mon_pig_piglet", "weight": 25, "pack_size": [ 1, 2 ], "ends": "7 days" },
+      { "monster": "mon_pig_piglet", "weight": 12, "pack_size": [ 1, 2 ], "starts": "7 days" }
     ]
   },
   {
@@ -52,8 +52,8 @@
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_sheep", "weight": 150, "cost_multiplier": 2 },
-      { "monster": "mon_sheep_lamb", "weight": 50, "ends": "7 days", "conditions": [ "SPRING", "SUMMER" ] },
-      { "monster": "mon_sheep_lamb", "weight": 25, "starts": "7 days", "conditions": [ "SPRING", "SUMMER" ] }
+      { "monster": "mon_sheep_lamb", "weight": 25, "ends": "7 days", "conditions": [ "SPRING", "SUMMER" ] },
+      { "monster": "mon_sheep_lamb", "weight": 12, "starts": "7 days", "conditions": [ "SPRING", "SUMMER" ] }
     ]
   },
   {
@@ -61,8 +61,8 @@
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_deer", "weight": 150, "cost_multiplier": 2 },
-      { "monster": "mon_deer_fawn", "weight": 50, "ends": "7 days", "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] },
-      { "monster": "mon_deer_fawn", "weight": 25, "starts": "7 days", "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] }
+      { "monster": "mon_deer_fawn", "weight": 25, "ends": "7 days", "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] },
+      { "monster": "mon_deer_fawn", "weight": 12, "starts": "7 days", "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] }
     ]
   },
   {
@@ -72,14 +72,14 @@
       { "monster": "mon_reindeer", "weight": 150, "cost_multiplier": 2 },
       {
         "monster": "mon_reindeer_fawn",
-        "weight": 50,
+        "weight": 25,
         "pack_size": [ 1, 3 ],
         "ends": "7 days",
         "conditions": [ "AUTUMN", "WINTER", "SPRING" ]
       },
       {
         "monster": "mon_reindeer_fawn",
-        "weight": 25,
+        "weight": 12,
         "pack_size": [ 1, 3 ],
         "starts": "7 days",
         "conditions": [ "AUTUMN", "WINTER", "SPRING" ]
@@ -94,13 +94,13 @@
       { "monster": "mon_deer_mutant_spider", "weight": 150, "cost_multiplier": 2 },
       {
         "monster": "mon_deer_mutant_spider_fawn",
-        "weight": 25,
+        "weight": 12,
         "ends": "31 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
         "monster": "mon_deer_mutant_spider_fawn",
-        "weight": 50,
+        "weight": 25,
         "starts": "31 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       }
@@ -113,15 +113,15 @@
       { "monster": "mon_wolf", "weight": 150, "cost_multiplier": 2 },
       {
         "monster": "mon_wolf_pup",
-        "weight": 50,
-        "pack_size": [ 1, 5 ],
+        "weight": 25,
+        "pack_size": [ 1, 2 ],
         "ends": "31 days",
         "conditions": [ "SPRING", "SUMMER" ]
       },
       {
         "monster": "mon_wolf_pup",
-        "weight": 25,
-        "pack_size": [ 1, 5 ],
+        "weight": 12,
+        "pack_size": [ 1, 2 ],
         "starts": "31 days",
         "conditions": [ "SPRING", "SUMMER" ]
       }
