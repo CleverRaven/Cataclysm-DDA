@@ -10188,8 +10188,8 @@ bool Character::sees( const Creature &critter ) const
     // This handles only the player/npc specific stuff (monsters don't have traits or bionics).
     const int dist = rl_dist( pos(), critter.pos() );
     // No seeing across z-levels with experimental 3D vision disabled
-    if ( !fov_3d && pos().z != critter.pos().z ) {
-    	return false;
+    if( !fov_3d && pos().z != critter.pos().z ) {
+        return false;
     }
     if( dist <= 3 && has_active_mutation( trait_ANTENNAE ) ) {
         return true;
