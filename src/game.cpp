@@ -12681,17 +12681,16 @@ void game::shift_destination_preview( const point &delta )
 
 bool game::slip_down( bool check_for_traps )
 {
-    ///\EFFECT_DEX decreases chances of slipping while climbing
-    ///\EFFECT_STR decreases chances of slipping while climbing
-    /// Not using arm strength since lifting score comes into play later
-    int slip = 100 / std::max( 1, u.dex_cur + u.str_cur );
-    add_msg_debug( debugmode::DF_GAME, "Base slip chance %d%%", slip );
+    int slip = 100;
 
-    if( u.has_proficiency( proficiency_prof_parkour ) ) {
+    const bool parkour = u.has_proficiency( proficiency_prof_parkour );
+    const bool badknees = u.has_trait( trait_BADKNEES );
+    if( parkour && badknees ) {
+        add_msg( m_info, _( "Your skill in parkour makes up for your bad knees while climbing." ) );
+    } else if( u.has_proficiency( proficiency_prof_parkour ) ) {
         slip /= 2;
         add_msg( m_info, _( "Your skill in parkour makes it easier to climb." ) );
-    }
-    if( u.has_trait( trait_BADKNEES ) ) {
+    } else if( u.has_trait( trait_BADKNEES ) ) {
         slip *= 2;
         add_msg( m_info, _( "Your bad knees make it difficult to climb." ) );
     }
@@ -12732,10 +12731,17 @@ bool game::slip_down( bool check_for_traps )
 
     // Apply wetness penalty
     slip *= wet_penalty;
+
     add_msg_debug( debugmode::DF_GAME, "Slip chance after wetness penalty %d%%", slip );
 
-    // Apply limb score penalties - grip, arm strength and footing are all relevant
+    ///\EFFECT_DEX decreases chances of slipping while climbing
+    ///\EFFECT_STR decreases chances of slipping while climbing
+    /// Not using arm strength since lifting score comes into play later
+    slip /= std::max( 1, u.dex_cur + u.str_cur );
 
+    add_msg_debug( debugmode::DF_GAME, "Slip chance after stat modifiers %d%%", slip );
+
+    // Apply limb score penalties - grip, arm strength and footing are all relevant
     slip /= u.get_modifier( character_modifier_slip_prevent_mod );
     add_msg_debug( debugmode::DF_GAME, "Slipping chance after limb scores %d%%", slip );
 

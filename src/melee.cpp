@@ -1012,7 +1012,7 @@ int stumble( Character &u, const item_location &weap )
         return 0;
     }
 
-    int str_mod = u.get_arm_str();
+    units::mass str_mod = u.get_arm_str() * 10_gram;
     if( u.is_on_ground() ) {
         str_mod /= 4;
     } else if( u.is_crouching() ) {
@@ -1026,7 +1026,7 @@ int stumble( Character &u, const item_location &weap )
 
     /** @EFFECT_STR reduces chance of stumbling with heavier weapons */
     return ( weap->volume() / 125_ml ) +
-           ( weap->weight() / ( str_mod * 10_gram + 13.0_gram ) );
+           ( weap->weight() / ( str_mod + 13.0_gram ) );
 }
 
 bool Character::scored_crit( float target_dodge, const item &weap ) const
@@ -1129,24 +1129,27 @@ float Character::get_dodge() const
         return 0.0f;
     }
 
+    // Ensure no attempt to dodge without sources of extra dodges, eg martial arts
+    if( dodges_left <= 0 ) {
+        add_msg_debug( debugmode::DF_MELEE, "No remaining dodge attempts" );
+        return 0.0f;
+    }
+
     float ret = Creature::get_dodge();
     add_msg_debug( debugmode::DF_MELEE, "Base dodge %.1f", ret );
+
     // Chop in half if we are unable to move
     if( has_effect( effect_beartrap ) || has_effect( effect_lightsnare ) ||
         has_effect( effect_heavysnare ) ) {
         ret /= 2;
+        add_msg_debug( debugmode::DF_MELEE, "Dodge after trapped penalty %.1f", ret );
     }
 
     if( worn_with_flag( flag_ROLLER_INLINE ) ||
         worn_with_flag( flag_ROLLER_QUAD ) ||
         worn_with_flag( flag_ROLLER_ONE ) ) {
         ret /= has_trait( trait_PROF_SKATER ) ? 2 : 5;
-    }
-
-    // Ensure no attempt to dodge without sources of extra dodges, eg martial arts
-    if( dodges_left <= 0 ) {
-        add_msg_debug( debugmode::DF_MELEE, "No remaining dodge attempts" );
-        return 0.0f;
+        add_msg_debug( debugmode::DF_MELEE, "Dodge after skate penalty %.1f", ret );
     }
 
     // Speed below 100 linearly decreases dodge effectiveness
