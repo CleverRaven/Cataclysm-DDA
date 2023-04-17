@@ -10187,13 +10187,18 @@ bool Character::sees( const Creature &critter ) const
 {
     // This handles only the player/npc specific stuff (monsters don't have traits or bionics).
     const int dist = rl_dist( pos(), critter.pos() );
+    // No seeing across z-levels with experimental 3D vision disabled
+    if ( !fov_3d && pos().z != critter.pos().z ) {
+    	return false;
+    }
     if( dist <= 3 && has_active_mutation( trait_ANTENNAE ) ) {
         return true;
     }
     if( dist < MAX_CLAIRVOYANCE && dist < clairvoyance() ) {
         return true;
     }
-    if( field_fd_clairvoyant.is_valid() &&
+    // Only players can spot creatures through clairvoyance fields
+    if( is_avatar() && field_fd_clairvoyant.is_valid() &&
         get_map().get_field( critter.pos(), field_fd_clairvoyant ) ) {
         return true;
     }
