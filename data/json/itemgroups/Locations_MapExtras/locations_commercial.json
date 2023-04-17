@@ -55,6 +55,12 @@
     ]
   },
   {
+    "type": "item_group",
+    "id": "public_sink",
+    "//": "Items you might find in the sink of a public place, like a bathroom.",
+    "items": [ { "item": "liquid_soap", "count": [ 1, 4 ], "prob": 70, "charges-min": 1 } ]
+  },
+  {
     "id": "glass_shop",
     "type": "item_group",
     "items": [
@@ -2077,10 +2083,11 @@
     ]
   },
   {
-    "id": "hotel_luggage",
     "type": "item_group",
-    "subtype": "collection",
-    "entries": [ { "group": "bags_trip", "prob": 25 }, { "group": "dresser", "prob": 25, "count": [ 1, 4 ] } ]
+    "id": "hotel_luggage",
+    "subtype": "distribution",
+    "container-item": "suitcase_l",
+    "items": [ { "group": "SUS_dresser_mens", "prob": 50 }, { "group": "SUS_dresser_womens", "prob": 50 } ]
   },
   {
     "type": "item_group",

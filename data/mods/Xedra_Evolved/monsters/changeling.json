@@ -476,5 +476,61 @@
     "special_attacks": [ [ "RANGED_PULL", 10 ], [ "GRAB_DRAG", 3 ] ],
     "path_settings": { "max_dist": 50, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
     "flags": [ "SEES", "HEARS", "SMELLS", "SWIMS", "AQUATIC", "GRABS" ]
+  },
+  {
+    "id": "mon_melian_mantis_mount",
+    "type": "MONSTER",
+    "name": { "str": "Melian mantis stallion" },
+    "description": "An enormous green insect grown to about half the size of a giraffe.  It moves in a weird, dance-like pattern but goes incredibly still as it positions itself to be mounted.  These gargantuan mantis-like monsters are one of the mounts that Seelie aligned knights will ride into combat.  It won't use its attacks while it is ridden but if its rider dismounts or is knocked off, it will stay nearby and protect them.",
+    "default_faction": "mantis",
+    "bodytype": "insect",
+    "species": [ "INSECT" ],
+    "volume": "650 L",
+    "weight": "650 kg",
+    "hp": 180,
+    "speed": 100,
+    "material": [ "iflesh" ],
+    "symbol": "M",
+    "color": "cyan_green",
+    "aggression": 20,
+    "morale": 30,
+    "melee_skill": 8,
+    "melee_dice": 1,
+    "melee_dice_sides": 6,
+    "melee_damage": [ { "damage_type": "cut", "amount": 10.0, "armor_penetration": 12 } ],
+    "dodge": 3,
+    "armor_bash": 10,
+    "armor_cut": 16,
+    "armor_bullet": 13,
+    "armor_elec": 2,
+    "weakpoint_sets": [ "wps_arthropod" ],
+    "families": [ "prof_wp_basic_bug" ],
+    "vision_day": 8,
+    "vision_night": 4,
+    "harvest": "arachnid",
+    "dissect": "dissect_insect_sample_large",
+    "anger_triggers": [ "FRIEND_ATTACKED" ],
+    "fear_triggers": [ "FIRE", "HURT" ],
+    "special_attacks": [
+      [ "GRAB_DRAG", 10 ],
+      {
+        "type": "leap",
+        "cooldown": 8,
+        "max_range": 5,
+        "allow_no_target": false,
+        "forbidden_effects_any": [ "maimed_leg" ]
+      }
+    ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "CLIMBS",
+      "PATH_AVOID_FIRE",
+      "PET_WONT_FOLLOW",
+      "PET_MOUNTABLE",
+      "PATH_AVOID_FALL",
+      "COMBAT_MOUNT",
+      "INSECTICIDEPROOF"
+    ]
   }
 ]

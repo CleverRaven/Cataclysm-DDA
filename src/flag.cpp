@@ -228,6 +228,7 @@ const flag_id flag_ORGANIC( "ORGANIC" );
 const flag_id flag_OUTER( "OUTER" );
 const flag_id flag_OVERSIZE( "OVERSIZE" );
 const flag_id flag_PADDED( "PADDED" );
+const flag_id flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 const flag_id flag_PALS_LARGE( "PALS_LARGE" );
 const flag_id flag_PALS_MEDIUM( "PALS_MEDIUM" );
 const flag_id flag_PALS_SMALL( "PALS_SMALL" );

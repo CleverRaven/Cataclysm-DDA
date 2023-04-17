@@ -178,7 +178,7 @@
       {
         "text": "I paid a visit to the bunker.",
         "condition": { "and": [ { "u_has_var": "u_scouted_bunker", "type": "mission", "context": "completed", "value": "yes" } ] },
-        "effect": { "u_lose_var": "u_scouted_bunker", "type": "mission", "context": "completed", "value": "yes" },
+        "effect": { "u_lose_var": "u_scouted_bunker", "type": "mission", "context": "completed" },
         "topic": "TALK_EXODII_MERCHANT_mission_1_complete"
       },
       {

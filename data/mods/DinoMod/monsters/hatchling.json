@@ -201,6 +201,13 @@
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "STUMBLES", "NO_BREED" ]
   },
   {
+    "id": "mon_therizinosaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_gallimimus_hatchling",
+    "name": "green and magenta hatchling",
+    "upgrades": { "age_grow": 50, "into": "mon_therizinosaurus_juvenile" }
+  },
+  {
     "id": "mon_nothronychus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_gallimimus_hatchling",

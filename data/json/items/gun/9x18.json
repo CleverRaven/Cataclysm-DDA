@@ -4,9 +4,18 @@
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
     "type": "GUN",
-    "name": { "str": "Makarov PM" },
-    "//": "10 and 12-round magazines exist, but were made for the newer PMM, and are not compatible with the old PM.",
-    "description": "The Pistolet Makarova was developed by the Soviet Union to replace the WWII-era TT-33 pistol.  It uses the 9x18mm cartridge, which remains in use among various former Soviet countries.",
+    "name": { "str": "Makarov pistol" },
+    "description": "The Makarov was developed by the Soviet Union to replace the Red Army's obsolete WWII-era handguns.  It uses the 9x18mm cartridge, which remains in use among various former Soviet countries.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "makarov",
+        "name": { "str": "Makarov PM" },
+        "//": "10 and 12-round magazines exist, but were made for the newer PMM, and are not compatible with the old PM.",
+        "description": "A svelte, Cold War era handgun of Russian heritage, this former military pistol fires the Soviet 9x18mm cartridge.  Constructed completely out of steel components and experiencing relative popularity throughout eastern European countries, it was a favored backup weapon amongst USSR security forces, soldiers, and covert units.",
+        "weight": 1
+      }
+    ],
     "weight": "730 g",
     "volume": "346 ml",
     "longest_side": "196 mm",
@@ -20,6 +29,7 @@
     "dispersion": 480,
     "durability": 6,
     "min_cycle_recoil": 270,
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],
@@ -40,9 +50,18 @@
     "copy-from": "skorpion_61",
     "looks_like": "hk_mp5",
     "type": "GUN",
-    "name": { "str": "Škorpion vz. 82" },
-    "//": "Total unloaded weight of gun 1451.496 grams, rounded to 1451.  Current weight of folding stock 200 grams.",
-    "description": "A version of the Škorpion submachine gun chambered in 9x18mm Makarov, with a slightly longer barrel than the original design.",
+    "name": { "str": "vz. 82 submachine gun" },
+    "description": "A compact submachine gun hailing from Czechoslovakia during the Cold War, featuring a suppressively high rate of automatic fire and shooting the Soviet 9x18mm round.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "skorpion_82",
+        "name": { "str": "Škorpion vz. 82" },
+        "//": "Total unloaded weight of gun 1451.496 grams, rounded to 1451.  Current weight of folding stock 200 grams.",
+        "description": "A version of the Škorpion submachine gun chambered in 9x18mm Makarov, with a slightly longer barrel than the original design.",
+        "weight": 1
+      }
+    ],
     "weight": "1440 g",
     "price": 20000,
     "price_postapoc": 2000,

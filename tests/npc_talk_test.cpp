@@ -628,7 +628,7 @@ TEST_CASE( "npc_talk_conditionals", "[npc_talk]" )
     talk_response &chosen = d.responses[2];
     bool trial_success = chosen.trial.roll( d );
     CHECK( trial_success == true );
-    talk_effect_t<dialogue> &trial_effect = trial_success ? chosen.success : chosen.failure;
+    talk_effect_t &trial_effect = trial_success ? chosen.success : chosen.failure;
     CHECK( trial_effect.next_topic.id == "TALK_TEST_TRUE_CONDITION_NEXT" );
     player_character.cash = 0;
     gen_response_lines( d, 3 );
@@ -678,7 +678,7 @@ TEST_CASE( "npc_talk_items", "[npc_talk]" )
     gen_response_lines( d, 19 );
     // add and remove effect
     REQUIRE_FALSE( player_character.has_effect( effect_infection ) );
-    talk_effect_t<dialogue> &effects = d.responses[1].success;
+    talk_effect_t &effects = d.responses[1].success;
     effects.apply( d );
     CHECK( player_character.has_effect( effect_infection ) );
     CHECK( player_character.get_effect_dur( effect_infection ) == time_duration::from_turns( 10 ) );
@@ -846,7 +846,7 @@ TEST_CASE( "npc_talk_vars", "[npc_talk]" )
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a u_add_var test response." );
     CHECK( d.responses[2].text == "This is a npc_add_var test response." );
-    talk_effect_t<dialogue> &effects = d.responses[1].success;
+    talk_effect_t &effects = d.responses[1].success;
     effects.apply( d );
     effects = d.responses[2].success;
     effects.apply( d );
@@ -886,7 +886,7 @@ TEST_CASE( "npc_talk_adjust_vars", "[npc_talk]" )
     CHECK( d.responses[10].text == "This is a npc_compare_var test response for >= 0." );
 
     // Increment the u and npc vars by 1, so that it has a value of 1.
-    talk_effect_t<dialogue> &effects = d.responses[1].success;
+    talk_effect_t &effects = d.responses[1].success;
     effects.apply( d );
     effects = d.responses[3].success;
     effects.apply( d );
@@ -940,7 +940,7 @@ TEST_CASE( "npc_talk_vars_time", "[npc_talk]" )
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a u_add_var time test response." );
     CHECK( d.responses[2].text == "This is a npc_add_var time test response." );
-    talk_effect_t<dialogue> &effects = d.responses[1].success;
+    talk_effect_t &effects = d.responses[1].success;
     effects.apply( d );
     gen_response_lines( d, 1 );
     CHECK( d.responses[0].text == "This is a basic test response." );
@@ -985,7 +985,7 @@ TEST_CASE( "npc_faction_trust", "[npc_talk]" )
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "Add 50 to faction trust." );
     CHECK( d.responses[2].text == "Start trade." );
-    talk_effect_t<dialogue> &effects = d.responses[1].success;
+    talk_effect_t &effects = d.responses[1].success;
     effects.apply( d );
     REQUIRE( beta.get_faction()->trusts_u == 50 );
     gen_response_lines( d, 4 );
@@ -1068,7 +1068,7 @@ TEST_CASE( "npc_talk_effects", "[npc_talk]" )
     talker_npc.myclass = NC_TEST_CLASS;
     d.add_topic( "TALK_TEST_EFFECTS" );
     gen_response_lines( d, 19 );
-    talk_effect_t<dialogue> &effects = d.responses[18].success;
+    talk_effect_t &effects = d.responses[18].success;
     effects.apply( d );
     CHECK( talker_npc.myclass == NC_NONE );
 }
@@ -1082,7 +1082,7 @@ TEST_CASE( "npc_change_topic", "[npc_talk]" )
     REQUIRE( original_chat != "TALK_TEST_SET_TOPIC" );
     d.add_topic( "TALK_TEST_SET_TOPIC" );
     gen_response_lines( d, 2 );
-    talk_effect_t<dialogue> &effects = d.responses[1].success;
+    talk_effect_t &effects = d.responses[1].success;
     effects.apply( d );
     CHECK( talker_npc.chatbin.first_topic != original_chat );
     CHECK( talker_npc.chatbin.first_topic == "TALK_TEST_SET_TOPIC" );
@@ -1195,7 +1195,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     calendar::turn = calendar::turn + time_duration( 4_days );
     REQUIRE( then < calendar::turn );
     // Increment the u var by 1, so that it has a value of 1.
-    talk_effect_t<dialogue> &effects = d.responses[ 0 ].success;
+    talk_effect_t &effects = d.responses[ 0 ].success;
     effects.apply( d );
     // Increment the npc var by 2, so that it has a value of 2.
     effects = d.responses[ 1 ].success;
@@ -1268,7 +1268,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     CHECK( d.responses[ 16 ].text == "Cash equals 13" );
     CHECK( d.responses[ 17 ].text == "Owed amount equals 14" );
     CHECK( d.responses[ 18 ].text == "Driving skill more than or equal to 5" );
-    // TODO: Relaibly test the random number generator.
+    // TODO: Reliably test the random number generator.
     CHECK( d.responses[ 19 ].text == "Temperature is 21." );
     CHECK( d.responses[ 20 ].text == "Windpower is 15." );
     CHECK( d.responses[ 21 ].text == "Humidity is 16." );
@@ -1322,7 +1322,7 @@ TEST_CASE( "npc_arithmetic_op", "[npc_talk]" )
     calendar::turn = calendar::turn_zero;
     REQUIRE( calendar::turn == time_point( 0 ) );
     // "Sets time since cataclysm to 2 * 5 turns.  (10)"
-    talk_effect_t<dialogue> &effects = d.responses[ 0 ].success;
+    talk_effect_t &effects = d.responses[ 0 ].success;
     effects.apply( d );
     CHECK( calendar::turn == time_point( 10 ) );
 
@@ -1417,7 +1417,7 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     calendar::turn = calendar::turn_zero;
     REQUIRE( calendar::turn == time_point( 0 ) );
     // "Sets time since cataclysm to 1."
-    talk_effect_t<dialogue> &effects = d.responses[ 0 ].success;
+    talk_effect_t &effects = d.responses[ 0 ].success;
     effects.apply( d );
     CHECK( calendar::turn == time_point( 1 ) );
 

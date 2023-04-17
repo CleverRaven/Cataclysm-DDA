@@ -268,10 +268,11 @@ void JsonObject::report_unvisited() const
         }
 
         error_skipped_members( skipped_members );
+        visited_fields_bitset_.set_all();
     }
 }
 
-void JsonObject::error_no_member( const std::string &member ) const
+void JsonObject::error_no_member( const std::string_view member ) const
 {
     std::unique_ptr<std::istream> original_json = root_->get_source_stream();
     std::string source_path = [&] {
@@ -289,7 +290,7 @@ void JsonObject::error_no_member( const std::string &member ) const
     jo.allow_omitted_members();
     jo.get_member( member );
     // Just to make sure the compiler understands we will error earlier.
-    jo.throw_error( "Failed to report missing member " + member );
+    jo.throw_error( str_cat( "Failed to report missing member ", member ) );
 }
 
 void JsonObject::error_skipped_members( const std::vector<size_t> &skipped_members ) const
@@ -328,12 +329,7 @@ void JsonObject::throw_error( const std::string &err ) const
     Json::throw_error( path_, 0, err );
 }
 
-void JsonObject::throw_error_at( const std::string &member, const std::string &err ) const
-{
-    throw_error_at( member.c_str(), err );
-}
-
-void JsonObject::throw_error_at( const char *member, const std::string &err ) const
+void JsonObject::throw_error_at( const std::string_view member, const std::string &err ) const
 {
     std::optional<JsonValue> member_opt = get_member_opt( member );
     if( member_opt.has_value() ) {

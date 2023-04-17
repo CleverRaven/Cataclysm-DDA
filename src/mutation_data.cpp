@@ -240,7 +240,7 @@ bool mut_transform::load( const JsonObject &jsobj, const std::string &member )
 
 void reflex_activation_data::load( const JsonObject &jsobj )
 {
-    read_condition<dialogue>( jsobj, "condition", trigger, false );
+    read_condition( jsobj, "condition", trigger, false );
     if( jsobj.has_object( "msg_on" ) ) {
         JsonObject jo = jsobj.get_object( "msg_on" );
         optional( jo, was_loaded, "text", msg_on.first );
@@ -308,7 +308,7 @@ void mutation_variant::deserialize( const JsonObject &jo )
     load( jo );
 }
 
-void mutation_branch::load( const JsonObject &jo, const std::string & )
+void mutation_branch::load( const JsonObject &jo, const std::string &src )
 {
     mandatory( jo, was_loaded, "name", raw_name );
     mandatory( jo, was_loaded, "description", raw_desc );
@@ -387,6 +387,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     }
 
     optional( jo, was_loaded, "healing_awake", healing_awake, std::nullopt );
+    optional( jo, was_loaded, "pain_modifier", pain_modifier, std::nullopt );
     optional( jo, was_loaded, "healing_multiplier", healing_multiplier, std::nullopt );
     optional( jo, was_loaded, "mending_modifier", mending_modifier, std::nullopt );
     optional( jo, was_loaded, "hp_modifier", hp_modifier, std::nullopt );
@@ -482,17 +483,17 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     }
 
     for( JsonValue jv : jo.get_array( "activated_eocs" ) ) {
-        activated_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        activated_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
 
     for( JsonValue jv : jo.get_array( "deactivated_eocs" ) ) {
-        deactivated_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        deactivated_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
 
     int enchant_num = 0;
     for( JsonValue jv : jo.get_array( "enchantments" ) ) {
         std::string enchant_name = "INLINE_ENCH_" + raw_name + "_" + std::to_string( enchant_num++ );
-        enchantments.push_back( enchantment::load_inline_enchantment( jv, "", enchant_name ) );
+        enchantments.push_back( enchantment::load_inline_enchantment( jv, src, enchant_name ) );
     }
 
     for( const std::string s : jo.get_array( "no_cbm_on_bp" ) ) {

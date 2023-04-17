@@ -2692,7 +2692,7 @@ void overmap_special::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "subtype", subtype_, overmap_special_subtype::fixed );
     optional( jo, was_loaded, "locations", default_locations_ );
     if( jo.has_member( "eoc" ) ) {
-        eoc = effect_on_conditions::load_inline_eoc( jo.get_member( "eoc" ), "" );
+        eoc = effect_on_conditions::load_inline_eoc( jo.get_member( "eoc" ), src );
         has_eoc_ = true;
     }
     switch( subtype_ ) {
