@@ -489,7 +489,6 @@ void unpack_actor::info( const item &, std::vector<iteminfo> &dump ) const
                        _( "This item could be unpacked to receive something." ) );
 }
 
-//dddddddddddddddddddd
 std::unique_ptr<iuse_actor> countdown_actor::clone() const
 {
     return std::make_unique<countdown_actor>( *this );
@@ -551,9 +550,7 @@ void countdown_actor::info( const item &it, std::vector<iteminfo> &dump ) const
         countdown_actor->info( it, dump );
     }
 }
-//ddddddddddddddddddddddddddddd
 
-//aaaaaaaaaaaaaaaaaaaaaaaaaaaa
 std::unique_ptr<iuse_actor> message_iuse::clone() const
 {
     return std::make_unique<message_iuse>( *this );
@@ -586,7 +583,6 @@ std::string message_iuse::get_name() const
     }
     return iuse_actor::get_name();
 }
-//aaaaaaaaaaaaaaaaaaaaaaaaaaa
 
 std::unique_ptr<iuse_actor> explosion_iuse::clone() const
 {
