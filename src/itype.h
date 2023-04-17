@@ -1117,7 +1117,6 @@ struct itype {
 
         /** Action to take when countdown expires */
         use_function countdown_action;
-        use_function countdown_action2;
 
         /**
         * @name Non-negative properties

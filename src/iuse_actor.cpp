@@ -545,7 +545,7 @@ void countdown_actor::info( const item &it, std::vector<iteminfo> &dump ) const
 {
     //dump.emplace_back( "TOOL", _( "Countdown: " ), interval > 0 ? interval : it.type->countdown_interval );
     dump.emplace_back( "TOOL", _( "Countdown: " ), to_seconds<int>( interval ) );
-    const iuse_actor *countdown_actor = it.type->countdown_action2.get_actor_ptr();
+    const iuse_actor *countdown_actor = it.type->countdown_action.get_actor_ptr();
     if( countdown_actor != nullptr ) {
         countdown_actor->info( it, dump );
     }

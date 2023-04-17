@@ -4038,14 +4038,6 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         }
     }
 
-    if( jo.has_object( "countdown_action2" ) ) {
-        JsonObject tmp = jo.get_object( "countdown_action2" );
-        use_function fun = usage_from_object( tmp ).second;
-        if( fun ) {
-            def.countdown_action2 = fun;
-        }
-    }
-
     if( jo.has_string( "drop_action" ) ) {
         def.drop_action = usage_from_string( jo.get_string( "drop_action" ) );
 
