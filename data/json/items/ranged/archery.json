@@ -396,7 +396,7 @@
     "count": 1,
     "stack_size": 1,
     "critical_multiplier": 10,
-    "countdown_interval": 20,
+    "countdown_interval": "20 seconds",
     "countdown_action": { "type": "transform", "target": "arrow_field_point_fletched" },
     "effects": [ "IGNITE", "RECOVER_35" ],
     "flags": [ "TRADER_AVOID" ]

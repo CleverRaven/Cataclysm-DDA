@@ -207,11 +207,6 @@
   },
   {
     "type": "item_action",
-    "id": "countdown2",
-    "name": { "str": "Start countdown" }
-  },
-  {
-    "type": "item_action",
     "id": "message",
     "name": { "str": "Activate" }
   },

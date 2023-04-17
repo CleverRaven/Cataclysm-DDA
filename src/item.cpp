@@ -283,8 +283,7 @@ item::item() : bday( calendar::start_of_cataclysm )
 item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( turn )
 {
     contents = item_contents( type->pockets );
-    item_counter = type->countdown_interval;
-    //countdown_point = type->countdown_interval2;
+    countdown_point = calendar::turn + type->countdown_interval;
     item_vars = type->item_variables;
 
     if( has_flag( flag_CORPSE ) ) {
@@ -640,8 +639,8 @@ item &item::activate()
         return *this; // no-op
     }
 
-    if( type->countdown_interval > 0 ) {
-        item_counter = type->countdown_interval;
+    if( type->countdown_interval > 0_seconds ) {
+        countdown_point = calendar::turn + type->countdown_interval;
     }
 
     active = true;

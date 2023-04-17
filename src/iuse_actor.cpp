@@ -345,7 +345,7 @@ void iuse_transform::do_transform( Character &p, item &it ) const
             it.seal();
         }
     }
-    obj->item_counter = countdown > 0 ? countdown : obj->type->countdown_interval;
+    //obj->item_counter = countdown > 0 ? countdown : obj->type->countdown_interval;
     obj->countdown_point = calendar::turn + target_timer;
     obj->active = active || obj->item_counter || obj->has_temperature() || target_timer > 0_seconds;
     if( p.is_worn( *obj ) ) {
@@ -489,6 +489,7 @@ void unpack_actor::info( const item &, std::vector<iteminfo> &dump ) const
                        _( "This item could be unpacked to receive something." ) );
 }
 
+//dddddddddddddddddddd
 std::unique_ptr<iuse_actor> countdown_actor::clone() const
 {
     return std::make_unique<countdown_actor>( *this );
@@ -516,13 +517,15 @@ std::optional<int> countdown_actor::use( Character &p, item &it, bool t,
         p.add_msg_if_player( m_neutral, message.translated(), it.tname() );
     }
 
-    it.item_counter = interval > 0 ? interval : it.type->countdown_interval;
+    //it.item_counter = interval > 0 ? interval : it.type->countdown_interval;
+    //it.countdown_point = calendar::turn + interval2 > it.type->countdown_interval2 ? interval2 : it.type->countdown_interval2;
+    it.countdown_point = calendar::turn + interval;
     it.active = true;
     return 0;
 }
 
 ret_val<void> countdown_actor::can_use( const Character &, const item &it, bool,
-                                        const tripoint & ) const
+        const tripoint & ) const
 {
     if( it.active ) {
         return ret_val<void>::make_failure( _( "It's already been triggered." ) );
@@ -541,74 +544,11 @@ std::string countdown_actor::get_name() const
 
 void countdown_actor::info( const item &it, std::vector<iteminfo> &dump ) const
 {
-    dump.emplace_back( "TOOL", _( "Countdown: " ),
-                       interval > 0 ? interval : it.type->countdown_interval );
-    const iuse_actor *countdown_actor = it.type->countdown_action.get_actor_ptr();
-    if( countdown_actor != nullptr ) {
-        countdown_actor->info( it, dump );
-    }
-}
-
-//dddddddddddddddddddd
-std::unique_ptr<iuse_actor> countdown_actor2::clone() const
-{
-    return std::make_unique<countdown_actor2>( *this );
-}
-
-void countdown_actor2::load( const JsonObject &obj )
-{
-    obj.read( "name", name );
-    obj.read( "interval", interval );
-    obj.read( "message", message );
-}
-
-std::optional<int> countdown_actor2::use( Character &p, item &it, bool t,
-        const tripoint &pos ) const
-{
-    if( t ) {
-        return std::nullopt;
-    }
-
-    if( it.active ) {
-        return std::nullopt;
-    }
-
-    if( p.sees( pos ) && !message.empty() ) {
-        p.add_msg_if_player( m_neutral, message.translated(), it.tname() );
-    }
-
-    //it.item_counter = interval > 0 ? interval : it.type->countdown_interval;
-    //it.countdown_point = calendar::turn + interval2 > it.type->countdown_interval2 ? interval2 : it.type->countdown_interval2;
-    it.countdown_point = calendar::turn + interval;
-    it.active = true;
-    return 0;
-}
-
-ret_val<void> countdown_actor2::can_use( const Character &, const item &it, bool,
-        const tripoint & ) const
-{
-    if( it.active ) {
-        return ret_val<void>::make_failure( _( "It's already been triggered." ) );
-    }
-
-    return ret_val<void>::make_success();
-}
-
-std::string countdown_actor2::get_name() const
-{
-    if( !name.empty() ) {
-        return name.translated();
-    }
-    return iuse_actor::get_name();
-}
-
-void countdown_actor2::info( const item &it, std::vector<iteminfo> &dump ) const
-{
     //dump.emplace_back( "TOOL", _( "Countdown: " ), interval > 0 ? interval : it.type->countdown_interval );
     dump.emplace_back( "TOOL", _( "Countdown: " ), to_seconds<int>( interval ) );
-    const iuse_actor *countdown_actor2 = it.type->countdown_action2.get_actor_ptr();
-    if( countdown_actor2 != nullptr ) {
-        countdown_actor2->info( it, dump );
+    const iuse_actor *countdown_actor = it.type->countdown_action2.get_actor_ptr();
+    if( countdown_actor != nullptr ) {
+        countdown_actor->info( it, dump );
     }
 }
 //ddddddddddddddddddddddddddddd
