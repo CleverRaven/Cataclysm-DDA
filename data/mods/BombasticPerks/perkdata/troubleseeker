@@ -1,0 +1,35 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_queue_troubleseeking",
+    "effect": [
+      { "queue_eocs": "EOC_troubleseeking", "time_in_future": [ "235 minutes", "420 minutes" ] },
+      { "u_message": "You start seeking trouble" },
+      { "arithmetic": [ { "u_val": "var", "var_name": "troubleseek" }, "=", { "const": 1 } ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_deque_troubleseeking",
+    "effect": [
+      { "u_message": "You stop seeking trouble for now" },
+      { "arithmetic": [ { "u_val": "var", "var_name": "troubleseek" }, "=", { "const": 0 } ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_troubleseeking",
+    "condition": { "compare_num": [ { "u_val": "var", "var_name": "troubleseek" }, ">", { "const": 0 } ] },
+    "effect": [
+      { "queue_eocs": "EOC_troubleseeking", "time_in_future": [ "235 minutes", "420 minutes" ] },
+      {
+        "u_spawn_monster": "mon_zombie",
+        "real_count": 1,
+        "min_radius": 35,
+        "max_radius": 50,
+        "spawn_message": "You suddently feel that you have found some trouble.",
+        "spawn_message_plural": "You suddently feel that you have found a lot of trouble."
+      }
+    ]
+  }
+]

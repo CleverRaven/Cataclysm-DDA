@@ -244,5 +244,16 @@
     "category": [ "perk" ],
     "active": true,
     "activated_eocs": [ "EOC_spinach_consumption" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_troubleseeker",
+    "name": { "str": "Trouble Seeker" },
+    "points": 0,
+    "description": "As if the apocalypse itself wasn't enough, you are constantly looking for some trouble.  Zombies will sometimes appear out of nowhere to attack you.  Fortunately, they always appear at a good distance from you.",
+    "category": [ "perk" ],
+    "active": true,
+    "activated_eocs": [ "EOC_queue_troubleseeking" ],
+    "deactivated_eocs": [ "EOC_deque_troubleseeking" ]
   }
 ]
