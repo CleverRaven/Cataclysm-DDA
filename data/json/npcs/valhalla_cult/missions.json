@@ -9,7 +9,7 @@
     "value": 0,
     "start": {
       "assign_mission_target": { "om_terrain": "field", "reveal_radius": 1, "random": true, "search_range": 20, "min_distance": 5, "z": 0 },
-      "update_mapgen": { "place_monster": [ { "monster": "mon_nakedmolerat_giant", "x": 11, "y": 11, "target": true } ] }
+      "update_mapgen": { "place_monster": [ { "monster": "mon_wolf_mutant_huge", "x": 11, "y": 11, "target": true } ] }
     },
     "end": {
       "effect": [
@@ -89,7 +89,7 @@
       "rejected": "We are going to have to face them sometime, now is better than ever.",
       "advice": "Slay a few at a time, and don't let them surround you.",
       "inquire": "Are the dead laid to rest?",
-      "success": "We shall see a great success in the future now that our supply lines are open again.  Gudene vil det!",
+      "success": "We'll see great success in the future now that our supply lines are open again.  Thank you.",
       "success_lie": "My scouts say otherwise.",
       "failure": "Not everyone is cut out for this life, I suppose."
     }
@@ -119,12 +119,12 @@
     "has_generic_rewards": false,
     "dialogue": {
       "describe": "Clear out a mi-go tower for the Valhallists.",
-      "offer": "We've found more aliens in the area.  My scouts have reported a scout tower for those weird multi limbed aliens showed up recently, and that they might have prisoners inside.  I want you to go over there and kill every last <name_b> you can find, and free those prisoners.  I'm not looking to recruit anyone you free from there, just make sure they're alright.  Come back to me when you're done.",
+      "offer": "We've found more aliens in the area.  My scouts have reported a strange tower for those weird multi limbed aliens showed up recently, and that they were seen taking some people inside.  I want you to go over there and kill all the residents, and find out what happened to those people.  If they're still alive, I want you to bring them back here when you're done, and tell me what you saw.",
       "accepted": "May Thor protect you.",
       "rejected": "They'll pay with their lives eventually, why wait?.",
-      "advice": "That tower is like a furnace on the interior, the scouts could even feel it from the outside.  They've got to have some source of heat though, so I'd destroy whatever's belching it out.  Also, shoot those <name_b>s from a distance, they'll fuck you up in hand-to-hand fighting.",
-      "inquire": "You're pretty clean for someone who should be killing <name_b>s.",
-      "success": "Those aliens had it coming to them.  You have done Odins' will today.",
+      "advice": "That tower is like a furnace, even outside our scouts could feel the heat.  They've got to have something generating it, so I'd destroy whatever's doing so.  Those aliens have also been observed tearing through whole hordes of <zombie>s by themselves, I'd recommend keeping your distance.  Don't trust any human sounds you hear near there too, we've seen them parrot everything.",
+      "inquire": "You're pretty clean for someone who has bloody work on their hands.",
+      "success": "Who knows what they were planning in there, or what they've done…  You've done a good job.",
       "success_lie": "I can still hear their screams at night.",
       "failure": "Not everyone is cut out for this life, I suppose."
     }
@@ -144,13 +144,13 @@
     "has_generic_rewards": false,
     "dialogue": {
       "describe": "Kill 1000 zombies for the Valhallists",
-      "offer": "With the recent success we've had in killing the otherworldly threats, we must take grander strides in making the world safe again.  I need you to go out and kill one thousand <zombies> to do your new part in this endeavor.  A handsome reward will be provided upon your return.",
+      "offer": "We've had recent success in secuirng ourselves, now I think it's time to take grander strides.  The <zombies> are proving to be an ever-present threat to us, and thinning their numbers would prove handy.  If you so wish, I will provide a handsome reward for you.",
       "accepted": "May Thor protect you.",
       "rejected": "If we don't kill them now, they'll only come for us later.  It's better to fight them on our terms.",
       "advice": "Slay a few at a time, and don't let them surround you.",
       "inquire": "Are the dead laid to rest?",
       "success": "You have done a great work for us today.",
-      "success_lie": "My scouts say otherwise.",
+      "success_lie": "We've still had problems with them, doesn't seem like anyone's helped.",
       "failure": "Not everyone is cut out for this life, I suppose."
     }
   },
@@ -169,10 +169,10 @@
     "has_generic_rewards": false,
     "dialogue": {
       "describe": "Bring me three hazmat suits.",
-      "offer": "Our warriors have been dealing with fungal infestations recently, but we don't have the equipment to properly deal with them.  Their spores have been giving us trouble, so I want you to find three hazmat suits.  With those, we could circumvent their biggest threat while we torch those <mycus_slur>s to the ground.  I'll pay you liberally with whatever we have in stock.",
-      "accepted": "Gudene vil det!",
+      "offer": "We've been trying to deal with some fungal infestations, but we need some hazmat suits to keep the spores off of us.  With those, we could circumvent their biggest threat and keep the back.  I'll pay you liberally with whatever we have in stock.",
+      "accepted": "Thank you, <name_g>.",
       "rejected": "Do you have any better ideas?",
-      "advice": "One of those old waste containment facilities should have a few, along with those labs.",
+      "advice": "One of those old waste containment facilities should have a few, along with some science labs or chemical factories.",
       "inquire": "Do you have the suits?",
       "success": "I can't thank you enough for what you've done.  If you ever need to loan one of them, I'd be glad to lend it.",
       "success_lie": "I don't see them, <name_b>.",
@@ -199,7 +199,7 @@
       "rejected": "Do you have any better ideas?",
       "advice": "Check some grocery stores or bars in town, they should have a lot.",
       "inquire": "Do you have the bottles?",
-      "success": "Hopefully that wasn't too hard.  Only problem is, we might run out again.",
+      "success": "Hopefully that wasn't too hard.  I'll see about getting some more in the long term.",
       "success_lie": "I don't see them, <name_b>.",
       "failure": "I'll have to do it myself, I guess."
     }
@@ -219,7 +219,7 @@
     "has_generic_rewards": false,
     "dialogue": {
       "describe": "Bring me one hundred mushroom spores.",
-      "offer": "The high gode is starting a project to replace biospheres ravaged by the Mycus, and to make some money on farming.  Right now, I need to get one hundred mushroom spores for him, but I haven't the slightest idea where.  If you could do it, I'd pay fairly for them.",
+      "offer": "I've decided to start diversifying the tings we grow to make some money on farming.  Right now, I need to get one hundred mushroom spores to start the colony, but I haven't the slightest idea where.  If you could find some, I'd pay fairly for them.",
       "accepted": "Thanks, <name_g>.",
       "rejected": "Do you have any better ideas?",
       "advice": "If you know anything about wild fungi, you could make some starters from those.",
@@ -244,11 +244,11 @@
     "has_generic_rewards": true,
     "dialogue": {
       "describe": "Go negotiate a trade agreement.",
-      "offer": "One of our raiding parties was out the other day, and came across an old evac shelter.  They managed to pull and address for one of the refugee centers off the computer, and I mapped it out.  I figure they could make good trade partners, so I want you to go over there and work out a deal for me.",
-      "advice": "It should be pretty simple making the deal, but I'd recommend taking a car over there myself.",
+      "offer": "One of our raiding parties was out the other day, and came across an old evac shelter.  They managed to pull and address for some sort of government center off the computer, and I mapped it out.  I figure they could make good trade partners if anyone's over there, so I want you to go and investigate, and strike a deal with them if possible.",
+      "advice": "It should be pretty simple, but I'd recommend taking a car over there myself.  We have lots of spare household goods to sell in bulk, if anyone wants them.",
       "accepted": "I'll be here when you get back.  Good luck!",
       "rejected": "Please?  This is really important to me.",
-      "inquire": "What did they say about it?",
+      "inquire": "What's over there?",
       "success": "Thank you!",
       "success_lie": "How does this help us?",
       "failure": "That's unfortunate.  I guess I'll have to find other customers."
@@ -299,7 +299,7 @@
       "accepted": "May Thor protect you.",
       "rejected": "They'll die out there if no one helps!  Have you no mercy?",
       "advice": "If you don't want to fight anything, sneak them out at night.  If not, bring a melee weapon or a bow; guns will draw out half the city.",
-      "inquire": "Where's the raiding party?",
+      "inquire": "Where are they?",
       "success": "Blessed be thee, they are saved!  Come, let us rejoice for your deeds!",
       "success_lie": "Strange, they should've been back by now.",
       "failure": "I'll go prepare their funerary rites…"
@@ -320,13 +320,13 @@
     "end": { "effect": [ { "u_spawn_item": "signed_chit", "count": 8 } ] },
     "dialogue": {
       "describe": "Bring me a spiral stone.",
-      "offer": "I've been looking into some of those otherworldly things the scouts have documented.  The other day, they went to an old mine, and found it filled with spiral patters.  I want you to bring me one of the stones from that place, so that I may study it.",
+      "offer": "I've been looking into some of the stranger things we've have documented.  The other day, we found an old mine filled with spiral patters and strange creatures.  I want you to bring me a sample of the patterns from that place, so that I may study it.",
       "accepted": "Thanks, <name_g>.",
       "rejected": "I can understand if you don't want to.",
       "advice": "The team turned around after getting in a firefight with something down there, they couldn't describe what.  I'd be careful.",
-      "inquire": "Do you have the stone?",
+      "inquire": "Do you have the sample?",
       "success": "Hopefully that wasn't too hard.  I should have some results in a couple of days.",
-      "success_lie": "These patterns seem handmade…",
+      "success_lie": "These patterns seem freshly handmade…",
       "failure": "Ah, well.  I'll see about an alternative."
     }
   },
@@ -379,10 +379,10 @@
     "deadline_high": 4,
     "dialogue": {
       "describe": "Kill some bandits for me.",
-      "offer": "As of late, we've had some of the Hells Raiders trying to encroach on us and the local area.  We've picked up a radio broadcast for one of their caravans, so I want you to go over and kill every <name_b> who's there.  You'll get a payment from me, and you'll have claim to all the stuff they were carrying.",
-      "accepted": "Be careful out there.  A kjempe!",
+      "offer": "We've had some bandits trying to encroach on the local area.  We've picked up a radio broadcast for one of their campsites, so I want you to go over and kill every <name_b> who's there.  You'll get a payment from me, and you'll have claim to all the stuff they were carrying.",
+      "accepted": "Be careful out there, they're ruthless individuals.",
       "rejected": "There's quite a bit in it for you…",
-      "advice": "I'd bring some anti-personnel grenades.",
+      "advice": "I'd bring some anti-personnel grenades if it were me.",
       "inquire": "Have you dealt with them?",
       "success": "Thank you, the world is a better place without those scum.",
       "success_lie": "The radio must not have shut off, I'm still picking up a broadcast.",
@@ -425,12 +425,12 @@
     "has_generic_rewards": false,
     "dialogue": {
       "describe": "Emancipate slaves for the Valhallists.",
-      "offer": "We've tracked some bandits back to one of their camps, and our scouts have reported that slaves are being held there.  I need you to destroy the camp and free those slaves, then bring them back here.  We'll give them room and board, and hopefully they'll join us.",
-      "accepted": "May Thor protect you.",
+      "offer": "We've tracked down a large group of raiders, and our scouts have reported that slaves and prisoners are being held there.  I need you to destroy the camp and free those slaves, then bring them back here.  We'll give them room and board, and see to their wellbeing for the time.",
+      "accepted": "Be careful out there.",
       "rejected": "Are you certain?  It'll be worth your while.",
-      "advice": "I'd ambush the bandits at night, if it were me.  They've got the perimeter trapped with mines, too.",
+      "advice": "I'd ambush the camp at night, take them by suprise.  They've got the perimeter trapped with mines and someone's always at the gates, so try going over one of the walls.  Bring some friends along with you too, they're numerous and all armed to the teeth.",
       "inquire": "Where are they?",
-      "success": "The world will be a better place without thieves walking its surface.",
+      "success": "The world will be a better place without thieves walking its surface, practicing such barbaric things.",
       "success_lie": "I don't see them anywhere.",
       "failure": "Its unfortunate, how many fall to barbarism…"
     }
