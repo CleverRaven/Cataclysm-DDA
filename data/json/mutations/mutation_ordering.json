@@ -212,7 +212,7 @@
       { "id": [ "FANGS", "MANDIBLES", "SABER_TEETH" ], "order": 7500 },
       { "id": [ "FORKED_TONGUE" ], "order": 8000 },
       { "id": [ "PROF_FED", "PROF_PD_DET", "PROF_POLICE", "PROF_SWAT", "PHEROMONE_INSECT" ], "order": 8500 },
-      { "id": [ "EXODII_BODY_1" ], "order": 10000 }
+      { "id": [ "EXODII_BODY_1", "EXODII_BODY_2" ], "order": 10000 }
     ]
   }
 ]

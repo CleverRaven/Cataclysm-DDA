@@ -195,7 +195,7 @@ TEST_CASE( "available_recipes", "[recipes]" )
     const recipe *r = &recipe_magazine_battery_light_mod.obj();
     avatar dummy;
 
-    REQUIRE( dummy.get_skill_level( r->skill_used ) == 0 );
+    REQUIRE( static_cast<int>( dummy.get_skill_level( r->skill_used ) ) == 0 );
     REQUIRE_FALSE( dummy.knows_recipe( r ) );
     REQUIRE( r->skill_used );
 
@@ -316,7 +316,7 @@ TEST_CASE( "crafting_with_a_companion", "[.]" )
     const recipe *r = &recipe_brew_mead.obj();
     avatar dummy;
 
-    REQUIRE( dummy.get_skill_level( r->skill_used ) == 0 );
+    REQUIRE( static_cast<int>( dummy.get_skill_level( r->skill_used ) ) == 0 );
     REQUIRE_FALSE( dummy.knows_recipe( r ) );
     REQUIRE( r->skill_used );
 
@@ -403,7 +403,8 @@ static void grant_skills_to_character( Character &you, const recipe &r, int offs
         you.set_knowledge_level( skl.first, apply_offset( skl.second, offset ) );
     }
     // and just in case "used" skill difficulty is higher, set that too
-    int value = apply_offset( std::max( r.difficulty, you.get_skill_level( r.skill_used ) ), offset );
+    int value = apply_offset( std::max( r.difficulty,
+                                        static_cast<int>( you.get_skill_level( r.skill_used ) ) ), offset );
     you.set_skill_level( r.skill_used, value );
     you.set_knowledge_level( r.skill_used, value );
 }
@@ -480,7 +481,8 @@ static int actually_test_craft( const recipe_id &rid, int interrupt_after_turns,
     int turns = 0;
     while( player_character.activity.id() == ACT_CRAFT ) {
         if( turns >= interrupt_after_turns ||
-            ( skill_level >= 0 && player_character.get_skill_level( rid->skill_used ) > skill_level ) ) {
+            ( skill_level >= 0 &&
+              static_cast<int>( player_character.get_skill_level( rid->skill_used ) ) > skill_level ) ) {
             set_time( midnight ); // Kill light to interrupt crafting
         }
         ++turns;
@@ -524,7 +526,7 @@ TEST_CASE( "proficiency_gain_short_crafts", "[crafting][proficiency]" )
     avatar &ch = get_avatar();
     // Set skill above requirement so that skill training doesn't steal any focus
     ch.set_skill_level( skill_fabrication, 1 );
-    REQUIRE( rec->get_skill_cap() < ch.get_skill_level( rec->skill_used ) );
+    REQUIRE( rec->get_skill_cap() < static_cast<int>( ch.get_skill_level( rec->skill_used ) ) );
 
     REQUIRE( ch.get_proficiency_practice( proficiency_prof_carving ) == 0.0f );
 
@@ -558,7 +560,7 @@ TEST_CASE( "proficiency_gain_long_craft", "[crafting][proficiency]" )
     avatar &ch = get_avatar();
     // Set skill above requirement so that skill training doesn't steal any focus
     ch.set_skill_level( skill_fabrication, 1 );
-    REQUIRE( rec->get_skill_cap() < ch.get_skill_level( rec->skill_used ) );
+    REQUIRE( rec->get_skill_cap() < static_cast<int>( ch.get_skill_level( rec->skill_used ) ) );
     REQUIRE( ch.get_proficiency_practice( proficiency_prof_carving ) == 0.0f );
 
     test_craft_for_prof( rec, proficiency_prof_carving, 1.0f );
@@ -1159,7 +1161,7 @@ static void test_skill_progression( const recipe_id &test_recipe, int expected_t
     int previous_knowledge = level.knowledgeExperience( true );
     do {
         actual_turns_taken += actually_test_craft( test_recipe, INT_MAX, starting_skill_level );
-        if( you.get_skill_level( skill_used ) == starting_skill_level ) {
+        if( static_cast<int>( you.get_skill_level( skill_used ) ) == starting_skill_level ) {
             int new_exercise = level.exercise( true );
             REQUIRE( previous_exercise < new_exercise );
             previous_exercise = new_exercise;
@@ -1170,13 +1172,14 @@ static void test_skill_progression( const recipe_id &test_recipe, int expected_t
             previous_knowledge = new_knowledge;
         }
         give_tools( tools );
-    } while( you.get_skill_level( skill_used ) == starting_skill_level );
+    } while( static_cast<int>( you.get_skill_level( skill_used ) ) == starting_skill_level );
     CAPTURE( test_recipe.str() );
     CAPTURE( expected_turns_taken );
     CAPTURE( grant_optional_proficiencies );
-    CHECK( you.get_skill_level( skill_used ) == starting_skill_level + 1 );
+    CHECK( static_cast<int>( you.get_skill_level( skill_used ) ) == starting_skill_level + 1 );
     // since your knowledge and skill were the same to start, your theory should come out the same as skill in the end.
-    CHECK( you.get_knowledge_level( skill_used ) == you.get_skill_level( skill_used ) );
+    CHECK( you.get_knowledge_level( skill_used ) == static_cast<int>( you.get_skill_level(
+                skill_used ) ) );
     CHECK( actual_turns_taken == expected_turns_taken );
 }
 

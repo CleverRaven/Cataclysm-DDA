@@ -13,20 +13,6 @@
     "color": "light_cyan"
   },
   {
-    "id": "chemlab",
-    "copy-from": "vehicle_rig",
-    "type": "GENERIC",
-    "name": { "str": "onboard chemistry lab" },
-    "description": "Assembled from a chemistry set attached to a complex wiring harness, it is well-suited to most any chemistry project you could imagine.  Unable to utilize standard batteries, it requires an external supply of electricity to operate."
-  },
-  {
-    "id": "craftrig",
-    "copy-from": "vehicle_rig",
-    "type": "GENERIC",
-    "name": { "str": "FOODCO kitchen buddy", "str_pl": "FOODCO kitchen buddies" },
-    "description": "Assembled from a set of instructions you found in an old book of DIY projects, the *FOODCO kitchen buddy* claims to be *the perfect solution to all your home-cooking needs!*.  While it is surprisingly handy for vacuum-sealing as well as dehydrating food, the cheery sales pitch neglected to mention A - how awkward the damn thing is, B - That you still need a normal kitchen, and C - how it doesn't take batteries.  You're going to have to weld it to a vehicle, or something else with a supply of electricity, if you want to use it.  In addition to the food preservation features, it also has a food processor, a water-purification system, a drawer for holding extra tools, and for some insane reason, a press and die set for hand-loading ammunition."
-  },
-  {
     "id": "forgerig",
     "copy-from": "vehicle_rig",
     "type": "GENERIC",
@@ -39,20 +25,6 @@
     "type": "GENERIC",
     "name": { "str": "vehicle kiln" },
     "description": "An electric kiln made to run off a vehicle's storage battery."
-  },
-  {
-    "id": "kitchen_unit",
-    "copy-from": "vehicle_rig",
-    "type": "GENERIC",
-    "name": { "str": "RV kitchen unit" },
-    "description": "A vehicle-mountable electric range and sink unit with integrated tool storage for cooking utensils."
-  },
-  {
-    "id": "weldrig",
-    "copy-from": "vehicle_rig",
-    "type": "GENERIC",
-    "name": { "str": "vehicle welding rig" },
-    "description": "A welding rig made to run off a vehicle's storage battery.  It has a soldering iron attachment for delicate work, and a compartment to store your extra tools in."
   },
   {
     "id": "weldkit",

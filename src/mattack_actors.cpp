@@ -1001,7 +1001,8 @@ void gun_actor::shoot( monster &z, const tripoint &target, const gun_mode_id &mo
     add_msg_debug( debugmode::DF_MATTACK,
                    "Temp NPC:\nSTR %d, DEX %d, INT %d, PER %d\nGun skill (%s) %d",
                    tmp.str_cur, tmp.dex_cur, tmp.int_cur, tmp.per_cur,
-                   gun.gun_skill().c_str(), tmp.get_skill_level( throwing ? skill_throw : skill_gun ) );
+                   gun.gun_skill().c_str(), static_cast<int>( tmp.get_skill_level( throwing ? skill_throw :
+                           skill_gun ) ) );
 
     if( throwing ) {
         tmp.throw_item( target, item( ammo, calendar::turn, 1 ) );

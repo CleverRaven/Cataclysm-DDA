@@ -1459,7 +1459,7 @@ int talk_function::combat_score( const std::vector<npc_ptr> &group )
         if( elem->get_part_hp_cur( bodypart_id( "torso" ) ) != 0 ) {
             const skill_id best = elem->best_combat_skill( combat_skills::ALL ).first;
             if( best ) {
-                score += elem->get_skill_level( best );
+                score += round( elem->get_skill_level( best ) );
             } else {
                 score += 1;
             }
@@ -2143,7 +2143,7 @@ bool talk_function::forage_return( npc &p )
     // the following doxygen aliases do not yet exist. this is marked for future reference
 
     ///\EFFECT_SURVIVAL_NPC affects forage mission results
-    int skill = comp->get_skill_level( skill_survival );
+    float skill = comp->get_skill_level( skill_survival );
     if( skill > rng_float( -.5, 8 ) ) {
         item_group_id itemlist = Item_spawn_data_farming_seeds;
         if( one_in( 2 ) ) {
@@ -2463,7 +2463,7 @@ static int companion_combat_rank( const npc &p )
 
 static int companion_survival_rank( const npc &p )
 {
-    int survival = 2 * p.get_dex() + p.get_str() + 2 * p.get_per() + 1.5 * p.get_int();
+    float survival = 2 * p.get_dex() + p.get_str() + 2 * p.get_per() + 1.5 * p.get_int();
     for( const Skill &sk : Skill::skills ) {
         survival += p.get_skill_level( sk.ident() ) * sk.companion_survival_rank_factor();
     }
@@ -2506,7 +2506,8 @@ comp_list talk_function::companion_sort( comp_list available,
         }
 
         bool operator()( const npc_ptr &first, const npc_ptr &second ) const {
-            return first->get_skill_level( req_skill ) > second->get_skill_level( req_skill );
+            return static_cast<int>( first->get_skill_level( req_skill ) ) > static_cast<int>
+                   ( second->get_skill_level( req_skill ) );
         }
 
         skill_id req_skill;

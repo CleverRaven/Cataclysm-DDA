@@ -4,8 +4,17 @@
     "looks_like": "glock_17",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "FN Five-seveN" },
-    "description": "Designed to work with FN's proprietary 5.7x28mm round, the Five-seveN is a lightweight pistol with a very high capacity, best used against armored opponents.",
+    "name": { "str": "5.7mm pistol" },
+    "description": "Firing the armor-piercing 5.7x28mm round, this lightweight handgun was developed for NATO use as a sidearm capable of penetrating body armor.  Its proprietary and nonprolific ammunition kept it comparatively rare amongst both civilian and militant use, but the gun’s ability to ignore most forms of conventional ballistic armor can’t be argued with.  Given that its tiny bullets have next to no stopping power, its armor-penetrating capability comes at a considerable trade-off.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "fn57",
+        "name": { "str": "FN Five-seveN" },
+        "description": "Designed to work with FN's proprietary 5.7x28mm round, the Five-seveN is a lightweight pistol with a very high capacity, best used against armored opponents.",
+        "weight": 1
+      }
+    ],
     "ascii_picture": "FN_five_seven",
     "weight": "600 g",
     "volume": "551 ml",
@@ -45,14 +54,14 @@
     "looks_like": "hk_mp5",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "FN 5.7x28mm PDW" },
-    "description": "An FN manufactured personal defence weapon, this automatic firearm is chambered for the high-velocity proprietary 5.7x28mm cartridge.  Accepting top-mounted 50-round custom magazines which are fitted to the receiver of the weapon behind the grip, thus making it a bullpup design, this little submachine gun packs quite the nasty payload.  Its comparatively small, high-speed caliber makes it excellent at both defeating armoured opponents and firing short bursts manageably.",
+    "name": { "str": "5.7mm automatic PDW" },
+    "description": "A late 90s manufactured personal defense weapon (PDW), this automatic firearm fires the high-velocity, proprietary 5.7x28mm cartridge.  Making use of top-mounted 50-round custom magazines which lock into the receiver of the weapon behind the grip, this little submachine gun packs quite the nasty payload.  Its small, high-speed caliber makes it excellent at both defeating armored opponents and firing short bursts manageably.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "fn_p90",
         "name": { "str": "FN P90" },
-        "description": "The first in a new genre of guns, termed \"personal defence weapons.\"  FN designed the P90 to use their proprietary high-velocity 5.7x28mm ammunition.  Made to fulfill NATO requests for a weapon chambered in a more suitable cartridge for potentially defeating body armour than their standard 9mm submachine guns, the FN P90 is excellent at firing short and controllable bursts manageably.  The PDW’s comparatively small-diameter, high-speed 5.7mm ammunition, of which 50 rounds comfortably fit in the P90’s top mounted magazine, packs quite the lethal payload for any armoured opponent, whilst the firearm’s bullpup design makes it commendably compact to boot.",
+        "description": "The first in a new genre of guns, termed \"personal defense weapons.\"  FN designed the P90 to use their proprietary high-velocity 5.7x28mm ammunition.  Made to fulfill NATO requests for a weapon chambered in a more suitable cartridge for defeating body armor than standard 9x19mm submachine guns, the FN P90 is excellent at firing short and controllable bursts manageably.  The PDW’s small and high-speed 5.7mm ammunition, of which 50 rounds fit in the P90’s top mounted magazine, packs quite the lethal payload for any armored opponent, whilst the firearm’s bullpup design makes it commendably compact to boot.",
         "weight": 1
       }
     ],
@@ -91,8 +100,8 @@
     "looks_like": "glock_17",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "Kel-Tec 5.7x28mm pistol" },
-    "description": "A large retro-looking semi-automatic pistol chambered for the high-velocity 5.7x28mm cartridge, mainly constructed out of polymer-based materials.  Making use of standard 5.7x28mm 50-round box magazines which are inserted horizontally over the grip, the top of the gun swings forwards and away from the frame to facilitate reloading.  If you were looking to add a touch of retro-futuristic spice to your new life in the ruins of New England, this firearm just might become your best friend.",
+    "name": { "str": "high-capacity 5.7mm handgun" },
+    "description": "A large and retro-looking semi-automatic pistol firing the high-velocity 5.7x28mm cartridge, mainly constructed out of polymer-based materials.  Making use of standard 5.7x28mm 50-round magazines which are inserted horizontally over the grip, the top of the gun swings forwards and away from the frame to facilitate reloading.  If you were looking to add a touch of retro-futuristic spice to your new life in the ruins of New England, this firearm just might become your best friend.",
     "variant_type": "gun",
     "variants": [
       {
@@ -139,8 +148,17 @@
     "looks_like": "glock_17",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "Ruger-57" },
-    "description": "A full-sized polymer framed handgun chambered in the unusual 5.7x28mm cartridge, the Ruger-57 was one of the first commercially available 5.7mm pistols on the market, with its main competitor being FN’s decades-old, and far pricier, Five-seveN pistol.  Featuring a lightweight ergonomic design, 1911-style thumb-safety, a high visibility green front-sight with adjustable black rear iron-sights, and a price point which hovered a good 500 dollars below its competition, the Ruger-57 made the comparatively niche 5.7x28mm round far more accessible to a wider margin of potential shooters.",
+    "name": { "str": "Ruger-57 handgun" },
+    "description": "Produced by the Ruger gun company, this full-sized pistol makes use of the 5.7x28mm cartridge.  One of the first pistols to both make use of the unusual round and achieve market success within the civilian world, it opened the door for accessible 5.7mm shooting due to its low price and reliable design.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "ruger_57",
+        "name": { "str": "Ruger-57" },
+        "description": "A full-sized polymer framed handgun chambered in the unusual 5.7x28mm cartridge, the Ruger-57 was one of the first commercially available 5.7mm pistols on the market, with its main competitor being FN’s decades-old, and far pricier, Five-seveN pistol.  Featuring a lightweight ergonomic design, 1911-style thumb-safety, a high visibility green front-sight with adjustable black rear iron-sights, and a price point which hovered a good 500 dollars below its competition, the Ruger-57 made the comparatively niche 5.7x28mm round far more accessible to a wider margin of potential shooters.",
+        "weight": 1
+      }
+    ],
     "weight": "690 g",
     "volume": "937 ml",
     "longest_side": "220 mm",
@@ -184,8 +202,8 @@
     "id": "fn_ps90",
     "copy-from": "fn_p90",
     "type": "GUN",
-    "name": { "str": "civilian FN 5.7x28mm carbine" },
-    "description": "The civilian version of FN’s older 5.7x28mm PDW, this carbine features a 16 inch long barrel, feeds from the same 50-round magazines as its predecessor, and is only capable of semi-automatic fire in order to keep it in line with American firearm restrictions.",
+    "name": { "str": "semi-automatic 5.7mm carbine" },
+    "description": "The civilian version of the older 5.7mm PDW, this carbine features a 16 inch long barrel, feeds from the same 50-round magazines as its predecessor, and is only capable of semi-automatic fire in order to keep it in line with American firearm restrictions.",
     "variant_type": "gun",
     "variants": [
       {

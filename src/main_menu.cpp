@@ -1083,7 +1083,7 @@ void main_menu::world_tab( const std::string &worldname )
     if( sel2 == 0 ) {
         WORLD *world = world_generator->make_new_world();
         // NOLINTNEXTLINE(cata-use-localized-sorting)
-        if( world->world_name < world_generator->all_worldnames()[last_world_pos] ) {
+        if( world != nullptr && world->world_name < world_generator->all_worldnames()[last_world_pos] ) {
             last_world_pos++;
         }
         return;

@@ -89,6 +89,7 @@ static const itype_id itype_water_clean( "water_clean" );
 static const itype_id itype_water_faucet( "water_faucet" );
 static const itype_id itype_water_purifier( "water_purifier" );
 static const itype_id itype_welder( "welder" );
+static const itype_id itype_welding_kit( "welding_kit" );
 
 static const quality_id qual_SCREW( "SCREW" );
 
@@ -411,7 +412,7 @@ void vehicle::smash_security_system()
     const vehicle_part &vp_controls = part( idx_controls );
     const vehicle_part &vp_security = part( idx_security );
     ///\EFFECT_MECHANICS reduces chance of damaging controls when smashing security system
-    const int skill = player_character.get_skill_level( skill_mechanics );
+    const float skill = player_character.get_skill_level( skill_mechanics );
     const int percent_controls = 70 / ( 1 + skill );
     const int percent_alarm = ( skill + 3 ) * 10;
     const int rand = rng( 1, 100 );
@@ -1699,7 +1700,10 @@ static bool use_vehicle_tool( vehicle &veh, const tripoint &vp_pos, const itype_
     // HACK: Evil hack incoming
     player_activity &act = get_player_character().activity;
     if( act.id() == ACT_REPAIR_ITEM &&
-        ( tool_type == itype_welder || tool_type == itype_soldering_iron ) ) {
+        ( tool_type == itype_welder ||
+          tool_type == itype_welding_kit ||
+          tool_type == itype_soldering_iron
+        ) ) {
         act.index = INT_MIN; // tell activity the item doesn't really exist
         act.coords.push_back( vp_pos ); // tell it to search for the tool on `pos`
         act.str_values.push_back( tool_type.str() ); // specific tool on the rig
@@ -1762,7 +1766,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         .hotkey( "HOTWIRE" )
         .on_submit( [this] {
             ///\EFFECT_MECHANICS speeds up vehicle hotwiring
-            const int skill = std::max( 1, get_player_character().get_skill_level( skill_mechanics ) );
+            const float skill = std::max( 1.0f, get_player_character().get_skill_level( skill_mechanics ) );
             const int moves = to_moves<int>( 6000_seconds / skill );
             const tripoint target = global_square_location().raw() + coord_translate( parts[0].mount );
             const hotwire_car_activity_actor hotwire_act( moves, target );

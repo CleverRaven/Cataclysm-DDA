@@ -4,8 +4,17 @@
     "looks_like": "hk_mp5",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str_sp": "American-180" },
-    "description": "The American-180 is a submachine gun developed in the 1960s that fires .22 LR, unusual for an SMG.  Though the round is low-powered, the high rate of fire and large magazine makes the 180 a formidable weapon.",
+    "name": { "str": ".22 caliber submachine gun" },
+    "description": "A dramatically uncommon automatic weapon, making use of high-capacity pan magazines and firing the low power .22 calibre cartridge: an unusual ammunition choice for a submachine gun.  With negligible recoil on account of its modest cartridge and a suppressively high rate of fire, a burst of .22 LR rounds from this little machine gun can be best likened with a swarm of hornets… an incredibly angry swarm of hornets.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "american_180",
+        "name": { "str_sp": "American-180" },
+        "description": "The American-180 is a submachine gun developed in the 1960s that fires .22 LR, unusual for an SMG.  Though the round is low-powered, the high rate of fire and large magazine makes the 180 a formidable weapon.",
+        "weight": 1
+      }
+    ],
     "weight": "2585 g",
     "volume": "2200 ml",
     "longest_side": "905 mm",
@@ -49,8 +58,17 @@
     "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str_sp": "Marlin 39A" },
-    "description": "The oldest and longest-produced shoulder firearm in the world.  Though it fires the weak .22 round, it is highly accurate and damaging, and has essentially no recoil.",
+    "name": { "str": "small game rifle" },
+    "description": "A venerable .22 caliber lever-action rifle, with a 19-round tube magazine and a classic design that dates back over a century.  Generally used for the hunting of small game like rabbits, the strict taxonomic classification of zombies as 'small game' is debatable, but this decades-old weapon can still be counted upon to help manage the undead population.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "marlin_9a",
+        "name": { "str_sp": "Marlin 39A" },
+        "description": "The oldest and longest-produced shoulder firearm in the world.  Though it fires the weak .22 round, it is highly accurate and damaging, and has essentially no recoil.",
+        "weight": 1
+      }
+    ],
     "ascii_picture": "marlin_39a",
     "weight": "2948 g",
     "volume": "2180 ml",
@@ -100,8 +118,17 @@
     "looks_like": "glock_17",
     "copy-from": "pistol_base",
     "type": "GUN",
-    "name": { "str_sp": "Mossberg Brownie" },
-    "description": "The first gun produced by O.F. Mossberg & Sons, the Brownie is a small pocket pistol marketed to trappers during the early 20th century.  Its four barrels can accept .22 Short and .22 LR cartridges.",
+    "name": { "str": ".22 deringer pistol" },
+    "description": "A four barrelled, adorably tiny pocket pistol, firing the equally miniscule .22 LR cartridge.  Produced in the early 20th century for trappers, its combat effectiveness is questionable to say the least.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "moss_brownie",
+        "name": { "str_sp": "Mossberg Brownie" },
+        "description": "The first gun produced by O.F. Mossberg & Sons, the Brownie is a small pocket pistol marketed to trappers during the early 20th century.  Its four barrels can accept .22 Short and .22 LR cartridges.",
+        "weight": 1
+      }
+    ],
     "weight": "286 g",
     "volume": "100 ml",
     "longest_side": "129 mm",
@@ -178,8 +205,17 @@
     "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str_sp": "Ruger 10/22" },
-    "description": "A combination of negligible recoil, high customization, and inexpensive ammunition made the Ruger 10/22 a popular choice among enthusiasts and small game hunters.  Even though it fires the weak .22 round, it's perfectly capable of killing.",
+    "name": { "str": "varmint rifle" },
+    "description": "A lightweight and modular pistol caliber hunting carbine, firing the low power .22 LR cartridge.  Before the Cataclysm, a mix of high customizability, cheep ammunition, and low recoil made this a very popular varmint rifle amongst civilian shooters.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "ruger_1022",
+        "name": { "str_sp": "Ruger 10/22" },
+        "description": "A combination of negligible recoil, high customization, and inexpensive ammunition made the Ruger 10/22 a popular choice among enthusiasts and small game hunters.  Even though it fires the weak .22 round, it's perfectly capable of killing.",
+        "weight": 1
+      }
+    ],
     "ascii_picture": "ruger1022",
     "weight": "2270 g",
     "volume": "2120 ml",
@@ -223,7 +259,17 @@
     "looks_like": "sw_619",
     "copy-from": "ruger_lcr_38",
     "type": "GUN",
-    "name": { "str_sp": "Ruger LCR .22" },
+    "name": { "str": ".22 caliber revolver" },
+    "description": "A comparatively dainty revolver, chambered for 8 tiny rounds of .22 LR.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "ruger_lcr_22",
+        "name": { "str_sp": "Ruger LCR .22" },
+        "description": "A compact, double-action-only revolver designed for easy concealment, with a stainless steel cylinder and aluminum frame.",
+        "weight": 1
+      }
+    ],
     "weight": "422 g",
     "ammo": [ "22" ],
     "longest_side": "192 mm",
@@ -242,8 +288,17 @@
     "looks_like": "glock_17",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str_sp": "SIG Mosquito" },
-    "description": "A popular, small .22 LR pistol.  One of the many polymer frame pistols produced during the late 20th and early 21st centuries; it has an underbarrel rail.",
+    "name": { "str": "Mosquito pistol" },
+    "description": "A compact, .22 caliber semi-automatic pistol.  Built from aluminum and polymer componence, the weapon is lightweight and concealable.  Unfortunately, much like its namesake, this pistol mostly poses a mild annoyance to most hostiles that the Cataclysm is liable to direct into your path.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "sig_mosquito",
+        "name": { "str_sp": "SIG Mosquito" },
+        "description": "A popular, small .22 LR pistol.  One of the many polymer frame pistols produced during the late 20th and early 21st centuries; it has an underbarrel rail.",
+        "weight": 1
+      }
+    ],
     "ascii_picture": "sig_mosquito",
     "weight": "720 g",
     "volume": "467 ml",
@@ -284,8 +339,17 @@
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
     "type": "GUN",
-    "name": { "str_sp": "S&W 22A" },
-    "description": "A popular .22 pistol from Smith & Wesson.  It's quite light for its size, and an integrated rail makes it easy to mount optics to the gun.",
+    "name": { "str": "S&W pocket pistol" },
+    "description": "A modest offering from the Smith and Wesson (S&W) gun company, this is a compact pistol that fires the .22 LR cartridge.  Featuring an integrated rail for optics mounting, it was a popular .22 handgun amongst shooters of the low-power cartridge.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "sw_22",
+        "name": { "str_sp": "S&W 22A" },
+        "description": "A popular .22 pistol from Smith & Wesson.  It's quite light for its size, and an integrated rail makes it easy to mount optics to the gun.",
+        "weight": 1
+      }
+    ],
     "ascii_picture": "sw_22a",
     "weight": "975 g",
     "volume": "560 ml",
@@ -306,11 +370,20 @@
   },
   {
     "id": "j22",
-    "copy-from": "pistol_backup",
     "looks_like": "glock_17",
     "type": "GUN",
-    "name": { "str": "Jennings J-22" },
-    "description": "One of the quintessential 'Saturday night specials', the Jennings J-22 was very affordably priced with its injection-molded zinc slide and frame.  Intended to fill the void left after small pocket pistols were banned from import, these were more commonly used by criminals unfazed by their glaring safety issues.",
+    "copy-from": "pistol_backup",
+    "name": { "str": "cheap .22 caliber pistol" },
+    "description": "Made from only the cheapest of budget metals, firing one of the weakest cartridges, and having a hearty laugh at the concept of user safety, this .22 caliber pocket pistol is of questionable utility at best.  Affordably priced before the Cataclysm, the pistol’s price point was arguably its only positive element, an element which pertains zero bearing on your current situation.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "j22",
+        "name": { "str": "Jennings J-22" },
+        "description": "One of the quintessential 'Saturday night specials', the Jennings J-22 was very affordably priced with its injection-molded zinc slide and frame.  Intended to fill the void left after small pocket pistols were banned from import, these were more commonly used by criminals unfazed by their glaring safety issues.",
+        "weight": 1
+      }
+    ],
     "weight": "340 g",
     "volume": "80 ml",
     "longest_side": "141 mm",
@@ -324,6 +397,7 @@
     "dispersion": 600,
     "durability": 5,
     "min_cycle_recoil": 39,
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "pocket_data": [ { "magazine_well": "27 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "j22mag" ] } ]
   },
@@ -332,8 +406,17 @@
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
     "type": "GUN",
-    "name": { "str": "Walther P22" },
-    "description": "The Walther P22 is a blowback operated semi-automatic pistol.  It is about half the size of most Walthers.  It is made mostly with plastic, with the slide and key components being made of die-cast zinc alloy.",
+    "name": { "str": "Walther pocket pistol" },
+    "description": "A dainty pocket pistol offered by the Walther arms company, making use of the.22 LR cartridge.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "walther_p22",
+        "name": { "str": "Walther P22" },
+        "description": "The Walther P22 is a blowback operated semi-automatic pistol.  It is about half the size of most Walthers.  It is made mostly with plastic, with the slide and key components being made of die-cast zinc alloy.",
+        "weight": 1
+      }
+    ],
     "weight": "480 g",
     "volume": "290 ml",
     "longest_side": "183 mm",
@@ -347,6 +430,7 @@
     "dispersion": 480,
     "durability": 7,
     "min_cycle_recoil": 39,
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [ { "magazine_well": "126 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "wp22mag" ] } ]
   }
 ]

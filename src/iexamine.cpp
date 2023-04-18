@@ -2636,7 +2636,7 @@ void iexamine::harvest_plant( Character &you, const tripoint &examp, bool from_a
         const itype &type = *seed->type;
         here.i_clear( examp );
 
-        int skillLevel = you.get_skill_level( skill_survival );
+        int skillLevel = round( you.get_skill_level( skill_survival ) );
         ///\EFFECT_SURVIVAL increases number of plants harvested from a seed
         int plant_count = rng( skillLevel / 2, skillLevel );
         plant_count *= here.furn( examp )->plant->harvest_multiplier;
@@ -2829,7 +2829,7 @@ void iexamine::kiln_empty( Character &you, const tripoint &examp )
     // For a cruddy kiln (a pit with a rock chimney) assume 10-15% efficiency, depending on fabrication (40-60% wastage)
     // For a well made kiln (industrial-style metal kiln) assume 20-25% efficiency, depending on fabrication (0-20% wastage)
     ///\EFFECT_FABRICATION decreases loss when firing a kiln
-    const int skill = you.get_skill_level( skill_fabrication );
+    const float skill = you.get_skill_level( skill_fabrication );
     int loss = 0;
     // if the current kiln is a metal one, use a more efficient conversion rate otherwise default to assuming it is a rock pit kiln
     if( cur_kiln_type == f_kiln_metal_empty ) {
@@ -2974,7 +2974,7 @@ void iexamine::arcfurnace_empty( Character &you, const tripoint &examp )
     }
 
     ///\EFFECT_FABRICATION decreases loss when firing a furnace
-    const int skill = you.get_skill_level( skill_fabrication );
+    const float skill = you.get_skill_level( skill_fabrication );
     int loss = 60 - 2 *
                skill; // Inefficiency is still fine, coal and limestone is abundant
 
@@ -3766,12 +3766,12 @@ static void pick_plant( Character &you, const tripoint &examp,
         return;
     }
 
-    const int survival = you.get_skill_level( skill_survival );
+    const float survival = you.get_skill_level( skill_survival );
     you.practice( skill_survival, 6 );
 
     int plantBase = rng( 2, 5 );
     ///\EFFECT_SURVIVAL increases number of plants harvested
-    int plantCount = rng( plantBase, plantBase + survival / 2 );
+    int plantCount = rng( plantBase, round( plantBase + survival / 2 ) );
     plantCount = std::min( plantCount, 12 );
 
     here.spawn_item( you.pos(), itemType, plantCount, 0, calendar::turn );
@@ -3798,7 +3798,8 @@ void iexamine::tree_hickory( Character &you, const tripoint &examp )
         query_yn( _( "Dig up %s?  This kills the tree!" ), here.tername( examp ) ) ) {
         digging_up = true;
         /** @EFFECT_SURVIVAL increases hickory root number per tree */
-        here.spawn_item( you.pos(), itype_hickory_root, rng( 1, 3 + you.get_skill_level( skill_survival ) ),
+        here.spawn_item( you.pos(), itype_hickory_root, rng( 1,
+                         round( 3 + you.get_skill_level( skill_survival ) ) ),
                          0,
                          calendar::turn );
         here.ter_set( examp, t_tree_hickory_dead );
@@ -4052,7 +4053,7 @@ void trap::examine( const tripoint &examp ) const
     }
 
     if( query_yn( _( "There is a %s there.  Disarm?" ), name() ) ) {
-        const int traps_skill_level = player_character.get_skill_level( skill_traps );
+        const float traps_skill_level = player_character.get_skill_level( skill_traps );
         const float weighted_stat_average = ( 2.0f * player_character.per_cur + 3.0f *
                                               player_character.dex_cur +
                                               player_character.int_cur ) / 6.0f;
@@ -6635,7 +6636,8 @@ void iexamine::practice_survival_while_foraging( Character &who )
     ///\EFFECT_INT Intelligence caps survival skill gains from foraging
     const int max_forage_skill = who.int_cur / 3 + 1;
     ///\EFFECT_SURVIVAL decreases survival skill gain from foraging (NEGATIVE)
-    const int max_exp = 2 * ( max_forage_skill - who.get_skill_level( skill_survival ) );
+    const int max_exp = 2 * ( max_forage_skill - static_cast<int>( who.get_skill_level(
+                                  skill_survival ) ) );
     // Award experience for foraging attempt regardless of success
     who.practice( skill_survival, rng( 1, max_exp ), max_forage_skill );
 }

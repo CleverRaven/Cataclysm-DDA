@@ -130,6 +130,23 @@ static bool friendly_teacher( const Character &student, const Character &teacher
            ( teacher.is_npc() && teacher.as_npc()->is_player_ally() );
 }
 
+namespace
+{
+dialogue copy_dialogue( dialogue const &d )
+{
+    Creature *creature_alpha = d.has_alpha ? d.actor( false )->get_creature() : nullptr;
+    item_location *item_alpha = d.has_alpha ? d.actor( false )->get_item() : nullptr;
+    Creature *creature_beta = d.has_beta ? d.actor( true )->get_creature() : nullptr;
+    item_location *item_beta = d.has_beta ? d.actor( true )->get_item() : nullptr;
+    return {
+        creature_alpha ? get_talker_for( creature_alpha ) : item_alpha ? get_talker_for(
+            item_alpha ) : nullptr,
+        creature_beta ? get_talker_for( creature_beta ) : item_beta ? get_talker_for(
+            item_beta ) : nullptr
+    };
+}
+} // namespace
+
 std::string talk_trial::name() const
 {
     static const std::array<std::string, NUM_TALK_TRIALS> texts = { {
@@ -776,7 +793,8 @@ void game::chat()
             std::vector<Character *> clist( followers.begin(), followers.end() );
             std::vector<int> selected = npcs_select_menu( clist,
             _( "Who should participate in the training seminar?" ), [&]( const Character * n ) {
-                return !n || n->get_knowledge_level( sk ) >= player_character.get_skill_level( sk );
+                return !n ||
+                       n->get_knowledge_level( sk ) >= static_cast<int>( player_character.get_skill_level( sk ) );
             } );
             if( selected.empty() ) {
                 return;
@@ -1871,8 +1889,7 @@ std::set<dialogue_consequence> talk_response::get_consequences( const dialogue &
     return {{ success.get_consequence( d ), failure.get_consequence( d ) }};
 }
 
-template<class T>
-dialogue_consequence talk_effect_t<T>::get_consequence( const T &d ) const
+dialogue_consequence talk_effect_t::get_consequence( dialogue const &d ) const
 {
     if( d.actor( true )->check_hostile_response( opinion.anger ) ) {
         return dialogue_consequence::hostile;
@@ -2035,9 +2052,9 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
     actor( true )->store_chosen_training( chosen.skill, chosen.style, chosen.dialogue_spell,
                                           chosen.proficiency );
     const bool success = chosen.trial.roll( *this );
-    const auto &effects = success ? chosen.success : chosen.failure;
+    talk_effect_t const &effects = success ? chosen.success : chosen.failure;
     talk_topic ret_topic =  effects.apply( *this );
-    effects.update_missions( *this );
+    talk_effect_t::update_missions( *this );
     return ret_topic;
 }
 
@@ -2098,14 +2115,14 @@ talk_trial::talk_trial( const JsonObject &jo )
         jo.throw_error_at( "type", "invalid talk trial type" );
     }
     type = iter->second;
-    if( !( type == TALK_TRIAL_NONE || type == TALK_TRIAL_CONDITION ) ) {
+    if( type != TALK_TRIAL_NONE && type != TALK_TRIAL_CONDITION ) {
         difficulty = jo.get_int( "difficulty" );
     }
     if( type == TALK_TRIAL_SKILL_CHECK ) {
         skill_required = jo.get_string( "skill_required" );
     }
 
-    read_condition<dialogue>( jo, "condition", condition, false );
+    read_condition( jo, "condition", condition, false );
 
     if( jo.has_member( "mod" ) ) {
         for( JsonArray jmod : jo.get_array( "mod" ) ) {
@@ -2124,74 +2141,69 @@ static talk_topic load_inline_topic( const JsonObject &jo )
     return talk_topic( id );
 }
 
-template<class T>
-talk_effect_fun_t<T>::talk_effect_fun_t( const talkfunction_ptr &ptr )
+talk_effect_fun_t::talk_effect_fun_t( const talkfunction_ptr &ptr )
 {
-    function = [ptr]( const T & d ) {
+    function = [ptr]( dialogue const & d ) {
         if( d.actor( true )->get_npc() ) {
             ptr( *d.actor( true )->get_npc() );
         }
     };
 }
 
-template<class T>
-talk_effect_fun_t<T>::talk_effect_fun_t( const std::function<void( npc &p )> &ptr )
+talk_effect_fun_t::talk_effect_fun_t( const std::function<void( npc &p )> &ptr )
 {
-    function = [ptr]( const T & d ) {
+    function = [ptr]( dialogue const & d ) {
         if( d.actor( true )->get_npc() ) {
             ptr( *d.actor( true )->get_npc() );
         }
     };
 }
 
-template<class T>
-talk_effect_fun_t<T>::talk_effect_fun_t( const std::function<void( const T &d )> &fun )
+talk_effect_fun_t::talk_effect_fun_t( const std::function<void( dialogue const &d )> &fun )
 {
-    function = [fun]( const T & d ) {
+    function = [fun]( dialogue const & d ) {
         fun( d );
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_companion_mission( const std::string &role_id )
+void talk_effect_fun_t::set_companion_mission( const std::string &role_id )
 {
-    function = [role_id]( const T & d ) {
+    function = [role_id]( dialogue const & d ) {
         d.actor( true )->set_companion_mission( role_id );
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_add_effect( const JsonObject &jo, const std::string &member,
-        bool is_npc )
+void talk_effect_fun_t::set_add_effect( const JsonObject &jo, const std::string &member,
+                                        bool is_npc )
 {
-    str_or_var<T> new_effect = get_str_or_var<T>( jo.get_member( member ), member, true );
+    str_or_var new_effect = get_str_or_var( jo.get_member( member ), member, true );
     bool permanent = false;
     bool force = false;
-    duration_or_var<T> dov_duration;
-    dbl_or_var<T> dov_intensity;
+    duration_or_var dov_duration;
+    dbl_or_var dov_intensity;
     if( jo.has_string( "duration" ) ) {
         const std::string dur_string = jo.get_string( "duration" );
         if( dur_string == "PERMANENT" ) {
             permanent = true;
-            dov_duration = get_duration_or_var<T>( jo, "", false, 1_turns );
+            dov_duration = get_duration_or_var( jo, "", false, 1_turns );
         } else {
-            dov_duration = get_duration_or_var<T>( jo, "duration", false, 1000_turns );
+            dov_duration = get_duration_or_var( jo, "duration", false, 1000_turns );
         }
     } else {
-        dov_duration = get_duration_or_var<T>( jo, "duration", true );
+        dov_duration = get_duration_or_var( jo, "duration", true );
     }
-    dov_intensity = get_dbl_or_var<T>( jo, "intensity", false, 0 );
+    dov_intensity = get_dbl_or_var( jo, "intensity", false, 0 );
     if( jo.has_bool( "force" ) ) {
         force = jo.get_bool( "force" );
     }
-    str_or_var<T> target;
+    str_or_var target;
     if( jo.has_member( "target_part" ) ) {
-        target = get_str_or_var<T>( jo.get_member( "target_part" ), "target_part", false, "bp_null" );
+        target = get_str_or_var( jo.get_member( "target_part" ), "target_part", false, "bp_null" );
     } else {
         target.str_val = "bp_null";
     }
     function = [is_npc, new_effect, dov_duration, target, permanent, force,
-            dov_intensity]( const T & d ) {
+            dov_intensity]( dialogue const & d ) {
         d.actor( is_npc )->add_effect( efftype_id( new_effect.evaluate( d ) ),
                                        dov_duration.evaluate( d ),
                                        target.evaluate( d ), permanent, force,
@@ -2199,104 +2211,94 @@ void talk_effect_fun_t<T>::set_add_effect( const JsonObject &jo, const std::stri
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_remove_effect( const JsonObject &jo, const std::string &member,
+void talk_effect_fun_t::set_remove_effect( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
-    str_or_var<T> old_effect = get_str_or_var<T>( jo.get_member( member ), member, true );
-    function = [is_npc, old_effect]( const T & d ) {
+    str_or_var old_effect = get_str_or_var( jo.get_member( member ), member, true );
+    function = [is_npc, old_effect]( dialogue const & d ) {
         d.actor( is_npc )->remove_effect( efftype_id( old_effect.evaluate( d ) ) );
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_add_trait( const JsonObject &jo, const std::string &member,
-        bool is_npc )
+void talk_effect_fun_t::set_add_trait( const JsonObject &jo, const std::string &member,
+                                       bool is_npc )
 {
-    str_or_var<T> new_trait = get_str_or_var<T>( jo.get_member( member ), member, true );
-    function = [is_npc, new_trait]( const T & d ) {
+    str_or_var new_trait = get_str_or_var( jo.get_member( member ), member, true );
+    function = [is_npc, new_trait]( dialogue const & d ) {
         d.actor( is_npc )->set_mutation( trait_id( new_trait.evaluate( d ) ) );
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_remove_trait( const JsonObject &jo, const std::string &member,
+void talk_effect_fun_t::set_remove_trait( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
-    str_or_var<T> old_trait = get_str_or_var<T>( jo.get_member( member ), member, true );
-    function = [is_npc, old_trait]( const T & d ) {
+    str_or_var old_trait = get_str_or_var( jo.get_member( member ), member, true );
+    function = [is_npc, old_trait]( dialogue const & d ) {
         d.actor( is_npc )->unset_mutation( trait_id( old_trait.evaluate( d ) ) );
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_learn_martial_art( const JsonObject &jo, const std::string &member,
+void talk_effect_fun_t::set_learn_martial_art( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
-    str_or_var<T> ma_to_learn = get_str_or_var<T>( jo.get_member( member ), member, true );
-    function = [is_npc, ma_to_learn]( const T & d ) {
+    str_or_var ma_to_learn = get_str_or_var( jo.get_member( member ), member, true );
+    function = [is_npc, ma_to_learn]( dialogue const & d ) {
         d.actor( is_npc )->learn_martial_art( matype_id( ma_to_learn.evaluate( d ) ) );
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_forget_martial_art( const JsonObject &jo, const std::string &member,
+void talk_effect_fun_t::set_forget_martial_art( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
-    str_or_var<T> ma_to_forget = get_str_or_var<T>( jo.get_member( member ), member, true );
-    function = [is_npc, ma_to_forget]( const T & d ) {
+    str_or_var ma_to_forget = get_str_or_var( jo.get_member( member ), member, true );
+    function = [is_npc, ma_to_forget]( dialogue const & d ) {
         d.actor( is_npc )->forget_martial_art( matype_id( ma_to_forget.evaluate( d ) ) );
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_mutate( const JsonObject &jo, const std::string &member,
-                                       bool is_npc )
+void talk_effect_fun_t::set_mutate( const JsonObject &jo, const std::string &member,
+                                    bool is_npc )
 {
-    dbl_or_var<T> highest_cat = get_dbl_or_var<T>( jo, member, true, 0 );
+    dbl_or_var highest_cat = get_dbl_or_var( jo, member, true, 0 );
     const bool use_vitamins = jo.get_bool( "use_vitamins", true );
-    function = [is_npc, highest_cat, use_vitamins]( const T & d ) {
+    function = [is_npc, highest_cat, use_vitamins]( dialogue const & d ) {
         d.actor( is_npc )->mutate( highest_cat.evaluate( d ), use_vitamins );
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_mutate_category( const JsonObject &jo, const std::string &member,
+void talk_effect_fun_t::set_mutate_category( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
-    str_or_var<T> mut_cat = get_str_or_var<T>( jo.get_member( member ), member, true, "" );
+    str_or_var mut_cat = get_str_or_var( jo.get_member( member ), member, true, "" );
     const bool use_vitamins = jo.get_bool( "use_vitamins", true );
-    function = [is_npc, mut_cat, use_vitamins]( const T & d ) {
+    function = [is_npc, mut_cat, use_vitamins]( dialogue const & d ) {
         d.actor( is_npc )->mutate_category( mutation_category_id( mut_cat.evaluate( d ) ), use_vitamins );
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_add_bionic( const JsonObject &jo, const std::string &member,
-        bool is_npc )
+void talk_effect_fun_t::set_add_bionic( const JsonObject &jo, const std::string &member,
+                                        bool is_npc )
 {
-    str_or_var<T> new_bionic = get_str_or_var<T>( jo.get_member( member ), member, true );
-    function = [is_npc, new_bionic]( const T & d ) {
+    str_or_var new_bionic = get_str_or_var( jo.get_member( member ), member, true );
+    function = [is_npc, new_bionic]( dialogue const & d ) {
         d.actor( is_npc )->add_bionic( bionic_id( new_bionic.evaluate( d ) ) );
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_lose_bionic( const JsonObject &jo, const std::string &member,
+void talk_effect_fun_t::set_lose_bionic( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
-    str_or_var<T> old_bionic = get_str_or_var<T>( jo.get_member( member ), member, true );
-    function = [is_npc, old_bionic]( const T & d ) {
+    str_or_var old_bionic = get_str_or_var( jo.get_member( member ), member, true );
+    function = [is_npc, old_bionic]( dialogue const & d ) {
         d.actor( is_npc )->remove_bionic( bionic_id( old_bionic.evaluate( d ) ) );
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_add_var( const JsonObject &jo, const std::string &member,
-                                        bool is_npc )
+void talk_effect_fun_t::set_add_var( const JsonObject &jo, const std::string &member,
+                                     bool is_npc )
 {
-    dbl_or_var<dialogue> empty;
-    const std::string var_name = get_talk_varname<dialogue>( jo, member, false, empty );
+    dbl_or_var empty;
+    const std::string var_name = get_talk_varname( jo, member, false, empty );
     const std::string var_base_name = get_talk_var_basename( jo, member, false );
     const bool time_check = jo.has_member( "time" ) && jo.get_bool( "time" );
     std::vector<std::string> possible_values = jo.get_string_array( "possible_values" );
@@ -2304,7 +2306,7 @@ void talk_effect_fun_t<T>::set_add_var( const JsonObject &jo, const std::string 
         const std::string value = time_check ? "" : jo.get_string( "value" );
         possible_values.push_back( value );
     }
-    function = [is_npc, var_name, possible_values, time_check, var_base_name]( const T & d ) {
+    function = [is_npc, var_name, possible_values, time_check, var_base_name]( dialogue const & d ) {
         talker *actor = d.actor( is_npc );
         if( time_check ) {
             actor->set_value( var_name, string_format( "%d", to_turn<int>( calendar::turn ) ) );
@@ -2316,26 +2318,24 @@ void talk_effect_fun_t<T>::set_add_var( const JsonObject &jo, const std::string 
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_remove_var( const JsonObject &jo, const std::string &member,
-        bool is_npc )
+void talk_effect_fun_t::set_remove_var( const JsonObject &jo, const std::string &member,
+                                        bool is_npc )
 {
-    dbl_or_var<dialogue> empty;
-    const std::string var_name = get_talk_varname<dialogue>( jo, member, false, empty );
-    function = [is_npc, var_name]( const T & d ) {
+    dbl_or_var empty;
+    const std::string var_name = get_talk_varname( jo, member, false, empty );
+    function = [is_npc, var_name]( dialogue const & d ) {
         d.actor( is_npc )->remove_value( var_name );
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_adjust_var( const JsonObject &jo, const std::string &member,
-        bool is_npc )
+void talk_effect_fun_t::set_adjust_var( const JsonObject &jo, const std::string &member,
+                                        bool is_npc )
 {
-    dbl_or_var<dialogue> empty;
-    const std::string var_name = get_talk_varname<dialogue>( jo, member, false, empty );
+    dbl_or_var empty;
+    const std::string var_name = get_talk_varname( jo, member, false, empty );
     const std::string var_base_name = get_talk_var_basename( jo, member, false );
-    dbl_or_var<T> dov = get_dbl_or_var<T>( jo, "adjustment" );
-    function = [is_npc, var_base_name, var_name, dov]( const T & d ) {
+    dbl_or_var dov = get_dbl_or_var( jo, "adjustment" );
+    function = [is_npc, var_base_name, var_name, dov]( dialogue const & d ) {
         int adjusted_value = dov.evaluate( d );
 
         const std::string &var = d.actor( is_npc )->get_value( var_name );
@@ -2392,25 +2392,25 @@ static void receive_item( itype_id &item_name, int count, const std::string &con
     }
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_u_spawn_item( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_u_spawn_item( const JsonObject &jo, const std::string &member )
 {
-    str_or_var<T> item_name = get_str_or_var<T>( jo.get_member( member ), member, true );
-    str_or_var<T> container_name;
+    str_or_var item_name = get_str_or_var( jo.get_member( member ), member, true );
+    str_or_var container_name;
     if( jo.has_member( "container" ) ) {
-        container_name = get_str_or_var<T>( jo.get_member( "container" ), "container", true );
+        container_name = get_str_or_var( jo.get_member( "container" ), "container", true );
     } else {
         container_name.str_val = "";
     }
     bool use_item_group = jo.get_bool( "use_item_group", false );
     bool suppress_message = jo.get_bool( "suppress_message", false );
-    dbl_or_var<T> count;
+    dbl_or_var count;
     if( !jo.has_int( "charges" ) ) {
-        count = get_dbl_or_var<T>( jo, "count", false, 1 );
+        count = get_dbl_or_var( jo, "count", false, 1 );
     } else {
-        count = get_dbl_or_var<T>( jo, "count", false, 0 );
+        count = get_dbl_or_var( jo, "count", false, 0 );
     }
-    function = [item_name, count, container_name, use_item_group, suppress_message]( const T & d ) {
+    function = [item_name, count, container_name, use_item_group,
+               suppress_message]( dialogue const & d ) {
         itype_id iname = itype_id( item_name.evaluate( d ) );
         receive_item( iname, count.evaluate( d ),
                       container_name.evaluate( d ), d, use_item_group, suppress_message );
@@ -2420,30 +2420,29 @@ void talk_effect_fun_t<T>::set_u_spawn_item( const JsonObject &jo, const std::st
                                  itype_id( item_name.evaluate( d ) ) );
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_u_buy_item( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_u_buy_item( const JsonObject &jo, const std::string &member )
 {
     std::vector<effect_on_condition_id> true_eocs = load_eoc_vector( jo, "true_eocs" );
     std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );
-    dbl_or_var<T> cost = get_dbl_or_var<T>( jo, "cost", false, 0 );
-    dbl_or_var<T> count;
+    dbl_or_var cost = get_dbl_or_var( jo, "cost", false, 0 );
+    dbl_or_var count;
     if( !jo.has_int( "charges" ) ) {
-        count = get_dbl_or_var<T>( jo, "count", false, 1 );
+        count = get_dbl_or_var( jo, "count", false, 1 );
     } else {
-        count = get_dbl_or_var<T>( jo, "count", false, 0 );
+        count = get_dbl_or_var( jo, "count", false, 0 );
     }
     bool use_item_group = jo.get_bool( "use_item_group", false );
     bool suppress_message = jo.get_bool( "suppress_message", false );
-    str_or_var<T> container_name;
+    str_or_var container_name;
     if( jo.has_member( "container" ) ) {
-        container_name = get_str_or_var<T>( jo.get_member( "container" ), "container", true );
+        container_name = get_str_or_var( jo.get_member( "container" ), "container", true );
     } else {
         container_name.str_val = "";
     }
 
-    str_or_var<T> item_name = get_str_or_var<T>( jo.get_member( member ), member, true );
+    str_or_var item_name = get_str_or_var( jo.get_member( member ), member, true );
     function = [item_name, cost, count, container_name, true_eocs, false_eocs,
-               use_item_group, suppress_message]( const T & d ) {
+               use_item_group, suppress_message]( dialogue const & d ) {
         if( !d.actor( true )->buy_from( cost.evaluate( d ) ) ) {
             popup( _( "You can't afford it!" ) );
             run_eoc_vector( false_eocs, d );
@@ -2456,20 +2455,19 @@ void talk_effect_fun_t<T>::set_u_buy_item( const JsonObject &jo, const std::stri
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_u_sell_item( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_u_sell_item( const JsonObject &jo, const std::string &member )
 {
     std::vector<effect_on_condition_id> true_eocs = load_eoc_vector( jo, "true_eocs" );
     std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );
-    dbl_or_var<T> cost = get_dbl_or_var<T>( jo, "cost", false, 0 );
-    dbl_or_var<T> count;
+    dbl_or_var cost = get_dbl_or_var( jo, "cost", false, 0 );
+    dbl_or_var count;
     if( !jo.has_int( "charges" ) ) {
-        count = get_dbl_or_var<T>( jo, "count", false, 1 );
+        count = get_dbl_or_var( jo, "count", false, 1 );
     } else {
-        count = get_dbl_or_var<T>( jo, "count", false, 0 );
+        count = get_dbl_or_var( jo, "count", false, 0 );
     }
-    str_or_var<T> item_name = get_str_or_var<T>( jo.get_member( member ), member, true );
-    function = [item_name, cost, count, true_eocs, false_eocs]( const T & d ) {
+    str_or_var item_name = get_str_or_var( jo.get_member( member ), member, true );
+    function = [item_name, cost, count, true_eocs, false_eocs]( dialogue const & d ) {
         int current_count = count.evaluate( d );
         itype_id current_item_name = itype_id( item_name.evaluate( d ) );
         if( item::count_by_charges( current_item_name ) &&
@@ -2501,20 +2499,19 @@ void talk_effect_fun_t<T>::set_u_sell_item( const JsonObject &jo, const std::str
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_consume_item( const JsonObject &jo, const std::string &member,
+void talk_effect_fun_t::set_consume_item( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
-    str_or_var<T> item_name = get_str_or_var<T>( jo.get_member( member ), member, true );
-    dbl_or_var<T> charges = get_dbl_or_var<T>( jo, "charges", false, 0 );
-    dbl_or_var<T> count;
+    str_or_var item_name = get_str_or_var( jo.get_member( member ), member, true );
+    dbl_or_var charges = get_dbl_or_var( jo, "charges", false, 0 );
+    dbl_or_var count;
     if( !jo.has_int( "charges" ) ) {
-        count = get_dbl_or_var<T>( jo, "count", false, 1 );
+        count = get_dbl_or_var( jo, "count", false, 1 );
     } else {
-        count = get_dbl_or_var<T>( jo, "count", false, 0 );
+        count = get_dbl_or_var( jo, "count", false, 0 );
     }
     const bool do_popup = jo.get_bool( "popup", false );
-    function = [do_popup, is_npc, item_name, count, charges]( const T & d ) {
+    function = [do_popup, is_npc, item_name, count, charges]( dialogue const & d ) {
         // this is stupid, but I couldn't get the assignment to work
         int current_count = count.evaluate( d );
         int current_charges = charges.evaluate( d );
@@ -2557,12 +2554,11 @@ void talk_effect_fun_t<T>::set_consume_item( const JsonObject &jo, const std::st
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_remove_item_with( const JsonObject &jo, const std::string &member,
+void talk_effect_fun_t::set_remove_item_with( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
-    str_or_var<T> item_name = get_str_or_var<T>( jo.get_member( member ), member, true );
-    function = [is_npc, item_name]( const T & d ) {
+    str_or_var item_name = get_str_or_var( jo.get_member( member ), member, true );
+    function = [is_npc, item_name]( dialogue const & d ) {
         itype_id item_id = itype_id( item_name.evaluate( d ) );
         d.actor( is_npc )->remove_items_with( [item_id]( const item & it ) {
             return it.typeId() == item_id;
@@ -2570,13 +2566,12 @@ void talk_effect_fun_t<T>::set_remove_item_with( const JsonObject &jo, const std
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_u_spend_cash( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_u_spend_cash( const JsonObject &jo, const std::string &member )
 {
-    dbl_or_var<T> amount = get_dbl_or_var<T>( jo, member );
+    dbl_or_var amount = get_dbl_or_var( jo, member );
     std::vector<effect_on_condition_id> true_eocs = load_eoc_vector( jo, "true_eocs" );
     std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );
-    function = [amount, true_eocs, false_eocs]( const T & d ) {
+    function = [amount, true_eocs, false_eocs]( dialogue const & d ) {
         if( d.actor( true )->buy_from( amount.evaluate( d ) ) ) {
             run_eoc_vector( true_eocs, d );
         } else {
@@ -2585,37 +2580,33 @@ void talk_effect_fun_t<T>::set_u_spend_cash( const JsonObject &jo, const std::st
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_npc_change_faction( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_npc_change_faction( const JsonObject &jo, const std::string &member )
 {
-    str_or_var<T> faction_name = get_str_or_var<T>( jo.get_member( member ), member, true );
-    function = [faction_name]( const T & d ) {
+    str_or_var faction_name = get_str_or_var( jo.get_member( member ), member, true );
+    function = [faction_name]( dialogue const & d ) {
         d.actor( true )->set_fac( faction_id( faction_name.evaluate( d ) ) );
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_npc_change_class( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_npc_change_class( const JsonObject &jo, const std::string &member )
 {
-    str_or_var<T> class_name = get_str_or_var<T>( jo.get_member( member ), member, true );
-    function = [class_name]( const T & d ) {
+    str_or_var class_name = get_str_or_var( jo.get_member( member ), member, true );
+    function = [class_name]( dialogue const & d ) {
         d.actor( true )->set_class( npc_class_id( class_name.evaluate( d ) ) );
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_change_faction_rep( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_change_faction_rep( const JsonObject &jo, const std::string &member )
 {
-    dbl_or_var<T> rep_change = get_dbl_or_var<T>( jo, member );
-    function = [rep_change]( const T & d ) {
+    dbl_or_var rep_change = get_dbl_or_var( jo, member );
+    function = [rep_change]( dialogue const & d ) {
         d.actor( true )->add_faction_rep( rep_change.evaluate( d ) );
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_add_debt( const std::vector<trial_mod> &debt_modifiers )
+void talk_effect_fun_t::set_add_debt( const std::vector<trial_mod> &debt_modifiers )
 {
-    function = [debt_modifiers]( const T & d ) {
+    function = [debt_modifiers]( dialogue const & d ) {
         int debt = 0;
         for( const trial_mod &this_mod : debt_modifiers ) {
             if( this_mod.first == "TOTAL" ) {
@@ -2628,84 +2619,76 @@ void talk_effect_fun_t<T>::set_add_debt( const std::vector<trial_mod> &debt_modi
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_toggle_npc_rule( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_toggle_npc_rule( const JsonObject &jo, const std::string &member )
 {
-    str_or_var<T> rule = get_str_or_var<T>( jo.get_member( member ), member, true );
-    function = [rule]( const T & d ) {
+    str_or_var rule = get_str_or_var( jo.get_member( member ), member, true );
+    function = [rule]( dialogue const & d ) {
         d.actor( true )->toggle_ai_rule( "ally_rule", rule.evaluate( d ) );
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_set_npc_rule( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_set_npc_rule( const JsonObject &jo, const std::string &member )
 {
-    str_or_var<T> rule = get_str_or_var<T>( jo.get_member( member ), member, true );
-    function = [rule]( const T & d ) {
+    str_or_var rule = get_str_or_var( jo.get_member( member ), member, true );
+    function = [rule]( dialogue const & d ) {
         d.actor( true )->set_ai_rule( "ally_rule", rule.evaluate( d ) );
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_clear_npc_rule( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_clear_npc_rule( const JsonObject &jo, const std::string &member )
 {
-    str_or_var<T> rule = get_str_or_var<T>( jo.get_member( member ), member, true );
-    function = [rule]( const T & d ) {
+    str_or_var rule = get_str_or_var( jo.get_member( member ), member, true );
+    function = [rule]( dialogue const & d ) {
         d.actor( true )->clear_ai_rule( "ally_rule", rule.evaluate( d ) );
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_npc_engagement_rule( const JsonObject &jo,
+void talk_effect_fun_t::set_npc_engagement_rule( const JsonObject &jo,
         const std::string &member )
 {
-    str_or_var<T> rule = get_str_or_var<T>( jo.get_member( member ), member, true );
-    function = [rule]( const T & d ) {
+    str_or_var rule = get_str_or_var( jo.get_member( member ), member, true );
+    function = [rule]( dialogue const & d ) {
         d.actor( true )->set_ai_rule( "engagement_rule", rule.evaluate( d ) );
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_npc_aim_rule( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_npc_aim_rule( const JsonObject &jo, const std::string &member )
 {
-    str_or_var<T> rule = get_str_or_var<T>( jo.get_member( member ), member, true );
-    function = [rule]( const T & d ) {
+    str_or_var rule = get_str_or_var( jo.get_member( member ), member, true );
+    function = [rule]( dialogue const & d ) {
         d.actor( true )->set_ai_rule( "aim_rule", rule.evaluate( d ) );
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_npc_cbm_reserve_rule( const JsonObject &jo,
+void talk_effect_fun_t::set_npc_cbm_reserve_rule( const JsonObject &jo,
         const std::string &member )
 {
-    str_or_var<T> rule = get_str_or_var<T>( jo.get_member( member ), member, true );
-    function = [rule]( const T & d ) {
+    str_or_var rule = get_str_or_var( jo.get_member( member ), member, true );
+    function = [rule]( dialogue const & d ) {
         d.actor( true )->set_ai_rule( "cbm_reserve_rule", rule.evaluate( d ) );
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_npc_cbm_recharge_rule( const JsonObject &jo,
+void talk_effect_fun_t::set_npc_cbm_recharge_rule( const JsonObject &jo,
         const std::string &member )
 {
-    str_or_var<T> rule = get_str_or_var<T>( jo.get_member( member ), member, true );
-    function = [rule]( const T & d ) {
+    str_or_var rule = get_str_or_var( jo.get_member( member ), member, true );
+    function = [rule]( dialogue const & d ) {
         d.actor( true )->set_ai_rule( "cbm_recharge_rule", rule.evaluate( d ) );
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_location_variable( const JsonObject &jo, const std::string &member,
+void talk_effect_fun_t::set_location_variable( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
-    dbl_or_var<T> dov_min_radius = get_dbl_or_var<T>( jo, "min_radius", false, 0 );
-    dbl_or_var<T> dov_max_radius = get_dbl_or_var<T>( jo, "max_radius", false, 0 );
-    dbl_or_var<T> dov_z_adjust = get_dbl_or_var<T>( jo, "z_adjust", false, 0 );
-    dbl_or_var<T> dov_x_adjust = get_dbl_or_var<T>( jo, "x_adjust", false, 0 );
-    dbl_or_var<T> dov_y_adjust = get_dbl_or_var<T>( jo, "y_adjust", false, 0 );
+    dbl_or_var dov_min_radius = get_dbl_or_var( jo, "min_radius", false, 0 );
+    dbl_or_var dov_max_radius = get_dbl_or_var( jo, "max_radius", false, 0 );
+    dbl_or_var dov_z_adjust = get_dbl_or_var( jo, "z_adjust", false, 0 );
+    dbl_or_var dov_x_adjust = get_dbl_or_var( jo, "x_adjust", false, 0 );
+    dbl_or_var dov_y_adjust = get_dbl_or_var( jo, "y_adjust", false, 0 );
     bool z_override = jo.get_bool( "z_override", false );
     const bool outdoor_only = jo.get_bool( "outdoor_only", false );
-    std::optional<mission_target_params<dialogue>> target_params;
+    std::optional<mission_target_params> target_params;
     if( jo.has_object( "target_params" ) ) {
         JsonObject target_obj = jo.get_object( "target_params" );
         target_params = mission_util::parse_mission_om_target( target_obj );
@@ -2720,7 +2703,7 @@ void talk_effect_fun_t<T>::set_location_variable( const JsonObject &jo, const st
 
     function = [dov_min_radius, dov_max_radius, var_name, outdoor_only, target_params,
                                 is_npc, type, dov_x_adjust, dov_y_adjust, dov_z_adjust, z_override, true_eocs,
-                    false_eocs]( const T & d ) {
+                    false_eocs]( dialogue const & d ) {
         talker *target = d.actor( is_npc );
         tripoint talker_pos = get_map().getabs( target->pos() );
         tripoint target_pos = talker_pos;
@@ -2763,13 +2746,12 @@ void talk_effect_fun_t<T>::set_location_variable( const JsonObject &jo, const st
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_location_variable_adjust( const JsonObject &jo,
+void talk_effect_fun_t::set_location_variable_adjust( const JsonObject &jo,
         const std::string &member )
 {
-    dbl_or_var<T> dov_z_adjust = get_dbl_or_var<T>( jo, "z_adjust", false, 0 );
-    dbl_or_var<T> dov_x_adjust = get_dbl_or_var<T>( jo, "x_adjust", false, 0 );
-    dbl_or_var<T> dov_y_adjust = get_dbl_or_var<T>( jo, "y_adjust", false, 0 );
+    dbl_or_var dov_z_adjust = get_dbl_or_var( jo, "z_adjust", false, 0 );
+    dbl_or_var dov_x_adjust = get_dbl_or_var( jo, "x_adjust", false, 0 );
+    dbl_or_var dov_y_adjust = get_dbl_or_var( jo, "y_adjust", false, 0 );
     bool z_override = jo.get_bool( "z_override", false );
     bool overmap_tile = jo.get_bool( "overmap_tile", false );
 
@@ -2780,7 +2762,7 @@ void talk_effect_fun_t<T>::set_location_variable_adjust( const JsonObject &jo,
         output_var = read_var_info( jo.get_object( "output_var" ) );
     }
     function = [input_var, dov_x_adjust, dov_y_adjust, dov_z_adjust, z_override,
-               output_var, overmap_tile ]( const T & d ) {
+               output_var, overmap_tile ]( dialogue const & d ) {
         tripoint_abs_ms target_pos = get_tripoint_from_var( input_var, d );
 
         if( overmap_tile ) {
@@ -2805,29 +2787,28 @@ void talk_effect_fun_t<T>::set_location_variable_adjust( const JsonObject &jo,
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_transform_radius( const JsonObject &jo, const std::string &member,
+void talk_effect_fun_t::set_transform_radius( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
-    str_or_var<T> transform = get_str_or_var<T>( jo.get_member( "ter_furn_transform" ),
-                              "ter_furn_transform", true );
-    dbl_or_var<T> dov = get_dbl_or_var<T>( jo, member );
-    duration_or_var<T> dov_time_in_future = get_duration_or_var<T>( jo, "time_in_future", false,
-                                            0_seconds );
+    str_or_var transform = get_str_or_var( jo.get_member( "ter_furn_transform" ),
+                                           "ter_furn_transform", true );
+    dbl_or_var dov = get_dbl_or_var( jo, member );
+    duration_or_var dov_time_in_future = get_duration_or_var( jo, "time_in_future", false,
+                                         0_seconds );
     std::optional<var_info> target_var;
     if( jo.has_member( "target_var" ) ) {
         target_var = read_var_info( jo.get_object( "target_var" ) );
     }
-    str_or_var<T> key;
+    str_or_var key;
     if( jo.has_member( "key" ) ) {
-        key = get_str_or_var<T>( jo.get_member( "key" ), "key", false, "" );
+        key = get_str_or_var( jo.get_member( "key" ), "key", false, "" );
     } else {
         key.str_val = "";
     }
-    function = [dov, transform, target_var, dov_time_in_future, key, is_npc]( const T & d ) {
+    function = [dov, transform, target_var, dov_time_in_future, key, is_npc]( dialogue const & d ) {
         tripoint_abs_ms target_pos = d.actor( is_npc )->global_pos();
         if( target_var.has_value() ) {
-            target_pos = get_tripoint_from_var<T>( target_var, d );
+            target_pos = get_tripoint_from_var( target_var, d );
         }
 
         int radius = dov.evaluate( d );
@@ -2845,16 +2826,15 @@ void talk_effect_fun_t<T>::set_transform_radius( const JsonObject &jo, const std
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_transform_line( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_transform_line( const JsonObject &jo, const std::string &member )
 {
-    str_or_var<T> transform = get_str_or_var<T>( jo.get_member( member ), member, true );
+    str_or_var transform = get_str_or_var( jo.get_member( member ), member, true );
     var_info first = read_var_info( jo.get_object( "first" ) );
     var_info second = read_var_info( jo.get_object( "second" ) );
 
-    function = [transform, first, second]( const T & d ) {
-        tripoint_abs_ms const t_first = get_tripoint_from_var<T>( first, d );
-        tripoint_abs_ms const t_second = get_tripoint_from_var<T>( second, d );
+    function = [transform, first, second]( dialogue const & d ) {
+        tripoint_abs_ms const t_first = get_tripoint_from_var( first, d );
+        tripoint_abs_ms const t_second = get_tripoint_from_var( second, d );
         tripoint_abs_ms const orig = coord_min( t_first, t_second );
         map tm;
         tm.load( project_to<coords::sm>( orig ), false );
@@ -2862,18 +2842,17 @@ void talk_effect_fun_t<T>::set_transform_line( const JsonObject &jo, const std::
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_place_override( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_place_override( const JsonObject &jo, const std::string &member )
 {
-    str_or_var<T> new_place = get_str_or_var<T>( jo.get_member( member ), member );
-    duration_or_var<T> dov_length = get_duration_or_var<T>( jo, "length", true );
-    str_or_var<T> key;
+    str_or_var new_place = get_str_or_var( jo.get_member( member ), member );
+    duration_or_var dov_length = get_duration_or_var( jo, "length", true );
+    str_or_var key;
     if( jo.has_member( "key" ) ) {
-        key = get_str_or_var<T>( jo.get_member( "key" ), "key", false, "" );
+        key = get_str_or_var( jo.get_member( "key" ), "key", false, "" );
     } else {
         key.str_val = "";
     }
-    function = [new_place, dov_length, key]( const T & d ) {
+    function = [new_place, dov_length, key]( dialogue const & d ) {
         get_timed_events().add( timed_event_type::OVERRIDE_PLACE,
                                 calendar::turn + dov_length.evaluate( d ) + 1_seconds,
                                 //Timed events happen before the player turn and eocs are during so we add a second here to sync them up using the same variable
@@ -2881,37 +2860,36 @@ void talk_effect_fun_t<T>::set_place_override( const JsonObject &jo, const std::
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_mapgen_update( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, const std::string &member )
 {
-    mission_target_params<dialogue> target_params = mission_util::parse_mission_om_target( jo );
-    std::vector<str_or_var<T>> update_ids;
-    duration_or_var<T> dov_time_in_future = get_duration_or_var<T>( jo, "time_in_future", false,
-                                            0_seconds );
+    mission_target_params target_params = mission_util::parse_mission_om_target( jo );
+    std::vector<str_or_var> update_ids;
+    duration_or_var dov_time_in_future = get_duration_or_var( jo, "time_in_future", false,
+                                         0_seconds );
     if( jo.has_string( member ) ) {
-        update_ids.emplace_back( get_str_or_var<T>( jo.get_member( member ), member ) );
+        update_ids.emplace_back( get_str_or_var( jo.get_member( member ), member ) );
     } else if( jo.has_array( member ) ) {
         for( JsonValue jv : jo.get_array( member ) ) {
-            update_ids.emplace_back( get_str_or_var<T>( jv, member ) );
+            update_ids.emplace_back( get_str_or_var( jv, member ) );
         }
     }
     std::optional<var_info> target_var;
     if( jo.has_member( "target_var" ) ) {
         target_var = read_var_info( jo.get_object( "target_var" ) );
     }
-    str_or_var<T> key;
+    str_or_var key;
     if( jo.has_member( "key" ) ) {
-        key = get_str_or_var<T>( jo.get_member( "key" ), "key", false, "" );
+        key = get_str_or_var( jo.get_member( "key" ), "key", false, "" );
     } else {
         key.str_val = "";
     }
-    function = [target_params, update_ids, target_var, dov_time_in_future, key]( const T & d ) {
+    function = [target_params, update_ids, target_var, dov_time_in_future, key]( dialogue const & d ) {
         tripoint_abs_omt omt_pos;
         if( target_var.has_value() ) {
-            const tripoint_abs_ms abs_ms( get_tripoint_from_var<T>( target_var, d ) );
+            const tripoint_abs_ms abs_ms( get_tripoint_from_var( target_var, d ) );
             omt_pos = project_to<coords::omt>( abs_ms );
         } else {
-            mission_target_params<dialogue> update_params = target_params;
+            mission_target_params update_params = target_params;
             if( d.has_beta ) {
                 update_params.guy = d.actor( true )->get_npc();
             }
@@ -2921,13 +2899,13 @@ void talk_effect_fun_t<T>::set_mapgen_update( const JsonObject &jo, const std::s
         if( future > 0_seconds ) {
             time_point tif = calendar::turn + future + 1_seconds;
             //Timed events happen before the player turn and eocs are during so we add a second here to sync them up using the same variable
-            for( const str_or_var<T> &mapgen_update_id : update_ids ) {
+            for( const str_or_var &mapgen_update_id : update_ids ) {
                 get_timed_events().add( timed_event_type::UPDATE_MAPGEN, tif, -1, project_to<coords::ms>( omt_pos ),
                                         0, mapgen_update_id.evaluate( d ), key.evaluate( d ) );
             }
 
         } else {
-            for( const str_or_var<T> &mapgen_update_id : update_ids ) {
+            for( const str_or_var &mapgen_update_id : update_ids ) {
                 run_mapgen_update_func( update_mapgen_id( mapgen_update_id.evaluate( d ) ), omt_pos, {},
                                         d.actor( d.has_beta )->selected_mission() );
             }
@@ -2936,30 +2914,28 @@ void talk_effect_fun_t<T>::set_mapgen_update( const JsonObject &jo, const std::s
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_alter_timed_events( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_alter_timed_events( const JsonObject &jo, const std::string &member )
 {
-    str_or_var<T> key = get_str_or_var<T>( jo.get_member( member ), member, true );
-    duration_or_var<T> time_in_future = get_duration_or_var<T>( jo, "time_in_future", false,
-                                        0_seconds );
-    function = [key, time_in_future]( const T & d ) {
+    str_or_var key = get_str_or_var( jo.get_member( member ), member, true );
+    duration_or_var time_in_future = get_duration_or_var( jo, "time_in_future", false,
+                                     0_seconds );
+    function = [key, time_in_future]( dialogue const & d ) {
         get_timed_events().set_all( key.evaluate( d ), time_in_future.evaluate( d ) );
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_revert_location( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_revert_location( const JsonObject &jo, const std::string &member )
 {
-    duration_or_var<T> dov_time_in_future = get_duration_or_var<T>( jo, "time_in_future", true );
-    str_or_var<T> key;
+    duration_or_var dov_time_in_future = get_duration_or_var( jo, "time_in_future", true );
+    str_or_var key;
     if( jo.has_member( "key" ) ) {
-        key = get_str_or_var<T>( jo.get_member( "key" ), "key", false, "" );
+        key = get_str_or_var( jo.get_member( "key" ), "key", false, "" );
     } else {
         key.str_val = "";
     }
     std::optional<var_info> target_var = read_var_info( jo.get_object( member ) );
-    function = [target_var, dov_time_in_future, key]( const T & d ) {
-        const tripoint_abs_ms abs_ms( get_tripoint_from_var<T>( target_var, d ) );
+    function = [target_var, dov_time_in_future, key]( dialogue const & d ) {
+        const tripoint_abs_ms abs_ms( get_tripoint_from_var( target_var, d ) );
         tripoint_abs_omt omt_pos = project_to<coords::omt>( abs_ms );
         time_point tif = calendar::turn + dov_time_in_future.evaluate( d ) + 1_seconds;
         // Timed events happen before the player turn and eocs are during so we add a second here to sync them up using the same variable
@@ -2983,14 +2959,13 @@ void talk_effect_fun_t<T>::set_revert_location( const JsonObject &jo, const std:
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_npc_goal( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_npc_goal( const JsonObject &jo, const std::string &member )
 {
-    mission_target_params<dialogue> dest_params = mission_util::parse_mission_om_target( jo.get_object(
-                member ) );
+    mission_target_params dest_params = mission_util::parse_mission_om_target( jo.get_object(
+                                            member ) );
     std::vector<effect_on_condition_id> true_eocs = load_eoc_vector( jo, "true_eocs" );
     std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );
-    function = [dest_params, true_eocs, false_eocs]( const T & d ) {
+    function = [dest_params, true_eocs, false_eocs]( dialogue const & d ) {
         npc *guy = d.actor( true )->get_npc();
         if( guy ) {
             tripoint_abs_omt destination = mission_util::get_om_terrain_pos( dest_params );
@@ -3014,18 +2989,17 @@ void talk_effect_fun_t<T>::set_npc_goal( const JsonObject &jo, const std::string
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_bulk_trade_accept( const JsonObject &jo, const std::string &member,
+void talk_effect_fun_t::set_bulk_trade_accept( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
-    dbl_or_var<T> dov_quantity;
+    dbl_or_var dov_quantity;
     if( jo.has_member( member ) ) {
-        dov_quantity = get_dbl_or_var<T>( jo, member, false, -1 );
+        dov_quantity = get_dbl_or_var( jo, member, false, -1 );
     } else {
         dov_quantity.min.dbl_val = -1;
     }
     bool is_trade = member == "u_bulk_trade_accept" || member == "npc_bulk_trade_accept";
-    function = [is_trade, is_npc, dov_quantity]( const T & d ) {
+    function = [is_trade, is_npc, dov_quantity]( dialogue const & d ) {
         talker *seller = d.actor( is_npc );
         talker *buyer = d.actor( !is_npc );
         item tmp( d.cur_item );
@@ -3088,46 +3062,42 @@ void talk_effect_fun_t<T>::set_bulk_trade_accept( const JsonObject &jo, const st
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_npc_gets_item( bool to_use )
+void talk_effect_fun_t::set_npc_gets_item( bool to_use )
 {
-    function = [to_use]( const T & d ) {
+    function = [to_use]( dialogue const & d ) {
         d.reason = d.actor( true )->give_item_to( to_use );
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_add_mission( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_add_mission( const JsonObject &jo, const std::string &member )
 {
-    str_or_var<T> mission_id = get_str_or_var<T>( jo.get_member( member ), member, true );
-    function = [mission_id]( const T & d ) {
+    str_or_var mission_id = get_str_or_var( jo.get_member( member ), member, true );
+    function = [mission_id]( dialogue const & d ) {
         d.actor( true )->add_mission( mission_type_id( mission_id.evaluate( d ) ) );
     };
 }
 
-template<class T>
-const std::vector<std::pair<int, itype_id>> &talk_effect_fun_t<T>::get_likely_rewards() const
+const std::vector<std::pair<int, itype_id>> &talk_effect_fun_t::get_likely_rewards() const
 {
     return likely_rewards;
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_u_buy_monster( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_u_buy_monster( const JsonObject &jo, const std::string &member )
 {
-    str_or_var<T> monster_type_id = get_str_or_var<T>( jo.get_member( member ), member, true );
-    dbl_or_var<T> cost = get_dbl_or_var<T>( jo, "cost", false, 0 );
-    dbl_or_var<T> count = get_dbl_or_var<T>( jo, "count", false, 1 );
+    str_or_var monster_type_id = get_str_or_var( jo.get_member( member ), member, true );
+    dbl_or_var cost = get_dbl_or_var( jo, "cost", false, 0 );
+    dbl_or_var count = get_dbl_or_var( jo, "count", false, 1 );
     const bool pacified = jo.get_bool( "pacified", false );
-    str_or_var<T> name;
+    str_or_var name;
     if( jo.has_member( "name" ) ) {
-        name = get_str_or_var<T>( jo.get_member( "name" ), "name", true );
+        name = get_str_or_var( jo.get_member( "name" ), "name", true );
     } else {
         name.str_val = "";
     }
     std::vector<effect_on_condition_id> true_eocs = load_eoc_vector( jo, "true_eocs" );
     std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );
     function = [monster_type_id, cost, count, pacified, name, true_eocs,
-                     false_eocs]( const T & d ) {
+                     false_eocs]( dialogue const & d ) {
         const mtype_id mtype( monster_type_id.evaluate( d ) );
         translation translated_name = to_translation( _( name.evaluate( d ) ) );
         if( d.actor( false )->buy_monster( *d.actor( true ), mtype, cost.evaluate( d ), count.evaluate( d ),
@@ -3139,52 +3109,49 @@ void talk_effect_fun_t<T>::set_u_buy_monster( const JsonObject &jo, const std::s
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_u_learn_recipe( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_u_learn_recipe( const JsonObject &jo, const std::string &member )
 {
-    str_or_var<T> learned_recipe_id = get_str_or_var<T>( jo.get_member( member ), member, true );
-    function = [learned_recipe_id]( const T & d ) {
+    str_or_var learned_recipe_id = get_str_or_var( jo.get_member( member ), member, true );
+    function = [learned_recipe_id]( dialogue const & d ) {
         const recipe &r = recipe_id( learned_recipe_id.evaluate( d ) ).obj();
         get_player_character().learn_recipe( &r );
         popup( _( "You learn how to craft %s." ), r.result_name() );
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_npc_first_topic( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_npc_first_topic( const JsonObject &jo, const std::string &member )
 {
-    str_or_var<T> chat_topic = get_str_or_var<T>( jo.get_member( member ), member, true );
-    function = [chat_topic]( const T & d ) {
+    str_or_var chat_topic = get_str_or_var( jo.get_member( member ), member, true );
+    function = [chat_topic]( dialogue const & d ) {
         d.actor( true )->set_first_topic( chat_topic.evaluate( d ) );
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_message( const JsonObject &jo, const std::string &member,
-                                        bool is_npc )
+void talk_effect_fun_t::set_message( const JsonObject &jo, const std::string &member,
+                                     bool is_npc )
 {
-    str_or_var<T> message = get_str_or_var<T>( jo.get_member( member ), member );
+    str_or_var message = get_str_or_var( jo.get_member( member ), member );
     const bool snippet = jo.get_bool( "snippet", false );
     const bool same_snippet = jo.get_bool( "same_snippet", false );
     const bool outdoor_only = jo.get_bool( "outdoor_only", false );
     const bool sound = jo.get_bool( "sound", false );
     const bool popup_msg = jo.get_bool( "popup", false );
     const bool popup_w_interrupt_query_msg = jo.get_bool( "popup_w_interrupt_query", false );
-    str_or_var<T> interrupt_type;
+    str_or_var interrupt_type;
     if( jo.has_member( "interrupt_type" ) ) {
-        interrupt_type = get_str_or_var<T>( jo.get_member( "interrupt_type" ), "interrupt_type", true );
+        interrupt_type = get_str_or_var( jo.get_member( "interrupt_type" ), "interrupt_type", true );
     } else {
         interrupt_type.str_val = "default";
     }
-    str_or_var<T> type_string;
+    str_or_var type_string;
     if( jo.has_member( "type" ) ) {
-        type_string = get_str_or_var<T>( jo.get_member( "type" ), "type", true );
+        type_string = get_str_or_var( jo.get_member( "type" ), "type", true );
     } else {
         type_string.str_val = "neutral";
     }
     function = [message, outdoor_only, sound, snippet, same_snippet, type_string, popup_msg,
                          popup_w_interrupt_query_msg, interrupt_type,
-             is_npc]( const T & d ) {
+             is_npc]( dialogue const & d ) {
         Character *target = d.actor( is_npc )->get_character();
         if( !target || target->is_npc() ) {
             return;
@@ -3283,13 +3250,12 @@ void talk_effect_fun_t<T>::set_message( const JsonObject &jo, const std::string 
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_assign_activity( const JsonObject &jo, const std::string &member,
+void talk_effect_fun_t::set_assign_activity( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
-    duration_or_var<T> dov = get_duration_or_var<T>( jo, "duration", true );
-    str_or_var<T> act = get_str_or_var<T>( jo.get_member( member ), member, true );
-    function = [is_npc, dov, act]( const T & d ) {
+    duration_or_var dov = get_duration_or_var( jo, "duration", true );
+    str_or_var act = get_str_or_var( jo.get_member( member ), member, true );
+    function = [is_npc, dov, act]( dialogue const & d ) {
         Character *target = d.actor( is_npc )->get_character();
         if( target ) {
             target->assign_activity( activity_id( act.evaluate( d ) ), to_moves<int>( dov.evaluate( d ) ) );
@@ -3297,12 +3263,11 @@ void talk_effect_fun_t<T>::set_assign_activity( const JsonObject &jo, const std:
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_add_wet( const JsonObject &jo, const std::string &member,
-                                        bool is_npc )
+void talk_effect_fun_t::set_add_wet( const JsonObject &jo, const std::string &member,
+                                     bool is_npc )
 {
-    dbl_or_var<T> dov = get_dbl_or_var<T>( jo, member );
-    function = [is_npc, dov]( const T & d ) {
+    dbl_or_var dov = get_dbl_or_var( jo, member );
+    function = [is_npc, dov]( dialogue const & d ) {
         Character *target = d.actor( is_npc )->get_character();
         if( target ) {
             wet_character( *target, dov.evaluate( d ) );
@@ -3310,21 +3275,20 @@ void talk_effect_fun_t<T>::set_add_wet( const JsonObject &jo, const std::string 
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_open_dialogue( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_open_dialogue( const JsonObject &jo, const std::string &member )
 {
     std::vector<effect_on_condition_id> true_eocs;
     std::vector<effect_on_condition_id> false_eocs;
-    str_or_var<T> topic;
+    str_or_var topic;
     bool has_member = false;
     if( jo.has_object( member ) ) {
         has_member = true;
         JsonObject innerJo = jo.get_object( member );
         true_eocs = load_eoc_vector( innerJo, "true_eocs" );
         false_eocs = load_eoc_vector( innerJo, "false_eocs" );
-        topic = get_str_or_var<T>( innerJo.get_member( "topic" ), "topic" );
+        topic = get_str_or_var( innerJo.get_member( "topic" ), "topic" );
     }
-    function = [true_eocs, false_eocs, topic, has_member]( const T & d ) {
+    function = [true_eocs, false_eocs, topic, has_member]( dialogue const & d ) {
         std::string actual_topic;
         if( has_member ) {
             actual_topic = topic.evaluate( d );
@@ -3350,12 +3314,11 @@ void talk_effect_fun_t<T>::set_open_dialogue( const JsonObject &jo, const std::s
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_take_control( const JsonObject &jo )
+void talk_effect_fun_t::set_take_control( const JsonObject &jo )
 {
     std::vector<effect_on_condition_id> true_eocs = load_eoc_vector( jo, "true_eocs" );
     std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );
-    function = [true_eocs, false_eocs]( const T & d ) {
+    function = [true_eocs, false_eocs]( dialogue const & d ) {
         if( !d.actor( false )->get_character()->is_avatar() ) { //only take control if the avatar is alpha
             run_eoc_vector( false_eocs, d );
             return;
@@ -3366,27 +3329,25 @@ void talk_effect_fun_t<T>::set_take_control( const JsonObject &jo )
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_take_control_menu()
+void talk_effect_fun_t::set_take_control_menu()
 {
-    function = []( const T & ) {
+    function = []( dialogue const &/* d */ ) {
         get_avatar().control_npc_menu();
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_sound_effect( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_sound_effect( const JsonObject &jo, const std::string &member )
 {
-    str_or_var<T> variant = get_str_or_var<T>( jo.get_member( member ), member, true );
-    str_or_var<T> id = get_str_or_var<T>( jo.get_member( "id" ), "id", true );
+    str_or_var variant = get_str_or_var( jo.get_member( member ), member, true );
+    str_or_var id = get_str_or_var( jo.get_member( "id" ), "id", true );
     const bool outdoor_event = jo.get_bool( "outdoor_event", false );
-    dbl_or_var<T> volume;
+    dbl_or_var volume;
     if( jo.has_member( "volume" ) ) {
-        volume = get_dbl_or_var<T>( jo, "volume", false, -1 );
+        volume = get_dbl_or_var( jo, "volume", false, -1 );
     } else {
         volume.min.dbl_val = -1;
     }
-    function = [variant, id, outdoor_event, volume]( const T & d ) {
+    function = [variant, id, outdoor_event, volume]( dialogue const & d ) {
         map &here = get_map();
         int local_volume = volume.evaluate( d );
         Character *target = &get_player_character(); //Only the player can hear sound effects.
@@ -3410,11 +3371,10 @@ void talk_effect_fun_t<T>::set_sound_effect( const JsonObject &jo, const std::st
 }
 
 
-template<class T>
-void talk_effect_fun_t<T>::set_give_achievment( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_give_achievment( const JsonObject &jo, const std::string &member )
 {
-    str_or_var<T> achieve = get_str_or_var<T>( jo.get_member( member ), member, true );
-    function = [achieve]( const T & d ) {
+    str_or_var achieve = get_str_or_var( jo.get_member( member ), member, true );
+    function = [achieve]( dialogue const & d ) {
         const achievement_id achievement_to_give( achieve.evaluate( d ) );
         // make sure the achievement is being tracked and that it is currently pending
         std::vector<const achievement *> all_achievements = get_achievements().valid_achievements();
@@ -3430,27 +3390,25 @@ void talk_effect_fun_t<T>::set_give_achievment( const JsonObject &jo, const std:
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_mod_healthy( const JsonObject &jo, const std::string &member,
+void talk_effect_fun_t::set_mod_healthy( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
-    dbl_or_var<T> dov_amount = get_dbl_or_var<T>( jo, member );
-    dbl_or_var<T> dov_cap = get_dbl_or_var<T>( jo, "cap" );
+    dbl_or_var dov_amount = get_dbl_or_var( jo, member );
+    dbl_or_var dov_cap = get_dbl_or_var( jo, "cap" );
 
-    function = [is_npc, dov_amount, dov_cap]( const T & d ) {
+    function = [is_npc, dov_amount, dov_cap]( dialogue const & d ) {
         d.actor( is_npc )->mod_daily_health( dov_amount.evaluate( d ),
                                              dov_cap.evaluate( d ) );
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_hp( const JsonObject &jo, const std::string &member,
-                                   bool is_npc )
+void talk_effect_fun_t::set_hp( const JsonObject &jo, const std::string &member,
+                                bool is_npc )
 {
-    dbl_or_var<T> new_hp = get_dbl_or_var<T>( jo, member, true );
-    std::optional<str_or_var<T>> target_part;
+    dbl_or_var new_hp = get_dbl_or_var( jo, member, true );
+    std::optional<str_or_var> target_part;
     if( jo.has_string( "target_part" ) ) {
-        target_part = get_str_or_var<T>( jo.get_member( "target_part" ), "target_part", true );
+        target_part = get_str_or_var( jo.get_member( "target_part" ), "target_part", true );
     }
     bool only_increase = jo.get_bool( "only_increase", false );
     bool max = jo.get_bool( "max", false );
@@ -3459,7 +3417,8 @@ void talk_effect_fun_t<T>::set_hp( const JsonObject &jo, const std::string &memb
     if( main_only && minor_only ) {
         jo.throw_error( "Can't be main_only and minor_only at the same time." );
     }
-    function = [only_increase, new_hp, target_part, is_npc, main_only, minor_only, max]( const T & d ) {
+    function = [only_increase, new_hp, target_part, is_npc, main_only, minor_only,
+                   max]( dialogue const & d ) {
         talker *target = d.actor( is_npc );
         for( const bodypart_id &part : target->get_all_body_parts( ( !main_only &&
                 !minor_only ), main_only ) ) {
@@ -3476,15 +3435,14 @@ void talk_effect_fun_t<T>::set_hp( const JsonObject &jo, const std::string &memb
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_cast_spell( const JsonObject &jo, const std::string &member,
-        bool is_npc, bool targeted )
+void talk_effect_fun_t::set_cast_spell( const JsonObject &jo, const std::string &member,
+                                        bool is_npc, bool targeted )
 {
     fake_spell fake;
     std::vector<effect_on_condition_id> true_eocs = load_eoc_vector( jo, "true_eocs" );
     std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );
     mandatory( jo, false, member, fake );
-    function = [is_npc, fake, targeted, true_eocs, false_eocs]( const T & d ) {
+    function = [is_npc, fake, targeted, true_eocs, false_eocs]( dialogue const & d ) {
         Creature *caster = d.actor( is_npc )->get_creature();
         if( !caster ) {
             debugmsg( "No valid caster for spell." );
@@ -3505,48 +3463,44 @@ void talk_effect_fun_t<T>::set_cast_spell( const JsonObject &jo, const std::stri
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_lightning()
+void talk_effect_fun_t::set_lightning()
 {
-    function = []( const T & ) {
+    function = []( dialogue const &/* d */ ) {
         if( get_player_character().posz() >= 0 ) {
             get_weather().lightning_active = true;
         }
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_next_weather()
+void talk_effect_fun_t::set_next_weather()
 {
-    function = []( const T & ) {
+    function = []( dialogue const &/* d */ ) {
         get_weather().set_nextweather( calendar::turn );
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_set_string_var( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_set_string_var( const JsonObject &jo, const std::string &member )
 {
-    std::vector<str_or_var<T>> values;
+    std::vector<str_or_var> values;
     if( jo.has_array( member ) ) {
         for( JsonValue value : jo.get_array( member ) ) {
-            values.emplace_back( get_str_or_var<T>( value, member ) );
+            values.emplace_back( get_str_or_var( value, member ) );
         }
     } else {
-        values.emplace_back( get_str_or_var<T>( jo.get_member( member ), member ) );
+        values.emplace_back( get_str_or_var( jo.get_member( member ), member ) );
     }
     var_info var = read_var_info( jo.get_member( "target_var" ) );
-    function = [values, var]( const T & d ) {
+    function = [values, var]( dialogue const & d ) {
         int index = rng( 0, values.size() - 1 );
         write_var_value( var.type, var.name, d.actor( var.type == var_type::npc ),
                          values[index].evaluate( d ) );
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_assign_mission( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_assign_mission( const JsonObject &jo, const std::string &member )
 {
-    str_or_var<T> mission_name = get_str_or_var<T>( jo.get_member( member ), member, true );
-    function = [mission_name]( const T & d ) {
+    str_or_var mission_name = get_str_or_var( jo.get_member( member ), member, true );
+    function = [mission_name]( dialogue const & d ) {
         avatar &player_character = get_avatar();
 
         const mission_type_id &mission_type = mission_type_id( mission_name.evaluate( d ) );
@@ -3555,10 +3509,9 @@ void talk_effect_fun_t<T>::set_assign_mission( const JsonObject &jo, const std::
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_finish_mission( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_finish_mission( const JsonObject &jo, const std::string &member )
 {
-    str_or_var<T> mission_name = get_str_or_var<T>( jo.get_member( member ), member, true );
+    str_or_var mission_name = get_str_or_var( jo.get_member( member ), member, true );
     bool success = false;
     std::optional<int> step;
     if( jo.has_int( "step" ) ) {
@@ -3566,7 +3519,7 @@ void talk_effect_fun_t<T>::set_finish_mission( const JsonObject &jo, const std::
     } else {
         success = jo.get_bool( "success" );
     }
-    function = [mission_name, success, step]( const T & d ) {
+    function = [mission_name, success, step]( dialogue const & d ) {
         avatar &player_character = get_avatar();
         const mission_type_id &mission_type = mission_type_id( mission_name.evaluate( d ) );
         std::vector<mission *> missions = player_character.get_active_missions();
@@ -3586,12 +3539,11 @@ void talk_effect_fun_t<T>::set_finish_mission( const JsonObject &jo, const std::
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_remove_active_mission( const JsonObject &jo,
+void talk_effect_fun_t::set_remove_active_mission( const JsonObject &jo,
         const std::string &member )
 {
-    str_or_var<T> mission_name = get_str_or_var<T>( jo.get_member( member ), member, true );
-    function = [mission_name]( const T & d ) {
+    str_or_var mission_name = get_str_or_var( jo.get_member( member ), member, true );
+    function = [mission_name]( dialogue const & d ) {
         avatar &player_character = get_avatar();
         const mission_type_id &mission_type = mission_type_id( mission_name.evaluate( d ) );
         std::vector<mission *> missions = player_character.get_active_missions();
@@ -3604,8 +3556,7 @@ void talk_effect_fun_t<T>::set_remove_active_mission( const JsonObject &jo,
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_offer_mission( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_offer_mission( const JsonObject &jo, const std::string &member )
 {
     std::vector<std::string> mission_names;
 
@@ -3619,7 +3570,7 @@ void talk_effect_fun_t<T>::set_offer_mission( const JsonObject &jo, const std::s
         jo.throw_error( "Invalid input for set_offer_mission" );
     }
 
-    function = [mission_names]( const T & d ) {
+    function = [mission_names]( dialogue const & d ) {
         npc *p = d.actor( true )->get_npc();
 
         for( const std::string &mission_name : mission_names ) {
@@ -3628,11 +3579,10 @@ void talk_effect_fun_t<T>::set_offer_mission( const JsonObject &jo, const std::s
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_make_sound( const JsonObject &jo, const std::string &member,
-        bool is_npc )
+void talk_effect_fun_t::set_make_sound( const JsonObject &jo, const std::string &member,
+                                        bool is_npc )
 {
-    str_or_var<T> message = get_str_or_var<T>( jo.get_member( member ), member, true );
+    str_or_var message = get_str_or_var( jo.get_member( member ), member, true );
 
     int volume;
     mandatory( jo, false, "volume", volume );
@@ -3672,8 +3622,8 @@ void talk_effect_fun_t<T>::set_make_sound( const JsonObject &jo, const std::stri
         target_var = read_var_info( jo.get_object( "target_var" ) );
     }
     function = [is_npc, message, volume, type, target_var, snippet,
-            same_snippet]( const T & d ) {
-        tripoint_abs_ms target_pos = get_tripoint_from_var<T>( target_var, d );
+            same_snippet]( dialogue const & d ) {
+        tripoint_abs_ms target_pos = get_tripoint_from_var( target_var, d );
         std::string translated_message;
         if( snippet ) {
             if( same_snippet ) {
@@ -3696,15 +3646,14 @@ void talk_effect_fun_t<T>::set_make_sound( const JsonObject &jo, const std::stri
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_run_eocs( const JsonObject &jo,
-        const std::string &member )
+void talk_effect_fun_t::set_run_eocs( const JsonObject &jo,
+                                      const std::string &member )
 {
     std::vector<effect_on_condition_id> eocs = load_eoc_vector( jo, member );
     if( eocs.empty() ) {
         jo.throw_error( "Invalid input for run_eocs" );
     }
-    function = [eocs]( const T & d ) {
+    function = [eocs]( dialogue const & d ) {
         dialogue newDialog = copy_dialogue( d );
         for( const effect_on_condition_id &eoc : eocs ) {
             eoc->activate( newDialog );
@@ -3712,14 +3661,13 @@ void talk_effect_fun_t<T>::set_run_eocs( const JsonObject &jo,
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_run_npc_eocs( const JsonObject &jo,
+void talk_effect_fun_t::set_run_npc_eocs( const JsonObject &jo,
         const std::string &member, bool is_npc )
 {
     std::vector<effect_on_condition_id> eocs = load_eoc_vector( jo, member );
-    std::vector<str_or_var<T>> unique_ids;
+    std::vector<str_or_var> unique_ids;
     for( JsonValue jv : jo.get_array( "unique_ids" ) ) {
-        unique_ids.emplace_back( get_str_or_var<T>( jv, "unique_ids" ) );
+        unique_ids.emplace_back( get_str_or_var( jv, "unique_ids" ) );
     }
 
     bool local = jo.get_bool( "local", false );
@@ -3729,10 +3677,10 @@ void talk_effect_fun_t<T>::set_run_npc_eocs( const JsonObject &jo,
     }
     bool npc_must_see = jo.get_bool( "npc_must_see", false );
     if( local ) {
-        function = [eocs, unique_ids, npc_must_see, npc_range, is_npc]( const T & d ) {
+        function = [eocs, unique_ids, npc_must_see, npc_range, is_npc]( dialogue const & d ) {
             tripoint actor_pos = d.actor( is_npc )->pos();
             std::vector<std::string> ids( unique_ids.size() );
-            for( const str_or_var<T> &id : unique_ids ) {
+            for( const str_or_var &id : unique_ids ) {
                 ids.emplace_back( id.evaluate( d ) );
             }
             const std::vector<npc *> available = g->get_npcs_if( [npc_must_see, npc_range, actor_pos,
@@ -3756,8 +3704,8 @@ void talk_effect_fun_t<T>::set_run_npc_eocs( const JsonObject &jo,
             }
         };
     } else {
-        function = [eocs, unique_ids]( const T & d ) {
-            for( const str_or_var<T> &target : unique_ids ) {
+        function = [eocs, unique_ids]( dialogue const & d ) {
+            for( const str_or_var &target : unique_ids ) {
                 if( g->unique_npc_exists( target.evaluate( d ) ) ) {
                     for( const effect_on_condition_id &eoc : eocs ) {
                         npc *npc = g->find_npc_by_unique_id( target.evaluate( d ) );
@@ -3774,17 +3722,16 @@ void talk_effect_fun_t<T>::set_run_npc_eocs( const JsonObject &jo,
     }
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_queue_eocs( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_queue_eocs( const JsonObject &jo, const std::string &member )
 {
     std::vector<effect_on_condition_id> eocs = load_eoc_vector( jo, member );
     if( eocs.empty() ) {
         jo.throw_error( "Invalid input for queue_eocs" );
     }
 
-    duration_or_var<T> dov_time_in_future = get_duration_or_var<T>( jo, "time_in_future", false,
-                                            0_seconds );
-    function = [dov_time_in_future, eocs]( const T & d ) {
+    duration_or_var dov_time_in_future = get_duration_or_var( jo, "time_in_future", false,
+                                         0_seconds );
+    function = [dov_time_in_future, eocs]( dialogue const & d ) {
         time_duration time_in_future = dov_time_in_future.evaluate( d );
         for( const effect_on_condition_id &eoc : eocs ) {
             if( eoc->type == eoc_type::ACTIVATION ) {
@@ -3803,8 +3750,7 @@ void talk_effect_fun_t<T>::set_queue_eocs( const JsonObject &jo, const std::stri
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_weighted_list_eocs( const JsonObject &jo,
+void talk_effect_fun_t::set_weighted_list_eocs( const JsonObject &jo,
         const std::string &member )
 {
     std::vector<std::pair<effect_on_condition_id, std::function<double( const dialogue & )>>> eoc_pairs;
@@ -3812,9 +3758,9 @@ void talk_effect_fun_t<T>::set_weighted_list_eocs( const JsonObject &jo,
         JsonValue eoc = ja.next_value();
         JsonObject weight = ja.next_object();
         eoc_pairs.emplace_back( effect_on_conditions::load_inline_eoc( eoc, "" ),
-                                conditional_t< dialogue >::get_get_dbl( weight ) );
+                                conditional_t::get_get_dbl( weight ) );
     }
-    function = [eoc_pairs]( const T & d ) {
+    function = [eoc_pairs]( dialogue const & d ) {
         weighted_int_list<effect_on_condition_id> eocs;
         for( const std::pair<effect_on_condition_id, std::function<double( const dialogue & )>> &eoc_pair :
              eoc_pairs ) {
@@ -3826,23 +3772,22 @@ void talk_effect_fun_t<T>::set_weighted_list_eocs( const JsonObject &jo,
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_switch( const JsonObject &jo,
-                                       const std::string &member )
+void talk_effect_fun_t::set_switch( const JsonObject &jo,
+                                    const std::string &member )
 {
-    std::function<double( const T & )> eoc_switch = conditional_t< T >::get_get_dbl(
+    std::function<double( dialogue const &/* d */ )> eoc_switch = conditional_t::get_get_dbl(
                 jo.get_object( member ) );
-    std::vector<std::pair<dbl_or_var<T>, talk_effect_t<T>>> case_pairs;
+    std::vector<std::pair<dbl_or_var, talk_effect_t>> case_pairs;
     for( const JsonValue jv : jo.get_array( "cases" ) ) {
         JsonObject array_case = jv.get_object();
-        talk_effect_t<T> case_effect;
+        talk_effect_t case_effect;
         case_effect.load_effect( array_case, "effect" );
-        case_pairs.emplace_back( get_dbl_or_var<T>( array_case, "case" ), case_effect );
+        case_pairs.emplace_back( get_dbl_or_var( array_case, "case" ), case_effect );
     }
-    function = [eoc_switch, case_pairs]( const T & d ) {
+    function = [eoc_switch, case_pairs]( dialogue const & d ) {
         const double switch_int = eoc_switch( d );
-        talk_effect_t<T> case_effect;
-        for( const std::pair<dbl_or_var<T>, talk_effect_t<T>> &case_pair :
+        talk_effect_t case_effect;
+        for( const std::pair<dbl_or_var, talk_effect_t> &case_pair :
              case_pairs ) {
             if( switch_int >= case_pair.first.evaluate( d ) ) {
                 case_effect = case_pair.second;
@@ -3852,27 +3797,26 @@ void talk_effect_fun_t<T>::set_switch( const JsonObject &jo,
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_roll_remainder( const JsonObject &jo,
+void talk_effect_fun_t::set_roll_remainder( const JsonObject &jo,
         const std::string &member, bool is_npc )
 {
-    std::vector<str_or_var<T>> list;
+    std::vector<str_or_var> list;
     for( JsonValue jv : jo.get_array( member ) ) {
-        list.emplace_back( get_str_or_var<T>( jv, member ) );
+        list.emplace_back( get_str_or_var( jv, member ) );
     }
-    str_or_var<T> type = get_str_or_var<T>( jo.get_member( "type" ), "type", true );
-    str_or_var<T> message;
+    str_or_var type = get_str_or_var( jo.get_member( "type" ), "type", true );
+    str_or_var message;
     if( jo.has_member( "message" ) ) {
-        message = get_str_or_var<T>( jo.get_member( "message" ), "message", true );
+        message = get_str_or_var( jo.get_member( "message" ), "message", true );
     } else {
         message.str_val = "";
     }
     std::vector<effect_on_condition_id> true_eocs = load_eoc_vector( jo, "true_eocs" );
     std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );
 
-    function = [list, type, is_npc, true_eocs, false_eocs, message]( const T & d ) {
+    function = [list, type, is_npc, true_eocs, false_eocs, message]( dialogue const & d ) {
         std::vector<std::string> not_had;
-        for( const str_or_var<T> &cur_string : list ) {
+        for( const str_or_var &cur_string : list ) {
             if( type.evaluate( d ) == "bionic" ) {
                 if( !d.actor( is_npc )->has_bionic( bionic_id( cur_string.evaluate( d ) ) ) ) {
                     not_had.push_back( cur_string.evaluate( d ) );
@@ -3930,18 +3874,17 @@ void talk_effect_fun_t<T>::set_roll_remainder( const JsonObject &jo,
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_add_morale( const JsonObject &jo, const std::string &member,
-        bool is_npc )
+void talk_effect_fun_t::set_add_morale( const JsonObject &jo, const std::string &member,
+                                        bool is_npc )
 {
-    str_or_var<T> new_type = get_str_or_var<T>( jo.get_member( member ), member, true );
-    dbl_or_var<T> dov_bonus = get_dbl_or_var<T>( jo, "bonus" );
-    dbl_or_var<T> dov_max_bonus = get_dbl_or_var<T>( jo, "max_bonus" );
-    duration_or_var<T> dov_duration = get_duration_or_var<T>( jo, "duration", false, 1_hours );
-    duration_or_var<T> dov_decay_start = get_duration_or_var<T>( jo, "decay_start", false, 30_minutes );
+    str_or_var new_type = get_str_or_var( jo.get_member( member ), member, true );
+    dbl_or_var dov_bonus = get_dbl_or_var( jo, "bonus" );
+    dbl_or_var dov_max_bonus = get_dbl_or_var( jo, "max_bonus" );
+    duration_or_var dov_duration = get_duration_or_var( jo, "duration", false, 1_hours );
+    duration_or_var dov_decay_start = get_duration_or_var( jo, "decay_start", false, 30_minutes );
     const bool capped = jo.get_bool( "capped", false );
     function = [is_npc, new_type, dov_bonus, dov_max_bonus, dov_duration, dov_decay_start,
-            capped]( const T & d ) {
+            capped]( dialogue const & d ) {
         d.actor( is_npc )->add_morale( morale_type( new_type.evaluate( d ) ),
                                        dov_bonus.evaluate( d ),
                                        dov_max_bonus.evaluate( d ),
@@ -3951,48 +3894,44 @@ void talk_effect_fun_t<T>::set_add_morale( const JsonObject &jo, const std::stri
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_lose_morale( const JsonObject &jo, const std::string &member,
+void talk_effect_fun_t::set_lose_morale( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
-    str_or_var<T> old_morale = get_str_or_var<T>( jo.get_member( member ), member, true );
-    function = [is_npc, old_morale]( const T & d ) {
+    str_or_var old_morale = get_str_or_var( jo.get_member( member ), member, true );
+    function = [is_npc, old_morale]( dialogue const & d ) {
         d.actor( is_npc )->remove_morale( morale_type( old_morale.evaluate( d ) ) );
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_add_faction_trust( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_add_faction_trust( const JsonObject &jo, const std::string &member )
 {
-    dbl_or_var<T> dov = get_dbl_or_var<T>( jo, member );
-    function = [dov]( const T & d ) {
+    dbl_or_var dov = get_dbl_or_var( jo, member );
+    function = [dov]( dialogue const & d ) {
         d.actor( true )->get_faction()->trusts_u += dov.evaluate( d );
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_lose_faction_trust( const JsonObject &jo,
+void talk_effect_fun_t::set_lose_faction_trust( const JsonObject &jo,
         const std::string &member )
 {
-    dbl_or_var<T> dov = get_dbl_or_var<T>( jo, member );
-    function = [dov]( const T & d ) {
+    dbl_or_var dov = get_dbl_or_var( jo, member );
+    function = [dov]( dialogue const & d ) {
         d.actor( true )->get_faction()->trusts_u -= dov.evaluate( d );
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_custom_light_level( const JsonObject &jo,
+void talk_effect_fun_t::set_custom_light_level( const JsonObject &jo,
         const std::string &member )
 {
-    dbl_or_var<T> dov = get_dbl_or_var<T>( jo, member, true );
-    duration_or_var<T> dov_length = get_duration_or_var<T>( jo, "length", false, 0_seconds );
-    str_or_var<T> key;
+    dbl_or_var dov = get_dbl_or_var( jo, member, true );
+    duration_or_var dov_length = get_duration_or_var( jo, "length", false, 0_seconds );
+    str_or_var key;
     if( jo.has_member( "key" ) ) {
-        key = get_str_or_var<T>( jo.get_member( "key" ), "key", false, "" );
+        key = get_str_or_var( jo.get_member( "key" ), "key", false, "" );
     } else {
         key.str_val = "";
     }
-    function = [dov_length, dov, key]( const T & d ) {
+    function = [dov_length, dov, key]( dialogue const & d ) {
         get_timed_events().add( timed_event_type::CUSTOM_LIGHT_LEVEL,
                                 calendar::turn + dov_length.evaluate( d ) +
                                 1_seconds/*We add a second here because this will get ticked on the turn its applied before it has an effect*/,
@@ -4000,8 +3939,7 @@ void talk_effect_fun_t<T>::set_custom_light_level( const JsonObject &jo,
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_give_equipment( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_give_equipment( const JsonObject &jo, const std::string &member )
 {
     JsonObject jobj = jo.get_object( member );
     int allowance = 0;
@@ -4016,7 +3954,7 @@ void talk_effect_fun_t<T>::set_give_equipment( const JsonObject &jo, const std::
             debt_modifiers.push_back( this_modifier );
         }
     }
-    function = [debt_modifiers, allowance]( const T & d ) {
+    function = [debt_modifiers, allowance]( dialogue const & d ) {
         int debt = allowance;
         for( const trial_mod &this_mod : debt_modifiers ) {
             if( this_mod.first == "TOTAL" ) {
@@ -4031,8 +3969,7 @@ void talk_effect_fun_t<T>::set_give_equipment( const JsonObject &jo, const std::
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_spawn_monster( const JsonObject &jo, const std::string &member,
+void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
     bool group = jo.get_bool( "group", false );
@@ -4043,11 +3980,11 @@ void talk_effect_fun_t<T>::set_spawn_monster( const JsonObject &jo, const std::s
     } else {
         new_monster = mtype_id( jo.get_string( member ) );
     }
-    dbl_or_var<T> dov_target_range = get_dbl_or_var<T>( jo, "target_range", false, 0 );
-    dbl_or_var<T> dov_hallucination_count = get_dbl_or_var<T>( jo, "hallucination_count", false, 0 );
-    dbl_or_var<T> dov_real_count = get_dbl_or_var<T>( jo, "real_count", false, 0 );
-    dbl_or_var<T> dov_min_radius = get_dbl_or_var<T>( jo, "min_radius", false, 1 );
-    dbl_or_var<T> dov_max_radius = get_dbl_or_var<T>( jo, "max_radius", false, 10 );
+    dbl_or_var dov_target_range = get_dbl_or_var( jo, "target_range", false, 0 );
+    dbl_or_var dov_hallucination_count = get_dbl_or_var( jo, "hallucination_count", false, 0 );
+    dbl_or_var dov_real_count = get_dbl_or_var( jo, "real_count", false, 0 );
+    dbl_or_var dov_min_radius = get_dbl_or_var( jo, "min_radius", false, 1 );
+    dbl_or_var dov_max_radius = get_dbl_or_var( jo, "max_radius", false, 10 );
 
     const bool outdoor_only = jo.get_bool( "outdoor_only", false );
     const bool indoor_only = jo.get_bool( "indoor_only", false );
@@ -4057,7 +3994,7 @@ void talk_effect_fun_t<T>::set_spawn_monster( const JsonObject &jo, const std::s
     const bool open_air_allowed = jo.get_bool( "open_air_allowed", false );
     const bool friendly = jo.get_bool( "friendly", false );
 
-    duration_or_var<T> dov_lifespan = get_duration_or_var<T>( jo, "lifespan", false, 0_seconds );
+    duration_or_var dov_lifespan = get_duration_or_var( jo, "lifespan", false, 0_seconds );
     std::optional<var_info> target_var;
     if( jo.has_member( "target_var" ) ) {
         target_var = read_var_info( jo.get_object( "target_var" ) );
@@ -4069,7 +4006,7 @@ void talk_effect_fun_t<T>::set_spawn_monster( const JsonObject &jo, const std::s
     function = [new_monster, dov_target_range, dov_hallucination_count, dov_real_count, dov_min_radius,
                              dov_max_radius, outdoor_only, indoor_only, group_id, dov_lifespan, target_var,
                              spawn_message, spawn_message_plural, true_eocs, false_eocs, open_air_allowed,
-                 friendly, is_npc]( const T & d ) {
+                 friendly, is_npc]( dialogue const & d ) {
         monster target_monster;
 
         if( group_id.is_valid() ) {
@@ -4098,7 +4035,7 @@ void talk_effect_fun_t<T>::set_spawn_monster( const JsonObject &jo, const std::s
         std::optional<time_duration> lifespan;
         tripoint target_pos = d.actor( is_npc )->pos();
         if( target_var.has_value() ) {
-            target_pos = get_map().getlocal( get_tripoint_from_var<T>( target_var, d ) );
+            target_pos = get_map().getlocal( get_tripoint_from_var( target_var, d ) );
         }
         int visible_spawns = 0;
         int spawns = 0;
@@ -4157,27 +4094,26 @@ void talk_effect_fun_t<T>::set_spawn_monster( const JsonObject &jo, const std::s
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_spawn_npc( const JsonObject &jo, const std::string &member,
-        bool is_npc )
+void talk_effect_fun_t::set_spawn_npc( const JsonObject &jo, const std::string &member,
+                                       bool is_npc )
 {
-    str_or_var<T> sov_npc_class = get_str_or_var<T>( jo.get_member( member ), member );
-    str_or_var<T> unique_id;
+    str_or_var sov_npc_class = get_str_or_var( jo.get_member( member ), member );
+    str_or_var unique_id;
     if( jo.has_member( "unique_id" ) ) {
-        unique_id = get_str_or_var<T>( jo.get_member( "unique_id" ), "unique_id" );
+        unique_id = get_str_or_var( jo.get_member( "unique_id" ), "unique_id" );
     } else {
         unique_id.str_val = "";
     }
-    std::vector<str_or_var<T>> traits;
+    std::vector<str_or_var> traits;
     for( JsonValue jv : jo.get_array( "traits" ) ) {
-        str_or_var<T> entry = get_str_or_var<T>( jv, "traits" );
+        str_or_var entry = get_str_or_var( jv, "traits" );
         traits.emplace_back( entry );
     }
 
-    dbl_or_var<T> dov_hallucination_count = get_dbl_or_var<T>( jo, "hallucination_count", false, 0 );
-    dbl_or_var<T> dov_real_count = get_dbl_or_var<T>( jo, "real_count", false, 0 );
-    dbl_or_var<T> dov_min_radius = get_dbl_or_var<T>( jo, "min_radius", false, 1 );
-    dbl_or_var<T> dov_max_radius = get_dbl_or_var<T>( jo, "max_radius", false, 10 );
+    dbl_or_var dov_hallucination_count = get_dbl_or_var( jo, "hallucination_count", false, 0 );
+    dbl_or_var dov_real_count = get_dbl_or_var( jo, "real_count", false, 0 );
+    dbl_or_var dov_min_radius = get_dbl_or_var( jo, "min_radius", false, 1 );
+    dbl_or_var dov_max_radius = get_dbl_or_var( jo, "max_radius", false, 10 );
 
     const bool open_air_allowed = jo.get_bool( "open_air_allowed", false );
     const bool outdoor_only = jo.get_bool( "outdoor_only", false );
@@ -4187,7 +4123,7 @@ void talk_effect_fun_t<T>::set_spawn_npc( const JsonObject &jo, const std::strin
     }
 
 
-    duration_or_var<T> dov_lifespan = get_duration_or_var<T>( jo, "lifespan", false, 0_seconds );
+    duration_or_var dov_lifespan = get_duration_or_var( jo, "lifespan", false, 0_seconds );
     std::optional<var_info> target_var;
     if( jo.has_member( "target_var" ) ) {
         target_var = read_var_info( jo.get_object( "target_var" ) );
@@ -4199,7 +4135,7 @@ void talk_effect_fun_t<T>::set_spawn_npc( const JsonObject &jo, const std::strin
     function = [sov_npc_class, unique_id, traits, dov_hallucination_count, dov_real_count,
                                dov_min_radius,
                                dov_max_radius, outdoor_only, indoor_only, dov_lifespan, target_var, spawn_message,
-                   spawn_message_plural, true_eocs, false_eocs, open_air_allowed, is_npc]( const T & d ) {
+                   spawn_message_plural, true_eocs, false_eocs, open_air_allowed, is_npc]( dialogue const & d ) {
         int min_radius = dov_min_radius.evaluate( d );
         int max_radius = dov_max_radius.evaluate( d );
         int real_count = dov_real_count.evaluate( d );
@@ -4207,13 +4143,13 @@ void talk_effect_fun_t<T>::set_spawn_npc( const JsonObject &jo, const std::strin
         string_id<npc_template> cur_npc_class( sov_npc_class.evaluate( d ) );
         std::string cur_unique_id = unique_id.evaluate( d );
         std::vector<trait_id> cur_traits( traits.size() );
-        for( const str_or_var<T> &cur_trait : traits ) {
-            cur_traits.emplace_back( trait_id( cur_trait.evaluate( d ) ) );
+        for( const str_or_var &cur_trait : traits ) {
+            cur_traits.emplace_back( cur_trait.evaluate( d ) );
         }
         std::optional<time_duration> lifespan;
         tripoint target_pos = d.actor( is_npc )->pos();
         if( target_var.has_value() ) {
-            target_pos = get_map().getlocal( get_tripoint_from_var<T>( target_var, d ) );
+            target_pos = get_map().getlocal( get_tripoint_from_var( target_var, d ) );
         }
         int visible_spawns = 0;
         int spawns = 0;
@@ -4270,14 +4206,13 @@ void talk_effect_fun_t<T>::set_spawn_npc( const JsonObject &jo, const std::strin
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_field( const JsonObject &jo, const std::string &member,
-                                      bool is_npc )
+void talk_effect_fun_t::set_field( const JsonObject &jo, const std::string &member,
+                                   bool is_npc )
 {
-    str_or_var<T> new_field = get_str_or_var<T>( jo.get_member( member ), member, true );
-    dbl_or_var<T> dov_intensity = get_dbl_or_var<T>( jo, "intensity", false, 1 );
-    duration_or_var<T> dov_age = get_duration_or_var<T>( jo, "age", false, 1_turns );
-    dbl_or_var<T> dov_radius = get_dbl_or_var<T>( jo, "radius", false, 10000000 );
+    str_or_var new_field = get_str_or_var( jo.get_member( member ), member, true );
+    dbl_or_var dov_intensity = get_dbl_or_var( jo, "intensity", false, 1 );
+    duration_or_var dov_age = get_duration_or_var( jo, "age", false, 1_turns );
+    dbl_or_var dov_radius = get_dbl_or_var( jo, "radius", false, 10000000 );
 
     const bool outdoor_only = jo.get_bool( "outdoor_only", false );
     const bool indoor_only = jo.get_bool( "indoor_only", false );
@@ -4288,13 +4223,13 @@ void talk_effect_fun_t<T>::set_field( const JsonObject &jo, const std::string &m
         target_var = read_var_info( jo.get_object( "target_var" ) );
     }
     function = [new_field, dov_intensity, dov_age, dov_radius, outdoor_only,
-               hit_player, target_var, is_npc, indoor_only]( const T & d ) {
+               hit_player, target_var, is_npc, indoor_only]( dialogue const & d ) {
         int radius = dov_radius.evaluate( d );
         int intensity = dov_intensity.evaluate( d );
 
         tripoint_abs_ms target_pos = d.actor( is_npc )->global_pos();
         if( target_var.has_value() ) {
-            target_pos = get_tripoint_from_var<T>( target_var, d );
+            target_pos = get_tripoint_from_var( target_var, d );
         }
         for( const tripoint &dest : get_map().points_in_radius( get_map().getlocal( target_pos ),
                 radius ) ) {
@@ -4308,27 +4243,26 @@ void talk_effect_fun_t<T>::set_field( const JsonObject &jo, const std::string &m
     };
 }
 
-template<class T>
-void talk_effect_fun_t<T>::set_teleport( const JsonObject &jo, const std::string &member,
-        bool is_npc )
+void talk_effect_fun_t::set_teleport( const JsonObject &jo, const std::string &member,
+                                      bool is_npc )
 {
     std::optional<var_info> target_var = read_var_info( jo.get_object( member ) );
-    str_or_var<T> fail_message;
+    str_or_var fail_message;
     if( jo.has_member( "fail_message" ) ) {
-        fail_message = get_str_or_var<T>( jo.get_member( "fail_message" ), "fail_message", false, "" );
+        fail_message = get_str_or_var( jo.get_member( "fail_message" ), "fail_message", false, "" );
     } else {
         fail_message.str_val = "";
     }
-    str_or_var<T> success_message;
+    str_or_var success_message;
     if( jo.has_member( "success_message" ) ) {
-        success_message = get_str_or_var<T>( jo.get_member( "success_message" ), "success_message", false,
-                                             "" );
+        success_message = get_str_or_var( jo.get_member( "success_message" ), "success_message", false,
+                                          "" );
     } else {
         success_message.str_val = "";
     }
     bool force = jo.get_bool( "force", false );
-    function = [is_npc, target_var, fail_message, success_message, force]( const T & d ) {
-        tripoint_abs_ms target_pos = get_tripoint_from_var<T>( target_var, d );
+    function = [is_npc, target_var, fail_message, success_message, force]( dialogue const & d ) {
+        tripoint_abs_ms target_pos = get_tripoint_from_var( target_var, d );
         Creature *teleporter = d.actor( is_npc )->get_creature();
         if( teleporter ) {
             if( teleport::teleport_to_point( *teleporter, get_map().getlocal( target_pos ), true, false,
@@ -4341,33 +4275,29 @@ void talk_effect_fun_t<T>::set_teleport( const JsonObject &jo, const std::string
     };
 }
 
-template<class T>
-void talk_effect_t<T>::set_effect_consequence( const talk_effect_fun_t<T> &fun,
+void talk_effect_t::set_effect_consequence( const talk_effect_fun_t &fun,
         dialogue_consequence con )
 {
     effects.push_back( fun );
     guaranteed_consequence = std::max( guaranteed_consequence, con );
 }
 
-template<class T>
-void talk_effect_t<T>::set_effect_consequence( const std::function<void( npc &p )> &ptr,
+void talk_effect_t::set_effect_consequence( const std::function<void( npc &p )> &ptr,
         dialogue_consequence con )
 {
-    talk_effect_fun_t<T> npctalk_setter( ptr );
+    talk_effect_fun_t npctalk_setter( ptr );
     set_effect_consequence( npctalk_setter, con );
 }
 
-template<class T>
-void talk_effect_t<T>::set_effect( const talk_effect_fun_t<T> &fun )
+void talk_effect_t::set_effect( const talk_effect_fun_t &fun )
 {
     effects.push_back( fun );
     guaranteed_consequence = std::max( guaranteed_consequence, dialogue_consequence::none );
 }
 
-template<class T>
-void talk_effect_t<T>::set_effect( talkfunction_ptr ptr )
+void talk_effect_t::set_effect( talkfunction_ptr ptr )
 {
-    talk_effect_fun_t<T> npctalk_setter( ptr );
+    talk_effect_fun_t npctalk_setter( ptr );
     dialogue_consequence response;
     if( ptr == &talk_function::hostile ) {
         response = dialogue_consequence::hostile;
@@ -4381,13 +4311,12 @@ void talk_effect_t<T>::set_effect( talkfunction_ptr ptr )
     set_effect_consequence( npctalk_setter, response );
 }
 
-template<class T>
-talk_topic talk_effect_t<T>::apply( const T &d ) const
+talk_topic talk_effect_t::apply( dialogue const &d ) const
 {
     if( d.has_beta ) {
         // Need to get a reference to the mission before effects are applied, because effects can remove the mission
         const mission *miss = d.actor( true )->selected_mission();
-        for( const talk_effect_fun_t<T> &effect : effects ) {
+        for( const talk_effect_fun_t &effect : effects ) {
             effect( d );
         }
         d.actor( true )->add_opinion( opinion );
@@ -4406,7 +4335,7 @@ talk_topic talk_effect_t<T>::apply( const T &d ) const
             return talk_topic( "TALK_DONE" );
         }
     } else {
-        for( const talk_effect_fun_t<T> &effect : effects ) {
+        for( const talk_effect_fun_t &effect : effects ) {
             effect( d );
         }
     }
@@ -4414,8 +4343,7 @@ talk_topic talk_effect_t<T>::apply( const T &d ) const
     return next_topic;
 }
 
-template<class T>
-void talk_effect_t<T>::update_missions( T &d ) const
+void talk_effect_t::update_missions( dialogue &d )
 {
     auto &ma = d.missions_assigned;
     ma.clear();
@@ -4429,8 +4357,7 @@ void talk_effect_t<T>::update_missions( T &d ) const
     }
 }
 
-template<class T>
-talk_effect_t<T>::talk_effect_t( const JsonObject &jo, const std::string &member_name )
+talk_effect_t::talk_effect_t( const JsonObject &jo, const std::string &member_name )
 {
     load_effect( jo, member_name );
     if( jo.has_object( "topic" ) ) {
@@ -4440,10 +4367,9 @@ talk_effect_t<T>::talk_effect_t( const JsonObject &jo, const std::string &member
     }
 }
 
-template<class T>
-void talk_effect_t<T>::parse_sub_effect( const JsonObject &jo )
+void talk_effect_t::parse_sub_effect( const JsonObject &jo )
 {
-    talk_effect_fun_t<T> subeffect_fun;
+    talk_effect_fun_t subeffect_fun;
     const bool is_npc = true;
     if( jo.has_string( "companion_mission" ) ) {
         std::string role_id = jo.get_string( "companion_mission" );
@@ -4695,8 +4621,7 @@ void talk_effect_t<T>::parse_sub_effect( const JsonObject &jo )
     set_effect( subeffect_fun );
 }
 
-template<class T>
-void talk_effect_t<T>::parse_string_effect( const std::string &effect_id, const JsonObject &jo )
+void talk_effect_t::parse_string_effect( const std::string &effect_id, const JsonObject &jo )
 {
     static const std::unordered_map<std::string, void( * )( npc & )> static_functions_map = {
         {
@@ -4789,7 +4714,7 @@ void talk_effect_t<T>::parse_string_effect( const std::string &effect_id, const 
         return;
     }
 
-    talk_effect_fun_t<T> subeffect_fun;
+    talk_effect_fun_t subeffect_fun;
     if( effect_id == "u_bulk_trade_accept" || effect_id == "npc_bulk_trade_accept" ||
         effect_id == "u_bulk_donate" || effect_id == "npc_bulk_donate" ) {
         bool is_npc = effect_id == "npc_bulk_trade_accept" || effect_id == "npc_bulk_donate";
@@ -4835,8 +4760,7 @@ void talk_effect_t<T>::parse_string_effect( const std::string &effect_id, const 
     jo.throw_error_at( effect_id, "unknown effect string" );
 }
 
-template<class T>
-void talk_effect_t<T>::load_effect( const JsonObject &jo, const std::string &member_name )
+void talk_effect_t::load_effect( const JsonObject &jo, const std::string &member_name )
 {
     if( jo.has_member( "opinion" ) ) {
         JsonValue jv = jo.get_member( "opinion" );
@@ -4893,7 +4817,7 @@ talk_response::talk_response( const JsonObject &jo )
 {
     if( jo.has_member( "truefalsetext" ) ) {
         JsonObject truefalse_jo = jo.get_object( "truefalsetext" );
-        read_condition<dialogue>( truefalse_jo, "condition", truefalse_condition, true );
+        read_condition( truefalse_jo, "condition", truefalse_condition, true );
         truefalse_jo.read( "true", truetext );
         truefalse_jo.read( "false", falsetext );
     } else {
@@ -4908,7 +4832,7 @@ talk_response::talk_response( const JsonObject &jo )
     }
     if( jo.has_member( "success" ) ) {
         JsonObject success_obj = jo.get_object( "success" );
-        success = talk_effect_t<dialogue>( success_obj, "effect" );
+        success = talk_effect_t( success_obj, "effect" );
     } else if( jo.has_string( "topic" ) ) {
         // This is for simple topic switching without a possible failure
         success.next_topic = talk_topic( jo.get_string( "topic" ) );
@@ -4921,7 +4845,7 @@ talk_response::talk_response( const JsonObject &jo )
     }
     if( jo.has_member( "failure" ) ) {
         JsonObject failure_obj = jo.get_object( "failure" );
-        failure = talk_effect_t<dialogue>( failure_obj, "effect" );
+        failure = talk_effect_t( failure_obj, "effect" );
     }
 
     // TODO: mission_selected
@@ -4974,7 +4898,7 @@ void json_talk_response::load_condition( const JsonObject &jo )
     has_condition_ = jo.has_member( "condition" );
     is_switch = jo.get_bool( "switch", false );
     is_default = jo.get_bool( "default", false );
-    read_condition<dialogue>( jo, "condition", condition, true );
+    read_condition( jo, "condition", condition, true );
 
     optional( jo, true, "failure_explanation", failure_explanation );
     optional( jo, true, "failure_topic", failure_topic );
@@ -5138,7 +5062,7 @@ dynamic_line_t::dynamic_line_t( const JsonObject &jo )
             return translate_gendered_line( line, relevant_genders, d );
         };
     } else {
-        conditional_t<dialogue> dcondition;
+        conditional_t dcondition;
         const dynamic_line_t yes = from_member( jo, "yes" );
         const dynamic_line_t no = from_member( jo, "no" );
         for( const std::string &sub_member : dialogue_data::simple_string_conds ) {
@@ -5147,13 +5071,13 @@ dynamic_line_t::dynamic_line_t( const JsonObject &jo )
                 if( !jo.get_bool( sub_member ) ) {
                     jo.throw_error_at( sub_member, "value must be true" );
                 }
-                dcondition = conditional_t<dialogue>( sub_member );
+                dcondition = conditional_t( sub_member );
                 function = [dcondition, yes, no]( const dialogue & d ) {
                     return ( dcondition( d ) ? yes : no )( d );
                 };
                 return;
             } else if( jo.has_member( sub_member ) ) {
-                dcondition = conditional_t<dialogue>( sub_member );
+                dcondition = conditional_t( sub_member );
                 const dynamic_line_t yes_member = from_member( jo, sub_member );
                 function = [dcondition, yes_member, no]( const dialogue & d ) {
                     return ( dcondition( d ) ? yes_member : no )( d );
@@ -5163,7 +5087,7 @@ dynamic_line_t::dynamic_line_t( const JsonObject &jo )
         }
         for( const std::string &sub_member : dialogue_data::complex_conds ) {
             if( jo.has_member( sub_member ) ) {
-                dcondition = conditional_t<dialogue>( jo );
+                dcondition = conditional_t( jo );
                 function = [dcondition, yes, no]( const dialogue & d ) {
                     return ( dcondition( d ) ? yes : no )( d );
                 };
@@ -5200,8 +5124,8 @@ json_dynamic_line_effect::json_dynamic_line_effect( const JsonObject &jo,
         const std::string &id )
 {
     std::function<bool( const dialogue & )> tmp_condition;
-    read_condition<dialogue>( jo, "condition", tmp_condition, true );
-    talk_effect_t<dialogue> tmp_effect = talk_effect_t<dialogue>( jo, "effect" );
+    read_condition( jo, "condition", tmp_condition, true );
+    talk_effect_t tmp_effect = talk_effect_t( jo, "effect" );
     // if the topic has a sentinel, it means implicitly add a check for the sentinel value
     // and do not run the effects if it is set.  if it is not set, run the effects and
     // set the sentinel
@@ -5462,6 +5386,3 @@ const json_talk_topic *get_talk_topic( const std::string &id )
     }
     return &it->second;
 }
-
-template struct talk_effect_t<dialogue>;
-template struct talk_effect_fun_t<dialogue>;

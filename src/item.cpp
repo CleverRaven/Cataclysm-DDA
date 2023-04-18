@@ -2139,7 +2139,7 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             // only ever do the effect for a snippet the first time you see it
             if( !get_avatar().has_seen_snippet( snip_id ) ) {
                 // Have looked at the item so call the on examine EOC for the snippet
-                const std::optional<talk_effect_t<dialogue>> examine_effect = SNIPPET.get_EOC_by_id( snip_id );
+                const std::optional<talk_effect_t> examine_effect = SNIPPET.get_EOC_by_id( snip_id );
                 if( examine_effect.has_value() ) {
                     // activate the effect
                     dialogue d( get_talker_for( get_avatar() ), nullptr );
@@ -5289,7 +5289,7 @@ void item::melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query 
     }
 
     ///\EFFECT_MELEE >2 allows seeing melee damage stats on weapons
-    if( ( player_character.get_skill_level( skill_melee ) > 2 &&
+    if( ( player_character.get_skill_level( skill_melee ) >= 3 &&
           ( dmg_bash || dmg_cut || dmg_stab || type->m_to_hit > 0 ) ) || debug_mode ) {
         bodypart_id bp = bodypart_id( "torso" );
         damage_instance non_crit;
@@ -6176,9 +6176,9 @@ int item::on_wield_cost( const Character &you ) const
     if( has_flag( flag_SLOW_WIELD ) && !is_gunmod() ) {
         float d = 32.0f; // arbitrary linear scaling factor
         if( is_gun() ) {
-            d /= std::max( you.get_skill_level( gun_skill() ), 1 );
+            d /= std::max( you.get_skill_level( gun_skill() ), 1.0f );
         } else if( is_melee() ) {
-            d /= std::max( you.get_skill_level( melee_skill() ), 1 );
+            d /= std::max( you.get_skill_level( melee_skill() ), 1.0f );
         }
 
         int penalty = get_var( "volume", volume() / units::legacy_volume_factor ) * d;
@@ -6189,9 +6189,9 @@ int item::on_wield_cost( const Character &you ) const
     if( has_flag( flag_NEEDS_UNFOLD ) && !is_gunmod() ) {
         int penalty = 50; // 200-300 for guns, 50-150 for melee, 50 as fallback
         if( is_gun() ) {
-            penalty = std::max( 0, 300 - you.get_skill_level( gun_skill() ) * 10 );
+            penalty = std::max( 0, 300 - static_cast<int>( you.get_skill_level( gun_skill() ) * 10 ) );
         } else if( is_melee() ) {
-            penalty = std::max( 0, 150 - you.get_skill_level( melee_skill() ) * 10 );
+            penalty = std::max( 0, 150 - static_cast<int>( you.get_skill_level( melee_skill() ) * 10 ) );
         }
 
         mv += penalty;
@@ -6928,6 +6928,7 @@ units::mass item::weight( bool include_contents, bool integral ) const
     }
 
     units::mass ret;
+    double ret_mul = 1.0;
     std::string local_str_mass = integral ? get_var( "integral_weight" ) : get_var( "weight" );
     if( local_str_mass.empty() ) {
         ret = integral ? type->integral_weight : type->weight;
@@ -6936,36 +6937,39 @@ units::mass item::weight( bool include_contents, bool integral ) const
     }
 
     if( has_flag( flag_REDUCED_WEIGHT ) ) {
-        ret *= 0.75;
+        ret_mul *= 0.75;
     }
 
     // if this is a gun apply all of its gunmods' weight multipliers
     if( type->gun ) {
         for( const item *mod : gunmods() ) {
-            ret *= mod->type->gunmod->weight_multiplier;
+            ret_mul *= mod->type->gunmod->weight_multiplier;
         }
     }
 
     if( count_by_charges() ) {
-        ret *= charges;
+        ret_mul *= charges;
 
     } else if( is_corpse() ) {
         cata_assert( corpse ); // To appease static analysis
         ret = corpse->weight;
+        ret_mul = 1.0;
         if( has_flag( flag_FIELD_DRESS ) || has_flag( flag_FIELD_DRESS_FAILED ) ) {
-            ret *= 0.75;
-        }
-        if( has_flag( flag_QUARTERED ) ) {
-            ret /= 4;
+            ret_mul *= 0.75;
         }
         if( has_flag( flag_GIBBED ) ) {
-            ret *= 0.85;
+            ret_mul *= 0.85;
         }
         if( has_flag( flag_SKINNED ) ) {
-            ret *= 0.85;
+            ret_mul *= 0.85;
+        }
+        if( has_flag( flag_QUARTERED ) ) {
+            ret_mul *= 0.25;
         }
 
     }
+
+    ret *= ret_mul;
 
     // if it has additional pockets include the mass of those
     if( contents.has_additional_pockets() ) {
@@ -7116,7 +7120,7 @@ units::volume item::corpse_volume( const mtype *corpse ) const
 {
     units::volume corpse_volume = corpse->volume;
     if( has_flag( flag_QUARTERED ) ) {
-        corpse_volume /= 4;
+        corpse_volume *= 0.25;
     }
     if( has_flag( flag_FIELD_DRESS ) || has_flag( flag_FIELD_DRESS_FAILED ) ) {
         corpse_volume *= 0.75;
@@ -8468,9 +8472,9 @@ float item::_resist( const damage_type dmg_type, bool to_self, int resist_value,
     }
 
     // base resistance
-    const int total = type->mat_portion_total == 0 ? 1 : type->mat_portion_total;
     const std::map<material_id, int> mats = made_of();
     if( !mats.empty() ) {
+        const int total = type->mat_portion_total == 0 ? 1 : type->mat_portion_total;
         for( const auto &m : mats ) {
             resist += m.first->resist( dmg_type ) * m.second;
         }
@@ -8508,9 +8512,9 @@ float item::_environmental_resist( const damage_type dmg_type, const bool to_sel
         return resist + mod;
     }
 
-    const int total = type->mat_portion_total == 0 ? 1 : type->mat_portion_total;
     const std::map<material_id, int> mats = made_of();
     if( !mats.empty() ) {
+        const int total = type->mat_portion_total == 0 ? 1 : type->mat_portion_total;
         // Not sure why cut and bash get an armor thickness bonus but acid/fire doesn't,
         // but such is the way of the code.
         for( const auto &m : mats ) {
@@ -11370,7 +11374,7 @@ bool item::flammable( int threshold ) const
         flammability = flammability * volume_per_turn / vol;
     } else {
         // If it burns well, it provides a bonus here
-        flammability *= vol / units::legacy_volume_factor;
+        flammability = flammability * vol / units::legacy_volume_factor;
     }
 
     return flammability > threshold;

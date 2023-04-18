@@ -957,11 +957,26 @@
     "name": { "str": "Cranial Flashlight" },
     "description": "Surgically mounted between your eyes is a small but powerful LED flashlight.",
     "occupied_bodyparts": [ [ "head", 1 ] ],
-    "act_cost": "3 J",
-    "react_cost": "3 J",
+    "act_cost": "2 J",
+    "react_cost": "2 J",
     "time": "1 s",
     "flags": [ "BIONIC_TOGGLED" ],
-    "enchantments": [ { "condition": "ACTIVE", "values": [ { "value": "LUMINATION", "add": 60 } ] } ]
+    "enchantments": [ { "condition": "ACTIVE", "values": [ { "value": "LUMINATION", "add": 60 } ] } ],
+    "auto_deactivates": [ "bio_flashlight_highmode" ],
+    "included_bionics": [ "bio_flashlight_highmode" ]
+  },
+  {
+    "id": "bio_flashlight_highmode",
+    "type": "bionic",
+    "name": { "str": "Ultrabright Flashlight" },
+    "description": "You can greatly intensify the power of your bionic flashlight to be much brighter at a much higher power cost.",
+    "act_cost": "15 J",
+    "react_cost": "15 J",
+    "time": "1 s",
+    "included": true,
+    "flags": [ "BIONIC_TOGGLED" ],
+    "enchantments": [ { "condition": "ACTIVE", "values": [ { "value": "LUMINATION", "add": 500 } ] } ],
+    "auto_deactivates": [ "bio_flashlight" ]
   },
   {
     "id": "bio_tattoo_led",
