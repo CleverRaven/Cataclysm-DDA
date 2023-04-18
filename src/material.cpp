@@ -11,15 +11,7 @@
 #include "generic_factory.h"
 #include "item.h"
 #include "json.h"
-
-static const damage_type_id damage_acid( "acid" );
-static const damage_type_id damage_bash( "bash" );
-static const damage_type_id damage_biological( "biological" );
-static const damage_type_id damage_bullet( "bullet" );
-static const damage_type_id damage_cold( "cold" );
-static const damage_type_id damage_cut( "cut" );
-static const damage_type_id damage_electric( "electric" );
-static const damage_type_id damage_heat( "heat" );
+#include "make_static.h"
 
 namespace
 {
@@ -90,15 +82,16 @@ void material_type::load( const JsonObject &jsobj, const std::string_view )
 {
     mandatory( jsobj, was_loaded, "name", _name );
 
-    mandatory( jsobj, was_loaded, "bash_resist", _resistances[damage_bash] );
-    mandatory( jsobj, was_loaded, "cut_resist", _resistances[damage_cut] );
-    mandatory( jsobj, was_loaded, "acid_resist", _resistances[damage_acid] );
-    mandatory( jsobj, was_loaded, "fire_resist", _resistances[damage_heat] );
-    mandatory( jsobj, was_loaded, "bullet_resist", _resistances[damage_bullet] );
+    if( jsobj.has_object( "resist" ) ) {
+        _res_was_loaded.clear();
+        JsonObject jo = jsobj.get_object( "resist" );
+        _resistances = load_resistances_instance( jo );
+        for( const JsonMember &jmemb : jo ) {
+            _res_was_loaded.emplace_back( damage_type_id( jmemb.name() ) );
+        }
+    }
+
     optional( jsobj, was_loaded, "conductive", _conductive );
-    optional( jsobj, was_loaded, "elec_resist", _resistances[damage_electric] );
-    optional( jsobj, was_loaded, "biologic_resist", _resistances[damage_biological] );
-    optional( jsobj, was_loaded, "cold_resist", _resistances[damage_cold] );
     mandatory( jsobj, was_loaded, "chip_resist", _chip_resist );
     mandatory( jsobj, was_loaded, "density", _density );
 
@@ -136,7 +129,7 @@ void material_type::load( const JsonObject &jsobj, const std::string_view )
     if( _burn_data.empty() ) {
         // If not specified, supply default
         mat_burn_data mbd;
-        if( _resistances[damage_heat] <= 0 ) {
+        if( _resistances.type_resist( STATIC( damage_type_id( "heat" ) ) ) <= 0.f ) {
             mbd.burn = 1;
         }
         _burn_data.emplace_back( mbd );
@@ -145,6 +138,16 @@ void material_type::load( const JsonObject &jsobj, const std::string_view )
     optional( jsobj, was_loaded, "fuel_data", fuel );
 
     jsobj.read( "burn_products", _burn_products, true );
+}
+
+void material_type::finalize_all()
+{
+    material_data.finalize();
+}
+
+void material_type::finalize()
+{
+    finalize_damage_map( _resistances.resist_vals );
 }
 
 void material_type::check() const
@@ -165,6 +168,14 @@ void material_type::check() const
     if( _wind_resist && ( *_wind_resist > 100 || *_wind_resist < 0 ) ) {
         debugmsg( "Wind resistance outside of range (100%% to 0%%, is %d%%) for %s.", *_wind_resist,
                   id.str() );
+    }
+
+    for( const damage_type &dt : damage_type::get_all() ) {
+        bool type_defined =
+            std::find( _res_was_loaded.begin(), _res_was_loaded.end(),  dt.id ) != _res_was_loaded.end();
+        if( dt.material_required && !type_defined ) {
+            debugmsg( "material %s is missing required resistance for \"%s\"", id.c_str(), dt.id.c_str() );
+        }
     }
 }
 
@@ -190,18 +201,7 @@ itype_id material_type::repaired_with() const
 
 float material_type::resist( const damage_type_id &dmg_type ) const
 {
-    if( dmg_type.is_null() || !dmg_type.is_valid() ) {
-        debugmsg( "Invalid damage type: %d", dmg_type.c_str() );
-        return 0.0f;
-    }
-
-    auto const &resistance_it = _resistances.find( dmg_type );
-
-    if( resistance_it == _resistances.end() ) {
-        return 0.0f;
-    }
-
-    return resistance_it->second;
+    return _resistances.type_resist( dmg_type );
 }
 
 std::string material_type::bash_dmg_verb() const

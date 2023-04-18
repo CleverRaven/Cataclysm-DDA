@@ -684,6 +684,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Field types" ), &field_types::finalize_all },
             { _( "Ammo effects" ), &ammo_effects::finalize_all },
             { _( "Emissions" ), &emit::finalize },
+            { _( "Materials" ), &material_type::finalize_all },
             {
                 _( "Items" ), []()
                 {
