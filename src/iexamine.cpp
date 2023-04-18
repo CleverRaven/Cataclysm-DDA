@@ -1457,6 +1457,13 @@ void iexamine::rubble( Character &you, const tripoint &examp )
  */
 void iexamine::chainfence( Character &you, const tripoint &examp )
 {
+    // If player is indoors, assume the fence goes to the ceiling and isn't climbable
+    map &here = get_map();
+    if( here.has_flag_ter( ter_furn_flag::TFLAG_INDOORS, you.pos() ) ) {
+        add_msg( m_info, _( "The ceiling prevents you from climbing that fence." ) );
+        return;
+    }
+
     // If player is grabbed, trapped, or somehow otherwise movement-impeded, first try to break free
     if( !you.move_effects( false ) ) {
         you.moves -= 100;
@@ -1488,17 +1495,26 @@ void iexamine::chainfence( Character &you, const tripoint &examp )
         return;
     }
 
-    map &here = get_map();
     int move_cost = 400;
     // TODO: Remove hardcoded trait checks when new arthropod bits happen
     if( here.has_flag( ter_furn_flag::TFLAG_CLIMB_SIMPLE, examp ) ) {
 
         if( you.has_proficiency( proficiency_prof_parkour ) ) {
-            add_msg( _( "You vault over the obstacle with ease." ) );
-            move_cost = 100; // Not tall enough to warrant spider-climbing, so only relevant trait.
+            if( you.has_trait( trait_BADKNEES ) ) {
+                add_msg( _( "Your freerunning ability mostly makes up for your bad knees on the way over this obstacle." ) );
+                move_cost = 150;
+            } else {
+                add_msg( _( "You vault over the obstacle with ease." ) );
+                move_cost = 100; // Not tall enough to warrant spider-climbing, so only relevant trait.
+            }
         } else {
-            add_msg( _( "You vault over the obstacle." ) );
-            move_cost = 300; // Most common move cost for barricades pre-change.
+            if( you.has_trait( trait_BADKNEES ) ) {
+                add_msg( _( "Your bad knees slow you down on the way over this obstacle." ) );
+                move_cost = 450;
+            } else {
+                add_msg( _( "You vault over the obstacle." ) );
+                move_cost = 300; // Most common move cost for barricades pre-change.
+            }
         }
     } else if( you.has_trait( trait_ARACHNID_ARMS_OK ) &&
                !you.wearing_fitting_on( bodypart_id( "torso" ) ) ) {
@@ -1509,10 +1525,16 @@ void iexamine::chainfence( Character &you, const tripoint &examp )
         add_msg( _( "You quickly scale the fence." ) );
         move_cost = 90;
     } else if( you.has_proficiency( proficiency_prof_parkour ) ) {
-        add_msg( _( "This obstacle is no match for your freerunning abilities." ) );
-        move_cost = 100;
+        if( you.has_trait( trait_BADKNEES ) ) {
+            add_msg( _( "Your freerunning ability mostly makes up for your bad knees on this climb." ) );
+            move_cost = 200;
+        } else {
+            add_msg( _( "This obstacle is no match for your freerunning abilities." ) );
+            move_cost = 100;
+        }
     } else {
         move_cost = you.has_trait( trait_BADKNEES ) ? 800 : 400;
+        // messages for this case are handled in slip_down
         if( g->slip_down() ) {
             you.moves -= move_cost;
             return;
