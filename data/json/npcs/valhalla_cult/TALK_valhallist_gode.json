@@ -18,6 +18,7 @@
       { "text": "I'm sorry, who are you again?", "topic": "TALK_VALHALLIST_GODE_WHO" },
       { "text": "What's your deal here?", "topic": "TALK_VALHALLIST_GODE_Job" },
       { "text": "How did you get here again?", "topic": "TALK_VALHALLIST_GODE_Story" },
+      { "text": "What are you a prophet of?", "topic": "TALK_VALHALLIST_GODE_Religion" },
       {
         "text": "Do you mind if we just talk a bit?",
         "condition": { "not": { "npc_has_effect": "asked_to_socialize" } },
@@ -40,20 +41,20 @@
   {
     "type": "talk_topic",
     "id": "TALK_VALHALLIST_GODE_WHO",
-    "dynamic_line": "I'm a wanderer like you who found purpose and a home with the gods.  I'm not who I was, but somebody new.  A disciple of the truth to spread the word of the mighty.",
+    "dynamic_line": "I'm just someone looking to make a living for myself these days, and not get eaten by a horde of <zombie>s.  I found a new home and a new faith here, too, which I help spread word of.",
     "responses": [
       { "text": "What are you a prophet of?", "topic": "TALK_VALHALLIST_GODE_Religion" },
-      { "text": "What is that purpose?", "topic": "TALK_VALHALLIST_GODE_PURPOSE" },
       { "text": "How did you get here?", "topic": "TALK_VALHALLIST_GODE_Story" },
       { "text": "I have to go.", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
-    "id": "TALK_VALHALLIST_GODE_PURPOSE",
-    "dynamic_line": "That purpose is to serve the true lords of this world, and enter Valhalla on some coming day.  There I will not worry about the wandering dead, but see the might of battle and feast with those worthy.  Odin the Allfather will smile on me that day, and everyone I brought with me.",
+    "id": "TALK_VALHALLIST_GODE_Religion",
+    "dynamic_line": "That faith is the worship of the old Norse gods.  I know it might sound pretty crazy, but I believe that the prophecies of the old ways had something to them, especially now with the craziness that's going on.  If that's correct, why wouldn't the other parts of it be too?  I believe that a return to these old ways will help us, and bring us closer to the Gods.  Odin the Allfather will smile on me when I die, and everyone I brought with me along this journey.",
     "responses": [
       { "text": "How did you get here?", "topic": "TALK_VALHALLIST_GODE_Story" },
+      { "text": "Could you tell me a bit more about the faith?", "topic": "TALK_VALHALLIST_GODE_Religion_Background" },
       { "text": "Let's talk about something else.", "topic": "TALK_VALHALLIST_GODE_2" },
       { "text": "Good luck with that.", "topic": "TALK_DONE" }
     ]
@@ -61,9 +62,9 @@
   {
     "type": "talk_topic",
     "id": "TALK_VALHALLIST_GODE_Job",
-    "dynamic_line": "This is our holy henge devoted to the gods.  Here we stay between pillaging the ruins of the old world, perform our rites for divine favor, and feast in merriment.  We all help each other in these trying times, united in our divine strength and sharp blades.  I help guide our warriors in battle and feast.",
+    "dynamic_line": "This is where we live these days.  It's a giant fortess that U Amherst wanted to make into a reenactment place, a sort of living histroy project.  We put on finishing touches when we got here and started living out of it, hauling anything we might scavenege back here.  We've done pretty well for ourselves, haven't had any problems with <zombie>s or bandits yet.  I help guide an plan raiding missions and special events, along with religious rites and counseling.",
     "responses": [
-      { "text": "What are you guiding them toward?", "topic": "TALK_VALHALLIST_GODE_Religion" },
+      { "text": "What's your religion?", "topic": "TALK_VALHALLIST_GODE_Religion" },
       { "text": "How could I get in on this?", "topic": "TALK_VALHALLIST_GODE_Join" },
       { "text": "How did you get here?", "topic": "TALK_VALHALLIST_GODE_Story" },
       { "text": "Enjoy yourself then, I have to go.", "topic": "TALK_DONE" }
@@ -72,7 +73,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_VALHALLIST_GODE_Story",
-    "dynamic_line": "Half of us were from the Ag-Sci program at U Amherst, we'd heard some friends talk about a fort up this way and so when things got really hairy we started wandering this direction.  It was a hell of a journey and we lost several of our friends and found some other refugees on the way.  Others have come and gone since then, but we've held out.",
+    "dynamic_line": "Half of us were from the Ag-Sci program at U Amherst, we'd heard some friends talk about a living histroy program the university ran here, a fortress modeled after Viking structures. When things got really hairy we started wandering this direction.  It was a hell of a journey and we lost several of our friends and found some other refugees on the way.  Others have come and gone since then, but we've held out.",
     "responses": [
       { "text": "Let's not focus on the past too much.", "topic": "TALK_VALHALLIST_GODE_2" },
       { "text": "Any way I could join in?", "topic": "TALK_VALHALLIST_GODE_Join" },
@@ -82,13 +83,16 @@
   {
     "type": "talk_topic",
     "id": "TALK_VALHALLIST_GODE_Join",
-    "dynamic_line": "Our leader should be around here somewhere, likely in their hall.  While I can teach you about our way, they're the ones who could let you join us.  Gudene vil det!",
-    "responses": [ { "text": "Thanks.", "topic": "TALK_DONE" } ]
+    "dynamic_line": "Our leader should be around here somewhere, likely in their hall.  While I can teach you about our way, they're the ones who could let you join us.",
+    "responses": [ 
+      { "text": "Thanks.  Let's talk about something else.", "topic": "TALK_VALHALLIST_GODE_2" },
+      { "text": "Thanks.", "topic": "TALK_DONE" } 
+    ]
   },
   {
     "type": "talk_topic",
-    "id": "TALK_VALHALLIST_GODE_Religion",
-    "dynamic_line": "It seems likely you wouldn't know.  Before there was anything in the world, there was fires of Muspelhiem and the frigid ice of Niflheim.  When these two came together, the ice melted and became the first of the giants, Ymir.  As he slept, more giants sprung from his sweat and saliva.  From the melt came the cow Audhumla, who licked away the ice until she uncovered Buri, the first of the gods.  His children were Odin, Vili, and Ve; who slew Ymir to fashion the world from him.  They made the first people, Ask and Embla.  Odin fashioned all things which we see, but the destructive giants opposed and fought him; these undead which invaded the earth came from Hel as an army of the dead during Ragnarok.  As foretold in Vafthrúdnismál, Vidar and some of the younger generation of gods will create a new world.  Only then shall we undo <the_cataclysm>, and fashion the world anew.",
+    "id": "TALK_VALHALLIST_GODE_Religion_Background",
+    "dynamic_line": "Before there was anything in the world, there was fires of Muspelhiem and the frigid ice of Niflheim.  When these two came together, the ice melted and became the first of the giants, Ymir.  As he slept, more giants sprung from his sweat and saliva.  From the melt came the cow Audhumla, who licked away the ice until she uncovered Buri, the first of the gods.  His children were Odin, Vili, and Ve; who slew Ymir to fashion the world from him.  They made the first people, Ask and Embla.  Odin fashioned all things which we see, but the destructive giants opposed and fought him; these undead which invaded the earth came from Hel as an army of the dead during Ragnarok.  As foretold in Vafthrúdnismál, Vidar and some of the younger generation of gods will create a new world.  Only then shall we undo <the_cataclysm>, and fashion the world anew.",
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_VALHALLIST_GODE_2" },
       { "text": "How could I help you?", "topic": "TALK_VALHALLIST_GODE_Join" },
