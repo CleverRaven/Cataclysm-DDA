@@ -1609,15 +1609,7 @@ npc_opinion npc::get_opinion_values( const Character &you ) const
     }
 
     ///\EFFECT_STR increases NPC fear of the player
-    if( you.str_max >= 16 ) {
-        npc_values.fear += 2;
-    } else if( you.str_max >= 12 ) {
-        npc_values.fear += 1;
-    } else if( you.str_max <= 3 ) {
-        npc_values.fear -= 3;
-    } else if( you.str_max <= 5 ) {
-        npc_values.fear -= 1;
-    }
+    npc_values.fear += ( you.str_max / 4 ) - 2;
 
     // is your health low
     for( const std::pair<const bodypart_str_id, bodypart> &elem : get_player_character().get_body() ) {
