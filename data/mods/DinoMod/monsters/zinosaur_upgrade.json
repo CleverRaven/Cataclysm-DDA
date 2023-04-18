@@ -12,10 +12,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": {  },
@@ -37,10 +35,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": {  },
@@ -61,10 +57,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": {  },
@@ -85,10 +79,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": {  },
@@ -109,10 +101,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": { "half_life": 42, "into_group": "GROUP_zallosaurus_BRUTE" },
@@ -133,10 +123,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": { "half_life": 42, "into_group": "GROUP_zallosaurus_BRUTE" },
@@ -157,10 +145,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": { "half_life": 42, "into_group": "GROUP_zallosaurus_BRUTE" },
@@ -182,10 +168,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": { "half_life": 42, "into_group": "GROUP_zyrannosaurus_BRUTE" },
@@ -207,10 +191,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": { "half_life": 42, "into_group": "GROUP_zyrannosaurus_BRUTE" },
@@ -232,10 +214,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": { "half_life": 42, "into_group": "GROUP_zyrannosaurus_BRUTE" },
@@ -257,10 +237,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": { "half_life": 42, "into_group": "GROUP_zyrannosaurus_BRUTE" },
@@ -282,10 +260,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": { "half_life": 42, "into_group": "GROUP_zyrannosaurus_BRUTE" },
@@ -305,10 +281,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": { "half_life": 42, "into_group": "GROUP_zyrannosaurus_BRUTE" },
@@ -330,10 +304,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": { "half_life": 42, "into_group": "GROUP_zyrannosaurus_BRUTE" },
@@ -355,10 +327,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": { "half_life": 42, "into_group": "GROUP_zyrannosaurus_BRUTE" },
@@ -380,10 +350,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": {  },
@@ -431,10 +399,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": {  },
@@ -455,10 +421,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": {  },
@@ -479,10 +443,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": {  },
@@ -503,10 +465,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": {  },
@@ -528,10 +488,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": {  },
@@ -552,10 +510,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": {  },
@@ -576,10 +532,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": {  },
@@ -600,10 +554,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": {  },
@@ -624,10 +576,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": {  },
@@ -648,10 +598,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": {  },
@@ -672,10 +620,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": {  },
@@ -696,10 +642,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": { "half_life": 42, "into_group": "GROUP_zapatosaurus_BRUTE" },
@@ -720,10 +664,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": { "half_life": 42, "into_group": "GROUP_zapatosaurus_BRUTE" },
@@ -744,10 +686,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": { "half_life": 42, "into_group": "GROUP_zapatosaurus_BRUTE" },
@@ -768,10 +708,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": { "half_life": 42, "into_group": "GROUP_zapatosaurus_BRUTE" },
@@ -792,10 +730,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": { "half_life": 42, "into_group": "GROUP_zapatosaurus_BRUTE" },
@@ -816,10 +752,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": { "half_life": 42, "into_group": "GROUP_zapatosaurus_BRUTE" },
@@ -840,10 +774,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": {  },
@@ -864,10 +796,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": {  },
@@ -888,10 +818,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": { "half_life": 42, "into_group": "GROUP_zankylosaurus_BRUTE" },
@@ -912,10 +840,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": { "half_life": 42, "into_group": "GROUP_zankylosaurus_BRUTE" },
@@ -936,10 +862,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": { "half_life": 42, "into_group": "GROUP_zankylosaurus_BRUTE" },
@@ -960,10 +884,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": { "half_life": 42, "into_group": "GROUP_zankylosaurus_BRUTE" },
@@ -984,10 +906,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": { "half_life": 42, "into_group": "GROUP_zankylosaurus_BRUTE" },
@@ -1008,10 +928,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": { "half_life": 42, "into_group": "GROUP_zankylosaurus_BRUTE" },
@@ -1032,10 +950,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": { "half_life": 42, "into_group": "GROUP_zankylosaurus_BRUTE" },
@@ -1056,10 +972,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": { "half_life": 42, "into_group": "GROUP_zankylosaurus_BRUTE" },
@@ -1080,10 +994,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": { "half_life": 42, "into_group": "GROUP_zankylosaurus_BRUTE" },
@@ -1104,10 +1016,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": { "half_life": 42, "into_group": "GROUP_zankylosaurus_BRUTE" },
@@ -1128,10 +1038,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": { "half_life": 42, "into_group": "GROUP_zankylosaurus_BRUTE" },
@@ -1152,10 +1060,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": {  },
@@ -1176,10 +1082,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": {  },
@@ -1200,10 +1104,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": {  },
@@ -1224,10 +1126,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": {  },
@@ -1248,10 +1148,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": {  },
@@ -1272,10 +1170,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": {  },
@@ -1296,10 +1192,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": {  },
@@ -1320,10 +1214,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": {  },
@@ -1344,10 +1236,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": {  },
@@ -1368,10 +1258,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": {  },
@@ -1392,10 +1280,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": {  },
@@ -1416,10 +1302,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": {  },
@@ -1440,10 +1324,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": {  },
@@ -1464,10 +1346,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": {  },
@@ -1488,10 +1368,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": { "half_life": 42, "into_group": "GROUP_zriceratops_BRUTE" },
@@ -1512,10 +1390,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": { "half_life": 42, "into_group": "GROUP_zriceratops_BRUTE" },
@@ -1536,10 +1412,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": { "half_life": 42, "into_group": "GROUP_zriceratops_BRUTE" },
@@ -1560,10 +1434,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": { "half_life": 42, "into_group": "GROUP_zriceratops_BRUTE" },
@@ -1584,10 +1456,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": { "half_life": 42, "into_group": "GROUP_zriceratops_BRUTE" },
@@ -1608,10 +1478,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": { "half_life": 42, "into_group": "GROUP_zriceratops_BRUTE" },
@@ -1632,10 +1500,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": { "half_life": 42, "into_group": "GROUP_zriceratops_BRUTE" },
@@ -1656,10 +1522,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": { "half_life": 42, "into_group": "GROUP_zriceratops_BRUTE" },
@@ -1680,10 +1544,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": { "half_life": 42, "into_group": "GROUP_zriceratops_BRUTE" },
@@ -1704,10 +1566,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": { "half_life": 42, "into_group": "GROUP_zriceratops_BRUTE" },
@@ -1728,10 +1588,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": { "half_life": 42, "into_group": "GROUP_zriceratops_BRUTE" },
@@ -1752,10 +1610,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": { "half_life": 42, "into_group": "GROUP_zriceratops_BRUTE" },
@@ -1777,10 +1633,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": {  },
@@ -1801,10 +1655,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "upgrades": {  },
@@ -2470,10 +2322,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
@@ -2494,10 +2344,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
@@ -2518,10 +2366,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
@@ -2542,10 +2388,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
@@ -2566,10 +2410,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
@@ -2590,10 +2432,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
@@ -2614,10 +2454,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
@@ -2638,10 +2476,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
@@ -2662,10 +2498,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
@@ -2686,10 +2520,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
@@ -2710,10 +2542,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
@@ -2734,10 +2564,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
@@ -2758,10 +2586,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
@@ -2782,10 +2608,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
@@ -2806,10 +2630,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
@@ -2830,10 +2652,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
@@ -2854,10 +2674,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
@@ -2878,10 +2696,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
@@ -2902,10 +2718,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
@@ -2926,10 +2740,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
@@ -2950,10 +2762,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
@@ -2974,10 +2784,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
@@ -2998,10 +2806,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
@@ -3022,10 +2828,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
@@ -3046,10 +2850,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ] ],
@@ -3413,11 +3215,8 @@
       "melee_dice": 9,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
-      "armor_cut": 22,
-      "armor_bullet": 30,
-      "armor_stab": 30,
-      "armor_acid": 3,
-      "vision_day": -20
+      "vision_day": -20,
+      "armor": { "cut": 22, "stab": 30, "acid": 3, "bullet": 30 }
     },
     "bleed_rate": 50,
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
@@ -3440,11 +3239,8 @@
       "melee_dice": 9,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
-      "armor_cut": 22,
-      "armor_bullet": 30,
-      "armor_stab": 30,
-      "armor_acid": 3,
-      "vision_day": -20
+      "vision_day": -20,
+      "armor": { "cut": 22, "stab": 30, "acid": 3, "bullet": 30 }
     },
     "bleed_rate": 50,
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
@@ -3467,11 +3263,8 @@
       "melee_dice": 9,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
-      "armor_cut": 22,
-      "armor_bullet": 30,
-      "armor_stab": 30,
-      "armor_acid": 3,
-      "vision_day": -20
+      "vision_day": -20,
+      "armor": { "cut": 22, "stab": 30, "acid": 3, "bullet": 30 }
     },
     "bleed_rate": 50,
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
@@ -3494,11 +3287,8 @@
       "melee_dice": 9,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
-      "armor_cut": 22,
-      "armor_bullet": 30,
-      "armor_stab": 30,
-      "armor_acid": 3,
-      "vision_day": -20
+      "vision_day": -20,
+      "armor": { "cut": 22, "stab": 30, "acid": 3, "bullet": 30 }
     },
     "bleed_rate": 50,
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
@@ -3521,11 +3311,8 @@
       "melee_dice": 9,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
-      "armor_cut": 22,
-      "armor_bullet": 30,
-      "armor_stab": 30,
-      "armor_acid": 3,
-      "vision_day": -20
+      "vision_day": -20,
+      "armor": { "cut": 22, "stab": 30, "acid": 3, "bullet": 30 }
     },
     "bleed_rate": 50,
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
@@ -3548,11 +3335,8 @@
       "melee_dice": 9,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
-      "armor_cut": 22,
-      "armor_bullet": 30,
-      "armor_stab": 30,
-      "armor_acid": 3,
-      "vision_day": -20
+      "vision_day": -20,
+      "armor": { "cut": 22, "stab": 30, "acid": 3, "bullet": 30 }
     },
     "bleed_rate": 50,
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
@@ -3583,11 +3367,8 @@
       "melee_dice": 9,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
-      "armor_cut": 22,
-      "armor_bullet": 30,
-      "armor_stab": 30,
-      "armor_acid": 3,
-      "vision_day": -20
+      "vision_day": -20,
+      "armor": { "cut": 22, "stab": 30, "acid": 3, "bullet": 30 }
     },
     "bleed_rate": 50,
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
@@ -3610,11 +3391,8 @@
       "melee_dice": 9,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
-      "armor_cut": 22,
-      "armor_bullet": 30,
-      "armor_stab": 30,
-      "armor_acid": 3,
-      "vision_day": -20
+      "vision_day": -20,
+      "armor": { "cut": 22, "stab": 30, "acid": 3, "bullet": 30 }
     },
     "bleed_rate": 50,
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
@@ -3653,11 +3431,8 @@
       "melee_dice": 9,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
-      "armor_cut": 22,
-      "armor_bullet": 30,
-      "armor_stab": 30,
-      "armor_acid": 3,
-      "vision_day": -20
+      "vision_day": -20,
+      "armor": { "cut": 22, "stab": 30, "acid": 3, "bullet": 30 }
     },
     "bleed_rate": 50,
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
@@ -3680,11 +3455,8 @@
       "melee_dice": 9,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "stab", "amount": 7 } ],
-      "armor_cut": 22,
-      "armor_bullet": 30,
-      "armor_stab": 30,
-      "armor_acid": 3,
-      "vision_day": -20
+      "vision_day": -20,
+      "armor": { "cut": 22, "stab": 30, "acid": 3, "bullet": 30 }
     },
     "bleed_rate": 50,
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_nat_armored", "prof_wp_skeleton" ],
@@ -3707,11 +3479,8 @@
       "melee_dice": 9,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "stab", "amount": 7 } ],
-      "armor_cut": 22,
-      "armor_bullet": 30,
-      "armor_stab": 30,
-      "armor_acid": 3,
-      "vision_day": -20
+      "vision_day": -20,
+      "armor": { "cut": 22, "stab": 30, "acid": 3, "bullet": 30 }
     },
     "bleed_rate": 50,
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_nat_armored", "prof_wp_skeleton" ],
@@ -3734,11 +3503,8 @@
       "melee_dice": 9,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
-      "armor_cut": 22,
-      "armor_bullet": 30,
-      "armor_stab": 30,
-      "armor_acid": 3,
-      "vision_day": -20
+      "vision_day": -20,
+      "armor": { "cut": 22, "stab": 30, "acid": 3, "bullet": 30 }
     },
     "bleed_rate": 50,
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_nat_armored", "prof_wp_skeleton" ],
@@ -3761,11 +3527,8 @@
       "melee_dice": 9,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
-      "armor_cut": 22,
-      "armor_bullet": 30,
-      "armor_stab": 30,
-      "armor_acid": 3,
-      "vision_day": -20
+      "vision_day": -20,
+      "armor": { "cut": 22, "stab": 30, "acid": 3, "bullet": 30 }
     },
     "bleed_rate": 50,
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_nat_armored", "prof_wp_skeleton" ],
@@ -3788,11 +3551,8 @@
       "melee_dice": 9,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
-      "armor_cut": 22,
-      "armor_bullet": 30,
-      "armor_stab": 30,
-      "armor_acid": 3,
-      "vision_day": -20
+      "vision_day": -20,
+      "armor": { "cut": 22, "stab": 30, "acid": 3, "bullet": 30 }
     },
     "bleed_rate": 50,
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_nat_armored", "prof_wp_skeleton" ],
@@ -3815,11 +3575,8 @@
       "melee_dice": 9,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
-      "armor_cut": 22,
-      "armor_bullet": 30,
-      "armor_stab": 30,
-      "armor_acid": 3,
-      "vision_day": -20
+      "vision_day": -20,
+      "armor": { "cut": 22, "stab": 30, "acid": 3, "bullet": 30 }
     },
     "bleed_rate": 50,
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_nat_armored", "prof_wp_skeleton" ],
@@ -3842,11 +3599,8 @@
       "melee_dice": 9,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "stab", "amount": 7 } ],
-      "armor_cut": 22,
-      "armor_bullet": 30,
-      "armor_stab": 30,
-      "armor_acid": 3,
-      "vision_day": -20
+      "vision_day": -20,
+      "armor": { "cut": 22, "stab": 30, "acid": 3, "bullet": 30 }
     },
     "bleed_rate": 50,
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_nat_armored", "prof_wp_skeleton" ],
@@ -3869,11 +3623,8 @@
       "melee_dice": 9,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "stab", "amount": 7 } ],
-      "armor_cut": 22,
-      "armor_bullet": 30,
-      "armor_stab": 30,
-      "armor_acid": 3,
-      "vision_day": -20
+      "vision_day": -20,
+      "armor": { "cut": 22, "stab": 30, "acid": 3, "bullet": 30 }
     },
     "bleed_rate": 50,
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_nat_armored", "prof_wp_skeleton" ],
@@ -3896,11 +3647,8 @@
       "melee_dice": 9,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "stab", "amount": 7 } ],
-      "armor_cut": 22,
-      "armor_bullet": 30,
-      "armor_stab": 30,
-      "armor_acid": 3,
-      "vision_day": -20
+      "vision_day": -20,
+      "armor": { "cut": 22, "stab": 30, "acid": 3, "bullet": 30 }
     },
     "bleed_rate": 50,
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_nat_armored", "prof_wp_skeleton" ],
@@ -3923,11 +3671,8 @@
       "melee_dice": 9,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "stab", "amount": 7 } ],
-      "armor_cut": 22,
-      "armor_bullet": 30,
-      "armor_stab": 30,
-      "armor_acid": 3,
-      "vision_day": -20
+      "vision_day": -20,
+      "armor": { "cut": 22, "stab": 30, "acid": 3, "bullet": 30 }
     },
     "bleed_rate": 50,
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_nat_armored", "prof_wp_skeleton" ],
@@ -3951,11 +3696,8 @@
       "melee_dice": 9,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "stab", "amount": 7 } ],
-      "armor_cut": 22,
-      "armor_bullet": 30,
-      "armor_stab": 30,
-      "armor_acid": 3,
-      "vision_day": -20
+      "vision_day": -20,
+      "armor": { "cut": 22, "stab": 30, "acid": 3, "bullet": 30 }
     },
     "bleed_rate": 50,
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_nat_armored", "prof_wp_skeleton" ],
@@ -3978,11 +3720,8 @@
       "melee_dice": 9,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "stab", "amount": 7 } ],
-      "armor_cut": 22,
-      "armor_bullet": 30,
-      "armor_stab": 30,
-      "armor_acid": 3,
-      "vision_day": -20
+      "vision_day": -20,
+      "armor": { "cut": 22, "stab": 30, "acid": 3, "bullet": 30 }
     },
     "bleed_rate": 50,
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_nat_armored", "prof_wp_skeleton" ],
@@ -4005,11 +3744,8 @@
       "melee_dice": 9,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "stab", "amount": 7 } ],
-      "armor_cut": 22,
-      "armor_bullet": 30,
-      "armor_stab": 30,
-      "armor_acid": 3,
-      "vision_day": -20
+      "vision_day": -20,
+      "armor": { "cut": 22, "stab": 30, "acid": 3, "bullet": 30 }
     },
     "bleed_rate": 50,
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_nat_armored", "prof_wp_skeleton" ],
@@ -4032,11 +3768,8 @@
       "melee_dice": 9,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
-      "armor_cut": 22,
-      "armor_bullet": 30,
-      "armor_stab": 30,
-      "armor_acid": 3,
-      "vision_day": -20
+      "vision_day": -20,
+      "armor": { "cut": 22, "stab": 30, "acid": 3, "bullet": 30 }
     },
     "bleed_rate": 50,
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
@@ -4059,11 +3792,8 @@
       "melee_dice": 9,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
-      "armor_cut": 22,
-      "armor_bullet": 30,
-      "armor_stab": 30,
-      "armor_acid": 3,
-      "vision_day": -20
+      "vision_day": -20,
+      "armor": { "cut": 22, "stab": 30, "acid": 3, "bullet": 30 }
     },
     "bleed_rate": 50,
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
@@ -4086,11 +3816,8 @@
       "melee_dice": 9,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
-      "armor_cut": 22,
-      "armor_bullet": 30,
-      "armor_stab": 30,
-      "armor_acid": 3,
-      "vision_day": -20
+      "vision_day": -20,
+      "armor": { "cut": 22, "stab": 30, "acid": 3, "bullet": 30 }
     },
     "bleed_rate": 50,
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
@@ -4113,11 +3840,8 @@
       "melee_dice": 9,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
-      "armor_cut": 22,
-      "armor_bullet": 30,
-      "armor_stab": 30,
-      "armor_acid": 3,
-      "vision_day": -20
+      "vision_day": -20,
+      "armor": { "cut": 22, "stab": 30, "acid": 3, "bullet": 30 }
     },
     "bleed_rate": 50,
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
@@ -4140,11 +3864,8 @@
       "melee_dice": 9,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
-      "armor_cut": 22,
-      "armor_bullet": 30,
-      "armor_stab": 30,
-      "armor_acid": 3,
-      "vision_day": -20
+      "vision_day": -20,
+      "armor": { "cut": 22, "stab": 30, "acid": 3, "bullet": 30 }
     },
     "bleed_rate": 50,
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
@@ -4167,11 +3888,8 @@
       "melee_dice": 9,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
-      "armor_cut": 22,
-      "armor_bullet": 30,
-      "armor_stab": 30,
-      "armor_acid": 3,
-      "vision_day": -20
+      "vision_day": -20,
+      "armor": { "cut": 22, "stab": 30, "acid": 3, "bullet": 30 }
     },
     "bleed_rate": 50,
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
@@ -4194,11 +3912,8 @@
       "melee_dice": 9,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
-      "armor_cut": 22,
-      "armor_bullet": 30,
-      "armor_stab": 30,
-      "armor_acid": 3,
-      "vision_day": -20
+      "vision_day": -20,
+      "armor": { "cut": 22, "stab": 30, "acid": 3, "bullet": 30 }
     },
     "bleed_rate": 50,
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
@@ -4221,11 +3936,8 @@
       "melee_dice": 9,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
-      "armor_cut": 22,
-      "armor_bullet": 30,
-      "armor_stab": 30,
-      "armor_acid": 3,
-      "vision_day": -20
+      "vision_day": -20,
+      "armor": { "cut": 22, "stab": 30, "acid": 3, "bullet": 30 }
     },
     "bleed_rate": 50,
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
@@ -4248,11 +3960,8 @@
       "melee_dice": 9,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
-      "armor_cut": 22,
-      "armor_bullet": 30,
-      "armor_stab": 30,
-      "armor_acid": 3,
-      "vision_day": -20
+      "vision_day": -20,
+      "armor": { "cut": 22, "stab": 30, "acid": 3, "bullet": 30 }
     },
     "bleed_rate": 50,
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
@@ -4275,11 +3984,8 @@
       "melee_dice": 9,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
-      "armor_cut": 22,
-      "armor_bullet": 30,
-      "armor_stab": 30,
-      "armor_acid": 3,
-      "vision_day": -20
+      "vision_day": -20,
+      "armor": { "cut": 22, "stab": 30, "acid": 3, "bullet": 30 }
     },
     "bleed_rate": 50,
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
@@ -4302,11 +4008,8 @@
       "melee_dice": 9,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
-      "armor_cut": 22,
-      "armor_bullet": 30,
-      "armor_stab": 30,
-      "armor_acid": 3,
-      "vision_day": -20
+      "vision_day": -20,
+      "armor": { "cut": 22, "stab": 30, "acid": 3, "bullet": 30 }
     },
     "bleed_rate": 50,
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
@@ -4329,11 +4032,8 @@
       "melee_dice": 9,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
-      "armor_cut": 22,
-      "armor_bullet": 30,
-      "armor_stab": 30,
-      "armor_acid": 3,
-      "vision_day": -20
+      "vision_day": -20,
+      "armor": { "cut": 22, "stab": 30, "acid": 3, "bullet": 30 }
     },
     "bleed_rate": 50,
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
@@ -4356,11 +4056,8 @@
       "melee_dice": 9,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
-      "armor_cut": 22,
-      "armor_bullet": 30,
-      "armor_stab": 30,
-      "armor_acid": 3,
-      "vision_day": -20
+      "vision_day": -20,
+      "armor": { "cut": 22, "stab": 30, "acid": 3, "bullet": 30 }
     },
     "bleed_rate": 50,
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
@@ -4383,11 +4080,8 @@
       "melee_dice": 9,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
-      "armor_cut": 22,
-      "armor_bullet": 30,
-      "armor_stab": 30,
-      "armor_acid": 3,
-      "vision_day": -20
+      "vision_day": -20,
+      "armor": { "cut": 22, "stab": 30, "acid": 3, "bullet": 30 }
     },
     "bleed_rate": 50,
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
@@ -4410,11 +4104,8 @@
       "melee_dice": 9,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
-      "armor_cut": 22,
-      "armor_bullet": 30,
-      "armor_stab": 30,
-      "armor_acid": 3,
-      "vision_day": -20
+      "vision_day": -20,
+      "armor": { "cut": 22, "stab": 30, "acid": 3, "bullet": 30 }
     },
     "bleed_rate": 50,
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
@@ -4437,11 +4128,8 @@
       "melee_dice": 9,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
-      "armor_cut": 22,
-      "armor_bullet": 30,
-      "armor_stab": 30,
-      "armor_acid": 3,
-      "vision_day": -20
+      "vision_day": -20,
+      "armor": { "cut": 22, "stab": 30, "acid": 3, "bullet": 30 }
     },
     "bleed_rate": 50,
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
@@ -4464,11 +4152,8 @@
       "melee_dice": 9,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
-      "armor_cut": 22,
-      "armor_bullet": 30,
-      "armor_stab": 30,
-      "armor_acid": 3,
-      "vision_day": -20
+      "vision_day": -20,
+      "armor": { "cut": 22, "stab": 30, "acid": 3, "bullet": 30 }
     },
     "bleed_rate": 50,
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
@@ -4491,11 +4176,8 @@
       "melee_dice": 9,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
-      "armor_cut": 22,
-      "armor_bullet": 30,
-      "armor_stab": 30,
-      "armor_acid": 3,
-      "vision_day": -20
+      "vision_day": -20,
+      "armor": { "cut": 22, "stab": 30, "acid": 3, "bullet": 30 }
     },
     "bleed_rate": 50,
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
@@ -4518,11 +4200,8 @@
       "melee_dice": 9,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
-      "armor_cut": 22,
-      "armor_bullet": 30,
-      "armor_stab": 30,
-      "armor_acid": 3,
-      "vision_day": -20
+      "vision_day": -20,
+      "armor": { "cut": 22, "stab": 30, "acid": 3, "bullet": 30 }
     },
     "bleed_rate": 50,
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
@@ -4545,11 +4224,8 @@
       "melee_dice": 9,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
-      "armor_cut": 22,
-      "armor_bullet": 30,
-      "armor_stab": 30,
-      "armor_acid": 3,
-      "vision_day": -20
+      "vision_day": -20,
+      "armor": { "cut": 22, "stab": 30, "acid": 3, "bullet": 30 }
     },
     "bleed_rate": 50,
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
@@ -4572,11 +4248,8 @@
       "melee_dice": 9,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
-      "armor_cut": 22,
-      "armor_bullet": 30,
-      "armor_stab": 30,
-      "armor_acid": 3,
-      "vision_day": -20
+      "vision_day": -20,
+      "armor": { "cut": 22, "stab": 30, "acid": 3, "bullet": 30 }
     },
     "bleed_rate": 50,
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
@@ -4599,11 +4272,8 @@
       "melee_dice": 9,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "stab", "amount": 7 } ],
-      "armor_cut": 22,
-      "armor_bullet": 30,
-      "armor_stab": 30,
-      "armor_acid": 3,
-      "vision_day": -20
+      "vision_day": -20,
+      "armor": { "cut": 22, "stab": 30, "acid": 3, "bullet": 30 }
     },
     "bleed_rate": 50,
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
@@ -4626,11 +4296,8 @@
       "melee_dice": 9,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "stab", "amount": 7 } ],
-      "armor_cut": 22,
-      "armor_bullet": 30,
-      "armor_stab": 30,
-      "armor_acid": 3,
-      "vision_day": -20
+      "vision_day": -20,
+      "armor": { "cut": 22, "stab": 30, "acid": 3, "bullet": 30 }
     },
     "bleed_rate": 50,
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
@@ -4653,11 +4320,8 @@
       "melee_dice": 9,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
-      "armor_cut": 22,
-      "armor_bullet": 30,
-      "armor_stab": 30,
-      "armor_acid": 3,
-      "vision_day": -20
+      "vision_day": -20,
+      "armor": { "cut": 22, "stab": 30, "acid": 3, "bullet": 30 }
     },
     "bleed_rate": 50,
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
@@ -4680,11 +4344,8 @@
       "melee_dice": 9,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "stab", "amount": 7 } ],
-      "armor_cut": 22,
-      "armor_bullet": 30,
-      "armor_stab": 30,
-      "armor_acid": 3,
-      "vision_day": -20
+      "vision_day": -20,
+      "armor": { "cut": 22, "stab": 30, "acid": 3, "bullet": 30 }
     },
     "bleed_rate": 50,
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
@@ -4707,11 +4368,8 @@
       "melee_dice": 9,
       "melee_dice_sides": 5,
       "melee_damage": [ { "damage_type": "stab", "amount": 7 } ],
-      "armor_cut": 22,
-      "armor_bullet": 30,
-      "armor_stab": 30,
-      "armor_acid": 3,
-      "vision_day": -20
+      "vision_day": -20,
+      "armor": { "cut": 22, "stab": 30, "acid": 3, "bullet": 30 }
     },
     "bleed_rate": 50,
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
@@ -4749,7 +4407,7 @@
     "color": "dark_gray_red",
     "luminance": 20,
     "proportional": { "hp": 1.5, "speed": 0.8 },
-    "relative": { "armor_bash": 30, "armor_cut": 37 },
+    "relative": { "armor": { "bash": 30, "cut": 37 } },
     "bleed_rate": 50,
     "extend": { "flags": [ "DRIPS_GASOLINE", "LOUDMOVES" ] },
     "special_attacks": [ [ "GRAB", 30 ], [ "FLAMETHROWER", 30 ] ],
@@ -4775,7 +4433,7 @@
     "color": "dark_gray_red",
     "luminance": 20,
     "proportional": { "hp": 1.5, "speed": 0.8 },
-    "relative": { "armor_bash": 30, "armor_cut": 37 },
+    "relative": { "armor": { "bash": 30, "cut": 37 } },
     "bleed_rate": 50,
     "extend": { "flags": [ "DRIPS_GASOLINE", "LOUDMOVES" ] },
     "special_attacks": [ [ "GRAB", 30 ], [ "FLAMETHROWER", 30 ] ],
@@ -4801,7 +4459,7 @@
     "color": "dark_gray_red",
     "luminance": 20,
     "proportional": { "hp": 1.5, "speed": 0.8 },
-    "relative": { "armor_bash": 30, "armor_cut": 37, "armor_bullet": 30, "armor_stab": 30, "armor_acid": 3 },
+    "relative": { "armor": { "bash": 30, "cut": 37, "stab": 30, "acid": 3, "bullet": 30 } },
     "bleed_rate": 50,
     "extend": { "flags": [ "DRIPS_GASOLINE", "LOUDMOVES" ] },
     "starting_ammo": { "50bmg": 400 },
@@ -4849,7 +4507,7 @@
     "color": "dark_gray_red",
     "luminance": 20,
     "proportional": { "hp": 1.5, "speed": 0.8 },
-    "relative": { "armor_bash": 30, "armor_cut": 37, "armor_bullet": 30, "armor_stab": 30, "armor_acid": 3 },
+    "relative": { "armor": { "bash": 30, "cut": 37, "stab": 30, "acid": 3, "bullet": 30 } },
     "bleed_rate": 50,
     "extend": { "flags": [ "DRIPS_GASOLINE", "LOUDMOVES" ] },
     "starting_ammo": { "50bmg": 400 },
@@ -4897,7 +4555,7 @@
     "color": "dark_gray_red",
     "luminance": 20,
     "proportional": { "hp": 1.5, "speed": 0.8 },
-    "relative": { "armor_bash": 30, "armor_cut": 37, "armor_bullet": 30, "armor_stab": 30, "armor_acid": 3 },
+    "relative": { "armor": { "bash": 30, "cut": 37, "stab": 30, "acid": 3, "bullet": 30 } },
     "bleed_rate": 50,
     "extend": { "flags": [ "DRIPS_GASOLINE", "LOUDMOVES" ] },
     "starting_ammo": { "50bmg": 400 },
@@ -4944,7 +4602,7 @@
     "diff": 5,
     "color": "white_magenta",
     "proportional": { "hp": 4, "speed": 1.25 },
-    "relative": { "melee_dice": 1, "melee_damage": -4, "armor_bash": 4, "armor_cut": 6, "armor_bullet": 5 },
+    "relative": { "melee_dice": 1, "melee_damage": -4, "armor": { "bash": 4, "cut": 6, "bullet": 5 } },
     "bleed_rate": 0,
     "special_attacks": [ [ "SMASH", 20 ] ],
     "upgrades": {  }
@@ -4959,7 +4617,7 @@
     "diff": 5,
     "color": "white_magenta",
     "proportional": { "hp": 4, "speed": 1.25 },
-    "relative": { "melee_dice": 1, "melee_damage": -4, "armor_bash": 4, "armor_cut": 6, "armor_bullet": 5 },
+    "relative": { "melee_dice": 1, "melee_damage": -4, "armor": { "bash": 4, "cut": 6, "bullet": 5 } },
     "bleed_rate": 0,
     "special_attacks": [ [ "SMASH", 20 ] ],
     "upgrades": {  }
@@ -4974,7 +4632,7 @@
     "diff": 5,
     "color": "white_magenta",
     "proportional": { "hp": 4, "speed": 1.25 },
-    "relative": { "melee_dice": 1, "melee_damage": -4, "armor_bash": 4, "armor_cut": 6, "armor_bullet": 5 },
+    "relative": { "melee_dice": 1, "melee_damage": -4, "armor": { "bash": 4, "cut": 6, "bullet": 5 } },
     "bleed_rate": 0,
     "special_attacks": [ [ "SMASH", 20 ] ],
     "upgrades": {  }
@@ -4989,7 +4647,7 @@
     "diff": 5,
     "color": "white_magenta",
     "proportional": { "hp": 4, "speed": 1.25 },
-    "relative": { "melee_dice": 1, "melee_damage": -4, "armor_bash": 4, "armor_cut": 6, "armor_bullet": 5 },
+    "relative": { "melee_dice": 1, "melee_damage": -4, "armor": { "bash": 4, "cut": 6, "bullet": 5 } },
     "bleed_rate": 0,
     "special_attacks": [ [ "SMASH", 20 ] ],
     "upgrades": {  }
@@ -5004,7 +4662,7 @@
     "diff": 5,
     "color": "white_magenta",
     "proportional": { "hp": 4, "speed": 1.25 },
-    "relative": { "melee_dice": 1, "melee_damage": -4, "armor_bash": 4, "armor_cut": 6, "armor_bullet": 5 },
+    "relative": { "melee_dice": 1, "melee_damage": -4, "armor": { "bash": 4, "cut": 6, "bullet": 5 } },
     "bleed_rate": 0,
     "special_attacks": [ [ "SMASH", 20 ] ],
     "upgrades": {  }
@@ -5020,11 +4678,9 @@
       "melee_dice": -1,
       "melee_dice_sides": 2,
       "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-      "armor_bash": 12,
-      "armor_cut": 15,
-      "armor_bullet": 6,
       "vision_day": 35,
-      "vision_night": 3
+      "vision_night": 3,
+      "armor": { "bash": 12, "cut": 15, "bullet": 6 }
     },
     "bleed_rate": 0,
     "upgrades": { "half_life": 12, "into": "mon_silophosaurus_hulk" },
@@ -5044,9 +4700,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
-      "armor_bash": 8,
-      "armor_cut": 15,
-      "armor_bullet": 6
+      "armor": { "bash": 8, "cut": 15, "bullet": 6 }
     },
     "bleed_rate": 0,
     "special_attacks": [
@@ -5070,11 +4724,9 @@
       "melee_dice": -1,
       "melee_dice_sides": 2,
       "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-      "armor_bash": 12,
-      "armor_cut": 15,
-      "armor_bullet": 6,
       "vision_day": 35,
-      "vision_night": 3
+      "vision_night": 3,
+      "armor": { "bash": 12, "cut": 15, "bullet": 6 }
     },
     "bleed_rate": 0,
     "upgrades": { "half_life": 12, "into": "mon_skinosaurus_hulk" },
@@ -5094,9 +4746,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
-      "armor_bash": 8,
-      "armor_cut": 15,
-      "armor_bullet": 6
+      "armor": { "bash": 8, "cut": 15, "bullet": 6 }
     },
     "bleed_rate": 0,
     "special_attacks": [
@@ -5118,11 +4768,9 @@
       "melee_dice": -1,
       "melee_dice_sides": 2,
       "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-      "armor_bash": 12,
-      "armor_cut": 15,
-      "armor_bullet": 6,
       "vision_day": 35,
-      "vision_night": 3
+      "vision_night": 3,
+      "armor": { "bash": 12, "cut": 15, "bullet": 6 }
     },
     "bleed_rate": 0,
     "upgrades": { "half_life": 12, "into": "mon_sorvosaurus_hulk" },
@@ -5142,9 +4790,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
-      "armor_bash": 8,
-      "armor_cut": 15,
-      "armor_bullet": 6
+      "armor": { "bash": 8, "cut": 15, "bullet": 6 }
     },
     "bleed_rate": 0,
     "special_attacks": [
@@ -5166,11 +4812,9 @@
       "melee_dice": -1,
       "melee_dice_sides": 2,
       "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-      "armor_bash": 12,
-      "armor_cut": 15,
-      "armor_bullet": 6,
       "vision_day": 35,
-      "vision_night": 3
+      "vision_night": 3,
+      "armor": { "bash": 12, "cut": 15, "bullet": 6 }
     },
     "bleed_rate": 0,
     "upgrades": { "half_life": 12, "into": "mon_sallosaurus_hulk" },
@@ -5190,9 +4834,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
-      "armor_bash": 8,
-      "armor_cut": 15,
-      "armor_bullet": 6
+      "armor": { "bash": 8, "cut": 15, "bullet": 6 }
     },
     "bleed_rate": 0,
     "special_attacks": [
@@ -5213,7 +4855,7 @@
     "melee_dice": 4,
     "melee_dice_sides": 5,
     "melee_damage": [ { "damage_type": "cut", "amount": 30 } ],
-    "relative": { "armor_bash": 12, "armor_cut": 15, "armor_bullet": 6, "vision_day": 35, "vision_night": 3 },
+    "relative": { "vision_day": 35, "vision_night": 3, "armor": { "bash": 12, "cut": 15, "bullet": 6 } },
     "bleed_rate": 0,
     "upgrades": { "half_life": 12, "into": "mon_syrannosaurus_hulk" },
     "special_attacks": [
@@ -5232,7 +4874,7 @@
     "melee_dice": 5,
     "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 35 } ],
-    "relative": { "armor_bash": 8, "armor_cut": 15, "armor_bullet": 6 },
+    "relative": { "armor": { "bash": 8, "cut": 15, "bullet": 6 } },
     "bleed_rate": 0,
     "special_attacks": [
       { "id": "smash", "throw_strength": 54 },
@@ -5253,11 +4895,9 @@
       "melee_dice": -1,
       "melee_dice_sides": 2,
       "melee_damage": [ { "damage_type": "bash", "amount": 6 } ],
-      "armor_bash": 12,
-      "armor_cut": 15,
-      "armor_bullet": 6,
       "vision_day": 35,
-      "vision_night": 3
+      "vision_night": 3,
+      "armor": { "bash": 12, "cut": 15, "bullet": 6 }
     },
     "bleed_rate": 0,
     "upgrades": { "half_life": 12, "into": "mon_sallimimus_hulk" },
@@ -5277,9 +4917,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_damage": [ { "damage_type": "stab", "amount": 5 } ],
-      "armor_bash": 8,
-      "armor_cut": 15,
-      "armor_bullet": 6
+      "armor": { "bash": 8, "cut": 15, "bullet": 6 }
     },
     "bleed_rate": 0,
     "special_attacks": [
@@ -5303,11 +4941,9 @@
       "melee_dice": -1,
       "melee_dice_sides": 2,
       "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-      "armor_bash": 12,
-      "armor_cut": 15,
-      "armor_bullet": 6,
       "vision_day": 35,
-      "vision_night": 3
+      "vision_night": 3,
+      "armor": { "bash": 12, "cut": 15, "bullet": 6 }
     },
     "bleed_rate": 0,
     "upgrades": { "half_life": 12, "into": "mon_serizinosaurus_hulk" },
@@ -5327,9 +4963,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
-      "armor_bash": 8,
-      "armor_cut": 15,
-      "armor_bullet": 6
+      "armor": { "bash": 8, "cut": 15, "bullet": 6 }
     },
     "bleed_rate": 0,
     "special_attacks": [
@@ -5353,11 +4987,9 @@
       "melee_dice": -1,
       "melee_dice_sides": 2,
       "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-      "armor_bash": 12,
-      "armor_cut": 15,
-      "armor_bullet": 6,
       "vision_day": 35,
-      "vision_night": 3
+      "vision_night": 3,
+      "armor": { "bash": 12, "cut": 15, "bullet": 6 }
     },
     "bleed_rate": 0,
     "upgrades": { "half_life": 12, "into": "mon_sothronychus_hulk" },
@@ -5377,9 +5009,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
-      "armor_bash": 8,
-      "armor_cut": 15,
-      "armor_bullet": 6
+      "armor": { "bash": 8, "cut": 15, "bullet": 6 }
     },
     "bleed_rate": 0,
     "special_attacks": [
@@ -5403,11 +5033,9 @@
       "melee_dice": -1,
       "melee_dice_sides": 2,
       "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-      "armor_bash": 12,
-      "armor_cut": 15,
-      "armor_bullet": 6,
       "vision_day": 35,
-      "vision_night": 3
+      "vision_night": 3,
+      "armor": { "bash": 12, "cut": 15, "bullet": 6 }
     },
     "bleed_rate": 0,
     "upgrades": { "half_life": 12, "into": "mon_sanzu_hulk" },
@@ -5427,9 +5055,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
-      "armor_bash": 8,
-      "armor_cut": 15,
-      "armor_bullet": 6
+      "armor": { "bash": 8, "cut": 15, "bullet": 6 }
     },
     "bleed_rate": 0,
     "special_attacks": [
@@ -5453,11 +5079,9 @@
       "melee_dice": -1,
       "melee_dice_sides": 2,
       "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-      "armor_bash": 12,
-      "armor_cut": 15,
-      "armor_bullet": 6,
       "vision_day": 35,
-      "vision_night": 3
+      "vision_night": 3,
+      "armor": { "bash": 12, "cut": 15, "bullet": 6 }
     },
     "bleed_rate": 0,
     "upgrades": { "half_life": 12, "into": "mon_sutahraptor_hulk" },
@@ -5477,9 +5101,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
-      "armor_bash": 8,
-      "armor_cut": 15,
-      "armor_bullet": 6
+      "armor": { "bash": 8, "cut": 15, "bullet": 6 }
     },
     "bleed_rate": 0,
     "special_attacks": [
@@ -5503,11 +5125,9 @@
       "melee_dice": -1,
       "melee_dice_sides": 2,
       "melee_damage": [ { "damage_type": "bash", "amount": 6 } ],
-      "armor_bash": 12,
-      "armor_cut": 15,
-      "armor_bullet": 6,
       "vision_day": 35,
-      "vision_night": 3
+      "vision_night": 3,
+      "armor": { "bash": 12, "cut": 15, "bullet": 6 }
     },
     "bleed_rate": 0,
     "upgrades": { "half_life": 12, "into": "mon_sescelosaurus_hulk" },
@@ -5527,9 +5147,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_damage": [ { "damage_type": "stab", "amount": 5 } ],
-      "armor_bash": 8,
-      "armor_cut": 15,
-      "armor_bullet": 6
+      "armor": { "bash": 8, "cut": 15, "bullet": 6 }
     },
     "bleed_rate": 0,
     "special_attacks": [

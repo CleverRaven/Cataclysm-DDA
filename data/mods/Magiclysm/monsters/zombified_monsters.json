@@ -120,10 +120,8 @@
       "melee_dice_sides": 2,
       "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
       "dodge": 3,
-      "armor_bash": 3,
-      "armor_cut": 3,
-      "armor_bullet": 2,
-      "vision_night": 19
+      "vision_night": 19,
+      "armor": { "bash": 3, "cut": 3, "bullet": 2 }
     },
     "delete": { "flags": [ "PATH_AVOID_DANGER_1" ] },
     "extend": { "special_attacks": [ [ "SMASH", 20 ] ] }
@@ -143,12 +141,10 @@
       "melee_dice": 2,
       "melee_dice_sides": -1,
       "melee_damage": -2,
-      "armor_bash": 2,
-      "armor_cut": 2,
-      "armor_bullet": 1,
       "vision_day": -13,
       "vision_night": 3,
-      "regenerates": 3
+      "regenerates": 3,
+      "armor": { "bash": 2, "cut": 2, "bullet": 1 }
     },
     "proportional": { "volume": 1.05, "weight": 1.07 },
     "extend": { "species": [ "ZOMBIE" ], "flags": [ "BASHES", "POISON", "NO_BREATHE", "REVIVES" ] },
@@ -200,12 +196,10 @@
       "melee_dice": 1,
       "melee_dice_sides": 1,
       "melee_damage": -2,
-      "armor_bash": 2,
-      "armor_cut": 1,
-      "armor_bullet": -2,
       "vision_day": -22,
       "vision_night": 20,
-      "regenerates": 3
+      "regenerates": 3,
+      "armor": { "bash": 2, "cut": 1, "bullet": -2 }
     },
     "proportional": { "volume": 1.01, "weight": 0.95 },
     "extend": { "flags": [ "PATH_AVOID_DANGER_1" ], "special_attacks": [ { "type": "leap", "cooldown": 7, "max_range": 2 } ] }

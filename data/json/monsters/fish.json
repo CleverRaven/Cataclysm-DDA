@@ -909,7 +909,7 @@
     "name": { "str_sp": "colossal crayfish" },
     "description": "An enormous mutated gray crayfish with pincer claws and long antennae.",
     "copy-from": "mon_giant_crayfish",
-    "proportional": { "hp": 10, "speed": 0.25, "dodge": 0.5, "armor_cut": 2, "armor_bullet": 2 },
+    "proportional": { "hp": 10, "speed": 0.25, "dodge": 0.5, "armor": { "cut": 2, "bullet": 2 } },
     "volume": "625 L",
     "weight": "815 kg",
     "melee_dice": 2,

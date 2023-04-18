@@ -354,6 +354,8 @@ struct mtype {
         std::set<scenttype_id> scents_ignored; /**Types of scent ignored by this mtype*/
 
         resistances armor;
+        std::optional<resistances> armor_proportional; /**load-time only*/
+        std::optional<resistances> armor_relative; /**load-time only*/
         ::weakpoints weakpoints;
         weakpoint_families families;
 

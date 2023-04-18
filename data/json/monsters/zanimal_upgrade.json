@@ -46,11 +46,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": 2,
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "armor_elec": 1,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5, "electric": 1 }
     },
     "bleed_rate": 50,
     "upgrades": { "half_life": 42, "into": "mon_dog_zombie_hulk" },
@@ -117,10 +114,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": 2,
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ], { "id": "impale" } ],

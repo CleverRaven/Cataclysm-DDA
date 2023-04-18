@@ -411,6 +411,37 @@ void MonsterGenerator::finalize_mtypes()
         }
 
         finalize_damage_map( mon.armor.resist_vals, true );
+        if( mon.armor_proportional.has_value() ) {
+            finalize_damage_map( mon.armor_proportional->resist_vals, false, 1.f );
+            for( std::pair<const damage_type_id, float> &dt : mon.armor.resist_vals ) {
+                const auto iter = mon.armor_proportional->resist_vals.find( dt.first );
+                if( iter != mon.armor_proportional->resist_vals.end() ) {
+                    dt.second *= iter->second;
+                }
+            }
+        }
+        if( mon.armor_relative.has_value() ) {
+            finalize_damage_map( mon.armor_relative->resist_vals, false, 0.f );
+            for( std::pair<const damage_type_id, float> &dt : mon.armor.resist_vals ) {
+                const auto iter = mon.armor_relative->resist_vals.find( dt.first );
+                if( iter != mon.armor_relative->resist_vals.end() ) {
+                    dt.second += iter->second;
+                }
+            }
+        }
+
+        float melee_dmg_total = mon.melee_damage.total_damage();
+        float armor_diff = 3.0f;
+        for( const auto &dt : mon.armor.resist_vals ) {
+            if( dt.first->mon_difficulty ) {
+                armor_diff += dt.second;
+            }
+        }
+        mon.difficulty = ( mon.melee_skill + 1 ) * mon.melee_dice * ( melee_dmg_total + mon.melee_sides ) *
+                         0.04 + ( mon.sk_dodge + 1 ) * armor_diff * 0.04 +
+                         ( mon.difficulty_base + mon.special_attacks.size() + 8 * mon.emit_fields.size() );
+        mon.difficulty *= ( mon.hp + mon.speed - mon.attack_cost + ( mon.morale + mon.agro ) * 0.1 ) * 0.01
+                          + ( mon.vision_day + 2 * mon.vision_night ) * 0.01;
 
         if( mon.status_chance_multiplier < 0 ) {
             mon.status_chance_multiplier = 0;
@@ -747,6 +778,22 @@ void mtype::load( const JsonObject &jo, const std::string &src )
 
     if( jo.has_object( "armor" ) ) {
         armor = load_resistances_instance( jo.get_object( "armor" ) );
+    }
+    armor_proportional.reset();
+    if( jo.has_object( "proportional" ) ) {
+        JsonObject jprop = jo.get_object( "proportional" );
+        jprop.allow_omitted_members();
+        if( jprop.has_object( "armor" ) ) {
+            armor_proportional = load_resistances_instance( jprop.get_object( "armor" ) );
+        }
+    }
+    armor_relative.reset();
+    if( jo.has_object( "relative" ) ) {
+        JsonObject jrel = jo.get_object( "relative" );
+        jrel.allow_omitted_members();
+        if( jrel.has_object( "armor" ) ) {
+            armor_relative = load_resistances_instance( jrel.get_object( "armor" ) );
+        }
     }
 
     optional( jo, was_loaded, "trap_avoids", trap_avoids );
@@ -1132,19 +1179,6 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         optional( jop, was_loaded, "allow_climb_stairs", path_settings.allow_climb_stairs, true );
         optional( jop, was_loaded, "avoid_sharp", path_settings.avoid_sharp, false );
     }
-    float melee_dmg_total = melee_damage.total_damage();
-    float armor_diff = 3.0f;
-    for( const auto &dt : armor.resist_vals ) {
-        if( dt.first->mon_difficulty ) {
-            armor_diff += dt.second;
-        }
-    }
-    difficulty = ( melee_skill + 1 ) * melee_dice * ( melee_dmg_total + melee_sides ) * 0.04 +
-                 ( sk_dodge + 1 ) * armor_diff * 0.04 +
-                 ( difficulty_base + special_attacks.size() + 8 * emit_fields.size() );
-    difficulty *= ( hp + speed - attack_cost + ( morale + agro ) * 0.1 ) * 0.01 +
-                  ( vision_day + 2 * vision_night ) * 0.01;
-
 }
 
 void MonsterGenerator::load_species( const JsonObject &jo, const std::string &src )

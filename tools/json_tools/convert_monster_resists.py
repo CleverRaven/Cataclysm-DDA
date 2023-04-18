@@ -35,6 +35,12 @@ def to_resist_vals(jo):
     if res:
         jo["armor"] = res
 
+    if "proportional" in jo:
+        jo["proportional"] = to_resist_vals(jo["proportional"])
+
+    if "relative" in jo:
+        jo["relative"] = to_resist_vals(jo["relative"])
+
     return jo
 
 
