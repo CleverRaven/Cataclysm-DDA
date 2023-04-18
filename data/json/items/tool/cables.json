@@ -86,7 +86,7 @@
       "type": "link_up",
       "menu_text": "Plug in / Unplug",
       "is_cable_item": true,
-      "cable_length": 10, 
+      "cable_length": 10,
       "targets": [ "no_link", "vehicle" ]
     },
     "flags": [ "CABLE_SPOOL", "SINGLE_USE" ]
@@ -126,12 +126,7 @@
     "price_postapoc": 500,
     "max_charges": 6,
     "initial_charges": 6,
-    "use_action": {
-      "type": "link_up",
-      "is_cable_item": true,
-      "cable_length": 6,
-      "targets": [ "no_link", "vehicle_tow" ]
-    },
+    "use_action": { "type": "link_up", "is_cable_item": true, "cable_length": 6, "targets": [ "no_link", "vehicle_tow" ] },
     "qualities": [ [ "ROPE", 2 ] ],
     "flags": [ "CABLE_SPOOL", "TOW_CABLE", "SINGLE_USE" ],
     "melee_damage": { "bash": 6 }
