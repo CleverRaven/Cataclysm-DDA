@@ -2051,7 +2051,7 @@ TEST_CASE( "food with hidden poison or hallucinogen", "[iteminfo][food][poison][
     // At low level, no info is shown
     GIVEN( "survival 2" ) {
         player_character.set_skill_level( skill_survival, 2 );
-        REQUIRE( player_character.get_skill_level( skill_survival ) == 2 );
+        REQUIRE( static_cast<int>( player_character.get_skill_level( skill_survival ) ) == 2 );
 
         THEN( "cannot see hidden poison or hallucinogen" ) {
             CHECK( item_info_str( almond, poison ).empty() );
@@ -2062,7 +2062,7 @@ TEST_CASE( "food with hidden poison or hallucinogen", "[iteminfo][food][poison][
     // Hidden poison is visible at survival level 3
     GIVEN( "survival 3" ) {
         player_character.set_skill_level( skill_survival, 3 );
-        REQUIRE( player_character.get_skill_level( skill_survival ) == 3 );
+        REQUIRE( static_cast<int>( player_character.get_skill_level( skill_survival ) ) == 3 );
 
         THEN( "can see hidden poison" ) {
             CHECK( item_info_str( almond, poison ) ==
@@ -2079,7 +2079,7 @@ TEST_CASE( "food with hidden poison or hallucinogen", "[iteminfo][food][poison][
     // Hidden hallucinogen is not visible until survival level 5
     GIVEN( "survival 4" ) {
         player_character.set_skill_level( skill_survival, 4 );
-        REQUIRE( player_character.get_skill_level( skill_survival ) == 4 );
+        REQUIRE( static_cast<int>( player_character.get_skill_level( skill_survival ) ) == 4 );
 
         THEN( "still cannot see hidden hallucinogen" ) {
             CHECK( item_info_str( nutmeg, hallu ).empty() );
@@ -2088,7 +2088,7 @@ TEST_CASE( "food with hidden poison or hallucinogen", "[iteminfo][food][poison][
 
     GIVEN( "survival 5" ) {
         player_character.set_skill_level( skill_survival, 5 );
-        REQUIRE( player_character.get_skill_level( skill_survival ) == 5 );
+        REQUIRE( static_cast<int>( player_character.get_skill_level( skill_survival ) ) == 5 );
 
         THEN( "can see hidden hallucinogen" ) {
             CHECK( item_info_str( nutmeg, hallu ) ==
@@ -2577,7 +2577,8 @@ TEST_CASE( "show available recipes with item as an ingredient", "[iteminfo][reci
 
         WHEN( "they acquire the needed skills" ) {
             player_character.set_skill_level( purtab->skill_used, purtab->difficulty );
-            REQUIRE( player_character.get_skill_level( purtab->skill_used ) == purtab->difficulty );
+            REQUIRE( static_cast<int>( player_character.get_skill_level( purtab->skill_used ) ) ==
+                     purtab->difficulty );
 
             THEN( "still nothing is craftable from it" ) {
                 CHECK( item_info_str( *iodine, crafting ) ==

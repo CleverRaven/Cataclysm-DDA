@@ -268,7 +268,7 @@ void ma_technique::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "attack_vectors_random", attack_vectors_random, {} );
 
     for( JsonValue jv : jo.get_array( "eocs" ) ) {
-        eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
 
     reqs.load( jo, src );
@@ -349,7 +349,7 @@ class ma_buff_reader : public generic_typed_reader<ma_buff_reader>
         }
 };
 
-void martialart::load( const JsonObject &jo, const std::string & )
+void martialart::load( const JsonObject &jo, const std::string &src )
 {
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "description", description );
@@ -375,37 +375,37 @@ void martialart::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "onkill_buffs", onkill_buffs, ma_buff_reader{} );
 
     for( JsonValue jv : jo.get_array( "static_eocs" ) ) {
-        static_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        static_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
     for( JsonValue jv : jo.get_array( "onmove_eocs" ) ) {
-        onmove_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        onmove_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
     for( JsonValue jv : jo.get_array( "onpause_eocs" ) ) {
-        onpause_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        onpause_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
     for( JsonValue jv : jo.get_array( "onhit_eocs" ) ) {
-        onhit_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        onhit_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
     for( JsonValue jv : jo.get_array( "onattack_eocs" ) ) {
-        onattack_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        onattack_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
     for( JsonValue jv : jo.get_array( "ondodge_eocs" ) ) {
-        ondodge_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        ondodge_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
     for( JsonValue jv : jo.get_array( "onblock_eocs" ) ) {
-        onblock_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        onblock_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
     for( JsonValue jv : jo.get_array( "ongethit_eocs" ) ) {
-        ongethit_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        ongethit_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
     for( JsonValue jv : jo.get_array( "onmiss_eocs" ) ) {
-        onmiss_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        onmiss_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
     for( JsonValue jv : jo.get_array( "oncrit_eocs" ) ) {
-        oncrit_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        oncrit_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
     for( JsonValue jv : jo.get_array( "onkill_eocs" ) ) {
-        onkill_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        onkill_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
 
     optional( jo, was_loaded, "techniques", techniques, string_id_reader<::ma_technique> {} );
@@ -638,7 +638,7 @@ bool ma_requirements::is_valid_character( const Character &u ) const
     }
 
     for( const auto &pr : min_skill ) {
-        if( ( cqb ? 5 : u.get_skill_level( pr.first ) ) < pr.second ) {
+        if( ( cqb ? 5 : static_cast<int>( u.get_skill_level( pr.first ) ) ) < pr.second ) {
             return false;
         }
     }
@@ -1764,7 +1764,7 @@ bool Character::can_autolearn( const matype_id &ma_id ) const
         const skill_id skill_req( elem.first );
         const int required_level = elem.second;
 
-        if( required_level > get_skill_level( skill_req ) ) {
+        if( required_level > static_cast<int>( get_skill_level( skill_req ) ) ) {
             return false;
         }
     }

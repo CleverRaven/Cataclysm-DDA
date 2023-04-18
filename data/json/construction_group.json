@@ -1136,6 +1136,16 @@
   },
   {
     "type": "construction_group",
+    "id": "place_veh_tools_kitchen",
+    "name": "Place Kitchen Station"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_veh_tools_workshop",
+    "name": "Place Workshop Station"
+  },
+  {
+    "type": "construction_group",
     "id": "place_fridge",
     "name": "Place Fridge"
   },
@@ -1171,28 +1181,8 @@
   },
   {
     "type": "construction_group",
-    "id": "place_foodco",
-    "name": "Place FOODCO"
-  },
-  {
-    "type": "construction_group",
     "id": "place_microwave",
     "name": "Place Microwave"
-  },
-  {
-    "type": "construction_group",
-    "id": "place_chemlab",
-    "name": "Place Onboard Chemistry Lab"
-  },
-  {
-    "type": "construction_group",
-    "id": "place_weldrig",
-    "name": "Place Welding Rig"
-  },
-  {
-    "type": "construction_group",
-    "id": "place_weldkit",
-    "name": "Place Welding Kit"
   },
   {
     "type": "construction_group",
@@ -1728,5 +1718,10 @@
     "type": "construction_group",
     "id": "place_hd_compressor_unit",
     "name": "Place High Pressure Compressor Unit"
+  },
+  {
+    "type": "construction_group",
+    "id": "obstacle_rock",
+    "name": "Build a Rocky Obstacle"
   }
 ]

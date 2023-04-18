@@ -41,7 +41,16 @@
     "color": "brown",
     "looks_like": "cloak",
     "material": [ "magical_material" ],
-    "flags": [ "AURA", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE", "OVERSIZE" ],
+    "flags": [
+      "AURA",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "OVERSIZE",
+      "UNBREAKABLE",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
     "relic_data": {
       "passive_effects": [
         {
@@ -96,7 +105,7 @@
     "bashing": 8,
     "symbol": ",",
     "color": "light_green",
-    "flags": [ "LIGHT_300", "AURA", "SEMITANGIBLE" ],
+    "flags": [ "LIGHT_300", "AURA", "SEMITANGIBLE", "UNBREAKABLE", "ALLOWS_NATURAL_ATTACKS" ],
     "armor": [ { "covers": [ "head" ] } ]
   },
   {
@@ -111,7 +120,7 @@
     "symbol": ",",
     "color": "light_green",
     "material": [ "magical_material" ],
-    "flags": [ "LIGHT_8", "AURA", "SEMITANGIBLE" ],
+    "flags": [ "LIGHT_8", "AURA", "SEMITANGIBLE", "UNBREAKABLE", "ALLOWS_NATURAL_ATTACKS" ],
     "armor": [ { "covers": [ "head" ] } ]
   },
   {
@@ -451,7 +460,17 @@
     "symbol": "o",
     "color": "white",
     "material": [ "magical_material" ],
-    "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
+    "flags": [
+      "AURA",
+      "SEMITANGIBLE",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "UNBREAKABLE",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "BONUS_DODGE", "add": 2 } ] } ] },
     "armor": [
       {
@@ -472,7 +491,17 @@
     "symbol": "o",
     "color": "green",
     "material": [ "magical_material" ],
-    "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
+    "flags": [
+      "AURA",
+      "SEMITANGIBLE",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "UNBREAKABLE",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ARMOR_ACID", "multiply": -0.25 } ] } ]
     },
@@ -495,7 +524,17 @@
     "symbol": "o",
     "color": "green",
     "material": [ "magical_material" ],
-    "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
+    "flags": [
+      "AURA",
+      "SEMITANGIBLE",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "UNBREAKABLE",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ARMOR_ACID", "multiply": -0.6 } ] } ]
     },
@@ -602,7 +641,17 @@
     "color": "blue",
     "material": [ "magical_material" ],
     "environmental_protection": 15,
-    "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
+    "flags": [
+      "AURA",
+      "SEMITANGIBLE",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "UNBREAKABLE",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
     "armor": [
       {
         "encumbrance": 0,
@@ -621,7 +670,16 @@
     "symbol": "o",
     "color": "blue",
     "material": [ "magical_material" ],
-    "flags": [ "AURA", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE", "OVERSIZE" ],
+    "flags": [
+      "AURA",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "OVERSIZE",
+      "UNBREAKABLE",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "hit_me_effect": [ { "id": "thorns_zap" } ] } ] }
   },
   {
@@ -760,7 +818,16 @@
     "symbol": "o",
     "color": "blue",
     "material": [ "magical_material" ],
-    "flags": [ "AURA", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE", "OVERSIZE" ],
+    "flags": [
+      "AURA",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "OVERSIZE",
+      "UNBREAKABLE",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
     "relic_data": {
       "passive_effects": [
         {
@@ -831,7 +898,17 @@
     "warmth": 0,
     "material_thickness": 0.4,
     "environmental_protection": 2,
-    "flags": [ "AURA", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE", "OVERSIZE", "PADDED" ],
+    "flags": [
+      "AURA",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "OVERSIZE",
+      "PADDED",
+      "UNBREAKABLE",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
     "relic_data": {
       "passive_effects": [
         {
@@ -1213,7 +1290,9 @@
       "NO_TAKEOFF",
       "NONCONDUCTIVE",
       "TRADER_AVOID",
-      "REBREATHER"
+      "REBREATHER",
+      "UNBREAKABLE",
+      "ALLOWS_NATURAL_ATTACKS"
     ]
   },
   {
@@ -1239,7 +1318,9 @@
       "NO_TAKEOFF",
       "NONCONDUCTIVE",
       "TRADER_AVOID",
-      "PSYSHIELD_PARTIAL"
+      "PSYSHIELD_PARTIAL",
+      "UNBREAKABLE",
+      "ALLOWS_NATURAL_ATTACKS"
     ]
   },
   {
@@ -1272,7 +1353,9 @@
       "NONCONDUCTIVE",
       "TRADER_AVOID",
       "PSYSHIELD_PARTIAL",
-      "PORTAL_PROOF"
+      "PORTAL_PROOF",
+      "UNBREAKABLE",
+      "ALLOWS_NATURAL_ATTACKS"
     ]
   },
   {

@@ -488,7 +488,7 @@ What makes the monster afraid / angry / what calms it. See [JSON_FLAGS.md](JSON_
 ## "chat_topics"
 (string, optional)
 
-Lists possible chat topics that will be used as dialogue display when talking to a monster, done by `e`xamining it and `c`hatting with it. The creature in question must be friendly to the player in order to talk to it. Monsters can be assigned variables, but cannot trade with the exchange interface. Listing multiple chat topics will cause the game to crash. This must be defined as an array.
+Lists possible chat topics that will be used as dialogue display when talking to a monster, done by `e`xamining it and `c`hatting with it. The creature in question must be friendly to the player in order to talk to it, or have the `CONVERSATION` flag. Alternatively an EOC spell/special attack between a player and monster can start a conversation using the `open_dialogue` effect, see [NPCs.md](NPCs.md) for more details.  Monsters can be assigned variables, but cannot trade with the exchange interface. Listing multiple chat topics will cause the game to crash. This must be defined as an array.
 
 ```JSON
 "chat_topics": [ "TALK_FREE_MERCHANTS_MERCHANT" ]
@@ -542,7 +542,7 @@ The monster's reproduction cycle, if any. Supports:
 Field          | Description
 ---            | ---
 `baby_monster` | (string, optional) the id of the monster spawned on reproduction for monsters who give live births. You must declare either this or `baby_egg` for reproduction to work.
-`baby_egg`     | (string, optional) The id of the egg type to spawn for egg-laying monsters. You must declare either this or "baby_monster" for reproduction to work.
+`baby_egg`     | (string, optional) The id of the egg type to spawn for egg-laying monsters. You must declare either this or "baby_monster" for reproduction to work. (see [JSON_INFO.md](JSON_INFO.md#comestibles) `rot_spawn`)
 `baby_count`   | (int) Number of new creatures or eggs to spawn on reproduction.
 `baby_timer`   | (int) Number of days between reproduction events.
 

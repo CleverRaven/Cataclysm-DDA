@@ -1645,5 +1645,199 @@
         "description": "Reach Isherwood Farms"
       }
     ]
+  },
+  {
+    "id": "achievement_reach_aircraft_carrier",
+    "type": "achievement",
+    "name": "Top Gun",
+    "requirements": [
+      {
+        "event_statistic": "last_overmap_special_avatar_entered",
+        "is": "==",
+        "target": [ "overmap_special_id", "aircraft_carrier" ],
+        "visible": "when_achievement_completed",
+        "description": "Reach the Aircraft Carrier"
+      }
+    ]
+  },
+  {
+    "id": "achievement_reach_nuclear_plant",
+    "type": "achievement",
+    "name": "I'm Nuclear!",
+    "requirements": [
+      {
+        "event_statistic": "last_overmap_special_avatar_entered",
+        "is": "==",
+        "target": [ "overmap_special_id", "nuclear power plant" ],
+        "visible": "when_achievement_completed",
+        "description": "Reach a Nuclear Plant"
+      }
+    ]
+  },
+  {
+    "id": "achievement_reach_island_prison",
+    "type": "achievement",
+    "name": "Concrete Hell",
+    "requirements": [
+      {
+        "event_statistic": "last_overmap_special_avatar_entered",
+        "is": "==",
+        "target": [ "overmap_special_id", "Island prison" ],
+        "visible": "when_achievement_completed",
+        "description": "Reach an Island Prison"
+      }
+    ]
+  },
+  {
+    "id": "achievement_reach_mi-Go_encampment",
+    "type": "achievement",
+    "name": "The Whisperer in Darkness",
+    "requirements": [
+      {
+        "event_statistic": "last_overmap_special_avatar_entered",
+        "is": "==",
+        "target": [ "overmap_special_id", "Mi-Go Encampment" ],
+        "visible": "when_achievement_completed",
+        "description": "Reach a Mi-Go Encampment"
+      }
+    ]
+  },
+  {
+    "id": "achievement_reach_trans_coast_lab",
+    "type": "achievement",
+    "name": "Eureka!",
+    "requirements": [
+      {
+        "event_statistic": "last_overmap_special_avatar_entered",
+        "is": "==",
+        "target": [ "overmap_special_id", "Lab_CORE_2x1x2" ],
+        "visible": "when_achievement_completed",
+        "description": "Reach Trans Coastal Lab"
+      }
+    ]
+  },
+  {
+    "id": "achievement_reach_bastion_fort",
+    "type": "achievement",
+    "name": "What a Larp!",
+    "requirements": [
+      {
+        "event_statistic": "last_overmap_special_avatar_entered",
+        "is": "==",
+        "target": [ "overmap_special_id", "Bastion Fort" ],
+        "visible": "when_achievement_completed",
+        "description": "Reach a Bastion Fort"
+      }
+    ]
+  },
+  {
+    "id": "achievement_reach_military_base",
+    "type": "achievement",
+    "name": "Zombie Army",
+    "requirements": [
+      {
+        "event_statistic": "last_overmap_special_avatar_entered",
+        "is": "==",
+        "target": [ "overmap_special_id", "mil_base" ],
+        "visible": "when_achievement_completed",
+        "description": "Reach a Military Base"
+      }
+    ]
+  },
+  {
+    "id": "achievement_reach_triffid_grove",
+    "type": "achievement",
+    "name": "Floral combat!",
+    "requirements": [
+      {
+        "event_statistic": "last_overmap_special_avatar_entered",
+        "is": "==",
+        "target": [ "overmap_special_id", "Triffid Grove" ],
+        "visible": "when_achievement_completed",
+        "description": "Reach a Triffid Grove"
+      }
+    ]
+  },
+  {
+    "id": "achievement_reach_megastore",
+    "type": "achievement",
+    "name": "Shop Smart, Shop S-Mart!",
+    "requirements": [
+      {
+        "event_statistic": "last_overmap_special_avatar_entered",
+        "is": "==",
+        "target": [ "overmap_special_id", "megastore" ],
+        "visible": "when_achievement_completed",
+        "description": "Reach a Megastore"
+      }
+    ]
+  },
+  {
+    "id": "achievement_reach_hospital",
+    "type": "achievement",
+    "name": "The Doctor is out!",
+    "requirements": [
+      {
+        "event_statistic": "num_avatar_enters_hospital",
+        "is": ">=",
+        "target": 1,
+        "visible": "when_achievement_completed",
+        "description": "Reach a Hospital"
+      }
+    ]
+  },
+  {
+    "id": "achievement_reach_mid_z_level",
+    "type": "achievement",
+    "name": "I can see my house from here!",
+    "requirements": [ { "event_statistic": "max_move_z", "is": ">=", "target": 6 } ]
+  },
+  {
+    "id": "achievement_reach_negative_z_level",
+    "type": "achievement",
+    "name": "All downhill from here.",
+    "requirements": [ { "event_statistic": "min_move_z", "is": "<=", "target": -5 } ]
+  },
+  {
+    "id": "achievement_reach_fungal_tower",
+    "type": "achievement",
+    "name": "Oh Shitake!",
+    "requirements": [
+      {
+        "event_statistic": "last_overmap_special_avatar_entered",
+        "is": "==",
+        "target": [ "overmap_special_id", "Fungal Tower" ],
+        "visible": "when_achievement_completed",
+        "description": "Reach a Fungal Tower"
+      }
+    ]
+  },
+  {
+    "id": "achievement_reach_mansion",
+    "type": "achievement",
+    "name": "Lifestyles of the rich and fetid!",
+    "requirements": [
+      {
+        "event_statistic": "num_avatar_enters_mansion",
+        "is": ">=",
+        "target": 1,
+        "visible": "when_achievement_completed",
+        "description": "Reach a Mansion"
+      }
+    ]
+  },
+  {
+    "id": "achievement_reach_mine",
+    "type": "achievement",
+    "name": "We need to go deeper!",
+    "requirements": [
+      {
+        "event_statistic": "num_avatar_enters_mine",
+        "is": ">=",
+        "target": 1,
+        "visible": "when_achievement_completed",
+        "description": "Reach a Mine"
+      }
+    ]
   }
 ]

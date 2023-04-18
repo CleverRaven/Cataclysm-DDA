@@ -2366,7 +2366,8 @@
       "flour_wheat_free",
       "flour_wheat_free_with_from_food_processor",
       "flour_wheat_free_mortar",
-      "bread_flour"
+      "bread_flour",
+      "bread_flour_with_from_food_processor"
     ],
     "difficulty": 2
   },
@@ -3509,6 +3510,7 @@
       "bundle_cotton",
       "bundle_leather",
       "bundle_wool",
+      "bundle_nylon",
       "bundle_plank",
       "bundle_rebar",
       "bundle_pipe",

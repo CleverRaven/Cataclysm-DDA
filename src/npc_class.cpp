@@ -263,7 +263,7 @@ void shopkeeper_item_group::deserialize( const JsonObject &jo )
     optional( jo, false, "rigid", rigid, false );
     optional( jo, false, "refusal", refusal );
     if( jo.has_member( "condition" ) ) {
-        read_condition<dialogue>( jo, "condition", condition, false );
+        read_condition( jo, "condition", condition, false );
     }
 }
 

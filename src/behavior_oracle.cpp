@@ -11,7 +11,7 @@
 namespace behavior
 {
 
-status_t return_running( const oracle_t *, const std::string & )
+status_t return_running( const oracle_t *, const std::string_view )
 {
     return status_t::running;
 }

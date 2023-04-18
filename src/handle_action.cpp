@@ -657,7 +657,7 @@ static void grab()
         add_msg( _( "You grab the %s." ), vp->vehicle().name );
     } else if( here.has_furn( grabp ) ) { // If not, grab furniture if present
         if( !here.furn( grabp ).obj().is_movable() ) {
-            add_msg( _( "You can not grab the %s" ), here.furnname( grabp ) );
+            add_msg( _( "You can not grab the %s." ), here.furnname( grabp ) );
             return;
         }
         you.grab( object_type::FURNITURE, grabp - you.pos() );
@@ -847,7 +847,7 @@ static void smash()
             const int mod_sta = 2 * player_character.get_standard_stamina_cost();
             player_character.mod_stamina( mod_sta );
 
-            if( player_character.get_skill_level( skill_melee ) == 0 ) {
+            if( static_cast<int>( player_character.get_skill_level( skill_melee ) ) == 0 ) {
                 player_character.practice( skill_melee, rng( 0, 1 ) * rng( 0, 1 ) );
             }
             if( weapon ) {

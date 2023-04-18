@@ -62,9 +62,16 @@ struct sound_effect_resource {
     };
     std::unique_ptr<Mix_Chunk, deleter> chunk;
 };
+
+static int add_sfx_path( const std::string &path );
+
 struct sound_effect {
-    int volume = 0;
-    int resource_id = 0;
+    const int volume = 0;
+    const int resource_id = 0;
+
+    sound_effect() = default;
+    sound_effect( int volume, const std::string &path )
+        : volume( volume ), resource_id( add_sfx_path( path ) ) {}
 };
 
 // Sound effects are primarily keyed by id
@@ -545,10 +552,10 @@ void sfx::load_sound_effects( const JsonObject &jsobj )
     }
     sfx_args key = {
         jsobj.get_string( "id" ),
-        jsobj.get_string( "variant", "default" ),
+        "", // actual variant string is filled in the variant loop
         jsobj.get_string( "season", "" ),
-        std::optional<bool>(),
-        std::optional<bool>()
+        std::nullopt,
+        std::nullopt,
     };
     if( jsobj.has_bool( "is_indoors" ) ) {
         key.indoors = jsobj.get_bool( "is_indoors" );
@@ -557,16 +564,23 @@ void sfx::load_sound_effects( const JsonObject &jsobj )
         key.night = jsobj.get_bool( "is_night" );
     }
     const int volume = jsobj.get_int( "volume", 100 );
-    auto &effects = sfx_resources.sound_effects[ key ];
-
-    for( const std::string file : jsobj.get_array( "files" ) ) {
-        sound_effect new_sound_effect;
-        new_sound_effect.volume = volume;
-        new_sound_effect.resource_id = add_sfx_path( file );
-
-        effects.push_back( new_sound_effect );
+    std::vector<std::string> variants;
+    if( jsobj.has_array( "variant" ) ) {
+        variants = jsobj.get_string_array( "variant" );
+    } else if( jsobj.has_string( "variant" ) ) {
+        variants = { jsobj.get_string( "variant" ) };
+    } else {
+        variants = { "default" };
+    }
+    for( const std::string &variant : variants ) {
+        key.variant = variant;
+        std::vector<sound_effect> &effects = sfx_resources.sound_effects[key];
+        for( const std::string file : jsobj.get_array( "files" ) ) {
+            effects.emplace_back( volume, file );
+        }
     }
 }
+
 void sfx::load_sound_effect_preload( const JsonObject &jsobj )
 {
     if( !sound_init_success ) {
@@ -576,10 +590,10 @@ void sfx::load_sound_effect_preload( const JsonObject &jsobj )
     for( JsonObject aobj : jsobj.get_array( "preload" ) ) {
         sfx_args preload_key = {
             aobj.get_string( "id" ),
-            aobj.get_string( "variant", "default" ),
+            "", // actual variant string is filled in the variant loop
             aobj.get_string( "season", "" ),
-            std::optional<bool>(),
-            std::optional<bool>()
+            std::nullopt,
+            std::nullopt,
         };
         if( aobj.has_bool( "is_indoors" ) ) {
             preload_key.indoors = aobj.get_bool( "is_indoors" );
@@ -587,7 +601,18 @@ void sfx::load_sound_effect_preload( const JsonObject &jsobj )
         if( aobj.has_bool( "is_night" ) ) {
             preload_key.night = aobj.get_bool( "is_night" );
         }
-        sfx_preload.push_back( preload_key );
+        std::vector<std::string> variants;
+        if( aobj.has_array( "variant" ) ) {
+            variants = aobj.get_string_array( "variant" );
+        } else if( aobj.has_string( "variant" ) ) {
+            variants = { aobj.get_string( "variant" ) };
+        } else {
+            variants = { "default" };
+        }
+        for( const std::string &variant : variants ) {
+            preload_key.variant = variant;
+            sfx_preload.push_back( preload_key );
+        }
     }
 }
 
@@ -860,7 +885,7 @@ void load_soundset()
         loading_ui ui( false );
         DynamicDataLoader::get_instance().load_data_from_path( soundpack_path, "core", ui );
     } catch( const std::exception &err ) {
-        dbg( D_ERROR ) << "failed to load sounds: " << err.what();
+        debugmsg( "failed to load sounds: %s", err.what() );
     }
 
     // Preload sound effects

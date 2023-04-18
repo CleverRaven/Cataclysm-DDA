@@ -628,5 +628,55 @@
     "id": "nuclear_plant",
     "name": "Nuclear Power Plant",
     "terrain": [ "nuclear_plant_5_5_1", "nuclear_plant_10_5_1" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_motel",
+    "name": "Motel",
+    "terrain": [ "motel_1", "2fmotel_1", "2fmotel_1_f2" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_mobile_home",
+    "name": "Mobile Home",
+    "terrain": [ "trailer_hub_00", "trailer_hub_11", "trailer_caravan_00", "trailer_public_00" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_stadium",
+    "name": "Stadium",
+    "terrain": [
+      "stadium_football_1_1",
+      "stadium_football_2_1",
+      "stadium_football_3_1",
+      "stadium_football_4_1",
+      "stadium_football_5_1",
+      "stadium_football_6_1",
+      "stadium_football_7_1",
+      "stadium_football_1_2",
+      "stadium_football_7_2",
+      "stadium_football_1_3",
+      "stadium_football_7_3",
+      "stadium_football_1_4",
+      "stadium_football_7_4",
+      "stadium_football_1_5",
+      "stadium_football_2_5",
+      "stadium_football_3_5",
+      "stadium_football_4_5",
+      "stadium_football_6_5",
+      "stadium_football_7_5"
+    ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_middle_of_nowhere",
+    "name": "Middle of Nowhere",
+    "terrain": [ "state_park_1_0", "sewage_treatment_1_0_0", "pwr_sub_s", "derelict_property", "ws_regional_dump_2_0", "waiting_area" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_sewer",
+    "name": "Sewer",
+    "terrain": [ "sewer" ]
   }
 ]

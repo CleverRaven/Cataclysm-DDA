@@ -1,7 +1,7 @@
 #include "assign.h"
 
 void report_strict_violation( const JsonObject &jo, const std::string &message,
-                              const std::string &name )
+                              const std::string_view name )
 {
     try {
         // Let the json class do the formatting, it includes the context of the JSON data.
@@ -12,7 +12,7 @@ void report_strict_violation( const JsonObject &jo, const std::string &message,
     }
 }
 
-bool assign( const JsonObject &jo, const std::string &name, bool &val, bool strict )
+bool assign( const JsonObject &jo, const std::string_view name, bool &val, bool strict )
 {
     bool out;
 
@@ -109,7 +109,7 @@ bool assign( const JsonObject &jo, const std::string &name, units::volume &val, 
     return true;
 }
 
-bool assign( const JsonObject &jo, const std::string &name, units::mass &val, bool strict,
+bool assign( const JsonObject &jo, const std::string_view name, units::mass &val, bool strict,
              const units::mass lo, const units::mass hi )
 {
     const auto parse = [&name]( const JsonObject & obj, units::mass & out ) {
@@ -173,7 +173,7 @@ bool assign( const JsonObject &jo, const std::string &name, units::mass &val, bo
     return true;
 }
 
-bool assign( const JsonObject &jo, const std::string &name, units::length &val, bool strict,
+bool assign( const JsonObject &jo, const std::string_view name, units::length &val, bool strict,
              const units::length lo, const units::length hi )
 {
     const auto parse = [&name]( const JsonObject & obj, units::length & out ) {
@@ -237,7 +237,7 @@ bool assign( const JsonObject &jo, const std::string &name, units::length &val, 
     return true;
 }
 
-bool assign( const JsonObject &jo, const std::string &name, units::money &val, bool strict,
+bool assign( const JsonObject &jo, const std::string_view name, units::money &val, bool strict,
              const units::money lo, const units::money hi )
 {
     const auto parse = [&name]( const JsonObject & obj, units::money & out ) {
@@ -301,7 +301,7 @@ bool assign( const JsonObject &jo, const std::string &name, units::money &val, b
     return true;
 }
 
-bool assign( const JsonObject &jo, const std::string &name, units::energy &val, bool strict,
+bool assign( const JsonObject &jo, const std::string_view name, units::energy &val, bool strict,
              const units::energy lo, const units::energy hi )
 {
     const auto parse = [&name]( const JsonObject & obj, units::energy & out ) {
@@ -370,7 +370,7 @@ bool assign( const JsonObject &jo, const std::string &name, units::energy &val, 
     return true;
 }
 
-bool assign( const JsonObject &jo, const std::string &name, units::power &val, bool strict,
+bool assign( const JsonObject &jo, const std::string_view name, units::power &val, bool strict,
              const units::power lo, const units::power hi )
 {
     const auto parse = [&name]( const JsonObject & obj, units::power & out ) {
@@ -495,12 +495,16 @@ static void assign_dmg_relative( damage_instance &out, const damage_instance &va
             out_dmg.unconditional_damage_mult = tmp.unconditional_damage_mult +
                                                 val_dmg.unconditional_damage_mult;
 
+            for( const barrel_desc &bd : val_dmg.barrels ) {
+                out_dmg.barrels.emplace_back( bd.barrel_length, bd.amount + tmp.amount );
+            }
+
             out.add( out_dmg );
         }
     }
 }
 
-static void assign_dmg_proportional( const JsonObject &jo, const std::string &name,
+static void assign_dmg_proportional( const JsonObject &jo, const std::string_view name,
                                      damage_instance &out,
                                      const damage_instance &val,
                                      damage_instance proportional, bool &strict )
@@ -570,12 +574,16 @@ static void assign_dmg_proportional( const JsonObject &jo, const std::string &na
             out_dmg.unconditional_damage_mult = val_dmg.unconditional_damage_mult *
                                                 scalar.unconditional_damage_mult;
 
+            for( const barrel_desc &bd : val_dmg.barrels ) {
+                out_dmg.barrels.emplace_back( bd.barrel_length, bd.amount * scalar.amount );
+            }
+
             out.add( out_dmg );
         }
     }
 }
 
-static void check_assigned_dmg( const JsonObject &err, const std::string &name,
+static void check_assigned_dmg( const JsonObject &err, const std::string_view name,
                                 const damage_instance &out, const damage_instance &lo_inst, const damage_instance &hi_inst )
 {
     for( const damage_unit &out_dmg : out.damage_units ) {
