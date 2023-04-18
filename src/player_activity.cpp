@@ -67,13 +67,6 @@ static const activity_id ACT_WORKOUT_MODERATE( "ACT_WORKOUT_MODERATE" );
 
 static const efftype_id effect_nausea( "nausea" );
 
-static const std::vector<activity_id> consuming {
-    ACT_CONSUME,
-    ACT_EAT_MENU,
-    ACT_CONSUME_FOOD_MENU,
-    ACT_CONSUME_DRINK_MENU,
-    ACT_CONSUME_MEDS_MENU };
-
 player_activity::player_activity() : type( activity_id::NULL_ID() ) { }
 
 player_activity::player_activity( activity_id t, int turns, int Index, int pos,
@@ -83,11 +76,21 @@ player_activity::player_activity( activity_id t, int turns, int Index, int pos,
     position( pos ), name( name_in ),
     placement( tripoint_min )
 {
+    if( type != ACT_NULL ) {
+        for( const distraction_type dt : type->default_ignored_distractions() ) {
+            ignored_distractions.emplace( dt );
+        }
+    }
 }
 
 player_activity::player_activity( const activity_actor &actor ) : type( actor.get_type() ),
     actor( actor.clone() )
 {
+    if( type != ACT_NULL ) {
+        for( const distraction_type dt : type->default_ignored_distractions() ) {
+            ignored_distractions.emplace( dt );
+        }
+    }
 }
 
 void player_activity::migrate_item_position( Character &guy )
@@ -480,8 +483,7 @@ bool player_activity::is_interruptible_with_kb() const
 
 bool player_activity::is_distraction_ignored( distraction_type distraction ) const
 {
-    return !is_interruptible() ||
-           ignored_distractions.find( distraction ) != ignored_distractions.end();
+    return !is_interruptible() || ignored_distractions.count( distraction );
 }
 
 void player_activity::ignore_distraction( distraction_type type )
@@ -503,57 +505,49 @@ void player_activity::inherit_distractions( const player_activity &other )
 
 std::map<distraction_type, std::string> player_activity::get_distractions() const
 {
-    std::map < distraction_type, std::string > res;
-    activity_id act_id = id();
-    if( act_id != ACT_AIM && moves_left > 0 ) {
-        if( uistate.distraction_hostile_close &&
-            !is_distraction_ignored( distraction_type::hostile_spotted_near ) ) {
-            Creature *hostile_critter = g->is_hostile_very_close( true );
-            if( hostile_critter != nullptr ) {
-                res.emplace( distraction_type::hostile_spotted_near,
-                             string_format( _( "The %s is dangerously close!" ),
-                                            g->is_hostile_very_close( true )->get_name() ) );
-            }
+    std::map<distraction_type, std::string> res;
+    if( moves_left <= 0 ) {
+        return res;
+    }
+    if( uistate.distraction_hostile_close &&
+        !is_distraction_ignored( distraction_type::hostile_spotted_near ) ) {
+        if( Creature *hostile_critter = g->is_hostile_very_close( true ) ) {
+            res.emplace( distraction_type::hostile_spotted_near,
+                         string_format( _( "The %s is dangerously close!" ), hostile_critter->get_name() ) );
         }
-        if( uistate.distraction_dangerous_field &&
-            !is_distraction_ignored( distraction_type::dangerous_field ) ) {
-            field_entry *field = g->is_in_dangerous_field();
-            if( field != nullptr ) {
-                res.emplace( distraction_type::dangerous_field, string_format( _( "You stand in %s!" ),
-                             g->is_in_dangerous_field()->name() ) );
-            }
+    }
+    if( uistate.distraction_dangerous_field &&
+        !is_distraction_ignored( distraction_type::dangerous_field ) ) {
+        if( field_entry *field = g->is_in_dangerous_field() ) {
+            res.emplace( distraction_type::dangerous_field,
+                         string_format( _( "You stand in %s!" ), field->name() ) );
         }
-        // Nested in the !ACT_AIM to avoid nuisance during combat
-        // If this is too bothersome, maybe a list of just ACT_CRAFT, ACT_DIG etc
-        if( std::find( consuming.begin(), consuming.end(), act_id ) == consuming.end() ) {
-            avatar &player_character = get_avatar();
-            if( uistate.distraction_hunger &&
-                !is_distraction_ignored( distraction_type::hunger ) ) {
-                // Starvation value of 5300 equates to about 5kCal.
-                if( calendar::once_every( 2_hours ) && player_character.get_hunger() >= 300 &&
-                    player_character.get_starvation() > 5300 ) {
-                    res.emplace( distraction_type::hunger, _( "You are at risk of starving!" ) );
-                }
-            }
-            if( uistate.distraction_thirst &&
-                !is_distraction_ignored( distraction_type::thirst ) ) {
-                if( player_character.get_thirst() > 520 ) {
-                    res.emplace( distraction_type::thirst, _( "You are dangerously dehydrated!" ) );
-                }
-            }
+    }
+    avatar &u = get_avatar();
+    if( uistate.distraction_hunger && !is_distraction_ignored( distraction_type::hunger ) ) {
+        // Starvation value of 5300 equates to about 5kCal.
+        if( calendar::once_every( 2_hours ) &&
+            u.get_hunger() >= 300 &&
+            u.get_starvation() > 5300 ) {
+            res.emplace( distraction_type::hunger, _( "You are at risk of starving!" ) );
         }
-        if( uistate.distraction_temperature && !is_distraction_ignored( distraction_type::temperature ) ) {
-            for( const bodypart_id &bp : get_avatar().get_all_body_parts() ) {
-                if( get_avatar().get_part_temp_cur( bp ) > BODYTEMP_VERY_HOT ) {
-                    res.emplace( distraction_type::temperature, _( "You are overheating!" ) );
-                    break;
-                } else if( get_avatar().get_part_temp_cur( bp ) < BODYTEMP_VERY_COLD ) {
-                    res.emplace( distraction_type::temperature, _( "You are freezing!" ) );
-                    break;
-                }
+    }
+    if( uistate.distraction_thirst && !is_distraction_ignored( distraction_type::thirst ) ) {
+        if( u.get_thirst() > 520 ) {
+            res.emplace( distraction_type::thirst, _( "You are dangerously dehydrated!" ) );
+        }
+    }
+    if( uistate.distraction_temperature && !is_distraction_ignored( distraction_type::temperature ) ) {
+        for( const bodypart_id &bp : u.get_all_body_parts() ) {
+            const int bp_temp = u.get_part_temp_cur( bp );
+            if( bp_temp > BODYTEMP_VERY_HOT ) {
+                res.emplace( distraction_type::temperature, _( "You are overheating!" ) );
+                break;
+            } else if( bp_temp < BODYTEMP_VERY_COLD ) {
+                res.emplace( distraction_type::temperature, _( "You are freezing!" ) );
+                break;
             }
         }
     }
-
     return res;
 }

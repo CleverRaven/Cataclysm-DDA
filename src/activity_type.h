@@ -42,12 +42,16 @@ class activity_type
         bool refuel_fires = false;
         bool auto_needs = false;
         float activity_level = NO_EXERCISE;
+        std::set<distraction_type> default_ignored_distractions_;
     public:
         effect_on_condition_id completion_EOC;
         effect_on_condition_id do_turn_EOC;
 
         const activity_id &id() const {
             return id_;
+        }
+        const std::set<distraction_type> &default_ignored_distractions() const {
+            return default_ignored_distractions_;
         }
         bool rooted() const {
             return rooted_;
