@@ -41,7 +41,7 @@
     "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "experimental Rivtech battle rifle" },
+    "name": { "str": "automatic 8x40mm rifle" },
     "description": "A highly experimental battle rifle utilizing a proprietary caseless cartridge, this weapon was unexpectedly released by Rivtech for army weapons trials a few years before the Cataclysm.  Failing to gain favor thanks to its cuckoo clock-level complexity and unpleasant propensity for overheating and, subsequently, detonating, Rivtech attempted to commercialize the project.  Marketing it as \"yesterday’s future weapon, reimagined for the present\" the rifle’s civilian iterations met with limited interest and would have likely been relegated to obscurity had the Cataclysm not given its testers a dramatically shorter life span.",
     "variant_type": "gun",
     "variants": [
@@ -52,12 +52,13 @@
         "weight": 1
       }
     ],
-    "weight": "3650 g",
-    "volume": "4200 ml",
+    "weight": "3850 g",
+    "volume": "4704 ml",
     "longest_side": "840 mm",
     "barrel_length": "533 mm",
     "price": 900000,
-    "price_postapoc": 17500,
+    "price_postapoc": 1500,
+    "//2": "No sensible person in the apocalypse is going to put much value in an experimental, highly rare, overly bulky, high-maintenance gun with a history of malfunctions and unobtainable or reloadable ammo that requires an engineering degree just to field strip and tend to the damages that will take place and whose replacement parts are virtually non-existent.",
     "to_hit": -1,
     "bashing": 12,
     "material": [ "steel", "aluminum", "plastic" ],
@@ -68,7 +69,7 @@
     "dispersion": 80,
     "durability": 8,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "hyper-burst", 4 ], [ "AUTO", "auto", 2 ] ],
-    "built_in_mods": [ "riv_scope" ],
+    "built_in_mods": [ "high_end_folding_stock", "riv_scope" ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "grip", 1 ],
@@ -82,7 +83,60 @@
     ],
     "flags": [ "WATERPROOF_GUN" ],
     "weapon_category": [ "AUTOMATIC_RIFLES" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "8x40_50_mag", "8x40_100_mag" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "8x40_56_mag", "8x40_45_mag" ] } ]
+  },
+  {
+    "id": "xm614",
+    "//": "Based heavily on the LMG G11 design concept with some creative liberties: fundamentally a bulkier H&K G11 with a rear-loading packet system.",
+    "looks_like": "ar15",
+    "type": "GUN",
+    "reload_noise_volume": 10,
+    "name": { "str": "experimental 8x40mm SAW" },
+    "description": "Utilizing caseless munitions and submitted by Rivtech into US Army trials, this squad automatic weapon (SAW) is largely an upsized version of its smaller infantry brother.  Designed to provide suppressive firepower, the original versions made use of a head-scratching rear-loading packet system, with later iterations rather clumsily modified to also accept box magazines.  Freshly bulkier and not any less burdened by its inherent issues, namely overheating and obtuse complexity, the weapon was rejected from US military trials, with Rivtech trying desperately to market the system to various security and private military contractors before the cataclysm.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "xm614",
+        "name": { "str": "Rivtech XM614E2" },
+        "description": "Built to complement the XM88 battle rifle, the XM614 formed the SAW component of the caseless rifle platform that Rivtech submitted for US Army service weapon trials.  Fundamentally a larger XM88 fitted with a longer sustained-fire barrel and collapsible bipod, early E1 versions relied exclusively on a bizarre rear-loading packet clip system that left testers gawking.  Revised E2 iterations of the weapon incorporated dual packet and box magazine compatibility, which succeeded in making the machinegun more ungainly in both form and function.  After it had been summarily rejected from army trials, Rivtech struggled to market the XM614 to third-party security and PMC contractors.",
+        "weight": 1
+      }
+    ],
+    "weight": "7000 g",
+    "volume": "10815 ml",
+    "longest_side": "1030 mm",
+    "barrel_length": "660 mm",
+    "price": 3750000,
+    "price_postapoc": 1500,
+    "//2": "No sensible person in the apocalypse is going to put much value in an experimental, highly rare, overly bulky, high-maintenance gun with a history of malfunctions and unobtainable or reloadable ammo that requires an engineering degree just to field strip and tend to the damages that will take place and whose replacement parts are virtually non-existent.",
+    "to_hit": -1,
+    "bashing": 12,
+    "material": [ "steel", "aluminum", "plastic" ],
+    "symbol": "(",
+    "color": "dark_gray",
+    "ammo": [ "8x40mm" ],
+    "skill": "rifle",
+    "dispersion": 180,
+    "durability": 8,
+    "reload": 200,
+    "modes": [ [ "DEFAULT", "AUTO", "auto", 4 ] ],
+    "built_in_mods": [ "riv_scope", "bipod_handguard" ],
+    "//3": "I couldn’t find any hard sources, but I’m going to assume that the factory stock must remain for the rear-loading packet system to function.",
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "barrel", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock accessory", 1 ],
+      [ "underbarrel", 1 ]
+    ],
+    "flags": [ "WATERPROOF_GUN" ],
+    "pocket_data": [
+      { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "8x40_300_mag", "8x40_240_mag", "8x40_56_mag", "8x40_44_mag" ] }
+    ]
   },
   {
     "id": "rm11b_sniper_rifle",
@@ -197,44 +251,5 @@
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
     "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "8x40_50_mag", "8x40_100_mag" ] } ]
-  },
-  {
-    "id": "rm614_lmg",
-    "type": "GUN",
-    "reload_noise_volume": 10,
-    "name": { "str": "RM614 LMG" },
-    "description": "Utilizing a powerful and unusual caliber, the Rivtech RM614 light machine gun was designed for durability and extreme volume of sustained fire under the worst possible circumstances.  Accepts RMXB500 box and RMGD250 drum magazines.",
-    "weight": "4600 g",
-    "volume": "2750 ml",
-    "longest_side": "935 mm",
-    "price": 3750000,
-    "price_postapoc": 15000,
-    "to_hit": -1,
-    "bashing": 12,
-    "material": [ "superalloy", "ceramic" ],
-    "symbol": "(",
-    "color": "dark_gray",
-    "ammo": [ "8x40mm" ],
-    "skill": "rifle",
-    "ranged_damage": { "damage_type": "bullet", "amount": 5 },
-    "dispersion": 70,
-    "durability": 9,
-    "reload": 200,
-    "barrel_volume": "500 ml",
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "4 rd.", 4 ], [ "AUTO", "auto", 6 ] ],
-    "valid_mod_locations": [
-      [ "accessories", 4 ],
-      [ "barrel", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 4 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "stock accessory", 1 ],
-      [ "underbarrel", 1 ]
-    ],
-    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "8x40_250_mag", "8x40_500_mag" ] } ]
   }
 ]
