@@ -440,6 +440,8 @@
     "start_name": "Old Evac Shelter",
     "allowed_locs": [ "sloc_shelter_a", "sloc_shelter_b", "sloc_shelter_c" ],
     "custom_initial_date": { "season": "autumn", "year": 2 },
+    "add_professions": true,
+    "professions": [ "sheltered_survivor", "sheltered_militia", "winter_scavenger", "winter_army" ],
     "requirement": "achievement_survive_91_days",
     "eoc": [ "faction_camp_start" ],
     "flags": [ "CITY_START", "LONE_START" ]
