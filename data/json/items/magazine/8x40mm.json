@@ -18,6 +18,42 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "8x40mm": 100 } } ]
   },
   {
+    "id": "8x40_45_mag",
+    "looks_like": "stanag30",
+    "type": "MAGAZINE",
+    "name": { "str": "8x40mm 45-round magazine" },
+    "description": "a 45-round box magazine for Rivtech 8x40mm caseless firearms, built from translucent polymer and designed to lock into place above a weapon’s barrel and cycle cartridges perpendicularly downwards into a firearm’s chamber.",
+    "weight": "285 g",
+    "volume": "405 ml",
+    "longest_side": "241 mm",
+    "price": 25000,
+    "price_postapoc": 500,
+    "material": [ "steel", "plastic" ],
+    "symbol": "#",
+    "color": "dark_gray",
+    "ammo_type": [ "8x40mm" ],
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "8x40mm": 50 } } ]
+  },
+  {
+    "id": "8x40_50_mag",
+    "looks_like": "stanag30",
+    "type": "MAGAZINE",
+    "name": { "str": "8x40mm 50-round magazine" },
+    "description": "a 50-round box magazine for Rivtech 8x40mm caseless firearms, built from translucent polymer and designed to lock into place above a weapon’s barrel and cycle cartridges perpendicularly downwards into a firearm’s chamber.",
+    "weight": "363 g",
+    "volume": "450 ml",
+    "longest_side": "268 mm",
+    "price": 25000,
+    "price_postapoc": 500,
+    "material": [ "steel", "plastic" ],
+    "symbol": "#",
+    "color": "dark_gray",
+    "ammo_type": [ "8x40mm" ],
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "8x40mm": 50 } } ]
+  },
+  {
     "id": "8x40_10_mag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
@@ -85,23 +121,5 @@
     "color": "dark_gray",
     "ammo_type": [ "8x40mm" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "8x40mm": 500 } } ]
-  },
-  {
-    "id": "8x40_50_mag",
-    "looks_like": "stanag30",
-    "type": "MAGAZINE",
-    "name": { "str": "8x40mm 50-round magazine" },
-    "description": "A 50-round box magazine for use with Rivtech 8x40mm caseless firearms.  Designated as RMGB50.",
-    "weight": "110 g",
-    "volume": "500 ml",
-    "price": 25000,
-    "price_postapoc": 500,
-    "material": [ "superalloy", "plastic" ],
-    "symbol": "#",
-    "color": "dark_gray",
-    "ammo_type": [ "8x40mm" ],
-    "reload_time": 50,
-    "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "8x40mm": 50 } } ]
   }
 ]

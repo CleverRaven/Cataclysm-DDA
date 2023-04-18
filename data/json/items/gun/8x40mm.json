@@ -36,25 +36,26 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "magazine_well": "250 ml", "item_restriction": [ "8x40_10_mag", "8x40_25_mag" ] } ]
   },
   {
-    "id": "rm88_battle_rifle",
+    "id": "xm88",
     "//": "Essentially a modernized H&K G11 assault rifle, upsized and chambered for full-power rifle cartridges, it retains the G11’s bullpup layout, fire modes, and general features.",
     "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "Rivtech battle rifle" },
-    "description": "Originally produced for military use, the Rivtech battle rifle was designed for durability and extreme firepower under less than ideal circumstances, with a heavy ported barrel for maximum controllability.  Accepts box and RMGD250 drum magazines.",
+    "name": { "str": "experimental Rivtech battle rifle" },
+    "description": "A highly experimental battle rifle utilizing a proprietary caseless cartridge, this weapon was unexpectedly released by Rivtech for army weapons trials a few years before the Cataclysm.  Failing to gain favor thanks to its cuckoo clock-level complexity and unpleasant propensity for overheating and, subsequently, detonating, Rivtech attempted to commercialize the project.  Marketing it as \"yesterday’s future weapon, reimagined for the present\" the rifle’s civilian iterations met with limited interest and would have likely been relegated to obscurity had the Cataclysm not given its testers a dramatically shorter life span.",
     "variant_type": "gun",
     "variants": [
       {
-        "id": "rm88_battle_rifle",
-        "name": { "str": "RM88" },
-        "description": "Originally produced for military use, the Rivtech RM88 battle rifle was designed for durability and extreme firepower under less than ideal circumstances, with a heavy ported barrel for maximum controllability.  Accepts box and RMGD250 drum magazines.",
+        "id": "xm88",
+        "name": { "str": "Rivtech XM88E1" },
+        "description": "An experimental, caseless bullpup battle rifle with a rotary breech action free-floating within its boxy receiver and an integral gun sight peeking over its recessed barrel, the XM88 was unexpectedly introduced by Rivtech a few years before the Cataclysm and submitted for US Army Next Generation Service Weapon trials.  With only a handful of prototypes produced, the weapon failed to impress thanks to overheating and cookoff issues, as well as its general complexity.  Rivtech sought to commercialize the project, marketing it as \"yesterday’s future weapon, reimagined for the present\" although, had the Cataclysm not insured that the rifle would outlive its testers, the XM88 would have likely still faded into obscurity.",
         "weight": 1
       }
     ],
     "weight": "3650 g",
     "volume": "4200 ml",
-    "longest_side": "750 mm",
+    "longest_side": "840 mm",
+    "barrel_length": "533 mm",
     "price": 900000,
     "price_postapoc": 17500,
     "to_hit": -1,
@@ -64,10 +65,10 @@
     "color": "dark_gray",
     "ammo": [ "8x40mm" ],
     "skill": "rifle",
-    "ranged_damage": { "damage_type": "bullet", "amount": 10 },
     "dispersion": 80,
     "durability": 8,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "hyper-burst", 4 ], [ "AUTO", "auto", 2 ] ],
+    "built_in_mods": [ "riv_scope" ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "grip", 1 ],
