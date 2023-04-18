@@ -108,7 +108,7 @@ TEST_CASE( "safecracking", "[activity][safecracking]" )
             dummy.set_skill_level( skill_traps, skill_level );
 
             REQUIRE( dummy.get_per() == perception );
-            REQUIRE( dummy.get_skill_level( skill_traps ) == skill_level );
+            REQUIRE( static_cast<int>( dummy.get_skill_level( skill_traps ) ) == skill_level );
             if( has_proficiency )
             {
                 dummy.add_proficiency( proficiency_prof_safecracking );

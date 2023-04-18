@@ -793,7 +793,8 @@ void game::chat()
             std::vector<Character *> clist( followers.begin(), followers.end() );
             std::vector<int> selected = npcs_select_menu( clist,
             _( "Who should participate in the training seminar?" ), [&]( const Character * n ) {
-                return !n || n->get_knowledge_level( sk ) >= player_character.get_skill_level( sk );
+                return !n ||
+                       n->get_knowledge_level( sk ) >= static_cast<int>( player_character.get_skill_level( sk ) );
             } );
             if( selected.empty() ) {
                 return;

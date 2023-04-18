@@ -1497,7 +1497,7 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     // "Sets skill level in driving to 10."
     effects = d.responses[ 12 ].success;
     effects.apply( d );
-    CHECK( player_character.get_skill_level( skill ) == 10 );
+    CHECK( static_cast<int>( player_character.get_skill_level( skill ) ) == 10 );
 
     // "Sets pos_x to 14."
     effects = d.responses[ 13 ].success;

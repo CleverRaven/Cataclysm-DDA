@@ -1888,7 +1888,7 @@ static hint_rating rate_action_use( const avatar &you, const item &it )
         return it.ammo_sufficient( &you ) ? hint_rating::good : hint_rating::iffy;
     } else if( it.is_gunmod() ) {
         /** @EFFECT_GUN >0 allows rating estimates for gun modifications */
-        if( you.get_skill_level( skill_gun ) == 0 ) {
+        if( static_cast<int>( you.get_skill_level( skill_gun ) ) == 0 ) {
             return hint_rating::iffy;
         } else {
             return hint_rating::good;
@@ -5766,7 +5766,7 @@ bool game::npc_menu( npc &who )
     } else if( choice == examine_wounds ) {
         ///\EFFECT_PER slightly increases precision when examining NPCs' wounds
         ///\EFFECT_FIRSTAID increases precision when examining NPCs' wounds
-        int prof_bonus = u.get_skill_level( skill_firstaid );
+        float prof_bonus = u.get_skill_level( skill_firstaid );
         prof_bonus = u.has_proficiency( proficiency_prof_wound_care ) ? prof_bonus + 1 : prof_bonus;
         prof_bonus = u.has_proficiency( proficiency_prof_wound_care_expert ) ? prof_bonus + 2 : prof_bonus;
         const bool precise = prof_bonus * 4 + u.per_cur >= 20;
