@@ -2,10 +2,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_VALHALLIST_LEADER_1",
-    "dynamic_line": "Who are you to come before me?",
+    "dynamic_line": "<neutral_greet>.  I wasn't expecting visitors today, it's quite rude to come unnoticed.",
     "speaker_effect": { "effect": { "npc_first_topic": "TALK_VALHALLIST_LEADER_2" } },
     "responses": [
-      { "text": "I don't know, who are you?", "topic": "TALK_VALHALLIST_LEADER_WHO" },
+      { "text": "Sorry about that.  Who are you?", "topic": "TALK_VALHALLIST_LEADER_WHO" },
       { "text": "I'll leave.", "topic": "TALK_DONE" }
     ]
   },
@@ -50,20 +50,20 @@
   {
     "type": "talk_topic",
     "id": "TALK_VALHALLIST_LEADER_WHO",
-    "dynamic_line": "That's very funny of you, but I'm not interested in humor.  Since you ask, I'm the head around here, the best warrior who leads.  What I want to know is why you're here, hmm?",
+    "dynamic_line": "Might as well attend to business, since you're already here.  Since you ask, I'm the head around here, the best warrior who leads.  What I want to know is why you're here, hmm?",
     "responses": [
       { "text": "I'm just passing through, really.", "topic": "TALK_VALHALLIST_LEADER_Traveler" },
       {
         "text": "It's a big claim to say you're the best.  Want to test that?",
         "topic": "TALK_VALHALLIST_LEADER_Fight"
       },
-      { "text": "I'll leave.", "topic": "TALK_DONE" }
+      { "text": "Sorry, I'll leave.", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_VALHALLIST_LEADER_Traveler",
-    "dynamic_line": "That's quite common these days, a lot of people have nowhere to go.  Fortunately, myself and my followers have a home protected from the outside world, with enough material to lead a comfortable life.  If need be, we can protect it ourselves.",
+    "dynamic_line": "That's quite common these days, a lot of people have nowhere to go.  Fortunately, myself and my associates have a home protected from the outside world, with enough material to lead a comfortable life.  If need be, we can protect it ourselves.",
     "responses": [
       { "text": "Do you think I could join?", "topic": "TALK_VALHALLIST_LEADER_Join" },
       { "text": "I need to go.", "topic": "TALK_DONE" }
@@ -72,7 +72,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_VALHALLIST_LEADER_Join",
-    "dynamic_line": "We don't just take anyone in here, only the strongest and worthy will prevail.  If you want to test your strength, my scouts have noticed a gargantuan rat wandering close to here.  It's already tried to kill somebody once, and since I can't let it live, you're going to be the one to put it to rest.  Once you've done that, I'll let you in.",
+    "dynamic_line": "We don't just take anyone in here, only the strongest and worthy will prevail, or those with something contributable.  If you want to test your strength, my scouts have noticed a gargantuan wolf wandering close to here.  It's already tried to kill somebody once, and since I can't let it live, you're going to be the one to put it to rest.  Once you've done that, I'll let you in.",
     "responses": [
       {
         "text": "I'll kill it for you.  If I don't come back, see you in Valhalla.",
@@ -95,9 +95,9 @@
   {
     "type": "talk_topic",
     "id": "TALK_VALHALLIST_LEADER_Fight",
-    "dynamic_line": "I'll take your offer, but I would advise that you're making an unwise choice in a duel against me.",
+    "dynamic_line": "You're quite the beligerent type, I take it.  If it were me, I'd keep my head steady and not do anything so rash like you've suggested.",
     "responses": [
-      { "text": "I don't think so.  See you in Valhalla.", "topic": "TALK_DONE", "effect": "hostile" },
+      { "text": "I think you're full of shit <name_b>.  Take this!", "topic": "TALK_DONE", "effect": "hostile" },
       { "text": "You're right, I better not.  Bye.", "topic": "TALK_DONE" }
     ]
   },

@@ -4,7 +4,7 @@
     "type": "mission_definition",
     "name": { "str": "Join The Valhallists" },
     "goal": "MGOAL_KILL_MONSTER",
-    "description": "Kill the giant rat roaming the fields for the Valhallists.  Return to their leader when it is dead.",
+    "description": "Kill the giant wolf roaming the fields for the Valhallists.  Return to their leader when it is dead.",
     "difficulty": 5,
     "value": 0,
     "start": {
@@ -21,7 +21,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "dialogue": {
-      "describe": "Kill a giant mole rat to join the Valhallists.",
+      "describe": "Kill a giant wolf to join the Valhallists.",
       "offer": ".",
       "accepted": ".",
       "rejected": ".",
@@ -59,12 +59,12 @@
     "followup": "MISSION_VALHALLISTS_KILL_300_Z",
     "dialogue": {
       "describe": "Destroy a fungal bloom for the Valhallists.",
-      "offer": "My scouts have reported activity of those <mycus_slur>s nearby.  I want you to go over there and kill all the <mycus_slur> you see, then burn their colony to ash.  I have some Molotovs ready for you to do that with.",
+      "offer": "My scouts have reported activity of those <mycus_slur>s nearby, a huge nest that's been interfering with our scouting runs.  I want you to go over there and burn their colony to ash.  I have some Molotovs ready for you to do that with.",
       "accepted": "May Thor protect you.",
       "rejected": "They'll pay with their lives eventually.",
-      "advice": "Wear a gas mask and a hazard suit, which I wish we had to lend you.  Walking in those spore clouds can get you infected with them, and I'd rather not have to send an assassin to incinerate you.",
+      "advice": "Wear a gas mask and a hazard suit, which I wish we had to lend you.  Walking in those spore clouds can get you infected with them, and I'd rather not have to send an assassin to incinerate you.  I've seen it too many times, quite the horrid process.",
       "inquire": "I don't see any ash on you.",
-      "success": "Those aliens had it coming to them.  You have done Odins' will today.",
+      "success": "It was too dangerous to keep them around.  Thank you.",
       "success_lie": "I still see mushrooms around.",
       "failure": "Not everyone is cut out for this life, I suppose."
     }
