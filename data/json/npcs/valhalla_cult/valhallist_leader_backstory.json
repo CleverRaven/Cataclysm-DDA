@@ -58,7 +58,10 @@
     "dynamic_line": "*has a flash of sadness cross their face, hanging their head down.*  \"I'm sorry, I couldn't save them.  They all died to that horrid monster.  I buried all three of them, and was chosen to rule by a will one of them left.  I realized then that my friend was right; only the strong survive, and only the strong live long enough to enjoy that.  So the old ways teach.",
     "speaker_effect": { "effect": { "u_add_var": "u_know_valhallistslore", "type": "dialogue", "context": "backstory", "value": "yes" } },
     "responses": [
-      { "text": "I'm sorry for your loss.  I'd like to ask you about something else.", "topic": "TALK_VALHALLIST_LEADER_Backstory" },
+      {
+        "text": "I'm sorry for your loss.  I'd like to ask you about something else.",
+        "topic": "TALK_VALHALLIST_LEADER_Backstory"
+      },
       { "text": "I'm sorry for your loss.  <done_conversation_section>", "topic": "TALK_VALHALLIST_LEADER_2" },
       { "text": "I'm sorry for your loss, I should get going.", "topic": "TALK_DONE" }
     ]
