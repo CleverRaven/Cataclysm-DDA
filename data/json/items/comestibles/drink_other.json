@@ -341,5 +341,28 @@
     "charges": 3,
     "flags": [ "NO_AUTO_CONSUME" ],
     "fun": 6
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "Salça",
+    "name": { "str_sp": "Salça" },
+    "weight": "700 g",
+    "color": "red",
+    "spoils_in": "2 weeks",
+    "container": "jar_glass_sealed",
+    "sealed": false,
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "quench": 2,
+    "calories": 42,
+    "description": "Tomato paste made from pureed in season tomatoes reduced over the sun or heat",
+    "price": 200,
+    "price_postapoc": 100,
+    "material": [ "tomato", "veggy" ],
+    "primary_material": "tomato",
+    "volume": "250 ml",
+    "flags": [ "FREEZERBURN" ],
+    "charges": 4,
+    "fun": 2
   }
 ]
