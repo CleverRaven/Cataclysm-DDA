@@ -84,9 +84,9 @@
     "type": "talk_topic",
     "id": "TALK_VALHALLIST_GODE_Join",
     "dynamic_line": "Our leader should be around here somewhere, likely in their hall.  While I can teach you about our way, they're the ones who could let you join us.",
-    "responses": [ 
+    "responses": [
       { "text": "Thanks.  Let's talk about something else.", "topic": "TALK_VALHALLIST_GODE_2" },
-      { "text": "Thanks.", "topic": "TALK_DONE" } 
+      { "text": "Thanks.", "topic": "TALK_DONE" }
     ]
   },
   {

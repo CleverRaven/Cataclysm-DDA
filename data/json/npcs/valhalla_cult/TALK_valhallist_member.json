@@ -8,9 +8,9 @@
       { "text": "Who are you, exactly?", "topic": "TALK_VALHALLIST_MEMBER_WHO" },
       { "text": "What's your deal here?", "topic": "TALK_VALHALLIST_MEMBER_Job" },
       {
-        "text": "What's the new religion everyone's been talking about?", 
+        "text": "What's the new religion everyone's been talking about?",
         "condition": { "npc_has_trait": "BGR_Asatro" },
-        "topic": "TALK_VALHALLIST_MEMBER_Religion" 
+        "topic": "TALK_VALHALLIST_MEMBER_Religion"
       },
       { "text": "I don't need anything, just gotta got.", "topic": "TALK_DONE" }
     ]
@@ -40,11 +40,7 @@
       "no": "I'm just someone looking to make a living for myself these days, and not get eaten by a horde of <zombie>s.  So, here I am, hanging out with this bunch."
     },
     "responses": [
-      {
-        "text": "What faith?", 
-        "condition": { "npc_has_trait": "BGR_Asatro" },
-        "topic": "TALK_VALHALLIST_MEMBER_Religion" 
-      },
+      { "text": "What faith?", "condition": { "npc_has_trait": "BGR_Asatro" }, "topic": "TALK_VALHALLIST_MEMBER_Religion" },
       { "text": "How did you wind up here?", "topic": "TALK_VALHALLIST_MEMBER_Story" },
       { "text": "I have to go.", "topic": "TALK_DONE" }
     ]
