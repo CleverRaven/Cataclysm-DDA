@@ -2230,7 +2230,7 @@
     "type": "profession",
     "id": "modern_archer",
     "name": "Modern Archer",
-    "description": "A great fan of the archers of old, but at the same time a follower of the latest trends in archery.  You always tried to keep up with the times, adquiring a takedown bow as well as several accesories to complement it.  You can only hope all the training you did with them can help you survive in this trying times.",
+    "description": "A great fan of the archers of old, but at the same time a follower of the latest trends in archery.  You always tried to keep up with the times, acquiring a takedown bow as well as several accessories to complement it.  You can only hope all the training you did with them can help you survive in this trying times.",
     "points": 4,
     "proficiencies": [ "prof_bow_basic", "prof_bow_expert" ],
     "skills": [ { "level": 2, "name": "gun" }, { "level": 2, "name": "archery" }, { "level": 1, "name": "swimming" } ],
