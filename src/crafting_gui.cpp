@@ -152,7 +152,8 @@ void reset_recipe_categories()
 
 static bool cannot_gain_skill_or_prof( const Character &player, const recipe &recp )
 {
-    if( recp.skill_used && player.get_skill_level( recp.skill_used ) <= recp.get_skill_cap() ) {
+    if( recp.skill_used &&
+        static_cast<int>( player.get_skill_level( recp.skill_used ) ) <= recp.get_skill_cap() ) {
         return false;
     }
     for( const proficiency_id &prof : recp.used_proficiencies() ) {

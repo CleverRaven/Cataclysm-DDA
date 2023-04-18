@@ -13,6 +13,7 @@
 #elif defined(__ANDROID__)
 #include <jni.h>
 #include "sdl_wrappers.h" // for SDL_AndroidGetJNIEnv()
+#include "debug.h" // for DebugLog/D_INFO/D_MAIN
 #elif defined(__linux__)
 #include <langinfo.h>
 #endif

@@ -337,7 +337,7 @@ float Character::get_hit_weapon( const item &weap ) const
     /** @EFFECT_BASHING improves hit chance for bashing weapons */
     /** @EFFECT_CUTTING improves hit chance for cutting weapons */
     /** @EFFECT_STABBING improves hit chance for piercing weapons */
-    int skill = get_skill_level( weap.melee_skill() );
+    float skill = get_skill_level( weap.melee_skill() );
 
     // CQB bionic acts as a lower bound providing item uses a weapon skill
     if( skill < BIO_CQB_LEVEL && has_active_bionic( bio_cqb ) ) {
@@ -929,7 +929,7 @@ int Character::get_base_melee_stamina_cost( const item *weap ) const
 int Character::get_total_melee_stamina_cost( const item *weap ) const
 {
     const int mod_sta = get_standard_stamina_cost( weap );
-    const int melee = get_skill_level( skill_melee );
+    const int melee = round( get_skill_level( skill_melee ) );
     const int stance_malus = is_on_ground() ? 50 : ( is_crouching() ? 20 : 0 );
 
     return std::min( -50, mod_sta + melee - stance_malus );
@@ -959,7 +959,7 @@ void Character::reach_attack( const tripoint &p )
     // 1 / mult because mult is the percent penalty, in the form 1.0 == 100%
     const float weary_mult = 1.0f / exertion_adjusted_move_multiplier( EXTRA_EXERCISE );
     int move_cost = attack_speed( weapon ) * weary_mult;
-    int skill = std::min( 10, get_skill_level( skill_stabbing ) );
+    float skill = std::min( 10.0f, get_skill_level( skill_stabbing ) );
     int t = 0;
     map &here = get_map();
     std::vector<tripoint> path = line_to( pos(), p, t, 0 );
@@ -1012,7 +1012,7 @@ int stumble( Character &u, const item_location &weap )
         return 0;
     }
 
-    int str_mod = u.get_arm_str();
+    units::mass str_mod = u.get_arm_str() * 10_gram;
     if( u.is_on_ground() ) {
         str_mod /= 4;
     } else if( u.is_crouching() ) {
@@ -1026,7 +1026,7 @@ int stumble( Character &u, const item_location &weap )
 
     /** @EFFECT_STR reduces chance of stumbling with heavier weapons */
     return ( weap->volume() / 125_ml ) +
-           ( weap->weight() / ( str_mod * 10_gram + 13.0_gram ) );
+           ( weap->weight() / ( str_mod + 13.0_gram ) );
 }
 
 bool Character::scored_crit( float target_dodge, const item &weap ) const
@@ -1072,9 +1072,9 @@ double Character::crit_chance( float roll_hit, float target_dodge, const item &w
     /** @EFFECT_CUTTING increases critical chance with cutting weapons */
     /** @EFFECT_STABBING increases critical chance with piercing weapons */
     /** @EFFECT_UNARMED increases critical chance with unarmed weapons */
-    int sk = get_skill_level( weap.melee_skill() );
+    float sk = get_skill_level( weap.melee_skill() );
     if( has_active_bionic( bio_cqb ) ) {
-        sk = std::max( sk, BIO_CQB_LEVEL );
+        sk = std::max( sk, static_cast<float>( BIO_CQB_LEVEL ) );
     }
 
     /** @EFFECT_MELEE slightly increases critical chance with any item */
@@ -1117,7 +1117,7 @@ double Character::crit_chance( float roll_hit, float target_dodge, const item &w
 
 int Character::get_spell_resist() const
 {
-    return get_skill_level( skill_spellcraft );
+    return round( get_skill_level( skill_spellcraft ) );
 }
 
 float Character::get_dodge() const
@@ -1129,24 +1129,27 @@ float Character::get_dodge() const
         return 0.0f;
     }
 
+    // Ensure no attempt to dodge without sources of extra dodges, eg martial arts
+    if( dodges_left <= 0 ) {
+        add_msg_debug( debugmode::DF_MELEE, "No remaining dodge attempts" );
+        return 0.0f;
+    }
+
     float ret = Creature::get_dodge();
     add_msg_debug( debugmode::DF_MELEE, "Base dodge %.1f", ret );
+
     // Chop in half if we are unable to move
     if( has_effect( effect_beartrap ) || has_effect( effect_lightsnare ) ||
         has_effect( effect_heavysnare ) ) {
         ret /= 2;
+        add_msg_debug( debugmode::DF_MELEE, "Dodge after trapped penalty %.1f", ret );
     }
 
     if( worn_with_flag( flag_ROLLER_INLINE ) ||
         worn_with_flag( flag_ROLLER_QUAD ) ||
         worn_with_flag( flag_ROLLER_ONE ) ) {
         ret /= has_trait( trait_PROF_SKATER ) ? 2 : 5;
-    }
-
-    // Ensure no attempt to dodge without sources of extra dodges, eg martial arts
-    if( dodges_left <= 0 ) {
-        add_msg_debug( debugmode::DF_MELEE, "No remaining dodge attempts" );
-        return 0.0f;
+        add_msg_debug( debugmode::DF_MELEE, "Dodge after skate penalty %.1f", ret );
     }
 
     // Speed below 100 linearly decreases dodge effectiveness
@@ -1204,8 +1207,8 @@ void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
     bool unarmed = attack_vector != "WEAPON";
     int arpen = 0;
 
-    int skill = get_skill_level( unarmed ? skill_unarmed : skill_bashing );
-    int melee_bonus = get_skill_level( skill_melee );
+    float skill = get_skill_level( unarmed ? skill_unarmed : skill_bashing );
+    float melee_bonus = get_skill_level( skill_melee );
     if( has_active_bionic( bio_cqb ) ) {
         skill = BIO_CQB_LEVEL;
     }
@@ -1283,7 +1286,7 @@ void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
                 float unarmed_bonus = 0.0f;
                 const int bash_bonus = mut->bash_dmg_bonus;
                 if( mut->flags.count( json_flag_UNARMED_BONUS ) > 0 && bash_bonus > 0 ) {
-                    unarmed_bonus += std::min( get_skill_level( skill_unarmed ) / 2, 4 );
+                    unarmed_bonus += std::min( get_skill_level( skill_unarmed ) / 2, 4.0f );
                 }
                 extra_damage += bash_bonus + unarmed_bonus;
                 const std::pair<int, int> rand_bash = mut->rand_bash_bonus;
@@ -1364,7 +1367,7 @@ void Character::roll_cut_damage( bool crit, damage_instance &di, bool average,
     bool unarmed = attack_vector != "WEAPON";
     int arpen = 0;
 
-    int skill = get_skill_level( unarmed ? skill_unarmed : skill_cutting );
+    float skill = get_skill_level( unarmed ? skill_unarmed : skill_cutting );
 
     if( has_active_bionic( bio_cqb ) ) {
         skill = BIO_CQB_LEVEL;
@@ -1415,7 +1418,7 @@ void Character::roll_cut_damage( bool crit, damage_instance &di, bool average,
                 float unarmed_bonus = 0.0f;
                 const int cut_bonus = mut->cut_dmg_bonus;
                 if( mut->flags.count( json_flag_UNARMED_BONUS ) > 0 && cut_bonus > 0 ) {
-                    unarmed_bonus += std::min( get_skill_level( skill_unarmed ) / 2, 4 );
+                    unarmed_bonus += std::min( get_skill_level( skill_unarmed ) / 2, 4.0f );
                 }
                 extra_damage += cut_bonus + unarmed_bonus;
                 const std::pair<int, int> rand_cut = mut->rand_cut_bonus;
@@ -1471,7 +1474,7 @@ void Character::roll_stab_damage( bool crit, damage_instance &di, bool average,
     bool unarmed = attack_vector != "WEAPON";
     int arpen = 0;
 
-    int skill = get_skill_level( unarmed ? skill_unarmed : skill_stabbing );
+    float skill = get_skill_level( unarmed ? skill_unarmed : skill_stabbing );
 
     if( has_active_bionic( bio_cqb ) ) {
         skill = BIO_CQB_LEVEL;
@@ -1522,7 +1525,7 @@ void Character::roll_stab_damage( bool crit, damage_instance &di, bool average,
                 float unarmed_bonus = 0.0f;
                 const int pierce_bonus = mut->pierce_dmg_bonus;
                 if( mut->flags.count( json_flag_UNARMED_BONUS ) > 0 && pierce_bonus > 0 ) {
-                    unarmed_bonus += std::min( get_skill_level( skill_unarmed ) / 2, 4 );
+                    unarmed_bonus += std::min( get_skill_level( skill_unarmed ) / 2, 4.0f );
                 }
                 extra_damage += pierce_bonus + unarmed_bonus;
                 const std::pair<int, int> rand_pierce = mut->rand_cut_bonus;
@@ -2157,7 +2160,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
 
     // Melee skill and reaction score governs if you can react in time
     // Skill of 5 without relevant encumbrance guarantees a block attempt
-    int melee_skill = has_active_bionic( bio_cqb ) ? 5 : get_skill_level( skill_melee );
+    float melee_skill = has_active_bionic( bio_cqb ) ? 5 : get_skill_level( skill_melee );
     if( !x_in_y( melee_skill * 20.0 * get_limb_score( limb_score_reaction ), 100 ) ) {
         add_msg_debug( debugmode::DF_MELEE, "Block roll failed" );
         return false;
@@ -2190,7 +2193,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
     bool leg_block = false;
     bool nonstandard_block = false;
 
-    int unarmed_skill = get_skill_level( skill_unarmed );
+    int unarmed_skill = round( get_skill_level( skill_unarmed ) );
 
     int block_score = 1;
 
@@ -2822,8 +2825,8 @@ void player_hit_message( Character *attacker, const std::string &message,
 int Character::attack_speed( const item &weap ) const
 {
     const int base_move_cost = weap.attack_time( *this ) / 2;
-    const int melee_skill = has_active_bionic( bionic_id( bio_cqb ) ) ? BIO_CQB_LEVEL : get_skill_level(
-                                skill_melee );
+    const float melee_skill = has_active_bionic( bionic_id( bio_cqb ) ) ? BIO_CQB_LEVEL :
+                              get_skill_level( skill_melee );
     /** @EFFECT_MELEE increases melee attack speed */
     const int skill_cost = static_cast<int>( ( base_move_cost * ( 15 - melee_skill ) / 15 ) );
     /** @EFFECT_DEX increases attack speed */
@@ -2933,12 +2936,12 @@ void avatar::disarm( npc &target )
     int my_roll = dice( 3, get_limb_score( limb_score_grip ) * get_arm_str() + get_dex() );
 
     /** @EFFECT_MELEE increases chance to disarm */
-    my_roll += dice( 3, get_skill_level( skill_melee ) );
+    my_roll += dice( 3, round( get_skill_level( skill_melee ) ) );
 
     int their_roll = dice( 3, target.get_limb_score( limb_score_grip ) * target.get_arm_str() +
                            target.get_dex() );
     their_roll *= target.get_limb_score( limb_score_reaction );
-    their_roll += dice( 3, target.get_skill_level( skill_melee ) );
+    their_roll += dice( 3, round( target.get_skill_level( skill_melee ) ) );
 
     item_location it = target.get_wielded_item();
     const item_location weapon = get_wielded_item();
@@ -2956,7 +2959,7 @@ void avatar::disarm( npc &target )
     // hitspread >= 0, which means we are going to disarm by grabbing target by their weapon
     if( !is_armed() ) {
         /** @EFFECT_UNARMED increases chance to disarm, bonus when nothing wielded */
-        my_roll += dice( 3, get_skill_level( skill_unarmed ) );
+        my_roll += dice( 3, round( get_skill_level( skill_unarmed ) ) );
 
         if( my_roll >= their_roll ) {
             //~ %s: weapon name

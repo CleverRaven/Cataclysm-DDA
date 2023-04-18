@@ -178,10 +178,10 @@ float Character::morale_crafting_speed_multiplier( const recipe &rec ) const
 
     // Harder jobs are more frustrating, even when skilled
     // For each skill where skill=difficulty, multiply effective morale by 200%
-    float morale_mult = std::max( 1.0f, 2.0f * rec.difficulty / std::max( 1,
+    float morale_mult = std::max( 1.0f, 2.0f * rec.difficulty / std::max( 1.0f,
                                   get_skill_level( rec.skill_used ) ) );
     for( const auto &pr : rec.required_skills ) {
-        morale_mult *= std::max( 1.0f, 2.0f * pr.second / std::max( 1, get_skill_level( pr.first ) ) );
+        morale_mult *= std::max( 1.0f, 2.0f * pr.second / std::max( 1.0f, get_skill_level( pr.first ) ) );
     }
 
     // Halve speed at -50 effective morale, quarter at -150
@@ -861,7 +861,7 @@ void Character::start_craft( craft_command &command, const std::optional<tripoin
         return;
     }
     const recipe &making = craft.get_making();
-    if( get_skill_level( command.get_skill_id() ) > making.get_skill_cap() ) {
+    if( static_cast<int>( get_skill_level( command.get_skill_id() ) ) > making.get_skill_cap() ) {
         handle_skill_warning( command.get_skill_id(), true );
     }
 
@@ -983,7 +983,7 @@ bool Character::craft_proficiency_gain( const item &craft, const time_duration &
 
 float Character::get_recipe_weighted_skill_average( const recipe &making ) const
 {
-    int secondary_skill_total = 0;
+    float secondary_skill_total = 0;
     int secondary_difficulty = 0;
     for( const std::pair<const skill_id, int> &count_secondaries : making.required_skills ) {
         // the difficulty of each secondary skill, count_secondaries.second, adds weight:
@@ -992,7 +992,7 @@ float Character::get_recipe_weighted_skill_average( const recipe &making ) const
         secondary_difficulty += count_secondaries.second;
     }
     add_msg_debug( debugmode::DF_CRAFTING,
-                   "For craft %s, has %d secondary skills with difficulty sum %d", making.ident().str(),
+                   "For craft %s, has %g secondary skills with difficulty sum %d", making.ident().str(),
                    secondary_skill_total, secondary_difficulty );
     // The primary required skill counts extra compared to the secondary skills, before factoring in the
     // weight added by the required level.
@@ -1448,7 +1448,7 @@ void Character::complete_craft( item &craft, const std::optional<tripoint> &loc 
             int difficulty = making.difficulty;
             ///\EFFECT_INT increases chance to learn recipe when crafting from a book
             const double learning_speed =
-                std::max( get_skill_level( making.skill_used ), 1 ) *
+                std::max( get_skill_level( making.skill_used ), 1.0f ) *
                 std::max( get_int(), 1 );
             const double time_to_learn = 1000 * 8 * std::pow( difficulty, 4 ) / learning_speed;
             if( x_in_y( making.time_to_craft_moves( *this ), time_to_learn ) ) {
@@ -2178,11 +2178,11 @@ bool Character::craft_consume_tools( item &craft, int multiplier, bool start_cra
         // Account for batch size
         ret *= craft.get_making_batch_size();
 
-        // Only for the next 5% progress
-        ret /= 20;
-
         // In case more than 5% progress was accomplished in one turn
         ret *= multiplier;
+
+        // Only for the next 5% progress
+        ret /= 20;
 
         // If just starting consume the remainder as well
         if( start_craft ) {
@@ -2702,7 +2702,7 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
     }
 
     // Player skills should determine how many components are returned
-    int skill_dice = 2 + get_skill_level( dis.skill_used ) * 4;
+    int skill_dice = 2 + round( get_skill_level( dis.skill_used ) * 4 );
 
     // Sides on dice is 16 plus your current intelligence
     ///\EFFECT_INT increases success rate for disassembling items

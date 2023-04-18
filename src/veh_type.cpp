@@ -1165,8 +1165,8 @@ static int scale_time( const std::map<skill_id, int> &sk, int mv, const Characte
 
     const int lvl = std::accumulate( sk.begin(), sk.end(), 0, [&you]( int lhs,
     const std::pair<skill_id, int> &rhs ) {
-        return lhs + std::max( std::min( you.get_skill_level( rhs.first ), MAX_SKILL ) - rhs.second,
-                               0 );
+        return lhs + std::max( std::min( static_cast<int>( you.get_skill_level( rhs.first ) ),
+                                         MAX_SKILL ) - rhs.second, 0 );
     } );
     // 10% per excess level (reduced proportionally if >1 skill required) with max 50% reduction
     // 10% reduction per assisting NPC

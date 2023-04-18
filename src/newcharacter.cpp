@@ -2501,7 +2501,7 @@ void set_hobbies( tab_manager &tabs, avatar &u, pool_type pool )
  */
 static int skill_increment_cost( const Character &u, const skill_id &skill )
 {
-    return std::max( 1, ( u.get_skill_level( skill ) + 1 ) / 2 );
+    return std::max( 1, ( static_cast<int>( u.get_skill_level( skill ) ) + 1 ) / 2 );
 }
 
 static std::string assemble_skill_details( const avatar &u,
@@ -2742,7 +2742,7 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
             }
             if( !thisSkill ) {
                 mvwprintz( w_list, point( 1, y ), c_yellow, display_type->display_string() );
-            } else if( u.get_skill_level( thisSkill->ident() ) + prof_skill_level == 0 ) {
+            } else if( static_cast<int>( u.get_skill_level( thisSkill->ident() ) ) + prof_skill_level == 0 ) {
                 mvwprintz( w_list, point( 1, y ),
                            ( i == cur_pos ? COL_SELECT : c_light_gray ), thisSkill->name() );
             } else {
@@ -2751,10 +2751,10 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
                            thisSkill->name() );
                 if( prof_skill_level > 0 ) {
                     wprintz( w_list, ( i == cur_pos ? hilite( COL_SKILL_USED ) : COL_SKILL_USED ),
-                             " ( %d + %d )", prof_skill_level, u.get_skill_level( thisSkill->ident() ) );
+                             " ( %d + %d )", prof_skill_level, static_cast<int>( u.get_skill_level( thisSkill->ident() ) ) );
                 } else {
                     wprintz( w_list, ( i == cur_pos ? hilite( COL_SKILL_USED ) : COL_SKILL_USED ),
-                             " ( %d )", u.get_skill_level( thisSkill->ident() ) );
+                             " ( %d )", static_cast<int>( u.get_skill_level( thisSkill->ident() ) ) );
                 }
             }
         }
@@ -2817,7 +2817,7 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
                 // decreasing it from level 2 forfeits the free extra level (thus changes it to 0)
                 // this only matters in legacy character creation modes
                 u.mod_skill_level( skill_id, level == 2 && pool != pool_type::FREEFORM ? -2 : -1 );
-                u.set_knowledge_level( skill_id, u.get_skill_level( skill_id ) );
+                u.set_knowledge_level( skill_id, static_cast<int>( u.get_skill_level( skill_id ) ) );
             }
             details_recalc = true;
         } else if( action == "RIGHT" ) {
@@ -2827,7 +2827,7 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
                 // For balance reasons, increasing a skill from level 0 gives 1 extra level for free
                 // this only matters in legacy character creation modes
                 u.mod_skill_level( skill_id, level == 0 && pool != pool_type::FREEFORM ? +2 : +1 );
-                u.set_knowledge_level( skill_id, u.get_skill_level( skill_id ) );
+                u.set_knowledge_level( skill_id, static_cast<int>( u.get_skill_level( skill_id ) ) );
             }
             details_recalc = true;
         }
