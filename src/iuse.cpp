@@ -4172,8 +4172,11 @@ std::optional<int> iuse::dive_tank( Character *p, item *it, bool t, const tripoi
     return 1;
 }
 
-std::optional<int> iuse::solarpack( Character *p, item *it, bool, const tripoint & )
+std::optional<int> iuse::solarpack( Character *p, item *it, bool t, const tripoint & )
 {
+    if( t ) {
+        return std::nullopt;
+    }
     const bionic_id rem_bid = p->get_remote_fueled_bionic();
     if( rem_bid.is_empty() ) {  // Cable CBM required
         p->add_msg_if_player(
@@ -4201,17 +4204,23 @@ std::optional<int> iuse::solarpack( Character *p, item *it, bool, const tripoint
     return 0;
 }
 
-std::optional<int> iuse::solarpack_off( Character *p, item *it, bool, const tripoint & )
+std::optional<int> iuse::solarpack_off( Character *p, item *it, bool t, const tripoint & )
 {
+    if( t ) {
+        return std::nullopt;
+    }
     if( !p->is_worn( *it ) ) {  // folding when not worn
         p->add_msg_if_player( _( "You fold your portable solar array into the pack." ) );
     } else {
         p->add_msg_if_player( _( "You unplug your portable solar array, and fold it into the pack." ) );
     }
 
+    it->erase_var( "cable" );
+
     // 3 = "_on"
     it->convert( itype_id( it->typeId().str().substr( 0,
                            it->typeId().str().size() - 3 ) ) ).active = false;
+    p->process_items(); // Process carried items to disconnect any connected cables
     return 0;
 }
 

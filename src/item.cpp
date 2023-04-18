@@ -13039,7 +13039,8 @@ void item::reset_cables( Character *p )
     contents_linked = false;
 }
 
-bool item::process_UPS( Character *carrier, const tripoint & /*pos*/ )
+bool item::process_linked_item( Character *carrier, const tripoint & /*pos*/,
+                                const link_state required_state )
 {
     if( carrier == nullptr ) {
         erase_var( "cable" );
@@ -13261,7 +13262,11 @@ bool item::process_internal( map &here, Character *carrier, const tripoint &pos,
             }
             if( has_flag( flag_IS_UPS ) && mark_flag() ) {
                 // DO NOT process this as a tool! It really isn't!
-                return process_UPS( carrier, pos );
+                return process_linked_item( carrier, pos, link_state::ups );
+            }
+            if( has_flag( flag_SOLARPACK ) || has_flag( flag_SOLARPACK_ON ) && mark_flag() ) {
+                // DO NOT process this as a tool! It really isn't!
+                return process_linked_item( carrier, pos, link_state::solarpack );
             }
 
             if( !mark ) {
