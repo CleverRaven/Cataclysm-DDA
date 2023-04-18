@@ -219,6 +219,7 @@ enum class ter_furn_flag : int {
     TFLAG_WALL,
     TFLAG_DEEP_WATER,
     TFLAG_SHALLOW_WATER,
+    TFLAG_WATER_CUBE,
     TFLAG_CURRENT,
     TFLAG_HARVESTED,
     TFLAG_PERMEABLE,
