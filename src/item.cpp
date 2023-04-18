@@ -6822,7 +6822,7 @@ std::string item::display_name( unsigned int quantity ) const
     }
 
     // HACK: This is a hack to prevent possible crashing when displaying maps as items during character creation
-    if( is_map() && calendar::turn != calendar::turn_zero ) {
+    if( is_map() && calendar::turn != calendar::turn_zero && calendar::turn < calendar::turn_zero + 5_seconds ) {
         // TODO: fix point types
         tripoint map_pos_omt =
             get_var( "reveal_map_center_omt", player_character.global_omt_location().raw() );
