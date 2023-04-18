@@ -140,9 +140,6 @@ class player_activity
 
         void serialize( JsonOut &json ) const;
         void deserialize( const JsonObject &data );
-        // used to migrate the item indices to item_location
-        // obsolete after 0.F stable
-        void migrate_item_position( Character &guy );
         /** Convert from the old enumeration to the new string_id */
         void deserialize_legacy_type( int legacy_type, activity_id &dest );
 

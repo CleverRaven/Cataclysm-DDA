@@ -23,7 +23,13 @@ const activity_type &string_id<activity_type>::obj() const;
 enum class based_on_type : int {
     TIME = 0,
     SPEED,
-    NEITHER
+    NEITHER,
+    last,
+};
+
+template<>
+struct enum_traits<based_on_type> {
+    static constexpr based_on_type last = based_on_type::last;
 };
 
 /** A class that stores constant information that doesn't differ between activities of the same type */

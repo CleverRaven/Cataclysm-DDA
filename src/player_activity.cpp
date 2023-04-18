@@ -35,29 +35,20 @@ static const activity_id ACT_CHOP_LOGS( "ACT_CHOP_LOGS" );
 static const activity_id ACT_CHOP_PLANKS( "ACT_CHOP_PLANKS" );
 static const activity_id ACT_CHOP_TREE( "ACT_CHOP_TREE" );
 static const activity_id ACT_CLEAR_RUBBLE( "ACT_CLEAR_RUBBLE" );
-static const activity_id ACT_CONSUME( "ACT_CONSUME" );
 static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
 static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
 static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
 static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
-static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
-static const activity_id ACT_FISH( "ACT_FISH" );
-static const activity_id ACT_GAME( "ACT_GAME" );
-static const activity_id ACT_GUNMOD_ADD( "ACT_GUNMOD_ADD" );
 static const activity_id ACT_HACKSAW( "ACT_HACKSAW" );
-static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
 static const activity_id ACT_HEATING( "ACT_HEATING" );
 static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
 static const activity_id ACT_MIGRATION_CANCEL( "ACT_MIGRATION_CANCEL" );
 static const activity_id ACT_NULL( "ACT_NULL" );
-static const activity_id ACT_OXYTORCH( "ACT_OXYTORCH" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
 static const activity_id ACT_PICKUP_MENU( "ACT_PICKUP_MENU" );
 static const activity_id ACT_READ( "ACT_READ" );
-static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
 static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
-static const activity_id ACT_VIBE( "ACT_VIBE" );
 static const activity_id ACT_VIEW_RECIPE( "ACT_VIEW_RECIPE" );
 static const activity_id ACT_WAIT_STAMINA( "ACT_WAIT_STAMINA" );
 static const activity_id ACT_WORKOUT_ACTIVE( "ACT_WORKOUT_ACTIVE" );
@@ -90,24 +81,6 @@ player_activity::player_activity( const activity_actor &actor ) : type( actor.ge
         for( const distraction_type dt : type->default_ignored_distractions() ) {
             ignored_distractions.emplace( dt );
         }
-    }
-}
-
-void player_activity::migrate_item_position( Character &guy )
-{
-    const bool simple_action_replace =
-        type == ACT_FIRSTAID || type == ACT_GAME ||
-        type == ACT_PICKAXE || type == ACT_START_FIRE ||
-        type == ACT_HAND_CRANK || type == ACT_VIBE ||
-        type == ACT_OXYTORCH || type == ACT_FISH ||
-        type == ACT_ATM;
-
-    if( simple_action_replace ) {
-        targets.emplace_back( guy, &guy.i_at( position ) );
-    } else if( type == ACT_GUNMOD_ADD ) {
-        // this activity has two indices; "position" = gun and "values[0]" = mod
-        targets.emplace_back( guy, &guy.i_at( position ) );
-        targets.emplace_back( guy, &guy.i_at( values[0] ) );
     }
 }
 
