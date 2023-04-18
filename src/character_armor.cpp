@@ -11,10 +11,6 @@
 
 static const bionic_id bio_ads( "bio_ads" );
 
-static const damage_type_id damage_bash( "bash" );
-static const damage_type_id damage_bullet( "bullet" );
-static const damage_type_id damage_cut( "cut" );
-
 static const json_character_flag json_flag_SEESLEEP( "SEESLEEP" );
 
 bool Character::can_interface_armor() const
@@ -57,21 +53,9 @@ int Character::get_armor_type( const damage_type_id &dt, bodypart_id bp ) const
         ret += bonus->second;
     }
     for( const bionic_id &bid : get_bionics() ) {
-        if( dt == damage_bash ) {
-            const auto prot = bid->bash_protec.find( bp.id() );
-            if( prot != bid->bash_protec.end() ) {
-                ret += prot->second;
-            }
-        } else if( dt == damage_cut ) {
-            const auto prot = bid->cut_protec.find( bp.id() );
-            if( prot != bid->cut_protec.end() ) {
-                ret += prot->second;
-            }
-        } else if( dt == damage_bullet ) {
-            const auto prot = bid->bullet_protec.find( bp.id() );
-            if( prot != bid->bullet_protec.end() ) {
-                ret += prot->second;
-            }
+        const auto prot = bid->protec.find( bp.id() );
+        if( prot != bid->protec.end() ) {
+            ret += prot->second.type_resist( dt );
         }
     }
     return ret + mutation_armor( bp, dt ) + bp->damage_resistance( dt );

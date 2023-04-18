@@ -5017,30 +5017,27 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         }
     }
 
-    if( !bid->bash_protec.empty() ) {
-        info.emplace_back( "DESCRIPTION",
-                           _( "<bold>Bash Protection</bold>:" ),
-                           iteminfo::no_newline );
-        for( const std::pair< bodypart_str_id, size_t > &element : sorted_lex( bid->bash_protec ) ) {
-            info.emplace_back( "CBM", " " + body_part_name_as_heading( element.first, 1 ),
-                               " <num>", iteminfo::no_newline, static_cast<double>( element.second ) );
+    std::map<damage_type_id, std::map<bodypart_str_id, float>> bionic_protec;
+    for( const damage_type &dt : damage_type::get_all() ) {
+        std::map<bodypart_str_id, float> dt_protec;
+        for( const std::pair<const bodypart_str_id, resistances> &prot : bid->protec ) {
+            float res = prot.second.type_resist( dt.id );
+            if( res >= 0.f ) {
+                dt_protec.emplace( prot.first, res );
+            }
+        }
+        if( !dt_protec.empty() ) {
+            bionic_protec.emplace( dt.id, std::move( dt_protec ) );
         }
     }
-    if( !bid->cut_protec.empty() ) {
-        info.emplace_back( "DESCRIPTION",
-                           _( "<bold>Cut Protection</bold>:" ),
-                           iteminfo::no_newline );
-        for( const std::pair< bodypart_str_id, size_t > &element : sorted_lex( bid->cut_protec ) ) {
+    for( const auto &prot : bionic_protec ) {
+        //~ Type of protection (ex: "Bash Protection")
+        std::string label = string_format( _( "<bold>%s Protection</bold>:" ),
+                                           uppercase_first_letter( prot.first->name.translated() ) );
+        info.emplace_back( "DESCRIPTION", label, iteminfo::no_newline );
+        for( const std::pair<bodypart_str_id, float> &element : sorted_lex( prot.second ) ) {
             info.emplace_back( "CBM", " " + body_part_name_as_heading( element.first, 1 ),
-                               " <num>", iteminfo::no_newline, static_cast<double>( element.second ) );
-        }
-    }
-    if( !bid->bullet_protec.empty() ) {
-        info.emplace_back( "DESCRIPTION", _( "<bold>Ballistic Protection</bold>:" ),
-                           iteminfo::no_newline );
-        for( const std::pair< bodypart_str_id, size_t > &element : sorted_lex( bid->bullet_protec ) ) {
-            info.emplace_back( "CBM", " " + body_part_name_as_heading( element.first, 1 ),
-                               " <num>", iteminfo::no_newline, static_cast<double>( element.second ) );
+                               " <num>", iteminfo::no_newline, element.second );
         }
     }
 
