@@ -4940,6 +4940,12 @@ int time_to_food( time_duration work )
     return 2500 * to_hours<int>( work ) / 24;
 }
 
+static const npc &getAverageJoe()
+{
+    static npc averageJoe;
+    return averageJoe;
+}
+
 // mission support
 bool basecamp::distribute_food()
 {
@@ -4999,8 +5005,9 @@ bool basecamp::distribute_food()
         if( it.rotten() ) {
             return false;
         }
-        const int kcal = it.get_comestible()->default_nutrition.kcal() * it.count() * rot_multip( it,
-                         container );
+        const int kcal = getAverageJoe().compute_effective_nutrients( it ).kcal() * it.count() * rot_multip(
+                             it,
+                             container );
         if( kcal <= 0 ) {
             // can happen if calories is low and rot is high.
             return false;
