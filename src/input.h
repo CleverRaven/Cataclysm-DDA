@@ -167,7 +167,13 @@ enum class MouseInput : int {
     ScrollWheelUp,
     ScrollWheelDown,
 
-    Move
+    Move,
+
+    X1ButtonPressed,
+    X1ButtonReleased,
+
+    X2ButtonPressed,
+    X2ButtonReleased
 
 };
 
