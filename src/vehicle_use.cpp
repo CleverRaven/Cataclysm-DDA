@@ -541,8 +541,6 @@ void vehicle::connect( const tripoint &source_pos, const tripoint &target_pos )
     }
 
     tripoint target_global = here.getabs( target_pos );
-    // TODO: make sure there is always a matching vpart id here. Maybe transform this into
-    // a iuse_actor class, or add a check in item_factory.
     const vpart_id vpid( cord.typeId().str() );
 
     point vcoords = source_vp->mount();
