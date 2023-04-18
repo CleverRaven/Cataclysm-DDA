@@ -610,7 +610,7 @@
     "verb": "aiming",
     "suspendable": false,
     "based_on": "neither",
-    "ignored_distractions": [ "hunger", "thirst", "hostile_spotted_near" ],
+    "ignored_distractions": [ "hunger", "thirst", "hostile_spotted_near", "hostile_spotted_far" ],
     "no_resume": true
   },
   {
