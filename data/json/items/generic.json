@@ -430,7 +430,7 @@
     "material": [ "acidchitin" ],
     "flags": [ "NO_SALVAGE" ],
     "proportional": { "weight": 1.25 },
-    "relative": { "bashing": 2 }
+    "relative": { "melee_damage": { "bash": 2 } }
   },
   {
     "id": "bundle_rag",

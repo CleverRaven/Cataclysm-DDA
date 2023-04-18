@@ -60,7 +60,7 @@
     "name": { "str": "orichalcum combat knife", "str_pl": "orichalcum combat knives" },
     "description": "A variant of the combat knife that is made of orichalcum instead of steel.  Sharper and easier to maintain than steel while just as dense, this knife also has a thinner blade, which shaves off some weight.",
     "material": [ "orichalcum_metal" ],
-    "proportional": { "cutting": 1.1, "price": 5, "weight": 0.99 },
+    "proportional": { "price": 5, "weight": 0.99, "melee_damage": { "stab": 1.1 } },
     "color": "yellow"
   },
   {
@@ -70,7 +70,7 @@
     "name": { "str": "orichalcum longsword" },
     "description": "A variant of the longsword that is made of orichalcum instead of steel.  Sharper and easier to maintain than steel while just as dense, this longsword also has a thinner blade, which shaves off some weight.",
     "material": [ "orichalcum_metal" ],
-    "proportional": { "cutting": 1.1, "price": 5, "weight": 0.99 },
+    "proportional": { "price": 5, "weight": 0.99, "melee_damage": { "cut": 1.1 } },
     "color": "yellow"
   },
   {
@@ -80,7 +80,7 @@
     "name": { "str": "orichalcum fire axe" },
     "description": "A fire axe made with orichalcum instead of steel.  This makes it possible to chop through harder materials, and in the very well-funded fire stations is preferred.",
     "material": [ "orichalcum_metal" ],
-    "proportional": { "cutting": 1.1, "price": 5 },
+    "proportional": { "price": 5, "melee_damage": { "cut": 1.1 } },
     "color": "yellow"
   },
   {
@@ -104,6 +104,6 @@
     "description": "This is a classic medieval sword, the size being in-between the lighter arming sword and later two-handed swords.  Thanks to the mysterious silvery metal it was forged from, it is stronger than tempered steel while weighing substantially less.",
     "material": [ "mithril_metal" ],
     "weight": "939 g",
-    "proportional": { "cutting": 1.5, "bashing": 0.7 }
+    "proportional": { "melee_damage": { "bash": 0.7, "cut": 1.5 } }
   }
 ]

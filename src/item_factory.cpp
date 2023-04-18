@@ -226,6 +226,28 @@ void Item_factory::finalize_pre( itype &obj )
     }
 
     finalize_damage_map( obj.melee );
+    if( !obj.melee_proportional.empty() ) {
+        finalize_damage_map( obj.melee_proportional, false, 1.f );
+        for( std::pair<const damage_type_id, float> &dt : obj.melee ) {
+            const auto iter = obj.melee_proportional.find( dt.first );
+            if( iter != obj.melee_proportional.end() ) {
+                dt.second *= iter->second;
+                // For maintaining legacy behaviour (when melee damage used ints)
+                std::floor( dt.second );
+            }
+        }
+    }
+    if( !obj.melee_relative.empty() ) {
+        finalize_damage_map( obj.melee_relative, false, 0.f );
+        for( std::pair<const damage_type_id, float> &dt : obj.melee ) {
+            const auto iter = obj.melee_relative.find( dt.first );
+            if( iter != obj.melee_relative.end() ) {
+                dt.second += iter->second;
+                // For maintaining legacy behaviour (when melee damage used ints)
+                std::floor( dt.second );
+            }
+        }
+    }
 
     if( obj.has_flag( flag_STAB ) ) {
         debugmsg( "The \"STAB\" flag used on %s is obsolete. Add a \"stab\" value in the \"melee_damage\" object instead.",
@@ -3817,6 +3839,22 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     assign( jo, "integral_longest_side", def.integral_longest_side, false, 0_mm );
     if( jo.has_object( "melee_damage" ) ) {
         def.melee = load_damage_map( jo.get_object( "melee_damage" ) );
+    }
+    def.melee_proportional.clear();
+    if( jo.has_object( "proportional" ) ) {
+        JsonObject jprop = jo.get_object( "proportional" );
+        jprop.allow_omitted_members();
+        if( jprop.has_object( "melee_damage" ) ) {
+            def.melee_proportional = load_damage_map( jprop.get_object( "melee_damage" ) );
+        }
+    }
+    def.melee_relative.clear();
+    if( jo.has_object( "relative" ) ) {
+        JsonObject jrel = jo.get_object( "relative" );
+        jrel.allow_omitted_members();
+        if( jrel.has_object( "melee_damage" ) ) {
+            def.melee_relative = load_damage_map( jrel.get_object( "melee_damage" ) );
+        }
     }
     if( jo.has_int( "to_hit" ) ) {
         assign( jo, "to_hit", def.m_to_hit, strict );

@@ -1337,6 +1337,12 @@ struct itype {
         bool was_loaded = false;
 
     private:
+        // load-only, for applying proportional melee values at load time
+        std::map<damage_type_id, float> melee_proportional;
+
+        // load-only, for applying relative melee values at load time
+        std::map<damage_type_id, float> melee_relative;
+
         /** Can item be combined with other identical items? */
         bool stackable_ = false;
 

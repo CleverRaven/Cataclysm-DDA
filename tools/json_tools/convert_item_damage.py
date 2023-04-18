@@ -28,6 +28,30 @@ def to_damage_vals(jo):
     if res:
         jo["melee_damage"] = res
 
+    if "proportional" in jo:
+        res = dict()
+        if "bashing" in jo["proportional"]:
+            res["bash"] = jo["proportional"].pop("bashing")
+        if "cutting" in jo["proportional"]:
+            cut_str = "cut"
+            if convert_stab:
+                cut_str = "stab"
+            res[cut_str] = jo["proportional"].pop("cutting")
+        if res:
+            jo["proportional"]["melee_damage"] = res
+
+    if "relative" in jo:
+        res = dict()
+        if "bashing" in jo["relative"]:
+            res["bash"] = jo["relative"].pop("bashing")
+        if "cutting" in jo["relative"]:
+            cut_str = "cut"
+            if convert_stab:
+                cut_str = "stab"
+            res[cut_str] = jo["relative"].pop("cutting")
+        if res:
+            jo["relative"]["melee_damage"] = res
+
     return jo
 
 

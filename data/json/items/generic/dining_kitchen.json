@@ -703,7 +703,7 @@
     "description": "A utensil used to hold meat still while you slice it.  It's like a tiny pitchfork, or a very large dinner fork.",
     "looks_like": "fork",
     "copy-from": "base_utensil",
-    "proportional": { "cutting": 2 },
+    "proportional": { "melee_damage": { "stab": 2 } },
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "melee_damage": { "bash": 3, "stab": 2 }
   },

@@ -154,7 +154,7 @@
     "color": "light_gray",
     "name": { "str": "scythe" },
     "description": "A dull, cheaply-made replica of an old-fashioned farming tool used to cut tall grass.",
-    "proportional": { "bashing": 1.8, "cutting": 0.064 },
+    "proportional": { "melee_damage": { "bash": 1.8, "cut": 0.064 } },
     "delete": { "flags": [ "DURABLE_MELEE" ] },
     "extend": { "flags": [ "FRAGILE_MELEE" ] },
     "material": [ "aluminum", "wood" ],
