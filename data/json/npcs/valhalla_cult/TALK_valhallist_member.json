@@ -77,9 +77,9 @@
       "yes": "The head honcho should be in the longhouse over there, or around here somewhere.  They're the ones who could guide you proper.",
       "no": "The head honcho should be in the longhouse over there, or around here somewhere.  You'll have to ask them about joining."
     },
-    "responses": [   
+    "responses": [
       { "text": "Thanks.  Let's talk about something else.", "topic": "TALK_VALHALLIST_MEMBER_2" },
-      { "text": "Thanks.", "topic": "TALK_DONE" } 
+      { "text": "Thanks.", "topic": "TALK_DONE" }
     ]
   },
   {
