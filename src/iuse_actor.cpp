@@ -4643,6 +4643,17 @@ std::optional<int> link_up_actor::use( Character &p, item &it, bool t, const tri
                 p.add_msg_if_player( m_warning, _( "You cannot connect the %s to itself." ), prev_veh->name );
                 return std::nullopt;
             }
+            const std::pair<tripoint, tripoint> prev_target = std::make_pair(
+                        here.getabs( prev_veh->mount_to_tripoint( cable->link->t_mount ) ),
+                        prev_veh->global_square_location().raw() );
+            for( const vpart_reference &vpr : target_veh->get_any_parts( "POWER_TRANSFER" ) ) {
+                if( vpr.part().target.first == prev_target.first &&
+                    vpr.part().target.second == prev_target.second ) {
+                    p.add_msg_if_player( m_warning, _( "The %1$s and %2$s are already connected." ),
+                                         target_veh->name, prev_veh->name );
+                    return std::nullopt;
+                }
+            }
             // TODO: make sure there is always a matching vpart id here. Maybe transform this into
             // a iuse_actor class, or add a check in item_factory.
             const vpart_id vpid( it.typeId().str() );
@@ -4655,8 +4666,8 @@ std::optional<int> link_up_actor::use( Character &p, item &it, bool t, const tri
 
             vcoords = t_vp->mount();
             vehicle_part target_part( vpid, "", vcoords, item( it ) );
-            target_part.target.first = here.getabs( prev_veh->mount_to_tripoint( cable->link->t_mount ) );
-            target_part.target.second = prev_veh->global_square_location().raw();
+            target_part.target.first = prev_target.first;
+            target_part.target.second = prev_target.second;
             target_veh->install_part( vcoords, target_part );
 
             p.add_msg_if_player( m_good, _( "You link up the %1$s and the %2$s." ),
