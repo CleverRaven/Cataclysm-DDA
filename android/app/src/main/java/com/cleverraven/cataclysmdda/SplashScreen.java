@@ -38,7 +38,7 @@ public class SplashScreen extends Activity {
     private AlertDialog accessibilityServicesAlert;
 
     public CharSequence[] mSettingsNames;
-    public boolean[] mSettingsValues = { false, false, true, true };
+    public boolean[] mSettingsValues = { false, false, true, false };
 
     private String getVersionName() {
         try {
