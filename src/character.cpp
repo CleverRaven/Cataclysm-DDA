@@ -6716,7 +6716,7 @@ int Character::item_handling_cost( const item &it, bool penalties, int base_cost
     } else if( penalties && has_flag( json_flag_GRAB ) ) {
         // Grabbed penalty scales for grabbed arms/hands
         int pen = 2;
-        for( const effect eff : get_effects_with_flag( json_flag_GRAB ) ) {
+        for( const effect &eff : get_effects_with_flag( json_flag_GRAB ) ) {
             if( eff.get_bp()->primary_limb_type() == body_part_type::type::arm ||
                 eff.get_bp()->primary_limb_type() == body_part_type::type::hand ) {
                 pen++;
