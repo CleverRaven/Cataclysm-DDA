@@ -306,7 +306,8 @@ void grab::load_grab( const JsonObject &jo )
     optional( jo, was_loaded, "pull_msg_u", pull_msg_u, to_translation( "%s pulls you in!" ) );
     optional( jo, was_loaded, "pull_fail_msg_u", pull_fail_msg_u,
               to_translation( "%s strains trying to pull you in but fails!" ) );
-    optional( jo, was_loaded, "pull_msg_npc", pull_msg_npc, to_translation( "%s pulls <npcname> in!" ) );
+    optional( jo, was_loaded, "pull_msg_npc", pull_msg_npc,
+              to_translation( "%s pulls <npcname> in!" ) );
     optional( jo, was_loaded, "pull_fail_msg_npc", pull_fail_msg_npc,
               to_translation( "%s strains trying to pull <npcname> in but fails!" ) );
     optional( jo, was_loaded, "pull_weight_ratio", pull_weight_ratio, 0.75f );
