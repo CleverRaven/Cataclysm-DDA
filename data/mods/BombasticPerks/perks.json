@@ -251,7 +251,6 @@
     "name": { "str": "Playing God" },
     "points": 0,
     "description": "You've been disecting critters since high school.  Last night a voice gave you an idea for how to bring them back to life.",
-    "category": [ "perk" ],
-    "activated_eocs": [ "EOC_frankenstein_divine_inspiration" ]
+    "category": [ "perk" ]
   }
 ]
