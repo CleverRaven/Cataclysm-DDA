@@ -994,7 +994,7 @@ void Creature::messaging_projectile_attack( const Creature *source,
                          is_monster() ?
                          skin_name() :
                          body_part_name_accusative( hit_selection.bp_hit ) );
-            } else if( !hit_selection.wp_hit.empty() ) {
+            } else {
                 //~ %1$s: creature name, %2$s: weakpoint hit
                 add_msg( _( "The shot hits the %1$s in %2$s but it deals no damage." ),
                          disp_name(), hit_selection.wp_hit );
