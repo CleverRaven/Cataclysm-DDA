@@ -996,7 +996,7 @@ void Creature::messaging_projectile_attack( const Creature *source,
                          body_part_name_accusative( hit_selection.bp_hit ) );
             } else if( !hit_selection.wp_hit.empty() ) {
                 //~ %1$s: creature name, %2$s: weakpoint hit
-                add_msg( _( "You shoot the %1$s in %2$s but it deals no damage." ),
+                add_msg( _( "The shot hits the %1$s in %2$s but it deals no damage." ),
                          disp_name(), hit_selection.wp_hit );
             }
         } else if( is_avatar() ) {
