@@ -102,7 +102,7 @@ icg_entry icg_entry_reader::_part_get_next( JsonObject const &jo )
     optional( jo, false, "group", ret.item_group );
     optional( jo, false, "message", ret.message );
     if( jo.has_member( "condition" ) ) {
-        read_condition<dialogue>( jo, "condition", ret.condition, false );
+        read_condition( jo, "condition", ret.condition, false );
     }
     return ret;
 }

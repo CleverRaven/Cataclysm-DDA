@@ -1,6 +1,7 @@
 #include <string>
 
 #include "cata_utility.h"
+#include "debug.h"
 #include "get_version.h"
 #include "name.h"
 #include "path_info.h"

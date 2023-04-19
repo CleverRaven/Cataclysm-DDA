@@ -463,7 +463,7 @@ TEST_CASE( "reading a book for skill", "[reading][book][skill]" )
 
             THEN( "gained a skill level" ) {
                 CHECK( dummy.get_knowledge_level( skill_chemistry ) > 6 );
-                CHECK( dummy.get_skill_level( skill_chemistry ) < 6 );
+                CHECK( static_cast<int>( dummy.get_skill_level( skill_chemistry ) ) < 6 );
                 CHECK( dummy.get_book_mastery( *alpha ) == book_mastery::MASTERED );
             }
         }

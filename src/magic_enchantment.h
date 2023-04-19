@@ -22,7 +22,6 @@ class JsonObject;
 class JsonOut;
 class item;
 struct dialogue;
-template<class T>
 struct dbl_or_var;
 namespace enchant_vals
 {
@@ -198,14 +197,14 @@ class enchantment
         translation description;
 
         // values that add to the base value
-        std::map<enchant_vals::mod, dbl_or_var<dialogue>> values_add; // NOLINT(cata-serialize)
+        std::map<enchant_vals::mod, dbl_or_var> values_add; // NOLINT(cata-serialize)
         // values that get multiplied to the base value
         // multipliers add to each other instead of multiply against themselves
-        std::map<enchant_vals::mod, dbl_or_var<dialogue>> values_multiply; // NOLINT(cata-serialize)
+        std::map<enchant_vals::mod, dbl_or_var> values_multiply; // NOLINT(cata-serialize)
 
         // the exact same as above, though specifically for skills
-        std::map<skill_id, dbl_or_var<dialogue>> skill_values_add; // NOLINT(cata-serialize)
-        std::map<skill_id, dbl_or_var<dialogue>> skill_values_multiply; // NOLINT(cata-serialize)
+        std::map<skill_id, dbl_or_var> skill_values_add; // NOLINT(cata-serialize)
+        std::map<skill_id, dbl_or_var> skill_values_multiply; // NOLINT(cata-serialize)
 
         std::vector<fake_spell> hit_me_effect;
         std::vector<fake_spell> hit_you_effect;

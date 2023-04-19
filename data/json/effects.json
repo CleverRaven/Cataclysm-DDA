@@ -146,6 +146,12 @@
   },
   {
     "type": "effect_type",
+    "id": "socialized_recently",
+    "name": [ "Socialized Recently" ],
+    "desc": [ "AI tag for asking to NPCs to socialize.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
     "id": "npc_run_away",
     "name": [ "Running Away" ],
     "desc": [ "AI tag to enable NPCs to flee.  This is a bug if you have it." ]
@@ -2353,7 +2359,7 @@
       { "limb_score": "lift", "modifier": 0.8, "scaling": -0.15 },
       { "limb_score": "block", "modifier": 0.8, "scaling": -0.15 },
       { "limb_score": "breathing", "modifier": 0.9, "scaling": -0.1 },
-      { "limb_score": "balance", "modifier": 8, "scaling": -0.2 }
+      { "limb_score": "balance", "modifier": 0.8, "scaling": -0.2 }
     ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },

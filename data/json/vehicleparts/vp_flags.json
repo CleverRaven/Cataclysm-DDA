@@ -573,6 +573,12 @@
     "type": "json_flag"
   },
   {
+    "id": "VEH_TOOLS",
+    "type": "json_flag",
+    "//": "Modular tool station allowing to 'hook' tools to vehicle batteries/tanks.",
+    "info": "You can 'e'xamine the tile to <color_cyan>connect tools</color> to the vehicle's batteries and tanks."
+  },
+  {
     "id": "VISION",
     "type": "json_flag"
   },

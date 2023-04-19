@@ -25,42 +25,6 @@ struct math_const {
 };
 using pmath_const = math_const const *;
 
-template<class D>
-struct dialogue_func {
-    dialogue_func<D>( std::string_view s_, std::string_view sc_, int n_ ) : symbol( s_ ),
-        scopes( sc_ ), num_params( n_ ) {}
-    std::string_view symbol;
-    std::string_view scopes;
-    int num_params{};
-};
-
-template <class D>
-struct dialogue_func_eval : dialogue_func<D> {
-    using f_t = std::function<double( D const & )> ( * )( char scope,
-                std::vector<std::string> const & );
-
-    dialogue_func_eval<D>( std::string_view s_, std::string_view sc_, int n_, f_t f_ )
-        : dialogue_func<D>( s_, sc_, n_ ), f( f_ ) {}
-
-    f_t f;
-};
-
-template <class D>
-struct dialogue_func_ass : dialogue_func<D> {
-    using f_t = std::function<void( D const &, double )> ( * )( char scope,
-                std::vector<std::string> const & );
-
-    dialogue_func_ass<D>( std::string_view s_, std::string_view sc_, int n_, f_t f_ )
-        : dialogue_func<D>( s_, sc_, n_ ), f( f_ ) {}
-
-    f_t f;
-};
-
-template<class D>
-using pdiag_func_eval = dialogue_func_eval<D> const *;
-template<class D>
-using pdiag_func_ass = dialogue_func_ass<D> const *;
-
 inline double abs( std::vector<double> &params )
 {
     return std::abs( params[0] );
@@ -117,22 +81,49 @@ inline double tan( std::vector<double> &params )
     return std::tan( params[0] );
 }
 
+inline double clamp( std::vector<double> &params )
+{
+    if( params[2] < params[1] ) {
+        debugmsg( "clamp called with hi < lo (%f < %f)", params[2], params[1] );
+        return params[0];
+    }
+    return std::clamp( params[0], params[1], params[2] );
+}
+
+inline double floor( std::vector<double> &params )
+{
+    return std::floor( params[0] );
+}
+
+inline double ceil( std::vector<double> &params )
+{
+    return std::ceil( params[0] );
+}
+
+inline double trunc( std::vector<double> &params )
+{
+    return std::trunc( params[0] );
+}
+
+inline double round( std::vector<double> &params )
+{
+    return std::round( params[0] );
+}
+
 constexpr double test_( std::vector<double> &/* params */ )
 {
     return 42;
 }
 
-template<class D>
-std::function<double( D const & )> u_val( char scope,
-        std::vector<std::string> const &params );
-template<class D>
-std::function<void( D const &, double )> u_val_ass( char scope,
-        std::vector<std::string> const &params );
-
-constexpr std::array<math_func, 11> functions{
+constexpr std::array<math_func, 16> functions{
     math_func{ "abs", 1, abs },
     math_func{ "max", -1, max },
     math_func{ "min", -1, min },
+    math_func{ "clamp", 3, clamp },
+    math_func{ "floor", 1, floor },
+    math_func{ "trunc", 1, trunc },
+    math_func{ "ceil", 1, ceil },
+    math_func{ "round", 1, round },
     math_func{ "rng", 2, math_rng },
     math_func{ "rand", 1, rand },
     math_func{ "sqrt", 1, sqrt },
@@ -141,16 +132,6 @@ constexpr std::array<math_func, 11> functions{
     math_func{ "cos", 1, cos },
     math_func{ "tan", 1, tan },
     math_func{ "_test_", 0, test_ },
-};
-
-template<class D>
-inline std::array<dialogue_func_eval<D>, 1> const dialogue_eval_f{
-    dialogue_func_eval{ "val", "un", -1, u_val<D> },
-};
-
-template<class D>
-inline std::array<dialogue_func_ass<D>, 1> const dialogue_assign_f{
-    dialogue_func_ass{ "val", "un", -1, u_val_ass<D> },
 };
 
 namespace math_constants
