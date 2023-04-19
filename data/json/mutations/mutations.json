@@ -883,7 +883,7 @@
     "types": [ "MEMORY" ],
     "skill_rust_multiplier": 0.1,
     "prereqs": [ "GOODMEMORY", "DISTENDEDHEAD" ],
-    "category" : [ "CEPHALOPOD" ]
+    "category": [ "CEPHALOPOD" ]
   },
   {
     "type": "mutation",
