@@ -569,10 +569,11 @@ class game
         /** Destroy / dissolve character items when in water. */
         void water_affect_items( Character &ch ) const;
 
-        /** Flings the input creature in the given direction. */
+        /** Flings the input creature in the given direction.
+         *  intentional is true for activities you wouldn't consider immunity for
+         */
         bool fling_creature( Creature *c, const units::angle &dir, float flvel,
-                             bool controlled = false );
-
+                             bool controlled = false, bool intentional = false );
         float natural_light_level( int zlev ) const;
         /** Returns coarse number-of-squares of visibility at the current light level.
          * Used by monster and NPC AI.

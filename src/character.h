@@ -2326,6 +2326,8 @@ class Character : public Creature, public visitable
         bool is_immune_damage( const damage_type_id & ) const override;
         /** Returns true if the player is protected from radiation */
         bool is_rad_immune() const;
+        /** Returns true if the player is immune to knockdowns */
+        bool is_knockdown_immune() const;
         /** Returns true if the player's melee skill increases the bash damage weapon cap */
         bool is_melee_bash_damage_cap_bonus() const;
 

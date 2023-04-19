@@ -5503,7 +5503,7 @@ bool Character::is_immune_effect( const efftype_id &eff ) const
 {
     // FIXME: Hardcoded damage types
     if( eff == effect_downed ) {
-        return has_trait( trait_LEG_TENT_BRACE ) && is_barefoot();
+        return is_knockdown_immune();
     } else if( eff == effect_onfire ) {
         return is_immune_damage( damage_heat );
     } else if( eff == effect_deaf ) {
@@ -5542,6 +5542,16 @@ bool Character::is_rad_immune() const
 {
     bool has_helmet = false;
     return ( is_wearing_power_armor( &has_helmet ) && has_helmet ) || worn_with_flag( flag_RAD_PROOF );
+}
+
+bool Character::is_knockdown_immune() const
+{
+    // hard code for old tentacle mutation
+    bool knockdown_immune = has_trait( trait_LEG_TENT_BRACE ) && is_barefoot();
+
+    // if we have 1.0 or greater knockdown resist
+    knockdown_immune |= calculate_by_enchantment( 0.0, enchant_vals::mod::KNOCKDOWN_RESIST ) >= 1;
+    return knockdown_immune;
 }
 
 int Character::throw_range( const item &it ) const

@@ -810,6 +810,8 @@ Character status value  | Description
 `FOOTSTEP_NOISE`        | 
 `FORCEFIELD`            | Chance your character reduces incoming damage to 0. From 0.0 (no chance), to 1.0 (100% chance to avoid attacks).
 `HUNGER`                | 
+`KNOCKBACK_RESIST`      | The ammount knockback effects you, 0 is the regular ammount, -100 would be double effect, 100 would be no effect
+`KNOCKDOWN_RESIST`      | The ammount knockdown effects you, currently *only* having 100 or greater knockdown_resist makes you immune to knockdown
 `LEARNING_FOCUS`        | Amount of bonus focus you have for learning purposes.
 `LUMINATION`            | Character produces light.
 `MAX_HP`                | 
