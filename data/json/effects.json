@@ -338,62 +338,62 @@
     "id": "grabbing_arm_l",
     "name": [ "Grabbing Left Arm" ],
     "desc": [ "You're grabbing the left arm of somebody." ],
-    "flags": [ "GRAB_FILTER" ] 
+    "flags": [ "GRAB_FILTER" ]
   },
   {
     "type": "effect_type",
     "id": "grabbing_arm_r",
     "name": [ "Grabbing Right Arm" ],
-    "desc": [ "You're grabbing the right arm of somebody." ] ,
+    "desc": [ "You're grabbing the right arm of somebody." ],
     "flags": [ "GRAB_FILTER" ]
   },
   {
     "type": "effect_type",
     "id": "grabbing_hand_l",
     "name": [ "Grabbing Left Hand" ],
-    "desc": [ "You're holding hands(left)." ] ,
+    "desc": [ "You're holding hands(left)." ],
     "flags": [ "GRAB_FILTER" ]
   },
   {
     "type": "effect_type",
     "id": "grabbing_hand_r",
     "name": [ "Grabbing Right Hand" ],
-    "desc": [ "You're holding hands(right)." ] ,
+    "desc": [ "You're holding hands(right)." ],
     "flags": [ "GRAB_FILTER" ]
   },
   {
     "type": "effect_type",
     "id": "grabbing_leg_l",
     "name": [ "Grabbing Left Leg" ],
-    "desc": [ "You're grabbing the left leg of somebody." ] ,
+    "desc": [ "You're grabbing the left leg of somebody." ],
     "flags": [ "GRAB_FILTER" ]
   },
   {
     "type": "effect_type",
     "id": "grabbing_leg_r",
     "name": [ "Grabbing Right Leg" ],
-    "desc": [ "You're grabbing the right leg of somebody." ] ,
+    "desc": [ "You're grabbing the right leg of somebody." ],
     "flags": [ "GRAB_FILTER" ]
   },
   {
     "type": "effect_type",
     "id": "grabbing_foot_l",
     "name": [ "Grabbing Left Foot" ],
-    "desc": [ "You're grabbing the left foot of somebody." ] ,
+    "desc": [ "You're grabbing the left foot of somebody." ],
     "flags": [ "GRAB_FILTER" ]
   },
   {
     "type": "effect_type",
     "id": "grabbing_foot_r",
     "name": [ "Grabbing Right Foot" ],
-    "desc": [ "You're grabbing the right foot of somebody." ] ,
+    "desc": [ "You're grabbing the right foot of somebody." ],
     "flags": [ "GRAB_FILTER" ]
   },
   {
     "type": "effect_type",
     "id": "grabbing_tail",
     "name": [ "Grabbing Tail" ],
-    "desc": [ "You're grabbing the tail of somebody." ] ,
+    "desc": [ "You're grabbing the tail of somebody." ],
     "flags": [ "GRAB_FILTER" ]
   },
   {
@@ -3148,7 +3148,9 @@
     "type": "effect_type",
     "id": "grabbed",
     "name": [ "Grabbed" ],
-    "desc": [ "You have been grabbed and held in place by an attack.  You're not able to move until breaking the grab, and depending on the strength of your opponent using this limb is difficult to impossible.\nWait in place or attempt to move without attacking to try and remove this effect." ],
+    "desc": [
+      "You have been grabbed and held in place by an attack.  You're not able to move until breaking the grab, and depending on the strength of your opponent using this limb is difficult to impossible.\nWait in place or attempt to move without attacking to try and remove this effect."
+    ],
     "rating": "bad",
     "//": "Removal handled in code, so no max duration needed, intensity set by the grab_strength, all effects are local-only",
     "max_intensity": 100,

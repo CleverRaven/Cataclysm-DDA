@@ -28,13 +28,15 @@
     "harvest": "zombie_meatslug",
     "path_settings": { "max_dist": 50, "avoid_traps": true, "avoid_sharp": true },
     "scents_ignored": [ "sc_fetid" ],
-    "special_attacks": [ { "type": "bite", "cooldown": 6 }, { "id": "scratch" }, [ "GRAB", 20 ] ],
+    "grab_strength": 30,
+    "special_attacks": [ { "id": "bite_humanoid", "cooldown": 6 }, { "id": "scratch_humanoid" }, { "id": "grab", "cooldown": 20 } ],
     "flags": [
       "SEES",
       "SMELLS",
       "HEARS",
       "WARM",
       "BASHES",
+      "GRABS",
       "POISON",
       "NO_BREATHE",
       "ARTHROPOD_BLOOD",
@@ -174,8 +176,13 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "vision_night": 3,
     "harvest": "demihuman",
-    "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "GRAB", 7 ], [ "scratch", 20 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "SWARMS", "PUSH_MON" ]
+    "grab_strength": 20,
+    "special_attacks": [
+      { "id": "bite_humanoid", "cooldown": 5 },
+      { "id": "grab", "cooldown": 7 },
+      { "id": "scratch_humanoid", "cooldown": 20 }
+    ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "GRABS", "WARM", "BASHES", "GROUP_BASH", "SWARMS", "PUSH_MON" ]
   },
   {
     "id": "mon_ghast",
@@ -263,8 +270,9 @@
     "vision_night": 3,
     "harvest": "exempt",
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts into wisps of darkness." },
-    "special_attacks": [ [ "GRAB", 7 ], [ "scratch", 20 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "FLIES", "SWARMS", "NIGHT_INVISIBILITY" ]
+    "grab_strength": 20,
+    "special_attacks": [ { "id": "grab" }, [ "scratch", 20 ] ],
+    "flags": [ "SEES", "HEARS", "GRABS", "SMELLS", "FLIES", "SWARMS", "NIGHT_INVISIBILITY" ]
   },
   {
     "id": "mon_outer_servitor",

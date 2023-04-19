@@ -26,9 +26,10 @@
     "harvest": "mutant_mammal_fur",
     "reproduction": { "baby_monster": "mon_yulecat_cub", "baby_count": 6, "baby_timer": 234 },
     "baby_flags": [ "WINTER" ],
-    "special_attacks": [ { "type": "bite", "cooldown": 10 }, [ "GRAB", 8 ], [ "scratch", 6 ] ],
+    "grab_strength": 50,
+    "special_attacks": [ { "id": "bite_grab", "cooldown": 10 }, [ "scratch", 6 ] ],
     "anger_triggers": [ "PLAYER_NEAR_BABY" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "WARM", "GRABS" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "GRABS", "KEENNOSE", "PATH_AVOID_DANGER_1", "WARM", "GRABS" ],
     "zombify_into": "mon_yulecat_zombie",
     "armor": { "bash": 4, "cut": 1, "bullet": 4 }
   },
