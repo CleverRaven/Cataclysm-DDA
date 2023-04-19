@@ -548,7 +548,18 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "s_lot",
+    "id": [
+      "s_lot",
+      "parking_2x1_0",
+      "parking_2x1_1",
+      "parking_2x2_0_0",
+      "parking_2x2_0_1",
+      "parking_2x2_1_0",
+      "parking_2x2_1_1",
+      "parking_3x1_0",
+      "parking_3x1_1",
+      "parking_3x1_2"
+    ],
     "copy-from": "generic_city_building",
     "name": "parking lot",
     "sym": "O",
