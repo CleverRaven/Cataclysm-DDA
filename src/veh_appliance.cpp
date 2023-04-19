@@ -234,7 +234,7 @@ void veh_app_interact::draw_info()
 
     // Reactor power output
     if( !veh->reactors.empty() ) {
-        units::power rate = veh->active_reactor_epower( true );
+        const units::power rate = veh->active_reactor_epower();
         print_charge( _( "Reactor power output: " ), rate, row );
         row++;
     }
