@@ -428,9 +428,9 @@
           "y": [ 14, 14 ]
         },
         {
-          "chunks": [ [ "xed_8x8_containment", 20 ], [ "xed_8x8_containment_broken", 20 ] ],
-          "x": [ 16, 16 ],
-          "y": [ 4, 4 ]
+          "chunks": [ [ "xed_8x8_containment", 20 ], [ "xed_8x8_containment_broken", 20 ], [ "xed_8x8_containment_empty", 40 ] ],
+          "x": [ 14, 14 ],
+          "y": [ 5, 5 ]
         },
         {
           "chunks": [ [ "xed_8x8_boss_ar", 20 ], [ "xed_8x8_sofas_ar", 20 ], [ "xed_8x8_office_ar", 20 ], [ "xed_8x8_files_ar", 20 ] ],

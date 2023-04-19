@@ -82,8 +82,10 @@
     "required_event": "game_start",
     "condition": { "and": [ { "not": { "u_has_trait": "perk_perk_menu" } } ] },
     "effect": [
-      { "queue_eocs": "EOC_bombastic_perks_try_configure", "time_in_future": "30 seconds" },
-      { "u_message": "Bombastic Perks is loaded, configuration menu will appear in 30 seconds." }
+      {
+        "u_message": "Bombastic Perks is loaded, configuration menu should appear.  If the mod is properly loaded you should have a new mutation called \"perk menu\".  If you do not, you can enable the mod manually by activating the \"EOC_bombastic_perks_try_configure\" EOC in debug."
+      },
+      { "run_eocs": "EOC_bombastic_perks_try_configure" }
     ]
   },
   {

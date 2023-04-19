@@ -162,6 +162,7 @@ static const json_character_flag json_flag_BIONIC_POWER_SOURCE( "BIONIC_POWER_SO
 static const json_character_flag json_flag_BIONIC_TOGGLED( "BIONIC_TOGGLED" );
 static const json_character_flag json_flag_BIONIC_WEAPON( "BIONIC_WEAPON" );
 static const json_character_flag json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
+static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 
 static const material_id fuel_type_metabolism( "metabolism" );
 static const material_id fuel_type_sun_light( "sunlight" );
@@ -189,7 +190,6 @@ static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
 static const trait_id trait_MASOCHIST( "MASOCHIST" );
 static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
 static const trait_id trait_NONE( "NONE" );
-static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PROF_AUTODOC( "PROF_AUTODOC" );
 static const trait_id trait_PROF_MED( "PROF_MED" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
@@ -1807,7 +1807,7 @@ void Character::bionics_uninstall_failure( int difficulty, int success, float ad
     std::set<bodypart_id> bp_hurt;
     switch( fail_type ) {
         case 1:
-            if( !has_trait( trait_NOPAIN ) ) {
+            if( !has_flag( json_flag_PAIN_IMMUNE ) ) {
                 add_msg_if_player( m_bad, _( "It really hurts!" ) );
                 mod_pain( rng( 10, 30 ) );
             }
@@ -1894,7 +1894,7 @@ void Character::bionics_uninstall_failure( monster &installer, Character &patien
     std::set<bodypart_id> bp_hurt;
     switch( fail_type ) {
         case 1:
-            if( !has_trait( trait_NOPAIN ) ) {
+            if( !has_flag( json_flag_PAIN_IMMUNE ) ) {
                 patient.add_msg_if_player( m_bad, _( "It really hurts!" ) );
                 patient.mod_pain( rng( 10, 30 ) );
             }
@@ -1947,7 +1947,7 @@ bool Character::has_enough_anesth( const itype &cbm, Character &patient ) const
         return false;
     }
 
-    if( patient.has_bionic( bio_painkiller ) || patient.has_trait( trait_NOPAIN ) ||
+    if( patient.has_bionic( bio_painkiller ) || patient.has_flag( json_flag_PAIN_IMMUNE ) ||
         has_trait( trait_DEBUG_BIONICS ) ) {
         return true;
     }
@@ -1961,7 +1961,7 @@ bool Character::has_enough_anesth( const itype &cbm, Character &patient ) const
 
 bool Character::has_enough_anesth( const itype &cbm ) const
 {
-    if( has_bionic( bio_painkiller ) || has_trait( trait_NOPAIN ) ||
+    if( has_bionic( bio_painkiller ) || has_flag( json_flag_PAIN_IMMUNE ) ||
         has_trait( trait_DEBUG_BIONICS ) ) {
         return true;
     }
@@ -2051,7 +2051,7 @@ int Character::bionics_pl_skill( bool autodoc, int skill_level ) const
         least_important_skill = skill_mechanics;
     }
 
-    int pl_skill;
+    float pl_skill;
     if( skill_level == -1 ) {
         pl_skill = int_cur                                  * 4 +
                    get_skill_level( most_important_skill )  * 4 +
@@ -2071,7 +2071,7 @@ int Character::bionics_pl_skill( bool autodoc, int skill_level ) const
     if( has_trait( trait_PROF_AUTODOC ) ) {
         pl_skill += 7;
     }
-    return pl_skill;
+    return round( pl_skill );
 }
 
 int bionic_success_chance( bool autodoc, int skill_level, int difficulty, const Character &target )
@@ -2569,7 +2569,7 @@ void Character::bionics_install_failure( const bionic_id &bid, const std::string
         switch( fail_type ) {
 
             case 1:
-                if( !has_trait( trait_NOPAIN ) ) {
+                if( !has_flag( json_flag_PAIN_IMMUNE ) ) {
                     add_msg_if_player( m_bad, _( "It really hurts!" ) );
                     mod_pain( rng( 10, 30 ) );
                 }

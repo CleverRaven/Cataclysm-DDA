@@ -506,6 +506,7 @@ struct vehicle_part {
         mutable const vpart_info *info_cache = nullptr; // NOLINT(cata-serialize)
 
         item base;
+        std::vector<item> tools; // stores tools in VEH_TOOLS drawer
         cata::colony<item> items; // inventory
 
         /** Preferred ammo type when multiple are available */
@@ -1356,7 +1357,7 @@ class vehicle
         // reactors is only drawn when batteries are empty.
         units::power max_reactor_epower() const;
         // Active power from reactors that is actually being drained by batteries.
-        units::power active_reactor_epower( bool connected_vehicles ) const;
+        units::power active_reactor_epower() const;
         // Produce and consume electrical power, with excess power stored or
         // taken from batteries.
         void power_parts();
@@ -1652,14 +1653,25 @@ class vehicle
         units::volume stored_volume( int part ) const;
 
         /**
-        * Flags item \p tool with PSEUDO, if it needs battery and has MOD pocket then a
-        * magazine_battery_pseudo_mod is installed and a pseudo battery with high capacity
-        * is inserted into the magazine well pocket with however many battery charges are
-        * available to this vehicle.
+        * Flags item \p tool with PSEUDO, if it has MOD pocket then a `pseudo_magazine_mod` is
+        * installed and a `pseudo_magazine` is inserted into the magazine well pocket with however
+        * many ammo charges of the first ammo type required by the tool are available to this vehicle.
         * @param tool the tool item to modify
-        * @return amount of energy the pseudo battery is set to or 0 joules
+        * @return amount of ammo in the `pseudo_magazine` or 0
         */
-        units::energy prepare_vehicle_tool( item &tool ) const;
+        int prepare_tool( item &tool ) const;
+        /**
+        * if \p tool is not an itype with tool != nullptr this returns { itype::NULL_ID(), 0 } pair
+        * @param tool the item to examine
+        * @return a pair of tool's first ammo type and the amount of it available from tanks / batteries
+        */
+        std::pair<const itype_id &, int> tool_ammo_available( const itype_id &tool_type ) const;
+        /**
+        * @return pseudo- and attached tools available from this vehicle part,
+        * marked with PSEUDO flags, pseudo_magazine_mod and pseudo_magazine attached, magazines filled
+        * with the first ammo type required by the tool. pseudo tools are mapped to their hotkey if exists.
+        */
+        std::map<item, input_event> prepare_tools( const vehicle_part &vp ) const;
 
         /**
          * Update an item's active status, for example when adding
@@ -1689,6 +1701,8 @@ class vehicle
 
         vehicle_stack get_items( int part ) const;
         vehicle_stack get_items( int part );
+        std::vector<item> &get_tools( vehicle_part &vp );
+        const std::vector<item> &get_tools( const vehicle_part &vp ) const;
         void dump_items_from_part( size_t index );
 
         // Generates starting items in the car, should only be called when placed on the map

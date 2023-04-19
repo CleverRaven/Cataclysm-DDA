@@ -240,7 +240,7 @@ bool mut_transform::load( const JsonObject &jsobj, const std::string &member )
 
 void reflex_activation_data::load( const JsonObject &jsobj )
 {
-    read_condition<dialogue>( jsobj, "condition", trigger, false );
+    read_condition( jsobj, "condition", trigger, false );
     if( jsobj.has_object( "msg_on" ) ) {
         JsonObject jo = jsobj.get_object( "msg_on" );
         optional( jo, was_loaded, "text", msg_on.first );
@@ -387,6 +387,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string &src )
     }
 
     optional( jo, was_loaded, "healing_awake", healing_awake, std::nullopt );
+    optional( jo, was_loaded, "pain_modifier", pain_modifier, std::nullopt );
     optional( jo, was_loaded, "healing_multiplier", healing_multiplier, std::nullopt );
     optional( jo, was_loaded, "mending_modifier", mending_modifier, std::nullopt );
     optional( jo, was_loaded, "hp_modifier", hp_modifier, std::nullopt );

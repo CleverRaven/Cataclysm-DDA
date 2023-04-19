@@ -146,6 +146,12 @@
   },
   {
     "type": "effect_type",
+    "id": "socialized_recently",
+    "name": [ "Socialized Recently" ],
+    "desc": [ "AI tag for asking to NPCs to socialize.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
     "id": "npc_run_away",
     "name": [ "Running Away" ],
     "desc": [ "AI tag to enable NPCs to flee.  This is a bug if you have it." ]

@@ -627,17 +627,6 @@ void deserialize_wrapper( const std::function<void( const JsonValue & )> &callba
     callback( jsin );
 }
 
-bool string_starts_with( const std::string &s1, const std::string &s2 )
-{
-    return s1.compare( 0, s2.size(), s2 ) == 0;
-}
-
-bool string_ends_with( const std::string &s1, const std::string &s2 )
-{
-    return s1.size() >= s2.size() &&
-           s1.compare( s1.size() - s2.size(), s2.size(), s2 ) == 0;
-}
-
 bool string_empty_or_whitespace( const std::string &s )
 {
     if( s.empty() ) {
@@ -650,7 +639,20 @@ bool string_empty_or_whitespace( const std::string &s )
     } );
 }
 
-std::vector<std::string> string_split( const std::string &string, char delim )
+int string_view_cmp( const std::string_view l, const std::string_view r )
+{
+    size_t min_len = std::min( l.size(), r.size() );
+    int result = memcmp( l.data(), r.data(), min_len );
+    if( result ) {
+        return result;
+    }
+    if( l.size() == r.size() ) {
+        return 0;
+    }
+    return l.size() < r.size() ? -1 : 1;
+}
+
+std::vector<std::string> string_split( const std::string_view string, char delim )
 {
     std::vector<std::string> elems;
 
@@ -658,7 +660,7 @@ std::vector<std::string> string_split( const std::string &string, char delim )
         return elems; // Well, that was easy.
     }
 
-    std::stringstream ss( string );
+    std::stringstream ss( std::string{ string } );
     std::string item;
     while( std::getline( ss, item, delim ) ) {
         elems.push_back( item );
