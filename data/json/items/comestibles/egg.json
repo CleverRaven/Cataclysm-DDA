@@ -1097,5 +1097,21 @@
     "copy-from": "egg_insect",
     "rot_spawn": "GROUP_EGG_CICADA",
     "rot_spawn_chance": 50
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "menemen",
+    "name": { "str_sp": "menemen" },
+    "copy-from": "scrambled_eggs",
+    "color": "yellow",
+    "symbol": "%",
+    "quench": -1,
+    "calories": 450,
+    "description": "A popular traditional Turkish dish which includes eggs, tomato, green peppers, and spices such as ground black and red pepper cooked in olive oil.",
+    "price": 500,
+    "price_postapoc": 250,
+    "material": [ "egg", "veggy" ],
+    "fun": 5,
+    "flags": [ "EATEN_HOT", "FREEZERBURN" ]
   }
 ]

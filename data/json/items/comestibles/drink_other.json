@@ -348,7 +348,7 @@
     "name": { "str_sp": "salça" },
     "weight": "175 g",
     "color": "red",
-    "spoils_in": "2 weeks",
+    "spoils_in": "14 days",
     "container": "jar_glass_sealed",
     "sealed": false,
     "comestible_type": "FOOD",
