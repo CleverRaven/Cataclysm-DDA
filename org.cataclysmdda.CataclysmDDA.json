@@ -17,7 +17,7 @@
       "buildsystem": "simple",
       "build-options": {
         "env": {
-          "MAKE_ARGS": "PREFIX=/app LANGUAGES=all USE_XDG_DIR=1 TILES=1 SOUND=1 RELEASE=1 RUNTESTS=0 ASTYLE=0 LINTJSON=0"
+          "MAKE_ARGS": "PREFIX=/app LANGUAGES=all USE_XDG_DIR=1 TILES=1 SOUND=1 RELEASE=1 TESTS=0 ASTYLE=0 LINTJSON=0"
         }
       },
       "build-commands": [
