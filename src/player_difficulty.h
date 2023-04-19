@@ -47,6 +47,8 @@ class player_difficulty
         npc average;
 
     public:
+        const npc &get_average_npc();
+
         player_difficulty( const player_difficulty & ) = delete;
         player_difficulty &operator= ( const player_difficulty & ) = delete;
 

@@ -921,7 +921,7 @@
         "using": [ [ "repair_welding_standard", 5 ], [ "soldering_standard", 5 ] ]
       }
     },
-    "flags": [ "OBSTACLE", "RADIOACTIVE", "COVERED", "ENABLED_DRAINS_EPOWER", "APPLIANCE", "PERPETUAL", "REACTOR" ],
+    "flags": [ "OBSTACLE", "RADIOACTIVE", "COVERED", "APPLIANCE", "PERPETUAL", "REACTOR" ],
     "breaks_into": [
       { "item": "scrap", "count": [ 4, 16 ] },
       { "item": "steel_chunk", "count": [ 1, 6 ] },

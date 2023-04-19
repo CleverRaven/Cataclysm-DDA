@@ -5,6 +5,9 @@ Tilesets: Automatically prevent occlusions via semi-transparent sprites (similar
 Add parametric mapgen to consolidate similar basecamp definitions
 Activities can fire EOCs
 Added full mouse support to the keybindings screen
+Prevent attacking neutral critter via move in safemode
+Fix and enhance camp radio tower
+Added sorting, showing&hiding pocket contents, and scrolling via mouse in inventory screens
 
 
 ## Content:
@@ -81,6 +84,8 @@ Prevent broken vp in-place replacement when racked
 Spellcasting tools no longer waste charges if you cancel out and don't actually cast the spell
 Fix using unload_everything zone to remove gunmod gets copies of gunmod
 Ferals can use their guns in GG
+Prevent fire damaging unbreakable items
+Fix energy guns(AFS) on NPC
 
 
 ## Performance:
