@@ -67,6 +67,14 @@
   },
   {
     "type": "connect_group",
+    "id": "BRICKFLOOR"
+  },
+  {
+    "type": "connect_group",
+    "id": "MARBLEFLOOR"
+  },
+  {
+    "type": "connect_group",
     "id": "CLAY"
   },
   {

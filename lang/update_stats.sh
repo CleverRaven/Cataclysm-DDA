@@ -17,9 +17,9 @@ do
     o="lang/po/${n}.po"
     echo "getting stats for ${n}"
     num_translated=$( \
-        msgattrib --translated "${o}" 2>/dev/null | grep -c '^msgid')
+        msgattrib --translated "${o}" | grep -c '^msgid')
     num_untranslated=$( \
-        msgattrib --untranslated "${o}" 2>/dev/null | grep -c '^msgid')
+        msgattrib --untranslated "${o}" | grep -c '^msgid')
     mkdir -p lang/stats
     printf '{"%s"sv, %d, %d},\n' \
         "${n}" "$((num_translated-1))" "$((num_untranslated-1))" \

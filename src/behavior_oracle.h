@@ -22,7 +22,7 @@ class oracle_t
 {
 };
 
-status_t return_running( const oracle_t *, const std::string & );
+status_t return_running( const oracle_t *, std::string_view );
 
 extern std::unordered_map<std::string, std::function<status_t( const oracle_t *, const std::string & )>>
         predicate_map;

@@ -1,6 +1,20 @@
 [
   {
     "type": "vehicle_part",
+    "id": "ap_veh_tools_kitchen",
+    "name": "kitchen station",
+    "copy-from": "veh_tools_kitchen",
+    "extend": { "flags": [ "APPLIANCE" ] }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_veh_tools_workshop",
+    "name": "workshop station",
+    "copy-from": "veh_tools_workshop",
+    "extend": { "flags": [ "APPLIANCE" ] }
+  },
+  {
+    "type": "vehicle_part",
     "id": "ap_fridge",
     "name": { "str": "refrigerator" },
     "symbol": "H",
@@ -178,22 +192,12 @@
   {
     "type": "vehicle_part",
     "id": "ap_forge",
-    "copy-from": "veh_forge_abstract",
+    "copy-from": "veh_forge",
     "name": { "str": "electric forge" },
     "description": "An electric forge, plugged in and ready to be used for metalworking.  If you attempt to craft an item that needs a forge, you will be given the option of selecting it as a tool.",
     "item": "forge",
     "flags": [ "CARGO", "OBSTACLE", "APPLIANCE" ],
     "looks_like": "veh_forge"
-  },
-  {
-    "type": "vehicle_part",
-    "id": "ap_foodco",
-    "name": { "str": "FOODCO kitchen buddy" },
-    "description": "Assembled from a set of instructions you found in an old book of DIY projects, the *FOODCO kitchen buddy* claims to be *the perfect solution to all your home-cooking needs!*.  While it is surprisingly handy for vacuum-sealing as well as dehydrating food, the cheery sales pitch neglected to mention A - how awkward the damn thing is, B - That you still need a normal kitchen and C - how it doesn't take batteries.  You're going to have to weld it to a vehicle, or something else with a supply of electricity, if you want to use it.  In addition to the food preservation features, it also has a food processor, a water-purification system, a drawer for holding extra tools, and for some insane reason, a press and die set for hand-loading ammunition.",
-    "item": "craftrig",
-    "flags": [ "CARGO", "OBSTACLE", "APPLIANCE" ],
-    "looks_like": "craft_rig",
-    "copy-from": "craft_rig_abstract"
   },
   {
     "type": "vehicle_part",
@@ -203,33 +207,6 @@
     "item": "stereo",
     "flags": [ "STEREO", "APPLIANCE", "ENABLED_DRAINS_EPOWER" ],
     "copy-from": "stereo"
-  },
-  {
-    "type": "vehicle_part",
-    "id": "ap_chemlab",
-    "name": { "str": "chemistry lab" },
-    "description": "A small chemistry station, including a hotplate and electrolysis setup powered by the vehicle's batteries.",
-    "item": "chemlab",
-    "flags": [ "CARGO", "OBSTACLE", "APPLIANCE" ],
-    "copy-from": "chemlab"
-  },
-  {
-    "type": "vehicle_part",
-    "id": "ap_weldrig",
-    "name": { "str": "welding rig" },
-    "description": "A welding rig mounted in a vehicle.  It draws power from the vehicle's batteries, but you still need glare protection.  'e'xamine the tile with the rig to use it to repair items in your inventory.  If you attempt to craft an item or perform a repair that requires a welder, you will be given the option of using the welding rig.",
-    "item": "weldrig",
-    "flags": [ "CARGO", "OBSTACLE", "APPLIANCE" ],
-    "copy-from": "welding_rig"
-  },
-  {
-    "type": "vehicle_part",
-    "id": "ap_weldkit",
-    "name": { "str": "high-temperature welding kit rig" },
-    "description": "A welding rig complete with a fireproof insulating blanket, allowing for advanced welds and repairs to tempered steels.  It draws power from the vehicle's batteries, but you still need glare protection.  'e'xamine the tile with the rig to use it to repair items in your inventory.  If you attempt to craft an item or perform a repair that requires a welder, you will be given the option of using the welding rig.",
-    "item": "welding_kit",
-    "flags": [ "CARGO", "OBSTACLE", "APPLIANCE" ],
-    "copy-from": "welding_rig"
   },
   {
     "type": "vehicle_part",
@@ -944,7 +921,7 @@
         "using": [ [ "repair_welding_standard", 5 ], [ "soldering_standard", 5 ] ]
       }
     },
-    "flags": [ "OBSTACLE", "RADIOACTIVE", "COVERED", "ENABLED_DRAINS_EPOWER", "APPLIANCE", "PERPETUAL", "REACTOR" ],
+    "flags": [ "OBSTACLE", "RADIOACTIVE", "COVERED", "APPLIANCE", "PERPETUAL", "REACTOR" ],
     "breaks_into": [
       { "item": "scrap", "count": [ 4, 16 ] },
       { "item": "steel_chunk", "count": [ 1, 6 ] },

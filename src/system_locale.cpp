@@ -1,3 +1,5 @@
+#include <cstring>
+#include <set>
 #include <vector>
 
 #if defined(_WIN32)
@@ -11,6 +13,7 @@
 #elif defined(__ANDROID__)
 #include <jni.h>
 #include "sdl_wrappers.h" // for SDL_AndroidGetJNIEnv()
+#include "debug.h" // for DebugLog/D_INFO/D_MAIN
 #elif defined(__linux__)
 #include <langinfo.h>
 #endif
@@ -150,7 +153,7 @@ std::optional<std::string> Language()
     if( locale == nullptr ) {
         return std::nullopt;
     }
-    if( strcmp( locale, "C" ) == 0 ) {
+    if( std::strcmp( locale, "C" ) == 0 ) {
         return "en";
     }
     return matchGameLanguage( locale );
