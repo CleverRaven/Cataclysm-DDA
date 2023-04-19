@@ -89,6 +89,15 @@
     "values": [ { "value": "STRENGTH", "add": 10 } ]
   },
   {
+    "id": "ench_meteor_armor",
+    "type": "enchantment",
+    "name": { "str": "Hyperdense" },
+    "description": "Your armors massive weight makes it nearly impossible to be knocked over or pushed back.",
+    "has": "WORN",
+    "condition": "ALWAYS",
+    "values": [ { "value": "KNOCKBACK_RESIST", "add": 1.0 }, { "value": "KNOCKDOWN_RESIST", "add": 1.0 }  ]
+  },
+  {
     "id": "ench_dampened_steps",
     "type": "enchantment",
     "name": { "str": "Dampened Steps" },
