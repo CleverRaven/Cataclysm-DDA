@@ -360,9 +360,10 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
                 return false;
             }
 
+            // Ask for confirmation before attacking a neutral creature
             if( critter.attitude_to( you ) == Creature::Attitude::NEUTRAL &&
-            !query_yn( _( "You may be attacked!  Proceed?" ) ) ) {
-                	return false;
+                !query_yn( _( "You may be attacked!  Proceed?" ) ) ) {
+                return false;
             }
             you.melee_attack( critter, true );
             if( critter.is_hallucination() ) {
