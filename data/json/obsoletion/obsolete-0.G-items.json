@@ -262,51 +262,5 @@
         "encumbrance": 20
       }
     ]
-  },
-  {
-    "id": "bio_power_armor_interface",
-    "copy-from": "bionic_general",
-    "type": "BIONIC_ITEM",
-    "name": { "str": "Power Armor Interface CBM" },
-    "looks_like": "bio_int_enhancer",
-    "description": "Interfaces the user's bionic power system with the internal charging port on suits of power armor, allowing them to draw from the user's bionic power banks.",
-    "price": 120000,
-    "price_postapoc": 500,
-    "weight": "500 g",
-    "difficulty": 1,
-    "extend": { "flags": [ "OBSOLETE" ] }
-  },
-  {
-    "id": "bio_power_armor_interface_mkII",
-    "copy-from": "bionic_general",
-    "type": "BIONIC_ITEM",
-    "name": { "str": "Power Armor Interface Mk. II CBM" },
-    "looks_like": "bio_int_enhancer",
-    "description": "Interfaces the user's bionic power system with the internal charging port on suits of power armor, allowing them to draw from the user's bionic power banks.  Twice as efficient as the Mk. I model.  The Mk. II was designed by DoubleTech Inc., to meet the popularity of the Mk. II power armor series.",
-    "price": 1000000,
-    "price_postapoc": 500,
-    "weight": "400 g",
-    "difficulty": 8,
-    "extend": { "flags": [ "OBSOLETE" ] }
-  },
-  {
-    "id": "bio_power_armor_interface",
-    "type": "bionic",
-    "name": { "str": "Power Armor Interface" },
-    "description": "Interfaces your power system with the internal charging port on suits of power armor, allowing them to draw from your bionic power banks.",
-    "occupied_bodyparts": [ [ "torso", 4 ], [ "head", 1 ] ],
-    "flags": [ "BIONIC_ARMOR_INTERFACE", "BIONIC_TOGGLED", "OBSOLETE" ],
-    "react_cost": 1,
-    "time": "1 s"
-  },
-  {
-    "id": "bio_power_armor_interface_mkII",
-    "type": "bionic",
-    "name": { "str": "Power Armor Interface Mk. II" },
-    "description": "Interfaces your power system with the internal charging port on suits of power armor, allowing them to draw from your bionic power banks.  Twice as efficient as the Mk. I model.",
-    "occupied_bodyparts": [ [ "torso", 3 ], [ "head", 2 ] ],
-    "flags": [ "BIONIC_ARMOR_INTERFACE", "BIONIC_TOGGLED", "OBSOLETE" ],
-    "react_cost": 1,
-    "time": "2 s"
   }
 ]
