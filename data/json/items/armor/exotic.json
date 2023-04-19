@@ -263,7 +263,6 @@
     "volume": "200 ml",
     "price": 0,
     "price_postapoc": 8000,
-    "bashing": 0,
     "material": [ "unobtanium", "superalloy" ],
     "symbol": "[",
     "looks_like": "armor_lightplate",
@@ -271,72 +270,116 @@
     "warmth": 0,
     "longest_side": "40 cm",
     "material_thickness": 3,
-    "flags": [ "STURDY", "OUTER" ],
+    "flags": [ "STURDY", "BELTED" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
         "ablative": true,
         "volume_encumber_modifier": 0,
-        "max_contains_volume": "5000 ml",
+        "weight_multiplier": 0.0,
+        "max_contains_volume": "6000 ml",
         "max_contains_weight": "20000 kg",
         "max_item_length": "100 cm",
         "moves": 800,
-        "description": "Synchronization point for resonance torso plate.",
+        "description": "Synchronization point for ryūsei dō plate.",
         "flag_restriction": [ "STAR_PLATE" ]
       },
       {
         "pocket_type": "CONTAINER",
         "ablative": true,
         "volume_encumber_modifier": 0,
+        "weight_multiplier": 0.0,
         "max_contains_volume": "5000 ml",
         "max_contains_weight": "20000 kg",
         "max_item_length": "100 cm",
         "moves": 800,
-        "description": "Synchronization point for resonance shoulder plate.",
+        "description": "Synchronization point for ryūsei kote plate.",
         "flag_restriction": [ "STAR_SHOULDER" ]
       },
       {
         "pocket_type": "CONTAINER",
         "ablative": true,
         "volume_encumber_modifier": 0,
+        "weight_multiplier": 0.0,
         "max_contains_volume": "5000 ml",
         "max_contains_weight": "20000 kg",
         "max_item_length": "100 cm",
         "moves": 800,
-        "description": "Synchronization point for resonance shoulder plate.",
+        "description": "Synchronization point for ryūsei kote plate.",
         "flag_restriction": [ "STAR_SHOULDER" ]
       },
       {
         "pocket_type": "CONTAINER",
         "ablative": true,
         "volume_encumber_modifier": 0,
-        "max_contains_volume": "5000 ml",
+        "weight_multiplier": 0.0,
+        "max_contains_volume": "6000 ml",
         "max_contains_weight": "20000 kg",
         "max_item_length": "100 cm",
         "moves": 800,
-        "description": "Synchronization point for resonance skirt plate.",
+        "description": "Synchronization point for ryūsei hai-date plate.",
         "flag_restriction": [ "STAR_SKIRT" ]
+      },
+      {
+        "description": "Floating clip (seems like anything would fit).",
+        "magazine_well": "1500 ml",
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "10 kg",
+        "max_item_length": "130 cm",
+        "min_item_length": "30 cm",
+        "moves": 80,
+        "holster": true,
+        "volume_encumber_modifier": 0.5,
+        "weight_multiplier": 0.0
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "8 kg",
+        "max_item_length": "305 mm",
+        "moves": 80,
+        "volume_encumber_modifier": 0.3,
+        "weight_multiplier": 0.0
       }
     ],
-    "armor": [ 
-      { "encumbrance": 15, "coverage": 100, "covers": [ "leg_l", "leg_r" ], "specifically_covers": ["leg_hip_l", "leg_upper_l", "leg_hip_r", "leg_upper_r"] },
-      { "encumbrance": 15, "coverage": 85, "covers": [ "torso" ] },
-      { "encumbrance": 15, "coverage": 95, "covers": [ "arm_l", "arm_r" ], "specifically_covers": ["arm_shoulder_l", "arm_upper_l", "arm_shoulder_r", "arm_upper_r"] },
-      { "encumbrance": 15, "coverage": 100, "covers": [ "head" ], "specifically_covers": ["head_nape", "head_throat"] }
-    ],
+    "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ],
     "relic_data": { "passive_effects": [ { "id": "ench_meteor_armor" } ] }
+  },
+  {
+    "id": "armor_star_samurai_mask",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "filtering menpo" },
+    "category": "armor",
+    "description": "A sealed mask with strange filtering components on the front turned up in the shape of horns.  Inscryptions mark the glass of the lenses creating spiral patterns that blur the vision.",
+    "flags": [ "SLEEP_IGNORE" ],
+    "weight": "897 g",
+    "volume": "1 L",
+    "price": 4900,
+    "price_postapoc": 750,
+    "to_hit": -3,
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "armor": [
+      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 10 },
+      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 30 }
+    ],
+    "warmth": 20,
+    "material_thickness": 2,
+    "environmental_protection": 16,
+    "relic_data": { "passive_effects": [ { "id": "ench_meteor_mask" } ] }
   },
   {
     "id": "armor_star_samurai_torso",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "resonating dō" },
-    "description": ".",
+    "name": { "str": "ryūsei dō" },
+    "//": "torso armor for the space samurai",
+    "description": "An impossibly large slab of dark reflective material wrapped in bands of multicolored alloy.  It seems shaped to fit over a humanoid torso.",
     "weight": "300 kg",
     "volume": "6000 ml",
     "price": 0,
     "price_postapoc": 8000,
-    "bashing": 0,
     "material": [ "monolith", "superalloy" ],
     "symbol": "[",
     "looks_like": "armor_lightplate",
@@ -344,23 +387,28 @@
     "warmth": 0,
     "longest_side": "60 cm",
     "material_thickness": 25,
-    "flags": [ "STURDY", "OUTER" ],
-    "armor": [ 
-      { "encumbrance": 15, "coverage": 85, "covers": [ "torso" ] }
-    ],
-    "relic_data": { "passive_effects": [ { "id": "ench_meteor_armor" } ] }
+    "flags": [ "STURDY", "OUTER", "STAR_PLATE" ],
+    "armor": [
+      { "encumbrance": 15, "coverage": 85, "covers": [ "torso" ] },
+      {
+        "encumbrance": 0,
+        "coverage": 100,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_nape", "head_throat" ]
+      }
+    ]
   },
   {
     "id": "armor_star_samurai_shoulder",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "resonating kote" },
-    "description": ".",
-    "weight": "300 kg",
-    "volume": "6000 ml",
+    "name": { "str": "ryūsei kote" },
+    "//": "shoulder armor for the space samurai",
+    "description": "An impossibly large slab of dark reflective material wrapped in bands of multicolored alloy.  It seems shaped as though it would tie to the upper arms.",
+    "weight": "100 kg",
+    "volume": "4000 ml",
     "price": 0,
     "price_postapoc": 8000,
-    "bashing": 0,
     "material": [ "monolith", "superalloy" ],
     "symbol": "[",
     "looks_like": "armor_lightplate",
@@ -368,10 +416,42 @@
     "warmth": 0,
     "longest_side": "60 cm",
     "material_thickness": 25,
-    "flags": [ "STURDY", "OUTER" ],
-    "armor": [ 
-      { "encumbrance": 15, "coverage": 85, "covers": [ "torso" ] }
-    ],
-    "relic_data": { "passive_effects": [ { "id": "ench_meteor_armor" } ] }
+    "flags": [ "STURDY", "OUTER", "STAR_SHOULDER" ],
+    "armor": [
+      {
+        "encumbrance": 8,
+        "coverage": 95,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_upper_l", "arm_shoulder_r", "arm_upper_r" ]
+      }
+    ]
   },
+  {
+    "id": "armor_star_samurai_legs",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "ryūsei hai-date" },
+    "//": "leg armor for the space samurai",
+    "description": "An impossibly large slab of dark reflective material wrapped in bands of multicolored alloy.  It has been forced into a conical shape as though it could somehow be worn as a skirt.",
+    "weight": "275 kg",
+    "volume": "5500 ml",
+    "price": 0,
+    "price_postapoc": 8000,
+    "material": [ "monolith", "superalloy" ],
+    "symbol": "[",
+    "looks_like": "armor_lightplate",
+    "color": "dark_gray",
+    "warmth": 0,
+    "longest_side": "60 cm",
+    "material_thickness": 25,
+    "flags": [ "STURDY", "OUTER", "STAR_SKIRT" ],
+    "armor": [
+      {
+        "encumbrance": 15,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_upper_l", "leg_hip_r", "leg_upper_r" ]
+      }
+    ]
+  }
 ]
