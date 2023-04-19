@@ -6289,7 +6289,7 @@
     "visibility": 3,
     "ugliness": 2,
     "mixed_effect": true,
-    "description": "Your hands have fused into quasi-paws.  Fine manipulation is a challenge: permanent hand encumbrance of 10, difficulty with delicate craftwork, and your gloves don't fit.  But they handle water better.",
+    "description": "Your hands have fused into quasi-paws.  Fine manipulation is a challenge: permanent hand encumbrance of 10, difficulty with delicate craftwork, and your gloves don't fit.  But they handle water better and bear weight well, allowing you to move on all fours when crouching and unarmed.",
     "encumbrance_always": [ [ "hand_l", 10 ], [ "hand_r", 10 ] ],
     "restricts_gear": [ "hand_l", "hand_r" ],
     "craft_skill_bonus": [ [ "electronics", -2 ], [ "tailor", -2 ], [ "mechanics", -2 ] ],
@@ -6297,7 +6297,20 @@
     "prereqs": [ "CLAWS", "CLAWS_RETRACT", "CLAWS_RAT" ],
     "cancels": [ "TALONS" ],
     "changes_to": [ "PAWS_LARGE" ],
-    "category": [ "LUPINE", "RAT", "FELINE", "BEAST", "URSINE" ]
+    "category": [ "LUPINE", "RAT", "FELINE", "BEAST", "URSINE" ],
+    "triggers": [
+      [{
+        "condition": { "and": [ { "or": [ { "u_has_move_mode": "crouch" }, { "u_has_move_mode": "prone" } ] }, { "not": "u_can_drop_weapon" } ] },
+        "msg_on": { "text": "You drop down on all fours." },
+        "msg_off": { "text": "You prance up and walk on your hind feet." }
+      }]
+    ],
+    "enchantments": [
+      {
+        "condition": { "and": [ { "or": [ { "u_has_move_mode": "crouch" }, { "u_has_move_mode": "prone" } ] }, { "not": "u_can_drop_weapon" } ] },
+        "values": [ { "value": "MOVE_COST", "multiply": -0.5 } ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -6307,7 +6320,7 @@
     "visibility": 4,
     "ugliness": 3,
     "mixed_effect": true,
-    "description": "Your paws are much larger now.  Manual dexterity is difficult: permanent hand encumbrance of 20, serious problems crafting, and no gloves.  In return, though, you can swim better.",
+    "description": "Your paws are much larger now.  Manual dexterity is difficult: permanent hand encumbrance of 20, serious problems crafting, and no gloves.  In return, though, you can swim better and move on all fours when crouching and unarmed.",
     "craft_skill_bonus": [
       [ "electronics", -4 ],
       [ "tailor", -4 ],
@@ -6324,7 +6337,20 @@
     "types": [ "HANDS" ],
     "prereqs": [ "PAWS" ],
     "cancels": [ "TALONS" ],
-    "category": [ "BEAST", "URSINE" ]
+    "category": [ "BEAST", "URSINE" ],
+    "triggers": [
+      [{
+        "condition": { "and": [ { "or": [ { "u_has_move_mode": "crouch" }, { "u_has_move_mode": "prone" } ] }, { "not": "u_can_drop_weapon" } ] },
+        "msg_on": { "text": "You drop down on all fours." },
+        "msg_off": { "text": "You prance up and walk on your hind feet." }
+      }]
+    ],
+    "enchantments": [
+      {
+        "condition": { "and": [ { "or": [ { "u_has_move_mode": "crouch" }, { "u_has_move_mode": "prone" } ] }, { "not": "u_can_drop_weapon" } ] },
+        "values": [ { "value": "MOVE_COST", "multiply": -0.5 } ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -8283,13 +8309,26 @@
     "points": 0,
     "visibility": 2,
     "ugliness": 1,
-    "description": "Your hands have elongated and look a bit more like paws.  It makes fine manipulation a little more difficult, but you can still probably manage.",
+    "description": "Your hands have elongated and look a bit more like paws.  It makes fine manipulation a little more difficult, but you can still probably manage.  Plus, they allow you to move on all fours when crouching and unarmed.",
     "encumbrance_always": [ [ "hand_l", 5 ], [ "hand_r", 5 ] ],
     "craft_skill_bonus": [ [ "electronics", -1 ], [ "tailor", -1 ], [ "mechanics", -1 ] ],
     "types": [ "HANDS" ],
     "prereqs": [ "NAILS" ],
     "cancels": [ "TALONS" ],
-    "category": [ "RABBIT" ]
+    "category": [ "RABBIT" ],
+    "triggers": [
+      [{
+        "condition": { "and": [ { "or": [ { "u_has_move_mode": "crouch" }, { "u_has_move_mode": "prone" } ] }, { "not": "u_can_drop_weapon" } ] },
+        "msg_on": { "text": "You drop down on all fours." },
+        "msg_off": { "text": "You prance up and walk on your hind feet." }
+      }]
+    ],
+    "enchantments": [
+      {
+        "condition": { "and": [ { "or": [ { "u_has_move_mode": "crouch" }, { "u_has_move_mode": "prone" } ] }, { "not": "u_can_drop_weapon" } ] },
+        "values": [ { "value": "MOVE_COST", "multiply": -0.5 } ]
+      }
+    ]
   },
   {
     "type": "mutation",
