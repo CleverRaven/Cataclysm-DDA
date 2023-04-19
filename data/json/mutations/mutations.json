@@ -6299,15 +6299,21 @@
     "changes_to": [ "PAWS_LARGE" ],
     "category": [ "LUPINE", "RAT", "FELINE", "BEAST", "URSINE" ],
     "triggers": [
-      [{
-        "condition": { "and": [ { "or": [ { "u_has_move_mode": "crouch" }, { "u_has_move_mode": "prone" } ] }, { "not": "u_can_drop_weapon" } ] },
-        "msg_on": { "text": "You drop down on all fours." },
-        "msg_off": { "text": "You prance up and walk on your hind feet." }
-      }]
+      [
+        {
+          "condition": {
+            "and": [ { "or": [ { "u_has_move_mode": "crouch" }, { "u_has_move_mode": "prone" } ] }, { "not": "u_can_drop_weapon" } ]
+          },
+          "msg_on": { "text": "You drop down on all fours." },
+          "msg_off": { "text": "You prance up and walk on your hind feet." }
+        }
+      ]
     ],
     "enchantments": [
       {
-        "condition": { "and": [ { "or": [ { "u_has_move_mode": "crouch" }, { "u_has_move_mode": "prone" } ] }, { "not": "u_can_drop_weapon" } ] },
+        "condition": {
+          "and": [ { "or": [ { "u_has_move_mode": "crouch" }, { "u_has_move_mode": "prone" } ] }, { "not": "u_can_drop_weapon" } ]
+        },
         "values": [ { "value": "MOVE_COST", "multiply": -0.5 } ]
       }
     ]
@@ -6339,15 +6345,21 @@
     "cancels": [ "TALONS" ],
     "category": [ "BEAST", "URSINE" ],
     "triggers": [
-      [{
-        "condition": { "and": [ { "or": [ { "u_has_move_mode": "crouch" }, { "u_has_move_mode": "prone" } ] }, { "not": "u_can_drop_weapon" } ] },
-        "msg_on": { "text": "You drop down on all fours." },
-        "msg_off": { "text": "You prance up and walk on your hind feet." }
-      }]
+      [
+        {
+          "condition": {
+            "and": [ { "or": [ { "u_has_move_mode": "crouch" }, { "u_has_move_mode": "prone" } ] }, { "not": "u_can_drop_weapon" } ]
+          },
+          "msg_on": { "text": "You drop down on all fours." },
+          "msg_off": { "text": "You prance up and walk on your hind feet." }
+        }
+      ]
     ],
     "enchantments": [
       {
-        "condition": { "and": [ { "or": [ { "u_has_move_mode": "crouch" }, { "u_has_move_mode": "prone" } ] }, { "not": "u_can_drop_weapon" } ] },
+        "condition": {
+          "and": [ { "or": [ { "u_has_move_mode": "crouch" }, { "u_has_move_mode": "prone" } ] }, { "not": "u_can_drop_weapon" } ]
+        },
         "values": [ { "value": "MOVE_COST", "multiply": -0.5 } ]
       }
     ]
@@ -8317,15 +8329,21 @@
     "cancels": [ "TALONS" ],
     "category": [ "RABBIT" ],
     "triggers": [
-      [{
-        "condition": { "and": [ { "or": [ { "u_has_move_mode": "crouch" }, { "u_has_move_mode": "prone" } ] }, { "not": "u_can_drop_weapon" } ] },
-        "msg_on": { "text": "You drop down on all fours." },
-        "msg_off": { "text": "You prance up and walk on your hind feet." }
-      }]
+      [
+        {
+          "condition": {
+            "and": [ { "or": [ { "u_has_move_mode": "crouch" }, { "u_has_move_mode": "prone" } ] }, { "not": "u_can_drop_weapon" } ]
+          },
+          "msg_on": { "text": "You drop down on all fours." },
+          "msg_off": { "text": "You prance up and walk on your hind feet." }
+        }
+      ]
     ],
     "enchantments": [
       {
-        "condition": { "and": [ { "or": [ { "u_has_move_mode": "crouch" }, { "u_has_move_mode": "prone" } ] }, { "not": "u_can_drop_weapon" } ] },
+        "condition": {
+          "and": [ { "or": [ { "u_has_move_mode": "crouch" }, { "u_has_move_mode": "prone" } ] }, { "not": "u_can_drop_weapon" } ]
+        },
         "values": [ { "value": "MOVE_COST", "multiply": -0.5 } ]
       }
     ]
