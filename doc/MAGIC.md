@@ -827,6 +827,7 @@ Character status value  | Description
 `PAIN_REMOVE`           | When pain naturally decreases every five minutes the chance of pain removal will be modified by this much.  You will still always have at least a chance to reduce pain.
 `SHOUT_NOISE`           | 
 `SIGHT_RANGE_ELECTRIC`  | How many tiles away is_electric() creatures are visible from.
+`SIGHT_RANGE_NETHER`    | How many tiles away is_nether() creatures are visible from.
 `MOTION_VISION_RANGE `  | Reveals all monsters as a red `?` within the specified radius.
 `SLEEPY`                | The higher this the easier you fall asleep.
 `SKILL_RUST_RESIST`     | Chance / 100 to resist skill rust.

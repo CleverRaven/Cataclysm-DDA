@@ -5687,7 +5687,12 @@ bool Character::sees_with_specials( const Creature &critter ) const
                                         enchant_vals::mod::SIGHT_RANGE_ELECTRIC );
     const double motion_vision_range = calculate_by_enchantment( 0.0,
                                        enchant_vals::mod::MOTION_VISION_RANGE );
+    const double sight_range_nether = calculate_by_enchantment( 0.0,
+                                      enchant_vals::mod::SIGHT_RANGE_NETHER );
     if( critter.is_electrical() && rl_dist_exact( pos(), critter.pos() ) <= sight_range_electric ) {
+        return true;
+    }
+    if( critter.is_nether() && rl_dist_exact( pos(), critter.pos() ) <= sight_range_nether ) {
         return true;
     }
     if( rl_dist_exact( pos(), critter.pos() ) <= motion_vision_range ) {
@@ -11146,6 +11151,12 @@ bool Character::is_hallucination() const
 }
 
 bool Character::is_electrical() const
+{
+    // for now this is false. In the future should have rules
+    return false;
+}
+
+bool Character::is_nether() const
 {
     // for now this is false. In the future should have rules
     return false;

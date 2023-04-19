@@ -777,6 +777,8 @@ class Character : public Creature, public visitable
 
         // true if the character produces electrical radiation
         bool is_electrical() const override;
+        // true if the character is from the nether
+        bool is_nether() const override;
         /** Returns the penalty to speed from thirst */
         static int thirst_speed_penalty( int thirst );
         /** Returns the effect of pain on stats */
