@@ -66,8 +66,7 @@ class mon_spellcasting_actor : public mattack_actor
         std::unique_ptr<mattack_actor> clone() const override;
 };
 
-struct grab
-{
+struct grab {
     // Intensity of grab effect applied, defaults to the monster's defined grab_strength unless specified
     int grab_strength;
     // Percent chance to initiate a pull
@@ -77,13 +76,12 @@ struct grab
     // Which effect should we apply on a successful grab to our target (bp)
     // Limited to one GRAB-flagged effect per bp
     efftype_id grab_effect;
-    
     // Messages for pulls
     translation pull_msg_u;
     translation pull_fail_msg_u;
     translation pull_msg_npc;
     translation pull_fail_msg_npc;
-    void load_grab(const JsonObject& jo );
+    void load_grab( const JsonObject &jo );
     bool was_loaded = false;
 };
 
