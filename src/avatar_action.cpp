@@ -361,13 +361,14 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
             }
 
             if( critter.attitude_to( you ) == Creature::Attitude::NEUTRAL &&
-                query_yn( _( "You may be attacked!  Proceed?" ) ) ) {
-                you.melee_attack( critter, true );
-                if( critter.is_hallucination() ) {
-                    critter.die( &you );
-                }
-                g->draw_hit_mon( dest_loc, critter, critter.is_dead() );
+            !query_yn( _( "You may be attacked!  Proceed?" ) ) ) {
+                	return false;
             }
+            you.melee_attack( critter, true );
+            if( critter.is_hallucination() ) {
+                critter.die( &you );
+            }
+            g->draw_hit_mon( dest_loc, critter, critter.is_dead() );
             return false;
         } else if( critter.has_flag( MF_IMMOBILE ) || critter.has_effect( effect_harnessed ) ||
                    critter.has_effect( effect_ridden ) ) {
