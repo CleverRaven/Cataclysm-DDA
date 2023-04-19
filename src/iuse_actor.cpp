@@ -494,7 +494,7 @@ std::unique_ptr<iuse_actor> countdown_actor::clone() const
 void countdown_actor::load( const JsonObject &obj )
 {
     obj.read( "name", name );
-    obj.read( "interval", interval );
+    obj.read( "countdown_interval", countdown_interval );
     obj.read( "message", message );
 }
 
@@ -513,9 +513,11 @@ std::optional<int> countdown_actor::use( Character &p, item &it, bool t,
         p.add_msg_if_player( m_neutral, message.translated(), it.tname() );
     }
 
-    //it.item_counter = interval > 0 ? interval : it.type->countdown_interval;
-    //it.countdown_point = calendar::turn + interval2 > it.type->countdown_interval2 ? interval2 : it.type->countdown_interval2;
-    it.countdown_point = calendar::turn + interval;
+	if( countdown_interval > 0_seconds ){
+		it.countdown_point = calendar::turn + countdown_interval;
+	} else {
+		it.countdown_point = calendar::turn + it.type->countdown_interval;
+	}
     it.active = true;
     return 0;
 }
@@ -540,8 +542,12 @@ std::string countdown_actor::get_name() const
 
 void countdown_actor::info( const item &it, std::vector<iteminfo> &dump ) const
 {
-    //dump.emplace_back( "TOOL", _( "Countdown: " ), interval > 0 ? interval : it.type->countdown_interval );
-    dump.emplace_back( "TOOL", _( "Countdown: " ), to_seconds<int>( interval ) );
+    if( countdown_interval > 0_seconds ) {
+        dump.emplace_back( "TOOL", _( "Countdown: " ), to_seconds<int>( countdown_interval ) );
+    }
+    else {
+        dump.emplace_back( "TOOL", _( "Countdown: " ), to_seconds<int>( it.type->countdown_interval ) );
+    }
     const iuse_actor *countdown_actor = it.type->countdown_action.get_actor_ptr();
     if( countdown_actor != nullptr ) {
         countdown_actor->info( it, dump );

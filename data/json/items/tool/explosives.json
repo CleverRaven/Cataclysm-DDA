@@ -111,7 +111,6 @@
     "color": "red",
     "use_action": { "type": "message", "message": "You've already lit the %s, try throwing it instead.", "name": "Light fuse" },
     "explode_in_fire": true,
-    "countdown_destroy": true,
     "explosion": { "power": 938 },
     "countdown_action": { "type": "explosion", "explosion": { "power": 938 } },
     "flags": [ "TRADER_AVOID", "BOMB" ]
@@ -162,7 +161,6 @@
     "use_action": { "type": "message", "message": "You've already lit the %s, try throwing it instead.", "name": "Pull pin" },
     "explode_in_fire": true,
     "explosion": { "power": 938, "shrapnel": { "casing_mass": 1597, "fragment_mass": 0.5 } },
-    "countdown_destroy": true,
     "countdown_action": { "type": "explosion", "explosion": { "power": 938, "shrapnel": { "casing_mass": 1597, "fragment_mass": 0.5 } } },
     "flags": [ "TRADER_AVOID", "BOMB" ]
   },
@@ -211,7 +209,6 @@
     "explosion": { "power": 600, "shrapnel": { "casing_mass": 3214, "fragment_mass": 0.5 } },
     "color": "light_gray",
     "use_action": { "type": "message", "message": "You've already activated the %s, try throwing it instead.", "name": "Activate bomb" },
-    "countdown_destroy": true,
     "countdown_action": {
       "type": "explosion",
       "draw_explosion_radius": 10,
@@ -325,7 +322,6 @@
     "price": 0,
     "price_postapoc": 0,
     "use_action": { "type": "message", "message": "You've already pulled the %s's pin, try throwing it instead.", "name": "Pull pin" },
-    "countdown_destroy": true,
     "countdown_action": { "type": "explosion", "do_flashbang": true },
     "flags": [ "TRADER_AVOID" ]
   },
@@ -466,7 +462,6 @@
     "symbol": "*",
     "color": "green",
     "use_action": { "type": "message", "message": "You've already pulled the %s's pin, try throwing it instead.", "name": "Pull pin" },
-    "countdown_destroy": true,
     "countdown_action": { "type": "explosion", "explosion": { "power": 240, "shrapnel": { "casing_mass": 217, "fragment_mass": 0.08 } } },
     "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]
   },
@@ -513,7 +508,6 @@
     "symbol": "*",
     "color": "cyan",
     "use_action": { "type": "message", "message": "You've already pulled the %s's pin, try throwing it instead.", "name": "Pull pin" },
-    "countdown_destroy": true,
     "countdown_action": {
       "type": "explosion",
       "fields_type": "fd_electricity",
@@ -745,8 +739,6 @@
     "material": [ "glass", "cotton" ],
     "symbol": "*",
     "color": "light_gray",
-    "initial_charges": 1,
-    "max_charges": 1,
     "use_action": {
       "need_wielding": true,
       "target": "molotov_lit",
@@ -824,7 +816,6 @@
     "symbol": "*",
     "color": "yellow",
     "use_action": { "type": "message", "message": "You've already pulled the %s's pin, try throwing it instead.", "name": "Pull pin" },
-    "countdown_destroy": true,
     "countdown_action": { "type": "explosion", "draw_explosion_radius": 4, "draw_explosion_color": "cyan", "scrambler_blast_radius": 4 },
     "flags": [ "TRADER_AVOID" ]
   },
@@ -890,7 +881,6 @@
     "symbol": "*",
     "color": "green",
     "use_action": { "type": "message", "message": "You've already lit the fuse - get rid of it immediately!", "name": "Pull pin" },
-    "countdown_destroy": true,
     "countdown_action": {
       "type": "explosion",
       "fields_type": "fd_smoke",
@@ -935,7 +925,6 @@
     "description": "The fuse on this improvised grenade is lit, and it will explode any second now.  Better throw it!",
     "price": 0,
     "use_action": { "type": "message", "message": "You've already lit the %s's fuse, try throwing it instead.", "name": "Pull pin" },
-    "countdown_destroy": true,
     "countdown_action": { "type": "explosion", "explosion": { "power": 460, "shrapnel": { "casing_mass": 200, "fragment_mass": 0.4 } } },
     "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]
   },
@@ -1014,7 +1003,6 @@
     "price": 0,
     "color": "light_gray",
     "use_action": { "type": "message", "message": "You've already pulled the %s's pin, try throwing it instead.", "name": "Pull pin" },
-    "countdown_destroy": true,
     "countdown_action": { "type": "explosion", "explosion": { "power": 920, "shrapnel": { "casing_mass": 410, "fragment_mass": 0.5 } } },
     "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]
   },
@@ -1052,7 +1040,6 @@
     "price": 0,
     "color": "light_red",
     "use_action": { "type": "message", "message": "You've already pulled the pin - run!", "name": "Pull pin" },
-    "countdown_destroy": true,
     "countdown_action": {
       "type": "explosion",
       "explosion": { "power": 6970, "shrapnel": { "casing_mass": 3000, "fragment_mass": 0.5, "drop": "scrap", "recovery": 20 } }
@@ -1147,7 +1134,6 @@
     "color": "light_red",
     "use_action": { "type": "message", "message": "You've already activated the bomb - clear the area immediately!", "name": "Pull pin" },
     "explode_in_fire": true,
-    "countdown_destroy": true,
     "explosion": { "power": 200000, "shrapnel": { "casing_mass": 12600, "fragment_mass": 600 } },
     "countdown_action": { "type": "explosion", "explosion": { "power": 200000, "shrapnel": { "casing_mass": 12600, "fragment_mass": 600 } } },
     "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]
@@ -1221,7 +1207,6 @@
     "description": "The fuse on this improvised grenade is lit, and it will explode any second now.  Better throw it!",
     "price": 0,
     "use_action": { "type": "message", "message": "You've already lit the %s's fuse, try throwing it instead.", "name": "Pull pin" },
-    "countdown_destroy": true,
     "countdown_action": { "type": "explosion", "explosion": { "power": 300, "shrapnel": { "casing_mass": 400, "fragment_mass": 0.4 } } },
     "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]
   },
@@ -1273,7 +1258,6 @@
     "color": "light_gray",
     "use_action": { "type": "message", "message": "You've already lit the %s, try throwing it instead.", "name": "Pull pin" },
     "explode_in_fire": true,
-    "countdown_destroy": true,
     "explosion": { "power": 300, "shrapnel": { "casing_mass": 410, "fragment_mass": 0.5 } },
     "countdown_action": { "type": "explosion", "explosion": { "power": 300, "shrapnel": { "casing_mass": 410, "fragment_mass": 0.5 } } },
     "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]
@@ -1318,7 +1302,6 @@
     "color": "light_red",
     "use_action": { "type": "message", "message": "You've already lit the fuse - run!", "name": "Pull pin" },
     "explode_in_fire": true,
-    "countdown_destroy": true,
     "explosion": { "power": 2320, "shrapnel": { "casing_mass": 3000, "fragment_mass": 0.5, "drop": "scrap", "recovery": 20 } },
     "countdown_action": {
       "type": "explosion",
@@ -1370,7 +1353,6 @@
     "use_action": { "type": "message", "message": "You've already lit the %s, try throwing it instead.", "name": "Light fuse" },
     "explode_in_fire": true,
     "explosion": { "power": 2590 },
-    "countdown_destroy": true,
     "countdown_action": { "type": "explosion", "explosion": { "power": 2590 } },
     "flags": [ "TRADER_AVOID" ]
   },

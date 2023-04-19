@@ -13048,12 +13048,12 @@ bool item::process_internal( map &here, Character *carrier, const tripoint &pos,
 
         if( calendar::turn >= countdown_point && type->countdown_action ) {
             type->countdown_action.call( carrier ? *carrier : get_avatar(), *this, false, pos );
-            if( type->countdown_destroy ) {
-                return true;
-            } else if( is_tool() && type->tool->revert_to ) {
+            if( is_tool() && type->tool->revert_to ) {
                 convert( *type->tool->revert_to );
                 active = false;
-            }
+            } else {
+				return true;
+			}
         }
 
         for( const emit_id &e : type->emits ) {

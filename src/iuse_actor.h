@@ -149,8 +149,8 @@ class countdown_actor : public iuse_actor
         /** if specified overrides default action name */
         translation name;
 
-        /** turns before countdown action (defaults to @ref itype::countdown_interval) */
-        time_duration interval = 0_seconds;
+        /** Time before countdown action (defaults to @ref itype::countdown_interval) */
+        time_duration countdown_interval = 0_seconds;
 
         /** message if player sees activation with %s replaced by item name */
         translation message;

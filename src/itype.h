@@ -1330,9 +1330,6 @@ struct itype {
         // Should the item explode when lit on fire
         bool explode_in_fire = false;
 
-        /** Is item destroyed after the countdown action is run? */
-        bool countdown_destroy = false;
-
         // used for generic_factory for copy-from
         bool was_loaded = false;
 

@@ -698,7 +698,6 @@
     "description": "This is a dummy item used by tear gas hacks that just so happens to be counting down.  You should never see it outside of debug.",
     "symbol": "*",
     "color": "dark_gray",
-    "countdown_destroy": true,
     "countdown_action": {
       "type": "explosion",
       "fields_type": "fd_tear_gas",

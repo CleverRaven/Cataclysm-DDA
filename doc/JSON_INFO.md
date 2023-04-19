@@ -3997,10 +3997,10 @@ Use actions can be used with a timer delay.
 Timer can be set with `"countdown2"` use action.
 ```
 "use_action": {
-    "type": "countdown2"
+    "type": "countdown"
 	"name": "push button", // Optional name for the action.
 	"message": "You push the button", // Optional message shown from the action
-    "interval ": "5 seconds",  // Timer on item is set to this
+    "countdown_interval": "5 seconds"  // Sets timer on item to this
 }
 ```
 
@@ -4009,22 +4009,22 @@ Or in `"transform"` use action.
 "use_action": {
     "type": "transform"
     "target": "grenade_act",
-    "target_timer": "5 seconds",  // Timer on item is set to this
+    "target_timer": "5 seconds"  // Sets timer on item to this
 }
 ```
 
-When the time duration specified has passed the action in `"countdown_action2"` is triggered. This action can be any use action.
+When the time duration specified has passed the action in `"countdown_action"` is triggered. This action can be any use action but actions not made with this in mind may not behave well.
 
 ```
-"countdown_action2": {
+"countdown_action": {
     "type": "explosion",
     "explosion": { "power": 240, "shrapnel": { "casing_mass": 217, "fragment_mass": 0.08 } }
 }
 ```
 
 Additional options can be defined in item definitions (not in use action):
-```"countdown_destroy": true``` If set to true the item is removed after its countdown action is triggered.
-```"countdown_interval2": "1 seconds"``` Timer duration set in item. Used when item spawns with active timer instead of being player activated.
+```"countdown_interval": "1 seconds"``` Timer duration set in item. Used when item spawns with active timer instead of being player activated.
+```"revert_to": "canister_empty"``` Optional turn the item to this after the countdown action. If no revert_to is specified the item is destroyed. Only valid for TOOL type items.
 
 ### Random Descriptions
 
