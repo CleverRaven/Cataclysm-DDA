@@ -380,7 +380,7 @@
     "description": "A molasses-like syrup obtained after condensing juices of grape must.",
     "price": 200,
     "price_postapoc": 200,
-    "material": [ "tomato", "veggy" ],
+    "material": [ "fruit" ],
     "volume": "85 ml",
     "flags": [ "FREEZERBURN", "EATEN_COLD" ],
     "phase": "liquid",
