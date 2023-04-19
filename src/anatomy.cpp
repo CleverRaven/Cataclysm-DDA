@@ -316,8 +316,8 @@ std::vector<bodypart_id> anatomy::get_all_eligable_parts( int min_hit, int max_h
 {
     std::vector<bodypart_id> ret;
     for( const bodypart_id &bp : cached_bps ) {
-        if( ( bp->hit_size > max_hit && max_hit > 0 ) || bp->hit_size < min_hit || !can_attack_high &&
-            bp->has_flag( json_flag_LIMB_UPPER ) ) {
+        if( ( bp->hit_size > max_hit && max_hit > 0 ) || bp->hit_size < min_hit || ( !can_attack_high &&
+                bp->has_flag( json_flag_LIMB_UPPER ) ) ) {
             continue;
         }
         ret.emplace_back( bp );
