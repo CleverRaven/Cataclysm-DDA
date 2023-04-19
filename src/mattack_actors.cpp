@@ -642,7 +642,7 @@ bool melee_actor::call( monster &z ) const
             }
         } else if( grab_data.pull_chance > -1 ) {
             // We failed the pull chance roll, return false to select a different attack
-            add_msg_debug(debugmode::DF_MATTACK, "Pull chance roll failed.", grab_data.pull_chance);
+            add_msg_debug( debugmode::DF_MATTACK, "Pull chance roll failed.", grab_data.pull_chance );
             return false;
         }
 
