@@ -18,6 +18,8 @@
 
 static const bionic_id bio_hydraulics( "bio_hydraulics" );
 
+static const json_character_flag json_flag_SUBTLE_SPELL( "SUBTLE_SPELL" );
+
 namespace npc_attack_constants
 {
 // if you are attacking your target, multiply potential by this number
