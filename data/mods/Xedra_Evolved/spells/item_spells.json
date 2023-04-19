@@ -122,5 +122,24 @@
     "damage_type": "bash",
     "min_range": 11,
     "max_range": 11
+  },
+  {
+    "id": "inventor_electric_fist_spell",
+    "type": "SPELL",
+    "name": "Overture Electric Attack",
+    "description": "You cast electric spell at the monster.",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "SILENT", "NON_MAGICAL", "RANDOM_DAMAGE", "NO_EXPLOSION_SFX" ],
+    "min_damage": 18,
+    "max_damage": 29,
+    "damage_type": "electric",
+    "min_range": 1,
+    "max_range": 1,
+    "shape": "blast",
+    "effect": "attack",
+    "field_id": "fd_electricity",
+    "min_field_intensity": 1,
+    "max_field_intensity": 1,
+    "field_chance": 1
   }
 ]

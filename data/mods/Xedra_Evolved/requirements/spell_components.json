@@ -42,5 +42,10 @@
     "components": [
       [ [ "coin_penny", 1 ], [ "coin_nickel", 1 ], [ "coin_quarter", 1 ], [ "coin_half_dollar", 1 ], [ "coin_dollar", 1 ] ]
     ]
+  },
+  {
+    "id": "spell_components_cable_whip",
+    "type": "requirement",
+    "components": [ [ [ "cable", 15 ] ] ]
   }
 ]
