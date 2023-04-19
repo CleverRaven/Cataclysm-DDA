@@ -1822,7 +1822,7 @@
     "coverage": 10,
     "flags": [ "FLAMMABLE_ASH", "NOITEM" ],
     "examine_action": "harvest_ter",
-    "harvest_by_season": [ { "seasons": [ "spring", "summer" ], "id": "beehive_harv" } ],
+    "harvest_by_season": [ { "seasons": [ "summer", "autumn" ], "id": "beehive_harv" } ],
     "transforms_into": "t_tree",
     "emissions": [ "emit_bees" ],
     "bash": {
