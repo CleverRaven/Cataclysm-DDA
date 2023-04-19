@@ -859,8 +859,31 @@
     "types": [ "MEMORY" ],
     "skill_rust_multiplier": 0.66,
     "starting_trait": true,
-    "valid": false,
+    "changes_to": [ "IMMUTABLEMEMORY" ],
+    "category": [ "ALPHA", "CEPHALOPOD" ],
     "cancels": [ "FORGETFUL" ]
+  },
+  {
+    "type": "mutation",
+    "id": "DISTENDEDHEAD",
+    "name": { "str": "Distended Head" },
+    "points": 1,
+    "visibility": 3,
+    "ugliness": 3,
+    "description": "Your brain has grown to almost double the size and your head has distended to match. Despite its grotesque size, this hasn't resulted in any discernable differences to your mental capabilities.",
+    "leads_to": [ "IMMUTABLEMEMORY" ],
+    "category": [ "CEPHALOPOD" ]
+  },
+  {
+    "type": "mutation",
+    "id": "IMMUTABLEMEMORY",
+    "name": { "str": "Immutable Memory" },
+    "points": 4,
+    "description": "Your mind has been morphed by your mutations. Your knowledge and your skills, although not permanent, will erode much slower.",
+    "types": [ "MEMORY" ],
+    "skill_rust_multiplier": 0.1,
+    "prereqs": [ "GOODMEMORY", "DISTENDEDHEAD" ],
+    "category" : [ "CEPHALOPOD" ]
   },
   {
     "type": "mutation",
@@ -1615,7 +1638,8 @@
     "social_modifiers": { "lie": -5 },
     "skill_rust_multiplier": 1.33,
     "starting_trait": true,
-    "category": [ "BEAST", "MEDICAL", "CHIMERA", "MOUSE", "INSECT", "RABBIT" ]
+    "category": [ "BEAST", "MEDICAL", "CHIMERA", "MOUSE", "INSECT", "RABBIT" ],
+    "cancels": [ "GOODMEMORY", "IMMUTABLEMEMORY" ]
   },
   {
     "type": "mutation",
