@@ -13052,8 +13052,8 @@ bool item::process_internal( map &here, Character *carrier, const tripoint &pos,
                 convert( *type->tool->revert_to );
                 active = false;
             } else {
-				return true;
-			}
+                return true;
+            }
         }
 
         for( const emit_id &e : type->emits ) {

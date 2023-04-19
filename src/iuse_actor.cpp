@@ -513,11 +513,11 @@ std::optional<int> countdown_actor::use( Character &p, item &it, bool t,
         p.add_msg_if_player( m_neutral, message.translated(), it.tname() );
     }
 
-	if( countdown_interval > 0_seconds ){
-		it.countdown_point = calendar::turn + countdown_interval;
-	} else {
-		it.countdown_point = calendar::turn + it.type->countdown_interval;
-	}
+    if( countdown_interval > 0_seconds ) {
+        it.countdown_point = calendar::turn + countdown_interval;
+    } else {
+        it.countdown_point = calendar::turn + it.type->countdown_interval;
+    }
     it.active = true;
     return 0;
 }
@@ -544,8 +544,7 @@ void countdown_actor::info( const item &it, std::vector<iteminfo> &dump ) const
 {
     if( countdown_interval > 0_seconds ) {
         dump.emplace_back( "TOOL", _( "Countdown: " ), to_seconds<int>( countdown_interval ) );
-    }
-    else {
+    } else {
         dump.emplace_back( "TOOL", _( "Countdown: " ), to_seconds<int>( it.type->countdown_interval ) );
     }
     const iuse_actor *countdown_actor = it.type->countdown_action.get_actor_ptr();
