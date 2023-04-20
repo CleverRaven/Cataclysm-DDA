@@ -1802,7 +1802,7 @@
     "price": 750,
     "price_postapoc": 400,
     "material": [ "bread", "flesh" ],
-    "volume": "918 ml",
+    "volume": "1800 ml",
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 4,
     "charges": 6
@@ -1840,7 +1840,7 @@
     "price": 750,
     "price_postapoc": 400,
     "material": [ "bread", "flesh" ],
-    "volume": "960 ml",
+    "volume": "1800 ml",
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 4,
     "charges": 4
@@ -1849,7 +1849,7 @@
     "type": "COMESTIBLE",
     "id": "manti",
     "name": { "str_sp": "manti" },
-    "weight": "320 g",
+    "weight": "160 g",
     "color": "red",
     "spoils_in": "3 days",
     "comestible_type": "FOOD",
@@ -1859,7 +1859,7 @@
     "price": 750,
     "price_postapoc": 400,
     "material": [ "bread", "flesh" ],
-    "volume": "300 ml",
+    "volume": "1800 ml",
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 4,
     "charges": 6

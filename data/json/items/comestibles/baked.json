@@ -52,7 +52,7 @@
     "price": 350,
     "price_postapoc": 175,
     "material": [ "bread", "nut" ],
-    "volume": "200 ml",
+    "volume": "400 ml",
     "stack_size": 4,
     "fun": 4,
     "quench": -1
