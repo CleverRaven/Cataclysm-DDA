@@ -282,10 +282,11 @@
     "sun_multiplier": 0.3,
     "sound_attn": 0,
     "dangerous": false,
-    "precip": "light",
+    "precip": "none",
     "rains": false,
     "sound_category": "silent",
     "priority": 20,
+    "required_weathers": [ "clear", "sunny" ],
     "condition": {
       "and": [
         { "math": [ "u_val( 'weather:windpower' )", "<", "12" ] },
@@ -307,7 +308,7 @@
     "sun_multiplier": 0.3,
     "sound_attn": 0,
     "dangerous": false,
-    "precip": "heavy",
+    "precip": "none",
     "rains": false,
     "sound_category": "silent",
     "priority": 20,
