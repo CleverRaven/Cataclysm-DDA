@@ -80,7 +80,10 @@ struct talk_trial {
 };
 
 struct talk_topic {
-    explicit talk_topic( const std::string &i ) : id( i ) { }
+    explicit talk_topic( std::string i, itype_id const &it = itype_id::NULL_ID(),
+                         std::string r = {} )
+        : id( std::move( i ) ), item_type( it ), reason( std::move( r ) ) {
+    }
 
     std::string id;
     /** If we're talking about an item, this should be its type. */
@@ -93,7 +96,6 @@ struct talk_topic {
  * Defines what happens when the trial succeeds or fails. If trial is
  * TALK_TRIAL_NONE it always succeeds.
  */
-template<class T>
 struct talk_effect_t {
         /**
           * How (if at all) the NPCs opinion of the player character (@ref npc::op_of_u)
@@ -110,19 +112,19 @@ struct talk_effect_t {
           */
         talk_topic next_topic = talk_topic( "TALK_NONE" );
 
-        talk_topic apply( const T &d ) const;
-        void update_missions( T &d ) const;
-        dialogue_consequence get_consequence( const T &d ) const;
+        talk_topic apply( dialogue const &d ) const;
+        static void update_missions( dialogue &d );
+        dialogue_consequence get_consequence( dialogue const &d ) const;
 
         /**
           * Sets an effect and consequence based on function pointer.
           */
         void set_effect( talkfunction_ptr );
-        void set_effect( const talk_effect_fun_t<T> & );
+        void set_effect( const talk_effect_fun_t & );
         /**
           * Sets an effect to a function object and consequence to explicitly given one.
           */
-        void set_effect_consequence( const talk_effect_fun_t<T> &fun, dialogue_consequence con );
+        void set_effect_consequence( const talk_effect_fun_t &fun, dialogue_consequence con );
         void set_effect_consequence( const std::function<void( npc &p )> &ptr, dialogue_consequence con );
 
         void load_effect( const JsonObject &jo, const std::string &member_name );
@@ -135,7 +137,7 @@ struct talk_effect_t {
         /**
          * Functions that are called when the response is chosen.
          */
-        std::vector<talk_effect_fun_t<T>> effects;
+        std::vector<talk_effect_fun_t> effects;
     private:
         dialogue_consequence guaranteed_consequence = dialogue_consequence::none;
 };
@@ -166,10 +168,11 @@ struct talk_response {
     spell_id dialogue_spell = spell_id();
     proficiency_id proficiency = proficiency_id();
 
-    talk_effect_t<dialogue> success;
-    talk_effect_t<dialogue> failure;
+    talk_effect_t success;
+    talk_effect_t failure;
 
-    talk_data create_option_line( const dialogue &d, const input_event &hotkey );
+    talk_data create_option_line( const dialogue &d, const input_event &hotkey,
+                                  bool is_computer = false );
     std::set<dialogue_consequence> get_consequences( const dialogue &d ) const;
 
     talk_response();
@@ -326,6 +329,11 @@ class json_talk_response
         bool is_switch = false;
         bool is_default = false;
 
+        // this text appears if the conditions fail explaining why
+        translation failure_explanation;
+        // the topic to move to on failure
+        std::string failure_topic;
+
         void load_condition( const JsonObject &jo );
         bool test_condition( const dialogue &d ) const;
 
@@ -364,7 +372,7 @@ class json_dynamic_line_effect
 {
     private:
         std::function<bool( const dialogue & )> condition;
-        talk_effect_t<dialogue> effect;
+        talk_effect_t effect;
     public:
         json_dynamic_line_effect( const JsonObject &jo, const std::string &id );
         bool test_condition( const dialogue &d ) const;

@@ -2,7 +2,6 @@
  */
 
 // IWYU pragma: no_include <sys/signal.h>
-#include <clocale>
 #include <algorithm>
 #include <array>
 #include <clocale>
@@ -23,6 +22,9 @@
 #else
 #include <csignal>
 #endif
+
+#include <flatbuffers/util.h>
+
 #include "cached_options.h"
 #include "cata_path.h"
 #include "color.h"
@@ -123,6 +125,10 @@ int start_logger( const char *app_name )
 namespace
 {
 
+#if defined(_WIN32)
+// Used only if AttachConsole() works
+FILE *CONOUT;
+#endif
 void exit_handler( int s )
 {
     const int old_timeout = inp_mngr.get_timeout();
@@ -203,7 +209,6 @@ void printHelpMessage( const FirstPassArgs &first_pass_arguments,
         }
     }
 }
-
 
 /**
  * Displays current application version and compile options values
@@ -601,7 +606,21 @@ int main( int argc, const char *argv[] )
     ordered_static_globals();
     init_crash_handlers();
     reset_floating_point_mode();
+    flatbuffers::ClassicLocale::Get();
 
+#if defined(_WIN32) and defined(TILES)
+    const HANDLE std_output { GetStdHandle( STD_OUTPUT_HANDLE ) }, std_error { GetStdHandle( STD_ERROR_HANDLE ) };
+    if( std_output != INVALID_HANDLE_VALUE and std_error != INVALID_HANDLE_VALUE ) {
+        if( AttachConsole( ATTACH_PARENT_PROCESS ) ) {
+            if( std_output == nullptr ) {
+                freopen_s( &CONOUT, "CONOUT$", "w", stdout );
+            }
+            if( std_error == nullptr ) {
+                freopen_s( &CONOUT, "CONOUT$", "w", stderr );
+            }
+        }
+    }
+#endif
 #if defined(__ANDROID__)
     // Start the standard output logging redirector
     start_logger( "cdda" );
@@ -714,6 +733,9 @@ int main( int argc, const char *argv[] )
             DebugLog( D_ERROR, DC_ALL ) << "Error while initializing the interface: " << err.what() << "\n";
             return 1;
         }
+    } else if( cli.check_mods ) {
+        get_options().init();
+        get_options().load();
     }
 
     set_language();

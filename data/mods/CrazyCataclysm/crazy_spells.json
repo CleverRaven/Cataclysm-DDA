@@ -1,0 +1,33 @@
+[
+  {
+    "id": "remove_controlled_jackson",
+    "type": "SPELL",
+    "name": { "str": "Uncontrol Dancers" },
+    "valid_targets": [ "self", "ally" ],
+    "description": "Removes control effect from polymorphed dancers.",
+    "targeted_monster_ids": [ "mon_zombie_hulk" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "min_aoe": 48,
+    "max_aoe": 48,
+    "shape": "blast",
+    "effect_str": "controlled",
+    "effect": "remove_effect"
+  },
+  {
+    "id": "death_jackson",
+    "type": "SPELL",
+    "name": { "str": "Jackson Death" },
+    "description": "Hee Hee!  WOO!",
+    "valid_targets": [ "self", "ally" ],
+    "effect": "targeted_polymorph",
+    "min_aoe": 48,
+    "max_aoe": 48,
+    "min_damage": 400,
+    "max_damage": 400,
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "shape": "blast",
+    "effect_str": "mon_zombie_hulk",
+    "targeted_monster_ids": [ "mon_zombie_dancer" ],
+    "extra_effects": [ { "id": "remove_controlled_jackson", "hit_self": true } ]
+  }
+]

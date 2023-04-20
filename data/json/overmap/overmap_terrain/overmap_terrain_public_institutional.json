@@ -306,7 +306,7 @@
     "sym": "p",
     "color": "i_light_blue",
     "see_cost": 5,
-    "flags": [ "SIDEWALK", "RISK_HIGH" ]
+    "flags": [ "RISK_HIGH" ]
   },
   {
     "type": "overmap_terrain",

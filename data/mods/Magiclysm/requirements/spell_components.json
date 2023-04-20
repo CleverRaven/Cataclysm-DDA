@@ -27,7 +27,13 @@
         [ "knife_paring", 1 ],
         [ "knife_steak", 1 ],
         [ "throwing_knife", 1 ],
-        [ "knife_baselard", 1 ]
+        [ "knife_baselard", 1 ],
+        [ "magical_throwing_knife", 1 ],
+        [ "magical_throwing_knife_fire", 1 ],
+        [ "magical_throwing_knife_cold", 1 ],
+        [ "magical_throwing_knife_cut", 1 ],
+        [ "magical_throwing_knife_biological", 1 ],
+        [ "magical_throwing_knife_pure_special", 1 ]
       ]
     ]
   },
@@ -37,7 +43,7 @@
     "//": "Weapon materials and 1000 energy from blood suitable for the Decaying Boneclub spell",
     "components": [
       [ [ "bone", 3 ], [ "bone_demihuman", 3 ], [ "bone_human", 3 ], [ "bone_tainted", 6 ] ],
-      [ [ "blood", 4 ], [ "blood_tainted", 200 ], [ "dragon_blood", 20 ] ]
+      [ [ "blood", 4 ], [ "blood_tainted", 1 ], [ "dragon_blood", 20 ] ]
     ]
   },
   {
@@ -64,13 +70,13 @@
     "id": "spell_components_causticaura",
     "type": "requirement",
     "//": "Strong acids suitable for the Caustic Aura spell",
-    "components": [ [ [ "acid", 2 ], [ "chem_sulphuric_acid", 2 ], [ "chem_muriatic_acid", 2 ], [ "chem_nitric_acid", 2 ] ] ]
+    "components": [ [ [ "chem_sulphuric_acid", 2 ], [ "chem_muriatic_acid", 2 ], [ "chem_nitric_acid", 2 ] ] ]
   },
   {
     "id": "spell_components_shardspray",
     "type": "requirement",
     "//": "A kilo of metal fragments suitable for the Shardspray spell",
-    "components": [ [ [ "scrap", 40 ], [ "copper", 500 ], [ "gold", 200 ], [ "silver", 333 ], [ "lead", 333 ] ] ]
+    "components": [ [ [ "scrap", 40 ], [ "copper", 500 ], [ "gold_small", 200 ], [ "silver_small", 333 ], [ "lead", 333 ] ] ]
   },
   {
     "id": "spell_components_nova_flare",
@@ -79,10 +85,19 @@
     "components": [ [ [ "coal_lump", 30 ], [ "lamp_oil", 5 ] ] ]
   },
   {
-    "id": "spell_components_freezing_touch",
+    "id": "spell_components_reactive_armor",
     "type": "requirement",
-    "//": "Empower your chilling touch spell with the power of ice cream!",
-    "components": [ [ [ "icecream_choc", 1 ], [ "icecream", 1 ], [ "icecream_fruit", 1 ], [ "icecream_candy", 1 ] ] ]
+    "components": [ [ [ "aura_stoneskin", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_rune_animist",
+    "type": "requirement",
+    "components": [ [ [ "rune_animist", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_rune_animist_3",
+    "type": "requirement",
+    "components": [ [ [ "rune_animist", 3 ] ] ]
   },
   {
     "id": "spell_components_potion_starter",
@@ -103,5 +118,22 @@
     "id": "spell_components_samsara",
     "type": "requirement",
     "components": [ [ [ "rune_druid", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_druid_bandage",
+    "type": "requirement",
+    "//": "Leaves and bark for the Vegetative Poultice spell",
+    "components": [
+      [
+        [ "young_leaves", 2 ],
+        [ "leaves", 2 ],
+        [ "grape_leaves", 2 ],
+        [ "fiddlehead_raw", 2 ],
+        [ "cattail_rhizome", 2 ],
+        [ "raw_dandelion", 2 ],
+        [ "juniper", 2 ]
+      ],
+      [ [ "alder_bark", 1 ], [ "tanbark", 1 ], [ "birchbark", 1 ], [ "willowbark", 1 ] ]
+    ]
   }
 ]

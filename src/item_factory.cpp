@@ -9,6 +9,7 @@
 #include <limits>
 #include <memory>
 #include <new>
+#include <optional>
 #include <stdexcept>
 #include <type_traits>
 #include <unordered_set>
@@ -42,7 +43,6 @@
 #include "iuse_actor.h"
 #include "json.h"
 #include "material.h"
-#include "optional.h"
 #include "options.h"
 #include "proficiency.h"
 #include "recipe.h"
@@ -186,7 +186,7 @@ static bool assign_coverage_from_json( const JsonObject &jo, const std::string &
 }
 
 static bool assign_coverage_from_json( const JsonObject &jo, const std::string &key,
-                                       cata::optional<body_part_set> &parts )
+                                       std::optional<body_part_set> &parts )
 {
     body_part_set temp;
     if( assign_coverage_from_json( jo, key, temp ) ) {
@@ -211,8 +211,12 @@ static bool is_physical( const itype &type )
 
 void Item_factory::finalize_pre( itype &obj )
 {
-    // TODO: separate repairing from reinforcing/enhancement
-    if( obj.damage_max() == obj.damage_min() ) {
+    // Add relic data by ID we defered
+    if( obj.relic_data ) {
+        obj.relic_data->finalize();
+    }
+
+    if( obj.count_by_charges() ) {
         obj.item_tags.insert( flag_NO_REPAIR );
     }
 
@@ -321,7 +325,7 @@ void Item_factory::finalize_pre( itype &obj )
         return string_starts_with( f.str(), "LIGHT_" );
     } );
 
-    // for ammo not specifying loudness (or an explicit zero) derive value from other properties
+    // for ammo not specifying loudness derive value from other properties
     if( obj.ammo ) {
         if( obj.ammo->loudness < 0 ) {
             obj.ammo->loudness = obj.ammo->range * 2;
@@ -414,6 +418,22 @@ void Item_factory::finalize_pre( itype &obj )
             }
             migrate_ammo_map( magazine.ammo_restriction );
         }
+
+        // list all the ammo types that work
+        for( const ammotype &am : obj.magazine->type ) {
+            auto temp_vec = Item_factory::find( [obj, am]( const itype & e ) {
+                if( !e.ammo || item_is_blacklisted( e.get_id() ) ) {
+                    return false;
+                }
+
+                return e.ammo->type == am;
+            } );
+
+            for( const itype *val : temp_vec ) {
+                obj.magazine->cached_ammos[am].insert( val->get_id() );
+            }
+        }
+
     }
 
     // Migrate compatible magazines
@@ -538,6 +558,22 @@ void Item_factory::finalize_pre( itype &obj )
                 obj.gun->handling = 10;
             }
         }
+
+        // list all the ammo types that work
+        for( const ammotype &am : obj.gun->ammo ) {
+            auto temp_vec = Item_factory::find( [obj, am]( const itype & e ) {
+                if( !e.ammo || item_is_blacklisted( e.get_id() ) ) {
+                    return false;
+                }
+
+                return e.ammo->type == am;
+            } );
+
+            for( const itype *val : temp_vec ) {
+                obj.gun->cached_ammos[am].insert( val->get_id() );
+            }
+        }
+
     }
 
     set_allergy_flags( obj );
@@ -599,8 +635,8 @@ void Item_factory::finalize_pre( itype &obj )
     }
 
     if( obj.longest_side == -1_mm ) {
-        units::volume effective_volume = obj.count_by_charges() ?
-                                         ( obj.volume / obj.stack_size ) : obj.volume;
+        units::volume effective_volume = obj.count_by_charges() &&
+                                         obj.stack_size > 0 ? ( obj.volume / obj.stack_size ) : obj.volume;
         obj.longest_side = units::default_length_from_volume<int>( effective_volume );
     }
 }
@@ -792,7 +828,6 @@ void Item_factory::finalize_post_armor( itype &obj )
                         found = true;
                         // modify the values with additional info
 
-
                         it.encumber += sub_armor.encumber;
                         it.max_encumber += sub_armor.max_encumber;
 
@@ -823,7 +858,6 @@ void Item_factory::finalize_post_armor( itype &obj )
                         for( const layer_level &ll : sub_armor.layers ) {
                             it.layers.insert( ll );
                         }
-
 
                         // if you are trying to add a new data entry and either the original data
                         // or the new data has an empty sublocations list then say that you are
@@ -948,7 +982,6 @@ void Item_factory::finalize_post_armor( itype &obj )
             }
         }
     }
-
 
     // store a shorthand var for if the item has notable sub coverage data
     for( const armor_portion_data &armor_data : obj.armor->data ) {
@@ -1086,7 +1119,6 @@ void Item_factory::finalize_post_armor( itype &obj )
 
     // generate the vector of flags that the item will default to if not override
     std::vector<layer_level> default_layers = obj.armor->all_layers;
-
 
     for( armor_portion_data &armor_data : obj.armor->data ) {
         // if an item or location has no layer data then default to the flags for the item
@@ -1369,7 +1401,8 @@ void Item_factory::finalize_item_blacklist()
         const migration *parent = nullptr;
         for( const migration &migrant : migrate.second ) {
             if( m_templates.count( migrant.replace ) == 0 ) {
-                debugmsg( "Replacement item for migration %s does not exist", migrate.first.c_str() );
+                debugmsg( "Replacement item (%s) for migration %s does not exist", migrant.replace.str(),
+                          migrate.first.c_str() );
                 continue;
             }
             // The rest of this only applies to blanket migrations
@@ -1480,7 +1513,7 @@ class iuse_function_wrapper : public iuse_actor
             : iuse_actor( type ), cpp_function( f ) { }
 
         ~iuse_function_wrapper() override = default;
-        cata::optional<int> use( Character &p, item &it, bool a, const tripoint &pos ) const override {
+        std::optional<int> use( Character &p, item &it, bool a, const tripoint &pos ) const override {
             return cpp_function( &p, &it, a, pos );
         }
         std::unique_ptr<iuse_actor> clone() const override {
@@ -1647,7 +1680,6 @@ void Item_factory::init()
     add_iuse( "INHALER", &iuse::inhaler );
     add_iuse( "JACKHAMMER", &iuse::jackhammer );
     add_iuse( "JET_INJECTOR", &iuse::jet_injector );
-    add_iuse( "LADDER", &iuse::ladder );
     add_iuse( "LUMBER", &iuse::lumber );
     add_iuse( "MAGIC_8_BALL", &iuse::magic_8_ball );
     add_iuse( "PLAY_GAME", &iuse::play_game );
@@ -1738,7 +1770,6 @@ void Item_factory::init()
     add_iuse( "VOLTMETER", &iuse::voltmeter );
 
     add_actor( std::make_unique<ammobelt_actor>() );
-    add_actor( std::make_unique<cauterize_actor>() );
     add_actor( std::make_unique<consume_drug_iuse>() );
     add_actor( std::make_unique<delayed_transform_iuse>() );
     add_actor( std::make_unique<explosion_iuse>() );
@@ -1981,9 +2012,6 @@ void Item_factory::check_definitions() const
         }
         if( type->price < 0_cent ) {
             msg += "negative price\n";
-        }
-        if( type->damage_min() > 0 || type->damage_max() < 0 || type->damage_min() > type->damage_max() ) {
-            msg += "invalid damage range\n";
         }
         if( type->description.empty() ) {
             msg += "empty description\n";
@@ -2461,7 +2489,7 @@ void islot_ammo::load( const JsonObject &jo )
     bool strict = false;
 
     mandatory( jo, was_loaded, "ammo_type", type );
-    optional( jo, was_loaded, "casing", casing, cata::nullopt );
+    optional( jo, was_loaded, "casing", casing, std::nullopt );
     optional( jo, was_loaded, "drop", drop, itype_id::NULL_ID() );
     assign( jo, "drop_chance", drop_chance, strict, 0.0f, 1.0f );
     optional( jo, was_loaded, "drop_active", drop_active, true );
@@ -2576,7 +2604,7 @@ void itype_variant_data::load( const JsonObject &jo )
     mandatory( jo, false, "id", id );
     mandatory( jo, false, "name", alt_name );
     mandatory( jo, false, "description", alt_description );
-    optional( jo, false, "symbol", alt_sym, cata::nullopt );
+    optional( jo, false, "symbol", alt_sym, std::nullopt );
     if( jo.has_string( "color" ) ) {
         alt_color = color_from_string( jo.get_string( "color" ) );
     }
@@ -2605,13 +2633,14 @@ void Item_factory::load( islot_gun &slot, const JsonObject &jo, const std::strin
     assign( jo, "reload_noise", slot.reload_noise, strict );
     assign( jo, "reload_noise_volume", slot.reload_noise_volume, strict, 0 );
     assign( jo, "barrel_volume", slot.barrel_volume, strict, 0_ml );
+    assign( jo, "barrel_length", slot.barrel_length, strict, 0_mm );
     assign( jo, "built_in_mods", slot.built_in_mods, strict );
     assign( jo, "default_mods", slot.default_mods, strict );
-    assign( jo, "ups_charges", slot.ups_charges, strict, 0 );
+    assign( jo, "energy_drain", slot.energy_drain, strict, 0_kJ );
     assign( jo, "blackpowder_tolerance", slot.blackpowder_tolerance, strict, 0 );
     assign( jo, "min_cycle_recoil", slot.min_cycle_recoil, strict, 0 );
     assign( jo, "ammo_effects", slot.ammo_effects, strict );
-    assign( jo, "ammo_to_fire", slot.ammo_to_fire, strict, 1 );
+    assign( jo, "ammo_to_fire", slot.ammo_to_fire, strict, 0 );
 
     if( jo.has_array( "valid_mod_locations" ) ) {
         slot.valid_mod_locations.clear();
@@ -2725,7 +2754,6 @@ void armor_portion_data::deserialize( const JsonObject &jo )
     }
     optional( jo, false, "specifically_covers", sub_coverage );
 
-
     // if no sub locations are specified assume it covers everything
     if( covers.has_value() && sub_coverage.empty() ) {
         for( const bodypart_str_id &bp : covers.value() ) {
@@ -2775,7 +2803,7 @@ void armor_portion_data::deserialize( const JsonObject &jo )
 }
 
 template<typename T>
-static void apply_optional( T &value, const cata::optional<T> &applied )
+static void apply_optional( T &value, const std::optional<T> &applied )
 {
     if( applied ) {
         value = *applied;
@@ -2786,7 +2814,7 @@ static void apply_optional( T &value, const cata::optional<T> &applied )
 // the *= and += operators required for "proportional" and "relative".
 template<typename T>
 static void get_optional( const JsonObject &jo, bool was_loaded, const std::string &member,
-                          cata::optional<T> &value )
+                          std::optional<T> &value )
 {
     T tmp;
     if( value ) {
@@ -2799,20 +2827,20 @@ static void get_optional( const JsonObject &jo, bool was_loaded, const std::stri
 }
 
 template<typename T>
-static void get_relative( const JsonObject &jo, const std::string &member, cata::optional<T> &value,
+static void get_relative( const JsonObject &jo, const std::string &member, std::optional<T> &value,
                           T default_val )
 {
     if( jo.has_member( member ) ) {
-        value = value.value_or( default_val ) + jo.get_float( member );
+        value = static_cast<T>( value.value_or( default_val ) + jo.get_float( member ) );
     }
 }
 
 template<typename T>
 static void get_proportional( const JsonObject &jo, const std::string &member,
-                              cata::optional<T> &value, T default_val )
+                              std::optional<T> &value, T default_val )
 {
     if( jo.has_member( member ) ) {
-        value = value.value_or( default_val ) * jo.get_float( member );
+        value = static_cast<T>( value.value_or( default_val ) * jo.get_float( member ) );
     }
 }
 
@@ -2820,7 +2848,7 @@ void islot_armor::load( const JsonObject &jo )
 {
     optional( jo, was_loaded, "armor", sub_data );
 
-    cata::optional<body_part_set> covers;
+    std::optional<body_part_set> covers;
 
     assign_coverage_from_json( jo, "covers", covers );
     get_optional( jo, was_loaded, "material_thickness", _material_thickness );
@@ -2851,7 +2879,8 @@ void islot_armor::load( const JsonObject &jo )
     optional( jo, was_loaded, "sided", sided, false );
 
     optional( jo, was_loaded, "warmth", warmth, 0 );
-    optional( jo, false, "non_functional", non_functional, itype_id() );
+    optional( jo, was_loaded, "non_functional", non_functional, itype_id() );
+    optional( jo, was_loaded, "damage_verb", damage_verb );
     optional( jo, was_loaded, "weight_capacity_modifier", weight_capacity_modifier, 1.0 );
     optional( jo, was_loaded, "weight_capacity_bonus", weight_capacity_bonus, mass_reader{}, 0_gram );
     optional( jo, was_loaded, "power_armor", power_armor, false );
@@ -2889,7 +2918,7 @@ void Item_factory::load( islot_tool &slot, const JsonObject &jo, const std::stri
     assign( jo, "charges_per_use", slot.charges_per_use, strict, 0 );
     assign( jo, "charge_factor", slot.charge_factor, strict, 1 );
     assign( jo, "turns_per_charge", slot.turns_per_charge, strict, 0 );
-    assign( jo, "power_draw", slot.power_draw, strict, 0_J );
+    assign( jo, "power_draw", slot.power_draw, strict, 0_W );
     assign( jo, "revert_to", slot.revert_to, strict );
     assign( jo, "revert_msg", slot.revert_msg, strict );
     assign( jo, "sub", slot.subtype, strict );
@@ -3010,6 +3039,7 @@ void islot_book::load( const JsonObject &jo )
     optional( jo, was_loaded, "martial_art", martial_art, matype_id::NULL_ID() );
     optional( jo, was_loaded, "chapters", chapters, 0 );
     optional( jo, was_loaded, "proficiencies", proficiencies );
+    optional( jo, was_loaded, "scannable", is_scannable, true );
 }
 
 void islot_book::deserialize( const JsonObject &jo )
@@ -3056,7 +3086,6 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
     assign( jo, "fatigue_mod", slot.fatigue_mod, strict );
     assign( jo, "healthy", slot.healthy, strict );
     assign( jo, "parasites", slot.parasites, strict, 0 );
-    assign( jo, "radiation", slot.radiation, strict );
     assign( jo, "freezing_point", slot.freeze_point, strict );
     assign( jo, "spoils_in", slot.spoils, strict, 1_hours );
     assign( jo, "cooks_like", slot.cooks_like, strict );
@@ -3138,7 +3167,7 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
     }
 
     for( JsonValue jv : jo.get_array( "consumption_effect_on_conditions" ) ) {
-        slot.consumption_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        slot.consumption_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
 
     if( jo.has_member( "nutrition" ) && got_calories ) {
@@ -3202,7 +3231,6 @@ void islot_seed::deserialize( const JsonObject &jo )
     load( jo );
 }
 
-
 void Item_factory::load( islot_gunmod &slot, const JsonObject &jo, const std::string &src )
 {
     bool strict = src == "dda";
@@ -3224,8 +3252,8 @@ void Item_factory::load( islot_gunmod &slot, const JsonObject &jo, const std::st
     assign( jo, "consume_divisor", slot.consume_divisor );
     assign( jo, "shot_spread_multiplier_modifier", slot.shot_spread_multiplier_modifier );
     assign( jo, "ammo_effects", slot.ammo_effects, strict );
-    assign( jo, "ups_charges_multiplier", slot.ups_charges_multiplier );
-    assign( jo, "ups_charges_modifier", slot.ups_charges_modifier );
+    assign( jo, "energy_drain_multiplier", slot.energy_drain_multiplier );
+    assign( jo, "energy_drain_modifier", slot.energy_drain_modifier );
     assign( jo, "ammo_to_fire_multiplier", slot.ammo_to_fire_multiplier );
     assign( jo, "ammo_to_fire_modifier", slot.ammo_to_fire_modifier );
     assign( jo, "weight_multiplier", slot.weight_multiplier );
@@ -3821,19 +3849,13 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
 
     optional( jo, true, "weapon_category", def.weapon_category, auto_flags_reader<weapon_category_id> {} );
 
-    if( jo.has_member( "damage_states" ) ) {
-        JsonArray arr = jo.get_array( "damage_states" );
-        def.damage_min_ = arr.get_int( 0 ) * itype::damage_scale;
-        def.damage_max_ = arr.get_int( 1 ) * itype::damage_scale;
-    }
-
     float degrade_mult = 1.0f;
     optional( jo, false, "degradation_multiplier", degrade_mult, 1.0f );
     // TODO: remove condition once degradation is ready to be applied to all items
     if( def.category_force != item_category_veh_parts ) {
-        degrade_mult = 0.f;
+        degrade_mult = 0.0f;
     }
-    if( degrade_mult <= 1.0f / ( ( def.damage_max_ - def.damage_min_ ) * 2.0f ) ) {
+    if( ( degrade_mult * itype::damage_max_ ) <= 0.5f ) {
         def.degrade_increments_ = 0;
     } else {
         float adjusted_inc = std::max( def.degrade_increments_ / degrade_mult, 1.0f );
@@ -3965,6 +3987,9 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
 
     assign( jo, "variables", def.item_variables );
     assign( jo, "flags", def.item_tags );
+    if( jo.has_member( "source_monster" ) ) {
+        assign( jo, "source_monster", def.source_monster );
+    }
     assign( jo, "faults", def.faults );
 
     if( jo.has_member( "qualities" ) ) {
@@ -4769,7 +4794,7 @@ void Item_factory::emplace_usage( std::map<std::string, use_function> &container
 
 std::pair<std::string, use_function> Item_factory::usage_from_object( const JsonObject &obj )
 {
-    auto type = obj.get_string( "type" );
+    std::string type = obj.get_string( "type" );
 
     if( type == "repair_item" ) {
         type = obj.get_string( "item_action_type" );

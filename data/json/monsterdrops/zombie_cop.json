@@ -35,8 +35,11 @@
     "type": "item_group",
     "id": "cop_armor",
     "items": [
-      [ "armor_riot", 20 ],
-      [ "kevlar", 35 ],
+      [ "armor_riot", 65 ],
+      [ "armor_riot_arm", 5 ],
+      [ "armor_riot_leg", 5 ],
+      [ "armor_riot_torso", 10 ],
+      [ "kevlar", 100 ],
       {
         "item": "level_3_vest",
         "variant": "police_armor_vest",
@@ -193,8 +196,8 @@
     "entries": [
       {
         "distribution": [
-          { "item": "adhesive_bandages", "prob": 30, "count": [ 1, 20 ] },
-          { "item": "bandages", "prob": 30 },
+          { "group": "adhesive_bandages_box_used", "prob": 30 },
+          { "item": "bandages", "prob": 30, "count": [ 1, 3 ] },
           { "group": "full_1st_aid", "prob": 20 }
         ],
         "prob": 25
@@ -270,7 +273,14 @@
     "type": "item_group",
     "subtype": "collection",
     "entries": [
-      { "distribution": [ { "item": "armor_riot", "prob": 25 }, { "group": "swat_ballistic_vest", "prob": 75 } ], "prob": 65 },
+      {
+        "distribution": [
+          { "item": "armor_riot", "prob": 30 },
+          { "item": "armor_riot_torso", "prob": 15 },
+          { "group": "swat_ballistic_vest", "prob": 80 }
+        ],
+        "prob": 65
+      },
       {
         "distribution": [
           { "item": "tank_top", "prob": 30 },

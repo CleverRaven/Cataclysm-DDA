@@ -1,3 +1,4 @@
+#include <optional>
 #include <vector>
 
 #include "avatar.h"
@@ -9,7 +10,6 @@
 #include "itype.h"
 #include "map.h"
 #include "map_helpers.h"
-#include "optional.h"
 #include "activity_actor_definitions.h"
 #include "player_helpers.h"
 #include "point.h"
@@ -92,7 +92,7 @@ TEST_CASE( "add_item_to_broken_vehicle_part", "[vehicle]" )
     //Must not be broken yet
     REQUIRE( !cargo_part->is_broken() );
     //For some reason (0 - cargo_part->hp()) is just not enough to destroy a part
-    REQUIRE( veh_ptr->mod_hp( *cargo_part, -( 1 + cargo_part->hp() ), damage_type::BASH ) );
+    REQUIRE( veh_ptr->mod_hp( *cargo_part, -( 1 + cargo_part->hp() ) ) );
     //Now it must be broken
     REQUIRE( cargo_part->is_broken() );
     //Now part is really broken, adding an item should fail
@@ -119,14 +119,14 @@ TEST_CASE( "starting_bicycle_damaged_pedal", "[vehicle]" )
         veh_ptr->set_hp( pedel, pedel.hp() * 0.25, true );
         // Try starting the engine 100 time because it is random that a combustion engine does fails
         for( int i = 0; i < 100 ; i++ ) {
-            CHECK( veh_ptr->start_engine( 0 ) );
+            CHECK( veh_ptr->start_engine( pedel ) );
         }
     }
 
     SECTION( "when the pedal has 0 hp" ) {
         veh_ptr->set_hp( pedel, 0, true );
 
-        CHECK_FALSE( veh_ptr->start_engine( 0 ) );
+        CHECK_FALSE( veh_ptr->start_engine( pedel ) );
     }
 
     here.detach_vehicle( veh_ptr );
@@ -138,11 +138,11 @@ struct vehicle_preset {
 };
 
 struct damage_preset {
-    double damage;
-    double degradation;
-    double expect_damage;
-    double expect_degradation;
-    double expect_hp;
+    int damage;
+    int degradation;
+    int expect_damage;
+    int expect_degradation;
+    int expect_hp;
 };
 
 static void complete_activity( Character &u, const activity_actor &act )
@@ -210,8 +210,8 @@ static void unfold_and_check( const vehicle_preset &veh_preset, const damage_pre
     vehicle &veh = ovp->vehicle();
     for( const vpart_reference &vpr : veh.get_all_parts() ) {
         item base = vpr.part().get_base();
-        base.set_degradation( damage_preset.degradation * base.max_damage() );
-        base.set_damage( damage_preset.damage * base.max_damage() );
+        base.set_degradation( damage_preset.degradation );
+        base.set_damage( damage_preset.damage );
         vpr.part().set_base( base );
         veh.set_hp( vpr.part(), vpr.info().durability, true );
     }
@@ -242,9 +242,9 @@ static void unfold_and_check( const vehicle_preset &veh_preset, const damage_pre
     // verify the damage/degradation roundtripped via serialization on every part
     for( const vpart_reference &vpr : ovp_unfolded->vehicle().get_all_parts() ) {
         const item &base = vpr.part().get_base();
-        CHECK( base.damage() == ( damage_preset.expect_damage * base.max_damage() ) );
-        CHECK( base.degradation() == ( damage_preset.expect_degradation * base.max_damage() ) );
-        CHECK( vpr.part().health_percent() == damage_preset.expect_hp );
+        CHECK( base.damage() == damage_preset.expect_damage );
+        CHECK( base.degradation() == damage_preset.expect_degradation );
+        CHECK( ( vpr.part().max_damage() - vpr.part().damage() ) == damage_preset.expect_hp );
     }
 
     m.destroy_vehicle( &ovp_unfolded->vehicle() );
@@ -260,12 +260,11 @@ TEST_CASE( "Unfolding vehicle parts and testing degradation", "[item][degradatio
     };
 
     const std::vector<damage_preset> presets {
-        { 0.00, 0.00, 0.00, 0.00, 1.00 }, //   0% damaged,   0% degraded
-        { 0.25, 0.25, 0.00, 0.25, 1.00 }, //  25% damaged,  25% degraded
-        { 0.50, 0.50, 0.25, 0.50, 0.75 }, //  50% damaged,  50% degraded
-        { 0.75, 0.50, 0.25, 0.50, 0.75 }, //  75% damaged,  50% degraded
-        { 0.75, 1.00, 0.75, 1.00, 0.25 }, //  75% damaged, 100% degraded
-        { 1.00, 1.00, 0.75, 1.00, 0.25 }, // 100% damaged, 100% degraded
+        {    0,    0,    0,    0, 4000 },
+        { 1000, 1000, 1000, 1000, 3000 },
+        { 2000, 2000, 2000, 2000, 2000 },
+        { 1800, 2000, 2000, 2000, 2000 },
+        { 3000, 3999, 3999, 3999,    1 },
     };
 
     for( const vehicle_preset &veh_preset : vehicle_presets ) {
@@ -391,8 +390,8 @@ static void check_folded_item_to_parts_damage_transfer( const folded_item_damage
 TEST_CASE( "Check folded item damage transfers to parts and vice versa", "[item][vehicle]" )
 {
     std::vector<folded_item_damage_preset> presets {
-        { itype_folded_wheelchair_generic, 2111, 2277, 12666, 13666 },
-        { itype_folded_bicycle,            1689, 1961, 18582, 21582 },
+        { itype_folded_wheelchair_generic, 2111, 2411, 12666, 14466 },
+        { itype_folded_bicycle,            1689, 1989, 18582, 21882 },
     };
 
     for( const folded_item_damage_preset &preset : presets ) {
@@ -449,8 +448,8 @@ TEST_CASE( "power_cable_stretch_disconnect" )
     clear_avatar();
     map &m = get_map();
     const int max_displacement = 50;
-    const cata::optional<item> stand_lamp1( "test_standing_lamp" );
-    const cata::optional<item> stand_lamp2( "test_standing_lamp" );
+    const std::optional<item> stand_lamp1( "test_standing_lamp" );
+    const std::optional<item> stand_lamp2( "test_standing_lamp" );
 
     const tripoint app1_pos( HALF_MAPSIZE_X + 2, HALF_MAPSIZE_Y + 2, 0 );
     const tripoint app2_pos( app1_pos + tripoint( 2, 2, 0 ) );
@@ -632,7 +631,7 @@ static void rack_check( const rack_preset &preset )
             REQUIRE( error ==
                      "vehicle named Foldable wheelchair is already racked on this vehicle"
                      "racking actor failed: failed racking Foldable wheelchair on Car, "
-                     "racks: [130, 117, and 91]." );
+                     "racks: [82, 81, and 79]." );
         }
 
         const optional_vpart_position ovp_racked = m.veh_at(
@@ -684,7 +683,7 @@ static void rack_check( const rack_preset &preset )
 }
 
 // Testing vehicle racking and unracking
-TEST_CASE( "Racking and unracking tests", "[vehicle]" )
+TEST_CASE( "Racking and unracking tests", "[vehicle][bikerack]" )
 {
     std::vector<rack_preset> racking_presets {
         // basic test; rack bike on car, unrack it, everything should succeed

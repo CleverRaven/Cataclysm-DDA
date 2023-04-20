@@ -53,7 +53,7 @@
     "proficiencies": [
       { "proficiency": "prof_chain_armour" },
       { "proficiency": "prof_closures" },
-      { "proficiency": "prof_leatherworking_basic", "time_multiplier": 2, "fail_multiplier": 1.2 }
+      { "proficiency": "prof_leatherworking_basic", "time_multiplier": 2, "skill_penalty": 0.2 }
     ]
   },
   {
@@ -251,7 +251,7 @@
     "book_learn": [ [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ], [ "textbook_armwest", 4 ], [ "textbook_armschina", 4 ] ],
     "using": [ [ "sewing_standard", 260 ] ],
     "proficiencies": [
-      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15, "time_multiplier": 1.1 },
+      { "proficiency": "prof_leatherworking_basic", "time_multiplier": 1.1, "skill_penalty": 0.15 },
       { "proficiency": "prof_closures", "time_multiplier": 1.1 },
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -273,7 +273,7 @@
     "using": [ [ "forging_standard", 120 ], [ "bronzesmithing_tools", 10 ] ],
     "components": [ [ [ "scrap_bronze", 60 ] ], [ [ "leather_armor_ostrich", 1 ] ] ],
     "proficiencies": [
-      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15, "time_multiplier": 1.1 },
+      { "proficiency": "prof_leatherworking_basic", "time_multiplier": 1.1, "skill_penalty": 0.15 },
       { "proficiency": "prof_closures", "time_multiplier": 1.1 },
       { "proficiency": "prof_armorsmithing" },
       { "proficiency": "prof_redsmithing" },
@@ -293,7 +293,7 @@
     "using": [ [ "blacksmithing_standard", 800 ], [ "steel_standard", 200 ], [ "fabric_leather_fur_hide", 30 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "proficiencies": [
-      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15, "time_multiplier": 1.1 },
+      { "proficiency": "prof_leatherworking_basic", "time_multiplier": 1.1, "skill_penalty": 0.15 },
       { "proficiency": "prof_closures", "time_multiplier": 1.1 },
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },

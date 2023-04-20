@@ -35,19 +35,7 @@
     },
     "burn_into": "mon_zombie_scorched",
     "fungalize_into": "mon_zombie_fungus",
-    "flags": [
-      "HEARS",
-      "SMELLS",
-      "STUMBLES",
-      "WARM",
-      "BASHES",
-      "GROUP_BASH",
-      "POISON",
-      "NO_BREATHE",
-      "REVIVES",
-      "PUSH_MON",
-      "FILTHY"
-    ]
+    "flags": [ "HEARS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
   },
   {
     "id": "mon_zombie",
@@ -81,20 +69,7 @@
     "burn_into": "mon_zombie_scorched",
     "fungalize_into": "mon_zombie_fungus",
     "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBIE_UPGRADE" },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "STUMBLES",
-      "WARM",
-      "BASHES",
-      "GROUP_BASH",
-      "POISON",
-      "NO_BREATHE",
-      "REVIVES",
-      "PUSH_MON",
-      "FILTHY"
-    ]
+    "flags": [ "SEES", "HEARS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
   },
   {
     "id": "mon_zombie_cop",
@@ -132,20 +107,7 @@
     "death_drops": "mon_zombie_cop_death_drops",
     "burn_into": "mon_zombie_scorched",
     "fungalize_into": "mon_zombie_fungus",
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "STUMBLES",
-      "WARM",
-      "BASHES",
-      "GROUP_BASH",
-      "POISON",
-      "NO_BREATHE",
-      "REVIVES",
-      "PUSH_MON",
-      "FILTHY"
-    ]
+    "flags": [ "SEES", "HEARS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
   },
   {
     "id": "mon_zombie_crawler",
@@ -179,56 +141,7 @@
     "burn_into": "mon_zombie_scorched",
     "fungalize_into": "mon_zombie_fungus",
     "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBIE_CRAWLER_UPGRADE" },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "STUMBLES",
-      "WARM",
-      "BASHES",
-      "GRABS",
-      "POISON",
-      "NO_BREATHE",
-      "REVIVES",
-      "FILTHY",
-      "ATTACK_LOWER"
-    ]
-  },
-  {
-    "id": "mon_zombie_dancer",
-    "type": "MONSTER",
-    "name": { "str": "zombie dancer" },
-    "description": "The foulest stench is in the air,\nThe funk of forty thousand years,\nAnd grisly ghouls from every tomb,\nAre closing in to seal your doom!\n\nThe dancer doesn't even notice you, it seems like something nearby is controlling it.",
-    "default_faction": "zombie",
-    "bodytype": "human",
-    "categories": [ "CLASSIC" ],
-    "species": [ "ZOMBIE", "HUMAN" ],
-    "volume": "875000 ml",
-    "weight": "200 kg",
-    "hp": 10000,
-    "speed": 200,
-    "material": [ "flesh" ],
-    "symbol": "Z",
-    "color": "white_magenta",
-    "aggression": 100,
-    "morale": 100,
-    "melee_dice": 1,
-    "melee_dice_sides": 5,
-    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "armor_bash": 12,
-    "armor_cut": 8,
-    "armor_bullet": 6,
-    "armor_elec": 5,
-    "weakpoint_sets": [ "wps_humanoid_body" ],
-    "families": [ "prof_intro_biology", "prof_wp_zombie" ],
-    "vision_day": 50,
-    "vision_night": 3,
-    "harvest": "zombie_leather",
-    "special_attacks": [ [ "DANCE", 30 ] ],
-    "death_drops": "mon_zombie_hulk_death_drops",
-    "fungalize_into": "mon_zombie_fungus",
-    "regenerates": 50,
-    "flags": [ "WARM", "BASHES", "DESTROYS", "NO_BREATHE", "POISON", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "STUMBLES", "WARM", "BASHES", "GRABS", "POISON", "NO_BREATHE", "REVIVES", "FILTHY", "ATTACK_LOWER" ]
   },
   {
     "id": "mon_zombie_fat",
@@ -265,20 +178,7 @@
     "burn_into": "mon_zombie_scorched",
     "fungalize_into": "mon_zombie_fungus",
     "upgrades": { "half_life": 32, "into_group": "GROUP_ZOMBIE_FAT" },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "STUMBLES",
-      "WARM",
-      "BASHES",
-      "GROUP_BASH",
-      "POISON",
-      "NO_BREATHE",
-      "REVIVES",
-      "PUSH_MON",
-      "FILTHY"
-    ]
+    "flags": [ "SEES", "HEARS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
   },
   {
     "id": "mon_zombie_fireman",
@@ -420,20 +320,7 @@
     "burn_into": "mon_zombie_scorched",
     "fungalize_into": "mon_zombie_fungus",
     "upgrades": { "half_life": 43, "into": "mon_devourer" },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "STUMBLES",
-      "WARM",
-      "BASHES",
-      "GROUP_BASH",
-      "POISON",
-      "NO_BREATHE",
-      "REVIVES",
-      "PUSH_MON",
-      "FILTHY"
-    ]
+    "flags": [ "SEES", "HEARS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
   },
   {
     "id": "mon_zombie_swat",
@@ -469,23 +356,10 @@
     "harvest": "zombie",
     "special_attacks": [ [ "GRAB", 7 ], [ "scratch", 15 ] ],
     "death_drops": "mon_zombie_swat_death_drops",
-    "upgrades": { "half_life": 38, "into": "mon_zombie_kevlar_1" },
+    "upgrades": { "half_life": 38, "into": "mon_zombie_kevlar_0" },
     "fungalize_into": "mon_zombie_fungus",
     "burn_into": "mon_zombie_scorched",
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "STUMBLES",
-      "WARM",
-      "BASHES",
-      "GROUP_BASH",
-      "POISON",
-      "NO_BREATHE",
-      "REVIVES",
-      "PUSH_MON",
-      "FILTHY"
-    ]
+    "flags": [ "SEES", "HEARS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
   },
   {
     "id": "mon_zombie_tough",
@@ -523,20 +397,7 @@
     "burn_into": "mon_zombie_scorched",
     "fungalize_into": "mon_zombie_fungus",
     "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBIE_UPGRADE" },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "STUMBLES",
-      "WARM",
-      "BASHES",
-      "GROUP_BASH",
-      "POISON",
-      "NO_BREATHE",
-      "REVIVES",
-      "PUSH_MON",
-      "FILTHY"
-    ]
+    "flags": [ "SEES", "HEARS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
   },
   {
     "id": "mon_zombie_resort_dancer",

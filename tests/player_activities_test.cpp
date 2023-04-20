@@ -108,7 +108,7 @@ TEST_CASE( "safecracking", "[activity][safecracking]" )
             dummy.set_skill_level( skill_traps, skill_level );
 
             REQUIRE( dummy.get_per() == perception );
-            REQUIRE( dummy.get_skill_level( skill_traps ) == skill_level );
+            REQUIRE( static_cast<int>( dummy.get_skill_level( skill_traps ) ) == skill_level );
             if( has_proficiency )
             {
                 dummy.add_proficiency( proficiency_prof_safecracking );
@@ -332,7 +332,6 @@ TEST_CASE( "shearing", "[activity][shearing][animals]" )
         mon->add_effect( effect_tied, 1_turns, true );
         return *mon;
     };
-
 
     SECTION( "shearing testing time" ) {
 
@@ -779,7 +778,6 @@ TEST_CASE( "boltcut", "[activity][boltcut]" )
             }
         }
 
-
         GIVEN( "a tripoint with a valid furniture with byproducts" ) {
             clear_map();
             clear_avatar();
@@ -1045,7 +1043,6 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
             }
         }
 
-
         GIVEN( "a tripoint with a valid furniture with byproducts" ) {
             clear_map();
             clear_avatar();
@@ -1300,7 +1297,6 @@ TEST_CASE( "oxytorch", "[activity][oxytorch]" )
                 CHECK( mp.furn( tripoint_zero ) == furn_test_f_oxytorch1 );
             }
         }
-
 
         GIVEN( "a tripoint with a valid furniture with byproducts" ) {
             clear_map();
@@ -1713,7 +1709,7 @@ static const std::vector<std::function<player_activity()>> test_activities {
     [] { return player_activity( move_items_activity_actor( {}, {}, false, get_avatar().pos() + tripoint_north ) ); },
     [] { return player_activity( open_gate_activity_actor( 1, get_avatar().pos() ) ); },
     //player_activity( oxytorch_activity_actor( p, loc ) ),
-    [] { return player_activity( pickup_activity_actor( {}, {}, cata::nullopt, false ) ); },
+    [] { return player_activity( pickup_activity_actor( {}, {}, std::nullopt, false ) ); },
     [] { return player_activity( play_with_pet_activity_actor() ); },
     //player_activity( prying_activity_actor( p, loc ) ),
     //player_activity( read_activity_actor() ),

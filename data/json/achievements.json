@@ -165,6 +165,180 @@
     "requirements": [ { "event_statistic": "min_move_z", "is": "<=", "target": -10 } ]
   },
   {
+    "id": "achievement_vehicle_distance_gndv_berthabenz",
+    "type": "achievement",
+    "name": "Test Drive",
+    "//": "Approx distance covered by Bertha Benz in 1888 drive",
+    "requirements": [ { "event_statistic": "num_moves_gndv_ctrl_direct", "is": ">=", "target": 106000 } ]
+  },
+  {
+    "id": "achievement_vehicle_distance_gndv_daytona",
+    "type": "achievement",
+    "name": "Daytona",
+    "//": "Daytona 500 race distance",
+    "requirements": [ { "event_statistic": "num_moves_gndv_ctrl_direct", "is": ">=", "target": 804672 } ],
+    "hidden_by": [ "achievement_vehicle_distance_gndv_berthabenz" ]
+  },
+  {
+    "id": "achievement_vehicle_distance_gndv_arcticsounds",
+    "type": "achievement",
+    "name": "Too Far Inside a Car",
+    "//": "From the song by Modest Mouse; 1100 miles = 1770278 m",
+    "requirements": [ { "event_statistic": "num_moves_gndv_onboard", "is": ">=", "target": 1770278 } ],
+    "hidden_by": [ "achievement_vehicle_distance_gndv_daytona" ]
+  },
+  {
+    "id": "achievement_vehicle_distance_gndv_route66",
+    "type": "achievement",
+    "name": "Chicago to L.A.",
+    "//": "From the song by Bobby Troup; 1926 alignment; 2448 miles = 3939674 m",
+    "requirements": [ { "event_statistic": "num_moves_gndv_onboard", "is": ">=", "target": 3939674 } ],
+    "hidden_by": [ "achievement_vehicle_distance_gndv_arcticsounds" ]
+  },
+  {
+    "id": "achievement_vehicle_distance_boat_hocr",
+    "type": "achievement",
+    "name": "Head of the Charles",
+    "//": "Prestigious rowing race held in Boston",
+    "requirements": [ { "event_statistic": "num_moves_boat_ctrl_direct", "is": ">=", "target": 4800 } ]
+  },
+  {
+    "id": "achievement_vehicle_distance_boat_mayflower",
+    "type": "achievement",
+    "name": "Plymouth to Plymouth",
+    "//": "Approx distance sailed by the Pilgrims",
+    "requirements": [ { "event_statistic": "num_moves_boat_onboard", "is": ">=", "target": 5200000 } ],
+    "hidden_by": [ "achievement_vehicle_distance_boat_hocr" ]
+  },
+  {
+    "id": "achievement_vehicle_distance_boat_circumnavigate",
+    "type": "achievement",
+    "name": "Circumnavigator",
+    "//": "Approx distance covered by the Magellan–Elcano expedition",
+    "requirements": [ { "event_statistic": "num_moves_boat_onboard", "is": ">=", "target": 60440000 } ],
+    "hidden_by": [ "achievement_vehicle_distance_boat_mayflower" ]
+  },
+  {
+    "id": "achievement_vehicle_distance_acft_wright",
+    "type": "achievement",
+    "name": "Flying Wright",
+    "requirements": [ { "event_statistic": "num_moves_acft_ctrl_direct", "is": ">=", "target": 279 } ]
+  },
+  {
+    "id": "achievement_vehicle_distance_acft_bleriot",
+    "type": "achievement",
+    "name": "Better than Blériot",
+    "requirements": [ { "event_statistic": "num_moves_acft_ctrl_direct", "is": ">=", "target": 39650 } ],
+    "hidden_by": [ "achievement_vehicle_distance_acft_wright" ]
+  },
+  {
+    "id": "achievement_vehicle_distance_acft_lindbergh",
+    "type": "achievement",
+    "name": "Lindbergh's Loss",
+    "requirements": [ { "event_statistic": "num_moves_acft_ctrl_direct", "is": ">=", "target": 5809000 } ],
+    "hidden_by": [ "achievement_vehicle_distance_acft_bleriot" ]
+  },
+  {
+    "id": "achievement_vehicle_distance_acft_fosset",
+    "type": "achievement",
+    "name": "Further than Fosset",
+    "requirements": [ { "event_statistic": "num_moves_acft_ctrl_direct", "is": ">=", "target": 41467460 } ],
+    "hidden_by": [ "achievement_vehicle_distance_acft_lindbergh" ]
+  },
+  {
+    "id": "achievement_vehicle_distance_acft_flyergold",
+    "type": "achievement",
+    "name": "Frequent Flyer",
+    "//": "40,000 miles to qualify for Star Alliance Gold status",
+    "requirements": [ { "event_statistic": "num_moves_acft_onboard", "is": ">=", "target": 64373760 } ],
+    "hidden_by": [ "achievement_vehicle_distance_acft_fosset" ]
+  },
+  {
+    "id": "achievement_vehicle_onboard_rc",
+    "type": "achievement",
+    "name": "Driver's seat optional",
+    "requirements": [ { "event_statistic": "num_moves_veh_onboard_ctrl_remote", "is": ">=", "target": 100 } ]
+  },
+  {
+    "id": "achievement_vehicle_distance_passenger",
+    "type": "achievement",
+    "name": "Are we there yet?",
+    "requirements": [ { "event_statistic": "num_moves_veh_onboard_ctrl_none", "is": ">=", "target": 100000 } ]
+  },
+  {
+    "id": "achievement_vehicle_distance_skidding",
+    "type": "achievement",
+    "name": "I have full control of the car, I swear.",
+    "requirements": [ { "event_statistic": "num_moves_gndv_skidding", "is": ">=", "target": 100000 } ]
+  },
+  {
+    "id": "achievement_vehicle_velocity_gndv_42mph",
+    "type": "achievement",
+    "name": "Model T",
+    "requirements": [ { "event_statistic": "max_velocity_gndv", "is": ">=", "target": 4200 } ]
+  },
+  {
+    "id": "achievement_vehicle_velocity_gndv_135mph",
+    "type": "achievement",
+    "name": "Charger",
+    "//": "General Lee",
+    "requirements": [ { "event_statistic": "max_velocity_gndv", "is": ">=", "target": 13500 } ],
+    "hidden_by": [ "achievement_vehicle_velocity_gndv_42mph" ]
+  },
+  {
+    "id": "achievement_vehicle_velocity_rail_150mph",
+    "type": "achievement",
+    "name": "Acela",
+    "requirements": [ { "event_statistic": "max_velocity_rail", "is": ">=", "target": 15000 } ]
+  },
+  {
+    "id": "achievement_vehicle_velocity_boat_71mph",
+    "type": "achievement",
+    "name": "Miss America",
+    "requirements": [ { "event_statistic": "max_velocity_boat", "is": ">=", "target": 7143 } ]
+  },
+  {
+    "id": "achievement_vehicle_velocity_boat_125mph",
+    "type": "achievement",
+    "name": "Miss America X",
+    "requirements": [ { "event_statistic": "max_velocity_boat", "is": ">=", "target": 12486 } ],
+    "hidden_by": [ "achievement_vehicle_velocity_boat_71mph" ]
+  },
+  {
+    "id": "achievement_vehicle_velocity_acft_mach1",
+    "type": "achievement",
+    "name": "Going Mach",
+    "requirements": [ { "event_statistic": "max_velocity_acft", "is": ">=", "target": 76727 } ]
+  },
+  {
+    "id": "achievement_vehicle_acft_max_z_level",
+    "type": "achievement",
+    "name": "Up Like Icarus",
+    "requirements": [ { "event_statistic": "max_move_acft_ctrl_direct_z", "is": ">=", "target": 9 } ]
+  },
+  {
+    "id": "achievement_vehicle_velocity_drift_50mph",
+    "type": "achievement",
+    "name": "KANSEI DORIFTO?!",
+    "requirements": [ { "event_statistic": "max_velocity_skidding", "is": ">=", "target": 5000, "visible": "when_achievement_completed" } ]
+  },
+  {
+    "id": "achievement_vehicle_velocity_rail_human50mph",
+    "type": "achievement",
+    "name": "The human body was not designed for this",
+    "requirements": [
+      { "event_statistic": "max_velocity_rail", "is": ">=", "target": 5000, "visible": "when_achievement_completed" },
+      { "event_statistic": "num_installs_cbm", "is": "<=", "target": 0, "visible": "when_achievement_completed" },
+      {
+        "event_statistic": "num_installs_faulty_cbm",
+        "is": "<=",
+        "target": 0,
+        "visible": "when_achievement_completed"
+      },
+      { "event_statistic": "num_gains_mutation", "is": "<=", "target": 0, "visible": "when_achievement_completed" }
+    ]
+  },
+  {
     "id": "achievement_wield_crowbar",
     "type": "achievement",
     "name": "Freeman's favorite",
@@ -1400,11 +1574,270 @@
     "requirements": [ { "event_statistic": "witnessed_portal_storm", "is": ">=", "target": 1, "description": "Survive a portal storm" } ]
   },
   {
+    "id": "achievement_officer_kill",
+    "type": "achievement",
+    "name": "Killed the XEDRA officer",
+    "manually_given": true,
+    "description": "The haunting has finished and I am victorious.",
+    "requirements": [  ]
+  },
+  {
     "id": "achievement_arcade_mode",
     "type": "achievement",
     "name": "Arcade Mode",
+    "manually_given": true,
     "//": "this is the achievement that lets you forever have meta progression disabled",
     "description": "STOP HAND-HOLDING ME!!!",
     "requirements": [  ]
+  },
+  {
+    "id": "achievement_reach_exodii_base",
+    "type": "achievement",
+    "name": "Strange Neighbors",
+    "requirements": [
+      {
+        "event_statistic": "last_overmap_special_avatar_entered",
+        "is": "==",
+        "target": [ "overmap_special_id", "exodii_base" ],
+        "visible": "when_achievement_completed",
+        "description": "Reach the strange fortress"
+      }
+    ]
+  },
+  {
+    "id": "achievement_reach_hub01",
+    "type": "achievement",
+    "name": "Is this thing on?",
+    "requirements": [
+      {
+        "event_statistic": "last_overmap_special_avatar_entered",
+        "is": "==",
+        "target": [ "overmap_special_id", "hub_01" ],
+        "visible": "when_achievement_completed",
+        "description": "Reach Hub-01"
+      }
+    ]
+  },
+  {
+    "id": "achievement_reach_new_england_church_retreat",
+    "type": "achievement",
+    "name": "Bible Study",
+    "requirements": [
+      {
+        "event_statistic": "last_overmap_special_avatar_entered",
+        "is": "==",
+        "target": [ "overmap_special_id", "New England Church Retreat" ],
+        "visible": "when_achievement_completed",
+        "description": "Do you have a few minutes to talk about our lord and saviour Jesus Christ?"
+      }
+    ]
+  },
+  {
+    "id": "achievement_reach_isherwood_farms",
+    "type": "achievement",
+    "name": "Open Fields",
+    "requirements": [
+      {
+        "event_statistic": "last_overmap_special_avatar_entered",
+        "is": "==",
+        "target": [ "overmap_special_id", "Isherwood Farms" ],
+        "visible": "when_achievement_completed",
+        "description": "Reach Isherwood Farms"
+      }
+    ]
+  },
+  {
+    "id": "achievement_reach_aircraft_carrier",
+    "type": "achievement",
+    "name": "Top Gun",
+    "requirements": [
+      {
+        "event_statistic": "last_overmap_special_avatar_entered",
+        "is": "==",
+        "target": [ "overmap_special_id", "aircraft_carrier" ],
+        "visible": "when_achievement_completed",
+        "description": "Reach the Aircraft Carrier"
+      }
+    ]
+  },
+  {
+    "id": "achievement_reach_nuclear_plant",
+    "type": "achievement",
+    "name": "I'm Nuclear!",
+    "requirements": [
+      {
+        "event_statistic": "last_overmap_special_avatar_entered",
+        "is": "==",
+        "target": [ "overmap_special_id", "nuclear power plant" ],
+        "visible": "when_achievement_completed",
+        "description": "Reach a Nuclear Plant"
+      }
+    ]
+  },
+  {
+    "id": "achievement_reach_island_prison",
+    "type": "achievement",
+    "name": "Concrete Hell",
+    "requirements": [
+      {
+        "event_statistic": "last_overmap_special_avatar_entered",
+        "is": "==",
+        "target": [ "overmap_special_id", "Island prison" ],
+        "visible": "when_achievement_completed",
+        "description": "Reach an Island Prison"
+      }
+    ]
+  },
+  {
+    "id": "achievement_reach_mi-Go_encampment",
+    "type": "achievement",
+    "name": "The Whisperer in Darkness",
+    "requirements": [
+      {
+        "event_statistic": "last_overmap_special_avatar_entered",
+        "is": "==",
+        "target": [ "overmap_special_id", "Mi-Go Encampment" ],
+        "visible": "when_achievement_completed",
+        "description": "Reach a Mi-Go Encampment"
+      }
+    ]
+  },
+  {
+    "id": "achievement_reach_trans_coast_lab",
+    "type": "achievement",
+    "name": "Eureka!",
+    "requirements": [
+      {
+        "event_statistic": "last_overmap_special_avatar_entered",
+        "is": "==",
+        "target": [ "overmap_special_id", "Lab_CORE_2x1x2" ],
+        "visible": "when_achievement_completed",
+        "description": "Reach Trans Coastal Lab"
+      }
+    ]
+  },
+  {
+    "id": "achievement_reach_bastion_fort",
+    "type": "achievement",
+    "name": "What a Larp!",
+    "requirements": [
+      {
+        "event_statistic": "last_overmap_special_avatar_entered",
+        "is": "==",
+        "target": [ "overmap_special_id", "Bastion Fort" ],
+        "visible": "when_achievement_completed",
+        "description": "Reach a Bastion Fort"
+      }
+    ]
+  },
+  {
+    "id": "achievement_reach_military_base",
+    "type": "achievement",
+    "name": "Zombie Army",
+    "requirements": [
+      {
+        "event_statistic": "last_overmap_special_avatar_entered",
+        "is": "==",
+        "target": [ "overmap_special_id", "mil_base" ],
+        "visible": "when_achievement_completed",
+        "description": "Reach a Military Base"
+      }
+    ]
+  },
+  {
+    "id": "achievement_reach_triffid_grove",
+    "type": "achievement",
+    "name": "Floral combat!",
+    "requirements": [
+      {
+        "event_statistic": "last_overmap_special_avatar_entered",
+        "is": "==",
+        "target": [ "overmap_special_id", "Triffid Grove" ],
+        "visible": "when_achievement_completed",
+        "description": "Reach a Triffid Grove"
+      }
+    ]
+  },
+  {
+    "id": "achievement_reach_megastore",
+    "type": "achievement",
+    "name": "Shop Smart, Shop S-Mart!",
+    "requirements": [
+      {
+        "event_statistic": "last_overmap_special_avatar_entered",
+        "is": "==",
+        "target": [ "overmap_special_id", "megastore" ],
+        "visible": "when_achievement_completed",
+        "description": "Reach a Megastore"
+      }
+    ]
+  },
+  {
+    "id": "achievement_reach_hospital",
+    "type": "achievement",
+    "name": "The Doctor is out!",
+    "requirements": [
+      {
+        "event_statistic": "num_avatar_enters_hospital",
+        "is": ">=",
+        "target": 1,
+        "visible": "when_achievement_completed",
+        "description": "Reach a Hospital"
+      }
+    ]
+  },
+  {
+    "id": "achievement_reach_mid_z_level",
+    "type": "achievement",
+    "name": "I can see my house from here!",
+    "requirements": [ { "event_statistic": "max_move_z", "is": ">=", "target": 6 } ]
+  },
+  {
+    "id": "achievement_reach_negative_z_level",
+    "type": "achievement",
+    "name": "All downhill from here.",
+    "requirements": [ { "event_statistic": "min_move_z", "is": "<=", "target": -5 } ]
+  },
+  {
+    "id": "achievement_reach_fungal_tower",
+    "type": "achievement",
+    "name": "Oh Shitake!",
+    "requirements": [
+      {
+        "event_statistic": "last_overmap_special_avatar_entered",
+        "is": "==",
+        "target": [ "overmap_special_id", "Fungal Tower" ],
+        "visible": "when_achievement_completed",
+        "description": "Reach a Fungal Tower"
+      }
+    ]
+  },
+  {
+    "id": "achievement_reach_mansion",
+    "type": "achievement",
+    "name": "Lifestyles of the rich and fetid!",
+    "requirements": [
+      {
+        "event_statistic": "num_avatar_enters_mansion",
+        "is": ">=",
+        "target": 1,
+        "visible": "when_achievement_completed",
+        "description": "Reach a Mansion"
+      }
+    ]
+  },
+  {
+    "id": "achievement_reach_mine",
+    "type": "achievement",
+    "name": "We need to go deeper!",
+    "requirements": [
+      {
+        "event_statistic": "num_avatar_enters_mine",
+        "is": ">=",
+        "target": 1,
+        "visible": "when_achievement_completed",
+        "description": "Reach a Mine"
+      }
+    ]
   }
 ]

@@ -8,6 +8,25 @@
 #include "colony.h"
 #include "colony_list_test_helpers.h"
 
+// Fast xorshift+128 random number generator function
+// original: https://codingforspeed.com/using-faster-psudo-random-generator-xorshift/
+unsigned int xor_rand()
+{
+    static unsigned int x = 123456789;
+    static unsigned int y = 362436069;
+    static unsigned int z = 521288629;
+    static unsigned int w = 88675123;
+
+    const unsigned int t = x ^ ( x << 11 );
+
+    // Rotate the static values (w rotation in return statement):
+    x = y;
+    y = z;
+    z = w;
+
+    return w = w ^ ( w >> 19 ) ^ ( t ^ ( t >> 8 ) );
+}
+
 TEST_CASE( "colony basics", "[colony]" )
 {
     cata::colony<int *> test_colony;
@@ -471,7 +490,6 @@ TEST_CASE( "colony insert and erase", "[colony]" )
                 ++count;
             }
         }
-        int count2 = 0;
         for( cata::colony<int>::iterator it = test_colony.begin(); it != test_colony.end(); ) {
             if( ( xor_rand() & 7 ) == 0 ) {
                 it = test_colony.erase( it );
@@ -479,7 +497,6 @@ TEST_CASE( "colony insert and erase", "[colony]" )
             } else {
                 ++it;
             }
-            ++count2;
         }
     }
 

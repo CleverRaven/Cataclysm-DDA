@@ -3,7 +3,7 @@
     "type": "MOD_INFO",
     "id": "magiclysm",
     "name": "Magiclysm",
-    "authors": [ "KorGgenT", "GuardianDII", "Aptronym", "LaVeyanFiend" ],
+    "authors": [ "KorGgenT", "GuardianDll", "Aptronym", "LaVeyanFiend" ],
     "maintainers": [ "KorGgenT" ],
     "description": "Cataclysm but with magic spells!",
     "category": "content",

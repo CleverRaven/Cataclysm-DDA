@@ -10,6 +10,7 @@
 #include "calendar.h"
 #include "character.h"
 #include "construction.h"
+#include "effect_on_condition.h"
 #include "field.h"
 #include "game.h"
 #include "item.h"
@@ -72,8 +73,6 @@ static const std::vector<activity_id> consuming {
     ACT_CONSUME_FOOD_MENU,
     ACT_CONSUME_DRINK_MENU,
     ACT_CONSUME_MEDS_MENU };
-
-constexpr tripoint_abs_ms player_activity::invalid_place;
 
 player_activity::player_activity() : type( activity_id::NULL_ID() ) { }
 
@@ -157,10 +156,10 @@ std::string player_activity::get_str_value( size_t index, const std::string &def
     return index < str_values.size() ? str_values[index] : def;
 }
 
-cata::optional<std::string> player_activity::get_progress_message( const avatar &u ) const
+std::optional<std::string> player_activity::get_progress_message( const avatar &u ) const
 {
     if( type == ACT_NULL || get_verb().empty() ) {
-        return cata::optional<std::string>();
+        return std::optional<std::string>();
     }
 
     if( type == ACT_ADV_INVENTORY ||
@@ -173,7 +172,7 @@ cata::optional<std::string> player_activity::get_progress_message( const avatar 
         type == ACT_EAT_MENU ||
         type == ACT_PICKUP_MENU ||
         type == ACT_VIEW_RECIPE ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     std::string extra_info;
@@ -308,6 +307,17 @@ void player_activity::do_turn( Character &you )
     }
     const bool travel_activity = id() == ACT_TRAVELLING;
     you.set_activity_level( exertion_level() );
+
+    if( !type->do_turn_EOC.is_null() ) {
+        // if we have an EOC defined in json do that
+        dialogue d( get_talker_for( you ), nullptr );
+        if( type->do_turn_EOC->type == eoc_type::ACTIVATION ) {
+            type->do_turn_EOC->activate( d );
+        } else {
+            debugmsg( "Must use an activation eoc for player activities.  Otherwise, create a non-recurring effect_on_condition for this with its condition and effects, then have a recurring one queue it." );
+        }
+    }
+
     // This might finish the activity (set it to null)
     if( actor ) {
         actor->do_turn( *this, you );
@@ -315,6 +325,7 @@ void player_activity::do_turn( Character &you )
         // Use the legacy turn function
         type->call_do_turn( this, &you );
     }
+
     // Activities should never excessively drain stamina.
     // adjusted stamina because
     // autotravel doesn't reduce stamina after do_turn()
@@ -370,6 +381,15 @@ void player_activity::do_turn( Character &you )
     if( *this && moves_left <= 0 ) {
         // Note: For some activities "finish" is a misnomer; that's why we explicitly check if the
         // type is ACT_NULL below.
+        if( !type->completion_EOC.is_null() ) {
+            // if we have an EOC defined in json do that
+            dialogue d( get_talker_for( you ), nullptr );
+            if( type->completion_EOC->type == eoc_type::ACTIVATION ) {
+                type->completion_EOC->activate( d );
+            } else {
+                debugmsg( "Must use an activation eoc for player activities.  Otherwise, create a non-recurring effect_on_condition for this with its condition and effects, then have a recurring one queue it." );
+            }
+        }
         if( actor ) {
             actor->finish( *this, you );
         } else {
@@ -480,7 +500,6 @@ void player_activity::inherit_distractions( const player_activity &other )
         ignore_distraction( type );
     }
 }
-
 
 std::map<distraction_type, std::string> player_activity::get_distractions() const
 {

@@ -13,12 +13,12 @@
     "environmental_protection": 1,
     "material_thickness": 1.25,
     "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "PADDED", "WATER_FRIENDLY", "SOFT", "NO_REPAIR", "ALLOWS_NATURAL_ATTACKS" ],
-    "material": [ "nanotubes" ],
+    "material": [ "flesh_roots" ],
     "name": { "str_sp": "flesh roots" },
     "description": "A layer of bulging rootlike structures distending the upper layers of skin.  Helps protect your body from damage.",
     "armor": [
       {
-        "material": [ { "type": "nanotubes", "covered_by_mat": 100, "thickness": 1 } ],
+        "material": [ { "type": "flesh_roots", "covered_by_mat": 100, "thickness": 1 } ],
         "covers": [ "torso", "head", "leg_l", "leg_r", "arm_l", "arm_r" ],
         "coverage": 80,
         "encumbrance": 0,

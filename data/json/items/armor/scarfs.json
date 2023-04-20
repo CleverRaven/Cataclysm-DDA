@@ -252,7 +252,7 @@
     "price": 3800,
     "price_postapoc": 50,
     "material": [ "wool" ],
-    "weight": "80 g",
+    "weight": "100 g",
     "volume": "750 ml",
     "to_hit": -3,
     "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "scarf_loose", "menu_text": "Loosen" },

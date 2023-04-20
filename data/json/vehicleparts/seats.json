@@ -49,7 +49,7 @@
         "using": [ [ "repair_welding_standard", 1 ], [ "sewing_standard", 8 ] ]
       }
     },
-    "size": 100,
+    "size": "25 L",
     "symbol": "#",
     "type": "vehicle_part"
   },
@@ -89,7 +89,7 @@
         "using": [ [ "repair_welding_standard", 1 ], [ "sewing_standard", 8 ] ]
       }
     },
-    "size": 25,
+    "size": "6250 ml",
     "symbol": "#",
     "type": "vehicle_part"
   },
@@ -129,7 +129,7 @@
         "using": [ [ "repair_welding_standard", 1 ], [ "sewing_standard", 8 ] ]
       }
     },
-    "size": 120,
+    "size": "30 L",
     "standard_symbols": false,
     "symbols": { "vertical": "#", "vertical_left": "#", "vertical_right": "#", "left": "#", "right": "#" },
     "type": "vehicle_part"
@@ -225,13 +225,18 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": "vehicle_weld_removal" },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 3 ] ] }
     },
-    "size": 25,
     "symbol": "#",
     "type": "vehicle_part"
   },
   {
     "copy-from": "seat_abstract",
     "id": "seat",
+    "symbol": "#",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "seat_abstract",
+    "id": "seat_swivel_chair",
     "symbol": "#",
     "type": "vehicle_part"
   },

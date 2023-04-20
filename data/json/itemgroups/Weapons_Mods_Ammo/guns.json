@@ -67,7 +67,7 @@
       { "item": "glock_20", "variant": "glock_40", "prob": 2, "charges-min": 0, "charges-max": 0 },
       { "item": "m1911", "prob": 50, "charges-min": 0, "charges-max": 0 },
       { "item": "m1911_10", "prob": 15, "charges-min": 0, "charges-max": 0 },
-      { "item": "m9", "prob": 30, "charges-min": 0, "charges-max": 0 },
+      { "item": "m9", "variant": "m9", "prob": 30, "charges-min": 0, "charges-max": 0 },
       { "item": "px4", "prob": 24, "charges-min": 0, "charges-max": 0 },
       { "item": "px4_40", "prob": 20, "charges-min": 0, "charges-max": 0 },
       { "item": "ruger_lcr_38", "prob": 10, "charges-min": 0, "charges-max": 0 },
@@ -149,7 +149,7 @@
     "id": "guns_pistol_rare_display",
     "//": "Empty uncommon pistols found exclusively at gun stores.",
     "items": [
-      { "item": "90two", "prob": 25, "charges-min": 0, "charges-max": 0 },
+      { "item": "m9", "variant": "90two", "prob": 25, "charges-min": 0, "charges-max": 0 },
       { "item": "90two40", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "bond_410", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "deagle_44", "prob": 20, "charges-min": 0, "charges-max": 0 },
@@ -181,6 +181,24 @@
   },
   {
     "type": "item_group",
+    "subtype": "distribution",
+    "id": "guns_pistol_hunting_display",
+    "//": "Empty high-caliber pistols and revolvers found within hunting supply stores and related locations.",
+    "items": [
+      { "item": "glock_20", "variant": "glock_20", "prob": 15, "charges-min": 0, "charges-max": 0 },
+      { "item": "glock_20", "variant": "glock_40", "prob": 15, "charges-min": 0, "charges-max": 0 },
+      { "item": "sw_610", "prob": 20, "charges-min": 0, "charges-max": 0 },
+      { "item": "sw_619", "prob": 25, "charges-min": 0, "charges-max": 0 },
+      { "item": "bfr", "prob": 10, "charges-min": 0, "charges-max": 0 },
+      { "item": "raging_bull", "prob": 15, "charges-min": 0, "charges-max": 0 },
+      { "item": "raging_judge", "prob": 15, "charges-min": 0, "charges-max": 0 },
+      { "item": "sw_500", "prob": 10, "charges-min": 0, "charges-max": 0 },
+      { "item": "sw629", "prob": 15, "charges-min": 0, "charges-max": 0 },
+      { "item": "ruger_redhawk", "prob": 15, "charges-min": 0, "charges-max": 0 }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "guns_pistol_milspec",
     "//": "US military specification pistols only ever found at military sites. These weapons must be pistols that are still in current inventory, and are still being issued in some capacity to American personnel.",
     "//2": "Making the assumption any loaded gun will have additional ammo and mags with it.",
@@ -191,7 +209,6 @@
       { "group": "nested_usp_45_mk23", "prob": 5 },
       { "group": "nested_m1911_MEU", "prob": 5 },
       { "group": "nested_glock_19", "prob": 30 },
-      { "group": "nested_needlepistol", "prob": 30 },
       { "group": "nested_rm103a_pistol", "prob": 30 }
     ]
   },
@@ -330,7 +347,6 @@
     "//": "Military specification SMGs only ever found at military sites.",
     "items": [
       { "group": "nested_hk_mp7", "prob": 100 },
-      { "group": "nested_needlegun", "prob": 30 },
       { "group": "nested_rm2000_smg", "prob": 50 },
       { "group": "nested_hk_mp5", "prob": 100 },
       { "group": "nested_hk_mp5k", "prob": 10 },
@@ -490,6 +506,7 @@
       { "group": "nested_m1903", "prob": 15 },
       { "group": "nested_m1918", "prob": 30 },
       { "group": "nested_mosin44_ebr", "prob": 10 },
+      { "group": "nested_psl", "prob": 5 },
       { "group": "nested_mosin91_30_ebr", "prob": 20 },
       { "group": "nested_remington_700", "prob": 20 },
       { "group": "nested_savage_111f", "prob": 15 },
@@ -531,6 +548,23 @@
       { "item": "rifle_flintlock", "prob": 1, "charges-min": 0, "charges-max": 0 },
       { "item": "win70", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "m1carbine", "prob": 10, "charges-min": 0, "charges-max": 0 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "guns_rifle_hunting_display",
+    "//": "Empty civilian hunting rifles found within hunting supply stores and other related locations.",
+    "items": [
+      { "item": "remington700_270", "prob": 30, "charges-min": 0, "charges-max": 0 },
+      { "item": "remington_700", "prob": 40, "charges-min": 0, "charges-max": 0 },
+      { "item": "ruger_1022", "prob": 50, "charges-min": 0, "charges-max": 0 },
+      { "item": "win70", "prob": 15, "charges-min": 0, "charges-max": 0 },
+      { "item": "weatherby_5", "prob": 8, "charges-min": 0, "charges-max": 0 },
+      { "item": "savage_111f", "prob": 10, "charges-min": 0, "charges-max": 0 },
+      { "item": "1895sbl", "prob": 10, "charges-min": 0, "charges-max": 0 },
+      { "item": "browning_blr", "prob": 10, "charges-min": 0, "charges-max": 0 },
+      { "item": "ar10", "prob": 10, "charges-min": 0, "charges-max": 0 }
     ]
   },
   {
@@ -595,6 +629,7 @@
       { "group": "nested_arx160", "prob": 40 },
       { "group": "nested_vz58p", "prob": 35 },
       { "group": "nested_vz58v", "prob": 25 },
+      { "group": "nested_psl", "prob": 10 },
       { "group": "nested_iwi_tavor_x95_300blk", "prob": 10 },
       { "group": "nested_acr_300blk", "prob": 15 },
       { "group": "nested_ak308", "prob": 25 },
@@ -638,7 +673,7 @@
     "type": "item_group",
     "id": "guns_rifle_improvised",
     "//": "Makeshift or otherwise poor quality rifles.",
-    "items": [ { "item": "rifle_22", "prob": 60 }, { "item": "rifle_3006", "prob": 30 }, { "item": "rifle_9mm", "prob": 60 } ]
+    "items": [ { "item": "rifle_22", "prob": 60 }, { "item": "remington_700", "prob": 30 }, { "item": "rifle_9mm", "prob": 60 } ]
   },
   {
     "type": "item_group",
@@ -1039,8 +1074,8 @@
     "items": [
       { "item": "fn57", "prob": 20, "charges": [ 0, 20 ] },
       { "item": "glock_19", "prob": 15, "charges": [ 0, 15 ] },
-      { "item": "glock_22", "prob": 20, "charges": [ 0, 15 ] },
-      { "item": "m9", "prob": 5, "charges": [ 0, 15 ] },
+      { "item": "glock_22", "prob": 20, "ammo-item": "40sw", "charges": [ 0, 15 ] },
+      { "item": "m9", "variant": "m9", "prob": 5, "charges": [ 0, 15 ] },
       { "item": "sig_40", "prob": 20, "charges": [ 0, 12 ] },
       { "item": "usp_45", "prob": 10, "charges": [ 0, 12 ] },
       { "item": "usp_9mm", "prob": 10, "charges": [ 0, 15 ] }
@@ -1057,10 +1092,13 @@
         "prob": 15
       },
       {
-        "collection": [ { "item": "glock_22", "prob": 100, "charges": [ 0, 15 ] }, { "group": "field_glock_22" } ],
+        "collection": [ { "item": "glock_22", "ammo-item": "40sw", "prob": 100, "charges": [ 0, 15 ] }, { "group": "field_glock_22" } ],
         "prob": 20
       },
-      { "collection": [ { "item": "m9", "prob": 100, "charges": [ 0, 15 ] }, { "group": "field_m9" } ], "prob": 5 },
+      {
+        "collection": [ { "item": "m9", "variant": "m9", "prob": 100, "charges": [ 0, 15 ] }, { "group": "field_m9" } ],
+        "prob": 5
+      },
       {
         "collection": [ { "item": "sig_40", "prob": 100, "charges": [ 0, 12 ] }, { "group": "field_sig_40" } ],
         "prob": 20

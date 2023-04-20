@@ -40,8 +40,6 @@
     "message": "",
     "valid_targets": [ "self" ],
     "flags": [ "SILENT", "NO_LEGS", "NO_HANDS" ],
-    "min_damage": 1,
-    "max_damage": 1,
     "effect": "attack",
     "effect_str": "biomechanic",
     "shape": "blast",

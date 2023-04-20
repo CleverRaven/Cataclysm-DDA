@@ -37,6 +37,7 @@ static void pass_time( Character &p, time_duration amt )
     for( time_duration turns = 1_turns; turns < amt; turns += 1_turns ) {
         calendar::turn += 1_turns;
         p.update_body();
+        p.update_health();
     }
 }
 
@@ -107,6 +108,7 @@ TEST_CASE( "starve_test", "[starve][slow]" )
     reset_time();
     clear_stomach( dummy );
     dummy.reset_activity_level();
+    dummy.set_stored_kcal( dummy.get_healthy_kcal() );
     calendar::turn += 1_seconds;
     dummy.update_body( calendar::turn, calendar::turn );
     dummy.set_activity_level( 1.0 );
@@ -125,7 +127,7 @@ TEST_CASE( "starve_test", "[starve][slow]" )
     // is, but it helps to debug the test faster if this value is wrong.
     REQUIRE( dummy.get_bmr() == 1738 );
 
-    constexpr int expected_day = 36;
+    constexpr int expected_day = 75;
     int day = 0;
     std::vector<std::string> results;
 
@@ -156,7 +158,6 @@ TEST_CASE( "vitamin_process", "[vitamins]" )
     REQUIRE( subject.vitamin_get( vitamin_test_vit_fast ) == 0 );
     REQUIRE( subject.vitamin_get( vitamin_test_vit_slow ) == 0 );
 
-
     pass_time( subject, 1_days );
 
     // check
@@ -174,8 +175,6 @@ TEST_CASE( "vitamin_process", "[vitamins]" )
     // fast vitamin drains every 5 minutes or 288 units in a day
     CHECK( subject.vitamin_get( vitamin_test_vit_fast ) <= -287 );
     CHECK( subject.vitamin_get( vitamin_test_vit_fast ) >= -289 );
-
-
 
 }
 
@@ -196,7 +195,6 @@ TEST_CASE( "vitamin_equilibrium", "[vitamins]" )
     // check that 100% of daily vit C is by default 96 units
     CHECK( subject.compute_effective_nutrients( f ).get_vitamin( vitamin_vitC ) == 96 );
     subject.consume( f );
-
 
     pass_time( subject, 1_days );
 
@@ -245,7 +243,8 @@ TEST_CASE( "vitamin_daily", "[vitamins]" )
     clear_avatar();
     reset_time();
     clear_stomach( subject );
-    subject.set_daily_health( 0 );
+    //  there isn't yet a set_health_tally function, so reset it to 0 like this
+    subject.mod_health_tally( -subject.get_health_tally() );
 
     set_all_vitamins( -100, subject );
     reset_daily_vitamins( subject );
@@ -255,7 +254,8 @@ TEST_CASE( "vitamin_daily", "[vitamins]" )
     REQUIRE( subject.get_daily_vitamin( vitamin_vitC ) == 0 );
     REQUIRE( subject.get_daily_vitamin( vitamin_calcium ) == 0 );
     REQUIRE( subject.get_daily_vitamin( vitamin_iron ) == 0 );
-    REQUIRE( subject.get_daily_health() == 0 );
+    REQUIRE( subject.get_health_tally() == 0 );
+
     item f( "debug_vitamins" );
 
     subject.consume( f );
@@ -270,9 +270,6 @@ TEST_CASE( "vitamin_daily", "[vitamins]" )
             subject.get_daily_vitamin( vitamin_iron ) == 0 ) {
             break;
         }
-        //otherwise clean up any other health changes that may have happened
-        subject.set_daily_health( 0 );
-
     }
 
     // check if after a day health is up and vitamins are reset
@@ -280,7 +277,7 @@ TEST_CASE( "vitamin_daily", "[vitamins]" )
     CHECK( subject.get_daily_vitamin( vitamin_calcium ) == 0 );
     CHECK( subject.get_daily_vitamin( vitamin_iron ) == 0 );
     // get that vitamin health bonus is up by 6 with maybe a recent reduction on the same timecheck
-    CHECK( subject.get_daily_health() >= 5 );
+    CHECK( subject.get_health_tally() >= 5 );
 
 }
 
@@ -291,11 +288,12 @@ TEST_CASE( "starve_test_hunger3", "[starve][slow]" )
     Character &dummy = get_player_character();
     reset_time();
     clear_stomach( dummy );
+    dummy.set_stored_kcal( dummy.get_healthy_kcal() );
     while( !dummy.has_trait( trait_HUNGER3 ) ) {
         dummy.mutate_towards( trait_HUNGER3 );
     }
     clear_stomach( dummy );
-
+    dummy.set_stored_kcal( dummy.get_healthy_kcal() );
     CAPTURE( dummy.metabolic_rate_base() );
     CAPTURE( dummy.activity_level_str() );
     CAPTURE( dummy.base_height() );
@@ -317,9 +315,13 @@ TEST_CASE( "starve_test_hunger3", "[starve][slow]" )
         day++;
     } while( dummy.get_stored_kcal() > 0 );
 
+    //you are burning through 5000 kcal a day out of a healthy base reserve of ~120000 kcal (15kg which is ~20% of your expected total weight of ~72kg)
+    //as your metabolism slows as you starve this puts your expected lifespan at about 25 days, which is likely too high for a super hungry mutant.
+    //however, you also start breaking down muscle below 3.5 fat BMIs (~50,000 kcal), which is hard to recover from, and 15kg is a fairly solid buffer.
+    //the system should probably account for the fact that fat ketones cannot power your whole body (brain can't think without food, stored kcal or not)
     CAPTURE( results );
-    CHECK( day <= 12 );
-    CHECK( day >= 10 );
+    CHECK( day <= 27 );
+    CHECK( day >= 23 );
 }
 
 // does eating enough food per day keep you alive

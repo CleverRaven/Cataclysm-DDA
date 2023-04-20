@@ -27,7 +27,7 @@
       "y": "t_pavement_y",
       "s": "t_sidewalk",
       "{": "t_sidewalk",
-      "I": "t_column",
+      "I": "t_sidewalk",
       "b": [ [ "t_brick_wall", 100 ], "t_pit_shallow" ],
       "F": "t_fence_barbed",
       "f": "t_fence_wire",
@@ -107,8 +107,10 @@
       "U": "f_safe_l",
       "E": "f_safe_l",
       "a": "f_washer",
-      "!": "f_dryer"
+      "!": "f_dryer",
+      "I": "f_flagpole"
     },
+    "item": { "I": { "item": "american_flag" } },
     "liquids": {
       "6": { "liquid": "water_clean", "amount": [ 0, 100 ] },
       "7": { "liquid": "water_sewage", "amount": [ 0, 200 ] },

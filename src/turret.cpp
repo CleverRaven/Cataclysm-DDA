@@ -50,7 +50,7 @@ std::vector<vehicle_part *> vehicle::turrets( const tripoint &target )
 {
     std::vector<vehicle_part *> res = turrets();
     // exclude turrets not ready to fire or where target is out of range
-    res.erase( std::remove_if( res.begin(), res.end(), [&]( const vehicle_part * e ) {
+    res.erase( std::remove_if( res.begin(), res.end(), [&]( vehicle_part * e ) {
         return turret_query( *e ).query() != turret_data::status::ready ||
                rl_dist( global_part_pos3( *e ), target ) > e->base.gun_range();
     } ), res.end() );
@@ -65,20 +65,10 @@ turret_data vehicle::turret_query( vehicle_part &pt )
     return turret_data( this, &pt );
 }
 
-turret_data vehicle::turret_query( const vehicle_part &pt ) const
-{
-    return const_cast<vehicle *>( this )->turret_query( const_cast<vehicle_part &>( pt ) );
-}
-
 turret_data vehicle::turret_query( const tripoint &pos )
 {
     auto res = get_parts_at( pos, "TURRET", part_status_flag::any );
     return !res.empty() ? turret_query( *res.front() ) : turret_data();
-}
-
-turret_data vehicle::turret_query( const tripoint &pos ) const
-{
-    return const_cast<vehicle *>( this )->turret_query( pos );
 }
 
 std::string turret_data::name() const
@@ -261,8 +251,8 @@ turret_data::status turret_data::query() const
         }
     }
 
-    const units::energy ups_drain = gun.get_gun_ups_drain() * gun.gun_current_mode().qty;
-    if( ups_drain > units::from_kilojoule( veh->fuel_left( fuel_type_battery ) ) ) {
+    const units::energy energy_drain = gun.get_gun_energy_drain() * gun.gun_current_mode().qty;
+    if( energy_drain > units::from_kilojoule( veh->fuel_left( fuel_type_battery ) ) ) {
         return status::no_power;
     }
 
@@ -315,7 +305,7 @@ void turret_data::post_fire( Character &you, int shots )
         clear_mag_wells( *base() );
     }
 
-    veh->drain( fuel_type_battery, units::to_kilojoule( mode->get_gun_ups_drain() * shots ) );
+    veh->drain( fuel_type_battery, units::to_kilojoule( mode->get_gun_energy_drain() * shots ) );
 }
 
 int turret_data::fire( Character &c, const tripoint &target )

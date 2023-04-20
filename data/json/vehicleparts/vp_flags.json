@@ -368,7 +368,8 @@
   },
   {
     "id": "FUNNEL",
-    "type": "json_flag"
+    "type": "json_flag",
+    "//": "When set on vehicle part the, bonus field defines the funnel radius in mm^2 and part collects rain"
   },
   {
     "id": "HALF_BOARD",
@@ -570,6 +571,12 @@
   {
     "id": "VARIABLE_SIZE",
     "type": "json_flag"
+  },
+  {
+    "id": "VEH_TOOLS",
+    "type": "json_flag",
+    "//": "Modular tool station allowing to 'hook' tools to vehicle batteries/tanks.",
+    "info": "You can 'e'xamine the tile to <color_cyan>connect tools</color> to the vehicle's batteries and tanks."
   },
   {
     "id": "VISION",

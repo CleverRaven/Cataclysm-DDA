@@ -41,7 +41,6 @@ static float get_damage_vs_target( const std::string &target_id )
     frag.proj = proj;
 
     int damaging_hits = 0;
-    int non_damaging_hits = 0;
     int damage_taken = 0;
     tripoint monster_position( 30, 30, 0 );
     clear_map_and_put_player_underground();
@@ -56,8 +55,6 @@ static float get_damage_vs_target( const std::string &target_id )
         if( frag.dealt_dam.total_damage() > 0 ) {
             damaging_hits++;
             damage_taken += frag.dealt_dam.total_damage();
-        } else {
-            non_damaging_hits++;
         }
     }
     return static_cast<float>( damage_taken ) / static_cast<float>( damaging_hits );

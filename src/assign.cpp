@@ -1,7 +1,7 @@
 #include "assign.h"
 
 void report_strict_violation( const JsonObject &jo, const std::string &message,
-                              const std::string &name )
+                              const std::string_view name )
 {
     try {
         // Let the json class do the formatting, it includes the context of the JSON data.
@@ -12,7 +12,7 @@ void report_strict_violation( const JsonObject &jo, const std::string &message,
     }
 }
 
-bool assign( const JsonObject &jo, const std::string &name, bool &val, bool strict )
+bool assign( const JsonObject &jo, const std::string_view name, bool &val, bool strict )
 {
     bool out;
 
@@ -109,7 +109,7 @@ bool assign( const JsonObject &jo, const std::string &name, units::volume &val, 
     return true;
 }
 
-bool assign( const JsonObject &jo, const std::string &name, units::mass &val, bool strict,
+bool assign( const JsonObject &jo, const std::string_view name, units::mass &val, bool strict,
              const units::mass lo, const units::mass hi )
 {
     const auto parse = [&name]( const JsonObject & obj, units::mass & out ) {
@@ -173,7 +173,7 @@ bool assign( const JsonObject &jo, const std::string &name, units::mass &val, bo
     return true;
 }
 
-bool assign( const JsonObject &jo, const std::string &name, units::length &val, bool strict,
+bool assign( const JsonObject &jo, const std::string_view name, units::length &val, bool strict,
              const units::length lo, const units::length hi )
 {
     const auto parse = [&name]( const JsonObject & obj, units::length & out ) {
@@ -237,7 +237,7 @@ bool assign( const JsonObject &jo, const std::string &name, units::length &val, 
     return true;
 }
 
-bool assign( const JsonObject &jo, const std::string &name, units::money &val, bool strict,
+bool assign( const JsonObject &jo, const std::string_view name, units::money &val, bool strict,
              const units::money lo, const units::money hi )
 {
     const auto parse = [&name]( const JsonObject & obj, units::money & out ) {
@@ -301,7 +301,7 @@ bool assign( const JsonObject &jo, const std::string &name, units::money &val, b
     return true;
 }
 
-bool assign( const JsonObject &jo, const std::string &name, units::energy &val, bool strict,
+bool assign( const JsonObject &jo, const std::string_view name, units::energy &val, bool strict,
              const units::energy lo, const units::energy hi )
 {
     const auto parse = [&name]( const JsonObject & obj, units::energy & out ) {
@@ -335,6 +335,75 @@ bool assign( const JsonObject &jo, const std::string &name, units::energy &val, 
     // such as +10% are well-formed independent of whether they affect base value
     if( relative.has_member( name ) ) {
         units::energy tmp;
+        err = &relative;
+        if( !parse( *err, tmp ) ) {
+            err->throw_error_at( name, "invalid relative value specified" );
+        }
+        strict = false;
+        out = val + tmp;
+
+    } else if( proportional.has_member( name ) ) {
+        double scalar;
+        err = &proportional;
+        if( !err->read( name, scalar ) || scalar <= 0 || scalar == 1 ) {
+            err->throw_error_at( name, "multiplier must be a positive number other than 1" );
+        }
+        strict = false;
+        out = val * scalar;
+
+    } else if( !parse( jo, out ) ) {
+        return false;
+    }
+
+    if( out < lo || out > hi ) {
+        err->throw_error_at( name, "value outside supported range" );
+    }
+
+    if( strict && out == val ) {
+        report_strict_violation( *err,
+                                 "cannot assign explicit value the same as default or inherited value",
+                                 name );
+    }
+
+    val = out;
+
+    return true;
+}
+
+bool assign( const JsonObject &jo, const std::string_view name, units::power &val, bool strict,
+             const units::power lo, const units::power hi )
+{
+    const auto parse = [&name]( const JsonObject & obj, units::power & out ) {
+        if( obj.has_int( name ) ) {
+            const std::int64_t tmp = obj.get_int( name );
+            if( tmp > units::to_kilowatt( units::power_max ) ) {
+                out = units::power_max;
+            } else {
+                out = units::from_kilowatt( tmp );
+            }
+            return true;
+        }
+        if( obj.has_string( name ) ) {
+
+            out = read_from_json_string<units::power>( obj.get_member( name ), units::power_units );
+            return true;
+        }
+        return false;
+    };
+
+    units::power out;
+
+    // Object via which to report errors which differs for proportional/relative values
+    const JsonObject *err = &jo;
+    JsonObject relative = jo.get_object( "relative" );
+    relative.allow_omitted_members();
+    JsonObject proportional = jo.get_object( "proportional" );
+    proportional.allow_omitted_members();
+
+    // Do not require strict parsing for relative and proportional values as rules
+    // such as +10% are well-formed independent of whether they affect base value
+    if( relative.has_member( name ) ) {
+        units::power tmp;
         err = &relative;
         if( !parse( *err, tmp ) ) {
             err->throw_error_at( name, "invalid relative value specified" );
@@ -426,12 +495,16 @@ static void assign_dmg_relative( damage_instance &out, const damage_instance &va
             out_dmg.unconditional_damage_mult = tmp.unconditional_damage_mult +
                                                 val_dmg.unconditional_damage_mult;
 
+            for( const barrel_desc &bd : val_dmg.barrels ) {
+                out_dmg.barrels.emplace_back( bd.barrel_length, bd.amount + tmp.amount );
+            }
+
             out.add( out_dmg );
         }
     }
 }
 
-static void assign_dmg_proportional( const JsonObject &jo, const std::string &name,
+static void assign_dmg_proportional( const JsonObject &jo, const std::string_view name,
                                      damage_instance &out,
                                      const damage_instance &val,
                                      damage_instance proportional, bool &strict )
@@ -501,12 +574,16 @@ static void assign_dmg_proportional( const JsonObject &jo, const std::string &na
             out_dmg.unconditional_damage_mult = val_dmg.unconditional_damage_mult *
                                                 scalar.unconditional_damage_mult;
 
+            for( const barrel_desc &bd : val_dmg.barrels ) {
+                out_dmg.barrels.emplace_back( bd.barrel_length, bd.amount * scalar.amount );
+            }
+
             out.add( out_dmg );
         }
     }
 }
 
-static void check_assigned_dmg( const JsonObject &err, const std::string &name,
+static void check_assigned_dmg( const JsonObject &err, const std::string_view name,
                                 const damage_instance &out, const damage_instance &lo_inst, const damage_instance &hi_inst )
 {
     for( const damage_unit &out_dmg : out.damage_units ) {

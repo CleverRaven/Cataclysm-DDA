@@ -30,7 +30,7 @@
       { "item": "heroin", "prob": 1, "charges": [ 1, 4 ] },
       [ "wrapper", 40 ],
       [ "wrapper_foil", 2 ],
-      [ "nail", 5 ],
+      { "item": "nail", "count": 5, "charges": [ 1, 100 ] },
       [ "splinter", 40 ],
       { "item": "lighter", "prob": 5, "charges-min": 0, "charges-max": 10 },
       { "item": "matches", "prob": 5, "charges-min": 0, "charges-max": 20 },
@@ -72,6 +72,25 @@
       [ "scrap_copper", 62 ],
       { "item": "sheet_metal", "prob": 5 },
       { "item": "sheet_metal_small", "prob": 5, "count": [ 2, 4 ] }
+    ]
+  },
+  {
+    "id": "vehicle_scrapped",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "chain", "prob": 10 },
+      { "item": "steel_chunk", "prob": 30 },
+      { "item": "spring", "prob": 5 },
+      { "item": "steel_lump", "prob": 30 },
+      { "item": "steel_plate", "prob": 30 },
+      { "item": "hard_plate", "prob": 30 },
+      { "item": "frame", "prob": 20 },
+      { "item": "bearing", "prob": 5 },
+      { "item": "cu_pipe", "prob": 5 },
+      { "item": "scrap", "prob": 20 },
+      { "item": "glass_shard", "prob": 10, "count": [ 1, 8 ] },
+      { "item": "wire", "prob": 5 }
     ]
   },
   {
@@ -164,7 +183,7 @@
       [ "string_6", 2 ],
       [ "chain", 20 ],
       [ "glass_sheet", 5 ],
-      { "item": "glass_shard", "prob": 20, "count": [ 1, 8 ] },
+      { "item": "glass_shard", "prob": 20, "count": [ 5, 60 ] },
       [ "ceramic_shard", 15 ],
       [ "stick", 95 ],
       [ "seed_wheat", 5 ],
@@ -309,6 +328,17 @@
     "items": [
       { "item": "rebar", "prob": 2, "count": [ 5, 10 ], "damage-min": 0, "damage-max": 3 },
       { "item": "brick", "prob": 20, "count": [ 15, 30 ], "damage-min": 0, "damage-max": 3 }
+    ]
+  },
+  {
+    "id": "table_destruction",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      { "item": "2x4", "count": [ 2, 4 ] },
+      { "item": "wood_panel", "count": [ 0, 1 ] },
+      { "item": "nail", "charges": [ 4, 8 ] },
+      { "item": "splinter", "count": 1 }
     ]
   }
 ]

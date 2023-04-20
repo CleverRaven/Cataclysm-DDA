@@ -36,13 +36,14 @@ void game::list_missions()
     size_t selection = 0;
     int entries_per_page = 0;
     input_context ctxt( "MISSIONS" );
-    ctxt.register_cardinal();
+    ctxt.register_navigate_ui_list();
+    ctxt.register_leftright();
+    ctxt.register_action( "NEXT_TAB" );
+    ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "SELECT" );
     ctxt.register_action( "MOUSE_MOVE" );
-    ctxt.register_action( "SCROLL_UP" );
-    ctxt.register_action( "SCROLL_DOWN" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
     // rectangular coordinates of each tab
@@ -203,29 +204,12 @@ void game::list_missions()
         }
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
-        if( action == "RIGHT" ) {
-            tab = static_cast<tab_mode>( static_cast<int>( tab ) + 1 );
-            if( tab >= tab_mode::NUM_TABS ) {
-                tab = tab_mode::FIRST_TAB;
-            }
+        if( action == "LEFT" || action == "PREV_TAB" || action == "RIGHT" || action == "NEXT_TAB" ) {
+            // necessary to use increment_and_wrap
+            static_assert( static_cast<int>( tab_mode::FIRST_TAB ) == 0 );
+            tab = increment_and_wrap( tab, action == "RIGHT" || action == "NEXT_TAB", tab_mode::NUM_TABS );
             selection = 0;
-        } else if( action == "LEFT" ) {
-            tab = static_cast<tab_mode>( static_cast<int>( tab ) - 1 );
-            if( tab < tab_mode::FIRST_TAB ) {
-                tab = tab_mode::LAST_TAB;
-            }
-            selection = 0;
-        } else if( action == "DOWN" || action == "SCROLL_DOWN" ) {
-            selection++;
-            if( selection >= umissions.size() ) {
-                selection = 0;
-            }
-        } else if( action == "UP" || action == "SCROLL_UP" ) {
-            if( selection == 0 ) {
-                selection = umissions.empty() ? 0 : umissions.size() - 1;
-            } else {
-                selection--;
-            }
+        } else if( navigate_ui_list( action, selection, 10, umissions.size(), true ) ) {
         } else if( action == "CONFIRM" ) {
             if( tab == tab_mode::TAB_ACTIVE && selection < umissions.size() ) {
                 u.set_active_mission( *umissions[selection] );
@@ -233,7 +217,7 @@ void game::list_missions()
             break;
         } else if( action == "SELECT" ) {
             // get clicked coord
-            cata::optional<point> coord = ctxt.get_coordinates_text( w_missions );
+            std::optional<point> coord = ctxt.get_coordinates_text( w_missions );
             if( coord.has_value() ) {
 
                 for( auto &it : tabs_coords ) {
@@ -253,7 +237,7 @@ void game::list_missions()
             }
         } else if( action == "MOUSE_MOVE" ) {
             // get clicked coord
-            cata::optional<point> coord = ctxt.get_coordinates_text( w_missions );
+            std::optional<point> coord = ctxt.get_coordinates_text( w_missions );
             if( coord.has_value() ) {
 
                 for( auto &it : mission_row_coords ) {

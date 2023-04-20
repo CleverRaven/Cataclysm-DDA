@@ -57,7 +57,7 @@ TEST_CASE( "food with hidden effects", "[item][tname][hidden]" )
 
         WHEN( "avatar has level 2 survival skill" ) {
             player_character.set_skill_level( skill_survival, 2 );
-            REQUIRE( player_character.get_skill_level( skill_survival ) == 2 );
+            REQUIRE( static_cast<int>( player_character.get_skill_level( skill_survival ) ) == 2 );
 
             THEN( "they cannot see it is poisonous" ) {
                 CHECK( coffee.tname() == "Kentucky coffee pod" );
@@ -66,7 +66,7 @@ TEST_CASE( "food with hidden effects", "[item][tname][hidden]" )
 
         WHEN( "avatar has level 3 survival skill" ) {
             player_character.set_skill_level( skill_survival, 3 );
-            REQUIRE( player_character.get_skill_level( skill_survival ) == 3 );
+            REQUIRE( static_cast<int>( player_character.get_skill_level( skill_survival ) ) == 3 );
 
             THEN( "they see it is poisonous" ) {
                 CHECK( coffee.tname() == "Kentucky coffee pod (poisonous)" );
@@ -82,7 +82,7 @@ TEST_CASE( "food with hidden effects", "[item][tname][hidden]" )
 
         WHEN( "avatar has level 4 survival skill" ) {
             player_character.set_skill_level( skill_survival, 4 );
-            REQUIRE( player_character.get_skill_level( skill_survival ) == 4 );
+            REQUIRE( static_cast<int>( player_character.get_skill_level( skill_survival ) ) == 4 );
 
             THEN( "they cannot see it is hallucinogenic" ) {
                 CHECK( mushroom.tname() == "mushroom (fresh)" );
@@ -91,7 +91,7 @@ TEST_CASE( "food with hidden effects", "[item][tname][hidden]" )
 
         WHEN( "avatar has level 5 survival skill" ) {
             player_character.set_skill_level( skill_survival, 5 );
-            REQUIRE( player_character.get_skill_level( skill_survival ) == 5 );
+            REQUIRE( static_cast<int>( player_character.get_skill_level( skill_survival ) ) == 5 );
 
             THEN( "they see it is hallucinogenic" ) {
                 CHECK( mushroom.tname() == "mushroom (hallucinogenic) (fresh)" );
@@ -276,13 +276,13 @@ TEST_CASE( "engine displacement volume", "[item][tname][engine]" )
     item v12diesel = item( "v12_diesel" );
     item turbine = item( "small_turbine_engine" );
 
-    REQUIRE( vtwin.engine_displacement() == 100 );
+    REQUIRE( vtwin.engine_displacement() == 60 );
     REQUIRE( v12diesel.engine_displacement() == 700 );
     REQUIRE( turbine.engine_displacement() == 2700 );
 
-    CHECK( vtwin.tname() == "1.0L V2 engine" );
-    CHECK( v12diesel.tname() == "7.0L V12 diesel engine" );
-    CHECK( turbine.tname() == "27.0L 1,350 HP gas turbine engine" );
+    CHECK( vtwin.tname() == "0.6L V2 engine" );
+    CHECK( v12diesel.tname() == "7L V12 diesel engine" );
+    CHECK( turbine.tname() == "27L 1,350 HP gas turbine engine" );
 }
 
 TEST_CASE( "wheel diameter", "[item][tname][wheel]" )
@@ -320,8 +320,19 @@ TEST_CASE( "item health or damage bar", "[item][tname][health][damage]" )
             REQUIRE( shirt.damage() == 0 );
             REQUIRE( shirt.damage_level() == 0 );
 
-            // green `||`
+            // green `++`
             THEN( "it appears undamaged" ) {
+                CHECK( shirt.tname() == "<color_c_green>++</color>\u00A0long-sleeved shirt (poor fit)" );
+            }
+        }
+
+        WHEN( "it is minimally damaged" ) {
+            shirt.set_damage( 1 );
+            REQUIRE( shirt.damage() == 1 );
+            REQUIRE( shirt.damage_level() == 1 );
+
+            // light_green `||`
+            THEN( "it appears damaged" ) {
                 CHECK( shirt.tname() == "<color_c_light_green>||</color>\u00A0long-sleeved shirt (poor fit)" );
             }
         }
@@ -329,7 +340,7 @@ TEST_CASE( "item health or damage bar", "[item][tname][health][damage]" )
         WHEN( "is is one-quarter damaged" ) {
             shirt.set_damage( dam25 );
             REQUIRE( shirt.damage() == dam25 );
-            REQUIRE( shirt.damage_level() == 1 );
+            REQUIRE( shirt.damage_level() == 2 );
 
             // yellow `|\`
             THEN( "it appears slightly damaged" ) {
@@ -340,29 +351,29 @@ TEST_CASE( "item health or damage bar", "[item][tname][health][damage]" )
         WHEN( "it is half damaged" ) {
             shirt.set_damage( dam25 * 2 );
             REQUIRE( shirt.damage() == dam25 * 2 );
-            REQUIRE( shirt.damage_level() == 2 );
+            REQUIRE( shirt.damage_level() == 3 );
 
-            // magenta `|.`
+            // light_red `|.`
             THEN( "it appears moderately damaged" ) {
-                CHECK( shirt.tname() == "<color_c_magenta>|.</color>\u00A0long-sleeved shirt (poor fit)" );
+                CHECK( shirt.tname() == "<color_c_light_red>|.</color>\u00A0long-sleeved shirt (poor fit)" );
             }
         }
 
         WHEN( "it is three-quarters damaged" ) {
             shirt.set_damage( dam25 * 3 );
             REQUIRE( shirt.damage() == dam25 * 3 );
-            REQUIRE( shirt.damage_level() == 3 );
+            REQUIRE( shirt.damage_level() == 4 );
 
             // red `\.`
             THEN( "it appears heavily damaged" ) {
-                CHECK( shirt.tname() == "<color_c_light_red>\\.</color>\u00A0long-sleeved shirt (poor fit)" );
+                CHECK( shirt.tname() == "<color_c_red>\\.</color>\u00A0long-sleeved shirt (poor fit)" );
             }
         }
 
         WHEN( "it is totally damaged" ) {
             shirt.set_damage( dam25 * 4 );
             REQUIRE( shirt.damage() == dam25 * 4 );
-            REQUIRE( shirt.damage_level() == 4 );
+            REQUIRE( shirt.damage_level() == 5 );
 
             // dark gray `XX`
             THEN( "it appears almost destroyed" ) {
@@ -373,7 +384,7 @@ TEST_CASE( "item health or damage bar", "[item][tname][health][damage]" )
         WHEN( "it is one quarter degraded" ) {
             deg_test.set_degradation( deg20 );
             REQUIRE( deg_test.degradation() == deg20 );
-            REQUIRE( deg_test.damage_level() == 0 );
+            REQUIRE( deg_test.damage_level() == 1 );
 
             // yellow bar
             THEN( "it appears slightly degraded" ) {
@@ -385,7 +396,7 @@ TEST_CASE( "item health or damage bar", "[item][tname][health][damage]" )
         WHEN( "it is half degraded" ) {
             deg_test.set_degradation( deg20 * 2 );
             REQUIRE( deg_test.degradation() == deg20 * 2 );
-            REQUIRE( deg_test.damage_level() == 1 );
+            REQUIRE( deg_test.damage_level() == 2 );
 
             // magenta bar
             THEN( "it appears slightly more degraded" ) {
@@ -397,24 +408,24 @@ TEST_CASE( "item health or damage bar", "[item][tname][health][damage]" )
         WHEN( "it is three quarters degraded" ) {
             deg_test.set_degradation( deg20 * 3 );
             REQUIRE( deg_test.degradation() == deg20 * 3 );
-            REQUIRE( deg_test.damage_level() == 2 );
+            REQUIRE( deg_test.damage_level() == 3 );
 
             // light red bar
             THEN( "it appears very degraded" ) {
                 CHECK( deg_test.tname() ==
-                       "<color_c_magenta>|.</color><color_c_light_red>\u2583</color>\u00A0baseball" );
+                       "<color_c_light_red>|.</color><color_c_light_red>\u2583</color>\u00A0baseball" );
             }
         }
 
         WHEN( "it is totally degraded" ) {
             deg_test.set_degradation( deg20 * 4 );
             REQUIRE( deg_test.degradation() == deg20 * 4 );
-            REQUIRE( deg_test.damage_level() == 2 );
+            REQUIRE( deg_test.damage_level() == 4 );
 
             // short red bar
             THEN( "it appears extremely degraded" ) {
                 CHECK( deg_test.tname() ==
-                       "<color_c_magenta>|.</color><color_c_red>\u2581</color>\u00A0baseball" );
+                       "<color_c_red>\\.</color><color_c_red>\u2581</color>\u00A0baseball" );
             }
         }
     }
@@ -495,6 +506,16 @@ TEST_CASE( "weapon fouling", "[item][tname][fouling][dirt]" )
     }
 }
 
+// make sure ordering still works with pockets
+TEST_CASE( "molle_vest_additional_pockets", "[item][tname]" )
+{
+    item addition_vest( "test_load_bearing_vest" );
+    addition_vest.get_contents().add_pocket( item( "holster" ) );
+
+    CHECK( addition_vest.tname( 1 ) ==
+           "<color_c_green>++</color>\u00A0load bearing vest+1" );
+}
+
 TEST_CASE( "nested_items_tname", "[item][tname]" )
 {
     item backpack_hiking( itype_backpack_hiking );
@@ -502,7 +523,7 @@ TEST_CASE( "nested_items_tname", "[item][tname]" )
     item rock( itype_test_rock );
     item rock2( itype_rock );
     const std::string color_pref =
-        "<color_c_light_green>||</color>\u00A0";
+        "<color_c_green>++</color>\u00A0";
 
     const std::string nesting_sym = ">";
 
@@ -510,13 +531,17 @@ TEST_CASE( "nested_items_tname", "[item][tname]" )
 
         backpack_hiking.put_in( rock, item_pocket::pocket_type::CONTAINER );
 
+        std::string const rock_nested_tname = colorize( rock.tname(), rock.color_in_inventory() );
+        std::string const rocks_nested_tname = colorize( rock.tname( 2 ), rock.color_in_inventory() );
+        REQUIRE( rock_nested_tname == "<color_c_light_gray>TEST rock</color>" );
         SECTION( "single rock" ) {
-            CHECK( backpack_hiking.tname( 1 ) == color_pref + "hiking backpack " + nesting_sym + " TEST rock" );
+            CHECK( backpack_hiking.tname( 1 ) == color_pref + "hiking backpack " + nesting_sym + " " +
+                   rock_nested_tname );
         }
         SECTION( "several rocks" ) {
             backpack_hiking.put_in( rock, item_pocket::pocket_type::CONTAINER );
             CHECK( backpack_hiking.tname( 1 ) == color_pref + "hiking backpack " + nesting_sym +
-                   " TEST rocks (2)" );
+                   " " + rocks_nested_tname + " (2)" );
         }
         SECTION( "several stacks" ) {
             backpack_hiking.put_in( rock, item_pocket::pocket_type::CONTAINER );
@@ -525,14 +550,18 @@ TEST_CASE( "nested_items_tname", "[item][tname]" )
         }
     }
 
+    std::string const purse_color = get_tag_from_color( purse.color_in_inventory() );
+    std::string const color_end_tag = "</color>";
     SECTION( "multi-level nesting" ) {
         purse.put_in( rock, item_pocket::pocket_type::CONTAINER );
 
         SECTION( "single rock" ) {
             backpack_hiking.put_in( purse, item_pocket::pocket_type::CONTAINER );
             CHECK( backpack_hiking.tname( 1 ) ==
-                   color_pref + "hiking backpack " + nesting_sym + " " + color_pref + "purse " + nesting_sym +
-                   " 1 item" );
+                   color_pref + "hiking backpack " +
+                   nesting_sym + " " + purse_color + color_pref + "purse " +
+                   nesting_sym + " 1 item" +
+                   color_end_tag );
         }
 
         SECTION( "several rocks" ) {
@@ -541,15 +570,30 @@ TEST_CASE( "nested_items_tname", "[item][tname]" )
             backpack_hiking.put_in( purse, item_pocket::pocket_type::CONTAINER );
 
             CHECK( backpack_hiking.tname( 1 ) ==
-                   color_pref + "hiking backpack " + nesting_sym + " " + color_pref + "purse " + nesting_sym +
-                   " 2 items" );
+                   color_pref + "hiking backpack " +
+                   nesting_sym + " " + purse_color + color_pref + "purse " +
+                   nesting_sym + " 2 items" +
+                   color_end_tag );
         }
 
         SECTION( "several purses" ) {
             backpack_hiking.put_in( purse, item_pocket::pocket_type::CONTAINER );
             backpack_hiking.put_in( purse, item_pocket::pocket_type::CONTAINER );
 
-            CHECK( backpack_hiking.tname( 1 ) == color_pref + "hiking backpack " + nesting_sym + " 2 items" );
+            CHECK( backpack_hiking.tname( 1 ) == color_pref + "hiking backpack " + nesting_sym +
+                   " " + purse_color + color_pref + "purses" + color_end_tag + " (2)" );
         }
+    }
+
+    SECTION( "non-standard pocket: software" ) {
+        item usb_drive( "usb_drive" );
+        item medisoft( "software_medical" );
+        std::string const medisoft_nested_tname = colorize( medisoft.tname(),
+                medisoft.color_in_inventory() );
+        REQUIRE( usb_drive.is_software_storage() );
+        REQUIRE( medisoft.is_software() );
+        REQUIRE( medisoft_nested_tname == "<color_c_light_gray>MediSoft</color>" );
+        usb_drive.put_in( medisoft, item_pocket::pocket_type::SOFTWARE );
+        CHECK( usb_drive.tname( 1 ) == "USB drive " + nesting_sym + " " + medisoft_nested_tname );
     }
 }

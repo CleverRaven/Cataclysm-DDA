@@ -104,6 +104,13 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_tawa",
+    "name": "tawa egg",
+    "copy-from": "egg_dino_theropod_small",
+    "rot_spawn": "GROUP_EGG_tawa"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_coelophysis",
     "name": "coelophysis egg",
     "copy-from": "egg_dino_theropod_small",
@@ -248,6 +255,13 @@
     "name": "albertonykus egg",
     "copy-from": "egg_dino_theropod_small",
     "rot_spawn": "GROUP_EGG_albertonykus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_therizinosaurus",
+    "name": "therizinosaurus egg",
+    "copy-from": "egg_dino_theropod",
+    "rot_spawn": "GROUP_EGG_therizinosaurus"
   },
   {
     "type": "COMESTIBLE",
