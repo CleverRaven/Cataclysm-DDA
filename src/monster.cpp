@@ -83,10 +83,14 @@ static const efftype_id effect_dripping_mechanical_fluid( "dripping_mechanical_f
 static const efftype_id effect_emp( "emp" );
 static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_grabbing( "grabbing" );
+static const efftype_id effect_has_bag( "has_bag" );
 static const efftype_id effect_heavysnare( "heavysnare" );
 static const efftype_id effect_hit_by_player( "hit_by_player" );
 static const efftype_id effect_in_pit( "in_pit" );
+static const efftype_id effect_leashed( "leashed" );
 static const efftype_id effect_lightsnare( "lightsnare" );
+static const efftype_id effect_monster_armor( "monster_armor" );
+static const efftype_id effect_monster_saddled( "monster_saddled" );
 static const efftype_id effect_natures_commune( "natures_commune" );
 static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_onfire( "onfire" );
@@ -105,10 +109,6 @@ static const efftype_id effect_venom_player2( "venom_player2" );
 static const efftype_id effect_venom_weaken( "venom_weaken" );
 static const efftype_id effect_webbed( "webbed" );
 static const efftype_id effect_worked_on( "worked_on" );
-static const efftype_id effect_leashed( "leashed" );
-static const efftype_id effect_monster_saddled( "monster_saddled" );
-static const efftype_id effect_monster_armor( "monster_armor" );
-static const efftype_id effect_has_bag( "has_bag" );
 
 static const emit_id emit_emit_shock_cloud( "emit_shock_cloud" );
 static const emit_id emit_emit_shock_cloud_big( "emit_shock_cloud_big" );
