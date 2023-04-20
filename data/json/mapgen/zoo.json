@@ -137,8 +137,8 @@
         { "chance": 25, "item": "waitingroom", "x": 18, "y": [ 16, 22 ], "repeat": [ 1, 3 ] }
       ],
       "place_monster": [
-        { "monster": "mon_wolf", "x": 8, "y": 16 },
-        { "monster": "mon_wolf", "x": 9, "y": 17 },
+        { "group": "GROUP_WOLFS", "x": 8, "y": 16 },
+        { "group": "GROUP_WOLFS", "x": 9, "y": 17 },
         { "group": "GROUP_BEARS", "x": 8, "y": 20 },
         { "group": "GROUP_BEARS", "x": 8, "y": 21 }
       ]
