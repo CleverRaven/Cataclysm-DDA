@@ -235,7 +235,7 @@
     "id": "art_gloves",
     "type": "ARMOR",
     "copy-from": "gloves_leather",
-    "name": { "str": "pair of ornate leather gloves", "str_pl": "pairs of ornate leather gloves"  },
+    "name": { "str": "pair of ornate leather gloves", "str_pl": "pairs of ornate leather gloves" },
     "description": "A set of worn leather gloves embossed with gold.  It is the only one of its kind.\nIt may have unknown powers; try activating them."
   },
   {
