@@ -71,7 +71,6 @@
       "O": "t_afs_gun_ship_hull_hatch_o",
       "Q": "t_afs_gun_ship_engine_console",
       "V": "t_afs_gun_ship_engine"
-    },
-    "furniture": { "+": "t_afs_gun_ship_engine" }
+    }
   }
 ]

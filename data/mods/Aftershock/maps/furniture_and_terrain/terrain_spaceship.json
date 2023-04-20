@@ -204,7 +204,7 @@
     }
   },
   {
-    "type": "furniture",
+    "type": "terrain",
     "id": "t_afs_gun_ship_engine",
     "name": "Iblis Interplanetary Drive",
     "looks_like": "t_plut_generator",
@@ -221,7 +221,6 @@
       "explosive": 100,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "furn_set": "f_reactor_meltdown",
       "items": [
         { "item": "afs_circuitry_1", "count": [ 4, 16 ] },
         { "item": "afs_circuitry_2", "count": [ 1, 6 ] },
@@ -235,7 +234,7 @@
     }
   },
   {
-    "type": "furniture",
+    "type": "terrain",
     "id": "t_afs_gun_ship_engine_console",
     "name": "Iblis Interplanetary Drive Console",
     "looks_like": "t_console",
@@ -262,10 +261,8 @@
     "bash": {
       "str_min": 70,
       "str_max": 400,
-      "explosive": 100,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "furn_set": "f_reactor_meltdown",
       "items": [
         { "item": "afs_circuitry_1", "count": [ 4, 16 ] },
         { "item": "afs_circuitry_2", "count": [ 1, 6 ] },
@@ -279,7 +276,7 @@
     }
   },
   {
-    "type": "furniture",
+    "type": "terrain",
     "id": "t_cell_entrance_console",
     "name": "Prisoner Cell Console",
     "looks_like": "t_console",
@@ -306,10 +303,8 @@
     "bash": {
       "str_min": 70,
       "str_max": 400,
-      "explosive": 100,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "furn_set": "f_reactor_meltdown",
       "items": [
         { "item": "afs_circuitry_1", "count": [ 4, 16 ] },
         { "item": "afs_circuitry_2", "count": [ 1, 6 ] },
