@@ -220,6 +220,7 @@
       "str_max": 400,
       "explosive": 100,
       "sound": "metal screeching!",
+      "ter_set": "t_metal_floor",
       "sound_fail": "clang!",
       "items": [
         { "item": "afs_circuitry_1", "count": [ 4, 16 ] },
@@ -262,6 +263,7 @@
       "str_min": 70,
       "str_max": 400,
       "sound": "metal screeching!",
+      "ter_set": "t_metal_floor",
       "sound_fail": "clang!",
       "items": [
         { "item": "afs_circuitry_1", "count": [ 4, 16 ] },
@@ -304,6 +306,7 @@
       "str_min": 70,
       "str_max": 400,
       "sound": "metal screeching!",
+      "ter_set": "t_metal_floor",
       "sound_fail": "clang!",
       "items": [
         { "item": "afs_circuitry_1", "count": [ 4, 16 ] },
