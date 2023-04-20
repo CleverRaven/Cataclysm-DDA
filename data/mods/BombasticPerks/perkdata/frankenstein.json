@@ -6,7 +6,6 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MEDICAL",
     "skill_used": "firstaid",
-    "autolearn": false,
     "difficulty": 5,
     "skills_required": [ "electronics", 4 ],
     "time": "240 m",
