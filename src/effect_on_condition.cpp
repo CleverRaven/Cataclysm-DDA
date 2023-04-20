@@ -64,18 +64,18 @@ void effect_on_condition::load( const JsonObject &jo, const std::string & )
             jo.throw_error( "A recurring effect_on_condition must be of type RECURRING." );
         }
         type = eoc_type::RECURRING;
-        recurrence = get_duration_or_var<dialogue>( jo, "recurrence", false );
+        recurrence = get_duration_or_var( jo, "recurrence", false );
     }
     if( type == eoc_type::NUM_EOC_TYPES ) {
         type = eoc_type::ACTIVATION;
     }
 
     if( jo.has_member( "deactivate_condition" ) ) {
-        read_condition<dialogue>( jo, "deactivate_condition", deactivate_condition, false );
+        read_condition( jo, "deactivate_condition", deactivate_condition, false );
         has_deactivate_condition = true;
     }
     if( jo.has_member( "condition" ) ) {
-        read_condition<dialogue>( jo, "condition", condition, false );
+        read_condition( jo, "condition", condition, false );
         has_condition = true;
     }
     true_effect.load_effect( jo, "effect" );

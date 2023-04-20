@@ -746,7 +746,7 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     for( size_t i = 0; i < skillslist.size() && count < 3; i++ ) {
         if( !skillslist[ i ]->is_combat_skill() ) {
             std::string skill_str = string_format( "%s: %d", skillslist[i]->name(),
-                                                   get_skill_level( skillslist[i]->ident() ) );
+                                                   static_cast<int>( get_skill_level( skillslist[i]->ident() ) ) );
             skill_strs.push_back( skill_str );
             count += 1;
         }

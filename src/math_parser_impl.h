@@ -10,6 +10,7 @@
 
 #include "debug.h"
 #include "dialogue_helpers.h"
+#include "math_parser_diag.h"
 #include "math_parser_func.h"
 
 struct binary_op {
@@ -40,50 +41,63 @@ enum class paren {
     right,
 };
 
-template<class D>
 struct scoped_diag_eval {
-    pdiag_func_eval<D> df{};
+    pdiag_func_eval df{};
     char scope = 'g';
 };
 
-template<class D>
 struct scoped_diag_ass {
-    pdiag_func_ass<D> df{};
+    pdiag_func_ass df{};
     char scope = 'g';
 };
 
-template<class D>
-struct oper;
-template<class D>
-struct func;
-template<class D>
-struct func_diag_eval;
-template<class D>
-struct func_diag_ass;
-template<class D>
-struct var;
-template<class D>
-struct thingie {
-    thingie() = default;
-    template <class U>
-    explicit thingie( U u ) : data( std::in_place_type<U>, std::forward<U>( u ) ) {}
-    template <class T, class... Args>
-    explicit thingie( std::in_place_type_t<T> /*t*/, Args &&...args )
-        : data( std::in_place_type<T>, std::forward<Args>( args )... ) {}
+struct thingie;
+struct oper {
+    oper( thingie l_, thingie r_, binary_op::f_t op_ );
 
-    constexpr double eval( D const &d ) const;
+    double eval( dialogue const &d ) const;
 
-    using impl_t =
-        std::variant<double, std::string, oper<D>, func<D>, func_diag_eval<D>, func_diag_ass<D>, var<D>>;
-    impl_t data;
+    std::shared_ptr<thingie> l, r;
+    binary_op::f_t op{};
 };
+struct func {
+    explicit func( std::vector<thingie> &&params_, math_func::f_t f_ );
 
-template<class D>
+    double eval( dialogue const &d ) const;
+
+    std::vector<thingie> params;
+    math_func::f_t f{};
+};
+struct func_diag_eval {
+    using eval_f = std::function<double( dialogue const & )>;
+    explicit func_diag_eval( eval_f &&f_ ) : f( f_ ) {}
+
+    double eval( dialogue const &d ) const {
+        return f( d );
+    }
+
+    eval_f f;
+};
+struct func_diag_ass {
+    using ass_f = std::function<void( dialogue const &, double )>;
+    explicit func_diag_ass( ass_f &&f_ ) : f( f_ ) {}
+
+    static double eval( dialogue const &/* d */ )  {
+        debugmsg( "eval() called on assignment function" );
+        return 0;
+    }
+
+    void assign( dialogue const &d, double val ) const {
+        f( d, val );
+    }
+
+    ass_f f;
+};
 struct var {
     template<class... Args>
     explicit var( Args &&... args ) : varinfo( std::forward<Args>( args )... ) {}
 
-    double eval( D const &d ) const {
+    double eval( dialogue const &d ) const {
         std::string const str = read_var_value( varinfo, d );
         if( str.empty() ) {
             return 0;
@@ -93,67 +107,19 @@ struct var {
 
     var_info varinfo;
 };
+struct thingie {
+    thingie() = default;
+    template <class U>
+    explicit thingie( U u ) : data( std::in_place_type<U>, std::forward<U>( u ) ) {}
+    template <class T, class... Args>
+    explicit thingie( std::in_place_type_t<T> /*t*/, Args &&...args )
+        : data( std::in_place_type<T>, std::forward<Args>( args )... ) {}
 
-template<class D>
-struct func {
-    explicit func( std::vector<thingie<D>> &&params_, math_func::f_t f_ ) : params( params_ ),
-        f( f_ ) {}
+    constexpr double eval( dialogue const &d ) const;
 
-    double eval( D const &d ) const {
-        std::vector<double> elems( params.size() );
-        std::transform( params.begin(), params.end(), elems.begin(),
-        [&d]( thingie<D> const & e ) {
-            return e.eval( d );
-        } );
-        return f( elems );
-    }
-
-    std::vector<thingie<D>> params;
-    math_func::f_t f{};
-};
-
-template<class D>
-struct func_diag_eval {
-    using eval_f = std::function<double( D const & )>;
-    explicit func_diag_eval( eval_f &&f_ ) : f( f_ ) {}
-
-    double eval( D const &d ) const {
-        return f( d );
-    }
-
-    eval_f f;
-};
-
-template<class D>
-struct func_diag_ass {
-    using ass_f = std::function<void( D const &, double )>;
-    explicit func_diag_ass( ass_f &&f_ ) : f( f_ ) {}
-
-    double eval( D const &/* d */ ) const {
-        debugmsg( "eval() called on assignment function" );
-        return 0;
-    }
-
-    void assign( D const &d, double val ) const {
-        f( d, val );
-    }
-
-    ass_f f;
-};
-
-template<class D>
-struct oper {
-    oper( thingie<D> l_, thingie<D> r_, binary_op::f_t op_ ) :
-        l( std::make_shared<thingie<D>>( std::move( l_ ) ) ),
-        r( std::make_shared<thingie<D>>( std::move( r_ ) ) ),
-        op( op_ ) {}
-
-    constexpr double eval( D const &d ) const {
-        return ( *op )( l->eval( d ), r->eval( d ) );
-    }
-
-    std::shared_ptr<thingie<D>> l, r;
-    binary_op::f_t op{};
+    using impl_t =
+        std::variant<double, std::string, oper, func, func_diag_eval, func_diag_ass, var>;
+    impl_t data;
 };
 
 // overload pattern from https://en.cppreference.com/w/cpp/utility/variant/visit
@@ -163,8 +129,7 @@ struct overloaded : Ts... {
 };
 template <class... Ts>
 explicit overloaded( Ts... ) -> overloaded<Ts...>;
-template<class D>
-constexpr double thingie<D>::eval( D const &d ) const
+constexpr double thingie::eval( dialogue const &d ) const
 {
     return std::visit( overloaded{
         []( double v )
@@ -184,19 +149,16 @@ constexpr double thingie<D>::eval( D const &d ) const
     data );
 }
 
-template<class D>
 using op_t =
-    std::variant<pbin_op, punary_op, pmath_func, scoped_diag_eval<D>, scoped_diag_ass<D>, paren>;
+    std::variant<pbin_op, punary_op, pmath_func, scoped_diag_eval, scoped_diag_ass, paren>;
 
-template<class D>
-constexpr bool operator>( op_t<D> const &lhs, binary_op const &rhs )
+constexpr bool operator>( op_t const &lhs, binary_op const &rhs )
 {
     return ( std::holds_alternative<pbin_op>( lhs ) && *std::get<pbin_op>( lhs ) > rhs ) ||
            std::holds_alternative<punary_op>( lhs );
 }
 
-template<class D>
-constexpr bool operator>( op_t<D> const &lhs, paren const &rhs )
+constexpr bool operator>( op_t const &lhs, paren const &rhs )
 {
     return !std::holds_alternative<paren>( lhs ) || std::less<paren> {}( rhs, std::get<paren>( lhs ) );
 }

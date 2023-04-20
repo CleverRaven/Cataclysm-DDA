@@ -679,15 +679,15 @@ static int butchery_dissect_skill_level( Character &you, int tool_quality,
 {
     // DISSECT has special case factor calculation and results.
     if( htype.is_valid() ) {
-        int sk_total = 0;
+        float sk_total = 0;
         int sk_count = 0;
         for( const skill_id &sk : htype->get_harvest_skills() ) {
             sk_total += you.get_skill_level( sk );
             sk_count++;
         }
-        return ( sk_total + tool_quality ) / ( sk_count > 0 ? sk_count : 1 );
+        return round( ( sk_total + tool_quality ) / ( sk_count > 0 ? sk_count : 1 ) );
     }
-    return you.get_skill_level( skill_survival );
+    return round( you.get_skill_level( skill_survival ) );
 }
 
 static int roll_butchery_dissect( int skill_level, int dex, int tool_quality )
@@ -757,7 +757,7 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
 
     //all BUTCHERY types - FATAL FAILURE
     if( action != butcher_type::DISSECT &&
-        roll_butchery_dissect( you.get_skill_level( skill_survival ), you.dex_cur,
+        roll_butchery_dissect( round( you.get_skill_level( skill_survival ) ), you.dex_cur,
                                tool_quality ) <= ( -15 ) && one_in( 2 ) ) {
         return false;
     }
@@ -1061,7 +1061,7 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
     if( action != butcher_type::FIELD_DRESS && action != butcher_type::SKIN &&
         action != butcher_type::BLEED ) {
         for( item *content : corpse_item->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-            if( ( roll_butchery_dissect( you.get_skill_level( skill_survival ), you.dex_cur,
+            if( ( roll_butchery_dissect( round( you.get_skill_level( skill_survival ) ), you.dex_cur,
                                          tool_quality ) + 10 ) * 5 > rng( 0, 100 ) ) {
                 //~ %1$s - item name, %2$s - monster name
                 you.add_msg_if_player( m_good, _( "You discover a %1$s in the %2$s!" ), content->tname(),
@@ -1203,7 +1203,7 @@ void activity_handlers::butcher_finish( player_activity *act, Character *you )
             }
             break;
         case butcher_type::FIELD_DRESS: {
-            bool success = roll_butchery_dissect( you->get_skill_level( skill_survival ), you->dex_cur,
+            bool success = roll_butchery_dissect( round( you->get_skill_level( skill_survival ) ), you->dex_cur,
                                                   you->max_quality( qual_BUTCHER, PICKUP_RANGE ) ) > 0;
             add_msg( success ? m_good : m_warning,
                      SNIPPET.random_from_category( success ? "harvest_drop_default_field_dress_success" :
@@ -2253,7 +2253,7 @@ void repair_item_finish( player_activity *act, Character *you, bool no_menu )
 
         const bool event_happened = attempt == repair_item_actor::AS_FAILURE ||
                                     attempt == repair_item_actor::AS_SUCCESS ||
-                                    old_level != you->get_skill_level( actor->used_skill );
+                                    old_level != static_cast<int>( you->get_skill_level( actor->used_skill ) );
         const bool can_refit = !destroyed && !cannot_continue_repair &&
                                fix_location->has_flag( flag_VARSIZE ) &&
                                !fix_location->has_flag( flag_FIT );
@@ -2666,8 +2666,8 @@ static void rod_fish( Character *you, const std::vector<monster *> &fishables )
 void activity_handlers::fish_do_turn( player_activity *act, Character *you )
 {
     item &it = *act->targets.front();
-    int fish_chance = 1;
-    int survival_skill = you->get_skill_level( skill_survival );
+    float fish_chance = 1.0f;
+    float survival_skill = you->get_skill_level( skill_survival );
     switch( it.get_quality( qual_FISHING_ROD ) ) {
         case 1:
             survival_skill += dice( 1, 6 );
@@ -3397,7 +3397,7 @@ void activity_handlers::robot_control_finish( player_activity *act, Character *y
 
     /** @EFFECT_INT increases chance of successful robot reprogramming, vs difficulty */
     /** @EFFECT_COMPUTER increases chance of successful robot reprogramming, vs difficulty */
-    const int computer_skill = you->get_skill_level( skill_computer );
+    const float computer_skill = you->get_skill_level( skill_computer );
     const float randomized_skill = rng( 2, you->int_cur ) + computer_skill;
     float success = computer_skill - 3 * z->type->difficulty / randomized_skill;
     if( z->has_flag( MF_RIDEABLE_MECH ) ) {
@@ -3658,7 +3658,8 @@ void activity_handlers::study_spell_do_turn( player_activity *act, Character *yo
         act->values[0] += xp;
         studying.gain_exp( *you, xp );
         bool leveled_up = you->practice( studying.skill(), xp, studying.get_difficulty( *you ), true );
-        if( leveled_up && studying.get_difficulty( *you ) < you->get_skill_level( studying.skill() ) ) {
+        if( leveled_up &&
+            studying.get_difficulty( *you ) < static_cast<int>( you->get_skill_level( studying.skill() ) ) ) {
             you->handle_skill_warning( studying.skill(),
                                        true ); // show the skill warning on level up, since we suppress it in practice() above
         }

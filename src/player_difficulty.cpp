@@ -25,7 +25,6 @@ void player_difficulty::npc_from_avatar( const avatar &u, npc &dummy )
     dummy.dex_max = u.dex_max;
     dummy.int_max = u.int_max;
     dummy.per_max = u.per_max;
-    dummy.reset_stats();
 
 
     // set skills
@@ -42,6 +41,7 @@ void player_difficulty::npc_from_avatar( const avatar &u, npc &dummy )
         dummy.set_mutation( t );
     }
 
+    dummy.reset();
     dummy.initialize();
 }
 
@@ -353,6 +353,11 @@ std::string player_difficulty::format_output( float percent_band, float per )
         output = string_format( "%2f: %s", per, output );
     }
     return output;
+}
+
+const npc &player_difficulty::get_average_npc()
+{
+    return average;
 }
 
 std::string player_difficulty::difficulty_to_string( const avatar &u ) const

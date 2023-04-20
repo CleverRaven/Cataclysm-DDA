@@ -1107,7 +1107,7 @@ static bool sinkhole_safety_roll( Character &you, const itype_id &itemname, cons
     ///\EFFECT_DEX increases chance to attach grapnel, bullwhip, or rope when falling into a sinkhole
 
     ///\EFFECT_THROW increases chance to attach grapnel, bullwhip, or rope when falling into a sinkhole
-    const int throwing_skill_level = you.get_skill_level( skill_throw );
+    const int throwing_skill_level = round( you.get_skill_level( skill_throw ) );
     const int roll = rng( throwing_skill_level, throwing_skill_level + you.str_cur + you.dex_cur );
     map &here = get_map();
     if( roll < diff ) {

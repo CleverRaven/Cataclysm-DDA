@@ -1753,6 +1753,30 @@ class attach_molle_inventory_preset : public inventory_selector_preset
         const item *vest;
 };
 
+class attach_veh_tool_inventory_preset : public inventory_selector_preset
+{
+    public:
+        explicit attach_veh_tool_inventory_preset( const std::set<itype_id> &allowed_types )
+            : allowed_types( allowed_types ) { }
+
+        bool is_shown( const item_location &loc ) const override {
+            return allowed_types.count( loc->typeId() );
+        }
+
+        std::string get_denial( const item_location &loc ) const override {
+            const item &it = *loc.get_item();
+
+            if( !it.empty() || !it.toolmods().empty() ) {
+                return "item needs to be empty.";
+            }
+
+            return std::string();
+        }
+
+    private:
+        const std::set<itype_id> allowed_types;
+};
+
 class salvage_inventory_preset: public inventory_selector_preset
 {
     public:
@@ -1859,7 +1883,7 @@ static std::string get_repair_hint( const Character &you, const repair_item_acto
     hint.append( string_format( _( "Tool: <color_cyan>%s</color>" ), main_tool->display_name() ) );
     hint.append( string_format( " | " ) );
     hint.append( string_format( _( "Skill used: <color_cyan>%s (%d)</color>" ),
-                                actor->used_skill.obj().name(), you.get_skill_level( actor->used_skill ) ) );
+                                actor->used_skill.obj().name(), static_cast<int>( you.get_skill_level( actor->used_skill ) ) ) );
     return hint;
 }
 
@@ -1933,6 +1957,18 @@ item_location game_menus::inv::molle_attach( Character &you, item &tool )
                                                 vacancies ), vacancies )
                                       )
                        );
+}
+
+item_location game_menus::inv::veh_tool_attach( Character &you, const std::string &vp_name,
+        const std::set<itype_id> &allowed_types )
+{
+    return inv_internal( you, attach_veh_tool_inventory_preset( allowed_types ),
+                         string_format( _( "Attach an item to the %s" ), vp_name ), 1,
+                         string_format( _( "You don't have any items compatible with %s.\n\nAllowed equipment:\n%s" ),
+    vp_name, enumerate_as_string( allowed_types, []( const itype_id & it ) {
+        return it->nname( 1 );
+    } ) ),
+    string_format( _( "Choose a tool to attach to %s" ), vp_name ) );
 }
 
 drop_locations game_menus::inv::multidrop( Character &you )
