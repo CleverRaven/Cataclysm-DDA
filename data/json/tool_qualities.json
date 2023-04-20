@@ -356,6 +356,12 @@
   },
   {
     "type": "tool_quality",
+    "id": "JUMPSTART",
+    "//": "A tool that is capable of charging something with electricity.",
+    "name": { "str": "jump starting" }
+  },
+  {
+    "type": "tool_quality",
     "id": "FABRIC_CUT",
     "//": "A tool that shares a large number of qualities with cutting tools, with the added benefit of being suitable for cutting fabric to patterned shapes for tailoring.",
     "name": { "str": "fabric cutting" },
