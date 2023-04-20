@@ -2825,7 +2825,7 @@ Damage resistance values, used by:
 
 ### Vehicles
 
-See also [VEHICLE_JSON.md](VEHICLE_JSON.md)
+See also [VEHICLES_JSON.md](VEHICLES_JSON.md)
 
 ```C++
 "id": "shopping_cart",                     // Internally-used name.
@@ -5172,14 +5172,16 @@ Migration is used, when we want to remove one item by replacing it with another 
 // it seems MIGRATION accept any field actually, but i need someone to confirm it
 
 Migrating vehicle parts is done using `vehicle_part_migration` type, in the example below - when loading the vehicle any part with id `from` will have it's id switched to `to`.
+For `VEH_TOOLS` parts only - `add_veh_tools` is a list of itype_ids to add to the vehicle tools after migrating the part.
 
 ```json
   {
     "type": "vehicle_part_migration",
-    "from": "old_vpart_id",
-    "to": "new_vpart_id"
+    "//": "migration to VEH_TOOLS, remove after 0.H release",
+    "from": "afs_metal_rig",
+    "to": "veh_tools_workshop",
+    "add_veh_tools": [ "welder", "soldering_iron", "forge", "kiln" ]
   }
-
 ```
 
 For bionics, you should use `bionic_migration` type. The migration happens when character is loaded; if `to` is `null` the bionic will be deleted, if `to` is not null the id will be changed to the provided value.

@@ -18,17 +18,16 @@ using dialogue_fun_ptr = std::add_pointer<void( npc & )>::type;
 
 using trial_mod = std::pair<std::string, int>;
 
-template<class T>
 struct talk_effect_fun_t {
     private:
-        std::function<void( const T &d )> function;
+        std::function<void( dialogue const &d )> function;
         std::vector<std::pair<int, itype_id>> likely_rewards;
 
     public:
         talk_effect_fun_t() = default;
         explicit talk_effect_fun_t( const talkfunction_ptr & );
         explicit talk_effect_fun_t( const std::function<void( npc & )> & );
-        explicit talk_effect_fun_t( const std::function<void( const T &d )> & );
+        explicit talk_effect_fun_t( const std::function<void( dialogue const &d )> & );
         void set_companion_mission( const std::string &role_id );
         void set_add_effect( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_remove_effect( const JsonObject &jo, const std::string &member, bool is_npc = false );
@@ -114,7 +113,7 @@ struct talk_effect_fun_t {
         void set_open_dialogue( const JsonObject &jo, const std::string &member );
         void set_take_control( const JsonObject &jo );
         void set_take_control_menu();
-        void operator()( const T &d ) const {
+        void operator()( dialogue const &d ) const {
             if( !function ) {
                 return;
             }
@@ -132,69 +131,15 @@ struct var_info {
     std::string default_val;
 };
 
-template<class T>
-static std::string read_var_value( const var_info &info, const T &d )
-{
-    std::string ret_val;
-    global_variables &globvars = get_globals();
-    switch( info.type ) {
-        case var_type::global:
-            ret_val = globvars.get_global_value( info.name );
-            break;
-        case var_type::u:
-            ret_val = d.actor( false )->get_value( info.name );
-            break;
-        case var_type::npc:
-            ret_val = d.actor( true )->get_value( info.name );
-            break;
-        case var_type::faction:
-            debugmsg( "Not implemented yet." );
-            break;
-        case var_type::party:
-            debugmsg( "Not implemented yet." );
-            break;
-        default:
-            debugmsg( "Invalid type." );
-            break;
-    }
-    if( ret_val.empty() ) {
-        ret_val = info.default_val;
-    }
-    return ret_val;
-}
+std::string read_var_value( const var_info &info, const dialogue &d );
 
-template<class T>
 struct str_or_var {
     std::optional<std::string> str_val;
     std::optional<var_info> var_val;
     std::optional<std::string> default_val;
-    std::string evaluate( const T &d ) const {
-        if( str_val.has_value() ) {
-            return str_val.value();
-        } else if( var_val.has_value() ) {
-            std::string val = read_var_value( var_val.value(), d );
-            if( !val.empty() ) {
-                return std::string( val );
-            }
-            if( default_val.has_value() ) {
-                return default_val.value();
-            } else {
-                std::string var_name = var_val.value().name;
-                if( var_name.find( "npctalk_var" ) != std::string::npos ) {
-                    var_name = var_name.substr( 12 );
-                }
-                debugmsg( "No default value provided for str_or_var_part while encountering unused variable %s.  Add a \"default_str\" member to prevent this.",
-                          var_name );
-                return "";
-            }
-        } else {
-            debugmsg( "No valid value for str_or_var_part." );
-            return "";
-        }
-    }
+    std::string evaluate( dialogue const &d ) const;
 };
 
-template<typename D>
 struct eoc_math {
     enum class oper : int {
         ret = 0,
@@ -216,135 +161,45 @@ struct eoc_math {
         greater,
         equal_or_greater,
     };
-    math_exp<D> lhs;
-    math_exp<D> mhs;
-    math_exp<D> rhs;
+    math_exp lhs;
+    math_exp mhs;
+    math_exp rhs;
     eoc_math::oper action;
 
     void from_json( const JsonObject &jo, std::string const &member );
-    double act( D const &d ) const;
+    double act( dialogue const &d ) const;
 };
 
-template<class T>
 struct dbl_or_var_part {
     std::optional<double> dbl_val;
     std::optional<var_info> var_val;
     std::optional<double> default_val;
-    std::optional<talk_effect_fun_t<T>> arithmetic_val;
-    std::optional<eoc_math<T>> math_val;
-    double evaluate( const T &d ) const {
-        if( dbl_val.has_value() ) {
-            return dbl_val.value();
-        } else if( var_val.has_value() ) {
-            std::string val = read_var_value( var_val.value(), d );
-            if( !val.empty() ) {
-                return std::stof( val );
-            }
-            if( default_val.has_value() ) {
-                return default_val.value();
-            } else {
-                std::string var_name = var_val.value().name;
-                if( var_name.find( "npctalk_var" ) != std::string::npos ) {
-                    var_name = var_name.substr( 12 );
-                }
-                debugmsg( "No default value provided for dbl_or_var_part while encountering unused variable %s.  Add a \"default\" member to prevent this.",
-                          var_name );
-                return 0;
-            }
-        } else if( arithmetic_val.has_value() ) {
-            arithmetic_val.value()( d );
-            var_info info = var_info( var_type::global, "temp_var" );
-            std::string val = read_var_value( info, d );
-            if( !val.empty() ) {
-                return std::stof( val );
-            } else {
-                debugmsg( "No valid arithmetic value for dbl_or_var_part." );
-                return 0;
-            }
-        } else if( math_val ) {
-            return math_val->act( d );
-        } else {
-            debugmsg( "No valid value for dbl_or_var_part." );
-            return 0;
-        }
-    }
+    std::optional<talk_effect_fun_t> arithmetic_val;
+    std::optional<eoc_math> math_val;
+    double evaluate( dialogue const &d ) const;
 };
 
-template<class T>
 struct dbl_or_var {
     bool pair = false;
-    dbl_or_var_part<T> min;
-    dbl_or_var_part<T> max;
-    double evaluate( const T &d ) const {
-        if( pair ) {
-            return rng( min.evaluate( d ), max.evaluate( d ) );
-        } else {
-            return min.evaluate( d );
-        }
-    }
+    dbl_or_var_part min;
+    dbl_or_var_part max;
+    double evaluate( dialogue const &d ) const;
 };
 
-template<class T>
 struct duration_or_var_part {
     std::optional<time_duration> dur_val;
     std::optional<var_info> var_val;
     std::optional<time_duration> default_val;
-    std::optional<talk_effect_fun_t<T>> arithmetic_val;
-    std::optional<eoc_math<T>> math_val;
-    time_duration evaluate( const T &d ) const {
-        if( dur_val.has_value() ) {
-            return dur_val.value();
-        } else if( var_val.has_value() ) {
-            std::string val = read_var_value( var_val.value(), d );
-            if( !val.empty() ) {
-                time_duration ret_val;
-                ret_val = time_duration::from_turns( std::stoi( val ) );
-                return ret_val;
-            }
-            if( default_val.has_value() ) {
-                return default_val.value();
-            } else {
-                std::string var_name = var_val.value().name;
-                if( var_name.find( "npctalk_var" ) != std::string::npos ) {
-                    var_name = var_name.substr( 12 );
-                }
-                debugmsg( "No default value provided for duration_or_var_part while encountering unused variable %s.  Add a \"default\" member to prevent this.",
-                          var_name );
-                return 0_seconds;
-            }
-        } else if( arithmetic_val.has_value() ) {
-            arithmetic_val.value()( d );
-            var_info info = var_info( var_type::global, "temp_var" );
-            std::string val = read_var_value( info, d );
-            if( !val.empty() ) {
-                time_duration ret_val;
-                ret_val = time_duration::from_turns( std::stoi( val ) );
-                return ret_val;
-            } else {
-                debugmsg( "No valid arithmetic value for duration_or_var_part." );
-                return 0_seconds;
-            }
-        } else if( math_val ) {
-            return time_duration::from_turns( math_val->act( d ) );
-        } else {
-            debugmsg( "No valid value for duration_or_var_part." );
-            return 0_seconds;
-        }
-    }
+    std::optional<talk_effect_fun_t> arithmetic_val;
+    std::optional<eoc_math> math_val;
+    time_duration evaluate( dialogue const &d ) const;
 };
 
-template<class T>
 struct duration_or_var {
     bool pair = false;
-    duration_or_var_part<dialogue> min;
-    duration_or_var_part<dialogue> max;
-    time_duration evaluate( const T &d ) const {
-        if( pair ) {
-            return rng( min.evaluate( d ), max.evaluate( d ) );
-        } else {
-            return min.evaluate( d );
-        }
-    }
+    duration_or_var_part min;
+    duration_or_var_part max;
+    time_duration evaluate( dialogue const &d ) const;
 };
 
 #endif // CATA_SRC_DIALOGUE_HELPERS_H

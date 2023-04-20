@@ -43,6 +43,7 @@ struct veh_menu_item {
     bool _keep_menu_open = false;
     std::optional<char> _hotkey_char = std::nullopt;
     std::optional<std::string> _hotkey_action = std::nullopt;
+    std::optional<input_event> _hotkey_event = std::nullopt;
     std::function<void()> _on_submit;
 
     veh_menu_item &text( const std::string &text );
@@ -52,6 +53,7 @@ struct veh_menu_item {
     veh_menu_item &skip_locked_check( bool skip_locked_check = true );
     veh_menu_item &hotkey( char hotkey_char );
     veh_menu_item &hotkey( const std::string &action );
+    veh_menu_item &hotkey( const input_event &ev );
     veh_menu_item &hotkey_auto();
     veh_menu_item &on_submit( const std::function<void()> &on_submit );
     veh_menu_item &keep_menu_open( bool keep_menu_open = true );
