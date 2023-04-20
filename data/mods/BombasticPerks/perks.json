@@ -250,7 +250,7 @@
     "id": "perk_frakenstein",
     "name": { "str": "Playing God" },
     "points": 0,
-    "description": "You've been disecting critters since high school.  Last night a voice gave you an idea for how to bring them back to life.",
+    "description": "You've been dissecting critters since high school.  Last night a voice gave you an idea for how to bring them back to life.",
     "category": [ "perk" ]
   }
 ]
