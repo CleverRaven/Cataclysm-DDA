@@ -73,7 +73,7 @@
     "copy-from": "tourniquet_upper",
     "looks_like": "tourniquet_upper",
     "sided": true,
-    "use_action": { "target": "tourniquet_lower", "msg": "You adjust the tourniquet.", "menu_text": "Adjust", "type": "transform" },
+    "use_action": { "target": "tourniquet_upper_XS", "msg": "You adjust the tourniquet.", "menu_text": "Adjust", "type": "transform" },
     "flags": [ "WATER_FRIENDLY", "OUTER", "TOURNIQUET", "OVERSIZE" ]
   },
   {
@@ -106,11 +106,22 @@
     "type": "ARMOR",
     "name": { "str": "tourniquet (leg XL)", "str_pl": "tourniquets (leg XL)" },
     "description": "A first aid device used to apply pressure to a limb or extremity in order to limit blood flow.  Should be employed only to manage heavy bleeding, because prolonged use will harm the limb.  It can be adjusted in size to fit different limbs.",
-    "copy-from": "tourniquet_upper",
-    "looks_like": "tourniquet_upper",
+    "copy-from": "tourniquet_lower",
+    "looks_like": "tourniquet_lower",
+    "sided": true,
+    "use_action": { "target": "tourniquet_lower_XS", "msg": "You adjust the tourniquet.", "menu_text": "Adjust", "type": "transform" },
+    "flags": [ "WATER_FRIENDLY", "OUTER", "TOURNIQUET", "OVERSIZE" ]
+  },
+  {
+    "id": "tourniquet_lower_XS",
+    "type": "ARMOR",
+    "name": { "str": "tourniquet (leg XS)", "str_pl": "tourniquets (leg XS)" },
+    "description": "A first aid device used to apply pressure to a limb or extremity in order to limit blood flow.  Should be employed only to manage heavy bleeding, because prolonged use will harm the limb.  It can be adjusted in size to fit different limbs.",
+    "copy-from": "tourniquet_lower",
+    "looks_like": "tourniquet_lower",
     "sided": true,
     "use_action": { "target": "tourniquet_upper", "msg": "You adjust the tourniquet.", "menu_text": "Adjust", "type": "transform" },
-    "flags": [ "WATER_FRIENDLY", "OUTER", "TOURNIQUET", "OVERSIZE" ]
+    "flags": [ "WATER_FRIENDLY", "OUTER", "TOURNIQUET", "UNDERSIZE" ]
   },
   {
     "id": "makeshift_blindfold",

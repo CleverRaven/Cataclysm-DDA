@@ -316,135 +316,135 @@ void spell_type::load( const JsonObject &jo, const std::string & )
         field = field_type_id( field_input );
     }
     if( !was_loaded || jo.has_member( "field_chance" ) ) {
-        field_chance = get_dbl_or_var<dialogue>( jo, "field_chance", false, field_chance_default );
+        field_chance = get_dbl_or_var( jo, "field_chance", false, field_chance_default );
     }
     if( !was_loaded || jo.has_member( "min_field_intensity" ) ) {
-        min_field_intensity = get_dbl_or_var<dialogue>( jo, "min_field_intensity", false,
-                              min_field_intensity_default );
+        min_field_intensity = get_dbl_or_var( jo, "min_field_intensity", false,
+                                              min_field_intensity_default );
     }
     if( !was_loaded || jo.has_member( "max_field_intensity" ) ) {
-        max_field_intensity = get_dbl_or_var<dialogue>( jo, "max_field_intensity", false,
-                              max_field_intensity_default );
+        max_field_intensity = get_dbl_or_var( jo, "max_field_intensity", false,
+                                              max_field_intensity_default );
     }
     if( !was_loaded || jo.has_member( "field_intensity_increment" ) ) {
-        field_intensity_increment = get_dbl_or_var<dialogue>( jo, "field_intensity_increment", false,
+        field_intensity_increment = get_dbl_or_var( jo, "field_intensity_increment", false,
                                     field_intensity_increment_default );
     }
     if( !was_loaded || jo.has_member( "field_intensity_variance" ) ) {
-        field_intensity_variance = get_dbl_or_var<dialogue>( jo, "field_intensity_variance", false,
+        field_intensity_variance = get_dbl_or_var( jo, "field_intensity_variance", false,
                                    field_intensity_variance_default );
     }
 
     if( !was_loaded || jo.has_member( "min_accuracy" ) ) {
-        min_accuracy = get_dbl_or_var<dialogue>( jo, "min_accuracy", false, min_accuracy_default );
+        min_accuracy = get_dbl_or_var( jo, "min_accuracy", false, min_accuracy_default );
     }
     if( !was_loaded || jo.has_member( "accuracy_increment" ) ) {
-        accuracy_increment = get_dbl_or_var<dialogue>( jo, "accuracy_increment", false,
-                             accuracy_increment_default );
+        accuracy_increment = get_dbl_or_var( jo, "accuracy_increment", false,
+                                             accuracy_increment_default );
     }
     if( !was_loaded || jo.has_member( "max_accuracy" ) ) {
-        max_accuracy = get_dbl_or_var<dialogue>( jo, "max_accuracy", false, max_accuracy_default );
+        max_accuracy = get_dbl_or_var( jo, "max_accuracy", false, max_accuracy_default );
     }
     if( !was_loaded || jo.has_member( "min_damage" ) ) {
-        min_damage = get_dbl_or_var<dialogue>( jo, "min_damage", false, min_damage_default );
+        min_damage = get_dbl_or_var( jo, "min_damage", false, min_damage_default );
     }
     if( !was_loaded || jo.has_member( "damage_increment" ) ) {
-        damage_increment = get_dbl_or_var<dialogue>( jo, "damage_increment", false,
-                           damage_increment_default );
+        damage_increment = get_dbl_or_var( jo, "damage_increment", false,
+                                           damage_increment_default );
     }
     if( !was_loaded || jo.has_member( "max_damage" ) ) {
-        max_damage = get_dbl_or_var<dialogue>( jo, "max_damage", false, max_damage_default );
+        max_damage = get_dbl_or_var( jo, "max_damage", false, max_damage_default );
     }
 
     if( !was_loaded || jo.has_member( "min_range" ) ) {
-        min_range = get_dbl_or_var<dialogue>( jo, "min_range", false, min_range_default );
+        min_range = get_dbl_or_var( jo, "min_range", false, min_range_default );
     }
     if( !was_loaded || jo.has_member( "range_increment" ) ) {
-        range_increment = get_dbl_or_var<dialogue>( jo, "range_increment", false, range_increment_default );
+        range_increment = get_dbl_or_var( jo, "range_increment", false, range_increment_default );
     }
     if( !was_loaded || jo.has_member( "max_range" ) ) {
-        max_range = get_dbl_or_var<dialogue>( jo, "max_range", false, max_range_default );
+        max_range = get_dbl_or_var( jo, "max_range", false, max_range_default );
     }
 
     if( !was_loaded || jo.has_member( "min_aoe" ) ) {
-        min_aoe = get_dbl_or_var<dialogue>( jo, "min_aoe", false, min_aoe_default );
+        min_aoe = get_dbl_or_var( jo, "min_aoe", false, min_aoe_default );
     }
     if( !was_loaded || jo.has_member( "aoe_increment" ) ) {
-        aoe_increment = get_dbl_or_var<dialogue>( jo, "aoe_increment", false, aoe_increment_default );
+        aoe_increment = get_dbl_or_var( jo, "aoe_increment", false, aoe_increment_default );
     }
     if( !was_loaded || jo.has_member( "max_aoe" ) ) {
-        max_aoe = get_dbl_or_var<dialogue>( jo, "max_aoe", false, max_aoe_default );
+        max_aoe = get_dbl_or_var( jo, "max_aoe", false, max_aoe_default );
     }
     if( !was_loaded || jo.has_member( "min_dot" ) ) {
-        min_dot = get_dbl_or_var<dialogue>( jo, "min_dot", false, min_dot_default );
+        min_dot = get_dbl_or_var( jo, "min_dot", false, min_dot_default );
     }
     if( !was_loaded || jo.has_member( "dot_increment" ) ) {
-        dot_increment = get_dbl_or_var<dialogue>( jo, "dot_increment", false, dot_increment_default );
+        dot_increment = get_dbl_or_var( jo, "dot_increment", false, dot_increment_default );
     }
     if( !was_loaded || jo.has_member( "max_dot" ) ) {
-        max_dot = get_dbl_or_var<dialogue>( jo, "max_dot", false, max_dot_default );
+        max_dot = get_dbl_or_var( jo, "max_dot", false, max_dot_default );
     }
 
     if( !was_loaded || jo.has_member( "min_duration" ) ) {
-        min_duration = get_dbl_or_var<dialogue>( jo, "min_duration", false, min_duration_default );
+        min_duration = get_dbl_or_var( jo, "min_duration", false, min_duration_default );
     }
     if( !was_loaded || jo.has_member( "duration_increment" ) ) {
-        duration_increment = get_dbl_or_var<dialogue>( jo, "duration_increment", false,
-                             duration_increment_default );
+        duration_increment = get_dbl_or_var( jo, "duration_increment", false,
+                                             duration_increment_default );
     }
     if( !was_loaded || jo.has_member( "max_duration" ) ) {
-        max_duration = get_dbl_or_var<dialogue>( jo, "max_duration", false, max_duration_default );
+        max_duration = get_dbl_or_var( jo, "max_duration", false, max_duration_default );
     }
 
     if( !was_loaded || jo.has_member( "min_pierce" ) ) {
-        min_pierce = get_dbl_or_var<dialogue>( jo, "min_pierce", false, min_pierce_default );
+        min_pierce = get_dbl_or_var( jo, "min_pierce", false, min_pierce_default );
     }
     if( !was_loaded || jo.has_member( "pierce_increment" ) ) {
-        pierce_increment = get_dbl_or_var<dialogue>( jo, "pierce_increment", false,
-                           pierce_increment_default );
+        pierce_increment = get_dbl_or_var( jo, "pierce_increment", false,
+                                           pierce_increment_default );
     }
     if( !was_loaded || jo.has_member( "max_pierce" ) ) {
-        max_pierce = get_dbl_or_var<dialogue>( jo, "max_pierce", false, max_pierce_default );
+        max_pierce = get_dbl_or_var( jo, "max_pierce", false, max_pierce_default );
     }
 
     if( !was_loaded || jo.has_member( "base_energy_cost" ) ) {
-        base_energy_cost = get_dbl_or_var<dialogue>( jo, "base_energy_cost", false,
-                           base_energy_cost_default );
+        base_energy_cost = get_dbl_or_var( jo, "base_energy_cost", false,
+                                           base_energy_cost_default );
     }
     if( jo.has_member( "final_energy_cost" ) ) {
-        final_energy_cost = get_dbl_or_var<dialogue>( jo, "final_energy_cost" );
+        final_energy_cost = get_dbl_or_var( jo, "final_energy_cost" );
     } else if( !was_loaded ) {
         final_energy_cost = base_energy_cost;
     }
     if( !was_loaded || jo.has_member( "energy_increment" ) ) {
-        energy_increment = get_dbl_or_var<dialogue>( jo, "energy_increment", false,
-                           energy_increment_default );
+        energy_increment = get_dbl_or_var( jo, "energy_increment", false,
+                                           energy_increment_default );
     }
 
     optional( jo, was_loaded, "spell_class", spell_class, spell_class_default );
     optional( jo, was_loaded, "energy_source", energy_source, energy_source_default );
     optional( jo, was_loaded, "damage_type", dmg_type, dmg_type_default );
     if( !was_loaded || jo.has_member( "difficulty" ) ) {
-        difficulty = get_dbl_or_var<dialogue>( jo, "difficulty", false, difficulty_default );
+        difficulty = get_dbl_or_var( jo, "difficulty", false, difficulty_default );
     }
     if( !was_loaded || jo.has_member( "max_level" ) ) {
-        max_level = get_dbl_or_var<dialogue>( jo, "max_level", false, max_level_default );
+        max_level = get_dbl_or_var( jo, "max_level", false, max_level_default );
     }
 
     if( !was_loaded || jo.has_member( "base_casting_time" ) ) {
-        base_casting_time = get_dbl_or_var<dialogue>( jo, "base_casting_time", false,
-                            base_casting_time_default );
+        base_casting_time = get_dbl_or_var( jo, "base_casting_time", false,
+                                            base_casting_time_default );
     }
     if( jo.has_member( "final_casting_time" ) ) {
-        final_casting_time = get_dbl_or_var<dialogue>( jo, "final_casting_time" );
+        final_casting_time = get_dbl_or_var( jo, "final_casting_time" );
     } else if( !was_loaded ) {
         final_casting_time = base_casting_time;
     }
     if( !was_loaded || jo.has_member( "max_damage" ) ) {
-        max_damage = get_dbl_or_var<dialogue>( jo, "max_damage", false, max_damage_default );
+        max_damage = get_dbl_or_var( jo, "max_damage", false, max_damage_default );
     }
     if( !was_loaded || jo.has_member( "casting_time_increment" ) ) {
-        casting_time_increment = get_dbl_or_var<dialogue>( jo, "casting_time_increment", false,
+        casting_time_increment = get_dbl_or_var( jo, "casting_time_increment", false,
                                  casting_time_increment_default );
     }
 
@@ -2616,8 +2616,8 @@ static void draw_spellbook_info( const spell_type &sp, uilist *menu )
                                        //~ translation should not exceed 7 console cells
                                        left_justify( _( "max lvl" ), 7 ) ) );
 
-    const auto row = [&]( const std::string & label, const dbl_or_var<dialogue> &min_d,
-    const dbl_or_var<dialogue> &inc_d, const dbl_or_var<dialogue> &max_d, bool check_minmax = false ) {
+    const auto row = [&]( const std::string & label, const dbl_or_var & min_d,
+    const dbl_or_var & inc_d, const dbl_or_var & max_d, bool check_minmax = false ) {
         const int min = static_cast<int>( min_d.evaluate( d ) );
         const float inc = static_cast<float>( inc_d.evaluate( d ) );
         const int max = static_cast<int>( max_d.evaluate( d ) );

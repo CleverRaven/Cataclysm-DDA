@@ -928,9 +928,9 @@ std::optional<int> place_monster_iuse::use( Character &p, item &it, bool, const 
         }
     }
 
-    int skill_offset = 0;
+    float skill_offset = 0;
     for( const skill_id &sk : skills ) {
-        skill_offset += p.get_skill_level( sk ) / 2;
+        skill_offset += p.get_skill_level( sk ) / 2.0f;
     }
     /** @EFFECT_INT increases chance of a placed turret being friendly */
     if( rng( 0, p.int_cur / 2 ) + skill_offset < rng( 0, difficulty ) ) {
@@ -1551,7 +1551,8 @@ void salvage_actor::cut_up( Character &p, item_location &cut ) const
     float efficiency = 1.0;
     // Higher fabrication, less chance of entropy, but still a chance.
     /** @EFFECT_FABRICATION reduces chance of losing components when cutting items up */
-    int entropy_threshold = std::max( 0, 5 - p.get_skill_level( skill_fabrication ) );
+    int entropy_threshold = std::max( 0,
+                                      5 - static_cast<int>( round( p.get_skill_level( skill_fabrication ) ) ) );
     if( rng( 1, 10 ) <= entropy_threshold ) {
         efficiency *= 0.9;
     }
@@ -2289,7 +2290,7 @@ std::optional<int> learn_spell_actor::use( Character &p, item &, bool, const tri
         }
         study_spell.moves_total = study_time;
         spell &studying = p.magic->get_spell( spell_id( spells[action] ) );
-        if( studying.get_difficulty( p ) < p.get_skill_level( studying.skill() ) ) {
+        if( studying.get_difficulty( p ) < static_cast<int>( p.get_skill_level( studying.skill() ) ) ) {
             p.handle_skill_warning( studying.skill(),
                                     true ); // show the skill warning on start reading, since we don't show it during
         }
@@ -2932,7 +2933,7 @@ std::pair<float, float> repair_item_actor::repair_chance(
 {
     /** @EFFECT_TAILOR randomly improves clothing repair efforts */
     /** @EFFECT_MECHANICS randomly improves metal repair efforts */
-    const int skill = pl.get_skill_level( used_skill );
+    const float skill = pl.get_skill_level( used_skill );
     const int recipe_difficulty = repair_recipe_difficulty( pl, fix );
     int action_difficulty = 0;
     switch( action_type ) {
@@ -3329,7 +3330,7 @@ int heal_actor::get_heal_value( const Character &healer, bodypart_id healed ) co
 
     if( heal_base > 0 ) {
         /** @EFFECT_FIRSTAID increases healing item effects */
-        return heal_base + bonus_mult * healer.get_skill_level( skill_firstaid );
+        return round( heal_base + bonus_mult * healer.get_skill_level( skill_firstaid ) );
     }
 
     return heal_base;
@@ -3338,13 +3339,13 @@ int heal_actor::get_heal_value( const Character &healer, bodypart_id healed ) co
 int heal_actor::get_bandaged_level( const Character &healer ) const
 {
     if( bandages_power > 0 ) {
-        int prof_bonus = healer.get_skill_level( skill_firstaid );
+        float prof_bonus = healer.get_skill_level( skill_firstaid );
         prof_bonus = healer.has_proficiency( proficiency_prof_wound_care ) ?
                      prof_bonus + 1 : prof_bonus;
         prof_bonus = healer.has_proficiency( proficiency_prof_wound_care_expert ) ?
                      prof_bonus + 2 : prof_bonus;
         /** @EFFECT_FIRSTAID increases healing item effects */
-        return bandages_power + bandages_scaling * prof_bonus;
+        return round( bandages_power + bandages_scaling * prof_bonus );
     }
 
     return bandages_power;
@@ -3354,12 +3355,12 @@ int heal_actor::get_disinfected_level( const Character &healer ) const
 {
     if( disinfectant_power > 0 ) {
         /** @EFFECT_FIRSTAID increases healing item effects */
-        int prof_bonus = healer.get_skill_level( skill_firstaid );
+        float prof_bonus = healer.get_skill_level( skill_firstaid );
         prof_bonus = healer.has_proficiency( proficiency_prof_wound_care ) ?
                      prof_bonus + 1 : prof_bonus;
         prof_bonus = healer.has_proficiency( proficiency_prof_wound_care_expert ) ?
                      prof_bonus + 2 : prof_bonus;
-        return disinfectant_power + disinfectant_scaling * prof_bonus;
+        return round( disinfectant_power + disinfectant_scaling * prof_bonus );
     }
 
     return disinfectant_power;
@@ -3369,12 +3370,12 @@ int heal_actor::get_stopbleed_level( const Character &healer ) const
 {
     if( bleed > 0 ) {
         /** @EFFECT_FIRSTAID increases healing item effects */
-        int prof_bonus = healer.get_skill_level( skill_firstaid ) / 2;
+        float prof_bonus = healer.get_skill_level( skill_firstaid ) / 2;
         prof_bonus = healer.has_proficiency( proficiency_prof_wound_care ) ?
                      prof_bonus + 1 : prof_bonus;
         prof_bonus = healer.has_proficiency( proficiency_prof_wound_care_expert ) ?
                      prof_bonus + 2 : prof_bonus;
-        return bleed + prof_bonus;
+        return round( bleed + prof_bonus );
     }
 
     return bleed;
@@ -4659,7 +4660,7 @@ std::optional<int> sew_advanced_actor::use( Character &p, item &it, bool, const 
     p.moves -= to_moves<int>( 30_seconds * p.fine_detail_vision_mod() );
     p.practice( used_skill, items_needed * 3 + 3 );
     /** @EFFECT_TAILOR randomly improves clothing modification efforts */
-    int rn = dice( 3, 2 + p.get_skill_level( used_skill ) ); // Skill
+    int rn = dice( 3, 2 + round( p.get_skill_level( used_skill ) ) ); // Skill
     /** @EFFECT_DEX randomly improves clothing modification efforts */
     rn += rng( 0, p.dex_cur / 2 );                    // Dexterity
     /** @EFFECT_PER randomly improves clothing modification efforts */

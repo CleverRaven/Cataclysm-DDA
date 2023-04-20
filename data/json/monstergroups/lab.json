@@ -50,7 +50,6 @@
       { "monster": "mon_manhack", "weight": 200, "cost_multiplier": 0 },
       { "monster": "mon_manhack", "weight": 45, "cost_multiplier": 0, "pack_size": [ 2, 3 ] },
       { "monster": "mon_mutant_experimental", "weight": 50, "cost_multiplier": 3 },
-      { "monster": "mon_nakedmolerat_giant", "weight": 45, "cost_multiplier": 3 },
       { "monster": "mon_skitterbot", "weight": 85, "cost_multiplier": 0 },
       { "monster": "mon_skitterbot", "weight": 85, "cost_multiplier": 0, "pack_size": [ 2, 3 ] },
       { "monster": "mon_skitterbot", "weight": 1, "cost_multiplier": 0, "pack_size": [ 8, 12 ] },

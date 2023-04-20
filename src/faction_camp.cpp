@@ -1912,21 +1912,18 @@ void basecamp::scan_pseudo_items()
 
             if( expansion_map.veh_at( pos ).has_value() &&
                 expansion_map.veh_at( pos )->vehicle().is_appliance() ) {
-                const std::vector<std::pair<itype_id, int>> tools =
-                            expansion_map.veh_at( pos )->part_displayed().value().get_tools();
-
-                for( const auto &tool : tools ) {
-                    if( tool.first.obj().has_flag( flag_PSEUDO ) &&
-                        tool.first.obj().has_flag( flag_ALLOWS_REMOTE_USE ) ) {
+                for( const auto &[tool, discard_] : expansion_map.veh_at( pos )->get_tools() ) {
+                    if( tool.has_flag( flag_PSEUDO ) &&
+                        tool.has_flag( flag_ALLOWS_REMOTE_USE ) ) {
                         bool found = false;
                         for( itype_id &element : expansion.second.available_pseudo_items ) {
-                            if( element == tool.first ) {
+                            if( element == tool.typeId() ) {
                                 found = true;
                                 break;
                             }
                         }
                         if( !found ) {
-                            expansion.second.available_pseudo_items.push_back( tool.first );
+                            expansion.second.available_pseudo_items.push_back( tool.typeId() );
                         }
                     }
                 }
@@ -3074,7 +3071,7 @@ static std::pair<size_t, std::string> farm_action( const tripoint_abs_omt &omt_t
                     if( seed != items.end() && farm_valid_seed( *seed ) ) {
                         plots_cnt += 1;
                         if( comp ) {
-                            int skillLevel = comp->get_skill_level( skill_survival );
+                            int skillLevel = round( comp->get_skill_level( skill_survival ) );
                             ///\EFFECT_SURVIVAL increases number of plants harvested from a seed
                             int plant_count = rng( skillLevel / 2, skillLevel );
                             plant_count *= farm_map.furn( pos )->plant->harvest_multiplier;
@@ -3402,7 +3399,7 @@ bool basecamp::gathering_return( const mission_id &miss_id, time_duration min_ti
     int favor = 2;
     int threat = 10;
     std::string skill_group = "gathering";
-    int skill = 2 * comp->get_skill_level( skill_survival ) + comp->per_cur;
+    float skill = 2 * comp->get_skill_level( skill_survival ) + comp->per_cur;
     int checks_per_cycle = 6;
     if( miss_id.id == Camp_Foraging ) {
         task_description = _( "foraging for edible plants" );
@@ -3458,9 +3455,9 @@ bool basecamp::gathering_return( const mission_id &miss_id, time_duration min_ti
     }
     if( miss_id.id == Camp_Trapping ||
         miss_id.id == Camp_Hunting ) {
-        hunting_results( skill, miss_id, checks_per_cycle * mission_time / min_time, 30 );
+        hunting_results( round( skill ), miss_id, checks_per_cycle * mission_time / min_time, 30 );
     } else {
-        search_results( skill, itemlist, checks_per_cycle * mission_time / min_time, 15 );
+        search_results( round( skill ), itemlist, checks_per_cycle * mission_time / min_time, 15 );
     }
 
     return true;
@@ -3766,7 +3763,7 @@ void basecamp::recruit_return( const mission_id &miss_id, int score )
 
     npc_ptr recruit;
     //Success of finding an NPC to recruit, based on survival/tracking
-    int skill = comp->get_skill_level( skill_survival );
+    float skill = comp->get_skill_level( skill_survival );
     if( rng( 1, 20 ) + skill > 17 ) {
         recruit = make_shared_fast<npc>();
         recruit->normalize();
@@ -3788,7 +3785,7 @@ void basecamp::recruit_return( const mission_id &miss_id, int score )
     }
     //Stat window
     int rec_m = 0;
-    int appeal = rng( -5, 3 ) + std::min( skill / 3, 3 );
+    int appeal = rng( -5, 3 ) + std::min( skill / 3, 3.0f );
     int food_desire = rng( 0, 5 );
     while( true ) {
         std::string description = _( "NPC Overview:\n\n" );
@@ -3808,11 +3805,11 @@ void basecamp::recruit_return( const mission_id &miss_id, int score )
         } );
 
         description += string_format( "%s:          %4d\n", right_justify( skillslist[0]->name(), 12 ),
-                                      recruit->get_skill_level( skillslist[0]->ident() ) );
+                                      static_cast<int>( recruit->get_skill_level( skillslist[0]->ident() ) ) );
         description += string_format( "%s:          %4d\n", right_justify( skillslist[1]->name(), 12 ),
-                                      recruit->get_skill_level( skillslist[1]->ident() ) );
+                                      static_cast<int>( recruit->get_skill_level( skillslist[1]->ident() ) ) );
         description += string_format( "%s:          %4d\n\n", right_justify( skillslist[2]->name(), 12 ),
-                                      recruit->get_skill_level( skillslist[2]->ident() ) );
+                                      static_cast<int>( recruit->get_skill_level( skillslist[2]->ident() ) ) );
 
         description += _( "Asking for:\n" );
         description += string_format( _( "> Food:     %10d days\n\n" ), food_desire );
@@ -5261,8 +5258,8 @@ void apply_camp_ownership( const tripoint &camp_pos, int radius )
 bool survive_random_encounter( npc &comp, std::string &situation, int favor, int threat )
 {
     popup( _( "While %s, a silent specter approaches %s…" ), situation, comp.get_name() );
-    int skill_1 = comp.get_skill_level( skill_survival );
-    int skill_2 = comp.get_skill_level( skill_speech );
+    float skill_1 = comp.get_skill_level( skill_survival );
+    float skill_2 = comp.get_skill_level( skill_speech );
     if( skill_1 + favor > rng( 0, 10 ) ) {
         popup( _( "%s notices the antlered horror and slips away before it gets too close." ),
                comp.get_name() );
@@ -5275,12 +5272,12 @@ bool survive_random_encounter( npc &comp, std::string &situation, int favor, int
         talk_function::companion_skill_trainer( comp, skill_recruiting, 10_minutes, 10 - favor );
     } else {
         popup( _( "%s didn't detect the ambush until it was too late!" ), comp.get_name() );
-        int skill = comp.get_skill_level( skill_melee ) +
-                    0.5 * comp.get_skill_level( skill_survival ) +
-                    comp.get_skill_level( skill_bashing ) +
-                    comp.get_skill_level( skill_cutting ) +
-                    comp.get_skill_level( skill_stabbing ) +
-                    comp.get_skill_level( skill_unarmed ) + comp.get_skill_level( skill_dodge );
+        float skill = comp.get_skill_level( skill_melee ) +
+                      0.5 * comp.get_skill_level( skill_survival ) +
+                      comp.get_skill_level( skill_bashing ) +
+                      comp.get_skill_level( skill_cutting ) +
+                      comp.get_skill_level( skill_stabbing ) +
+                      comp.get_skill_level( skill_unarmed ) + comp.get_skill_level( skill_dodge );
         int monsters = rng( 0, threat );
         if( skill * rng( 8, 12 ) > ( monsters * rng( 8, 12 ) ) ) {
             if( one_in( 2 ) ) {

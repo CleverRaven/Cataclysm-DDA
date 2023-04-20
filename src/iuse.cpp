@@ -1842,11 +1842,11 @@ std::optional<int> iuse::fish_trap( Character *p, item *it, bool t, const tripoi
             }
 
             int success = -50;
-            const int surv = p->get_skill_level( skill_survival );
+            const float surv = p->get_skill_level( skill_survival );
             const int attempts = rng( it->ammo_remaining(), it->ammo_remaining() * it->ammo_remaining() );
             for( int i = 0; i < attempts; i++ ) {
                 /** @EFFECT_SURVIVAL randomly increases number of fish caught in fishing trap */
-                success += rng( surv, surv * surv );
+                success += rng( round( surv ), round( surv * surv ) );
             }
 
             int bait_consumed = rng( 0, it->ammo_remaining() + 1 );
@@ -2376,7 +2376,7 @@ std::optional<int> iuse::pack_cbm( Character *p, item *it, bool, const tripoint 
         return 0;
     }
 
-    const int success = p->get_skill_level( skill_firstaid ) - rng( 0, 6 );
+    const int success = round( p->get_skill_level( skill_firstaid ) ) - rng( 0, 6 );
     if( success > 0 ) {
         p->add_msg_if_player( m_good, _( "You carefully prepare the CBM for sterilization." ) );
         bionic.get_item()->unset_flag( flag_NO_PACKED );
@@ -3202,7 +3202,10 @@ std::optional<int> iuse::change_skin( Character *p, item *, bool, const tripoint
     return std::nullopt;
 }
 
-std::optional<int> iuse::jackhammer( Character *p, item *it, bool, const tripoint &pos )
+static std::optional<int> dig_tool( Character *p, item *it, bool, const tripoint &pos,
+                                    const activity_id activity,
+                                    const std::string &prompt, const std::string &fail, const std::string &success,
+                                    int extra_moves = 0 )
 {
     // use has_enough_charges to check for UPS availability
     // p is assumed to exist for iuse cases
@@ -3218,7 +3221,7 @@ std::optional<int> iuse::jackhammer( Character *p, item *it, bool, const tripoin
 
     tripoint pnt = pos;
     if( pos == p->pos() ) {
-        const std::optional<tripoint> pnt_ = choose_adjacent( _( "Drill where?" ) );
+        const std::optional<tripoint> pnt_ = choose_adjacent( prompt );
         if( !pnt_ ) {
             return std::nullopt;
         }
@@ -3230,7 +3233,7 @@ std::optional<int> iuse::jackhammer( Character *p, item *it, bool, const tripoin
     const bool mineable_ter = here.has_flag_ter( ter_furn_flag::TFLAG_MINEABLE, pnt );
     const int max_mining_ability = 70;
     if( !mineable_furn && !mineable_ter ) {
-        p->add_msg_if_player( m_info, _( "You can't drill there." ) );
+        p->add_msg_if_player( m_info, fail );
         if( here.bash_resistance( pnt ) > max_mining_ability ) {
             p->add_msg_if_player( m_info,
                                   _( "The material is too hard for you to even make a dent." ) );
@@ -3243,10 +3246,6 @@ std::optional<int> iuse::jackhammer( Character *p, item *it, bool, const tripoin
     }
 
     int moves = to_moves<int>( 30_minutes );
-    if( here.move_cost( pnt ) == 2 ) {
-        // We're breaking up some flat surface like pavement, which is much easier
-        moves /= 2;
-    }
 
     const std::vector<npc *> helpers = p->get_crafting_helpers();
     const std::size_t helpersize = p->get_num_crafting_helpers( 3 );
@@ -3255,17 +3254,37 @@ std::optional<int> iuse::jackhammer( Character *p, item *it, bool, const tripoin
         add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
     }
 
-    p->assign_activity( ACT_JACKHAMMER, moves );
+    moves += extra_moves;
+
+    if( here.move_cost( pnt ) == 2 ) {
+        // We're breaking up some flat surface like pavement, which is much easier
+        moves /= 2;
+    }
+
+    p->assign_activity( activity, moves );
     p->activity.targets.emplace_back( *p, it );
     p->activity.placement = here.getglobal( pnt );
 
     // You can mine either furniture or terrain, and furniture goes first,
     // according to @ref map::bash_ter_furn()
     std::string mining_what = mineable_furn ? here.furnname( pnt ) : here.tername( pnt );
-    p->add_msg_if_player( _( "You start drilling into the %1$s with your %2$s." ),
-                          mining_what, it->tname() );
+    p->add_msg_if_player( success, mining_what, it->tname() );
 
     return 0; // handled when the activity finishes
+}
+
+std::optional<int> iuse::jackhammer( Character *p, item *it, bool, const tripoint &pos )
+{
+    // use has_enough_charges to check for UPS availability
+    // p is assumed to exist for iuse cases
+    if( !it->ammo_sufficient( p ) ) {
+        return std::nullopt;
+    }
+
+    return dig_tool( p, it, true, pos, ACT_JACKHAMMER,
+                     _( "Drill where?" ), _( "You can't drill there." ),
+                     _( "You start drilling into the %1$s with your %2$s." ) );
+
 }
 
 std::optional<int> iuse::pick_lock( Character *p, item *it, bool, const tripoint &pos )
@@ -3306,7 +3325,7 @@ std::optional<int> iuse::pick_lock( Character *p, item *it, bool, const tripoint
     time_duration duration = 5_seconds;
     if( !it->has_flag( flag_PERFECT_LOCKPICK ) ) {
         duration = std::max( 30_seconds,
-                             ( 10_minutes - time_duration::from_minutes( qual + you.dex_cur / 4 +
+                             ( 10_minutes - time_duration::from_minutes( qual + static_cast<float>( you.dex_cur ) / 4.0f +
                                      you.get_skill_level( skill_traps ) ) ) * duration_proficiency_factor );
     }
 
@@ -3323,64 +3342,13 @@ std::optional<int> iuse::pickaxe( Character *p, item *it, bool, const tripoint &
         // Long action
         return std::nullopt;
     }
-    if( p->cant_do_mounted() ) {
-        return std::nullopt;
-    }
-    if( p->cant_do_underwater() ) {
-        return std::nullopt;
-    }
+    /** @EFFECT_STR decreases time to dig with a pickaxe */
+    int extra_moves = ( ( MAX_STAT + 4 ) -
+                        std::min( p->get_arm_str(), MAX_STAT ) ) * to_moves<int>( 5_minutes );
+    return dig_tool( p, it, true, pos, ACT_PICKAXE,
+                     _( "Mine where?" ), _( "You can't mine there." ), _( "You strike the %1$s with your %2$s." ),
+                     extra_moves );
 
-    tripoint pnt = pos;
-    if( pos == p->pos() ) {
-        const std::optional<tripoint> pnt_ = choose_adjacent( _( "Mine where?" ) );
-        if( !pnt_ ) {
-            return std::nullopt;
-        }
-        pnt = *pnt_;
-    }
-
-    map &here = get_map();
-    const bool mineable_furn = here.has_flag_furn( ter_furn_flag::TFLAG_MINEABLE, pnt );
-    const bool mineable_ter = here.has_flag_ter( ter_furn_flag::TFLAG_MINEABLE, pnt );
-    const int max_mining_ability = 70;
-    if( !mineable_furn && !mineable_ter ) {
-        p->add_msg_if_player( m_info, _( "You can't mine there." ) );
-        if( here.bash_resistance( pnt ) > max_mining_ability ) {
-            p->add_msg_if_player( m_info,
-                                  _( "The material is too hard for you to even make a dent." ) );
-        }
-        return std::nullopt;
-    }
-    if( here.veh_at( pnt ) ) {
-        p->add_msg_if_player( _( "There's a vehicle in the way!" ) );
-        return std::nullopt;
-    }
-
-    int moves = to_moves<int>( 20_minutes );
-    moves += ( ( MAX_STAT + 4 ) - std::min( p->get_arm_str(), MAX_STAT ) ) * to_moves<int>( 5_minutes );
-    if( here.move_cost( pnt ) == 2 ) {
-        // We're breaking up some flat surface like pavement, which is much easier
-        moves /= 2;
-    }
-
-    const std::vector<npc *> helpers = p->get_crafting_helpers();
-    const std::size_t helpersize = p->get_num_crafting_helpers( 3 );
-    moves *= ( 1.0f - ( helpersize / 10.0f ) );
-    for( std::size_t i = 0; i < helpersize; i++ ) {
-        add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
-    }
-
-    p->assign_activity( ACT_PICKAXE, moves, -1 );
-    p->activity.targets.emplace_back( *p, it );
-    p->activity.placement = here.getglobal( pnt );
-
-    // You can mine either furniture or terrain, and furniture goes first,
-    // according to @ref map::bash_ter_furn()
-    std::string mining_what = mineable_furn ? here.furnname( pnt ) : here.tername( pnt );
-    p->add_msg_if_player( _( "You strike the %1$s with your %2$s." ),
-                          mining_what, it->tname() );
-
-    return 0; // handled when the activity finishes
 }
 
 std::optional<int> iuse::geiger( Character *p, item *it, bool t, const tripoint &pos )
@@ -3920,7 +3888,8 @@ std::optional<int> iuse::tazer( Character *p, item *it, bool, const tripoint &po
 
     /** @EFFECT_DEX slightly increases chance of successfully using tazer */
     /** @EFFECT_MELEE increases chance of successfully using a tazer */
-    int numdice = 3 + ( p->dex_cur / 2.5 ) + p->get_skill_level( skill_melee ) * 2;
+    int numdice = round( 3 + ( static_cast<float>( p->dex_cur ) / 2.5 ) + p->get_skill_level(
+                             skill_melee ) * 2 );
     p->moves -= to_moves<int>( 1_seconds );
 
     /** @EFFECT_DODGE increases chance of dodging a tazer attack */
@@ -5677,7 +5646,8 @@ std::optional<int> iuse::robotcontrol( Character *p, item *it, bool active, cons
 
             /** @EFFECT_INT speeds up hacking preparation */
             /** @EFFECT_COMPUTER speeds up hacking preparation */
-            int move_cost = std::max( 100, 1000 - p->int_cur * 10 - p->get_skill_level( skill_computer ) * 10 );
+            int move_cost = std::max( 100,
+                                      1000 - static_cast<int>( p->int_cur * 10 - p->get_skill_level( skill_computer ) * 10 ) );
             player_activity act( ACT_ROBOT_CONTROL, move_cost );
             act.monsters.emplace_back( z );
 
@@ -6232,8 +6202,8 @@ std::optional<int> iuse::einktabletpc( Character *p, item *it, bool t, const tri
             /** @EFFECT_INT increases chance of safely decrypting memory card */
 
             /** @EFFECT_COMPUTER increases chance of safely decrypting memory card */
-            const int success = p->get_skill_level( skill_computer ) * rng( 1,
-                                p->get_skill_level( skill_computer ) ) *
+            const int success = round( p->get_skill_level( skill_computer ) ) * rng( 1,
+                                round( p->get_skill_level( skill_computer ) ) ) *
                                 rng( 1, p->int_cur ) - rng( 30, 80 );
             if( success > 0 ) {
                 p->practice( skill_computer, rng( 5, 10 ) );
@@ -7772,7 +7742,8 @@ static bool hackveh( Character &p, item &it, vehicle &veh )
     /** @EFFECT_INT increases chance of bypassing vehicle security system */
 
     /** @EFFECT_COMPUTER increases chance of bypassing vehicle security system */
-    int roll = dice( p.get_skill_level( skill_computer ) + 2, p.int_cur ) - ( advanced ? 50 : 25 );
+    int roll = dice( round( p.get_skill_level( skill_computer ) ) + 2,
+                     p.int_cur ) - ( advanced ? 50 : 25 );
     int effort = 0;
     bool success = false;
     if( roll < -20 ) { // Really bad rolls will trigger the alarm before you know it exists
@@ -8096,7 +8067,7 @@ std::optional<int> iuse::multicooker( Character *p, item *it, bool t, const trip
                 /** @EFFECT_ELECTRONICS >3 allows multicooker upgrade */
 
                 /** @EFFECT_FABRICATION >3 allows multicooker upgrade */
-                if( p->get_skill_level( skill_electronics ) > 3 && p->get_skill_level( skill_fabrication ) > 3 ) {
+                if( p->get_skill_level( skill_electronics ) >= 4 && p->get_skill_level( skill_fabrication ) >= 4 ) {
                     const auto upgr = it->get_var( "MULTI_COOK_UPGRADE" );
                     if( upgr.empty() ) {
                         menu.addentry( mc_upgrade, true, 'u', _( "Upgrade multi-cooker" ) );
@@ -8277,7 +8248,7 @@ std::optional<int> iuse::multicooker( Character *p, item *it, bool t, const trip
             }
 
             if( !cinv.has_quality( qual_SCREW_FINE ) ) {
-                p->add_msg_if_player( m_warning, _( "You need an item with %s of 1 or more to disassemble this." ),
+                p->add_msg_if_player( m_warning, _( "You need an item with %s of 1 or more to upgrade this." ),
                                       qual_SCREW_FINE.obj().name );
                 has_tools = false;
             }

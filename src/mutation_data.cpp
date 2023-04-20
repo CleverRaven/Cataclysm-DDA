@@ -240,7 +240,7 @@ bool mut_transform::load( const JsonObject &jsobj, const std::string &member )
 
 void reflex_activation_data::load( const JsonObject &jsobj )
 {
-    read_condition<dialogue>( jsobj, "condition", trigger, false );
+    read_condition( jsobj, "condition", trigger, false );
     if( jsobj.has_object( "msg_on" ) ) {
         JsonObject jo = jsobj.get_object( "msg_on" );
         optional( jo, was_loaded, "text", msg_on.first );

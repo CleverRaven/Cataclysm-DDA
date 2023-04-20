@@ -883,9 +883,9 @@ int Character::point_shooting_limit( const item &gun )const
     // This value is not affected by PER, because the accuracy of aim shooting depends more on muscle memory and skill
     skill_id gun_skill = gun.gun_skill();
     if( gun_skill == skill_archery ) {
-        return 30 + 220 / ( 1 + std::min( get_skill_level( gun_skill ), MAX_SKILL ) );
+        return 30 + 220 / ( 1 + std::min( get_skill_level( gun_skill ), static_cast<float>( MAX_SKILL ) ) );
     } else {
-        return 200 - 10 * std::min( get_skill_level( gun_skill ), MAX_SKILL );
+        return 200 - 10 * std::min( get_skill_level( gun_skill ), static_cast<float>( MAX_SKILL ) );
     }
 }
 
@@ -1294,7 +1294,7 @@ int Character::swim_speed() const
     }
     /** @EFFECT_SWIMMING increases swim speed */
     ret *= get_modifier( character_modifier_swim_mod );
-    ret += worn.swim_modifier( get_skill_level( skill_swimming ) );
+    ret += worn.swim_modifier( round( get_skill_level( skill_swimming ) ) );
     /** @EFFECT_STR increases swim speed */
 
     /** @EFFECT_DEX increases swim speed */
@@ -1716,7 +1716,8 @@ void Character::on_dodge( Creature *source, float difficulty )
 
     // dodging throws of our aim unless we are either skilled at dodging or using a small weapon
     if( is_armed() && weapon.is_gun() ) {
-        recoil += std::max( weapon.volume() / 250_ml - get_skill_level( skill_dodge ), 0 ) * rng( 0, 100 );
+        recoil += std::max( weapon.volume() / 250_ml - get_skill_level( skill_dodge ), 0.0f ) * rng( 0,
+                  100 );
         recoil = std::min( MAX_RECOIL, recoil );
     }
 
@@ -2216,7 +2217,7 @@ void Character::recalc_hp()
     int str_boost_val = 0;
     std::optional<skill_boost> str_boost = skill_boost::get( "str" );
     if( str_boost ) {
-        int skill_total = 0;
+        float skill_total = 0;
         for( const std::string &skill_str : str_boost->skills() ) {
             skill_total += get_skill_level( skill_id( skill_str ) );
         }
@@ -2408,7 +2409,8 @@ bool Character::practice( const skill_id &id, int amount, int cap, bool suppress
 {
     SkillLevel &level = get_skill_level_object( id );
     const Skill &skill = id.obj();
-    if( !level.can_train() || in_sleep_state() || ( get_skill_level( id ) >= MAX_SKILL ) ) {
+    if( !level.can_train() || in_sleep_state() ||
+        ( static_cast<int>( get_skill_level( id ) ) >= MAX_SKILL ) ) {
         // Do not practice if: cannot train, asleep, or at effective skill cap
         // Leaving as a skill method rather than global for possible future skill cap setting
         return false;
@@ -2455,7 +2457,8 @@ bool Character::practice( const skill_id &id, int amount, int cap, bool suppress
         amount *= 0.5f;
     }
 
-    if( amount > 0 && get_skill_level( id ) > cap ) { //blunt grinding cap implementation for crafting
+    if( amount > 0 &&
+        static_cast<int>( get_skill_level( id ) ) > cap ) { //blunt grinding cap implementation for crafting
         amount = 0;
         if( !suppress_warning ) {
             handle_skill_warning( id, false );
@@ -2463,10 +2466,10 @@ bool Character::practice( const skill_id &id, int amount, int cap, bool suppress
     }
     bool level_up = false;
     if( amount > 0 && level.isTraining() ) {
-        int old_practical_level = get_skill_level( id );
+        int old_practical_level = static_cast<int>( get_skill_level( id ) );
         int old_theoretical_level = get_knowledge_level( id );
         get_skill_level_object( id ).train( amount, catchup_modifier, knowledge_modifier );
-        int new_practical_level = get_skill_level( id );
+        int new_practical_level = static_cast<int>( get_skill_level( id ) );
         int new_theoretical_level = get_knowledge_level( id );
         std::string skill_name = skill.name();
         if( new_practical_level > old_practical_level ) {
@@ -3056,15 +3059,17 @@ SkillLevel &Character::get_skill_level_object( const skill_id &ident )
     return _skills->get_skill_level_object( ident );
 }
 
-int Character::get_skill_level( const skill_id &ident ) const
+float Character::get_skill_level( const skill_id &ident ) const
 {
-    return std::round( enchantment_cache->modify_value( ident, _skills->get_skill_level( ident ) ) );
+    return enchantment_cache->modify_value( ident,
+                                            _skills->get_skill_level( ident ) + _skills->get_progress_level( ident ) );
 }
 
-int Character::get_skill_level( const skill_id &ident, const item &context ) const
+float Character::get_skill_level( const skill_id &ident, const item &context ) const
 {
-    return std::round( enchantment_cache->modify_value( ident, _skills->get_skill_level( ident,
-                       context ) ) );
+    return enchantment_cache->modify_value( ident, _skills->get_skill_level( ident,
+                                            context ) + _skills->get_progress_level( ident,
+                                                    context ) );
 }
 
 int Character::get_knowledge_level( const skill_id &ident ) const
@@ -3112,7 +3117,7 @@ std::string Character::enumerate_unmet_requirements( const item &it, const item 
 
     for( const auto &elem : it.type->min_skills ) {
         check_req( context.contextualize_skill( elem.first )->name(),
-                   get_skill_level( elem.first, context ),
+                   static_cast<int>( get_skill_level( elem.first, context ) ),
                    elem.second );
     }
 
@@ -3216,7 +3221,7 @@ void Character::die( Creature *nkiller )
 void Character::apply_skill_boost()
 {
     for( const skill_boost &boost : skill_boost::get_all() ) {
-        int skill_total = 0;
+        float skill_total = 0;
         for( const std::string &skill_str : boost.skills() ) {
             skill_total += get_skill_level( skill_id( skill_str ) );
         }
@@ -5513,8 +5518,8 @@ int Character::throw_range( const item &it ) const
     /** @EFFECT_STR caps throwing range */
 
     /** @EFFECT_THROW caps throwing range */
-    if( ret > str * 3 + get_skill_level( skill_throw ) ) {
-        return str * 3 + get_skill_level( skill_throw );
+    if( ret > round( str * 3 + get_skill_level( skill_throw ) ) ) {
+        return round( str * 3 + get_skill_level( skill_throw ) );
     }
 
     return ret;
@@ -6249,13 +6254,13 @@ void Character::mend_item( item_location &&obj, bool interactive )
                         return string_format( pgettext( "skill requirement",
                                                         //~ %1$s: skill name, %2$s: current skill level, %3$s: required skill level
                                                         "<color_cyan>%1$s</color> <color_green>(%2$d/%3$d)</color>" ),
-                                              sk.first->name(), get_skill_level( sk.first ), sk.second );
+                                              sk.first->name(), static_cast<int>( get_skill_level( sk.first ) ), sk.second );
                     } else
                     {
                         return string_format( pgettext( "skill requirement",
                                                         //~ %1$s: skill name, %2$s: current skill level, %3$s: required skill level
                                                         "<color_cyan>%1$s</color> <color_red>(%2$d/%3$d)</color>" ),
-                                              sk.first->name(), get_skill_level( sk.first ), sk.second );
+                                              sk.first->name(), static_cast<int>( get_skill_level( sk.first ) ), sk.second );
                     }
                 } ) );
             }
@@ -6759,7 +6764,7 @@ int Character::item_store_cost( const item &it, const item & /* container */, bo
     /** @EFFECT_STABBING decreases time taken to store a stabbing weapon */
     /** @EFFECT_CUTTING decreases time taken to store a cutting weapon */
     /** @EFFECT_BASHING decreases time taken to store a bashing weapon */
-    int lvl = get_skill_level( it.is_gun() ? it.gun_skill() : it.melee_skill() );
+    float lvl = get_skill_level( it.is_gun() ? it.gun_skill() : it.melee_skill() );
     return item_handling_cost( it, penalties, base_cost ) / ( ( lvl + 10.0f ) / 10.0f );
 }
 
@@ -10187,13 +10192,18 @@ bool Character::sees( const Creature &critter ) const
 {
     // This handles only the player/npc specific stuff (monsters don't have traits or bionics).
     const int dist = rl_dist( pos(), critter.pos() );
+    // No seeing across z-levels with experimental 3D vision disabled
+    if( !fov_3d && pos().z != critter.pos().z ) {
+        return false;
+    }
     if( dist <= 3 && has_active_mutation( trait_ANTENNAE ) ) {
         return true;
     }
     if( dist < MAX_CLAIRVOYANCE && dist < clairvoyance() ) {
         return true;
     }
-    if( field_fd_clairvoyant.is_valid() &&
+    // Only players can spot creatures through clairvoyance fields
+    if( is_avatar() && field_fd_clairvoyant.is_valid() &&
         get_map().get_field( critter.pos(), field_fd_clairvoyant ) ) {
         return true;
     }
@@ -10288,9 +10298,9 @@ int Character::persuade_skill() const
     /** @EFFECT_INT slightly increases talking skill */
     /** @EFFECT_PER slightly increases talking skill */
     /** @EFFECT_SPEECH increases talking skill */
-    int ret = get_int() + get_per() + get_skill_level( skill_speech ) * 3;
+    float ret = get_int() + get_per() + get_skill_level( skill_speech ) * 3;
     ret = enchantment_cache->modify_value( enchant_vals::mod::SOCIAL_PERSUADE, ret );
-    return ret;
+    return round( ret );
 }
 
 int Character::lie_skill() const
@@ -10298,9 +10308,9 @@ int Character::lie_skill() const
     /** @EFFECT_INT slightly increases talking skill */
     /** @EFFECT_PER slightly increases talking skill */
     /** @EFFECT_SPEECH increases talking skill */
-    int ret = get_int() + get_per() + get_skill_level( skill_speech ) * 3;
+    float ret = get_int() + get_per() + get_skill_level( skill_speech ) * 3;
     ret = enchantment_cache->modify_value( enchant_vals::mod::SOCIAL_LIE, ret );
-    return ret;
+    return round( ret );
 }
 
 int Character::intimidation() const
@@ -10729,7 +10739,7 @@ bool Character::avoid_trap( const tripoint &pos, const trap &tr ) const
     /** @EFFECT_DEX increases chance to avoid traps */
 
     /** @EFFECT_DODGE increases chance to avoid traps */
-    int myroll = dice( 3, dex_cur + get_skill_level( skill_dodge ) * 1.5 );
+    int myroll = dice( 3, round( dex_cur + get_skill_level( skill_dodge ) * 1.5 ) );
     int traproll;
     if( tr.can_see( pos, *this ) ) {
         traproll = dice( 3, tr.get_avoidance() );
@@ -11300,7 +11310,7 @@ int Character::impact( const int force, const tripoint &p )
         if( here.has_furn( p ) ) {
             // TODO: Make furniture matter
         } else if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) ) {
-            const int swim_skill = get_skill_level( skill_swimming );
+            const float swim_skill = get_skill_level( skill_swimming );
             effective_force /= 4.0f + 0.1f * swim_skill;
             if( here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, p ) ) {
                 effective_force /= 1.5f;

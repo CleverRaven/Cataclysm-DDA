@@ -1204,6 +1204,9 @@ struct itype {
         /** Actions an instance can perform (if any) indexed by action type */
         std::map<std::string, use_function> use_methods;
 
+        // @return returns itype_id of first ammo_id or itype_id::NULL_ID if not tool or no ammo defined
+        const itype_id &tool_slot_first_ammo() const;
+
         /** The factor of ammo consumption indexed by action type*/
         std::map<std::string, int> ammo_scale;
 

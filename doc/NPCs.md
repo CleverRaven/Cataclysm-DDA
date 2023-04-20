@@ -1256,6 +1256,7 @@ Example | Description
 `"const": 5` | A constant value, in this case 5. Can be read but not written to.
 `"time": "5 days"` | A constant time value. Will be converted to turns. Can be read but not written to.
 `"time_since_cataclysm": "turns"` | Time since the start of the cataclysm in turns. Can instead take other time units such as minutes, hours, days, weeks, seasons, and years.
+`"time_until_eoc": "eoc_id"` | Time from now until the next scheduled run of `eoc_id`. Optional member `unit` can sepcify a member to use instead of turns such as minutes, hours, days, weeks, seasons, and years.
 `"rand": 20` | A random value between 0 and a given value, in this case 20. Can be read but not written to.
 `"faction_trust": "free_merchants"` | The trust the faction has for the player (see [FACTIONS.md](FACTIONS.md)) for details.
 `"faction_like": "free_merchants"` | How much the faction likes the player (see [FACTIONS.md](FACTIONS.md)) for details.
