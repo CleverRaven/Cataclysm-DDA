@@ -11,7 +11,8 @@
     "skills_required": [ "electronics", 4 ],
     "time": "240 m",
     "qualities": [ { "id": "SEW", "level": 2 }, { "id": "SAW_M", "level": 2 }, { "id": "JUMPSTART", "level": 1 } ],
-    "components": [ [ [ "meat_tainted", 180 ] ], [ [ "bone_tainted", 80 ] ], [ [ "pipe", 2 ] ] ]
+    "components": [ [ [ "meat_tainted", 180 ] ], [ [ "bone_tainted", 80 ] ], [ [ "pipe", 2 ] ] ],
+    "flags": [ "SECRET" ]
   },
   {
     "id": "meat_hunk",
