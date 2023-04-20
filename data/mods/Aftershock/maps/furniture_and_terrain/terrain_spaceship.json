@@ -213,7 +213,6 @@
     "color": "green_red",
     "move_cost": 0,
     "coverage": 80,
-    "required_str": -1,
     "flags": [ "NOITEM", "SEALED", "REDUCE_SCENT", "PERMEABLE" ],
     "bash": {
       "str_min": 70,
@@ -244,7 +243,6 @@
     "color": "green_red",
     "move_cost": 0,
     "coverage": 80,
-    "required_str": -1,
     "examine_action": {
       "type": "effect_on_condition",
       "effect_on_conditions": [
@@ -287,7 +285,6 @@
     "color": "green_red",
     "move_cost": 0,
     "coverage": 80,
-    "required_str": -1,
     "examine_action": {
       "type": "effect_on_condition",
       "effect_on_conditions": [
