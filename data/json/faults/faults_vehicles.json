@@ -4,6 +4,7 @@
     "type": "fault",
     "name": { "str": "Worn drive belt" },
     "description": "Required for operation of an attached alternator.",
+    "item_prefix": "faulty",
     "flags": [ "NO_ALTERNATOR_CHARGE" ]
   },
   {
@@ -11,6 +12,7 @@
     "type": "fault",
     "name": { "str": "Faulty glow plugs" },
     "description": "Help when starting an engine in low ambient temperatures.",
+    "item_prefix": "faulty",
     "flags": [ "BAD_COLD_START" ]
   },
   {
@@ -18,6 +20,7 @@
     "type": "fault",
     "name": { "str": "Active immobiliser" },
     "description": "An immobiliser device prevents starting of the vehicle without the appropriate key.",
+    "item_prefix": "faulty",
     "flags": [ "IMMOBILIZER" ]
   },
   {
@@ -25,6 +28,7 @@
     "type": "fault",
     "name": { "str": "Faulty diesel pump" },
     "description": "Required to pump and pressurize diesel from a vehicles tank.",
+    "item_prefix": "faulty",
     "flags": [ "BAD_FUEL_PUMP" ]
   },
   {
@@ -32,6 +36,7 @@
     "type": "fault",
     "name": { "str": "Expired air filter" },
     "description": "An expired filter reduces fuel efficiency and increases smoke production.",
+    "item_prefix": "faulty",
     "flags": [ "DOUBLE_FUEL_CONSUMPTION", "EXTRA_EXHAUST" ]
   },
   {
@@ -39,6 +44,7 @@
     "type": "fault",
     "name": { "str": "Expired fuel filter" },
     "description": "An expired filter reduces performance and increases the chance of backfires.",
+    "item_prefix": "faulty",
     "flags": [ "REDUCE_ENG_POWER", "ENG_BACKFIRE" ]
   },
   {
@@ -46,6 +52,7 @@
     "type": "fault",
     "name": { "str": "Faulty fuel pump" },
     "description": "Required to pump gasoline from a vehicles tank.",
+    "item_prefix": "faulty",
     "flags": [ "BAD_FUEL_PUMP" ]
   },
   {
@@ -53,6 +60,7 @@
     "type": "fault",
     "name": { "str": "Faulty starter motor" },
     "description": "Required to initially start the engine.",
+    "item_prefix": "faulty",
     "flags": [ "BAD_STARTER" ]
   }
 ]

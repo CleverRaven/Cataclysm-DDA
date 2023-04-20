@@ -49,6 +49,7 @@ class fault
         const fault_id &id() const;
         std::string name() const;
         std::string description() const;
+        std::string item_prefix() const;
         bool has_flag( const std::string &flag ) const;
 
         const std::set<fault_fix_id> &get_fixes() const;
@@ -63,6 +64,7 @@ class fault
         fault_id id_ = fault_id::NULL_ID();
         translation name_;
         translation description_;
+        translation item_prefix_; // prefix added to affected item's name
         std::set<fault_fix_id> fixes;
         std::set<std::string> flags;
 };

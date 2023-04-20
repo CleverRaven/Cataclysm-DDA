@@ -66,6 +66,11 @@ std::string fault::description() const
     return description_.translated();
 }
 
+std::string fault::item_prefix() const
+{
+    return item_prefix_.translated();
+}
+
 bool fault::has_flag( const std::string &flag ) const
 {
     return flags.count( flag );
@@ -83,6 +88,7 @@ void fault::load( const JsonObject &jo )
     mandatory( jo, false, "id", f.id_ );
     mandatory( jo, false, "name", f.name_ );
     mandatory( jo, false, "description", f.description_ );
+    optional( jo, false, "item_prefix", f.item_prefix_ );
     optional( jo, false, "flags", f.flags );
 
     if( !faults_all.emplace( f.id_, f ).second ) {

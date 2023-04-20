@@ -1476,7 +1476,6 @@ class item : public visitable
         bool is_fuel() const;
         bool is_toolmod() const;
 
-        bool is_faulty() const;
         bool is_irremovable() const;
 
         /** Returns true if the item is broken and can't be activated or used in crafting */

@@ -12,6 +12,7 @@
 #include "color.h"
 #include "debug.h"
 #include "enums.h"
+#include "fault.h"
 #include "flag.h"
 #include "game.h"
 #include "item.h"
@@ -111,8 +112,12 @@ std::string vehicle_part::name( bool with_prefix ) const
     if( base.has_var( "contained_name" ) ) {
         res += string_format( _( " holding %s" ), base.get_var( "contained_name" ) );
     }
-    if( base.is_faulty() ) {
-        res += _( " (faulty)" );
+    for( const fault_id &f : base.faults ) {
+        const std::string prefix = f->item_prefix();
+        if( !prefix.empty() ) {
+            res += " (" + prefix + ")";
+            break;
+        }
     }
     if( is_leaking() ) {
         res += _( " (draining)" );
