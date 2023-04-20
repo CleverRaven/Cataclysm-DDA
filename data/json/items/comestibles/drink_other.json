@@ -360,7 +360,7 @@
     "price_postapoc": 100,
     "material": [ "tomato", "veggy" ],
     "primary_material": "tomato",
-    "volume": "250 ml",
+    "volume": "1000 ml",
     "flags": [ "FREEZERBURN" ],
     "charges": 4,
     "fun": 2
@@ -381,7 +381,7 @@
     "price": 200,
     "price_postapoc": 200,
     "material": [ "fruit" ],
-    "volume": "85 ml",
+    "volume": "595 ml",
     "flags": [ "FREEZERBURN", "EATEN_COLD" ],
     "phase": "liquid",
     "charges": 7,
