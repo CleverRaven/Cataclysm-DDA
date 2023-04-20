@@ -370,6 +370,7 @@ coffeetable
 coffeetree
 coho
 coilgun
+coilpistol
 coipo
 comestibles
 communis
@@ -946,6 +947,7 @@ invlets
 ironshod
 irradiance
 irremovable
+irrecoverable
 isable
 isassembled
 issi
@@ -1565,6 +1567,7 @@ refeeding
 refillable
 reforging
 refuelable
+refurb
 reimpose
 reisendre
 reluctancy
