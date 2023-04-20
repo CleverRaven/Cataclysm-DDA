@@ -286,7 +286,7 @@
         "You improvise a tune on the harp. The sound is beautiful, even if you can't remember what you just played.",
         "You pluck a chord on the harp. It doesn't sound anything at all like the sounds of the individual strings."
       ],
-      "npc_descriptions": [ "plucks a few notes on the harp, though no sound seems to come."]
+      "npc_descriptions": [ "plucks a few notes on the harp, though no sound seems to come." ]
     },
     "symbol": "7",
     "description": "A harp made of black wood. Faint hypnotic notes ring in the air each time you touch it. It is the only one of its kind.\nIt may have unknown powers; try activating them.",
