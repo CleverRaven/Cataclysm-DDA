@@ -93,15 +93,10 @@ int dice( int number, int sides )
 // 1.3 has a 70% chance of rounding to 1, 30% chance to 2.
 int roll_remainder( double value )
 {
-    double integ;
-    double frac = modf( value, &integ );
-    if( value > 0.0 && value > integ && x_in_y( frac, 1.0 ) ) {
-        integ++;
-    } else if( value < 0.0 && value < integ && x_in_y( -frac, 1.0 ) ) {
-        integ--;
-    }
-
-    return integ;
+    double mag = std::abs( value );
+    double frac = std::modf( mag, &mag );
+    mag += x_in_y( frac, 1.0 );
+    return copysign( mag, value );
 }
 
 // http://www.cse.yorku.ca/~oz/hash.html

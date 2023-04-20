@@ -1631,7 +1631,7 @@ void talk_function::field_harvest( npc &p, const std::string &place )
             }
         }
     }
-    if( plant_names.empty() ) {
+    if( plant_types.empty() ) {
         popup( _( "There aren't any plants that are ready to harvest…" ) );
         return;
     }
@@ -1645,14 +1645,13 @@ void talk_function::field_harvest( npc &p, const std::string &place )
     }
 
     int number_plots = 0;
-    int number_plants = 0;
-    int number_seeds = 0;
-    int skillLevel = 2;
+    int skill_level = 2;
     if( p.has_trait( trait_NPC_CONSTRUCTION_LEV_2 ) ||
         p.get_value( var_PURCHASED_FIELD_1_FENCE ) == "yes" ) {
-        skillLevel += 2;
+        skill_level += 2;
     }
 
+    std::list<item> results;
     for( const tripoint &plot : bay.points_on_zlevel() ) {
         if( bay.furn( plot ) == furn_f_plant_harvest ) {
             // Can't use item_stack::only_item() since there might be fertilizer
@@ -1668,26 +1667,31 @@ void talk_function::field_harvest( npc &p, const std::string &place )
                 if( tmp.typeId() == plant_types[plant_index] ) {
                     number_plots++;
 
-                    int plant_count = rng( skillLevel / 2, skillLevel );
-                    plant_count *= bay.furn( plot )->plant->harvest_multiplier;
-                    plant_count = std::min( std::max( plant_count, 1 ), 12 );
-
-                    // Multiply by the plant's and seed's base charges to mimic creating
-                    // items similar to iexamine::harvest_plant
-                    number_plants += plant_count * tmp.charges;
-                    number_seeds += std::max( 1, rng( plant_count / 4, plant_count / 2 ) ) * item_seed.charges;
-
-                    bay.i_clear( plot );
-                    bay.furn_set( plot, f_null );
-                    bay.ter_set( plot, t_dirtmound );
+                    results.splice( results.begin(), iexamine::harvest_items( *seed->type, bay, plot, skill_level ) );
                 }
             }
         }
     }
     bay.save();
     tmp = item( plant_types[plant_index], calendar::turn );
+
+    int number_plants = 0;
+    int number_seeds = 0;
+    for( std::list<item>::iterator i = results.begin(); i != results.end(); i++ ) {
+        if( ( *i ).typeId() == plant_types[plant_index] ) {
+            number_plants += i->count_by_charges() ? i->charges : 1;
+            i = results.erase( i );
+            i--;
+        } else if( ( *i ).typeId() == seed_types[plant_index] ) {
+            number_seeds += i->count_by_charges() ? i->charges : 1;
+            i = results.erase( i );
+            i--;
+        }
+    }
+
     int merch_amount = std::max( 0, ( number_plants * tmp.price( true ) / 250 ) - number_plots );
     bool liquidate = false;
+    const std::string plants_name = tmp.type_name( number_plants );
 
     if( !player_character.has_amount( itype_FMCNote, number_plots ) ) {
         liquidate = true;
@@ -1695,12 +1699,12 @@ void talk_function::field_harvest( npc &p, const std::string &place )
                   "to sell…" ) );
     } else {
         liquidate = query_yn( _( "Do you wish to sell the crop of %1$d %2$s for a profit of %3$d merch?" ),
-                              number_plants, plant_names[plant_index], merch_amount );
+                              number_plants, plants_name, merch_amount );
     }
 
     //Add fruit
     if( liquidate ) {
-        add_msg( _( "The %s are sold for %d merch…" ), plant_names[plant_index], merch_amount );
+        add_msg( _( "The %s are sold for %d merch…" ), plants_name, merch_amount );
         item merch = item( itype_FMCNote );
         player_character.i_add_or_drop( merch, merch_amount );
     } else {
@@ -1708,7 +1712,7 @@ void talk_function::field_harvest( npc &p, const std::string &place )
             tmp.charges = 1;
         }
         player_character.i_add_or_drop( tmp, number_plants );
-        add_msg( _( "You receive %d %s…" ), number_plants, plant_names[plant_index] );
+        add_msg( _( "You receive %d %s…" ), number_plants, plants_name );
     }
     tmp = item( seed_types[plant_index], calendar::turn );
     const islot_seed &seed_data = *tmp.type->seed;
@@ -1717,7 +1721,13 @@ void talk_function::field_harvest( npc &p, const std::string &place )
             tmp.charges = 1;
         }
         player_character.i_add_or_drop( tmp, number_seeds );
-        add_msg( _( "You receive %d %s…" ), number_seeds, tmp.type_name( 3 ) );
+        add_msg( _( "You receive %d %s…" ), number_seeds, tmp.type_name( number_seeds ) );
+    }
+    if( !results.empty() ) {
+        for( item &i : results ) {
+            player_character.i_add_or_drop( i, 1 );
+        }
+        add_msg( _( "You receive %d other items as byproducts…" ), results.size() );
     }
 }
 

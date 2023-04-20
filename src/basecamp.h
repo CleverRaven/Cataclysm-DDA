@@ -258,7 +258,8 @@ class basecamp
         inline void set_dumping_spot( const tripoint_abs_ms &spot ) {
             dumping_spot = spot;
         }
-        void place_results( const item &result );
+        void place_result( const item &result );
+        void place_results( const std::list<item> &results );
 
         // mission description functions
         void add_available_recipes( mission_data &mission_key, mission_kind kind, const point &dir,
@@ -275,6 +276,10 @@ class basecamp
         /// Returns the description of a camp crafting options. converts fire charges to charcoal,
         /// allows dark crafting
         std::string craft_description( const recipe_id &itm );
+
+        /// Plow, Plant, or Harvest a farm plot, or get info about the operation if npc_ptr is null
+        std::pair<size_t, std::string> farm_action( const tripoint_abs_omt &omt_tgt, farm_ops op,
+                const npc_ptr &comp );
 
         // main mission description collection
         void get_available_missions( mission_data &mission_key );

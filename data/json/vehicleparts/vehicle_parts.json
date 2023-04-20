@@ -3178,7 +3178,7 @@
     "broken_symbol": "*",
     "broken_color": "light_blue",
     "damage_modifier": 120,
-    "bonus": 7,
+    "bonus": 5,
     "power": "-700 W",
     "durability": 200,
     "description": "An automatic reaper.  Use the vehicle controls to turn it on or off.  When on, it will cut down plants that it travels over.  It should be placed in front of any plows in the vehicle for efficient operation.  It does not include cargo space of its own so you need install a cargo space of some kind elsewhere in the vehicle.",

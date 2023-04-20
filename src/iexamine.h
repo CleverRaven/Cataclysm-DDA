@@ -19,6 +19,7 @@ class time_point;
 class vpart_reference;
 struct itype;
 struct tripoint;
+class map;
 
 using seed_tuple = std::tuple<itype_id, std::string, int>;
 
@@ -149,6 +150,7 @@ std::optional<tripoint> getNearFilledGasTank( const tripoint &center, int &fuel_
 
 bool has_keg( const tripoint &pos );
 
+std::list<item> harvest_items( const itype &type, map &here, const tripoint &pos, int skill_level );
 std::list<item> get_harvest_items( const itype &type, int plant_count,
                                    int seed_count, bool byproducts );
 
@@ -163,7 +165,9 @@ itype_id choose_fertilizer( Character &you, const std::string &pname, bool ask_p
 ret_val<void> can_fertilize( Character &you, const tripoint &tile, const itype_id &fertilizer );
 
 // Skill training common functions
-void practice_survival_while_foraging( Character &who );
+/// practice survival skill when doing plant gathering actions
+/// higher ease results in lower skill cap
+void practice_survival_while_gathering_from_plants( Character &who, int ease = 0 );
 
 } // namespace iexamine
 

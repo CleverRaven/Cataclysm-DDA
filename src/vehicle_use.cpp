@@ -1005,10 +1005,8 @@ void vehicle::operate_reaper()
     for( const vpart_reference &vp : get_enabled_parts( "REAPER" ) ) {
         const size_t reaper_id = vp.part_index();
         const tripoint reaper_pos = vp.pos();
-        const int plant_produced = rng( 1, vp.info().bonus );
-        const int seed_produced = rng( 1, 3 );
-        const units::volume max_pickup_volume = vp.info().size / 20;
-        if( here.furn( reaper_pos ) != f_plant_harvest ) {
+        const furn_id &furn = here.furn( reaper_pos );
+        if( furn != f_plant_harvest ) {
             continue;
         }
         // Can't use item_stack::only_item() since there might be fertilizer
@@ -1021,16 +1019,12 @@ void vehicle::operate_reaper()
             // Otherworldly plants, the earth-made reaper can not handle those.
             continue;
         }
-        here.furn_set( reaper_pos, f_null );
-        // Secure the seed type before i_clear destroys the item.
-        const itype &seed_type = *seed->type;
-        here.i_clear( reaper_pos );
-        for( item &i : iexamine::get_harvest_items(
-                 seed_type, plant_produced, seed_produced, false ) ) {
+        for( item &i : iexamine::harvest_items( *seed->type, here, reaper_pos, vp.info().bonus ) ) {
             here.add_item_or_charges( reaper_pos, i );
         }
         sounds::sound( reaper_pos, rng( 10, 25 ), sounds::sound_t::combat, _( "Swish" ), false, "vehicle",
                        "reaper" );
+        const units::volume max_pickup_volume = vp.info().size / 20;
         if( vp.has_feature( "CARGO" ) ) {
             for( map_stack::iterator iter = items.begin(); iter != items.end(); ) {
                 if( ( iter->volume() <= max_pickup_volume ) &&

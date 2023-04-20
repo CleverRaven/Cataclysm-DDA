@@ -2634,23 +2634,39 @@ void iexamine::harvest_plant( Character &you, const tripoint &examp, bool from_a
         }
     } else { // Generic seed, use the seed item data
         const itype &type = *seed->type;
-        here.i_clear( examp );
 
-        int skillLevel = round( you.get_skill_level( skill_survival ) );
         ///\EFFECT_SURVIVAL increases number of plants harvested from a seed
-        int plant_count = rng( skillLevel / 2, skillLevel );
-        plant_count *= here.furn( examp )->plant->harvest_multiplier;
-        plant_count = std::min( std::max( plant_count, 1 ), 12 );
-        const int seedCount = std::max( 1, rng( plant_count / 4, plant_count / 2 ) );
-        for( item &i : get_harvest_items( type, plant_count, seedCount, true ) ) {
-            if( from_activity ) {
-                i.set_var( "activity_var", you.name );
+        const int skill_level = round( you.get_skill_level( skill_survival ) );
+        std::list<item> results = harvest_items( type, here, examp, skill_level );
+        if( results.empty() ) {
+            item tmp = item( type.get_id(), calendar::turn );
+            add_msg( m_info, _( "You fail to harvest anything." ) );
+        } else {
+            for( item &i : results ) {
+                if( from_activity ) {
+                    i.set_var( "activity_var", you.name );
+                }
+                add_msg( m_info, _( "You harvest %1$s (%2$d)." ), i.type_name(), i.count() );
+                you.i_add_or_drop( i, 1 );
             }
-            here.add_item_or_charges( you.pos(), i );
         }
-        here.furn_set( examp, furn_str_id( here.furn( examp )->plant->transform ) );
+        practice_survival_while_gathering_from_plants( you, 3 );
         you.moves -= to_moves<int>( 10_seconds );
     }
+}
+
+std::list<item> iexamine::harvest_items( const itype &type, map &here, const tripoint &pos,
+        const int skill_level )
+{
+    std::list<item> items;
+    here.i_clear( pos );
+    const int plant_count = roll_remainder( std::max( rng_float( 4, skill_level ), 6.0 )
+                                            * here.furn( pos )->plant->harvest_multiplier );
+    const int seed_count = roll_remainder( std::max( 0.0,
+                                           rng_float( plant_count / 4.0, plant_count / 2.0 ) ) );
+    items.splice( items.begin(), get_harvest_items( type, plant_count, seed_count, true ) );
+    here.furn_set( pos, furn_str_id( here.furn( pos )->plant->transform ) );
+    return items;
 }
 
 ret_val<void> iexamine::can_fertilize( Character &you, const tripoint &tile,
@@ -3766,20 +3782,23 @@ static void pick_plant( Character &you, const tripoint &examp,
         return;
     }
 
-    const float survival = you.get_skill_level( skill_survival );
-    you.practice( skill_survival, 6 );
+    iexamine::practice_survival_while_gathering_from_plants( you, 2 );
 
+    const int survival = you.get_skill_level( skill_survival );
     int plantBase = rng( 2, 5 );
     ///\EFFECT_SURVIVAL increases number of plants harvested
     int plantCount = rng( plantBase, round( plantBase + survival / 2 ) );
     plantCount = std::min( plantCount, 12 );
 
-    here.spawn_item( you.pos(), itemType, plantCount, 0, calendar::turn );
+
+    item i = item( itemType, calendar::turn );
+    you.i_add_or_drop( i, plantCount );
 
     if( seeds ) {
         // FIXME: shouldn't derive seed type by string manipulation
-        here.spawn_item( you.pos(), itype_id( "seed_" + itemType.str() ), 1,
-                         rng( plantCount / 4, plantCount / 2 ), calendar::turn );
+        i = item( itype_id( "seed_" + itemType.str() ), calendar::turn );
+        i.charges = i.charges ? 1 : 0;
+        you.i_add_or_drop( i, rng( plantCount / 4, plantCount / 2 ) );
     }
 
     here.ter_set( examp, new_ter );
@@ -6631,13 +6650,12 @@ iexamine_functions iexamine_functions_from_string( const std::string &function_n
     return iexamine_functions{&iexamine::always_false, &iexamine::none};
 }
 
-void iexamine::practice_survival_while_foraging( Character &who )
+void iexamine::practice_survival_while_gathering_from_plants( Character &who, const int ease )
 {
-    ///\EFFECT_INT Intelligence caps survival skill gains from foraging
-    const int max_forage_skill = who.int_cur / 3 + 1;
-    ///\EFFECT_SURVIVAL decreases survival skill gain from foraging (NEGATIVE)
-    const int max_exp = 2 * ( max_forage_skill - static_cast<int>( who.get_skill_level(
-                                  skill_survival ) ) );
-    // Award experience for foraging attempt regardless of success
-    who.practice( skill_survival, rng( 1, max_exp ), max_forage_skill );
+    ///\EFFECT_INT Intelligence caps survival skill gains when gathering from plants
+    const int max_skill = who.int_cur / ( ease + 3 ) + 1;
+    ///\EFFECT_SURVIVAL decreases survival skill gain when gathering from plants (NEGATIVE)
+    const int max_exp = 2 * ( max_skill - static_cast<int>( who.get_skill_level( skill_survival ) ) );
+    // Award experience for attempt regardless of success
+    who.practice( skill_survival, rng( 1, max_exp ), max_skill );
 }

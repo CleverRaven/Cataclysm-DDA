@@ -3633,7 +3633,7 @@ void harvest_activity_actor::finish( player_activity &act, Character &who )
         here.ter_set( target, here.get_ter_transforms_into( target ) );
     }
 
-    iexamine::practice_survival_while_foraging( who );
+    iexamine::practice_survival_while_gathering_from_plants( who, 0 );
 }
 
 void harvest_activity_actor::serialize( JsonOut &jsout ) const
@@ -5915,7 +5915,7 @@ void forage_activity_actor::finish( player_activity &act, Character &who )
         add_msg( _( "You didn't find anything." ) );
     }
 
-    iexamine::practice_survival_while_foraging( who );
+    iexamine::practice_survival_while_gathering_from_plants( who, 0 );
 
     act.set_to_null();
 
