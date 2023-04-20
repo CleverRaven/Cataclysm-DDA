@@ -55,53 +55,30 @@ const std::unordered_set<std::string> complex_conds = { {
 };
 } // namespace dialogue_data
 
-template<class T>
-static dialogue copy_dialogue( const T &d )
-{
-    Creature *creature_alpha = d.has_alpha ? d.actor( false )->get_creature() : nullptr;
-    item_location *item_alpha = d.has_alpha ? d.actor( false )->get_item() : nullptr;
-    Creature *creature_beta = d.has_beta ? d.actor( true )->get_creature() : nullptr;
-    item_location *item_beta = d.has_beta ? d.actor( true )->get_item() : nullptr;
-    return dialogue(
-               creature_alpha ? get_talker_for( creature_alpha ) : item_alpha ? get_talker_for(
-                   item_alpha ) : nullptr,
-               creature_beta ? get_talker_for( creature_beta ) : item_beta ? get_talker_for(
-                   item_beta ) : nullptr
-           );
-}
-
-template<class T>
-str_or_var<T> get_str_or_var( const JsonValue &jv, const std::string &member, bool required = true,
-                              const std::string &default_val = "" );
-template<class T>
-dbl_or_var<T> get_dbl_or_var( const JsonObject &jo, std::string member, bool required = true,
-                              double default_val = 0.0 );
-template<class T>
-dbl_or_var_part<T> get_dbl_or_var_part( const JsonValue &jv, const std::string &member,
-                                        bool required = true,
-                                        double default_val = 0.0 );
-template<class T>
-duration_or_var<T> get_duration_or_var( const JsonObject &jo, std::string member,
-                                        bool required = true,
-                                        time_duration default_val = 0_seconds );
-template<class T>
-duration_or_var_part<T> get_duration_or_var_part( const JsonValue &jv, const std::string &member,
+str_or_var get_str_or_var( const JsonValue &jv, const std::string &member, bool required = true,
+                           const std::string &default_val = "" );
+dbl_or_var get_dbl_or_var( const JsonObject &jo, const std::string &member, bool required = true,
+                           double default_val = 0.0 );
+dbl_or_var_part get_dbl_or_var_part( const JsonValue &jv, const std::string &member,
+                                     bool required = true,
+                                     double default_val = 0.0 );
+duration_or_var get_duration_or_var( const JsonObject &jo, const std::string &member,
+                                     bool required = true,
+                                     time_duration default_val = 0_seconds );
+duration_or_var_part get_duration_or_var_part( const JsonValue &jv, const std::string &member,
         bool required = true,
         time_duration default_val = 0_seconds );
-template<class T>
-tripoint_abs_ms get_tripoint_from_var( std::optional<var_info> var, const T &d );
+tripoint_abs_ms get_tripoint_from_var( std::optional<var_info> var, dialogue const &d );
 var_info read_var_info( const JsonObject &jo );
 void write_var_value( var_type type, const std::string &name, talker *talk,
                       const std::string &value );
-template<class T>
 std::string get_talk_varname( const JsonObject &jo, const std::string &member,
-                              bool check_value, dbl_or_var<T> &default_val );
+                              bool check_value, dbl_or_var &default_val );
 std::string get_talk_var_basename( const JsonObject &jo, const std::string &member,
                                    bool check_value );
 // the truly awful declaration for the conditional_t loading helper_function
-template<class T>
 void read_condition( const JsonObject &jo, const std::string &member_name,
-                     std::function<bool( const T & )> &condition, bool default_val );
+                     std::function<bool( dialogue const & )> &condition, bool default_val );
 
 /**
  * A condition for a response spoken by the player.
@@ -110,10 +87,9 @@ void read_condition( const JsonObject &jo, const std::string &member_name,
  * Invoking the function operator with a dialog reference (so the function can access the NPC)
  * returns whether the response is allowed.
  */
-template<class T>
 struct conditional_t {
     private:
-        std::function<bool( const T & )> condition;
+        std::function<bool( dialogue const & )> condition;
 
     public:
         conditional_t() = default;
@@ -216,14 +192,14 @@ struct conditional_t {
         void set_compare_num( const JsonObject &jo, const std::string &member );
         void set_math( const JsonObject &jo, const std::string &member );
         template<class J>
-        static std::function<double( const T & )> get_get_dbl( J const &jo );
-        static std::function<double( const T & )> get_get_dbl( const std::string &value,
+        static std::function<double( dialogue const & )> get_get_dbl( J const &jo );
+        static std::function<double( dialogue const & )> get_get_dbl( const std::string &value,
                 const JsonObject &jo );
         template <class J>
-        std::function<void( const T &, double )>
-        static get_set_dbl( const J &jo, const std::optional<dbl_or_var_part<T>> &min,
-                            const std::optional<dbl_or_var_part<T>> &max, bool temp_var );
-        bool operator()( const T &d ) const {
+        std::function<void( dialogue const &, double )>
+        static get_set_dbl( const J &jo, const std::optional<dbl_or_var_part> &min,
+                            const std::optional<dbl_or_var_part> &max, bool temp_var );
+        bool operator()( dialogue const &d ) const {
             if( !condition ) {
                 return false;
             }
@@ -232,36 +208,11 @@ struct conditional_t {
 };
 
 extern template std::function<double( const dialogue & )>
-conditional_t<dialogue>::get_get_dbl<>( kwargs_shim const & );
-extern template std::function<double( const mission_goal_condition_context & )>
-conditional_t<mission_goal_condition_context>::get_get_dbl<>( kwargs_shim const & );
+conditional_t::get_get_dbl<>( kwargs_shim const & );
 
 extern template std::function<void( const dialogue &, double )>
-conditional_t<dialogue>::get_set_dbl<>( const kwargs_shim &,
-                                        const std::optional<dbl_or_var_part<dialogue>> &,
-                                        const std::optional<dbl_or_var_part<dialogue>> &, bool );
-extern template std::function<void( const mission_goal_condition_context &, double )>
-conditional_t<mission_goal_condition_context>::get_set_dbl<>( const kwargs_shim &,
-        const std::optional<dbl_or_var_part<mission_goal_condition_context>> &,
-        const std::optional<dbl_or_var_part<mission_goal_condition_context>> &,
-        bool );
-
-#if !defined(MACOSX)
-extern template struct conditional_t<dialogue>;
-extern template void read_condition<dialogue>( const JsonObject &jo, const std::string &member_name,
-        std::function<bool( const dialogue & )> &condition, bool default_val );
-
-extern template duration_or_var<dialogue> get_duration_or_var( const JsonObject &jo,
-        std::string member,
-        bool required, time_duration default_val );
-extern template std::string get_talk_varname<dialogue>( const JsonObject &jo,
-        const std::string &member,
-        bool check_value, dbl_or_var<dialogue> &default_val );
-extern template struct conditional_t<mission_goal_condition_context>;
-extern template void read_condition<mission_goal_condition_context>( const JsonObject &jo,
-        const std::string &member_name,
-        std::function<bool( const mission_goal_condition_context & )> &condition, bool default_val );
-extern template struct talk_effect_fun_t<dialogue>;
-#endif
+conditional_t::get_set_dbl<>( const kwargs_shim &,
+                              const std::optional<dbl_or_var_part> &,
+                              const std::optional<dbl_or_var_part> &, bool );
 
 #endif // CATA_SRC_CONDITION_H

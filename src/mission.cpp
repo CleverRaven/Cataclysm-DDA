@@ -600,9 +600,8 @@ bool mission::is_complete( const character_id &_npc_id ) const
             return g->get_kill_tracker().kill_count( monster_species ) >= kill_count_to_reach;
 
         case MGOAL_CONDITION: {
-            mission_goal_condition_context cc;
-            cc.alpha = get_talker_for( player_character );
-            cc.has_alpha = true;
+            std::unique_ptr<talker> beta;
+            std::vector<mission *> miss;
             // Skip the NPC check if the mission was obtained via a scenario/profession/hobby
             if( npc_id.is_valid() || type->origins.empty() || type->origins.size() != 1 ||
                 type->origins.front() != mission_origin::ORIGIN_GAME_START ) {
@@ -614,20 +613,21 @@ bool mission::is_complete( const character_id &_npc_id ) const
                 if( n == nullptr ) {
                     return false;
                 }
-                cc.beta = get_talker_for( *n );
-                cc.has_beta = true;
+                beta = get_talker_for( *n );
                 for( mission *&mission : n->chatbin.missions_assigned ) {
                     if( mission->get_assigned_player_id() == player_character.getID() ) {
-                        cc.missions_assigned.push_back( mission );
+                        miss.emplace_back( mission );
                     }
                 }
             } else {
                 for( mission *&mission : player_character.get_active_missions() ) {
                     if( mission->type->id == type->id ) {
-                        cc.missions_assigned.push_back( mission );
+                        miss.emplace_back( mission );
                     }
                 }
             }
+            dialogue cc( get_talker_for( player_character ), std::move( beta ) );
+            cc.missions_assigned = std::move( miss );
 
             return type->test_goal_condition( cc );
         }

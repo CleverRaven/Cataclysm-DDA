@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include <utility>
 
+#include "ammo.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "debug.h"
@@ -414,3 +415,13 @@ std::tuple<encumbrance_modifier_type, int> armor_portion_data::convert_descripto
 }
 
 std::map<itype_id, std::set<itype_id>> islot_magazine::compatible_guns;
+
+const itype_id &itype::tool_slot_first_ammo() const
+{
+    if( tool ) {
+        for( const ammotype &at : tool->ammo_id ) {
+            return at->default_ammotype();
+        }
+    }
+    return itype_id::NULL_ID();
+}

@@ -620,8 +620,8 @@ class JsonObject : JsonWithPath
         E get_enum_value( const char *name, E fallback ) const;
 
         // Sigh.
-        std::vector<int> get_int_array( const std::string &name ) const;
-        std::vector<std::string> get_string_array( const std::string &name ) const;
+        std::vector<int> get_int_array( std::string_view name ) const;
+        std::vector<std::string> get_string_array( std::string_view name ) const;
         std::vector<std::string> get_as_string_array( const std::string &name ) const;
 
         bool has_member( std::string_view key ) const;
@@ -730,7 +730,7 @@ class JsonObject : JsonWithPath
 //void deserialize( std::optional<T> &obj, const JsonValue &jsin );
 
 void add_array_to_set( std::set<std::string> &s, const JsonObject &json,
-                       const std::string &name );
+                       std::string_view name );
 
 #include "flexbuffer_json-inl.h"
 

@@ -13,6 +13,7 @@
 
 #include "type_id.h"
 
+struct input_event;
 class inventory;
 class Character;
 class vehicle;
@@ -87,7 +88,7 @@ class vpart_position
         // Finds vpart_reference to inner part with specified tool
         std::optional<vpart_reference> part_with_tool( const itype_id &tool_type ) const;
         // Returns a list of all tools provided by vehicle and their hotkey
-        std::vector<std::pair<itype_id, int>> get_tools() const;
+        std::map<item, input_event> get_tools() const;
         // Forms inventory for inventory::form_from_map
         void form_inventory( inventory &inv ) const;
 
@@ -132,7 +133,6 @@ class optional_vpart_position : public std::optional<vpart_position>
         std::optional<vpart_reference> obstacle_at_part() const;
         std::optional<vpart_reference> part_displayed() const;
         std::optional<vpart_reference> part_with_tool( const itype_id &tool_type ) const;
-        std::vector<std::pair<itype_id, int>> get_tools() const;
         std::string extended_description() const;
 };
 
