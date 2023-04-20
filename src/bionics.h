@@ -245,6 +245,8 @@ struct bionic {
 
         void serialize( JsonOut &json ) const;
         void deserialize( const JsonObject &jo );
+        
+        bool show_sprite = true;
     private:
         // generic bionic specific flags
         cata::flat_set<std::string> bionic_tags;
