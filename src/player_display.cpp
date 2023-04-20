@@ -833,8 +833,8 @@ static void draw_skills_tab( ui_adaptor &ui, const catacurses::window &w_skills,
             const bool can_train = level.can_train();
             const bool training = level.isTraining();
             const bool rusty = level.isRusty();
-            int exercise = level.exercise();
-            int level_num = level.level();
+            int exercise = level.knowledgeExperience();
+            int level_num = level.knowledgeLevel();
             bool locked = false;
             if( you.has_active_bionic( bio_cqb ) && is_cqb_skill( aSkill->ident() ) ) {
                 level_num = 5;
@@ -851,7 +851,7 @@ static void draw_skills_tab( ui_adaptor &ui, const catacurses::window &w_skills,
                 } else if( exercise >= 100 ) {
                     cstatus = training ? h_pink : h_magenta;
                 } else if( rusty ) {
-                    cstatus = training ? h_light_red : h_red;
+                    cstatus = training ? h_light_green : h_green;
                 } else {
                     cstatus = training ? h_light_blue : h_blue;
                 }
@@ -860,7 +860,7 @@ static void draw_skills_tab( ui_adaptor &ui, const catacurses::window &w_skills,
                 if( locked ) {
                     cstatus = c_yellow;
                 } else if( rusty ) {
-                    cstatus = training ? c_light_red : c_red;
+                    cstatus = training ? c_light_green : c_green;
                 } else if( !can_train ) {
                     cstatus = c_white;
                 } else {
@@ -945,8 +945,8 @@ static void draw_skills_info( const catacurses::window &w_info, const Character 
         const SkillLevel &level = you.get_skill_level_object( selectedSkill->ident() );
         std::string info_text = selectedSkill->description();
         if( level.isRusty() ) {
-            info_text = string_format( _( "%s\n\nKnowledge level: %d (%d%%)" ), info_text,
-                                       level.knowledgeLevel(), level.knowledgeExperience() );
+            info_text = string_format( _( "%s\n\nPractical level: %d (%d%%)" ), info_text,
+                                       level.level(), level.exercise() );
         }
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_light_gray, info_text );
