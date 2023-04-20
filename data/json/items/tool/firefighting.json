@@ -1,7 +1,6 @@
 [
   {
     "type": "TOOL",
-    "category": "weapons",
     "id": "crash_axe",
     "symbol": ";",
     "color": "light_gray",
@@ -55,7 +54,6 @@
   {
     "id": "fire_ax",
     "type": "TOOL",
-    "category": "weapons",
     "name": { "str": "fire axe" },
     "description": "A large, two-handed pickhead axe normally used by firefighters.  It makes a powerful melee weapon, but is a bit slow to recover between swings.",
     "weight": "2520 g",
