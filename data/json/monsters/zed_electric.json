@@ -24,7 +24,7 @@
     "armor_bash": 3,
     "armor_cut": 8,
     "armor_bullet": 6,
-    "weakpoint_sets": [ "wps_humanoid_body", "wps_armored_hide", "wps_humanoid_head_small" ],
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_natural_armor", "wps_humanoid_head_small" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_electromagnetics" ],
     "bleed_rate": 0,
     "vision_night": 3,

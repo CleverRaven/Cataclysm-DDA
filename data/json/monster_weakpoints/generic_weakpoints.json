@@ -1,7 +1,7 @@
 [
   {
     "type": "weakpoint_set",
-    "id": "wps_armored_hide",
+    "id": "wps_natural_armor",
     "weakpoints": [
       {
         "id": "gap",
