@@ -97,7 +97,7 @@
     "id": "altered_shirt",
     "copy-from": "tshirt",
     "type": "ARMOR",
-    "name": { "str": "Hawaiian shirt", "str_pl": "Hawaiian shirts" },
+    "name": { "str": "Hawaiian shirt" },
     "description": "A slightly worn button-down shirt with a tropical pattern, straight out of the 80's. You swear that every time you look away and look back, the pattern changes subtly."
   },
   {

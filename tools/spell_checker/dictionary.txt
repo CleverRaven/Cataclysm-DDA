@@ -170,6 +170,7 @@ asymmetrically
 ategory
 aterial
 athame
+athames
 atmmonoid
 atomically
 atompot
