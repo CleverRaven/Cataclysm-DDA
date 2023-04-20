@@ -274,7 +274,8 @@ static void draw_bionics_titlebar( const catacurses::window &window, avatar *p,
     std::string desc_append = string_format(
                                   _( "[<color_yellow>%s</color>] Reassign, [<color_yellow>%s</color>] Switch tabs, "
                                      "[<color_yellow>%s</color>] Toggle fuel saving mode, [<color_yellow>%s</color>] Toggle sprite visibility, " ),
-                                  ctxt.get_desc( "REASSIGN" ), ctxt.get_desc( "NEXT_TAB" ), ctxt.get_desc( "TOGGLE_SAFE_FUEL" ), ctxt.get_desc( "TOGGLE_SPRITE" ) );
+                                  ctxt.get_desc( "REASSIGN" ), ctxt.get_desc( "NEXT_TAB" ), ctxt.get_desc( "TOGGLE_SAFE_FUEL" ),
+                                  ctxt.get_desc( "TOGGLE_SPRITE" ) );
     desc_append += string_format( _( " [<color_yellow>%s</color>] Sort: %s" ), ctxt.get_desc( "SORT" ),
                                   sort_mode_str( uistate.bionic_sort_mode ) );
     std::string desc;
