@@ -518,7 +518,7 @@
         "cooldown": 8,
         "max_range": 5,
         "allow_no_target": false,
-        "forbidden_effects_any": [ "maimed_leg" ]
+        "condition": { "not": { "u_has_effect": "maimed_leg" } }
       }
     ],
     "flags": [
