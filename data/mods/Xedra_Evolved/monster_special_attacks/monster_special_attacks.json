@@ -47,7 +47,7 @@
     "cooldown": 5,
     "move_cost": 100,
     "range": 8,
-    "damage_max_instance": [ { "damage_type": "cold", "amount": 6 }, { "damage_type": "cut", "amount": 6 }  ],
+    "damage_max_instance": [ { "damage_type": "cold", "amount": 6 }, { "damage_type": "cut", "amount": 6 } ],
     "hit_dmg_u": "%1$s sprays icicles at your %2$s!",
     "hit_dmg_npc": "%1$s sprays icicles at <npcname>!",
     "no_dmg_msg_u": "%1$s sprays icicles out at you without doing any damage.",

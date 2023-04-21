@@ -582,28 +582,28 @@
   },
   {
     "type": "effect_type",
-"id": "spell_unbreakable_eff",
-"name": [ "" ],
-"desc": [ "" ],
-"apply_message": "You are the only who can control your body now.",
-"remove_message": "External forces apply to your body again.",
-"blocks_effects": [ "grabbed" ],
-"rating": "good",
-"enchantments": [ { "mutations": [ "eater_unbreakable" ] } ]
-},
-{
-"id": "eater_unbreakable",
-"type": "mutation",
-"name": { "str": "Unbreakable" },
-"points": 0,
-"starting_trait": false,
-"purifiable": false,
-"valid": false,
-"description": "Nothing can move you from your path.",
-"enchantments": [ { "values": [ { "value": "PAIN", "multiply": -1 } ] } ],
-"flags": [ "STEADY" ]
-},
-{
+    "id": "spell_unbreakable_eff",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "apply_message": "You are the only who can control your body now.",
+    "remove_message": "External forces apply to your body again.",
+    "blocks_effects": [ "grabbed" ],
+    "rating": "good",
+    "enchantments": [ { "mutations": [ "eater_unbreakable" ] } ]
+  },
+  {
+    "id": "eater_unbreakable",
+    "type": "mutation",
+    "name": { "str": "Unbreakable" },
+    "points": 0,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "description": "Nothing can move you from your path.",
+    "enchantments": [ { "values": [ { "value": "PAIN", "multiply": -1 } ] } ],
+    "flags": [ "STEADY" ]
+  },
+  {
     "id": "mutagen_earthkin",
     "name": [ "Ierde Mutation", "Ierde Transformation", "Ierde Metamorphosis" ],
     "desc": [

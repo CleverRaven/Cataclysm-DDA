@@ -467,7 +467,10 @@
     "items": {
       "both": {
         "items": [ "footrags", "loincloth", "cloak_wool", "ragpouch", "gloves_wraps", "tunic_rag" ],
-        "entries": [ { "item": "knife_baselard", "container-item": "sheath" }, { "item": "dollkin_tablet", "custom-flags": [ "auto_wield" ] } ]
+        "entries": [
+          { "item": "knife_baselard", "container-item": "sheath" },
+          { "item": "dollkin_tablet", "custom-flags": [ "auto_wield" ] }
+        ]
       },
       "female": [ "chestwrap" ]
     },
@@ -484,7 +487,10 @@
     "items": {
       "both": {
         "items": [ "footrags", "loincloth", "cloak_wool", "ragpouch", "gloves_wraps", "tunic_rag" ],
-        "entries": [ { "item": "knife_baselard", "container-item": "sheath" }, { "item": "dollkin_tablet", "custom-flags": [ "auto_wield" ] } ]
+        "entries": [
+          { "item": "knife_baselard", "container-item": "sheath" },
+          { "item": "dollkin_tablet", "custom-flags": [ "auto_wield" ] }
+        ]
       },
       "female": [ "chestwrap" ]
     },
@@ -501,7 +507,10 @@
     "items": {
       "both": {
         "items": [ "footrags", "loincloth", "cloak_wool", "ragpouch", "gloves_wraps", "tunic_rag" ],
-        "entries": [ { "item": "knife_baselard", "container-item": "sheath" }, { "item": "dollkin_tablet", "custom-flags": [ "auto_wield" ] } ]
+        "entries": [
+          { "item": "knife_baselard", "container-item": "sheath" },
+          { "item": "dollkin_tablet", "custom-flags": [ "auto_wield" ] }
+        ]
       },
       "female": [ "chestwrap" ]
     },
@@ -518,7 +527,10 @@
     "items": {
       "both": {
         "items": [ "footrags", "loincloth", "cloak_wool", "ragpouch", "gloves_wraps", "tunic_rag" ],
-        "entries": [ { "item": "knife_baselard", "container-item": "sheath" }, { "item": "dollkin_tablet", "custom-flags": [ "auto_wield" ] } ]
+        "entries": [
+          { "item": "knife_baselard", "container-item": "sheath" },
+          { "item": "dollkin_tablet", "custom-flags": [ "auto_wield" ] }
+        ]
       },
       "female": [ "chestwrap" ]
     },
@@ -535,7 +547,10 @@
     "items": {
       "both": {
         "items": [ "footrags", "loincloth", "cloak_wool", "ragpouch", "gloves_wraps", "tunic_rag" ],
-        "entries": [ { "item": "knife_baselard", "container-item": "sheath" }, { "item": "dollkin_tablet", "custom-flags": [ "auto_wield" ] } ]
+        "entries": [
+          { "item": "knife_baselard", "container-item": "sheath" },
+          { "item": "dollkin_tablet", "custom-flags": [ "auto_wield" ] }
+        ]
       },
       "female": [ "chestwrap" ]
     },
@@ -552,7 +567,10 @@
     "items": {
       "both": {
         "items": [ "footrags", "loincloth", "cloak_wool", "ragpouch", "gloves_wraps", "tunic_rag" ],
-        "entries": [ { "item": "knife_baselard", "container-item": "sheath" }, { "item": "dollkin_tablet", "custom-flags": [ "auto_wield" ] } ]
+        "entries": [
+          { "item": "knife_baselard", "container-item": "sheath" },
+          { "item": "dollkin_tablet", "custom-flags": [ "auto_wield" ] }
+        ]
       },
       "female": [ "chestwrap" ]
     },
