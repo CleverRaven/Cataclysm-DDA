@@ -325,7 +325,7 @@ inline constexpr double to_liter( const volume &v )
 
 // Legacy conversions factor for old volume values.
 // Don't use in new code! Use one of the from_* functions instead.
-static constexpr volume legacy_volume_factor = from_milliliter( 250 );
+constexpr volume legacy_volume_factor = from_milliliter( 250 );
 
 const mass mass_min = units::mass( std::numeric_limits<units::mass::value_type>::min(),
                                    units::mass::unit_type{} );
@@ -1028,49 +1028,49 @@ inline units::angle acos( double x )
     return from_radians( std::acos( x ) );
 }
 
-static const std::vector<std::pair<std::string, energy>> energy_units = { {
+const std::vector<std::pair<std::string, energy>> energy_units = { {
         { "mJ", 1_mJ },
         { "J", 1_J },
         { "kJ", 1_kJ },
     }
 };
-static const std::vector<std::pair<std::string, power>> power_units = { {
+const std::vector<std::pair<std::string, power>> power_units = { {
         { "mW", 1_mW },
         { "W", 1_W },
         { "kW", 1_kW },
     }
 };
-static const std::vector<std::pair<std::string, mass>> mass_units = { {
+const std::vector<std::pair<std::string, mass>> mass_units = { {
         { "mg", 1_milligram },
         { "g", 1_gram },
         { "kg", 1_kilogram },
     }
 };
-static const std::vector<std::pair<std::string, money>> money_units = { {
+const std::vector<std::pair<std::string, money>> money_units = { {
         { "cent", 1_cent },
         { "USD", 1_USD },
         { "kUSD", 1_kUSD },
     }
 };
-static const std::vector<std::pair<std::string, volume>> volume_units = { {
+const std::vector<std::pair<std::string, volume>> volume_units = { {
         { "ml", 1_ml },
         { "L", 1_liter }
     }
 };
-static const std::vector<std::pair<std::string, length>> length_units = { {
+const std::vector<std::pair<std::string, length>> length_units = { {
         { "mm", 1_mm },
         { "cm", 1_cm },
         { "meter", 1_meter },
         { "km", 1_km }
     }
 };
-static const std::vector<std::pair<std::string, angle>> angle_units = { {
+const std::vector<std::pair<std::string, angle>> angle_units = { {
         { "arcmin", 1_arcmin },
         { "°", 1_degrees },
         { "rad", 1_radians },
     }
 };
-static const std::vector<std::pair<std::string, temperature>> temperature_units = { {
+const std::vector<std::pair<std::string, temperature>> temperature_units = { {
         { "K", 1_K }
     }
 };
@@ -1087,7 +1087,7 @@ namespace detail
 {
 
 template<typename T, typename Error>
-T read_from_json_string_common( const std::string &s,
+T read_from_json_string_common( const std::string_view s,
                                 const std::vector<std::pair<std::string, T>> &units, Error &&error )
 {
     size_t i = 0;

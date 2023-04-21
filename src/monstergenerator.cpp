@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <limits>
 #include <new>
+#include <optional>
 #include <set>
 #include <string>
 #include <utility>
@@ -28,11 +29,11 @@
 #include "mondeath.h"
 #include "mondefense.h"
 #include "mongroup.h"
-#include "optional.h"
 #include "options.h"
 #include "pathfinding.h"
 #include "rng.h"
 #include "translations.h"
+#include "type_id.h"
 #include "units.h"
 #include "weakpoint.h"
 
@@ -135,6 +136,7 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_SLUDGETRAIL: return "SLUDGETRAIL";
         case MF_SMALLSLUDGETRAIL: return "SMALLSLUDGETRAIL";
         case MF_COLDPROOF: return "COLDPROOF";
+        case MF_COMBAT_MOUNT: return "COMBAT_MOUNT";
         case MF_FIREY: return "FIREY";
         case MF_QUEEN: return "QUEEN";
         case MF_ELECTRONIC: return "ELECTRONIC";
@@ -153,7 +155,6 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_REVIVES: return "REVIVES";
         case MF_VERMIN: return "VERMIN";
         case MF_NOGIB: return "NOGIB";
-        case MF_LARVA: return "LARVA";
         case MF_ARTHROPOD_BLOOD: return "ARTHROPOD_BLOOD";
         case MF_ACID_BLOOD: return "ACID_BLOOD";
         case MF_BILE_BLOOD: return "BILE_BLOOD";
@@ -176,6 +177,7 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_PRIORITIZE_TARGETS: return "PRIORITIZE_TARGETS";
         case MF_NOT_HALLU: return "NOT_HALLUCINATION";
         case MF_CANPLAY: return "CANPLAY";
+        case MF_CAN_BE_CULLED: return "CAN_BE_CULLED";
         case MF_PET_MOUNTABLE: return "PET_MOUNTABLE";
         case MF_PET_HARNESSABLE: return "PET_HARNESSABLE";
         case MF_DOGFOOD: return "DOGFOOD";
@@ -202,6 +204,7 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_ALWAYS_SEES_YOU: return "ALWAYS_SEES_YOU";
         case MF_ALL_SEEING: return "ALL_SEEING";
         case MF_NEVER_WANDER: return "NEVER_WANDER";
+        case MF_CONVERSATION: return "CONVERSATION";
         // *INDENT-ON*
         case m_flag::MF_MAX:
             break;
@@ -239,13 +242,13 @@ bool string_id<species_type>::is_valid() const
     return MonsterGenerator::generator().mon_species->is_valid( *this );
 }
 
-cata::optional<mon_action_death> MonsterGenerator::get_death_function( const std::string &f ) const
+std::optional<mon_action_death> MonsterGenerator::get_death_function( const std::string &f ) const
 {
     const auto it = death_map.find( f );
 
     return it != death_map.cend()
-           ? cata::optional<mon_action_death>( it->second )
-           : cata::optional<mon_action_death>();
+           ? std::optional<mon_action_death>( it->second )
+           : std::optional<mon_action_death>();
 }
 
 MonsterGenerator::MonsterGenerator()
@@ -440,6 +443,13 @@ void MonsterGenerator::finalize_mtypes()
             mon.status_chance_multiplier = 0;
         }
 
+        // Check if trap_ids are valid
+        for( trap_str_id trap_avoid_id : mon.trap_avoids ) {
+            if( !trap_avoid_id.is_valid() ) {
+                debugmsg( "Invalid trap '%s'", trap_avoid_id.str() );
+            }
+        }
+
         // Lower bound for hp scaling
         mon.hp = std::max( mon.hp, 1 );
 
@@ -524,7 +534,6 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "SPLIT", mattack::split );
     add_hardcoded_attack( "EAT_CROP", mattack::eat_crop );
     add_hardcoded_attack( "EAT_FOOD", mattack::eat_food );
-    add_hardcoded_attack( "ANTQUEEN", mattack::antqueen );
     add_hardcoded_attack( "CHECK_UP", mattack::nurse_check_up );
     add_hardcoded_attack( "ASSIST", mattack::nurse_assist );
     add_hardcoded_attack( "OPERATE", mattack::nurse_operate );
@@ -596,6 +605,7 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "LONGSWIPE", mattack::longswipe );
     add_hardcoded_attack( "PARROT", mattack::parrot );
     add_hardcoded_attack( "PARROT_AT_DANGER", mattack::parrot_at_danger );
+    add_hardcoded_attack( "BLOW_WHISTLE", mattack::blow_whistle );
     add_hardcoded_attack( "DARKMAN", mattack::darkman );
     add_hardcoded_attack( "SLIMESPRING", mattack::slimespring );
     add_hardcoded_attack( "EVOLVE_KILL_STRIKE", mattack::evolve_kill_strike );
@@ -770,6 +780,8 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     assign( jo, "armor_pure", armor_pure, strict, 0 );
     assign( jo, "armor_biological", armor_biological, strict, 0 );
 
+    optional( jo, was_loaded, "trap_avoids", trap_avoids );
+
     if( !was_loaded ) {
         weakpoints_deferred.clear();
         weakpoints_deferred_inline.clear();
@@ -929,7 +941,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     } else if( jo.has_object( "melee_damage" ) ) {
         melee_damage = load_damage_instance( jo.get_object( "melee_damage" ) );
     } else if( jo.has_object( "relative" ) ) {
-        cata::optional<damage_instance> tmp_dmg;
+        std::optional<damage_instance> tmp_dmg;
         JsonObject rel = jo.get_object( "relative" );
         rel.allow_omitted_members();
         if( rel.has_array( "melee_damage" ) ) {
@@ -946,7 +958,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
             melee_damage.add( tmp_dmg.value() );
         }
     } else if( jo.has_object( "proportional" ) ) {
-        cata::optional<damage_instance> tmp_dmg;
+        std::optional<damage_instance> tmp_dmg;
         JsonObject prop = jo.get_object( "proportional" );
         prop.allow_omitted_members();
         if( prop.has_array( "melee_damage" ) ) {
@@ -1003,7 +1015,6 @@ void mtype::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "speed_description", speed_desc, speed_description_DEFAULT );
     optional( jo, was_loaded, "death_function", mdeath_effect );
-    optional( jo, was_loaded, "melee_training_cap", melee_training_cap, MAX_SKILL );
 
     if( jo.has_array( "emit_fields" ) ) {
         JsonArray jar = jo.get_array( "emit_fields" );
@@ -1051,6 +1062,8 @@ void mtype::load( const JsonObject &jo, const std::string &src )
             remove_special_attacks( tmp, "special_attacks", src );
         }
     }
+    optional( jo, was_loaded, "melee_training_cap", melee_training_cap, std::min( melee_skill + 2,
+              MAX_SKILL ) );
     optional( jo, was_loaded, "chat_topics", chat_topics );
     // Disable upgrading when JSON contains `"upgrades": false`, but fallback to the
     // normal behavior (including error checking) if "upgrades" is not boolean or not `false`.
@@ -1148,6 +1161,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
                  ( difficulty_base + special_attacks.size() + 8 * emit_fields.size() );
     difficulty *= ( hp + speed - attack_cost + ( morale + agro ) * 0.1 ) * 0.01 +
                   ( vision_day + 2 * vision_night ) * 0.01;
+
 }
 
 void MonsterGenerator::load_species( const JsonObject &jo, const std::string &src )

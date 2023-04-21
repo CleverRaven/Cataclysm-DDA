@@ -251,6 +251,7 @@ std::string enum_to_string<mission_goal>( mission_goal data )
         case MGOAL_FIND_NPC: return "MGOAL_FIND_NPC";
         case MGOAL_ASSASSINATE: return "MGOAL_ASSASSINATE";
         case MGOAL_KILL_MONSTER: return "MGOAL_KILL_MONSTER";
+        case MGOAL_KILL_MONSTERS: return "MGOAL_KILL_MONSTERS";
         case MGOAL_KILL_MONSTER_TYPE: return "MGOAL_KILL_MONSTER_TYPE";
         case MGOAL_KILL_MONSTER_SPEC: return "MGOAL_KILL_MONSTER_SPEC";
         case MGOAL_KILL_NEMESIS: return "MGOAL_KILL_NEMESIS";
@@ -401,13 +402,13 @@ void mission_type::load( const JsonObject &jo, const std::string &src )
     assign( jo, "destination", target_id, strict );
 
     if( jo.has_member( "goal_condition" ) ) {
-        read_condition<mission_goal_condition_context>( jo, "goal_condition", goal_condition, true );
+        read_condition( jo, "goal_condition", goal_condition, true );
     }
 
     optional( jo, was_loaded, "invisible_on_complete", invisible_on_complete, false );
 }
 
-bool mission_type::test_goal_condition( const mission_goal_condition_context &d ) const
+bool mission_type::test_goal_condition( const struct dialogue &d ) const
 {
     if( goal_condition ) {
         return goal_condition( d );

@@ -13,16 +13,16 @@
     "dangerous": false,
     "precip": "light",
     "rains": true,
-    "acidic": false,
     "tiles_animation": "weather_snowflake",
     "weather_animation": { "factor": 0.01, "color": "white", "sym": "." },
     "sound_category": "flurries",
     "sun_multiplier": 0.3,
     "required_weathers": [ "cloudy" ],
+    "priority": 30,
     "condition": {
       "or": [
-        { "compare_int": [ { "weather": "humidity" }, ">=", { "const": 97 } ] },
-        { "compare_int": [ { "weather": "pressure" }, "<", { "const": 1000 } ] }
+        { "compare_num": [ { "weather": "humidity" }, ">=", { "const": 97 } ] },
+        { "compare_num": [ { "weather": "pressure" }, "<", { "const": 1000 } ] }
       ]
     }
   },
@@ -40,13 +40,13 @@
     "dangerous": false,
     "precip": "heavy",
     "rains": true,
-    "acidic": false,
     "tiles_animation": "weather_snowflake",
     "weather_animation": { "factor": 0.01, "color": "white", "sym": "*" },
     "sound_category": "snowstorm",
     "sun_multiplier": 0.15,
     "required_weathers": [ "cloudy", "afs_flurries" ],
-    "condition": { "and": [ "is_day", { "compare_int": [ { "weather": "windpower" }, ">=", { "const": 20 } ] } ] }
+    "priority": 40,
+    "condition": { "and": [ "is_day", { "compare_num": [ { "weather": "windpower" }, ">=", { "const": 20 } ] } ] }
   },
   {
     "id": "afs_snowing",
@@ -62,16 +62,16 @@
     "dangerous": false,
     "precip": "heavy",
     "rains": true,
-    "acidic": false,
     "tiles_animation": "weather_snowflake",
     "weather_animation": { "factor": 0.02, "color": "white", "sym": "*" },
     "sound_category": "snow",
     "sun_multiplier": 0.2,
     "required_weathers": [ "afs_flurries", "afs_whiteout" ],
+    "priority": 50,
     "condition": {
       "or": [
-        { "compare_int": [ { "weather": "humidity" }, ">=", { "const": 98 } ] },
-        { "compare_int": [ { "weather": "pressure" }, "<", { "const": 993 } ] }
+        { "compare_num": [ { "weather": "humidity" }, ">=", { "const": 98 } ] },
+        { "compare_num": [ { "weather": "pressure" }, "<", { "const": 993 } ] }
       ]
     }
   },
@@ -89,13 +89,13 @@
     "dangerous": false,
     "precip": "heavy",
     "rains": true,
-    "acidic": false,
     "tiles_animation": "weather_snowflake",
     "weather_animation": { "factor": 0.02, "color": "white", "sym": "*" },
     "sound_category": "snowstorm",
     "sun_multiplier": 0.01,
     "required_weathers": [ "afs_snowing" ],
-    "condition": { "compare_int": [ { "weather": "pressure" }, "<", { "const": 990 } ] }
+    "priority": 60,
+    "condition": { "compare_num": [ { "weather": "pressure" }, "<", { "const": 990 } ] }
   },
   {
     "id": "afs_lightning",
@@ -111,12 +111,12 @@
     "dangerous": false,
     "precip": "heavy",
     "rains": true,
-    "acidic": false,
     "tiles_animation": "weather_snowflake",
     "weather_animation": { "factor": 0.04, "color": "white", "sym": "*" },
     "sound_category": "snowstorm",
     "sun_multiplier": 0.01,
     "required_weathers": [ "afs_thunder" ],
-    "condition": { "compare_int": [ { "weather": "pressure" }, "<", { "const": 980 } ] }
+    "priority": 70,
+    "condition": { "compare_num": [ { "weather": "pressure" }, "<", { "const": 980 } ] }
   }
 ]

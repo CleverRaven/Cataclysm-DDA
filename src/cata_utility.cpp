@@ -12,8 +12,8 @@
 #include <stdexcept>
 #include <string>
 
+#include "cached_options.h"
 #include "catacharset.h"
-#include "cata_utility.h"
 #include "debug.h"
 #include "enum_conversions.h"
 #include "filesystem.h"
@@ -23,6 +23,7 @@
 #include "options.h"
 #include "output.h"
 #include "path_info.h"
+#include "pinyin.h"
 #include "rng.h"
 #include "translations.h"
 #include "unicode.h"
@@ -89,7 +90,14 @@ bool lcmatch( const std::string &str, const std::string &qry )
     }
     // Then try removing accents from str ONLY
     std::for_each( u32_str.begin(), u32_str.end(), remove_accent );
-    return u32_str.find( u32_qry ) != std::u32string::npos;
+    if( u32_str.find( u32_qry ) != std::u32string::npos ) {
+        return true;
+    }
+    if( use_pinyin_search ) {
+        // Finally, try to convert the string to pinyin and compare
+        return pinyin::pinyin_match( u32_str, u32_qry );
+    }
+    return false;
 }
 
 bool lcmatch( const translation &str, const std::string &qry )
@@ -473,12 +481,12 @@ std::unique_ptr<std::istream> read_maybe_compressed_file( const cata_path &path 
     return read_maybe_compressed_file( path.get_unrelative_path() );
 }
 
-cata::optional<std::string> read_whole_file( const std::string &path )
+std::optional<std::string> read_whole_file( const std::string &path )
 {
     return read_whole_file( fs::u8path( path ) );
 }
 
-cata::optional<std::string> read_whole_file( const fs::path &path )
+std::optional<std::string> read_whole_file( const fs::path &path )
 {
     std::string outstring;
     try {
@@ -502,20 +510,20 @@ cata::optional<std::string> read_whole_file( const fs::path &path )
             fin.seekg( 0 );
 
             outstring.resize( size );
-            fin.read( &outstring[0], size );
+            fin.read( outstring.data(), size );
         }
         if( fin.bad() ) {
             throw std::runtime_error( "reading file failed" );
         }
 
-        return cata::optional<std::string>( std::move( outstring ) );
+        return std::optional<std::string>( std::move( outstring ) );
     } catch( const std::exception &err ) {
         debugmsg( _( "Failed to read from \"%1$s\": %2$s" ), path.generic_u8string().c_str(), err.what() );
     }
-    return cata::nullopt;
+    return std::nullopt;
 }
 
-cata::optional<std::string> read_whole_file( const cata_path &path )
+std::optional<std::string> read_whole_file( const cata_path &path )
 {
     return read_whole_file( path.get_unrelative_path() );
 }
@@ -619,17 +627,6 @@ void deserialize_wrapper( const std::function<void( const JsonValue & )> &callba
     callback( jsin );
 }
 
-bool string_starts_with( const std::string &s1, const std::string &s2 )
-{
-    return s1.compare( 0, s2.size(), s2 ) == 0;
-}
-
-bool string_ends_with( const std::string &s1, const std::string &s2 )
-{
-    return s1.size() >= s2.size() &&
-           s1.compare( s1.size() - s2.size(), s2.size(), s2 ) == 0;
-}
-
 bool string_empty_or_whitespace( const std::string &s )
 {
     if( s.empty() ) {
@@ -642,17 +639,38 @@ bool string_empty_or_whitespace( const std::string &s )
     } );
 }
 
-std::string join( const std::vector<std::string> &strings, const std::string &joiner )
+int string_view_cmp( const std::string_view l, const std::string_view r )
 {
-    std::ostringstream buffer;
-
-    for( auto a = strings.begin(); a != strings.end(); ++a ) {
-        if( a != strings.begin() ) {
-            buffer << joiner;
-        }
-        buffer << *a;
+    size_t min_len = std::min( l.size(), r.size() );
+    int result = memcmp( l.data(), r.data(), min_len );
+    if( result ) {
+        return result;
     }
-    return buffer.str();
+    if( l.size() == r.size() ) {
+        return 0;
+    }
+    return l.size() < r.size() ? -1 : 1;
+}
+
+std::vector<std::string> string_split( const std::string_view string, char delim )
+{
+    std::vector<std::string> elems;
+
+    if( string.empty() ) {
+        return elems; // Well, that was easy.
+    }
+
+    std::stringstream ss( std::string{ string } );
+    std::string item;
+    while( std::getline( ss, item, delim ) ) {
+        elems.push_back( item );
+    }
+
+    if( string.back() == delim ) {
+        elems.emplace_back( "" );
+    }
+
+    return elems;
 }
 
 template<>

@@ -9,6 +9,7 @@
 #include <map>
 #include <memory>
 #include <new>
+#include <optional>
 #include <set>
 #include <string>
 #include <utility>
@@ -18,7 +19,6 @@
 #include "color.h"
 #include "compatibility.h"
 #include "damage.h"
-#include "optional.h"
 #include "point.h"
 #include "requirements.h"
 #include "translations.h"
@@ -136,6 +136,10 @@ struct vpslot_workbench {
     units::volume allowed_volume = 0_ml;
 };
 
+struct vpslot_toolkit {
+    std::set<itype_id> allowed_types;
+};
+
 struct transform_terrain_data {
     std::set<std::string> pre_flags;
     std::string post_terrain;
@@ -234,11 +238,12 @@ class vpart_category
 class vpart_info
 {
     public:
-        static void load_engine( cata::optional<vpslot_engine> &eptr, const JsonObject &jo,
+        static void load_engine( std::optional<vpslot_engine> &eptr, const JsonObject &jo,
                                  const itype_id &fuel_type );
-        static void load_wheel( cata::optional<vpslot_wheel> &whptr, const JsonObject &jo );
-        static void load_workbench( cata::optional<vpslot_workbench> &wbptr, const JsonObject &jo );
-        static void load_rotor( cata::optional<vpslot_rotor> &roptr, const JsonObject &jo );
+        static void load_wheel( std::optional<vpslot_wheel> &whptr, const JsonObject &jo );
+        static void load_workbench( std::optional<vpslot_workbench> &wbptr, const JsonObject &jo );
+        static void load_rotor( std::optional<vpslot_rotor> &roptr, const JsonObject &jo );
+        static void load_toolkit( std::optional<vpslot_toolkit> &tkptr, const JsonObject &jo );
         static void load( const JsonObject &jo, const std::string &src );
         static void finalize();
         static void check();
@@ -263,13 +268,6 @@ class vpart_info
             return bitflags.test( flag );
         }
         void set_flag( const std::string &flag );
-
-        bool has_tool( const itype_id &tool ) const {
-            return std::find_if( pseudo_tools.cbegin(),
-            pseudo_tools.cend(), [&tool]( std::pair<itype_id, int>p ) {
-                return p.first == tool;
-            } ) != pseudo_tools.cend();
-        }
 
         /** Gets all categories of this part */
         const std::set<std::string> &get_categories() const;
@@ -327,7 +325,8 @@ class vpart_info
         /**
          * Getter for optional workbench info
          */
-        const cata::optional<vpslot_workbench> &get_workbench_info() const;
+        const std::optional<vpslot_workbench> &get_workbench_info() const;
+        const std::optional<vpslot_toolkit> &get_toolkit_info() const;
 
         std::set<std::pair<itype_id, int>> get_pseudo_tools() const;
 
@@ -362,10 +361,11 @@ class vpart_info
         // time required to unfold this part
         time_duration unfolding_time = time_duration::from_seconds( 10 );
 
-        cata::optional<vpslot_engine> engine_info;
-        cata::optional<vpslot_wheel> wheel_info;
-        cata::optional<vpslot_rotor> rotor_info;
-        cata::optional<vpslot_workbench> workbench_info;
+        std::optional<vpslot_engine> engine_info;
+        std::optional<vpslot_wheel> wheel_info;
+        std::optional<vpslot_rotor> rotor_info;
+        std::optional<vpslot_workbench> workbench_info;
+        std::optional<vpslot_toolkit> toolkit_info;
 
         /** Unique identifier for this part */
         vpart_id id;
@@ -416,7 +416,7 @@ class vpart_info
         itype_id default_ammo = itype_id::NULL_ID();
 
         /** Volume of a foldable part when folded */
-        cata::optional<units::volume> folded_volume = cata::nullopt;
+        std::optional<units::volume> folded_volume = std::nullopt;
 
         /** Cargo location volume */
         units::volume size = 0_ml;
@@ -448,10 +448,10 @@ class vpart_info
         int dmg_mod = 100;
 
         /**
-         * Electrical power, flat rate (watts); positive for generation, negative for consumption
-         * For motor consumption scaled with powertrain demand see @ref energy_consumption instead
+         * Electrical power, flat rate energy (per second); positive for generation, negative for consumption
+         * For electric motor consumption scaled with powertrain demand see @ref energy_consumption instead
          */
-        int epower = 0;
+        units::power epower = 0_W;
 
         /**
          * Energy consumed per second by engines and motors when delivering max @ref power
@@ -463,7 +463,7 @@ class vpart_info
          * For engines and motors this is maximum output (watts)
          * For alternators is engine power consumed (negative value)
          */
-        int power = 0;
+        units::power power = 0_W;
 
         /** Installation time (in moves) for component (@see install_time), default 1 hour */
         int install_moves = to_moves<int>( 1_hours );
@@ -524,6 +524,7 @@ struct vehicle_prototype {
         std::set<itype_id> ammo_types;
         std::pair<int, int> ammo_qty = { -1, -1 };
         itype_id fuel = itype_id::NULL_ID();
+        std::vector<itype_id> tools;
     };
 
     struct zone_def {
@@ -560,6 +561,10 @@ struct vehicle_prototype {
 class vpart_migration
 {
     public:
+        vpart_id part_id_old;
+        vpart_id part_id_new;
+        std::vector<itype_id> add_veh_tools;
+
         /** Handler for loading "vehicle_part_migration" type of json object */
         static void load( const JsonObject &jo );
 
@@ -569,11 +574,8 @@ class vpart_migration
         /** Finalizes migrations */
         static void finalize();
 
-        /** Map of deprecated vpart_id to their replacement vpart_id */
-        static const std::map<vpart_id, vpart_id> &get_migrations();
-
-        /** Find vpart_id with all migrations applied. */
-        static vpart_id migrate( const vpart_id &original );
+        /** Find the last migration entry of the given vpart_id */
+        static const vpart_migration *find_migration( const vpart_id &original );
 };
 
 #endif // CATA_SRC_VEH_TYPE_H

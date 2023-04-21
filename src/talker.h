@@ -52,7 +52,7 @@ class talker
         virtual monster *get_monster() {
             return nullptr;
         }
-        virtual monster *get_monster() const {
+        virtual const monster *get_monster() const {
             return nullptr;
         }
         virtual Creature *get_creature() {
@@ -89,9 +89,15 @@ class talker
         virtual int posz() const {
             return 0;
         }
-        virtual tripoint pos() const = 0;
-        virtual tripoint_abs_ms global_pos() const = 0;
-        virtual tripoint_abs_omt global_omt_location() const = 0;
+        virtual tripoint pos() const {
+            return {};
+        }
+        virtual tripoint_abs_ms global_pos() const {
+            return {};
+        }
+        virtual tripoint_abs_omt global_omt_location() const {
+            return {};
+        }
         virtual void set_pos( tripoint ) {}
         virtual std::string distance_to_goal() const {
             return "";
@@ -188,6 +194,10 @@ class talker
         virtual bool has_trait( const trait_id & ) const {
             return false;
         }
+        virtual bool has_recipe( const recipe_id & ) const {
+            return false;
+        }
+        virtual void learn_recipe( const recipe_id & ) {}
         virtual void mutate( const int &, const bool & ) {}
         virtual void mutate_category( const mutation_category_id &, const bool & ) {}
         virtual void set_mutation( const trait_id & ) {}
@@ -440,6 +450,9 @@ class talker
         virtual int get_stored_kcal() const {
             return 0;
         }
+        virtual int get_healthy_kcal() const {
+            return 0;
+        }
         virtual int get_stim() const {
             return 0;
         }
@@ -474,6 +487,7 @@ class talker
             return true;
         }
         virtual void mod_pain( int ) {}
+        virtual void set_pain( int ) {}
         virtual int pain_cur() const {
             return 0;
         }
@@ -594,5 +608,11 @@ class talker
             return 0;
         }
         virtual void set_part_hp_cur( const bodypart_id &, int ) const {}
+
+        virtual void learn_martial_art( const matype_id & ) const {}
+        virtual void forget_martial_art( const matype_id & ) const {}
+        virtual bool knows_martial_art( const matype_id & ) const {
+            return false;
+        }
 };
 #endif // CATA_SRC_TALKER_H

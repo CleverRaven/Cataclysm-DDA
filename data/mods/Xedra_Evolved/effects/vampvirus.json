@@ -15,7 +15,7 @@
         "run_eocs": [
           {
             "id": "EOC_REDUCE_VAMPVIRUS",
-            "condition": { "compare_int": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, "=", { "const": 1 } ] },
+            "condition": { "compare_num": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, "=", { "const": 1 } ] },
             "effect": [
               { "u_lose_effect": "vampire_virus" },
               { "u_lose_trait": "VAMPIRE" },
@@ -26,7 +26,7 @@
           },
           {
             "id": "EOC_REDUCE_VAMPVIRUS1",
-            "condition": { "compare_int": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, "=", { "const": 2 } ] },
+            "condition": { "compare_num": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, "=", { "const": 2 } ] },
             "effect": [
               { "u_add_effect": "vampire_virus", "intensity": 1, "duration": "PERMANENT" },
               { "u_lose_trait": "VAMPIRE2" },
@@ -40,7 +40,7 @@
           },
           {
             "id": "EOC_REDUCE_VAMPVIRUS2",
-            "condition": { "compare_int": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, "=", { "const": 3 } ] },
+            "condition": { "compare_num": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, "=", { "const": 3 } ] },
             "effect": [
               { "u_add_effect": "vampire_virus", "intensity": 2, "duration": "PERMANENT" },
               { "u_lose_trait": "VAMPIRE3" },
@@ -58,7 +58,7 @@
               "and": [
                 { "u_has_effect": "vampire_virus_ascendant", "intensity": 1 },
                 {
-                  "compare_int": [ { "u_val": "effect_intensity", "effect": "vampire_virus_ascendant" }, "=", { "const": 1 } ]
+                  "compare_num": [ { "u_val": "effect_intensity", "effect": "vampire_virus_ascendant" }, "=", { "const": 1 } ]
                 }
               ]
             },
@@ -76,7 +76,7 @@
               "and": [
                 { "u_has_effect": "vampire_virus_post_mortal", "intensity": 1 },
                 {
-                  "compare_int": [ { "u_val": "effect_intensity", "effect": "vampire_virus_post_mortal" }, "=", { "const": 1 } ]
+                  "compare_num": [ { "u_val": "effect_intensity", "effect": "vampire_virus_post_mortal" }, "=", { "const": 1 } ]
                 }
               ]
             },
@@ -91,6 +91,31 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_COMPLETED_ROLL_REMAINDER",
+    "effect": { "u_message": "You flush with desire as you think about blood." }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SUCCESFUL_ROLL_REMAINDER",
+    "effect": { "u_message": "Suddenly you feel your heart pounding and you realize a new ability." }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SUCCESFUL_ROLL_REMAINDER2",
+    "effect": { "u_message": "Suddenly you feel your heart slowing and you realize a new ability." }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ADD_VAMPIRUS_INTENSITY1",
+    "effect": { "u_add_effect": "vampire_virus", "intensity": 2, "duration": "PERMANENT" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ADD_VAMPIRUS_INTENSITY2",
+    "effect": { "u_add_effect": "vampire_virus", "intensity": 3, "duration": "PERMANENT" }
   },
   {
     "type": "effect_on_condition",
@@ -113,7 +138,7 @@
           "condition": {
             "and": [
               { "u_has_effect": "vampire_virus", "intensity": 1 },
-              { "compare_int": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, "=", { "const": 1 } ] }
+              { "compare_num": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, "=", { "const": 1 } ] }
             ]
           },
           "effect": {
@@ -121,8 +146,13 @@
               "id": "eoc_vampvirus_1_trait",
               "condition": { "u_has_trait": "VAMPIRE" },
               "effect": [
-                { "u_roll_remainder": [ "EYEGLEAM", "STAMINAFORBLOOD" ], "type": "mutation", "true_eocs": [ "EOC_VAMPVIRUS1" ] },
-                { "u_message": "Suddenly you feel your heart pounding and you realize a new ability." }
+                {
+                  "u_roll_remainder": [ "EYEGLEAM", "STAMINAFORBLOOD" ],
+                  "type": "mutation",
+                  "true_eocs": [ "EOC_VAMPVIRUS1", "EOC_SUCCESFUL_ROLL_REMAINDER" ],
+                  "false_eocs": [ "EOC_COMPLETED_ROLL_REMAINDER" ]
+                },
+                { "queue_eocs": "EOC_ADD_VAMPIRUS_INTENSITY1", "time_in_future": [ "5 days", "8 hours" ] }
               ],
               "false_effect": [
                 { "u_add_trait": "VAMPIRE" },
@@ -138,7 +168,7 @@
           "condition": {
             "and": [
               { "u_has_effect": "vampire_virus", "intensity": 2 },
-              { "compare_int": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, "=", { "const": 2 } ] }
+              { "compare_num": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, "=", { "const": 2 } ] }
             ]
           },
           "effect": {
@@ -146,8 +176,13 @@
               "id": "eoc_vampvirus_2_trait",
               "condition": { "u_has_trait": "VAMPIRE2" },
               "effect": [
-                { "u_roll_remainder": [ "BLOODHEAL", "COAGULANTWEAVE" ], "type": "mutation", "true_eocs": [ "EOC_VAMPVIRUS2" ] },
-                { "u_message": "Suddenly you feel your heart slowing and you realize a new ability." }
+                {
+                  "u_roll_remainder": [ "BLOODHEAL", "COAGULANTWEAVE" ],
+                  "type": "mutation",
+                  "true_eocs": [ "EOC_VAMPVIRUS2" ],
+                  "false_eocs": [ "EOC_COMPLETED_ROLL_REMAINDER" ]
+                },
+                { "queue_eocs": "EOC_ADD_VAMPIRUS_INTENSITY2", "time_in_future": [ "5 days", "8 hours" ] }
               ],
               "false_effect": [
                 { "u_add_trait": "VAMPIRE2" },
@@ -163,7 +198,7 @@
           "condition": {
             "and": [
               { "u_has_effect": "vampire_virus", "intensity": 3 },
-              { "compare_int": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, "=", { "const": 3 } ] }
+              { "compare_num": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, "=", { "const": 3 } ] }
             ]
           },
           "effect": {
@@ -171,7 +206,12 @@
               "id": "eoc_vampvirus_3_trait",
               "condition": { "u_has_trait": "VAMPIRE3" },
               "effect": [
-                { "u_roll_remainder": [ "BLOODHASTE", "HYPNOTIC_GAZE" ], "type": "mutation", "true_eocs": [ "EOC_VAMPVIRUS2" ] },
+                {
+                  "u_roll_remainder": [ "BLOODHASTE", "HYPNOTIC_GAZE" ],
+                  "type": "mutation",
+                  "true_eocs": [ "EOC_VAMPVIRUS2" ],
+                  "false_eocs": [ "EOC_COMPLETED_ROLL_REMAINDER" ]
+                },
                 {
                   "u_message": "You feel the absence of your heart beating for several seconds and then it resumes at this new rhythm."
                 }
@@ -179,7 +219,7 @@
               "false_effect": [
                 { "u_add_trait": "VAMPIRE3" },
                 {
-                  "u_message": "With a popping sound several of your teeth fall out but when you put a finger into your mouth to feel the hole, there are new sharp fangs where you expected nothing."
+                  "u_message": "You don't seem to feel as hungry as you were before and you definitely recover from exertion faster than before."
                 }
               ]
             }
@@ -195,7 +235,7 @@
     "recurrence": [ "8 hours", "14 hours 15 minutes" ],
     "condition": {
       "and": [
-        { "compare_int": [ { "u_val": "vitamin", "name": "blood" }, "<=", { "const": 450 } ] },
+        { "compare_num": [ { "u_val": "vitamin", "name": "human_blood_vitamin" }, "<=", { "const": -450 } ] },
         { "u_has_effect": "vampire_virus" }
       ]
     },
@@ -207,7 +247,7 @@
           "condition": {
             "and": [
               { "u_has_effect": "vampire_virus", "intensity": 1 },
-              { "compare_int": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, ">=", { "const": 1 } ] }
+              { "compare_num": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, ">=", { "const": 1 } ] }
             ]
           },
           "effect": {

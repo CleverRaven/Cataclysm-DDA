@@ -22,6 +22,7 @@
 #include "cata_scope_helpers.h"
 #include "cata_utility.h"
 #include "character_modifier.h"
+#include "city.h"
 #include "clothing_mod.h"
 #include "clzones.h"
 #include "construction.h"
@@ -162,7 +163,7 @@ void DynamicDataLoader::load_deferred( deferred_json &data )
         auto it = data.begin();
         for( size_t idx = 0; idx != n; ++idx ) {
             try {
-                JsonObject jo = it->first;
+                const JsonObject &jo = it->first;
                 load_object( jo, it->second );
             } catch( const JsonError &err ) {
                 debugmsg( "(json-error)\n%s", err.what() );
@@ -258,6 +259,7 @@ void DynamicDataLoader::initialize()
     add( "vitamin", &vitamin::load_vitamin );
     add( "material", &materials::load );
     add( "bionic", &bionic_data::load_bionic );
+    add( "bionic_migration", &bionic_data::load_bionic_migration );
     add( "profession", &profession::load_profession );
     add( "profession_item_substitutions", &profession::load_item_substitutions );
     add( "proficiency", &proficiency::load_proficiencies );
@@ -374,6 +376,7 @@ void DynamicDataLoader::initialize()
 
     add( "charge_removal_blacklist", load_charge_removal_blacklist );
     add( "charge_migration_blacklist", load_charge_migration_blacklist );
+    add( "temperature_removal_blacklist", load_temperature_removal_blacklist );
     add( "test_data", &test_data::load );
 
     add( "MONSTER", []( const JsonObject & jo, const std::string & src ) {
@@ -397,7 +400,7 @@ void DynamicDataLoader::initialize()
     add( "weapon_category", &weapon_category::load_weapon_categories );
     add( "martial_art", &load_martial_art );
     add( "effect_type", &load_effect_type );
-    add( "obsolete_terrain", &overmap::load_obsolete_terrains );
+    add( "oter_id_migration", &overmap::load_oter_id_migration );
     add( "overmap_terrain", &overmap_terrains::load );
     add( "construction_category", &construction_categories::load );
     add( "construction_group", &construction_groups::load );
@@ -595,6 +598,7 @@ void DynamicDataLoader::unload_data()
     overmap_specials::reset();
     overmap_special_migration::reset();
     overmap_terrains::reset();
+    overmap::reset_oter_id_migrations();
     profession::reset();
     proficiency::reset();
     proficiency_category::reset();

@@ -36,6 +36,7 @@
       "BIOLUM0",
       "BIOLUM1",
       "BIOLUM2",
+      "CAMO1",
       "CANINE_EARS",
       "CARNIVORE",
       "CEPH_EYES",
@@ -56,6 +57,7 @@
       "DEFORMED",
       "DEFORMED2",
       "DEFORMED3",
+      "DENSE_BONES",
       "DEX_UP",
       "DEX_UP_2",
       "DEX_UP_3",
@@ -86,6 +88,7 @@
       "HAIRROOTS",
       "HAS_NEMESIS",
       "HATES_BOOKS",
+      "HATES_WATER",
       "HEADBUMPS",
       "HEAVYSLEEPER2",
       "HERBIVORE",
@@ -139,6 +142,7 @@
       "MUZZLE",
       "MUZZLE_BEAR",
       "MUZZLE_LONG",
+      "MUZZLE_RAPTOR",
       "MUZZLE_RAT",
       "NAILS",
       "NAUSEA",
@@ -329,7 +333,7 @@
     "name": "Mutant - Cephalopod Threshold",
     "description": "Start as a post-threshold Cephalopod Mutant",
     "forced_traits": "THRESH_CEPHALOPOD",
-    "extend": { "traits": [ "CLAWS_TENTACLE", "DEX_UP_4", "INT_UP_4", "LEG_TENT_BRACE", "SHELL2" ] }
+    "extend": { "traits": [ "CAMO2", "CEPH_MIND", "CLAWS_TENTACLE", "DEX_UP_4", "INT_UP_4", "LEG_TENT_BRACE", "SHELL2" ] }
   },
   {
     "type": "scenario",
@@ -374,7 +378,7 @@
     "name": "Mutant - Feline Threshold",
     "description": "Start as a post-threshold Feline Mutant",
     "forced_traits": "THRESH_FELINE",
-    "extend": { "traits": [ "PRED1", "PRED2", "PRED3", "SABER_TEETH" ] }
+    "extend": { "traits": [ "FELINE_FLEXIBILITY", "FELINE_LEAP", "PRED1", "PRED2", "PRED3", "SABER_TEETH" ] }
   },
   {
     "type": "scenario",

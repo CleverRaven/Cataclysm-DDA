@@ -95,6 +95,7 @@
     "included_bionics": [ "afs_speed_injection", "afs_healing_injection", "afs_strength_injection" ],
     "deactivated_eocs": [ "afs_eoc_hangover_baseline" ],
     "act_cost": "100 J",
+    "react_cost": "20 J",
     "time": "1 m"
   },
   {
@@ -119,6 +120,7 @@
     ],
     "deactivated_eocs": [ "afs_eoc_hangover_speed" ],
     "act_cost": "100 J",
+    "react_cost": "20 J",
     "time": "1 m"
   },
   {
@@ -127,20 +129,23 @@
     "name": { "str": "Pain Suppression Injection System" },
     "description": "The chemical injection system and microcomputer that when activated gives a burst of chemicals that allows your blood to work a little harder at stabilizing the body and then flushes your system with a powerful anesthetic that allows you to continue operating at high capacity.  Upon deactivation, the user may experience extreme lethargy, sudden loss of consciousness, among other symptoms that may prove potentially fatal if not in a safe location.",
     "flags": [ "BIONIC_TOGGLED" ],
+    "//": "Pain enchantment doesn't work currently.  Remove spell and this comment once it does.",
     "enchantments": [
       {
         "condition": "ACTIVE",
         "values": [
           { "value": "ARMOR_BIO", "add": 7 },
           { "value": "ARMOR_COLD", "add": 5 },
-          { "value": "PAIN", "add": -45 },
+          { "value": "PAIN_REMOVE", "add": 45 },
           { "value": "METABOLISM", "multiply": 1.5 },
           { "value": "REGEN_HP", "multiply": 2 }
         ]
-      }
+      },
+      { "condition": "ACTIVE", "ench_effects": [ { "effect": "pain_recovery", "intensity": 1 } ] }
     ],
     "deactivated_eocs": [ "afs_eoc_hangover_healing" ],
     "act_cost": "100 J",
+    "react_cost": "20 J",
     "time": "1 m"
   },
   {
@@ -166,6 +171,7 @@
     ],
     "deactivated_eocs": [ "afs_eoc_hangover_strength" ],
     "act_cost": "100 J",
+    "react_cost": "20 J",
     "time": "1 m"
   },
   {

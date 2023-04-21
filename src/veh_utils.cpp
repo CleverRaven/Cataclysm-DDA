@@ -39,7 +39,7 @@ int calc_xp_gain( const vpart_info &vp, const skill_id &sk, const Character &who
     }
 
     // how many levels are we above the requirement?
-    const int lvl = std::max( who.get_skill_level( sk ) - iter->second, 1 );
+    const int lvl = std::max( static_cast<int>( who.get_skill_level( sk ) ) - iter->second, 1 );
 
     // scale xp gain per hour according to relative level
     // 0-1: 60 xp /h
@@ -85,7 +85,7 @@ vehicle_part &most_repairable_part( vehicle &veh, Character &who, bool only_repa
         }
 
         if( vp.is_repairable() && who.meets_skill_requirements( info.repair_skills ) ) {
-            const requirement_data reqs = info.repair_requirements() * vp.repairable_levels();
+            const requirement_data reqs = info.repair_requirements() * vp.get_base().repairable_levels();
             if( reqs.can_make_with_inventory( inv, is_crafting_component ) ) {
                 repairable_cache[&vp] = repairable_status::repairable;
             }
@@ -99,7 +99,7 @@ vehicle_part &most_repairable_part( vehicle &veh, Character &who, bool only_repa
         const vehicle_part &vpb = b.part();
         return ( repairable_cache[&vpb] > repairable_cache[&vpa] ) ||
                ( repairable_cache[&vpb] == repairable_cache[&vpa] &&
-                 vpb.repairable_levels() > vpa.repairable_levels() );
+                 vpb.get_base().repairable_levels() > vpa.get_base().repairable_levels() );
     } );
     if( high_damage_iterator == vp_range.end() ||
         high_damage_iterator->part().removed ||
@@ -120,7 +120,7 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who, const std::str
 
     const requirement_data reqs = pt.is_broken()
                                   ? vp.install_requirements()
-                                  : vp.repair_requirements() * pt.repairable_levels();
+                                  : vp.repair_requirements() * pt.get_base().repairable_levels();
 
     const inventory &inv = who.crafting_inventory( who.pos(), PICKUP_RANGE, !who.is_npc() );
     inventory map_inv;
@@ -157,13 +157,12 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who, const std::str
 
     // If part is broken, it will be destroyed and references invalidated
     std::string partname = pt.name( false );
-    const std::string startdurability = colorize( pt.get_base().damage_symbol(),
-                                        pt.get_base().damage_color() );
+    const std::string startdurability = pt.get_base().damage_indicator();
     bool wasbroken = pt.is_broken();
     if( wasbroken ) {
         const units::angle dir = pt.direction;
         point loc = pt.mount;
-        auto replacement_id = pt.info().get_id();
+        vpart_id replacement_id = pt.info().get_id();
         get_map().spawn_items( who.pos(), pt.pieces_for_broken_part() );
         veh.remove_part( part_index );
         const int partnum = veh.install_part( loc, replacement_id, std::move( base ), variant );
@@ -213,10 +212,10 @@ veh_menu_item &veh_menu_item::skip_locked_check( const bool skip_locked_check )
     return *this;
 }
 
-static cata::optional<input_event> veh_keybind( const cata::optional<std::string> &hotkey )
+static std::optional<input_event> veh_keybind( const std::optional<std::string> &hotkey )
 {
     if( !hotkey.has_value() || hotkey->empty() ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     const std::vector<input_event> hk_keycode = input_context( "VEHICLE", keyboard_mode::keycode )
@@ -231,31 +230,38 @@ static cata::optional<input_event> veh_keybind( const cata::optional<std::string
         return hk_keychar.front(); // fallback to keychar hotkey
     }
 
-    return cata::nullopt;
+    return input_event();
 }
 
 veh_menu_item &veh_menu_item::hotkey( const char hotkey_char )
 {
-    if( this->_hotkey_action.has_value() ) {
-        debugmsg( "veh_menu_item::set_hotkey(hotkey_char) called when hotkey action is already set" );
-    }
+    this->_hotkey_action = std::nullopt;
     this->_hotkey_char = hotkey_char;
+    this->_hotkey_event = std::nullopt;
     return *this;
 }
 
 veh_menu_item &veh_menu_item::hotkey( const std::string &action )
 {
-    if( this->_hotkey_char.has_value() ) {
-        debugmsg( "veh_menu_item::set_hotkey(action) called when hotkey char is already set" );
-    }
     this->_hotkey_action = action;
+    this->_hotkey_char = std::nullopt;
+    this->_hotkey_event = std::nullopt;
+    return *this;
+}
+
+veh_menu_item &veh_menu_item::hotkey( const input_event &ev )
+{
+    this->_hotkey_action = std::nullopt;
+    this->_hotkey_char = std::nullopt;
+    this->_hotkey_event = ev;
     return *this;
 }
 
 veh_menu_item &veh_menu_item::hotkey_auto()
 {
-    this->_hotkey_char = MENU_AUTOASSIGN;
-    this->_hotkey_action = cata::nullopt;
+    this->_hotkey_char = std::nullopt;
+    this->_hotkey_action = std::nullopt;
+    this->_hotkey_event = std::nullopt;
     return *this;
 }
 
@@ -271,7 +277,7 @@ veh_menu_item &veh_menu_item::keep_menu_open( const bool keep_menu_open )
     return *this;
 }
 
-veh_menu_item &veh_menu_item::location( const cata::optional<tripoint> &location )
+veh_menu_item &veh_menu_item::location( const std::optional<tripoint> &location )
 {
     this->_location = location;
     return *this;
@@ -330,10 +336,15 @@ std::vector<uilist_entry> veh_menu::get_uilist_entries() const
 
     for( size_t i = 0; i < items.size(); i++ ) {
         const veh_menu_item &it = items[i];
-        const cata::optional<input_event> hotkey_event = veh_keybind( it._hotkey_action );
-        uilist_entry entry = hotkey_event.has_value()
-                             ? uilist_entry( it._text, hotkey_event )
-                             : uilist_entry( it._text, it._hotkey_char.value_or( 0 ) );
+        std::optional<input_event> hotkey_event = std::nullopt;
+        if( it._hotkey_event.has_value() ) {
+            hotkey_event = it._hotkey_event.value();
+        } else if( it._hotkey_action.has_value() ) {
+            hotkey_event = veh_keybind( it._hotkey_action );
+        } else if( it._hotkey_char.has_value() ) {
+            hotkey_event = input_event( it._hotkey_char.value(), input_event_t::keyboard_char );
+        }
+        uilist_entry entry = uilist_entry( it._text, hotkey_event );
 
         entry.retval = static_cast<int>( i );
         entry.desc = it._desc;

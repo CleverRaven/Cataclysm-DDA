@@ -576,6 +576,24 @@
   },
   {
     "type": "vehicle_group",
+    "id": "crashed_helicopters_small",
+    "vehicles": [
+      [ "helicopter_apache_1a", 100 ],
+      [ "helicopter_apache_1b", 400 ],
+      [ "helicopter_apache_1c", 200 ],
+      [ "helicopter_blackhawk_3a", 100 ],
+      [ "helicopter_blackhawk_3b", 400 ],
+      [ "helicopter_blackhawk_3c", 200 ],
+      [ "2seater2_Wreck", 400 ],
+      [ "SmallFlier3_Wreck", 400 ],
+      [ "Smallflier1_Wreck", 400 ],
+      [ "SmallFlier2_Wreck", 400 ],
+      [ "Medevac1_Wreck", 400 ],
+      [ "Medevac2_Wreck", 400 ]
+    ]
+  },
+  {
+    "type": "vehicle_group",
     "id": "helicopters",
     "vehicles": [
       [ "2seater2", 100 ],
@@ -594,6 +612,18 @@
   },
   {
     "type": "vehicle_group",
+    "id": "helicopters_no_wreck",
+    "vehicles": [
+      [ "2seater2", 100 ],
+      [ "SmallFlier1", 400 ],
+      [ "SmallFlier2", 400 ],
+      [ "Medevac1", 100 ],
+      [ "SmallFlier3", 400 ],
+      [ "Medevac2", 200 ]
+    ]
+  },
+  {
+    "type": "vehicle_group",
     "id": "mil_helicopters",
     "vehicles": [
       [ "Medevac1", 200 ],
@@ -606,6 +636,22 @@
       [ "helicopter_osprey_2a", 100 ],
       [ "helicopter_osprey_2b", 400 ],
       [ "helicopter_osprey_2c", 200 ],
+      [ "helicopter_blackhawk_3a", 100 ],
+      [ "helicopter_blackhawk_3b", 400 ],
+      [ "helicopter_blackhawk_3c", 200 ]
+    ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "mil_helicopters_small",
+    "vehicles": [
+      [ "Medevac1", 200 ],
+      [ "Medevac2", 200 ],
+      [ "Medevac1_Wreck", 200 ],
+      [ "Medevac2_Wreck", 200 ],
+      [ "helicopter_apache_1a", 200 ],
+      [ "helicopter_apache_1b", 400 ],
+      [ "helicopter_apache_1c", 200 ],
       [ "helicopter_blackhawk_3a", 100 ],
       [ "helicopter_blackhawk_3b", 400 ],
       [ "helicopter_blackhawk_3c", 200 ]
@@ -755,8 +801,7 @@
       [ "motorcycle_enduro", 50 ],
       [ "superbike", 50 ],
       [ "motorcycle_sidecart", 50 ],
-      [ "car_sports", 30 ],
-      [ "underlift_tow_truck", 10 ]
+      [ "car_sports", 30 ]
     ]
   },
   {

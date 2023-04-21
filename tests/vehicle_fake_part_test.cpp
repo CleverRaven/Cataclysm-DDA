@@ -1,4 +1,5 @@
 #include <memory>
+#include <optional>
 #include <vector>
 
 #include "action.h"
@@ -10,7 +11,6 @@
 #include "item.h"
 #include "map.h"
 #include "map_helpers.h"
-#include "optional.h"
 #include "player_helpers.h"
 #include "point.h"
 #include "type_id.h"
@@ -30,38 +30,36 @@ static void really_clear_map()
     build_test_map( ter_id( "t_pavement" ) );
 }
 
+static int num_fake_parts( const vehicle &veh )
+{
+    return static_cast<int>( veh.fake_parts.size() );
+}
+
+static int num_active_fake_parts( const vehicle &veh )
+{
+    int ret = 0;
+    for( const int fake_index : veh.fake_parts ) {
+        cata_assert( fake_index < veh.part_count() );
+        ret += veh.part( fake_index ).is_active_fake ? 1 : 0;
+    }
+    return ret;
+}
+
 static void validate_part_count( const vehicle &veh, const int target_velocity,
                                  const units::angle &face_dir, const int real_parts,
                                  const int fake_parts, const int active_fakes )
 {
-    if( target_velocity > 0 && veh.velocity <= 200 ) {
-        std::cout << veh.disp_name() << " at dir " << to_degrees( face_dir );
-        std::cout <<  " speed " << veh.velocity << std::endl;
-    }
-    if( to_degrees( veh.face.dir() ) != Approx( to_degrees( face_dir ) ).epsilon( 0.1f ) ) {
-        std::cout << veh.disp_name() << " at dir " << to_degrees( face_dir );
-        std::cout <<  " face " << veh.face.dir() << std::endl;
-    }
-    if( veh.num_true_parts() != real_parts ) {
-        std::cout << veh.disp_name() << " at dir " << to_degrees( face_dir );
-        std::cout <<  " real parts " << veh.num_true_parts() << std::endl;
-    }
-    if( veh.num_fake_parts() != fake_parts ) {
-        std::cout << veh.disp_name() << " at dir " << to_degrees( face_dir );
-        std::cout <<  " fake parts " << veh.num_fake_parts() << std::endl;
-    }
-    if( veh.num_active_fake_parts() != active_fakes ) {
-        std::cout << veh.disp_name() << " at dir " << to_degrees( face_dir );
-        std::cout <<  " active fakes " << veh.num_active_fake_parts() << std::endl;
-    }
-
+    CAPTURE( veh.disp_name() );
+    CAPTURE( veh.velocity );
+    CAPTURE( to_degrees( veh.face.dir() ) );
+    CAPTURE( to_degrees( face_dir ) );
     if( target_velocity > 0 ) {
         REQUIRE( veh.velocity > 200 );
     }
     REQUIRE( to_degrees( veh.face.dir() ) == Approx( to_degrees( face_dir ) ).epsilon( 0.1f ) );
-    CHECK( veh.num_true_parts() == real_parts );
-    CHECK( veh.num_fake_parts() == fake_parts );
-    CHECK( veh.num_active_fake_parts() == active_fakes );
+    CHECK( veh.part_count_real() == real_parts );
+    CHECK( num_fake_parts( veh ) == fake_parts );
+    CHECK( num_active_fake_parts( veh ) == active_fakes );
 }
 
 TEST_CASE( "ensure_fake_parts_enable_on_place", "[vehicle] [vehicle_fake]" )
@@ -74,8 +72,9 @@ TEST_CASE( "ensure_fake_parts_enable_on_place", "[vehicle] [vehicle_fake]" )
         const tripoint test_origin( 30, 30, 0 );
 
         for( int quadrant = 0; quadrant < 4; quadrant += 1 ) {
-            for( int sub_angle = 0; sub_angle < 6; sub_angle += 1 )  {
-                const units::angle angle = quadrant * 90_degrees + sub_angle * 15_degrees;
+            for( int sub_angle = 0; sub_angle < std::round( 90_degrees / vehicles::steer_increment );
+                 sub_angle += 1 )  {
+                const units::angle angle = quadrant * 90_degrees + sub_angle * vehicles::steer_increment;
                 really_clear_map();
                 map &here = get_map();
 
@@ -144,13 +143,14 @@ TEST_CASE( "ensure_fake_parts_enable_on_turn", "[vehicle] [vehicle_fake]" )
         veh->cruise_on = true;
 
         for( int quadrant = 0; quadrant < 4; quadrant += 1 ) {
-            for( int sub_angle = 0; sub_angle < 6; sub_angle += 1 )  {
-                const units::angle angle = quadrant * 90_degrees + sub_angle * 15_degrees;
+            for( int sub_angle = 0; sub_angle < std::round( 90_degrees / vehicles::steer_increment );
+                 sub_angle += 1 )  {
+                const units::angle angle = quadrant * 90_degrees + sub_angle * vehicles::steer_increment;
                 here.vehmove();
                 REQUIRE( veh->cruise_on );
                 validate_part_count( *veh, target_velocity, angle, original_parts, fake_parts,
                                      active_fakes_by_angle.at( sub_angle ) );
-                veh->turn( 15_degrees );
+                veh->turn( vehicles::steer_increment );
                 veh->velocity = veh->cruise_velocity;
             }
         }
@@ -312,7 +312,7 @@ TEST_CASE( "ensure_vehicle_with_no_obstacles_has_no_fake_parts", "[vehicle] [veh
         REQUIRE( veh != nullptr );
         WHEN( "The vehicle is placed in the world" ) {
             THEN( "There are no fake parts added" ) {
-                validate_part_count( *veh, 0, 45_degrees, veh->num_parts(), 0, 0 );
+                validate_part_count( *veh, 0, 45_degrees, veh->part_count(), 0, 0 );
             }
         }
     }

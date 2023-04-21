@@ -6,6 +6,7 @@
 #include <iosfwd>
 #include <map>
 #include <new>
+#include <optional>
 #include <set>
 #include <string>
 #include <unordered_map>
@@ -17,7 +18,6 @@
 #include "damage.h"
 #include "hash_utils.h"
 #include "memory_fast.h"
-#include "optional.h"
 #include "point.h"
 #include "translations.h"
 #include "type_id.h"
@@ -126,8 +126,8 @@ struct trait_and_var {
 };
 
 struct trait_replacement {
-    cata::optional<proficiency_id> prof;
-    cata::optional<trait_and_var> trait;
+    std::optional<proficiency_id> prof;
+    std::optional<trait_and_var> trait;
     bool error = false;
 };
 
@@ -200,18 +200,19 @@ struct mutation_branch {
         int bodytemp_max = 0;
         int bodytemp_sleep = 0;
         // Healing per turn
-        cata::optional<float> healing_awake = cata::nullopt;
-        cata::optional<float> healing_resting = cata::nullopt;
+        std::optional<float> healing_awake = std::nullopt;
+        std::optional<float> healing_multiplier = std::nullopt;
         // Limb mending bonus
-        cata::optional<float> mending_modifier = cata::nullopt;
+        std::optional<float> mending_modifier = std::nullopt;
+        std::optional<float> pain_modifier = std::nullopt;
         // Bonus HP multiplier. That is, 1.0 doubles hp, -0.5 halves it.
-        cata::optional<float> hp_modifier = cata::nullopt;
+        std::optional<float> hp_modifier = std::nullopt;
         // Second HP modifier that stacks with first but is otherwise identical.
-        cata::optional<float> hp_modifier_secondary = cata::nullopt;
+        std::optional<float> hp_modifier_secondary = std::nullopt;
         // Flat bonus/penalty to hp.
-        cata::optional<float> hp_adjustment = cata::nullopt;
+        std::optional<float> hp_adjustment = std::nullopt;
         // Modify strength stat without changing HP
-        cata::optional<float> str_modifier = cata::nullopt;
+        std::optional<float> str_modifier = std::nullopt;
         //melee bonuses
         int cut_dmg_bonus = 0;
         float pierce_dmg_bonus = 0.0f;
@@ -219,19 +220,19 @@ struct mutation_branch {
         int bash_dmg_bonus = 0;
         std::pair<int, int> rand_bash_bonus;
         // Additional bonuses
-        cata::optional<float> dodge_modifier = cata::nullopt;
-        cata::optional<float> movecost_modifier = cata::nullopt;
-        cata::optional<float> movecost_flatground_modifier = cata::nullopt;
-        cata::optional<float> movecost_obstacle_modifier = cata::nullopt;
-        cata::optional<float> attackcost_modifier = cata::nullopt;
-        cata::optional<float> cardio_multiplier = cata::nullopt;
-        cata::optional<float> weight_capacity_modifier = cata::nullopt;
-        cata::optional<float> hearing_modifier = cata::nullopt;
-        cata::optional<float> movecost_swim_modifier = cata::nullopt;
-        cata::optional<float> noise_modifier = cata::nullopt;
+        std::optional<float> dodge_modifier = std::nullopt;
+        std::optional<float> movecost_modifier = std::nullopt;
+        std::optional<float> movecost_flatground_modifier = std::nullopt;
+        std::optional<float> movecost_obstacle_modifier = std::nullopt;
+        std::optional<float> attackcost_modifier = std::nullopt;
+        std::optional<float> cardio_multiplier = std::nullopt;
+        std::optional<float> weight_capacity_modifier = std::nullopt;
+        std::optional<float> hearing_modifier = std::nullopt;
+        std::optional<float> movecost_swim_modifier = std::nullopt;
+        std::optional<float> noise_modifier = std::nullopt;
         float scent_modifier = 1.0f;
-        cata::optional<int> scent_intensity;
-        cata::optional<int> scent_mask;
+        std::optional<int> scent_intensity;
+        std::optional<int> scent_mask;
 
         int butchering_quality = 0;
 
@@ -246,7 +247,7 @@ struct mutation_branch {
         std::map<skill_id, int> craft_skill_bonus;
 
         /**What do you smell like*/
-        cata::optional<scenttype_id> scent_typeid;
+        std::optional<scenttype_id> scent_typeid;
 
         /**Map of glowing body parts and their glow intensity*/
         std::map<bodypart_str_id, float> lumination;
@@ -259,46 +260,46 @@ struct mutation_branch {
         /**maximum damage dealt by water every minute when wet. Can be negative and regen hit points.*/
         int weakness_to_water = 0;
 
-        cata::optional<float> crafting_speed_multiplier = cata::nullopt;
+        std::optional<float> crafting_speed_multiplier = std::nullopt;
 
         // Subtracted from the range at which monsters see player, corresponding to percentage of change. Clamped to +/- 60 for effectiveness
-        cata::optional<float> stealth_modifier = cata::nullopt;
+        std::optional<float> stealth_modifier = std::nullopt;
 
         // Speed lowers--or raises--for every X F (X C) degrees below or above 65 F (18.3 C)
-        cata::optional<float> temperature_speed_modifier = cata::nullopt;
+        std::optional<float> temperature_speed_modifier = std::nullopt;
         // Extra metabolism rate multiplier. 1.0 doubles usage, -0.5 halves.
-        cata::optional<float> metabolism_modifier = cata::nullopt;
+        std::optional<float> metabolism_modifier = std::nullopt;
         // As above but for thirst.
-        cata::optional<float> thirst_modifier = cata::nullopt;
+        std::optional<float> thirst_modifier = std::nullopt;
         // As above but for fatigue.
-        cata::optional<float> fatigue_modifier = cata::nullopt;
+        std::optional<float> fatigue_modifier = std::nullopt;
         // Modifier for the rate at which fatigue and sleep deprivation drops when resting.
-        cata::optional<float> fatigue_regen_modifier = cata::nullopt;
+        std::optional<float> fatigue_regen_modifier = std::nullopt;
         // Modifier for the rate at which stamina regenerates.
-        cata::optional<float> stamina_regen_modifier = cata::nullopt;
+        std::optional<float> stamina_regen_modifier = std::nullopt;
         // the modifier for obtaining an item from a container as a handling penalty
-        cata::optional<float> obtain_cost_multiplier = cata::nullopt;
+        std::optional<float> obtain_cost_multiplier = std::nullopt;
         // the modifier for the stomach size
-        cata::optional<float> stomach_size_multiplier = cata::nullopt;
+        std::optional<float> stomach_size_multiplier = std::nullopt;
         // the modifier for the vomit chance
-        cata::optional<float> vomit_multiplier = cata::nullopt;
+        std::optional<float> vomit_multiplier = std::nullopt;
         // the modifier for sweat amount
-        cata::optional<float> sweat_multiplier = cata::nullopt;
+        std::optional<float> sweat_multiplier = std::nullopt;
 
         // Adjusts sight range on the overmap. Positives make it farther, negatives make it closer.
-        cata::optional<float> overmap_sight = cata::nullopt;
+        std::optional<float> overmap_sight = std::nullopt;
 
         // Multiplier for sight range, defaulting to 1.
-        cata::optional<float> overmap_multiplier = cata::nullopt;
+        std::optional<float> overmap_multiplier = std::nullopt;
 
         // Multiplier for reading speed, defaulting to 1.
-        cata::optional<float> reading_speed_multiplier = cata::nullopt;
+        std::optional<float> reading_speed_multiplier = std::nullopt;
 
         // Multiplier for skill rust delay, defaulting to 1.
-        cata::optional<float> skill_rust_multiplier = cata::nullopt;
+        std::optional<float> skill_rust_multiplier = std::nullopt;
 
         // Multiplier for consume time, defaulting to 1.
-        cata::optional<float> consume_time_modifier = cata::nullopt;
+        std::optional<float> consume_time_modifier = std::nullopt;
 
         // Bonus or penalty to social checks (additive).  50 adds 50% to success, -25 subtracts 25%
         social_modifiers social_mods;
@@ -326,18 +327,18 @@ struct mutation_branch {
         std::set<bodypart_str_id> no_cbm_on_bp;
 
         // amount of mana added or subtracted from max
-        cata::optional<float> mana_modifier = cata::nullopt;
-        cata::optional<float> mana_multiplier = cata::nullopt;
-        cata::optional<float> mana_regen_multiplier = cata::nullopt;
+        std::optional<float> mana_modifier = std::nullopt;
+        std::optional<float> mana_multiplier = std::nullopt;
+        std::optional<float> mana_regen_multiplier = std::nullopt;
         // for every point of bionic power, reduces max mana pool by 1 * bionic_mana_penalty
-        cata::optional<float> bionic_mana_penalty = cata::nullopt;
-        cata::optional<float> casting_time_multiplier = cata::nullopt;
+        std::optional<float> bionic_mana_penalty = std::nullopt;
+        std::optional<float> casting_time_multiplier = std::nullopt;
         // spells learned and their associated level when gaining the mutation
         std::map<spell_id, int> spells_learned;
         // hide activation menu when activating - preferred for spell targeting activations
-        cata::optional<bool> hide_on_activated = cata::nullopt;
+        std::optional<bool> hide_on_activated = std::nullopt;
         // hide activation menu when deactivating - preferred for spell targeting deactivations
-        cata::optional<bool> hide_on_deactivated = cata::nullopt;
+        std::optional<bool> hide_on_deactivated = std::nullopt;
         /** Monster cameras added by this mutation */
         std::map<mtype_id, int> moncams;
         /** effect_on_conditions triggered when this mutation activates */
@@ -573,8 +574,14 @@ struct mutation_category_trait {
         mutation_category_id id;
         // The trait that you gain when you break the threshold for this category
         trait_id threshold_mut;
+        // Amount of vitamin necessary to attempt breaking the threshold
+        int threshold_min = 2200;
         // Mutation vitamin
         vitamin_id vitamin;
+        // Chance to remove base traits
+        int base_removal_chance = 100;
+        // Multiplier of vitamin costs when mutating this category removes starting traits
+        float base_removal_cost_mul = 3.0f;
 
         static const std::map<mutation_category_id, mutation_category_trait> &get_all();
         static const mutation_category_trait &get_category(

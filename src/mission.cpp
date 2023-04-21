@@ -193,6 +193,11 @@ void mission::on_creature_death( Creature &poor_dead_dude )
             if( type->goal == MGOAL_KILL_MONSTER ) {
                 found_mission->step_complete( 1 );
             }
+            if( type->goal == MGOAL_KILL_MONSTERS ) {
+                if( found_mission->monster_kill_goal-- == 0 ) {
+                    found_mission->step_complete( 1 );
+                }
+            }
         }
         return;
     }
@@ -252,7 +257,7 @@ bool mission::on_creature_fusion( Creature &fuser, Creature &fused )
             continue;
         }
         const mission_type *const type = found_mission->type;
-        if( type->goal == MGOAL_KILL_MONSTER ) {
+        if( type->goal == MGOAL_KILL_MONSTER || type->goal == MGOAL_KILL_MONSTERS ) {
             // the fuser has to be killed now!
             mon_fuser->mission_ids.emplace( mission_id );
             mon_fused->mission_ids.erase( mission_id );
@@ -347,6 +352,7 @@ void mission::step_complete( const int _step )
         case MGOAL_FIND_MONSTER:
         case MGOAL_ASSASSINATE:
         case MGOAL_KILL_MONSTER:
+        case MGOAL_KILL_MONSTERS:
         case MGOAL_COMPUTER_TOGGLE:
         case MGOAL_TALK_TO_NPC:
             // Go back and report.
@@ -529,7 +535,7 @@ bool mission::is_complete( const character_id &_npc_id ) const
                     if( here.has_items( p ) && here.accessible_items( p ) ) {
                         count_items( here.i_at( p ) );
                     }
-                    if( const cata::optional<vpart_reference> vp =
+                    if( const std::optional<vpart_reference> vp =
                             here.veh_at( p ).part_with_feature( "CARGO", true ) ) {
                         count_items( vp->vehicle().get_items( vp->part_index() ) );
                     }
@@ -582,6 +588,7 @@ bool mission::is_complete( const character_id &_npc_id ) const
         case MGOAL_TALK_TO_NPC:
         case MGOAL_ASSASSINATE:
         case MGOAL_KILL_MONSTER:
+        case MGOAL_KILL_MONSTERS:
         case MGOAL_KILL_NEMESIS:
         case MGOAL_COMPUTER_TOGGLE:
             return step >= 1;
@@ -593,9 +600,8 @@ bool mission::is_complete( const character_id &_npc_id ) const
             return g->get_kill_tracker().kill_count( monster_species ) >= kill_count_to_reach;
 
         case MGOAL_CONDITION: {
-            mission_goal_condition_context cc;
-            cc.alpha = get_talker_for( player_character );
-            cc.has_alpha = true;
+            std::unique_ptr<talker> beta;
+            std::vector<mission *> miss;
             // Skip the NPC check if the mission was obtained via a scenario/profession/hobby
             if( npc_id.is_valid() || type->origins.empty() || type->origins.size() != 1 ||
                 type->origins.front() != mission_origin::ORIGIN_GAME_START ) {
@@ -607,20 +613,21 @@ bool mission::is_complete( const character_id &_npc_id ) const
                 if( n == nullptr ) {
                     return false;
                 }
-                cc.beta = get_talker_for( *n );
-                cc.has_beta = true;
+                beta = get_talker_for( *n );
                 for( mission *&mission : n->chatbin.missions_assigned ) {
                     if( mission->get_assigned_player_id() == player_character.getID() ) {
-                        cc.missions_assigned.push_back( mission );
+                        miss.emplace_back( mission );
                     }
                 }
             } else {
                 for( mission *&mission : player_character.get_active_missions() ) {
                     if( mission->type->id == type->id ) {
-                        cc.missions_assigned.push_back( mission );
+                        miss.emplace_back( mission );
                     }
                 }
             }
+            dialogue cc( get_talker_for( player_character ), std::move( beta ) );
+            cc.missions_assigned = std::move( miss );
 
             return type->test_goal_condition( cc );
         }

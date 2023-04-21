@@ -913,7 +913,7 @@
     "color": "pink",
     "armor": [
       { "covers": [ "torso" ], "coverage": 95, "encumbrance": 6, "volume_encumber_modifier": 0.25 },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 6, 6 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 6, 6 ] },
       {
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 75,
@@ -976,12 +976,12 @@
     "type": "ARMOR",
     "name": { "str": "faraday sharksuit" },
     "description": "A one-piece chainmail suit used by SCUBA divers for protection against shark bites.  It has been conductively interconnected, protecting against electricity.",
-    "weight": "3250 g",
+    "weight": "8164 g",
     "volume": "3500 ml",
     "price": 35000,
     "price_postapoc": 6000,
     "to_hit": -1,
-    "material": [ "steel", "plastic" ],
+    "material": [ "lc_steel_chain", "plastic" ],
     "symbol": "[",
     "looks_like": "chainmail_hauberk",
     "color": "light_red",
@@ -992,7 +992,14 @@
       {
         "encumbrance": 30,
         "coverage": 100,
-        "covers": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+        "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r" ],
+        "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ]
+      },
+      {
+        "coverage": 100,
+        "covers": [ "foot_l", "foot_r", "head" ],
+        "encumbrance": 25,
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 1 } ]
       }
     ]
   },
@@ -1002,12 +1009,12 @@
     "type": "ARMOR",
     "name": { "str": "sharksuit" },
     "description": "A-one piece chainmail suit used by SCUBA divers for protection against shark bites.  It comes with attached plastic helmet and booties.",
-    "weight": "3150 g",
+    "weight": "8164 g",
     "volume": "3500 ml",
     "price": 35000,
     "price_postapoc": 5000,
     "to_hit": -1,
-    "material": [ "steel", "plastic" ],
+    "material": [ "lc_steel_chain", "plastic" ],
     "symbol": "[",
     "looks_like": "chainmail_suit",
     "color": "light_red",
@@ -1018,7 +1025,14 @@
       {
         "encumbrance": 30,
         "coverage": 100,
-        "covers": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+        "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r" ],
+        "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ]
+      },
+      {
+        "coverage": 100,
+        "covers": [ "foot_l", "foot_r", "head" ],
+        "encumbrance": 25,
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 1 } ]
       }
     ]
   },

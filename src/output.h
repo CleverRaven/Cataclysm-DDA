@@ -2,9 +2,8 @@
 #ifndef CATA_SRC_OUTPUT_H
 #define CATA_SRC_OUTPUT_H
 
-#include <functional>
-#include <clocale>
 #include <algorithm>
+#include <clocale>
 #include <cstddef>
 #include <cstdint>
 #include <forward_list>
@@ -12,6 +11,7 @@
 #include <iosfwd>
 #include <iterator>
 #include <map>
+#include <optional>
 #include <stack>
 #include <string>
 #include <type_traits>
@@ -26,7 +26,6 @@
 #include "enums.h"
 #include "item.h"
 #include "line.h"
-#include "optional.h"
 #include "point.h"
 #include "string_formatter.h"
 #include "translations.h"
@@ -336,9 +335,12 @@ std::string trimmed_name_and_value( const std::string &name, int value,
 std::string trimmed_name_and_value( const std::string &name, const std::string &value,
                                     int field_width );
 
+void wputch( const catacurses::window &w, int ch );
 void wputch( const catacurses::window &w, nc_color FG, int ch );
 // Using int ch is deprecated, use an UTF-8 encoded string instead
+void mvwputch( const catacurses::window &w, const point &p, int ch );
 void mvwputch( const catacurses::window &w, const point &p, nc_color FG, int ch );
+void mvwputch( const catacurses::window &w, const point &p, const std::string &ch );
 void mvwputch( const catacurses::window &w, const point &p, nc_color FG, const std::string &ch );
 // Using int ch is deprecated, use an UTF-8 encoded string instead
 void mvwputch_inv( const catacurses::window &w, const point &p, nc_color FG, int ch );
@@ -410,7 +412,7 @@ class border_helper
 
             int as_curses_line() const;
         };
-        cata::optional<std::map<point, border_connection>> border_connection_map;
+        std::optional<std::map<point, border_connection>> border_connection_map;
 
         std::forward_list<border_info> border_info_list;
 };
@@ -622,53 +624,6 @@ std::pair<std::string, nc_color> get_light_level( float light );
 
 std::pair<std::string, nc_color> rad_badge_color( int rad );
 
-/**
- * @return String containing the bar. Example: "Label [********    ]".
- * @param val Value to display. Can be unclipped.
- * @param width Width of the entire string.
- * @param label Label before the bar. Can be empty.
- * @param begin Iterator over pairs <double p, char c> (see below).
- * @param end Iterator over pairs <double p, char c> (see below).
- * Where:
- *    p - percentage of the entire bar which can be filled with c.
- *    c - character to fill the segment of the bar with
- */
-
-// MSVC has problem dealing with template functions.
-// Implementing this function in cpp file results link error.
-template<typename RatingIterator>
-inline std::string get_labeled_bar( const double val, const int width, const std::string &label,
-                                    RatingIterator begin, RatingIterator end )
-{
-    std::string result;
-
-    result.reserve( width );
-    if( !label.empty() ) {
-        result += label;
-        result += ' ';
-    }
-    const int bar_width = width - utf8_width( result ) - 2; // - 2 for the brackets
-
-    result += '[';
-    if( bar_width > 0 ) {
-        int used_width = 0;
-        for( RatingIterator it( begin ); it != end; ++it ) {
-            const double factor = std::min( 1.0, std::max( 0.0, it->first * val ) );
-            const int seg_width = static_cast<int>( factor * bar_width ) - used_width;
-
-            if( seg_width <= 0 ) {
-                continue;
-            }
-            used_width += seg_width;
-            result.insert( result.end(), seg_width, it->second );
-        }
-        result.insert( result.end(), bar_width - used_width, ' ' );
-    }
-    result += ']';
-
-    return result;
-}
-
 enum class enumeration_conjunction : int {
     none,
     and_,
@@ -762,7 +717,40 @@ std::string enumerate_as_string( const Container &cont, F &&string_for,
 std::string formatted_hotkey( const std::string &hotkey, nc_color text_color );
 
 /**
- * @return String containing the bar. Example: "Label [********    ]".
+ * @return String containing the bar. Example: "Label [****--...    ]".
+ * @param val Value to display. Can be unclipped.
+ * @param width Width of the entire string.
+ * @param label Label before the bar. Can be empty.
+ * @param begin Iterator over pairs <double p, char c> (see below).
+ * @param end Iterator over pairs <double p, char c> (see below).
+ * Where:
+ *    p - percentage of the entire bar which can be filled with c.
+ *    c - character to fill the segment of the bar with
+ */
+template<typename BarIterator>
+std::string get_labeled_bar( double val, int width, const std::string &label,
+                             BarIterator begin, BarIterator end );
+
+/**
+ * @return String containing the bar. Example: "Label [****--...    ]".
+ * @param val Value to display. Can be unclipped.
+ * @param width Width of the entire string.
+ * @param label Label before the bar. Can be empty.
+ * @param begin Iterator over collections with at least first two members [double p, char c] (see below).
+ * @param end Iterator over collections with at least first two members [double p, char c] (see below).
+ * Where:
+ *    p - percentage of the entire bar which can be filled with c.
+ *    c - character to fill the segment of the bar with
+ *    and the collection may have additional elements used by the following function parameter
+ * @param printer Function that takes Iterator described above and number of copies of the character to repeat.
+ */
+template<typename BarIterator>
+std::string get_labeled_bar( double val, int width, const std::string &label,
+                             BarIterator begin, BarIterator end, std::function<std::string( BarIterator, int )> printer );
+
+
+/**
+ * @return String containing the bar. Example: "Label [************]".
  * @param val Value to display. Can be unclipped.
  * @param width Width of the entire string.
  * @param label Label before the bar. Can be empty.
@@ -920,7 +908,7 @@ class scrollbar
         // draw the scrollbar to the window
         void apply( const catacurses::window &window );
         // Checks if the user is dragging the scrollbar with the mouse (set_draggable first)
-        bool handle_dragging( const std::string &action, const cata::optional<point> &coord,
+        bool handle_dragging( const std::string &action, const std::optional<point> &coord,
                               int &position );
     private:
         int offset_x_v, offset_y_v;
@@ -1137,7 +1125,6 @@ extern scrollingcombattext SCT;
 
 std::string wildcard_trim_rule( const std::string &pattern_in );
 bool wildcard_match( const std::string &text_in, const std::string &pattern_in );
-std::vector<std::string> string_split( const std::string &text_in, char delim );
 int ci_find_substr( const std::string &str1, const std::string &str2,
                     const std::locale &loc = std::locale() );
 
@@ -1192,7 +1179,7 @@ void refresh_display();
  * @return Colorized string.
  */
 template<typename F>
-std::string colorize_symbols( const std::string &str, F color_of )
+std::string colorize_symbols( const std::string_view str, F color_of )
 {
     std::string res;
     nc_color prev_color = c_unset;

@@ -29,9 +29,13 @@
     "volume": "500 ml",
     "weight": "970 g",
     "to_hit": 2,
-    "bashing": 12,
+    "bashing": 2,
+    "price_postapoc": 124000,
     "qualities": [ [ "HAMMER", 1 ] ],
-    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "FLAMING" ],
+    "flags": [ "ONLY_ONE", "DURABLE_MELEE", "NONCONDUCTIVE", "FLAMING" ],
+    "relic_data": {
+      "passive_effects": [ { "has": "WORN", "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ITEM_DAMAGE_HEAT", "add": 7 } ] } ]
+    },
     "armor": [ { "encumbrance": 5, "coverage": 20, "covers": [ "hand_r" ] } ]
   },
   {
@@ -41,6 +45,9 @@
     "looks_like": "flaming_fist",
     "name": { "str": "flaming fist +1", "str_pl": "flaming fists +1" },
     "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "relic_data": {
+      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_HEAT", "add": 11 } ] } ]
+    },
     "relative": { "to_hit": 1 }
   },
   {
@@ -50,6 +57,9 @@
     "looks_like": "flaming_fist",
     "name": { "str": "flaming fist +2", "str_pl": "flaming fists +2" },
     "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "relic_data": {
+      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_HEAT", "add": 15 } ] } ]
+    },
     "relative": { "to_hit": 2 }
   },
   {
@@ -59,43 +69,16 @@
     "color": "light_gray",
     "name": { "str": "gauntlet of pounding", "str_pl": "gauntlets of pounding" },
     "description": "A large gleaming metal gauntlet covered in magical symbols that allows you to land astoundingly powerful blows.",
-    "material": [ "superalloy" ],
+    "material": [ "steel", "leather" ],
     "volume": "1 L",
     "weight": "981 g",
-    "bashing": 34,
-    "to_hit": 3,
+    "bashing": 16,
+    "to_hit": 1,
+    "price_postapoc": 145000,
     "qualities": [ [ "HAMMER", 2 ] ],
     "techniques": [ "WBLOCK_1", "BRUTAL" ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "OVERSIZE", "MESSY" ],
-    "armor": [ { "encumbrance": 5, "coverage": 20, "covers": [ "hand_r" ] } ]
-  },
-  {
-    "id": "shotcestus",
-    "copy-from": "shotgun_base",
-    "type": "ARMOR",
-    "name": { "str": "shotcestus", "str_pl": "shotcestuses" },
-    "description": "A sawn-off double-barrel shotgun mounted on a metal cestus.  The lack of a stock to absorb recoil means some strength is required to fire.",
-    "weight": "1566 g",
-    "volume": "1500 ml",
-    "price": 20000,
-    "bashing": 12,
-    "material": [ "steel" ],
-    "techniques": [ "WBLOCK_1", "BRUTAL" ],
-    "min_strength": 7,
-    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
-    "dispersion": 855,
-    "durability": 6,
-    "blackpowder_tolerance": 66,
-    "clip_size": 2,
-    "range": -8,
-    "modes": [ [ "DEFAULT", "single", 1 ], [ "DOUBLE", "double", 2 ] ],
-    "reload": 200,
-    "barrel_volume": "500 ml",
-    "valid_mod_locations": [ [ "mechanism", 1 ] ],
-    "flags": [ "DURABLE_MELEE", "NEVER_JAMS", "RELOAD_EJECT", "RELOAD_ONE" ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 2 } } ],
-    "armor": [ { "encumbrance": 5, "coverage": 20, "covers": [ "hand_r" ] } ]
+    "armor_data": { "armor": [ { "encumbrance": 8, "coverage": 20, "covers": [ "hand_r" ] } ] }
   },
   {
     "type": "GENERIC",
@@ -111,7 +94,7 @@
     "to_hit": 1,
     "qualities": [ [ "HAMMER", 1 ] ],
     "techniques": [ "WBLOCK_1", "BRUTAL" ],
-    "flags": [ "DURABLE_MELEE", "TRADER_AVOID", "MAGIC_FOCUS" ],
-    "armor": [ { "encumbrance": 5, "coverage": 20, "covers": [ "hand_r" ] } ]
+    "flags": [ "DURABLE_MELEE", "TRADER_AVOID", "MAGIC_FOCUS", "NONCONDUCTIVE" ],
+    "armor_data": { "armor": [ { "encumbrance": 5, "coverage": 20, "covers": [ "hand_r" ] } ] }
   }
 ]

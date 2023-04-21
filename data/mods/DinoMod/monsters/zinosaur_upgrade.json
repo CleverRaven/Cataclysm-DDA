@@ -420,6 +420,30 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_zerizinosaurus_brute",
+    "name": { "str_sp": "Thundering Therizinosaurus" },
+    "copy-from": "mon_zerizinosaurus",
+    "description": "The shuffling corpse of a huge bipedal dinosaur covered with tattered feathers and black, putrid liquid.  Long claws protrude from its hands.  Its entire body bulges with distended muscles and swollen, festering wounds.",
+    "diff": 2,
+    "color": "red",
+    "proportional": { "hp": 1.5, "speed": 1.5 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "armor_bullet": 5,
+      "vision_night": 1
+    },
+    "bleed_rate": 50,
+    "upgrades": {  },
+    "special_attacks": [ [ "SMASH", 30 ] ],
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_zothronychus_brute",
     "name": { "str_sp": "Nefarious Nothronychus" },
     "copy-from": "mon_zothronychus",
@@ -1574,7 +1598,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zachelousaurus_brute",
-    "name": { "str": "Achelosaurus Anvil" },
+    "name": { "str": "Achelousaurus Anvil" },
     "copy-from": "mon_zachelousaurus",
     "description": "A massive, four-legged dinosaur corpse with a tall bony crest with two long curved spikes and three rough bosses above the eyes and nose as well as a short tail and hooked beak.  Its entire body bulges with distended muscles and swollen, festering wounds.",
     "diff": 2,
@@ -1861,7 +1885,7 @@
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "weakpoint_sets": [ "wps_dinosaur_body" ],
     "hp": 430,
-    "special_attacks": [ [ "scratch", 10 ], [ "GRAB", 10 ], { "type": "bite", "cooldown": 5 } ],
+    "special_attacks": [ [ "scratch", 10 ], [ "GRAB", 10 ], { "id": "teeth_zino_max", "cooldown": 5 } ],
     "burn_into": "mon_zpinosaurus_scorched",
     "fungalize_into": "mon_zpinosaurus_fungus",
     "flags": [
@@ -1914,7 +1938,7 @@
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "weakpoint_sets": [ "wps_dinosaur_body" ],
     "hp": 260,
-    "special_attacks": [ [ "scratch", 10 ], [ "GRAB", 10 ], { "type": "bite", "cooldown": 5 } ],
+    "special_attacks": [ [ "scratch", 10 ], [ "GRAB", 10 ], { "id": "teeth_zino_mid", "cooldown": 5 } ],
     "burn_into": "mon_zorvosaurus_scorched",
     "fungalize_into": "mon_zorvosaurus_fungus",
     "flags": [
@@ -1954,7 +1978,7 @@
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "weakpoint_sets": [ "wps_dinosaur_body" ],
     "hp": 190,
-    "special_attacks": [ [ "scratch", 10 ], [ "GRAB", 10 ], { "type": "bite", "cooldown": 5 } ],
+    "special_attacks": [ [ "scratch", 10 ], [ "GRAB", 10 ], { "id": "teeth_zino_mid", "cooldown": 5 } ],
     "burn_into": "mon_zallosaurus_scorched",
     "fungalize_into": "mon_zallosaurus_fungus",
     "flags": [
@@ -1985,7 +2009,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "armor_bash": 11,
     "hp": 270,
-    "special_attacks": [ [ "GRAB", 10 ], { "type": "bite", "cooldown": 10 }, [ "LUNGE", 20 ] ],
+    "special_attacks": [ [ "GRAB", 10 ], { "id": "teeth_zino_mid", "cooldown": 10 }, [ "LUNGE", 20 ] ],
     "burn_into": "mon_zacrocanthosaurus_scorched",
     "fungalize_into": "mon_zacrocanthosaurus_fungus"
   },
@@ -2013,7 +2037,7 @@
     "upgrades": { "half_life": 15, "into": "mon_zryptosaurus_nightstalker" },
     "hp": 200,
     "special_attacks": [
-      { "type": "bite", "cooldown": 15 },
+      { "id": "teeth_zino_mid", "cooldown": 15 },
       [ "GRAB", 15 ],
       { "type": "leap", "cooldown": 20, "max_range": 5, "allow_no_target": true }
     ],
@@ -2031,7 +2055,7 @@
     "speed": 100,
     "melee_damage": [ { "damage_type": "cut", "amount": 14 } ],
     "hp": 220,
-    "special_attacks": [ { "type": "bite", "cooldown": 15 }, [ "GRAB", 15 ], [ "scratch", 20 ], [ "LUNGE", 20 ] ],
+    "special_attacks": [ { "id": "teeth_zino_mid", "cooldown": 15 }, [ "GRAB", 15 ], [ "scratch", 20 ], [ "LUNGE", 20 ] ],
     "burn_into": "mon_zappalachiosaurus_scorched",
     "fungalize_into": "mon_zappalachiosaurus_fungus",
     "categories": [ "DINOSAUR" ]
@@ -2047,7 +2071,7 @@
     "attack_cost": 50,
     "melee_damage": [ { "damage_type": "cut", "amount": 13 } ],
     "hp": 250,
-    "special_attacks": [ { "type": "bite", "cooldown": 10 }, [ "GRAB", 15 ], [ "scratch", 20 ], [ "LUNGE", 15 ] ],
+    "special_attacks": [ { "id": "teeth_zino_mid", "cooldown": 10 }, [ "GRAB", 15 ], [ "scratch", 20 ], [ "LUNGE", 15 ] ],
     "burn_into": "mon_zorgosaurus_scorched",
     "fungalize_into": "mon_zorgosaurus_fungus",
     "categories": [ "DINOSAUR" ]
@@ -2066,7 +2090,7 @@
     "armor_cut": 5,
     "armor_bullet": 3,
     "hp": 270,
-    "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "GRAB", 7 ], [ "scratch", 20 ], [ "LUNGE", 5 ], [ "LONGSWIPE", 25 ] ],
+    "special_attacks": [ { "id": "teeth_zino_mid", "cooldown": 5 }, [ "GRAB", 7 ], [ "scratch", 20 ], [ "LUNGE", 5 ], [ "LONGSWIPE", 25 ] ],
     "burn_into": "mon_zalbertosaurus_scorched",
     "fungalize_into": "mon_zalbertosaurus_fungus",
     "categories": [ "DINOSAUR" ]
@@ -2077,6 +2101,7 @@
     "name": { "str": "shady qianzhousaurus zombie" },
     "copy-from": "mon_zyrannosaurus_shady",
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a huge, bipedal dinosaur with feathery edges and a large head.",
+    "special_attacks": [ [ "scratch", 10 ], [ "GRAB", 7 ], { "id": "teeth_zino_mid", "cooldown": 5 } ],
     "upgrades": { "half_life": 15, "into": "mon_zianzhousaurus_nightstalker" },
     "volume": "550 L",
     "weight": "770 kg",
@@ -2098,6 +2123,7 @@
     "id": "mon_zanuqsaurus_shady",
     "name": { "str_sp": "shady nanuqsaurus zombie" },
     "copy-from": "mon_zyrannosaurus_shady",
+    "special_attacks": [ [ "scratch", 10 ], [ "GRAB", 7 ], { "id": "teeth_zino_mid", "cooldown": 5 } ],
     "upgrades": { "half_life": 15, "into": "mon_zanuqsaurus_nightstalker" },
     "melee_dice": 4,
     "melee_dice_sides": 5,
@@ -2152,7 +2178,7 @@
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "weakpoint_sets": [ "wps_lg_theropod_body" ],
     "hp": 400,
-    "special_attacks": [ [ "scratch", 10 ], [ "GRAB", 7 ], { "type": "bite", "cooldown": 5 } ],
+    "special_attacks": [ [ "scratch", 10 ], [ "GRAB", 7 ], { "id": "teeth_zino_max", "cooldown": 5 } ],
     "burn_into": "mon_zyrannosaurus_scorched",
     "fungalize_into": "mon_zyrannosaurus_fungus",
     "flags": [
@@ -2257,6 +2283,27 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_zerizinosaurus_shady",
+    "name": { "str": "shady therizinosaurus zombie" },
+    "copy-from": "mon_zeinonychus_shady",
+    "description": "An uncanny shadow envelops this creature.  You can make out the outline of a bipedal dinosaur with feathery edges.  Long claws protrude from its hands.",
+    "upgrades": { "half_life": 15, "into": "mon_zerizinosaurus_nightstalker" },
+    "volume": "1000 L",
+    "weight": "1000 kg",
+    "//": "When large weights and volumes are fixed this should be 4000 L and 4000 kg",
+    "speed": 120,
+    "attack_cost": 120,
+    "melee_skill": 3,
+    "melee_dice": 3,
+    "melee_dice_sides": 6,
+    "hp": 320,
+    "special_attacks": [ [ "scratch", 10 ], [ "GRAB", 10 ], { "type": "bite", "cooldown": 10 }, [ "LONGSWIPE", 20 ] ],
+    "burn_into": "mon_zerizinosaurus_scorched",
+    "fungalize_into": "mon_zerizinosaurus_fungus",
+    "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_zothronychus_shady",
     "name": { "str": "shady nothronychus zombie" },
     "copy-from": "mon_zeinonychus_shady",
@@ -2269,9 +2316,6 @@
     "melee_skill": 3,
     "melee_dice": 4,
     "melee_dice_sides": 4,
-    "armor_bash": 4,
-    "armor_cut": 4,
-    "armor_bullet": 2,
     "hp": 160,
     "special_attacks": [ [ "scratch", 10 ], [ "GRAB", 10 ], { "type": "bite", "cooldown": 5 }, [ "LONGSWIPE", 30 ] ],
     "burn_into": "mon_zothronychus_scorched",
@@ -2291,9 +2335,6 @@
     "melee_skill": 3,
     "melee_dice": 4,
     "melee_dice_sides": 4,
-    "armor_bash": 4,
-    "armor_cut": 4,
-    "armor_bullet": 2,
     "hp": 120,
     "special_attacks": [ [ "scratch", 10 ], [ "GRAB", 10 ], { "type": "bite", "cooldown": 5 }, [ "LONGSWIPE", 30 ] ],
     "burn_into": "mon_zanzu_scorched",
@@ -2324,7 +2365,7 @@
     "melee_dice": 1,
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
-    "armor_bash": 2,
+    "armor_bash": 4,
     "armor_cut": 4,
     "armor_bullet": 2,
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
@@ -2334,7 +2375,7 @@
       { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true },
       [ "scratch", 10 ],
       [ "GRAB", 10 ],
-      { "type": "bite", "cooldown": 5 }
+      { "id": "teeth_zino_mid", "cooldown": 5 }
     ],
     "burn_into": "mon_zeinonychus_scorched",
     "fungalize_into": "mon_zeinonychus_fungus",
@@ -2369,9 +2410,6 @@
     "melee_dice": 2,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 8 } ],
-    "armor_bash": 3,
-    "armor_cut": 4,
-    "armor_bullet": 2,
     "hp": 130,
     "burn_into": "mon_zutahraptor_scorched",
     "fungalize_into": "mon_zutahraptor_fungus",
@@ -2870,6 +2908,30 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_zerizinosaurus_nightstalker",
+    "name": { "str_sp": "therizinosaurus nightstalker" },
+    "copy-from": "mon_zerizinosaurus_shady",
+    "looks_like": "mon_zerizinosaurus_shady",
+    "description": "An uncanny shadow envelops this creature.  You can make out the outline of a bulky bipedal dinosaur with feathery edges.  Long  claws protrude from its hands.",
+    "diff": 2,
+    "proportional": { "hp": 1.5, "speed": 1.5 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "armor_bullet": 5,
+      "vision_night": 1
+    },
+    "bleed_rate": 50,
+    "special_attacks": [ [ "SMASH", 30 ] ],
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "upgrades": {  },
+    "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_zothronychus_nightstalker",
     "name": { "str_sp": "nothronychus nightstalker" },
     "copy-from": "mon_zothronychus_shady",
@@ -3045,7 +3107,7 @@
     "vision_night": 3,
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "upgrades": { "half_life": 15, "into": "mon_silophosaurus_brute" },
-    "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
+    "special_attacks": [ [ "scratch", 10 ], { "id": "teeth_zino_mid", "cooldown": 10 } ],
     "flags": [ "SEES", "HEARS", "PET_MOUNTABLE", "POISON", "NO_BREATHE", "REVIVES", "FILTHY", "HARDTOSHOOT" ],
     "harvest": "mr_bones",
     "weakpoint_sets": [ "wps_dinosaur_body" ],
@@ -3149,7 +3211,7 @@
     "melee_dice_sides": 7,
     "melee_damage": [ { "damage_type": "cut", "amount": 18 } ],
     "special_attacks": [
-      { "type": "bite", "cooldown": 15 },
+      { "id": "teeth_zino_mid", "cooldown": 15 },
       [ "GRAB", 15 ],
       { "type": "leap", "cooldown": 20, "max_range": 5, "allow_no_target": true }
     ],
@@ -3162,7 +3224,7 @@
     "copy-from": "mon_sryptosaurus",
     "description": "Monstrous columns of dense bone lifting sharp, pointed teeth dripping with black goo.",
     "hp": 88,
-    "special_attacks": [ { "type": "bite", "cooldown": 15 }, [ "GRAB", 15 ], [ "scratch", 20 ], [ "LUNGE", 20 ] ]
+    "special_attacks": [ { "id": "teeth_zino_mid", "cooldown": 15 }, [ "GRAB", 15 ], [ "scratch", 20 ], [ "LUNGE", 20 ] ]
   },
   {
     "type": "MONSTER",
@@ -3186,7 +3248,7 @@
     "melee_dice": 4,
     "melee_dice_sides": 7,
     "melee_damage": [ { "damage_type": "cut", "amount": 18 } ],
-    "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "GRAB", 7 ], [ "scratch", 20 ], [ "LUNGE", 5 ], [ "LONGSWIPE", 25 ] ]
+    "special_attacks": [ { "id": "teeth_zino_mid", "cooldown": 10 }, [ "GRAB", 7 ], [ "scratch", 20 ], [ "LUNGE", 5 ], [ "LONGSWIPE", 25 ] ]
   },
   {
     "type": "MONSTER",
@@ -3220,6 +3282,7 @@
     "melee_dice": 5,
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 19 } ],
+    "special_attacks": [ { "id": "teeth_zino_max", "cooldown": 10 }, [ "GRAB", 7 ], [ "scratch", 20 ], [ "LUNGE", 5 ] ],
     "hp": 120,
     "weakpoint_sets": [ "wps_lg_theropod_body" ]
   },
@@ -3235,7 +3298,7 @@
     "melee_dice": 5,
     "melee_dice_sides": 5,
     "melee_damage": [ { "damage_type": "cut", "amount": 25 } ],
-    "special_attacks": [ [ "scratch", 10 ], [ "GRAB", 7 ], { "type": "bite", "cooldown": 5 } ]
+    "special_attacks": [ [ "scratch", 10 ], [ "GRAB", 7 ], { "id": "teeth_zino_max", "cooldown": 5 } ]
   },
   {
     "type": "MONSTER",
@@ -3276,6 +3339,22 @@
     "speed": 109,
     "attack_cost": 109,
     "extend": { "flags": [ "CLIMBS" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_serizinosaurus",
+    "name": { "str_sp": "skeletal therizinosaurus" },
+    "copy-from": "mon_sallimimus",
+    "description": "Monstrous columns of dense bone lifting a twisted bony beak dripping with black goo.  Long, sharp claws extend from its hands",
+    "volume": "1000 L",
+    "weight": "1000 kg",
+    "//": "When large weights and volumes are fixed this should be 4000 L and 4000 kg",
+    "speed": 100,
+    "melee_skill": 3,
+    "melee_dice": 3,
+    "melee_dice_sides": 6,
+    "melee_damage": [ { "damage_type": "cut", "amount": 8 } ],
+    "upgrades": { "half_life": 15, "into": "mon_serizinosaurus_brute" }
   },
   {
     "type": "MONSTER",
@@ -3323,7 +3402,7 @@
       { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true },
       [ "scratch", 10 ],
       [ "GRAB", 10 ],
-      { "type": "bite", "cooldown": 5 }
+      { "id": "teeth_zino_mid", "cooldown": 5 }
     ],
     "vision_day": 20,
     "vision_night": 10
@@ -5236,6 +5315,56 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_serizinosaurus_brute",
+    "name": { "str": "skeletal therizinosaurus brute" },
+    "copy-from": "mon_serizinosaurus",
+    "description": "Distorted outgrowths of calcified bone plates cover this dinosaur's rotting flesh, long neck and claws.  Joints and cracks around its body ooze with black goo.",
+    "proportional": { "hp": 5 },
+    "relative": {
+      "melee_dice": -1,
+      "melee_dice_sides": 2,
+      "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
+      "armor_bash": 12,
+      "armor_cut": 15,
+      "armor_bullet": 6,
+      "vision_day": 35,
+      "vision_night": 3
+    },
+    "bleed_rate": 0,
+    "upgrades": { "half_life": 12, "into": "mon_serizinosaurus_hulk" },
+    "special_attacks": [
+      { "id": "smash", "throw_strength": 56, "cooldown": 45 },
+      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
+    ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_serizinosaurus_hulk",
+    "name": { "str_sp": "skeletal theropod juggernaut" },
+    "copy-from": "mon_serizinosaurus_brute",
+    "description": "This hideous colossus of plated bones and misshapen flesh drags its heavy, pointed limbs behind it.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.  The shape and twisting clawed arms suggest some kind of two legged dinosaur.",
+    "diff": 5,
+    "proportional": { "hp": 2.5 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
+      "armor_bash": 8,
+      "armor_cut": 15,
+      "armor_bullet": 6
+    },
+    "bleed_rate": 0,
+    "special_attacks": [
+      { "id": "smash", "throw_strength": 54 },
+      { "id": "stretch_attack" },
+      { "id": "longswipe" },
+      { "id": "cut_throat" },
+      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] }
+    ],
+    "volume": "1000 L",
+    "weight": "1000 kg"
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_sothronychus_brute",
     "name": { "str": "skeletal nothronychus brute" },
     "copy-from": "mon_sothronychus",
@@ -5449,7 +5578,7 @@
     "morale": 100,
     "special_attacks": [ [ "ACID_BARF", 10 ] ],
     "vision_night": 3,
-    "harvest": "zed_dino_feather",
+    "harvest": "zed_dino_feather_acid",
     "categories": [ "DINOSAUR" ],
     "looks_like": "mon_dilophosaurus",
     "volume": "400 L",
@@ -5503,7 +5632,7 @@
     "morale": 100,
     "special_attacks": [ [ "ACID_BARF", 10 ] ],
     "vision_night": 3,
-    "harvest": "zed_dino_feather",
+    "harvest": "zed_dino_feather_acid",
     "dissect": "dissect_dino_large_pred",
     "categories": [ "DINOSAUR" ],
     "looks_like": "mon_zyrannosaurus",

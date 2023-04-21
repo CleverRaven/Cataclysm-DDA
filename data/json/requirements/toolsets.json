@@ -61,22 +61,6 @@
     ]
   },
   {
-    "id": "gun_repair",
-    "type": "requirement",
-    "//": "Gun repair",
-    "tools": [ [ [ "soldering_iron", 25 ], [ "toolset", 25 ], [ "small_repairkit", 25 ], [ "large_repairkit", 25 ] ] ],
-    "components": [ [ [ "solder_wire", 25 ] ], [ [ "scrap", 1 ] ] ],
-    "qualities": [
-      { "id": "HAMMER_FINE", "level": 1 },
-      { "id": "SAW_M_FINE", "level": 1 },
-      { "id": "WRENCH_FINE", "level": 1 },
-      { "id": "SCREW_FINE", "level": 1 },
-      { "id": "SCREW", "level": 1 },
-      { "id": "CHISEL", "level": 3 },
-      { "id": "CHISEL_WOOD", "level": 3 }
-    ]
-  },
-  {
     "id": "earthenware_firing",
     "type": "requirement",
     "//": "Firing various clay shapes to make earthenware",
@@ -86,18 +70,14 @@
     "id": "forging_standard",
     "type": "requirement",
     "//": "Forging of steel items (per steel chunk), charcoal forge is already a substitute for forge",
-    "tools": [ [ [ "forge", 20 ], [ "oxy_torch", 20 ], [ "fake_arc_furnace", 10 ] ] ]
+    "tools": [ [ [ "forge", 20 ], [ "oxy_torch", 20 ] ] ]
   },
   {
     "id": "blacksmithing_standard",
     "type": "requirement",
     "//": "Includes forging resources as well as tools needed for most blacksmithing",
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
-    "tools": [
-      [ [ "forge", 20 ], [ "oxy_torch", 20 ], [ "fake_arc_furnace", 10 ] ],
-      [ [ "metal_file", -1 ] ],
-      [ [ "metalworking_tongs", -1 ] ]
-    ]
+    "tools": [ [ [ "forge", 20 ], [ "oxy_torch", 20 ] ], [ [ "metal_file", -1 ] ], [ [ "metalworking_tongs", -1 ] ] ]
   },
   {
     "id": "mutagen_production_standard",
@@ -144,38 +124,42 @@
   {
     "id": "welding_standard",
     "type": "requirement",
-    "//": "Crafting of steel/iron items or installation of vehicle parts",
+    "//": "Crafting of steel/iron items or installation of vehicle parts, measured in 1 cm segments - assume roughly 360 cm per hour, 10 seconds per # of this quality",
+    "//1": "Arc welding is about 85% efficient, acetylene welding is about 40% efficient, propane welding is about 10% efficient",
     "qualities": [ { "id": "GLARE", "level": 1 } ],
-    "tools": [ [ [ "welder", 10 ], [ "welding_kit", 10 ], [ "welder_crude", 15 ], [ "toolset", 15 ], [ "oxy_torch", 2 ] ] ],
-    "components": [ [ [ "welding_rod_steel", 3 ], [ "welding_wire_steel", 3 ], [ "brazing_rod_bronze", 3 ] ] ]
+    "tools": [ [ [ "welder", 20 ], [ "welding_kit", 20 ], [ "welder_crude", 40 ], [ "toolset", 30 ], [ "oxy_torch", 1 ] ] ],
+    "components": [ [ [ "welding_rod_steel", 1 ], [ "welding_wire_steel", 1 ], [ "brazing_rod_bronze", 1 ] ] ]
   },
   {
     "id": "welding_alloys",
     "type": "requirement",
-    "//": "Crafting items made of aluminium alloy or installation of vehicle parts",
+    "//": "Crafting items made of aluminium alloy or installation of vehicle parts, currently making the same assumption for time/coverage as steel",
+    "//1": "Arc welding is about 85% efficient, acetylene welding is about 40% efficient, propane welding is about 10% efficient",
     "qualities": [ { "id": "GLARE", "level": 1 } ],
-    "tools": [ [ [ "welder", 10 ], [ "welding_kit", 10 ], [ "welder_crude", 15 ], [ "toolset", 15 ], [ "oxy_torch", 2 ] ] ],
-    "components": [ [ [ "welding_rod_alloy", 3 ], [ "welding_wire_alloy", 3 ], [ "brazing_rod_alloy", 3 ] ] ]
+    "tools": [ [ [ "welder", 20 ], [ "welding_kit", 20 ], [ "welder_crude", 40 ], [ "toolset", 30 ], [ "oxy_torch", 1 ] ] ],
+    "components": [ [ [ "welding_rod_alloy", 1 ], [ "welding_wire_alloy", 1 ], [ "brazing_rod_alloy", 1 ] ] ]
   },
   {
     "id": "repair_welding_standard",
     "type": "requirement",
-    "//": "Repair of steel/iron items",
+    "//": "Repair of steel/iron items - costs double over that of standard welding",
+    "//1": "Arc welding is about 85% efficient, acetylene welding is about 40% efficient, propane welding is about 10% efficient",
     "qualities": [ { "id": "GLARE", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
-    "tools": [ [ [ "welder", 20 ], [ "welding_kit", 20 ], [ "welder_crude", 30 ], [ "toolset", 30 ], [ "oxy_torch", 4 ] ] ],
+    "tools": [ [ [ "welder", 40 ], [ "welding_kit", 40 ], [ "welder_crude", 80 ], [ "toolset", 60 ], [ "oxy_torch", 2 ] ] ],
     "components": [
-      [ [ "welding_rod_steel", 6 ], [ "welding_wire_steel", 6 ], [ "brazing_rod_bronze", 6 ] ],
+      [ [ "welding_rod_steel", 2 ], [ "welding_wire_steel", 2 ], [ "brazing_rod_bronze", 2 ] ],
       [ [ "steel_tiny", 1, "LIST" ] ]
     ]
   },
   {
     "id": "repair_welding_alloys",
     "type": "requirement",
-    "//": "Repair items made of aluminium alloy",
+    "//": "Repair items made of aluminium alloy - costs double over that of standard welding",
+    "//1": "Arc welding is about 85% efficient, acetylene welding is about 40% efficient, propane welding is about 10% efficient",
     "qualities": [ { "id": "GLARE", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
-    "tools": [ [ [ "welder", 20 ], [ "welding_kit", 20 ], [ "welder_crude", 30 ], [ "toolset", 30 ], [ "oxy_torch", 4 ] ] ],
+    "tools": [ [ [ "welder", 40 ], [ "welding_kit", 40 ], [ "welder_crude", 80 ], [ "toolset", 60 ], [ "oxy_torch", 2 ] ] ],
     "components": [
-      [ [ "welding_rod_alloy", 6 ], [ "welding_wire_alloy", 6 ], [ "brazing_rod_alloy", 6 ] ],
+      [ [ "welding_rod_alloy", 2 ], [ "welding_wire_alloy", 2 ], [ "brazing_rod_alloy", 2 ] ],
       [ [ "material_aluminium_ingot", 1 ] ]
     ]
   },
@@ -217,7 +201,7 @@
     "id": "mining_standard",
     "type": "requirement",
     "//": "mining",
-    "tools": [ [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 300 ], [ "elec_jackhammer", 3500 ] ] ]
+    "tools": [ [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 300 ], [ "elec_jackhammer", 3960 ] ] ]
   },
   {
     "id": "bronzesmithing_tools",
@@ -265,7 +249,7 @@
         [ "pickaxe", -1 ],
         [ "bronze_pickaxe", -1 ],
         [ "jackhammer", 140 ],
-        [ "elec_jackhammer", 7000 ],
+        [ "elec_jackhammer", 1848 ],
         [ "hammer_sledge", -1 ]
       ],
       [ [ "masonrysaw_off", 100 ] ],
@@ -297,7 +281,7 @@
     "//": "Tools for removing road / sidewalk",
     "qualities": [ { "id": "PRY", "level": 3 } ],
     "tools": [
-      [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 7000 ] ],
+      [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 1848 ] ],
       [ [ "masonrysaw_off", 100 ] ]
     ]
   },
@@ -330,12 +314,18 @@
         [ "duct_tape", 1 ],
         [ "permanent_marker", 1 ],
         [ "survival_marker", -1 ],
-        [ "r_paint", 1 ],
-        [ "b_paint", 1 ],
-        [ "w_paint", 1 ],
-        [ "g_paint", 1 ],
-        [ "p_paint", 1 ],
-        [ "y_paint", 1 ]
+        [ "paint_red", 1 ],
+        [ "paint_blue", 1 ],
+        [ "paint_white", 1 ],
+        [ "paint_green", 1 ],
+        [ "paint_purple", 1 ],
+        [ "paint_yellow", 1 ],
+        [ "paint_black", 1 ],
+        [ "paint_gray", 1 ],
+        [ "paint_brown", 1 ],
+        [ "paint_cyan", 1 ],
+        [ "paint_pink", 1 ],
+        [ "paint_orange", 1 ]
       ]
     ]
   },
@@ -347,12 +337,18 @@
       [
         [ "duct_tape", 1 ],
         [ "survival_marker", -1 ],
-        [ "r_paint", 1 ],
-        [ "b_paint", 1 ],
-        [ "w_paint", 1 ],
-        [ "g_paint", 1 ],
-        [ "p_paint", 1 ],
-        [ "y_paint", 1 ]
+        [ "paint_red", 1 ],
+        [ "paint_blue", 1 ],
+        [ "paint_white", 1 ],
+        [ "paint_green", 1 ],
+        [ "paint_purple", 1 ],
+        [ "paint_yellow", 1 ],
+        [ "paint_black", 1 ],
+        [ "paint_gray", 1 ],
+        [ "paint_brown", 1 ],
+        [ "paint_cyan", 1 ],
+        [ "paint_pink", 1 ],
+        [ "paint_orange", 1 ]
       ]
     ]
   },
@@ -360,7 +356,7 @@
     "id": "ppe_gloves",
     "type": "requirement",
     "//": "Disposable or reusable gloves.",
-    "tools": [ [ [ "gloves_medical", 1 ], [ "gloves_rubber", -1 ], [ "entry_suit", -1 ], [ "hazmat_suit", -1 ] ] ]
+    "tools": [ [ [ "gloves_medical", -1 ], [ "gloves_rubber", -1 ], [ "entry_suit", -1 ], [ "hazmat_suit", -1 ] ] ]
   },
   {
     "id": "ppe_eyes",
@@ -388,8 +384,7 @@
         [ "mask_wsurvivorxs", -1 ],
         [ "mask_wsurvivor_nofur", -1 ],
         [ "mask_wsurvivor_nofur_xs", -1 ],
-        [ "mask_wsurvivorxl_nofur", -1 ],
-        [ "hazmat_suit", -1 ]
+        [ "mask_wsurvivorxl_nofur", -1 ]
       ]
     ]
   },
@@ -399,26 +394,25 @@
     "//": "Gas protection.",
     "tools": [
       [
-        [ "mask_gas", -1 ],
-        [ "mask_gas_xs", -1 ],
-        [ "mask_gas_xl", -1 ],
-        [ "mask_gas_half", -1 ],
-        [ "mask_bunker", -1 ],
-        [ "mask_survivor", -1 ],
-        [ "mask_lsurvivor", -1 ],
-        [ "mask_hsurvivor", -1 ],
-        [ "mask_survivorxl", -1 ],
-        [ "mask_lsurvivorxl", -1 ],
-        [ "mask_survivorxs", -1 ],
-        [ "mask_wsurvivor", -1 ],
-        [ "mask_wsurvivorxl", -1 ],
-        [ "mask_wsurvivorxs", -1 ],
-        [ "mask_wsurvivor_nofur", -1 ],
-        [ "mask_wsurvivor_nofur_xs", -1 ],
-        [ "mask_wsurvivorxl_nofur", -1 ],
-        [ "hazmat_suit", -1 ]
-      ],
-      [ [ "gasfilter_m", 1 ] ]
+        [ "mask_filter", 2 ],
+        [ "mask_gas", 1 ],
+        [ "mask_gas_xs", 1 ],
+        [ "mask_gas_xl", 1 ],
+        [ "mask_gas_half", 1 ],
+        [ "mask_bunker", 1 ],
+        [ "mask_survivor", 1 ],
+        [ "mask_lsurvivor", 1 ],
+        [ "mask_hsurvivor", 1 ],
+        [ "mask_survivorxl", 1 ],
+        [ "mask_lsurvivorxl", 1 ],
+        [ "mask_survivorxs", 1 ],
+        [ "mask_wsurvivor", 1 ],
+        [ "mask_wsurvivorxl", 1 ],
+        [ "mask_wsurvivorxs", 1 ],
+        [ "mask_wsurvivor_nofur", 1 ],
+        [ "mask_wsurvivor_nofur_xs", 1 ],
+        [ "mask_wsurvivorxl_nofur", 1 ]
+      ]
     ]
   },
   {

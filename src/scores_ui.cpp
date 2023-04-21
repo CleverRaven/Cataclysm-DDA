@@ -167,17 +167,10 @@ void show_scores_ui( const achievements_tracker &achievements, stats_tracker &st
         new_tab = false;
         if( view.handle_navigation( action, ctxt ) ) {
             // NO FURTHER ACTION REQUIRED
-        } else if( action == "RIGHT" || action == "NEXT_TAB" ) {
-            tab = static_cast<tab_mode>( static_cast<int>( tab ) + 1 );
-            if( tab >= tab_mode::num_tabs ) {
-                tab = tab_mode::first_tab;
-            }
-            new_tab = true;
-        } else if( action == "LEFT" || action == "PREV_TAB" ) {
-            tab = static_cast<tab_mode>( static_cast<int>( tab ) - 1 );
-            if( tab < tab_mode::first_tab ) {
-                tab = static_cast<tab_mode>( static_cast<int>( tab_mode::num_tabs ) - 1 );
-            }
+        } else if( action == "LEFT" || action == "PREV_TAB" || action == "RIGHT" || action == "NEXT_TAB" ) {
+            // necessary to use increment_and_wrap
+            static_assert( static_cast<int>( tab_mode::first_tab ) == 0 );
+            tab = increment_and_wrap( tab, action == "RIGHT" || action == "NEXT_TAB", tab_mode::num_tabs );
             new_tab = true;
         } else if( action == "CONFIRM" || action == "QUIT" ) {
             break;

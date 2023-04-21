@@ -15,7 +15,7 @@
     "id": "pagan_cult_member_rescue",
     "//": "Mission-specific, should not spawn naturally.",
     "name_suffix": "valhallist",
-    "class": "NC_VALHALLIST",
+    "class": "NC_VALHALLIST_MOVE",
     "attitude": 0,
     "mission": 7,
     "chat": "TALK_VALHALLIST_MEMBER_Rescue",
@@ -77,8 +77,31 @@
       { "group": "BG_survival_story_RURAL" },
       { "group": "NPC_starting_traits" },
       { "group": "Appearance_demographics" },
+      { "trait": "NO_BASH" },
       { "trait": "RETURN_TO_START_POS" }
     ],
+    "bonus_str": { "rng": [ 2, 5 ] },
+    "weapon_override": "valhallist_weapons",
+    "worn_override": "valhallist_worn",
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
+      { "skill": "survival", "bonus": { "rng": [ 1, 4 ] } },
+      { "skill": "swimming", "bonus": { "rng": [ 1, 4 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 1, 4 ] } },
+      { "skill": "dodge", "bonus": { "rng": [ 1, 4 ] } },
+      { "skill": "firstaid", "bonus": { "rng": [ 0, 2 ] } },
+      { "skill": "driving", "bonus": { "rng": [ 0, 2 ] } },
+      { "skill": "gun", "bonus": { "rng": [ 0, 2 ] } }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_VALHALLIST_MOVE",
+    "name": { "str": "Valhallist" },
+    "//": "For NPCs that are part of missions and need to go soemwhere.",
+    "job_description": "I worship the Norse gods.",
+    "common": false,
+    "traits": [ { "group": "BG_survival_story_RURAL" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "bonus_str": { "rng": [ 2, 5 ] },
     "weapon_override": "valhallist_weapons",
     "worn_override": "valhallist_worn",
@@ -159,6 +182,7 @@
     "id": "valhallist_worn",
     "subtype": "collection",
     "entries": [
+      { "group": "valhallist_necklace", "prob": 70 },
       { "item": "armguard_metal", "prob": 100 },
       { "item": "boots_steel", "prob": 100 },
       { "item": "helmet_skull", "prob": 100 },
@@ -166,6 +190,15 @@
       { "item": "armor_lamellar", "prob": 100 },
       { "item": "pants", "prob": 100 },
       { "item": "tshirt", "prob": 100 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "valhallist_necklace",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "holy_symbol", "variant": "odin_necklace1", "prob": 50 },
+      { "item": "holy_symbol", "variant": "odin_necklace2", "prob": 50 }
     ]
   },
   {
@@ -191,7 +224,9 @@
       { "group": "tools_common", "count": [ 4, 5 ], "prob": 100 },
       { "group": "tools_workshop", "count": [ 4, 5 ], "prob": 100 },
       { "group": "tools_home", "count": [ 4, 5 ], "prob": 100 },
-      { "item": "hnefatafl", "count": [ 4, 5 ], "prob": 80 }
+      { "item": "hnefatafl", "count": [ 4, 5 ], "prob": 80 },
+      { "item": "holy_symbol", "variant": "odin_necklace1", "prob": 50 },
+      { "item": "holy_symbol", "variant": "odin_necklace2", "prob": 50 }
     ]
   },
   {

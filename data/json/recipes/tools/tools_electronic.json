@@ -31,8 +31,8 @@
       {
         "proficiency": "prof_welding",
         "time_multiplier": 1.1,
-        "fail_multiplier": 1.1,
-        "learning_time_multiplier": 0.25
+        "learning_time_multiplier": 0.25,
+        "skill_penalty": 0.1
       }
     ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
@@ -95,7 +95,7 @@
       [ [ "scrap", 4 ] ],
       [ [ "cable", 2 ] ],
       [ [ "pot", 1 ], [ "pot_copper", 1 ] ],
-      [ [ "motor_micro", 1 ] ],
+      [ [ "motor_tiny", 1 ] ],
       [ [ "e_scrap", 1 ] ]
     ]
   },
@@ -305,7 +305,7 @@
     "components": [
       [ [ "plastic_chunk", 6 ] ],
       [ [ "blade", 2 ] ],
-      [ [ "motor_tiny", 1 ] ],
+      [ [ "motor_micro", 1 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "scrap", 1 ] ],
       [ [ "cable", 5 ] ]
@@ -361,7 +361,7 @@
     "components": [
       [ [ "plastic_chunk", 6 ] ],
       [ [ "chain", 1 ] ],
-      [ [ "motor_micro", 1 ] ],
+      [ [ "motor_tiny", 1 ] ],
       [ [ "metal_tank_little", 1 ] ],
       [ [ "scrap", 2 ] ],
       [ [ "cable", 4 ] ],
@@ -389,7 +389,7 @@
     "components": [
       [ [ "plastic_chunk", 6 ] ],
       [ [ "circsaw_blade", 1 ] ],
-      [ [ "motor_small", 1 ] ],
+      [ [ "motor_tiny", 1 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "scrap", 1 ] ],
       [ [ "cable", 5 ] ]
@@ -409,7 +409,7 @@
     "autolearn": [ [ "electronics", 2 ] ],
     "book_learn": [ [ "manual_electronics", 1 ], [ "advanced_electronics", 2 ], [ "textbook_anarch", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "SCREW", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_elec_soldering", "fail_multiplier": 1.125 }, { "proficiency": "prof_elec_circuits" } ],
+    "proficiencies": [ { "proficiency": "prof_elec_soldering", "skill_penalty": 0.125 }, { "proficiency": "prof_elec_circuits" } ],
     "components": [
       [ [ "e_scrap", 2 ], [ "glowplug", 1 ] ],
       [ [ "copper", 1 ], [ "nail", 1 ], [ "wire", 1 ] ],
@@ -449,33 +449,6 @@
         [ "knife_butter", 6 ],
         [ "muffler", 1 ]
       ],
-      [ [ "cable", 10 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
-    "result": "mess_kit",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_TOOLS",
-    "skill_used": "fabrication",
-    "skills_required": [ [ "electronics", 3 ], [ "survival", 3 ] ],
-    "difficulty": 4,
-    "time": "1 h",
-    "decomp_learn": 4,
-    "book_learn": [ [ "textbook_survival", 3 ], [ "advanced_electronics", 3 ], [ "manual_electronics", 3 ] ],
-    "using": [ [ "soldering_standard", 10 ], [ "blacksmithing_standard", 10 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "proficiencies": [
-      { "proficiency": "prof_plasticworking", "time_multiplier": 1.5 },
-      { "proficiency": "prof_elec_soldering" },
-      { "proficiency": "prof_elec_circuits" }
-    ],
-    "components": [
-      [ [ "element", 3 ], [ "crude_heating_element", 3 ] ],
-      [ [ "amplifier", 1 ] ],
-      [ [ "steel_chunk", 3 ], [ "scrap", 9 ] ],
-      [ [ "plastic_chunk", 2 ] ],
       [ [ "cable", 10 ] ]
     ]
   },
@@ -676,7 +649,7 @@
     ],
     "using": [ [ "welding_standard", 10 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "components": [ [ [ "motor_small", 1 ] ], [ [ "cable", 12 ] ], [ [ "chain", 1 ] ], [ [ "scrap", 3 ] ] ]
+    "components": [ [ [ "motor_tiny", 1 ] ], [ [ "cable", 12 ] ], [ [ "chain", 1 ] ], [ [ "scrap", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -822,7 +795,6 @@
     "components": [
       [ [ "superglue", 4 ], [ "bone_glue", 4 ] ],
       [ [ "antenna", 1 ] ],
-      [ [ "motor_tiny", 1 ] ],
       [ [ "motor_micro", 2 ] ],
       [ [ "amplifier", 2 ] ],
       [ [ "receiver", 1 ] ],

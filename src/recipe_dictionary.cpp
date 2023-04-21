@@ -205,17 +205,14 @@ std::vector<const recipe *> recipe_subset::search(
                 return search_reqs( r->simple_requirements().get_qualities(), txt );
 
             case search_type::quality_result: {
-                const auto &quals = item::find_type( r->result() )->qualities;
-                return std::any_of( quals.begin(), quals.end(), [&]( const std::pair<quality_id, int> &e ) {
-                    return lcmatch( e.first->name, txt );
-                } );
+                return item::find_type( r->result() )->has_any_quality( txt );
             }
 
             case search_type::description_result: {
                 if( r->is_practice() ) {
                     return lcmatch( r->description.translated(), txt );
                 } else {
-                    const item result = r->create_result();
+                    const item result( r->result() );
                     return lcmatch( remove_color_tags( result.info( true ) ), txt );
                 }
             }
@@ -268,9 +265,7 @@ std::vector<const recipe *> recipe_subset::search(
                 }
 
                 if( use_range && start > end ) {
-                    int swap = start;
-                    start = end;
-                    end = swap;
+                    std::swap( start, end );
                 }
 
                 if( use_range ) {
@@ -323,21 +318,22 @@ recipe_subset recipe_subset::intersection( const recipe_subset &subset ) const
 }
 recipe_subset recipe_subset::difference( const recipe_subset &subset ) const
 {
+    return difference( subset.recipes );
+}
+recipe_subset recipe_subset::difference( const std::set<const recipe *> &recipe_set ) const
+{
     std::vector<const recipe *> difference_result;
-    std::set_difference( this->begin(), this->end(), subset.begin(), subset.end(),
+    std::set_difference( this->begin(), this->end(), recipe_set.begin(), recipe_set.end(),
                          std::back_inserter( difference_result ) );
     return recipe_subset( *this, difference_result );
 }
 
-std::vector<const recipe *> recipe_subset::search_result( const itype_id &item ) const
+std::vector<const recipe *> recipe_subset::recipes_that_produce( const itype_id &item ) const
 {
     std::vector<const recipe *> res;
 
     std::copy_if( recipes.begin(), recipes.end(), std::back_inserter( res ), [&]( const recipe * r ) {
-        if( r->obsolete ) {
-            return false;
-        }
-        return item == r->result() || r->in_byproducts( item );
+        return !r->obsolete && ( item == r->result() || r->in_byproducts( item ) );
     } );
 
     return res;
@@ -428,7 +424,7 @@ recipe &recipe_dictionary::load( const JsonObject &jo, const std::string &src,
 
     // defer entries dependent upon as-yet unparsed definitions
     if( jo.has_string( "copy-from" ) ) {
-        auto base = recipe_id( jo.get_string( "copy-from" ) );
+        recipe_id base = recipe_id( jo.get_string( "copy-from" ) );
         if( !out.count( base ) ) {
             deferred.emplace_back( jo, src );
             jo.allow_omitted_members();

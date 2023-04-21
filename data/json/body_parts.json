@@ -14,7 +14,6 @@
     "limb_type": "torso",
     "limb_scores": [ [ "balance", 0.7 ] ],
     "encumbrance_threshold": 6,
-    "encumb_impacts_dodge": true,
     "is_vital": true,
     "hit_size": 36,
     "hit_difficulty": 1,
@@ -29,6 +28,84 @@
     "drench_capacity": 4000,
     "smash_message": "You smash the %s with a powerful shoulder-check.",
     "bionic_slots": 80,
+    "bmi_encumbrance_threshold": 9,
+    "bmi_encumbrance_scalar": 0.8,
+    "effects_on_hit": [
+      {
+        "id": "bleed",
+        "dmg_type": "cut",
+        "dmg_threshold": 3,
+        "dmg_scale_increment": 2,
+        "duration": 60,
+        "duration_dmg_scaling": 45,
+        "max_duration": 1800
+      },
+      {
+        "id": "bleed",
+        "dmg_type": "stab",
+        "dmg_threshold": 1,
+        "dmg_scale_increment": 1.5,
+        "duration": 60,
+        "duration_dmg_scaling": 60
+      },
+      {
+        "id": "bleed",
+        "dmg_type": "bullet",
+        "dmg_threshold": 1,
+        "dmg_scale_increment": 1,
+        "duration": 60,
+        "duration_dmg_scaling": 60
+      },
+      {
+        "id": "winded",
+        "dmg_type": "bash",
+        "dmg_threshold": 10,
+        "dmg_scale_increment": 5,
+        "chance": 10,
+        "chance_dmg_scaling": 2,
+        "max_duration": 15
+      },
+      {
+        "id": "staggered_character",
+        "dmg_type": "bash",
+        "dmg_threshold": 5,
+        "dmg_scale_increment": 5,
+        "chance": 20,
+        "chance_dmg_scaling": 10,
+        "duration": 5,
+        "duration_dmg_scaling": 2,
+        "max_duration": 15
+      },
+      {
+        "id": "staggered_character",
+        "dmg_threshold": 15,
+        "dmg_scale_increment": 5,
+        "chance": 20,
+        "chance_dmg_scaling": 10,
+        "duration": 5,
+        "duration_dmg_scaling": 2,
+        "max_duration": 15
+      },
+      {
+        "id": "downed",
+        "dmg_type": "bash",
+        "dmg_threshold": 15,
+        "dmg_scale_increment": 10,
+        "chance": 5,
+        "chance_dmg_scaling": 20,
+        "duration": 2,
+        "duration_dmg_scaling": 0.5
+      },
+      {
+        "id": "downed",
+        "dmg_threshold": 25,
+        "dmg_scale_increment": 10,
+        "chance": 5,
+        "chance_dmg_scaling": 20,
+        "duration": 2,
+        "duration_dmg_scaling": 0.5
+      }
+    ],
     "sub_parts": [ "torso_upper", "torso_neck", "torso_lower", "torso_hanging_front", "torso_hanging_back", "torso_waist" ]
   },
   {
@@ -72,6 +149,55 @@
       { "weight": "2200 g", "encumbrance": 50 },
       { "weight": "5600 g", "encumbrance": 80 },
       { "weight": "10000 g", "encumbrance": 160 }
+    ],
+    "effects_on_hit": [
+      {
+        "id": "bleed",
+        "dmg_type": "cut",
+        "dmg_threshold": 5,
+        "dmg_scale_increment": 2,
+        "duration": 60,
+        "duration_dmg_scaling": 30,
+        "max_duration": 960
+      },
+      {
+        "id": "bleed",
+        "dmg_type": "stab",
+        "dmg_threshold": 1,
+        "dmg_scale_increment": 1.5,
+        "duration": 60,
+        "duration_dmg_scaling": 60,
+        "max_duration": 1200
+      },
+      {
+        "id": "bleed",
+        "dmg_type": "bullet",
+        "dmg_threshold": 1,
+        "dmg_scale_increment": 1,
+        "duration": 60,
+        "duration_dmg_scaling": 60
+      },
+      {
+        "id": "stunned",
+        "dmg_type": "bash",
+        "dmg_threshold": 10,
+        "dmg_scale_increment": 5,
+        "chance": 10,
+        "chance_dmg_scaling": 10,
+        "duration": 1,
+        "duration_dmg_scaling": 0.5,
+        "max_duration": 4
+      },
+      {
+        "id": "stunned",
+        "dmg_threshold": 30,
+        "dmg_scale_increment": 10,
+        "chance": 10,
+        "chance_dmg_scaling": 10,
+        "duration": 1,
+        "duration_dmg_scaling": 0.5,
+        "max_duration": 4
+      }
     ]
   },
   {
@@ -99,7 +225,18 @@
     "smash_message": "You use your flippin' face to smash the %s.  EXTREME.",
     "smash_efficiency": 0.25,
     "bionic_slots": 4,
-    "sub_parts": [ "eyes_left", "eyes_right" ]
+    "sub_parts": [ "eyes_left", "eyes_right" ],
+    "effects_on_hit": [
+      {
+        "id": "blind",
+        "dmg_threshold": 3,
+        "dmg_scale_increment": 3,
+        "chance": 50,
+        "chance_dmg_scaling": 5,
+        "duration": 1,
+        "duration_dmg_scaling": 0.5
+      }
+    ]
   },
   {
     "id": "mouth",
@@ -127,7 +264,9 @@
     "smash_efficiency": 0.25,
     "bionic_slots": 4,
     "flags": [ "LIMB_UPPER" ],
-    "sub_parts": [ "mouth_lips", "mouth_nose", "mouth_cheeks", "mouth_chin" ]
+    "sub_parts": [ "mouth_lips", "mouth_nose", "mouth_cheeks", "mouth_chin" ],
+    "bmi_encumbrance_threshold": 10,
+    "bmi_encumbrance_scalar": 0.75
   },
   {
     "id": "arm_l",
@@ -160,6 +299,58 @@
     "drench_capacity": 1000,
     "smash_message": "You elbow-smash the %s.",
     "bionic_slots": 20,
+    "bmi_encumbrance_threshold": 9,
+    "bmi_encumbrance_scalar": 0.6,
+    "effects_on_hit": [
+      {
+        "id": "bleed",
+        "dmg_type": "cut",
+        "dmg_threshold": 5,
+        "dmg_scale_increment": 2,
+        "duration": 60,
+        "duration_dmg_scaling": 30,
+        "max_duration": 1500
+      },
+      {
+        "id": "bleed",
+        "dmg_type": "stab",
+        "dmg_threshold": 3,
+        "dmg_scale_increment": 2,
+        "duration": 60,
+        "duration_dmg_scaling": 60,
+        "max_duration": 1800
+      },
+      {
+        "id": "bleed",
+        "dmg_type": "bullet",
+        "dmg_threshold": 3,
+        "dmg_scale_increment": 1,
+        "duration": 60,
+        "duration_dmg_scaling": 60,
+        "max_duration": 1800
+      },
+      {
+        "id": "staggered_character",
+        "dmg_type": "bash",
+        "dmg_threshold": 5,
+        "dmg_scale_increment": 5,
+        "chance": 20,
+        "chance_dmg_scaling": 10,
+        "duration": 5,
+        "duration_dmg_scaling": 2,
+        "max_duration": 15
+      },
+      {
+        "id": "staggered_character",
+        "dmg_threshold": 10,
+        "dmg_scale_increment": 5,
+        "chance": 20,
+        "chance_dmg_scaling": 10,
+        "duration": 5,
+        "duration_dmg_scaling": 2,
+        "max_duration": 15
+      }
+    ],
     "sub_parts": [ "arm_shoulder_l", "arm_upper_l", "arm_elbow_l", "arm_lower_l" ]
   },
   {
@@ -192,6 +383,58 @@
     "drench_capacity": 1000,
     "smash_message": "You elbow-smash the %s.",
     "bionic_slots": 20,
+    "bmi_encumbrance_threshold": 9,
+    "bmi_encumbrance_scalar": 0.6,
+    "effects_on_hit": [
+      {
+        "id": "bleed",
+        "dmg_type": "cut",
+        "dmg_threshold": 5,
+        "dmg_scale_increment": 2,
+        "duration": 60,
+        "duration_dmg_scaling": 30,
+        "max_duration": 1500
+      },
+      {
+        "id": "bleed",
+        "dmg_type": "stab",
+        "dmg_threshold": 3,
+        "dmg_scale_increment": 2,
+        "duration": 60,
+        "duration_dmg_scaling": 60,
+        "max_duration": 1800
+      },
+      {
+        "id": "bleed",
+        "dmg_type": "bullet",
+        "dmg_threshold": 3,
+        "dmg_scale_increment": 1,
+        "duration": 60,
+        "duration_dmg_scaling": 60,
+        "max_duration": 1800
+      },
+      {
+        "id": "staggered_character",
+        "dmg_type": "bash",
+        "dmg_threshold": 5,
+        "dmg_scale_increment": 5,
+        "chance": 20,
+        "chance_dmg_scaling": 10,
+        "duration": 5,
+        "duration_dmg_scaling": 2,
+        "max_duration": 15
+      },
+      {
+        "id": "staggered_character",
+        "dmg_threshold": 10,
+        "dmg_scale_increment": 5,
+        "chance": 20,
+        "chance_dmg_scaling": 10,
+        "duration": 5,
+        "duration_dmg_scaling": 2,
+        "max_duration": 15
+      }
+    ],
     "sub_parts": [ "arm_shoulder_r", "arm_upper_r", "arm_elbow_r", "arm_lower_r" ]
   },
   {
@@ -221,7 +464,9 @@
     "drench_capacity": 300,
     "smash_message": "You smash the %s with your fist.",
     "bionic_slots": 5,
-    "sub_parts": [ "hand_wrist_l", "hand_palm_l", "hand_back_l", "hand_fingers_l" ]
+    "sub_parts": [ "hand_wrist_l", "hand_palm_l", "hand_back_l", "hand_fingers_l" ],
+    "bmi_encumbrance_threshold": 20,
+    "bmi_encumbrance_scalar": 0.15
   },
   {
     "id": "hand_r",
@@ -250,7 +495,9 @@
     "drench_capacity": 300,
     "smash_message": "You smash the %s with your fist.",
     "bionic_slots": 5,
-    "sub_parts": [ "hand_wrist_r", "hand_palm_r", "hand_back_r", "hand_fingers_r" ]
+    "sub_parts": [ "hand_wrist_r", "hand_palm_r", "hand_back_r", "hand_fingers_r" ],
+    "bmi_encumbrance_threshold": 20,
+    "bmi_encumbrance_scalar": 0.15
   },
   {
     "id": "leg_l",
@@ -271,7 +518,6 @@
     "hit_difficulty": 0.9,
     "limb_type": "leg",
     "limb_scores": [ [ "manip", 0.1, 0.2 ], [ "move_speed", 0.5 ], [ "swim", 0.15 ], [ "block", 1 ], [ "crawl", 0.2 ] ],
-    "encumb_impacts_dodge": true,
     "side": "left",
     "legacy_id": "LEG_L",
     "stylish_bonus": 1,
@@ -284,8 +530,67 @@
     "drench_capacity": 1100,
     "smash_message": "You bring your knee down on the %s, smashing it.",
     "bionic_slots": 30,
+    "effects_on_hit": [
+      {
+        "id": "bleed",
+        "dmg_type": "cut",
+        "dmg_threshold": 5,
+        "dmg_scale_increment": 2.5,
+        "duration": 60,
+        "duration_dmg_scaling": 45,
+        "max_duration": 1800
+      },
+      {
+        "id": "bleed",
+        "dmg_type": "stab",
+        "dmg_threshold": 3,
+        "dmg_scale_increment": 2,
+        "duration": 60,
+        "duration_dmg_scaling": 60,
+        "max_duration": 1800
+      },
+      {
+        "id": "bleed",
+        "dmg_type": "bullet",
+        "dmg_threshold": 3,
+        "dmg_scale_increment": 2,
+        "duration": 60,
+        "duration_dmg_scaling": 60,
+        "max_duration": 1800
+      },
+      {
+        "id": "bouldering",
+        "dmg_threshold": 5,
+        "dmg_scale_increment": 3,
+        "chance": 20,
+        "chance_dmg_scaling": 2,
+        "duration": 3,
+        "max_duration": 15
+      },
+      {
+        "id": "downed",
+        "dmg_type": "bash",
+        "dmg_threshold": 10,
+        "dmg_scale_increment": 10,
+        "chance": 5,
+        "chance_dmg_scaling": 15,
+        "duration": 1,
+        "duration_dmg_scaling": 0.5
+      },
+      {
+        "id": "downed",
+        "dmg_threshold": 25,
+        "dmg_scale_increment": 10,
+        "chance": 15,
+        "chance_dmg_scaling": 15,
+        "duration": 1,
+        "duration_dmg_scaling": 0.5
+      }
+    ],
     "sub_parts": [ "leg_hip_l", "leg_upper_l", "leg_knee_l", "leg_lower_l", "leg_draped_l" ],
-    "flags": [ "LIMB_LOWER" ]
+    "flags": [ "LIMB_LOWER" ],
+    "bmi_encumbrance_threshold": 9,
+    "bmi_encumbrance_scalar": 0.7
   },
   {
     "id": "leg_r",
@@ -306,7 +611,6 @@
     "hit_difficulty": 0.9,
     "limb_type": "leg",
     "limb_scores": [ [ "manip", 0.1, 0.2 ], [ "move_speed", 0.5 ], [ "swim", 0.15 ], [ "block", 1 ], [ "crawl", 0.2 ] ],
-    "encumb_impacts_dodge": true,
     "side": "right",
     "legacy_id": "LEG_R",
     "stylish_bonus": 1,
@@ -320,6 +624,65 @@
     "smash_message": "You bring your knee down on the %s, smashing it.",
     "bionic_slots": 30,
     "sub_parts": [ "leg_hip_r", "leg_upper_r", "leg_knee_r", "leg_lower_r", "leg_draped_r" ],
+    "bmi_encumbrance_threshold": 9,
+    "bmi_encumbrance_scalar": 0.7,
+    "effects_on_hit": [
+      {
+        "id": "bleed",
+        "dmg_type": "cut",
+        "dmg_threshold": 5,
+        "dmg_scale_increment": 2.5,
+        "duration": 60,
+        "duration_dmg_scaling": 45,
+        "max_duration": 1800
+      },
+      {
+        "id": "bleed",
+        "dmg_type": "stab",
+        "dmg_threshold": 3,
+        "dmg_scale_increment": 2,
+        "duration": 60,
+        "duration_dmg_scaling": 60,
+        "max_duration": 1800
+      },
+      {
+        "id": "bleed",
+        "dmg_type": "bullet",
+        "dmg_threshold": 3,
+        "dmg_scale_increment": 2,
+        "duration": 60,
+        "duration_dmg_scaling": 60,
+        "max_duration": 1800
+      },
+      {
+        "id": "bouldering",
+        "dmg_threshold": 5,
+        "dmg_scale_increment": 3,
+        "chance": 20,
+        "chance_dmg_scaling": 2,
+        "duration": 3,
+        "max_duration": 15
+      },
+      {
+        "id": "downed",
+        "dmg_type": "bash",
+        "dmg_threshold": 10,
+        "dmg_scale_increment": 10,
+        "chance": 5,
+        "chance_dmg_scaling": 15,
+        "duration": 1,
+        "duration_dmg_scaling": 0.5
+      },
+      {
+        "id": "downed",
+        "dmg_threshold": 25,
+        "dmg_scale_increment": 10,
+        "chance": 15,
+        "chance_dmg_scaling": 15,
+        "duration": 1,
+        "duration_dmg_scaling": 0.5
+      }
+    ],
     "flags": [ "LIMB_LOWER" ]
   },
   {
@@ -351,7 +714,9 @@
     "smash_message": "You kick down the %s, smashing it.",
     "bionic_slots": 7,
     "sub_parts": [ "foot_sole_l", "foot_arch_l", "foot_toes_l", "foot_ankle_l", "foot_heel_l" ],
-    "flags": [ "LIMB_LOWER" ]
+    "flags": [ "LIMB_LOWER" ],
+    "bmi_encumbrance_threshold": 20,
+    "bmi_encumbrance_scalar": 0.15
   },
   {
     "id": "foot_r",
@@ -382,7 +747,9 @@
     "smash_message": "You kick down the %s, smashing it.",
     "bionic_slots": 7,
     "sub_parts": [ "foot_sole_r", "foot_arch_r", "foot_toes_r", "foot_ankle_r", "foot_heel_r" ],
-    "flags": [ "LIMB_LOWER" ]
+    "flags": [ "LIMB_LOWER" ],
+    "bmi_encumbrance_threshold": 20,
+    "bmi_encumbrance_scalar": 0.15
   },
   {
     "id": "debug_tail",
@@ -411,7 +778,9 @@
     "unarmed_damage": [ { "damage_type": "acid", "amount": 10 }, { "damage_type": "bullet", "amount": 5, "armor_penetration": 100 } ],
     "techniques": [ "tec_dbg_sting" ],
     "temp_mod": [ 500, 500 ],
-    "technique_encumbrance_limit": 10
+    "technique_encumbrance_limit": 10,
+    "bmi_encumbrance_threshold": 15,
+    "bmi_encumbrance_scalar": 0.5
   },
   {
     "id": "sub_limb_debug",

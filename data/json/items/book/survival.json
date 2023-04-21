@@ -51,7 +51,7 @@
     "type": "BOOK",
     "category": "manuals",
     "name": { "str": "Alpha Male Quarterly", "str_pl": "Alpha Male Quarterlies" },
-    "description": "This is a full-size glossy men's magazine.  There's a brief article about hiking and a list of simple wilderness survival tips somewhere in between the photos of bikini-clad women and the gadget advertisements.",
+    "description": "A full-size glossy men's magazine.  There's a brief article about hiking and a list of simple wilderness survival tips somewhere in between the photos of bikini-clad women and the gadget advertisements.",
     "weight": "180 g",
     "volume": "500 ml",
     "price": 450,

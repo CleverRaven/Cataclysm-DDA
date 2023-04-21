@@ -9,6 +9,7 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <utility>
@@ -56,7 +57,6 @@
 #include "move_mode.h"
 #include "mutation.h"
 #include "npc.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
@@ -108,6 +108,7 @@ static const itype_id itype_guidebook( "guidebook" );
 static const itype_id itype_mut_longpull( "mut_longpull" );
 
 static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
+static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const json_character_flag json_flag_WEBBED_HANDS( "WEBBED_HANDS" );
 
 static const move_mode_id move_mode_crouch( "crouch" );
@@ -129,7 +130,6 @@ static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
 static const trait_id trait_INSECT_ARMS( "INSECT_ARMS" );
 static const trait_id trait_INSECT_ARMS_OK( "INSECT_ARMS_OK" );
 static const trait_id trait_M_SKIN3( "M_SKIN3" );
-static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SHELL3( "SHELL3" );
@@ -166,7 +166,7 @@ static void swap_npc( npc &one, npc &two, npc &tmp )
     two = std::move( tmp );
 }
 
-void avatar::control_npc( npc &np )
+void avatar::control_npc( npc &np, const bool debug )
 {
     if( !np.is_player_ally() ) {
         debugmsg( "control_npc() called on non-allied npc %s", np.name );
@@ -202,9 +202,13 @@ void avatar::control_npc( npc &np )
     const bool z_level_changed = g->vertical_shift( posz() );
     g->update_map( *this, z_level_changed );
     character_mood_face( true );
+
+    profession_id prof_id = prof ? prof->ident() : profession::generic()->ident();
+    get_event_bus().send<event_type::game_avatar_new>( /*is_new_game=*/false, debug,
+            getID(), name, male, prof_id, custom_profession );
 }
 
-void avatar::control_npc_menu()
+void avatar::control_npc_menu( const bool debug )
 {
     std::vector<shared_ptr_fast<npc>> followers;
     uilist charmenu;
@@ -217,6 +221,7 @@ void avatar::control_npc_menu()
         }
     }
     if( followers.empty() ) {
+        popup( _( "There's no one to take control of!" ) );
         return;
     }
     charmenu.w_y_setup = 0;
@@ -224,7 +229,7 @@ void avatar::control_npc_menu()
     if( charmenu.ret < 0 || static_cast<size_t>( charmenu.ret ) >= followers.size() ) {
         return;
     }
-    get_avatar().control_npc( *followers[charmenu.ret] );
+    get_avatar().control_npc( *followers[charmenu.ret], debug );
 }
 
 void avatar::longpull( const std::string &name )
@@ -928,28 +933,6 @@ void avatar::disp_morale()
     morale->display( equilibrium, pain_penalty, fatigue_penalty );
 }
 
-int avatar::limb_dodge_encumbrance() const
-{
-    std::map<body_part_type::type, std::vector<bodypart_id>> bps;
-    for( const auto &bp : body ) {
-        if( bp.first->encumb_impacts_dodge ) {
-            bps[bp.first->primary_limb_type()].emplace_back( bp.first );
-        }
-    }
-
-    float total = 0.0f;
-    for( auto &bp : bps ) {
-        float sub_total = 0.0f;
-        for( auto &b : bp.second ) {
-            sub_total += encumb( b );
-        }
-        sub_total /= bp.second.size() * 10.0f;
-        total += sub_total;
-    }
-
-    return std::floor( total );
-}
-
 void avatar::reset_stats()
 {
     const int current_stim = get_stim();
@@ -1032,14 +1015,16 @@ void avatar::reset_stats()
         set_fake_effect_dur( effect_stim_overdose, 1_turns * ( current_stim - 30 ) );
     }
     // Starvation
-    const float bmi = get_bmi();
-    if( bmi < character_weight_category::underweight ) {
-        const int str_penalty = std::floor( ( 1.0f - ( bmi - 13.0f ) / 3.0f ) * get_str_base() );
+    const float bmi = get_bmi_fat();
+    if( bmi < character_weight_category::normal ) {
+        const int str_penalty = std::floor( ( 1.0f - ( get_bmi_fat() /
+                                              character_weight_category::normal ) ) * str_max );
+        const int dexint_penalty = std::floor( ( character_weight_category::normal - bmi ) * 3.0f );
         add_miss_reason( _( "You're weak from hunger." ),
                          static_cast<unsigned>( ( get_starvation() + 300 ) / 1000 ) );
-        mod_str_bonus( -str_penalty );
-        mod_dex_bonus( -( str_penalty / 2 ) );
-        mod_int_bonus( -( str_penalty / 2 ) );
+        mod_str_bonus( -1 * str_penalty );
+        mod_dex_bonus( -1 * dexint_penalty );
+        mod_int_bonus( -1 * dexint_penalty );
     }
     // Thirst
     if( get_thirst() >= 200 ) {
@@ -1058,7 +1043,7 @@ void avatar::reset_stats()
     }
 
     // Dodge-related effects
-    mod_dodge_bonus( mabuff_dodge_bonus() - limb_dodge_encumbrance() );
+    mod_dodge_bonus( mabuff_dodge_bonus() );
     // Whiskers don't work so well if they're covered
     if( has_trait( trait_WHISKERS ) && !natural_attack_restricted_on( bodypart_id( "mouth" ) ) ) {
         mod_dodge_bonus( 1 );
@@ -1808,7 +1793,7 @@ void avatar::reassign_item( item &it, int invlet )
 
 void avatar::add_pain_msg( int val, const bodypart_id &bp ) const
 {
-    if( has_trait( trait_NOPAIN ) ) {
+    if( has_flag( json_flag_PAIN_IMMUNE ) ) {
         return;
     }
     if( bp == bodypart_id( "bp_null" ) ) {

@@ -38,7 +38,7 @@ static TraitSet trait_blacklist;
 static TraitGroupMap trait_groups;
 
 static std::map<trait_id, trait_replacement> trait_migrations;
-static trait_replacement trait_migration_remove{ cata::nullopt, cata::nullopt, true };
+static trait_replacement trait_migration_remove{ std::nullopt, std::nullopt, true };
 
 namespace
 {
@@ -110,6 +110,9 @@ void mutation_category_trait::load( const JsonObject &jsobj )
     optional( jsobj, false, "memorial_message", new_category.raw_memorial_message,
               text_style_check_reader(), "Crossed a threshold" );
     new_category.vitamin = vitamin_id( jsobj.get_string( "vitamin", "null" ) );
+    optional( jsobj, false, "threshold_min", new_category.threshold_min, 2200 );
+    optional( jsobj, false, "base_removal_chance", new_category.base_removal_chance, 100 );
+    optional( jsobj, false, "base_removal_cost_mul", new_category.base_removal_cost_mul, 3.0f );
 
     mutation_category_traits[new_category.id] = new_category;
 }
@@ -237,7 +240,7 @@ bool mut_transform::load( const JsonObject &jsobj, const std::string &member )
 
 void reflex_activation_data::load( const JsonObject &jsobj )
 {
-    read_condition<dialogue>( jsobj, "condition", trigger, false );
+    read_condition( jsobj, "condition", trigger, false );
     if( jsobj.has_object( "msg_on" ) ) {
         JsonObject jo = jsobj.get_object( "msg_on" );
         optional( jo, was_loaded, "text", msg_on.first );
@@ -305,7 +308,7 @@ void mutation_variant::deserialize( const JsonObject &jo )
     load( jo );
 }
 
-void mutation_branch::load( const JsonObject &jo, const std::string & )
+void mutation_branch::load( const JsonObject &jo, const std::string &src )
 {
     mandatory( jo, was_loaded, "name", raw_name );
     mandatory( jo, was_loaded, "description", raw_desc );
@@ -383,47 +386,48 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
         vitamin_absorb_multi.emplace( material_id( pair.get_string( 0 ) ), vit );
     }
 
-    optional( jo, was_loaded, "healing_awake", healing_awake, cata::nullopt );
-    optional( jo, was_loaded, "healing_resting", healing_resting, cata::nullopt );
-    optional( jo, was_loaded, "mending_modifier", mending_modifier, cata::nullopt );
-    optional( jo, was_loaded, "hp_modifier", hp_modifier, cata::nullopt );
-    optional( jo, was_loaded, "hp_modifier_secondary", hp_modifier_secondary, cata::nullopt );
-    optional( jo, was_loaded, "hp_adjustment", hp_adjustment, cata::nullopt );
-    optional( jo, was_loaded, "stealth_modifier", stealth_modifier, cata::nullopt );
-    optional( jo, was_loaded, "str_modifier", str_modifier, cata::nullopt );
+    optional( jo, was_loaded, "healing_awake", healing_awake, std::nullopt );
+    optional( jo, was_loaded, "pain_modifier", pain_modifier, std::nullopt );
+    optional( jo, was_loaded, "healing_multiplier", healing_multiplier, std::nullopt );
+    optional( jo, was_loaded, "mending_modifier", mending_modifier, std::nullopt );
+    optional( jo, was_loaded, "hp_modifier", hp_modifier, std::nullopt );
+    optional( jo, was_loaded, "hp_modifier_secondary", hp_modifier_secondary, std::nullopt );
+    optional( jo, was_loaded, "hp_adjustment", hp_adjustment, std::nullopt );
+    optional( jo, was_loaded, "stealth_modifier", stealth_modifier, std::nullopt );
+    optional( jo, was_loaded, "str_modifier", str_modifier, std::nullopt );
     optional( jo, was_loaded, "cut_dmg_bonus", cut_dmg_bonus, 0 );
     optional( jo, was_loaded, "pierce_dmg_bonus", pierce_dmg_bonus, 0.0f );
     optional( jo, was_loaded, "bash_dmg_bonus", bash_dmg_bonus, 0 );
-    optional( jo, was_loaded, "dodge_modifier", dodge_modifier, cata::nullopt );
-    optional( jo, was_loaded, "movecost_modifier", movecost_modifier, cata::nullopt );
+    optional( jo, was_loaded, "dodge_modifier", dodge_modifier, std::nullopt );
+    optional( jo, was_loaded, "movecost_modifier", movecost_modifier, std::nullopt );
     optional( jo, was_loaded, "movecost_flatground_modifier", movecost_flatground_modifier,
-              cata::nullopt );
-    optional( jo, was_loaded, "movecost_obstacle_modifier", movecost_obstacle_modifier, cata::nullopt );
-    optional( jo, was_loaded, "movecost_swim_modifier", movecost_swim_modifier, cata::nullopt );
-    optional( jo, was_loaded, "attackcost_modifier", attackcost_modifier, cata::nullopt );
-    optional( jo, was_loaded, "cardio_multiplier", cardio_multiplier, cata::nullopt );
-    optional( jo, was_loaded, "weight_capacity_modifier", weight_capacity_modifier, cata::nullopt );
-    optional( jo, was_loaded, "hearing_modifier", hearing_modifier, cata::nullopt );
-    optional( jo, was_loaded, "noise_modifier", noise_modifier, cata::nullopt );
-    optional( jo, was_loaded, "temperature_speed_modifier", temperature_speed_modifier, cata::nullopt );
-    optional( jo, was_loaded, "metabolism_modifier", metabolism_modifier, cata::nullopt );
-    optional( jo, was_loaded, "thirst_modifier", thirst_modifier, cata::nullopt );
-    optional( jo, was_loaded, "fatigue_modifier", fatigue_modifier, cata::nullopt );
-    optional( jo, was_loaded, "fatigue_regen_modifier", fatigue_regen_modifier, cata::nullopt );
-    optional( jo, was_loaded, "stamina_regen_modifier", stamina_regen_modifier, cata::nullopt );
-    optional( jo, was_loaded, "obtain_cost_multiplier", obtain_cost_multiplier, cata::nullopt );
-    optional( jo, was_loaded, "stomach_size_multiplier", stomach_size_multiplier, cata::nullopt );
-    optional( jo, was_loaded, "vomit_multiplier", vomit_multiplier, cata::nullopt );
-    optional( jo, was_loaded, "sweat_multiplier", sweat_multiplier, cata::nullopt );
-    optional( jo, was_loaded, "overmap_sight", overmap_sight, cata::nullopt );
-    optional( jo, was_loaded, "overmap_multiplier", overmap_multiplier, cata::nullopt );
-    optional( jo, was_loaded, "reading_speed_multiplier", reading_speed_multiplier, cata::nullopt );
-    optional( jo, was_loaded, "skill_rust_multiplier", skill_rust_multiplier, cata::nullopt );
-    optional( jo, was_loaded, "consume_time_modifier", consume_time_modifier, cata::nullopt );
+              std::nullopt );
+    optional( jo, was_loaded, "movecost_obstacle_modifier", movecost_obstacle_modifier, std::nullopt );
+    optional( jo, was_loaded, "movecost_swim_modifier", movecost_swim_modifier, std::nullopt );
+    optional( jo, was_loaded, "attackcost_modifier", attackcost_modifier, std::nullopt );
+    optional( jo, was_loaded, "cardio_multiplier", cardio_multiplier, std::nullopt );
+    optional( jo, was_loaded, "weight_capacity_modifier", weight_capacity_modifier, std::nullopt );
+    optional( jo, was_loaded, "hearing_modifier", hearing_modifier, std::nullopt );
+    optional( jo, was_loaded, "noise_modifier", noise_modifier, std::nullopt );
+    optional( jo, was_loaded, "temperature_speed_modifier", temperature_speed_modifier, std::nullopt );
+    optional( jo, was_loaded, "metabolism_modifier", metabolism_modifier, std::nullopt );
+    optional( jo, was_loaded, "thirst_modifier", thirst_modifier, std::nullopt );
+    optional( jo, was_loaded, "fatigue_modifier", fatigue_modifier, std::nullopt );
+    optional( jo, was_loaded, "fatigue_regen_modifier", fatigue_regen_modifier, std::nullopt );
+    optional( jo, was_loaded, "stamina_regen_modifier", stamina_regen_modifier, std::nullopt );
+    optional( jo, was_loaded, "obtain_cost_multiplier", obtain_cost_multiplier, std::nullopt );
+    optional( jo, was_loaded, "stomach_size_multiplier", stomach_size_multiplier, std::nullopt );
+    optional( jo, was_loaded, "vomit_multiplier", vomit_multiplier, std::nullopt );
+    optional( jo, was_loaded, "sweat_multiplier", sweat_multiplier, std::nullopt );
+    optional( jo, was_loaded, "overmap_sight", overmap_sight, std::nullopt );
+    optional( jo, was_loaded, "overmap_multiplier", overmap_multiplier, std::nullopt );
+    optional( jo, was_loaded, "reading_speed_multiplier", reading_speed_multiplier, std::nullopt );
+    optional( jo, was_loaded, "skill_rust_multiplier", skill_rust_multiplier, std::nullopt );
+    optional( jo, was_loaded, "consume_time_modifier", consume_time_modifier, std::nullopt );
     optional( jo, was_loaded, "scent_modifier", scent_modifier, 1.0f );
-    optional( jo, was_loaded, "scent_intensity", scent_intensity, cata::nullopt );
-    optional( jo, was_loaded, "scent_mask", scent_mask, cata::nullopt );
-    optional( jo, was_loaded, "scent_type", scent_typeid, cata::nullopt );
+    optional( jo, was_loaded, "scent_intensity", scent_intensity, std::nullopt );
+    optional( jo, was_loaded, "scent_mask", scent_mask, std::nullopt );
+    optional( jo, was_loaded, "scent_type", scent_typeid, std::nullopt );
     optional( jo, was_loaded, "healthy_rate", healthy_rate, 1.0f );
     optional( jo, was_loaded, "fat_to_max_hp", fat_to_max_hp, 0.0f );
     optional( jo, was_loaded, "weakness_to_water", weakness_to_water, 0 );
@@ -436,11 +440,11 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
 
     optional( jo, was_loaded, "allowed_category", allowed_category );
     optional( jo, was_loaded, "crafting_speed_multiplier", crafting_speed_multiplier );
-    optional( jo, was_loaded, "mana_modifier", mana_modifier, cata::nullopt );
-    optional( jo, was_loaded, "mana_multiplier", mana_multiplier, cata::nullopt );
-    optional( jo, was_loaded, "mana_regen_multiplier", mana_regen_multiplier, cata::nullopt );
-    optional( jo, was_loaded, "bionic_mana_penalty", bionic_mana_penalty, cata::nullopt );
-    optional( jo, was_loaded, "casting_time_multiplier", casting_time_multiplier, cata::nullopt );
+    optional( jo, was_loaded, "mana_modifier", mana_modifier, std::nullopt );
+    optional( jo, was_loaded, "mana_multiplier", mana_multiplier, std::nullopt );
+    optional( jo, was_loaded, "mana_regen_multiplier", mana_regen_multiplier, std::nullopt );
+    optional( jo, was_loaded, "bionic_mana_penalty", bionic_mana_penalty, std::nullopt );
+    optional( jo, was_loaded, "casting_time_multiplier", casting_time_multiplier, std::nullopt );
 
     if( jo.has_object( "rand_cut_bonus" ) ) {
         JsonObject sm = jo.get_object( "rand_cut_bonus" );
@@ -479,17 +483,17 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     }
 
     for( JsonValue jv : jo.get_array( "activated_eocs" ) ) {
-        activated_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        activated_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
 
     for( JsonValue jv : jo.get_array( "deactivated_eocs" ) ) {
-        deactivated_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        deactivated_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
 
     int enchant_num = 0;
     for( JsonValue jv : jo.get_array( "enchantments" ) ) {
         std::string enchant_name = "INLINE_ENCH_" + raw_name + "_" + std::to_string( enchant_num++ );
-        enchantments.push_back( enchantment::load_inline_enchantment( jv, "", enchant_name ) );
+        enchantments.push_back( enchantment::load_inline_enchantment( jv, src, enchant_name ) );
     }
 
     for( const std::string s : jo.get_array( "no_cbm_on_bp" ) ) {
@@ -702,7 +706,7 @@ void mutation_branch::check_consistency()
 {
     for( const mutation_branch &mdata : get_all() ) {
         const trait_id &mid = mdata.id;
-        const cata::optional<scenttype_id> &s_id = mdata.scent_typeid;
+        const std::optional<scenttype_id> &s_id = mdata.scent_typeid;
         const std::map<species_id, int> &an_id = mdata.anger_relations;
         for( const auto &style : mdata.initial_ma_styles ) {
             if( !style.is_valid() ) {

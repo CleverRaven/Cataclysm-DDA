@@ -8,6 +8,14 @@ on:
   pull_request:
     branches:
     - master
+    paths:
+    - '**.c'
+    - '**.cpp'
+    - '**.h'
+    - '**.hpp'
+    - '**/CMakeLists.txt'
+    - '**/Makefile'
+    - '.github/workflows/clang-tidy.yml'
 
 # We only care about the latest revision of a PR, so cancel all previous instances.
 concurrency:
@@ -39,11 +47,9 @@ jobs:
         CATA_CLANG_TIDY: plugin
         TILES: 1
         SOUND: 1
+        RELEASE: 1
     steps:
-    - name: checkout repository
-      uses: actions/checkout@v2
-      with:
-        fetch-depth: 1
+    - uses: actions/checkout@v3
     - name: install dependencies
       run: |
           wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
@@ -51,12 +57,12 @@ jobs:
           sudo apt-get update
           sudo apt-get install libncursesw5-dev clang-12 libclang-12-dev llvm-12-dev llvm-12-tools \
             libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev libpulse-dev ccache \
-            gettext
+            gettext jq
     - name: prepare
       run: bash ./build-scripts/requirements.sh
     - name: determine changed files
       if: ${{ github.event_name == 'pull_request' }}
-      uses: actions/github-script@v5
+      uses: actions/github-script@v6.3.3
       with:
         script: |
           var fs = require('fs');
@@ -75,3 +81,7 @@ jobs:
     - uses: ammaraskar/gcc-problem-matcher@master
     - name: run clang-tidy
       run: bash ./build-scripts/clang-tidy.sh
+    - name: show most time consuming checks
+      if: always()
+      run: |
+        jq -n 'reduce(inputs.profile | to_entries[]) as {$key,$value} ({}; .[$key] += $value) | with_entries(select(.key|contains(".wall"))) | to_entries | sort_by(.value) | reverse | .[0:10] | from_entries' clang-tidy-trace/*.json

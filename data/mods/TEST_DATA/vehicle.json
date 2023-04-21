@@ -73,7 +73,8 @@
       { "x": -5, "y": -1, "parts": [ "frame_vertical_left", "board_vertical_left" ] },
       { "x": -5, "y": -1, "part": "tank", "fuel": "gasoline" },
       { "x": -5, "y": -1, "parts": [ "wheel_mount_medium", "wheel_wide", "roof" ] },
-      { "x": -5, "y": 0, "parts": [ "frame_cross", "kitchen_unit", "towel_hanger", "roof" ] },
+      { "x": -5, "y": 0, "parts": [ "frame_cross", "towel_hanger", "roof" ] },
+      { "x": -5, "y": 0, "part": "veh_tools_kitchen", "tools": [ "hotplate", "pan", "pot" ] },
       { "x": -5, "y": 1, "parts": [ "frame_cross", "aisle", "aisle_lights", "roof" ] },
       { "x": -5, "y": 2, "parts": [ "frame_cross", "bed", "roof" ] },
       { "x": -5, "y": 3, "parts": [ "frame_vertical_right", "board_vertical_right" ] },
@@ -134,7 +135,11 @@
       { "x": 0, "y": -1, "parts": [ "frame", "board" ] },
       { "x": 1, "y": -1, "parts": [ "frame", "board" ] },
       { "x": -1, "y": 0, "parts": [ "frame", "board" ] },
-      { "x": 0, "y": 0, "parts": [ "frame", "seat", "roof", "cam_control", "controls", "dashboard", "battery_car" ] },
+      {
+        "x": 0,
+        "y": 0,
+        "parts": [ "frame", "seat", "roof", "cam_control", "controls", "dashboard", "battery_car", "horn_car" ]
+      },
       { "x": 1, "y": 0, "parts": [ "frame", "board" ] },
       { "x": -1, "y": 1, "parts": [ "frame", "board" ] },
       { "x": 0, "y": 1, "parts": [ "frame", "board", "omnicam" ] },
@@ -361,7 +366,7 @@
     "durability": 100,
     "description": "A fridge.  When turned on, it will cool the food inside, extending the time until the food spoils.",
     "//": "Use average consumption, not the max on the appliance rating plate. 30W ~ 260kWh per annum",
-    "epower": -30,
+    "epower": "-30 W",
     "size": "500 L",
     "item": "fridge_test",
     "requirements": {

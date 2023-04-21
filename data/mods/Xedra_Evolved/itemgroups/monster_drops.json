@@ -12,7 +12,7 @@
       { "group": "tiaras_silver", "prob": 5 },
       { "group": "pendant_necklaces_silver", "prob": 5 },
       { "group": "clothing_watch", "prob": 5 },
-      { "group": "fae_furs", "damage": [ 1, 4 ] },
+      { "group": "fae_furs", "damage": [ 0, 4 ] },
       { "item": "scrap_dreamdross", "prob": 75, "count": [ 1, 4 ] }
     ]
   },
@@ -26,12 +26,12 @@
       { "group": "dress_shop", "prob": 70, "damage": [ 1, 4 ] },
       { "group": "underwear", "damage": [ 1, 4 ] },
       { "group": "clothing_glasses", "prob": 5 },
-      { "group": "bannerman_armor", "prob": 20, "damage": [ 1, 4 ] },
+      { "group": "bannerman_armor", "prob": 20, "damage": [ 0, 5 ] },
       { "group": "pendant_necklaces_silver", "prob": 5 },
       { "group": "clothing_watch", "prob": 5 },
-      { "group": "fae_furs", "damage": [ 1, 4 ] },
+      { "group": "fae_furs", "damage": [ 0, 4 ] },
       { "item": "mirror_march_estoc", "prob": 25, "damage": [ 0, 5 ] },
-      { "item": "scabbard", "prob": 100 },
+      { "item": "baldric", "prob": 100 },
       { "item": "scrap_dreamdross", "prob": 75, "count": [ 1, 4 ] }
     ]
   },
@@ -43,9 +43,10 @@
       { "group": "clothing_outdoor_shoes", "prob": 70, "damage": [ 1, 4 ] },
       { "group": "clothing_outdoor_pants", "prob": 70, "damage": [ 1, 4 ] },
       { "group": "underwear", "damage": [ 1, 4 ] },
-      { "group": "redcap_armor", "prob": 20, "damage": [ 1, 4 ] },
+      { "group": "redcap_armor", "prob": 20, "damage": [ 0, 4 ] },
       { "group": "pendant_necklaces_silver", "prob": 5 },
       { "group": "clothing_outdoor_torso", "prob": 70, "damage": [ 1, 4 ] },
+      { "group": "fae_furs", "damage": [ 0, 4 ] },
       { "item": "redcap_club", "prob": 25, "damage": [ 0, 5 ] },
       { "item": "scrap_dreamdross", "prob": 75, "count": [ 4, 8 ] }
     ]
@@ -58,9 +59,10 @@
       { "group": "clothing_outdoor_shoes", "prob": 70, "damage": [ 1, 4 ] },
       { "group": "clothing_outdoor_pants", "prob": 70, "damage": [ 1, 4 ] },
       { "group": "underwear", "damage": [ 1, 4 ] },
-      { "group": "pooka_armor", "prob": 20, "damage": [ 1, 4 ] },
+      { "group": "pooka_armor", "prob": 20, "damage": [ 0, 4 ] },
       { "group": "pendant_necklaces_silver", "prob": 5 },
       { "group": "clothing_outdoor_torso", "prob": 70, "damage": [ 1, 4 ] },
+      { "group": "fae_furs", "damage": [ 0, 4 ] },
       { "item": "pooka_gladius", "prob": 25, "damage": [ 0, 5 ] },
       { "item": "scabbard", "prob": 100 },
       { "item": "scrap_dreamdross", "prob": 75, "count": [ 4, 8 ] }
@@ -74,11 +76,11 @@
       { "group": "cufflinks_silver", "prob": 30, "damage": [ 0, 4 ] },
       { "group": "dress_shoes", "prob": 70, "damage": [ 1, 4 ] },
       { "group": "dress_shop", "prob": 70, "damage": [ 1, 4 ] },
-      { "group": "bannerman_armor", "prob": 20, "damage": [ 1, 4 ] },
+      { "group": "bannerman_armor", "prob": 20, "damage": [ 0, 4 ] },
       { "group": "pendant_necklaces_silver", "prob": 5 },
-      { "group": "fae_furs", "damage": [ 1, 4 ] },
+      { "group": "fae_furs", "damage": [ 0, 4 ] },
       { "item": "winter_lord_estoc", "prob": 25, "damage": [ 0, 5 ] },
-      { "item": "scabbard", "prob": 100 },
+      { "item": "baldric", "prob": 100 },
       { "item": "purity_crackers", "prob": 10 },
       { "item": "golden_bridle", "prob": 5 },
       { "item": "scrap_dreamdross", "prob": 75, "count": [ 12, 24 ] }
@@ -92,7 +94,7 @@
     "extend": {
       "entries": [
         { "item": "wyld_candy", "prob": 15, "container-item": "wrapper_wyld", "sealed": false },
-        { "item": "scrap_dreamdross", "prob": 75, "count": [ 1, 4 ] }
+        { "item": "scrap_dreamdross", "prob": 35, "count": [ 1, 4 ] }
       ]
     }
   },
@@ -100,6 +102,7 @@
     "type": "item_group",
     "id": "harddrugs",
     "copy-from": "harddrugs",
+    "subtype": "distribution",
     "extend": {
       "entries": [
         { "item": "faewild", "prob": 15, "container-item": "bag_zipper", "charges": [ 3, 12 ] },
@@ -152,8 +155,9 @@
         ]
       },
       { "group": "wallets", "damage": [ 1, 4 ], "prob": 30 },
+      { "group": "blood_containers", "prob": 30 },
       { "item": "grimy_recipe", "prob": 55 },
-      { "item": "scrap_dreamdross", "prob": 75, "count": [ 1, 4 ] }
+      { "item": "scrap_dreamdross", "prob": 35, "count": [ 1, 4 ] }
     ]
   },
   {
@@ -169,7 +173,7 @@
     "entries": [
       {
         "distribution": [
-          { "item": "renfield_glock", "prob": 100, "damage": [ 1, 3 ] },
+          { "item": "glock17_17", "prob": 100, "damage": [ 1, 3 ] },
           { "group": "renfield_glock_mags", "prob": 40 },
           { "item": "scrap_dreamdross", "prob": 75, "count": [ 1, 4 ] }
         ]
@@ -184,7 +188,7 @@
     "entries": [
       {
         "distribution": [
-          { "item": "renfield_remington", "prob": 100, "damage": [ 1, 3 ] },
+          { "item": "mossberg_500", "prob": 100, "damage": [ 1, 3 ] },
           { "item": "shot_00", "prob": 40, "count": [ 1, 6 ] },
           { "item": "scrap_dreamdross", "prob": 75, "count": [ 1, 4 ] }
         ]
@@ -250,6 +254,77 @@
       { "item": "bio_fuel_cell_vamp_blood", "prob": 4 },
       { "item": "bio_glowy", "prob": 1 },
       { "item": "bio_sleep_shutdown", "prob": 1 },
+      { "item": "bio_faulty_electromagnetic_leak", "prob": 1 },
+      { "item": "bio_faulty_grossfood", "prob": 1 },
+      { "item": "bio_radleak", "prob": 1 }
+    ]
+  },
+  {
+    "id": "feral_agent_death_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "magazine": 100,
+    "ammo": 20,
+    "entries": [
+      { "item": "feral_57", "prob": 100, "damage": [ 2, 4 ] },
+      { "group": "security_armor", "prob": 30, "damage": [ 0, 2 ] },
+      { "group": "security_gear", "prob": 50, "damage": [ 0, 2 ] },
+      { "group": "cop_gloves", "prob": 30, "damage": [ 1, 4 ] },
+      { "item": "pants", "damage": [ 1, 4 ] },
+      { "item": "dress_shoes", "prob": 70, "damage": [ 1, 4 ] },
+      { "group": "security_torso", "prob": 70, "damage": [ 1, 4 ] },
+      { "group": "underwear", "damage": [ 1, 4 ] },
+      { "group": "clothing_glasses", "prob": 5 },
+      { "group": "clothing_watch", "prob": 5 },
+      { "group": "wallets", "damage": [ 1, 4 ] },
+      { "item": "fn57mag", "prob": 50, "ammo-item": "57mm_ss", "charges": [ 0, 10 ] },
+      { "item": "fn57mag", "prob": 50, "ammo-item": "57mm_ss", "charges": [ 0, 15 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "mon_zombie_flamer",
+    "ammo": 50,
+    "magazine": 100,
+    "entries": [ { "item": "flamethrower", "charges-min": 0, "charges-max": 500 } ]
+  },
+  {
+    "id": "combat_cyborg_harvest",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "bio_dis_shock", "prob": 1 },
+      { "item": "bio_dis_acid", "prob": 1 },
+      { "item": "bio_drain", "prob": 1 },
+      { "item": "bio_noise", "prob": 1 },
+      { "item": "bio_power_weakness", "prob": 1 },
+      { "item": "bio_itchy", "prob": 1 },
+      { "item": "bio_nostril", "prob": 1 },
+      { "item": "bio_thumbs", "prob": 1 },
+      { "item": "bio_spasm", "prob": 1 },
+      { "item": "bio_shakes", "prob": 1 },
+      { "item": "bio_leaky", "prob": 1 },
+      { "item": "bio_sleepy", "prob": 1 },
+      { "item": "bio_deformity", "prob": 1 },
+      { "item": "bio_voice", "prob": 1 },
+      { "item": "bio_pokedeye", "prob": 1 },
+      { "item": "bio_ankles", "prob": 1 },
+      { "item": "bio_trip", "prob": 1 },
+      { "item": "bio_stiff", "prob": 1 },
+      { "item": "bio_armor_torso", "prob": 3 },
+      { "item": "bio_armor_arms", "prob": 6 },
+      { "item": "bio_armor_legs", "prob": 6 },
+      { "item": "bio_armor_eyes", "prob": 3 },
+      { "item": "bio_alarm", "prob": 3 },
+      { "item": "bio_power_storage", "prob": 2 },
+      { "item": "bio_trickle", "prob": 4 },
+      { "item": "bio_glowy", "prob": 1 },
+      { "item": "bio_chain_lightning", "prob": 1 },
+      { "item": "bio_hydraulics", "prob": 1 },
+      { "item": "bio_sleep_shutdown", "prob": 1 },
+      { "item": "bio_targeting", "prob": 1 },
+      { "item": "bio_weight", "prob": 1 },
       { "item": "bio_faulty_electromagnetic_leak", "prob": 1 },
       { "item": "bio_faulty_grossfood", "prob": 1 },
       { "item": "bio_radleak", "prob": 1 }

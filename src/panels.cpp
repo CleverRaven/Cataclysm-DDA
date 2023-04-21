@@ -333,21 +333,6 @@ bool default_render()
     return true;
 }
 
-// Message on how to use the custom sidebar panel and edit its JSON
-static void draw_custom_hint( const draw_args &args )
-{
-    const catacurses::window &w = args._win;
-
-    werase( w );
-    // NOLINTNEXTLINE(cata-use-named-point-constants)
-    mvwprintz( w, point( 1, 0 ), c_white, _( "Press } for sidebar options." ) );
-    // NOLINTNEXTLINE(cata-use-named-point-constants)
-    mvwprintz( w, point( 1, 1 ), c_light_gray,
-               _( "See docs/WIDGETS.md for help." ) );
-
-    wnoutrefresh( w );
-}
-
 // Initialize custom panels from a given "sidebar" style widget
 static std::vector<window_panel> initialize_default_custom_panels( const widget &wgt )
 {
@@ -355,10 +340,6 @@ static std::vector<window_panel> initialize_default_custom_panels( const widget 
 
     // Use defined width, or at least 16
     const int width = std::max( wgt._width, 16 );
-
-    // Show hint on configuration
-    ret.emplace_back( window_panel( draw_custom_hint, "Hint", to_translation( "Hint" ),
-                                    2, width, true ) );
 
     // Add window panel for each child widget
     for( const widget_id &row_wid : wgt._widgets ) {

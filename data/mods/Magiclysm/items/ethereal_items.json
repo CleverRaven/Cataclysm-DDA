@@ -6,6 +6,7 @@
     "description": "A magical flexible stonelike substance for protection and attack.",
     "weight": "1 g",
     "volume": "250 ml",
+    "longest_side": "20 cm",
     "price": 1,
     "to_hit": 2,
     "bashing": 20,
@@ -18,7 +19,7 @@
       "environmental_protection": 10,
       "armor": [
         {
-          "material": [ { "type": "concentrated_mana", "covered_by_mat": 100, "thickness": 4.0 } ],
+          "material": [ { "type": "concentrated_mana", "covered_by_mat": 100, "thickness": 3 } ],
           "encumbrance": 0,
           "coverage": 100,
           "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ]
@@ -26,7 +27,7 @@
       ]
     },
     "qualities": [ [ "HAMMER", 1 ] ],
-    "flags": [ "STURDY", "DURABLE_MELEE", "NONCONDUCTIVE", "MAGIC_FOCUS" ],
+    "flags": [ "ONLY_ONE", "STURDY", "DURABLE_MELEE", "NONCONDUCTIVE", "MAGIC_FOCUS" ],
     "techniques": [ "WBLOCK_3" ]
   },
   {
@@ -40,7 +41,16 @@
     "color": "brown",
     "looks_like": "cloak",
     "material": [ "magical_material" ],
-    "flags": [ "AURA", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE", "OVERSIZE" ],
+    "flags": [
+      "AURA",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "OVERSIZE",
+      "UNBREAKABLE",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
     "relic_data": {
       "passive_effects": [
         {
@@ -95,7 +105,7 @@
     "bashing": 8,
     "symbol": ",",
     "color": "light_green",
-    "flags": [ "LIGHT_300", "AURA", "SEMITANGIBLE" ],
+    "flags": [ "LIGHT_300", "AURA", "SEMITANGIBLE", "UNBREAKABLE", "ALLOWS_NATURAL_ATTACKS" ],
     "armor": [ { "covers": [ "head" ] } ]
   },
   {
@@ -110,7 +120,7 @@
     "symbol": ",",
     "color": "light_green",
     "material": [ "magical_material" ],
-    "flags": [ "LIGHT_8", "AURA", "SEMITANGIBLE" ],
+    "flags": [ "LIGHT_8", "AURA", "SEMITANGIBLE", "UNBREAKABLE", "ALLOWS_NATURAL_ATTACKS" ],
     "armor": [ { "covers": [ "head" ] } ]
   },
   {
@@ -121,6 +131,7 @@
     "description": "A lightweight but tough shield crafted entirely of magical ice.",
     "weight": "1 kg",
     "volume": "5 L",
+    "longest_side": "50 cm",
     "price": 1,
     "to_hit": 1,
     "bashing": 14,
@@ -129,10 +140,10 @@
     "color": "light_gray",
     "looks_like": "gauntlets_chitin",
     "sided": true,
-    "material_thickness": 3,
+    "material_thickness": 4,
     "techniques": [ "WBLOCK_3" ],
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN" ],
-    "armor": [ { "encumbrance": 15, "coverage": 70, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ]
+    "armor": [ { "encumbrance": 10, "coverage": 70, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ]
   },
   {
     "id": "ice_gliders",
@@ -141,6 +152,7 @@
     "description": "A magical slick icy coating on your feet.  While quite fast on flat floors, they make it difficult to move on rough terrain.",
     "weight": "1 g",
     "volume": "250 ml",
+    "longest_side": "15 cm",
     "price": 1,
     "to_hit": -2,
     "bashing": 6,
@@ -149,7 +161,7 @@
     "color": "brown",
     "looks_like": "boots_plate",
     "warmth": 30,
-    "material_thickness": 3,
+    "material_thickness": 0.2,
     "environmental_protection": 2,
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MOVE_COST", "add": -5 } ] } ] },
     "flags": [ "OVERSIZE", "WATERPROOF", "ROLLER_QUAD", "BELTED" ],
@@ -161,6 +173,7 @@
     "name": { "str": "The Stormhammer" },
     "description": "A crackling magical warhammer full of lightning to smite your foes with, and of course, smash things to bits!",
     "weight": "1337 g",
+    "longest_side": "70 cm",
     "to_hit": 2,
     "color": "brown",
     "symbol": "/",
@@ -193,10 +206,22 @@
     "material": [ "concentrated_mana" ],
     "volume": "155 ml",
     "weight": "300 g",
+    "longest_side": "25 cm",
     "bashing": 6,
-    "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "LIGHT_5", "TRADER_AVOID", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS" ],
-    "relic_data": { "passive_effects": [ { "has": "WORN", "values": [ { "value": "ITEM_DAMAGE_ELEC", "add": 20 } ] } ] },
-    "material_thickness": 1,
+    "flags": [
+      "ONLY_ONE",
+      "UNBREAKABLE_MELEE",
+      "NONCONDUCTIVE",
+      "LIGHT_5",
+      "TRADER_AVOID",
+      "NO_REPAIR",
+      "NO_SALVAGE",
+      "MAGIC_FOCUS"
+    ],
+    "relic_data": {
+      "passive_effects": [ { "has": "WORN", "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ITEM_DAMAGE_ELEC", "add": 20 } ] } ]
+    },
+    "material_thickness": 0.3,
     "armor": [
       {
         "material": [ { "type": "concentrated_mana", "covered_by_mat": 100, "thickness": 1.0 } ],
@@ -230,6 +255,7 @@
     "description": "A long, writhing, tentacle covered in sharp bonelike blades and spikey protrusions.",
     "weight": "2460 g",
     "volume": "1975 ml",
+    "longest_side": "40 cm",
     "material": [ "bone", "flesh" ],
     "techniques": [ "PRECISE", "RAPID", "WBLOCK_2" ],
     "flags": [
@@ -255,6 +281,7 @@
     "description": "A long whip made of blue-hot magical flames.  The heat is horrendous when touching an enemy.",
     "weight": "60 g",
     "volume": "1500 ml",
+    "longest_side": "40 cm",
     "material": [ "concentrated_mana" ],
     "techniques": [ "PRECISE", "WIDE", "SWEEP" ],
     "flags": [
@@ -291,7 +318,7 @@
     "symbol": "[",
     "color": "green",
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "25 L", "max_contains_weight": "75 kg", "moves": 60 } ],
-    "material_thickness": 3,
+    "material_thickness": 0.1,
     "flags": [
       "BELTED",
       "TRADER_AVOID",
@@ -329,6 +356,7 @@
     "techniques": [ "WBLOCK_2", "WIDE", "SWEEP", "BRUTAL" ],
     "weight": "2175 g",
     "volume": "2500 ml",
+    "longest_side": "183 cm",
     "bashing": 16,
     "cutting": 36,
     "to_hit": 2
@@ -360,6 +388,7 @@
     "skill": "archery",
     "min_strength": 9,
     "weight": "540 g",
+    "longest_side": "140 cm",
     "bashing": 12,
     "to_hit": 1,
     "reload_noise_volume": 3,
@@ -431,7 +460,17 @@
     "symbol": "o",
     "color": "white",
     "material": [ "magical_material" ],
-    "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
+    "flags": [
+      "AURA",
+      "SEMITANGIBLE",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "UNBREAKABLE",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "BONUS_DODGE", "add": 2 } ] } ] },
     "armor": [
       {
@@ -452,7 +491,17 @@
     "symbol": "o",
     "color": "green",
     "material": [ "magical_material" ],
-    "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
+    "flags": [
+      "AURA",
+      "SEMITANGIBLE",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "UNBREAKABLE",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ARMOR_ACID", "multiply": -0.25 } ] } ]
     },
@@ -475,7 +524,17 @@
     "symbol": "o",
     "color": "green",
     "material": [ "magical_material" ],
-    "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
+    "flags": [
+      "AURA",
+      "SEMITANGIBLE",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "UNBREAKABLE",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ARMOR_ACID", "multiply": -0.6 } ] } ]
     },
@@ -492,14 +551,14 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str_sp": "frost armor" },
-    "description": "A thin layer of magical ice, covering the entire body.",
+    "description": "A thin layer of magical ice, covering the entire body.  It doesn't provide much armor, but deal significant damage to enemies that try to attack you instead.",
     "weight": "5000 g",
     "volume": "5 L",
     "material": [ "concentrated_mana" ],
     "symbol": "[",
     "color": "light_gray",
     "warmth": 0,
-    "material_thickness": 2,
+    "material_thickness": 0.5,
     "environmental_protection": 2,
     "flags": [
       "SEMITANGIBLE",
@@ -514,11 +573,12 @@
     ],
     "armor": [
       {
-        "encumbrance": 10,
+        "encumbrance": 8,
         "coverage": 100,
         "covers": [ "head", "mouth", "eyes", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
       }
-    ]
+    ],
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "hit_me_effect": [ { "id": "ice_spike" } ] } ] }
   },
   {
     "id": "aura_stoneskin",
@@ -532,12 +592,12 @@
     "symbol": "[",
     "color": "light_gray",
     "warmth": 5,
-    "material_thickness": 2,
+    "material_thickness": 2.6,
     "environmental_protection": 2,
     "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "STURDY", "PADDED" ],
     "armor": [
       {
-        "encumbrance": 20,
+        "encumbrance": 16,
         "coverage": 100,
         "covers": [ "head", "mouth", "eyes", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
       }
@@ -581,7 +641,17 @@
     "color": "blue",
     "material": [ "magical_material" ],
     "environmental_protection": 15,
-    "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
+    "flags": [
+      "AURA",
+      "SEMITANGIBLE",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "UNBREAKABLE",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
     "armor": [
       {
         "encumbrance": 0,
@@ -600,7 +670,16 @@
     "symbol": "o",
     "color": "blue",
     "material": [ "magical_material" ],
-    "flags": [ "AURA", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE", "OVERSIZE" ],
+    "flags": [
+      "AURA",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "OVERSIZE",
+      "UNBREAKABLE",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "hit_me_effect": [ { "id": "thorns_zap" } ] } ] }
   },
   {
@@ -717,6 +796,7 @@
     "ammo_effects": [ "NEVER_MISFIRES" ],
     "weight": "86 g",
     "volume": "250 ml",
+    "longest_side": "25 cm",
     "skill": "throw",
     "price_postapoc": 250,
     "to_hit": -1,
@@ -738,7 +818,16 @@
     "symbol": "o",
     "color": "blue",
     "material": [ "magical_material" ],
-    "flags": [ "AURA", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE", "OVERSIZE" ],
+    "flags": [
+      "AURA",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "OVERSIZE",
+      "UNBREAKABLE",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
     "relic_data": {
       "passive_effects": [
         {
@@ -807,9 +896,19 @@
     "symbol": "o",
     "color": "green",
     "warmth": 0,
-    "material_thickness": 2,
+    "material_thickness": 0.4,
     "environmental_protection": 2,
-    "flags": [ "AURA", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE", "OVERSIZE", "PADDED" ],
+    "flags": [
+      "AURA",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "OVERSIZE",
+      "PADDED",
+      "UNBREAKABLE",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
     "relic_data": {
       "passive_effects": [
         {
@@ -834,6 +933,7 @@
     "description": "Claws made from ice, able to freeze on contact while mauling foes.  You, however, feel only a slight chill on your hands.",
     "weight": "100 g",
     "volume": "100 ml",
+    "longest_side": "15 cm",
     "price": 1,
     "bashing": 6,
     "cutting": 12,
@@ -861,15 +961,17 @@
     "type": "ARMOR",
     "category": "armor",
     "copy-from": "armor_lightplate",
-    "name": { "str_sp": "spiritual armor" },
-    "description": "A summoned medieval armor.  It glows softly and looks sturdy.",
+    "name": { "str_sp": "mage armor" },
+    "description": "A summoned magic armor.  It gets shinier and sturdier with each spell level.",
+    "weight": "1 g",
     "material": [ "concentrated_mana" ],
     "warmth": 0,
-    "material_thickness": 4,
-    "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "STURDY", "NO_REPAIR", "NO_SALVAGE", "LIGHT_2", "TRADER_AVOID", "PADDED" ],
+    "material_thickness": 0,
+    "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "STURDY", "NO_REPAIR", "NO_SALVAGE", "TRADER_AVOID", "PADDED" ],
+    "relic_data": { "passive_effects": [ { "id": "ench_armor_spirit" } ] },
     "armor": [
       {
-        "encumbrance": 5,
+        "encumbrance": 0,
         "coverage": 100,
         "covers": [ "head", "mouth", "eyes", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
       }
@@ -911,15 +1013,13 @@
     "id": "longsword_holy",
     "type": "GENERIC",
     "copy-from": "longsword",
-    "name": { "str": "holy sword" },
-    "description": "This is a summoned medieval sword, between the lighter arming sword and later two-handed swords in size.  It glows slightly and its edge is exceedingly sharp.",
+    "name": { "str": "mage blade" },
+    "description": "This is a summoned mana sword, between the lighter arming sword and later two-handed swords in size.  It glows shiny, and its edge is sharper the more spell level and intelligence you have.",
     "material": [ "concentrated_mana" ],
-    "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS", "LIGHT_2", "TRADER_AVOID" ],
+    "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS", "TRADER_AVOID" ],
     "bashing": 11,
-    "cutting": 42,
-    "relic_data": {
-      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_PURE", "add": 10 } ] } ]
-    }
+    "cutting": 1,
+    "relic_data": { "passive_effects": [ { "id": "ench_longsword_holy" } ] }
   },
   {
     "id": "aura_auroral_guard",
@@ -934,12 +1034,12 @@
     "color": "light_gray",
     "armor": [
       {
-        "encumbrance": 15,
+        "encumbrance": 5,
         "coverage": 100,
         "covers": [ "head", "mouth", "eyes", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
       }
     ],
-    "material_thickness": 1.7,
+    "material_thickness": 3.3,
     "environmental_protection": 8,
     "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "STURDY", "PADDED" ]
   },
@@ -955,6 +1055,7 @@
     "symbol": "*",
     "color": "yellow",
     "qualities": [ [ "BOIL", 2 ], [ "COOK", 3 ] ],
+    "sub": "fire",
     "use_action": [
       {
         "target": "pocket_sun_cover",
@@ -964,7 +1065,7 @@
       },
       { "type": "firestarter", "moves": 10, "moves_slow": 100 }
     ],
-    "flags": [ "LIGHT_700", "TRADER_AVOID" ]
+    "flags": [ "FIRE", "LIGHT_700", "TRADER_AVOID" ]
   },
   {
     "id": "pocket_sun_cover",
@@ -988,6 +1089,30 @@
       { "type": "firestarter", "moves": 10, "moves_slow": 100 }
     ],
     "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "id": "alchemist_pocket",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "ethereal pocket" },
+    "description": "Small ethereal pocket, that expanded under your left arm.  You can store your potions here, but it seems it has no real limitations.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "material": [ "concentrated_mana" ],
+    "symbol": "x",
+    "color": "magenta",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "10 L",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "50 cm",
+        "moves": 60,
+        "weight_multiplier": 0
+      }
+    ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "BELTED", "WATERPROOF", "PADDED", "TARDIS" ],
+    "armor": [ { "covers": [ "arm_l" ], "coverage": 0, "encumbrance": 0 } ]
   },
   {
     "type": "GENERIC",
@@ -1165,7 +1290,89 @@
       "NO_TAKEOFF",
       "NONCONDUCTIVE",
       "TRADER_AVOID",
-      "REBREATHER"
+      "REBREATHER",
+      "UNBREAKABLE",
+      "ALLOWS_NATURAL_ATTACKS"
     ]
+  },
+  {
+    "id": "thought_shield_item",
+    "name": { "str_sp": "thought shields" },
+    "description": "These two tiny shields on your temples should protect your mind from outside influences",
+    "type": "TOOL_ARMOR",
+    "category": "clothing",
+    "weight": "0 g",
+    "material": [ "concentrated_mana" ],
+    "environmental_protection": 1,
+    "volume": "1 ml",
+    "symbol": "0",
+    "color": "white",
+    "armor": [ { "encumbrance": 0, "coverage": 75, "covers": [ "head", "mouth", "eyes" ] } ],
+    "flags": [
+      "WATER_FRIENDLY",
+      "SEMITANGIBLE",
+      "ONLY_ONE",
+      "OVERSIZE",
+      "AURA",
+      "ZERO_WEIGHT",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "TRADER_AVOID",
+      "PSYSHIELD_PARTIAL",
+      "UNBREAKABLE",
+      "ALLOWS_NATURAL_ATTACKS"
+    ]
+  },
+  {
+    "id": "thought_shield_plus_item",
+    "name": { "str_sp": "thought suit" },
+    "description": "The tiny shields all over your body should protect your mind from outside influences and your body from being moved by outside magic",
+    "type": "TOOL_ARMOR",
+    "category": "clothing",
+    "weight": "0 g",
+    "material": [ "concentrated_mana" ],
+    "environmental_protection": 1,
+    "volume": "1 ml",
+    "symbol": "0",
+    "color": "white",
+    "armor": [
+      {
+        "encumbrance": 0,
+        "coverage": 75,
+        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
+      }
+    ],
+    "flags": [
+      "WATER_FRIENDLY",
+      "SEMITANGIBLE",
+      "ONLY_ONE",
+      "OVERSIZE",
+      "AURA",
+      "ZERO_WEIGHT",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "TRADER_AVOID",
+      "PSYSHIELD_PARTIAL",
+      "PORTAL_PROOF",
+      "UNBREAKABLE",
+      "ALLOWS_NATURAL_ATTACKS"
+    ]
+  },
+  {
+    "id": "druid_bandages",
+    "type": "GENERIC",
+    "category": "drugs",
+    "name": { "str": "Vegetative Poultice" },
+    "looks_like": "leaves",
+    "description": "A mixture of bark, moss, and leaves, glowing softly with verdant energy.",
+    "weight": "50 g",
+    "volume": "60 ml",
+    "price": 1,
+    "price_postapoc": 1,
+    "material": [ "wood" ],
+    "symbol": "!",
+    "color": "green",
+    "flags": [ "TRADER_AVOID", "SINGLE_USE" ],
+    "use_action": { "type": "heal", "bandages_power": 3, "bleed": 12, "move_cost": 300 }
   }
 ]

@@ -1,0 +1,65 @@
+[
+  {
+    "type": "enchantment",
+    "id": "ENCHANTMENT_VAMPIRISM",
+    "has": "WIELD",
+    "hit_you_effect": [ { "id": "xedra_weak_healing", "hit_self": true, "once_in": 15 } ]
+  },
+  {
+    "id": "xedra_weak_healing",
+    "type": "SPELL",
+    "name": "Weak healing",
+    "description": "Heal 1 hp.  Used in various enchantments.  You can see it only in debug.",
+    "valid_targets": [ "self" ],
+    "min_damage": -1,
+    "max_damage": -1,
+    "effect": "attack",
+    "shape": "blast",
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ]
+  },
+  {
+    "type": "enchantment",
+    "id": "MON_NEARBY_SPEED",
+    "has": "WIELD",
+    "condition": "ALWAYS",
+    "values": [
+      {
+        "value": "SPEED",
+        "add": { "arithmetic": [ { "global_val": "monsters_nearby", "radius": 25 }, "/", { "const": 2 } ] }
+      }
+    ]
+  },
+  {
+    "type": "enchantment",
+    "id": "EXP_BASH",
+    "has": "WIELD",
+    "condition": "ALWAYS",
+    "values": [ { "value": "ITEM_DAMAGE_BASH", "add": { "arithmetic": [ { "u_val": "exp" }, "/", { "const": 750 } ] } } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "UNARMED_MELEE_BOOST",
+    "condition": "ALWAYS",
+    "//": "not used currently, just proof of concept",
+    "values": [
+      {
+        "value": "MELEE_DAMAGE",
+        "multiply": { "arithmetic": [ { "u_val": "skill_level", "skill": "unarmed" }, "*", { "const": 5 } ] }
+      }
+    ]
+  },
+  {
+    "type": "enchantment",
+    "id": "MAX_MANA_STR",
+    "condition": "ALWAYS",
+    "//": "proof of concept",
+    "values": [ { "value": "STRENGTH", "add": { "arithmetic": [ { "u_val": "mana_max" }, "/", { "const": 4 } ] } } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "PAIN_STR",
+    "condition": "ALWAYS",
+    "//": "proof of concept",
+    "values": [ { "value": "STRENGTH", "add": { "math": [ "u_pain() / 4" ] } } ]
+  }
+]

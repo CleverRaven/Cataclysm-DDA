@@ -1361,7 +1361,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "riot armor suit" },
-    "description": "A full suit of black plastic body armor plates used by riot police.  Cleverly placed velcro straps secure each piece, resulting in slightly less encumbrance then its constituent parts.  Molle webbing is attached to the thighs and the word POLICE is emblazoned across the front.",
+    "description": "A full suit of black plastic body armor plates used by riot police.  Cleverly placed velcro straps secure each piece, resulting in slightly less encumbrance then its constituent parts.  Molle webbing is attached to the torso and the word POLICE is emblazoned across the front.",
     "weight": "3 kg",
     "volume": "12500 ml",
     "price": 60000,
@@ -1380,6 +1380,7 @@
         "encumbrance": 6,
         "coverage": 75,
         "covers": [ "torso" ],
+        "volume_encumber_modifier": 0.3,
         "material": [
           { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 7 },
           { "type": "thermo_resin", "covered_by_mat": 90, "thickness": 1.75 }
@@ -1387,6 +1388,7 @@
       },
       {
         "covers": [ "arm_l", "arm_r", "leg_l", "leg_r" ],
+        "volume_encumber_modifier": 0,
         "encumbrance": 4,
         "coverage": 90,
         "material": [
@@ -1397,6 +1399,7 @@
       },
       {
         "covers": [ "arm_l", "arm_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
+        "volume_encumber_modifier": 0,
         "coverage": 65,
         "material": [
           { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 5 },
@@ -1406,6 +1409,7 @@
       },
       {
         "covers": [ "foot_l", "foot_r" ],
+        "volume_encumber_modifier": 0,
         "encumbrance": 2,
         "coverage": 75,
         "material": [ { "type": "thermo_resin", "covered_by_mat": 100, "thickness": 1.5 } ],
@@ -1413,6 +1417,7 @@
       },
       {
         "covers": [ "leg_l", "leg_r" ],
+        "volume_encumber_modifier": 0,
         "coverage": 30,
         "material": [ { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 7 } ],
         "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
@@ -1567,7 +1572,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "chainmail hauberk" },
-    "description": "A fully customized chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection.",
+    "description": "A fully customized chainmail outfit, leaving the head uncovered.  Combine with an aketon or other padded layer for optimal protection.",
     "weight": "9012 g",
     "volume": "2750 ml",
     "price": 35988,
@@ -1593,7 +1598,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "mild steel chainmail hauberk" },
-    "description": "A fully customized mild steel chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection.",
+    "description": "A fully customized mild steel chainmail outfit, leaving the head uncovered.  Combine with an aketon or other padded layer for optimal protection.",
     "weight": "9012 g",
     "//": "Should be lighter when irl hauberk as it does not cover legs",
     "volume": "2750 ml",
@@ -1637,7 +1642,7 @@
     "copy-from": "lc_chainmail_hauberk",
     "material": [ "mc_steel_chain" ],
     "name": { "str": "medium steel chainmail hauberk" },
-    "description": "A fully customized medium steel chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection.",
+    "description": "A fully customized medium steel chainmail outfit, leaving the head uncovered.  Combine with an aketon or other padded layer for optimal protection.",
     "armor": [
       {
         "material": [ { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
@@ -1670,7 +1675,7 @@
     "copy-from": "lc_chainmail_hauberk",
     "material": [ "hc_steel_chain" ],
     "name": { "str": "high steel chainmail hauberk" },
-    "description": "A fully customized high steel chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection.",
+    "description": "A fully customized high steel chainmail outfit, leaving the head uncovered.  Combine with an aketon or other padded layer for optimal protection.",
     "armor": [
       {
         "material": [ { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
@@ -1702,7 +1707,7 @@
     "copy-from": "lc_chainmail_hauberk",
     "material": [ "ch_steel_chain" ],
     "name": { "str": "hardened steel chainmail hauberk" },
-    "description": "A fully customized hardened steel chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection.",
+    "description": "A fully customized hardened steel chainmail outfit, leaving the head uncovered.  Combine with an aketon or other padded layer for optimal protection.",
     "armor": [
       {
         "material": [ { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
@@ -1734,7 +1739,7 @@
     "copy-from": "lc_chainmail_hauberk",
     "material": [ "qt_steel_chain" ],
     "name": { "str": "tempered steel chainmail hauberk" },
-    "description": "A fully customized tempered steel chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection.",
+    "description": "A fully customized tempered steel chainmail outfit, leaving the head uncovered.  Combine with an aketon or other padded layer for optimal protection.",
     "armor": [
       {
         "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
@@ -1765,7 +1770,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "chainmail armor" },
-    "description": "A fully customized chainmail suit.  The metal shows signs of rust and corrosion.  Combine with a gambeson or other padded layer for optimal protection.",
+    "description": "A fully customized chainmail suit.  The metal shows signs of rust and corrosion.  Combine with an aketon or other padded layer for optimal protection.",
     "weight": "14539 g",
     "volume": "3250 ml",
     "price": 45000,
@@ -1791,7 +1796,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "mild steel chainmail armor" },
-    "description": "A fully customized mild steel chainmail suit.  Combine with a gambeson or other padded layer for optimal protection.",
+    "description": "A fully customized mild steel chainmail suit.  Combine with an aketon or other padded layer for optimal protection.",
     "weight": "14539 g",
     "volume": "3250 ml",
     "price": 45000,
@@ -1834,7 +1839,7 @@
     "copy-from": "lc_chainmail_suit",
     "material": [ "mc_steel_chain" ],
     "name": { "str": "medium steel chainmail armor" },
-    "description": "A fully customized medium steel chainmail suit.  Combine with a gambeson or other padded layer for optimal protection.",
+    "description": "A fully customized medium steel chainmail suit.  Combine with an aketon or other padded layer for optimal protection.",
     "armor": [
       {
         "material": [ { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
@@ -1866,7 +1871,7 @@
     "copy-from": "lc_chainmail_suit",
     "material": [ "hc_steel_chain" ],
     "name": { "str": "high steel chainmail armor" },
-    "description": "A fully customized high steel chainmail suit.  Combine with a gambeson or other padded layer for optimal protection.",
+    "description": "A fully customized high steel chainmail suit.  Combine with an aketon or other padded layer for optimal protection.",
     "armor": [
       {
         "material": [ { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
@@ -1898,7 +1903,7 @@
     "type": "ARMOR",
     "copy-from": "lc_chainmail_suit",
     "name": { "str": "hardened steel chainmail armor" },
-    "description": "A fully customized hardened steel chainmail suit.  Combine with a gambeson or other padded layer for optimal protection.",
+    "description": "A fully customized hardened steel chainmail suit.  Combine with an aketon or other padded layer for optimal protection.",
     "armor": [
       {
         "material": [ { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
@@ -1930,7 +1935,7 @@
     "copy-from": "lc_chainmail_suit",
     "material": [ "qt_steel_chain" ],
     "name": { "str": "tempered steel chainmail armor" },
-    "description": "A fully customized tempered steel chainmail suit.  Combine with a gambeson or other padded layer for optimal protection.",
+    "description": "A fully customized tempered steel chainmail suit.  Combine with an aketon or other padded layer for optimal protection.",
     "armor": [
       {
         "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
@@ -1959,28 +1964,43 @@
   {
     "id": "chainmail_suit_faraday",
     "type": "ARMOR",
-    "copy-from": "lc_chainmail_suit",
+    "copy-from": "qt_chainmail_suit",
     "name": { "str": "faraday chainmail suit" },
-    "description": "A fully customized chainmail suit with integrated rubber boots that can be worn over your normal clothing.  The suit is conductively interconnected, protecting against electricity.",
+    "description": "A fully customized chainmail suit that can be worn over your normal clothing.  The suit is conductively interconnected with a cage covering the face, protecting against electricity.",
     "armor": [
       {
-        "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "mouth", "eyes" ],
+        "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r" ],
+        "coverage": 100,
+        "encumbrance": 20
+      },
+      {
+        "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "head" ],
         "coverage": 100,
         "encumbrance": 30
       },
       {
-        "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_upper_l", "leg_knee_l", "leg_hip_l", "leg_upper_r", "leg_knee_r", "leg_hip_r" ],
-        "coverage": 100,
-        "encumbrance": 30
+        "material": [
+          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.001 }
+        ],
+        "covers": [ "eyes" ],
+        "coverage": 95,
+        "cover_ranged": 10,
+        "encumbrance": 2,
+        "breathability": "GOOD"
       },
       {
-        "material": [ { "type": "rubber", "covered_by_mat": 100, "thickness": 3.0 } ],
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_lower_l", "leg_lower_r" ],
-        "coverage": 100
+        "material": [
+          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.001 }
+        ],
+        "covers": [ "mouth" ],
+        "coverage": 95,
+        "cover_ranged": 10,
+        "encumbrance": 0,
+        "breathability": "GOOD"
       },
       {
         "covers": [ "foot_l", "foot_r" ],
@@ -1994,16 +2014,8 @@
           "foot_arch_r",
           "foot_arch_l"
         ],
-        "material": [ { "type": "rubber", "covered_by_mat": 100, "thickness": 3.0 } ],
-        "layers": [ "NORMAL" ],
-        "encumbrance": 30,
-        "coverage": 100
-      },
-      {
-        "covers": [ "foot_l", "foot_r" ],
-        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
-        "material": [ { "type": "rubber", "covered_by_mat": 100, "thickness": 6.0 } ],
-        "layers": [ "NORMAL" ],
+        "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "encumbrance": 10,
         "coverage": 100
       }
     ],
@@ -2097,251 +2109,120 @@
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
-    "id": "gambeson",
+    "id": "bite_suit",
     "type": "ARMOR",
-    "name": { "str": "gambeson" },
-    "description": "A thick jacket of quilted fabric, designed to be worn underneath mail or other armor.  Or worn on its own, if you can't afford proper armor.  Use it to loosen it if you want to wear it over your clothes.",
-    "weight": "2800 g",
-    "volume": "3 L",
-    "price": 20000,
-    "price_postapoc": 750,
-    "to_hit": -5,
-    "material": [ "cotton" ],
-    "symbol": "[",
-    "looks_like": "coat_winter",
-    "color": "light_gray",
-    "warmth": 50,
-    "material_thickness": 5,
-    "valid_mods": [ "steel_padded" ],
-    "flags": [ "VARSIZE", "STURDY" ],
-    "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "gambeson_loose", "menu_text": "Loosen" },
-    "armor": [
-      { "covers": [ "torso" ], "coverage": 100, "encumbrance": 20 },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": 20 }
-    ]
-  },
-  {
-    "id": "gambeson_vest",
-    "type": "ARMOR",
-    "name": { "str": "gambeson vest" },
-    "description": "A thick vest of quilted fabric, designed to be worn underneath mail or other armor.  This one has had its sleeves removed.  Use it to loosen it if you want to wear it over your clothes.",
-    "weight": "1400 g",
-    "volume": "2 L",
-    "price": 20000,
-    "price_postapoc": 600,
-    "to_hit": -5,
-    "material": [ "cotton" ],
-    "symbol": "[",
-    "looks_like": "coat_winter",
-    "color": "light_gray",
-    "warmth": 50,
-    "material_thickness": 5,
-    "valid_mods": [ "steel_padded" ],
-    "flags": [ "VARSIZE", "STURDY" ],
-    "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "gambeson_loose_vest", "menu_text": "Loosen" },
-    "armor": [ { "covers": [ "torso" ], "coverage": 100, "encumbrance": 20 } ]
-  },
-  {
-    "id": "gambeson_loose",
-    "repairs_like": "gambeson",
-    "type": "ARMOR",
-    "name": { "str": "gambeson (loose)", "str_pl": "gambesons (loose)" },
-    "description": "A thick jacket of quilted fabric, loosened to be worn as outer armor.  Use it to wear it tighter and be able to put proper armor over it.",
-    "copy-from": "gambeson",
-    "extend": { "flags": [ "OUTER" ] },
-    "use_action": {
-      "type": "transform",
-      "msg": "You adjust your gambeson a bit tighter.",
-      "target": "gambeson",
-      "menu_text": "Adjust tighter"
-    }
-  },
-  {
-    "id": "gambeson_loose_vest",
-    "repairs_like": "gambeson",
-    "type": "ARMOR",
-    "name": { "str": "gambeson vest (loose)", "str_pl": "gambeson vests (loose)" },
-    "description": "A thick jacket of quilted fabric, loosened to be worn as outer armor.  Use it to wear it tighter and be able to put proper armor over it.",
-    "copy-from": "gambeson_vest",
-    "extend": { "flags": [ "OUTER" ] },
-    "use_action": {
-      "type": "transform",
-      "msg": "You adjust your gambeson vest a bit tighter.",
-      "target": "gambeson",
-      "menu_text": "Adjust tighter"
-    }
-  },
-  {
-    "id": "gambeson_pants",
-    "type": "ARMOR",
-    "name": { "str_sp": "arming pants" },
-    "description": "Thick pants made of quilted fabric, meant to be worn alongside a gambeson under or without armor.",
-    "weight": "2100 g",
-    "volume": "2 L",
-    "price": 14000,
-    "price_postapoc": 600,
-    "to_hit": -5,
-    "material": [ "cotton" ],
-    "symbol": "[",
-    "looks_like": "pants_ski",
-    "color": "light_gray",
-    "warmth": 50,
-    "material_thickness": 5,
-    "valid_mods": [ "steel_padded" ],
-    "flags": [ "VARSIZE", "STURDY" ],
-    "armor": [ { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": 20 } ]
-  },
-  {
-    "id": "k_gambeson",
-    "type": "ARMOR",
-    "name": { "str": "Kevlar gambeson" },
-    "description": "Designed to mimic a thick jacket of quilted fabric that would be worn underneath mail or other armor.  A base layer of aramid fabric has had strips of soft body armor sewn into it to mimic quilting.  Use it to loosen it if you want to wear it over your clothes.",
+    "name": { "str": "canine bite suit" },
+    "description": "Designed to stop the injuries of dog bites, this thick, one piece suit is often used in the rehabilitation of abused animals and in training dogs by the police and military.  A base layer of aramid fabric has had strips of soft body armor sewn into it to mimic quilting, and to soften the blunt of animals jumping, slashing, or pouncing on the wearer.",
     "weight": "11556 g",
-    "volume": "2520 ml",
+    "volume": "8255 ml",
     "price": 20000,
-    "price_postapoc": 750,
+    "price_postapoc": 10000,
     "to_hit": -5,
     "material": [ { "type": "kevlar_layered" }, { "type": "kevlar" } ],
     "symbol": "[",
     "looks_like": "coat_winter",
     "color": "light_gray",
     "warmth": 50,
-    "material_thickness": 3.2,
+    "material_thickness": 4,
     "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE", "STURDY", "NONCONDUCTIVE" ],
-    "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "k_gambeson_loose", "menu_text": "Loosen" },
-    "//": "materials on this guy are slightly weird since it is trying to quilt soft armor panels, so at thickest it is their thickness",
     "armor": [
       {
         "material": [
-          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 3.4, "ignore_sheet_thickness": true },
-          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.0 }
+          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 3, "ignore_sheet_thickness": true },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 4 }
         ],
         "covers": [ "torso" ],
         "coverage": 100,
-        "encumbrance": 20
+        "encumbrance": 30
       },
       {
         "material": [
-          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 3.4, "ignore_sheet_thickness": true },
-          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.0 }
+          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 3, "ignore_sheet_thickness": true },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 4 }
         ],
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_upper_l", "arm_lower_l", "arm_upper_r", "arm_lower_r" ],
         "coverage": 100,
-        "encumbrance": 20
+        "encumbrance": 30
       },
       {
         "material": [
-          { "type": "kevlar_layered", "covered_by_mat": 70, "thickness": 3.4, "ignore_sheet_thickness": true },
-          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.0 }
+          { "type": "kevlar_layered", "covered_by_mat": 70, "thickness": 3, "ignore_sheet_thickness": true },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 4 }
         ],
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_elbow_l", "arm_shoulder_l", "arm_elbow_r", "arm_shoulder_r" ],
         "coverage": 100,
         "encumbrance": 0,
         "//": "skip second entry for arm encumbrance"
+      },
+      {
+        "material": [
+          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 3, "ignore_sheet_thickness": true },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 4 }
+        ],
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 100,
+        "encumbrance": 30
       }
     ]
   },
   {
-    "id": "k_gambeson_vest",
+    "id": "gambeson",
     "type": "ARMOR",
-    "name": { "str": "Kevlar gambeson vest" },
-    "description": "Designed to mimic a thick vest of quilted fabric that would be worn underneath mail or other armor.  A base layer of aramid fabric has had strips of soft body armor sewn into it to mimic quilting.  Use it to loosen it if you want to wear it over your clothes.",
-    "weight": "6200 g",
-    "volume": "1670 ml",
+    "name": { "str": "padded gambeson" },
+    "description": "A padded greatcoat assembled by quilting readily available fabric and stuffing the layers with waste fabric or horse hair that was intended as standalone armor, being too thick to comfortably fit a cuirass over.  Likely either a historical artifact or a low-quality reproduction.  Though inferior to a proper layered aketon or gambeson it still offers decent protection.",
+    "weight": "11850 g",
+    "volume": "7500 ml",
     "price": 20000,
-    "price_postapoc": 600,
+    "price_postapoc": 1500,
     "to_hit": -5,
-    "material": [ { "type": "kevlar_layered" }, { "type": "kevlar" } ],
+    "material": [ "cotton" ],
     "symbol": "[",
-    "looks_like": "coat_winter",
+    "looks_like": "jacket_light",
     "color": "light_gray",
     "warmth": 50,
-    "material_thickness": 3.2,
-    "valid_mods": [ "steel_padded" ],
-    "flags": [ "VARSIZE", "STURDY", "NONCONDUCTIVE" ],
-    "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "k_gambeson_vest_loose", "menu_text": "Loosen" },
+    "flags": [ "VARSIZE", "STURDY", "NORMAL", "OUTER", "BLOCK_WHILE_WORN" ],
     "armor": [
       {
         "material": [
-          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 3.4, "ignore_sheet_thickness": true },
-          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.0 }
+          { "type": "cotton_quilted", "covered_by_mat": 100, "thickness": 2.5 },
+          { "type": "cotton", "covered_by_mat": 95, "thickness": 2.5 },
+          { "type": "cotton", "covered_by_mat": 95, "thickness": 2.5 }
         ],
         "covers": [ "torso" ],
         "coverage": 100,
-        "encumbrance": 20
+        "encumbrance": 15
+      },
+      {
+        "material": [
+          { "type": "cotton_quilted", "covered_by_mat": 100, "thickness": 2 },
+          { "type": "cotton", "covered_by_mat": 95, "thickness": 2 },
+          { "type": "cotton", "covered_by_mat": 95, "thickness": 2 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 25
+      },
+      {
+        "material": [ { "type": "cotton_quilted", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
+        "coverage": 72,
+        "encumbrance": 8,
+        "layers": [ "BELTED" ],
+        "//warmth": 20
       }
     ]
-  },
-  {
-    "id": "k_gambeson_loose",
-    "repairs_like": "k_gambeson",
-    "type": "ARMOR",
-    "name": { "str": "Kevlar gambeson (loose)", "str_pl": "Kevlar gambesons (loose)" },
-    "description": "A thick jacket of quilted fabric, loosened to be worn as outer armor.  This one incorporates Kevlar layers added for better protection.  Use it to wear it tighter and be able to put proper armor over it.",
-    "copy-from": "k_gambeson",
-    "extend": { "flags": [ "OUTER" ] },
-    "use_action": {
-      "type": "transform",
-      "msg": "You adjust your Kevlar gambeson a bit tighter.",
-      "target": "k_gambeson",
-      "menu_text": "Adjust tighter"
-    }
-  },
-  {
-    "id": "k_gambeson_vest_loose",
-    "repairs_like": "k_gambeson",
-    "type": "ARMOR",
-    "name": { "str": "Kevlar gambeson vest (loose)", "str_pl": "Kevlar gambeson vests (loose)" },
-    "description": "A thick vest of quilted fabric, loosened to be worn as outer armor.  This one incorporates Kevlar layers added for better protection.  Use it to wear it tighter and be able to put proper armor over it.",
-    "copy-from": "k_gambeson_vest",
-    "extend": { "flags": [ "OUTER" ] },
-    "use_action": {
-      "type": "transform",
-      "msg": "You adjust your Kevlar gambeson a bit tighter.",
-      "target": "k_gambeson_vest",
-      "menu_text": "Adjust tighter"
-    }
-  },
-  {
-    "id": "k_gambeson_pants",
-    "type": "ARMOR",
-    "name": { "str": "Kevlar arming pants", "str_pl": "pairs of Kevlar arming pants" },
-    "description": "Thick pants made of quilted fabric, meant to be worn alongside a gambeson under or without armor.  This one incorporates Kevlar layers added for better protection.",
-    "weight": "9300 g",
-    "volume": "2000 ml",
-    "price": 14000,
-    "price_postapoc": 600,
-    "to_hit": -5,
-    "material": [ { "type": "kevlar_layered", "portion": 6 }, { "type": "kevlar", "portion": 4 } ],
-    "symbol": "[",
-    "looks_like": "pants_ski",
-    "color": "light_gray",
-    "warmth": 50,
-    "material_thickness": 3.2,
-    "valid_mods": [ "steel_padded" ],
-    "flags": [ "VARSIZE", "STURDY", "NONCONDUCTIVE" ],
-    "armor": [ { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": 20 } ]
   },
   {
     "id": "xl_gambeson",
     "type": "ARMOR",
     "name": { "str": "XL gambeson" },
     "copy-from": "gambeson",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] },
-    "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "xl_gambeson_loose", "menu_text": "Loosen" }
-  },
-  {
-    "id": "xl_gambeson_vest",
-    "type": "ARMOR",
-    "name": { "str": "XL gambeson vest" },
-    "copy-from": "gambeson_vest",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] },
-    "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "xl_gambeson_vest_loose", "menu_text": "Loosen" }
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "gambeson_xs",
@@ -2350,23 +2231,53 @@
     "looks_like": "gambeson",
     "name": { "str": "XS gambeson" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] },
-    "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "gambeson_xs_loose", "menu_text": "Loosen" }
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
-    "id": "gambeson_xs_loose",
-    "repairs_like": "gambeson",
+    "id": "gambeson_vest",
     "type": "ARMOR",
-    "name": { "str": "XS gambeson (loose)", "str_pl": "XS gambesons (loose)" },
-    "description": "A thick vest of quilted fabric, loosened to be worn as outer armor, coming in size XS.  Use it to wear it tighter and be able to put proper armor over it.",
-    "copy-from": "gambeson_xs",
-    "extend": { "flags": [ "OUTER" ] },
-    "use_action": {
-      "type": "transform",
-      "msg": "You adjust your XS gambeson a bit tighter.",
-      "target": "gambeson_xs",
-      "menu_text": "Adjust tighter"
-    }
+    "name": { "str": "padded gambeson vest" },
+    "description": "A thick padded surcoat assembled by quilting readily available fabric and stuffing the layers with waste fabric or horse hair that was intended as standalone armor, being too thick to comfortably fit a cuirass over.  Likely either a historical artifact or a low-quality reproduction.  Though inferior to a proper layered gambeson its sheer thickness is still quite protective.",
+    "weight": "9120 g",
+    "volume": "6000 ml",
+    "price": 20000,
+    "price_postapoc": 1000,
+    "to_hit": -5,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "vest",
+    "color": "light_gray",
+    "warmth": 50,
+    "flags": [ "VARSIZE", "STURDY", "NORMAL", "OUTER" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "cotton_quilted", "covered_by_mat": 100, "thickness": 2 },
+          { "type": "cotton", "covered_by_mat": 95, "thickness": 2.5 },
+          { "type": "cotton", "covered_by_mat": 95, "thickness": 2.5 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 15
+      },
+      {
+        "material": [ { "type": "cotton_quilted", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
+        "coverage": 72,
+        "encumbrance": 8,
+        "layers": [ "BELTED" ],
+        "//warmth": 20
+      }
+    ]
+  },
+  {
+    "id": "xl_gambeson_vest",
+    "type": "ARMOR",
+    "name": { "str": "XL gambeson vest" },
+    "copy-from": "gambeson_vest",
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "gambeson_vest_xs",
@@ -2375,146 +2286,1716 @@
     "looks_like": "gambeson",
     "name": { "str": "XS gambeson vest" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] },
-    "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "gambeson_xs_loose", "menu_text": "Loosen" }
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
-    "id": "gambeson_vest_xs_loose",
-    "repairs_like": "gambeson_vest",
+    "id": "gambeson_pants",
     "type": "ARMOR",
-    "name": { "str": "XS gambeson vest (loose)", "str_pl": "XS gambeson vests (loose)" },
-    "description": "A thick vest of quilted fabric, loosened to be worn as outer armor, coming in size XS with removed sleeves.  Use it to wear it tighter and be able to put proper armor over it.",
-    "copy-from": "gambeson_vest_xs",
-    "extend": { "flags": [ "OUTER" ] },
-    "use_action": {
-      "type": "transform",
-      "msg": "You adjust your XS gambeson vest a bit tighter.",
-      "target": "gambeson_vest_xs",
-      "menu_text": "Adjust tighter"
-    }
+    "name": { "str_sp": "padded arming pants" },
+    "description": "Thick pants made of quilted fabric, meant to be worn alongside a gambeson under or without armor.",
+    "weight": "2736 g",
+    "volume": "1750 ml",
+    "price": 14000,
+    "price_postapoc": 1000,
+    "to_hit": -5,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "pants",
+    "color": "light_gray",
+    "warmth": 30,
+    "flags": [ "VARSIZE", "STURDY" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "cotton_quilted", "covered_by_mat": 100, "thickness": 1 },
+          { "type": "cotton", "covered_by_mat": 95, "thickness": 2 }
+        ],
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 100,
+        "encumbrance": 15
+      }
+    ]
   },
   {
     "id": "xl_gambeson_pants",
     "type": "ARMOR",
     "name": { "str": "XL arming pants", "str_pl": "pairs of XL arming pants" },
     "copy-from": "gambeson_pants",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "xl_gambeson_loose",
-    "repairs_like": "xl_gambeson",
+    "id": "gambeson_pants_xs",
     "type": "ARMOR",
-    "name": { "str": "XL gambeson (loose)", "str_pl": "XL gambesons (loose)" },
-    "copy-from": "xl_gambeson",
-    "extend": { "flags": [ "OUTER" ] },
-    "use_action": {
-      "type": "transform",
-      "msg": "You adjust your XL gambeson a bit tighter.",
-      "target": "xl_gambeson",
-      "menu_text": "Adjust tighter"
-    }
+    "name": { "str": "XL arming pants", "str_pl": "pairs of XL arming pants" },
+    "copy-from": "gambeson_pants",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "xl_gambeson_vest_loose",
-    "repairs_like": "xl_gambeson",
+    "id": "aketon_canvas",
+    "//-1": "Going off the Rule of Nines for body proportions and assuming about 20 ft sq for the whole surface area of the body",
+    "//": "roughly 0.25mm per sheet of canvas making this a 14-layer jack, sheets are 1x2 feet. 49 sheets for the vest and 18 sheets for the arms (67 total).",
+    "//1": "human torso is about 7 sq. feet.  76g (canvas) x 14 (layers) x 3.5 (surface area) = 3724g",
+    "//2": "human arms is about 3 sq. feet.  76g (canvas) x 12 (layers) x 1.5 (surface area) = 1368g",
+    "//3": "5092g combined",
     "type": "ARMOR",
-    "name": { "str": "XL gambeson vest (loose)", "str_pl": "XL gambeson vests (loose)" },
-    "copy-from": "xl_gambeson_vest",
-    "extend": { "flags": [ "OUTER" ] },
-    "use_action": {
-      "type": "transform",
-      "msg": "You adjust your XL gambeson vest a bit tighter.",
-      "target": "xl_gambeson_vest",
-      "menu_text": "Adjust tighter"
-    }
+    "name": { "str": "canvas aketon" },
+    "description": "A thick cloth jack, intended to be worn below metal armor.  This one is made of over a dozen layers of tough canvas, and it provides fairly decent protection on its own.",
+    "weight": "5092 g",
+    "volume": "3500 ml",
+    "price_postapoc": 4000,
+    "to_hit": -5,
+    "material": [ "canvas" ],
+    "symbol": "[",
+    "looks_like": "fencing_jacket",
+    "color": "light_gray",
+    "warmth": 30,
+    "material_thickness": 3.5,
+    "environmental_protection": 3,
+    "flags": [ "VARSIZE", "STURDY", "WATERPROOF" ],
+    "armor": [
+      {
+        "material": [ { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 3.5 } ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 10
+      },
+      {
+        "material": [ { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 3.0 } ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 15
+      }
+    ]
   },
   {
-    "id": "xl_k_gambeson",
+    "id": "xl_aketon_canvas",
+    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
     "type": "ARMOR",
-    "name": { "str": "XL Kevlar gambeson" },
-    "copy-from": "k_gambeson",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] },
-    "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "xl_k_gambeson_loose", "menu_text": "Loosen" }
+    "name": { "str": "XL canvas aketon" },
+    "copy-from": "aketon_canvas",
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "xl_k_gambeson_vest",
+    "id": "xs_aketon_canvas",
+    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
     "type": "ARMOR",
-    "name": { "str": "XL Kevlar gambeson vest" },
-    "copy-from": "k_gambeson_vest",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] },
-    "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "xl_k_gambeson_vest_loose", "menu_text": "Loosen" }
-  },
-  {
-    "id": "k_gambeson_xs",
-    "type": "ARMOR",
-    "copy-from": "k_gambeson",
-    "looks_like": "k_gambeson",
-    "name": { "str": "XS Kevlar gambeson" },
+    "name": { "str": "XS canvas aketon" },
+    "copy-from": "aketon_canvas",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
-    "id": "k_gambeson_vest_xs",
+    "id": "aketon_canvas_vest",
+    "//": "roughly 0.25mm per sheet of canvas making this a 14-layer jack, sheets are 1x2 feet. 49 sheets total.",
+    "//1": "human torso is about 7 sq. feet.  76g (canvas) x 14 (layers) x 3.5 (surface area) = 3724g",
     "type": "ARMOR",
-    "copy-from": "k_gambeson_vest",
-    "looks_like": "k_gambeson",
-    "name": { "str": "XS Kevlar gambeson vest" },
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] },
-    "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "k_gambeson_vest_xs_loose", "menu_text": "Loosen" }
+    "name": { "str": "canvas aketon vest" },
+    "description": "A thick cloth vest, intended to be worn below metal armor.  This one is made of over a dozen layers of tough canvas, and it provides fairly decent protection on its own.",
+    "weight": "3724 g",
+    "volume": "2500 ml",
+    "price_postapoc": 2500,
+    "to_hit": -5,
+    "material": [ "canvas" ],
+    "symbol": "[",
+    "looks_like": "vest",
+    "color": "light_gray",
+    "warmth": 30,
+    "material_thickness": 3.5,
+    "environmental_protection": 3,
+    "flags": [ "VARSIZE", "STURDY", "WATERPROOF" ],
+    "armor": [
+      {
+        "material": [ { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 3.5 } ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 10
+      }
+    ]
   },
   {
-    "id": "xl_k_gambeson_pants",
+    "id": "xl_aketon_canvas_vest",
+    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
     "type": "ARMOR",
-    "name": { "str": "XL Kevlar arming pants", "str_pl": "pairs of XL Kevlar arming pants" },
-    "copy-from": "k_gambeson_pants",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "name": { "str": "XL canvas aketon vest" },
+    "copy-from": "aketon_canvas_vest",
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "xl_k_gambeson_loose",
-    "repairs_like": "xl_k_gambeson",
+    "id": "xs_aketon_canvas_vest",
+    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
     "type": "ARMOR",
-    "name": { "str": "XL Kevlar gambeson (loose)", "str_pl": "XL Kevlar gambesons (loose)" },
-    "copy-from": "xl_k_gambeson",
-    "extend": { "flags": [ "OUTER" ] },
-    "use_action": {
-      "type": "transform",
-      "msg": "You adjust your XL Kevlar gambeson a bit tighter.",
-      "target": "xl_k_gambeson",
-      "menu_text": "Adjust tighter"
-    }
+    "name": { "str": "XS canvas aketon vest" },
+    "copy-from": "aketon_canvas_vest",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
-    "id": "xl_k_gambeson_vest_loose",
-    "repairs_like": "xl_k_gambeson",
+    "id": "aketon_pants_canvas",
+    "//": "roughly 0.25mm per sheet of canvas making these 12 layer pants, sheets are 1x2 feet. 36 sheets total",
+    "//1": "human legs is about 6 sq. feet.  76g (canvas) x 12 (layers) x 3 (surface area) = 2736g",
     "type": "ARMOR",
-    "name": { "str": "XL Kevlar gambeson vest (loose)", "str_pl": "XL Kevlar gambeson vests (loose)" },
-    "copy-from": "xl_k_gambeson_vest",
-    "extend": { "flags": [ "OUTER" ] },
-    "use_action": {
-      "type": "transform",
-      "msg": "You adjust your XL Kevlar gambeson vest a bit tighter.",
-      "target": "xl_k_gambeson_vest",
-      "menu_text": "Adjust tighter"
-    }
+    "name": { "str": "canvas arming pants", "str_pl": "pairs of canvas arming pants" },
+    "description": "Tough cloth pants worn alongside an aketon underneath metal armor.  These are made of many layers of canvas offering solid protection.",
+    "weight": "2736 g",
+    "volume": "1750 ml",
+    "price_postapoc": 2500,
+    "to_hit": -5,
+    "material": [ "canvas" ],
+    "symbol": "[",
+    "looks_like": "fencing_pants",
+    "color": "light_gray",
+    "warmth": 30,
+    "material_thickness": 3.0,
+    "environmental_protection": 3,
+    "flags": [ "VARSIZE", "STURDY", "WATERPROOF" ],
+    "armor": [
+      {
+        "material": [ { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 3.0 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 100,
+        "encumbrance": 15
+      }
+    ]
   },
   {
-    "id": "k_gambeson_vest_xs_loose",
-    "repairs_like": "k_gambeson_xs",
+    "id": "xl_aketon_pants_canvas",
+    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
     "type": "ARMOR",
-    "name": { "str": "XS Kevlar gambeson vest (loose)", "str_pl": "XS Kevlar gambeson vests (loose)" },
-    "copy-from": "k_gambeson_vest_xs",
-    "extend": { "flags": [ "OUTER" ] },
-    "use_action": {
-      "type": "transform",
-      "msg": "You adjust your XL Kevlar gambeson vest a bit tighter.",
-      "target": "k_gambeson_vest_xs",
-      "menu_text": "Adjust tighter"
-    }
+    "name": { "str": "XL canvas arming pants", "str_pl": "pairs of XL canvas arming pants" },
+    "copy-from": "aketon_pants_canvas",
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_aketon_pants_canvas",
+    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
+    "type": "ARMOR",
+    "name": { "str": "XS canvas arming pants", "str_pl": "pairs of XS canvas arming pants" },
+    "copy-from": "aketon_pants_canvas",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "aketon_hood_canvas",
+    "//": "roughly 0.25mm per sheet of canvas making this 8 layers, sheets are 1x2 feet. 10 sheets total",
+    "//1": "human head total is about 2.5 sq. feet.  76g (canvas) x 8 (layers) x 1.25 (surface area) = 760g",
+    "type": "ARMOR",
+    "name": { "str": "canvas coif" },
+    "description": "A cloth coif with neck and forehead protection.  Resting on your shoulders, it serves as padding for a helmet.  Though it's pretty warm, it is constructed of tough canvas and provides substantial protection even on its own.",
+    "weight": "760 g",
+    "volume": "500 ml",
+    "price_postapoc": 1000,
+    "to_hit": -5,
+    "material": [ "canvas" ],
+    "symbol": "[",
+    "looks_like": "cowl_wool",
+    "color": "light_gray",
+    "warmth": 25,
+    "material_thickness": 2.0,
+    "environmental_protection": 3,
+    "flags": [ "VARSIZE", "STURDY", "SKINTIGHT", "WATERPROOF" ],
+    "armor": [
+      {
+        "material": [ { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_throat", "head_ear_l", "head_ear_r", "head_forehead", "head_crown", "head_nape" ],
+        "coverage": 100,
+        "encumbrance_modifiers": [ "WELL_SUPPORTED" ]
+      }
+    ]
+  },
+  {
+    "id": "xl_aketon_hood_canvas",
+    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
+    "type": "ARMOR",
+    "name": { "str": "XL canvas coif" },
+    "copy-from": "aketon_hood_canvas",
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_aketon_hood_canvas",
+    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
+    "type": "ARMOR",
+    "name": { "str": "XS canvas coif" },
+    "copy-from": "aketon_hood_canvas",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "aketon_gloves_canvas",
+    "//": "roughly 0.25mm per sheet of canvas making this 8 layers, sheets are 1x2 feet. 4 sheets total",
+    "//1": "human hands assumed to be about 1 sq ft total, 76g (canvas) x 8 (layers) x 0.5 (surface area) = 304g",
+    "type": "ARMOR",
+    "name": { "str": "canvas arming gloves", "str_pl": "pairs of canvas arming gloves" },
+    "description": "Tough gloves made of canvas cloth, thin enough to wear under metal gauntlets.  They help to keep your hands safe during a fight.",
+    "weight": "304 g",
+    "volume": "250 ml",
+    "price_postapoc": 1000,
+    "to_hit": -1,
+    "material": [ "canvas" ],
+    "symbol": "[",
+    "looks_like": "gloves_work",
+    "color": "light_gray",
+    "warmth": 25,
+    "material_thickness": 2.0,
+    "environmental_protection": 3,
+    "flags": [ "VARSIZE", "STURDY" ],
+    "armor": [
+      {
+        "material": [ { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "covers": [ "hand_l", "hand_r" ],
+        "coverage": 100,
+        "encumbrance": 20
+      }
+    ]
+  },
+  {
+    "id": "xl_aketon_gloves_canvas",
+    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
+    "type": "ARMOR",
+    "name": { "str": "XL canvas arming gloves", "str_pl": "pairs of XL canvas arming gloves" },
+    "copy-from": "aketon_gloves_canvas",
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_aketon_gloves_canvas",
+    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
+    "type": "ARMOR",
+    "name": { "str": "XS canvas arming gloves", "str_pl": "pairs of XS canvas arming gloves" },
+    "copy-from": "aketon_gloves_canvas",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "gambeson_canvas",
+    "//-1": "Going off the Rule of Nines for body proportions and assuming about 20 ft sq in total",
+    "//": "roughly 0.25mm per sheet of canvas making this a 30-layer jack, sheets are 1x2 feet. 105 sheets for the vest and 36 sheets for the arms (141 total).",
+    "//1": "human torso is about 7 sq. feet.  76g (canvas) x 30 (layers) x 3.5 (surface area) = 7980g",
+    "//2": "human arms is about 3 sq. feet.  76g (canvas) x 24 (layers) x 1.5 (surface area) = 2736g",
+    "//3": "8 layers thick waist. human waist is about 3ft circumference with the extra padding, and reaches to about below knees. doesn't usually cover the whole circumference so guessing about 1.5x2.5x8 total surface area divided by 1x2 ft for about 15-18 extra sheets, about 1140g if 15 sheets.",
+    "//4": "7980g + 2736g + 1140g = 11856g combined",
+    "type": "ARMOR",
+    "name": { "str": "canvas gambeson" },
+    "description": "A thick cloth greatcoat intended to be worn as standalone armor, as it's a little too thick to comfortably add chainmail or a cuirass on top.  Made of thirty layers of tough canvas, this will protect you from almost everything, but it's very heavy and warm.  The sleeves are a bit thinner for flexibility and it drapes below your legs, providing additional protection there.",
+    "weight": "11856 g",
+    "volume": "7500 ml",
+    "price_postapoc": 8500,
+    "to_hit": -5,
+    "material": [ "canvas" ],
+    "symbol": "[",
+    "looks_like": "gambeson",
+    "color": "light_gray",
+    "warmth": 60,
+    "material_thickness": 7.5,
+    "environmental_protection": 4,
+    "flags": [ "VARSIZE", "STURDY", "BLOCK_WHILE_WORN", "NORMAL", "OUTER", "WATERPROOF" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 3.5 },
+          { "type": "canvas_quilted_2", "covered_by_mat": 95, "thickness": 4.0 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 20
+      },
+      {
+        "material": [
+          { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 3.0 },
+          { "type": "canvas_quilted_2", "covered_by_mat": 95, "thickness": 3.0 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 25,
+        "//warmth": 50
+      },
+      {
+        "material": [ { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
+        "coverage": 72,
+        "encumbrance": 8,
+        "layers": [ "BELTED" ],
+        "//warmth": 20
+      }
+    ]
+  },
+  {
+    "id": "xl_gambeson_canvas",
+    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
+    "type": "ARMOR",
+    "name": { "str": "XL canvas gambeson" },
+    "copy-from": "gambeson_canvas",
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_gambeson_canvas",
+    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
+    "type": "ARMOR",
+    "name": { "str": "XS canvas gambeson" },
+    "copy-from": "gambeson_canvas",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "gambeson_canvas_thinsleeved",
+    "//-1": "Going off the Rule of Nines for body proportions and assuming about 20 ft sq in total",
+    "//": "roughly 0.25mm per sheet of canvas making this a 30-layer jack, sheets are 1x2 feet. 105 sheets for the vest and 18 sheets for the arms (123 total).",
+    "//1": "human torso is about 7 sq. feet.  76g (canvas) x 30 (layers) x 3.5 (surface area) = 7980g",
+    "//2": "human arms is about 3 sq. feet.  76g (canvas) x 12 (layers) x 1.5 (surface area) = 1368g",
+    "//3": "8 layers thick waist. human waist is about 3ft circumference with the extra padding, and reaches to about below knees. doesn't usually cover the whole circumference so guessing about 1.5x2.5x8 total surface area divided by 1x2 ft for about 15-18 extra sheets, about 1140g if 15 sheets.",
+    "//4": "7980g + 1368g + 1140g = 10488g combined",
+    "type": "ARMOR",
+    "name": { "str": "thin-sleeved canvas gambeson" },
+    "description": "A thick cloth greatcoat intended to be worn as standalone armor, as it's a little too thick to comfortably add chainmail or a cuirass on top.  Made of thirty layers of tough canvas, this will protect you from almost everything, but it's very heavy and warm.  The sleeves are a lot thinner for flexibility and it drapes below your legs, providing additional protection there.",
+    "weight": "10488 g",
+    "volume": "7000 ml",
+    "price_postapoc": 7500,
+    "to_hit": -5,
+    "material": [ "canvas" ],
+    "symbol": "[",
+    "looks_like": "gambeson",
+    "color": "light_gray",
+    "warmth": 60,
+    "material_thickness": 7.5,
+    "environmental_protection": 4,
+    "flags": [ "VARSIZE", "STURDY", "NORMAL", "OUTER", "WATERPROOF" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 3.5 },
+          { "type": "canvas_quilted_2", "covered_by_mat": 95, "thickness": 4.0 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 20
+      },
+      {
+        "material": [ { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 3.0 } ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 15,
+        "//warmth": 30
+      },
+      {
+        "material": [ { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
+        "coverage": 72,
+        "encumbrance": 8,
+        "layers": [ "BELTED" ],
+        "//warmth": 20
+      }
+    ]
+  },
+  {
+    "id": "xl_gambeson_canvas_thinsleeved",
+    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
+    "type": "ARMOR",
+    "name": { "str": "XL thin-sleeved canvas gambeson" },
+    "copy-from": "gambeson_canvas_thinsleeved",
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_gambeson_canvas_thinsleeved",
+    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
+    "type": "ARMOR",
+    "name": { "str": "XS thin-sleeved canvas gambeson" },
+    "copy-from": "gambeson_canvas_thinsleeved",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "gambeson_canvas_vest",
+    "//-1": "Going off the Rule of Nines for body proportions and assuming about 20 ft sq in total",
+    "//": "roughly 0.25mm per sheet of canvas making this a 30-layer jack, sheets are 1x2 feet. 105 sheets for the vest.",
+    "//1": "human torso is about 7 sq. feet.  76g (canvas) x 30 (layers) x 3.5 (surface area) = 7980g",
+    "//2": "8 layers thick waist. human waist is about 3ft circumference with the extra padding, and reaches to about below knees. doesn't usually cover the whole circumference so guessing about 1.5x2.5x8 total surface area divided by 1x2 ft for about 15-18 extra sheets, about 1140g if 15 sheets.",
+    "//3": "7980g + 1140g = 9120g combined",
+    "type": "ARMOR",
+    "name": { "str": "sleeveless canvas gambeson" },
+    "description": "A thick cloth surcoat intended to be worn as standalone armor, as it's a little too thick to comfortably add chainmail or a cuirass on top.  Made of thirty layers of tough canvas, this will protect you from almost everything, but it's very heavy and warm.  It drapes below your legs, providing additional protection there, and it lacks sleeves entirely.",
+    "weight": "9120 g",
+    "volume": "6000 ml",
+    "price_postapoc": 5000,
+    "to_hit": -5,
+    "material": [ "canvas" ],
+    "symbol": "[",
+    "looks_like": "sleeveless_tunic",
+    "color": "light_gray",
+    "warmth": 60,
+    "material_thickness": 7.5,
+    "environmental_protection": 4,
+    "flags": [ "VARSIZE", "STURDY", "NORMAL", "OUTER", "WATERPROOF" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 3.5 },
+          { "type": "canvas_quilted_2", "covered_by_mat": 95, "thickness": 4.0 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 20
+      },
+      {
+        "material": [ { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
+        "coverage": 72,
+        "encumbrance": 8,
+        "layers": [ "BELTED" ],
+        "//warmth": 20
+      }
+    ]
+  },
+  {
+    "id": "xl_gambeson_canvas_vest",
+    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
+    "type": "ARMOR",
+    "name": { "str": "XL sleeveless canvas gambeson" },
+    "copy-from": "gambeson_canvas_vest",
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_gambeson_canvas_vest",
+    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
+    "type": "ARMOR",
+    "name": { "str": "XS sleeveless canvas gambeson" },
+    "copy-from": "gambeson_canvas_vest",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "gambeson_pants_canvas",
+    "//": "roughly 0.25mm per sheet of canvas making these 24 layer pants, sheets are 1x2 feet. 72 sheets total",
+    "//1": "human legs is about 6 sq. feet.  76g (canvas) x 24 (layers) x 3 (surface area) = 5472g",
+    "type": "ARMOR",
+    "name": { "str": "canvas heavy arming pants", "str_pl": "pairs of canvas heavy arming pants" },
+    "description": "Tough, extremely thick cloth pants worn on their own alongside a gambeson.  These are made of a huge number of canvas layers offering very solid protection, though they're too thick to easily add metal armor on top and are both stuffy and restrictive.",
+    "weight": "5472 g",
+    "volume": "3750 ml",
+    "price_postapoc": 5000,
+    "to_hit": -5,
+    "material": [ "canvas" ],
+    "symbol": "[",
+    "looks_like": "fencing_pants",
+    "color": "light_gray",
+    "warmth": 55,
+    "material_thickness": 6.0,
+    "environmental_protection": 4,
+    "flags": [ "VARSIZE", "STURDY", "NORMAL", "OUTER", "WATERPROOF" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 3.0 },
+          { "type": "canvas_quilted_2", "covered_by_mat": 95, "thickness": 3.0 }
+        ],
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 100,
+        "encumbrance": 25
+      }
+    ]
+  },
+  {
+    "id": "xl_gambeson_pants_canvas",
+    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
+    "type": "ARMOR",
+    "name": { "str": "XL canvas heavy arming pants", "str_pl": "pairs of XL canvas heavy arming pants" },
+    "copy-from": "gambeson_pants_canvas",
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_gambeson_pants_canvas",
+    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
+    "type": "ARMOR",
+    "name": { "str": "XS canvas heavy arming pants", "str_pl": "pairs of XS canvas heavy arming pants" },
+    "copy-from": "gambeson_pants_canvas",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "gambeson_gloves_canvas",
+    "//": "roughly 0.25mm per sheet of canvas making this 8 layers, sheets are 1x2 feet. 4 sheets total",
+    "//1": "human hands assumed to be about 1 sq ft total, 76g (canvas) x 8 (layers) x 0.5 (surface area) = 304g",
+    "//2": "on top of that, additional 2x as thick layer on about 60% of the hand, so adding another 5 sheets for 9 total (684 g)",
+    "type": "ARMOR",
+    "name": { "str": "canvas arming mittens", "str_pl": "pairs of canvas arming mittens" },
+    "description": "Very thick canvas gauntlets worn in lieu of metal or leather armor.  Though they make it hard to do anything other than swing a weapon, and they're very warm, they offer excellent protection.",
+    "weight": "720 g",
+    "volume": "500 ml",
+    "price_postapoc": 2000,
+    "to_hit": -1,
+    "material": [ "canvas" ],
+    "symbol": "[",
+    "looks_like": "mittens",
+    "color": "light_gray",
+    "warmth": 50,
+    "material_thickness": 6.0,
+    "environmental_protection": 4,
+    "flags": [ "VARSIZE", "STURDY", "NORMAL", "OUTER", "WATERPROOF" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "canvas_quilted_2", "covered_by_mat": 90, "thickness": 4.0 }
+        ],
+        "//a": "technically, only covering 60% ish - inner hand is thinner - but fist will be clenched so inner hand should not really be hit",
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "coverage": 100,
+        "encumbrance": 30
+      },
+      {
+        "material": [
+          { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "canvas_quilted_2", "covered_by_mat": 95, "thickness": 4.0 }
+        ],
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_back_l", "hand_back_r", "hand_wrist_l", "hand_wrist_r" ],
+        "coverage": 100
+      }
+    ]
+  },
+  {
+    "id": "xl_gambeson_gloves_canvas",
+    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
+    "type": "ARMOR",
+    "name": { "str": "XL canvas arming mittens", "str_pl": "pairs of XL canvas arming mittens" },
+    "copy-from": "gambeson_gloves_canvas",
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_gambeson_gloves_canvas",
+    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
+    "type": "ARMOR",
+    "name": { "str": "XS canvas arming mittens", "str_pl": "pairs of XS canvas arming mittens" },
+    "copy-from": "gambeson_gloves_canvas",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "aketon_nylon",
+    "//-1": "Going off the Rule of Nines for body proportions and assuming about 20 ft sq for the whole surface area of the body",
+    "//": "roughly 0.25mm per sheet of nylon making this a 14-layer jack, sheets are 1x2 feet. 49 sheets for the vest and 18 sheets for the arms (67 total).",
+    "//1": "human torso is about 7 sq. feet.  54g (nylon) x 14 (layers) x 3.5 (surface area) = 2646g",
+    "//2": "human arms is about 3 sq. feet.  54g (nylon) x 12 (layers) x 1.5 (surface area) = 972g",
+    "//3": "3618g combined",
+    "type": "ARMOR",
+    "name": { "str": "nylon aketon" },
+    "description": "A thick cloth jack, intended to be worn below metal armor.  This one is made of over a dozen layers of tough nylon, and it provides fairly decent protection on its own.",
+    "weight": "3618 g",
+    "volume": "3500 ml",
+    "price_postapoc": 4000,
+    "to_hit": -5,
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "fencing_jacket",
+    "color": "light_gray",
+    "warmth": 30,
+    "material_thickness": 3.5,
+    "environmental_protection": 3,
+    "flags": [ "VARSIZE", "STURDY", "WATERPROOF" ],
+    "armor": [
+      {
+        "material": [ { "type": "nylon_quilted", "covered_by_mat": 100, "thickness": 3.5 } ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 7
+      },
+      {
+        "material": [ { "type": "nylon_quilted", "covered_by_mat": 100, "thickness": 3.0 } ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 10
+      }
+    ]
+  },
+  {
+    "id": "xl_aketon_nylon",
+    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
+    "type": "ARMOR",
+    "name": { "str": "XL nylon aketon" },
+    "copy-from": "aketon_nylon",
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_aketon_nylon",
+    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
+    "type": "ARMOR",
+    "name": { "str": "XS nylon aketon" },
+    "copy-from": "aketon_nylon",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "aketon_nylon_vest",
+    "//": "roughly 0.25mm per sheet of nylon making this a 14-layer jack, sheets are 1x2 feet. 49 sheets total.",
+    "//1": "human torso is about 7 sq. feet.  54g (nylon) x 14 (layers) x 3.5 (surface area) = 2646g",
+    "type": "ARMOR",
+    "name": { "str": "nylon aketon vest" },
+    "description": "A thick cloth vest, intended to be worn below metal armor.  This one is made of over a dozen layers of tough nylon, and it provides fairly decent protection on its own in addition to being quite light.",
+    "weight": "2646 g",
+    "volume": "2500 ml",
+    "price_postapoc": 2500,
+    "to_hit": -5,
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "vest",
+    "color": "light_gray",
+    "warmth": 30,
+    "material_thickness": 3.5,
+    "environmental_protection": 3,
+    "flags": [ "VARSIZE", "STURDY", "WATERPROOF" ],
+    "armor": [
+      {
+        "material": [ { "type": "nylon_quilted", "covered_by_mat": 100, "thickness": 3.5 } ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 7
+      }
+    ]
+  },
+  {
+    "id": "xl_aketon_nylon_vest",
+    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
+    "type": "ARMOR",
+    "name": { "str": "XL nylon aketon vest" },
+    "copy-from": "aketon_nylon_vest",
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_aketon_nylon_vest",
+    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
+    "type": "ARMOR",
+    "name": { "str": "XS nylon aketon vest" },
+    "copy-from": "aketon_canvas_vest",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "aketon_pants_nylon",
+    "//": "roughly 0.25mm per sheet of canvas making these 12 layer pants, sheets are 1x2 feet. 36 sheets total",
+    "//1": "human legs is about 6 sq. feet.  54g (nylon) x 12 (layers) x 3 (surface area) = 1944g",
+    "type": "ARMOR",
+    "name": { "str": "nylon arming pants", "str_pl": "pairs of nylon arming pants" },
+    "description": "Tough cloth pants worn alongside an aketon underneath metal armor.  These are made of many layers of nylon offering solid protection and the modern material is much lighter than organic fabrics.",
+    "weight": "1944 g",
+    "volume": "1750 ml",
+    "price_postapoc": 2500,
+    "to_hit": -5,
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "fencing_pants",
+    "color": "light_gray",
+    "warmth": 30,
+    "material_thickness": 3.0,
+    "environmental_protection": 3,
+    "flags": [ "VARSIZE", "STURDY", "WATERPROOF" ],
+    "armor": [
+      {
+        "material": [ { "type": "nylon_quilted", "covered_by_mat": 100, "thickness": 3.0 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 100,
+        "encumbrance": 10
+      }
+    ]
+  },
+  {
+    "id": "xl_aketon_pants_nylon",
+    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
+    "type": "ARMOR",
+    "name": { "str": "XL nylon arming pants", "str_pl": "pairs of XL nylon arming pants" },
+    "copy-from": "aketon_pants_nylon",
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_aketon_pants_nylon",
+    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
+    "type": "ARMOR",
+    "name": { "str": "XS nylon arming pants", "str_pl": "pairs of XS nylon arming pants" },
+    "copy-from": "aketon_pants_nylon",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "aketon_hood_nylon",
+    "//": "roughly 0.25mm per sheet of nylon making this 8 layers, sheets are 1x2 feet. 10 sheets total",
+    "//1": "human head total is about 2.5 sq. feet.  54g (nylon) x 8 (layers) x 1.25 (surface area) = 540g",
+    "type": "ARMOR",
+    "name": { "str": "nylon coif" },
+    "description": "A cloth coif with neck and forehead protection.  Resting on your shoulders, it serves as padding for a helmet.  It is constructed of tough nylon and provides decent protection even on its own in addition to being fairly light.",
+    "weight": "540 g",
+    "volume": "500 ml",
+    "price_postapoc": 1000,
+    "to_hit": -5,
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "wetsuit_hood",
+    "color": "light_gray",
+    "warmth": 25,
+    "material_thickness": 2.0,
+    "environmental_protection": 3,
+    "flags": [ "VARSIZE", "STURDY", "SKINTIGHT" ],
+    "armor": [
+      {
+        "material": [ { "type": "nylon_quilted", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_throat", "head_ear_l", "head_ear_r", "head_forehead", "head_crown", "head_nape" ],
+        "coverage": 100,
+        "encumbrance_modifiers": [ "WELL_SUPPORTED" ]
+      }
+    ]
+  },
+  {
+    "id": "xl_aketon_hood_nylon",
+    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
+    "type": "ARMOR",
+    "name": { "str": "XL nylon coif" },
+    "copy-from": "aketon_hood_canvas",
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_aketon_hood_nylon",
+    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
+    "type": "ARMOR",
+    "name": { "str": "XS nylon coif" },
+    "copy-from": "aketon_hood_canvas",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "aketon_gloves_nylon",
+    "//": "roughly 0.25mm per sheet of nylon making this 8 layers, sheets are 1x2 feet. 4 sheets total",
+    "//1": "human hands assumed to be about 1 sq ft total, 54g (nylon) x 8 (layers) x 0.5 (surface area) = 216g",
+    "type": "ARMOR",
+    "name": { "str": "nylon arming gloves", "str_pl": "pairs of nylon arming gloves" },
+    "description": "Tough gloves made of nylon cloth, thin enough to wear under metal gauntlets.  They help to keep your hands safe during a fight.",
+    "weight": "216 g",
+    "volume": "250 ml",
+    "price_postapoc": 1000,
+    "to_hit": -1,
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "gloves_work",
+    "color": "light_gray",
+    "warmth": 25,
+    "material_thickness": 2.0,
+    "environmental_protection": 3,
+    "flags": [ "VARSIZE", "STURDY" ],
+    "armor": [
+      {
+        "material": [ { "type": "nylon_quilted", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "covers": [ "hand_l", "hand_r" ],
+        "coverage": 100,
+        "encumbrance": 15
+      }
+    ]
+  },
+  {
+    "id": "xl_aketon_gloves_nylon",
+    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
+    "type": "ARMOR",
+    "name": { "str": "XL nylon arming gloves", "str_pl": "pairs of XL nylon arming gloves" },
+    "copy-from": "aketon_gloves_nylon",
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_aketon_gloves_nylon",
+    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
+    "type": "ARMOR",
+    "name": { "str": "XS nylon arming gloves", "str_pl": "pairs of XS nylon arming gloves" },
+    "copy-from": "aketon_gloves_nylon",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "gambeson_nylon",
+    "//-1": "Going off the Rule of Nines for body proportions and assuming about 20 ft sq in total",
+    "//": "roughly 0.25mm per sheet of nylon making this a 30-layer jack, sheets are 1x2 feet. 105 sheets for the vest and 36 sheets for the arms (141 total).",
+    "//1": "human torso is about 7 sq. feet.  54g (nylon) x 30 (layers) x 3.5 (surface area) = 5670g",
+    "//2": "human arms is about 3 sq. feet.  54g (nylon) x 24 (layers) x 1.5 (surface area) = 1944g",
+    "//3": "8 layers thick waist. human waist is about 3ft circumference with the extra padding, and reaches to about below knees. doesn't usually cover the whole circumference so guessing about 1.5x2.5x8 total surface area divided by 1x2 ft for about 15-18 extra sheets, about 810g if 15 sheets.",
+    "//4": "5670g + 1944g + 810g = 8424g combined",
+    "type": "ARMOR",
+    "name": { "str": "nylon gambeson" },
+    "description": "A thick cloth greatcoat intended to be worn as standalone armor, as it's a little too thick to comfortably add chainmail or a cuirass on top.  Made of thirty layers of tough canvas, this will protect you from almost everything, but it's very heavy and warm.  The sleeves are a bit thinner for flexibility and it drapes below your legs, providing additional protection there.",
+    "weight": "8424 g",
+    "volume": "7500 ml",
+    "price_postapoc": 8500,
+    "to_hit": -5,
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "gambeson",
+    "color": "light_gray",
+    "warmth": 60,
+    "material_thickness": 7.5,
+    "environmental_protection": 4,
+    "flags": [ "VARSIZE", "STURDY", "BLOCK_WHILE_WORN", "NORMAL", "OUTER", "WATERPROOF" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "nylon_quilted", "covered_by_mat": 100, "thickness": 3.5 },
+          { "type": "nylon_quilted_2", "covered_by_mat": 95, "thickness": 4.0 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 15
+      },
+      {
+        "material": [
+          { "type": "nylon_quilted", "covered_by_mat": 100, "thickness": 3.0 },
+          { "type": "nylon_quilted_2", "covered_by_mat": 95, "thickness": 3.0 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 21,
+        "//warmth": 50
+      },
+      {
+        "material": [ { "type": "nylon_quilted", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
+        "coverage": 72,
+        "encumbrance": 7,
+        "layers": [ "BELTED" ],
+        "//warmth": 20
+      }
+    ]
+  },
+  {
+    "id": "xl_gambeson_nylon",
+    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
+    "type": "ARMOR",
+    "name": { "str": "XL nylon gambeson" },
+    "copy-from": "gambeson_nylon",
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_gambeson_nylon",
+    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
+    "type": "ARMOR",
+    "name": { "str": "XS nylon gambeson" },
+    "copy-from": "gambeson_nylon",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "gambeson_nylon_thinsleeved",
+    "//-1": "Going off the Rule of Nines for body proportions and assuming about 20 ft sq in total",
+    "//": "roughly 0.25mm per sheet of nylon making this a 30-layer jack, sheets are 1x2 feet. 105 sheets for the vest and 18 sheets for the arms (123 total).",
+    "//1": "human torso is about 7 sq. feet.  54g (nylon) x 30 (layers) x 3.5 (surface area) = 5670g",
+    "//2": "human arms is about 3 sq. feet.  54g (nylon) x 12 (layers) x 1.5 (surface area) = 972g",
+    "//3": "8 layers thick waist. human waist is about 3ft circumference with the extra padding, and reaches to about below knees. doesn't usually cover the whole circumference so guessing about 1.5x2.5x8 total surface area divided by 1x2 ft for about 15-18 extra sheets, about 810g if 15 sheets.",
+    "//4": "5670g + 972g + 810g = 7452g combined",
+    "type": "ARMOR",
+    "name": { "str": "nylon thin-sleeved gambeson" },
+    "description": "A thick cloth greatcoat intended to be worn as standalone armor, as it's a little too thick to comfortably add chainmail or a cuirass on top.  Made of thirty layers of tough canvas, this will protect you from almost everything, but it's very heavy and warm.  The sleeves are a lot thinner for flexibility and it drapes below your legs, providing additional protection there.",
+    "weight": "7452 g",
+    "volume": "7000 ml",
+    "price_postapoc": 7500,
+    "to_hit": -5,
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "gambeson",
+    "color": "light_gray",
+    "warmth": 60,
+    "material_thickness": 7.5,
+    "environmental_protection": 4,
+    "flags": [ "VARSIZE", "STURDY", "NORMAL", "OUTER", "WATERPROOF" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "nylon_quilted", "covered_by_mat": 100, "thickness": 3.5 },
+          { "type": "nylon_quilted_2", "covered_by_mat": 95, "thickness": 4.0 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 15
+      },
+      {
+        "material": [ { "type": "nylon_quilted", "covered_by_mat": 100, "thickness": 3.0 } ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 10,
+        "//warmth": 30
+      },
+      {
+        "material": [ { "type": "nylon_quilted", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
+        "coverage": 72,
+        "encumbrance": 7,
+        "layers": [ "BELTED" ],
+        "//warmth": 20
+      }
+    ]
+  },
+  {
+    "id": "xl_gambeson_nylon_thinsleeved",
+    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
+    "type": "ARMOR",
+    "name": { "str": "XL thin-sleeved nylon gambeson" },
+    "copy-from": "gambeson_nylon_thinsleeved",
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_gambeson_nylon_thinsleeved",
+    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
+    "type": "ARMOR",
+    "name": { "str": "XS thin-sleeved nylon gambeson" },
+    "copy-from": "gambeson_nylon_thinsleeved",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "gambeson_nylon_vest",
+    "//-1": "Going off the Rule of Nines for body proportions and assuming about 20 ft sq in total",
+    "//": "roughly 0.25mm per sheet of nylon making this a 30-layer jack, sheets are 1x2 feet. 105 sheets for the vest.",
+    "//1": "human torso is about 7 sq. feet.  54g (nylon) x 30 (layers) x 3.5 (surface area) = 5670g",
+    "//2": "8 layers thick waist. human waist is about 3ft circumference with the extra padding, and reaches to about below knees. doesn't usually cover the whole circumference so guessing about 1.5x2.5x8 total surface area divided by 1x2 ft for about 15-18 extra sheets, about 810g if 15 sheets.",
+    "//3": "5670g + 810g = 6480g combined",
+    "type": "ARMOR",
+    "name": { "str": "nylon sleeveless gambeson" },
+    "description": "A thick cloth surcoat intended to be worn as standalone armor, as it's a little too thick to comfortably add chainmail or a cuirass on top.  Made of thirty layers of tough nylon, this will protect you from almost everything, but it's very heavy and warm.  It drapes below your legs, providing additional protection there, and it lacks sleeves entirely.",
+    "weight": "6480 g",
+    "volume": "6000 ml",
+    "price_postapoc": 5000,
+    "to_hit": -5,
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "sleeveless_tunic",
+    "color": "light_gray",
+    "warmth": 60,
+    "material_thickness": 7.5,
+    "environmental_protection": 4,
+    "flags": [ "VARSIZE", "STURDY", "NORMAL", "OUTER", "WATERPROOF" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "nylon_quilted", "covered_by_mat": 100, "thickness": 3.5 },
+          { "type": "nylon_quilted_2", "covered_by_mat": 95, "thickness": 4.0 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 15
+      },
+      {
+        "material": [ { "type": "nylon_quilted", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
+        "coverage": 72,
+        "encumbrance": 7,
+        "layers": [ "BELTED" ],
+        "//warmth": 20
+      }
+    ]
+  },
+  {
+    "id": "xl_gambeson_nylon_vest",
+    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
+    "type": "ARMOR",
+    "name": { "str": "XL sleeveless nylon gambeson" },
+    "copy-from": "gambeson_nylon_vest",
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_gambeson_nylon_vest",
+    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
+    "type": "ARMOR",
+    "name": { "str": "XS sleeveless nylon gambeson" },
+    "copy-from": "gambeson_nylon_vest",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "gambeson_pants_nylon",
+    "//": "roughly 0.25mm per sheet of nylon making these 24 layer pants, sheets are 1x2 feet. 72 sheets total",
+    "//1": "human legs is about 6 sq. feet.  54g (nylon) x 24 (layers) x 3 (surface area) = 3888g",
+    "type": "ARMOR",
+    "name": { "str": "nylon heavy arming pants", "str_pl": "pairs of nylon heavy arming pants" },
+    "description": "Tough, extremely thick nylon pants worn on their own alongside a gambeson.  These are made of a huge number of canvas layers offering very solid protection, though they're too thick to easily add metal armor on top and are both stuffy and restrictive.",
+    "weight": "3888 g",
+    "volume": "3750 ml",
+    "price_postapoc": 5000,
+    "to_hit": -5,
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "fencing_pants",
+    "color": "light_gray",
+    "warmth": 55,
+    "material_thickness": 6.0,
+    "environmental_protection": 4,
+    "flags": [ "VARSIZE", "STURDY", "NORMAL", "OUTER", "WATERPROOF" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "nylon_quilted", "covered_by_mat": 100, "thickness": 3.0 },
+          { "type": "nylon_quilted_2", "covered_by_mat": 95, "thickness": 3.0 }
+        ],
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 100,
+        "encumbrance": 21
+      }
+    ]
+  },
+  {
+    "id": "xl_gambeson_pants_nylon",
+    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
+    "type": "ARMOR",
+    "name": { "str": "XL nylon heavy arming pants", "str_pl": "pairs of XL nylon heavy arming pants" },
+    "copy-from": "gambeson_pants_nylon",
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_gambeson_pants_nylon",
+    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
+    "type": "ARMOR",
+    "name": { "str": "XS nylon heavy arming pants", "str_pl": "pairs of XS nylon heavy arming pants" },
+    "copy-from": "gambeson_pants_nylon",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "gambeson_gloves_nylon",
+    "//": "roughly 0.25mm per sheet of nylon making this 8 layers, sheets are 1x2 feet. 4 sheets total",
+    "//1": "human hands assumed to be about 1 sq ft total, 54g (nylon) x 8 (layers) x 0.5 (surface area) = 216g",
+    "//2": "on top of that, additional 2x as thick layer on about 60% of the hand, so adding another 5 sheets for 9 total (486 g)",
+    "type": "ARMOR",
+    "name": { "str": "nylon arming mittens", "str_pl": "pairs of nylon arming mittens" },
+    "description": "Very thick nylon gauntlets worn in lieu of metal or leather armor.  Though they make it hard to do anything other than swing a weapon, and they're very warm, they offer excellent protection.",
+    "weight": "486 g",
+    "volume": "500 ml",
+    "price_postapoc": 2000,
+    "to_hit": -1,
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "mittens",
+    "color": "light_gray",
+    "warmth": 50,
+    "material_thickness": 6.0,
+    "environmental_protection": 4,
+    "flags": [ "VARSIZE", "STURDY", "NORMAL", "OUTER", "WATERPROOF" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "nylon_quilted", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "nylon_quilted_2", "covered_by_mat": 90, "thickness": 4.0 }
+        ],
+        "//a": "technically, only covering 60% ish - inner hand is thinner - but fist will be clenched so inner hand should not really be hit",
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "coverage": 100,
+        "encumbrance": 28
+      },
+      {
+        "material": [
+          { "type": "nylon_quilted", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "nylon_quilted_2", "covered_by_mat": 90, "thickness": 4.0 }
+        ],
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_back_l", "hand_back_r", "hand_wrist_l", "hand_wrist_r" ],
+        "coverage": 100
+      }
+    ]
+  },
+  {
+    "id": "xl_gambeson_gloves_nylon",
+    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
+    "type": "ARMOR",
+    "name": { "str": "XL nylon arming mittens", "str_pl": "pairs of XL canvas arming mittens" },
+    "copy-from": "gambeson_gloves_nylon",
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_gambeson_gloves_nylon",
+    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
+    "type": "ARMOR",
+    "name": { "str": "XS nylon arming mittens", "str_pl": "pairs of XS nylon arming mittens" },
+    "copy-from": "gambeson_gloves_nylon",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "aketon_wool",
+    "//-1": "Going off the Rule of Nines for body proportions and assuming about 20 ft sq for the whole surface area of the body",
+    "//": "This is made out of quilts rather than sheets because felt is very low density and would need to be very thick - general wool has 1.4g/cm^3 however.",
+    "//0": "I am treating this as though it were made of canvas or nylon sheets with a density of 1.4 instead of 1.6 or 1.14.",
+    "//1": "human torso is about 7 sq. feet.  65g (wool) x 14 (layers) x 3.5 (surface area) = 3185g",
+    "//2": "human arms is about 3 sq. feet.  65g (wool) x 12 (layers) x 1.5 (surface area) = 1170g",
+    "//3": "4355g combined",
+    "type": "ARMOR",
+    "name": { "str": "wool aketon" },
+    "description": "A thick cloth jack, intended to be worn below metal armor.  This one is made of layered wool quilting and it provides fairly decent protection on its own.",
+    "weight": "4355 g",
+    "volume": "3500 ml",
+    "price_postapoc": 4000,
+    "to_hit": -5,
+    "material": [ "wool" ],
+    "symbol": "[",
+    "looks_like": "fencing_jacket",
+    "color": "light_gray",
+    "warmth": 33,
+    "material_thickness": 3.5,
+    "environmental_protection": 1,
+    "flags": [ "VARSIZE", "STURDY" ],
+    "armor": [
+      {
+        "material": [ { "type": "wool_quilted", "covered_by_mat": 100, "thickness": 3.5 } ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 9
+      },
+      {
+        "material": [ { "type": "wool_quilted", "covered_by_mat": 100, "thickness": 3.0 } ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 13
+      }
+    ]
+  },
+  {
+    "id": "xl_aketon_wool",
+    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
+    "type": "ARMOR",
+    "name": { "str": "XL wool aketon" },
+    "copy-from": "aketon_wool",
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_aketon_wool",
+    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
+    "type": "ARMOR",
+    "name": { "str": "XS wool aketon" },
+    "copy-from": "aketon_wool",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "aketon_wool_vest",
+    "//": "This is made out of quilts rather than sheets because felt is very low density and would need to be very thick - general wool has 1.4g/cm^3 however.",
+    "//0": "I am treating this as though it were made of canvas or nylon sheets with a density of 1.4 instead of 1.6 or 1.14.",
+    "//1": "human torso is about 7 sq. feet.  65g (wool) x 14 (layers) x 3.5 (surface area) = 3185g",
+    "type": "ARMOR",
+    "name": { "str": "wool aketon vest" },
+    "description": "A thick cloth vest, intended to be worn below metal armor.  This one is made of layered wool quilting and it provides fairly decent protection on its own.",
+    "weight": "3185 g",
+    "volume": "2500 ml",
+    "price_postapoc": 2500,
+    "to_hit": -5,
+    "material": [ "wool" ],
+    "symbol": "[",
+    "looks_like": "vest",
+    "color": "light_gray",
+    "warmth": 33,
+    "material_thickness": 3.5,
+    "environmental_protection": 1,
+    "flags": [ "VARSIZE", "STURDY" ],
+    "armor": [
+      {
+        "material": [ { "type": "wool_quilted", "covered_by_mat": 100, "thickness": 3.5 } ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 9
+      }
+    ]
+  },
+  {
+    "id": "xl_aketon_wool_vest",
+    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
+    "type": "ARMOR",
+    "name": { "str": "XL wool aketon vest" },
+    "copy-from": "aketon_wool_vest",
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_aketon_wool_vest",
+    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
+    "type": "ARMOR",
+    "name": { "str": "XS wool aketon vest" },
+    "copy-from": "aketon_wool_vest",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "aketon_pants_wool",
+    "//": "This is made out of quilts rather than sheets because felt is very low density and would need to be very thick - general wool has 1.4g/cm^3 however.",
+    "//0": "I am treating this as though it were made of canvas or nylon sheets with a density of 1.4 instead of 1.6 or 1.14.",
+    "//1": "human legs is about 6 sq. feet.  65g (wool) x 12 (layers) x 3 (surface area) = 2340g",
+    "type": "ARMOR",
+    "name": { "str": "wool arming pants", "str_pl": "pairs of wool arming pants" },
+    "description": "Tough cloth pants worn alongside an aketon underneath metal armor.  This one is made of layered wool quilting and it provides fairly decent protection on its own.",
+    "weight": "2340 g",
+    "volume": "1750 ml",
+    "price_postapoc": 2500,
+    "to_hit": -5,
+    "material": [ "wool" ],
+    "symbol": "[",
+    "looks_like": "fencing_pants",
+    "color": "light_gray",
+    "warmth": 33,
+    "material_thickness": 3.0,
+    "flags": [ "VARSIZE", "STURDY" ],
+    "armor": [
+      {
+        "material": [ { "type": "wool_quilted", "covered_by_mat": 100, "thickness": 3.0 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 100,
+        "encumbrance": 13
+      }
+    ]
+  },
+  {
+    "id": "xl_aketon_pants_wool",
+    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
+    "type": "ARMOR",
+    "name": { "str": "XL wool arming pants", "str_pl": "pairs of XL wool arming pants" },
+    "copy-from": "aketon_pants_wool",
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_aketon_pants_wool",
+    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
+    "type": "ARMOR",
+    "name": { "str": "XS wool arming pants", "str_pl": "pairs of XS wool arming pants" },
+    "copy-from": "aketon_pants_canvas",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "aketon_hood_wool",
+    "//": "This is made out of quilts rather than sheets because felt is very low density and would need to be very thick - general wool has 1.4g/cm^3 however.",
+    "//0": "I am treating this as though it were made of canvas or nylon sheets with a density of 1.4 instead of 1.6 or 1.14.",
+    "//1": "human head total is about 2.5 sq. feet.  65g (canvas) x 8 (layers) x 1.25 (surface area) = 650g",
+    "type": "ARMOR",
+    "name": { "str": "wool coif" },
+    "description": "A cloth coif with neck and forehead protection.  Resting on your shoulders, it serves as padding for a helmet.  Though it's pretty warm, it is constructed of layered wool quilting and provides substantial protection even on its own.",
+    "weight": "650 g",
+    "volume": "500 ml",
+    "price_postapoc": 1000,
+    "to_hit": -5,
+    "material": [ "wool" ],
+    "symbol": "[",
+    "looks_like": "cowl_wool",
+    "color": "light_gray",
+    "warmth": 28,
+    "material_thickness": 2.0,
+    "environmental_protection": 1,
+    "flags": [ "VARSIZE", "STURDY", "SKINTIGHT" ],
+    "armor": [
+      {
+        "material": [ { "type": "wool_quilted", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_throat", "head_ear_l", "head_ear_r", "head_forehead", "head_crown", "head_nape" ],
+        "coverage": 100,
+        "encumbrance_modifiers": [ "WELL_SUPPORTED" ]
+      }
+    ]
+  },
+  {
+    "id": "xl_aketon_hood_wool",
+    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
+    "type": "ARMOR",
+    "name": { "str": "XL wool coif" },
+    "copy-from": "aketon_hood_wool",
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_aketon_hood_wool",
+    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
+    "type": "ARMOR",
+    "name": { "str": "XS wool coif" },
+    "copy-from": "aketon_hood_wool",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "aketon_gloves_wool",
+    "//": "This is made out of quilts rather than sheets because felt is very low density and would need to be very thick - general wool has 1.4g/cm^3 however.",
+    "//0": "I am treating this as though it were made of canvas or nylon sheets with a density of 1.4 instead of 1.6 or 1.14.",
+    "//1": "human hands assumed to be about 1 sq ft total, 65g (wool) x 8 (layers) x 0.5 (surface area) = 260g",
+    "type": "ARMOR",
+    "name": { "str": "wool arming gloves", "str_pl": "pairs of wool arming gloves" },
+    "description": "Tough cloth gloves made of layered wool quilting, thin enough to wear under metal gauntlets.  They help to keep your hands safe during a fight.",
+    "weight": "260 g",
+    "volume": "250 ml",
+    "price_postapoc": 1000,
+    "to_hit": -1,
+    "material": [ "wool" ],
+    "symbol": "[",
+    "looks_like": "gloves_wool",
+    "color": "light_gray",
+    "warmth": 28,
+    "material_thickness": 2.0,
+    "environmental_protection": 1,
+    "flags": [ "VARSIZE", "STURDY" ],
+    "armor": [
+      {
+        "material": [ { "type": "wool_quilted", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "covers": [ "hand_l", "hand_r" ],
+        "coverage": 100,
+        "encumbrance": 18
+      }
+    ]
+  },
+  {
+    "id": "xl_aketon_gloves_wool",
+    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
+    "type": "ARMOR",
+    "name": { "str": "XL wool arming gloves", "str_pl": "pairs of XL wool arming gloves" },
+    "copy-from": "aketon_gloves_wool",
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_aketon_gloves_wool",
+    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
+    "type": "ARMOR",
+    "name": { "str": "XS wool arming gloves", "str_pl": "pairs of XS wool arming gloves" },
+    "copy-from": "aketon_gloves_wool",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "gambeson_wool",
+    "//-1": "Going off the Rule of Nines for body proportions and assuming about 20 ft sq in total",
+    "//": "This is made out of quilts rather than sheets because felt is very low density and would need to be very thick - general wool has 1.4g/cm^3 however.",
+    "//0": "I am treating this as though it were made of canvas or nylon sheets with a density of 1.4 instead of 1.6 or 1.14.",
+    "//1": "human torso is about 7 sq. feet.  65g (wool) x 30 (layers) x 3.5 (surface area) = 6825g",
+    "//2": "human arms is about 3 sq. feet.  65g (wool) x 24 (layers) x 1.5 (surface area) = 2340g",
+    "//3": "8 layers thick waist. human waist is about 3ft circumference with the extra padding, and reaches to about below knees. doesn't usually cover the whole circumference so guessing about 1.5x2.5x8 total surface area divided by 1x2 ft for about 15-18 extra sheets, about 975g if 15 sheets.",
+    "//4": "6825g + 2340g + 975g = 10140g combined",
+    "type": "ARMOR",
+    "name": { "str": "wool gambeson" },
+    "description": "A thick cloth greatcoat intended to be worn as standalone armor, as it's a little too thick to comfortably add chainmail or a cuirass on top.  Made of thickly layered wool quilting, this will protect you from almost everything, but it's very heavy and warm.  The sleeves are a bit thinner for flexibility and it drapes below your legs, providing additional protection there.",
+    "weight": "10140 g",
+    "volume": "7500 ml",
+    "price_postapoc": 8500,
+    "to_hit": -5,
+    "material": [ "wool" ],
+    "symbol": "[",
+    "looks_like": "gambeson",
+    "color": "light_gray",
+    "warmth": 66,
+    "material_thickness": 7.5,
+    "environmental_protection": 1,
+    "flags": [ "VARSIZE", "STURDY", "BLOCK_WHILE_WORN", "NORMAL", "OUTER" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "wool_quilted", "covered_by_mat": 100, "thickness": 3.5 },
+          { "type": "wool_quilted_2", "covered_by_mat": 95, "thickness": 4.0 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 18
+      },
+      {
+        "material": [
+          { "type": "wool_quilted", "covered_by_mat": 100, "thickness": 3.0 },
+          { "type": "wool_quilted_2", "covered_by_mat": 95, "thickness": 3.0 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 23,
+        "//warmth": 55
+      },
+      {
+        "material": [ { "type": "wool_quilted", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
+        "coverage": 72,
+        "encumbrance": 8,
+        "layers": [ "BELTED" ],
+        "//warmth": 22
+      }
+    ]
+  },
+  {
+    "id": "xl_gambeson_wool",
+    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
+    "type": "ARMOR",
+    "name": { "str": "XL wool gambeson" },
+    "copy-from": "gambeson_wool",
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_gambeson_wool",
+    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
+    "type": "ARMOR",
+    "name": { "str": "XS wool gambeson" },
+    "copy-from": "gambeson_wool",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "gambeson_wool_thinsleeved",
+    "//-1": "Going off the Rule of Nines for body proportions and assuming about 20 ft sq in total",
+    "//": "This is made out of quilts rather than sheets because felt is very low density and would need to be very thick - general wool has 1.4g/cm^3 however.",
+    "//0": "I am treating this as though it were made of canvas or nylon sheets with a density of 1.4 instead of 1.6 or 1.14.",
+    "//1": "human torso is about 7 sq. feet.  65g (wool) x 30 (layers) x 3.5 (surface area) = 6825g",
+    "//2": "human arms is about 3 sq. feet.  65g (wool) x 12 (layers) x 1.5 (surface area) = 1170g",
+    "//3": "8 layers thick waist. human waist is about 3ft circumference with the extra padding, and reaches to about below knees. doesn't usually cover the whole circumference so guessing about 1.5x2.5x8 total surface area divided by 1x2 ft for about 15-18 extra sheets, about 925g if 15 sheets.",
+    "//4": "6825g + 1170g + 975g = 8970g combined",
+    "type": "ARMOR",
+    "name": { "str": "thin-sleeved wool gambeson" },
+    "description": "A thick cloth greatcoat intended to be worn as standalone armor, as it's a little too thick to comfortably add chainmail or a cuirass on top.  Made of thickly layered wool quilting, this will protect you from almost everything, but it's very heavy and warm.  The sleeves are a lot thinner for flexibility and it drapes below your legs, providing additional protection there.",
+    "weight": "10488 g",
+    "volume": "7500 ml",
+    "price_postapoc": 7500,
+    "to_hit": -5,
+    "material": [ "wool" ],
+    "symbol": "[",
+    "looks_like": "gambeson_wool",
+    "color": "light_gray",
+    "warmth": 66,
+    "material_thickness": 7.5,
+    "environmental_protection": 1,
+    "flags": [ "VARSIZE", "STURDY", "NORMAL", "OUTER" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "wool_quilted", "covered_by_mat": 100, "thickness": 3.5 },
+          { "type": "wool_quilted_2", "covered_by_mat": 95, "thickness": 4.0 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 18
+      },
+      {
+        "material": [ { "type": "wool_quilted", "covered_by_mat": 100, "thickness": 3.0 } ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 23,
+        "//warmth": 33
+      },
+      {
+        "material": [ { "type": "wool_quilted", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
+        "coverage": 72,
+        "encumbrance": 8,
+        "layers": [ "BELTED" ],
+        "//warmth": 22
+      }
+    ]
+  },
+  {
+    "id": "xl_gambeson_wool_thinsleeved",
+    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
+    "type": "ARMOR",
+    "name": { "str": "XL thin-sleeved wool gambeson" },
+    "copy-from": "gambeson_wool_thinsleeved",
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_gambeson_wool_thinsleeved",
+    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
+    "type": "ARMOR",
+    "name": { "str": "XS thin-sleeved wool gambeson" },
+    "copy-from": "gambeson_wool_thinsleeved",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "gambeson_wool_vest",
+    "//-1": "Going off the Rule of Nines for body proportions and assuming about 20 ft sq in total",
+    "//": "This is made out of quilts rather than sheets because felt is very low density and would need to be very thick - general wool has 1.4g/cm^3 however.",
+    "//0": "I am treating this as though it were made of canvas or nylon sheets with a density of 1.4 instead of 1.6 or 1.14.",
+    "//1": "human torso is about 7 sq. feet.  65g (wool) x 30 (layers) x 3.5 (surface area) = 6825g",
+    "//2": "8 layers thick waist. human waist is about 3ft circumference with the extra padding, and reaches to about below knees. doesn't usually cover the whole circumference so guessing about 1.5x2.5x8 total surface area divided by 1x2 ft for about 15-18 extra sheets, about 975g if 15 sheets.",
+    "//3": "6825g + 975g = 7800g combined",
+    "type": "ARMOR",
+    "name": { "str": "sleeveless wool gambeson" },
+    "description": "A thick cloth surcoat intended to be worn as standalone armor, as it's a little too thick to comfortably add chainmail or a cuirass on top.  Made of thickly layered wool quilting, this will protect you from almost everything, but it's very heavy and warm.  It drapes below your legs, providing additional protection there, and it lacks sleeves entirely.",
+    "weight": "7800 g",
+    "volume": "6000 ml",
+    "price_postapoc": 5000,
+    "to_hit": -5,
+    "material": [ "wool" ],
+    "symbol": "[",
+    "looks_like": "sleeveless_tunic",
+    "color": "light_gray",
+    "warmth": 66,
+    "material_thickness": 7.5,
+    "environmental_protection": 1,
+    "flags": [ "VARSIZE", "STURDY", "NORMAL", "OUTER" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "wool_quilted", "covered_by_mat": 100, "thickness": 3.5 },
+          { "type": "wool_quilted_2", "covered_by_mat": 95, "thickness": 4.0 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 18
+      },
+      {
+        "material": [ { "type": "wool_quilted", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
+        "coverage": 72,
+        "encumbrance": 8,
+        "layers": [ "BELTED" ],
+        "//warmth": 20
+      }
+    ]
+  },
+  {
+    "id": "xl_gambeson_wool_vest",
+    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
+    "type": "ARMOR",
+    "name": { "str": "XL sleeveless wool gambeson" },
+    "copy-from": "gambeson_wool_vest",
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_gambeson_wool_vest",
+    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
+    "type": "ARMOR",
+    "name": { "str": "XS sleeveless wool gambeson" },
+    "copy-from": "gambeson_wool_vest",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "gambeson_pants_wool",
+    "//": "This is made out of quilts rather than sheets because felt is very low density and would need to be very thick - general wool has 1.4g/cm^3 however.",
+    "//0": "I am treating this as though it were made of canvas or nylon sheets with a density of 1.4 instead of 1.6 or 1.14.",
+    "//1": "human legs is about 6 sq. feet.  65g (wool) x 24 (layers) x 3 (surface area) = 4680g",
+    "type": "ARMOR",
+    "name": { "str": "wool heavy arming pants", "str_pl": "pairs of wool heavy arming pants" },
+    "description": "Tough, extremely thick cloth pants worn on their own alongside a gambeson.  These are made of thickly layered wool quilting offering very solid protection, though they're too thick to easily add metal armor on top and are both stuffy and restrictive.",
+    "weight": "4680 g",
+    "volume": "3750 ml",
+    "price_postapoc": 5000,
+    "to_hit": -5,
+    "material": [ "wool" ],
+    "symbol": "[",
+    "looks_like": "fencing_pants",
+    "color": "light_gray",
+    "warmth": 61,
+    "material_thickness": 6.0,
+    "environmental_protection": 1,
+    "flags": [ "VARSIZE", "STURDY", "NORMAL", "OUTER" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "wool_quilted", "covered_by_mat": 100, "thickness": 3.0 },
+          { "type": "wool_quilted_2", "covered_by_mat": 95, "thickness": 3.0 }
+        ],
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 100,
+        "encumbrance": 23
+      }
+    ]
+  },
+  {
+    "id": "xl_gambeson_pants_wool",
+    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
+    "type": "ARMOR",
+    "name": { "str": "XL wool heavy arming pants", "str_pl": "pairs of XL wool heavy arming pants" },
+    "copy-from": "gambeson_pants_wool",
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_gambeson_pants_wool",
+    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
+    "type": "ARMOR",
+    "name": { "str": "XS wool heavy arming pants", "str_pl": "pairs of XS wool heavy arming pants" },
+    "copy-from": "gambeson_pants_wool",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "gambeson_gloves_wool",
+    "//": "This is made out of quilts rather than sheets because felt is very low density and would need to be very thick - general wool has 1.4g/cm^3 however.",
+    "//0": "I am treating this as though it were made of canvas or nylon sheets with a density of 1.4 instead of 1.6 or 1.14.",
+    "//1": "human hands assumed to be about 1 sq ft total, 65g (wool) x 8 (layers) x 0.5 (surface area) = 260g",
+    "//2": "on top of that, additional 2x as thick layer on about 60% of the hand, so adding another 5 sheets for 9 total (585 g)",
+    "type": "ARMOR",
+    "name": { "str": "wool arming mittens", "str_pl": "pairs of wool arming mittens" },
+    "description": "Very thick wool gauntlets worn in lieu of metal or leather armor.  Though they make it hard to do anything other than swing a weapon, and they're very warm, they offer excellent protection.",
+    "weight": "585 g",
+    "volume": "500 ml",
+    "price_postapoc": 2000,
+    "to_hit": -1,
+    "material": [ "wool" ],
+    "symbol": "[",
+    "looks_like": "mittens",
+    "color": "light_gray",
+    "warmth": 55,
+    "material_thickness": 6.0,
+    "environmental_protection": 1,
+    "flags": [ "VARSIZE", "STURDY", "NORMAL", "OUTER" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "wool_quilted", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "wool_quilted_2", "covered_by_mat": 90, "thickness": 4.0 }
+        ],
+        "//a": "technically, only covering 60% ish - inner hand is thinner - but fist will be clenched so inner hand should not really be hit",
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "coverage": 100,
+        "encumbrance": 29
+      },
+      {
+        "material": [
+          { "type": "wool_quilted", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "wool_quilted_2", "covered_by_mat": 95, "thickness": 4.0 }
+        ],
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_back_l", "hand_back_r", "hand_wrist_l", "hand_wrist_r" ],
+        "coverage": 100
+      }
+    ]
+  },
+  {
+    "id": "xl_gambeson_gloves_wool",
+    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
+    "type": "ARMOR",
+    "name": { "str": "XL wool arming mittens", "str_pl": "pairs of XL wool arming mittens" },
+    "copy-from": "gambeson_gloves_wool",
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_gambeson_gloves_wool",
+    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
+    "type": "ARMOR",
+    "name": { "str": "XS wool arming mittens", "str_pl": "pairs of XS wool arming mittens" },
+    "copy-from": "gambeson_gloves_wool",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "hazmat_suit",
@@ -3034,6 +4515,7 @@
     "name": { "str": "nomad plate armor" },
     "description": "A full body multilayered suit of plate armor with a 4mm thick chest piece.  The medium steel has been quenched, tempered and affixed over a full-body layered suit of weight-distributing straps.  The armor has an integrated breathable lycra jumpsuit and the torso has a spall liner of aramid panels.  Electronics run below the surface and circulate cool air to the skin, drawing power from your internal CBM reservoir.",
     "material": [ "qt_steel", "qt_steel_chain", "lycra", "kevlar" ],
+    "ammo": "battery",
     "armor": [
       {
         "material": [
@@ -3069,14 +4551,7 @@
     ],
     "extend": { "flags": [ "NORMAL", "MUNDANE", "USES_BIONIC_POWER" ] },
     "relic_data": {
-      "passive_effects": [
-        { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] },
-        {
-          "has": "WORN",
-          "condition": "ACTIVE",
-          "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 50 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 50 } ]
-        }
-      ]
+      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] }, { "id": "ench_climate_control_all" } ]
     },
     "use_action": {
       "type": "transform",
@@ -3110,6 +4585,7 @@
     "name": { "str": "nomad light plate armor" },
     "description": "A full body multilayered light suit of plate armor with a 2mm thick chest piece.  The medium steel has been quenched, tempered and affixed over a full-body layered suit of weight-distributing straps.  The armor has an integrated breathable lycra jumpsuit and the torso has a spall liner of aramid panels.  Electronics run below the surface and circulate cool air to the skin, drawing power from your internal CBM reservoir.",
     "material": [ "qt_steel", "qt_steel_chain", "lycra", "kevlar" ],
+    "ammo": "battery",
     "armor": [
       {
         "material": [
@@ -3145,14 +4621,7 @@
     ],
     "extend": { "flags": [ "NORMAL", "MUNDANE", "USES_BIONIC_POWER" ] },
     "relic_data": {
-      "passive_effects": [
-        { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] },
-        {
-          "has": "WORN",
-          "condition": "ACTIVE",
-          "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 50 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 50 } ]
-        }
-      ]
+      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] }, { "id": "ench_climate_control_all" } ]
     },
     "use_action": {
       "type": "transform",
@@ -3186,6 +4655,7 @@
     "name": { "str": "nomad heavy plate armor" },
     "description": "A full body multilayered heavy suit of plate armor with a 6mm thick chest piece.  The medium steel has been quenched, tempered and affixed over a full-body layered suit of weight-distributing straps.  The armor has an integrated breathable lycra jumpsuit and the torso has a spall liner of aramid panels.  Electronics run below the surface and circulate cool air to the skin, drawing power from your internal CBM reservoir.",
     "material": [ "qt_steel", "qt_steel_chain", "lycra", "kevlar" ],
+    "ammo": "battery",
     "armor": [
       {
         "material": [
@@ -3221,14 +4691,7 @@
     ],
     "extend": { "flags": [ "NORMAL", "MUNDANE", "USES_BIONIC_POWER" ] },
     "relic_data": {
-      "passive_effects": [
-        { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] },
-        {
-          "has": "WORN",
-          "condition": "ACTIVE",
-          "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 50 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 50 } ]
-        }
-      ]
+      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] }, { "id": "ench_climate_control_all" } ]
     },
     "use_action": {
       "type": "transform",
@@ -3253,6 +4716,75 @@
       "menu_text": "Turn off",
       "msg": "The %s pipes stop humming.",
       "target": "armor_nomad_heavyplate"
+    }
+  },
+  {
+    "id": "armor_nomad_chainmail",
+    "type": "TOOL_ARMOR",
+    "copy-from": "qt_chainmail_hauberk",
+    "name": { "str": "nomad chainmail", "str_pl": "suits of nomad chainmail" },
+    "weight": "17200 g",
+    "volume": "7000 ml",
+    "repairs_like": "armor_nomad_lightplate",
+    "description": "A full body multilayered chainmail hauberk.  The medium steel has been quenched, tempered and affixed over a full-body layered suit of weight-distributing straps.  The armor has an integrated breathable lycra jumpsuit and the torso has a spall liner of aramid panels.  Electronics run below the surface and circulate cool air to the skin, drawing power from your internal CBM reservoir.",
+    "material": [ "qt_steel_chain", "lycra", "kevlar" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "lycra", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 2.0 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 12
+      },
+      {
+        "material": [
+          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "lycra", "covered_by_mat": 100, "thickness": 4.0 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 10
+      },
+      {
+        "material": [
+          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "lycra", "covered_by_mat": 100, "thickness": 4.0 }
+        ],
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 100,
+        "encumbrance": 10
+      }
+    ],
+    "extend": { "flags": [ "NORMAL", "MUNDANE", "USES_BIONIC_POWER" ] },
+    "relic_data": {
+      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] }, { "id": "ench_climate_control_all" } ]
+    },
+    "use_action": {
+      "type": "transform",
+      "msg": "You turn the climate control on.",
+      "target": "armor_nomad_chainmail_on",
+      "active": true,
+      "need_charges": 1,
+      "need_charges_msg": "Your internal reservoir is empty."
+    }
+  },
+  {
+    "id": "armor_nomad_chainmail_on",
+    "copy-from": "armor_nomad_chainmail",
+    "repairs_like": "armor_nomad_chainmail",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "nomad chainmail (on)", "str_pl": "suits of nomad chainmail (on)" },
+    "revert_to": "armor_nomad_chainmail",
+    "power_draw": "100 W",
+    "use_action": {
+      "ammo_scale": 0,
+      "type": "transform",
+      "menu_text": "Turn off",
+      "msg": "The %s pipes stop humming.",
+      "target": "armor_nomad_chainmail"
     }
   }
 ]

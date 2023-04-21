@@ -65,6 +65,7 @@ class talker_character_const: public talker
         int mana_cur() const override;
         int mana_max() const override;
         bool has_trait( const trait_id &trait_to_check ) const override;
+        bool has_recipe( const recipe_id &recipe_to_check ) const override;
         bool has_flag( const json_character_flag &trait_flag_to_check ) const override;
         bool crossed_threshold() const override;
         int num_bionics() const override;
@@ -113,6 +114,7 @@ class talker_character_const: public talker
         int get_thirst() const override;
         int get_instant_thirst() const override;
         int get_stored_kcal() const override;
+        int get_healthy_kcal() const override;
         bool is_in_control_of( const vehicle &veh ) const override;
 
         bool worn_with_flag( const flag_id &flag, const bodypart_id &bp ) const override;
@@ -139,6 +141,7 @@ class talker_character_const: public talker
         int get_health() const override;
         int get_body_temp() const override;
         int get_body_temp_delta() const override;
+        bool knows_martial_art( const matype_id &id ) const override;
     protected:
         talker_character_const() = default;
         const Character *me_chr_const;
@@ -188,7 +191,7 @@ class talker_character: public talker_character_const
         void set_mutation( const trait_id &new_trait ) override;
         void unset_mutation( const trait_id &old_trait ) override;
         void set_skill_level( const skill_id &skill, int value ) override;
-
+        void learn_recipe( const recipe_id &recipe_to_learn ) override;
         void add_effect( const efftype_id &new_effect, const time_duration &dur,
                          const std::string &bp, bool permanent, bool force, int intensity
                        ) override;
@@ -213,6 +216,7 @@ class talker_character: public talker_character_const
 
         void set_fatigue( int amount ) override;
         void mod_pain( int amount ) override;
+        void set_pain( int amount ) override;
         void mod_daily_health( int, int ) override;
         void add_morale( const morale_type &new_morale, int bonus, int max_bonus, time_duration duration,
                          time_duration decay_started, bool capped ) override;
@@ -235,6 +239,8 @@ class talker_character: public talker_character_const
         int get_part_hp_cur( const bodypart_id &id ) const override;
         int get_part_hp_max( const bodypart_id &id ) const override;
         void set_part_hp_cur( const bodypart_id &id, int set ) const override;
+        void learn_martial_art( const matype_id &id ) const override;
+        void forget_martial_art( const matype_id &id ) const override;
     protected:
         talker_character() = default;
         Character *me_chr;

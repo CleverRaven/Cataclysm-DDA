@@ -1,0 +1,70 @@
+[
+  {
+    "id": "weldrig",
+    "type": "MIGRATION",
+    "replace": "veh_tools_workshop"
+  },
+  {
+    "id": "chemlab",
+    "type": "MIGRATION",
+    "replace": "veh_tools_kitchen"
+  },
+  {
+    "id": "craftrig",
+    "type": "MIGRATION",
+    "replace": "veh_tools_kitchen"
+  },
+  {
+    "id": "kitchen_unit",
+    "type": "MIGRATION",
+    "replace": "veh_tools_kitchen"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "ap_weldkit",
+    "to": "veh_tools_workshop",
+    "add_veh_tools": [ "welding_kit", "soldering_iron" ]
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "welding_rig",
+    "to": "veh_tools_workshop",
+    "add_veh_tools": [ "welder", "soldering_iron" ]
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "ap_weldrig",
+    "to": "veh_tools_workshop",
+    "add_veh_tools": [ "welder", "soldering_iron" ]
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "ap_chemlab",
+    "to": "veh_tools_kitchen",
+    "add_veh_tools": [ "chemistry_set", "electrolysis_kit" ]
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "chemlab",
+    "to": "veh_tools_kitchen",
+    "add_veh_tools": [ "chemistry_set", "electrolysis_kit" ]
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "craft_rig",
+    "to": "veh_tools_kitchen",
+    "add_veh_tools": [ "vac_sealer", "dehydrator", "water_purifier", "food_processor", "press", "puller" ]
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "ap_foodco",
+    "to": "veh_tools_kitchen",
+    "add_veh_tools": [ "vac_sealer", "dehydrator", "water_purifier", "food_processor", "press", "puller" ]
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "kitchen_unit",
+    "to": "veh_tools_kitchen",
+    "add_veh_tools": [ "hotplate", "pan", "pot" ]
+  }
+]

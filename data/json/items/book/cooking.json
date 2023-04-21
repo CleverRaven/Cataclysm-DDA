@@ -148,7 +148,7 @@
     "price": 1950,
     "price_postapoc": 500,
     "bashing": 5,
-    "material": [ { "type": "leather", "portion": 10 }, { "type": "paper" } ],
+    "material": [ { "type": "leather", "portion": 10 }, { "type": "paper", "portion": 90 } ],
     "symbol": "?",
     "color": "light_gray",
     "looks_like": "cookbook",
@@ -189,7 +189,7 @@
     "type": "BOOK",
     "category": "manuals",
     "name": { "str": "Glamopolitan", "str_pl": "issues of Glamopolitan" },
-    "description": "This is a full-size glossy women's magazine.  There are a few unoriginal recipes and some simple cooking tips somewhere in between the fashion photos and the sex advice columns.",
+    "description": "A full-size glossy women's magazine.  There are a few unoriginal recipes and some simple cooking tips somewhere in between the fashion photos and the sex advice columns.",
     "weight": "160 g",
     "volume": "500 ml",
     "price": 450,
@@ -591,6 +591,33 @@
     "intelligence": 7,
     "fun": 1,
     "copy-from": "book_nonf_hard_cook_tpl",
+    "looks_like": "cookbook"
+  },
+  {
+    "id": "cookbook_native",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": { "str": "The Sioux Chef", "str_pl": "copies of The Sioux Chef" },
+    "//": "Statistics derived from a real book.",
+    "description": "A thick hardcover book about the history and future of Native American cuisine.  As much recipe collection as manifesto.",
+    "weight": "2950 g",
+    "volume": "3215 ml",
+    "price": 6000,
+    "price_postapoc": 750,
+    "material": [ "paper" ],
+    "bashing": 7,
+    "color": "blue",
+    "skill": "cooking",
+    "required_level": 2,
+    "max_level": 3,
+    "intelligence": 7,
+    "proficiencies": [
+      { "proficiency": "prof_forage_cooking", "time_factor": 0.1, "fail_factor": 0.25 },
+      { "proficiency": "prof_frying_bread", "time_factor": 0.1, "fail_factor": 0.4 }
+    ],
+    "fun": 1,
+    "time": "9 m",
+    "symbol": "?",
     "looks_like": "cookbook"
   }
 ]

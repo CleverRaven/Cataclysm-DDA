@@ -56,10 +56,45 @@ struct vitamin_rate_effect {
 };
 
 struct vitamin_applied_effect {
-    cata::optional<std::pair<int, int>> rate = cata::nullopt;
-    cata::optional<time_duration> tick = cata::nullopt;
-    cata::optional<float> absorb_mult = cata::nullopt;
+    std::optional<std::pair<int, int>> rate = std::nullopt;
+    std::optional<time_duration> tick = std::nullopt;
+    std::optional<float> absorb_mult = std::nullopt;
     vitamin_id vitamin;
+};
+
+enum class mod_type : uint8_t {
+    BASE_MOD = 0,
+    SCALING_MOD = 1,
+
+    MAX,
+};
+
+using modifier_value_arr = std::array<double, static_cast<size_t>( mod_type::MAX )>;
+extern modifier_value_arr default_modifier_values;
+
+enum class mod_action : uint8_t {
+    AMOUNT,
+    CHANCE_BOT,
+    CHANCE_TOP,
+    MAX,
+    MAX_VAL,
+    MIN,
+    MIN_VAL,
+    TICK,
+};
+
+// Limb score interactions
+struct limb_score_effect {
+    // Score id to affect
+    limb_score_id score_id;
+    // Multiplier to apply when not resisted
+    float mod;
+    float red_mod;
+    float scaling;
+    float red_scaling;
+
+    void load( const JsonObject &jo );
+    void deserialize( const JsonObject &jo );
 };
 
 class effect_type
@@ -107,10 +142,13 @@ class effect_type
         /** Returns true if an effect will only target main body parts (i.e., those with HP). */
         bool get_main_parts() const;
 
+        double get_mod_value( const std::string &type, mod_action action, uint8_t reduction_level,
+                              int intensity ) const;
+
         bool is_show_in_info() const;
 
         /** Loading helper functions */
-        bool load_mod_data( const JsonObject &jo, const std::string &member );
+        void load_mod_data( const JsonObject &jo );
         bool load_miss_msgs( const JsonObject &jo, const std::string &member );
         bool load_decay_msgs( const JsonObject &jo, const std::string &member );
 
@@ -129,7 +167,18 @@ class effect_type
         }
         std::vector<enchantment_id> enchantments;
         cata::flat_set<json_character_flag> immune_flags;
+        cata::flat_set<json_character_flag> immune_bp_flags;
     protected:
+        uint32_t get_effect_modifier_key( mod_action action, uint8_t reduction_level ) const {
+            return static_cast<uint8_t>( action ) << 0 |
+                   reduction_level << 8;
+        }
+
+        void extract_effect(
+            const std::array<std::optional<JsonObject>, 2> &j,
+            const std::string &effect_name,
+            const std::vector<std::pair<std::string, mod_action>> &action_keys );
+
         int max_intensity = 0;
         int max_effective_intensity = 0;
         time_duration max_duration = 365_days;
@@ -187,12 +236,11 @@ class effect_type
         translation blood_analysis_description;
 
         translation death_msg;
-        cata::optional<event_type> death_event;
+        std::optional<event_type> death_event;
 
-        /** Key tuple order is:("base_mods"/"scaling_mods", reduced: bool, type of mod: "STR", desired argument: "tick") */
-        std::unordered_map <
-        std::tuple<std::string, bool, std::string, std::string>, double, cata::tuple_hash > mod_data;
+        std::unordered_map<std::string, std::unordered_map<uint32_t, modifier_value_arr>> mod_data;
         std::vector<vitamin_rate_effect> vitamin_data;
+        std::vector<limb_score_effect> limb_score_data;
         std::vector<std::pair<int, int>> kill_chance;
         std::vector<std::pair<int, int>> red_kill_chance;
 };
@@ -335,6 +383,9 @@ class effect
         /** Check if the effect has the specified flag */
         bool has_flag( const flag_id &flag ) const;
 
+        // Extract limb score modifiers for descriptions
+        std::vector<limb_score_effect> get_limb_score_data() const;
+
         bool kill_roll( bool reduced ) const;
         std::string get_death_message() const;
         event_type death_event() const;
@@ -364,6 +415,8 @@ class effect
 
         /** Returns if the effect is supposed to be handed in Creature::movement */
         bool impairs_movement() const;
+
+        float get_limb_score_mod( const limb_score_id &score, bool reduced = false ) const;
 
         /** Returns the effect's matching effect_type id. */
         const efftype_id &get_id() const {

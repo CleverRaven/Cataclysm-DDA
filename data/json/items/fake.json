@@ -39,27 +39,6 @@
     "qualities": [ [ "DIG", 2 ] ]
   },
   {
-    "id": "toolset",
-    "copy-from": "fake_item",
-    "type": "TOOL",
-    "name": { "str": "integrated multitool" },
-    "flags": [ "TRADER_AVOID", "FIRESTARTER" ],
-    "use_action": [ "CROWBAR" ],
-    "qualities": [
-      [ "SAW_W", 1 ],
-      [ "SAW_M", 1 ],
-      [ "SAW_M_FINE", 1 ],
-      [ "WRENCH", 1 ],
-      [ "WRENCH_FINE", 1 ],
-      [ "SCREW", 1 ],
-      [ "SCREW_FINE", 1 ],
-      [ "CUT", 2 ],
-      [ "PRY", 1 ],
-      [ "PRYING_NAIL", 1 ],
-      [ "BUTCHER", -55 ]
-    ]
-  },
-  {
     "id": "fake_goggles",
     "copy-from": "fake_item",
     "type": "TOOL",
@@ -71,7 +50,7 @@
     "copy-from": "fake_item",
     "type": "TOOL",
     "name": { "str_sp": "autonomous surgical scalpels" },
-    "description": "A system of surgical grade scalpels.  They allow you to make precise cuts on corpses.",
+    "description": "A system of surgical-grade scalpels.  They allow you to make precise cuts on corpses.",
     "to_hit": 2,
     "cutting": 8,
     "techniques": [ "PRECISE" ],
@@ -105,7 +84,7 @@
     "copy-from": "fake_item",
     "type": "GENERIC",
     "name": { "str_sp": "smoldering embers" },
-    "description": "A handful of smoldering embers emitting smoke.  They are fading away even when you look at them.",
+    "description": "A handful of smoldering embers emitting smoke.  They are fading away before your eyes.",
     "emits": [ "emit_small_smoke_plume" ],
     "flags": [ "TRADER_AVOID", "FAKE_SMOKE" ]
   },
@@ -147,7 +126,7 @@
     "qualities": [ [ "SAW_M", 2 ] ]
   },
   {
-    "id": "fake_appliance_tool",
+    "abstract": "fake_appliance_tool",
     "name": { "str": "fake appliance tool" },
     "description": "Dummy item.  If you see this, then something went wrong.",
     "type": "TOOL",
@@ -219,26 +198,6 @@
     "name": { "str": "air compressor" },
     "charges_per_use": 50,
     "charged_qualities": [ [ "PRESSURIZATION", 2 ] ]
-  },
-  {
-    "id": "water_purifier_tool",
-    "type": "TOOL",
-    "copy-from": "fake_appliance_tool",
-    "name": { "str": "stationary water purifier" }
-  },
-  {
-    "id": "pseudo_water_purifier",
-    "//": "All vehicle water purifiers need to use the same pseudo-item because vehicle.cpp matches against a specific id",
-    "copy-from": "water_purifier",
-    "sub": "water_purifier",
-    "type": "TOOL",
-    "extend": { "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO", "ZERO_WEIGHT" ] },
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_battery" } ],
-    "weight": "1 g",
-    "volume": "1 ml",
-    "symbol": "@",
-    "color": "red",
-    "name": "water purifier"
   },
   {
     "id": "pseudo_exercise_machine",
@@ -314,21 +273,52 @@
     "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ]
   },
   {
-    "id": "pseudo_battery",
+    "id": "pseudo_magazine",
     "type": "MAGAZINE",
     "category": "spare_parts",
-    "name": { "str": "pseudo battery", "str_pl": "pseudo batteries" },
-    "description": "Pseudo battery for pseudo items such as vehicle tools.  If you see this, then something went wrong",
+    "name": { "str": "pseudo magazine" },
+    "description": "Pseudo magazine for use in dirty vehicle hacks.  If you see this, then something went wrong",
+    "flags": [ "PSEUDO", "ZERO_WEIGHT", "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD" ],
     "ammo_type": [ "battery" ],
     "capacity": 1000000,
-    "//": "TODO: Determine appropriate arbitrary capacity for vehicle batteries",
-    "flags": [ "ZERO_WEIGHT", "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "RECHARGE", "PSEUDO" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "battery": 1000000 } } ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "airtight": true,
+        "watertight": true,
+        "rigid": true,
+        "ammo_restriction": { "battery": 1000000, "propane": 1000000 }
+      }
+    ],
     "symbol": "@",
     "color": "red"
   },
   {
-    "id": "pseudo_veh_oil_press",
+    "id": "fake_lift_light",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "light hoist" },
+    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ],
+    "qualities": [ [ "LIFT", 2 ], [ "ROPE", 2 ], [ "SUSPENDING", 2 ] ]
+  },
+  {
+    "id": "fake_lift_medium",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "sturdy hoist" },
+    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ],
+    "qualities": [ [ "LIFT", 8 ], [ "ROPE", 2 ], [ "SUSPENDING", 2 ] ]
+  },
+  {
+    "id": "fake_lift_heavy",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "heavy-duty hoist" },
+    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ],
+    "qualities": [ [ "LIFT", 40 ], [ "ROPE", 2 ], [ "SUSPENDING", 2 ] ]
+  },
+  {
+    "id": "pseudo_app_oxygen_concentrator",
     "type": "TOOL",
     "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO", "ZERO_WEIGHT" ],
@@ -338,184 +328,21 @@
     "volume": "1 ml",
     "symbol": "@",
     "color": "red",
-    "name": { "str": "mounted electric oil press", "str_pl": "mounted electric oil presses" }
+    "name": { "str": "oxygen concentrator" }
   },
   {
-    "abstract": "pseudo_forge_abstract",
-    "copy-from": "forge",
-    "sub": "forge",
+    "id": "pseudo_app_hd_compressor_unit",
     "type": "TOOL",
-    "extend": { "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO", "ZERO_WEIGHT" ] },
+    "ammo": [ "battery" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO", "ZERO_WEIGHT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_battery" } ],
+    "description": "Dummy item.  If you see this, then something went wrong.",
     "weight": "1 g",
     "volume": "1 ml",
     "symbol": "@",
     "color": "red",
-    "name": "forge abstract"
-  },
-  {
-    "abstract": "pseudo_kiln_abstract",
-    "copy-from": "kiln",
-    "sub": "kiln",
-    "type": "TOOL",
-    "extend": { "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO", "ZERO_WEIGHT" ] },
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_battery" } ],
-    "weight": "1 g",
-    "volume": "1 ml",
-    "symbol": "@",
-    "color": "red",
-    "name": "kiln abstract"
-  },
-  {
-    "copy-from": "pseudo_forge_abstract",
-    "id": "pseudo_veh_forge",
-    "type": "TOOL",
-    "name": { "str": "mounted electric forge" }
-  },
-  {
-    "copy-from": "pseudo_kiln_abstract",
-    "id": "pseudo_veh_kiln",
-    "type": "TOOL",
-    "name": { "str": "mounted electric kiln" }
-  },
-  {
-    "id": "pseudo_veh_chemlab_chemset",
-    "copy-from": "chemistry_set",
-    "sub": "chemistry_set",
-    "type": "TOOL",
-    "extend": { "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO", "ZERO_WEIGHT" ] },
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_battery" } ],
-    "weight": "1 g",
-    "volume": "1 ml",
-    "symbol": "@",
-    "color": "red",
-    "name": { "str": "lab chemistry set" }
-  },
-  {
-    "id": "pseudo_veh_chemlab_electrolysis_kit",
-    "name": { "str": "lab electrolysis kit" },
-    "copy-from": "electrolysis_kit",
-    "sub": "electrolysis_kit",
-    "type": "TOOL",
-    "extend": { "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO", "ZERO_WEIGHT" ] },
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_battery" } ],
-    "weight": "1 g",
-    "volume": "1 ml",
-    "symbol": "@",
-    "color": "red"
-  },
-  {
-    "abstract": "pseudo_hotplate_abstract",
-    "copy-from": "hotplate",
-    "sub": "hotplate",
-    "type": "TOOL",
-    "extend": { "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO", "ZERO_WEIGHT" ] },
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_battery" } ],
-    "weight": "1 g",
-    "volume": "1 ml",
-    "symbol": "@",
-    "color": "red",
-    "name": "hotplate abstract"
-  },
-  {
-    "copy-from": "pseudo_hotplate_abstract",
-    "id": "pseudo_veh_chemlab_hotplate",
-    "type": "TOOL",
-    "name": { "str": "lab hotplate" }
-  },
-  {
-    "id": "pseudo_veh_foodco_vac_sealer",
-    "name": { "str": "FOODCO kitchen buddy vacuum sealer" },
-    "copy-from": "vac_sealer",
-    "sub": "vac_sealer",
-    "type": "TOOL",
-    "extend": { "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO", "ZERO_WEIGHT" ] },
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_battery" } ],
-    "weight": "1 g",
-    "volume": "1 ml",
-    "symbol": "@",
-    "color": "red"
-  },
-  {
-    "id": "pseudo_veh_foodco_dehydrator",
-    "name": { "str": "FOODCO kitchen buddy dehydrator" },
-    "copy-from": "dehydrator",
-    "sub": "dehydrator",
-    "type": "TOOL",
-    "extend": { "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO", "ZERO_WEIGHT" ] },
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_battery" } ],
-    "weight": "1 g",
-    "volume": "1 ml",
-    "symbol": "@",
-    "color": "red"
-  },
-  {
-    "id": "pseudo_veh_foodco_food_processor",
-    "name": { "str": "FOODCO kitchen buddy food processor" },
-    "copy-from": "food_processor",
-    "sub": "food_processor",
-    "type": "TOOL",
-    "extend": { "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO", "ZERO_WEIGHT" ] },
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_battery" } ],
-    "weight": "1 g",
-    "volume": "1 ml",
-    "symbol": "@",
-    "color": "red"
-  },
-  {
-    "copy-from": "pseudo_hotplate_abstract",
-    "id": "pseudo_veh_kitchen_hotplate",
-    "type": "TOOL",
-    "name": { "str": "kitchen unit hotplate" }
-  },
-  {
-    "copy-from": "pseudo_hotplate_abstract",
-    "id": "pseudo_app_oven_hotplate",
-    "type": "TOOL",
-    "qualities": [ [ "OVEN", 2 ] ],
-    "name": { "str": "oven" }
-  },
-  {
-    "id": "fake_oven",
-    "type": "TOOL",
-    "copy-from": "fake_appliance_tool",
-    "name": { "str": "oven" },
-    "qualities": [ [ "OVEN", 2 ] ]
-  },
-  {
-    "copy-from": "pseudo_forge_abstract",
-    "id": "pseudo_app_forge",
-    "type": "TOOL",
-    "name": { "str": "electric forge appliance" }
-  },
-  {
-    "copy-from": "pseudo_kiln_abstract",
-    "id": "pseudo_app_kiln",
-    "name": { "str": "electric kiln appliance" },
-    "type": "TOOL"
-  },
-  {
-    "id": "fake_lift_light",
-    "copy-from": "fake_item",
-    "type": "TOOL",
-    "name": { "str": "light hoist" },
-    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ],
-    "qualities": [ [ "LIFT", 2 ] ]
-  },
-  {
-    "id": "fake_lift_medium",
-    "copy-from": "fake_item",
-    "type": "TOOL",
-    "name": { "str": "sturdy hoist" },
-    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ],
-    "qualities": [ [ "LIFT", 8 ] ]
-  },
-  {
-    "id": "fake_lift_heavy",
-    "copy-from": "fake_item",
-    "type": "TOOL",
-    "name": { "str": "heavy-duty hoist" },
-    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ],
-    "qualities": [ [ "LIFT", 40 ] ]
+    "name": { "str": "high pressure compressor unit" },
+    "charges_per_use": 100,
+    "charged_qualities": [ [ "PRESSURIZATION", 10 ] ]
   }
 ]

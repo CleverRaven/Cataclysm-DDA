@@ -3,6 +3,8 @@
 #include <cstdlib>
 #include <utility>
 
+#include "ammo.h"
+#include "cata_utility.h"
 #include "character.h"
 #include "debug.h"
 #include "item.h"
@@ -96,6 +98,28 @@ std::string itype::nname( unsigned int quantity ) const
     return name.translated( quantity );
 }
 
+int itype::damage_level( int damage ) const
+{
+    if( damage == 0 ) {
+        return 0;
+    }
+    if( count_by_charges() ) {
+        return 5;
+    }
+    return std::clamp( 1 + 4 * damage / damage_max(), 0, 5 );
+}
+
+bool itype::has_any_quality( const std::string &quality ) const
+{
+    return std::any_of( qualities.begin(),
+    qualities.end(), [&quality]( const std::pair<quality_id, int> &e ) {
+        return lcmatch( e.first->name, quality );
+    } ) || std::any_of( charged_qualities.begin(),
+    charged_qualities.end(), [&quality]( const std::pair<quality_id, int> &e ) {
+        return lcmatch( e.first->name, quality );
+    } );
+}
+
 int itype::charges_default() const
 {
     if( tool ) {
@@ -171,7 +195,7 @@ int itype::tick( Character &p, item &it, const tripoint &pos ) const
     return charges_to_use;
 }
 
-cata::optional<int> itype::invoke( Character &p, item &it, const tripoint &pos ) const
+std::optional<int> itype::invoke( Character &p, item &it, const tripoint &pos ) const
 {
     if( !has_use() ) {
         return 0;
@@ -183,8 +207,8 @@ cata::optional<int> itype::invoke( Character &p, item &it, const tripoint &pos )
     }
 }
 
-cata::optional<int> itype::invoke( Character &p, item &it, const tripoint &pos,
-                                   const std::string &iuse_name ) const
+std::optional<int> itype::invoke( Character &p, item &it, const tripoint &pos,
+                                  const std::string &iuse_name ) const
 {
     const use_function *use = get_use( iuse_name );
     if( use == nullptr ) {
@@ -391,3 +415,13 @@ std::tuple<encumbrance_modifier_type, int> armor_portion_data::convert_descripto
 }
 
 std::map<itype_id, std::set<itype_id>> islot_magazine::compatible_guns;
+
+const itype_id &itype::tool_slot_first_ammo() const
+{
+    if( tool ) {
+        for( const ammotype &at : tool->ammo_id ) {
+            return at->default_ammotype();
+        }
+    }
+    return itype_id::NULL_ID();
+}

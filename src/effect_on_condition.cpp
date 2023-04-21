@@ -24,6 +24,7 @@ namespace io
         case eoc_type::NPC_DEATH: return "NPC_DEATH";
         case eoc_type::OM_MOVE: return "OM_MOVE";
         case eoc_type::PREVENT_DEATH: return "PREVENT_DEATH";
+        case eoc_type::EVENT: return "EVENT";
         case eoc_type::NUM_EOC_TYPES: break;
         }
         cata_fatal( "Invalid eoc_type" );
@@ -63,18 +64,18 @@ void effect_on_condition::load( const JsonObject &jo, const std::string & )
             jo.throw_error( "A recurring effect_on_condition must be of type RECURRING." );
         }
         type = eoc_type::RECURRING;
-        recurrence = get_duration_or_var<dialogue>( jo, "recurrence", false );
+        recurrence = get_duration_or_var( jo, "recurrence", false );
     }
     if( type == eoc_type::NUM_EOC_TYPES ) {
         type = eoc_type::ACTIVATION;
     }
 
     if( jo.has_member( "deactivate_condition" ) ) {
-        read_condition<dialogue>( jo, "deactivate_condition", deactivate_condition, false );
+        read_condition( jo, "deactivate_condition", deactivate_condition, false );
         has_deactivate_condition = true;
     }
     if( jo.has_member( "condition" ) ) {
-        read_condition<dialogue>( jo, "condition", condition, false );
+        read_condition( jo, "condition", condition, false );
         has_condition = true;
     }
     true_effect.load_effect( jo, "effect" );
@@ -88,6 +89,10 @@ void effect_on_condition::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "global", global, false );
     if( !global && run_for_npcs ) {
         jo.throw_error( "run_for_npcs should only be true for global effect_on_conditions." );
+    }
+
+    if( type == eoc_type::EVENT ) {
+        mandatory( jo, was_loaded, "required_event", required_event );
     }
 }
 
@@ -394,6 +399,7 @@ void effect_on_conditions::prevent_death()
             eoc.activate( d );
         }
         if( !player_character.is_dead_state() ) {
+            player_character.clear_killer();
             break;
         }
     }
@@ -455,4 +461,55 @@ void effect_on_conditions::reset()
 void effect_on_conditions::load( const JsonObject &jo, const std::string &src )
 {
     effect_on_condition_factory.load( jo, src );
+}
+
+void eoc_events::notify( const cata::event &e )
+{
+    if( !has_cached ) {
+
+        // initialize all events to an empty vector
+        for( event_type et = static_cast<event_type>( 0 ); et < event_type::num_event_types;
+             et = static_cast<event_type>( static_cast<size_t>( et ) + 1 ) ) {
+
+            event_EOCs[et] = std::vector<effect_on_condition>();
+        }
+
+        //create a cache for the specific types of EOC's so they aren't constantly all itterated through
+        for( const effect_on_condition &eoc : effect_on_conditions::get_all() ) {
+            if( eoc.type == eoc_type::EVENT ) {
+                event_EOCs[eoc.required_event].emplace_back( eoc );
+            }
+        }
+
+        has_cached = true;
+    }
+
+    for( const effect_on_condition &eoc : event_EOCs[e.type()] ) {
+        // try to assign a character for the EOC
+        // TODO: refactor event_spec to take consistent inputs
+        npc *alpha_talker  = nullptr;
+        const std::vector<std::string> potential_alphas = { "avatar_id", "character", "attacker", "killer", "npc" };
+        for( const std::string &potential_key : potential_alphas ) {
+            cata_variant cv = e.get_variant_or_void( potential_key );
+            if( cv != cata_variant() ) {
+                character_id potential_id = cv.get<cata_variant_type::character_id>();
+                if( potential_id.is_valid() ) {
+                    alpha_talker = g->find_npc( potential_id );
+                    // if we find a successful entry exit early
+                    break;
+                }
+            }
+        }
+        dialogue d;
+        // if we have an NPC to trigger this event for, do so,
+        // otherwise fallback to having it effect the player
+        if( alpha_talker ) {
+            d = dialogue( get_talker_for( alpha_talker ), nullptr );
+        } else {
+            avatar &player_character = get_avatar();
+            d = dialogue( get_talker_for( player_character ), nullptr );
+        }
+
+        eoc.activate( d );
+    }
 }

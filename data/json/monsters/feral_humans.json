@@ -678,6 +678,7 @@
         "fake_per": 10,
         "ranges": [ [ 2, 35, "DEFAULT" ] ],
         "require_targeting_player": false,
+        "target_moving_vehicles": true,
         "description": "The mad militiaman fires their rifle!"
       }
     ],
@@ -776,6 +777,7 @@
         "//": "(ferals don't care about max-effective range.)",
         "ranges": [ [ 2, 25, "DEFAULT" ] ],
         "require_targeting_player": false,
+        "target_moving_vehicles": true,
         "description": "The feral biker fires their shotgun!"
       }
     ],
@@ -999,6 +1001,7 @@
         "fake_per": 10,
         "ranges": [ [ 2, 14, "DEFAULT" ] ],
         "require_targeting_player": false,
+        "target_moving_vehicles": true,
         "description": "The feral officer fires their M18!"
       }
     ],
@@ -1019,5 +1022,70 @@
       "PATH_AVOID_DANGER_1",
       "DROPS_AMMO"
     ]
+  },
+  {
+    "id": "mon_feral_cop",
+    "type": "MONSTER",
+    "name": { "str": "feral cop" },
+    "description": "Another of the crazed humans among the dead.  This police officer angrily mutters to themselves, wandering about with a truncheon in hand in search of someone to brutalize.",
+    "bodytype": "human",
+    "default_faction": "feral_police",
+    "species": [ "HUMAN" ],
+    "volume": "62500 ml",
+    "weight": "81500 g",
+    "hp": 95,
+    "speed": 95,
+    "material": [ "flesh" ],
+    "symbol": "@",
+    "color": "blue",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 6,
+    "melee_dice": 4,
+    "melee_dice_sides": 3,
+    "armor_bash": 8,
+    "armor_cut": 12,
+    "armor_bullet": 14,
+    "armor_stab": 9,
+    "armor_elec": 2,
+    "dodge": 3,
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
+    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_syn_armored" ],
+    "vision_day": 30,
+    "vision_night": 3,
+    "harvest": "human",
+    "dissect": "dissect_human_sample_single",
+    "special_attacks": [ [ "PARROT", 200 ], [ "BLOW_WHISTLE", 25 ] ],
+    "death_drops": "mon_feral_cop_death_drops",
+    "fungalize_into": "mon_feral_cop_fungal_infected",
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "HUMAN",
+      "CAN_OPEN_DOORS",
+      "PATH_AVOID_DANGER_1",
+      "PRIORITIZE_TARGETS"
+    ],
+    "zombify_into": "mon_zombie_cop"
+  },
+  {
+    "id": "mon_feral_cop_fungal_infected",
+    "type": "MONSTER",
+    "copy-from": "mon_feral_cop",
+    "description": "A maddened and crazed police officer infected by the fungus.  Their body armor is overgrown with fungal matter.  Though obviously in pain they don't seem any less keen to batter you to death with their baton.",
+    "extend": { "flags": [ "NO_FUNG_DMG" ] }
+  },
+  {
+    "id": "mon_feral_human_archaeologist",
+    "type": "MONSTER",
+    "name": "feral archaeologist",
+    "description": "Judging by looks, this poor individual was probably an archeologist in their former life.  Maniac and bloodshot, it now seems intent to make you a part of its collection of artifacts, as it comes at you with a shovel in hand.",
+    "copy-from": "mon_feral_human_pipe",
+    "looks_like": "mon_feral_human_tool",
+    "death_drops": "feral_archaelogist_death_drops"
   }
 ]

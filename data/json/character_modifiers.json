@@ -71,6 +71,13 @@
   },
   {
     "type": "character_mod",
+    "id": "move_mode_move_cost_mod",
+    "description": "Move mode move cost modifier",
+    "mod_type": "x",
+    "value": { "builtin": "move_mode_move_cost_modifier" }
+  },
+  {
+    "type": "character_mod",
     "id": "stamina_move_cost_mod",
     "description": "Stamina move cost modifier",
     "mod_type": "x",
@@ -169,5 +176,17 @@
     "description": "Melee attack rolls <color_dark_gray>(Balance)</color>",
     "mod_type": "x",
     "value": { "limb_score": "balance", "min": 0.2 }
+  },
+  {
+    "type": "character_mod",
+    "id": "limb_dodge_mod",
+    "description": "Dodge chance modifier <color_dark_gray>(Balance, Move Speed, Footing)</color>",
+    "mod_type": "x",
+    "value": {
+      "limb_score": [ [ "balance", 1.5 ], "move_speed", "footing" ],
+      "override_encumb": true,
+      "limb_score_op": "x",
+      "min": 0.0
+    }
   }
 ]

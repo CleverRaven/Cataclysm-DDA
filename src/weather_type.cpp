@@ -8,6 +8,7 @@
 #include "debug.h"
 #include "generic_factory.h"
 #include "json.h"
+#include <weather.h>
 
 namespace
 {
@@ -110,13 +111,13 @@ void weather_type::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "ranged_penalty", ranged_penalty );
     mandatory( jo, was_loaded, "sight_penalty", sight_penalty );
     mandatory( jo, was_loaded, "light_modifier", light_modifier );
+    mandatory( jo, was_loaded, "priority", priority );
     optional( jo, was_loaded, "sun_multiplier", sun_multiplier, 1.f );
 
     mandatory( jo, was_loaded, "sound_attn", sound_attn );
     mandatory( jo, was_loaded, "dangerous", dangerous );
     mandatory( jo, was_loaded, "precip", precip );
     mandatory( jo, was_loaded, "rains", rains );
-    optional( jo, was_loaded, "acidic", acidic, false );
     optional( jo, was_loaded, "tiles_animation", tiles_animation, "" );
     optional( jo, was_loaded, "sound_category", sound_category, weather_sound_category::silent );
     optional( jo, was_loaded, "duration_min", duration_min, 5_minutes );
@@ -137,7 +138,7 @@ void weather_type::load( const JsonObject &jo, const std::string & )
                    unicode_codepoint_from_symbol_reader );
     }
     optional( jo, was_loaded, "required_weathers", required_weathers );
-    read_condition<dialogue>( jo, "condition", condition, true );
+    read_condition( jo, "condition", condition, true );
 }
 
 void weather_types::reset()

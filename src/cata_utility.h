@@ -3,6 +3,7 @@
 #define CATA_SRC_CATA_UTILITY_H
 
 #include <algorithm>
+#include <array>
 #include <cstddef>
 #include <ctime>
 #include <functional>
@@ -10,6 +11,9 @@
 #include <map>
 #include <memory>
 #include <numeric>
+#include <optional>
+#include <ostream>
+#include <sstream>
 #include <string> // IWYU pragma: keep
 #include <type_traits>
 #include <unordered_set>
@@ -17,7 +21,6 @@
 #include <vector>
 
 #include "enums.h"
-#include "json.h"
 #include "path_info.h"
 
 class JsonOut;
@@ -53,14 +56,10 @@ enum units_type {
     VU_WIND
 };
 
-/**
- * Round a floating point value down to the nearest integer
- *
- * Optimized floor function, similar to std::floor but faster.
- */
-inline int fast_floor( double v )
+constexpr bool float_equals( double l, double r )
 {
-    return static_cast<int>( v ) - ( v < static_cast<int>( v ) );
+    constexpr double epsilon = std::numeric_limits<double>::epsilon() * 100;
+    return l + epsilon >= r && r + epsilon >= l;
 }
 
 /**
@@ -361,12 +360,12 @@ std::unique_ptr<std::istream> read_maybe_compressed_file( const cata_path &path 
  * The file is opened for reading (binary mode), read into a string, and then closed.
  * Any exceptions during reading, including failing to open the file, are reported as dbgmsg.
  *
- * @return A nonempty optional with the contents of the file on success, or cata::nullopt on failure.
+ * @return A nonempty optional with the contents of the file on success, or std::nullopt on failure.
  */
 /**@{*/
-cata::optional<std::string> read_whole_file( const std::string &path );
-cata::optional<std::string> read_whole_file( const fs::path &path );
-cata::optional<std::string> read_whole_file( const cata_path &path );
+std::optional<std::string> read_whole_file( const std::string &path );
+std::optional<std::string> read_whole_file( const fs::path &path );
+std::optional<std::string> read_whole_file( const cata_path &path );
 /**@}*/
 
 std::istream &safe_getline( std::istream &ins, std::string &str );
@@ -426,38 +425,25 @@ inline void deserialize_from_string( T &obj, const std::string &data )
 /**
  * \brief Returns true iff s1 starts with s2
  */
-bool string_starts_with( const std::string &s1, const std::string &s2 );
-
-/**
- * Returns true iff s1 starts with s2.
- * This version accepts constant string literals and is ≈1.5 times faster than std::string version.
- * Note: N is (size+1) for null-terminated strings.
- */
-template <std::size_t N>
-// NOLINTNEXTLINE(modernize-avoid-c-arrays)
-inline bool string_starts_with( const std::string &s1, const char( &s2 )[N] )
+inline bool string_starts_with( std::string_view s1, std::string_view s2 )
 {
-    return s1.compare( 0, N - 1, s2, N - 1 ) == 0;
+    return s1.compare( 0, s2.size(), s2 ) == 0;
 }
 
 /**
  * \brief Returns true iff s1 ends with s2
  */
-bool string_ends_with( const std::string &s1, const std::string &s2 );
-
-/**
- *  Returns true iff s1 ends with s2.
- *  This version accepts constant string literals and is ≈1.5 times faster than std::string version.
- *  Note: N is (size+1) for null-terminated strings.
- */
-template <std::size_t N>
-// NOLINTNEXTLINE(modernize-avoid-c-arrays)
-inline bool string_ends_with( const std::string &s1, const char( &s2 )[N] )
+inline bool string_ends_with( std::string_view s1, std::string_view s2 )
 {
-    return s1.size() >= N - 1 && s1.compare( s1.size() - ( N - 1 ), std::string::npos, s2, N - 1 ) == 0;
+    return s1.size() >= s2.size() &&
+           s1.compare( s1.size() - s2.size(), s2.size(), s2 ) == 0;
 }
 
 bool string_empty_or_whitespace( const std::string &s );
+
+/** strcmp, but for string_view objects.  In C++20 this can be replaced with
+ * operator<=> */
+int string_view_cmp( std::string_view, std::string_view );
 
 /** Used as a default filter in various functions */
 template<typename T>
@@ -473,9 +459,27 @@ bool return_false( const T & )
 }
 
 /**
- * Joins a vector of `std::string`s into a single string with a delimiter/joiner
+ * Joins an iterable (class implementing begin() and end()) of elements into a single
+ * string with specified delimiter by using `<<` ostream operator on each element
  */
-std::string join( const std::vector<std::string> &strings, const std::string &joiner );
+template<typename Container>
+std::string string_join( const Container &iterable, const std::string &joiner )
+{
+    std::ostringstream buffer;
+
+    for( auto a = iterable.begin(); a != iterable.end(); ++a ) {
+        if( a != iterable.begin() ) {
+            buffer << joiner;
+        }
+        buffer << *a;
+    }
+    return buffer.str();
+}
+
+/**
+* Splits a string by delimiter into a vector of strings
+*/
+std::vector<std::string> string_split( std::string_view string, char delim );
 
 /**
  * Append all arguments after the first to the first.

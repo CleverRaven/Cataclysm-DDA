@@ -28,7 +28,7 @@
     "flags": [ "BIONIC_TOGGLED", "BIONIC_SLEEP_FRIENDLY" ],
     "act_cost": "1 J",
     "react_cost": "1 J",
-    "trigger_cost": "25 kJ",
+    "trigger_cost": "5 J",
     "time": "1 s"
   },
   {
@@ -118,7 +118,7 @@
       "ARM_TENTACLES",
       "ARM_TENTACLES_4",
       "ARM_TENTACLES_8",
-      "CLAWS_TENTACLES",
+      "CLAWS_TENTACLE",
       "ACIDPROOF",
       "TOXICFLESH",
       "FRESHWATEROSMOSIS",
@@ -149,7 +149,7 @@
     "name": { "str": "Protective Lenses" },
     "description": "Your eye sockets have been surgically sealed with highly protective mirrored lenses and your tear ducts have been re-routed to your mouth.  When you cry, you must spit out or swallow your tears.",
     "occupied_bodyparts": [ [ "eyes", 1 ] ],
-    "mutation_conflicts": [ "COMPOUND_EYES", "CEPH_VISION", "CEPH_EYES", "EYEBULGE", "EYESTALKS1", "EYESTALKS2" ],
+    "mutation_conflicts": [ "COMPOUND_EYES", "CEPH_VISION", "CEPH_EYES", "EYEBULGE", "MEMBRANE", "EYESTALKS1", "EYESTALKS2" ],
     "social_modifiers": { "intimidate": 10 },
     "passive_pseudo_items": [ "armor_bio_eyes" ]
   },
@@ -218,7 +218,6 @@
       "TOXICFLESH",
       "FRESHWATEROSMOSIS",
       "BIOLUM0",
-      "BIOLUM0_active",
       "BIOLUM1",
       "BIOLUM1_active",
       "BIOLUM2",
@@ -240,7 +239,7 @@
       "MUZZLE_BEAR",
       "MUZZLE_RAT",
       "MUZZLE_LONG",
-      "PROBISCIS",
+      "PROBOSCIS",
       "MOUTH_FLAPS",
       "MOUTH_TENTACLES",
       "MANDIBLES",
@@ -441,7 +440,6 @@
       "INSECT_ARMS_OK",
       "ARACHNID_ARMS",
       "ARACHNID_ARMS_OK",
-      "CLAWS_TENTACLES",
       "SHELL",
       "SHELL2",
       "SHELL3",
@@ -452,7 +450,7 @@
       "BOVINE_BULK2",
       "FAT",
       "SLIME_SPRAY",
-      "INSECT_RESEVOIR",
+      "INSECT_RESERVOIR",
       "MUCUS_SECRETION",
       "MUCUS_SECRETION2"
     ]
@@ -546,7 +544,43 @@
       [ "mouth", 1 ]
     ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
-    "passive_pseudo_items": [ "armor_bio_carbon_filament" ]
+    "bash_protec": [
+      [ "torso", 2 ],
+      [ "head", 2 ],
+      [ "mouth", 2 ],
+      [ "arm_r", 2 ],
+      [ "leg_l", 2 ],
+      [ "leg_r", 2 ],
+      [ "foot_l", 2 ],
+      [ "foot_r", 2 ],
+      [ "hand_l", 2 ],
+      [ "hand_r", 2 ]
+    ],
+    "cut_protec": [
+      [ "torso", 4 ],
+      [ "head", 4 ],
+      [ "mouth", 4 ],
+      [ "arm_l", 4 ],
+      [ "arm_r", 4 ],
+      [ "leg_l", 4 ],
+      [ "leg_r", 4 ],
+      [ "foot_l", 4 ],
+      [ "foot_r", 4 ],
+      [ "hand_l", 4 ],
+      [ "hand_r", 4 ]
+    ],
+    "bullet_protec": [
+      [ "torso", 4 ],
+      [ "head", 4 ],
+      [ "mouth", 4 ],
+      [ "arm_r", 4 ],
+      [ "leg_l", 4 ],
+      [ "leg_r", 4 ],
+      [ "foot_l", 4 ],
+      [ "foot_r", 4 ],
+      [ "hand_l", 4 ],
+      [ "hand_r", 4 ]
+    ]
   },
   {
     "id": "bio_chain_lightning",
@@ -554,9 +588,8 @@
     "name": { "str": "Chain Lightning" },
     "description": "Your body is equipped with a chain lightning generator, allowing you to emit a blast of lightning at a target, leaving a trail of lightning in its wake, jumping to additional targets within 4 tiles of the previous target.",
     "occupied_bodyparts": [ [ "torso", 16 ], [ "arm_l", 4 ] ],
-    "act_cost": "100 kJ",
     "fake_weapon": "bio_lightning",
-    "flags": [ "BIONIC_GUN", "BIONIC_NPC_USABLE", "USES_BIONIC_POWER" ]
+    "flags": [ "BIONIC_GUN", "BIONIC_NPC_USABLE" ]
   },
   {
     "id": "bio_claws",
@@ -573,7 +606,7 @@
       "ARM_TENTACLES",
       "ARM_TENTACLES_4",
       "ARM_TENTACLES_8",
-      "CLAWS_TENTACLES",
+      "CLAWS_TENTACLE",
       "TALONS",
       "CLAWS",
       "CLAWS_RETRACT",
@@ -645,6 +678,7 @@
       "style_aikido",
       "style_barbaran",
       "style_biojutsu",
+      "style_bojutsu",
       "style_boxing",
       "style_capoeira",
       "style_crane",
@@ -653,8 +687,10 @@
       "style_fencing",
       "style_judo",
       "style_karate",
+      "style_kickboxing",
       "style_krav_maga",
       "style_leopard",
+      "style_medievalpole",
       "style_muay_thai",
       "style_ninjutsu",
       "style_niten",
@@ -662,6 +698,7 @@
       "style_silat",
       "style_snake",
       "style_sojutsu",
+      "style_swordsmanship",
       "style_taekwondo",
       "style_tai_chi",
       "style_tiger",
@@ -713,7 +750,8 @@
       "ALCMET",
       "SAPROVORE",
       "LACTOSE",
-      "GRAZER"
+      "GRAZER",
+      "VEGETARIAN"
     ]
   },
   {
@@ -777,9 +815,8 @@
     "name": { "str": "EMP Projector" },
     "description": "A ranged EMP generator system is implanted in your right arm and the palm of your right hand.  The system fires precise, single-target pulses that require time to aim.  Extremely effective against electronic targets but mostly useless otherwise.",
     "occupied_bodyparts": [ [ "arm_r", 8 ], [ "hand_r", 2 ] ],
-    "act_cost": "50 kJ",
     "fake_weapon": "bio_emp_gun",
-    "flags": [ "BIONIC_GUN", "USES_BIONIC_POWER" ]
+    "flags": [ "BIONIC_GUN" ]
   },
   {
     "id": "bio_ethanol",
@@ -900,6 +937,13 @@
     "flags": [ "BIONIC_TOGGLED", "USES_BIONIC_POWER" ]
   },
   {
+    "id": "bio_fitnessband",
+    "type": "bionic",
+    "name": { "str": "Calorie Tracker" },
+    "description": "A module implanted in your body measures your calorie intake and expenditure at all times.",
+    "occupied_bodyparts": [ [ "torso", 1 ] ]
+  },
+  {
     "id": "bio_flashbang",
     "type": "bionic",
     "name": { "str": "Flashbang Generator" },
@@ -913,11 +957,26 @@
     "name": { "str": "Cranial Flashlight" },
     "description": "Surgically mounted between your eyes is a small but powerful LED flashlight.",
     "occupied_bodyparts": [ [ "head", 1 ] ],
-    "act_cost": "3 J",
-    "react_cost": "3 J",
+    "act_cost": "2 J",
+    "react_cost": "2 J",
     "time": "1 s",
     "flags": [ "BIONIC_TOGGLED" ],
-    "enchantments": [ { "condition": "ACTIVE", "values": [ { "value": "LUMINATION", "add": 60 } ] } ]
+    "enchantments": [ { "condition": "ACTIVE", "values": [ { "value": "LUMINATION", "add": 60 } ] } ],
+    "auto_deactivates": [ "bio_flashlight_highmode" ],
+    "included_bionics": [ "bio_flashlight_highmode" ]
+  },
+  {
+    "id": "bio_flashlight_highmode",
+    "type": "bionic",
+    "name": { "str": "Ultrabright Flashlight" },
+    "description": "You can greatly intensify the power of your bionic flashlight to be much brighter at a much higher power cost.",
+    "act_cost": "15 J",
+    "react_cost": "15 J",
+    "time": "1 s",
+    "included": true,
+    "flags": [ "BIONIC_TOGGLED" ],
+    "enchantments": [ { "condition": "ACTIVE", "values": [ { "value": "LUMINATION", "add": 500 } ] } ],
+    "auto_deactivates": [ "bio_flashlight" ]
   },
   {
     "id": "bio_tattoo_led",
@@ -1055,9 +1114,8 @@
     "name": { "str": "Finger-Mounted Laser" },
     "description": "One of your fingers has a small high-powered laser surgically embedded in it.  This long range weapon is not incredibly damaging, but is very accurate, and has the potential to start fires.",
     "occupied_bodyparts": [ [ "hand_r", 1 ] ],
-    "act_cost": "30 kJ",
     "fake_weapon": "bio_laser_gun",
-    "flags": [ "BIONIC_GUN", "BIONIC_NPC_USABLE", "USES_BIONIC_POWER" ]
+    "flags": [ "BIONIC_GUN", "BIONIC_NPC_USABLE" ]
   },
   {
     "id": "bio_leaky",
@@ -1230,9 +1288,9 @@
     "description": "A thin forcefield surrounds your body, continually draining power.  This field does not deflect attacks, but rather delivers a strong shock, damaging unarmed attackers and those with a conductive weapon.",
     "occupied_bodyparts": [ [ "torso", 10 ], [ "head", 1 ], [ "arm_l", 1 ], [ "arm_r", 1 ], [ "leg_l", 2 ], [ "leg_r", 2 ] ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
-    "act_cost": "10 kJ",
-    "react_cost": "10 kJ",
-    "trigger_cost": "1 kJ",
+    "act_cost": "10 J",
+    "react_cost": "10 J",
+    "trigger_cost": "400 J",
     "time": "1 s"
   },
   {
@@ -1554,20 +1612,9 @@
     "type": "bionic",
     "name": { "str": "Integrated Multitool" },
     "description": "Surgically implanted in your hands and forearms is a set of compact tools and a welder that runs off your internal power banks.",
-    "occupied_bodyparts": [ [ "hand_l", 2 ], [ "hand_r", 2 ], [ "arm_l", 3 ], [ "arm_r", 3 ] ],
-    "toggled_pseudo_items": [ "toolset" ],
-    "included_bionics": [ "bio_tools_extend" ],
-    "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE", "USES_BIONIC_POWER" ],
-    "activated_on_install": true
-  },
-  {
-    "id": "bio_tools_extend",
-    "type": "bionic",
-    "name": { "str": "Extended Multitool" },
-    "description": "Extend or withdraw your integrated multitool to access its functions.  This takes up your hands.",
-    "fake_weapon": "toolset_extended",
-    "included": true,
-    "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON", "USES_BIONIC_POWER" ]
+    "occupied_bodyparts": [ [ "hand_l", 2 ], [ "hand_r", 2 ], [ "arm_l", 2 ], [ "arm_r", 2 ] ],
+    "passive_pseudo_items": [ "toolset" ],
+    "flags": [ "BIO_SHOCKPROOF", "BIONIC_NPC_USABLE" ]
   },
   {
     "id": "bio_torsionratchet",
@@ -1586,7 +1633,7 @@
       "ARM_TENTACLES",
       "ARM_TENTACLES_4",
       "ARM_TENTACLES_8",
-      "CLAWS_TENTACLES",
+      "CLAWS_TENTACLE",
       "GASTROPOD_FOOT",
       "GASTROPOD_BALANCE",
       "LEG_TENTACLES",
@@ -1706,7 +1753,7 @@
       "ARM_TENTACLES",
       "ARM_TENTACLES_4",
       "ARM_TENTACLES_8",
-      "CLAWS_TENTACLES",
+      "CLAWS_TENTACLE",
       "GASTROPOD_FOOT",
       "GASTROPOD_BALANCE",
       "LEG_TENTACLES",

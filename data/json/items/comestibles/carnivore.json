@@ -33,7 +33,7 @@
     "copy-from": "fish",
     "type": "COMESTIBLE",
     "name": { "str": "scrap of fish", "str_pl": "scraps of fish" },
-    "description": "This is a tiny scrap of edible fish.  It's not much, but it'll do in a pinch.",
+    "description": "A tiny scrap of edible fish.  It's not much, but it'll do in a pinch.",
     "cooks_like": "fish_scrap_cooked",
     "proportional": { "weight": 0.1, "volume": 0.1, "price": 0.1, "calories": 0.1 },
     "delete": { "flags": [ "SMOKABLE" ] },
@@ -210,12 +210,23 @@
     "flags": [ "EATEN_HOT" ]
   },
   {
+    "id": "pepperhuman",
+    "copy-from": "human_flesh",
+    "type": "COMESTIBLE",
+    "name": { "str": "cooked pepper creep" },
+    "description": "A cooked slice of some unpleasant person properly seasoned with black pepper and salt.  Tastes great.",
+    "proportional": { "price": 1.5 },
+    "parasites": 0,
+    "fun": 2,
+    "flags": [ "EATEN_HOT" ]
+  },
+  {
     "id": "meat",
     "copy-from": "flesh",
     "type": "COMESTIBLE",
     "name": { "str": "chunk of meat", "str_pl": "chunks of meat" },
     "description": "A chunk of raw meat.  You could eat it as-is, but cooking it is better.",
-    "weight": "296 g",
+    "weight": "275 g",
     "volume": "250 ml",
     "price": 500,
     "price_postapoc": 50,
@@ -419,6 +430,18 @@
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE", "BAD_TASTE" ]
   },
   {
+    "id": "peppermutant_human",
+    "copy-from": "mutant_human_flesh",
+    "calories": 402,
+    "type": "COMESTIBLE",
+    "name": { "str": "cooked pepper cretin" },
+    "description": "Cooked meat from a heavily mutated humanoid.  Now that the worst bits have been picked out, it's probably digestible.  It has also been properly seasoned with black pepper and salt, giving it a better taste.  Still, it is somewhat gross, but hey, it's food!",
+    "proportional": { "price": 1.5 },
+    "parasites": 0,
+    "fun": 1,
+    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE", "BAD_TASTE" ]
+  },
+  {
     "type": "COMESTIBLE",
     "id": "meat_mutant_tainted",
     "copy-from": "mutant_meat",
@@ -495,6 +518,23 @@
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ]
   },
   {
+    "id": "peppermeat",
+    "copy-from": "flesh",
+    "weight": "275 g",
+    "volume": "250 ml",
+    "spoils_in": "1 day",
+    "type": "COMESTIBLE",
+    "name": { "str": "cooked pepper meat" },
+    "description": "A piece of cooked meat, properly seasoned with black pepper and salt.  It's nutritious, yet basic seasoning adds a welcoming taste to this simple dish.",
+    "price": 800,
+    "price_postapoc": 150,
+    "fun": 2,
+    "parasites": 0,
+    "calories": 402,
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 12 ] ],
+    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ]
+  },
+  {
     "id": "meat_fatty_cooked",
     "copy-from": "flesh",
     "weight": "296 g",
@@ -513,12 +553,40 @@
     "flags": [ "EATEN_HOT" ]
   },
   {
+    "id": "pepperfat",
+    "copy-from": "flesh",
+    "weight": "275 g",
+    "volume": "250 ml",
+    "spoils_in": "1 day",
+    "type": "COMESTIBLE",
+    "name": { "str": "cooked pepper fatty meat" },
+    "description": "A chunk of cooked fatty meat properly seasoned with black pepper and salt.  Although absent of vitamins, it is very filling, tasty and delightfully greasy.",
+    "calories": 1300,
+    "price": 920,
+    "price_postapoc": 320,
+    "fun": 3,
+    "parasites": 0,
+    "vitamins": [  ],
+    "flags": [ "EATEN_HOT" ]
+  },
+  {
     "id": "meat_scrap_cooked",
     "copy-from": "meat_scrap",
     "type": "COMESTIBLE",
     "name": { "str": "cooked scrap of meat", "str_pl": "cooked scraps of meat" },
     "parasites": 0,
     "fun": 0,
+    "flags": [ "NUTRIENT_OVERRIDE" ],
+    "calories": 51
+  },
+  {
+    "id": "pepperscrap",
+    "copy-from": "meat_scrap",
+    "type": "COMESTIBLE",
+    "name": { "str": "cooked pepper scrap of meat", "str_pl": "cooked pepper scraps of meat" },
+    "description": "A cooked scrap of meat that has been properly seasoned with pepper and salt.  Yet small, they have a good taste.",
+    "parasites": 0,
+    "fun": 1,
     "flags": [ "NUTRIENT_OVERRIDE" ],
     "calories": 51
   },
@@ -536,6 +604,19 @@
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE", "BAD_TASTE" ]
   },
   {
+    "id": "peppermutant",
+    "type": "COMESTIBLE",
+    "copy-from": "mutant_meat",
+    "name": { "str": "cooked pepper mutant meat" },
+    "snippet_category": "cooked_mutant_meat_desc",
+    "description": "A cooked chunk of meat from a mutated animal which has been properly seasoned with black pepper and salt, will keep your hunger away, but even seasoned, it has a weird taste.",
+    "looks_like": "meat_cooked",
+    "proportional": { "price": 1.5 },
+    "parasites": 0,
+    "fun": 0,
+    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE", "BAD_TASTE" ]
+  },
+  {
     "id": "mutant_meat_scrap_cooked",
     "type": "COMESTIBLE",
     "copy-from": "mutant_meat_scrap",
@@ -545,6 +626,18 @@
     "parasites": 0,
     "calories": 25,
     "fun": 0,
+    "flags": [ "NUTRIENT_OVERRIDE" ]
+  },
+  {
+    "id": "pepperscrap_mutant",
+    "type": "COMESTIBLE",
+    "copy-from": "mutant_meat_scrap",
+    "name": { "str": "cooked pepper scrap of mutant meat", "str_pl": "cooked pepper scraps of mutant meat" },
+    "description": "A tiny scrap of cooked mutant meat properly seasoned with black pepper and salt.  It is small, and even though it has been seasoned, it has a weird taste.",
+    "looks_like": "meat_scrap_cooked",
+    "parasites": 0,
+    "calories": 25,
+    "fun": 1,
     "flags": [ "NUTRIENT_OVERRIDE" ]
   },
   {
@@ -564,6 +657,25 @@
     "spoils_in": "1 day",
     "calories": 471,
     "fun": 5,
+    "vitamins": [ [ "iron", 17 ] ]
+  },
+  {
+    "id": "pepperbone",
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "name": { "str_sp": "roasted pepper bone marrow" },
+    "conditional_names": [ { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "marvin marrow" } } ],
+    "description": "Bone marrow, fully cooked to eliminate any parasites and properly seasoned with black pepper and salt.  Tasty!",
+    "symbol": "%",
+    "color": "red",
+    "weight": "55 g",
+    "volume": "50 ml",
+    "price": 500,
+    "price_postapoc": 50,
+    "material": [ "flesh" ],
+    "spoils_in": "1 day",
+    "calories": 471,
+    "fun": 6,
     "vitamins": [ [ "iron", 17 ] ]
   },
   {
@@ -1179,6 +1291,26 @@
     "volume": "250 ml",
     "longest_side": "40 cm",
     "vitamins": [ [ "calcium", 96 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "large_bone",
+    "category": "spare_parts",
+    "name": { "str": "large bone" },
+    "weight": "20 kg",
+    "color": "white",
+    "symbol": "I",
+    "description": "A huge bone of a large creature.",
+    "comestible_type": "FOOD",
+    "price": 0,
+    "price_postapoc": 20,
+    "material": [ "bone" ],
+    "milling": { "into": "meal_bone", "conversion_rate": 4 },
+    "volume": "36 L",
+    "longest_side": "2000 cm",
+    "bashing": 15,
+    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
+    "vitamins": [ [ "calcium", 13824 ] ]
   },
   {
     "type": "COMESTIBLE",
