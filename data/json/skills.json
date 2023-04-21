@@ -62,7 +62,7 @@
     "name": { "str": "athletics" },
     "description": "Your athletic ability, including swimming endurance and ability to swim with weight.  Athletic skill also improves your overall cardio fitness and stamina.",
     "display_category": "display_interaction",
-    "ordering":  2100,
+    "ordering": 2100,
     "companion_skill_practice": [ { "skill": "", "weight": 5 }, { "skill": "gathering", "weight": 5 }, { "skill": "trapping", "weight": 5 } ]
   },
   {
@@ -72,7 +72,7 @@
     "description": "Your skill in working with raw materials and shaping them into useful objects.  This skill plays an important role in the crafting of many objects.",
     "companion_industry_rank_factor": 1,
     "display_category": "display_crafting",
-    "ordering":  1700,
+    "ordering": 1700,
     "companion_skill_practice": [
       { "skill": "", "weight": 10 },
       { "skill": "gathering", "weight": 10 },
@@ -88,7 +88,7 @@
     "description": "Your skill in combining food ingredients to make other, tastier food items.  Also includes food preservation and safety, brewing, butchery, and more.",
     "companion_industry_rank_factor": 1,
     "display_category": "display_crafting",
-    "ordering":  1600,
+    "ordering": 1600,
     "companion_skill_practice": [ { "skill": "menial", "weight": 15 } ]
   },
   {
@@ -98,7 +98,7 @@
     "description": "Your skill in the craft and repair of clothing, bags, blankets and other textiles.  Affects knitting, sewing, stitching, weaving, and nearly anything else involving a needle and thread.",
     "companion_industry_rank_factor": 1,
     "display_category": "display_crafting",
-    "ordering":  2000,
+    "ordering": 2000,
     "companion_skill_practice": [ { "skill": "menial", "weight": 15 } ]
   },
   {
@@ -108,7 +108,7 @@
     "description": "Your skill in surviving the wilderness, and in crafting various basic survival items.  This also covers your ability to skin and butcher animals for meat and hides.",
     "companion_survival_rank_factor": 1,
     "display_category": "display_crafting",
-    "ordering":  1500,
+    "ordering": 1500,
     "companion_skill_practice": [
       { "skill": "", "weight": 80 },
       { "skill": "gathering", "weight": 80 },
@@ -127,7 +127,7 @@
     "description": "Your skill in dealing with electrical systems, used in the craft and repair of objects with electrical components.  This skill is an important part of installing and managing bionic implants.",
     "companion_industry_rank_factor": 1,
     "display_category": "display_crafting",
-    "ordering":  1800
+    "ordering": 1800
   },
   {
     "type": "skill",
@@ -139,7 +139,7 @@
     "companion_combat_rank_factor": 1,
     "companion_survival_rank_factor": 1,
     "display_category": "display_ranged",
-    "ordering":  900,
+    "ordering": 900,
     "companion_skill_practice": [
       { "skill": "", "weight": 5 },
       { "skill": "gathering", "weight": 5 },
@@ -155,7 +155,7 @@
     "description": "Your overall skill in using bows and firearms.  With higher levels, this general experience increases accuracy with any bows or firearms, but is secondary to practice with the type of ranged weapon in question.",
     "tags": [ "combat_skill" ],
     "display_category": "display_ranged",
-    "ordering":  700,
+    "ordering": 700,
     "companion_skill_practice": [ { "skill": "gathering", "weight": 60 }, { "skill": "combat", "weight": 5 } ]
   },
   {
@@ -166,7 +166,7 @@
     "tags": [ "combat_skill" ],
     "time_to_attack": { "min_time": 30, "base_time": 100, "time_reduction_per_level": 5 },
     "display_category": "display_ranged",
-    "ordering":  1400
+    "ordering": 1400
   },
   {
     "type": "skill",
@@ -176,7 +176,7 @@
     "tags": [ "combat_skill" ],
     "time_to_attack": { "min_time": 20, "base_time": 30, "time_reduction_per_level": 1 },
     "display_category": "display_ranged",
-    "ordering":  1000,
+    "ordering": 1000,
     "companion_skill_practice": [ { "skill": "hunting", "weight": 25 } ]
   },
   {
@@ -187,7 +187,7 @@
     "tags": [ "combat_skill" ],
     "time_to_attack": { "min_time": 20, "base_time": 30, "time_reduction_per_level": 1 },
     "display_category": "display_ranged",
-    "ordering":  1200,
+    "ordering": 1200,
     "companion_skill_practice": [ { "skill": "hunting", "weight": 45 } ]
   },
   {
@@ -198,7 +198,7 @@
     "tags": [ "combat_skill" ],
     "time_to_attack": { "min_time": 20, "base_time": 30, "time_reduction_per_level": 1 },
     "display_category": "display_ranged",
-    "ordering":  1300,
+    "ordering": 1300,
     "companion_skill_practice": [ { "skill": "hunting", "weight": 25 } ]
   },
   {
@@ -209,7 +209,7 @@
     "tags": [ "combat_skill" ],
     "time_to_attack": { "min_time": 20, "base_time": 30, "time_reduction_per_level": 1 },
     "display_category": "display_ranged",
-    "ordering":  1100,
+    "ordering": 1100,
     "companion_skill_practice": [ { "skill": "hunting", "weight": 25 } ]
   },
   {
@@ -220,7 +220,7 @@
     "tags": [ "combat_skill" ],
     "time_to_attack": { "min_time": 50, "base_time": 220, "time_reduction_per_level": 25 },
     "display_category": "display_ranged",
-    "ordering":  800
+    "ordering": 800
   },
   {
     "type": "skill",
@@ -231,7 +231,7 @@
     "time_to_attack": { "min_time": 50, "base_time": 200, "time_reduction_per_level": 20 },
     "companion_combat_rank_factor": 1,
     "display_category": "display_melee",
-    "ordering":  100,
+    "ordering": 100,
     "companion_skill_practice": [
       { "skill": "", "weight": 5 },
       { "skill": "gathering", "weight": 5 },
@@ -249,7 +249,7 @@
     "tags": [ "combat_skill" ],
     "companion_combat_rank_factor": 1,
     "display_category": "display_melee",
-    "ordering":  300,
+    "ordering": 300,
     "companion_skill_practice": [ { "skill": "hunting", "weight": 10 }, { "skill": "combat", "weight": 10 } ]
   },
   {
@@ -260,7 +260,7 @@
     "tags": [ "combat_skill" ],
     "companion_combat_rank_factor": 1,
     "display_category": "display_melee",
-    "ordering":  400,
+    "ordering": 400,
     "companion_skill_practice": [ { "skill": "hunting", "weight": 10 }, { "skill": "combat", "weight": 10 } ]
   },
   {
