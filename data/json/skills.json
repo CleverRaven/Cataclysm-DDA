@@ -15,7 +15,7 @@
     "name": { "str": "computers" },
     "description": "Your skill in accessing and manipulating computers.  Higher levels can allow a user to navigate complex software systems and even bypass their security.",
     "display_category": "display_interaction",
-    "ordering":  2400
+    "ordering": 2400
   },
   {
     "type": "skill",
