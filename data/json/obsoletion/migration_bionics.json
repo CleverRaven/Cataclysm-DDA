@@ -8,7 +8,7 @@
     "type": "bionic_migration",
     "//": "obsoleted as part of https://github.com/CleverRaven/Cataclysm-DDA/pull/65077",
     "from": "bio_power_armor_interface"
-  }
+  },
   {
     "type": "bionic_migration",
     "//": "obsoleted as part of https://github.com/CleverRaven/Cataclysm-DDA/pull/65077",
