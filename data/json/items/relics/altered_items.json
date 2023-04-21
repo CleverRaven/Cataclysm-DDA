@@ -102,7 +102,7 @@
   },
   {
     "id": "altered_badge",
-    "copy-from": "badge_abstract",
+    "copy-from": "badge_deputy",
     "type": "ARMOR",
     "name": { "str": "defaced badge" },
     "description": "A strange golden badge in the shape of a shield with scratched out lettering.  The faceless figures decorating the badge seem taller and thinner than ordinary humans."
