@@ -422,7 +422,7 @@
     "type": "profession",
     "id": "magic_burglar",
     "name": "Shadow Burglar",
-    "description": "Helped by all kind of magical tools and your great talents, you were plannig your next great break in.  The world ended before you had time to escape with all of your ill-gained plunder, but at least now nobody can stop you now from breaking whatever locks you desire.",
+    "description": "Helped by all kind of magical tools and your great talents, you were planning your next great break in.  The world ended before you had time to escape with all of your ill-gained plunder, but at least now nobody can stop you now from breaking whatever locks you desire.",
     "points": 5,
     "proficiencies": [ "prof_lockpicking" ],
     "skills": [ { "level": 4, "name": "traps" } ],
