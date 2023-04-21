@@ -2694,6 +2694,37 @@ void talk_effect_fun_t::set_location_variable( const JsonObject &jo, const std::
         target_params = mission_util::parse_mission_om_target( target_obj );
     }
 
+    std::optional<str_or_var> search_target;
+    std::optional<std::string> search_type;
+    dbl_or_var dov_target_min_radius = get_dbl_or_var( jo, "target_min_radius", false, 0 );
+    dbl_or_var dov_target_max_radius = get_dbl_or_var( jo, "target_max_radius", false, 0 );
+    int target_types = 0;
+    if( jo.has_member( "terrain" ) ) {
+        target_types++;
+        search_type = "terrain";
+    }
+    if( jo.has_member( "furniture" ) ) {
+        target_types++;
+        search_type = "furniture";
+    }
+    if( jo.has_member( "monster" ) ) {
+        target_types++;
+        search_type = "monster";
+    }
+    if( jo.has_member( "npc" ) ) {
+        target_types++;
+        search_type = "npc";
+    }
+    if( jo.has_member( "trap" ) ) {
+        target_types++;
+        search_type = "trap";
+    }
+    if( target_types == 1 ) {
+        search_target = get_str_or_var( jo.get_member( search_type.value() ), search_type.value(), true );
+    } else if( target_types > 1 ) {
+        jo.throw_error( "Can only have one of terrain, furniture, monster, trap, or npc." );
+    }
+
     var_info var = read_var_info( jo.get_object( member ) );
     var_type type = var.type;
     std::string var_name = var.name;
@@ -2701,31 +2732,101 @@ void talk_effect_fun_t::set_location_variable( const JsonObject &jo, const std::
     std::vector<effect_on_condition_id> true_eocs = load_eoc_vector( jo, "true_eocs" );
     std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );
 
-    function = [dov_min_radius, dov_max_radius, var_name, outdoor_only, target_params,
-                                is_npc, type, dov_x_adjust, dov_y_adjust, dov_z_adjust, z_override, true_eocs,
-                    false_eocs]( dialogue const & d ) {
+    function = [dov_min_radius, dov_max_radius, var_name, outdoor_only, target_params, is_npc, type,
+                                dov_x_adjust, dov_y_adjust, dov_z_adjust, z_override, true_eocs, false_eocs, search_target,
+                    search_type, dov_target_min_radius, dov_target_max_radius]( dialogue const & d ) {
+        map &here = get_map();
+        tripoint_abs_ms avatar_pos = get_avatar().get_location();
         talker *target = d.actor( is_npc );
-        tripoint talker_pos = get_map().getabs( target->pos() );
+        tripoint talker_pos = here.getabs( target->pos() );
         tripoint target_pos = talker_pos;
-
-        int max_radius = dov_max_radius.evaluate( d );
         if( target_params.has_value() ) {
             const tripoint_abs_omt omt_pos = mission_util::get_om_terrain_pos( target_params.value() );
             target_pos = tripoint( project_to<coords::ms>( omt_pos ).x(), project_to<coords::ms>( omt_pos ).y(),
                                    project_to<coords::ms>( omt_pos ).z() );
-        } else if( max_radius > 0 ) {
+        }
+        const tripoint_abs_ms abs_ms( target_pos );
+        bool shifted = false;
+        if( !here.inbounds( abs_ms ) ) {
+            g->place_player_overmap( project_to<coords::omt>( abs_ms ), false );
+            shifted = true;
+        }
+        if( search_target.has_value() ) {
+            int min_target_dist = dov_target_min_radius.evaluate( d );
+            std::string cur_search_target = search_target.value().evaluate( d );
+            bool found = false;
+            auto points = here.points_in_radius( here.getlocal( abs_ms ),
+                                                 size_t( dov_target_max_radius.evaluate( d ) ), size_t( 0 ) );
+            for( const tripoint &search_loc : points ) {
+                if( rl_dist( here.getlocal( talker_pos ), search_loc ) <= min_target_dist ) {
+                    continue;
+                }
+                if( search_type.value() == "terrain" ) {
+                    if( here.ter( search_loc ).id().c_str() == cur_search_target ) {
+                        target_pos = here.getabs( search_loc );
+                        found = true;
+                        break;
+                    }
+                } else if( search_type.value() == "furniture" ) {
+                    if( here.furn( search_loc ).id().c_str() == cur_search_target || cur_search_target.empty() ) {
+                        target_pos = here.getabs( search_loc );
+                        found = true;
+                        break;
+                    }
+                } else if( search_type.value() == "trap" ) {
+                    if( here.tr_at( search_loc ).id.c_str() == cur_search_target || cur_search_target.empty() ) {
+                        target_pos = here.getabs( search_loc );
+                        found = true;
+                        break;
+                    }
+                } else if( search_type.value() == "monster" ) {
+                    Creature *tmp_critter = get_creature_tracker().creature_at( search_loc );
+                    if( tmp_critter != nullptr && tmp_critter->is_monster() &&
+                        ( tmp_critter->as_monster()->type->id.c_str() == cur_search_target ||
+                          cur_search_target.empty() ) ) {
+                        target_pos = here.getabs( search_loc );
+                        found = true;
+                        break;
+                    }
+                } else if( search_type.value() == "npc" ) {
+                    for( shared_ptr_fast<npc> &person : overmap_buffer.get_npcs_near( project_to<coords::sm>( abs_ms ),
+                            1 ) ) {
+                        if( person->pos() == search_loc && ( person->myclass.c_str() == cur_search_target ||
+                                                             cur_search_target.empty() ) ) {
+                            target_pos = here.getabs( search_loc );
+                            found = true;
+                            break;
+                        }
+                    }
+                }
+            }
+            talker_pos = target_pos;
+            if( !found ) {
+                if( shifted ) {
+                    g->place_player_overmap( project_to<coords::omt>( avatar_pos ), false );
+                }
+                run_eoc_vector( false_eocs, d );
+                return;
+            }
+        }
+
+        int max_radius = dov_max_radius.evaluate( d );
+        if( max_radius > 0 ) {
             bool found = false;
             int min_radius = dov_min_radius.evaluate( d );
             for( int attempts = 0; attempts < 25; attempts++ ) {
                 target_pos = talker_pos + tripoint( rng( -max_radius, max_radius ), rng( -max_radius, max_radius ),
                                                     0 );
-                if( ( !outdoor_only || get_map().is_outside( target_pos ) ) &&
+                if( ( !outdoor_only || here.is_outside( target_pos ) ) &&
                     rl_dist( target_pos, talker_pos ) >= min_radius ) {
                     found = true;
                     break;
                 }
             }
             if( !found ) {
+                if( shifted ) {
+                    g->place_player_overmap( project_to<coords::omt>( avatar_pos ), false );
+                }
                 run_eoc_vector( false_eocs, d );
                 return;
             }
@@ -2742,6 +2843,9 @@ void talk_effect_fun_t::set_location_variable( const JsonObject &jo, const std::
                                                 dov_z_adjust.evaluate( d ) );
         }
         write_var_value( type, var_name, d.actor( type == var_type::npc ), target_pos.to_string() );
+        if( shifted ) {
+            g->place_player_overmap( project_to<coords::omt>( avatar_pos ), false );
+        }
         run_eoc_vector( true_eocs, d );
     };
 }
@@ -4121,7 +4225,6 @@ void talk_effect_fun_t::set_spawn_npc( const JsonObject &jo, const std::string &
     if( indoor_only && outdoor_only ) {
         jo.throw_error( "Cannot be outdoor_only and indoor_only at the same time." );
     }
-
 
     duration_or_var dov_lifespan = get_duration_or_var( jo, "lifespan", false, 0_seconds );
     std::optional<var_info> target_var;
