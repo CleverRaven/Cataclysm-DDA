@@ -35,7 +35,7 @@
     "description": "Your skill in engineering, maintaining and repairing vehicles and other mechanical systems.  This skill covers the craft of items with complex parts, and plays a role in the installation of bionic equipment.",
     "companion_industry_rank_factor": 1,
     "display_category": "display_interaction",
-    "ordering":  2200,
+    "ordering": 2200,
     "companion_skill_practice": [ { "skill": "menial", "weight": 10 }, { "skill": "construction", "weight": 20 } ]
   },
   {
