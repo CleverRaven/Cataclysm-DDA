@@ -188,7 +188,7 @@
     "type": "ARMOR",
     "copy-from": "robe",
     "name": { "str": "royal robe" },
-    "description": "An ornately decorated robe with an unfamiliar royal symbol on it.  It is the only one of its kind.\nIt may have unknown powers; try activating them."
+    "description": "An ornately decorated robe with an unfamiliar royal symbol on it.  The humanoid figure on the seal has two pairs of eyes.  It is the only one of its kind.\nIt may have unknown powers; try activating them."
   },
   {
     "id": "art_cloak",
@@ -202,7 +202,7 @@
     "type": "ARMOR",
     "copy-from": "coat_fur",
     "name": { "str": "ornate fur coat" },
-    "description": "A heavy, ornately decorated coat made of the fur of an unidentifiable creature.  It is the only one of its kind.\nIt may have unknown powers; try activating them."
+    "description": "A heavy, finely crafted coat made of the fur of an unidentifiable creature.  It is the only one of its kind.\nIt may have unknown powers; try activating them."
   },
   {
     "id": "art_mask",
@@ -236,7 +236,7 @@
     "type": "ARMOR",
     "copy-from": "gloves_leather",
     "name": { "str": "pair of ornate leather gloves", "str_pl": "pairs of ornate leather gloves"  },
-    "description": "A set of worn leather gloves embossed with gold.  It is the only one of its kind.\nIt may have unknown powers; try activating them."
+    "description": "A set of worn leather gloves embossed with gold.  The unidentifiable leather it is made from is oddly soft.  It is the only one of its kind.\nIt may have unknown powers; try activating them."
   },
   {
     "id": "art_boots",
@@ -324,13 +324,13 @@
     "type": "TOOL",
     "copy-from": "spear_steel",
     "name": { "str": "ancient spear" },
-    "description": "A sturdy wooden pole with a sharp metal spike on the end.  The handle is embossed with gold.  It is the only one of its kind.\nIt may have unknown powers; try activating them."
+    "description": "A sturdy wooden pole with a sharp metal spike on the end.  The handle has the symbol of a blue sun on it.  It is the only one of its kind.\nIt may have unknown powers; try activating them."
   },
   {
     "id": "art_club",
     "type": "TOOL",
     "copy-from": "club_wooden",
     "name": { "str": "ancient club" },
-    "description": "A misshapen rod of gnarled, knotted wood.  It looks as if it has never been shaped by a human, but it would be reasonably comfortable in your hand.  It is the only one of its kind.\nIt may have unknown powers; try activating them."
+    "description": "A misshapen rod of gnarled, knotted wood.  The knots in the wood exhibit a strange fractal pattern.  It is the only one of its kind.\nIt may have unknown powers; try activating them."
   }
 ]
