@@ -3114,22 +3114,17 @@ repair_item_actor::attempt_hint repair_item_actor::repair( Character &pl, item &
     if( action == RT_REPAIR ) {
         if( roll == SUCCESS ) {
             const std::string startdurability = fix->durability_indicator( true );
-            const int damage = fix->damage();
             handle_components( pl, *fix, false, false, true );
 
-            int dmg = fix->damage() + 1;
-            for( const int lvl = fix->damage_level(); lvl == fix->damage_level() && dmg != fix->damage(); ) {
-                dmg = fix->damage(); // break loop if clamped by degradation or no more repair needed
-                fix->mod_damage( -1 ); // scan for next damage indicator breakpoint, repairing that much damage
-            }
+            fix->mod_damage( -itype::damage_scale );
 
             const std::string resultdurability = fix->durability_indicator( true );
-            if( damage > itype::damage_scale ) {
-                pl.add_msg_if_player( m_good, _( "You repair your %s!  ( %s-> %s)" ), fix->tname( 1, false ),
-                                      startdurability, resultdurability );
+            if( fix->repairable_levels() ) {
+                pl.add_msg_if_player( m_good, _( "You repair your %s!  ( %s-> %s)" ),
+                                      fix->tname( 1, false ), startdurability, resultdurability );
             } else {
-                pl.add_msg_if_player( m_good, _( "You repair your %s completely!  ( %s-> %s)" ), fix->tname( 1,
-                                      false ), startdurability, resultdurability );
+                pl.add_msg_if_player( m_good, _( "You repair your %s completely!  ( %s-> %s)" ),
+                                      fix->tname( 1, false ), startdurability, resultdurability );
             }
             return AS_SUCCESS;
         }
