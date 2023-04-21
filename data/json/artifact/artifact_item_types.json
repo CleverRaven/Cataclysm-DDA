@@ -210,7 +210,7 @@
     "category": "armor",
     "name": { "str": "ancient stone mask" },
     "description": "A sinister mask made of a smooth green stone.  It is the only one of its kind.\nIt may have unknown powers; try activating them.",
-    "weight": "1000 g",
+    "weight": "750 g",
     "volume": "750 ml",
     "price": 4000,
     "price_postapoc": 10,
