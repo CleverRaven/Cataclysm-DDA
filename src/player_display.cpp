@@ -1579,11 +1579,7 @@ void Character::disp_info( bool customize_character )
 
     const std::vector<const Skill *> player_skill = Skill::get_skills_sorted_by(
     [&]( const Skill & a, const Skill & b ) {
-        skill_displayType_id type_a = a.display_category();
-        skill_displayType_id type_b = b.display_category();
-
-        return localized_compare( std::make_pair( type_a, a.name() ),
-                                  std::make_pair( type_b, b.name() ) );
+            return a.get_ordering() < b.get_ordering();
     } );
 
     std::vector<HeaderSkill> skillslist;

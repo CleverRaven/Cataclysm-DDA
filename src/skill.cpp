@@ -78,14 +78,14 @@ bool string_id<Skill>::is_valid() const
 
 Skill::Skill() : Skill( skill_id::NULL_ID(), to_translation( "nothing" ),
                             to_translation( "The zen-most skill there is." ),
-                            std::set<std::string> {}, skill_displayType_id::NULL_ID() )
+                            std::set<std::string> {}, skill_displayType_id::NULL_ID(), 100000000 )
 {
 }
 
 Skill::Skill( const skill_id &ident, const translation &name, const translation &description,
-              const std::set<std::string> &tags, skill_displayType_id display_type )
+              const std::set<std::string> &tags, skill_displayType_id display_type, int ordering )
     : _ident( ident ), _name( name ), _description( description ), _tags( tags ),
-      _display_type( display_type )
+      _display_type( display_type ), _ordering( ordering )
 {
 }
 
@@ -139,7 +139,8 @@ void Skill::load_skill( const JsonObject &jsobj )
         jso_tta.read( "time_reduction_per_level", time_to_attack.time_reduction_per_level );
     }
     skill_displayType_id display_type = skill_displayType_id( jsobj.get_string( "display_category" ) );
-    Skill sk( ident, name, desc, jsobj.get_tags( "tags" ), display_type );
+    int ordering = jsobj.get_int( "ordering", 100000000 );
+    Skill sk( ident, name, desc, jsobj.get_tags( "tags" ), display_type, ordering );
 
     sk._time_to_attack = time_to_attack;
     sk._companion_combat_rank_factor = jsobj.get_int( "companion_combat_rank_factor", 0 );

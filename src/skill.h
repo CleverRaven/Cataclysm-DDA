@@ -39,6 +39,7 @@ class Skill
         std::set<std::string> _tags;
         time_info_t _time_to_attack;
         skill_displayType_id _display_type;
+        int _ordering;
         std::unordered_map<std::string, int> _companion_skill_practice;
         // these are not real skills, they depend on context
         static std::map<skill_id, Skill> contextual_skills;
@@ -61,7 +62,7 @@ class Skill
 
         Skill();
         Skill( const skill_id &ident, const translation &name, const translation &description,
-               const std::set<std::string> &tags, skill_displayType_id display_type );
+               const std::set<std::string> &tags, skill_displayType_id display_type, int ordering );
 
         const skill_id &ident() const {
             return _ident;
@@ -78,6 +79,9 @@ class Skill
         }
         skill_displayType_id display_category() const {
             return _display_type;
+        }
+        int get_ordering() const {
+            return _ordering;
         }
         time_info_t time_to_attack() const {
             return _time_to_attack;
