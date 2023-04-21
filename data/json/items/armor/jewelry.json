@@ -1909,8 +1909,7 @@
     "type": "ARMOR",
     "name": { "str": "detective badge" },
     "description": "A tarnished golden shield gives an air of authority to the wearer.",
-    "price_postapoc": 500,
-    "proportional": { "weight": 2 }
+    "price_postapoc": 500
   },
   {
     "id": "badge_marshal",
