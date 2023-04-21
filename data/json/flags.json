@@ -306,6 +306,12 @@
     "restriction": "Item must be some kind of back pouch"
   },
   {
+    "id": "HELMET_HEAD_ATTACHMENT",
+    "type": "json_flag",
+    "info": "This item is attachable in <info>tactical helmets </info> as a flashlight.",
+    "restriction": "Item must be some kind of flashlight"
+  },
+  {
     "id": "COLD_IMMUNE",
     "type": "json_flag",
     "info": "This gear <good>completely protects</good> you from <info>low temperatures</info>."

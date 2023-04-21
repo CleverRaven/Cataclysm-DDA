@@ -4836,56 +4836,37 @@ units::power vehicle::net_battery_charge_rate( bool include_reactors ) const
 {
     return total_engine_epower() + total_alternator_epower() + total_accessory_epower() +
            total_solar_epower() + total_wind_epower() + total_water_wheel_epower() +
-           ( include_reactors ? active_reactor_epower( false ) : 0_W );
+           ( include_reactors ? active_reactor_epower() : 0_W );
 }
 
-units::power vehicle::active_reactor_epower( bool connected_vehicles ) const
+units::power vehicle::active_reactor_epower() const
 {
-    units::power reactor_w = 0_W;
-
+    units::power reactors_flow = 0_W;
     for( const int p : reactors ) {
         const vehicle_part &vp = parts[p];
-        if( vp.enabled && !vp.is_unavailable() &&
+        if( vp.enabled && vp.is_available() &&
             ( vp.info().has_flag( STATIC( std::string( "PERPETUAL" ) ) ) || vp.ammo_remaining() ) ) {
-            reactor_w += part_epower( vp );
+            reactors_flow += part_epower( vp );
         }
     }
 
-    if( reactor_w > 0_W ) {
-        // The reactor is providing power, but not all of it will really be used.
-        // Only count as much power as will be drawn from the reactor to fill the batteries.
-        int total_battery_left;
-        int total_battery_capacity;
-        std::tie( total_battery_left, total_battery_capacity ) = connected_vehicles ?
-                connected_battery_power_level() : battery_power_level();
-
-        // How much battery needs filled?
-        int batteries_need = std::max( 0, total_battery_capacity - total_battery_left );
-
-        // How much battery are others adding/draining?
-        units::power others_w = net_battery_charge_rate( /* include_reactors = */ false );
-        int others_bat = power_to_energy_bat( others_w, 1_turns );
-
-        // How much battery will the reactors add?
-        int reactor_bat = power_to_energy_bat( reactor_w, 1_turns );
-
-        batteries_need -= others_bat;
-
-        if( reactor_bat >= batteries_need ) {
-            // The reactor will provide more than the batteries need.
-            // Since the batteries will be filled up immediately,
-            // the reactor will throttle, providing just enough to cancel out
-            // any negative draw on the batteries.
-            return std::max( 1_kW, -others_w );
-        } else {
-            // The reactor will not immediately fill up the batteries.
-            // Thus it will provide full power.
-            return reactor_w;
-        }
-    } else {
-        // No power provded by reactors, don't bother checking battery level.
-        return 0_W;
+    if( reactors_flow <= 0_W ) {
+        return 0_W; // reactors don't output any power
     }
+
+    // Reactors are providing power, but not all of it will really be used.
+    // Only count as much power as will be drawn from the reactor to fill the batteries.
+    const auto [bat_remaining, bat_capacity] = connected_battery_power_level();
+    // max power flow into batteries for next turn
+    const units::power max_battery_flow = units::from_kilowatt( bat_capacity - bat_remaining );
+    // power flow by all parts except reactors
+    const units::power non_reactor_flow = net_battery_charge_rate( false );
+
+    if( non_reactor_flow >= max_battery_flow ) {
+        return 0_W; // other parts will fully charge battery without a reactor involved
+    }
+    // return how much power the reactor will contribute after other parts
+    return std::min( reactors_flow, max_battery_flow - non_reactor_flow );
 }
 
 units::power vehicle::max_reactor_epower() const
