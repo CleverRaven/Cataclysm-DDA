@@ -45,7 +45,7 @@
     "description": "Your skill in manipulating fine devices like security systems, traps, locks and other precision tasks.  This skill does not affect the evasion of traps that are triggered.",
     "companion_survival_rank_factor": 1,
     "display_category": "display_interaction",
-    "ordering":  2300,
+    "ordering": 2300,
     "companion_skill_practice": [ { "skill": "", "weight": 15 }, { "skill": "gathering", "weight": 15 }, { "skill": "trapping", "weight": 80 } ]
   },
   {
