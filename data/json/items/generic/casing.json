@@ -55,6 +55,16 @@
     "volume": "10ml"
   },
   {
+    "id": "123ln_casing",
+    "copy-from": "casing",
+    "looks_like": "223_casing",
+    "type": "GENERIC",
+    "name": { "str": "12.3ln casing" },
+    "description": "An empty casing from a 12.3ln round.",
+    "weight": "7 g",
+    "volume": "10ml"
+  },
+  {
     "id": "270win_casing",
     "copy-from": "casing",
     "looks_like": "223_casing",

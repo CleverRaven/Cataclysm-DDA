@@ -207,6 +207,16 @@
     "replace": "rifle_ball_foreign"
   },
   {
+    "id": [ "reloaded_123ln" ],
+    "type": "MIGRATION",
+    "replace": "reloaded_rifle_ball_foreign"
+  },
+  {
+    "id": [ "bp_123ln" ],
+    "type": "MIGRATION",
+    "replace": "bp_rifle_ball_foreign"
+  },
+  {
     "id": [
       "reloaded_223",
       "reloaded_270win_jsp",
