@@ -1303,6 +1303,12 @@
       { "proficiency": "prof_welding" }
     ],
     "qualities": [ { "id": "DRILL", "level": 2 }, { "id": "FILE", "level": 1 } ],
-    "components": [ [ [ "stock_pot", 1 ] ], [ [ "chunk_rubber", 2 ] ], [ [ "cu_pipe", 1 ] ], [ [ "thermometer", 1 ] ], [ [ "clamp", 3 ], [ "pliers_locking", 3 ] ] ]
+    "components": [
+      [ [ "stock_pot", 1 ] ],
+      [ [ "chunk_rubber", 2 ] ],
+      [ [ "cu_pipe", 1 ] ],
+      [ [ "thermometer", 1 ] ],
+      [ [ "clamp", 3 ], [ "pliers_locking", 3 ] ]
+    ]
   }
 ]
