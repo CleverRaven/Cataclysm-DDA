@@ -461,7 +461,7 @@
         "max_mul": 5.4,
         "//": "Bite does 6-10 dmg, armor penetration 5, 8 hits to max venom intensity",
         "effects": [ { "id": "venom_dmg", "duration": 250, "affect_hit_bp": true } ],
-        "forbidden_effects_any": [ "maimed_mandible" ]
+        "condition": { "not": { "u_has_effect": "maimed_mandible" } }
       }
     ],
     "dodge": 4,
@@ -509,7 +509,7 @@
         "max_mul": 2.1,
         "infection_chance": 4,
         "effects": [ { "id": "venom_dmg", "duration": 500, "affect_hit_bp": true } ],
-        "forbidden_effects_any": [ "maimed_mandible" ]
+        "condition": { "not": { "u_has_effect": "maimed_mandible" } }
       }
     ],
     "//": "10-20 dmg, 4 hits to max intensity, 5 hits to max duration",
@@ -569,7 +569,7 @@
         "max_mul": 2.1,
         "infection_chance": 4,
         "effects": [ { "id": "venom_dmg", "duration": 500, "affect_hit_bp": true } ],
-        "forbidden_effects_any": [ "maimed_mandible" ]
+        "condition": { "not": { "u_has_effect": "maimed_mandible" } }
       }
     ],
     "anger_triggers": [ "PLAYER_CLOSE" ]
@@ -602,7 +602,7 @@
         "max_mul": 2.1,
         "infection_chance": 4,
         "effects": [ { "id": "venom_dmg", "duration": 500, "affect_hit_bp": true } ],
-        "forbidden_effects_any": [ "maimed_mandible" ]
+        "condition": { "not": { "u_has_effect": "maimed_mandible" } }
       },
       {
         "type": "spell",
@@ -658,7 +658,7 @@
         "max_mul": 1.1,
         "infection_chance": 3,
         "effects": [ { "id": "venom_dmg", "duration": 750, "affect_hit_bp": true } ],
-        "forbidden_effects_any": [ "maimed_mandible" ]
+        "condition": { "not": { "u_has_effect": "maimed_mandible" } }
       }
     ],
     "//": "3 hits to max intensity, 4 to max duration",
@@ -709,7 +709,7 @@
         "no_dmg_msg_npc": "%1$s's mouthpart hits <npcname>'s %2$s, but it glances off their armor!",
         "miss_msg_u": "%s thrusts its mouthpart at you, but you dodge!",
         "miss_msg_npc": "%s thrusts its mouthpart at <npcname>, but they dodge!",
-        "forbidden_effects_any": [ "maimed_mandible" ]
+        "condition": { "not": { "u_has_effect": "maimed_mandible" } }
       }
     ],
     "dodge": 3,
@@ -1073,7 +1073,7 @@
       {
         "type": "bite",
         "damage_max_instance": [ { "damage_type": "cut", "amount": 10 }, { "damage_type": "stab", "amount": 6 } ],
-        "forbidden_effects_any": [ "maimed_mandible" ],
+        "condition": { "not": { "u_has_effect": "maimed_mandible" } },
         "cooldown": 5,
         "effects": [ { "id": "venom_pain", "chance": 50, "duration": 350, "affect_hit_bp": true } ]
       }
@@ -1150,7 +1150,7 @@
         "type": "bite",
         "move_cost": 120,
         "damage_max_instance": [ { "damage_type": "cut", "amount": 10 }, { "damage_type": "stab", "amount": 8 } ],
-        "forbidden_effects_any": [ "maimed_mandible" ],
+        "condition": { "not": { "u_has_effect": "maimed_mandible" } },
         "cooldown": 3,
         "effects": [ { "id": "venom_pain", "chance": 50, "duration": 350, "affect_hit_bp": true } ]
       },
@@ -1159,7 +1159,7 @@
         "spell_data": { "id": "cellar_spider_leg_detach", "min_level": 1 },
         "monster_message": "The maimed legs start twitching erratically!",
         "cooldown": 15,
-        "required_effects_any": [ "maimed_leg" ]
+        "condition": { "u_has_effect": "maimed_leg" }
       }
     ],
     "dodge": 6,
@@ -1306,7 +1306,13 @@
     "reproduction": { "baby_egg": "egg_spider_jumping", "baby_count": 3, "baby_timer": 15 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "special_attacks": [
-      { "type": "leap", "cooldown": 2, "max_range": 5, "allow_no_target": true, "forbidden_effects_any": [ "maimed_leg" ] }
+      {
+        "type": "leap",
+        "cooldown": 2,
+        "max_range": 5,
+        "allow_no_target": true,
+        "condition": { "not": { "u_has_effect": "maimed_leg" } }
+      }
     ],
     "anger_triggers": [ "PLAYER_CLOSE" ],
     "fungalize_into": "mon_spider_fungus",
@@ -1783,8 +1789,7 @@
         "cooldown": 8,
         "min_mul": 0.3,
         "max_mul": 0.5,
-        "effects": [ { "id": "venom_weaken", "duration": 100, "chance": 50 } ],
-        "forbidden_effects_any": [ "maimed_stinger" ]
+        "effects": [ { "id": "venom_weaken", "duration": 100, "chance": 50 } ]
       },
       {
         "type": "bite",
@@ -1793,7 +1798,7 @@
         "damage_max_instance": [ { "damage_type": "cut", "amount": 10 } ],
         "min_mul": 0.2,
         "max_mul": 0.5,
-        "forbidden_effects_any": [ "maimed_mandible" ]
+        "condition": { "not": { "u_has_effect": "maimed_mandible" } }
       }
     ],
     "//": "sting 3-5 dmg, 40 hits to max intensity, 50 to max duration",
@@ -1866,8 +1871,7 @@
         "cooldown": 5,
         "damage_max_instance": [ { "damage_type": "stab", "amount": 10, "armor_penetration": 25 } ],
         "min_mul": 0.5,
-        "max_mul": 2,
-        "forbidden_effects_any": [ "maimed_stinger" ]
+        "max_mul": 2
       },
       {
         "type": "bite",
@@ -1877,7 +1881,7 @@
         "body_parts": [ [ "leg_l", 2 ], [ "leg_r", 2 ], [ "head", 1 ], [ "arm_l", 2 ], [ "arm_r", 2 ], [ "torso", 4 ] ],
         "min_mul": 0.5,
         "max_mul": 1.5,
-        "forbidden_effects_any": [ "maimed_mandible" ]
+        "condition": { "not": { "u_has_effect": "maimed_mandible" } }
       }
     ],
     "//": "sting 5-15 damage, 8 hits to max intensity, 9 to max duration",
@@ -1933,8 +1937,7 @@
         "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_penetration": 60 } ],
         "min_mul": 1,
         "max_mul": 3,
-        "effects": [ { "id": "venom_weaken", "duration": 600 }, { "id": "downed", "duration": 1, "chance": 50 } ],
-        "forbidden_effects_any": [ "maimed_stinger" ]
+        "effects": [ { "id": "venom_weaken", "duration": 600 }, { "id": "downed", "duration": 1, "chance": 50 } ]
       },
       {
         "type": "bite",
@@ -1944,7 +1947,7 @@
         "min_mul": 1,
         "max_mul": 3,
         "body_parts": [ [ "leg_l", 2 ], [ "leg_r", 2 ], [ "head", 1 ], [ "arm_l", 2 ], [ "arm_r", 2 ], [ "torso", 4 ] ],
-        "forbidden_effects_any": [ "maimed_mandible" ]
+        "condition": { "not": { "u_has_effect": "maimed_mandible" } }
       }
     ],
     "//": "sting 15-45 damage, 6 hits to max intensity, 8 to max duration; bite 10-30",
@@ -2332,7 +2335,7 @@
       {
         "type": "bite",
         "cooldown": 5,
-        "forbidden_effects_any": [ "maimed_mandible" ],
+        "condition": { "not": { "u_has_effect": "maimed_mandible" } },
         "damage_max_instance": [ { "damage_type": "cut", "amount": 12, "armor_penetration": 14 } ]
       },
       [ "GRAB", 10 ],
@@ -2463,7 +2466,7 @@
       {
         "type": "bite",
         "cooldown": 5,
-        "forbidden_effects_any": [ "maimed_mandible" ],
+        "condition": { "not": { "u_has_effect": "maimed_mandible" } },
         "damage_max_instance": [ { "damage_type": "cut", "amount": 12, "armor_penetration": 14 } ]
       },
       [ "GRAB_DRAG", 10 ]
@@ -2522,7 +2525,13 @@
     "fear_triggers": [ "HURT", "FIRE" ],
     "upgrades": { "half_life": 42, "into": "mon_locust_mega" },
     "special_attacks": [
-      { "type": "leap", "cooldown": 2, "max_range": 8, "allow_no_target": true, "forbidden_effects_any": [ "maimed_leg" ] },
+      {
+        "type": "leap",
+        "cooldown": 2,
+        "max_range": 8,
+        "allow_no_target": true,
+        "condition": { "not": { "u_has_effect": "maimed_leg" } }
+      },
       [ "EAT_CROP", 60 ]
     ],
     "zombify_into": "mon_meat_cocoon_small",
@@ -2541,7 +2550,13 @@
     "armor_elec": 3,
     "dissect": "dissect_insect_sample_large",
     "special_attacks": [
-      { "type": "leap", "cooldown": 2, "max_range": 4, "allow_no_target": true, "forbidden_effects_any": [ "maimed_leg" ] },
+      {
+        "type": "leap",
+        "cooldown": 2,
+        "max_range": 4,
+        "allow_no_target": true,
+        "condition": { "not": { "u_has_effect": "maimed_leg" } }
+      },
       [ "EAT_CROP", 3 ],
       { "id": "smash", "throw_strength": 36, "cooldown": 30 }
     ],
@@ -2561,7 +2576,13 @@
     "color": "brown",
     "upgrades": { "age_grow": 30, "into": "mon_locust" },
     "special_attacks": [
-      { "type": "leap", "cooldown": 4, "max_range": 4, "allow_no_target": true, "forbidden_effects_any": [ "maimed_leg" ] },
+      {
+        "type": "leap",
+        "cooldown": 4,
+        "max_range": 4,
+        "allow_no_target": true,
+        "condition": { "not": { "u_has_effect": "maimed_leg" } }
+      },
       [ "EAT_CROP", 120 ]
     ]
   },
@@ -2685,7 +2706,7 @@
         "cooldown": 8,
         "max_range": 5,
         "allow_no_target": false,
-        "forbidden_effects_any": [ "maimed_leg" ]
+        "condition": { "not": { "u_has_effect": "maimed_leg" } }
       }
     ],
     "upgrades": { "half_life": 42, "into": "mon_mantis_mega" },
@@ -2719,7 +2740,13 @@
     "dissect": "dissect_insect_sample_single",
     "upgrades": { "age_grow": 30, "into": "mon_mantis_giant" },
     "special_attacks": [
-      { "type": "leap", "cooldown": 8, "max_range": 3, "allow_no_target": false, "forbidden_effects_any": [ "maimed_leg" ] }
+      {
+        "type": "leap",
+        "cooldown": 8,
+        "max_range": 3,
+        "allow_no_target": false,
+        "condition": { "not": { "u_has_effect": "maimed_leg" } }
+      }
     ],
     "anger_triggers": [ "PLAYER_CLOSE" ]
   },
@@ -2866,7 +2893,7 @@
         "cooldown": 4,
         "accuracy": 4,
         "damage_max_instance": [ { "damage_type": "stab", "amount": 7, "armor_penetration": 4 } ],
-        "forbidden_effects_any": [ "maimed_mandible" ]
+        "condition": { "not": { "u_has_effect": "maimed_mandible" } }
       }
     ],
     "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_FIRE" ],
@@ -2914,7 +2941,7 @@
         "cooldown": 4,
         "accuracy": 6,
         "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_penetration": 8 } ],
-        "forbidden_effects_any": [ "maimed_mandible" ]
+        "condition": { "not": { "u_has_effect": "maimed_mandible" } }
       }
     ],
     "flags": [ "SEES", "HEARS", "SMELLS", "BASHES", "PATH_AVOID_FIRE" ],
@@ -3002,7 +3029,7 @@
         "cooldown": 3,
         "max_range": 10,
         "allow_no_target": true,
-        "forbidden_effects_any": [ "maimed_leg" ]
+        "condition": { "not": { "u_has_effect": "maimed_leg" } }
       }
     ],
     "zombify_into": "mon_meat_cocoon_tiny",
@@ -3018,7 +3045,13 @@
     "color": "light_green",
     "upgrades": { "age_grow": 30, "into": "mon_grasshopper_giant" },
     "special_attacks": [
-      { "type": "leap", "cooldown": 3, "max_range": 4, "allow_no_target": true, "forbidden_effects_any": [ "maimed_leg" ] },
+      {
+        "type": "leap",
+        "cooldown": 3,
+        "max_range": 4,
+        "allow_no_target": true,
+        "condition": { "not": { "u_has_effect": "maimed_leg" } }
+      },
       [ "EAT_FOOD", 100 ],
       [ "EAT_CROP", 133 ]
     ]
@@ -3257,7 +3290,7 @@
         "accuracy": 8,
         "infection_chance": 75,
         "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_penetration": 12 } ],
-        "forbidden_effects_any": [ "maimed_mandible" ]
+        "condition": { "not": { "u_has_effect": "maimed_mandible" } }
       }
     ],
     "zombify_into": "mon_meat_cocoon_med",
