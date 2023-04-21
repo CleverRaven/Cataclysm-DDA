@@ -303,7 +303,7 @@
     "description": "Your skill in general 'bench science', applying any of a wide range of precision techniques based on your overall understanding of scientific principles.  This is not a research skill, but about using the results of others' research.",
     "companion_industry_rank_factor": 1,
     "display_category": "display_crafting",
-    "ordering":  1900,
+    "ordering": 1900,
     "companion_skill_practice": [ { "skill": "menial", "weight": 15 } ]
   },
   {
