@@ -54,7 +54,7 @@
     "name": { "str": "vehicles" },
     "description": "Your skill in operating and steering a vehicle in motion, from cars and boats to helicopters and hot air balloons.  A higher level allows greater control over vehicles at higher speeds, and reduces the penalty of shooting while driving.",
     "display_category": "display_interaction",
-    "ordering":  2700
+    "ordering": 2700
   },
   {
     "type": "skill",
