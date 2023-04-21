@@ -454,7 +454,7 @@
     "type": "profession",
     "id": "magic_drunkard",
     "name": "Magic Drunkard",
-    "description": "You were lucky enough to find a weird flask that refills itself with whiskey! You now spent your days just waiting for every refill and keeping it from the hands of any envious neighbor of yours.",
+    "description": "You were lucky enough to find a weird flask that refills itself with whiskey!  You now spent your days just waiting for every refill and keeping it from the hands of any envious neighbor of yours.",
     "points": 2,
     "skills": [ { "level": 2, "name": "unarmed" } ],
     "items": {
