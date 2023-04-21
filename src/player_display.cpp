@@ -832,7 +832,8 @@ static void draw_skills_tab( ui_adaptor &ui, const catacurses::window &w_skills,
             const SkillLevel &level = you.get_skill_level_object( aSkill->ident() );
             const bool can_train = level.can_train();
             const bool training = level.isTraining();
-            const bool rusty = level.isRusty();
+            const bool skill_gap = level.knowledgeLevel() > level.level();
+            const bool skill_small_gap = level.knowledgeExperience() > level.exercise();
             int exercise = level.knowledgeExperience();
             int level_num = level.knowledgeLevel();
             bool locked = false;
@@ -847,11 +848,13 @@ static void draw_skills_tab( ui_adaptor &ui, const catacurses::window &w_skills,
                 if( locked ) {
                     cstatus = h_yellow;
                 } else if( !can_train ) {
-                    cstatus = rusty ? h_light_red : h_white;
+                    cstatus = h_white;
                 } else if( exercise >= 100 ) {
                     cstatus = training ? h_pink : h_magenta;
-                } else if( rusty ) {
+                } else if( skill_gap ) {
                     cstatus = training ? h_light_green : h_green;
+                } else if( skill_small_gap ) {
+                    cstatus = training ? h_light_cyan : h_cyan;
                 } else {
                     cstatus = training ? h_light_blue : h_blue;
                 }
@@ -859,8 +862,10 @@ static void draw_skills_tab( ui_adaptor &ui, const catacurses::window &w_skills,
             } else {
                 if( locked ) {
                     cstatus = c_yellow;
-                } else if( rusty ) {
+                } else if( skill_gap ) {
                     cstatus = training ? c_light_green : c_green;
+                } else if( skill_small_gap ) {
+                    cstatus = training ? c_light_cyan : c_cyan;
                 } else if( !can_train ) {
                     cstatus = c_white;
                 } else {
@@ -944,9 +949,24 @@ static void draw_skills_info( const catacurses::window &w_info, const Character 
     if( selectedSkill ) {
         const SkillLevel &level = you.get_skill_level_object( selectedSkill->ident() );
         std::string info_text = selectedSkill->description();
-        if( level.isRusty() ) {
-            info_text = string_format( _( "%s\n\nPractical level: %d (%d%%)" ), info_text,
+        float level_gap = 100.0f * std::max( level.knowledgeLevel(), 1 ) / std::max( level.level(), 1 );
+        if( level.knowledgeLevel() == 1 && level.level() == 0 ){
+            level_gap = 150.0f
+        }
+        float learning_bonus = 100.0f * std::max( ( 1.0f + you.get_int() / 40.0f ) - 0.1f * level.exercise() / level.knowledgeExperience(), 1.0f );
+        if( level.knowledgeLevel() > level.level() || level.knowledgeExperience() > level.exercise() ) {
+            info_text = string_format( _( "%s\n\nPractical level: %d (%d%%) " ), info_text,
                                        level.level(), level.exercise() );
+            if( level.knowledgeLevel() > level.level() ) {
+                info_text = string_format( _( "%s| Learning bonus: %f%%" ), info_text,
+                                       level_gap );
+            } else {
+                info_text = string_format( _( "%s| Learning bonus: %f%%" ), info_text,
+                                       learning_bonus );
+            }
+            if( level.isRusty() ) {
+                info_text = string_format( _( "%s\nThis skill will improve easily with practice." ), info_text );
+            }
         }
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_light_gray, info_text );
