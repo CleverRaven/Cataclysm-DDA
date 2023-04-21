@@ -10,6 +10,7 @@
     "time": "4 h",
     "skill_used": "deduction",
     "difficulty": 1,
+    "flags": [ "SECRET" ],
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_WEAPONS"
   },
@@ -22,6 +23,7 @@
       [ [ "knife_butcher", 1 ], [ "knife_chef", 1 ], [ "knife_carving", 1 ] ]
     ],
     "time": "2 h",
+    "flags": [ "SECRET" ],
     "difficulty": 1
   },
   {
@@ -31,6 +33,7 @@
     "activity_level": "ACTIVE_EXERCISE",
     "components": [ [ [ "dreamdross_lump", 2 ], [ "scrap_dreamdross", 20 ] ], [ [ "hammer", 1 ], [ "pipe", 1 ], [ "rebar", 1 ] ] ],
     "time": "3 h",
+    "flags": [ "SECRET" ],
     "difficulty": 2
   },
   {
@@ -47,6 +50,7 @@
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
     "components": [ [ [ "forged_dreamstuff_ingot", 1 ] ] ],
     "time": "1 d 7 h",
+    "flags": [ "SECRET" ],
     "skill_used": "deduction",
     "difficulty": 6,
     "//": "TODO: add proficiency for weapon dreamforging",
@@ -67,6 +71,7 @@
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
     "components": [ [ [ "forged_dreamstuff_ingot", 5 ] ] ],
     "difficulty": 4,
+    "flags": [ "SECRET" ],
     "time": "21 h"
   },
   {
@@ -83,6 +88,7 @@
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
     "components": [ [ [ "forged_dreamstuff_ingot", 3 ] ] ],
     "difficulty": 6,
+    "flags": [ "SECRET" ],
     "time": "1 d 7 h"
   },
   {
@@ -96,6 +102,7 @@
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
     "components": [ [ [ "forged_dreamstuff_ingot", 5 ] ] ],
     "difficulty": 6,
+    "flags": [ "SECRET" ],
     "time": "1 d 4 h"
   },
   {
@@ -112,6 +119,7 @@
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
     "components": [ [ [ "forged_dreamstuff_ingot", 5 ] ] ],
     "difficulty": 7,
+    "flags": [ "SECRET" ],
     "time": "1 d 12 h"
   },
   {
@@ -125,6 +133,7 @@
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
     "components": [ [ [ "forged_dreamstuff_ingot", 5 ] ] ],
     "difficulty": 7,
+    "flags": [ "SECRET" ],
     "time": "1 d 9 h"
   },
   {
@@ -141,6 +150,7 @@
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
     "components": [ [ [ "forged_dreamstuff_ingot", 5 ] ] ],
     "difficulty": 6,
+    "flags": [ "SECRET" ],
     "time": "1 d 10 h"
   },
   {
@@ -152,6 +162,7 @@
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
     "components": [ [ [ "forged_dreamstuff_ingot", 3 ] ] ],
     "difficulty": 4,
+    "flags": [ "SECRET" ],
     "time": "17 h"
   },
   {
@@ -168,6 +179,7 @@
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
     "components": [ [ [ "forged_dreamstuff_ingot", 3 ] ] ],
     "difficulty": 5,
+    "flags": [ "SECRET" ],
     "time": "1 d 1 h"
   },
   {
@@ -181,6 +193,7 @@
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
     "components": [ [ [ "forged_dreamstuff_ingot", 1 ] ] ],
     "difficulty": 4,
+    "flags": [ "SECRET" ],
     "time": "1 d 4 h"
   },
   {
@@ -197,6 +210,7 @@
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
     "components": [ [ [ "forged_dreamstuff_ingot", 1 ] ] ],
     "difficulty": 5,
+    "flags": [ "SECRET" ],
     "time": "1 d 3 h"
   },
   {
@@ -213,6 +227,7 @@
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
     "components": [ [ [ "forged_dreamstuff_ingot", 1 ] ] ],
     "difficulty": 5,
+    "flags": [ "SECRET" ],
     "time": "1 d 5 h"
   },
   {
@@ -229,6 +244,7 @@
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
     "components": [ [ [ "forged_dreamstuff_ingot", 3 ] ] ],
     "difficulty": 5,
+    "flags": [ "SECRET" ],
     "time": "1 d 8 h"
   },
   {
@@ -242,6 +258,7 @@
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
     "components": [ [ [ "forged_dreamstuff_ingot", 1 ] ] ],
     "difficulty": 6,
+    "flags": [ "SECRET" ],
     "time": "1 d 14 h"
   },
   {
@@ -258,6 +275,7 @@
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
     "components": [ [ [ "forged_dreamstuff_ingot", 1 ] ] ],
     "difficulty": 6,
+    "flags": [ "SECRET" ],
     "time": "16 h"
   },
   {
@@ -269,6 +287,7 @@
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
     "components": [ [ [ "forged_dreamstuff_ingot", 1 ] ] ],
     "difficulty": 5,
+    "flags": [ "SECRET" ],
     "time": "13 h"
   },
   {
@@ -282,6 +301,7 @@
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
     "components": [ [ [ "forged_dreamstuff_ingot", 1 ] ] ],
     "difficulty": 4,
+    "flags": [ "SECRET" ],
     "time": "14 h"
   },
   {
@@ -298,6 +318,7 @@
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
     "components": [ [ [ "forged_dreamstuff_ingot", 2 ] ] ],
     "difficulty": 5,
+    "flags": [ "SECRET" ],
     "time": "18 h"
   },
   {
@@ -311,6 +332,7 @@
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
     "components": [ [ [ "forged_dreamstuff_ingot", 2 ] ] ],
     "difficulty": 5,
+    "flags": [ "SECRET" ],
     "time": "21 h"
   },
   {
@@ -324,6 +346,7 @@
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
     "components": [ [ [ "forged_dreamstuff_ingot", 1 ] ] ],
     "difficulty": 5,
+    "flags": [ "SECRET" ],
     "time": "19 h"
   },
   {
@@ -340,6 +363,7 @@
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
     "components": [ [ [ "forged_dreamstuff_ingot", 1 ] ] ],
     "difficulty": 5,
+    "flags": [ "SECRET" ],
     "time": "18 h"
   },
   {
@@ -356,6 +380,7 @@
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
     "components": [ [ [ "forged_dreamstuff_ingot", 2 ] ] ],
     "difficulty": 6,
+    "flags": [ "SECRET" ],
     "time": "1 d 19 h"
   },
   {
@@ -372,6 +397,7 @@
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
     "components": [ [ [ "forged_dreamstuff_ingot", 1 ] ] ],
     "difficulty": 6,
+    "flags": [ "SECRET" ],
     "time": "1 d 9 h"
   },
   {
@@ -388,6 +414,7 @@
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
     "components": [ [ [ "forged_dreamstuff_ingot", 5 ] ] ],
     "difficulty": 7,
+    "flags": [ "SECRET" ],
     "time": "2 d 1 h"
   },
   {
@@ -404,6 +431,7 @@
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
     "components": [ [ [ "forged_dreamstuff_ingot", 2 ] ] ],
     "difficulty": 5,
+    "flags": [ "SECRET" ],
     "time": "18 h"
   },
   {
@@ -415,6 +443,7 @@
     "time": "3 d 6 h",
     "skill_used": "deduction",
     "difficulty": 5,
+    "flags": [ "SECRET" ],
     "//": "TODO: proficiency for conditional powered items",
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_WEAPONS"
@@ -426,6 +455,7 @@
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
     "components": [ [ [ "forged_dreamstuff_ingot", 6 ] ] ],
     "difficulty": 9,
+    "flags": [ "SECRET" ],
     "time": "4 d 4 h"
   },
   {
@@ -435,6 +465,7 @@
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
     "components": [ [ [ "forged_dreamstuff_ingot", 2 ] ] ],
     "difficulty": 9,
+    "flags": [ "SECRET" ],
     "time": "4 d 6 h"
   },
   {
@@ -444,6 +475,7 @@
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
     "components": [ [ [ "forged_dreamstuff_ingot", 6 ] ] ],
     "difficulty": 8,
+    "flags": [ "SECRET" ],
     "time": "4 d 11 h"
   }
 ]
