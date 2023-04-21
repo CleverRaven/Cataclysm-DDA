@@ -293,7 +293,7 @@
     "companion_combat_rank_factor": 1,
     "companion_survival_rank_factor": 1,
     "display_category": "display_melee",
-    "ordering":  200,
+    "ordering": 200,
     "companion_skill_practice": [ { "skill": "hunting", "weight": 10 }, { "skill": "combat", "weight": 10 } ]
   },
   {
