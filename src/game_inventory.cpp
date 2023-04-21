@@ -833,11 +833,6 @@ class comestible_inventory_preset : public inventory_selector_preset
         }
 
         std::string get_time_left_rounded( const item_location &loc ) const {
-            const item &it = *loc;
-            if( it.is_going_bad() ) {
-                return _( "soon!" );
-            }
-
             time_duration time_left = get_time_left( loc );
             return to_string_approx( time_left );
         }
