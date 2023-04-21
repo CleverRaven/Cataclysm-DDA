@@ -386,7 +386,7 @@
     "type": "profession",
     "id": "dimensionalist",
     "name": "Dimensionalist Mage",
-    "description": "You are an expert in dimensionalism, with its most common example being teleportation magic, that is the reason why you could survive while your colleagues could not.  Your only hope is that your higly specialized skills will continue keeping you alive.",
+    "description": "You are an expert in dimensionalism, with its most common example being teleportation magic, that is the reason why you could survive while your colleagues could not.  Your only hope is that your highly specialized skills will continue keeping you alive.",
     "points": 6,
     "spells": [
       { "id": "phase_door", "level": 10 },
