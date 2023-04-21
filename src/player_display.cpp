@@ -1579,7 +1579,7 @@ void Character::disp_info( bool customize_character )
 
     const std::vector<const Skill *> player_skill = Skill::get_skills_sorted_by(
     [&]( const Skill & a, const Skill & b ) {
-            return a.get_ordering() < b.get_ordering();
+        return a.get_ordering() < b.get_ordering();
     } );
 
     std::vector<HeaderSkill> skillslist;
