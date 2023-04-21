@@ -988,11 +988,17 @@ void Creature::messaging_projectile_attack( const Creature *source,
                 add_msg( source->is_avatar() ? _( "You miss!" ) : _( "The shot misses!" ) );
             }
         } else if( total_damage == 0 ) {
-            //~ 1$ - monster name, 2$ - character's bodypart or monster's skin/armor
-            add_msg( _( "The shot reflects off %1$s %2$s!" ), disp_name( true ),
-                     is_monster() ?
-                     skin_name() :
-                     body_part_name_accusative( hit_selection.bp_hit ) );
+            if( hit_selection.wp_hit.empty() ) {
+                //~ 1$ - monster name, 2$ - character's bodypart or monster's skin/armor
+                add_msg( _( "The shot reflects off %1$s %2$s!" ), disp_name( true ),
+                         is_monster() ?
+                         skin_name() :
+                         body_part_name_accusative( hit_selection.bp_hit ) );
+            } else {
+                //~ %1$s: creature name, %2$s: weakpoint hit
+                add_msg( _( "The shot hits %1$s in %2$s but deals no damage." ),
+                         disp_name(), hit_selection.wp_hit );
+            }
         } else if( is_avatar() ) {
             //monster hits player ranged
             //~ Hit message. 1$s is bodypart name in accusative. 2$d is damage value.
