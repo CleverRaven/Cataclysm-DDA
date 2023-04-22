@@ -27,7 +27,7 @@
     "id": "moon_tears_fasteners",
     "type": "AMMO",
     "category": "spare_parts",
-    "name": { "str_pl": "moon tears fasteners" },
+    "name": { "str_sp": "moon tears fasteners" },
     "description": "A pin-shaped piece of moon tears and dreamdross.  It can be used to repair items made of moon tears.",
     "weight": "4 g",
     "volume": "250 ml",
