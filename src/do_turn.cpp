@@ -329,6 +329,14 @@ void monmove()
                     turns++;
                 }
             }
+            // Turn on debug mode when in infinite loop
+            // It has to be done before the last turn, otherwise
+            // there will be no meaningful debug output.
+            if( turns == 9 ) {
+                debugmsg( "NPC %s entered infinite loop.  Turning on debug mode",
+                          guy.get_name() );
+                }
+            }
         }
 
         // If we spun too long trying to decide what to do (without spending moves),
