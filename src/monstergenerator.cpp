@@ -1169,7 +1169,7 @@ void MonsterGenerator::load_species( const JsonObject &jo, const std::string &sr
     mon_species->load( jo, src );
 }
 
-void species_type::load( const JsonObject &jo, const std::string & )
+void species_type::load( const JsonObject &jo, const std::string_view )
 {
     optional( jo, was_loaded, "description", description );
     optional( jo, was_loaded, "footsteps", footsteps, to_translation( "footsteps." ) );
@@ -1325,7 +1325,7 @@ void mtype::add_special_attack( const JsonObject &obj, const std::string &src )
     special_attacks_names.push_back( new_attack->id );
 }
 
-void mtype::add_special_attack( const JsonArray &inner, const std::string & )
+void mtype::add_special_attack( const JsonArray &inner, const std::string_view )
 {
     MonsterGenerator &gen = MonsterGenerator::generator();
     const std::string name = inner.get_string( 0 );
@@ -1351,7 +1351,7 @@ void mtype::add_special_attack( const JsonArray &inner, const std::string & )
     special_attacks_names.push_back( name );
 }
 
-void mtype::add_special_attacks( const JsonObject &jo, const std::string &member,
+void mtype::add_special_attacks( const JsonObject &jo, const std::string_view member,
                                  const std::string &src )
 {
 
@@ -1370,8 +1370,8 @@ void mtype::add_special_attacks( const JsonObject &jo, const std::string &member
     }
 }
 
-void mtype::remove_special_attacks( const JsonObject &jo, const std::string &member_name,
-                                    const std::string & )
+void mtype::remove_special_attacks( const JsonObject &jo, const std::string_view member_name,
+                                    const std::string_view )
 {
     for( const std::string &name : jo.get_tags( member_name ) ) {
         special_attacks.erase( name );
@@ -1382,7 +1382,7 @@ void mtype::remove_special_attacks( const JsonObject &jo, const std::string &mem
     }
 }
 
-void mtype::add_regeneration_modifier( const JsonArray &inner, const std::string & )
+void mtype::add_regeneration_modifier( const JsonArray &inner, const std::string_view )
 {
     const std::string effect_name = inner.get_string( 0 );
     const efftype_id effect( effect_name );
@@ -1400,8 +1400,8 @@ void mtype::add_regeneration_modifier( const JsonArray &inner, const std::string
     regeneration_modifiers.emplace( effect, amount );
 }
 
-void mtype::add_regeneration_modifiers( const JsonObject &jo, const std::string &member,
-                                        const std::string &src )
+void mtype::add_regeneration_modifiers( const JsonObject &jo, const std::string_view member,
+                                        const std::string_view src )
 {
     if( !jo.has_array( member ) ) {
         return;
@@ -1419,8 +1419,8 @@ void mtype::add_regeneration_modifiers( const JsonObject &jo, const std::string 
     }
 }
 
-void mtype::remove_regeneration_modifiers( const JsonObject &jo, const std::string &member_name,
-        const std::string & )
+void mtype::remove_regeneration_modifiers( const JsonObject &jo, const std::string_view member_name,
+        const std::string_view )
 {
     for( const std::string &name : jo.get_tags( member_name ) ) {
         const efftype_id effect( name );

@@ -257,20 +257,20 @@ struct mtype {
 
         behavior::node_t goals;
 
-        void add_special_attacks( const JsonObject &jo, const std::string &member_name,
+        void add_special_attacks( const JsonObject &jo, std::string_view member_name,
                                   const std::string &src );
-        void remove_special_attacks( const JsonObject &jo, const std::string &member_name,
-                                     const std::string &src );
+        void remove_special_attacks( const JsonObject &jo, std::string_view member_name,
+                                     std::string_view src );
 
-        void add_special_attack( const JsonArray &inner, const std::string &src );
+        void add_special_attack( const JsonArray &inner, std::string_view src );
         void add_special_attack( const JsonObject &obj, const std::string &src );
 
-        void add_regeneration_modifiers( const JsonObject &jo, const std::string &member_name,
-                                         const std::string &src );
-        void remove_regeneration_modifiers( const JsonObject &jo, const std::string &member_name,
-                                            const std::string &src );
+        void add_regeneration_modifiers( const JsonObject &jo, std::string_view member_name,
+                                         std::string_view src );
+        void remove_regeneration_modifiers( const JsonObject &jo, std::string_view member_name,
+                                            std::string_view src );
 
-        void add_regeneration_modifier( const JsonArray &inner, const std::string &src );
+        void add_regeneration_modifier( const JsonArray &inner, std::string_view src );
 
     public:
         mtype_id id;

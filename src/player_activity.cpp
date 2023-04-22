@@ -151,9 +151,9 @@ bool player_activity::is_multi_type() const
     return type->multi_activity();
 }
 
-std::string player_activity::get_str_value( size_t index, const std::string &def ) const
+std::string player_activity::get_str_value( size_t index, const std::string_view def ) const
 {
-    return index < str_values.size() ? str_values[index] : def;
+    return std::string( index < str_values.size() ? str_values[index] : def );
 }
 
 std::optional<std::string> player_activity::get_progress_message( const avatar &u ) const

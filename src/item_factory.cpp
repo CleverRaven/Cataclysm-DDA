@@ -148,7 +148,7 @@ bool item_is_blacklisted( const itype_id &id )
     return item_blacklist.blacklist.count( id );
 }
 
-static void assign( const JsonObject &jo, const std::string &name,
+static void assign( const JsonObject &jo, const std::string_view name,
                     std::map<gun_mode_id, gun_modifier_data> &mods )
 {
     if( !jo.has_array( name ) ) {
@@ -2429,7 +2429,7 @@ void Item_factory::load_slot( cata::value_ptr<SlotType> &slotptr, const JsonObje
 
 template<typename SlotType>
 void Item_factory::load_slot_optional( cata::value_ptr<SlotType> &slotptr, const JsonObject &jo,
-                                       const std::string &member, const std::string &src )
+                                       const std::string_view member, const std::string &src )
 {
     if( !jo.has_member( member ) ) {
         return;
@@ -2827,7 +2827,8 @@ static void get_optional( const JsonObject &jo, bool was_loaded, const std::stri
 }
 
 template<typename T>
-static void get_relative( const JsonObject &jo, const std::string &member, std::optional<T> &value,
+static void get_relative( const JsonObject &jo, const std::string_view member,
+                          std::optional<T> &value,
                           T default_val )
 {
     if( jo.has_member( member ) ) {
@@ -2836,7 +2837,7 @@ static void get_relative( const JsonObject &jo, const std::string &member, std::
 }
 
 template<typename T>
-static void get_proportional( const JsonObject &jo, const std::string &member,
+static void get_proportional( const JsonObject &jo, const std::string_view member,
                               std::optional<T> &value, T default_val )
 {
     if( jo.has_member( member ) ) {
@@ -2955,7 +2956,7 @@ void Item_factory::load_tool( const JsonObject &jo, const std::string &src )
     }
 }
 
-void Item_factory::load( relic &slot, const JsonObject &jo, const std::string & )
+void Item_factory::load( relic &slot, const JsonObject &jo, const std::string_view )
 {
     slot.load( jo );
 }
@@ -4310,7 +4311,7 @@ void Item_factory::set_qualities_from_json( const JsonObject &jo, const std::str
     }
 }
 
-void Item_factory::extend_qualities_from_json( const JsonObject &jo, const std::string &member,
+void Item_factory::extend_qualities_from_json( const JsonObject &jo, const std::string_view member,
         itype &def )
 {
     for( JsonArray curr : jo.get_array( member ) ) {
@@ -4318,7 +4319,7 @@ void Item_factory::extend_qualities_from_json( const JsonObject &jo, const std::
     }
 }
 
-void Item_factory::delete_qualities_from_json( const JsonObject &jo, const std::string &member,
+void Item_factory::delete_qualities_from_json( const JsonObject &jo, const std::string_view member,
         itype &def )
 {
     for( JsonArray curr : jo.get_array( member ) ) {
@@ -4329,7 +4330,7 @@ void Item_factory::delete_qualities_from_json( const JsonObject &jo, const std::
     }
 }
 
-void Item_factory::set_properties_from_json( const JsonObject &jo, const std::string &member,
+void Item_factory::set_properties_from_json( const JsonObject &jo, const std::string_view member,
         itype &def )
 {
     if( jo.has_array( member ) ) {
@@ -4424,7 +4425,7 @@ bool load_min_max( std::pair<T, T> &pa, const JsonObject &obj, const std::string
 }
 
 template<typename T>
-bool load_str_arr( std::vector<T> &arr, const JsonObject &obj, const std::string &name )
+bool load_str_arr( std::vector<T> &arr, const JsonObject &obj, const std::string_view name )
 {
     if( obj.has_array( name ) ) {
         for( const std::string str : obj.get_array( name ) ) {
@@ -4499,7 +4500,7 @@ bool Item_factory::load_sub_ref( std::unique_ptr<Item_spawn_data> &ptr, const Js
 }
 
 bool Item_factory::load_string( std::vector<std::string> &vec, const JsonObject &obj,
-                                const std::string &name )
+                                const std::string_view name )
 {
     bool result = false;
     std::string temp;

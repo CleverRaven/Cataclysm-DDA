@@ -91,7 +91,7 @@ class monfaction
         void populate_attitude_vec() const;
 
         /** Load from JSON */
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
 
         friend void monfactions::finalize();
         friend class generic_factory<monfaction>;

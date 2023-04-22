@@ -347,7 +347,7 @@ class spell_type
         enum_bitset<spell_flag> spell_tags;
 
         static void load_spell( const JsonObject &jo, const std::string &src );
-        void load( const JsonObject &jo, const std::string & );
+        void load( const JsonObject &jo, std::string_view );
         void serialize( JsonOut &json ) const;
         /**
          * All spells in the game.

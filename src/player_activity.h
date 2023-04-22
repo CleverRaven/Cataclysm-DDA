@@ -123,7 +123,7 @@ class player_activity
         const translation &get_verb() const;
 
         int get_value( size_t index, int def = 0 ) const;
-        std::string get_str_value( size_t index, const std::string &def = "" ) const;
+        std::string get_str_value( size_t index, std::string_view def = {} ) const;
 
         /**
          * Helper that returns an activity specific progress message.

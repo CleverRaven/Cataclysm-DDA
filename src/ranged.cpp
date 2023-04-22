@@ -1942,7 +1942,7 @@ static projectile make_gun_projectile( const item &gun )
 
     if( gun.ammo_data() ) {
         // Some projectiles have a chance of being recoverable
-        bool recover = std::any_of( fx.begin(), fx.end(), []( const std::string & e ) {
+        bool recover = std::any_of( fx.begin(), fx.end(), []( const std::string_view e ) {
             if( !string_starts_with( e, "RECOVER_" ) ) {
                 return false;
             }

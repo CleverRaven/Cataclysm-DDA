@@ -81,7 +81,7 @@ static mat_burn_data load_mat_burn_data( const JsonObject &jsobj )
     return bd;
 }
 
-void material_type::load( const JsonObject &jsobj, const std::string & )
+void material_type::load( const JsonObject &jsobj, const std::string_view )
 {
     mandatory( jsobj, was_loaded, "name", _name );
 

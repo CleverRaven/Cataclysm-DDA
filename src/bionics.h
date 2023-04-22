@@ -190,7 +190,7 @@ struct bionic_data {
     static void check_bionic_consistency();
 
     static std::map<bionic_id, bionic_id> migrations;
-    static void load_bionic_migration( const JsonObject &jo, const std::string & );
+    static void load_bionic_migration( const JsonObject &jo, std::string_view );
 };
 
 struct bionic {

@@ -306,7 +306,7 @@ struct dynamic_line_t {
         explicit dynamic_line_t( const translation &line );
         explicit dynamic_line_t( const JsonObject &jo );
         explicit dynamic_line_t( const JsonArray &ja );
-        static dynamic_line_t from_member( const JsonObject &jo, const std::string &member_name );
+        static dynamic_line_t from_member( const JsonObject &jo, std::string_view member_name );
 
         std::string operator()( const dialogue &d ) const {
             if( !function ) {

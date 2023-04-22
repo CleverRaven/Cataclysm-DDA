@@ -12,7 +12,7 @@
 #include "requirements.h"
 #include "type_id.h"
 
-static std::pair<std::string, std::string> get_both( const std::string &a );
+static std::pair<std::string, std::string> get_both( std::string_view a );
 
 std::function<bool( const item & )> basic_item_filter( std::string filter )
 {
@@ -88,9 +88,9 @@ std::function<bool( const item & )> item_filter_from_string( const std::string &
     return filter_from_string<item>( filter, basic_item_filter );
 }
 
-std::pair<std::string, std::string> get_both( const std::string &a )
+std::pair<std::string, std::string> get_both( const std::string_view a )
 {
     size_t split_mark = a.find( ';' );
-    return std::make_pair( a.substr( 0, split_mark ),
-                           a.substr( split_mark + 1 ) );
+    return std::pair( std::string( a.substr( 0, split_mark ) ),
+                      std::string( a.substr( split_mark + 1 ) ) );
 }

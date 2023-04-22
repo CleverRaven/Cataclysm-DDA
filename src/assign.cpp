@@ -623,7 +623,7 @@ static void check_assigned_dmg( const JsonObject &err, const std::string_view na
     }
 }
 
-bool assign( const JsonObject &jo, const std::string &name, damage_instance &val, bool strict,
+bool assign( const JsonObject &jo, const std::string_view name, damage_instance &val, bool strict,
              const damage_instance &lo, const damage_instance &hi )
 {
     // What we'll eventually be returning for the damage instance
