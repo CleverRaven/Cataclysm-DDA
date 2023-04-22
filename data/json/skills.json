@@ -6,7 +6,7 @@
     "description": "Your skill in speaking to other people.  Covers ability in boasting, flattery, threats, persuasion, lies, bartering, and other facets of interpersonal communication.  Works best in conjunction with a high level of intelligence.",
     "companion_survival_rank_factor": 1,
     "display_category": "display_interaction",
-    "ordering": 26000,
+    "sort_rank": 26000,
     "companion_skill_practice": [ { "skill": "recruiting", "weight": 15 }, { "skill": "recruiting", "weight": 70 } ]
   },
   {
@@ -15,7 +15,7 @@
     "name": { "str": "computers" },
     "description": "Your skill in accessing and manipulating computers.  Higher levels can allow a user to navigate complex software systems and even bypass their security.",
     "display_category": "display_interaction",
-    "ordering": 24000
+    "sort_rank": 24000
   },
   {
     "type": "skill",
@@ -25,7 +25,7 @@
     "companion_survival_rank_factor": 1,
     "companion_industry_rank_factor": 1,
     "display_category": "display_interaction",
-    "ordering": 25000,
+    "sort_rank": 25000,
     "companion_skill_practice": [ { "skill": "hunting", "weight": 10 }, { "skill": "combat", "weight": 10 } ]
   },
   {
@@ -35,7 +35,7 @@
     "description": "Your skill in engineering, maintaining and repairing vehicles and other mechanical systems.  This skill covers the craft of items with complex parts, and plays a role in the installation of bionic equipment.",
     "companion_industry_rank_factor": 1,
     "display_category": "display_interaction",
-    "ordering": 22000,
+    "sort_rank": 22000,
     "companion_skill_practice": [ { "skill": "menial", "weight": 10 }, { "skill": "construction", "weight": 20 } ]
   },
   {
@@ -45,7 +45,7 @@
     "description": "Your skill in manipulating fine devices like security systems, traps, locks and other precision tasks.  This skill does not affect the evasion of traps that are triggered.",
     "companion_survival_rank_factor": 1,
     "display_category": "display_interaction",
-    "ordering": 23000,
+    "sort_rank": 23000,
     "companion_skill_practice": [ { "skill": "", "weight": 15 }, { "skill": "gathering", "weight": 15 }, { "skill": "trapping", "weight": 80 } ]
   },
   {
@@ -54,7 +54,7 @@
     "name": { "str": "vehicles" },
     "description": "Your skill in operating and steering a vehicle in motion, from cars and boats to helicopters and hot air balloons.  A higher level allows greater control over vehicles at higher speeds, and reduces the penalty of shooting while driving.",
     "display_category": "display_interaction",
-    "ordering": 27000
+    "sort_rank": 27000
   },
   {
     "type": "skill",
@@ -62,7 +62,7 @@
     "name": { "str": "athletics" },
     "description": "Your athletic ability, including swimming endurance and ability to swim with weight.  Athletic skill also improves your overall cardio fitness and stamina.",
     "display_category": "display_interaction",
-    "ordering": 21000,
+    "sort_rank": 21000,
     "companion_skill_practice": [ { "skill": "", "weight": 5 }, { "skill": "gathering", "weight": 5 }, { "skill": "trapping", "weight": 5 } ]
   },
   {
@@ -72,7 +72,7 @@
     "description": "Your skill in working with raw materials and shaping them into useful objects.  This skill plays an important role in the crafting of many objects.",
     "companion_industry_rank_factor": 1,
     "display_category": "display_crafting",
-    "ordering": 17000,
+    "sort_rank": 17000,
     "companion_skill_practice": [
       { "skill": "", "weight": 10 },
       { "skill": "gathering", "weight": 10 },
@@ -88,7 +88,7 @@
     "description": "Your skill in combining food ingredients to make other, tastier food items.  Also includes food preservation and safety, brewing, butchery, and more.",
     "companion_industry_rank_factor": 1,
     "display_category": "display_crafting",
-    "ordering": 16000,
+    "sort_rank": 16000,
     "companion_skill_practice": [ { "skill": "menial", "weight": 15 } ]
   },
   {
@@ -98,7 +98,7 @@
     "description": "Your skill in the craft and repair of clothing, bags, blankets and other textiles.  Affects knitting, sewing, stitching, weaving, and nearly anything else involving a needle and thread.",
     "companion_industry_rank_factor": 1,
     "display_category": "display_crafting",
-    "ordering": 20000,
+    "sort_rank": 20000,
     "companion_skill_practice": [ { "skill": "menial", "weight": 15 } ]
   },
   {
@@ -108,7 +108,7 @@
     "description": "Your skill in surviving the wilderness, and in crafting various basic survival items.  This also covers your ability to skin and butcher animals for meat and hides.",
     "companion_survival_rank_factor": 1,
     "display_category": "display_crafting",
-    "ordering": 15000,
+    "sort_rank": 15000,
     "companion_skill_practice": [
       { "skill": "", "weight": 80 },
       { "skill": "gathering", "weight": 80 },
@@ -127,7 +127,7 @@
     "description": "Your skill in dealing with electrical systems, used in the craft and repair of objects with electrical components.  This skill is an important part of installing and managing bionic implants.",
     "companion_industry_rank_factor": 1,
     "display_category": "display_crafting",
-    "ordering": 18000
+    "sort_rank": 18000
   },
   {
     "type": "skill",
@@ -139,7 +139,7 @@
     "companion_combat_rank_factor": 1,
     "companion_survival_rank_factor": 1,
     "display_category": "display_ranged",
-    "ordering": 9000,
+    "sort_rank": 9000,
     "companion_skill_practice": [
       { "skill": "", "weight": 5 },
       { "skill": "gathering", "weight": 5 },
@@ -155,7 +155,7 @@
     "description": "Your overall skill in using bows and firearms.  With higher levels, this general experience increases accuracy with any bows or firearms, but is secondary to practice with the type of ranged weapon in question.",
     "tags": [ "combat_skill" ],
     "display_category": "display_ranged",
-    "ordering": 7000,
+    "sort_rank": 7000,
     "companion_skill_practice": [ { "skill": "gathering", "weight": 60 }, { "skill": "combat", "weight": 5 } ]
   },
   {
@@ -166,7 +166,7 @@
     "tags": [ "combat_skill" ],
     "time_to_attack": { "min_time": 30, "base_time": 100, "time_reduction_per_level": 5 },
     "display_category": "display_ranged",
-    "ordering": 14000
+    "sort_rank": 14000
   },
   {
     "type": "skill",
@@ -176,7 +176,7 @@
     "tags": [ "combat_skill" ],
     "time_to_attack": { "min_time": 20, "base_time": 30, "time_reduction_per_level": 1 },
     "display_category": "display_ranged",
-    "ordering": 10000,
+    "sort_rank": 10000,
     "companion_skill_practice": [ { "skill": "hunting", "weight": 25 } ]
   },
   {
@@ -187,7 +187,7 @@
     "tags": [ "combat_skill" ],
     "time_to_attack": { "min_time": 20, "base_time": 30, "time_reduction_per_level": 1 },
     "display_category": "display_ranged",
-    "ordering": 12000,
+    "sort_rank": 12000,
     "companion_skill_practice": [ { "skill": "hunting", "weight": 45 } ]
   },
   {
@@ -198,7 +198,7 @@
     "tags": [ "combat_skill" ],
     "time_to_attack": { "min_time": 20, "base_time": 30, "time_reduction_per_level": 1 },
     "display_category": "display_ranged",
-    "ordering": 13000,
+    "sort_rank": 13000,
     "companion_skill_practice": [ { "skill": "hunting", "weight": 25 } ]
   },
   {
@@ -209,7 +209,7 @@
     "tags": [ "combat_skill" ],
     "time_to_attack": { "min_time": 20, "base_time": 30, "time_reduction_per_level": 1 },
     "display_category": "display_ranged",
-    "ordering": 11000,
+    "sort_rank": 11000,
     "companion_skill_practice": [ { "skill": "hunting", "weight": 25 } ]
   },
   {
@@ -220,7 +220,7 @@
     "tags": [ "combat_skill" ],
     "time_to_attack": { "min_time": 50, "base_time": 220, "time_reduction_per_level": 25 },
     "display_category": "display_ranged",
-    "ordering": 8000
+    "sort_rank": 8000
   },
   {
     "type": "skill",
@@ -231,7 +231,7 @@
     "time_to_attack": { "min_time": 50, "base_time": 200, "time_reduction_per_level": 20 },
     "companion_combat_rank_factor": 1,
     "display_category": "display_melee",
-    "ordering": 1000,
+    "sort_rank": 1000,
     "companion_skill_practice": [
       { "skill": "", "weight": 5 },
       { "skill": "gathering", "weight": 5 },
@@ -249,7 +249,7 @@
     "tags": [ "combat_skill" ],
     "companion_combat_rank_factor": 1,
     "display_category": "display_melee",
-    "ordering": 3000,
+    "sort_rank": 3000,
     "companion_skill_practice": [ { "skill": "hunting", "weight": 10 }, { "skill": "combat", "weight": 10 } ]
   },
   {
@@ -260,7 +260,7 @@
     "tags": [ "combat_skill" ],
     "companion_combat_rank_factor": 1,
     "display_category": "display_melee",
-    "ordering": 4000,
+    "sort_rank": 4000,
     "companion_skill_practice": [ { "skill": "hunting", "weight": 10 }, { "skill": "combat", "weight": 10 } ]
   },
   {
@@ -270,7 +270,7 @@
     "description": "Your ability to dodge an oncoming threat, be it an enemy's attack, a triggered trap, or a falling rock.  This skill is also used in attempts to fall gracefully, and for other acrobatic feats.  The first number shown includes modifiers, and the second does not.",
     "tags": [ "combat_skill" ],
     "display_category": "display_melee",
-    "ordering": 6000,
+    "sort_rank": 6000,
     "companion_skill_practice": [ { "skill": "hunting", "weight": 15 }, { "skill": "combat", "weight": 20 } ]
   },
   {
@@ -281,7 +281,7 @@
     "tags": [ "combat_skill" ],
     "companion_combat_rank_factor": 1,
     "display_category": "display_melee",
-    "ordering": 5000,
+    "sort_rank": 5000,
     "companion_skill_practice": [ { "skill": "hunting", "weight": 10 }, { "skill": "combat", "weight": 10 } ]
   },
   {
@@ -293,7 +293,7 @@
     "companion_combat_rank_factor": 1,
     "companion_survival_rank_factor": 1,
     "display_category": "display_melee",
-    "ordering": 2000,
+    "sort_rank": 2000,
     "companion_skill_practice": [ { "skill": "hunting", "weight": 10 }, { "skill": "combat", "weight": 10 } ]
   },
   {
@@ -303,7 +303,7 @@
     "description": "Your skill in general 'bench science', applying any of a wide range of precision techniques based on your overall understanding of scientific principles.  This is not a research skill, but about using the results of others' research.",
     "companion_industry_rank_factor": 1,
     "display_category": "display_crafting",
-    "ordering": 19000,
+    "sort_rank": 19000,
     "companion_skill_practice": [ { "skill": "menial", "weight": 15 } ]
   },
   {
@@ -313,6 +313,6 @@
     "description": "seeing this is a bug",
     "tags": [ "contextual_skill" ],
     "display_category": "none",
-    "ordering": 500000
+    "sort_rank": 500000
   }
 ]
