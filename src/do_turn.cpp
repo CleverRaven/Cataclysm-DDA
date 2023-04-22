@@ -336,12 +336,6 @@ void monmove()
                 debugmsg( "NPC %s entered infinite loop.  Turning on debug mode",
                           guy.get_name() );
                 debug_mode = true;
-                // make sure the filter is active
-                if( std::find(
-                        debugmode::enabled_filters.begin(), debugmode::enabled_filters.end(),
-                        debugmode::DF_NPC ) == debugmode::enabled_filters.end() ) {
-                    debugmode::enabled_filters.emplace_back( debugmode::DF_NPC );
-                }
             }
         }
 
