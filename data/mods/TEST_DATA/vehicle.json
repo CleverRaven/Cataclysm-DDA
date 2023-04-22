@@ -21,7 +21,7 @@
     ],
     "parts": [
       { "x": 0, "y": 0, "parts": [ "frame_cross", "seat", "seatbelt", "controls", "stereo" ] },
-      { "x": 0, "y": 0, "parts": [ "dashboard", "vehicle_clock", "vehicle_alarm", "horn_car" ] },
+      { "x": 0, "y": 0, "parts": [ "dashboard", "vehicle_alarm", "horn_car" ] },
       { "x": 0, "y": 0, "part": "roof" },
       { "x": 0, "y": -1, "parts": [ "frame_vertical_left", "door_nw", "roof" ] },
       { "x": 0, "y": 1, "parts": [ "frame_cover", "aisle_horizontal", "engine_v6" ] },
@@ -158,7 +158,7 @@
     "parts": [
       { "x": 0, "y": 0, "parts": [ "xlframe_vertical_2", "roof" ] },
       { "x": 0, "y": 0, "parts": [ "reclining_seat", "seatbelt" ] },
-      { "x": 0, "y": 0, "parts": [ "controls", "dashboard", "vehicle_clock", "vehicle_alarm" ] },
+      { "x": 0, "y": 0, "parts": [ "controls", "dashboard", "vehicle_alarm" ] },
       { "x": 0, "y": 0, "parts": [ "stereo", "horn_car", "storage_battery" ] },
       { "x": 0, "y": 1, "parts": [ "xlframe_vertical_2", "roof" ] },
       { "x": 0, "y": 1, "parts": [ "reclining_seat", "seatbelt" ] },
@@ -210,7 +210,7 @@
       { "x": -7, "y": 1, "parts": [ "xlframe_horizontal", "halfboard_se" ] },
       { "x": -7, "y": 0, "parts": [ "xlframe_vertical_2", "roof" ] },
       { "x": -7, "y": 0, "parts": [ "reclining_seat", "seatbelt", "storage_battery" ] },
-      { "x": -7, "y": 0, "parts": [ "controls", "dashboard", "vehicle_clock", "vehicle_alarm" ] },
+      { "x": -7, "y": 0, "parts": [ "controls", "dashboard", "vehicle_alarm" ] },
       { "x": -7, "y": -1, "parts": [ "xlframe_horizontal", "halfboard_se", "engine_electric_large" ] },
       { "x": -6, "y": 1, "parts": [ "wheel_mount_medium_steerable", "wheel" ] },
       { "x": -6, "y": 0, "parts": [ "wheel_mount_medium_steerable", "wheel" ] },
