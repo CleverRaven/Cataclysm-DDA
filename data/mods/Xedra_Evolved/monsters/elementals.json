@@ -94,7 +94,7 @@
     "families": [ "prof_alien_biology" ],
     "hp": 10,
     "death_drops": { "subtype": "collection", "groups": [ [ "produce", 100 ], [ "vertebrate_parts", 10 ] ] },
-    "description": "A small dog-sized lizard colored in ocean blues, it hisses and then spits gouts of water at whatever attracts it's ire.",
+    "description": "A small dog-sized lizard colored in ocean blues, it hisses and then spits gouts of water at whatever attracts its ire.",
     "special_attacks": [
       {
         "type": "gun",

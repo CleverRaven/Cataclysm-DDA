@@ -625,7 +625,7 @@
     },
     "scaling_mods": { "hurt_chance": [ 21, 0 ], "pain_chance": [ -30 ] },
     "rating": "bad",
-    "blood_analysis_description": "Anomalous sillicon content in blood sample"
+    "blood_analysis_description": "Anomalous silicon content in blood sample"
   },
   {
     "id": "eater_unbreakable",
