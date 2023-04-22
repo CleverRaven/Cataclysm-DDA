@@ -3207,7 +3207,7 @@
     "types": [ "CLAWS" ],
     "prereqs": [ "CLAWS_RAT" ],
     "prereqs2": [ "PAWS" ],
-    "threshreq": [ "THRESH_RAT" ],
+    "threshreq": [ "THRESH_RAT", "THRESH_URSINE" ],
     "category": [ "RAT", "URSINE" ]
   },
   {
