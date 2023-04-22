@@ -74,7 +74,7 @@ void leap_actor::load_internal( const JsonObject &obj, const std::string & )
               to_translation( "The %s leaps!" ) );
 
     if( obj.has_member( "condition" ) ) {
-        read_condition<dialogue>( obj, "condition", condition, false );
+        read_condition( obj, "condition", condition, false );
         has_condition = true;
     }
 
@@ -236,7 +236,7 @@ void mon_spellcasting_actor::load_internal( const JsonObject &obj, const std::st
     optional( obj, was_loaded, "allow_no_target", allow_no_target, false );
 
     if( obj.has_member( "condition" ) ) {
-        read_condition<dialogue>( obj, "condition", condition, false );
+        read_condition( obj, "condition", condition, false );
         has_condition = true;
     }
 
@@ -344,7 +344,7 @@ void melee_actor::load_internal( const JsonObject &obj, const std::string & )
               to_translation( "%s hits <npcname> with such a force that it sends them flying!" ) );
 
     if( obj.has_member( "condition" ) ) {
-        read_condition<dialogue>( obj, "condition", condition, false );
+        read_condition( obj, "condition", condition, false );
         has_condition = true;
     }
 
