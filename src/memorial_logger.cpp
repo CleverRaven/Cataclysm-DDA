@@ -1112,6 +1112,7 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::game_over:
         case event_type::game_save:
         case event_type::game_start:
+        case event_type::game_begin:
         case event_type::u_var_changed:
         case event_type::vehicle_moves:
             break;
