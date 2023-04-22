@@ -552,6 +552,7 @@
   },
   {
     "type": "GENERIC",
+    "category": "weapons",
     "id": "cudgel",
     "name": { "str": "cudgel" },
     "description": "A long, slender wooden rod.  While traditionally intended as a training tool, it still makes a good melee weapon in a pinch.",

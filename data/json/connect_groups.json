@@ -35,6 +35,10 @@
   },
   {
     "type": "connect_group",
+    "id": "PAVEMENT_ZEBRA"
+  },
+  {
+    "type": "connect_group",
     "id": "RAIL"
   },
   {
@@ -64,6 +68,14 @@
   {
     "type": "connect_group",
     "id": "CONCRETE"
+  },
+  {
+    "type": "connect_group",
+    "id": "BRICKFLOOR"
+  },
+  {
+    "type": "connect_group",
+    "id": "MARBLEFLOOR"
   },
   {
     "type": "connect_group",

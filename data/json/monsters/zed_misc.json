@@ -24,6 +24,7 @@
     "armor_cut": 2,
     "armor_bullet": 1,
     "armor_elec": 2,
+    "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "bleed_rate": 0,
     "vision_night": 7,
     "harvest": "zombie",
@@ -115,6 +116,7 @@
     "armor_cut": 2,
     "armor_bullet": 1,
     "armor_elec": 2,
+    "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "bleed_rate": 0,
     "vision_night": 7,
     "harvest": "zombie",
@@ -280,7 +282,7 @@
     "vision_day": 2,
     "vision_night": 2,
     "weakpoint_sets": [ "wps_humanoid_body_headless" ],
-    "families": [ "prof_intro_biology", "prof_wp_zombie" ],
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_hulk" ],
     "harvest": "zombie",
     "special_attacks": [ [ "GRAB", 7 ], [ "scratch", 20 ] ],
     "death_drops": "default_zombie_death_drops",
@@ -328,10 +330,7 @@
     "armor_cut": 6,
     "armor_bullet": 5,
     "armor_elec": 2,
-    "weakpoints": [
-      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
-      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
-    ],
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_head_small" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "bleed_rate": 50,
     "vision_night": 4,
@@ -386,10 +385,7 @@
     "armor_bullet": 8,
     "armor_stab": 8,
     "armor_elec": 2,
-    "weakpoints": [
-      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
-      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
-    ],
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_head_small" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "bleed_rate": 50,
     "vision_night": 3,
@@ -447,10 +443,7 @@
     "armor_cut": 5,
     "armor_bullet": 4,
     "armor_elec": 2,
-    "weakpoints": [
-      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
-      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
-    ],
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_head_small" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "bleed_rate": 0,
     "vision_day": 5,
@@ -558,10 +551,8 @@
     "armor_cut": 15,
     "armor_bullet": 15,
     "armor_elec": 6,
-    "weakpoints": [
-      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
-      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
-    ],
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_head_small" ],
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_hulk" ],
     "vision_day": 50,
     "vision_night": 8,
     "harvest": "zombie",
@@ -718,10 +709,7 @@
     "armor_bullet": 10,
     "armor_stab": 10,
     "armor_elec": 1,
-    "weakpoints": [
-      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
-      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
-    ],
+    "weakpoint_sets": [ "wps_humanoid_body" ],
     "bleed_rate": 0,
     "vision_day": 30,
     "vision_night": 3,
@@ -761,10 +749,7 @@
     "armor_cut": 12,
     "armor_bullet": 10,
     "armor_elec": 5,
-    "weakpoints": [
-      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
-      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
-    ],
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_head_small" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_hulk" ],
     "bleed_rate": 0,
     "vision_day": 83,
@@ -935,10 +920,7 @@
     "armor_cut": 2,
     "armor_bullet": 2,
     "armor_elec": 3,
-    "weakpoints": [
-      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
-      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
-    ],
+    "weakpoint_sets": [ "wps_humanoid_body" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "bleed_rate": 0,
     "vision_day": 50,
@@ -1380,6 +1362,8 @@
     "dodge": 4,
     "armor_fire": 5,
     "armor_elec": 1,
+    "weakpoint_sets": [ "wps_humanoid_body" ],
+    "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "bleed_rate": 50,
     "vision_day": 50,
     "vision_night": 3,
@@ -1430,10 +1414,7 @@
     "armor_stab": 8,
     "armor_bullet": 10,
     "armor_elec": 2,
-    "weakpoints": [
-      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
-      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
-    ],
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_head_small" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "bleed_rate": 50,
     "dodge": 7,
@@ -1577,10 +1558,7 @@
     "armor_cut": 2,
     "armor_bullet": 2,
     "armor_elec": 3,
-    "weakpoints": [
-      { "name": "the face", "armor_mult": { "physical": 0 }, "coverage": 3 },
-      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
-    ],
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_open_helmet" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "vision_day": 15,
     "vision_night": 2,
@@ -1619,16 +1597,14 @@
     "armor_cut": 2,
     "armor_bullet": 2,
     "armor_elec": 1,
-    "weakpoints": [
-      { "name": "the face", "armor_mult": { "physical": 0 }, "coverage": 3 },
-      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
-    ],
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_open_helmet" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "vision_day": 15,
     "vision_night": 2,
     "harvest": "zombie",
     "special_attacks": [ { "type": "bite", "cooldown": 20 } ],
     "death_drops": "mon_zombie_miner_death_drops",
+    "upgrades": { "half_life": 35, "into_group": "GROUP_ZOMBIE_MINER_UPGRADE" },
     "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
   },
   {
@@ -1657,10 +1633,7 @@
     "armor_cut": 4,
     "armor_bullet": 3,
     "armor_elec": 1,
-    "weakpoints": [
-      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
-      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
-    ],
+    "weakpoint_sets": [ "wps_humanoid_body" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "bleed_rate": 50,
     "vision_night": 5,
@@ -1712,8 +1685,6 @@
     "armor_cut": 5,
     "armor_bullet": 1,
     "//1": "The torn fursuit offers slightly more protection.",
-    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor" ],
-    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_nat_armored" ],
     "harvest": "zombie",
     "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_clothes", 100 ], [ "zombie_fursuits", 100 ] ] },
     "burn_into": "mon_zombie_scorched",

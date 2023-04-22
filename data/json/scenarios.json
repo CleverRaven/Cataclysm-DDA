@@ -440,6 +440,8 @@
     "start_name": "Old Evac Shelter",
     "allowed_locs": [ "sloc_shelter_a", "sloc_shelter_b", "sloc_shelter_c" ],
     "custom_initial_date": { "season": "autumn", "year": 2 },
+    "add_professions": true,
+    "professions": [ "sheltered_survivor", "sheltered_militia", "winter_scavenger", "winter_army" ],
     "requirement": "achievement_survive_91_days",
     "eoc": [ "faction_camp_start" ],
     "flags": [ "CITY_START", "LONE_START" ]
@@ -710,7 +712,36 @@
     "description": "After a night of wild partying at a private resort, you awoke to the sounds of police sirens and violence.  You were worried about being arrested, but you'd take that in a heartbeat over being eaten alive, which now seems far more likely.",
     "start_name": "Private resort",
     "allowed_locs": [ "sloc_private_resort" ],
-    "professions": [ "frat", "gangster", "lost_sub", "lawyer", "politician", "dancer" ],
+    "professions": [
+      "frat",
+      "gangster",
+      "lost_sub",
+      "lawyer",
+      "politician",
+      "dancer",
+      "cheerleader",
+      "patriot",
+      "tourist_swimmer",
+      "video_blogger",
+      "chef",
+      "scoundrel",
+      "baseball_player",
+      "basketball_player",
+      "football_player",
+      "true_foodperson",
+      "cyclist",
+      "maid",
+      "svictim",
+      "clown",
+      "spouse",
+      "naked",
+      "musician",
+      "super_biker",
+      "local_drug_dealer",
+      "mafia_boss",
+      "hitman",
+      "assassin"
+    ],
     "flags": [ "CHALLENGE", "LONE_START" ]
   },
   {
@@ -1018,5 +1049,33 @@
     "allowed_locs": [ "sloc_mobile_home", "sloc_motel" ],
     "eoc": [ "EOC_scenario_drunk" ],
     "flags": [ "LONE_START" ]
+  },
+  {
+    "type": "scenario",
+    "id": "mass_quarantine_start",
+    "name": "Mass Quarantine",
+    "points": -1,
+    "description": "When FEMA camps ran out of space the authorities used what was left of their manpower to round up people at gunpoint.  The stadiums they forced everyone into did nothing to slow down the madness and it spread like wildfire.  You managed to slip away from the worst violence but you are now surrounded and need to escape quickly!",
+    "start_name": "In Town",
+    "allowed_locs": [ "sloc_stadium" ],
+    "map_extra": "mx_corpses"
+  },
+  {
+    "type": "scenario",
+    "id": "road_start",
+    "name": "Middle of nowhere",
+    "points": 1,
+    "description": "During your escape you got lost and ended up at the wrong location.  Get your bearings and make a plan.  You'll need it.",
+    "start_name": "Middle of Nowhere",
+    "allowed_locs": [ "sloc_middle_of_nowhere" ]
+  },
+  {
+    "type": "scenario",
+    "id": "sewer_start",
+    "name": "Challenge - Lost Underground",
+    "points": 1,
+    "description": "When the riots came to your home, you ran underground and hid.  Now days later you are lost and hear movement echoing in the dark.",
+    "start_name": "In Town",
+    "allowed_locs": [ "sloc_sewer" ]
   }
 ]

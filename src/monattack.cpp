@@ -856,7 +856,7 @@ bool mattack::pull_metal_weapon( monster *z )
             // Take the total portion of metal in the item into account
             const float metal_fraction = metal_portion / static_cast<float>( weapon->type->mat_portion_total );
             if( !weapon->has_flag( flag_NO_UNWIELD ) && metal_portion ) {
-                const int wp_skill = foe->get_skill_level( skill_melee );
+                const float wp_skill = foe->get_skill_level( skill_melee );
                 // It takes a while
                 z->moves -= att_cost_pull;
                 int success = 100;
@@ -5537,7 +5537,7 @@ bool mattack::bio_op_disarm( monster *z )
     /** @EFFECT_MELEE increases chance to avoid disarm */
     int their_roll = dice( 3, foe->get_limb_score( limb_score_grip ) * ( foe->get_arm_str() +
                            foe->get_dex() ) );
-    their_roll += dice( 3, foe->get_skill_level( skill_melee ) );
+    their_roll += dice( 3, round( foe->get_skill_level( skill_melee ) ) );
     their_roll *= foe->get_limb_score( limb_score_reaction );
 
     item_location it = foe->get_wielded_item();
