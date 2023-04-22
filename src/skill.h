@@ -62,7 +62,7 @@ class Skill
 
         Skill();
         Skill( const skill_id &ident, const translation &name, const translation &description,
-               const std::set<std::string> &tags, skill_displayType_id display_type, int ordering );
+               const std::set<std::string> &tags, skill_displayType_id display_type );
 
         const skill_id &ident() const {
             return _ident;

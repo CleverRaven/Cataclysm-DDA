@@ -78,14 +78,14 @@ bool string_id<Skill>::is_valid() const
 
 Skill::Skill() : Skill( skill_id::NULL_ID(), to_translation( "nothing" ),
                             to_translation( "The zen-most skill there is." ),
-                            std::set<std::string> {}, skill_displayType_id::NULL_ID(), 100000000 )
+                            std::set<std::string> {}, skill_displayType_id::NULL_ID() )
 {
 }
 
 Skill::Skill( const skill_id &ident, const translation &name, const translation &description,
-              const std::set<std::string> &tags, skill_displayType_id display_type, int ordering )
+              const std::set<std::string> &tags, skill_displayType_id display_type )
     : _ident( ident ), _name( name ), _description( description ), _tags( tags ),
-      _display_type( display_type ), _ordering( ordering )
+      _display_type( display_type )
 {
 }
 
@@ -139,8 +139,13 @@ void Skill::load_skill( const JsonObject &jsobj )
         jso_tta.read( "time_reduction_per_level", time_to_attack.time_reduction_per_level );
     }
     skill_displayType_id display_type = skill_displayType_id( jsobj.get_string( "display_category" ) );
-    int ordering = jsobj.get_int( "ordering", 100000000 );
-    Skill sk( ident, name, desc, jsobj.get_tags( "tags" ), display_type, ordering );
+    Skill sk( ident, name, desc, jsobj.get_tags( "tags" ), display_type );
+    if( jsobj.has_int( "ordering" ) ) {
+        sk._ordering = jsobj.get_int( "ordering" );
+    } else {
+        sk._ordering = 1000000;
+        debugmsg( "skill '%s' missing 'ordering' field.", ident.str() );
+    }
 
     sk._time_to_attack = time_to_attack;
     sk._companion_combat_rank_factor = jsobj.get_int( "companion_combat_rank_factor", 0 );
