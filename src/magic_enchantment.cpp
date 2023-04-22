@@ -174,7 +174,8 @@ void enchantment::reset()
     spell_factory.reset();
 }
 
-enchantment_id enchantment::load_inline_enchantment( const JsonValue &jv, const std::string &src,
+enchantment_id enchantment::load_inline_enchantment( const JsonValue &jv,
+        const std::string_view src,
         std::string &inline_id )
 {
     if( jv.test_string() ) {
@@ -267,7 +268,7 @@ void enchantment::bodypart_changes::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-void enchantment::load( const JsonObject &jo, const std::string &,
+void enchantment::load( const JsonObject &jo, const std::string_view,
                         const std::optional<std::string> &inline_id, bool is_child )
 {
     optional( jo, was_loaded, "id", id, enchantment_id( inline_id.value_or( "" ) ) );
@@ -364,7 +365,7 @@ void enchantment::load( const JsonObject &jo, const std::string &,
     }
 }
 
-void enchant_cache::load( const JsonObject &jo, const std::string &,
+void enchant_cache::load( const JsonObject &jo, const std::string_view,
                           const std::optional<std::string> &inline_id )
 {
     enchantment::load( jo, "", inline_id, true );

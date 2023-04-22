@@ -174,7 +174,7 @@ struct weakpoints {
 
     /********************* weakpoint_set handling ****************************/
     // load standalone JSON type
-    void load( const JsonObject &jo, const std::string &src );
+    void load( const JsonObject &jo, std::string_view src );
     void add_from_set( const weakpoints_id &set_id, bool replace_id );
     void add_from_set( const weakpoints &set, bool replace_id );
     void del_from_set( const weakpoints_id &set_id );

@@ -58,7 +58,7 @@ class anatomy
         void add_body_part( const bodypart_str_id &new_bp );
         // TODO: remove_body_part
 
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
         void finalize();
         void check() const;
 

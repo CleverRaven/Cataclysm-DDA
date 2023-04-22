@@ -495,16 +495,16 @@ TEST_CASE( "shot_features", "[gun]" "[slow]" )
     // Can't hurt at range
     // Can't hurt at close range.
     // Serioualy injure at point blank.
-    shoot_monster( "shotgun_s", {}, "shot_bird", 1, 57, "mon_zombie_brute" );
+    shoot_monster( "shotgun_s", {}, "shot_bird", 1, 61, "mon_zombie_brute" );
     // TODO: can't harm heavily armored enemies at point blank
 
     // Heavily Armored target (armor_bullet: 36)
     // Can't hurt at range,
-    shoot_monster( "shotgun_s", {}, "shot_bird", 12, 0, "mon_skeleton_hulk" );
+    shoot_monster( "shotgun_s", {}, "shot_bird", 12, 3, "mon_skeleton_hulk" );
     // Can't hurt at close range.
-    shoot_monster( "shotgun_s", {}, "shot_bird", 5, 1, "mon_skeleton_hulk" );
+    shoot_monster( "shotgun_s", {}, "shot_bird", 5, 6, "mon_skeleton_hulk" );
     // Barely injure at point blank.
-    shoot_monster( "shotgun_s", {}, "shot_bird", 1, 25, "mon_skeleton_hulk" );
+    shoot_monster( "shotgun_s", {}, "shot_bird", 1, 31, "mon_skeleton_hulk" );
     // TODO: can't harm heavily armored enemies even at point blank.
 
     // BUCKSHOT
@@ -519,16 +519,16 @@ TEST_CASE( "shot_features", "[gun]" "[slow]" )
 
     // Lightly armored target (armor_bullet: 5)
     // Outcomes for lightly armored enemies are very similar.
-    shoot_monster( "shotgun_s", {}, "shot_00", 18, 41, "mon_boomer_glutton" );
-    shoot_monster( "shotgun_s", {}, "shot_00", 12, 63, "mon_boomer_glutton" );
-    shoot_monster( "shotgun_s", {}, "shot_00", 5, 103, "mon_boomer_glutton" );
-    shoot_monster( "shotgun_s", {}, "shot_00", 1, 69, "mon_boomer_glutton" );
+    shoot_monster( "shotgun_s", {}, "shot_00", 18, 33, "mon_zombie_brute" );
+    shoot_monster( "shotgun_s", {}, "shot_00", 12, 57, "mon_zombie_brute" );
+    shoot_monster( "shotgun_s", {}, "shot_00", 5, 116, "mon_zombie_brute" );
+    shoot_monster( "shotgun_s", {}, "shot_00", 1, 73, "mon_zombie_brute" );
 
     // Armored target (armor_bullet: 10)
-    shoot_monster( "shotgun_s", {}, "shot_00", 18, 26, "mon_hulk_pupa_decoy" );
-    shoot_monster( "shotgun_s", {}, "shot_00", 12, 38, "mon_hulk_pupa_decoy" );
-    shoot_monster( "shotgun_s", {}, "shot_00", 5, 53, "mon_hulk_pupa_decoy" );
-    shoot_monster( "shotgun_s", {}, "shot_00", 1, 63, "mon_hulk_pupa_decoy" );
+    shoot_monster( "shotgun_s", {}, "shot_00", 18, 8, "mon_smoker_brute" );
+    shoot_monster( "shotgun_s", {}, "shot_00", 12, 18, "mon_smoker_brute" );
+    shoot_monster( "shotgun_s", {}, "shot_00", 5, 62, "mon_smoker_brute" );
+    shoot_monster( "shotgun_s", {}, "shot_00", 1, 72, "mon_smoker_brute" );
 }
 
 TEST_CASE( "shot_features_with_choke", "[gun]" "[slow]" )
@@ -544,10 +544,10 @@ TEST_CASE( "shot_features_with_choke", "[gun]" "[slow]" )
     shoot_monster( "shotgun_s", { "choke" }, "shot_bird", 1, 62, "mon_wolf_mutant_huge" );
 
     // Triviallly armored target (armor_bullet: 1)
-    shoot_monster( "shotgun_s", { "choke" }, "shot_bird", 1, 61, "mon_zombie_tough" );
+    shoot_monster( "shotgun_s", { "choke" }, "shot_bird", 1, 62, "mon_zombie_tough" );
 
     // Armored target (armor_bullet: 5)
-    shoot_monster( "shotgun_s", { "choke" }, "shot_bird", 1, 57, "mon_zombie_brute" );
+    shoot_monster( "shotgun_s", { "choke" }, "shot_bird", 1, 61, "mon_zombie_brute" );
 
     // Unarmored target
     shoot_monster( "shotgun_s", { "choke" }, "shot_00", 18, 111, "mon_wolf_mutant_huge" );
@@ -555,20 +555,20 @@ TEST_CASE( "shot_features_with_choke", "[gun]" "[slow]" )
     shoot_monster( "shotgun_s", { "choke" }, "shot_00", 5, 165, "mon_wolf_mutant_huge" );
     shoot_monster( "shotgun_s", { "choke" }, "shot_00", 1, 75, "mon_wolf_mutant_huge" );
     // Triviallly armored target (armor_bullet: 1)
-    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 18, 48, "mon_zombie_tough" );
-    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 12, 79, "mon_zombie_tough" );
-    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 5, 108, "mon_zombie_tough" );
-    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 1, 95, "mon_zombie_tough" );
+    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 18, 50, "mon_zombie_tough" );
+    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 12, 81, "mon_zombie_tough" );
+    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 5, 105, "mon_zombie_tough" );
+    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 1, 100, "mon_zombie_tough" );
     // Armored target (armor_bullet: 5)
-    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 18, 35, "mon_zombie_brute" );
-    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 12, 58, "mon_zombie_brute" );
-    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 5, 105, "mon_zombie_brute" );
-    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 1, 69, "mon_zombie_brute" );
+    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 18, 46, "mon_zombie_brute" );
+    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 12, 77, "mon_zombie_brute" );
+    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 5, 124, "mon_zombie_brute" );
+    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 1, 73, "mon_zombie_brute" );
     // Armored target (armor_bullet: 10)
-    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 18, 35, "mon_hulk_pupa_decoy" );
-    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 12, 45, "mon_hulk_pupa_decoy" );
-    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 5, 52, "mon_hulk_pupa_decoy" );
-    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 1, 63, "mon_hulk_pupa_decoy" );
+    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 18, 11, "mon_smoker_brute" );
+    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 12, 26, "mon_smoker_brute" );
+    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 5, 81, "mon_smoker_brute" );
+    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 1, 71, "mon_smoker_brute" );
 }
 
 // Targeting graph tests

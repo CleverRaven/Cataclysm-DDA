@@ -154,7 +154,7 @@ const std::vector<limb_score> &limb_score::get_all()
     return limb_score_factory.get_all();
 }
 
-void limb_score::load( const JsonObject &jo, const std::string & )
+void limb_score::load( const JsonObject &jo, const std::string_view )
 {
     mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "name", _name );
@@ -281,7 +281,7 @@ const std::vector<body_part_type> &body_part_type::get_all()
     return body_part_factory.get_all();
 }
 
-void body_part_type::load( const JsonObject &jo, const std::string & )
+void body_part_type::load( const JsonObject &jo, const std::string_view )
 {
     mandatory( jo, was_loaded, "id", id );
 

@@ -78,11 +78,7 @@
     "armor_bullet": 4,
     "armor_stab": 4,
     "armor_elec": 2,
-    "weakpoints": [
-      { "name": "the leg", "armor_mult": { "physical": 0 }, "coverage": 18 },
-      { "name": "the arm", "armor_mult": { "physical": 0 }, "coverage": 9 },
-      { "name": "the head", "armor_mult": { "physical": 0 }, "coverage": 4 }
-    ],
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_syn_armored" ],
     "vision_day": 30,
     "vision_night": 3,
@@ -127,7 +123,7 @@
       { "name": "the face", "armor_mult": { "physical": 0 }, "coverage": 2 },
       { "name": "a gap in the armor", "armor_mult": { "physical": 0 }, "coverage": 1 }
     ],
-    "families": [ "prof_intro_biology", "prof_wp_zombie" ],
+    "families": [ "prof_intro_biology", "prof_wp_demihuman" ],
     "vision_day": 20,
     "vision_night": 3,
     "luminance": 8,
@@ -164,7 +160,7 @@
       { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 },
       { "name": "a gap in the armor", "armor_mult": { "physical": 0 }, "coverage": 3 }
     ],
-    "families": [ "prof_intro_biology", "prof_wp_zombie" ],
+    "families": [ "prof_intro_biology", "prof_wp_demihuman", "prof_wp_skeleton" ],
     "bleed_rate": 50,
     "vision_night": 5,
     "luminance": 16,

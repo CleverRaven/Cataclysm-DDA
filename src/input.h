@@ -167,7 +167,13 @@ enum class MouseInput : int {
     ScrollWheelUp,
     ScrollWheelDown,
 
-    Move
+    Move,
+
+    X1ButtonPressed,
+    X1ButtonReleased,
+
+    X2ButtonPressed,
+    X2ButtonReleased
 
 };
 
@@ -923,7 +929,7 @@ class input_context
          * @return A vector of the filtered strings
          */
         std::vector<std::string> filter_strings_by_phrase( const std::vector<std::string> &strings,
-                const std::string &phrase ) const;
+                std::string_view phrase ) const;
 };
 
 /**

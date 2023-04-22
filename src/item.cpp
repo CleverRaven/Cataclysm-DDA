@@ -1146,18 +1146,18 @@ item item::in_its_container( int qty ) const
                          type->default_container_sealed );
 }
 
-item item::in_container( const itype_id &cont, const int qty, const bool sealed ) const
+item item::in_container( const itype_id &cont, int qty, const bool sealed ) const
 {
     if( cont.is_null() ) {
         return *this;
     }
+
+    if( qty <= 0 ) {
+        qty = count();
+    }
     item container( cont, birthday() );
     if( container.is_container() ) {
-        if( count_by_charges() ) {
-            container.fill_with( *this, qty );
-        } else {
-            container.put_in( *this, item_pocket::pocket_type::CONTAINER );
-        }
+        container.fill_with( *this, qty );
         container.invlet = invlet;
         if( sealed ) {
             container.seal();
@@ -5706,7 +5706,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
         const auto print_parts = [&info, &player_character](
                                      const std::vector<vpart_info> &vparts,
-                                     const std::string & install_where,
+                                     const std::string_view install_where,
                                      const std::function<bool( const vpart_info & )> &predicate
         ) {
             std::vector<std::string> result_parts;
