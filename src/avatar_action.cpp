@@ -843,18 +843,17 @@ void avatar_action::fire_wielded_weapon( avatar &you )
         return;
     }
 
-    you.assign_activity( player_activity( aim_activity_actor::use_wielded() ), false );
+    you.assign_activity( player_activity( aim_activity_actor::use_wielded() ) );
 }
 
 void avatar_action::fire_ranged_mutation( Character &you, const item &fake_gun )
 {
-    you.assign_activity( player_activity( aim_activity_actor::use_mutation( fake_gun ) ), false );
+    you.assign_activity( player_activity( aim_activity_actor::use_mutation( fake_gun ) ) );
 }
 
 void avatar_action::fire_ranged_bionic( avatar &you, const item &fake_gun )
 {
-    you.assign_activity(
-        player_activity( aim_activity_actor::use_bionic( fake_gun ) ), false );
+    you.assign_activity( player_activity( aim_activity_actor::use_bionic( fake_gun ) ) );
 }
 
 void avatar_action::fire_turret_manual( avatar &you, map &m, turret_data &turret )

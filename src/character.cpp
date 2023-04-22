@@ -8250,10 +8250,10 @@ void Character::assign_activity( const activity_id &type, int moves, int index, 
     assign_activity( player_activity( type, moves, index, pos, name ) );
 }
 
-void Character::assign_activity( const player_activity &act, bool allow_resume )
+void Character::assign_activity( const player_activity &act )
 {
     bool resuming = false;
-    if( allow_resume && !backlog.empty() && backlog.front().can_resume_with( act, *this ) ) {
+    if( !backlog.empty() && backlog.front().can_resume_with( act, *this ) ) {
         resuming = true;
         add_msg_if_player( _( "You resume your task." ) );
         activity = backlog.front();

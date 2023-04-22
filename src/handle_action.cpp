@@ -1058,7 +1058,7 @@ static void wait()
 
         player_activity new_act( actType, 100 * to_turns<int>( time_to_wait ), 0 );
 
-        player_character.assign_activity( new_act, false );
+        player_character.assign_activity( new_act );
     }
 }
 
@@ -1673,7 +1673,7 @@ bool Character::cast_spell( spell &sp, bool fake_spell,
     if( target ) {
         spell_act.coords.emplace_back( get_map().getabs( *target ) );
     }
-    assign_activity( spell_act, false );
+    assign_activity( spell_act );
     return true;
 }
 

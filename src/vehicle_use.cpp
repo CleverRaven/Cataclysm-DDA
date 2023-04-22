@@ -1578,7 +1578,7 @@ void vehicle::build_bike_rack_menu( veh_menu &menu, int part )
         .skip_locked_check()
         .on_submit( [this, rackable] {
             bikerack_racking_activity_actor rack( *this, *rackable.veh, rackable.racks );
-            get_player_character().assign_activity( player_activity( rack ), false );
+            get_player_character().assign_activity( player_activity( rack ) );
         } );
 
         has_rack_actions = true;
@@ -1590,7 +1590,7 @@ void vehicle::build_bike_rack_menu( veh_menu &menu, int part )
         .skip_locked_check()
         .on_submit( [this, unrackable] {
             bikerack_unracking_activity_actor unrack( *this, unrackable.parts, unrackable.racks );
-            get_player_character().assign_activity( player_activity( unrack ), false );
+            get_player_character().assign_activity( player_activity( unrack ) );
         } );
 
         has_rack_actions = true;

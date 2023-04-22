@@ -1640,7 +1640,7 @@ void iexamine::portable_structure( Character &you, const tripoint &examp )
 
     player_activity new_act = player_activity( tent_deconstruct_activity_actor( to_moves<int>
                               ( 20_minutes ), radius, examp, dropped ) );
-    you.assign_activity( new_act, false );
+    you.assign_activity( new_act );
 }
 
 /**

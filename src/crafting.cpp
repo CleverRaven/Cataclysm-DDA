@@ -2539,7 +2539,7 @@ bool Character::disassemble( item_location target, bool interactive, bool disass
 void Character::disassemble_all( bool one_pass )
 {
     // Reset all the activity values
-    assign_activity( player_activity(), true );
+    assign_activity( player_activity() );
 
     bool found_any = false;
     std::vector<item_location> to_disassemble;
