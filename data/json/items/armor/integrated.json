@@ -3177,7 +3177,7 @@
     "prereqs": [ "NAILS" ],
     "changes_to": [ "CLAWS_RETRACT", "CLAWS_RAT" ],
     "category": [ "BEAST", "RAT", "URSINE", "FELINE" ],
-	"//": "No Lupine, wolf claws aren't long or sharp enough."
+    "//": "No Lupine, wolf claws aren't long or sharp enough."
   },
   {
     "type": "mutation",
