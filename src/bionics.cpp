@@ -111,6 +111,11 @@ static const bionic_id bio_time_freeze( "bio_time_freeze" );
 static const bionic_id bio_torsionratchet( "bio_torsionratchet" );
 static const bionic_id bio_water_extractor( "bio_water_extractor" );
 
+static const damage_type_id damage_bash( "bash" );
+static const damage_type_id damage_bullet( "bullet" );
+static const damage_type_id damage_cut( "cut" );
+static const damage_type_id damage_stab( "stab" );
+
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_antifungal( "antifungal" );
 static const efftype_id effect_assisted( "assisted" );
@@ -1048,7 +1053,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         for( const std::pair<item, tripoint> &pr : affected ) {
             projectile proj;
             proj.speed  = 50;
-            proj.impact = damage_instance::physical( pr.first.weight() / 250_gram, 0, 0, 0 );
+            proj.impact = damage_instance( damage_bash, pr.first.weight() / 250_gram );
             // make the projectile stop one tile short to prevent hitting the player
             proj.range = rl_dist( pr.second, pos() ) - 1;
             proj.proj_effects = {{ "NO_ITEM_DAMAGE", "DRAW_AS_LINE", "NO_DAMAGE_SCALING", "JET" }};
@@ -3447,24 +3452,24 @@ bionic_uid Character::get_weapon_bionic_uid() const
     return weapon_bionic_uid;
 }
 
-float Character::bionic_armor_bonus( const bodypart_id &bp, damage_type dt ) const
+float Character::bionic_armor_bonus( const bodypart_id &bp, const damage_type_id &dt ) const
 {
     float result = 0.0f;
-    if( dt == damage_type::CUT || dt == damage_type::STAB ) {
+    if( dt == damage_cut || dt == damage_stab ) {
         for( const bionic_id &bid : get_bionics() ) {
             const auto cut_prot = bid->cut_protec.find( bp.id() );
             if( cut_prot != bid->cut_protec.end() ) {
                 result += cut_prot->second;
             }
         }
-    } else if( dt == damage_type::BASH ) {
+    } else if( dt == damage_bash ) {
         for( const bionic_id &bid : get_bionics() ) {
             const auto bash_prot = bid->bash_protec.find( bp.id() );
             if( bash_prot != bid->bash_protec.end() ) {
                 result += bash_prot->second;
             }
         }
-    } else if( dt == damage_type::BULLET ) {
+    } else if( dt == damage_bullet ) {
         for( const bionic_id &bid : get_bionics() ) {
             const auto bullet_prot = bid->bullet_protec.find( bp.id() );
             if( bullet_prot != bid->bullet_protec.end() ) {

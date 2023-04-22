@@ -333,7 +333,7 @@ class monster : public Creature
         bool is_dead_state() const override; // check if we should be dead or not
         bool is_elec_immune() const override;
         bool is_immune_effect( const efftype_id & ) const override;
-        bool is_immune_damage( damage_type ) const override;
+        bool is_immune_damage( const damage_type_id & ) const override;
 
         void make_bleed( const effect_source &source, time_duration duration,
                          int intensity = 1, bool permanent = false, bool force = false, bool defferred = false );
@@ -386,11 +386,8 @@ class monster : public Creature
         float power_rating() const override;
         float speed_rating() const override;
 
-        int get_worn_armor_val( damage_type dt ) const;
-        int  get_armor_cut( bodypart_id bp ) const override; // Natural armor, plus any worn armor
-        int  get_armor_bash( bodypart_id bp ) const override; // Natural armor, plus any worn armor
-        int  get_armor_bullet( bodypart_id bp ) const override; // Natural armor, plus any worn armor
-        int  get_armor_type( damage_type dt, bodypart_id bp ) const override;
+        int get_worn_armor_val( const damage_type_id &dt ) const;
+        int  get_armor_type( const damage_type_id &dt, bodypart_id bp ) const override;
 
         float get_hit_base() const override;
         float get_dodge_base() const override;

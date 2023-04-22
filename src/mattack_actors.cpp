@@ -35,6 +35,7 @@
 #include "translations.h"
 #include "viewer.h"
 
+static const damage_type_id damage_bash( "bash" );
 
 static const efftype_id effect_badpoison( "badpoison" );
 static const efftype_id effect_bite( "bite" );
@@ -292,7 +293,9 @@ bool mon_spellcasting_actor::call( monster &mon ) const
 
 melee_actor::melee_actor()
 {
-    damage_max_instance = damage_instance::physical( 9, 0, 0, 0 );
+    damage_max_instance = damage_instance();
+    // FIXME: Hardcoded damage type
+    damage_max_instance.add_damage( damage_bash, 9 );
     min_mul = 0.5f;
     max_mul = 1.0f;
     move_cost = 100;

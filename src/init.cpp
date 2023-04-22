@@ -475,6 +475,7 @@ void DynamicDataLoader::initialize()
     add( "conduct", &achievement::load_achievement );
     add( "widget", &widget::load_widget );
     add( "weakpoint_set", &weakpoints::load_weakpoint_sets );
+    add( "damage_type", &damage_type::load_damage_types );
 #if defined(TILES)
     add( "mod_tileset", &load_mod_tileset );
 #else
@@ -559,6 +560,7 @@ void DynamicDataLoader::unload_data()
     clothing_mods::reset();
     construction_categories::reset();
     construction_groups::reset();
+    damage_type::reset();
     disease_type::reset();
     dreams.clear();
     emit::reset();
@@ -729,7 +731,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Missions" ), &mission_type::finalize },
             { _( "Harvest lists" ), &harvest_list::finalize_all },
             { _( "Anatomies" ), &anatomy::finalize_all },
-            { _( "Mutations" ), &mutation_branch::finalize },
+            { _( "Mutations" ), &mutation_branch::finalize_all },
             { _( "Achievements" ), &achievement::finalize },
             { _( "Widgets" ), &widget::finalize },
 #if defined(TILES)

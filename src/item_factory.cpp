@@ -66,6 +66,11 @@ template <typename T> struct enum_traits;
 
 static const ammotype ammo_NULL( "NULL" );
 
+static const damage_type_id damage_bash( "bash" );
+static const damage_type_id damage_bullet( "bullet" );
+static const damage_type_id damage_cut( "cut" );
+static const damage_type_id damage_stab( "stab" );
+
 static const gun_mode_id gun_mode_DEFAULT( "DEFAULT" );
 static const gun_mode_id gun_mode_MELEE( "MELEE" );
 
@@ -221,8 +226,8 @@ void Item_factory::finalize_pre( itype &obj )
     }
 
     if( obj.has_flag( flag_STAB ) || obj.has_flag( flag_SPEAR ) ) {
-        std::swap( obj.melee[static_cast<int>( damage_type::CUT )],
-                   obj.melee[static_cast<int>( damage_type::STAB )] );
+        std::swap( obj.melee[damage_cut],
+                   obj.melee[damage_stab] );
     }
 
     // add usage methods (with default values) based upon qualities
@@ -361,7 +366,7 @@ void Item_factory::finalize_pre( itype &obj )
         if( obj.ammo->count > 1 && obj.ammo->shot_damage.total_damage() < 1.0f ) {
             // Patch to fixup shot without shot_damage until I get all the definitions consistent.
             if( obj.ammo->shot_damage.damage_units.empty() ) {
-                obj.ammo->shot_damage.damage_units.emplace_back( damage_type::BULLET, 0.1f );
+                obj.ammo->shot_damage.damage_units.emplace_back( damage_bullet, 0.1f );
             }
             obj.ammo->count = obj.ammo->count * obj.ammo->shot_damage.total_damage();
             obj.ammo->shot_damage.damage_units.front().amount = 1.0f;
@@ -2620,8 +2625,8 @@ void Item_factory::load( islot_gun &slot, const JsonObject &jo, const std::strin
     assign( jo, "ammo", slot.ammo, strict );
     assign( jo, "range", slot.range, strict );
     // Damage instance assign reader handles pierce
-    assign( jo, "ranged_damage", slot.damage, strict, damage_instance( damage_type::NONE, -20, -20, -20,
-            -20 ) );
+    assign( jo, "ranged_damage", slot.damage, strict,
+            damage_instance( damage_type_id::NULL_ID(), -20, -20, -20, -20 ) );
     assign( jo, "dispersion", slot.dispersion, strict );
     assign( jo, "sight_dispersion", slot.sight_dispersion, strict, 0, static_cast<int>( MAX_RECOIL ) );
     assign( jo, "recoil", slot.recoil, strict, 0 );
@@ -3236,9 +3241,8 @@ void Item_factory::load( islot_gunmod &slot, const JsonObject &jo, const std::st
 {
     bool strict = src == "dda";
 
-    assign( jo, "damage_modifier", slot.damage, strict, damage_instance( damage_type::NONE, -20, -20,
-            -20,
-            -20 ) );
+    assign( jo, "damage_modifier", slot.damage, strict,
+            damage_instance( damage_type_id::NULL_ID(), -20, -20, -20, -20 ) );
     assign( jo, "loudness_modifier", slot.loudness );
     assign( jo, "location", slot.location );
     assign( jo, "dispersion_modifier", slot.dispersion );
@@ -3809,8 +3813,8 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     assign( jo, "stackable", def.stackable_, strict );
     assign( jo, "integral_volume", def.integral_volume );
     assign( jo, "integral_longest_side", def.integral_longest_side, false, 0_mm );
-    assign( jo, "bashing", def.melee[static_cast<int>( damage_type::BASH )], strict, 0 );
-    assign( jo, "cutting", def.melee[static_cast<int>( damage_type::CUT )], strict, 0 );
+    assign( jo, "bashing", def.melee[damage_bash], strict, 0.f );
+    assign( jo, "cutting", def.melee[damage_cut], strict, 0.f );
     if( jo.has_int( "to_hit" ) ) {
         assign( jo, "to_hit", def.m_to_hit, strict );
     } else if( jo.has_object( "to_hit" ) ) {
@@ -3840,8 +3844,8 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     } else {
         // TODO: Move to finalization
         def.thrown_damage.clear();
-        def.thrown_damage.add_damage( damage_type::BASH,
-                                      def.melee[static_cast<int>( damage_type::BASH )] + def.weight / 1.0_kilogram );
+        def.thrown_damage.add_damage( damage_bash,
+                                      def.melee[damage_bash] + def.weight / 1.0_kilogram );
     }
 
     if( jo.has_member( "repairs_like" ) ) {
@@ -4878,8 +4882,9 @@ item_category_id calc_category( const itype &obj )
         return item_category_bionics;
     }
 
-    bool weap = std::any_of( obj.melee.begin(), obj.melee.end(), []( int qty ) {
-        return qty > MELEE_STAT;
+    bool weap = std::any_of( obj.melee.begin(), obj.melee.end(),
+    []( const std::pair<const damage_type_id, float> &qty ) {
+        return qty.second > MELEE_STAT;
     } );
 
     return weap ? item_category_weapons : item_category_other;

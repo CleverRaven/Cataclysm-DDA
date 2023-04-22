@@ -19,6 +19,8 @@
 #include "vehicle.h"
 #include "veh_type.h"
 
+static const damage_type_id damage_pure( "pure" );
+
 static const itype_id itype_folded_bicycle( "folded_bicycle" );
 static const itype_id itype_folded_inflatable_boat( "folded_inflatable_boat" );
 static const itype_id itype_folded_wheelchair_generic( "folded_wheelchair_generic" );
@@ -311,7 +313,7 @@ static void check_folded_item_to_parts_damage_transfer( const folded_item_damage
 
     // don't actually need point_north but damage_all filters out direct damage
     // do some damage so it is transferred when folding
-    ovp->vehicle().damage_all( 100, 100, damage_type::PURE, ovp->mount() + point_north );
+    ovp->vehicle().damage_all( 100, 100, damage_pure, ovp->mount() + point_north );
 
     // fold vehicle into an item
     complete_activity( u, vehicle_folding_activity_actor( ovp->vehicle() ) );

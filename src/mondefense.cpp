@@ -32,6 +32,9 @@
 #include "type_id.h"
 #include "viewer.h"
 
+static const damage_type_id damage_acid( "acid" );
+static const damage_type_id damage_electric( "electric" );
+
 static const gun_mode_id gun_mode_DEFAULT( "DEFAULT" );
 
 void mdefense::none( monster &, Creature *, const dealt_projectile_attack * )
@@ -76,7 +79,7 @@ void mdefense::zapback( monster &m, Creature *const source,
     }
 
     const damage_instance shock {
-        damage_type::ELECTRIC, static_cast<float>( rng( 1, 5 ) )
+        damage_electric, static_cast<float>( rng( 1, 5 ) )
     };
     source->deal_damage( &m, bodypart_id( "arm_l" ), shock );
     source->deal_damage( &m, bodypart_id( "arm_r" ), shock );
@@ -104,12 +107,12 @@ void mdefense::acidsplash( monster &m, Creature *const source,
     } else {
         if( const Character *const foe = dynamic_cast<Character *>( source ) ) {
             const item_location weapon = foe->get_wielded_item();
-            if( weapon && ( weapon->is_melee( damage_type::CUT ) || weapon->is_melee( damage_type::STAB ) ) ) {
+            if( weapon && weapon->has_edged_damage() ) {
                 num_drops += rng( 3, 4 );
             }
             if( foe->unarmed_attack() ) {
                 const damage_instance acid_burn{
-                    damage_type::ACID, static_cast<float>( rng( 1, 5 ) )
+                    damage_acid, static_cast<float>( rng( 1, 5 ) )
                 };
                 source->deal_damage( &m, one_in( 2 ) ? bodypart_id( "hand_l" ) : bodypart_id( "hand_r" ),
                                      acid_burn );
@@ -127,7 +130,7 @@ void mdefense::acidsplash( monster &m, Creature *const source,
     prj.range = 4;
     prj.proj_effects.insert( "DRAW_AS_LINE" );
     prj.proj_effects.insert( "NO_DAMAGE_SCALING" );
-    prj.impact.add_damage( damage_type::ACID, rng( 1, 3 ) );
+    prj.impact.add_damage( damage_acid, rng( 1, 3 ) );
     for( size_t i = 0; i < num_drops; i++ ) {
         const tripoint &target = random_entry( pts );
         projectile_attack( prj, m.pos(), target, dispersion_sources{ 1200 }, &m );

@@ -114,6 +114,9 @@ static const activity_id ACT_WAIT_WEATHER( "ACT_WAIT_WEATHER" );
 
 static const bionic_id bio_remote( "bio_remote" );
 
+static const damage_type_id damage_bash( "bash" );
+static const damage_type_id damage_cut( "cut" );
+
 static const efftype_id effect_alarm_clock( "alarm_clock" );
 static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_laserlocked( "laserlocked" );
@@ -721,7 +724,7 @@ static void smash()
     } else {
         smashskill = player_character.get_arm_str();
         if( player_character.get_wielded_item() ) {
-            smashskill += player_character.get_wielded_item()->damage_melee( damage_type::BASH );
+            smashskill += player_character.get_wielded_item()->damage_melee( damage_bash );
         }
     }
 
@@ -807,10 +810,10 @@ static void smash()
         std::pair<bodypart_id, int> best_part_to_smash = {bp_null, 0};
         int tmp_bash_armor = 0;
         for( const bodypart_id &bp : player_character.get_all_body_parts() ) {
-            tmp_bash_armor += player_character.worn.damage_resist( damage_type::BASH, bp );
+            tmp_bash_armor += player_character.worn.damage_resist( damage_bash, bp );
             for( const trait_id &mut : player_character.get_mutations() ) {
                 const resistances &res = mut->damage_resistance( bp );
-                tmp_bash_armor += std::floor( res.type_resist( damage_type::BASH ) );
+                tmp_bash_armor += std::floor( res.type_resist( damage_bash ) );
             }
             if( tmp_bash_armor > best_part_to_smash.second ) {
                 best_part_to_smash = {bp, tmp_bash_armor};
@@ -862,12 +865,12 @@ static void smash()
                     weapon->spill_contents( player_character.pos() );
                     sounds::sound( player_character.pos(), 24, sounds::sound_t::combat, "CRACK!", true, "smash",
                                    "glass" );
-                    player_character.deal_damage( nullptr, bodypart_id( "hand_r" ), damage_instance( damage_type::CUT,
+                    player_character.deal_damage( nullptr, bodypart_id( "hand_r" ), damage_instance( damage_cut,
                                                   rng( 0,
                                                        vol ) ) );
                     if( vol > 20 ) {
                         // Hurt left arm too, if it was big
-                        player_character.deal_damage( nullptr, bodypart_id( "hand_l" ), damage_instance( damage_type::CUT,
+                        player_character.deal_damage( nullptr, bodypart_id( "hand_l" ), damage_instance( damage_cut,
                                                       rng( 0,
                                                            static_cast<int>( vol * .5 ) ) ) );
                     }

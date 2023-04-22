@@ -67,6 +67,8 @@ static const activity_id ACT_START_ENGINES( "ACT_START_ENGINES" );
 
 static const ammotype ammo_battery( "battery" );
 
+static const damage_type_id damage_bash( "bash" );
+
 static const efftype_id effect_harnessed( "harnessed" );
 static const efftype_id effect_tied( "tied" );
 
@@ -992,7 +994,7 @@ void vehicle::transform_terrain()
         } else {
             const int speed = std::abs( velocity );
             int v_damage = rng( 3, speed );
-            damage( here, vp.part_index(), v_damage, damage_type::BASH, false );
+            damage( here, vp.part_index(), v_damage, damage_bash, false );
             sounds::sound( start_pos, v_damage, sounds::sound_t::combat, _( "Clanggggg!" ), false,
                            "smash_success", "hit_vehicle" );
         }
@@ -1061,7 +1063,7 @@ void vehicle::operate_planter()
                     here.set( loc, t_dirt, f_plant_seed );
                 } else if( !here.has_flag( ter_furn_flag::TFLAG_PLOWABLE, loc ) ) {
                     //If it isn't plowable terrain, then it will most likely be damaged.
-                    damage( here, planter_id, rng( 1, 10 ), damage_type::BASH, false );
+                    damage( here, planter_id, rng( 1, 10 ), damage_bash, false );
                     sounds::sound( loc, rng( 10, 20 ), sounds::sound_t::combat, _( "Clink" ), false, "smash_success",
                                    "hit_vehicle" );
                 }

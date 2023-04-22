@@ -22,6 +22,7 @@
 #include "item.h"
 #include "itype.h"
 #include "line.h"
+#include "make_static.h"
 #include "map.h"
 #include "messages.h"
 #include "monster.h"
@@ -113,10 +114,11 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
         embed = embed && ( critter_size > creature_size::small || vol < 500_ml );
         // And if we deal enough damage
         // Item volume bumps up the required damage too
+        // FIXME: Hardcoded damage types
         embed = embed &&
-                ( attack.dealt_dam.type_damage( damage_type::CUT ) / 2 ) +
-                attack.dealt_dam.type_damage( damage_type::STAB ) >
-                attack.dealt_dam.type_damage( damage_type::BASH ) +
+                ( attack.dealt_dam.type_damage( STATIC( damage_type_id( "cut" ) ) ) / 2 ) +
+                attack.dealt_dam.type_damage( STATIC( damage_type_id( "stab" ) ) ) >
+                attack.dealt_dam.type_damage( STATIC( damage_type_id( "bash" ) ) ) +
                 vol * 3 / 250_ml + rng( 0, 5 );
     }
 

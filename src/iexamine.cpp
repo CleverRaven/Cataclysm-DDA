@@ -286,7 +286,7 @@ void iexamine::cvdmachine( Character &you, const tripoint & )
 {
     // Select an item to which it is possible to apply a diamond coating
     item_location loc = g->inv_map_splice( []( const item & e ) {
-        return ( e.is_melee( damage_type::CUT ) || e.is_melee( damage_type::STAB ) ) &&
+        return e.has_edged_damage() &&
                !e.has_flag( flag_DIAMOND ) && !e.has_flag( flag_NO_CVD ) &&
                ( e.made_of( material_steel ) || e.made_of( material_ch_steel ) ||
                  e.made_of( material_hc_steel ) || e.made_of( material_lc_steel ) ||
@@ -3210,7 +3210,7 @@ void iexamine::fireplace( Character &you, const tripoint &examp )
         return it.has_flag( flag_FIRESTARTER ) || it.has_flag( flag_FIRE );
     };
     auto is_firequencher = []( const item & it ) {
-        return it.damage_melee( damage_type::BASH );
+        return it.damage_melee( STATIC( damage_type_id( "bash" ) ) );
     };
 
     std::multimap<int, item *> firestarters;

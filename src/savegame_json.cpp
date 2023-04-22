@@ -3868,9 +3868,7 @@ void Creature::store( JsonOut &jsout ) const
     jsout.member( "num_blocks_bonus", num_blocks_bonus );
     jsout.member( "num_dodges_bonus", num_dodges_bonus );
 
-    jsout.member( "armor_bash_bonus", armor_bash_bonus );
-    jsout.member( "armor_cut_bonus", armor_cut_bonus );
-    jsout.member( "armor_bullet_bonus", armor_bullet_bonus );
+    jsout.member( "armor_bonus", armor_bonus );
 
     jsout.member( "speed", speed_base );
 
@@ -3943,9 +3941,21 @@ void Creature::load( const JsonObject &jsin )
     jsin.read( "num_blocks_bonus", num_blocks_bonus );
     jsin.read( "num_dodges_bonus", num_dodges_bonus );
 
-    jsin.read( "armor_bash_bonus", armor_bash_bonus );
-    jsin.read( "armor_cut_bonus", armor_cut_bonus );
-    jsin.read( "armor_bullet_bonus", armor_bullet_bonus );
+    if( jsin.has_object( "armor_bonus" ) ) {
+        jsin.read( "armor_bonus", armor_bonus );
+    } else {
+        // Legacy load conversion, remove after 0.H releases
+        int bash_bonus = 0;
+        int cut_bonus = 0;
+        int bullet_bonus = 0;
+        jsin.read( "armor_bash_bonus", bash_bonus );
+        jsin.read( "armor_cut_bonus", cut_bonus );
+        jsin.read( "armor_bullet_bonus", bullet_bonus );
+        armor_bonus.clear();
+        armor_bonus.emplace( STATIC( damage_type_id( "bash" ) ), bash_bonus );
+        armor_bonus.emplace( STATIC( damage_type_id( "cut" ) ), cut_bonus );
+        armor_bonus.emplace( STATIC( damage_type_id( "bullet" ) ), bullet_bonus );
+    }
 
     jsin.read( "speed", speed_base );
 

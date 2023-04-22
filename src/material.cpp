@@ -12,6 +12,15 @@
 #include "item.h"
 #include "json.h"
 
+static const damage_type_id damage_acid( "acid" );
+static const damage_type_id damage_bash( "bash" );
+static const damage_type_id damage_biological( "biological" );
+static const damage_type_id damage_bullet( "bullet" );
+static const damage_type_id damage_cold( "cold" );
+static const damage_type_id damage_cut( "cut" );
+static const damage_type_id damage_electric( "electric" );
+static const damage_type_id damage_heat( "heat" );
+
 namespace
 {
 
@@ -63,10 +72,6 @@ material_type::material_type() :
     _bash_dmg_verb( to_translation( "damages" ) ),
     _cut_dmg_verb( to_translation( "damages" ) )
 {
-    // negative integers means susceptibility
-    for( int i = 0; i < static_cast<int>( damage_type::NUM ); i++ ) {
-        _resistances[static_cast<damage_type>( i )] = 0.0f;
-    }
     _dmg_adj = { to_translation( "lightly damaged" ), to_translation( "damaged" ), to_translation( "very damaged" ), to_translation( "thoroughly damaged" ) };
 }
 
@@ -85,15 +90,15 @@ void material_type::load( const JsonObject &jsobj, const std::string_view )
 {
     mandatory( jsobj, was_loaded, "name", _name );
 
-    mandatory( jsobj, was_loaded, "bash_resist", _resistances[damage_type::BASH] );
-    mandatory( jsobj, was_loaded, "cut_resist", _resistances[damage_type::CUT] );
-    mandatory( jsobj, was_loaded, "acid_resist", _resistances[damage_type::ACID] );
-    mandatory( jsobj, was_loaded, "fire_resist", _resistances[damage_type::HEAT] );
-    mandatory( jsobj, was_loaded, "bullet_resist", _resistances[damage_type::BULLET] );
+    mandatory( jsobj, was_loaded, "bash_resist", _resistances[damage_bash] );
+    mandatory( jsobj, was_loaded, "cut_resist", _resistances[damage_cut] );
+    mandatory( jsobj, was_loaded, "acid_resist", _resistances[damage_acid] );
+    mandatory( jsobj, was_loaded, "fire_resist", _resistances[damage_heat] );
+    mandatory( jsobj, was_loaded, "bullet_resist", _resistances[damage_bullet] );
     optional( jsobj, was_loaded, "conductive", _conductive );
-    optional( jsobj, was_loaded, "elec_resist", _resistances[damage_type::ELECTRIC] );
-    optional( jsobj, was_loaded, "biologic_resist", _resistances[damage_type::BIOLOGICAL] );
-    optional( jsobj, was_loaded, "cold_resist", _resistances[damage_type::COLD] );
+    optional( jsobj, was_loaded, "elec_resist", _resistances[damage_electric] );
+    optional( jsobj, was_loaded, "biologic_resist", _resistances[damage_biological] );
+    optional( jsobj, was_loaded, "cold_resist", _resistances[damage_cold] );
     mandatory( jsobj, was_loaded, "chip_resist", _chip_resist );
     mandatory( jsobj, was_loaded, "density", _density );
 
@@ -131,7 +136,7 @@ void material_type::load( const JsonObject &jsobj, const std::string_view )
     if( _burn_data.empty() ) {
         // If not specified, supply default
         mat_burn_data mbd;
-        if( _resistances[damage_type::HEAT] <= 0 ) {
+        if( _resistances[damage_heat] <= 0 ) {
             mbd.burn = 1;
         }
         _burn_data.emplace_back( mbd );
@@ -183,10 +188,10 @@ itype_id material_type::repaired_with() const
     return _repaired_with;
 }
 
-float material_type::resist( damage_type dmg_type ) const
+float material_type::resist( const damage_type_id &dmg_type ) const
 {
-    if( dmg_type >= damage_type::NUM ) {
-        debugmsg( "Invalid damage type: %d", dmg_type );
+    if( dmg_type.is_null() || !dmg_type.is_valid() ) {
+        debugmsg( "Invalid damage type: %d", dmg_type.c_str() );
         return 0.0f;
     }
 
