@@ -6302,7 +6302,22 @@
       [
         {
           "condition": {
-            "and": [ { "or": [ { "u_has_move_mode": "crouch" }, { "u_has_move_mode": "prone" } ] }, { "not": "u_can_drop_weapon" }, { "u_has_any_trait": [ "THRESH_BEAST", "THRESH_FELINE", "THRESH_LUPINE", "THRESH_URSINE", "THRESH_RAT", "THRESH_CHIMERA", "THRESH_MOUSE", "THRESH_RABBIT" ] } ]
+            "and": [
+              { "or": [ { "u_has_move_mode": "crouch" }, { "u_has_move_mode": "prone" } ] },
+              { "not": "u_can_drop_weapon" },
+              {
+                "u_has_any_trait": [
+                  "THRESH_BEAST",
+                  "THRESH_FELINE",
+                  "THRESH_LUPINE",
+                  "THRESH_URSINE",
+                  "THRESH_RAT",
+                  "THRESH_CHIMERA",
+                  "THRESH_MOUSE",
+                  "THRESH_RABBIT"
+                ]
+              }
+            ]
           },
           "msg_on": { "text": "You drop down on all fours." },
           "msg_off": { "text": "You prance up and walk on your hind feet." }
@@ -6312,7 +6327,22 @@
     "enchantments": [
       {
         "condition": {
-          "and": [ { "or": [ { "u_has_move_mode": "crouch" }, { "u_has_move_mode": "prone" } ] }, { "not": "u_can_drop_weapon" }, { "u_has_any_trait": [ "THRESH_BEAST", "THRESH_FELINE", "THRESH_LUPINE", "THRESH_URSINE", "THRESH_RAT", "THRESH_CHIMERA", "THRESH_MOUSE", "THRESH_RABBIT" ] } ]
+          "and": [
+            { "or": [ { "u_has_move_mode": "crouch" }, { "u_has_move_mode": "prone" } ] },
+            { "not": "u_can_drop_weapon" },
+            {
+              "u_has_any_trait": [
+                "THRESH_BEAST",
+                "THRESH_FELINE",
+                "THRESH_LUPINE",
+                "THRESH_URSINE",
+                "THRESH_RAT",
+                "THRESH_CHIMERA",
+                "THRESH_MOUSE",
+                "THRESH_RABBIT"
+              ]
+            }
+          ]
         },
         "values": [ { "value": "MOVE_COST", "multiply": -0.5 } ]
       }
@@ -6348,7 +6378,22 @@
       [
         {
           "condition": {
-            "and": [ { "or": [ { "u_has_move_mode": "crouch" }, { "u_has_move_mode": "prone" } ] }, { "not": "u_can_drop_weapon" }, { "u_has_any_trait": [ "THRESH_BEAST", "THRESH_FELINE", "THRESH_LUPINE", "THRESH_URSINE", "THRESH_RAT", "THRESH_CHIMERA", "THRESH_MOUSE", "THRESH_RABBIT" ] } ]
+            "and": [
+              { "or": [ { "u_has_move_mode": "crouch" }, { "u_has_move_mode": "prone" } ] },
+              { "not": "u_can_drop_weapon" },
+              {
+                "u_has_any_trait": [
+                  "THRESH_BEAST",
+                  "THRESH_FELINE",
+                  "THRESH_LUPINE",
+                  "THRESH_URSINE",
+                  "THRESH_RAT",
+                  "THRESH_CHIMERA",
+                  "THRESH_MOUSE",
+                  "THRESH_RABBIT"
+                ]
+              }
+            ]
           },
           "msg_on": { "text": "You drop down on all fours." },
           "msg_off": { "text": "You prance up and walk on your hind feet." }
@@ -6358,7 +6403,22 @@
     "enchantments": [
       {
         "condition": {
-          "and": [ { "or": [ { "u_has_move_mode": "crouch" }, { "u_has_move_mode": "prone" } ] }, { "not": "u_can_drop_weapon" }, { "u_has_any_trait": [ "THRESH_BEAST", "THRESH_FELINE", "THRESH_LUPINE", "THRESH_URSINE", "THRESH_RAT", "THRESH_CHIMERA", "THRESH_MOUSE", "THRESH_RABBIT" ] } ]
+          "and": [
+            { "or": [ { "u_has_move_mode": "crouch" }, { "u_has_move_mode": "prone" } ] },
+            { "not": "u_can_drop_weapon" },
+            {
+              "u_has_any_trait": [
+                "THRESH_BEAST",
+                "THRESH_FELINE",
+                "THRESH_LUPINE",
+                "THRESH_URSINE",
+                "THRESH_RAT",
+                "THRESH_CHIMERA",
+                "THRESH_MOUSE",
+                "THRESH_RABBIT"
+              ]
+            }
+          ]
         },
         "values": [ { "value": "MOVE_COST", "multiply": -0.5 } ]
       }
@@ -8332,7 +8392,22 @@
       [
         {
           "condition": {
-            "and": [ { "or": [ { "u_has_move_mode": "crouch" }, { "u_has_move_mode": "prone" } ] }, { "not": "u_can_drop_weapon" }, { "u_has_any_trait": [ "THRESH_BEAST", "THRESH_FELINE", "THRESH_LUPINE", "THRESH_URSINE", "THRESH_RAT", "THRESH_CHIMERA", "THRESH_MOUSE", "THRESH_RABBIT" ] } ]
+            "and": [
+              { "or": [ { "u_has_move_mode": "crouch" }, { "u_has_move_mode": "prone" } ] },
+              { "not": "u_can_drop_weapon" },
+              {
+                "u_has_any_trait": [
+                  "THRESH_BEAST",
+                  "THRESH_FELINE",
+                  "THRESH_LUPINE",
+                  "THRESH_URSINE",
+                  "THRESH_RAT",
+                  "THRESH_CHIMERA",
+                  "THRESH_MOUSE",
+                  "THRESH_RABBIT"
+                ]
+              }
+            ]
           },
           "msg_on": { "text": "You drop down on all fours." },
           "msg_off": { "text": "You prance up and walk on your hind feet." }
@@ -8342,7 +8417,22 @@
     "enchantments": [
       {
         "condition": {
-          "and": [ { "or": [ { "u_has_move_mode": "crouch" }, { "u_has_move_mode": "prone" } ] }, { "not": "u_can_drop_weapon" }, { "u_has_any_trait": [ "THRESH_BEAST", "THRESH_FELINE", "THRESH_LUPINE", "THRESH_URSINE", "THRESH_RAT", "THRESH_CHIMERA", "THRESH_MOUSE", "THRESH_RABBIT" ] } ]
+          "and": [
+            { "or": [ { "u_has_move_mode": "crouch" }, { "u_has_move_mode": "prone" } ] },
+            { "not": "u_can_drop_weapon" },
+            {
+              "u_has_any_trait": [
+                "THRESH_BEAST",
+                "THRESH_FELINE",
+                "THRESH_LUPINE",
+                "THRESH_URSINE",
+                "THRESH_RAT",
+                "THRESH_CHIMERA",
+                "THRESH_MOUSE",
+                "THRESH_RABBIT"
+              ]
+            }
+          ]
         },
         "values": [ { "value": "MOVE_COST", "multiply": -0.5 } ]
       }
