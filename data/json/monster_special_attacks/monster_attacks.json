@@ -66,7 +66,7 @@
     "grab": true,
     "grab_data": { "grab_effect": "grabbed" },
     "//": "grab_strength preferentially set in the monster definition for clarity",
-    "forbidden_effects_all": [ "grabbing" ],
+    "condition": { "not": { "u_has_flag": "GRAB_FILTER" } },
     "self_effects_onhit": [ { "id": "grabbing", "duration": 3600, "permanent": true } ],
     "hit_dmg_u": "%1$s grabs your %2$s!",
     "hit_dmg_npc": "%1$s grabs <npcname>'s %2$s!",
@@ -82,8 +82,7 @@
     "damage_max_instance": [ { "damage_type": "bash", "amount": 0 } ],
     "grab": true,
     "grab_data": { "grab_effect": "grabbed" },
-    "forbidden_effects_any": [ "grabbing_2" ],
-    "required_effects_all": [ "grabbing" ],
+    "condition": { "and": [ { "u_has_flag": "GRAB_FILTER" }, { "not": { "u_has_effect": "grabbing_2" } } ] },
     "self_effects_onhit": [ { "id": "grabbing_2", "duration": 3600, "permanent": true } ],
     "hit_dmg_u": "%1$s grabs your %2$s with another appendage!",
     "hit_dmg_npc": "%1$s grabs <npcname>'s %2$s with another appendage!",
@@ -101,7 +100,7 @@
     "hitsize_min": 1,
     "range": 5,
     "grab": true,
-    "forbidden_effects_all": [ "grabbing" ],
+    "condition": { "not": { "u_has_flag": "GRAB_FILTER" } },
     "damage_max_instance": [ { "damage_type": "bash", "amount": 0 } ],
     "grab_data": {
       "pull_chance": 100,
@@ -112,6 +111,8 @@
       "pull_fail_msg_npc": "The %1$s reaches out and pulls <npcname>!"
     },
     "self_effects_onhit": [ { "id": "grabbing", "duration": 3600, "permanent": true } ],
+    "no_dmg_msg_u": "",
+    "no_dmg_msg_npc": "",
     "miss_msg_u": "The %s's arms fly out at you, but you dodge!",
     "miss_msg_npc": "The %s's arms fly out at <npcname>, but they dodge!"
   },
@@ -120,8 +121,7 @@
     "attack_type": "bite",
     "id": "bite_humanoid",
     "//": "bite for monsters who need to hold their target to bite - humanoid zombies, in effect",
-    "target_required_effects_all": [ "grabbed" ],
-    "required_effects_all": [ "grabbing" ],
+    "condition": { "and": [ { "u_has_flag": "GRAB_FILTER" }, { "npc_has_flag": "GRAB" } ] },
     "cooldown": 10,
     "move_cost": 100
   },
@@ -131,7 +131,7 @@
     "id": "bite_grab",
     "//": "For monsters like dogs who bite and hold",
     "grab": true,
-    "forbidden_effects_any": [ "grabbing", "maimed_mandible" ],
+    "condition": { "and": [ { "not": { "u_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "maimed_mandible" } } ] },
     "self_effects_onhit": [ { "id": "grabbing", "duration": 3600, "permanent": true } ],
     "hit_dmg_u": "%1$s bites your %2$s and latches on tightly!",
     "hit_dmg_npc": "%1$s bits <npcname>'s %2$s and latches on tightly!",
@@ -377,7 +377,7 @@
     "cooldown": 20,
     "move_cost": 150,
     "damage_max_instance": [ { "damage_type": "cut", "amount": 8 } ],
-    "forbidden_effects_any": [ "grabbing" ],
+    "condition": { "not": { "u_has_flag": "GRAB_FILTER" } },
     "hit_dmg_u": "%1$s claws at your %2$s!",
     "hit_dmg_npc": "%1$s claws at <npcname>!",
     "miss_msg_u": "%1$s claws at you, but you dodge!",
@@ -394,7 +394,7 @@
     "//": "For monsters who need to grab(bite) to start scratching, like dogs",
     "cooldown": 5,
     "move_cost": 100,
-    "required_effects_all": [ "grabbing" ],
+    "condition": { "u_has_flag": "GRAB_FILTER" },
     "damage_max_instance": [ { "damage_type": "cut", "amount": 8 } ],
     "hit_dmg_u": "%1$s claws at your %2$s while holding you!",
     "hit_dmg_npc": "%1$s claws at <npcname> while holding them!",
@@ -502,7 +502,7 @@
     "effects_require_dmg": false,
     "effects": [ { "id": "webbed", "duration": 300, "intensity": [ 1, 3 ] } ],
     "blockable": false,
-    "condition": { "npc_has_effect": "grabbed" },
+    "condition": { "npc_has_flag": "GRAB" },
     "hit_dmg_u": "%s grasps at you with silk-covered legs, engulfing you in sticky webs!",
     "hit_dmg_npc": "%s grabs <npcname> and covers them in sticky webs!",
     "miss_msg_u": "%s tries to grab you, but you dodge!",
@@ -521,8 +521,8 @@
     "attack_upper": false,
     "condition": {
       "and": [
+        { "u_has_flag": "GRAB_FILTER" },
         { "not": { "u_has_effect": "maimed_mandible" } },
-        { "u_has_effect": "grabbing" },
         { "not": { "npc_has_effect": "downed" } }
       ]
     },
