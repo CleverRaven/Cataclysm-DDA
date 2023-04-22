@@ -999,14 +999,6 @@ void Character::load( const JsonObject &data )
     if( data.has_member( "inv" ) ) {
         inv->json_load_items( data.get_member( "inv" ) );
     }
-    // this is after inventory is loaded to make it more obvious that
-    // it needs to be changed again when Character::i_at is removed for nested containers
-    if( savegame_loading_version < 28 ) {
-        activity.migrate_item_position( *this );
-        destination_activity.migrate_item_position( *this );
-        stashed_outbounds_activity.migrate_item_position( *this );
-        stashed_outbounds_backlog.migrate_item_position( *this );
-    }
 
     set_wielded_item( item() );
     data.read( "weapon", weapon );
