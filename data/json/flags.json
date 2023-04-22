@@ -596,35 +596,13 @@
   },
   {
     "id": "MC_MOBILE",
-    "type": "json_flag"
-  },
-  {
-    "id": "MC_RANDOM_STUFF",
-    "type": "json_flag"
-  },
-  {
-    "id": "MC_SCIENCE_STUFF",
-    "type": "json_flag"
-  },
-  {
-    "id": "MC_USED",
-    "type": "json_flag"
+    "type": "json_flag",
+    "info": "Can be used to <info>store data</info> for other devices."
   },
   {
     "id": "MC_HAS_DATA",
-    "type": "json_flag"
-  },
-  {
-    "id": "MC_MAY_BE_ENCRYPTED",
-    "type": "json_flag"
-  },
-  {
-    "id": "MC_ENCRYPTED",
-    "type": "json_flag"
-  },
-  {
-    "id": "MC_TURN_USED",
-    "type": "json_flag"
+    "type": "json_flag",
+    "info": "Some of your data is <info>stored</info> here."
   },
   {
     "id": "NO_PARASITES",
