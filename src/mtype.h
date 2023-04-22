@@ -241,6 +241,25 @@ struct monster_death_effect {
     void deserialize( const JsonObject &data );
 };
 
+struct mount_item_data {
+    /**
+     * If this monster is a rideable mount that spawns with a tied item (leash), this is the tied item id
+     */
+    itype_id tied;
+    /**
+     * If this monster is a rideable mount that spawns with a tack item, this is the tack item id
+     */
+    itype_id tack;
+    /**
+     * If this monster is a rideable mount that spawns with armor, this is the armor item id
+     */
+    itype_id armor;
+    /**
+     * If this monster is a rideable mount that spawns with storage bags, this is the storage item id
+     */
+    itype_id storage;
+};
+
 struct mtype {
     private:
         friend class MonsterGenerator;
@@ -465,6 +484,9 @@ struct mtype {
         itype_id mech_battery;
         /** Emission sources that cycle each turn the monster remains alive */
         std::map<emit_id, time_duration> emit_fields;
+
+        /** Mount-specific items this monster spawns with */
+        mount_item_data mount_items;
 
         /**
          * If this monster is a rideable mech with enhanced strength, this is the strength it gives to the player

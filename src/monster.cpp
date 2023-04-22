@@ -83,11 +83,14 @@ static const efftype_id effect_dripping_mechanical_fluid( "dripping_mechanical_f
 static const efftype_id effect_emp( "emp" );
 static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_grabbing( "grabbing" );
+static const efftype_id effect_has_bag( "has_bag" );
 static const efftype_id effect_heavysnare( "heavysnare" );
 static const efftype_id effect_hit_by_player( "hit_by_player" );
 static const efftype_id effect_in_pit( "in_pit" );
+static const efftype_id effect_leashed( "leashed" );
 static const efftype_id effect_lightsnare( "lightsnare" );
 static const efftype_id effect_monster_armor( "monster_armor" );
+static const efftype_id effect_monster_saddled( "monster_saddled" );
 static const efftype_id effect_natures_commune( "natures_commune" );
 static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_onfire( "onfire" );
@@ -239,6 +242,32 @@ monster::monster( const mtype_id &id ) : monster()
         item mech_bat_item = item( mech_bat, calendar::turn_zero );
         mech_bat_item.ammo_consume( rng( 0, max_charge ), tripoint_zero, nullptr );
         battery_item = cata::make_value<item>( mech_bat_item );
+    }
+    if( monster::has_flag( MF_PET_MOUNTABLE ) ) {
+        if( !type->mount_items.tied.is_empty() ) {
+            itype_id tied_item_id = itype_id( type->mount_items.tied );
+            item tied_item_item = item( tied_item_id, calendar::turn_zero );
+            add_effect( effect_leashed, 1_turns, true );
+            tied_item = cata::make_value<item>( tied_item_item );
+        }
+        if( !type->mount_items.tack.is_empty() ) {
+            itype_id tack_item_id = itype_id( type->mount_items.tack );
+            item tack_item_item = item( tack_item_id, calendar::turn_zero );
+            add_effect( effect_monster_saddled, 1_turns, true );
+            tack_item = cata::make_value<item>( tack_item_item );
+        }
+        if( !type->mount_items.armor.is_empty() ) {
+            itype_id armor_item_id = itype_id( type->mount_items.armor );
+            item armor_item_item = item( armor_item_id, calendar::turn_zero );
+            add_effect( effect_monster_armor, 1_turns, true );
+            armor_item = cata::make_value<item>( armor_item_item );
+        }
+        if( !type->mount_items.storage.is_empty() ) {
+            itype_id storage_item_id = itype_id( type->mount_items.storage );
+            item storage_item_item = item( storage_item_id, calendar::turn_zero );
+            add_effect( effect_has_bag, 1_turns, true );
+            tack_item = cata::make_value<item>( storage_item_item );
+        }
     }
     aggro_character = type->aggro_character;
 }

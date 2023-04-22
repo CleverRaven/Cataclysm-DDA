@@ -2066,6 +2066,16 @@
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PET_WONT_FOLLOW", "PET_MOUNTABLE", "PATH_AVOID_DANGER_1", "WARM" ]
   },
   {
+    "id": "mon_horse_police",
+    "type": "MONSTER",
+    "copy-from": "mon_horse",
+    "looks_like": "mon_horse",
+    "description": "A hooved grazing mammal with a mane of hair, a sweeping tail, and powerful-looking muscles.  This one has been trained to have less of a fear reaction in order to assist with riot control and standard police work.  With some effort, you should be able to get this one to trust you enough to ride it.",
+    "morale": 35,
+    "mount_items": { "tied": "rope_30", "tack": "horse_tack", "armor": "kevlar_armor_horse" },
+    "extend": { "flags": [ "COMBAT_MOUNT" ] }
+  },
+  {
     "id": "mon_lemming",
     "type": "MONSTER",
     "name": { "str": "lemming" },
