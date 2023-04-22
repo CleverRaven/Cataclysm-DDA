@@ -324,6 +324,12 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "bandolier_cowboy",
+    "entries": [ { "item": "357mag_jhp", "charges": 18 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "dog_lover_bag",
     "entries": [
       { "item": "rubber_harness_dog" },
@@ -5319,6 +5325,51 @@
         "items": [ "flag_jumpsuit" ],
         "entries": [ { "item": "bikini_top", "variant": "flag_bikini_top" }, { "item": "bikini_bottom", "variant": "flag_bikini_bottom" } ]
       }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "cowboy",
+    "name": "Cowboy",
+    "description": "You liked to spend your days taking care of the horses and cows, searching the perimeter of the ranch in your steed and looking out for anything suspicious, that's why you managed to escape in time when shit hit the fan.",
+    "points": 4,
+    "proficiencies": [ "prof_gunsmithing_basic" ],
+    "skills": [
+      { "level": 2, "name": "survival" },
+      { "level": 2, "name": "gun" },
+      { "level": 2, "name": "pistol" },
+      { "level": 1, "name": "swimming" },
+      { "level": 2, "name": "driving" }
+    ],
+    "pets": [ { "name": "mon_horse", "amount": 1 } ],
+    "items": {
+      "both": {
+        "items": [
+          "leather_belt",
+          "dress_shirt",
+          "jacket_leather",
+          "socks",
+          "cowboy_hat",
+          "wristwatch",
+          "backpack_leather",
+          "horse_tack",
+          "bullwhip",
+          "pockknife",
+          "jeans",
+          "chaps_leather",
+          "gloves_leather",
+          "boots_western",
+          "sunglasses"
+        ],
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "sw_619", "ammo-item": "357mag_jhp", "charges": 7 },
+          { "item": "western_holster", "contents-group": "bandolier_cowboy" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "sports_bra", "panties" ]
     }
   },
   {
