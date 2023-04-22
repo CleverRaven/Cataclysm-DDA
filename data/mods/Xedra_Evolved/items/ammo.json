@@ -24,6 +24,22 @@
     "qualities": [ [ "CUT", 1 ] ]
   },
   {
+    "type": "AMMO",
+    "id": "moon_tear_chain_link",
+    "category": "spare_parts",
+    "price": 150,
+    "price_postapoc": 50,
+    "name": { "str": "moon tears chain link" },
+    "symbol": "=",
+    "color": "light_gray",
+    "description": "A set of small moon tear rings, suitable for constructing chainmail.",
+    "material": [ "iron" ],
+    "volume": "250 ml",
+    "weight": "320 mg",
+    "ammo_type": "components",
+    "count": 425
+  },
+  {
     "id": "moon_tears_fasteners",
     "type": "AMMO",
     "category": "spare_parts",

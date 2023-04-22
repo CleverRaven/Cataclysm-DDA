@@ -24,8 +24,9 @@
     "difficulty": 1,
     "time": "3 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 1 ], [ "scrap_dreamdross", 1 ], [ "moon_tear_ingot", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
+    "components": [ [ [ "moon_tear_ingot", 1 ] ],  [ [ "scrap_dreamdross", 1 ] ] ],
     "tools": [ [ [ "hotcut", -1 ] ] ]
   },
   {

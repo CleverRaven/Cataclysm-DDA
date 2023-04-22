@@ -16,6 +16,21 @@
     "color": "light_blue"
   },
   {
+    "type": "GENERIC",
+    "id": "moon_tear_wire",
+    "symbol": ";",
+    "color": "light_gray",
+    "name": { "str": "moon tear wire" },
+    "description": "A length of thin, relatively stiff moon tear wire.",
+    "category": "spare_parts",
+    "price": 20000,
+    "price_postapoc": 100,
+    "material": [ "moon_tears" ],
+    "weight": "151 g",
+    "volume": "100 ml",
+    "to_hit": -2
+  }
+  {
     "id": "scrap_dreamdross",
     "type": "AMMO",
     "category": "spare_parts",
