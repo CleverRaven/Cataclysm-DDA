@@ -83,11 +83,7 @@
                           { "item": "gown", "prob": 10, "damage": [ 1, 4 ] },
                           { "item": "dress", "prob": 70, "damage": [ 1, 4 ] },
                           { "item": "sundress", "prob": 45, "damage": [ 1, 4 ] },
-                          { "group": "christmas_dresses", "prob": 50, "damage": [ 1, 4 ], "event": "christmas" },
-                          {
-                            "collection": [ { "item": "dress_wedding", "damage": [ 1, 4 ] }, { "item": "veil_wedding", "damage": [ 1, 4 ] } ],
-                            "prob": 1
-                          }
+                          { "group": "christmas_dresses", "prob": 50, "damage": [ 1, 4 ], "event": "christmas" }
                         ]
                       },
                       { "group": "dress_shoes", "prob": 30, "damage": [ 1, 4 ] },
@@ -99,7 +95,7 @@
                           { "item": "garter_belt", "prob": 10, "damage": [ 1, 4 ] }
                         ]
                       },
-                      { "item": "long_glove_white", "prob": 2, "damage": [ 1, 4 ] }
+                      { "item": "long_glove_white", "prob": 1, "damage": [ 1, 4 ] }
                     ],
                     "prob": 30
                   }
