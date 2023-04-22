@@ -1197,6 +1197,21 @@ const std::string &input_context::handle_input( const int timeout )
     next_action.type = input_event_t::error;
     const std::string *result = &CATA_ERROR;
     while( true ) {
+
+        //Allows "toggle_language_to_en" to also work on contexts other than "DEFAULTMODE"
+        const std::string pressed_key = next_action.text;
+        if( !pressed_key.empty() ) {
+            action_attributes attributes = inp_mngr.get_action_attributes( "toggle_language_to_en",
+                                           "DEFAULTMODE" );
+            char keybind = attributes.input_events.front().sequence.front();
+
+            if( *pressed_key.c_str() == keybind ) {
+                g->toggle_language_to_en();
+                g->invalidate_main_ui_adaptor();
+                ui_manager::redraw_invalidated();
+            }
+        } //
+
         next_action = inp_mngr.get_input_event( preferred_keyboard_mode );
         if( next_action.type == input_event_t::timeout ) {
             result = &TIMEOUT;
