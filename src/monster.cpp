@@ -2187,36 +2187,7 @@ int monster::get_worn_armor_val( const damage_type_id &dt ) const
 
 int monster::get_armor_type( const damage_type_id &dt, bodypart_id /*bp*/ ) const
 {
-    int worn_armor = get_worn_armor_val( dt );
-
-    if( dt == STATIC( damage_type_id( "pure" ) ) ) {
-        return worn_armor + static_cast<int>( type->armor_pure );
-    } else if( dt == STATIC( damage_type_id( "biological" ) ) ) {
-        return worn_armor + static_cast<int>( type->armor_biological );
-    } else if( dt == STATIC( damage_type_id( "bash" ) ) ) {
-        return worn_armor + static_cast<int>( type->armor_bash ) + get_armor_res_bonus( STATIC(
-                    damage_type_id( "bash" ) ) );
-    } else if( dt == STATIC( damage_type_id( "cut" ) ) ) {
-        return worn_armor + static_cast<int>( type->armor_cut ) + get_armor_res_bonus( STATIC(
-                    damage_type_id( "cut" ) ) );
-    } else if( dt == STATIC( damage_type_id( "bullet" ) ) ) {
-        return worn_armor + static_cast<int>( type->armor_bullet ) + get_armor_res_bonus( STATIC(
-                    damage_type_id( "bullet" ) ) );
-    } else if( dt == STATIC( damage_type_id( "acid" ) ) ) {
-        return worn_armor + static_cast<int>( type->armor_acid );
-    } else if( dt == STATIC( damage_type_id( "stab" ) ) ) {
-        return worn_armor + static_cast<int>( type->armor_stab ) + get_armor_res_bonus( STATIC(
-                    damage_type_id( "cut" ) ) ) * 0.8f;
-    } else if( dt == STATIC( damage_type_id( "heat" ) ) ) {
-        return worn_armor + static_cast<int>( type->armor_fire );
-    } else if( dt == STATIC( damage_type_id( "cold" ) ) ) {
-        return worn_armor + static_cast<int>( type->armor_cold );
-    } else if( dt == STATIC( damage_type_id( "electric" ) ) ) {
-        return worn_armor + static_cast<int>( type->armor_elec );
-    }
-
-    debugmsg( "Invalid damage type: %d", dt.c_str() );
-    return 0;
+    return get_worn_armor_val( dt ) + type->armor.type_resist( dt ) + get_armor_res_bonus( dt );
 }
 
 float monster::get_hit_base() const

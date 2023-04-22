@@ -1828,15 +1828,13 @@
     "melee_dice": 2,
     "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
-    "armor_bash": 4,
-    "armor_cut": 4,
-    "armor_bullet": 2,
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "weakpoint_sets": [ "wps_dinosaur_body" ],
     "hp": 120,
     "burn_into": "mon_zilophosaurus_scorched",
     "fungalize_into": "mon_zilophosaurus_fungus",
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR" ],
+    "armor": { "bash": 4, "cut": 4, "bullet": 2 }
   },
   {
     "type": "MONSTER",
@@ -1850,10 +1848,10 @@
     "speed": 65,
     "attack_cost": 65,
     "melee_dice_sides": 2,
-    "armor_cut": 5,
     "hp": 135,
     "burn_into": "mon_zeratosaurus_scorched",
-    "fungalize_into": "mon_zeratosaurus_fungus"
+    "fungalize_into": "mon_zeratosaurus_fungus",
+    "armor": { "bash": 2, "bullet": 2, "cut": 5 }
   },
   {
     "type": "MONSTER",
@@ -1880,8 +1878,6 @@
     "melee_dice": 4,
     "melee_dice_sides": 5,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
-    "armor_bash": 6,
-    "armor_cut": 8,
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "weakpoint_sets": [ "wps_dinosaur_body" ],
     "hp": 430,
@@ -1905,7 +1901,8 @@
     ],
     "harvest": "zed_dino_leather",
     "dissect": "dissect_dino_large_pred",
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR" ],
+    "armor": { "bash": 6, "cut": 8 }
   },
   {
     "type": "MONSTER",
@@ -1932,9 +1929,6 @@
     "melee_dice": 4,
     "melee_dice_sides": 7,
     "melee_damage": [ { "damage_type": "cut", "amount": 12 } ],
-    "armor_bash": 4,
-    "armor_cut": 3,
-    "armor_bullet": 2,
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "weakpoint_sets": [ "wps_dinosaur_body" ],
     "hp": 260,
@@ -1957,7 +1951,8 @@
     ],
     "harvest": "zed_dino_leather",
     "dissect": "dissect_dino_large_pred",
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR" ],
+    "armor": { "bash": 4, "cut": 3, "bullet": 2 }
   },
   {
     "type": "MONSTER",
@@ -1972,9 +1967,6 @@
     "melee_dice": 2,
     "melee_dice_sides": 2,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
-    "armor_bash": 4,
-    "armor_cut": 4,
-    "armor_bullet": 2,
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "weakpoint_sets": [ "wps_dinosaur_body" ],
     "hp": 190,
@@ -1993,7 +1985,8 @@
       "FILTHY",
       "WARM",
       "NIGHT_INVISIBILITY"
-    ]
+    ],
+    "armor": { "bash": 4, "cut": 4, "bullet": 2 }
   },
   {
     "type": "MONSTER",
@@ -2007,11 +2000,11 @@
     "melee_dice": 4,
     "melee_dice_sides": 5,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
-    "armor_bash": 11,
     "hp": 270,
     "special_attacks": [ [ "GRAB", 10 ], { "id": "teeth_zino_mid", "cooldown": 10 }, [ "LUNGE", 20 ] ],
     "burn_into": "mon_zacrocanthosaurus_scorched",
-    "fungalize_into": "mon_zacrocanthosaurus_fungus"
+    "fungalize_into": "mon_zacrocanthosaurus_fungus",
+    "armor": { "cut": 4, "bullet": 2, "bash": 11 }
   },
   {
     "type": "MONSTER",
@@ -2086,14 +2079,12 @@
     "melee_dice": 3,
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 14 } ],
-    "armor_bash": 5,
-    "armor_cut": 5,
-    "armor_bullet": 3,
     "hp": 270,
     "special_attacks": [ { "id": "teeth_zino_mid", "cooldown": 5 }, [ "GRAB", 7 ], [ "scratch", 20 ], [ "LUNGE", 5 ], [ "LONGSWIPE", 25 ] ],
     "burn_into": "mon_zalbertosaurus_scorched",
     "fungalize_into": "mon_zalbertosaurus_fungus",
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR" ],
+    "armor": { "bash": 5, "cut": 5, "bullet": 3 }
   },
   {
     "type": "MONSTER",
@@ -2110,13 +2101,11 @@
     "melee_dice": 3,
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 13 } ],
-    "armor_bash": 5,
-    "armor_cut": 5,
-    "armor_bullet": 3,
     "hp": 160,
     "burn_into": "mon_zianzhousaurus_scorched",
     "fungalize_into": "mon_zianzhousaurus_fungus",
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR" ],
+    "armor": { "bash": 5, "cut": 5, "bullet": 3 }
   },
   {
     "type": "MONSTER",
@@ -2173,8 +2162,6 @@
     "melee_dice": 5,
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 10 } ],
-    "armor_bash": 6,
-    "armor_cut": 8,
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "weakpoint_sets": [ "wps_lg_theropod_body" ],
     "hp": 400,
@@ -2198,7 +2185,8 @@
     ],
     "harvest": "zed_dino_feather",
     "dissect": "dissect_dino_large_pred",
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR" ],
+    "armor": { "bash": 6, "cut": 8 }
   },
   {
     "type": "MONSTER",
@@ -2225,9 +2213,6 @@
     "melee_dice": 1,
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
-    "armor_bash": 2,
-    "armor_cut": 4,
-    "armor_bullet": 2,
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "weakpoint_sets": [ "wps_dinosaur_body" ],
     "hp": 120,
@@ -2248,7 +2233,8 @@
       "NIGHT_INVISIBILITY"
     ],
     "harvest": "zed_dino_feather",
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR" ],
+    "armor": { "bash": 2, "cut": 4, "bullet": 2 }
   },
   {
     "type": "MONSTER",
@@ -2320,7 +2306,8 @@
     "special_attacks": [ [ "scratch", 10 ], [ "GRAB", 10 ], { "type": "bite", "cooldown": 5 }, [ "LONGSWIPE", 30 ] ],
     "burn_into": "mon_zothronychus_scorched",
     "fungalize_into": "mon_zothronychus_fungus",
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR" ],
+    "armor": { "bash": 4, "cut": 4, "bullet": 2 }
   },
   {
     "type": "MONSTER",
@@ -2339,7 +2326,8 @@
     "special_attacks": [ [ "scratch", 10 ], [ "GRAB", 10 ], { "type": "bite", "cooldown": 5 }, [ "LONGSWIPE", 30 ] ],
     "burn_into": "mon_zanzu_scorched",
     "fungalize_into": "mon_zanzu_fungus",
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR" ],
+    "armor": { "bash": 4, "cut": 4, "bullet": 2 }
   },
   {
     "type": "MONSTER",
@@ -2365,9 +2353,6 @@
     "melee_dice": 1,
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
-    "armor_bash": 4,
-    "armor_cut": 4,
-    "armor_bullet": 2,
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "weakpoint_sets": [ "wps_dinosaur_body" ],
     "hp": 45,
@@ -2393,7 +2378,8 @@
       "NIGHT_INVISIBILITY"
     ],
     "harvest": "zed_dino_feather",
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR" ],
+    "armor": { "bash": 4, "cut": 4, "bullet": 2 }
   },
   {
     "type": "MONSTER",
@@ -2413,7 +2399,8 @@
     "hp": 130,
     "burn_into": "mon_zutahraptor_scorched",
     "fungalize_into": "mon_zutahraptor_fungus",
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR" ],
+    "armor": { "bash": 3, "cut": 4, "bullet": 2 }
   },
   {
     "type": "MONSTER",
@@ -2438,9 +2425,6 @@
     "melee_dice": 2,
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "stab", "amount": 1 } ],
-    "armor_bash": 16,
-    "armor_cut": 21,
-    "armor_bullet": 7,
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_nat_armored" ],
     "weakpoint_sets": [ "wps_ankylosaurid_body" ],
     "hp": 375,
@@ -2449,7 +2433,8 @@
     "fungalize_into": "mon_zankylosaurus_fungus",
     "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "BASHES", "NIGHT_INVISIBILITY" ],
     "harvest": "zed_dino_leather",
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR" ],
+    "armor": { "bash": 16, "cut": 21, "bullet": 7 }
   },
   {
     "type": "MONSTER",
@@ -2465,15 +2450,13 @@
     "melee_dice": 2,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "stab", "amount": 1 } ],
-    "armor_bash": 5,
-    "armor_cut": 7,
-    "armor_bullet": 3,
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "weakpoint_sets": [ "wps_dinosaur_body" ],
     "hp": 135,
     "burn_into": "mon_zescelosaurus_scorched",
     "fungalize_into": "mon_zescelosaurus_fungus",
-    "upgrades": { "half_life": 15, "into": "mon_zescelosaurus_nightstalker" }
+    "upgrades": { "half_life": 15, "into": "mon_zescelosaurus_nightstalker" },
+    "armor": { "bash": 5, "cut": 7, "bullet": 3 }
   },
   {
     "type": "MONSTER",
@@ -3097,11 +3080,6 @@
     "melee_dice": 3,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-    "armor_bash": 0,
-    "armor_cut": 19,
-    "armor_bullet": 26,
-    "armor_acid": 3,
-    "armor_elec": 2,
     "bleed_rate": 50,
     "vision_day": 30,
     "vision_night": 3,
@@ -3111,7 +3089,8 @@
     "flags": [ "SEES", "HEARS", "PET_MOUNTABLE", "POISON", "NO_BREATHE", "REVIVES", "FILTHY", "HARDTOSHOOT" ],
     "harvest": "mr_bones",
     "weakpoint_sets": [ "wps_dinosaur_body" ],
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR" ],
+    "armor": { "bash": 0, "cut": 19, "acid": 3, "bullet": 26, "electric": 2 }
   },
   {
     "type": "MONSTER",
@@ -3428,7 +3407,6 @@
     "copy-from": "mon_zarahsaurus",
     "color": "white",
     "material": [ "bone" ],
-    "armor_bash": 0,
     "description": "This zombified sauropod has grown dense bone armor, completely covering the large, two-legged body and long neck.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -3446,7 +3424,8 @@
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR" ],
+    "armor": { "cut": 8, "bullet": 6, "bash": 0 }
   },
   {
     "type": "MONSTER",
@@ -3455,7 +3434,6 @@
     "copy-from": "mon_zanchisaurus",
     "color": "white",
     "material": [ "bone" ],
-    "armor_bash": 0,
     "description": "This zombified sauropod has grown dense bone armor, completely covering the large, four-legged body and long neck.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -3473,7 +3451,8 @@
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR" ],
+    "armor": { "cut": 8, "bullet": 6, "bash": 0 }
   },
   {
     "type": "MONSTER",
@@ -3482,7 +3461,6 @@
     "copy-from": "mon_zissi",
     "color": "white",
     "material": [ "bone" ],
-    "armor_bash": 0,
     "description": "This zombified sauropod has grown dense bone armor, completely covering the large, two-legged body and long neck.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -3500,7 +3478,8 @@
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR" ],
+    "armor": { "cut": 8, "bullet": 6, "bash": 0 }
   },
   {
     "type": "MONSTER",
@@ -3509,7 +3488,6 @@
     "copy-from": "mon_zaplocanthosaurus",
     "color": "white",
     "material": [ "bone" ],
-    "armor_bash": 0,
     "description": "This zombified sauropod has grown dense bone armor, completely covering the huge, four-legged body and long neck and tail.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -3527,7 +3505,8 @@
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR" ],
+    "armor": { "cut": 4, "bullet": 2, "bash": 0 }
   },
   {
     "type": "MONSTER",
@@ -3536,7 +3515,6 @@
     "copy-from": "mon_zamargasaurus",
     "color": "white",
     "material": [ "bone" ],
-    "armor_bash": 0,
     "description": "Already heavily protected, this zombified amargasaurus has grown even more spikes and denser bone armor, completely covering the massive, four-legged body.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -3554,7 +3532,8 @@
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR" ],
+    "armor": { "cut": 8, "bullet": 6, "bash": 0 }
   },
   {
     "type": "MONSTER",
@@ -3563,7 +3542,6 @@
     "copy-from": "mon_zapatosaurus",
     "color": "white",
     "material": [ "bone" ],
-    "armor_bash": 0,
     "description": "This zombified apatosaurus has grown dense bone armor, completely covering the massive, four-legged body.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -3581,7 +3559,8 @@
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR" ],
+    "armor": { "cut": 4, "bullet": 2, "bash": 0 }
   },
   {
     "type": "MONSTER",
@@ -3598,7 +3577,6 @@
     "copy-from": "mon_ziplodocus",
     "color": "white",
     "material": [ "bone" ],
-    "armor_bash": 0,
     "description": "This zombified diplodocus has grown dense bone armor, completely covering the massive, four-legged body and small head.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -3616,7 +3594,8 @@
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR" ],
+    "armor": { "cut": 4, "bullet": 2, "bash": 0 }
   },
   {
     "type": "MONSTER",
@@ -3625,7 +3604,6 @@
     "copy-from": "mon_zarosaurus",
     "color": "white",
     "material": [ "bone" ],
-    "armor_bash": 0,
     "description": "This zombified sauropod has grown dense bone armor, completely covering the massive, four-legged body and small head.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -3643,7 +3621,8 @@
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR" ],
+    "armor": { "cut": 4, "bullet": 2, "bash": 0 }
   },
   {
     "type": "MONSTER",
@@ -3668,7 +3647,6 @@
     "copy-from": "mon_zalamosaurus",
     "color": "white",
     "material": [ "bone" ],
-    "armor_bash": 0,
     "description": "This zombified alamosaurus has grown denser bone armor, completely covering the gigantic, four-legged body and spiked tail.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -3686,7 +3664,8 @@
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR" ],
+    "armor": { "cut": 19, "bullet": 3, "bash": 0 }
   },
   {
     "type": "MONSTER",
@@ -3695,7 +3674,6 @@
     "copy-from": "mon_ztegosaurus",
     "color": "white",
     "material": [ "bone" ],
-    "armor_bash": 0,
     "description": "Already heavily protected, this zombified stegosaurus has grown thick bone armor below its back plates as well as a larger and spikier bony tail.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -3713,7 +3691,8 @@
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR" ],
+    "armor": { "cut": 13, "bullet": 2, "bash": 0 }
   },
   {
     "type": "MONSTER",
@@ -3722,7 +3701,6 @@
     "copy-from": "mon_zesperosaurus",
     "color": "white",
     "material": [ "bone" ],
-    "armor_bash": 0,
     "description": "Already heavily protected, this zombified hesperosaurus has grown thick bone armor below its back plates as well as a larger and spikier bony tail.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -3740,7 +3718,8 @@
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR" ],
+    "armor": { "cut": 15, "bullet": 2, "bash": 0 }
   },
   {
     "type": "MONSTER",
@@ -3749,7 +3728,6 @@
     "copy-from": "mon_zastonia",
     "color": "white",
     "material": [ "bone" ],
-    "armor_bash": 0,
     "description": "Already heavily protected, this zombified four legged dinosaur with a beak and tail has grown even denser bone armor and spikes.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -3767,7 +3745,8 @@
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR" ],
+    "armor": { "cut": 23, "bullet": 11, "bash": 0 }
   },
   {
     "type": "MONSTER",
@@ -3776,7 +3755,6 @@
     "copy-from": "mon_zargoyleosaurus",
     "color": "white",
     "material": [ "bone" ],
-    "armor_bash": 0,
     "description": "Already heavily protected, this zombified four legged dinosaur with a beak and tail has grown even denser bone armor and spikes.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -3794,7 +3772,8 @@
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR" ],
+    "armor": { "cut": 13, "bullet": 6, "bash": 0 }
   },
   {
     "type": "MONSTER",
@@ -3803,7 +3782,6 @@
     "copy-from": "mon_zauropelta",
     "color": "white",
     "material": [ "bone" ],
-    "armor_bash": 0,
     "description": "Already heavily protected, this zombified four legged dinosaur with a beak and tail has grown even denser bone armor and spikes; it must also be even slower, which is hard to imagine.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -3821,7 +3799,8 @@
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR" ],
+    "armor": { "cut": 23, "bullet": 11, "bash": 0 }
   },
   {
     "type": "MONSTER",
@@ -3830,7 +3809,6 @@
     "copy-from": "mon_zodosaurus",
     "color": "white",
     "material": [ "bone" ],
-    "armor_bash": 0,
     "description": "Already heavily protected, this zombified four legged dinosaur with a beak and tail has grown even denser bone armor; it must also be even slower, which is hard to imagine.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -3848,7 +3826,8 @@
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR" ],
+    "armor": { "cut": 23, "bullet": 11, "bash": 0 }
   },
   {
     "type": "MONSTER",
@@ -3857,7 +3836,6 @@
     "copy-from": "mon_zanoplosaurus",
     "color": "white",
     "material": [ "bone" ],
-    "armor_bash": 0,
     "description": "Already heavily protected, this zombified four legged dinosaur with a beak and tail has grown even denser bone armor, while keeping the long, bony spikes.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -3875,7 +3853,8 @@
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR" ],
+    "armor": { "cut": 23, "bullet": 11, "bash": 0 }
   },
   {
     "type": "MONSTER",
@@ -3884,7 +3863,6 @@
     "copy-from": "mon_zedmontonia",
     "color": "white",
     "material": [ "bone" ],
-    "armor_bash": 0,
     "description": "Already heavily protected, this zombified four legged dinosaur with a beak and tail has grown even denser bone armor, while keeping the long, bony spikes.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -3902,7 +3880,8 @@
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR" ],
+    "armor": { "cut": 23, "bullet": 11, "bash": 0 }
   },
   {
     "type": "MONSTER",
@@ -3911,7 +3890,6 @@
     "copy-from": "mon_zzuul",
     "color": "white",
     "material": [ "bone" ],
-    "armor_bash": 0,
     "description": "Already heavily protected, this zombified four legged dinosaur with a beak and tail has grown even denser spiked bone armor as well as a larger and spikier bony tail.  It must be even slower, which is difficult to imagine.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -3929,7 +3907,8 @@
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR" ],
+    "armor": { "cut": 21, "bullet": 7, "bash": 0 }
   },
   {
     "type": "MONSTER",
@@ -3938,7 +3917,6 @@
     "copy-from": "mon_zyoplosaurus",
     "color": "white",
     "material": [ "bone" ],
-    "armor_bash": 0,
     "description": "Already heavily protected, this zombified four legged dinosaur with a beak and tail has grown even denser bone armor as well as a larger and spikier bony tail.  It must be even slower, which is difficult to imagine.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -3956,7 +3934,8 @@
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR" ],
+    "armor": { "cut": 21, "bullet": 7, "bash": 0 }
   },
   {
     "type": "MONSTER",
@@ -3966,7 +3945,6 @@
     "looks_like": "mon_ankylosaurus",
     "color": "white",
     "material": [ "bone" ],
-    "armor_bash": 0,
     "description": "Already heavily protected, this zombified four legged dinosaur with a beak and tail has grown even denser bone armor as well as a larger and spikier bony tail.  It must be even slower, which is difficult to imagine.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -3984,7 +3962,8 @@
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR" ],
+    "armor": { "cut": 23, "bullet": 11, "bash": 0 }
   },
   {
     "type": "MONSTER",
@@ -3993,7 +3972,6 @@
     "copy-from": "mon_zuoplocephalus",
     "color": "white",
     "material": [ "bone" ],
-    "armor_bash": 0,
     "description": "Already heavily protected, this zombified four legged dinosaur with a beak and tail has grown even denser bone armor as well as a larger and spikier bony tail.  It must be even slower, which is difficult to imagine.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -4011,7 +3989,8 @@
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR" ],
+    "armor": { "cut": 21, "bullet": 7, "bash": 0 }
   },
   {
     "type": "MONSTER",
@@ -4020,7 +3999,6 @@
     "copy-from": "mon_zcolosaurus",
     "color": "white",
     "material": [ "bone" ],
-    "armor_bash": 0,
     "description": "Already heavily protected, this zombified four legged dinosaur with a beak and tail has grown even denser bone armor as well as a larger and spikier bony tail.  It must be even slower, which is difficult to imagine.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -4038,7 +4016,8 @@
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR" ],
+    "armor": { "cut": 21, "bullet": 7, "bash": 0 }
   },
   {
     "type": "MONSTER",
@@ -4047,7 +4026,6 @@
     "copy-from": "mon_zamptosaurus",
     "color": "white",
     "material": [ "bone" ],
-    "armor_bash": 0,
     "description": "This large, four-legged dinosaur corpse with strong legs, broad shoulders, and a pointed beak has grown dense bone armor.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -4065,7 +4043,8 @@
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR" ],
+    "armor": { "cut": 4, "bullet": 2, "bash": 0 }
   },
   {
     "type": "MONSTER",
@@ -4074,7 +4053,6 @@
     "copy-from": "mon_zenontosaurus",
     "color": "white",
     "material": [ "bone" ],
-    "armor_bash": 0,
     "description": "This four-legged dinosaur corpse with a beak and large long tail has grown dense bone armor.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -4092,7 +4070,8 @@
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR" ],
+    "armor": { "cut": 4, "bullet": 2, "bash": 0 }
   },
   {
     "type": "MONSTER",
@@ -4101,7 +4080,6 @@
     "copy-from": "mon_zryosaurus",
     "color": "white",
     "material": [ "bone" ],
-    "armor_bash": 0,
     "description": "This two-legged dinosaur corpse with a long neck and beak has grown dense bone armor.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -4119,7 +4097,8 @@
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR" ],
+    "armor": { "cut": 4, "bullet": 2, "bash": 0 }
   },
   {
     "type": "MONSTER",
@@ -4128,7 +4107,6 @@
     "copy-from": "mon_zadrosaurus",
     "color": "white",
     "material": [ "bone" ],
-    "armor_bash": 0,
     "description": "This bulky, four-legged dinosaur corpse with a beak has grown dense bone armor.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -4146,7 +4124,8 @@
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR" ],
+    "armor": { "cut": 7, "bullet": 4, "bash": 0 }
   },
   {
     "type": "MONSTER",
@@ -4155,7 +4134,6 @@
     "copy-from": "mon_zaiasaura",
     "color": "white",
     "material": [ "bone" ],
-    "armor_bash": 0,
     "description": "This large, four-legged dinosaur corpse with a flat beak, thick nose, and small, spiky head crest has grown dense bone armor.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -4173,7 +4151,8 @@
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR" ],
+    "armor": { "cut": 7, "bullet": 4, "bash": 0 }
   },
   {
     "type": "MONSTER",
@@ -4182,7 +4161,6 @@
     "copy-from": "mon_zryposaurus",
     "color": "white",
     "material": [ "bone" ],
-    "armor_bash": 0,
     "description": "This large, four-legged dinosaur corpse with a toothless beak and powerful nasal arch has grown dense bone armor.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -4200,7 +4178,8 @@
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR" ],
+    "armor": { "cut": 6, "bullet": 4, "bash": 0 }
   },
   {
     "type": "MONSTER",
@@ -4209,7 +4188,6 @@
     "copy-from": "mon_zrosaurolophus",
     "color": "white",
     "material": [ "bone" ],
-    "armor_bash": 0,
     "description": "This large, four-legged dinosaur corpse with hooves, a short beak and a tall head crest has grown dense bone armor.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -4227,7 +4205,8 @@
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR" ],
+    "armor": { "cut": 6, "bullet": 4, "bash": 0 }
   },
   {
     "type": "MONSTER",
@@ -4236,7 +4215,6 @@
     "copy-from": "mon_zaurolophus",
     "color": "white",
     "material": [ "bone" ],
-    "armor_bash": 0,
     "description": "This large, four-legged dinosaur corpse with hooves, a broad beak and a spiky head crest has grown dense bone armor.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -4254,7 +4232,8 @@
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR" ],
+    "armor": { "cut": 6, "bullet": 4, "bash": 0 }
   },
   {
     "type": "MONSTER",
@@ -4263,7 +4242,6 @@
     "copy-from": "mon_zedmontosaurus",
     "color": "white",
     "material": [ "bone" ],
-    "armor_bash": 0,
     "description": "This large, four-legged dinosaur corpse with a broad, toothless beak has grown dense bone armor.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -4281,7 +4259,8 @@
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR" ],
+    "armor": { "cut": 6, "bullet": 4, "bash": 0 }
   },
   {
     "type": "MONSTER",
@@ -4290,7 +4269,6 @@
     "copy-from": "mon_zarasaurolophus",
     "color": "white",
     "material": [ "bone" ],
-    "armor_bash": 0,
     "description": "This large, four-legged dinosaur corpse with a blunt head crest has grown dense bone armor.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -4308,7 +4286,8 @@
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR" ],
+    "armor": { "cut": 7, "bullet": 4, "bash": 0 }
   },
   {
     "type": "MONSTER",
@@ -4317,7 +4296,6 @@
     "copy-from": "mon_zambeosaurus",
     "color": "white",
     "material": [ "bone" ],
-    "armor_bash": 0,
     "description": "This large, four-legged dinosaur corpse with a long stiff tail, hooves, a narrow beak and a tall head crest has grown dense bone armor.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -4335,7 +4313,8 @@
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR" ],
+    "armor": { "cut": 6, "bullet": 4, "bash": 0 }
   },
   {
     "type": "MONSTER",
@@ -4344,7 +4323,6 @@
     "copy-from": "mon_zorythosaurus",
     "color": "white",
     "material": [ "bone" ],
-    "armor_bash": 0,
     "description": "This large, four-legged dinosaur corpse with a short beak and a tall head crest has grown dense bone armor.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -4362,7 +4340,8 @@
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR" ],
+    "armor": { "cut": 6, "bullet": 4, "bash": 0 }
   },
   {
     "type": "MONSTER",
@@ -4371,7 +4350,6 @@
     "copy-from": "mon_zypacrosaurus",
     "color": "white",
     "material": [ "bone" ],
-    "armor_bash": 0,
     "description": "This large, four-legged dinosaur corpse with a tall ridge down the back, a tail, hooves, a short beak and a wide, rounded head crest has grown dense bone armor.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -4389,7 +4367,8 @@
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR" ],
+    "armor": { "cut": 6, "bullet": 4, "bash": 0 }
   },
   {
     "type": "MONSTER",
@@ -4398,7 +4377,6 @@
     "copy-from": "mon_zachycephalosaurus",
     "color": "white",
     "material": [ "bone" ],
-    "armor_bash": 0,
     "description": "This bipedal dinosaur corpse with a hard-looking, domed head has grown dense bone armor.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -4416,7 +4394,8 @@
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR" ],
+    "armor": { "cut": 4, "bash": 0 }
   },
   {
     "type": "MONSTER",
@@ -4425,7 +4404,6 @@
     "copy-from": "mon_zeptoceratops",
     "color": "white",
     "material": [ "bone" ],
-    "armor_bash": 0,
     "description": "This dinosaur corpse with a bony crest and sharp beak has grown dense bone armor over the rest of its body.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -4443,7 +4421,8 @@
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR" ],
+    "armor": { "cut": 7, "bullet": 3, "bash": 0 }
   },
   {
     "type": "MONSTER",
@@ -4452,7 +4431,6 @@
     "copy-from": "mon_zzuniceratops",
     "color": "white",
     "material": [ "bone" ],
-    "armor_bash": 0,
     "description": "This four-legged dinosaur with a tall thin bony head crest, two long brow horns, and a beak has grown dense bone armor over the rest of its body.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -4470,7 +4448,8 @@
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR" ],
+    "armor": { "cut": 7, "bullet": 3, "bash": 0 }
   },
   {
     "type": "MONSTER",
@@ -4479,7 +4458,6 @@
     "copy-from": "mon_ztyracosaurus",
     "color": "white",
     "material": [ "bone" ],
-    "armor_bash": 0,
     "description": "This large, four-legged dinosaur corpse with a spiked frill, a hooked beak and long horn above the nose has grown dense bone armor over the rest of its body.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -4497,7 +4475,8 @@
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR" ],
+    "armor": { "cut": 7, "bullet": 3, "bash": 0 }
   },
   {
     "type": "MONSTER",
@@ -4506,7 +4485,6 @@
     "copy-from": "mon_zentrosaurus",
     "color": "white",
     "material": [ "bone" ],
-    "armor_bash": 0,
     "description": "This large, four-legged dinosaur corpse with a hooked beak and long horn above the nose has grown dense bone armor over the rest of its body.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -4524,7 +4502,8 @@
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR" ],
+    "armor": { "cut": 7, "bullet": 3, "bash": 0 }
   },
   {
     "type": "MONSTER",
@@ -4533,7 +4512,6 @@
     "copy-from": "mon_zeiniosaurus",
     "color": "white",
     "material": [ "bone" ],
-    "armor_bash": 0,
     "description": "This large, four-legged dinosaur corpse with a tall bony crest and one large horn curving forward towards the beak has grown dense bone armor over the rest of its body.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -4551,7 +4529,8 @@
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR" ],
+    "armor": { "cut": 7, "bullet": 3, "bash": 0 }
   },
   {
     "type": "MONSTER",
@@ -4560,7 +4539,6 @@
     "copy-from": "mon_zachelousaurus",
     "color": "white",
     "material": [ "bone" ],
-    "armor_bash": 0,
     "description": "This large, four-legged dinosaur corpse with a tall bony crest with two long curved spikes and three rough bosses above the eyes and nose has grown dense bone armor over the rest of its body.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -4578,7 +4556,8 @@
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR" ],
+    "armor": { "cut": 7, "bullet": 3, "bash": 0 }
   },
   {
     "type": "MONSTER",
@@ -4587,7 +4566,6 @@
     "copy-from": "mon_zachyrhinosaurus",
     "color": "white",
     "material": [ "bone" ],
-    "armor_bash": 0,
     "description": "This large, four-legged dinosaur corpse with massive bony bosses on its nose and brow has grown dense bone armor over the rest of its body.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -4605,7 +4583,8 @@
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR" ],
+    "armor": { "cut": 7, "bullet": 3, "bash": 0 }
   },
   {
     "type": "MONSTER",
@@ -4614,7 +4593,6 @@
     "copy-from": "mon_zasmosaurus",
     "color": "white",
     "material": [ "bone" ],
-    "armor_bash": 0,
     "description": "This large, four-legged dinosaur corpse with a tall bony crest from which three short horns emerge above the eyes and beak has grown dense bone armor.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -4632,7 +4610,8 @@
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR" ],
+    "armor": { "cut": 9, "bullet": 3, "bash": 0 }
   },
   {
     "type": "MONSTER",
@@ -4641,7 +4620,6 @@
     "copy-from": "mon_zentaceratops",
     "color": "white",
     "material": [ "bone" ],
-    "armor_bash": 0,
     "description": "This large, four-legged dinosaur corpse with a tall bony crest, four long horns, and a short nose horn has grown dense bone armor.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -4659,7 +4637,8 @@
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR" ],
+    "armor": { "cut": 9, "bullet": 3, "bash": 0 }
   },
   {
     "type": "MONSTER",
@@ -4668,7 +4647,6 @@
     "copy-from": "mon_zosmoceratops",
     "color": "white",
     "material": [ "bone" ],
-    "armor_bash": 0,
     "description": "This large, four-legged dinosaur corpse with a bony crest and two wavy side horns has grown dense bone armor.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -4686,7 +4664,8 @@
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR" ],
+    "armor": { "cut": 7, "bullet": 4, "bash": 0 }
   },
   {
     "type": "MONSTER",
@@ -4695,7 +4674,6 @@
     "copy-from": "mon_zorosaurus",
     "color": "white",
     "material": [ "bone" ],
-    "armor_bash": 0,
     "description": "This large, four-legged dinosaur corpse with a tall bony crest and two wicked-looking horns has grown dense bone armor.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -4713,7 +4691,8 @@
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR" ],
+    "armor": { "cut": 9, "bullet": 3, "bash": 0 }
   },
   {
     "type": "MONSTER",
@@ -4722,7 +4701,6 @@
     "copy-from": "mon_zriceratops",
     "color": "white",
     "material": [ "bone" ],
-    "armor_bash": 0,
     "description": "This massive, four-legged dinosaur corpse with a tall bony crest and three wicked-looking horns has grown dense bone armor.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
@@ -4740,7 +4718,8 @@
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": [ "DINOSAUR" ],
+    "armor": { "cut": 7, "bullet": 3, "bash": 0 }
   },
   {
     "type": "MONSTER",
@@ -5589,9 +5568,6 @@
     "melee_dice": 2,
     "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
-    "armor_bash": 4,
-    "armor_cut": 4,
-    "armor_bullet": 2,
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_biochemistry" ],
     "weakpoint_sets": [ "wps_dinosaur_body" ],
     "hp": 100,
@@ -5615,7 +5591,8 @@
       "PUSH_MON",
       "WARM",
       "RANGED_ATTACKER"
-    ]
+    ],
+    "armor": { "bash": 4, "cut": 4, "bullet": 2 }
   },
   {
     "type": "MONSTER",
@@ -5645,9 +5622,6 @@
     "melee_dice": 2,
     "melee_dice_sides": 2,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
-    "armor_bash": 4,
-    "armor_cut": 5,
-    "armor_bullet": 2,
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_biochemistry" ],
     "weakpoint_sets": [ "wps_dinosaur_body" ],
     "description": "This zombie is enormous, scaly, and studded with bony spikes.  Sticky yellow fluid oozes out from sores in the scales.",
@@ -5671,6 +5645,7 @@
       "WARM",
       "SWIMS",
       "RANGED_ATTACKER"
-    ]
+    ],
+    "armor": { "bash": 4, "cut": 5, "bullet": 2 }
   }
 ]

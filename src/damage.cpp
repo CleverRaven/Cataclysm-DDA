@@ -365,18 +365,8 @@ resistances::resistances( const item &armor, bool to_self, int roll, const sub_b
     }
 }
 
-resistances::resistances( monster &monster ) : resistances()
+resistances::resistances( monster &monster ) : resistances( monster.type->armor )
 {
-    set_resist( STATIC( damage_type_id( "bash" ) ), monster.type->armor_bash );
-    set_resist( STATIC( damage_type_id( "cut" ) ),  monster.type->armor_cut );
-    set_resist( STATIC( damage_type_id( "stab" ) ), monster.type->armor_stab );
-    set_resist( STATIC( damage_type_id( "bullet" ) ), monster.type->armor_bullet );
-    set_resist( STATIC( damage_type_id( "acid" ) ), monster.type->armor_acid );
-    set_resist( STATIC( damage_type_id( "heat" ) ), monster.type->armor_fire );
-    set_resist( STATIC( damage_type_id( "cold" ) ), monster.type->armor_cold );
-    set_resist( STATIC( damage_type_id( "pure" ) ), monster.type->armor_pure );
-    set_resist( STATIC( damage_type_id( "biological" ) ), monster.type->armor_biological );
-    set_resist( STATIC( damage_type_id( "electric" ) ), monster.type->armor_elec );
 
 }
 void resistances::set_resist( const damage_type_id &dt, float amount )

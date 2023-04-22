@@ -23,11 +23,6 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "dodge": 2,
-    "armor_cut": 15,
-    "armor_bullet": 24,
-    "armor_stab": 30,
-    "armor_acid": 3,
-    "armor_elec": 3,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_bone_armor" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "bleed_rate": 50,
@@ -54,7 +49,8 @@
       "NO_FUNG_DMG",
       "FILTHY",
       "PATH_AVOID_DANGER_1"
-    ]
+    ],
+    "armor": { "cut": 15, "stab": 30, "acid": 3, "bullet": 24, "electric": 3 }
   },
   {
     "id": "mon_skeleton_necro",
@@ -79,11 +75,6 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "dodge": 2,
-    "armor_cut": 15,
-    "armor_bullet": 24,
-    "armor_stab": 30,
-    "armor_acid": 3,
-    "armor_elec": 3,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_bone_armor" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "bleed_rate": 50,
@@ -111,6 +102,7 @@
       "PRIORITIZE_TARGETS",
       "NO_FUNG_DMG",
       "FILTHY"
-    ]
+    ],
+    "armor": { "cut": 15, "stab": 30, "acid": 3, "bullet": 24, "electric": 3 }
   }
 ]

@@ -24,6 +24,7 @@
 #include "item.h"
 #include "item_group.h"
 #include "json.h"
+#include "make_static.h"
 #include "mattack_actors.h"
 #include "monattack.h"
 #include "mondeath.h"
@@ -409,36 +410,8 @@ void MonsterGenerator::finalize_mtypes()
             mon.bash_skill = calc_bash_skill( mon );
         }
 
-        if( mon.armor_bash < 0 ) {
-            mon.armor_bash = 0;
-        }
-        if( mon.armor_cut < 0 ) {
-            mon.armor_cut = 0;
-        }
-        if( mon.armor_stab < 0 ) {
-            mon.armor_stab = mon.armor_cut * 0.8;
-        }
-        if( mon.armor_bullet < 0 ) {
-            mon.armor_bullet = 0;
-        }
-        if( mon.armor_acid < 0 ) {
-            mon.armor_acid = mon.armor_cut * 0.5;
-        }
-        if( mon.armor_fire < 0 ) {
-            mon.armor_fire = 0;
-        }
-        if( mon.armor_elec < 0 ) {
-            mon.armor_elec = 0;
-        }
-        if( mon.armor_cold < 0 ) {
-            mon.armor_cold = 0;
-        }
-        if( mon.armor_pure < 0 ) {
-            mon.armor_pure = 0;
-        }
-        if( mon.armor_biological < 0 ) {
-            mon.armor_biological = 0;
-        }
+        finalize_damage_map( mon.armor.resist_vals, true );
+
         if( mon.status_chance_multiplier < 0 ) {
             mon.status_chance_multiplier = 0;
         }
@@ -467,6 +440,7 @@ void MonsterGenerator::finalize_mtypes()
             mon.weakpoints.add_from_set( wpset, true );
         }
         if( !mon.weakpoints_deferred_inline.weakpoint_list.empty() ) {
+            mon.weakpoints_deferred_inline.finalize();
             mon.weakpoints.add_from_set( mon.weakpoints_deferred_inline, true );
         }
         for( const std::string &wp_del : mon.weakpoints_deferred_deleted ) {
@@ -479,6 +453,7 @@ void MonsterGenerator::finalize_mtypes()
                 }
             }
         }
+        mon.weakpoints.finalize();
     }
 
     for( const mtype &mon : mon_templates->get_all() ) {
@@ -769,16 +744,10 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     assign( jo, "grab_strength", grab_strength, strict, 0 );
 
     assign( jo, "dodge", sk_dodge, strict, 0 );
-    assign( jo, "armor_bash", armor_bash, strict, 0 );
-    assign( jo, "armor_cut", armor_cut, strict, 0 );
-    assign( jo, "armor_bullet", armor_bullet, strict, 0 );
-    assign( jo, "armor_stab", armor_stab, strict, 0 );
-    assign( jo, "armor_acid", armor_acid, strict, 0 );
-    assign( jo, "armor_fire", armor_fire, strict, 0 );
-    assign( jo, "armor_elec", armor_elec, strict, 0 );
-    assign( jo, "armor_cold", armor_cold, strict, 0 );
-    assign( jo, "armor_pure", armor_pure, strict, 0 );
-    assign( jo, "armor_biological", armor_biological, strict, 0 );
+
+    if( jo.has_object( "armor" ) ) {
+        armor = load_resistances_instance( jo.get_object( "armor" ) );
+    }
 
     optional( jo, was_loaded, "trap_avoids", trap_avoids );
 
@@ -1164,8 +1133,14 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         optional( jop, was_loaded, "avoid_sharp", path_settings.avoid_sharp, false );
     }
     float melee_dmg_total = melee_damage.total_damage();
+    float armor_diff = 3.0f;
+    for( const auto &dt : armor.resist_vals ) {
+        if( dt.first->mon_difficulty ) {
+            armor_diff += dt.second;
+        }
+    }
     difficulty = ( melee_skill + 1 ) * melee_dice * ( melee_dmg_total + melee_sides ) * 0.04 +
-                 ( sk_dodge + 1 ) * ( 3 + armor_bash + armor_cut ) * 0.04 +
+                 ( sk_dodge + 1 ) * armor_diff * 0.04 +
                  ( difficulty_base + special_attacks.size() + 8 * emit_fields.size() );
     difficulty *= ( hp + speed - attack_cost + ( morale + agro ) * 0.1 ) * 0.01 +
                   ( vision_day + 2 * vision_night ) * 0.01;

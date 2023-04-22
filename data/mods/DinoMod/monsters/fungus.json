@@ -687,9 +687,9 @@
     "type": "MONSTER",
     "name": { "str": "fungal sauropelta zombie" },
     "description": "Once a heavily armored four legged dinosaur with a beak, a long tail, and long wicked-looking spikes jutting out of the neck, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh and bone.",
-    "armor_cut": 30,
     "copy-from": "mon_zodosaurus_fungus",
-    "upgrades": {  }
+    "upgrades": {  },
+    "armor": { "bash": 16, "bullet": 7, "cut": 30 }
   },
   {
     "id": "mon_zodosaurus_fungus",
