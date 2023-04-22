@@ -3111,6 +3111,7 @@ void bionic::serialize( JsonOut &json ) const
     if( is_safe_fuel_on() ) {
         json.member( "safe_fuel_threshold", safe_fuel_threshold );
     }
+    json.member( "show_sprite", show_sprite );
 
     if( has_weapon() ) {
         json.member( "weapon", weapon );
@@ -3161,6 +3162,9 @@ void bionic::deserialize( const JsonObject &jo )
     }
     if( jo.has_float( "safe_fuel_threshold" ) ) {
         safe_fuel_threshold = jo.get_float( "safe_fuel_threshold" );
+    }
+    if( jo.has_bool( "show_sprite" ) ) {
+        show_sprite = jo.get_bool( "show_sprite" );
     }
     if( jo.has_array( "bionic_tags" ) ) {
         for( const std::string line : jo.get_array( "bionic_tags" ) ) {
