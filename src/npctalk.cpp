@@ -2719,10 +2719,14 @@ void talk_effect_fun_t::set_location_variable( const JsonObject &jo, const std::
         target_types++;
         search_type = "trap";
     }
+    if( jo.has_member( "zone" ) ) {
+        target_types++;
+        search_type = "zone";
+    }
     if( target_types == 1 ) {
         search_target = get_str_or_var( jo.get_member( search_type.value() ), search_type.value(), true );
     } else if( target_types > 1 ) {
-        jo.throw_error( "Can only have one of terrain, furniture, monster, trap, or npc." );
+        jo.throw_error( "Can only have one of terrain, furniture, monster, trap, zone, or npc." );
     }
 
     var_info var = read_var_info( jo.get_object( member ) );
@@ -2735,10 +2739,9 @@ void talk_effect_fun_t::set_location_variable( const JsonObject &jo, const std::
     function = [dov_min_radius, dov_max_radius, var_name, outdoor_only, target_params, is_npc, type,
                                 dov_x_adjust, dov_y_adjust, dov_z_adjust, z_override, true_eocs, false_eocs, search_target,
                     search_type, dov_target_min_radius, dov_target_max_radius]( dialogue const & d ) {
-        map &here = get_map();
         tripoint_abs_ms avatar_pos = get_avatar().get_location();
         talker *target = d.actor( is_npc );
-        tripoint talker_pos = here.getabs( target->pos() );
+        tripoint talker_pos = get_map().getabs( target->pos() );
         tripoint target_pos = talker_pos;
         if( target_params.has_value() ) {
             const tripoint_abs_omt omt_pos = mission_util::get_om_terrain_pos( target_params.value() );
@@ -2746,17 +2749,20 @@ void talk_effect_fun_t::set_location_variable( const JsonObject &jo, const std::
                                    project_to<coords::ms>( omt_pos ).z() );
         }
         const tripoint_abs_ms abs_ms( target_pos );
-        bool shifted = false;
-        if( !here.inbounds( abs_ms ) ) {
-            g->place_player_overmap( project_to<coords::omt>( abs_ms ), false );
-            shifted = true;
-        }
+        map distant_map;
+        distant_map.load( project_to<coords::sm>( abs_ms ), false );
+
+        map &here = ( get_map().inbounds( abs_ms ) ) ? get_map() : distant_map;
+
         if( search_target.has_value() ) {
+            if( search_type.value() == "monster" && !get_map().inbounds( abs_ms ) ) {
+                here.spawn_monsters( true, true );
+            }
             int min_target_dist = dov_target_min_radius.evaluate( d );
             std::string cur_search_target = search_target.value().evaluate( d );
             bool found = false;
-            auto points = here.points_in_radius( here.getlocal( abs_ms ),
-                                                 size_t( dov_target_max_radius.evaluate( d ) ), size_t( 0 ) );
+            tripoint_range<tripoint> points = here.points_in_radius( here.getlocal( abs_ms ),
+                                              size_t( dov_target_max_radius.evaluate( d ) ), size_t( 0 ) );
             for( const tripoint &search_loc : points ) {
                 if( rl_dist( here.getlocal( talker_pos ), search_loc ) <= min_target_dist ) {
                     continue;
@@ -2768,24 +2774,28 @@ void talk_effect_fun_t::set_location_variable( const JsonObject &jo, const std::
                         break;
                     }
                 } else if( search_type.value() == "furniture" ) {
-                    if( here.furn( search_loc ).id().c_str() == cur_search_target || cur_search_target.empty() ) {
+                    if( here.furn( search_loc ).id().c_str() == cur_search_target ||
+                        ( !here.furn( search_loc ).id().is_null() && cur_search_target.empty() ) ) {
                         target_pos = here.getabs( search_loc );
                         found = true;
                         break;
                     }
                 } else if( search_type.value() == "trap" ) {
-                    if( here.tr_at( search_loc ).id.c_str() == cur_search_target || cur_search_target.empty() ) {
+                    if( here.tr_at( search_loc ).id.c_str() == cur_search_target ||
+                        ( !here.tr_at( search_loc ).is_null() &&
+                          cur_search_target.empty() ) ) {
                         target_pos = here.getabs( search_loc );
                         found = true;
                         break;
                     }
                 } else if( search_type.value() == "monster" ) {
-                    Creature *tmp_critter = get_creature_tracker().creature_at( search_loc );
+                    Creature *tmp_critter = get_creature_tracker().creature_at( here.getglobal( search_loc ) );
                     if( tmp_critter != nullptr && tmp_critter->is_monster() &&
                         ( tmp_critter->as_monster()->type->id.c_str() == cur_search_target ||
                           cur_search_target.empty() ) ) {
                         target_pos = here.getabs( search_loc );
                         found = true;
+                        g->despawn_nonlocal_monsters();
                         break;
                     }
                 } else if( search_type.value() == "npc" ) {
@@ -2798,13 +2808,20 @@ void talk_effect_fun_t::set_location_variable( const JsonObject &jo, const std::
                             break;
                         }
                     }
+                } else if( search_type.value() == "zone" ) {
+                    zone_manager &mgr = zone_manager::get_manager();
+                    if( mgr.get_zone_at( here.getglobal( search_loc ), zone_type_id( cur_search_target ) ) ) {
+                        target_pos = here.getabs( search_loc );
+                        found = true;
+                        break;
+                    }
                 }
             }
             talker_pos = target_pos;
+            if( search_type.value() == "monster" ) {
+                g->despawn_nonlocal_monsters();
+            }
             if( !found ) {
-                if( shifted ) {
-                    g->place_player_overmap( project_to<coords::omt>( avatar_pos ), false );
-                }
                 run_eoc_vector( false_eocs, d );
                 return;
             }
@@ -2824,9 +2841,6 @@ void talk_effect_fun_t::set_location_variable( const JsonObject &jo, const std::
                 }
             }
             if( !found ) {
-                if( shifted ) {
-                    g->place_player_overmap( project_to<coords::omt>( avatar_pos ), false );
-                }
                 run_eoc_vector( false_eocs, d );
                 return;
             }
@@ -2843,9 +2857,6 @@ void talk_effect_fun_t::set_location_variable( const JsonObject &jo, const std::
                                                 dov_z_adjust.evaluate( d ) );
         }
         write_var_value( type, var_name, d.actor( type == var_type::npc ), target_pos.to_string() );
-        if( shifted ) {
-            g->place_player_overmap( project_to<coords::omt>( avatar_pos ), false );
-        }
         run_eoc_vector( true_eocs, d );
     };
 }

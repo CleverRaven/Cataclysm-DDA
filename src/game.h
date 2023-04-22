@@ -949,6 +949,8 @@ class game
          * point to a different monster after calling this (or to no monster at all).
          */
         void despawn_monster( monster &critter );
+        // Despawn all monsters not in the reality bubble
+        void despawn_nonlocal_monsters();
     private:
         // Routine loop functions, approximately in order of execution
         void open_consume_item_menu(); // Custom menu for consuming specific group of items
