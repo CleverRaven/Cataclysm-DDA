@@ -1203,12 +1203,16 @@ const std::string &input_context::handle_input( const int timeout )
         if( !pressed_key.empty() ) {
             action_attributes attributes = inp_mngr.get_action_attributes( "toggle_language_to_en",
                                            "DEFAULTMODE" );
-            char keybind = attributes.input_events.front().sequence.front();
-
-            if( *pressed_key.c_str() == keybind ) {
-                g->toggle_language_to_en();
-                g->invalidate_main_ui_adaptor();
-                ui_manager::redraw_invalidated();
+            if( !attributes.input_events.empty() ) {
+                input_event input = attributes.input_events.front();
+                if( !input.sequence.empty() ) {
+                    char keybind = input.sequence.front();
+                    if( *pressed_key.c_str() == keybind ) {
+                        g->toggle_language_to_en();
+                        g->invalidate_main_ui_adaptor();
+                        ui_manager::redraw_invalidated();
+                    }
+                }
             }
         } //
 
