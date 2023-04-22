@@ -26,7 +26,7 @@
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "components": [ [ [ "moon_tear_ingot", 1 ] ],  [ [ "scrap_dreamdross", 1 ] ] ],
+    "components": [ [ [ "moon_tear_ingot", 1 ] ], [ [ "scrap_dreamdross", 1 ] ] ],
     "tools": [ [ [ "hotcut", -1 ] ] ]
   },
   {
