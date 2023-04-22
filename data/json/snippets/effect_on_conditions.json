@@ -258,6 +258,26 @@
   },
   {
     "type": "snippet",
+    "category": "PORTAL_STORM_WITNESSED",
+    "text": [
+      "You hear a voice whispering from behind you \"We can see you.\"",
+      "You hear a voice whispering from behind you \"What is it?\" \"What should we do with it?\"",
+      "You hear a voice whispering from behind you \"Smile thing, you're ours now\"",
+      "You hear a voice whispering from behind you \"Running wont help you.\"",
+      "You hear a voice whispering from behind you \"What's the rush?\"",
+      "You hear a voice whispering from behind you \"It's getting away!\""
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "PORTAL_STORM_VOICES_DRAW_ATTENTION",
+    "text": [
+      "You hear an angry voice shouting \"YOU FOOLS IT'S OVER THERE!\"",
+      "You hear an angry voice shouting \"QUICKLY CRUSH THE DISSENTER!\""
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "PORTAL_STORM_DUNGEON_ANGRY",
     "text": [
       "You hear an angry voice shouting \"BEGONE!  YOU ARE TOO BLAND AND RIGID FOR THIS PARADISE!\"",

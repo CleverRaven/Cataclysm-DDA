@@ -270,6 +270,76 @@
     }
   },
   {
+    "id": "mist",
+    "type": "weather_type",
+    "name": "Mist",
+    "color": "light_gray",
+    "map_color": "dark_gray_white",
+    "sym": "~",
+    "ranged_penalty": 3,
+    "sight_penalty": 1.3,
+    "light_modifier": -20,
+    "sun_multiplier": 0.3,
+    "sound_attn": 0,
+    "dangerous": false,
+    "precip": "none",
+    "rains": false,
+    "sound_category": "silent",
+    "priority": 20,
+    "required_weathers": [ "clear", "sunny" ],
+    "condition": {
+      "and": [
+        { "math": [ "u_val( 'weather:windpower' )", "<", "12" ] },
+        { "math": [ "u_val( 'weather:windpower' )", ">", "0" ] },
+        { "math": [ "dew_point_factor", "<", "5" ] }
+      ]
+    }
+  },
+  {
+    "id": "fog",
+    "type": "weather_type",
+    "name": "Fog",
+    "color": "light_gray",
+    "map_color": "dark_gray_white",
+    "sym": "~",
+    "ranged_penalty": 7,
+    "sight_penalty": 1.7,
+    "light_modifier": -40,
+    "sun_multiplier": 0.3,
+    "sound_attn": 0,
+    "dangerous": false,
+    "precip": "none",
+    "rains": false,
+    "sound_category": "silent",
+    "priority": 20,
+    "required_weathers": [ "mist" ],
+    "condition": {
+      "and": [
+        { "math": [ "u_val( 'weather:windpower' )", "<", "12" ] },
+        { "math": [ "u_val( 'weather:windpower' )", ">", "0" ] },
+        { "math": [ "dew_point_factor", "<=", "2.5" ] }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DEW_POINT_FACTOR",
+    "recurrence": [ "15 minutes", "30 minutes" ],
+    "//": "First and second math calculate the dew point, the third calculate how close the weather to the point it can form a fog",
+    "//2": "dew_point_factor is a difference between actual temperature and the dew point.  the closer it gets to zero, the bigger probability to cause a mist or dew, starting somewhere from 2,5 centigrade or 5 fahrenheit, to zero",
+    "effect": [
+      {
+        "math": [
+          "dprhx",
+          "=",
+          "log ( u_val( 'weather:humidity' ) / 100 ) + 17.625 * u_val( 'weather:temperature' ) / ( 469.5 + u_val( 'weather:temperature' ) )"
+        ]
+      },
+      { "math": [ "dew_point", "=", "469.5 * dprhx / ( 17.625 - dprhx )" ] },
+      { "math": [ "dew_point_factor", "=", "u_val('weather: temperature') - ( dew_point )" ] }
+    ]
+  },
+  {
     "id": "early_portal_storm",
     "type": "weather_type",
     "name": "Early Portal Storm",

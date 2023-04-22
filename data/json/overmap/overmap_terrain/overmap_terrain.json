@@ -722,25 +722,6 @@
   {
     "type": "overmap_terrain",
     "id": [
-      "parking_2x1_0",
-      "parking_2x1_1",
-      "parking_2x2_0_0",
-      "parking_2x2_0_1",
-      "parking_2x2_1_0",
-      "parking_2x2_1_1",
-      "parking_3x1_0",
-      "parking_3x1_1",
-      "parking_3x1_2"
-    ],
-    "name": "parking lot",
-    "sym": "O",
-    "color": "dark_gray",
-    "see_cost": 2,
-    "flags": [ "SHOULD_NOT_SPAWN" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [
       "irradiator_1_1",
       "irradiator_1_2",
       "irradiator_1_3",

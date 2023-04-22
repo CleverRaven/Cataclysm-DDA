@@ -2131,6 +2131,7 @@
   {
     "id": "fencing_foil",
     "type": "GENERIC",
+    "category": "weapons",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "fencing foil" },
@@ -2239,6 +2240,7 @@
   {
     "id": "shock_epee",
     "type": "TOOL",
+    "category": "weapons",
     "copy-from": "fencing_epee_sharpened",
     "looks_like": "fencing_epee",
     "name": { "str": "electrified épée" },
@@ -2261,6 +2263,7 @@
   {
     "id": "shock_sabre",
     "type": "TOOL",
+    "category": "weapons",
     "copy-from": "fencing_sabre_sharpened",
     "looks_like": "fencing_sabre",
     "name": { "str": "electrified saber" },

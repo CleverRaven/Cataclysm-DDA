@@ -38,6 +38,7 @@
       { "item": "flour", "charges": [ 1, 70 ], "prob": 40 },
       { "item": "flour", "charges": [ 1, 175 ], "prob": 10, "container-item": "bag_plastic" },
       { "item": "yeast", "prob": 50 },
+      { "item": "yogurt_starter_culture", "prob": 8 },
       { "item": "cornmeal", "prob": 40 },
       { "item": "dry_meat", "prob": 10 },
       { "item": "dry_fish", "prob": 10 },

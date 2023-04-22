@@ -288,6 +288,17 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "quiver_modern_archer",
+    "entries": [
+      { "item": "arrow_cf", "charges": 16 },
+      { "item": "bow_sight" },
+      { "item": "bow_stabilizer_set" },
+      { "item": "manual_archery" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "quiver_bow_hunter",
     "entries": [ { "item": "arrow_cf", "charges": 10 } ]
   },
@@ -2294,6 +2305,39 @@
       "male": [ "briefs", "citrine_gold_cufflinks" ],
       "female": [ "bra", "panties", "gold_ear" ]
     }
+  },
+  {
+    "type": "profession",
+    "id": "modern_archer",
+    "name": "Modern Archer",
+    "description": "A great fan of the archers of old, but at the same time a follower of the latest trends in archery.  You always tried to keep up with the times, acquiring a takedown bow as well as several accessories to complement it.  You can only hope all the training you did with them can help you survive in this trying times.",
+    "points": 4,
+    "proficiencies": [ "prof_bow_basic", "prof_bow_expert" ],
+    "skills": [ { "level": 2, "name": "gun" }, { "level": 2, "name": "archery" }, { "level": 1, "name": "swimming" } ],
+    "items": {
+      "both": {
+        "items": [
+          "whistle",
+          "socks",
+          "boots_steel",
+          "pants_cargo",
+          "jacket_leather",
+          "fancy_sunglasses",
+          "hat_boonie",
+          "diving_watch",
+          "caff_gum"
+        ],
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "item": "rashguard", "variant": "black_rashguard_shirt" },
+          { "item": "takedown_recurbow", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "quiver_takedown_bow", "contents-group": "quiver_modern_archer" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "sports_bra", "boxer_shorts" ]
+    },
+    "missions": [ "MISSION_HUNTER" ]
   },
   {
     "type": "profession",
