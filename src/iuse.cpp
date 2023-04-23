@@ -5751,7 +5751,7 @@ static void init_memory_card_with_random_stuff( item &it )
     }
 }
 
-static int get_quality_from_string( const std::string &s )
+static int get_quality_from_string( const std::string_view s )
 {
     const ret_val<int> try_quality = try_parse_integer<int>( s, false );
     if( try_quality.success() ) {

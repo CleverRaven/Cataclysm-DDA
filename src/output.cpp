@@ -1445,7 +1445,8 @@ std::string word_rewrap( const std::string &in, int width, const uint32_t split 
     return o;
 }
 
-void draw_tab( const catacurses::window &w, int iOffsetX, const std::string &sText, bool bSelected )
+void draw_tab( const catacurses::window &w, int iOffsetX, const std::string_view sText,
+               bool bSelected )
 {
     int iOffsetXRight = iOffsetX + utf8_width( sText, true ) + 1;
 

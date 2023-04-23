@@ -827,7 +827,7 @@ class JsonOut
             write( io::enum_to_string<E>( value ) );
         }
 
-        void write_as_string( const std::string &s ) {
+        void write_as_string( const std::string_view s ) {
             write( s );
         }
 

@@ -1322,7 +1322,7 @@ void conditional_t::set_compare_num( const JsonObject &jo, const std::string_vie
     }
 }
 
-void conditional_t::set_math( const JsonObject &jo, const std::string &member )
+void conditional_t::set_math( const JsonObject &jo, const std::string_view member )
 {
     eoc_math math;
     math.from_json( jo, member );
@@ -2581,7 +2581,7 @@ void talk_effect_fun_t::set_arithmetic( const JsonObject &jo, const std::string_
     }
 }
 
-void talk_effect_fun_t::set_math( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_math( const JsonObject &jo, const std::string_view member )
 {
     eoc_math math;
     math.from_json( jo, member );

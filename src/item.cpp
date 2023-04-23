@@ -1608,7 +1608,7 @@ tripoint item::get_var( const std::string &name, const tripoint &default_value )
     }
     std::vector<std::string> values = string_split( it->second, ',' );
     cata_assert( values.size() == 3 );
-    auto convert_or_error = []( const std::string & s ) {
+    auto convert_or_error = []( const std::string_view s ) {
         ret_val<int> result = try_parse_integer<int>( s, false );
         if( result.success() ) {
             return result.value();

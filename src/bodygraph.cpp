@@ -311,7 +311,7 @@ void bodygraph_display::draw_borders()
     bh_borders.draw_border( w_border, c_white );
 
     const int first_win_width = partlist_width;
-    auto center_txt_start = [&first_win_width]( const std::string & txt ) {
+    auto center_txt_start = [&first_win_width]( const std::string_view txt ) {
         return 2 + first_win_width + ( BPGRAPH_MAXCOLS / 2 - utf8_width( txt, true ) / 2 );
     };
 
