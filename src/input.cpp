@@ -1206,9 +1206,10 @@ const std::string &input_context::handle_input( const int timeout )
 
         const std::string &action = input_to_action( next_action );
 
+        //Special global key to toggle language to english and back
         if( action == "toggle_language_to_en" ) {
             g->toggle_language_to_en();
-            g->invalidate_main_ui_adaptor();
+            ui_manager::invalidate_all_ui_adaptors();
             ui_manager::redraw_invalidated();
         }
 
