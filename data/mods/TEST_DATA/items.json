@@ -1290,6 +1290,50 @@
     ]
   },
   {
+    "id": "test_zentai_resist_test_fire",
+    "type": "ARMOR",
+    "name": { "str": "test zentai" },
+    "description": "Full-body suit completely covering all body parts, including the head, mouth, and eyes.",
+    "weight": "300 g",
+    "volume": "500 ml",
+    "price": 2500,
+    "price_postapoc": 50,
+    "material": [ "lycra_resist_test_fire" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "warmth": 20,
+    "material_thickness": 1,
+    "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ],
+    "armor": [
+      {
+        "coverage": 100,
+        "covers": [ "head", "mouth", "eyes", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ]
+  },
+  {
+    "id": "test_zentai_immune_test_fire",
+    "type": "ARMOR",
+    "name": { "str": "test zentai" },
+    "description": "Full-body suit completely covering all body parts, including the head, mouth, and eyes.",
+    "weight": "300 g",
+    "volume": "500 ml",
+    "price": 2500,
+    "price_postapoc": 50,
+    "material": [ "lycra" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "warmth": 20,
+    "material_thickness": 1,
+    "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY", "HEAT_IMMUNE" ],
+    "armor": [
+      {
+        "coverage": 100,
+        "covers": [ "head", "mouth", "eyes", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ]
+  },
+  {
     "id": "test_sunglasses",
     "repairs_like": "goggles_swim",
     "type": "ARMOR",
@@ -1908,6 +1952,23 @@
     "melee_damage": { "bash": 32, "cut": 32 }
   },
   {
+    "type": "GENERIC",
+    "id": "test_fire_sword",
+    "name": "TEST fire sword",
+    "description": "A sword that inflicts fire damage for test purposes",
+    "category": "spare_parts",
+    "weight": "1250 g",
+    "volume": "1 L",
+    "longest_side": "1 meter",
+    "to_hit": 3,
+    "color": "dark_gray",
+    "symbol": "/",
+    "material": [ "steel" ],
+    "price": 7500,
+    "price_postapoc": 300,
+    "melee_damage": { "test_fire": 8 }
+  },
+  {
     "id": "test_bullwhip",
     "type": "GENERIC",
     "symbol": "/",
@@ -2131,6 +2192,25 @@
     "dispersion": 50,
     "recoil": 600,
     "effects": [ "COOKOFF" ]
+  },
+  {
+    "id": "test_shot_00_fire_damage",
+    "copy-from": "shotshell_abstract",
+    "type": "AMMO",
+    "name": { "str_sp": "00 shot" },
+    "description": "A shell filled with metal pellets.  Extremely damaging, plus the spread makes it very accurate at short range.  Favored by SWAT forces.",
+    "price": 500,
+    "price_postapoc": 800,
+    "range": 18,
+    "weight": "10 g",
+    "volume": "250 ml",
+    "damage": { "damage_type": "test_fire", "amount": 60 },
+    "shot_damage": { "damage_type": "test_fire", "amount": 15 },
+    "projectile_count": 9,
+    "shot_spread": 300,
+    "recoil": 2500,
+    "loudness": 160,
+    "effects": [ "COOKOFF", "SHOT" ]
   },
   {
     "id": "test_liquid",
