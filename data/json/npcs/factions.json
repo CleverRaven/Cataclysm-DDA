@@ -960,7 +960,11 @@
     "price_rules": [
       { "item": "money_strap_FMCNote", "fixed_adj": 0 },
       { "item": "money_bundle_FMCNote", "fixed_adj": 0 },
-      { "group": "games_board_all", "premium": 2.5 }
+      { "group": "games_board_all", "premium": 2.5 },
+      { "group": "manuals", "premium": 2 },
+      { "group": "textbooks", "premium": 2 },
+      { "group": "literature", "premium": 2 },
+      { "group": "exotic_books", "premium": 10 }
     ],
     "relations": {
       "free_merchants": {
