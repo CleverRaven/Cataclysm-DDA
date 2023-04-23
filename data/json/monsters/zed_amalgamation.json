@@ -158,7 +158,7 @@
         "hitsize_min": 4,
         "min_mul": 0.5,
         "max_mul": 1.2,
-        "forbidden_effects_any": [ "maimed_mandible" ],
+        "condition": { "not": { "u_has_effect": "maimed_mandible" } },
         "infection_chance": 10,
         "attack_upper": false
       }
@@ -203,7 +203,7 @@
         "cooldown": 8,
         "damage_max_instance": [ { "damage_type": "stab", "amount": 8 }, { "damage_type": "acid", "amount": 8 } ],
         "effects": [ { "id": "corroding", "duration": [ 10, 30 ], "affect_hit_bp": true } ],
-        "forbidden_effects_any": [ "maimed_mandible" ]
+        "condition": { "not": { "u_has_effect": "maimed_mandible" } }
       },
       { "id": "acid_slash" },
       { "id": "acid_charge" }
@@ -240,14 +240,14 @@
         "max_range": 8,
         "allow_no_target": false,
         "cooldown": 3,
-        "forbidden_effects_any": [ "maimed_leg", "maimed_wings" ]
+        "condition": { "and": [ { "not": { "u_has_effect": "maimed_leg" } }, { "not": { "u_has_effect": "maimed_wings" } } ] }
       },
       {
         "type": "bite",
         "cooldown": 3,
         "move_cost": 150,
         "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_penetration": 8 } ],
-        "forbidden_effects_any": [ "maimed_mandible" ],
+        "condition": { "not": { "u_has_effect": "maimed_mandible" } },
         "infection_chance": 10
       }
     ],
@@ -271,8 +271,7 @@
         "spell_data": { "id": "shock_blast", "hit_self": true, "min_level": 1 },
         "cooldown": 25,
         "monster_message": "A cloud of electricity explodes from the %s",
-        "required_effects_any": [ "elec_charged" ],
-        "forbidden_effects_any": [ "maimed_capacitor" ]
+        "condition": { "and": [ { "not": { "u_has_effect": "maimed_capacitor" } }, { "u_has_effect": "elec_charged" } ] }
       },
       {
         "type": "spell",
@@ -280,9 +279,9 @@
         "spell_data": { "id": "shock_cone", "min_level": 1 },
         "monster_message": "A bolt of electricity arcs from %s!",
         "cooldown": 20,
-        "forbidden_effects_any": [ "maimed_capacitor" ]
+        "condition": { "not": { "u_has_effect": "maimed_capacitor" } }
       },
-      { "id": "elec_charge", "forbidden_effects_any": [ "maimed_capacitor" ] }
+      { "id": "elec_charge", "condition": { "not": { "u_has_effect": "maimed_capacitor" } } }
     ],
     "special_when_hit": [ "ZAPBACK", 100 ],
     "death_function": { "effect": { "id": "death_shock_blast", "hit_self": true } },
@@ -314,7 +313,7 @@
         "cooldown": 10,
         "move_cost": 120,
         "damage_max_instance": [ { "damage_type": "cut", "amount": 18, "armor_penetration": 22 } ],
-        "forbidden_effects_any": [ "maimed_mandible" ],
+        "condition": { "not": { "u_has_effect": "maimed_mandible" } },
         "infection_chance": 10,
         "hitsize_min": 0
       },

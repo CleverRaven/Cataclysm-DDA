@@ -1086,6 +1086,11 @@ bool monster::has_flag( const m_flag f ) const
     return type->has_flag( f );
 }
 
+bool monster::has_flag( const flag_id f ) const
+{
+    return has_effect_with_flag( f );
+}
+
 bool monster::can_see() const
 {
     return has_flag( MF_SEES ) && !effect_cache[VISION_IMPAIRED];
