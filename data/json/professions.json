@@ -5494,7 +5494,6 @@
   },
   {
     "type": "profession",
-<<<<<<< HEAD
     "id": "prepped_patriot",
     "name": "Prepped Patriot",
     "description": "Does the American dream still exist?  Well, recent events have put that to the test.  Does it still proudly live in your beating heart?  Yes.  Yes, it does.  A patriot to the bitter end, you’ve readied yourself to go toe to toe with the Cataclysm that would seek to do harm to your darling USA.  That is to say, you grabbed your gun... and nothing more.  God bless America, soldier.",
@@ -5513,7 +5512,9 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts", "variant": "flag_boxer_shorts" } ] },
       "female": { "entries": [ { "item": "boy_shorts", "variant": "flag_boy_shorts" } ] }
-=======
+    }
+  },
+  {
     "id": "cowboy",
     "name": "Cowboy",
     "description": "You liked to spend your days taking care of the horses and cows, searching the perimeter of the ranch in your steed and looking out for anything suspicious, that's why you managed to escape in time when shit hit the fan.",
@@ -5555,7 +5556,6 @@
       },
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "panties" ]
->>>>>>> master
     }
   },
   {
