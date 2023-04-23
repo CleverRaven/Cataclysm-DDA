@@ -956,7 +956,7 @@
     "power": 100,
     "food_supply": 115200,
     "wealth": 25000000,
-    "currency": "FMCNote",
+    "currency": "FlatCoin",
     "price_rules": [
       { "item": "money_strap_FMCNote", "fixed_adj": 0 },
       { "item": "money_bundle_FMCNote", "fixed_adj": 0 },
