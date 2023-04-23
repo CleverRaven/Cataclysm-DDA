@@ -521,7 +521,7 @@ static bool extract_and_check_orientation_flags( const recipe_id &recipe,
         bool &mirror_horizontal,
         bool &mirror_vertical,
         int &rotation,
-        const std::string &base_error_message,
+        const std::string_view base_error_message,
         const std::string &actor )
 {
     mirror_horizontal = recipe->has_flag( "MAP_MIRROR_HORIZONTAL" );
@@ -612,7 +612,8 @@ static bool extract_and_check_orientation_flags( const recipe_id &recipe,
     return true;
 }
 
-static std::optional<basecamp *> get_basecamp( npc &p, const std::string &camp_type = "default" )
+static std::optional<basecamp *> get_basecamp( npc &p,
+        const std::string_view camp_type = "default" )
 {
     tripoint_abs_omt omt_pos = p.global_omt_location();
     std::optional<basecamp *> bcp = overmap_buffer.find_camp( omt_pos.xy() );

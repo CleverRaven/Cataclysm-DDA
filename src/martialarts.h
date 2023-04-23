@@ -33,7 +33,7 @@ class weapon_category
         static void load_weapon_categories( const JsonObject &jo, const std::string &src );
         static void reset();
 
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
 
         static const std::vector<weapon_category> &get_all();
 
@@ -102,7 +102,7 @@ struct ma_requirements {
     bool is_valid_character( const Character &u ) const;
     bool is_valid_weapon( const item &i ) const;
 
-    void load( const JsonObject &jo, const std::string &src );
+    void load( const JsonObject &jo, std::string_view src );
 };
 
 struct tech_effect_data {
@@ -277,7 +277,7 @@ class ma_buff
         bool strictly_melee = false; // can we only use it with weapons?
         bool stealthy = false; // do we make less noise when moving?
 
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
 };
 
 class martialart

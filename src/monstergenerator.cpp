@@ -919,6 +919,14 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "mech_str_bonus", mech_str_bonus, 0 );
     optional( jo, was_loaded, "mech_battery", mech_battery, itype_id() );
 
+    if( jo.has_object( "mount_items" ) ) {
+        JsonObject jo_mount_items = jo.get_object( "mount_items" );
+        optional( jo_mount_items, was_loaded, "tied", mount_items.tied, itype_id() );
+        optional( jo_mount_items, was_loaded, "tack", mount_items.tack, itype_id() );
+        optional( jo_mount_items, was_loaded, "armor", mount_items.armor, itype_id() );
+        optional( jo_mount_items, was_loaded, "storage", mount_items.storage, itype_id() );
+    }
+
     optional( jo, was_loaded, "zombify_into", zombify_into, string_id_reader<::mtype> {},
               mtype_id() );
     optional( jo, was_loaded, "fungalize_into", fungalize_into, string_id_reader<::mtype> {},
@@ -1169,7 +1177,7 @@ void MonsterGenerator::load_species( const JsonObject &jo, const std::string &sr
     mon_species->load( jo, src );
 }
 
-void species_type::load( const JsonObject &jo, const std::string & )
+void species_type::load( const JsonObject &jo, const std::string_view )
 {
     optional( jo, was_loaded, "description", description );
     optional( jo, was_loaded, "footsteps", footsteps, to_translation( "footsteps." ) );
@@ -1325,7 +1333,7 @@ void mtype::add_special_attack( const JsonObject &obj, const std::string &src )
     special_attacks_names.push_back( new_attack->id );
 }
 
-void mtype::add_special_attack( const JsonArray &inner, const std::string & )
+void mtype::add_special_attack( const JsonArray &inner, const std::string_view )
 {
     MonsterGenerator &gen = MonsterGenerator::generator();
     const std::string name = inner.get_string( 0 );
@@ -1351,7 +1359,7 @@ void mtype::add_special_attack( const JsonArray &inner, const std::string & )
     special_attacks_names.push_back( name );
 }
 
-void mtype::add_special_attacks( const JsonObject &jo, const std::string &member,
+void mtype::add_special_attacks( const JsonObject &jo, const std::string_view member,
                                  const std::string &src )
 {
 
@@ -1370,8 +1378,8 @@ void mtype::add_special_attacks( const JsonObject &jo, const std::string &member
     }
 }
 
-void mtype::remove_special_attacks( const JsonObject &jo, const std::string &member_name,
-                                    const std::string & )
+void mtype::remove_special_attacks( const JsonObject &jo, const std::string_view member_name,
+                                    const std::string_view )
 {
     for( const std::string &name : jo.get_tags( member_name ) ) {
         special_attacks.erase( name );
@@ -1382,7 +1390,7 @@ void mtype::remove_special_attacks( const JsonObject &jo, const std::string &mem
     }
 }
 
-void mtype::add_regeneration_modifier( const JsonArray &inner, const std::string & )
+void mtype::add_regeneration_modifier( const JsonArray &inner, const std::string_view )
 {
     const std::string effect_name = inner.get_string( 0 );
     const efftype_id effect( effect_name );
@@ -1400,8 +1408,8 @@ void mtype::add_regeneration_modifier( const JsonArray &inner, const std::string
     regeneration_modifiers.emplace( effect, amount );
 }
 
-void mtype::add_regeneration_modifiers( const JsonObject &jo, const std::string &member,
-                                        const std::string &src )
+void mtype::add_regeneration_modifiers( const JsonObject &jo, const std::string_view member,
+                                        const std::string_view src )
 {
     if( !jo.has_array( member ) ) {
         return;
@@ -1419,8 +1427,8 @@ void mtype::add_regeneration_modifiers( const JsonObject &jo, const std::string 
     }
 }
 
-void mtype::remove_regeneration_modifiers( const JsonObject &jo, const std::string &member_name,
-        const std::string & )
+void mtype::remove_regeneration_modifiers( const JsonObject &jo, const std::string_view member_name,
+        const std::string_view )
 {
     for( const std::string &name : jo.get_tags( member_name ) ) {
         const efftype_id effect( name );
@@ -1483,6 +1491,22 @@ void MonsterGenerator::check_monster_definitions() const
         if( !mon.mech_battery.is_empty() && !item::type_is_defined( mon.mech_battery ) ) {
             debugmsg( "monster %s has unknown mech_battery: %s", mon.id.c_str(),
                       mon.mech_battery.c_str() );
+        }
+        if( !mon.mount_items.tied.is_empty() && !item::type_is_defined( mon.mount_items.tied ) ) {
+            debugmsg( "monster %s has unknown mount_items.tied: %s", mon.id.c_str(),
+                      mon.mount_items.tied.c_str() );
+        }
+        if( !mon.mount_items.tack.is_empty() && !item::type_is_defined( mon.mount_items.tack ) ) {
+            debugmsg( "monster %s has unknown mount_items.tack: %s", mon.id.c_str(),
+                      mon.mount_items.tack.c_str() );
+        }
+        if( !mon.mount_items.armor.is_empty() && !item::type_is_defined( mon.mount_items.armor ) ) {
+            debugmsg( "monster %s has unknown mount_items.armor: %s", mon.id.c_str(),
+                      mon.mount_items.armor.c_str() );
+        }
+        if( !mon.mount_items.storage.is_empty() && !item::type_is_defined( mon.mount_items.storage ) ) {
+            debugmsg( "monster %s has unknown mount_items.storage: %s", mon.id.c_str(),
+                      mon.mount_items.storage.c_str() );
         }
         if( !mon.harvest.is_valid() ) {
             debugmsg( "monster %s has invalid harvest_entry: %s", mon.id.c_str(), mon.harvest.c_str() );

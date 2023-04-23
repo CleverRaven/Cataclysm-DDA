@@ -2427,9 +2427,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
         case ACTION_SLEEP:
             if( has_vehicle_control( player_character ) ) {
-                add_msg( m_info, _( "Vehicle control has moved, %s" ),
-                         press_x( ACTION_CONTROL_VEHICLE, _( "new binding is " ),
-                                  _( "new default binding is '^'." ) ) );
+                add_msg( m_info, _( "You can't sleep while controlling a vehicle" ) );
             } else {
                 sleep();
             }

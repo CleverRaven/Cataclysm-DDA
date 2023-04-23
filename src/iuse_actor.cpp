@@ -291,7 +291,7 @@ std::optional<int> iuse_transform::use( Character &p, item &it, bool t, const tr
         }
     }
 
-    if( it.count_by_charges() && it.count() > 1 ) {
+    if( it.count_by_charges() && it.count() > 1 && !it.type->comestible ) {
         item take_one = it.split( 1 );
         do_transform( p, take_one );
         p.i_add_or_drop( take_one );

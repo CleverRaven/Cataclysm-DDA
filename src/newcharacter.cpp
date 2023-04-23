@@ -939,14 +939,16 @@ static void draw_points( const catacurses::window &w, pool_type pool, const avat
 
 template <class Compare>
 static void draw_filter_and_sorting_indicators( const catacurses::window &w,
-        const input_context &ctxt, const std::string &filterstring, const Compare &sorter )
+        const input_context &ctxt, const std::string_view filterstring, const Compare &sorter )
 {
     const char *const sort_order = sorter.sort_by_points ? _( "points" ) : _( "name" );
     const std::string sorting_indicator = string_format( "[%1$s] %2$s: %3$s",
                                           colorize( ctxt.get_desc( "SORT" ), c_green ), _( "sort" ),
                                           sort_order );
-    const std::string filter_indicator = filterstring.empty() ? string_format( _( "[%s] filter" ),
-                                         colorize( ctxt.get_desc( "FILTER" ), c_green ) ) : filterstring;
+    const std::string filter_indicator =
+        filterstring.empty()
+        ? string_format( _( "[%s] filter" ), colorize( ctxt.get_desc( "FILTER" ), c_green ) )
+        : std::string( filterstring );
     nc_color current_color = BORDER_COLOR;
     print_colored_text( w, point( 2, getmaxy( w ) - 1 ), current_color, BORDER_COLOR,
                         string_format( "<%1s>-<%2s>", sorting_indicator, filter_indicator ) );
