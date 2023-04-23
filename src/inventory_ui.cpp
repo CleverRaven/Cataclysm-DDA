@@ -986,14 +986,15 @@ void inventory_entry::reset_entry_cell_cache() const
 const inventory_entry::entry_cell_cache_t &inventory_entry::get_entry_cell_cache(
     inventory_selector_preset const &preset ) const
 {
-    bool has_invalid_lang_version = entry_cell_cache->lang_version != detail::get_current_language_version();
-   
-    if( !entry_cell_cache || has_invalid_lang_version) {
+    bool has_invalid_lang_version = entry_cell_cache->lang_version !=
+                                    detail::get_current_language_version();
+
+    if( !entry_cell_cache || has_invalid_lang_version ) {
         make_entry_cell_cache( preset, false );
         cache_denial( preset );
         cata_assert( entry_cell_cache.has_value() );
-        
-        if (has_invalid_lang_version) {
+
+        if( has_invalid_lang_version ) {
             entry_cell_cache->lang_version = detail::get_current_language_version();
         }
     }
