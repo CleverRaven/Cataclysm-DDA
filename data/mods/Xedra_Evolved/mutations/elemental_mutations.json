@@ -16,7 +16,7 @@
     "id": "IERDE_SKIN_2",
     "name": { "str": "pebbled skin" },
     "points": 2,
-    "visibility": 10,
+    "visibility": 4,
     "ugliness": 3,
     "description": "Your skin has toughened and formed pebble-like growths in some places, acting as natural armor.  Somewhat reduces wet effects.",
     "types": [ "SKIN" ],
@@ -35,7 +35,7 @@
       { "part": "hand_r", "ignored": 1 },
       { "part": "torso", "ignored": 10 }
     ],
-    "integrated_armor": [ "integrated_scales" ]
+    "integrated_armor": [ "integrated_pebbled" ]
   },
   {
     "type": "mutation",
@@ -45,7 +45,7 @@
     "visibility": 10,
     "ugliness": 4,
     "mixed_effect": true,
-    "description": "Your skin has grown thick and leathery and a set of heavy green scales has grown to cover most of your body, acting as natural armor.  While difficult to penetrate, it also limits your flexibility.  Greatly reduces wet effects.",
+    "description": "Your skin has developed into strong granite-like covering that retains some flexibility and has grown to cover most of your body, acting as natural armor.  While difficult to penetrate, it also limits your flexibility.  Greatly reduces wet effects.",
     "types": [ "skin_tone" ],
     "prereqs": [ "IERDE_SKIN_2" ],
     "threshreq": [ "THRESH_IERDE" ],
@@ -62,7 +62,7 @@
       { "part": "hand_r", "ignored": 4 },
       { "part": "torso", "ignored": 30 }
     ],
-    "integrated_armor": [ "integrated_reptilescales" ]
+    "integrated_armor": [ "integrated_granite_skin" ]
   },
   {
     "type": "mutation",
@@ -79,11 +79,11 @@
   {
     "type": "mutation",
     "id": "ARVORE_SKIN_2",
-    "name": { "str": "pebbled skin" },
+    "name": { "str": "vegital cuticle" },
     "points": 2,
-    "visibility": 10,
-    "ugliness": 3,
-    "description": "Your skin has toughened and formed pebble-like growths in some places, acting as natural armor.  Somewhat reduces wet effects.",
+    "visibility": 2,
+    "ugliness": 1,
+    "description": "Lorem",
     "types": [ "SKIN" ],
     "category": [ "ARVORE" ],
     "prereqs": [ "ARVORE_SKIN_1" ],
@@ -100,17 +100,17 @@
       { "part": "hand_r", "ignored": 1 },
       { "part": "torso", "ignored": 10 }
     ],
-    "integrated_armor": [ "integrated_scales" ]
+    "integrated_armor": [ "integrated_vegital_cuticle" ]
   },
   {
     "type": "mutation",
     "id": "ARVORE_SKIN_3",
-    "name": { "str": "stone skin" },
+    "name": { "str": "bark skin" },
     "points": 3,
-    "visibility": 10,
+    "visibility": 8,
     "ugliness": 4,
     "mixed_effect": true,
-    "description": "Your skin has grown thick and leathery and a set of heavy green scales has grown to cover most of your body, acting as natural armor.  While difficult to penetrate, it also limits your flexibility.  Greatly reduces wet effects.",
+    "description": "Lorem",
     "types": [ "SKIN" ],
     "prereqs": [ "ARVORE_SKIN_2" ],
     "threshreq": [ "THRESH_ARVORE" ],
@@ -127,7 +127,7 @@
       { "part": "hand_r", "ignored": 4 },
       { "part": "torso", "ignored": 30 }
     ],
-    "integrated_armor": [ "integrated_reptilescales" ]
+    "integrated_armor": [ "integrated_bark_skin" ]
   },
   {
     "type": "mutation",
@@ -144,55 +144,32 @@
   {
     "type": "mutation",
     "id": "SALAMANDER_SKIN_2",
-    "name": { "str": "pebbled skin" },
+    "name": { "str": "burning coals skin" },
     "points": 2,
-    "visibility": 10,
+    "visibility": 4,
     "ugliness": 3,
-    "description": "Your skin has toughened and formed pebble-like growths in some places, acting as natural armor.  Somewhat reduces wet effects.",
+    "description": "Your skin has has magickal flames flaring out of it on occassion.   You can operate in warmer climates than normal humans but begin to take damage from getting wet.",
     "types": [ "SKIN" ],
     "category": [ "SALAMANDER" ],
     "prereqs": [ "SALAMANDER_SKIN_1" ],
     "changes_to": [ "SALAMANDER_SKIN_3" ],
-    "wet_protection": [
-      { "part": "head", "ignored": 2 },
-      { "part": "leg_l", "ignored": 5 },
-      { "part": "leg_r", "ignored": 5 },
-      { "part": "foot_l", "ignored": 2 },
-      { "part": "foot_r", "ignored": 2 },
-      { "part": "arm_l", "ignored": 4 },
-      { "part": "arm_r", "ignored": 4 },
-      { "part": "hand_l", "ignored": 1 },
-      { "part": "hand_r", "ignored": 1 },
-      { "part": "torso", "ignored": 10 }
-    ],
-    "integrated_armor": [ "integrated_scales" ]
+    "integrated_armor": [ "integrated_coal_skin" ]
   },
   {
     "type": "mutation",
     "id": "SALAMANDER_SKIN_3",
-    "name": { "str": "stone skin" },
+    "name": { "str": "flame skin" },
     "points": 3,
     "visibility": 10,
     "ugliness": 4,
     "mixed_effect": true,
-    "description": "Your skin has grown thick and leathery and a set of heavy green scales has grown to cover most of your body, acting as natural armor.  While difficult to penetrate, it also limits your flexibility.  Greatly reduces wet effects.",
+    "description": "Your skin exudes magickal flames constantly, you can operate in almost any heat now without danger but rain may be a lethal threat.",
     "types": [ "SKIN" ],
     "prereqs": [ "SALAMANDER_SKIN_2" ],
     "threshreq": [ "THRESH_SALAMANDER" ],
     "category": [ "SALAMANDER" ],
-    "wet_protection": [
-      { "part": "head", "ignored": 5 },
-      { "part": "leg_l", "ignored": 16 },
-      { "part": "leg_r", "ignored": 16 },
-      { "part": "foot_l", "ignored": 5 },
-      { "part": "foot_r", "ignored": 5 },
-      { "part": "arm_l", "ignored": 14 },
-      { "part": "arm_r", "ignored": 14 },
-      { "part": "hand_l", "ignored": 4 },
-      { "part": "hand_r", "ignored": 4 },
-      { "part": "torso", "ignored": 30 }
-    ],
-    "integrated_armor": [ "integrated_reptilescales" ]
+    
+    "integrated_armor": [ "integrated_flameskin" ]
   },
   {
     "type": "mutation",
@@ -213,7 +190,7 @@
     "points": 2,
     "visibility": 10,
     "ugliness": 3,
-    "description": "Your skin has toughened and formed pebble-like growths in some places, acting as natural armor.  Somewhat reduces wet effects.",
+    "description": "Your skin has become vaguely gelatinous.  Provides some extra bash defense and immunity to wet effects.",
     "types": [ "SKIN" ],
     "category": [ "UNDINE" ],
     "prereqs": [ "UNDINE_SKIN_1" ],
@@ -230,17 +207,17 @@
       { "part": "hand_r", "ignored": 1 },
       { "part": "torso", "ignored": 10 }
     ],
-    "integrated_armor": [ "integrated_scales" ]
+    "integrated_armor": [ "integrated_gelatinous_skin" ]
   },
   {
     "type": "mutation",
     "id": "UNDINE_SKIN_3",
-    "name": { "str": "stone skin" },
+    "name": { "str": "wave skin" },
     "points": 3,
     "visibility": 10,
     "ugliness": 4,
     "mixed_effect": true,
-    "description": "Your skin has grown thick and leathery and a set of heavy green scales has grown to cover most of your body, acting as natural armor.  While difficult to penetrate, it also limits your flexibility.  Greatly reduces wet effects.",
+    "description": "Your skin is completely replaced by magickal water.  You have become immune to acid effects.",
     "types": [ "SKIN" ],
     "prereqs": [ "UNDINE_SKIN_2" ],
     "threshreq": [ "THRESH_UNDINE" ],
@@ -257,7 +234,7 @@
       { "part": "hand_r", "ignored": 4 },
       { "part": "torso", "ignored": 30 }
     ],
-    "integrated_armor": [ "integrated_reptilescales" ]
+    "integrated_armor": [ "integrated_wave_skin" ]
   },
   {
     "type": "mutation",
@@ -274,11 +251,11 @@
   {
     "type": "mutation",
     "id": "HOMULLUS_SKIN_2",
-    "name": { "str": "pebbled skin" },
+    "name": { "str": "porcelain skin" },
     "points": 2,
     "visibility": 10,
-    "ugliness": 3,
-    "description": "Your skin has toughened and formed pebble-like growths in some places, acting as natural armor.  Somewhat reduces wet effects.",
+    "ugliness": -3,
+    "description": "Your skin has smoothed and all blemishes fade quickly away.  Somewhat reduces wet effects and is tougher but heals a little slower.",
     "types": [ "SKIN" ],
     "category": [ "HOMULLUS" ],
     "prereqs": [ "HOMULLUS_SKIN_1" ],
@@ -295,17 +272,17 @@
       { "part": "hand_r", "ignored": 1 },
       { "part": "torso", "ignored": 10 }
     ],
-    "integrated_armor": [ "integrated_scales" ]
+    "integrated_armor": [ "integrated_porcelain_skin" ]
   },
   {
     "type": "mutation",
     "id": "HOMULLUS_SKIN_3",
-    "name": { "str": "stone skin" },
+    "name": { "str": "latex skin" },
     "points": 3,
     "visibility": 10,
-    "ugliness": 4,
+    "ugliness": -6,
     "mixed_effect": true,
-    "description": "Your skin has grown thick and leathery and a set of heavy green scales has grown to cover most of your body, acting as natural armor.  While difficult to penetrate, it also limits your flexibility.  Greatly reduces wet effects.",
+    "description": "Your skin has has become latex like.  It provides some additional protection and flexibility but heals at a much slower rate.",
     "types": [ "SKIN" ],
     "prereqs": [ "HOMULLUS_SKIN_2" ],
     "threshreq": [ "THRESH_HOMULLUS" ],
@@ -322,7 +299,7 @@
       { "part": "hand_r", "ignored": 4 },
       { "part": "torso", "ignored": 30 }
     ],
-    "integrated_armor": [ "integrated_reptilescales" ]
+    "integrated_armor": [ "integrated_latex_skin" ]
   },
   {
     "type": "mutation",
