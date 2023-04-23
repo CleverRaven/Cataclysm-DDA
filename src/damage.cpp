@@ -9,6 +9,8 @@
 
 #include "bodypart.h"
 #include "cata_utility.h"
+#include "creature.h"
+#include "effect_on_condition.h"
 #include "debug.h"
 #include "generic_factory.h"
 #include "item.h"
@@ -110,6 +112,10 @@ void damage_type::load( const JsonObject &jo, const std::string & )
         JsonArray ja = jo.get_array( "derived_from" );
         derived_from = { damage_type_id( ja.get_string( 0 ) ), ja.get_float( 1 ) };
     }
+
+    for( JsonValue jv : jo.get_array( "onhit_eocs" ) ) {
+        onhit_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+    }
 }
 
 bool damage_unit::operator==( const damage_unit &other ) const
@@ -194,6 +200,31 @@ float damage_instance::total_damage() const
         ret += elem.amount * elem.damage_multiplier * elem.unconditional_damage_mult;
     }
     return ret;
+}
+
+void damage_instance::onhit_effects( Creature *source, Creature *target ) const
+{
+    std::set<damage_type_id> used_types;
+    for( const damage_unit &du : damage_units ) {
+        if( used_types.count( du.type ) > 0 ) {
+            continue;
+        }
+        used_types.emplace( du.type );
+        du.type->onhit_effects( source, target );
+    }
+}
+
+void damage_type::onhit_effects( Creature *source, Creature *target ) const
+{
+    for( const effect_on_condition_id &eoc : onhit_eocs ) {
+        dialogue d( source == nullptr ? nullptr : get_talker_for( source ),
+                    target == nullptr ? nullptr : get_talker_for( target ) );
+        if( eoc->type == eoc_type::ACTIVATION ) {
+            eoc->activate( d );
+        } else {
+            debugmsg( "Must use an activation eoc for a damage type effect.  If you don't want the effect_on_condition to happen on its own (without the damage type effect being activated), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this damage type with its condition and effects, then have a recurring one queue it." );
+        }
+    }
 }
 
 //This returns the damage from this damage_instance. The damage done to the target will be reduced by their armor.

@@ -18,6 +18,7 @@ class JsonArray;
 class JsonObject;
 class JsonOut;
 class JsonValue;
+class Creature;
 class item;
 class monster;
 enum m_flag : int;
@@ -32,6 +33,7 @@ struct damage_type {
 
     damage_type_id id;
     translation name;
+    std::vector<effect_on_condition_id> onhit_eocs;
     skill_id skill = skill_id::NULL_ID();
     std::pair<damage_type_id, float> derived_from = { damage_type_id(), 0.0f };
     cata::flat_set<std::string> immune_flags;
@@ -46,6 +48,9 @@ struct damage_type {
     bool env = false;
     bool material_required = false;
     bool was_loaded = false;
+
+    // Applies damage type on-hit effects
+    void onhit_effects( Creature *source, Creature *target ) const;
 
     static void load_damage_types( const JsonObject &jo, const std::string &src );
     static void reset();
@@ -96,6 +101,9 @@ struct damage_instance {
     float total_damage() const;
     void clear();
     bool empty() const;
+
+    // Applies damage type on-hit effects for all damage units
+    void onhit_effects( Creature *source, Creature *target ) const;
 
     // calculates damage taking barrel length into consideration for the amount
     damage_instance di_considering_length( units::length barrel_length ) const;

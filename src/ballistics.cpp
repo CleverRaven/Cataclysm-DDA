@@ -452,6 +452,10 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
                 }
                 sfx::do_projectile_hit( *attack.hit_critter );
                 has_momentum = false;
+                // on-hit effects for inflicted damage types
+                for( const std::pair<const damage_type_id, int> &dt : attack.dealt_dam.dealt_dams ) {
+                    dt.first->onhit_effects( origin, attack.hit_critter );
+                }
             } else {
                 attack.missed_by = aim.missed_by;
             }
