@@ -1415,7 +1415,12 @@ bool Creature::dodge_check( monster *z, bodypart_id bp, damage_instance dam_inst
         potential_damage += dmg.amount - guy_target->worn.damage_resist( dmg.type, bp );
 
     }
-    float dmg_ratio = potential_damage / guy_target->get_part_hp_cur( bp );
+    int part_hp = guy_target->get_part_hp_cur( bp );
+    float dmg_ratio = 0.0f; // if the part is already destroyed it can't take more damage
+    if( part_hp > 0 ) {
+        dmg_ratio = potential_damage / part_hp;
+    }
+
 
     //If attack might remove more than half of the part's hp, dodge no matter the odds
     if( dmg_ratio >= 0.5f ) {
