@@ -1199,15 +1199,12 @@ const std::string &input_context::handle_input( const int timeout )
     while( true ) {
 
         //Allows "toggle_language_to_en" to also work on contexts other than "DEFAULTMODE"
-        const std::string pressed_key = next_action.text;
-        if( !pressed_key.empty() ) {
-            action_attributes attributes = inp_mngr.get_action_attributes( "toggle_language_to_en",
-                                           "DEFAULTMODE" );
-            if( !attributes.input_events.empty() ) {
-                input_event input = attributes.input_events.front();
+        if( !next_action.sequence.empty() ) {
+            auto attr = inp_mngr.get_action_attributes( "toggle_language_to_en", "DEFAULTMODE" );
+            if( !attr.input_events.empty() ) {
+                input_event input = attr.input_events.front();
                 if( !input.sequence.empty() ) {
-                    char keybind = input.sequence.front();
-                    if( *pressed_key.c_str() == keybind ) {
+                    if( next_action.sequence.front() == input.sequence.front() ) {
                         g->toggle_language_to_en();
                         g->invalidate_main_ui_adaptor();
                         ui_manager::redraw_invalidated();
