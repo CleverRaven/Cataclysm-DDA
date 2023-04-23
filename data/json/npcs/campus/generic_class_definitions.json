@@ -1,7 +1,7 @@
 [
   {
     "type": "item_group",
-    "id": "FREE_MERCH_GUARD_wield_phase1",
+    "id": "CAMPUS_GUARD_wield_phase1",
     "//": "The campus guards stick to melee weapons, as guns are banned on campus.",
     "subtype": "distribution",
     "entries": [
