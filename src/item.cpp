@@ -12777,7 +12777,7 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos, it
             return false;
         }
     }
-    if( link->t_state == link_state::no_link && link->s_state != link_state::vehicle_tow ||
+    if( ( link->t_state == link_state::no_link && link->s_state != link_state::vehicle_tow ) ||
         link->t_state == link_state::bio_cable ) {
         // Certain cable states should skip processing and also become inactive if dropped.
         if( carrier == nullptr ) {
