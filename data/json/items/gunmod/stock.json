@@ -379,7 +379,7 @@
       "moves": 300
     },
     "handling_modifier": -10,
-    "flags": [ "FOLDED_STOCK" ]
+    "//": "This mod shouldn’t get a folding stock flag. The deployed version of this mod adds extra length to the base gun item, which this folded version removes to simulate the greatly shorter length of the sub2000 when collapsed. Adding a folding stock flag will remove another 20 cm from the base gun, making it only 19 cm long."
   },
   {
     "id": "m26_mass_stock",
