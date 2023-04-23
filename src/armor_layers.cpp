@@ -1000,7 +1000,7 @@ void outfit::sort_armor( Character &guy )
             }
         } else if( action == "LEFT" || action == "PREV_TAB" || action == "RIGHT" || action == "NEXT_TAB" ) {
             mid_pane.offset = 0;
-            tabindex = increment_and_wrap( tabindex, action == "RIGHT" || action == "NEXT_TAB", tabcount );
+            tabindex = inc_clamp_wrap( tabindex, action == "RIGHT" || action == "NEXT_TAB", tabcount );
             leftListIndex = leftListOffset = 0;
             selected = -1;
         } else if( action == "PAGE_DOWN" ) {

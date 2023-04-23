@@ -955,7 +955,7 @@ void color_manager::show_gui()
             break;
         } else if( navigate_ui_list( action, iCurrentLine, scroll_rate, recmax, true ) ) {
         } else if( action == "LEFT" || action == "RIGHT" ) {
-            iCurrentCol = increment_and_wrap( iCurrentCol, 1, iTotalCols );
+            iCurrentCol = inc_clamp_wrap( iCurrentCol, 1, iTotalCols );
         } else if( action == "REMOVE_CUSTOM" ) {
             color_manager::color_struct &entry = std::next( name_color_map.begin(), iCurrentLine )->second;
 
