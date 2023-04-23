@@ -1385,7 +1385,7 @@ void npc::do_npc_read()
         item_location ereader = {};
 
         // NPCs read until they gain a level
-        read_activity_actor actor( to_moves<int>( time_taken ), book, ereader, true, getID().get_value() );
+        read_activity_actor actor( time_taken, book, ereader, true, getID().get_value() );
         assign_activity( actor );
 
     } else {
