@@ -2751,7 +2751,7 @@ void talk_effect_fun_t::set_location_variable( const JsonObject &jo, const std::
         map distant_map;
         distant_map.load( project_to<coords::sm>( abs_ms ), false );
 
-        map &here = ( get_map().inbounds( abs_ms ) ) ? get_map() : distant_map;
+        map &here = get_map().inbounds( abs_ms ) ? get_map() : distant_map;
 
         if( search_target.has_value() ) {
             if( search_type.value() == "monster" && !get_map().inbounds( abs_ms ) ) {
