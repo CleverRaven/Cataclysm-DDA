@@ -1,7 +1,7 @@
 [
   {
     "type": "item_group",
-    "id": "CAMPUS_GUARD_wield_phase1",
+    "id": "NC_CAMPUS_GUARD_wield_phase1",
     "//": "The campus guards stick to melee weapons, as guns are banned on campus.",
     "subtype": "distribution",
     "entries": [
@@ -58,6 +58,8 @@
     "id": "NC_CAMPUS_GUARD",
     "name": { "str": "Guard" },
     "job_description": "I'm on a guard shift.",
+    "weapon_override": "NC_CAMPUS_GUARD_wield_phase1",
+    "worn_override": "NC_CAMPUS_GUARD_worn_phase1",
     "traits": [
       { "group": "NPC_starting_traits" },
       { "group": "Appearance_demographics" },
