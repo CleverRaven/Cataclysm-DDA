@@ -1198,21 +1198,6 @@ const std::string &input_context::handle_input( const int timeout )
     const std::string *result = &CATA_ERROR;
     while( true ) {
 
-        //Allows "toggle_language_to_en" to also work on contexts other than "DEFAULTMODE"
-        if( !next_action.sequence.empty() ) {
-            const auto &attr = inp_mngr.get_action_attributes( "toggle_language_to_en", "DEFAULTMODE" );
-            if( !attr.input_events.empty() ) {
-                const input_event &input = attr.input_events.front();
-                if( !input.sequence.empty() ) {
-                    if( next_action.sequence.front() == input.sequence.front() ) {
-                        g->toggle_language_to_en();
-                        g->invalidate_main_ui_adaptor();
-                        ui_manager::redraw_invalidated();
-                    }
-                }
-            }
-        } //
-
         next_action = inp_mngr.get_input_event( preferred_keyboard_mode );
         if( next_action.type == input_event_t::timeout ) {
             result = &TIMEOUT;
@@ -1220,6 +1205,17 @@ const std::string &input_context::handle_input( const int timeout )
         }
 
         const std::string &action = input_to_action( next_action );
+
+        if( action == "toggle_language_to_en" ) {
+            //Allows "toggle_language_to_en" to also work on contexts other than "DEFAULTMODE"
+            g->toggle_language_to_en();
+            g->invalidate_main_ui_adaptor();
+            ui_manager::redraw_invalidated();
+        }
+
+
+
+
 
         // Special help action
         if( action == "HELP_KEYBINDINGS" ) {

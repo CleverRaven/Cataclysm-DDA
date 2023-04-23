@@ -987,7 +987,6 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_CONTROL_VEHICLE );
             REGISTER_ACTION( ACTION_ITEMACTION );
             REGISTER_ACTION( ACTION_TOGGLE_THIEF_MODE );
-            REGISTER_ACTION( ACTION_TOGGLE_LANGUAGE_TO_EN );
 #if defined(TILES)
             if( use_tiles ) {
                 REGISTER_ACTION( ACTION_ZOOM_OUT );

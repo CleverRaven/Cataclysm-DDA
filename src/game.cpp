@@ -2510,7 +2510,6 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "toggle_auto_foraging" );
     ctxt.register_action( "toggle_auto_pickup" );
     ctxt.register_action( "toggle_thief_mode" );
-    ctxt.register_action( "toggle_language_to_en" );
     ctxt.register_action( "toggle_prevent_occlusion" );
     ctxt.register_action( "diary" );
     ctxt.register_action( "action_menu" );

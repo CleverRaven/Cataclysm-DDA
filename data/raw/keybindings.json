@@ -2103,7 +2103,6 @@
   {
     "type": "keybinding",
     "name": "Toggle language to English",
-    "category": "DEFAULTMODE",
     "id": "toggle_language_to_en"
   },
   {
