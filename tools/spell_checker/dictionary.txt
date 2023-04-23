@@ -170,6 +170,7 @@ asymmetrically
 ategory
 aterial
 athame
+athames
 atmmonoid
 atomically
 atompot
@@ -1302,6 +1303,8 @@ homebrewing
 homemaking
 homewrecker
 homovorus
+homunculi
+homunculus
 honeygold
 honker
 hoose

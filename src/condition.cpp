@@ -528,7 +528,8 @@ void conditional_t::set_has_item( const JsonObject &jo, const std::string &membe
     };
 }
 
-void conditional_t::set_has_items( const JsonObject &jo, const std::string &member, bool is_npc )
+void conditional_t::set_has_items( const JsonObject &jo, const std::string_view member,
+                                   bool is_npc )
 {
     JsonObject has_items = jo.get_object( member );
     if( !has_items.has_string( "item" ) || ( !has_items.has_int( "count" ) &&
@@ -1153,7 +1154,7 @@ void conditional_t::set_query( const JsonObject &jo, const std::string &member, 
     };
 }
 
-void conditional_t::set_x_in_y_chance( const JsonObject &jo, const std::string &member )
+void conditional_t::set_x_in_y_chance( const JsonObject &jo, const std::string_view member )
 {
     const JsonObject &var_obj = jo.get_object( member );
     dbl_or_var dovx = get_dbl_or_var( var_obj, "x" );
@@ -1273,7 +1274,7 @@ void conditional_t::set_compare_string( const JsonObject &jo, const std::string 
     };
 }
 
-void conditional_t::set_compare_num( const JsonObject &jo, const std::string &member )
+void conditional_t::set_compare_num( const JsonObject &jo, const std::string_view member )
 {
     JsonArray objects = jo.get_array( member );
     if( objects.size() != 3 ) {
@@ -2410,7 +2411,7 @@ conditional_t::get_set_dbl( const J &jo, const std::optional<dbl_or_var_part> &m
     return []( dialogue const &, double ) {};
 }
 
-void talk_effect_fun_t::set_arithmetic( const JsonObject &jo, const std::string &member,
+void talk_effect_fun_t::set_arithmetic( const JsonObject &jo, const std::string_view member,
                                         bool no_result )
 {
     JsonArray objects = jo.get_array( member );
@@ -2589,7 +2590,7 @@ void talk_effect_fun_t::set_math( const JsonObject &jo, const std::string &membe
     };
 }
 
-void eoc_math::from_json( const JsonObject &jo, std::string const &member )
+void eoc_math::from_json( const JsonObject &jo, std::string_view member )
 {
     JsonArray const objects = jo.get_array( member );
     if( objects.size() > 3 ) {
@@ -2724,7 +2725,7 @@ void conditional_t::set_has_reason()
     };
 }
 
-void conditional_t::set_has_skill( const JsonObject &jo, const std::string &member,
+void conditional_t::set_has_skill( const JsonObject &jo, const std::string_view member,
                                    bool is_npc )
 {
     JsonObject has_skill = jo.get_object( member );
@@ -2741,7 +2742,7 @@ void conditional_t::set_has_skill( const JsonObject &jo, const std::string &memb
     }
 }
 
-void conditional_t::set_roll_contested( const JsonObject &jo, const std::string &member )
+void conditional_t::set_roll_contested( const JsonObject &jo, const std::string_view member )
 {
     std::function<double( dialogue const & )> get_check = conditional_t::get_get_dbl( jo.get_object(
                 member ) );
@@ -2850,7 +2851,7 @@ conditional_t::conditional_t( const JsonObject &jo )
     // improve the clarity of NPC setter functions
     const bool is_npc = true;
     bool found_sub_member = false;
-    const auto parse_array = []( const JsonObject & jo, const std::string & type ) {
+    const auto parse_array = []( const JsonObject & jo, const std::string_view type ) {
         std::vector<conditional_t> conditionals;
         for( const JsonValue entry : jo.get_array( type ) ) {
             if( entry.test_string() ) {

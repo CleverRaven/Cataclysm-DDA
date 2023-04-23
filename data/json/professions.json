@@ -8,6 +8,12 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "holster_supp_usp9",
+    "entries": [ { "item": "usp_9mm", "ammo-item": "9mmfmj", "charges": 15, "contents-item": [ "suppressor_compact" ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "army_grenades_40x46",
     "entries": [ { "item": "40x46mm_m433", "charges": 4 } ]
   },
@@ -320,6 +326,12 @@
     "subtype": "collection",
     "id": "bandolier_ww_gunslinger",
     "entries": [ { "item": "45colt_jhp", "charges": 18 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "bandolier_cowboy",
+    "entries": [ { "item": "357mag_jhp", "charges": 18 } ]
   },
   {
     "type": "item_group",
@@ -1870,6 +1882,46 @@
           { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
           { "item": "legpouch_large", "contents-group": "army_mags_usp45" },
           { "item": "kevlar_harness", "container-item": "runner_bag" },
+          { "item": "sheriffshirt", "variant": "sheriff" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "boy_shorts" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "horse_cop",
+    "name": "Mounted Police Officer",
+    "description": "You have spent many long years forging a bond with your equine companion, from running down common thugs, to entertaining kids when you ride on by.  The cataclysm is upon you, but at least you have eachother.",
+    "points": 5,
+    "skills": [
+      { "level": 4, "name": "survival" },
+      { "level": 2, "name": "gun" },
+      { "level": 2, "name": "pistol" },
+      { "level": 1, "name": "swimming" }
+    ],
+    "traits": [ "PROF_POLICE" ],
+    "proficiencies": [ "prof_spotting" ],
+    "pets": [ { "name": "mon_horse_police", "amount": 1 } ],
+    "items": {
+      "both": {
+        "items": [
+          "pants_army",
+          "socks",
+          "badge_deputy",
+          "police_belt",
+          "boots",
+          "wristwatch",
+          "helmet_bike",
+          "knee_pads",
+          "elbow_pads"
+        ],
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "group": "charged_two_way_radio" },
+          { "group": "holster_supp_usp9", "container-item": "XL_holster" },
+          { "item": "legpouch_large", "contents-group": "army_mags_usp9" },
           { "item": "sheriffshirt", "variant": "sheriff" }
         ]
       },
@@ -5319,6 +5371,51 @@
         "items": [ "flag_jumpsuit" ],
         "entries": [ { "item": "bikini_top", "variant": "flag_bikini_top" }, { "item": "bikini_bottom", "variant": "flag_bikini_bottom" } ]
       }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "cowboy",
+    "name": "Cowboy",
+    "description": "You liked to spend your days taking care of the horses and cows, searching the perimeter of the ranch in your steed and looking out for anything suspicious, that's why you managed to escape in time when shit hit the fan.",
+    "points": 4,
+    "proficiencies": [ "prof_gunsmithing_basic" ],
+    "skills": [
+      { "level": 2, "name": "survival" },
+      { "level": 2, "name": "gun" },
+      { "level": 2, "name": "pistol" },
+      { "level": 1, "name": "swimming" },
+      { "level": 2, "name": "driving" }
+    ],
+    "pets": [ { "name": "mon_horse", "amount": 1 } ],
+    "items": {
+      "both": {
+        "items": [
+          "leather_belt",
+          "dress_shirt",
+          "jacket_leather",
+          "socks",
+          "cowboy_hat",
+          "wristwatch",
+          "backpack_leather",
+          "horse_tack",
+          "bullwhip",
+          "pockknife",
+          "jeans",
+          "chaps_leather",
+          "gloves_leather",
+          "boots_western",
+          "sunglasses"
+        ],
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "sw_619", "ammo-item": "357mag_jhp", "charges": 7 },
+          { "item": "western_holster", "contents-group": "bandolier_cowboy" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "sports_bra", "panties" ]
     }
   },
   {

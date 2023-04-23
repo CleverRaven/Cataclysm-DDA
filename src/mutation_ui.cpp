@@ -42,7 +42,7 @@ static void draw_exam_window( const catacurses::window &win, const int border_y 
     mvwputch( win, point( width - 1, border_y ), BORDER_COLOR, LINE_XOXX );
 }
 
-static const auto shortcut_desc = []( const std::string &comment, const std::string &keys )
+static const auto shortcut_desc = []( const std::string_view comment, const std::string &keys )
 {
     return string_format( comment, string_format( "[<color_yellow>%s</color>]", keys ) );
 };

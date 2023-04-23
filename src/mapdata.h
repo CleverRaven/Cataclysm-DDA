@@ -66,7 +66,7 @@ struct map_bash_info {
         terrain,
         field
     };
-    bool load( const JsonObject &jsobj, const std::string &member, map_object_type obj_type,
+    bool load( const JsonObject &jsobj, std::string_view member, map_object_type obj_type,
                const std::string &context );
 };
 struct map_deconstruct_info {
@@ -79,7 +79,7 @@ struct map_deconstruct_info {
     ter_str_id ter_set;    // terrain to set (REQUIRED for terrain))
     furn_str_id furn_set;    // furniture to set (only used by furniture, not terrain)
     map_deconstruct_info();
-    bool load( const JsonObject &jsobj, const std::string &member, bool is_furniture,
+    bool load( const JsonObject &jsobj, std::string_view member, bool is_furniture,
                const std::string &context );
 };
 struct map_shoot_info {
@@ -99,7 +99,7 @@ struct map_shoot_info {
     int destroy_dmg_max = 0;
     // Are lasers incapable of destroying the object (defaults to false)
     bool no_laser_destroy = false;
-    bool load( const JsonObject &jsobj, const std::string &member, bool was_loaded );
+    bool load( const JsonObject &jsobj, std::string_view member, bool was_loaded );
 };
 struct furn_workbench_info {
     // Base multiplier applied for crafting here
@@ -108,7 +108,7 @@ struct furn_workbench_info {
     units::mass allowed_mass;
     units::volume allowed_volume;
     furn_workbench_info();
-    bool load( const JsonObject &jsobj, const std::string &member );
+    bool load( const JsonObject &jsobj, std::string_view member );
 };
 struct plant_data {
     // What the furniture turns into when it grows or you plant seeds in it
@@ -120,7 +120,7 @@ struct plant_data {
     // What percent of the normal harvest this crop gives
     float harvest_multiplier;
     plant_data();
-    bool load( const JsonObject &jsobj, const std::string &member );
+    bool load( const JsonObject &jsobj, std::string_view member );
 };
 
 /*
@@ -219,6 +219,7 @@ enum class ter_furn_flag : int {
     TFLAG_WALL,
     TFLAG_DEEP_WATER,
     TFLAG_SHALLOW_WATER,
+    TFLAG_WATER_CUBE,
     TFLAG_CURRENT,
     TFLAG_HARVESTED,
     TFLAG_PERMEABLE,

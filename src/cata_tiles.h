@@ -296,7 +296,7 @@ class tileset_cache::loader
         tile_type &load_tile( const JsonObject &entry, const std::string &id );
 
         void load_tile_spritelists( const JsonObject &entry, weighted_int_list<std::vector<int>> &vs,
-                                    const std::string &objname ) const;
+                                    std::string_view objname ) const;
 
         void load_ascii( const JsonObject &config );
         /** Load tileset, R,G,B, are the color components of the transparent color
@@ -417,7 +417,7 @@ class cata_tiles
         // this templated method is used only from it's own cpp file, so it's ok to declare it here
         template<typename T>
         std::optional<tile_lookup_res>
-        find_tile_looks_like_by_string_id( const std::string &id, TILE_CATEGORY category,
+        find_tile_looks_like_by_string_id( std::string_view id, TILE_CATEGORY category,
                                            int looks_like_jumps_limit ) const;
 
         bool find_overlay_looks_like( bool male, const std::string &overlay, const std::string &variant,
