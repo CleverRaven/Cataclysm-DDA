@@ -29,12 +29,7 @@ static const efftype_id effect_took_flumed( "took_flumed" );
 
 static const itype_id itype_rock( "rock" );
 
-static const json_character_flag json_flag_GRAB( "GRAB" );
 static const json_character_flag json_flag_TOUGH_FEET( "TOUGH_FEET" );
-
-static const matype_id style_brawling( "style_brawling" );
-
-static const skill_id skill_unarmed( "unarmed" );
 
 static const trait_id trait_TOUGH_FEET( "TOUGH_FEET" );
 
