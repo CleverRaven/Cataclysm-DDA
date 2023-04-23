@@ -1207,15 +1207,10 @@ const std::string &input_context::handle_input( const int timeout )
         const std::string &action = input_to_action( next_action );
 
         if( action == "toggle_language_to_en" ) {
-            //Allows "toggle_language_to_en" to also work on contexts other than "DEFAULTMODE"
             g->toggle_language_to_en();
             g->invalidate_main_ui_adaptor();
             ui_manager::redraw_invalidated();
         }
-
-
-
-
 
         // Special help action
         if( action == "HELP_KEYBINDINGS" ) {
