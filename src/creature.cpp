@@ -1383,7 +1383,7 @@ bool Creature::dodge_check( float hit_roll, bool force_try )
         return true;
     }
 
-    const float dodge_ability = get_dodge();
+    const float dodge_ability = dodge_roll();
     // center is 5 - 0 / 2
     // stddev is 5 - 0 / 4
     const float dodge_chance = 1 - normal_roll_chance( 2.5f, 1.25f, dodge_ability - hit_roll );
