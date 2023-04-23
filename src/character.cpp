@@ -3130,9 +3130,9 @@ std::string Character::enumerate_unmet_requirements( const item &it, const item 
 int Character::read_speed() const
 {
     // Stat window shows stat effects on based on current stat
-    const int intel = get_int();
-    /** @EFFECT_INT increases reading speed by 3s per level above 8*/
-    time_duration ret = 1_minutes - 3_seconds * ( intel - 8 );
+    const int intel = std::max( get_int(), 2 );
+    /** @EFFECT_INT affects reading speed - 100% at 8 int, 200% at 4 int, 50% at 16 int */
+    time_duration ret = 8_minutes / intel;
 
     if( has_bionic( afs_bio_linguistic_coprocessor ) ) { // Aftershock
         ret *= .85;
