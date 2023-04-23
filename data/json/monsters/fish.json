@@ -41,7 +41,7 @@
     "flags": [ "SMELLS", "HEARS", "SEES", "SWIMS", "GRABS", "ARTHROPOD_BLOOD", "QUEEN", "PATH_AVOID_DANGER_1" ]
   },
   {
-    "id": "mon_fish_tiny",
+    "abstract": "mon_fish_tiny",
     "type": "MONSTER",
     "name": { "str_sp": "tiny fish" },
     "//": "a default fish type - does not appear in-game",
@@ -71,7 +71,7 @@
     "flags": [ "FISHABLE", "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
   },
   {
-    "id": "mon_fish_small",
+    "abstract": "mon_fish_small",
     "type": "MONSTER",
     "name": { "str_sp": "small fish" },
     "//": "a default fish type - does not appear in-game",
@@ -102,7 +102,7 @@
     "flags": [ "FISHABLE", "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
   },
   {
-    "id": "mon_fish_medium",
+    "abstract": "mon_fish_medium",
     "type": "MONSTER",
     "description": "A medium fish.",
     "default_faction": "fish",
@@ -133,7 +133,7 @@
     "flags": [ "FISHABLE", "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
   },
   {
-    "id": "mon_fish_large",
+    "abstract": "mon_fish_large",
     "type": "MONSTER",
     "description": "A large fish.",
     "default_faction": "fish",
@@ -164,7 +164,7 @@
     "flags": [ "FISHABLE", "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
   },
   {
-    "id": "mon_fish_huge",
+    "abstract": "mon_fish_huge",
     "type": "MONSTER",
     "description": "A huge fish.",
     "default_faction": "fish",
@@ -195,7 +195,7 @@
     "flags": [ "FISHABLE", "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
   },
   {
-    "id": "mon_fry",
+    "abstract": "mon_fry",
     "type": "MONSTER",
     "name": { "str_sp": "fish fry" },
     "//": "a default fish type - does not appear in-game",

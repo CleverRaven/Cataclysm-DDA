@@ -1,6 +1,6 @@
 [
   {
-    "id": "mon_larva_abstract",
+    "abstract": "mon_larva_abstract",
     "type": "MONSTER",
     "name": { "str": "larva", "str_pl": "larvae" },
     "description": "A fake monster.  If you're seeing this something went wrong.",
