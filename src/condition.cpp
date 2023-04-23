@@ -281,7 +281,7 @@ var_info read_var_info( const JsonObject &jo )
 }
 
 void write_var_value( var_type type, const std::string &name, talker *talk,
-                      const std::string &value )
+                      const std::string value )
 {
     global_variables &globvars = get_globals();
     switch( type ) {
@@ -302,6 +302,19 @@ void write_var_value( var_type type, const std::string &name, talker *talk,
             debugmsg( "Invalid type." );
             break;
     }
+}
+
+std::string remove_trailing_zeroes( std::string val )
+{
+    if( val.find( '.' ) != std::string::npos ) {
+        // Remove trailing zeroes
+        val = val.substr( 0, val.find_last_not_of( '0' ) + 1 );
+        // If the decimal point is now the last character, remove that as well
+        if( val.find( '.' ) == val.size() - 1 ) {
+            val = val.substr( 0, val.size() - 1 );
+        }
+    }
+    return val;
 }
 
 static bodypart_id get_bp_from_str( const std::string &ctxt )
@@ -2173,9 +2186,9 @@ conditional_t::get_set_dbl( const J &jo, const std::optional<dbl_or_var_part> &m
                 var_name = get_talk_varname( jo, "var_name", false, empty );
             }
             return [is_npc, var_name, type, min, max]( dialogue const & d, double input ) {
-                write_var_value( type, var_name, d.actor( is_npc ), std::to_string( handle_min_max( d, input,
-                                 min,
-                                 max ) ) );
+
+                write_var_value( type, var_name, d.actor( is_npc ),
+                                 remove_trailing_zeroes( std::to_string( handle_min_max( d, input, min, max ) ) ) );
             };
         } else if( checked_value == "time_since_var" ) {
             // This is a strange thing to want to adjust. But we allow it nevertheless.
