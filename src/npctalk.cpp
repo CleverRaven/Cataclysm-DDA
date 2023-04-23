@@ -2739,7 +2739,6 @@ void talk_effect_fun_t::set_location_variable( const JsonObject &jo, const std::
     function = [dov_min_radius, dov_max_radius, var_name, outdoor_only, target_params, is_npc, type,
                                 dov_x_adjust, dov_y_adjust, dov_z_adjust, z_override, true_eocs, false_eocs, search_target,
                     search_type, dov_target_min_radius, dov_target_max_radius]( dialogue const & d ) {
-        tripoint_abs_ms avatar_pos = get_avatar().get_location();
         talker *target = d.actor( is_npc );
         tripoint talker_pos = get_map().getabs( target->pos() );
         tripoint target_pos = talker_pos;
