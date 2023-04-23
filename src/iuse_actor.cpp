@@ -2567,7 +2567,7 @@ std::optional<int> ammobelt_actor::use( Character &p, item &, bool, const tripoi
     item_location loc = p.i_add( mag );
     item::reload_option opt = p.select_ammo( loc, true );
     if( opt ) {
-        p.assign_activity( player_activity( reload_activity_actor( std::move( opt ) ) ) );
+        p.assign_activity( reload_activity_actor( std::move( opt ) ) );
     } else {
         loc.remove_item();
     }
@@ -3290,8 +3290,7 @@ std::optional<int> heal_actor::use( Character &p, item &it, bool, const tripoint
     cost = p.has_proficiency( proficiency_prof_wound_care_expert ) ? cost / 2 : cost;
     cost = p.has_proficiency( proficiency_prof_wound_care ) ? cost / 2 : cost;
 
-    p.assign_activity( player_activity( firstaid_activity_actor( cost, it.tname(),
-                                        patient.getID() ) ) );
+    p.assign_activity( firstaid_activity_actor( cost, it.tname(), patient.getID() ) );
 
     // Player: Only time this item_location gets used in firstaid::finish() is when activating the item's
     // container from the inventory window, so an item_on_person impl is all that is needed.
@@ -4401,9 +4400,9 @@ std::optional<int> deploy_tent_actor::use( Character &p, item &it, bool, const t
     }
 
     //checks done start activity:
-    player_activity new_act = player_activity( tent_placement_activity_actor( to_moves<int>
-                              ( 20_minutes ), direction, radius, it, wall, floor, floor_center, door_closed ) );
-    get_player_character().assign_activity( new_act );
+    tent_placement_activity_actor actor( to_moves<int>( 20_minutes ), direction, radius, it, wall,
+                                         floor, floor_center, door_closed );
+    get_player_character().assign_activity( actor );
     p.i_rem( &it );
     return 0;
 }

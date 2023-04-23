@@ -8250,6 +8250,11 @@ void Character::assign_activity( const activity_id &type, int moves, int index, 
     assign_activity( player_activity( type, moves, index, pos, name ) );
 }
 
+void Character::assign_activity( const activity_actor &actor )
+{
+    assign_activity( player_activity( actor ) );
+}
+
 void Character::assign_activity( const player_activity &act )
 {
     bool resuming = false;
@@ -10424,7 +10429,7 @@ bool Character::unload( item_location &loc, bool bypass_activity )
             }
 
         }
-        assign_activity( player_activity( unload_activity_actor( moves, loc ) ) );
+        assign_activity( unload_activity_actor( moves, loc ) );
 
         return true;
     }
@@ -10502,7 +10507,7 @@ bool Character::unload( item_location &loc, bool bypass_activity )
                 // Disassembling ammo belts is easier than assembling them
                 mv /= 2;
             }
-            assign_activity( player_activity( unload_activity_actor( mv, targloc ) ) );
+            assign_activity( unload_activity_actor( mv, targloc ) );
         }
         return true;
 
@@ -11752,7 +11757,7 @@ void Character::use( item_location loc, int pre_obtain_moves, std::string const 
                 moves = pre_obtain_moves;
                 return;
             }
-            u->assign_activity( player_activity( consume_activity_actor( item_location( *u, &used ) ) ) );
+            u->assign_activity( consume_activity_actor( item_location( *u, &used ) ) );
         } else  {
             const time_duration &consume_time = get_consume_time( used );
             moves -= to_moves<int>( consume_time );

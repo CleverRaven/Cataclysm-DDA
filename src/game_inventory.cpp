@@ -1615,9 +1615,7 @@ void game_menus::inv::insert_items( avatar &you, item_location &holster )
     drop_locations holstered_list = game_menus::inv::holster( you, holster );
 
     if( !holstered_list.empty() ) {
-        you.assign_activity(
-            player_activity(
-                insert_item_activity_actor( holster, holstered_list ) ) );
+        you.assign_activity( insert_item_activity_actor( holster, holstered_list ) );
     }
 }
 
