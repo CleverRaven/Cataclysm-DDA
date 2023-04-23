@@ -1200,9 +1200,9 @@ const std::string &input_context::handle_input( const int timeout )
 
         //Allows "toggle_language_to_en" to also work on contexts other than "DEFAULTMODE"
         if( !next_action.sequence.empty() ) {
-            auto attr = inp_mngr.get_action_attributes( "toggle_language_to_en", "DEFAULTMODE" );
+            const auto &attr = inp_mngr.get_action_attributes( "toggle_language_to_en", "DEFAULTMODE" );
             if( !attr.input_events.empty() ) {
-                input_event input = attr.input_events.front();
+                const input_event &input = attr.input_events.front();
                 if( !input.sequence.empty() ) {
                     if( next_action.sequence.front() == input.sequence.front() ) {
                         g->toggle_language_to_en();
