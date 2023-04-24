@@ -1871,16 +1871,6 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         build_electronics_menu( menu );
     }
 
-    if( controls_here ) {
-        menu.add( cruise_on ? _( "Disable cruise control" ) : _( "Enable cruise control" ) )
-        .hotkey( "TOGGLE_CRUISE_CONTROL" )
-        .keep_menu_open()
-        .on_submit( [this] {
-            cruise_on = !cruise_on;
-            add_msg( cruise_on ? _( "Cruise control turned on" ) : _( "Cruise control turned off" ) );
-        } );
-    }
-
     if( has_electronic_controls && has_part( "SMART_ENGINE_CONTROLLER" ) ) {
         menu.add( _( "Smart controller settings" ) )
         .hotkey( "CONTROL_SMART_ENGINE" )

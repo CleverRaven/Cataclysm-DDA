@@ -3451,7 +3451,6 @@ void vehicle::deserialize( const JsonObject &data )
     data.read( "flying", is_flying );
     data.read( "cruise_velocity", cruise_velocity );
     data.read( "vertical_velocity", vertical_velocity );
-    data.read( "cruise_on", cruise_on );
     data.read( "engine_on", engine_on );
     data.read( "tracking_on", tracking_on );
     data.read( "skidding", skidding );
@@ -3626,7 +3625,6 @@ void vehicle::serialize( JsonOut &json ) const
     json.member( "flying", is_flying );
     json.member( "cruise_velocity", cruise_velocity );
     json.member( "vertical_velocity", vertical_velocity );
-    json.member( "cruise_on", cruise_on );
     json.member( "engine_on", engine_on );
     json.member( "tracking_on", tracking_on );
     json.member( "skidding", skidding );

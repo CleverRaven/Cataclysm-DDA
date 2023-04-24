@@ -2277,7 +2277,6 @@ bool vehicle::split_vehicles( map &here,
             new_vehicle->velocity = velocity;
             new_vehicle->vertical_velocity = vertical_velocity;
             new_vehicle->cruise_velocity = cruise_velocity;
-            new_vehicle->cruise_on = cruise_on;
             new_vehicle->engine_on = engine_on;
             new_vehicle->tracking_on = tracking_on;
             new_vehicle->camera_on = camera_on;
@@ -5724,7 +5723,7 @@ void vehicle::gain_moves()
         of_turn = 1 + of_turn_carry;
         const int vslowdown = slowdown( velocity );
         if( vslowdown > std::abs( velocity ) ) {
-            if( cruise_on && cruise_velocity && pl_control ) {
+            if( cruise_velocity && pl_control ) {
                 velocity = velocity > 0 ? 1 : -1;
             } else {
                 stop();
@@ -5740,8 +5739,8 @@ void vehicle::gain_moves()
     }
     of_turn_carry = 0;
     // cruise control TODO: enable for NPC?
-    if( ( pl_control || is_following || is_patrolling ) && cruise_on && cruise_velocity != velocity ) {
-        thrust( ( cruise_velocity ) > velocity ? 1 : -1 );
+    if( ( pl_control || is_following || is_patrolling ) && cruise_velocity != velocity ) {
+        thrust( cruise_velocity > velocity ? 1 : -1 );
     } else if( is_rotorcraft() && velocity == 0 ) {
         // rotorcraft uses fuel for hover
         // whether it's flying or not is checked inside thrust function
