@@ -192,15 +192,10 @@ bool vehicle_part::is_available( const bool carried ) const
 
 itype_id vehicle_part::fuel_current() const
 {
-    if( is_engine() ) {
-        if( ammo_pref.is_null() ) {
-            return info().fuel_type != itype_muscle ? info().fuel_type : itype_id::NULL_ID();
-        } else {
-            return ammo_pref;
-        }
+    if( !ammo_pref.is_null() ) {
+        return ammo_pref;
     }
-
-    return itype_id::NULL_ID();
+    return info().fuel_type;
 }
 
 bool vehicle_part::fuel_set( const itype_id &fuel )

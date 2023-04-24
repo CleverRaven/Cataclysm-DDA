@@ -4549,7 +4549,7 @@ float vehicle::handling_difficulty() const
 
 units::power vehicle::engine_fuel_usage( const vehicle_part &vp ) const
 {
-    if( !is_engine_on( vp ) || vp.fuel_current().is_null() || is_perpetual_type( vp ) ) {
+    if( !is_engine_on( vp ) || is_perpetual_type( vp ) ) {
         return 0_W;
     }
     const units::power usage = vp.info().energy_consumption;
@@ -4564,6 +4564,9 @@ std::map<itype_id, units::power> vehicle::fuel_usage() const
     std::map<itype_id, units::power> ret;
     for( const int p : engines ) {
         const vehicle_part &vp = parts[p];
+        if( is_perpetual_type( vp ) ) {
+            continue;
+        }
         ret[vp.fuel_current()] += engine_fuel_usage( vp );
     }
     return ret;
