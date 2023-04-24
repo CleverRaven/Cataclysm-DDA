@@ -125,6 +125,7 @@ class recipe
         translation name_;
 
         int difficulty = 0;
+        int lang_version = 0;
 
         // Returns the recipe difficulty. For practice recipes, this is adjusted
         // for the crafter's current skill level.

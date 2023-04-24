@@ -674,13 +674,18 @@ void recipe_result_info_cache::get_item_header( item &dummy_item, const int quan
 item_info_data recipe_result_info_cache::get_result_data( const recipe *rec, const int batch_size,
         int &scroll_pos, const catacurses::window &window )
 {
-    /* If the recipe has not changed, return the cached version in info.
-       Unfortunately, the separator lines are baked into info at a specific width, so if the terminal width
-       has changed, the info needs to be regenerated */
-    if( rec == last_recipe && rec != nullptr && TERMX == last_terminal_width &&
-        batch_size == cached_batch_size ) {
-        item_info_data data( "", "", info, {}, scroll_pos );
-        return data;
+    //If lang_version has changed, cached data shouldn't be used
+    if( rec->lang_version == detail::get_current_language_version() ) {
+        /* If the recipe has not changed, return the cached version in info.
+           Unfortunately, the separator lines are baked into info at a specific width, so if the terminal width
+           has changed, the info needs to be regenerated */
+        if( rec == last_recipe && rec != nullptr && TERMX == last_terminal_width &&
+            batch_size == cached_batch_size ) {
+            item_info_data data( "", "", info, {}, scroll_pos );
+            return data;
+        }
+    } else {
+        const_cast<recipe *>( rec )->lang_version = detail::get_current_language_version();
     }
 
     cached_batch_size = batch_size;

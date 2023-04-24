@@ -971,7 +971,7 @@ void inventory_entry::make_entry_cell_cache(
     }
     entry_cell_cache.emplace( entry_cell_cache_t{
         preset.get_color( *this ),
-        { preset.get_cells_count(), std::string() }, detail::get_current_language_version() } );
+        { preset.get_cells_count(), std::string() } } );
 
     for( size_t i = 0, n = preset.get_cells_count(); i < n; ++i ) {
         entry_cell_cache->text[i] = preset.get_cell_text( *this, i );
