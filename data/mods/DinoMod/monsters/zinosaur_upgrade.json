@@ -173,7 +173,7 @@
     },
     "bleed_rate": 50,
     "upgrades": { "half_life": 42, "into_group": "GROUP_zyrannosaurus_BRUTE" },
-    "special_attacks": [ [ "SMASH", 30 ], [ "GRAB", 7 ] ],
+    "special_attacks": [ { "id": "bite_grab", "cooldown": 7 },  [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
   },
@@ -196,7 +196,8 @@
     },
     "bleed_rate": 50,
     "upgrades": { "half_life": 42, "into_group": "GROUP_zyrannosaurus_BRUTE" },
-    "special_attacks": [ [ "SMASH", 30 ], [ "GRAB", 7 ] ],
+    "special_attacks": [
+      { "id": "bite_grab", "cooldown": 7 }, [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
   },
@@ -219,7 +220,7 @@
     },
     "bleed_rate": 50,
     "upgrades": { "half_life": 42, "into_group": "GROUP_zyrannosaurus_BRUTE" },
-    "special_attacks": [ [ "SMASH", 30 ], [ "GRAB", 7 ] ],
+    "special_attacks": [ [ "SMASH", 30 ], { "id": "bite_grab", "cooldown": 7 } ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
   },
@@ -242,7 +243,7 @@
     },
     "bleed_rate": 50,
     "upgrades": { "half_life": 42, "into_group": "GROUP_zyrannosaurus_BRUTE" },
-    "special_attacks": [ [ "SMASH", 30 ], [ "GRAB", 7 ] ],
+    "special_attacks": [ [ "SMASH", 30 ], { "id": "bite_grab", "cooldown": 7 } ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
   },
@@ -265,7 +266,7 @@
     },
     "bleed_rate": 50,
     "upgrades": { "half_life": 42, "into_group": "GROUP_zyrannosaurus_BRUTE" },
-    "special_attacks": [ [ "SMASH", 30 ], [ "GRAB", 7 ] ],
+    "special_attacks": [ [ "SMASH", 30 ], { "id": "bite_grab", "cooldown": 7 } ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
   },
@@ -286,7 +287,7 @@
     },
     "bleed_rate": 50,
     "upgrades": { "half_life": 42, "into_group": "GROUP_zyrannosaurus_BRUTE" },
-    "special_attacks": [ [ "SMASH", 30 ], [ "GRAB", 7 ] ],
+    "special_attacks": [ [ "SMASH", 30 ], { "id": "bite_grab", "cooldown": 7 } ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
   },
@@ -309,7 +310,7 @@
     },
     "bleed_rate": 50,
     "upgrades": { "half_life": 42, "into_group": "GROUP_zyrannosaurus_BRUTE" },
-    "special_attacks": [ [ "SMASH", 30 ], [ "GRAB", 7 ] ],
+    "special_attacks": [ [ "SMASH", 30 ], { "id": "bite_grab", "cooldown": 7 } ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
   },
@@ -1733,7 +1734,7 @@
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "weakpoint_sets": [ "wps_dinosaur_body" ],
     "hp": 430,
-    "special_attacks": [ [ "scratch", 10 ], [ "GRAB", 10 ], { "id": "teeth_zino_max", "cooldown": 5 } ],
+    "special_attacks": [ [ "scratch", 10 ],{ "id": "bite_grab", "cooldown": 7 }, { "id": "teeth_zino_max", "cooldown": 5 } ],
     "burn_into": "mon_zpinosaurus_scorched",
     "fungalize_into": "mon_zpinosaurus_fungus",
     "flags": [
@@ -1784,7 +1785,7 @@
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "weakpoint_sets": [ "wps_dinosaur_body" ],
     "hp": 260,
-    "special_attacks": [ [ "scratch", 10 ], [ "GRAB", 10 ], { "id": "teeth_zino_mid", "cooldown": 5 } ],
+    "special_attacks": [ [ "scratch", 10 ],{ "id": "bite_grab", "cooldown": 7 }, { "id": "teeth_zino_mid", "cooldown": 5 } ],
     "burn_into": "mon_zorvosaurus_scorched",
     "fungalize_into": "mon_zorvosaurus_fungus",
     "flags": [
@@ -1822,7 +1823,7 @@
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "weakpoint_sets": [ "wps_dinosaur_body" ],
     "hp": 190,
-    "special_attacks": [ [ "scratch", 10 ], [ "GRAB", 10 ], { "id": "teeth_zino_mid", "cooldown": 5 } ],
+    "special_attacks": [ [ "scratch", 10 ],{ "id": "bite_grab" }, { "id": "teeth_zino_mid", "cooldown": 5 } ],
     "burn_into": "mon_zallosaurus_scorched",
     "fungalize_into": "mon_zallosaurus_fungus",
     "flags": [
@@ -1853,7 +1854,7 @@
     "melee_dice_sides": 5,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "hp": 270,
-    "special_attacks": [ [ "GRAB", 10 ], { "id": "teeth_zino_mid", "cooldown": 10 }, [ "LUNGE", 20 ] ],
+    "special_attacks": [ { "id": "bite_grab" }, { "id": "teeth_zino_mid", "cooldown": 10 }, [ "LUNGE", 20 ] ],
     "burn_into": "mon_zacrocanthosaurus_scorched",
     "fungalize_into": "mon_zacrocanthosaurus_fungus",
     "armor": { "cut": 4, "bullet": 2, "bash": 11 }
@@ -1883,7 +1884,7 @@
     "hp": 200,
     "special_attacks": [
       { "id": "teeth_zino_mid", "cooldown": 15 },
-      [ "GRAB", 15 ],
+      { "id": "bite_grab", "cooldown": 15 },
       { "type": "leap", "cooldown": 20, "max_range": 5, "allow_no_target": true }
     ],
     "burn_into": "mon_zryptosaurus_scorched",

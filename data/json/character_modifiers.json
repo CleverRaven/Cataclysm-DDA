@@ -78,6 +78,7 @@
   },
   {
     "id": "grab_break_limb_mod",
+    "type": "character_mod",
     "description": "Grab break success modifier",
     "mod_type": "x",
     "//": "Major limb scores - grip would be nice but unless",
