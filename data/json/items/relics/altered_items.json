@@ -92,5 +92,54 @@
     "material": [ "plastic" ],
     "weight": "200 g",
     "volume": "165 ml"
+  },
+  {
+    "id": "altered_shirt",
+    "copy-from": "tshirt",
+    "type": "ARMOR",
+    "name": { "str": "Hawaiian shirt" },
+    "description": "A slightly worn button-down shirt with a tropical pattern, straight out of the 80's.  You swear that every time you look away and look back, the pattern changes subtly."
+  },
+  {
+    "id": "altered_badge",
+    "copy-from": "badge_deputy",
+    "type": "ARMOR",
+    "name": { "str": "defaced badge" },
+    "description": "A strange golden badge in the shape of a shield with scratched out lettering.  The faceless figures decorating the badge seem taller and thinner than ordinary humans."
+  },
+  {
+    "id": "altered_sunglasses",
+    "copy-from": "sunglasses",
+    "type": "ARMOR",
+    "name": { "str": "pair of strange sunglasses", "str_pl": "pairs of strange sunglasses" },
+    "description": "A pair of thin, round sunglasses.  The tinted glass seems to reflect the same shade of baleful orange light no matter what light it reflects."
+  },
+  {
+    "id": "altered_scissors",
+    "type": "TOOL",
+    "copy-from": "scissors",
+    "name": { "str": "pair of antique scissors", "str_pl": "pairs of antique scissors" },
+    "description": "A pair of ornately decorated steel scissors.  The handle is decorated with vicious-looking birds."
+  },
+  {
+    "id": "altered_necklace",
+    "copy-from": "silver_necklace",
+    "type": "ARMOR",
+    "name": { "str": "antique silver locket" },
+    "description": "A heart-shaped silver locket with an black-and-white image of a smiling woman in it.  Her eyes seem to follow you whenever you look at it."
+  },
+  {
+    "id": "altered_jacket",
+    "copy-from": "jacket_leather",
+    "type": "ARMOR",
+    "name": { "str": "varsity jacket" },
+    "description": "A jacket traditionally worn by school athletes.  The logo of the school has an oddly detailed fractal pattern that draws your eye in whenever you look at it."
+  },
+  {
+    "id": "altered_apron",
+    "copy-from": "waist_apron_long",
+    "type": "ARMOR",
+    "name": { "str": "ambiguous apron" },
+    "description": "A long apron with a plain pattern on it.  Your eyes can't seem to decide what color it is."
   }
 ]

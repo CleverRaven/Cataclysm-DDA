@@ -904,7 +904,7 @@ E JsonObject::get_enum_value( const char *name, E fallback ) const
     }
 }
 
-inline std::vector<int> JsonObject::get_int_array( const std::string &name ) const
+inline std::vector<int> JsonObject::get_int_array( const std::string_view name ) const
 {
     std::vector<int> ret;
     JsonArray ja = get_array( name );
@@ -914,7 +914,7 @@ inline std::vector<int> JsonObject::get_int_array( const std::string &name ) con
     }
     return ret;
 }
-inline std::vector<std::string> JsonObject::get_string_array( const std::string &name ) const
+inline std::vector<std::string> JsonObject::get_string_array( const std::string_view name ) const
 {
     std::vector<std::string> ret;
     JsonArray ja = get_array( name );
@@ -1106,7 +1106,7 @@ void deserialize( std::optional<T> &obj, const JsonValue &jsin )
 }
 
 inline void add_array_to_set( std::set<std::string> &s, const JsonObject &json,
-                              const std::string &name )
+                              const std::string_view name )
 {
     for( const std::string line : json.get_array( name ) ) {
         s.insert( line );

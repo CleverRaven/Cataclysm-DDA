@@ -454,7 +454,7 @@ class json_flag
         int taste_mod_ = 0;
 
         /** Load flag definition from JSON */
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
 
         /** Load all flags from JSON */
         static void load_all( const JsonObject &jo, const std::string &src );

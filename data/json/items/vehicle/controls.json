@@ -83,7 +83,7 @@
     "id": "vehicle_dashboard",
     "name": { "str": "dashboard" },
     "description": "A vehicle instrument panel with various gauges and switches.  Useful for crafting.",
-    "weight": "2721 g",
+    "weight": "2821 g",
     "to_hit": -2,
     "color": "cyan",
     "symbol": "$",

@@ -917,10 +917,11 @@ class item : public visitable
         /**
          * Returns this item into its default container. If it does not have a default container,
          * returns this. It's intended to be used like \code newitem = newitem.in_its_container();\endcode
+         * qty <= 0 means the current quantity of the item will be used. Any quantity exceeding the capacity
+         * of the container will be ignored.
          */
-        item in_its_container( int qty = INFINITE_CHARGES ) const;
-        item in_container( const itype_id &container_type, int qty = INFINITE_CHARGES,
-                           bool sealed = true ) const;
+        item in_its_container( int qty = 0 ) const;
+        item in_container( const itype_id &container_type, int qty = 0, bool sealed = true ) const;
 
         /**
         * True if item and its contents have any uses.

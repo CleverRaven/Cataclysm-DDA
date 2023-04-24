@@ -1,39 +1,6 @@
 [
   {
     "type": "construction",
-    "id": "app_afs_metal_rig",
-    "group": "place_metal_rig",
-    "category": "APPLIANCE",
-    "required_skills": [ [ "fabrication", 0 ] ],
-    "time": "5 m",
-    "components": [ [ [ "afs_metal_rig", 1 ] ] ],
-    "pre_special": "check_empty",
-    "post_special": "done_appliance"
-  },
-  {
-    "type": "construction",
-    "id": "app_afs_cooking_rig",
-    "group": "place_cooking_rig",
-    "category": "APPLIANCE",
-    "required_skills": [ [ "fabrication", 0 ] ],
-    "time": "5 m",
-    "components": [ [ [ "afs_cooking_rig", 1 ] ] ],
-    "pre_special": "check_empty",
-    "post_special": "done_appliance"
-  },
-  {
-    "type": "construction",
-    "id": "app_afs_kitchen_rig",
-    "group": "place_kitchen_rig",
-    "category": "APPLIANCE",
-    "required_skills": [ [ "fabrication", 0 ] ],
-    "time": "5 m",
-    "components": [ [ [ "afs_kitchen_rig", 1 ] ] ],
-    "pre_special": "check_empty",
-    "post_special": "done_appliance"
-  },
-  {
-    "type": "construction",
     "id": "constr_blz_fridge_vehicle",
     "group": "convert_fridge_power_supply",
     "category": "FURN",

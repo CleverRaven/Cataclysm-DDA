@@ -2129,6 +2129,7 @@
       { "item": "mutagen", "prob": 1 },
       { "item": "purifier", "prob": 1 },
       { "item": "yeast", "prob": 3 },
+      { "item": "yogurt_starter_culture", "prob": 1 },
       { "item": "royal_jelly", "prob": 4 },
       { "item": "superglue", "prob": 30 },
       { "item": "bottle_glass", "prob": 10 },

@@ -733,39 +733,6 @@
     "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "BASHES", "HIT_AND_RUN", "NO_BREATHE", "NOGIB" ]
   },
   {
-    "id": "mon_rabbit_dreadful",
-    "type": "MONSTER",
-    "name": { "str": "rabbit" },
-    "description": "A small mammal with a cute wiggling nose, a cotton ball tail, and a body made of delicious flesh.",
-    "default_faction": "mutant",
-    "bodytype": "pig",
-    "looks_like": "mon_rabbit",
-    "species": [ "NETHER" ],
-    "volume": "1600 ml",
-    "weight": "1600 g",
-    "hp": 40,
-    "speed": 200,
-    "material": [ "flesh" ],
-    "symbol": "r",
-    "color": "brown",
-    "aggression": 100,
-    "morale": 100,
-    "melee_skill": 5,
-    "melee_dice": 4,
-    "melee_dice_sides": 8,
-    "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
-    "armor_bash": 5,
-    "armor_cut": 5,
-    "armor_bullet": 4,
-    "dodge": 6,
-    "vision_day": 50,
-    "vision_night": 15,
-    "path_settings": { "avoid_traps": true, "avoid_sharp": true },
-    "harvest": "mammal_small_fur",
-    "dissect": "dissect_beast_sample_small",
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "HARDTOSHOOT", "PATH_AVOID_DANGER_1" ]
-  },
-  {
     "id": "mon_shadow",
     "type": "MONSTER",
     "name": { "str": "shadow" },
@@ -1019,8 +986,8 @@
     "species": [ "NETHER_EMANATION" ],
     "volume": "62500 ml",
     "weight": "0 g",
-    "hp": 30,
     "speed": 90,
+    "hp": 30,
     "symbol": "X",
     "color": "white",
     "aggression": 100,
@@ -1035,7 +1002,7 @@
       }
     ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s fades away." },
-    "flags": [ "FLIES", "NO_BREATHE", "SEES", "HEARS", "RANGED_ATTACKER" ]
+    "flags": [ "FLIES", "NO_BREATHE", "SEES", "RANGED_ATTACKER", "IMMOBILE" ]
   },
   {
     "id": "mon_absence",
@@ -1062,7 +1029,7 @@
       }
     ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s returns to normal levels of empty." },
-    "flags": [ "FLIES", "NO_BREATHE", "SEES", "HEARS", "RANGED_ATTACKER" ]
+    "flags": [ "FLIES", "NO_BREATHE", "SEES", "RANGED_ATTACKER", "IMMOBILE" ]
   },
   {
     "id": "mon_giant_appendage",
@@ -1085,7 +1052,7 @@
     "melee_dice_sides": 5,
     "melee_damage": [ { "damage_type": "cut", "amount": 14 } ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s is pulled back through the closing portal." },
-    "flags": [ "FLIES", "NO_BREATHE", "SEES", "HEARS" ]
+    "flags": [ "FLIES", "NO_BREATHE", "STUMBLES" ]
   },
   {
     "id": "mon_memory",
@@ -1108,7 +1075,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "special_attacks": [ [ "GRAB", 2 ], [ "PARROT", 4 ] ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s begins to cry as it disappears." },
-    "flags": [ "SEES", "HEARS", "NO_BREATHE", "PUSH_MON", "GROUP_BASH" ]
+    "flags": [ "NO_BREATHE", "PUSH_MON", "GROUP_BASH" ]
   },
   {
     "id": "mon_swarm_structure",

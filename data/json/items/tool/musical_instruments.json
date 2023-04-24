@@ -243,6 +243,32 @@
     }
   },
   {
+    "id": "krar_golden",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "golden krar" },
+    "description": "A shiny golden krar, similar to a harp.",
+    "weight": "13000 g",
+    "volume": "2500 ml",
+    "longest_side": "60 cm",
+    "price": 1000000,
+    "price_postapoc": 1000,
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "clumsy" },
+    "bashing": 9,
+    "material": [ "gold" ],
+    "symbol": "}",
+    "color": "yellow",
+    "use_action": {
+      "type": "musical_instrument",
+      "volume": 25,
+      "fun": 1,
+      "fun_bonus": 4,
+      "speed_penalty": 25,
+      "description_frequency": 10,
+      "player_descriptions": [ "You play a relaxed, folksy tune on your krar." ]
+    }
+  },
+  {
     "type": "TOOL_ARMOR",
     "id": "harmonica_holder",
     "name": { "str_pl": "harmonicas with holders", "str": "harmonica with a holder" },

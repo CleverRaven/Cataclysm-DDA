@@ -84,7 +84,7 @@ class item_category
         static const std::vector<item_category> &get_all();
         static void load_item_cat( const JsonObject &jo, const std::string &src );
         static void reset();
-        void load( const JsonObject &jo, const std::string & );
+        void load( const JsonObject &jo, std::string_view );
 };
 
 #endif // CATA_SRC_ITEM_CATEGORY_H

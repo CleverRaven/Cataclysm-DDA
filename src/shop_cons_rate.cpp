@@ -102,7 +102,7 @@ icg_entry icg_entry_reader::_part_get_next( JsonObject const &jo )
     optional( jo, false, "group", ret.item_group );
     optional( jo, false, "message", ret.message );
     if( jo.has_member( "condition" ) ) {
-        read_condition<dialogue>( jo, "condition", ret.condition, false );
+        read_condition( jo, "condition", ret.condition, false );
     }
     return ret;
 }
@@ -129,12 +129,12 @@ bool shopkeeper_cons_rate_entry::operator==( shopkeeper_cons_rate_entry const &r
     return icg_entry::operator==( rhs ) && rate == rhs.rate;
 }
 
-void shopkeeper_blacklist::load( JsonObject const &jo, std::string const &/*src*/ )
+void shopkeeper_blacklist::load( JsonObject const &jo, const std::string_view/*src*/ )
 {
     optional( jo, was_loaded, "entries", entries, icg_entry_reader {} );
 }
 
-void shopkeeper_cons_rates::load( JsonObject const &jo, std::string const &/*src*/ )
+void shopkeeper_cons_rates::load( JsonObject const &jo, const std::string_view/*src*/ )
 {
     optional( jo, was_loaded, "default_rate", default_rate );
     optional( jo, was_loaded, "junk_threshold", junk_threshold, money_reader {}, 1_cent );

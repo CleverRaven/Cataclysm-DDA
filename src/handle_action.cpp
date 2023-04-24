@@ -847,7 +847,7 @@ static void smash()
             const int mod_sta = 2 * player_character.get_standard_stamina_cost();
             player_character.mod_stamina( mod_sta );
 
-            if( player_character.get_skill_level( skill_melee ) == 0 ) {
+            if( static_cast<int>( player_character.get_skill_level( skill_melee ) ) == 0 ) {
                 player_character.practice( skill_melee, rng( 0, 1 ) * rng( 0, 1 ) );
             }
             if( weapon ) {
@@ -2427,9 +2427,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
         case ACTION_SLEEP:
             if( has_vehicle_control( player_character ) ) {
-                add_msg( m_info, _( "Vehicle control has moved, %s" ),
-                         press_x( ACTION_CONTROL_VEHICLE, _( "new binding is " ),
-                                  _( "new default binding is '^'." ) ) );
+                add_msg( m_info, _( "You can't sleep while controlling a vehicle" ) );
             } else {
                 sleep();
             }

@@ -681,6 +681,7 @@
     "armor_bash": 8,
     "armor_cut": 2,
     "armor_bullet": 1,
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_biochemistry" ],
     "vision_night": 7,
     "harvest": "zombie_acid",
     "path_settings": { "max_dist": 5 },

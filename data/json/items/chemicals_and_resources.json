@@ -1979,7 +1979,7 @@
     "container": "bottle_bathroom",
     "sealed": false,
     "symbol": "~",
-    "description": "Liquid soap, possibly originally intended as shampoo or body wash, but it should work reasonably well for cleaning anything that's filthy.",
+    "description": "Standard skin-safe liquid soap, the type you might see on a kitchen sink, shower shelf, or bathroom soap dispenser, but it should work reasonably well for cleaning anything that's filthy.",
     "price": 0,
     "price_postapoc": 0,
     "volume": "250 ml",

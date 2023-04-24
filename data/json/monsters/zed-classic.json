@@ -24,7 +24,7 @@
     "armor_cut": 8,
     "armor_bullet": 6,
     "armor_elec": 1,
-    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor" ],
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_natural_armor" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_nat_armored" ],
     "harvest": "zombie",
     "special_attacks": [ { "type": "bite", "cooldown": 5 } ],
@@ -258,7 +258,7 @@
     "armor_bullet": 3,
     "armor_elec": 5,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_gasmask" ],
-    "families": [ "prof_intro_biology", "prof_wp_zombie" ],
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_syn_armored" ],
     "weakpoints": [
       {
         "name": "a tear in its hazmat suit",
@@ -356,7 +356,7 @@
     "harvest": "zombie",
     "special_attacks": [ [ "GRAB", 7 ], [ "scratch", 15 ] ],
     "death_drops": "mon_zombie_swat_death_drops",
-    "upgrades": { "half_life": 38, "into": "mon_zombie_kevlar_1" },
+    "upgrades": { "half_life": 38, "into": "mon_zombie_kevlar_0" },
     "fungalize_into": "mon_zombie_fungus",
     "burn_into": "mon_zombie_scorched",
     "flags": [ "SEES", "HEARS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]

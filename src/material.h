@@ -115,7 +115,7 @@ class material_type
     public:
         material_type();
 
-        void load( const JsonObject &jsobj, const std::string &src );
+        void load( const JsonObject &jsobj, std::string_view src );
         void check() const;
 
         material_id ident() const;

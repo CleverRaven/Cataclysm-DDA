@@ -10,7 +10,17 @@
     "symbol": "o",
     "color": "white",
     "material": [ "dreamstuff" ],
-    "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
+    "flags": [
+      "AURA",
+      "SEMITANGIBLE",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "UNBREAKABLE",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "BONUS_DODGE", "add": 2 } ] } ] },
     "armor": [
       {
@@ -107,7 +117,7 @@
     ]
   },
   {
-    "type": "GENERIC",
+    "type": "TOOL",
     "id": "xe_oneiric_hammer",
     "name": { "str": "Oneiric Hammer" },
     "description": "The platonic embodiment of a blacksmiths hammer.  This hammer is necessary to forge or repair items made of forged dreamstuff.",
@@ -133,6 +143,8 @@
     "relic_data": {
       "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "multiply": -1 } ] } ]
     },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "moon_tears_fasteners": 100 } } ],
+    "charges_per_use": 1,
     "use_action": [
       {
         "type": "repair_item",
@@ -172,7 +184,18 @@
     "material": [ "dreamstuff" ],
     "symbol": "*",
     "color": "pink",
-    "flags": [ "SINGLE_USE", "TRADER_AVOID", "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "NO_TAKEOFF", "NONCONDUCTIVE" ],
+    "flags": [
+      "SINGLE_USE",
+      "TRADER_AVOID",
+      "AURA",
+      "SEMITANGIBLE",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "UNBREAKABLE",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
     "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "hand_r" ] } ],
     "use_action": { "type": "effect_on_conditions", "description": "Jump.", "effect_on_conditions": [ "EOC_WINCH_TELEPORT" ] }
   }

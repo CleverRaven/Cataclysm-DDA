@@ -23,7 +23,13 @@ const activity_type &string_id<activity_type>::obj() const;
 enum class based_on_type : int {
     TIME = 0,
     SPEED,
-    NEITHER
+    NEITHER,
+    last,
+};
+
+template<>
+struct enum_traits<based_on_type> {
+    static constexpr based_on_type last = based_on_type::last;
 };
 
 /** A class that stores constant information that doesn't differ between activities of the same type */
@@ -42,12 +48,16 @@ class activity_type
         bool refuel_fires = false;
         bool auto_needs = false;
         float activity_level = NO_EXERCISE;
+        std::set<distraction_type> default_ignored_distractions_;
     public:
         effect_on_condition_id completion_EOC;
         effect_on_condition_id do_turn_EOC;
 
         const activity_id &id() const {
             return id_;
+        }
+        const std::set<distraction_type> &default_ignored_distractions() const {
+            return default_ignored_distractions_;
         }
         bool rooted() const {
             return rooted_;

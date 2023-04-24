@@ -190,7 +190,7 @@ struct bionic_data {
     static void check_bionic_consistency();
 
     static std::map<bionic_id, bionic_id> migrations;
-    static void load_bionic_migration( const JsonObject &jo, const std::string & );
+    static void load_bionic_migration( const JsonObject &jo, std::string_view );
 };
 
 struct bionic {
@@ -201,6 +201,7 @@ struct bionic {
         time_duration         charge_timer  = 0_turns;
         char        invlet  = 'a';
         bool        powered = false;
+        bool        show_sprite = true;
         /* An amount of time during which this bionic has been rendered inoperative. */
         time_duration        incapacitated_time;
 
