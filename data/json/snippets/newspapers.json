@@ -12,6 +12,10 @@
         "text": "CELEBRATED PHYSICIST GOES MISSING.  Dr. Amy Takatoshi, a celebrated quantum physicist at MIT dubbed by some as \"the next Hawking\" has gone missing shortly before a press conference that was expected to be the announcement of her newest research results, rumored to be in the field of teleportation."
       },
       {
+        "id": "many_years_old_news_3",
+        "text": "FACIAL RECOGNITION ROLLS OUT.  Commissioner McConnaugh of the NYPD announced at a press conference today that a new wave of facial recognition drones would be employed by police services.  \"These new guys, we're calling them 'eyebots', they can move where stationary cameras can't, and can identify known troublemakers.  They lead to a much lower rate of false alarms, and a much higher rate of successful convictions without an increase in wrongful arrest.  I know there have been concerns, but overall these little guys make us all safer, not just from criminals but from human error as well.\""
+      },
+      {
         "id": "many_years_old_news_4",
         "text": "EDITORIAL: THE UN SHOULD PUT ON ITS BIG-BOY PANTS.  So, driven by decreasing regulation of radioactive materials in the US and China, the UN is pushing hard again for nuclear disarmament.  What a tired old litany this has become.  With deregulation, we've been able to slate three new green nuclear reactors in the Eastern US alone, bringing greenhouse-gas free power to millions of people.  Whatever happened to the UN's focus on global warming?  This is a classic situation of the world painting the USA as villains no matter what we do."
       },
@@ -49,7 +53,7 @@
       },
       {
         "id": "many_years_old_news_13",
-        "text": "STILL SEARCHING: The search for Brett Dong, the high school student who went missing three days ago, is still ongoing.  \"He could have played in the soccer game against Weston High School yesterday,\" Brett's sorrowful teammate said, \"[…] we've never stopped praying.\"  Despite the best efforts of the County Search & Rescue, Brett had still not been located at the time of this report."
+        "text": "STILL SEARCHING: The search for Brett Dong, the high school student who went missing three days ago, is still ongoing.  \"He could have played in the soccer game against Weston High School yesterday,\" Brett's sorrowful teammate said, \"[..] we've never stopped praying.\"  Despite the best efforts of the County Search & Rescue, Brett had still not been located at the time of this report."
       },
       {
         "id": "many_years_old_news_14",
@@ -80,13 +84,6 @@
           "str": "THE FACE BEHIND THE 'UNCANNY' MASK.  Everyone knows about James Hawthorne, projected to become America's newest and fastest rising billionaire by next month as stock value in his tech startup, Uncanny, grows at unprecedented speeds.  We decided to explore the names behind the rise you might not have heard.  Dr. Marc Silverstein, an MIT-trained researcher formerly involved with Leapfrog Industries, has been along for the ride the whole time, and has come out nearly as wealthy as Hawthorne himself.  Though impressively reclusive, we managed to snag some pretty interesting information about Dr. S.  Could he be the real mind behind the rise?  How much does James depend on his right-hand scientist?  Details on page 12.",
           "//NOLINT(cata-text-style)": "intentional format"
         }
-      },
-      {
-        "id": "many_years_old_news_20",
-        "text": {
-          "str": "FORMER RCI DIVISION PURCHASED BY FOREIGN INVESTORS.  A former division of Rivet and Crimp Industries, a major subcontractor for national defense manufacturers, has recently been purchased by Taiwanese American tech billionaire Henry Gau.  CEO of Formosa OptoTech, Gau is known for his close relationship with Chinese suppliers and manufacturers. Branding the company RivTech, the company will focus on competing in the US Next Generation Squad Weapons trial.  Rivet and Crimp Industries's former weapons manufactory division is previously known for manufacturing a pump-action grenade launcher entrant in the M32 Multiple Grenade Launcher Trial, embroiling RCI and tech partner Javelin Systems in a bitter, expensive legal battle.",
-          "//NOLINT(cata-text-style)": "intentional format"
-        }
       }
     ]
   },
@@ -107,6 +104,22 @@
         "text": "DRIVING ON A WING AND A PRAYER: A New England man has proven it is possible to create a new car from scrap parts using almost nothing but duct tape.  When asked why he had done it, his answer was \"Well, I didn't have a welder.\""
       },
       {
+        "id": "years_old_news_4",
+        "text": "EYEBOTS SEE WIDESPREAD USE.  A recent survey of police departments in the Eastern US found that over 85% of police stations, even in small towns, now contain at least one flight of facial recognition drones.  \"They're awesome,\" Sheriff Mark Louis told a reporter from his office in Pontstown, Vermont.  \"We've got a flight of four eyebots on a solar dock on the roof.  They take hardly any maintenance, they respond to any suspicious business downtown, and they don't hurt anyone.  If it's just a minor scuffle they grab some photos and help keep things from escalating.  If it's a bigger deal, or if it's someone they know is trouble, they call us in right away.  They save us a lot of false alarms: if we get an eyebot call-in we know it's a big deal.\""
+      },
+      {
+        "id": "years_old_news_6",
+        "text": "MEET THE SOLDIER OF THE FUTURE.  [Photograph: Colonel Andrea Sylver poses in her powered combat exoskeleton.]  The new wave of military exoskeleton, or 'power armor', has been unveiled to the public after extensive testing on battlefields in Afghanistan and in police actions in South America and Indonesia.  \"These suits are like being a real-life super hero,\" Colonel Sylver announced to a gathered press.  \"I'm immune to all but the heaviest weapons, but just as mobile and light as any infantry soldier.  With an attached hauling rig, I can carry as much as a civilian cargo exoskeleton.  I'm basically a bulletproof forklift in a human-sized package.\"  We attempted to inquire about rumors of bionic-enhanced supersoldiers deploying alongside the new power armor, but Colonel Sylver declined to answer those questions."
+      },
+      {
+        "id": "years_old_news_8",
+        "text": "EDITORIAL: EYEBOTS ARE GOOD FOR US.  The controversy around increasing eyebot use by police forces has everyone worried, and I was on board for a long time.  Facial recognition databases under government control are something we should be worried about!  Then, my daughter was accosted on her way home from dance class.  Long before any police officer could have arrived, an eyebot had snagged video of her attackers and reported them to Central.  That, alone, probably saved her life: just knowing they'd been tagged sent the criminals packing before any real damage was done, and the information allowed us to press charges on a crime that would have gone unreported before.  All safety must come at a cost, and I'll gladly pay my privacy if it's the cost to keep my family safe."
+      },
+      {
+        "id": "years_old_news_9",
+        "text": "EDITORIAL: EYEBOTS REPRESENT A CONCERNING TREND.  There it is, as it always is: the endless buzz of eyebots cruising the streets, hunting for wrongdoing.  I've written many an article on these things, and read many more.  I've spoken to experts.  When we get to the bottom of it, there's a key disturbing truth to these ubiquitous robots… no one knows how they work.  The artificial intelligence used in the little drones is more than just facial recognition, it's also threat processing and decision making, and at its very heart is a new-wave deep learning AI that is, essentially, a wild card.  Without knowing how these things learn and make decisions, I don't think we can trust them in public, let alone handling our safety.  That's not even considering the dangers of letting them have access to our faces and criminal records."
+      },
+      {
         "id": "years_old_news_10",
         "text": "TECHWORLD NEWS: Toy company at the origin of the successful talking doll rebrands and becomes Uncanny.  A spokesperson from the newly formed Uncanny told the press, \"We think we can do more than just entertain.  We have new plans, big plans, plans that will shape the very fabric of reality!\"  Unconfirmed rumors suggest that Uncanny has already received large orders from the government."
       },
@@ -118,9 +131,11 @@
       },
       {
         "id": "years_old_news_12",
-        "text": {
-          "str": "SOYPELUSA SUITS FIND NEW AMMO:  Following the infamous disaster of the DaiZoom product launch and the numerous lawsuits that sprung from its failure, research from Harvard's Cognitive Neuropsychology labs has brought new evidence in the ongoing litigation against the company.  We spoke with lead researcher Doctor Soren Eldridge who had this to say: \"The DaiZoom bar, beyond its notoriously bad taste, appears to cause in its consumers symptoms similar to those of a major depressive disorder.  There is an actual tangible impact on mood that lasts well beyond the initial consumption of even just a few bars in a short span of time - we suspect DaiZoom may actually be chemically inhibiting dopamine receptors.  This is unprecedented, and quite exciting, given that it consists entirely of otherwise biochemically bland ingredients.\"  Doctor Eldridge stated that further research would be needed to determine the full extent of the issue and whether consumption of DaiZoom had long-term health effects similar to existing dopamine blocking drugs, and if there is any role for it as a medical therapy in the future.  The full interview can be found on page 7."
-        }
+        "text": "FROM SCI-FI TO REALITY: RIVTECH'S CASELESS TECHNOLOGY ENTERS THE NEXT-GEN SERVICE WEAPON RACE.\n\nWith the US Army’s Next Generation Squad Weapon (NGSW) trials on track to find a replacement for the military's M16 rifle series and M249 machinegun, a brand-new and riveting competitor has joined Sig Sauer, General Dynamics, and Textron Systems in the race to define the next service rifle platform.  Rivtech, a defense contractor already possessing a mandate to produce advanced components for the army’s combat exoskeleton program, has recently unveiled its contenders for the multibillion-dollar weapons contract: the XM88 and XM614 caseless rifles.\n\n\"We’re looking to bring the future ideas of yesterday to practical life in the present,\" said the project’s lead engineer, Angela Griffith, during the weapons' unveiling earlier today.  \"A lot's changed since the days of the H&K G11, and with our advanced materials and machining techniques, we believed that it was time to give caseless technology a fresh shake.  Our preliminary design was going to revolve around an 8x40mm round weighing in at 170 grains, but, per army requirements, we’ve scaled it down to a .270-caliber projectile and, using our proprietary high-ignition gunpowder, have waved good-bye to any overheating and cookoff issues that caseless tech had in the past.  What's more, while we’ve upsized the bullet from 5.56mm, giving it greater long-range terminal bolistics and man-stopping potential, we've still been able to make 40 percent weight savings, resulting in a battlefield SAW loadout with an XM614 and 900 rounds of ammunition that only weighs 31.3 pounds, as apposed to a comparably equipped M249's 48.28 pounds.  All this, gentlemen, and we've not even touched on our platform’s accuracy potential with its delayed-recoil system.\"\n\nAt present, Rivtech has supplied 53 XM88 rifles, 43 XM614 light machine guns, and over 800,000 rounds of 6.8x40mm caseless ammunition for Soldier Touchpoint testing."
+      },
+      {
+        "id": "years_old_news_13",
+        "text": "RIVTECH'S NGSW ENTRIES: WILL THE ARMY BITE THE BULLET?\n\nWith the winner of the US military’s Next Generation Squad Weapon trials expected to be announced in the fall of 2022, excitement runs high to see which of the three remaining contenders will take back home the prized 8-year army contract.  Certainly, among all the entries, the Rivtech XM88 rifle and XM614 SAW systems have stood out as the most unique and ambitious projects from the lot.\n\nAccording to the project’s engineering leader, Angela Griffith, the firearms were designed with feedback from soldiers in mind.  \"As much as possible, we’ve tried, in the XM88 and XM614, to create a weapon system that molds next-generation technology around the feedback from the soldiers who’ll be using the guns,\" Griffith said.\n\nWith their round of touchpoint testing concluded, Rivtech has sent 33 of their NGSW rifles and 23 machineguns for formal evaluation, though concerns over the very features that make the rifles distinct, their caseless and bullpup nature, do exist.  \"Fundamentally, the Rivtech stuff’s something we haven’t seen for 30 years,\" said corporal Ian Kasarda, a member of the Special Operations unit formerly testing the weapons.  \"That said, I reckon that we were all surprised to find just how well the guns worked, with only about 15 malfunctions per 1000 rounds, and their low weight's also something to appreciate.\"  The soldier wasn’t shy about voicing his concerns, however.  \"We can’t overlook the fact that they’re complicated guns, complicated to make, complicated to field strip, and so different from what we’ve got fielded that each soldier would require a complete re-familiarization program just to use.  They’re fine pieces of kit,\" added Kasarda, \"but, in an age where drones and heavy weapons are dictating the flow of warfare far more than the average soldier, I’d be surprised if the army splashes out that sort of cash.\""
       }
     ]
   },
@@ -379,10 +394,6 @@
       {
         "id": "weeks_old_news_19",
         "text": "UNCANNY VALLEY.  Faced with accusations of malfeasance in his AI designs, James Hawthorne appears to have *disappeared*.  Hawthorne could not be reached for comment by any major news centers, as questions and even lawsuits about dangerous flaws in his widespread law enforcement AI packages rise."
-      },
-      {
-        "id": "weeks_old_news_20",
-        "text": "ISS MUTINIES, ABANDONS STATION.  Making their demands known through amateur radio communications, all astronauts and cosmonauts aboard the International Space Station have demanded that NASA and ROSCOSMOS allow them to rejoin their families amidst the recent riots and instability.  Claims have been made that the agencies have shut them out of most controls aboard the station, endangering the lives of all aboard when they were unable to respond to a near-miss with orbital debris.  NASA officials have continued to make no public statements regarding the demands, or the unconfirmed reports that the docked spacecraft have been launched, *without* aid from ground control."
       }
     ]
   },
