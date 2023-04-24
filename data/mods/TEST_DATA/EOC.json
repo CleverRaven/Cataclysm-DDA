@@ -15,6 +15,21 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_math_test_context",
+    "effect": [
+      { "math": [ "_simple", "=", "12" ] },
+      { "math": [ "simple_global", "=", "_simple" ] },
+      { "run_eocs": [ "EOC_math_test_nested_context" ] },
+      { "math": [ "non_nested_simple_global", "=", "_nested_simple" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_math_test_nested_context",
+    "effect": [ { "math": [ "_nested_simple", "=", "7" ] }, { "math": [ "nested_simple_global", "=", "_nested_simple" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_math_test_equals_assign",
     "condition": { "math": [ "u_val('stamina')", "==", "500" ] },
     "effect": [ { "math": [ "math_test", "=", "-3^2" ] } ]
