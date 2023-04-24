@@ -6,7 +6,6 @@
     "physical": false,
     "magic_color": "red_red",
     "name": "test fire",
-    "info_display": "none",
     "onhit_eocs": [ "EOC_TEST_FIRE_DAMAGE" ],
     "immune_flags": { "character": [ "HEAT_IMMUNE" ], "monster": [ "FIREPROOF" ] }
   },
@@ -17,5 +16,15 @@
       { "u_add_var": "test_fire", "type": "general", "context": "dmg_type_test", "value": "source" },
       { "npc_add_var": "test_fire", "type": "general", "context": "dmg_type_test", "value": "target" }
     ]
+  },
+  {
+    "id": "test_fire",
+    "type": "damage_info_order",
+    "info_display": "none",
+    "bionic_info": { "order": 999999, "show_type": false },
+    "protection_info": { "order": 999999, "show_type": false },
+    "pet_prot_info": { "order": 999999, "show_type": false },
+    "melee_combat_info": { "order": 999999, "show_type": false },
+    "ablative_info": { "order": 999999, "show_type": false }
   }
 ]

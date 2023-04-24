@@ -3490,44 +3490,35 @@ void item::armor_protection_info( std::vector<iteminfo> &info, const iteminfo_qu
             info.emplace_back( "DESCRIPTION", string_format( "<bold>%s</bold>:", _( "Protection" ) ) );
         }
 
-        std::vector<std::pair<damage_type_id, float>> best_res_sorted;
-        std::vector<std::pair<damage_type_id, float>> best_res_nonphys;
-        for( const auto &res : best_res.resist_vals ) {
-            if( res.first->physical ) {
-                best_res_sorted.emplace_back( res );
-            } else {
-                best_res_nonphys.emplace_back( res );
-            }
-        }
-        best_res_sorted.insert( best_res_sorted.end(), best_res_nonphys.begin(), best_res_nonphys.end() );
-
-        for( const auto &res : best_res_sorted ) {
-            if( best_res.type_resist( res.first ) < 1.0f ) {
+        for( const damage_info_order &dio : damage_info_order::get_all(
+                 damage_info_order::info_type::PROT ) ) {
+            if( best_res.resist_vals.count( dio.dmg_type ) <= 0 ||
+                best_res.type_resist( dio.dmg_type ) < 1.0f ) {
                 continue;
             }
             bool skipped_detailed = false;
-            if( res.first->info_display == damage_type::info_disp::DETAILED ) {
+            if( dio.info_display == damage_info_order::info_disp::DETAILED ) {
                 if( display_median ) {
                     info.emplace_back( bp_cat,
                                        string_format( "%s%s:  <bad>%.2f</bad>, <color_c_yellow>%.2f</color>, <good>%.2f</good>", space,
-                                                      uppercase_first_letter( res.first->name.translated() ), worst_res.type_resist( res.first ),
-                                                      median_res.type_resist( res.first ), best_res.type_resist( res.first ) ), "",
+                                                      uppercase_first_letter( dio.dmg_type->name.translated() ), worst_res.type_resist( dio.dmg_type ),
+                                                      median_res.type_resist( dio.dmg_type ), best_res.type_resist( dio.dmg_type ) ), "",
                                        iteminfo::no_flags );
                     printed_any = true;
                 } else if( percent_worst > 0 ) {
                     info.emplace_back( bp_cat, string_format( "%s%s:  <bad>%.2f</bad>, <good>%.2f</good>", space,
-                                       uppercase_first_letter( res.first->name.translated() ),
-                                       worst_res.type_resist( res.first ), best_res.type_resist( res.first ) ), "",
+                                       uppercase_first_letter( dio.dmg_type->name.translated() ),
+                                       worst_res.type_resist( dio.dmg_type ), best_res.type_resist( dio.dmg_type ) ), "",
                                        iteminfo::no_flags );
                     printed_any = true;
                 } else {
                     skipped_detailed = true;
                 }
             }
-            if( skipped_detailed || res.first->info_display == damage_type::info_disp::BASIC ) {
+            if( skipped_detailed || dio.info_display == damage_info_order::info_disp::BASIC ) {
                 info.emplace_back( bp_cat, string_format( "%s%s: ", space,
-                                   uppercase_first_letter( res.first->name.translated() ) ), "",
-                                   iteminfo::is_decimal, best_res.type_resist( res.first ) );
+                                   uppercase_first_letter( dio.dmg_type->name.translated() ) ), "",
+                                   iteminfo::is_decimal, best_res.type_resist( dio.dmg_type ) );
                 printed_any = true;
             }
         }
@@ -3614,16 +3605,14 @@ void item::pet_armor_protection_info( std::vector<iteminfo> &info,
         const std::string space = "  ";
 
         info.emplace_back( "ARMOR", _( "<bold>Protection</bold>:" ), "" );
-        info.emplace_back( "ARMOR", space + _( "Bash: " ), "",
-                           iteminfo::is_decimal, resist( damage_bash ) );
-        info.emplace_back( "ARMOR", space + _( "Cut: " ), "",
-                           iteminfo::is_decimal, resist( damage_cut ) );
-        info.emplace_back( "ARMOR", space + _( "Ballistic: " ), "", iteminfo::is_decimal,
-                           resist( damage_bullet ) );
-        info.emplace_back( "ARMOR", space + _( "Acid: " ), "",
-                           iteminfo::is_decimal, resist( damage_acid ) );
-        info.emplace_back( "ARMOR", space + _( "Fire: " ), "",
-                           iteminfo::is_decimal, resist( damage_heat ) );
+
+        for( const damage_info_order &dio : damage_info_order::get_all(
+                 damage_info_order::info_type::PET ) ) {
+            info.emplace_back( "ARMOR", string_format( "%s%s: ", space,
+                               uppercase_first_letter( dio.dmg_type->name.translated() ) ), "",
+                               iteminfo::is_decimal, resist( dio.dmg_type ) );
+        }
+
         info.emplace_back( "ARMOR", space + _( "Environmental: " ),
                            get_base_env_resist( *this ) );
 
@@ -5017,27 +5006,24 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         }
     }
 
-    std::map<damage_type_id, std::map<bodypart_str_id, float>> bionic_protec;
-    for( const damage_type &dt : damage_type::get_all() ) {
+    for( const damage_info_order &dio : damage_info_order::get_all(
+             damage_info_order::info_type::BIO ) ) {
         std::map<bodypart_str_id, float> dt_protec;
         for( const std::pair<const bodypart_str_id, resistances> &prot : bid->protec ) {
-            float res = prot.second.type_resist( dt.id );
+            float res = prot.second.type_resist( dio.dmg_type );
             if( res >= 0.f ) {
                 dt_protec.emplace( prot.first, res );
             }
         }
         if( !dt_protec.empty() ) {
-            bionic_protec.emplace( dt.id, std::move( dt_protec ) );
-        }
-    }
-    for( const auto &prot : bionic_protec ) {
-        //~ Type of protection (ex: "Bash Protection")
-        std::string label = string_format( _( "<bold>%s Protection</bold>:" ),
-                                           uppercase_first_letter( prot.first->name.translated() ) );
-        info.emplace_back( "DESCRIPTION", label, iteminfo::no_newline );
-        for( const std::pair<bodypart_str_id, float> &element : sorted_lex( prot.second ) ) {
-            info.emplace_back( "CBM", " " + body_part_name_as_heading( element.first, 1 ),
-                               " <num>", iteminfo::no_newline, element.second );
+            //~ Type of protection (ex: "Bash Protection")
+            std::string label = string_format( _( "<bold>%s Protection</bold>:" ),
+                                               uppercase_first_letter( dio.dmg_type->name.translated() ) );
+            info.emplace_back( "DESCRIPTION", label, iteminfo::no_newline );
+            for( const std::pair<bodypart_str_id, float> &element : sorted_lex( dt_protec ) ) {
+                info.emplace_back( "CBM", " " + body_part_name_as_heading( element.first, 1 ),
+                                   " <num>", iteminfo::no_newline, element.second );
+            }
         }
     }
 
@@ -5235,35 +5221,19 @@ void item::melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query 
                                               static_cast<int>( player_character.crit_chance( 100, 0, *this ) *
                                                       100 ) ) );
         }
-        // FIXME: Harcoded damage types. Please find a way to rip this stuff out in the future.
-        // Bash damage
-        if( parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_BASH ) ) {
-            // NOTE: Using "BASE" instead of "DESCRIPTION", so numerical formatting will work
-            // (output.cpp:format_item_info does not interpolate <num> for DESCRIPTION info)
-            info.emplace_back( "BASE", _( "Bashing: " ), "<num>", iteminfo::no_newline,
-                               non_crit.type_damage( damage_bash ) );
-            info.emplace_back( "BASE", space + _( "Critical bash: " ), "<num>", iteminfo::no_flags,
-                               crit.type_damage( damage_bash ) );
-        }
-        // Cut damage
-        if( ( non_crit.type_damage( damage_cut ) > 0.0f ||
-              crit.type_damage( damage_cut ) > 0.0f )
-            && parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_CUT ) ) {
-
-            info.emplace_back( "BASE", _( "Cutting: " ), "<num>", iteminfo::no_newline,
-                               non_crit.type_damage( damage_cut ) );
-            info.emplace_back( "BASE", space + _( "Critical cut: " ), "<num>", iteminfo::no_flags,
-                               crit.type_damage( damage_cut ) );
-        }
-        // Pierce/stab damage
-        if( ( non_crit.type_damage( damage_stab ) > 0.0f ||
-              crit.type_damage( damage_stab ) > 0.0f )
-            && parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_PIERCE ) ) {
-
-            info.emplace_back( "BASE", _( "Piercing: " ), "<num>", iteminfo::no_newline,
-                               non_crit.type_damage( damage_stab ) );
-            info.emplace_back( "BASE", space + _( "Critical pierce: " ), "<num>", iteminfo::no_flags,
-                               crit.type_damage( damage_stab ) );
+        if( parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_TYPES ) ) {
+            for( const damage_info_order &dio : damage_info_order::get_all(
+                     damage_info_order::info_type::MELEE ) ) {
+                // NOTE: Using "BASE" instead of "DESCRIPTION", so numerical formatting will work
+                // (output.cpp:format_item_info does not interpolate <num> for DESCRIPTION info)
+                info.emplace_back( "BASE", string_format( "%s: ", uppercase_first_letter( dio.verb.translated() ) ),
+                                   "<num>", iteminfo::no_newline, non_crit.type_damage( dio.dmg_type ) );
+                //~ Label used in the melee damage section in the item info screen (ex: "  Critical bash: ")
+                //~ %1$s = a prepended space, %2$s = the name of the damage type (bash, cut, pierce, etc.)
+                info.emplace_back( "BASE", string_format( _( "%1$sCritical %2$s: " ), space,
+                                   dio.dmg_type->name.translated() ),
+                                   "<num>", iteminfo::no_flags, crit.type_damage( dio.dmg_type ) );
+            }
         }
         // Moves
         if( parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_MOVES ) ) {

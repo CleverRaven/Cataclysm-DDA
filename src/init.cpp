@@ -476,6 +476,7 @@ void DynamicDataLoader::initialize()
     add( "widget", &widget::load_widget );
     add( "weakpoint_set", &weakpoints::load_weakpoint_sets );
     add( "damage_type", &damage_type::load_damage_types );
+    add( "damage_info_order", &damage_info_order::load_damage_info_orders );
 #if defined(TILES)
     add( "mod_tileset", &load_mod_tileset );
 #else
@@ -561,6 +562,7 @@ void DynamicDataLoader::unload_data()
     construction_categories::reset();
     construction_groups::reset();
     damage_type::reset();
+    damage_info_order::reset();
     disease_type::reset();
     dreams.clear();
     emit::reset();
@@ -735,6 +737,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Anatomies" ), &anatomy::finalize_all },
             { _( "Mutations" ), &mutation_branch::finalize_all },
             { _( "Achievements" ), &achievement::finalize },
+            { _( "Damage info orders" ), &damage_info_order::finalize_all },
             { _( "Widgets" ), &widget::finalize },
 #if defined(TILES)
             { _( "Tileset" ), &load_tileset },
@@ -841,6 +844,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Achievements" ), &achievement::check_consistency },
             { _( "Disease types" ), &disease_type::check_disease_consistency },
             { _( "Factions" ), &faction_template::check_consistency },
+            { _( "Damage types" ), &damage_type::check }
         }
     };
 

@@ -374,7 +374,8 @@ std::vector<std::string> clothing_protection( const item &worn_item, const int w
     for( const damage_type &dt : damage_type::get_all() ) {
         bool skipped_details = false;
         const std::string dtname = uppercase_first_letter( dt.name.translated() );
-        if( dt.info_display == damage_type::info_disp::DETAILED ) {
+        damage_info_order_id dio( dt.id.c_str() );
+        if( dio->info_display == damage_info_order::info_disp::DETAILED ) {
             if( percent_worst > 0 ) {
                 std::vector<std::pair<std::string, std::string>> subvalues = collect_protection_subvalues(
                             worst_res, best_res, median_res, display_median, dt.id );
@@ -383,7 +384,7 @@ std::vector<std::string> clothing_protection( const item &worn_item, const int w
                 skipped_details = true;
             }
         }
-        if( skipped_details || dt.info_display == damage_type::info_disp::BASIC ) {
+        if( skipped_details || dio->info_display == damage_info_order::info_disp::BASIC ) {
             add_folded_name_and_value( prot, dtname,
                                        string_format( "%.2f", best_res.type_resist( dt.id ) ), width );
         }

@@ -1180,19 +1180,15 @@ void item_pocket::contents_info( std::vector<iteminfo> &info, int pocket_number,
 
             info.back().bNewLine = true;
 
-            std::map<damage_type_id, float> ablative_resists;
-            for( const damage_type &dt : damage_type::get_all() ) {
-                if( dt.physical && dt.info_display != damage_type::info_disp::NONE ) {
-                    ablative_resists[dt.id] = ablative_armor.resist( dt.id );
-                }
-            }
             size_t idx = 0;
-            for( const std::pair<const damage_type_id, float> &dt : ablative_resists ) {
+            const std::vector<damage_info_order> &all_ablate = damage_info_order::get_all(
+                        damage_info_order::info_type::ABLATE );
+            for( const damage_info_order &dio : all_ablate ) {
                 std::string label = string_format( idx == 0 ? _( "<bold>Protection</bold>: %s: " ) : "%s: ",
-                                                   uppercase_first_letter( dt.first->name.translated() ) );
-                iteminfo::flags flgs = idx == ablative_resists.size() - 1 ?
+                                                   uppercase_first_letter( dio.dmg_type->name.translated() ) );
+                iteminfo::flags flgs = idx == all_ablate.size() - 1 ?
                                        iteminfo::is_decimal : iteminfo::no_newline | iteminfo::is_decimal;
-                info.emplace_back( arm_type_str, label, "", flgs, dt.second );
+                info.emplace_back( arm_type_str, label, "", flgs, ablative_armor.resist( dio.dmg_type ) );
                 idx++;
             }
         }

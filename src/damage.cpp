@@ -21,10 +21,13 @@
 #include "translations.h"
 #include "units.h"
 
+static std::map<damage_info_order::info_type, std::vector<damage_info_order>> sorted_order_lists;
+
 namespace
 {
 
 generic_factory<damage_type> damage_type_factory( "damage type" );
+generic_factory<damage_info_order> damage_info_order_factory( "damage info order" );
 
 } // namespace
 
@@ -42,6 +45,20 @@ bool string_id<damage_type>::is_valid() const
     return damage_type_factory.is_valid( *this );
 }
 
+/** @relates string_id */
+template<>
+const damage_info_order &string_id<damage_info_order>::obj() const
+{
+    return damage_info_order_factory.obj( *this );
+}
+
+/** @relates string_id */
+template<>
+bool string_id<damage_info_order>::is_valid() const
+{
+    return damage_info_order_factory.is_valid( *this );
+}
+
 void damage_type::load_damage_types( const JsonObject &jo, const std::string &src )
 {
     damage_type_factory.load( jo, src );
@@ -57,14 +74,35 @@ const std::vector<damage_type> &damage_type::get_all()
     return damage_type_factory.get_all();
 }
 
-static damage_type::info_disp read_info_disp( const std::string &s )
+void damage_info_order::load_damage_info_orders( const JsonObject &jo, const std::string &src )
+{
+    damage_info_order_factory.load( jo, src );
+}
+
+void damage_info_order::reset()
+{
+    damage_info_order_factory.reset();
+    sorted_order_lists.clear();
+}
+
+const std::vector<damage_info_order> &damage_info_order::get_all()
+{
+    return damage_info_order_factory.get_all();
+}
+
+const std::vector<damage_info_order> &damage_info_order::get_all( info_type sort_by )
+{
+    return sorted_order_lists.at( sort_by );
+}
+
+static damage_info_order::info_disp read_info_disp( const std::string &s )
 {
     if( s == "detailed" ) {
-        return damage_type::info_disp::DETAILED;
+        return damage_info_order::info_disp::DETAILED;
     } else if( s == "basic" ) {
-        return damage_type::info_disp::BASIC;
+        return damage_info_order::info_disp::BASIC;
     } else {
-        return damage_type::info_disp::NONE;
+        return damage_info_order::info_disp::NONE;
     }
 }
 
@@ -101,13 +139,6 @@ void damage_type::load( const JsonObject &jo, const std::string & )
         magic_color = color_from_string( color_str );
     }
 
-    if( !was_loaded || jo.has_string( "info_display" ) ) {
-        std::string info_str = info_display == info_disp::DETAILED ? "detailed" :
-                               info_display == info_disp::BASIC ? "basic" : "none";
-        optional( jo, was_loaded, "info_display", info_str, "none" );
-        info_display = read_info_disp( info_str );
-    }
-
     if( jo.has_array( "derived_from" ) ) {
         JsonArray ja = jo.get_array( "derived_from" );
         derived_from = { damage_type_id( ja.get_string( 0 ) ), ja.get_float( 1 ) };
@@ -115,6 +146,141 @@ void damage_type::load( const JsonObject &jo, const std::string & )
 
     for( JsonValue jv : jo.get_array( "onhit_eocs" ) ) {
         onhit_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+    }
+}
+
+void damage_type::check()
+{
+    for( const damage_type &dt : damage_type::get_all() ) {
+        const std::vector<damage_info_order> &dio_list = damage_info_order::get_all();
+        auto iter = std::find_if( dio_list.begin(), dio_list.end(),
+        [&dt]( const damage_info_order & dio ) {
+            return dt.id == dio.dmg_type;
+        } );
+        if( iter == dio_list.end() ) {
+            debugmsg( "damage type %s has no associated damage_info_order type." );
+        }
+    }
+}
+
+void damage_info_order::damage_info_order_entry::load( const JsonObject &jo,
+        const std::string &member )
+{
+    if( jo.has_object( member ) || jo.has_int( member ) ) {
+        if( jo.has_int( member ) ) {
+            show_type = true;
+            order = jo.get_int( member );
+        } else {
+            JsonObject jsobj = jo.get_object( member );
+            mandatory( jsobj, false, "order", order );
+            optional( jsobj, false, "show_type", show_type, true );
+        }
+    }
+}
+
+void damage_info_order::load( const JsonObject &jo, const std::string & )
+{
+    dmg_type = damage_type_id( id.c_str() );
+    bionic_info.load( jo, "bionic_info" );
+    protection_info.load( jo, "protection_info" );
+    pet_prot_info.load( jo, "pet_prot_info" );
+    melee_combat_info.load( jo, "melee_combat_info" );
+    ablative_info.load( jo, "ablative_info" );
+    optional( jo, was_loaded, "verb", verb );
+
+    if( !was_loaded || jo.has_string( "info_display" ) ) {
+        std::string info_str = info_display == info_disp::DETAILED ? "detailed" :
+                               info_display == info_disp::BASIC ? "basic" : "none";
+        optional( jo, was_loaded, "info_display", info_str, "none" );
+        info_display = read_info_disp( info_str );
+    }
+}
+
+static void prepare_sorted_lists( std::vector<damage_info_order> &list,
+                                  damage_info_order::info_type sb )
+{
+    for( auto iter = list.begin(); iter != list.end(); ) {
+        bool erase = false;
+        switch( sb ) {
+            case damage_info_order::info_type::BIO:
+                if( !iter->bionic_info.show_type ) {
+                    erase = true;
+                }
+                break;
+            case damage_info_order::info_type::PROT:
+                if( !iter->protection_info.show_type ) {
+                    erase = true;
+                }
+                break;
+            case damage_info_order::info_type::PET:
+                if( !iter->pet_prot_info.show_type ) {
+                    erase = true;
+                }
+                break;
+            case damage_info_order::info_type::MELEE:
+                if( !iter->melee_combat_info.show_type ) {
+                    erase = true;
+                }
+                break;
+            case damage_info_order::info_type::ABLATE:
+                if( !iter->ablative_info.show_type ) {
+                    erase = true;
+                }
+                break;
+            case damage_info_order::info_type::NONE:
+            default:
+                break;
+        }
+        if( erase ) {
+            iter = list.erase( iter );
+        } else {
+            iter++;
+        }
+    }
+    if( sb == damage_info_order::info_type::NONE ) {
+        return;
+    }
+    std::sort( list.begin(), list.end(),
+    [sb]( const damage_info_order & a, const damage_info_order & b ) {
+        switch( sb ) {
+            case damage_info_order::info_type::BIO:
+                return a.bionic_info.order < b.bionic_info.order;
+            case damage_info_order::info_type::PROT:
+                return a.protection_info.order < b.protection_info.order;
+            case damage_info_order::info_type::PET:
+                return a.pet_prot_info.order < b.pet_prot_info.order;
+            case damage_info_order::info_type::MELEE:
+                return a.melee_combat_info.order < b.melee_combat_info.order;
+            case damage_info_order::info_type::ABLATE:
+                return a.ablative_info.order < b.ablative_info.order;
+            case damage_info_order::info_type::NONE:
+            default:
+                return false;
+        }
+    } );
+}
+
+void damage_info_order::finalize_all()
+{
+    damage_info_order_factory.finalize();
+    sorted_order_lists.emplace( info_type::NONE, damage_info_order_factory.get_all() );
+    sorted_order_lists.emplace( info_type::BIO, damage_info_order_factory.get_all() );
+    sorted_order_lists.emplace( info_type::PROT, damage_info_order_factory.get_all() );
+    sorted_order_lists.emplace( info_type::PET, damage_info_order_factory.get_all() );
+    sorted_order_lists.emplace( info_type::MELEE, damage_info_order_factory.get_all() );
+    sorted_order_lists.emplace( info_type::ABLATE, damage_info_order_factory.get_all() );
+    prepare_sorted_lists( sorted_order_lists[info_type::NONE], info_type::NONE );
+    prepare_sorted_lists( sorted_order_lists[info_type::BIO], info_type::BIO );
+    prepare_sorted_lists( sorted_order_lists[info_type::PROT], info_type::PROT );
+    prepare_sorted_lists( sorted_order_lists[info_type::PET], info_type::PET );
+    prepare_sorted_lists( sorted_order_lists[info_type::MELEE], info_type::MELEE );
+    prepare_sorted_lists( sorted_order_lists[info_type::ABLATE], info_type::ABLATE );
+}
+
+void damage_info_order::finalize()
+{
+    if( verb.empty() ) {
+        verb = dmg_type->name;
     }
 }
 

@@ -25,12 +25,6 @@ enum m_flag : int;
 template<typename T> struct enum_traits;
 
 struct damage_type {
-    enum class info_disp : int {
-        NONE,
-        BASIC,
-        DETAILED
-    };
-
     damage_type_id id;
     translation name;
     std::vector<effect_on_condition_id> onhit_eocs;
@@ -38,7 +32,6 @@ struct damage_type {
     std::pair<damage_type_id, float> derived_from = { damage_type_id(), 0.0f };
     cata::flat_set<std::string> immune_flags;
     cata::flat_set<m_flag> mon_immune_flags;
-    info_disp info_display = info_disp::DETAILED;
     nc_color magic_color;
     bool melee_only = false;
     bool physical = false;
@@ -54,8 +47,48 @@ struct damage_type {
 
     static void load_damage_types( const JsonObject &jo, const std::string &src );
     static void reset();
+    static void check();
     void load( const JsonObject &jo, const std::string &src );
     static const std::vector<damage_type> &get_all();
+};
+
+struct damage_info_order {
+    enum class info_disp : int {
+        NONE,
+        BASIC,
+        DETAILED
+    };
+    enum class info_type : int {
+        NONE = 0,
+        BIO,
+        PROT,
+        PET,
+        MELEE,
+        ABLATE
+    };
+    struct damage_info_order_entry {
+        int order = -1;
+        bool show_type = false;
+        void load( const JsonObject &jo, const std::string &member );
+    };
+    damage_info_order_id id;
+    damage_type_id dmg_type = damage_type_id::NULL_ID();
+    info_disp info_display = info_disp::DETAILED;
+    translation verb;
+    damage_info_order_entry bionic_info;
+    damage_info_order_entry protection_info;
+    damage_info_order_entry pet_prot_info;
+    damage_info_order_entry melee_combat_info;
+    damage_info_order_entry ablative_info;
+    bool was_loaded;
+
+    static void load_damage_info_orders( const JsonObject &jo, const std::string &src );
+    static void reset();
+    static void finalize_all();
+    void finalize();
+    void load( const JsonObject &jo, const std::string &src );
+    static const std::vector<damage_info_order> &get_all();
+    static const std::vector<damage_info_order> &get_all( info_type sort_by );
 };
 
 struct barrel_desc {

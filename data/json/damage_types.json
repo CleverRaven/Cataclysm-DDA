@@ -8,10 +8,20 @@
     "magic_color": "magenta",
     "name": "bash",
     "skill": "bashing",
-    "info_display": "detailed",
     "mon_difficulty": true,
     "material_required": true,
     "immune_flags": { "character": [ "BASH_IMMUNE" ] }
+  },
+  {
+    "id": "bash",
+    "type": "damage_info_order",
+    "info_display": "detailed",
+    "verb": "bashing",
+    "bionic_info": { "order": 100, "show_type": true },
+    "protection_info": { "order": 100, "show_type": true },
+    "pet_prot_info": { "order": 100, "show_type": true },
+    "melee_combat_info": { "order": 100, "show_type": true },
+    "ablative_info": { "order": 100, "show_type": true }
   },
   {
     "//": "cut damage",
@@ -23,10 +33,20 @@
     "magic_color": "light_gray",
     "name": "cut",
     "skill": "cutting",
-    "info_display": "detailed",
     "mon_difficulty": true,
     "material_required": true,
     "immune_flags": { "character": [ "CUT_IMMUNE" ] }
+  },
+  {
+    "id": "cut",
+    "type": "damage_info_order",
+    "info_display": "detailed",
+    "verb": "cutting",
+    "bionic_info": { "order": 200, "show_type": true },
+    "protection_info": { "order": 200, "show_type": true },
+    "pet_prot_info": { "order": 200, "show_type": true },
+    "melee_combat_info": { "order": 200, "show_type": true },
+    "ablative_info": { "order": 200, "show_type": true }
   },
   {
     "//": "stabbing/piercing damage",
@@ -38,10 +58,20 @@
     "magic_color": "light_red",
     "name": "pierce",
     "skill": "stabbing",
-    "info_display": "detailed",
     "//2": "derived from cut only for monster defs",
     "derived_from": [ "cut", 0.8 ],
     "immune_flags": { "character": [ "STAB_IMMUNE" ] }
+  },
+  {
+    "id": "stab",
+    "type": "damage_info_order",
+    "info_display": "detailed",
+    "verb": "piercing",
+    "bionic_info": { "order": 300, "show_type": true },
+    "protection_info": { "order": 400, "show_type": true },
+    "pet_prot_info": { "order": 400, "show_type": false },
+    "melee_combat_info": { "order": 300, "show_type": true },
+    "ablative_info": { "order": 400, "show_type": true }
   },
   {
     "//": "bullets and other fast moving projectiles",
@@ -50,9 +80,19 @@
     "physical": true,
     "magic_color": "light_red",
     "name": "ballistic",
-    "info_display": "detailed",
     "material_required": true,
     "immune_flags": { "character": [ "BULLET_IMMUNE" ] }
+  },
+  {
+    "id": "bullet",
+    "type": "damage_info_order",
+    "info_display": "detailed",
+    "verb": "shooting",
+    "bionic_info": { "order": 400, "show_type": true },
+    "protection_info": { "order": 300, "show_type": true },
+    "pet_prot_info": { "order": 300, "show_type": true },
+    "melee_combat_info": { "order": 400, "show_type": false },
+    "ablative_info": { "order": 300, "show_type": true }
   },
   {
     "//": "corrosive damage, e.g. acid",
@@ -62,11 +102,21 @@
     "environmental": true,
     "magic_color": "light_green",
     "name": "acid",
-    "info_display": "basic",
     "//2": "derived from cut only for monster defs",
     "derived_from": [ "cut", 0.5 ],
     "material_required": true,
     "immune_flags": { "character": [ "ACID_IMMUNE" ], "monster": [ "ACIDPROOF" ] }
+  },
+  {
+    "id": "acid",
+    "type": "damage_info_order",
+    "info_display": "basic",
+    "verb": "corroding",
+    "bionic_info": { "order": 500, "show_type": true },
+    "protection_info": { "order": 800, "show_type": true },
+    "pet_prot_info": { "order": 500, "show_type": true },
+    "melee_combat_info": { "order": 500, "show_type": false },
+    "ablative_info": { "order": 500, "show_type": false }
   },
   {
     "//": "e.g. electrical discharge",
@@ -75,8 +125,18 @@
     "physical": false,
     "magic_color": "light_blue",
     "name": "electric",
-    "info_display": "detailed",
     "immune_flags": { "character": [ "ELECTRIC_IMMUNE" ], "monster": [ "ELECTRIC", "ELECTRIC_FIELD" ] }
+  },
+  {
+    "id": "electric",
+    "type": "damage_info_order",
+    "info_display": "detailed",
+    "verb": "shocking",
+    "bionic_info": { "order": 600, "show_type": true },
+    "protection_info": { "order": 700, "show_type": true },
+    "pet_prot_info": { "order": 700, "show_type": false },
+    "melee_combat_info": { "order": 600, "show_type": false },
+    "ablative_info": { "order": 600, "show_type": false }
   },
   {
     "//": "e.g. fire, plasma",
@@ -86,9 +146,19 @@
     "environmental": true,
     "magic_color": "red",
     "name": "fire",
-    "info_display": "basic",
     "material_required": true,
     "immune_flags": { "character": [ "HEAT_IMMUNE" ] }
+  },
+  {
+    "id": "heat",
+    "type": "damage_info_order",
+    "info_display": "basic",
+    "verb": "burning",
+    "bionic_info": { "order": 700, "show_type": true },
+    "protection_info": { "order": 900, "show_type": true },
+    "pet_prot_info": { "order": 600, "show_type": true },
+    "melee_combat_info": { "order": 700, "show_type": false },
+    "ablative_info": { "order": 700, "show_type": false }
   },
   {
     "//": "e.g. heatdrain, cryogrenades",
@@ -97,8 +167,18 @@
     "physical": false,
     "magic_color": "white",
     "name": "cold",
-    "info_display": "detailed",
     "immune_flags": { "character": [ "COLD_IMMUNE" ] }
+  },
+  {
+    "id": "cold",
+    "type": "damage_info_order",
+    "info_display": "detailed",
+    "verb": "freezing",
+    "bionic_info": { "order": 800, "show_type": true },
+    "protection_info": { "order": 500, "show_type": true },
+    "pet_prot_info": { "order": 800, "show_type": false },
+    "melee_combat_info": { "order": 800, "show_type": false },
+    "ablative_info": { "order": 800, "show_type": false }
   },
   {
     "//": "internal damage, like from smoke or poison",
@@ -107,9 +187,18 @@
     "physical": false,
     "magic_color": "green",
     "name": "biological",
-    "info_display": "detailed",
     "immune_flags": { "character": [ "BIO_IMMUNE" ] },
     "no_resist": true
+  },
+  {
+    "id": "biological",
+    "type": "damage_info_order",
+    "info_display": "detailed",
+    "bionic_info": { "order": 900, "show_type": true },
+    "protection_info": { "order": 600, "show_type": true },
+    "pet_prot_info": { "order": 900, "show_type": false },
+    "melee_combat_info": { "order": 900, "show_type": false },
+    "ablative_info": { "order": 900, "show_type": false }
   },
   {
     "//": "typeless damage, should always go through",
@@ -118,7 +207,16 @@
     "physical": false,
     "magic_color": "dark_gray",
     "name": "pure",
-    "info_display": "none",
     "no_resist": true
+  },
+  {
+    "id": "pure",
+    "type": "damage_info_order",
+    "info_display": "none",
+    "bionic_info": { "order": 999999, "show_type": false },
+    "protection_info": { "order": 999999, "show_type": false },
+    "pet_prot_info": { "order": 999999, "show_type": false },
+    "melee_combat_info": { "order": 999999, "show_type": false },
+    "ablative_info": { "order": 999999, "show_type": false }
   }
 ]
