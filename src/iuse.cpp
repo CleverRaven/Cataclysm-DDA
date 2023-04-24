@@ -954,7 +954,7 @@ std::optional<int> iuse::meditate( Character *p, item *it, bool t, const tripoin
         return std::nullopt;
     }
     if( p->has_trait( trait_SPIRITUAL ) ) {
-        p->assign_activity( player_activity( meditate_activity_actor() ) );
+        p->assign_activity( meditate_activity_actor() );
     } else {
         p->add_msg_if_player( _( "This %s probably meant a lot to someone at one time." ),
                               it->tname() );
@@ -2815,8 +2815,7 @@ std::optional<int> iuse::crowbar( Character *p, item *it, bool, const tripoint &
 
     // previously iuse::hammer
     if( prying->prying_nails ) {
-        p->assign_activity(
-            player_activity( prying_activity_actor( pnt, item_location{*p, it} ) ) );
+        p->assign_activity( prying_activity_actor( pnt, item_location{*p, it} ) );
         return std::nullopt;
     }
 
@@ -2836,8 +2835,7 @@ std::optional<int> iuse::crowbar( Character *p, item *it, bool, const tripoint &
         return std::nullopt;
     }
 
-    p->assign_activity(
-        player_activity( prying_activity_actor( pnt, item_location{*p, it} ) ) );
+    p->assign_activity( prying_activity_actor( pnt, item_location{*p, it} ) );
 
     return std::nullopt;
 }
@@ -2866,7 +2864,7 @@ std::optional<int> iuse::makemound( Character *p, item *it, bool t, const tripoi
     if( here.has_flag( ter_furn_flag::TFLAG_PLOWABLE, pnt ) &&
         !here.has_flag( ter_furn_flag::TFLAG_PLANT, pnt ) ) {
         p->add_msg_if_player( _( "You start churning up the earth here." ) );
-        p->assign_activity( player_activity( churn_activity_actor( 18000, item_location( *p, it ) ) ) );
+        p->assign_activity( churn_activity_actor( 18000, item_location( *p, it ) ) );
         p->activity.placement = here.getglobal( pnt );
         return 1;
     } else {
@@ -2967,7 +2965,7 @@ std::optional<int> iuse::clear_rubble( Character *p, item *it, bool, const tripo
     for( std::size_t i = 0; i < helpersize; i++ ) {
         add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
     }
-    p->assign_activity( player_activity( clear_rubble_activity_actor( moves / bonus ) ) );
+    p->assign_activity( clear_rubble_activity_actor( moves / bonus ) );
     p->activity.placement = get_map().getglobal( pnt );
     return 1;
 }
@@ -3329,10 +3327,8 @@ std::optional<int> iuse::pick_lock( Character *p, item *it, bool, const tripoint
                                      you.get_skill_level( skill_traps ) ) ) * duration_proficiency_factor );
     }
 
-    you.assign_activity(
-        player_activity( lockpick_activity_actor::use_item( to_moves<int>( duration ),
-                         item_location( you, it ),
-                         get_map().getabs( *target ) ) ) );
+    you.assign_activity( lockpick_activity_actor::use_item( to_moves<int>( duration ),
+                         item_location( you, it ), get_map().getabs( *target ) ) );
     return 1;
 }
 
@@ -4726,7 +4722,7 @@ void iuse::cut_log_into_planks( Character &p )
     const int moves = to_moves<int>( 20_minutes );
     p.add_msg_if_player( _( "You cut the log into planks." ) );
 
-    p.assign_activity( player_activity( chop_planks_activity_actor( moves ) ) );
+    p.assign_activity( chop_planks_activity_actor( moves ) );
     p.activity.placement = get_map().getglobal( p.pos() );
 }
 
@@ -4816,7 +4812,7 @@ std::optional<int> iuse::chop_tree( Character *p, item *it, bool t, const tripoi
     for( std::size_t i = 0; i < helpers.size() && i < 3; i++ ) {
         add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
     }
-    p->assign_activity( player_activity( chop_tree_activity_actor( moves, item_location( *p, it ) ) ) );
+    p->assign_activity( chop_tree_activity_actor( moves, item_location( *p, it ) ) );
     p->activity.placement = here.getglobal( pnt );
 
     return 1;
@@ -4858,7 +4854,7 @@ std::optional<int> iuse::chop_logs( Character *p, item *it, bool t, const tripoi
     for( std::size_t i = 0; i < helpers.size() && i < 3; i++ ) {
         add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
     }
-    p->assign_activity( player_activity( chop_logs_activity_actor( moves, item_location( *p, it ) ) ) );
+    p->assign_activity( chop_logs_activity_actor( moves, item_location( *p, it ) ) );
     p->activity.placement = here.getglobal( pnt );
 
     return 1;
@@ -4906,8 +4902,7 @@ std::optional<int> iuse::oxytorch( Character *p, item *it, bool, const tripoint 
         return std::nullopt;
     }
 
-    p->assign_activity(
-        player_activity( oxytorch_activity_actor( pnt, item_location{*p, it} ) ) );
+    p->assign_activity( oxytorch_activity_actor( pnt, item_location{*p, it} ) );
 
     return std::nullopt;
 }
@@ -4950,8 +4945,7 @@ std::optional<int> iuse::hacksaw( Character *p, item *it, bool t, const tripoint
         return std::nullopt;
     }
 
-    p->assign_activity(
-        player_activity( hacksaw_activity_actor( pnt, item_location{*p, it} ) ) );
+    p->assign_activity( hacksaw_activity_actor( pnt, item_location{*p, it} ) );
 
     return std::nullopt;
 }
@@ -4991,7 +4985,7 @@ std::optional<int> iuse::boltcutters( Character *p, item *it, bool, const tripoi
         return std::nullopt;
     }
 
-    p->assign_activity( player_activity( boltcutting_activity_actor( pnt, item_location{*p, it} ) ) );
+    p->assign_activity( boltcutting_activity_actor( pnt, item_location{*p, it} ) );
     return std::nullopt;
 }
 
@@ -5253,7 +5247,7 @@ int iuse::towel_common( Character *p, item *it, bool t )
 
 std::optional<int> iuse::unfold_generic( Character *p, item *it, bool, const tripoint & )
 {
-    p->assign_activity( player_activity( vehicle_unfolding_activity_actor( *it ) ) );
+    p->assign_activity( vehicle_unfolding_activity_actor( *it ) );
     p->i_rem( it );
     return 0;
 }
@@ -8841,7 +8835,7 @@ std::optional<int> iuse::shavekit( Character *p, item *it, bool, const tripoint 
     if( !it->ammo_sufficient( p ) ) {
         p->add_msg_if_player( _( "You need soap to use this." ) );
     } else {
-        p->assign_activity( player_activity( shave_activity_actor() ) );
+        p->assign_activity( shave_activity_actor() );
     }
     return 1;
 }
@@ -8851,7 +8845,7 @@ std::optional<int> iuse::hairkit( Character *p, item *, bool, const tripoint & )
     if( p->cant_do_mounted() ) {
         return std::nullopt;
     }
-    p->assign_activity( player_activity( haircut_activity_actor() ) );
+    p->assign_activity( haircut_activity_actor() );
     return 1;
 }
 
@@ -9313,7 +9307,7 @@ std::optional<int> iuse::wash_items( Character *p, bool soft_items, bool hard_it
         add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
     }
     // Assign the activity values.
-    p->assign_activity( player_activity( wash_activity_actor( to_clean, required ) ) );
+    p->assign_activity( wash_activity_actor( to_clean, required ) );
 
     return 0;
 }
@@ -9427,7 +9421,7 @@ std::optional<int> iuse::craft( Character *p, item *it, bool, const tripoint & )
         pgettext( "in progress craft", "You start working on the %s." ),
         pgettext( "in progress craft", "<npcname> starts working on the %s." ), craft_name );
     item_location craft_loc = item_location( *p, it );
-    p->assign_activity( player_activity( craft_activity_actor( craft_loc, false ) ) );
+    p->assign_activity( craft_activity_actor( craft_loc, false ) );
 
     return 0;
 }
@@ -9709,8 +9703,7 @@ std::optional<int> iuse::ebooksave( Character *p, item *it, bool t, const tripoi
         return std::nullopt;
     }
 
-    p->assign_activity(
-        player_activity( ebooksave_activity_actor( book, item_location( *p, it ) ) ) );
+    p->assign_activity( ebooksave_activity_actor( book, item_location( *p, it ) ) );
 
     return std::nullopt;
 }
@@ -9832,7 +9825,7 @@ std::optional<int> iuse::binder_add_recipe( Character *p, item *binder, bool, co
     }
 
     bookbinder_copy_activity_actor act( item_location( *p, binder ), recipes[menu.ret]->ident() );
-    p->assign_activity( player_activity( act ) );
+    p->assign_activity( act );
 
     return std::nullopt;
 }

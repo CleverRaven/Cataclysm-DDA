@@ -1066,8 +1066,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         std::optional<tripoint> target = lockpick_activity_actor::select_location( player_character );
         if( target.has_value() ) {
             add_msg_activate();
-            assign_activity(
-                player_activity( lockpick_activity_actor::use_bionic( here.getabs( *target ) ) ) );
+            assign_activity( lockpick_activity_actor::use_bionic( here.getabs( *target ) ) );
             if( close_bionics_ui ) {
                 *close_bionics_ui = true;
             }

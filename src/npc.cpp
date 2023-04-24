@@ -1385,15 +1385,8 @@ void npc::do_npc_read()
         item_location ereader = {};
 
         // NPCs read until they gain a level
-        assign_activity(
-            player_activity(
-                read_activity_actor(
-                    to_moves<int>( time_taken ),
-                    book,
-                    ereader,
-                    true,
-                    getID().get_value()
-                ) ) );
+        read_activity_actor actor( time_taken, book, ereader, true, getID().get_value() );
+        assign_activity( actor );
 
     } else {
         for( const std::string &reason : fail_reasons ) {

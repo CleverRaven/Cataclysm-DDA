@@ -2617,8 +2617,10 @@ class Character : public Creature, public visitable
         void assign_activity( const activity_id &type, int moves = calendar::INDEFINITELY_LONG,
                               int index = -1, int pos = INT_MIN,
                               const std::string &name = "" );
-        /** Assigns activity to player, possibly resuming old activity if it's similar enough. */
-        void assign_activity( const player_activity &act, bool allow_resume = true );
+        /** Assigns activity to player, possibly resuming old activity if it's defined resumable. */
+        void assign_activity( const player_activity &act );
+        /** Assigns activity actor to player, possibly resuming old activity if it's defined resumable. */
+        void assign_activity( const activity_actor &actor );
         /** Check if player currently has a given activity */
         bool has_activity( const activity_id &type ) const;
         /** Check if player currently has any of the given activities */

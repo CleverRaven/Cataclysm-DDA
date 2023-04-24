@@ -9467,7 +9467,7 @@ void game::butcher()
         case BUTCHER_OTHER:
             switch( indexer_index ) {
                 case MULTISALVAGE:
-                    u.assign_activity( player_activity( longsalvage_activity_actor( salvage_tool_index ) ) );
+                    u.assign_activity( longsalvage_activity_actor( salvage_tool_index ) );
                     break;
                 case MULTIBUTCHER:
                     butcher_submenu( corpses );
@@ -9584,7 +9584,7 @@ void game::reload( item_location &loc, bool prompt, bool empty )
         if( extra_moves > 0 ) {
             add_msg( m_warning, _( "You struggle to reload the fouled %s." ), loc->tname() );
         }
-        u.assign_activity( player_activity( reload_activity_actor( std::move( opt ), extra_moves ) ) );
+        u.assign_activity( reload_activity_actor( std::move( opt ), extra_moves ) );
     }
 }
 
@@ -9675,7 +9675,7 @@ void game::reload_weapon( bool try_everything )
         if( turret.can_reload() ) {
             item::reload_option opt = u.select_ammo( turret.base(), true );
             if( opt ) {
-                u.assign_activity( player_activity( reload_activity_actor( std::move( opt ) ) ) );
+                u.assign_activity( reload_activity_actor( std::move( opt ) ) );
             }
         }
         return;
@@ -9956,9 +9956,8 @@ bool game::disable_robot( const tripoint &p )
     const itype_id mon_item_id = critter.type->revert_to_itype;
     if( !mon_item_id.is_empty() &&
         query_yn( _( "Deactivate the %s?" ), critter.name() ) ) {
-
-        u.assign_activity( player_activity( disable_activity_actor( p,
-                                            disable_activity_actor::get_disable_turns(), false ) ) );
+        const disable_activity_actor actor( p, disable_activity_actor::get_disable_turns(), false );
+        u.assign_activity( actor );
         return true;
     }
     // Manhacks are special, they have their own menu here.
@@ -9971,8 +9970,7 @@ bool game::disable_robot( const tripoint &p )
         }
 
         if( choice == 0 ) {
-            u.assign_activity( player_activity( disable_activity_actor( p,
-                                                disable_activity_actor::get_disable_turns(), true ) ) );
+            u.assign_activity( disable_activity_actor( p, disable_activity_actor::get_disable_turns(), true ) );
         }
     }
     return false;
@@ -11169,7 +11167,7 @@ bool game::grabbed_move( const tripoint &dp, const bool via_ramp )
     }
 
     if( u.get_grab_type() == object_type::FURNITURE ) {
-        u.assign_activity( player_activity( move_furniture_activity_actor( dp, via_ramp ) ) );
+        u.assign_activity( move_furniture_activity_actor( dp, via_ramp ) );
         return true;
     }
 
@@ -11851,12 +11849,8 @@ void game::start_hauling( const tripoint &pos )
     // Destination relative to the player
     const tripoint relative_destination{};
 
-    u.assign_activity( player_activity( move_items_activity_actor(
-                                            target_items,
-                                            quantities,
-                                            to_vehicle,
-                                            relative_destination
-                                        ) ) );
+    const move_items_activity_actor actor( target_items, quantities, to_vehicle, relative_destination );
+    u.assign_activity( actor );
 }
 
 std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, bool &rope_ladder,

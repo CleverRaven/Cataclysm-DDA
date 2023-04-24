@@ -1578,7 +1578,7 @@ void vehicle::build_bike_rack_menu( veh_menu &menu, int part )
         .skip_locked_check()
         .on_submit( [this, rackable] {
             bikerack_racking_activity_actor rack( *this, *rackable.veh, rackable.racks );
-            get_player_character().assign_activity( player_activity( rack ), false );
+            get_player_character().assign_activity( rack );
         } );
 
         has_rack_actions = true;
@@ -1590,7 +1590,7 @@ void vehicle::build_bike_rack_menu( veh_menu &menu, int part )
         .skip_locked_check()
         .on_submit( [this, unrackable] {
             bikerack_unracking_activity_actor unrack( *this, unrackable.parts, unrackable.racks );
-            get_player_character().assign_activity( player_activity( unrack ), false );
+            get_player_character().assign_activity( unrack );
         } );
 
         has_rack_actions = true;
@@ -1770,7 +1770,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
             const int moves = to_moves<int>( 6000_seconds / skill );
             const tripoint target = global_square_location().raw() + coord_translate( parts[0].mount );
             const hotwire_car_activity_actor hotwire_act( moves, target );
-            get_player_character().assign_activity( player_activity( hotwire_act ) );
+            get_player_character().assign_activity( hotwire_act );
         } );
 
         if( !is_alarm_on ) {
@@ -1924,7 +1924,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
             if( opt )
             {
                 reload_activity_actor reload_act( std::move( opt ) );
-                get_player_character().assign_activity( player_activity( reload_act ) );
+                get_player_character().assign_activity( reload_act );
             }
         } );
     }
@@ -2066,7 +2066,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
                 item_location base_loc( vehicle_cursor( *this, vp_tank_idx ), &vp_tank.base );
                 item_location water_loc( base_loc, &vp_tank.base.only_item() );
                 const consume_activity_actor consume_act( water_loc );
-                get_player_character().assign_activity( player_activity( consume_act ) );
+                get_player_character().assign_activity( consume_act );
             } );
         }
     }
@@ -2216,7 +2216,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         .hotkey( "FOLD_VEHICLE" )
         .on_submit( [this] {
             vehicle_folding_activity_actor folding_act( *this );
-            get_avatar().assign_activity( player_activity( folding_act ) );
+            get_avatar().assign_activity( folding_act );
         } );
     }
 }

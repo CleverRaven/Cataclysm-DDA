@@ -1058,7 +1058,7 @@ static void wait()
 
         player_activity new_act( actType, 100 * to_turns<int>( time_to_wait ), 0 );
 
-        player_character.assign_activity( new_act, false );
+        player_character.assign_activity( new_act );
     }
 }
 
@@ -1381,8 +1381,7 @@ static void loot()
             player_character.assign_activity( ACT_MOVE_LOOT );
             break;
         case UnloadLoot:
-            player_character.assign_activity(
-                player_activity( unload_loot_activity_actor() ) );
+            player_character.assign_activity( unload_loot_activity_actor() );
             break;
         case FertilizePlots:
             player_character.assign_activity( ACT_FERTILIZE_PLOT );
@@ -1673,7 +1672,7 @@ bool Character::cast_spell( spell &sp, bool fake_spell,
     if( target ) {
         spell_act.coords.emplace_back( get_map().getabs( *target ) );
     }
-    assign_activity( spell_act, false );
+    assign_activity( spell_act );
     return true;
 }
 
@@ -2506,8 +2505,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
         case ACTION_WORKOUT:
             if( query_yn( _( "Start workout?" ) ) ) {
-                player_character.assign_activity( player_activity( workout_activity_actor(
-                                                      player_character.pos() ) ) );
+                player_character.assign_activity( workout_activity_actor( player_character.pos() ) );
             }
             break;
 
