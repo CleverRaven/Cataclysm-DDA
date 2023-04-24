@@ -130,6 +130,20 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "bearable_protein_ration",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "time": "15 s",
+    "autolearn": true,
+    "components": [ 
+		[ [ "protein_bar_evac", 1 ] ],
+		[ [ "honey_bottled", 3 ], [ "honey_glassed", 1 ], [ "sugar", 10 ], [ "sugar_fried", 1 ], [ "chocolate", 1 ], [ "syrup", 2 ], [ "coffee_syrup", 2 ], [ "beet_syrup", 2 ] ]
+	]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "gelatin_fresh",
     "byproducts": [ [ "formic_acid" ], [ "ruined_chunks" ] ],
     "result_mult": 12,
