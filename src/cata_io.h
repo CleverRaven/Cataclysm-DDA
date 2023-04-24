@@ -404,7 +404,7 @@ class JsonObjectOutputArchive
          */
         /*@{*/
         template<typename T>
-        bool io( const std::string &name, const T &value ) {
+        bool io( const std::string_view name, const T &value ) {
             stream.member( name );
             io::detail::has_archive_tag<T>::write( stream, value );
             return false;

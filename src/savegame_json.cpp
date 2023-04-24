@@ -4714,7 +4714,7 @@ void stats_tracker::deserialize( const JsonObject &jo )
 namespace
 {
 
-void _write_rle_terrain( JsonOut &jsout, std::string const &ter, int num )
+void _write_rle_terrain( JsonOut &jsout, const std::string_view ter, int num )
 {
     jsout.start_array();
     jsout.write( ter );
