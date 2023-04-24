@@ -9,7 +9,6 @@
     "volume": "2500 ml",
     "longest_side": "40 cm",
     "to_hit": -2,
-    "bashing": 6,
     "material": [ "steel" ],
     "symbol": "(",
     "color": "blue",
@@ -33,7 +32,8 @@
         "max_contains_weight": "20 kg",
         "default_magazine": "medium_battery_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "ray_gun",
@@ -45,7 +45,6 @@
     "volume": "5500 ml",
     "longest_side": "896 mm",
     "to_hit": -2,
-    "bashing": 6,
     "material": [ "steel" ],
     "symbol": "(",
     "color": "light_blue",
@@ -70,7 +69,8 @@
         "max_contains_weight": "20 kg",
         "default_magazine": "medium_battery_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "death_ray",
@@ -81,7 +81,6 @@
     "volume": "8500 ml",
     "longest_side": "114 cm",
     "to_hit": -2,
-    "bashing": 6,
     "material": [ "steel" ],
     "symbol": "(",
     "color": "magenta",
@@ -96,7 +95,8 @@
     "ammo_effects": [ "LASER", "PLASMA_BUBBLE", "INCENDIARY" ],
     "flags": [ "NEVER_JAMS", "NO_SALVAGE", "NO_REPAIR", "NON_FOULING", "NEEDS_NO_LUBE", "TRADER_AVOID" ],
     "relic_data": { "charge_info": { "recharge_condition": "worn", "recharge_type": "periodic", "time": "5 h", "regenerate_ammo": true } },
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "aetheric_charge": 8 }, "airtight": true } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "aetheric_charge": 8 }, "airtight": true } ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "type": "enchantment",
@@ -120,10 +120,10 @@
     "techniques": [ "WBLOCK_1", "SWEEP", "BRUTAL" ],
     "flags": [ "SHEATH_SPEAR", "DURABLE_MELEE", "ALWAYS_TWOHAND" ],
     "weapon_category": [ "GREAT_HAMMERS" ],
-    "bashing": 27,
     "relic_data": { "passive_effects": [ { "id": "WOLF_SLEDGE" } ] },
     "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "neutral" },
-    "use_action": { "type": "cast_spell", "spell_id": "mace_pipe_magic_throw", "no_fail": true, "level": 0, "need_wielding": true }
+    "use_action": { "type": "cast_spell", "spell_id": "mace_pipe_magic_throw", "no_fail": true, "level": 0, "need_wielding": true },
+    "melee_damage": { "bash": 27 }
   },
   {
     "id": "bio_launcher",
@@ -135,7 +135,6 @@
     "weight": "1560 g",
     "volume": "6730 ml",
     "longest_side": "1157 mm",
-    "bashing": 8,
     "to_hit": -3,
     "symbol": "[",
     "color": "black",
@@ -143,7 +142,8 @@
     "use_action": { "type": "cast_spell", "spell_id": "bio_explosion", "no_fail": true, "level": 0, "need_wielding": true },
     "ammo": [ "bio_warhead" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "bio_warhead": 1 } } ],
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID" ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "bio_warhead",
@@ -156,11 +156,11 @@
     "price": 180000,
     "price_postapoc": 10000,
     "to_hit": -2,
-    "bashing": 8,
     "ammo_type": "bio_warhead",
     "material": [ "steel", "plastic" ],
     "symbol": "*",
-    "color": "light_green"
+    "color": "light_green",
+    "melee_damage": { "bash": 8 }
   },
   {
     "type": "ammunition_type",
@@ -193,7 +193,6 @@
     "weight": "1383 g",
     "volume": "1750 ml",
     "to_hit": -1,
-    "bashing": 5,
     "material": [ "plastic" ],
     "symbol": "[",
     "looks_like": "hat_hard",
@@ -225,7 +224,8 @@
       }
     ],
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "PADDED", "TRADER_AVOID", "PSYSHIELD_PARTIAL" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "PADDED", "TRADER_AVOID", "PSYSHIELD_PARTIAL" ],
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "helmet_inventor_on",
@@ -247,7 +247,6 @@
     "volume": "3130 ml",
     "longest_side": "780 mm",
     "to_hit": -2,
-    "bashing": 6,
     "material": [ "steel" ],
     "symbol": "|",
     "color": "blue",
@@ -262,6 +261,7 @@
         "flag_restriction": [ "BATTERY_MEDIUM", "BATTERY_HEAVY" ],
         "default_magazine": "medium_battery_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 6 }
   }
 ]

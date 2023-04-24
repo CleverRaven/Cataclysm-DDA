@@ -10,10 +10,10 @@
     "symbol": "]",
     "material": [ "steel", "plastic" ],
     "volume": "200 L",
-    "bashing": 2,
     "category": "veh_parts",
     "price": 80000,
-    "price_postapoc": 1000
+    "price_postapoc": 1000,
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "afs_fridge",
@@ -29,9 +29,9 @@
     "price_postapoc": 10000,
     "material": [ "steel" ],
     "to_hit": -4,
-    "bashing": 8,
     "flags": [ "DURABLE_MELEE" ],
-    "looks_like": "minifridge"
+    "looks_like": "minifridge",
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "afs_freezer",

@@ -48,6 +48,8 @@ class talker_monster_const: public talker
 
         std::string get_value( const std::string &var_name ) const override;
 
+        bool has_flag( const flag_id &f ) const override;
+
         std::string short_description() const override;
         int get_anger() const override;
         int morale_cur() const override;

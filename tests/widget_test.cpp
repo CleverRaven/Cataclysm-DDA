@@ -1308,7 +1308,7 @@ TEST_CASE( "widgets showing Sun and Moon position", "[widget]" )
 // Bodypart status strings are pulled from a std::map, which is
 // not guaranteed to be sorted in a deterministic way.
 // Just check if the layout string contains the specified status conditions.
-static void check_bp_has_status( const std::string &layout,
+static void check_bp_has_status( const std::string_view layout,
                                  const std::vector<std::string> &stat_str )
 {
     for( const std::string &stat : stat_str ) {

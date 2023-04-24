@@ -140,6 +140,12 @@ void Skill::load_skill( const JsonObject &jsobj )
     }
     skill_displayType_id display_type = skill_displayType_id( jsobj.get_string( "display_category" ) );
     Skill sk( ident, name, desc, jsobj.get_tags( "tags" ), display_type );
+    if( jsobj.has_int( "sort_rank" ) ) {
+        sk._sort_rank = jsobj.get_int( "sort_rank" );
+    } else {
+        sk._sort_rank = 1000000;
+        debugmsg( "skill '%s' missing 'sort_rank' field.", ident.str() );
+    }
 
     sk._time_to_attack = time_to_attack;
     sk._companion_combat_rank_factor = jsobj.get_int( "companion_combat_rank_factor", 0 );

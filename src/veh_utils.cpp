@@ -53,64 +53,41 @@ int calc_xp_gain( const vpart_info &vp, const skill_id &sk, const Character &who
                       to_moves<int>( 1_minutes * std::pow( lvl, 2 ) ) );
 }
 
-vehicle_part &most_repairable_part( vehicle &veh, Character &who, bool only_repairable )
+vehicle_part *most_repairable_part( vehicle &veh, Character &who )
 {
     const inventory &inv = who.crafting_inventory();
-
-    enum class repairable_status {
-        not_repairable = 0,
-        need_replacement,
-        repairable
-    };
-    std::map<const vehicle_part *, repairable_status> repairable_cache;
+    vehicle_part *vp_broken = nullptr;
+    vehicle_part *vp_most_damaged = nullptr;
+    int most_damage = 0;
     for( const vpart_reference &vpr : veh.get_all_parts() ) {
-        const vehicle_part &vp = vpr.part();
+        vehicle_part &vp = vpr.part();
         const vpart_info &info = vpr.info();
-        repairable_cache[&vp] = repairable_status::not_repairable;
-        if( vp.removed || !vp.is_repairable() ) {
-            continue;
-        }
-
-        if( veh.would_repair_prevent_flyable( vp, who ) ) {
+        if( vp.removed
+            || !vp.is_repairable()
+            || veh.would_repair_prevent_flyable( vp, who ) ) {
             continue;
         }
 
         if( vp.is_broken() ) {
             if( who.meets_skill_requirements( info.install_skills ) &&
                 info.install_requirements().can_make_with_inventory( inv, is_crafting_component ) ) {
-                repairable_cache[&vp] = repairable_status::need_replacement;
+                vp_broken = &vp;
             }
-
             continue;
         }
 
-        if( vp.is_repairable() && who.meets_skill_requirements( info.repair_skills ) ) {
+        if( who.meets_skill_requirements( info.repair_skills ) ) {
             const requirement_data reqs = info.repair_requirements() * vp.get_base().repairable_levels();
             if( reqs.can_make_with_inventory( inv, is_crafting_component ) ) {
-                repairable_cache[&vp] = repairable_status::repairable;
+                const int repairable_damage = vp.get_base().damage();
+                if( repairable_damage > most_damage ) {
+                    most_damage = repairable_damage;
+                    vp_most_damaged = &vp;
+                }
             }
         }
     }
-
-    const vehicle_part_range vp_range = veh.get_all_parts();
-    const auto high_damage_iterator = std::max_element( vp_range.begin(), vp_range.end(),
-    [&repairable_cache]( const vpart_reference & a, const vpart_reference & b ) {
-        const vehicle_part &vpa = a.part();
-        const vehicle_part &vpb = b.part();
-        return ( repairable_cache[&vpb] > repairable_cache[&vpa] ) ||
-               ( repairable_cache[&vpb] == repairable_cache[&vpa] &&
-                 vpb.get_base().repairable_levels() > vpa.get_base().repairable_levels() );
-    } );
-    if( high_damage_iterator == vp_range.end() ||
-        high_damage_iterator->part().removed ||
-        !high_damage_iterator->info().is_repairable() ||
-        ( only_repairable &&
-          repairable_cache[ &( *high_damage_iterator ).part() ] != repairable_status::not_repairable ) ) {
-        static vehicle_part nullpart;
-        return nullpart;
-    }
-
-    return high_damage_iterator->part();
+    return vp_most_damaged != nullptr ? vp_most_damaged : vp_broken;
 }
 
 bool repair_part( vehicle &veh, vehicle_part &pt, Character &who, const std::string &variant )

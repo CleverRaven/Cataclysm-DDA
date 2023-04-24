@@ -23,10 +23,6 @@
     "melee_dice": 2,
     "melee_dice_sides": 4,
     "dodge": 5,
-    "armor_bash": 2,
-    "armor_cut": 12,
-    "armor_bullet": 10,
-    "armor_stab": 6,
     "harvest": "lizardfolk",
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
     "families": [ "prof_wp_demihuman" ],
@@ -50,7 +46,8 @@
       "SWARMS",
       "CAN_OPEN_DOORS",
       "NO_BREATHE"
-    ]
+    ],
+    "armor": { "bash": 2, "cut": 12, "stab": 6, "bullet": 10 }
   },
   {
     "id": "mon_lizardfolk_hunter",

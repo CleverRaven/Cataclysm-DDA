@@ -12,7 +12,6 @@
     "price": 125000,
     "price_postapoc": 2000,
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "blue",
@@ -52,7 +51,8 @@
           "robofac60_123ln"
         ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "xedra_gun",
@@ -67,7 +67,6 @@
     "price": 125000,
     "price_postapoc": 2000,
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "blue",
@@ -91,7 +90,8 @@
       [ "stock", 1 ],
       [ "stock accessory", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "xedra40", "xedra10" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "xedra40", "xedra10" ] } ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "robofac_gun_ar",

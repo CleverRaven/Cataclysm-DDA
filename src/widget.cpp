@@ -380,7 +380,7 @@ nc_color widget_clause::get_color_for_id( const std::string &clause_id, const wi
     return wp == nullptr ? c_white : wp->color;
 }
 
-void widget::load( const JsonObject &jo, const std::string & )
+void widget::load( const JsonObject &jo, const std::string_view )
 {
     optional( jo, was_loaded, "width", _width, 0 );
     optional( jo, was_loaded, "height", _height_max, 1 );

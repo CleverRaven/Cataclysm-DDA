@@ -244,5 +244,13 @@
     "category": [ "perk" ],
     "active": true,
     "activated_eocs": [ "EOC_spinach_consumption" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_frakenstein",
+    "name": { "str": "Playing God" },
+    "points": 0,
+    "description": "You've been dissecting critters since high school.  Last night a voice gave you an idea for how to bring them back to life.",
+    "category": [ "perk" ]
   }
 ]

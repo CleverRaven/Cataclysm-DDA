@@ -738,8 +738,8 @@ bool main_menu::opening_screen()
             }
         } else if( action == "LEFT" || action == "PREV_TAB" || action == "RIGHT" || action == "NEXT_TAB" ) {
             sel_line = 0;
-            sel1 = increment_and_wrap( sel1, action == "RIGHT" ||
-                                       action == "NEXT_TAB", static_cast<int>( main_menu_opts::NUM_MENU_OPTS ) );
+            sel1 = inc_clamp_wrap( sel1, action == "RIGHT" || action == "NEXT_TAB",
+                                   static_cast<int>( main_menu_opts::NUM_MENU_OPTS ) );
             sel2 = sel1 == getopt( main_menu_opts::LOADCHAR ) ? last_world_pos : 0;
             on_move();
         } else if( action == "UP" || action == "DOWN" ||

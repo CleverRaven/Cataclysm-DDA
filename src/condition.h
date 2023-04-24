@@ -121,13 +121,13 @@ struct conditional_t {
         void set_is_in_field( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_one_in_chance( const JsonObject &jo, const std::string &member );
         void set_query( const JsonObject &jo, const std::string &member, bool is_npc = false );
-        void set_x_in_y_chance( const JsonObject &jo, const std::string &member );
+        void set_x_in_y_chance( const JsonObject &jo, std::string_view member );
         void set_has_worn_with_flag( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_wielded_with_flag( const JsonObject &jo, const std::string &member,
                                         bool is_npc = false );
         void set_is_wearing( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_item( const JsonObject &jo, const std::string &member, bool is_npc = false );
-        void set_has_items( const JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_has_items( const JsonObject &jo, std::string_view member, bool is_npc = false );
         void set_has_item_with_flag( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_item_category( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_bionics( const JsonObject &jo, const std::string &member, bool is_npc = false );
@@ -183,14 +183,14 @@ struct conditional_t {
         void set_has_pickup_list( bool is_npc );
         void set_has_reason();
         void set_is_gender( bool is_male, bool is_npc = false );
-        void set_has_skill( const JsonObject &jo, const std::string &member, bool is_npc = false );
-        void set_roll_contested( const JsonObject &jo, const std::string &member );
+        void set_has_skill( const JsonObject &jo, std::string_view member, bool is_npc = false );
+        void set_roll_contested( const JsonObject &jo, std::string_view member );
         void set_u_know_recipe( const JsonObject &jo, const std::string &member );
         void set_mission_has_generic_rewards();
         void set_can_see( bool is_npc = false );
         void set_compare_string( const JsonObject &jo, const std::string &member );
-        void set_compare_num( const JsonObject &jo, const std::string &member );
-        void set_math( const JsonObject &jo, const std::string &member );
+        void set_compare_num( const JsonObject &jo, std::string_view member );
+        void set_math( const JsonObject &jo, std::string_view member );
         template<class J>
         static std::function<double( dialogue const & )> get_get_dbl( J const &jo );
         static std::function<double( dialogue const & )> get_get_dbl( const std::string &value,

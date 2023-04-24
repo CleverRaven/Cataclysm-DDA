@@ -547,6 +547,8 @@
       [ "motor", 2 ],
       [ "wheel", 10 ],
       { "item": "polycarbonate_sheet", "prob": 4, "count": [ 1, 3 ] },
+      { "item": "seatbelt", "prob": 10, "count": [ 3, 10 ] },
+      { "item": "five-point_harness", "prob": 3, "count": [ 2, 4 ] },
       { "item": "rubber_cement", "prob": 15, "count": [ 3, 9 ] },
       [ "vac_mold", 1 ],
       [ "wheel_wide", 10 ],

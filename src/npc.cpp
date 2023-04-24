@@ -1385,15 +1385,8 @@ void npc::do_npc_read()
         item_location ereader = {};
 
         // NPCs read until they gain a level
-        assign_activity(
-            player_activity(
-                read_activity_actor(
-                    to_moves<int>( time_taken ),
-                    book,
-                    ereader,
-                    true,
-                    getID().get_value()
-                ) ) );
+        read_activity_actor actor( time_taken, book, ereader, true, getID().get_value() );
+        assign_activity( actor );
 
     } else {
         for( const std::string &reason : fail_reasons ) {
@@ -2652,7 +2645,8 @@ int npc::smash_ability() const
 {
     if( !is_hallucination() && ( !is_player_ally() || rules.has_flag( ally_rule::allow_bash ) ) ) {
         ///\EFFECT_STR_NPC increases smash ability
-        int dmg = get_wielded_item() ? get_wielded_item()->damage_melee( damage_type::BASH ) : 0;
+        int dmg = get_wielded_item() ? get_wielded_item()->damage_melee( STATIC(
+                      damage_type_id( "bash" ) ) ) : 0;
         return str_cur + dmg;
     }
 

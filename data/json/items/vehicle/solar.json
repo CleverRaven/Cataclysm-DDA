@@ -10,11 +10,11 @@
     "symbol": "]",
     "material": [ "glass" ],
     "volume": "3 L",
-    "bashing": 1,
     "flags": [ "NO_REPAIR", "WATER_BREAK" ],
     "category": "veh_parts",
     "price": 90000,
-    "price_postapoc": 1000
+    "price_postapoc": 1000,
+    "melee_damage": { "bash": 1 }
   },
   {
     "type": "GENERIC",
