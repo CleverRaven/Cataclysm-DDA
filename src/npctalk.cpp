@@ -2925,7 +2925,7 @@ void talk_effect_fun_t::set_alter_timed_events( const JsonObject &jo, const std:
     };
 }
 
-void talk_effect_fun_t::set_revert_location( const JsonObject &jo, const std::string_view member )
+void talk_effect_fun_t::set_revert_location( const JsonObject &jo, const std::string_view &member )
 {
     duration_or_var dov_time_in_future = get_duration_or_var( jo, "time_in_future", true );
     str_or_var key;
@@ -3795,7 +3795,7 @@ void talk_effect_fun_t::set_weighted_list_eocs( const JsonObject &jo,
 void talk_effect_fun_t::set_switch( const JsonObject &jo, const std::string_view member )
 {
     std::function<double( dialogue const &/* d */ )> eoc_switch = jo.has_string( member ) ?
-            conditional_t::get_get_dbl( jo.get_string( member ), jo ) :
+            conditional_t::get_get_dbl( jo.get_string( member.data() ), jo ) :
             conditional_t::get_get_dbl( jo.get_object( member ) );
     std::vector<std::pair<dbl_or_var, talk_effect_t>> case_pairs;
     for( const JsonValue jv : jo.get_array( "cases" ) ) {
