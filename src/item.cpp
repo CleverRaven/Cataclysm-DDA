@@ -4843,7 +4843,7 @@ void item::enchantment_info( std::vector<iteminfo> &info, const iteminfo_query *
         enchantment_info_helper( *this, enchantment::has::WIELD, always, active, inactive );
         if( !always.empty() || !active.empty() || !inactive.empty() ) {
             info.emplace_back( "DESCRIPTION",
-                               string_format( _( "When <bold>weilded</bold> this item provides:" ) ) );
+                               string_format( _( "When <bold>wielded</bold> this item provides:" ) ) );
             enchantment_info_printer( info, always, active, inactive );
         }
         always.clear();
