@@ -110,8 +110,7 @@
     "vision_day": 5,
     "vision_night": 5,
     "grab_strength": 100,
-    "special_attacks": [
-      { "id": "bite_grab" },[ "FUNGUS", 200 ], [ "LUNGE", 20 ] ],
+    "special_attacks": [ { "id": "bite_grab" }, [ "FUNGUS", 200 ], [ "LUNGE", 20 ] ],
     "upgrades": {  },
     "flags": [ "SEES", "SMELLS", "GRABS", "POISON", "STUMBLES", "BASHES", "NO_BREATHE", "FILTHY", "WARM" ]
   },
@@ -130,7 +129,7 @@
     "bleed_rate": 0,
     "vision_day": 5,
     "vision_night": 5,
-    "special_attacks": [ [ "FUNGUS", 200 ], [ "BIO_OP_TAKEDOWN", 20 ], [ "RANGED_PULL", 20 ], [ "GRAB_DRAG", 10 ] ],
+    "special_attacks": [ [ "FUNGUS", 200 ], [ "BIO_OP_TAKEDOWN", 20 ], { "id": "ranged_pull", "cooldown": 20 }, [ "GRAB_DRAG", 10 ] ],
     "upgrades": {  },
     "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "BASHES", "NO_BREATHE", "FILTHY", "WARM" ]
   },
@@ -150,8 +149,7 @@
     "vision_day": 5,
     "vision_night": 5,
     "grab_strength": 75,
-    "special_attacks": [
-      { "id": "bite_grab", "cooldown": 20 }, [ "FUNGUS", 200 ], [ "scratch", 20 ], [ "LUNGE", 20 ] ],
+    "special_attacks": [ { "id": "bite_grab", "cooldown": 20 }, [ "FUNGUS", 200 ], [ "scratch", 20 ], [ "LUNGE", 20 ] ],
     "upgrades": {  },
     "flags": [ "SEES", "SMELLS", "GRABS", "POISON", "STUMBLES", "BASHES", "DESTROYS", "NO_BREATHE", "FILTHY", "WARM" ]
   },
@@ -171,8 +169,7 @@
     "vision_day": 5,
     "vision_night": 5,
     "grab_strength": 75,
-    "special_attacks": [
-      { "id": "bite_grab", "cooldown": 20 }, [ "FUNGUS", 200 ], [ "scratch", 20 ], [ "LUNGE", 20 ] ],
+    "special_attacks": [ { "id": "bite_grab", "cooldown": 20 }, [ "FUNGUS", 200 ], [ "scratch", 20 ], [ "LUNGE", 20 ] ],
     "upgrades": {  },
     "flags": [ "SEES", "SMELLS", "GRABS", "POISON", "STUMBLES", "BASHES", "DESTROYS", "NO_BREATHE", "FILTHY", "WARM" ]
   },
@@ -192,8 +189,7 @@
     "vision_day": 5,
     "vision_night": 5,
     "grab_strength": 100,
-    "special_attacks": [
-      { "id": "bite_grab", "cooldown": 20 }, [ "FUNGUS", 200 ], [ "scratch", 20 ], [ "LUNGE", 20 ] ],
+    "special_attacks": [ { "id": "bite_grab", "cooldown": 20 }, [ "FUNGUS", 200 ], [ "scratch", 20 ], [ "LUNGE", 20 ] ],
     "upgrades": {  },
     "flags": [ "SEES", "SMELLS", "GRABS", "POISON", "STUMBLES", "BASHES", "DESTROYS", "NO_BREATHE", "FILTHY", "WARM" ]
   },
@@ -213,8 +209,7 @@
     "vision_day": 5,
     "vision_night": 5,
     "grab_strength": 75,
-    "special_attacks": [
-      { "id": "bite_grab", "cooldown": 5 }, [ "FUNGUS", 200 ], [ "scratch", 20 ], [ "LUNGE", 5 ] ],
+    "special_attacks": [ { "id": "bite_grab", "cooldown": 5 }, [ "FUNGUS", 200 ], [ "scratch", 20 ], [ "LUNGE", 5 ] ],
     "upgrades": {  },
     "flags": [ "SEES", "SMELLS", "GRABS", "POISON", "STUMBLES", "BASHES", "DESTROYS", "NO_BREATHE", "FILTHY", "WARM" ]
   },

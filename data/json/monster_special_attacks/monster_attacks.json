@@ -134,7 +134,7 @@
     "condition": { "and": [ { "not": { "u_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "maimed_mandible" } } ] },
     "self_effects_onhit": [ { "id": "grabbing", "duration": 3600, "permanent": true } ],
     "hit_dmg_u": "%1$s bites your %2$s and latches on tightly!",
-    "hit_dmg_npc": "%1$s bits <npcname>'s %2$s and latches on tightly!",
+    "hit_dmg_npc": "%1$s bites <npcname>'s %2$s and latches on tightly!",
     "miss_msg_u": "%1$s tries to bite you, but you dodge!",
     "miss_msg_npc": "%1$s tries to bite <npcname>, but they dodge!",
     "no_dmg_msg_u": "%1$s latches onto your %2$s without penetrating your armor.",
