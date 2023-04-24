@@ -8752,12 +8752,9 @@ units::energy Character::consume_ups( units::energy qty, const int radius )
 
     // UPS from inventory
     if( qty != 0_kJ ) {
-        int qty_kj = units::to_kilojoule( qty );
         std::vector<const item *> ups_items = all_items_with_flag( flag_IS_UPS );
         for( const item *i : ups_items ) {
-            int consumed = const_cast<item *>( i )->ammo_consume( qty_kj, tripoint_zero, nullptr );
-            qty_kj -= consumed;
-            qty -= units::from_kilojoule( consumed );
+            qty -= const_cast<item *>( i )->energy_consume( qty, tripoint_zero, nullptr );
         }
     }
 
