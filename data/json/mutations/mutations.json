@@ -6303,24 +6303,15 @@
         {
           "condition": {
             "and": [
-              { "or": [ { "u_has_move_mode": "crouch" }, { "u_has_move_mode": "prone" } ] },
+              { "u_has_move_mode": "crouch" },
               { "not": "u_can_drop_weapon" },
               {
-                "u_has_any_trait": [
-                  "THRESH_BEAST",
-                  "THRESH_FELINE",
-                  "THRESH_LUPINE",
-                  "THRESH_URSINE",
-                  "THRESH_RAT",
-                  "THRESH_CHIMERA",
-                  "THRESH_MOUSE",
-                  "THRESH_RABBIT"
-                ]
+                "u_has_any_trait": [ "THRESH_BEAST", "THRESH_FELINE", "THRESH_LUPINE", "THRESH_URSINE", "THRESH_RAT", "THRESH_MOUSE", "THRESH_RABBIT" ]
               }
             ]
           },
           "msg_on": { "text": "You drop down on all fours." },
-          "msg_off": { "text": "You prance up and walk on your hind feet." }
+          "msg_off": { "text": "You rise up to walk on your hind feet." }
         }
       ]
     ],
@@ -6328,19 +6319,10 @@
       {
         "condition": {
           "and": [
-            { "or": [ { "u_has_move_mode": "crouch" }, { "u_has_move_mode": "prone" } ] },
+            { "u_has_move_mode": "crouch" },
             { "not": "u_can_drop_weapon" },
             {
-              "u_has_any_trait": [
-                "THRESH_BEAST",
-                "THRESH_FELINE",
-                "THRESH_LUPINE",
-                "THRESH_URSINE",
-                "THRESH_RAT",
-                "THRESH_CHIMERA",
-                "THRESH_MOUSE",
-                "THRESH_RABBIT"
-              ]
+              "u_has_any_trait": [ "THRESH_BEAST", "THRESH_FELINE", "THRESH_LUPINE", "THRESH_URSINE", "THRESH_RAT", "THRESH_MOUSE", "THRESH_RABBIT" ]
             }
           ]
         },
@@ -6379,24 +6361,15 @@
         {
           "condition": {
             "and": [
-              { "or": [ { "u_has_move_mode": "crouch" }, { "u_has_move_mode": "prone" } ] },
+              { "u_has_move_mode": "crouch" },
               { "not": "u_can_drop_weapon" },
               {
-                "u_has_any_trait": [
-                  "THRESH_BEAST",
-                  "THRESH_FELINE",
-                  "THRESH_LUPINE",
-                  "THRESH_URSINE",
-                  "THRESH_RAT",
-                  "THRESH_CHIMERA",
-                  "THRESH_MOUSE",
-                  "THRESH_RABBIT"
-                ]
+                "u_has_any_trait": [ "THRESH_BEAST", "THRESH_FELINE", "THRESH_LUPINE", "THRESH_URSINE", "THRESH_RAT", "THRESH_MOUSE", "THRESH_RABBIT" ]
               }
             ]
           },
           "msg_on": { "text": "You drop down on all fours." },
-          "msg_off": { "text": "You prance up and walk on your hind feet." }
+          "msg_off": { "text": "You rise up to walk on your hind feet." }
         }
       ]
     ],
@@ -6404,19 +6377,10 @@
       {
         "condition": {
           "and": [
-            { "or": [ { "u_has_move_mode": "crouch" }, { "u_has_move_mode": "prone" } ] },
+            { "u_has_move_mode": "crouch" },
             { "not": "u_can_drop_weapon" },
             {
-              "u_has_any_trait": [
-                "THRESH_BEAST",
-                "THRESH_FELINE",
-                "THRESH_LUPINE",
-                "THRESH_URSINE",
-                "THRESH_RAT",
-                "THRESH_CHIMERA",
-                "THRESH_MOUSE",
-                "THRESH_RABBIT"
-              ]
+              "u_has_any_trait": [ "THRESH_BEAST", "THRESH_FELINE", "THRESH_LUPINE", "THRESH_URSINE", "THRESH_RAT", "THRESH_MOUSE", "THRESH_RABBIT" ]
             }
           ]
         },
@@ -8393,24 +8357,15 @@
         {
           "condition": {
             "and": [
-              { "or": [ { "u_has_move_mode": "crouch" }, { "u_has_move_mode": "prone" } ] },
+              { "u_has_move_mode": "crouch" },
               { "not": "u_can_drop_weapon" },
               {
-                "u_has_any_trait": [
-                  "THRESH_BEAST",
-                  "THRESH_FELINE",
-                  "THRESH_LUPINE",
-                  "THRESH_URSINE",
-                  "THRESH_RAT",
-                  "THRESH_CHIMERA",
-                  "THRESH_MOUSE",
-                  "THRESH_RABBIT"
-                ]
+                "u_has_any_trait": [ "THRESH_BEAST", "THRESH_FELINE", "THRESH_LUPINE", "THRESH_URSINE", "THRESH_RAT", "THRESH_MOUSE", "THRESH_RABBIT" ]
               }
             ]
           },
           "msg_on": { "text": "You drop down on all fours." },
-          "msg_off": { "text": "You prance up and walk on your hind feet." }
+          "msg_off": { "text": "You rise up to walk on your hind feet." }
         }
       ]
     ],
@@ -8418,19 +8373,10 @@
       {
         "condition": {
           "and": [
-            { "or": [ { "u_has_move_mode": "crouch" }, { "u_has_move_mode": "prone" } ] },
+            { "u_has_move_mode": "crouch" },
             { "not": "u_can_drop_weapon" },
             {
-              "u_has_any_trait": [
-                "THRESH_BEAST",
-                "THRESH_FELINE",
-                "THRESH_LUPINE",
-                "THRESH_URSINE",
-                "THRESH_RAT",
-                "THRESH_CHIMERA",
-                "THRESH_MOUSE",
-                "THRESH_RABBIT"
-              ]
+              "u_has_any_trait": [ "THRESH_BEAST", "THRESH_FELINE", "THRESH_LUPINE", "THRESH_URSINE", "THRESH_RAT", "THRESH_MOUSE", "THRESH_RABBIT" ]
             }
           ]
         },
