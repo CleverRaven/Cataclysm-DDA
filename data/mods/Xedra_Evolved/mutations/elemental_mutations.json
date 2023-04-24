@@ -316,11 +316,11 @@
   {
     "type": "mutation",
     "id": "SYLPH_SKIN_2",
-    "name": { "str": "pebbled skin" },
+    "name": { "str": "cloud skin" },
     "points": 2,
-    "visibility": 10,
+    "visibility": 5,
     "ugliness": 3,
-    "description": "Your skin has toughened and formed pebble-like growths in some places, acting as natural armor.  Somewhat reduces wet effects.",
+    "description": "Your skin is clearly separate from the air around you but has become it's own weather system.  If someone reaches out and touches you, they will clearly feel you but you look like someone might reach right through you.",
     "types": [ "SKIN" ],
     "category": [ "SYLPH" ],
     "prereqs": [ "SYLPH_SKIN_1" ],
@@ -337,17 +337,17 @@
       { "part": "hand_r", "ignored": 1 },
       { "part": "torso", "ignored": 10 }
     ],
-    "integrated_armor": [ "integrated_scales" ]
+    "integrated_armor": [ "integrated_cloud_skin" ]
   },
   {
     "type": "mutation",
     "id": "SYLPH_SKIN_3",
-    "name": { "str": "stone skin" },
+    "name": { "str": "storm skin" },
     "points": 3,
     "visibility": 10,
     "ugliness": 4,
     "mixed_effect": true,
-    "description": "Your skin has grown thick and leathery and a set of heavy green scales has grown to cover most of your body, acting as natural armor.  While difficult to penetrate, it also limits your flexibility.  Greatly reduces wet effects.",
+    "description": "Your skin is a roiling storm.  Your flexibility is greatly increased, your ability to ignore temperatures hot and cold have greatly increased but your ability to carry objects has been reduced.",
     "types": [ "SKIN" ],
     "prereqs": [ "SYLPH_SKIN_2" ],
     "threshreq": [ "THRESH_SYLPH" ],
@@ -364,6 +364,6 @@
       { "part": "hand_r", "ignored": 4 },
       { "part": "torso", "ignored": 30 }
     ],
-    "integrated_armor": [ "integrated_reptilescales" ]
+    "integrated_armor": [ "integrated_storm_skin" ]
   }
 ]
