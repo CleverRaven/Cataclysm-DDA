@@ -818,15 +818,19 @@ static const std::vector<std::string> &cached_recipe_info( recipe_info_cache &in
         const recipe &recp, const availability &avail, Character &guy, const std::string &qry_comps,
         const int batch_size, const int fold_width, const nc_color &color )
 {
+    static int lang_version = detail::get_current_language_version();
+
     if( info_cache.recp != &recp ||
         info_cache.qry_comps != qry_comps ||
         info_cache.batch_size != batch_size ||
-        info_cache.fold_width != fold_width ) {
+        info_cache.fold_width != fold_width ||
+        lang_version != detail::get_current_language_version() ) {
         info_cache.recp = &recp;
         info_cache.qry_comps = qry_comps;
         info_cache.batch_size = batch_size;
         info_cache.fold_width = fold_width;
         info_cache.text = recipe_info( recp, avail, guy, qry_comps, batch_size, fold_width, color );
+        lang_version = detail::get_current_language_version();
     }
     return info_cache.text;
 }
