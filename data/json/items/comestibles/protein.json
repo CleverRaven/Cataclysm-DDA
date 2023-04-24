@@ -76,6 +76,26 @@
     "vitamins": [ [ "calcium", 30 ], [ "iron", 30 ], [ "vitC", 30 ], [ "bad_food", 5 ] ]
   },
   {
+    "id": "bearable_protein_ration",
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "name": { "str": "bearable protein ration" },
+    "//": "Inspired by, but not based on, a true story",
+    "description": "A standard protein ration from an evac shelter, made significantly more bearable by sweetening it. Despite your efforts, the texture of the meal could not be saved.",
+    "weight": "160 g",
+    "volume": "230 ml",
+    "price": 500,
+    "price_postapoc": 60,
+    "flags": [ "EDIBLE_FROZEN" ],
+    "fun": -1,
+    "quench": -5,
+    "material": [ "fruit", "veggy" ],
+    "symbol": "%",
+    "color": "green",
+    "calories": 430,
+    "vitamins": [ [ "calcium", 35 ], [ "iron", 35 ], [ "vitC", 35 ] ]
+  },
+  {
     "id": "protein_shake",
     "copy-from": "protein_drink",
     "type": "COMESTIBLE",
