@@ -112,7 +112,6 @@
     "volume": "2 L",
     "price": 6000,
     "price_postapoc": 1750,
-    "bashing": 4,
     "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "looks_like": "manual_dodge",
@@ -121,7 +120,8 @@
     "required_level": 3,
     "max_level": 6,
     "intelligence": 8,
-    "time": "30 m"
+    "time": "30 m",
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "trappers_companion",
@@ -133,7 +133,6 @@
     "volume": "2 L",
     "price": 920,
     "price_postapoc": 1250,
-    "bashing": 8,
     "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "looks_like": "manual_carpentry",
@@ -142,6 +141,7 @@
     "required_level": 5,
     "max_level": 8,
     "intelligence": 10,
-    "time": "55 m"
+    "time": "55 m",
+    "melee_damage": { "bash": 8 }
   }
 ]

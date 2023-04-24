@@ -945,7 +945,6 @@ See [Mapgen flags](MAPGEN.md#mapgen-flags).
 - ```SHEATH_KNIFE``` Item can be sheathed in a knife sheath, it's applicable to small/medium knives (with volume not bigger than 2).
 - ```SHEATH_SWORD``` Item can be sheathed in a sword scabbard.
 - ```SPEAR``` When making reach attacks intervening `THIN_OBSTACLE` terrain is not an obstacle.  Should be paired with `REACH_ATTACK`.
-- ```STAB``` Changes item's damage type from cutting to stabbing.
 - ```UNARMED_WEAPON``` Fighting while wielding this item still counts as unarmed combat.
 - ```WHIP``` Has a chance of disarming the opponent.
 

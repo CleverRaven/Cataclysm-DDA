@@ -25,11 +25,10 @@
     "diff": 5,
     "speed": 250,
     "color": "cyan",
-    "armor_cut": 4,
-    "armor_bullet": 3,
     "revert_to_itype": "bot_EMP_hack",
     "starting_ammo": { "grenade_emp": 1 },
-    "special_attacks": [ [ "KAMIKAZE", 0 ] ]
+    "special_attacks": [ [ "KAMIKAZE", 0 ] ],
+    "armor": { "cut": 4, "bullet": 3 }
   },
   {
     "id": "mon_c4_hack",
@@ -40,11 +39,10 @@
     "diff": 20,
     "speed": 250,
     "color": "light_gray",
-    "armor_cut": 4,
-    "armor_bullet": 3,
     "revert_to_itype": "bot_c4_hack",
     "starting_ammo": { "c4": 1 },
-    "special_attacks": [ [ "KAMIKAZE", 0 ] ]
+    "special_attacks": [ [ "KAMIKAZE", 0 ] ],
+    "armor": { "cut": 4, "bullet": 3 }
   },
   {
     "id": "mon_flashbang_hack",
@@ -55,11 +53,10 @@
     "diff": 5,
     "speed": 250,
     "color": "dark_gray",
-    "armor_cut": 4,
-    "armor_bullet": 3,
     "revert_to_itype": "bot_flashbang_hack",
     "starting_ammo": { "flashbang": 1 },
-    "special_attacks": [ [ "KAMIKAZE", 0 ] ]
+    "special_attacks": [ [ "KAMIKAZE", 0 ] ],
+    "armor": { "cut": 4, "bullet": 3 }
   },
   {
     "id": "mon_gasbomb_hack",
@@ -70,11 +67,10 @@
     "diff": 10,
     "speed": 250,
     "color": "dark_gray",
-    "armor_cut": 4,
-    "armor_bullet": 3,
     "revert_to_itype": "bot_gasbomb_hack",
     "starting_ammo": { "tear_gas_payload": 1 },
-    "special_attacks": [ [ "KAMIKAZE", 0 ] ]
+    "special_attacks": [ [ "KAMIKAZE", 0 ] ],
+    "armor": { "cut": 4, "bullet": 3 }
   },
   {
     "id": "mon_grenade_hack",
@@ -85,11 +81,10 @@
     "diff": 10,
     "speed": 250,
     "color": "green",
-    "armor_cut": 4,
-    "armor_bullet": 3,
     "revert_to_itype": "bot_grenade_hack",
     "starting_ammo": { "grenade": 1 },
-    "special_attacks": [ [ "KAMIKAZE", 0 ] ]
+    "special_attacks": [ [ "KAMIKAZE", 0 ] ],
+    "armor": { "cut": 4, "bullet": 3 }
   },
   {
     "id": "mon_manhack",
@@ -104,13 +99,11 @@
     "melee_dice": 2,
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 12 } ],
-    "armor_bash": 2,
-    "armor_cut": 8,
-    "armor_bullet": 6,
     "revert_to_itype": "bot_manhack",
     "death_function": { "corpse_type": "BROKEN" },
     "extend": { "flags": [ "HIT_AND_RUN" ] },
-    "delete": { "flags": [ "PACIFIST" ] }
+    "delete": { "flags": [ "PACIFIST" ] },
+    "armor": { "bash": 2, "cut": 8, "bullet": 6 }
   },
   {
     "id": "mon_mininuke_hack",
@@ -122,12 +115,10 @@
     "hp": 20,
     "speed": 150,
     "color": "light_green_magenta",
-    "armor_bash": 1,
-    "armor_cut": 6,
-    "armor_bullet": 5,
     "revert_to_itype": "bot_mininuke_hack",
     "starting_ammo": { "mininuke": 1 },
-    "special_attacks": [ [ "KAMIKAZE", 0 ] ]
+    "special_attacks": [ [ "KAMIKAZE", 0 ] ],
+    "armor": { "bash": 1, "cut": 6, "bullet": 5 }
   },
   {
     "abstract": "exodii_sniper_drone",
@@ -141,8 +132,6 @@
     "//": "weight and dimensions based on the approx. size of a Griff 350, which is a commercial cargo-hauling quadcopter.  Then I added a large balloon on top.",
     "hp": 20,
     "speed": 70,
-    "armor_bash": 4,
-    "armor_cut": 3,
     "material": [ "aluminum", "steel" ],
     "symbol": "e",
     "color": "light_green",
@@ -187,7 +176,8 @@
       "PRIORITIZE_TARGETS",
       "HIT_AND_RUN",
       "STUN_IMMUNE"
-    ]
+    ],
+    "armor": { "bash": 4, "cut": 3 }
   },
   {
     "id": "mon_tazer_hack",
@@ -198,10 +188,9 @@
     "diff": 10,
     "speed": 350,
     "color": "cyan",
-    "armor_cut": 2,
-    "armor_bullet": 1,
     "revert_to_itype": "bot_tazer_hack",
     "death_function": { "corpse_type": "BROKEN" },
-    "special_attacks": [ [ "TAZER", 5 ] ]
+    "special_attacks": [ [ "TAZER", 5 ] ],
+    "armor": { "cut": 2, "bullet": 1 }
   }
 ]

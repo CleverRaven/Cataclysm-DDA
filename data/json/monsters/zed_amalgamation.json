@@ -98,12 +98,6 @@
     "melee_dice": 3,
     "melee_dice_sides": 3,
     "dodge": 6,
-    "armor_bash": 8,
-    "armor_cut": 4,
-    "armor_stab": 4,
-    "armor_bullet": 12,
-    "armor_acid": 5,
-    "armor_elec": 5,
     "bleed_rate": 0,
     "vision_day": 20,
     "vision_night": 8,
@@ -114,7 +108,8 @@
     "harvest": "zombie_amalgamation",
     "//": "TODO: When effects/spells can mess with path settings + flags move smartness to the effect of dedicated coordinatiors",
     "path_settings": { "avoid_sharp": true, "avoid_traps": true, "max_dist": 400 },
-    "flags": [ "SEES", "SMELLS", "HEARS", "PATH_AVOID_DANGER_2", "REVIVES", "NO_BREATHE" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "PATH_AVOID_DANGER_2", "REVIVES", "NO_BREATHE" ],
+    "armor": { "bash": 8, "cut": 4, "stab": 4, "acid": 5, "bullet": 12, "electric": 5 }
   },
   {
     "type": "MONSTER",
@@ -126,14 +121,9 @@
     "hp": 180,
     "melee_skill": 7,
     "dodge": 5,
-    "armor_bash": 16,
-    "armor_cut": 10,
-    "armor_stab": 16,
-    "armor_bullet": 30,
-    "armor_acid": 8,
-    "armor_elec": 8,
     "vision_night": 10,
-    "extend": { "flags": [ "BASHES", "GROUP_BASH" ] }
+    "extend": { "flags": [ "BASHES", "GROUP_BASH" ] },
+    "armor": { "bash": 16, "cut": 10, "stab": 16, "acid": 8, "bullet": 30, "electric": 8 }
   },
   {
     "type": "MONSTER",
@@ -184,9 +174,8 @@
     "vision_day": 60,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "tracking_distance": 12,
-    "armor_bash": 10,
-    "armor_cut": 5,
-    "extend": { "flags": [ "KEENNOSE", "KEEP_DISTANCE" ] }
+    "extend": { "flags": [ "KEENNOSE", "KEEP_DISTANCE" ] },
+    "armor": { "stab": 4, "acid": 5, "bullet": 12, "electric": 5, "bash": 10, "cut": 5 }
   },
   {
     "type": "MONSTER",
@@ -329,16 +318,11 @@
       [ "GRAB_DRAG", 15 ]
     ],
     "dodge": 3,
-    "armor_bash": 20,
-    "armor_cut": 25,
-    "armor_stab": 30,
-    "armor_bullet": 40,
-    "armor_acid": 12,
-    "armor_elec": 12,
     "vision_night": 8,
     "extend": {
       "weakpoint_sets": [ "wps_amalgamation_armor", "wps_amalgamation_mandible", "wps_amalgamation_tail" ],
       "families": [ "prof_wp_nat_armored" ]
-    }
+    },
+    "armor": { "bash": 20, "cut": 25, "stab": 30, "acid": 12, "bullet": 40, "electric": 12 }
   }
 ]

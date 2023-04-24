@@ -7,7 +7,6 @@
     "description": "A severed robotic hand from a Wraitheon Sentinel.  The powerful electro-laser stun gun embed on its wrist is still functional, and can be used when connected to an UPS.",
     "price": 720000,
     "to_hit": -2,
-    "bashing": 10,
     "material": [ "superalloy", "plastic" ],
     "color": "cyan",
     "range": 10,
@@ -15,7 +14,8 @@
     "dispersion": 500,
     "energy_drain": "25 kJ",
     "ammo_effects": [ "LASER", "BEANBAG" ],
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "USE_UPS" ]
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "USE_UPS" ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "afs_sentinel_laser",
@@ -51,7 +51,6 @@
     "price": 400000,
     "price_postapoc": 8000,
     "to_hit": -1,
-    "bashing": 4,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "magenta",
@@ -74,7 +73,8 @@
       [ "underbarrel mount", 1 ]
     ],
     "ammo_effects": [ "LASER", "INCENDIARY" ],
-    "flags": [ "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "USE_UPS" ]
+    "flags": [ "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "USE_UPS" ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "laser_cannon_xray_mon",
@@ -93,7 +93,6 @@
     "volume": "2500 ml",
     "price": "75 USD",
     "to_hit": -1,
-    "bashing": 8,
     "material": [ "plastic", "copper" ],
     "symbol": "(",
     "looks_like": "american_180",
@@ -120,7 +119,8 @@
         "magazine_well": "75 ml",
         "item_restriction": [ "afs_cartridge", "afs_bootleg_cartridge", "afs_archeotech_cartridge" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "afs_av22",
@@ -218,7 +218,6 @@
     "weight": "10 kg",
     "longest_side": "1065 mm",
     "volume": "6730 ml",
-    "bashing": 8,
     "to_hit": -3,
     "dispersion": 10,
     "durability": 8,
@@ -226,7 +225,8 @@
     "reload": 300,
     "loudness": 200,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "sights", 1 ] ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "afs_82mm_flashbulb": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "afs_82mm_flashbulb": 1 } } ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "afs_heavy_tactical_laser",

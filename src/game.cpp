@@ -213,6 +213,10 @@ static const bionic_id bio_remote( "bio_remote" );
 
 static const character_modifier_id character_modifier_slip_prevent_mod( "slip_prevent_mod" );
 
+static const damage_type_id damage_acid( "acid" );
+static const damage_type_id damage_bash( "bash" );
+static const damage_type_id damage_cut( "cut" );
+
 static const efftype_id effect_adrenaline_mycus( "adrenaline_mycus" );
 static const efftype_id effect_asked_to_train( "asked_to_train" );
 static const efftype_id effect_blind( "blind" );
@@ -4734,7 +4738,7 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
                     };
                     for( const bodypart_id &bp : bps ) {
                         if( one_in( 2 ) ) {
-                            targ->deal_damage( nullptr, bp, damage_instance( damage_type::BASH, force_remaining * dam_mult ) );
+                            targ->deal_damage( nullptr, bp, damage_instance( damage_bash, force_remaining * dam_mult ) );
                         }
                     }
                     targ->check_dead_state();
@@ -4807,7 +4811,7 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
                     };
                     for( const bodypart_id &bp : bps ) {
                         if( one_in( 2 ) ) {
-                            u.deal_damage( nullptr, bp, damage_instance( damage_type::BASH, force_remaining * dam_mult ) );
+                            u.deal_damage( nullptr, bp, damage_instance( damage_bash, force_remaining * dam_mult ) );
                         }
                     }
                     u.check_dead_state();
@@ -10075,20 +10079,21 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc ) co
     };
 
     const auto sharp_bp_check = [this]( bodypart_id bp ) {
-        return u.immune_to( bp, { damage_type::CUT, 10 } );
+        return u.immune_to( bp, { damage_cut, 10 } );
     };
 
     if( m.has_flag( ter_furn_flag::TFLAG_ROUGH, dest_loc ) &&
         !m.has_flag( ter_furn_flag::TFLAG_ROUGH, u.pos() ) &&
         !veh_dest &&
-        ( u.get_armor_bash( bodypart_id( "foot_l" ) ) < 5 ||
-          u.get_armor_bash( bodypart_id( "foot_r" ) ) < 5 ) ) { // NOLINT(bugprone-branch-clone)
+        ( u.get_armor_type( damage_bash, bodypart_id( "foot_l" ) ) < 5 ||
+          u.get_armor_type( damage_bash, bodypart_id( "foot_r" ) ) < 5 ) ) { // NOLINT(bugprone-branch-clone)
         harmful_stuff.emplace_back( m.name( dest_loc ) );
     } else if( m.has_flag( ter_furn_flag::TFLAG_SHARP, dest_loc ) &&
                !m.has_flag( ter_furn_flag::TFLAG_SHARP, u.pos() ) &&
                !( u.in_vehicle || m.veh_at( dest_loc ) ) &&
                u.dex_cur < 78 &&
-               !( u.is_mounted() && u.mounted_creature->get_armor_cut( bodypart_id( "torso" ) ) >= 10 ) &&
+               !( u.is_mounted() &&
+                  u.mounted_creature->get_armor_type( damage_cut, bodypart_id( "torso" ) ) >= 10 ) &&
                !std::all_of( sharp_bps.begin(), sharp_bps.end(), sharp_bp_check ) ) {
         harmful_stuff.emplace_back( m.name( dest_loc ) );
     }
@@ -10422,17 +10427,17 @@ point game::place_player( const tripoint &dest_loc, bool quick )
     // TODO: Move the stuff below to a Character method so that NPCs can reuse it
     if( m.has_flag( ter_furn_flag::TFLAG_ROUGH, dest_loc ) && ( !u.in_vehicle ) &&
         ( !u.is_mounted() ) ) {
-        if( one_in( 5 ) && u.get_armor_bash( bodypart_id( "foot_l" ) ) < rng( 2, 5 ) ) {
+        if( one_in( 5 ) && u.get_armor_type( damage_bash, bodypart_id( "foot_l" ) ) < rng( 2, 5 ) ) {
             add_msg( m_bad, _( "You hurt your left foot on the %s!" ),
                      m.has_flag_ter( ter_furn_flag::TFLAG_ROUGH, dest_loc ) ? m.tername( dest_loc ) : m.furnname(
                          dest_loc ) );
-            u.deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( damage_type::CUT, 1 ) );
+            u.deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( damage_cut, 1 ) );
         }
-        if( one_in( 5 ) && u.get_armor_bash( bodypart_id( "foot_r" ) ) < rng( 2, 5 ) ) {
+        if( one_in( 5 ) && u.get_armor_type( damage_bash, bodypart_id( "foot_r" ) ) < rng( 2, 5 ) ) {
             add_msg( m_bad, _( "You hurt your right foot on the %s!" ),
                      m.has_flag_ter( ter_furn_flag::TFLAG_ROUGH, dest_loc ) ? m.tername( dest_loc ) : m.furnname(
                          dest_loc ) );
-            u.deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( damage_type::CUT, 1 ) );
+            u.deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( damage_cut, 1 ) );
         }
     }
     ///\EFFECT_DEX increases chance of avoiding cuts on sharp terrain
@@ -10442,7 +10447,7 @@ point game::place_player( const tripoint &dest_loc, bool quick )
                 one_in( 4 ) ) && ( u.has_trait( trait_THICKSKIN ) ? !one_in( 8 ) : true ) ) {
         const int sharp_damage = rng( 1, 10 );
         if( u.is_mounted() ) {
-            if( u.mounted_creature->get_armor_cut( bodypart_id( "torso" ) ) < sharp_damage &&
+            if( u.mounted_creature->get_armor_type( damage_cut, bodypart_id( "torso" ) ) < sharp_damage &&
                 u.mounted_creature->get_hp() > sharp_damage ) {
                 add_msg( _( "Your %s gets cut!" ), u.mounted_creature->get_name() );
                 u.mounted_creature->apply_damage( nullptr, bodypart_id( "torso" ), sharp_damage );
@@ -10451,7 +10456,7 @@ point game::place_player( const tripoint &dest_loc, bool quick )
             if( u.get_hp() > sharp_damage ) {
                 const bodypart_id bp = u.get_random_body_part();
                 if( u.deal_damage( nullptr, bp,
-                                   damage_instance( damage_type::CUT, sharp_damage ) ).total_damage() > 0 ) {
+                                   damage_instance( damage_cut, sharp_damage ) ).total_damage() > 0 ) {
                     //~ 1$s - bodypart name in accusative, 2$s is terrain name.
                     add_msg( m_bad, _( "You cut your %1$s on the %2$s!" ),
                              body_part_name_accusative( bp ),
@@ -10621,7 +10626,7 @@ point game::place_player( const tripoint &dest_loc, bool quick )
             }
         } else if( pulp_butcher == "pulp" || pulp_butcher == "pulp_adjacent" ||
                    pulp_butcher == "pulp_zombie_only" || pulp_butcher == "pulp_adjacent_zombie_only" ) {
-            const bool acid_immune = u.is_immune_damage( damage_type::ACID ) || u.is_immune_field( fd_acid );
+            const bool acid_immune = u.is_immune_damage( damage_acid ) || u.is_immune_field( fd_acid );
             const auto pulp = [&]( const tripoint & pos ) {
                 for( const item &maybe_corpse : m.i_at( pos ) ) {
                     if( maybe_corpse.is_corpse() && maybe_corpse.can_revive() &&
@@ -11320,7 +11325,7 @@ void game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
             c->impact( damage, pt );
             // Multiply zed damage by 6 because no body parts
             const int zed_damage = std::max( 0,
-                                             ( damage - critter.get_armor_bash( bodypart_id( "torso" ) ) ) * 6 );
+                                             ( damage - critter.get_armor_type( damage_bash, bodypart_id( "torso" ) ) ) * 6 );
             // TODO: Pass the "flinger" here - it's not the flung critter that deals damage
             critter.apply_damage( c, bodypart_id( "torso" ), zed_damage );
             critter.check_dead_state();

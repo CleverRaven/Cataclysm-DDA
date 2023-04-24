@@ -30,6 +30,8 @@
 #include "translations.h"
 #include "type_id.h"
 
+static const damage_type_id damage_pure( "pure" );
+
 static const field_type_str_id field_test_field( "test_field" );
 
 static const flag_id json_flag_DIRTY( "DIRTY" );
@@ -140,7 +142,7 @@ TEST_CASE( "spell_type handles all members", "[json]" )
         CHECK( test_spell.energy_increment.min.dbl_val.value() == 1.0f );
         CHECK( test_spell.spell_class == trait_test_trait );
         CHECK( test_spell.energy_source == magic_energy_type::mana );
-        CHECK( test_spell.dmg_type == damage_type::PURE );
+        CHECK( test_spell.dmg_type == damage_pure );
         CHECK( test_spell.difficulty.min.dbl_val.value() == 1 );
         CHECK( test_spell.max_level.min.dbl_val.value() == 1 );
         CHECK( test_spell.base_casting_time.min.dbl_val.value() == 1 );

@@ -575,7 +575,8 @@ void mutation_branch::load( const JsonObject &jo, const std::string &src )
     }
 
     for( JsonObject ao : jo.get_array( "armor" ) ) {
-        const resistances res = load_resistances_instance( ao );
+        std::set<std::string> ignored_by_resist = { "part_types", "parts" };
+        const resistances res = load_resistances_instance( ao, ignored_by_resist );
         // Set damage resistances for all body parts of the specified type(s)
         for( const std::string &type_string : ao.get_tags( "part_types" ) ) {
             for( const body_part_type &bp : body_part_type::get_all() ) {
@@ -963,6 +964,14 @@ const trait_replacement &mutation_branch::trait_migration( const trait_id &tid )
 
 void mutation_branch::finalize()
 {
+    for( auto &armr : armor ) {
+        finalize_damage_map( armr.second.resist_vals );
+    }
+}
+
+void mutation_branch::finalize_all()
+{
+    trait_factory.finalize();
     for( const mutation_branch &branch : get_all() ) {
         for( const mutation_category_id &cat : branch.category ) {
             mutations_category[cat].push_back( trait_id( branch.id ) );

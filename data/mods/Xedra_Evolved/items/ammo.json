@@ -14,14 +14,13 @@
     "volume": "100 ml",
     "weight": "460 g",
     "to_hit": -2,
-    "bashing": 1,
-    "cutting": 10,
     "damage": { "damage_type": "stab", "amount": 7 },
     "range": 10,
     "dispersion": 14,
     "loudness": 0,
     "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_80" ],
-    "qualities": [ [ "CUT", 1 ] ]
+    "qualities": [ [ "CUT", 1 ] ],
+    "melee_damage": { "bash": 1, "cut": 10 }
   },
   {
     "id": "moon_tears_fasteners",

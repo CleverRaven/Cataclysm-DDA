@@ -99,6 +99,12 @@ static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
 static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
 static const activity_id ACT_STUDY_SPELL( "ACT_STUDY_SPELL" );
 
+static const damage_type_id damage_acid( "acid" );
+static const damage_type_id damage_bash( "bash" );
+static const damage_type_id damage_bullet( "bullet" );
+static const damage_type_id damage_cut( "cut" );
+static const damage_type_id damage_heat( "heat" );
+
 static const efftype_id effect_asthma( "asthma" );
 static const efftype_id effect_bandaged( "bandaged" );
 static const efftype_id effect_bite( "bite" );
@@ -4599,23 +4605,24 @@ std::optional<int> sew_advanced_actor::use( Character &p, item &it, bool, const 
             prompt = obj.destroy_prompt.translated();
         }
         std::string desc;
-        desc += colorize( string_format( "%s: %.2f->%.2f\n", _( "Bash" ), mod.resist( damage_type::BASH ),
-                                         temp_item.resist( damage_type::BASH ) ), get_compare_color( mod.resist( damage_type::BASH ),
-                                                 temp_item.resist( damage_type::BASH ), true ) );
-        desc += colorize( string_format( "%s: %.2f->%.2f\n", _( "Cut" ), mod.resist( damage_type::CUT ),
-                                         temp_item.resist( damage_type::CUT ) ), get_compare_color( mod.resist( damage_type::CUT ),
-                                                 temp_item.resist( damage_type::CUT ), true ) );
+        // FIXME: Remove sew_advanced_actor, no longer used since before 0.G
+        desc += colorize( string_format( "%s: %.2f->%.2f\n", _( "Bash" ), mod.resist( damage_bash ),
+                                         temp_item.resist( damage_bash ) ), get_compare_color( mod.resist( damage_bash ),
+                                                 temp_item.resist( damage_bash ), true ) );
+        desc += colorize( string_format( "%s: %.2f->%.2f\n", _( "Cut" ), mod.resist( damage_cut ),
+                                         temp_item.resist( damage_cut ) ), get_compare_color( mod.resist( damage_cut ),
+                                                 temp_item.resist( damage_cut ), true ) );
         desc += colorize( string_format( "%s: %.2f->%.2f\n", _( "Ballistic" ),
-                                         mod.resist( damage_type::BULLET ),
-                                         temp_item.resist( damage_type::BULLET ) ), get_compare_color( mod.resist( damage_type::BULLET ),
-                                                 temp_item.resist( damage_type::BULLET ),
+                                         mod.resist( damage_bullet ),
+                                         temp_item.resist( damage_bullet ) ), get_compare_color( mod.resist( damage_bullet ),
+                                                 temp_item.resist( damage_bullet ),
                                                  true ) );
-        desc += colorize( string_format( "%s: %.2f->%.2f\n", _( "Acid" ), mod.resist( damage_type::ACID ),
-                                         temp_item.resist( damage_type::ACID ) ), get_compare_color( mod.resist( damage_type::ACID ),
-                                                 temp_item.resist( damage_type::ACID ), true ) );
-        desc += colorize( string_format( "%s: %.2f->%.2f\n", _( "Fire" ), mod.resist( damage_type::HEAT ),
-                                         temp_item.resist( damage_type::HEAT ) ), get_compare_color( mod.resist( damage_type::HEAT ),
-                                                 temp_item.resist( damage_type::HEAT ), true ) );
+        desc += colorize( string_format( "%s: %.2f->%.2f\n", _( "Acid" ), mod.resist( damage_acid ),
+                                         temp_item.resist( damage_acid ) ), get_compare_color( mod.resist( damage_acid ),
+                                                 temp_item.resist( damage_acid ), true ) );
+        desc += colorize( string_format( "%s: %.2f->%.2f\n", _( "Fire" ), mod.resist( damage_heat ),
+                                         temp_item.resist( damage_heat ) ), get_compare_color( mod.resist( damage_heat ),
+                                                 temp_item.resist( damage_heat ), true ) );
         desc += colorize( string_format( "%s: %d->%d\n", _( "Warmth" ), mod.get_warmth(),
                                          temp_item.get_warmth() ), get_compare_color( mod.get_warmth(), temp_item.get_warmth(), true ) );
         desc += colorize( string_format( "%s: %d->%d\n", _( "Encumbrance" ), mod.get_avg_encumber( p ),

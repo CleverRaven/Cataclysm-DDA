@@ -725,11 +725,11 @@
     "material": [ "veggy" ],
     "volume": "3 L",
     "charges": 12,
-    "bashing": 2,
     "fun": -1,
     "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", 12 ], [ "calcium", 3 ], [ "iron", 5 ] ]
+    "vitamins": [ [ "vitC", 12 ], [ "calcium", 3 ], [ "iron", 5 ] ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "type": "COMESTIBLE",

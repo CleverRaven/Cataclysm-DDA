@@ -8,12 +8,6 @@
     "specific_heat_solid": 0.02,
     "latent_heat": 205,
     "soft": true,
-    "bash_resist": 1,
-    "cut_resist": 1,
-    "bullet_resist": 1,
-    "acid_resist": 3,
-    "fire_resist": 0,
-    "elec_resist": 2,
     "chip_resist": 6,
     "wind_resist": 70,
     "repaired_with": "cotton_patchwork",
@@ -26,7 +20,8 @@
       { "fuel": 1, "smoke": 1, "burn": 1, "volume_per_turn": "1250 ml" },
       { "fuel": 1, "smoke": 1, "burn": 1 },
       { "fuel": 1, "smoke": 1, "burn": 2 }
-    ]
+    ],
+    "resist": { "bash": 1, "cut": 1, "acid": 3, "heat": 0, "bullet": 1, "electric": 2 }
   },
   {
     "type": "material",
@@ -37,11 +32,6 @@
     "specific_heat_solid": 0.02,
     "latent_heat": 205,
     "soft": true,
-    "bash_resist": 1,
-    "cut_resist": 1,
-    "bullet_resist": 1,
-    "acid_resist": 3,
-    "fire_resist": 0,
     "chip_resist": 6,
     "breathability": "AVERAGE",
     "wind_resist": 70,
@@ -54,6 +44,7 @@
       { "fuel": 1, "smoke": 1, "burn": 1, "volume_per_turn": "1250 ml" },
       { "fuel": 1, "smoke": 1, "burn": 1 },
       { "fuel": 1, "smoke": 1, "burn": 2 }
-    ]
+    ],
+    "resist": { "bash": 1, "cut": 1, "acid": 3, "heat": 0, "bullet": 1 }
   }
 ]
