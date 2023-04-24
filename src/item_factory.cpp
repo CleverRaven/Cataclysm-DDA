@@ -706,7 +706,7 @@ void Item_factory::finalize_post( itype &obj )
             // tool has a possible repair action, check if the materials are compatible
             const auto &opts = dynamic_cast<const repair_item_actor *>( func->get_actor_ptr() )->materials;
             if( std::any_of( obj.repairs_with.begin(),
-            obj.repairs_with.end(), [&opts]( const material_id &m ) {
+            obj.repairs_with.end(), [&opts]( const material_id & m ) {
             return opts.count( m ) > 0;
             } ) ) {
                 obj.repair.insert( tool );
