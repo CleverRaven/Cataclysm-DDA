@@ -574,7 +574,6 @@
     "dispersion": 180,
     "durability": 7,
     "min_cycle_recoil": 450,
-    "barrel_volume": "250 ml",
     "built_in_mods": [ "sub2000_folding_mechanism" ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
