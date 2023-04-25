@@ -1246,7 +1246,6 @@
     "time": "2 m",
     "batch_time_factors": [ 60, 5 ],
     "book_learn": [ [ "recipe_bullets", 3 ] ],
-    "difficulty": 5,
     "charges": 1,
     "reversible": true,
     "using": [ [ "bullet_forming", 12 ], [ "ammo_bullet", 4 ] ],
