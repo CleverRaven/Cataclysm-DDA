@@ -1974,7 +1974,6 @@ int game::inventory_item_menu( item_location locThisItem,
             add_key_to_quick_shortcuts( oThisItem.invlet, "INVENTORY", false );
         }
 #endif
-        static int lang_version = detail::get_current_language_version();
         const bool bHPR = get_auto_pickup().has_rule( &oThisItem );
         std::vector<iteminfo> vThisItem;
         std::vector<iteminfo> vDummy;
@@ -1986,6 +1985,7 @@ int game::inventory_item_menu( item_location locThisItem,
 
         bool exit = false;
         bool first_execution = true;
+        static int lang_version = detail::get_current_language_version();
         do {
             //lang check here is needed to redraw the menu while using "Toggle language to English" option
             if( first_execution || lang_version != detail::get_current_language_version() ) {
