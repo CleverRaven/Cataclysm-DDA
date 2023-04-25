@@ -7735,7 +7735,7 @@
     "category": "OTHER",
     "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
     "required_skills": [ [ "survival", 0 ] ],
-    "time": "1 m",
+    "time": "5 m",
     "byproducts": [
       { "item": "brick", "count": [ 0, 1 ] },
       { "item": "clay_lump", "count": [ 0, 1 ] },
@@ -7754,7 +7754,7 @@
     "category": "OTHER",
     "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
     "required_skills": [ [ "survival", 0 ] ],
-    "time": "1 m",
+    "time": "5 m",
     "byproducts": [
       { "item": "rock", "count": [ 0, 2 ] },
       { "item": "rock_flaking", "count": [ 0, 1 ] },
@@ -7774,7 +7774,7 @@
     "category": "OTHER",
     "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
     "required_skills": [ [ "survival", 0 ] ],
-    "time": "1 m",
+    "time": "5 m",
     "byproducts": [
       { "item": "glass_shard", "count": [ 0, 4 ] },
       { "item": "plastic_chunk", "count": [ 0, 1 ] },
@@ -7794,7 +7794,7 @@
     "category": "OTHER",
     "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
     "required_skills": [ [ "survival", 0 ] ],
-    "time": "1 m",
+    "time": "5 m",
     "byproducts": [
       { "item": "scrap", "charges": [ 0, 3 ] },
       { "item": "slag", "charges": [ 0, 1 ] },
@@ -7814,7 +7814,7 @@
     "category": "OTHER",
     "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
     "required_skills": [ [ "survival", 0 ] ],
-    "time": "1 m",
+    "time": "2 m",
     "byproducts": [ { "item": "splinter", "count": [ 0, 3 ] } ],
     "pre_flags": "RUBBLE",
     "pre_terrain": "f_woodchips",
