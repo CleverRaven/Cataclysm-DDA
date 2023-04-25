@@ -613,6 +613,7 @@ void gunmod_remove_activity_actor::finish( player_activity &act, Character &who 
     }
     act.set_to_null();
     gunmod_remove( who, *it_gun, *it_mod );
+    it_gun->on_contents_changed();
 }
 
 bool gunmod_remove_activity_actor::gunmod_unload( Character &who, item &gunmod )
@@ -5983,6 +5984,7 @@ void gunmod_add_activity_actor::finish( player_activity &act, Character &who )
         add_msg( m_good, _( "You successfully attached the %1$s to your %2$s." ), mod.tname(),
                  gun.tname() );
         gun.put_in( who.i_rem( &mod ), item_pocket::pocket_type::MOD );
+        gun.on_contents_changed();
 
     } else if( rng( 0, 100 ) <= risk ) {
         if( gun.inc_damage() ) {
