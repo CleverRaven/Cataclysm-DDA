@@ -986,6 +986,7 @@ void inventory_entry::reset_entry_cell_cache() const
 const inventory_entry::entry_cell_cache_t &inventory_entry::get_entry_cell_cache(
     inventory_selector_preset const &preset ) const
 {
+    //lang check here is needed to redraw the menu when using "Toggle language to English" option
     if( !entry_cell_cache ||
         entry_cell_cache->lang_version != detail::get_current_language_version() ) {
         make_entry_cell_cache( preset, false );

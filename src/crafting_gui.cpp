@@ -675,7 +675,7 @@ void recipe_result_info_cache::get_item_header( item &dummy_item, const int quan
 item_info_data recipe_result_info_cache::get_result_data( const recipe *rec, const int batch_size,
         int &scroll_pos, const catacurses::window &window )
 {
-    //Use cached version if language has not changed
+    //lang check here is needed to redraw the menu when using "Toggle language to English" option
     if( lang_version == detail::get_current_language_version() ) {
         /* If the recipe has not changed, return the cached version in info.
            Unfortunately, the separator lines are baked into info at a specific width, so if the terminal width
