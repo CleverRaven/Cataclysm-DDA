@@ -2069,6 +2069,7 @@ bool game_menus::inv::compare_items( const item &first, const item &second,
     std::string action;
     input_context ctxt;
     ui_adaptor ui;
+    bool first_execution = true;
     do {
 
         item_info_data item_info_first;
@@ -2079,7 +2080,6 @@ bool game_menus::inv::compare_items( const item &first, const item &second,
         int scroll_pos_first = 0;
         int scroll_pos_second = 0;
 
-        bool first_execution = true;
         static int lang_version = detail::get_current_language_version();
 
         if( first_execution || lang_version != detail::get_current_language_version() ) {
