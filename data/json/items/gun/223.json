@@ -1087,7 +1087,7 @@
       [ "sling", 1 ],
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
-    ]
+    ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "zpap85mag" ] } ],
     "melee_damage": { "bash": 8 }
   },
@@ -1300,7 +1300,7 @@
           "survivor223mag"
         ]
       }
-],
+    ],
     "melee_damage": { "bash": 10 }
-}
+  }
 ]
