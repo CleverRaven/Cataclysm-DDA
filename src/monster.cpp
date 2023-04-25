@@ -2148,7 +2148,7 @@ bool monster::move_effects( bool )
     }
     if( has_effect_with_flag( json_flag_GRAB ) ) {
         // Pretty hacky, but monsters have no stats
-        for( const effect grab : get_effects_with_flag( json_flag_GRAB ) ) {
+        for( const effect &grab : get_effects_with_flag( json_flag_GRAB ) ) {
             int monster = type->melee_skill + type->melee_damage.total_damage();
             int grabber = get_effect_int( grab.get_id() );
             add_msg_debug( debugmode::DF_MONSTER, "%s attempting to break grab %s, success %d in intensity %d",
@@ -2566,7 +2566,7 @@ void monster::die( Creature *nkiller )
                 continue;
             }
             // Iterate through all your grabs to figure out which one this critter held
-            for( const effect grab : you->get_effects_with_flag( json_flag_GRAB ) ) {
+            for( const effect &grab : you->get_effects_with_flag( json_flag_GRAB ) ) {
                 if( has_effect( grab.get_bp()->grabbing_effect ) ) {
                     const effect_type effid = *grab.get_effect_type();
                     you->remove_effect( effid.id, grab.get_bp() );

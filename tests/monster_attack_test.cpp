@@ -445,7 +445,7 @@ TEST_CASE( "Grab break tests", "[mattack][grab]" )
             // Start grabbed
             REQUIRE( attack.call( test_monster ) );
             // Safety check to ensure grab strength is read and applied correctly
-            for( const effect grab : you.get_effects_with_flag( json_flag_GRAB ) ) {
+            for( const effect &grab : you.get_effects_with_flag( json_flag_GRAB ) ) {
                 CHECK( grab.get_intensity() == 20 );
             }
             for( int i = 0; i < 1000; i++ ) {
@@ -581,7 +581,7 @@ TEST_CASE( "Grab break tests", "[mattack][grab]" )
             // Start grabbed
             REQUIRE( attack.call( test_monster ) );
             // Safety check to ensure grab strength is read and applied correctly
-            for( const effect grab : you.get_effects_with_flag( json_flag_GRAB ) ) {
+            for( const effect &grab : you.get_effects_with_flag( json_flag_GRAB ) ) {
                 CHECK( grab.get_intensity() == 50 );
             }
             for( int i = 0; i < 1000; i++ ) {
@@ -713,7 +713,7 @@ TEST_CASE( "Grab break tests", "[mattack][grab]" )
             // Start grabbed
             REQUIRE( attack.call( test_monster ) );
             // Safety check to ensure grab strength is read and applied correctly
-            for( const effect grab : you.get_effects_with_flag( json_flag_GRAB ) ) {
+            for( const effect &grab : you.get_effects_with_flag( json_flag_GRAB ) ) {
                 CHECK( grab.get_intensity() == 100 );
             }
             for( int i = 0; i < 1000; i++ ) {
