@@ -2077,7 +2077,7 @@ bool game_menus::inv::compare_items( const item &first, const item &second,
     bool first_execution = true;
     static int lang_version = detail::get_current_language_version();
     do {
-        //lang check here is needed to redraw the menu while using "Toggle language to English" option
+        //lang check here is needed to redraw the menu when using "Toggle language to English" option
         if( first_execution || lang_version != detail::get_current_language_version() ) {
             std::vector<iteminfo> v_item_first;
             std::vector<iteminfo> v_item_second;

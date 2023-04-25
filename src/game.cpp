@@ -1987,7 +1987,7 @@ int game::inventory_item_menu( item_location locThisItem,
         bool first_execution = true;
         static int lang_version = detail::get_current_language_version();
         do {
-            //lang check here is needed to redraw the menu while using "Toggle language to English" option
+            //lang check here is needed to redraw the menu when using "Toggle language to English" option
             if( first_execution || lang_version != detail::get_current_language_version() ) {
 
                 const hint_rating rate_drop_item = u.get_wielded_item() &&
