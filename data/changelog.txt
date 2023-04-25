@@ -22,11 +22,8 @@ Add several new bungalows
 Updates to several existing maps
 Add the first Exodii mission
 Combat Capable Mounts
-Exodii NPC Luliya
-Skill level 4 Achievements
-Added Proficiency and Weakpoint Set data to zombie jsons
-add new weather: mist and fog. maybe.
-Add new types of artifacts
+Add new Exodii NPC: Luliya
+Add new weather: mist and fog. maybe.
 
 
 ## Interface:
@@ -36,7 +33,6 @@ Added ability to think to yourself in the message log
 Added Presets for pocket settings
 Prettier loading UI for loading the save
 Add min/max feedback to new character stats interface
-Adds a message that details no damage hits against weakpoints with ranged weapons.
 Mouse thumb button support
 
 
@@ -55,10 +51,9 @@ Mouse thumb button support
 [Bombastic Perks] New mod to earn perks through gameplay
 [DinoMod] Integrated mutation armor
 [DinoMod] Therizinosaurus
-Museum Location for Xedra Evolved
-Expands some scenario professions with relevant magic professions
-Adds several new professions to the Magiclysm mod
-Added resurrecting meat monstrosities to bombastic perks
+[Xedra Evolved] Museum Location for Xedra Evolved
+[Magiclysm] Adds several new professions to the Magiclysm mod
+[Bombastic Perks] Added resurrecting meat monstrosities to bombastic perks
 
 
 ## Balance:
@@ -102,13 +97,7 @@ Fix using unload_everything zone to remove gunmod gets copies of gunmod
 Ferals can use their guns in GG
 Prevent fire damaging unbreakable items
 Fix energy guns(AFS) on NPC
-Auras no longer burn and do not block bites
-Fix body status menu info not reflecting the selected limb
-Stop clairvoyance breaking Hub 01 and other fixes
 Faction camps now distribute calories based on actual calories and not default calories
-Add mutation ordering for hair variants
-Activate stack of delayed_transformable comestibles in one go
-effect_hallu is effect_visuals instead
 
 
 ## Performance:
