@@ -133,7 +133,7 @@ struct convert_string {
     static T from_string( const std::string &v ) {
         return v;
     }
-    static bool is_valid( const std::string & ) {
+    static bool is_valid( const std::string_view ) {
         return true;
     }
 };
@@ -194,7 +194,7 @@ static_assert( static_cast<int>( cata_variant_type::num_types ) == 47,
 template<>
 struct convert<cata_variant_type::void_> {
     using type = void;
-    static bool is_valid( const std::string &s ) {
+    static bool is_valid( const std::string_view s ) {
         return s.empty();
     }
 };
@@ -236,7 +236,7 @@ struct convert<cata_variant_type::character_id> {
     static character_id from_string( const std::string &v ) {
         return character_id( std::stoi( v ) );
     }
-    static bool is_valid( const std::string & ) {
+    static bool is_valid( const std::string_view ) {
         // TODO: check for int-ness
         return true;
     }
@@ -251,7 +251,7 @@ struct convert<cata_variant_type::chrono_seconds> {
     static std::chrono::seconds from_string( const std::string &v ) {
         return std::chrono::seconds( std::stoll( v ) );
     }
-    static bool is_valid( const std::string & ) {
+    static bool is_valid( const std::string_view ) {
         // TODO: check for int-ness
         return true;
     }
@@ -293,7 +293,7 @@ struct convert<cata_variant_type::int_> {
     static int from_string( const std::string &v ) {
         return std::stoi( v );
     }
-    static bool is_valid( const std::string & ) {
+    static bool is_valid( const std::string_view ) {
         // TODO: check for int-ness
         return true;
     }
@@ -348,7 +348,7 @@ struct convert<cata_variant_type::point> {
     static point from_string( const std::string &v ) {
         return point::from_string( v );
     }
-    static bool is_valid( const std::string & ) {
+    static bool is_valid( const std::string_view ) {
         // TODO: check for point-ness
         return true;
     }
@@ -397,7 +397,7 @@ struct convert<cata_variant_type::tripoint> {
     static tripoint from_string( const std::string &v ) {
         return tripoint::from_string( v );
     }
-    static bool is_valid( const std::string & ) {
+    static bool is_valid( const std::string_view ) {
         // TODO: check for tripoint-ness
         return true;
     }

@@ -56,7 +56,18 @@
     "description": "You are an exile, whether because of people shunning you because of who you are or from a personal choice.  The dead aren't willing to leave you be.",
     "start_name": "Exiled",
     "allowed_locs": [ "sloc_hermit_shack", "sloc_cabin", "sloc_lmoe", "sloc_lighthouse_ground", "sloc_cabin_lake" ],
-    "professions": [ "druid", "novice_necromancer", "magic_grim_reaper" ]
+    "professions": [
+      "druid",
+      "novice_necromancer",
+      "ranger",
+      "vengpreacher",
+      "techno_prepper",
+      "fleshmender",
+      "moose_rider",
+      "wild_druid",
+      "archer_druid",
+      "magic_grim_reaper"
+    ]
   },
   {
     "copy-from": "alcatraz",
@@ -81,5 +92,23 @@
     "type": "scenario",
     "extend": { "professions": [ "whitedeath_expy" ] },
     "id": "heli_crash"
+  },
+  {
+    "copy-from": "presort",
+    "type": "scenario",
+    "extend": { "professions": [ "magic_vamp", "biomancer_musician", "magic_knifethrower", "freezing_dancer", "magic_maid" ] },
+    "id": "presort"
+  },
+  {
+    "copy-from": "Mansion",
+    "type": "scenario",
+    "extend": { "professions": [ "magic_vamp", "biomancer_musician", "freezing_dancer", "magic_maid", "magic_burglar" ] },
+    "id": "Mansion"
+  },
+  {
+    "copy-from": "Mine_bottom",
+    "type": "scenario",
+    "extend": { "professions": [ "magic_miner" ] },
+    "id": "Mine_bottom"
   }
 ]

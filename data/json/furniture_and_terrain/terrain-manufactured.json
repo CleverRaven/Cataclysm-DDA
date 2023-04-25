@@ -564,7 +564,7 @@
         { "item": "RAM", "count": [ 14, 20 ] },
         { "item": "nanomaterial", "count": 1, "prob": 10 },
         { "item": "bearing", "charges": [ 20, 60 ] },
-        { "item": "motor", "count": 4 },
+        { "item": "motor_small", "count": 4 },
         { "item": "power_supply", "count": [ 4, 16 ] },
         { "item": "amplifier", "count": [ 4, 16 ] },
         { "item": "cable", "charges": [ 250, 500 ] },

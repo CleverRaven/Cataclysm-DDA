@@ -14,6 +14,7 @@
 #include "item.h"
 #include "iteminfo_query.h"
 #include "itype.h"
+#include "make_static.h"
 #include "options_helpers.h"
 #include "output.h"
 #include "player_helpers.h"
@@ -1218,12 +1219,12 @@ static void expected_armor_values( const item &armor, float bash, float cut, flo
                                    float acid = 0.0f, float fire = 0.0f, float env = 0.0f )
 {
     CAPTURE( armor.typeId().str() );
-    REQUIRE( armor.resist( damage_type::BASH ) == Approx( bash ) );
-    REQUIRE( armor.resist( damage_type::CUT ) == Approx( cut ) );
-    REQUIRE( armor.resist( damage_type::STAB ) == Approx( stab ) );
-    REQUIRE( armor.resist( damage_type::BULLET ) == Approx( bullet ) );
-    REQUIRE( armor.resist( damage_type::ACID ) == Approx( acid ) );
-    REQUIRE( armor.resist( damage_type::HEAT ) == Approx( fire ) );
+    REQUIRE( armor.resist( STATIC( damage_type_id( "bash" ) ) ) == Approx( bash ) );
+    REQUIRE( armor.resist( STATIC( damage_type_id( "cut" ) ) ) == Approx( cut ) );
+    REQUIRE( armor.resist( STATIC( damage_type_id( "stab" ) ) ) == Approx( stab ) );
+    REQUIRE( armor.resist( STATIC( damage_type_id( "bullet" ) ) ) == Approx( bullet ) );
+    REQUIRE( armor.resist( STATIC( damage_type_id( "acid" ) ) ) == Approx( acid ) );
+    REQUIRE( armor.resist( STATIC( damage_type_id( "heat" ) ) ) == Approx( fire ) );
     REQUIRE( armor.get_env_resist() == Approx( env ) );
 }
 
@@ -1294,6 +1295,7 @@ TEST_CASE( "armor protection", "[iteminfo][armor][protection]" )
                "  Bash: <color_c_yellow>4.00</color>\n"
                "  Cut: <color_c_yellow>4.00</color>\n"
                "  Ballistic: <color_c_yellow>4.00</color>\n"
+               "  Pierce: <color_c_yellow>3.20</color>\n"
                "  Acid: <color_c_yellow>9.00</color>\n"
                "  Fire: <color_c_yellow>1.00</color>\n"
                "  Environmental: <color_c_yellow>20</color>\n"
@@ -1318,6 +1320,7 @@ TEST_CASE( "armor protection", "[iteminfo][armor][protection]" )
                "  Bash:  <color_c_red>1.00</color>, <color_c_yellow>12.00</color>, <color_c_green>23.00</color>\n"
                "  Cut:  <color_c_red>1.00</color>, <color_c_yellow>12.00</color>, <color_c_green>23.00</color>\n"
                "  Ballistic:  <color_c_red>1.00</color>, <color_c_yellow>8.50</color>, <color_c_green>16.00</color>\n"
+               "  Pierce:  <color_c_red>0.80</color>, <color_c_yellow>9.60</color>, <color_c_green>18.40</color>\n"
              );
     }
 
@@ -2051,7 +2054,7 @@ TEST_CASE( "food with hidden poison or hallucinogen", "[iteminfo][food][poison][
     // At low level, no info is shown
     GIVEN( "survival 2" ) {
         player_character.set_skill_level( skill_survival, 2 );
-        REQUIRE( player_character.get_skill_level( skill_survival ) == 2 );
+        REQUIRE( static_cast<int>( player_character.get_skill_level( skill_survival ) ) == 2 );
 
         THEN( "cannot see hidden poison or hallucinogen" ) {
             CHECK( item_info_str( almond, poison ).empty() );
@@ -2062,7 +2065,7 @@ TEST_CASE( "food with hidden poison or hallucinogen", "[iteminfo][food][poison][
     // Hidden poison is visible at survival level 3
     GIVEN( "survival 3" ) {
         player_character.set_skill_level( skill_survival, 3 );
-        REQUIRE( player_character.get_skill_level( skill_survival ) == 3 );
+        REQUIRE( static_cast<int>( player_character.get_skill_level( skill_survival ) ) == 3 );
 
         THEN( "can see hidden poison" ) {
             CHECK( item_info_str( almond, poison ) ==
@@ -2079,7 +2082,7 @@ TEST_CASE( "food with hidden poison or hallucinogen", "[iteminfo][food][poison][
     // Hidden hallucinogen is not visible until survival level 5
     GIVEN( "survival 4" ) {
         player_character.set_skill_level( skill_survival, 4 );
-        REQUIRE( player_character.get_skill_level( skill_survival ) == 4 );
+        REQUIRE( static_cast<int>( player_character.get_skill_level( skill_survival ) ) == 4 );
 
         THEN( "still cannot see hidden hallucinogen" ) {
             CHECK( item_info_str( nutmeg, hallu ).empty() );
@@ -2088,7 +2091,7 @@ TEST_CASE( "food with hidden poison or hallucinogen", "[iteminfo][food][poison][
 
     GIVEN( "survival 5" ) {
         player_character.set_skill_level( skill_survival, 5 );
-        REQUIRE( player_character.get_skill_level( skill_survival ) == 5 );
+        REQUIRE( static_cast<int>( player_character.get_skill_level( skill_survival ) ) == 5 );
 
         THEN( "can see hidden hallucinogen" ) {
             CHECK( item_info_str( nutmeg, hallu ) ==
@@ -2577,7 +2580,8 @@ TEST_CASE( "show available recipes with item as an ingredient", "[iteminfo][reci
 
         WHEN( "they acquire the needed skills" ) {
             player_character.set_skill_level( purtab->skill_used, purtab->difficulty );
-            REQUIRE( player_character.get_skill_level( purtab->skill_used ) == purtab->difficulty );
+            REQUIRE( static_cast<int>( player_character.get_skill_level( purtab->skill_used ) ) ==
+                     purtab->difficulty );
 
             THEN( "still nothing is craftable from it" ) {
                 CHECK( item_info_str( *iodine, crafting ) ==
@@ -2971,6 +2975,7 @@ TEST_CASE( "Armor values preserved after copy-from", "[iteminfo][armor][protecti
         "  Bash: <color_c_yellow>10.00</color>\n"
         "  Cut: <color_c_yellow>16.00</color>\n"
         "  Ballistic: <color_c_yellow>5.60</color>\n"
+        "  Pierce: <color_c_yellow>12.80</color>\n"
         "  Acid: <color_c_yellow>3.60</color>\n"
         "  Fire: <color_c_yellow>1.50</color>\n"
         "  Environmental: <color_c_yellow>6</color>\n";
@@ -2988,6 +2993,7 @@ TEST_CASE( "Armor values preserved after copy-from", "[iteminfo][armor][protecti
         "  Bash: <color_c_yellow>12.00</color>\n"
         "  Cut: <color_c_yellow>19.20</color>\n"
         "  Ballistic: <color_c_yellow>6.72</color>\n"
+        "  Pierce: <color_c_yellow>15.36</color>\n"
         "  Acid: <color_c_yellow>4.20</color>\n"
         "  Fire: <color_c_yellow>1.75</color>\n"
         "  Environmental: <color_c_yellow>7</color>\n";
@@ -3004,6 +3010,7 @@ TEST_CASE( "Armor values preserved after copy-from", "[iteminfo][armor][protecti
         "  Bash: <color_c_yellow>15.00</color>\n"
         "  Cut: <color_c_yellow>24.00</color>\n"
         "  Ballistic: <color_c_yellow>8.40</color>\n"
+        "  Pierce: <color_c_yellow>19.20</color>\n"
         "  Acid: <color_c_yellow>4.80</color>\n"
         "  Fire: <color_c_yellow>2.00</color>\n"
         "  Environmental: <color_c_yellow>8</color>\n";

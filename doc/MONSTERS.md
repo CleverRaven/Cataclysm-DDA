@@ -57,15 +57,7 @@ Property                 | Description
 `melee_dice_sides`       | (integer) Number of sides on each die rolled by `melee_dice`
 `grab_strength`          | (integer) Intensity of grab effect, from `1` to `n`, simulating `n` regular zombie grabs
 `melee_training_cap`     | (integer) The maximum melee skill levels learnable by fighting this monster. If not defined defaults to `melee_skill + 2`.
-`armor_bash`             | (integer) Monster's protection from bash damage
-`armor_bullet`           | (integer) Monster's protection from bullet damage
-`armor_cut`              | (integer) Monster's protection from cut damage
-`armor_stab`             | (integer) Monster's protection from stab damage
-`armor_acid`             | (integer) Monster's protection from acid damage
-`armor_fire`             | (integer) Monster's protection from fire damage
-`armor_electric`         | (integer) Monster's protection from electric damage
-`armor_cold`             | (integer) Monster's protection from cold damage
-`armor_pure`             | (integer) Monster's protection from pure damage
+`armor`                  | (object) Monster's protection from different types of damage
 `weakpoints`             | (array of objects) Weakpoints in the monster's protection
 `weakpoint_sets`         | (array of strings) Weakpoint sets to apply to the monster
 `families`               | (array of objects) Weakpoint families that the monster belongs to
@@ -331,10 +323,14 @@ Lower and upper bound of limb sizes the monster's melee attack can target - see 
 
 Intensity of the grab effect applied by this monster. Defaults to 1, is only useful for monster with a GRAB special attack and the GRABS flag. A monster with grab_strength = n applies a grab as if it was n zombies. A player with `max(Str,Dex)<=n` has no chance of breaking that grab.
 
-## "armor_bash", "armor_cut", "armor_stab", "armor_acid", "armor_fire", "armor_electric", "armor_biological", "armor_pure"
-(integer, optional)
+## "armor"
+(object, optional)
 
-Monster protection from bashing, cutting, stabbing, acid and fire damage.
+Monster protection from various types of damage. Any `damage_type` id can be used here, see `damage_types.json`.
+
+```JSON
+"armor": { "bash": 7, "cut": 7, "acid": 4, "bullet": 6, "electric": 2 }
+```
 
 ## "weakpoints"
 (array of objects, optional)
@@ -488,7 +484,7 @@ What makes the monster afraid / angry / what calms it. See [JSON_FLAGS.md](JSON_
 ## "chat_topics"
 (string, optional)
 
-Lists possible chat topics that will be used as dialogue display when talking to a monster, done by `e`xamining it and `c`hatting with it. The creature in question must be friendly to the player in order to talk to it. Monsters can be assigned variables, but cannot trade with the exchange interface. Listing multiple chat topics will cause the game to crash. This must be defined as an array.
+Lists possible chat topics that will be used as dialogue display when talking to a monster, done by `e`xamining it and `c`hatting with it. The creature in question must be friendly to the player in order to talk to it, or have the `CONVERSATION` flag. Alternatively an EOC spell/special attack between a player and monster can start a conversation using the `open_dialogue` effect, see [NPCs.md](NPCs.md) for more details.  Monsters can be assigned variables, but cannot trade with the exchange interface. Listing multiple chat topics will cause the game to crash. This must be defined as an array.
 
 ```JSON
 "chat_topics": [ "TALK_FREE_MERCHANTS_MERCHANT" ]
@@ -542,7 +538,7 @@ The monster's reproduction cycle, if any. Supports:
 Field          | Description
 ---            | ---
 `baby_monster` | (string, optional) the id of the monster spawned on reproduction for monsters who give live births. You must declare either this or `baby_egg` for reproduction to work.
-`baby_egg`     | (string, optional) The id of the egg type to spawn for egg-laying monsters. You must declare either this or "baby_monster" for reproduction to work.
+`baby_egg`     | (string, optional) The id of the egg type to spawn for egg-laying monsters. You must declare either this or "baby_monster" for reproduction to work. (see [JSON_INFO.md](JSON_INFO.md#comestibles) `rot_spawn`)
 `baby_count`   | (int) Number of new creatures or eggs to spawn on reproduction.
 `baby_timer`   | (int) Number of days between reproduction events.
 

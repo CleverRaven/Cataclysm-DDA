@@ -720,6 +720,7 @@ struct islot_gun : common_ranged_data {
      * Length of gun barrel, if positive allows sawing down of the barrel
      */
     units::volume barrel_volume = 0_ml;
+    units::length barrel_length = 0_mm;
     /**
      * Effects that are applied to the ammo when fired.
      */
@@ -1180,7 +1181,7 @@ struct itype {
         std::map<quality_id, int> charged_qualities;
 
         // True if this has given quality or charged_quality (regardless of current charge).
-        bool has_any_quality( const std::string &quality ) const;
+        bool has_any_quality( std::string_view quality ) const;
 
         // Properties are assigned to the type (belong to the item definition)
         std::map<std::string, std::string> properties;
@@ -1202,6 +1203,9 @@ struct itype {
 
         /** Actions an instance can perform (if any) indexed by action type */
         std::map<std::string, use_function> use_methods;
+
+        // @return returns itype_id of first ammo_id or itype_id::NULL_ID if not tool or no ammo defined
+        const itype_id &tool_slot_first_ammo() const;
 
         /** The factor of ammo consumption indexed by action type*/
         std::map<std::string, int> ammo_scale;
@@ -1319,7 +1323,7 @@ struct itype {
 
     public:
         /** Damage output in melee for zero or more damage types */
-        std::array<int, static_cast<int>( damage_type::NUM )> melee;
+        std::map<damage_type_id, float> melee;
 
         bool default_container_sealed = true;
 
@@ -1333,6 +1337,12 @@ struct itype {
         bool was_loaded = false;
 
     private:
+        // load-only, for applying proportional melee values at load time
+        std::map<damage_type_id, float> melee_proportional;
+
+        // load-only, for applying relative melee values at load time
+        std::map<damage_type_id, float> melee_relative;
+
         /** Can item be combined with other identical items? */
         bool stackable_ = false;
 
@@ -1340,7 +1350,7 @@ struct itype {
         static constexpr int damage_scale = 1000; /** Damage scale compared to the old float damage value */
 
         itype() {
-            melee.fill( 0 );
+            melee.clear();
         }
 
         int damage_max() const {
@@ -1423,8 +1433,8 @@ struct itype {
         bool is_basic_component() const;
 };
 
-void load_charge_removal_blacklist( const JsonObject &jo, const std::string &src );
-void load_charge_migration_blacklist( const JsonObject &jo, const std::string &src );
-void load_temperature_removal_blacklist( const JsonObject &jo, const std::string &src );
+void load_charge_removal_blacklist( const JsonObject &jo, std::string_view src );
+void load_charge_migration_blacklist( const JsonObject &jo, std::string_view src );
+void load_temperature_removal_blacklist( const JsonObject &jo, std::string_view src );
 
 #endif // CATA_SRC_ITYPE_H

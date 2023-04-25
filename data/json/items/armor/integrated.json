@@ -692,8 +692,6 @@
     "symbol": ",",
     "color": "brown",
     "warmth": 5,
-    "bashing": 4,
-    "cutting": 8,
     "to_hit": 1,
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 4 ], [ "PRY", 1 ] ],
     "environmental_protection": 1,
@@ -706,7 +704,8 @@
         "coverage": 80,
         "encumbrance": 7
       }
-    ]
+    ],
+    "melee_damage": { "bash": 4, "cut": 8 }
   },
   {
     "id": "integrated_shell",

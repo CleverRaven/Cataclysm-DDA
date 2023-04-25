@@ -63,10 +63,10 @@
     "material": [ "forged_dreamstuff" ],
     "weight": "300 g",
     "volume": "750 ml",
-    "bashing": 2,
     "to_hit": -3,
     "//scannable": [ false, "not a book, but shouldn't be scannable" ],
-    "use_action": { "type": "learn_spell", "spells": [ "spell_summon_twin" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "spell_summon_twin" ] },
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "artifact_dreamer_clairvoyance",

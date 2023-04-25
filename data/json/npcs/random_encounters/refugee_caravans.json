@@ -1,0 +1,294 @@
+[
+  {
+    "type": "npc",
+    "id": "NC_caravan_refugee_A",
+    "//": "Random NPC, can direct you to the free merchants and nearest FEMA camp.",
+    "name_suffix": "refugee",
+    "class": "NC_SCAVENGER",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_CARAVAN_REFUGEE_A1",
+    "faction": "wasteland_scavengers"
+  },
+  {
+    "type": "npc",
+    "id": "NC_caravan_refugee_B",
+    "//": "Random NPC, can be recruited away.",
+    "name_suffix": "refugee",
+    "class": "NC_SCAVENGER",
+    "attitude": 0,
+    "mission": 8,
+    "chat": "TALK_CARAVAN_REFUGEE_B1",
+    "faction": "wasteland_scavengers"
+  },
+  {
+    "type": "npc",
+    "id": "NC_caravan_refugee_C",
+    "//": "Random NPC, demands heroin and can accept.",
+    "name_suffix": "refugee",
+    "class": "NC_SCAVENGER",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_CARAVAN_REFUGEE_C1",
+    "faction": "wasteland_scavengers"
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CARAVAN_REFUGEE_A1",
+    "dynamic_line": "Please don't hurt us, we're just trying to get to safety.",
+    "speaker_effect": { "effect": { "npc_first_topic": "TALK_CARAVAN_REFUGEE_A2" } },
+    "responses": [
+      {
+        "text": "What if I want to hurt you?  I'm so good at it and I've had so much practice.",
+        "condition": { "u_has_trait": "PSYCHOPATH" },
+        "topic": "TALK_CARAVAN_REFUGEE_A1_Hurt"
+      },
+      {
+        "text": "What's your situation here?",
+        "topic": "TALK_CARAVAN_REFUGEE_A1_Job",
+        "condition": { "not": { "u_has_trait": "PSYCHOPATH" } }
+      },
+      { "text": "I don't have time for zombie bait like you.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CARAVAN_REFUGEE_A2",
+    "dynamic_line": "You again.  Any good news?  Haven't heard any in a long time.",
+    "responses": [
+      { "text": "What's your story?", "topic": "TALK_CARAVAN_REFUGEE_A_Story" },
+      { "text": "No, I don’t have any.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CARAVAN_REFUGEE_A1_Hurt",
+    "dynamic_line": "I can’t tell if you’re joking or not, please don’t say such things.",
+    "responses": [
+      { "text": "Oh, I wasn’t joking <name_b>.", "effect": "hostile", "topic": "TALK_DONE" },
+      { "text": "I’m sorry, I should be going before I do something bad again.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CARAVAN_REFUGEE_A1_Job",
+    "dynamic_line": "We're just trying to find a safe place right now.  I think there's a FEMA camp nearby that should have room for us.",
+    "responses": [
+      { "text": "That's it?  What's your story?", "topic": "TALK_CARAVAN_REFUGEE_A_Story" },
+      { "text": "Good luck with that.  I'll be on my way.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CARAVAN_REFUGEE_A_Story",
+    "dynamic_line": "We were at the same little evacuation hut, but it was all messed up, just used condoms and broken bottles and lipstick writing on the walls.  We found another group of refugees like us on the road, but they had all been killed, all ripped up, blood everywhere.  We took their food and made it all the way to a big refugee center, but somebody there with a gun told us there was no room, so we're going to a FEMA camp.  They should have more room and supplies.  No guarantees, but it's a chance.",
+    "responses": [
+      {
+        "text": "Can you give me directions to that FEMA camp?  I want to go there too if it's so great.",
+        "topic": "TALK_CARAVAN_REFUGEE_A_FEMA"
+      },
+      {
+        "text": "I haven't been to any refugee center.  Can you tell me where it is?",
+        "topic": "TALK_CARAVAN_REFUGEE_A_CENTER",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "MISSION_REACH_REFUGEE_CENTER" } },
+            { "not": { "u_has_var": "found_refugee_center", "value": "yes" } }
+          ]
+        }
+      },
+      { "text": "Thanks for the story.  I'd better go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CARAVAN_REFUGEE_A_FEMA",
+    "dynamic_line": "Of course, we're all in this together.  Let me mark that on your map.",
+    "speaker_effect": { "effect": { "assign_mission": "MISSION_REACH_FEMA_CA" } },
+    "responses": [
+      {
+        "text": "I haven't been to any refugee center.  Can you tell me where it is?",
+        "topic": "TALK_CARAVAN_REFUGEE_A_CENTER",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "MISSION_REACH_REFUGEE_CENTER" } },
+            { "not": { "u_has_var": "found_refugee_center", "value": "yes" } }
+          ]
+        }
+      },
+      { "text": "Thanks for the information.  I'd better go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "MISSION_REACH_FEMA_CA",
+    "type": "mission_definition",
+    "name": { "str": "Reach FEMA Camp" },
+    "goal": "MGOAL_GO_TO_TYPE",
+    "difficulty": 2,
+    "value": 60000,
+    "start": {
+      "assign_mission_target": { "om_terrain": "fema", "reveal_radius": 5, "om_special": "FEMA Camp", "search_range": 120 }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "destination": "fema",
+    "dialogue": {
+      "describe": "Things must be better at the camp…",
+      "offer": "We're all in this together, looking forward to meeting you there.",
+      "accepted": "Everything is going to be all right.",
+      "rejected": "No worries friend, good luck to you.",
+      "advice": "The hard part is getting there.",
+      "inquire": "Any progress on getting to the camp?",
+      "success": "Well, success I guess.",
+      "success_lie": "Thanks for trying… I guess.",
+      "failure": "Such a disappointment…"
+    }
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CARAVAN_REFUGEE_A_CENTER",
+    "dynamic_line": "Here, I'll mark it on your map.  I wouldn't bet they'll treat you any differently than us though.  You might try and bring something to trade, they like that.",
+    "speaker_effect": { "effect": { "assign_mission": "MISSION_REACH_REFUGEE_CENTER" } },
+    "responses": [
+      {
+        "text": "Can you give me directions to where you're going too?  I love cartography.",
+        "topic": "TALK_CARAVAN_REFUGEE_A_FEMA"
+      },
+      { "text": "Thanks for the information.  I'd better go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CARAVAN_REFUGEE_B1",
+    "dynamic_line": "Looking good there.  I like your whole setup.  What's your story?",
+    "speaker_effect": { "effect": { "npc_first_topic": "TALK_CARAVAN_REFUGEE_B2" } },
+    "responses": [
+      { "text": "What are you doing here?", "topic": "TALK_CARAVAN_REFUGEE_B1_Job" },
+      { "text": "Not interested.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CARAVAN_REFUGEE_B2",
+    "dynamic_line": "Nice.  Good to see you again.  What do you want from me?",
+    "responses": [
+      { "text": "What are you doing here?", "topic": "TALK_CARAVAN_REFUGEE_B1_Job" },
+      {
+        "truefalsetext": { "true": "You should come with me instead.", "false": "You should definitely come with me instead." },
+        "trial": { "type": "SKILL_CHECK", "difficulty": 3, "skill_required": "speaking" },
+        "success": { "topic": "TALK_CARAVAN_REFUGEE_B1_Join_Yes" },
+        "failure": { "topic": "TALK_CARAVAN_REFUGEE_B1_Join_No" }
+      },
+      { "text": "Nothing, just saying hi.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CARAVAN_REFUGEE_B1_Job",
+    "dynamic_line": "I'm a refugee, but don't get the wrong idea.  I've got big dreams of settling down after this and starting a big family.  I just need to find the right place and the right person.  Last couple of places didn't work out so well.",
+    "responses": [
+      { "text": "So you're not attached right now?", "topic": "TALK_CARAVAN_REFUGEE_B1_Attached" },
+      {
+        "truefalsetext": { "true": "You should come with me instead.", "false": "You should definitely come with me instead." },
+        "trial": { "type": "SKILL_CHECK", "difficulty": 3, "skill_required": "speaking" },
+        "success": { "topic": "TALK_CARAVAN_REFUGEE_B1_Join_Yes" },
+        "failure": { "topic": "TALK_CARAVAN_REFUGEE_B1_Join_No" }
+      },
+      {
+        "text": "Why, where were you before?",
+        "topic": "TALK_CARAVAN_REFUGEE_B1_Directions",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "MISSION_REACH_REFUGEE_CENTER" } },
+            { "not": { "u_has_var": "found_refugee_center", "value": "yes" } }
+          ]
+        }
+      },
+      { "text": "Not interested.  I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CARAVAN_REFUGEE_B1_Attached",
+    "dynamic_line": "No, I'm not really with them.  We just got stuck together in the same messed up evacuation place.  This one guy was really nice, but they wouldn't let us stay.  They got there first so they told us we needed to find our own place, but if we got anything they wanted they'd trade some of the stuff they have.  I tried to talk them into helping but they were so cold to me.",
+    "responses": [
+      {
+        "truefalsetext": { "true": "You should come with me instead.", "false": "You should definitely come with me instead." },
+        "trial": { "type": "SKILL_CHECK", "difficulty": 3, "skill_required": "speaking" },
+        "success": { "topic": "TALK_CARAVAN_REFUGEE_B1_Join_Yes" },
+        "failure": { "topic": "TALK_CARAVAN_REFUGEE_B1_Join_No" }
+      },
+      {
+        "text": "How do I get there?",
+        "topic": "TALK_CARAVAN_REFUGEE_B1_Directions",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "MISSION_REACH_REFUGEE_CENTER" } },
+            { "not": { "u_has_var": "found_refugee_center", "value": "yes" } }
+          ]
+        }
+      },
+      { "text": "Yeah, I guess it's hard all over.  I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CARAVAN_REFUGEE_B1_Join_Yes",
+    "dynamic_line": "This is the beginning of a beautiful thing.  I'm with you.",
+    "speaker_effect": { "effect": "follow" },
+    "responses": [ { "text": "Yes!", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CARAVAN_REFUGEE_B1_Join_No",
+    "dynamic_line": "Actually, I think I'm on the right track here, but you might have some luck finding a little something something back at the Free Merchant base.  They seemed pretty desperate.",
+    "responses": [
+      {
+        "text": "Of course.  How do I get there?",
+        "topic": "TALK_CARAVAN_REFUGEE_B1_Directions",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "MISSION_REACH_REFUGEE_CENTER" } },
+            { "not": { "u_has_var": "found_refugee_center", "value": "yes" } }
+          ]
+        }
+      },
+      { "text": "Yes.  I'll be on my way then.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CARAVAN_REFUGEE_B1_Directions",
+    "dynamic_line": "Sure, I can mark it on your map if you like.  Here.",
+    "speaker_effect": { "effect": { "assign_mission": "MISSION_REACH_REFUGEE_CENTER" } },
+    "responses": [
+      { "text": "Thanks for the tip!  What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "Thanks for the tip!  I'll be on my way.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CARAVAN_REFUGEE_C",
+    "dynamic_line": "Hey man.  Do you have any heroin?  I'm in a bit of a bind.",
+    "responses": [
+      { "text": "Oh, uh, sorry.", "topic": "TALK_DONE" },
+      {
+        "text": "Never, that heroin is for me and me alone.",
+        "condition": { "u_has_item": "heroin" },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "I think you might need it even more than me.  Here you go.",
+        "condition": { "u_has_item": "heroin" },
+        "effect": { "u_sell_item": "heroin" },
+        "opinion": { "trust": 2, "value": 2 },
+        "topic": "TALK_CARAVAN_REFUGEE_C_LOVE"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CARAVAN_REFUGEE_C_LOVE",
+    "dynamic_line": "I love you.",
+    "responses": [ { "text": "Oh, uh, thanks.  I guess.", "topic": "TALK_DONE" }, { "text": "No thank you.", "topic": "TALK_DONE" } ]
+  }
+]
