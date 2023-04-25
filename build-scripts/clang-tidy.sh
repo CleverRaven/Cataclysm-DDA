@@ -97,9 +97,7 @@ then
     TIDY="all"
 fi
 
-all_cpp_files="$( \
-    grep '"file": "' build/compile_commands.json | \
-    sed "s+.*$PWD/++;s+\"$++")"
+all_cpp_files="$(jq -r '.[].file' build/compile_commands.json)"
 if [ "$TIDY" == "all" ]
 then
     echo "Analyzing all files"
@@ -122,6 +120,19 @@ else
         tidyable_cpp_files=$all_cpp_files
     fi
 fi
+
+printf "Subset to analyze: '%s'\n" "$CATA_CLANG_TIDY_SUBSET"
+
+# We might need to analyze only a subset of the files if they have been split
+# into multiple jobs for efficiency
+case "$CATA_CLANG_TIDY_SUBSET" in
+    ( src )
+        tidyable_cpp_files=$(printf '%s\n' "$tidyable_cpp_files" | grep '/src/')
+        ;;
+    ( other )
+        tidyable_cpp_files=$(printf '%s\n' "$tidyable_cpp_files" | grep -v '/src/')
+        ;;
+esac
 
 function analyze_files_in_random_order
 {

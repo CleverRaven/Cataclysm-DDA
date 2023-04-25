@@ -98,7 +98,7 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "butchering_quality": 4,                    // Butchering quality of this mutations (default: 0).
   "rand_cut_bonus": { "min": 2, "max": 3 },   // Random bonus to unarmed cut damage between min and max.
   "rand_bash_bonus": { "min": 2, "max": 3 },  // Random bonus to unarmed bash damage between min and max.
-  "bodytemp_modifiers": [100, 150],           // Range of additional bodytemp units (these units are described in 'weather.h'.  First value is used if the person is already overheated, second one if it's not.
+  "bodytemp_modifiers": [ 100, 150 ],           // Range of additional bodytemp units (these units are described in 'weather.h'.  First value is used if the person is already overheated, second one if it's not.
   "bodytemp_sleep": 50,                       // Additional units of bodytemp which are applied when sleeping.
   "initial_ma_styles": [ "style_crane" ],     // (optional) A list of IDs of martial art styles of which the player can choose one when starting a game.
   "mixed_effect": false,                      // Whether the trait has both positive and negative effects.  This is purely declarative and is only used for the user interface (default: false).
@@ -118,7 +118,7 @@ Note that **all new traits that can be obtained through mutation must be purifia
       "apped_desc": false,                                // If true, append the description, instead of replacing.
       "weight": 1                                         // Used to randomly select variant when this is mutated.  Chance of being selected is weight/sum-of-all-weights.  If no weight is specified or weight is 0, variant will not be selected.
     }
-  ]
+  ],
   "category": [ "MUTCAT_BIRD", "MUTCAT_INSECT" ],         // Categories containing this mutation.
       // prereqs and prereqs2 specify prerequisites of the current mutation.
       // Both are optional, but if prereqs2 is specified prereqs must also be specified.
@@ -130,8 +130,8 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "changes_to": [ "FASTHEALER2" ],            // Can change into these mutations when mutating further.
   "leads_to": [ ],                            // Mutations that add to this one.
   "passive_mods": {                           // Increases stats with the listed value.  Negative means a stat reduction.
-              "per_mod": 1,                   // Possible values: per_mod, str_mod, dex_mod, int_mod
-              "str_mod": 2
+    "per_mod": 1,                             // Possible values: per_mod, str_mod, dex_mod, int_mod
+    "str_mod": 2
   },
   "wet_protection": [ { "part": "head", "good": 1 } ],    // Wet Protection on specific bodyparts.  Possible values: "neutral/good/ignored".  Good increases pos and cancels neg, neut cancels neg, ignored cancels both.
   "vitamin_rates": [ [ "vitC", -1200 ] ],     // How much extra vitamins do you consume, one point per this many seconds.  Negative values mean production.
@@ -145,12 +145,12 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "allow_soft_gear": true,                    // If there is a list of 'restricts_gear', this sets if the location still allows items made out of soft materials (only one of the types need to be soft for it to be considered soft) (default: false).
   "destroys_gear": true,                      // If true, destroys the gear in the 'restricts_gear' location when mutated into (default: false).
   "encumbrance_always": [                     // Adds this much encumbrance to selected body parts.
-      [ "arm_l", 20 ],
-      [ "arm_r", 20 ]
+    [ "arm_l", 20 ],
+    [ "arm_r", 20 ]
   ],
   "encumbrance_covered": [                    // Adds this much encumbrance to selected body parts, but only if the part is covered by not-OVERSIZE worn equipment.
-      [ "hand_l", 50 ],
-      [ "hand_r", 50 ]
+    [ "hand_l", 50 ],
+    [ "hand_r", 50 ]
   ],
   "encumbrance_multiplier_always": {          // If the bodypart has encumbrance caused by a mutation, multiplies that encumbrance penalty by this multiplier.
     "arm_l": 0.75,                            // Note: Does not affect clothing encumbrance.
@@ -206,30 +206,31 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "movecost_flatground_modifier": 0.9,        // Movement speed cost modifier on flat terrain, free from obstacles (0.9 is 10% faster, 1.1 is 10% slower).
   "movecost_obstacle_modifier": 0.9,          // Movement speed cost modifier on rough, uneven terrain (0.9 is 10% faster, 1.1 is 10% slower).
   "movecost_swim_modifier": 0.9,              // Swimming speed cost modifier (0.9 is 10% faster, 1.1 is 10% slower).
-  "weight_capacity_modifier": 0.9             // Carrying capacity modifier (0.9 is 10% less, 1.1 is 10% more).
+  "weight_capacity_modifier": 0.9,            // Carrying capacity modifier (0.9 is 10% less, 1.1 is 10% more).
   "social_modifiers": { "persuade": -10 },    // Social modifiers.  Can be: intimidate, lie, persuade.
   "spells_learned": [ [ "spell_slime_spray", 1 ] ], // Spells learned and the level they're at after gaining the trait/mutation.
-  "transform": { "target": "BIOLUM1",         // Trait_id of the mutation this one will transform into.
-                 "msg_transform": "You turn your photophore OFF.", // Message displayed upon transformation.
-                 "active": false,             // If true, mutation will start powered when activated (turn ON).
-                 "moves": 100                 // Moves cost per activation (default: 0).
+  "transform": { 
+    "target": "BIOLUM1",                      // Trait_id of the mutation this one will transform into.
+    "msg_transform": "You turn your photophore OFF.", // Message displayed upon transformation.
+    "active": false,                          // If true, mutation will start powered when activated (turn ON).
+    "moves": 100                              // Moves cost per activation (default: 0).
   },
   "triggers": [                               // List of sublist of triggers, all sublists must be True for the mutation to activate.
     [                                         // Sublist of trigger: at least one trigger must be true for the sublist to be true.
-        {
-          "condition": { "compare_num": [ { "u_val": "morale" }, "<", { "const": -50 } ] },               // Dialog condition (see NPCs.md).
-          "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" }  // Message displayed when the trigger activates.
-        }
+      {
+        "condition": { "compare_num": [ { "u_val": "morale" }, "<", { "const": -50 } ] },               // Dialog condition (see NPCs.md).
+        "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" }  // Message displayed when the trigger activates.
+      }
     ],
     [
       {
         "condition": {                        // Dialog condition (see NPCs.md).
           "or": [
-            { "compare_num": [ { "hour", "<", { "const": 2 } } ] },
-            { "compare_num": [ { "hour", ">", { "const": 20 } } ] }
+            { "compare_num": [ "hour", "<", { "const": 2 } ] },
+            { "compare_num": [ "hour", ">", { "const": 20 } ] }
           ]
         },
-        "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" } // Message displayed when the trigger activates.
+        "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" },// Message displayed when the trigger activates.
         "msg_off": { "text": "Your glow fades." }                                                      // Message displayed when the trigger deactivates the trait.
       }
     ]
@@ -238,8 +239,10 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "deactivated_eocs": [ "eoc_id_1" ],         // List of effect_on_conditions that attempt to activate when this mutation is successfully deactivated.
   "enchantments": [ "ench_id_1" ],            // List of enchantments granted by this mutation.  Can be either IDs or an inline definition of the enchantment (see MAGIC.md)
   "temperature_speed_modifier": 0.5,          // If nonzero, become slower when cold, and faster when hot (1.0 gives +/-1% speed for each degree above or below 65 F).
+  "pain_modifier": 5,                         // Flat increase (for positive numbers)\ reduction (for negative) to the amount of pain recived. Reduction can go all the way to 0. Applies after pain enchantment. (so if you have Pain Resistant trait along with 5 flat pain reduction and recive 20 pain, you would gain 20*(1-0.25)-5=10 pain)
   "mana_modifier": 100,                       // Positive or negative change to total mana pool.
-  "flags": [ "UNARMED_BONUS" ]                // List of flag_IDs and json_flag_IDs granted by the mutation.  Note: trait_IDs can be set and generate no errors, but they're not actually "active".
+  "flags": [ "UNARMED_BONUS" ],               // List of flag_IDs and json_flag_IDs granted by the mutation.  Note: trait_IDs can be set and generate no errors, but they're not actually "active".
+  "moncams": [ [ "mon_player_blob", 16 ] ]    // Monster cameras, ability to use friendly monster's from the list as additional source of vision. Max view distance is equal to monster's daytime vision. The number specifies the range at which it can "transmit" vision to the avatar.
 }
 
 ```
@@ -263,7 +266,7 @@ These fields are optional, but are very frequently used in mutations and their c
 |    Identifier     | Default |                                                                          Description                                                                        |
 | ----------------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `category`        | Nothing | An array of string IDs representing mutation categories. This defines which categories the trait is considered part of (such as `ALPHA`, `BEAST`, `CEPHALOPOD`, and so on) and so it determines which primers must be used for the player to mutate them. |
-| `types`           | Nothing | A list of types that this mutation can be classified under. Each mutation with a certain type is mutually exclusive with other mutations that also have that type; if a trait has the `EXAMPLE` type defined, then no other trait with that type can exist on a character, and mutating towards such a trait would remove the existing one if it could. |
+| `types`           | Nothing | A list of types that this mutation can be classified under. Each mutation with a certain type is mutually exclusive with other mutations that also have that type; if a trait has the `EXAMPLE` type defined, then no other trait with that type can exist on a character, and mutating towards such a trait would remove the existing one if it could.  |
 | `prereqs`         | Nothing | An array of mutation IDs that are possible requirements for this trait to be obtained. Only a single option from this list needs to be present.             |
 | `prereqs2`        | Nothing | Identical to `prereqs`, and will throw errors if `prereqs` isn't defined. This is used to have multiple traits required to obtain another trait; one option must be present on the character from both `prereqs` and `prereqs2` for a trait to be obtainable. |
 | `threshreq`       | Nothing | This is a dedicated prerequisite slot for threshold mutations, and functions identically to `prereq` and `prereq2`.                                         |
@@ -312,19 +315,19 @@ There are many, many optional fields present for mutations to let them do all so
 
 A Mutation Category identifies a set of interrelated mutations that as a whole establish an entirely new identity for a mutant character. Categories can and usually do have their own "flavor" of mutagen, the properties of which are defined in the category definition itself. A second kind of mutagen, called a "mutagen serum" or "IV mutagen" is necessary to trigger "threshold mutations" which cause irrevocable changes to the character.
 
-| Identifier         | Description
-|---                 |---
-| `id`               | Unique ID. Must be one continuous word, use underscores when necessary.
-| `name`             | Human readable name for the category of mutations.
-| `threshold_mut`    | A special mutation that marks the point at which the identity of the character is changed by the extent of mutation they have experienced.
-| `threshold_min`    | Amount of primer the character needs to have in their body to attempt breaking the threshold.  Default 2200.
-| `mutagen_message`  | A message displayed to the player when they mutate in this category.
-| `memorial_message` | The memorial message to display when a character crosses the associated mutation threshold.
-| `vitamin`          | The vitamin id of the primer of this category. The character's vitamin level will act as the weight of this category when selecting which category to try and mutate towards, and gets decreased on successful mutation by the trait's mutagen cost.
-| `base_removal_chance`| Int, percent chance for a mutation of this category removing a conflicting base (starting) trait, rolled per `Character::mutate_towards` attempts.  Default 100%.  Removed base traits will **NOT** be considered base traits from here on, even if you regain them later. 
+| Identifier              | Description
+|---                      |---
+| `id`                    | Unique ID. Must be one continuous word, use underscores when necessary.
+| `name`                  | Human readable name for the category of mutations.
+| `threshold_mut`         | A special mutation that marks the point at which the identity of the character is changed by the extent of mutation they have experienced.
+| `threshold_min`         | Amount of primer the character needs to have in their body to attempt breaking the threshold.  Default 2200.
+| `mutagen_message`       | A message displayed to the player when they mutate in this category.
+| `memorial_message`      | The memorial message to display when a character crosses the associated mutation threshold.
+| `vitamin`               | The vitamin id of the primer of this category. The character's vitamin level will act as the weight of this category when selecting which category to try and mutate towards, and gets decreased on successful mutation by the trait's mutagen cost.
+| `base_removal_chance`   | Int, percent chance for a mutation of this category removing a conflicting base (starting) trait, rolled per `Character::mutate_towards` attempts.  Default 100%.  Removed base traits will **NOT** be considered base traits from here on, even if you regain them later. 
 | `base_removal_cost_mul` | Float, multiplier on the primer cost of the trait that removed a canceled starting trait, down to 0.0 for free mutations as long as a starting trait was given up.  Default 3.0, used for human-like categories and lower as categories become more inhuman.
-| `wip`              | A flag indicating that a mutation category is unfinished and shouldn't have consistency tests run on it. See tests/mutation_test.cpp.
-| `skip_test`        | If true, this mutation category will be skipped in consistency tests; this should only be used if you know what you're doing. See tests/mutation_test.cpp.
+| `wip`                   | A flag indicating that a mutation category is unfinished and shouldn't have consistency tests run on it. See tests/mutation_test.cpp.
+| `skip_test`             | If true, this mutation category will be skipped in consistency tests; this should only be used if you know what you're doing. See tests/mutation_test.cpp.
 
 ## Trait Migrations
 

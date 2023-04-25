@@ -19,8 +19,9 @@ Vehicle prototypes do not currently accept copy-from
     { "x": 0, "y": 0, "part": "frame" },   // Part definition, positive x direction is up,
     { "x": 0, "y": 0, "part": "seat" },    // positive y is to the right
     { "x": 0, "y": 0, "part": "controls"}, // See vehicle_parts.json for part ids
+    { "x": 1, "y": 1, "part": "veh_tools_workshop", "tools": [ "welder" ] },  // spawn attached tools
     { "x": 0, "y": 1, "parts": [ "frame", "seat" ] }, // Arrays of parts on the same space
-    { "x": 0, "y": 1, "parts": [ { "part": "tank", "fuel": "gasoline" }, "battery_car" },
+    { "x": 0, "y": 1, "parts": [ { "part": "tank", "fuel": "gasoline" }, "battery_car" ] },
     { "x": 0, "y": 1, "part": "stereo" },  // parts arrays and part may be mixed on the same space
     { "x": 1, "y": 0, "parts": [ "frame_cover", "wheel_mount_medium", "wheel" ] },
     { "x": 1, "y": 1, "parts": [ "frame_cross", "wheel_mount_medium", "wheel" ] },

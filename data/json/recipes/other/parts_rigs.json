@@ -1,30 +1,6 @@
 [
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
-    "result": "kitchen_unit",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_PARTS",
-    "skill_used": "mechanics",
-    "skills_required": [ "electronics", 1 ],
-    "difficulty": 4,
-    "time": "1 h",
-    "reversible": true,
-    "decomp_learn": 3,
-    "autolearn": true,
-    "using": [ [ "welding_standard", 10 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "components": [
-      [ [ "frame", 1 ] ],
-      [ [ "hotplate", 1 ] ],
-      [ [ "pot", 1 ], [ "pot_copper", 1 ] ],
-      [ [ "pan", 1 ] ],
-      [ [ "water_faucet", 1 ] ],
-      [ [ "cable", 5 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "forgerig",
     "category": "CC_ELECTRONIC",
@@ -56,72 +32,6 @@
     "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "power_supply", 2 ] ], [ [ "kiln", 1 ] ], [ [ "cable", 5 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
-    "result": "weldrig",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_PARTS",
-    "skill_used": "mechanics",
-    "skills_required": [ "electronics", 4 ],
-    "difficulty": 4,
-    "time": "50 m",
-    "reversible": true,
-    "decomp_learn": 4,
-    "book_learn": [ [ "textbook_mechanics", 6 ], [ "textbook_electronics", 8 ], [ "textbook_fabrication", 8 ], [ "welding_book", 5 ] ],
-    "using": [ [ "welding_standard", 10 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "components": [ [ [ "frame", 1 ] ], [ [ "welding_components", 1 ] ], [ [ "cable", 5 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
-    "result": "craftrig",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_PARTS",
-    "skill_used": "fabrication",
-    "skills_required": [ "electronics", 3 ],
-    "difficulty": 4,
-    "time": "1 h",
-    "reversible": true,
-    "decomp_learn": 3,
-    "book_learn": [ [ "textbook_fabrication", 3 ], [ "manual_fabrication", 3 ], [ "manual_electronics", 3 ], [ "manual_mechanics", 3 ] ],
-    "using": [ [ "welding_standard", 10 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "components": [
-      [ [ "frame", 1 ] ],
-      [ [ "vac_sealer", 1 ], [ "makeshift_sealer", 1 ] ],
-      [ [ "dehydrator", 1 ] ],
-      [ [ "water_purifier", 1 ] ],
-      [ [ "food_processor", 1 ] ],
-      [ [ "press", 1 ] ],
-      [ [ "cable", 5 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
-    "result": "chemlab",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_PARTS",
-    "skill_used": "fabrication",
-    "skills_required": [ "electronics", 3 ],
-    "difficulty": 4,
-    "time": "1 h",
-    "reversible": true,
-    "decomp_learn": 3,
-    "book_learn": [ [ "textbook_fabrication", 3 ], [ "manual_fabrication", 3 ], [ "manual_electronics", 3 ], [ "manual_mechanics", 3 ] ],
-    "using": [ [ "welding_standard", 10 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "components": [
-      [ [ "frame", 1 ] ],
-      [ [ "chemistry_set", 1 ] ],
-      [ [ "electrolysis_kit", 1 ] ],
-      [ [ "water_faucet", 1 ] ],
-      [ [ "power_supply", 1 ] ],
-      [ [ "cable", 5 ] ]
-    ]
   },
   {
     "type": "recipe",

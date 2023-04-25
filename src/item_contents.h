@@ -7,13 +7,13 @@
 #include <iosfwd>
 #include <list>
 #include <map>
+#include <optional>
 #include <set>
 #include <utility>
 #include <vector>
 
 #include "enums.h"
 #include "item_pocket.h"
-#include "optional.h"
 #include "ret_val.h"
 #include "type_id.h"
 #include "units_fwd.h"
@@ -128,7 +128,7 @@ class item_contents
         std::vector<item *> ebooks();
         std::vector<const item *> ebooks() const;
 
-        void update_modified_pockets( const cata::optional<const pocket_data *> &mag_or_mag_well,
+        void update_modified_pockets( const std::optional<const pocket_data *> &mag_or_mag_well,
                                       std::vector<const pocket_data *> container_pockets );
         // all magazines compatible with any pockets.
         // this only checks MAGAZINE_WELL
@@ -172,6 +172,8 @@ class item_contents
         int get_total_holsters() const;
         units::volume get_total_holster_volume() const;
         units::volume get_used_holster_volume() const;
+        units::mass get_total_holster_weight() const;
+        units::mass get_used_holster_weight() const;
 
         // gets all CONTAINER pockets contained in this item
         std::vector<const item_pocket *> get_all_contained_pockets() const;
@@ -257,7 +259,7 @@ class item_contents
         void favorite_settings_menu( item *i );
 
         item_pocket *contained_where( const item &contained );
-        void on_pickup( Character &guy );
+        void on_pickup( Character &guy, item *avoid = nullptr );
         bool spill_contents( const tripoint &pos );
         // spill items that don't fit in the container
         void overflow( const tripoint &pos );
@@ -342,7 +344,8 @@ class item_contents
 
         // reads the items in the MOD pocket first
         void read_mods( const item_contents &read_input );
-        void combine( const item_contents &read_input, bool convert = false, bool into_bottom = false );
+        void combine( const item_contents &read_input, bool convert = false, bool into_bottom = false,
+                      bool restack_charges = true );
 
         void serialize( JsonOut &json ) const;
         void deserialize( const JsonObject &data );

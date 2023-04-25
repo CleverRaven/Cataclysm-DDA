@@ -7,6 +7,7 @@
 #include <iosfwd>
 #include <map>
 #include <memory>
+#include <optional>
 #include <string>
 #include <utility>
 #include <vector>
@@ -18,7 +19,6 @@
 #include "item_location.h"
 #include "mapdata.h"
 #include "memory_fast.h"
-#include "optional.h"
 #include "player_activity.h"
 #include "point.h"
 #include "type_id.h"
@@ -103,8 +103,8 @@ class veh_interact
 
         weak_ptr_fast<ui_adaptor> ui;
 
-        cata::optional<std::string> title;
-        cata::optional<std::string> msg;
+        std::optional<std::string> title;
+        std::optional<std::string> msg;
 
         bool ui_hidden = false;
 

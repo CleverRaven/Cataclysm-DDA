@@ -148,7 +148,6 @@
     "weight": "7500 g",
     "volume": "5 L",
     "price": 1500000,
-    "bashing": 10,
     "to_hit": -1,
     "material": [ "glass", "steel" ],
     "symbol": "[",
@@ -156,7 +155,8 @@
     "material_thickness": 3,
     "use_action": [ "SOLARPACK" ],
     "flags": [ "FRAGILE", "OUTER", "ONLY_ONE", "SOLARPACK" ],
-    "armor": [ { "encumbrance": 12, "coverage": 40, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": 12, "coverage": 40, "covers": [ "torso" ] } ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "q_solarpack_on",
@@ -167,7 +167,6 @@
     "weight": "7500 g",
     "volume": "15 L",
     "price": 1500000,
-    "bashing": 4,
     "to_hit": -2,
     "material": [ "glass", "steel" ],
     "symbol": "[",
@@ -176,7 +175,8 @@
     "use_action": [ "SOLARPACK_OFF" ],
     "solar_efficiency": 0.3,
     "flags": [ "FRAGILE", "OUTER", "ONLY_ONE", "SOLARPACK_ON" ],
-    "armor": [ { "encumbrance": 20, "coverage": 40, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": 20, "coverage": 40, "covers": [ "torso" ] } ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "xlswat_armor",
@@ -190,7 +190,6 @@
     "price": 585000,
     "price_postapoc": 5000,
     "to_hit": -3,
-    "bashing": 6,
     "material": [ "kevlar", "cotton" ],
     "symbol": "[",
     "looks_like": "touring_suit",
@@ -204,7 +203,8 @@
       { "pocket_type": "CONTAINER", "max_contains_volume": "750 ml", "max_contains_weight": "2 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "750 ml", "max_contains_weight": "2 kg", "moves": 80 }
     ],
-    "armor": [ { "encumbrance": 25, "coverage": 95, "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ] } ]
+    "armor": [ { "encumbrance": 25, "coverage": 95, "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ] } ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "xlballistic_vest_empty",
@@ -253,7 +253,6 @@
     "price": 7000,
     "price_postapoc": 14000,
     "to_hit": -1,
-    "bashing": 1,
     "material": [ "kevlar", "leather" ],
     "symbol": "[",
     "looks_like": "boots",
@@ -262,7 +261,8 @@
     "material_thickness": 5,
     "environmental_protection": 2,
     "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY" ],
-    "armor": [ { "encumbrance": 25, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ]
+    "armor": [ { "encumbrance": 25, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "xlgloves_tactical",

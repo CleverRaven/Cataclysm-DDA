@@ -242,7 +242,7 @@
       [ "hatchet", 10 ],
       [ "storage_line", 20 ],
       { "item": "misc_repairkit", "prob": 5, "charges-min": 0 },
-      { "item": "mess_kit", "prob": 10, "charges": [ 0, 500 ] },
+      { "item": "mess_kit", "prob": 10 },
       { "item": "portable_stove", "prob": 10, "container-item": "nylon_bag" },
       [ "pot", 20 ],
       [ "folded_inflatable_boat", 25 ],
@@ -268,6 +268,7 @@
       [ "backpack", 38 ],
       [ "backpack_leather", 18 ],
       [ "backpack_hiking", 12 ],
+      [ "backpack_hunting", 3 ],
       [ "bigback", 3 ],
       [ "travelpack", 6 ],
       [ "armrig", 3 ],
@@ -419,7 +420,6 @@
       [ "barometer", 3 ],
       [ "straw_basket", 1 ],
       [ "straw_hat", 5 ],
-      { "item": "l-stick", "prob": 1, "charges": [ 0, 500 ] },
       [ "tourist_table", 30 ],
       [ "trailmap", 5 ],
       [ "chem_hexamine", 5 ],
@@ -432,7 +432,6 @@
       [ "whistle_multitool", 5 ],
       [ "esbit_stove", 10 ],
       [ "bottle_folding", 10 ],
-      { "item": "mess_tin", "prob": 10, "charges": [ 0, 500 ] },
       { "distribution": [ { "group": "full_survival_kit" }, { "group": "used_survival_kit" } ], "prob": 30 },
       { "group": "premium_contents", "prob": 3 },
       { "item": "ar_glasses_basic", "prob": 1, "charges-min": 0 },
@@ -450,7 +449,7 @@
       [ "hatchet", 10 ],
       [ "storage_line", 20 ],
       { "item": "misc_repairkit", "prob": 5, "charges-min": 0 },
-      { "item": "mess_kit", "prob": 10, "charges": [ 0, 500 ] },
+      { "item": "mess_kit", "prob": 10 },
       [ "pot", 20 ],
       [ "folded_inflatable_boat", 25 ],
       [ "hand_pump", 5 ],
@@ -553,8 +552,7 @@
       [ "cloak_wool", 5 ],
       [ "whistle_multitool", 5 ],
       [ "esbit_stove", 10 ],
-      [ "bottle_folding", 10 ],
-      { "item": "mess_tin", "prob": 10, "charges": [ 0, 500 ] }
+      [ "bottle_folding", 10 ]
     ]
   },
   {

@@ -5,6 +5,7 @@
 #include <limits>
 #include <memory>
 #include <numeric>
+#include <optional>
 #include <sstream>
 
 #include "assign.h"
@@ -27,7 +28,6 @@
 #include "json.h"
 #include "mapgen_functions.h"
 #include "npc.h"
-#include "optional.h"
 #include "output.h"
 #include "proficiency.h"
 #include "recipe_dictionary.h"
@@ -42,6 +42,7 @@
 
 static const itype_id itype_atomic_coffeepot( "atomic_coffeepot" );
 static const itype_id itype_hotplate( "hotplate" );
+static const itype_id itype_null( "null" );
 
 static const std::string flag_FULL_MAGAZINE( "FULL_MAGAZINE" );
 
@@ -50,7 +51,7 @@ recipe::recipe() : skill_used( skill_id::NULL_ID() ) {}
 int recipe::get_difficulty( const Character &crafter ) const
 {
     if( is_practice() && skill_used ) {
-        return clamp( crafter.get_all_skills().get_skill_level( skill_used ),
+        return clamp( static_cast<int>( crafter.get_all_skills().get_skill_level( skill_used ) ),
                       practice_data->min_difficulty, practice_data->max_difficulty );
     } else {
         return difficulty;
@@ -156,7 +157,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
     if( jo.has_member( "result_eocs" ) ) {
         result_eocs.clear();
         for( JsonValue jv : jo.get_array( "result_eocs" ) ) {
-            result_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+            result_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
         }
     }
     if( abstract ) {
@@ -589,7 +590,7 @@ void recipe::finalize()
     }
 
     if( contained && container.is_null() ) {
-        container = item::find_type( result_ )->default_container.value_or( "null" );
+        container = item::find_type( result_ )->default_container.value_or( itype_null );
     }
 
     std::set<proficiency_id> required;

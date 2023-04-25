@@ -3,6 +3,7 @@
 
 #include <iosfwd>
 #include <memory>
+#include <optional>
 #include <set>
 #include <type_traits>
 #include <unordered_map>
@@ -13,7 +14,6 @@
 #include "cata_variant.h"
 #include "event.h"
 #include "event_subscriber.h"
-#include "optional.h"
 #include "string_id.h"
 
 class JsonObject;
@@ -90,8 +90,8 @@ class event_multiset
         int total( const std::string &field, const cata::event::data_type &criteria ) const;
         int minimum( const std::string &field ) const;
         int maximum( const std::string &field ) const;
-        cata::optional<summaries_type::value_type> first() const;
-        cata::optional<summaries_type::value_type> last() const;
+        std::optional<summaries_type::value_type> first() const;
+        std::optional<summaries_type::value_type> last() const;
 
         void add( const cata::event & );
         void add( const summaries_type::value_type & );

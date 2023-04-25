@@ -12,5 +12,71 @@
         "success_message": "All at once your body feels like it's beeing pulled in 1000 different directions."
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_math_test_equals_assign",
+    "condition": { "math": [ "u_val('stamina')", "==", "500" ] },
+    "effect": [ { "math": [ "math_test", "=", "-3^2" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_math_test_greater_increment",
+    "condition": { "math": [ "math_test", ">", "0" ] },
+    "effect": [ { "math": [ "math_test", "+=", "1" ] } ],
+    "false_effect": [ { "math": [ "math_test", "--" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_math_switch_math",
+    "effect": {
+      "switch": { "math": [ "math_test" ] },
+      "cases": [
+        { "case": -1, "effect": { "math": [ "math_test_result", "=", "1" ] } },
+        { "case": 9, "effect": { "math": [ "math_test_result", "=", "2" ] } },
+        { "case": 10, "effect": { "math": [ "math_test_result", "=", "3" ] } }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_math_diag_assign",
+    "effect": [ { "math": [ "u_val('stamina')", "/=", "2" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_math_var",
+    "condition": { "days_since_cataclysm": { "math": [ "math_test_result" ] } },
+    "effect": [ { "u_message": "test var math" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_math_duration",
+    "recurrence": { "math": [ "math_test_result" ] },
+    "global": true,
+    "effect": { "u_message": "test recurrence" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_mess_pass",
+    "effect": { "math": [ "weighted_var", "=", "1" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_mess_fail",
+    "effect": { "math": [ "weighted_var", "=", "-999" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_math_weighted_list",
+    "effect": {
+      "weighted_list_eocs": [ [ "EOC_mess_pass", { "math": [ "u_pain()" ] } ], [ "EOC_mess_fail", { "math": [ "u_val('stamina')" ] } ] ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_increment_var",
+    "//": "tests adding a variable to the player",
+    "effect": [ { "math": [ "u_activitiy_incrementer", "++" ] } ]
   }
 ]

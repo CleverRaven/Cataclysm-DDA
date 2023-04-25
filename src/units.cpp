@@ -17,6 +17,12 @@ void volume::serialize( JsonOut &jsout ) const
 }
 
 template<>
+void volume::deserialize( const JsonValue &jv )
+{
+    *this = read_from_json_string( jv, units::volume_units );
+}
+
+template<>
 void mass::serialize( JsonOut &jsout ) const
 {
     if( value_ % 1000000 == 0 ) {

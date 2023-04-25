@@ -19,7 +19,7 @@
   {
     "type": "GENERIC",
     "id": "exo_gantry",
-    "copy-from": "vehicle_rig",
+    "copy-from": "veh_tools_workshop",
     "name": { "str": "exosuit maintenance gantry", "str_pl": "exosuit maintenance gantries" },
     "description": "A vehicle-mounted gantry for supporting an exosuit upright during maintenance and repair.  Includes the specialized tools needed for complex repairs and will also charge the suit's power when activated from the vehicle's controls."
   }
