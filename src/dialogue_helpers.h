@@ -91,7 +91,7 @@ struct talk_effect_fun_t {
         void set_npc_goal( const JsonObject &jo, std::string_view member, bool is_npc = false );
         void set_destination( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_revert_location( const JsonObject &jo, const std::string_view &member );
-        void set_guard_pos( const JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_guard_pos( const JsonObject &jo, const std::string_view &member, bool is_npc = false );
         void set_bulk_trade_accept( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_npc_gets_item( bool to_use );
         void set_add_mission( const JsonObject &jo, const std::string &member );

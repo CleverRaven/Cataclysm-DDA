@@ -3105,7 +3105,7 @@ void talk_effect_fun_t::set_npc_goal( const JsonObject &jo, const std::string_vi
     };
 }
 
-void talk_effect_fun_t::set_guard_pos( const JsonObject &jo, const std::string &member,
+void talk_effect_fun_t::set_guard_pos( const JsonObject &jo, const std::string_view &member,
                                        bool is_npc )
 {
     std::optional<var_info> target_var = read_var_info( jo.get_object( member ) );
