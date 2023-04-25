@@ -2075,7 +2075,7 @@ bool game_menus::inv::compare_items( const item &first, const item &second,
         item_info_data item_info_second;
 
         const int offset_y = confirm_message.empty() ? 0 : 3;
-        const int page_size = TERMY - offset_y - 2;
+        int page_size = 0;
 
         int scroll_pos_first = 0;
         int scroll_pos_second = 0;
@@ -2117,6 +2117,7 @@ bool game_menus::inv::compare_items( const item &first, const item &second,
             ui.on_screen_resize( [&]( ui_adaptor & ui ) {
                 const int half_width = TERMX / 2;
                 const int height = TERMY;
+                page_size = TERMY - offset_y - 2;
                 wnd_first = catacurses::newwin( height - offset_y, half_width, point_zero );
                 wnd_second = catacurses::newwin( height - offset_y, half_width, point( half_width, 0 ) );
 
