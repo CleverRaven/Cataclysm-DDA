@@ -3945,9 +3945,9 @@ void Creature::load( const JsonObject &jsin )
         jsin.read( "armor_bonus", armor_bonus );
     } else {
         // Legacy load conversion, remove after 0.H releases
-        int bash_bonus = 0;
-        int cut_bonus = 0;
-        int bullet_bonus = 0;
+        float bash_bonus = 0;
+        float cut_bonus = 0;
+        float bullet_bonus = 0;
         jsin.read( "armor_bash_bonus", bash_bonus );
         jsin.read( "armor_cut_bonus", cut_bonus );
         jsin.read( "armor_bullet_bonus", bullet_bonus );
