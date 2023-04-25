@@ -308,7 +308,9 @@
     "type": "effect_type",
     "id": "grabbing_head",
     "name": [ "Grabbing Head" ],
+    "show_in_info": true,
     "//": "Grab filter effect for dedicated removal, per-bptype",
+    "base_mods": { "dodge_mod": [ -8 ] },
     "desc": [ "You're grabbing the head of somebody." ],
     "flags": [ "GRAB_FILTER" ]
   },
@@ -316,6 +318,8 @@
     "type": "effect_type",
     "id": "grabbing_eyes",
     "name": [ "Grabbing Eyes" ],
+    "show_in_info": true,
+    "base_mods": { "dodge_mod": [ -8 ] },
     "desc": [ "You've caught the eye of somebody." ],
     "flags": [ "GRAB_FILTER" ]
   },
@@ -323,6 +327,8 @@
     "type": "effect_type",
     "id": "grabbing_mouth",
     "name": [ "Grabbing Mouth" ],
+    "show_in_info": true,
+    "base_mods": { "dodge_mod": [ -8 ] },
     "desc": [ "You're grabbing the mouth of somebody.  Somehow." ],
     "flags": [ "GRAB_FILTER" ]
   },
@@ -330,6 +336,8 @@
     "type": "effect_type",
     "id": "grabbing_torso",
     "name": [ "Grabbing Torso" ],
+    "show_in_info": true,
+    "base_mods": { "dodge_mod": [ -8 ] },
     "desc": [ "You're hugging somebody." ],
     "flags": [ "GRAB_FILTER" ]
   },
@@ -337,6 +345,8 @@
     "type": "effect_type",
     "id": "grabbing_arm_l",
     "name": [ "Grabbing Left Arm" ],
+    "show_in_info": true,
+    "base_mods": { "dodge_mod": [ -8 ] },
     "desc": [ "You're grabbing the left arm of somebody." ],
     "flags": [ "GRAB_FILTER" ]
   },
@@ -344,6 +354,8 @@
     "type": "effect_type",
     "id": "grabbing_arm_r",
     "name": [ "Grabbing Right Arm" ],
+    "show_in_info": true,
+    "base_mods": { "dodge_mod": [ -8 ] },
     "desc": [ "You're grabbing the right arm of somebody." ],
     "flags": [ "GRAB_FILTER" ]
   },
@@ -351,6 +363,8 @@
     "type": "effect_type",
     "id": "grabbing_hand_l",
     "name": [ "Grabbing Left Hand" ],
+    "show_in_info": true,
+    "base_mods": { "dodge_mod": [ -8 ] },
     "desc": [ "You're holding hands(left)." ],
     "flags": [ "GRAB_FILTER" ]
   },
@@ -358,6 +372,8 @@
     "type": "effect_type",
     "id": "grabbing_hand_r",
     "name": [ "Grabbing Right Hand" ],
+    "show_in_info": true,
+    "base_mods": { "dodge_mod": [ -8 ] },
     "desc": [ "You're holding hands(right)." ],
     "flags": [ "GRAB_FILTER" ]
   },
@@ -365,6 +381,8 @@
     "type": "effect_type",
     "id": "grabbing_leg_l",
     "name": [ "Grabbing Left Leg" ],
+    "show_in_info": true,
+    "base_mods": { "dodge_mod": [ -8 ] },
     "desc": [ "You're grabbing the left leg of somebody." ],
     "flags": [ "GRAB_FILTER" ]
   },
@@ -372,6 +390,8 @@
     "type": "effect_type",
     "id": "grabbing_leg_r",
     "name": [ "Grabbing Right Leg" ],
+    "show_in_info": true,
+    "base_mods": { "dodge_mod": [ -8 ] },
     "desc": [ "You're grabbing the right leg of somebody." ],
     "flags": [ "GRAB_FILTER" ]
   },
@@ -379,6 +399,8 @@
     "type": "effect_type",
     "id": "grabbing_foot_l",
     "name": [ "Grabbing Left Foot" ],
+    "show_in_info": true,
+    "base_mods": { "dodge_mod": [ -8 ] },
     "desc": [ "You're grabbing the left foot of somebody." ],
     "flags": [ "GRAB_FILTER" ]
   },
@@ -386,6 +408,8 @@
     "type": "effect_type",
     "id": "grabbing_foot_r",
     "name": [ "Grabbing Right Foot" ],
+    "show_in_info": true,
+    "base_mods": { "dodge_mod": [ -8 ] },
     "desc": [ "You're grabbing the right foot of somebody." ],
     "flags": [ "GRAB_FILTER" ]
   },
@@ -393,13 +417,17 @@
     "type": "effect_type",
     "id": "grabbing_tail",
     "name": [ "Grabbing Tail" ],
+    "show_in_info": true,
+    "base_mods": { "dodge_mod": [ -8 ] },
     "desc": [ "You're grabbing the tail of somebody." ],
     "flags": [ "GRAB_FILTER" ]
   },
   {
     "type": "effect_type",
     "id": "grabbing_appendix",
-    "name": [ "Grabbing Appendix" ],
+    "name": [ "Grabbing" ],
+    "show_in_info": true,
+    "base_mods": { "dodge_mod": [ -8 ] },
     "//": "Null-BP grabbing effect for safety and monsters",
     "desc": [ "This sounds pretty invasive." ],
     "flags": [ "GRAB_FILTER" ]
@@ -411,8 +439,25 @@
     "//": "Mainly for monsters",
     "desc": [ "You've been knocked off-balance by an attack." ],
     "apply_message": "You're staggered off-balance.",
+    "max_duration": "5 s",
     "base_mods": { "speed_mod": [ -20 ] },
-    "removes_effects": [ "grabbing" ],
+    "removes_effects": [
+      "grabbing",
+      "grabbing_2",
+      "grabbing_head",
+      "grabbing_eyes",
+      "grabbing_mouth",
+      "grabbing_hand_l",
+      "grabbing_hand_r",
+      "grabbing_arm_l",
+      "grabbing_arm_r",
+      "grabbing_leg_l",
+      "grabbing_leg_r",
+      "grabbing_foot_l",
+      "grabbing_foot_r",
+      "grabbing_appendix",
+      "grabbing_tail"
+    ],
     "rating": "bad",
     "show_in_info": true
   },
@@ -3157,6 +3202,7 @@
     "show_in_info": true,
     "show_intensity": true,
     "//mods": "No swimmin' or manipulatin' with a held limb, other scores start severly debilitated and reach useless at about 50 grab strength",
+    "base_mods": { "dodge_mod": [ -10 ] },
     "limb_score_mods": [
       { "limb_score": "manip", "modifier": 0.0 },
       { "limb_score": "grip", "modifier": 0.0 },
@@ -3177,8 +3223,20 @@
     "desc": [ "Grabbing another creature and holding them in place." ],
     "max_intensity": 1,
     "show_in_info": true,
-    "//": "-dodge (can't really miss something holding you",
-    "base_mods": { "dodge_mod": [ -8 ] }
+    "//": "-dodge (can't really miss something holding you)",
+    "base_mods": { "dodge_mod": [ -8 ] },
+    "flags": [ "GRAB_FILTER" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "grabbing_2",
+    "name": [ "Grabbing" ],
+    "desc": [ "Grabbing another creature and holding them in place with a second appendage." ],
+    "max_intensity": 1,
+    "show_in_info": true,
+    "//": "-dodge (can't really miss something holding you)",
+    "base_mods": { "dodge_mod": [ -8 ] },
+    "flags": [ "GRAB_FILTER" ]
   },
   {
     "type": "effect_type",

@@ -16,7 +16,6 @@ grab_break_limb_mod( "grab_break_limb_mod" );
 static const efftype_id effect_beartrap( "beartrap" );
 static const efftype_id effect_crushed( "crushed" );
 static const efftype_id effect_downed( "downed" );
-static const efftype_id effect_grabbing( "grabbing" );
 static const efftype_id effect_heavysnare( "heavysnare" );
 static const efftype_id effect_in_pit( "in_pit" );
 static const efftype_id effect_lightsnare( "lightsnare" );
@@ -271,7 +270,6 @@ bool Character::try_remove_grab()
             mod_stamina( -5 * eff.get_intensity() );
             if( x_in_y( escape_chance, grabber_roll ) ) {
                 grabber->remove_effect( eff.get_bp()->grabbing_effect );
-                grabber->remove_effect( effect_grabbing );
                 add_msg_debug( debugmode::DF_MATTACK, "Removed grab filter effect %s from monster %s",
                                eff.get_bp()->grabbing_effect.c_str(), grabber->name() );
 

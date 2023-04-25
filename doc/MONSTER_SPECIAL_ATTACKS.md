@@ -237,12 +237,12 @@ The attack's behavior is determined by the `grab_data` array, using the below va
 | ---                         | ---
 | `grab_strength`             | Optional integer.  The strength of the grab effect applied on a successful grab, defaults to the monster's own `grab_strength`.
 | `grab_effect`               | Optional string.  ID of the effect to apply on a successful grab (defaults to `grabbed`).  The effect id `null` will apply a null effect without a bug message, allowing for e.g. pull attacks without grab effects.
-| `pull_chance`               | Optional integer.  Percent chance for a connecting attack to initiate a pull, moving the target adjacent.  Pulls are prevented by seatbelts, and existing grabs on the target will be attempted to be removed ( on a `puller grab_strength / 2 in effect intensity` roll).
+| `pull_chance`               | Optional integer.  Percent chance for a connecting attack to initiate a pull, moving the target adjacent.  Pulls are prevented by seatbelts, and existing grabs on the target will be attempted to be removed one-by-one ( on a `puller grab_strength / 2 in effect intensity` roll).
 | `pull_weight_ratio`         | Optional float.  Ratio of weight the monster can successfully pull when succeeding the `pull_chance` roll.  Default 0.75.
 | `pull_msg_u/npc`            | Optional strings.  Message to print on a successful pull.
 | `pull_fail_msg_u/npc`       | Optional strings.  Message to print on a failed pull attempt - either because of too high target weight or because of other grabs holding them back.
 
-`GRAB`-flagged effects prevent movement for monsters and characters as well, and might have additional debuffs like every effect.  Grab break attempts happen effect by effect on non-attack movement or waiting in place, with the chance affected by limb scores, stats, and the existence of grab break MA techniques.  A successful grab removal removes the effect in question from the limb, as well as both `grabbing` and the bodypart's `grabbing_effect` from whichever monster has the latter.  If all grabs are broken movement is allowed on the same turn.
+`GRAB`-flagged effects prevent movement for monsters and characters as well, and might have additional debuffs like every effect.  Grab break attempts happen effect by effect on non-attack movement or waiting in place, with the chance affected by limb scores, stats, and the existence of grab break MA techniques.  A successful grab removal removes the effect in question from the limb, as well as the bodypart's `grabbing_effect` from whichever monster has the latter.  If all grabs are broken movement is allowed on the same turn.
 
 ### `gun`
 

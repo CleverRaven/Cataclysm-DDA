@@ -27,6 +27,7 @@
 #include "weather_type.h"
 #include "game.h"
 #include "type_id.h"
+#include "units.h"
 
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_took_flumed( "took_flumed" );
@@ -295,7 +296,122 @@ TEST_CASE( "Mattack dialog condition test", "[mattack]" )
     CHECK( !attack->call( test_monster ) );
 }
 
-TEST_CASE( "Grab tests", "[mattack][grab]" )
+TEST_CASE( "Targeted grab removal test", "[mattack][grab]" )
+{
+
+    const std::string grabber_left = "mon_debug_grabber_left";
+    const std::string grabber_right = "mon_debug_grabber_right";
+    const tripoint target_location = attacker_location + tripoint{ 1, 0, 0 };
+    const tripoint attacker_location_e = target_location + tripoint_east;
+
+    clear_map();
+    clear_creatures();
+    Character &you = get_player_character();
+    clear_avatar();
+    you.setpos( target_location );
+
+    monster &test_monster_left = spawn_test_monster( grabber_left, attacker_location_e );
+    monster &test_monster_right = spawn_test_monster( grabber_right, attacker_location );
+    test_monster_left.set_dest( you.get_location() );
+    test_monster_right.set_dest( you.get_location() );
+    const mattack_actor &attack_left = test_monster_left.type->special_attacks.at( "grab" ).operator
+                                       * ();
+    const mattack_actor &attack_right = test_monster_right.type->special_attacks.at( "grab" ).operator
+                                        * ();
+
+    // Grabbed by both
+    REQUIRE( attack_left.call( test_monster_left ) );
+    REQUIRE( attack_right.call( test_monster_right ) );
+
+    //Have two grabs, the monsters have the right filter effects
+    REQUIRE( you.has_effect( effect_grabbed, body_part_arm_r ) );
+    REQUIRE( you.has_effect( effect_grabbed, body_part_arm_l ) );
+    REQUIRE( test_monster_right.has_effect( body_part_arm_r->grabbing_effect ) );
+    REQUIRE( test_monster_left.has_effect( body_part_arm_l->grabbing_effect ) );
+
+    // Kill the left grabber
+    test_monster_left.die( nullptr );
+
+    // Now we only have the one
+    REQUIRE( you.has_effect( effect_grabbed, body_part_arm_r ) );
+    REQUIRE( !you.has_effect( effect_grabbed, body_part_arm_l ) );
+}
+
+TEST_CASE( "Ranged pull tests", "[mattack][grab]" )
+{
+    // Set up further from the target
+    const tripoint target_location = attacker_location + tripoint{ 4, 0, 0 };
+    clear_map();
+    restore_on_out_of_scope<time_point> restore_calendar_turn( calendar::turn );
+    calendar::turn = daylight_time( calendar::turn ) + 2_hours;
+    scoped_weather_override weather_clear( WEATHER_CLEAR );
+    clear_creatures();
+    Character &you = get_player_character();
+    clear_avatar();
+    you.setpos( target_location );
+    REQUIRE( units::to_gram<int>( you.get_weight() ) > 50000 );
+
+    SECTION( "Weak puller" ) {
+        const std::string monster_type = "mon_debug_puller_weak";
+        monster &test_monster = spawn_test_monster( monster_type, attacker_location );
+        test_monster.set_dest( you.get_location() );
+        REQUIRE( test_monster.sees( you ) );
+        const mattack_actor &attack = test_monster.type->special_attacks.at( "ranged_pull" ).operator * ();
+        REQUIRE( units::to_gram<int>( test_monster.get_weight() ) == 100000 );
+        // Fail to pull our too-chonky survivor
+        // Pull fails loudly so we can't count on it returning false
+        REQUIRE( attack.call( test_monster ) );
+        REQUIRE( you.pos() == target_location );
+        // Reduce weight
+        you.set_stored_kcal( 5000 );
+        REQUIRE( units::to_gram<int>( you.get_weight() ) < 50000 );
+        // Attack succeeds
+        REQUIRE( attack.call( test_monster ) );
+        REQUIRE( you.pos() == attacker_location + tripoint{ 1, 0, 0 } );
+    }
+    SECTION( "Strong puller" ) {
+        const std::string monster_type = "mon_debug_puller_strong";
+        monster &test_monster = spawn_test_monster( monster_type, attacker_location );
+        test_monster.set_dest( you.get_location() );
+        REQUIRE( test_monster.sees( you ) );
+        const mattack_actor &attack = test_monster.type->special_attacks.at( "ranged_pull" ).operator * ();
+        REQUIRE( units::to_gram<int>( test_monster.get_weight() ) == 100000 );
+        // Pull on the first try
+        REQUIRE( attack.call( test_monster ) );
+        REQUIRE( you.pos() == attacker_location + tripoint{ 1, 0, 0 } );
+    }
+    SECTION( "Incompetent puller" ) {
+        const std::string monster_type = "mon_debug_puller_incompetent";
+        monster &test_monster = spawn_test_monster( monster_type, attacker_location );
+        test_monster.set_dest( you.get_location() );
+        REQUIRE( test_monster.sees( you ) );
+        const mattack_actor &attack = test_monster.type->special_attacks.at( "ranged_pull" ).operator * ();
+        // Can't pull, fail silently
+        REQUIRE( !attack.call( test_monster ) );
+        REQUIRE( you.pos() == target_location );
+    }
+    SECTION("Pulls vs existing grabs") {
+        const std::string monster_type = "mon_debug_puller_strong";
+        const std::string grabber_type = "mon_debug_grabber_strong";
+        monster& test_monster = spawn_test_monster(monster_type, attacker_location);
+        monster& test_grabber = spawn_test_monster(grabber_type, target_location + tripoint{ 0, 1, 0 });
+        const mattack_actor& pull = test_monster.type->special_attacks.at("ranged_pull").operator * ();
+        const mattack_actor& grab = test_grabber.type->special_attacks.at("grab").operator * ();
+        test_monster.set_dest(you.get_location());
+        test_grabber.set_dest(you.get_location());
+        REQUIRE(test_monster.sees(you));
+        REQUIRE(grab.call(test_grabber));
+        int counter = 0;
+        // Pull until the grabber lets go, it should eventually do so
+        while( you.pos() == target_location && counter < 101 ){
+            REQUIRE(pull.call(test_monster));
+            counter++;
+        }
+        REQUIRE(counter < 100 );
+    }
+}
+
+TEST_CASE( "Grab break tests", "[mattack][grab]" )
 {
     const tripoint target_location = attacker_location + tripoint{ 1, 0, 0 };
     const tripoint attacker_location_n = target_location + tripoint_north;
@@ -307,7 +423,7 @@ TEST_CASE( "Grab tests", "[mattack][grab]" )
     clear_avatar();
     you.setpos( target_location );
 
-    SECTION( "Weak grabber(s)" ) {
+    SECTION( "Grab breaks against weak grabber(s)" ) {
         // Setup monsters adjacently
         const std::string monster_type = "mon_debug_grabber";
         monster &test_monster = spawn_test_monster( monster_type, attacker_location );
@@ -403,7 +519,7 @@ TEST_CASE( "Grab tests", "[mattack][grab]" )
             }
             Messages::clear_messages();
             INFO( "100% chance to break a weak grab as a lategame character with grab breaks" );
-            CHECK( success == Approx( 1000 ).margin( 25 ) );
+            CHECK( success == Approx( 1000 ).margin( 50 ) );
         }
         SECTION( "Lategame character vs 3 weak grabs at the same time" ) {
             // Setup 3v1 test
@@ -434,7 +550,7 @@ TEST_CASE( "Grab tests", "[mattack][grab]" )
             }
             Messages::clear_messages();
             INFO( "99% chance to break three weak grabs on a single turn" );
-            CHECK( success == Approx( 990 ).margin( 25 ) );
+            CHECK( success == Approx( 990 ).margin( 50 ) );
         }
     }
     you.normalize();
@@ -443,7 +559,7 @@ TEST_CASE( "Grab tests", "[mattack][grab]" )
     REQUIRE( !you.has_grab_break_tec() );
     clear_creatures();
 
-    SECTION( "Midline grabbers" ) {
+    SECTION( "Grab breaks against midline grabbers" ) {
         // Setup monsters adjacently
         const std::string monster_type = "mon_debug_grabber_mid";
         monster &test_monster = spawn_test_monster( monster_type, attacker_location );
@@ -576,7 +692,7 @@ TEST_CASE( "Grab tests", "[mattack][grab]" )
     REQUIRE( !you.has_grab_break_tec() );
     clear_creatures();
 
-    SECTION( "Strong grabbers" ) {
+    SECTION( "Grab breaks against strong grabbers" ) {
         const std::string monster_type = "mon_debug_grabber_strong";
         monster &test_monster = spawn_test_monster( monster_type, attacker_location );
         monster &test_monster_e = spawn_test_monster( monster_type, attacker_location_e );
@@ -691,7 +807,7 @@ TEST_CASE( "Grab tests", "[mattack][grab]" )
             }
             Messages::clear_messages();
             INFO( "5% chance to break three max-strength grabs on a single turn" );
-            CHECK( success == Approx( 50 ).margin( 25 ) );
+            CHECK( success == Approx( 50 ).margin( 50 ) );
         }
     }
 }

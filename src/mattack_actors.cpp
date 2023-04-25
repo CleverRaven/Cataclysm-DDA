@@ -44,8 +44,8 @@ static const damage_type_id damage_bash( "bash" );
 
 static const efftype_id effect_badpoison( "badpoison" );
 static const efftype_id effect_bite( "bite" );
-static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_grabbing( "grabbing" );
+static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_laserlocked( "laserlocked" );
 static const efftype_id effect_poison( "poison" );
@@ -517,6 +517,11 @@ bool melee_actor::call( monster &z ) const
         add_msg_debug( debugmode::DF_MATTACK,
                        "Grab attack targeting bp %s, grab strength %d, pull chance %d", bp_id->name,
                        eff_grab_strength, grab_data.pull_chance );
+
+        // No second grabs on monsters
+        if( target->is_monster() && target->has_effect_with_flag( json_flag_GRAB ) ) {
+            return false;
+        }
         // Filter out already-grabbed bodyparts
         if( target->has_effect_with_flag( json_flag_GRAB, bp_id ) ) {
             // Iterate through eligable targets to look for a non-grabbed one, fail if none are found
@@ -544,14 +549,14 @@ bool melee_actor::call( monster &z ) const
         }
 
         // Let's see if we manage to pull if we are a pull in the first place
-        if( grab_data.pull_chance > 0 && x_in_y( grab_data.pull_chance, 100 ) ) {
+        if( grab_data.pull_chance > -1 && x_in_y( grab_data.pull_chance, 100 ) ) {
             add_msg_debug( debugmode::DF_MATTACK, "Pull chance roll succeeded, weight limit %.1f g",
                            to_gram( z.get_weight() ) * grab_data.pull_weight_ratio );
             // If we're already grabbed check if the pull breaks the existing grabs
             // Iterate through grabs one by one, fail if we can't break one
             if( target->has_effect_with_flag( json_flag_GRAB ) ) {
                 for( const effect eff : target->get_effects_with_flag( json_flag_GRAB ) ) {
-                    if( !x_in_y( grab_data.grab_strength / 2, eff.get_intensity() ) ) {
+                    if( !x_in_y( eff_grab_strength / 2, eff.get_intensity() ) ) {
                         target->add_msg_player_or_npc( msg_type,
                                                        _( "%1s tries to drag you, but something holds you in place!" ),
                                                        _( "%1s tries to drag <npcname>, but something holds them in place!" ),
@@ -646,7 +651,6 @@ bool melee_actor::call( monster &z ) const
             return false;
         }
 
-        // Add filter self-effects, grabbing should be added via JSON on-hit
         // Pulls failed before this, no ranged grabs yet
         if( !target->is_monster() ) {
             z.add_effect( bp_id->grabbing_effect, 1_days, true, 1 );
@@ -657,6 +661,7 @@ bool melee_actor::call( monster &z ) const
         } else {
             // Monsters don't have limb scores, no need to target limbs
             target->add_effect( grab_data.grab_effect, 1_days, body_part_bp_null, true, eff_grab_strength );
+            z.add_effect( effect_grabbing, 1_days, true, 1 );
         }
     }
 

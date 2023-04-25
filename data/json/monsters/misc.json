@@ -74,25 +74,39 @@
     "grab_strength": 100
   },
   {
+    "id": "mon_debug_grabber_left",
+    "type": "MONSTER",
+    "copy-from": "mon_debug_grabber",
+    "description": "This grab testing monster has a strange fascination with your left arm.",
+    "special_attacks": [ { "id": "grab", "cooldown": 0, "move_cost": 0, "body_parts": [ [ "arm_l", 3 ] ] } ]
+  },
+  {
+    "id": "mon_debug_grabber_right",
+    "type": "MONSTER",
+    "copy-from": "mon_debug_grabber",
+    "description": "This grab testing monster has a strange fascination with your right arm.",
+    "special_attacks": [ { "id": "grab", "cooldown": 0, "move_cost": 0, "body_parts": [ [ "arm_r", 1 ] ] } ]
+  },
+  {
     "id": "mon_debug_puller_weak",
     "type": "MONSTER",
     "copy-from": "mon_debug_grabber",
     "weight": "100 kg",
+    "extend": { "flags": [ "ALL_SEEING" ] },
     "name": { "str": "weak debug puller" },
     "description": "This 100kg monster exists only to test ranged pulls using the base 0.5 pull weight ratio.",
-    "special_attacks": [ { "id": "ranged_pull", "cooldown": 0, "move_cost": 0 } ]
+    "special_attacks": [ { "id": "ranged_pull", "grab_data": { "pull_weight_ratio": 0.5 }, "cooldown": 0, "move_cost": 0 } ]
   },
   {
     "id": "mon_debug_puller_strong",
     "type": "MONSTER",
-    "weight": "1000 kg",
     "copy-from": "mon_debug_puller_weak",
     "name": { "str": "strong debug puller" },
     "description": "This 100kg monster is strong enough to pull 250kg targets.",
     "special_attacks": [ { "id": "ranged_pull", "grab_data": { "pull_weight_ratio": 2.5 }, "cooldown": 0, "move_cost": 0 } ]
   },
   {
-    "id": "mond_debug_puller_incompetent",
+    "id": "mon_debug_puller_incompetent",
     "type": "MONSTER",
     "copy-from": "mon_debug_puller_strong",
     "name": { "str": "incompetent debug puller" },

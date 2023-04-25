@@ -19,7 +19,6 @@
 #include "type_id.h"
 
 static const efftype_id effect_grabbed( "grabbed" );
-static const efftype_id effect_grabbing( "grabbing" );
 
 static const mtype_id mon_debug_grab( "mon_debug_grab" );
 static const mtype_id mon_zombie( "mon_zombie" );
