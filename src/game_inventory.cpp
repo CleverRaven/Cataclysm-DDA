@@ -316,25 +316,15 @@ class armor_inventory_preset: public inventory_selector_preset
                 return get_number_string( loc->get_warmth() );
             }, _( "WARMTH" ) );
 
-            append_cell( [ this ]( const item_location & loc ) {
-                return get_decimal_string( loc->resist( damage_type::BASH ) );
-            }, _( "BASH" ) );
-
-            append_cell( [ this ]( const item_location & loc ) {
-                return get_decimal_string( loc->resist( damage_type::CUT ) );
-            }, _( "CUT" ) );
-
-            append_cell( [ this ]( const item_location & loc ) {
-                return get_decimal_string( loc->resist( damage_type::BULLET ) );
-            }, _( "BULLET" ) );
-
-            append_cell( [ this ]( const item_location & loc ) {
-                return get_decimal_string( loc->resist( damage_type::ACID ) );
-            }, _( "ACID" ) );
-
-            append_cell( [ this ]( const item_location & loc ) {
-                return get_decimal_string( loc->resist( damage_type::HEAT ) );
-            }, _( "FIRE" ) );
+            for( const damage_type &dt : damage_type::get_all() ) {
+                if( dt.no_resist ) {
+                    continue;
+                }
+                const damage_type_id &dtid = dt.id;
+                append_cell( [ this, dtid ]( const item_location & loc ) {
+                    return get_decimal_string( loc->resist( dtid ) );
+                }, to_upper_case( dt.name.translated() ) );
+            }
 
             append_cell( [ this ]( const item_location & loc ) {
                 return get_number_string( loc->get_env_resist() );
@@ -1492,17 +1482,15 @@ class weapon_inventory_preset: public inventory_selector_preset
                 }
             }, pgettext( "Shot as damage", "SHOT" ) );
 
-            append_cell( [ this ]( const item_location & loc ) {
-                return get_damage_string( loc->damage_melee( damage_type::BASH ) );
-            }, _( "BASH" ) );
-
-            append_cell( [ this ]( const item_location & loc ) {
-                return get_damage_string( loc->damage_melee( damage_type::CUT ) );
-            }, _( "CUT" ) );
-
-            append_cell( [ this ]( const item_location & loc ) {
-                return get_damage_string( loc->damage_melee( damage_type::STAB ) );
-            }, _( "STAB" ) );
+            for( const damage_type &dt : damage_type::get_all() ) {
+                if( !dt.melee_only ) {
+                    continue;
+                }
+                const damage_type_id &dtid = dt.id;
+                append_cell( [ this, dtid ]( const item_location & loc ) {
+                    return get_damage_string( loc->damage_melee( dtid ) );
+                }, to_upper_case( dt.name.translated() ) );
+            }
 
             append_cell( [ this ]( const item_location & loc ) {
                 if( deals_melee_damage( *loc ) ) {
@@ -1541,8 +1529,12 @@ class weapon_inventory_preset: public inventory_selector_preset
 
     private:
         bool deals_melee_damage( const item &it ) const {
-            return it.damage_melee( damage_type::BASH ) || it.damage_melee( damage_type::CUT ) ||
-                   it.damage_melee( damage_type::STAB );
+            for( const damage_type &dt : damage_type::get_all() ) {
+                if( it.damage_melee( dt.id ) ) {
+                    return true;
+                }
+            }
+            return false;
         }
 
         std::string get_damage_string( float damage, bool display_zeroes = false ) const {
@@ -1615,9 +1607,7 @@ void game_menus::inv::insert_items( avatar &you, item_location &holster )
     drop_locations holstered_list = game_menus::inv::holster( you, holster );
 
     if( !holstered_list.empty() ) {
-        you.assign_activity(
-            player_activity(
-                insert_item_activity_actor( holster, holstered_list ) ) );
+        you.assign_activity( insert_item_activity_actor( holster, holstered_list ) );
     }
 }
 

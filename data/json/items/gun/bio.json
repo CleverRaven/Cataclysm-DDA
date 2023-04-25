@@ -8,7 +8,6 @@
     "volume": "103 ml",
     "price": 0,
     "to_hit": -2,
-    "bashing": 3,
     "material": [ "superalloy", "plastic" ],
     "symbol": "(",
     "color": "magenta",
@@ -21,7 +20,8 @@
     "clip_size": 1,
     "reload": 200,
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT", "BIONIC_WEAPON", "TRADER_AVOID", "ZERO_WEIGHT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 1 } } ],
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "bio_emp_gun",
@@ -32,7 +32,6 @@
     "volume": "2 L",
     "price": 1600000,
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "cyan",
@@ -45,7 +44,8 @@
     "loudness": 20,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 5 ] ],
     "ammo_effects": [ "DRAW_AS_LINE", "WIDE", "EMP" ],
-    "flags": [ "NEVER_JAMS", "BIONIC_WEAPON", "NO_UNLOAD", "TRADER_AVOID", "USES_BIONIC_POWER" ]
+    "flags": [ "NEVER_JAMS", "BIONIC_WEAPON", "NO_UNLOAD", "TRADER_AVOID", "USES_BIONIC_POWER" ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "bio_laser_gun",

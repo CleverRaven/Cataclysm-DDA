@@ -7,6 +7,7 @@
 #include "creature.h"
 #include "game_constants.h"
 #include "item.h"
+#include "map_helpers.h"
 #include "monattack.h"
 #include "monster.h"
 #include "mtype.h"
@@ -15,7 +16,11 @@
 #include "skill.h"
 #include "type_id.h"
 
+static const damage_type_id damage_test_fire( "test_fire" );
+
 static const efftype_id effect_sleep( "sleep" );
+
+static const move_mode_id move_mode_prone( "prone" );
 
 static const mtype_id debug_mon( "debug_mon" );
 static const mtype_id mon_manhack( "mon_manhack" );
@@ -312,5 +317,109 @@ TEST_CASE( "Melee skill training caps", "[melee], [melee_training_cap], [skill]"
         int prev_xp = level.knowledgeExperience( true );
         dude.melee_attack_abstract( zed, false, matec_id( "" ) );
         CHECK( level.knowledgeExperience( true ) == prev_xp );
+    }
+}
+
+static void check_damage_from_test_fire( const std::string &mon_id, int expected_resist,
+        bool is_immune, float expected_avg_dmg )
+{
+    int total_dmg = 0;
+    int total_hits = 0;
+    int set_on_fire = 0;
+    for( int i = 0; i < 1000; i++ ) {
+        clear_creatures();
+        standard_npc dude( "TestCharacter", dude_pos, {}, 8, 10, 10, 10, 10 );
+        monster &mon = spawn_test_monster( mon_id, dude.pos() + tripoint_east );
+        REQUIRE( mon.pos() == dude.pos() + tripoint_east );
+        REQUIRE( mon.get_armor_type( damage_test_fire, body_part_bp_null ) == expected_resist );
+        REQUIRE( mon.is_immune_damage( damage_test_fire ) == is_immune );
+        REQUIRE( mon.get_hp() == mon.get_hp_max() );
+        REQUIRE( dude.get_value( "npctalk_var_general_dmg_type_test_test_fire" ).empty() );
+        REQUIRE( mon.get_value( "npctalk_var_general_dmg_type_test_test_fire" ).empty() );
+        dude.set_wielded_item( item( "test_fire_sword" ) );
+        dude.melee_attack( mon, false );
+        if( mon.get_hp() < mon.get_hp_max() ) {
+            total_hits++;
+            total_dmg += mon.get_hp_max() - mon.get_hp();
+            if( mon.get_value( "npctalk_var_general_dmg_type_test_test_fire" ) == "target" ) {
+                REQUIRE( dude.get_value( "npctalk_var_general_dmg_type_test_test_fire" ) == "source" );
+                set_on_fire++;
+            }
+        }
+    }
+    CHECK( total_hits == Approx( 1000 ).margin( 50 ) );
+    CHECK( set_on_fire == total_hits );
+    CHECK( total_dmg / static_cast<float>( total_hits ) == Approx( expected_avg_dmg ).epsilon( 0.05 ) );
+}
+
+static void check_damage_from_test_fire( const std::vector<std::string> &armor_items,
+        const bodypart_id &checked_bp, int expected_resist, bool is_immune, float expected_avg_dmg )
+{
+    int total_dmg = 0;
+    int total_hits = 0;
+    int set_on_fire = 0;
+    for( int i = 0; i < 1000; i++ ) {
+        clear_creatures();
+        standard_npc dude( "TestCharacter", dude_pos, {}, 8, 10, 10, 10, 10 );
+        standard_npc dude2( "TestCharacter2", dude_pos + tripoint_east, {}, 0, 0, 0, 0, 0 );
+        for( const std::string &itm : armor_items ) {
+            REQUIRE( dude2.wear_item( item( itm ), false ).has_value() );
+        }
+        dude2.set_movement_mode( move_mode_prone ); // no dodging allowed :)
+        REQUIRE( dude2.pos() == dude.pos() + tripoint_east );
+        REQUIRE( dude2.get_armor_type( damage_test_fire, checked_bp ) == expected_resist );
+        REQUIRE( dude2.is_immune_damage( damage_test_fire ) == is_immune );
+        REQUIRE( dude2.get_hp() == dude2.get_hp_max() );
+        REQUIRE( dude.get_value( "npctalk_var_general_dmg_type_test_test_fire" ).empty() );
+        REQUIRE( dude2.get_value( "npctalk_var_general_dmg_type_test_test_fire" ).empty() );
+        dude.set_wielded_item( item( "test_fire_sword" ) );
+        dude.melee_attack( dude2, false );
+        if( dude2.get_hp() < dude2.get_hp_max() ) {
+            total_hits++;
+            total_dmg += dude2.get_hp_max() - dude2.get_hp();
+            if( dude2.get_value( "npctalk_var_general_dmg_type_test_test_fire" ) == "target" ) {
+                REQUIRE( dude.get_value( "npctalk_var_general_dmg_type_test_test_fire" ) == "source" );
+                set_on_fire++;
+            }
+        }
+    }
+    CHECK( total_hits == Approx( 1000 ).margin( 100 ) );
+    CHECK( set_on_fire == total_hits );
+    CHECK( total_dmg / static_cast<float>( total_hits ) == Approx( expected_avg_dmg ).epsilon( 0.05 ) );
+}
+
+TEST_CASE( "Damage type effectiveness vs. monster resistance", "[melee][damage]" )
+{
+    clear_map();
+
+    SECTION( "Attacking a monster with no resistance to test_fire" ) {
+        check_damage_from_test_fire( "mon_test_zombie", 0, false, 16.f );
+    }
+
+    SECTION( "Attacking a monster with some resistance to test_fire" ) {
+        check_damage_from_test_fire( "mon_test_fire_resist", 5, false, 11.f );
+    }
+
+    SECTION( "Attacking a monster that is very resistant to test_fire" ) {
+        check_damage_from_test_fire( "mon_test_fire_vresist", 50, false, 8.f );
+    }
+
+    SECTION( "Attacking a monster that is immune to test_fire" ) {
+        check_damage_from_test_fire( "mon_test_fire_immune", 0, true, 8.f );
+    }
+
+    SECTION( "Attacking an NPC with no resistance to test_fire" ) {
+        check_damage_from_test_fire( std::vector<std::string> { "test_zentai" },
+                                     body_part_torso, 0, false, 13.75f );
+    }
+
+    SECTION( "Attacking an NPC that is resistant to test_fire" ) {
+        check_damage_from_test_fire( std::vector<std::string> { "test_zentai_resist_test_fire" },
+                                     body_part_torso, 2, false, 11.5f );
+    }
+
+    SECTION( "Attacking an NPC that is immune to test_fire" ) {
+        check_damage_from_test_fire( std::vector<std::string> { "test_zentai_immune_test_fire" },
+                                     body_part_torso, 0, true, 5.7f );
     }
 }

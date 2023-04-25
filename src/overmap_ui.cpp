@@ -1722,7 +1722,7 @@ static bool try_travel_to_destination( avatar &player_character, const tripoint_
     }
     if( query_yn( confirm_msg ) ) {
         if( driving ) {
-            player_character.assign_activity( player_activity( autodrive_activity_actor() ) );
+            player_character.assign_activity( autodrive_activity_actor() );
         } else {
             player_character.reset_move_mode();
             player_character.assign_activity( ACT_TRAVELLING );

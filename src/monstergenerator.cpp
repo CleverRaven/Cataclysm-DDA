@@ -24,6 +24,7 @@
 #include "item.h"
 #include "item_group.h"
 #include "json.h"
+#include "make_static.h"
 #include "mattack_actors.h"
 #include "monattack.h"
 #include "mondeath.h"
@@ -409,36 +410,39 @@ void MonsterGenerator::finalize_mtypes()
             mon.bash_skill = calc_bash_skill( mon );
         }
 
-        if( mon.armor_bash < 0 ) {
-            mon.armor_bash = 0;
+        finalize_damage_map( mon.armor.resist_vals, true );
+        if( mon.armor_proportional.has_value() ) {
+            finalize_damage_map( mon.armor_proportional->resist_vals, false, 1.f );
+            for( std::pair<const damage_type_id, float> &dt : mon.armor.resist_vals ) {
+                const auto iter = mon.armor_proportional->resist_vals.find( dt.first );
+                if( iter != mon.armor_proportional->resist_vals.end() ) {
+                    dt.second *= iter->second;
+                }
+            }
         }
-        if( mon.armor_cut < 0 ) {
-            mon.armor_cut = 0;
+        if( mon.armor_relative.has_value() ) {
+            finalize_damage_map( mon.armor_relative->resist_vals, false, 0.f );
+            for( std::pair<const damage_type_id, float> &dt : mon.armor.resist_vals ) {
+                const auto iter = mon.armor_relative->resist_vals.find( dt.first );
+                if( iter != mon.armor_relative->resist_vals.end() ) {
+                    dt.second += iter->second;
+                }
+            }
         }
-        if( mon.armor_stab < 0 ) {
-            mon.armor_stab = mon.armor_cut * 0.8;
+
+        float melee_dmg_total = mon.melee_damage.total_damage();
+        float armor_diff = 3.0f;
+        for( const auto &dt : mon.armor.resist_vals ) {
+            if( dt.first->mon_difficulty ) {
+                armor_diff += dt.second;
+            }
         }
-        if( mon.armor_bullet < 0 ) {
-            mon.armor_bullet = 0;
-        }
-        if( mon.armor_acid < 0 ) {
-            mon.armor_acid = mon.armor_cut * 0.5;
-        }
-        if( mon.armor_fire < 0 ) {
-            mon.armor_fire = 0;
-        }
-        if( mon.armor_elec < 0 ) {
-            mon.armor_elec = 0;
-        }
-        if( mon.armor_cold < 0 ) {
-            mon.armor_cold = 0;
-        }
-        if( mon.armor_pure < 0 ) {
-            mon.armor_pure = 0;
-        }
-        if( mon.armor_biological < 0 ) {
-            mon.armor_biological = 0;
-        }
+        mon.difficulty = ( mon.melee_skill + 1 ) * mon.melee_dice * ( melee_dmg_total + mon.melee_sides ) *
+                         0.04 + ( mon.sk_dodge + 1 ) * armor_diff * 0.04 +
+                         ( mon.difficulty_base + mon.special_attacks.size() + 8 * mon.emit_fields.size() );
+        mon.difficulty *= ( mon.hp + mon.speed - mon.attack_cost + ( mon.morale + mon.agro ) * 0.1 ) * 0.01
+                          + ( mon.vision_day + 2 * mon.vision_night ) * 0.01;
+
         if( mon.status_chance_multiplier < 0 ) {
             mon.status_chance_multiplier = 0;
         }
@@ -467,6 +471,7 @@ void MonsterGenerator::finalize_mtypes()
             mon.weakpoints.add_from_set( wpset, true );
         }
         if( !mon.weakpoints_deferred_inline.weakpoint_list.empty() ) {
+            mon.weakpoints_deferred_inline.finalize();
             mon.weakpoints.add_from_set( mon.weakpoints_deferred_inline, true );
         }
         for( const std::string &wp_del : mon.weakpoints_deferred_deleted ) {
@@ -479,6 +484,7 @@ void MonsterGenerator::finalize_mtypes()
                 }
             }
         }
+        mon.weakpoints.finalize();
     }
 
     for( const mtype &mon : mon_templates->get_all() ) {
@@ -769,16 +775,26 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     assign( jo, "grab_strength", grab_strength, strict, 0 );
 
     assign( jo, "dodge", sk_dodge, strict, 0 );
-    assign( jo, "armor_bash", armor_bash, strict, 0 );
-    assign( jo, "armor_cut", armor_cut, strict, 0 );
-    assign( jo, "armor_bullet", armor_bullet, strict, 0 );
-    assign( jo, "armor_stab", armor_stab, strict, 0 );
-    assign( jo, "armor_acid", armor_acid, strict, 0 );
-    assign( jo, "armor_fire", armor_fire, strict, 0 );
-    assign( jo, "armor_elec", armor_elec, strict, 0 );
-    assign( jo, "armor_cold", armor_cold, strict, 0 );
-    assign( jo, "armor_pure", armor_pure, strict, 0 );
-    assign( jo, "armor_biological", armor_biological, strict, 0 );
+
+    if( jo.has_object( "armor" ) ) {
+        armor = load_resistances_instance( jo.get_object( "armor" ) );
+    }
+    armor_proportional.reset();
+    if( jo.has_object( "proportional" ) ) {
+        JsonObject jprop = jo.get_object( "proportional" );
+        jprop.allow_omitted_members();
+        if( jprop.has_object( "armor" ) ) {
+            armor_proportional = load_resistances_instance( jprop.get_object( "armor" ) );
+        }
+    }
+    armor_relative.reset();
+    if( jo.has_object( "relative" ) ) {
+        JsonObject jrel = jo.get_object( "relative" );
+        jrel.allow_omitted_members();
+        if( jrel.has_object( "armor" ) ) {
+            armor_relative = load_resistances_instance( jrel.get_object( "armor" ) );
+        }
+    }
 
     optional( jo, was_loaded, "trap_avoids", trap_avoids );
 
@@ -918,6 +934,14 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "mech_weapon", mech_weapon, itype_id() );
     optional( jo, was_loaded, "mech_str_bonus", mech_str_bonus, 0 );
     optional( jo, was_loaded, "mech_battery", mech_battery, itype_id() );
+
+    if( jo.has_object( "mount_items" ) ) {
+        JsonObject jo_mount_items = jo.get_object( "mount_items" );
+        optional( jo_mount_items, was_loaded, "tied", mount_items.tied, itype_id() );
+        optional( jo_mount_items, was_loaded, "tack", mount_items.tack, itype_id() );
+        optional( jo_mount_items, was_loaded, "armor", mount_items.armor, itype_id() );
+        optional( jo_mount_items, was_loaded, "storage", mount_items.storage, itype_id() );
+    }
 
     optional( jo, was_loaded, "zombify_into", zombify_into, string_id_reader<::mtype> {},
               mtype_id() );
@@ -1155,13 +1179,6 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         optional( jop, was_loaded, "allow_climb_stairs", path_settings.allow_climb_stairs, true );
         optional( jop, was_loaded, "avoid_sharp", path_settings.avoid_sharp, false );
     }
-    float melee_dmg_total = melee_damage.total_damage();
-    difficulty = ( melee_skill + 1 ) * melee_dice * ( melee_dmg_total + melee_sides ) * 0.04 +
-                 ( sk_dodge + 1 ) * ( 3 + armor_bash + armor_cut ) * 0.04 +
-                 ( difficulty_base + special_attacks.size() + 8 * emit_fields.size() );
-    difficulty *= ( hp + speed - attack_cost + ( morale + agro ) * 0.1 ) * 0.01 +
-                  ( vision_day + 2 * vision_night ) * 0.01;
-
 }
 
 void MonsterGenerator::load_species( const JsonObject &jo, const std::string &src )
@@ -1483,6 +1500,22 @@ void MonsterGenerator::check_monster_definitions() const
         if( !mon.mech_battery.is_empty() && !item::type_is_defined( mon.mech_battery ) ) {
             debugmsg( "monster %s has unknown mech_battery: %s", mon.id.c_str(),
                       mon.mech_battery.c_str() );
+        }
+        if( !mon.mount_items.tied.is_empty() && !item::type_is_defined( mon.mount_items.tied ) ) {
+            debugmsg( "monster %s has unknown mount_items.tied: %s", mon.id.c_str(),
+                      mon.mount_items.tied.c_str() );
+        }
+        if( !mon.mount_items.tack.is_empty() && !item::type_is_defined( mon.mount_items.tack ) ) {
+            debugmsg( "monster %s has unknown mount_items.tack: %s", mon.id.c_str(),
+                      mon.mount_items.tack.c_str() );
+        }
+        if( !mon.mount_items.armor.is_empty() && !item::type_is_defined( mon.mount_items.armor ) ) {
+            debugmsg( "monster %s has unknown mount_items.armor: %s", mon.id.c_str(),
+                      mon.mount_items.armor.c_str() );
+        }
+        if( !mon.mount_items.storage.is_empty() && !item::type_is_defined( mon.mount_items.storage ) ) {
+            debugmsg( "monster %s has unknown mount_items.storage: %s", mon.id.c_str(),
+                      mon.mount_items.storage.c_str() );
         }
         if( !mon.harvest.is_valid() ) {
             debugmsg( "monster %s has invalid harvest_entry: %s", mon.id.c_str(), mon.harvest.c_str() );

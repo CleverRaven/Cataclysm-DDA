@@ -22,7 +22,6 @@
     "price": 25000,
     "price_postapoc": 2000,
     "to_hit": -2,
-    "bashing": 9,
     "material": [ "steel", "plastic" ],
     "color": "dark_gray",
     "ammo": [ "9x18" ],
@@ -43,7 +42,8 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "makarovmag" ] } ]
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "makarovmag" ] } ],
+    "melee_damage": { "bash": 9 }
   },
   {
     "id": "skorpion_82",

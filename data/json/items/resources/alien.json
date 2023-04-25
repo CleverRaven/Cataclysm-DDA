@@ -42,9 +42,9 @@
     "volume": "5000 ml",
     "longest_side": "260 cm",
     "looks_like": "stick",
-    "bashing": 1,
     "to_hit": -3,
-    "category": "spare_parts"
+    "category": "spare_parts",
+    "melee_damage": { "bash": 1 }
   },
   {
     "type": "GENERIC",
@@ -300,8 +300,8 @@
     "material": [ "aluminum", "plastic", "copper" ],
     "weight": "250 g",
     "volume": "1 L",
-    "bashing": 5,
-    "to_hit": -1
+    "to_hit": -1,
+    "melee_damage": { "bash": 5 }
   },
   {
     "type": "GENERIC",
@@ -316,8 +316,8 @@
     "material": [ "aluminum", "plastic", "copper" ],
     "weight": "500 g",
     "volume": "1 L",
-    "bashing": 5,
-    "to_hit": -1
+    "to_hit": -1,
+    "melee_damage": { "bash": 5 }
   },
   {
     "type": "GENERIC",

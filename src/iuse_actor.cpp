@@ -99,6 +99,12 @@ static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
 static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
 static const activity_id ACT_STUDY_SPELL( "ACT_STUDY_SPELL" );
 
+static const damage_type_id damage_acid( "acid" );
+static const damage_type_id damage_bash( "bash" );
+static const damage_type_id damage_bullet( "bullet" );
+static const damage_type_id damage_cut( "cut" );
+static const damage_type_id damage_heat( "heat" );
+
 static const efftype_id effect_asthma( "asthma" );
 static const efftype_id effect_bandaged( "bandaged" );
 static const efftype_id effect_bite( "bite" );
@@ -2302,7 +2308,7 @@ std::optional<int> learn_spell_actor::use( Character &p, item &, bool, const tri
         study_spell.values[1] = p.magic->get_spell( spell_id( spells[action] ) ).get_level() + 1;
     }
     study_spell.name = spells[action];
-    p.assign_activity( study_spell, false );
+    p.assign_activity( study_spell );
     return 0;
 }
 
@@ -2374,7 +2380,7 @@ std::optional<int> cast_spell_actor::use( Character &p, item &it, bool, const tr
         // [2]
         cast_spell.values.emplace_back( 0 );
     }
-    p.assign_activity( cast_spell, false );
+    p.assign_activity( cast_spell );
     p.activity.targets.emplace_back( item_location( p, &it ) );
     // Actual handling of charges_to_use is in activity_handlers::spellcasting_finish
     return 0;
@@ -2567,7 +2573,7 @@ std::optional<int> ammobelt_actor::use( Character &p, item &, bool, const tripoi
     item_location loc = p.i_add( mag );
     item::reload_option opt = p.select_ammo( loc, true );
     if( opt ) {
-        p.assign_activity( player_activity( reload_activity_actor( std::move( opt ) ) ) );
+        p.assign_activity( reload_activity_actor( std::move( opt ) ) );
     } else {
         loc.remove_item();
     }
@@ -3290,8 +3296,7 @@ std::optional<int> heal_actor::use( Character &p, item &it, bool, const tripoint
     cost = p.has_proficiency( proficiency_prof_wound_care_expert ) ? cost / 2 : cost;
     cost = p.has_proficiency( proficiency_prof_wound_care ) ? cost / 2 : cost;
 
-    p.assign_activity( player_activity( firstaid_activity_actor( cost, it.tname(),
-                                        patient.getID() ) ) );
+    p.assign_activity( firstaid_activity_actor( cost, it.tname(), patient.getID() ) );
 
     // Player: Only time this item_location gets used in firstaid::finish() is when activating the item's
     // container from the inventory window, so an item_on_person impl is all that is needed.
@@ -4401,9 +4406,9 @@ std::optional<int> deploy_tent_actor::use( Character &p, item &it, bool, const t
     }
 
     //checks done start activity:
-    player_activity new_act = player_activity( tent_placement_activity_actor( to_moves<int>
-                              ( 20_minutes ), direction, radius, it, wall, floor, floor_center, door_closed ) );
-    get_player_character().assign_activity( new_act, false );
+    tent_placement_activity_actor actor( to_moves<int>( 20_minutes ), direction, radius, it, wall,
+                                         floor, floor_center, door_closed );
+    get_player_character().assign_activity( actor );
     p.i_rem( &it );
     return 0;
 }
@@ -4600,23 +4605,24 @@ std::optional<int> sew_advanced_actor::use( Character &p, item &it, bool, const 
             prompt = obj.destroy_prompt.translated();
         }
         std::string desc;
-        desc += colorize( string_format( "%s: %.2f->%.2f\n", _( "Bash" ), mod.resist( damage_type::BASH ),
-                                         temp_item.resist( damage_type::BASH ) ), get_compare_color( mod.resist( damage_type::BASH ),
-                                                 temp_item.resist( damage_type::BASH ), true ) );
-        desc += colorize( string_format( "%s: %.2f->%.2f\n", _( "Cut" ), mod.resist( damage_type::CUT ),
-                                         temp_item.resist( damage_type::CUT ) ), get_compare_color( mod.resist( damage_type::CUT ),
-                                                 temp_item.resist( damage_type::CUT ), true ) );
+        // FIXME: Remove sew_advanced_actor, no longer used since before 0.G
+        desc += colorize( string_format( "%s: %.2f->%.2f\n", _( "Bash" ), mod.resist( damage_bash ),
+                                         temp_item.resist( damage_bash ) ), get_compare_color( mod.resist( damage_bash ),
+                                                 temp_item.resist( damage_bash ), true ) );
+        desc += colorize( string_format( "%s: %.2f->%.2f\n", _( "Cut" ), mod.resist( damage_cut ),
+                                         temp_item.resist( damage_cut ) ), get_compare_color( mod.resist( damage_cut ),
+                                                 temp_item.resist( damage_cut ), true ) );
         desc += colorize( string_format( "%s: %.2f->%.2f\n", _( "Ballistic" ),
-                                         mod.resist( damage_type::BULLET ),
-                                         temp_item.resist( damage_type::BULLET ) ), get_compare_color( mod.resist( damage_type::BULLET ),
-                                                 temp_item.resist( damage_type::BULLET ),
+                                         mod.resist( damage_bullet ),
+                                         temp_item.resist( damage_bullet ) ), get_compare_color( mod.resist( damage_bullet ),
+                                                 temp_item.resist( damage_bullet ),
                                                  true ) );
-        desc += colorize( string_format( "%s: %.2f->%.2f\n", _( "Acid" ), mod.resist( damage_type::ACID ),
-                                         temp_item.resist( damage_type::ACID ) ), get_compare_color( mod.resist( damage_type::ACID ),
-                                                 temp_item.resist( damage_type::ACID ), true ) );
-        desc += colorize( string_format( "%s: %.2f->%.2f\n", _( "Fire" ), mod.resist( damage_type::HEAT ),
-                                         temp_item.resist( damage_type::HEAT ) ), get_compare_color( mod.resist( damage_type::HEAT ),
-                                                 temp_item.resist( damage_type::HEAT ), true ) );
+        desc += colorize( string_format( "%s: %.2f->%.2f\n", _( "Acid" ), mod.resist( damage_acid ),
+                                         temp_item.resist( damage_acid ) ), get_compare_color( mod.resist( damage_acid ),
+                                                 temp_item.resist( damage_acid ), true ) );
+        desc += colorize( string_format( "%s: %.2f->%.2f\n", _( "Fire" ), mod.resist( damage_heat ),
+                                         temp_item.resist( damage_heat ) ), get_compare_color( mod.resist( damage_heat ),
+                                                 temp_item.resist( damage_heat ), true ) );
         desc += colorize( string_format( "%s: %d->%d\n", _( "Warmth" ), mod.get_warmth(),
                                          temp_item.get_warmth() ), get_compare_color( mod.get_warmth(), temp_item.get_warmth(), true ) );
         desc += colorize( string_format( "%s: %d->%d\n", _( "Encumbrance" ), mod.get_avg_encumber( p ),

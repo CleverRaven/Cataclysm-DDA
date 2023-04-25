@@ -49,15 +49,13 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "dodge": 2,
-    "armor_cut": 15,
-    "armor_stab": 15,
-    "armor_acid": 3,
     "vision_day": 30,
     "vision_night": 3,
     "death_drops": "skeltal_drops",
     "flags": [ "SEES", "HEARS", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "FILTHY" ],
     "harvest": "mr_bones",
-    "special_attacks": [ [ "DOOT", 50 ] ]
+    "special_attacks": [ [ "DOOT", 50 ] ],
+    "armor": { "cut": 15, "stab": 15, "acid": 3 }
   },
   {
     "id": "mon_zombie_skeltal_minion",
@@ -107,8 +105,6 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "dodge": 3,
-    "armor_bash": 4,
-    "armor_cut": 4,
     "vision_day": 30,
     "vision_night": 10,
     "emit_fields": [ { "emit_id": "emit_smoke_stream", "delay": "1 s" } ],
@@ -128,7 +124,8 @@
       "FIREPROOF",
       "NO_BREATHE",
       "FILTHY"
-    ]
+    ],
+    "armor": { "bash": 4, "cut": 4 }
   },
   {
     "id": "mon_moose",
@@ -157,10 +154,6 @@
     "melee_dice": 1,
     "melee_dice_sides": 5,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "armor_bash": 12,
-    "armor_cut": 8,
-    "armor_bullet": 6,
-    "armor_elec": 5,
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "vision_day": 50,
@@ -170,7 +163,8 @@
     "death_drops": "mon_zombie_hulk_death_drops",
     "fungalize_into": "mon_zombie_fungus",
     "regenerates": 50,
-    "flags": [ "WARM", "BASHES", "DESTROYS", "NO_BREATHE", "POISON", "FILTHY" ]
+    "flags": [ "WARM", "BASHES", "DESTROYS", "NO_BREATHE", "POISON", "FILTHY" ],
+    "armor": { "bash": 12, "cut": 8, "bullet": 6, "electric": 5 }
   },
   {
     "id": "mon_zombie_jackson",
@@ -194,10 +188,6 @@
     "melee_dice_sides": 5,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 6,
-    "armor_bash": 2,
-    "armor_cut": 2,
-    "armor_bullet": 2,
-    "armor_elec": 1,
     "weakpoints": [
       { "name": "the funky, funky head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
       { "name": "the glittering, beautiful eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
@@ -209,7 +199,8 @@
     "special_attacks": [ [ "JACKSON", 0 ] ],
     "death_drops": "jackson_drops",
     "death_function": { "message": "The music stops!", "effect": { "id": "death_jackson", "hit_self": true }, "corpse_type": "NO_CORPSE" },
-    "flags": [ "SEES", "SMELLS", "WARM", "BASHES", "NO_BREATHE", "POISON", "FILTHY" ]
+    "flags": [ "SEES", "SMELLS", "WARM", "BASHES", "NO_BREATHE", "POISON", "FILTHY" ],
+    "armor": { "bash": 2, "cut": 2, "bullet": 2, "electric": 1 }
   },
   {
     "id": "mon_shia",
@@ -233,7 +224,6 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "dodge": 4,
-    "armor_elec": 1,
     "vision_day": 30,
     "vision_night": 10,
     "weakpoint_sets": [ "wps_humanoid_body" ],
@@ -244,6 +234,7 @@
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE" ],
     "fear_triggers": [ "FIRE" ],
     "death_drops": { "groups": [ [ "shia_stuff", 1 ] ] },
-    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "POISON", "NO_BREATHE", "PATH_AVOID_DANGER_1", "PRIORITIZE_TARGETS", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "POISON", "NO_BREATHE", "PATH_AVOID_DANGER_1", "PRIORITIZE_TARGETS", "FILTHY" ],
+    "armor": { "electric": 1 }
   }
 ]

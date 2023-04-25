@@ -1824,8 +1824,7 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
     item_location obj1( map_cursor( u.pos() ), &m.add_item_or_charges( u.pos(), rigid_obj ) );
     item_location obj2( map_cursor( u.pos() ), &m.add_item_or_charges( u.pos(), soft_obj ) );
     pickup_activity_actor act_actor( { obj1, obj2 }, { 1, 1 }, u.pos(), autopickup );
-    player_activity act( act_actor );
-    u.assign_activity( act );
+    u.assign_activity( act_actor );
 
     item_location pack;
     if( wear ) {
@@ -2054,8 +2053,7 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
             REQUIRE( obj3->charges == 300 );
             u.cancel_activity();
             pickup_activity_actor new_actor( { obj3 }, { 300 }, u.pos(), autopickup );
-            player_activity new_act( new_actor );
-            u.assign_activity( new_act );
+            u.assign_activity( new_actor );
             THEN( ( soft_nested ? "pickup most, nested empty" : "pickup all, overflow into nested" ) ) {
                 if( soft_nested ) {
                     test_pickup_autoinsert_results( u, wear, c, 61, 239, 0, true );
@@ -2086,8 +2084,7 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
             REQUIRE( obj3->charges == 300 );
             u.cancel_activity();
             pickup_activity_actor new_actor( { obj3 }, { 300 }, u.pos(), autopickup );
-            player_activity new_act( new_actor );
-            u.assign_activity( new_act );
+            u.assign_activity( new_actor );
             THEN( "pickup most, nested empty" ) {
                 if( soft_nested ) {
                     test_pickup_autoinsert_results( u, wear, c, 61, 239, 0, true );
@@ -2119,8 +2116,7 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
             REQUIRE( obj3->charges == 300 );
             u.cancel_activity();
             pickup_activity_actor new_actor( { obj3 }, { 300 }, u.pos(), autopickup );
-            player_activity new_act( new_actor );
-            u.assign_activity( new_act );
+            u.assign_activity( new_actor );
             THEN( "pickup most, nested empty" ) {
                 if( soft_nested ) {
                     test_pickup_autoinsert_results( u, wear, c, 61, 239, 0, true );

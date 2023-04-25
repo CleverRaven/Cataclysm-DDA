@@ -108,12 +108,12 @@
     "longest_side": "37 cm",
     "price": "12 USD",
     "price_postapoc": 5,
-    "bashing": 4,
     "to_hit": -1,
     "color": "blue",
     "symbol": "/",
     "material": [ "plastic" ],
-    "flags": [ "NONCONDUCTIVE", "FLOTATION" ]
+    "flags": [ "NONCONDUCTIVE", "FLOTATION" ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "shuttlecock",
@@ -160,8 +160,8 @@
     "material": [ "plastic" ],
     "symbol": "*",
     "color": "white",
-    "bashing": 5,
-    "to_hit": -3
+    "to_hit": -3,
+    "melee_damage": { "bash": 5 }
   },
   {
     "type": "AMMO",
@@ -179,13 +179,13 @@
     "weight": "170 g",
     "volume": "250 ml",
     "longest_side": "57 mm",
-    "bashing": 8,
     "damage": { "damage_type": "bash", "amount": 8 },
     "range": 10,
     "dispersion": 14,
     "loudness": 0,
     "to_hit": -3,
-    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_60" ]
+    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_60" ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "type": "GENERIC",
@@ -201,8 +201,8 @@
     "weight": "7257 g",
     "volume": "5277 ml",
     "longest_side": "216 mm",
-    "bashing": 18,
-    "to_hit": -2
+    "to_hit": -2,
+    "melee_damage": { "bash": 18 }
   },
   {
     "type": "AMMO",
@@ -220,13 +220,13 @@
     "weight": "150 g",
     "volume": "250 ml",
     "longest_side": "75 mm",
-    "bashing": 6,
     "damage": { "damage_type": "bash", "amount": 6 },
     "range": 12,
     "dispersion": 12,
     "loudness": 0,
     "to_hit": 3,
-    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_80" ]
+    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_80" ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "type": "GENERIC",
@@ -242,8 +242,8 @@
     "weight": "400 g",
     "volume": "750 ml",
     "longest_side": "29 cm",
-    "bashing": 4,
-    "to_hit": -1
+    "to_hit": -1,
+    "melee_damage": { "bash": 4 }
   },
   {
     "type": "GENERIC",
@@ -259,8 +259,8 @@
     "weight": "800 g",
     "volume": "1 L",
     "longest_side": "239 mm",
-    "bashing": 6,
-    "to_hit": -1
+    "to_hit": -1,
+    "melee_damage": { "bash": 6 }
   },
   {
     "type": "GENERIC",
@@ -276,8 +276,8 @@
     "weight": "260 g",
     "volume": "1 L",
     "longest_side": "26 cm",
-    "bashing": 4,
-    "to_hit": -1
+    "to_hit": -1,
+    "melee_damage": { "bash": 4 }
   },
   {
     "type": "TOOL",
@@ -319,8 +319,8 @@
     "weight": "280 g",
     "volume": "1 L",
     "longest_side": "27 cm",
-    "bashing": 4,
-    "to_hit": -1
+    "to_hit": -1,
+    "melee_damage": { "bash": 4 }
   },
   {
     "type": "GENERIC",
@@ -336,8 +336,8 @@
     "weight": "170 g",
     "volume": "250 ml",
     "longest_side": "76 mm",
-    "bashing": 7,
-    "to_hit": 2
+    "to_hit": 2,
+    "melee_damage": { "bash": 7 }
   },
   {
     "type": "GENERIC",
@@ -353,8 +353,8 @@
     "weight": "81500 g",
     "volume": "62500 ml",
     "longest_side": "180 cm",
-    "bashing": 18,
-    "to_hit": -2
+    "to_hit": -2,
+    "melee_damage": { "bash": 18 }
   },
   {
     "type": "TOOL",
@@ -370,7 +370,6 @@
     "weight": "81500 g",
     "volume": "62500 ml",
     "longest_side": "180 cm",
-    "bashing": 18,
     "to_hit": -2,
     "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK", "SINGLE_USE", "ELECTRONIC" ],
@@ -390,6 +389,7 @@
       "difficulty": 0,
       "need_charges": 100,
       "moves": 20
-    }
+    },
+    "melee_damage": { "bash": 18 }
   }
 ]

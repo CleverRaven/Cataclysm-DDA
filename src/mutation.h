@@ -477,8 +477,9 @@ struct mutation_branch {
         static const trait_replacement &trait_migration( const trait_id &tid );
 
         /** called after all JSON has been read and performs any necessary cleanup tasks */
-        static void finalize();
+        static void finalize_all();
         static void finalize_trait_blacklist();
+        void finalize();
 
         /**
          * @name Trait groups

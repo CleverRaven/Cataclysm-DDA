@@ -55,11 +55,11 @@
     "symbol": "$",
     "material": [ "plastic", "steel" ],
     "volume": "3 L",
-    "bashing": 2,
     "category": "veh_parts",
     "price": 40000,
     "price_postapoc": 500,
-    "flags": [ "WATER_BREAK", "ELECTRONIC" ]
+    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "reins_tackle",
@@ -71,12 +71,12 @@
     "volume": "1200 ml",
     "price": 30000,
     "price_postapoc": 1000,
-    "bashing": 1,
     "to_hit": -2,
     "material": [ "leather" ],
     "symbol": "W",
     "color": "light_gray",
-    "looks_like": "rope_6"
+    "looks_like": "rope_6",
+    "melee_damage": { "bash": 1 }
   },
   {
     "type": "GENERIC",
@@ -89,11 +89,11 @@
     "symbol": "$",
     "material": [ "plastic", "steel" ],
     "volume": "10 L",
-    "bashing": 1,
     "category": "veh_parts",
     "price": 8000,
     "price_postapoc": 250,
-    "flags": [ "WATER_BREAK", "ELECTRONIC" ]
+    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "type": "GENERIC",
@@ -117,10 +117,10 @@
     "weight": "3000 g",
     "color": "red",
     "volume": "3750 ml",
-    "bashing": 1,
     "price": 200000,
     "price_postapoc": 1500,
-    "copy-from": "vehicle_controls"
+    "copy-from": "vehicle_controls",
+    "melee_damage": { "bash": 1 }
   },
   {
     "type": "GENERIC",
@@ -131,10 +131,10 @@
     "color": "white",
     "symbol": "&",
     "volume": "5 L",
-    "bashing": 1,
     "price": 20000,
     "price_postapoc": 1000,
-    "copy-from": "vehicle_controls"
+    "copy-from": "vehicle_controls",
+    "melee_damage": { "bash": 1 }
   },
   {
     "type": "GENERIC",
