@@ -1123,7 +1123,6 @@
     "effect": [
       {
         "u_spawn_npc": "portal_person",
-        "real_count": 1,
         "hallucination_count": 2,
         "outdoor_only": true,
         "min_radius": 3,

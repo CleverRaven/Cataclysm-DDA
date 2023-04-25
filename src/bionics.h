@@ -84,12 +84,8 @@ struct bionic_data {
     /**Amount of environmental protection offered by this bionic*/
     std::map<bodypart_str_id, size_t> env_protec;
 
-    /**Amount of bash protection offered by this bionic*/
-    std::map<bodypart_str_id, size_t> bash_protec;
-    /**Amount of cut protection offered by this bionic*/
-    std::map<bodypart_str_id, size_t> cut_protec;
-    /**Amount of bullet protection offered by this bionic*/
-    std::map<bodypart_str_id, size_t> bullet_protec;
+    /**Amount of damage protection offered by this bionic*/
+    std::map<bodypart_str_id, resistances> protec;
 
     float vitamin_absorb_mod = 1.0f;
 
@@ -185,7 +181,9 @@ struct bionic_data {
 
     bool was_loaded = false;
     void load( const JsonObject &obj, const std::string &src );
+    void finalize();
     static void load_bionic( const JsonObject &jo, const std::string &src );
+    static void finalize_bionic();
     static const std::vector<bionic_data> &get_all();
     static void check_bionic_consistency();
 

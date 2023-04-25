@@ -454,11 +454,7 @@ TEST_CASE( "reading a book for skill", "[reading][book][skill]" )
             SkillLevel &avatarskill = dummy.get_skill_level_object( bkalpha_islot->skill );
 
             for( int i = 0; i < 100; ++i ) {
-                read_activity_actor::read_book(
-                    *dummy.as_character(),
-                    bkalpha_islot,
-                    avatarskill,
-                    1.0 );
+                read_activity_actor::read_book( *dummy.as_character(), bkalpha_islot, avatarskill, 1.0 );
             }
 
             THEN( "gained a skill level" ) {
@@ -493,14 +489,8 @@ TEST_CASE( "reading a book with an ebook reader", "[reading][book][ereader]" )
         THEN( "player can read the book" ) {
 
             item_location booklc{dummy, &book};
-
-            dummy.activity = player_activity(
-                                 read_activity_actor(
-                                     to_moves<int>( dummy.time_to_read( *booklc, dummy ) ),
-                                     booklc,
-                                     ereader,
-                                     true
-                                 ) );
+            read_activity_actor actor( dummy.time_to_read( *booklc, dummy ), booklc, ereader, true );
+            dummy.activity = player_activity( actor );
 
             dummy.activity.start_or_resume( dummy, false );
             REQUIRE( dummy.activity.id() == ACT_READ );

@@ -1322,7 +1322,7 @@ void conditional_t::set_compare_num( const JsonObject &jo, const std::string_vie
     }
 }
 
-void conditional_t::set_math( const JsonObject &jo, const std::string &member )
+void conditional_t::set_math( const JsonObject &jo, const std::string_view member )
 {
     eoc_math math;
     math.from_json( jo, member );
@@ -2173,9 +2173,10 @@ conditional_t::get_set_dbl( const J &jo, const std::optional<dbl_or_var_part> &m
                 var_name = get_talk_varname( jo, "var_name", false, empty );
             }
             return [is_npc, var_name, type, min, max]( dialogue const & d, double input ) {
-                write_var_value( type, var_name, d.actor( is_npc ), std::to_string( handle_min_max( d, input,
-                                 min,
-                                 max ) ) );
+
+                write_var_value( type, var_name, d.actor( is_npc ),
+                                 // NOLINTNEXTLINE(cata-translate-string-literal)
+                                 string_format( "%g", handle_min_max( d, input, min, max ) ) );
             };
         } else if( checked_value == "time_since_var" ) {
             // This is a strange thing to want to adjust. But we allow it nevertheless.
@@ -2581,7 +2582,7 @@ void talk_effect_fun_t::set_arithmetic( const JsonObject &jo, const std::string_
     }
 }
 
-void talk_effect_fun_t::set_math( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_math( const JsonObject &jo, const std::string_view member )
 {
     eoc_math math;
     math.from_json( jo, member );

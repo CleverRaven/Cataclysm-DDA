@@ -9,12 +9,12 @@
     "material": [ "plastic", "steel" ],
     "volume": "2 L",
     "longest_side": "170 cm",
-    "bashing": 5,
     "price": 9000,
     "price_postapoc": 500,
     "symbol": "L",
     "color": "white",
-    "looks_like": "f_floor_lamp"
+    "looks_like": "f_floor_lamp",
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "ap_test_standing_lamp",
@@ -51,14 +51,14 @@
     "material": [ "steel", "plastic" ],
     "volume": "500 ml",
     "weight": "75 g",
-    "bashing": 2,
     "category": "tools",
     "price": 1,
     "price_postapoc": 100,
     "max_charges": 3,
     "initial_charges": 3,
     "use_action": [ "CABLE_ATTACH" ],
-    "flags": [ "CABLE_SPOOL", "POWER_CORD" ]
+    "flags": [ "CABLE_SPOOL", "POWER_CORD" ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "type": "vehicle_part",
@@ -117,14 +117,14 @@
     "material": [ "steel", "plastic" ],
     "volume": "500 ml",
     "weight": "75 g",
-    "bashing": 2,
     "category": "tools",
     "price": 1,
     "price_postapoc": 100,
     "max_charges": 3,
     "initial_charges": 3,
     "use_action": [ "CABLE_ATTACH" ],
-    "flags": [ "CABLE_SPOOL", "POWER_CORD", "SINGLE_USE" ]
+    "flags": [ "CABLE_SPOOL", "POWER_CORD", "SINGLE_USE" ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "type": "vehicle_part",

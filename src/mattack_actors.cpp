@@ -35,6 +35,7 @@
 #include "translations.h"
 #include "viewer.h"
 
+static const damage_type_id damage_bash( "bash" );
 
 static const efftype_id effect_badpoison( "badpoison" );
 static const efftype_id effect_bite( "bite" );
@@ -57,105 +58,6 @@ static const skill_id skill_throw( "throw" );
 static const trait_id trait_TOXICFLESH( "TOXICFLESH" );
 static const trait_id trait_VAMPIRE( "VAMPIRE" );
 
-// Common helpers
-bool mattack_actor::check_self_conditions( monster &z ) const
-{
-    bool failed = true;
-    if( attack_chance != 100 && !x_in_y( attack_chance, 100 ) ) {
-        add_msg_debug( debugmode::DF_MATTACK, "%s's %s attack_chance roll failed (%d%% chance)", z.name(),
-                       id.c_str(), attack_chance );
-        return false;
-    }
-
-    for( const efftype_id &effect : required_effects_all ) {
-        if( !z.has_effect( effect ) ) {
-            add_msg_debug( debugmode::DF_MATTACK, "Lack of required(all) effect %s", effect.c_str() );
-            return false;
-        }
-    }
-
-    for( const efftype_id &effect : forbidden_effects_any ) {
-        if( z.has_effect( effect ) ) {
-            add_msg_debug( debugmode::DF_MATTACK, "Forbidden(any) effect %s found", effect.c_str() );
-            return false;
-        }
-    }
-
-    if( !forbidden_effects_all.empty() ) {
-        for( const efftype_id &effect : forbidden_effects_all ) {
-            if( !z.has_effect( effect ) ) {
-                add_msg_debug( debugmode::DF_MATTACK, "Forbidden(all) effect %s not found", effect.c_str() );
-                failed = false;
-            }
-        }
-        if( failed ) {
-            add_msg_debug( debugmode::DF_MATTACK, "All forbidden(all) effects found" );
-            return false;
-        }
-    }
-    if( !required_effects_any.empty() ) {
-        failed = true;
-        for( const efftype_id &effect : required_effects_any ) {
-            if( z.has_effect( effect ) ) {
-                add_msg_debug( debugmode::DF_MATTACK, "Required(any) effect %s found", effect.c_str() );
-                failed = false;
-            }
-        }
-        if( failed ) {
-            add_msg_debug( debugmode::DF_MATTACK, "Lack of all required(any) effects" );
-            return false;
-        }
-    }
-    return true;
-}
-
-bool mattack_actor::check_target_conditions( Creature *target ) const
-{
-    bool failed = true;
-    for( const efftype_id &effect : target_forbidden_effects_any ) {
-        if( target->has_effect( effect ) ) {
-            add_msg_debug( debugmode::DF_MATTACK, "Target forbidden(any) effect %s found", effect.c_str() );
-            return false;
-        }
-    }
-
-    for( const efftype_id &effect : target_required_effects_all ) {
-        if( !target->has_effect( effect ) ) {
-            add_msg_debug( debugmode::DF_MATTACK, "Lack of target required(all) effect %s", effect.c_str() );
-            return false;
-        }
-    }
-
-    if( !target_forbidden_effects_all.empty() ) {
-        for( const efftype_id &effect : target_forbidden_effects_all ) {
-            if( !target->has_effect( effect ) ) {
-                add_msg_debug( debugmode::DF_MATTACK, "Target forbidden(all) effect %s not found", effect.c_str() );
-                failed = false;
-            }
-        }
-        if( failed ) {
-            add_msg_debug( debugmode::DF_MATTACK, "All target forbidden(all) effects found" );
-            return false;
-        }
-    }
-
-    if( !target_required_effects_any.empty() ) {
-        failed = true;
-        for( const efftype_id &effect : target_required_effects_any ) {
-            if( target->has_effect( effect ) ) {
-                add_msg_debug( debugmode::DF_MATTACK, "Target required(any) effect %s found", effect.c_str() );
-                failed = false;
-            }
-        }
-        if( failed ) {
-            add_msg_debug( debugmode::DF_MATTACK, "Lack of all target required(any) effects" );
-            return false;
-        }
-    }
-
-    return true;
-}
-
 void leap_actor::load_internal( const JsonObject &obj, const std::string & )
 {
     // Mandatory:
@@ -171,10 +73,12 @@ void leap_actor::load_internal( const JsonObject &obj, const std::string & )
     max_consider_range = obj.get_float( "max_consider_range", 200.0f );
     optional( obj, was_loaded, "message", message,
               to_translation( "The %s leaps!" ) );
-    optional( obj, was_loaded, "forbidden_effects_any", forbidden_effects_any );
-    optional( obj, was_loaded, "forbidden_effects_all", forbidden_effects_all );
-    optional( obj, was_loaded, "required_effects_any", required_effects_any );
-    optional( obj, was_loaded, "required_effects_all", required_effects_all );
+
+    if( obj.has_member( "condition" ) ) {
+        read_condition( obj, "condition", condition, false );
+        has_condition = true;
+    }
+
 
     if( obj.has_array( "self_effects" ) ) {
         for( JsonObject eff : obj.get_array( "self_effects" ) ) {
@@ -197,8 +101,12 @@ bool leap_actor::call( monster &z ) const
         return false;
     }
 
-    if( !check_self_conditions( z ) ) {
-        return false;
+    if( has_condition ) {
+        dialogue d( get_talker_for( &z ), nullptr );
+        if( !condition( d ) ) {
+            add_msg_debug( debugmode::DF_MATTACK, "Attack conditionals failed" );
+            return false;
+        }
     }
 
     std::vector<tripoint> options;
@@ -326,15 +234,13 @@ void mon_spellcasting_actor::load_internal( const JsonObject &obj, const std::st
               to_translation( "%1$s casts %2$s at %3$s!" ) );
     spell_data.trigger_message = monster_message;
     optional( obj, was_loaded, "attack_chance", attack_chance, 100 );
-    optional( obj, was_loaded, "forbidden_effects_any", forbidden_effects_any );
-    optional( obj, was_loaded, "forbidden_effects_all", forbidden_effects_all );
-    optional( obj, was_loaded, "required_effects_any", required_effects_any );
-    optional( obj, was_loaded, "required_effects_all", required_effects_all );
-    optional( obj, was_loaded, "target_forbidden_effects_any", target_forbidden_effects_any );
-    optional( obj, was_loaded, "target_forbidden_effects_all", target_forbidden_effects_all );
-    optional( obj, was_loaded, "target_required_effects_any", target_required_effects_any );
-    optional( obj, was_loaded, "target_required_effects_all", target_required_effects_all );
     optional( obj, was_loaded, "allow_no_target", allow_no_target, false );
+
+    if( obj.has_member( "condition" ) ) {
+        read_condition( obj, "condition", condition, false );
+        has_condition = true;
+    }
+
 
 }
 
@@ -350,13 +256,15 @@ bool mon_spellcasting_actor::call( monster &mon ) const
         return false;
     }
 
-    if( !check_self_conditions( mon ) ) {
-        return false;
+    if( has_condition ) {
+        dialogue d( get_talker_for( &mon ),
+                    allow_no_target ? nullptr : get_talker_for( mon.attack_target() ) );
+        if( !condition( d ) ) {
+            add_msg_debug( debugmode::DF_MATTACK, "Attack conditionals failed" );
+            return false;
+        }
     }
 
-    if( !allow_no_target && !check_target_conditions( mon.attack_target() ) ) {
-        return false;
-    }
 
     const tripoint target = ( spell_data.self ||
                               allow_no_target ) ? mon.pos() : mon.attack_target()->pos();
@@ -385,7 +293,9 @@ bool mon_spellcasting_actor::call( monster &mon ) const
 
 melee_actor::melee_actor()
 {
-    damage_max_instance = damage_instance::physical( 9, 0, 0, 0 );
+    damage_max_instance = damage_instance();
+    // FIXME: Hardcoded damage type
+    damage_max_instance.add_damage( damage_bash, 9 );
     min_mul = 0.5f;
     max_mul = 1.0f;
     move_cost = 100;
@@ -401,14 +311,6 @@ void melee_actor::load_internal( const JsonObject &obj, const std::string & )
     }
 
     optional( obj, was_loaded, "attack_chance", attack_chance, 100 );
-    optional( obj, was_loaded, "forbidden_effects_any", forbidden_effects_any );
-    optional( obj, was_loaded, "forbidden_effects_all", forbidden_effects_all );
-    optional( obj, was_loaded, "required_effects_any", required_effects_any );
-    optional( obj, was_loaded, "required_effects_all", required_effects_all );
-    optional( obj, was_loaded, "target_forbidden_effects_any", target_forbidden_effects_any );
-    optional( obj, was_loaded, "target_forbidden_effects_all", target_forbidden_effects_all );
-    optional( obj, was_loaded, "target_required_effects_any", target_required_effects_any );
-    optional( obj, was_loaded, "target_required_effects_all", target_required_effects_all );
     optional( obj, was_loaded, "accuracy", accuracy, INT_MIN );
     optional( obj, was_loaded, "min_mul", min_mul, 0.5f );
     optional( obj, was_loaded, "max_mul", max_mul, 1.0f );
@@ -443,6 +345,11 @@ void melee_actor::load_internal( const JsonObject &obj, const std::string & )
               to_translation( "%s hits you with such a force that it sends you flying!" ) );
     optional( obj, was_loaded, "throw_msg_npc", throw_msg_npc,
               to_translation( "%s hits <npcname> with such a force that it sends them flying!" ) );
+
+    if( obj.has_member( "condition" ) ) {
+        read_condition( obj, "condition", condition, false );
+        has_condition = true;
+    }
 
     if( obj.has_array( "body_parts" ) ) {
         for( JsonArray sub : obj.get_array( "body_parts" ) ) {
@@ -510,17 +417,17 @@ Creature *melee_actor::find_target( monster &z ) const
 
 bool melee_actor::call( monster &z ) const
 {
-    if( !check_self_conditions( z ) ) {
-        return false;
-    }
-
     Creature *target = find_target( z );
     if( target == nullptr ) {
         return false;
     }
 
-    if( !check_target_conditions( target ) ) {
-        return false;
+    if( has_condition ) {
+        dialogue d( get_talker_for( &z ), get_talker_for( *target ) );
+        if( !condition( d ) ) {
+            add_msg_debug( debugmode::DF_MATTACK, "Attack conditionals failed" );
+            return false;
+        }
     }
 
     // If we are biting, make sure the target is grabbed if our z is humanoid

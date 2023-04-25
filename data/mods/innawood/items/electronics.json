@@ -13,8 +13,8 @@
     "material": [ "iron", "copper" ],
     "weight": "113 g",
     "volume": "1 L",
-    "bashing": 5,
-    "to_hit": -1
+    "to_hit": -1,
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "magazine_battery_mod",

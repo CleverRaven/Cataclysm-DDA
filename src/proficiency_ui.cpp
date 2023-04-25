@@ -335,8 +335,8 @@ void prof_window::run()
         } else if( filter_str.empty() && ( action == "LEFT" || action == "PREV_CATEGORY" ||
                                            action == "PREV_TAB" ||
                                            action == "RIGHT" || action == "NEXT_CATEGORY" || action == "NEXT_TAB" ) ) {
-            current_cat = increment_and_wrap( current_cat, action == "RIGHT" ||
-                                              action == "NEXT_CATEGORY" || action == "NEXT_TAB", cats.size() );
+            current_cat = inc_clamp_wrap( current_cat,
+                                          action == "RIGHT" || action == "NEXT_CATEGORY" || action == "NEXT_TAB", cats.size() );
             sel_prof = 0;
             top_prof = 0;
         } else if( action == "FILTER" ) {

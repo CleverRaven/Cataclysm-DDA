@@ -10,14 +10,14 @@
     "volume": "2250 ml",
     "price": 25000,
     "price_postapoc": 3000,
-    "bashing": 50,
     "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "uneven" },
     "material": [ "wood", "steel" ],
     "symbol": "\\",
     "color": "dark_gray",
     "techniques": [ "WBLOCK_1", "BRUTAL" ],
     "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
-    "weapon_category": [ "FLAILS" ]
+    "weapon_category": [ "FLAILS" ],
+    "melee_damage": { "bash": 50 }
   },
   {
     "id": "2h_flail_wood",
@@ -30,14 +30,14 @@
     "volume": "2250 ml",
     "price": 4000,
     "price_postapoc": 1000,
-    "bashing": 35,
     "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "uneven" },
     "material": [ "wood" ],
     "symbol": "\\",
     "color": "brown",
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
-    "weapon_category": [ "FLAILS" ]
+    "weapon_category": [ "FLAILS" ],
+    "melee_damage": { "bash": 35 }
   },
   {
     "type": "GENERIC",
@@ -54,8 +54,8 @@
     "techniques": [ "WBLOCK_1", "BRUTAL" ],
     "flags": [ "DURABLE_MELEE", "BELT_CLIP", "NONCONDUCTIVE" ],
     "volume": "1750 ml",
-    "bashing": 22,
-    "price": 16000
+    "price": 16000,
+    "melee_damage": { "bash": 22 }
   },
   {
     "type": "GENERIC",
@@ -73,8 +73,8 @@
     "qualities": [ [ "HAMMER", 1 ] ],
     "flags": [ "DURABLE_MELEE", "BELT_CLIP" ],
     "volume": "1750 ml",
-    "bashing": 22,
-    "price": 16000
+    "price": 16000,
+    "melee_damage": { "bash": 22 }
   },
   {
     "type": "GENERIC",
@@ -90,8 +90,8 @@
     "material": [ "plastic" ],
     "flags": [ "FRAGILE_MELEE", "BELT_CLIP", "NONCONDUCTIVE" ],
     "volume": "2250 ml",
-    "bashing": 1,
-    "price": "25 USD"
+    "price": "25 USD",
+    "melee_damage": { "bash": 1 }
   },
   {
     "type": "GENERIC",
@@ -108,9 +108,9 @@
     "material": [ { "type": "steel", "portion": 7 }, { "type": "plastic", "portion": 3 } ],
     "flags": [ "DURABLE_MELEE", "BELT_CLIP" ],
     "use_action": { "menu_text": "Expand", "type": "transform", "target": "baton-extended", "msg": "You snap open your baton." },
-    "bashing": 4,
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "any", "balance": "neutral" },
-    "price": 22900
+    "price": 22900,
+    "melee_damage": { "bash": 4 }
   },
   {
     "type": "GENERIC",
@@ -130,8 +130,8 @@
     "flags": [ "DURABLE_MELEE", "BELT_CLIP" ],
     "weapon_category": [ "BATONS", "FENCING_WEAPONRY" ],
     "use_action": { "menu_text": "Collapse", "type": "transform", "target": "baton", "msg": "You collapse your baton." },
-    "bashing": 10,
-    "price": 22900
+    "price": 22900,
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "battleaxe",
@@ -143,8 +143,6 @@
     "longest_side": "100 cm",
     "price": 40000,
     "price_postapoc": 12000,
-    "bashing": 19,
-    "cutting": 38,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "uneven" },
     "material": [ "steel", "wood" ],
     "symbol": "/",
@@ -153,7 +151,8 @@
     "qualities": [ [ "AXE", 2 ], [ "BUTCHER", -20 ] ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_AXE" ],
     "weapon_category": [ "HOOKING_WEAPONRY", "GREAT_AXES" ],
-    "category": "weapons"
+    "category": "weapons",
+    "melee_damage": { "bash": 19, "cut": 38 }
   },
   {
     "id": "battleaxe_fake",
@@ -161,7 +160,7 @@
     "type": "GENERIC",
     "name": { "str": "battle axe" },
     "description": "A dull, cheaply-made replica of a huge axe designed for warfare.",
-    "proportional": { "cutting": 0.1 },
+    "proportional": { "melee_damage": { "cut": 0.1 } },
     "delete": { "flags": [ "DURABLE_MELEE" ] },
     "extend": { "flags": [ "FRAGILE_MELEE" ] },
     "material": [ "aluminum", "wood" ],
@@ -176,7 +175,7 @@
     "type": "TOOL",
     "name": { "str": "battle axe" },
     "description": "A huge axe designed for warfare.  Or it would be, but the axe heads aren't seated properly at all.",
-    "proportional": { "bashing": 2, "cutting": 0.25 },
+    "proportional": { "melee_damage": { "bash": 2, "cut": 0.25 } },
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "uneven" },
     "delete": { "flags": [ "DURABLE_MELEE" ] },
     "material": [ "budget_steel", "wood" ],
@@ -198,9 +197,9 @@
     "weight": "450 g",
     "volume": "350 ml",
     "longest_side": "20 cm",
-    "bashing": 13,
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "any", "balance": "good" },
-    "category": "weapons"
+    "category": "weapons",
+    "melee_damage": { "bash": 13 }
   },
   {
     "id": "bokken",
@@ -220,9 +219,9 @@
     "volume": "2 L",
     "longest_side": "100 cm",
     "//": "Not actually as damaging as a steel katana, by any stretch.  It's a fancy, very well-carved wooden training sword, not a weapon of war.  It's also completely rounded, so any cutting damage wouldn't make sense.  Also, the heaviest bokken I could find were 700g, none were nearly close to a kilogram.",
-    "bashing": 16,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "good" },
-    "category": "weapons"
+    "category": "weapons",
+    "melee_damage": { "bash": 16 }
   },
   {
     "id": "bokken_fake",
@@ -233,7 +232,7 @@
     "looks_like": "bokken",
     "name": { "str_sp": "bokken" },
     "description": "A solid wood 'training' katana.  It feels far too light to make an effective weapon.",
-    "proportional": { "bashing": 0.5 },
+    "proportional": { "melee_damage": { "bash": 0.5 } },
     "delete": { "flags": [ "DURABLE_MELEE" ] },
     "extend": { "flags": [ "FRAGILE_MELEE" ] },
     "material": [ "wood" ],
@@ -251,7 +250,7 @@
     "looks_like": "bokken",
     "name": { "str_sp": "bokken" },
     "description": "A solid wood 'training' katana.  It looks to be mass-produced, and not quite as effective as the real deal.",
-    "proportional": { "bashing": 0.75 },
+    "proportional": { "melee_damage": { "bash": 0.75 } },
     "delete": { "flags": [ "DURABLE_MELEE" ] },
     "material": [ "wood" ],
     "weight": "580 g",
@@ -273,10 +272,9 @@
     "techniques": [ "WBLOCK_1" ],
     "volume": "1750 ml",
     "longest_side": "40 cm",
-    "bashing": 14,
-    "cutting": 14,
     "to_hit": { "grip": "none", "length": "short", "surface": "point", "balance": "neutral" },
-    "flags": [ "STAB", "NONCONDUCTIVE" ]
+    "flags": [ "NONCONDUCTIVE" ],
+    "melee_damage": { "bash": 14, "stab": 14 }
   },
   {
     "type": "GENERIC",
@@ -292,9 +290,9 @@
     "flags": [ "DURABLE_MELEE" ],
     "volume": "2250 ml",
     "longest_side": "40 cm",
-    "bashing": 11,
     "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "neutral" },
-    "price": 1000
+    "price": 1000,
+    "melee_damage": { "bash": 11 }
   },
   {
     "type": "GENERIC",
@@ -310,10 +308,9 @@
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP" ],
     "volume": "2 L",
     "longest_side": "90 cm",
-    "bashing": 22,
-    "cutting": 8,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "good" },
-    "price": 20000
+    "price": 20000,
+    "melee_damage": { "bash": 22, "cut": 8 }
   },
   {
     "type": "GENERIC",
@@ -329,10 +326,10 @@
     "weapon_category": [ "BATONS", "FENCING_WEAPONRY" ],
     "volume": "1 L",
     "longest_side": "80 cm",
-    "bashing": 10,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "any", "balance": "good" },
     "price": 16000,
-    "price_postapoc": 100
+    "price_postapoc": 100,
+    "melee_damage": { "bash": 10 }
   },
   {
     "type": "GENERIC",
@@ -345,10 +342,10 @@
     "color": "red",
     "symbol": "/",
     "material": [ "plastic" ],
-    "bashing": 2,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "any", "balance": "neutral" },
     "price_postapoc": 10,
-    "extend": { "flags": [ "FRAGILE_MELEE" ] }
+    "extend": { "flags": [ "FRAGILE_MELEE" ] },
+    "melee_damage": { "bash": 2 }
   },
   {
     "type": "TOOL",
@@ -361,7 +358,6 @@
     "color": "blue",
     "symbol": "/",
     "material": [ "plastic" ],
-    "bashing": 2,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "any", "balance": "neutral" },
     "price_postapoc": 20,
     "extend": { "flags": [ "FRAGILE_MELEE", "WATER_BREAK_ACTIVE" ] },
@@ -382,7 +378,8 @@
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
         "default_magazine": "light_disposable_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "wizard_cane_cheap_on",
@@ -414,7 +411,6 @@
     "symbol": "/",
     "material": [ "wood", "aluminum" ],
     "to_hit": { "grip": "weapon", "length": "short", "surface": "any", "balance": "neutral" },
-    "bashing": 8,
     "price_postapoc": 150,
     "extend": { "flags": [ "WATER_BREAK_ACTIVE" ] },
     "charges_per_use": 1,
@@ -434,7 +430,8 @@
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
         "default_magazine": "light_disposable_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "wizard_cane_on",
@@ -468,10 +465,10 @@
     "weapon_category": [ "BATONS", "FENCING_WEAPONRY" ],
     "volume": "1 L",
     "longest_side": "80 cm",
-    "bashing": 7,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "any", "balance": "neutral" },
     "price": 1600,
-    "price_postapoc": 10
+    "price_postapoc": 10,
+    "melee_damage": { "bash": 7 }
   },
   {
     "type": "GENERIC",
@@ -488,9 +485,9 @@
     "weapon_category": [ "MACES" ],
     "volume": "2200 ml",
     "longest_side": "65 cm",
-    "bashing": 12,
     "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "neutral" },
-    "price": 100
+    "price": 100,
+    "melee_damage": { "bash": 12 }
   },
   {
     "type": "GENERIC",
@@ -508,9 +505,9 @@
     "techniques": [ "BRUTAL", "SWEEP" ],
     "volume": "4300 ml",
     "longest_side": "130 cm",
-    "bashing": 16,
     "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "uneven" },
-    "price": 100
+    "price": 100,
+    "melee_damage": { "bash": 16 }
   },
   {
     "id": "crutches",
@@ -526,10 +523,10 @@
     "weight": "2200 g",
     "volume": "1500 ml",
     "longest_side": "150 cm",
-    "bashing": 24,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "neutral" },
     "price_postapoc": 1250,
-    "category": "weapons"
+    "category": "weapons",
+    "melee_damage": { "bash": 24 }
   },
   {
     "id": "makeshift_crutches",
@@ -545,10 +542,10 @@
     "weight": "2200 g",
     "volume": "1500 ml",
     "longest_side": "150 cm",
-    "bashing": 10,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "clumsy" },
     "price_postapoc": 125,
-    "category": "weapons"
+    "category": "weapons",
+    "melee_damage": { "bash": 10 }
   },
   {
     "type": "GENERIC",
@@ -566,9 +563,9 @@
     "weapon_category": [ "BATONS", "FENCING_WEAPONRY" ],
     "volume": "600 ml",
     "longest_side": "60 cm",
-    "bashing": 10,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "any", "balance": "good" },
-    "price": 1000
+    "price": 1000,
+    "melee_damage": { "bash": 10 }
   },
   {
     "//": "Id retained to avoid breaking anything, same reason as with the makeshift glaive.",
@@ -584,10 +581,9 @@
     "techniques": [ "WBLOCK_1" ],
     "volume": "2250 ml",
     "longest_side": "70 cm",
-    "bashing": 7,
-    "cutting": 14,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "good" },
-    "price": 5900
+    "price": 5900,
+    "melee_damage": { "bash": 7, "cut": 14 }
   },
   {
     "type": "GENERIC",
@@ -601,11 +597,11 @@
     "price_postapoc": 10,
     "volume": "30 ml",
     "longest_side": "20 cm",
-    "cutting": 6,
     "to_hit": { "grip": "none", "length": "hand", "surface": "line", "balance": "good" },
     "flags": [ "SHEATH_KNIFE", "CONDUCTIVE", "FRAGILE_MELEE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "SHIVS" ],
-    "qualities": [ [ "BUTCHER", -18 ] ]
+    "qualities": [ [ "BUTCHER", -18 ] ],
+    "melee_damage": { "cut": 6 }
   },
   {
     "type": "GENERIC",
@@ -621,9 +617,9 @@
     "weight": "300 g",
     "volume": "1 L",
     "longest_side": "110 cm",
-    "bashing": 11,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "good" },
-    "flags": [ "SHEATH_GOLF", "FRAGILE_MELEE" ]
+    "flags": [ "SHEATH_GOLF", "FRAGILE_MELEE" ],
+    "melee_damage": { "bash": 11 }
   },
   {
     "type": "GENERIC",
@@ -639,11 +635,11 @@
     "techniques": [ "WBLOCK_1", "BRUTAL", "WIDE", "SWEEP" ],
     "volume": "1250 ml",
     "longest_side": "80 cm",
-    "bashing": 50,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "uneven" },
     "price": 12000,
     "price_postapoc": 500,
-    "qualities": [ [ "HAMMER", 1 ] ]
+    "qualities": [ [ "HAMMER", 1 ] ],
+    "melee_damage": { "bash": 50 }
   },
   {
     "type": "GENERIC",
@@ -660,11 +656,11 @@
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "volume": "900 ml",
     "longest_side": "60 cm",
-    "bashing": 35,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "any", "balance": "uneven" },
     "price": 12000,
     "price_postapoc": 250,
-    "qualities": [ [ "HAMMER", 1 ] ]
+    "qualities": [ [ "HAMMER", 1 ] ],
+    "melee_damage": { "bash": 35 }
   },
   {
     "type": "GENERIC",
@@ -679,11 +675,11 @@
     "flags": [ "NONCONDUCTIVE", "BELT_CLIP" ],
     "volume": "600 ml",
     "longest_side": "40 cm",
-    "bashing": 25,
     "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "uneven" },
     "price": 6000,
     "price_postapoc": 250,
-    "qualities": [ [ "HAMMER", 2 ] ]
+    "qualities": [ [ "HAMMER", 2 ] ],
+    "melee_damage": { "bash": 25 }
   },
   {
     "type": "GENERIC",
@@ -700,11 +696,11 @@
     "techniques": [ "WBLOCK_1", "BRUTAL", "WIDE" ],
     "volume": "1700 ml",
     "longest_side": "100 cm",
-    "bashing": 80,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "clumsy" },
     "price": 24000,
     "price_postapoc": 750,
-    "qualities": [ [ "HAMMER", 1 ] ]
+    "qualities": [ [ "HAMMER", 1 ] ],
+    "melee_damage": { "bash": 80 }
   },
   {
     "type": "GENERIC",
@@ -722,9 +718,8 @@
     "weight": "420 g",
     "volume": "1750 ml",
     "longest_side": "150 cm",
-    "bashing": 14,
-    "cutting": 1,
-    "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "neutral" }
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "neutral" },
+    "melee_damage": { "bash": 14, "stab": 1 }
   },
   {
     "type": "GENERIC",
@@ -738,13 +733,12 @@
     "techniques": [ "WBLOCK_1" ],
     "volume": "1250 ml",
     "longest_side": "90 cm",
-    "bashing": 35,
-    "cutting": 2,
     "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "clumsy" },
     "qualities": [ [ "HAMMER", 1 ] ],
-    "flags": [ "STAB", "NONCONDUCTIVE" ],
+    "flags": [ "NONCONDUCTIVE" ],
     "price": 8000,
-    "price_postapoc": 50
+    "price_postapoc": 50,
+    "melee_damage": { "bash": 35, "stab": 2 }
   },
   {
     "type": "GENERIC",
@@ -763,10 +757,10 @@
     "weight": "1750 g",
     "volume": "1550 ml",
     "longest_side": "180 cm",
-    "bashing": 27,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "good" },
     "category": "weapons",
-    "qualities": [ [ "HAMMER", 1 ] ]
+    "qualities": [ [ "HAMMER", 1 ] ],
+    "melee_damage": { "bash": 27 }
   },
   {
     "id": "lucern_hammer",
@@ -783,12 +777,11 @@
     "weight": "3200 g",
     "volume": "3750 ml",
     "longest_side": "200 cm",
-    "bashing": 44,
-    "cutting": 33,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "uneven" },
     "price_postapoc": 10000,
     "qualities": [ [ "COOK", 1 ] ],
-    "category": "weapons"
+    "category": "weapons",
+    "melee_damage": { "bash": 44, "stab": 33 }
   },
   {
     "id": "lucern_hammerfake",
@@ -796,7 +789,7 @@
     "type": "GENERIC",
     "name": { "str": "lucerne hammer" },
     "description": "A cheap piece of crap imitation of a versatile polearm with a spiked hammer head, probably meant to be used for LARPing.",
-    "proportional": { "bashing": 0.5, "cutting": 0.1 },
+    "proportional": { "melee_damage": { "bash": 0.5, "stab": 0.1 } },
     "delete": { "flags": [ "DURABLE_MELEE" ] },
     "extend": { "flags": [ "FRAGILE_MELEE" ] },
     "material": [ "wood", "aluminum" ],
@@ -819,12 +812,12 @@
     "volume": "1250 ml",
     "longest_side": "80 cm",
     "//": "Same total damage and slightly higher weight than a morningstar - exchanged.",
-    "bashing": 40,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "any", "balance": "neutral" },
     "price": 100000,
     "price_postapoc": 6000,
     "qualities": [ [ "HAMMER", 1 ] ],
-    "category": "weapons"
+    "category": "weapons",
+    "melee_damage": { "bash": 40 }
   },
   {
     "id": "mace_fake",
@@ -832,7 +825,7 @@
     "type": "GENERIC",
     "name": { "str": "mace" },
     "description": "A light, cheaply-made replica of a medieval weapon that would normally consist of a wood handle with a heavy metal head.",
-    "proportional": { "bashing": 0.38 },
+    "proportional": { "melee_damage": { "bash": 0.38 } },
     "delete": { "flags": [ "DURABLE_MELEE" ] },
     "extend": { "flags": [ "FRAGILE_MELEE" ] },
     "material": [ "wood", "aluminum" ],
@@ -846,7 +839,7 @@
     "type": "GENERIC",
     "name": { "str": "mace" },
     "description": "A medieval weapon consisting of a wood handle with a heavy metal head.  The head feels a bit loose.",
-    "proportional": { "bashing": 0.55 },
+    "proportional": { "melee_damage": { "bash": 0.55 } },
     "delete": { "flags": [ "DURABLE_MELEE" ] },
     "material": [ "budget_steel", "wood" ],
     "weight": "1000 g",
@@ -879,11 +872,11 @@
     "weapon_category": [ "MACES" ],
     "volume": "1250 ml",
     "longest_side": "60 cm",
-    "bashing": 22,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "any", "balance": "neutral" },
     "price": 10000,
     "price_postapoc": 400,
-    "qualities": [ [ "HAMMER", 1 ] ]
+    "qualities": [ [ "HAMMER", 1 ] ],
+    "melee_damage": { "bash": 22 }
   },
   {
     "type": "GENERIC",
@@ -900,11 +893,11 @@
     "weapon_category": [ "MACES" ],
     "volume": "1250 ml",
     "longest_side": "65 cm",
-    "bashing": 24,
     "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "neutral" },
     "price": 7500,
     "price_postapoc": 400,
-    "qualities": [ [ "HAMMER", 1 ] ]
+    "qualities": [ [ "HAMMER", 1 ] ],
+    "melee_damage": { "bash": 24 }
   },
   {
     "type": "GENERIC",
@@ -921,10 +914,10 @@
     "weapon_category": [ "GREAT_HAMMERS" ],
     "volume": "1750 ml",
     "longest_side": "130 cm",
-    "bashing": 35,
     "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "uneven" },
     "price": 7500,
-    "price_postapoc": 400
+    "price_postapoc": 400,
+    "melee_damage": { "bash": 35 }
   },
   {
     "type": "GENERIC",
@@ -941,10 +934,10 @@
     "weapon_category": [ "QUARTERSTAVES" ],
     "volume": "2000 ml",
     "longest_side": "190 cm",
-    "bashing": 30,
     "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "uneven" },
     "price": 7500,
-    "price_postapoc": 400
+    "price_postapoc": 400,
+    "melee_damage": { "bash": 30 }
   },
   {
     "type": "GENERIC",
@@ -961,11 +954,11 @@
     "weapon_category": [ "MACES" ],
     "volume": "1250 ml",
     "longest_side": "60 cm",
-    "bashing": 30,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "any", "balance": "neutral" },
     "price": 11000,
     "price_postapoc": 2000,
-    "qualities": [ [ "HAMMER", 1 ] ]
+    "qualities": [ [ "HAMMER", 1 ] ],
+    "melee_damage": { "bash": 30 }
   },
   {
     "id": "makeshift_sap",
@@ -981,10 +974,10 @@
     "weight": "400 g",
     "volume": "350 ml",
     "longest_side": "20 cm",
-    "bashing": 12,
     "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "good" },
     "price_postapoc": 50,
-    "category": "weapons"
+    "category": "weapons",
+    "melee_damage": { "bash": 12 }
   },
   {
     "type": "GENERIC",
@@ -999,11 +992,11 @@
     "flags": [ "NONCONDUCTIVE" ],
     "volume": "2500 ml",
     "longest_side": "60 cm",
-    "bashing": 9999,
     "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "neutral" },
     "price": 12000,
     "price_postapoc": 50000,
-    "qualities": [ [ "HAMMER", 1 ] ]
+    "qualities": [ [ "HAMMER", 1 ] ],
+    "melee_damage": { "bash": 9999 }
   },
   {
     "type": "GENERIC",
@@ -1018,15 +1011,14 @@
     "techniques": [ "WBLOCK_1", "SWEEP" ],
     "volume": "1500 ml",
     "longest_side": "80 cm",
-    "bashing": 38,
-    "cutting": 8,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "any", "balance": "neutral" },
     "flags": [ "DURABLE_MELEE", "SPEAR", "NONCONDUCTIVE", "BELT_CLIP" ],
     "weapon_category": [ "MACES" ],
     "price": 120000,
     "price_postapoc": 8000,
     "qualities": [ [ "HAMMER", 1 ] ],
-    "category": "weapons"
+    "category": "weapons",
+    "melee_damage": { "bash": 38, "stab": 8 }
   },
   {
     "id": "morningstar_fake",
@@ -1034,7 +1026,7 @@
     "type": "GENERIC",
     "name": { "str": "morningstar" },
     "description": "A light, cheaply-made replica of a medieval weapon that would normally consist of a wood handle with a heavy, spiked metal ball on the end.",
-    "proportional": { "bashing": 0.35, "cutting": 0.1 },
+    "proportional": { "melee_damage": { "bash": 0.35, "stab": 0.1 } },
     "delete": { "flags": [ "DURABLE_MELEE" ] },
     "extend": { "flags": [ "FRAGILE_MELEE" ] },
     "material": [ "aluminum", "wood" ],
@@ -1049,7 +1041,7 @@
     "type": "GENERIC",
     "name": { "str": "morningstar" },
     "description": "A medieval weapon consisting of a wood handle with a heavy, spiked metal ball on the end.  The weight feels off on this one, and the spikes are blunted.",
-    "proportional": { "bashing": 0.7, "cutting": 0.1 },
+    "proportional": { "melee_damage": { "bash": 0.7, "stab": 0.1 } },
     "delete": { "flags": [ "DURABLE_MELEE" ] },
     "material": [ "budget_steel", "wood" ],
     "weight": "1000 g",
@@ -1069,12 +1061,11 @@
     "techniques": [ "WBLOCK_1", "BRUTAL" ],
     "volume": "1750 ml",
     "longest_side": "90 cm",
-    "bashing": 22,
-    "cutting": 4,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "good" },
-    "flags": [ "STAB", "BELT_CLIP", "NONCONDUCTIVE" ],
+    "flags": [ "BELT_CLIP", "NONCONDUCTIVE" ],
     "price": 16000,
-    "price_postapoc": 1750
+    "price_postapoc": 1750,
+    "melee_damage": { "bash": 22, "stab": 4 }
   },
   {
     "type": "GENERIC",
@@ -1088,12 +1079,11 @@
     "techniques": [ "WBLOCK_1" ],
     "volume": "2200 ml",
     "longest_side": "65 cm",
-    "bashing": 12,
-    "cutting": 3,
     "to_hit": { "grip": "none", "length": "short", "surface": "line", "balance": "neutral" },
-    "flags": [ "STAB" ],
+    "flags": [  ],
     "price": 100,
-    "price_postapoc": 50
+    "price_postapoc": 50,
+    "melee_damage": { "bash": 12, "stab": 3 }
   },
   {
     "type": "GENERIC",
@@ -1108,10 +1098,10 @@
     "weapon_category": [ "QUARTERSTAVES" ],
     "volume": "2 L",
     "longest_side": "150 cm",
-    "bashing": 10,
     "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "neutral" },
     "price": 8000,
-    "price_postapoc": 50
+    "price_postapoc": 50,
+    "melee_damage": { "bash": 10 }
   },
   {
     "type": "GENERIC",
@@ -1129,10 +1119,10 @@
     "use_action": { "menu_text": "Retract", "type": "transform", "target": "PR24-retracted", "msg": "You collapse your PR-24 baton." },
     "volume": "2 L",
     "longest_side": "60 cm",
-    "bashing": 14,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "good" },
     "price": 30000,
-    "price_postapoc": 750
+    "price_postapoc": 750,
+    "melee_damage": { "bash": 14 }
   },
   {
     "type": "GENERIC",
@@ -1149,10 +1139,10 @@
     "use_action": { "menu_text": "Extend", "type": "transform", "target": "PR24-extended", "msg": "You snap open your PR-24 baton." },
     "volume": "1 L",
     "longest_side": "20 cm",
-    "bashing": 5,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "any", "balance": "neutral" },
     "price": 30000,
-    "price_postapoc": 750
+    "price_postapoc": 750,
+    "melee_damage": { "bash": 5 }
   },
   {
     "type": "GENERIC",
@@ -1169,10 +1159,10 @@
     "weight": "1099 g",
     "volume": "1293 ml",
     "longest_side": "183 cm",
-    "bashing": 16,
     "category": "weapons",
     "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "good" },
-    "price_postapoc": 1000
+    "price_postapoc": 1000,
+    "melee_damage": { "bash": 16 }
   },
   {
     "type": "GENERIC",
@@ -1190,10 +1180,10 @@
     "weight": "1110 g",
     "volume": "1272 ml",
     "longest_side": "180 cm",
-    "bashing": 19,
     "category": "weapons",
     "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "good" },
-    "price_postapoc": 1000
+    "price_postapoc": 1000,
+    "melee_damage": { "bash": 19 }
   },
   {
     "type": "GENERIC",
@@ -1208,9 +1198,9 @@
     "weight": "1007 g",
     "volume": "500 ml",
     "longest_side": "10 cm",
-    "bashing": 8,
     "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "neutral" },
-    "qualities": [ [ "HAMMER", 1 ] ]
+    "qualities": [ [ "HAMMER", 1 ] ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "type": "GENERIC",
@@ -1226,11 +1216,10 @@
     "weight": "49 g",
     "volume": "250 ml",
     "longest_side": "20 cm",
-    "bashing": 1,
-    "cutting": 3,
     "to_hit": { "grip": "none", "length": "hand", "surface": "point", "balance": "good" },
-    "flags": [ "STAB", "SHEATH_KNIFE", "CONDUCTIVE", "ALLOWS_BODY_BLOCK" ],
-    "weapon_category": [ "SHIVS" ]
+    "flags": [ "SHEATH_KNIFE", "CONDUCTIVE", "ALLOWS_BODY_BLOCK" ],
+    "weapon_category": [ "SHIVS" ],
+    "melee_damage": { "bash": 1, "stab": 3 }
   },
   {
     "id": "shillelagh",
@@ -1247,10 +1236,10 @@
     "weight": "910 g",
     "volume": "1500 ml",
     "longest_side": "90 cm",
-    "bashing": 24,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "good" },
     "price_postapoc": 1250,
-    "category": "weapons"
+    "category": "weapons",
+    "melee_damage": { "bash": 24 }
   },
   {
     "id": "shillelagh_weighted",
@@ -1267,10 +1256,10 @@
     "weight": "1135 g",
     "volume": "1500 ml",
     "longest_side": "90 cm",
-    "bashing": 27,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "good" },
     "price_postapoc": 1750,
-    "category": "weapons"
+    "category": "weapons",
+    "melee_damage": { "bash": 27 }
   },
   {
     "id": "shillelagh_fake",
@@ -1287,10 +1276,10 @@
     "weight": "850 g",
     "volume": "1500 ml",
     "longest_side": "90 cm",
-    "bashing": 12,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "good" },
     "price_postapoc": 50,
-    "category": "weapons"
+    "category": "weapons",
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "shock_staff",
@@ -1303,7 +1292,6 @@
     "longest_side": "180 cm",
     "price": 8000,
     "price_postapoc": 4500,
-    "bashing": 32,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "neutral" },
     "material": [ "wood", "iron" ],
     "symbol": "/",
@@ -1322,7 +1310,8 @@
         "flag_restriction": [ "BATTERY_MEDIUM" ],
         "default_magazine": "medium_battery_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 32 }
   },
   {
     "id": "shocktonfa_off",
@@ -1335,7 +1324,6 @@
     "longest_side": "50 cm",
     "price": 17000,
     "price_postapoc": 2500,
-    "bashing": 14,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "any", "balance": "good" },
     "material": [ "plastic", "steel" ],
     "symbol": "/",
@@ -1353,7 +1341,8 @@
         "flag_restriction": [ "BATTERY_MEDIUM" ],
         "default_magazine": "medium_battery_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 14 }
   },
   {
     "id": "shocktonfa_on",
@@ -1383,9 +1372,9 @@
     "flags": [ "DURABLE_MELEE", "BELT_CLIP" ],
     "weapon_category": [ "BATONS" ],
     "volume": "2 L",
-    "bashing": 14,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "any", "balance": "good" },
-    "price": 19500
+    "price": 19500,
+    "melee_damage": { "bash": 14 }
   },
   {
     "type": "GENERIC",
@@ -1402,9 +1391,9 @@
     "flags": [ "BELT_CLIP" ],
     "weapon_category": [ "BATONS" ],
     "volume": "2 L",
-    "bashing": 14,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "any", "balance": "good" },
-    "price": 19500
+    "price": 19500,
+    "melee_damage": { "bash": 14 }
   },
   {
     "type": "GENERIC",
@@ -1416,8 +1405,6 @@
     "volume": "2500 ml",
     "longest_side": "105 cm",
     "price_postapoc": 500,
-    "bashing": 18,
-    "cutting": 24,
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "uneven" },
     "material": [ "lc_steel" ],
     "symbol": "/",
@@ -1425,7 +1412,8 @@
     "qualities": [ [ "AXE", 1 ], [ "BUTCHER", -39 ] ],
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "flags": [ "SHEATH_AXE", "ALWAYS_TWOHAND" ],
-    "weapon_category": [ "HOOKING_WEAPONRY", "GREAT_AXES" ]
+    "weapon_category": [ "HOOKING_WEAPONRY", "GREAT_AXES" ],
+    "melee_damage": { "bash": 18, "cut": 24 }
   },
   {
     "type": "GENERIC",
@@ -1450,10 +1438,9 @@
     "weapon_category": [ "HOOKING_WEAPONRY", "GREAT_HAMMERS" ],
     "volume": "1250 ml",
     "longest_side": "120 cm",
-    "bashing": 22,
-    "cutting": 23,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "price": 16000,
-    "qualities": [ [ "HAMMER", 1 ] ]
+    "qualities": [ [ "HAMMER", 1 ] ],
+    "melee_damage": { "bash": 22, "stab": 23 }
   }
 ]

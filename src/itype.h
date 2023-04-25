@@ -1323,7 +1323,7 @@ struct itype {
 
     public:
         /** Damage output in melee for zero or more damage types */
-        std::array<int, static_cast<int>( damage_type::NUM )> melee;
+        std::map<damage_type_id, float> melee;
 
         bool default_container_sealed = true;
 
@@ -1337,6 +1337,12 @@ struct itype {
         bool was_loaded = false;
 
     private:
+        // load-only, for applying proportional melee values at load time
+        std::map<damage_type_id, float> melee_proportional;
+
+        // load-only, for applying relative melee values at load time
+        std::map<damage_type_id, float> melee_relative;
+
         /** Can item be combined with other identical items? */
         bool stackable_ = false;
 
@@ -1344,7 +1350,7 @@ struct itype {
         static constexpr int damage_scale = 1000; /** Damage scale compared to the old float damage value */
 
         itype() {
-            melee.fill( 0 );
+            melee.clear();
         }
 
         int damage_max() const {

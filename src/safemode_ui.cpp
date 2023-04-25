@@ -443,7 +443,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
             changes_made = true;
             current_tab[line].active = false;
         } else if( action == "LEFT" || action == "RIGHT" ) {
-            column = increment_and_wrap( column, action == "RIGHT", num_columns );
+            column = inc_clamp_wrap( column, action == "RIGHT", num_columns );
         } else if( action == "MOVE_RULE_UP" && !current_tab.empty() ) {
             changes_made = true;
             if( line < static_cast<int>( current_tab.size() ) - 1 ) {
