@@ -68,7 +68,7 @@ class move_mode
 
     public:
         static void load_move_mode( const JsonObject &jo, const std::string &src );
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
         static void finalize();
         static void reset();
 

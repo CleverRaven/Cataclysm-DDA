@@ -27,7 +27,6 @@
     "price": 2320000,
     "price_postapoc": 8000,
     "to_hit": -2,
-    "bashing": 12,
     "material": [ "superalloy", "ceramic" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -54,7 +53,8 @@
       [ "underbarrel", 1 ]
     ],
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "afs_5x50_100_mag", "afs_5x50_50_mag" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "afs_5x50_100_mag", "afs_5x50_50_mag" ] } ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "afs_needlepistol",
@@ -69,7 +69,6 @@
     "price": 1200000,
     "price_postapoc": 8000,
     "to_hit": -2,
-    "bashing": 8,
     "material": [ "superalloy", "ceramic" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -91,6 +90,7 @@
     ],
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "afs_5x50_50_mag", "afs_5x50_100_mag" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "afs_5x50_50_mag", "afs_5x50_100_mag" ] } ],
+    "melee_damage": { "bash": 8 }
   }
 ]

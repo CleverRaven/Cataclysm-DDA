@@ -136,7 +136,8 @@ constexpr double thingie::eval( dialogue const &d ) const
         {
             return v;
         },
-        []( std::string const & v )
+        // NOLINTNEXTLINE(cata-use-string_view)
+        []( const std::string & v )
         {
             debugmsg( "Unexpected string operand %.*s", v.size(), v.data() );
             return 0.0;

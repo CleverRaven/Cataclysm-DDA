@@ -1501,6 +1501,12 @@
   },
   {
     "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"GET WELL SOON!\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
     "speaker": [ "mon_mi_go_surgeon", "mon_mi_go_guard", "mon_mi_go_myrmidon" ],
     "sound": "\"Did-a-chuk?\"",
     "volume": 15

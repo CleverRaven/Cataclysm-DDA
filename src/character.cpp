@@ -194,6 +194,13 @@ static const character_modifier_id
 character_modifier_stamina_recovery_breathing_mod( "stamina_recovery_breathing_mod" );
 static const character_modifier_id character_modifier_swim_mod( "swim_mod" );
 
+static const damage_type_id damage_acid( "acid" );
+static const damage_type_id damage_bash( "bash" );
+static const damage_type_id damage_cut( "cut" );
+static const damage_type_id damage_electric( "electric" );
+static const damage_type_id damage_heat( "heat" );
+static const damage_type_id damage_stab( "stab" );
+
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_alarm_clock( "alarm_clock" );
 static const efftype_id effect_bandaged( "bandaged" );
@@ -283,26 +290,18 @@ static const itype_id itype_foodperson_mask_on( "foodperson_mask_on" );
 static const itype_id itype_null( "null" );
 static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 
-static const json_character_flag json_flag_ACID_IMMUNE( "ACID_IMMUNE" );
 static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
 static const json_character_flag json_flag_ALWAYS_HEAL( "ALWAYS_HEAL" );
-static const json_character_flag json_flag_BASH_IMMUNE( "BASH_IMMUNE" );
-static const json_character_flag json_flag_BIO_IMMUNE( "BIO_IMMUNE" );
 static const json_character_flag json_flag_BLIND( "BLIND" );
-static const json_character_flag json_flag_BULLET_IMMUNE( "BULLET_IMMUNE" );
 static const json_character_flag json_flag_CLAIRVOYANCE( "CLAIRVOYANCE" );
 static const json_character_flag json_flag_CLAIRVOYANCE_PLUS( "CLAIRVOYANCE_PLUS" );
-static const json_character_flag json_flag_COLD_IMMUNE( "COLD_IMMUNE" );
-static const json_character_flag json_flag_CUT_IMMUNE( "CUT_IMMUNE" );
 static const json_character_flag json_flag_DEAF( "DEAF" );
 static const json_character_flag json_flag_ECTOTHERM( "ECTOTHERM" );
-static const json_character_flag json_flag_ELECTRIC_IMMUNE( "ELECTRIC_IMMUNE" );
 static const json_character_flag json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
 static const json_character_flag json_flag_EYE_MEMBRANE( "EYE_MEMBRANE" );
 static const json_character_flag json_flag_FEATHER_FALL( "FEATHER_FALL" );
 static const json_character_flag json_flag_HEAL_OVERRIDE( "HEAL_OVERRIDE" );
 static const json_character_flag json_flag_HEATSINK( "HEATSINK" );
-static const json_character_flag json_flag_HEAT_IMMUNE( "HEAT_IMMUNE" );
 static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
 static const json_character_flag json_flag_IMMUNE_HEARING_DAMAGE( "IMMUNE_HEARING_DAMAGE" );
 static const json_character_flag json_flag_INFECTION_IMMUNE( "INFECTION_IMMUNE" );
@@ -320,7 +319,6 @@ static const json_character_flag json_flag_PRED2( "PRED2" );
 static const json_character_flag json_flag_PRED3( "PRED3" );
 static const json_character_flag json_flag_PRED4( "PRED4" );
 static const json_character_flag json_flag_SEESLEEP( "SEESLEEP" );
-static const json_character_flag json_flag_STAB_IMMUNE( "STAB_IMMUNE" );
 static const json_character_flag json_flag_STEADY( "STEADY" );
 static const json_character_flag json_flag_STOP_SLEEP_DEPRIVATION( "STOP_SLEEP_DEPRIVATION" );
 static const json_character_flag json_flag_SUPER_CLAIRVOYANCE( "SUPER_CLAIRVOYANCE" );
@@ -1613,7 +1611,8 @@ void Character::forced_dismount()
         }
         if( damage > 0 ) {
             add_msg_if_player( m_bad, _( "You hurt yourself!" ) );
-            deal_damage( nullptr, hit, damage_instance( damage_type::BASH, damage ) );
+            // FIXME: Hardcoded damage type
+            deal_damage( nullptr, hit, damage_instance( damage_bash, damage ) );
             if( is_avatar() ) {
                 get_memorial().add(
                     pgettext( "memorial_male", "Fell off a mount." ),
@@ -3014,6 +3013,9 @@ std::vector<std::pair<std::string, std::string>> Character::get_overlay_ids() co
 
     // then get bionics
     for( const bionic &bio : *my_bionics ) {
+        if( !bio.show_sprite ) {
+            continue;
+        }
         overlay_id = ( bio.powered ? "active_" : "" ) + bio.id.str();
         order = get_overlay_order_of_mutation( overlay_id );
         mutation_sorting.emplace( order, std::pair<std::string, std::string> { overlay_id, "" } );
@@ -4237,20 +4239,20 @@ bool Character::is_mute() const
                    is_wearing( itype_foodperson_mask_on ) ) ) ||
            has_trait( trait_MUTE );
 }
+
 void Character::on_damage_of_type( const effect_source &source, int adjusted_damage,
-                                   damage_type type,
-                                   const bodypart_id &bp )
+                                   const damage_type_id &dt, const bodypart_id &bp )
 {
     // Handle bp onhit effects
     bodypart *body_part = get_part( bp );
     const bool is_minor = bp->main_part != bp->id;
     add_msg_debug( debugmode::DF_CHARACTER, "Targeting limb %s with %d %s type damage", bp->name,
-                   adjusted_damage, name_by_dt( type ) );
+                   adjusted_damage, dt->name.translated() );
     // Damage as a percent of the limb's max hp or raw dmg for minor parts
     float dmg_ratio = is_minor ? adjusted_damage : 100 * adjusted_damage / body_part->get_hp_max();
     add_msg_debug( debugmode::DF_CHARACTER, "Main BP max hp %d, damage ratio %.1f",
                    body_part->get_hp_max(), dmg_ratio );
-    for( const bp_onhit_effect &eff : body_part->get_onhit_effects( type ) ) {
+    for( const bp_onhit_effect &eff : body_part->get_onhit_effects( dt ) ) {
         if( dmg_ratio >= eff.dmg_threshold ) {
             float scaling = ( dmg_ratio - eff.dmg_threshold ) / eff.scale_increment;
             int scaled_chance = roll_remainder( std::max( static_cast<float>( eff.chance ),
@@ -4297,7 +4299,7 @@ void Character::on_damage_of_type( const effect_source &source, int adjusted_dam
         }
     }
     // Electrical damage has a chance to temporarily incapacitate bionics in the damaged body_part.
-    if( type == damage_type::ELECTRIC ) {
+    if( dt == damage_electric ) {
         const time_duration min_disable_time = 10_turns * adjusted_damage;
         for( bionic &i : *my_bionics ) {
             if( !i.powered ) {
@@ -5396,26 +5398,29 @@ bool Character::is_immune_field( const field_type_id &fid ) const
                get_env_resist( body_part_foot_r ) >= 15 &&
                get_env_resist( body_part_leg_l ) >= 15 &&
                get_env_resist( body_part_leg_r ) >= 15 &&
-               get_armor_type( damage_type::ACID, body_part_foot_l ) >= 5 &&
-               get_armor_type( damage_type::ACID, body_part_foot_r ) >= 5 &&
-               get_armor_type( damage_type::ACID, body_part_leg_l ) >= 5 &&
-               get_armor_type( damage_type::ACID, body_part_leg_r ) >= 5;
+               // FIXME: Hardcoded damage type
+               get_armor_type( damage_acid, body_part_foot_l ) >= 5 &&
+               get_armor_type( damage_acid, body_part_foot_r ) >= 5 &&
+               get_armor_type( damage_acid, body_part_leg_l ) >= 5 &&
+               get_armor_type( damage_acid, body_part_leg_r ) >= 5;
     }
     // If we haven't found immunity yet fall up to the next level
     return Creature::is_immune_field( fid );
 }
 
+// FIXME: Relies on hardcoded damage type
 bool Character::is_elec_immune() const
 {
-    return is_immune_damage( damage_type::ELECTRIC );
+    return is_immune_damage( damage_electric );
 }
 
 bool Character::is_immune_effect( const efftype_id &eff ) const
 {
+    // FIXME: Hardcoded damage types
     if( eff == effect_downed ) {
         return has_trait( trait_LEG_TENT_BRACE ) && is_barefoot();
     } else if( eff == effect_onfire ) {
-        return is_immune_damage( damage_type::HEAT );
+        return is_immune_damage( damage_heat );
     } else if( eff == effect_deaf ) {
         return worn_with_flag( flag_DEAF ) || has_flag( json_flag_DEAF ) ||
                worn_with_flag( flag_PARTIAL_DEAF ) ||
@@ -5424,7 +5429,7 @@ bool Character::is_immune_effect( const efftype_id &eff ) const
     } else if( eff == effect_mute ) {
         return has_bionic( bio_voice );
     } else if( eff == effect_corroding ) {
-        return is_immune_damage( damage_type::ACID ) || has_trait( trait_SLIMY ) ||
+        return is_immune_damage( damage_acid ) || has_trait( trait_SLIMY ) ||
                has_trait( trait_VISCOUS );
     }
     for( const json_character_flag &flag : eff->immune_flags ) {
@@ -5435,43 +5440,17 @@ bool Character::is_immune_effect( const efftype_id &eff ) const
     return false;
 }
 
-bool Character::is_immune_damage( const damage_type dt ) const
+bool Character::is_immune_damage( const damage_type_id &dt ) const
 {
-    switch( dt ) {
-        case damage_type::NONE:
-            return true;
-        case damage_type::PURE:
-            return false;
-        case damage_type::BIOLOGICAL:
-            return has_flag( json_flag_BIO_IMMUNE ) ||
-                   worn_with_flag( flag_BIO_IMMUNE );
-        case damage_type::BASH:
-            return has_flag( json_flag_BASH_IMMUNE ) ||
-                   worn_with_flag( flag_BASH_IMMUNE );
-        case damage_type::CUT:
-            return has_flag( json_flag_CUT_IMMUNE ) ||
-                   worn_with_flag( flag_CUT_IMMUNE );
-        case damage_type::ACID:
-            return has_flag( json_flag_ACID_IMMUNE ) ||
-                   worn_with_flag( flag_ACID_IMMUNE );
-        case damage_type::STAB:
-            return has_flag( json_flag_STAB_IMMUNE ) ||
-                   worn_with_flag( flag_STAB_IMMUNE );
-        case damage_type::BULLET:
-            return has_flag( json_flag_BULLET_IMMUNE ) ||
-                   worn_with_flag( flag_BULLET_IMMUNE );
-        case damage_type::HEAT:
-            return has_flag( json_flag_HEAT_IMMUNE ) ||
-                   worn_with_flag( flag_HEAT_IMMUNE );
-        case damage_type::COLD:
-            return has_flag( json_flag_COLD_IMMUNE ) ||
-                   worn_with_flag( flag_COLD_IMMUNE );
-        case damage_type::ELECTRIC:
-            return has_flag( json_flag_ELECTRIC_IMMUNE ) ||
-                   worn_with_flag( flag_ELECTRIC_IMMUNE );
-        default:
-            return true;
+    if( dt.is_null() ) {
+        return true;
     }
+    for( const std::string &fl : dt->immune_flags ) {
+        if( has_flag( json_character_flag( fl ) ) || worn_with_flag( flag_id( fl ) ) ) {
+            return true;
+        }
+    }
+    return false;
 }
 
 bool Character::is_rad_immune() const
@@ -7253,16 +7232,8 @@ void Character::passive_absorb_hit( const bodypart_id &bp, damage_unit &du ) con
     // >0 check because some mutations provide negative armor
     // Thin skin check goes before subdermal armor plates because SUBdermal
     if( du.amount > 0.0f ) {
-        // HACK: Get rid of this as soon as CUT and STAB are split
-        if( du.type == damage_type::STAB ) {
-            damage_unit du_copy = du;
-            du_copy.type = damage_type::CUT;
-            du.amount -= mutation_armor( bp, du_copy );
-            du.amount -= bp->damage_resistance( du_copy );
-        } else {
-            du.amount -= mutation_armor( bp, du );
-            du.amount -= bp->damage_resistance( du );
-        }
+        du.amount -= mutation_armor( bp, du );
+        du.amount -= bp->damage_resistance( du );
     }
     du.amount -= bionic_armor_bonus( bp, du.type ); //Check for passive armor bionics
     du.amount -= mabuff_armor_bonus( du.type );
@@ -7480,7 +7451,8 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
         int shock = rng( 1, 4 );
         mod_power_level( -shock * trigger_cost_base );
         damage_instance ods_shock_damage;
-        ods_shock_damage.add_damage( damage_type::ELECTRIC, shock * 5 );
+        // FIXME: Hardcoded damage type
+        ods_shock_damage.add_damage( damage_electric, shock * 5 );
         // Should hit body part used for attack
         source->deal_damage( this, body_part_torso, ods_shock_damage );
     }
@@ -7499,7 +7471,8 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
                      source->disp_name() );
         }
         damage_instance spine_damage;
-        spine_damage.add_damage( damage_type::STAB, spine );
+        // FIXME: Hardcoded damage type
+        spine_damage.add_damage( damage_stab, spine );
         source->deal_damage( this, body_part_torso, spine_damage );
     }
     if( ( !wearing_something_on( bp_hit ) ) && has_trait( trait_THORNS ) &&
@@ -7514,7 +7487,8 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
         }
         int thorn = rng( 1, 4 );
         damage_instance thorn_damage;
-        thorn_damage.add_damage( damage_type::CUT, thorn );
+        // FIXME: Hardcoded damage type
+        thorn_damage.add_damage( damage_cut, thorn );
         // In general, critters don't have separate limbs
         // so safer to target the torso
         source->deal_damage( this, body_part_torso, thorn_damage );
@@ -7657,7 +7631,8 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
     Character &player_character = get_player_character();
     //Acid blood effects.
     bool u_see = player_character.sees( *this );
-    int cut_dam = dealt_dams.type_damage( damage_type::CUT );
+    // FIXME: Hardcoded damage type
+    int cut_dam = dealt_dams.type_damage( damage_cut );
     if( source && has_trait( trait_ACIDBLOOD ) && !one_in( 3 ) &&
         ( dam >= 4 || cut_dam > 0 ) && ( rl_dist( player_character.pos(), source->pos() ) <= 1 ) ) {
         if( is_avatar() ) {
@@ -7668,7 +7643,8 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
                      disp_name(), source->disp_name() );
         }
         damage_instance acidblood_damage;
-        acidblood_damage.add_damage( damage_type::ACID, rng( 4, 16 ) );
+        // FIXME: Hardcoded damage type
+        acidblood_damage.add_damage( damage_acid, rng( 4, 16 ) );
         if( !one_in( 4 ) ) {
             source->deal_damage( this, body_part_arm_l, acidblood_damage );
             source->deal_damage( this, body_part_arm_r, acidblood_damage );
@@ -7722,12 +7698,13 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
     bool dealt_melee = false;
     bool dealt_ranged = false;
     for( const damage_unit &du : d ) {
+        if( !du.type->physical ) {
+            continue;
+        }
         // Assume that ranged == getting shot
-        if( du.type == damage_type::BULLET ) {
+        if( !du.type->melee_only ) {
             dealt_ranged = true;
-        } else if( du.type == damage_type::BASH ||
-                   du.type == damage_type::CUT ||
-                   du.type == damage_type::STAB ) {
+        } else {
             dealt_melee = true;
         }
     }
@@ -7737,9 +7714,10 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
     // i.e. if the body part has a sum of 100 coverage from filthy clothing,
     // each point of damage has a 1% change of causing infection.
     if( sum_cover > 0 ) {
-        const int cut_type_dam = dealt_dams.type_damage( damage_type::CUT ) + dealt_dams.type_damage(
-                                     damage_type::STAB );
-        const int combined_dam = dealt_dams.type_damage( damage_type::BASH ) + ( cut_type_dam * 4 );
+        // FIXME: Hardcoded damage types
+        const int cut_type_dam = dealt_dams.type_damage( damage_cut ) +
+                                 dealt_dams.type_damage( damage_stab );
+        const int combined_dam = dealt_dams.type_damage( damage_bash ) + ( cut_type_dam * 4 );
         const int infection_chance = ( combined_dam * sum_cover ) / 100;
         if( x_in_y( infection_chance, 100 ) ) {
             if( has_effect( effect_bite, bp.id() ) ) {
@@ -7839,8 +7817,8 @@ int Character::hitall( int dam, int vary, Creature *source )
     int damage_taken = 0;
     for( const bodypart_id &bp : get_all_body_parts( get_body_part_flags::only_main ) ) {
         int ddam = vary ? dam * rng( 100 - vary, 100 ) / 100 : dam;
-        int cut = 0;
-        damage_instance damage = damage_instance::physical( ddam, cut, 0 );
+        // FIXME: Hardcoded damage type
+        damage_instance damage( damage_bash, ddam );
         damage_taken += deal_damage( source, bp, damage ).total_damage();
     }
     return damage_taken;
@@ -8247,10 +8225,15 @@ void Character::assign_activity( const activity_id &type, int moves, int index, 
     assign_activity( player_activity( type, moves, index, pos, name ) );
 }
 
-void Character::assign_activity( const player_activity &act, bool allow_resume )
+void Character::assign_activity( const activity_actor &actor )
+{
+    assign_activity( player_activity( actor ) );
+}
+
+void Character::assign_activity( const player_activity &act )
 {
     bool resuming = false;
-    if( allow_resume && !backlog.empty() && backlog.front().can_resume_with( act, *this ) ) {
+    if( !backlog.empty() && backlog.front().can_resume_with( act, *this ) ) {
         resuming = true;
         add_msg_if_player( _( "You resume your task." ) );
         activity = backlog.front();
@@ -8744,12 +8727,9 @@ units::energy Character::consume_ups( units::energy qty, const int radius )
 
     // UPS from inventory
     if( qty != 0_kJ ) {
-        int qty_kj = units::to_kilojoule( qty );
         std::vector<const item *> ups_items = all_items_with_flag( flag_IS_UPS );
         for( const item *i : ups_items ) {
-            int consumed = const_cast<item *>( i )->ammo_consume( qty_kj, tripoint_zero, nullptr );
-            qty_kj -= consumed;
-            qty -= units::from_kilojoule( consumed );
+            qty -= const_cast<item *>( i )->energy_consume( qty, tripoint_zero, nullptr );
         }
     }
 
@@ -9187,7 +9167,8 @@ bool Character::crush_frozen_liquid( item_location loc )
                 if( one_in( 1 + dex_cur / 4 ) ) {
                     add_msg_if_player( colorize( _( "You swing your %s wildly!" ), c_red ),
                                        hammering_item.tname() );
-                    const int smashskill = get_arm_str() + hammering_item.damage_melee( damage_type::BASH );
+                    // FIXME: Hardcoded damage type
+                    const int smashskill = get_arm_str() + hammering_item.damage_melee( damage_bash );
                     get_map().bash( loc.position(), smashskill );
                 }
             } else {
@@ -9218,10 +9199,13 @@ bool Character::crush_frozen_liquid( item_location loc )
 
 float Character::power_rating() const
 {
-    int dmg = std::max( { weapon.damage_melee( damage_type::BASH ),
-                          weapon.damage_melee( damage_type::CUT ),
-                          weapon.damage_melee( damage_type::STAB )
-                        } );
+    int dmg = 0;
+    for( const damage_type &dt : damage_type::get_all() ) {
+        if( dt.melee_only ) {
+            int tdmg = weapon.damage_melee( dt.id );
+            dmg = dmg < tdmg ? tdmg : dmg;
+        }
+    }
 
     int ret = 2;
     // Small guns can be easily hidden from view
@@ -10320,10 +10304,11 @@ int Character::intimidation() const
     if( weapon.is_gun() ) {
         ret += 10;
     }
-    if( weapon.damage_melee( damage_type::BASH ) >= 12 ||
-        weapon.damage_melee( damage_type::CUT ) >= 12 ||
-        weapon.damage_melee( damage_type::STAB ) >= 12 ) {
-        ret += 5;
+    for( const damage_type &dt : damage_type::get_all() ) {
+        if( dt.melee_only && weapon.damage_melee( dt.id ) >= 12 ) {
+            ret += 5;
+            break;
+        }
     }
 
     if( get_stim() > 20 ) {
@@ -10421,7 +10406,7 @@ bool Character::unload( item_location &loc, bool bypass_activity )
             }
 
         }
-        assign_activity( player_activity( unload_activity_actor( moves, loc ) ) );
+        assign_activity( unload_activity_actor( moves, loc ) );
 
         return true;
     }
@@ -10499,7 +10484,7 @@ bool Character::unload( item_location &loc, bool bypass_activity )
                 // Disassembling ammo belts is easier than assembling them
                 mv /= 2;
             }
-            assign_activity( player_activity( unload_activity_actor( mv, targloc ) ) );
+            assign_activity( unload_activity_actor( mv, targloc ) );
         }
         return true;
 
@@ -11354,9 +11339,10 @@ int Character::impact( const int force, const tripoint &p )
         for( const bodypart_id &bp : get_all_body_parts( get_body_part_flags::only_main ) ) {
             const int bash = effective_force * rng( 60, 100 ) / 100;
             damage_instance di;
-            di.add_damage( damage_type::BASH, bash, 0, armor_eff, mod );
+            // FIXME: Hardcoded damage types
+            di.add_damage( damage_bash, bash, 0, armor_eff, mod );
             // No good way to land on sharp stuff, so here modifier == 1.0f
-            di.add_damage( damage_type::CUT, cut, 0, armor_eff, 1.0f );
+            di.add_damage( damage_cut, cut, 0, armor_eff, 1.0f );
             total_dealt += deal_damage( nullptr, bp, di ).total_damage();
         }
     }
@@ -11389,6 +11375,7 @@ int Character::impact( const int force, const tripoint &p )
     return total_dealt;
 }
 
+// FIXME: Relies on hardcoded bash damage type
 void Character::knock_back_to( const tripoint &to )
 {
     if( to == pos() ) {
@@ -11398,7 +11385,7 @@ void Character::knock_back_to( const tripoint &to )
     creature_tracker &creatures = get_creature_tracker();
     // First, see if we hit a monster
     if( monster *const critter = creatures.creature_at<monster>( to ) ) {
-        deal_damage( critter, bodypart_id( "torso" ), damage_instance( damage_type::BASH,
+        deal_damage( critter, bodypart_id( "torso" ), damage_instance( damage_bash,
                      static_cast<float>( critter->type->size ) ) );
         add_effect( effect_stunned, 1_turns );
         /** @EFFECT_STR_MAX allows knocked back player to knock back, damage, stun some monsters */
@@ -11419,9 +11406,9 @@ void Character::knock_back_to( const tripoint &to )
 
     if( npc *const np = creatures.creature_at<npc>( to ) ) {
         deal_damage( np, bodypart_id( "torso" ),
-                     damage_instance( damage_type::BASH, static_cast<float>( np->get_size() ) ) );
+                     damage_instance( damage_bash, static_cast<float>( np->get_size() ) ) );
         add_effect( effect_stunned, 1_turns );
-        np->deal_damage( this, bodypart_id( "torso" ), damage_instance( damage_type::BASH, 3 ) );
+        np->deal_damage( this, bodypart_id( "torso" ), damage_instance( damage_bash, 3 ) );
         add_msg_player_or_npc( _( "You bounce off %s!" ), _( "<npcname> bounces off %s!" ),
                                np->get_name() );
         np->check_dead_state();
@@ -11749,7 +11736,7 @@ void Character::use( item_location loc, int pre_obtain_moves, std::string const 
                 moves = pre_obtain_moves;
                 return;
             }
-            u->assign_activity( player_activity( consume_activity_actor( item_location( *u, &used ) ) ) );
+            u->assign_activity( consume_activity_actor( item_location( *u, &used ) ) );
         } else  {
             const time_duration &consume_time = get_consume_time( used );
             moves -= to_moves<int>( consume_time );

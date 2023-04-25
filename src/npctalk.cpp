@@ -169,7 +169,7 @@ static void run_eoc_vector( const std::vector<effect_on_condition_id> &eocs, con
 }
 
 static std::vector<effect_on_condition_id> load_eoc_vector( const JsonObject &jo,
-        const std::string &member )
+        const std::string_view member )
 {
     std::vector<effect_on_condition_id> eocs;
     if( jo.has_array( member ) ) {
@@ -2678,7 +2678,7 @@ void talk_effect_fun_t::set_npc_cbm_recharge_rule( const JsonObject &jo,
     };
 }
 
-void talk_effect_fun_t::set_location_variable( const JsonObject &jo, const std::string &member,
+void talk_effect_fun_t::set_location_variable( const JsonObject &jo, const std::string_view member,
         bool is_npc )
 {
     dbl_or_var dov_min_radius = get_dbl_or_var( jo, "min_radius", false, 0 );
@@ -2747,7 +2747,7 @@ void talk_effect_fun_t::set_location_variable( const JsonObject &jo, const std::
 }
 
 void talk_effect_fun_t::set_location_variable_adjust( const JsonObject &jo,
-        const std::string &member )
+        const std::string_view member )
 {
     dbl_or_var dov_z_adjust = get_dbl_or_var( jo, "z_adjust", false, 0 );
     dbl_or_var dov_x_adjust = get_dbl_or_var( jo, "x_adjust", false, 0 );
@@ -2924,7 +2924,7 @@ void talk_effect_fun_t::set_alter_timed_events( const JsonObject &jo, const std:
     };
 }
 
-void talk_effect_fun_t::set_revert_location( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_revert_location( const JsonObject &jo, const std::string_view member )
 {
     duration_or_var dov_time_in_future = get_duration_or_var( jo, "time_in_future", true );
     str_or_var key;
@@ -2959,7 +2959,7 @@ void talk_effect_fun_t::set_revert_location( const JsonObject &jo, const std::st
     };
 }
 
-void talk_effect_fun_t::set_npc_goal( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_npc_goal( const JsonObject &jo, const std::string_view member )
 {
     mission_target_params dest_params = mission_util::parse_mission_om_target( jo.get_object(
                                             member ) );
@@ -3275,7 +3275,7 @@ void talk_effect_fun_t::set_add_wet( const JsonObject &jo, const std::string &me
     };
 }
 
-void talk_effect_fun_t::set_open_dialogue( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_open_dialogue( const JsonObject &jo, const std::string_view member )
 {
     std::vector<effect_on_condition_id> true_eocs;
     std::vector<effect_on_condition_id> false_eocs;
@@ -3435,7 +3435,7 @@ void talk_effect_fun_t::set_hp( const JsonObject &jo, const std::string &member,
     };
 }
 
-void talk_effect_fun_t::set_cast_spell( const JsonObject &jo, const std::string &member,
+void talk_effect_fun_t::set_cast_spell( const JsonObject &jo, const std::string_view member,
                                         bool is_npc, bool targeted )
 {
     fake_spell fake;
@@ -3646,8 +3646,7 @@ void talk_effect_fun_t::set_make_sound( const JsonObject &jo, const std::string 
     };
 }
 
-void talk_effect_fun_t::set_run_eocs( const JsonObject &jo,
-                                      const std::string &member )
+void talk_effect_fun_t::set_run_eocs( const JsonObject &jo, const std::string_view member )
 {
     std::vector<effect_on_condition_id> eocs = load_eoc_vector( jo, member );
     if( eocs.empty() ) {
@@ -3662,7 +3661,7 @@ void talk_effect_fun_t::set_run_eocs( const JsonObject &jo,
 }
 
 void talk_effect_fun_t::set_run_npc_eocs( const JsonObject &jo,
-        const std::string &member, bool is_npc )
+        const std::string_view member, bool is_npc )
 {
     std::vector<effect_on_condition_id> eocs = load_eoc_vector( jo, member );
     std::vector<str_or_var> unique_ids;
@@ -3722,7 +3721,7 @@ void talk_effect_fun_t::set_run_npc_eocs( const JsonObject &jo,
     }
 }
 
-void talk_effect_fun_t::set_queue_eocs( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_queue_eocs( const JsonObject &jo, const std::string_view member )
 {
     std::vector<effect_on_condition_id> eocs = load_eoc_vector( jo, member );
     if( eocs.empty() ) {
@@ -3751,7 +3750,7 @@ void talk_effect_fun_t::set_queue_eocs( const JsonObject &jo, const std::string 
 }
 
 void talk_effect_fun_t::set_weighted_list_eocs( const JsonObject &jo,
-        const std::string &member )
+        const std::string_view member )
 {
     std::vector<std::pair<effect_on_condition_id, std::function<double( const dialogue & )>>> eoc_pairs;
     for( JsonArray ja : jo.get_array( member ) ) {
@@ -3772,8 +3771,7 @@ void talk_effect_fun_t::set_weighted_list_eocs( const JsonObject &jo,
     };
 }
 
-void talk_effect_fun_t::set_switch( const JsonObject &jo,
-                                    const std::string &member )
+void talk_effect_fun_t::set_switch( const JsonObject &jo, const std::string_view member )
 {
     std::function<double( dialogue const &/* d */ )> eoc_switch = conditional_t::get_get_dbl(
                 jo.get_object( member ) );
@@ -3939,7 +3937,7 @@ void talk_effect_fun_t::set_custom_light_level( const JsonObject &jo,
     };
 }
 
-void talk_effect_fun_t::set_give_equipment( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_give_equipment( const JsonObject &jo, const std::string_view member )
 {
     JsonObject jobj = jo.get_object( member );
     int allowance = 0;
@@ -4243,7 +4241,7 @@ void talk_effect_fun_t::set_field( const JsonObject &jo, const std::string &memb
     };
 }
 
-void talk_effect_fun_t::set_teleport( const JsonObject &jo, const std::string &member,
+void talk_effect_fun_t::set_teleport( const JsonObject &jo, const std::string_view member,
                                       bool is_npc )
 {
     std::optional<var_info> target_var = read_var_info( jo.get_object( member ) );
@@ -4974,7 +4972,7 @@ static std::string translate_gendered_line(
 }
 
 dynamic_line_t dynamic_line_t::from_member( const JsonObject &jo,
-        const std::string &member_name )
+        const std::string_view member_name )
 {
     if( jo.has_array( member_name ) ) {
         return dynamic_line_t( jo.get_array( member_name ) );

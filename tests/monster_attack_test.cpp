@@ -24,7 +24,14 @@
 #include "weather_type.h"
 #include "game.h"
 
+static const efftype_id effect_bleed( "bleed" );
+static const efftype_id effect_took_flumed( "took_flumed" );
+
 static const itype_id itype_rock( "rock" );
+
+static const json_character_flag json_flag_TOUGH_FEET( "TOUGH_FEET" );
+
+static const trait_id trait_TOUGH_FEET( "TOUGH_FEET" );
 
 static constexpr tripoint attacker_location{ 65, 65, 0 };
 
@@ -239,7 +246,7 @@ TEST_CASE( "monster_throwing_sanity_test", "[throwing],[balance]" )
     }
 }
 
-TEST_CASE( "mattack_effect_conditions", "[mattack]" )
+TEST_CASE( "Mattack dialog condition test", "[mattack]" )
 {
     clear_map();
     clear_creatures();
@@ -247,95 +254,35 @@ TEST_CASE( "mattack_effect_conditions", "[mattack]" )
     Character &you = get_player_character();
     clear_avatar();
     you.setpos( target_location );
-    const std::string monster_type = "mon_test_mattack";
+    const std::string monster_type = "mon_test_mattack_dialog";
     monster &test_monster = spawn_test_monster( monster_type, attacker_location );
     test_monster.set_dest( you.get_location() );
     const mtype_special_attack &attack = test_monster.type->special_attacks.at( "test_conditions_1" );
 
-    // Effect conditions are read
-    REQUIRE( attack->required_effects_any.size() == 2 );
-    REQUIRE( attack->required_effects_all.size() == 2 );
-    REQUIRE( attack->forbidden_effects_any.size() == 2 );
-    REQUIRE( attack->forbidden_effects_all.size() == 2 );
-    REQUIRE( attack->target_required_effects_any.size() == 2 );
-    REQUIRE( attack->target_required_effects_all.size() == 2 );
-    REQUIRE( attack->target_forbidden_effects_any.size() == 2 );
-    REQUIRE( attack->target_forbidden_effects_all.size() == 2 );
+    // Fail at first
+    CHECK( !attack->call( test_monster ) );
+    // Check the easier arm of the OR
+    test_monster.add_effect( effect_took_flumed, 1_days );
+    REQUIRE( test_monster.has_effect( effect_took_flumed ) );
+    CHECK( attack->call( test_monster ) );
 
-    REQUIRE( test_monster.attack_target() == &you );
+    // Reset the test, attack fails again
+    test_monster.remove_effect( effect_took_flumed );
+    REQUIRE( !attack->call( test_monster ) );
 
-    // Attack fails until all requirements are met
-    REQUIRE( !attack->call( test_monster ) );
-    // Add required effects
-    for( const efftype_id &effect : attack->required_effects_all ) {
-        test_monster.add_effect( effect, 1_days, true, 1, true );
-    }
-    for( const efftype_id &effect : attack->required_effects_any ) {
-        test_monster.add_effect( effect, 1_days, true, 1, true );
-    }
-    // Self requirements met, attack still fails
-    REQUIRE( attack->check_self_conditions( test_monster ) );
-    REQUIRE( !attack->call( test_monster ) );
-    for( const efftype_id &effect : attack->target_required_effects_all ) {
-        you.add_effect( effect, 1_days, true, 1, true );
-    }
-    for( const efftype_id &effect : attack->target_required_effects_any ) {
-        you.add_effect( effect, 1_days, true, 1, true );
-    }
-    REQUIRE( attack->check_target_conditions( &you ) );
-    //All requirements met, we can attack!
-    REQUIRE( attack->call( test_monster ) );
-    // Remove a single req_any from monster, attack still happens
-    test_monster.remove_effect( attack->required_effects_any[0] );
-    REQUIRE( attack->call( test_monster ) );
-    //Remove a single req_all from monster, attack fails
-    test_monster.remove_effect( attack->required_effects_all[0] );
-    REQUIRE( !attack->check_self_conditions( test_monster ) );
-    REQUIRE( !attack->call( test_monster ) );
-    // Re-add the effect, attack succeeds
-    test_monster.add_effect( attack->required_effects_all[0], 1_days, true, 1, true );
-    REQUIRE( attack->check_self_conditions( test_monster ) );
-    REQUIRE( attack->call( test_monster ) );
-    // Remove a single req_any from target, attack still succeeds
-    you.remove_effect( attack->target_required_effects_any[0] );
-    REQUIRE( attack->call( test_monster ) );
-    //Remove a single req_all from target, attack fails
-    you.remove_effect( attack->target_required_effects_all[0] );
-    REQUIRE( !attack->check_target_conditions( &you ) );
-    REQUIRE( !attack->call( test_monster ) );
-    // Re-add the effect, attack succeeds
-    you.add_effect( attack->target_required_effects_all[0], 1_days, true, 1, true );
-    REQUIRE( attack->check_target_conditions( &you ) );
-    REQUIRE( attack->call( test_monster ) );
+    // Check the nested AND arm
+    REQUIRE( is_creature_outside( test_monster ) );
+    you.set_mutation( trait_TOUGH_FEET );
+    REQUIRE( you.has_flag( json_flag_TOUGH_FEET ) );
+    CHECK( !attack->call( test_monster ) );
+    test_monster.add_effect( effect_bleed, 1_days );
+    REQUIRE( test_monster.has_effect( effect_bleed ) );
+    // We now have all conditions specified in the attack
+    CHECK( attack->call( test_monster ) );
 
-    // Add a single fobidden_all effect, attack still triggers
-    test_monster.add_effect( attack->forbidden_effects_all[0], 1_days, true, 1, true );
-    REQUIRE( attack->check_self_conditions( test_monster ) );
-    REQUIRE( attack->call( test_monster ) );
-    // Do the same for target forbidden_all effects
-    you.add_effect( attack->target_forbidden_effects_all[0], 1_days, true, 1, true );
-    REQUIRE( attack->check_target_conditions( &you ) );
-    REQUIRE( attack->call( test_monster ) );
-    // Add the second forbidden_all effect, attack fails
-    test_monster.add_effect( attack->forbidden_effects_all[1], 1_days, true, 1, true );
-    REQUIRE( !attack->check_self_conditions( test_monster ) );
-    REQUIRE( !attack->call( test_monster ) );
-    test_monster.remove_effect( attack->forbidden_effects_all[1] );
-    REQUIRE( attack->check_self_conditions( test_monster ) );
-    // Add the second target forbidden_all effect, attack fails
-    you.add_effect( attack->target_forbidden_effects_all[1], 1_days, true, 1, true );
-    REQUIRE( !attack->check_target_conditions( &you ) );
-    REQUIRE( !attack->call( test_monster ) );
-    you.remove_effect( attack->target_forbidden_effects_all[1] );
-    REQUIRE( attack->check_target_conditions( &you ) );
-    // Add a single forbidden_any effect, attack fails
-    test_monster.add_effect( attack->forbidden_effects_any[0], 1_days, true, 1, true );
-    REQUIRE( !attack->check_self_conditions( test_monster ) );
-    REQUIRE( !attack->call( test_monster ) );
-    test_monster.remove_effect( attack->forbidden_effects_any[0] );
-    REQUIRE( attack->check_self_conditions( test_monster ) );
-    // Add a single target forbidden_any effect, attack fails
-    you.add_effect( attack->target_forbidden_effects_any[0], 1_days, true, 1, true );
-    REQUIRE( !attack->check_target_conditions( &you ) );
-    REQUIRE( !attack->call( test_monster ) );
+    // Add disqualifying condition to target
+    you.add_effect( effect_took_flumed, 1_days );
+    REQUIRE( you.has_effect( effect_took_flumed ) );
+    // Attack fails
+    CHECK( !attack->call( test_monster ) );
 }

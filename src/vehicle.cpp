@@ -93,6 +93,9 @@ static const ammotype ammo_plutonium( "plutonium" );
 
 static const bionic_id bio_jointservo( "bio_jointservo" );
 
+static const damage_type_id damage_heat( "heat" );
+static const damage_type_id damage_pure( "pure" );
+
 static const efftype_id effect_harnessed( "harnessed" );
 static const efftype_id effect_winded( "winded" );
 
@@ -5647,13 +5650,13 @@ void vehicle::place_spawn_items()
                 for( const itype_id &e : spawn.item_ids ) {
                     if( rng_float( 0, 1 ) < spawn_rate ) {
                         item spawn( e );
-                        created.emplace_back( spawn.in_its_container( spawn.count() ) );
+                        created.emplace_back( spawn.in_its_container() );
                     }
                 }
                 for( const std::pair<itype_id, std::string> &e : spawn.variant_ids ) {
                     if( rng_float( 0, 1 ) < spawn_rate ) {
                         item spawn( e.first );
-                        item added = spawn.in_its_container( spawn.count() );
+                        item added = spawn.in_its_container();
                         added.set_itype_variant( e.second );
                         created.push_back( added );
                     }
@@ -6723,7 +6726,7 @@ void vehicle::unboard_all() const
     }
 }
 
-int vehicle::damage( map &here, int p, int dmg, damage_type type, bool aimed )
+int vehicle::damage( map &here, int p, int dmg, const damage_type_id &type, bool aimed )
 {
     if( dmg < 1 ) {
         return dmg;
@@ -6776,7 +6779,7 @@ int vehicle::damage( map &here, int p, int dmg, damage_type type, bool aimed )
     const vpart_info &vpi_target = vp_target.info();
     const vehicle_part &vp_armor = part( armor_part );
     // Covered by armor -- hit both armor and part, but reduce damage by armor's reduction
-    const int protection = vp_armor.info().damage_reduction[static_cast<int>( type )];
+    const int protection = type->no_resist ? 0 : vp_armor.info().damage_reduction.at( type );
     // Parts on roof aren't protected
     const bool overhead = vpi_target.has_flag( "ROOF" ) || vpi_target.location == "on_roof";
     // Calling damage_direct may remove the damaged part completely, therefore the
@@ -6793,7 +6796,7 @@ int vehicle::damage( map &here, int p, int dmg, damage_type type, bool aimed )
     }
 }
 
-void vehicle::damage_all( int dmg1, int dmg2, damage_type type, const point &impact )
+void vehicle::damage_all( int dmg1, int dmg2, const damage_type_id &type, const point &impact )
 {
     if( dmg2 < dmg1 ) {
         std::swap( dmg1, dmg2 );
@@ -6981,7 +6984,7 @@ int vehicle::break_off( map &here, int p, int dmg )
     return dmg;
 }
 
-bool vehicle::explode_fuel( int p, damage_type type )
+bool vehicle::explode_fuel( int p, const damage_type_id &type )
 {
     const itype_id &ft = part_info( p ).fuel_type;
     item fuel = item( ft );
@@ -6994,7 +6997,7 @@ bool vehicle::explode_fuel( int p, damage_type type )
         leak_fuel( parts[ p ] );
     }
 
-    int explosion_chance = type == damage_type::HEAT ? data.explosion_chance_hot :
+    int explosion_chance = type == damage_heat ? data.explosion_chance_hot :
                            data.explosion_chance_cold;
     if( one_in( explosion_chance ) ) {
         get_event_bus().send<event_type::fuel_tank_explodes>( name );
@@ -7010,7 +7013,7 @@ bool vehicle::explode_fuel( int p, damage_type type )
     return true;
 }
 
-int vehicle::damage_direct( map &here, int p, int dmg, damage_type type )
+int vehicle::damage_direct( map &here, int p, int dmg, const damage_type_id &type )
 {
     // Make sure p is within range and hasn't been removed already
     if( ( static_cast<size_t>( p ) >= parts.size() ) || parts[p].removed ) {
@@ -7026,15 +7029,17 @@ int vehicle::damage_direct( map &here, int p, int dmg, damage_type type )
     }
 
     int tsh = std::min( 20, part_info( p ).durability / 10 );
-    if( dmg < tsh && type != damage_type::PURE ) {
-        if( type == damage_type::HEAT && parts[p].is_fuel_store() ) {
+    if( dmg < tsh && type != damage_pure ) {
+        if( type == damage_heat && parts[p].is_fuel_store() ) {
             explode_fuel( p, type );
         }
 
         return dmg;
     }
 
-    dmg -= std::min<int>( dmg, part_info( p ).damage_reduction[ static_cast<int>( type ) ] );
+    if( !type->no_resist ) {
+        dmg -= std::min<int>( dmg, part_info( p ).damage_reduction.at( type ) );
+    }
     int dres = dmg - parts[p].hp();
     if( mod_hp( parts[ p ], -dmg ) ) {
         if( is_flyable() && !rotors.empty() && !parts[p].info().has_flag( VPFLAG_SIMPLE_PART ) ) {

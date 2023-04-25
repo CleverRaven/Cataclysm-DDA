@@ -103,6 +103,9 @@ static const character_modifier_id
 character_modifier_ranged_dispersion_manip_mod( "ranged_dispersion_manip_mod" );
 static const character_modifier_id character_modifier_thrown_dex_mod( "thrown_dex_mod" );
 
+static const damage_type_id damage_bash( "bash" );
+static const damage_type_id damage_cut( "cut" );
+
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_hit_by_player( "hit_by_player" );
 static const efftype_id effect_on_roof( "on_roof" );
@@ -130,6 +133,7 @@ static const skill_id skill_dodge( "dodge" );
 static const skill_id skill_driving( "driving" );
 static const skill_id skill_gun( "gun" );
 static const skill_id skill_launcher( "launcher" );
+static const skill_id skill_swimming( "swimming" );
 static const skill_id skill_throw( "throw" );
 
 static const trait_id trait_BRAWLER( "BRAWLER" );
@@ -1170,7 +1174,7 @@ projectile Character::thrown_item_projectile( const item &thrown ) const
 int Character::thrown_item_total_damage_raw( const item &thrown ) const
 {
     projectile proj = thrown_item_projectile( thrown );
-    proj.impact.add_damage( damage_type::BASH, std::min( thrown.weight() / 100.0_gram,
+    proj.impact.add_damage( damage_bash, std::min( thrown.weight() / 100.0_gram,
                             static_cast<double>( thrown_item_adjusted_damage( thrown ) ) ) );
     const int glass_portion = thrown.made_of( material_glass );
     const float glass_fraction = glass_portion / static_cast<float>( thrown.type->mat_portion_total );
@@ -1178,7 +1182,7 @@ int Character::thrown_item_total_damage_raw( const item &thrown ) const
     // Item will shatter upon landing, destroying the item, dealing damage, and making noise
     if( !thrown.active && glass_portion &&
         rng( 0, units::to_milliliter( 2_liter - volume ) ) < get_arm_str() * 100 ) {
-        proj.impact.add_damage( damage_type::CUT, units::to_milliliter( volume ) / 500.0f );
+        proj.impact.add_damage( damage_cut, units::to_milliliter( volume ) / 500.0f );
     }
     // Some minor (skill/2) armor piercing for skillful throws
     // Not as much as in melee, though
@@ -1222,7 +1226,7 @@ dealt_projectile_attack Character::throw_item( const tripoint &target, const ite
     const bool do_railgun = has_active_bionic( bio_railgun ) && thrown.made_of_any( ferric ) &&
                             !throw_assist;
 
-    impact.add_damage( damage_type::BASH, std::min( weight / 100.0_gram,
+    impact.add_damage( damage_bash, std::min( weight / 100.0_gram,
                        static_cast<double>( thrown_item_adjusted_damage( thrown ) ) ) );
 
     if( thrown.has_flag( flag_ACT_ON_RANGED_HIT ) ) {
@@ -1270,7 +1274,7 @@ dealt_projectile_attack Character::throw_item( const tripoint &target, const ite
 
     // Deal extra cut damage if the item breaks
     if( shatter ) {
-        impact.add_damage( damage_type::CUT, units::to_milliliter( volume ) / 500.0f );
+        impact.add_damage( damage_cut, units::to_milliliter( volume ) / 500.0f );
         proj_effects.insert( "SHATTER_SELF" );
     }
 
@@ -1389,7 +1393,7 @@ static void mod_stamina_archery( Character &you, const item &relevant )
 
     // Calculate stamina drain based on archery and athletics skill
     const float archery_skill = you.get_skill_level( skill_archery );
-    const float athletics_skill = you.get_skill_level( skill_archery );
+    const float athletics_skill = you.get_skill_level( skill_swimming );
     const float skill_modifier = ( 2 * archery_skill + athletics_skill ) / 3.0f;
 
     const int stamina_cost = pow( 20 - skill_modifier, 2 );
@@ -1942,7 +1946,7 @@ static projectile make_gun_projectile( const item &gun )
 
     if( gun.ammo_data() ) {
         // Some projectiles have a chance of being recoverable
-        bool recover = std::any_of( fx.begin(), fx.end(), []( const std::string & e ) {
+        bool recover = std::any_of( fx.begin(), fx.end(), []( const std::string_view e ) {
             if( !string_starts_with( e, "RECOVER_" ) ) {
                 return false;
             }

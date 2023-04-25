@@ -116,6 +116,7 @@ void clear_character( Character &dummy, bool skip_nutrition )
 
     // Make sure we don't carry around weird effects.
     dummy.clear_effects();
+    dummy.set_underwater( false );
 
     // Make stats nominal.
     dummy.str_max = 8;

@@ -12,7 +12,6 @@
     "price": 80000,
     "price_postapoc": 6000,
     "to_hit": -1,
-    "bashing": 10,
     "material": [ "steel" ],
     "range": 6,
     "dispersion": 300,
@@ -27,7 +26,8 @@
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "pressurized_tank" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "pressurized_tank" ] } ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "rm451_flamethrower",
@@ -42,7 +42,6 @@
     "price": 970000,
     "price_postapoc": 10000,
     "to_hit": -1,
-    "bashing": 10,
     "material": [ "superalloy", "ceramic" ],
     "range": 10,
     "ranged_damage": { "damage_type": "heat", "amount": 10 },
@@ -52,6 +51,7 @@
     "valid_mod_locations": [ [ "accessories", 4 ], [ "rail", 1 ], [ "grip", 1 ], [ "sling", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "flags": [ "MODE_BURST", "NON_FOULING" ],
     "ammo_to_fire": 20,
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "rm4502", "rm4504" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "rm4502", "rm4504" ] } ],
+    "melee_damage": { "bash": 10 }
   }
 ]
