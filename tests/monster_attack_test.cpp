@@ -390,24 +390,24 @@ TEST_CASE( "Ranged pull tests", "[mattack][grab]" )
         REQUIRE( !attack.call( test_monster ) );
         REQUIRE( you.pos() == target_location );
     }
-    SECTION("Pulls vs existing grabs") {
+    SECTION( "Pulls vs existing grabs" ) {
         const std::string monster_type = "mon_debug_puller_strong";
         const std::string grabber_type = "mon_debug_grabber_strong";
-        monster& test_monster = spawn_test_monster(monster_type, attacker_location);
-        monster& test_grabber = spawn_test_monster(grabber_type, target_location + tripoint{ 0, 1, 0 });
-        const mattack_actor& pull = test_monster.type->special_attacks.at("ranged_pull").operator * ();
-        const mattack_actor& grab = test_grabber.type->special_attacks.at("grab").operator * ();
-        test_monster.set_dest(you.get_location());
-        test_grabber.set_dest(you.get_location());
-        REQUIRE(test_monster.sees(you));
-        REQUIRE(grab.call(test_grabber));
+        monster &test_monster = spawn_test_monster( monster_type, attacker_location );
+        monster &test_grabber = spawn_test_monster( grabber_type, target_location + tripoint{ 0, 1, 0 } );
+        const mattack_actor &pull = test_monster.type->special_attacks.at( "ranged_pull" ).operator * ();
+        const mattack_actor &grab = test_grabber.type->special_attacks.at( "grab" ).operator * ();
+        test_monster.set_dest( you.get_location() );
+        test_grabber.set_dest( you.get_location() );
+        REQUIRE( test_monster.sees( you ) );
+        REQUIRE( grab.call( test_grabber ) );
         int counter = 0;
         // Pull until the grabber lets go, it should eventually do so
-        while( you.pos() == target_location && counter < 101 ){
-            REQUIRE(pull.call(test_monster));
+        while( you.pos() == target_location && counter < 101 ) {
+            REQUIRE( pull.call( test_monster ) );
             counter++;
         }
-        REQUIRE(counter < 100 );
+        REQUIRE( counter < 100 );
     }
 }
 

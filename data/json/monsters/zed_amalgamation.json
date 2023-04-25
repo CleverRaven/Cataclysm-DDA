@@ -325,6 +325,6 @@
       "families": [ "prof_wp_nat_armored" ]
     },
     "armor": { "bash": 20, "cut": 25, "stab": 30, "acid": 12, "bullet": 40, "electric": 12 },
-      "flags": [ "GRABS" ]
+    "flags": [ "GRABS" ]
   }
 ]
