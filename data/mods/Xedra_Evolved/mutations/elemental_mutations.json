@@ -168,7 +168,6 @@
     "prereqs": [ "SALAMANDER_SKIN_2" ],
     "threshreq": [ "THRESH_SALAMANDER" ],
     "category": [ "SALAMANDER" ],
-    
     "integrated_armor": [ "integrated_flameskin" ]
   },
   {
