@@ -21,7 +21,6 @@
     "price": 642800,
     "price_postapoc": 4000,
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "steel", "plastic" ],
     "color": "black",
     "ammo": [ "338lapua" ],
@@ -29,7 +28,8 @@
     "durability": 10,
     "blackpowder_tolerance": 24,
     "default_mods": [ "cheek_pad", "butt_hook", "bipod", "rifle_scope", "muzzle_brake" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ai_338mag", "ai_338mag_10" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ai_338mag", "ai_338mag_10" ] } ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "savage112",
@@ -53,7 +53,6 @@
     "price": 110900,
     "price_postapoc": 800,
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "steel", "wood" ],
     "color": "black",
     "ammo": [ "338lapua" ],
@@ -78,7 +77,8 @@
       [ "stock mount", 1 ]
     ],
     "flags": [ "RELOAD_ONE", "RELOAD_EJECT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "338lapua": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "338lapua": 1 } } ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "mrad_smr",
@@ -124,7 +124,8 @@
       [ "underbarrel", 1 ],
       [ "stock accessory", 2 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "mrad_338lapua_mag" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "mrad_338lapua_mag" ] } ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "axmc",
@@ -169,6 +170,7 @@
       [ "stock accessory", 2 ],
       [ "stock", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ai_338mag", "ai_338mag_10", "ai_308mag_10" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ai_338mag", "ai_338mag_10", "ai_308mag_10" ] } ],
+    "melee_damage": { "bash": 12 }
   }
 ]
