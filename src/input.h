@@ -148,7 +148,7 @@ enum : int {
 };
 } // namespace keycode
 
-constexpr int LEGEND_HEIGHT = 11;
+constexpr int LEGEND_HEIGHT = 8;
 constexpr int BORDER_SPACE = 2;
 
 bool is_mouse_enabled();
@@ -167,7 +167,13 @@ enum class MouseInput : int {
     ScrollWheelUp,
     ScrollWheelDown,
 
-    Move
+    Move,
+
+    X1ButtonPressed,
+    X1ButtonReleased,
+
+    X2ButtonPressed,
+    X2ButtonReleased
 
 };
 
@@ -923,7 +929,7 @@ class input_context
          * @return A vector of the filtered strings
          */
         std::vector<std::string> filter_strings_by_phrase( const std::vector<std::string> &strings,
-                const std::string &phrase ) const;
+                std::string_view phrase ) const;
 };
 
 /**

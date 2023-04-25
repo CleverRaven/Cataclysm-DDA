@@ -2,7 +2,6 @@
  */
 
 // IWYU pragma: no_include <sys/signal.h>
-#include <clocale>
 #include <algorithm>
 #include <array>
 #include <clocale>
@@ -34,6 +33,8 @@
 #include "cursesdef.h"
 #include "debug.h"
 #include "do_turn.h"
+#include "event.h"
+#include "event_bus.h"
 #include "filesystem.h"
 #include "game.h"
 #include "game_constants.h"
@@ -813,6 +814,7 @@ int main( int argc, const char *argv[] )
         }
 
         shared_ptr_fast<ui_adaptor> ui = g->create_or_get_main_ui_adaptor();
+        get_event_bus().send<event_type::game_begin>( getVersionString() );
         while( !do_turn() );
     }
 

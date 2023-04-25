@@ -66,6 +66,11 @@ template <typename T> struct enum_traits;
 
 static const ammotype ammo_NULL( "NULL" );
 
+static const damage_type_id damage_bash( "bash" );
+static const damage_type_id damage_bullet( "bullet" );
+static const damage_type_id damage_cut( "cut" );
+static const damage_type_id damage_stab( "stab" );
+
 static const gun_mode_id gun_mode_DEFAULT( "DEFAULT" );
 static const gun_mode_id gun_mode_MELEE( "MELEE" );
 
@@ -148,7 +153,7 @@ bool item_is_blacklisted( const itype_id &id )
     return item_blacklist.blacklist.count( id );
 }
 
-static void assign( const JsonObject &jo, const std::string &name,
+static void assign( const JsonObject &jo, const std::string_view name,
                     std::map<gun_mode_id, gun_modifier_data> &mods )
 {
     if( !jo.has_array( name ) ) {
@@ -216,14 +221,37 @@ void Item_factory::finalize_pre( itype &obj )
         obj.relic_data->finalize();
     }
 
-    // TODO: separate repairing from reinforcing/enhancement
-    if( obj.damage_max() == obj.damage_min() ) {
+    if( obj.count_by_charges() ) {
         obj.item_tags.insert( flag_NO_REPAIR );
     }
 
-    if( obj.has_flag( flag_STAB ) || obj.has_flag( flag_SPEAR ) ) {
-        std::swap( obj.melee[static_cast<int>( damage_type::CUT )],
-                   obj.melee[static_cast<int>( damage_type::STAB )] );
+    finalize_damage_map( obj.melee );
+    if( !obj.melee_proportional.empty() ) {
+        finalize_damage_map( obj.melee_proportional, false, 1.f );
+        for( std::pair<const damage_type_id, float> &dt : obj.melee ) {
+            const auto iter = obj.melee_proportional.find( dt.first );
+            if( iter != obj.melee_proportional.end() ) {
+                dt.second *= iter->second;
+                // For maintaining legacy behaviour (when melee damage used ints)
+                std::floor( dt.second );
+            }
+        }
+    }
+    if( !obj.melee_relative.empty() ) {
+        finalize_damage_map( obj.melee_relative, false, 0.f );
+        for( std::pair<const damage_type_id, float> &dt : obj.melee ) {
+            const auto iter = obj.melee_relative.find( dt.first );
+            if( iter != obj.melee_relative.end() ) {
+                dt.second += iter->second;
+                // For maintaining legacy behaviour (when melee damage used ints)
+                std::floor( dt.second );
+            }
+        }
+    }
+
+    if( obj.has_flag( flag_STAB ) ) {
+        debugmsg( "The \"STAB\" flag used on %s is obsolete. Add a \"stab\" value in the \"melee_damage\" object instead.",
+                  obj.id.c_str() );
     }
 
     // add usage methods (with default values) based upon qualities
@@ -362,7 +390,7 @@ void Item_factory::finalize_pre( itype &obj )
         if( obj.ammo->count > 1 && obj.ammo->shot_damage.total_damage() < 1.0f ) {
             // Patch to fixup shot without shot_damage until I get all the definitions consistent.
             if( obj.ammo->shot_damage.damage_units.empty() ) {
-                obj.ammo->shot_damage.damage_units.emplace_back( damage_type::BULLET, 0.1f );
+                obj.ammo->shot_damage.damage_units.emplace_back( damage_bullet, 0.1f );
             }
             obj.ammo->count = obj.ammo->count * obj.ammo->shot_damage.total_damage();
             obj.ammo->shot_damage.damage_units.front().amount = 1.0f;
@@ -636,8 +664,8 @@ void Item_factory::finalize_pre( itype &obj )
     }
 
     if( obj.longest_side == -1_mm ) {
-        units::volume effective_volume = obj.count_by_charges() ?
-                                         ( obj.volume / obj.stack_size ) : obj.volume;
+        units::volume effective_volume = obj.count_by_charges() &&
+                                         obj.stack_size > 0 ? ( obj.volume / obj.stack_size ) : obj.volume;
         obj.longest_side = units::default_length_from_volume<int>( effective_volume );
     }
 }
@@ -687,6 +715,13 @@ void Item_factory::finalize_post( itype &obj )
         finalize_post_armor( obj );
     }
 
+    // if we haven't set what the item can be repaired with calculate it now
+    if( obj.repairs_with.empty() ) {
+        for( const auto &mats : obj.materials ) {
+            obj.repairs_with.insert( mats.first );
+        }
+    }
+
     // for each item iterate through potential repair tools
     for( const auto &tool : repair_tools ) {
 
@@ -699,9 +734,9 @@ void Item_factory::finalize_post( itype &obj )
 
             // tool has a possible repair action, check if the materials are compatible
             const auto &opts = dynamic_cast<const repair_item_actor *>( func->get_actor_ptr() )->materials;
-            if( std::any_of( obj.materials.begin(),
-            obj.materials.end(), [&opts]( const std::pair<material_id, int> &m ) {
-            return opts.count( m.first ) > 0;
+            if( std::any_of( obj.repairs_with.begin(),
+            obj.repairs_with.end(), [&opts]( const material_id & m ) {
+            return opts.count( m ) > 0;
             } ) ) {
                 obj.repair.insert( tool );
             }
@@ -720,13 +755,6 @@ void Item_factory::finalize_post( itype &obj )
                 debugmsg( "contamination in %s contains invalid diseasetype_id %s.",
                           obj.id.str(), dtype.str() );
             }
-        }
-    }
-
-    // if we haven't set what the item can be repaired with calculate it now
-    if( obj.repairs_with.empty() ) {
-        for( const auto &mats : obj.materials ) {
-            obj.repairs_with.insert( mats.first );
         }
     }
 }
@@ -2014,9 +2042,6 @@ void Item_factory::check_definitions() const
         if( type->price < 0_cent ) {
             msg += "negative price\n";
         }
-        if( type->damage_min() > 0 || type->damage_max() < 0 || type->damage_min() > type->damage_max() ) {
-            msg += "invalid damage range\n";
-        }
         if( type->description.empty() ) {
             msg += "empty description\n";
         }
@@ -2433,7 +2458,7 @@ void Item_factory::load_slot( cata::value_ptr<SlotType> &slotptr, const JsonObje
 
 template<typename SlotType>
 void Item_factory::load_slot_optional( cata::value_ptr<SlotType> &slotptr, const JsonObject &jo,
-                                       const std::string &member, const std::string &src )
+                                       const std::string_view member, const std::string &src )
 {
     if( !jo.has_member( member ) ) {
         return;
@@ -2624,8 +2649,8 @@ void Item_factory::load( islot_gun &slot, const JsonObject &jo, const std::strin
     assign( jo, "ammo", slot.ammo, strict );
     assign( jo, "range", slot.range, strict );
     // Damage instance assign reader handles pierce
-    assign( jo, "ranged_damage", slot.damage, strict, damage_instance( damage_type::NONE, -20, -20, -20,
-            -20 ) );
+    assign( jo, "ranged_damage", slot.damage, strict,
+            damage_instance( damage_type_id::NULL_ID(), -20, -20, -20, -20 ) );
     assign( jo, "dispersion", slot.dispersion, strict );
     assign( jo, "sight_dispersion", slot.sight_dispersion, strict, 0, static_cast<int>( MAX_RECOIL ) );
     assign( jo, "recoil", slot.recoil, strict, 0 );
@@ -2637,13 +2662,14 @@ void Item_factory::load( islot_gun &slot, const JsonObject &jo, const std::strin
     assign( jo, "reload_noise", slot.reload_noise, strict );
     assign( jo, "reload_noise_volume", slot.reload_noise_volume, strict, 0 );
     assign( jo, "barrel_volume", slot.barrel_volume, strict, 0_ml );
+    assign( jo, "barrel_length", slot.barrel_length, strict, 0_mm );
     assign( jo, "built_in_mods", slot.built_in_mods, strict );
     assign( jo, "default_mods", slot.default_mods, strict );
-    assign( jo, "ups_charges", slot.ups_charges, strict, 0 );
+    assign( jo, "energy_drain", slot.energy_drain, strict, 0_kJ );
     assign( jo, "blackpowder_tolerance", slot.blackpowder_tolerance, strict, 0 );
     assign( jo, "min_cycle_recoil", slot.min_cycle_recoil, strict, 0 );
     assign( jo, "ammo_effects", slot.ammo_effects, strict );
-    assign( jo, "ammo_to_fire", slot.ammo_to_fire, strict, 1 );
+    assign( jo, "ammo_to_fire", slot.ammo_to_fire, strict, 0 );
 
     if( jo.has_array( "valid_mod_locations" ) ) {
         slot.valid_mod_locations.clear();
@@ -2830,20 +2856,21 @@ static void get_optional( const JsonObject &jo, bool was_loaded, const std::stri
 }
 
 template<typename T>
-static void get_relative( const JsonObject &jo, const std::string &member, std::optional<T> &value,
+static void get_relative( const JsonObject &jo, const std::string_view member,
+                          std::optional<T> &value,
                           T default_val )
 {
     if( jo.has_member( member ) ) {
-        value = value.value_or( static_cast<T>( default_val ) ) + jo.get_float( member );
+        value = static_cast<T>( value.value_or( default_val ) + jo.get_float( member ) );
     }
 }
 
 template<typename T>
-static void get_proportional( const JsonObject &jo, const std::string &member,
+static void get_proportional( const JsonObject &jo, const std::string_view member,
                               std::optional<T> &value, T default_val )
 {
     if( jo.has_member( member ) ) {
-        value = value.value_or( static_cast<T>( default_val ) ) * jo.get_float( member );
+        value = static_cast<T>( value.value_or( default_val ) * jo.get_float( member ) );
     }
 }
 
@@ -2958,7 +2985,7 @@ void Item_factory::load_tool( const JsonObject &jo, const std::string &src )
     }
 }
 
-void Item_factory::load( relic &slot, const JsonObject &jo, const std::string & )
+void Item_factory::load( relic &slot, const JsonObject &jo, const std::string_view )
 {
     slot.load( jo );
 }
@@ -3089,7 +3116,6 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
     assign( jo, "fatigue_mod", slot.fatigue_mod, strict );
     assign( jo, "healthy", slot.healthy, strict );
     assign( jo, "parasites", slot.parasites, strict, 0 );
-    assign( jo, "radiation", slot.radiation, strict );
     assign( jo, "freezing_point", slot.freeze_point, strict );
     assign( jo, "spoils_in", slot.spoils, strict, 1_hours );
     assign( jo, "cooks_like", slot.cooks_like, strict );
@@ -3171,7 +3197,7 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
     }
 
     for( JsonValue jv : jo.get_array( "consumption_effect_on_conditions" ) ) {
-        slot.consumption_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        slot.consumption_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
 
     if( jo.has_member( "nutrition" ) && got_calories ) {
@@ -3239,9 +3265,8 @@ void Item_factory::load( islot_gunmod &slot, const JsonObject &jo, const std::st
 {
     bool strict = src == "dda";
 
-    assign( jo, "damage_modifier", slot.damage, strict, damage_instance( damage_type::NONE, -20, -20,
-            -20,
-            -20 ) );
+    assign( jo, "damage_modifier", slot.damage, strict,
+            damage_instance( damage_type_id::NULL_ID(), -20, -20, -20, -20 ) );
     assign( jo, "loudness_modifier", slot.loudness );
     assign( jo, "location", slot.location );
     assign( jo, "dispersion_modifier", slot.dispersion );
@@ -3256,8 +3281,8 @@ void Item_factory::load( islot_gunmod &slot, const JsonObject &jo, const std::st
     assign( jo, "consume_divisor", slot.consume_divisor );
     assign( jo, "shot_spread_multiplier_modifier", slot.shot_spread_multiplier_modifier );
     assign( jo, "ammo_effects", slot.ammo_effects, strict );
-    assign( jo, "ups_charges_multiplier", slot.ups_charges_multiplier );
-    assign( jo, "ups_charges_modifier", slot.ups_charges_modifier );
+    assign( jo, "energy_drain_multiplier", slot.energy_drain_multiplier );
+    assign( jo, "energy_drain_modifier", slot.energy_drain_modifier );
     assign( jo, "ammo_to_fire_multiplier", slot.ammo_to_fire_multiplier );
     assign( jo, "ammo_to_fire_modifier", slot.ammo_to_fire_modifier );
     assign( jo, "weight_multiplier", slot.weight_multiplier );
@@ -3812,8 +3837,25 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     assign( jo, "stackable", def.stackable_, strict );
     assign( jo, "integral_volume", def.integral_volume );
     assign( jo, "integral_longest_side", def.integral_longest_side, false, 0_mm );
-    assign( jo, "bashing", def.melee[static_cast<int>( damage_type::BASH )], strict, 0 );
-    assign( jo, "cutting", def.melee[static_cast<int>( damage_type::CUT )], strict, 0 );
+    if( jo.has_object( "melee_damage" ) ) {
+        def.melee = load_damage_map( jo.get_object( "melee_damage" ) );
+    }
+    def.melee_proportional.clear();
+    if( jo.has_object( "proportional" ) ) {
+        JsonObject jprop = jo.get_object( "proportional" );
+        jprop.allow_omitted_members();
+        if( jprop.has_object( "melee_damage" ) ) {
+            def.melee_proportional = load_damage_map( jprop.get_object( "melee_damage" ) );
+        }
+    }
+    def.melee_relative.clear();
+    if( jo.has_object( "relative" ) ) {
+        JsonObject jrel = jo.get_object( "relative" );
+        jrel.allow_omitted_members();
+        if( jrel.has_object( "melee_damage" ) ) {
+            def.melee_relative = load_damage_map( jrel.get_object( "melee_damage" ) );
+        }
+    }
     if( jo.has_int( "to_hit" ) ) {
         assign( jo, "to_hit", def.m_to_hit, strict );
     } else if( jo.has_object( "to_hit" ) ) {
@@ -3843,8 +3885,8 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     } else {
         // TODO: Move to finalization
         def.thrown_damage.clear();
-        def.thrown_damage.add_damage( damage_type::BASH,
-                                      def.melee[static_cast<int>( damage_type::BASH )] + def.weight / 1.0_kilogram );
+        def.thrown_damage.add_damage( damage_bash,
+                                      def.melee[damage_bash] + def.weight / 1.0_kilogram );
     }
 
     if( jo.has_member( "repairs_like" ) ) {
@@ -3853,19 +3895,13 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
 
     optional( jo, true, "weapon_category", def.weapon_category, auto_flags_reader<weapon_category_id> {} );
 
-    if( jo.has_member( "damage_states" ) ) {
-        JsonArray arr = jo.get_array( "damage_states" );
-        def.damage_min_ = arr.get_int( 0 ) * itype::damage_scale;
-        def.damage_max_ = arr.get_int( 1 ) * itype::damage_scale;
-    }
-
     float degrade_mult = 1.0f;
     optional( jo, false, "degradation_multiplier", degrade_mult, 1.0f );
     // TODO: remove condition once degradation is ready to be applied to all items
     if( def.category_force != item_category_veh_parts ) {
-        degrade_mult = 0.f;
+        degrade_mult = 0.0f;
     }
-    if( degrade_mult <= 1.0f / ( ( def.damage_max_ - def.damage_min_ ) * 2.0f ) ) {
+    if( ( degrade_mult * itype::damage_max_ ) <= 0.5f ) {
         def.degrade_increments_ = 0;
     } else {
         float adjusted_inc = std::max( def.degrade_increments_ / degrade_mult, 1.0f );
@@ -4320,7 +4356,7 @@ void Item_factory::set_qualities_from_json( const JsonObject &jo, const std::str
     }
 }
 
-void Item_factory::extend_qualities_from_json( const JsonObject &jo, const std::string &member,
+void Item_factory::extend_qualities_from_json( const JsonObject &jo, const std::string_view member,
         itype &def )
 {
     for( JsonArray curr : jo.get_array( member ) ) {
@@ -4328,7 +4364,7 @@ void Item_factory::extend_qualities_from_json( const JsonObject &jo, const std::
     }
 }
 
-void Item_factory::delete_qualities_from_json( const JsonObject &jo, const std::string &member,
+void Item_factory::delete_qualities_from_json( const JsonObject &jo, const std::string_view member,
         itype &def )
 {
     for( JsonArray curr : jo.get_array( member ) ) {
@@ -4339,7 +4375,7 @@ void Item_factory::delete_qualities_from_json( const JsonObject &jo, const std::
     }
 }
 
-void Item_factory::set_properties_from_json( const JsonObject &jo, const std::string &member,
+void Item_factory::set_properties_from_json( const JsonObject &jo, const std::string_view member,
         itype &def )
 {
     if( jo.has_array( member ) ) {
@@ -4434,7 +4470,7 @@ bool load_min_max( std::pair<T, T> &pa, const JsonObject &obj, const std::string
 }
 
 template<typename T>
-bool load_str_arr( std::vector<T> &arr, const JsonObject &obj, const std::string &name )
+bool load_str_arr( std::vector<T> &arr, const JsonObject &obj, const std::string_view name )
 {
     if( obj.has_array( name ) ) {
         for( const std::string str : obj.get_array( name ) ) {
@@ -4509,7 +4545,7 @@ bool Item_factory::load_sub_ref( std::unique_ptr<Item_spawn_data> &ptr, const Js
 }
 
 bool Item_factory::load_string( std::vector<std::string> &vec, const JsonObject &obj,
-                                const std::string &name )
+                                const std::string_view name )
 {
     bool result = false;
     std::string temp;
@@ -4887,8 +4923,9 @@ item_category_id calc_category( const itype &obj )
         return item_category_bionics;
     }
 
-    bool weap = std::any_of( obj.melee.begin(), obj.melee.end(), []( int qty ) {
-        return qty > MELEE_STAT;
+    bool weap = std::any_of( obj.melee.begin(), obj.melee.end(),
+    []( const std::pair<const damage_type_id, float> &qty ) {
+        return qty.second > MELEE_STAT;
     } );
 
     return weap ? item_category_weapons : item_category_other;

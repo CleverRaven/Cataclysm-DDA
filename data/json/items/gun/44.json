@@ -12,7 +12,6 @@
     "price": 87500,
     "price_postapoc": 2750,
     "to_hit": -2,
-    "bashing": 12,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "light_gray",
@@ -38,7 +37,8 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "deaglemag" ] } ]
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "deaglemag" ] } ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "henry_big_boy",
@@ -53,7 +53,6 @@
     "price": 89995,
     "price_postapoc": 3500,
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "steel", "wood" ],
     "color": "dark_gray",
     "ammo": [ "44" ],
@@ -76,7 +75,8 @@
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "44": 10 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "44": 10 } } ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "rifle_44",
@@ -92,7 +92,6 @@
     "price": 10000,
     "price_postapoc": 500,
     "to_hit": -1,
-    "bashing": 10,
     "material": [ "steel", "wood" ],
     "color": "brown",
     "ammo": [ "44" ],
@@ -117,7 +116,8 @@
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "RELOAD_EJECT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "44": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "44": 1 } } ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "ruger_redhawk",
@@ -133,7 +133,6 @@
     "price": 86100,
     "price_postapoc": 2750,
     "to_hit": -2,
-    "bashing": 10,
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -160,7 +159,8 @@
         "ammo_restriction": { "44": 6 },
         "allowed_speedloaders": [ "44_speedloader6" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "sw629",
@@ -174,7 +174,6 @@
     "longest_side": "30 cm",
     "price": 86100,
     "price_postapoc": 2750,
-    "bashing": 10,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -202,6 +201,7 @@
         "ammo_restriction": { "44": 6 },
         "allowed_speedloaders": [ "44_speedloader6" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 10 }
   }
 ]

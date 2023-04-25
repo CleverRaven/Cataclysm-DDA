@@ -306,6 +306,12 @@
     "restriction": "Item must be some kind of back pouch"
   },
   {
+    "id": "HELMET_HEAD_ATTACHMENT",
+    "type": "json_flag",
+    "info": "This item is attachable in <info>tactical helmets </info> as a flashlight.",
+    "restriction": "Item must be some kind of flashlight"
+  },
+  {
     "id": "COLD_IMMUNE",
     "type": "json_flag",
     "info": "This gear <good>completely protects</good> you from <info>low temperatures</info>."
@@ -1066,11 +1072,6 @@
     "//": "pain altering spells can't be resisted (like with the deadened trait)"
   },
   {
-    "id": "WITH_CONTAINER",
-    "type": "json_flag",
-    "//": "items spawned by spells are put in their containers."
-  },
-  {
     "id": "SPAWN_WITH_DEATH_DROPS",
     "type": "json_flag",
     "//": "Allows summoned monsters to drop their usual death drops.  Otherwise, summoned monsters drop nothing on death."
@@ -1728,6 +1729,10 @@
   },
   {
     "id": "TOUGH_FEET",
+    "type": "json_flag"
+  },
+  {
+    "id": "PAIN_IMMUNE",
     "type": "json_flag"
   },
   {

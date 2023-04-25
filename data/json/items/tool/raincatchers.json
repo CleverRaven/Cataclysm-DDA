@@ -32,7 +32,6 @@
     "price": 500,
     "price_postapoc": 100,
     "to_hit": 1,
-    "bashing": 4,
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "yellow",
@@ -44,7 +43,8 @@
       "practice": 0,
       "done_message": "You place the funnel, waiting to collect rain."
     },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE" ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "leather_funnel",
@@ -102,7 +102,6 @@
     "price": 1500,
     "price_postapoc": 250,
     "to_hit": 1,
-    "bashing": 4,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "yellow",
@@ -114,7 +113,8 @@
       "practice": 0,
       "done_message": "You place the metal funnel, waiting to collect rain."
     },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE" ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "tarp_raincatcher",

@@ -1,9 +1,11 @@
 [
   {
     "type": "enchantment",
-    "id": "SHAMAN_MANA_REGEN",
+    "id": "SHAMAN",
     "condition": "ALWAYS",
-    "values": [ { "value": "REGEN_MANA", "multiply": 0.4 } ]
+    "name": { "str": "Spirits" },
+    "description": "Your Shaman abilities double your natural mana regeneration.",
+    "values": [ { "value": "REGEN_MANA", "multiply": 1 } ]
   },
   {
     "id": "mind_read",
@@ -24,12 +26,14 @@
   },
   {
     "type": "enchantment",
-    "id": "SHAMAN",
+    "id": "SHAMAN_MIND_READING",
     "condition": "ALWAYS",
+    "name": { "str": "Mind Reading" },
+    "description": "Your mind reading abilities improve your social skill, and make your fights much easier.",
     "values": [
-      { "value": "SOCIAL_INTIMIDATE", "add": 4 },
-      { "value": "SOCIAL_LIE", "add": 4 },
-      { "value": "SOCIAL_PERSUADE", "add": 4 }
+      { "value": "SOCIAL_INTIMIDATE", "add": 20 },
+      { "value": "SOCIAL_LIE", "add": 20 },
+      { "value": "SOCIAL_PERSUADE", "add": 20 }
     ],
     "intermittent_activation": { "effects": [ { "frequency": "5 seconds", "spell_effects": [ { "id": "mind_read" } ] } ] }
   },
@@ -73,7 +77,7 @@
     "name": { "str": "Mind Reading (on)" },
     "points": 0,
     "description": "You can feel the living energy of creatures around you, which allows you to predict their movements or words.",
-    "enchantments": [ "SHAMAN" ],
+    "enchantments": [ "SHAMAN_MIND_READING" ],
     "transform": { "target": "MIND_READ_OFF", "msg_transform": "You suppress your mind abilities.", "active": false, "moves": 10 }
   }
 ]

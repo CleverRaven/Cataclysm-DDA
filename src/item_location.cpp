@@ -253,15 +253,7 @@ class item_location::impl::item_on_map : public item_location::impl
             }
 
             item *obj = target();
-            item temp;
-            if( target()->count_by_charges() ) {
-                temp = target()->split( qty );
-                if( !temp.is_null() ) {
-                    obj = &temp;
-                }
-            }
-
-            int mv = ch.item_handling_cost( *obj, true, MAP_HANDLING_PENALTY );
+            int mv = ch.item_handling_cost( *obj, true, MAP_HANDLING_PENALTY, qty );
             mv += 100 * rl_dist( ch.pos(), cur.pos() );
 
             // TODO: handle unpacking costs
@@ -398,22 +390,12 @@ class item_location::impl::item_on_person : public item_location::impl
             }
 
             int mv = 0;
-
             item *obj = target();
-            item temp;
-            if( target()->count_by_charges() ) {
-                temp = target()->split( qty );
-                if( !temp.is_null() ) {
-                    obj = &temp;
-                }
-            }
-
-            item &target_ref = *target();
-            if( who->is_wielding( target_ref ) ) {
-                mv = who->item_handling_cost( *obj, false, 0 );
+            if( who->is_wielding( *obj ) ) {
+                mv = who->item_handling_cost( *obj, false, 0, qty );
             } else {
                 // then we are wearing it
-                mv = who->item_handling_cost( *obj, true, INVENTORY_HANDLING_PENALTY / 2 );
+                mv = who->item_handling_cost( *obj, true, INVENTORY_HANDLING_PENALTY / 2, qty );
                 mv += 250;
             }
 
@@ -524,15 +506,7 @@ class item_location::impl::item_on_vehicle : public item_location::impl
             }
 
             item *obj = target();
-            item temp;
-            if( target()->count_by_charges() ) {
-                temp = target()->split( qty );
-                if( !temp.is_null() ) {
-                    obj = &temp;
-                }
-            }
-
-            int mv = ch.item_handling_cost( *obj, true, VEHICLE_HANDLING_PENALTY );
+            int mv = ch.item_handling_cost( *obj, true, VEHICLE_HANDLING_PENALTY, qty );
             mv += 100 * rl_dist( ch.pos(), cur.veh.global_part_pos3( cur.part ) );
 
             // TODO: handle unpacking costs
@@ -658,8 +632,8 @@ class item_location::impl::item_in_container : public item_location::impl
         }
 
         void remove_item() override {
-            on_contents_changed();
             container->remove_item( *target() );
+            container->on_contents_changed();
         }
 
         void on_contents_changed() override {

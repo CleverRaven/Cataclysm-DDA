@@ -331,7 +331,13 @@ enum class distraction_type : int {
     hunger,
     thirst,
     temperature,
-    mutation
+    mutation,
+    last,
+};
+
+template<>
+struct enum_traits<distraction_type> {
+    static constexpr distraction_type last = distraction_type::last;
 };
 
 enum game_message_type : int {

@@ -27,8 +27,8 @@ static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_mending( "mending" );
 
 static const json_character_flag json_flag_ECTOTHERM( "ECTOTHERM" );
+static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 
-static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_SUNLIGHT_DEPENDENT( "SUNLIGHT_DEPENDENT" );
 static const trait_id trait_TROGLO( "TROGLO" );
 static const trait_id trait_TROGLO2( "TROGLO2" );
@@ -353,7 +353,7 @@ static medical_column draw_health_summary( const int column_count, avatar *playe
         const bool bleeding = bleed_intensity > 0;
         const bool bitten = player->has_effect( effect_bite, part.id() );
         const bool infected = player->has_effect( effect_infected, part.id() );
-        const bool no_feeling = player->has_trait( trait_NOPAIN );
+        const bool no_feeling = player->has_flag( json_flag_PAIN_IMMUNE );
         const int maximal_hp = player->get_part_hp_max( part );
         const int current_hp = player->get_part_hp_cur( part );
         const bool limb_is_broken = player->is_limb_broken( part );

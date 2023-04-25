@@ -251,8 +251,8 @@ turret_data::status turret_data::query() const
         }
     }
 
-    const units::energy ups_drain = gun.get_gun_ups_drain() * gun.gun_current_mode().qty;
-    if( ups_drain > units::from_kilojoule( veh->fuel_left( fuel_type_battery ) ) ) {
+    const units::energy energy_drain = gun.get_gun_energy_drain() * gun.gun_current_mode().qty;
+    if( energy_drain > units::from_kilojoule( veh->fuel_left( fuel_type_battery ) ) ) {
         return status::no_power;
     }
 
@@ -305,7 +305,7 @@ void turret_data::post_fire( Character &you, int shots )
         clear_mag_wells( *base() );
     }
 
-    veh->drain( fuel_type_battery, units::to_kilojoule( mode->get_gun_ups_drain() * shots ) );
+    veh->drain( fuel_type_battery, units::to_kilojoule( mode->get_gun_energy_drain() * shots ) );
 }
 
 int turret_data::fire( Character &c, const tripoint &target )

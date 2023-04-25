@@ -8,10 +8,12 @@
 #include <vector>
 
 #include "avatar.h"
+#include "avatar_action.h"
 #include "calendar.h"
 #include "enums.h"
 #include "flag.h"
 #include "game.h"
+#include "item_category.h"
 #include "item_factory.h"
 #include "item_pocket.h"
 #include "itype.h"
@@ -38,6 +40,8 @@ static const itype_id itype_test_duffelbag( "test_duffelbag" );
 static const itype_id itype_test_mp3( "test_mp3" );
 static const itype_id itype_test_smart_phone( "test_smart_phone" );
 static const itype_id itype_test_waterproof_bag( "test_waterproof_bag" );
+
+static const json_character_flag json_flag_DEAF( "DEAF" );
 
 TEST_CASE( "item_volume", "[item]" )
 {
@@ -804,6 +808,17 @@ TEST_CASE( "module_inheritance", "[item][armor]" )
     guy.worn.wear_item( guy, test_exo, false, false, false );
 
     CHECK( guy.worn.worn_with_flag( json_flag_FIX_NEARSIGHT ) );
+
+    clear_avatar();
+    item miner_hat( "miner_hat" );
+    item ear_muffs( "attachable_ear_muffs" );
+    REQUIRE( miner_hat.put_in( ear_muffs, item_pocket::pocket_type::CONTAINER ).success() );
+    REQUIRE( !miner_hat.has_flag( json_flag_DEAF ) );
+    guy.wear_item( miner_hat );
+    item_location worn_hat = guy.worn.top_items_loc( guy ).front();
+    item_location worn_muffs( worn_hat, &worn_hat->only_item() );
+    avatar_action::use_item( guy, worn_muffs, "transform" );
+    CHECK( worn_hat->has_flag( json_flag_DEAF ) );
 }
 
 TEST_CASE( "rigid_armor_compliance", "[item][armor]" )

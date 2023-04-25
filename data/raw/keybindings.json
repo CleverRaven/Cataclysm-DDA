@@ -964,7 +964,7 @@
     "type": "keybinding",
     "id": "PICK_MODS",
     "category": "WORLDGEN_CONFIRM_DIALOG",
-    "name": "Pick random world name",
+    "name": "View mod manager",
     "bindings": [
       { "input_method": "keyboard_any", "key": "m" },
       { "input_method": "keyboard_char", "key": "M" },
@@ -1954,6 +1954,12 @@
   },
   {
     "type": "keybinding",
+    "id": "TOGGLE_NUMPAD_NAVIGATION",
+    "name": "Toggle navigation with numpad numbers",
+    "bindings": [ { "input_method": "keyboard_any", "key": "F5" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "INVENTORY_FILTER",
     "category": "INVENTORY",
     "name": "Set item filter",
@@ -1964,11 +1970,7 @@
     "id": "EXAMINE",
     "category": "INVENTORY",
     "name": "Examine",
-    "bindings": [
-      { "input_method": "keyboard_any", "key": "e" },
-      { "input_method": "keyboard_char", "key": "E" },
-      { "input_method": "keyboard_code", "key": "e", "mod": [ "shift" ] }
-    ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "e" } ]
   },
   {
     "type": "keybinding",
@@ -2042,6 +2044,13 @@
     "category": "BIONICS",
     "name": "Toggle safe fuel mod",
     "bindings": [ { "input_method": "keyboard_char", "key": "S" }, { "input_method": "keyboard_code", "key": "s", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_SPRITE",
+    "category": "BIONICS",
+    "name": "Toggle sprite",
+    "bindings": [ { "input_method": "keyboard_char", "key": "H" }, { "input_method": "keyboard_code", "key": "h", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
@@ -3553,7 +3562,8 @@
     "type": "keybinding",
     "id": "MARK_WITH_COUNT",
     "category": "INVENTORY",
-    "name": "Select a specific amount of highlighted item"
+    "name": "Select a specific amount of highlighted item",
+    "bindings": [ { "input_method": "keyboard_any", "key": "!" } ]
   },
   {
     "type": "keybinding",
@@ -4165,6 +4175,20 @@
       { "input_method": "keyboard_code", "key": "KEYPAD_MULTIPLY" },
       { "input_method": "keyboard_code", "key": "8", "mod": [ "shift" ] }
     ]
+  },
+  {
+    "type": "keybinding",
+    "id": "SCROLL_MISSION_INFO_UP",
+    "category": "FACTIONS",
+    "name": "Scroll camp mission info up",
+    "bindings": [ { "input_method": "keyboard_char", "key": "[" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "SCROLL_MISSION_INFO_DOWN",
+    "category": "FACTIONS",
+    "name": "Scroll camp mission info down",
+    "bindings": [ { "input_method": "keyboard_char", "key": "]" } ]
   },
   {
     "type": "keybinding",

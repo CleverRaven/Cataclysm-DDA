@@ -41,9 +41,30 @@
     "id": "scenario_mansion_pursuit",
     "eoc_type": "SCENARIO_SPECIFIC",
     "effect": [
-      { "u_spawn_monster": "GROUP_MANSION_ARMORED", "group": true, "real_count": 1, "min_radius": 15, "max_radius": 30 },
-      { "u_spawn_monster": "GROUP_MANSION_START", "group": true, "real_count": 2, "min_radius": 10, "max_radius": 18 },
-      { "u_spawn_monster": "GROUP_MANSION_START", "group": true, "real_count": 2, "min_radius": 15, "max_radius": 25 }
+      {
+        "u_spawn_monster": "GROUP_MANSION_ARMORED",
+        "group": true,
+        "real_count": 1,
+        "min_radius": 30,
+        "max_radius": 45,
+        "indoor_only": true
+      },
+      {
+        "u_spawn_monster": "GROUP_MANSION_START",
+        "group": true,
+        "real_count": 2,
+        "min_radius": 20,
+        "max_radius": 35,
+        "indoor_only": true
+      },
+      {
+        "u_spawn_monster": "GROUP_MANSION_START",
+        "group": true,
+        "real_count": 2,
+        "min_radius": 25,
+        "max_radius": 40,
+        "indoor_only": true
+      }
     ]
   },
   {
@@ -259,7 +280,7 @@
     "effect": [
       { "u_message": "Your malfunctioning bionic causes you to spasm and fall to the floor!", "type": "bad" },
       { "sound_effect": "elec_crackle_high", "id": "bionics", "volume": 100 },
-      { "arithmetic": [ { "u_val": "pain" }, "++" ] },
+      { "math": [ "u_pain()", "++" ] },
       { "u_add_effect": "stunned", "duration": 1 },
       { "u_add_effect": "downed", "duration": 1, "force": true }
     ]
@@ -382,6 +403,39 @@
       "and": [ { "npc_allies_global": 1 }, { "u_query": "You have died. Continue as one of your followers?", "default": false } ]
     },
     "effect": [ "take_control_menu" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "MAKAYLA_MUTATOR_portal_storm",
+    "recurrence": "15 minutes",
+    "//": "The assumption is that Makayla controls this normally, so the effects are only active when she's the avatar.  Thus global:true.",
+    "global": true,
+    "condition": {
+      "and": [
+        { "is_weather": "portal_storm" },
+        { "u_has_trait": "MAKAYLA_MUTATOR" },
+        { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } },
+        "u_is_outside"
+      ]
+    },
+    "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
+    "effect": [
+      { "u_message": "Everything feels fuzzy.", "type": "info" },
+      { "arithmetic": [ { "u_val": "vitamin", "name": "mutagen_feline" }, "=", { "const": 450 } ] },
+      { "arithmetic": [ { "u_val": "vitamin", "name": "mutagen" }, "=", { "const": 750 } ] },
+      {
+        "run_eocs": [
+          {
+            "id": "cat_ears_portal_storm",
+            "condition": { "not": { "u_has_trait": "FELINE_EARS" } },
+            "effect": [
+              { "u_message": "It didn't take very long for the ears to be back.", "type": "info" },
+              { "u_add_trait": "FELINE_EARS" }
+            ]
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -659,5 +713,111 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_READ_LOCAL_FILES",
+    "condition": { "and": [ { "u_has_skill": { "skill": "computer", "level": 2 } }, { "one_in_chance": 15 } ] },
+    "effect": [ { "u_message": "local_files_simple", "snippet": true, "same_snippet": true, "popup": true } ],
+    "false_effect": [ { "u_message": "You found nothing interesting in the local files." } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "scenario_surrounded_zombie",
+    "eoc_type": "SCENARIO_SPECIFIC",
+    "effect": [
+      { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 12, "max_radius": 20 },
+      { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 12, "max_radius": 20 },
+      { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 15, "max_radius": 22 },
+      { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 15, "max_radius": 22 },
+      { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 18, "max_radius": 30 }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "scenario_surrounded_zombie_heavy",
+    "eoc_type": "SCENARIO_SPECIFIC",
+    "effect": [
+      { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 14, "max_radius": 20 },
+      { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 14, "max_radius": 20 },
+      { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 14, "max_radius": 20 },
+      { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 14, "max_radius": 20 },
+      { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 18, "max_radius": 25 },
+      { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 18, "max_radius": 25 },
+      { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 18, "max_radius": 25 },
+      { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 18, "max_radius": 25 },
+      { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 20, "max_radius": 30 },
+      { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 20, "max_radius": 30 }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_lone_survivor",
+    "eoc_type": "SCENARIO_SPECIFIC",
+    "effect": [
+      {
+        "u_message": "They are all dead. The group you were surviving with has been annihilated. Their bodies are still nearby. You are the last one left alive and their screams will haunt you.",
+        "type": "warning",
+        "popup": true
+      },
+      {
+        "u_add_morale": "morale_feeling_bad",
+        "bonus": -100,
+        "max_bonus": -100,
+        "duration": "1440 minutes",
+        "decay_start": "180 minutes"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_scenario_drunk",
+    "eoc_type": "SCENARIO_SPECIFIC",
+    "effect": [
+      { "u_add_effect": "drunk", "intensity": 1, "duration": "270 minutes" },
+      {
+        "u_add_morale": "morale_feeling_bad",
+        "bonus": -50,
+        "max_bonus": -50,
+        "duration": "50 minutes",
+        "decay_start": "50 minutes"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_scenario_blood",
+    "eoc_type": "SCENARIO_SPECIFIC",
+    "effect": [ { "mapgen_update": "SCENARIO_BLOOD" } ]
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "SCENARIO_BLOOD",
+    "method": "json",
+    "object": { "place_fields": [ { "field": "fd_blood", "x": [ 5, 20 ], "y": [ 5, 20 ], "intensity": [ 1, 3 ], "repeat": 10 } ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_scenario_fire",
+    "eoc_type": "SCENARIO_SPECIFIC",
+    "effect": [ { "mapgen_update": "SCENARIO_FIRE" } ]
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "SCENARIO_FIRE",
+    "method": "json",
+    "object": { "place_fields": [ { "field": "fd_fire", "x": [ 3, 20 ], "y": [ 3, 20 ], "intensity": [ 1, 3 ], "repeat": 15 } ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_scenario_smoke",
+    "eoc_type": "SCENARIO_SPECIFIC",
+    "effect": [ { "mapgen_update": "SCENARIO_SMOKE" } ]
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "SCENARIO_SMOKE",
+    "method": "json",
+    "object": { "place_fields": [ { "field": "fd_smoke", "x": [ 3, 20 ], "y": [ 3, 20 ], "intensity": [ 1, 3 ], "repeat": 60 } ] }
   }
 ]

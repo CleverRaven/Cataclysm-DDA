@@ -781,12 +781,10 @@ construction_id construction_menu( const bool blueprint )
         } else if( action == "LEFT" || action == "PREV_TAB" || action == "RIGHT" || action == "NEXT_TAB" ) {
             update_info = true;
             update_cat = true;
-            tabindex = increment_and_wrap( tabindex, action == "RIGHT" ||
-                                           action == "NEXT_TAB", tabcount );
+            tabindex = inc_clamp_wrap( tabindex, action == "RIGHT" || action == "NEXT_TAB", tabcount );
         } else if( action == "SCROLL_STAGE_UP" || action == "SCROLL_STAGE_DOWN" ) {
-            current_construct_breakpoint = increment_and_clamp( current_construct_breakpoint,
-                                           action == "SCROLL_STAGE_DOWN",
-                                           total_project_breakpoints - 1 );
+            current_construct_breakpoint = inc_clamp( current_construct_breakpoint,
+                                           action == "SCROLL_STAGE_DOWN", total_project_breakpoints - 1 );
         } else if( action == "QUIT" ) {
             exit = true;
         } else if( action == "TOGGLE_UNAVAILABLE_CONSTRUCTIONS" ) {
@@ -1492,7 +1490,7 @@ void construct::done_appliance( const tripoint_bub_ms &p, Character & )
         return;
     }
 
-    const item base = components.front();
+    const item &base = components.front();
     const vpart_id &vpart = vpart_appliance_from_item( base.typeId() );
 
     // TODO: fix point types

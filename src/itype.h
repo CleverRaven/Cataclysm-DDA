@@ -159,9 +159,6 @@ struct islot_comestible {
         /** chance (odds) of becoming parasitised when eating (zero if never occurs) */
         int parasites = 0;
 
-        /**Amount of radiation you get from this comestible*/
-        int radiation = 0;
-
         /** freezing point in degrees celsius, below this temperature item can freeze */
         float freeze_point = 0;
 
@@ -708,9 +705,9 @@ struct islot_gun : common_ranged_data {
     int loudness = 0;
 
     /**
-     * If this uses UPS charges, how many (per shoot), 0 for no UPS charges at all.
+     * If this uses electric energy, how much (per shot).
      */
-    int ups_charges = 0;
+    units::energy energy_drain = 0_kJ;
     /**
      * One in X chance for gun to require major cleanup after firing blackpowder shot.
      */
@@ -723,6 +720,7 @@ struct islot_gun : common_ranged_data {
      * Length of gun barrel, if positive allows sawing down of the barrel
      */
     units::volume barrel_volume = 0_ml;
+    units::length barrel_length = 0_mm;
     /**
      * Effects that are applied to the ammo when fired.
      */
@@ -825,11 +823,11 @@ struct islot_gunmod : common_ranged_data {
     /** How many moves does this gunmod take to install? */
     int install_time = -1;
 
-    /** Increases base gun UPS consumption by this many times per shot */
-    float ups_charges_multiplier = 1.0f;
+    /** Increases base gun energy consumption by this many times per shot */
+    float energy_drain_multiplier = 1.0f;
 
-    /** Increases base gun UPS consumption by this value (kJ) per shot */
-    int ups_charges_modifier = 0;
+    /** Increases base gun energy consumption by this value per shot */
+    units::energy energy_drain_modifier = 0_kJ;
 
     /** Increases base gun ammo to fire by this many times per shot */
     float ammo_to_fire_multiplier = 1.0f;
@@ -1183,7 +1181,7 @@ struct itype {
         std::map<quality_id, int> charged_qualities;
 
         // True if this has given quality or charged_quality (regardless of current charge).
-        bool has_any_quality( const std::string &quality ) const;
+        bool has_any_quality( std::string_view quality ) const;
 
         // Properties are assigned to the type (belong to the item definition)
         std::map<std::string, std::string> properties;
@@ -1205,6 +1203,9 @@ struct itype {
 
         /** Actions an instance can perform (if any) indexed by action type */
         std::map<std::string, use_function> use_methods;
+
+        // @return returns itype_id of first ammo_id or itype_id::NULL_ID if not tool or no ammo defined
+        const itype_id &tool_slot_first_ammo() const;
 
         /** The factor of ammo consumption indexed by action type*/
         std::map<std::string, int> ammo_scale;
@@ -1316,17 +1317,13 @@ struct itype {
         float solar_efficiency = 0.0f;
 
     private:
-        /** Minimum and maximum amount of damage to an item (state of maximum repair). */
-        // TODO: create and use a MinMax class or similar to put both values into one object.
-        /// @{
-        int damage_min_ = -1000;
-        int damage_max_ = +4000;
+        /** maximum amount of damage to a non- count_by_charges item */
+        static constexpr int damage_max_ = 4000;
         int degrade_increments_ = 50;
-        /// @}
 
     public:
         /** Damage output in melee for zero or more damage types */
-        std::array<int, static_cast<int>( damage_type::NUM )> melee;
+        std::map<damage_type_id, float> melee;
 
         bool default_container_sealed = true;
 
@@ -1340,6 +1337,12 @@ struct itype {
         bool was_loaded = false;
 
     private:
+        // load-only, for applying proportional melee values at load time
+        std::map<damage_type_id, float> melee_proportional;
+
+        // load-only, for applying relative melee values at load time
+        std::map<damage_type_id, float> melee_relative;
+
         /** Can item be combined with other identical items? */
         bool stackable_ = false;
 
@@ -1347,12 +1350,9 @@ struct itype {
         static constexpr int damage_scale = 1000; /** Damage scale compared to the old float damage value */
 
         itype() {
-            melee.fill( 0 );
+            melee.clear();
         }
 
-        int damage_min() const {
-            return count_by_charges() ? 0 : damage_min_;
-        }
         int damage_max() const {
             return count_by_charges() ? 0 : damage_max_;
         }
@@ -1360,6 +1360,17 @@ struct itype {
         int degrade_increments() const {
             return count_by_charges() ? 0 : degrade_increments_;
         }
+
+        /**
+        * Quantizes item damage numbers into levels (for example for display).
+        * item damage [    0 -    0 ] returns 0
+        * item damage [    1 -  999 ] returns 1
+        * item damage [ 1000 - 1999 ] returns 2
+        * item damage [ 2000 - 2999 ] returns 3
+        * item damage [ 3000 - 3999 ] returns 4
+        * item damage [ 4000 - 4000 ] returns 5
+        */
+        int damage_level( int damage ) const;
 
         std::string get_item_type_string() const;
 
@@ -1422,8 +1433,8 @@ struct itype {
         bool is_basic_component() const;
 };
 
-void load_charge_removal_blacklist( const JsonObject &jo, const std::string &src );
-void load_charge_migration_blacklist( const JsonObject &jo, const std::string &src );
-void load_temperature_removal_blacklist( const JsonObject &jo, const std::string &src );
+void load_charge_removal_blacklist( const JsonObject &jo, std::string_view src );
+void load_charge_migration_blacklist( const JsonObject &jo, std::string_view src );
+void load_temperature_removal_blacklist( const JsonObject &jo, std::string_view src );
 
 #endif // CATA_SRC_ITYPE_H

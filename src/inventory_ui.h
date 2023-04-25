@@ -210,7 +210,7 @@ class inventory_entry
         void reset_entry_cell_cache() const;
 
     private:
-        const item_category *custom_category = nullptr;
+        mutable item_category const *custom_category = nullptr;
     protected:
         // indents the entry if it is contained in an item
         bool _indent = true;
@@ -443,7 +443,7 @@ class inventory_column
         virtual void reset_width( const std::vector<inventory_column *> &all_columns );
         /** Returns next custom inventory letter. */
         int reassign_custom_invlets( const Character &p, int min_invlet, int max_invlet );
-        int reassign_custom_invlets( int cur_idx, const std::string &pickup_chars );
+        int reassign_custom_invlets( int cur_idx, std::string_view pickup_chars );
         /** Reorder entries, repopulate titles, adjust to the new height. */
         virtual void prepare_paging( const std::string &filter = "" );
         /**
@@ -496,7 +496,7 @@ class inventory_column
         void toggle_skip_unselectable( bool skip );
         void collate();
         void uncollate();
-        void cycle_hide_override();
+        virtual void cycle_hide_override();
 
     protected:
         /**
@@ -504,6 +504,7 @@ class inventory_column
          */
         void move_selection( scroll_direction dir );
         void move_selection_page( scroll_direction dir );
+        void scroll_selection_page( scroll_direction dir );
 
         size_t next_highlightable_index( size_t index, scroll_direction dir ) const;
 
@@ -545,6 +546,7 @@ class inventory_column
         size_t entries_per_page = std::numeric_limits<size_t>::max();
         size_t height = std::numeric_limits<size_t>::max();
         size_t reserved_width = 0;
+        std::optional<bool> hide_entries_override = std::nullopt;
 
     private:
         struct cell_t {
@@ -563,7 +565,6 @@ class inventory_column
         std::vector<cell_t> cells;
 
         std::optional<bool> indent_entries_override = std::nullopt;
-        std::optional<bool> hide_entries_override = std::nullopt;
         /** @return Number of visible cells */
         size_t visible_cells() const;
         void _get_entries( get_entries_t *res, entries_t const &ent,
@@ -599,6 +600,7 @@ class selection_column : public inventory_column
         }
 
         void set_filter( const std::string &filter ) override;
+        void cycle_hide_override() override;
 
     private:
         const pimpl<item_category> selected_cat;
@@ -696,6 +698,8 @@ class inventory_selector
                             item_category const *children_category = nullptr,
                             item_location const &topmost_parent = {}, int indent = 0 );
 
+        bool drag_drop_item( item *sourceItem, item *destItem );
+
         inventory_input get_input();
         inventory_input process_input( const std::string &action, int ch );
 
@@ -715,11 +719,11 @@ class inventory_selector
          * @param val The default value to have set in the query prompt.
          * @return A tuple of a bool and string, bool is true if user confirmed.
          */
-        std::pair< bool, std::string > query_string( const std::string &val );
+        std::pair< bool, std::string > query_string( const std::string &val, bool end_with_toggle = false );
         /** Query the user for a filter and apply it. */
         void query_set_filter();
         /** Query the user for count and return it. */
-        int query_count();
+        int query_count( char init = 0, bool end_with_toggle = false );
 
         /** Tackles screen overflow */
         virtual void rearrange_columns( size_t client_width );
@@ -920,8 +924,10 @@ class inventory_pick_selector : public inventory_selector
     public:
         explicit inventory_pick_selector( Character &p,
                                           const inventory_selector_preset &preset = default_preset ) :
-            inventory_selector( p, preset ) {}
-
+            inventory_selector( p, preset ) {
+            drag_enabled = false;
+        }
+        bool drag_enabled;
         item_location execute();
 };
 

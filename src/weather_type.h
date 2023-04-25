@@ -116,7 +116,7 @@ struct weather_type {
         time_duration duration_max = 0_turns;
         std::optional<std::string> debug_cause_eoc;
         std::optional<std::string> debug_leave_eoc;
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
         void finalize();
         void check() const;
         std::string get_symbol() const {

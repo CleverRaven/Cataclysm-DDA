@@ -27,6 +27,7 @@
 #include "input.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_factory.h"
 #include "itype.h"
 #include "json.h"
 #include "localized_comparator.h"
@@ -82,7 +83,7 @@ static const std::map<const CRAFTING_SPEED_STATE, translation> craft_speed_reaso
 static std::vector<std::string> craft_cat_list;
 static std::map<std::string, std::vector<std::string> > craft_subcat_list;
 
-static bool query_is_yes( const std::string &query );
+static bool query_is_yes( std::string_view query );
 static void draw_hidden_amount( const catacurses::window &w, int amount, int num_recipe );
 static void draw_can_craft_indicator( const catacurses::window &w, const recipe &rec );
 static std::map<size_t, inclusive_rectangle<point>> draw_recipe_tabs( const catacurses::window &w,
@@ -99,9 +100,9 @@ static int related_menu_fill( uilist &rmenu,
                               const std::vector<std::pair<itype_id, std::string>> &related_recipes,
                               const recipe_subset &available );
 
-static std::string get_cat_unprefixed( const std::string &prefixed_name )
+static std::string get_cat_unprefixed( const std::string_view prefixed_name )
 {
-    return prefixed_name.substr( 3, prefixed_name.size() - 3 );
+    return std::string( prefixed_name.substr( 3, prefixed_name.size() - 3 ) );
 }
 
 void load_recipe_category( const JsonObject &jsobj )
@@ -132,7 +133,8 @@ void load_recipe_category( const JsonObject &jsobj )
     }
 }
 
-static std::string get_subcat_unprefixed( const std::string &cat, const std::string &prefixed_name )
+static std::string get_subcat_unprefixed( const std::string_view cat,
+        const std::string &prefixed_name )
 {
     std::string prefix = "CSC_" + get_cat_unprefixed( cat ) + "_";
 
@@ -151,7 +153,8 @@ void reset_recipe_categories()
 
 static bool cannot_gain_skill_or_prof( const Character &player, const recipe &recp )
 {
-    if( recp.skill_used && player.get_skill_level( recp.skill_used ) <= recp.get_skill_cap() ) {
+    if( recp.skill_used &&
+        static_cast<int>( player.get_skill_level( recp.skill_used ) ) <= recp.get_skill_cap() ) {
         return false;
     }
     for( const proficiency_id &prof : recp.used_proficiencies() ) {
@@ -280,19 +283,12 @@ struct availability {
 
         static bool check_can_craft_nested( const recipe &r ) {
             // recursively check if you can craft anything in the nest
-            bool can_craft = false;
             for( const recipe_id &nested_r : r.nested_category_data ) {
-                // if nested recur
-                availability av = availability( &nested_r.obj() );
-                can_craft |= av.can_craft;
-
-                // early return if we can craft anything
-                if( can_craft ) {
-                    break;
+                if( availability( &nested_r.obj() ).can_craft ) {
+                    return true;
                 }
             }
-
-            return can_craft;
+            return false;
         }
 };
 } // namespace
@@ -337,7 +333,7 @@ static std::vector<std::string> recipe_info(
     const recipe &recp,
     const availability &avail,
     Character &guy,
-    const std::string &qry_comps,
+    const std::string_view qry_comps,
     const int batch_size,
     const int fold_width,
     const nc_color &color )
@@ -835,7 +831,7 @@ struct item_info_cache {
 };
 
 static recipe_subset filter_recipes( const recipe_subset &available_recipes,
-                                     const std::string &qry,
+                                     const std::string_view qry,
                                      const Character &player_character,
                                      const std::function<void( size_t, size_t )> &progress_callback )
 {
@@ -886,12 +882,15 @@ static recipe_subset filter_recipes( const recipe_subset &available_recipes,
                     break;
 
                 case 'm': {
+                    // get_learned_recipes lists NO nested_recipes
                     const recipe_subset &learned = player_character.get_learned_recipes();
                     recipe_subset temp_subset;
                     if( query_is_yes( qry_filter_str ) ) {
                         temp_subset = available_recipes.intersection( learned );
                     } else {
-                        temp_subset = available_recipes.difference( learned );
+                        // nested_recipes cannot be learned so don't show them
+                        temp_subset = available_recipes.difference( learned )
+                                      .difference( recipe_dict.all_nested() );
                     }
                     filtered_recipes = filtered_recipes.intersection( temp_subset );
                     break;
@@ -906,6 +905,19 @@ static recipe_subset filter_recipes( const recipe_subset &available_recipes,
                     filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
                                        recipe_subset::search_type::difficulty, progress_callback );
                     break;
+
+                case 'r': {
+                    recipe_subset result;
+                    for( const itype *e : item_controller->all() ) {
+                        if( wildcard_match( e->nname( 1 ), qry_filter_str.substr( 2 ) ) ) {
+                            result.include( recipe_subset( available_recipes,
+                                                           available_recipes.recipes_that_produce( e->get_id() ) ) );
+                        }
+                    }
+                    filtered_recipes = result;
+
+                    break;
+                }
 
                 default:
                     break;
@@ -940,9 +952,10 @@ static const std::vector<SearchPrefix> prefixes = {
     { 's', to_translation( "food handling" ), to_translation( "<color_cyan>any skill</color> used to craft" ) },
     { 'Q', to_translation( "fine bolt turning" ), to_translation( "<color_cyan>quality</color> required to craft" ) },
     { 't', to_translation( "soldering iron" ), to_translation( "<color_cyan>tool</color> required to craft" ) },
-    { 'm', to_translation( "yes" ), to_translation( "recipes which are <color_cyan>memorized</color> or not" ) },
+    { 'm', to_translation( "yes" ), to_translation( "recipes which are <color_cyan>memorized</color> or not (hides nested)" ) },
     { 'P', to_translation( "Blacksmithing" ), to_translation( "<color_cyan>proficiency</color> used to craft" ) },
     { 'l', to_translation( "5" ), to_translation( "<color_cyan>difficulty</color> of the recipe as a number or range" ) },
+    { 'r', to_translation( "buttermilk" ), to_translation( "recipe's (<color_cyan>by</color>)<color_cyan>products</color>; use * as wildcard" ) },
 };
 
 static const translation filter_help_start = to_translation(
@@ -1724,7 +1737,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id &goto
         } else if( action == "SCROLL_UP" && mouse_in_list ) {
             line = std::max( 0, line - 1 );
         } else if( action == "PAGE_UP" || action == "PAGE_DOWN" ) {
-            line = increment_and_clamp( line, action == "PAGE_UP" ? -scroll_rate : scroll_rate, recmax );
+            line = inc_clamp( line, action == "PAGE_UP" ? -scroll_rate : scroll_rate, recmax );
         } else if( action == "HOME" ) {
             line = 0;
             user_moved_line = highlight_unread_recipes;
@@ -2025,45 +2038,46 @@ int related_menu_fill( uilist &rmenu,
         }
         recipe_name_prev = recipe_name;
 
-        std::vector<const recipe *> current_part = available.search_result( p.first );
-        if( !current_part.empty() ) {
+        std::vector<const recipe *> current_part = available.recipes_that_produce( p.first );
+        if( current_part.empty() ) {
+            continue;
+        }
 
-            bool different_recipes = false;
+        bool different_recipes = false;
 
-            // 1st pass: check if we need to add group
-            for( size_t recipe_n = 0; recipe_n < current_part.size(); recipe_n++ ) {
-                if( current_part[recipe_n]->result_name( /*decorated=*/true ) != recipe_name ) {
-                    // add group
-                    rmenu.addentry( ++np_last, false, -1, recipe_name );
-                    different_recipes = true;
-                    break;
-                } else if( recipe_n == current_part.size() - 1 ) {
-                    // only one result
-                    rmenu.addentry( ++np_last, true, -1, "─ " + recipe_name );
-                }
+        // 1st pass: check if we need to add group
+        for( size_t recipe_n = 0; recipe_n < current_part.size(); recipe_n++ ) {
+            if( current_part[recipe_n]->result_name( /*decorated=*/true ) != recipe_name ) {
+                // add group
+                rmenu.addentry( ++np_last, false, -1, recipe_name );
+                different_recipes = true;
+                break;
+            } else if( recipe_n == current_part.size() - 1 ) {
+                // only one result
+                rmenu.addentry( ++np_last, true, -1, "─ " + recipe_name );
             }
-
-            if( different_recipes ) {
-                std::string prev_item_name;
-                // 2nd pass: add different recipes
-                for( size_t recipe_n = 0; recipe_n < current_part.size(); recipe_n++ ) {
-                    std::string cur_item_name = current_part[recipe_n]->result_name( /*decorated=*/true );
-                    if( cur_item_name != prev_item_name ) {
-                        std::string sym = recipe_n == current_part.size() - 1 ? "└ " : "├ ";
-                        rmenu.addentry( ++np_last, true, -1, sym + cur_item_name );
-                    }
-                    prev_item_name = cur_item_name;
-                }
+        }
+        if( !different_recipes ) {
+            continue;
+        }
+        std::string prev_item_name;
+        // 2nd pass: add different recipes
+        for( size_t recipe_n = 0; recipe_n < current_part.size(); recipe_n++ ) {
+            std::string cur_item_name = current_part[recipe_n]->result_name( /*decorated=*/true );
+            if( cur_item_name != prev_item_name ) {
+                std::string sym = recipe_n == current_part.size() - 1 ? "└ " : "├ ";
+                rmenu.addentry( ++np_last, true, -1, sym + cur_item_name );
             }
+            prev_item_name = cur_item_name;
         }
     }
 
     return np_last;
 }
 
-static bool query_is_yes( const std::string &query )
+static bool query_is_yes( const std::string_view query )
 {
-    const std::string subquery = query.substr( 2 );
+    const std::string_view subquery = query.substr( 2 );
 
     return subquery == "yes" || subquery == "y" || subquery == "1" ||
            subquery == "true" || subquery == "t" || subquery == "on" ||

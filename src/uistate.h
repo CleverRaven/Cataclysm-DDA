@@ -148,6 +148,7 @@ class uistatedata
         bool distraction_thirst = true;
         bool distraction_temperature = true;
         bool distraction_mutation = true;
+        bool numpad_navigation = false;
 
         // V Menu Stuff
         int list_item_sort = 0;
@@ -204,7 +205,7 @@ class uistatedata
 
         // nice little convenience function for serializing an array, regardless of amount. :^)
         template<typename T>
-        void serialize_array( JsonOut &json, const std::string &name, T &data ) const {
+        void serialize_array( JsonOut &json, const std::string_view name, T &data ) const {
             json.member( name );
             json.start_array();
             for( const auto &d : data ) {

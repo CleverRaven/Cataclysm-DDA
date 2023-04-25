@@ -15,6 +15,7 @@
 #include "enums.h"
 #include "generic_factory.h"
 #include "item.h"
+#include "make_static.h"
 #include "messages.h"
 #include "monster.h"
 #include "mtype.h"
@@ -333,7 +334,7 @@ weakpoint_attack::weakpoint_attack()  :
 weakpoint_attack::attack_type
 weakpoint_attack::type_of_melee_attack( const damage_instance &damage )
 {
-    damage_type primary = damage_type::NONE;
+    damage_type_id primary = damage_type_id::NULL_ID();
     int primary_amount = 0;
     for( const damage_unit &du : damage.damage_units ) {
         if( du.amount > primary_amount ) {
@@ -341,16 +342,15 @@ weakpoint_attack::type_of_melee_attack( const damage_instance &damage )
             primary_amount = du.amount;
         }
     }
-    switch( primary ) {
-        case damage_type::BASH:
-            return attack_type::MELEE_BASH;
-        case damage_type::CUT:
-            return attack_type::MELEE_CUT;
-        case damage_type::STAB:
-            return attack_type::MELEE_STAB;
-        default:
-            return attack_type::NONE;
+    // FIXME: Hardcoded damage types
+    if( primary == STATIC( damage_type_id( "bash" ) ) ) {
+        return attack_type::MELEE_BASH;
+    } else if( primary == STATIC( damage_type_id( "cut" ) ) ) {
+        return attack_type::MELEE_CUT;
+    } else if( primary == STATIC( damage_type_id( "stab" ) ) ) {
+        return attack_type::MELEE_STAB;
     }
+    return attack_type::NONE;
 }
 
 void weakpoint_attack::compute_wp_skill()
@@ -395,11 +395,7 @@ void weakpoint_attack::compute_wp_skill()
 
 weakpoint::weakpoint() : coverage_mult( 1.0f ), difficulty( -100.0f )
 {
-    // arrays must be filled manually to avoid UB.
-    armor_mult.fill( 1.0f );
-    armor_penalty.fill( 0.0f );
-    damage_mult.fill( 1.0f );
-    crit_mult.fill( 1.0f );
+
 }
 
 void weakpoint::load( const JsonObject &jo )
@@ -408,16 +404,16 @@ void weakpoint::load( const JsonObject &jo )
     assign( jo, "name", name );
     assign( jo, "coverage", coverage, false, 0.0f, 100.0f );
     if( jo.has_object( "armor_mult" ) ) {
-        armor_mult = load_damage_array( jo.get_object( "armor_mult" ), 1.0f );
+        armor_mult = load_damage_map( jo.get_object( "armor_mult" ) );
     }
     if( jo.has_object( "armor_penalty" ) ) {
-        armor_penalty = load_damage_array( jo.get_object( "armor_penalty" ), 0.0f );
+        armor_penalty = load_damage_map( jo.get_object( "armor_penalty" ) );
     }
     if( jo.has_object( "damage_mult" ) ) {
-        damage_mult = load_damage_array( jo.get_object( "damage_mult" ), 1.0f );
+        damage_mult = load_damage_map( jo.get_object( "damage_mult" ) );
     }
     if( jo.has_object( "crit_mult" ) ) {
-        crit_mult = load_damage_array( jo.get_object( "crit_mult" ), 1.0f );
+        crit_mult = load_damage_map( jo.get_object( "crit_mult" ) );
     } else {
         // Default to damage multiplier, if crit multipler is not specified.
         crit_mult = damage_mult;
@@ -452,17 +448,29 @@ std::string weakpoint::get_name() const
 
 void weakpoint::apply_to( resistances &resistances ) const
 {
-    for( int i = 0; i < static_cast<int>( damage_type::NUM ); ++i ) {
-        resistances.resist_vals[i] *= armor_mult[i];
-        resistances.resist_vals[i] -= armor_penalty[i];
+    for( const damage_type &dt : damage_type::get_all() ) {
+        if( resistances.resist_vals.count( dt.id ) <= 0 ) {
+            resistances.resist_vals[dt.id] = 0.0f;
+        }
+        if( armor_mult.count( dt.id ) > 0 ) {
+            resistances.resist_vals[dt.id] *= armor_mult.at( dt.id );
+        }
+        if( armor_penalty.count( dt.id ) > 0 ) {
+            resistances.resist_vals[dt.id] -= armor_penalty.at( dt.id );
+        }
     }
 }
 
 void weakpoint::apply_to( damage_instance &damage, bool is_crit ) const
 {
     for( damage_unit &elem : damage.damage_units ) {
-        int idx = static_cast<int>( elem.type );
-        elem.damage_multiplier *= is_crit ? crit_mult[idx] : damage_mult[idx];
+        if( is_crit ) {
+            if( crit_mult.count( elem.type ) > 0 ) {
+                elem.damage_multiplier *= crit_mult.at( elem.type );
+            }
+        } else if( damage_mult.count( elem.type ) > 0 ) {
+            elem.damage_multiplier *= damage_mult.at( elem.type );
+        }
     }
 }
 
@@ -570,6 +578,16 @@ void weakpoints::load( const JsonArray &ja )
     } );
 }
 
+void weakpoints::finalize()
+{
+    for( weakpoint &w : weakpoint_list ) {
+        finalize_damage_map( w.armor_mult, false, 1.0f );
+        finalize_damage_map( w.armor_penalty, false, 0.0f );
+        finalize_damage_map( w.damage_mult, false, 1.0f );
+        finalize_damage_map( w.crit_mult, false, 1.0f );
+    }
+}
+
 void weakpoints::remove( const JsonArray &ja )
 {
     for( const JsonObject jo : ja ) {
@@ -591,9 +609,14 @@ void weakpoints::remove( const JsonArray &ja )
     }
 }
 
-void weakpoints::load( const JsonObject &jo, const std::string & )
+void weakpoints::load( const JsonObject &jo, const std::string_view )
 {
     load( jo.get_array( "weakpoints" ) );
+}
+
+void weakpoints::finalize_all()
+{
+    weakpoints_factory.finalize();
 }
 
 void weakpoints::add_from_set( const weakpoints_id &set_id, bool replace_id )

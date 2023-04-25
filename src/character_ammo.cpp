@@ -46,9 +46,9 @@ int Character::ammo_count_for( const item_location &gun ) const
         ret = std::min( ret, total_ammo / required );
     }
 
-    units::energy ups_drain = gun->get_gun_ups_drain();
-    if( ups_drain > 0_kJ ) {
-        ret = std::min( ret, static_cast<int>( available_ups() / ups_drain ) );
+    units::energy energy_drain = gun->get_gun_energy_drain();
+    if( energy_drain > 0_kJ ) {
+        ret = std::min( ret, static_cast<int>( gun->energy_remaining( this ) / energy_drain ) );
     }
 
     return ret;
@@ -443,15 +443,9 @@ int Character::item_reload_cost( const item &it, const item &ammo, int qty ) con
         qty = 1;
     }
 
-    // If necessary create duplicate with appropriate number of charges
-    item obj = ammo;
-    obj = obj.split( qty );
-    if( obj.is_null() ) {
-        obj = ammo;
-    }
     // No base cost for handling ammo - that's already included in obtain cost
     // We have the ammo in our hands right now
-    int mv = item_handling_cost( obj, true, 0 );
+    int mv = item_handling_cost( ammo, true, 0, qty );
 
     if( ammo.has_flag( flag_MAG_BULKY ) ) {
         mv *= 1.5; // bulky magazines take longer to insert

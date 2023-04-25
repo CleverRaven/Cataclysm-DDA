@@ -93,6 +93,9 @@ static const ammotype ammo_plutonium( "plutonium" );
 
 static const bionic_id bio_jointservo( "bio_jointservo" );
 
+static const damage_type_id damage_heat( "heat" );
+static const damage_type_id damage_pure( "pure" );
+
 static const efftype_id effect_harnessed( "harnessed" );
 static const efftype_id effect_winded( "winded" );
 
@@ -657,7 +660,7 @@ std::set<point> vehicle::immediate_path( const units::angle &rotate )
     const int distance_to_check = 10 + ( velocity / 800 );
     units::angle adjusted_angle = normalize( face.dir() + rotate );
     // clamp to multiples of 15.
-    adjusted_angle = round_to_multiple_of( adjusted_angle, 15_degrees );
+    adjusted_angle = round_to_multiple_of( adjusted_angle, vehicles::steer_increment );
     tileray collision_vector;
     collision_vector.init( adjusted_angle );
     map &here = get_map();
@@ -838,8 +841,9 @@ void vehicle::smash( map &m, float hp_percent_loss_min, float hp_percent_loss_ma
         if( structures_found > 1 ) {
             //Destroy everything in the square
             for( int idx : parts_in_square ) {
-                mod_hp( parts[ idx ], 0 - parts[ idx ].hp(), damage_type::BASH );
-                parts[ idx ].ammo_unset();
+                vehicle_part &vp = parts[idx];
+                vp.ammo_unset();
+                mod_hp( vp, -vp.hp() );
             }
             continue;
         }
@@ -851,9 +855,8 @@ void vehicle::smash( map &m, float hp_percent_loss_min, float hp_percent_loss_ma
                            clamp( 1.0f - trig_dist( damage_origin, part.precalc[0].xy() ) /
                                   damage_size, 0.0f, 1.0f );
             //Everywhere else, drop by 10-120% of max HP (anything over 100 = broken)
-            if( mod_hp( part, 0 - ( rng_float( hp_percent_loss_min * dist,
-                                               hp_percent_loss_max * dist ) *
-                                    part.info().durability ), damage_type::BASH ) ) {
+            const float roll = rng_float( hp_percent_loss_min * dist, hp_percent_loss_max * dist );
+            if( mod_hp( part, -part.info().durability * roll ) ) {
                 part.ammo_unset();
             }
         }
@@ -1854,6 +1857,10 @@ bool vehicle::remove_part( const int p, RemovePartHandler &handler )
         handler.unboard( part_loc );
     }
 
+    for( const item &it : vp.tools ) {
+        handler.add_item_or_charges( part_loc, it, false );
+    }
+
     // If `p` has flag `parent_flag`, remove child with flag `child_flag`
     // Returns true if removal occurs
     const auto remove_dependent_part = [&](
@@ -2458,26 +2465,33 @@ std::optional<vpart_reference> vpart_position::part_with_tool( const itype_id &t
 {
     for( const int idx : vehicle().parts_at_relative( mount(), false ) ) {
         const vpart_reference vp( vehicle(), idx );
-        if( !vp.part().is_broken() && vp.info().has_tool( tool_type ) ) {
+        if( vp.part().is_broken() ) {
+            continue;
+        }
+        const std::map<item, input_event> tools = vehicle().prepare_tools( vp.part() );
+        if( std::find_if( tools.begin(), tools.end(),
+        [&tool_type]( const std::pair<const item, input_event> &pair ) {
+        return pair.first.typeId() == tool_type;
+        } ) != tools.end() ) {
             return vp;
         }
     }
     return std::optional<vpart_reference>();
 }
 
-std::vector<std::pair<itype_id, int>> vpart_position::get_tools() const
+std::map<item, input_event> vpart_position::get_tools() const
 {
-    std::set<std::pair<itype_id, int>> tools;
+    std::map<item, input_event> res;
     for( const int part_idx : this->vehicle().parts_at_relative( this->mount(), false ) ) {
-        const vpart_reference vp( this->vehicle(), part_idx );
-        if( vp.part().is_broken() ) {
+        const vehicle_part &vp = this->vehicle().part( part_idx );
+        if( vp.is_broken() ) {
             continue;
         }
-        std::set<std::pair<itype_id, int>> items = vp.part().info().get_pseudo_tools();
-        std::copy( items.cbegin(), items.cend(), std::inserter( tools, tools.end() ) );
+        for( const auto &[tool_item, ev] : this->vehicle().prepare_tools( vp ) ) {
+            res[tool_item] = ev;
+        }
     }
-
-    return std::vector<std::pair<itype_id, int>>( tools.cbegin(), tools.cend() );
+    return res;
 }
 
 std::optional<vpart_reference> vpart_position::part_with_feature( const std::string &f,
@@ -2551,11 +2565,6 @@ std::optional<vpart_reference> optional_vpart_position::part_with_tool(
     const itype_id &tool_type ) const
 {
     return has_value() ? value().part_with_tool( tool_type ) : std::nullopt;
-}
-
-std::vector<std::pair<itype_id, int>> optional_vpart_position::get_tools() const
-{
-    return has_value() ? value().get_tools() : std::vector<std::pair<itype_id, int>>();
 }
 
 std::string optional_vpart_position::extended_description() const
@@ -4830,56 +4839,37 @@ units::power vehicle::net_battery_charge_rate( bool include_reactors ) const
 {
     return total_engine_epower() + total_alternator_epower() + total_accessory_epower() +
            total_solar_epower() + total_wind_epower() + total_water_wheel_epower() +
-           ( include_reactors ? active_reactor_epower( false ) : 0_W );
+           ( include_reactors ? active_reactor_epower() : 0_W );
 }
 
-units::power vehicle::active_reactor_epower( bool connected_vehicles ) const
+units::power vehicle::active_reactor_epower() const
 {
-    units::power reactor_w = 0_W;
-
+    units::power reactors_flow = 0_W;
     for( const int p : reactors ) {
         const vehicle_part &vp = parts[p];
-        if( vp.enabled && !vp.is_unavailable() &&
+        if( vp.enabled && vp.is_available() &&
             ( vp.info().has_flag( STATIC( std::string( "PERPETUAL" ) ) ) || vp.ammo_remaining() ) ) {
-            reactor_w += part_epower( vp );
+            reactors_flow += part_epower( vp );
         }
     }
 
-    if( reactor_w > 0_W ) {
-        // The reactor is providing power, but not all of it will really be used.
-        // Only count as much power as will be drawn from the reactor to fill the batteries.
-        int total_battery_left;
-        int total_battery_capacity;
-        std::tie( total_battery_left, total_battery_capacity ) = connected_vehicles ?
-                connected_battery_power_level() : battery_power_level();
-
-        // How much battery needs filled?
-        int batteries_need = std::max( 0, total_battery_capacity - total_battery_left );
-
-        // How much battery are others adding/draining?
-        units::power others_w = net_battery_charge_rate( /* include_reactors = */ false );
-        int others_bat = power_to_energy_bat( others_w, 1_turns );
-
-        // How much battery will the reactors add?
-        int reactor_bat = power_to_energy_bat( reactor_w, 1_turns );
-
-        batteries_need -= others_bat;
-
-        if( reactor_bat >= batteries_need ) {
-            // The reactor will provide more than the batteries need.
-            // Since the batteries will be filled up immediately,
-            // the reactor will throttle, providing just enough to cancel out
-            // any negative draw on the batteries.
-            return std::max( 1_kW, -others_w );
-        } else {
-            // The reactor will not immediately fill up the batteries.
-            // Thus it will provide full power.
-            return reactor_w;
-        }
-    } else {
-        // No power provded by reactors, don't bother checking battery level.
-        return 0_W;
+    if( reactors_flow <= 0_W ) {
+        return 0_W; // reactors don't output any power
     }
+
+    // Reactors are providing power, but not all of it will really be used.
+    // Only count as much power as will be drawn from the reactor to fill the batteries.
+    const auto [bat_remaining, bat_capacity] = connected_battery_power_level();
+    // max power flow into batteries for next turn
+    const units::power max_battery_flow = units::from_kilowatt( bat_capacity - bat_remaining );
+    // power flow by all parts except reactors
+    const units::power non_reactor_flow = net_battery_charge_rate( false );
+
+    if( non_reactor_flow >= max_battery_flow ) {
+        return 0_W; // other parts will fully charge battery without a reactor involved
+    }
+    // return how much power the reactor will contribute after other parts
+    return std::min( reactors_flow, max_battery_flow - non_reactor_flow );
 }
 
 units::power vehicle::max_reactor_epower() const
@@ -5595,6 +5585,36 @@ vehicle_stack vehicle::get_items( const int part ) const
     return const_cast<vehicle *>( this )->get_items( part );
 }
 
+std::vector<item> &vehicle::get_tools( vehicle_part &vp )
+{
+    return vp.tools;
+}
+
+const std::vector<item> &vehicle::get_tools( const vehicle_part &vp ) const
+{
+    return vp.tools;
+}
+
+std::map<item, input_event> vehicle::prepare_tools( const vehicle_part &vp ) const
+{
+    std::map<item, input_event> res;
+    for( const std::pair<itype_id, int> &pair : vp.info().get_pseudo_tools() ) {
+        item it( pair.first, calendar::turn );
+        const input_event ev( pair.second, input_event_t::keyboard_char );
+        prepare_tool( it );
+        res.emplace( it, pair.second > 0 ? ev : input_event( -1, input_event_t::error ) );
+    }
+    for( const item &it_src : vp.tools ) {
+        item it( it_src ); // make a copy
+        const input_event ev = it.invlet > 0
+                               ? input_event( it.invlet, input_event_t::keyboard_char )
+                               : input_event();
+        prepare_tool( it );
+        res.emplace( it, ev );
+    }
+    return res;
+}
+
 void vehicle::place_spawn_items()
 {
     if( !type.is_valid() ) {
@@ -5629,12 +5649,14 @@ void vehicle::place_spawn_items()
 
                 for( const itype_id &e : spawn.item_ids ) {
                     if( rng_float( 0, 1 ) < spawn_rate ) {
-                        created.emplace_back( item( e ).in_its_container() );
+                        item spawn( e );
+                        created.emplace_back( spawn.in_its_container() );
                     }
                 }
                 for( const std::pair<itype_id, std::string> &e : spawn.variant_ids ) {
                     if( rng_float( 0, 1 ) < spawn_rate ) {
-                        item added = item( e.first ).in_its_container();
+                        item spawn( e.first );
+                        item added = spawn.in_its_container();
                         added.set_itype_variant( e.second );
                         created.push_back( added );
                     }
@@ -6704,7 +6726,7 @@ void vehicle::unboard_all() const
     }
 }
 
-int vehicle::damage( map &here, int p, int dmg, damage_type type, bool aimed )
+int vehicle::damage( map &here, int p, int dmg, const damage_type_id &type, bool aimed )
 {
     if( dmg < 1 ) {
         return dmg;
@@ -6757,7 +6779,7 @@ int vehicle::damage( map &here, int p, int dmg, damage_type type, bool aimed )
     const vpart_info &vpi_target = vp_target.info();
     const vehicle_part &vp_armor = part( armor_part );
     // Covered by armor -- hit both armor and part, but reduce damage by armor's reduction
-    const int protection = vp_armor.info().damage_reduction[static_cast<int>( type )];
+    const int protection = type->no_resist ? 0 : vp_armor.info().damage_reduction.at( type );
     // Parts on roof aren't protected
     const bool overhead = vpi_target.has_flag( "ROOF" ) || vpi_target.location == "on_roof";
     // Calling damage_direct may remove the damaged part completely, therefore the
@@ -6774,7 +6796,7 @@ int vehicle::damage( map &here, int p, int dmg, damage_type type, bool aimed )
     }
 }
 
-void vehicle::damage_all( int dmg1, int dmg2, damage_type type, const point &impact )
+void vehicle::damage_all( int dmg1, int dmg2, const damage_type_id &type, const point &impact )
 {
     if( dmg2 < dmg1 ) {
         std::swap( dmg1, dmg2 );
@@ -6962,7 +6984,7 @@ int vehicle::break_off( map &here, int p, int dmg )
     return dmg;
 }
 
-bool vehicle::explode_fuel( int p, damage_type type )
+bool vehicle::explode_fuel( int p, const damage_type_id &type )
 {
     const itype_id &ft = part_info( p ).fuel_type;
     item fuel = item( ft );
@@ -6975,7 +6997,7 @@ bool vehicle::explode_fuel( int p, damage_type type )
         leak_fuel( parts[ p ] );
     }
 
-    int explosion_chance = type == damage_type::HEAT ? data.explosion_chance_hot :
+    int explosion_chance = type == damage_heat ? data.explosion_chance_hot :
                            data.explosion_chance_cold;
     if( one_in( explosion_chance ) ) {
         get_event_bus().send<event_type::fuel_tank_explodes>( name );
@@ -6984,14 +7006,14 @@ bool vehicle::explode_fuel( int p, damage_type type )
         //debugmsg( "damage check dmg=%d pow=%d amount=%d", dmg, pow, parts[p].amount );
 
         explosion_handler::explosion( nullptr, global_part_pos3( p ), pow, 0.7, data.fiery_explosion );
-        mod_hp( parts[p], 0 - parts[ p ].hp(), damage_type::HEAT );
+        mod_hp( parts[p], -parts[ p ].hp() );
         parts[p].ammo_unset();
     }
 
     return true;
 }
 
-int vehicle::damage_direct( map &here, int p, int dmg, damage_type type )
+int vehicle::damage_direct( map &here, int p, int dmg, const damage_type_id &type )
 {
     // Make sure p is within range and hasn't been removed already
     if( ( static_cast<size_t>( p ) >= parts.size() ) || parts[p].removed ) {
@@ -7007,17 +7029,19 @@ int vehicle::damage_direct( map &here, int p, int dmg, damage_type type )
     }
 
     int tsh = std::min( 20, part_info( p ).durability / 10 );
-    if( dmg < tsh && type != damage_type::PURE ) {
-        if( type == damage_type::HEAT && parts[p].is_fuel_store() ) {
+    if( dmg < tsh && type != damage_pure ) {
+        if( type == damage_heat && parts[p].is_fuel_store() ) {
             explode_fuel( p, type );
         }
 
         return dmg;
     }
 
-    dmg -= std::min<int>( dmg, part_info( p ).damage_reduction[ static_cast<int>( type ) ] );
+    if( !type->no_resist ) {
+        dmg -= std::min<int>( dmg, part_info( p ).damage_reduction.at( type ) );
+    }
     int dres = dmg - parts[p].hp();
-    if( mod_hp( parts[ p ], 0 - dmg, type ) ) {
+    if( mod_hp( parts[ p ], -dmg ) ) {
         if( is_flyable() && !rotors.empty() && !parts[p].info().has_flag( VPFLAG_SIMPLE_PART ) ) {
             // If we break a part, we can no longer fly the vehicle.
             set_flyable( false );
@@ -7278,23 +7302,17 @@ std::list<item> vehicle::use_charges( const vpart_position &vp, const itype_id &
     const std::optional<vpart_reference> tool_vp = vp.part_with_tool( veh_tool_type );
     const std::optional<vpart_reference> cargo_vp = vp.part_with_feature( "CARGO", true );
 
-    const auto tool_wants_battery = []( const itype_id & type ) {
-        item tool( type, calendar::turn_zero );
-        item mag( tool.magazine_default() );
-        mag.clear_items();
-
-        return tool.can_contain( mag ).success() &&
-               tool.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL ).success() &&
-               tool.ammo_capacity( ammo_battery ) > 0;
-    };
-
     if( tool_vp ) { // handle vehicle tools
-        itype_id fuel_type = tool_wants_battery( type ) ? itype_battery : type;
+        const itype_id &tool_fuel_type = type->tool_slot_first_ammo();
+        // use the tool's ammo charges
+        const itype_id &fuel_type = tool_fuel_type.is_null() ? type : tool_fuel_type;
         item tmp( type, calendar::turn_zero ); // TODO: add a sane birthday arg
         // TODO: Handle water poison when crafting starts respecting it
         tmp.charges = tool_vp->vehicle().drain( fuel_type, quantity );
         quantity -= tmp.charges;
         ret.push_back( tmp );
+        add_msg_debug( debugmode::DF_VEHICLE, "drained %d %s from %s",
+                       tmp.charges, fuel_type.str(), tool_vp->vehicle().name );
 
         if( quantity == 0 ) {
             return ret;
@@ -7564,6 +7582,9 @@ void vehicle::calc_mass_center( bool use_precalc ) const
         units::mass m_part_items = 0_gram;
         m_part += vp.part().base.weight();
         for( const item &j : get_items( i ) ) {
+            m_part_items += j.weight();
+        }
+        for( const item &j : get_tools( vp.part() ) ) {
             m_part_items += j.weight();
         }
         if( vp.part().info().cargo_weight_modifier != 100 ) {

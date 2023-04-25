@@ -224,8 +224,8 @@
           ]
         },
         "effect": [
-          { "npc_lose_var": "u_want_tshirt", "type": "general", "context": "trade", "value": "yes" },
-          { "npc_lose_var": "knitting", "type": "timer", "context": "trade", "time": true },
+          { "npc_lose_var": "u_want_tshirt", "type": "general", "context": "trade" },
+          { "npc_lose_var": "knitting", "type": "timer", "context": "trade" },
           { "u_spawn_item": "tshirt" }
         ],
         "topic": "TALK_GODCO_Maria_Tailor_Done"
@@ -245,8 +245,8 @@
           ]
         },
         "effect": [
-          { "npc_lose_var": "u_want_pants", "type": "general", "context": "trade", "value": "yes" },
-          { "npc_lose_var": "knitting", "type": "timer", "context": "trade", "time": true },
+          { "npc_lose_var": "u_want_pants", "type": "general", "context": "trade" },
+          { "npc_lose_var": "knitting", "type": "timer", "context": "trade" },
           { "u_spawn_item": "pants" }
         ],
         "topic": "TALK_GODCO_Maria_Tailor_Done"
@@ -266,8 +266,8 @@
           ]
         },
         "effect": [
-          { "npc_lose_var": "u_want_jacket", "type": "general", "context": "trade", "value": "yes" },
-          { "npc_lose_var": "knitting", "type": "timer", "context": "trade", "time": true },
+          { "npc_lose_var": "u_want_jacket", "type": "general", "context": "trade" },
+          { "npc_lose_var": "knitting", "type": "timer", "context": "trade" },
           { "u_spawn_item": "jacket_leather" }
         ],
         "topic": "TALK_GODCO_Maria_Tailor_Done"
@@ -287,8 +287,8 @@
           ]
         },
         "effect": [
-          { "npc_lose_var": "u_want_dress", "type": "general", "context": "trade", "value": "yes" },
-          { "npc_lose_var": "knitting", "type": "timer", "context": "trade", "time": true },
+          { "npc_lose_var": "u_want_dress", "type": "general", "context": "trade" },
+          { "npc_lose_var": "knitting", "type": "timer", "context": "trade" },
           { "u_spawn_item": "dress" }
         ],
         "topic": "TALK_GODCO_Maria_Tailor_Done"
@@ -308,8 +308,8 @@
           ]
         },
         "effect": [
-          { "npc_lose_var": "u_want_duster", "type": "general", "context": "trade", "value": "yes" },
-          { "npc_lose_var": "knitting", "type": "timer", "context": "trade", "time": true },
+          { "npc_lose_var": "u_want_duster", "type": "general", "context": "trade" },
+          { "npc_lose_var": "knitting", "type": "timer", "context": "trade" },
           { "u_spawn_item": "duster" }
         ],
         "topic": "TALK_GODCO_Maria_Tailor_Done"
@@ -329,8 +329,8 @@
           ]
         },
         "effect": [
-          { "npc_lose_var": "u_want_trenchcoat", "type": "general", "context": "trade", "value": "yes" },
-          { "npc_lose_var": "knitting", "type": "timer", "context": "trade", "time": true },
+          { "npc_lose_var": "u_want_trenchcoat", "type": "general", "context": "trade" },
+          { "npc_lose_var": "knitting", "type": "timer", "context": "trade" },
           { "u_spawn_item": "trenchcoat" }
         ],
         "topic": "TALK_GODCO_Maria_Tailor_Done"
@@ -350,8 +350,8 @@
           ]
         },
         "effect": [
-          { "npc_lose_var": "u_want_backpack", "type": "general", "context": "trade", "value": "yes" },
-          { "npc_lose_var": "knitting", "type": "timer", "context": "trade", "time": true },
+          { "npc_lose_var": "u_want_backpack", "type": "general", "context": "trade" },
+          { "npc_lose_var": "knitting", "type": "timer", "context": "trade" },
           { "u_spawn_item": "backpack" }
         ],
         "topic": "TALK_GODCO_Maria_Tailor_Done"
@@ -371,8 +371,8 @@
           ]
         },
         "effect": [
-          { "npc_lose_var": "u_want_gambeson", "type": "general", "context": "trade", "value": "yes" },
-          { "npc_lose_var": "knitting", "type": "timer", "context": "trade", "time": true },
+          { "npc_lose_var": "u_want_gambeson", "type": "general", "context": "trade" },
+          { "npc_lose_var": "knitting", "type": "timer", "context": "trade" },
           { "u_spawn_item": "gambeson" }
         ],
         "topic": "TALK_GODCO_Maria_Tailor_Done"

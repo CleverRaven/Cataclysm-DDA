@@ -10,6 +10,7 @@
 
 #include "cata_bitset.h"
 #include "cata_small_literal_vector.h"
+#include "cata_utility.h"
 #include "flexbuffer_cache.h"
 #include "json.h"
 #include "json_error.h"
@@ -602,20 +603,11 @@ class JsonObject : JsonWithPath
         std::string get_string( const char *key, T && fallback ) const;
 
         // Vanilla accessors. Just return the named member and use it's conversion function.
-        bool get_bool( const std::string &key ) const;
-        bool get_bool( const char *key ) const;
-
-        int get_int( const std::string &key ) const;
-        int get_int( const char *key ) const;
-
-        double get_float( const std::string &key ) const;
-        double get_float( const char *key ) const;
-
-        JsonArray get_array( const std::string &key ) const;
-        JsonArray get_array( const char *key ) const;
-
-        JsonObject get_object( const std::string &key ) const;
-        JsonObject get_object( const char *key ) const;
+        bool get_bool( std::string_view key ) const;
+        int get_int( std::string_view key ) const;
+        double get_float( std::string_view key ) const;
+        JsonArray get_array( std::string_view key ) const;
+        JsonObject get_object( std::string_view key ) const;
 
         template<typename E, typename = typename std::enable_if<std::is_enum<E>::value>::type>
         E get_enum_value( const std::string &name ) const;
@@ -628,71 +620,41 @@ class JsonObject : JsonWithPath
         E get_enum_value( const char *name, E fallback ) const;
 
         // Sigh.
-        std::vector<int> get_int_array( const std::string &name ) const;
-        std::vector<std::string> get_string_array( const std::string &name ) const;
+        std::vector<int> get_int_array( std::string_view name ) const;
+        std::vector<std::string> get_string_array( std::string_view name ) const;
         std::vector<std::string> get_as_string_array( const std::string &name ) const;
 
-        bool has_member( const std::string &key ) const;
-        bool has_member( const char *key ) const;
-
-        bool has_null( const char *key ) const;
-        bool has_null( const std::string &key ) const;
-
-        bool has_string( const std::string &key ) const;
-        bool has_string( const char *key ) const;
-
-        bool has_bool( const std::string &key ) const;
-        bool has_bool( const char *key ) const;
-
-        bool has_number( const char *key ) const;
-        bool has_number( const std::string &key ) const;
-
-        bool has_int( const char *key ) const;
-        bool has_int( const std::string &key ) const;
-
-        bool has_float( const char *key ) const;
-        bool has_float( const std::string &key ) const;
-
-        bool has_array( const std::string &key ) const;
-        bool has_array( const char *key ) const;
-
-        bool has_object( const char *key ) const;
-        bool has_object( const std::string &key ) const;
+        bool has_member( std::string_view key ) const;
+        bool has_null( std::string_view key ) const;
+        bool has_string( std::string_view key ) const;
+        bool has_bool( std::string_view key ) const;
+        bool has_number( std::string_view key ) const;
+        bool has_int( std::string_view key ) const;
+        bool has_float( std::string_view key ) const;
+        bool has_array( std::string_view key ) const;
+        bool has_object( std::string_view key ) const;
 
         // Fallback accessors. Test if the named member exists, and if yes, return it,
         // else will return the fallback value. Does *not* test the member is the type
         // being requested.
-        bool get_bool( const std::string &key, bool fallback ) const;
-        bool get_bool( const char *key, bool fallback ) const;
-
-        int get_int( const std::string &key, int fallback ) const;
-        int get_int( const char *key, int fallback ) const;
-
-        double get_float( const std::string &key, double fallback ) const;
-        double get_float( const char *key, double fallback ) const;
+        bool get_bool( std::string_view key, bool fallback ) const;
+        int get_int( std::string_view key, int fallback ) const;
+        double get_float( std::string_view key, double fallback ) const;
 
         // Tries to get the member, and if found, calls it visited.
-        std::optional<JsonValue> get_member_opt( const char *key ) const;
-        JsonValue get_member( const std::string &key ) const;
-        JsonValue get_member( const char *key ) const;
-        JsonValue operator[]( const char *key ) const;
+        std::optional<JsonValue> get_member_opt( std::string_view key ) const;
+        JsonValue get_member( std::string_view key ) const;
+        JsonValue operator[]( std::string_view key ) const;
 
         // Schwillions of read overloads
         template <typename T>
-        bool read( const char *name, T &t, bool throw_on_error = true ) const;
-        template <typename T>
-        bool read( const std::string &name, T &t, bool throw_on_error = true ) const;
+        bool read( std::string_view name, T &t, bool throw_on_error = true ) const;
 
         template <typename T = std::string, typename Res = std::set<T>>
-        Res get_tags( const std::string &name ) const;
-
-        template <typename T = std::string, typename Res = std::set<T>>
-        Res get_tags( const char *name ) const;
+        Res get_tags( std::string_view name ) const;
 
         [[noreturn]] void throw_error( const std::string &err ) const;
-
-        [[noreturn]] void throw_error_at( const std::string &member, const std::string &err ) const;
-        [[noreturn]] void throw_error_at( const char *member, const std::string &err ) const;
+        [[noreturn]] void throw_error_at( std::string_view member, const std::string &err ) const;
 
         void allow_omitted_members() const {
             visited_fields_bitset_.set_all();
@@ -715,7 +677,7 @@ class JsonObject : JsonWithPath
         JsonValue operator[]( size_t idx ) const;
 
         // NOLINTNEXTLINE(cata-large-inline-function)
-        flexbuffers::Reference find_value_ref( const char *key ) const {
+        flexbuffers::Reference find_value_ref( const std::string_view key ) const {
             size_t idx = 0;
             bool found = find_map_key_idx( key, keys_, idx );
             if( found ) {
@@ -725,15 +687,16 @@ class JsonObject : JsonWithPath
         }
 
         // NOLINTNEXTLINE(cata-large-inline-function)
-        static bool find_map_key_idx( const char *key, const flexbuffers::TypedVector &keys, size_t &idx ) {
+        static bool find_map_key_idx( const std::string_view key, const flexbuffers::TypedVector &keys,
+                                      size_t &idx ) {
             // Handlrolled binary search because the STL does not provide a version that just uses indexes.
             typename std::make_signed<size_t>::type low = 0;
             typename std::make_signed<size_t>::type high = keys.size() - 1;
             while( low <= high ) {
                 std::make_signed_t<size_t> mid = ( high - low ) / 2 + low;
 
-                const char *test_key = keys[ mid ].AsKey();
-                int res = strcmp( test_key, key );
+                const std::string_view test_key = keys[ mid ].AsKey();
+                int res = string_view_cmp( test_key, key );
 
                 if( res == 0 ) {
                     idx = mid;
@@ -754,7 +717,7 @@ class JsonObject : JsonWithPath
         void report_unvisited() const;
 
         // Reports an error via JsonObject at this location.
-        [[noreturn]] void error_no_member( const std::string &member ) const;
+        [[noreturn]] void error_no_member( std::string_view member ) const;
 
         // debugmsg prints all the skipped members.
         void error_skipped_members( const std::vector<size_t> &skipped_members ) const;
@@ -767,7 +730,7 @@ class JsonObject : JsonWithPath
 //void deserialize( std::optional<T> &obj, const JsonValue &jsin );
 
 void add_array_to_set( std::set<std::string> &s, const JsonObject &json,
-                       const std::string &name );
+                       std::string_view name );
 
 #include "flexbuffer_json-inl.h"
 

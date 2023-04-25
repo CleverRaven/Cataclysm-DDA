@@ -15,6 +15,7 @@
 #include "cata_utility.h"
 #include "character.h"
 #include "character_id.h"
+#include "city.h"
 #include "color.h"
 #include "common_types.h"
 #include "coordinate_conversions.h"
@@ -1629,7 +1630,7 @@ void overmapbuffer::despawn_monster( const monster &critter )
     }
 }
 
-overmapbuffer::t_notes_vector overmapbuffer::get_notes( int z, const std::string *pattern )
+overmapbuffer::t_notes_vector overmapbuffer::get_notes( int z, const std::string_view pattern )
 {
     t_notes_vector result;
     for( auto &it : overmaps ) {
@@ -1641,7 +1642,7 @@ overmapbuffer::t_notes_vector overmapbuffer::get_notes( int z, const std::string
                 if( note.empty() ) {
                     continue;
                 }
-                if( pattern != nullptr && lcmatch( note, *pattern ) ) {
+                if( !lcmatch( note, pattern ) ) {
                     // pattern not found in note text
                     continue;
                 }
@@ -1655,7 +1656,7 @@ overmapbuffer::t_notes_vector overmapbuffer::get_notes( int z, const std::string
     return result;
 }
 
-overmapbuffer::t_extras_vector overmapbuffer::get_extras( int z, const std::string *pattern )
+overmapbuffer::t_extras_vector overmapbuffer::get_extras( int z, const std::string_view pattern )
 {
     overmapbuffer::t_extras_vector result;
     for( auto &it : overmaps ) {
@@ -1668,7 +1669,7 @@ overmapbuffer::t_extras_vector overmapbuffer::get_extras( int z, const std::stri
                     continue;
                 }
                 const std::string &extra_text = extra.c_str();
-                if( pattern != nullptr && lcmatch( extra_text, *pattern ) ) {
+                if( !lcmatch( extra_text, pattern ) ) {
                     // pattern not found in note text
                     continue;
                 }

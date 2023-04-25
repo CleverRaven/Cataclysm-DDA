@@ -443,7 +443,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
             changes_made = true;
             current_tab[line].active = false;
         } else if( action == "LEFT" || action == "RIGHT" ) {
-            column = increment_and_wrap( column, action == "RIGHT", num_columns );
+            column = inc_clamp_wrap( column, action == "RIGHT", num_columns );
         } else if( action == "MOVE_RULE_UP" && !current_tab.empty() ) {
             changes_made = true;
             if( line < static_cast<int>( current_tab.size() ) - 1 ) {
@@ -610,7 +610,7 @@ void safemode::add_rule( const std::string &rule_in, const Creature::Attitude at
     }
 }
 
-bool safemode::has_rule( const std::string &rule_in, const Creature::Attitude attitude_in )
+bool safemode::has_rule( const std::string_view rule_in, const Creature::Attitude attitude_in )
 {
     for( safemode::rules_class &elem : character_rules ) {
         if( rule_in.length() == elem.rule.length()
@@ -622,7 +622,7 @@ bool safemode::has_rule( const std::string &rule_in, const Creature::Attitude at
     return false;
 }
 
-void safemode::remove_rule( const std::string &rule_in, const Creature::Attitude attitude_in )
+void safemode::remove_rule( const std::string_view rule_in, const Creature::Attitude attitude_in )
 {
     for( auto it = character_rules.begin();
          it != character_rules.end(); ++it ) {

@@ -52,14 +52,14 @@ Format:
     { "group": "example_shopkeeper_itemgroup3", "trust": 20, "rigid": true }
     { "group": "example_shopkeeper_itemgroup3", "trust": 40, "strict": true },
     {
-        "group": "example_shopkeeper_itemgroup4",
-        "condition": { "u_has_var": "VIP", "type": "general", "context": "examples", "value": "yes" }
+      "group": "example_shopkeeper_itemgroup4",
+      "condition": { "u_has_var": "VIP", "type": "general", "context": "examples", "value": "yes" }
     }
   ],
   "shopkeeper_consumption_rates": "basic_shop_rates",
   "shopkeeper_price_rules": [
     { "item": "scrap", "price": 10000 },
-  ]
+  ],
   "shopkeeper_blacklist": "test_blacklist",
   "restock_interval": "6 days",
   "traits": [ { "group": "BG_survival_story_EVACUEE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ]
@@ -95,15 +95,15 @@ Controls consumption of shopkeeper's stock of items (simulates purchase by other
   "default_rate": 5, // defined as units/day since last restock
   "junk_threshold": "10 cent", // items below this price will be consumed completely regardless of matches below
   "rates": [ // lower entries override higher ones
-      { "item": "hammer", "rate": 1 },
-      {
-        "item": "hammer",
-        "rate": 10,
-        "condition": { "npc_has_var": "hammer_eater", "type": "bool", "context": "dinner", "value": "yes" }
-      },
-      { "category": "ammo", "rate": 10 },
-      { "group": "EXODII_basic_trade", "rate": 100 }
-      { "group": "EXODII_basic_trade", "category": "ammo", "rate": 200 }
+    { "item": "hammer", "rate": 1 },
+    {
+      "item": "hammer",
+      "rate": 10,
+      "condition": { "npc_has_var": "hammer_eater", "type": "bool", "context": "dinner", "value": "yes" }
+    },
+    { "category": "ammo", "rate": 10 },
+    { "group": "EXODII_basic_trade", "rate": 100 }
+    { "group": "EXODII_basic_trade", "category": "ammo", "rate": 200 }
   ]
 ```
 `condition` is checked with avatar as alpha and npc as beta. See [Player or NPC conditions](#player-or-npc-conditions).
@@ -115,13 +115,13 @@ Specifies blacklist of items that shopkeeper will not accept for trade.  Format 
   "type": "shopkeeper_blacklist",
   "id": "basic_blacklist",
   "entries": [
-      {
-        "item": "hammer",
-        "condition": { "npc_has_var": "hammer_hater", "type": "bool", "context": "test", "value": "yes" },
-        "message": "<npcname> hates this item"
-      },
-      { "category": "ammo" },
-      { "group": "EXODII_basic_trade" }
+    {
+      "item": "hammer",
+      "condition": { "npc_has_var": "hammer_hater", "type": "bool", "context": "test", "value": "yes" },
+      "message": "<npcname> hates this item"
+    },
+    { "category": "ammo" },
+    { "group": "EXODII_basic_trade" }
   ]
 ```
 
@@ -224,19 +224,19 @@ Case use example:
 
 ```json
 {
-    "type":"npc",
-    "...": "rest of fields go here",
-    "<acknowledged>": "I gotcha fam",
-    "<camp_food_thanks>": "<food_thanks_custom>"
+  "type":"npc",
+  "...": "rest of fields go here",
+  "<acknowledged>": "I gotcha fam",
+  "<camp_food_thanks>": "<food_thanks_custom>"
 },
 {
-    "type":"snippet",
-    "category":"<food_thanks_custom>",
-    "text": [
-        "thanks for the grub",
-        "thanks for the food!",
-        "itadakimasu!"
-    ]
+  "type":"snippet",
+  "category":"<food_thanks_custom>",
+  "text": [
+    "thanks for the grub",
+    "thanks for the food!",
+    "itadakimasu!"
+  ]
 }
 ```
 
@@ -358,16 +358,16 @@ One can specify new topics in json. It is currently not possible to define the s
 Format:
 ```json
 {
-    "type": "talk_topic",
-    "id": "TALK_ARSONIST",
-    "dynamic_line": "What now?",
-    "responses": [
-        {
-            "text": "I don't know either",
-            "topic": "TALK_DONE"
-        }
-    ],
-    "replace_built_in_responses": true
+  "type": "talk_topic",
+  "id": "TALK_ARSONIST",
+  "dynamic_line": "What now?",
+  "responses": [
+    {
+      "text": "I don't know either",
+      "topic": "TALK_DONE"
+    }
+  ],
+  "replace_built_in_responses": true
 }
 ```
 
@@ -414,11 +414,11 @@ A dynamic line can either be a simple string, or an complex object, or an array 
 Example:
 ```json
 "dynamic_line": [
-    "generic text",
-    {
-        "npc_female": [ "text1", "text2", "text3" ],
-        "npc_male": { "u_female": "text a", "u_male": "text b" }
-    }
+  "generic text",
+  {
+    "npc_female": [ "text1", "text2", "text3" ],
+    "npc_male": { "u_female": "text a", "u_male": "text b" }
+  }
 ]
 ```
 
@@ -430,19 +430,19 @@ In all cases, `npc_` refers to the NPC, and `u_` refers to the player.  Optional
 The dynamic line is a list of dynamic lines, all of which are displayed.  The dynamic lines in the list are processed normally.
 ```json
 {
-    "concatenate": [
-        {
-            "npc_male": true,
-            "yes": "I'm a man.",
-            "no": "I'm a woman."
-        },
-        "  ",
-        {
-            "u_female": true,
-            "no": "You're a man.",
-            "yes": "You're a woman."
-        }
-    ]
+  "concatenate": [
+    {
+      "npc_male": true,
+      "yes": "I'm a man.",
+      "no": "I'm a woman."
+    },
+    "  ",
+    {
+      "u_female": true,
+      "no": "You're a man.",
+      "yes": "You're a woman."
+    }
+  ]
 }
 ```
 
@@ -451,8 +451,8 @@ The line is to be given a gender context for the NPC, player, or both, to aid
 translation in languages where that matters. For example:
 ```json
 {
-    "gendered_line": "Thank you.",
-    "relevant_genders": [ "npc" ]
+  "gendered_line": "Thank you.",
+  "relevant_genders": [ "npc" ]
 }
 ```
 ("Thank you" is different for male and female speakers in e.g. Portuguese).
@@ -465,7 +465,7 @@ The dynamic line will be randomly chosen from the hints snippets.
 
 ```json
 {
-    "give_hint": true
+  "give_hint": true
 }
 ```
 
@@ -474,7 +474,7 @@ The dynamic line will list all of the possible starting sites for faction camps.
 
 ```json
 {
-    "list_faction_camp_sites": true
+  "list_faction_camp_sites": true
 }
 ```
 
@@ -483,8 +483,8 @@ The dynamic line will be chosen from a reason generated by an earlier effect.  T
 
 ```json
 {
-    "has_reason": { "use_reason": true },
-    "no": "What is it, boss?"
+  "has_reason": { "use_reason": true },
+  "no": "What is it, boss?"
 }
 ```
 
@@ -493,33 +493,33 @@ The dynamic line will be chosen based on whether a single dialogue condition is 
 
 ```json
 {
-    "npc_need": "fatigue",
-    "level": "TIRED",
-    "no": "Just few minutes more...",
-    "yes": "Make it quick, I want to go back to sleep."
+  "npc_need": "fatigue",
+  "level": "TIRED",
+  "no": "Just few minutes more...",
+  "yes": "Make it quick, I want to go back to sleep."
 }
 {
-    "npc_aim_rule": "AIM_PRECISE",
-    "no": "*will not bother to aim at all.",
-    "yes": "*will take time and aim carefully."
+  "npc_aim_rule": "AIM_PRECISE",
+  "no": "*will not bother to aim at all.",
+  "yes": "*will take time and aim carefully."
 }
 {
-    "u_has_item": "india_pale_ale",
-    "yes": "<noticedbooze>",
-    "no": "<neutralchitchat>"
+  "u_has_item": "india_pale_ale",
+  "yes": "<noticedbooze>",
+  "no": "<neutralchitchat>"
 }
 {
-    "days_since_cataclysm": 30,
-    "yes": "Now, we've got a moment, I was just thinking it's been a month or so since... since all this, how are you coping with it all?",
-    "no": "<neutralchitchat>"
+  "days_since_cataclysm": 30,
+  "yes": "Now, we've got a moment, I was just thinking it's been a month or so since... since all this, how are you coping with it all?",
+  "no": "<neutralchitchat>"
 }
 {
-    "is_day": "Sure is bright out.",
-    "no": {
-        "u_male": true,
-        "yes": "Want a beer?",
-        "no": "Want a cocktail?"
-    }
+  "is_day": "Sure is bright out.",
+  "no": {
+    "u_male": true,
+      "yes": "Want a beer?",
+      "no": "Want a cocktail?"
+  }
 }
 ```
 
@@ -568,61 +568,61 @@ A response contains at least a text, which is display to the user and "spoken" b
 Format:
 ```json
 {
-    "text": "I, the player, say to you...",
-    "condition": "...something...",
-    "trial": {
-        "type": "PERSUADE",
-        "difficulty": 10
-    },
-    "success": {
-        "topic": "TALK_DONE",
-        "effect": "...",
-        "opinion": {
-            "trust": 0,
-            "fear": 0,
-            "value": 0,
-            "anger": 0,
-            "owed": 0,
-            "favors": 0
-        }
-    },
-    "failure": {
-        "topic": "TALK_DONE"
+  "text": "I, the player, say to you...",
+  "condition": "...something...",
+  "trial": {
+    "type": "PERSUADE",
+    "difficulty": 10
+  },
+  "success": {
+    "topic": "TALK_DONE",
+    "effect": "...",
+    "opinion": {
+      "trust": 0,
+      "fear": 0,
+      "value": 0,
+      "anger": 0,
+      "owed": 0,
+      "favors": 0
     }
+  },
+  "failure": {
+    "topic": "TALK_DONE"
+  }
 }
 ```
 
 Alternatively a short format:
 ```json
 {
-    "text": "I, the player, say to you...",
-    "effect": "...",
-    "topic": "TALK_WHATEVER"
+  "text": "I, the player, say to you...",
+  "effect": "...",
+  "topic": "TALK_WHATEVER"
 }
 ```
 The short format is equivalent to (an unconditional switching of the topic, `effect` is optional):
 ```json
 {
-    "text": "I, the player, say to you...",
-    "trial": {
-        "type": "NONE"
-    },
-    "success": {
-        "effect": "...",
-        "topic": "TALK_WHATEVER"
-    }
+  "text": "I, the player, say to you...",
+  "trial": {
+    "type": "NONE"
+  },
+  "success": {
+    "effect": "...",
+    "topic": "TALK_WHATEVER"
+  }
 }
 ```
 
 When using a conditional you can specify the response to still appear but be marked as unavaiable. This can be done by adding a `failure_explanation` or `failure_topic` in the bellow example if the condition fails `*Didn't have enough: I, the player, say to you...` will be what appears in the responses, and if selected it will instead go to `TALK_EXPLAIN_FAILURE` and wont trigger the other effects:
 ```json
 {
-    "condition": "...something...",
-    "failure_explanation": "Didn't have enough",
-    "failure_topic": "TALK_EXPLAIN_FAILURE",
-    "text": "I, the player, say to you...",
-    "effect": "...",
-    "topic": "TALK_WHATEVER"
+  "condition": "...something...",
+  "failure_explanation": "Didn't have enough",
+  "failure_topic": "TALK_EXPLAIN_FAILURE",
+  "text": "I, the player, say to you...",
+  "effect": "...",
+  "topic": "TALK_WHATEVER"
 }
 ```
 
@@ -641,12 +641,12 @@ May be used in place of text.  The player will have one response text if a condi
 
 ```json
 {
-    "truefalsetext": {
-        "condition": { "u_has_cash": 800 },
-        "true": "I may have the money, I'm not giving you any.",
-        "false": "I don't have that money."
-    },
-    "topic": "TALK_WONT_PAY"
+  "truefalsetext": {
+    "condition": { "u_has_cash": 800 },
+    "true": "I may have the money, I'm not giving you any.",
+    "false": "I don't have that money."
+  },
+  "topic": "TALK_WONT_PAY"
 }
 ```
 
@@ -657,12 +657,12 @@ May be used in place of text.  The player will have one response text if a condi
 
 ```json
 "success": {
-    "topic": {
-        "id": "TALK_NEXT",
-        "dynamic_line": "...",
-        "responses": [
-        ]
-    }
+  "topic": {
+    "id": "TALK_NEXT",
+    "dynamic_line": "...",
+    "responses": [
+    ]
+  }
 }
 ```
 #### `effect`
@@ -733,7 +733,7 @@ Example:
   { "text": "You know what, never mind.", "topic": "TALK_NONE" },
   { "text": "How does 5 Ben Franklins sound?",
     "topic": "TALK_BIG_BRIBE", "condition": { "u_has_cash": 500 }, "switch": true },
-   { "text": "I could give you a big Grant.",
+  { "text": "I could give you a big Grant.",
     "topic": "TALK_BRIBE", "condition": { "u_has_cash": 50 }, "switch": true },
   { "text": "Lincoln liberated the slaves, what can he do for me?",
     "topic": "TALK_TINY_BRIBE", "condition": { "u_has_cash": 5 }, "switch": true, "default": true },
@@ -775,27 +775,27 @@ The `effect` field of `speaker_effect` or a `response` can be any of the followi
 
 #### Missions
 
-Effect | Description
----|---
-`assign_mission` | Assigns a previously selected mission to your character.
-`mission_success` | Resolves the current mission successfully.
-`mission_failure` | Resolves the current mission as a failure.
-`clear_mission` | Clears the mission from the your character's assigned missions.
-`mission_reward` | Gives the player the mission's reward.
+| Effect            | Description                                                     |
+| ----------------- | --------------------------------------------------------------- |
+| `assign_mission`  | Assigns a previously selected mission to your character.        |
+| `mission_success` | Resolves the current mission successfully.                      |
+| `mission_failure` | Resolves the current mission as a failure.                      |
+| `clear_mission`   | Clears the mission from the your character's assigned missions. |
+| `mission_reward`  | Gives the player the mission's reward.                          |
 
 #### Stats / Morale
 
-Effect | Description
----|---
-`lesser_give_aid` | Removes bleeding from your character's body and heals 5-15 HP of injury on each of your character's body parts.
-`lesser_give_aid_all` | Performs `lesser_give_aid` on each of your character's NPC allies in range.
-`give_aid` | Removes all bites, infection, and bleeding from your character's body and heals 10-25 HP of injury on each of your character's body parts.
-`give_aid_all` | Performs `give_aid` on each of your character's NPC allies in range.
-`buy_haircut` | Gives your character a haircut morale boost for 12 hours.
-`buy_shave` | Gives your character a shave morale boost for 6 hours.
-`morale_chat` | Gives your character a pleasant conversation morale boost for 6 hours.
-`player_weapon_away` | Makes your character put away (unwield) their weapon.
-`player_weapon_drop` | Makes your character drop their weapon.
+| Effect                | Description |
+| --------------------- | ----------- |
+| `lesser_give_aid`     | Removes bleeding from your character's body and heals 5-15 HP of injury on each of your character's body parts. |
+| `lesser_give_aid_all` | Performs `lesser_give_aid` on each of your character's NPC allies in range. |
+| `give_aid`            | Removes all bites, infection, and bleeding from your character's body and heals 10-25 HP of injury on each of your character's body parts. |
+| `give_aid_all`        | Performs `give_aid` on each of your character's NPC allies in range.        |
+| `buy_haircut`         | Gives your character a haircut morale boost for 12 hours.                   |
+| `buy_shave`           | Gives your character a shave morale boost for 6 hours.                      |
+| `morale_chat`         | Gives your character a pleasant conversation morale boost for 6 hours.      |
+| `player_weapon_away`  | Makes your character put away (unwield) their weapon.                       |
+| `player_weapon_drop`  | Makes your character drop their weapon.                                     |
 
 #### Character effects / Mutations
 
@@ -809,11 +809,14 @@ Effect | Description
 `u_add_trait, npc_add_trait: `string or [variable object](#variable-object) | Your character or the NPC will gain the trait.
 `u_lose_effect, npc_lose_effect: `string or [variable object](#variable-object) | Your character or the NPC will lose the effect if they have it.
 `u_lose_trait, npc_lose_trait: `string or [variable object](#variable-object) | Your character or the NPC will lose the trait.
+`u_learn_martial_art, npc_learn_martial_art: `string or [variable object](#variable-object) | Your character or the NPC will learn the martial art style.
+`u_forget_martial_art, npc_forget_martial_art: `string or [variable object](#variable-object) | Your character or the NPC will forget the martial art style.
 `u_add_var, npc_add_var`: `var_name, type: type_str`, `context: context_str`, either `value: value_str` or `time: true` or `possible_values: string_array` | Your character or the NPC will store `value_str` as a variable that can be later retrieved by `u_has_var` or `npc_has_var`.  `npc_add_var` can be used to store arbitrary local variables, and `u_add_var` can be used to store arbitrary "global" variables, and should be used in preference to setting effects.  If `time` is used instead of `value_str`, then the current turn of the game is stored. If `possible_values` is used one of the values given at random will be used.
 `u_lose_var`, `npc_lose_var`: `var_name`, `type: type_str`, `context: context_str` | Your character or the NPC will clear any stored variable that has the same `var_name`, `type_str`, and `context_str`.
 `u_adjust_var, npc_adjust_var`: `var_name, type: type_str`, `context: context_str`, `adjustment: `int or [variable object](#variable-object) | Your character or the NPC will adjust the stored variable by `adjustment`.
 `set_string_var`: string or [variable object](#variable-object) or array of either, `target_var: ` [variable object](#variable-object) | Store string from `set_string_var` in the variable object `target_var`. If an array is provided a random element will be used.
 `u_location_variable, npc_location_variable`: `target_var`, (*optional* `min_radius: `int or [variable object](#variable-object)) , (*optional* `max_radius: ` int or [variable object](#variable-object)), (*optional* `outdoor_only: outdoor_only_bool`), (*optional* `target_params: assign_mission_target` parameters), (*optional* `z_adjust: ` int or [variable object](#variable-object)), (*optional* `x_adjust: `string or [variable object](#variable-object)), (*optional* `y_adjust: `int or [variable object](#variable-object)), (*optional* `z_override: bool`) | If `target_params` is defined it will be used to find a tile. See [the missions docs](MISSIONS_JSON.md) for `assign_mission_target` parameters. Otherwise targets a point between `min_radius_int`( or `min_radius_variable_object`)(defaults to 0) and `max_radius_int`( or `max_radius_variable_object`)(defaults to 0) spaces of the target and if `outdoor_only_bool` is true(defaults to false) will only choose outdoor spaces. The chosen point will be saved to `target_var` which is a `variable_object`.  `z_adjust` will be used as the Z value if `z_override`(defaults false) is true or added to the current z value otherwise. x_adjust and y_adjust are added to the final position.
+`location_variable_adjust`: `target_var`, (*optional* `z_adjust: ` int or [variable object](#variable-object)), (*optional* `x_adjust: `string or [variable object](#variable-object)), (*optional* `y_adjust: `int or [variable object](#variable-object)), (*optional* `z_override: bool`), (*optional* `output_var: `[variable object](#variable-object)), (*optional* `overmap_tile: bool`) | Adjusts `target_var` which is a `variable_object` most likely made using `u_location_variable`.  `z_adjust` will be used as the Z value if `z_override`(defaults false) is true or added to the current z value otherwise.  x_adjust and y_adjust are added to the final position.  If `output_var` is provided the adjusted value will be save to it instead of `target_var`.  If `overmap_tile`(defaults false) is true, the adjustments will be made in overmap tiles rather than map tiles.
 `barber_hair` | Opens a menu allowing the player to choose a new hair style.
 `barber_beard` | Opens a menu allowing the player to choose a new beard style.
 `u_learn_recipe: `string or [variable object](#variable-object)  | Your character will learn and memorize the recipe.
@@ -902,7 +905,8 @@ Effect | Description
 `u_transform_radius, npc_transform_radius: `int or [variable object](#variable-object), `ter_furn_transform: `string or [variable object](#variable-object), (*optional* `target_var: `[variable object](#variable-object)), (*optional* `time_in_future: `duration or [variable object](#variable-object)), (*optional* `key: `string or [variable object](#variable-object)) | Applies the ter_furn_transform of id `ter_furn_transform` (See [the transform docs](TER_FURN_TRANSFORM.md)) in radius `transform_radius`. If `target_var` is set this effect will be centered on a location saved to a variable with its name.  If `time_in_future` is set the transform will that far in the future, in this case however the target location and radius will be determined now and not changed even if their variables update.  If `key` is provided it can be used with `alter_timed_events` to force it to occur early.
 `transform_line: `string or [variable object](#variable-object), `first: `[variable object](#variable-object), `second: `[variable object](#variable-object) | Applies the ter_furn_transform of id `transform_line` (See [the transform docs](TER_FURN_TRANSFORM.md)) on a line between points `first` and `second`.
 `place_override: `string or [variable object](#variable-object), `length: `duration or [variable object](#variable-object), (*optional* `key: `string or [variable object](#variable-object)) | Overrides the location name in the sidebar to instead be the title string.  Also disables map and map memory.  If `length` is set the effect will last that long.  If `key` is provided it can be used with `alter_timed_events` to force it to end early.
-`u_spawn_monster, npc_spawn_monster: `string or [variable object](#variable-object),(*optional* `group: group_bool`), (*optional* `hallucination_count: `int or [variable object](#variable-object)), (*optional* `real_count: `int or [variable object](#variable-object)),(*optional* `min_radius: `int or [variable object](#variable-object)), (*optional* `max_radius: `int or [variable object](#variable-object)), (*optional* `outdoor_only: outdoor_only_bool`), (*optional* `open_air_allowed: open_air_allowed_bool`), (*optional* `target_range : `int or [variable object](#variable-object)), (*optional* `lifespan: `duration or [variable object](#variable-object)), (*optional* `target_var: `[variable object](#variable-object)), (*optional* `spawn_message: `string or [variable object](#variable-object)), (*optional* `spawn_message_plural: `string or [variable object](#variable-object)), (*optional* `true_eocs: eocs_array`), (*optional* `false_eocs: eocs_array`) | Spawns `real_count`(defaults to 0) monsters and `hallucination_count`(defaults to 0) hallucinations near you or the npc. The spawn will be of type `_spawn_monster`, if `group_bool` is false(defaults to false, if it is true a random monster from monster_group `_spawn_monster` will be used), if this is an empty string it will instead be a random monster within `target_range` spaces of you. The spawns will happen between `min_radius`(defaults to 1) and `max_radius`(defaults to 10) spaces of the target and if `outdoor_only_bool` is true(defaults to false) will only choose outdoor spaces. If `open_air_allowed` is true(defaults to false) monsters can be spawned on open air. If `lifespan` is provided the monster or hallucination will only that long. If `target_var` is set this effect will be centered on a location saved to a variable with its name.  If at least one spawned creature is visible `spawn_message` will be displayed.  If `spawn_message_plural` is defined and more than one spawned creature is visible it will be used instead.  If at least one monster is spawned, then all of the effect_on_conditions in `true_eocs` are run, otherwise all the effect_on_conditions in `false_eocs` are run.
+`u_spawn_monster, npc_spawn_monster: `string or [variable object](#variable-object), (*optional* `group: group_bool`), (*optional* `hallucination_count: `int or [variable object](#variable-object)), (*optional* `real_count: `int or [variable object](#variable-object)),(*optional* `min_radius: `int or [variable object](#variable-object)), (*optional* `max_radius: `int or [variable object](#variable-object)), (*optional* `outdoor_only: outdoor_only_bool`), (*optional* `indoor_only: indoor_only_bool`),(*optional* `open_air_allowed: open_air_allowed_bool`), (*optional* `target_range : `int or [variable object](#variable-object)), (*optional* `lifespan: `duration or [variable object](#variable-object)), (*optional* `target_var: `[variable object](#variable-object)), (*optional* `spawn_message: `string or [variable object](#variable-object)), (*optional* `spawn_message_plural: `string or [variable object](#variable-object)), (*optional* `true_eocs: eocs_array`), (*optional* `false_eocs: eocs_array`) | Spawns `real_count`(defaults to 0) monsters and `hallucination_count`(defaults to 0) hallucinations near you or the npc. The spawn will be of type `_spawn_monster`, if `group_bool` is false(defaults to false, if it is true a random monster from monster_group `_spawn_monster` will be used), if this is an empty string it will instead be a random monster within `target_range` spaces of you. The spawns will happen between `min_radius`(defaults to 1) and `max_radius`(defaults to 10) spaces of the target and if `outdoor_only` is true(defaults to false) will only choose outdoor spaces, if `indoor_only` is true(defaults to false) it will only choose indoor locations. If `open_air_allowed` is true(defaults to false) monsters can be spawned on open air. If `lifespan` is provided the monster or hallucination will only that long. If `target_var` is set this effect will be centered on a location saved to a variable with its name.  If at least one spawned creature is visible `spawn_message` will be displayed.  If `spawn_message_plural` is defined and more than one spawned creature is visible it will be used instead.  If at least one monster is spawned, then all of the effect_on_conditions in `true_eocs` are run, otherwise all the effect_on_conditions in `false_eocs` are run.
+`u_spawn_npc, npc_spawn_npc: `string or [variable object](#variable-object), (*optional* `unique_id: `string or [variable object](#variable-object)), (*optional* `traits: `array of string or [variable object](#variable-object)), (*optional* `hallucination_count: `int or [variable object](#variable-object)), (*optional* `real_count: `int or [variable object](#variable-object)),(*optional* `min_radius: `int or [variable object](#variable-object)), (*optional* `max_radius: `int or [variable object](#variable-object)), (*optional* `outdoor_only: outdoor_only_bool`), (*optional* `indoor_only: indoor_only_bool`),(*optional* `open_air_allowed: open_air_allowed_bool`), (*optional* `target_range : `int or [variable object](#variable-object)), (*optional* `lifespan: `duration or [variable object](#variable-object)), (*optional* `target_var: `[variable object](#variable-object)), (*optional* `spawn_message: `string or [variable object](#variable-object)), (*optional* `spawn_message_plural: `string or [variable object](#variable-object)), (*optional* `true_eocs: eocs_array`), (*optional* `false_eocs: eocs_array`) | Spawns `real_count`(defaults to 0) npcs and `hallucination_count`(defaults to 0) hallucinations near you or the npc. The npc will be of class `_spawn_npc`, and have any members of `traits` as additional traits. If `unique_id` is defined any non hallucination npcs will have it as their unique id, if an npc with that unique id exists it will not spawn.  The spawns will happen between `min_radius`(defaults to 1) and `max_radius`(defaults to 10) spaces of the target and if `outdoor_only` is true(defaults to false) will only choose outdoor spaces, if `indoor_only` is true(defaults to false) it will only choose indoor locations. If `open_air_allowed` is true(defaults to false) monsters can be spawned on open air. If `lifespan` is provided the monster or hallucination will only that long. If `target_var` is set this effect will be centered on a location saved to a variable with its name.  If at least one spawned creature is visible `spawn_message` will be displayed.  If `spawn_message_plural` is defined and more than one spawned creature is visible it will be used instead.  If at least one monster is spawned, then all of the effect_on_conditions in `true_eocs` are run, otherwise all the effect_on_conditions in `false_eocs` are run.
 `u_set_field, npc_set_field: `string or [variable object](#variable-object),(*optional* `intensity: `int or [variable object](#variable-object)), (*optional* `age: `int or [variable object](#variable-object)), (*optional* `radius: `int or [variable object](#variable-object)), (*optional* `outdoor_only: outdoor_only_bool`), (*optional* `indoor_only: indoor_only_bool`), (*optional* `hit_player : hit_player_bool`), (*optional* `target_var: `[variable object](#variable-object)) | Add a field centered on you or the npc of type `_set_field`, of intensity `intensity`( defaults to 1,) of radius `radius`(defaults to 10000000) and age `age` (defaults 1). It will only happen outdoors if `outdoor_only` is true, it defaults to false. `indoor_only` is the opposite. It will hit the player as if they entered it if `hit_player` is true, it defaults to true. If `target_var` is set this effect will be centered on a location saved to a variable with its name.
 
 #### General
@@ -920,7 +924,7 @@ Effect | Description
 `run_eocs : effect_on_condition_array or single effect_condition_object` | Will run up all members of the `effect_on_condition_array`. Members should either be the id of an effect_on_condition or an inline effect_on_condition.
 `queue_eocs : effect_on_condition_array or single effect_condition_object`, `time_in_future: `duration or [variable object](#variable-object) | Will queue up all members of the `effect_on_condition_array`. Members should either be the id of an effect_on_condition or an inline effect_on_condition. Members will be run `time_in_future` in the future.  If the eoc is global the avatar will be u and npc will be invalid. Otherwise it will be queued for the current alpha if they are a character and not be queued otherwise.
 `u_roll_remainder, npc_roll_remainder : `array of strings and/or [variable objects](#variable-object), `type: `string or [variable object](#variable-object), (*optional* `true_eocs: eocs_array`), (*optional* `false_eocs: eocs_array`), (*optional* `message: ` string or [variable object](#variable-object) ) | Type must be either `bionic`, `mutation`, `spell` or `recipe`.  If the u or npc does not have all of the listed bionics, mutations, spells, or recipes they will be given one randomly and and then all of the effect_on_conditions in `true_eocs` are run, otherwise all the effect_on_conditions in `false_eocs` are run.  If `message` is provided and a result is given then the `message` will be displayed as a message with the first instance of `%s` in it replaced with the name of the result selected.  
-`switch : arithmetic_expression`, `cases: effect_array` | Will calculate value of `switch` and then run member of `cases` with the highest `case` that the `switch` is higher or equal to. `cases` is an array of objects with an int_or_var `case` and an `effect` field which is a dialog effect.
+`switch : arithmetic/math_expression`, `cases: effect_array` | Will calculate value of `switch` and then run member of `cases` with the highest `case` that the `switch` is higher or equal to. `cases` is an array of objects with an int_or_var `case` and an `effect` field which is a dialog effect.
 `u_run_npc_eocs or npc_run_npc_eocs : effect_on_condition_array`, (*optional* `unique_ids: `array of strings and/or [variable objects](#variable-object)), (*optional* `npcs_must_see: npcs_must_see_bool`), (*optional* `npc_range: `int or [variable object](#variable-object)), (*optional* `local: local_bool`) | Will run all members of the `effect_on_condition_array` on npcs. Members should either be the id of an effect_on_condition or an inline effect_on_condition.  If `local`(default: false) is false, then regardless of location all npcs with unique ids in the array `unique_ids` will be affected.  If `local` is true, only unique_ids listed in `unique_ids` will be affected, if it is empty all npcs in range will be effected. If a value is given for `npc_range` the npc must be that close to the source and if `npcs_must_see`(defaults to false) is true the npc must be able to see the source. For `u_run_npc_eocs` u is the source for `npc_run_npc_eocs` it is the npc.
 `weighted_list_eocs: array_array` | Will choose one of a list of eocs to activate based on weight. Members should be an array of first the id of an effect_on_condition or an inline effect_on_condition and second an object that resolves to an integer weight.<br/><br/>Example: This will cause "EOC_SLEEP" 1/10 as often as it makes a test message appear.<pre>    "effect": [<br/>      {<br/>        "weighted_list_eocs": [<br/>          [ "EOC_SLEEP", { "const": 1 } ],<br/>          [ {<br/>              "id": "eoc_test2",<br/>              "effect": [ { "u_message": "A test message appears!", "type": "bad" } ]<br/>            },<br/>            { "const": 10 }<br/>          ]<br/>        ]<br/>      }<br/>    ]</pre>
 
@@ -965,10 +969,11 @@ Condition | Type | Description
 `"u_female"`<br/>`"npc_female"` | simple string | `true` if the player character or NPC is female.
 `"u_at_om_location"`<br/>`"npc_at_om_location"` | string or [variable object](#variable-object) | `true` if the player character or NPC is standing on an overmap tile with `u_at_om_location`'s id.  The special string `"FACTION_CAMP_ANY"` changes it to return true if the player or NPC is standing on a faction camp overmap tile.  The special string `"FACTION_CAMP_START"` changes it to return true if the overmap tile that the player or NPC is standing on can be turned into a faction camp overmap tile.
 `"u_has_trait"`<br/>`"npc_has_trait"` | string or [variable object](#variable-object) | `true` if the player character or NPC has a specific trait.  Simpler versions of `u_has_any_trait` and `npc_has_any_trait` that only checks for one trait.
+`"u_has_martial_art"`<br/>`"npc_has_martial_art"` | string or [variable object](#variable-object) | `true` if the player character or NPC knows a specific martial arts style.
 `"u_has_flag"`<br/>`"npc_has_flag"` | string or [variable object](#variable-object) | `true` if the player character or NPC has the specified character flag.  The special trait flag `"MUTATION_THRESHOLD"` checks to see if the player or NPC has crossed a mutation threshold.
 `"u_has_any_trait"`<br/>`"npc_has_any_trait"` | array of strings and/or [variable objects](#variable-object) | `true` if the player character or NPC has any trait or mutation in the array. Used to check multiple specific traits.
 `"u_has_var"`, `"npc_has_var"` | string | `"type": type_str`, `"context": context_str`, and `"value": value_str` are required fields in the same dictionary as `"u_has_var"` or `"npc_has_var"`.<br/>`true` is the player character or NPC has a variable set by `"u_add_var"` or `"npc_add_var"` with the string, `type_str`, `context_str`, and `value_str`.
-`"u_compare_var"`, `"npc_compare_var"` | dictionary | `"type": type_str`, `"context": context_str`, `"op": op_str`, `"value": `int or [variable object](#variable-object) ` are required fields, referencing a var as in `"u_add_var"` or `"npc_add_var"`.<br/>`true` if the player character or NPC has a stored variable that is true for the provided operator `op_str` (one of `==`, `!=`, `<`, `>`, `<=`, `>=`) and value.
+`"u_compare_var"`, `"npc_compare_var"` | dictionary | `"type": type_str`, `"context": context_str`, `"op": op_str`, `"value"`: int or [variable object](#variable-object)  are required fields, referencing a var as in `"u_add_var"` or `"npc_add_var"`.<br/>`true` if the player character or NPC has a stored variable that is true for the provided operator `op_str` (one of `==`, `!=`, `<`, `>`, `<=`, `>=`) and value. <br/><br/>`compare_var` is deprecated, see [Math](#math) for the replacement.
 `"u_compare_time_since_var"`, `"npc_compare_time_since_var_"` | dictionary | `"type": type_str`, `"context": context_str`, `"op": op_str`, `"time": time_string` are required fields, referencing a var as in `"u_add_var"` or `"npc_add_var"`.<br/>`true` if the player character or NPC has a stored variable and the current turn and that value (converted to a time point) plus the time_string is true for the provided operator `op_str` (one of `==`, `!=`, `<`, `>`, `<=`, `>=`).<br/><br/>Example: returns true if the player character has a "test", "test", "var_time_test" variable and the current turn is greater than that value plus 3 days' worth of turns.<pre>{<br/>  "u_compare_time_since_var": "test", "type": "test",<br/>  "context": "var_time_test", "op": ">", "time": "3 days"<br/>}</pre>
 `"compare_string"` | array | The array must contain exactly two entries.  They can be either strings and/or [variable objects](#variable-object).  Returns true if the strings are the same.
 `"u_has_strength"`<br/>`"npc_has_strength"` | int or [variable object](#variable-object) | `true` if the player character's or NPC's strength is at least the value of `u_has_strength` or `npc_has_strength`.
@@ -1139,56 +1144,56 @@ Condition | Type | Description
   }
 },
 {
-    "text": "I killed them.  All of them.",
-    "topic": "TALK_MISSION_SUCCESS",
-    "condition": {
-        "and": [ { "or": [ { "mission_goal": "KILL_MONSTER_SPEC" }, { "mission_goal": "KILL_MONSTER_TYPE" } ] }, "mission_complete" ]
-    },
-    "switch": true
+  "text": "I killed them.  All of them.",
+  "topic": "TALK_MISSION_SUCCESS",
+  "condition": {
+    "and": [ { "or": [ { "mission_goal": "KILL_MONSTER_SPEC" }, { "mission_goal": "KILL_MONSTER_TYPE" } ] }, "mission_complete" ]
+  },
+  "switch": true
 },
 {
-    "text": "Glad to help.  I need no payment.",
-    "topic": "TALK_NONE",
-    "effect": "clear_mission",
-    "mission_opinion": { "trust": 4, "value": 3 },
-    "opinion": { "fear": -1, "anger": -1 }
+  "text": "Glad to help.  I need no payment.",
+  "topic": "TALK_NONE",
+  "effect": "clear_mission",
+  "mission_opinion": { "trust": 4, "value": 3 },
+  "opinion": { "fear": -1, "anger": -1 }
 },
 {
-    "text": "Maybe you can teach me something as payment?",
-    "topic": "TALK_TRAIN",
-    "condition": { "or": [ "npc_train_skills", "npc_train_styles" ] },
-    "effect": "mission_reward"
+  "text": "Maybe you can teach me something as payment?",
+  "topic": "TALK_TRAIN",
+  "condition": { "or": [ "npc_train_skills", "npc_train_styles" ] },
+  "effect": "mission_reward"
 },
 {
-    "truefalsetext": {
-        "true": "I killed him.",
-        "false": "I killed it.",
-        "condition": { "mission_goal": "ASSASSINATE" }
-    },
-    "condition": {
-        "and": [
-            "mission_incomplete",
-            {
-                "or": [
-                    { "mission_goal": "ASSASSINATE" },
-                    { "mission_goal": "KILL_MONSTER" },
-                    { "mission_goal": "KILL_MONSTER_SPEC" },
-                    { "mission_goal": "KILL_MONSTER_TYPE" }
-                ]
-            }
+  "truefalsetext": {
+    "true": "I killed him.",
+    "false": "I killed it.",
+    "condition": { "mission_goal": "ASSASSINATE" }
+  },
+  "condition": {
+    "and": [
+      "mission_incomplete",
+      {
+        "or": [
+          { "mission_goal": "ASSASSINATE" },
+          { "mission_goal": "KILL_MONSTER" },
+          { "mission_goal": "KILL_MONSTER_SPEC" },
+          { "mission_goal": "KILL_MONSTER_TYPE" }
         ]
-    },
-    "trial": { "type": "LIE", "difficulty": 10, "mod": [ [ "TRUST", 3 ] ] },
-    "success": { "topic": "TALK_NONE" },
-    "failure": { "topic": "TALK_MISSION_FAILURE" }
+      }
+    ]
+  },
+  "trial": { "type": "LIE", "difficulty": 10, "mod": [ [ "TRUST", 3 ] ] },
+  "success": { "topic": "TALK_NONE" },
+  "failure": { "topic": "TALK_MISSION_FAILURE" }
 },
 {
   "text": "Didn't you say you knew where the Vault was?",
   "topic": "TALK_VAULT_INFO",
   "condition": { "not": { "u_has_var": "asked_about_vault", "value": "yes", "type": "sentinel", "context": "old_guard_rep" } },
   "effect": [
-      { "u_add_var": "asked_about_vault", "value": "yes", "type": "sentinel", "context": "old_guard" },
-      { "mapgen_update": "hulk_hairstyling", "om_terrain": "necropolis_a_13", "om_special": "Necropolis", "om_terrain_replace": "field", "z": 0 }
+    { "u_add_var": "asked_about_vault", "value": "yes", "type": "sentinel", "context": "old_guard" },
+    { "mapgen_update": "hulk_hairstyling", "om_terrain": "necropolis_a_13", "om_special": "Necropolis", "om_terrain_replace": "field", "z": 0 }
   ]
 },
 {
@@ -1210,28 +1215,30 @@ Condition | Type | Description
 ## Utility Structures
 
 ### Variable Object
-`variable_object`: This is either an object, an `arithmetic` [expression](#compare-numbers-and-arithmetics) or array describing a variable name. It can either describe a double, a time duration or a string. If it is an array it must have 2 values the first of which will be a minimum and the second will be a maximum, the value will be randomly between the two. If it is a double `default` is a double which will be the value returned if the variable is not defined. If is it a duration then `default` can be either an int or a string describing a time span. `u_val`, `npc_val`, or `global_val` can be the used for the variable name element.  If `u_val` is used it describes a variable on player u, if `npc_val` is used it describes a variable on player npc, if `global_val` is used it describes a global variable.  If this is a duration `infinite` will be accepted to be a virtually infinite value(it is actually more than a year, if longer is needed a code change to make this a flag or something will be needed).
+`variable_object`: This is either an object, an `arithmetic`/`math` [expression](#compare-numbers-and-arithmetics) or array describing a variable name. It can either describe a double, a time duration or a string. If it is an array it must have 2 values the first of which will be a minimum and the second will be a maximum, the value will be randomly between the two. If it is a double `default` is a double which will be the value returned if the variable is not defined. If is it a duration then `default` can be either an int or a string describing a time span. `u_val`, `npc_val`, or `global_val` can be the used for the variable name element.  If `u_val` is used it describes a variable on player u, if `npc_val` is used it describes a variable on player npc, if `global_val` is used it describes a global variable.  If this is a duration `infinite` will be accepted to be a virtually infinite value(it is actually more than a year, if longer is needed a code change to make this a flag or something will be needed).
 
-example json:
-```
+Example:
+```json
 "effect": [ { "u_mod_focus": { "u_val":"test", "default": 1 } },
   { "u_mod_focus": [ 0, { "u_val":"test", "default": 1 } ] }
-  { "u_add_morale": "morale_honey","bonus": -20,"max_bonus": -60, "decay_start": 1,
+  { "u_add_morale": "morale_honey","bonus": -20,"max_bonus": -60, "decay_start": 1 },
   "duration": { "global_val": "test2", "default": "2 minutes" },
   {
     "u_spawn_monster": "mon_absence",
     "real_count": { "arithmetic": [ { "arithmetic": [ { "const":1 }, "+", { "const": 1 } ] }, "+", { "const": 1 } ] }
-  } ]
-
+  }
+]
 ```
 
 ### Compare Numbers and Arithmetics
+*`arithmetic` and `compare_num` are deprecated in the long term. See [Math](#math) for the replacement.*
+
 `"compare_num"` can be used to compare two values to each other, while `"arithmetic"` can be used to take up to two values, perform arithmetic on them, and then save them in a third value. The syntax is as follows.
-```
+```json
 {
   "text": "If player strength is more than or equal to 5, sets time since cataclysm to the player's focus times the player's maximum mana with at maximum a value of 15.",
   "topic": "TALK_DONE",
-  "condition": { "compare_num": [ { "u_val": "strength" }, ">=", { "const": 5 } ] }
+  "condition": { "compare_num": [ { "u_val": "strength" }, ">=", { "const": 5 } ] },
   "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "=", { "u_val": "focus" }, "*", { "u_val": "mana_max" } ], "max":15 }
 },
 ```
@@ -1240,13 +1247,16 @@ example json:
 
 `"arithmetic"` supports the following operators: `"*"`(multiplication), `"/"`(divison), `"+"`(addition), `"-"`(subtraction), `"%"`(modulus), `"^"`(power) and the following results `"="`, `"*="`, `"/="`, `"+="`, `"-="`, `"%="`, `"++"`, and `"--"`
 
-To get player character properties, use `"u_val"`. To get NPC properties, use same syntax but `"npc_val"` instead. For vars only `global_val` is also allowed. A list of values that can be read and/or written to follows.
+To get player character properties, use `"u_val"`. To get NPC properties, use same syntax but `"npc_val"` instead. For vars only `global_val` is also allowed.
+
+#### List of values that can be read and/or written to
 
 Example | Description
 --- | ---
 `"const": 5` | A constant value, in this case 5. Can be read but not written to.
 `"time": "5 days"` | A constant time value. Will be converted to turns. Can be read but not written to.
 `"time_since_cataclysm": "turns"` | Time since the start of the cataclysm in turns. Can instead take other time units such as minutes, hours, days, weeks, seasons, and years.
+`"time_until_eoc": "eoc_id"` | Time from now until the next scheduled run of `eoc_id`. Optional member `unit` can sepcify a member to use instead of turns such as minutes, hours, days, weeks, seasons, and years.
 `"rand": 20` | A random value between 0 and a given value, in this case 20. Can be read but not written to.
 `"faction_trust": "free_merchants"` | The trust the faction has for the player (see [FACTIONS.md](FACTIONS.md)) for details.
 `"faction_like": "free_merchants"` | How much the faction likes the player (see [FACTIONS.md](FACTIONS.md)) for details.
@@ -1269,7 +1279,6 @@ Example | Description
 `"u_val": "effect_intensity"` | Intensity of an effect.  `effect` is the id of the effect to test and `bodypart` is optionally the body part to look at.  If the effect is not present a -1 is returned.
 `"u_val": "skill_level"` | Level in given skill. `"skill"` must also be specified.
 `"u_val": "pos_x"` | Player character x coordinate. "pos_y" and "pos_z" also works as expected.
-`"u_val": "pain"` | Pain level.
 `"u_val": "power"` | Bionic power in millijoule.
 `"u_val": "power_max"` | Max bionic power in millijoule. Can be read but not written to.
 `"u_val": "power_percentage"` | Percentage of max bionic power. Should be a number between 0 to 100.
@@ -1307,3 +1316,135 @@ Example | Description
 `"hour"` | Hours since midnight.
 `"moon"` | Phase of the moon.<pre>MOON_NEW =0,<br/>WAXING_CRESCENT =1,<br/>HALF_MOON_WAXING =2,<br/>WAXING_GIBBOUS =3,<br/>FULL =4,<br/>WANING_GIBBOUS =5,<br/>HALF_MOON_WANING =6,<br/>WANING_CRESCENT =7</pre>
 `"arithmetic"` | An arithmetic expression with no result.<br/><br/>Example:<pre>"real_count": { "arithmetic": [<br/>  { "arithmetic": [ { "const":1 }, "+", { "const": 1 } ] },<br/>  "+", { "const": 1 }<br/>] },</pre>
+
+### Math
+A `math` object lets you evaluate math expressions and assign them to dialogue variables or compare them for conditions. It takes the form
+```JSON
+{ "math": [ "2 + 2 - 3", "==", "1" ] }
+```
+or idiomatically
+```JSON
+{ "math": [ "lhs", "operator", "rhs" ] }
+```
+It takes an array as a parameter with 1, 2, or 3 strings:
+
+#### One string = return value
+```JSON
+{ "math": [ "lhs" ] }
+```
+Example:
+```JSON
+{ "value": "LUMINATION", "add": { "math": [ "u_val('morale') * 3 - rng(0, 100)" ] } }
+```
+The expression in `lhs` is evaluated and passed on to the parent object.
+
+#### Two strings = unary operation
+```JSON
+{ "math": [ "lhs", "operator" ] }
+```
+Example:
+```JSON
+"effect": [ { "math": [ "math_test", "++" ] } ]
+```
+`lhs` must be an [assignment target](#assignment-target). `operator` can be `++` or `--` to increment or decrement, respectively.
+
+#### Three strings = assignment or comparison
+```JSON
+{ "math": [ "lhs", "operator", "rhs" ] }
+```
+If `operator` is `=`, `+=`, `-=`, `*=`, `/=`, or `%=` the operation is an assignment:
+```JSON
+"effect": { "math": [ "u_blorg", "=", "rng( 0, 2 ) + u_val('spell_level', 'spell: test_spell_pew') / 2" ] }
+```
+`lhs` must be an [assignment target](#assignment-target). `rhs` is evaluated and stored in the assignment target from `lhs`.
+
+
+If `operator` is `==`, `>=`, `<=`, `>`, or `<`, the operation is a comparison:
+```JSON
+"condition": { "math": [ "u_val('stamina') * 2", ">=", "5000 + rand( 300 )" ] },
+```
+`lhs` and `rhs` are evaluated independently and the result of `operator` is passed on to the parent object.
+
+#### Variables
+Tokens that aren't numbers, [constants](#constants), [functions](#math-functions), or mathematical symbols are treated as dialogue variables. They are scoped by their name so `myvar` is a variable in the global scope, `u_myvar` is scoped on the alpha talker, and `n_myvar` is scoped on the beta talker.
+
+Examples:
+```JSON
+    "//0": "return value of global var blorgy_counter",
+    { "math": [ "blorgy_counter" ] },
+    "//1": "result, x, and y are global variables",
+    { "math": [ "result", "=", "x + y" ] },
+    "//2": "u_z is the variable z on the alpha talker (avatar)",
+    { "math": [ "result", "=", "( x + y ) * u_z" ] },
+    "//3": "n_crazyness is the variable crazyness on the beta talker (npc)",
+    { "math": [ "n_crazyness * 2", ">=", "( x + y ) * u_z" ] },
+```
+
+#### Constants
+The tokens `π` (and `pi` alias ) and `e` are recognized as mathematical constants and get replaced by their nominal values.
+
+#### Math functions
+Common math functions are supported: 
+
+`abs()`, `sqrt()`, `log()`, `floor()`, `trunc()`, `ceil()`, `round()`, `sin()`, `cos()`, and `tan()` take one argument, for example `sin( 2 * pi + 1 )`.
+
+`floor( x )` returns the smallest integer not greater than x, for example `floor( 1.5 )` is 1, `floor( -1.5 )` is -2
+
+`ceil( x )` returns the smallest integer not less than x, for example `ceil( 1.5 )` is 2, `ceil( -1.5 )` is -1
+
+`trunc( x )` returns the nearest integer closer to zero, for example `trunc( 1.5 )` is 1, `trunc( -1.5 )` is -1
+
+`clamp( x, lo, hi )` clamps x between lo and hi. hi must be greater than lo
+
+`max()` and `min()` take any number of arguments, for example `max( 1, 2, 3 )`.
+
+`rand()` takes one argument `x` and returns a random integer between 0 and x, for example `rand(100)`.
+
+`rng()` takes two arguments `a` and `b` and returns a random floating point value between a and b, for example `rng(1.5, 2)`.
+
+Function composition is also supported, for example `sin( rng(0, max( 0.5, u_sin_var ) ) )`
+
+#### Dialogue functions
+Dialogue functions take single-quoted strings as arguments and can return or manipulate game values. They are scoped just like [variables](#variables).
+
+This section is a work in progress as functions are ported from `arithmetic` to `math`.
+
+| Function | Eval | Assign |Scopes | Description |
+|----------|------|--------|-------|-------------|
+| pain     |  ✅  |   ✅   | u, n  | Return or set pain<br/> Example:<br/>`{ "math": [ "n_pain()", "=", "u_pain() + 9000" ] }`|
+
+
+##### u_val shim
+There is a `val()` shim available that can cover the missing arithmetic functions from `u_val` and `npc_val`:
+
+```JSON
+{ "math": [ "u_val('stamina')" ] }
+```
+where
+```JSON
+"u_val('stamina')"
+```
+is equivalent to
+```JSON
+{ "u_val": "stamina" }
+```
+Keyword-value pairs are also supported:
+```JSON
+"n_val('spell_level', 'spell: test_spell_pew')"
+```
+is equivalent to
+```JSON
+{ "npc_val": "spell_level", "spell": "test_spell_pew" }
+
+```
+Most of the values from [arithmetic](#list-of-values-that-can-be-read-andor-written-to) can be used with the shim, both for reading and writing.
+
+More examples:
+```JSON
+    { "math": [ "u_val('age')" ] },
+    { "math": [ "u_val('weather: temperature')" ] },
+    { "math": [ "u_val('time: 1 d')" ] },
+    { "math": [ "u_val('proficiency', 'proficiency_id: prof_test', 'format: percent')" ] }
+```
+#### Assignment target
+An assignment target can be either a scoped [variable name](#variables) or a scoped [dialogue function](#dialogue-functions).

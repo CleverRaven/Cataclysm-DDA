@@ -93,38 +93,35 @@ item vehicle_part::properties_to_item() const
         tmp.active = true;
     }
 
-    // force rationalization of damage values to the middle value of each damage level so
-    // that parts will stack nicely
-    tmp.set_damage( tmp.damage_level() * itype::damage_scale );
+    // quantize damage to the middle of each damage_level so that items will stack nicely
+    tmp.set_damage( ( tmp.damage_level() - 0.5 ) * itype::damage_scale );
     return tmp;
 }
 
 std::string vehicle_part::name( bool with_prefix ) const
 {
-    std::string res = info().name();
-
-    if( base.engine_displacement() > 0 ) {
-        res.insert( 0, string_format( _( "%2.1fL " ), base.engine_displacement() / 100.0 ) );
-
-    } else if( wheel_diameter() > 0 ) {
-        res.insert( 0, string_format( _( "%d\" " ), wheel_diameter() ) );
+    std::string res;
+    if( with_prefix ) {
+        res += base.damage_indicator() + base.degradation_symbol() + " ";
+        if( !base.type->degrade_increments() ) {
+            res += " "; // aligns names when printing degrading and non-degrading parts with prefixes
+        }
     }
-
-    if( base.is_faulty() ) {
-        res += _( " (faulty)" );
+    if( base.engine_displacement() ) {
+        res += string_format( _( "%gL " ), base.engine_displacement() / 100.0 );
     }
-
+    if( wheel_diameter() ) {
+        res += string_format( _( "%d\" " ), wheel_diameter() );
+    }
+    res += info().name();
     if( base.has_var( "contained_name" ) ) {
         res += string_format( _( " holding %s" ), base.get_var( "contained_name" ) );
     }
-
+    if( base.is_faulty() ) {
+        res += _( " (faulty)" );
+    }
     if( is_leaking() ) {
         res += _( " (draining)" );
-    }
-
-    if( with_prefix ) {
-        res.insert( 0, colorize( base.damage_symbol(),
-                                 base.damage_color() ) + base.degradation_symbol() + " " );
     }
     return res;
 }
@@ -154,28 +151,9 @@ int vehicle_part::max_damage() const
     return base.max_damage();
 }
 
-int vehicle_part::damage_floor( bool allow_negative ) const
-{
-    return base.damage_floor( allow_negative );
-}
-
-int vehicle_part::repairable_levels() const
-{
-    int levels = damage_level() - damage_level( damage_floor( false ) );
-
-    return levels > 0
-           ? levels                            // full integer levels of damage
-           : damage() > damage_floor( false ); // partial level of damage can still be repaired
-}
-
 bool vehicle_part::is_repairable() const
 {
-    return !is_broken() && repairable_levels() > 0 && info().is_repairable();
-}
-
-int vehicle_part::damage_level( int dmg ) const
-{
-    return base.damage_level( dmg );
+    return !is_broken() && base.repairable_levels() > 0 && info().is_repairable();
 }
 
 double vehicle_part::health_percent() const
@@ -633,14 +611,14 @@ void vehicle::set_hp( vehicle_part &pt, int qty, bool keep_degradation, int new_
 {
     int dur = pt.info().durability;
     if( qty == dur || dur <= 0 ) {
-        pt.base.set_damage( keep_degradation ? pt.base.damage_floor( false ) : 0 );
+        pt.base.set_damage( keep_degradation ? pt.base.degradation() : 0 );
 
     } else if( qty == 0 ) {
         pt.base.set_damage( pt.base.max_damage() );
 
     } else {
         int amt = pt.base.max_damage() - pt.base.max_damage() * qty / dur;
-        amt = std::max( amt, pt.base.damage_floor( false ) );
+        amt = std::max( amt, pt.base.degradation() );
         pt.base.set_damage( amt );
     }
     if( !keep_degradation ) {
@@ -654,14 +632,13 @@ void vehicle::set_hp( vehicle_part &pt, int qty, bool keep_degradation, int new_
     }
 }
 
-bool vehicle::mod_hp( vehicle_part &pt, int qty, damage_type dt )
+bool vehicle::mod_hp( vehicle_part &pt, int qty )
 {
-    int dur = pt.info().durability;
-    if( dur > 0 ) {
-        return pt.base.mod_damage( -( pt.base.max_damage() * qty / dur ), dt );
-    } else {
+    const int dur = pt.info().durability;
+    if( dur <= 0 ) {
         return false;
     }
+    return pt.base.mod_damage( -qty * pt.base.max_damage() / dur );
 }
 
 bool vehicle::can_enable( const vehicle_part &pt, bool alert ) const

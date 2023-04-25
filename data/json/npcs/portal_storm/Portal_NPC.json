@@ -1,0 +1,37 @@
+[
+  {
+    "type": "npc",
+    "id": "portal_person",
+    "//": "A person from elsewhere.",
+    "name_unique": "Involuntary Traveler",
+    "gender": "male",
+    "class": "NC_PORTAL_PERSON",
+    "attitude": 0,
+    "mission": 3,
+    "chat": "TALK_PORTAL_PERSON_1",
+    "faction": "no_faction"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_PORTAL_PERSON",
+    "name": { "str": "No class" },
+    "common": false,
+    "job_description": "I'm from another world.",
+    "traits": [ { "group": "Appearance_Latin" } ],
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 4, 2 ] }, { "rng": [ -4, -1 ] } ] } ] } }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_PORTAL_PERSON_1",
+    "dynamic_line": "Dell hastro bovice?  Arand natick res?",
+    "responses": [ { "text": "What?", "topic": "TALK_PORTAL_PERSON_2" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_PORTAL_PERSON_2",
+    "dynamic_line": "Jand rawdle?  Ignate hasture.",
+    "responses": [ { "text": "I guess, there's no reason to expect a dimensional traveler to speak english.", "topic": "TALK_DONE" } ]
+  }
+]

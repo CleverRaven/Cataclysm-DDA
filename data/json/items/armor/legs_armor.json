@@ -10,7 +10,6 @@
     "price": 500,
     "price_postapoc": 50,
     "to_hit": -1,
-    "bashing": 8,
     "material": [ "wood" ],
     "symbol": "[",
     "looks_like": "leg_splint",
@@ -28,7 +27,8 @@
         "cover_vitals": 0,
         "specifically_covers": [ "leg_lower_r", "leg_lower_l" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "legguard_chitin",
@@ -176,7 +176,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "chainmail leggings", "str_pl": "pairs of chainmail leggings" },
-    "description": "Customized chainmail leggings.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.  The metal shows signs of rust and corrosion.",
+    "description": "Customized chainmail leggings.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.  The metal shows signs of rust and corrosion, and some chain links have fallen away.",
     "weight": "4212 g",
     "volume": "1500 ml",
     "price": 7500,
@@ -423,7 +423,16 @@
     "warmth": 10,
     "material_thickness": 3,
     "flags": [ "OUTER" ],
-    "armor": [ { "encumbrance": 3, "coverage": 65, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": 3,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_lower_l", "leg_lower_r", "leg_knee_r", "leg_knee_l" ]
+      },
+      { "coverage": 20, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_r", "leg_hip_l" ] },
+      { "coverage": 90, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_r", "leg_upper_l" ] }
+    ]
   },
   {
     "id": "chaps_cut_resistant",
@@ -930,8 +939,6 @@
     "price": 20000,
     "price_postapoc": 50,
     "to_hit": -1,
-    "bashing": 1,
-    "cutting": 1,
     "material": [ "budget_steel", "cotton" ],
     "symbol": "[",
     "looks_like": "legguard_metal",
@@ -948,7 +955,8 @@
         "coverage": 95,
         "encumbrance": 15
       }
-    ]
+    ],
+    "melee_damage": { "bash": 1, "cut": 1 }
   },
   {
     "id": "xl_legguard_scrap",
@@ -1140,7 +1148,6 @@
     "price": 60000,
     "price_postapoc": 12000,
     "to_hit": -5,
-    "bashing": 8,
     "material": [ "lc_steel", "lc_steel_chain" ],
     "symbol": "[",
     "looks_like": "legguard_lightplate",
@@ -1161,7 +1168,8 @@
         "coverage": 100,
         "encumbrance": 10
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "xl_armor_lc_light_leg_guard",
@@ -1298,7 +1306,6 @@
     "price": 60000,
     "price_postapoc": 12000,
     "to_hit": -5,
-    "bashing": 8,
     "material": [ "lc_steel", "lc_steel_chain" ],
     "symbol": "[",
     "looks_like": "armor_larmor",
@@ -1320,7 +1327,8 @@
         "coverage": 100,
         "encumbrance": 15
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "xl_armor_lc_leg_guard",
@@ -1457,7 +1465,6 @@
     "price": 60000,
     "price_postapoc": 12000,
     "to_hit": -5,
-    "bashing": 8,
     "material": [ "lc_steel", "lc_steel_chain" ],
     "symbol": "[",
     "looks_like": "armor_larmor",
@@ -1479,7 +1486,8 @@
         "coverage": 100,
         "encumbrance": 20
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "xl_armor_lc_heavy_leg_guard",
@@ -1716,7 +1724,7 @@
     "material_thickness": 4,
     "valid_mods": [ "steel_padded" ],
     "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY" ],
-    "armor": [ { "covers": [ "leg_l", "leg_r" ], "encumbrance": 7, "coverage": 85 } ]
+    "armor": [ { "covers": [ "leg_l", "leg_r" ], "encumbrance": 7, "coverage": 95 } ]
   },
   {
     "id": "xl_legguard_larmor",

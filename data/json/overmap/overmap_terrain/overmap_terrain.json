@@ -623,6 +623,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "drug_lab_roof",
+    "name": "drug lab roof",
+    "sym": "^",
+    "color": "brown",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "campground_1a", "campground_1b", "campground_2a", "campground_2b" ],
     "name": "campground",
     "sym": "+",
@@ -710,25 +718,6 @@
     "name": "public space",
     "sym": "g",
     "color": "light_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [
-      "parking_2x1_0",
-      "parking_2x1_1",
-      "parking_2x2_0_0",
-      "parking_2x2_0_1",
-      "parking_2x2_1_0",
-      "parking_2x2_1_1",
-      "parking_3x1_0",
-      "parking_3x1_1",
-      "parking_3x1_2"
-    ],
-    "name": "parking lot",
-    "sym": "O",
-    "color": "dark_gray",
-    "see_cost": 2,
-    "flags": [ "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",

@@ -1605,7 +1605,7 @@
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
-        "                                    ZXZZZ       ",
+        "                                ZZZZZXZZZ       ",
         "                                    Z...Z       ",
         "                                    ZZZ.Z       ",
         "                                      Z.Z       ",
@@ -1832,7 +1832,7 @@
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
-        "                                  Z..Z                                  ",
+        "                                ZZZ..ZZZ                                ",
         "                                  ZX;Z                                  ",
         "                                  Z..Z                                  ",
         "                                  Z..Z                                  ",
@@ -1864,14 +1864,14 @@
         "            ''                    Z..Z                                  ",
         "            ''                    Z..Z                                  ",
         "            ''                    Z..Z                                  ",
-        "'           ''                    Z..Z                                  ",
-        "''''''''''''''                    Z..Z                                  ",
+        "'           ''                    Z..Z                                 Z",
+        "''''''''''''''                    Z..Z                                 Z",
         "'ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ..ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ",
         ".;....................................................................X.",
         ".X....................................................................;.",
         "ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ..ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ",
-        "                                  Z..Z                                  ",
-        "                                  Z..Z                                  ",
+        "Z                                 Z..Z                                 Z",
+        "Z                                 Z..Z                                 Z",
         "                                  Z..Z                                  ",
         "                                  Z..Z                                  ",
         "                                  Z..Z                                  ",
@@ -1903,7 +1903,7 @@
         "                                  Z..Z                                  ",
         "                                  Z..Z                                  ",
         "                                  Z;XZ                                  ",
-        "                                  Z..Z                                  "
+        "                                ZZZ..ZZZ                                "
       ],
       "palettes": [ "retirement_community_b_palette" ],
       "place_monster": [ { "monster": "mon_bat", "x": [ 13, 19 ], "y": [ 18, 21 ], "chance": 100, "repeat": [ 3, 5 ] } ]
@@ -1953,32 +1953,32 @@
     "object": {
       "fill_ter": "t_soil",
       "rows": [
-        " |wwwwwwwwwwwwww|       ",
-        " |wwwwwwwwwwwwww|       ",
-        " |ww..........ww|       ",
-        " |ww..........ww|       ",
-        " |ww..........ww|       ",
-        " |ww..........ww|       ",
-        " |ww..........ww|       ",
-        " |ww..........ww|       ",
-        " |ww..........ww|       ",
-        "||ww..........ww|       ",
-        "----.......wwwww|       ",
-        "-----------w<www|       ",
-        "-----------wwwww|       ",
-        "----..........ww|       ",
-        "||ww..........ww|       ",
-        " |ww..........ww|       ",
-        " |ww..........ww|       ",
-        " |ww..........ww|       ",
-        " |ww..........ww|       ",
-        " |ww..........ww|       ",
-        " |ww..........ww|       ",
-        " |ww..........ww|       ",
-        " |ww----------ww|       ",
-        " |||----------|||       "
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "||||||||||||||||        ",
+        "ooooooooooooooo|        ",
+        "--------------o|        ",
+        "~~~~~~~~~~##<-o|        ",
+        "~~~~~~~~~~###-o|        ",
+        "-----------##-o|        ",
+        "oooooooooo-~~-o|        ",
+        "|||||||||o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        "
       ],
-      "palettes": [ "retirement_community_sewer_palette" ]
+      "palettes": [ "sewers" ]
     }
   },
   {

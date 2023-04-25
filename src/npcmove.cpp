@@ -111,7 +111,6 @@ static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_catch_up( "catch_up" );
 static const efftype_id effect_disinfected( "disinfected" );
-static const efftype_id effect_hallu( "hallu" );
 static const efftype_id effect_hit_by_player( "hit_by_player" );
 static const efftype_id effect_hypovolemia( "hypovolemia" );
 static const efftype_id effect_infected( "infected" );
@@ -906,11 +905,6 @@ void npc::move()
             add_msg_debug( debugmode::DF_NPC, "NPC %s: investigating sound at x(%d) y(%d)", get_name(),
                            ai_cache.s_abs_pos.x, ai_cache.s_abs_pos.y );
         }
-    } else if( ai_cache.sound_alerts.empty() && ai_cache.guard_pos ) {
-        tripoint return_guard_pos = *ai_cache.guard_pos;
-        add_msg_debug( debugmode::DF_NPC, "NPC %s: returning to guard spot at x(%d) y(%d)", get_name(),
-                       return_guard_pos.x, return_guard_pos.y );
-        action = npc_return_to_guard_pos;
     } else {
         // No present danger
         cleanup_on_no_danger();
@@ -921,6 +915,12 @@ void npc::move()
         if( action == npc_undecided ) {
             action = address_player();
             print_action( "address_player %s", action );
+        }
+        if( action == npc_undecided && ai_cache.sound_alerts.empty() && ai_cache.guard_pos ) {
+            tripoint return_guard_pos = *ai_cache.guard_pos;
+            add_msg_debug( debugmode::DF_NPC, "NPC %s: returning to guard spot at x(%d) y(%d)", get_name(),
+                           return_guard_pos.x, return_guard_pos.y );
+            action = npc_return_to_guard_pos;
         }
     }
 
@@ -1465,8 +1465,7 @@ void npc::evaluate_best_weapon( const Creature *target )
 
     // punching things is always available
     compare( std::make_shared<npc_attack_melee>( null_item_reference() ) );
-    const units::energy ups_charges = available_ups();
-    visit_items( [&compare, &ups_charges, this]( item * it, item * ) {
+    visit_items( [&compare, this]( item * it, item * ) {
         // you can theoretically melee with anything.
         compare( std::make_shared<npc_attack_melee>( *it ) );
         if( !is_wielding( *it ) || !it->has_flag( flag_NO_UNWIELD ) ) {
@@ -1478,10 +1477,10 @@ void npc::evaluate_best_weapon( const Creature *target )
         if( rules.has_flag( ally_rule::use_guns ) ) {
             for( const std::pair<const gun_mode_id, gun_mode> &mode : it->gun_all_modes() ) {
                 if( !( mode.second.melee() || mode.second.flags.count( "NPC_AVOID" ) ||
-                       !can_use( *mode.second.target ) || mode.second->get_gun_ups_drain() > ups_charges ||
+                       !can_use( *mode.second.target ) ||
                        ( rules.has_flag( ally_rule::use_silent ) && is_player_ally() &&
                          !mode.second->is_silent() ) ) ) {
-                    if( it->ammo_sufficient( this ) || can_reload_current() ) {
+                    if( it->shots_remaining( this ) > 0 || can_reload_current() ) {
                         compare( std::make_shared<npc_attack_gun>( *it, mode.second ) );
                     } else {
                         compare( std::make_shared<npc_attack_melee>( *it ) );
@@ -1837,7 +1836,7 @@ npc_action npc::address_needs( float danger )
         } else {
             deactivate_bionic_by_id( bio_nanobots );
         }
-        if( get_skill_level( skill_firstaid ) > 0 ) {
+        if( static_cast<int>( get_skill_level( skill_firstaid ) ) > 0 ) {
             if( is_player_ally() ) {
                 healing_options try_to_fix_other = patient_assessment( player_character );
                 if( try_to_fix_other.any_true() ) {
@@ -1894,11 +1893,9 @@ npc_action npc::address_needs( float danger )
             return npc_noop;
         }
     }
-    //Does the hallucination needs to disappear ?
-    if( is_hallucination() && player_character.sees( *this ) ) {
-        if( !player_character.has_effect( effect_hallu ) ) {
-            die( nullptr );
-        }
+    //Hallucinations have a chance of disappearing each turn
+    if( is_hallucination() && one_in( 25 ) ) {
+        die( nullptr );
     }
 
     if( danger > NPC_DANGER_VERY_LOW ) {
@@ -3288,21 +3285,14 @@ bool npc::wield_better_weapon()
     item *best = &weap;
     double best_value = -100.0;
 
-    const units::energy ups_charges = available_ups();
-
     const auto compare_weapon =
-    [this, &best, &best_value, ups_charges, can_use_gun, use_silent]( const item & it ) {
+    [this, &best, &best_value, can_use_gun, use_silent]( const item & it ) {
         bool allowed = can_use_gun && it.is_gun() && ( !use_silent || it.is_silent() );
         double val;
         if( !allowed ) {
             val = weapon_value( it, 0 );
         } else {
-            int ammo_count = it.ammo_remaining();
-            units::energy ups_drain = it.get_gun_ups_drain();
-            if( ups_drain > 0_kJ ) {
-                ammo_count = std::min( ammo_count, static_cast<int>( ups_charges / ups_drain ) );
-            }
-
+            int ammo_count = it.shots_remaining( this );
             val = weapon_value( it, ammo_count );
         }
 
