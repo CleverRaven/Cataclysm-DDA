@@ -2449,8 +2449,9 @@
           }
         ]
       },
-      { "item": "enfield_303mag" },
-      { "item": "enfield_303mag", "prob": 50 },
+      { "item": "clip303_5rd" },
+      { "item": "clip303_5rd", "prob": 50 },
+      { "item": "enfield_303mag", "prob": 5 },
       { "group": "on_hand_303" }
     ]
   },
@@ -2473,8 +2474,9 @@
           }
         ]
       },
-      { "item": "enfield_303mag" },
-      { "item": "enfield_303mag", "prob": 50 },
+      { "item": "clip303_5rd" },
+      { "item": "clip303_5rd", "prob": 50 },
+      { "item": "enfield_303mag", "prob": 5 },
       { "group": "on_hand_303" }
     ]
   }

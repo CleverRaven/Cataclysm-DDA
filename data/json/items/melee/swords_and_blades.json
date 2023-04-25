@@ -3346,7 +3346,7 @@
     "longest_side": "25 cm",
     "price": 4281,
     "price_postapoc": 3000,
-    "melee_damage": { "bash": 7, "cut": 12 },
+    "melee_damage": { "bash": 7, "stab": 12 },
     "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "good" },
     "material": [ "steel" ],
     "symbol": "/",
@@ -3360,7 +3360,7 @@
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
     "techniques": [ "WBLOCK_1", "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ], [ "BUTCHER", 7 ] ],
-    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
     "weapon_category": [ "KNIVES" ]
   }
 ]
