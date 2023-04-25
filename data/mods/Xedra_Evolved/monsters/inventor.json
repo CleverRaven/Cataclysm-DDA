@@ -3,7 +3,7 @@
     "id": "mon_sniperbot",
     "type": "MONSTER",
     "name": { "str": "sniper bot" },
-    "description": "Lorem ipsum.",
+    "description": "Quadrupedal legs with a rifle barrel mounted across the back of this doglike robot, appear to grant a high level of stability in order to strike targets at long range.",
     "default_faction": "player",
     "species": [ "ROBOT" ],
     "diff": 0,

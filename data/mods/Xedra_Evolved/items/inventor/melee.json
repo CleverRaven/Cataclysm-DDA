@@ -31,7 +31,7 @@
     "type": "TOOL",
     "category": "weapons",
     "name": { "str": "chainsaw spear (off)", "str_pl": "chainsaw spears (off)" },
-    "description": "A hand-made lightened engine, with chain blades on the long stick with baterry tank inside.  The only reason it works and do not fall apart is because your calculations can't be wrong.",
+    "description": "A hand-made lightened engine, with chain blades on a long stick.  The only reason it works without falling apart is because your calculations can't be wrong.",
     "weight": "3300 g",
     "volume": "2250 ml",
     "longest_side": "220 cm",

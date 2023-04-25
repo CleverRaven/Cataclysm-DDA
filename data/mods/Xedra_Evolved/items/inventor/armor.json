@@ -495,7 +495,7 @@
     "id": "wolf_mask_act",
     "type": "TOOL_ARMOR",
     "copy-from": "wolf_mask",
-    "name": { "str": "wolf's mask (on)", "str_pl": "wolf's mask (on)" },
+    "name": { "str": "wolf's mask (on)", "str_pl": "a few wolf's mask (on)" },
     "power_draw": "5 W",
     "use_action": [ { "ammo_scale": 0, "target": "wolf_mask", "msg": "The mask stops working.", "type": "transform" } ]
   },
