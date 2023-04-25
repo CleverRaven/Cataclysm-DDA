@@ -109,66 +109,6 @@ vehicle *display::vehicle_driven( const Character &u )
     return veh;
 }
 
-std::pair<std::string, nc_color> display::str_text_color( const Character &p )
-{
-    nc_color clr;
-
-    if( p.get_str() == p.get_str_base() ) {
-        clr = c_white;
-    } else if( p.get_str() > p.get_str_base() ) {
-        clr = c_green;
-    } else if( p.get_str() < p.get_str_base() ) {
-        clr = c_red;
-    }
-    return std::make_pair( _( "Str " ) + ( p.get_str() < 100 ? std::to_string(
-            p.get_str() ) : "++" ), clr );
-}
-
-std::pair<std::string, nc_color> display::dex_text_color( const Character &p )
-{
-    nc_color clr;
-
-    if( p.get_dex() == p.get_dex_base() ) {
-        clr = c_white;
-    } else if( p.get_dex() > p.get_dex_base() ) {
-        clr = c_green;
-    } else if( p.get_dex() < p.get_dex_base() ) {
-        clr = c_red;
-    }
-    return std::make_pair( _( "Dex " ) + ( p.get_dex() < 100 ? std::to_string(
-            p.get_dex() ) : "++" ), clr );
-}
-
-std::pair<std::string, nc_color> display::int_text_color( const Character &p )
-{
-    nc_color clr;
-
-    if( p.get_int() == p.get_int_base() ) {
-        clr = c_white;
-    } else if( p.get_int() > p.get_int_base() ) {
-        clr = c_green;
-    } else if( p.get_int() < p.get_int_base() ) {
-        clr = c_red;
-    }
-    return std::make_pair( _( "Int " ) + ( p.get_int() < 100 ? std::to_string(
-            p.get_int() ) : "++" ), clr );
-}
-
-std::pair<std::string, nc_color> display::per_text_color( const Character &p )
-{
-    nc_color clr;
-
-    if( p.get_per() == p.get_per_base() ) {
-        clr = c_white;
-    } else if( p.get_per() > p.get_per_base() ) {
-        clr = c_green;
-    } else if( p.get_per() < p.get_per_base() ) {
-        clr = c_red;
-    }
-    return std::make_pair( _( "Per " ) + ( p.get_per() < 100 ? std::to_string(
-            p.get_per() ) : "++" ), clr );
-}
-
 std::string display::get_temp( const Character &u )
 {
     std::string temp;
@@ -1184,7 +1124,8 @@ std::pair<std::string, nc_color> display::carry_weight_text_color( const avatar 
     return std::make_pair( weight_text, weight_color );
 }
 
-std::pair<std::string, nc_color> display::overmap_note_symbol_color( const std::string &note_text )
+std::pair<std::string, nc_color> display::overmap_note_symbol_color( const std::string_view
+        note_text )
 {
     std::string ter_sym = "N";
     nc_color ter_color = c_yellow;
@@ -1235,7 +1176,7 @@ std::pair<std::string, nc_color> display::overmap_note_symbol_color( const std::
             colorStart = symbolIndex + 1;
         }
 
-        std::string sym = note_text.substr( colorStart, colorIndex - colorStart );
+        std::string_view sym = note_text.substr( colorStart, colorIndex - colorStart );
 
         if( sym.length() == 2 ) {
             if( sym == "br" ) {
@@ -1246,7 +1187,7 @@ std::pair<std::string, nc_color> display::overmap_note_symbol_color( const std::
                 ter_color = c_dark_gray;
             }
         } else {
-            char colorID = sym.c_str()[0];
+            char colorID = sym[0];
             if( colorID == 'r' ) {
                 ter_color = c_light_red;
             } else if( colorID == 'R' ) {

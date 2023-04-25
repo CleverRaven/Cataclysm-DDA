@@ -2,6 +2,7 @@
 #include <list>
 #include <memory>
 #include <new>
+#include <optional>
 #include <sstream>
 #include <string>
 #include <vector>
@@ -18,7 +19,7 @@
 #include "map_test_case.h"
 #include "mapdata.h"
 #include "mtype.h"
-#include "optional.h"
+#include "options_helpers.h"
 #include "point.h"
 #include "type_id.h"
 #include "units.h"
@@ -157,6 +158,7 @@ struct vision_test_case {
         player_character.clear_moncams();
         clear_map( -2, OVERMAP_HEIGHT );
         g->reset_light_level();
+        scoped_weather_override weather_clear( WEATHER_CLEAR );
 
         REQUIRE( !player_character.is_blind() );
         REQUIRE( !player_character.in_sleep_state() );
@@ -235,10 +237,10 @@ struct vision_test_case {
     }
 };
 
-static cata::optional<units::angle> testcase_veh_dir( point const &def, vision_test_case const &t,
+static std::optional<units::angle> testcase_veh_dir( point const &def, vision_test_case const &t,
         map_test_case::tile &tile )
 {
-    cata::optional<units::angle> dir = cata::nullopt;
+    std::optional<units::angle> dir = std::nullopt;
     point const dim( t.setup[0].size(), t.setup.size() );
     if( tile.p_local == def ) {
         dir = 0_degrees;
@@ -534,25 +536,34 @@ TEST_CASE( "vision_single_tile_skylight", "[shadowcasting][vision]" )
 TEST_CASE( "vision_junction_reciprocity", "[vision][reciprocity]" )
 {
     bool player_in_junction = GENERATE( true, false );
+    CAPTURE( player_in_junction );
 
     vision_test_case t {
         player_in_junction ?
         std::vector<std::string>{
-            "u#  ",
-            "-- Z",
+            "###   ",
+            "#u####",
+            "#---z#",
+            "######",
 }:
         std::vector<std::string>{
-            "z#  ",
-            "-- u",
+            "###   ",
+            "#z####",
+            "#---u#",
+            "######",
         },
         player_in_junction ?
         std::vector<std::string>{
-            "4466",
-            "4446",
+            "444666",
+            "444666",
+            "444466",
+            "444466",
 }:
         std::vector<std::string>{
-            "4444",
-            "4444",
+            "666666",
+            "444444",
+            "444444",
+            "444444",
         },
         day_time
     };
@@ -560,14 +571,14 @@ TEST_CASE( "vision_junction_reciprocity", "[vision][reciprocity]" )
     monster *zombie = nullptr;
     tile_predicate spawn_zombie = [&]( map_test_case::tile tile ) {
         zombie = g->place_critter_at( mon_zombie, tile.p );
+        get_map().ter_set( tile.p + tripoint_above, ter_t_flat_roof );
         return true;
     };
 
     t.set_up_tiles =
-        ifchar( 'C', spawn_moncam ) ||
-        ifchar( 'Z', spawn_zombie ) ||
         ifchar( 'z', spawn_zombie ) ||
         t.set_up_tiles;
+    t.flags.headlamp = true;
     t.test_all();
 
     if( player_in_junction ) {
@@ -786,7 +797,7 @@ TEST_CASE( "vision_vehicle_mirrors", "[shadowcasting][vision][vehicle]" )
         day_time
     };
     tile_predicate spawn_veh = [&]( map_test_case::tile tile ) {
-        cata::optional<units::angle> dir = testcase_veh_dir( {7, 2}, t, tile );
+        std::optional<units::angle> dir = testcase_veh_dir( {7, 2}, t, tile );
         if( dir ) {
             vehicle *v = get_map().add_vehicle( vehicle_prototype_meth_lab, tile.p, *dir, 0, 0 );
             for( const vpart_reference &vp : v->get_avail_parts( "OPENABLE" ) ) {
@@ -832,7 +843,7 @@ TEST_CASE( "vision_vehicle_camera", "[shadowcasting][vision][vehicle]" )
 
     tile_predicate spawn_veh_cam = [&]( map_test_case::tile tile ) {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
-        cata::optional<units::angle> const dir = testcase_veh_dir( { 1, 0 }, t, tile );
+        std::optional<units::angle> const dir = testcase_veh_dir( { 1, 0 }, t, tile );
         if( dir ) {
             vehicle *v =
                 get_map().add_vehicle( vehicle_prototype_vehicle_camera_test, tile.p, *dir, 0, 0 );
@@ -884,7 +895,7 @@ TEST_CASE( "vision_vehicle_camera_skew", "[shadowcasting][vision][vehicle][vehic
 
     vehicle *v = nullptr;
     tile_predicate spawn_veh_cam = [&]( map_test_case::tile tile ) {
-        cata::optional<units::angle> const dir = testcase_veh_dir( { 4, 0 }, t, tile );
+        std::optional<units::angle> const dir = testcase_veh_dir( { 4, 0 }, t, tile );
         if( dir ) {
             units::angle const skew = *dir + 45_degrees;
             v = get_map().add_vehicle( vehicle_prototype_vehicle_camera_test, tile.p, skew, 0,
@@ -945,7 +956,7 @@ TEST_CASE( "vision_moncam_invalidation", "[shadowcasting][vision][moncam]" )
 
     tile_predicate spawn_veh_cam = [&]( map_test_case::tile tile ) {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
-        cata::optional<units::angle> const dir = testcase_veh_dir( { 1, 1 }, t, tile );
+        std::optional<units::angle> const dir = testcase_veh_dir( { 1, 1 }, t, tile );
         if( dir ) {
             vehicle *v =
                 get_map().add_vehicle( vehicle_prototype_vehicle_camera_test, tile.p, *dir, 0, 0 );
@@ -1075,7 +1086,7 @@ TEST_CASE( "vision_inside_meth_lab", "[shadowcasting][vision][moncam]" )
     };
 
     vehicle *v = nullptr;
-    cata::optional<tripoint> door = cata::nullopt;
+    std::optional<tripoint> door = std::nullopt;
 
     // opens or closes a specific door (marked as 'D')
     // this is called twice: after either vehicle or door is set
@@ -1097,7 +1108,7 @@ TEST_CASE( "vision_inside_meth_lab", "[shadowcasting][vision][moncam]" )
     };
 
     tile_predicate spawn_meth_lab = [&]( map_test_case::tile tile ) {
-        cata::optional<units::angle> dir;
+        std::optional<units::angle> dir;
         if( tile.p_local == point( 2, 0 ) ) {
             dir = 270_degrees;
         } else if( tile.p_local == point( 4, 7 ) ) {

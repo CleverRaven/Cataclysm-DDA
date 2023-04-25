@@ -22,7 +22,6 @@
     "price": 112600,
     "price_postapoc": 2750,
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "steel", "wood" ],
     "color": "brown",
     "ammo": [ "270win" ],
@@ -46,6 +45,7 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "270win": 4 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "270win": 4 } } ],
+    "melee_damage": { "bash": 12 }
   }
 ]

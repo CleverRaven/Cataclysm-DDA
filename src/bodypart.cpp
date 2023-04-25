@@ -7,6 +7,7 @@
 #include <utility>
 #include <vector>
 
+#include "body_part_set.h"
 #include "debug.h"
 #include "enum_conversions.h"
 #include "generic_factory.h"
@@ -153,7 +154,7 @@ const std::vector<limb_score> &limb_score::get_all()
     return limb_score_factory.get_all();
 }
 
-void limb_score::load( const JsonObject &jo, const std::string & )
+void limb_score::load( const JsonObject &jo, const std::string_view )
 {
     mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "name", _name );
@@ -272,7 +273,7 @@ sub_bodypart_id body_part_type::random_sub_part( bool secondary ) const
         }
     }
     // should never get here
-    return ( sub_bodypart_id() );
+    return sub_bodypart_id();
 }
 
 const std::vector<body_part_type> &body_part_type::get_all()
@@ -280,7 +281,7 @@ const std::vector<body_part_type> &body_part_type::get_all()
     return body_part_factory.get_all();
 }
 
-void body_part_type::load( const JsonObject &jo, const std::string & )
+void body_part_type::load( const JsonObject &jo, const std::string_view )
 {
     mandatory( jo, was_loaded, "id", id );
 
@@ -347,7 +348,7 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
         }
     } else {
         limbtypes.clear();
-        body_part_type::type limb_type;
+        body_part_type::type limb_type = {};
         mandatory( jo, was_loaded, "limb_type", limb_type );
         limbtypes.emplace( limb_type, 1.0f );
     }
@@ -415,10 +416,10 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
         const JsonArray &jarr = jo.get_array( "limb_scores" );
         for( const JsonValue jval : jarr ) {
             bp_limb_score bpls;
-            bpls.id = limb_score_id( jval.get_array().get_string( 0 ) );
+            const limb_score_id id = limb_score_id( jval.get_array().get_string( 0 ) );
             bpls.score = jval.get_array().get_float( 1 );
             bpls.max = jval.get_array().size() > 2 ? jval.get_array().get_float( 2 ) : bpls.score;
-            limb_scores.emplace_back( bpls );
+            limb_scores[id] = bpls;
         }
     }
 
@@ -470,7 +471,7 @@ void bp_onhit_effect::load( const JsonObject &jo )
 {
     mandatory( jo, false, "id", id );
     optional( jo, false, "global", global );
-    optional( jo, false, "dmg_type", dtype, damage_type::NONE );
+    optional( jo, false, "dmg_type", dtype, damage_type_id::NULL_ID() );
     optional( jo, false, "dmg_threshold", dmg_threshold, 1 );
     optional( jo, false, "dmg_scale_increment", scale_increment, 1.0f );
     optional( jo, false, "chance", chance, 100 );
@@ -495,7 +496,7 @@ void body_part_type::finalize_all()
 
 void body_part_type::finalize()
 {
-
+    finalize_damage_map( armor.resist_vals );
 }
 
 void body_part_type::check_consistency()
@@ -536,12 +537,12 @@ void body_part_type::check() const
         debugmsg( "Bodypart %s has inconsistent opposite part!", id.str() );
     }
 
-    for( const bp_limb_score &bpls : limb_scores ) {
-        if( !bpls.id.is_valid() ) {
-            debugmsg( "Body part %s has invalid limb score %s.", id.str(), bpls.id.str() );
+    for( const std::pair<const limb_score_id, bp_limb_score> &bpls : limb_scores ) {
+        if( !bpls.first.is_valid() ) {
+            debugmsg( "Body part %s has invalid limb score %s.", id.str(), bpls.first.str() );
         }
-        if( bpls.score > bpls.max ) {
-            debugmsg( "Body part %s has higher %s score than max.", id.str(), bpls.id.str() );
+        if( bpls.second.score > bpls.second.max ) {
+            debugmsg( "Body part %s has higher %s score than max.", id.str(), bpls.first.str() );
         }
     }
 
@@ -561,45 +562,32 @@ void body_part_type::check() const
 
 float body_part_type::get_limb_score( const limb_score_id &id ) const
 {
-    for( const bp_limb_score &bpls : limb_scores ) {
-        if( bpls.id == id ) {
-            return bpls.score;
-        }
-    }
-    return 0.0f;
+    const auto it = limb_scores.find( id );
+    return it == limb_scores.end() ? 0.0f : it->second.score;
 }
 
 float body_part_type::get_limb_score_max( const limb_score_id &id ) const
 {
-    for( const bp_limb_score &bpls : limb_scores ) {
-        if( bpls.id == id ) {
-            return bpls.max;
-        }
-    }
-    return 0.0f;
+    const auto it = limb_scores.find( id );
+    return it == limb_scores.end() ? 0.0f : it->second.max;
 }
 
 bool body_part_type::has_limb_score( const limb_score_id &id ) const
 {
-    for( const bp_limb_score &bpls : limb_scores ) {
-        if( bpls.id == id ) {
-            return true;
-        }
-    }
-    return false;
+    return limb_scores.count( id );
 }
 
-float body_part_type::unarmed_damage( const damage_type &dt ) const
+float body_part_type::unarmed_damage( const damage_type_id &dt ) const
 {
     return damage.type_damage( dt );
 }
 
-float body_part_type::unarmed_arpen( const damage_type &dt ) const
+float body_part_type::unarmed_arpen( const damage_type_id &dt ) const
 {
     return damage.type_arpen( dt );
 }
 
-float body_part_type::damage_resistance( const damage_type &dt ) const
+float body_part_type::damage_resistance( const damage_type_id &dt ) const
 {
     return armor.type_resist( dt );
 }
@@ -932,11 +920,11 @@ std::set<matec_id> bodypart::get_limb_techs() const
     return result;
 }
 
-std::vector<bp_onhit_effect> bodypart::get_onhit_effects( damage_type dtype ) const
+std::vector<bp_onhit_effect> bodypart::get_onhit_effects( damage_type_id dtype ) const
 {
     std::vector<bp_onhit_effect> result;
     for( const bp_onhit_effect &effect : id->effects_on_hit ) {
-        if( effect.dtype == dtype || effect.dtype == damage_type::NONE ) {
+        if( effect.dtype == dtype || effect.dtype == damage_type_id::NULL_ID() ) {
             result.push_back( effect );
         }
     }
@@ -1212,7 +1200,7 @@ void stat_hp_mods::load( const JsonObject &jsobj )
     optional( jsobj, was_loaded, "str_mod", str_mod, 3.0f );
     optional( jsobj, was_loaded, "dex_mod", dex_mod, 0.0f );
     optional( jsobj, was_loaded, "int_mod", int_mod, 0.0f );
-    optional( jsobj, was_loaded, "per_mod", str_mod, 0.0f );
+    optional( jsobj, was_loaded, "per_mod", per_mod, 0.0f );
 
     optional( jsobj, was_loaded, "health_mod", health_mod, 0.0f );
 }

@@ -9,6 +9,7 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <utility>
@@ -56,7 +57,6 @@
 #include "move_mode.h"
 #include "mutation.h"
 #include "npc.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
@@ -108,6 +108,7 @@ static const itype_id itype_guidebook( "guidebook" );
 static const itype_id itype_mut_longpull( "mut_longpull" );
 
 static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
+static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const json_character_flag json_flag_WEBBED_HANDS( "WEBBED_HANDS" );
 
 static const move_mode_id move_mode_crouch( "crouch" );
@@ -129,7 +130,6 @@ static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
 static const trait_id trait_INSECT_ARMS( "INSECT_ARMS" );
 static const trait_id trait_INSECT_ARMS_OK( "INSECT_ARMS_OK" );
 static const trait_id trait_M_SKIN3( "M_SKIN3" );
-static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SHELL3( "SHELL3" );
@@ -166,7 +166,7 @@ static void swap_npc( npc &one, npc &two, npc &tmp )
     two = std::move( tmp );
 }
 
-void avatar::control_npc( npc &np )
+void avatar::control_npc( npc &np, const bool debug )
 {
     if( !np.is_player_ally() ) {
         debugmsg( "control_npc() called on non-allied npc %s", np.name );
@@ -202,9 +202,13 @@ void avatar::control_npc( npc &np )
     const bool z_level_changed = g->vertical_shift( posz() );
     g->update_map( *this, z_level_changed );
     character_mood_face( true );
+
+    profession_id prof_id = prof ? prof->ident() : profession::generic()->ident();
+    get_event_bus().send<event_type::game_avatar_new>( /*is_new_game=*/false, debug,
+            getID(), name, male, prof_id, custom_profession );
 }
 
-void avatar::control_npc_menu()
+void avatar::control_npc_menu( const bool debug )
 {
     std::vector<shared_ptr_fast<npc>> followers;
     uilist charmenu;
@@ -225,7 +229,7 @@ void avatar::control_npc_menu()
     if( charmenu.ret < 0 || static_cast<size_t>( charmenu.ret ) >= followers.size() ) {
         return;
     }
-    get_avatar().control_npc( *followers[charmenu.ret] );
+    get_avatar().control_npc( *followers[charmenu.ret], debug );
 }
 
 void avatar::longpull( const std::string &name )
@@ -439,15 +443,7 @@ bool avatar::read( item_location &book, item_location ereader )
             add_msg( m_info, _( "%s reads aloud…" ), reader->disp_name() );
         }
 
-        assign_activity(
-            player_activity(
-                read_activity_actor(
-                    to_moves<int>( time_taken ),
-                    book,
-                    ereader,
-                    false
-                ) ) );
-
+        assign_activity( read_activity_actor( time_taken, book, ereader, false ) );
         return true;
     }
 
@@ -672,15 +668,7 @@ bool avatar::read( item_location &book, item_location ereader )
         return false;
     }
 
-    assign_activity(
-        player_activity(
-            read_activity_actor(
-                to_moves<int>( time_taken ),
-                book,
-                ereader,
-                continuous,
-                learner_id
-            ) ) );
+    assign_activity( read_activity_actor( time_taken, book, ereader, continuous, learner_id ) );
 
     return true;
 }
@@ -1789,7 +1777,7 @@ void avatar::reassign_item( item &it, int invlet )
 
 void avatar::add_pain_msg( int val, const bodypart_id &bp ) const
 {
-    if( has_trait( trait_NOPAIN ) ) {
+    if( has_flag( json_flag_PAIN_IMMUNE ) ) {
         return;
     }
     if( bp == bodypart_id( "bp_null" ) ) {
@@ -2055,7 +2043,7 @@ void avatar::try_to_sleep( const time_duration &dur )
             add_msg_if_player( m_bad, _( "Your soporific inducer doesn't have enough power to operate." ) );
         }
     }
-    assign_activity( player_activity( try_sleep_activity_actor( dur ) ) );
+    assign_activity( try_sleep_activity_actor( dur ) );
 }
 
 bool avatar::query_yn( const std::string &mes ) const

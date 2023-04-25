@@ -66,10 +66,14 @@ static bool audio_muted = false;
 #endif
 
 static weather_type_id previous_weather;
-static cata::optional<bool> previous_is_night;
+#if defined(SDL_SOUND)
+static std::optional<bool> previous_is_night;
+#endif
 static float g_sfx_volume_multiplier = 1.0f;
-static auto start_sfx_timestamp = std::chrono::high_resolution_clock::now();
-static auto end_sfx_timestamp = std::chrono::high_resolution_clock::now();
+static std::chrono::high_resolution_clock::time_point start_sfx_timestamp =
+    std::chrono::high_resolution_clock::now();
+static std::chrono::high_resolution_clock::time_point end_sfx_timestamp =
+    std::chrono::high_resolution_clock::now();
 static auto sfx_time = end_sfx_timestamp - start_sfx_timestamp;
 static activity_id act;
 static std::pair<std::string, std::string> engine_external_id_and_variant;
@@ -86,6 +90,8 @@ static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_muscle( "muscle" );
 static const itype_id fuel_type_wind( "wind" );
 static const itype_id itype_weapon_fire_suppressed( "weapon_fire_suppressed" );
+
+static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 
 static const material_id material_bone( "bone" );
 static const material_id material_flesh( "flesh" );
@@ -118,10 +124,6 @@ static const ter_str_id ter_t_grass_tall( "t_grass_tall" );
 static const ter_str_id ter_t_grass_white( "t_grass_white" );
 static const ter_str_id ter_t_grate( "t_grate" );
 static const ter_str_id ter_t_guardrail_bg_dp( "t_guardrail_bg_dp" );
-static const ter_str_id ter_t_machinery_electronic( "t_machinery_electronic" );
-static const ter_str_id ter_t_machinery_heavy( "t_machinery_heavy" );
-static const ter_str_id ter_t_machinery_light( "t_machinery_light" );
-static const ter_str_id ter_t_machinery_old( "t_machinery_old" );
 static const ter_str_id ter_t_metal_floor( "t_metal_floor" );
 static const ter_str_id ter_t_moss( "t_moss" );
 static const ter_str_id ter_t_ov_smreb_cage( "t_ov_smreb_cage" );
@@ -179,7 +181,6 @@ static const ter_str_id ter_t_underbrush_harvested_winter( "t_underbrush_harvest
 
 static const trait_id trait_HEAVYSLEEPER( "HEAVYSLEEPER" );
 static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
-static const trait_id trait_NOPAIN( "NOPAIN" );
 
 struct monster_sound_event {
     int volume;
@@ -561,7 +562,7 @@ void sounds::process_sound_markers( Character *you )
             if( is_sound_deafening && !you->is_immune_effect( effect_deaf ) ) {
                 you->add_effect( effect_deaf, std::min( 4_minutes,
                                                         time_duration::from_turns( felt_volume - 130 ) / 8 ) );
-                if( !you->has_trait( trait_NOPAIN ) ) {
+                if( !you->has_flag( json_flag_PAIN_IMMUNE ) ) {
                     you->add_msg_if_player( m_bad, _( "Your eardrums suddenly ache!" ) );
                     if( you->get_pain() < 10 ) {
                         you->mod_pain( rng( 0, 2 ) );
@@ -1288,7 +1289,7 @@ void sfx::generate_gun_sound( const Character &source_arg, const item &firing )
         if( std::any_of( mods.begin(), mods.end(),
         []( const item * e ) {
         return e->type->gunmod->loudness < 0;
-    } ) ) {
+    } ) && firing.gun_skill().str() != "archery" ) {
             weapon_id = itype_weapon_fire_suppressed;
         }
 
@@ -1767,10 +1768,6 @@ void sfx::do_footstep()
             ter_t_guardrail_bg_dp,
             ter_t_slide,
             ter_t_conveyor,
-            ter_t_machinery_light,
-            ter_t_machinery_heavy,
-            ter_t_machinery_old,
-            ter_t_machinery_electronic,
         };
         static const std::set<ter_str_id> chain_fence = {
             ter_t_chainfence,
@@ -1778,8 +1775,8 @@ void sfx::do_footstep()
 
         const auto play_plmove_sound_variant = [&]( const std::string & variant,
                                                const std::string & season,
-                                               const cata::optional<bool> &indoors,
-        const cata::optional<bool> &night ) {
+                                               const std::optional<bool> &indoors,
+        const std::optional<bool> &night ) {
             play_variant_sound( "plmove", variant, season, indoors, night,
                                 heard_volume, 0_degrees, 0.8, 1.2 );
             start_sfx_timestamp = std::chrono::high_resolution_clock::now();
@@ -1985,7 +1982,7 @@ void sfx::do_player_death_hurt( const Character &, bool ) { }
 void sfx::do_fatigue() { }
 void sfx::do_obstacle( const std::string & ) { }
 void sfx::play_variant_sound( const std::string &, const std::string &, const std::string &,
-                              const cata::optional<bool> &, const cata::optional<bool> &, int ) { }
+                              const std::optional<bool> &, const std::optional<bool> &, int ) { }
 /*@}*/
 
 #endif // if defined(SDL_SOUND)

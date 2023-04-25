@@ -351,6 +351,15 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
                     return false;
                 }
             }
+            if( critter.attitude_to( you ) == Creature::Attitude::NEUTRAL &&
+                g->safe_mode != SAFE_MODE_OFF ) {
+                const std::string msg_safe_mode = press_x( ACTION_TOGGLE_SAFEMODE );
+                add_msg( m_warning,
+                         _( "Not attacking the %1$s -- safe mode is on!  (%2$s to turn it off)" ), critter.name(),
+                         msg_safe_mode );
+                return false;
+            }
+
             you.melee_attack( critter, true );
             if( critter.is_hallucination() ) {
                 critter.die( &you );
@@ -476,7 +485,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         return true;
     }
     if( veh_closed_door ) {
-        if( !veh1->handle_potential_theft( dynamic_cast<Character &>( you ) ) ) {
+        if( !veh1->handle_potential_theft( you ) ) {
             return true;
         } else {
             door_name = veh1->part( dpart ).name();
@@ -634,7 +643,7 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
         return;
     }
     if( const auto vp = m.veh_at( p ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
-        if( !vp->vehicle().handle_potential_theft( dynamic_cast<Character &>( you ) ) ) {
+        if( !vp->vehicle().handle_potential_theft( you ) ) {
             return;
         }
     }
@@ -668,7 +677,12 @@ static float rate_critter( const Creature &c )
 {
     const npc *np = dynamic_cast<const npc *>( &c );
     if( np != nullptr ) {
-        return np->weapon_value( *np->get_wielded_item() );
+        item_location wielded = np->get_wielded_item();
+        if( wielded ) {
+            return np->weapon_value( *wielded );
+        } else {
+            return np->unarmed_value();
+        }
     }
 
     const monster *m = dynamic_cast<const monster *>( &c );
@@ -829,19 +843,17 @@ void avatar_action::fire_wielded_weapon( avatar &you )
         return;
     }
 
-    you.assign_activity( player_activity( aim_activity_actor::use_wielded() ), false );
+    you.assign_activity( aim_activity_actor::use_wielded() );
 }
 
 void avatar_action::fire_ranged_mutation( Character &you, const item &fake_gun )
 {
-    you.assign_activity( player_activity( aim_activity_actor::use_mutation( fake_gun ) ), false );
+    you.assign_activity( aim_activity_actor::use_mutation( fake_gun ) );
 }
 
-void avatar_action::fire_ranged_bionic( avatar &you, const item &fake_gun,
-                                        const units::energy &cost_per_shot )
+void avatar_action::fire_ranged_bionic( avatar &you, const item &fake_gun )
 {
-    you.assign_activity(
-        player_activity( aim_activity_actor::use_bionic( fake_gun, cost_per_shot ) ), false );
+    you.assign_activity( aim_activity_actor::use_bionic( fake_gun ) );
 }
 
 void avatar_action::fire_turret_manual( avatar &you, map &m, turret_data &turret )
@@ -892,7 +904,7 @@ bool avatar_action::eat_here( avatar &you )
         } else {
             here.ter_set( you.pos(), t_grass );
             item food( "underbrush", calendar::turn, 1 );
-            you.assign_activity( player_activity( consume_activity_actor( food ) ) );
+            you.assign_activity( consume_activity_actor( food ) );
             return true;
         }
     }
@@ -903,7 +915,7 @@ bool avatar_action::eat_here( avatar &you )
             return true;
         } else {
             item food( item( "grass", calendar::turn, 1 ) );
-            you.assign_activity( player_activity( consume_activity_actor( food ) ) );
+            you.assign_activity( consume_activity_actor( food ) );
             if( here.ter( you.pos() ) == t_grass_tall ) {
                 here.ter_set( you.pos(), t_grass_long );
             } else if( here.ter( you.pos() ) == t_grass_long ) {
@@ -950,8 +962,8 @@ void avatar_action::eat( avatar &you, const item_location &loc,
         add_msg( _( "Never mind." ) );
         return;
     }
-    you.assign_activity( player_activity( consume_activity_actor( loc, consume_menu_selections,
-                                          consume_menu_selected_items, consume_menu_filter, type ) ) );
+    you.assign_activity( consume_activity_actor( loc, consume_menu_selections,
+                         consume_menu_selected_items, consume_menu_filter, type ) );
     you.last_item = item( *loc ).typeId();
 }
 
@@ -965,7 +977,7 @@ void avatar_action::eat_or_use( avatar &you, item_location loc )
 }
 
 void avatar_action::plthrow( avatar &you, item_location loc,
-                             const cata::optional<tripoint> &blind_throw_from_pos )
+                             const std::optional<tripoint> &blind_throw_from_pos )
 {
     bool in_shell = you.has_active_mutation( trait_SHELL2 ) ||
                     you.has_active_mutation( trait_SHELL3 );
@@ -1180,8 +1192,11 @@ void avatar_action::use_item( avatar &you, item_location &loc, std::string const
         you.use( loc, pre_obtain_moves, method );
 
         if( parent_pocket && on_person && parent_pocket->will_spill() ) {
-            parent_pocket->handle_liquid_or_spill( you );
+            parent_pocket->handle_liquid_or_spill( you, loc.parent_item().get_item() );
         }
+    }
+    if( loc ) {
+        loc.on_contents_changed();
     }
 
     you.recoil = MAX_RECOIL;

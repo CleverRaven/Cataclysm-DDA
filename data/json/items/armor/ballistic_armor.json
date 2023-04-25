@@ -112,6 +112,7 @@
     "color": "dark_gray",
     "material_thickness": 25,
     "non_functional": "destroyed_large_ceramic_plate",
+    "damage_verb": "makes a crunch, something has shifted",
     "flags": [ "ABLATIVE_LARGE", "CANT_WEAR" ],
     "armor": [ { "encumbrance": 2, "coverage": 45, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
   },
@@ -260,6 +261,7 @@
     "color": "dark_gray",
     "material_thickness": 25,
     "non_functional": "destroyed_medium_ceramic_plate",
+    "damage_verb": "makes a crunch, something has shifted",
     "flags": [ "ABLATIVE_MEDIUM", "CANT_WEAR" ],
     "armor": [ { "encumbrance": 1, "coverage": 35, "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ] } ]
   },
@@ -1077,7 +1079,6 @@
     "price": "5000 USD",
     "price_postapoc": "60 USD",
     "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "uneven" },
-    "bashing": 6,
     "material": [ "ceramic", "nylon" ],
     "symbol": "[",
     "looks_like": "kevlar",
@@ -1099,6 +1100,7 @@
         "cover_vitals": 90,
         "covers": [ "torso" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 6 }
   }
 ]

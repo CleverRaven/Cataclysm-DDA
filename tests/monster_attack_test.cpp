@@ -6,9 +6,12 @@
 #include "cata_catch.h"
 #include "cata_scope_helpers.h"
 #include "character.h"
+#include "creature.h"
 #include "line.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "mattack_actors.h"
+#include "mattack_common.h"
 #include "monattack.h"
 #include "monster.h"
 #include "mtype.h"
@@ -21,7 +24,14 @@
 #include "weather_type.h"
 #include "game.h"
 
+static const efftype_id effect_bleed( "bleed" );
+static const efftype_id effect_took_flumed( "took_flumed" );
+
 static const itype_id itype_rock( "rock" );
+
+static const json_character_flag json_flag_TOUGH_FEET( "TOUGH_FEET" );
+
+static const trait_id trait_TOUGH_FEET( "TOUGH_FEET" );
 
 static constexpr tripoint attacker_location{ 65, 65, 0 };
 
@@ -234,4 +244,45 @@ TEST_CASE( "monster_throwing_sanity_test", "[throwing],[balance]" )
         INFO( "Dmg Lower: " << damage_dealt.lower() << " Dmg Upper: " << damage_dealt.upper() );
         CHECK( damage_dealt.test_threshold( threshold ) );
     }
+}
+
+TEST_CASE( "Mattack dialog condition test", "[mattack]" )
+{
+    clear_map();
+    clear_creatures();
+    const tripoint target_location = attacker_location + tripoint_east;
+    Character &you = get_player_character();
+    clear_avatar();
+    you.setpos( target_location );
+    const std::string monster_type = "mon_test_mattack_dialog";
+    monster &test_monster = spawn_test_monster( monster_type, attacker_location );
+    test_monster.set_dest( you.get_location() );
+    const mtype_special_attack &attack = test_monster.type->special_attacks.at( "test_conditions_1" );
+
+    // Fail at first
+    CHECK( !attack->call( test_monster ) );
+    // Check the easier arm of the OR
+    test_monster.add_effect( effect_took_flumed, 1_days );
+    REQUIRE( test_monster.has_effect( effect_took_flumed ) );
+    CHECK( attack->call( test_monster ) );
+
+    // Reset the test, attack fails again
+    test_monster.remove_effect( effect_took_flumed );
+    REQUIRE( !attack->call( test_monster ) );
+
+    // Check the nested AND arm
+    REQUIRE( is_creature_outside( test_monster ) );
+    you.set_mutation( trait_TOUGH_FEET );
+    REQUIRE( you.has_flag( json_flag_TOUGH_FEET ) );
+    CHECK( !attack->call( test_monster ) );
+    test_monster.add_effect( effect_bleed, 1_days );
+    REQUIRE( test_monster.has_effect( effect_bleed ) );
+    // We now have all conditions specified in the attack
+    CHECK( attack->call( test_monster ) );
+
+    // Add disqualifying condition to target
+    you.add_effect( effect_took_flumed, 1_days );
+    REQUIRE( you.has_effect( effect_took_flumed ) );
+    // Attack fails
+    CHECK( !attack->call( test_monster ) );
 }

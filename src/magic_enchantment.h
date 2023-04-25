@@ -5,6 +5,7 @@
 #include <iosfwd>
 #include <map>
 #include <new>
+#include <optional>
 #include <set>
 #include <utility>
 #include <vector>
@@ -12,7 +13,6 @@
 #include "calendar.h"
 #include "dialogue_helpers.h"
 #include "magic.h"
-#include "optional.h"
 #include "type_id.h"
 #include "units_fwd.h"
 
@@ -22,7 +22,6 @@ class JsonObject;
 class JsonOut;
 class item;
 struct dialogue;
-template<class T>
 struct dbl_or_var;
 namespace enchant_vals
 {
@@ -116,6 +115,8 @@ enum class mod : int {
     ITEM_ATTACK_SPEED,
     CLIMATE_CONTROL_HEAT,
     CLIMATE_CONTROL_CHILL,
+    FALL_DAMAGE,
+    OVERKILL_DAMAGE,
     NUM_MOD
 };
 } // namespace enchant_vals
@@ -142,12 +143,12 @@ class enchantment
 
         static void load_enchantment( const JsonObject &jo, const std::string &src );
         static void reset();
-        void load( const JsonObject &jo, const std::string &src = "",
-                   const cata::optional<std::string> &inline_id = cata::nullopt, bool is_child = false );
+        void load( const JsonObject &jo, std::string_view src = {},
+                   const std::optional<std::string> &inline_id = std::nullopt, bool is_child = false );
 
         // Takes in a JsonValue which can be either a string or an enchantment object and returns the id of the enchantment the caller will use.
         // If the input is a string return it as an enchantment_id otherwise create an enchantment with id inline_id and return inline_id as an enchantment id
-        static enchantment_id load_inline_enchantment( const JsonValue &jv, const std::string &src,
+        static enchantment_id load_inline_enchantment( const JsonValue &jv, std::string_view src,
                 std::string &inline_id );
 
         // this enchantment has a valid condition and is in the right location
@@ -186,17 +187,24 @@ class enchantment
         std::vector<bodypart_changes> modified_bodyparts;
 
         std::set<trait_id> mutations;
-        cata::optional<emit_id> emitter;
+        std::optional<emit_id> emitter;
         std::map<efftype_id, int> ench_effects;
+
+        // name to display for enchantments on items
+        translation name;
+
+        // description to display for enchantments on items
+        translation description;
+
         // values that add to the base value
-        std::map<enchant_vals::mod, dbl_or_var<dialogue>> values_add; // NOLINT(cata-serialize)
+        std::map<enchant_vals::mod, dbl_or_var> values_add; // NOLINT(cata-serialize)
         // values that get multiplied to the base value
         // multipliers add to each other instead of multiply against themselves
-        std::map<enchant_vals::mod, dbl_or_var<dialogue>> values_multiply; // NOLINT(cata-serialize)
+        std::map<enchant_vals::mod, dbl_or_var> values_multiply; // NOLINT(cata-serialize)
 
         // the exact same as above, though specifically for skills
-        std::map<skill_id, dbl_or_var<dialogue>> skill_values_add; // NOLINT(cata-serialize)
-        std::map<skill_id, dbl_or_var<dialogue>> skill_values_multiply; // NOLINT(cata-serialize)
+        std::map<skill_id, dbl_or_var> skill_values_add; // NOLINT(cata-serialize)
+        std::map<skill_id, dbl_or_var> skill_values_multiply; // NOLINT(cata-serialize)
 
         std::vector<fake_spell> hit_me_effect;
         std::vector<fake_spell> hit_you_effect;
@@ -251,9 +259,14 @@ class enchant_cache : public enchantment
         void add_value_mult( enchant_vals::mod value, float mult_value );
         void add_hit_you( const fake_spell &sp );
         void add_hit_me( const fake_spell &sp );
-        void load( const JsonObject &jo, const std::string &src = "",
-                   const cata::optional<std::string> &inline_id = cata::nullopt );
+        void load( const JsonObject &jo, std::string_view src = {},
+                   const std::optional<std::string> &inline_id = std::nullopt );
         bool operator==( const enchant_cache &rhs ) const;
+
+        // details of each enchantment that includes them (name and description)
+        std::vector<std::pair<std::string, std::string>> details; // NOLINT(cata-serialize)
+
+
     private:
         std::map<enchant_vals::mod, int> values_add; // NOLINT(cata-serialize)
         // values that get multiplied to the base value

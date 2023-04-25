@@ -36,6 +36,7 @@
 #include "UseNamedPointConstantsCheck.h"
 #include "UsePointApisCheck.h"
 #include "UsePointArithmeticCheck.h"
+#include "UseStringViewCheck.h"
 #include "UTF8ToLowerUpperCheck.h"
 #include "XYCheck.h"
 
@@ -43,9 +44,7 @@
 #include "tool/ClangTidyMain.h"
 #endif
 
-namespace clang
-{
-namespace tidy
+namespace clang::tidy
 {
 namespace cata
 {
@@ -107,6 +106,7 @@ class CataModule : public ClangTidyModule
                 "cata-use-named-point-constants" );
             CheckFactories.registerCheck<UsePointApisCheck>( "cata-use-point-apis" );
             CheckFactories.registerCheck<UsePointArithmeticCheck>( "cata-use-point-arithmetic" );
+            CheckFactories.registerCheck<UseStringViewCheck>( "cata-use-string_view" );
             CheckFactories.registerCheck<UTF8ToLowerUpperCheck>( "cata-utf8-no-to-lower-to-upper" );
             CheckFactories.registerCheck<XYCheck>( "cata-xy" );
         }
@@ -119,8 +119,7 @@ class CataModule : public ClangTidyModule
 static ClangTidyModuleRegistry::Add<cata::CataModule>
 X( "cata-module", "Adds Cataclysm-DDA checks." );
 
-} // namespace tidy
-} // namespace clang
+} // namespace clang::tidy
 
 #if defined( CATA_CLANG_TIDY_EXECUTABLE )
 int main( int argc, const char **argv )

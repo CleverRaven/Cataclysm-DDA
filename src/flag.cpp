@@ -228,6 +228,7 @@ const flag_id flag_ORGANIC( "ORGANIC" );
 const flag_id flag_OUTER( "OUTER" );
 const flag_id flag_OVERSIZE( "OVERSIZE" );
 const flag_id flag_PADDED( "PADDED" );
+const flag_id flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 const flag_id flag_PALS_LARGE( "PALS_LARGE" );
 const flag_id flag_PALS_MEDIUM( "PALS_MEDIUM" );
 const flag_id flag_PALS_SMALL( "PALS_SMALL" );
@@ -395,7 +396,7 @@ const json_flag &json_flag::get( const std::string &id )
     return f_id.is_valid() ? *f_id : null_value;
 }
 
-void json_flag::load( const JsonObject &jo, const std::string & )
+void json_flag::load( const JsonObject &jo, const std::string_view )
 {
     // TODO: mark fields as mandatory where appropriate
     optional( jo, was_loaded, "info", info_ );

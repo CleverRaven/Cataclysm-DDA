@@ -7,6 +7,7 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <optional>
 #include <string>
 #include <tuple>
 #include <utility>
@@ -44,7 +45,6 @@
 #include "mutation.h"
 #include "name.h"
 #include "npc.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
@@ -123,6 +123,7 @@ static const json_character_flag json_flag_GLARE_RESIST( "GLARE_RESIST" );
 static const json_character_flag json_flag_MEND_ALL( "MEND_ALL" );
 static const json_character_flag json_flag_MEND_LIMB( "MEND_LIMB" );
 static const json_character_flag json_flag_NYCTOPHOBIA( "NYCTOPHOBIA" );
+static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const json_character_flag json_flag_RAD_DETECT( "RAD_DETECT" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
@@ -151,13 +152,13 @@ static const trait_id trait_M_BLOSSOMS( "M_BLOSSOMS" );
 static const trait_id trait_M_SPORES( "M_SPORES" );
 static const trait_id trait_NARCOLEPTIC( "NARCOLEPTIC" );
 static const trait_id trait_NONADDICTIVE( "NONADDICTIVE" );
-static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PER_SLIME( "PER_SLIME" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_RADIOACTIVE1( "RADIOACTIVE1" );
 static const trait_id trait_RADIOACTIVE2( "RADIOACTIVE2" );
 static const trait_id trait_RADIOACTIVE3( "RADIOACTIVE3" );
 static const trait_id trait_RADIOGENIC( "RADIOGENIC" );
+static const trait_id trait_RADIOPHILE( "RADIOPHILE" );
 static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 static const trait_id trait_SHARKTEETH( "SHARKTEETH" );
 static const trait_id trait_SHELL2( "SHELL2" );
@@ -463,7 +464,7 @@ void suffer::while_awake( Character &you, const int current_stim )
 
 void suffer::from_chemimbalance( Character &you )
 {
-    if( one_turn_in( 6_hours ) && !you.has_trait( trait_NOPAIN ) ) {
+    if( one_turn_in( 6_hours ) && !you.has_flag( json_flag_PAIN_IMMUNE ) ) {
         you.add_msg_if_player( m_bad, _( "You suddenly feel sharp pain for no reason." ) );
         you.mod_pain( 3 * rng( 1, 3 ) );
     }
@@ -471,7 +472,7 @@ void suffer::from_chemimbalance( Character &you )
         int pkilladd = 5 * rng( -1, 2 );
         if( pkilladd > 0 ) {
             you.add_msg_if_player( m_bad, _( "You suddenly feel numb." ) );
-        } else if( ( pkilladd < 0 ) && ( !you.has_trait( trait_NOPAIN ) ) ) {
+        } else if( ( pkilladd < 0 ) && ( !you.has_flag( json_flag_PAIN_IMMUNE ) ) ) {
             you.add_msg_if_player( m_bad, _( "You suddenly ache." ) );
         }
         you.mod_painkiller( pkilladd );
@@ -696,8 +697,8 @@ void suffer::from_schizophrenia( Character &you )
             i_talk_w = SNIPPET.random_from_category( "schizo_weapon_talk_bleeding" ).value_or(
                            translation() ).translated();
             does_talk = true;
-        } else if( weap->damage() >= ( weap->max_damage() - weap->damage_floor( false ) ) / 3 +
-                   weap->damage_floor( false ) && one_turn_in( 1_hours ) ) {
+        } else if( weap->damage() >= ( weap->max_damage() - weap->degradation() ) / 3 +
+                   weap->degradation() && one_turn_in( 1_hours ) ) {
             i_talk_w = SNIPPET.random_from_category( "schizo_weapon_talk_damaged" ).value_or(
                            translation() ).translated();
             does_talk = true;
@@ -1306,10 +1307,16 @@ void suffer::from_radiation( Character &you )
     // Used to control vomiting from radiation to make it not-annoying
     bool radiation_increasing = you.irradiate( rads );
 
-    if( radiation_increasing && calendar::once_every( 3_minutes ) && you.has_bionic( bio_geiger ) ) {
-        you.add_msg_if_player( m_warning,
-                               _( "You feel an anomalous sensation coming from "
-                                  "your radiation sensors." ) );
+    if( radiation_increasing && calendar::once_every( 3_minutes ) ) {
+        if( you.has_bionic( bio_geiger ) ) {
+            you.add_msg_if_player( m_warning,
+                                   _( "You feel an anomalous sensation coming from "
+                                      "your radiation sensors." ) );
+        } else if( you.has_active_mutation( trait_RADIOPHILE ) ) {
+            you.add_msg_if_player( m_warning,
+                                   _( "Your flesh tingles with an air of danger, "
+                                      "yet it is strangely pleasurable." ) );
+        }
     }
 
     if( calendar::once_every( 15_minutes ) ) {
@@ -1370,7 +1377,7 @@ void suffer::from_bad_bionics( Character &you )
     if( you.has_bionic( bio_dis_shock ) && you.get_power_level() > bio_dis_shock->power_trigger &&
         one_turn_in( 2_hours ) &&
         !you.has_effect( effect_narcosis ) ) {
-        if( !you.has_trait( trait_NOPAIN ) ) {
+        if( !you.has_flag( json_flag_PAIN_IMMUNE ) ) {
             you.add_msg_if_player( m_bad, _( "You suffer a painful electrical discharge!" ) );
             you.mod_pain( 1 );
         } else {
@@ -1392,7 +1399,7 @@ void suffer::from_bad_bionics( Character &you )
         sfx::play_variant_sound( "bionics", "elec_discharge", 100 );
     }
     if( you.has_bionic( bio_dis_acid ) && one_turn_in( 150_minutes ) ) {
-        if( !you.has_trait( trait_NOPAIN ) ) {
+        if( !you.has_flag( json_flag_PAIN_IMMUNE ) ) {
             you.add_msg_if_player( m_bad, _( "You suffer a burning acidic discharge!" ) );
         } else {
             you.add_msg_if_player( m_bad, _( "You experience an acidic discharge!" ) );
@@ -1774,11 +1781,11 @@ void suffer::from_artifact_resonance( Character &you, int amt )
                 you.mod_pain( 5 );
             } else if( rng_outcome == 2 ) {
                 you.add_msg_if_player( m_bad,
-                                       _( "Your vision suddenly becomes blurry and hard to decipher." ) );
-                you.add_effect( effect_hallu, 5_minutes );
+                                       _( "Your vision becomes blurry and you suddenly feel like you're falling." ) );
+                you.add_effect( effect_visuals, 5_minutes );
             } else if( rng_outcome == 3 ) {
                 you.add_msg_if_player( m_bad, _( "You suddenly feel very queasy." ) );
-                you.add_effect( effect_nausea, 1_minutes );
+                you.add_effect( effect_nausea, 5_minutes );
             }
         }
     }

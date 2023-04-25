@@ -99,13 +99,13 @@ class local_translation_cache<const char *>
 
 // these getters are used to work around the MSVC bug that happened with using decltype in lambda
 // see build log: https://gist.github.com/Aivean/e76a70edce0a1589c76bcf754ffb016b
-static inline local_translation_cache<const char *> get_local_translation_cache( const char * )
+inline local_translation_cache<const char *> get_local_translation_cache( const char * )
 {
     return local_translation_cache<const char *>();
 }
 
-static inline local_translation_cache<std::string> get_local_translation_cache(
-    const std::string & )
+inline local_translation_cache<std::string> get_local_translation_cache(
+    const std::string_view )
 {
     return local_translation_cache<std::string>();
 }

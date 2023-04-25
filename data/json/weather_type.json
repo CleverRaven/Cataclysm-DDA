@@ -13,7 +13,6 @@
     "dangerous": false,
     "precip": "none",
     "rains": false,
-    "acidic": false,
     "sound_category": "sunny",
     "priority": 10,
     "condition": {
@@ -39,7 +38,6 @@
     "dangerous": false,
     "precip": "none",
     "rains": false,
-    "acidic": false,
     "sound_category": "cloudy",
     "priority": 20,
     "condition": {
@@ -64,7 +62,6 @@
     "dangerous": false,
     "precip": "very_light",
     "rains": true,
-    "acidic": false,
     "tiles_animation": "weather_rain_drop",
     "weather_animation": { "factor": 0.01, "color": "light_blue", "sym": "," },
     "sound_category": "drizzle",
@@ -92,7 +89,6 @@
     "dangerous": false,
     "precip": "light",
     "rains": true,
-    "acidic": false,
     "tiles_animation": "weather_rain_drop",
     "weather_animation": { "factor": 0.01, "color": "light_blue", "sym": "." },
     "sound_category": "drizzle",
@@ -120,7 +116,6 @@
     "dangerous": false,
     "precip": "heavy",
     "rains": true,
-    "acidic": false,
     "tiles_animation": "weather_rain_drop",
     "weather_animation": { "factor": 0.02, "color": "light_blue", "sym": "," },
     "sound_category": "rainy",
@@ -147,11 +142,9 @@
     "dangerous": false,
     "precip": "heavy",
     "rains": true,
-    "acidic": false,
     "tiles_animation": "weather_rain_drop",
     "weather_animation": { "factor": 0.04, "color": "blue", "sym": ";" },
     "sound_category": "rainstorm",
-    "sun_intensity": "none",
     "required_weathers": [ "rain" ],
     "priority": 60,
     "condition": {
@@ -176,7 +169,6 @@
     "dangerous": false,
     "precip": "heavy",
     "rains": true,
-    "acidic": false,
     "tiles_animation": "weather_rain_drop",
     "weather_animation": { "factor": 0.02, "color": "light_blue", "sym": "." },
     "sound_category": "thunder",
@@ -199,57 +191,12 @@
     "dangerous": false,
     "precip": "heavy",
     "rains": true,
-    "acidic": false,
     "tiles_animation": "weather_rain_drop",
     "weather_animation": { "factor": 0.04, "color": "light_blue", "sym": "," },
     "sound_category": "thunder",
     "required_weathers": [ "thunder" ],
     "priority": 80,
     "condition": { "compare_num": [ { "weather": "pressure" }, "<", { "const": 990 } ] }
-  },
-  {
-    "id": "acid_drizzle",
-    "type": "weather_type",
-    "name": "Acidic Drizzle",
-    "color": "light_green",
-    "map_color": "yellow_green",
-    "sym": ".",
-    "ranged_penalty": 2,
-    "sight_penalty": 1.03,
-    "light_modifier": -20,
-    "sun_multiplier": 0.1,
-    "sound_attn": 1,
-    "dangerous": true,
-    "precip": "light",
-    "rains": true,
-    "acidic": true,
-    "tiles_animation": "weather_acid_drop",
-    "weather_animation": { "factor": 0.01, "color": "light_green", "sym": "." },
-    "sound_category": "drizzle",
-    "required_weathers": [ "drizzle" ],
-    "priority": 83
-  },
-  {
-    "id": "acid_rain",
-    "type": "weather_type",
-    "name": "Acid Rain",
-    "color": "green",
-    "map_color": "yellow_green",
-    "sym": "o",
-    "ranged_penalty": 4,
-    "sight_penalty": 1.1,
-    "light_modifier": -30,
-    "sun_multiplier": 0.03,
-    "sound_attn": 4,
-    "dangerous": true,
-    "precip": "heavy",
-    "rains": true,
-    "acidic": true,
-    "tiles_animation": "weather_acid_drop",
-    "weather_animation": { "factor": 0.02, "color": "light_green", "sym": "," },
-    "sound_category": "rainy",
-    "required_weathers": [ "rain" ],
-    "priority": 84
   },
   {
     "id": "flurries",
@@ -266,7 +213,6 @@
     "dangerous": false,
     "precip": "light",
     "rains": false,
-    "acidic": false,
     "tiles_animation": "weather_snowflake",
     "weather_animation": { "factor": 0.01, "color": "white", "sym": "." },
     "sound_category": "flurries",
@@ -289,7 +235,6 @@
     "dangerous": false,
     "precip": "heavy",
     "rains": false,
-    "acidic": false,
     "tiles_animation": "weather_snowflake",
     "weather_animation": { "factor": 0.02, "color": "white", "sym": "," },
     "sound_category": "snow",
@@ -312,7 +257,6 @@
     "dangerous": false,
     "precip": "heavy",
     "rains": false,
-    "acidic": false,
     "tiles_animation": "weather_snowflake",
     "weather_animation": { "factor": 0.04, "color": "white", "sym": "*" },
     "sound_category": "snowstorm",
@@ -324,6 +268,76 @@
         { "compare_num": [ { "weather": "windpower" }, ">=", { "const": 15 } ] }
       ]
     }
+  },
+  {
+    "id": "mist",
+    "type": "weather_type",
+    "name": "Mist",
+    "color": "light_gray",
+    "map_color": "dark_gray_white",
+    "sym": "~",
+    "ranged_penalty": 3,
+    "sight_penalty": 1.3,
+    "light_modifier": -20,
+    "sun_multiplier": 0.3,
+    "sound_attn": 0,
+    "dangerous": false,
+    "precip": "none",
+    "rains": false,
+    "sound_category": "silent",
+    "priority": 20,
+    "required_weathers": [ "clear", "sunny" ],
+    "condition": {
+      "and": [
+        { "math": [ "u_val( 'weather:windpower' )", "<", "12" ] },
+        { "math": [ "u_val( 'weather:windpower' )", ">", "0" ] },
+        { "math": [ "dew_point_factor", "<", "5" ] }
+      ]
+    }
+  },
+  {
+    "id": "fog",
+    "type": "weather_type",
+    "name": "Fog",
+    "color": "light_gray",
+    "map_color": "dark_gray_white",
+    "sym": "~",
+    "ranged_penalty": 7,
+    "sight_penalty": 1.7,
+    "light_modifier": -40,
+    "sun_multiplier": 0.3,
+    "sound_attn": 0,
+    "dangerous": false,
+    "precip": "none",
+    "rains": false,
+    "sound_category": "silent",
+    "priority": 20,
+    "required_weathers": [ "mist" ],
+    "condition": {
+      "and": [
+        { "math": [ "u_val( 'weather:windpower' )", "<", "12" ] },
+        { "math": [ "u_val( 'weather:windpower' )", ">", "0" ] },
+        { "math": [ "dew_point_factor", "<=", "2.5" ] }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DEW_POINT_FACTOR",
+    "recurrence": [ "15 minutes", "30 minutes" ],
+    "//": "First and second math calculate the dew point, the third calculate how close the weather to the point it can form a fog",
+    "//2": "dew_point_factor is a difference between actual temperature and the dew point.  the closer it gets to zero, the bigger probability to cause a mist or dew, starting somewhere from 2,5 centigrade or 5 fahrenheit, to zero",
+    "effect": [
+      {
+        "math": [
+          "dprhx",
+          "=",
+          "log ( u_val( 'weather:humidity' ) / 100 ) + 17.625 * u_val( 'weather:temperature' ) / ( 469.5 + u_val( 'weather:temperature' ) )"
+        ]
+      },
+      { "math": [ "dew_point", "=", "469.5 * dprhx / ( 17.625 - dprhx )" ] },
+      { "math": [ "dew_point_factor", "=", "u_val('weather: temperature') - ( dew_point )" ] }
+    ]
   },
   {
     "id": "early_portal_storm",
@@ -340,7 +354,6 @@
     "dangerous": true,
     "precip": "none",
     "rains": false,
-    "acidic": false,
     "debug_cause_eoc": "EOC_CAUSE_EARLY_PORTAL_STORM",
     "debug_leave_eoc": "EOC_CANCEL_PORTAL_STORM",
     "tiles_animation": "weather_portal_storm",
@@ -364,7 +377,6 @@
     "dangerous": true,
     "precip": "none",
     "rains": false,
-    "acidic": false,
     "debug_cause_eoc": "EOC_CAUSE_PORTAL_STORM",
     "debug_leave_eoc": "EOC_CANCEL_PORTAL_STORM",
     "tiles_animation": "weather_portal_storm",

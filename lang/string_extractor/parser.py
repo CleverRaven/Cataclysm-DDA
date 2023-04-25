@@ -10,9 +10,12 @@ from .parsers.clothing_mod import parse_clothing_mod
 from .parsers.construction import parse_construction
 from .parsers.construction_category import parse_construction_category
 from .parsers.construction_group import parse_construction_group
+from .parsers.damage_info_order import parse_damage_info_order
+from .parsers.damage_type import parse_damage_type
 from .parsers.dream import parse_dream
 from .parsers.effect_on_condition import parse_effect_on_condition
 from .parsers.effect_type import parse_effect_type
+from .parsers.enchant import parse_enchant
 from .parsers.event_statistic import parse_event_statistic
 from .parsers.faction import parse_faction
 from .parsers.fault import parse_fault
@@ -121,12 +124,14 @@ parsers = {
     "construction": parse_construction,
     "construction_category": parse_construction_category,
     "construction_group": parse_construction_group,
+    "damage_info_order": parse_damage_info_order,
+    "damage_type": parse_damage_type,
     "dream": parse_dream,
     "disease_type": dummy_parser,
     "effect_on_condition": parse_effect_on_condition,
     "effect_type": parse_effect_type,
     "emit": dummy_parser,
-    "enchantment": dummy_parser,
+    "enchantment": parse_enchant,
     "engine": parse_generic,
     "event_statistic": parse_event_statistic,
     "event_transformation": dummy_parser,
@@ -176,7 +181,7 @@ parsers = {
     "nested_category": parse_nested_category,
     "npc": parse_npc,
     "npc_class": parse_npc_class,
-    "obsolete_terrain": dummy_parser,
+    "oter_id_migration": dummy_parser,
     "option_slider": parse_option_slider,
     "overlay_order": dummy_parser,
     "overmap_connection": dummy_parser,
@@ -220,6 +225,7 @@ parsers = {
     "sub_body_part": parse_sub_body_part,
     "talk_topic": parse_talk_topic,
     "technique": parse_technique,
+    "temperature_removal_blacklist": dummy_parser,
     "ter_furn_transform": parse_ter_furn_transform,
     "terrain": parse_terrain,
     "trait_blacklist": dummy_parser,

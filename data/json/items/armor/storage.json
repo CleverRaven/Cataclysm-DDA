@@ -200,6 +200,147 @@
     ]
   },
   {
+    "id": "backpack_hunting",
+    "type": "ARMOR",
+    "name": { "str": "hunting backpack" },
+    "description": "A large hunting backpack with plenty of storage space and additional external space possible for large camping items or game bags.",
+    "weight": "2767 g",
+    "volume": "18000 ml",
+    "price": 60000,
+    "price_postapoc": 1000,
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "backpack",
+    "color": "brown",
+    "warmth": 10,
+    "material_thickness": 2,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "72 L",
+        "max_contains_weight": "50 kg",
+        "max_item_length": "80 cm",
+        "moves": 450
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "8 L",
+        "max_contains_weight": "5 kg",
+        "max_item_length": "33 cm",
+        "moves": 200
+      },
+      {
+        "//": "water bottle pocket",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "510 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "12 cm",
+        "min_item_length": "7 cm",
+        "moves": 80,
+        "description": "Small pocket for a water bottle",
+        "ripoff": 2
+      },
+      {
+        "//": "water bottle pocket",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "510 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "12 cm",
+        "min_item_length": "7 cm",
+        "moves": 80,
+        "description": "Small pocket for a water bottle",
+        "ripoff": 2
+      },
+      {
+        "//": "hydration pouch storage",
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "3001 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "30 cm",
+        "moves": 500,
+        "description": "Pouch sized for a hydration pack."
+      },
+      {
+        "//": "carabiner pocket",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "5 L",
+        "max_contains_weight": "6 kg",
+        "max_item_length": "120 cm",
+        "min_item_length": "20 cm",
+        "moves": 150,
+        "extra_encumbrance": 3,
+        "ripoff": 2,
+        "description": "Attached with a carabiner or strap.",
+        "activity_noise": { "volume": 8, "chance": 10 }
+      },
+      {
+        "//": "carabiner pocket",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "5 L",
+        "max_contains_weight": "6 kg",
+        "max_item_length": "120 cm",
+        "min_item_length": "20 cm",
+        "moves": 150,
+        "extra_encumbrance": 3,
+        "ripoff": 2,
+        "description": "Attached with a carabiner or strap.",
+        "activity_noise": { "volume": 8, "chance": 10 }
+      },
+      {
+        "//": "dedicated tool loops. either a daisy chain, hooking to compression straps, or ice axe loop",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "4 L",
+        "max_contains_weight": "6 kg",
+        "max_item_length": "100 cm",
+        "min_item_length": "40 cm",
+        "moves": 300,
+        "extra_encumbrance": 1,
+        "description": "Secured under compression straps or with a tool loop.",
+        "ripoff": 5
+      },
+      {
+        "//": "dedicated tool loops. either a daisy chain, hooking to compression straps, or ice axe loop",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "4 L",
+        "max_contains_weight": "6 kg",
+        "max_item_length": "100 cm",
+        "min_item_length": "40 cm",
+        "moves": 300,
+        "extra_encumbrance": 1,
+        "description": "Secured under compression straps or with a tool loop.",
+        "ripoff": 5
+      },
+      {
+        "//": "has the ability to loosen the pack, causing a lot of encumbrance but allowing for storage of very large items between the pack and the frame",
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "40 L",
+        "max_contains_weight": "30 kg",
+        "max_item_length": "100 cm",
+        "min_item_length": "40 cm",
+        "moves": 1000,
+        "extra_encumbrance": 15,
+        "description": "The pack has been slid away from the frame leaving room to store large items."
+      }
+    ],
+    "use_action": [ { "type": "attach_molle", "size": 4 }, { "type": "detach_molle" } ],
+    "flags": [ "BELTED", "WATERPROOF", "ONLY_ONE" ],
+    "armor": [
+      {
+        "encumbrance": 10,
+        "volume_encumber_modifier": 0.2,
+        "coverage": 100,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_back", "torso_waist" ]
+      }
+    ]
+  },
+  {
     "id": "backpack_giant",
     "repairs_like": "bigback",
     "type": "ARMOR",
@@ -383,7 +524,6 @@
     "price": 75,
     "price_postapoc": 10,
     "to_hit": -2,
-    "bashing": 1,
     "material": [ "plastic" ],
     "symbol": ")",
     "looks_like": "plastic_shopping_bag",
@@ -403,7 +543,8 @@
       }
     ],
     "material_thickness": 2,
-    "flags": [ "OVERSIZE", "RESTRICT_HANDS", "NO_SALVAGE" ]
+    "flags": [ "OVERSIZE", "RESTRICT_HANDS", "NO_SALVAGE" ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "bigback",
@@ -495,7 +636,6 @@
     "price": 80,
     "price_postapoc": 10,
     "to_hit": -2,
-    "bashing": 4,
     "material": [ "cotton", "wood" ],
     "symbol": "[",
     "looks_like": "plastic_shopping_bag",
@@ -507,7 +647,8 @@
     ],
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "5 L", "max_contains_weight": "15 kg", "moves": 300 } ],
     "material_thickness": 1,
-    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "boxpack",
@@ -560,11 +701,10 @@
       }
     ],
     "warmth": 5,
-    "bashing": 16,
-    "cutting": 4,
     "price": 3500,
     "flags": [ "BELTED", "OVERSIZE", "NO_REPAIR" ],
-    "armor": [ { "encumbrance": 20, "coverage": 80, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+    "armor": [ { "encumbrance": 20, "coverage": 80, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ],
+    "melee_damage": { "bash": 16, "cut": 4 }
   },
   {
     "id": "briefcase",
@@ -577,7 +717,6 @@
     "price": 24000,
     "price_postapoc": 50,
     "to_hit": -2,
-    "bashing": 5,
     "material": [ "plastic" ],
     "symbol": "[",
     "looks_like": "plastic_shopping_bag",
@@ -595,7 +734,8 @@
     ],
     "material_thickness": 2,
     "flags": [ "FANCY", "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": 30, "coverage": 10, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ]
+    "armor": [ { "encumbrance": 30, "coverage": 10, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ],
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "case_violin",
@@ -608,7 +748,6 @@
     "price": 24000,
     "price_postapoc": 50,
     "to_hit": -4,
-    "bashing": 8,
     "material": [ "plastic", "steel", "leather" ],
     "symbol": "&",
     "looks_like": "briefcase",
@@ -626,7 +765,8 @@
     ],
     "material_thickness": 5,
     "flags": [ "FANCY", "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": 30, "coverage": 10, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ]
+    "armor": [ { "encumbrance": 30, "coverage": 10, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "daypack",
@@ -855,7 +995,6 @@
     "price": 4500,
     "price_postapoc": 250,
     "to_hit": 2,
-    "bashing": 1,
     "material": [ "nylon", "plastic" ],
     "symbol": "[",
     "looks_like": "holster",
@@ -873,7 +1012,8 @@
     ],
     "material_thickness": 0.5,
     "flags": [ "BELTED", "WATER_FRIENDLY", "PALS_MEDIUM" ],
-    "armor": [ { "encumbrance": 1, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
+    "armor": [ { "encumbrance": 1, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "fanny",
@@ -885,7 +1025,6 @@
     "volume": "1050 ml",
     "price": 3500,
     "to_hit": 2,
-    "bashing": 1,
     "material": [ "nylon", "plastic" ],
     "symbol": "[",
     "looks_like": "holster",
@@ -910,7 +1049,8 @@
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_lower" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "golf_bag",
@@ -1082,7 +1222,6 @@
     "price": 1000,
     "price_postapoc": 150,
     "to_hit": 1,
-    "bashing": 1,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "holster",
@@ -1106,7 +1245,8 @@
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_waist" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "legrig",
@@ -1436,7 +1576,6 @@
     "price": 7900,
     "price_postapoc": 250,
     "to_hit": 1,
-    "bashing": 1,
     "material": [ "nylon", "plastic" ],
     "symbol": "[",
     "looks_like": "purse",
@@ -1461,7 +1600,8 @@
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_hanging_back" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "molle_pack",
@@ -1826,7 +1966,6 @@
     "price": 7500,
     "price_postapoc": 100,
     "to_hit": 2,
-    "bashing": 2,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "ragpouch",
@@ -1850,7 +1989,8 @@
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_hanging_front" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "ragpouch",
@@ -1862,7 +2002,6 @@
     "price": 1000,
     "price_postapoc": 100,
     "to_hit": 1,
-    "bashing": 1,
     "material": [ "cotton" ],
     "symbol": "[",
     "color": "light_gray",
@@ -1885,7 +2024,8 @@
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_waist" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "rucksack",
@@ -2017,7 +2157,6 @@
     "price": 24000,
     "price_postapoc": 500,
     "to_hit": 1,
-    "bashing": 1,
     "material": [ "canvas", "plastic" ],
     "symbol": "[",
     "looks_like": "backpack",
@@ -2043,7 +2182,8 @@
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_hanging_back" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "slingpack",
@@ -2056,7 +2196,6 @@
     "volume": "2100 ml",
     "price": 2900,
     "price_postapoc": 750,
-    "bashing": 1,
     "material": [ "nylon", "plastic" ],
     "symbol": "[",
     "looks_like": "purse",
@@ -2082,7 +2221,8 @@
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_hanging_back" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "straw_basket",
@@ -2653,7 +2793,6 @@
     "volume": "7000 ml",
     "price": 5500,
     "price_postapoc": 700,
-    "bashing": 1,
     "material": [ "nylon", "plastic" ],
     "symbol": "[",
     "looks_like": "slingpack",
@@ -2679,7 +2818,8 @@
     "warmth": 2,
     "material_thickness": 1,
     "flags": [ "BELTED", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": [ 3, 5 ], "coverage": 60, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] } ]
+    "armor": [ { "encumbrance": [ 3, 5 ], "coverage": 60, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] } ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "bookstrap",

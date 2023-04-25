@@ -85,7 +85,7 @@
         "││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││"
       ],
       "vendingmachines": { "D": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 72, 95 ], "y": [ 24, 47 ], "repeat": [ 0, 2 ] } ],
+      "place_monster": [ { "group": "GROUP_ZOMBIE", "x": [ 72, 95 ], "y": [ 24, 47 ], "repeat": [ 0, 4 ] } ],
       "terrain": {
         "4": [ [ "t_region_shrub_decorative", 12 ], "t_region_tree_shade", [ "t_region_groundcover_forest", 3 ] ],
         "+": "t_door_c",
@@ -236,7 +236,7 @@
         "t": "t_tile_flat_roof",
         "+": "t_door_c",
         "0": "t_window_domestic",
-        ">": "t_stairs_down",
+        ">": "t_stairs_down_no_roof",
         "4": "t_gutter_downspout"
       },
       "furniture": {
@@ -275,18 +275,18 @@
         "                        ",
         "                        ",
         "                        ",
-        "       |22222222223     ",
-        "       |.......A..3     ",
-        "       |..........3     ",
-        "       |.X........3     ",
-        "       |..........3     ",
-        "       |.......:..5     ",
-        "       |----------3     ",
+        "       ------------     ",
+        "       -.......A..-     ",
+        "       -..........-     ",
+        "       -.X........-     ",
+        "       -..........-     ",
+        "       -.......:..5     ",
+        "       ------------     ",
         "                        ",
         "                        ",
         "                        ",
-        "                   K    ",
-        "                   K    ",
+        "                        ",
+        "                        ",
         "                        ",
         "                        ",
         "                        ",
@@ -295,8 +295,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
-      "terrain": { "K": "t_open_air_rooved" }
+      "palettes": [ "roof_palette" ]
     }
   }
 ]

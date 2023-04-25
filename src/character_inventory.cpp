@@ -408,7 +408,7 @@ int Character::get_item_position( const item *it ) const
         return -1;
     }
 
-    cata::optional<int> pos = worn.get_item_position( *it );
+    std::optional<int> pos = worn.get_item_position( *it );
     if( pos ) {
         return worn_position_to_index( *pos );
     }
@@ -429,7 +429,7 @@ void Character::drop( const drop_locations &what, const tripoint &target,
         return;
     }
 
-    const cata::optional<vpart_reference> vp = get_map().veh_at(
+    const std::optional<vpart_reference> vp = get_map().veh_at(
                 target ).part_with_feature( "CARGO", false );
     if( rl_dist( pos(), target ) > 1 || !( stash || get_map().can_put_items( target ) )
         || ( vp.has_value() && vp->part().is_cleaner_on() ) ) {
@@ -446,13 +446,9 @@ void Character::drop( const drop_locations &what, const tripoint &target,
         }
     }
     if( stash ) {
-        assign_activity( player_activity( stash_activity_actor(
-                                              items, placement
-                                          ) ) );
+        assign_activity( stash_activity_actor( items, placement ) );
     } else {
-        assign_activity( player_activity( drop_activity_actor(
-                                              items, placement, /*force_ground=*/false
-                                          ) ) );
+        assign_activity( drop_activity_actor( items, placement, /* force_ground = */ false ) );
     }
 }
 
@@ -470,7 +466,7 @@ void Character::pick_up( const drop_locations &what )
         quantities.emplace_back( dl.second );
     }
 
-    assign_activity( player_activity( pickup_activity_actor( items, quantities, pos(), false ) ) );
+    assign_activity( pickup_activity_actor( items, quantities, pos(), false ) );
 }
 
 invlets_bitset Character::allocated_invlets() const

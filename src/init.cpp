@@ -22,6 +22,7 @@
 #include "cata_scope_helpers.h"
 #include "cata_utility.h"
 #include "character_modifier.h"
+#include "city.h"
 #include "clothing_mod.h"
 #include "clzones.h"
 #include "construction.h"
@@ -162,7 +163,7 @@ void DynamicDataLoader::load_deferred( deferred_json &data )
         auto it = data.begin();
         for( size_t idx = 0; idx != n; ++idx ) {
             try {
-                JsonObject jo = it->first;
+                const JsonObject &jo = it->first;
                 load_object( jo, it->second );
             } catch( const JsonError &err ) {
                 debugmsg( "(json-error)\n%s", err.what() );
@@ -226,7 +227,7 @@ void DynamicDataLoader::add( const std::string &type,
 void DynamicDataLoader::add( const std::string &type,
                              const std::function<void( const JsonObject & )> &f )
 {
-    add( type, [f]( const JsonObject & obj, const std::string &,  const cata_path &,
+    add( type, [f]( const JsonObject & obj, const std::string_view,  const cata_path &,
     const cata_path & ) {
         f( obj );
     } );
@@ -375,6 +376,7 @@ void DynamicDataLoader::initialize()
 
     add( "charge_removal_blacklist", load_charge_removal_blacklist );
     add( "charge_migration_blacklist", load_charge_migration_blacklist );
+    add( "temperature_removal_blacklist", load_temperature_removal_blacklist );
     add( "test_data", &test_data::load );
 
     add( "MONSTER", []( const JsonObject & jo, const std::string & src ) {
@@ -398,7 +400,7 @@ void DynamicDataLoader::initialize()
     add( "weapon_category", &weapon_category::load_weapon_categories );
     add( "martial_art", &load_martial_art );
     add( "effect_type", &load_effect_type );
-    add( "obsolete_terrain", &overmap::load_obsolete_terrains );
+    add( "oter_id_migration", &overmap::load_oter_id_migration );
     add( "overmap_terrain", &overmap_terrains::load );
     add( "construction_category", &construction_categories::load );
     add( "construction_group", &construction_groups::load );
@@ -473,6 +475,8 @@ void DynamicDataLoader::initialize()
     add( "conduct", &achievement::load_achievement );
     add( "widget", &widget::load_widget );
     add( "weakpoint_set", &weakpoints::load_weakpoint_sets );
+    add( "damage_type", &damage_type::load_damage_types );
+    add( "damage_info_order", &damage_info_order::load_damage_info_orders );
 #if defined(TILES)
     add( "mod_tileset", &load_mod_tileset );
 #else
@@ -557,6 +561,8 @@ void DynamicDataLoader::unload_data()
     clothing_mods::reset();
     construction_categories::reset();
     construction_groups::reset();
+    damage_type::reset();
+    damage_info_order::reset();
     disease_type::reset();
     dreams.clear();
     emit::reset();
@@ -596,6 +602,7 @@ void DynamicDataLoader::unload_data()
     overmap_specials::reset();
     overmap_special_migration::reset();
     overmap_terrains::reset();
+    overmap::reset_oter_id_migrations();
     profession::reset();
     proficiency::reset();
     proficiency_category::reset();
@@ -674,11 +681,13 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Body parts" ), &body_part_type::finalize_all },
             { _( "Sub body parts" ), &sub_body_part_type::finalize_all },
             { _( "Body graphs" ), &bodygraph::finalize_all },
+            { _( "Bionics" ), &bionic_data::finalize_bionic },
             { _( "Weather types" ), &weather_types::finalize_all },
             { _( "Effect on conditions" ), &effect_on_conditions::finalize_all },
             { _( "Field types" ), &field_types::finalize_all },
             { _( "Ammo effects" ), &ammo_effects::finalize_all },
             { _( "Emissions" ), &emit::finalize },
+            { _( "Materials" ), &material_type::finalize_all },
             {
                 _( "Items" ), []()
                 {
@@ -726,8 +735,9 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Missions" ), &mission_type::finalize },
             { _( "Harvest lists" ), &harvest_list::finalize_all },
             { _( "Anatomies" ), &anatomy::finalize_all },
-            { _( "Mutations" ), &mutation_branch::finalize },
+            { _( "Mutations" ), &mutation_branch::finalize_all },
             { _( "Achievements" ), &achievement::finalize },
+            { _( "Damage info orders" ), &damage_info_order::finalize_all },
             { _( "Widgets" ), &widget::finalize },
 #if defined(TILES)
             { _( "Tileset" ), &load_tileset },
@@ -834,6 +844,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Achievements" ), &achievement::check_consistency },
             { _( "Disease types" ), &disease_type::check_disease_consistency },
             { _( "Factions" ), &faction_template::check_consistency },
+            { _( "Damage types" ), &damage_type::check }
         }
     };
 

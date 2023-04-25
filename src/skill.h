@@ -39,6 +39,7 @@ class Skill
         std::set<std::string> _tags;
         time_info_t _time_to_attack;
         skill_displayType_id _display_type;
+        int _sort_rank;
         std::unordered_map<std::string, int> _companion_skill_practice;
         // these are not real skills, they depend on context
         static std::map<skill_id, Skill> contextual_skills;
@@ -78,6 +79,9 @@ class Skill
         }
         skill_displayType_id display_category() const {
             return _display_type;
+        }
+        int get_sort_rank() const {
+            return _sort_rank;
         }
         time_info_t time_to_attack() const {
             return _time_to_attack;
@@ -238,6 +242,8 @@ class SkillLevelMap : public std::map<skill_id, SkillLevel>
         void mod_skill_level( const skill_id &ident, int delta );
         int get_skill_level( const skill_id &ident ) const;
         int get_skill_level( const skill_id &ident, const item &context ) const;
+        float get_progress_level( const skill_id &ident ) const;
+        float get_progress_level( const skill_id &ident, const item &context ) const;
 
         void mod_knowledge_level( const skill_id &ident, int delta );
         int get_knowledge_level( const skill_id &ident ) const;

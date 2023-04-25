@@ -1,6 +1,7 @@
 #include "cata_utility.h"
 
 #include <cctype>
+#include <charconv>
 #include <clocale>
 #include <cwctype>
 #include <algorithm>
@@ -14,7 +15,6 @@
 
 #include "cached_options.h"
 #include "catacharset.h"
-#include "cata_utility.h"
 #include "debug.h"
 #include "enum_conversions.h"
 #include "filesystem.h"
@@ -79,8 +79,15 @@ bool isBetween( int test, int down, int up )
     return test > down && test < up;
 }
 
-bool lcmatch( const std::string &str, const std::string &qry )
+bool lcmatch( const std::string_view str, const std::string_view qry )
 {
+    // It will be quite common for the query string to be empty.  Anything will
+    // match in that case, so short-circuit and avoid the expensive
+    // conversions.
+    if( qry.empty() ) {
+        return true;
+    }
+
     std::u32string u32_str = utf8_to_utf32( str );
     std::u32string u32_qry = utf8_to_utf32( qry );
     std::for_each( u32_str.begin(), u32_str.end(), u32_to_lowercase );
@@ -101,12 +108,12 @@ bool lcmatch( const std::string &str, const std::string &qry )
     return false;
 }
 
-bool lcmatch( const translation &str, const std::string &qry )
+bool lcmatch( const translation &str, const std::string_view qry )
 {
     return lcmatch( str.translated(), qry );
 }
 
-bool match_include_exclude( const std::string &text, std::string filter )
+bool match_include_exclude( const std::string_view text, std::string filter )
 {
     size_t iPos;
     bool found = false;
@@ -482,12 +489,12 @@ std::unique_ptr<std::istream> read_maybe_compressed_file( const cata_path &path 
     return read_maybe_compressed_file( path.get_unrelative_path() );
 }
 
-cata::optional<std::string> read_whole_file( const std::string &path )
+std::optional<std::string> read_whole_file( const std::string &path )
 {
     return read_whole_file( fs::u8path( path ) );
 }
 
-cata::optional<std::string> read_whole_file( const fs::path &path )
+std::optional<std::string> read_whole_file( const fs::path &path )
 {
     std::string outstring;
     try {
@@ -511,20 +518,20 @@ cata::optional<std::string> read_whole_file( const fs::path &path )
             fin.seekg( 0 );
 
             outstring.resize( size );
-            fin.read( &outstring[0], size );
+            fin.read( outstring.data(), size );
         }
         if( fin.bad() ) {
             throw std::runtime_error( "reading file failed" );
         }
 
-        return cata::optional<std::string>( std::move( outstring ) );
+        return std::optional<std::string>( std::move( outstring ) );
     } catch( const std::exception &err ) {
         debugmsg( _( "Failed to read from \"%1$s\": %2$s" ), path.generic_u8string().c_str(), err.what() );
     }
-    return cata::nullopt;
+    return std::nullopt;
 }
 
-cata::optional<std::string> read_whole_file( const cata_path &path )
+std::optional<std::string> read_whole_file( const cata_path &path )
 {
     return read_whole_file( path.get_unrelative_path() );
 }
@@ -628,17 +635,6 @@ void deserialize_wrapper( const std::function<void( const JsonValue & )> &callba
     callback( jsin );
 }
 
-bool string_starts_with( const std::string &s1, const std::string &s2 )
-{
-    return s1.compare( 0, s2.size(), s2 ) == 0;
-}
-
-bool string_ends_with( const std::string &s1, const std::string &s2 )
-{
-    return s1.size() >= s2.size() &&
-           s1.compare( s1.size() - s2.size(), s2.size(), s2 ) == 0;
-}
-
 bool string_empty_or_whitespace( const std::string &s )
 {
     if( s.empty() ) {
@@ -651,7 +647,34 @@ bool string_empty_or_whitespace( const std::string &s )
     } );
 }
 
-std::vector<std::string> string_split( const std::string &string, char delim )
+int string_view_cmp( const std::string_view l, const std::string_view r )
+{
+    size_t min_len = std::min( l.size(), r.size() );
+    int result = memcmp( l.data(), r.data(), min_len );
+    if( result ) {
+        return result;
+    }
+    if( l.size() == r.size() ) {
+        return 0;
+    }
+    return l.size() < r.size() ? -1 : 1;
+}
+
+template<typename Integer>
+Integer svto( const std::string_view s )
+{
+    Integer result = 0;
+    const char *end = s.data() + s.size();
+    std::from_chars_result r = std::from_chars( s.data(), end, result );
+    if( r.ptr != end ) {
+        cata_fatal( "could not parse string_view as an integer" );
+    }
+    return result;
+}
+
+template int svto<int>( std::string_view );
+
+std::vector<std::string> string_split( const std::string_view string, char delim )
 {
     std::vector<std::string> elems;
 
@@ -659,7 +682,7 @@ std::vector<std::string> string_split( const std::string &string, char delim )
         return elems; // Well, that was easy.
     }
 
-    std::stringstream ss( string );
+    std::stringstream ss( std::string{ string } );
     std::string item;
     while( std::getline( ss, item, delim ) ) {
         elems.push_back( item );

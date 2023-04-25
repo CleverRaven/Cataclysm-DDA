@@ -1,8 +1,25 @@
 [
   {
     "type": "palette",
+    "id": "domestic_general_and_variant_palette",
+    "//": "Standard variant distribution for homes: General: 95%, Abandoned: 2.80%, Survivor: 1.80%, Hoarder: 0.40%",
+    "//2": "Please don't forget to apply your changes to each house palette.",
+    "palettes": [
+      {
+        "distribution": [
+          [ "standard_domestic_palette", 9500 ],
+          [ "standard_domestic_palette_abandoned", 280 ],
+          [ "house_hoarder_palette", 40 ],
+          [ "house_survivor_palette", 180 ]
+        ]
+      }
+    ]
+  },
+  {
+    "type": "palette",
     "id": "standard_domestic_palette",
-    "//": "Intended as a palette for non-nested houses.  Symbols still open for use: 0 ! $ % & _ = ~ ? / , ` and some symbols that conflict with json (like brackets).",
+    "//": "Intended as a palette for non-nested houses.  The default option for domestic buildings.",
+    "//2": "Symbols still open for use: 0 ! $ % & _ = ~ ? / , ` and some symbols that conflict with json (like brackets).",
     "parameters": {
       "interior_wall_type": {
         "type": "ter_str_id",
@@ -115,7 +132,7 @@
           "t_chainfence": "t_chaingate_c",
           "t_fence": "t_fencegate_c",
           "t_privacy_fence": "t_privacy_fencegate_c",
-          "t_drystone_wall_half": "t_region_groundcover_urban"
+          "t_drystone_wall_half": "t_chaingate_l"
         }
       },
       "a": "t_thconc_floor",
@@ -125,7 +142,15 @@
       "X": "t_region_groundcover_urban",
       ".": "t_region_groundcover_urban",
       "+": [ [ "t_door_c", 5 ], [ "t_door_o", 5 ], [ "t_door_locked_interior", 1 ] ],
-      "*": [ [ "t_door_locked_peep", 2 ], "t_door_locked_alarm", [ "t_door_locked", 10 ], "t_door_c" ],
+      "*": [
+        [ "t_door_locked_peep", 2 ],
+        "t_door_locked_alarm",
+        [ "t_door_locked", 10 ],
+        [ "t_door_elocked_peep", 4 ],
+        "t_door_elocked_alarm",
+        [ "t_door_elocked", 15 ],
+        "t_door_c"
+      ],
       "^": "t_gutter_downspout",
       "|": { "param": "interior_wall_type", "fallback": "t_wall_w" },
       "#": { "param": "exterior_wall_type", "fallback": "t_brick_wall" },
@@ -258,7 +283,8 @@
         { "item": "games", "chance": 10, "repeat": [ 1, 2 ] },
         { "item": "allsporting", "chance": 5 }
       ]
-    }
+    },
+    "mapping": { "÷": { "item": { "item": "doormat", "chance": 55 } } }
   },
   {
     "type": "palette",
@@ -324,7 +350,11 @@
     "type": "palette",
     "id": "standard_domestic_party_palette",
     "//": "Intended to be used in conjunction with standard_domestic_palette. Load the domestic palette first, then this one to use open symbols for house party decorations.",
-    "terrain": { "?": "t_grass", "!": "t_grass", "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ] },
+    "terrain": {
+      "?": "t_region_groundcover_urban",
+      "!": "t_region_groundcover_urban",
+      "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ]
+    },
     "furniture": { "?": "f_chair", "!": "f_table" }
   }
 ]

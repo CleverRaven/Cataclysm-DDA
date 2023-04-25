@@ -21,7 +21,6 @@
     "price": 329900,
     "price_postapoc": 4000,
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "steel", "wood" ],
     "color": "dark_gray",
     "ammo": [ "500" ],
@@ -45,7 +44,8 @@
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "500": 7 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "500": 7 } } ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "sw_500",
@@ -68,7 +68,6 @@
     "price": 90000,
     "price_postapoc": 3500,
     "to_hit": -2,
-    "bashing": 12,
     "longest_side": "407 mm",
     "material": [ "steel", "plastic" ],
     "symbol": "(",
@@ -94,6 +93,7 @@
         "ammo_restriction": { "500": 5 },
         "allowed_speedloaders": [ "500_speedloader5" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 12 }
   }
 ]

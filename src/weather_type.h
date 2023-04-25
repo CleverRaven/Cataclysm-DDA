@@ -6,6 +6,7 @@
 #include <cstdint>
 #include <iosfwd>
 #include <new>
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -13,7 +14,6 @@
 #include "catacharset.h"
 #include "color.h"
 #include "damage.h"
-#include "optional.h"
 #include "translations.h"
 #include "type_id.h"
 
@@ -101,8 +101,6 @@ struct weather_type {
         precip_class precip = precip_class::none;
         // Whether said precipitation falls as rain.
         bool rains = false;
-        // Whether said precipitation is acidic.
-        bool acidic = false;
         // string for tiles animation
         std::string tiles_animation;
         // Information for weather animations
@@ -116,9 +114,9 @@ struct weather_type {
         std::vector<weather_type_id> required_weathers;
         time_duration duration_min = 0_turns;
         time_duration duration_max = 0_turns;
-        cata::optional<std::string> debug_cause_eoc;
-        cata::optional<std::string> debug_leave_eoc;
-        void load( const JsonObject &jo, const std::string &src );
+        std::optional<std::string> debug_cause_eoc;
+        std::optional<std::string> debug_leave_eoc;
+        void load( const JsonObject &jo, std::string_view src );
         void finalize();
         void check() const;
         std::string get_symbol() const {
