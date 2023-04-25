@@ -11295,7 +11295,7 @@ bool game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
 
     // Target creature shouldn't be grabbed if thrown
     // It should also not be thrown if the throw is weaker than the grab
-    for( const effect eff : c->get_effects_with_flag( json_flag_GRAB ) ) {
+    for( const effect &eff : c->get_effects_with_flag( json_flag_GRAB ) ) {
         if( !x_in_y( flvel / 2, eff.get_intensity() ) ) {
             c->add_msg_player_or_npc( m_warning,
                                       _( "You're almost sent flying, but something holds you in place!" ),
