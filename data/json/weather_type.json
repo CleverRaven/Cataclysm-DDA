@@ -262,12 +262,13 @@
     "rains": false,
     "sound_category": "silent",
     "priority": 20,
-    "required_weathers": [ "clear", "sunny" ],
+    "required_weathers": [ "clear", "sunny", "fog" ],
     "condition": {
       "and": [
         { "math": [ "weather('windpower')", "<", "12" ] },
         { "math": [ "weather('windpower')", ">", "0" ] },
-        { "math": [ "dew_point_factor", "<", "5" ] }
+        { "math": [ "dew_point_factor(celsius(weather('temperature')))", "<=", "2.5" ] },
+        { "math": [ "weather('humidity')", "<", "90" ] }
       ]
     }
   },
@@ -288,32 +289,34 @@
     "rains": false,
     "sound_category": "silent",
     "priority": 20,
-    "required_weathers": [ "mist" ],
+    "required_weathers": [ "clear", "sunny", "mist" ],
     "condition": {
       "and": [
         { "math": [ "weather('windpower')", "<", "12" ] },
         { "math": [ "weather('windpower')", ">", "0" ] },
-        { "math": [ "dew_point_factor", "<=", "2.5" ] }
+        { "math": [ "dew_point_factor(celsius(weather('temperature')))", "<=", "2.5" ] }
       ]
     }
   },
   {
-    "type": "effect_on_condition",
-    "id": "EOC_DEW_POINT_FACTOR",
-    "recurrence": [ "15 minutes", "30 minutes" ],
-    "//": "First and second math calculate the dew point, the third calculate how close the weather to the point it can form a fog",
-    "//2": "dew_point_factor is a difference between actual temperature and the dew point.  the closer it gets to zero, the bigger probability to cause a mist or dew, starting somewhere from 2,5 centigrade or 5 fahrenheit, to zero",
-    "effect": [
-      {
-        "math": [
-          "dprhx",
-          "=",
-          "log ( weather('humidity') / 100 ) + 17.625 * weather('temperature') / ( 516.2 + weather('temperature') )"
-        ]
-      },
-      { "math": [ "dew_point", "=", "516.2 * dprhx / ( 17.625 - dprhx )" ] },
-      { "math": [ "dew_point_factor", "=", "weather('temperature') - ( dew_point )" ] }
-    ]
+    "type": "jmath_function",
+    "id": "dprhx",
+    "num_args": 1,
+    "return": "log(weather('humidity') / 100) + 17.625 * _0 / (243.04 + _0)"
+  },
+  {
+    "type": "jmath_function",
+    "id": "dew_point",
+    "num_args": 1,
+    "//": "Eq. (8) from https://doi.org/10.1175/BAMS-86-2-225; _0 is temperature in Celsius",
+    "return": "243.04 * dprhx(_0) / (17.625 - dprhx(_0))"
+  },
+  {
+    "type": "jmath_function",
+    "id": "dew_point_factor",
+    "num_args": 1,
+    "//": "the closer this difference gets to zero, the bigger the probability for fog to occur, starting at around 2.5 Celsius",
+    "return": "abs( _0 - dew_point(_0) )"
   },
   {
     "id": "early_portal_storm",
