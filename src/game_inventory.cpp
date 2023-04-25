@@ -2141,6 +2141,7 @@ bool game_menus::inv::compare_items( const item &first, const item &second,
                 draw_item_info( wnd_second, item_info_second );
             } );
             lang_version = detail::get_current_language_version();
+            first_execution = false;
         }
 
         ui_manager::redraw();
