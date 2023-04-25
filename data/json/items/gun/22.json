@@ -144,8 +144,8 @@
     "blackpowder_tolerance": 96,
     "clip_size": 4,
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "barrel", 1 ],
+      [ "belt_clip", 1 ],
       [ "bore", 1 ],
       [ "grip", 1 ],
       [ "mechanism", 2 ],

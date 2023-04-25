@@ -101,8 +101,8 @@
     "name": { "str": "backup pistol" },
     "//": "diminutive backup pistols that lack underbarrel rails, sight dovetails and decent places to affix stocks.",
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "barrel", 1 ],
+      [ "belt_clip", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
       [ "grip", 1 ],
