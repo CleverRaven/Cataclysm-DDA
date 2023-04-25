@@ -2697,7 +2697,7 @@ TEST_CASE( "pocket_leak" )
     WHEN( "single container" ) {
         item &bkit = **u.wear_item( backpack );
         item &waterit = bkit.only_item();
-        waterit.set_item_temperature( water.get_freeze_point() + units::from_kelvin( 10 ) );
+        waterit.set_item_temperature( water.get_freeze_point() + units::from_celsius_delta( 10 ) );
         REQUIRE( !waterit.is_frozen_liquid() );
         REQUIRE( here.i_at( u.pos_bub() ).empty() );
         u.process_turn();
@@ -2715,7 +2715,7 @@ TEST_CASE( "pocket_leak" )
         item &topit = *u.get_wielded_item();
         item &bkit = topit.only_item();
         item &wit = bkit.only_item();
-        wit.set_item_temperature( water.get_freeze_point() + units::from_kelvin( 10 ) );
+        wit.set_item_temperature( water.get_freeze_point() + units::from_celsius_delta( 10 ) );
         REQUIRE( !wit.is_frozen_liquid() );
         REQUIRE( here.i_at( u.pos_bub() ).empty() );
         u.process_turn();
