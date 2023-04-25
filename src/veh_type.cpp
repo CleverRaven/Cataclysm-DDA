@@ -535,7 +535,7 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
 
     if( jo.has_member( "damage_reduction" ) ) {
         JsonObject dred = jo.get_object( "damage_reduction" );
-        def.damage_reduction = load_damage_array( dred );
+        def.damage_reduction = load_damage_map( dred );
     }
 
     if( def.has_flag( "ENGINE" ) ) {
@@ -750,6 +750,8 @@ void vpart_info::finalize()
             // dragging code currently checks this for considering collisions
             e.second.location = "structure";
         }
+
+        finalize_damage_map( e.second.damage_reduction );
 
         // Calculate and cache z-ordering based off of location
         // list_order is used when inspecting the vehicle

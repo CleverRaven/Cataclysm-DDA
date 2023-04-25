@@ -39,12 +39,20 @@ jobs:
     needs: skip-duplicates
     if: ${{ needs.skip-duplicates.outputs.should_skip != 'true' }}
 
+    strategy:
+      fail-fast: true
+      matrix:
+        # To make the run finish in the run time limit, we split it up into two
+        # parts: the src directory and everything else
+        subset: [ 'src', 'other' ]
+
     runs-on: ubuntu-20.04
     env:
         CMAKE: 1
         CLANG: clang++-12
         COMPILER: clang++-12
         CATA_CLANG_TIDY: plugin
+        CATA_CLANG_TIDY_SUBSET: ${{ matrix.subset }}
         TILES: 1
         SOUND: 1
         RELEASE: 1

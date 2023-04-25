@@ -168,9 +168,9 @@ void show_scores_ui( const achievements_tracker &achievements, stats_tracker &st
         if( view.handle_navigation( action, ctxt ) ) {
             // NO FURTHER ACTION REQUIRED
         } else if( action == "LEFT" || action == "PREV_TAB" || action == "RIGHT" || action == "NEXT_TAB" ) {
-            // necessary to use increment_and_wrap
+            // necessary to use inc_clamp_wrap
             static_assert( static_cast<int>( tab_mode::first_tab ) == 0 );
-            tab = increment_and_wrap( tab, action == "RIGHT" || action == "NEXT_TAB", tab_mode::num_tabs );
+            tab = inc_clamp_wrap( tab, action == "RIGHT" || action == "NEXT_TAB", tab_mode::num_tabs );
             new_tab = true;
         } else if( action == "CONFIRM" || action == "QUIT" ) {
             break;

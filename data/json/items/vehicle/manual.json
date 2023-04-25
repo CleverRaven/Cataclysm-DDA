@@ -10,10 +10,10 @@
     "symbol": ":",
     "material": [ "steel" ],
     "volume": "500 ml",
-    "bashing": 10,
     "category": "veh_parts",
     "price": 9000,
-    "price_postapoc": 100
+    "price_postapoc": 100,
+    "melee_damage": { "bash": 10 }
   },
   {
     "type": "GENERIC",
@@ -22,7 +22,6 @@
     "name": { "str": "foot crank" },
     "description": "A pedal and gear assembly from a bicycle.",
     "to_hit": -2,
-    "bashing": 8,
-    "cutting": 2
+    "melee_damage": { "bash": 8, "cut": 2 }
   }
 ]

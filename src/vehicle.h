@@ -762,11 +762,12 @@ class vehicle
 
         // direct damage to part (armor protection and internals are not counted)
         // returns damage bypassed
-        int damage_direct( map &here, int p, int dmg, damage_type type = damage_type::PURE );
+        int damage_direct( map &here, int p, int dmg,
+                           const damage_type_id &type = damage_type_id( "pure" ) );
         // Removes the part, breaks it into pieces and possibly removes parts attached to it
         int break_off( map &here, int p, int dmg );
         // Returns if it did actually explode
-        bool explode_fuel( int p, damage_type type );
+        bool explode_fuel( int p, const damage_type_id &type );
         //damages vehicle controls and security system
         void smash_security_system();
         // get vpart powerinfo for part number, accounting for variable-sized parts and hps.
@@ -1726,10 +1727,11 @@ class vehicle
         // must exceed certain threshold to be subtracted from hp
         // (a lot light collisions will not destroy parts)
         // Returns damage bypassed
-        int damage( map &here, int p, int dmg, damage_type type = damage_type::BASH, bool aimed = true );
+        int damage( map &here, int p, int dmg, const damage_type_id &type = damage_type_id( "bash" ),
+                    bool aimed = true );
 
         // damage all parts (like shake from strong collision), range from dmg1 to dmg2
-        void damage_all( int dmg1, int dmg2, damage_type type, const point &impact );
+        void damage_all( int dmg1, int dmg2, const damage_type_id &type, const point &impact );
 
         //Shifts the coordinates of all parts and moves the vehicle in the opposite direction.
         void shift_parts( map &here, const point &delta );

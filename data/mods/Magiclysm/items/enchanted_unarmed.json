@@ -5,7 +5,7 @@
     "copy-from": "cestus",
     "looks_like": "cestus",
     "name": { "str": "cestus +1", "str_pl": "cestuses +1" },
-    "proportional": { "price": 3.0, "price_postapoc": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "proportional": { "price": 3.0, "price_postapoc": 3.0, "weight": 0.9, "melee_damage": { "all": 1.1 } },
     "relative": { "to_hit": 1 }
   },
   {
@@ -14,7 +14,7 @@
     "copy-from": "cestus",
     "looks_like": "cestus",
     "name": { "str": "cestus +2", "str_pl": "cestuses +2" },
-    "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "proportional": { "price": 6.0, "price_postapoc": 6.0, "weight": 0.8, "melee_damage": { "all": 1.2 } },
     "relative": { "to_hit": 2 }
   },
   {
@@ -29,14 +29,14 @@
     "volume": "500 ml",
     "weight": "970 g",
     "to_hit": 2,
-    "bashing": 2,
     "price_postapoc": 124000,
     "qualities": [ [ "HAMMER", 1 ] ],
     "flags": [ "ONLY_ONE", "DURABLE_MELEE", "NONCONDUCTIVE", "FLAMING" ],
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ITEM_DAMAGE_HEAT", "add": 7 } ] } ]
     },
-    "armor": [ { "encumbrance": 5, "coverage": 20, "covers": [ "hand_r" ] } ]
+    "armor": [ { "encumbrance": 5, "coverage": 20, "covers": [ "hand_r" ] } ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "type": "GENERIC",
@@ -44,7 +44,7 @@
     "copy-from": "flaming_fist",
     "looks_like": "flaming_fist",
     "name": { "str": "flaming fist +1", "str_pl": "flaming fists +1" },
-    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "proportional": { "price": 3.0, "weight": 0.9, "melee_damage": { "all": 1.1 } },
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_HEAT", "add": 11 } ] } ]
     },
@@ -56,7 +56,7 @@
     "copy-from": "flaming_fist",
     "looks_like": "flaming_fist",
     "name": { "str": "flaming fist +2", "str_pl": "flaming fists +2" },
-    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "proportional": { "price": 6.0, "weight": 0.8, "melee_damage": { "all": 1.2 } },
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_HEAT", "add": 15 } ] } ]
     },
@@ -72,13 +72,13 @@
     "material": [ "steel", "leather" ],
     "volume": "1 L",
     "weight": "981 g",
-    "bashing": 16,
     "to_hit": 1,
     "price_postapoc": 145000,
     "qualities": [ [ "HAMMER", 2 ] ],
     "techniques": [ "WBLOCK_1", "BRUTAL" ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "OVERSIZE", "MESSY" ],
-    "armor_data": { "armor": [ { "encumbrance": 8, "coverage": 20, "covers": [ "hand_r" ] } ] }
+    "armor_data": { "armor": [ { "encumbrance": 8, "coverage": 20, "covers": [ "hand_r" ] } ] },
+    "melee_damage": { "bash": 16 }
   },
   {
     "type": "GENERIC",
@@ -90,11 +90,11 @@
     "material": [ "stone", "leather", "steel" ],
     "volume": "500 ml",
     "weight": "873 g",
-    "bashing": 13,
     "to_hit": 1,
     "qualities": [ [ "HAMMER", 1 ] ],
     "techniques": [ "WBLOCK_1", "BRUTAL" ],
     "flags": [ "DURABLE_MELEE", "TRADER_AVOID", "MAGIC_FOCUS", "NONCONDUCTIVE" ],
-    "armor_data": { "armor": [ { "encumbrance": 5, "coverage": 20, "covers": [ "hand_r" ] } ] }
+    "armor_data": { "armor": [ { "encumbrance": 5, "coverage": 20, "covers": [ "hand_r" ] } ] },
+    "melee_damage": { "bash": 13 }
   }
 ]

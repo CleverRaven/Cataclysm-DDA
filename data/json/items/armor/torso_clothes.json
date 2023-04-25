@@ -679,7 +679,6 @@
     "price": 11000,
     "price_postapoc": 250,
     "to_hit": -3,
-    "bashing": 2,
     "material": [ "plastic", "canvas" ],
     "symbol": "[",
     "looks_like": "vest_leather",
@@ -687,7 +686,8 @@
     "warmth": 3,
     "material_thickness": 4,
     "flags": [ "FLOTATION", "WATER_FRIENDLY", "BELTED" ],
-    "armor": [ { "encumbrance": 40, "coverage": 40, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": 40, "coverage": 40, "covers": [ "torso" ] } ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "flotation_vest_ms",
@@ -699,7 +699,6 @@
     "price": 11000,
     "price_postapoc": 250,
     "to_hit": -3,
-    "bashing": 2,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "vest_leather",
@@ -707,7 +706,8 @@
     "warmth": 5,
     "material_thickness": 2,
     "flags": [ "FLOTATION", "WATER_FRIENDLY", "BELTED" ],
-    "armor": [ { "encumbrance": 50, "coverage": 40, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": 50, "coverage": 40, "covers": [ "torso" ] } ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "gown",

@@ -1367,7 +1367,7 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
         if( navigate_ui_list( action, cursel[active_header], scroll_rate, recmax, true ) ) {
             recalc_start = true;
         } else if( action == "LEFT" || action == "RIGHT" ) {
-            active_header = increment_and_wrap( active_header, action == "RIGHT", headers.size() );
+            active_header = inc_clamp_wrap( active_header, action == "RIGHT", headers.size() );
             recalc_start = true;
         } else if( action == "CONFIRM" ) {
             const std::vector<mod_id> &current_tab_mods = all_tabs[iCurrentTab].mods;

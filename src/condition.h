@@ -190,7 +190,7 @@ struct conditional_t {
         void set_can_see( bool is_npc = false );
         void set_compare_string( const JsonObject &jo, const std::string &member );
         void set_compare_num( const JsonObject &jo, std::string_view member );
-        void set_math( const JsonObject &jo, const std::string &member );
+        void set_math( const JsonObject &jo, std::string_view member );
         template<class J>
         static std::function<double( dialogue const & )> get_get_dbl( J const &jo );
         static std::function<double( dialogue const & )> get_get_dbl( const std::string &value,

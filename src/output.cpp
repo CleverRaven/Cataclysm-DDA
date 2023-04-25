@@ -492,8 +492,7 @@ void scrollable_text( const std::function<catacurses::window()> &init_window,
 
         action = ctxt.handle_input();
         if( action == "UP" || action == "SCROLL_UP" || action == "DOWN" || action == "SCROLL_DOWN" ) {
-            beg_line = increment_and_clamp( beg_line, action == "DOWN" ||
-                                            action == "SCROLL_DOWN", max_beg_line );
+            beg_line = inc_clamp( beg_line, action == "DOWN" || action == "SCROLL_DOWN", max_beg_line );
         } else if( action == "PAGE_UP" ) {
             beg_line = std::max( beg_line - text_h, 0 );
         } else if( action == "PAGE_DOWN" ) {
@@ -1445,7 +1444,8 @@ std::string word_rewrap( const std::string &in, int width, const uint32_t split 
     return o;
 }
 
-void draw_tab( const catacurses::window &w, int iOffsetX, const std::string &sText, bool bSelected )
+void draw_tab( const catacurses::window &w, int iOffsetX, const std::string_view sText,
+               bool bSelected )
 {
     int iOffsetXRight = iOffsetX + utf8_width( sText, true ) + 1;
 

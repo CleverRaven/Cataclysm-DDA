@@ -21,7 +21,6 @@
     "melee_dice": 2,
     "melee_dice_sides": 2,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "armor_elec": 1,
     "bleed_rate": 50,
     "vision_night": 3,
     "weakpoint_sets": [ "wps_humanoid_body" ],
@@ -61,7 +60,8 @@
       "PUSH_MON",
       "FILTHY"
     ],
-    "//": "In the future, it would be nice if these guys could be resistant to fall damage."
+    "//": "In the future, it would be nice if these guys could be resistant to fall damage.",
+    "armor": { "electric": 1 }
   },
   {
     "id": "mon_zombie_brute_winged",
@@ -86,10 +86,6 @@
     "melee_dice": 3,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
-    "armor_bash": 2,
-    "armor_cut": 2,
-    "armor_bullet": 2,
-    "armor_elec": 1,
     "bleed_rate": 0,
     "vision_night": 7,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_head_small" ],
@@ -129,7 +125,8 @@
       "REVIVES",
       "PUSH_MON",
       "FILTHY"
-    ]
+    ],
+    "armor": { "bash": 2, "cut": 2, "bullet": 2, "electric": 1 }
   },
   {
     "id": "mon_spawn_raptor",

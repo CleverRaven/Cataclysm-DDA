@@ -13,14 +13,15 @@
     "price": 1701000,
     "price_postapoc": 3750,
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "steel", "plastic" ],
     "ammo": [ "300" ],
     "ranged_damage": { "damage_type": "bullet", "amount": 10 },
     "dispersion": 90,
     "durability": 8,
     "barrel_volume": "500 ml",
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m2010mag" ] } ]
+    "flags": [ "NEVER_JAMS" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m2010mag" ] } ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "weatherby_5",
@@ -36,7 +37,6 @@
     "price": 259500,
     "price_postapoc": 5500,
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "steel", "wood" ],
     "color": "brown",
     "ammo": [ "300" ],
@@ -61,7 +61,8 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "300": 3 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "300": 3 } } ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "win70",
@@ -76,7 +77,6 @@
     "price": 46000,
     "price_postapoc": 3250,
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "steel", "wood" ],
     "color": "brown",
     "ammo": [ "300" ],
@@ -101,7 +101,8 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "300": 3 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "300": 3 } } ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "ruger_pr",
@@ -117,7 +118,6 @@
     "price": 253900,
     "price_postapoc": 5500,
     "to_hit": -2,
-    "bashing": 8,
     "material": [ "steel", "aluminum", "plastic" ],
     "symbol": "-",
     "color": "black",
@@ -151,6 +151,7 @@
         "max_contains_weight": "20 kg",
         "item_restriction": [ "ruger_pr_mag" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 12 }
   }
 ]

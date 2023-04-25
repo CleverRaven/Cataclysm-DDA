@@ -3953,7 +3953,7 @@ bool pickup_selector::wield( int &count )
     if( u.can_wield( *it ).success() ) {
         remove_from_to_use( it );
         add_reopen_activity();
-        u.assign_activity( player_activity( wield_activity_actor( it, charges ) ) );
+        u.assign_activity( wield_activity_actor( it, charges ) );
         return true;
     } else {
         popup_getkey( _( "You can't wield the %s." ), it->display_name() );
@@ -3975,7 +3975,7 @@ bool pickup_selector::wear()
     if( u.can_wear( *items.front() ).success() ) {
         remove_from_to_use( items.front() );
         add_reopen_activity();
-        u.assign_activity( player_activity( wear_activity_actor( items, quantities ) ) );
+        u.assign_activity( wear_activity_actor( items, quantities ) );
         return true;
     } else {
         popup_getkey( _( "You can't wear the %s." ), items.front()->display_name() );
@@ -3986,7 +3986,7 @@ bool pickup_selector::wear()
 
 void pickup_selector::add_reopen_activity()
 {
-    u.assign_activity( player_activity( pickup_menu_activity_actor( where, to_use ) ) );
+    u.assign_activity( pickup_menu_activity_actor( where, to_use ) );
     u.activity.auto_resume = true;
 }
 
