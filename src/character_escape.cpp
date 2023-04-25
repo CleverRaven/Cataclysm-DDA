@@ -167,12 +167,11 @@ void Character::try_remove_crushed()
 
 bool Character::try_remove_grab()
 {
-    int zed_number = 0;
     if( is_mounted() ) {
         // Use the same calc as monster::move_effect
         auto *mon = mounted_creature.get();
         if( mon->has_effect_with_flag( json_flag_GRAB ) ) {
-            for( const effect grab : mon->get_effects_with_flag( json_flag_GRAB ) ) {
+            for( const effect &grab : mon->get_effects_with_flag( json_flag_GRAB ) ) {
                 const efftype_id effid = grab.get_effect_type()->id;
                 if( !x_in_y( mon->type->melee_skill + mon->type->melee_damage.total_damage(),
                              mon->get_effect_int( effid ) ) ) {
@@ -203,7 +202,7 @@ bool Character::try_remove_grab()
         const tripoint_range<tripoint> &surrounding = here.points_in_radius( pos(), 1, 0 );
 
         // Iterate through all our grabs and attempt to break them one by one
-        for( const effect eff : get_effects_with_flag( json_flag_GRAB ) ) {
+        for( const effect &eff : get_effects_with_flag( json_flag_GRAB ) ) {
             float escape_chance = 1.0f;
             float grabber_roll = static_cast<float>( eff.get_intensity() );
             // We need to figure out which monster is responsible for this grab early for good messaging
