@@ -507,7 +507,7 @@
     "name": { "str": "HWP 60-round 12.3 magazine" },
     "description": "A box magazine for use with the Hub 01 Hybrid Weaons Platform, developed for the 12.3 ln round.  Physically speaking, this looks like one of the box magazines that the Exodii use for their own guns, but with a more ergonomic design afforded by the Hub's use of modern materials.",
     "weight": "500 g",
-    "volume": "100 ml",
+    "volume": "1000 ml",
     "longest_side": "210 mm",
     "price": 10500,
     "price_postapoc": 450,
