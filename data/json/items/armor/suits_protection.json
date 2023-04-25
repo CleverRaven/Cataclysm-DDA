@@ -2192,7 +2192,7 @@
         ],
         "covers": [ "torso" ],
         "coverage": 100,
-        "encumbrance": 15
+        "encumbrance": 20
       },
       {
         "material": [
@@ -2209,7 +2209,7 @@
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "coverage": 72,
-        "encumbrance": 8,
+        "encumbrance": 7,
         "layers": [ "BELTED" ],
         "//warmth": 20
       }
@@ -2257,14 +2257,14 @@
         ],
         "covers": [ "torso" ],
         "coverage": 100,
-        "encumbrance": 15
+        "encumbrance": 20
       },
       {
         "material": [ { "type": "cotton_quilted", "covered_by_mat": 100, "thickness": 2.0 } ],
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "coverage": 72,
-        "encumbrance": 8,
+        "encumbrance": 7,
         "layers": [ "BELTED" ],
         "//warmth": 20
       }
@@ -2619,7 +2619,7 @@
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "coverage": 72,
-        "encumbrance": 8,
+        "encumbrance": 7,
         "layers": [ "BELTED" ],
         "//warmth": 20
       }
@@ -2688,7 +2688,7 @@
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "coverage": 72,
-        "encumbrance": 8,
+        "encumbrance": 7,
         "layers": [ "BELTED" ],
         "//warmth": 20
       }
@@ -2749,7 +2749,7 @@
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "coverage": 72,
-        "encumbrance": 8,
+        "encumbrance": 7,
         "layers": [ "BELTED" ],
         "//warmth": 20
       }
@@ -3133,7 +3133,7 @@
     "//4": "5670g + 1944g + 810g = 8424g combined",
     "type": "ARMOR",
     "name": { "str": "nylon gambeson" },
-    "description": "A thick cloth greatcoat intended to be worn as standalone armor, as it's a little too thick to comfortably add chainmail or a cuirass on top.  Made of thirty layers of tough canvas, this will protect you from almost everything, but it's very heavy and warm.  The sleeves are a bit thinner for flexibility and it drapes below your legs, providing additional protection there.",
+    "description": "A thick cloth greatcoat intended to be worn as standalone armor, as it's a little too thick to comfortably add chainmail or a cuirass on top.  Made of thirty layers of tough nylon, this will protect you from almost everything, but it's very heavy and warm.  The sleeves are a bit thinner for flexibility and it drapes below your legs, providing additional protection there.",
     "weight": "8424 g",
     "volume": "7500 ml",
     "price_postapoc": 8500,
@@ -3171,7 +3171,7 @@
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "coverage": 72,
-        "encumbrance": 7,
+        "encumbrance": 5,
         "layers": [ "BELTED" ],
         "//warmth": 20
       }
@@ -3205,7 +3205,7 @@
     "//4": "5670g + 972g + 810g = 7452g combined",
     "type": "ARMOR",
     "name": { "str": "nylon thin-sleeved gambeson" },
-    "description": "A thick cloth greatcoat intended to be worn as standalone armor, as it's a little too thick to comfortably add chainmail or a cuirass on top.  Made of thirty layers of tough canvas, this will protect you from almost everything, but it's very heavy and warm.  The sleeves are a lot thinner for flexibility and it drapes below your legs, providing additional protection there.",
+    "description": "A thick cloth greatcoat intended to be worn as standalone armor, as it's a little too thick to comfortably add chainmail or a cuirass on top.  Made of thirty layers of tough nylon, this will protect you from almost everything, but it's very heavy and warm.  The sleeves are a lot thinner for flexibility and it drapes below your legs, providing additional protection there.",
     "weight": "7452 g",
     "volume": "7000 ml",
     "price_postapoc": 7500,
@@ -3240,7 +3240,7 @@
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "coverage": 72,
-        "encumbrance": 7,
+        "encumbrance": 5,
         "layers": [ "BELTED" ],
         "//warmth": 20
       }
@@ -3728,7 +3728,7 @@
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "coverage": 72,
-        "encumbrance": 8,
+        "encumbrance": 6,
         "layers": [ "BELTED" ],
         "//warmth": 22
       }
@@ -3798,7 +3798,7 @@
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "coverage": 72,
-        "encumbrance": 8,
+        "encumbrance": 6,
         "layers": [ "BELTED" ],
         "//warmth": 22
       }
@@ -3860,7 +3860,7 @@
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "coverage": 72,
-        "encumbrance": 8,
+        "encumbrance": 6,
         "layers": [ "BELTED" ],
         "//warmth": 20
       }
