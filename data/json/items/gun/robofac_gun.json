@@ -505,7 +505,7 @@
     "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": { "str": "HWP 60-round 12.3 magazine" },
-    "description": "A box magazine for use with the Hub 01 Hybrid Weapons Platform, developed for the 12.3 ln round.  Physically speaking, this diverges from its Exodii counterpart with a more ergonomic design afforded by the Hub's use of modern materials. It resembles a coffin somewhat in profile, with 4 columns of ammunition tapering down to just 2.",
+    "description": "A box magazine for use with the Hub 01 Hybrid Weapons Platform, developed for the 12.3 ln round. Physically speaking, this diverges from its Exodii counterpart with a more ergonomic design afforded by the Hub's use of modern materials. It resembles a coffin somewhat in profile, with 4 columns of ammunition tapering down to just 2.",
     "weight": "500 g",
     "volume": "1000 ml",
     "longest_side": "210 mm",
