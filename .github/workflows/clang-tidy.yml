@@ -40,7 +40,7 @@ jobs:
     if: ${{ needs.skip-duplicates.outputs.should_skip != 'true' }}
 
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         # To make the run finish in the run time limit, we split it up into two
         # parts: the src directory and everything else
