@@ -33,7 +33,7 @@
       { "part": "arm_r", "ignored": 4 },
       { "part": "hand_l", "ignored": 1 },
       { "part": "hand_r", "ignored": 1 },
-      { "part": "torso", "ignored": 10 }
+      { "part": "torso", "ignored": 6 }
     ],
     "integrated_armor": [ "integrated_pebbled" ]
   },
@@ -88,18 +88,7 @@
     "category": [ "ARVORE" ],
     "prereqs": [ "ARVORE_SKIN_1" ],
     "changes_to": [ "ARVORE_SKIN_3" ],
-    "wet_protection": [
-      { "part": "head", "ignored": 2 },
-      { "part": "leg_l", "ignored": 5 },
-      { "part": "leg_r", "ignored": 5 },
-      { "part": "foot_l", "ignored": 2 },
-      { "part": "foot_r", "ignored": 2 },
-      { "part": "arm_l", "ignored": 4 },
-      { "part": "arm_r", "ignored": 4 },
-      { "part": "hand_l", "ignored": 1 },
-      { "part": "hand_r", "ignored": 1 },
-      { "part": "torso", "ignored": 10 }
-    ],
+    "thirst_modifier": -0.3,
     "integrated_armor": [ "integrated_vegital_cuticle" ]
   },
   {
@@ -165,6 +154,7 @@
     "mixed_effect": true,
     "description": "Your skin exudes magickal flames constantly, you can operate in almost any heat now without danger but rain may be a lethal threat.",
     "types": [ "SKIN" ],
+    "flags": [ "HEAT_IMMUNE" ],
     "prereqs": [ "SALAMANDER_SKIN_2" ],
     "threshreq": [ "THRESH_SALAMANDER" ],
     "category": [ "SALAMANDER" ],
@@ -185,7 +175,7 @@
   {
     "type": "mutation",
     "id": "UNDINE_SKIN_2",
-    "name": { "str": "pebbled skin" },
+    "name": { "str": "pebble skin" },
     "points": 2,
     "visibility": 10,
     "ugliness": 3,
@@ -195,16 +185,16 @@
     "prereqs": [ "UNDINE_SKIN_1" ],
     "changes_to": [ "UNDINE_SKIN_3" ],
     "wet_protection": [
-      { "part": "head", "ignored": 2 },
-      { "part": "leg_l", "ignored": 5 },
-      { "part": "leg_r", "ignored": 5 },
-      { "part": "foot_l", "ignored": 2 },
-      { "part": "foot_r", "ignored": 2 },
-      { "part": "arm_l", "ignored": 4 },
-      { "part": "arm_r", "ignored": 4 },
-      { "part": "hand_l", "ignored": 1 },
-      { "part": "hand_r", "ignored": 1 },
-      { "part": "torso", "ignored": 10 }
+      { "part": "head", "good": 7 },
+      { "part": "leg_l", "good": 21 },
+      { "part": "leg_r", "good": 21 },
+      { "part": "foot_l", "good": 6 },
+      { "part": "foot_r", "good": 6 },
+      { "part": "arm_l", "good": 19 },
+      { "part": "arm_r", "good": 19 },
+      { "part": "hand_l", "good": 5 },
+      { "part": "hand_r", "good": 5 },
+      { "part": "torso", "good": 40 }
     ],
     "integrated_armor": [ "integrated_gelatinous_skin" ]
   },
@@ -218,20 +208,21 @@
     "mixed_effect": true,
     "description": "Your skin is completely replaced by magickal water.  You have become immune to acid effects.",
     "types": [ "SKIN" ],
+    "flags": [ "ACID_IMMUNE" ],
     "prereqs": [ "UNDINE_SKIN_2" ],
     "threshreq": [ "THRESH_UNDINE" ],
     "category": [ "UNDINE" ],
     "wet_protection": [
-      { "part": "head", "ignored": 5 },
-      { "part": "leg_l", "ignored": 16 },
-      { "part": "leg_r", "ignored": 16 },
-      { "part": "foot_l", "ignored": 5 },
-      { "part": "foot_r", "ignored": 5 },
-      { "part": "arm_l", "ignored": 14 },
-      { "part": "arm_r", "ignored": 14 },
-      { "part": "hand_l", "ignored": 4 },
-      { "part": "hand_r", "ignored": 4 },
-      { "part": "torso", "ignored": 30 }
+      { "part": "head", "good": 7 },
+      { "part": "leg_l", "good": 21 },
+      { "part": "leg_r", "good": 21 },
+      { "part": "foot_l", "good": 6 },
+      { "part": "foot_r", "good": 6 },
+      { "part": "arm_l", "good": 19 },
+      { "part": "arm_r", "good": 19 },
+      { "part": "hand_l", "good": 5 },
+      { "part": "hand_r", "good": 5 },
+      { "part": "torso", "good": 40 }
     ],
     "integrated_armor": [ "integrated_wave_skin" ]
   },
@@ -242,7 +233,7 @@
     "points": 0,
     "visibility": 2,
     "ugliness": 0,
-    "description": "Your skin has turned the color of the antique dolls.  Your skin is now a pearlescent white.  This has no gameplay effects.",
+    "description": "Your skin has turned the color of antique dolls.  Your skin is now a pearlescent white.  This has no gameplay effects.",
     "types": [ "skin_tone" ],
     "leads_to": [ "HOMULLUS_SKIN_2" ],
     "category": [ "HOMULLUS" ]
@@ -281,7 +272,7 @@
     "visibility": 10,
     "ugliness": -6,
     "mixed_effect": true,
-    "description": "Your skin has has become latex like.  It provides some additional protection and flexibility but heals at a much slower rate.",
+    "description": "Your skin has become latex like.  It provides some additional protection and flexibility but heals at a much slower rate.",
     "types": [ "SKIN" ],
     "prereqs": [ "HOMULLUS_SKIN_2" ],
     "threshreq": [ "THRESH_HOMULLUS" ],
@@ -307,7 +298,7 @@
     "points": 0,
     "visibility": 2,
     "ugliness": 0,
-    "description": "Your skin has turned the a rolling grey of the clouds.  Your skin is now an evershifting color of clouds shifting from stormy to rainy to barely there.  This has no gameplay effects.",
+    "description": "Your skin has turned the rolling grey of the clouds.  Your skin is now an ever-shifting color of clouds shifting from stormy to rainy to barely there.  This has no gameplay effects.",
     "types": [ "skin_tone" ],
     "leads_to": [ "SYLPH_SKIN_2" ],
     "category": [ "SYLPH" ]
@@ -319,7 +310,7 @@
     "points": 2,
     "visibility": 5,
     "ugliness": 3,
-    "description": "Your skin is clearly separate from the air around you but has become it's own weather system.  If someone reaches out and touches you, they will clearly feel you but you look like someone might reach right through you.",
+    "description": "Your skin is clearly separate from the air around you but has become its own weather system.  If someone reaches out and touches you, they will clearly feel you but you look like someone might reach right through you.",
     "types": [ "SKIN" ],
     "category": [ "SYLPH" ],
     "prereqs": [ "SYLPH_SKIN_1" ],

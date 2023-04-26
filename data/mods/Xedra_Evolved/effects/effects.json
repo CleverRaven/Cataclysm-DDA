@@ -592,18 +592,7 @@
     "enchantments": [ { "mutations": [ "eater_unbreakable" ] } ]
   },
   {
-    "id": "eater_unbreakable",
-    "type": "mutation",
-    "name": { "str": "Unbreakable" },
-    "points": 0,
-    "starting_trait": false,
-    "purifiable": false,
-    "valid": false,
-    "description": "Nothing can move you from your path.",
-    "enchantments": [ { "values": [ { "value": "PAIN", "multiply": -1 } ] } ],
-    "flags": [ "STEADY" ]
-  },
-  {
+    "type": "effect_type",
     "id": "mutagen_earthkin",
     "name": [ "Ierde Mutation", "Ierde Transformation", "Ierde Metamorphosis" ],
     "desc": [
