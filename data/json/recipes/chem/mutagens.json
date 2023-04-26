@@ -1333,7 +1333,7 @@
     "components": [
       [ [ "mutagen", 1 ] ],
       [ [ "chitin_piece", 1 ] ],
-      [ ["crustacean_sample", 1 ]],
+      [ [ "crustacean_sample", 1 ] ],
       [ [ "ammonia_liquid", 1 ], [ "lye_powder", 100 ] ]
     ],
     "flags": [ "SECRET" ]
