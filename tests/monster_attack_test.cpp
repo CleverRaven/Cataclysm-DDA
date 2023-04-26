@@ -416,7 +416,6 @@ TEST_CASE( "Grab break tests", "[mattack][grab]" )
     const tripoint target_location = attacker_location + tripoint{ 1, 0, 0 };
     const tripoint attacker_location_n = target_location + tripoint_north;
     const tripoint attacker_location_e = target_location + tripoint_east;
-    const tripoint attacker_location_s = target_location + tripoint_south;
     clear_map();
     clear_creatures();
     Character &you = get_player_character();
