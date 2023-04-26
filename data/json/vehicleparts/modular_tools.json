@@ -118,7 +118,9 @@
       "angle_grinder",
       "elec_shears",
       "elec_hairtrimmer",
-      "electric_spinwheel"
+      "electric_spinwheel",
+      "small_repairkit",
+      "large_repairkit",
     ],
     "item": "veh_tools_abstract",
     "location": "center",
