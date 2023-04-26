@@ -25,10 +25,10 @@
     "price": 0,
     "price_postapoc": 50,
     "to_hit": -1,
-    "bashing": 6,
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
-    "color": "yellow"
+    "color": "yellow",
+    "melee_damage": { "bash": 6 }
   },
   {
     "type": "GENERIC",
@@ -59,8 +59,8 @@
     "looks_like": "scrap",
     "weight": "450 g",
     "volume": "100 ml",
-    "bashing": 1,
-    "to_hit": -2
+    "to_hit": -2,
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "nuclear_waste",
@@ -127,10 +127,10 @@
     "color": "light_green",
     "use_action": { "type": "deploy_furn", "furn_type": "f_atomic_butter_churn" },
     "to_hit": -2,
-    "bashing": 5,
     "material": [ "plastic", "steel" ],
     "//": "I figured bionic preppers would have a sci-fi solution to some low tech problems.",
-    "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE" ]
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE" ],
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "atomic_pseudo_churn",
@@ -141,12 +141,12 @@
     "volume": "11356 ml",
     "price": 20000,
     "to_hit": -2,
-    "bashing": 9,
     "material": [ "plastic", "steel" ],
     "qualities": [ [ "CONTAIN", 1 ], [ "CHURN", 2 ] ],
     "symbol": "H",
     "color": "light_cyan",
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "melee_damage": { "bash": 9 }
   },
   {
     "id": "afs_titanium_small",

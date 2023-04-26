@@ -1132,7 +1132,7 @@ static void skip_skill_headers( const std::vector<HeaderSkill> &skillslist, unsi
 {
     const unsigned int prev_line = line;
     while( skillslist[line].is_header ) {
-        line = increment_and_wrap( line, inc, line_count );
+        line = inc_clamp_wrap( line, inc, line_count );
         if( line == prev_line ) {
             break;
         }
@@ -1311,8 +1311,8 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
             ui_tip.invalidate_ui();
         }
         invalidate_tab( curtab );
-        curtab = increment_and_wrap( curtab, ( action == "RIGHT" ||
-                                               action == "NEXT_TAB" ), player_display_tab::num_tabs );
+        curtab = inc_clamp_wrap( curtab, action == "RIGHT" || action == "NEXT_TAB",
+                                 player_display_tab::num_tabs );
         invalidate_tab( curtab );
         line = curtab == player_display_tab::skills ? 1 : 0; // avoid a call to skip_skill_headers
         info_line = 0;
@@ -1579,11 +1579,7 @@ void Character::disp_info( bool customize_character )
 
     const std::vector<const Skill *> player_skill = Skill::get_skills_sorted_by(
     [&]( const Skill & a, const Skill & b ) {
-        skill_displayType_id type_a = a.display_category();
-        skill_displayType_id type_b = b.display_category();
-
-        return localized_compare( std::make_pair( type_a, a.name() ),
-                                  std::make_pair( type_b, b.name() ) );
+        return a.get_sort_rank() < b.get_sort_rank();
     } );
 
     std::vector<HeaderSkill> skillslist;

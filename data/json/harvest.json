@@ -35,6 +35,12 @@
     "entries": [ { "drop": "carrot_wild" } ]
   },
   {
+    "id": "beehive_harv",
+    "type": "harvest",
+    "message": "You carefully crack open the hive structure and drain the liquid.",
+    "entries": [ { "drop": "honeycomb", "base_num": [ 160, 180 ] }, { "drop": "wax", "base_num": [ 40, 50 ] } ]
+  },
+  {
     "id": "jerusalem_artichoke_harv",
     "type": "harvest",
     "entries": [ { "drop": "jerusalem_artichoke", "base_num": [ 1, 3 ] } ]

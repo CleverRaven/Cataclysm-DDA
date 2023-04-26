@@ -22,10 +22,6 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 1,
-    "armor_bash": 12,
-    "armor_cut": 25,
-    "armor_bullet": 20,
-    "armor_elec": 3,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_syn_armored" ],
     "vision_day": 30,
@@ -36,7 +32,8 @@
     "upgrades": { "half_life": 42, "into_group": "GROUP_SOLDIER_UPGRADE" },
     "burn_into": "mon_zombie_scorched",
     "fungalize_into": "mon_zombie_fungus",
-    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ],
+    "armor": { "bash": 12, "cut": 25, "bullet": 20, "electric": 3 }
   },
   {
     "id": "mon_zombie_soldier_blackops_1",
@@ -62,10 +59,6 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 3,
-    "armor_bash": 12,
-    "armor_cut": 25,
-    "armor_bullet": 20,
-    "armor_elec": 3,
     "bleed_rate": 50,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_syn_armored" ],
@@ -95,7 +88,8 @@
       "PUSH_MON",
       "NIGHT_INVISIBILITY",
       "FILTHY"
-    ]
+    ],
+    "armor": { "bash": 12, "cut": 25, "bullet": 20, "electric": 3 }
   },
   {
     "id": "mon_zombie_soldier_blackops_2",
@@ -167,7 +161,7 @@
     "bleed_rate": 50,
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_syn_armored", "prof_biochemistry" ],
     "delete": { "upgrades": { "half_life": 42, "into_group": "GROUP_SOLDIER_UPGRADE" }, "categories": [ "CLASSIC" ] },
-    "relative": { "hp": 40, "speed": -10, "melee_skill": 2, "armor_bash": 5 },
+    "relative": { "hp": 40, "speed": -10, "melee_skill": 2, "armor": { "bash": 5 } },
     "extend": {
       "special_attacks": [
         [ "ACID_BARF", 5 ],
@@ -218,10 +212,6 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 1,
-    "armor_bash": 18,
-    "armor_cut": 28,
-    "armor_bullet": 22,
-    "armor_elec": 3,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_syn_armored", "prof_wp_nat_armored" ],
     "vision_day": 30,
@@ -231,7 +221,8 @@
     "death_drops": "mon_zombie_kevlar_death_drops",
     "upgrades": { "half_life": 42, "into": "mon_zombie_kevlar_1" },
     "burn_into": "mon_zombie_scorched",
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ],
+    "armor": { "bash": 18, "cut": 28, "bullet": 22, "electric": 3 }
   },
   {
     "id": "mon_zombie_kevlar_1",
@@ -257,11 +248,7 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 1,
-    "armor_bash": 20,
-    "armor_cut": 30,
-    "armor_bullet": 24,
-    "armor_elec": 3,
-    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_natural_armor", "wps_humanoid_open_helmet" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_syn_armored", "prof_wp_nat_armored" ],
     "bleed_rate": 50,
     "vision_day": 30,
@@ -274,7 +261,8 @@
     "death_drops": "mon_zombie_kevlar_death_drops",
     "upgrades": { "half_life": 42, "into": "mon_zombie_kevlar_2" },
     "burn_into": "mon_zombie_scorched",
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ],
+    "armor": { "bash": 20, "cut": 30, "bullet": 24, "electric": 3 }
   },
   {
     "id": "mon_zombie_kevlar_2",
@@ -300,11 +288,7 @@
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 1,
-    "armor_bash": 30,
-    "armor_cut": 50,
-    "armor_bullet": 40,
-    "armor_elec": 6,
-    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_natural_armor", "wps_humanoid_open_helmet" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_syn_armored", "prof_wp_nat_armored", "prof_wp_hulk" ],
     "bleed_rate": 0,
     "vision_day": 50,
@@ -318,7 +302,8 @@
     ],
     "death_drops": "mon_zombie_kevlar_death_drops",
     "burn_into": "mon_zombie_scorched",
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ],
+    "armor": { "bash": 30, "cut": 50, "bullet": 40, "electric": 6 }
   },
   {
     "id": "mon_zombie_military_pilot",
@@ -343,30 +328,28 @@
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 1,
-    "armor_bash": 5,
-    "armor_cut": 5,
-    "armor_bullet": 4,
-    "armor_elec": 2,
-    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_full_helmet" ],
-    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_syn_armored" ],
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_full_helmet" ],
+    "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "vision_day": 35,
     "vision_night": 5,
     "harvest": "zombie",
     "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "GRAB", 7 ], [ "scratch", 20 ] ],
     "death_drops": "mon_zombie_military_pilot_death_drops",
     "burn_into": "mon_zombie_scorched",
-    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "NOHEAD", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ],
+    "armor": { "bash": 5, "cut": 5, "bullet": 4, "electric": 2 }
   },
   {
     "id": "mon_zombie_milbase_personnel",
     "type": "MONSTER",
     "name": { "str": "uniformed zombie" },
     "description": "This undead soldier is adorned in standard military fatigues.  It carries itself rather steadily for a zombie.",
+    "weakpoint_sets": [ "wps_humanoid_body" ],
     "copy-from": "mon_zombie_military_pilot",
     "looks_like": "mon_zombie",
-    "delete": { "flags": [ "NOHEAD" ] },
     "upgrades": { "half_life": 32, "into_group": "GROUP_ZOMBIE_UPGRADE" },
-    "death_drops": "mon_zombie_milbase_personnel_death_drops"
+    "death_drops": "mon_zombie_milbase_personnel_death_drops",
+    "armor": { "bash": 2, "cut": 2, "bullet": 2 }
   },
   {
     "id": "mon_zombie_sailor",
@@ -375,13 +358,9 @@
     "description": "Still dressed in the ragged remains of deep blue naval fatigues, it’s clear that this walking corpse was once a sailor of some description.  The US Navy’s insignia is embroidered on the shredded sleeve and shoulder of its bloodied jacket, the dead crewman’s battered cap is beaten into the remains of its fractured skull and its inky black eyes are scanning the area around it as dark ooze drips from its limply hanging maw.",
     "copy-from": "mon_zombie_milbase_personnel",
     "looks_like": "mon_zombie_soldier",
-    "armor_bash": 2,
-    "armor_cut": 2,
-    "armor_bullet": 2,
-    "weakpoint_sets": [ "wps_humanoid_body" ],
-    "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "//": "no provision for body armour or helmets in either the weak point set or dissection set, as Navy sailors aren’t normally dressed in military combat gear whilst shipside.",
-    "death_drops": "mon_zombie_sailor_death_drops"
+    "death_drops": "mon_zombie_sailor_death_drops",
+    "armor": { "electric": 2, "bash": 2, "cut": 2, "bullet": 2 }
   },
   {
     "id": "mon_zombie_officer",
@@ -394,7 +373,7 @@
   {
     "id": "mon_zombie_marine",
     "type": "MONSTER",
-    "name": { "str": "zombie Marine" },
+    "name": { "str": "zombie marine" },
     "description": "Dressed head to toe in naval combat equipment and with Marine insignia embroidered on its gear, this lurching corpse still retains its physical fitness in death.  From underneath its helmet, its inky black eyes scan the area around it.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -415,10 +394,6 @@
     "upgrades": { "half_life": 38, "into": "mon_zombie_marine_upgrade" },
     "death_drops": "mon_zombie_marine_death_drops",
     "dodge": 1,
-    "armor_bash": 12,
-    "armor_cut": 25,
-    "armor_bullet": 20,
-    "armor_elec": 3,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_syn_armored" ],
     "vision_day": 30,
@@ -427,7 +402,8 @@
     "special_attacks": [ { "type": "bite", "cooldown": 5, "min_mul": 0.8 } ],
     "burn_into": "mon_zombie_scorched",
     "fungalize_into": "mon_zombie_fungus",
-    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ],
+    "armor": { "bash": 12, "cut": 25, "bullet": 20, "electric": 3 }
   },
   {
     "id": "mon_zombie_marine_upgrade",
@@ -480,12 +456,6 @@
     "melee_dice": 3,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "armor_bash": 64,
-    "armor_cut": 64,
-    "armor_bullet": 51,
-    "armor_acid": 20,
-    "armor_fire": 20,
-    "armor_elec": 10,
     "weakpoint_sets": [ "wps_humanoid_full_helmet" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_syn_armored" ],
     "weakpoints": [
@@ -503,7 +473,8 @@
     "harvest": "zombie",
     "death_drops": "mon_zombie_armored_death_drops",
     "burn_into": "mon_zombie_scorched",
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ],
+    "armor": { "bash": 64, "cut": 64, "acid": 20, "heat": 20, "bullet": 51, "electric": 10 }
   },
   {
     "id": "mon_zombie_bio_op",
@@ -529,10 +500,6 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
     "dodge": 3,
-    "armor_bash": 10,
-    "armor_cut": 18,
-    "armor_bullet": 14,
-    "armor_elec": 3,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet", "wps_humanoid_gasmask" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_syn_armored" ],
     "vision_day": 50,
@@ -556,7 +523,8 @@
       "NO_BREATHE",
       "REVIVES",
       "FILTHY"
-    ]
+    ],
+    "armor": { "bash": 10, "cut": 18, "bullet": 14, "electric": 3 }
   },
   {
     "id": "mon_zombie_bio_op2",
@@ -569,9 +537,8 @@
     "hp": 180,
     "melee_skill": 8,
     "dodge": 4,
-    "armor_bash": 15,
-    "armor_cut": 27,
     "harvest": "zombie",
-    "special_attacks": [ [ "BIO_OP_BIOJUTSU", 15 ] ]
+    "special_attacks": [ [ "BIO_OP_BIOJUTSU", 15 ] ],
+    "armor": { "bullet": 14, "electric": 3, "bash": 15, "cut": 27 }
   }
 ]

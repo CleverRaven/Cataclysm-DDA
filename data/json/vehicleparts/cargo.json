@@ -134,7 +134,7 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "150 s", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 1 ], [ "fabrication", 1 ] ], "time": "2 m", "using": [ [ "repair_welding_standard", 1 ] ] }
     },
-    "flags": [ "CARGO", "BOARDABLE" ],
+    "flags": [ "CARGO" ],
     "damage_reduction": { "all": 6 }
   },
   {

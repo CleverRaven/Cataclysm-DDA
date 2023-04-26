@@ -504,6 +504,133 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_GIVE_RANDOM_MISSION",
+    "recurrence": 1,
+    "global": false,
+    "condition": { "or": [ { "npc_has_trait": "GETS_RANDOM_MISSION" }, { "npc_has_trait": "GETS_RANDOM_MISSION_NOMOVE" } ] },
+    "effect": [
+      {
+        "weighted_list_eocs": [
+          [
+            {
+              "id": "give_MISSION_GET_RELIC",
+              "condition": { "or": [ { "npc_has_trait": "GETS_RANDOM_MISSION" }, { "npc_has_trait": "GETS_RANDOM_MISSION_NOMOVE" } ] },
+              "effect": { "offer_mission": "MISSION_GET_RELIC" }
+            },
+            { "const": 1 }
+          ],
+          [
+            {
+              "id": "give_MISSION_GET_RECORD_ACCOUNTING",
+              "condition": { "npc_has_trait": "GETS_RANDOM_MISSION" },
+              "effect": { "offer_mission": "MISSION_GET_RECORD_ACCOUNTING" }
+            },
+            { "const": 1 }
+          ],
+          [
+            {
+              "id": "give_MISSION_GET_INHALER",
+              "condition": { "or": [ { "npc_has_trait": "GETS_RANDOM_MISSION" }, { "npc_has_trait": "GETS_RANDOM_MISSION_NOMOVE" } ] },
+              "effect": { "offer_mission": "MISSION_GET_INHALER" }
+            },
+            { "const": 1 }
+          ],
+          [
+            {
+              "id": "give_MISSION_GET_ANTIBIOTICS",
+              "condition": { "or": [ { "npc_has_trait": "GETS_RANDOM_MISSION" }, { "npc_has_trait": "GETS_RANDOM_MISSION_NOMOVE" } ] },
+              "effect": { "offer_mission": "MISSION_GET_ANTIBIOTICS" }
+            },
+            { "const": 1 }
+          ],
+          [
+            {
+              "id": "give_MISSION_GET_FLAG",
+              "condition": { "or": [ { "npc_has_trait": "GETS_RANDOM_MISSION" }, { "npc_has_trait": "GETS_RANDOM_MISSION_NOMOVE" } ] },
+              "effect": { "offer_mission": "MISSION_GET_FLAG" }
+            },
+            { "const": 1 }
+          ],
+          [
+            {
+              "id": "give_MISSION_GET_RECORD_WEATHER",
+              "condition": { "or": [ { "npc_has_trait": "GETS_RANDOM_MISSION" }, { "npc_has_trait": "GETS_RANDOM_MISSION_NOMOVE" } ] },
+              "effect": { "offer_mission": "MISSION_GET_RECORD_WEATHER" }
+            },
+            { "const": 1 }
+          ],
+          [
+            {
+              "id": "give_MISSION_GET_SOFTWARE",
+              "condition": { "or": [ { "npc_has_trait": "GETS_RANDOM_MISSION" }, { "npc_has_trait": "GETS_RANDOM_MISSION_NOMOVE" } ] },
+              "effect": { "offer_mission": "MISSION_GET_SOFTWARE" }
+            },
+            { "const": 1 }
+          ],
+          [
+            {
+              "id": "give_MISSION_GET_RECORD_PATIENT",
+              "condition": { "npc_has_trait": "GETS_RANDOM_MISSION" },
+              "effect": { "offer_mission": "MISSION_GET_RECORD_PATIENT" }
+            },
+            { "const": 1 }
+          ],
+          [
+            {
+              "id": "give_MISSION_KILL_JABBERWOCK",
+              "condition": { "or": [ { "npc_has_trait": "GETS_RANDOM_MISSION" }, { "npc_has_trait": "GETS_RANDOM_MISSION_NOMOVE" } ] },
+              "effect": { "offer_mission": "MISSION_KILL_JABBERWOCK" }
+            },
+            { "const": 1 }
+          ],
+          [
+            {
+              "id": "give_MISSION_KILL_ZOMBIE_MOM",
+              "condition": { "or": [ { "npc_has_trait": "GETS_RANDOM_MISSION" }, { "npc_has_trait": "GETS_RANDOM_MISSION_NOMOVE" } ] },
+              "effect": { "offer_mission": "MISSION_KILL_ZOMBIE_MOM" }
+            },
+            { "const": 1 }
+          ],
+          [
+            {
+              "id": "give_MISSION_RESCUE_DOG",
+              "condition": { "or": [ { "npc_has_trait": "GETS_RANDOM_MISSION" }, { "npc_has_trait": "GETS_RANDOM_MISSION_NOMOVE" } ] },
+              "effect": { "offer_mission": "MISSION_RESCUE_DOG" }
+            },
+            { "const": 1 }
+          ],
+          [
+            {
+              "id": "give_MISSION_PROVE_YOU_ARE_A_SURVIVOR",
+              "condition": { "npc_has_trait": "GETS_RANDOM_MISSION" },
+              "effect": { "offer_mission": "MISSION_PROVE_YOU_ARE_A_SURVIVOR" }
+            },
+            { "const": 1 }
+          ],
+          [
+            {
+              "id": "give_MISSION_LEARN_ABOUT_CATTAIL_JELLY",
+              "condition": { "or": [ { "npc_has_trait": "GETS_RANDOM_MISSION" }, { "npc_has_trait": "GETS_RANDOM_MISSION_NOMOVE" } ] },
+              "effect": { "offer_mission": "MISSION_LEARN_ABOUT_CATTAIL_JELLY" }
+            },
+            { "const": 1 }
+          ],
+          [
+            {
+              "id": "give_MISSION_PYROMANIAC",
+              "condition": { "npc_has_trait": "GETS_RANDOM_MISSION" },
+              "effect": { "offer_mission": "MISSION_PYROMANIAC" }
+            },
+            { "const": 1 }
+          ]
+        ]
+      },
+      { "npc_lose_trait": "GETS_RANDOM_MISSION" },
+      { "npc_lose_trait": "GETS_RANDOM_MISSION_NOMOVE" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_PLAY_PIANO",
     "effect": [
       { "u_add_morale": "morale_music", "bonus": 5, "max_bonus": 10 },

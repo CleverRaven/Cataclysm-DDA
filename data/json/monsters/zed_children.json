@@ -20,7 +20,6 @@
     "melee_dice": 2,
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
-    "armor_elec": 1,
     "dodge": 3,
     "bleed_rate": 50,
     "harvest": "zombie",
@@ -33,7 +32,8 @@
     "burn_into": "mon_zombie_child_scorched",
     "fungalize_into": "mon_zombie_child_fungus",
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ],
-    "//": "no GUILT because it no longer looks enough like a child to evoke pity"
+    "//": "no GUILT because it no longer looks enough like a child to evoke pity",
+    "armor": { "electric": 1 }
   },
   {
     "id": "mon_zombie_child",
@@ -57,7 +57,6 @@
     "melee_dice": 2,
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
-    "armor_elec": 1,
     "dodge": 2,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_child_body", "wps_humanoid_head_big" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_child" ],
@@ -74,7 +73,8 @@
     "burn_into": "mon_zombie_child_scorched",
     "fungalize_into": "mon_zombie_child_fungus",
     "upgrades": { "half_life": 30, "into_group": "GROUP_CHILD_ZOMBIE_UPGRADE" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ],
+    "armor": { "electric": 1 }
   },
   {
     "id": "mon_zombie_creepy",
@@ -97,9 +97,8 @@
     "melee_dice": 2,
     "melee_dice_sides": 2,
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
-    "armor_elec": 1,
     "dodge": 1,
-    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_child_body", "wps_humanoid_head_big" ],
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_child_body", "wps_humanoid_head_big", "wps_eyes_big" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_child" ],
     "bleed_rate": 50,
     "vision_day": 10,
@@ -110,7 +109,8 @@
     "burn_into": "mon_zombie_child_scorched",
     "fungalize_into": "mon_zombie_child_fungus",
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "CLIMBS", "FILTHY" ],
-    "//": "no GUILT because it no longer looks enough like a child to evoke pity"
+    "//": "no GUILT because it no longer looks enough like a child to evoke pity",
+    "armor": { "electric": 1 }
   },
   {
     "id": "mon_zombie_shriekling",
@@ -135,7 +135,6 @@
     "melee_dice_sides": 2,
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "bleed_rate": 50,
-    "armor_elec": 1,
     "dodge": 1,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_child_body", "wps_humanoid_head_big" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_child" ],
@@ -147,7 +146,8 @@
     "burn_into": "mon_zombie_child_scorched",
     "fungalize_into": "mon_zombie_child_fungus",
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ],
-    "//": "GUILT because it still looks enough like a child to evoke pity"
+    "//": "GUILT because it still looks enough like a child to evoke pity",
+    "armor": { "electric": 1 }
   },
   {
     "id": "mon_zombie_snotgobbler",
@@ -171,8 +171,6 @@
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "dodge": 1,
-    "armor_bash": 1,
-    "armor_elec": 1,
     "bleed_rate": 50,
     "vision_day": 30,
     "vision_night": 5,
@@ -184,7 +182,8 @@
     "death_function": { "effect": { "id": "death_boomer", "hit_self": true }, "message": "The %s explodes!", "corpse_type": "NO_CORPSE" },
     "burn_into": "mon_zombie_child_scorched",
     "fungalize_into": "mon_zombie_child_fungus",
-    "flags": [ "SEES", "HEARS", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ],
+    "armor": { "bash": 1, "electric": 1 }
   },
   {
     "id": "mon_zombie_sproglodyte",
@@ -207,7 +206,6 @@
     "melee_dice": 2,
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
-    "armor_elec": 1,
     "dodge": 2,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_child_body", "wps_humanoid_head_big", "wps_eyes_big" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_child" ],
@@ -220,7 +218,8 @@
     "burn_into": "mon_zombie_child_scorched",
     "fungalize_into": "mon_zombie_child_fungus",
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "CLIMBS", "FILTHY" ],
-    "//": "no GUILT because it no longer looks enough like a child to evoke pity"
+    "//": "no GUILT because it no longer looks enough like a child to evoke pity",
+    "armor": { "electric": 1 }
   },
   {
     "id": "mon_zombie_waif",
@@ -245,9 +244,6 @@
     "melee_dice_sides": 2,
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 2,
-    "armor_cut": 5,
-    "armor_bullet": 4,
-    "armor_elec": 1,
     "bleed_rate": 50,
     "vision_day": 30,
     "vision_night": 5,
@@ -260,7 +256,8 @@
     "burn_into": "mon_zombie_child_scorched",
     "fungalize_into": "mon_zombie_child_fungus",
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "REVIVES", "HARDTOSHOOT", "FILTHY" ],
-    "//": "GUILT because it still looks enough like a child to evoke pity"
+    "//": "GUILT because it still looks enough like a child to evoke pity",
+    "armor": { "cut": 5, "bullet": 4, "electric": 1 }
   },
   {
     "id": "mon_zombie_wretch",
@@ -283,8 +280,8 @@
     "melee_dice": 2,
     "melee_dice_sides": 2,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "armor_elec": 1,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_child_body", "wps_humanoid_head_big" ],
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_child" ],
     "vision_day": 20,
     "vision_night": 3,
     "bleed_rate": 0,
@@ -300,6 +297,7 @@
     "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_children_clothes", 100 ], [ "child_items", 65 ] ] },
     "burn_into": "mon_zombie_child_scorched",
     "fungalize_into": "mon_fungal_wretch",
-    "flags": [ "SEES", "HEARS", "SMELLS", "IMMOBILE", "WARM", "POISON", "NO_BREATHE", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "IMMOBILE", "WARM", "POISON", "NO_BREATHE", "FILTHY" ],
+    "armor": { "electric": 1 }
   }
 ]

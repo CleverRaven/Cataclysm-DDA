@@ -82,7 +82,7 @@ void weapon_category::reset()
     weapon_category_factory.reset();
 }
 
-void weapon_category::load( const JsonObject &jo, const std::string & )
+void weapon_category::load( const JsonObject &jo, const std::string_view )
 {
     mandatory( jo, was_loaded, "name", name_ );
 }
@@ -140,26 +140,14 @@ class ma_skill_reader : public generic_typed_reader<ma_skill_reader>
 class ma_weapon_damage_reader : public generic_typed_reader<ma_weapon_damage_reader>
 {
     public:
-        std::map<std::string, damage_type> dt_map = get_dt_map();
-
-        std::pair<damage_type, int> get_next( const JsonObject &jo ) const {
-            std::string type = jo.get_string( "type" );
-            const auto iter = get_dt_map().find( type );
-            if( iter == get_dt_map().end() ) {
-                jo.throw_error( "Invalid damage type" );
-            }
-            const damage_type dt = iter->second;
-            return std::pair<damage_type, int>( dt, jo.get_int( "min" ) );
+        std::pair<damage_type_id, int> get_next( const JsonObject &jo ) const {
+            return std::pair<damage_type_id, int>( jo.get_string( "type" ), jo.get_int( "min" ) );
         }
         template<typename C>
         void erase_next( const JsonObject &jo, C &container ) const {
-            std::string type = jo.get_string( "type" );
-            const auto iter = get_dt_map().find( type );
-            if( iter == get_dt_map().end() ) {
-                jo.throw_error( "Invalid damage type" );
-            }
-            damage_type id = iter->second;
-            reader_detail::handler<C>().erase_if( container, [&id]( const std::pair<damage_type, int> &e ) {
+            damage_type_id id( jo.get_string( "type" ) );
+            reader_detail::handler<C>().erase_if( container,
+            [&id]( const std::pair<const damage_type_id, int> &e ) {
                 return e.first == id;
             } );
         }
@@ -189,7 +177,7 @@ class tech_effect_reader : public generic_typed_reader<tech_effect_reader>
         }
 };
 
-void ma_requirements::load( const JsonObject &jo, const std::string & )
+void ma_requirements::load( const JsonObject &jo, const std::string_view )
 {
     optional( jo, was_loaded, "unarmed_allowed", unarmed_allowed, false );
     optional( jo, was_loaded, "melee_allowed", melee_allowed, false );
@@ -292,7 +280,7 @@ bool string_id<ma_technique>::is_valid() const
     return ma_techniques.is_valid( *this );
 }
 
-void ma_buff::load( const JsonObject &jo, const std::string &src )
+void ma_buff::load( const JsonObject &jo, const std::string_view src )
 {
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "description", description );
@@ -727,15 +715,15 @@ std::string ma_requirements::get_description( bool buff ) const
     }
 
     if( std::any_of( min_damage.begin(),
-    min_damage.end(), []( const std::pair<damage_type, int>  &pr ) {
+    min_damage.end(), []( const std::pair<const damage_type_id, int>  &pr ) {
     return pr.second > 0;
 } ) ) {
         dump += n_gettext( "<bold>Damage type required: </bold>",
                            "<bold>Damage types required: </bold>", min_damage.size() );
 
         dump += enumerate_as_string( min_damage.begin(),
-        min_damage.end(), []( const std::pair<damage_type, int>  &pr ) {
-            return string_format( _( "%s: <stat>%d</stat>" ), name_by_dt( pr.first ), pr.second );
+        min_damage.end(), []( const std::pair<const damage_type_id, int>  &pr ) {
+            return string_format( _( "%s: <stat>%d</stat>" ), pr.first->name.translated(), pr.second );
         }, enumeration_conjunction::none ) + "\n";
     }
 
@@ -911,7 +899,7 @@ int ma_buff::block_bonus( const Character &u ) const
 {
     return bonuses.get_flat( u, affected_stat::BLOCK );
 }
-int ma_buff::arpen_bonus( const Character &u, damage_type dt ) const
+int ma_buff::arpen_bonus( const Character &u, const damage_type_id &dt ) const
 {
     return bonuses.get_flat( u, affected_stat::ARMOR_PENETRATION, dt );
 }
@@ -923,15 +911,15 @@ int ma_buff::speed_bonus( const Character &u ) const
 {
     return bonuses.get_flat( u, affected_stat::SPEED );
 }
-int ma_buff::armor_bonus( const Character &guy, damage_type dt ) const
+int ma_buff::armor_bonus( const Character &guy, const damage_type_id &dt ) const
 {
     return bonuses.get_flat( guy, affected_stat::ARMOR, dt );
 }
-float ma_buff::damage_bonus( const Character &u, damage_type dt ) const
+float ma_buff::damage_bonus( const Character &u, const damage_type_id &dt ) const
 {
     return bonuses.get_flat( u, affected_stat::DAMAGE, dt );
 }
-float ma_buff::damage_mult( const Character &u, damage_type dt ) const
+float ma_buff::damage_mult( const Character &u, const damage_type_id &dt ) const
 {
     return bonuses.get_mult( u, affected_stat::DAMAGE, dt );
 }
@@ -1633,7 +1621,7 @@ int Character::mabuff_speed_bonus() const
     } );
     return ret;
 }
-int Character::mabuff_arpen_bonus( damage_type type ) const
+int Character::mabuff_arpen_bonus( const damage_type_id &type ) const
 {
     int ret = 0;
     accumulate_ma_buff_effects( *effects, [&ret, type, this]( const ma_buff & b, const effect & d ) {
@@ -1641,7 +1629,7 @@ int Character::mabuff_arpen_bonus( damage_type type ) const
     } );
     return ret;
 }
-int Character::mabuff_armor_bonus( damage_type type ) const
+int Character::mabuff_armor_bonus( const damage_type_id &type ) const
 {
     int ret = 0;
     accumulate_ma_buff_effects( *effects, [&ret, type, this]( const ma_buff & b, const effect & d ) {
@@ -1649,7 +1637,7 @@ int Character::mabuff_armor_bonus( damage_type type ) const
     } );
     return ret;
 }
-float Character::mabuff_damage_mult( damage_type type ) const
+float Character::mabuff_damage_mult( const damage_type_id &type ) const
 {
     float ret = 1.f;
     accumulate_ma_buff_effects( *effects, [&ret, type, this]( const ma_buff & b, const effect & d ) {
@@ -1659,7 +1647,7 @@ float Character::mabuff_damage_mult( damage_type type ) const
     } );
     return ret;
 }
-int Character::mabuff_damage_bonus( damage_type type ) const
+int Character::mabuff_damage_bonus( const damage_type_id &type ) const
 {
     int ret = 0;
     accumulate_ma_buff_effects( *effects, [&ret, type, this]( const ma_buff & b, const effect & d ) {
@@ -1787,12 +1775,12 @@ void character_martial_arts::martialart_use_message( const Character &owner ) co
     }
 }
 
-float ma_technique::damage_bonus( const Character &u, damage_type type ) const
+float ma_technique::damage_bonus( const Character &u, const damage_type_id &type ) const
 {
     return bonuses.get_flat( u, affected_stat::DAMAGE, type );
 }
 
-float ma_technique::damage_multiplier( const Character &u, damage_type type ) const
+float ma_technique::damage_multiplier( const Character &u, const damage_type_id &type ) const
 {
     return bonuses.get_mult( u, affected_stat::DAMAGE, type );
 }
@@ -1807,7 +1795,7 @@ float ma_technique::move_cost_penalty( const Character &u ) const
     return bonuses.get_flat( u, affected_stat::MOVE_COST );
 }
 
-float ma_technique::armor_penetration( const Character &u, damage_type type ) const
+float ma_technique::armor_penetration( const Character &u, const damage_type_id &type ) const
 {
     return bonuses.get_flat( u, affected_stat::ARMOR_PENETRATION, type );
 }

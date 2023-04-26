@@ -326,9 +326,9 @@ inline bool assign( const JsonObject &jo, const std::string_view name, std::opti
 constexpr float float_max = std::numeric_limits<float>::max();
 
 bool assign(
-    const JsonObject &jo, const std::string &name, damage_instance &val, bool strict = false,
-    const damage_instance &lo = damage_instance( damage_type::NONE, 0.0f, 0.0f, 0.0f, 0.0f ),
+    const JsonObject &jo, std::string_view name, damage_instance &val, bool strict = false,
+    const damage_instance &lo = damage_instance( damage_type_id::NULL_ID(), 0.0f, 0.0f, 0.0f, 0.0f ),
     const damage_instance &hi = damage_instance(
-                                    damage_type::NONE, float_max, float_max, float_max, float_max ) );
+                                    damage_type_id::NULL_ID(), float_max, float_max, float_max, float_max ) );
 
 #endif // CATA_SRC_ASSIGN_H

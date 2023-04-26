@@ -365,7 +365,7 @@ bool perform_liquid_transfer( item &liquid, const tripoint *const source_pos,
     map &here = get_map();
     switch( target.dest_opt ) {
         case LD_CONSUME:
-            player_character.assign_activity( player_activity( consume_activity_actor( liquid ) ) );
+            player_character.assign_activity( consume_activity_actor( liquid ) );
             liquid.charges--;
             return true;
         case LD_ITEM: {

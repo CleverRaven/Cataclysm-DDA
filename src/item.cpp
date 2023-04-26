@@ -126,6 +126,13 @@ static const bionic_id bio_digestion( "bio_digestion" );
 
 static const bodygraph_id bodygraph_full_body_iteminfo( "full_body_iteminfo" );
 
+static const damage_type_id damage_acid( "acid" );
+static const damage_type_id damage_bash( "bash" );
+static const damage_type_id damage_bullet( "bullet" );
+static const damage_type_id damage_cut( "cut" );
+static const damage_type_id damage_heat( "heat" );
+static const damage_type_id damage_stab( "stab" );
+
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_cig( "cig" );
 static const efftype_id effect_shakes( "shakes" );
@@ -1146,18 +1153,18 @@ item item::in_its_container( int qty ) const
                          type->default_container_sealed );
 }
 
-item item::in_container( const itype_id &cont, const int qty, const bool sealed ) const
+item item::in_container( const itype_id &cont, int qty, const bool sealed ) const
 {
     if( cont.is_null() ) {
         return *this;
     }
+
+    if( qty <= 0 ) {
+        qty = count();
+    }
     item container( cont, birthday() );
     if( container.is_container() ) {
-        if( count_by_charges() ) {
-            container.fill_with( *this, qty );
-        } else {
-            container.put_in( *this, item_pocket::pocket_type::CONTAINER );
-        }
+        container.fill_with( *this, qty );
         container.invlet = invlet;
         if( sealed ) {
             container.seal();
@@ -1608,7 +1615,7 @@ tripoint item::get_var( const std::string &name, const tripoint &default_value )
     }
     std::vector<std::string> values = string_split( it->second, ',' );
     cata_assert( values.size() == 3 );
-    auto convert_or_error = []( const std::string & s ) {
+    auto convert_or_error = []( const std::string_view s ) {
         ret_val<int> result = try_parse_integer<int>( s, false );
         if( result.success() ) {
             return result.value();
@@ -1993,7 +2000,7 @@ double item::effective_dps( const Character &guy, Creature &mon ) const
             temp_mon->deal_damage_handle_type( effect_source::empty(), dmg_unit, bp,
                                                cur_damage, total_pain );
             if( cur_damage > 0 ) {
-                dealt_dams.dealt_dams[ static_cast<int>( dmg_unit.type )] += cur_damage;
+                dealt_dams.dealt_dams[dmg_unit.type] += cur_damage;
             }
         }
         double damage_per_hit = dealt_dams.total_damage();
@@ -2020,7 +2027,7 @@ double item::effective_dps( const Character &guy, Creature &mon ) const
                 temp_rs_mon->deal_damage_handle_type( effect_source::empty(), dmg_unit, bp,
                                                       cur_damage, total_pain );
                 if( cur_damage > 0 ) {
-                    rs_dealt_dams.dealt_dams[ static_cast<int>( dmg_unit.type ) ] += cur_damage;
+                    rs_dealt_dams.dealt_dams[dmg_unit.type] += cur_damage;
                 }
             }
             double rs_damage_per_hit = rs_dealt_dams.total_damage();
@@ -3483,125 +3490,37 @@ void item::armor_protection_info( std::vector<iteminfo> &info, const iteminfo_qu
             info.emplace_back( "DESCRIPTION", string_format( "<bold>%s</bold>:", _( "Protection" ) ) );
         }
 
-        if( best_res.type_resist( damage_type::BASH ) >= 1 ) {
-            if( display_median ) {
-                info.emplace_back( bp_cat,
-                                   string_format( "%s%s <bad>%.2f</bad>, <color_c_yellow>%.2f</color>, <good>%.2f</good>", space,
-                                                  _( "Bash: " ), worst_res.type_resist( damage_type::BASH ),
-                                                  median_res.type_resist( damage_type::BASH ), best_res.type_resist( damage_type::BASH ) ), "",
-                                   iteminfo::no_flags );
-            } else if( percent_worst > 0 ) {
-                info.emplace_back( bp_cat, string_format( "%s%s <bad>%.2f</bad>, <good>%.2f</good>", space,
-                                   _( "Bash: " ), worst_res.type_resist( damage_type::BASH ),
-                                   best_res.type_resist( damage_type::BASH ) ), "",
-                                   iteminfo::no_flags );
-            } else {
-                info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Bash: " ) ), "",
-                                   iteminfo::is_decimal, best_res.type_resist( damage_type::BASH ) );
+        for( const damage_info_order &dio : damage_info_order::get_all(
+                 damage_info_order::info_type::PROT ) ) {
+            if( best_res.resist_vals.count( dio.dmg_type ) <= 0 ||
+                best_res.type_resist( dio.dmg_type ) < 1.0f ) {
+                continue;
             }
-            printed_any = true;
-        }
-        if( best_res.type_resist( damage_type::CUT ) >= 1 ) {
-            if( display_median ) {
-                info.emplace_back( bp_cat,
-                                   string_format( "%s%s <bad>%.2f</bad>, <color_c_yellow>%.2f</color>, <good>%.2f</good>", space,
-                                                  _( "Cut: " ), worst_res.type_resist( damage_type::CUT ),
-                                                  median_res.type_resist( damage_type::CUT ), best_res.type_resist( damage_type::CUT ) ), "",
-                                   iteminfo::no_flags );
-            } else if( percent_worst > 0 ) {
-                info.emplace_back( bp_cat, string_format( "%s%s <bad>%.2f</bad>, <good>%.2f</good>", space,
-                                   _( "Cut: " ), worst_res.type_resist( damage_type::CUT ),
-                                   best_res.type_resist( damage_type::CUT ) ), "",
-                                   iteminfo::no_flags );
-            } else {
-                info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Cut: " ) ), "",
-                                   iteminfo::is_decimal, best_res.type_resist( damage_type::CUT ) );
+            bool skipped_detailed = false;
+            if( dio.info_display == damage_info_order::info_disp::DETAILED ) {
+                if( display_median ) {
+                    info.emplace_back( bp_cat,
+                                       string_format( "%s%s:  <bad>%.2f</bad>, <color_c_yellow>%.2f</color>, <good>%.2f</good>", space,
+                                                      uppercase_first_letter( dio.dmg_type->name.translated() ), worst_res.type_resist( dio.dmg_type ),
+                                                      median_res.type_resist( dio.dmg_type ), best_res.type_resist( dio.dmg_type ) ), "",
+                                       iteminfo::no_flags );
+                    printed_any = true;
+                } else if( percent_worst > 0 ) {
+                    info.emplace_back( bp_cat, string_format( "%s%s:  <bad>%.2f</bad>, <good>%.2f</good>", space,
+                                       uppercase_first_letter( dio.dmg_type->name.translated() ),
+                                       worst_res.type_resist( dio.dmg_type ), best_res.type_resist( dio.dmg_type ) ), "",
+                                       iteminfo::no_flags );
+                    printed_any = true;
+                } else {
+                    skipped_detailed = true;
+                }
             }
-            printed_any = true;
-        }
-        if( best_res.type_resist( damage_type::BULLET ) >= 1 ) {
-            if( display_median ) {
-                info.emplace_back( bp_cat,
-                                   string_format( "%s%s <bad>%.2f</bad>, <color_c_yellow>%.2f</color>, <good>%.2f</good>", space,
-                                                  _( "Ballistic: " ), worst_res.type_resist( damage_type::BULLET ),
-                                                  median_res.type_resist( damage_type::BULLET ), best_res.type_resist( damage_type::BULLET ) ), "",
-                                   iteminfo::no_flags );
-            } else if( percent_worst > 0 ) {
-                info.emplace_back( bp_cat, string_format( "%s%s <bad>%.2f</bad>, <good>%.2f</good>", space,
-                                   _( "Ballistic: " ), worst_res.type_resist( damage_type::BULLET ),
-                                   best_res.type_resist( damage_type::BULLET ) ), "",
-                                   iteminfo::no_flags );
-            } else {
-                info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Ballistic: " ) ), "",
-                                   iteminfo::is_decimal, best_res.type_resist( damage_type::BULLET ) );
+            if( skipped_detailed || dio.info_display == damage_info_order::info_disp::BASIC ) {
+                info.emplace_back( bp_cat, string_format( "%s%s: ", space,
+                                   uppercase_first_letter( dio.dmg_type->name.translated() ) ), "",
+                                   iteminfo::is_decimal, best_res.type_resist( dio.dmg_type ) );
+                printed_any = true;
             }
-            printed_any = true;
-        }
-        if( best_res.type_resist( damage_type::COLD ) >= 1 ) {
-            if( display_median ) {
-                info.emplace_back( bp_cat,
-                                   string_format( "%s%s <bad>%.2f</bad>, <color_c_yellow>%.2f</color>, <good>%.2f</good>", space,
-                                                  _( "Endothermic: " ), worst_res.type_resist( damage_type::COLD ),
-                                                  median_res.type_resist( damage_type::COLD ), best_res.type_resist( damage_type::COLD ) ), "",
-                                   iteminfo::no_flags );
-            } else if( percent_worst > 0 ) {
-                info.emplace_back( bp_cat, string_format( "%s%s <bad>%.2f</bad>, <good>%.2f</good>", space,
-                                   _( "Endothermic: " ), worst_res.type_resist( damage_type::COLD ),
-                                   best_res.type_resist( damage_type::COLD ) ), "",
-                                   iteminfo::no_flags );
-            } else {
-                info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Endothermic: " ) ), "",
-                                   iteminfo::is_decimal, best_res.type_resist( damage_type::COLD ) );
-            }
-            printed_any = true;
-        }
-        if( best_res.type_resist( damage_type::BIOLOGICAL ) >= 1 ) {
-            if( display_median ) {
-                info.emplace_back( bp_cat,
-                                   string_format( "%s%s <bad>%.2f</bad>, <color_c_yellow>%.2f</color>, <good>%.2f</good>", space,
-                                                  _( "Biological: " ), worst_res.type_resist( damage_type::BIOLOGICAL ),
-                                                  median_res.type_resist( damage_type::BIOLOGICAL ),
-                                                  best_res.type_resist( damage_type::BIOLOGICAL ) ), "",
-                                   iteminfo::no_flags );
-            } else if( percent_worst > 0 ) {
-                info.emplace_back( bp_cat, string_format( "%s%s <bad>%.2f</bad>, <good>%.2f</good>", space,
-                                   _( "Biological: " ), worst_res.type_resist( damage_type::BIOLOGICAL ),
-                                   best_res.type_resist( damage_type::BIOLOGICAL ) ), "",
-                                   iteminfo::no_flags );
-            } else {
-                info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Biological: " ) ), "",
-                                   iteminfo::is_decimal, best_res.type_resist( damage_type::BIOLOGICAL ) );
-            }
-            printed_any = true;
-        }
-        if( best_res.type_resist( damage_type::ELECTRIC ) >= 1 ) {
-            if( display_median ) {
-                info.emplace_back( bp_cat,
-                                   string_format( "%s%s <bad>%.2f</bad>, <color_c_yellow>%.2f</color>, <good>%.2f</good>", space,
-                                                  _( "Electrical: " ), worst_res.type_resist( damage_type::ELECTRIC ),
-                                                  median_res.type_resist( damage_type::ELECTRIC ), best_res.type_resist( damage_type::ELECTRIC ) ),
-                                   "",
-                                   iteminfo::no_flags );
-            } else if( percent_worst > 0 ) {
-                info.emplace_back( bp_cat, string_format( "%s%s <bad>%.2f</bad>, <good>%.2f</good>", space,
-                                   _( "Electrical: " ), worst_res.type_resist( damage_type::ELECTRIC ),
-                                   best_res.type_resist( damage_type::ELECTRIC ) ), "",
-                                   iteminfo::no_flags );
-            } else {
-                info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Electrical: " ) ), "",
-                                   iteminfo::is_decimal, best_res.type_resist( damage_type::ELECTRIC ) );
-            }
-            printed_any = true;
-        }
-        if( best_res.type_resist( damage_type::ACID ) >= 1 ) {
-            info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Acid: " ) ), "",
-                               iteminfo::is_decimal, best_res.type_resist( damage_type::ACID ) );
-            printed_any = true;
-        }
-        if( best_res.type_resist( damage_type::HEAT ) >= 1 ) {
-            info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Fire: " ) ), "",
-                               iteminfo::is_decimal, best_res.type_resist( damage_type::HEAT ) );
-            printed_any = true;
         }
         if( get_base_env_resist( *this ) >= 1 ) {
             info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Environmental: " ) ),
@@ -3617,10 +3536,10 @@ void item::armor_protection_info( std::vector<iteminfo> &info, const iteminfo_qu
                                _( "Protection when active" ) ) );
             info.emplace_back( bp_cat, space + _( "Acid: " ), "",
                                iteminfo::no_newline | iteminfo::is_decimal,
-                               resist( damage_type::ACID, false, sbp, get_base_env_resist_w_filter() ) );
+                               resist( damage_acid, false, sbp, get_base_env_resist_w_filter() ) );
             info.emplace_back( bp_cat, space + _( "Fire: " ), "",
                                iteminfo::no_newline | iteminfo::is_decimal,
-                               resist( damage_type::HEAT, false, sbp, get_base_env_resist_w_filter() ) );
+                               resist( damage_heat, false, sbp, get_base_env_resist_w_filter() ) );
             info.emplace_back( bp_cat, space + _( "Environmental: " ),
                                get_env_resist( get_base_env_resist_w_filter() ) );
         }
@@ -3686,16 +3605,14 @@ void item::pet_armor_protection_info( std::vector<iteminfo> &info,
         const std::string space = "  ";
 
         info.emplace_back( "ARMOR", _( "<bold>Protection</bold>:" ), "" );
-        info.emplace_back( "ARMOR", space + _( "Bash: " ), "",
-                           iteminfo::is_decimal, resist( damage_type::BASH ) );
-        info.emplace_back( "ARMOR", space + _( "Cut: " ), "",
-                           iteminfo::is_decimal, resist( damage_type::CUT ) );
-        info.emplace_back( "ARMOR", space + _( "Ballistic: " ), "", iteminfo::is_decimal,
-                           resist( damage_type::BULLET ) );
-        info.emplace_back( "ARMOR", space + _( "Acid: " ), "",
-                           iteminfo::is_decimal, resist( damage_type::ACID ) );
-        info.emplace_back( "ARMOR", space + _( "Fire: " ), "",
-                           iteminfo::is_decimal, resist( damage_type::HEAT ) );
+
+        for( const damage_info_order &dio : damage_info_order::get_all(
+                 damage_info_order::info_type::PET ) ) {
+            info.emplace_back( "ARMOR", string_format( "%s%s: ", space,
+                               uppercase_first_letter( dio.dmg_type->name.translated() ) ), "",
+                               iteminfo::is_decimal, resist( dio.dmg_type ) );
+        }
+
         info.emplace_back( "ARMOR", space + _( "Environmental: " ),
                            get_base_env_resist( *this ) );
 
@@ -4843,7 +4760,7 @@ void item::enchantment_info( std::vector<iteminfo> &info, const iteminfo_query *
         enchantment_info_helper( *this, enchantment::has::WIELD, always, active, inactive );
         if( !always.empty() || !active.empty() || !inactive.empty() ) {
             info.emplace_back( "DESCRIPTION",
-                               string_format( _( "When <bold>weilded</bold> this item provides:" ) ) );
+                               string_format( _( "When <bold>wielded</bold> this item provides:" ) ) );
             enchantment_info_printer( info, always, active, inactive );
         }
         always.clear();
@@ -5089,32 +5006,24 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         }
     }
 
-    if( !bid->bash_protec.empty() ) {
-        info.emplace_back( "DESCRIPTION",
-                           _( "<bold>Bash Protection</bold>:" ),
-                           iteminfo::no_newline );
-        for( const std::pair< bodypart_str_id, size_t > &element : sorted_lex( bid->bash_protec ) ) {
-            info.emplace_back( "CBM", " " + body_part_name_as_heading( element.first, 1 ),
-                               " <num>", iteminfo::no_newline, static_cast<double>( element.second ) );
+    for( const damage_info_order &dio : damage_info_order::get_all(
+             damage_info_order::info_type::BIO ) ) {
+        std::map<bodypart_str_id, float> dt_protec;
+        for( const std::pair<const bodypart_str_id, resistances> &prot : bid->protec ) {
+            float res = prot.second.type_resist( dio.dmg_type );
+            if( res >= 0.f ) {
+                dt_protec.emplace( prot.first, res );
+            }
         }
-    }
-
-    if( !bid->cut_protec.empty() ) {
-        info.emplace_back( "DESCRIPTION",
-                           _( "<bold>Cut Protection</bold>:" ),
-                           iteminfo::no_newline );
-        for( const std::pair< bodypart_str_id, size_t > &element : sorted_lex( bid->cut_protec ) ) {
-            info.emplace_back( "CBM", " " + body_part_name_as_heading( element.first, 1 ),
-                               " <num>", iteminfo::no_newline, static_cast<double>( element.second ) );
-        }
-    }
-
-    if( !bid->bullet_protec.empty() ) {
-        info.emplace_back( "DESCRIPTION", _( "<bold>Ballistic Protection</bold>:" ),
-                           iteminfo::no_newline );
-        for( const std::pair< bodypart_str_id, size_t > &element : sorted_lex( bid->bullet_protec ) ) {
-            info.emplace_back( "CBM", " " + body_part_name_as_heading( element.first, 1 ),
-                               " <num>", iteminfo::no_newline, static_cast<double>( element.second ) );
+        if( !dt_protec.empty() ) {
+            //~ Type of protection (ex: "Bash Protection")
+            std::string label = string_format( _( "<bold>%s Protection</bold>:" ),
+                                               uppercase_first_letter( dio.dmg_type->name.translated() ) );
+            info.emplace_back( "DESCRIPTION", label, iteminfo::no_newline );
+            for( const std::pair<bodypart_str_id, float> &element : sorted_lex( dt_protec ) ) {
+                info.emplace_back( "CBM", " " + body_part_name_as_heading( element.first, 1 ),
+                                   " <num>", iteminfo::no_newline, element.second );
+            }
         }
     }
 
@@ -5160,32 +5069,34 @@ void item::melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query 
 {
     const std::string space = "  ";
 
-    int dmg_bash = damage_melee( damage_type::BASH );
-    int dmg_cut  = damage_melee( damage_type::CUT );
-    int dmg_stab = damage_melee( damage_type::STAB );
-
-    Character &player_character = get_player_character();
-
-    if( parts->test( iteminfo_parts::BASE_DAMAGE ) ) {
-        insert_separation_line( info );
-        std::string sep;
-        if( dmg_bash || dmg_cut || dmg_stab ) {
-            info.emplace_back( "BASE", _( "<bold>Melee damage</bold>: " ), "", iteminfo::no_newline );
-        }
-        if( dmg_bash ) {
-            info.emplace_back( "BASE", _( "Bash: " ), "", iteminfo::no_newline, dmg_bash );
-            sep = space;
-        }
-        if( dmg_cut ) {
-            info.emplace_back( "BASE", sep + _( "Cut: " ), "", iteminfo::no_newline, dmg_cut );
-            sep = space;
-        }
-        if( dmg_stab ) {
-            info.emplace_back( "BASE", sep + _( "Pierce: " ), "", iteminfo::no_newline, dmg_stab );
+    std::map<damage_type_id, int> dmg_types;
+    for( const damage_type &dt : damage_type::get_all() ) {
+        if( dt.physical && dt.melee_only ) {
+            int val = damage_melee( dt.id );
+            if( val ) {
+                dmg_types.emplace( dt.id, val );
+            }
         }
     }
 
-    if( dmg_bash || dmg_cut || dmg_stab ) {
+    Character &player_character = get_player_character();
+    if( parts->test( iteminfo_parts::BASE_DAMAGE ) ) {
+        insert_separation_line( info );
+        std::string sep;
+        if( !dmg_types.empty() ) {
+            info.emplace_back( "BASE", _( "<bold>Melee damage</bold>: " ), "", iteminfo::no_newline );
+        }
+        for( const auto &dmg_type : dmg_types ) {
+            if( !dmg_type.first->melee_only ) {
+                continue;
+            }
+            info.emplace_back( "BASE", sep + uppercase_first_letter( dmg_type.first->name.translated() ) + ": ",
+                               "", iteminfo::no_newline, dmg_type.second );
+            sep = space;
+        }
+    }
+
+    if( !dmg_types.empty() ) {
         int stam = 0;
         float stam_pct = 0.0f;
         std::map<std::string, double> dps_data;
@@ -5290,7 +5201,7 @@ void item::melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query 
 
     ///\EFFECT_MELEE >2 allows seeing melee damage stats on weapons
     if( ( player_character.get_skill_level( skill_melee ) >= 3 &&
-          ( dmg_bash || dmg_cut || dmg_stab || type->m_to_hit > 0 ) ) || debug_mode ) {
+          ( !dmg_types.empty() || type->m_to_hit > 0 ) ) || debug_mode ) {
         bodypart_id bp = bodypart_id( "torso" );
         damage_instance non_crit;
         player_character.roll_all_damage( false, non_crit, true, *this, "WEAPON", nullptr, bp );
@@ -5310,34 +5221,19 @@ void item::melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query 
                                               static_cast<int>( player_character.crit_chance( 100, 0, *this ) *
                                                       100 ) ) );
         }
-        // Bash damage
-        if( parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_BASH ) ) {
-            // NOTE: Using "BASE" instead of "DESCRIPTION", so numerical formatting will work
-            // (output.cpp:format_item_info does not interpolate <num> for DESCRIPTION info)
-            info.emplace_back( "BASE", _( "Bashing: " ), "<num>", iteminfo::no_newline,
-                               non_crit.type_damage( damage_type::BASH ) );
-            info.emplace_back( "BASE", space + _( "Critical bash: " ), "<num>", iteminfo::no_flags,
-                               crit.type_damage( damage_type::BASH ) );
-        }
-        // Cut damage
-        if( ( non_crit.type_damage( damage_type::CUT ) > 0.0f ||
-              crit.type_damage( damage_type::CUT ) > 0.0f )
-            && parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_CUT ) ) {
-
-            info.emplace_back( "BASE", _( "Cutting: " ), "<num>", iteminfo::no_newline,
-                               non_crit.type_damage( damage_type::CUT ) );
-            info.emplace_back( "BASE", space + _( "Critical cut: " ), "<num>", iteminfo::no_flags,
-                               crit.type_damage( damage_type::CUT ) );
-        }
-        // Pierce/stab damage
-        if( ( non_crit.type_damage( damage_type::STAB ) > 0.0f ||
-              crit.type_damage( damage_type::STAB ) > 0.0f )
-            && parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_PIERCE ) ) {
-
-            info.emplace_back( "BASE", _( "Piercing: " ), "<num>", iteminfo::no_newline,
-                               non_crit.type_damage( damage_type::STAB ) );
-            info.emplace_back( "BASE", space + _( "Critical pierce: " ), "<num>", iteminfo::no_flags,
-                               crit.type_damage( damage_type::STAB ) );
+        if( parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_TYPES ) ) {
+            for( const damage_info_order &dio : damage_info_order::get_all(
+                     damage_info_order::info_type::MELEE ) ) {
+                // NOTE: Using "BASE" instead of "DESCRIPTION", so numerical formatting will work
+                // (output.cpp:format_item_info does not interpolate <num> for DESCRIPTION info)
+                info.emplace_back( "BASE", string_format( "%s: ", uppercase_first_letter( dio.verb.translated() ) ),
+                                   "<num>", iteminfo::no_newline, non_crit.type_damage( dio.dmg_type ) );
+                //~ Label used in the melee damage section in the item info screen (ex: "  Critical bash: ")
+                //~ %1$s = a prepended space, %2$s = the name of the damage type (bash, cut, pierce, etc.)
+                info.emplace_back( "BASE", string_format( _( "%1$sCritical %2$s: " ), space,
+                                   dio.dmg_type->name.translated() ),
+                                   "<num>", iteminfo::no_flags, crit.type_damage( dio.dmg_type ) );
+            }
         }
         // Moves
         if( parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_MOVES ) ) {
@@ -5706,7 +5602,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
         const auto print_parts = [&info, &player_character](
                                      const std::vector<vpart_info> &vparts,
-                                     const std::string & install_where,
+                                     const std::string_view install_where,
                                      const std::function<bool( const vpart_info & )> &predicate
         ) {
             std::vector<std::string> result_parts;
@@ -7256,34 +7152,26 @@ int item::attack_time( const Character &you ) const
     return ret;
 }
 
-int item::damage_melee( damage_type dt ) const
+int item::damage_melee( const damage_type_id &dt ) const
 {
-    cata_assert( dt >= damage_type::NONE && dt < damage_type::NUM );
     if( is_null() ) {
         return 0;
     }
 
     // effectiveness is reduced by 10% per damage level
-    int res = type->melee[ static_cast<int>( dt )];
+    int res = 0;
+    if( type->melee.count( dt ) > 0 ) {
+        res = type->melee.at( dt );
+    }
     res -= res * damage_level() * 0.1;
 
     // apply type specific flags
-    switch( dt ) {
-        case damage_type::BASH:
-            if( has_flag( flag_REDUCED_BASHING ) ) {
-                res *= 0.5;
-            }
-            break;
-
-        case damage_type::CUT:
-        case damage_type::STAB:
-            if( has_flag( flag_DIAMOND ) ) {
-                res *= 1.3;
-            }
-            break;
-
-        default:
-            break;
+    // FIXME: Hardcoded damage types
+    if( dt == damage_bash && has_flag( flag_REDUCED_BASHING ) ) {
+        res *= 0.5;
+    }
+    if( dt->edged && has_flag( flag_DIAMOND ) ) {
+        res *= 1.3;
     }
 
     // consider any melee gunmods
@@ -7305,12 +7193,10 @@ damage_instance item::base_damage_melee() const
 {
     // TODO: Caching
     damage_instance ret;
-    for( size_t i = static_cast<size_t>( damage_type::NONE ) + 1;
-         i < static_cast<size_t>( damage_type::NUM ); i++ ) {
-        damage_type dt = static_cast<damage_type>( i );
-        int dam = damage_melee( dt );
+    for( const damage_type &dt : damage_type::get_all() ) {
+        int dam = damage_melee( dt.id );
         if( dam > 0 ) {
-            ret.add_damage( dt, dam );
+            ret.add_damage( dt.id, dam );
         }
     }
 
@@ -8055,14 +7941,15 @@ layer_level item::get_highest_layer( const sub_bodypart_id &sbp ) const
     return highest_layer;
 }
 
-item::cover_type item::get_cover_type( damage_type type )
+item::cover_type item::get_cover_type( const damage_type_id &type )
 {
     item::cover_type ctype = item::cover_type::COVER_DEFAULT;
-    if( type == damage_type::BULLET ) {
-        ctype = item::cover_type::COVER_RANGED;
-    } else if( type == damage_type::BASH || type == damage_type::CUT ||
-               type == damage_type::STAB ) {
-        ctype = item::cover_type::COVER_MELEE;
+    if( type->physical ) {
+        if( type->melee_only ) {
+            ctype = item::cover_type::COVER_MELEE;
+        } else {
+            ctype = item::cover_type::COVER_RANGED;
+        }
     }
     return ctype;
 }
@@ -8347,6 +8234,16 @@ bool item::is_maybe_melee_weapon() const
            my_cat_id == item_category_tools;
 }
 
+bool item::has_edged_damage() const
+{
+    for( const damage_type &dt : damage_type::get_all() ) {
+        if( dt.edged && is_melee( dt.id ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 bool item::count_by_charges() const
 {
     return type->count_by_charges();
@@ -8362,22 +8259,21 @@ bool item::craft_has_charges() const
     return count_by_charges() || ammo_types().empty();
 }
 
-float item::get_clothing_mod_val_for_damage_type( damage_type dmg_type ) const
+float item::get_clothing_mod_val_for_damage_type( const damage_type_id &dmg_type ) const
 {
-    switch( dmg_type ) {
-        case damage_type::BASH:
-            return get_clothing_mod_val( clothing_mod_type_bash );
-        case damage_type::CUT:
-            return get_clothing_mod_val( clothing_mod_type_cut );
-        case damage_type::BULLET:
-            return get_clothing_mod_val( clothing_mod_type_bullet );
-        case damage_type::HEAT:
-            return get_clothing_mod_val( clothing_mod_type_fire );
-        case damage_type::ACID:
-            return get_clothing_mod_val( clothing_mod_type_acid );
-        default:
-            return 0.0f; // No mods for other damage types
+    // FIXME: Hardcoded damage types
+    if( dmg_type == damage_bash ) {
+        return get_clothing_mod_val( clothing_mod_type_bash );
+    } else if( dmg_type == damage_cut ) {
+        return get_clothing_mod_val( clothing_mod_type_cut );
+    } else if( dmg_type == damage_bullet ) {
+        return get_clothing_mod_val( clothing_mod_type_bullet );
+    } else if( dmg_type == damage_heat ) {
+        return get_clothing_mod_val( clothing_mod_type_fire );
+    } else if( dmg_type == damage_acid ) {
+        return get_clothing_mod_val( clothing_mod_type_acid );
     }
+    return 0.0f; // No mods for other damage types
 }
 
 #if defined(_MSC_VER)
@@ -8385,21 +8281,13 @@ float item::get_clothing_mod_val_for_damage_type( damage_type dmg_type ) const
 #pragma optimize( "", off )
 #endif
 
-bool item::damage_type_none( damage_type dmg_type ) const
+bool item::damage_type_can_damage_items( const damage_type_id &dmg_type ) const
 {
-    return dmg_type == damage_type::NONE;
-}
-bool item::damage_type_invalid( damage_type dmg_type ) const
-{
-    return dmg_type >= damage_type::NUM;
-}
-bool item::damage_type_can_damage_items( damage_type dmg_type ) const
-{
-    return dmg_type >= damage_type::BASH;
+    return dmg_type->physical;
 }
 
 template<typename bodypart_target>
-float item::resist( const damage_type dmg_type, const bool to_self,
+float item::resist( const damage_type_id &dmg_type, const bool to_self,
                     const bodypart_target &bp,
                     const int resist_value ) const
 {
@@ -8407,12 +8295,12 @@ float item::resist( const damage_type dmg_type, const bool to_self,
         return 0.0f;
     }
 
-    if( damage_type_none( dmg_type ) ) {
+    if( dmg_type.is_null() ) {
         return 0.0f;
     }
 
-    if( damage_type_invalid( dmg_type ) ) {
-        debugmsg( "Invalid damage type: %d", dmg_type );
+    if( !dmg_type.is_valid() ) {
+        debugmsg( "Invalid damage type: %d", dmg_type.c_str() );
         return 0.0f;
     }
 
@@ -8428,25 +8316,23 @@ float item::resist( const damage_type dmg_type, const bool to_self,
     const float avg_thickness = bp_null ? get_thickness() : get_thickness( bp );
     return _resist( dmg_type, to_self, resist_value, bp_null, armor_mats, avg_thickness );
 }
-template float item::resist<bodypart_id>( const damage_type dmg_type, const bool to_self,
-        const bodypart_id &bp,
-        const int resist_value ) const;
-template float item::resist<sub_bodypart_id>( const damage_type dmg_type, const bool to_self,
-        const sub_bodypart_id &bp,
-        const int resist_value ) const;
+template float item::resist<bodypart_id>( const damage_type_id &dmg_type,
+        const bool to_self, const bodypart_id &bp, const int resist_value ) const;
+template float item::resist<sub_bodypart_id>( const damage_type_id &dmg_type,
+        const bool to_self, const sub_bodypart_id &bp, const int resist_value ) const;
 
-float item::_resist( const damage_type dmg_type, bool to_self, int resist_value,
+float item::_resist( const damage_type_id &dmg_type, bool to_self, int resist_value,
                      const bool bp_null,
                      const std::vector<const part_material *> &armor_mats,
                      const float avg_thickness ) const
 {
-    if( dmg_type == damage_type::STAB ) {
-        return 0.8f * _resist( damage_type::CUT, to_self, resist_value, bp_null, armor_mats,
-                               avg_thickness );
+    if( dmg_type->env ) {
+        return _environmental_resist( dmg_type, to_self, resist_value, bp_null, armor_mats );
     }
 
-    if( dmg_type == damage_type::ACID || dmg_type == damage_type::HEAT ) {
-        return _environmental_resist( dmg_type, to_self, resist_value, bp_null, armor_mats );
+    if( !dmg_type->derived_from.first.is_null() ) {
+        return dmg_type->derived_from.second * _resist( dmg_type->derived_from.first, to_self,
+                resist_value, bp_null, armor_mats, avg_thickness );
     }
 
     float resist = 0.0f;
@@ -8485,7 +8371,7 @@ float item::_resist( const damage_type dmg_type, bool to_self, int resist_value,
     return ( resist * avg_thickness + mod ) * damage_scale;
 }
 
-float item::_environmental_resist( const damage_type dmg_type, const bool to_self,
+float item::_environmental_resist( const damage_type_id &dmg_type, const bool to_self,
                                    int base_env_resist,
                                    const bool bp_null,
                                    const std::vector<const part_material *> &armor_mats ) const
@@ -9233,16 +9119,15 @@ bool item::is_ammo_container() const
 
 bool item::is_melee() const
 {
-    for( int idx = static_cast<int>( damage_type::NONE ) + 1;
-         idx != static_cast<int>( damage_type::NUM ); ++idx ) {
-        if( is_melee( static_cast<damage_type>( idx ) ) ) {
+    for( const damage_type &dt : damage_type::get_all() ) {
+        if( is_melee( dt.id ) ) {
             return true;
         }
     }
     return false;
 }
 
-bool item::is_melee( damage_type dt ) const
+bool item::is_melee( const damage_type_id &dt ) const
 {
     return damage_melee( dt ) > MELEE_STAT;
 }
@@ -10036,13 +9921,11 @@ skill_id item::melee_skill() const
     int hi = 0;
     skill_id res = skill_id::NULL_ID();
 
-    for( int idx = static_cast<int>( damage_type::NONE ) + 1;
-         idx != static_cast<int>( damage_type::NUM ); ++idx ) {
-        const int val = damage_melee( static_cast<damage_type>( idx ) );
-        const skill_id &sk = skill_by_dt( static_cast<damage_type>( idx ) );
-        if( val > hi && sk ) {
+    for( const damage_type &dt : damage_type::get_all() ) {
+        const int val = damage_melee( dt.id );
+        if( val > hi && !dt.skill.is_null() ) {
             hi = val;
-            res = sk;
+            res = dt.skill;
         }
     }
 
@@ -12177,7 +12060,7 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos, map &
     // body heat increases inventory temperature by 5 F (2.77 K) and insulation by 50%
     if( carried ) {
         insulation *= 1.5;
-        temp += units::from_kelvin( 2.77 );
+        temp += units::from_fahrenheit_delta( 5 );
     }
 
     time_point time = last_temp_check;
@@ -12189,19 +12072,19 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos, map &
 
         const weather_generator &wgen = get_weather().get_cur_weather_gen();
         const unsigned int seed = g->get_seed();
-        units::temperature local_mod = g->new_game ? 0_K : here.get_temperature_mod( pos );
 
-        units::temperature enviroment_mod;
+        units::temperature_delta temp_mod;
         // Toilets and vending machines will try to get the heat radiation and convection during mapgen and segfault.
         if( !g->new_game ) {
-            enviroment_mod = get_heat_radiation( pos );
-            enviroment_mod += get_convection_temperature( pos );
+            temp_mod = get_heat_radiation( pos );
+            temp_mod += get_convection_temperature( pos );
+            temp_mod += here.get_temperature_mod( pos );
         } else {
-            enviroment_mod = 0_K;
+            temp_mod = units::from_kelvin_delta( 0 );
         }
 
         if( carried ) {
-            local_mod += units::from_kelvin( 2.77 ); // body heat increases inventory temperature
+            temp_mod += units::from_fahrenheit_delta( 5 ); // body heat increases inventory temperature
         }
 
         // Process the past of this item in 1h chunks until there is less than 1h left.
@@ -12218,8 +12101,7 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos, map &
             } else {
                 env_temperature = AVERAGE_ANNUAL_TEMPERATURE;
             }
-            env_temperature += local_mod;
-            env_temperature += enviroment_mod;
+            env_temperature += temp_mod;
 
             switch( flag ) {
                 case temperature_flag::NORMAL:

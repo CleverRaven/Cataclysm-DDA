@@ -23,9 +23,6 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 8 } ],
     "dodge": 5,
-    "armor_bash": 6,
-    "armor_cut": 2,
-    "armor_bullet": 2,
     "luminance": 0,
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "harvest": "zombie_leather",
@@ -41,7 +38,8 @@
       "REVIVES",
       "FILTHY",
       "WATER_CAMOUFLAGE"
-    ]
+    ],
+    "armor": { "bash": 6, "cut": 2, "bullet": 2 }
   },
   {
     "id": "mon_zombie_dog",
@@ -67,14 +65,14 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "dodge": 1,
-    "armor_elec": 1,
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "vision_night": 4,
     "harvest": "zombie",
     "special_attacks": [ { "type": "bite", "attack_upper": false, "cooldown": 5 } ],
     "death_drops": "mon_dog_death_drops",
     "upgrades": { "half_life": 28, "into_group": "GROUP_ZOMBIE_DOG_UPGRADE" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ],
+    "armor": { "electric": 1 }
   },
   {
     "id": "mon_dog_zombie_cop",
@@ -99,10 +97,6 @@
     "melee_dice_sides": 5,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "dodge": 1,
-    "armor_bash": 6,
-    "armor_cut": 6,
-    "armor_bullet": 5,
-    "armor_elec": 1,
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_syn_armored" ],
     "vision_day": 50,
     "vision_night": 4,
@@ -110,7 +104,8 @@
     "special_attacks": [ { "type": "bite", "attack_upper": false, "cooldown": 5 } ],
     "death_drops": { "subtype": "collection", "groups": [ [ "dog_cop", 40 ] ], "//": "40% chance of an item from group dog_cop" },
     "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBIE_DOG_UPGRADE" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ],
+    "armor": { "bash": 6, "cut": 6, "bullet": 5, "electric": 1 }
   },
   {
     "id": "mon_dog_zombie_rot",
@@ -135,7 +130,6 @@
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "dodge": 1,
-    "armor_elec": 1,
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "bleed_rate": 50,
     "vision_day": 30,
@@ -144,7 +138,8 @@
     "special_attacks": [ { "type": "bite", "attack_upper": false, "cooldown": 2, "accuracy": 4, "infection_chance": 8 } ],
     "death_drops": "mon_dog_death_drops",
     "upgrades": { "half_life": 42, "into": "mon_dog_zombie_brute" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ],
+    "armor": { "electric": 1 }
   },
   {
     "id": "mon_zolf",
@@ -170,14 +165,14 @@
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "dodge": 2,
-    "armor_elec": 1,
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "vision_night": 5,
     "harvest": "zombie_fur",
     "special_attacks": [ [ "HOWL", 10 ], { "type": "bite", "attack_upper": false, "cooldown": 2, "accuracy": 4, "infection_chance": 8 } ],
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "upgrades": { "half_life": 42, "into_group": "GROUP_ZOLF_UPGRADE" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "KEENNOSE", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "KEENNOSE", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ],
+    "armor": { "electric": 1 }
   },
   {
     "id": "mon_zombear",
@@ -203,17 +198,14 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "dodge": 2,
-    "armor_bash": 2,
-    "armor_cut": 2,
-    "armor_bullet": 2,
-    "armor_elec": 2,
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "vision_day": 30,
     "vision_night": 5,
     "harvest": "zombie_fur",
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "upgrades": { "half_life": 42, "into_group": "GROUP_ZOMBEAR_UPGRADE" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ],
+    "armor": { "bash": 2, "cut": 2, "bullet": 2, "electric": 2 }
   },
   {
     "id": "mon_zombie_pig",
@@ -239,7 +231,6 @@
     "melee_dice_sides": 5,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "dodge": 1,
-    "armor_elec": 1,
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "vision_day": 50,
     "harvest": "zombie_leather",
@@ -248,7 +239,8 @@
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "upgrades": { "half_life": 50, "into_group": "GROUP_ZOMBIE_PIG_UPGRADE" },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "KEENNOSE", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ],
-    "//": "1d8->2d5, minor bonus over 1d9"
+    "//": "1d8->2d5, minor bonus over 1d9",
+    "armor": { "electric": 1 }
   },
   {
     "id": "mon_zombeaver",
@@ -274,13 +266,13 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "dodge": 2,
-    "armor_elec": 1,
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "vision_day": 30,
     "vision_night": 5,
     "harvest": "zombie_leather",
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY", "SWIMS" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY", "SWIMS" ],
+    "armor": { "electric": 1 }
   },
   {
     "id": "mon_zoose",
@@ -305,17 +297,14 @@
     "melee_dice": 3,
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "armor_bash": 6,
-    "armor_cut": 4,
-    "armor_bullet": 3,
-    "armor_elec": 2,
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "vision_day": 30,
     "vision_night": 5,
     "harvest": "zombie_leather",
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "upgrades": { "half_life": 42, "into_group": "GROUP_ZOOSE_UPGRADE" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ],
+    "armor": { "bash": 6, "cut": 4, "bullet": 3, "electric": 2 }
   },
   {
     "id": "mon_zougar",
@@ -341,8 +330,6 @@
     "melee_dice_sides": 5,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "dodge": 2,
-    "armor_bash": 1,
-    "armor_elec": 1,
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "vision_day": 30,
     "vision_night": 10,
@@ -363,7 +350,8 @@
       "NO_BREATHE",
       "REVIVES",
       "FILTHY"
-    ]
+    ],
+    "armor": { "bash": 1, "electric": 1 }
   },
   {
     "id": "mon_zombie_horse",
@@ -388,16 +376,14 @@
     "melee_dice": 3,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-    "armor_bash": 5,
-    "armor_cut": 1,
-    "armor_elec": 2,
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "vision_day": 30,
     "vision_night": 3,
     "harvest": "zombie_leather",
     "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK" ],
     "upgrades": { "half_life": 42, "into_group": "GROUP_ZOMBIE_HORSE_UPGRADE" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "BASHES", "NO_BREATHE", "REVIVES" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "BASHES", "NO_BREATHE", "REVIVES" ],
+    "armor": { "bash": 5, "cut": 1, "electric": 2 }
   },
   {
     "id": "mon_ziger",
@@ -408,13 +394,13 @@
     "volume": "150 L",
     "weight": "190 kg",
     "hp": 200,
-    "armor_elec": 2,
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "speed": 110,
     "attack_cost": 110,
     "symbol": "T",
     "melee_dice": 3,
-    "dodge": 0
+    "dodge": 0,
+    "armor": { "bash": 1, "electric": 2 }
   },
   {
     "id": "mon_zow",
@@ -439,16 +425,14 @@
     "melee_dice": 2,
     "melee_dice_sides": 10,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-    "armor_bash": 3,
-    "armor_cut": 3,
-    "armor_elec": 3,
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "vision_day": 30,
     "vision_night": 3,
     "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK" ],
     "death_drops": { "subtype": "collection", "groups": [ [ "cow", 25 ] ], "//": "25% chance of an item from group cow" },
     "harvest": "zombie_leather",
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ],
+    "armor": { "bash": 3, "cut": 3, "electric": 3 }
   },
   {
     "id": "mon_zombull",
@@ -473,10 +457,6 @@
     "melee_dice": 4,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-    "armor_bash": 6,
-    "armor_cut": 4,
-    "armor_bullet": 3,
-    "armor_elec": 4,
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "vision_day": 30,
     "vision_night": 3,
@@ -496,7 +476,8 @@
       "FILTHY",
       "PUSH_MON",
       "PUSH_VEH"
-    ]
+    ],
+    "armor": { "bash": 6, "cut": 4, "bullet": 3, "electric": 4 }
   },
   {
     "id": "mon_zllama",
@@ -568,13 +549,11 @@
     "melee_dice": 3,
     "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "armor_bash": 1,
-    "armor_cut": 3,
-    "armor_elec": 1,
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "vision_night": 15,
     "harvest": "zombie_leather",
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ],
+    "armor": { "bash": 1, "cut": 3, "electric": 1 }
   },
   {
     "id": "mon_zpider_mass",
@@ -599,10 +578,6 @@
     "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "dodge": 1,
-    "armor_cut": 3,
-    "armor_stab": 3,
-    "armor_bullet": 2,
-    "armor_elec": 1,
     "families": [ "prof_intro_biology" ],
     "vision_day": 5,
     "vision_night": 5,
@@ -622,7 +597,8 @@
       "REVIVES",
       "FILTHY",
       "INSECTICIDEPROOF"
-    ]
+    ],
+    "armor": { "cut": 3, "stab": 3, "bullet": 2, "electric": 1 }
   },
   {
     "id": "mon_zeindeer",
@@ -648,13 +624,11 @@
     "melee_dice": 4,
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "armor_bash": 5,
-    "armor_cut": 4,
-    "armor_elec": 1,
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "vision_night": 10,
     "harvest": "zombie_leather",
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ],
+    "armor": { "bash": 5, "cut": 4, "electric": 1 }
   },
   {
     "id": "mon_gastro_bufo",
@@ -678,9 +652,7 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "bash", "amount": 5 } ],
     "dodge": 2,
-    "armor_bash": 8,
-    "armor_cut": 2,
-    "armor_bullet": 1,
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_biochemistry" ],
     "vision_night": 7,
     "harvest": "zombie_acid",
     "path_settings": { "max_dist": 5 },
@@ -702,6 +674,7 @@
       "FILTHY",
       "ACIDPROOF",
       "ACID_BLOOD"
-    ]
+    ],
+    "armor": { "bash": 8, "cut": 2, "bullet": 1 }
   }
 ]
