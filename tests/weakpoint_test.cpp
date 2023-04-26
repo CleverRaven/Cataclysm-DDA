@@ -11,6 +11,10 @@
 #include "point.h"
 #include "type_id.h"
 
+static const damage_type_id damage_bash( "bash" );
+static const damage_type_id damage_bullet( "bullet" );
+static const damage_type_id damage_cut( "cut" );
+
 static const mtype_id debug_mon( "debug_mon" );
 static const mtype_id mon_test_weakpoint_mon( "mon_test_weakpoint_mon" );
 static const mtype_id mon_test_zombie_cop( "mon_test_zombie_cop" );
@@ -84,7 +88,7 @@ TEST_CASE( "weakpoint_basic", "[monster][weakpoint]" )
 {
     constexpr float epsilon = 0.225f;
     // Debug Monster has two weakpoints at 25% each, one leaves 0 armor the other 25 bullet armor, down from 100 bullet armor
-    weakpoint_report wr1 = damage_monster( debug_mon, damage_instance( damage_type::BULLET, 100.0f,
+    weakpoint_report wr1 = damage_monster( debug_mon, damage_instance( damage_bullet, 100.0f,
                                            0.0f ), 1000 );
     CHECK( wr1.PercHits( "the knee" ) == Approx( 0.25f ).epsilon( epsilon ) );
     CHECK( wr1.AveDam( "the knee" ) == Approx( 75.0f ).epsilon( epsilon ) ); // 25 armor
@@ -94,7 +98,7 @@ TEST_CASE( "weakpoint_basic", "[monster][weakpoint]" )
     CHECK( wr1.AveDam( "" ) == Approx( 0.0f ).epsilon( epsilon ) ); // Full 100 armor
 
     // With 25 ap, adjust no weakpoint and the knee damage
-    weakpoint_report wr2 = damage_monster( debug_mon, damage_instance( damage_type::BULLET, 100.0f,
+    weakpoint_report wr2 = damage_monster( debug_mon, damage_instance( damage_bullet, 100.0f,
                                            25.0f ), 1000 );
     CHECK( wr2.PercHits( "the knee" ) == Approx( 0.25f ).epsilon( epsilon ) );
     CHECK( wr2.AveDam( "the knee" ) == Approx( 100.0f ).epsilon( epsilon ) ); // 25 armor with 25 ap
@@ -104,7 +108,7 @@ TEST_CASE( "weakpoint_basic", "[monster][weakpoint]" )
     CHECK( wr2.AveDam( "" ) == Approx( 25.0f ).epsilon( epsilon ) ); // Full 100 armor with 25 ap
 
     // No cut armordebug_mon
-    weakpoint_report wr3 = damage_monster( debug_mon, damage_instance( damage_type::CUT, 100.0f,
+    weakpoint_report wr3 = damage_monster( debug_mon, damage_instance( damage_cut, 100.0f,
                                            0.0f ), 1000 );
     CHECK( wr3.PercHits( "the knee" ) == Approx( 0.25f ).epsilon( epsilon ) );
     CHECK( wr3.AveDam( "the knee" ) == Approx( 100.0f ).epsilon( epsilon ) );
@@ -169,7 +173,7 @@ TEST_CASE( "Check order of weakpoint set application", "[monster][weakpoint]" )
 TEST_CASE( "Check damage from weakpoint sets", "[monster][weakpoint]" )
 {
     GIVEN( "100 bullet damage, 0 armor penetration" ) {
-        weakpoint_report wr1 = damage_monster( mon_test_zombie_cop, damage_instance( damage_type::BULLET,
+        weakpoint_report wr1 = damage_monster( mon_test_zombie_cop, damage_instance( damage_bullet,
                                                100.0f, 0.0f ), 100000 );
         THEN( "Verify hits and damage" ) {
             CHECK( wr1.PercHits( "inline head" ) == Approx( 0.25f ).epsilon( 0.20f ) );
@@ -188,7 +192,7 @@ TEST_CASE( "Check damage from weakpoint sets", "[monster][weakpoint]" )
     }
 
     GIVEN( "100 bashing damage, 50 armor penetration" ) {
-        weakpoint_report wr1 = damage_monster( mon_test_zombie_cop, damage_instance( damage_type::BASH,
+        weakpoint_report wr1 = damage_monster( mon_test_zombie_cop, damage_instance( damage_bash,
                                                100.0f, 50.0f ), 100000 );
         THEN( "Verify hits and damage" ) {
             CHECK( wr1.PercHits( "inline head" ) == Approx( 0.25f ).epsilon( 0.20f ) );

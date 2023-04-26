@@ -1813,6 +1813,78 @@
   },
   {
     "type": "terrain",
+    "id": "t_beehive_natural",
+    "name": "bee hive",
+    "description": "A hive of bees located in a cavity inside a tree, swarming in and out at a feverish pace.  There's probably honey inside.",
+    "symbol": "h",
+    "color": [ "yellow" ],
+    "move_cost": 0,
+    "coverage": 10,
+    "flags": [ "FLAMMABLE_ASH", "NOITEM" ],
+    "examine_action": "harvest_ter",
+    "harvest_by_season": [ { "seasons": [ "summer", "autumn" ], "id": "beehive_harv" } ],
+    "transforms_into": "t_tree",
+    "emissions": [ "emit_bees" ],
+    "bash": {
+      "str_min": 2,
+      "str_max": 5,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_tree",
+      "items": [ { "item": "wax", "count": [ 10, 25 ] }, { "item": "honeycomb", "count": [ 3, 10 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_apiary",
+    "name": "apiary",
+    "description": "A man-made wooden box designed to hold honeybees and facilitate the care for a hive.  The modular construction allows for inspecting the bees and harvesting their bounty without destroying the hive completely.  This year's harvest should be ready by now.",
+    "symbol": "h",
+    "color": [ "yellow" ],
+    "move_cost": 1,
+    "coverage": 50,
+    "flags": [ "FLAMMABLE_ASH", "NOITEM" ],
+    "examine_action": "harvest_ter",
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "beehive_harv" } ],
+    "transforms_into": "t_apiary_empty",
+    "emissions": [ "emit_bees" ],
+    "bash": {
+      "str_min": 10,
+      "str_max": 15,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "wax", "count": [ 10, 25 ] },
+        { "item": "honeycomb", "count": [ 3, 10 ] },
+        { "item": "2x4", "count": [ 8, 10 ] },
+        { "item": "nail", "count": [ 12, 20 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_apiary_empty",
+    "name": "apiary",
+    "description": "A man-made wooden box designed to host honeybees and facilitate the care for a hive.  The modular construction allows for inspecting the bees and harvesting their bounty without destroying the hive completely.  It will be some time before this one is ready to harvest.",
+    "symbol": "h",
+    "color": [ "light_gray" ],
+    "move_cost": 1,
+    "coverage": 50,
+    "flags": [ "FLAMMABLE_ASH", "NOITEM" ],
+    "transforms_into": "t_apiary",
+    "emissions": [ "emit_bees" ],
+    "bash": {
+      "str_min": 10,
+      "str_max": 15,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "2x4", "count": [ 8, 10 ] }, { "item": "nail", "count": [ 12, 20 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_shrub",
     "name": "shrub",
     "description": "A small shrub.",

@@ -11,7 +11,6 @@
     "price": 23000,
     "price_postapoc": 2000,
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "iron", "wood" ],
     "symbol": "(",
     "color": "brown",
@@ -38,7 +37,8 @@
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "RELOAD_ONE" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "22": 19 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "22": 19 } } ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "blaze_sks",
@@ -53,7 +53,6 @@
     "price": 38000,
     "price_postapoc": 3500,
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "brown",
@@ -80,6 +79,7 @@
       [ "underbarrel", 1 ]
     ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "762": 10 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "762": 10 } } ],
+    "melee_damage": { "bash": 12 }
   }
 ]

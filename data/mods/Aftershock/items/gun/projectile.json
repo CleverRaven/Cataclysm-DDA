@@ -8,7 +8,6 @@
     "volume": "80 ml",
     "price": 0,
     "to_hit": -2,
-    "bashing": 3,
     "material": [ "superalloy", "plastic" ],
     "symbol": "(",
     "color": "magenta",
@@ -20,7 +19,8 @@
     "clip_size": 1,
     "reload": 200,
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT", "BIONIC_WEAPON", "TRADER_AVOID", "ZERO_WEIGHT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40": 1 } } ],
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "afs_rebar_rifle",
@@ -35,7 +35,6 @@
     "price": 550000,
     "price_postapoc": 50000,
     "to_hit": -3,
-    "bashing": 10,
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "brown",
@@ -50,6 +49,7 @@
     "reload": 1200,
     "valid_mod_locations": [ [ "grip", 1 ], [ "sling", 1 ], [ "stock", 1 ], [ "sights", 1 ], [ "rail mount", 1 ], [ "underbarrel mount", 1 ] ],
     "ammo_effects": [ "TRAIL" ],
-    "flags": [ "USE_UPS" ]
+    "flags": [ "USE_UPS" ],
+    "melee_damage": { "bash": 10 }
   }
 ]

@@ -1622,6 +1622,27 @@
     "display_field": false
   },
   {
+    "id": "fd_bee_swarm",
+    "type": "field_type",
+    "intensity_levels": [
+      { "name": "a few bees", "sym": ".", "dangerous": true, "translucency": 1 },
+      { "name": "a swarm of bees", "color": "yellow", "transparent": true, "translucency": 1 },
+      { "name": "a cloud of bees", "color": "green", "translucency": 0 }
+    ],
+    "decay_amount_factor": 5,
+    "gas_absorption_factor": 15,
+    "percent_spread": 25,
+    "outdoor_age_speedup": "10 minutes",
+    "dirty_transparency_cache": true,
+    "has_fume": true,
+    "immunity_data": { "body_part_env_resistance": [ [ "torso", 5 ] ] },
+    "priority": 3,
+    "half_life": "10 minute",
+    "phase": "gas",
+    "display_items": true,
+    "display_field": true
+  },
+  {
     "id": "fd_churned_earth",
     "type": "field_type",
     "intensity_levels": [ { "name": "churned earth", "sym": "^", "color": "brown", "dangerous": false } ],

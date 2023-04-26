@@ -10,12 +10,12 @@
     "price": 5000,
     "price_postapoc": 10,
     "to_hit": -4,
-    "bashing": 7,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
     "use_action": { "type": "deploy_furn", "furn_type": "f_brazier" },
-    "qualities": [ [ "COOK", 1 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "COOK", 1 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
+    "melee_damage": { "bash": 7 }
   },
   {
     "id": "hobo_stove",
@@ -62,12 +62,12 @@
     "price": 10000,
     "price_postapoc": 10,
     "to_hit": -5,
-    "bashing": 8,
     "looks_like": "55gal_drum",
     "material": [ "steel" ],
     "symbol": "0",
     "color": "light_gray",
-    "use_action": { "type": "deploy_furn", "furn_type": "f_55gal_firebarrel" }
+    "use_action": { "type": "deploy_furn", "furn_type": "f_55gal_firebarrel" },
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "30gal_firebarrel",
@@ -81,12 +81,12 @@
     "price": 5000,
     "price_postapoc": 10,
     "to_hit": -4,
-    "bashing": 7,
     "looks_like": "30gal_drum",
     "material": [ "steel" ],
     "symbol": "0",
     "color": "light_gray",
-    "use_action": { "type": "deploy_furn", "furn_type": "f_30gal_firebarrel" }
+    "use_action": { "type": "deploy_furn", "furn_type": "f_30gal_firebarrel" },
+    "melee_damage": { "bash": 7 }
   },
   {
     "id": "camp_chair",
@@ -152,12 +152,12 @@
     "price": 5000,
     "price_postapoc": 100,
     "to_hit": -3,
-    "bashing": 3,
     "looks_like": "directional_antenna",
     "material": [ "steel" ],
     "symbol": "i",
     "color": "light_gray",
-    "use_action": { "type": "deploy_furn", "furn_type": "f_xedra_antenna" }
+    "use_action": { "type": "deploy_furn", "furn_type": "f_xedra_antenna" },
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "cot",
@@ -170,7 +170,6 @@
     "price": 7500,
     "price_postapoc": 500,
     "to_hit": -1,
-    "bashing": 6,
     "material": [ "aluminum", "cotton" ],
     "symbol": ";",
     "color": "green",
@@ -182,7 +181,8 @@
       "practice": 0,
       "done_message": "You unfold the cot and place it on the ground."
     },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE" ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "metal_butcher_rack",
@@ -195,11 +195,11 @@
     "price": 5000,
     "price_postapoc": 250,
     "to_hit": -4,
-    "bashing": 7,
     "material": [ "steel" ],
     "symbol": "=",
     "color": "light_gray",
-    "use_action": { "type": "deploy_furn", "furn_type": "f_metal_butcher_rack" }
+    "use_action": { "type": "deploy_furn", "furn_type": "f_metal_butcher_rack" },
+    "melee_damage": { "bash": 7 }
   },
   {
     "id": "metal_smoking_rack",
@@ -212,11 +212,11 @@
     "price": 5000,
     "price_postapoc": 750,
     "to_hit": -4,
-    "bashing": 7,
     "material": [ "steel" ],
     "symbol": "=",
     "color": "light_gray",
-    "use_action": { "type": "deploy_furn", "furn_type": "f_metal_smoking_rack" }
+    "use_action": { "type": "deploy_furn", "furn_type": "f_metal_smoking_rack" },
+    "melee_damage": { "bash": 7 }
   },
   {
     "id": "tourist_table",
@@ -230,11 +230,11 @@
     "price": 5000,
     "price_postapoc": 100,
     "to_hit": -3,
-    "bashing": 5,
     "material": [ "steel" ],
     "symbol": "=",
     "color": "light_gray",
-    "use_action": { "type": "deploy_furn", "furn_type": "f_tourist_table" }
+    "use_action": { "type": "deploy_furn", "furn_type": "f_tourist_table" },
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "leather_tarp",
@@ -246,12 +246,12 @@
     "price": 5000,
     "price_postapoc": 500,
     "to_hit": -3,
-    "bashing": 2,
     "material": [ "leather" ],
     "qualities": [ [ "SURFACE", 3 ] ],
     "symbol": "*",
     "color": "brown",
-    "use_action": { "type": "deploy_furn", "furn_type": "f_leather_tarp" }
+    "use_action": { "type": "deploy_furn", "furn_type": "f_leather_tarp" },
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "fiber_mat",
@@ -263,12 +263,12 @@
     "price": 1000,
     "price_postapoc": 100,
     "to_hit": -3,
-    "bashing": 1,
     "material": [ "veggy" ],
     "qualities": [ [ "SURFACE", 3 ] ],
     "symbol": "*",
     "color": "yellow",
-    "use_action": { "type": "deploy_furn", "furn_type": "f_fiber_mat" }
+    "use_action": { "type": "deploy_furn", "furn_type": "f_fiber_mat" },
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "churn",
@@ -280,12 +280,12 @@
     "price": 5000,
     "price_postapoc": 1000,
     "to_hit": -4,
-    "bashing": 7,
     "material": [ "wood" ],
     "looks_like": "f_wood_keg",
     "symbol": "u",
     "color": "light_gray",
-    "use_action": { "type": "deploy_furn", "furn_type": "f_butter_churn" }
+    "use_action": { "type": "deploy_furn", "furn_type": "f_butter_churn" },
+    "melee_damage": { "bash": 7 }
   },
   {
     "id": "water_mill",
@@ -298,11 +298,11 @@
     "price": 100000,
     "price_postapoc": 1500,
     "to_hit": -5,
-    "bashing": 40,
     "material": [ "wood" ],
     "symbol": "*",
     "color": "red",
-    "flags": [ "DURABLE_MELEE" ]
+    "flags": [ "DURABLE_MELEE" ],
+    "melee_damage": { "bash": 40 }
   },
   {
     "id": "wind_mill",
@@ -315,11 +315,11 @@
     "price": 100000,
     "price_postapoc": 1500,
     "to_hit": -5,
-    "bashing": 40,
     "material": [ "steel" ],
     "symbol": "T",
     "color": "red",
-    "flags": [ "DURABLE_MELEE" ]
+    "flags": [ "DURABLE_MELEE" ],
+    "melee_damage": { "bash": 40 }
   },
   {
     "id": "screw_press_tool",
@@ -332,11 +332,11 @@
     "price": 100000,
     "price_postapoc": 1500,
     "to_hit": -5,
-    "bashing": 40,
     "material": [ "wood" ],
     "symbol": "T",
     "color": "red",
-    "flags": [ "DURABLE_MELEE" ]
+    "flags": [ "DURABLE_MELEE" ],
+    "melee_damage": { "bash": 40 }
   },
   {
     "id": "beverly_shear",
@@ -350,11 +350,11 @@
     "price": 10000,
     "price_postapoc": 1500,
     "to_hit": -5,
-    "bashing": 8,
     "material": [ "steel" ],
     "symbol": "7",
     "color": "yellow_red",
-    "use_action": { "type": "deploy_furn", "furn_type": "f_beverly_shear" }
+    "use_action": { "type": "deploy_furn", "furn_type": "f_beverly_shear" },
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "manual_tire_changer",
@@ -368,10 +368,10 @@
     "price": 10000,
     "price_postapoc": 1500,
     "to_hit": -10,
-    "bashing": 8,
     "material": [ "steel" ],
     "symbol": "7",
     "color": "yellow_red",
-    "use_action": { "type": "deploy_furn", "furn_type": "f_manual_tire_changer" }
+    "use_action": { "type": "deploy_furn", "furn_type": "f_manual_tire_changer" },
+    "melee_damage": { "bash": 8 }
   }
 ]

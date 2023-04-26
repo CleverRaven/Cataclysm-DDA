@@ -12,13 +12,12 @@
 #include <utility>
 #include <vector>
 
+#include "damage.h"
 #include "fire.h"
 #include "translations.h"
 #include "type_id.h"
 
 class material_type;
-
-enum class damage_type : int;
 class JsonObject;
 
 using mat_burn_products = std::vector<std::pair<itype_id, float>>;
@@ -79,7 +78,8 @@ class material_type
         translation _name;
         std::optional<itype_id> _salvaged_into; // this material turns into this item when salvaged
         itype_id _repaired_with = itype_id( "null" ); // this material can be repaired with this item
-        std::map<damage_type, float> _resistances;   // negative integers means susceptibility
+        resistances _resistances; // negative integers means susceptibility
+        std::vector<damage_type_id> _res_was_loaded;  // for checking mandatory resistances
         int _chip_resist = 0;                         // Resistance to physical damage of the item itself
         float _density = 1;                             // relative to "powder", which is 1
         // ability of a fabric to allow moisture vapor to be transmitted through the material
@@ -115,7 +115,9 @@ class material_type
     public:
         material_type();
 
-        void load( const JsonObject &jsobj, const std::string &src );
+        void load( const JsonObject &jsobj, std::string_view src );
+        static void finalize_all();
+        void finalize();
         void check() const;
 
         material_id ident() const;
@@ -129,7 +131,7 @@ class material_type
          */
         std::optional<itype_id> salvaged_into() const;
         itype_id repaired_with() const;
-        float resist( damage_type dmg_type ) const;
+        float resist( const damage_type_id &dmg_type ) const;
         std::string bash_dmg_verb() const;
         std::string cut_dmg_verb() const;
         std::string dmg_adj( int damage ) const;

@@ -46,10 +46,10 @@
     "color": "light_cyan",
     "symbol": ",",
     "material": [ "steel", "plastic" ],
-    "bashing": 4,
     "price": 40000,
     "price_postapoc": 250,
-    "copy-from": "car_headlight"
+    "copy-from": "car_headlight",
+    "melee_damage": { "bash": 4 }
   },
   {
     "type": "GENERIC",
@@ -69,10 +69,10 @@
     "to_hit": 1,
     "color": "red",
     "material": [ "plastic", "steel" ],
-    "bashing": 1,
     "price": 40000,
     "price_postapoc": 100,
-    "copy-from": "car_headlight"
+    "copy-from": "car_headlight",
+    "melee_damage": { "bash": 1 }
   },
   {
     "type": "GENERIC",
@@ -91,10 +91,10 @@
     "to_hit": 1,
     "material": [ "plastic", "steel" ],
     "volume": "2 L",
-    "bashing": 5,
     "price": 90000,
     "price_postapoc": 1500,
-    "copy-from": "car_headlight"
+    "copy-from": "car_headlight",
+    "melee_damage": { "bash": 5 }
   },
   {
     "type": "GENERIC",

@@ -67,7 +67,7 @@ memorial_log_entry::memorial_log_entry( const std::string &preformatted_msg ) :
 {}
 
 memorial_log_entry::memorial_log_entry( time_point time, const oter_type_str_id &oter_id,
-                                        const std::string &oter_name, const std::string &msg ) :
+                                        std::string_view oter_name, std::string_view msg ) :
     time_( time ), oter_id_( oter_id ), oter_name_( oter_name ), message_( msg )
 {}
 
@@ -115,11 +115,11 @@ void memorial_logger::clear()
  * the character dies. The message should contain only the informational string,
  * as the timestamp and location will be automatically prepended.
  */
-void memorial_logger::add( const std::string &male_msg,
-                           const std::string &female_msg )
+void memorial_logger::add( const std::string_view male_msg,
+                           const std::string_view female_msg )
 {
     Character &player_character = get_player_character();
-    const std::string &msg = player_character.male ? male_msg : female_msg;
+    const std::string_view msg = player_character.male ? male_msg : female_msg;
 
     if( msg.empty() ) {
         return;
@@ -246,7 +246,7 @@ void memorial_logger::write_text_memorial( std::ostream &file,
     //HP
 
     const auto limb_hp =
-    [&file, &indent, &u]( const std::string & desc, const bodypart_id & bp ) {
+    [&file, &indent, &u]( const std::string_view desc, const bodypart_id & bp ) {
         file << indent <<
              string_format( desc, u.get_part_hp_cur( bp ), u.get_part_hp_max( bp ) ) << eol;
     };
@@ -1112,6 +1112,7 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::game_over:
         case event_type::game_save:
         case event_type::game_start:
+        case event_type::game_begin:
         case event_type::u_var_changed:
         case event_type::vehicle_moves:
             break;

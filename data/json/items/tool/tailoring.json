@@ -10,13 +10,12 @@
     "price": 300,
     "price_postapoc": 50,
     "to_hit": -1,
-    "bashing": 2,
-    "cutting": 5,
     "material": [ "bone" ],
     "symbol": ";",
     "color": "yellow",
     "qualities": [ [ "LEATHER_AWL", 1 ] ],
-    "flags": [ "SPEAR", "BELT_CLIP", "FRAGILE_MELEE" ]
+    "flags": [ "SPEAR", "BELT_CLIP", "FRAGILE_MELEE" ],
+    "melee_damage": { "bash": 2, "stab": 5 }
   },
   {
     "id": "awl_steel",
@@ -29,9 +28,9 @@
     "longest_side": "13 cm",
     "price": 800,
     "price_postapoc": 100,
-    "cutting": 10,
     "material": [ "steel", "wood" ],
-    "qualities": [ [ "LEATHER_AWL", 2 ] ]
+    "qualities": [ [ "LEATHER_AWL", 2 ] ],
+    "melee_damage": { "bash": 2, "cut": 10 }
   },
   {
     "id": "knitting_needles",
@@ -44,12 +43,12 @@
     "longest_side": "30 cm",
     "price": 600,
     "price_postapoc": 100,
-    "cutting": 1,
     "material": [ "wood" ],
     "symbol": ",",
     "color": "brown",
     "qualities": [ [ "KNIT", 1 ] ],
-    "flags": [ "STAB" ]
+    "flags": [  ],
+    "melee_damage": { "stab": 1 }
   },
   {
     "id": "loom_frame",
@@ -105,7 +104,7 @@
       "cost_scaling": 0.1,
       "move_cost": 1300
     },
-    "flags": [ "STAB", "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "needle_curved",
@@ -133,7 +132,7 @@
       "cost_scaling": 0.1,
       "move_cost": 1200
     },
-    "flags": [ "STAB", "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "needle_wood",
@@ -161,7 +160,7 @@
       "cost_scaling": 0.1,
       "move_cost": 1500
     },
-    "flags": [ "STAB", "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "needle_steel",
@@ -203,7 +202,7 @@
       "cost_scaling": 0.1,
       "move_cost": 1000
     },
-    "flags": [ "STAB", "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "sewing_kit",
@@ -256,10 +255,10 @@
     "volume": "250 ml",
     "price": 100,
     "price_postapoc": 50,
-    "bashing": 2,
     "material": [ "wood" ],
     "symbol": ";",
-    "color": "yellow"
+    "color": "yellow",
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "tanning_hide",
@@ -336,13 +335,13 @@
     "price": 3500,
     "price_postapoc": 350,
     "to_hit": -1,
-    "cutting": 10,
     "material": [ "steel", "plastic" ],
     "symbol": ",",
     "color": "yellow",
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 5 ], [ "FABRIC_CUT", 2 ] ],
-    "flags": [ "STAB", "BELT_CLIP", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
-    "weapon_category": [ "SHIVS" ]
+    "flags": [ "BELT_CLIP", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "weapon_category": [ "SHIVS" ],
+    "melee_damage": { "stab": 10 }
   },
   {
     "id": "electric_spinwheel",
@@ -357,7 +356,6 @@
     "price": 800,
     "price_postapoc": 50,
     "to_hit": -5,
-    "bashing": 2,
     "material": [ "plastic", "steel" ],
     "symbol": ";",
     "color": "light_gray",
@@ -369,7 +367,8 @@
         "flag_restriction": [ "BATTERY_MEDIUM" ],
         "default_magazine": "medium_battery_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "tailors_kit",
