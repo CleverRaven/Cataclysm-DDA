@@ -115,13 +115,7 @@
       { "proficiency": "prof_welding_basic", "time_multiplier": 3, "skill_penalty": -100 },
       { "proficiency": "prof_welding", "time_multiplier": 2, "skill_penalty": -100 }
     ],
-    "components": [
-      [ [ "fuse", 4  ] ],
-      [ [ "cable", 150 ] ],
-      [ [ "e_scrap", 1 ] ],
-      [ [ "antenna", 3 ] ],
-      [ [ "power_supply", 1 ] ]
-    ],
+    "components": [ [ [ "fuse", 4 ] ], [ [ "cable", 150 ] ], [ [ "e_scrap", 1 ] ], [ [ "antenna", 3 ] ], [ [ "power_supply", 1 ] ] ],
     "time": "18 h",
     "skill_used": "deduction",
     "difficulty": 7,
