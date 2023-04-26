@@ -170,11 +170,11 @@
   },
   {
     "type": "dream",
-    "messages": [ 
-    "You have a strange dream about crabs.", 
-    "Your dreams give you a strange shelled feeling.",
-    "You dream of grabbing something in an oversized claw."
-  ],
+    "messages": [
+      "You have a strange dream about crabs.",
+      "Your dreams give you a strange shelled feeling.",
+      "You dream of grabbing something in an oversized claw."
+    ],
     "category": "CRUSTACEAN",
     "strength": 1
   },
