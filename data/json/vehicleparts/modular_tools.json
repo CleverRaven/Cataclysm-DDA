@@ -106,10 +106,19 @@
       "cordless_drill",
       "water_purifier",
       "vac_sealer",
+      "makeshift_sealer",
       "food_processor",
       "press",
       "puller",
-      "soldering_iron"
+      "soldering_iron",
+      "wire_draw_machine",
+      "con_mix",
+      "vac_mold",
+      "makeshift_vacuum_mold",
+      "angle_grinder",
+      "elec_shears",
+      "elec_hairtrimmer",
+      "electric_spinwheel"
     ],
     "item": "veh_tools_abstract",
     "location": "center",
@@ -144,6 +153,10 @@
         "electrolysis_kit",
         "electrolyzer_makeshift",
         "dehydrator",
+        "closed_loop_extractor_small",
+        "closed_loop_extractor_large",
+        "vac_pump",
+        "vac_oven_small",
         "towel"
       ]
     }
@@ -156,6 +169,6 @@
     "looks_like": "welding_rig",
     "item": "veh_tools_workshop",
     "//": "allow tools here that require high power draw but no fume hood",
-    "extend": { "allowed_tools": [ "welding_kit", "welder" ] }
+    "extend": { "allowed_tools": [ "welding_kit", "welder", "welder_crude", "circsaw_off" ] }
   }
 ]
