@@ -2817,7 +2817,7 @@
     "visibility": 10,
     "ugliness": 8,
     "description": "Your body is covered with a thick, near impenetrable, vividly-colored carapace. It provides unmatched physical protection and even some protection from corrosive chemicals, but reduces your dexterity by 2 and encumbers all body parts except your eyes.  Greatly reduces wet effects.",
-    "types": [ "SKIN" ],
+    "types": [ "BODY_ARMOR" ],
     "prereqs": [ "CHITIN3" ],
     "category": [ "CRUSTACEAN" ],
     "leads_to": [ "CRUSTACEAN_CLAW" ],
