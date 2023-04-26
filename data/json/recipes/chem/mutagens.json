@@ -1311,7 +1311,7 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "mutagen_crab",
+    "result": "mutagen_crustacean",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
     "skill_used": "chemistry",
@@ -1333,7 +1333,7 @@
     "components": [
       [ [ "mutagen", 1 ] ],
       [ [ "chitin_piece", 1 ] ],
-      [ "crustacean_sample", 1 ],
+      [ ["crustacean_sample", 1 ]],
       [ [ "ammonia_liquid", 1 ], [ "lye_powder", 100 ] ]
     ],
     "flags": [ "SECRET" ]
@@ -1341,7 +1341,7 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "iv_mutagen_crab",
+    "result": "iv_mutagen_crustacean",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
     "skill_used": "chemistry",

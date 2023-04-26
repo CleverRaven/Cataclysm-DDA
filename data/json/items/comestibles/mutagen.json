@@ -778,7 +778,7 @@
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
     "name": { "str": "crustacean mutagen" },
-    "description": "a crustacean mutagen.",
+    "description": "A crustacean mutagen.",
     "looks_like": "mutagen",
     "color": "red",
     "use_action": {
