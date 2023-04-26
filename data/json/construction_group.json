@@ -476,6 +476,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_bee_hive",
+    "name": "Build An Apiary"
+  },
+  {
+    "type": "construction_group",
     "id": "build_plastic_window",
     "name": "Build Plastic Window"
   },

@@ -303,6 +303,9 @@
     "entries": [
       { "item": "300_winmag", "prob": 40 },
       { "item": "3006fmj", "prob": 50 },
+      { "item": "303_bthp", "prob": 30 },
+      { "item": "303_sp", "prob": 25 },
+      { "item": "303_fmjbt", "prob": 25 },
       { "item": "223", "prob": 74 },
       { "item": "556", "prob": 25 },
       { "item": "556_m855a1", "prob": 1 },
@@ -332,6 +335,9 @@
     "entries": [
       { "item": "300_winmag", "prob": 40 },
       { "item": "3006fmj", "prob": 50 },
+      { "item": "303_bthp", "prob": 30 },
+      { "item": "303_sp", "prob": 25 },
+      { "item": "303_fmjbt", "prob": 25 },
       { "item": "556", "prob": 75 },
       { "item": "762_51", "prob": 75 },
       { "item": "4570_sp", "prob": 40 },
@@ -451,7 +457,10 @@
       { "item": "reloaded_50beowulf_penetrator", "prob": 5 },
       { "item": "reloaded_450_ftx", "prob": 10 },
       { "item": "reloaded_450_penetrator", "prob": 5 },
-      { "item": "reloaded_338lapua_hpbt", "prob": 5 }
+      { "item": "reloaded_338lapua_hpbt", "prob": 5 },
+      { "item": "reloaded_303", "prob": 20 },
+      { "item": "reloaded_303sp", "prob": 5 },
+      { "item": "reloaded_303fmj", "prob": 5 }
     ]
   },
   {
