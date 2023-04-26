@@ -244,7 +244,7 @@ std::vector<std::string> find_file_if_bfs( const std::string &root_path,
     std::vector<std::string> results;
 
     while( !directories.empty() ) {
-        const fs::path path = std::move( directories.front() );
+        const fs::path path = fs::u8path( directories.front() );
         directories.pop_front();
 
         const std::ptrdiff_t n_dirs    = static_cast<std::ptrdiff_t>( directories.size() );

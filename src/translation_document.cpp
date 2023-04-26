@@ -67,7 +67,7 @@ TranslationDocument::TranslationDocument( const std::string &path )
     if( !fin ) {
         throw InvalidTranslationDocumentException( path, "unable to read the file" );
     }
-    const std::uintmax_t file_size = fs::file_size( path );
+    const std::uintmax_t file_size = fs::file_size( fs::u8path( path ) );
     constexpr std::size_t max_file_size = 50 * 1024 * 1024;
     if( file_size < 20 ) {
         throw InvalidTranslationDocumentException( path, "file too small" );
