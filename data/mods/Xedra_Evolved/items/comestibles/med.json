@@ -1,0 +1,26 @@
+[
+  {
+    "id": "extra_str_aspirin",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "eXtra strength aspirin" },
+    "description": "Alchemically altered aspirin.  Take to relieve pain and injury.",
+    "weight": "1 g",
+    "volume": "250 ml",
+    "price": 500,
+    "price_postapoc": 7500,
+    "charges": 20,
+    "stack_size": 200,
+    "material": [ "powder" ],
+    "symbol": "!",
+    "color": "white",
+    "container": "bottle_plastic_pill_painkiller",
+    "healthy": -1,
+    "flags": [ "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You take some eXtra strength aspirin.",
+      "effects": [ { "id": "xtr_str_aspirin", "duration": 720 } ]
+    }
+  }
+]

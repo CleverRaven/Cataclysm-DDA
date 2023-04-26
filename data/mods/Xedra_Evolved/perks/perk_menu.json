@@ -1,0 +1,20 @@
+[
+  [
+    {
+      "type": "talk_topic",
+      "id": "TALK_PERK_MENU_MAIN",
+      "responses": [
+        {
+          "condition": { "not": { "u_has_trait": "perk_ALCHEMY1" } },
+          "text": "Gain basic alchemical knowledge",
+          "topic": "TALK_PERK_MENU_ALCHEMY1"
+        },
+        {
+          "condition": { "not": { "u_has_trait": "[YOUR_PERK_ID]" } },
+          "text": "Gain [<trait_name:[YOUR_PERK_ID]>]",
+          "topic": "TALK_PERK_MENU_[YOUR_MENU_ENTRY]"
+        }
+      ]
+    }
+  ]
+]

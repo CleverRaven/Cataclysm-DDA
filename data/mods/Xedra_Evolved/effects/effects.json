@@ -11,6 +11,21 @@
   },
   {
     "type": "effect_type",
+    "id": "xtr_str_aspirin",
+    "max_duration": "4 m",
+    "base_mods": {
+      "pkill_tick": [ 42 ],
+      "pkill_min": [ 1 ],
+      "pkill_max_val": [ 15 ],
+      "hurt_tick": [ 42 ],
+      "hurt_min": [ -1 ],
+      "hurt_max": [ -5 ]
+    },
+    "rating": "good",
+    "blood_analysis_description": "Strange Painkiller"
+  },
+  {
+    "type": "effect_type",
     "id": "blood_spiders",
     "name": [ "Blood Spiders" ],
     "desc": [
