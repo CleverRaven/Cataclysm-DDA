@@ -651,7 +651,7 @@
     "entries": [
       { "drop": "fish_sample_single", "type": "mutagen_group" },
       { "drop": "insect_sample_single", "type": "mutagen_group" },
-      { "drop": "crustacean_sample_single", "type": "mutagen_group"}
+      { "drop": "crustacean_sample_single", "type": "mutagen_group" }
     ]
   },
   {
