@@ -2816,11 +2816,12 @@
     "points": 8,
     "visibility": 10,
     "ugliness": 8,
-    "description": "Your body is covered with a thick, near impenetrable, vividly-colored carapace. It provides unmatched physical protection and even some protection from corrosive chemicals, but reduces your dexterity by 3 and severely encumbers all body parts except your eyes.  Greatly reduces wet effects.",
+    "description": "Your body is covered with a thick, near impenetrable, vividly-colored carapace. It provides unmatched physical protection and even some protection from corrosive chemicals, but reduces your dexterity by 2 and encumbers all body parts except your eyes.  Greatly reduces wet effects.",
     "types": [ "SKIN" ],
     "prereqs": [ "CHITIN3" ],
     "category": [ "CRUSTACEAN" ],
     "leads_to": [ "CRUSTACEAN_CLAW" ],
+    "integrated_armor": [ "integrated_chitin4", "integrated_chitin3_claws" ],
     "wet_protection": [
       { "part": "head", "ignored": 8 },
       { "part": "leg_l", "ignored": 16 },
@@ -2833,30 +2834,7 @@
       { "part": "hand_r", "ignored": 6 },
       { "part": "torso", "ignored": 20 }
     ],
-    "encumbrance_always": [
-      [ "torso", 40 ],
-      [ "head", 40 ],
-      [ "arm_l", 30 ],
-      [ "arm_r", 30 ],
-      [ "hand_l", 30 ],
-      [ "hand_r", 30 ],
-      [ "leg_l", 30 ],
-      [ "leg_r", 30 ],
-      [ "foot_l", 30 ],
-      [ "mouth", 10 ],
-      [ "foot_r", 30 ]
-    ],
-    "restricts_gear": [ "head" ],
-    "armor": [
-      {
-        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
-        "bash": 11,
-        "cut": 13,
-        "stab": 3,
-        "acid": 2
-      }
-    ],
-    "passive_mods": { "dex_mod": -3 }
+    "passive_mods": { "dex_mod": -2 }
   },
   {
     "type": "mutation",
