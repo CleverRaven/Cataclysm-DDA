@@ -2912,8 +2912,10 @@
     "points": 0,
     "visibility": 10,
     "ugliness": 9,
-    "mixed_effect": true,
-    "description": "Instead of your right hand, you now have a giant claw resembling ones found on crabs. It encumbers you greatly, but you can occasionally use it in melee combat to deal massive damage.",
+    "cut_dmg_bonus": 1,
+    "bash_dmg_bonus": 6,
+    "butchering_quality": -3,
+    "description": "Instead of your right hand, you now have a giant claw resembling ones found on crabs. It encumbers you greatly, but you can use it in melee combat to deal massive damage.",
     "encumbrance_always": [ [ "hand_r", 40 ] ],
     "valid": false,
     "cancels": [ "NAILS", "CLAWS", "TALONS", "WEBBED", "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8" ],
@@ -2921,13 +2923,7 @@
     "category": [ "CRUSTACEAN" ],
     "restricts_gear": [ "hand_r" ],
     "types": [ "HANDS" ],
-    "armor": [ { "parts": [ "hand_r" ], "bash": 2, "cut": 2 } ],
-    "attacks": {
-      "attack_text_u": "You pinch %s with your giant claw",
-      "attack_text_npc": "%1$s pinches %2$s with their giant claw",
-      "chance": 22,
-      "strength_damage": [ { "damage_type": "cut", "amount": 4 }, { "damage_type": "bash", "amount": 4 } ]
-    }
+    "armor": [ { "parts": [ "hand_r" ], "bash": 3, "cut": 3 } ]
   },
   {
     "type": "mutation",
