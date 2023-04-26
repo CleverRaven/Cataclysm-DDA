@@ -1648,7 +1648,20 @@
     "types": [ "SCENT" ],
     "changes_to": [ "SMELLY2" ],
     "scent_intensity": 800,
-    "category": [ "FELINE", "LUPINE", "MOUSE", "BEAST", "SLIME", "CHIMERA", "URSINE", "BATRACHIAN", "FISH", "INSECT", "CATTLE", "CRUSTACEAN" ]
+    "category": [
+      "FELINE",
+      "LUPINE",
+      "MOUSE",
+      "BEAST",
+      "SLIME",
+      "CHIMERA",
+      "URSINE",
+      "BATRACHIAN",
+      "FISH",
+      "INSECT",
+      "CATTLE",
+      "CRUSTACEAN"
+    ]
   },
   {
     "type": "mutation",
@@ -1787,7 +1800,19 @@
     "vomit_multiplier": 2,
     "types": [ "CONSTITUTION" ],
     "changes_to": [ "NAUSEA" ],
-    "category": [ "ALPHA", "SLIME", "RAT", "MEDICAL", "ELFA", "BATRACHIAN", "TROGLOBITE", "RAPTOR", "CHIMERA", "GASTROPOD","CRUSTACEAN" ]
+    "category": [
+      "ALPHA",
+      "SLIME",
+      "RAT",
+      "MEDICAL",
+      "ELFA",
+      "BATRACHIAN",
+      "TROGLOBITE",
+      "RAPTOR",
+      "CHIMERA",
+      "GASTROPOD",
+      "CRUSTACEAN"
+    ]
   },
   {
     "type": "mutation",
@@ -2768,7 +2793,7 @@
     "types": [ "BODY_ARMOR" ],
     "prereqs": [ "CHITIN2" ],
     "category": [ "SPIDER", "CRUSTACEAN" ],
-    "leads_to": [ "CHITIN_FUR3","CHITIN4" ],
+    "leads_to": [ "CHITIN_FUR3", "CHITIN4" ],
     "integrated_armor": [ "integrated_chitin3", "integrated_chitin3_claws" ],
     "wet_protection": [
       { "part": "head", "ignored": 4 },
@@ -3993,7 +4018,15 @@
     "prereqs": [ "POISRESIST" ],
     "//": "Yes, you eventually got over the massive digestive upset.  Mutations aren't easy on a system!",
     "prereqs2": [ "SAPROVORE", "TOLERANCE" ],
-    "threshreq": [ "THRESH_TROGLOBITE", "THRESH_CHIMERA", "THRESH_RAPTOR", "THRESH_RAT", "THRESH_MOUSE", "THRESH_BATRACHIAN", "THRESH_CRUSTACEAN" ],
+    "threshreq": [
+      "THRESH_TROGLOBITE",
+      "THRESH_CHIMERA",
+      "THRESH_RAPTOR",
+      "THRESH_RAT",
+      "THRESH_MOUSE",
+      "THRESH_BATRACHIAN",
+      "THRESH_CRUSTACEAN"
+    ],
     "vitamins_absorb_multi": [ [ "all", [ [ "mutant_toxin", 0.25 ] ] ] ],
     "category": [ "TROGLOBITE", "RAPTOR", "RAT", "CHIMERA", "BATRACHIAN", "GASTROPOD", "CRUSTACEAN" ]
   },
@@ -5177,7 +5210,20 @@
     "description": "Your muscles are a little stronger.  +1 Strength.",
     "types": [ "STR" ],
     "changes_to": [ "STR_UP_2" ],
-    "category": [ "INSECT", "RAPTOR", "LIZARD", "CATTLE", "PLANT", "ALPHA", "CHIMERA", "LUPINE", "TROGLOBITE", "BEAST", "URSINE", "CRUSTACEAN" ],
+    "category": [
+      "INSECT",
+      "RAPTOR",
+      "LIZARD",
+      "CATTLE",
+      "PLANT",
+      "ALPHA",
+      "CHIMERA",
+      "LUPINE",
+      "TROGLOBITE",
+      "BEAST",
+      "URSINE",
+      "CRUSTACEAN"
+    ],
     "passive_mods": { "str_mod": 1 }
   },
   {
@@ -5203,7 +5249,15 @@
     "prereqs": [ "STR_UP_2" ],
     "changes_to": [ "STR_UP_4" ],
     "category": [ "CHIMERA", "LUPINE", "TROGLOBITE", "BEAST", "URSINE", "CATTLE", "CRUSTACEAN" ],
-    "threshreq": [ "THRESH_CHIMERA", "THRESH_LUPINE", "THRESH_TROGLOBITE", "THRESH_BEAST", "THRESH_URSINE", "THRESH_CATTLE", "THRESH_CRUSTACEAN" ],
+    "threshreq": [
+      "THRESH_CHIMERA",
+      "THRESH_LUPINE",
+      "THRESH_TROGLOBITE",
+      "THRESH_BEAST",
+      "THRESH_URSINE",
+      "THRESH_CATTLE",
+      "THRESH_CRUSTACEAN"
+    ],
     "passive_mods": { "str_mod": 4 }
   },
   {

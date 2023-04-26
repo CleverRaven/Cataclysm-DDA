@@ -434,9 +434,9 @@
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
     "name": { "str": "crustacean mutagenic primer" },
-    "description" : " A red colored mutagenic primer.",
+    "description": " A red colored mutagenic primer.",
     "color": "red",
-    "looks_like" : "iv_mutagen",
+    "looks_like": "iv_mutagen",
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You inject the crustacean mutagenic primer.",
@@ -778,8 +778,8 @@
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
     "name": { "str": "crustacean mutagen" },
-    "description" : "a crustacean mutagen.",
-    "looks_like" : "mutagen",
+    "description": "a crustacean mutagen.",
+    "looks_like": "mutagen",
     "color": "red",
     "use_action": {
       "type": "consume_drug",
