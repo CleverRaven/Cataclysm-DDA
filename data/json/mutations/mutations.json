@@ -6113,7 +6113,19 @@
     "types": [ "CONSTITUTION" ],
     "prereqs": [ "NAUSEA" ],
     "changes_to": [ "EATPOISON" ],
-    "category": [ "ALPHA", "SLIME", "RAT", "MEDICAL", "ELFA", "BATRACHIAN", "TROGLOBITE", "RAPTOR", "CHIMERA", "GASTROPOD", "CRUSTACEAN" ],
+    "category": [
+      "ALPHA",
+      "SLIME",
+      "RAT",
+      "MEDICAL",
+      "ELFA",
+      "BATRACHIAN",
+      "TROGLOBITE",
+      "RAPTOR",
+      "CHIMERA",
+      "GASTROPOD",
+      "CRUSTACEAN"
+    ],
     "active": true
   },
   {
