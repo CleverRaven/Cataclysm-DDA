@@ -588,7 +588,7 @@ struct overmap_special_migration {
     public:
         static void load_migrations( const JsonObject &jo, const std::string &src );
         static void reset();
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
         static void check();
         // Check if the given overmap special should be migrated
         static bool migrated( const overmap_special_id &os_id );

@@ -11,8 +11,8 @@
     "material": [ "orichalcum_metal" ],
     "weight": "5 kg",
     "volume": "1 L",
-    "bashing": 6,
-    "flags": [ "NO_REPAIR", "FRAGILE_MELEE" ]
+    "flags": [ "NO_REPAIR", "FRAGILE_MELEE" ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "type": "GENERIC",
@@ -26,10 +26,9 @@
     "material": [ "clay" ],
     "weight": "122 kg",
     "volume": "120 L",
-    "bashing": 4,
-    "cutting": 4,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
+    "melee_damage": { "bash": 4, "cut": 4 }
   },
   {
     "type": "GENERIC",
@@ -43,10 +42,9 @@
     "material": [ "plastic" ],
     "weight": "70 kg",
     "volume": "150 L",
-    "bashing": 4,
-    "cutting": 4,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
+    "melee_damage": { "bash": 4, "cut": 4 }
   },
   {
     "type": "GENERIC",
@@ -60,10 +58,9 @@
     "material": [ "stone" ],
     "weight": "162 kg",
     "volume": "120 L",
-    "bashing": 4,
-    "cutting": 4,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
+    "melee_damage": { "bash": 4, "cut": 4 }
   },
   {
     "type": "GENERIC",
@@ -77,9 +74,9 @@
     "material": [ "iron" ],
     "weight": "945 kg",
     "volume": "120 L",
-    "bashing": 30,
     "to_hit": -5,
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
+    "melee_damage": { "bash": 30 }
   },
   {
     "type": "GENERIC",
@@ -93,9 +90,9 @@
     "material": [ "orichalcum_metal" ],
     "weight": "945 kg",
     "volume": "120 L",
-    "bashing": 30,
     "to_hit": -5,
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
+    "melee_damage": { "bash": 30 }
   },
   {
     "type": "GENERIC",
@@ -109,9 +106,8 @@
     "material": [ "stone" ],
     "weight": "112 kg",
     "volume": "80 L",
-    "bashing": 4,
-    "cutting": 4,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
+    "melee_damage": { "bash": 4, "cut": 4 }
   }
 ]

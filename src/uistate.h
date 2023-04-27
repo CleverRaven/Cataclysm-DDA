@@ -205,7 +205,7 @@ class uistatedata
 
         // nice little convenience function for serializing an array, regardless of amount. :^)
         template<typename T>
-        void serialize_array( JsonOut &json, const std::string &name, T &data ) const {
+        void serialize_array( JsonOut &json, const std::string_view name, T &data ) const {
             json.member( name );
             json.start_array();
             for( const auto &d : data ) {

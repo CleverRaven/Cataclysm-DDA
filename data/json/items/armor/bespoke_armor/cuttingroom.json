@@ -10,7 +10,6 @@
     "price": 24000,
     "price_postapoc": 6000,
     "to_hit": -1,
-    "bashing": 1,
     "material": [ "kevlar", "nomex" ],
     "symbol": "[",
     "looks_like": "boots_combat",
@@ -19,7 +18,8 @@
     "material_thickness": 5,
     "environmental_protection": 10,
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ],
-    "armor": [ { "encumbrance": 35, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ]
+    "armor": [ { "encumbrance": 35, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "xl_boots_fsurvivor",
@@ -49,7 +49,6 @@
     "price": 24000,
     "price_postapoc": 8000,
     "to_hit": -1,
-    "bashing": 1,
     "material": [ "kevlar", "steel" ],
     "symbol": "[",
     "looks_like": "boots_combat",
@@ -58,7 +57,8 @@
     "material_thickness": 5,
     "environmental_protection": 5,
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ],
-    "armor": [ { "encumbrance": 35, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ]
+    "armor": [ { "encumbrance": 35, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "xl_boots_hsurvivor",
@@ -164,7 +164,6 @@
     "price": 58000,
     "price_postapoc": 4000,
     "to_hit": -1,
-    "bashing": 10,
     "material": [ "kevlar_layered", "nomex" ],
     "symbol": "[",
     "looks_like": "hood_survivor",
@@ -173,7 +172,8 @@
     "material_thickness": 5,
     "environmental_protection": 10,
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER" ],
-    "armor": [ { "encumbrance": 30, "coverage": 100, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance": 30, "coverage": 100, "covers": [ "head" ] } ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "xl_hood_fsurvivor",
@@ -205,7 +205,6 @@
     "price": 200000,
     "price_postapoc": 5000,
     "to_hit": -3,
-    "bashing": 6,
     "material": [ "kevlar_layered", "nomex" ],
     "symbol": "[",
     "looks_like": "survivor_suit",
@@ -227,7 +226,8 @@
     "material_thickness": 4,
     "valid_mods": [ "steel_padded" ],
     "environmental_protection": 10,
-    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "RAINPROOF", "STURDY", "OBSOLETE" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "RAINPROOF", "STURDY", "OBSOLETE" ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "xl_fsurvivor_suit",
@@ -257,7 +257,6 @@
     "price": 200000,
     "price_postapoc": 7000,
     "to_hit": -3,
-    "bashing": 6,
     "material": [ "kevlar_layered", "steel", "leather" ],
     "symbol": "[",
     "looks_like": "survivor_suit",
@@ -276,7 +275,8 @@
     "warmth": 15,
     "material_thickness": 6,
     "environmental_protection": 3,
-    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "OBSOLETE" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "OBSOLETE" ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "xlhsurvivor_suit",
@@ -423,7 +423,6 @@
     "price": 150000,
     "price_postapoc": 4000,
     "to_hit": -3,
-    "bashing": 6,
     "material": [ "kevlar_layered", "leather" ],
     "symbol": "[",
     "looks_like": "survivor_suit",
@@ -445,7 +444,8 @@
     "material_thickness": 4,
     "valid_mods": [ "steel_padded" ],
     "environmental_protection": 3,
-    "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "OBSOLETE" ]
+    "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "OBSOLETE" ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "wsurvivor_suit",
@@ -458,7 +458,6 @@
     "price": 200000,
     "price_postapoc": 5000,
     "to_hit": -3,
-    "bashing": 6,
     "material": [ "kevlar_layered", "fur" ],
     "symbol": "[",
     "looks_like": "survivor_suit",
@@ -478,7 +477,8 @@
     "material_thickness": 5,
     "valid_mods": [ "steel_padded" ],
     "environmental_protection": 5,
-    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "OBSOLETE" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "OBSOLETE" ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "xl_wsurvivor_suit",
@@ -523,7 +523,6 @@
     "price": 110000,
     "price_postapoc": 5000,
     "to_hit": -3,
-    "bashing": 6,
     "material": [ "kevlar", "plastic", "neoprene" ],
     "symbol": "[",
     "looks_like": "wetsuit",
@@ -543,6 +542,7 @@
     "warmth": 15,
     "material_thickness": 3,
     "environmental_protection": 10,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "OBSOLETE" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "OBSOLETE" ],
+    "melee_damage": { "bash": 6 }
   }
 ]

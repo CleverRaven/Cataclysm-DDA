@@ -54,11 +54,7 @@
     "melee_dice": 2,
     "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "armor_bash": 8,
-    "armor_cut": 8,
-    "armor_bullet": 8,
-    "armor_stab": 8,
-    "weakpoint_sets": [ "wps_humanoid_body", "wps_natural_armor" ],
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_metal_shell_armor" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_nat_armored" ],
     "bleed_rate": 50,
     "vision_night": 3,
@@ -80,7 +76,8 @@
       "REVIVES",
       "PUSH_MON",
       "FILTHY"
-    ]
+    ],
+    "armor": { "bash": 8, "cut": 8, "stab": 8, "bullet": 8 }
   },
   {
     "id": "mon_zombie_plated",
@@ -105,11 +102,7 @@
     "melee_dice": 3,
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "armor_bash": 15,
-    "armor_cut": 15,
-    "armor_bullet": 15,
-    "armor_stab": 15,
-    "weakpoint_sets": [ "wps_humanoid_body", "wps_natural_armor" ],
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_metal_shell_armor" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_nat_armored" ],
     "bleed_rate": 0,
     "vision_night": 3,
@@ -132,7 +125,8 @@
       "REVIVES",
       "PUSH_MON",
       "FILTHY"
-    ]
+    ],
+    "armor": { "bash": 15, "cut": 15, "stab": 15, "bullet": 15 }
   },
   {
     "id": "mon_zombie_urchin",

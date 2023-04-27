@@ -518,11 +518,11 @@
     "price_postapoc": 500,
     "material": [ "fruit" ],
     "volume": "2400 ml",
-    "bashing": 1,
     "fun": -4,
     "flags": [ "SMOKABLE" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", 480 ], [ "calcium", 9 ], [ "iron", 14 ] ]
+    "vitamins": [ [ "vitC", 480 ], [ "calcium", 9 ], [ "iron", 14 ] ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "type": "COMESTIBLE",
@@ -561,8 +561,8 @@
     "price_postapoc": 100,
     "material": [ "fruit" ],
     "volume": "1850 ml",
-    "bashing": 2,
-    "vitamins": [ [ "vitC", 15 ], [ "calcium", 4 ], [ "iron", 36 ] ]
+    "vitamins": [ [ "vitC", 15 ], [ "calcium", 4 ], [ "iron", 36 ] ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "type": "COMESTIBLE",
@@ -623,10 +623,10 @@
     "price_postapoc": 600,
     "material": [ "fruit" ],
     "volume": "7150 ml",
-    "bashing": 2,
     "flags": [ "EATEN_COLD", "FREEZERBURN", "SMOKABLE" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", 406 ], [ "calcium", 24 ], [ "iron", 60 ] ]
+    "vitamins": [ [ "vitC", 406 ], [ "calcium", 24 ], [ "iron", 60 ] ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "type": "COMESTIBLE",
@@ -665,11 +665,11 @@
     "price_postapoc": 100,
     "material": [ "fruit" ],
     "volume": "1100 ml",
-    "bashing": 1,
     "flags": [ "EATEN_COLD", "FREEZERBURN", "SMOKABLE" ],
     "fun": 1,
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", 225 ], [ "calcium", 3 ], [ "iron", 6 ] ]
+    "vitamins": [ [ "vitC", 225 ], [ "calcium", 3 ], [ "iron", 6 ] ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "type": "COMESTIBLE",

@@ -116,13 +116,11 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             "Coverage",
             "Coverage (M)",
             "Coverage (R)",
-            "Coverage (V)",
-            "Bash",
-            "Cut",
-            "Bullet",
-            "Acid",
-            "Fire"
+            "Coverage (V)"
         };
+        for( const damage_type &dt : damage_type::get_all() ) {
+            header.emplace_back( uppercase_first_letter( dt.name.translated() ) );
+        }
         const bodypart_id bp_null( "bp_null" );
         bodypart_id bp = opts.empty() ? bp_null : bodypart_id( opts.front() );
         auto dump = [&rows, &bp]( const item & obj ) {
@@ -135,11 +133,9 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             r.push_back( std::to_string( obj.get_coverage( bp, item::cover_type::COVER_MELEE ) ) );
             r.push_back( std::to_string( obj.get_coverage( bp, item::cover_type::COVER_RANGED ) ) );
             r.push_back( std::to_string( obj.get_coverage( bp, item::cover_type::COVER_VITALS ) ) );
-            r.push_back( std::to_string( obj.resist( damage_type::BASH ) ) );
-            r.push_back( std::to_string( obj.resist( damage_type::CUT ) ) );
-            r.push_back( std::to_string( obj.resist( damage_type::BULLET ) ) );
-            r.push_back( std::to_string( obj.resist( damage_type::ACID ) ) );
-            r.push_back( std::to_string( obj.resist( damage_type::HEAT ) ) );
+            for( const damage_type &dt : damage_type::get_all() ) {
+                r.push_back( std::to_string( obj.resist( dt.id ) ) );
+            }
             rows.push_back( r );
         };
 

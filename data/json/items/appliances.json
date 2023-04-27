@@ -214,7 +214,6 @@
     "price": 162654,
     "price_postapoc": 2000,
     "to_hit": -6,
-    "bashing": 10,
     "material": [ "steel" ],
     "symbol": "A",
     "color": "yellow",
@@ -229,7 +228,8 @@
         "flag_restriction": [ "CBM" ],
         "item_restriction": [ "water_clean", "water" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "type": "TOOL",
@@ -242,14 +242,14 @@
     "material": [ "steel", "plastic" ],
     "volume": "500 ml",
     "weight": "75 g",
-    "bashing": 2,
     "category": "tools",
     "price": 1,
     "price_postapoc": 100,
     "max_charges": 3,
     "initial_charges": 3,
     "use_action": [ "CABLE_ATTACH" ],
-    "flags": [ "CABLE_SPOOL", "POWER_CORD", "SINGLE_USE" ]
+    "flags": [ "CABLE_SPOOL", "POWER_CORD", "SINGLE_USE" ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "type": "GENERIC",
@@ -261,12 +261,12 @@
     "material": [ "plastic", "steel" ],
     "volume": "2 L",
     "longest_side": "170 cm",
-    "bashing": 5,
     "price": 9000,
     "price_postapoc": 500,
     "symbol": "L",
     "color": "white",
-    "looks_like": "f_floor_lamp"
+    "looks_like": "f_floor_lamp",
+    "melee_damage": { "bash": 5 }
   },
   {
     "type": "GENERIC",
@@ -278,11 +278,11 @@
     "material": [ "plastic", "steel" ],
     "volume": "2 L",
     "longest_side": "170 cm",
-    "bashing": 5,
     "price": 90000,
     "price_postapoc": 1500,
     "symbol": "F",
-    "color": "white"
+    "color": "white",
+    "melee_damage": { "bash": 5 }
   },
   {
     "type": "GENERIC",
@@ -345,13 +345,13 @@
     "material": [ "lead", "steel" ],
     "volume": "150 L",
     "longest_side": "80 cm",
-    "bashing": 5,
     "//": "I don't know how much these were worth pre-Cataclysm but the pu-238 alone is worth about 5-6 million and hundreds of millions were spent on research.  After the apocalypse these should basically be valuable beyond compare though.",
     "price": 1000000000,
     "price_postapoc": 12000,
     "symbol": "O",
     "color": "green_white",
-    "flags": [ "NO_SALVAGE" ]
+    "flags": [ "NO_SALVAGE" ],
+    "melee_damage": { "bash": 5 }
   },
   {
     "type": "GENERIC",

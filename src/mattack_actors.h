@@ -70,7 +70,7 @@ class melee_actor : public mattack_actor
 {
     public:
         // Maximum damage from the attack
-        damage_instance damage_max_instance = damage_instance::physical( 9, 0, 0, 0 );
+        damage_instance damage_max_instance;
         // Minimum multiplier on damage above (rolled per attack)
         float min_mul = 0.5f;
         // Maximum multiplier on damage above (also per attack)

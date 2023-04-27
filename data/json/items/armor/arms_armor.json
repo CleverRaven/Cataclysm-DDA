@@ -10,7 +10,6 @@
     "price": 500,
     "price_postapoc": 250,
     "to_hit": -1,
-    "bashing": 8,
     "material": [ "wood" ],
     "symbol": "[",
     "looks_like": "arm_splint",
@@ -29,7 +28,8 @@
         "cover_vitals": 0,
         "specifically_covers": [ "arm_lower_r", "arm_lower_l" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "armguard_chitin",
@@ -572,8 +572,6 @@
     "price": 20000,
     "price_postapoc": 500,
     "to_hit": 1,
-    "bashing": 1,
-    "cutting": 1,
     "material": [ "budget_steel", "cotton" ],
     "symbol": "[",
     "looks_like": "armguard_metal",
@@ -591,7 +589,8 @@
         "coverage": 95,
         "specifically_covers": [ "arm_lower_r", "arm_lower_l" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 1, "cut": 1 }
   },
   {
     "id": "xl_armguard_scrap",
@@ -1173,7 +1172,6 @@
     "price": 60000,
     "price_postapoc": 12000,
     "to_hit": -5,
-    "bashing": 8,
     "symbol": "[",
     "looks_like": "armguard_metal",
     "material": [ "lc_steel", "lc_steel_chain" ],
@@ -1195,7 +1193,8 @@
         "coverage": 100,
         "encumbrance": 10
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "xl_armor_lc_lightarmguard",
@@ -1332,7 +1331,6 @@
     "price": 60000,
     "price_postapoc": 12000,
     "to_hit": -5,
-    "bashing": 8,
     "symbol": "[",
     "looks_like": "armor_larmor",
     "material": [ "lc_steel", "lc_steel_chain" ],
@@ -1354,7 +1352,8 @@
         "coverage": 100,
         "encumbrance": 15
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "xl_armor_lc_armguard",
@@ -1491,7 +1490,6 @@
     "price": 60000,
     "price_postapoc": 12000,
     "to_hit": -5,
-    "bashing": 8,
     "symbol": "[",
     "looks_like": "armor_larmor",
     "color": "light_gray",
@@ -1512,7 +1510,8 @@
         "coverage": 100,
         "encumbrance": 20
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "xl_armor_lc_heavyarmguard",

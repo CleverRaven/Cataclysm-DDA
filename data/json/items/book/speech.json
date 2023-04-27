@@ -48,7 +48,6 @@
     "volume": "2 L",
     "price": 4000,
     "price_postapoc": 250,
-    "bashing": 4,
     "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "looks_like": "textbook_firstaid",
@@ -57,7 +56,8 @@
     "required_level": 3,
     "max_level": 6,
     "intelligence": 8,
-    "time": "30 m"
+    "time": "30 m",
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "dnd_handbook",
@@ -69,7 +69,6 @@
     "volume": "2500 ml",
     "price": 3000,
     "price_postapoc": 500,
-    "bashing": 7,
     "//": "Have you held one of these things? Bastards have some real weight behind 'em",
     "material": [ "paper", "cardboard" ],
     "symbol": "?",
@@ -78,7 +77,8 @@
     "skill": "speech",
     "max_level": 5,
     "intelligence": 9,
-    "time": "30 m"
+    "time": "30 m",
+    "melee_damage": { "bash": 7 }
   },
   {
     "id": "book_nonf_soft_speech_naillaw",
@@ -90,7 +90,6 @@
     "volume": "528 ml",
     "price": 2000,
     "price_postapoc": 8000,
-    "bashing": 1,
     "material": [ "paper" ],
     "symbol": "?",
     "looks_like": "manual_gun",
@@ -99,6 +98,7 @@
     "required_level": 3,
     "max_level": 4,
     "intelligence": 7,
-    "time": "24 m"
+    "time": "24 m",
+    "melee_damage": { "bash": 1 }
   }
 ]

@@ -15,11 +15,11 @@
     "ammo_type": "40x46mm",
     "casing": "40x46mm_m118_casing",
     "range": 40,
-    "bashing": 5,
     "dispersion": 30,
     "recoil": 225,
     "drop": "40mmEMP_act",
-    "effects": [ "COOKOFF", "NEVER_MISFIRES", "NO_EMBED" ]
+    "effects": [ "COOKOFF", "NEVER_MISFIRES", "NO_EMBED" ],
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "40mmEMP_act",

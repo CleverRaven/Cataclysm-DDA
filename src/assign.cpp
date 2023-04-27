@@ -589,12 +589,12 @@ static void check_assigned_dmg( const JsonObject &err, const std::string_view na
     for( const damage_unit &out_dmg : out.damage_units ) {
         auto lo_iter = std::find_if( lo_inst.damage_units.begin(),
         lo_inst.damage_units.end(), [&out_dmg]( const damage_unit & du ) {
-            return du.type == out_dmg.type || du.type == damage_type::NONE;
+            return du.type == out_dmg.type || du.type.is_null();
         } );
 
         auto hi_iter = std::find_if( hi_inst.damage_units.begin(),
         hi_inst.damage_units.end(), [&out_dmg]( const damage_unit & du ) {
-            return du.type == out_dmg.type || du.type == damage_type::NONE;
+            return du.type == out_dmg.type || du.type.is_null();
         } );
 
         if( lo_iter == lo_inst.damage_units.end() ) {
@@ -623,7 +623,7 @@ static void check_assigned_dmg( const JsonObject &err, const std::string_view na
     }
 }
 
-bool assign( const JsonObject &jo, const std::string &name, damage_instance &val, bool strict,
+bool assign( const JsonObject &jo, const std::string_view name, damage_instance &val, bool strict,
              const damage_instance &lo, const damage_instance &hi )
 {
     // What we'll eventually be returning for the damage instance
@@ -643,34 +643,6 @@ bool assign( const JsonObject &jo, const std::string &name, damage_instance &val
     } else if( jo.has_object( name ) ) {
         out = load_damage_instance_inherit( jo.get_object( name ), val );
         assigned = true;
-    } else {
-        // Legacy: remove after 0.F
-        float amount = 0.0f;
-        float arpen = 0.0f;
-        float unc_dmg_mult = 1.0f;
-        bool with_legacy = false;
-
-        // There will always be either a prop_damage or damage (name)
-        if( jo.has_member( name ) ) {
-            with_legacy = true;
-            amount = jo.get_float( name );
-        } else if( jo.has_member( "prop_damage" ) ) {
-            with_legacy = true;
-            unc_dmg_mult = jo.get_float( "prop_damage" );
-        }
-        // And there may or may not be armor penetration
-        if( jo.has_member( "pierce" ) ) {
-            with_legacy = true;
-            arpen = jo.get_float( "pierce" );
-        }
-
-        if( with_legacy ) {
-            // Give a load warning, it's likely anything loading damage this way
-            // is a gun, and as such is using the wrong damage type
-            debugmsg( "Warning: %s loads damage using legacy methods - damage type may be wrong", id_err );
-            out.add_damage( damage_type::STAB, amount, arpen, 1.0f, 1.0f, 1.0f, unc_dmg_mult );
-            assigned = true;
-        }
     }
 
     // Object via which to report errors which differs for proportional/relative values
@@ -698,60 +670,8 @@ bool assign( const JsonObject &jo, const std::string &name, damage_instance &val
                                  load_damage_instance( proportional.get_array( name ) ),
                                  strict );
         assigned = true;
-    } else if( relative.has_member( name ) || relative.has_member( "pierce" ) ||
-               relative.has_member( "prop_damage" ) ) {
-        // Legacy: Remove after 0.F
-        // It is valid for relative to adjust any of pierce, prop_damage, or damage
-        // So check for what it's modifying, and modify that
-        float amt = 0.0f;
-        float arpen = 0.0f;
-        float unc_dmg_mul = 1.0f;
-
-        if( relative.has_member( name ) ) {
-            amt = relative.get_float( name );
-        }
-        if( relative.has_member( "pierce" ) ) {
-            arpen = relative.get_float( "pierce" );
-        }
-        if( relative.has_member( "prop_damage" ) ) {
-            unc_dmg_mul = relative.get_float( "prop_damage" );
-        }
-
-        // Give a load warning, it's likely anything loading damage this way
-        // is a gun, and as such is using the wrong damage type
-        debugmsg( "Warning: %s loads damage using legacy methods - damage type may be wrong", id_err );
-
-        assign_dmg_relative( out, val, damage_instance( damage_type::STAB, amt, arpen, 1.0f, 1.0f, 1.0f,
-                             unc_dmg_mul ), strict );
-        assigned = true;
-    } else if( proportional.has_member( name ) || proportional.has_member( "pierce" ) ||
-               proportional.has_member( "prop_damage" ) ) {
-        // Legacy: Remove after 0.F
-        // It is valid for proportional to adjust any of pierce, prop_damage, or damage
-        // So check if it's modifying any of the things before going on to modify it
-        float amt = 0.0f;
-        float arpen = 0.0f;
-        float unc_dmg_mul = 1.0f;
-
-        if( proportional.has_member( name ) ) {
-            amt = proportional.get_float( name );
-        }
-        if( proportional.has_member( "pierce" ) ) {
-            arpen = proportional.get_float( "pierce" );
-        }
-        if( proportional.has_member( "prop_damage" ) ) {
-            unc_dmg_mul = proportional.get_float( "prop_damage" );
-        }
-
-        // Give a load warning, it's likely anything loading damage this way
-        // is a gun, and as such is using the wrong damage type
-        debugmsg( "Warning: %s loads damage using legacy methods - damage type may be wrong", id_err );
-
-        assign_dmg_proportional( proportional, name, out, val, damage_instance( damage_type::STAB, amt,
-                                 arpen, 1.0f,
-                                 1.0f, 1.0f, unc_dmg_mul ), strict );
-        assigned = true;
     }
+
     if( !assigned ) {
         // Straight copy-from, not modified by proportional or relative
         out = val;

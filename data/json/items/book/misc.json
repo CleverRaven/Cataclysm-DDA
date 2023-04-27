@@ -27,14 +27,14 @@
     "volume": "1250 ml",
     "price": 5000,
     "price_postapoc": 50,
-    "bashing": 5,
     "material": [ "paper" ],
     "symbol": "?",
     "looks_like": "record_patient",
     "color": "light_green",
     "intelligence": 8,
     "time": "30 m",
-    "fun": -1
+    "fun": -1,
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "commune_prospectus",
@@ -45,13 +45,13 @@
     "volume": "250 ml",
     "price": 3000,
     "price_postapoc": 50,
-    "bashing": 1,
     "material": [ "paper" ],
     "symbol": "?",
     "looks_like": "mag_glam",
     "color": "light_cyan",
     "intelligence": 5,
-    "time": "10 m"
+    "time": "10 m",
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "decoy_elfa",
@@ -99,13 +99,13 @@
     "volume": "1 L",
     "price": 88200,
     "price_postapoc": 50,
-    "bashing": 2,
     "material": [ "paper" ],
     "symbol": "?",
     "looks_like": "story_book",
     "color": "green",
     "intelligence": 3,
-    "time": "1 m"
+    "time": "1 m",
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "mag_comic",
@@ -181,13 +181,13 @@
     "volume": "250 ml",
     "price": 3000,
     "price_postapoc": 50,
-    "bashing": 1,
     "material": [ "paper" ],
     "symbol": "?",
     "looks_like": "pocket_firstaid",
     "color": "light_cyan",
     "intelligence": 2,
-    "time": "10 m"
+    "time": "10 m",
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "news_regional",
@@ -451,7 +451,7 @@
     "time": "20 m",
     "copy-from": "book_fict_hard_tpl",
     "//bashing": "3 (2+1)",
-    "relative": { "intelligence": 1, "chapters": 12, "fun": 2, "bashing": 1 }
+    "relative": { "intelligence": 1, "chapters": 12, "fun": 2, "melee_damage": { "bash": 1 } }
   },
   {
     "id": "novel_satire",
@@ -690,7 +690,6 @@
     "volume": "2500 ml",
     "price": 800,
     "price_postapoc": 50,
-    "bashing": 2,
     "material": [ "paper" ],
     "symbol": "?",
     "looks_like": "textbook_firstaid",
@@ -698,7 +697,8 @@
     "intelligence": 4,
     "time": "1 m",
     "chapters": 200,
-    "fun": -5
+    "fun": -5,
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "photo_album",
@@ -763,7 +763,6 @@
     "volume": "750 ml",
     "price": 1500,
     "price_postapoc": 50,
-    "bashing": 3,
     "material": [ "paper" ],
     "symbol": "?",
     "looks_like": "pocket_firstaid",
@@ -771,7 +770,8 @@
     "intelligence": 15,
     "time": "30 m",
     "fun": 1,
-    "flags": [ "INSPIRATIONAL" ]
+    "flags": [ "INSPIRATIONAL" ],
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "record_accounting",
@@ -782,14 +782,14 @@
     "volume": "1250 ml",
     "price": 2000,
     "price_postapoc": 50,
-    "bashing": 5,
     "material": [ "paper", "plastic" ],
     "symbol": "?",
     "looks_like": "record_patient",
     "color": "light_green",
     "intelligence": 10,
     "time": "30 m",
-    "fun": -1
+    "fun": -1,
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "record_patient",
@@ -800,13 +800,13 @@
     "volume": "1500 ml",
     "price": 500,
     "price_postapoc": 50,
-    "bashing": 6,
     "material": [ "paper" ],
     "symbol": "?",
     "color": "light_green",
     "intelligence": 8,
     "time": "30 m",
-    "fun": -1
+    "fun": -1,
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "record_weather",
@@ -817,14 +817,14 @@
     "volume": "1750 ml",
     "price": 500,
     "price_postapoc": 50,
-    "bashing": 7,
     "material": [ "paper" ],
     "symbol": "?",
     "looks_like": "record_patient",
     "color": "light_green",
     "intelligence": 4,
     "time": "30 m",
-    "fun": -1
+    "fun": -1,
+    "melee_damage": { "bash": 7 }
   },
   {
     "id": "story_book",
@@ -871,7 +871,6 @@
     "volume": "750 ml",
     "price": 2900,
     "price_postapoc": 50,
-    "bashing": 3,
     "material": [ "paper" ],
     "symbol": "?",
     "looks_like": "story_book",
@@ -879,7 +878,8 @@
     "intelligence": 6,
     "time": "30 m",
     "fun": 2,
-    "flags": [ "INSPIRATIONAL" ]
+    "flags": [ "INSPIRATIONAL" ],
+    "melee_damage": { "bash": 3 }
   },
   {
     "type": "BOOK",

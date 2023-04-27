@@ -218,5 +218,15 @@
       { "monster": "mon_skeleton_master", "weight": 60, "cost_multiplier": 2 },
       { "monster": "mon_skeleton_necro", "weight": 60, "cost_multiplier": 2 }
     ]
+  },
+  {
+    "name": "GROUP_ZOMBIE_MINER_UPGRADE",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_zombie_miner" },
+      { "monster": "mon_zombie_shady", "weight": 150 },
+      { "monster": "mon_zombie_rust", "weight": 110 },
+      { "monster": "mon_zombie_tough", "weight": 60 }
+    ]
   }
 ]

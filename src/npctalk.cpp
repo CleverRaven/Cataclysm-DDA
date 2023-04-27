@@ -169,7 +169,7 @@ static void run_eoc_vector( const std::vector<effect_on_condition_id> &eocs, con
 }
 
 static std::vector<effect_on_condition_id> load_eoc_vector( const JsonObject &jo,
-        const std::string &member )
+        const std::string_view member )
 {
     std::vector<effect_on_condition_id> eocs;
     if( jo.has_array( member ) ) {
@@ -2678,7 +2678,7 @@ void talk_effect_fun_t::set_npc_cbm_recharge_rule( const JsonObject &jo,
     };
 }
 
-void talk_effect_fun_t::set_location_variable( const JsonObject &jo, const std::string &member,
+void talk_effect_fun_t::set_location_variable( const JsonObject &jo, const std::string_view member,
         bool is_npc )
 {
     dbl_or_var dov_min_radius = get_dbl_or_var( jo, "min_radius", false, 0 );
@@ -2747,7 +2747,7 @@ void talk_effect_fun_t::set_location_variable( const JsonObject &jo, const std::
 }
 
 void talk_effect_fun_t::set_location_variable_adjust( const JsonObject &jo,
-        const std::string &member )
+        const std::string_view member )
 {
     dbl_or_var dov_z_adjust = get_dbl_or_var( jo, "z_adjust", false, 0 );
     dbl_or_var dov_x_adjust = get_dbl_or_var( jo, "x_adjust", false, 0 );
@@ -2908,6 +2908,7 @@ void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, const std::stri
             for( const str_or_var &mapgen_update_id : update_ids ) {
                 run_mapgen_update_func( update_mapgen_id( mapgen_update_id.evaluate( d ) ), omt_pos, {},
                                         d.actor( d.has_beta )->selected_mission() );
+                set_queued_points();
             }
             get_map().invalidate_map_cache( omt_pos.z() );
         }
@@ -2924,7 +2925,7 @@ void talk_effect_fun_t::set_alter_timed_events( const JsonObject &jo, const std:
     };
 }
 
-void talk_effect_fun_t::set_revert_location( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_revert_location( const JsonObject &jo, const std::string_view &member )
 {
     duration_or_var dov_time_in_future = get_duration_or_var( jo, "time_in_future", true );
     str_or_var key;
@@ -2959,14 +2960,15 @@ void talk_effect_fun_t::set_revert_location( const JsonObject &jo, const std::st
     };
 }
 
-void talk_effect_fun_t::set_npc_goal( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_npc_goal( const JsonObject &jo, const std::string_view member,
+                                      bool is_npc )
 {
     mission_target_params dest_params = mission_util::parse_mission_om_target( jo.get_object(
                                             member ) );
     std::vector<effect_on_condition_id> true_eocs = load_eoc_vector( jo, "true_eocs" );
     std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );
-    function = [dest_params, true_eocs, false_eocs]( dialogue const & d ) {
-        npc *guy = d.actor( true )->get_npc();
+    function = [dest_params, true_eocs, false_eocs, is_npc]( dialogue const & d ) {
+        npc *guy = d.actor( is_npc )->get_npc();
         if( guy ) {
             tripoint_abs_omt destination = mission_util::get_om_terrain_pos( dest_params );
             guy->goal = destination;
@@ -2986,6 +2988,25 @@ void talk_effect_fun_t::set_npc_goal( const JsonObject &jo, const std::string &m
             return;
         }
         run_eoc_vector( false_eocs, d );
+    };
+}
+
+void talk_effect_fun_t::set_guard_pos( const JsonObject &jo, const std::string &member,
+                                       bool is_npc )
+{
+    std::optional<var_info> target_var = read_var_info( jo.get_object( member ) );
+    bool unique_id = jo.get_bool( "unique_id", false );
+    function = [target_var, unique_id, is_npc]( dialogue const & d ) {
+        npc *guy = d.actor( is_npc )->get_npc();
+        if( guy ) {
+            var_info cur_var = target_var.value();
+            if( unique_id ) {
+                //12 since it should start with npctalk_var
+                cur_var.name.insert( 12, guy->get_unique_id() );
+            }
+            tripoint_abs_ms target_location = get_tripoint_from_var( cur_var, d );
+            guy->set_guard_pos( target_location );
+        }
     };
 }
 
@@ -3275,7 +3296,7 @@ void talk_effect_fun_t::set_add_wet( const JsonObject &jo, const std::string &me
     };
 }
 
-void talk_effect_fun_t::set_open_dialogue( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_open_dialogue( const JsonObject &jo, const std::string_view member )
 {
     std::vector<effect_on_condition_id> true_eocs;
     std::vector<effect_on_condition_id> false_eocs;
@@ -3435,7 +3456,7 @@ void talk_effect_fun_t::set_hp( const JsonObject &jo, const std::string &member,
     };
 }
 
-void talk_effect_fun_t::set_cast_spell( const JsonObject &jo, const std::string &member,
+void talk_effect_fun_t::set_cast_spell( const JsonObject &jo, const std::string_view member,
                                         bool is_npc, bool targeted )
 {
     fake_spell fake;
@@ -3646,8 +3667,7 @@ void talk_effect_fun_t::set_make_sound( const JsonObject &jo, const std::string 
     };
 }
 
-void talk_effect_fun_t::set_run_eocs( const JsonObject &jo,
-                                      const std::string &member )
+void talk_effect_fun_t::set_run_eocs( const JsonObject &jo, const std::string_view member )
 {
     std::vector<effect_on_condition_id> eocs = load_eoc_vector( jo, member );
     if( eocs.empty() ) {
@@ -3662,7 +3682,7 @@ void talk_effect_fun_t::set_run_eocs( const JsonObject &jo,
 }
 
 void talk_effect_fun_t::set_run_npc_eocs( const JsonObject &jo,
-        const std::string &member, bool is_npc )
+        const std::string_view member, bool is_npc )
 {
     std::vector<effect_on_condition_id> eocs = load_eoc_vector( jo, member );
     std::vector<str_or_var> unique_ids;
@@ -3722,7 +3742,7 @@ void talk_effect_fun_t::set_run_npc_eocs( const JsonObject &jo,
     }
 }
 
-void talk_effect_fun_t::set_queue_eocs( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_queue_eocs( const JsonObject &jo, const std::string_view member )
 {
     std::vector<effect_on_condition_id> eocs = load_eoc_vector( jo, member );
     if( eocs.empty() ) {
@@ -3751,7 +3771,7 @@ void talk_effect_fun_t::set_queue_eocs( const JsonObject &jo, const std::string 
 }
 
 void talk_effect_fun_t::set_weighted_list_eocs( const JsonObject &jo,
-        const std::string &member )
+        const std::string_view member )
 {
     std::vector<std::pair<effect_on_condition_id, std::function<double( const dialogue & )>>> eoc_pairs;
     for( JsonArray ja : jo.get_array( member ) ) {
@@ -3772,11 +3792,11 @@ void talk_effect_fun_t::set_weighted_list_eocs( const JsonObject &jo,
     };
 }
 
-void talk_effect_fun_t::set_switch( const JsonObject &jo,
-                                    const std::string &member )
+void talk_effect_fun_t::set_switch( const JsonObject &jo, const std::string_view member )
 {
-    std::function<double( dialogue const &/* d */ )> eoc_switch = conditional_t::get_get_dbl(
-                jo.get_object( member ) );
+    std::function<double( dialogue const &/* d */ )> eoc_switch = jo.has_string( member ) ?
+            conditional_t::get_get_dbl( jo.get_string( member.data() ), jo ) :
+            conditional_t::get_get_dbl( jo.get_object( member ) );
     std::vector<std::pair<dbl_or_var, talk_effect_t>> case_pairs;
     for( const JsonValue jv : jo.get_array( "cases" ) ) {
         JsonObject array_case = jv.get_object();
@@ -3939,7 +3959,7 @@ void talk_effect_fun_t::set_custom_light_level( const JsonObject &jo,
     };
 }
 
-void talk_effect_fun_t::set_give_equipment( const JsonObject &jo, const std::string &member )
+void talk_effect_fun_t::set_give_equipment( const JsonObject &jo, const std::string_view member )
 {
     JsonObject jobj = jo.get_object( member );
     int allowance = 0;
@@ -4243,7 +4263,7 @@ void talk_effect_fun_t::set_field( const JsonObject &jo, const std::string &memb
     };
 }
 
-void talk_effect_fun_t::set_teleport( const JsonObject &jo, const std::string &member,
+void talk_effect_fun_t::set_teleport( const JsonObject &jo, const std::string_view member,
                                       bool is_npc )
 {
     std::optional<var_info> target_var = read_var_info( jo.get_object( member ) );
@@ -4473,8 +4493,14 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_npc_cbm_reserve_rule( jo, "set_npc_cbm_reserve_rule" );
     } else if( jo.has_string( "set_npc_cbm_recharge_rule" ) ) {
         subeffect_fun.set_npc_cbm_recharge_rule( jo, "set_npc_cbm_recharge_rule" );
+    } else if( jo.has_member( "u_set_goal" ) ) {
+        subeffect_fun.set_npc_goal( jo, "u_set_goal" );
     } else if( jo.has_member( "npc_set_goal" ) ) {
-        subeffect_fun.set_npc_goal( jo, "npc_set_goal" );
+        subeffect_fun.set_npc_goal( jo, "npc_set_goal", true );
+    } else if( jo.has_member( "u_set_guard_pos" ) ) {
+        subeffect_fun.set_guard_pos( jo, "u_set_guard_pos" );
+    } else if( jo.has_member( "npc_set_guard_pos" ) ) {
+        subeffect_fun.set_guard_pos( jo, "npc_set_guard_pos", true );
     } else if( jo.has_member( "mapgen_update" ) ) {
         subeffect_fun.set_mapgen_update( jo, "mapgen_update" );
     } else if( jo.has_member( "alter_timed_events" ) ) {
@@ -4974,7 +5000,7 @@ static std::string translate_gendered_line(
 }
 
 dynamic_line_t dynamic_line_t::from_member( const JsonObject &jo,
-        const std::string &member_name )
+        const std::string_view member_name )
 {
     if( jo.has_array( member_name ) ) {
         return dynamic_line_t( jo.get_array( member_name ) );

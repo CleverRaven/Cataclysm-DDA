@@ -16,7 +16,6 @@
     "volume": "12120 ml",
     "longest_side": "693 mm",
     "reload_noise_volume": 10,
-    "bashing": 12,
     "to_hit": -3,
     "dispersion": 300,
     "durability": 7,
@@ -25,6 +24,7 @@
     "loudness": 200,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "sling", 1 ] ],
     "flags": [ "BACKBLAST", "NEVER_JAMS" ],
-    "pocket_data": [ { "magazine_well": "500 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m74_clip" ] } ]
+    "pocket_data": [ { "magazine_well": "500 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m74_clip" ] } ],
+    "melee_damage": { "bash": 12 }
   }
 ]
