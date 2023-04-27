@@ -725,7 +725,7 @@ void npc::regen_ai_cache()
     creature_tracker &creatures = get_creature_tracker();
     if( has_trait( trait_RETURN_TO_START_POS ) ) {
         if( !ai_cache.guard_pos ) {
-            ai_cache.guard_pos = here.getabs( pos() );
+            ai_cache.guard_pos = get_location();
         }
     }
     while( i != std::end( ai_cache.sound_alerts ) ) {
@@ -874,7 +874,7 @@ void npc::move()
     } else if( !ai_cache.sound_alerts.empty() && !is_walking_with() ) {
         tripoint cur_s_abs_pos = ai_cache.s_abs_pos;
         if( !ai_cache.guard_pos ) {
-            ai_cache.guard_pos = here.getabs( pos() );
+            ai_cache.guard_pos = get_location();
         }
         if( ai_cache.sound_alerts.size() > 1 ) {
             std::sort( ai_cache.sound_alerts.begin(), ai_cache.sound_alerts.end(),
@@ -917,9 +917,9 @@ void npc::move()
             print_action( "address_player %s", action );
         }
         if( action == npc_undecided && ai_cache.sound_alerts.empty() && ai_cache.guard_pos ) {
-            tripoint return_guard_pos = *ai_cache.guard_pos;
+            tripoint_abs_ms return_guard_pos = *ai_cache.guard_pos;
             add_msg_debug( debugmode::DF_NPC, "NPC %s: returning to guard spot at x(%d) y(%d)", get_name(),
-                           return_guard_pos.x, return_guard_pos.y );
+                           return_guard_pos.x(), return_guard_pos.y() );
             action = npc_return_to_guard_pos;
         }
     }
@@ -2240,6 +2240,11 @@ bool npc::update_path( const tripoint &p, const bool no_bashing, bool force )
     }
 
     return false;
+}
+
+void npc::set_guard_pos( const tripoint_abs_ms &p )
+{
+    ai_cache.guard_pos = p;
 }
 
 bool npc::can_open_door( const tripoint &p, const bool inside ) const
@@ -4146,7 +4151,7 @@ void npc::go_to_omt_destination()
 {
     map &here = get_map();
     if( ai_cache.guard_pos ) {
-        if( here.getabs( pos() ) == *ai_cache.guard_pos ) {
+        if( get_location() == *ai_cache.guard_pos ) {
             path.clear();
             ai_cache.guard_pos = std::nullopt;
             move_pause();

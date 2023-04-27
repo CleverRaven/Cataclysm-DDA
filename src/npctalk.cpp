@@ -2908,6 +2908,7 @@ void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, const std::stri
             for( const str_or_var &mapgen_update_id : update_ids ) {
                 run_mapgen_update_func( update_mapgen_id( mapgen_update_id.evaluate( d ) ), omt_pos, {},
                                         d.actor( d.has_beta )->selected_mission() );
+                set_queued_points();
             }
             get_map().invalidate_map_cache( omt_pos.z() );
         }
@@ -2924,7 +2925,7 @@ void talk_effect_fun_t::set_alter_timed_events( const JsonObject &jo, const std:
     };
 }
 
-void talk_effect_fun_t::set_revert_location( const JsonObject &jo, const std::string_view member )
+void talk_effect_fun_t::set_revert_location( const JsonObject &jo, const std::string_view &member )
 {
     duration_or_var dov_time_in_future = get_duration_or_var( jo, "time_in_future", true );
     str_or_var key;
@@ -2959,14 +2960,15 @@ void talk_effect_fun_t::set_revert_location( const JsonObject &jo, const std::st
     };
 }
 
-void talk_effect_fun_t::set_npc_goal( const JsonObject &jo, const std::string_view member )
+void talk_effect_fun_t::set_npc_goal( const JsonObject &jo, const std::string_view member,
+                                      bool is_npc )
 {
     mission_target_params dest_params = mission_util::parse_mission_om_target( jo.get_object(
                                             member ) );
     std::vector<effect_on_condition_id> true_eocs = load_eoc_vector( jo, "true_eocs" );
     std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );
-    function = [dest_params, true_eocs, false_eocs]( dialogue const & d ) {
-        npc *guy = d.actor( true )->get_npc();
+    function = [dest_params, true_eocs, false_eocs, is_npc]( dialogue const & d ) {
+        npc *guy = d.actor( is_npc )->get_npc();
         if( guy ) {
             tripoint_abs_omt destination = mission_util::get_om_terrain_pos( dest_params );
             guy->goal = destination;
@@ -2986,6 +2988,25 @@ void talk_effect_fun_t::set_npc_goal( const JsonObject &jo, const std::string_vi
             return;
         }
         run_eoc_vector( false_eocs, d );
+    };
+}
+
+void talk_effect_fun_t::set_guard_pos( const JsonObject &jo, const std::string &member,
+                                       bool is_npc )
+{
+    std::optional<var_info> target_var = read_var_info( jo.get_object( member ) );
+    bool unique_id = jo.get_bool( "unique_id", false );
+    function = [target_var, unique_id, is_npc]( dialogue const & d ) {
+        npc *guy = d.actor( is_npc )->get_npc();
+        if( guy ) {
+            var_info cur_var = target_var.value();
+            if( unique_id ) {
+                //12 since it should start with npctalk_var
+                cur_var.name.insert( 12, guy->get_unique_id() );
+            }
+            tripoint_abs_ms target_location = get_tripoint_from_var( cur_var, d );
+            guy->set_guard_pos( target_location );
+        }
     };
 }
 
@@ -3773,8 +3794,9 @@ void talk_effect_fun_t::set_weighted_list_eocs( const JsonObject &jo,
 
 void talk_effect_fun_t::set_switch( const JsonObject &jo, const std::string_view member )
 {
-    std::function<double( dialogue const &/* d */ )> eoc_switch = conditional_t::get_get_dbl(
-                jo.get_object( member ) );
+    std::function<double( dialogue const &/* d */ )> eoc_switch = jo.has_string( member ) ?
+            conditional_t::get_get_dbl( jo.get_string( member.data() ), jo ) :
+            conditional_t::get_get_dbl( jo.get_object( member ) );
     std::vector<std::pair<dbl_or_var, talk_effect_t>> case_pairs;
     for( const JsonValue jv : jo.get_array( "cases" ) ) {
         JsonObject array_case = jv.get_object();
@@ -4471,8 +4493,14 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_npc_cbm_reserve_rule( jo, "set_npc_cbm_reserve_rule" );
     } else if( jo.has_string( "set_npc_cbm_recharge_rule" ) ) {
         subeffect_fun.set_npc_cbm_recharge_rule( jo, "set_npc_cbm_recharge_rule" );
+    } else if( jo.has_member( "u_set_goal" ) ) {
+        subeffect_fun.set_npc_goal( jo, "u_set_goal" );
     } else if( jo.has_member( "npc_set_goal" ) ) {
-        subeffect_fun.set_npc_goal( jo, "npc_set_goal" );
+        subeffect_fun.set_npc_goal( jo, "npc_set_goal", true );
+    } else if( jo.has_member( "u_set_guard_pos" ) ) {
+        subeffect_fun.set_guard_pos( jo, "u_set_guard_pos" );
+    } else if( jo.has_member( "npc_set_guard_pos" ) ) {
+        subeffect_fun.set_guard_pos( jo, "npc_set_guard_pos", true );
     } else if( jo.has_member( "mapgen_update" ) ) {
         subeffect_fun.set_mapgen_update( jo, "mapgen_update" );
     } else if( jo.has_member( "alter_timed_events" ) ) {
