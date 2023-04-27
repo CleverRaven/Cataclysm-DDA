@@ -50,7 +50,6 @@
     "grab_strength": 20,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "vision_day": 50,
-    "armor_bullet": 100,
     "special_attacks": [ { "id": "grab", "cooldown": 0, "move_cost": 0 } ],
     "harvest": "exempt",
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
