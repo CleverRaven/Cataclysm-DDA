@@ -737,7 +737,7 @@
     "melee_dice_sides": 3,
     "dodge": 1,
     "weakpoint_sets": [ "wps_humanoid_body" ],
-    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_syn_armored" ],
+    "families": [ "prof_intro_biology", "prof_physiology" ],
     "vision_day": 50,
     "vision_night": 3,
     "harvest": "human",
