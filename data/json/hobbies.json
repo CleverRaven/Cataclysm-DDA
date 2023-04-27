@@ -266,6 +266,16 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "cheesemaking",
+    "name": "Cheesemaking",
+    "description": "The art of producing the finest quality cheeses has been passed down through your family for generations.  How useful these skills will be in the apocalypse remains to *brie* seen.",
+    "points": 2,
+    "proficiencies": [ "prof_food_prep", "prof_cheesemaking_1", "prof_cheesemaking_2" ],
+    "skills": [ { "level": 3, "name": "cooking" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "paintball",
     "name": "Paintball",
     "description": "Pretending to shoot at your friends has always been fun.  Now you can do it for real.",
