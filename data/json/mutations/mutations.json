@@ -261,6 +261,17 @@
   },
   {
     "type": "mutation",
+    "id": "HUMAN_ACCLIMATIZATION",
+    "name": { "str": "Human ACCLIMATIZATION" },
+    "points": 0,
+    "player_display": false,
+    "dummy": true,
+    "category": [ "HUMAN" ],
+    "cancels": [ "RESISTCHILL", "STRONGER_RESISTCHILL", "RESISTWARM", "STRONGER_RESISTWARM" ],
+    "description": "Your temperature tolerance is more or less normal for a human."
+  },
+  {
+    "type": "mutation",
     "id": "FLEET",
     "name": { "str": "Fleet-Footed" },
     "points": 2,
