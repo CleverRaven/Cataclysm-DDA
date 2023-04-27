@@ -505,8 +505,6 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_GIVE_RANDOM_MISSION",
-    "recurrence": 1,
-    "global": false,
     "condition": { "or": [ { "npc_has_trait": "GETS_RANDOM_MISSION" }, { "npc_has_trait": "GETS_RANDOM_MISSION_NOMOVE" } ] },
     "effect": [
       {
