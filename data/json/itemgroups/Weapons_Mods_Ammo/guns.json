@@ -504,6 +504,8 @@
       { "group": "nested_M24", "prob": 15 },
       { "group": "nested_m4_carbine", "prob": 45 },
       { "group": "nested_m1903", "prob": 15 },
+      { "group": "nested_mk3", "prob": 10 },
+      { "group": "nested_number4", "prob": 10 },
       { "group": "nested_m1918", "prob": 30 },
       { "group": "nested_mosin44_ebr", "prob": 10 },
       { "group": "nested_psl", "prob": 5 },
@@ -528,6 +530,8 @@
       { "item": "henry_big_boy", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "bh_m89", "prob": 15 },
       { "item": "m1903", "prob": 15, "charges-min": 0, "charges-max": 0 },
+      { "item": "smle_mk3", "prob": 10, "charges-min": 0, "charges-max": 0 },
+      { "item": "number4_mki", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "mosin44", "variant": "mosin44_ebr", "contents-group": "mosin_mods", "prob": 1, "charges": [ 0, 0 ] },
       {
         "item": "mosin91_30",

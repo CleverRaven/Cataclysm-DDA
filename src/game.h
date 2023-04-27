@@ -949,6 +949,8 @@ class game
          * point to a different monster after calling this (or to no monster at all).
          */
         void despawn_monster( monster &critter );
+        // Despawn all monsters not in the reality bubble
+        void despawn_nonlocal_monsters();
     private:
         // Routine loop functions, approximately in order of execution
         void open_consume_item_menu(); // Custom menu for consuming specific group of items
@@ -1222,12 +1224,12 @@ class game
 
 // Returns temperature modifier from direct heat radiation of nearby sources
 // @param location Location affected by heat sources
-units::temperature get_heat_radiation( const tripoint &location );
+units::temperature_delta get_heat_radiation( const tripoint &location );
 
 // Returns heat intensity of adjecent fires
 int get_best_fire( const tripoint &location );
 // Returns temperature modifier from hot air fields of given location
-units::temperature get_convection_temperature( const tripoint &location );
+units::temperature_delta get_convection_temperature( const tripoint &location );
 
 namespace cata_event_dispatch
 {
