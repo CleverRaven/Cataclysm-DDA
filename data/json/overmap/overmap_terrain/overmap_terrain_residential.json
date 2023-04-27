@@ -678,12 +678,9 @@
       "apartment_complex_garage_corner_gate_R",
       "apartment_complex_garage_corner",
       "apartment_complex_garage_straight",
-      "apartment_complex_garage_straight_gate",
       "apartment_complex_garage_straight_wall",
-      "apartment_complex_garage_straight_gate_wall",
       "apartment_complex_garage_straight_wallALT",
       "apartment_complex_garage_straight_gate_wallALT",
-      "apartment_complex_garage_corner_inner",
       "apartment_complex_garage_corner_inner_wall",
       "apartment_complex_garage_corner_inner_wallALT"
     ],
@@ -691,6 +688,19 @@
     "name": "apartment complex - parking garage",
     "sym": "O",
     "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "apartment_complex_garage_straight_gate",
+      "apartment_complex_garage_straight_gate_wall",
+      "apartment_complex_garage_corner_inner"
+    ],
+    "copy-from": "apartments_tower_any",
+    "name": "apartment complex - parking garage",
+    "sym": "O",
+    "color": "dark_gray",
+    "flags": [ "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",
