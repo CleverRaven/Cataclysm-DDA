@@ -1505,6 +1505,9 @@ void vehicle_prototype::finalize()
                 for( const itype_id &it : pt.tools ) {
                     blueprint.get_tools( vp ).emplace_back( it, calendar::turn );
                 }
+                if( pt.fuel ) {
+                    vp.ammo_set( pt.fuel, vp.ammo_capacity( pt.fuel->ammo->type ) );
+                }
             }
 
             std::vector<itype_id> migrated;
