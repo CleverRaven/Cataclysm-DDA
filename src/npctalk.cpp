@@ -3709,8 +3709,10 @@ void talk_effect_fun_t::set_offer_mission( const JsonObject &jo, const std::stri
         // assume that the alpha is the npc if there isn't a beta
         npc *p = d.actor( d.has_beta )->get_npc();
 
-        for( const std::string &mission_name : mission_names ) {
-            p->add_new_mission( mission::reserve_new( mission_type_id( mission_name ), p->getID() ) );
+        if( p ) {
+            for( const std::string &mission_name : mission_names ) {
+                p->add_new_mission( mission::reserve_new( mission_type_id( mission_name ), p->getID() ) );
+            }
         }
     };
 }
