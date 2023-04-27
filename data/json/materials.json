@@ -2009,6 +2009,14 @@
   },
   {
     "type": "material",
+    "//": "The dense part of carpet pilling, technically made from synthetic fabric but not sewn into flat sheets.  Only a separate material to lower ballistic resistance.",
+    "id": "carpet_pilling",
+    "name": "Carpet Pilling",
+    "copy-from": "nylon",
+    "resist": { "bash": 1, "cut": 1, "acid": 6, "heat": 2, "bullet": 1 }
+  },
+  {
+    "type": "material",
     "id": "unobtanium",
     "//": "this isn't supposed to be a super impressive material, just impossible to repair",
     "name": "Strange Metal",
