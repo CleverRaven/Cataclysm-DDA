@@ -1577,7 +1577,8 @@
       "PADDED",
       "USE_UPS",
       "NO_UNLOAD",
-      "COMBAT_TOGGLEABLE"
+      "COMBAT_TOGGLEABLE",
+      "UNBREAKABLE_MELEE"
     ]
   },
   {
