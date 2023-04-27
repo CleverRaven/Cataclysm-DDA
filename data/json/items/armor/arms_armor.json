@@ -58,7 +58,7 @@
           { "type": "carpet_pilling", "covered_by_mat": 100, "thickness": 3.0 }
         ],
         "covers": [ "arm_l", "arm_r" ],
-        "encumbrance": 10,
+        "encumbrance": 5,
         "coverage": 90,
         "cover_ranged": 95,
         "cover_vitals": 70,
@@ -93,7 +93,7 @@
           { "type": "carpet_pilling", "covered_by_mat": 100, "thickness": 3.0 }
         ],
         "covers": [ "arm_l", "arm_r" ],
-        "encumbrance": 10,
+        "encumbrance": 3,
         "coverage": 90,
         "cover_ranged": 95,
         "cover_vitals": 70,

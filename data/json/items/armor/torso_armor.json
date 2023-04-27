@@ -266,7 +266,7 @@
     "type": "ARMOR",
     "name": { "str": "carpet cuirass", "str_pl": "carpet cuirasses" },
     "description": "A rectangular length of tough carpet with a hole cut out for your head and tied around the waist.  It's decently protective for its weight and quite the fashion statement.",
-    "weight": "7000 g",
+    "weight": "6800 g",
     "//": "Assuming roughly 1m^2 at a density of 1.4 lbs/ft^2",
     "volume": "9250 ml",
     "price": 120,
