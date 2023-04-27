@@ -873,6 +873,12 @@ bool veh_interact::update_part_requirements()
     }
     nmsg += res.second;
 
+    if( !veh->can_mount( veh->part( cpart ).mount, sel_vpart_info->get_id() ).success() ) {
+        ok = false;
+        nmsg += _( "<color_white>Cannot install due to:</color>\n" ) + veh->can_mount( veh->part(
+                    cpart ).mount, sel_vpart_info->get_id() ).str() + "\n";
+    }
+
     sel_vpart_info->format_description( nmsg, c_light_gray, getmaxx( w_msg ) - 4 );
 
     msg = colorize( nmsg, c_light_gray );
@@ -2363,7 +2369,7 @@ void veh_interact::move_cursor( const point &d, int dstart_at )
             if( has_critter && vp.has_flag( VPFLAG_OBSTACLE ) ) {
                 continue;
             }
-            if( veh->can_mount( vd, vp.get_id() ) ) {
+            if( veh->can_mount( vd, vp.get_id() ).success() ) {
                 if( vp.has_flag( VPFLAG_APPLIANCE ) ) {
                     // exclude "appliances" from vehicle part list
                     continue;
@@ -2377,6 +2383,8 @@ void veh_interact::move_cursor( const point &d, int dstart_at )
                 } else {
                     req_missing.push_back( &vp );
                 }
+            } else if( !veh->can_mount( vd, vp.get_id() ).success() ) {
+                req_missing.push_back( &vp );
             }
         }
         auto vpart_localized_sort = []( const vpart_info * a, const vpart_info * b ) {

@@ -1120,17 +1120,19 @@ bool vehicle::is_structural_part_removed() const
  * @param id The id of the part to install.
  * @return true if the part can be mounted, false if not.
  */
-bool vehicle::can_mount( const point &dp, const vpart_id &id ) const
+ret_val<vehicle::install_code> vehicle::can_mount( const point &dp, const vpart_id &id ) const
 {
     //The part has to actually exist.
     if( !id.is_valid() ) {
-        return false;
+        return ret_val<vehicle::install_code>::make_failure(
+                   install_code::ERR_INVALID, _( "<color_red>Invalid ID! This should never appear.</color>" ) );
     }
 
     //It also has to be a real part, not the null part
     const vpart_info &part = id.obj();
     if( part.has_flag( "NOINSTALL" ) ) {
-        return false;
+        return ret_val<vehicle::install_code>::make_failure(
+                   install_code::ERR_NOINSTALL, _( "<color_red>Part cannot be installed!</color>" ) );
     }
 
     const std::vector<int> parts_in_square = parts_at_relative( dp, false, false );
@@ -1138,15 +1140,18 @@ bool vehicle::can_mount( const point &dp, const vpart_id &id ) const
     //First part in an empty square MUST be a structural part or be an appliance
     if( parts_in_square.empty() &&  part.location != part_location_structure &&
         !part.has_flag( flag_APPLIANCE ) ) {
-        return false;
+        return ret_val<vehicle::install_code>::make_failure(
+                   install_code::ERR_FIRST_PART, _( "<color_red>There's no structure to support it!</color>" ) );
     }
     // If its a part that harnesses animals that don't allow placing on it.
     if( !parts_in_square.empty() && part_info( parts_in_square[0] ).has_flag( "ANIMAL_CTRL" ) ) {
-        return false;
+        return ret_val<vehicle::install_code>::make_failure(
+                   install_code::ERR_ANIMAL_YOKE, _( "<color_red>There's an animal harness in the way!</color>" ) );
     }
     //No other part can be placed on a protrusion
     if( !parts_in_square.empty() && part_info( parts_in_square[0] ).has_flag( "PROTRUSION" ) ) {
-        return false;
+        return ret_val<vehicle::install_code>::make_failure(
+                   install_code::ERR_PROTRUSION, _( "<color_red>An existing vehicle part is protruding!</color>" ) );
     }
 
     //No part type can stack with itself, or any other part in the same slot
@@ -1156,12 +1161,18 @@ bool vehicle::can_mount( const point &dp, const vpart_id &id ) const
         //Parts with no location can stack with each other (but not themselves)
         if( part.get_id() == other_part.get_id() ||
             ( !part.location.empty() && part.location == other_part.location ) ) {
-            return false;
+            return ret_val<vehicle::install_code>::make_failure(
+                       install_code::ERR_LOCATION_TAKEN,
+                       _( "<color_red>The installed %1$s part shares the %2$s location!</color>" ), other_part.name(),
+                       other_part.location );
         }
         // Until we have an interface for handling multiple components with CARGO space,
         // exclude them from being mounted in the same tile.
         if( part.has_flag( "CARGO" ) && other_part.has_flag( "CARGO" ) ) {
-            return false;
+            return ret_val<vehicle::install_code>::make_failure(
+                       install_code::ERR_ONE_CARGO_LIMIT,
+                       _( "<color_red>Can't have two cargo parts on the same tile! Conflicts with %1$s!</color>" ),
+                       other_part.name() );
         }
 
     }
@@ -1175,14 +1186,17 @@ bool vehicle::can_mount( const point &dp, const vpart_id &id ) const
             !has_structural_part( dp + point_south ) &&
             !has_structural_part( dp + point_west ) &&
             !has_structural_part( dp + point_north ) ) {
-            return false;
+            return ret_val<vehicle::install_code>::make_failure(
+                       install_code::ERR_ADJACENT_STRUCTURE,
+                       _( "<color_red>Part needs to be adjacent to or on existing structure!</color>" ) );
         }
     }
 
     // only one exclusive engine allowed
     std::string empty;
     if( has_engine_conflict( &part, empty ) ) {
-        return false;
+        return ret_val<vehicle::install_code>::make_failure(
+                   install_code::ERR_EXCLUSIVE_ENGINE, _( "<color_red>Only one exclusive engine allowed!</color>" ) );
     }
 
     // Check all the flags of the part to see if they require other flags
@@ -1196,7 +1210,8 @@ bool vehicle::can_mount( const point &dp, const vpart_id &id ) const
                 }
             }
             if( !anchor_found ) {
-                return false;
+                return ret_val<vehicle::install_code>::make_failure(
+                           install_code::ERR_FLAG, _( "<color_red>Part requires flag from another part!</color>" ) );
             }
         }
     }
@@ -1205,7 +1220,9 @@ bool vehicle::can_mount( const point &dp, const vpart_id &id ) const
     if( part.has_flag( "VISION" ) && !part.has_flag( "CAMERA" ) ) {
         for( const int &elem : parts_in_square ) {
             if( part_info( elem ).has_flag( "OPAQUE" ) ) {
-                return false;
+                return ret_val<vehicle::install_code>::make_failure(
+                           install_code::ERR_EXISTING_OPAQUE,
+                           _( "<color_red>Mirrors cannot be mounted on opaque parts!</color>" ) );
             }
         }
     }
@@ -1214,7 +1231,9 @@ bool vehicle::can_mount( const point &dp, const vpart_id &id ) const
         for( const int &elem : parts_in_square ) {
             if( part_info( elem ).has_flag( "VISION" ) &&
                 !part_info( elem ).has_flag( "CAMERA" ) ) {
-                return false;
+                return ret_val<vehicle::install_code>::make_failure(
+                           install_code::ERR_EXISTING_MIRROR,
+                           _( "<color_red>Opaque parts cannot be mounted on mirror parts!</color>" ) );
             }
         }
     }
@@ -1223,13 +1242,14 @@ bool vehicle::can_mount( const point &dp, const vpart_id &id ) const
     if( part.has_flag( "TURRET_MOUNT" ) ) {
         for( const int &elem : parts_in_square ) {
             if( part_info( elem ).has_flag( "TURRET_MOUNT" ) ) {
-                return false;
+                return ret_val<vehicle::install_code>::make_failure(
+                           install_code::ERR_TURRET, _( "<color_red>You can't install a turret on a turret!</color>" ) );
             }
         }
     }
 
     //Anything not explicitly denied is permitted
-    return true;
+    return ret_val<vehicle::install_code>::make_success( install_code::SUCCESS );
 }
 
 bool vehicle::can_unmount( const int p ) const
@@ -1401,7 +1421,7 @@ bool vehicle::is_appliance() const
 int vehicle::install_part( const point &dp, const vpart_id &id, const std::string &variant_id,
                            bool force )
 {
-    if( !( force || can_mount( dp, id ) ) ) {
+    if( !( force || can_mount( dp, id ).success() ) ) {
         return -1;
     }
     return install_part( dp, vehicle_part( id, variant_id, dp, item( id.obj().base_item ) ) );
@@ -1410,7 +1430,7 @@ int vehicle::install_part( const point &dp, const vpart_id &id, const std::strin
 int vehicle::install_part( const point &dp, const vpart_id &id, item &&obj,
                            const std::string &variant_id, bool force )
 {
-    if( !( force || can_mount( dp, id ) ) ) {
+    if( !( force || can_mount( dp, id ).success() ) ) {
         return -1;
     }
     return install_part( dp, vehicle_part( id, variant_id, dp, std::move( obj ) ) );

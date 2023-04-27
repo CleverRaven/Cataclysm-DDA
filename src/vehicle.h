@@ -843,6 +843,35 @@ class vehicle
         vehicle &operator=( const vehicle & ) = default;
 
     public:
+        enum class install_code : int {
+            SUCCESS,
+            // part doesn't exist
+            ERR_INVALID,
+            // part cannot be installed
+            ERR_NOINSTALL,
+            // first part must be structural
+            ERR_FIRST_PART,
+            // can't put parts on top of an animal harness
+            ERR_ANIMAL_YOKE,
+            // protruding part in the way
+            ERR_PROTRUSION,
+            // installing part's location is already occupied
+            ERR_LOCATION_TAKEN,
+            // only one part with CARGO flag allowed per tile
+            ERR_ONE_CARGO_LIMIT,
+            // part needs to be adjacent to structure
+            ERR_ADJACENT_STRUCTURE,
+            // only one exclusive engine allowed
+            ERR_EXCLUSIVE_ENGINE,
+            // part requires flag from another part
+            ERR_FLAG,
+            // Mirrors cannot be mounted on OPAQUE parts
+            ERR_EXISTING_OPAQUE,
+            // Opaque parts cannot be mounted on mirrors parts
+            ERR_EXISTING_MIRROR,
+            // can't install turret on top of turret
+            ERR_TURRET
+        };
         /** Disable or enable refresh() ; used to speed up performance when creating a vehicle */
         void suspend_refresh();
         void enable_refresh();
@@ -960,7 +989,7 @@ class vehicle
         const vpart_info &part_info( int index, bool include_removed = false ) const;
 
         // check if certain part can be mounted at certain position (not accounting frame direction)
-        bool can_mount( const point &dp, const vpart_id &id ) const;
+        ret_val<install_code> can_mount( const point &dp, const vpart_id &id ) const;
 
         // check if certain part can be unmounted
         bool can_unmount( int p ) const;
