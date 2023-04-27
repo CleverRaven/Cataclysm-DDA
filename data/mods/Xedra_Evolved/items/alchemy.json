@@ -1,0 +1,30 @@
+[
+	{
+    "type": "COMESTIBLE",
+    "id": "blackout_rage_drink",
+    "looks_like": "cola",
+    "name": { "str": "Bored, the blackout rage drink" },
+    "weight": "253 g",
+    "color": "magenta",
+    "addiction_type": "alcohol",
+    "fatigue_mod": 112,
+    "stim": 34,
+    "container": "jug_plastic",
+    "comestible_type": "DRINK",
+    "symbol": "~",
+    "quench": 15,
+    "healthy": -4,
+    "addiction_potential": 6,
+    "calories": 157,
+    "description": "An incredibly alcoholic and caffeinated drink.  This probably isn't healthy.",
+    "price": 170,
+    "price_postapoc": 50,
+    "material": [ "alcohol" ],
+    "primary_material": "water",
+    "volume": "250 ml",
+    "phase": "liquid",
+    "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
+    "use_action": { "type": "cast_spell", "spell_id": "blackout_rage_drink", "no_fail": true, "level": 0 },
+    "fun": 5
+  }
+]
