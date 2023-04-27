@@ -12230,6 +12230,18 @@ void game::despawn_monster( monster &critter )
     critter.set_hp( 0 );
 }
 
+void game::despawn_nonlocal_monsters()
+{
+    for( monster &critter : g->all_monsters() ) {
+        if( critter.posx() < 0 - MAPSIZE_X / 6 ||
+            critter.posy() < 0 - MAPSIZE_Y / 6 ||
+            critter.posx() > ( MAPSIZE_X * 7 ) / 6 ||
+            critter.posy() > ( MAPSIZE_Y * 7 ) / 6 ) {
+            g->despawn_monster( critter );
+        }
+    }
+}
+
 void game::shift_monsters( const tripoint &shift )
 {
     if( shift == tripoint_zero ) {
