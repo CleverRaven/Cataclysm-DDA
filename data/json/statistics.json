@@ -2652,5 +2652,18 @@
     "stat_type": "count",
     "event_transformation": "avatar_enters_mine",
     "description": { "str": "mine entered", "str_pl": "mines entered" }
+  },
+  {
+    "id": "avatar_enters_police_station",
+    "type": "event_transformation",
+    "event_transformation": "avatar_enters_oter_type",
+    "value_constraints": { "oter_type_id": { "equals_any": [ "oter_type_str_id", [ "police", "police_1", "police_2" ] ] } }
+  },
+  {
+    "id": "num_avatar_enters_police_station",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_enters_police_station",
+    "description": { "str": "Police Station entered", "str_pl": "Police Stations entered" }
   }
 ]
