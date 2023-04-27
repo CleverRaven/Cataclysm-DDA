@@ -4645,22 +4645,22 @@ void map::adjust_radiation( const tripoint &p, const int delta )
     current_submap->set_radiation( l, current_radiation + delta );
 }
 
-units::temperature map::get_temperature_mod( const tripoint &p ) const
+units::temperature_delta map::get_temperature_mod( const tripoint &p ) const
 {
     if( !inbounds( p ) ) {
-        return 0_K;
+        return units::from_kelvin_delta( 0 );
     }
 
     const submap *const current_submap = unsafe_get_submap_at( p );
     if( current_submap == nullptr ) {
         debugmsg( "Tried to get temperature at (%d,%d,%d) but the submap is not loaded", p.x, p.y, p.z );
-        return 0_K;
+        return units::from_kelvin_delta( 0 );
     }
 
-    return current_submap->get_temperature();
+    return current_submap->get_temperature_mod();
 }
 
-void map::set_temperature_mod( const tripoint &p, units::temperature new_temperature_mod )
+void map::set_temperature_mod( const tripoint &p, units::temperature_delta new_temperature_mod )
 {
     if( !inbounds( p ) ) {
         return;
@@ -5766,7 +5766,6 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
 units::energy map::consume_ups( const tripoint &origin, const int range, units::energy qty )
 {
     const units::energy wanted_qty = qty;
-    int qty_kj = units::to_kilojoule( qty );
 
     // populate a grid of spots that can be reached
     std::vector<tripoint> reachable_pts;
@@ -5778,8 +5777,8 @@ units::energy map::consume_ups( const tripoint &origin, const int range, units::
             map_stack items = i_at( p );
             for( item &elem : items ) {
                 if( elem.has_flag( flag_IS_UPS ) ) {
-                    qty_kj -=  elem.ammo_consume( qty_kj, p, nullptr );
-                    if( qty_kj == 0 ) {
+                    qty -=  elem.energy_consume( qty, p, nullptr );
+                    if( qty <= 0_J ) {
                         break;
                     }
                 }
@@ -5787,7 +5786,7 @@ units::energy map::consume_ups( const tripoint &origin, const int range, units::
         }
     }
 
-    return wanted_qty - units::from_kilojoule( qty_kj );
+    return wanted_qty - qty;
 }
 
 std::list<std::pair<tripoint, item *> > map::get_rc_items( const tripoint &p )
@@ -8343,12 +8342,12 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
     group.clear();
 }
 
-void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight )
+void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight, bool spawn_nonlocal )
 {
     // TODO: fix point types
     const tripoint_abs_sm submap_pos( gp + abs_sub.xy() );
     // Load unloaded monsters
-    overmap_buffer.spawn_monster( submap_pos );
+    overmap_buffer.spawn_monster( submap_pos, spawn_nonlocal );
     // Only spawn new monsters after existing monsters are loaded.
     std::vector<mongroup *> groups = overmap_buffer.groups_at( submap_pos );
     for( mongroup *&mgp : groups ) {
@@ -8419,7 +8418,7 @@ void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight )
     current_submap->spawns.clear();
 }
 
-void map::spawn_monsters( bool ignore_sight )
+void map::spawn_monsters( bool ignore_sight, bool spawn_nonlocal )
 {
     const int zmin = zlevels ? -OVERMAP_DEPTH : abs_sub.z();
     const int zmax = zlevels ? OVERMAP_HEIGHT : abs_sub.z();
@@ -8430,7 +8429,7 @@ void map::spawn_monsters( bool ignore_sight )
     for( gz = zmin; gz <= zmax; gz++ ) {
         for( gx = 0; gx < my_MAPSIZE; gx++ ) {
             for( gy = 0; gy < my_MAPSIZE; gy++ ) {
-                spawn_monsters_submap( gp, ignore_sight );
+                spawn_monsters_submap( gp, ignore_sight, spawn_nonlocal );
             }
         }
     }
