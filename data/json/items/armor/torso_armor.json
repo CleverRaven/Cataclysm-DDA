@@ -262,6 +262,62 @@
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
+    "id": "carpet_cuirass",
+    "type": "ARMOR",
+    "name": { "str": "carpet cuirass", "str_pl": "carpet cuirasses" },
+    "description": "A rectangular length of tough carpet with a hole cut out for your head and tied around the waist.  It's decently protective for its weight and quite the fashion statement.",
+    "weight": "6800 g",
+    "//": "Assuming roughly 1m^2 at a density of 1.4 lbs/ft^2",
+    "volume": "9250 ml",
+    "price": 120,
+    "price_postapoc": 50,
+    "material": [ "plastic", "carpet_pilling" ],
+    "symbol": "[",
+    "looks_like": "tunic_rag",
+    "color": "red",
+    "longest_side": "60 cm",
+    "warmth": 15,
+    "material_thickness": 4,
+    "flags": [ "OUTER", "NO_REPAIR" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "carpet_pilling", "covered_by_mat": 100, "thickness": 3.0 }
+        ],
+        "encumbrance": 10,
+        "coverage": 85,
+        "cover_ranged": 95,
+        "cover_vitals": 70,
+        "covers": [ "torso" ]
+      },
+      {
+        "material": [
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "carpet_pilling", "covered_by_mat": 100, "thickness": 3.0 }
+        ],
+        "encumbrance": 5,
+        "coverage": 85,
+        "cover_ranged": 95,
+        "cover_vitals": 70,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ]
+      },
+      {
+        "material": [
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "carpet_pilling", "covered_by_mat": 100, "thickness": 3.0 }
+        ],
+        "encumbrance": 5,
+        "coverage": 85,
+        "cover_ranged": 95,
+        "cover_vitals": 70,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
+      }
+    ]
+  },
+  {
     "id": "armor_lorica",
     "type": "ARMOR",
     "name": { "str_sp": "lorica segmentata" },
