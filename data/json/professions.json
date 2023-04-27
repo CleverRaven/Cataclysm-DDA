@@ -1607,7 +1607,7 @@
     "type": "profession",
     "id": "rescuer",
     "name": { "male": "Rescuer", "female": "Rescuer" },
-    "requirement": "achievement_kill_1000_monsters",
+    "requirement": "achievement_reach_mi-Go_encampment",
     "description": "You were ready.  You went in determined to find and rescue your friends.  Now the atmosphere in these twisting corridors grows heavy, and you don't feel quite so confident anymore.  You might be the one in need of a rescue soon.",
     "points": 3,
     "skills": [
