@@ -179,12 +179,7 @@
     "time": "10 m",
     "autolearn": true,
     "components": [
-      [
-        [ "y_carpet", 1 ],
-        [ "r_carpet", 1 ],
-        [ "p_carpet", 1 ],
-        [ "g_carpet", 1 ]
-      ],
+      [ [ "y_carpet", 1 ], [ "r_carpet", 1 ], [ "p_carpet", 1 ], [ "g_carpet", 1 ] ],
       [ [ "cordage", 8, "LIST" ], [ "duct_tape", 200 ] ]
     ],
     "qualities": [ { "id": "CUT", "level": 2 } ]
