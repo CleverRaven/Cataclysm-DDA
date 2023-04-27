@@ -7951,7 +7951,8 @@
     "valid": false,
     "purifiable": false,
     "active": true,
-    "activated_eocs": [ "EOC_GIVE_RANDOM_MISSION" ]
+    "starts_active": true,
+    "processed_eocs": [ "EOC_GIVE_RANDOM_MISSION" ]
   },
   {
     "id": "GETS_RANDOM_MISSION_NOMOVE",
@@ -7962,7 +7963,8 @@
     "valid": false,
     "purifiable": false,
     "active": true,
-    "activated_eocs": [ "EOC_GIVE_RANDOM_MISSION" ]
+    "starts_active": true,
+    "processed_eocs": [ "EOC_GIVE_RANDOM_MISSION" ]
   },
   {
     "type": "mutation",
