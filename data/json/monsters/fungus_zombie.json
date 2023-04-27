@@ -139,7 +139,11 @@
     "proportional": { "hp": 1.5, "speed": 1.5 },
     "relative": { "melee_dice": 1, "melee_dice_sides": 5, "melee_damage": 2, "armor": { "bash": 4, "cut": 6, "bullet": 5 } },
     "special_attacks": [ [ "SMASH", 30 ], [ "FUNGUS", 200 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH", "HARDTOSHOOT" ], "weakpoint_sets": [ "wps_bone_armor" ], "families": [ "prof_wp_skeleton" ] },
+    "extend": {
+      "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH", "HARDTOSHOOT" ],
+      "weakpoint_sets": [ "wps_bone_armor" ],
+      "families": [ "prof_wp_skeleton" ]
+    },
     "harvest": "mr_bones",
     "death_function": { "corpse_type": "NO_CORPSE", "effect": { "id": "death_fungus", "hit_self": true } }
   },
