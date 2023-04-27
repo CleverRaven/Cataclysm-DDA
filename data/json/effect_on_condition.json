@@ -946,5 +946,61 @@
     "update_mapgen_id": "SCENARIO_SMOKE",
     "method": "json",
     "object": { "place_fields": [ { "field": "fd_smoke", "x": [ 3, 20 ], "y": [ 3, 20 ], "intensity": [ 1, 3 ], "repeat": 60 } ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_REFUGEE_CENTER_NPC_MOVEMENT",
+    "//": "Runs once an hour and moves refugee center npcs around based on what hour it is.",
+    "global": true,
+    "recurrence": "1 hours",
+    "effect": [
+      {
+        "switch": "hour",
+        "cases": [
+          { "case": 0, "effect": { "run_eocs": "EOC_REFUGEE_CENTER_GUARD_FIRST_POSITION" } },
+          { "case": 2, "effect": { "run_eocs": "EOC_REFUGEE_CENTER_GUARD_SECOND_POSITION" } },
+          { "case": 4, "effect": { "run_eocs": "EOC_REFUGEE_CENTER_GUARD_FIRST_POSITION" } },
+          { "case": 6, "effect": { "run_eocs": "EOC_REFUGEE_CENTER_GUARD_SECOND_POSITION" } },
+          { "case": 8, "effect": { "run_eocs": "EOC_REFUGEE_CENTER_GUARD_FIRST_POSITION" } },
+          { "case": 10, "effect": { "run_eocs": "EOC_REFUGEE_CENTER_GUARD_SECOND_POSITION" } },
+          { "case": 12, "effect": { "run_eocs": "EOC_REFUGEE_CENTER_GUARD_FIRST_POSITION" } },
+          { "case": 14, "effect": { "run_eocs": "EOC_REFUGEE_CENTER_GUARD_SECOND_POSITION" } },
+          { "case": 16, "effect": { "run_eocs": "EOC_REFUGEE_CENTER_GUARD_FIRST_POSITION" } },
+          { "case": 18, "effect": { "run_eocs": "EOC_REFUGEE_CENTER_GUARD_SECOND_POSITION" } },
+          { "case": 20, "effect": { "run_eocs": "EOC_REFUGEE_CENTER_GUARD_FIRST_POSITION" } },
+          { "case": 22, "effect": { "run_eocs": "EOC_REFUGEE_CENTER_GUARD_SECOND_POSITION" } }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_REFUGEE_CENTER_GUARD_FIRST_POSITION",
+    "effect": [
+      {
+        "u_run_npc_eocs": [
+          {
+            "id": "EOC_REFUGEE_CENTER_GUARD_FIRST_SHIFT",
+            "effect": { "u_set_guard_pos": { "global_val": "_First" }, "unique_id": true }
+          }
+        ],
+        "unique_ids": [ "GUARD1", "GUARD2", "GUARD3", "GUARD4", "GUARD5", "GUARD6", "GUARD7" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_REFUGEE_CENTER_GUARD_SECOND_POSITION",
+    "effect": [
+      {
+        "u_run_npc_eocs": [
+          {
+            "id": "EOC_REFUGEE_CENTER_GUARD_SECOND_SHIFT",
+            "effect": { "u_set_guard_pos": { "global_val": "_Second" }, "unique_id": true }
+          }
+        ],
+        "unique_ids": [ "GUARD1", "GUARD2", "GUARD3", "GUARD4", "GUARD5", "GUARD6", "GUARD7" ]
+      }
+    ]
   }
 ]
