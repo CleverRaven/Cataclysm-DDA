@@ -598,7 +598,6 @@
     "price": 24000,
     "price_postapoc": 50,
     "to_hit": -4,
-    "bashing": 16,
     "material": [ "steel" ],
     "symbol": "?",
     "looks_like": "briefcase",
@@ -606,7 +605,8 @@
     "sided": true,
     "material_thickness": 2,
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": 45, "coverage": 10, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ]
+    "armor": [ { "encumbrance": 45, "coverage": 10, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ],
+    "melee_damage": { "bash": 16 }
   },
   {
     "type": "GENERIC",
@@ -645,13 +645,13 @@
     "volume": "5 ml",
     "price": 3000,
     "price_postapoc": 50,
-    "bashing": 1,
     "material": [ "paper" ],
     "symbol": "?",
     "looks_like": "mag_glam",
     "color": "light_cyan",
     "intelligence": 5,
-    "time": "10 m"
+    "time": "10 m",
+    "melee_damage": { "bash": 1 }
   },
   {
     "type": "GENERIC",

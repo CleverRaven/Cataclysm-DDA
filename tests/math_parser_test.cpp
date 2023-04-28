@@ -14,7 +14,7 @@ static const spell_id spell_test_spell_pew( "test_spell_pew" );
 TEST_CASE( "math_parser_parsing", "[math_parser]" )
 {
     dialogue const d( std::make_unique<talker>(), std::make_unique<talker>() );
-    math_exp<dialogue> testexp;
+    math_exp testexp;
 
     CHECK_FALSE( testexp.parse( "" ) );
     CHECK( testexp.eval( d ) == Approx( 0.0 ) );
@@ -135,7 +135,7 @@ TEST_CASE( "math_parser_dialogue_integration", "[math_parser]" )
 {
     standard_npc dude;
     dialogue const d( get_talker_for( get_avatar() ), get_talker_for( &dude ) );
-    math_exp<dialogue> testexp;
+    math_exp testexp;
     global_variables &globvars = get_globals();
 
     // reading scoped variables

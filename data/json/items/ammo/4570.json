@@ -6,6 +6,7 @@
     "description": ".45-70 Government ammunition loaded with a 305 grain soft point bullet.  One of the oldest cartridges still in use, it is still a favorite for large game hunting at short ranges.",
     "weight": "35 g",
     "volume": "167 ml",
+    "longest_side": "65 mm",
     "price": 125,
     "price_postapoc": 800,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],

@@ -136,8 +136,8 @@ std::string print_humidity( double humidity, int decimals = 0 );
 std::string print_pressure( double pressure, int decimals = 0 );
 
 // Returns temperature delta caused by windchill at given temperature, humidity and wind
-units::temperature get_local_windchill( units::temperature temperature, double humidity,
-                                        double wind_mph );
+units::temperature_delta get_local_windchill( units::temperature temperature, double humidity,
+        double wind_mph );
 
 int get_local_humidity( double humidity, const weather_type_id &weather, bool sheltered = false );
 

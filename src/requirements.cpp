@@ -106,7 +106,7 @@ void quality::load_static( const JsonObject &jo, const std::string &src )
     quality_factory.load( jo, src );
 }
 
-void quality::load( const JsonObject &jo, const std::string & )
+void quality::load( const JsonObject &jo, const std::string_view )
 {
     mandatory( jo, was_loaded, "name", name );
 
@@ -734,7 +734,7 @@ void requirement_data::reset()
 std::vector<std::string> requirement_data::get_folded_components_list( int width, nc_color col,
         const read_only_visitable &crafting_inv, const std::function<bool( const item & )> &filter,
         int batch,
-        const std::string &hilite, requirement_display_flags flags ) const
+        const std::string_view hilite, requirement_display_flags flags ) const
 {
     std::vector<std::string> out_buffer;
     if( components.empty() ) {
@@ -752,7 +752,7 @@ std::vector<std::string> requirement_data::get_folded_components_list( int width
 template<typename T>
 std::vector<std::string> requirement_data::get_folded_list( int width,
         const read_only_visitable &crafting_inv, const std::function<bool( const item & )> &filter,
-        const std::vector< std::vector<T> > &objs, int batch, const std::string &hilite,
+        const std::vector< std::vector<T> > &objs, int batch, const std::string_view hilite,
         requirement_display_flags flags ) const
 {
     // hack: ensure 'cached' availability is up to date

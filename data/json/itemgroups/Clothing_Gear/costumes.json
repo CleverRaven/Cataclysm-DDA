@@ -59,7 +59,7 @@
       { "item": "waist_apron_long", "prob": 5 },
       { "item": "waist_apron_short", "prob": 5 },
       { "item": "apron_cotton", "variant": "camo_apron_cotton", "prob": 10 },
-      { "item": "apron_cotton", "variant": "maid_apron", "prob": 20 },
+      { "item": "apron_cotton", "variant": "maid_apron", "prob": 15 },
       { "item": "apron_cotton", "variant": "gothic_apron", "prob": 15 },
       { "item": "waist_apron_short", "variant": "camo_apron_cotton", "prob": 5 },
       { "item": "waist_apron_short", "variant": "maid_apron", "prob": 10 },

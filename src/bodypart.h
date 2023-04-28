@@ -109,7 +109,7 @@ struct limb_score {
     public:
         static void load_limb_scores( const JsonObject &jo, const std::string &src );
         static void reset();
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
         static const std::vector<limb_score> &get_all();
 
         const limb_score_id &getId() const {
@@ -146,7 +146,7 @@ struct bp_onhit_effect {
     // Apply the effect to the given bodypart, or to the whole character?
     bool global = false;
     // Type of damage that causes the effect - NONE always applies
-    damage_type dtype = damage_type::NONE;
+    damage_type_id dtype = damage_type_id::NULL_ID();
     // Percent of the limb's max HP required for the effect to trigger (or absolute DMG for minor limbs)
     int dmg_threshold = 100;
     // Percent HP / absolute damage triggering a scale tick
@@ -335,7 +335,7 @@ struct body_part_type {
         // if secondary is true instead returns a part from only the secondary sublocations
         sub_bodypart_id random_sub_part( bool secondary ) const;
 
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
         void finalize();
         void check() const;
 
@@ -357,10 +357,10 @@ struct body_part_type {
             return bionic_slots_;
         }
 
-        float unarmed_damage( const damage_type &dt ) const;
-        float unarmed_arpen( const damage_type &dt ) const;
+        float unarmed_damage( const damage_type_id &dt ) const;
+        float unarmed_arpen( const damage_type_id &dt ) const;
 
-        float damage_resistance( const damage_type &dt ) const;
+        float damage_resistance( const damage_type_id &dt ) const;
         float damage_resistance( const damage_unit &du ) const;
 
         // combine matching body part and subbodypart strings together for printing
@@ -474,7 +474,7 @@ class bodypart
         std::set<matec_id> get_limb_techs() const;
 
         // Get onhit effects
-        std::vector<bp_onhit_effect> get_onhit_effects( damage_type dtype ) const;
+        std::vector<bp_onhit_effect> get_onhit_effects( damage_type_id dtype ) const;
 
         // Get modified limb score as defined in limb_scores.json.
         // override forces the limb score to be affected by encumbrance/wounds (-1 == no override).

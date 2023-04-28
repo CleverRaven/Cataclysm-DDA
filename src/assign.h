@@ -42,7 +42,7 @@ void report_strict_violation( const JsonObject &jo, const std::string &message,
                               std::string_view name );
 
 template <typename T, typename std::enable_if<std::is_arithmetic<T>::value, int>::type = 0>
-bool assign( const JsonObject &jo, const std::string &name, T &val, bool strict = false,
+bool assign( const JsonObject &jo, std::string_view name, T &val, bool strict = false,
              T lo = std::numeric_limits<T>::lowest(), T hi = std::numeric_limits<T>::max() )
 {
     T out;
@@ -91,7 +91,7 @@ bool assign( const JsonObject &jo, const std::string &name, T &val, bool strict 
 
 // Overload assign specifically for bool to avoid warnings,
 // and also to avoid potentially nonsensical interactions between relative and proportional.
-bool assign( const JsonObject &jo, const std::string &name, bool &val, bool strict = false );
+bool assign( const JsonObject &jo, std::string_view name, bool &val, bool strict = false );
 
 template <typename T, typename std::enable_if<std::is_arithmetic<T>::value, int>::type = 0>
 bool assign( const JsonObject &jo, const std::string_view name, std::pair<T, T> &val,
@@ -209,27 +209,27 @@ bool assign( const JsonObject &jo, const std::string &name, units::volume &val,
              units::volume lo = units::volume_min,
              units::volume hi = units::volume_max );
 
-bool assign( const JsonObject &jo, const std::string &name, units::mass &val,
+bool assign( const JsonObject &jo, std::string_view name, units::mass &val,
              bool strict = false,
              units::mass lo = units::mass_min,
              units::mass hi = units::mass_max );
 
-bool assign( const JsonObject &jo, const std::string &name, units::length &val,
+bool assign( const JsonObject &jo, std::string_view name, units::length &val,
              bool strict = false,
              units::length lo = units::length_min,
              units::length hi = units::length_max );
 
-bool assign( const JsonObject &jo, const std::string &name, units::money &val,
+bool assign( const JsonObject &jo, std::string_view name, units::money &val,
              bool strict = false,
              units::money lo = units::money_min,
              units::money hi = units::money_max );
 
-bool assign( const JsonObject &jo, const std::string &name, units::energy &val,
+bool assign( const JsonObject &jo, std::string_view name, units::energy &val,
              bool strict = false,
              units::energy lo = units::energy_min,
              units::energy hi = units::energy_max );
 
-bool assign( const JsonObject &jo, const std::string &name, units::power &val,
+bool assign( const JsonObject &jo, std::string_view name, units::power &val,
              bool strict = false,
              units::power lo = units::power_min,
              units::power hi = units::power_max );
@@ -241,7 +241,7 @@ class time_duration;
 template<typename T>
 inline typename
 std::enable_if<std::is_same<typename std::decay<T>::type, time_duration>::value, bool>::type
-read_with_factor( const JsonObject &jo, const std::string &name, T &val, const T &factor )
+read_with_factor( const JsonObject &jo, const std::string_view name, T &val, const T &factor )
 {
     int tmp;
     if( jo.read( name, tmp, false ) ) {
@@ -307,7 +307,7 @@ std::enable_if<std::is_same<typename std::decay<T>::type, time_duration>::value,
 }
 
 template<typename T>
-inline bool assign( const JsonObject &jo, const std::string &name, std::optional<T> &val,
+inline bool assign( const JsonObject &jo, const std::string_view name, std::optional<T> &val,
                     const bool strict = false )
 {
     if( !jo.has_member( name ) ) {
@@ -326,9 +326,9 @@ inline bool assign( const JsonObject &jo, const std::string &name, std::optional
 constexpr float float_max = std::numeric_limits<float>::max();
 
 bool assign(
-    const JsonObject &jo, const std::string &name, damage_instance &val, bool strict = false,
-    const damage_instance &lo = damage_instance( damage_type::NONE, 0.0f, 0.0f, 0.0f, 0.0f ),
+    const JsonObject &jo, std::string_view name, damage_instance &val, bool strict = false,
+    const damage_instance &lo = damage_instance( damage_type_id::NULL_ID(), 0.0f, 0.0f, 0.0f, 0.0f ),
     const damage_instance &hi = damage_instance(
-                                    damage_type::NONE, float_max, float_max, float_max, float_max ) );
+                                    damage_type_id::NULL_ID(), float_max, float_max, float_max, float_max ) );
 
 #endif // CATA_SRC_ASSIGN_H

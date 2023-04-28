@@ -9,7 +9,6 @@
     "volume": "1500 ml",
     "price": 4950,
     "price_postapoc": 1500,
-    "bashing": 4,
     "material": [ "paper" ],
     "looks_like": "cookbook",
     "symbol": "?",
@@ -24,7 +23,8 @@
     ],
     "intelligence": 8,
     "time": "15 m",
-    "fun": 1
+    "fun": 1,
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "cookbook",
@@ -126,7 +126,6 @@
     "volume": "750 ml",
     "price": 3500,
     "price_postapoc": 500,
-    "bashing": 1,
     "material": [ "paper" ],
     "symbol": "?",
     "color": "light_green",
@@ -135,7 +134,8 @@
     "required_level": 1,
     "max_level": 4,
     "intelligence": 7,
-    "time": "20 m"
+    "time": "20 m",
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "family_cookbook",
@@ -147,7 +147,6 @@
     "volume": "1400 ml",
     "price": 1950,
     "price_postapoc": 500,
-    "bashing": 5,
     "material": [ { "type": "leather", "portion": 10 }, { "type": "paper", "portion": 90 } ],
     "symbol": "?",
     "color": "light_gray",
@@ -163,7 +162,8 @@
     ],
     "intelligence": 7,
     "time": "30 m",
-    "fun": 1
+    "fun": 1,
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "mag_cooking",
@@ -217,7 +217,6 @@
     "volume": "1250 ml",
     "price": 1950,
     "price_postapoc": 2000,
-    "bashing": 5,
     "material": [ "paper", "leather" ],
     "symbol": "?",
     "color": "light_gray",
@@ -227,7 +226,8 @@
     "max_level": 4,
     "intelligence": 10,
     "time": "45 m",
-    "fun": 1
+    "fun": 1,
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "vinegar_maker",
@@ -395,7 +395,6 @@
     "volume": "1 L",
     "price": 4000,
     "price_postapoc": 1000,
-    "bashing": 2,
     "material": [ "paper" ],
     "symbol": "?",
     "looks_like": "cookbook",
@@ -409,7 +408,8 @@
       { "proficiency": "prof_brewing", "time_factor": 0.1, "fail_factor": 0.1 },
       { "proficiency": "prof_winemaking", "time_factor": 0.25, "fail_factor": 0.3 }
     ],
-    "time": "12 m"
+    "time": "12 m",
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "manual_canning",
@@ -454,7 +454,6 @@
     "volume": "1500 ml",
     "price": 4950,
     "price_postapoc": 750,
-    "bashing": 4,
     "material": [ "paper" ],
     "symbol": "?",
     "looks_like": "cookbook",
@@ -470,7 +469,8 @@
     ],
     "intelligence": 8,
     "time": "15 m",
-    "fun": 1
+    "fun": 1,
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "fermenting_book",
@@ -482,7 +482,6 @@
     "volume": "1500 ml",
     "price": 4950,
     "price_postapoc": 500,
-    "bashing": 4,
     "material": [ "paper" ],
     "symbol": "?",
     "looks_like": "cookbook",
@@ -496,7 +495,8 @@
       { "proficiency": "prof_fermenting", "time_factor": 0.25, "fail_factor": 0.3 },
       { "proficiency": "prof_lactofermenting", "time_factor": 0.2, "fail_factor": 0.4 }
     ],
-    "fun": 1
+    "fun": 1,
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "distilling_cookbook",
@@ -508,7 +508,6 @@
     "volume": "619 ml",
     "price": 1950,
     "price_postapoc": 1500,
-    "bashing": 1,
     "material": [ "paper" ],
     "symbol": "?",
     "looks_like": "cookbook",
@@ -525,7 +524,8 @@
     ],
     "intelligence": 8,
     "time": "15 m",
-    "fun": 1
+    "fun": 1,
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "sweets_book",
@@ -584,14 +584,14 @@
     "volume": "3215 ml",
     "price": 6000,
     "price_postapoc": 750,
-    "bashing": 7,
     "color": "yellow",
     "required_level": 1,
     "max_level": 3,
     "intelligence": 7,
     "fun": 1,
     "copy-from": "book_nonf_hard_cook_tpl",
-    "looks_like": "cookbook"
+    "looks_like": "cookbook",
+    "melee_damage": { "bash": 7 }
   },
   {
     "id": "cookbook_native",
@@ -605,7 +605,6 @@
     "price": 6000,
     "price_postapoc": 750,
     "material": [ "paper" ],
-    "bashing": 7,
     "color": "blue",
     "skill": "cooking",
     "required_level": 2,
@@ -618,6 +617,7 @@
     "fun": 1,
     "time": "9 m",
     "symbol": "?",
-    "looks_like": "cookbook"
+    "looks_like": "cookbook",
+    "melee_damage": { "bash": 7 }
   }
 ]

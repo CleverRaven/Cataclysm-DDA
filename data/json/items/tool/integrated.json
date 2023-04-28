@@ -123,8 +123,6 @@
     "material": [ "superalloy", "copper" ],
     "name": { "str_sp": "integrated multitool" },
     "description": "Integrated bionic tools implanted in your fingers.",
-    "bashing": 1,
-    "cutting": 3,
     "to_hit": -1,
     "armor": [
       {
@@ -185,6 +183,7 @@
         "move_cost": 1000,
         "tool_quality": 10
       }
-    ]
+    ],
+    "melee_damage": { "bash": 1, "cut": 3 }
   }
 ]

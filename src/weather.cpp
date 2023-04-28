@@ -635,8 +635,8 @@ std::string print_pressure( double pressure, int decimals )
     return string_format( pgettext( "air pressure in kPa", "%s kPa" ), ret );
 }
 
-units::temperature get_local_windchill( units::temperature temperature, double humidity,
-                                        double wind_mph )
+units::temperature_delta get_local_windchill( units::temperature temperature, double humidity,
+        double wind_mph )
 {
     double windchill_k = 0;
 
@@ -648,7 +648,7 @@ units::temperature get_local_windchill( units::temperature temperature, double h
 
         if( wind_mph < 3 ) {
             // This model fails when wind is less than 3 mph
-            return units::from_kelvin( 0 );
+            return units::from_kelvin_delta( 0 );
         }
 
         // Temperature is removed at the end, because get_local_windchill is meant to calculate the difference.
@@ -673,7 +673,7 @@ units::temperature get_local_windchill( units::temperature temperature, double h
                       wind_meters_per_sec - 4.00;
     }
 
-    return units::from_kelvin( windchill_k );
+    return units::from_kelvin_delta( windchill_k );
 }
 
 nc_color get_wind_color( double windpower )
@@ -967,13 +967,13 @@ units::temperature weather_manager::get_temperature( const tripoint &location )
     }
 
     //underground temperature = average New England temperature = 43F/6C
-    units::temperature temp = ( location.z < 0 ? AVERAGE_ANNUAL_TEMPERATURE : temperature ) +
-                              ( g->new_game ? 0_K : get_map().get_temperature_mod( location ) );
+    units::temperature temp = location.z < 0 ? AVERAGE_ANNUAL_TEMPERATURE : temperature;
 
     if( !g->new_game ) {
-        units::temperature temp_mod = 0_K;
-        temp_mod += get_heat_radiation( location );
+        units::temperature_delta temp_mod;
+        temp_mod = get_heat_radiation( location );
         temp_mod += get_convection_temperature( location );
+        temp_mod += get_map().get_temperature_mod( location );
 
         temp += temp_mod;
     }

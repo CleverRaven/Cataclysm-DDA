@@ -12,7 +12,6 @@
     "price": 234300,
     "price_postapoc": 5500,
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -47,7 +46,8 @@
           "survivor223mag"
         ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "iwi_tavor_x95_300blk",
@@ -62,7 +62,6 @@
     "price": 490000,
     "price_postapoc": 4500,
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "light_gray",
@@ -108,7 +107,8 @@
           "survivor223mag"
         ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "ar15_retool_300blk",

@@ -17,6 +17,10 @@
   },
   {
     "type": "mutation_type",
+    "id": "ACCLIMATIZATION"
+  },
+  {
+    "type": "mutation_type",
     "id": "ATTRACTIVENESS"
   },
   {

@@ -1141,7 +1141,7 @@ tile_type &tileset_cache::loader::load_tile( const JsonObject &entry, const std:
 
 void tileset_cache::loader::load_tile_spritelists( const JsonObject &entry,
         weighted_int_list<std::vector<int>> &vs,
-        const std::string &objname ) const
+        const std::string_view objname ) const
 {
     // json array indicates rotations or variations
     if( entry.has_array( objname ) ) {
@@ -1857,7 +1857,7 @@ cata_tiles::find_tile_with_season( const std::string &id ) const
 
 template<typename T>
 std::optional<tile_lookup_res>
-cata_tiles::find_tile_looks_like_by_string_id( const std::string &id, TILE_CATEGORY category,
+cata_tiles::find_tile_looks_like_by_string_id( const std::string_view id, TILE_CATEGORY category,
         const int looks_like_jumps_limit ) const
 {
     const string_id<T> s_id( id );
