@@ -66,7 +66,6 @@ static const efftype_id effect_hunger_engorged( "hunger_engorged" );
 static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_pet( "pet" );
-static const efftype_id effect_relax_gas( "relax_gas" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_winded( "winded" );
@@ -341,14 +340,9 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
                 you.clear_destination();
                 return false;
             }
-            if( you.has_effect( effect_relax_gas ) ) {
-                if( one_in( 8 ) ) {
-                    add_msg( m_good, _( "Your willpower asserts itself, and so do you!" ) );
-                } else {
-                    you.moves -= rng( 2, 8 ) * 10;
-                    add_msg( m_bad, _( "You're too pacified to strike anything…" ) );
-                    return false;
-                }
+            if( !you.try_break_relax_gas( _( "Your willpower asserts itself, and so do you!" ),
+                                          _( "You're too pacified to strike anything…" ) ) ) {
+                return false;
             }
             if( critter.attitude_to( you ) == Creature::Attitude::NEUTRAL &&
                 g->safe_mode != SAFE_MODE_OFF ) {
@@ -733,14 +727,9 @@ bool avatar_action::can_fire_weapon( avatar &you, const map &m, const item &weap
         return false;
     }
 
-    if( you.has_effect( effect_relax_gas ) ) {
-        if( one_in( 5 ) ) {
-            add_msg( m_good, _( "Your eyes steel, and you raise your weapon!" ) );
-        } else {
-            you.moves -= rng( 2, 5 ) * 10;
-            add_msg( m_bad, _( "You can't fire your weapon, it's too heavy…" ) );
-            return false;
-        }
+    if( !you.try_break_relax_gas( _( "Your eyes steel, and you raise your weapon!" ),
+                                  _( "You can't fire your weapon, it's too heavy…" ) ) ) {
+        return false;
     }
 
     std::vector<std::string> messages;
@@ -814,16 +803,6 @@ bool avatar_action::fire_turret_manual( avatar &you, map &m, turret_data &turret
         default:
             debugmsg( "Unknown turret status" );
             return false;
-    }
-
-    if( you.has_effect( effect_relax_gas ) ) {
-        if( one_in( 5 ) ) {
-            add_msg( m_good, _( "Your eyes steel, and you aim your weapon!" ) );
-        } else {
-            you.mod_moves( - rng( 20, 50 ) );
-            add_msg( m_bad, _( "You are too pacified to aim the turret…" ) );
-            return false;
-        }
     }
 
     // check if any gun modes are usable
@@ -1015,14 +994,9 @@ void avatar_action::plthrow( avatar &you, item_location loc,
         return;
     }
 
-    if( you.has_effect( effect_relax_gas ) ) {
-        if( one_in( 5 ) ) {
-            add_msg( m_good, _( "You concentrate mightily, and your body obeys!" ) );
-        } else {
-            you.moves -= rng( 2, 5 ) * 10;
-            add_msg( m_bad, _( "You can't muster up the effort to throw anything…" ) );
-            return;
-        }
+    if( !you.try_break_relax_gas( _( "You concentrate mightily, and your body obeys!" ),
+                                  _( "You can't muster up the effort to throw anything…" ) ) ) {
+        return;
     }
     // if you're wearing the item you need to be able to take it off
     if( you.is_worn( *orig ) ) {

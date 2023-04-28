@@ -120,7 +120,6 @@ static const damage_type_id damage_cut( "cut" );
 static const efftype_id effect_alarm_clock( "alarm_clock" );
 static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_laserlocked( "laserlocked" );
-static const efftype_id effect_relax_gas( "relax_gas" );
 static const efftype_id effect_stunned( "stunned" );
 
 static const flag_id json_flag_MOP( "MOP" );
@@ -1487,6 +1486,11 @@ static void fire()
     avatar &player_character = get_avatar();
     map &here = get_map();
 
+    if( player_character.try_break_relax_gas( _( "Your willpower asserts itself, and so do you!" ),
+            _( "You're too pacified to strike anything…" ) ) ) {
+        return;
+    }
+
     // Use vehicle turret or draw a pistol from a holster if unarmed
     if( !player_character.is_armed() ) {
 
@@ -1533,17 +1537,7 @@ static void fire()
     if( weapon->is_gun() && !weapon->gun_current_mode().melee() ) {
         avatar_action::fire_wielded_weapon( player_character );
     } else if( weapon->current_reach_range( player_character ) > 1 ) {
-        if( player_character.has_effect( effect_relax_gas ) ) {
-            if( one_in( 8 ) ) {
-                add_msg( m_good, _( "Your willpower asserts itself, and so do you!" ) );
-                reach_attack( player_character );
-            } else {
-                player_character.moves -= rng( 2, 8 ) * 10;
-                add_msg( m_bad, _( "You're too pacified to strike anything…" ) );
-            }
-        } else {
-            reach_attack( player_character );
-        }
+        reach_attack( player_character );
     }
 }
 
