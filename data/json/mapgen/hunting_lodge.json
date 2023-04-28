@@ -233,7 +233,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ [ "lodge_basement_residential1", "lodge_basement_residential2" ] ],
+    "om_terrain": [ [ "lodge_basement_residential3", "lodge_basement_residential4" ] ],
     "weight": 100,
     "object": {
       "fill_ter": "t_soil",
