@@ -863,7 +863,7 @@ bool item_location::parents_can_contain_recursive( item *it ) const
     units::length it_length = it->length();
     item_location current_location = *this;
     //item_location class cannot return current pocket so use first pocket for innermost container
-    //only used for weight and volume multipliers
+    //Only used for weight and volume multipliers
     const item_pocket *current_pocket = get_item()->get_all_standard_pockets().front();
 
     //Repeat until top-most container reached
@@ -897,14 +897,42 @@ int item_location::max_charges_by_parent_recursive( const item &it ) const
     if( !has_parent() ) {
         return item::INFINITE_CHARGES;
     }
+    
+    item_pocket *parent_pocket;
+    float weight_multiplier = 1.0f;
+    float volume_multiplier = 1.0f;
+    units::mass max_weight = 1000_kilogram;
+    units::volume max_volume = 1000_liter;
+    item_location current_location = *this;
+    //item_location class cannot return current pocket so use first pocket for innermost container
+    //Only used for weight and volume multipliers
+    const item_pocket *current_pocket = get_item()->get_all_standard_pockets().front();
 
-    item_location parent = parent_item();
-    item_pocket *pocket = parent_pocket();
-
-    return std::min( { it.charges_per_volume( pocket->remaining_volume() ),
-                       it.charges_per_weight( pocket->remaining_weight() ),
-                       pocket->rigid() ? item::INFINITE_CHARGES : parent.max_charges_by_parent_recursive( it )
-                     } );
+    //Repeat until top-most container reached
+    while ( current_location.has_parent() ) {
+    	parent_pocket = current_location.parent_pocket();
+    	
+    	//Multiply weight and volume multipliers for each container
+    	weight_multiplier = weight_multiplier * current_pocket->data->weight_multiplier;
+    	volume_multiplier = volume_multiplier * current_pocket->data->volume_multiplier;
+    	//Inserting into rigid pockets will not affect parent volume so stop keeping track
+    	if ( current_pocket->rigid() ) { volume_multiplier = 0.0f; };
+    	
+    	//Calculate effective remaining weight and volume for current parent
+    	units::mass temp_weight = parent_pocket->remaining_weight() / weight_multiplier;
+    	units::volume temp_volume = parent_pocket->remaining_volume() / volume_multiplier;
+    	//Find the most restrictive weight/volume to determine maximum charges
+    	//Weight or volume multiplier of zero means parent containers are no longer affected so stop keeping track
+    	max_weight = ( weight_multiplier > 0 ) ? std::min( max_weight, temp_weight ) : max_weight;
+    	max_volume = ( volume_multiplier > 0 ) ? std::min( max_volume, temp_volume ) : max_volume;
+    	
+        //Move up one level of containers
+        current_pocket = parent_pocket;
+        current_location = current_location.parent_item();
+    }
+    
+    int charges = std::min( it.charges_per_weight( max_weight ), it.charges_per_volume( max_volume ) );
+    return charges;
 }
 
 bool item_location::eventually_contains( item_location loc ) const
