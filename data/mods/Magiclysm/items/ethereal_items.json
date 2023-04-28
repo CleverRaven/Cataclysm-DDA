@@ -860,10 +860,7 @@
             { "value": "INTELLIGENCE", "add": -6 },
             { "value": "PERCEPTION", "add": -3 }
           ],
-          "mutations": [
-            "DRUNKEN",
-            "GOODCARDIO"
-          ]
+          "mutations": [ "DRUNKEN", "GOODCARDIO" ]
         }
       ]
     }
