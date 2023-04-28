@@ -1483,61 +1483,51 @@ static void reach_attack( avatar &you )
 
 static void fire()
 {
-    avatar &player_character = get_avatar();
+    avatar &you = get_avatar();
     map &here = get_map();
 
-    if( player_character.try_break_relax_gas( _( "Your willpower asserts itself, and so do you!" ),
-            _( "You're too pacified to strike anything…" ) ) ) {
+    if( !you.try_break_relax_gas( _( "Your willpower asserts itself, and so do you!" ),
+                                  _( "You're too pacified to strike anything…" ) ) ) {
         return;
     }
 
-    // Use vehicle turret or draw a pistol from a holster if unarmed
-    if( !player_character.is_armed() ) {
-
-        const optional_vpart_position vp = here.veh_at( player_character.pos() );
-
-        turret_data turret;
-        if( vp && ( turret = vp->vehicle().turret_query( player_character.pos() ) ) ) {
-            if( player_character.has_trait( trait_BRAWLER ) ) {
-                add_msg( m_bad, _( "You refuse to use the turret." ) );
-                return;
-            }
-            if( avatar_action::fire_turret_manual( player_character, here, turret ) ) {
-                return;
-            }
-        }
-
-        if( vp.part_with_feature( "CONTROLS", true ) ) {
-            if( player_character.has_trait( trait_BRAWLER ) ) {
-                add_msg( m_bad, _( "You refuse to use the turret." ) );
-                return;
-            }
-            if( vp->vehicle().turrets_aim_and_fire_all_manual() ) {
-                return;
-            }
-        }
-
-        std::vector<std::string> options;
-        std::vector<std::function<void()>> actions;
-
-        player_character.worn.fire_options( player_character, options, actions );
-        if( !options.empty() ) {
-            int sel = uilist( _( "Draw what?" ), options );
-            if( sel >= 0 ) {
-                actions[sel]();
-            }
-        }
-    }
-
-    const item_location weapon = player_character.get_wielded_item();
-    if( !weapon ) {
+    const item_location weapon = you.get_wielded_item();
+    // try reach weapon
+    if( weapon && !weapon->is_gun() && weapon->current_reach_range( you ) > 1 ) {
+        reach_attack( you );
         return;
     }
-
-    if( weapon->is_gun() && !weapon->gun_current_mode().melee() ) {
-        avatar_action::fire_wielded_weapon( player_character );
-    } else if( weapon->current_reach_range( player_character ) > 1 ) {
-        reach_attack( player_character );
+    if( you.has_trait( trait_BRAWLER ) ) {
+        add_msg( m_bad, _( "You refuse to use ranged weapons." ) );
+        return;
+    }
+    // try firing gun
+    if( weapon && weapon->is_gun() && !weapon->gun_current_mode().melee() ) {
+        avatar_action::fire_wielded_weapon( you );
+        return;
+    }
+    // try firing turrets
+    if( const optional_vpart_position ovp = here.veh_at( you.pos() ) ) {
+        if( turret_data turret_here = ovp->vehicle().turret_query( you.pos() ) ) {
+            if( avatar_action::fire_turret_manual( you, here, turret_here ) ) {
+                return;
+            }
+        } else if( ovp.part_with_feature( VPFLAG_CONTROLS, true ) ) {
+            if( ovp->vehicle().turrets_aim_and_fire_all_manual() ) {
+                return;
+            }
+        }
+    }
+    // offer to draw a gun from worn holster
+    std::vector<std::string> options;
+    std::vector<std::function<void()>> actions;
+    you.worn.fire_options( you, options, actions );
+    if( !options.empty() ) {
+        int sel = uilist( _( "Draw what?" ), options );
+        if( sel >= 0 ) {
+            actions[sel]();
+            return;
+        }
     }
 }
 
