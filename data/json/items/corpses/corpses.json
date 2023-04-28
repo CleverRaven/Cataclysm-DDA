@@ -272,8 +272,6 @@
     "name": { "str": "corpse" },
     "description": "The dead body of a person.  There is a bloody bite wound on their forearm.  Dry filth surrounds it.",
     "looks_like": "corpse_generic_human",
-    "volume": "40 L",
-    "weight": "52 kg",
     "material": [ "hflesh" ],
     "snippet_category": [
       {
