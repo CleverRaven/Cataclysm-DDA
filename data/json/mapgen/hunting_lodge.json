@@ -265,11 +265,7 @@
       ],
       "palettes": [ "basement_lodge" ],
       "place_nested": [
-        {
-          "chunks": [ [ "room_6x6_woodworker", 5 ], [ "room_6x6_bike", 15 ], [ "room_6x6_office_E", 5 ] ],
-          "x": 26,
-          "y": 10
-        }
+        { "chunks": [ [ "room_6x6_woodworker", 5 ], [ "room_6x6_bike", 15 ], [ "room_6x6_office_E", 5 ] ], "x": 26, "y": 10 }
       ]
     }
   },
