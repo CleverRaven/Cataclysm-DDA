@@ -1,5 +1,4 @@
 [
-  [
     {
       "type": "talk_topic",
       "id": "TALK_PERK_MENU_MAIN",
@@ -16,5 +15,4 @@
         }
       ]
     }
-  ]
 ]
