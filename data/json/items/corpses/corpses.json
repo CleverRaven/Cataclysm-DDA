@@ -276,11 +276,11 @@
     "snippet_category": [
       {
         "id": "generic_infected_01",
-        "text": "The dead body of a person.  There is a bloody bite wound on their forearm.  Dry filth surrounds it and the body seems otherwise unharmed."
+        "text": "The dead body of a person.  There is a bloody bite wound on their forearm.  Dry filth surrounds it but the body seems otherwise unharmed."
       },
       {
         "id": "generic_infected_02",
-        "text": "One of this deceased persons shoulders is disfigured by a deep bite wound, obviously caused by a human due to its distinct shape."
+        "text": "One of this deceased persons shoulders is disfigured by a deep bite wound with a distinct shape, obviously caused by a human."
       },
       {
         "id": "generic_infected_03",
