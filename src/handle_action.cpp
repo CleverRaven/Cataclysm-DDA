@@ -1498,8 +1498,9 @@ static void fire()
                 add_msg( m_bad, _( "You refuse to use the turret." ) );
                 return;
             }
-            avatar_action::fire_turret_manual( player_character, here, turret );
-            return;
+            if( avatar_action::fire_turret_manual( player_character, here, turret ) ) {
+                return;
+            }
         }
 
         if( vp.part_with_feature( "CONTROLS", true ) ) {
