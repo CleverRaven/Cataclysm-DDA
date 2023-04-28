@@ -233,9 +233,9 @@
     "armor": { "bash": 20, "electric": 3 }
   },
   {
-    "id": "mon_water_blob",
+    "id": "mon_aquatic_blob",
     "type": "MONSTER",
-    "name": { "str": "water slime" },
+    "name": { "str": "aquatic slime" },
     "description": "A translucent ball of viscous goo, swimming and floating in and near bodies of water like a glob of living oil.",
     "default_faction": "slime",
     "bodytype": "blob",
