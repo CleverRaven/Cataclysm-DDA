@@ -169,7 +169,9 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
                 //spawn a mostly cosmetic explosion for flair.
                 explosion_handler::explosion( &critter, target, 10 );
                 //if it was grabbed, it isn't anymore.
-                poor_soul->remove_effect( effect_grabbed );
+                for( const effect &grab : poor_soul->get_effects_with_flag( json_flag_GRAB ) ) {
+                    poor_soul->remove_effect( grab.get_id() );
+                }
                 //apply a bunch of damage to it, similar to a tear in reality
                 poor_soul->apply_damage( nullptr, bodypart_id( "arm_l" ), rng( 5, 10 ) );
                 poor_soul->apply_damage( nullptr, bodypart_id( "arm_r" ), rng( 5, 10 ) );
