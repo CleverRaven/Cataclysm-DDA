@@ -243,8 +243,8 @@
     "diff": 2,
     "volume": "62500 ml",
     "weight": "81500 g",
-    "hp": 70,
-    "speed": 90,
+    "hp": 100,
+    "speed": 100,
     "material": [ "slime" ],
     "symbol": "O",
     "color": "light_cyan",
@@ -258,12 +258,7 @@
     "bleed_rate": 30,
     "harvest": "exempt",
     "special_attacks": [ [ "FORMBLOB", 30 ] ],
-    "death_function": {
-      "message": "The %s splits in two!",
-      "corpse_type": "NO_CORPSE",
-      "effect": { "id": "death_blobsplit", "hit_self": true }
-    },
     "flags": [ "HEARS", "GOODHEARING", "NOHEAD", "POISON", "NO_BREATHE", "ACIDPROOF" ],
-    "armor": { "bash": 14, "cut": 7, "stab": 14, "acid": 10, "bullet": 5, "electric": 1 }
+    "armor": { "bash": 17, "cut": 9, "stab": 17, "acid": 12, "bullet": 7, "electric": 3 }
   }
 ]
