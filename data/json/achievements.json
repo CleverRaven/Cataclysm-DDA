@@ -2220,7 +2220,7 @@
   {
     "id": "achievement_reach_police_station",
     "type": "achievement",
-    "name": "I shot the Sheriff!  What?!  He was a zombie!",
+    "name": "Zombie PD, to protect and zombify!",
     "requirements": [
       {
         "event_statistic": "num_avatar_enters_police_station",
