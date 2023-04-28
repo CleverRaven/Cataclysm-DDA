@@ -13,7 +13,6 @@
     "price": 10000,
     "price_postapoc": 1000,
     "to_hit": -1,
-    "bashing": 9,
     "material": [ "steel", "plastic" ],
     "flags": [ "NEVER_JAMS", "NON_FOULING" ],
     "ammo_to_fire": 50,
@@ -30,6 +29,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "pocket_data": [ { "magazine_well": "2 L", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "pressurized_tank_chem" ] } ]
+    "pocket_data": [ { "magazine_well": "2 L", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "pressurized_tank_chem" ] } ],
+    "melee_damage": { "bash": 9 }
   }
 ]

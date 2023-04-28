@@ -50,7 +50,6 @@
     "price": 20000,
     "price_postapoc": 0,
     "install_time": "0 s",
-    "bashing": 5,
     "material": [ "steel" ],
     "symbol": ":",
     "color": "light_gray",
@@ -59,6 +58,7 @@
     "damage_modifier": { "damage_type": "stab", "amount": 500 },
     "dispersion_modifier": 500,
     "energy_drain_multiplier": 50.0,
-    "min_skills": [ [ "gun", 1 ] ]
+    "min_skills": [ [ "gun", 1 ] ],
+    "melee_damage": { "bash": 5 }
   }
 ]

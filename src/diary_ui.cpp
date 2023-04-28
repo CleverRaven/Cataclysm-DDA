@@ -332,10 +332,10 @@ void diary::show_diary_ui( diary *c_diary )
         ui_manager::redraw_invalidated();
         const std::string action = ctxt.handle_input();
         if( action == "LEFT" || action == "PREV_TAB" || action == "RIGHT" || action == "NEXT_TAB" ) {
-            // necessary to use increment_and_wrap()
+            // necessary to use inc_clamp_wrap()
             static_assert( static_cast<int>( window_mode::FIRST_WIN ) == 0 );
-            currwin = increment_and_wrap( currwin, action == "RIGHT" ||
-                                          action == "NEXT_TAB", window_mode::NUM_WIN );
+            currwin = inc_clamp_wrap( currwin, action == "RIGHT" || action == "NEXT_TAB",
+                                      window_mode::NUM_WIN );
             selected[window_mode::TEXT_WIN] = 0;
         } else if( navigate_ui_list( action, selected[currwin], 10,
                                      currwin == window_mode::PAGE_WIN ? c_diary->pages.size()

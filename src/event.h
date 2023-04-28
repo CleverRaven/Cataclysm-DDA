@@ -89,6 +89,7 @@ enum class event_type : int {
     game_avatar_death,
     game_avatar_new,
     game_load,
+    game_begin,
     game_over,
     game_save,
     game_start,
@@ -175,7 +176,7 @@ struct event_spec_character_item {
     };
 };
 
-static_assert( static_cast<int>( event_type::num_event_types ) == 90,
+static_assert( static_cast<int>( event_type::num_event_types ) == 91,
                "This static_assert is to remind you to add a specialization for your new "
                "event_type below" );
 
@@ -591,6 +592,14 @@ struct event_spec<event_type::game_avatar_new> {
 template<>
 struct event_spec<event_type::game_load> {
     static constexpr std::array<std::pair<const char *, cata_variant_type>, 1> fields = {{
+            { "cdda_version", cata_variant_type::string },
+        }
+    };
+};
+
+template<>
+struct event_spec<event_type::game_begin> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 1> fields = { {
             { "cdda_version", cata_variant_type::string },
         }
     };

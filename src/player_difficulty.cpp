@@ -1,11 +1,14 @@
 #include "avatar.h"
 #include "character_martial_arts.h"
+#include "make_static.h"
 #include "martialarts.h"
 #include "mutation.h"
 #include "options.h"
 #include "player_difficulty.h"
 #include "profession.h"
 #include "skill.h"
+
+static const damage_type_id damage_bash( "bash" );
 
 static const profession_id profession_unemployed( "unemployed" );
 
@@ -121,10 +124,10 @@ double player_difficulty::calc_armor_value( const Character &u )
     // check any other items the character has on them
     if( u.prof ) {
         for( const item &i : u.prof->items( true, std::vector<trait_id>() ) ) {
-            armor_val += head_protection * i.resist( damage_type::BASH, false, bodypart_id( "head" ) );
-            armor_val += torso_protection * i.resist( damage_type::BASH, false, bodypart_id( "torso" ) );
-            armor_val += arms_protection * i.resist( damage_type::BASH, false, bodypart_id( "arm_r" ) );
-            armor_val += legs_protection * i.resist( damage_type::BASH, false, bodypart_id( "leg_r" ) );
+            armor_val += head_protection * i.resist( damage_bash, false, bodypart_id( "head" ) );
+            armor_val += torso_protection * i.resist( damage_bash, false, bodypart_id( "torso" ) );
+            armor_val += arms_protection * i.resist( damage_bash, false, bodypart_id( "arm_r" ) );
+            armor_val += legs_protection * i.resist( damage_bash, false, bodypart_id( "leg_r" ) );
         }
     }
 

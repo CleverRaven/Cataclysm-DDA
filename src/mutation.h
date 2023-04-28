@@ -89,7 +89,7 @@ struct mut_transform {
     /** subtracted from @ref Creature::moves when transformation is successful */
     int moves = 0;
     mut_transform();
-    bool load( const JsonObject &jsobj, const std::string &member );
+    bool load( const JsonObject &jsobj, std::string_view member );
 };
 
 struct reflex_activation_data {
@@ -477,8 +477,9 @@ struct mutation_branch {
         static const trait_replacement &trait_migration( const trait_id &tid );
 
         /** called after all JSON has been read and performs any necessary cleanup tasks */
-        static void finalize();
+        static void finalize_all();
         static void finalize_trait_blacklist();
+        void finalize();
 
         /**
          * @name Trait groups

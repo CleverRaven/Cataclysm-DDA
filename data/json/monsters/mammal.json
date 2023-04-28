@@ -100,8 +100,6 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "dodge": 3,
-    "armor_bash": 2,
-    "armor_elec": 1,
     "vision_day": 30,
     "vision_night": 10,
     "path_settings": { "max_dist": 10 },
@@ -115,7 +113,8 @@
     "//": "220 days gestation period, the mother and cubs remain together for 16-17 months.",
     "baby_flags": [ "SPRING" ],
     "special_attacks": [ [ "EAT_FOOD", 20 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "BASHES", "PUSH_MON" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "BASHES", "PUSH_MON" ],
+    "armor": { "bash": 2, "electric": 1 }
   },
   {
     "id": "mon_beaver",
@@ -281,8 +280,6 @@
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
     "dodge": 2,
-    "armor_bash": 2,
-    "armor_cut": 1,
     "harvest": "boar_with_skull",
     "families": [ "prof_intro_biology" ],
     "reproduction": { "baby_monster": "mon_boar_wild_piglet", "baby_count": 8, "baby_timer": 154 },
@@ -293,7 +290,8 @@
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "zombify_into": "mon_zpig_brute",
     "special_attacks": [ [ "EAT_FOOD", 20 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE" ],
+    "armor": { "bash": 2, "cut": 1 }
   },
   {
     "id": "mon_bobcat",
@@ -337,7 +335,6 @@
     "hp": 6,
     "//": "Kittens do not have their full fur yet and are really sensitive to cold temperature",
     "harvest": "mammal_tiny",
-    "armor_cold": 0,
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 14,
     "special_attacks": [ { "id": "scratch", "attack_upper": false, "cooldown": 10 } ],
@@ -353,7 +350,8 @@
       "HIT_AND_RUN",
       "NO_BREED"
     ],
-    "upgrades": { "age_grow": 120, "into": "mon_cat" }
+    "upgrades": { "age_grow": 120, "into": "mon_cat" },
+    "armor": { "cold": 0 }
   },
   {
     "id": "mon_cat",
@@ -379,7 +377,6 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "dodge": 8,
     "//": "Their fur keeps them warm",
-    "armor_cold": 2,
     "vision_night": 20,
     "special_attacks": [ { "id": "scratch", "attack_upper": false, "cooldown": 10 } ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
@@ -404,7 +401,8 @@
       "PATH_AVOID_DANGER_1",
       "WARM",
       "HIT_AND_RUN"
-    ]
+    ],
+    "armor": { "cold": 2 }
   },
   {
     "id": "mon_cat_isherwood",
@@ -423,8 +421,8 @@
     "volume": "5000 ml",
     "weight": "5 kg",
     "//": "Longer fur, more cold protection",
-    "armor_cold": 4,
-    "reproduction": { "baby_monster": "mon_cat_longhair_kitten", "baby_count": 4, "baby_timer": 60 }
+    "reproduction": { "baby_monster": "mon_cat_longhair_kitten", "baby_count": 4, "baby_timer": 60 },
+    "armor": { "cold": 4 }
   },
   {
     "id": "mon_cat_longhair_kitten",
@@ -432,8 +430,8 @@
     "copy-from": "mon_cat_kitten",
     "name": { "str": "longhair kitten" },
     "description": "Barely more than a ball of fluff with eyes, this kitten looks like a longhair breed.",
-    "armor_cold": 2,
-    "upgrades": { "age_grow": 120, "into": "mon_cat_longhair" }
+    "upgrades": { "age_grow": 120, "into": "mon_cat_longhair" },
+    "armor": { "cold": 2 }
   },
   {
     "id": "mon_cat_maine_coon",
@@ -444,8 +442,8 @@
     "volume": "6100 ml",
     "weight": "6100 g",
     "hp": 16,
-    "armor_cold": 4,
-    "reproduction": { "baby_monster": "mon_cat_maine_coon_kitten", "baby_count": 4, "baby_timer": 60 }
+    "reproduction": { "baby_monster": "mon_cat_maine_coon_kitten", "baby_count": 4, "baby_timer": 60 },
+    "armor": { "cold": 4 }
   },
   {
     "id": "mon_cat_maine_coon_kitten",
@@ -453,8 +451,8 @@
     "copy-from": "mon_cat_kitten",
     "name": { "str": "Maine Coon kitten" },
     "description": "This young Maine coon has tufted ears and a striking pattern on its face.",
-    "armor_cold": 2,
-    "upgrades": { "age_grow": 120, "into": "mon_cat_maine_coon" }
+    "upgrades": { "age_grow": 120, "into": "mon_cat_maine_coon" },
+    "armor": { "cold": 2 }
   },
   {
     "id": "mon_cat_siamese",
@@ -533,8 +531,8 @@
     "name": { "str": "Sphynx cat" },
     "description": "The Sphynx cat has practically no fur on its body, exposing its curiously wrinkled skin.",
     "//": "No fur, no cold protection",
-    "armor_cold": 0,
-    "reproduction": { "baby_monster": "mon_cat_sphynx_kitten", "baby_count": 4, "baby_timer": 60 }
+    "reproduction": { "baby_monster": "mon_cat_sphynx_kitten", "baby_count": 4, "baby_timer": 60 },
+    "armor": { "cold": 0 }
   },
   {
     "id": "mon_cat_sphynx_kitten",
@@ -588,8 +586,8 @@
     "speed": 100,
     "dodge": 5,
     "//": "Fat helps keeping their body warm",
-    "armor_cold": 3,
-    "reproduction": { "baby_monster": "mon_cat_chonker_kitten", "baby_count": 8, "baby_timer": 60 }
+    "reproduction": { "baby_monster": "mon_cat_chonker_kitten", "baby_count": 8, "baby_timer": 60 },
+    "armor": { "cold": 3 }
   },
   {
     "id": "mon_cat_chonker_kitten",
@@ -666,7 +664,6 @@
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "dodge": 5,
-    "armor_bash": 1,
     "vision_night": 10,
     "path_settings": { "max_dist": 10 },
     "special_attacks": [ [ "scratch", 10 ], { "type": "leap", "cooldown": 5, "max_range": 5 } ],
@@ -676,7 +673,8 @@
     "harvest": "cougar_with_skull",
     "dissect": "dissect_feline_sample_small",
     "families": [ "prof_intro_biology" ],
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN", "KEENNOSE" ]
+    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN", "KEENNOSE" ],
+    "armor": { "bash": 1 }
   },
   {
     "id": "mon_tiger",
@@ -691,9 +689,9 @@
     "symbol": "T",
     "morale": 60,
     "melee_dice": 3,
-    "armor_elec": 1,
     "dodge": 2,
-    "zombify_into": "mon_ziger"
+    "zombify_into": "mon_ziger",
+    "armor": { "bash": 1, "electric": 1 }
   },
   {
     "id": "mon_cow_calf",
@@ -719,7 +717,6 @@
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "dodge": 2,
-    "armor_bash": 2,
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "HURT" ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
@@ -732,7 +729,8 @@
     "biosignature": { "biosig_item": "feces_cow", "biosig_timer": 7 },
     "special_attacks": [ [ "EAT_CROP", 60 ] ],
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_WONT_FOLLOW", "CAN_BE_CULLED" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_WONT_FOLLOW", "CAN_BE_CULLED" ],
+    "armor": { "bash": 2 }
   },
   {
     "id": "mon_cow",
@@ -757,9 +755,7 @@
     "melee_dice": 2,
     "melee_dice_sides": 10,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-    "armor_elec": 1,
     "dodge": 2,
-    "armor_bash": 2,
     "starting_ammo": { "milk_raw": 40 },
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "HURT", "PLAYER_NEAR_BABY" ],
@@ -785,7 +781,8 @@
       "PET_WONT_FOLLOW",
       "MILKABLE",
       "CAN_BE_CULLED"
-    ]
+    ],
+    "armor": { "bash": 2, "electric": 1 }
   },
   {
     "id": "mon_coyote",
@@ -809,7 +806,6 @@
     "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "dodge": 3,
-    "armor_bash": 1,
     "vision_night": 5,
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "PLAYER_WEAK", "HURT" ],
@@ -817,7 +813,8 @@
     "harvest": "mammal_fur_canis",
     "dissect": "dissect_lupine_sample_single",
     "families": [ "prof_intro_biology" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN", "KEENNOSE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN", "KEENNOSE" ],
+    "armor": { "bash": 1 }
   },
   {
     "id": "mon_coyote_wolf",
@@ -841,7 +838,6 @@
     "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "dodge": 3,
-    "armor_bash": 1,
     "vision_night": 5,
     "harvest": "mammal_small_fur",
     "dissect": "dissect_lupine_sample_single",
@@ -849,7 +845,8 @@
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK" ],
     "fear_triggers": [ "SOUND" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE" ],
+    "armor": { "bash": 1 }
   },
   {
     "id": "mon_deer_fawn",
@@ -2011,9 +2008,7 @@
     "melee_dice": 2,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "armor_elec": 1,
     "dodge": 2,
-    "armor_bash": 2,
     "anger_triggers": [ "FRIEND_ATTACKED" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
@@ -2023,7 +2018,8 @@
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 10 },
     "special_attacks": [ [ "EAT_CROP", 100 ] ],
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PET_WONT_FOLLOW", "PATH_AVOID_DANGER_1", "WARM", "NO_BREED" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PET_WONT_FOLLOW", "PATH_AVOID_DANGER_1", "WARM", "NO_BREED" ],
+    "armor": { "bash": 2, "electric": 1 }
   },
   {
     "id": "mon_horse",
@@ -2048,9 +2044,7 @@
     "melee_dice": 2,
     "melee_dice_sides": 12,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "armor_elec": 1,
     "dodge": 2,
-    "armor_bash": 2,
     "anger_triggers": [ "FRIEND_ATTACKED" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
@@ -2063,7 +2057,18 @@
     "special_attacks": [ [ "EAT_CROP", 60 ] ],
     "zombify_into": "mon_zombie_horse",
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PET_WONT_FOLLOW", "PET_MOUNTABLE", "PATH_AVOID_DANGER_1", "WARM" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PET_WONT_FOLLOW", "PET_MOUNTABLE", "PATH_AVOID_DANGER_1", "WARM" ],
+    "armor": { "bash": 2, "electric": 1 }
+  },
+  {
+    "id": "mon_horse_police",
+    "type": "MONSTER",
+    "copy-from": "mon_horse",
+    "looks_like": "mon_horse",
+    "description": "A hooved grazing mammal with a mane of hair, a sweeping tail, and powerful-looking muscles.  This one has been trained to have less of a fear reaction in order to assist with riot control and standard police work.  With some effort, you should be able to get this one to trust you enough to ride it.",
+    "morale": 35,
+    "mount_items": { "tied": "rope_30", "tack": "horse_tack", "armor": "kevlar_armor_horse" },
+    "extend": { "flags": [ "COMBAT_MOUNT" ] }
   },
   {
     "id": "mon_lemming",
@@ -2144,10 +2149,6 @@
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 1,
-    "armor_bash": 4,
-    "armor_cut": 1,
-    "armor_bullet": 1,
-    "armor_elec": 1,
     "vision_night": 7,
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "HURT", "MATING_SEASON" ],
@@ -2160,7 +2161,8 @@
     "families": [ "prof_intro_biology" ],
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 8 },
     "special_attacks": [ [ "EAT_CROP", 60 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ],
+    "armor": { "bash": 4, "cut": 1, "bullet": 1, "electric": 1 }
   },
   {
     "id": "mon_moose_calf",
@@ -2186,7 +2188,6 @@
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "dodge": 2,
-    "armor_bash": 2,
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "HURT" ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
@@ -2197,7 +2198,8 @@
     "upgrades": { "age_grow": 180, "into": "mon_moose" },
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 7 },
     "special_attacks": [ [ "EAT_CROP", 60 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_WONT_FOLLOW" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_WONT_FOLLOW" ],
+    "armor": { "bash": 2 }
   },
   {
     "id": "mon_tusked_moose",
@@ -2224,10 +2226,6 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
     "special_attacks": [ { "id": "smash", "throw_strength": 72 } ],
     "dodge": 1,
-    "armor_bash": 14,
-    "armor_cut": 1,
-    "armor_bullet": 10,
-    "armor_elec": 1,
     "vision_night": 7,
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "HURT", "MATING_SEASON", "PLAYER_CLOSE" ],
@@ -2238,7 +2236,8 @@
     "dissect": "dissect_cattle_sample_large",
     "families": [ "prof_intro_biology" ],
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 8 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ],
+    "armor": { "bash": 14, "cut": 1, "bullet": 10, "electric": 1 }
   },
   {
     "id": "mon_tusked_moose_calf",
@@ -2264,7 +2263,6 @@
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "dodge": 2,
-    "armor_bash": 2,
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "HURT" ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
@@ -2276,7 +2274,8 @@
     "//": "Baby mutant moose need to grow quicker to be able to survive in the world after the cataclysm.",
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 7 },
     "special_attacks": [ [ "EAT_CROP", 60 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_WONT_FOLLOW" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_WONT_FOLLOW" ],
+    "armor": { "bash": 2 }
   },
   {
     "id": "mon_muskrat",
@@ -2733,7 +2732,6 @@
     "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "dodge": 4,
-    "armor_bash": 1,
     "vision_night": 5,
     "harvest": "mammal_fur_canis",
     "dissect": "dissect_lupine_sample_single",
@@ -2744,7 +2742,8 @@
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK", "PLAYER_CLOSE", "PLAYER_NEAR_BABY" ],
     "zombify_into": "mon_zolf",
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE" ],
+    "armor": { "bash": 1 }
   },
   {
     "id": "mon_wolf_pup",
@@ -2796,7 +2795,6 @@
     "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 5,
-    "armor_elec": 1,
     "vision_night": 13,
     "harvest": "deer_with_skull",
     "dissect": "dissect_cattle_sample_small",
@@ -2809,7 +2807,8 @@
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 12 },
     "baby_flags": [ "WINTER", "AUTUMN" ],
     "special_attacks": [ [ "EAT_CROP", 60 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ],
+    "armor": { "electric": 1 }
   },
   {
     "id": "mon_reindeer_fawn",
@@ -2944,10 +2943,10 @@
     "weight": "10 g",
     "hp": 5,
     "//": "Kits do not have their full fur yet and are really sensitive to cold temperature",
-    "armor_cold": 0,
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 9,
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "CANPLAY", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN", "NO_BREED" ],
-    "upgrades": { "age_grow": 90, "into": "mon_ferret" }
+    "upgrades": { "age_grow": 90, "into": "mon_ferret" },
+    "armor": { "cold": 0 }
   }
 ]

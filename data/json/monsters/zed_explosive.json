@@ -21,7 +21,8 @@
     "melee_dice": 2,
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "armor_elec": 2,
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_head_small" ],
+    "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "vision_night": 3,
     "harvest": "exempt",
     "special_attacks": [ [ "BOOMER", 20 ], [ "scratch", 20 ] ],
@@ -44,7 +45,8 @@
       "PUSH_MON",
       "PATH_AVOID_DANGER_1",
       "FILTHY"
-    ]
+    ],
+    "armor": { "electric": 2 }
   },
   {
     "id": "mon_boomer_huge",
@@ -68,10 +70,8 @@
     "melee_dice": 3,
     "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "armor_bash": 5,
-    "armor_cut": 5,
-    "armor_bullet": 4,
-    "armor_elec": 3,
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_head_small" ],
+    "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "bleed_rate": 50,
     "vision_night": 3,
     "harvest": "zombie",
@@ -98,7 +98,8 @@
       "PUSH_MON",
       "PATH_AVOID_DANGER_1",
       "FILTHY"
-    ]
+    ],
+    "armor": { "bash": 5, "cut": 5, "bullet": 4, "electric": 3 }
   },
   {
     "id": "mon_gas_zombie",
@@ -122,7 +123,8 @@
     "melee_dice": 2,
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "armor_elec": 1,
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_head_small" ],
+    "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "vision_night": 3,
     "luminance": 8,
     "harvest": "exempt",
@@ -142,7 +144,8 @@
       "DRIPS_GASOLINE",
       "PUSH_MON",
       "FILTHY"
-    ]
+    ],
+    "armor": { "electric": 1 }
   },
   {
     "id": "mon_zombie_gasbag",
@@ -153,8 +156,8 @@
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 5,
-    "volume": "62500 ml",
-    "weight": "81500 g",
+    "volume": "92500 ml",
+    "weight": "120 kg",
     "hp": 15,
     "speed": 80,
     "material": [ "flesh" ],
@@ -166,7 +169,8 @@
     "melee_dice": 2,
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "armor_elec": 1,
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_head_small" ],
+    "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "vision_night": 3,
     "harvest": "exempt",
     "emit_fields": [ { "emit_id": "emit_toxic_leak", "delay": "1 s" } ],
@@ -174,7 +178,8 @@
     "death_drops": "default_zombie_items",
     "death_function": { "message": "A %s explodes!", "effect": { "id": "death_gas", "hit_self": true }, "corpse_type": "NO_CORPSE" },
     "fungalize_into": "mon_zombie_gasbag_fungus",
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ],
+    "armor": { "electric": 1 }
   },
   {
     "id": "mon_zombie_relax_gasbag",
@@ -185,8 +190,8 @@
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 10,
-    "volume": "62500 ml",
-    "weight": "81500 g",
+    "volume": "92500 ml",
+    "weight": "120 kg",
     "hp": 40,
     "speed": 70,
     "material": [ "flesh" ],
@@ -198,7 +203,8 @@
     "melee_dice": 2,
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "armor_elec": 1,
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_head_small" ],
+    "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "vision_night": 3,
     "harvest": "exempt",
     "emit_fields": [ { "emit_id": "emit_relax_gas_leak", "delay": "1 s" } ],
@@ -206,7 +212,8 @@
     "death_drops": "default_zombie_items",
     "death_function": { "message": "A %s explodes!", "effect": { "id": "death_relax_gas", "hit_self": true }, "corpse_type": "NO_CORPSE" },
     "fungalize_into": "mon_zombie_gasbag_fungus",
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "NO_BREATHE", "REVIVES", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "NO_BREATHE", "REVIVES", "FILTHY" ],
+    "armor": { "electric": 1 }
   },
   {
     "id": "mon_zombie_tear_gasbag",
@@ -217,8 +224,8 @@
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 9,
-    "volume": "62500 ml",
-    "weight": "81500 g",
+    "volume": "92500 ml",
+    "weight": "120 kg",
     "hp": 45,
     "speed": 60,
     "material": [ "flesh" ],
@@ -230,7 +237,8 @@
     "melee_dice": 2,
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "armor_elec": 1,
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_head_small" ],
+    "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "vision_night": 2,
     "harvest": "exempt",
     "emit_fields": [ { "emit_id": "emit_tear_gas_leak", "delay": "1 s" } ],
@@ -238,7 +246,8 @@
     "death_drops": "default_zombie_items",
     "death_function": { "message": "A %s explodes!", "effect": { "id": "death_tearburst", "hit_self": true }, "corpse_type": "NO_CORPSE" },
     "fungalize_into": "mon_zombie_gasbag_fungus",
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "NO_BREATHE", "REVIVES", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "NO_BREATHE", "REVIVES", "FILTHY" ],
+    "armor": { "electric": 1 }
   },
   {
     "id": "mon_boomer_glutton",
@@ -259,10 +268,8 @@
     "aggression": 100,
     "morale": 100,
     "melee_skill": 4,
-    "armor_bash": 20,
-    "armor_cut": 5,
-    "armor_bullet": 5,
-    "armor_elec": 2,
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_head_small" ],
+    "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "vision_night": 5,
     "harvest": "zombie_meatslug",
     "emit_fields": [ { "emit_id": "emit_sludge_puddle", "delay": "1 s" } ],
@@ -297,7 +304,8 @@
       "PUSH_MON",
       "PACIFIST",
       "SLUDGEPROOF"
-    ]
+    ],
+    "armor": { "bash": 20, "cut": 5, "bullet": 5, "electric": 2 }
   },
   {
     "id": "mon_boomer_claymore",
@@ -309,7 +317,7 @@
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 9,
     "volume": "98 L",
-    "weight": "85 kg",
+    "weight": "135 kg",
     "hp": 150,
     "speed": 95,
     "material": [ "flesh" ],
@@ -318,10 +326,8 @@
     "aggression": 100,
     "morale": 100,
     "melee_skill": 1,
-    "armor_bash": 10,
-    "armor_cut": 5,
-    "armor_bullet": 5,
-    "armor_elec": 2,
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_head_small" ],
+    "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "vision_night": 2,
     "harvest": "zombie_meatslug",
     "special_attacks": [
@@ -333,6 +339,7 @@
     ],
     "death_drops": "default_zombie_items",
     "death_function": { "effect": { "id": "death_boomer", "hit_self": true }, "message": "The %s explodes!", "corpse_type": "NO_CORPSE" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ],
+    "armor": { "bash": 10, "cut": 5, "bullet": 5, "electric": 2 }
   }
 ]

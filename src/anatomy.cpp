@@ -54,7 +54,7 @@ void anatomy::load_anatomy( const JsonObject &jo, const std::string &src )
     anatomy_factory.load( jo, src );
 }
 
-void anatomy::load( const JsonObject &jo, const std::string & )
+void anatomy::load( const JsonObject &jo, const std::string_view )
 {
     mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "parts", unloaded_bps );

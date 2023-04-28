@@ -28,7 +28,7 @@ class morale_type_data
             return permanent;
         }
 
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
         void check() const;
 
         static void load_type( const JsonObject &jo, const std::string &src );

@@ -170,6 +170,7 @@ asymmetrically
 ategory
 aterial
 athame
+athames
 atmmonoid
 atomically
 atompot
@@ -726,6 +727,7 @@ diffracting
 diggable
 digitizes
 dilophosaurus
+dimensionalism
 dimensionally
 dimestore
 diminute
@@ -1301,6 +1303,8 @@ homebrewing
 homemaking
 homewrecker
 homovorus
+homunculi
+homunculus
 honeygold
 honker
 hoose

@@ -361,7 +361,7 @@ void aim_activity_actor::finish( player_activity &act, Character &who )
     if( !last_target || last_target->is_dead_state() ) {
         who.last_target.reset();
     }
-    who.assign_activity( player_activity( aim_actor ), false );
+    who.assign_activity( aim_actor );
 }
 
 void aim_activity_actor::canceled( player_activity &/*act*/, Character &/*who*/ )

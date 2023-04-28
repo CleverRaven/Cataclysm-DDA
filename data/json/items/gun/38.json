@@ -14,7 +14,6 @@
     "price": 2000,
     "price_postapoc": 500,
     "to_hit": -1,
-    "bashing": 3,
     "material": [ "steel" ],
     "symbol": "(",
     "color": "brown",
@@ -36,7 +35,8 @@
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "RELOAD_ONE", "RELOAD_EJECT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "38": 2 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "38": 2 } } ],
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "cop_38",
@@ -51,7 +51,6 @@
     "price": 120000,
     "price_postapoc": 1000,
     "to_hit": -1,
-    "bashing": 3,
     "material": [ "steel", "wood" ],
     "ammo": [ "357mag", "38" ],
     "range": 3,
@@ -71,7 +70,8 @@
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "357mag": 4, "38": 4 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "357mag": 4, "38": 4 } } ],
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "model_10_revolver",
@@ -86,7 +86,6 @@
     "price": 42400,
     "price_postapoc": 1250,
     "to_hit": -2,
-    "bashing": 9,
     "material": [ "steel", "wood" ],
     "color": "dark_gray",
     "ammo": [ "38" ],
@@ -101,7 +100,8 @@
         "ammo_restriction": { "38": 6 },
         "allowed_speedloaders": [ "38_speedloader6" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 9 }
   },
   {
     "id": "mr73",
@@ -118,7 +118,6 @@
     "built_in_mods": [ "match_trigger" ],
     "default_mods": [ "pistol_grip" ],
     "to_hit": -2,
-    "bashing": 9,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "light_gray",
@@ -145,7 +144,8 @@
         "ammo_restriction": { "357mag": 6, "38": 6 },
         "allowed_speedloaders": [ "38_speedloader6" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 9 }
   },
   {
     "id": "rifle_38",
@@ -161,7 +161,6 @@
     "price": 10000,
     "price_postapoc": 500,
     "to_hit": -1,
-    "bashing": 10,
     "material": [ "steel", "wood" ],
     "color": "brown",
     "ammo": [ "38" ],
@@ -186,7 +185,8 @@
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "RELOAD_EJECT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "38": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "38": 1 } } ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "ruger_lcr_38",
@@ -201,7 +201,6 @@
     "price": 54500,
     "price_postapoc": 1000,
     "to_hit": -2,
-    "bashing": 8,
     "material": [ "steel", "aluminum", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -229,7 +228,8 @@
         "ammo_restriction": { "38": 5 },
         "allowed_speedloaders": [ "38_speedloader5" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "sw_619",
@@ -244,7 +244,6 @@
     "price": 62000,
     "price_postapoc": 1250,
     "to_hit": -2,
-    "bashing": 9,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "light_gray",
@@ -271,6 +270,7 @@
         "ammo_restriction": { "357mag": 7, "38": 7 },
         "allowed_speedloaders": [ "38_speedloader" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 9 }
   }
 ]

@@ -109,8 +109,8 @@ bool isBetween( int test, int down, int up );
  * @return true if the query string is found at least once within the subject
  *         string, otherwise returns false
  */
-bool lcmatch( const std::string &str, const std::string &qry );
-bool lcmatch( const translation &str, const std::string &qry );
+bool lcmatch( std::string_view str, std::string_view qry );
+bool lcmatch( const translation &str, std::string_view qry );
 
 /**
  * Matches text case insensitive with the include/exclude rules of the filter
@@ -125,7 +125,7 @@ bool lcmatch( const translation &str, const std::string &qry );
  *
  * @return true if include/exclude rules pass. See Example.
  */
-bool match_include_exclude( const std::string &text, std::string filter );
+bool match_include_exclude( std::string_view text, std::string filter );
 
 /**
  * Basic logistic function.
@@ -444,6 +444,11 @@ bool string_empty_or_whitespace( const std::string &s );
 /** strcmp, but for string_view objects.  In C++20 this can be replaced with
  * operator<=> */
 int string_view_cmp( std::string_view, std::string_view );
+
+template<typename Integer>
+Integer svto( std::string_view );
+
+extern template int svto<int>( std::string_view );
 
 /** Used as a default filter in various functions */
 template<typename T>
