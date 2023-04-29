@@ -1451,7 +1451,6 @@
     "price": "18 USD",
     "price_postapoc": 100,
     "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "neutral" },
-    "bashing": 10,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
