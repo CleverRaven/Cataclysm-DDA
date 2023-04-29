@@ -248,7 +248,13 @@
       { "item": "tortilla_corn", "prob": 20 },
       { "item": "tortilla_flour", "prob": 20 },
       { "item": "powder_eggs", "prob": 20 },
-      { "item": "protein_powder", "prob": 12, "container-item": "bottle_plastic_small", "charges-min": 1, "charges-max": 9},
+      {
+        "item": "protein_powder",
+        "prob": 12,
+        "container-item": "bottle_plastic_small",
+        "charges-min": 1,
+        "charges-max": 9
+      },
       { "item": "dry_meat", "prob": 10 },
       { "item": "dry_fish", "prob": 10, "container-item": "wrapper" },
       { "item": "dry_lobster", "prob": 10 },
