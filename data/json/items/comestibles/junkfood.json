@@ -1565,7 +1565,7 @@
     "quench": -2,
     "healthy": -1,
     "calories": 565,
-    "description": "a pan containing pasta carbonara, a famous Italian dish made with egg, pecorino and bacon.",
+    "description": "A famous Italian pasta dish made with egg, pecorino and bacon.",
     "price": 100,
     "price_postapoc": 250,
     "material": [ "wheat", "egg" ],
