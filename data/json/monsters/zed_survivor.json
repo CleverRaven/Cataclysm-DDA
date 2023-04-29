@@ -36,7 +36,7 @@
     "id": "mon_zombie_paramilitary",
     "type": "MONSTER",
     "name": { "str": "paramilitary zombie" },
-    "description": "Wearing military surplus gear including an armoured vest with patches of local militias, cartoon women, obscene statements, or local political groups.  This person definitely thought they were ready for the apocalypse.",
+    "description": "Wearing military surplus gear including an armored vest with patches of local militias, cartoon women, obscene statements, or local political groups.  This person definitely thought they were ready for the apocalypse.",
     "copy-from": "mon_zombie_survivor",
     "looks_like": "mon_zombie_survivor",
     "armor": { "bash": 12, "cut": 25, "bullet": 20, "electric": 3 },
