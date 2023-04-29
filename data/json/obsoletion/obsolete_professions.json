@@ -1,46 +1,6 @@
 [
   {
     "type": "profession",
-    "id": "jr_survivalist",
-    "name": "Survivalist Jr.",
-    "description": "Your parents were crazy preppers who thought some \"Cataclysm\" was coming, and insisted on preparing you for it.  Turns out they were right.  You didn't get a chance to thank them.  The only thing you can do for them now is what they always hoped you would do in the dark days ahead: survive.",
-    "points": 3,
-    "skills": [
-      { "level": 1, "name": "survival" },
-      { "level": 1, "name": "fabrication" },
-      { "level": 1, "name": "firstaid" },
-      { "level": 1, "name": "traps" }
-    ],
-    "proficiencies": [ "prof_fibers", "prof_fibers_rope", "prof_lockpicking" ],
-    "items": {
-      "both": {
-        "items": [
-          "jacket_light",
-          "pants_cargo",
-          "socks",
-          "boots",
-          "knit_scarf",
-          "backpack",
-          "granola",
-          "water_clean",
-          "scissors",
-          "magnifying_glass",
-          "wristwatch",
-          "whistle"
-        ],
-        "entries": [
-          { "group": "charged_cell_phone" },
-          { "group": "full_1st_aid" },
-          { "group": "charged_flashlight" },
-          { "item": "tshirt", "variant": "generic_tshirt" }
-        ]
-      },
-      "male": [ "briefs" ],
-      "female": [ "boy_shorts" ]
-    }
-  },
-  {
-    "type": "profession",
     "id": "senior",
     "name": "Senior Citizen",
     "description": "You haven't seen this much blood since the war.  The whole world's gone crazy!  They ate your grandkids!  But dagnabbit, you'll make them all pay for what they've done.",
