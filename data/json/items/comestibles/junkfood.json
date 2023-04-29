@@ -1589,7 +1589,7 @@
     "quench": -2,
     "healthy": -1,
     "calories": 350,
-    "description": "a pan containing amatriciana pasta, a famous Italian dish made with red sauce, pecorino and bacon.",
+    "description": "A famous Italian pasta dish made with red sauce, pecorino and bacon.",
     "price": 100,
     "price_postapoc": 250,
     "material": [ "wheat", "veggy" ],
