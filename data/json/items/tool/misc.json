@@ -139,7 +139,6 @@
     "price": "10 USD",
     "price_postapoc": 10,
     "to_hit": 1,
-    "bashing": 3,
     "material": [ { "type": "steel", "portion": 95 }, { "type": "rubber", "portion": 5 } ],
     "symbol": ";",
     "color": "brown",
