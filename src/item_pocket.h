@@ -399,7 +399,6 @@ class item_pocket
 
         // should the name of this pocket be used as a description
         bool name_as_description = false; // NOLINT(cata-serialize)
-        
         const pocket_data *data = nullptr; // NOLINT(cata-serialize)
     private:
         // the type of pocket, saved to json
