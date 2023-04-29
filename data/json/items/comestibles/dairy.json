@@ -508,7 +508,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 450,
-    "description": "a portion of mascarpone, a dairy product obtained from the processing of cream and citric acid, a typical Italian spreadable cheese.",
+    "description": "A portion of mascarpone, a dairy product obtained from the processing of cream and citric acid, a typical Italian spreadable cheese.",
     "price": 200,
     "price_postapoc": 250,
     "material": [ "milk" ],
