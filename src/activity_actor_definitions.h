@@ -368,9 +368,9 @@ class read_activity_actor : public activity_actor
         read_activity_actor() = default;
 
         explicit read_activity_actor(
-            int moves, item_location &book, item_location &ereader,
+            time_duration read_time, item_location &book, item_location &ereader,
             bool continuous = false, int learner_id = -1 )
-            : moves_total( moves ), book( book ), ereader( ereader ),
+            : moves_total( to_moves<int>( read_time ) ), book( book ), ereader( ereader ),
               continuous( continuous ), learner_id( learner_id ) {};
 
         activity_id get_type() const override {

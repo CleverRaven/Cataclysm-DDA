@@ -19,6 +19,8 @@
 #include "vehicle.h"
 #include "veh_type.h"
 
+static const damage_type_id damage_pure( "pure" );
+
 static const itype_id itype_folded_bicycle( "folded_bicycle" );
 static const itype_id itype_folded_inflatable_boat( "folded_inflatable_boat" );
 static const itype_id itype_folded_wheelchair_generic( "folded_wheelchair_generic" );
@@ -147,7 +149,7 @@ struct damage_preset {
 
 static void complete_activity( Character &u, const activity_actor &act )
 {
-    u.assign_activity( player_activity( act ) );
+    u.assign_activity( act );
     while( !u.activity.is_null() ) {
         u.set_moves( u.get_speed() );
         u.activity.do_turn( u );
@@ -311,7 +313,7 @@ static void check_folded_item_to_parts_damage_transfer( const folded_item_damage
 
     // don't actually need point_north but damage_all filters out direct damage
     // do some damage so it is transferred when folding
-    ovp->vehicle().damage_all( 100, 100, damage_type::PURE, ovp->mount() + point_north );
+    ovp->vehicle().damage_all( 100, 100, damage_pure, ovp->mount() + point_north );
 
     // fold vehicle into an item
     complete_activity( u, vehicle_folding_activity_actor( ovp->vehicle() ) );
@@ -631,7 +633,7 @@ static void rack_check( const rack_preset &preset )
             REQUIRE( error ==
                      "vehicle named Foldable wheelchair is already racked on this vehicle"
                      "racking actor failed: failed racking Foldable wheelchair on Car, "
-                     "racks: [82, 81, and 79]." );
+                     "racks: [81, 80, and 78]." );
         }
 
         const optional_vpart_position ovp_racked = m.veh_at(

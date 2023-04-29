@@ -9017,6 +9017,36 @@
     ]
   },
   {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "id_suffix": "with_from_food_processor",
+    "result": "bread_flour",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "11 m 15 s",
+    "charges": 16,
+    "autolearn": true,
+    "batch_time_factors": [ 83, 3 ],
+    "flags": [ "BLIND_EASY" ],
+    "tools": [ [ [ "food_processor", 20 ] ] ],
+    "components": [
+      [ [ "flour", 1 ] ],
+      [
+        [ "wheat", 1 ],
+        [ "buckwheat", 1 ],
+        [ "barley", 1 ],
+        [ "acorns_cooked", 10 ],
+        [ "oats", 4 ],
+        [ "starch", 1 ],
+        [ "dry_rice", 5 ],
+        [ "dry_wild_rice", 5 ],
+        [ "chestnut_roasted", 12 ]
+      ]
+    ]
+  },
+  {
     "result": "meal_bone",
     "type": "recipe",
     "activity_level": "NO_EXERCISE",

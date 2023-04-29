@@ -9,7 +9,6 @@
     "volume": "1750 ml",
     "price": 8200,
     "price_postapoc": 750,
-    "bashing": 5,
     "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "color": "blue",
@@ -18,7 +17,8 @@
     "max_level": 5,
     "intelligence": 10,
     "time": "35 m",
-    "fun": -1
+    "fun": -1,
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "arduino_experiments",
@@ -30,7 +30,6 @@
     "volume": "1750 ml",
     "price": 8200,
     "price_postapoc": 750,
-    "bashing": 5,
     "material": [ "paper" ],
     "symbol": "?",
     "color": "blue",
@@ -39,7 +38,8 @@
     "max_level": 4,
     "intelligence": 10,
     "time": "35 m",
-    "fun": -1
+    "fun": -1,
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "mag_electronics",
@@ -105,7 +105,6 @@
     "volume": "1750 ml",
     "price": 3300,
     "price_postapoc": 250,
-    "bashing": 5,
     "material": [ "paper" ],
     "symbol": "?",
     "color": "blue",
@@ -114,7 +113,8 @@
     "max_level": 8,
     "intelligence": 10,
     "time": "35 m",
-    "fun": -1
+    "fun": -1,
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "recipe_atomic_battery",
@@ -206,7 +206,6 @@
     "volume": "250 ml",
     "price": 5000,
     "price_postapoc": 1000,
-    "bashing": 1,
     "material": [ "paper" ],
     "symbol": "?",
     "color": "blue",
@@ -214,7 +213,8 @@
     "required_level": 2,
     "intelligence": 10,
     "time": "20 m",
-    "fun": -1
+    "fun": -1,
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "textbook_electronics",
@@ -226,7 +226,6 @@
     "volume": "1750 ml",
     "price": 9300,
     "price_postapoc": 2000,
-    "bashing": 5,
     "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "color": "blue",
@@ -235,7 +234,8 @@
     "max_level": 6,
     "intelligence": 10,
     "time": "35 m",
-    "fun": -1
+    "fun": -1,
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "textbook_robots",
@@ -247,7 +247,6 @@
     "volume": "2 L",
     "price": 9200,
     "price_postapoc": 750,
-    "bashing": 8,
     "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "color": "blue",
@@ -256,7 +255,8 @@
     "max_level": 10,
     "intelligence": 12,
     "time": "55 m",
-    "fun": -1
+    "fun": -1,
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "robofac_yrax_deactivation_manual",

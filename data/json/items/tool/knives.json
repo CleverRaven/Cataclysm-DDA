@@ -10,14 +10,13 @@
     "price": 3000,
     "price_postapoc": 10,
     "to_hit": -1,
-    "bashing": 2,
-    "cutting": 11,
     "material": [ "copper" ],
     "symbol": ";",
     "color": "brown",
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 11 ] ],
-    "flags": [ "STAB", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
-    "weapon_category": [ "KNIVES" ]
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "weapon_category": [ "KNIVES" ],
+    "melee_damage": { "bash": 2, "stab": 11 }
   },
   {
     "id": "bronze_knife",
@@ -31,14 +30,14 @@
     "price": 4000,
     "price_postapoc": 500,
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "neutral" },
-    "cutting": 14,
     "material": [ "bronze", "leather" ],
     "symbol": "/",
     "color": "yellow",
     "looks_like": "copper_knife",
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
-    "flags": [ "STAB", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
-    "weapon_category": [ "KNIVES" ]
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "weapon_category": [ "KNIVES" ],
+    "melee_damage": { "stab": 14 }
   },
   {
     "id": "diveknife",
@@ -52,14 +51,14 @@
     "price": 14000,
     "price_postapoc": 500,
     "to_hit": -1,
-    "cutting": 12,
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "yellow",
     "qualities": [ [ "CUT", 2 ], [ "PRY", 1 ], [ "BUTCHER", 15 ] ],
     "use_action": [ "CROWBAR" ],
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
-    "weapon_category": [ "KNIVES" ]
+    "weapon_category": [ "KNIVES" ],
+    "melee_damage": { "cut": 12 }
   },
   {
     "id": "honey_scraper",
@@ -72,14 +71,13 @@
     "price": 1000,
     "price_postapoc": 100,
     "to_hit": -1,
-    "bashing": 1,
-    "cutting": 8,
     "material": [ "steel" ],
     "symbol": ",",
     "color": "dark_gray",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 3 ] ],
-    "flags": [ "STAB", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
-    "weapon_category": [ "KNIVES" ]
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "weapon_category": [ "KNIVES" ],
+    "melee_damage": { "bash": 1, "stab": 8 }
   },
   {
     "id": "pockknife",
@@ -91,13 +89,13 @@
     "price": 1000,
     "price_postapoc": 100,
     "to_hit": -3,
-    "cutting": 7,
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "brown",
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 11 ] ],
-    "flags": [ "STAB" ],
-    "weapon_category": [ "KNIVES" ]
+    "flags": [  ],
+    "weapon_category": [ "KNIVES" ],
+    "melee_damage": { "stab": 7 }
   },
   {
     "id": "primitive_knife",
@@ -110,14 +108,13 @@
     "price": 0,
     "price_postapoc": 0,
     "to_hit": -3,
-    "bashing": 2,
-    "cutting": 5,
     "material": [ "wood", "stone" ],
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 11 ] ],
-    "flags": [ "STAB", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
-    "weapon_category": [ "KNIVES" ]
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "weapon_category": [ "KNIVES" ],
+    "melee_damage": { "bash": 2, "stab": 5 }
   },
   {
     "id": "boxcutter",
@@ -130,11 +127,11 @@
     "price": 400,
     "price_postapoc": 100,
     "to_hit": -3,
-    "cutting": 3,
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 8 ], [ "FABRIC_CUT", 1 ] ]
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 8 ], [ "FABRIC_CUT", 1 ] ],
+    "melee_damage": { "cut": 3 }
   },
   {
     "type": "TOOL",
@@ -147,9 +144,8 @@
     "weight": "500 g",
     "volume": "250 ml",
     "longest_side": "8 cm",
-    "bashing": 5,
-    "cutting": 3,
     "to_hit": -3,
-    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", -18 ] ]
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", -18 ] ],
+    "melee_damage": { "bash": 5, "cut": 3 }
   }
 ]

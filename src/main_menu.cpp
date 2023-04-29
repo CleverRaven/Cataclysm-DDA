@@ -738,8 +738,8 @@ bool main_menu::opening_screen()
             }
         } else if( action == "LEFT" || action == "PREV_TAB" || action == "RIGHT" || action == "NEXT_TAB" ) {
             sel_line = 0;
-            sel1 = increment_and_wrap( sel1, action == "RIGHT" ||
-                                       action == "NEXT_TAB", static_cast<int>( main_menu_opts::NUM_MENU_OPTS ) );
+            sel1 = inc_clamp_wrap( sel1, action == "RIGHT" || action == "NEXT_TAB",
+                                   static_cast<int>( main_menu_opts::NUM_MENU_OPTS ) );
             sel2 = sel1 == getopt( main_menu_opts::LOADCHAR ) ? last_world_pos : 0;
             on_move();
         } else if( action == "UP" || action == "DOWN" ||
@@ -1083,7 +1083,7 @@ void main_menu::world_tab( const std::string &worldname )
     if( sel2 == 0 ) {
         WORLD *world = world_generator->make_new_world();
         // NOLINTNEXTLINE(cata-use-localized-sorting)
-        if( world->world_name < world_generator->all_worldnames()[last_world_pos] ) {
+        if( world != nullptr && world->world_name < world_generator->all_worldnames()[last_world_pos] ) {
             last_world_pos++;
         }
         return;

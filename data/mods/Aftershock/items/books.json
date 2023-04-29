@@ -58,7 +58,6 @@
     "weight": "2063 g",
     "volume": "2 L",
     "price": 9200,
-    "bashing": 8,
     "material": [ "paper" ],
     "symbol": "?",
     "looks_like": "adv_chemistry",
@@ -68,7 +67,8 @@
     "max_level": 7,
     "intelligence": 13,
     "fun": -1,
-    "time": "50 m"
+    "time": "50 m",
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "afs_bugbrew_book",
@@ -154,7 +154,6 @@
     "weight": "2063 g",
     "volume": "2 L",
     "price": 929200,
-    "bashing": 8,
     "material": [ "paper" ],
     "symbol": "?",
     "looks_like": "adv_chemistry",
@@ -164,7 +163,8 @@
     "max_level": 9,
     "intelligence": 13,
     "fun": -3,
-    "time": "50 m"
+    "time": "50 m",
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "recipe_uplift",
@@ -247,7 +247,6 @@
     "weight": "2063 g",
     "volume": "2 L",
     "price": 9200,
-    "bashing": 8,
     "material": [ "paper" ],
     "symbol": "?",
     "looks_like": "adv_chemistry",
@@ -257,7 +256,8 @@
     "max_level": 3,
     "intelligence": 9,
     "fun": 1,
-    "time": "50 m"
+    "time": "50 m",
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "recipe_lichenlog",

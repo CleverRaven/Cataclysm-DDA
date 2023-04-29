@@ -23,9 +23,6 @@
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "stab", "amount": 4, "armor_penetration": 4 } ],
     "dodge": 3,
-    "armor_bash": 2,
-    "armor_cut": 8,
-    "armor_bullet": 12,
     "special_attacks": [ { "id": "barbed_tentacle" } ],
     "vision_day": 30,
     "vision_night": 7,
@@ -36,7 +33,8 @@
     "reproduction": { "baby_monster": "mon_octupus_stalker_spawn", "baby_count": 1, "baby_timer": 700 },
     "baby_flags": [ "SPRING" ],
     "zombify_into": "mon_meat_cocoon_med",
-    "flags": [ "SEES", "HEARS", "SMELLS", "SWIMS", "PATH_AVOID_DANGER_1", "WATER_CAMOUFLAGE", "WARM" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "SWIMS", "PATH_AVOID_DANGER_1", "WATER_CAMOUFLAGE", "WARM" ],
+    "armor": { "bash": 2, "cut": 8, "bullet": 12 }
   },
   {
     "id": "mon_octupus_stalker_spawn",
@@ -94,11 +92,6 @@
         "effects": [ { "id": "paralyzepoison", "duration": 15, "affect_hit_bp": true } ]
       }
     ],
-    "armor_bash": 25,
-    "armor_bullet": 45,
-    "armor_cut": 35,
-    "armor_stab": 15,
-    "armor_elec": 3,
     "bleed_rate": 40,
     "vision_day": 12,
     "path_settings": { "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true, "max_dist": 10 },
@@ -106,7 +99,8 @@
     "harvest": "kraken_large",
     "dissect": "dissect_cephalopod_sample_large",
     "zombify_into": "mon_meat_cocoon_large",
-    "flags": [ "SEES", "SMELLS", "KEENNOSE", "HEARS", "GOODHEARING", "PATH_AVOID_FIRE", "DESTROYS", "PUSH_MON", "PUSH_VEH" ]
+    "flags": [ "SEES", "SMELLS", "KEENNOSE", "HEARS", "GOODHEARING", "PATH_AVOID_FIRE", "DESTROYS", "PUSH_MON", "PUSH_VEH" ],
+    "armor": { "bash": 25, "cut": 35, "stab": 15, "bullet": 45, "electric": 3 }
   },
   {
     "id": "mon_kraken_queen",
@@ -142,16 +136,12 @@
         "effects": [ { "id": "paralyzepoison", "duration": 75, "affect_hit_bp": true } ]
       }
     ],
-    "armor_bash": 35,
-    "armor_bullet": 75,
-    "armor_cut": 45,
-    "armor_stab": 25,
-    "armor_elec": 13,
     "bleed_rate": 10,
     "anger_triggers": [ "HURT", "PLAYER_WEAK", "FRIEND_ATTACKED", "FRIEND_DIED", "SOUND", "HURT", "PLAYER_CLOSE" ],
     "harvest": "kraken_queen",
     "dissect": "dissect_cephalopod_sample_huge",
     "zombify_into": "mon_meat_cocoon_large",
-    "flags": [ "SEES", "SMELLS", "KEENNOSE", "HEARS", "GOODHEARING", "PATH_AVOID_FIRE", "DESTROYS", "PUSH_MON", "PUSH_VEH" ]
+    "flags": [ "SEES", "SMELLS", "KEENNOSE", "HEARS", "GOODHEARING", "PATH_AVOID_FIRE", "DESTROYS", "PUSH_MON", "PUSH_VEH" ],
+    "armor": { "bash": 35, "cut": 45, "stab": 25, "bullet": 75, "electric": 13 }
   }
 ]
