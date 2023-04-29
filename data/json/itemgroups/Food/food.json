@@ -339,7 +339,7 @@
       { "item": "hardtack", "prob": 2 },
       { "item": "seasoning_salt", "prob": 25 },
       { "item": "seasoning_italian", "prob": 25 },
-	  { "item": "eggplant", "prob": 30 }
+      { "item": "eggplant", "prob": 30 }
     ]
   },
   {
