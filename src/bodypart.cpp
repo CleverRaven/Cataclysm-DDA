@@ -404,7 +404,7 @@ void body_part_type::load( const JsonObject &jo, const std::string_view )
 
     optional( jo, was_loaded, "flags", flags );
     optional( jo, was_loaded, "conditional_flags", conditional_flags );
-    optional( jo, was_loaded, "grabbing_effect", grabbing_effect, efftype_grabbing_appendix );
+    optional( jo, was_loaded, "grabbing_effect", grabbing_effect, effect_grabbing_appendix );
 
     optional( jo, was_loaded, "encumbrance_threshold", encumbrance_threshold, 0 );
     optional( jo, was_loaded, "encumbrance_limit", encumbrance_limit, 100 );
