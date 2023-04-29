@@ -146,10 +146,10 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-	  { "groups": "cannedfood", "prob": 40},
-	  { "groups": "pasta", "prob": 20},
-	  { "groups": "kitchen_nonfood", "prob": 10}
-	]
+      { "groups": "cannedfood", "prob": 40 },
+      { "groups": "pasta", "prob": 20 },
+      { "groups": "kitchen_nonfood", "prob": 10 }
+    ]
   },
   {
     "type": "item_group",
