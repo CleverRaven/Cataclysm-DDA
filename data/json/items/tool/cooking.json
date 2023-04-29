@@ -1003,7 +1003,7 @@
     "symbol": ")",
     "color": "dark_gray",
     "qualities": [ [ "COOK", 1 ] ],
-    "//": "Based on: https://www.amazon.com/Noxious-Additives-Material-Sandwich-Breakfast/dp/B07WWW1S84/ref=sr_1_1?crid=QSRJMOJRQ89G&keywords=manual+waffle+iron&qid=1680812963&sprefix=manualwaffle+iron%2Caps%2C183&sr=8-1"
+    "//": "Based on: https://www.amazon.com/Noxious-Additives-Material-Sandwich-Breakfast/dp/B07WWW1S84/ref=sr_1_1?crid=QSRJMOJRQ89G&keywords=manual+waffle+iron&qid=1680812963&sprefix=manualwaffle+iron%2Caps%2C183&sr=8-1",
     "melee_damage": { "bash": 10 }
   },
   {
