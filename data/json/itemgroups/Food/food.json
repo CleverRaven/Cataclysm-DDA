@@ -1014,14 +1014,10 @@
     ]
   },
   {
-  "type": "item_group",
-  "id": "lunchbox_fruit",
-  "subtype": "distribution",
-  "entries": [
-    { "item": "banana", "prob": 10 },
-    { "item": "apple", "prob": 10 },
-    { "item": "orange", "prob": 10 }
-    ]
+    "type": "item_group",
+    "id": "lunchbox_fruit",
+    "subtype": "distribution",
+    "entries": [ { "item": "banana", "prob": 10 }, { "item": "apple", "prob": 10 }, { "item": "orange", "prob": 10 } ]
   },
   {
     "type": "item_group",
