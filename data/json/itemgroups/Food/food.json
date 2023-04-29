@@ -521,11 +521,7 @@
     "type": "item_group",
     "id": "toastems",
     "subtype": "distribution",
-    "entries": [ 
-	  { "item": "toastem" }, 
-	  { "item": "toastem2" }, 
-	  { "item": "toastem3" } 
-	]
+    "entries": [ { "item": "toastem" }, { "item": "toastem2" }, { "item": "toastem3" } ]
   },
   {
     "type": "item_group",
