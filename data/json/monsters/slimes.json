@@ -251,13 +251,12 @@
     "phase": "LIQUID",
     "aggression": 100,
     "morale": 100,
-    "melee_skill": 5,
+    "melee_skill": 6,
     "melee_dice": 2,
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "bleed_rate": 30,
     "harvest": "exempt",
-    "special_attacks": [ [ "FORMBLOB", 30 ] ],
     "flags": [ "HEARS", "GOODHEARING", "NOHEAD", "POISON", "NO_BREATHE", "ACIDPROOF" ],
     "armor": { "bash": 17, "cut": 9, "stab": 17, "acid": 12, "bullet": 7, "electric": 3 }
   }
