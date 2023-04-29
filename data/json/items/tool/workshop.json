@@ -1049,7 +1049,7 @@
     "symbol": ";",
     "color": "yellow",
     "qualities": [ [ "WRENCH", 2 ], [ "WRENCH_FINE", 1 ] ],
-    "flags": [ "BELT_CLIP", "NO_SALVAGE" ]
+    "flags": [ "BELT_CLIP", "NO_SALVAGE" ],
     "melee_damage": { "bash": 2 }
   },
   {
@@ -1451,13 +1451,14 @@
     "price": "18 USD",
     "price_postapoc": 100,
     "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "neutral" },
+    "bashing": 10,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "WRENCH", 2 ], [ "WRENCH_FINE", 1 ] ],
     "flags": [ "BELT_CLIP" ],
     "weapon_category": [ "BATONS" ],
-    "//": "Based on: https://www.amazon.com/Crescent-AC210VS-Tools-Wrenches-Adjustable/dp/B00002N5L1/ref=sr_1_5?crid=2979KVN9DXDUH&keywords=10+inch+crescent+wrench+adjustable&qid=1680859779&sprefix=10+inch+crescent+wrench+adjustable%2Caps%2C555&sr=8-5"
+    "//": "Based on: https://www.amazon.com/Crescent-AC210VS-Tools-Wrenches-Adjustable/dp/B00002N5L1/ref=sr_1_5?crid=2979KVN9DXDUH&keywords=10+inch+crescent+wrench+adjustable&qid=1680859779&sprefix=10+inch+crescent+wrench+adjustable%2Caps%2C555&sr=8-5",
     "melee_damage": { "bash": 9 }
   },
   {
