@@ -145,7 +145,11 @@
     "id": "pantry",
     "type": "item_group",
     "subtype": "distribution",
-    "groups": [ [ "cannedfood", 40 ], [ "pasta", 20 ], [ "kitchen_nonfood", 10 ] ]
+    "entries": [
+	  { "groups": "cannedfood", "prob": 40},
+	  { "groups": "pasta", "prob": 20},
+	  { "groups": "kitchen_nonfood", "prob": 10}
+	]
   },
   {
     "type": "item_group",
@@ -244,13 +248,7 @@
       { "item": "tortilla_corn", "prob": 20 },
       { "item": "tortilla_flour", "prob": 20 },
       { "item": "powder_eggs", "prob": 20 },
-      {
-        "item": "protein_powder",
-        "prob": 12,
-        "container-item": "bottle_plastic_small",
-        "charges-min": 1,
-        "charges-max": 9
-      },
+      { "item": "protein_powder", "prob": 12, "container-item": "bottle_plastic_small", "charges-min": 1, "charges-max": 9},
       { "item": "dry_meat", "prob": 10 },
       { "item": "dry_fish", "prob": 10, "container-item": "wrapper" },
       { "item": "dry_lobster", "prob": 10 },
@@ -523,7 +521,11 @@
     "type": "item_group",
     "id": "toastems",
     "subtype": "distribution",
-    "entries": [ { "item": "toastem" }, { "item": "toastem2" }, { "item": "toastem3" } ]
+    "entries": [ 
+	  { "item": "toastem" }, 
+	  { "item": "toastem2" }, 
+	  { "item": "toastem3" } 
+	]
   },
   {
     "type": "item_group",
@@ -966,27 +968,17 @@
     "type": "item_group",
     "id": "soup_box",
     "subtype": "distribution",
-    "entries": [ { "group": "soup_packet", "prob": 50, "container-item": "box_small", "charges-min": 1, "charges-max": 8 } ]
+    "entries": [ 
+	  { "group": "soup_packet", "prob": 50, "container-item": "box_small", "charges-min": 1, "charges-max": 8 } 
+	]
   },
   {
     "type": "item_group",
     "id": "soup_packet",
     "subtype": "distribution",
     "entries": [
-      {
-        "item": "soup_instant_chicken_noodle_powder",
-        "prob": 50,
-        "container-item": "bag_paper_powder",
-        "charges-min": 1,
-        "charges-max": 1
-      },
-      {
-        "item": "soup_instant_vegetable_powder",
-        "prob": 50,
-        "container-item": "bag_paper_powder",
-        "charges-min": 1,
-        "charges-max": 1
-      }
+      { "item": "soup_instant_chicken_noodle_powder", "prob": 50, "container-item": "bag_paper_powder", "charges-min": 1, "charges-max": 1 },
+      { "item": "soup_instant_vegetable_powder", "prob": 50, "container-item": "bag_paper_powder", "charges-min": 1, "charges-max": 1 }
     ]
   },
   {
@@ -1010,10 +1002,14 @@
     ]
   },
   {
-    "type": "item_group",
-    "id": "lunchbox_fruit",
-    "subtype": "distribution",
-    "entries": [ { "item": "banana", "prob": 10 }, { "item": "apple", "prob": 10 }, { "item": "orange", "prob": 10 } ]
+  "type": "item_group",
+  "id": "lunchbox_fruit",
+  "subtype": "distribution",
+  "entries": [
+    { "item": "banana", "prob": 10 },
+    { "item": "apple", "prob": 10 },
+    { "item": "orange", "prob": 10 }
+    ]
   },
   {
     "type": "item_group",
