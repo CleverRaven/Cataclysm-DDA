@@ -2726,22 +2726,34 @@ void map::drop_items( const tripoint &p )
     // rather than disappearing if it would be overloaded
 
     tripoint below( p );
+    int height_fallen = 0;
     while( !has_floor( below ) ) {
         below.z--;
+        height_fallen++;
     }
 
     if( below == p ) {
         return;
     }
 
-    for( const item &i : items ) {
+    float damage = 0.0f;
+    for( item &i : items ) {
         // TODO: Bash the item up before adding it
         // TODO: Bash the creature, terrain, furniture and vehicles on the tile
+
+        units::mass wt_dropped = i.weight();
+        damage += 10 * to_kilogram( wt_dropped ) * sqrt( height_fallen );
+
         add_item_or_charges( below, i );
     }
 
-    // Just to make a sound for now
-    bash( below, 1 );
+    // Bash creature standing below
+    Creature *creature = get_creature_tracker().creature_at( below );
+    if ( creature ) {
+        creature->deal_damage( nullptr, bodypart_id( "head" ), damage_instance( damage_type::BASH, damage ) );
+    }
+
+    bash( below, 1, false, true );
     i_clear( p );
 }
 
