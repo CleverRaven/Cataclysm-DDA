@@ -2662,8 +2662,8 @@
       { "fuel": 0, "smoke": 1, "burn": 1, "volume_per_turn": "250 ml" },
       { "fuel": 1, "smoke": 1, "burn": 2 }
     ],
-    "resist": { "bash": 2, "cut": 3, "acid": 7, "heat": 1, "bullet": 1 },
-    "burn_products": [ [ "corpse_ash", 0.035 ] ]
+    "burn_products": [ [ "corpse_ash", 0.035 ] ],
+    "resist": { "bash": 2, "cut": 3, "acid": 7, "heat": 1, "bullet": 1 }
   },
   {
     "type": "material",
@@ -2684,7 +2684,8 @@
       { "fuel": 0, "smoke": 1, "burn": 1, "volume_per_turn": "250 ml" },
       { "fuel": 1, "smoke": 1, "burn": 2 }
     ],
-    "soft": true
+    "soft": true,
+    "burn_products": [ [ "corpse_ash", 0.035 ] ],
     "resist": { "bash": 2.2, "cut": 3.5, "acid": 7, "heat": 1, "bullet": 1.4 }
   }
 ]
