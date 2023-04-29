@@ -42,6 +42,9 @@
 
 #define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 
+static const damage_type_id damage_bash( "bash" );
+static const damage_type_id damage_cut( "cut" );
+
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_harnessed( "harnessed" );
 static const efftype_id effect_pet( "pet" );
@@ -1083,8 +1086,8 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
                 ph->hitall( dam, 40, driver );
             } else {
                 const int armor = part_flag( ret.part, "SHARP" ) ?
-                                  critter->get_armor_cut( bodypart_id( "torso" ) ) :
-                                  critter->get_armor_bash( bodypart_id( "torso" ) );
+                                  critter->get_armor_type( damage_cut, bodypart_id( "torso" ) ) :
+                                  critter->get_armor_type( damage_bash, bodypart_id( "torso" ) );
                 dam = std::max( 0, dam - armor );
                 critter->apply_damage( driver, bodypart_id( "torso" ), dam );
                 if( part_flag( ret.part, "SHARP" ) ) {
@@ -2187,7 +2190,7 @@ units::angle map::shake_vehicle( vehicle &veh, const int velocity_before,
         // Damage passengers if d_vel is too high
         if( !throw_from_seat && ( 10 * d_vel ) > 6 * rng( 25, 50 ) ) {
             if( psg ) {
-                psg->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_type::BASH, dmg ) );
+                psg->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_bash, dmg ) );
                 psg->add_msg_player_or_npc( m_bad,
                                             _( "You take %d damage by the power of the impact!" ),
                                             _( "<npcname> takes %d damage by the power of the "

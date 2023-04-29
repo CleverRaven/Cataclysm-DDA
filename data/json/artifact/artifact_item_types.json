@@ -8,7 +8,7 @@
     "volume": "1 L",
     "weight": "1 kg",
     "to_hit": -1,
-    "bashing": 3
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "art_rod",
@@ -20,7 +20,7 @@
     "weight": "300 g",
     "longest_side": "75 cm",
     "to_hit": 1,
-    "bashing": 5
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "art_teardrop",
@@ -52,7 +52,7 @@
     "weight": "300 g",
     "longest_side": "65 cm",
     "to_hit": 1,
-    "bashing": 5
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "art_disc",
@@ -63,7 +63,7 @@
     "volume": "340 ml",
     "weight": "575 g",
     "to_hit": -1,
-    "bashing": 3
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "art_beads",
@@ -94,7 +94,7 @@
     "volume": "1 L",
     "weight": "800 g",
     "to_hit": -2,
-    "cutting": 3
+    "melee_damage": { "cut": 3 }
   },
   {
     "id": "art_jelly",
@@ -116,7 +116,7 @@
     "weight": "300 g",
     "longest_side": "30 cm",
     "to_hit": -4,
-    "bashing": 4
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "art_pin",
@@ -128,7 +128,7 @@
     "weight": "50 mg",
     "longest_side": "2 cm",
     "to_hit": -5,
-    "cutting": 1
+    "melee_damage": { "cut": 1 }
   },
   {
     "id": "art_tube",
@@ -139,7 +139,7 @@
     "volume": "188 ml",
     "weight": "50 mg",
     "longest_side": "15 cm",
-    "bashing": 3
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "art_pyramid",
@@ -150,7 +150,7 @@
     "volume": "1 L",
     "weight": "1 kg",
     "to_hit": -1,
-    "bashing": 3
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "art_crystal",
@@ -161,7 +161,7 @@
     "volume": "500 ml",
     "weight": "400 g",
     "to_hit": -1,
-    "bashing": 3
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "art_knot",
@@ -171,7 +171,7 @@
     "symbol": "b",
     "volume": "400 ml",
     "weight": "400 g",
-    "bashing": 2
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "art_crescent",
@@ -182,5 +182,154 @@
     "volume": "35 ml",
     "weight": "50 g",
     "to_hit": -2
+  },
+  {
+    "id": "art_robe",
+    "type": "ARMOR",
+    "copy-from": "robe",
+    "name": { "str": "royal robe" },
+    "description": "An ornately decorated robe with an unfamiliar royal symbol on it.  The humanoid figure on the seal has two pairs of eyes.  It is the only one of its kind.\nIt may have unknown powers; try activating them."
+  },
+  {
+    "id": "art_cloak",
+    "type": "ARMOR",
+    "copy-from": "cloak",
+    "name": { "str": "ancient burial shroud" },
+    "description": "A cloak of thin, faded cloth.  The faint silhouette of a long-dead humanoid is barely visible on it.  It is the only one of its kind.\nIt may have unknown powers; try activating them."
+  },
+  {
+    "id": "art_coat",
+    "type": "ARMOR",
+    "copy-from": "coat_fur",
+    "name": { "str": "ornate fur coat" },
+    "description": "A heavy, finely crafted coat made of the fur of an unidentifiable creature.  It is the only one of its kind.\nIt may have unknown powers; try activating them."
+  },
+  {
+    "id": "art_mask",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "ancient stone mask" },
+    "description": "A sinister mask made of a smooth green stone.  It is the only one of its kind.\nIt may have unknown powers; try activating them.",
+    "weight": "750 g",
+    "volume": "750 ml",
+    "price": 4000,
+    "price_postapoc": 10,
+    "to_hit": -3,
+    "material": [ "stone" ],
+    "symbol": "[",
+    "color": "green",
+    "warmth": 5,
+    "material_thickness": 0.2,
+    "environmental_protection": 1,
+    "flags": [ "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 10, "coverage": 95, "covers": [ "eyes", "mouth" ] } ]
+  },
+  {
+    "id": "art_helm",
+    "type": "ARMOR",
+    "copy-from": "helmet_bronze",
+    "name": { "str": "ancient bronze helmet" },
+    "description": "A helmet with an imposing face plate.  Though the corrosion has completely defaced the symbols written on the sides, it seems sturdy.  It is the only one of its kind.\nIt may have unknown powers; try activating them."
+  },
+  {
+    "id": "art_gloves",
+    "type": "ARMOR",
+    "copy-from": "gloves_leather",
+    "name": { "str": "pair of ornate leather gloves", "str_pl": "pairs of ornate leather gloves" },
+    "description": "A set of worn leather gloves embossed with gold.  The unidentifiable leather it is made from is oddly soft.  It is the only one of its kind.\nIt may have unknown powers; try activating them."
+  },
+  {
+    "id": "art_boots",
+    "type": "ARMOR",
+    "copy-from": "boots",
+    "name": { "str": "pair of ancient leather boots", "str_pl": "pairs of ancient leather boots" },
+    "description": "A pair of ancient leather boots.  Though the flaps of leather are crudely sewn together, the red hue it is dyed with is striking.  It is the only one of its kind.\nIt may have unknown powers; try activating them."
+  },
+  {
+    "id": "art_ring",
+    "type": "ARMOR",
+    "copy-from": "gold_ring",
+    "name": { "str": "amber ring" },
+    "description": "A band of gold with a smooth piece of amber set into it.  A strange worm is encased in the amber, making a perfect spiral with its sealed body.  It is the only one of its kind.\nIt may have unknown powers; try activating them."
+  },
+  {
+    "id": "art_staff",
+    "type": "TOOL",
+    "copy-from": "i_staff",
+    "name": { "str": "ancient staff" },
+    "description": "A well-balanced stick of treated wood with metal caps.  A red stone is embedded in the handle.  It is the only one of its kind.\nIt may have unknown powers; try activating them."
+  },
+  {
+    "id": "art_sword",
+    "type": "TOOL",
+    "copy-from": "longsword",
+    "name": { "str": "ancient sword" },
+    "description": "A sword made out of a striking black metal.  It is the only one of its kind.\nIt may have unknown powers; try activating them."
+  },
+  {
+    "type": "TOOL",
+    "id": "art_harp",
+    "name": { "str": "ancient harp" },
+    "category": "tools",
+    "weight": "3200 g",
+    "color": "brown",
+    "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "clumsy" },
+    "use_action": {
+      "type": "musical_instrument",
+      "speed_penalty": 15,
+      "volume": 0,
+      "fun": 5,
+      "fun_bonus": 5,
+      "description_frequency": 20,
+      "player_descriptions": [
+        "You strum a string and the note hangs in the air far longer than you would expect.",
+        "You improvise a tune on the harp.  The sound is beautiful, even if you can't remember what you just played.",
+        "You pluck a chord on the harp.  It doesn't sound anything at all like the sounds of the individual strings."
+      ],
+      "npc_descriptions": [ "plucks a few notes on the harp, though no sound seems to come." ]
+    },
+    "symbol": "7",
+    "description": "A harp made of black wood.  Faint hypnotic notes ring in the air each time you touch it.  It is the only one of its kind.\nIt may have unknown powers; try activating them.",
+    "price": 1000,
+    "price_postapoc": 250,
+    "material": [ { "type": "wood", "portion": 19 }, { "type": "steel" } ],
+    "volume": "6750 ml",
+    "longest_side": "97 cm",
+    "flags": [ "FRAGILE_MELEE", "BELTED", "SLEEP_IGNORE" ],
+    "melee_damage": { "bash": 18 }
+  },
+  {
+    "id": "art_dagger",
+    "type": "TOOL",
+    "name": { "str": "ancient athame" },
+    "//": "Tool qualities equivalent to steak knife, combat equiv.  to copper knife + 1 w/ RAPID and BLOCK1, size/weight off combat knife +1",
+    "description": "A ritual knife used by some ancient civilization.  Unreadable runes are carved into the handle.  It is the only one of its kind.\nIt may have unknown powers; try activating them.",
+    "weight": "504 g",
+    "volume": "500 ml",
+    "longest_side": "25 cm",
+    "price": 3000,
+    "material": [ "wood", "steel" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "techniques": [ "WBLOCK_1", "RAPID" ],
+    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 11 ] ],
+    "weapon_category": [ "KNIVES" ],
+    "flags": [ "SHEATH_KNIFE", "TRADER_AVOID" ],
+    "to_hit": -2,
+    "melee_damage": { "bash": 2, "stab": 13 }
+  },
+  {
+    "id": "art_spear",
+    "type": "TOOL",
+    "copy-from": "spear_steel",
+    "name": { "str": "ancient spear" },
+    "description": "A sturdy wooden pole with a sharp metal spike on the end.  The handle has the symbol of a blue sun on it.  It is the only one of its kind.\nIt may have unknown powers; try activating them."
+  },
+  {
+    "id": "art_club",
+    "type": "TOOL",
+    "copy-from": "club_wooden",
+    "name": { "str": "ancient club" },
+    "description": "A misshapen rod of gnarled, knotted wood.  The knots in the wood exhibit a strange fractal pattern.  It is the only one of its kind.\nIt may have unknown powers; try activating them."
   }
 ]

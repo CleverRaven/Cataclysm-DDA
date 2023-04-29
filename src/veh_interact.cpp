@@ -673,7 +673,7 @@ task_reason veh_interact::cant_do( char mode )
                     break;
                 }
             }
-            has_tools = player_character.has_quality( qual_HOSE );
+            has_tools = player_character.crafting_inventory( false ).has_quality( qual_HOSE );
             break;
 
         case 'd':
@@ -1251,6 +1251,11 @@ void veh_interact::do_repair()
                 }
                 nmsg += res.second;
             }
+            if( pt.has_flag( vp_flag::carried_flag ) ) {
+                nmsg += colorize( _( "\nUnracking is required before replacing this part.\n" ),
+                                  c_red );
+                ok = false;
+            }
 
         } else {
             if( !pt.is_repairable() ) {
@@ -1802,8 +1807,7 @@ vehicle_part *veh_interact::get_most_damaged_part() const
 
 vehicle_part *veh_interact::get_most_repairable_part() const
 {
-    vehicle_part &part = veh_utils::most_repairable_part( *veh, get_player_character() );
-    return part ? &part : nullptr;
+    return veh_utils::most_repairable_part( *veh, get_player_character() );
 }
 
 bool veh_interact::can_remove_part( int idx, const Character &you )

@@ -1019,10 +1019,8 @@ bool advanced_inventory::move_all_items()
             }
             do_return_entry();
 
-            player_character.assign_activity( player_activity( insert_item_activity_actor(
-                                                  dpane.container,
-                                                  items_to_insert
-                                              ) ) );
+            const insert_item_activity_actor act( dpane.container, items_to_insert );
+            player_character.assign_activity( act );
         }
     } else if( spane.get_area() == AIM_INVENTORY || spane.get_area() == AIM_WORN ) {
         const tripoint placement = darea.off;
@@ -1031,9 +1029,8 @@ bool advanced_inventory::move_all_items()
 
         do_return_entry();
 
-        player_character.assign_activity( player_activity( drop_activity_actor(
-                                              pane_items, placement, force_ground
-                                          ) ) );
+        const drop_activity_actor act( pane_items, placement, force_ground );
+        player_character.assign_activity( act );
     } else if( dpane.get_area() == AIM_INVENTORY ) {
         std::vector<item_location> target_items;
         std::vector<int> quantities;
@@ -1045,12 +1042,8 @@ bool advanced_inventory::move_all_items()
 
         do_return_entry();
 
-        player_character.assign_activity( player_activity( pickup_activity_actor(
-                                              target_items,
-                                              quantities,
-                                              std::optional<tripoint>( player_character.pos() ),
-                                              false
-                                          ) ) );
+        const pickup_activity_actor act( target_items, quantities, player_character.pos(), false );
+        player_character.assign_activity( act );
     } else {
         // Vehicle and map destinations are handled the same.
 
@@ -1067,12 +1060,9 @@ bool advanced_inventory::move_all_items()
 
         do_return_entry();
 
-        player_character.assign_activity( player_activity( move_items_activity_actor(
-                                              target_items,
-                                              quantities,
-                                              dpane.in_vehicle(),
-                                              relative_destination
-                                          ) ) );
+        const move_items_activity_actor act( target_items, quantities, dpane.in_vehicle(),
+                                             relative_destination );
+        player_character.assign_activity( act );
     }
 
     return true;
@@ -1261,27 +1251,20 @@ void advanced_inventory::start_activity(
         }
 
         if( destarea == AIM_WORN ) {
-            player_character.assign_activity( player_activity( wear_activity_actor(
-                                                  target_items,
-                                                  quantities
-                                              ) ) );
+            const wear_activity_actor act( target_items, quantities );
+            player_character.assign_activity( act );
         } else if( destarea == AIM_INVENTORY ) {
-            player_character.assign_activity( player_activity( pickup_activity_actor(
-                                                  target_items,
-                                                  quantities,
-                                                  from_vehicle ? std::nullopt : std::optional<tripoint>( player_character.pos() ),
-                                                  false
-                                              ) ) );
+            const std::optional<tripoint> starting_pos = from_vehicle
+                    ? std::nullopt
+                    : std::optional<tripoint>( player_character.pos() );
+            const pickup_activity_actor act( target_items, quantities, starting_pos, false );
+            player_character.assign_activity( act );
         } else {
             // Stash the destination
             const tripoint relative_destination = squares[destarea].off;
 
-            player_character.assign_activity( player_activity( move_items_activity_actor(
-                                                  target_items,
-                                                  quantities,
-                                                  to_vehicle,
-                                                  relative_destination
-                                              ) ) );
+            const move_items_activity_actor act( target_items, quantities, to_vehicle, relative_destination );
+            player_character.assign_activity( act );
         }
     } else {
         if( !panes[dest].container.get_item() ) {
@@ -1316,10 +1299,8 @@ void advanced_inventory::start_activity(
             }
         }
 
-        player_character.assign_activity( player_activity( insert_item_activity_actor(
-                                              panes[dest].container,
-                                              target_inserts
-                                          ) ) );
+        const insert_item_activity_actor act( panes[dest].container, target_inserts );
+        player_character.assign_activity( act );
     }
 }
 
@@ -1378,7 +1359,8 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
         // make sure advanced inventory is reopened after activity completion.
         do_return_entry();
 
-        player_character.assign_activity( player_activity( wear_activity_actor( { sitem->items.front() }, { amount_to_move } ) ) );
+        const wear_activity_actor act( { sitem->items.front() }, { amount_to_move } );
+        player_character.assign_activity( act );
         // exit so that the activity can be carried out
         exit = true;
 
@@ -1416,9 +1398,8 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
                         remaining_amount -= move_amount;
                     }
 
-                    player_character.assign_activity( player_activity( drop_activity_actor(
-                                                          to_drop, placement, force_ground
-                                                      ) ) );
+                    const drop_activity_actor act( to_drop, placement, force_ground );
+                    player_character.assign_activity( act );
                 }
             }
         }

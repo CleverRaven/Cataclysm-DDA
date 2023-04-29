@@ -11,7 +11,6 @@
     "volume": "2250 ml",
     "price": "750 USD",
     "to_hit": -1,
-    "bashing": 7,
     "material": [ "plastic", "nomex" ],
     "symbol": "[",
     "color": "dark_gray",
@@ -47,7 +46,8 @@
       "RECHARGE",
       "NO_RELOAD",
       "NO_UNLOAD"
-    ]
+    ],
+    "melee_damage": { "bash": 7 }
   },
   {
     "id": "afs_magellan_suit_helmet_on",
@@ -76,7 +76,6 @@
     "volume": "2250 ml",
     "price": "750 USD",
     "to_hit": -1,
-    "bashing": 7,
     "material": [ "plastic", "nomex" ],
     "symbol": "[",
     "color": "dark_gray",
@@ -106,7 +105,8 @@
     "warmth": 5,
     "material_thickness": 2,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY", "SUN_GLASSES", "OUTER" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY", "SUN_GLASSES", "OUTER" ],
+    "melee_damage": { "bash": 7 }
   },
   {
     "id": "afs_frontier_cryomask_on",

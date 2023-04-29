@@ -815,7 +815,8 @@ Effect | Description
 `u_lose_var`, `npc_lose_var`: `var_name`, `type: type_str`, `context: context_str` | Your character or the NPC will clear any stored variable that has the same `var_name`, `type_str`, and `context_str`.
 `u_adjust_var, npc_adjust_var`: `var_name, type: type_str`, `context: context_str`, `adjustment: `int or [variable object](#variable-object) | Your character or the NPC will adjust the stored variable by `adjustment`.
 `set_string_var`: string or [variable object](#variable-object) or array of either, `target_var: ` [variable object](#variable-object) | Store string from `set_string_var` in the variable object `target_var`. If an array is provided a random element will be used.
-`u_location_variable, npc_location_variable`: `target_var`, (*optional* `min_radius: `int or [variable object](#variable-object)) , (*optional* `max_radius: ` int or [variable object](#variable-object)), (*optional* `outdoor_only: outdoor_only_bool`), (*optional* `target_params: assign_mission_target` parameters), (*optional* `z_adjust: ` int or [variable object](#variable-object)), (*optional* `x_adjust: `string or [variable object](#variable-object)), (*optional* `y_adjust: `int or [variable object](#variable-object)), (*optional* `z_override: bool`) | If `target_params` is defined it will be used to find a tile. See [the missions docs](MISSIONS_JSON.md) for `assign_mission_target` parameters. Otherwise targets a point between `min_radius_int`( or `min_radius_variable_object`)(defaults to 0) and `max_radius_int`( or `max_radius_variable_object`)(defaults to 0) spaces of the target and if `outdoor_only_bool` is true(defaults to false) will only choose outdoor spaces. The chosen point will be saved to `target_var` which is a `variable_object`.  `z_adjust` will be used as the Z value if `z_override`(defaults false) is true or added to the current z value otherwise. x_adjust and y_adjust are added to the final position.
+`u_location_variable, npc_location_variable`: `target_var`, (*optional* `min_radius: `int or [variable object](#variable-object)) , (*optional* `max_radius: ` int or [variable object](#variable-object)), (*optional* `outdoor_only: outdoor_only_bool`), (*optional* `target_params: assign_mission_target` parameters), (*optional* `z_adjust: ` int or [variable object](#variable-object)), (*optional* `x_adjust: `string or [variable object](#variable-object)), (*optional* `y_adjust: `int or [variable object](#variable-object)), (*optional* `z_override: bool`), (*optional* `terrain, furniture, trap, monster, zone, or npc: `string or [variable object](#variable-object)), (*optional* `target_min_radius: `int or [variable object](#variable-object)), (*optional* `target_max_radius: `int or [variable object](#variable-object)) | If `target_params` is defined it will be used to find a tile any of the following commands will search from that tile rather than the player or npc location. See [the missions docs](MISSIONS_JSON.md) for `assign_mission_target` parameters.  If `terrain`, `furniture`, `trap`, `monster`, or `npc` are defined then an entity with the corresponding id will be found between `target_min_radius`(defaults to 0) and `target_max_radius`(defaults to 0) before the following alterations are made to it.  If an empty string is passed for `furniture`, `trap`, `monster`, `zone`, or `npc` than any will be found.  Otherwise targets a point between `min_radius_int`( or `min_radius_variable_object`)(defaults to 0) and `max_radius_int`( or `max_radius_variable_object`)(defaults to 0) spaces of the target and if `outdoor_only_bool` is true(defaults to false) will only choose outdoor spaces. The chosen point will be saved to `target_var` which is a `variable_object`.  `z_adjust` will be used as the Z value if `z_override`(defaults false) is true or added to the current z value otherwise. x_adjust and y_adjust are added to the final position.
+`location_variable_adjust`: `target_var`, (*optional* `z_adjust: ` int or [variable object](#variable-object)), (*optional* `x_adjust: `string or [variable object](#variable-object)), (*optional* `y_adjust: `int or [variable object](#variable-object)), (*optional* `z_override: bool`), (*optional* `output_var: `[variable object](#variable-object)), (*optional* `overmap_tile: bool`) | Adjusts `target_var` which is a `variable_object` most likely made using `u_location_variable`.  `z_adjust` will be used as the Z value if `z_override`(defaults false) is true or added to the current z value otherwise.  x_adjust and y_adjust are added to the final position.  If `output_var` is provided the adjusted value will be save to it instead of `target_var`.  If `overmap_tile`(defaults false) is true, the adjustments will be made in overmap tiles rather than map tiles.
 `barber_hair` | Opens a menu allowing the player to choose a new hair style.
 `barber_beard` | Opens a menu allowing the player to choose a new beard style.
 `u_learn_recipe: `string or [variable object](#variable-object)  | Your character will learn and memorize the recipe.
@@ -890,7 +891,8 @@ Effect | Description
 `set_npc_engagement_rule: `string or [variable object](#variable-object) | Sets the NPC follower AI rule for engagement distance to the value of `rule_string`.
 `set_npc_aim_rule: `string or [variable object](#variable-object) | Sets the NPC follower AI rule for aiming speed to the value of `rule_string`.
 `npc_die` | The NPC will die at the end of the conversation.
-`npc_set_goal:assign_mission_target_object`, (*optional* `true_eocs: eocs_array`), (*optional* `false_eocs: eocs_array`) | The NPC will walk to `assign_mission_target_object`. See [the missions docs](MISSIONS_JSON.md) for `assign_mission_target` parameters.  If the goal is assigned, then all of the effect_on_conditions in `true_eocs` are run, otherwise all the effect_on_conditions in `false_eocs` are run.
+`u_set_goal, npc_set_goal:assign_mission_target_object`, (*optional* `true_eocs: eocs_array`), (*optional* `false_eocs: eocs_array`) | The NPC will walk to `assign_mission_target_object`. See [the missions docs](MISSIONS_JSON.md) for `assign_mission_target` parameters.  If the goal is assigned, then all of the effect_on_conditions in `true_eocs` are run, otherwise all the effect_on_conditions in `false_eocs` are run.
+`u_set_guard_pos,npc_set_guard_pos` : [variable object](#variable-object), (*optional* `unique_id`: bool) | Set the NPC's guard pos to the contents of `_set_guard_pos`.  If the NPC has the `RETURN_TO_START_POS` trait then when they are idle they will attempt to move to this position.  If `unique_id`(defaults to false) is true then the NPC's `unique_id` will be added as a prefix to the variables name.  For example a guard with `unique_id` = `GUARD1` would check the variable `GUARD1_First` in the following json statement:  `{ "u_set_guard_pos": { "global_val": "_First" }, "unique_id": true }`
 
 #### Map Updates
 Effect | Description
@@ -1246,13 +1248,16 @@ Example:
 
 `"arithmetic"` supports the following operators: `"*"`(multiplication), `"/"`(divison), `"+"`(addition), `"-"`(subtraction), `"%"`(modulus), `"^"`(power) and the following results `"="`, `"*="`, `"/="`, `"+="`, `"-="`, `"%="`, `"++"`, and `"--"`
 
-To get player character properties, use `"u_val"`. To get NPC properties, use same syntax but `"npc_val"` instead. For vars only `global_val` is also allowed. A list of values that can be read and/or written to follows.
+To get player character properties, use `"u_val"`. To get NPC properties, use same syntax but `"npc_val"` instead. For vars only `global_val` is also allowed.
+
+#### List of values that can be read and/or written to
 
 Example | Description
 --- | ---
 `"const": 5` | A constant value, in this case 5. Can be read but not written to.
 `"time": "5 days"` | A constant time value. Will be converted to turns. Can be read but not written to.
 `"time_since_cataclysm": "turns"` | Time since the start of the cataclysm in turns. Can instead take other time units such as minutes, hours, days, weeks, seasons, and years.
+`"time_until_eoc": "eoc_id"` | Time from now until the next scheduled run of `eoc_id`. Optional member `unit` can sepcify a member to use instead of turns such as minutes, hours, days, weeks, seasons, and years.
 `"rand": 20` | A random value between 0 and a given value, in this case 20. Can be read but not written to.
 `"faction_trust": "free_merchants"` | The trust the faction has for the player (see [FACTIONS.md](FACTIONS.md)) for details.
 `"faction_like": "free_merchants"` | How much the faction likes the player (see [FACTIONS.md](FACTIONS.md)) for details.
@@ -1275,7 +1280,6 @@ Example | Description
 `"u_val": "effect_intensity"` | Intensity of an effect.  `effect` is the id of the effect to test and `bodypart` is optionally the body part to look at.  If the effect is not present a -1 is returned.
 `"u_val": "skill_level"` | Level in given skill. `"skill"` must also be specified.
 `"u_val": "pos_x"` | Player character x coordinate. "pos_y" and "pos_z" also works as expected.
-`"u_val": "pain"` | Pain level.
 `"u_val": "power"` | Bionic power in millijoule.
 `"u_val": "power_max"` | Max bionic power in millijoule. Can be read but not written to.
 `"u_val": "power_percentage"` | Percentage of max bionic power. Should be a number between 0 to 100.
@@ -1362,13 +1366,36 @@ If `operator` is `==`, `>=`, `<=`, `>`, or `<`, the operation is a comparison:
 ```
 `lhs` and `rhs` are evaluated independently and the result of `operator` is passed on to the parent object.
 
+#### Variables
+Tokens that aren't numbers, [constants](#constants), [functions](#math-functions), or mathematical symbols are treated as dialogue variables. They are scoped by their name so `myvar` is a variable in the global scope, `u_myvar` is scoped on the alpha talker, and `n_myvar` is scoped on the beta talker.
+
+Examples:
+```JSON
+    "//0": "return value of global var blorgy_counter",
+    { "math": [ "blorgy_counter" ] },
+    "//1": "result, x, and y are global variables",
+    { "math": [ "result", "=", "x + y" ] },
+    "//2": "u_z is the variable z on the alpha talker (avatar)",
+    { "math": [ "result", "=", "( x + y ) * u_z" ] },
+    "//3": "n_crazyness is the variable crazyness on the beta talker (npc)",
+    { "math": [ "n_crazyness * 2", ">=", "( x + y ) * u_z" ] },
+```
+
 #### Constants
 The tokens `π` (and `pi` alias ) and `e` are recognized as mathematical constants and get replaced by their nominal values.
 
 #### Math functions
 Common math functions are supported: 
 
-`abs()`, `sqrt()`, `log()`, `sin()`, `cos()`, and `tan()` take one argument, for example `sin( 2 * pi + 1 )`.
+`abs()`, `sqrt()`, `log()`, `floor()`, `trunc()`, `ceil()`, `round()`, `sin()`, `cos()`, and `tan()` take one argument, for example `sin( 2 * pi + 1 )`.
+
+`floor( x )` returns the smallest integer not greater than x, for example `floor( 1.5 )` is 1, `floor( -1.5 )` is -2
+
+`ceil( x )` returns the smallest integer not less than x, for example `ceil( 1.5 )` is 2, `ceil( -1.5 )` is -1
+
+`trunc( x )` returns the nearest integer closer to zero, for example `trunc( 1.5 )` is 1, `trunc( -1.5 )` is -1
+
+`clamp( x, lo, hi )` clamps x between lo and hi. hi must be greater than lo
 
 `max()` and `min()` take any number of arguments, for example `max( 1, 2, 3 )`.
 
@@ -1381,7 +1408,15 @@ Function composition is also supported, for example `sin( rng(0, max( 0.5, u_sin
 #### Dialogue functions
 Dialogue functions take single-quoted strings as arguments and can return or manipulate game values. They are scoped just like [variables](#variables).
 
-This section is a work in progress as functions are ported from `arithmetic` to `math`. There is a `val()` shim available that can replace `u_val` and `npc_val`:
+This section is a work in progress as functions are ported from `arithmetic` to `math`.
+
+| Function | Eval | Assign |Scopes | Description |
+|----------|------|--------|-------|-------------|
+| pain     |  ✅  |   ✅   | u, n  | Return or set pain<br/> Example:<br/>`{ "math": [ "n_pain()", "=", "u_pain() + 9000" ] }`|
+
+
+##### u_val shim
+There is a `val()` shim available that can cover the missing arithmetic functions from `u_val` and `npc_val`:
 
 ```JSON
 { "math": [ "u_val('stamina')" ] }
@@ -1403,10 +1438,14 @@ is equivalent to
 { "npc_val": "spell_level", "spell": "test_spell_pew" }
 
 ```
+Most of the values from [arithmetic](#list-of-values-that-can-be-read-andor-written-to) can be used with the shim, both for reading and writing.
 
-
-#### Variables
-Tokens that aren't numbers, [constants](#constants), [functions](#math-functions), or mathematical symbols are treated as dialogue variables. They are scoped by their name so `myvar` is a variable in the global scope, `u_myvar` is scoped on the alpha talker, and `n_myvar` is scoped on the beta talker.
-
+More examples:
+```JSON
+    { "math": [ "u_val('age')" ] },
+    { "math": [ "u_val('weather: temperature')" ] },
+    { "math": [ "u_val('time: 1 d')" ] },
+    { "math": [ "u_val('proficiency', 'proficiency_id: prof_test', 'format: percent')" ] }
+```
 #### Assignment target
 An assignment target can be either a scoped [variable name](#variables) or a scoped [dialogue function](#dialogue-functions).

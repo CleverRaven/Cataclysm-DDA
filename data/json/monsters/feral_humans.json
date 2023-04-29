@@ -83,9 +83,6 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "dodge": 3,
-    "armor_bash": 9,
-    "armor_cut": 7,
-    "armor_bullet": 12,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_light_armor" ],
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "special_attacks": [
@@ -102,7 +99,6 @@
         "miss_msg_npc": "The %s thrusts a spear at <npcname>, but they evade it!"
       }
     ],
-    "armor_acid": 4,
     "harvest": "human",
     "dissect": "dissect_human_sample_single",
     "vision_day": 50,
@@ -122,13 +118,14 @@
       "CAN_OPEN_DOORS",
       "PATH_AVOID_DANGER_1",
       "PRIORITIZE_TARGETS"
-    ]
+    ],
+    "armor": { "bash": 9, "cut": 7, "acid": 4, "bullet": 12 }
   },
   {
     "id": "mon_chud",
     "type": "MONSTER",
     "name": { "str": "feral troglobite" },
-    "description": "This person is still alive but completely crazed, changed by something they are exposed to down here.  Their face is dominated by unnaturally large, faintly glowing eyes and needle-sharp teeth poking through their lips.  They remind you of something out of a campy monster movie - and of the good times when underground cannibals were less of a real concern.",
+    "description": "This person is still alive but completely crazed, changed by something they were exposed to down here.  Their face is dominated by unnaturally large, faintly glowing eyes and needle-sharp teeth poking through their lips.  They remind you of something out of a campy monster movie - and of the good times when underground cannibals were less of a real concern.",
     "copy-from": "mon_feral_human_pipe",
     "looks_like": "mon_zombie_runner",
     "symbol": "@",
@@ -327,10 +324,6 @@
     "melee_skill": 6,
     "melee_dice": 2,
     "melee_dice_sides": 3,
-    "armor_bash": 4,
-    "armor_cut": 6,
-    "armor_bullet": 4,
-    "armor_stab": 4,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor" ],
     "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_syn_armored" ],
     "dodge": 1,
@@ -372,7 +365,8 @@
       "PUSH_MON",
       "PATH_AVOID_DANGER_1",
       "DROPS_AMMO"
-    ]
+    ],
+    "armor": { "bash": 4, "cut": 6, "stab": 4, "bullet": 4 }
   },
   {
     "id": "mon_feral_labsecurity_flashlight",
@@ -493,13 +487,10 @@
     "melee_dice": 3,
     "melee_dice_sides": 7,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "armor_bash": 20,
-    "armor_cut": 20,
-    "armor_bullet": 12,
-    "armor_stab": 15,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
     "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_syn_armored" ],
-    "death_drops": "feral_armored_death_drops_mace"
+    "death_drops": "feral_armored_death_drops_mace",
+    "armor": { "bash": 20, "cut": 20, "stab": 15, "bullet": 12 }
   },
   {
     "id": "mon_feral_armored_battleaxe",
@@ -533,10 +524,6 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 3,
-    "armor_bash": 4,
-    "armor_cut": 4,
-    "armor_bullet": 4,
-    "armor_acid": 4,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_light_armor" ],
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "vision_day": 50,
@@ -575,7 +562,8 @@
       "PUSH_MON",
       "PATH_AVOID_DANGER_1",
       "DROPS_AMMO"
-    ]
+    ],
+    "armor": { "bash": 4, "cut": 4, "acid": 4, "bullet": 4 }
   },
   {
     "id": "mon_feral_survivalist",
@@ -599,11 +587,6 @@
     "melee_dice_sides": 7,
     "melee_damage": [ { "damage_type": "cut", "amount": 9 } ],
     "dodge": 3,
-    "armor_bash": 4,
-    "armor_cut": 4,
-    "armor_bullet": 4,
-    "armor_acid": 4,
-    "armor_elec": 3,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_light_armor" ],
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "vision_day": 50,
@@ -628,13 +611,14 @@
       "DROPS_AMMO"
     ],
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_CLOSE", "STALK" ],
-    "fear_triggers": [ "HURT" ]
+    "fear_triggers": [ "HURT" ],
+    "armor": { "bash": 4, "cut": 4, "acid": 4, "bullet": 4, "electric": 3 }
   },
   {
     "id": "mon_feral_militia",
     "type": "MONSTER",
     "name": { "str": "mad militia" },
-    "description": "Wearing a tactical camo uniform with a Kevlar vest, this person seems to have been a militia member, now turned feral.  Their hands grip unto a semi-automatic rifle as their bloodshot eyes scan for threats; a flashlight strapped to their forehead illuminates their presence and surroundings.",
+    "description": "Wearing a tactical camo uniform with a Kevlar vest, this person seems to have been a militia member, now turned feral.  Their hands grip unto a semi-automatic rifle as their bloodshot eyes scan for threats; a flashlight strapped to their helmet illuminates their presence and surroundings.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "HUMAN" ],
@@ -653,11 +637,6 @@
     "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 3,
-    "armor_bash": 5,
-    "armor_cut": 7,
-    "armor_bullet": 10,
-    "armor_acid": 5,
-    "armor_elec": 4,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
     "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_syn_armored" ],
     "vision_day": 50,
@@ -699,7 +678,8 @@
       "DROPS_AMMO"
     ],
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_CLOSE", "STALK" ],
-    "fear_triggers": [ "HURT" ]
+    "fear_triggers": [ "HURT" ],
+    "armor": { "bash": 5, "cut": 7, "acid": 5, "bullet": 10, "electric": 4 }
   },
   {
     "id": "mon_feral_soldier",
@@ -722,10 +702,6 @@
     "melee_dice": 2,
     "melee_dice_sides": 2,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-    "armor_bash": 4,
-    "armor_cut": 9,
-    "armor_bullet": 7,
-    "armor_elec": 3,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
     "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_syn_armored" ],
     "dodge": 4,
@@ -736,7 +712,8 @@
     "death_drops": "mon_feral_soldier_death_drops",
     "zombify_into": "mon_zombie_soldier",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER_1" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER_1" ],
+    "armor": { "bash": 4, "cut": 9, "bullet": 7, "electric": 3 }
   },
   {
     "id": "mon_feral_jackboot",
@@ -760,6 +737,7 @@
     "melee_dice_sides": 3,
     "dodge": 1,
     "weakpoint_sets": [ "wps_humanoid_body" ],
+    "families": [ "prof_intro_biology", "prof_physiology" ],
     "vision_day": 50,
     "vision_night": 3,
     "harvest": "human",
@@ -845,13 +823,11 @@
     "melee_dice_sides": 5,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "dodge": 2,
-    "armor_bash": 2,
-    "armor_cut": 1,
-    "armor_bullet": 1,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_light_armor" ],
     "extend": { "flags": [ "WATER_CAMOUFLAGE", "NO_BREATHE" ] },
     "delete": { "flags": [ "SMELLS" ] },
-    "death_drops": "feral_diver_death_drops_knife"
+    "death_drops": "feral_diver_death_drops_knife",
+    "armor": { "bash": 2, "cut": 1, "bullet": 1 }
   },
   {
     "id": "mon_feral_sailor_wrench",
@@ -873,10 +849,6 @@
     "melee_skill": 4,
     "melee_dice": 3,
     "melee_dice_sides": 4,
-    "armor_bash": 2,
-    "armor_cut": 2,
-    "armor_bullet": 2,
-    "armor_elec": 2,
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "dodge": 2,
@@ -888,7 +860,8 @@
     "death_drops": "mon_feral_sailor_death_drops",
     "zombify_into": "mon_zombie_sailor",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER_1" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER_1" ],
+    "armor": { "bash": 2, "cut": 2, "bullet": 2, "electric": 2 }
   },
   {
     "id": "mon_feral_sailor_axe",
@@ -935,11 +908,8 @@
     "melee_dice": 3,
     "melee_dice_sides": 4,
     "dodge": 2,
-    "armor_bash": 4,
-    "armor_cut": 6,
-    "armor_bullet": 10,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
-    "families": [ "prof_intro_biology", "prof_physiology" ],
+    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_syn_armored" ],
     "special_attacks": [
       [ "PARROT_AT_DANGER", 0 ],
       {
@@ -973,7 +943,8 @@
       "CAN_OPEN_DOORS",
       "PATH_AVOID_DANGER_1",
       "PRIORITIZE_TARGETS"
-    ]
+    ],
+    "armor": { "bash": 4, "cut": 6, "bullet": 10 }
   },
   {
     "id": "mon_feral_officer",
@@ -1043,11 +1014,6 @@
     "melee_skill": 6,
     "melee_dice": 4,
     "melee_dice_sides": 3,
-    "armor_bash": 8,
-    "armor_cut": 12,
-    "armor_bullet": 14,
-    "armor_stab": 9,
-    "armor_elec": 2,
     "dodge": 3,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
     "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_syn_armored" ],
@@ -1070,7 +1036,8 @@
       "PATH_AVOID_DANGER_1",
       "PRIORITIZE_TARGETS"
     ],
-    "zombify_into": "mon_zombie_cop"
+    "zombify_into": "mon_zombie_cop",
+    "armor": { "bash": 8, "cut": 12, "stab": 9, "bullet": 14, "electric": 2 }
   },
   {
     "id": "mon_feral_cop_fungal_infected",
@@ -1083,7 +1050,7 @@
     "id": "mon_feral_human_archaeologist",
     "type": "MONSTER",
     "name": "feral archaeologist",
-    "description": "Judging by looks, this poor individual was probably an archeologist in their former life.  Maniac and bloodshot, it now seems intent to make you a part of its collection of artifacts, as it comes at you with a shovel in hand.",
+    "description": "Judging by looks, this poor individual was probably an archeologist in their former life.  Rabid and bloodshot, they now seem intent to make you a part of their collection as they come at you with a shovel in hand.",
     "copy-from": "mon_feral_human_pipe",
     "looks_like": "mon_feral_human_tool",
     "death_drops": "feral_archaelogist_death_drops"

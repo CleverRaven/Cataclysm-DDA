@@ -22,7 +22,6 @@
       }
     ],
     "to_hit": -3,
-    "bashing": 12,
     "material": [ "steel", "aluminum" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -32,7 +31,8 @@
     "modes": [ [ "DEFAULT", "burst", 2 ], [ "SEMI", "semi-auto", 1 ], [ "AUTO", "auto", 5 ] ],
     "barrel_volume": "1200 ml",
     "faults": [ "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "exodiiBRmag" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "exodiiBRmag" ] } ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "pamd71z",
@@ -57,7 +57,6 @@
       }
     ],
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "steel", "aluminum" ],
     "color": "light_gray",
     "ammo": [ "123ln" ],
@@ -66,7 +65,8 @@
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "burst", 2 ] ],
     "barrel_volume": "250 ml",
     "faults": [ "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "exodiiminimag" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "exodiiminimag" ] } ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "pamd68mountable",

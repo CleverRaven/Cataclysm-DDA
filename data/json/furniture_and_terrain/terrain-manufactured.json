@@ -564,7 +564,7 @@
         { "item": "RAM", "count": [ 14, 20 ] },
         { "item": "nanomaterial", "count": 1, "prob": 10 },
         { "item": "bearing", "charges": [ 20, 60 ] },
-        { "item": "motor", "count": 4 },
+        { "item": "motor_small", "count": 4 },
         { "item": "power_supply", "count": [ 4, 16 ] },
         { "item": "amplifier", "count": [ 4, 16 ] },
         { "item": "cable", "charges": [ 250, 500 ] },
@@ -1238,6 +1238,24 @@
       ]
     },
     "flags": [ "CONTAINER", "SEALED", "PLACE_ITEM", "WALL", "MINEABLE" ]
+  },
+  {
+    "id": "t_rockyobstacle",
+    "type": "terrain",
+    "name": "rocky obstacle",
+    "description": "Some larger rocks arranged and crudely rammed into the ground to slow down who or whatever is trying to cross.",
+    "symbol": "^",
+    "color": "light_gray",
+    "looks_like": "t_railroad_rubble",
+    "move_cost": 4,
+    "bash": {
+      "str_min": 20,
+      "str_max": 30,
+      "ter_set": "t_dirt",
+      "sound_fail": "whump!",
+      "items": [ { "item": "rock_large", "count": [ 0, 20 ] }, { "item": "sharp_rock", "count": [ 0, 16 ] } ]
+    },
+    "flags": [ "TRANSPARENT", "THIN_OBSTACLE", "SHORT", "ROUGH", "UNSTABLE", "PERMEABLE", "EASY_DECONSTRUCT" ]
   },
   {
     "type": "terrain",

@@ -45,17 +45,12 @@
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "dodge": 7,
-    "armor_bash": 1,
-    "armor_cut": 8,
-    "armor_stab": 8,
-    "armor_bullet": 8,
-    "armor_acid": 3,
-    "armor_fire": 80,
     "vision_day": 5,
     "vision_night": 7,
     "harvest": "demon_spider",
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "STALK", "PLAYER_WEAK", "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CLIMBS", "HARDTOSHOOT", "PUSH_MON" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CLIMBS", "HARDTOSHOOT", "PUSH_MON" ],
+    "armor": { "bash": 1, "cut": 8, "stab": 8, "acid": 3, "heat": 80, "bullet": 8 }
   },
   {
     "id": "mon_demon_spider",
@@ -81,18 +76,13 @@
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 12 } ],
     "dodge": 4,
-    "armor_bash": 5,
-    "armor_cut": 45,
-    "armor_stab": 60,
-    "armor_bullet": 60,
-    "armor_acid": 10,
-    "armor_fire": 80,
     "vision_day": 6,
     "vision_night": 12,
     "harvest": "demon_spider",
     "special_attacks": [ { "type": "spell", "spell_data": { "id": "burning_hands", "min_level": 4 }, "cooldown": 20 } ],
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "STALK", "PLAYER_WEAK", "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CLIMBS", "HARDTOSHOOT", "PUSH_MON" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CLIMBS", "HARDTOSHOOT", "PUSH_MON" ],
+    "armor": { "bash": 5, "cut": 45, "stab": 60, "acid": 10, "heat": 80, "bullet": 60 }
   },
   {
     "id": "mon_demon_spider_queen",

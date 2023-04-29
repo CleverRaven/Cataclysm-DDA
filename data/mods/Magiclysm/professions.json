@@ -2,6 +2,12 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "pouch_wild_druid",
+    "entries": [ { "item": "fur" }, { "item": "fur" }, { "item": "fur" }, { "item": "bone_tainted" }, { "item": "bone_tainted" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "quiver_mooserider",
     "entries": [ { "item": "arrow_heavy_fire_hardened_fletched", "charges": 20 } ]
   },
@@ -348,6 +354,247 @@
       "female": [ "bra", "panties" ]
     },
     "traits": [ "TECHNOMANCER" ]
+  },
+  {
+    "type": "profession",
+    "id": "freezing_dancer",
+    "name": "Freezing Dancer",
+    "description": "You are a highly sought exotic magic dancer.  You can heat the room temperature with your moves and your body, but whenever it lights too much you freeze it with your magic, granting you great control over your public.  They can see, but never touch.",
+    "spells": [ { "id": "freezing_touch", "level": 3 }, { "id": "glide_ice", "level": 3 } ],
+    "skills": [ { "level": 2, "name": "dodge" }, { "level": 2, "name": "spellcraft" } ],
+    "points": 2,
+    "items": {
+      "both": {
+        "items": [
+          "hot_pants_leather",
+          "chaps_leather",
+          "halter_top",
+          "jacket_leather",
+          "fancy_sunglasses",
+          "dance_shoes",
+          "socks",
+          "purse"
+        ],
+        "entries": [ { "group": "charged_cell_phone" }, { "item": "mask_dust", "variant": "black_mask_dust" } ]
+      },
+      "male": [ "tank_top" ],
+      "female": [ "bikini_top_leather", "leather_collar" ]
+    },
+    "traits": [ "KELVINIST" ]
+  },
+  {
+    "type": "profession",
+    "id": "dimensionalist",
+    "name": "Dimensionalist Mage",
+    "description": "You are an expert in dimensionalism, with its most common example being teleportation magic, that is the reason why you could survive while your colleagues could not.  Your only hope is that your highly specialized skills will continue keeping you alive.",
+    "points": 6,
+    "spells": [
+      { "id": "phase_door", "level": 10 },
+      { "id": "dimension_door", "level": 2 },
+      { "id": "translocate_self", "level": 5 },
+      { "id": "magus_escape", "level": 3 },
+      { "id": "gravity_well", "level": 2 }
+    ],
+    "skills": [ { "level": 5, "name": "spellcraft" } ],
+    "items": {
+      "both": {
+        "items": [
+          "copper_circlet",
+          "cloak",
+          "dress_shoes",
+          "socks_wool",
+          "mbag",
+          "wizard_hat",
+          "gloves_liner",
+          "gloves_light",
+          "dress_shirt",
+          "knit_scarf",
+          "pocketwatch"
+        ],
+        "entries": [ { "item": "magi_staff_minor", "custom-flags": [ "auto_wield" ] } ]
+      },
+      "male": [ "boxer_briefs", "pants" ],
+      "female": [ "bra", "panties", "skirt" ]
+    },
+    "traits": [ "MAGUS" ]
+  },
+  {
+    "type": "profession",
+    "id": "magic_burglar",
+    "name": "Shadow Burglar",
+    "description": "Helped by all kind of magical tools and your great talents, you were planning your next great break in.  The world ended before you had time to escape with all of your ill-gained plunder, but at least now nobody can stop you now from breaking whatever locks you desire.",
+    "points": 5,
+    "proficiencies": [ "prof_lockpicking" ],
+    "skills": [ { "level": 4, "name": "traps" } ],
+    "items": {
+      "both": {
+        "items": [
+          "socks",
+          "sneakers",
+          "pants",
+          "striped_shirt",
+          "hoodie",
+          "gloves_light",
+          "swag_bag",
+          "crowbar",
+          "hacksaw",
+          "wristwatch",
+          "boltcutters",
+          "stethoscope",
+          "picklocks",
+          "mkey_opening"
+        ],
+        "entries": [ { "item": "mmask_disappearance", "ammo-item": "crystallized_mana", "charges": 1 } ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "magic_drunkard",
+    "name": "Magic Drunkard",
+    "description": "You were lucky enough to find a weird flask that refills itself with whiskey!  You now spent your days just waiting for every refill and keeping it from the hands of any envious neighbor of yours.",
+    "points": 2,
+    "skills": [ { "level": 2, "name": "unarmed" } ],
+    "items": {
+      "both": {
+        "items": [
+          "jeans",
+          "gloves_light",
+          "hat_ball",
+          "duffelbag",
+          "backpack",
+          "long_underpants",
+          "boots",
+          "socks_wool",
+          "socks",
+          "hoodie",
+          "folding_poncho",
+          "knit_scarf",
+          "can_beans",
+          "pockknife",
+          "mflask_hip_whiskey"
+        ],
+        "entries": [ { "group": "charged_cell_phone" }, { "group": "charged_matches" }, { "item": "tshirt", "variant": "generic_tshirt" } ]
+      },
+      "male": [ "boxer_briefs" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "magic_miner",
+    "name": "Magic Miner",
+    "description": "You were the most prepared of them all.  The miner that never lacked tools and could control the ground itself.  Sadly, you are not sure those abilities will save you in what is to come.",
+    "points": 4,
+    "skills": [ { "level": 2, "name": "spellcraft" } ],
+    "spells": [
+      { "id": "eshaper_spawn_tools", "level": 3 },
+      { "id": "move_earth", "level": 2 },
+      { "id": "earthshaper_pillar", "level": 1 }
+    ],
+    "traits": [ "EARTHSHAPER" ],
+    "items": {
+      "both": {
+        "items": [ "socks", "boots_steel", "gloves_work", "knee_pads", "jumpsuit", "tool_belt", "mbag", "wristwatch" ],
+        "entries": [
+          { "group": "full_gasmask" },
+          { "group": "charged_smart_phone" },
+          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "water_clean", "container-item": "canteen" },
+          { "item": "light_minus_disposable_cell", "charges": 100 },
+          { "item": "light_minus_disposable_cell", "charges": 100, "container-item": "miner_hat" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "boy_shorts", "sports_bra" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "magic_maid",
+    "name": { "male": "Magic Butler", "female": "Magic Maid" },
+    "description": "You are a descendant of a long line of housekeepers for magical families.  Trained in several spells to facilitate your job you were easily hired to take care of your current job, sadly, it looks like this could be your last.",
+    "points": 4,
+    "skills": [ { "level": 2, "name": "cooking" }, { "level": 2, "name": "spellcraft" }, { "level": 2, "name": "tailor" } ],
+    "proficiencies": [ "prof_food_prep", "prof_closures" ],
+    "spells": [
+      { "id": "create_atomic_light", "level": 4 },
+      { "id": "magus_force_jar", "level": 3 },
+      { "id": "magus_haste", "level": 2 },
+      { "id": "cats_grace", "level": 1 }
+    ],
+    "traits": [ "MAGUS" ],
+    "items": {
+      "both": { "items": [ "pocketwatch", "mteapot" ], "entries": [ { "group": "charged_smart_phone" } ] },
+      "male": [ "briefs", "socks", "dress_shoes", "tux", "glasses_monocle", "collarpin" ],
+      "female": [ "panties", "bra", "stockings", "garter_belt", "dress_shoes", "maid_dress", "maid_hat", "corset_waist", "fc_hairpin" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "wild_druid",
+    "name": "Wild Druid",
+    "description": "For a long time you lived in the wild, free of interference from whatever inhabited outside the woods, now that the woods are collapsing you finally return to civilization.",
+    "points": 6,
+    "spells": [
+      { "id": "druid_feralform", "level": 4 },
+      { "id": "summon_wolf_druid", "level": 3 },
+      { "id": "purify_seed", "level": 3 },
+      { "id": "dark_sight", "level": 2 }
+    ],
+    "skills": [ { "level": 4, "name": "survival" }, { "level": 3, "name": "spellcraft" } ],
+    "traits": [ "ANIMALEMPATH", "SLOWREADER", "DRUID" ],
+    "items": {
+      "both": {
+        "items": [ "footrags_fur", "boots_fur", "gloves_wraps_fur", "hat_fur", "cloak_fur", "scarf_fur_loose" ],
+        "entries": [
+          { "item": "wolfshead_cufflinks", "ammo-item": "crystallized_mana", "charges": 1 },
+          { "item": "leather_pouch", "contents-group": "pouch_wild_druid" },
+          { "item": "primitive_knife", "container-item": "sheath" },
+          { "item": "water_clean", "charges": 3, "container-item": "waterskin" }
+        ]
+      },
+      "male": [ "chestwrap_fur", "loincloth_fur" ],
+      "female": [ "bikini_top_fur", "hot_pants_fur" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "archer_druid",
+    "name": "Archer Druid",
+    "description": "You were a skilful and committed archer druid, making constant excursions to the forests in which you dedicated yourself to living of and with what nature had to offer you.  You were returning from your last travel when civilization fell upon itself.",
+    "points": 5,
+    "proficiencies": [ "prof_bowyery", "prof_bow_basic", "prof_bow_expert" ],
+    "spells": [
+      { "id": "druid_naturebow1", "level": 4 },
+      { "id": "druid_natures_commune", "level": 3 },
+      { "id": "purify_seed", "level": 2 },
+      { "id": "druid_veggrasp", "level": 1 }
+    ],
+    "skills": [
+      { "level": 2, "name": "survival" },
+      { "level": 2, "name": "spellcraft" },
+      { "level": 1, "name": "gun" },
+      { "level": 2, "name": "archery" }
+    ],
+    "traits": [ "DRUID" ],
+    "items": {
+      "both": {
+        "items": [
+          "robe",
+          "chestwrap",
+          "loincloth",
+          "leathersandals",
+          "gloves_wraps",
+          "straw_hat",
+          "leather_pouch",
+          "sleeping_bag_fur_roll"
+        ],
+        "entries": [ { "item": "water_clean", "container-item": "waterskin" }, { "item": "primitive_knife", "container-item": "sheath" } ]
+      }
+    }
   },
   {
     "type": "profession",

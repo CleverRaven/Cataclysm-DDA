@@ -29,7 +29,7 @@ struct recipe_group_data {
     std::map<recipe_id, std::set<std::string>> om_terrains;
     bool was_loaded = false;
 
-    void load( const JsonObject &jo, const std::string &src );
+    void load( const JsonObject &jo, std::string_view src );
     void check() const;
 };
 
@@ -37,7 +37,7 @@ generic_factory<recipe_group_data> recipe_groups_data( "recipe group type" );
 
 } // namespace
 
-void recipe_group_data::load( const JsonObject &jo, const std::string & )
+void recipe_group_data::load( const JsonObject &jo, const std::string_view )
 {
     building_type = jo.get_string( "building_type" );
     for( JsonObject ordering : jo.get_array( "recipes" ) ) {

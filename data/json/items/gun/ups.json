@@ -12,7 +12,6 @@
     "price": 1600000,
     "price_postapoc": 6500,
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "cyan",
@@ -37,7 +36,8 @@
       [ "underbarrel", 1 ]
     ],
     "ammo_effects": [ "DRAW_LASER_BEAM", "EMP" ],
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "USE_UPS" ]
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "USE_UPS" ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "gatling_mech_laser",
@@ -51,7 +51,6 @@
     "price_postapoc": 8000,
     "longest_side": "1086 mm",
     "to_hit": -4,
-    "bashing": 8,
     "material": [ "superalloy", "plastic" ],
     "symbol": "(",
     "color": "blue",
@@ -65,7 +64,8 @@
     "reload": 0,
     "modes": [ [ "DEFAULT", "3 rd.", 3 ], [ "BURST", "5 rd.", 5 ], [ "AUTO", "high auto", 15 ] ],
     "ammo_effects": [ "LASER", "PLASMA_BUBBLE", "INCENDIARY" ],
-    "flags": [ "NO_UNLOAD", "NEVER_JAMS", "NO_UNWIELD", "NO_SALVAGE", "NO_REPAIR", "UNBREAKABLE_MELEE", "NON_FOULING", "USE_UPS" ]
+    "flags": [ "NO_UNLOAD", "NEVER_JAMS", "NO_UNWIELD", "NO_SALVAGE", "NO_REPAIR", "UNBREAKABLE_MELEE", "NON_FOULING", "USE_UPS" ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "recon_mech_laser",
@@ -79,7 +79,6 @@
     "price_postapoc": 8000,
     "longest_side": "1228 mm",
     "to_hit": -2,
-    "bashing": 6,
     "material": [ "superalloy", "plastic" ],
     "symbol": "(",
     "color": "blue",
@@ -102,7 +101,8 @@
       "NON_FOULING",
       "NEEDS_NO_LUBE",
       "USE_UPS"
-    ]
+    ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "laser_rifle",
@@ -117,7 +117,6 @@
     "price": 1600000,
     "price_postapoc": 7500,
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "yellow",
@@ -143,7 +142,8 @@
       [ "underbarrel", 1 ]
     ],
     "ammo_effects": [ "LASER", "INCENDIARY" ],
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "USE_UPS" ]
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "USE_UPS" ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "hm12",
@@ -171,7 +171,6 @@
     "price": 720000,
     "price_postapoc": 5500,
     "to_hit": -2,
-    "bashing": 5,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "magenta",
@@ -194,7 +193,8 @@
       [ "underbarrel", 1 ]
     ],
     "ammo_effects": [ "LASER", "INCENDIARY" ],
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "USE_UPS" ]
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "USE_UPS" ],
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "gatling_mech_laser_single",

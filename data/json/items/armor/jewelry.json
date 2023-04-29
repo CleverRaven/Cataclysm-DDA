@@ -103,14 +103,13 @@
     "volume": "1 ml",
     "price": 50000,
     "price_postapoc": 250,
-    "bashing": 3,
-    "cutting": 3,
     "material": [ "gold" ],
     "symbol": "[",
     "looks_like": "gold_dental_grill",
     "color": "yellow",
     "flags": [ "SKINTIGHT", "NO_WEAR_EFFECT" ],
-    "armor": [ { "encumbrance": 10, "covers": [ "mouth" ] } ]
+    "armor": [ { "encumbrance": 10, "covers": [ "mouth" ] } ],
+    "melee_damage": { "bash": 3, "cut": 3 }
   },
   {
     "id": "garnet_dental_grill",
@@ -121,14 +120,13 @@
     "volume": "1 ml",
     "price": 30000,
     "price_postapoc": 100,
-    "bashing": 3,
-    "cutting": 3,
     "material": [ { "type": "gold", "portion": 9 }, { "type": "gemstone" } ],
     "symbol": "[",
     "looks_like": "gold_dental_grill",
     "color": "red",
     "flags": [ "SKINTIGHT", "NO_WEAR_EFFECT" ],
-    "armor": [ { "encumbrance": 10, "covers": [ "mouth" ] } ]
+    "armor": [ { "encumbrance": 10, "covers": [ "mouth" ] } ],
+    "melee_damage": { "bash": 3, "cut": 3 }
   },
   {
     "id": "amethyst_dental_grill",
@@ -876,13 +874,12 @@
     "volume": "1 ml",
     "price": 20000,
     "price_postapoc": 50,
-    "bashing": 2,
-    "cutting": 2,
     "material": [ "gold" ],
     "symbol": "[",
     "color": "yellow",
     "flags": [ "SKINTIGHT", "NO_WEAR_EFFECT" ],
-    "armor": [ { "covers": [ "mouth" ] } ]
+    "armor": [ { "covers": [ "mouth" ] } ],
+    "melee_damage": { "bash": 2, "cut": 2 }
   },
   {
     "id": "gold_ear",
@@ -1575,13 +1572,12 @@
     "volume": "1 ml",
     "price": 15000,
     "price_postapoc": 100,
-    "bashing": 2,
-    "cutting": 2,
     "material": [ "platinum", "silver" ],
     "symbol": "[",
     "color": "white",
     "flags": [ "SKINTIGHT", "NO_WEAR_EFFECT" ],
-    "armor": [ { "covers": [ "mouth" ] } ]
+    "armor": [ { "covers": [ "mouth" ] } ],
+    "melee_damage": { "bash": 2, "cut": 2 }
   },
   {
     "id": "platinum_ear",
@@ -1883,15 +1879,16 @@
     "type": "ARMOR",
     "name": { "str": "badge template" },
     "description": "This is a template for police/medical badges.  If found in a game, it is a bug.",
-    "weight": "60 g",
-    "volume": "5 ml",
+    "weight": "315 g",
+    "volume": "37 ml",
     "price": 5000,
     "price_postapoc": 700,
-    "material": [ "silver" ],
+    "material": [ "brass" ],
     "symbol": "[",
     "color": "yellow",
-    "//": "should cover TORSO but give no encumbrance penalties",
+    "//": "should cover TORSO but give no encumbrance penalties. weight/volume are based on circle 2.75 in diameter and 1 cm thickness brass. Though some objects that copy from this may say they're different materials in the description, assume the material to be plated over the brass.",
     "material_thickness": 2,
+    "armor": [ { "encumbrance": 0, "coverage": 5, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ],
     "flags": [ "ALLOWS_NATURAL_ATTACKS", "OUTER", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
@@ -1908,9 +1905,7 @@
     "type": "ARMOR",
     "name": { "str": "detective badge" },
     "description": "A tarnished golden shield gives an air of authority to the wearer.",
-    "material": [ "gold" ],
-    "price_postapoc": 500,
-    "proportional": { "weight": 2 }
+    "price_postapoc": 500
   },
   {
     "id": "badge_marshal",
@@ -1933,7 +1928,8 @@
     "type": "ARMOR",
     "name": { "str": "doctor badge" },
     "material": [ "plastic" ],
-    "weight": "10 g",
+    "weight": "50 g",
+    "volume": "50 ml",
     "price_postapoc": 10,
     "description": "A plastic name tag marking the wearer as a real doctor of the medical kind."
   },
@@ -1944,7 +1940,8 @@
     "name": { "str": "Foodkid badge" },
     "material": [ "plastic" ],
     "price_postapoc": 10,
-    "weight": "10 g",
+    "weight": "50 g",
+    "volume": "50 ml",
     "description": "A star-shaped plastic badge.  \"Foodkid\" is printed on it in bold letters.  This badge marks its wearer as Foodperson's trusty sidekick, and comes included with every kid's meal at Foodplace."
   },
   {
@@ -1979,11 +1976,11 @@
     "volume": "250 ml",
     "price": 1000,
     "price_postapoc": 10,
-    "bashing": 4,
     "material": [ "fur", "plastic" ],
     "symbol": "s",
     "color": "brown",
-    "flags": [ "NO_WEAR_EFFECT" ]
+    "flags": [ "NO_WEAR_EFFECT" ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "faux_fur_cat_tail",
@@ -2040,11 +2037,11 @@
     "volume": "250 ml",
     "price": 2500,
     "price_postapoc": 10,
-    "bashing": 4,
     "material": [ "leather", "plastic" ],
     "symbol": "s",
     "color": "dark_gray",
-    "flags": [ "NO_WEAR_EFFECT" ]
+    "flags": [ "NO_WEAR_EFFECT" ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "diamond_gold_earring",

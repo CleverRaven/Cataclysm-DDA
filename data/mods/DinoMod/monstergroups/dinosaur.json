@@ -24,6 +24,7 @@
     "name": "GROUP_DINOSAUR_ASIA",
     "monsters": [
       { "monster": "mon_qianzhousaurus", "weight": 200, "cost_multiplier": 40, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_therizinosaurus", "weight": 200, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
       { "monster": "mon_velociraptor", "weight": 200, "cost_multiplier": 10, "pack_size": [ 2, 4 ] }
     ]
   },

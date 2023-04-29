@@ -10,10 +10,10 @@
     "price": 750,
     "price_postapoc": 500,
     "to_hit": -1,
-    "bashing": 6,
     "material": [ "steel" ],
     "symbol": "]",
-    "color": "light_cyan"
+    "color": "light_cyan",
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "spring_plate",
@@ -26,9 +26,9 @@
     "price": 1300,
     "price_postapoc": 750,
     "to_hit": -1,
-    "bashing": 6,
     "material": [ "steel" ],
     "symbol": "]",
-    "color": "light_cyan"
+    "color": "light_cyan",
+    "melee_damage": { "bash": 6 }
   }
 ]

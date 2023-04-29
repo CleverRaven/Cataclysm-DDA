@@ -10,10 +10,10 @@
     "price": 10000,
     "price_postapoc": 2000,
     "to_hit": -2,
-    "bashing": 6,
     "material": [ "steel", "plastic" ],
     "symbol": ";",
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "press_dowel",
@@ -26,11 +26,11 @@
     "price": 600,
     "price_postapoc": 1500,
     "to_hit": -2,
-    "bashing": 2,
     "material": [ "wood", "plastic", "brass" ],
     "symbol": ";",
     "color": "dark_gray",
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID" ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "puller",
@@ -42,10 +42,10 @@
     "longest_side": "35 cm",
     "price": 1000,
     "price_postapoc": 2000,
-    "bashing": 5,
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "green",
-    "qualities": [ [ "PULL", 2 ] ]
+    "qualities": [ [ "PULL", 2 ] ],
+    "melee_damage": { "bash": 5 }
   }
 ]

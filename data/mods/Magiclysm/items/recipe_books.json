@@ -8,7 +8,6 @@
     "weight": "1 kg",
     "volume": "750 ml",
     "price": 7900,
-    "bashing": 5,
     "material": [ "paper" ],
     "symbol": "?",
     "color": "black_white",
@@ -17,7 +16,8 @@
     "max_level": 3,
     "intelligence": 10,
     "time": "32 m",
-    "fun": 1
+    "fun": 1,
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "black_dragons_historical",
@@ -28,7 +28,6 @@
     "weight": "1 kg",
     "volume": "750 ml",
     "price": 7900,
-    "bashing": 5,
     "material": [ "paper" ],
     "symbol": "?",
     "color": "black_white",
@@ -37,7 +36,8 @@
     "max_level": 8,
     "intelligence": 11,
     "time": "37 m",
-    "fun": -2
+    "fun": -2,
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "alchemy_basic",
@@ -48,7 +48,6 @@
     "weight": "1 kg",
     "volume": "750 ml",
     "price": 7900,
-    "bashing": 5,
     "material": [ "paper" ],
     "symbol": "?",
     "color": "white",
@@ -57,7 +56,8 @@
     "max_level": 5,
     "intelligence": 9,
     "time": "20 m",
-    "fun": 1
+    "fun": 1,
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "necro_basic",
@@ -68,7 +68,6 @@
     "weight": "425 g",
     "volume": "450 ml",
     "price": 7900,
-    "bashing": 5,
     "material": [ "paper" ],
     "symbol": "?",
     "color": "black",
@@ -78,7 +77,8 @@
     "max_level": 6,
     "intelligence": 9,
     "time": "20 m",
-    "fun": -2
+    "fun": -2,
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "alchemy_illegal",
@@ -89,7 +89,6 @@
     "weight": "260 g",
     "volume": "350 ml",
     "price": 13900,
-    "bashing": 3,
     "material": [ "paper" ],
     "symbol": "?",
     "color": "white",
@@ -97,7 +96,8 @@
     "required_level": 5,
     "max_level": 6,
     "intelligence": 10,
-    "time": "20 m"
+    "time": "20 m",
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "alchemy_master",
@@ -108,7 +108,6 @@
     "weight": "870 g",
     "volume": "750 ml",
     "price": 17800,
-    "bashing": 6,
     "material": [ "paper" ],
     "symbol": "?",
     "color": "white",
@@ -117,7 +116,8 @@
     "max_level": 9,
     "intelligence": 12,
     "time": "20 m",
-    "fun": -2
+    "fun": -2,
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "techno_basic",
@@ -128,7 +128,6 @@
     "weight": "1 kg",
     "volume": "750 ml",
     "price": 7900,
-    "bashing": 5,
     "material": [ "paper" ],
     "symbol": "?",
     "color": "black",
@@ -138,7 +137,8 @@
     "max_level": 5,
     "intelligence": 9,
     "time": "20 m",
-    "fun": 1
+    "fun": 1,
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "book_mythological",
@@ -168,7 +168,6 @@
     "weight": "1 kg",
     "volume": "750 ml",
     "price": 7900,
-    "bashing": 5,
     "material": [ "paper" ],
     "symbol": "?",
     "color": "white",
@@ -177,7 +176,8 @@
     "max_level": 6,
     "intelligence": 9,
     "time": "20 m",
-    "fun": 1
+    "fun": 1,
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "metal_legends",
@@ -188,7 +188,6 @@
     "weight": "1 kg",
     "volume": "750 ml",
     "price": 7900,
-    "bashing": 5,
     "material": [ "paper" ],
     "symbol": "?",
     "color": "white",
@@ -197,7 +196,8 @@
     "max_level": 6,
     "intelligence": 9,
     "time": "20 m",
-    "fun": -1
+    "fun": -1,
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "magic_armormaking",
@@ -208,7 +208,6 @@
     "weight": "1 kg",
     "volume": "750 ml",
     "price": 7900,
-    "bashing": 5,
     "material": [ "paper" ],
     "symbol": "?",
     "color": "white",
@@ -217,7 +216,8 @@
     "max_level": 8,
     "intelligence": 10,
     "time": "25 m",
-    "fun": -1
+    "fun": -1,
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "enchantment_basic",
@@ -228,7 +228,6 @@
     "weight": "1 kg",
     "volume": "750 ml",
     "price": 7900,
-    "bashing": 5,
     "material": [ "paper" ],
     "symbol": "?",
     "color": "white",
@@ -237,7 +236,8 @@
     "max_level": 8,
     "intelligence": 10,
     "time": "25 m",
-    "fun": -1
+    "fun": -1,
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "weapon_enchanting_guide",
