@@ -10,10 +10,10 @@
       "name": "windows-tiles-sounds-x64-msvc",
       "binaryDir": "${sourceDir}/out/build/${presetName}",
       "displayName": "Windows Tiles Sounds x64 MSVC",
-      "description": "Target Windows (64-bit) with the Visual Studio development environment. (RelWithDebInfo)",
+      "description": "Target Windows (64-bit) with the Visual Studio development environment.",
+      "generator": "Ninja Multi-Config",
       "cacheVariables": {
         "CMAKE_PROJECT_INCLUDE_BEFORE": "${sourceDir}/build-scripts/${presetName}.cmake",
-        "CMAKE_BUILD_TYPE": "RelWithDebInfo",
         "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/build-scripts/MSVC.cmake",
         "VCPKG_TARGET_TRIPLET": "x64-windows-static",
         "VCPKG_ROOT": "C:/vcpkg",
