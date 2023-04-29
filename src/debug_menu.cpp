@@ -2464,11 +2464,10 @@ static void debug_menu_spawn_vehicle()
     } else {
         // Vector of name, id so that we can sort by name
         std::vector<std::pair<std::string, vproto_id>> veh_strings;
-        for( auto &elem : vehicle_prototype::get_all() ) {
-            if( elem == vehicle_prototype_custom ) {
-                continue;
+        for( const vehicle_prototype &proto : vehicles::get_all_prototypes() ) {
+            if( proto.id != vehicle_prototype_custom ) {
+                veh_strings.emplace_back( proto.name.translated(), proto.id );
             }
-            veh_strings.emplace_back( elem->name.translated(), elem );
         }
         std::sort( veh_strings.begin(), veh_strings.end(), localized_compare );
         uilist veh_menu;
