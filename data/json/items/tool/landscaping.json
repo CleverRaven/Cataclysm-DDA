@@ -198,7 +198,7 @@
     "color": "brown",
     "qualities": [ [ "DIG", 3 ], [ "COOK", 1 ], [ "BUTCHER", -70 ] ],
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "NONCONDUCTIVE", "NO_SALVAGE" ]
+    "flags": [ "NONCONDUCTIVE", "NO_SALVAGE" ],
     "melee_damage": { "bash": 14, "cut": 3 }
   },
   {
