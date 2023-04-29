@@ -2750,7 +2750,7 @@ void map::drop_items( const tripoint &p )
     // Bash creature standing below
     Creature *creature = get_creature_tracker().creature_at( below );
     if ( creature ) {
-        creature->deal_damage( nullptr, bodypart_id( "head" ), damage_instance( damage_type::BASH, damage ) );
+        creature->deal_damage( nullptr, bodypart_id( "head" ), damage_instance( damage_bash, damage ) );
     }
 
     bash( below, 1, false, true );
