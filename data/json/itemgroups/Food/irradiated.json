@@ -47,7 +47,7 @@
       [ "cucumber", 50 ],
       [ "celery", 50 ],
       [ "rhubarb", 50 ],
-	  [ "eggplant", 50 ]
+      [ "eggplant", 50 ]
     ]
   },
   {
