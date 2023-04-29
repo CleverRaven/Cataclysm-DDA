@@ -337,6 +337,13 @@ void write_var_value( var_type type, const std::string &name, talker *talk, dial
     }
 }
 
+void write_var_value( var_type type, const std::string &name, talker *talk, dialogue *d,
+                      double value )
+{
+    // NOLINTNEXTLINE(cata-translate-string-literal)
+    write_var_value( type, name, talk, d, string_format( "%g", value ) );
+}
+
 static bodypart_id get_bp_from_str( const std::string &ctxt )
 {
     bodypart_id bid = bodypart_str_id::NULL_ID();
@@ -2082,9 +2089,7 @@ conditional_t::get_set_dbl( const J &jo, const std::optional<dbl_or_var_part> &m
         jo.allow_omitted_members();
         return [min, max]( dialogue & d, double input ) {
             write_var_value( var_type::global, "temp_var", d.actor( false ), &d,
-                             std::to_string( handle_min_max( d,
-                                             input, min,
-                                             max ) ) );
+                             handle_min_max( d, input, min, max ) );
         };
     } else if( jo.has_member( "const" ) ) {
         jo.throw_error( "attempted to alter a constant value in " + jo.str() );
@@ -2225,8 +2230,7 @@ conditional_t::get_set_dbl( const J &jo, const std::optional<dbl_or_var_part> &m
             }
             return [is_npc, var_name, type, min, max]( dialogue & d, double input ) {
                 write_var_value( type, var_name, d.actor( is_npc ), &d,
-                                 // NOLINTNEXTLINE(cata-translate-string-literal)
-                                 string_format( "%g", handle_min_max( d, input, min, max ) ) );
+                                 handle_min_max( d, input, min, max ) );
             };
         } else if( checked_value == "time_since_var" ) {
             // This is a strange thing to want to adjust. But we allow it nevertheless.

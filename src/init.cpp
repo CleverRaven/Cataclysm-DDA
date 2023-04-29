@@ -62,6 +62,7 @@
 #include "martialarts.h"
 #include "material.h"
 #include "mission.h"
+#include "math_parser_jmath.h"
 #include "mod_tileset.h"
 #include "monfaction.h"
 #include "mongroup.h"
@@ -246,6 +247,7 @@ void DynamicDataLoader::initialize()
     add( "EXTERNAL_OPTION", &load_external_option );
     add( "option_slider", &option_slider::load_option_sliders );
     add( "json_flag", &json_flag::load_all );
+    add( "jmath_function", &jmath_func::load_func );
     add( "connect_group", &connect_group::load );
     add( "fault", &fault::load_fault );
     add( "relic_procgen_data", &relic_procgen_data::load_relic_procgen_data );
@@ -579,6 +581,7 @@ void DynamicDataLoader::unload_data()
     harvest_list::reset();
     item_category::reset();
     item_controller->reset();
+    jmath_func::reset();
     json_flag::reset();
     connect_group::reset();
     limb_score::reset();
@@ -712,6 +715,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Overmap specials" ), &overmap_specials::finalize },
             { _( "Overmap locations" ), &overmap_locations::finalize },
             { _( "Cities" ), &city::finalize },
+            { _( "Math functions" ), &jmath_func::finalize },
             { _( "Math expressions" ), &finalize_conditions },
             { _( "Start locations" ), &start_locations::finalize_all },
             { _( "Vehicle part migrations" ), &vpart_migration::finalize },

@@ -17,6 +17,8 @@ effect_on_condition_EOC_TEST_TRANSFORM_LINE( "EOC_TEST_TRANSFORM_LINE" );
 static const effect_on_condition_id
 effect_on_condition_EOC_TEST_TRANSFORM_RADIUS( "EOC_TEST_TRANSFORM_RADIUS" );
 static const effect_on_condition_id
+effect_on_condition_EOC_jmath_test( "EOC_jmath_test" );
+static const effect_on_condition_id
 effect_on_condition_EOC_math_diag_assign( "EOC_math_diag_assign" );
 static const effect_on_condition_id effect_on_condition_EOC_math_duration( "EOC_math_duration" );
 static const effect_on_condition_id
@@ -129,6 +131,16 @@ TEST_CASE( "EOC_math_integration", "[eoc][math_parser]" )
     get_avatar().set_stamina( 0 );
     effect_on_condition_EOC_math_weighted_list->activate( d );
     CHECK( std::stod( globvars.get_global_value( "npctalk_var_weighted_var" ) ) == Approx( 1 ) );
+}
+
+TEST_CASE( "EOC_jmath", "[eoc][math_parser]" )
+{
+    global_variables &globvars = get_globals();
+    globvars.clear_global_values();
+    REQUIRE( globvars.get_global_value( "npctalk_var_blorgy" ).empty() );
+    dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
+    effect_on_condition_EOC_jmath_test->activate( d );
+    CHECK( std::stod( globvars.get_global_value( "npctalk_var_blorgy" ) ) == Approx( 7 ) );
 }
 
 TEST_CASE( "EOC_transform_radius", "[eoc][timed_event]" )
