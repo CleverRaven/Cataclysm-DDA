@@ -1553,71 +1553,51 @@
     "copy-from": "gelatin_dessert_base"
   },
   {
-  "type": "COMESTIBLE",
-  "id": "pasta_carbonara",
-  "name": {
-    "str": "pasta carbonara"
-  },
-  "weight": "150 g",
-  "color": "yellow",
-  "spoils_in": "21 days",
-  "container": "pan",
-  "comestible_type": "FOOD",
-  "symbol": "c",
-  "quench": -2,
-  "healthy": -1,
-  "calories": 565,
-  "description": "a pan containing pasta carbonara, a famous Italian dish made with egg, pecorino and bacon.",
-  "price": 100,
-  "price_postapoc": 250,
-  "material": [
-    "wheat",
-    "egg"
-  ],
-  "primary_material": "wheat",
-  "volume": "150 ml",
-  "flags": [
-    "EDIBLE_FROZEN"
-  ],
-  "charges": 4,
-  "vitamins": [
-    [ "calcium", 10 ],
-    [ "iron", 5 ]
-  ],
-  "fun": 8
+    "type": "COMESTIBLE",
+    "id": "pasta_carbonara",
+    "name": { "str": "pasta carbonara" },
+    "weight": "150 g",
+    "color": "yellow",
+    "spoils_in": "21 days",
+    "container": "pan",
+    "comestible_type": "FOOD",
+    "symbol": "c",
+    "quench": -2,
+    "healthy": -1,
+    "calories": 565,
+    "description": "a pan containing pasta carbonara, a famous Italian dish made with egg, pecorino and bacon.",
+    "price": 100,
+    "price_postapoc": 250,
+    "material": [ "wheat", "egg" ],
+    "primary_material": "wheat",
+    "volume": "150 ml",
+    "flags": [ "EDIBLE_FROZEN" ],
+    "charges": 4,
+    "vitamins": [ [ "calcium", 10 ], [ "iron", 5 ] ],
+    "fun": 8
   },
   {
-  "type": "COMESTIBLE",
-  "id": "amatriciana_pasta",
-  "name": {
-    "str": "amatriciana pasta"
-  },
-  "weight": "150 g",
-  "color": "red",
-  "spoils_in": "21 days",
-  "container": "pan",
-  "comestible_type": "FOOD",
-  "symbol": "a",
-  "quench": -2,
-  "healthy": -1,
-  "calories": 350,
-  "description": "a pan containing amatriciana pasta, a famous Italian dish made with red sauce, pecorino and bacon.",
-  "price": 100,
-  "price_postapoc": 250,
-  "material": [
-    "wheat",
-    "veggy"
-  ],
-  "primary_material": "wheat",
-  "volume": "150 ml",
-  "flags": [
-    "EDIBLE_FROZEN"
-  ],
-  "charges": 4,
-  "vitamins": [
-    [ "calcium", 10 ],
-    [ "iron", 6 ]
-  ],
-  "fun": 8
+    "type": "COMESTIBLE",
+    "id": "amatriciana_pasta",
+    "name": { "str": "amatriciana pasta" },
+    "weight": "150 g",
+    "color": "red",
+    "spoils_in": "21 days",
+    "container": "pan",
+    "comestible_type": "FOOD",
+    "symbol": "a",
+    "quench": -2,
+    "healthy": -1,
+    "calories": 350,
+    "description": "a pan containing amatriciana pasta, a famous Italian dish made with red sauce, pecorino and bacon.",
+    "price": 100,
+    "price_postapoc": 250,
+    "material": [ "wheat", "veggy" ],
+    "primary_material": "wheat",
+    "volume": "150 ml",
+    "flags": [ "EDIBLE_FROZEN" ],
+    "charges": 4,
+    "vitamins": [ [ "calcium", 10 ], [ "iron", 6 ] ],
+    "fun": 8
   }
 ]
