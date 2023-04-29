@@ -1344,10 +1344,7 @@ void vehicles::reset_prototypes()
     vehicle_prototype_factory.reset();
 }
 
-/**
- *Caches a vehicle definition from a JsonObject to be loaded after itypes is initialized.
- */
-void vehicle_prototype::load( const JsonObject &jo, std::string_view src )
+void vehicle_prototype::load( const JsonObject &jo, std::string_view )
 {
     vgroups[vgroup_id( id.str() )].add_vehicle( id, 100 );
     mandatory( jo, was_loaded, "name", name );
