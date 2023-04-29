@@ -1189,7 +1189,10 @@
     "//": "gun plus potential expended magazines for a tacticool operator, should be lots of AR-15s",
     "items": [
       {
-        "collection": [ { "item": "ar15", "prob": 100, "charges": [ 0, 30 ], "contents-item": "shoulder_strap_front" }, { "group": "field_ar15" } ],
+        "collection": [
+          { "item": "ar15", "prob": 100, "charges": [ 0, 30 ], "contents-item": "shoulder_strap_front" },
+          { "group": "field_ar15" }
+        ],
         "prob": 20
       }
     ]
@@ -1197,9 +1200,7 @@
   {
     "type": "item_group",
     "id": "longguns_operator",
-    "items": [
-      { "item": "ar15", "prob": 20, "charges": [ 0, 30 ], "contents-item": "shoulder_strap_front" }
-    ]
+    "items": [ { "item": "ar15", "prob": 20, "charges": [ 0, 30 ], "contents-item": "shoulder_strap_front" } ]
   },
   {
     "type": "item_group",
