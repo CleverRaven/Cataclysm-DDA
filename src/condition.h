@@ -80,6 +80,8 @@ std::string get_talk_var_basename( const JsonObject &jo, const std::string &memb
 void read_condition( const JsonObject &jo, const std::string &member_name,
                      std::function<bool( dialogue & )> &condition, bool default_val );
 
+void finalize_conditions();
+
 /**
  * A condition for a response spoken by the player.
  * This struct only adds the constructors which will load the data from json

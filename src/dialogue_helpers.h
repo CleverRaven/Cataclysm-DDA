@@ -163,9 +163,9 @@ struct eoc_math {
         greater,
         equal_or_greater,
     };
-    math_exp lhs;
-    math_exp mhs;
-    math_exp rhs;
+    std::shared_ptr<math_exp> lhs;
+    std::shared_ptr<math_exp> mhs;
+    std::shared_ptr<math_exp> rhs;
     eoc_math::oper action;
 
     void from_json( const JsonObject &jo, std::string_view member );

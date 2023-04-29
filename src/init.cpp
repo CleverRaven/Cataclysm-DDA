@@ -25,6 +25,7 @@
 #include "city.h"
 #include "clothing_mod.h"
 #include "clzones.h"
+#include "condition.h"
 #include "construction.h"
 #include "construction_category.h"
 #include "construction_group.h"
@@ -711,6 +712,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Overmap specials" ), &overmap_specials::finalize },
             { _( "Overmap locations" ), &overmap_locations::finalize },
             { _( "Cities" ), &city::finalize },
+            { _( "Math expressions" ), &finalize_conditions },
             { _( "Start locations" ), &start_locations::finalize_all },
             { _( "Vehicle part migrations" ), &vpart_migration::finalize },
             { _( "Vehicle prototypes" ), &vehicles::finalize_prototypes },
