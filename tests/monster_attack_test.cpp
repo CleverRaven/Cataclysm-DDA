@@ -35,11 +35,9 @@ static const efftype_id effect_took_flumed( "took_flumed" );
 
 static const itype_id itype_rock( "rock" );
 static const json_character_flag json_flag_GRAB( "GRAB" );
+static const json_character_flag json_flag_TOUGH_FEET( "TOUGH_FEET" );
 static const matype_id style_brawling( "style_brawling" );
 static const skill_id skill_unarmed( "unarmed" );
-
-static const json_character_flag json_flag_TOUGH_FEET( "TOUGH_FEET" );
-
 static const trait_id trait_TOUGH_FEET( "TOUGH_FEET" );
 
 static constexpr tripoint attacker_location{ 65, 65, 0 };
@@ -367,7 +365,7 @@ TEST_CASE( "Ranged pull tests", "[mattack][grab]" )
         REQUIRE( units::to_gram<int>( you.get_weight() ) < 50000 );
         // Attack succeeds
         REQUIRE( attack.call( test_monster ) );
-        REQUIRE( you.pos() == attacker_location + tripoint{ 1, 0, 0 } );
+        REQUIRE( you.pos() == attacker_location + tripoint_east );
     }
     SECTION( "Strong puller" ) {
         const std::string monster_type = "mon_debug_puller_strong";

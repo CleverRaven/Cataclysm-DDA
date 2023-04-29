@@ -556,7 +556,7 @@ bool melee_actor::call( monster &z ) const
             // Iterate through grabs one by one, fail if we can't break one
             if( target->has_effect_with_flag( json_flag_GRAB ) ) {
                 for( const effect &eff : target->get_effects_with_flag( json_flag_GRAB ) ) {
-                    if( !x_in_y( eff_grab_strength / 2, eff.get_intensity() ) ) {
+                    if( !x_in_y( eff_grab_strength / 2.0f, eff.get_intensity() ) ) {
                         target->add_msg_player_or_npc( msg_type,
                                                        _( "%1s tries to drag you, but something holds you in place!" ),
                                                        _( "%1s tries to drag <npcname>, but something holds them in place!" ),
