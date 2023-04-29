@@ -443,7 +443,7 @@
       { "item": "cholla_bud", "prob": 3 },
       { "item": "garlic", "prob": 3 },
       { "item": "pine_nuts", "prob": 10 },
-	  { "item": "eggplant", "prob": 10 },
+	  { "item": "eggplant", "prob": 10 }
     ]
   },
   {
