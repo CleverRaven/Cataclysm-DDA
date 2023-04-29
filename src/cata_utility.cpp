@@ -467,7 +467,7 @@ std::unique_ptr<std::istream> read_maybe_compressed_file( const std::string &pat
 std::unique_ptr<std::istream> read_maybe_compressed_file( const fs::path &path )
 {
     try {
-        cata::ifstream fin( path, std::ios::binary );
+        std::ifstream fin( path, std::ios::binary );
         if( !fin ) {
             throw std::runtime_error( "opening file failed" );
         }
@@ -485,7 +485,7 @@ std::unique_ptr<std::istream> read_maybe_compressed_file( const fs::path &path )
             inflated_contents_stream.write( outstring.data(), outstring.size() );
             return std::make_unique<std::stringstream>( std::move( inflated_contents_stream ) );
         } else {
-            return std::make_unique<cata::ifstream>( std::move( fin ) );
+            return std::make_unique<std::ifstream>( std::move( fin ) );
         }
         if( fin.bad() ) {
             throw std::runtime_error( "reading file failed" );
@@ -511,7 +511,7 @@ std::optional<std::string> read_whole_file( const fs::path &path )
 {
     std::string outstring;
     try {
-        cata::ifstream fin( path, std::ios::binary );
+        std::ifstream fin( path, std::ios::binary );
         if( !fin ) {
             throw std::runtime_error( "opening file failed" );
         }

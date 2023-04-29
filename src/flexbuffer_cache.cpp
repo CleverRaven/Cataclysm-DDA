@@ -338,7 +338,7 @@ class flexbuffer_disk_cache
             fs::path flexbuffer_filename = lexically_normal_json_source_path.filename();
             flexbuffer_filename += fs::u8path( "." + std::to_string( mtime_ms ) + ".fb" );
             flexbuffer_path /= flexbuffer_filename;
-            cata::ofstream fb( flexbuffer_path, std::ofstream::binary );
+            std::ofstream fb( flexbuffer_path, std::ofstream::binary );
             if( !fb.good() ) {
                 return false;
             }

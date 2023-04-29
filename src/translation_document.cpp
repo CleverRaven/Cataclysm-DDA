@@ -63,7 +63,7 @@ std::size_t TranslationDocument::EvaluatePluralForm( std::size_t n ) const
 TranslationDocument::TranslationDocument( const std::string &path )
 {
     this->path = path;
-    cata::ifstream fin( fs::u8path( path ), std::ios::in | std::ios::binary );
+    std::ifstream fin( fs::u8path( path ), std::ios::in | std::ios::binary );
     if( !fin ) {
         throw InvalidTranslationDocumentException( path, "unable to read the file" );
     }
