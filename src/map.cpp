@@ -2738,9 +2738,6 @@ void map::drop_items( const tripoint &p )
 
     float damage = 0.0f;
     for( item &i : items ) {
-        // TODO: Bash the item up before adding it
-        // TODO: Bash the creature, terrain, furniture and vehicles on the tile
-
         units::mass wt_dropped = i.weight();
         damage += 10 * to_kilogram( wt_dropped ) * sqrt( height_fallen );
 
@@ -2753,7 +2750,17 @@ void map::drop_items( const tripoint &p )
         creature->deal_damage( nullptr, bodypart_id( "head" ), damage_instance( damage_bash, damage ) );
     }
 
-    bash( below, 1, false, true );
+    // Bash items at bottom since currently bash_items only bash glass items
+    map_stack bash_items = i_at( below );
+    for ( auto bash_item = bash_items.begin(); bash_item != bash_items.end(); bash_item++ ) {
+        int chance = static_cast<int>( 100 * bash_item->resist( damage_bash, true ) / damage + 1 );
+        if ( one_in( chance ) ) {
+            bash_item->inc_damage();
+        }
+    }
+
+    // Bash terain, furniture and vehicles on tile below
+    bash( below, damage );
     i_clear( p );
 }
 
