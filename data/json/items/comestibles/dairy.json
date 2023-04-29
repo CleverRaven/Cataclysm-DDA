@@ -529,7 +529,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 350,
-    "description": "a slice of pecorino, famous Italian hard cheese used in pasta carbonara.",
+    "description": "A slice of pecorino, famous Italian hard cheese used in pasta carbonara.",
     "price": 180,
     "price_postapoc": 250,
     "material": [ "milk" ],
