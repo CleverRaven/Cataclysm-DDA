@@ -332,7 +332,9 @@
       { "item": "blood", "prob": 20, "container-item": "bottle_plastic_small" },
       { "item": "blood", "prob": 20, "container-item": "camelbak" },
       { "item": "blood", "prob": 20, "container-item": "canteen" },
-      { "item": "blood", "prob": 10, "container-item": "thermos" }
+      { "item": "blood", "prob": 10, "container-item": "thermos" },
+      { "item": "blood", "prob": 5, "container-item": "blood_camel" },
+      { "item": "blood", "prob": 1, "container-item": "blood_bank" }
     ]
   }
 ]

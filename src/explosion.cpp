@@ -61,6 +61,10 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
+static const damage_type_id damage_bash( "bash" );
+static const damage_type_id damage_bullet( "bullet" );
+static const damage_type_id damage_heat( "heat" );
+
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_deaf( "deaf" );
 static const efftype_id effect_emp( "emp" );
@@ -304,7 +308,7 @@ static void do_blast( const Creature *source, const tripoint &p, const float pow
         if( const optional_vpart_position vp = here.veh_at( pt ) ) {
             // TODO: Make this weird unit used by vehicle::damage more sensible
             vp->vehicle().damage( here, vp->part_index(), force,
-                                  fire ? damage_type::HEAT : damage_type::BASH, false );
+                                  fire ? damage_heat : damage_bash, false );
         }
 
         Creature *critter = creatures.creature_at( pt, true );
@@ -317,7 +321,8 @@ static void do_blast( const Creature *source, const tripoint &p, const float pow
 
         Character *pl = critter->as_character();
         if( pl == nullptr ) {
-            const double dmg = std::max( force - critter->get_armor_bash( bodypart_id( "torso" ) ) / 2.0, 0.0 );
+            const double dmg = std::max( force - critter->get_armor_type( damage_bash,
+                                         bodypart_id( "torso" ) ) / 2.0, 0.0 );
             const int actual_dmg = rng_float( dmg * 2, dmg * 3 );
             critter->apply_damage( mutable_source, bodypart_id( "torso" ), actual_dmg );
             critter->check_dead_state();
@@ -351,8 +356,8 @@ static void do_blast( const Creature *source, const tripoint &p, const float pow
         for( const blastable_part &blp : blast_parts ) {
             const int part_dam = rng( force * blp.low_mul, force * blp.high_mul );
             const std::string hit_part_name = body_part_name_accusative( blp.bp );
-            const damage_instance dmg_instance = damage_instance( damage_type::BASH, part_dam, 0,
-                                                 blp.armor_mul );
+            // FIXME: Hardcoded damage type
+            const damage_instance dmg_instance = damage_instance( damage_bash, part_dam, 0, blp.armor_mul );
             const dealt_damage_instance result = pl->deal_damage( mutable_source, blp.bp, dmg_instance );
             const int res_dmg = result.total_damage();
 
@@ -428,7 +433,7 @@ static std::vector<tripoint> shrapnel( const Creature *source, const tripoint &s
             dealt_projectile_attack frag;
             frag.proj = proj;
             frag.proj.speed = cloud.velocity;
-            frag.proj.impact = damage_instance( damage_type::BULLET, damage );
+            frag.proj.impact = damage_instance( damage_bullet, damage );
             // dealt_dam.total_damage() == 0 means armor block
             // dealt_dam.total_damage() > 0 means took damage
             // Need to differentiate target among player, npc, and monster

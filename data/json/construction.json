@@ -4877,50 +4877,6 @@
   },
   {
     "type": "construction",
-    "id": "app_foodco",
-    "group": "place_foodco",
-    "category": "APPLIANCE",
-    "required_skills": [ [ "fabrication", 0 ] ],
-    "time": "5 m",
-    "components": [ [ [ "craftrig", 1 ] ] ],
-    "pre_special": "check_empty",
-    "post_special": "done_appliance"
-  },
-  {
-    "type": "construction",
-    "id": "app_chemlab",
-    "group": "place_chemlab",
-    "category": "APPLIANCE",
-    "required_skills": [ [ "fabrication", 0 ] ],
-    "time": "5 m",
-    "components": [ [ [ "chemlab", 1 ] ] ],
-    "pre_special": "check_empty",
-    "post_special": "done_appliance"
-  },
-  {
-    "type": "construction",
-    "id": "app_welding_rig",
-    "group": "place_weldrig",
-    "category": "APPLIANCE",
-    "required_skills": [ [ "fabrication", 0 ] ],
-    "time": "5 m",
-    "components": [ [ [ "weldrig", 1 ] ] ],
-    "pre_special": "check_empty",
-    "post_special": "done_appliance"
-  },
-  {
-    "type": "construction",
-    "id": "app_welding_kit",
-    "group": "place_weldkit",
-    "category": "APPLIANCE",
-    "required_skills": [ [ "fabrication", 0 ] ],
-    "time": "5 m",
-    "components": [ [ [ "welding_kit", 1 ] ] ],
-    "pre_special": "check_empty",
-    "post_special": "done_appliance"
-  },
-  {
-    "type": "construction",
     "id": "app_water_purifier",
     "group": "place_water_purifier",
     "category": "APPLIANCE",
@@ -5586,6 +5542,24 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
     "components": [ [ [ "2x4", 12 ] ], [ [ "nail", 36 ] ], [ [ "pebble", 200 ] ], [ [ "material_soil", 75 ] ] ],
     "post_terrain": "f_planter"
+  },
+  {
+    "type": "construction",
+    "id": "constr_apiary",
+    "group": "build_bee_hive",
+    "category": "FARM_WOOD",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": "4 h",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 }, { "id": "DRILL", "level": 1 } ] ],
+    "components": [
+      [ [ "2x4", 14 ] ],
+      [ [ "wood_panel", 8 ] ],
+      [ [ "nail", 28 ] ],
+      [ [ "swarm_bees", 1 ] ],
+      [ [ "sweet_water", 10 ], [ "honey_bottled", 10 ], [ "honeycomb", 10 ] ]
+    ],
+    "pre_special": "check_empty",
+    "post_terrain": "t_apiary_empty"
   },
   {
     "type": "construction",

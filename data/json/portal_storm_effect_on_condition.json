@@ -253,97 +253,74 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_PORTAL_EFFECTS_1",
-    "//": "Weakest effects.",
+    "id": "EOC_PORTAL_EFFECTS_PASSIVE",
+    "//": "Passive effects not directly dangerous to the player.",
     "recurrence": [ "30 seconds", "75 seconds" ],
     "global": true,
     "condition": {
       "and": [
         { "is_weather": "portal_storm" },
-        { "compare_num": [ { "global_val": "var", "var_name": "ps_str" }, "<=", { "const": 2 } ] },
         { "compare_num": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, "=", { "const": 0 } ] }
       ]
     },
     "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
     "effect": {
       "weighted_list_eocs": [
-        [ "EOC_PORTAL_SHIFTING_MASS", { "const": 10 } ],
-        [ "EOC_PORTAL_IMPOSSIBLE_SHAPE", { "const": 2 } ],
-        [ "EOC_PORTAL_ABSENCE", { "const": 2 } ],
-        [ "EOC_PORTAL_PAIN", { "const": 2 } ],
-        [ "EOC_PORTAL_LIGHT", { "const": 4 } ],
-        [ "EOC_PORTAL_TELEPORT_STUCK_START", { "const": 6 } ],
         [ "EOC_PORTAL_GRASS_CHANGE", { "const": 10 } ],
-        [ "EOC_PORTAL_MESSAGE", { "const": 10 } ],
-        [ "EOC_PORTAL_NPC", { "const": 1 } ],
-        [ "EOC_PORTAL_ARTIFACT_WEAK", { "const": 1 } ]
-      ]
-    }
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_PORTAL_EFFECTS_2",
-    "//": "Stronger effects.",
-    "recurrence": [ "10 seconds", "70 seconds" ],
-    "global": true,
-    "condition": {
-      "and": [
-        { "is_weather": "portal_storm" },
-        { "compare_num": [ { "global_val": "var", "var_name": "ps_str" }, ">", { "const": 2 } ] },
-        { "compare_num": [ { "global_val": "var", "var_name": "ps_str" }, "<=", { "const": 4 } ] },
-        { "compare_num": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, "=", { "const": 0 } ] }
-      ]
-    },
-    "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
-    "effect": {
-      "weighted_list_eocs": [
-        [ "EOC_PORTAL_SHIFTING_MASS", { "const": 2 } ],
-        [ "EOC_PORTAL_IMPOSSIBLE_SHAPE", { "const": 6 } ],
-        [ "EOC_PORTAL_ABSENCE", { "const": 2 } ],
-        [ "EOC_PORTAL_HALLUCINATOR", { "const": 1 } ],
-        [ "EOC_PORTAL_MEMORIES", { "const": 2 } ],
-        [ "EOC_PORTAL_SWARM_STRUCTURE", { "const": 4 } ],
-        [ "EOC_PORTAL_PAIN", { "const": 6 } ],
-        [ "EOC_PORTAL_LIGHT", { "const": 4 } ],
-        [ "EOC_PORTAL_GRASS_CHANGE", { "const": 2 } ],
-        [ "EOC_PORTAL_TELEPORT_STUCK_START", { "const": 4 } ],
-        [ "EOC_PORTAL_SMOKE", { "const": 4 } ],
-        [ "EOC_PORTAL_MESSAGE", { "const": 14 } ],
-        [ "EOC_PORTAL_NPC", { "const": 1 } ],
-        [ "EOC_PORTAL_ARTIFACT_MEDIUM", { "const": 1 } ]
-      ]
-    }
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_PORTAL_EFFECTS_3",
-    "//": "The most painful stuff.",
-    "recurrence": [ "5 seconds", "60 seconds" ],
-    "global": true,
-    "condition": {
-      "and": [
-        { "is_weather": "portal_storm" },
-        { "compare_num": [ { "global_val": "var", "var_name": "ps_str" }, ">", { "const": 4 } ] },
-        { "compare_num": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, "=", { "const": 0 } ] }
-      ]
-    },
-    "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
-    "effect": {
-      "weighted_list_eocs": [
-        [ "EOC_PORTAL_GIANT_APPENDAGE", { "const": 6 } ],
-        [ "EOC_PORTAL_SHIFTING_MASS", { "const": 2 } ],
-        [ "EOC_PORTAL_IMPOSSIBLE_SHAPE", { "const": 2 } ],
+        [ "EOC_PORTAL_LIGHT", { "const": 2 } ],
         [ "EOC_PORTAL_ABSENCE", { "const": 4 } ],
-        [ "EOC_PORTAL_HALLUCINATOR", { "const": 2 } ],
-        [ "EOC_PORTAL_MEMORIES", { "const": 4 } ],
-        [ "EOC_PORTAL_SWARM_STRUCTURE", { "const": 4 } ],
-        [ "EOC_PORTAL_LIGHT", { "const": 4 } ],
-        [ "EOC_PORTAL_TELEPORT_STUCK_START", { "const": 2 } ],
-        [ "EOC_PORTAL_MESSAGE", { "const": 10 } ],
-        [ "EOC_PORTAL_NPC", { "const": 1 } ],
-        [ "EOC_PORTAL_ARTIFACT_STRONG", { "const": 1 } ]
+        [ "EOC_PORTAL_IMPOSSIBLE_SHAPE", { "const": 5 } ],
+        [ "EOC_PORTAL_MEMORIES", { "const": 1 } ],
+        [ "EOC_PORTAL_GIANT_APPENDAGE", { "const": 1 } ],
+        [ "EOC_PORTAL_NPC", { "const": 1 } ]
       ]
     }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_EFFECTS_ACTIVE",
+    "//": "More dangerous portal effects, should cost IRE to do.",
+    "recurrence": [ "30 seconds", "70 seconds" ],
+    "global": true,
+    "condition": {
+      "and": [
+        { "is_weather": "portal_storm" },
+        { "compare_num": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, "=", { "const": 0 } ] },
+        { "math": [ "u_ire", ">", "0" ] }
+      ]
+    },
+    "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
+    "effect": [
+      { "run_eocs": "EOC_PORTAL_MESSAGE" },
+      {
+        "weighted_list_eocs": [
+          [ "EOC_PORTAL_TELEPORT_STUCK_START", { "const": 2 } ],
+          [ "EOC_PORTAL_PAIN", { "const": 2 } ],
+          [ "EOC_PORTAL_HALLUCINATOR", { "const": 2 } ],
+          [ "EOC_PORTAL_SMOKE", { "const": 2 } ],
+          [ "EOC_PORTAL_SWARM_STRUCTURE", { "const": 2 } ],
+          [ "EOC_PORTAL_TAUNT", { "const": 1 } ],
+          [ "EOC_PORTAL_SHIFTING_MASS", { "const": 1 } ],
+          [ "EOC_PORTAL_ARTIFACT_WEAK", { "const": 1 } ]
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_EFFECTS_IRE",
+    "//": "Being outside generates IRE which can be spent on more dangerous entities.",
+    "recurrence": [ "5 seconds", "20 seconds" ],
+    "global": true,
+    "condition": {
+      "and": [
+        { "is_weather": "portal_storm" },
+        { "compare_num": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, "=", { "const": 0 } ] },
+        "u_is_outside"
+      ]
+    },
+    "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
+    "effect": [ { "math": [ "u_ire", "++" ] }, { "u_message": "PORTAL_STORM_WITNESSED", "snippet": true } ]
   },
   {
     "type": "effect_on_condition",
@@ -415,7 +392,13 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_ARTIFACT_WEAK",
-    "condition": { "and": [ "u_is_outside", { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } } ] },
+    "condition": {
+      "and": [
+        "u_is_outside",
+        { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } },
+        { "compare_num": [ { "global_val": "var", "var_name": "ps_str" }, "<", { "const": 2 } ] }
+      ]
+    },
     "effect": [
       {
         "u_spawn_monster": "mon_archunk_weak",
@@ -428,12 +411,19 @@
         "spawn_message": "A chunk of reality gets loose and falls on the ground.",
         "spawn_message_plural": "Chunks of reality get loose and fall on the ground."
       }
-    ]
+    ],
+    "false_effect": [ { "run_eocs": [ "EOC_PORTAL_ARTIFACT_MEDIUM" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_ARTIFACT_MEDIUM",
-    "condition": { "and": [ "u_is_outside", { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } } ] },
+    "condition": {
+      "and": [
+        "u_is_outside",
+        { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } },
+        { "compare_num": [ { "global_val": "var", "var_name": "ps_str" }, "<", { "const": 5 } ] }
+      ]
+    },
     "effect": [
       {
         "u_spawn_monster": "mon_archunk_medium",
@@ -446,7 +436,8 @@
         "spawn_message": "Reality twists and deforms as a wriggling chunk of it falls on the ground.",
         "spawn_message_plural": "Reality twists and deforms as wriggling chunks of it fall on the ground."
       }
-    ]
+    ],
+    "false_effect": [ { "run_eocs": [ "EOC_PORTAL_ARTIFACT_STRONG" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -501,14 +492,17 @@
     "id": "EOC_PORTAL_HALLUCINATOR",
     "condition": { "or": [ { "not": { "u_has_effect": "sleep" } }, { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } } ] },
     "//": "The hallucination itself is not related to portal, its kinda create nightmares, nothing more. but the monster's existing can be prevented due portaL_proof flag (let's say the entity can't see the flag's user)",
-    "effect": {
-      "u_spawn_monster": "mon_hallucinator",
-      "real_count": 1,
-      "outdoor_only": true,
-      "min_radius": 40,
-      "max_radius": 50,
-      "lifespan": [ "12 minutes", "15 minutes" ]
-    }
+    "effect": [
+      {
+        "u_spawn_monster": "mon_hallucinator",
+        "real_count": 1,
+        "outdoor_only": true,
+        "min_radius": 40,
+        "max_radius": 50,
+        "lifespan": [ "12 minutes", "15 minutes" ]
+      },
+      { "math": [ "u_ire", "-=", "4" ] }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -539,15 +533,18 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_SWARM_STRUCTURE",
-    "effect": {
-      "u_spawn_monster": "mon_swarm_structure",
-      "real_count": 1,
-      "outdoor_only": true,
-      "min_radius": 3,
-      "max_radius": 20,
-      "lifespan": [ "10 minutes", "30 minutes" ],
-      "spawn_message": "The swarm structure was always here, right?"
-    }
+    "effect": [
+      {
+        "u_spawn_monster": "mon_swarm_structure",
+        "real_count": 1,
+        "outdoor_only": true,
+        "min_radius": 3,
+        "max_radius": 20,
+        "lifespan": [ "10 minutes", "30 minutes" ],
+        "spawn_message": "The swarm structure was always here, right?"
+      },
+      { "math": [ "u_ire", "-=", "4" ] }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -559,7 +556,8 @@
         "type": "bad"
       },
       { "math": [ "u_pain()", "+=", "30" ] },
-      { "u_set_field": "fd_blood", "radius": 2 }
+      { "u_set_field": "fd_blood", "radius": 2 },
+      { "math": [ "u_ire", "-=", "3" ] }
     ]
   },
   {
@@ -567,7 +565,16 @@
     "id": "EOC_PORTAL_SMOKE",
     "effect": [
       { "u_message": "A million tiny pinpricks in space open for an instant, and smoke fills the air.", "type": "bad" },
-      { "u_set_field": "fd_smoke", "outdoor_only": true }
+      { "u_set_field": "fd_smoke", "outdoor_only": true },
+      { "math": [ "u_ire", "-=", "1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_TAUNT",
+    "effect": [
+      { "u_message": "PORTAL_STORM_VOICES_DRAW_ATTENTION", "snippet": true },
+      { "u_make_sound": "The voice was loud, it might have drawn attention to you!", "volume": 20, "type": "combat" }
     ]
   },
   {
@@ -577,7 +584,8 @@
     "effect": [
       { "u_location_variable": { "u_val": "stuck_teleport" }, "min_radius": 0, "max_radius": 0 },
       { "run_eocs": "EOC_PORTAL_TELEPORT_STUCK" },
-      { "u_message": "The moment feels thick, as if it's not quite over.", "type": "bad" }
+      { "u_message": "The moment feels thick, as if it's not quite over.", "type": "bad" },
+      { "math": [ "u_ire", "-=", "2" ] }
     ]
   },
   {
@@ -1115,7 +1123,6 @@
     "effect": [
       {
         "u_spawn_npc": "portal_person",
-        "real_count": 1,
         "hallucination_count": 2,
         "outdoor_only": true,
         "min_radius": 3,

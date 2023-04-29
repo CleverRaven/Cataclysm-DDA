@@ -386,7 +386,7 @@ class vpart_info
         item_group_id breaks_into_group = item_group_id( "EMPTY_GROUP" );
 
         /** Flat decrease of damage of a given type. */
-        std::array<float, static_cast<int>( damage_type::NUM )> damage_reduction = {};
+        std::map<damage_type_id, float> damage_reduction = {};
 
         /** Tool qualities this vehicle part can provide when installed */
         std::map<quality_id, int> qualities;
@@ -524,6 +524,7 @@ struct vehicle_prototype {
         std::set<itype_id> ammo_types;
         std::pair<int, int> ammo_qty = { -1, -1 };
         itype_id fuel = itype_id::NULL_ID();
+        std::vector<itype_id> tools;
     };
 
     struct zone_def {
@@ -560,6 +561,10 @@ struct vehicle_prototype {
 class vpart_migration
 {
     public:
+        vpart_id part_id_old;
+        vpart_id part_id_new;
+        std::vector<itype_id> add_veh_tools;
+
         /** Handler for loading "vehicle_part_migration" type of json object */
         static void load( const JsonObject &jo );
 
@@ -569,11 +574,8 @@ class vpart_migration
         /** Finalizes migrations */
         static void finalize();
 
-        /** Map of deprecated vpart_id to their replacement vpart_id */
-        static const std::map<vpart_id, vpart_id> &get_migrations();
-
-        /** Find vpart_id with all migrations applied. */
-        static vpart_id migrate( const vpart_id &original );
+        /** Find the last migration entry of the given vpart_id */
+        static const vpart_migration *find_migration( const vpart_id &original );
 };
 
 #endif // CATA_SRC_VEH_TYPE_H

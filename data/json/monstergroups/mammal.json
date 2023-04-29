@@ -1,12 +1,158 @@
 [
   {
-    "name": "GROUP_COWS",
+    "name": "GROUP_COWS_DAIRY",
     "type": "monstergroup",
     "is_safe": true,
     "monsters": [
       { "monster": "mon_null", "weight": 850 },
       { "monster": "mon_cow", "weight": 100, "cost_multiplier": 10, "ends": "7 days" },
-      { "monster": "mon_cow", "weight": 50, "cost_multiplier": 5, "starts": "7 days" }
+      { "monster": "mon_cow", "weight": 50, "cost_multiplier": 5, "starts": "7 days" },
+      { "monster": "mon_cow_calf", "weight": 50, "ends": "7 days" },
+      { "monster": "mon_cow_calf", "weight": 25, "starts": "7 days" }
+    ]
+  },
+  {
+    "name": "GROUP_COWS",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_cow", "weight": 150, "cost_multiplier": 2 },
+      { "monster": "mon_cow_calf", "weight": 50, "ends": "7 days" },
+      { "monster": "mon_cow_calf", "weight": 25, "starts": "7 days" }
+    ]
+  },
+  {
+    "name": "GROUP_BEARS",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_bear", "weight": 150, "cost_multiplier": 2 },
+      { "monster": "mon_bear_cub", "weight": 50, "ends": "31 days", "conditions": [ "SPRING", "SUMMER" ] },
+      { "monster": "mon_bear_cub", "weight": 25, "starts": "31 days", "conditions": [ "SPRING", "SUMMER" ] }
+    ]
+  },
+  {
+    "name": "GROUP_BOARS",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_boar_wild", "weight": 150, "cost_multiplier": 2 },
+      { "monster": "mon_boar_wild_piglet", "weight": 50, "pack_size": [ 1, 6 ], "ends": "14 days" },
+      { "monster": "mon_boar_wild_piglet", "weight": 25, "pack_size": [ 1, 6 ], "starts": "14 days" }
+    ]
+  },
+  {
+    "name": "GROUP_PIGS",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_pig", "weight": 150, "cost_multiplier": 2 },
+      { "monster": "mon_pig_piglet", "weight": 25, "pack_size": [ 1, 2 ], "ends": "7 days" },
+      { "monster": "mon_pig_piglet", "weight": 12, "pack_size": [ 1, 2 ], "starts": "7 days" }
+    ]
+  },
+  {
+    "name": "GROUP_SHEEPS",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_sheep", "weight": 150, "cost_multiplier": 2 },
+      { "monster": "mon_sheep_lamb", "weight": 25, "ends": "7 days", "conditions": [ "SPRING", "SUMMER" ] },
+      { "monster": "mon_sheep_lamb", "weight": 12, "starts": "7 days", "conditions": [ "SPRING", "SUMMER" ] }
+    ]
+  },
+  {
+    "name": "GROUP_DEERS",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_deer", "weight": 150, "cost_multiplier": 2 },
+      { "monster": "mon_deer_fawn", "weight": 25, "ends": "7 days", "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] },
+      { "monster": "mon_deer_fawn", "weight": 12, "starts": "7 days", "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] }
+    ]
+  },
+  {
+    "name": "GROUP_REINDEERS",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_reindeer", "weight": 150, "cost_multiplier": 2 },
+      {
+        "monster": "mon_reindeer_fawn",
+        "weight": 25,
+        "pack_size": [ 1, 3 ],
+        "ends": "7 days",
+        "conditions": [ "AUTUMN", "WINTER", "SPRING" ]
+      },
+      {
+        "monster": "mon_reindeer_fawn",
+        "weight": 12,
+        "pack_size": [ 1, 3 ],
+        "starts": "7 days",
+        "conditions": [ "AUTUMN", "WINTER", "SPRING" ]
+      }
+    ]
+  },
+  {
+    "name": "GROUP_DEER_MUT_SPIDERS",
+    "type": "monstergroup",
+    "//": "Mutant deer are better prepared to protect/escape with their spawn than normal deer, so, contrary to normal wildlife, their spawn becomes more common as time goes on.",
+    "monsters": [
+      { "monster": "mon_deer_mutant_spider", "weight": 150, "cost_multiplier": 2 },
+      {
+        "monster": "mon_deer_mutant_spider_fawn",
+        "weight": 12,
+        "ends": "31 days",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_deer_mutant_spider_fawn",
+        "weight": 25,
+        "starts": "31 days",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      }
+    ]
+  },
+  {
+    "name": "GROUP_WOLFS",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_wolf", "weight": 150, "cost_multiplier": 2 },
+      {
+        "monster": "mon_wolf_pup",
+        "weight": 25,
+        "pack_size": [ 1, 2 ],
+        "ends": "31 days",
+        "conditions": [ "SPRING", "SUMMER" ]
+      },
+      {
+        "monster": "mon_wolf_pup",
+        "weight": 12,
+        "pack_size": [ 1, 2 ],
+        "starts": "31 days",
+        "conditions": [ "SPRING", "SUMMER" ]
+      }
+    ]
+  },
+  {
+    "name": "GROUP_HORSES",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_horse", "weight": 150, "cost_multiplier": 2 },
+      { "monster": "mon_horse_foal", "weight": 50, "ends": "31 days" },
+      { "monster": "mon_horse_foal", "weight": 25, "starts": "31 days" }
+    ]
+  },
+  {
+    "name": "GROUP_MOOSE",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_moose", "weight": 150, "cost_multiplier": 2 },
+      { "monster": "mon_moose_calf", "weight": 50, "ends": "31 days", "conditions": [ "AUTUMN", "WINTER" ] },
+      { "monster": "mon_moose_calf", "weight": 25, "starts": "31 days", "conditions": [ "AUTUMN", "WINTER" ] }
+    ]
+  },
+  {
+    "name": "GROUP_TUSKED_MOOSE",
+    "type": "monstergroup",
+    "//": "Same as mutant deer.",
+    "monsters": [
+      { "monster": "mon_tusked_moose", "weight": 150, "cost_multiplier": 2 },
+      { "monster": "mon_tusked_moose_calf", "weight": 25, "ends": "70 days", "conditions": [ "SPRING", "SUMMER" ] },
+      { "monster": "mon_tusked_moose_calf", "weight": 50, "starts": "70 days", "conditions": [ "SPRING", "SUMMER" ] }
     ]
   },
   {

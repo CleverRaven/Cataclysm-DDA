@@ -1,33 +1,6 @@
 [
   {
     "type": "vehicle_part",
-    "id": "ap_afs_metal_rig",
-    "name": { "str": "MetalMaster forge buddy" },
-    "description": "A welding and metalworking station, powered by the vehicle's battery.  'e'xamine the forge rig to utilize its welder or soldering iron; you'll still need glare protection.",
-    "item": "afs_metal_rig",
-    "flags": [ "CARGO", "OBSTACLE", "APPLIANCE" ],
-    "copy-from": "afs_metal_rig"
-  },
-  {
-    "type": "vehicle_part",
-    "id": "ap_afs_cooking_rig",
-    "name": { "str": "cooking rig" },
-    "description": "An all-in-one kitchen unit and chemistry lab.  'e'xamine it to use its hotplate to heat up food or drinks.",
-    "item": "afs_cooking_rig",
-    "flags": [ "CARGO", "OBSTACLE", "APPLIANCE", "FLAT_SURF" ],
-    "copy-from": "afs_cooking_rig"
-  },
-  {
-    "type": "vehicle_part",
-    "id": "ap_afs_kitchen_rig",
-    "name": { "str": "KitchenMaster cooking buddy" },
-    "description": "An all-in-one kitchen unit, chemistry lab, and food preparation area.  'e'xamine it to use its hotplate to heat up food or drinks.",
-    "item": "afs_kitchen_rig",
-    "flags": [ "CARGO", "OBSTACLE", "APPLIANCE", "FLAT_SURF" ],
-    "copy-from": "afs_kitchen_rig"
-  },
-  {
-    "type": "vehicle_part",
     "id": "blaze_washing_machine",
     "copy-from": "washing_machine",
     "name": { "str": "full-size washing machine" },

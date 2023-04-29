@@ -37,6 +37,8 @@ static const activity_id ACT_CRAFT( "ACT_CRAFT" );
 static const ammotype ammo_flammable( "flammable" );
 static const ammotype ammo_water( "water" );
 
+static const damage_type_id damage_bash( "bash" );
+
 static const itype_id itype_fridge_test( "fridge_test" );
 static const itype_id itype_metal_tank_test( "metal_tank_test" );
 static const itype_id itype_oatmeal( "oatmeal" );
@@ -61,7 +63,7 @@ TEST_CASE( "verify_copy_from_gets_damage_reduction", "[vehicle]" )
     // Picking halfboard_horizontal as a vpart which is likely to remain
     // defined via copy-from, and which should have non-zero damage reduction.
     const vpart_info &vp = vpart_halfboard_horizontal.obj();
-    CHECK( vp.damage_reduction[static_cast<int>( damage_type::BASH )] != 0 );
+    CHECK( vp.damage_reduction.at( damage_bash ) != 0.f );
 }
 
 TEST_CASE( "vehicle_parts_seats_and_beds_have_beltable_flags", "[vehicle][vehicle_parts]" )

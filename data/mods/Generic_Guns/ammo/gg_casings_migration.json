@@ -5,7 +5,7 @@
     "replace": "grenade_casing"
   },
   {
-    "id": [ "3006_casing", "357mag_casing", "44_casing", "454_casing", "460_casing", "46mm_casing", "500_casing" ],
+    "id": [ "357mag_casing", "44_casing", "454_casing", "460_casing", "46mm_casing", "500_casing" ],
     "type": "MIGRATION",
     "replace": "pistol_magnum_casing"
   },
@@ -42,7 +42,9 @@
     "id": [
       "223_casing",
       "270win_casing",
+      "303_casing",
       "300blk_casing",
+      "3006_casing",
       "308_casing",
       "4570_casing",
       "545_casing",
@@ -50,7 +52,8 @@
       "762_casing",
       "762R_casing",
       "300_casing",
-      "30carbine_casing"
+      "30carbine_casing",
+      "123ln_casing"
     ],
     "type": "MIGRATION",
     "replace": "rifle_casing"

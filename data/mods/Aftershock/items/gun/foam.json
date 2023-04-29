@@ -11,7 +11,6 @@
     "price": 13000,
     "price_postapoc": 5000,
     "to_hit": -2,
-    "bashing": 6,
     "material": [ "plastic", "steel" ],
     "symbol": "(",
     "color": "yellow",
@@ -31,6 +30,7 @@
         "max_contains_weight": "20 kg",
         "item_restriction": [ "afs_foam_tank" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 6 }
   }
 ]

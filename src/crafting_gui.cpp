@@ -83,7 +83,7 @@ static const std::map<const CRAFTING_SPEED_STATE, translation> craft_speed_reaso
 static std::vector<std::string> craft_cat_list;
 static std::map<std::string, std::vector<std::string> > craft_subcat_list;
 
-static bool query_is_yes( const std::string &query );
+static bool query_is_yes( std::string_view query );
 static void draw_hidden_amount( const catacurses::window &w, int amount, int num_recipe );
 static void draw_can_craft_indicator( const catacurses::window &w, const recipe &rec );
 static std::map<size_t, inclusive_rectangle<point>> draw_recipe_tabs( const catacurses::window &w,
@@ -100,9 +100,9 @@ static int related_menu_fill( uilist &rmenu,
                               const std::vector<std::pair<itype_id, std::string>> &related_recipes,
                               const recipe_subset &available );
 
-static std::string get_cat_unprefixed( const std::string &prefixed_name )
+static std::string get_cat_unprefixed( const std::string_view prefixed_name )
 {
-    return prefixed_name.substr( 3, prefixed_name.size() - 3 );
+    return std::string( prefixed_name.substr( 3, prefixed_name.size() - 3 ) );
 }
 
 void load_recipe_category( const JsonObject &jsobj )
@@ -133,7 +133,8 @@ void load_recipe_category( const JsonObject &jsobj )
     }
 }
 
-static std::string get_subcat_unprefixed( const std::string &cat, const std::string &prefixed_name )
+static std::string get_subcat_unprefixed( const std::string_view cat,
+        const std::string &prefixed_name )
 {
     std::string prefix = "CSC_" + get_cat_unprefixed( cat ) + "_";
 
@@ -152,7 +153,8 @@ void reset_recipe_categories()
 
 static bool cannot_gain_skill_or_prof( const Character &player, const recipe &recp )
 {
-    if( recp.skill_used && player.get_skill_level( recp.skill_used ) <= recp.get_skill_cap() ) {
+    if( recp.skill_used &&
+        static_cast<int>( player.get_skill_level( recp.skill_used ) ) <= recp.get_skill_cap() ) {
         return false;
     }
     for( const proficiency_id &prof : recp.used_proficiencies() ) {
@@ -331,7 +333,7 @@ static std::vector<std::string> recipe_info(
     const recipe &recp,
     const availability &avail,
     Character &guy,
-    const std::string &qry_comps,
+    const std::string_view qry_comps,
     const int batch_size,
     const int fold_width,
     const nc_color &color )
@@ -829,7 +831,7 @@ struct item_info_cache {
 };
 
 static recipe_subset filter_recipes( const recipe_subset &available_recipes,
-                                     const std::string &qry,
+                                     const std::string_view qry,
                                      const Character &player_character,
                                      const std::function<void( size_t, size_t )> &progress_callback )
 {
@@ -1735,7 +1737,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id &goto
         } else if( action == "SCROLL_UP" && mouse_in_list ) {
             line = std::max( 0, line - 1 );
         } else if( action == "PAGE_UP" || action == "PAGE_DOWN" ) {
-            line = increment_and_clamp( line, action == "PAGE_UP" ? -scroll_rate : scroll_rate, recmax );
+            line = inc_clamp( line, action == "PAGE_UP" ? -scroll_rate : scroll_rate, recmax );
         } else if( action == "HOME" ) {
             line = 0;
             user_moved_line = highlight_unread_recipes;
@@ -2073,9 +2075,9 @@ int related_menu_fill( uilist &rmenu,
     return np_last;
 }
 
-static bool query_is_yes( const std::string &query )
+static bool query_is_yes( const std::string_view query )
 {
-    const std::string subquery = query.substr( 2 );
+    const std::string_view subquery = query.substr( 2 );
 
     return subquery == "yes" || subquery == "y" || subquery == "1" ||
            subquery == "true" || subquery == "t" || subquery == "on" ||

@@ -9,13 +9,13 @@
     "volume": "3750 ml",
     "price": 48000,
     "price_postapoc": 750,
-    "bashing": 3,
     "to_hit": -1,
     "material": [ "leather", "wood" ],
     "symbol": "H",
     "color": "yellow",
     "diameter": 8,
     "width": 4,
-    "looks_like": "foldframe"
+    "looks_like": "foldframe",
+    "melee_damage": { "bash": 3 }
   }
 ]

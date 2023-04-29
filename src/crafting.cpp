@@ -178,10 +178,10 @@ float Character::morale_crafting_speed_multiplier( const recipe &rec ) const
 
     // Harder jobs are more frustrating, even when skilled
     // For each skill where skill=difficulty, multiply effective morale by 200%
-    float morale_mult = std::max( 1.0f, 2.0f * rec.difficulty / std::max( 1,
+    float morale_mult = std::max( 1.0f, 2.0f * rec.difficulty / std::max( 1.0f,
                                   get_skill_level( rec.skill_used ) ) );
     for( const auto &pr : rec.required_skills ) {
-        morale_mult *= std::max( 1.0f, 2.0f * pr.second / std::max( 1, get_skill_level( pr.first ) ) );
+        morale_mult *= std::max( 1.0f, 2.0f * pr.second / std::max( 1.0f, get_skill_level( pr.first ) ) );
     }
 
     // Halve speed at -50 effective morale, quarter at -150
@@ -861,7 +861,7 @@ void Character::start_craft( craft_command &command, const std::optional<tripoin
         return;
     }
     const recipe &making = craft.get_making();
-    if( get_skill_level( command.get_skill_id() ) > making.get_skill_cap() ) {
+    if( static_cast<int>( get_skill_level( command.get_skill_id() ) ) > making.get_skill_cap() ) {
         handle_skill_warning( command.get_skill_id(), true );
     }
 
@@ -876,7 +876,7 @@ void Character::start_craft( craft_command &command, const std::optional<tripoin
         return;
     }
 
-    assign_activity( player_activity( craft_activity_actor( craft_in_world, command.is_long() ) ) );
+    assign_activity( craft_activity_actor( craft_in_world, command.is_long() ) );
 
     add_msg_player_or_npc(
         pgettext( "in progress craft", "You start working on the %s." ),
@@ -983,7 +983,7 @@ bool Character::craft_proficiency_gain( const item &craft, const time_duration &
 
 float Character::get_recipe_weighted_skill_average( const recipe &making ) const
 {
-    int secondary_skill_total = 0;
+    float secondary_skill_total = 0;
     int secondary_difficulty = 0;
     for( const std::pair<const skill_id, int> &count_secondaries : making.required_skills ) {
         // the difficulty of each secondary skill, count_secondaries.second, adds weight:
@@ -992,7 +992,7 @@ float Character::get_recipe_weighted_skill_average( const recipe &making ) const
         secondary_difficulty += count_secondaries.second;
     }
     add_msg_debug( debugmode::DF_CRAFTING,
-                   "For craft %s, has %d secondary skills with difficulty sum %d", making.ident().str(),
+                   "For craft %s, has %g secondary skills with difficulty sum %d", making.ident().str(),
                    secondary_skill_total, secondary_difficulty );
     // The primary required skill counts extra compared to the secondary skills, before factoring in the
     // weight added by the required level.
@@ -1448,7 +1448,7 @@ void Character::complete_craft( item &craft, const std::optional<tripoint> &loc 
             int difficulty = making.difficulty;
             ///\EFFECT_INT increases chance to learn recipe when crafting from a book
             const double learning_speed =
-                std::max( get_skill_level( making.skill_used ), 1 ) *
+                std::max( get_skill_level( making.skill_used ), 1.0f ) *
                 std::max( get_int(), 1 );
             const double time_to_learn = 1000 * 8 * std::pow( difficulty, 4 ) / learning_speed;
             if( x_in_y( making.time_to_craft_moves( *this ), time_to_learn ) ) {
@@ -2178,11 +2178,11 @@ bool Character::craft_consume_tools( item &craft, int multiplier, bool start_cra
         // Account for batch size
         ret *= craft.get_making_batch_size();
 
-        // Only for the next 5% progress
-        ret /= 20;
-
         // In case more than 5% progress was accomplished in one turn
         ret *= multiplier;
+
+        // Only for the next 5% progress
+        ret /= 20;
 
         // If just starting consume the remainder as well
         if( start_craft ) {
@@ -2491,7 +2491,6 @@ bool Character::disassemble( item_location target, bool interactive, bool disass
     }
 
     if( activity.id() != ACT_DISASSEMBLE ) {
-        player_activity new_act;
         // When disassembling items with charges, prompt the player to specify amount
         int num_dis = 1;
         if( obj.count_by_charges() ) {
@@ -2509,13 +2508,9 @@ bool Character::disassemble( item_location target, bool interactive, bool disass
                 num_dis = obj.charges;
             }
         }
-        if( obj.typeId() != itype_disassembly ) {
-            new_act = player_activity( disassemble_activity_actor( r.time_to_craft_moves( *this,
-                                       recipe_time_flag::ignore_proficiencies ) * num_dis ) );
-        } else {
-            new_act = player_activity( disassemble_activity_actor( r.time_to_craft_moves( *this,
-                                       recipe_time_flag::ignore_proficiencies ) * obj.get_making_batch_size() ) );
-        }
+        const int64_t craft_moves = r.time_to_craft_moves( *this, recipe_time_flag::ignore_proficiencies );
+        const int num = obj.typeId() != itype_disassembly ? num_dis : obj.get_making_batch_size();
+        player_activity new_act( disassemble_activity_actor( num * craft_moves ) );
         new_act.targets.emplace_back( std::move( target ) );
 
         // index is used as a bool that indicates if we want recursive uncraft.
@@ -2539,7 +2534,7 @@ bool Character::disassemble( item_location target, bool interactive, bool disass
 void Character::disassemble_all( bool one_pass )
 {
     // Reset all the activity values
-    assign_activity( player_activity(), true );
+    assign_activity( player_activity() );
 
     bool found_any = false;
     std::vector<item_location> to_disassemble;
@@ -2626,9 +2621,8 @@ void Character::complete_disassemble( item_location target )
             num_dis = obj.charges;
         }
     }
-    player_activity new_act = player_activity( disassemble_activity_actor(
-                                  next_recipe.time_to_craft_moves( *this,
-                                          recipe_time_flag::ignore_proficiencies ) * num_dis ) );
+    int64_t moves = next_recipe.time_to_craft_moves( *this, recipe_time_flag::ignore_proficiencies );
+    player_activity new_act( disassemble_activity_actor( moves * num_dis ) );
     new_act.targets = activity.targets;
     new_act.index = activity.index;
     new_act.position = num_dis;
@@ -2702,7 +2696,7 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
     }
 
     // Player skills should determine how many components are returned
-    int skill_dice = 2 + get_skill_level( dis.skill_used ) * 4;
+    int skill_dice = 2 + round( get_skill_level( dis.skill_used ) * 4 );
 
     // Sides on dice is 16 plus your current intelligence
     ///\EFFECT_INT increases success rate for disassembling items
@@ -2775,6 +2769,8 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
             if( dis_item.is_filthy() ) {
                 act_item.set_flag( flag_FILTHY );
             }
+
+            act_item.set_relative_rot( dis_item.get_relative_rot() );
 
             ret_val<item> removed = dis_item.components.remove( newit.typeId() );
             if( removed.success() ) {

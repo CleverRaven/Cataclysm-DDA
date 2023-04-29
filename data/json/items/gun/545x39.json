@@ -13,7 +13,6 @@
     "price": 390000,
     "price_postapoc": 4000,
     "to_hit": -1,
-    "bashing": 11,
     "material": [ "steel", "wood" ],
     "color": "brown",
     "ammo": [ "545x39" ],
@@ -38,7 +37,8 @@
       [ "underbarrel", 1 ]
     ],
     "flags": [ "NEVER_JAMS" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ak74mag", "rpk74mag", "casket74mag" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ak74mag", "rpk74mag", "casket74mag" ] } ],
+    "melee_damage": { "bash": 11 }
   },
   {
     "id": "kord",
@@ -54,7 +54,6 @@
     "price": 390000,
     "price_postapoc": 4000,
     "to_hit": -1,
-    "bashing": 11,
     "material": [ "steel", "plastic" ],
     "color": "brown",
     "ammo": [ "545x39" ],
@@ -80,6 +79,7 @@
     ],
     "flags": [ "NEVER_JAMS", "MISSION_ITEM" ],
     "weapon_category": [ "AUTOMATIC_RIFLES" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ak74mag", "rpk74mag", "casket74mag" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ak74mag", "rpk74mag", "casket74mag" ] } ],
+    "melee_damage": { "bash": 11 }
   }
 ]

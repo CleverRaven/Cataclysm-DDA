@@ -286,7 +286,7 @@ void iexamine::cvdmachine( Character &you, const tripoint & )
 {
     // Select an item to which it is possible to apply a diamond coating
     item_location loc = g->inv_map_splice( []( const item & e ) {
-        return ( e.is_melee( damage_type::CUT ) || e.is_melee( damage_type::STAB ) ) &&
+        return e.has_edged_damage() &&
                !e.has_flag( flag_DIAMOND ) && !e.has_flag( flag_NO_CVD ) &&
                ( e.made_of( material_steel ) || e.made_of( material_ch_steel ) ||
                  e.made_of( material_hc_steel ) || e.made_of( material_lc_steel ) ||
@@ -1346,7 +1346,7 @@ bool iexamine::try_start_hacking( Character &you, const tripoint &examp )
         return false;
     } else {
         you.use_charges( itype_electrohack, 25 );
-        you.assign_activity( player_activity( hacking_activity_actor() ) );
+        you.assign_activity( hacking_activity_actor() );
         you.activity.placement = get_map().getglobal( examp );
         return true;
     }
@@ -1448,7 +1448,7 @@ void iexamine::rubble( Character &you, const tripoint &examp )
         !query_yn( _( "Clear up that %s?" ), here.furnname( examp ) ) ) {
         return;
     }
-    you.assign_activity( player_activity( clear_rubble_activity_actor( moves ) ) );
+    you.assign_activity( clear_rubble_activity_actor( moves ) );
     you.activity.placement = here.getglobal( examp );
 }
 
@@ -1638,9 +1638,8 @@ void iexamine::portable_structure( Character &you, const tripoint &examp )
         return;
     }
 
-    player_activity new_act = player_activity( tent_deconstruct_activity_actor( to_moves<int>
-                              ( 20_minutes ), radius, examp, dropped ) );
-    you.assign_activity( new_act, false );
+    tent_deconstruct_activity_actor actor( to_moves<int>( 20_minutes ), radius, examp, dropped );
+    you.assign_activity( actor );
 }
 
 /**
@@ -1777,7 +1776,7 @@ void iexamine::safe( Character &you, const tripoint &examp )
         add_msg( m_info, _( "You can't crack a safe while listening to music!" ) );
         return;
     } else if( query_yn( _( "Attempt to crack the safe?" ) ) ) {
-        you.assign_activity( player_activity( safecracking_activity_actor( examp ) ) );
+        you.assign_activity( safecracking_activity_actor( examp ) );
     }
 }
 
@@ -1858,8 +1857,7 @@ void iexamine::locked_object_pickable( Character &you, const tripoint &examp )
         if( you.get_power_level() >= bio_lockpick->power_activate ) {
             you.mod_power_level( -bio_lockpick->power_activate );
             you.add_msg_if_player( m_info, _( "You activate your %s." ), bio_lockpick->name );
-            you.assign_activity(
-                player_activity( lockpick_activity_actor::use_bionic( here.getabs( examp ) ) ) );
+            you.assign_activity( lockpick_activity_actor::use_bionic( here.getabs( examp ) ) );
             return;
         } else {
             you.add_msg_if_player( m_info, _( "You don't have enough power to activate your %s." ),
@@ -2135,7 +2133,7 @@ bool iexamine_helper::drink_nectar( Character &you )
     if( can_drink_nectar( you ) ) {
         add_msg( _( "You drink some nectar." ) );
         item nectar( "nectar", calendar::turn, 1 );
-        you.assign_activity( player_activity( consume_activity_actor( nectar ) ) );
+        you.assign_activity( consume_activity_actor( nectar ) );
         return true;
     }
 
@@ -2183,7 +2181,7 @@ void iexamine::flower_poppy( Character &you, const tripoint &examp )
         }
         add_msg( _( "You slowly suck up the nectar." ) );
         item poppy( "poppy_nectar", calendar::turn, 1 );
-        you.assign_activity( player_activity( consume_activity_actor( poppy ) ) );
+        you.assign_activity( consume_activity_actor( poppy ) );
         you.mod_fatigue( 20 );
         you.add_effect( effect_pkill2, 7_minutes );
         // Please drink poppy nectar responsibly.
@@ -2328,7 +2326,7 @@ void iexamine::harvest_furn_nectar( Character &you, const tripoint &examp )
     if( !auto_forage && !query_pick( you, examp ) ) {
         return;
     }
-    you.assign_activity( player_activity( harvest_activity_actor( examp, auto_forage ) ) );
+    you.assign_activity( harvest_activity_actor( examp, auto_forage ) );
 }
 
 void iexamine::harvest_furn( Character &you, const tripoint &examp )
@@ -2338,7 +2336,7 @@ void iexamine::harvest_furn( Character &you, const tripoint &examp )
     if( !auto_forage && !query_pick( you, examp ) ) {
         return;
     }
-    you.assign_activity( player_activity( harvest_activity_actor( examp, auto_forage ) ) );
+    you.assign_activity( harvest_activity_actor( examp, auto_forage ) );
 }
 
 void iexamine::harvest_ter_nectar( Character &you, const tripoint &examp )
@@ -2350,7 +2348,7 @@ void iexamine::harvest_ter_nectar( Character &you, const tripoint &examp )
     if( !auto_forage && !query_pick( you, examp ) ) {
         return;
     }
-    you.assign_activity( player_activity( harvest_activity_actor( examp, auto_forage ) ) );
+    you.assign_activity( harvest_activity_actor( examp, auto_forage ) );
 }
 
 void iexamine::harvest_ter( Character &you, const tripoint &examp )
@@ -2361,7 +2359,7 @@ void iexamine::harvest_ter( Character &you, const tripoint &examp )
     if( !auto_forage && !query_pick( you, examp ) ) {
         return;
     }
-    you.assign_activity( player_activity( harvest_activity_actor( examp, auto_forage ) ) );
+    you.assign_activity( harvest_activity_actor( examp, auto_forage ) );
 }
 
 /**
@@ -2636,7 +2634,7 @@ void iexamine::harvest_plant( Character &you, const tripoint &examp, bool from_a
         const itype &type = *seed->type;
         here.i_clear( examp );
 
-        int skillLevel = you.get_skill_level( skill_survival );
+        int skillLevel = round( you.get_skill_level( skill_survival ) );
         ///\EFFECT_SURVIVAL increases number of plants harvested from a seed
         int plant_count = rng( skillLevel / 2, skillLevel );
         plant_count *= here.furn( examp )->plant->harvest_multiplier;
@@ -2829,7 +2827,7 @@ void iexamine::kiln_empty( Character &you, const tripoint &examp )
     // For a cruddy kiln (a pit with a rock chimney) assume 10-15% efficiency, depending on fabrication (40-60% wastage)
     // For a well made kiln (industrial-style metal kiln) assume 20-25% efficiency, depending on fabrication (0-20% wastage)
     ///\EFFECT_FABRICATION decreases loss when firing a kiln
-    const int skill = you.get_skill_level( skill_fabrication );
+    const float skill = you.get_skill_level( skill_fabrication );
     int loss = 0;
     // if the current kiln is a metal one, use a more efficient conversion rate otherwise default to assuming it is a rock pit kiln
     if( cur_kiln_type == f_kiln_metal_empty ) {
@@ -2974,7 +2972,7 @@ void iexamine::arcfurnace_empty( Character &you, const tripoint &examp )
     }
 
     ///\EFFECT_FABRICATION decreases loss when firing a furnace
-    const int skill = you.get_skill_level( skill_fabrication );
+    const float skill = you.get_skill_level( skill_fabrication );
     int loss = 60 - 2 *
                skill; // Inefficiency is still fine, coal and limestone is abundant
 
@@ -3210,7 +3208,7 @@ void iexamine::fireplace( Character &you, const tripoint &examp )
         return it.has_flag( flag_FIRESTARTER ) || it.has_flag( flag_FIRE );
     };
     auto is_firequencher = []( const item & it ) {
-        return it.damage_melee( damage_type::BASH );
+        return it.damage_melee( STATIC( damage_type_id( "bash" ) ) );
     };
 
     std::multimap<int, item *> firestarters;
@@ -3682,7 +3680,7 @@ void iexamine::keg( Character &you, const tripoint &examp )
                 if( !you.can_consume_as_is( drink ) ) {
                     return; // They didn't actually drink
                 }
-                you.assign_activity( player_activity( consume_activity_actor( drink ) ) );
+                you.assign_activity( consume_activity_actor( drink ) );
                 drink.charges--;
                 if( drink.charges == 0 ) {
                     add_msg( _( "You squeeze the last drops of %1$s from the %2$s." ),
@@ -3766,12 +3764,12 @@ static void pick_plant( Character &you, const tripoint &examp,
         return;
     }
 
-    const int survival = you.get_skill_level( skill_survival );
+    const float survival = you.get_skill_level( skill_survival );
     you.practice( skill_survival, 6 );
 
     int plantBase = rng( 2, 5 );
     ///\EFFECT_SURVIVAL increases number of plants harvested
-    int plantCount = rng( plantBase, plantBase + survival / 2 );
+    int plantCount = rng( plantBase, round( plantBase + survival / 2 ) );
     plantCount = std::min( plantCount, 12 );
 
     here.spawn_item( you.pos(), itemType, plantCount, 0, calendar::turn );
@@ -3798,7 +3796,8 @@ void iexamine::tree_hickory( Character &you, const tripoint &examp )
         query_yn( _( "Dig up %s?  This kills the tree!" ), here.tername( examp ) ) ) {
         digging_up = true;
         /** @EFFECT_SURVIVAL increases hickory root number per tree */
-        here.spawn_item( you.pos(), itype_hickory_root, rng( 1, 3 + you.get_skill_level( skill_survival ) ),
+        here.spawn_item( you.pos(), itype_hickory_root, rng( 1,
+                         round( 3 + you.get_skill_level( skill_survival ) ) ),
                          0,
                          calendar::turn );
         here.ter_set( examp, t_tree_hickory_dead );
@@ -3814,7 +3813,7 @@ void iexamine::tree_hickory( Character &you, const tripoint &examp )
         return;
     }
 
-    you.assign_activity( player_activity( harvest_activity_actor( examp, auto_forage ) ) );
+    you.assign_activity( harvest_activity_actor( examp, auto_forage ) );
 }
 
 static item_location maple_tree_sap_container()
@@ -3954,8 +3953,9 @@ void iexamine::tree_maple_tapped( Character &you, const tripoint &examp )
 
         case REMOVE_CONTAINER: {
             Character &player_character = get_player_character();
-            player_character.assign_activity( player_activity( pickup_activity_actor(
-            { item_location( map_cursor( examp ), container ) }, { 0 }, player_character.pos(), false ) ) );
+            const std::vector<item_location> target_items{ item_location( map_cursor( examp ), container ) };
+            const pickup_activity_actor actor( target_items, { 0 }, player_character.pos(), false );
+            player_character.assign_activity( actor );
             return;
         }
 
@@ -4017,7 +4017,7 @@ void iexamine::shrub_wildveggies( Character &you, const tripoint &examp )
     int move_cost = 100000 / ( 2 * you.get_skill_level( skill_survival ) + 5 );
     ///\EFFECT_PER randomly speeds up foraging
     move_cost /= rng( std::max( 4, you.per_cur ), 4 + you.per_cur * 2 );
-    you.assign_activity( player_activity( forage_activity_actor( move_cost ) ) );
+    you.assign_activity( forage_activity_actor( move_cost ) );
     you.activity.placement = here.getglobal( examp );
     you.activity.auto_resume = true;
 }
@@ -4052,7 +4052,7 @@ void trap::examine( const tripoint &examp ) const
     }
 
     if( query_yn( _( "There is a %s there.  Disarm?" ), name() ) ) {
-        const int traps_skill_level = player_character.get_skill_level( skill_traps );
+        const float traps_skill_level = player_character.get_skill_level( skill_traps );
         const float weighted_stat_average = ( 2.0f * player_character.per_cur + 3.0f *
                                               player_character.dex_cur +
                                               player_character.int_cur ) / 6.0f;
@@ -4234,8 +4234,8 @@ static void reload_furniture( Character &you, const tripoint &examp, bool allow_
             for( map_stack::iterator itm = items.begin(); itm != items.end(); ) {
                 if( itm->typeId() == ammo_itypeID ) {
                     if( you.can_stash( *itm ) ) {
-                        you.assign_activity( player_activity( pickup_activity_actor(
-                        { item_location( map_cursor( examp ), &*itm ) }, { 0 }, you.pos(), false ) ) );
+                        std::vector<item_location> target_items{ item_location( map_cursor( examp ), &*itm ) };
+                        you.assign_activity( pickup_activity_actor( target_items, { 0 }, you.pos(), false ) );
                         return;
                     } else {
                         // get handling cost before the item reference is invalidated
@@ -6487,7 +6487,7 @@ void iexamine::workbench_internal( Character &you, const tripoint &examp,
                     pgettext( "in progress craft", "You start working on the %s." ),
                     pgettext( "in progress craft", "<npcname> starts working on the %s." ),
                     selected_craft->tname() );
-                you.assign_activity( player_activity( craft_activity_actor( crafts[amenu2.ret], false ) ) );
+                you.assign_activity( craft_activity_actor( crafts[amenu2.ret], false ) );
             }
             break;
         }
@@ -6508,7 +6508,7 @@ void iexamine::workout( Character &you, const tripoint &examp )
         none( you, examp );
         return;
     }
-    you.assign_activity( player_activity( workout_activity_actor( examp ) ) );
+    you.assign_activity( workout_activity_actor( examp ) );
 }
 
 void iexamine::invalid( Character &/*you*/, const tripoint &examp )
@@ -6635,7 +6635,8 @@ void iexamine::practice_survival_while_foraging( Character &who )
     ///\EFFECT_INT Intelligence caps survival skill gains from foraging
     const int max_forage_skill = who.int_cur / 3 + 1;
     ///\EFFECT_SURVIVAL decreases survival skill gain from foraging (NEGATIVE)
-    const int max_exp = 2 * ( max_forage_skill - who.get_skill_level( skill_survival ) );
+    const int max_exp = 2 * ( max_forage_skill - static_cast<int>( who.get_skill_level(
+                                  skill_survival ) ) );
     // Award experience for foraging attempt regardless of success
     who.practice( skill_survival, rng( 1, max_exp ), max_forage_skill );
 }

@@ -71,7 +71,7 @@ class node_t
         void add_child( const node_t *new_child );
 
         // Loading interface.
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
         void check() const;
         string_id<node_t> id;
         std::vector<std::pair<string_id<node_t>, mod_id>> src;

@@ -155,7 +155,7 @@ static std::map<vpart_id, vpart_info> vpart_info_all;
 
 static std::map<vpart_id, vpart_info> abstract_parts;
 
-static std::map<vpart_id, vpart_id> vpart_migrations;
+static std::map<vpart_id, vpart_migration> vpart_migrations;
 
 static DynamicDataLoader::deferred_json deferred;
 
@@ -535,7 +535,7 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
 
     if( jo.has_member( "damage_reduction" ) ) {
         JsonObject dred = jo.get_object( "damage_reduction" );
-        def.damage_reduction = load_damage_array( dred );
+        def.damage_reduction = load_damage_map( dred );
     }
 
     if( def.has_flag( "ENGINE" ) ) {
@@ -750,6 +750,8 @@ void vpart_info::finalize()
             // dragging code currently checks this for considering collisions
             e.second.location = "structure";
         }
+
+        finalize_damage_map( e.second.damage_reduction );
 
         // Calculate and cache z-ordering based off of location
         // list_order is used when inspecting the vehicle
@@ -1165,8 +1167,8 @@ static int scale_time( const std::map<skill_id, int> &sk, int mv, const Characte
 
     const int lvl = std::accumulate( sk.begin(), sk.end(), 0, [&you]( int lhs,
     const std::pair<skill_id, int> &rhs ) {
-        return lhs + std::max( std::min( you.get_skill_level( rhs.first ), MAX_SKILL ) - rhs.second,
-                               0 );
+        return lhs + std::max( std::min( static_cast<int>( you.get_skill_level( rhs.first ) ),
+                                         MAX_SKILL ) - rhs.second, 0 );
     } );
     // 10% per excess level (reduced proportionally if >1 skill required) with max 50% reduction
     // 10% reduction per assisting NPC
@@ -1366,6 +1368,7 @@ void vehicle_prototype::load( const JsonObject &jo )
         assign( part, "ammo_types", pt.ammo_types, true );
         assign( part, "ammo_qty", pt.ammo_qty, true, 0 );
         assign( part, "fuel", pt.fuel, true );
+        assign( part, "tools", pt.tools, true );
 
         vproto.parts.push_back( pt );
     };
@@ -1468,10 +1471,8 @@ void vehicle_prototype::reset()
  */
 void vehicle_prototype::finalize()
 {
-    for( auto &vp : vtypes ) {
+    for( auto &[id, proto] : vtypes ) {
         std::unordered_set<point> cargo_spots;
-        vehicle_prototype &proto = vp.second;
-        const vproto_id &id = vp.first;
 
         // Calls the default constructor to create an empty vehicle. Calling the constructor with
         // the type as parameter would make it look up the type in the map and copy the
@@ -1483,18 +1484,30 @@ void vehicle_prototype::finalize()
 
         blueprint.suspend_refresh();
         for( part_def &pt : proto.parts ) {
-            pt.part = vpart_migration::migrate( pt.part );
-            const itype *base = item::find_type( pt.part->base_item );
+            if( const vpart_migration *migration = vpart_migration::find_migration( pt.part ) ) {
+                debugmsg( "veh prototype '%s' needs fixing, part '%s' is migrated to '%s'",
+                          proto.name, pt.part.str(), migration->part_id_new.str() );
+                pt.part = migration->part_id_new;
+            }
 
             if( !pt.part.is_valid() ) {
                 debugmsg( "unknown vehicle part %s in %s", pt.part.c_str(), id.c_str() );
                 continue;
             }
 
-            if( blueprint.install_part( pt.pos, pt.part, pt.variant ) < 0 ) {
+            const int part_idx = blueprint.install_part( pt.pos, pt.part, pt.variant );
+            if( part_idx < 0 ) {
                 debugmsg( "init_vehicles: '%s' part '%s'(%d) can't be installed to %d,%d",
                           blueprint.name, pt.part.c_str(),
                           blueprint.part_count(), pt.pos.x, pt.pos.y );
+            } else {
+                vehicle_part &vp = blueprint.part( part_idx );
+                for( const itype_id &it : pt.tools ) {
+                    blueprint.get_tools( vp ).emplace_back( it, calendar::turn );
+                }
+                if( pt.fuel ) {
+                    vp.ammo_set( pt.fuel, vp.ammo_capacity( pt.fuel->ammo->type ) );
+                }
             }
 
             std::vector<itype_id> migrated;
@@ -1511,6 +1524,7 @@ void vehicle_prototype::finalize()
                 pt.ammo_types.insert( migrant );
             }
 
+            const itype *base = item::find_type( pt.part->base_item );
             if( !base->gun ) {
                 if( pt.with_ammo ) {
                     debugmsg( "init_vehicles: non-turret %s with ammo in %s", pt.part.c_str(),
@@ -1616,10 +1630,17 @@ void vpart_category::reset()
 
 void vpart_migration::load( const JsonObject &jo )
 {
-    const std::string from = jo.get_string( "from" );
-    const std::string to = jo.get_string( "to" );
+    vpart_migration migration;
+    migration.part_id_old = vpart_id( jo.get_string( "from" ) );
+    migration.part_id_new = vpart_id( jo.get_string( "to" ) );
 
-    vpart_migrations.emplace( vpart_id( from ), vpart_id( to ) );
+    if( jo.has_array( "add_veh_tools" ) ) {
+        for( const std::string &tool_id : jo.get_string_array( "add_veh_tools" ) ) {
+            migration.add_veh_tools.emplace_back( tool_id );
+        }
+    }
+
+    vpart_migrations.emplace( migration.part_id_old, migration );
 }
 
 void vpart_migration::reset()
@@ -1631,17 +1652,21 @@ void vpart_migration::finalize()
 {
     DynamicDataLoader::get_instance().load_deferred( deferred );
 
+    for( const auto &[from_id, migration] : vpart_migrations ) {
+        if( !migration.add_veh_tools.empty() &&
+            !migration.part_id_new->has_flag( "VEH_TOOLS" ) ) {
+            debugmsg( "vpart migration from id '%s' specified 'add_veh_tools' but target id '%s' is not a VEH_TOOLS part",
+                      from_id.str(), migration.part_id_new.str() );
+        }
+    }
+
     // erase the generic turret prototype vpart
     vpart_info_all.erase( vpart_turret_generic );
 }
 
-const std::map<vpart_id, vpart_id> &vpart_migration::get_migrations()
+const vpart_migration *vpart_migration::find_migration( const vpart_id &original )
 {
-    return vpart_migrations;
-}
-
-vpart_id vpart_migration::migrate( const vpart_id &original )
-{
+    vpart_migration *migration = nullptr;
     vpart_id pid = original;
 
     // limit up to 10 migrations per vpart (guard in case of accidental loops)
@@ -1650,12 +1675,9 @@ vpart_id vpart_migration::migrate( const vpart_id &original )
         if( migration_it == vpart_migrations.cend() ) {
             break;
         }
-        pid = migration_it->second;
+        pid = migration_it->second.part_id_new;
+        migration = &migration_it->second;
     }
 
-    if( pid != original ) {
-        DebugLog( D_WARNING, D_MAIN ) << "Migrating vpart " << original.str() << " to " << pid.str();
-    }
-
-    return pid;
+    return migration;
 }

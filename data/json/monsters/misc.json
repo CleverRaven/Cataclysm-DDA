@@ -17,7 +17,6 @@
     "morale": 100,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "vision_day": 1,
-    "armor_bullet": 100,
     "weakpoints": [
       { "name": "the knee", "armor_mult": { "bullet": 0.5 }, "armor_penalty": { "bullet": 25 }, "coverage": 25 },
       { "name": "the bugs", "armor_mult": { "bullet": 0.0 }, "armor_penalty": { "bullet": 0 }, "coverage": 25 }
@@ -26,7 +25,8 @@
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
     "regenerates": 50,
     "regeneration_modifiers": [ [ "onfire", -5 ], [ "corroding", 5 ] ],
-    "flags": [ "IMMOBILE", "NOT_HALLUCINATION", "FILTHY" ]
+    "flags": [ "IMMOBILE", "NOT_HALLUCINATION", "FILTHY" ],
+    "armor": { "bullet": 100 }
   },
   {
     "id": "weakpoint_mon",
@@ -46,7 +46,6 @@
     "morale": 100,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "vision_day": 1,
-    "armor_bullet": 100,
     "families": [ "prof_debug_weakpoint", { "proficiency": "prof_debug_weakpoint_expert", "bonus": 100 } ],
     "weakpoints": [
       {
@@ -78,7 +77,8 @@
       }
     ],
     "harvest": "zombie",
-    "flags": [ "IMMOBILE", "NOT_HALLUCINATION", "FILTHY" ]
+    "flags": [ "IMMOBILE", "NOT_HALLUCINATION", "FILTHY" ],
+    "armor": { "bullet": 100 }
   },
   {
     "id": "mon_dragon_dummy",
@@ -121,13 +121,11 @@
     "symbol": "4",
     "color": "white",
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "armor_bash": 2,
-    "armor_cut": 2,
-    "armor_bullet": 2,
     "harvest": "exempt",
     "special_attacks": [ [ "GENERATOR", 1 ] ],
     "death_function": { "effect": { "id": "death_gameover", "hit_self": true } },
-    "flags": [ "NOHEAD", "ACIDPROOF", "IMMOBILE", "STUN_IMMUNE" ]
+    "flags": [ "NOHEAD", "ACIDPROOF", "IMMOBILE", "STUN_IMMUNE" ],
+    "armor": { "bash": 2, "cut": 2, "bullet": 2 }
   },
   {
     "id": "mon_hallu_mom",

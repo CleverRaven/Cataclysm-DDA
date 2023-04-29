@@ -54,7 +54,7 @@ class VehicleGroup
  * The location and facing data needed to place a vehicle onto the map.
  */
 struct VehicleFacings {
-    VehicleFacings( const JsonObject &jo, const std::string &key );
+    VehicleFacings( const JsonObject &jo, std::string_view key );
 
     units::angle pick() const {
         return random_entry( values );
@@ -109,7 +109,7 @@ class VehicleFunction
         virtual void apply( map &m, const std::string &terrainid ) const = 0;
 };
 
-using vehicle_gen_pointer = void ( * )( map &, const std::string & );
+using vehicle_gen_pointer = void ( * )( map &, std::string_view );
 
 class VehicleFunction_builtin : public VehicleFunction
 {

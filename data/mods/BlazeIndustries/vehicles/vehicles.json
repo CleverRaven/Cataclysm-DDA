@@ -126,7 +126,7 @@
       { "x": 0, "y": 2, "parts": [ "hdframe_vertical_2", "seat", "seatbelt", "hdroof" ] },
       { "x": 0, "y": 2, "part": "tank", "fuel": "diesel" },
       { "x": 0, "y": 0, "parts": [ "hdframe_vertical_2", "controls", "dashboard" ] },
-      { "x": 0, "y": 0, "parts": [ "vehicle_clock", "horn_big", "seat", "seatbelt", "hdroof" ] },
+      { "x": 0, "y": 0, "parts": [ "horn_big", "seat", "seatbelt", "hdroof" ] },
       { "x": 0, "y": 0, "part": "tank", "fuel": "diesel" },
       { "x": 0, "y": 3, "parts": [ "hdframe_vertical", "hddoor_right" ] },
       { "x": 0, "y": -1, "parts": [ "hdframe_vertical", "hddoor_left" ] },

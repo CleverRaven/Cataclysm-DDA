@@ -843,18 +843,17 @@ void avatar_action::fire_wielded_weapon( avatar &you )
         return;
     }
 
-    you.assign_activity( player_activity( aim_activity_actor::use_wielded() ), false );
+    you.assign_activity( aim_activity_actor::use_wielded() );
 }
 
 void avatar_action::fire_ranged_mutation( Character &you, const item &fake_gun )
 {
-    you.assign_activity( player_activity( aim_activity_actor::use_mutation( fake_gun ) ), false );
+    you.assign_activity( aim_activity_actor::use_mutation( fake_gun ) );
 }
 
 void avatar_action::fire_ranged_bionic( avatar &you, const item &fake_gun )
 {
-    you.assign_activity(
-        player_activity( aim_activity_actor::use_bionic( fake_gun ) ), false );
+    you.assign_activity( aim_activity_actor::use_bionic( fake_gun ) );
 }
 
 void avatar_action::fire_turret_manual( avatar &you, map &m, turret_data &turret )
@@ -905,7 +904,7 @@ bool avatar_action::eat_here( avatar &you )
         } else {
             here.ter_set( you.pos(), t_grass );
             item food( "underbrush", calendar::turn, 1 );
-            you.assign_activity( player_activity( consume_activity_actor( food ) ) );
+            you.assign_activity( consume_activity_actor( food ) );
             return true;
         }
     }
@@ -916,7 +915,7 @@ bool avatar_action::eat_here( avatar &you )
             return true;
         } else {
             item food( item( "grass", calendar::turn, 1 ) );
-            you.assign_activity( player_activity( consume_activity_actor( food ) ) );
+            you.assign_activity( consume_activity_actor( food ) );
             if( here.ter( you.pos() ) == t_grass_tall ) {
                 here.ter_set( you.pos(), t_grass_long );
             } else if( here.ter( you.pos() ) == t_grass_long ) {
@@ -963,8 +962,8 @@ void avatar_action::eat( avatar &you, const item_location &loc,
         add_msg( _( "Never mind." ) );
         return;
     }
-    you.assign_activity( player_activity( consume_activity_actor( loc, consume_menu_selections,
-                                          consume_menu_selected_items, consume_menu_filter, type ) ) );
+    you.assign_activity( consume_activity_actor( loc, consume_menu_selections,
+                         consume_menu_selected_items, consume_menu_filter, type ) );
     you.last_item = item( *loc ).typeId();
 }
 

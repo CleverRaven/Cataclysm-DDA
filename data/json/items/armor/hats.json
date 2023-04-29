@@ -487,7 +487,6 @@
     "volume": "2500 ml",
     "price": 1200,
     "price_postapoc": 250,
-    "bashing": 6,
     "material": [ "plastic" ],
     "symbol": "[",
     "looks_like": "hat_ball",
@@ -556,6 +555,16 @@
         "moves": 250,
         "description": "Pocket for a counterweight pouch.",
         "flag_restriction": [ "HELMET_BACK_POUCH" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "300 ml",
+        "max_contains_weight": "300 g",
+        "max_item_length": "14 cm",
+        "moves": 250,
+        "description": "Pocket for a flashlight attachment.",
+        "flag_restriction": [ "HELMET_HEAD_ATTACHMENT" ]
       }
     ],
     "variant_type": "generic",
@@ -678,7 +687,8 @@
         "weight": 1,
         "append": true
       }
-    ]
+    ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "hat_hard_hooded",
@@ -690,7 +700,6 @@
     "volume": "2750 ml",
     "price": 1200,
     "price_postapoc": 300,
-    "bashing": 6,
     "material": [ "plastic" ],
     "symbol": "[",
     "looks_like": "hat_hard",
@@ -730,6 +739,16 @@
         "moves": 250,
         "description": "Pocket for a counterweight pouch.",
         "flag_restriction": [ "HELMET_BACK_POUCH" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "300 ml",
+        "max_contains_weight": "300 g",
+        "max_item_length": "14 cm",
+        "moves": 250,
+        "description": "Pocket for a flashlight attachment.",
+        "flag_restriction": [ "HELMET_HEAD_ATTACHMENT" ]
       }
     ],
     "variant_type": "generic",
@@ -852,7 +871,8 @@
         "weight": 1,
         "append": true
       }
-    ]
+    ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "hat_hunting",
