@@ -11,7 +11,7 @@
 #include "output.h"
 
 static const character_modifier_id
-grab_break_limb_mod( "grab_break_limb_mod" );
+character_modifier_grab_break_limb_mod( "grab_break_limb_mod" );
 
 static const efftype_id effect_beartrap( "beartrap" );
 static const efftype_id effect_crushed( "crushed" );
@@ -19,7 +19,6 @@ static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_heavysnare( "heavysnare" );
 static const efftype_id effect_in_pit( "in_pit" );
 static const efftype_id effect_lightsnare( "lightsnare" );
-static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_webbed( "webbed" );
 
 static const flag_id json_flag_GRAB( "GRAB" );
@@ -249,7 +248,7 @@ bool Character::try_remove_grab()
             // Limb factor we check directly
             // Stats might get modified by certain grabby effects, check them to be safe
             float stat_factor = std::max( get_str() / 2, get_dex() / 3 );
-            float limb_factor = get_modifier( grab_break_limb_mod );
+            float limb_factor = get_modifier( character_modifier_grab_break_limb_mod );
             escape_chance = ( skill_factor * limb_factor ) * 100 + stat_factor;
             grabber_roll = std::max( grabber_roll, escape_chance ) + rng( 1, 10 );
             escape_chance += grab_break_factor;

@@ -29,7 +29,7 @@ const bodypart_str_id body_part_leg_r( "leg_r" );
 const bodypart_str_id body_part_mouth( "mouth" );
 const bodypart_str_id body_part_torso( "torso" );
 
-const efftype_id efftype_grabbing_appendix( "grabbing_appendix" );
+static const efftype_id effect_grabbing_appendix( "grabbing_appendix" );
 
 const sub_bodypart_str_id sub_body_part_sub_limb_debug( "sub_limb_debug" );
 

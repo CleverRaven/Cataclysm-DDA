@@ -30,9 +30,9 @@
 #include "units.h"
 
 static const efftype_id effect_bleed( "bleed" );
+static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_took_flumed( "took_flumed" );
 
-static const efftype_id effect_grabbed( "grabbed" );
 static const itype_id itype_rock( "rock" );
 static const json_character_flag json_flag_GRAB( "GRAB" );
 static const matype_id style_brawling( "style_brawling" );
@@ -301,7 +301,7 @@ TEST_CASE( "Targeted grab removal test", "[mattack][grab]" )
 
     const std::string grabber_left = "mon_debug_grabber_left";
     const std::string grabber_right = "mon_debug_grabber_right";
-    const tripoint target_location = attacker_location + tripoint{ 1, 0, 0 };
+    const tripoint target_location = attacker_location + tripoint_east;
     const tripoint attacker_location_e = target_location + tripoint_east;
 
     clear_map();
@@ -378,7 +378,7 @@ TEST_CASE( "Ranged pull tests", "[mattack][grab]" )
         REQUIRE( units::to_gram<int>( test_monster.get_weight() ) == 100000 );
         // Pull on the first try
         REQUIRE( attack.call( test_monster ) );
-        REQUIRE( you.pos() == attacker_location + tripoint{ 1, 0, 0 } );
+        REQUIRE( you.pos() == attacker_location + tripoint_east );
     }
     SECTION( "Incompetent puller" ) {
         const std::string monster_type = "mon_debug_puller_incompetent";
@@ -394,7 +394,7 @@ TEST_CASE( "Ranged pull tests", "[mattack][grab]" )
         const std::string monster_type = "mon_debug_puller_strong";
         const std::string grabber_type = "mon_debug_grabber_strong";
         monster &test_monster = spawn_test_monster( monster_type, attacker_location );
-        monster &test_grabber = spawn_test_monster( grabber_type, target_location + tripoint{ 0, 1, 0 } );
+        monster &test_grabber = spawn_test_monster( grabber_type, target_location + tripoint_south );
         const mattack_actor &pull = test_monster.type->special_attacks.at( "ranged_pull" ).operator * ();
         const mattack_actor &grab = test_grabber.type->special_attacks.at( "grab" ).operator * ();
         test_monster.set_dest( you.get_location() );
@@ -413,7 +413,7 @@ TEST_CASE( "Ranged pull tests", "[mattack][grab]" )
 
 TEST_CASE( "Grab break tests", "[mattack][grab]" )
 {
-    const tripoint target_location = attacker_location + tripoint{ 1, 0, 0 };
+    const tripoint target_location = attacker_location + tripoint_east;
     const tripoint attacker_location_n = target_location + tripoint_north;
     const tripoint attacker_location_e = target_location + tripoint_east;
     clear_map();
