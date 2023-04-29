@@ -39,7 +39,7 @@ if (TESTS)
 include(CTest)
 endif()
 
-message(STATUS "${PROJECT} build environment --")
+message(STATUS "${PROJECT_NAME} build environment --")
 message(STATUS "Build realm is: ${CMAKE_SYSTEM_NAME} ${CMAKE_HOST_SYSTEM_PROCESSOR}")
 
 if (NOT CMAKE_BUILD_TYPE)
@@ -195,7 +195,7 @@ endif ()
 # Set build types and display info
 if ("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
     set(RELEASE 0)
-    message(STATUS "Build ${PROJECT} in development mode --")
+    message(STATUS "Build ${PROJECT_NAME} in development mode --")
     message(STATUS "Binaries will be located in: " ${CMAKE_SOURCE_DIR})
     set(CMAKE_VERBOSE_MAKEFILE ON)
     # Since CataclysmDDA does not respect PREFIX for development builds
