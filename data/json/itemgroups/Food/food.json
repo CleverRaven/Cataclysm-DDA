@@ -675,8 +675,8 @@
       { "item": "pie", "prob": 20 },
       { "item": "pie_veggy", "prob": 15 },
       { "item": "pie_meat", "prob": 15 },
-      { "item": "pie_maple", "prob": 10 }
-	  { "item": "tiramisu", "prob": 12 },
+      { "item": "pie_maple", "prob": 10 },
+	  { "item": "tiramisu", "prob": 12 }
     ]
   },
   {
