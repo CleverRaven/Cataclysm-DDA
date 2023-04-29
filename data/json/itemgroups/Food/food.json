@@ -652,7 +652,7 @@
       { "item": "pie_maple", "prob": 9 },
       { "item": "gelatin_dessert_processed", "prob": 40 },
 	  { "item": "mascarpone", "prob": 8 },
-	  { "item": "tiramisu", "prob": 12 },
+	  { "item": "tiramisu", "prob": 12 }
     ]
   },
   {
