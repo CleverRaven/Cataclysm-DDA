@@ -375,7 +375,7 @@
       { "item": "pine_nuts", "prob": 10 },
       { "item": "carrot", "prob": 3 },
       { "item": "bell_pepper", "prob": 7 },
-	  { "item": "eggplant", "prob": 7 }
+      { "item": "eggplant", "prob": 7 }
     ]
   },
   {
