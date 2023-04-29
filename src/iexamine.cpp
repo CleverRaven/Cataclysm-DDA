@@ -4858,7 +4858,6 @@ void iexamine::ledge( Character &you, const tripoint &examp )
     if( you.has_flag( json_flag_WALL_CLING ) ) {
         cmenu.addentry( 4, true, 'C', _( "Crawl down." ) );
     }
-    cmenu.addentry( 5, true, 'd', _( "Drop items over the edge." ) );
 
     cmenu.query();
 
@@ -4937,23 +4936,6 @@ void iexamine::ledge( Character &you, const tripoint &examp )
                     you.add_msg_if_player( _( "You crawl down and dive underwater." ) );
                 }
             }
-            break;
-        }
-        case 5: {
-            // If player is grabbed, trapped, or somehow otherwise movement-impeded, first try to break free
-            if( !you.move_effects( false ) ) {
-                you.moves -= 100;
-                return;
-            }
-
-            int distance = 0;
-            tripoint obj_destination = examp;
-            while( here.is_open_air( obj_destination ) ) {
-                obj_destination.z--;
-                distance++;
-            }
-            g->drop_items_off_ledge( obj_destination, distance );
-
             break;
         }
         default:
