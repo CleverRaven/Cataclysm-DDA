@@ -1518,8 +1518,8 @@
   {
     "type": "profession",
     "id": "specops",
-    "name": "Special Operator",
-    "description": "You were the best of the best, the military's finest.  That's why you're still alive, even after all your comrades fell to the undead.  As far as you can tell, military command abandoned you in this hellhole when you missed the emergency evac.",
+    "name": "Delta Operator",
+    "description": "You were the best of the best, the US Army's finest.  That's why you're still alive, even after all your comrades fell to the undead.  As far as you can tell, military command abandoned you in this hellhole when you missed the emergency evac.",
     "points": 8,
     "proficiencies": [ "prof_gunsmithing_basic", "prof_traps", "prof_disarming", "prof_spotting" ],
     "skills": [
