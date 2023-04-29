@@ -1476,7 +1476,7 @@ class vehicle
          */
         int wheel_area() const;
         // average off-road rating for displaying off-road performance
-        float average_or_rating() const;
+        float average_offroad_rating() const;
 
         /**
          * Physical coefficients used for vehicle calculations.
