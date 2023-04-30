@@ -1458,7 +1458,7 @@
     "flags": [ "BELT_CLIP" ],
     "weapon_category": [ "BATONS" ],
     "//": "Based on: https://www.amazon.com/Crescent-AC210VS-Tools-Wrenches-Adjustable/dp/B00002N5L1/ref=sr_1_5?crid=2979KVN9DXDUH&keywords=10+inch+crescent+wrench+adjustable&qid=1680859779&sprefix=10+inch+crescent+wrench+adjustable%2Caps%2C555&sr=8-5",
-    "melee_damage": { "bash": 9 }
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "wrench_large",
