@@ -2653,15 +2653,14 @@ void eoc_math::from_json( const JsonObject &jo, std::string_view member )
 
     if( objects.size() == 1 ) {
         action = oper::ret;
-    }
-
-    if( objects.size() == 2 ) {
+    } else if( objects.size() == 2 ) {
         if( oper == "++" ) {
             action = oper::increase;
         } else if( oper == "--" ) {
             action = oper::decrease;
         } else {
             jo.throw_error( "Invalid unary operator in " + jo.str() );
+            return;
         }
     } else if( objects.size() == 3 ) {
         rhs = defer_math( objects.get_string( 2 ), false );
@@ -2691,6 +2690,7 @@ void eoc_math::from_json( const JsonObject &jo, std::string_view member )
             action = oper::equal_or_greater;
         } else {
             jo.throw_error( "Invalid binary operator in " + jo.str() );
+            return;
         }
     }
     bool const lhs_assign = action >= oper::assign && action <= oper::decrease;
@@ -2741,6 +2741,7 @@ double eoc_math::act( dialogue &d ) const
             return lhs->eval( d ) > rhs->eval( d );
         case oper::equal_or_greater:
             return lhs->eval( d ) >= rhs->eval( d );
+        case oper::invalid:
         default:
             debugmsg( "unknown eoc math operator %d", action );
     }
