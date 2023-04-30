@@ -443,10 +443,10 @@
         "...5..p..5....5..p..5...",
         "........................",
         "........................"
-      ],      
-	  "palettes": [ "standard_building_palette", "library_palette" ],
-	  "place_nested": [ { "chunks": [ [ "null", 199 ], [ "fire_field", 1 ] ], "x": [ 10, 20 ], "y": [ 9, 19 ] } ]
-	}
+      ],
+      "palettes": [ "standard_building_palette", "library_palette" ],
+      "place_nested": [ { "chunks": [ [ "null", 199 ], [ "fire_field", 1 ] ], "x": [ 10, 20 ], "y": [ 9, 19 ] } ]
+    }
   },
   {
     "type": "mapgen",
