@@ -4006,7 +4006,14 @@ The contents of use_action fields can either be a string indicating a built-in f
                           // A negative value will charge the connected electrical grid's batteries at the expense of the device's. 
                           // A value of 0 will provide power to the device, but will not charge its batteries ( Optional, defaults to "0 W" ).
     "efficiency": 7 // one_in(this) chance to fail adding 1 charge every charge interval ( Optional, defaults to 7, which is around 85% efficiency ).
-    "menu_text": // Text displayed in the activation screen ( Optional, defaults to "Connect / Disconnect").
+    "menu_text": // Text displayed in the activation screen ( Optional, defaults to "Connect / Disconnect" ).
+    "targets": [ // Array of link_states that are valid connection points of the cable ( Optional, defaults to only allowing disconnection ).
+        "no_link",     // Must be included to allow letting the player manually disconnect the cable.
+        "vehicle",     // Can connect to a vehicle's cable ports / vehicle's electrical controls / appliance.
+        "vehicle_tow", // Can be used as a tow cable between two vehicles.
+        "bio_cable",   // Can connect to a cable system bionic.
+        "ups",         // Can link to a UPS.
+        "solarpack",   // Can link to a worn solar pack.
 },
 "use_action" : {
     "type" : "delayed_transform", // Like transform, but it will only transform when the item has a certain age
