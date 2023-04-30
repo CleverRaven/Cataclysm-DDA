@@ -3999,10 +3999,7 @@
       "pain_chance": [ 1 ],
       "pain_max_val": [ 15 ]
     },
-    "limb_score_mods": [
-      { "limb_score": "reaction", "modifier": 0.95 },
-      { "limb_score": "manip", "modifier": 0.95 }
-    ],
+    "limb_score_mods": [ { "limb_score": "reaction", "modifier": 0.95 }, { "limb_score": "manip", "modifier": 0.95 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
