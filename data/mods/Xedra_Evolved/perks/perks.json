@@ -8,14 +8,5 @@
     "category": [ "perk" ],
     "active": true,
     "activated_eocs": [ "EOC_ALCHEMY1" ]
-  },
-  {
-    "type": "mutation",
-    "id": "perk_DEX_UP",
-    "name": { "str": "Faster" },
-    "points": 0,
-    "description": "Have you been doing cardio?  +1 Dexterity.",
-    "category": [ "perk" ],
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "DEXTERITY", "add": 1 } ] } ]
   }
 ]
