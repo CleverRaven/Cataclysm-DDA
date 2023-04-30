@@ -351,15 +351,24 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
                     return false;
                 }
             }
-            if( critter.attitude_to( you ) == Creature::Attitude::NEUTRAL &&
-                g->safe_mode != SAFE_MODE_OFF ) {
-                const std::string msg_safe_mode = press_x( ACTION_TOGGLE_SAFEMODE );
-                add_msg( m_warning,
-                         _( "Not attacking the %1$s -- safe mode is on!  (%2$s to turn it off)" ), critter.name(),
-                         msg_safe_mode );
-                return false;
+            bool safe_mode = ( get_option<bool>( "SAFEMODE" ) ? SAFE_MODE_ON : SAFE_MODE_OFF );
+            if( safe_mode ) {
+                // If safe mode is enabled, only allow attacking neutral creatures when it is inactive
+                if( critter.attitude_to( you ) == Creature::Attitude::NEUTRAL &&
+                    g->safe_mode != SAFE_MODE_OFF ) {
+                    const std::string msg_safe_mode = press_x( ACTION_TOGGLE_SAFEMODE );
+                    add_msg( m_warning,
+                             _( "Not attacking the %1$s -- safe mode is on!  (%2$s to turn it off)" ), critter.name(),
+                             msg_safe_mode );
+                    return false;
+                }
+            } else {
+                // If safe mode is disabled, ask for confirmation before attacking a neutral creature
+                if( critter.attitude_to( you ) == Creature::Attitude::NEUTRAL &&
+                    !query_yn( _( "You may be attacked!  Proceed?" ) ) ) {
+                    return false;
+                }
             }
-
             you.melee_attack( critter, true );
             if( critter.is_hallucination() ) {
                 critter.die( &you );
