@@ -1,5 +1,15 @@
 [
   {
+    "id": "retool_ar15_223rem_extended",
+    "copy-from": "retool_ar15_223rem",
+    "type": "GUNMOD",
+    "name": { "str": "extended .223 upper receiver" },
+    "description": "This is a complete upper receiver assembly containing a barrel, handguard, and bolt carrier group that, given the right knowledge, is installable upon an AR-15-style rifle’s lower frame.  Swappable uppers enable compatible firearms to be retooled for different cartridges and barrel lengths, with this kit providing a weapon with a 20-inch barrel chambered for .223 Remington ammunition, commonly installed on full-length M16 rifles.",
+    "longest_side": "584 mm",
+    "integral_longest_side": "508 mm",
+    "ranged_damage": { "damage_type": "bullet", "amount": 3 }
+  },
+  {
     "id": "retool_ar15_223rem",
     "type": "GUNMOD",
     "name": { "str": ".223 upper receiver" },

@@ -8,6 +8,15 @@
   },
   {
     "type": "item_group",
+    "id": "boxed_223rem_ar15kit_long",
+    "//": "a conversion kit packed along with an appropriate empty magazine and miscellaneous items.",
+    "subtype": "collection",
+    "container-item": "box_retool_huge",
+    "on_overflow": "spill",
+    "entries": [ { "item": "retool_ar15_223rem_extended" }, { "item": "stanag30", "charges": 0 }, { "group": "nested_retool_extras" } ]
+  },
+  {
+    "type": "item_group",
     "id": "boxed_223rem_ar15kit",
     "//": "a conversion kit packed along with an appropriate empty magazine and miscellaneous items.",
     "subtype": "collection",
@@ -234,6 +243,7 @@
     "entries": [
       {
         "distribution": [
+          { "group": "boxed_223rem_ar15kit_long", "prob": 25 },
           { "group": "boxed_223rem_ar15kit", "prob": 30 },
           { "group": "boxed_223rem_ar15kit_medium", "prob": 25 },
           { "group": "boxed_223rem_ar15kit_short", "prob": 15 },
