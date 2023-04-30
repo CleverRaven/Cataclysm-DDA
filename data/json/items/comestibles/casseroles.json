@@ -79,7 +79,7 @@
     "type": "COMESTIBLE",
     "id": "eggplant_parmigiana",
     "name": { "str": "eggplant parmigiana" },
-    "weight": "300 g",
+    "weight": "178 g",
     "color": "brown",
     "spoils_in": "60 days",
     "container": "casserole",
@@ -93,9 +93,8 @@
     "price_postapoc": 300,
     "material": [ "veggy", "milk" ],
     "primary_material": "veggy",
-    "volume": "200 ml",
+    "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "charges": 4,
     "vitamins": [ [ "calcium", 15 ], [ "iron", 2 ], [ "vitC", 7 ] ],
     "fun": 8
   }
