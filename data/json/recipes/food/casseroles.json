@@ -130,7 +130,7 @@
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
     "difficulty": 2,
-    "charges": 8,
+    "result_mult": 4,
     "time": "40 m",
     "batch_time_factors": [ 50, 2 ],
     "book_learn": [ [ "cookbook_italian", 2 ] ],
