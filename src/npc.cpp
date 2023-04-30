@@ -838,7 +838,12 @@ void npc::randomize( const npc_class_id &type )
 
     set_body();
     recalc_hp();
-
+    randomize_height();
+    int days_since_cata = to_days<int>( calendar::turn - calendar::start_of_cataclysm );
+    double time_influence = days_since_cata >= 180 ? 3.0 : 6.0 - 3.0 * days_since_cata / 180.0;
+    double weight_percent = std::clamp<double>( chi_squared_roll( time_influence ) / 5.0,
+                            0.2, 5.0 );
+    set_stored_kcal( weight_percent * get_healthy_kcal() );
     starting_weapon( myclass );
     starting_clothes( *this, myclass, male );
     starting_inv( *this, myclass );
@@ -882,7 +887,6 @@ void npc::randomize( const npc_class_id &type )
     }
 
     set_base_age( rng( 18, 55 ) );
-    randomize_height();
 
     // Add eocs
     effect_on_conditions::load_new_character( *this );
