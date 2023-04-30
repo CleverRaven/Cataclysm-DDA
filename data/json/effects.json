@@ -4009,7 +4009,9 @@
     "type": "effect_type",
     "id": "molting_imminent",
     "name": [ "Imminent Molting" ],
-    "desc": [ "Your exoskeleton has grown so tight and rigid that it grips you like a vise.  You must seek shelter for the coming molt." ],
+    "desc": [
+      "Your exoskeleton has grown so tight and rigid that it grips you like a vise.  You must seek shelter for the coming molt."
+    ],
     "apply_message": "You can hardly move in your tightening exoskeleton, and you feel a strong impulse to hunker down somewhere safe.",
     "rating": "bad",
     "base_mods": {
