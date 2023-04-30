@@ -349,7 +349,7 @@
     "type": "start_location",
     "id": "sloc_library",
     "name": "Library",
-    "terrain": [ "s_library", "s_library_1", "s_library_2" ]
+    "terrain": [ "s_library", "s_library_1", "s_library_2", "s_library_3" ]
   },
   {
     "type": "start_location",
