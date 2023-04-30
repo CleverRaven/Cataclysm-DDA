@@ -128,7 +128,7 @@
   {
     "id": "horse_blinders",
     "type": "TOOL",
-    "name": { "str": "horse blinders" },
+    "name": { "str_sp": "horse blinders" },
     "description": "A simple hood with angled leather cups situated over two eye-holes. This contraption goes over the head of a horse, the leather cups preventing the horse from seeing behind it and to the sides.",
     "weight": "800 g",
     "volume": "1 L",
