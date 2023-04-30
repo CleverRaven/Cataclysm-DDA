@@ -2512,6 +2512,7 @@ void activity_handlers::toolmod_add_finish( player_activity *act, Character *you
                             mod.tname(), tool.tname() );
     mod.set_flag( flag_IRREMOVABLE );
     tool.put_in( mod, item_pocket::pocket_type::MOD );
+    tool.on_contents_changed();
     act->targets[1].remove_item();
 }
 
