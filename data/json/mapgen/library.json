@@ -483,7 +483,6 @@
         "........................"
       ],
       "palettes": [ "standard_building_palette_vandalized", "vandalized_library_palette" ],
-      "place_rubble": [ { "x": [ 4, 21 ], "y": [ 5, 21 ], "repeat": [ 30, 100 ] } ],
       "nested": { "|": { "chunks": [ [ "bile_field", 10 ], [ "shelter_graffiti", 5 ], [ "general_graffiti", 20 ], [ "null", 75 ] ] } },
       "place_nested": [ { "chunks": [ [ "null", 80 ], [ "fire_field", 20 ] ], "x": [ 10, 20 ], "y": [ 9, 19 ] } ]
     }
