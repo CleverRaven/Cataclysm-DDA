@@ -1733,8 +1733,8 @@ std::optional<int> iuse::remove_all_mods( Character *p, item *, bool, const trip
         add_msg( m_info, _( "You remove the %s from the tool." ), mod->tname() );
         p->i_add_or_drop( *mod );
         loc->remove_item( *mod );
-
         remove_radio_mod( *loc, *p );
+        loc->on_contents_changed();
     }
     return 0;
 }
