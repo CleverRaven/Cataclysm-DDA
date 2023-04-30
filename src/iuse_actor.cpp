@@ -4452,7 +4452,7 @@ std::optional<int> link_up_actor::use( Character &p, item &it, bool t, const tri
         }
     }
 
-    if( it.contents_linked || cable != nullptr && !cable->link->has_state( link_state::no_link ) ) {
+    if( it.contents_linked || ( cable != nullptr && !cable->link->has_state( link_state::no_link ) ) ) {
         // Cables without any free ends can only be disconnected.
         if( targets.count( link_state::no_link ) > 0 ) {
             if( is_cable_item ) {
@@ -4799,8 +4799,6 @@ std::optional<int> link_up_actor::use( Character &p, item &it, bool t, const tri
                 return std::nullopt;
             }
             vehicle *const prev_veh = cable->link->t_veh_safe.get();
-            const bool prev_veh_towed = cable->link->t_state == link_state::vehicle_tow;
-            //vehicle *const target_veh = &t_vp->vehicle();
             if( prev_veh == target_veh ) {
                 if( p.has_item( it ) ) {
                     p.add_msg_if_player( m_warning, _( "The %s cannot tow itself!" ), prev_veh->name );

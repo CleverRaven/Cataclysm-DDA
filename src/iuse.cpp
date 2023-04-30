@@ -237,10 +237,6 @@ static const efftype_id effect_weak_antibiotic_visible( "weak_antibiotic_visible
 static const efftype_id effect_webbed( "webbed" );
 static const efftype_id effect_weed_high( "weed_high" );
 
-static const flag_id json_flag_HIDDEN_CABLE( "HIDDEN_CABLE" );
-
-static const furn_str_id furn_f_aluminum_stepladder( "f_aluminum_stepladder" );
-static const furn_str_id furn_f_ladder( "f_ladder" );
 static const furn_str_id furn_f_translocator_buoy( "f_translocator_buoy" );
 
 static const harvest_drop_type_id harvest_drop_blood( "blood" );
@@ -7747,8 +7743,8 @@ std::optional<int> iuse::multicooker( Character *p, item *it, bool t, const trip
         menu.text = _( "Welcome to the RobotChef3000.  Choose option:" );
 
         item *dish_it = it->get_item_with(
-        [it]( const item & dish ) {
-            return it->contained_where( dish )->is_standard_type() && !dish.is_magazine();
+        []( const item & it ) {
+            return !( it.is_toolmod() || it.is_magazine() );
         } );
 
         if( it->active ) {
