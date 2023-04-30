@@ -327,31 +327,5 @@
       [ [ "salt", 2 ] ],
       [ [ "milk", 2 ] ]
     ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "biscuit",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_BREAD",
-    "skill_used": "cooking",
-    "difficulty": 4,
-    "charges": 10,
-    "time": "30 m",
-    "batch_time_factors": [ 50, 4 ],
-    "book_learn": [ [ "family_cookbook", 1 ], [ "baking_book", 2 ], [ "cookbook", 2 ] ],
-    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_baking" }, { "proficiency": "prof_baking_desserts_1" } ],
-    "qualities": [ { "id": "OVEN", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 18, "LIST" ] ] ],
-    "//": "flour: 4u, eggs: 6u, oil: 1u, other: 1u, milk: 2u.",
-    "components": [
-      [ [ "flour_any", 4, "LIST" ] ],
-      [ [ "yeast", 2 ] ],
-      [ [ "sugar", 4 ], [ "artificial_sweetener", 4 ] ],
-      [ [ "eggs_any_shape", 4, "LIST" ] ],
-      [ [ "any_butter_or_oil", 2, "LIST" ] ],
-      [ [ "salt", 2 ] ],
-      [ [ "milk", 2 ] ]
-    ]
   }
 ]
