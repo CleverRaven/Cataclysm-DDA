@@ -1013,9 +1013,7 @@
         { "not": { "u_has_trait": "CHITIN3" } }
       ]
     },
-    "effect": [
-      { "u_add_effect": "molting", "intensity": 1, "duration": "PERMANENT" }
-    ]
+    "effect": [ { "u_add_effect": "molting", "intensity": 1, "duration": "PERMANENT" } ]
   },
   {
     "type": "effect_on_condition",
