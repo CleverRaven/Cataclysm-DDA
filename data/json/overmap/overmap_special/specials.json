@@ -470,6 +470,26 @@
   },
   {
     "type": "overmap_special",
+    "id": "Hunting Lodge - Normal",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "lodge_ground1_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "lodge_ground2_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "lodge_2ndfloor1_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "lodge_2ndfloor2_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "lodge_roof1_north" },
+      { "point": [ 1, 0, 2 ], "overmap": "lodge_roof2_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "lodge_basement_residential3_north" },
+      { "point": [ 1, 0, -1 ], "overmap": "lodge_basement_residential4_north" }
+    ],
+    "connections": [ { "point": [ -1, 0, 0 ], "terrain": "road", "from": [ 0, 0, 0 ] } ],
+    "locations": [ "forest" ],
+    "city_distance": [ 30, -1 ],
+    "city_sizes": [ 0, 12 ],
+    "occurrences": [ 0, 1 ],
+    "flags": [ "CLASSIC", "WILDERNESS", "MAN_MADE" ]
+  },
+  {
+    "type": "overmap_special",
     "id": "Hunting Lodge Glooscap",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "lodge_ground_glooscap1_north" },
@@ -3353,7 +3373,7 @@
     "city_distance": [ 3, -1 ],
     "city_sizes": [ 4, -1 ],
     "occurrences": [ 75, 100 ],
-    "flags": [ "UNIQUE", "SAFE_AT_WORLDGEN", "MAN_MADE" ]
+    "flags": [ "GLOBALLY_UNIQUE", "SAFE_AT_WORLDGEN", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",

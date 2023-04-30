@@ -343,6 +343,8 @@ struct mutation_branch {
         std::map<mtype_id, int> moncams;
         /** effect_on_conditions triggered when this mutation activates */
         std::vector<effect_on_condition_id> activated_eocs;
+        /** effect_on_conditions triggered while this mutation is active */
+        std::vector<effect_on_condition_id> processed_eocs;
         /** effect_on_conditions triggered when this mutation deactivates */
         std::vector<effect_on_condition_id> deactivated_eocs;
         /** mutation enchantments */

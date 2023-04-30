@@ -48,7 +48,6 @@
     "barrel_volume": "750 ml",
     "flags": [ "RELOAD_ONE" ],
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -88,7 +87,6 @@
     "barrel_volume": "750 ml",
     "flags": [ "RELOAD_ONE" ],
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],

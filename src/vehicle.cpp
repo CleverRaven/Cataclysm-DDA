@@ -89,7 +89,6 @@ static const std::string part_location_onroof( "on_roof" );
 static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 
 static const ammotype ammo_battery( "battery" );
-static const ammotype ammo_plutonium( "plutonium" );
 
 static const bionic_id bio_jointservo( "bio_jointservo" );
 
@@ -272,16 +271,25 @@ void vehicle::init_state( map &placed_on, int init_veh_fuel, int init_veh_status
         init_veh_fuel = get_option<int>( "VEHICLE_FUEL_AT_SPAWN" );
     }
 
-    // veh_fuel_multiplier is percentage of fuel
-    // 0 is empty, 100 is full tank, -1 is random 7% to 35%
-    int veh_fuel_mult = init_veh_fuel;
-    if( init_veh_fuel == - 1 ) {
-        veh_fuel_mult = rng( 1, 7 );
-    }
-    if( init_veh_fuel > 100 ) {
-        veh_fuel_mult = 100;
-    }
-
+    std::map<itype_id, double> fuels; // lets tanks of same fuel type have even contents
+    const auto rng_fuel_amount = [&fuels, init_veh_fuel]( vehicle_part & vp, const itype_id & fuel ) {
+        if( !fuel || !fuel->ammo || !fuel->ammo->type ) {
+            vp.ammo_unset(); // clear if no valid fuel
+            return;
+        }
+        const int max = vp.ammo_capacity( fuel->ammo->type );
+        if( init_veh_fuel < 0 ) {
+            // map.emplace(...).first returns iterator to the new or existing element
+            const double roll = fuels.emplace( fuel, normal_roll( 0.3, 0.15 ) ).first->second;
+            vp.ammo_set( fuel, max * std::clamp( roll, 0.05, 0.95 ) );
+        } else if( init_veh_fuel == 0 ) {
+            vp.ammo_unset();
+        } else if( init_veh_fuel > 0 && init_veh_fuel < 100 ) {
+            vp.ammo_set( fuel, max * init_veh_fuel / 100 );
+        } else { // init_veh_fuel >= 100
+            vp.ammo_set( fuel, max );
+        }
+    };
     // veh_status is initial vehicle damage
     // -1 = light damage (DEFAULT)
     //  0 = undamaged
@@ -330,7 +338,7 @@ void vehicle::init_state( map &placed_on, int init_veh_fuel, int init_veh_status
         //Leave engine running in some vehicles, if the engine has not been destroyed
         //chance decays from 1 in 4 vehicles on day 0 to 1 in (day + 4) in the future.
         int current_day = std::max( to_days<int>( calendar::turn - calendar::turn_zero ), 0 );
-        if( veh_fuel_mult > 0 && !empty( get_avail_parts( "ENGINE" ) ) &&
+        if( init_veh_fuel != 0 && !engines.empty() &&
             one_in( current_day + 4 ) && !destroyEngine && !has_no_key &&
             has_engine_type_not( fuel_type_muscle, true ) ) {
             engine_on = true;
@@ -394,45 +402,11 @@ void vehicle::init_state( map &placed_on, int init_veh_fuel, int init_veh_status
         }
 
         if( pt.is_reactor() ) {
-            if( veh_fuel_mult == 100 ) { // Mint condition vehicle
-                pt.ammo_set( itype_plut_cell );
-            } else if( one_in( 2 ) && veh_fuel_mult > 0 ) { // Randomize charge a bit
-                pt.ammo_set( itype_plut_cell, pt.ammo_capacity( ammo_plutonium ) * ( veh_fuel_mult + rng( 0,
-                             10 ) ) / 100 );
-            } else if( one_in( 2 ) && veh_fuel_mult > 0 ) {
-                pt.ammo_set( itype_plut_cell, pt.ammo_capacity( ammo_plutonium ) * ( veh_fuel_mult - rng( 0,
-                             10 ) ) / 100 );
-            } else {
-                pt.ammo_set( itype_plut_cell, pt.ammo_capacity( ammo_plutonium ) * veh_fuel_mult / 100 );
-            }
-        }
-
-        if( pt.is_battery() ) {
-            if( veh_fuel_mult == 100 ) { // Mint condition vehicle
-                pt.ammo_set( itype_battery );
-            } else if( one_in( 2 ) && veh_fuel_mult > 0 ) { // Randomize battery ammo a bit
-                pt.ammo_set( itype_battery, pt.ammo_capacity( ammo_battery ) * ( veh_fuel_mult + rng( 0,
-                             10 ) ) / 100 );
-            } else if( one_in( 2 ) && veh_fuel_mult > 0 ) {
-                pt.ammo_set( itype_battery, pt.ammo_capacity( ammo_battery ) * ( veh_fuel_mult - rng( 0,
-                             10 ) ) / 100 );
-            } else {
-                pt.ammo_set( itype_battery, pt.ammo_capacity( ammo_battery ) * veh_fuel_mult / 100 );
-            }
-        }
-
-        if( !type->parts[p].fuel.is_null() ) {
-            const itype *loaded = item::find_type( type->parts[p].fuel );
-            const ammotype loaded_ammotype = loaded->ammo->type;
-            if( pt.is_tank() ) {
-                int qty = pt.ammo_capacity( loaded_ammotype ) * veh_fuel_mult / 100;
-                qty *= std::max( loaded->stack_size, 1 );
-                qty /= to_milliliter( units::legacy_volume_factor );
-                pt.ammo_set( type->parts[p].fuel, qty );
-            } else if( pt.is_fuel_store() ) {
-                int qty = pt.ammo_capacity( loaded_ammotype ) * veh_fuel_mult / 100;
-                pt.ammo_set( type->parts[p].fuel, qty );
-            }
+            rng_fuel_amount( pt, itype_plut_cell );
+        } else if( pt.is_battery() ) {
+            rng_fuel_amount( pt, itype_battery );
+        } else if( pt.is_tank() || pt.is_fuel_store() ) {
+            rng_fuel_amount( pt, pt.ammo_current() );
         }
 
         if( vp.has_feature( "OPENABLE" ) ) { // doors are closed
@@ -2280,7 +2254,6 @@ bool vehicle::split_vehicles( map &here,
             new_vehicle->velocity = velocity;
             new_vehicle->vertical_velocity = vertical_velocity;
             new_vehicle->cruise_velocity = cruise_velocity;
-            new_vehicle->cruise_on = cruise_on;
             new_vehicle->engine_on = engine_on;
             new_vehicle->tracking_on = tracking_on;
             new_vehicle->camera_on = camera_on;
@@ -4552,7 +4525,7 @@ float vehicle::handling_difficulty() const
 
 units::power vehicle::engine_fuel_usage( const vehicle_part &vp ) const
 {
-    if( !is_engine_on( vp ) || vp.fuel_current().is_null() || is_perpetual_type( vp ) ) {
+    if( !is_engine_on( vp ) || is_perpetual_type( vp ) ) {
         return 0_W;
     }
     const units::power usage = vp.info().energy_consumption;
@@ -4567,6 +4540,9 @@ std::map<itype_id, units::power> vehicle::fuel_usage() const
     std::map<itype_id, units::power> ret;
     for( const int p : engines ) {
         const vehicle_part &vp = parts[p];
+        if( is_perpetual_type( vp ) ) {
+            continue;
+        }
         ret[vp.fuel_current()] += engine_fuel_usage( vp );
     }
     return ret;
@@ -5724,7 +5700,7 @@ void vehicle::gain_moves()
         of_turn = 1 + of_turn_carry;
         const int vslowdown = slowdown( velocity );
         if( vslowdown > std::abs( velocity ) ) {
-            if( cruise_on && cruise_velocity && pl_control ) {
+            if( cruise_velocity && pl_control ) {
                 velocity = velocity > 0 ? 1 : -1;
             } else {
                 stop();
@@ -5740,8 +5716,8 @@ void vehicle::gain_moves()
     }
     of_turn_carry = 0;
     // cruise control TODO: enable for NPC?
-    if( ( pl_control || is_following || is_patrolling ) && cruise_on && cruise_velocity != velocity ) {
-        thrust( ( cruise_velocity ) > velocity ? 1 : -1 );
+    if( ( pl_control || is_following || is_patrolling ) && cruise_velocity != velocity ) {
+        thrust( cruise_velocity > velocity ? 1 : -1 );
     } else if( is_rotorcraft() && velocity == 0 ) {
         // rotorcraft uses fuel for hover
         // whether it's flying or not is checked inside thrust function

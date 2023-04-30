@@ -18,7 +18,6 @@
     "durability": 8,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "valid_mod_locations": [
-      [ "accessories", 1 ],
       [ "grip", 1 ],
       [ "sling", 1 ],
       [ "rail mount", 1 ],
@@ -48,7 +47,7 @@
     "dispersion": 240,
     "durability": 9,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "rail", 1 ], [ "grip", 1 ], [ "sling", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "valid_mod_locations": [ [ "rail", 1 ], [ "grip", 1 ], [ "sling", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "flags": [ "MODE_BURST", "NON_FOULING" ],
     "ammo_to_fire": 20,
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "rm4502", "rm4504" ] } ],

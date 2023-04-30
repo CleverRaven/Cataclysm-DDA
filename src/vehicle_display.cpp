@@ -492,9 +492,6 @@ void vehicle::print_speed_gauge( const catacurses::window &win, const point &p, 
     if( spacing < 0 ) {
         spacing = 0;
     }
-    if( !cruise_on ) {
-        return;
-    }
 
     // Color is based on how much vehicle is straining beyond its safe velocity
     const float strain = this->strain();
