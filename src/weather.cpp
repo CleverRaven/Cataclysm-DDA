@@ -172,7 +172,7 @@ static void proc_weather_sum( const weather_type_id &wtype, weather_sum &data,
     data.radiant_exposure += tick_irradiance * to_seconds<int>( tick_size );
 }
 
-weather_type_id current_weather( const tripoint &location, const time_point &t )
+weather_type_id current_weather( const tripoint_abs_ms &location, const time_point &t )
 {
     weather_manager &weather = get_weather();
     const weather_generator wgen = weather.get_cur_weather_gen();
@@ -184,7 +184,7 @@ weather_type_id current_weather( const tripoint &location, const time_point &t )
 
 ////// Funnels.
 weather_sum sum_conditions( const time_point &start, const time_point &end,
-                            const tripoint &location )
+                            const tripoint_abs_ms &location )
 {
     time_duration tick_size = 0_turns;
     weather_sum data;
@@ -203,9 +203,8 @@ weather_sum sum_conditions( const time_point &start, const time_point &end,
         weather_type_id wtype = current_weather( location, t );
         proc_weather_sum( wtype, data, t, tick_size );
         data.wind_amount += get_local_windpower( weather.windspeed,
-                            // TODO: fix point types
-                            overmap_buffer.ter( tripoint_abs_omt( ms_to_omt_copy( location ) ) ),
-                            location,
+                            overmap_buffer.ter( project_to<coords::omt>( location ) ),
+                            location.raw(),
                             weather.winddirection, false ) * to_turns<int>( tick_size );
     }
     return data;
@@ -223,7 +222,7 @@ void retroactively_fill_from_funnel( item &it, const trap &tr, const time_point 
 
     // bday == last fill check
     it.set_birthday( end );
-    weather_sum data = sum_conditions( start, end, pos );
+    weather_sum data = sum_conditions( start, end, tripoint_abs_ms( pos ) );
 
     // Technically 0.0 division is OK, but it will be cleaner without it
     if( data.rain_amount > 0 ) {

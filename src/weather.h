@@ -147,7 +147,7 @@ int get_local_windpower( int windpower, const oter_id &omter, const tripoint &lo
                          bool sheltered = false );
 weather_sum sum_conditions( const time_point &start,
                             const time_point &end,
-                            const tripoint &location );
+                            const tripoint_abs_ms &location );
 
 /**
  * @param it The container item which is to be filled.
@@ -179,7 +179,7 @@ bool warm_enough_to_plant( const tripoint_abs_omt &pos );
 
 bool is_wind_blocker( const tripoint &location );
 
-weather_type_id current_weather( const tripoint &location,
+weather_type_id current_weather( const tripoint_abs_ms &location,
                                  const time_point &t = calendar::turn );
 
 void glare( const weather_type_id &w );

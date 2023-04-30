@@ -175,10 +175,10 @@ w_point weather_generator::get_weather( const tripoint_abs_ms &location, const t
     return w_point{ T, H, P, W, wind_desc, current_winddir, t, location };
 }
 
-weather_type_id weather_generator::get_weather_conditions( const tripoint &location,
+weather_type_id weather_generator::get_weather_conditions( const tripoint_abs_ms &location,
         const time_point &t, unsigned seed ) const
 {
-    w_point w( get_weather( tripoint_abs_ms( location ), t, seed ) );
+    w_point w( get_weather( location, t, seed ) );
     weather_type_id wt = get_weather_conditions( w );
     return wt;
 }
