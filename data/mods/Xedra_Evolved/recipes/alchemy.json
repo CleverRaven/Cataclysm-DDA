@@ -2,7 +2,7 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "xtr_str_aspirin",
+    "result": "extra_str_aspirin",
     "category": "CC_XEDRA",
     "subcategory": "CSC_ALCHEMY",
     "skill_used": "chemistry",
