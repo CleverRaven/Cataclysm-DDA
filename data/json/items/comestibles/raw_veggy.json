@@ -1171,7 +1171,7 @@
     "price_postapoc": 50,
     "color": "black",
     "material": [ "veggy" ],
-    "calories": 80,
+    "calories": 40,
     "spoils_in": "20 days",
     "description": "A normal and healty purple eggplant.",
     "healthy": -1,
