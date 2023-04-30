@@ -54,12 +54,9 @@
   {
     "type": "effect_type",
     "id": "curesome",
-    "removes_effects": [
-      "common_cold",
-      "flu"
-    ],
+    "removes_effects": [ "common_cold", "flu" ],
     "base_mods": { "pkill_min": [ 5 ] }
-  }
+  },
   {
     "type": "effect_type",
     "id": "faewild",

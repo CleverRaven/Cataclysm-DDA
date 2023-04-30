@@ -38,7 +38,7 @@
     "price_postapoc": 500,
     "material": [ "water" ],
     "symbol": "=",
-    "color": "orange",
+    "color": "yellow_red",
     "container": "bottle_plastic",
     "sealed": false,
     "phase": "liquid",
