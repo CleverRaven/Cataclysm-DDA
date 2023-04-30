@@ -414,7 +414,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "s_library3" ],
+    "om_terrain": [ "s_library_3" ],
     "weight": 500,
     "object": {
       "fill_ter": "t_floor",
@@ -451,7 +451,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "s_library3" ],
+    "om_terrain": [ "s_library_3" ],
     "weight": 1000,
     "//": "vandalized variant.",
     "object": {
@@ -491,7 +491,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": "s_library3_roof",
+    "om_terrain": "s_library_3_roof",
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
