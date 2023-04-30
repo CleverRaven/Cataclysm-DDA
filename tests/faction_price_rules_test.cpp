@@ -1,9 +1,16 @@
 #include "avatar.h"
 #include "cata_catch.h"
+#include "dialogue.h"
 #include "itype.h"
+#include "math_parser_jmath.h"
 #include "npc.h"
 #include "npctrade.h"
 #include "player_helpers.h"
+
+static const jmath_func_id jmath_func_npctrade_u_buy( "npctrade_u_buy" );
+static const jmath_func_id jmath_func_npctrade_u_buy_adj( "npctrade_u_buy_adj" );
+static const jmath_func_id jmath_func_npctrade_u_sell( "npctrade_u_sell" );
+static const jmath_func_id jmath_func_npctrade_u_sell_adj( "npctrade_u_sell_adj" );
 
 static const skill_id skill_speech( "speech" );
 
@@ -62,14 +69,18 @@ TEST_CASE( "faction_price_rules", "[npc][factions][trade]" )
     clear_avatar();
     npc &guy = spawn_npc( { 50, 50 }, "test_npc_trader" );
     faction const &fac = *guy.my_fac;
+    dialogue d( get_talker_for( get_avatar() ), get_talker_for( guy ) );
 
     WHEN( "item has no rules (default adjustment)" ) {
         item const hammer( "hammer" );
+        REQUIRE( hammer.price( true ) > 0 );
         clear_character( guy );
-        REQUIRE( npc_trading::adjusted_price( &hammer, 1, get_avatar(), guy ) ==
-                 Approx( units::to_cent( hammer.type->price_post ) * 1.25 ).margin( 1 ) );
-        REQUIRE( npc_trading::adjusted_price( &hammer, 1, guy, get_avatar() ) ==
-                 Approx( units::to_cent( hammer.type->price_post ) * 0.75 ).margin( 1 ) );
+        CHECK( npc_trading::adjusted_price( &hammer, 1, get_avatar(), guy ) ==
+               Approx( units::to_cent( hammer.type->price_post ) *
+                       jmath_func_npctrade_u_buy->eval( d ) ).margin( 1 ) );
+        CHECK( npc_trading::adjusted_price( &hammer, 1, guy, get_avatar() ) ==
+               Approx( units::to_cent( hammer.type->price_post ) *
+                       jmath_func_npctrade_u_sell->eval( d ) ).margin( 1 ) );
     }
 
     WHEN( "item is main currency (implicit price rule)" ) {
@@ -83,6 +94,7 @@ TEST_CASE( "faction_price_rules", "[npc][factions][trade]" )
     }
 
     item const pants_fur( "test_pants_fur" );
+    REQUIRE( pants_fur.price( true ) > 0 );
     WHEN( "item is secondary currency (fixed_adj=0)" ) {
         get_avatar().int_max = 1000;
         get_avatar().set_skill_level( skill_speech, 10 );
@@ -93,15 +105,19 @@ TEST_CASE( "faction_price_rules", "[npc][factions][trade]" )
     }
     WHEN( "faction desperately needs this item (premium=25)" ) {
         item const multitool( "test_multitool" );
+        REQUIRE( multitool.price( true ) > 0 );
+        clear_character( guy );
         REQUIRE( fac.get_price_rules( multitool, guy )->premium == 25 );
         REQUIRE( fac.get_price_rules( multitool, guy )->markup == 1.1 );
         THEN( "NPC selling to avatar includes premium and markup" ) {
-            REQUIRE( npc_trading::adjusted_price( &multitool, 1, get_avatar(), guy ) ==
-                     Approx( units::to_cent( multitool.type->price_post ) * 25 * 1.1 ).margin( 1 ) );
+            CHECK( npc_trading::adjusted_price( &multitool, 1, get_avatar(), guy ) ==
+                   Approx( units::to_cent( multitool.type->price_post ) *
+                           jmath_func_npctrade_u_buy->eval( d ) * 25 * 1.1 ).margin( 1 ) );
         }
         THEN( "avatar selling to NPC includes only premium" ) {
-            REQUIRE( npc_trading::adjusted_price( &multitool, 1, guy, get_avatar() ) ==
-                     Approx( units::to_cent( multitool.type->price_post ) * 25 ).margin( 1 ) );
+            CHECK( npc_trading::adjusted_price( &multitool, 1, guy, get_avatar() ) ==
+                   Approx( units::to_cent( multitool.type->price_post ) *
+                           jmath_func_npctrade_u_sell->eval( d ) * 25 ).margin( 1 ) );
         }
     }
     WHEN( "faction has a custom price for this item (price=10000000)" ) {
@@ -112,28 +128,34 @@ TEST_CASE( "faction_price_rules", "[npc][factions][trade]" )
         if( log.count_by_charges() ) {
             price /= log.type->stack_size;
         }
-        REQUIRE( npc_trading::adjusted_price( &log, 1, get_avatar(), guy ) ==
-                 Approx( price * 1.25 ).margin( 1 ) );
-        REQUIRE( npc_trading::adjusted_price( &log, 1, guy, get_avatar() ) ==
-                 Approx( price * 0.75 ).margin( 1 ) );
+        CHECK( npc_trading::adjusted_price( &log, 1, get_avatar(), guy ) ==
+               Approx( price * jmath_func_npctrade_u_buy->eval( d ) ).margin( 1 ) );
+        CHECK( npc_trading::adjusted_price( &log, 1, guy, get_avatar() ) ==
+               Approx( price * jmath_func_npctrade_u_sell->eval( d ) ).margin( 1 ) );
     }
     item const carafe( "test_nuclear_carafe" );
+    REQUIRE( carafe.price( true ) > 0 );
     WHEN( "condition for price rules not satisfied" ) {
         clear_character( guy );
         REQUIRE( fac.get_price_rules( carafe, guy ) == nullptr );
-        REQUIRE( npc_trading::adjusted_price( &carafe, 1, get_avatar(), guy ) ==
-                 Approx( units::to_cent( carafe.type->price_post ) * 1.25 ).margin( 1 ) );
+        CHECK( npc_trading::adjusted_price( &carafe, 1, get_avatar(), guy ) ==
+               Approx( units::to_cent( carafe.type->price_post ) *
+                       jmath_func_npctrade_u_buy->eval( d ) ).margin( 1 ) );
     }
     WHEN( "condition for price rules satisfied" ) {
         guy.set_value( "npctalk_var_bool_allnighter_thirsty", "yes" );
         REQUIRE( fac.get_price_rules( carafe, guy )->markup == 2.0 );
+        double const fixed_adj = *fac.get_price_rules( carafe, guy )->fixed_adj;
+        REQUIRE( fixed_adj == 0.1 );
         THEN( "NPC selling to avatar includes markup and positive fixed adjustment" ) {
-            REQUIRE( npc_trading::adjusted_price( &carafe, 1, get_avatar(), guy ) ==
-                     Approx( units::to_cent( carafe.type->price_post ) * 2.0 * 1.1 ).margin( 1 ) );
+            CHECK( npc_trading::adjusted_price( &carafe, 1, get_avatar(), guy ) ==
+                   Approx( units::to_cent( carafe.type->price_post ) * 2.0 *
+                           jmath_func_npctrade_u_buy_adj->eval( d, { fixed_adj } ) ).margin( 1 ) );
         }
         THEN( "avatar selling to NPC includes only negative fixed adjustment" ) {
-            REQUIRE( npc_trading::adjusted_price( &carafe, 1, guy, get_avatar() ) ==
-                     Approx( units::to_cent( carafe.type->price_post ) * 0.9 ).margin( 1 ) );
+            CHECK( npc_trading::adjusted_price( &carafe, 1, guy, get_avatar() ) ==
+                   Approx( units::to_cent( carafe.type->price_post ) *
+                           jmath_func_npctrade_u_sell_adj->eval( d, { fixed_adj } ) ).margin( 1 ) );
         }
     }
     WHEN( "personal price rule overrides faction rule" ) {
@@ -152,9 +174,11 @@ TEST_CASE( "faction_price_rules", "[npc][factions][trade]" )
         trade_selector::entry_t tbd_entry{
             item_location{ map_cursor( tripoint_zero ), &tbd }, 1 };
 
-        REQUIRE( npc_trading::trading_price( get_avatar(), guy, tbd_entry ) ==
-                 Approx( units::to_cent( tbd.type->price_post ) * 1.25 +
-                         battery_price * 1.25 * tbd.ammo_remaining( nullptr ) / battery.type->stack_size )
-                 .margin( 1 ) );
+        double const adj = jmath_func_npctrade_u_buy->eval( d );
+        int const count_factor = tbd.ammo_remaining( nullptr ) / battery.type->stack_size;
+        CHECK( npc_trading::trading_price( get_avatar(), guy, tbd_entry ) ==
+               Approx( std::ceil( units::to_cent( tbd.type->price_post ) * adj ) +
+                       std::ceil( battery_price * adj * count_factor ) )
+               .margin( 1 ) );
     }
 }

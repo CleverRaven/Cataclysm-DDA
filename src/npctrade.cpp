@@ -11,20 +11,25 @@
 #include "avatar.h"
 #include "character.h"
 #include "debug.h"
+#include "dialogue.h"
 #include "faction.h"
 #include "item.h"
 #include "item_category.h" // IWYU pragma: keep
 #include "item_location.h"
 #include "item_pocket.h"
+#include "math_parser_jmath.h"
 #include "npc.h"
 #include "npctrade_utils.h"
 #include "ret_val.h"
-#include "skill.h"
 #include "trade_ui.h"
 #include "type_id.h"
 #include "units.h"
 
 static const flag_id json_flag_NO_UNWIELD( "NO_UNWIELD" );
+static const jmath_func_id jmath_func_npctrade_u_buy( "npctrade_u_buy" );
+static const jmath_func_id jmath_func_npctrade_u_buy_adj( "npctrade_u_buy_adj" );
+static const jmath_func_id jmath_func_npctrade_u_sell( "npctrade_u_sell" );
+static const jmath_func_id jmath_func_npctrade_u_sell_adj( "npctrade_u_sell_adj" );
 static const skill_id skill_speech( "speech" );
 
 std::list<item> npc_trading::transfer_items( trade_selector::select_t &stuff, Character &giver,
@@ -131,25 +136,6 @@ std::vector<item_pricing> npc_trading::init_selling( npc &np )
     return result;
 }
 
-double npc_trading::net_price_adjustment( const Character &buyer, const Character &seller )
-{
-    // Adjust the prices based on your social skill.
-    // cap adjustment so nothing is ever sold below value
-    ///\EFFECT_INT_NPC slightly increases bartering price changes, relative to your INT
-
-    ///\EFFECT_BARTER_NPC increases bartering price changes, relative to your BARTER
-
-    ///\EFFECT_INT slightly increases bartering price changes, relative to NPC INT
-
-    ///\EFFECT_BARTER increases bartering price changes, relative to NPC BARTER
-    int const int_diff = seller.int_cur - buyer.int_cur;
-    double const int_adj = 1 + 0.05 * std::min( 19, std::abs( int_diff ) );
-    double const soc_adj = price_adjustment( round( seller.get_skill_level( skill_speech ) -
-                           buyer.get_skill_level( skill_speech ) ) );
-    double const adjust = int_diff >= 0 ? int_adj * soc_adj : soc_adj / int_adj;
-    return seller.is_npc() ? adjust : -1 / adjust;
-}
-
 int npc_trading::bionic_install_price( Character &installer, Character &patient,
                                        item_location const &bionic )
 {
@@ -181,12 +167,16 @@ int npc_trading::adjusted_price( item const *it, int amount, Character const &bu
         price = seller.as_npc()->value( *it, price );
     }
 
+    dialogue d( get_talker_for( get_avatar() ), get_talker_for( *faction_party ) );
     if( fpr != nullptr && fpr->fixed_adj.has_value() ) {
         double const fixed_adj = fpr->fixed_adj.value();
-        price *= 1 + ( seller.is_npc() ? fixed_adj : -fixed_adj );
+        price *= seller.is_npc()
+                 ? jmath_func_npctrade_u_buy_adj->eval( d, { fixed_adj } )
+                 : jmath_func_npctrade_u_sell_adj->eval( d, { fixed_adj } );
     } else {
-        double const adjust = npc_trading::net_price_adjustment( buyer, seller );
-        price *= 1 + 0.25 * adjust;
+        price *= seller.is_npc()
+                 ? jmath_func_npctrade_u_buy->eval( d )
+                 : jmath_func_npctrade_u_sell->eval( d );
     }
 
     return static_cast<int>( std::ceil( price ) );

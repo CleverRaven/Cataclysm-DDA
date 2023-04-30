@@ -289,6 +289,4 @@ class SkillDisplayType
         }
 };
 
-double price_adjustment( int );
-
 #endif // CATA_SRC_SKILL_H

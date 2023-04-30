@@ -591,12 +591,3 @@ bool SkillLevelMap::has_same_levels_as( const SkillLevelMap &other ) const
     }
     return true;
 }
-
-// Actually take the difference in social skill between the two parties involved
-// Caps at 200% when you are 5 levels ahead, int comparison is handled in npctalk.cpp
-double price_adjustment( int barter_skill )
-{
-    int const skill = std::min( 5, std::abs( barter_skill ) );
-    double const val = 0.045 * std::pow( skill, 2 ) - 0.025 * skill + 1;
-    return barter_skill >= 0 ? val : 1 / val;
-}
