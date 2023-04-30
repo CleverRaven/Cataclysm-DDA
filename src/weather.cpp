@@ -553,9 +553,7 @@ std::string weather_forecast( const point_abs_sm &abs_sm_pos )
     // int weather_proportions[NUM_WEATHER_TYPES] = {0};
     units::temperature high = 0_K;
     units::temperature low = 1000_K;
-    // TODO: fix point types
-    const tripoint abs_ms_pos =
-        tripoint( project_to<coords::ms>( abs_sm_pos ).raw(), 0 );
+    const tripoint_abs_ms abs_ms_pos(project_to<coords::ms>( abs_sm_pos ),0);
     w_point weatherPoint = *weather.weather_precise;
     // TODO: wind direction and speed
     const time_point last_hour = calendar::turn - ( calendar::turn - calendar::turn_zero ) %
@@ -906,7 +904,7 @@ void weather_manager::update_weather()
     if( weather_id == WEATHER_NULL || calendar::turn >= nextweather ) {
         w_point &w = *weather_precise;
         const weather_generator &weather_gen = get_cur_weather_gen();
-        w = weather_gen.get_weather( player_character.get_location().raw(), calendar::turn,
+        w = weather_gen.get_weather( player_character.get_location(), calendar::turn,
                                      g->get_seed() );
         weather_type_id old_weather = weather_id;
         std::string eternal_weather_option = get_option<std::string>( "ETERNAL_WEATHER" );
