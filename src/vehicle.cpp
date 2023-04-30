@@ -4771,7 +4771,7 @@ units::power vehicle::total_wind_epower() const
             continue;
         }
 
-        int windpower = get_local_windpower( weather.windspeed, cur_om_ter, pos,
+        int windpower = get_local_windpower( weather.windspeed, cur_om_ter, here.getglobal( pos ),
                                              weather.winddirection, false );
         if( windpower <= ( weather.windspeed / 10.0 ) ) {
             continue;

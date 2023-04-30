@@ -115,7 +115,7 @@ w_point weather_generator::get_weather( const tripoint_abs_ms &location, const t
                                         unsigned seed ) const
 {
     season_effective_time t( real_t );
-    const weather_gen_common common = get_common_data( location.raw(), real_t, seed);
+    const weather_gen_common common = get_common_data( location.raw(), real_t, seed );
 
     const double x( common.x );
     const double y( common.y );
@@ -192,7 +192,7 @@ weather_type_id weather_generator::get_weather_conditions( const w_point &w ) co
     const weather_manager &game_weather = get_weather_const();
     w_point original_weather_precise = *game_weather.weather_precise;
     *game_weather.weather_precise = w;
-
+    write_var_value( var_type::global, "weather", nullptr, w.location.to_string() );
     weather_type_id current_conditions = WEATHER_CLEAR;
     dialogue d( get_talker_for( get_avatar() ), nullptr );
     for( const weather_type_id &type : sorted_weather ) {

@@ -204,7 +204,7 @@ weather_sum sum_conditions( const time_point &start, const time_point &end,
         proc_weather_sum( wtype, data, t, tick_size );
         data.wind_amount += get_local_windpower( weather.windspeed,
                             overmap_buffer.ter( project_to<coords::omt>( location ) ),
-                            location.raw(),
+                            location,
                             weather.winddirection, false ) * to_turns<int>( tick_size );
     }
     return data;
@@ -214,7 +214,7 @@ weather_sum sum_conditions( const time_point &start, const time_point &end,
  * Determine what a funnel has filled out of game, using funnelcontainer.bday as a starting point.
  */
 void retroactively_fill_from_funnel( item &it, const trap &tr, const time_point &start,
-                                     const time_point &end, const tripoint &pos )
+                                     const time_point &end, const tripoint_abs_ms &pos )
 {
     if( start > end || !tr.is_funnel() ) {
         return;
@@ -222,7 +222,7 @@ void retroactively_fill_from_funnel( item &it, const trap &tr, const time_point 
 
     // bday == last fill check
     it.set_birthday( end );
-    weather_sum data = sum_conditions( start, end, tripoint_abs_ms( pos ) );
+    weather_sum data = sum_conditions( start, end, pos );
 
     // Technically 0.0 division is OK, but it will be cleaner without it
     if( data.rain_amount > 0 ) {
@@ -552,7 +552,7 @@ std::string weather_forecast( const point_abs_sm &abs_sm_pos )
     // int weather_proportions[NUM_WEATHER_TYPES] = {0};
     units::temperature high = 0_K;
     units::temperature low = 1000_K;
-    const tripoint_abs_ms abs_ms_pos(project_to<coords::ms>( abs_sm_pos ),0);
+    const tripoint_abs_ms abs_ms_pos( project_to<coords::ms>( abs_sm_pos ), 0 );
     w_point weatherPoint = *weather.weather_precise;
     // TODO: wind direction and speed
     const time_point last_hour = calendar::turn - ( calendar::turn - calendar::turn_zero ) %
@@ -782,7 +782,7 @@ int get_local_humidity( double humidity, const weather_type_id &weather, bool sh
     return tmphumidity;
 }
 
-int get_local_windpower( int windpower, const oter_id &omter, const tripoint &location,
+int get_local_windpower( int windpower, const oter_id &omter, const tripoint_abs_ms &location,
                          const int &winddirection, bool sheltered )
 {
     /**
@@ -792,14 +792,15 @@ int get_local_windpower( int windpower, const oter_id &omter, const tripoint &lo
         return 0;
     }
     rl_vec2d windvec = convert_wind_to_coord( winddirection );
-    tripoint triblocker( location + point( windvec.x, windvec.y ) );
+    const tripoint_bub_ms triblocker( get_map().bub_from_abs( location ) + point( windvec.x,
+                                      windvec.y ) );
     // Over map terrain may modify the effect of wind.
     if( ( omter->get_type_id() == oter_type_forest ) ||
         ( omter->get_type_id() == oter_type_forest_water ) ) {
         windpower = windpower / 2;
     }
-    if( location.z > 0 ) {
-        windpower = windpower + ( location.z * std::min( 5, windpower ) );
+    if( location.z() > 0 ) {
+        windpower = windpower + ( location.z() * std::min( 5, windpower ) );
     }
     // An adjacent wall will block wind
     if( is_wind_blocker( triblocker ) ) {
@@ -808,7 +809,7 @@ int get_local_windpower( int windpower, const oter_id &omter, const tripoint &lo
     return windpower;
 }
 
-bool is_wind_blocker( const tripoint &location )
+bool is_wind_blocker( const tripoint_bub_ms &location )
 {
     return get_map().has_flag( ter_furn_flag::TFLAG_BLOCK_WIND, location );
 }

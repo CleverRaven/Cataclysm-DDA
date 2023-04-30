@@ -7815,7 +7815,7 @@ void map::fill_funnels( const tripoint &p, const time_point &since )
         }
     }
     if( biggest_container != items.end() ) {
-        retroactively_fill_from_funnel( *biggest_container, tr, since, calendar::turn, getabs( p ) );
+        retroactively_fill_from_funnel( *biggest_container, tr, since, calendar::turn, getglobal( p ) );
     }
 }
 
