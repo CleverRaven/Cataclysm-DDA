@@ -1117,7 +1117,10 @@
     "effect": [
       { "u_add_effect": "narcosis", "duration": "15 minutes" },
       { "u_add_effect": "sleep", "duration": "15 minutes" },
-      { "u_message": "Your exoskeleton locks up around you like a straitjacket, completely immobilizing you.  As you try to move, you begin to feel it painlessly rip, opening a hole through which you can slowly emerge, raw, soft, and vulnerable.", "type": "bad" },
+      {
+        "u_message": "Your exoskeleton locks up around you like a straitjacket, completely immobilizing you.  As you try to move, you begin to feel it painlessly rip, opening a hole through which you can slowly emerge, raw, soft, and vulnerable.",
+        "type": "bad"
+      },
       { "u_lose_trait": "CHITIN3" },
       { "u_lose_trait": "CHITIN2" },
       { "u_lose_trait": "CHITIN" },
