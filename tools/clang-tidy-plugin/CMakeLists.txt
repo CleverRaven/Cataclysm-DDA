@@ -62,7 +62,8 @@ if (NOT "${CATA_CLANG_TIDY_INCLUDE_DIR}" STREQUAL "")
     target_include_directories(${CataAnalyzerName} SYSTEM PRIVATE ${CATA_CLANG_TIDY_INCLUDE_DIR})
 endif ()
 
-target_compile_definitions(${CataAnalyzerName} PRIVATE ${LLVM_DEFINITIONS})
+separate_arguments(LLVM_DEFINITIONS_SEP UNIX_COMMAND "${LLVM_DEFINITIONS}")
+target_compile_definitions(${CataAnalyzerName} PRIVATE ${LLVM_DEFINITIONS_SEP})
 
 # We need to turn off exceptions and RTTI to match the LLVM build.
 # I feel there ought to be a way to extract these flags from the
