@@ -1038,7 +1038,7 @@
     "condition": {
       "and": [
         { "u_has_effect": "molting_imminent" },
-        { "not": { "u_has_effect": "molting" } }, 
+        { "not": { "u_has_effect": "molting" } },
         { "not": { "u_has_trait": "CHITIN3" } }
       ]
     },
