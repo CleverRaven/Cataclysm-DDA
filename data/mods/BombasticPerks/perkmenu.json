@@ -604,9 +604,7 @@
             {
               "or": [
                 { "compare_num": [ { "u_val": "var", "var_name": "no_prerecs" }, ">", { "const": 0 } ] },
-                {
-                  "or": [ { "u_has_skill": { "skill": "survival", "level": 4 } } ]
-                }
+                { "or": [ { "u_has_skill": { "skill": "survival", "level": 4 } } ] }
               ]
             },
             { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] }
