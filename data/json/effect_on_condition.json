@@ -1083,9 +1083,7 @@
         { "not": { "u_has_effect": "molting_imminent" } }
       ]
     },
-    "effect": [
-      { "u_add_effect": "molting", "intensity": 1, "duration": "PERMANENT" }
-    ]
+    "effect": [ { "u_add_effect": "molting", "intensity": 1, "duration": "PERMANENT" } ]
   },
   {
     "type": "effect_on_condition",
