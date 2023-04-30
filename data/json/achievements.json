@@ -2071,11 +2071,11 @@
     "name": "Eureka!",
     "requirements": [
       {
-        "event_statistic": "last_overmap_special_avatar_entered",
-        "is": "==",
-        "target": [ "overmap_special_id", "Lab_CORE_2x1x2" ],
+        "event_statistic": "num_avatar_enters_trans_lab",
+        "is": ">=",
+        "target": 1,
         "visible": "when_achievement_completed",
-        "description": "Reach Trans Coastal Lab"
+        "description": "Reach a Trans Coastal Facility"
       }
     ]
   },

@@ -1862,7 +1862,6 @@
     "type": "profession",
     "id": "heli_pilot",
     "name": "Helicopter Pilot",
-    "requirement": "achievement_reach_military_bunker",
     "description": "You got your pilot's license and earned a living ferrying businessmen and tourists around.  The Cataclysm has grounded you for now, but the sky still calls to you…",
     "points": 4,
     "skills": [ { "level": 4, "name": "driving" }, { "level": 1, "name": "speech" }, { "level": 3, "name": "mechanics" } ],
