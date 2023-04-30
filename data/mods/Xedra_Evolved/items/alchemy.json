@@ -46,5 +46,27 @@
     "range": 4,
     "count": 100,
     "effects": [ "GAS_FUNGICIDAL", "STREAM_GAS_FUNGICIDAL", "GAS_INSECTICIDAL", "STREAM_GAS_INSECTICIDAL", "NEVER_MISFIRES", "JET" ]
+  },
+  {
+    "id": "small_blessing_brigit",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "small blessing of Brigit", "str_pl": "some blessings of Brigit" },
+    "description": "A small pill made from royal jelly, ash, and poppies.  Blessed with prayers to Brigit over several hours.  Will end any cold or flu instantaneously.",
+    "weight": "15 g",
+    "volume": "5 ml",
+    "price": 1000,
+    "price_postapoc": 8000,
+    "stack_size": 5,
+    "material": [ "veggy" ],
+    "symbol": "!",
+    "color": "green",
+    "healthy": 15,
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You feel better almost instantly.",
+      "effects": [ { "id": "curesome" } ]
+    },
+    "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ]
   }
 ]

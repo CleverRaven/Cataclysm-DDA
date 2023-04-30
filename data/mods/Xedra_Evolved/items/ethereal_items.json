@@ -107,7 +107,7 @@
     "price": 3646,
     "symbol": "o",
     "color": "white",
-    "material": [ "magical_material" ],
+    "material": [ "dreamstuff" ],
     "flags": [ "PERSONAL", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
     "relic_data": {
       "passive_effects": [

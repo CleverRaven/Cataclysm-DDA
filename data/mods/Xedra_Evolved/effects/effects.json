@@ -53,6 +53,15 @@
   },
   {
     "type": "effect_type",
+    "id": "curesome",
+    "removes_effects": [
+      "common_cold",
+      "flu"
+    ],
+    "base_mods": { "pkill_min": [ 5 ] }
+  }
+  {
+    "type": "effect_type",
     "id": "faewild",
     "//": "Should make the player have better perception with a worse dex but should be offset if taken with consumables that grant altered_physics.",
     "name": [ "glamoured" ],
