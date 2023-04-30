@@ -167,7 +167,6 @@
         "                                                                                                "
       ],
       "palettes": [ "airport_palette" ],
-      "terrain": { ".": "t_thconc_floor" },
       "place_furniture": [ { "furn": "f_gas_tank", "x": 28, "y": 10 } ],
       "place_liquids": [ { "liquid": "avgas", "x": 28, "y": 10, "repeat": [ 100, 500 ] } ],
       "gaspumps": { "J": { "fuel": "avgas" } },
@@ -214,7 +213,7 @@
         "                                                "
       ],
       "palettes": [ "airport_palette" ],
-      "terrain": { " ": "t_open_air", ".": "t_open_air", "s": "t_grate" },
+      "terrain": { " ": "t_open_air", "s": "t_grate" },
       "place_monster": [
         { "group": "GROUP_CIVILIAN", "x": [ 4, 19 ], "y": [ 4, 19 ], "chance": 65, "repeat": [ 4, 8 ] },
         { "group": "GROUP_CIVILIAN", "x": [ 4, 19 ], "y": [ 52, 67 ], "chance": 50, "repeat": [ 1, 3 ] }
