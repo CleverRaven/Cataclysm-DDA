@@ -2613,6 +2613,7 @@ void monster::die( Creature *nkiller )
     if( death_drops ) {
         // Drop items stored in optionals
         move_special_item_to_inv( tack_item );
+        move_special_item_to_inv( blinders_item );
         move_special_item_to_inv( armor_item );
         move_special_item_to_inv( storage_item );
         move_special_item_to_inv( tied_item );
@@ -3116,6 +3117,9 @@ units::mass monster::get_carried_weight() const
     units::mass total_weight = 0_gram;
     if( tack_item ) {
         total_weight += tack_item->weight();
+    }
+    if( blinders_item ) {
+        total_weight += blinders_item->weight();
     }
     if( storage_item ) {
         total_weight += storage_item->weight();

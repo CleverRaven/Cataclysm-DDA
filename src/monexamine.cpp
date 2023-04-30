@@ -46,6 +46,7 @@ static const efftype_id effect_has_bag( "has_bag" );
 static const efftype_id effect_leashed( "leashed" );
 static const efftype_id effect_led_by_leash( "led_by_leash" );
 static const efftype_id effect_monster_armor( "monster_armor" );
+static const efftype_id effect_monster_blinders( "monster_blinders" );
 static const efftype_id effect_monster_saddled( "monster_saddled" );
 static const efftype_id effect_paid( "paid" );
 static const efftype_id effect_pet( "pet" );
@@ -53,6 +54,7 @@ static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_sheared( "sheared" );
 static const efftype_id effect_tied( "tied" );
 
+static const flag_id json_flag_BLINDERS( "BLINDERS" );
 static const flag_id json_flag_MECH_BAT( "MECH_BAT" );
 static const flag_id json_flag_TACK( "TACK" );
 static const flag_id json_flag_TIE_UP( "TIE_UP" );
@@ -449,6 +451,40 @@ void stop_leading( monster &z )
     add_msg( _( "You release the %s's leash." ), z.get_name() );
 }
 
+item_location blinders_loc()
+{
+    auto filter = []( const item & it ) {
+        return it.has_flag( json_flag_BLINDERS );
+    };
+
+    return game_menus::inv::titled_filter_menu( filter, get_avatar(), _( "Blinders" ) );
+}
+
+void attach_blinders_to( monster &z )
+{
+    if( z.has_effect( effect_monster_blinders ) ) {
+        return;
+    }
+    item_location loc = blinders_loc();
+    if( !loc ) {
+        add_msg( _( "Never mind." ) );
+        return;
+    }
+    z.add_effect( effect_monster_blinders, 1_turns, true );
+    z.blinders_item = cata::make_value<item>( *loc.get_item() );
+    loc.remove_item();
+}
+
+void remove_blinders_from( monster &z )
+{
+    if( !z.has_effect( effect_monster_blinders ) ) {
+        return;
+    }
+    z.remove_effect( effect_monster_blinders );
+    get_player_character().i_add( *z.blinders_item );
+    z.blinders_item.reset();
+}
+
 /*
  * Manages the milking and milking cool down of monsters.
  * Milked item uses starting_ammo, where ammo type is the milked item
@@ -580,6 +616,8 @@ bool monexamine::pet_menu( monster &z )
         pay,
         attach_saddle,
         remove_saddle,
+        attach_blinders,
+        remove_blinders,
         mount,
         tie,
         untie,
@@ -680,6 +718,17 @@ bool monexamine::pet_menu( monster &z )
     }
     if( z.has_flag( MF_PET_MOUNTABLE ) && z.has_effect( effect_monster_saddled ) ) {
         amenu.addentry( remove_saddle, true, 'h', _( "Remove tack from %s" ), pet_name );
+    }
+    if( z.has_flag( MF_PET_MOUNTABLE ) && !z.has_effect( effect_monster_blinders ) &&
+        player_character.has_item_with_flag( json_flag_BLINDERS ) ) {
+        if( player_character.get_skill_level( skill_survival ) >= 1 ) {
+            amenu.addentry( attach_blinders, true, 'h', _( "Attach blinders to %s" ), pet_name );
+        } else {
+            amenu.addentry( attach_blinders, false, 'h', _( "You don't know how to attach blinders to %s" ), pet_name );
+        }
+    }
+    if( z.has_flag( MF_PET_MOUNTABLE ) && z.has_effect( effect_monster_blinders ) ) {
+        amenu.addentry( remove_blinders, true, 'h', _( "Remove blinders from %s" ), pet_name );
     }
     if( z.has_flag( MF_PAY_BOT ) ) {
         amenu.addentry( pay, true, 'f', _( "Manage your friendship with %s" ), pet_name );
@@ -793,6 +842,12 @@ bool monexamine::pet_menu( monster &z )
             break;
         case remove_saddle:
             remove_saddle_from( z );
+            break;
+        case attach_blinders:
+            attach_blinders_to( z );
+            break;
+        case remove_blinders:
+            remove_blinders_from( z );
             break;
         case mount:
             mount_pet( z );

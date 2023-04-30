@@ -2184,7 +2184,7 @@
     "id": "farm_supply_riding_gear",
     "type": "item_group",
     "subtype": "collection",
-    "items": [ { "item": "horse_tack" }, { "item": "saddlebag" } ]
+    "items": [ { "item": "horse_tack" }, { "item": "saddlebag" }, { "item": "horse_blinders" } ]
   },
   {
     "id": "farm_supply_floor_surprises",

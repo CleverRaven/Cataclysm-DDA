@@ -43,6 +43,7 @@ const flag_id flag_BIPOD( "BIPOD" );
 const flag_id flag_BIRD( "BIRD" );
 const flag_id flag_BLED( "BLED" );
 const flag_id flag_BLIND( "BLIND" );
+const flag_id flag_BLINDERS( "BLINDERS" );
 const flag_id flag_BLOCK_WHILE_WORN( "BLOCK_WHILE_WORN" );
 const flag_id flag_BOMB( "BOMB" );
 const flag_id flag_BRASS_CATCHER( "BRASS_CATCHER" );

@@ -505,6 +505,7 @@ class monster : public Creature
         character_id dragged_foe_id; // id of character being dragged by the monster
         cata::value_ptr<item> tied_item; // item used to tie the monster
         cata::value_ptr<item> tack_item; // item representing saddle and reins and such
+        cata::value_ptr<item> blinders_item; // item reducing the range a mount gets scared at
         cata::value_ptr<item> armor_item; // item of armor the monster may be wearing
         cata::value_ptr<item> storage_item; // storage item for monster carrying items
         cata::value_ptr<item> battery_item; // item to power mechs

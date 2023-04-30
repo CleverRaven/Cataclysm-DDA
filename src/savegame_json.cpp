@@ -2597,6 +2597,12 @@ void monster::load( const JsonObject &data )
         newitem.deserialize( tack_item_json );
         tack_item = cata::make_value<item>( newitem );
     }
+    if( data.has_object( "blinders_item" ) ) {
+        JsonValue blinders_item_json = data.get_member( "blinders_item" );
+        item newitem;
+        newitem.deserialize( blinders_item_json );
+        blinders_item = cata::make_value<item>( newitem );
+    }
     if( data.has_object( "armor_item" ) ) {
         JsonValue armor_item_json = data.get_member( "armor_item" );
         item newitem;
@@ -2760,6 +2766,9 @@ void monster::store( JsonOut &json ) const
     }
     if( tack_item ) {
         json.member( "tack_item", *tack_item );
+    }
+    if( blinders_item ) {
+        json.member( "blinders_item", *blinders_item );
     }
     if( armor_item ) {
         json.member( "armor_item", *armor_item );

@@ -416,6 +416,10 @@
     "info": "This gear is equipped with an accurate hygrometer (which is used to measure humidity)."
   },
   {
+    "id": "BLINDERS",
+    "type": "json_flag"
+  },
+  {
     "id": "BURNOUT",
     "type": "json_flag",
     "//": "You can visually inspect how much it is burned out (candle, torch)."

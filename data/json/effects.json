@@ -215,6 +215,12 @@
   },
   {
     "type": "effect_type",
+    "id": "monster_blinders",
+    "name": [ "Has Blinders" ],
+    "desc": [ "AI tag used for critters wearing blinders.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
     "id": "monster_saddled",
     "name": [ "Has Saddle" ],
     "desc": [ "AI tag used for critters wearing a saddle.  This is a bug if you have it." ]
