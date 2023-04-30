@@ -2912,7 +2912,7 @@
     "bodytemp_sleep": 75,
     "description": "Your thick exoskeleton boasts a fine coat of hairs that put feline whiskers to shame.",
     "types": [ "BODY_ARMOR" ],
-    "prereqs": [ "CHITIN3", "CHITIN3_MOLTED"],
+    "prereqs": [ "CHITIN3", "CHITIN3_MOLTED" ],
     "prereqs2": [ "CHITIN", "CHITIN_MOLTED", "CHITIN2", "CHITIN2_MOLTED" ],
     "leads_to": [ "CF_HAIR" ],
     "threshreq": [ "THRESH_SPIDER" ],
