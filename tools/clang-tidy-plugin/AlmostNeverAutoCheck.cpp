@@ -91,7 +91,6 @@ static void CheckDecl( AlmostNeverAutoCheck &Check,
     }
 
     QualType AutoTp = Initializer->getType();
-    QualType DesugaredAutoTp = AutoTp.getDesugaredType( *Result.Context );
     bool WasRRef = VarDeclType.getTypePtr()->isRValueReferenceType();
     bool WasLRef = VarDeclType.getTypePtr()->isLValueReferenceType();
     VarDeclType = VarDeclType.getNonReferenceType();
@@ -108,7 +107,14 @@ static void CheckDecl( AlmostNeverAutoCheck &Check,
     PrintingPolicy Policy( LangOptions{} );
     Policy.adjustForCPlusPlus();
     std::string TypeStr = AutoTp.getAsString( Policy );
-    const std::string DesugaredTypeStr = DesugaredAutoTp.getAsString( Policy );
+
+    std::string DesugaredTypeStr;
+    // Test stripped type is not null to avoid a crash in
+    // QualType::getSplitDesugaredType in clang/lib/AST/Type.cpp
+    if( QualifierCollector().strip( AutoTp ) ) {
+        QualType DesugaredAutoTp = AutoTp.getDesugaredType( *Result.Context );
+        DesugaredTypeStr = DesugaredAutoTp.getAsString( Policy );
+    }
 
     // In the case of 'const auto' we need to bring the beginning forwards
     // to the start of the 'const'.
