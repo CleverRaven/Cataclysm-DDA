@@ -1082,7 +1082,7 @@
       "and": [
         { "u_has_trait": "CHITIN2" },
         { "u_has_trait": "CHITIN3" },
-        { "not": { "u_has_effect": "molting" } }, 
+        { "not": { "u_has_effect": "molting" } },
         { "not": { "u_has_effect": "molting_imminent" } }
       ]
     },
