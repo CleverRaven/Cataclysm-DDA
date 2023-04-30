@@ -145,11 +145,7 @@
     "id": "pantry",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [
-      { "group": "cannedfood", "prob": 40 },
-      { "group": "pasta", "prob": 20 },
-      { "group": "kitchen_nonfood", "prob": 10 }
-    ]
+    "entries": [ { "group": "cannedfood", "prob": 40 }, { "group": "pasta", "prob": 20 }, { "group": "kitchen_nonfood", "prob": 10 } ]
   },
   {
     "type": "item_group",
