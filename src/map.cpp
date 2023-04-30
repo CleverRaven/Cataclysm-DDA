@@ -2739,7 +2739,7 @@ void map::drop_items( const tripoint &p )
     float damage = 0.0f;
     for( item &i : items ) {
         units::mass wt_dropped = i.weight();
-        damage += 10 * to_kilogram( wt_dropped ) * sqrt( height_fallen );
+        damage += 10 * to_kilogram( wt_dropped ) * height_fallen;
 
         add_item_or_charges( below, i );
     }
