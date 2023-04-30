@@ -2823,7 +2823,7 @@
   {
     "type": "mutation",
     "id": "CRUSTACEAN_CARAPACE",
-    "name": { "str": "Chitinous Carapace" },
+    "name": { "str": "Crustacean Carapace" },
     "points": 8,
     "visibility": 10,
     "ugliness": 8,

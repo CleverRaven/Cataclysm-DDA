@@ -708,7 +708,7 @@
     "melee_damage": { "bash": 4, "cut": 8 }
   },
   {
-    "id": "integrated_chitin4",
+    "id": "integrated_carapace",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str_sp": "sclerotin carapace" },
