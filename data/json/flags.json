@@ -2134,6 +2134,11 @@
     "info": "Contents of this item are used for fueling bionics."
   },
   {
+    "id": "BIONIC_WEAPON_MELEE",
+    "type": "json_flag",
+    "//": "This bionic weapon is meant to be used in melee."
+  },
+  {
     "id": "ELECTRONIC",
     "type": "json_flag"
   }

@@ -1,5 +1,25 @@
 [
   {
+    "id": "eoc_bio_superheater_on",
+    "type": "effect_on_condition",
+    "effect": { "u_add_var": "on", "type": "bio", "context": "superheater", "value": "yes" }
+  },
+  {
+    "id": "eoc_bio_superheater_off",
+    "type": "effect_on_condition",
+    "effect": { "u_lose_var": "on", "type": "bio", "context": "superheater" }
+  },
+  {
+    "id": "eoc_bio_blade_electric_on",
+    "type": "effect_on_condition",
+    "effect": { "u_add_var": "on", "type": "bio", "context": "blade_electric", "value": "yes" }
+  },
+  {
+    "id": "eoc_bio_blade_electric_off",
+    "type": "effect_on_condition",
+    "effect": { "u_lose_var": "on", "type": "bio", "context": "blade_electric" }
+  },
+  {
     "type": "effect_on_condition",
     "id": "afs_eoc_hangover_baseline",
     "effect": [
