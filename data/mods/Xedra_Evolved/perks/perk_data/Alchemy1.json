@@ -7,12 +7,8 @@
       {
         "u_roll_remainder": [ "extra_str_aspirin", "blackout_rage_drink", "sevendust", "small_blessing_brigit" ],
         "type": "recipe"
-      }
+      },
+      { "u_add_effect": "mental_exhaustion", "intensity": 1, "duration": "24 hours" }
     ]
-  },
-  {
-    "u_add_effect": "mental_exhaustion",
-    "intensity": 1,
-    "duration": "24 hours"
   }
 ]
