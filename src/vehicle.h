@@ -1703,7 +1703,6 @@ class vehicle
         vehicle_stack get_items( int part );
         std::vector<item> &get_tools( vehicle_part &vp );
         const std::vector<item> &get_tools( const vehicle_part &vp ) const;
-        void dump_items_from_part( size_t index );
 
         // Generates starting items in the car, should only be called when placed on the map
         void place_spawn_items();
@@ -1845,8 +1844,6 @@ class vehicle
         // @returns true if succeeded
         bool restore_folded_parts( const item &it );
 
-        //handles locked vehicles interaction
-        bool interact_vehicle_locked();
         //true if an alarm part is installed on the vehicle
         bool has_security_working() const;
         /**
@@ -2008,7 +2005,7 @@ class vehicle
         vehicle_part &part( int part_num );
         const vehicle_part &part( int part_num ) const;
         // get the parent part of a fake part or return part_num otherwise
-        int get_non_fake_part( int part_num );
+        int get_non_fake_part( int part_num ) const;
         // Updates active state on all fake_mounts based on whether they can fill a gap
         // map.cpp calls this in displace_vehicle
         void update_active_fakes();

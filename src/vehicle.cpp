@@ -2852,10 +2852,8 @@ std::vector<std::vector<int>> vehicle::find_lines_of_parts(
     std::vector<int> x_parts;
     std::vector<int> y_parts;
 
-    if( parts[part].is_fake ) {
-        // start from the real part, otherwise it fails in certain orientations
-        part = parts[part].fake_part_to;
-    }
+    // start from the real part, otherwise it fails in certain orientations
+    part = get_non_fake_part( part );
 
     vpart_id part_id = part_info( part ).get_id();
     // create vectors of parts on the same X or Y axis
@@ -5747,25 +5745,20 @@ void vehicle::gain_moves()
     }
 }
 
-void vehicle::dump_items_from_part( const size_t index )
-{
-    map &here = get_map();
-    vehicle_part &vp = parts[ index ];
-    for( item &e : vp.items ) {
-        here.add_item_or_charges( global_part_pos3( vp ), e );
-    }
-    vp.items.clear();
-}
-
 bool vehicle::decrement_summon_timer()
 {
     if( !summon_time_limit ) {
         return false;
     }
     if( *summon_time_limit <= 0_turns ) {
-        for( const vpart_reference &vp : get_all_parts() ) {
-            const size_t p = vp.part_index();
-            dump_items_from_part( p );
+        map &here = get_map();
+        for( const vpart_reference &vpr : get_all_parts() ) {
+            vehicle_part &vp = vpr.part();
+            const tripoint_bub_ms pos = bub_part_pos( vp );
+            for( item &it : vp.items ) {
+                here.add_item_or_charges( pos, it );
+            }
+            vp.items.clear();
         }
         add_msg_if_player_sees( global_pos3(), m_info, _( "Your %s winks out of existence." ), name );
         get_map().destroy_vehicle( this );
@@ -7654,19 +7647,15 @@ const vehicle_part &vehicle::part( int part_num ) const
     return parts[part_num];
 }
 
-int vehicle::get_non_fake_part( const int part_num )
+int vehicle::get_non_fake_part( const int part_num ) const
 {
-    if( part_num != -1 && part_num < part_count() ) {
-        const vehicle_part &vp = parts.at( part_num );
-        if( vp.is_fake ) {
-            return vp.fake_part_to;
-        } else {
-            return part_num;
-        }
+    if( part_num < 0 || part_num >= part_count() ) {
+        debugmsg( "get_non_fake_part(%d) returning -1 on '%s', which has %d parts.",
+                  part_num, disp_name(), parts.size() );
+        return -1;
     }
-    debugmsg( "Returning -1 for get_non_fake_part on part_num %d on %s, which has %d parts.", part_num,
-              disp_name(), parts.size() );
-    return -1;
+    const vehicle_part &vp = parts[part_num];
+    return vp.is_fake ? vp.fake_part_to : part_num;
 }
 
 vehicle_part_range vehicle::get_all_parts() const
