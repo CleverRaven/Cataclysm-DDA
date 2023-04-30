@@ -724,7 +724,8 @@ bool monexamine::pet_menu( monster &z )
         if( player_character.get_skill_level( skill_survival ) >= 1 ) {
             amenu.addentry( attach_blinders, true, 'h', _( "Attach blinders to %s" ), pet_name );
         } else {
-            amenu.addentry( attach_blinders, false, 'h', _( "You don't know how to attach blinders to %s" ), pet_name );
+            amenu.addentry( attach_blinders, false, 'h', _( "You don't know how to attach blinders to %s" ),
+                            pet_name );
         }
     }
     if( z.has_flag( MF_PET_MOUNTABLE ) && z.has_effect( effect_monster_blinders ) ) {

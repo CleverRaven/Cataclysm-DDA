@@ -1470,7 +1470,8 @@ bool Character::check_mount_will_move( const tripoint &dest_loc )
             Attitude att = critter.attitude_to( *this );
             const bool blinders = mounted_creature->has_effect( effect_monster_blinders );
             int fear_distance = blinders ? 12 : 15;
-            if( att == Attitude::HOSTILE && sees( critter ) && rl_dist( pos(), critter.pos() ) <= fear_distance &&
+            if( att == Attitude::HOSTILE && sees( critter ) &&
+                rl_dist( pos(), critter.pos() ) <= fear_distance &&
                 rl_dist( dest_loc, critter.pos() ) < rl_dist( pos(), critter.pos() ) ) {
                 add_msg_if_player( _( "You fail to budge your %s!" ), mounted_creature->get_name() );
                 return false;
@@ -1504,7 +1505,8 @@ bool Character::check_mount_is_spooked()
             int spook_distance = blinders ? 7 : 10;
             Attitude att = critter.attitude_to( *this );
             // actually too close now - horse might spook.
-            if( att == Attitude::HOSTILE && sees( critter ) && rl_dist( pos(), critter.pos() ) <= spook_distance ) {
+            if( att == Attitude::HOSTILE && sees( critter ) &&
+                rl_dist( pos(), critter.pos() ) <= spook_distance ) {
                 chance += spook_distance - rl_dist( pos(), critter.pos() );
                 if( critter.get_size() >= mount_size ) {
                     chance *= 2;
