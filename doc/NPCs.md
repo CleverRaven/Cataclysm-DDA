@@ -997,7 +997,6 @@ Condition | Type | Description
 `"u_can_drop_weapon"`<br/>`"npc_can_drop_weapon"` | simple string | `true` if the player character or NPC is wielding a weapon and can drop it on the ground, i.e. weapon isn't unwieldable like retracted bionic claws or monomolecular blade bionics.
 `"u_has_weapon"`<br/>`"npc_has_weapon"` | simple string | `true` if the player character or NPC is wielding a weapon.
 `"u_driving"`<br/>`"npc_driving"` | simple string | `true` if the player character or NPC is operating a vehicle.  <b>Note</b> NPCs cannot currently operate vehicles.
-`"u_has_skill"`<br/>`"npc_has_skill"` | dictionary | `u_has_skill` or `npc_has_skill` must be a dictionary with a `skill` string or [variable object](#variable-object) and a `level` int or [variable object](#variable-object).<br/>`true` if the player character or NPC has at least the value of `level` in `skill`.
 `"u_know_recipe"` | string or [variable object](#variable-object) | `true` if the player character knows the recipe specified in `u_know_recipe`.  It only counts as known if it is actually memorized--holding a book with the recipe in it will not count.
 `"u_has_worn_with_flag"`<br/>`"npc_has_worn_with_flag"` | string or [variable object](#variable-object) | `true` if the player character or NPC is wearing something with the `u_has_worn_with_flag` or `npc_has_worn_with_flag` flag.
 `"u_has_wielded_with_flag"`<br/>`"npc_has_wielded_with_flag"` | string or [variable object](#variable-object) | `true` if the player character or NPC is wielding something with the `u_has_wielded_with_flag` or `npc_has_wielded_with_flag` flag.
@@ -1283,7 +1282,6 @@ Example | Description
 `"u_val": "hp"` | Amount of hp.  If `bodypart` is provided it will be for that part otherwise it will be the sum of all parts.
 `"u_val": "warmth"` | Amount of warmth in a given bodypart.  `bodypart` is the id of the part to use.
 `"u_val": "effect_intensity"` | Intensity of an effect.  `effect` is the id of the effect to test and `bodypart` is optionally the body part to look at.  If the effect is not present a -1 is returned.
-`"u_val": "skill_level"` | Level in given skill. `"skill"` must also be specified.
 `"u_val": "pos_x"` | Player character x coordinate. "pos_y" and "pos_z" also works as expected.
 `"u_val": "power"` | Bionic power in millijoule.
 `"u_val": "power_max"` | Max bionic power in millijoule. Can be read but not written to.
@@ -1418,6 +1416,7 @@ This section is a work in progress as functions are ported from `arithmetic` to 
 | Function | Eval | Assign |Scopes | Description |
 |----------|------|--------|-------|-------------|
 | pain     |  ✅  |   ✅   | u, n  | Return or set pain<br/> Example:<br/>`{ "math": [ "n_pain()", "=", "u_pain() + 9000" ] }`|
+| skill    |  ✅  |   ✅   | u, n  | Return or set skill level<br/> Example:<br/>`"condition": { "math": [ "u_skill('driving')", ">=", "5"] }`|
 
 
 ##### u_val shim
