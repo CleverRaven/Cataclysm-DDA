@@ -89,7 +89,6 @@ static const std::string part_location_onroof( "on_roof" );
 static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 
 static const ammotype ammo_battery( "battery" );
-static const ammotype ammo_plutonium( "plutonium" );
 
 static const bionic_id bio_jointservo( "bio_jointservo" );
 
