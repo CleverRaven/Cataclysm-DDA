@@ -4369,14 +4369,37 @@ void link_up_actor::load( const JsonObject &jo )
 
 void link_up_actor::info( const item &, std::vector<iteminfo> &dump ) const
 {
-    dump.emplace_back( "TOOL", _( "<bold>Can be plugged into a power grid</bold>" ) );
+    std::vector<std::string> targets_strings;
+    if( targets.count( link_state::vehicle ) > 0 ) {
+        targets_strings.emplace_back( _( "vehicle" ) );
+        targets_strings.emplace_back( _( "power grid" ) );
+    }
+    if( targets.count( link_state::bio_cable ) > 0 ) {
+        targets_strings.emplace_back( _( "bionic" ) );
+    }
+    if( targets.count( link_state::ups ) > 0 ) {
+        targets_strings.emplace_back( _( "UPS" ) );
+    }
+    if( targets.count( link_state::solarpack ) > 0 ) {
+        targets_strings.emplace_back( _( "solar pack" ) );
+    }
+
+    if( !targets_strings.empty() ) {
+        std::string targets_string = enumerate_as_string( targets_strings, enumeration_conjunction::or_ );
+        dump.emplace_back( "TOOL",
+                           string_format( _( "<bold>Can be plugged into</bold>: %s." ), targets_string ) );
+    }
+    if( targets.count( link_state::vehicle_tow ) > 0 ) {
+        dump.emplace_back( "TOOL", _( "<bold>Can tow a vehicle</bold>." ) );
+    }
+
     dump.emplace_back( "TOOL", _( "Cable length: " ), cable_length );
     if( charge_rate != 0_W ) {
         std::string wattage = string_format( _( "%+4.1f W" ), units::to_milliwatt( charge_rate ) / 1000.f );
         if( charge_rate > 0_W ) {
-            dump.emplace_back( "TOOL", _( "Charge power: " ), wattage );
+            dump.emplace_back( "TOOL", _( "Charge rate: " ), wattage );
         } else {
-            dump.emplace_back( "TOOL", _( "Discharge power: " ), wattage );
+            dump.emplace_back( "TOOL", _( "Discharge rate: " ), wattage );
         }
     }
 }
