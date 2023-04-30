@@ -75,6 +75,13 @@
         ]
       },
       {
+        "arithmetic": [
+          { "u_val": "vitamin", "name": "mutagen" },
+          "+=",
+          { "arithmetic": [ { "rand": 100 }, "+", { "const": 750 } ] }
+        ]
+      },
+      {
         "run_eocs": {
           "id": "manifest_destiny_goblin_complete",
           "condition": { "u_has_trait": "THRESH_TROGLOBITE" },
@@ -94,7 +101,14 @@
         "arithmetic": [
           { "u_val": "vitamin", "name": "mutagen_troglobite" },
           "+=",
-          { "arithmetic": [ { "rand": 1000 }, "+", { "const": 1750 } ] }
+          { "arithmetic": [ { "rand": 100 }, "+", { "const": 1750 } ] }
+        ]
+      },
+      {
+        "arithmetic": [
+          { "u_val": "vitamin", "name": "mutagen" },
+          "+=",
+          { "arithmetic": [ { "rand": 100 }, "+", { "const": 1750 } ] }
         ]
       },
       {
@@ -117,6 +131,9 @@
         "arithmetic": [ { "u_val": "vitamin", "name": "mutagen_spider" }, "+=", { "arithmetic": [ { "rand": 100 }, "+", { "const": 750 } ] } ]
       },
       {
+        "arithmetic": [ { "u_val": "vitamin", "name": "mutagen" }, "+=", { "arithmetic": [ { "rand": 100 }, "+", { "const": 750 } ] } ]
+      },
+      {
         "run_eocs": {
           "id": "manifest_destiny_spider_complete",
           "condition": { "u_has_trait": "THRESH_SPIDER" },
@@ -136,7 +153,14 @@
         "arithmetic": [
           { "u_val": "vitamin", "name": "mutagen_spider" },
           "+=",
-          { "arithmetic": [ { "rand": 1000 }, "+", { "const": 1750 } ] }
+          { "arithmetic": [ { "rand": 100 }, "+", { "const": 1750 } ] }
+        ]
+      },
+      {
+        "arithmetic": [
+          { "u_val": "vitamin", "name": "mutagen" },
+          "+=",
+          { "arithmetic": [ { "rand": 100 }, "+", { "const": 1750 } ] }
         ]
       },
       {
