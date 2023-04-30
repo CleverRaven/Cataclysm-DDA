@@ -2746,21 +2746,21 @@ void map::drop_items( const tripoint &p )
 
     // Bash creature standing below
     Creature *creature = get_creature_tracker().creature_at( below );
-    if ( creature ) {
+    if( creature ) {
         creature->deal_damage( nullptr, bodypart_id( "head" ), damage_instance( damage_bash, damage ) );
     }
 
     // Bash items at bottom since currently bash_items only bash glass items
     map_stack bash_items = i_at( below );
-    for ( auto bash_item = bash_items.begin(); bash_item != bash_items.end(); bash_item++ ) {
-        int chance = static_cast<int>( 100 * bash_item->resist( damage_bash, true ) / damage + 1 );
-        if ( one_in( chance ) ) {
+    for( auto bash_item = bash_items.begin(); bash_item != bash_items.end(); bash_item++ ) {
+        int chance = static_cast<int>( 200 * bash_item->resist( damage_bash, true ) / damage + 1 );
+        if( one_in( chance ) ) {
             bash_item->inc_damage();
         }
     }
 
     // Bash terain, furniture and vehicles on tile below
-    bash( below, damage );
+    bash( below, damage / 2 );
     i_clear( p );
 }
 
