@@ -413,8 +413,11 @@
     "melee_dice": 1,
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
-    "special_attacks": [ { "type": "tail_club", "cooldown": 4, "max_range": 5, "allow_no_target": true }, { "type": "stretch_bite", "cooldown": 4, "max_range": 5, "allow_no_target": true }  ],
-	"dodge": 3,
+    "special_attacks": [
+      { "type": "tail_club", "cooldown": 4, "max_range": 5, "allow_no_target": true },
+      { "type": "stretch_bite", "cooldown": 4, "max_range": 5, "allow_no_target": true }
+    ],
+    "dodge": 3,
     "vision_day": 30,
     "vision_night": 5,
     "dissect": "dissect_lizard_sample_single",
