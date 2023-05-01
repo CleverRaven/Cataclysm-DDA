@@ -19,7 +19,8 @@
       { "item": "dogbane", "prob": 5, "count-min": 1, "count-max": 2 },
       { "item": "carrot_wild", "prob": 5, "count-min": 1, "count-max": 2 },
       { "item": "bee_balm", "prob": 5, "count-min": 4, "count-max": 8 },
-      { "item": "mugwort", "prob": 5, "count-min": 1, "count-max": 2 }
+      { "item": "mugwort", "prob": 5, "count-min": 1, "count-max": 2 },
+      { "item": "swarm_bees", "prob": 2 }
     ]
   },
   {

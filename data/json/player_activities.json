@@ -610,6 +610,7 @@
     "verb": "aiming",
     "suspendable": false,
     "based_on": "neither",
+    "ignored_distractions": [ "hunger", "thirst", "hostile_spotted_near", "hostile_spotted_far" ],
     "no_resume": true
   },
   {
@@ -919,6 +920,7 @@
     "suspendable": false,
     "rooted": true,
     "based_on": "neither",
+    "ignored_distractions": [ "hunger", "thirst" ],
     "no_resume": true
   },
   {
@@ -939,6 +941,7 @@
     "suspendable": false,
     "rooted": true,
     "based_on": "neither",
+    "ignored_distractions": [ "hunger", "thirst" ],
     "no_resume": true
   },
   {
@@ -979,6 +982,7 @@
     "verb": "drinking",
     "suspendable": false,
     "based_on": "neither",
+    "ignored_distractions": [ "hunger", "thirst" ],
     "no_resume": true
   },
   {
@@ -988,6 +992,7 @@
     "verb": "using drugs",
     "suspendable": false,
     "based_on": "neither",
+    "ignored_distractions": [ "hunger", "thirst" ],
     "no_resume": true
   },
   {
@@ -1021,6 +1026,7 @@
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
     "verb": "consuming",
+    "ignored_distractions": [ "hunger", "thirst" ],
     "based_on": "time"
   },
   {

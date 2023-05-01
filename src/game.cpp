@@ -213,6 +213,10 @@ static const bionic_id bio_remote( "bio_remote" );
 
 static const character_modifier_id character_modifier_slip_prevent_mod( "slip_prevent_mod" );
 
+static const damage_type_id damage_acid( "acid" );
+static const damage_type_id damage_bash( "bash" );
+static const damage_type_id damage_cut( "cut" );
+
 static const efftype_id effect_adrenaline_mycus( "adrenaline_mycus" );
 static const efftype_id effect_asked_to_train( "asked_to_train" );
 static const efftype_id effect_blind( "blind" );
@@ -1270,7 +1274,7 @@ void game::calc_driving_offset( vehicle *veh )
     rl_vec2d offset = veh->move_vec();
     if( !veh->skidding && veh->player_in_control( u ) &&
         std::abs( veh->cruise_velocity - veh->velocity ) < 7 * vehicles::vmiph_per_tile ) {
-        // Use the cruise controlled velocity, but only if
+        // Use cruise_velocity, but only if
         // it is not too different from the actual velocity.
         // The actual velocity changes too often (see above slowdown).
         // Using it makes would make the offset change far too often.
@@ -1547,9 +1551,9 @@ static int maptile_field_intensity( maptile &mt, field_type_id fld )
     return field_ptr == nullptr ? 0 : field_ptr->get_field_intensity();
 }
 
-units::temperature get_heat_radiation( const tripoint &location )
+units::temperature_delta get_heat_radiation( const tripoint &location )
 {
-    units::temperature temp_mod = 0_K;
+    units::temperature_delta temp_mod = units::from_kelvin_delta( 0 );
     Character &player_character = get_player_character();
     map &here = get_map();
     // Convert it to an int id once, instead of 139 times per turn
@@ -1578,7 +1582,7 @@ units::temperature get_heat_radiation( const tripoint &location )
         }
         // Ensure fire_dist >= 1 to avoid divide-by-zero errors.
         const int fire_dist = std::max( 1, square_dist( dest, location ) );
-        temp_mod += units::from_kelvin( 6.f * heat_intensity * heat_intensity / fire_dist / 1.8 );
+        temp_mod += units::from_fahrenheit_delta( 6.f * heat_intensity * heat_intensity / fire_dist );
     }
     return temp_mod;
 }
@@ -1620,20 +1624,23 @@ int get_best_fire( const tripoint &location )
     return best_fire;
 }
 
-units::temperature get_convection_temperature( const tripoint &location )
+units::temperature_delta get_convection_temperature( const tripoint &location )
 {
-    units::temperature temp_mod = 0_K;
+    units::temperature_delta temp_mod = units::from_kelvin_delta( 0 );
     map &here = get_map();
     // Directly on lava tiles
-    units::temperature lava_mod = here.tr_at( location ).has_flag( json_flag_CONVECTS_TEMPERATURE ) ?
-                                  units::from_kelvin( fd_fire->get_intensity_level().convection_temperature_mod / 1.8 ) : 0_K;
+    units::temperature_delta lava_mod = here.tr_at( location ).has_flag(
+                                            json_flag_CONVECTS_TEMPERATURE ) ?
+                                        units::from_fahrenheit_delta( fd_fire->get_intensity_level().convection_temperature_mod ) :
+                                        units::from_kelvin_delta( 0 );
     // Modifier from fields
     for( auto fd : here.field_at( location ) ) {
         // Nullify lava modifier when there is open fire
         if( fd.first.obj().has_fire ) {
-            lava_mod = 0_K;
+            lava_mod = units::from_kelvin_delta( 0 );
         }
-        temp_mod += units::from_kelvin( fd.second.get_intensity_level().convection_temperature_mod / 1.8 );
+        temp_mod += units::from_fahrenheit_delta(
+                        fd.second.get_intensity_level().convection_temperature_mod );
     }
     return temp_mod + lava_mod;
 }
@@ -1888,7 +1895,7 @@ static hint_rating rate_action_use( const avatar &you, const item &it )
         return it.ammo_sufficient( &you ) ? hint_rating::good : hint_rating::iffy;
     } else if( it.is_gunmod() ) {
         /** @EFFECT_GUN >0 allows rating estimates for gun modifications */
-        if( you.get_skill_level( skill_gun ) == 0 ) {
+        if( static_cast<int>( you.get_skill_level( skill_gun ) ) == 0 ) {
             return hint_rating::iffy;
         } else {
             return hint_rating::good;
@@ -2971,111 +2978,166 @@ bool game::load( const std::string &world )
 
 bool game::load( const save_t &name )
 {
-    background_pane background;
-    static_popup popup;
-    popup.message( "%s", _( "Please wait…\nLoading the save…" ) );
-    ui_manager::redraw();
-    refresh_display();
+    loading_ui ui( true );
+    ui.new_context( _( "Loading the save…" ) );
 
     const cata_path worldpath = PATH_INFO::world_base_save_path_path();
     const cata_path save_file_path = PATH_INFO::world_base_save_path_path() /
                                      ( name.base_path() + SAVE_EXTENSION );
 
-    // Now load up the master game data; factions (and more?)
-    load_master();
-    u = avatar();
-    u.set_save_id( name.decoded_name() );
-    if( !read_from_file( save_file_path, [this, &save_file_path]( std::istream & is ) {
-    unserialize( is, save_file_path );
-    } ) ) {
-        return false;
-    }
+    bool abort = false;
 
-    u.load_map_memory();
-    u.get_avatar_diary()->load();
+    using named_entry = std::pair<std::string, std::function<void()>>;
+    const std::vector<named_entry> entries = {{
+            {
+                _( "Master save" ), [&]()
+                {
+                    // Now load up the master game data; factions (and more?)
+                    load_master();
+                }
+            },
+            {
+                _( "Character save" ), [&]()
+                {
 
-    const cata_path log_filename = worldpath / ( name.base_path() + SAVE_EXTENSION_LOG );
-    read_from_file_optional( log_filename.get_unrelative_path(), [this]( std::istream & is ) {
-        memorial().load( is );
-    } );
+                    u = avatar();
+                    u.set_save_id( name.decoded_name() );
+                    if( !read_from_file(
+                            save_file_path,
+                    [this, &save_file_path]( std::istream & is ) {
+                    unserialize( is, save_file_path );
+                    } ) ) {
+                        abort = true;
+                    }
+                }
+            },
+            {
+                _( "Map memory" ), [&]()
+                {
+                    u.load_map_memory();
+                }
+            },
+            {
+                _( "Diary" ), [&]()
+                {
+                    u.get_avatar_diary()->load();
+                }
+            },
+            {
+                _( "Memorial" ), [&]()
+                {
+                    const cata_path log_filename =
+                    worldpath / ( name.base_path() + SAVE_EXTENSION_LOG );
+                    read_from_file_optional(
+                        log_filename.get_unrelative_path(),
+                    [this]( std::istream & is ) {
+                        memorial().load( is );
+                    } );
+                }
+            },
+            {
+                _( "Finalizing" ), [&]()
+                {
 
 #if defined(__ANDROID__)
-    const cata_path shortcuts_filename = worldpath / ( name.base_path() + SAVE_EXTENSION_SHORTCUTS );
-    if( file_exist( shortcuts_filename ) ) {
-        load_shortcuts( shortcuts_filename );
-    }
+                    const cata_path shortcuts_filename =
+                    worldpath / ( name.base_path() + SAVE_EXTENSION_SHORTCUTS );
+                    if( file_exist( shortcuts_filename ) ) {
+                        load_shortcuts( shortcuts_filename );
+                    }
 #endif
 
-    // Now that the player's worn items are updated, their sight limits need to be
-    // recalculated. (This would be cleaner if u.worn were private.)
-    u.recalc_sight_limits();
+                    // Now that the player's worn items are updated, their sight limits need to be
+                    // recalculated. (This would be cleaner if u.worn were private.)
+                    u.recalc_sight_limits();
 
-    if( !gamemode ) {
-        gamemode = std::make_unique<special_game>();
-    }
+                    if( !gamemode ) {
+                        gamemode = std::make_unique<special_game>();
+                    }
 
-    safe_mode = get_option<bool>( "SAFEMODE" ) ? SAFE_MODE_ON : SAFE_MODE_OFF;
-    mostseen = 0; // ...and mostseen is 0, we haven't seen any monsters yet.
+                    safe_mode = get_option<bool>( "SAFEMODE" ) ? SAFE_MODE_ON : SAFE_MODE_OFF;
+                    mostseen = 0; // ...and mostseen is 0, we haven't seen any monsters yet.
 
-    init_autosave();
-    get_auto_pickup().load_character(); // Load character auto pickup rules
-    get_auto_notes_settings().load( true ); // Load character auto notes settings
-    get_safemode().load_character(); // Load character safemode rules
-    zone_manager::get_manager().load_zones(); // Load character world zones
-    read_from_file_optional_json( PATH_INFO::world_base_save_path_path() / "uistate.json", [](
-    const JsonValue & jsin ) {
-        uistate.deserialize( jsin.get_object() );
-    } );
-    reload_npcs();
-    validate_npc_followers();
-    validate_mounted_npcs();
-    validate_camps();
-    validate_linked_vehicles();
-    update_map( u );
-    for( item *&e : u.inv_dump() ) {
-        e->set_owner( get_player_character() );
-    }
-    // legacy, needs to be here as we access the map.
-    if( !u.getID().is_valid() ) {
-        // player does not have a real id, so assign a new one,
-        u.setID( assign_npc_id() );
-        // The vehicle stores the IDs of the boarded players, so update it, too.
-        if( u.in_vehicle ) {
-            if( const std::optional<vpart_reference> vp = m.veh_at(
-                        u.pos() ).part_with_feature( "BOARDABLE", true ) ) {
-                vp->part().passenger_id = u.getID();
-            }
+                    init_autosave();
+                    get_auto_pickup().load_character(); // Load character auto pickup rules
+                    get_auto_notes_settings().load( true ); // Load character auto notes settings
+                    get_safemode().load_character(); // Load character safemode rules
+                    zone_manager::get_manager().load_zones(); // Load character world zones
+                    read_from_file_optional_json(
+                        PATH_INFO::world_base_save_path_path() / "uistate.json",
+                    []( const JsonValue & jsin ) {
+                        uistate.deserialize( jsin.get_object() );
+                    } );
+                    reload_npcs();
+                    validate_npc_followers();
+                    validate_mounted_npcs();
+                    validate_camps();
+                    validate_linked_vehicles();
+                    update_map( u );
+                    for( item *&e : u.inv_dump() ) {
+                        e->set_owner( get_player_character() );
+                    }
+                    // legacy, needs to be here as we access the map.
+                    if( !u.getID().is_valid() ) {
+                        // player does not have a real id, so assign a new one,
+                        u.setID( assign_npc_id() );
+                        // The vehicle stores the IDs of the boarded players, so update it, too.
+                        if( u.in_vehicle ) {
+                            if( const std::optional<vpart_reference> vp = m.veh_at(
+                                        u.pos() ).part_with_feature( "BOARDABLE", true ) ) {
+                                vp->part().passenger_id = u.getID();
+                            }
+                        }
+                    }
+
+                    // populate calendar caches now, after active world is set, but before we do
+                    // anything else, to ensure they pick up the correct value from the save's
+                    // worldoptions
+                    calendar::set_eternal_season( ::get_option<bool>( "ETERNAL_SEASON" ) );
+                    calendar::set_season_length( ::get_option<int>( "SEASON_LENGTH" ) );
+
+                    calendar::set_eternal_night(
+                        ::get_option<std::string>( "ETERNAL_TIME_OF_DAY" ) == "night" );
+                    calendar::set_eternal_day(
+                        ::get_option<std::string>( "ETERNAL_TIME_OF_DAY" ) == "day" );
+
+                    u.reset();
+                    u.recalculate_enchantment_cache();
+                    u.enchantment_cache->activate_passive( u );
+                    events().send<event_type::game_load>( getVersionString() );
+                    time_of_last_load = std::chrono::steady_clock::now();
+                    time_played_at_last_load = std::chrono::seconds( 0 );
+                    std::optional<event_multiset::summaries_type::value_type> last_save =
+                        stats().get_events( event_type::game_save ).last();
+                    if( last_save ) {
+                        auto time_played_it = last_save->first.find( "total_time_played" );
+                        if( time_played_it != last_save->first.end() &&
+                            time_played_it->second.type() == cata_variant_type::chrono_seconds ) {
+                            time_played_at_last_load =
+                                time_played_it->second.get<std::chrono::seconds>();
+                        }
+                    }
+
+                    effect_on_conditions::load_existing_character( u );
+                    // recalculate light level for correctly resuming crafting and disassembly
+                    m.build_map_cache( m.get_abs_sub().z() );
+                }
+            },
         }
+    };
+
+    for( const named_entry &e : entries ) {
+        ui.add_entry( e.first );
     }
 
-    // populate calendar caches now, after active world is set, but before we do
-    // anything else, to ensure they pick up the correct value from the save's
-    // worldoptions
-    calendar::set_eternal_season( ::get_option<bool>( "ETERNAL_SEASON" ) );
-    calendar::set_season_length( ::get_option<int>( "SEASON_LENGTH" ) );
-
-    calendar::set_eternal_night( ::get_option<std::string>( "ETERNAL_TIME_OF_DAY" ) == "night" );
-    calendar::set_eternal_day( ::get_option<std::string>( "ETERNAL_TIME_OF_DAY" ) == "day" );
-
-    u.reset();
-    u.recalculate_enchantment_cache();
-    u.enchantment_cache->activate_passive( u );
-    events().send<event_type::game_load>( getVersionString() );
-    time_of_last_load = std::chrono::steady_clock::now();
-    time_played_at_last_load = std::chrono::seconds( 0 );
-    std::optional<event_multiset::summaries_type::value_type> last_save =
-        stats().get_events( event_type::game_save ).last();
-    if( last_save ) {
-        auto time_played_it = last_save->first.find( "total_time_played" );
-        if( time_played_it != last_save->first.end() &&
-            time_played_it->second.type() == cata_variant_type::chrono_seconds ) {
-            time_played_at_last_load = time_played_it->second.get<std::chrono::seconds>();
+    ui.show();
+    for( const named_entry &e : entries ) {
+        e.second();
+        if( abort ) {
+            return false;
         }
+        ui.proceed();
     }
-
-    effect_on_conditions::load_existing_character( u );
-    // recalculate light level for correctly resuming crafting and disassembly
-    m.build_map_cache( m.get_abs_sub().z() );
 
     return true;
 }
@@ -3290,6 +3352,9 @@ bool game::save()
             debugmsg( "game not saved" );
             return false;
         } else {
+            world_generator->last_world_name = world_generator->active_world->world_name;
+            world_generator->last_character_name = u.name;
+            world_generator->save_last_world_info();
             world_generator->active_world->add_save( save_t::from_save_id( u.get_save_id() ) );
             return true;
         }
@@ -4676,7 +4741,7 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
                     };
                     for( const bodypart_id &bp : bps ) {
                         if( one_in( 2 ) ) {
-                            targ->deal_damage( nullptr, bp, damage_instance( damage_type::BASH, force_remaining * dam_mult ) );
+                            targ->deal_damage( nullptr, bp, damage_instance( damage_bash, force_remaining * dam_mult ) );
                         }
                     }
                     targ->check_dead_state();
@@ -4749,7 +4814,7 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
                     };
                     for( const bodypart_id &bp : bps ) {
                         if( one_in( 2 ) ) {
-                            u.deal_damage( nullptr, bp, damage_instance( damage_type::BASH, force_remaining * dam_mult ) );
+                            u.deal_damage( nullptr, bp, damage_instance( damage_bash, force_remaining * dam_mult ) );
                         }
                     }
                     u.check_dead_state();
@@ -5708,7 +5773,7 @@ bool game::npc_menu( npc &who )
     } else if( choice == examine_wounds ) {
         ///\EFFECT_PER slightly increases precision when examining NPCs' wounds
         ///\EFFECT_FIRSTAID increases precision when examining NPCs' wounds
-        int prof_bonus = u.get_skill_level( skill_firstaid );
+        float prof_bonus = u.get_skill_level( skill_firstaid );
         prof_bonus = u.has_proficiency( proficiency_prof_wound_care ) ? prof_bonus + 1 : prof_bonus;
         prof_bonus = u.has_proficiency( proficiency_prof_wound_care_expert ) ? prof_bonus + 2 : prof_bonus;
         const bool precise = prof_bonus * 4 + u.per_cur >= 20;
@@ -5914,6 +5979,8 @@ void game::examine( const tripoint &examp, bool with_pickup )
                 if( monexamine::mfriend_menu( *mon ) ) {
                     return;
                 }
+            } else if( mon->has_flag( MF_CONVERSATION ) && !mon->type->chat_topics.empty() ) {
+                get_avatar().talk_to( get_talker_for( mon ) );
             }
         } else {
             u.cant_do_mounted();
@@ -9407,7 +9474,7 @@ void game::butcher()
         case BUTCHER_OTHER:
             switch( indexer_index ) {
                 case MULTISALVAGE:
-                    u.assign_activity( player_activity( longsalvage_activity_actor( salvage_tool_index ) ) );
+                    u.assign_activity( longsalvage_activity_actor( salvage_tool_index ) );
                     break;
                 case MULTIBUTCHER:
                     butcher_submenu( corpses );
@@ -9524,7 +9591,7 @@ void game::reload( item_location &loc, bool prompt, bool empty )
         if( extra_moves > 0 ) {
             add_msg( m_warning, _( "You struggle to reload the fouled %s." ), loc->tname() );
         }
-        u.assign_activity( player_activity( reload_activity_actor( std::move( opt ), extra_moves ) ) );
+        u.assign_activity( reload_activity_actor( std::move( opt ), extra_moves ) );
     }
 }
 
@@ -9615,7 +9682,7 @@ void game::reload_weapon( bool try_everything )
         if( turret.can_reload() ) {
             item::reload_option opt = u.select_ammo( turret.base(), true );
             if( opt ) {
-                u.assign_activity( player_activity( reload_activity_actor( std::move( opt ) ) ) );
+                u.assign_activity( reload_activity_actor( std::move( opt ) ) );
             }
         }
         return;
@@ -9896,9 +9963,8 @@ bool game::disable_robot( const tripoint &p )
     const itype_id mon_item_id = critter.type->revert_to_itype;
     if( !mon_item_id.is_empty() &&
         query_yn( _( "Deactivate the %s?" ), critter.name() ) ) {
-
-        u.assign_activity( player_activity( disable_activity_actor( p,
-                                            disable_activity_actor::get_disable_turns(), false ) ) );
+        const disable_activity_actor actor( p, disable_activity_actor::get_disable_turns(), false );
+        u.assign_activity( actor );
         return true;
     }
     // Manhacks are special, they have their own menu here.
@@ -9911,8 +9977,7 @@ bool game::disable_robot( const tripoint &p )
         }
 
         if( choice == 0 ) {
-            u.assign_activity( player_activity( disable_activity_actor( p,
-                                                disable_activity_actor::get_disable_turns(), true ) ) );
+            u.assign_activity( disable_activity_actor( p, disable_activity_actor::get_disable_turns(), true ) );
         }
     }
     return false;
@@ -10017,20 +10082,21 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc ) co
     };
 
     const auto sharp_bp_check = [this]( bodypart_id bp ) {
-        return u.immune_to( bp, { damage_type::CUT, 10 } );
+        return u.immune_to( bp, { damage_cut, 10 } );
     };
 
     if( m.has_flag( ter_furn_flag::TFLAG_ROUGH, dest_loc ) &&
         !m.has_flag( ter_furn_flag::TFLAG_ROUGH, u.pos() ) &&
         !veh_dest &&
-        ( u.get_armor_bash( bodypart_id( "foot_l" ) ) < 5 ||
-          u.get_armor_bash( bodypart_id( "foot_r" ) ) < 5 ) ) { // NOLINT(bugprone-branch-clone)
+        ( u.get_armor_type( damage_bash, bodypart_id( "foot_l" ) ) < 5 ||
+          u.get_armor_type( damage_bash, bodypart_id( "foot_r" ) ) < 5 ) ) { // NOLINT(bugprone-branch-clone)
         harmful_stuff.emplace_back( m.name( dest_loc ) );
     } else if( m.has_flag( ter_furn_flag::TFLAG_SHARP, dest_loc ) &&
                !m.has_flag( ter_furn_flag::TFLAG_SHARP, u.pos() ) &&
                !( u.in_vehicle || m.veh_at( dest_loc ) ) &&
                u.dex_cur < 78 &&
-               !( u.is_mounted() && u.mounted_creature->get_armor_cut( bodypart_id( "torso" ) ) >= 10 ) &&
+               !( u.is_mounted() &&
+                  u.mounted_creature->get_armor_type( damage_cut, bodypart_id( "torso" ) ) >= 10 ) &&
                !std::all_of( sharp_bps.begin(), sharp_bps.end(), sharp_bp_check ) ) {
         harmful_stuff.emplace_back( m.name( dest_loc ) );
     }
@@ -10364,17 +10430,17 @@ point game::place_player( const tripoint &dest_loc, bool quick )
     // TODO: Move the stuff below to a Character method so that NPCs can reuse it
     if( m.has_flag( ter_furn_flag::TFLAG_ROUGH, dest_loc ) && ( !u.in_vehicle ) &&
         ( !u.is_mounted() ) ) {
-        if( one_in( 5 ) && u.get_armor_bash( bodypart_id( "foot_l" ) ) < rng( 2, 5 ) ) {
+        if( one_in( 5 ) && u.get_armor_type( damage_bash, bodypart_id( "foot_l" ) ) < rng( 2, 5 ) ) {
             add_msg( m_bad, _( "You hurt your left foot on the %s!" ),
                      m.has_flag_ter( ter_furn_flag::TFLAG_ROUGH, dest_loc ) ? m.tername( dest_loc ) : m.furnname(
                          dest_loc ) );
-            u.deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( damage_type::CUT, 1 ) );
+            u.deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( damage_cut, 1 ) );
         }
-        if( one_in( 5 ) && u.get_armor_bash( bodypart_id( "foot_r" ) ) < rng( 2, 5 ) ) {
+        if( one_in( 5 ) && u.get_armor_type( damage_bash, bodypart_id( "foot_r" ) ) < rng( 2, 5 ) ) {
             add_msg( m_bad, _( "You hurt your right foot on the %s!" ),
                      m.has_flag_ter( ter_furn_flag::TFLAG_ROUGH, dest_loc ) ? m.tername( dest_loc ) : m.furnname(
                          dest_loc ) );
-            u.deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( damage_type::CUT, 1 ) );
+            u.deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( damage_cut, 1 ) );
         }
     }
     ///\EFFECT_DEX increases chance of avoiding cuts on sharp terrain
@@ -10384,7 +10450,7 @@ point game::place_player( const tripoint &dest_loc, bool quick )
                 one_in( 4 ) ) && ( u.has_trait( trait_THICKSKIN ) ? !one_in( 8 ) : true ) ) {
         const int sharp_damage = rng( 1, 10 );
         if( u.is_mounted() ) {
-            if( u.mounted_creature->get_armor_cut( bodypart_id( "torso" ) ) < sharp_damage &&
+            if( u.mounted_creature->get_armor_type( damage_cut, bodypart_id( "torso" ) ) < sharp_damage &&
                 u.mounted_creature->get_hp() > sharp_damage ) {
                 add_msg( _( "Your %s gets cut!" ), u.mounted_creature->get_name() );
                 u.mounted_creature->apply_damage( nullptr, bodypart_id( "torso" ), sharp_damage );
@@ -10393,7 +10459,7 @@ point game::place_player( const tripoint &dest_loc, bool quick )
             if( u.get_hp() > sharp_damage ) {
                 const bodypart_id bp = u.get_random_body_part();
                 if( u.deal_damage( nullptr, bp,
-                                   damage_instance( damage_type::CUT, sharp_damage ) ).total_damage() > 0 ) {
+                                   damage_instance( damage_cut, sharp_damage ) ).total_damage() > 0 ) {
                     //~ 1$s - bodypart name in accusative, 2$s is terrain name.
                     add_msg( m_bad, _( "You cut your %1$s on the %2$s!" ),
                              body_part_name_accusative( bp ),
@@ -10563,10 +10629,11 @@ point game::place_player( const tripoint &dest_loc, bool quick )
             }
         } else if( pulp_butcher == "pulp" || pulp_butcher == "pulp_adjacent" ||
                    pulp_butcher == "pulp_zombie_only" || pulp_butcher == "pulp_adjacent_zombie_only" ) {
+            const bool acid_immune = u.is_immune_damage( damage_acid ) || u.is_immune_field( fd_acid );
             const auto pulp = [&]( const tripoint & pos ) {
                 for( const item &maybe_corpse : m.i_at( pos ) ) {
                     if( maybe_corpse.is_corpse() && maybe_corpse.can_revive() &&
-                        !maybe_corpse.get_mtype()->bloodType().obj().has_acid ) {
+                        ( !maybe_corpse.get_mtype()->bloodType().obj().has_acid || acid_immune ) ) {
 
                         if( pulp_butcher == "pulp_zombie_only" || pulp_butcher == "pulp_adjacent_zombie_only" ) {
                             if( !maybe_corpse.get_mtype()->has_flag( MF_REVIVES ) ) {
@@ -11108,7 +11175,7 @@ bool game::grabbed_move( const tripoint &dp, const bool via_ramp )
     }
 
     if( u.get_grab_type() == object_type::FURNITURE ) {
-        u.assign_activity( player_activity( move_furniture_activity_actor( dp, via_ramp ) ) );
+        u.assign_activity( move_furniture_activity_actor( dp, via_ramp ) );
         return true;
     }
 
@@ -11261,7 +11328,7 @@ void game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
             c->impact( damage, pt );
             // Multiply zed damage by 6 because no body parts
             const int zed_damage = std::max( 0,
-                                             ( damage - critter.get_armor_bash( bodypart_id( "torso" ) ) ) * 6 );
+                                             ( damage - critter.get_armor_type( damage_bash, bodypart_id( "torso" ) ) ) * 6 );
             // TODO: Pass the "flinger" here - it's not the flung critter that deals damage
             critter.apply_damage( c, bodypart_id( "torso" ), zed_damage );
             critter.check_dead_state();
@@ -11429,38 +11496,14 @@ void game::vertical_move( int movez, bool force, bool peeking )
     }
 
     map &here = get_map();
-    // > and < are used for diving underwater.
-    if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, u.pos() ) &&
-        here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, u.pos() ) ) {
-        if( movez == -1 ) {
-            if( u.is_underwater() ) {
-                add_msg( m_info, _( "You are already underwater!" ) );
-                return;
-            }
-            if( u.worn_with_flag( flag_FLOTATION ) ) {
-                add_msg( m_info, _( "You can't dive while wearing a flotation device." ) );
-                return;
-            }
-            u.set_underwater( true );
-            add_msg( _( "You dive underwater!" ) );
-        } else {
-            if( u.swim_speed() < 500 || u.shoe_type_count( itype_swim_fins ) ) {
-                u.set_underwater( false );
-                add_msg( _( "You surface." ) );
-            } else {
-                add_msg( m_info, _( "You try to surface but can't!" ) );
-            }
-        }
-        u.moves -= 100;
-        return;
-    }
 
     // Force means we're going down, even if there's no staircase, etc.
     bool climbing = false;
     int move_cost = 100;
     tripoint stairs( u.posx(), u.posy(), u.posz() + movez );
     bool wall_cling = u.has_flag( json_flag_WALL_CLING );
-    if( !force && movez == 1 && !here.has_flag( ter_furn_flag::TFLAG_GOES_UP, u.pos() ) ) {
+    if( !force && movez == 1 && !here.has_flag( ter_furn_flag::TFLAG_GOES_UP, u.pos() ) &&
+        !u.is_underwater() ) {
         // Climbing
         if( here.has_floor_or_support( stairs ) ) {
             add_msg( m_info, _( "You can't climb here - there's a ceiling above your head." ) );
@@ -11525,8 +11568,9 @@ void game::vertical_move( int movez, bool force, bool peeking )
         }
     }
 
-    if( !force && movez == -1 && !here.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, u.pos() ) ) {
-        if( wall_cling && here.passable( stairs ) ) {
+    if( !force && movez == -1 && !here.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, u.pos() ) &&
+        !u.is_underwater() ) {
+        if( wall_cling && !here.has_floor_or_support( u.pos() ) ) {
             climbing = true;
             u.set_activity_level( EXTRA_EXERCISE );
             u.mod_stamina( -750 );
@@ -11536,7 +11580,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
             return;
         }
     } else if( !climbing && !force && movez == 1 &&
-               !here.has_flag( ter_furn_flag::TFLAG_GOES_UP, u.pos() ) ) {
+               !here.has_flag( ter_furn_flag::TFLAG_GOES_UP, u.pos() ) && !u.is_underwater() ) {
         add_msg( m_info, _( "You can't go up here!" ) );
         return;
     }
@@ -11565,10 +11609,99 @@ void game::vertical_move( int movez, bool force, bool peeking )
         return;
     }
 
+    bool swimming = false;
+    bool surfacing = false;
+    bool submerging = false;
+    // > and < are used for diving underwater.
+    if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, u.pos() ) ) {
+        swimming = true;
+        const ter_id &target_ter = here.ter( u.pos() + tripoint( 0, 0, movez ) );
+
+        // If we're in a water tile that has both air above and deep enough water to submerge in...
+        if( here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, u.pos() ) &&
+            !here.has_flag( ter_furn_flag::TFLAG_WATER_CUBE, u.pos() ) ) {
+            // ...and we're trying to swim down
+            if( movez == -1 ) {
+                // ...and we're already submerged
+                if( u.is_underwater() ) {
+                    // ...and there's more water beneath us.
+                    if( target_ter->has_flag( ter_furn_flag::TFLAG_WATER_CUBE ) ) {
+                        // Then go ahead and move down.
+                        add_msg( _( "You swim down." ) );
+                    } else {
+                        // There's no more water beneath us.
+                        add_msg( m_info,
+                                 _( "You are already underwater and there is no more water beneath you to swim down!" ) );
+                        return;
+                    }
+                }
+                // ...and we're not already submerged.
+                else {
+                    // Check for a flotation device first before allowing us to submerge.
+                    if( u.worn_with_flag( flag_FLOTATION ) ) {
+                        add_msg( m_info, _( "You can't dive while wearing a flotation device." ) );
+                        return;
+                    }
+
+                    // Then dive under the surface.
+                    u.set_underwater( true );
+                    add_msg( _( "You dive underwater!" ) );
+                    submerging = true;
+                }
+            }
+            // ...and we're trying to surface
+            else if( movez == 1 ) {
+                // ... and we're already submerged
+                if( u.is_underwater() ) {
+                    if( u.swim_speed() < 500 || u.shoe_type_count( itype_swim_fins ) ) {
+                        u.set_underwater( false );
+                        add_msg( _( "You surface." ) );
+                        surfacing = true;
+                    } else {
+                        add_msg( m_info, _( "You try to surface but can't!" ) );
+                        return;
+                    }
+                }
+            }
+        }
+        // If we're in a water tile that is entirely water
+        else if( here.has_flag( ter_furn_flag::TFLAG_WATER_CUBE, u.pos() ) ) {
+            // If you're at this point, you should already be underwater, but force that to be the case.
+            if( !u.is_underwater() ) {
+                u.set_underwater( true );
+            }
+
+            // ...and we're trying to swim down
+            if( movez == -1 ) {
+                // ...and there's more water beneath us.
+                if( target_ter->has_flag( ter_furn_flag::TFLAG_WATER_CUBE ) ) {
+                    // Then go ahead and move down.
+                    add_msg( _( "You swim down." ) );
+                } else {
+                    add_msg( m_info,
+                             _( "You are already underwater and there is no more water beneath you to swim down!" ) );
+                    return;
+                }
+            }
+            // ...and we're trying to move up
+            else if( movez == 1 ) {
+                // ...and there's more water above us us.
+                if( target_ter->has_flag( ter_furn_flag::TFLAG_WATER_CUBE ) ||
+                    target_ter->has_flag( ter_furn_flag::TFLAG_DEEP_WATER ) ) {
+                    // Then go ahead and move up.
+                    add_msg( _( "You swim up." ) );
+                } else {
+                    add_msg( m_info, _( "You are already underwater and there is no water above you to swim up!" ) );
+                    return;
+                }
+            }
+        }
+    }
+
     // Find the corresponding staircase
     bool rope_ladder = false;
     // TODO: Remove the stairfinding, make the mapgen gen aligned maps
-    if( !force && !climbing ) {
+    if( !force && !climbing && !swimming ) {
         const std::optional<tripoint> pnt = find_or_make_stairs( m, z_after, rope_ladder, peeking,
                                             u.pos() );
         if( !pnt ) {
@@ -11603,6 +11736,13 @@ void game::vertical_move( int movez, bool force, bool peeking )
         u.moves -= move_cost;
         u.mod_stamina( -move_cost );
     }
+
+    if( surfacing || submerging ) {
+        // Surfacing and submerging don't actually move us anywhere, and just
+        // toggle our underwater state in the same location.
+        return;
+    }
+
     const tripoint old_pos = u.pos();
     const tripoint old_abs_pos = here.getabs( old_pos );
     point submap_shift;
@@ -11717,12 +11857,8 @@ void game::start_hauling( const tripoint &pos )
     // Destination relative to the player
     const tripoint relative_destination{};
 
-    u.assign_activity( player_activity( move_items_activity_actor(
-                                            target_items,
-                                            quantities,
-                                            to_vehicle,
-                                            relative_destination
-                                        ) ) );
+    const move_items_activity_actor actor( target_items, quantities, to_vehicle, relative_destination );
+    u.assign_activity( actor );
 }
 
 std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, bool &rope_ladder,
@@ -12092,6 +12228,18 @@ void game::despawn_monster( monster &critter )
     remove_zombie( critter );
     // simulate it being dead so further processing of it (e.g. in monmove) will yield
     critter.set_hp( 0 );
+}
+
+void game::despawn_nonlocal_monsters()
+{
+    for( monster &critter : g->all_monsters() ) {
+        if( critter.posx() < 0 - MAPSIZE_X / 6 ||
+            critter.posy() < 0 - MAPSIZE_Y / 6 ||
+            critter.posx() > ( MAPSIZE_X * 7 ) / 6 ||
+            critter.posy() > ( MAPSIZE_Y * 7 ) / 6 ) {
+            g->despawn_monster( critter );
+        }
+    }
 }
 
 void game::shift_monsters( const tripoint &shift )
@@ -12620,17 +12768,16 @@ void game::shift_destination_preview( const point &delta )
 
 bool game::slip_down( bool check_for_traps )
 {
-    ///\EFFECT_DEX decreases chances of slipping while climbing
-    ///\EFFECT_STR decreases chances of slipping while climbing
-    /// Not using arm strength since lifting score comes into play later
-    int slip = 100 / std::max( 1, u.dex_cur + u.str_cur );
-    add_msg_debug( debugmode::DF_GAME, "Base slip chance %d%%", slip );
+    int slip = 100;
 
-    if( u.has_proficiency( proficiency_prof_parkour ) ) {
+    const bool parkour = u.has_proficiency( proficiency_prof_parkour );
+    const bool badknees = u.has_trait( trait_BADKNEES );
+    if( parkour && badknees ) {
+        add_msg( m_info, _( "Your skill in parkour makes up for your bad knees while climbing." ) );
+    } else if( u.has_proficiency( proficiency_prof_parkour ) ) {
         slip /= 2;
         add_msg( m_info, _( "Your skill in parkour makes it easier to climb." ) );
-    }
-    if( u.has_trait( trait_BADKNEES ) ) {
+    } else if( u.has_trait( trait_BADKNEES ) ) {
         slip *= 2;
         add_msg( m_info, _( "Your bad knees make it difficult to climb." ) );
     }
@@ -12671,10 +12818,17 @@ bool game::slip_down( bool check_for_traps )
 
     // Apply wetness penalty
     slip *= wet_penalty;
+
     add_msg_debug( debugmode::DF_GAME, "Slip chance after wetness penalty %d%%", slip );
 
-    // Apply limb score penalties - grip, arm strength and footing are all relevant
+    ///\EFFECT_DEX decreases chances of slipping while climbing
+    ///\EFFECT_STR decreases chances of slipping while climbing
+    /// Not using arm strength since lifting score comes into play later
+    slip /= std::max( 1, u.dex_cur + u.str_cur );
 
+    add_msg_debug( debugmode::DF_GAME, "Slip chance after stat modifiers %d%%", slip );
+
+    // Apply limb score penalties - grip, arm strength and footing are all relevant
     slip /= u.get_modifier( character_modifier_slip_prevent_mod );
     add_msg_debug( debugmode::DF_GAME, "Slipping chance after limb scores %d%%", slip );
 

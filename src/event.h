@@ -89,6 +89,7 @@ enum class event_type : int {
     game_avatar_death,
     game_avatar_new,
     game_load,
+    game_begin,
     game_over,
     game_save,
     game_start,
@@ -592,6 +593,14 @@ struct event_spec<event_type::game_avatar_new> {
 template<>
 struct event_spec<event_type::game_load> {
     static constexpr std::array<std::pair<const char *, cata_variant_type>, 1> fields = {{
+            { "cdda_version", cata_variant_type::string },
+        }
+    };
+};
+
+template<>
+struct event_spec<event_type::game_begin> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 1> fields = { {
             { "cdda_version", cata_variant_type::string },
         }
     };

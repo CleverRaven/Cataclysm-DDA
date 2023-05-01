@@ -65,6 +65,7 @@
           "300blk": 16,
           "545x39": 16,
           "3006": 16,
+          "303": 16,
           "308": 16,
           "300": 16,
           "762": 16,
@@ -173,6 +174,7 @@
           "300blk": 4,
           "545x39": 4,
           "3006": 4,
+          "303": 4,
           "308": 4,
           "300": 4,
           "762": 4,
@@ -378,7 +380,7 @@
         "pocket_type": "CONTAINER",
         "max_contains_volume": "2100 ml",
         "max_contains_weight": "7000 g",
-        "max_item_length": "60 mm"
+        "max_item_length": "80 mm"
       }
     ],
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
@@ -404,7 +406,7 @@
         "pocket_type": "CONTAINER",
         "max_contains_volume": "4000 ml",
         "max_contains_weight": "10000 g",
-        "max_item_length": "72 mm"
+        "max_item_length": "90 mm"
       }
     ],
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],

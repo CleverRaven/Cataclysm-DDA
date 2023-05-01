@@ -40,6 +40,7 @@ set(CataAnalyzerSrc
         UseNamedPointConstantsCheck.cpp
         UsePointApisCheck.cpp
         UsePointArithmeticCheck.cpp
+        UseStringViewCheck.cpp
         UTF8ToLowerUpperCheck.cpp
         Utils.cpp
         XYCheck.cpp)

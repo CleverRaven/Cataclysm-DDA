@@ -245,11 +245,9 @@ aim_activity_actor aim_activity_actor::use_wielded()
     return aim_activity_actor();
 }
 
-aim_activity_actor aim_activity_actor::use_bionic( const item &fake_gun,
-        const units::energy &cost_per_shot )
+aim_activity_actor aim_activity_actor::use_bionic( const item &fake_gun )
 {
     aim_activity_actor act = aim_activity_actor();
-    act.bp_cost_per_shot = cost_per_shot;
     act.fake_weapon = fake_gun;
     return act;
 }
@@ -337,14 +335,8 @@ void aim_activity_actor::finish( player_activity &act, Character &who )
         return;
     }
 
-    // Fire!
     gun_mode gun = weapon->gun_current_mode();
-    int shots_fired = who.fire_gun( fin_trajectory.back(), gun.qty, *gun );
-
-    // TODO: bionic power cost of firing should be derived from a value of the relevant weapon.
-    if( shots_fired && ( bp_cost_per_shot > 0_J ) ) {
-        who.mod_power_level( -bp_cost_per_shot * shots_fired );
-    }
+    who.fire_gun( fin_trajectory.back(), gun.qty, *gun );
 
     if( weapon && weapon->gun_current_mode()->has_flag( flag_RELOAD_AND_SHOOT ) ) {
         // RAS weapons are currently bugged, this is a workaround so bug impact
@@ -362,7 +354,6 @@ void aim_activity_actor::finish( player_activity &act, Character &who )
     aim_activity_actor aim_actor;
     aim_actor.abort_if_no_targets = true;
     aim_actor.fake_weapon = this->fake_weapon;
-    aim_actor.bp_cost_per_shot = this->bp_cost_per_shot;
     aim_actor.initial_view_offset = this->initial_view_offset;
 
     // if invalid target or it's dead - reset it so a new one is acquired
@@ -370,7 +361,7 @@ void aim_activity_actor::finish( player_activity &act, Character &who )
     if( !last_target || last_target->is_dead_state() ) {
         who.last_target.reset();
     }
-    who.assign_activity( player_activity( aim_actor ), false );
+    who.assign_activity( aim_actor );
 }
 
 void aim_activity_actor::canceled( player_activity &/*act*/, Character &/*who*/ )
@@ -384,7 +375,6 @@ void aim_activity_actor::serialize( JsonOut &jsout ) const
     jsout.start_object();
 
     jsout.member( "fake_weapon", fake_weapon );
-    jsout.member( "bp_cost_per_shot", bp_cost_per_shot );
     jsout.member( "fin_trajectory", fin_trajectory );
     jsout.member( "first_turn", first_turn );
     jsout.member( "action", action );
@@ -407,7 +397,6 @@ std::unique_ptr<activity_actor> aim_activity_actor::deserialize( JsonValue &jsin
     JsonObject data = jsin.get_object();
 
     data.read( "fake_weapon", actor.fake_weapon );
-    data.read( "bp_cost_per_shot", actor.bp_cost_per_shot );
     data.read( "fin_trajectory", actor.fin_trajectory );
     data.read( "first_turn", actor.first_turn );
     data.read( "action", actor.action );
@@ -624,6 +613,7 @@ void gunmod_remove_activity_actor::finish( player_activity &act, Character &who 
     }
     act.set_to_null();
     gunmod_remove( who, *it_gun, *it_mod );
+    it_gun->on_contents_changed();
 }
 
 bool gunmod_remove_activity_actor::gunmod_unload( Character &who, item &gunmod )
@@ -722,7 +712,8 @@ static int hack_level( const Character &who )
     // odds go up with int>8, down with int<8
     // 4 int stat is worth 1 computer skill here
     ///\EFFECT_INT increases success chance of hacking card readers
-    return who.get_skill_level( skill_computer ) + who.int_cur / 2 - 8;
+    return round( who.get_skill_level( skill_computer ) + static_cast<float>
+                  ( who.int_cur ) / 2.0f - 8 );
 }
 
 static hack_result hack_attempt( Character &who )
@@ -949,7 +940,7 @@ void hotwire_car_activity_actor::finish( player_activity &act, Character &who )
     }
     vehicle &veh = vp->vehicle();
 
-    int skill = who.get_skill_level( skill_mechanics );
+    int skill = round( who.get_skill_level( skill_mechanics ) );
     if( skill > rng( 1, 6 ) ) {
         // Success
         who.add_msg_if_player( _( "You found the wire that starts the engine." ) );
@@ -2325,7 +2316,7 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
         // Gives another boost to XP, reduced by your skill level.
         // Higher skill levels require more difficult locks to gain a meaningful amount of xp.
         // Again, we're using randomized lock_roll until a defined lock difficulty is implemented.
-        if( lock_roll > you->get_skill_level( skill_traps ) ) {
+        if( lock_roll > round( you->get_skill_level( skill_traps ) ) ) {
             xp_gain += lock_roll + ( xp_gain / ( you->get_skill_level( skill_traps ) + 1 ) );
         } else {
             xp_gain += xp_gain / ( you->get_skill_level( skill_traps ) + 1 );
@@ -2828,8 +2819,8 @@ void safecracking_activity_actor::do_turn( player_activity &act, Character &who 
             }
         }
 
-        const int skill_level = who.get_skill_level( skill_traps );
-        who.practice( skill_traps, std::max( 1,  skill_level / 2 ) );
+        const float skill_level = who.get_skill_level( skill_traps );
+        who.practice( skill_traps, std::max( 1.0f,  skill_level / 2 ) );
         if( who.get_skill_level( skill_traps ) > skill_level ) {
             int new_time = to_moves<int>( safecracking_time( who ) );
             act.moves_total = act.moves_total > new_time ? new_time : act.moves_total;
@@ -3621,7 +3612,7 @@ void harvest_activity_actor::finish( player_activity &act, Character &who )
         return;
     }
 
-    const int survival_skill = who.get_skill_level( skill_survival );
+    const float survival_skill = who.get_skill_level( skill_survival );
     bool got_anything = false;
     for( const harvest_entry &entry : here.get_harvest( target ).obj() ) {
         const float min_num = entry.scale_num.first * survival_skill + entry.base_num.first;
@@ -3813,9 +3804,9 @@ bool disable_activity_actor::can_disable_or_reprogram( const monster &monster )
 
 int disable_activity_actor::get_disable_turns()
 {
-    const int elec_skill = get_avatar().get_skill_level( skill_electronics );
-    const int mech_skill = get_avatar().get_skill_level( skill_mechanics );
-    const int time_scale = std::max( elec_skill + mech_skill, 1 );
+    const float elec_skill = get_avatar().get_skill_level( skill_electronics );
+    const float mech_skill = get_avatar().get_skill_level( skill_mechanics );
+    const float time_scale = std::max( elec_skill + mech_skill, 1.0f );
     return 2000 / time_scale;
 }
 
@@ -3912,8 +3903,8 @@ void insert_item_activity_actor::finish( player_activity &act, Character &who )
     if( holstered_item.first ) {
         item &it = *holstered_item.first;
         if( !it.count_by_charges() ) {
-            if( holster->can_contain_directly( it ).success() && ( all_pockets_rigid ||
-                    holster.parents_can_contain_recursive( &it ) ) ) {
+            if( holster->can_contain_directly( it ).success() &&
+                holster.parents_can_contain_recursive( &it ) ) {
 
                 success = holster->put_in( it, item_pocket::pocket_type::CONTAINER,
                                            /*unseal_pockets=*/true ).success();
@@ -3928,8 +3919,7 @@ void insert_item_activity_actor::finish( player_activity &act, Character &who )
 
             }
         } else {
-            int charges = all_pockets_rigid ? holstered_item.second : std::min( holstered_item.second,
-                          holster.max_charges_by_parent_recursive( it ) );
+            int charges = std::min( holstered_item.second, holster.max_charges_by_parent_recursive( it ) );
 
             if( charges > 0 && holster->can_contain_partial_directly( it ) ) {
                 int result = holster->fill_with( it, charges,
@@ -4958,7 +4948,7 @@ void prying_activity_actor::handle_prying( Character &who )
         difficulty -= tool->get_quality( qual_PRY ) - pdata.prying_level;
 
         /** @EFFECT_MECHANICS reduces chance of breaking when prying */
-        const int dice_mech = dice( 2, who.get_skill_level( skill_mechanics ) );
+        const int dice_mech = dice( 2, static_cast<int>( round( who.get_skill_level( skill_mechanics ) ) ) );
         /** @ARM_STR reduces chance of breaking when prying */
         const int dice_str = dice( 2, who.get_arm_str() );
 
@@ -5882,7 +5872,7 @@ void forage_activity_actor::finish( player_activity &act, Character &who )
 
     ///\EFFECT_PER slightly increases forage success chance
     ///\EFFECT_SURVIVAL increases forage success chance
-    if( veggy_chance < who.get_skill_level( skill_survival ) * 3 + who.per_cur - 2 ) {
+    if( veggy_chance < round( who.get_skill_level( skill_survival ) * 3 + who.per_cur - 2 ) ) {
         const std::vector<item *> dropped =
             here.put_items_from_loc( group_id, who.pos(), calendar::turn );
         // map::put_items_from_loc can create multiple items and merge them into one stack.
@@ -5993,6 +5983,7 @@ void gunmod_add_activity_actor::finish( player_activity &act, Character &who )
         add_msg( m_good, _( "You successfully attached the %1$s to your %2$s." ), mod.tname(),
                  gun.tname() );
         gun.put_in( who.i_rem( &mod ), item_pocket::pocket_type::MOD );
+        gun.on_contents_changed();
 
     } else if( rng( 0, 100 ) <= risk ) {
         if( gun.inc_damage() ) {
@@ -6486,7 +6477,6 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
                             continue;
                         }
                         you.gunmod_remove( *it->first, *mod );
-                        move_item( you, *mod, 1, src_loc, src_loc, this_veh, this_part );
                         if( you.moves <= 0 ) {
                             return;
                         }

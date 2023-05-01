@@ -1824,8 +1824,7 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
     item_location obj1( map_cursor( u.pos() ), &m.add_item_or_charges( u.pos(), rigid_obj ) );
     item_location obj2( map_cursor( u.pos() ), &m.add_item_or_charges( u.pos(), soft_obj ) );
     pickup_activity_actor act_actor( { obj1, obj2 }, { 1, 1 }, u.pos(), autopickup );
-    player_activity act( act_actor );
-    u.assign_activity( act );
+    u.assign_activity( act_actor );
 
     item_location pack;
     if( wear ) {
@@ -2054,8 +2053,7 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
             REQUIRE( obj3->charges == 300 );
             u.cancel_activity();
             pickup_activity_actor new_actor( { obj3 }, { 300 }, u.pos(), autopickup );
-            player_activity new_act( new_actor );
-            u.assign_activity( new_act );
+            u.assign_activity( new_actor );
             THEN( ( soft_nested ? "pickup most, nested empty" : "pickup all, overflow into nested" ) ) {
                 if( soft_nested ) {
                     test_pickup_autoinsert_results( u, wear, c, 61, 239, 0, true );
@@ -2086,8 +2084,7 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
             REQUIRE( obj3->charges == 300 );
             u.cancel_activity();
             pickup_activity_actor new_actor( { obj3 }, { 300 }, u.pos(), autopickup );
-            player_activity new_act( new_actor );
-            u.assign_activity( new_act );
+            u.assign_activity( new_actor );
             THEN( "pickup most, nested empty" ) {
                 if( soft_nested ) {
                     test_pickup_autoinsert_results( u, wear, c, 61, 239, 0, true );
@@ -2119,8 +2116,7 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
             REQUIRE( obj3->charges == 300 );
             u.cancel_activity();
             pickup_activity_actor new_actor( { obj3 }, { 300 }, u.pos(), autopickup );
-            player_activity new_act( new_actor );
-            u.assign_activity( new_act );
+            u.assign_activity( new_actor );
             THEN( "pickup most, nested empty" ) {
                 if( soft_nested ) {
                     test_pickup_autoinsert_results( u, wear, c, 61, 239, 0, true );
@@ -2698,7 +2694,7 @@ TEST_CASE( "pocket_leak" )
         auto backpack_iter = *u.wear_item( backpack );
         item &bkit = *backpack_iter;
         item &waterit = bkit.only_item();
-        waterit.set_item_temperature( water.get_freeze_point() + units::from_kelvin( 10 ) );
+        waterit.set_item_temperature( water.get_freeze_point() + units::from_celsius_delta( 10 ) );
         REQUIRE( !waterit.is_frozen_liquid() );
         REQUIRE( here.i_at( u.pos_bub() ).empty() );
         u.process_turn();
@@ -2716,7 +2712,7 @@ TEST_CASE( "pocket_leak" )
         item &topit = *u.get_wielded_item();
         item &bkit = topit.only_item();
         item &wit = bkit.only_item();
-        wit.set_item_temperature( water.get_freeze_point() + units::from_kelvin( 10 ) );
+        wit.set_item_temperature( water.get_freeze_point() + units::from_celsius_delta( 10 ) );
         REQUIRE( !wit.is_frozen_liquid() );
         REQUIRE( here.i_at( u.pos_bub() ).empty() );
         u.process_turn();

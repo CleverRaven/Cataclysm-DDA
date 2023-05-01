@@ -51,7 +51,7 @@ recipe::recipe() : skill_used( skill_id::NULL_ID() ) {}
 int recipe::get_difficulty( const Character &crafter ) const
 {
     if( is_practice() && skill_used ) {
-        return clamp( crafter.get_all_skills().get_skill_level( skill_used ),
+        return clamp( static_cast<int>( crafter.get_all_skills().get_skill_level( skill_used ) ),
                       practice_data->min_difficulty, practice_data->max_difficulty );
     } else {
         return difficulty;
@@ -157,7 +157,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
     if( jo.has_member( "result_eocs" ) ) {
         result_eocs.clear();
         for( JsonValue jv : jo.get_array( "result_eocs" ) ) {
-            result_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+            result_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
         }
     }
     if( abstract ) {

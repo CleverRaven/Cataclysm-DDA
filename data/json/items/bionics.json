@@ -6,7 +6,6 @@
     "name": { "str": "abstract bionic module" },
     "weight": "2041 g",
     "volume": "2500 ml",
-    "bashing": 8,
     "material": [ "steel", "plastic" ],
     "symbol": ":",
     "color": "yellow",
@@ -14,7 +13,8 @@
     "use_action": [ "install_bionic" ],
     "flags": [ "CBM" ],
     "is_upgrade": false,
-    "faults": [ "fault_bionic_salvaged" ]
+    "faults": [ "fault_bionic_salvaged" ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "abstract": "bionic_general_npc_usable",
@@ -723,31 +723,6 @@
     "price_postapoc": 3500,
     "weight": "300 g",
     "difficulty": 4
-  },
-  {
-    "id": "bio_power_armor_interface",
-    "copy-from": "bionic_general",
-    "type": "BIONIC_ITEM",
-    "name": { "str": "Power Armor Interface CBM" },
-    "looks_like": "bio_int_enhancer",
-    "description": "Interfaces the user's bionic power system with the internal charging port on suits of power armor, allowing them to draw from the user's bionic power banks.",
-    "price": 120000,
-    "price_postapoc": 500,
-    "weight": "500 g",
-    "difficulty": 1,
-    "installation_data": "AID_bio_power_armor_interface"
-  },
-  {
-    "id": "bio_power_armor_interface_mkII",
-    "copy-from": "bionic_general",
-    "type": "BIONIC_ITEM",
-    "name": { "str": "Power Armor Interface Mk. II CBM" },
-    "looks_like": "bio_int_enhancer",
-    "description": "Interfaces the user's bionic power system with the internal charging port on suits of power armor, allowing them to draw from the user's bionic power banks.  Twice as efficient as the Mk. I model.  The Mk. II was designed by DoubleTech Inc., to meet the popularity of the Mk. II power armor series.",
-    "price": 1000000,
-    "price_postapoc": 500,
-    "weight": "400 g",
-    "difficulty": 8
   },
   {
     "id": "bio_power_storage",

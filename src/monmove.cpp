@@ -51,6 +51,8 @@
 #include "viewer.h"
 #include "vpart_position.h"
 
+static const damage_type_id damage_cut( "cut" );
+
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_countdown( "countdown" );
 static const efftype_id effect_docile( "docile" );
@@ -201,7 +203,7 @@ bool monster::will_move_to( const tripoint &p ) const
             // Sharp terrain is ignored while attacking
             if( avoid_simple && here.has_flag( ter_furn_flag::TFLAG_SHARP, p ) &&
                 !( type->size == creature_size::tiny || flies() ||
-                   get_armor_cut( bodypart_id( "torso" ) ) >= 10 ) ) {
+                   get_armor_type( damage_cut, bodypart_id( "torso" ) ) >= 10 ) ) {
                 return false;
             }
         }
@@ -1787,11 +1789,11 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
         const int sharp_damage = rng( 1, 10 );
         const int rough_damage = rng( 1, 2 );
         if( here.has_flag( ter_furn_flag::TFLAG_SHARP, pos() ) && !one_in( 4 ) &&
-            get_armor_cut( bodypart_id( "torso" ) ) < sharp_damage && get_hp() > sharp_damage ) {
+            get_armor_type( damage_cut, bodypart_id( "torso" ) ) < sharp_damage && get_hp() > sharp_damage ) {
             apply_damage( nullptr, bodypart_id( "torso" ), sharp_damage );
         }
         if( here.has_flag( ter_furn_flag::TFLAG_ROUGH, pos() ) && one_in( 6 ) &&
-            get_armor_cut( bodypart_id( "torso" ) ) < rough_damage && get_hp() > rough_damage ) {
+            get_armor_type( damage_cut, bodypart_id( "torso" ) ) < rough_damage && get_hp() > rough_damage ) {
             apply_damage( nullptr, bodypart_id( "torso" ), rough_damage );
         }
     }
@@ -2119,7 +2121,7 @@ void monster::knock_back_to( const tripoint &to )
         apply_damage( p, bodypart_id( "torso" ), 3 );
         add_effect( effect_stunned, 1_turns );
         p->deal_damage( this, bodypart_id( "torso" ),
-                        damage_instance( damage_type::BASH, static_cast<float>( type->size ) ) );
+                        damage_instance( STATIC( damage_type_id( "bash" ) ), static_cast<float>( type->size ) ) );
         if( u_see ) {
             add_msg( _( "The %1$s bounces off %2$s!" ), name(), p->get_name() );
         }

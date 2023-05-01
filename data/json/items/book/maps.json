@@ -35,7 +35,7 @@
     "copy-from": "abstractmap",
     "type": "GENERIC",
     "name": { "str": "military operations map" },
-    "description": "This is a printed topographical map of the local area.  Originally of military origin, it details the locations of evacuation centers and military facilities.  Using it will add points of interest to your map.",
+    "description": "A printed topographical map of the local area.  Originally of military origin, it details the locations of evacuation centers and military facilities.  Using it will add points of interest to your map.",
     "color": "green",
     "use_action": {
       "type": "reveal_map",
@@ -60,7 +60,7 @@
     "copy-from": "abstractmap",
     "type": "GENERIC",
     "name": { "str": "survivor's map" },
-    "description": "This is a hand-drawn map of the local area.  Whoever created it has marked down the locations of nearby supply sources including gun stores and gas stations.  Using it will add points of interest to your map.",
+    "description": "A hand-drawn map of the local area.  Whoever created it has marked down the locations of nearby supply sources including gun stores and gas stations.  Using it will add points of interest to your map.",
     "color": "white",
     "use_action": {
       "type": "reveal_map",
@@ -74,7 +74,7 @@
     "copy-from": "abstractmap",
     "type": "GENERIC",
     "name": { "str": "road map" },
-    "description": "This is a road map for the local area.  Listing information on civic sites like hospitals and police stations, it can be used to add points of interest to your map.",
+    "description": "A road map for the local area.  Listing information on civic sites like hospitals and police stations, it can be used to add points of interest to your map.",
     "color": "yellow",
     "use_action": {
       "type": "reveal_map",
@@ -99,7 +99,7 @@
     "type": "GENERIC",
     "name": { "str": "subway maintenance map" },
     "looks_like": "roadmap",
-    "description": "This is a map of subway tunnels formerly used by public maintenance workers.  Using it will add subway lines and underground stations to your map.",
+    "description": "A map of subway tunnels formerly used by public maintenance workers.  Using it will add subway lines and underground stations to your map.",
     "color": "light_blue",
     "use_action": {
       "type": "reveal_map",
@@ -113,7 +113,7 @@
     "copy-from": "abstractmap",
     "type": "GENERIC",
     "name": { "str": "trail guide" },
-    "description": "This is a printed guide to the best local trails.  It has general details about the trails, trailhead amenities, suggestions for the best thru-hikes, and advice on interacting with local wildlife in a responsible and respectful manner.",
+    "description": "A printed guide to the best local trails.  It has general details about the trails, trailhead amenities, suggestions for the best thru-hikes, and advice on interacting with local wildlife in a responsible and respectful manner.",
     "color": "green",
     "use_action": {
       "type": "reveal_map",
@@ -164,7 +164,7 @@
     "copy-from": "abstractmap",
     "type": "GENERIC",
     "name": { "str": "satellite map" },
-    "description": "This is a printed satellite map of the local area.  Due to it's low quality and lack of map legend, you are unable to recognise most buildings.  Using it will add terrain and roads to your map.",
+    "description": "A printed satellite map of the local area.  Due to it's low quality and lack of map legend, you are unable to recognise most buildings.  Using it will add terrain and roads to your map.",
     "color": "light_gray",
     "use_action": {
       "type": "reveal_map",
@@ -178,7 +178,7 @@
     "copy-from": "abstractmap",
     "type": "GENERIC",
     "name": { "str": "urban explorer's map" },
-    "description": "This is a printout of a local road map, with several buildings circled in red.  Using it will add roads and abandoned buildings to your map.",
+    "description": "A printout of a local road map, with several buildings circled in red.  Using it will add roads and abandoned buildings to your map.",
     "color": "white",
     "use_action": {
       "type": "reveal_map",
@@ -207,7 +207,7 @@
     "copy-from": "abstractmap",
     "type": "GENERIC",
     "name": { "str": "restaurant advertising brochure" },
-    "description": "This is a small brochure advertising for local restaurants with an address below each entry.  Using it will add roads an local restaurants, diners and bars to your map.",
+    "description": "A small brochure advertising for local restaurants with an address below each entry.  Using it will add roads an local restaurants, diners and bars to your map.",
     "color": "light_blue",
     "use_action": {
       "type": "reveal_map",
@@ -221,7 +221,7 @@
     "copy-from": "abstractmap",
     "type": "GENERIC",
     "name": { "str": "food shopping advertising brochure" },
-    "description": "This is a small brochure advertising for local food shopping possibilities with an address below each entry.  Using it will add roads an local grocery and convenience stores as well as bakeries to your map.",
+    "description": "A small brochure advertising for local food shopping possibilities with an address below each entry.  Using it will add roads an local grocery and convenience stores as well as bakeries to your map.",
     "color": "light_blue",
     "use_action": {
       "type": "reveal_map",
@@ -235,7 +235,7 @@
     "copy-from": "abstractmap",
     "type": "GENERIC",
     "name": { "str": "history advertising brochure" },
-    "description": "This is a small brochure advertising for local museums, libraries and antique stores with an address below each entry.  Using it will add roads an local museums, libraries and antique stores to your map.",
+    "description": "A small brochure advertising for local museums, libraries and antique stores with an address below each entry.  Using it will add roads an local museums, libraries and antique stores to your map.",
     "color": "light_blue",
     "use_action": {
       "type": "reveal_map",
@@ -249,7 +249,7 @@
     "copy-from": "abstractmap",
     "type": "GENERIC",
     "name": { "str": "mall advertising brochure" },
-    "description": "This is a small brochure advertising for local malls with an address below each entry.  Using it will add roads an local malls and strip malls to your map.",
+    "description": "A small brochure advertising for local malls with an address below each entry.  Using it will add roads an local malls and strip malls to your map.",
     "color": "light_blue",
     "use_action": {
       "type": "reveal_map",
@@ -285,7 +285,7 @@
     "copy-from": "abstractmap",
     "type": "GENERIC",
     "name": { "str": "furniture advertising brochure" },
-    "description": "This is a small brochure advertising for local home improvement stores and with an address below each entry.  Using it will add roads an local furniture, home improvement and gardening stores to your map.",
+    "description": "A small brochure advertising for local home improvement stores and with an address below each entry.  Using it will add roads an local furniture, home improvement and gardening stores to your map.",
     "color": "light_blue",
     "use_action": {
       "type": "reveal_map",
@@ -311,7 +311,7 @@
     "copy-from": "abstractmap",
     "type": "GENERIC",
     "name": { "str": "technology advertising brochure" },
-    "description": "This is a small brochure advertising for local electronic and hardware stores as well as arcades and internet cafes with an address below each entry.  Using it will add roads and local electronic and hardware stores as well as arcades and internet cafes to your map.",
+    "description": "A small brochure advertising for local electronic and hardware stores as well as arcades and internet cafes with an address below each entry.  Using it will add roads and local electronic and hardware stores as well as arcades and internet cafes to your map.",
     "color": "light_blue",
     "use_action": {
       "type": "reveal_map",

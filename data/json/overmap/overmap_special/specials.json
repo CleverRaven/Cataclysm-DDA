@@ -316,8 +316,8 @@
     "locations": [ "forest_without_trail" ],
     "city_distance": [ 25, -1 ],
     "city_sizes": [ 0, 12 ],
-    "occurrences": [ 0, 2 ],
-    "flags": [ "CLASSIC", "MAN_MADE" ]
+    "occurrences": [ 20, 100 ],
+    "flags": [ "CLASSIC", "MAN_MADE", "UNIQUE" ]
   },
   {
     "type": "overmap_special",
@@ -344,8 +344,8 @@
     "locations": [ "forest_without_trail" ],
     "city_distance": [ 25, -1 ],
     "city_sizes": [ 0, 12 ],
-    "occurrences": [ 0, 2 ],
-    "flags": [ "CLASSIC", "MAN_MADE" ]
+    "occurrences": [ 20, 100 ],
+    "flags": [ "CLASSIC", "MAN_MADE", "UNIQUE" ]
   },
   {
     "type": "overmap_special",
@@ -460,6 +460,26 @@
       { "point": [ 1, 0, 2 ], "overmap": "lodge_roof2_north" },
       { "point": [ 0, 0, -1 ], "overmap": "lodge_basement_residential1_north" },
       { "point": [ 1, 0, -1 ], "overmap": "lodge_basement_residential2_north" }
+    ],
+    "connections": [ { "point": [ -1, 0, 0 ], "terrain": "road", "from": [ 0, 0, 0 ] } ],
+    "locations": [ "forest" ],
+    "city_distance": [ 30, -1 ],
+    "city_sizes": [ 0, 12 ],
+    "occurrences": [ 0, 1 ],
+    "flags": [ "CLASSIC", "WILDERNESS", "MAN_MADE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Hunting Lodge - Normal",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "lodge_ground1_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "lodge_ground2_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "lodge_2ndfloor1_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "lodge_2ndfloor2_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "lodge_roof1_north" },
+      { "point": [ 1, 0, 2 ], "overmap": "lodge_roof2_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "lodge_basement_residential3_north" },
+      { "point": [ 1, 0, -1 ], "overmap": "lodge_basement_residential4_north" }
     ],
     "connections": [ { "point": [ -1, 0, 0 ], "terrain": "road", "from": [ 0, 0, 0 ] } ],
     "locations": [ "forest" ],
@@ -817,7 +837,7 @@
     "connections": [ { "point": [ 0, -1, 0 ], "from": [ 0, 0, 0 ] } ],
     "locations": [ "forest" ],
     "city_distance": [ 20, -1 ],
-    "occurrences": [ 25, 100 ],
+    "occurrences": [ 5, 100 ],
     "flags": [ "MILITARY", "UNIQUE" ]
   },
   {
@@ -826,7 +846,7 @@
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "outpost_north" }, { "point": [ 0, 0, 1 ], "overmap": "outpost_roof_north" } ],
     "locations": [ "wilderness" ],
     "city_distance": [ 15, -1 ],
-    "occurrences": [ 25, 100 ],
+    "occurrences": [ 5, 100 ],
     "flags": [ "MILITARY", "UNIQUE" ]
   },
   {
@@ -838,7 +858,7 @@
     ],
     "locations": [ "wilderness" ],
     "city_distance": [ 15, -1 ],
-    "occurrences": [ 25, 100 ],
+    "occurrences": [ 5, 100 ],
     "flags": [ "MILITARY", "UNIQUE" ]
   },
   {
@@ -1764,7 +1784,7 @@
     "locations": [ "wilderness" ],
     "city_distance": [ 15, -1 ],
     "city_sizes": [ 6, -1 ],
-    "occurrences": [ 75, 100 ],
+    "occurrences": [ 5, 100 ],
     "flags": [ "UNIQUE", "MAN_MADE" ]
   },
   {
@@ -3353,7 +3373,7 @@
     "city_distance": [ 3, -1 ],
     "city_sizes": [ 4, -1 ],
     "occurrences": [ 75, 100 ],
-    "flags": [ "UNIQUE", "SAFE_AT_WORLDGEN", "MAN_MADE" ]
+    "flags": [ "GLOBALLY_UNIQUE", "SAFE_AT_WORLDGEN", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -7365,7 +7385,7 @@
     "locations": [ "land" ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] } ],
     "city_distance": [ 10, -1 ],
-    "occurrences": [ 80, 100 ],
+    "occurrences": [ 5, 100 ],
     "flags": [ "CLASSIC", "MILITARY", "UNIQUE" ]
   },
   {
@@ -7771,7 +7791,7 @@
     "locations": [ "wilderness" ],
     "city_distance": [ 0, 100 ],
     "city_sizes": [ 0, 12 ],
-    "occurrences": [ 20, 100 ],
+    "occurrences": [ 5, 100 ],
     "flags": [ "CLASSIC", "UNIQUE", "MAN_MADE" ]
   },
   {

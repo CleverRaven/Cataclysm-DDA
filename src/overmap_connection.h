@@ -48,7 +48,7 @@ class overmap_connection
         const subtype *pick_subtype_for( const int_id<oter_t> &ground ) const;
         bool has( const int_id<oter_t> &oter ) const;
 
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
         void check() const;
         void finalize();
 

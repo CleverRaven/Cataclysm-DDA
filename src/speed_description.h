@@ -19,7 +19,7 @@ class speed_description
         static void load_speed_descriptions( const JsonObject &jo, const std::string &src );
         static void reset();
 
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
 
         static const std::vector<speed_description> &get_all();
 

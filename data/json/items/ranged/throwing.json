@@ -29,8 +29,8 @@
     "material": [ "plastic" ],
     "volume": "250 ml",
     "weight": "170 g",
-    "bashing": 2,
-    "thrown_damage": [ { "damage_type": "bash", "amount": 1 } ]
+    "thrown_damage": [ { "damage_type": "bash", "amount": 1 } ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "type": "GENERIC",
@@ -45,8 +45,8 @@
     "material": [ "plastic" ],
     "volume": "500 ml",
     "weight": "175 g",
-    "bashing": 1,
-    "thrown_damage": [ { "damage_type": "bash", "amount": 1 } ]
+    "thrown_damage": [ { "damage_type": "bash", "amount": 1 } ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "net",
@@ -79,8 +79,8 @@
     "volume": "500 ml",
     "weight": "175 g",
     "to_hit": -1,
-    "cutting": 8,
-    "thrown_damage": [ { "damage_type": "stab", "amount": 16 } ]
+    "thrown_damage": [ { "damage_type": "stab", "amount": 16 } ],
+    "melee_damage": { "cut": 8 }
   },
   {
     "type": "GENERIC",
@@ -98,8 +98,8 @@
     "weight": "300 g",
     "longest_side": "30 cm",
     "to_hit": -1,
-    "cutting": 8,
-    "thrown_damage": [ { "damage_type": "stab", "amount": 18 }, { "damage_type": "bash", "amount": 4 } ]
+    "thrown_damage": [ { "damage_type": "stab", "amount": 18 }, { "damage_type": "bash", "amount": 4 } ],
+    "melee_damage": { "cut": 8 }
   },
   {
     "type": "GENERIC",
@@ -115,9 +115,8 @@
     "volume": "750 ml",
     "weight": "792 g",
     "to_hit": -1,
-    "bashing": 10,
-    "cutting": 17,
-    "thrown_damage": [ { "damage_type": "bash", "amount": 6 }, { "damage_type": "cut", "amount": 16 } ]
+    "thrown_damage": [ { "damage_type": "bash", "amount": 6 }, { "damage_type": "cut", "amount": 16 } ],
+    "melee_damage": { "bash": 10, "cut": 17 }
   },
   {
     "type": "GENERIC",
@@ -133,11 +132,10 @@
     "volume": "100 ml",
     "weight": "460 g",
     "to_hit": -2,
-    "bashing": 1,
-    "cutting": 10,
-    "flags": [ "STAB", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "KNIVES" ],
-    "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ]
+    "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ],
+    "melee_damage": { "bash": 1, "stab": 10 }
   },
   {
     "id": "throwing_stick",
@@ -149,12 +147,12 @@
     "volume": "500 ml",
     "price": 200,
     "price_postapoc": 50,
-    "bashing": 5,
     "material": [ "wood" ],
     "symbol": ";",
     "color": "brown",
     "ammo_type": "thrown",
-    "flags": [ "NOGIB" ]
+    "flags": [ "NOGIB" ],
+    "melee_damage": { "bash": 5 }
   },
   {
     "type": "GENERIC",
@@ -168,14 +166,13 @@
     "material": [ "wood", "iron" ],
     "volume": "800 ml",
     "longest_side": "80 cm",
-    "bashing": 5,
-    "cutting": 18,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "uneven" },
     "thrown_damage": [ { "damage_type": "bash", "amount": 5 }, { "damage_type": "cut", "amount": 17 } ],
     "flags": [ "SPEAR", "NONCONDUCTIVE", "JAVELIN" ],
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "price": 9000,
-    "price_postapoc": 500
+    "price_postapoc": 500,
+    "melee_damage": { "bash": 5, "stab": 18 }
   },
   {
     "type": "GENERIC",
@@ -188,13 +185,12 @@
     "material": [ "wood", "bronze" ],
     "volume": "800 ml",
     "longest_side": "80 cm",
-    "bashing": 5,
-    "cutting": 16,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "uneven" },
     "thrown_damage": [ { "damage_type": "bash", "amount": 5 }, { "damage_type": "cut", "amount": 15 } ],
     "flags": [ "SPEAR", "NONCONDUCTIVE", "JAVELIN" ],
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "price": 9000,
-    "price_postapoc": 500
+    "price_postapoc": 500,
+    "melee_damage": { "bash": 5, "stab": 16 }
   }
 ]

@@ -57,7 +57,7 @@ TEST_CASE( "food with hidden effects", "[item][tname][hidden]" )
 
         WHEN( "avatar has level 2 survival skill" ) {
             player_character.set_skill_level( skill_survival, 2 );
-            REQUIRE( player_character.get_skill_level( skill_survival ) == 2 );
+            REQUIRE( static_cast<int>( player_character.get_skill_level( skill_survival ) ) == 2 );
 
             THEN( "they cannot see it is poisonous" ) {
                 CHECK( coffee.tname() == "Kentucky coffee pod" );
@@ -66,7 +66,7 @@ TEST_CASE( "food with hidden effects", "[item][tname][hidden]" )
 
         WHEN( "avatar has level 3 survival skill" ) {
             player_character.set_skill_level( skill_survival, 3 );
-            REQUIRE( player_character.get_skill_level( skill_survival ) == 3 );
+            REQUIRE( static_cast<int>( player_character.get_skill_level( skill_survival ) ) == 3 );
 
             THEN( "they see it is poisonous" ) {
                 CHECK( coffee.tname() == "Kentucky coffee pod (poisonous)" );
@@ -82,7 +82,7 @@ TEST_CASE( "food with hidden effects", "[item][tname][hidden]" )
 
         WHEN( "avatar has level 4 survival skill" ) {
             player_character.set_skill_level( skill_survival, 4 );
-            REQUIRE( player_character.get_skill_level( skill_survival ) == 4 );
+            REQUIRE( static_cast<int>( player_character.get_skill_level( skill_survival ) ) == 4 );
 
             THEN( "they cannot see it is hallucinogenic" ) {
                 CHECK( mushroom.tname() == "mushroom (fresh)" );
@@ -91,7 +91,7 @@ TEST_CASE( "food with hidden effects", "[item][tname][hidden]" )
 
         WHEN( "avatar has level 5 survival skill" ) {
             player_character.set_skill_level( skill_survival, 5 );
-            REQUIRE( player_character.get_skill_level( skill_survival ) == 5 );
+            REQUIRE( static_cast<int>( player_character.get_skill_level( skill_survival ) ) == 5 );
 
             THEN( "they see it is hallucinogenic" ) {
                 CHECK( mushroom.tname() == "mushroom (hallucinogenic) (fresh)" );
@@ -276,13 +276,13 @@ TEST_CASE( "engine displacement volume", "[item][tname][engine]" )
     item v12diesel = item( "v12_diesel" );
     item turbine = item( "small_turbine_engine" );
 
-    REQUIRE( vtwin.engine_displacement() == 100 );
+    REQUIRE( vtwin.engine_displacement() == 60 );
     REQUIRE( v12diesel.engine_displacement() == 700 );
     REQUIRE( turbine.engine_displacement() == 2700 );
 
-    CHECK( vtwin.tname() == "1.0L V2 engine" );
-    CHECK( v12diesel.tname() == "7.0L V12 diesel engine" );
-    CHECK( turbine.tname() == "27.0L 1,350 HP gas turbine engine" );
+    CHECK( vtwin.tname() == "0.6L V2 engine" );
+    CHECK( v12diesel.tname() == "7L V12 diesel engine" );
+    CHECK( turbine.tname() == "27L 1,350 HP gas turbine engine" );
 }
 
 TEST_CASE( "wheel diameter", "[item][tname][wheel]" )

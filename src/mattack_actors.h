@@ -70,7 +70,7 @@ class melee_actor : public mattack_actor
 {
     public:
         // Maximum damage from the attack
-        damage_instance damage_max_instance = damage_instance::physical( 9, 0, 0, 0 );
+        damage_instance damage_max_instance;
         // Minimum multiplier on damage above (rolled per attack)
         float min_mul = 0.5f;
         // Maximum multiplier on damage above (also per attack)
@@ -193,6 +193,8 @@ class gun_actor : public mattack_actor
         /** Number of moves required for each attack */
         int move_cost = 150;
 
+        /** Should moving vehicles be targeted */
+        bool target_moving_vehicles = false;
         /*@{*/
         /** Turrets may need to expend moves targeting before firing on certain targets */
 

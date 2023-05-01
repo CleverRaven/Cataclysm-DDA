@@ -47,7 +47,7 @@ class event_transformation
         event_multiset value( stats_tracker & ) const;
         std::unique_ptr<stats_tracker_state> watch( stats_tracker & ) const;
 
-        void load( const JsonObject &, const std::string & );
+        void load( const JsonObject &, std::string_view );
         void check() const;
         static void load_transformation( const JsonObject &, const std::string & );
         static void check_consistency();
@@ -73,7 +73,7 @@ class event_statistic
         cata_variant value( stats_tracker & ) const;
         std::unique_ptr<stats_tracker_state> watch( stats_tracker & ) const;
 
-        void load( const JsonObject &, const std::string & );
+        void load( const JsonObject &, std::string_view );
         void check() const;
         static void load_statistic( const JsonObject &, const std::string & );
         static void check_consistency();
@@ -105,7 +105,7 @@ class score
         std::string description( stats_tracker & ) const;
         cata_variant value( stats_tracker & ) const;
 
-        void load( const JsonObject &, const std::string & );
+        void load( const JsonObject &, std::string_view );
         void check() const;
         static void load_score( const JsonObject &, const std::string & );
         static void check_consistency();

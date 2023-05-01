@@ -170,7 +170,7 @@ struct field_type;
 
 struct field_type {
     public:
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
         void finalize();
         void check() const;
 
