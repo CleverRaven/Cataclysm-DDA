@@ -3026,7 +3026,7 @@ void iexamine::digester_empty( Character &you, const tripoint &examp )
             add_msg( _( "This digester already finished producing methane." ) );
             add_msg( _( "Remove it before starting the process again." ) );
             return;
-        } else if( i.made_of_any(methanable) && !group_contains("corpses_all"))
+        } else if( i.made_of_any( methanable ) && !group_contains( "corpses_all" ) )
             fuel_present = true;
         } else {
             add_msg( m_bad, _( "This digester contains %s, which can't be used to produce methane!" ), i.tname( 1,
@@ -3043,7 +3043,7 @@ void iexamine::digester_empty( Character &you, const tripoint &examp )
     ///\EFFECT_FABRICATION decreases loss when firing a furnace
     const float skill = you.get_skill_level( skill_fabrication );
     int loss = 60 - 2 *
-               skill; // Inefficiency is still fine, coal and limestone is abundant
+               skill;
 
     units::volume total_volume = 0_ml;
     for( const item &i : items ) {
