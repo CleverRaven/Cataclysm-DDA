@@ -1272,7 +1272,7 @@ void set_furn_ids()
     f_skin_wall = furn_id( "f_skin_wall" );
     f_large_skin_wall = furn_id( "f_large_skin_wall" );
     f_skin_door = furn_id( "f_skin_door" );
-    f_skin_large_door = furn_id( "f_skin_large_door" );
+    f_large_skin_door = furn_id( "f_large_skin_door" );
     f_skin_door_o = furn_id( "f_skin_door_o" );
     f_large_skin_door_o = furn_id( "f_large_skin_door_o" );
     f_skin_groundsheet = furn_id( "f_skin_groundsheet" );
