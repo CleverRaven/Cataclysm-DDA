@@ -47,6 +47,7 @@
 #include "input_context.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_group.h"
 #include "item_location.h"
 #include "item_stack.h"
 #include "itype.h"
@@ -140,6 +141,8 @@ static const furn_str_id furn_f_water_mill( "f_water_mill" );
 static const furn_str_id furn_f_water_mill_active( "f_water_mill_active" );
 static const furn_str_id furn_f_wind_mill( "f_wind_mill" );
 static const furn_str_id furn_f_wind_mill_active( "f_wind_mill_active" );
+
+const item_group_id Item_spawn_data_corpses_all( "corpses_all" );
 
 static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_arm_splint( "arm_splint" );
@@ -3026,20 +3029,24 @@ void iexamine::digester_empty( Character &you, const tripoint &examp )
             add_msg( _( "This digester already finished producing methane." ) );
             add_msg( _( "Remove it before starting the process again." ) );
             return;
-        } else if( i.made_of_any( methanable ) && !group_contains( "corpses_all" ) )
+        } else if( i.made_of_any( methanable ) &&
+                   !item_group::group_contains_item( Item_spawn_data_corpses_all, itype_corpse ) ) {
             fuel_present = true;
         } else {
-            add_msg( m_bad, _( "This digester contains %s, which can't be used to produce methane!" ), i.tname( 1,
-                     false ) );
+            add_msg( m_bad, _( "This digester contains %s, which can't be used to produce methane!" ),
+                     i.tname( 1,
+                              false ) );
             return;
         }
     }
+
+
 
     if( !fuel_present ) {
         add_msg( _( "This digester is empty.  Fill it with organic matter and try again." ) );
         return;
     }
-	
+
     ///\EFFECT_FABRICATION decreases loss when firing a furnace
     const float skill = you.get_skill_level( skill_fabrication );
     int loss = 60 - 2 *
@@ -3057,14 +3064,14 @@ void iexamine::digester_empty( Character &you, const tripoint &examp )
         return;
     }
 
-        add_msg( _( "This digester contains %s %s of material, and the process is ready to be started." ),
-                 format_volume( total_volume ), volume_units_abbr() );
-        if( !query_yn( _( "Start the digester?" ) ) ) {
-            return;
-        }
+    add_msg( _( "This digester contains %s %s of material, and the process is ready to be started." ),
+             format_volume( total_volume ), volume_units_abbr() );
+    if( !query_yn( _( "Start the digester?" ) ) ) {
+        return;
+    }
 
     here.i_clear( examp );
-    here.furn_set( examp, next_kiln_type );
+    here.furn_set( examp, next_digester_type );
     item result( "unfinished_methane", calendar::turn );
     result.charges = char_charges;
     here.add_item( examp, result );
@@ -7164,8 +7171,12 @@ iexamine_functions iexamine_functions_from_string( const std::string &function_n
             { "locked_object_pickable", &iexamine::locked_object_pickable },
             { "kiln_empty", &iexamine::kiln_empty },
             { "kiln_full", &iexamine::kiln_full },
+<<<<<<< HEAD
             { "stook_empty", &iexamine::stook_empty },
             { "stook_full", &iexamine::stook_full },
+=======
+            { "digester_empty", &iexamine::digester_empty },
+>>>>>>> bfcdcf2425 (karol'd)
             { "arcfurnace_empty", &iexamine::arcfurnace_empty },
             { "arcfurnace_full", &iexamine::arcfurnace_full },
             { "autoclave_empty", &iexamine::autoclave_empty },
