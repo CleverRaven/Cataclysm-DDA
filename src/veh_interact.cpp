@@ -877,7 +877,8 @@ bool veh_interact::update_part_requirements()
                                   veh->part( cpart ).mount, sel_vpart_info->get_id() );
     if( !can_mount.success() ) {
         ok = false;
-        nmsg += _( "<color_white>Cannot install due to:</color>\n> " ) + can_mount.str() + "\n";
+        nmsg += _( "<color_white>Cannot install due to:</color>\n> " ) + colorize( can_mount.str(),
+                c_red ) + "\n";
     }
 
     sel_vpart_info->format_description( nmsg, c_light_gray, getmaxx( w_msg ) - 4 );
