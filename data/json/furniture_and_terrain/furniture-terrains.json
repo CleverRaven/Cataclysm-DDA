@@ -769,29 +769,6 @@
   },
   {
     "type": "furniture",
-    "id": "f_large_skin_groundsheet",
-    "name": "animalskin floor",
-    "looks_like": "f_skin_groundsheet",
-    "description": "An animal-skin groundsheet to keep your feet dry inside the shelter.",
-    "symbol": ";",
-    "color": "brown",
-    "move_cost_mod": 0,
-    "required_str": -1,
-    "flags": [ "TRANSPARENT", "INDOORS", "NOCOLLIDE", "SUN_ROOF_ABOVE" ],
-    "examine_action": "portable_structure",
-    "deployed_item": "large_shelter_kit",
-    "bash": {
-      "str_min": 1,
-      "str_max": 8,
-      "sound": "rrrrip!",
-      "sound_fail": "slap!",
-      "sound_vol": 8,
-      "items": [ { "item": "large_damaged_shelter_kit" } ],
-      "tent_centers": [ "f_groundsheet", "f_fema_groundsheet", "f_skin_groundsheet" ]
-    }
-  },
-  {
-    "type": "furniture",
     "id": "f_rubble",
     "name": "pile of rubble",
     "symbol": "^",
