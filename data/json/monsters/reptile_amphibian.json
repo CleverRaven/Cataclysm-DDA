@@ -463,7 +463,7 @@
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "SWIMS" ],
     "armor": { "bash": 4, "electric": 1 }
-   },
+  },
   {
     "id": "mon_salamander_mega",
     "type": "MONSTER",
