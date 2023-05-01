@@ -463,8 +463,8 @@
     "monsters": [ { "monster": "mon_fry_fallfish" } ]
   },
   {
-    "name": "GROUP_EGG_GECKO",
+    "name": "GROUP_EGG_SALAMANDER",
     "type": "monstergroup",
-    "monsters": [ { "monster": "mon_gecko" } ]
-  }
+    "monsters": [ { "monster": "mon_salamander" } ]
+  },
 ]

@@ -115,7 +115,7 @@
       },
       { "monster": "mon_frog", "weight": 3, "cost_multiplier": 10, "pack_size": [ 1, 3 ] },
       { "monster": "mon_toad", "weight": 3, "cost_multiplier": 10, "pack_size": [ 1, 3 ] },
-      { "monster": "mon_gecko", "weight": 6, "cost_multiplier": 10, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_salamander", "weight": 6, "cost_multiplier": 10, "pack_size": [ 1, 3 ] },
       {
         "monster": "mon_rattlesnake",
         "weight": 3,
@@ -421,7 +421,7 @@
       },
       { "monster": "mon_frog", "weight": 30, "cost_multiplier": 2, "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] },
       { "monster": "mon_toad", "weight": 50, "cost_multiplier": 2, "pack_size": [ 1, 3 ] },
-      { "monster": "mon_gecko", "weight": 30, "cost_multiplier": 2, "pack_size": [ 1, 3 ] }
+      { "monster": "mon_salamander", "weight": 30, "cost_multiplier": 2, "pack_size": [ 1, 3 ] }
     ]
   },
   {

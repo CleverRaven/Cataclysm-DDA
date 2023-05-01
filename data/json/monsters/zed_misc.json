@@ -14,7 +14,7 @@
     "symbol": "F",
     "color": "black_green",
     "aggression": 100,
-    "morale": 100,
+    "morale": 90,
     "melee_skill": 5,
     "melee_dice": 5,
     "melee_dice_sides": 6,
@@ -1646,10 +1646,10 @@
     "armor": { "bash": 5, "cut": 5, "bullet": 1, "electric": 1 }
   },
   {
-    "id": "mon_zombie_gecko",
+    "id": "mon_zombie_salamander",
     "type": "MONSTER",
-    "name": { "str": "zombie gecko" },
-    "description": "The wound covered skin of this large gecko appears to be peeling in places, revealing a black goop beneath the surface. run away while you can.",
+    "name": { "str": "zombie salamander" },
+    "description": "The wound covered skin of this large salamander appears to be peeling in places, revealing a black goop beneath the surface. His flesh breaks down and regenerates constantly.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "REPTILE" ],
     "volume": "120 L",
@@ -1671,7 +1671,9 @@
     "bleed_rate": 0,
     "vision_night": 7,
     "harvest": "zombie",
-    "special_attacks": [ [ "GRAB_DRAG", 3 ] ],
+    "special_attacks": [
+      [ "GRAB_DRAG", 3 ]
+    ],
     "regen_morale": true,
     "flags": [
       "SEES",
@@ -1689,11 +1691,11 @@
     "upgrades": { "half_life": 34, "into": "mon_frog_mother" },
     "armor": { "bash": 8, "cut": 2, "bullet": 1, "electric": 2 }
   },
-  {
-    "id": "mon_evoluted_z_gecko",
+ {
+    "id": "mon_evoluted_z_salamander",
     "type": "MONSTER",
-    "name": { "str": "evoluted zombie gecko" },
-    "description": "a giant gecko with its mouth open in an ominous way and with its lifeless eyes stares into void, pray.",
+    "name": { "str": "evoluted zombie salamander" },
+    "description": "a giant salamander with its mouth open in an ominous way and with its lifeless eyes stares into void, pray.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "REPTILE" ],
     "volume": "240 L",
@@ -1714,7 +1716,9 @@
     "bleed_rate": 0,
     "vision_night": 7,
     "harvest": "zombie",
-    "special_attacks": [ [ "GRAB_DRAG", 3 ] ],
+    "special_attacks": [
+      [ "GRAB_DRAG", 3 ]
+    ],
     "regenerates": 40,
     "regen_morale": true,
     "flags": [
