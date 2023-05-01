@@ -1928,5 +1928,10 @@
     "type": "construction_group",
     "id": "place_piano",
     "name": "Place Piano"
+  },
+  {
+    "type": "construction_group",
+    "id": "digester",
+    "name": "Build a biogas digester"
   }
 ]

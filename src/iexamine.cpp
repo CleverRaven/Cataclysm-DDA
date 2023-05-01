@@ -163,6 +163,7 @@ static const itype_id itype_leg_splint( "leg_splint" );
 static const itype_id itype_maple_sap( "maple_sap" );
 static const itype_id itype_marloss_berry( "marloss_berry" );
 static const itype_id itype_marloss_seed( "marloss_seed" );
+static const itype_id itype_methane( "methane" );
 static const itype_id itype_mycus_fruit( "mycus_fruit" );
 static const itype_id itype_nail( "nail" );
 static const itype_id itype_nanomaterial( "nanomaterial" );
@@ -172,6 +173,7 @@ static const itype_id itype_stick( "stick" );
 static const itype_id itype_string_36( "string_36" );
 static const itype_id itype_unfinished_cac2( "unfinished_cac2" );
 static const itype_id itype_unfinished_charcoal( "unfinished_charcoal" );
+static const itype_id itype_unfinished_methane( "unfinished_methane" );
 
 static const json_character_flag json_flag_ATTUNEMENT( "ATTUNEMENT" );
 static const json_character_flag json_flag_GLIDE( "GLIDE" );
@@ -183,11 +185,18 @@ static const json_character_flag json_flag_WING_GLIDE( "WING_GLIDE" );
 static const material_id material_bone( "bone" );
 static const material_id material_cac2powder( "cac2powder" );
 static const material_id material_ch_steel( "ch_steel" );
+static const material_id material_dry_plant( "dry_plant" );
+static const material_id material_feces( "feces" );
+static const material_id material_flesh( "flesh" );
+static const material_id material_fruit( "fruit" );
 static const material_id material_hc_steel( "hc_steel" );
+static const material_id material_iflesh( "iflesh" );
 static const material_id material_lc_steel( "lc_steel" );
 static const material_id material_mc_steel( "mc_steel" );
 static const material_id material_qt_steel( "qt_steel" );
 static const material_id material_steel( "steel" );
+static const material_id material_veggy( "veggy" );
+static const material_id material_wheat( "wheat" );
 static const material_id material_wood( "wood" );
 
 static const mtype_id mon_broken_cyborg( "mon_broken_cyborg" );
@@ -2994,6 +3003,74 @@ void iexamine::kiln_full( Character &, const tripoint &examp )
     here.furn_set( examp, next_kiln_type );
     add_msg( _( "It has finished burning, yielding %d charcoal." ), result.charges );
 }
+
+// Modified charcoal kiln functions
+void iexamine::digester_empty( Character &you, const tripoint &examp )
+{
+    map &here = get_map();
+    furn_id cur_digester_type = here.furn( examp );
+    furn_id next_digester_type = f_null;
+    if( cur_digester_type == f_digester_empty ) {
+        next_digester_type = f_digester_full;
+    } else {
+        debugmsg( "Examined furniture has action digester_empty, but is of type %s",
+                  here.furn( examp ).id().c_str() );
+        return;
+    }
+
+    static const std::set<material_id> methanable{ material_dry_plant, material_flesh, material_iflesh, material_wheat, material_veggy, material_fruit, material_feces };
+    bool fuel_present = false;
+    map_stack items = here.i_at( examp );
+    for( const item &i : items ) {
+        if( i.typeId() == itype_methane ) {
+            add_msg( _( "This digester already finished producing methane." ) );
+            add_msg( _( "Remove it before starting the process again." ) );
+            return;
+        } else if( i.made_of_any(methanable) && !group_contains("corpses_all"))
+            fuel_present = true;
+        } else {
+            add_msg( m_bad, _( "This digester contains %s, which can't be used to produce methane!" ), i.tname( 1,
+                     false ) );
+            return;
+        }
+    }
+
+    if( !fuel_present ) {
+        add_msg( _( "This digester is empty.  Fill it with organic matter and try again." ) );
+        return;
+    }
+	
+    ///\EFFECT_FABRICATION decreases loss when firing a furnace
+    const float skill = you.get_skill_level( skill_fabrication );
+    int loss = 60 - 2 *
+               skill; // Inefficiency is still fine, coal and limestone is abundant
+
+    units::volume total_volume = 0_ml;
+    for( const item &i : items ) {
+        total_volume += i.volume();
+    }
+
+    const itype *char_type = item::find_type( itype_unfinished_methane );
+    int char_charges = char_type->charges_per_volume( ( 100 - loss ) * total_volume / 100 );
+    if( char_charges < 1 ) {
+        add_msg( _( "The batch in this digester is too small to yield anything useful." ) );
+        return;
+    }
+
+        add_msg( _( "This digester contains %s %s of material, and the process is ready to be started." ),
+                 format_volume( total_volume ), volume_units_abbr() );
+        if( !query_yn( _( "Start the digester?" ) ) ) {
+            return;
+        }
+
+    here.i_clear( examp );
+    here.furn_set( examp, next_kiln_type );
+    item result( "unfinished_methane", calendar::turn );
+    result.charges = char_charges;
+    here.add_item( examp, result );
+    add_msg( _( "You start the digestion process." ) );
+}
+
 //arc furnance start
 void iexamine::arcfurnace_empty( Character &you, const tripoint &examp )
 {

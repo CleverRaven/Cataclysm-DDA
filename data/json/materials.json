@@ -2918,6 +2918,17 @@
   },
   {
     "type": "material",
+    "id": "methane",
+    "name": "Methane",
+    "copy-from": "hydrocarbons",
+    "density": 0.657,
+    "fuel_data": {
+      "energy": "25000 kJ",
+      "explosion_data": { "chance_hot": 20, "chance_cold": 1000, "factor": 0.2, "fiery": false, "size_factor": 0.1 }
+    }
+  },
+  {
+    "type": "material",
     "id": "slag",
     "name": "Slag",
     "density": 4,
