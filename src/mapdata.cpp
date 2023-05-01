@@ -1267,11 +1267,16 @@ void set_furn_ids()
     f_groundsheet = furn_id( "f_groundsheet" );
     f_large_groundsheet = furn_id( "f_large_groundsheet" );
     f_center_groundsheet = furn_id( "f_center_groundsheet" );
+    f_skin_center_groundsheet = furn_id( "f_skin_center_groundsheet" );
     f_fema_groundsheet = furn_id( "f_fema_groundsheet" );
     f_skin_wall = furn_id( "f_skin_wall" );
+    f_large_skin_wall = furn_id( "f_large_skin_wall" );
     f_skin_door = furn_id( "f_skin_door" );
+    f_skin_large_door = furn_id( "f_skin_large_door" );
     f_skin_door_o = furn_id( "f_skin_door_o" );
+    f_large_skin_door_o = furn_id( "f_large_skin_door_o" );
     f_skin_groundsheet = furn_id( "f_skin_groundsheet" );
+    f_large_skin_groundsheet = furn_id( "f_large_skin_groundsheet" );
     f_mutpoppy = furn_id( "f_mutpoppy" );
     f_fungal_mass = furn_id( "f_fungal_mass" );
     f_fungal_clump = furn_id( "f_fungal_clump" );
