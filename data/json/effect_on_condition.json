@@ -1018,7 +1018,7 @@
   {
     "type": "effect_on_condition",
     "id": "chitin2_molt_timer2",
-    "recurrence": [ "1 day", "2 days" ],
+    "recurrence": [ "1 days", "2 days" ],
     "condition": {
       "and": [
         { "u_has_effect": "molting" },
@@ -1031,7 +1031,7 @@
   {
     "type": "effect_on_condition",
     "id": "chitin2_molt_timer_3",
-    "recurrence": [ "1 hour", "3 hours" ],
+    "recurrence": [ "1 hours", "3 hours" ],
     "condition": {
       "and": [
         { "u_has_effect": "molting_imminent" },
@@ -1091,7 +1091,7 @@
   {
     "type": "effect_on_condition",
     "id": "chitin3_molt_timer2",
-    "recurrence": [ "1 day", "2 days" ],
+    "recurrence": [ "1 days", "2 days" ],
     "condition": {
       "and": [
         { "u_has_effect": "molting" },
@@ -1105,7 +1105,7 @@
   {
     "type": "effect_on_condition",
     "id": "chitin3_molt_timer3",
-    "recurrence": [ "1 hour", "3 hours" ],
+    "recurrence": [ "1 hours", "3 hours" ],
     "condition": {
       "and": [
         { "u_has_trait": "CHITIN2" },
