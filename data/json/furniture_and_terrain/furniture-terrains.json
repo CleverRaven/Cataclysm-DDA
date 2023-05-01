@@ -436,7 +436,7 @@
     "type": "furniture",
     "id": "f_skin_center_groundsheet",
     "name": "large skin groundsheet",
-    "looks_like": "f_skin_groundsheet", 
+    "looks_like": "f_skin_groundsheet",
     "description": "A large animal-skin groundsheet to keep your feet dry inside the shelter.",
     "symbol": ";",
     "color": "brown",
