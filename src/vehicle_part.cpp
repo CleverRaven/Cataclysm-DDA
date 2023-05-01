@@ -89,7 +89,7 @@ item vehicle_part::properties_to_item() const
             }
             tmp.link->t_abs_pos = tripoint_abs_ms( target.second );
             tmp.link->s_state = link_state::no_link;
-            tmp.link->t_state = link_state::vehicle;
+            tmp.link->t_state = link_state::vehicle_port;
         }
 
         bool iuse_found = false;

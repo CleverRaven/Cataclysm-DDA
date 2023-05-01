@@ -61,7 +61,7 @@
       "menu_text": "Plug in / Unplug",
       "is_cable_item": true,
       "cable_length": 3,
-      "targets": [ "vehicle" ]
+      "targets": [ "no_link", "vehicle_port", "vehicle_battery" ]
     },
     "flags": [ "CABLE_SPOOL", "AUTO_DELETE_CABLE" ],
     "melee_damage": { "bash": 2 }
@@ -96,7 +96,7 @@
       "menu_text": "Plug in / Unplug",
       "is_cable_item": true,
       "cable_length": 10,
-      "targets": [ "no_link", "vehicle" ]
+      "targets": [ "no_link", "vehicle_port", "vehicle_battery" ]
     }
   },
   {
@@ -139,7 +139,7 @@
       "menu_text": "Plug in / Unplug",
       "is_cable_item": true,
       "cable_length": 3,
-      "targets": [ "vehicle" ]
+      "targets": [ "no_link", "vehicle_port", "vehicle_battery" ]
     },
     "flags": [ "CABLE_SPOOL", "AUTO_DELETE_CABLE", "SINGLE_USE" ],
     "melee_damage": { "bash": 2 }

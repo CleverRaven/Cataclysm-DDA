@@ -424,7 +424,7 @@ static void connect_power_line( const tripoint &src_pos, const tripoint &dst_pos
     map &here = get_map();
     item cord( itm );
     cord.link = cata::make_value<item::link_data>();
-    cord.link->t_state = link_state::vehicle;
+    cord.link->t_state = link_state::vehicle_port;
     cord.link->t_abs_pos = here.getglobal( src_pos );
     cord.active = true;
 

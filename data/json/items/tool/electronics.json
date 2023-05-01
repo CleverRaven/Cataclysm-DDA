@@ -368,7 +368,7 @@
         "ammo_scale": 0,
         "cable_length": 5,
         "charge_rate": "140 W",
-        "targets": [ "no_link", "vehicle" ]
+        "targets": [ "no_link", "vehicle_port" ]
       }
     ],
     "flags": [ "WATCH", "WATER_BREAK", "ELECTRONIC" ],
@@ -428,7 +428,8 @@
         "menu_text": "Plug in / Unplug",
         "ammo_scale": 0,
         "cable_length": 5,
-        "charge_rate": "140 W"
+        "charge_rate": "140 W",
+        "targets": [ "no_link", "vehicle_port" ]
       }
     ],
     "flags": [ "WATCH", "LIGHT_10", "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC" ]
@@ -618,7 +619,8 @@
         "menu_text": "Plug in / Unplug",
         "ammo_scale": 0,
         "cable_length": 3,
-        "charge_rate": "20 W"
+        "charge_rate": "20 W",
+        "targets": [ "no_link", "vehicle_port" ]
       }
     ],
     "flags": [ "WATCH", "ALARMCLOCK", "USE_UPS", "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK", "CALORIES_INTAKE", "ELECTRONIC" ],
@@ -660,7 +662,8 @@
         "menu_text": "Plug in / Unplug",
         "ammo_scale": 0,
         "cable_length": 3,
-        "charge_rate": "20 W"
+        "charge_rate": "20 W",
+        "targets": [ "no_link", "vehicle_port" ]
       }
     ],
     "extend": { "flags": [ "TRADER_AVOID" ] }
@@ -696,7 +699,8 @@
         "menu_text": "Plug in / Unplug",
         "ammo_scale": 0,
         "cable_length": 3,
-        "charge_rate": "20 W"
+        "charge_rate": "20 W",
+        "targets": [ "no_link", "vehicle_port" ]
       }
     ],
     "extend": { "flags": [ "LIGHT_20", "CHARGEDIM", "TRADER_AVOID" ] }

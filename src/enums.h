@@ -481,7 +481,8 @@ enum class link_state : int {
     solarpack, // Linked to a solarpack the cable holder is wearing
 
     // States of a cable's link at the end represented by t_abs_pos (t_state)
-    vehicle, // Linked to a vehicle's cable ports / vehicle's electrical controls / appliance
+    vehicle_port, // Linked to a vehicle's cable ports / electrical controls or an appliance
+    vehicle_battery, // Linked to a vehicle's battery or an appliance
 
     // States of a link that could be at either the source or the target
     bio_cable,   // Linked to the cable holder's cable system bionic - s_state if connected to a vehicle, t_state otherwise

@@ -506,7 +506,7 @@ item vehicle::init_cord( const tripoint &pos )
 {
     item cord( "power_cord" );
     cord.link = cata::make_value<item::link_data>();
-    cord.link->t_state = link_state::vehicle;
+    cord.link->t_state = link_state::vehicle_port;
     cord.link->t_veh_safe = get_safe_reference();
     cord.link->t_abs_pos = get_map().getglobal( pos );
     cord.active = true;

@@ -3755,8 +3755,10 @@ std::string enum_to_string<link_state>( link_state data )
             return "no_link";
         case link_state::needs_reeling:
             return "needs_reeling";
-        case link_state::vehicle:
-            return "vehicle";
+        case link_state::vehicle_port:
+            return "vehicle_port";
+        case link_state::vehicle_battery:
+            return "vehicle_battery";
         case link_state::vehicle_tow:
             return "vehicle_tow";
         case link_state::bio_cable:

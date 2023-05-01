@@ -12861,8 +12861,15 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos, it
 
     // Find the vp_part index the cable is linked to.
     int link_vp_index = -1;
-    if( link->t_state == link_state::vehicle ) {
+    if( link->t_state == link_state::vehicle_port ) {
         for( int idx : t_veh->cable_ports ) {
+            if( t_veh->part( idx ).mount == link->t_mount ) {
+                link_vp_index = idx;
+                break;
+            }
+        }
+    } else if( link->t_state == link_state::vehicle_battery ) {
+        for( int idx : t_veh->batteries ) {
             if( t_veh->part( idx ).mount == link->t_mount ) {
                 link_vp_index = idx;
                 break;

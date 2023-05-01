@@ -21,7 +21,7 @@
       "menu_text": "Plug in / Unplug",
       "is_cable_item": true,
       "cable_length": 3,
-      "targets": [ "vehicle" ]
+      "targets": [ "vehicle_port" ]
     },
     "flags": [ "CABLE_SPOOL", "AUTO_DELETE_CABLE", "SINGLE_USE" ],
     "melee_damage": { "bash": 2 }
@@ -67,7 +67,7 @@
       "menu_text": "Attach / Detach",
       "is_cable_item": true,
       "cable_length": 4,
-      "targets": [ "no_link", "bio_cable", "ups", "solarpack", "vehicle" ]
+      "targets": [ "no_link", "bio_cable", "ups", "solarpack", "vehicle_battery" ]
     },
     "flags": [ "CABLE_SPOOL", "SINGLE_USE" ],
     "melee_damage": { "bash": 2 }
@@ -87,7 +87,7 @@
       "menu_text": "Plug in / Unplug",
       "is_cable_item": true,
       "cable_length": 10,
-      "targets": [ "no_link", "vehicle" ]
+      "targets": [ "no_link", "vehicle_port" ]
     },
     "flags": [ "CABLE_SPOOL", "SINGLE_USE" ]
   },
@@ -106,7 +106,7 @@
       "menu_text": "Plug in / Unplug",
       "is_cable_item": true,
       "cable_length": 30,
-      "targets": [ "no_link", "vehicle" ]
+      "targets": [ "no_link", "vehicle_port" ]
     },
     "flags": [ "CABLE_SPOOL", "SINGLE_USE" ]
   },
@@ -145,7 +145,7 @@
       "menu_text": "Attach / Detach",
       "is_cable_item": true,
       "cable_length": 20,
-      "targets": [ "no_link", "bio_cable", "ups", "solarpack", "vehicle" ]
+      "targets": [ "no_link", "bio_cable", "ups", "solarpack", "vehicle_battery" ]
     },
     "copy-from": "jumper_cable"
   },
@@ -164,7 +164,7 @@
       "is_cable_item": true,
       "cable_length": 100,
       "efficiency": 1000,
-      "targets": [ "no_link", "bio_cable", "ups", "solarpack", "vehicle", "vehicle_tow" ]
+      "targets": [ "no_link", "bio_cable", "ups", "solarpack", "vehicle_port", "vehicle_battery", "vehicle_tow" ]
     },
     "copy-from": "jumper_cable"
   }
