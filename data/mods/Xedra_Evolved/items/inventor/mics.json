@@ -72,7 +72,7 @@
   {
     "id": "heater_tool",
     "type": "TOOL",
-    "name": { "str": "\"Heater\"" },
+    "name": { "str": "\"Heater\"", "str_pl": "\"Heaters\"" },
     "description": "Extremely small and light tool, that create and transfer the heat in extremely effective way.  You think it would be interesting to develop it futher.",
     "weight": "358 g",
     "volume": "790 ml",
