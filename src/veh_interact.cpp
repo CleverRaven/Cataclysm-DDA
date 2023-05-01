@@ -873,10 +873,11 @@ bool veh_interact::update_part_requirements()
     }
     nmsg += res.second;
 
-    if( !veh->can_mount( veh->part( cpart ).mount, sel_vpart_info->get_id() ).success() ) {
+    ret_val<void> can_mount = veh->can_mount(
+                                  veh->part( cpart ).mount, sel_vpart_info->get_id() );
+    if( !can_mount.success() ) {
         ok = false;
-        nmsg += _( "<color_white>Cannot install due to:</color>\n" ) + veh->can_mount( veh->part(
-                    cpart ).mount, sel_vpart_info->get_id() ).str() + "\n";
+        nmsg += _( "<color_white>Cannot install due to:</color>\n> " ) + can_mount.str() + "\n";
     }
 
     sel_vpart_info->format_description( nmsg, c_light_gray, getmaxx( w_msg ) - 4 );
@@ -2383,7 +2384,7 @@ void veh_interact::move_cursor( const point &d, int dstart_at )
                 } else {
                     req_missing.push_back( &vp );
                 }
-            } else if( !veh->can_mount( vd, vp.get_id() ).success() ) {
+            } else {
                 req_missing.push_back( &vp );
             }
         }
