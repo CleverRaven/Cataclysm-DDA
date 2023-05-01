@@ -1714,9 +1714,7 @@
     "bleed_rate": 0,
     "vision_night": 7,
     "harvest": "zombie",
-    "special_attacks": [
-      [ "GRAB_DRAG", 3 ]
-    ],
+    "special_attacks": [ [ "GRAB_DRAG", 3 ] ],
     "regenerates": 40,
     "regen_morale": true,
     "flags": [
