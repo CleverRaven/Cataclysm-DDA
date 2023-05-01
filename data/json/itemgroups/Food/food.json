@@ -914,7 +914,7 @@
       { "item": "soysauce", "prob": 45 },
       { "item": "hot_sauce", "prob": 45 },
       { "item": "horseradish", "prob": 30 },
-      { "item": "pickle", "prob": 40, "charges": 6, "container-item": "jar_glass_sealed" },
+      { "item": "pickle", "prob": 40, "charges": 2, "container-item": "jar_glass_sealed" },
       { "item": "salt", "prob": 20 },
       { "item": "pepper", "prob": 20 },
       { "item": "meat_smoked", "prob": 4 },
