@@ -2358,24 +2358,18 @@ void outfit::add_stash( Character &guy, const item &newit, int &remaining_charge
             if( pocke == nullptr ) {
                 continue;
             }
-            if( pocke->rigid() ) {
-                // Rigid container allow to fill unconditionally till volume limit
-                // because do not depend on the capacity of the parent's pocket.
-                filled_count = pocke->fill_with( newit, guy, remaining_charges, false, false );
-            } else {
-                int max_contain_value = pocke->remaining_capacity_for_item( newit );
-                const item_location parent_data = pocket_data_ptr.parent;
+            int max_contain_value = pocke->remaining_capacity_for_item( newit );
+            const item_location parent_data = pocket_data_ptr.parent;
 
-                if( parent_data.has_parent() ) {
-                    if( parent_data.parents_can_contain_recursive( &temp_it ) ) {
-                        max_contain_value = parent_data.max_charges_by_parent_recursive( temp_it );
-                    } else {
-                        max_contain_value = 0;
-                    }
+            if( parent_data.has_parent() ) {
+                if( parent_data.parents_can_contain_recursive( &temp_it ) ) {
+                    max_contain_value = parent_data.max_charges_by_parent_recursive( temp_it );
+                } else {
+                    max_contain_value = 0;
                 }
-                const int charges = std::min( max_contain_value, remaining_charges ) ;
-                filled_count = pocke->fill_with( newit, guy, charges, false, false );
             }
+            const int charges = std::min( max_contain_value, remaining_charges ) ;
+            filled_count = pocke->fill_with( newit, guy, charges, false, false );
             num_contained += filled_count;
             remaining_charges -= filled_count;
         }

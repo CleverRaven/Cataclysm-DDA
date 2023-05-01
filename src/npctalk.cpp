@@ -2694,6 +2694,41 @@ void talk_effect_fun_t::set_location_variable( const JsonObject &jo, const std::
         target_params = mission_util::parse_mission_om_target( target_obj );
     }
 
+    std::optional<str_or_var> search_target;
+    std::optional<std::string> search_type;
+    dbl_or_var dov_target_min_radius = get_dbl_or_var( jo, "target_min_radius", false, 0 );
+    dbl_or_var dov_target_max_radius = get_dbl_or_var( jo, "target_max_radius", false, 0 );
+    int target_types = 0;
+    if( jo.has_member( "terrain" ) ) {
+        target_types++;
+        search_type = "terrain";
+    }
+    if( jo.has_member( "furniture" ) ) {
+        target_types++;
+        search_type = "furniture";
+    }
+    if( jo.has_member( "monster" ) ) {
+        target_types++;
+        search_type = "monster";
+    }
+    if( jo.has_member( "npc" ) ) {
+        target_types++;
+        search_type = "npc";
+    }
+    if( jo.has_member( "trap" ) ) {
+        target_types++;
+        search_type = "trap";
+    }
+    if( jo.has_member( "zone" ) ) {
+        target_types++;
+        search_type = "zone";
+    }
+    if( target_types == 1 ) {
+        search_target = get_str_or_var( jo.get_member( search_type.value() ), search_type.value(), true );
+    } else if( target_types > 1 ) {
+        jo.throw_error( "Can only have one of terrain, furniture, monster, trap, zone, or npc." );
+    }
+
     var_info var = read_var_info( jo.get_object( member ) );
     var_type type = var.type;
     std::string var_name = var.name;
@@ -2701,25 +2736,104 @@ void talk_effect_fun_t::set_location_variable( const JsonObject &jo, const std::
     std::vector<effect_on_condition_id> true_eocs = load_eoc_vector( jo, "true_eocs" );
     std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );
 
-    function = [dov_min_radius, dov_max_radius, var_name, outdoor_only, target_params,
-                                is_npc, type, dov_x_adjust, dov_y_adjust, dov_z_adjust, z_override, true_eocs,
-                    false_eocs]( dialogue const & d ) {
+    function = [dov_min_radius, dov_max_radius, var_name, outdoor_only, target_params, is_npc, type,
+                                dov_x_adjust, dov_y_adjust, dov_z_adjust, z_override, true_eocs, false_eocs, search_target,
+                    search_type, dov_target_min_radius, dov_target_max_radius]( dialogue const & d ) {
         talker *target = d.actor( is_npc );
         tripoint talker_pos = get_map().getabs( target->pos() );
         tripoint target_pos = talker_pos;
-
-        int max_radius = dov_max_radius.evaluate( d );
         if( target_params.has_value() ) {
             const tripoint_abs_omt omt_pos = mission_util::get_om_terrain_pos( target_params.value() );
             target_pos = tripoint( project_to<coords::ms>( omt_pos ).x(), project_to<coords::ms>( omt_pos ).y(),
                                    project_to<coords::ms>( omt_pos ).z() );
-        } else if( max_radius > 0 ) {
+        }
+        const tripoint_abs_ms abs_ms( target_pos );
+        map distant_map;
+        distant_map.load( project_to<coords::sm>( abs_ms ), false );
+
+        map &here = get_map().inbounds( abs_ms ) ? get_map() : distant_map;
+
+        if( search_target.has_value() ) {
+            if( search_type.value() == "monster" && !get_map().inbounds( abs_ms ) ) {
+                here.spawn_monsters( true, true );
+            }
+            int min_target_dist = dov_target_min_radius.evaluate( d );
+            std::string cur_search_target = search_target.value().evaluate( d );
+            bool found = false;
+            tripoint_range<tripoint> points = here.points_in_radius( here.getlocal( abs_ms ),
+                                              size_t( dov_target_max_radius.evaluate( d ) ), size_t( 0 ) );
+            for( const tripoint &search_loc : points ) {
+                if( rl_dist( here.getlocal( talker_pos ), search_loc ) <= min_target_dist ) {
+                    continue;
+                }
+                if( search_type.value() == "terrain" ) {
+                    if( here.ter( search_loc ).id().c_str() == cur_search_target ) {
+                        target_pos = here.getabs( search_loc );
+                        found = true;
+                        break;
+                    }
+                } else if( search_type.value() == "furniture" ) {
+                    if( here.furn( search_loc ).id().c_str() == cur_search_target ||
+                        ( !here.furn( search_loc ).id().is_null() && cur_search_target.empty() ) ) {
+                        target_pos = here.getabs( search_loc );
+                        found = true;
+                        break;
+                    }
+                } else if( search_type.value() == "trap" ) {
+                    if( here.tr_at( search_loc ).id.c_str() == cur_search_target ||
+                        ( !here.tr_at( search_loc ).is_null() &&
+                          cur_search_target.empty() ) ) {
+                        target_pos = here.getabs( search_loc );
+                        found = true;
+                        break;
+                    }
+                } else if( search_type.value() == "monster" ) {
+                    Creature *tmp_critter = get_creature_tracker().creature_at( here.getglobal( search_loc ) );
+                    if( tmp_critter != nullptr && tmp_critter->is_monster() &&
+                        ( tmp_critter->as_monster()->type->id.c_str() == cur_search_target ||
+                          cur_search_target.empty() ) ) {
+                        target_pos = here.getabs( search_loc );
+                        found = true;
+                        g->despawn_nonlocal_monsters();
+                        break;
+                    }
+                } else if( search_type.value() == "npc" ) {
+                    for( shared_ptr_fast<npc> &person : overmap_buffer.get_npcs_near( project_to<coords::sm>( abs_ms ),
+                            1 ) ) {
+                        if( person->pos() == search_loc && ( person->myclass.c_str() == cur_search_target ||
+                                                             cur_search_target.empty() ) ) {
+                            target_pos = here.getabs( search_loc );
+                            found = true;
+                            break;
+                        }
+                    }
+                } else if( search_type.value() == "zone" ) {
+                    zone_manager &mgr = zone_manager::get_manager();
+                    if( mgr.get_zone_at( here.getglobal( search_loc ), zone_type_id( cur_search_target ) ) ) {
+                        target_pos = here.getabs( search_loc );
+                        found = true;
+                        break;
+                    }
+                }
+            }
+            talker_pos = target_pos;
+            if( search_type.value() == "monster" ) {
+                g->despawn_nonlocal_monsters();
+            }
+            if( !found ) {
+                run_eoc_vector( false_eocs, d );
+                return;
+            }
+        }
+
+        int max_radius = dov_max_radius.evaluate( d );
+        if( max_radius > 0 ) {
             bool found = false;
             int min_radius = dov_min_radius.evaluate( d );
             for( int attempts = 0; attempts < 25; attempts++ ) {
                 target_pos = talker_pos + tripoint( rng( -max_radius, max_radius ), rng( -max_radius, max_radius ),
                                                     0 );
-                if( ( !outdoor_only || get_map().is_outside( target_pos ) ) &&
+                if( ( !outdoor_only || here.is_outside( target_pos ) ) &&
                     rl_dist( target_pos, talker_pos ) >= min_radius ) {
                     found = true;
                     break;
@@ -2908,6 +3022,7 @@ void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, const std::stri
             for( const str_or_var &mapgen_update_id : update_ids ) {
                 run_mapgen_update_func( update_mapgen_id( mapgen_update_id.evaluate( d ) ), omt_pos, {},
                                         d.actor( d.has_beta )->selected_mission() );
+                set_queued_points();
             }
             get_map().invalidate_map_cache( omt_pos.z() );
         }
@@ -2924,7 +3039,7 @@ void talk_effect_fun_t::set_alter_timed_events( const JsonObject &jo, const std:
     };
 }
 
-void talk_effect_fun_t::set_revert_location( const JsonObject &jo, const std::string_view member )
+void talk_effect_fun_t::set_revert_location( const JsonObject &jo, const std::string_view &member )
 {
     duration_or_var dov_time_in_future = get_duration_or_var( jo, "time_in_future", true );
     str_or_var key;
@@ -2959,14 +3074,15 @@ void talk_effect_fun_t::set_revert_location( const JsonObject &jo, const std::st
     };
 }
 
-void talk_effect_fun_t::set_npc_goal( const JsonObject &jo, const std::string_view member )
+void talk_effect_fun_t::set_npc_goal( const JsonObject &jo, const std::string_view member,
+                                      bool is_npc )
 {
     mission_target_params dest_params = mission_util::parse_mission_om_target( jo.get_object(
                                             member ) );
     std::vector<effect_on_condition_id> true_eocs = load_eoc_vector( jo, "true_eocs" );
     std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );
-    function = [dest_params, true_eocs, false_eocs]( dialogue const & d ) {
-        npc *guy = d.actor( true )->get_npc();
+    function = [dest_params, true_eocs, false_eocs, is_npc]( dialogue const & d ) {
+        npc *guy = d.actor( is_npc )->get_npc();
         if( guy ) {
             tripoint_abs_omt destination = mission_util::get_om_terrain_pos( dest_params );
             guy->goal = destination;
@@ -2986,6 +3102,25 @@ void talk_effect_fun_t::set_npc_goal( const JsonObject &jo, const std::string_vi
             return;
         }
         run_eoc_vector( false_eocs, d );
+    };
+}
+
+void talk_effect_fun_t::set_guard_pos( const JsonObject &jo, const std::string_view &member,
+                                       bool is_npc )
+{
+    std::optional<var_info> target_var = read_var_info( jo.get_object( member ) );
+    bool unique_id = jo.get_bool( "unique_id", false );
+    function = [target_var, unique_id, is_npc]( dialogue const & d ) {
+        npc *guy = d.actor( is_npc )->get_npc();
+        if( guy ) {
+            var_info cur_var = target_var.value();
+            if( unique_id ) {
+                //12 since it should start with npctalk_var
+                cur_var.name.insert( 12, guy->get_unique_id() );
+            }
+            tripoint_abs_ms target_location = get_tripoint_from_var( cur_var, d );
+            guy->set_guard_pos( target_location );
+        }
     };
 }
 
@@ -3571,10 +3706,13 @@ void talk_effect_fun_t::set_offer_mission( const JsonObject &jo, const std::stri
     }
 
     function = [mission_names]( dialogue const & d ) {
-        npc *p = d.actor( true )->get_npc();
+        // assume that the alpha is the npc if there isn't a beta
+        npc *p = d.actor( d.has_beta )->get_npc();
 
-        for( const std::string &mission_name : mission_names ) {
-            p->add_new_mission( mission::reserve_new( mission_type_id( mission_name ), p->getID() ) );
+        if( p ) {
+            for( const std::string &mission_name : mission_names ) {
+                p->add_new_mission( mission::reserve_new( mission_type_id( mission_name ), p->getID() ) );
+            }
         }
     };
 }
@@ -3773,8 +3911,9 @@ void talk_effect_fun_t::set_weighted_list_eocs( const JsonObject &jo,
 
 void talk_effect_fun_t::set_switch( const JsonObject &jo, const std::string_view member )
 {
-    std::function<double( dialogue const &/* d */ )> eoc_switch = conditional_t::get_get_dbl(
-                jo.get_object( member ) );
+    std::function<double( dialogue const &/* d */ )> eoc_switch = jo.has_string( member ) ?
+            conditional_t::get_get_dbl( jo.get_string( member.data() ), jo ) :
+            conditional_t::get_get_dbl( jo.get_object( member ) );
     std::vector<std::pair<dbl_or_var, talk_effect_t>> case_pairs;
     for( const JsonValue jv : jo.get_array( "cases" ) ) {
         JsonObject array_case = jv.get_object();
@@ -4119,7 +4258,6 @@ void talk_effect_fun_t::set_spawn_npc( const JsonObject &jo, const std::string &
     if( indoor_only && outdoor_only ) {
         jo.throw_error( "Cannot be outdoor_only and indoor_only at the same time." );
     }
-
 
     duration_or_var dov_lifespan = get_duration_or_var( jo, "lifespan", false, 0_seconds );
     std::optional<var_info> target_var;
@@ -4471,8 +4609,14 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_npc_cbm_reserve_rule( jo, "set_npc_cbm_reserve_rule" );
     } else if( jo.has_string( "set_npc_cbm_recharge_rule" ) ) {
         subeffect_fun.set_npc_cbm_recharge_rule( jo, "set_npc_cbm_recharge_rule" );
+    } else if( jo.has_member( "u_set_goal" ) ) {
+        subeffect_fun.set_npc_goal( jo, "u_set_goal" );
     } else if( jo.has_member( "npc_set_goal" ) ) {
-        subeffect_fun.set_npc_goal( jo, "npc_set_goal" );
+        subeffect_fun.set_npc_goal( jo, "npc_set_goal", true );
+    } else if( jo.has_member( "u_set_guard_pos" ) ) {
+        subeffect_fun.set_guard_pos( jo, "u_set_guard_pos" );
+    } else if( jo.has_member( "npc_set_guard_pos" ) ) {
+        subeffect_fun.set_guard_pos( jo, "npc_set_guard_pos", true );
     } else if( jo.has_member( "mapgen_update" ) ) {
         subeffect_fun.set_mapgen_update( jo, "mapgen_update" );
     } else if( jo.has_member( "alter_timed_events" ) ) {

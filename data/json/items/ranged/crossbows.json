@@ -317,7 +317,6 @@
     "reload": 400,
     "loudness": 3,
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "rail", 1 ],
@@ -356,7 +355,6 @@
     "clip_size": 1,
     "reload": 1200,
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "rail", 1 ],
@@ -431,7 +429,6 @@
     "clip_size": 1,
     "reload": 1200,
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "rail", 1 ],
@@ -473,7 +470,6 @@
     "clip_size": 1,
     "reload": 1200,
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "rail", 1 ],

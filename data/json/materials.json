@@ -19,7 +19,6 @@
     "name": "Thermoplastic Resin",
     "copy-from": "generic_polymer_resin",
     "//": "This material ID is for plastics that can be reshaped and molded by application of heat and return to their original properties when cooled, and these specific ones are quite hard and durable when in solid state.",
-    "repaired_with": "thermo_resin_chunk",
     "salvaged_into": "thermo_resin_chunk",
     "burn_data": [
       { "fuel": 1, "smoke": 2, "burn": 1, "volume_per_turn": "750 ml" },
@@ -33,7 +32,6 @@
     "name": "Epoxy",
     "copy-from": "generic_polymer_resin",
     "//": "'epoxy' is a general catch-all for strong, brittle polymers that cannot be reshaped with application of heat.  Not all of these are necessarily going to be literally epoxy, but it's close enough.",
-    "repaired_with": "epoxy_chunk",
     "salvaged_into": "epoxy_chunk",
     "burn_data": [
       { "fuel": 1, "smoke": 2, "burn": 1, "volume_per_turn": "750 ml" },
@@ -161,7 +159,7 @@
     "dmg_adj": [ "agitated", "thinned", "culled", "eradicated" ],
     "bash_dmg_verb": "ripples",
     "cut_dmg_verb": "passed through",
-    "repaired_with": "blood",
+    "repaired_with": "water",
     "soft": true,
     "resist": { "bash": 8, "cut": 0, "acid": 8, "heat": 4, "bullet": 4 }
   },
@@ -421,25 +419,6 @@
   },
   {
     "type": "material",
-    "id": "chitin_molt",
-    "name": "Molt Chitin",
-    "copy-from": "chitin",
-    "conductive": true,
-    "chip_resist": 0,
-    "wind_resist": 60,
-    "dmg_adj": [ "crinkled", "damaged", "crumpled", "deformed" ],
-    "bash_dmg_verb": "crumpled",
-    "cut_dmg_verb": "cut",
-    "burn_data": [
-      { "fuel": 0, "smoke": 3, "burn": 2, "volume_per_turn": "1250 ml" },
-      { "fuel": 1, "smoke": 5, "burn": 4 },
-      { "fuel": 1, "smoke": 7, "burn": 6 }
-    ],
-    "burn_products": [ [ "corpse_ash", 0.035 ] ],
-    "resist": { "bash": 0, "cut": 1, "acid": 3, "heat": 0, "bullet": 0 }
-  },
-  {
-    "type": "material",
     "id": "chitin_light",
     "name": "Light Chitin",
     "density": 1.45,
@@ -556,6 +535,7 @@
     "id": "cotton_quilted",
     "name": "Quilted Cotton",
     "copy-from": "cotton",
+    "repaired_with": "null",
     "wind_resist": 75,
     "resist": { "bash": 2, "cut": 2, "acid": 3, "heat": 0, "bullet": 1.5 }
   },
@@ -614,6 +594,7 @@
     "id": "canvas_quilted",
     "name": "Quilted Canvas",
     "copy-from": "canvas",
+    "repaired_with": "null",
     "wind_resist": 90,
     "resist": { "bash": 2, "cut": 3, "acid": 4, "heat": 0, "bullet": 2 }
   },
@@ -622,6 +603,7 @@
     "//": "duplicate material used to give gambesons an extra 95% coverage layer without causing weirdness",
     "id": "canvas_quilted_2",
     "copy-from": "canvas_quilted",
+    "repaired_with": "null",
     "name": "Quilted Canvas"
   },
   {
@@ -1890,7 +1872,7 @@
     "latent_heat": 273,
     "conductive": true,
     "chip_resist": 20,
-    "repaired_with": "mc_steel_chunk",
+    "repaired_with": "null",
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
@@ -1997,6 +1979,7 @@
     "id": "nylon_quilted",
     "name": "Quilted Nylon",
     "copy-from": "nylon",
+    "repaired_with": "null",
     "wind_resist": 65,
     "resist": { "bash": 1.5, "cut": 2, "acid": 9, "heat": 2, "bullet": 3 }
   },
@@ -2005,7 +1988,16 @@
     "//": "duplicate material used to give gambesons an extra 95% coverage layer without causing weirdness",
     "id": "nylon_quilted_2",
     "copy-from": "nylon_quilted",
+    "repaired_with": "null",
     "name": "Quilted Nylon"
+  },
+  {
+    "type": "material",
+    "//": "The dense part of carpet pilling, technically made from synthetic fabric but not sewn into flat sheets.  Only a separate material to lower ballistic resistance.",
+    "id": "carpet_pilling",
+    "name": "Carpet Pilling",
+    "copy-from": "nylon",
+    "resist": { "bash": 1, "cut": 1, "acid": 6, "heat": 2, "bullet": 1 }
   },
   {
     "type": "material",
@@ -2266,6 +2258,7 @@
     "id": "charcoal",
     "name": "Charcoal",
     "copy-from": "wood",
+    "repaired_with": "null",
     "fuel_data": { "energy": "6240 kJ" },
     "//": "physical density for charcoal estimated to sit at about 0.208 kg/liter, while energy density per kg is slightly lower than pure anthracite coal at 30 MJ/kg.",
     "//1": "208g of charcoal (1 liter) yields 6240 kJ (30MJ x .208), and a single chunk (8mL/1.664g) is worth 50kJ",
@@ -2277,6 +2270,7 @@
     "id": "coal",
     "name": "Coal",
     "copy-from": "wood",
+    "repaired_with": "null",
     "//": "mostly pure anthracite coal, 100% purity anthracite has 33.5MJ/kilogram.",
     "//1": "Raw density of anthracite is ~1.5g/cm^3 but bulk density is lower at slightly less than 1.0.",
     "//2": "Roughly 5x the energy content of charcoal per liter under that specific bulk density. Fuel data below assumes bulk density.",
@@ -2315,6 +2309,7 @@
     "id": "wool_quilted",
     "name": "Quilted Wool",
     "copy-from": "wool",
+    "repaired_with": "null",
     "wind_resist": 65,
     "resist": { "bash": 2, "cut": 2, "acid": 4, "heat": 0, "bullet": 1.5 }
   },
@@ -2323,6 +2318,7 @@
     "//": "duplicate material used to give gambesons an extra 95% coverage layer without causing weirdness",
     "id": "wool_quilted_2",
     "copy-from": "wool_quilted",
+    "repaired_with": "null",
     "name": "Quilted Wool"
   },
   {

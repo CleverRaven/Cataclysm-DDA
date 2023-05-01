@@ -20,7 +20,6 @@
     "durability": 8,
     "energy_drain": "5 kJ",
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "rail", 1 ],

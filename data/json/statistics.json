@@ -2652,5 +2652,64 @@
     "stat_type": "count",
     "event_transformation": "avatar_enters_mine",
     "description": { "str": "mine entered", "str_pl": "mines entered" }
+  },
+  {
+    "id": "avatar_enters_police_station",
+    "type": "event_transformation",
+    "event_transformation": "avatar_enters_oter_type",
+    "value_constraints": { "oter_type_id": { "equals_any": [ "oter_type_str_id", [ "police", "police_1", "police_2" ] ] } }
+  },
+  {
+    "id": "num_avatar_enters_police_station",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_enters_police_station",
+    "description": { "str": "Police Station entered", "str_pl": "Police Stations entered" }
+  },
+  {
+    "id": "avatar_enters_trans_lab",
+    "type": "event_transformation",
+    "event_transformation": "avatar_enters_oter_type",
+    "value_constraints": {
+      "oter_type_id": {
+        "equals_any": [
+          "oter_type_str_id",
+          [
+            "lab_surface_parking_blockA0",
+            "lab_surface_parking_blockB0",
+            "lab_surface_parking_blockC0",
+            "lab_surface_parking_blockD0",
+            "lab_surface_parking_blockE0",
+            "lab_surface_parking_blockA1",
+            "lab_surface_parking_blockB1",
+            "lab_surface_parking_blockC1",
+            "lab_surface_parking_blockD1",
+            "lab_surface_parking_blockE1",
+            "lab_surface_parking_blockA2",
+            "lab_surface_parking_blockE2",
+            "lab_security_z0",
+            "lab_security_z0N",
+            "lab_security_z0S",
+            "lab_res_8_SWD_ground",
+            "lab_res_8_SED_ground",
+            "lab_res_8_SWU_ground",
+            "lab_res_8_SEU_ground",
+            "lab_CORE_2x1_SED_ground",
+            "lab_CORE_2x1_SWD_ground",
+            "lab_CORE_2x1_NED_ground",
+            "lab_CORE_2x1_NWD_ground",
+            "lab_CORE_2x1_WC_ground",
+            "lab_CORE_2x1_EC_ground"
+          ]
+        ]
+      }
+    }
+  },
+  {
+    "id": "num_avatar_enters_trans_lab",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_enters_trans_lab",
+    "description": { "str": "Trans Coastal Lab entered", "str_pl": "Trans Coastal Labs entered" }
   }
 ]

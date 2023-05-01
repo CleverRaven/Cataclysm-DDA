@@ -124,13 +124,16 @@ fi
 printf "Subset to analyze: '%s'\n" "$CATA_CLANG_TIDY_SUBSET"
 
 # We might need to analyze only a subset of the files if they have been split
-# into multiple jobs for efficiency
+# into multiple jobs for efficiency. The paths from `compile_commands.json` can
+# be absolute but the paths from `get_affected_files.py` are relative, so both
+# formats are matched. Exit code 1 from grep (meaning no match) is ignored in
+# case one subset contains no file to analyze.
 case "$CATA_CLANG_TIDY_SUBSET" in
     ( src )
-        tidyable_cpp_files=$(printf '%s\n' "$tidyable_cpp_files" | grep '/src/')
+        tidyable_cpp_files=$(printf '%s\n' "$tidyable_cpp_files" | grep -E '(^|/)src/' || [[ $? == 1 ]])
         ;;
     ( other )
-        tidyable_cpp_files=$(printf '%s\n' "$tidyable_cpp_files" | grep -v '/src/')
+        tidyable_cpp_files=$(printf '%s\n' "$tidyable_cpp_files" | grep -Ev '(^|/)src/' || [[ $? == 1 ]])
         ;;
 esac
 
