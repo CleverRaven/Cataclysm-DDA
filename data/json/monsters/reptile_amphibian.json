@@ -486,8 +486,11 @@
     "melee_dice": 6,
     "melee_dice_sides": 10,
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
-    "special_attacks": [ { "type": "tail_club", "cooldown": 4, "max_range": 5, "allow_no_target": true }, { "type": "stretch_bite", "cooldown": 4, "max_range": 5, "allow_no_target": true }  ],
-	"dodge": 3,
+    "special_attacks": [
+      { "type": "tail_club", "cooldown": 4, "max_range": 5, "allow_no_target": true },
+      { "type": "stretch_bite", "cooldown": 4, "max_range": 5, "allow_no_target": true }
+    ],
+    "dodge": 3,
     "vision_night": 10,
     "regenerates": 4,
     "harvest": "mutant_animal_large_noskin",
