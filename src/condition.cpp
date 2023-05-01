@@ -1881,6 +1881,36 @@ std::function<double( const T & )> conditional_t<T>::get_get_dbl( const JsonObje
                     return d.actor( is_npc )->get_highest_spell_level();
                 };
             }
+        } else if( checked_value == "spell_level_adjustment" ) {
+            if( jo.has_member( "school" ) ) {
+                const std::string school_name = jo.get_string( "school" );
+                return [school_name]( const T & d ) {
+                    context &current_context = get_context();
+                    std::map<std::string, float>::iterator it =
+                        current_context.caster_level_adjustment_by_school.find( school_name );
+                    if( it != current_context.caster_level_adjustment_by_school.end() ) {
+                        return it->second;
+                    } else {
+                        return ( float )0;
+                    }
+                };
+            } else if( jo.has_member( "spell" ) ) {
+                const std::string spell_name = jo.get_string( "spell" );
+                return [spell_name]( const T & d ) {
+                    context &current_context = get_context();
+                    std::map<std::string, float>::iterator it =
+                        current_context.caster_level_adjustment_by_spell.find( spell_name );
+                    if( it != current_context.caster_level_adjustment_by_spell.end() ) {
+                        return it->second;
+                    } else {
+                        return ( float )0;
+                    }
+                };
+            } else {
+                return []( const T & d ) {
+                    return get_context().caster_level_adjustment;
+                };
+            }
         } else if( checked_value == "spell_exp" ) {
             const std::string spell_name = jo.get_string( "spell" );
             const spell_id this_spell_id( spell_name );
@@ -2355,6 +2385,36 @@ static std::function<void( const T &, double )> get_set_dbl( const JsonObject &j
             return [is_npc, min, max, this_spell_id]( const T & d, double input ) {
                 d.actor( is_npc )->set_spell_level( this_spell_id, handle_min_max<T>( d, input, min, max ) );
             };
+        } else if( checked_value == "spell_level_adjustment" ) {
+            if( jo.has_member( "school" ) ) {
+                const std::string school_name = jo.get_string( "school" );
+                return [min, max, school_name]( const T & d, double input ) {
+                    context &current_context = get_context();
+                    std::map<std::string, float>::iterator it =
+                        current_context.caster_level_adjustment_by_school.find( school_name );
+                    if( it != current_context.caster_level_adjustment_by_school.end() ) {
+                        it->second = handle_min_max<T>( d, input, min, max );
+                    } else {
+                        current_context.caster_level_adjustment_by_school.insert( { school_name, handle_min_max<T>( d, input, min, max ) } );
+                    }
+                };
+            } else if( jo.has_member( "spell" ) ) {
+                const std::string spell_name = jo.get_string( "spell" );
+                return [min, max, spell_name]( const T & d, double input ) {
+                    context &current_context = get_context();
+                    std::map<std::string, float>::iterator it =
+                        current_context.caster_level_adjustment_by_spell.find( spell_name );
+                    if( it != current_context.caster_level_adjustment_by_spell.end() ) {
+                        it->second = handle_min_max<T>( d, input, min, max );
+                    } else {
+                        current_context.caster_level_adjustment_by_spell.insert( { spell_name, handle_min_max<T>( d, input, min, max ) } );
+                    }
+                };
+            } else {
+                return [min, max]( const T & d, double input ) {
+                    get_context().caster_level_adjustment = handle_min_max<T>( d, input, min, max );
+                };
+            }
         } else if( checked_value == "spell_exp" ) {
             const std::string spell_name = jo.get_string( "spell" );
             const spell_id this_spell_id( spell_name );

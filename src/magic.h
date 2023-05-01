@@ -423,6 +423,8 @@ class spell
         int experience = 0;
         // returns damage type for the spell
         damage_type dmg_type() const;
+        // Temporary caster level adjustments caused by EoC's
+        int temp_level_adjustment = 0;
 
         // alternative cast message
         translation alt_message;
@@ -466,6 +468,9 @@ class spell
         bool is_max_level( const Creature &caster ) const;
         // what is the max level of the spell
         int get_max_level( const Creature &caster ) const;
+        // applies temporary level adjustments from EoC's stored in context.
+        int calc_temp_level_adjust();
+        int get_temp_level_adjustment() const;
 
         spell_shape shape() const;
         // what is the intensity of the field the spell generates ( 0 if no field )
@@ -570,6 +575,8 @@ class spell
         std::string damage_type_string() const;
         // your level in this spell
         int get_level() const;
+        // your level in this spell adjusted by context
+        int get_effective_level() const;
         // difficulty of the level
         int get_difficulty( const Creature &caster ) const;
 

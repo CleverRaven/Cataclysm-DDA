@@ -21,6 +21,7 @@
 #include "character.h"
 #include "character_id.h"
 #include "coordinates.h"
+#include "context.h"
 #include "creature.h"
 #include "cursesdef.h"
 #include "enums.h"
@@ -168,6 +169,7 @@ class game
         friend bool do_turn();
         friend bool turn_handler::cleanup_at_end();
         friend global_variables &get_globals();
+        friend context &get_context();
     public:
         game();
         ~game();
@@ -1047,6 +1049,7 @@ class game
         map &m;
         avatar &u;
         scent_map &scent;
+        context context_instance;
         // scenario is saved in avatar::store
         const scenario *scen = nullptr; // NOLINT(cata-serialize)
 

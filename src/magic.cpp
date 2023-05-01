@@ -15,6 +15,7 @@
 #include "character.h"
 #include "color.h"
 #include "condition.h"
+#include "context.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "cursesdef.h"
@@ -583,14 +584,15 @@ int spell::field_intensity( const Creature &caster ) const
 {
     dialogue d( get_talker_for( caster ), nullptr );
     return std::min( static_cast<int>( type->max_field_intensity.evaluate( d ) ),
-                     static_cast<int>( type->min_field_intensity.evaluate( d ) + std::round( get_level() *
+                     static_cast<int>( type->min_field_intensity.evaluate( d ) + std::round( get_effective_level() *
                                        type->field_intensity_increment.evaluate( d ) ) ) );
 }
 
 int spell::min_leveled_damage( const Creature &caster ) const
 {
     dialogue d( get_talker_for( caster ), nullptr );
-    return type->min_damage.evaluate( d ) + std::round( get_level() * type->damage_increment.evaluate(
+    return type->min_damage.evaluate( d ) + std::round( get_effective_level() *
+            type->damage_increment.evaluate(
                 d ) );
 }
 
@@ -628,7 +630,7 @@ int spell::damage( const Creature &caster ) const
 int spell::min_leveled_accuracy( const Creature &caster ) const
 {
     dialogue d( get_talker_for( caster ), nullptr );
-    return type->min_accuracy.evaluate( d ) + std::round( get_level() *
+    return type->min_accuracy.evaluate( d ) + std::round( get_effective_level() *
             type->accuracy_increment.evaluate( d ) );
 }
 
@@ -647,7 +649,8 @@ int spell::accuracy( Creature &caster ) const
 int spell::min_leveled_dot( const Creature &caster ) const
 {
     dialogue d( get_talker_for( caster ), nullptr );
-    return type->min_dot.evaluate( d ) + std::round( get_level() * type->dot_increment.evaluate( d ) );
+    return type->min_dot.evaluate( d ) + std::round( get_effective_level() *
+            type->dot_increment.evaluate( d ) );
 }
 
 int spell::damage_dot( const Creature &caster ) const
@@ -750,7 +753,8 @@ std::optional<tripoint> spell::select_target( Creature *source )
 int spell::min_leveled_aoe( const Creature &caster ) const
 {
     dialogue d( get_talker_for( caster ), nullptr );
-    return type->min_aoe.evaluate( d ) + std::round( get_level() * type->aoe_increment.evaluate( d ) );
+    return type->min_aoe.evaluate( d ) + std::round( get_effective_level() *
+            type->aoe_increment.evaluate( d ) );
 }
 
 int spell::aoe( const Creature &caster ) const
@@ -805,7 +809,7 @@ std::string spell::aoe_string( const Creature &caster ) const
 int spell::range( const Creature &caster ) const
 {
     dialogue d( get_talker_for( caster ), nullptr );
-    const int leveled_range = type->min_range.evaluate( d ) + std::round( get_level() *
+    const int leveled_range = type->min_range.evaluate( d ) + std::round( get_effective_level() *
                               type->range_increment.evaluate( d ) );
     if( type->max_range.evaluate( d ) >= type->min_range.evaluate( d ) ) {
         return std::min( leveled_range, static_cast<int>( type->max_range.evaluate( d ) ) );
@@ -856,7 +860,7 @@ std::vector<tripoint> spell::targetable_locations( const Character &source ) con
 int spell::min_leveled_duration( const Creature &caster ) const
 {
     dialogue d( get_talker_for( caster ), nullptr );
-    return type->min_duration.evaluate( d ) + std::round( get_level() *
+    return type->min_duration.evaluate( d ) + std::round( get_effective_level() *
             type->duration_increment.evaluate( d ) );
 }
 
@@ -940,11 +944,11 @@ int spell::energy_cost( const Character &guy ) const
     if( type->base_energy_cost.evaluate( d ) < type->final_energy_cost.evaluate( d ) ) {
         cost = std::min( static_cast<int>( type->final_energy_cost.evaluate( d ) ),
                          static_cast<int>( std::round( type->base_energy_cost.evaluate( d ) +
-                                           type->energy_increment.evaluate( d ) * get_level() ) ) );
+                                           type->energy_increment.evaluate( d ) * get_effective_level() ) ) );
     } else if( type->base_energy_cost.evaluate( d ) > type->final_energy_cost.evaluate( d ) ) {
         cost = std::max( static_cast<int>( type->final_energy_cost.evaluate( d ) ),
                          static_cast<int>( std::round( type->base_energy_cost.evaluate( d ) +
-                                           type->energy_increment.evaluate( d ) * get_level() ) ) );
+                                           type->energy_increment.evaluate( d ) * get_effective_level() ) ) );
     } else {
         cost = type->base_energy_cost.evaluate( d );
     }
@@ -1044,12 +1048,12 @@ int spell::casting_time( const Character &guy, bool ignore_encumb ) const
         casting_time = std::min( static_cast<int>( type->final_casting_time.evaluate( d ) ),
                                  static_cast<int>( std::round( type->base_casting_time.evaluate( d ) +
                                          type->casting_time_increment.evaluate( d ) *
-                                         get_level() ) ) );
+                                         get_effective_level() ) ) );
     } else if( type->base_casting_time.evaluate( d ) > type->final_casting_time.evaluate( d ) ) {
         casting_time = std::max( static_cast<int>( type->final_casting_time.evaluate( d ) ),
                                  static_cast<int>( std::round( type->base_casting_time.evaluate( d ) +
                                          type->casting_time_increment.evaluate( d ) *
-                                         get_level() ) ) );
+                                         get_effective_level() ) ) );
     } else {
         casting_time = type->base_casting_time.evaluate( d );
     }
@@ -1106,7 +1110,8 @@ float spell::spell_fail( const Character &guy ) const
     // effective skill of 0 or less is 100% failure
     // effective skill of 8 (8 int, 0 spellcraft, 0 spell level, spell difficulty 0) is ~50% failure
     // effective skill of 30 is 0% failure
-    const float effective_skill = 2 * ( get_level() - get_difficulty( guy ) ) + guy.get_int() +
+    const float effective_skill = 2 * ( get_effective_level() - get_difficulty(
+                                            guy ) ) + guy.get_int() +
                                   guy.get_skill_level( skill() );
     // add an if statement in here because sufficiently large numbers will definitely overflow because of exponents
     if( effective_skill > 30.0f ) {
@@ -1423,10 +1428,39 @@ int spell::get_level() const
     return std::max( static_cast<int>( std::floor( std::log( experience + a ) / b + c ) ), 0 );
 }
 
+int spell::get_effective_level() const
+{
+    return get_level() + temp_level_adjustment;
+}
+
 int spell::get_max_level( const Creature &caster ) const
 {
     dialogue d( get_talker_for( caster ), nullptr );
     return type->max_level.evaluate( d );
+}
+
+int spell::calc_temp_level_adjust()
+{
+    context &current_context = get_context();
+    float raw_level_adjust = current_context.caster_level_adjustment;
+    std::map<std::string, float>::iterator it =
+        current_context.caster_level_adjustment_by_school.find( ( std::string )this->spell_class() );
+    if( it != current_context.caster_level_adjustment_by_school.end() ) {
+        raw_level_adjust += it->second;
+    }
+    it = current_context.caster_level_adjustment_by_spell.find( ( std::string )this->id() );
+    if( it != current_context.caster_level_adjustment_by_spell.end() ) {
+        raw_level_adjust += it->second;
+    }
+    int final_level = clamp( get_level() + ( int )raw_level_adjust, 0,
+                             get_max_level( get_player_character() ) );
+    temp_level_adjustment = final_level - get_level();
+    return temp_level_adjustment;
+}
+
+int spell::get_temp_level_adjustment() const
+{
+    return temp_level_adjustment;
 }
 
 // helper function to calculate xp needed to be at a certain level
@@ -1609,7 +1643,7 @@ void spell::cast_all_effects( Creature &source, const tripoint &target ) const
                 return;
             }
             const int rand_spell = rng( 0, type->additional_spells.size() - 1 );
-            spell sp = ( iter + rand_spell )->get_spell( source, get_level() );
+            spell sp = ( iter + rand_spell )->get_spell( source, get_effective_level() );
             const bool _self = ( iter + rand_spell )->self;
 
             // This spell flag makes it so the message of the spell that's cast using this spell will be sent.
@@ -1643,7 +1677,7 @@ void spell::cast_all_effects( Creature &source, const tripoint &target ) const
 void spell::cast_extra_spell_effects( Creature &source, const tripoint &target ) const
 {
     for( const fake_spell &extra_spell : type->additional_spells ) {
-        spell sp = extra_spell.get_spell( source, get_level() );
+        spell sp = extra_spell.get_spell( source, get_effective_level() );
         if( sp.has_flag( spell_flag::RANDOM_TARGET ) ) {
             if( const std::optional<tripoint> new_target = sp.random_valid_target( source,
                     extra_spell.self ? source.pos() : target ) ) {
@@ -2163,10 +2197,18 @@ void spellcasting_callback::spell_info_text( const spell &sp, int width )
         line.append( col2 );
         return line;
     };
+    // Calculates temp_level_adjust from EoC, saves it to the spell for later use, and prepares to display the result
+    int temp_level_adjust = sp.get_temp_level_adjustment();
+    std::string temp_level_adjust_string = "";
+    if( temp_level_adjust < 0 ) {
+        temp_level_adjust_string = " -" + std::to_string( -temp_level_adjust );
+    } else if( temp_level_adjust > 0 ) {
+        temp_level_adjust_string = " +" + std::to_string( temp_level_adjust );
+    }
 
     info_txt.emplace_back(
-        colorize( columnize( string_format( "%s: %d %s", _( "Spell Level" ), sp.get_level(),
-                                            sp.is_max_level( pc ) ? _( "(MAX)" ) : "" ),
+        colorize( columnize( string_format( "%s: %d%s%s", _( "Spell Level" ), sp.get_level(),
+                                            sp.is_max_level( pc ) ? _( " (MAX)" ) : "", temp_level_adjust_string.c_str() ),
                              string_format( "%s: %d", _( "Max Level" ), sp.get_max_level( pc ) ) ), c_light_gray ) );
     info_txt.emplace_back(
         colorize( columnize( sp.colorized_fail_percent( pc ),

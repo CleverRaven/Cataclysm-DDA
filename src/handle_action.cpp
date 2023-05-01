@@ -1579,7 +1579,8 @@ static void open_movement_mode_menu()
 static void cast_spell()
 {
     Character &player_character = get_player_character();
-
+    get_context().clear(); // clear data that EoC's can write to
+    get_event_bus().send<event_type::opens_spellbook>(); // trigger EoC's
     std::vector<spell_id> spells = player_character.magic->spells();
 
     if( spells.empty() ) {
@@ -1590,11 +1591,13 @@ static void cast_spell()
 
     bool can_cast_spells = false;
     for( const spell_id &sp : spells ) {
-        spell temp_spell = player_character.magic->get_spell( sp );
+        spell &temp_spell = player_character.magic->get_spell( sp );
         if( temp_spell.can_cast( player_character ) ) {
             can_cast_spells = true;
         }
+        temp_spell.calc_temp_level_adjust();
     }
+    get_context().clear();
 
     if( !can_cast_spells ) {
         add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
