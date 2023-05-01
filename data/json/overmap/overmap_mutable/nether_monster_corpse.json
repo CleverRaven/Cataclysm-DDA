@@ -9,6 +9,7 @@
     "occurrences": [ 0, 2 ],
     "flags": [ "CLASSIC" ],
     "check_for_locations_area": [
+      { "type": [ "land", "road" ], "from": [ 0, 0, 0 ], "to": [ 0, 0, 0 ] },
       { "type": [ "subterranean" ], "from": [ -11, -5, -1 ], "to": [ 11, 5, -1 ] },
       { "type": [ "subterranean" ], "from": [ -5, -11, -1 ], "to": [ 5, 11, -1 ] }
     ],
@@ -21,7 +22,7 @@
       { "id": "tentacle_tee_to_tentacle", "opposite": "tentacle_to_tentacle_tee" },
       { "id": "tentacle_to_tentacle_tee", "opposite": "tentacle_tee_to_tentacle" },
       { "id": "surface_to_tentacle", "opposite": "tentacle_to_surface" },
-      { "id": "tentacle_to_surface", "opposite": "surface_to_tentacle", "into_locations": [ "land" ] },
+      { "id": "tentacle_to_surface", "opposite": "surface_to_tentacle", "into_locations": [ "land", "road" ] },
       "surface_to_bowels",
       "bowels_mid_to_mid",
       "bowels_edge_to_edge",
@@ -32,9 +33,9 @@
       "head_to_head"
     ],
     "overmaps": {
-      "surface": { "overmap": "corpse_surface_north", "below": "surface_to_bowels", "locations": [ "land" ] },
+      "surface": { "overmap": "corpse_surface_north", "below": "surface_to_bowels", "locations": [ "land", "road" ] },
       "bowels_center": {
-        "overmap": "corpse_bowels_mid",
+        "overmap": "corpse_bowels_mid_north",
         "above": "surface_to_bowels",
         "north": { "id": "bowels_mid_to_mid", "alternatives": [ "bowels_mid_to_edge" ] },
         "east": { "id": "bowels_mid_to_mid", "alternatives": [ "bowels_mid_to_edge" ] },
@@ -42,7 +43,7 @@
         "west": { "id": "bowels_mid_to_mid", "alternatives": [ "bowels_mid_to_edge" ] }
       },
       "bowels_mid": {
-        "overmap": "corpse_bowels_mid",
+        "overmap": "corpse_bowels_mid_north",
         "north": { "id": "bowels_mid_to_mid", "alternatives": [ "bowels_mid_to_edge" ] },
         "east": { "id": "bowels_mid_to_mid", "alternatives": [ "bowels_mid_to_edge" ] },
         "south": { "id": "bowels_mid_to_mid", "alternatives": [ "bowels_mid_to_edge" ] },
@@ -120,6 +121,9 @@
       "corpse_head_neck_l": { "overmap": "corpse_head_neck_l_south", "north": "neck_to_neck", "south": "head_to_head" },
       "corpse_head_neck_r": { "overmap": "corpse_head_neck_r_south", "north": "neck_to_neck", "south": "head_to_head" },
       "corpse_head_neck_center": { "overmap": "corpse_head_neck_center_south", "north": "neck_to_neck_center", "south": "head_to_head" },
+      "corpse_head_neck_l_decap": { "overmap": "corpse_head_neck_l_decap_south", "north": "neck_to_neck" },
+      "corpse_head_neck_r_decap": { "overmap": "corpse_head_neck_r_decap_south", "north": "neck_to_neck" },
+      "corpse_head_neck_center_decap": { "overmap": "corpse_head_neck_center_decap_south", "north": "neck_to_neck_center" },
       "tentacle_mid": {
         "overmap": "corpse_tentacle_ns",
         "north": { "id": "tentacle_to_tentacle", "alternatives": [ "bowels_tentacle_to_edge", "tentacle_to_tentacle_tee" ] },
@@ -144,7 +148,7 @@
         "north": { "id": "tentacle_to_tentacle", "alternatives": [ "tentacle_to_tentacle_tee" ] },
         "above": "tentacle_to_surface"
       },
-      "corpse_entry_surface": { "overmap": "corpse_tentacle_surface_entry_north", "below": "surface_to_tentacle", "locations": [ "land" ] },
+      "corpse_entry_surface": { "overmap": "corpse_tentacle_surface_entry_north", "below": "surface_to_tentacle", "locations": [ "land", "road" ] },
       "tentacle_tee": {
         "overmap": "corpse_tentacle_nes",
         "north": "tentacle_to_tentacle",
@@ -203,8 +207,28 @@
       ],
       [ { "overmap": "bowels_lcorner", "weight": 1 } ],
       [ { "overmap": "bowels_rcorner", "weight": 1 } ],
-      [ { "overmap": "neck_center", "max": 1 } ],
-      [ { "overmap": "neck_center", "max": { "poisson": 1.2 } } ],
+      [
+        {
+          "name": "neck_3x1",
+          "chunk": [
+            { "overmap": "neck_side", "pos": [ -1, 0, 0 ] },
+            { "overmap": "neck_center", "pos": [ 0, 0, 0 ] },
+            { "overmap": "neck_side", "pos": [ 1, 0, 0 ] }
+          ],
+          "max": 1
+        }
+      ],
+      [
+        {
+          "name": "neck_3x1_extra",
+          "chunk": [
+            { "overmap": "neck_side", "pos": [ -1, 0, 0 ] },
+            { "overmap": "neck_center", "pos": [ 0, 0, 0 ] },
+            { "overmap": "neck_side", "pos": [ 1, 0, 0 ] }
+          ],
+          "max": { "poisson": 1 }
+        }
+      ],
       [
         {
           "name": "head1",
@@ -229,6 +253,17 @@
       ],
       [
         {
+          "name": "head_decapicated",
+          "chunk": [
+            { "overmap": "corpse_head_neck_l_decap", "pos": [ -1, 0, 0 ] },
+            { "overmap": "corpse_head_neck_center_decap", "pos": [ 0, 0, 0 ] },
+            { "overmap": "corpse_head_neck_r_decap", "pos": [ 1, 0, 0 ] }
+          ],
+          "max": 1
+        }
+      ],
+      [
+        {
           "name": "head_extension1",
           "chunk": [
             { "overmap": "corpse_head_lcorner", "pos": [ -1, 0, 0 ] },
@@ -239,14 +274,13 @@
         }
       ],
       [ { "overmap": "corpse_head_lcorner", "weight": 1 }, { "overmap": "corpse_head_rcorner", "weight": 1 } ],
-      [ { "overmap": "neck_side", "weight": 1 } ],
-      [ { "overmap": "tentacle_mid", "max": 12 } ],
+      [ { "overmap": "tentacle_mid", "max": 5 } ],
       [
-        { "overmap": "tentacle_corner", "max": 25 },
-        { "overmap": "tentacle_rcorner", "max": 25 },
-        { "overmap": "tentacle_mid", "max": 8 }
+        { "overmap": "tentacle_corner", "max": 12 },
+        { "overmap": "tentacle_rcorner", "max": 12 },
+        { "overmap": "tentacle_mid", "max": 7 }
       ],
-      [ { "overmap": "tentacle_mid", "max": { "poisson": 8 } } ],
+      [ { "overmap": "tentacle_mid", "max": { "poisson": 3 } } ],
       [ { "overmap": "tentacle_end_w_entry", "max": 1 } ],
       [ { "overmap": "tentacle_end_w_entry", "max": { "poisson": 0.8 } } ],
       [ { "overmap": "corpse_entry_surface", "weight": 1 } ],
