@@ -1125,7 +1125,7 @@ ret_val<void> vehicle::can_mount( const point &dp, const vpart_id &id ) const
     //The part has to actually exist.
     if( !id.is_valid() ) {
         return ret_val<void>::make_failure(
-                   _( "Invalid part ID! This should never appear." ) );
+                   _( "Invalid part ID!  This should never appear." ) );
     }
 
     //It also has to be a real part, not the null part
@@ -1167,7 +1167,7 @@ ret_val<void> vehicle::can_mount( const point &dp, const vpart_id &id ) const
         // exclude them from being mounted in the same tile.
         if( part.has_flag( "CARGO" ) && other_part.has_flag( "CARGO" ) ) {
             return ret_val<void>::make_failure(
-                       _( "There can't be two cargo parts on the same tile. Part conflicts with existing %1$s." ),
+                       _( "There can't be two cargo parts on the same tile.  Part conflicts with existing %1$s." ),
                        other_part.name() );
         }
 
