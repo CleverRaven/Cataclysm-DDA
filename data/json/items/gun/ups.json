@@ -25,7 +25,6 @@
     "energy_drain": "60 kJ",
     "reload": 0,
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "emitter", 1 ],
       [ "grip", 1 ],
       [ "rail", 1 ],
@@ -130,7 +129,6 @@
     "energy_drain": "40 kJ",
     "reload": 0,
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "emitter", 1 ],
       [ "grip", 1 ],
       [ "lens", 1 ],
@@ -182,16 +180,7 @@
     "loudness": 7,
     "energy_drain": "10 kJ",
     "reload": 200,
-    "valid_mod_locations": [
-      [ "accessories", 2 ],
-      [ "emitter", 1 ],
-      [ "grip", 1 ],
-      [ "lens", 1 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel", 1 ]
-    ],
+    "valid_mod_locations": [ [ "emitter", 1 ], [ "grip", 1 ], [ "lens", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "ammo_effects": [ "LASER", "INCENDIARY" ],
     "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "USE_UPS" ],
     "melee_damage": { "bash": 5 }
@@ -203,7 +192,7 @@
     "type": "GUN",
     "name": { "str": "salvaged CMES laser cannon" },
     "description": "This gatling-laser has been stripped from its CMES mech-suit and is far too heavy to use on its own.  You will need to deploy it or mount it to a vehicle, but it could be devastating if you have deep battery reserves.",
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "emitter", 1 ], [ "lens", 1 ], [ "sling", 1 ] ],
+    "valid_mod_locations": [ [ "emitter", 1 ], [ "lens", 1 ], [ "sling", 1 ] ],
     "extend": { "flags": [ "MOUNTED_GUN" ] },
     "delete": { "flags": [ "UNBREAKABLE_MELEE", "NO_REPAIR", "NO_SALVAGE", "NO_UNWIELD" ] }
   },
@@ -214,7 +203,7 @@
     "type": "GUN",
     "name": { "str": "salvaged RMES marksman laser" },
     "description": "Formerly belonging to an RMES mech-suit, this powerful long-range laser rifle was never designed for human hands.  You might be able to make it work if you deployed it or mounted it to a vehicle, though, and its long range and potency could be pretty handy if you can keep it powered.",
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "emitter", 1 ], [ "lens", 1 ], [ "sling", 1 ] ],
+    "valid_mod_locations": [ [ "emitter", 1 ], [ "lens", 1 ], [ "sling", 1 ] ],
     "extend": { "flags": [ "MOUNTED_GUN" ] },
     "delete": { "flags": [ "UNBREAKABLE_MELEE", "NO_REPAIR", "NO_SALVAGE", "NO_UNWIELD" ] }
   }

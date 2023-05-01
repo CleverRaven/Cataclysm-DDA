@@ -26,7 +26,6 @@
     "clip_size": 25,
     "reload": 200,
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "emitter", 1 ],
       [ "grip", 1 ],
       [ "rail", 1 ],
@@ -65,7 +64,6 @@
     "clip_size": 25,
     "reload": 700,
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "emitter", 1 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],

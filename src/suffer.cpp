@@ -277,6 +277,16 @@ void suffer::mutation_power( Character &you, const trait_id &mut_id )
                 you.mod_fatigue( mut_id->cost );
             }
         }
+
+        // if you haven't deactivated then run the EOC
+        for( const effect_on_condition_id &eoc : mut_id->processed_eocs ) {
+            dialogue d( get_talker_for( you ), nullptr );
+            if( eoc->type == eoc_type::ACTIVATION ) {
+                eoc->activate( d );
+            } else {
+                debugmsg( "Must use an activation eoc for a mutation process.  If you don't want the effect_on_condition to happen on its own (without the mutation being activated), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this mutation with its condition and effects, then have a recurring one queue it." );
+            }
+        }
     }
 }
 

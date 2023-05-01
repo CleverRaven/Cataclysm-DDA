@@ -23,7 +23,6 @@
     "blackpowder_tolerance": 24,
     "barrel_volume": "500 ml",
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -65,7 +64,6 @@
     "min_cycle_recoil": 3420,
     "reload": 150,
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "brass catcher", 1 ],
       [ "grip mount", 1 ],
@@ -104,7 +102,6 @@
     "clip_size": 5,
     "barrel_volume": "250 ml",
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -148,7 +145,6 @@
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 3 ] ],
     "barrel_volume": "1000 ml",
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],

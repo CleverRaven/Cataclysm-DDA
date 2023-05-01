@@ -1624,8 +1624,7 @@ class vehicle
          * @param thrusting must be true when called from vehicle::thrust and vehicle is thrusting
          * @param k_traction_cache cached value of vehicle::k_traction, if empty, will be computed
          */
-        void smart_controller_handle_turn( bool thrusting = false,
-                                           const std::optional<float> &k_traction_cache = std::nullopt );
+        void smart_controller_handle_turn( const std::optional<float> &k_traction_cache = std::nullopt );
 
         bool has_available_electric_engine();
         void disable_smart_controller_if_needed();
@@ -2163,7 +2162,7 @@ class vehicle
          * alpha is 0.5:  avg_velocity = avg_velocity + 0.5(velocity - avg_velocity) = 0.5 avg_velocity + 0.5 velocity
          */
         int avg_velocity = 0;
-        // velocity vehicle's cruise control trying to achieve
+        // velocity the vehicle is trying to achieve
         int cruise_velocity = 0;
         // Only used for collisions, vehicle falls instantly
         int vertical_velocity = 0;
@@ -2231,9 +2230,6 @@ class vehicle
         bool is_following = false;
         bool is_patrolling = false;
         bool all_wheels_on_one_axis = false; // NOLINT(cata-serialize)
-        // TODO: change these to a bitset + enum?
-        // cruise control on/off
-        bool cruise_on = true;
         // at least one engine is on, of any type
         bool engine_on = false;
         // vehicle tracking on/off

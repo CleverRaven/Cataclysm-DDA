@@ -349,7 +349,12 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "lodge_basement_residential1", "lodge_basement_residential2" ],
+    "id": [
+      "lodge_basement_residential1",
+      "lodge_basement_residential2",
+      "lodge_basement_residential3",
+      "lodge_basement_residential4"
+    ],
     "name": "hunting lodge basement",
     "copy-from": "generic_forest",
     "sym": "L",
