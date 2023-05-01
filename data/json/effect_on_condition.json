@@ -1008,14 +1008,12 @@
     "condition": {
       "and": [
         { "u_has_trait": "CHITIN2" },
-        { "not": { "u_has_effect": "molting" } }, 
-        { "not": { "u_has_effect": "molting_imminent" } }, 
+        { "not": { "u_has_effect": "molting" } },
+        { "not": { "u_has_effect": "molting_imminent" } },
         { "not": { "u_has_trait": "CHITIN3" } }
       ]
     },
-    "effect": [
-      { "u_add_effect": "molting", "intensity": 1, "duration": "PERMANENT" }
-    ]
+    "effect": [ { "u_add_effect": "molting", "intensity": 1, "duration": "PERMANENT" } ]
   },
   {
     "type": "effect_on_condition",
@@ -1024,14 +1022,11 @@
     "condition": {
       "and": [
         { "u_has_effect": "molting" },
-        { "not": { "u_has_effect": "molting_imminent" } }, 
+        { "not": { "u_has_effect": "molting_imminent" } },
         { "not": { "u_has_trait": "CHITIN3" } }
       ]
     },
-    "effect": [
-      { "u_add_effect": "molting_imminent", "intensity": 1, "duration": "PERMANENT" },
-      { "u_lose_effect": "molting" }
-    ]
+    "effect": [ { "u_add_effect": "molting_imminent", "intensity": 1, "duration": "PERMANENT" }, { "u_lose_effect": "molting" } ]
   },
   {
     "type": "effect_on_condition",
@@ -1040,14 +1035,17 @@
     "condition": {
       "and": [
         { "u_has_effect": "molting_imminent" },
-        { "not": { "u_has_effect": "molting" } }, 
+        { "not": { "u_has_effect": "molting" } },
         { "not": { "u_has_trait": "CHITIN3" } }
       ]
     },
     "effect": [
       { "u_add_effect": "narcosis", "duration": "5 minutes" },
       { "u_add_effect": "sleep", "duration": "5 minutes" },
-      { "u_message": "Your exoskeleton grows steadily more rigid until you can no longer move. You strain against it for a few minutes, and it peels and cracks away in chunks like a plaster mold, revealing a soft and tender new layer beneath.", "type": "bad" },
+      {
+        "u_message": "Your exoskeleton grows steadily more rigid until you can no longer move. You strain against it for a few minutes, and it peels and cracks away in chunks like a plaster mold, revealing a soft and tender new layer beneath.",
+        "type": "bad"
+      },
       { "u_lose_trait": "CHITIN2" },
       { "u_lose_trait": "CHITIN" },
       { "u_lose_effect": "molting_imminent" },
@@ -1063,8 +1061,8 @@
     "condition": {
       "and": [
         { "u_has_trait": "CHITIN2_MOLTED" },
-        { "not": { "u_has_effect": "molting" } }, 
-        { "not": { "u_has_effect": "molting_imminent" } }, 
+        { "not": { "u_has_effect": "molting" } },
+        { "not": { "u_has_effect": "molting_imminent" } },
         { "not": { "u_has_trait": "CHITIN3_MOLTED" } }
       ]
     },
@@ -1084,13 +1082,11 @@
       "and": [
         { "u_has_trait": "CHITIN2" },
         { "u_has_trait": "CHITIN3" },
-        { "not": { "u_has_effect": "molting" } }, 
+        { "not": { "u_has_effect": "molting" } },
         { "not": { "u_has_effect": "molting_imminent" } }
       ]
     },
-    "effect": [
-      { "u_add_effect": "molting", "intensity": 1, "duration": "PERMANENT" }
-    ]
+    "effect": [ { "u_add_effect": "molting", "intensity": 1, "duration": "PERMANENT" } ]
   },
   {
     "type": "effect_on_condition",
@@ -1104,10 +1100,7 @@
         { "not": { "u_has_effect": "molting_imminent" } }
       ]
     },
-    "effect": [
-      { "u_add_effect": "molting_imminent", "intensity": 1, "duration": "PERMANENT" },
-      { "u_lose_effect": "molting" }
-    ]
+    "effect": [ { "u_add_effect": "molting_imminent", "intensity": 1, "duration": "PERMANENT" }, { "u_lose_effect": "molting" } ]
   },
   {
     "type": "effect_on_condition",
@@ -1124,7 +1117,10 @@
     "effect": [
       { "u_add_effect": "narcosis", "duration": "15 minutes" },
       { "u_add_effect": "sleep", "duration": "15 minutes" },
-      { "u_message": "Your exoskeleton locks up around you like a straitjacket, completely immobilizing you.  As you try to move, you begin to feel it painlessly rip, opening a hole through which you can slowly emerge, raw, soft, and vulnerable.", "type": "bad" },
+      {
+        "u_message": "Your exoskeleton locks up around you like a straitjacket, completely immobilizing you.  As you try to move, you begin to feel it painlessly rip, opening a hole through which you can slowly emerge, raw, soft, and vulnerable.",
+        "type": "bad"
+      },
       { "u_lose_trait": "CHITIN3" },
       { "u_lose_trait": "CHITIN2" },
       { "u_lose_trait": "CHITIN" },
@@ -1143,7 +1139,7 @@
       "and": [
         { "u_has_trait": "CHITIN2_MOLTED" },
         { "u_has_trait": "CHITIN3_MOLTED" },
-        { "not": { "u_has_effect": "molting" } }, 
+        { "not": { "u_has_effect": "molting" } },
         { "not": { "u_has_effect": "molting_imminent" } }
       ]
     },
