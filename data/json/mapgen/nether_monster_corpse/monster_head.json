@@ -166,11 +166,11 @@
     "object": {
       "fill_ter": "t_nm_floor_flesh",
       "rows": [
-        "@BB                                BB                                BB@",
-        "@BB                               BBBB                               BB@",
-        "@#B                             BBBBBBBB                             BB@",
-        "@BB                           BBBBBBBBBBBB                           B#@",
-        "@BB                          BBBBBBBBBBBBBB                          B#@",
+        "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+        "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+        "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+        "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+        "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
         "@#B                         BBB          BBB                         B#@",
         "@#B                        BBB            BBB                        B#@",
         "@#B                       BBB              BBB                       B#@",
