@@ -265,7 +265,7 @@
     "type": "item_group",
     "id": "bugout_bad_pack",
     "subtype": "distribution",
-    "//": "an item that wouldn't be super useful in a survival situation, recreational items and such.",
+    "//": "an item that wouldn't be super useful to the player, recreational items and such.",
     "entries": [
       { "group": "SUS_book", "prob": 50 },
       { "group": "games", "prob": 20 },

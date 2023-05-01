@@ -84,8 +84,10 @@
 #  make ASTYLE=0
 # Disable format check of whitelisted json files.
 #  make LINTJSON=0
-# Disable building and running tests.
-#  make RUNTESTS=0
+# Disable building tests.
+#  make TESTS=0
+# Enable running tests.
+#  make RUNTESTS=1
 # Build source files in order of how often the matching header is included
 #  make HEADERPOPULARITY=1
 
@@ -172,9 +174,28 @@ ifndef LINTJSON
   LINTJSON = 1
 endif
 
-# Enable running tests by default
+# Enable building tests by default
+ifndef TESTS
+  TESTS = 1
+endif
+
+# Disable running tests by default
 ifndef RUNTESTS
-  RUNTESTS = 1
+  RUNTESTS = 0
+endif
+
+# Can't run tests if we aren't going to build them
+ifeq ($(TESTS), 0)
+  RUNTESTS = 0
+endif
+
+ifeq ($(RUNTESTS), 1)
+  TESTS = 1
+  RUNTESTSTARGET = check
+endif
+
+ifeq ($(TESTS), 1)
+  TESTSTARGET = tests
 endif
 
 ifndef PCH
@@ -245,10 +266,6 @@ ifeq ($(BACKTRACE), 1)
       LIBBACKTRACE = 1
     endif
   endif
-endif
-
-ifeq ($(RUNTESTS), 1)
-  TESTS = tests
 endif
 
 # tiles object directories are because gcc gets confused
@@ -910,7 +927,7 @@ endif
 
 LDFLAGS += -lz
 
-all: version prefix $(CHECKS) $(TARGET) $(L10N) $(TESTS)
+all: version prefix $(CHECKS) $(TARGET) $(L10N) $(TESTSTARGET) $(RUNTESTSTARGET)
 	@
 
 $(TARGET): $(OBJS)

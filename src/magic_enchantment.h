@@ -116,6 +116,8 @@ enum class mod : int {
     CLIMATE_CONTROL_HEAT,
     CLIMATE_CONTROL_CHILL,
     FALL_DAMAGE,
+    FORCEFIELD,
+    EVASION,
     OVERKILL_DAMAGE,
     NUM_MOD
 };

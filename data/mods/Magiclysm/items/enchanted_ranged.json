@@ -35,7 +35,7 @@
         }
       ]
     },
-    "valid_mod_locations": [ [ "sights", 1 ], [ "accessories", 1 ], [ "dampening", 1 ] ],
+    "valid_mod_locations": [ [ "sights", 1 ], [ "dampening", 1 ] ],
     "ranged_damage": { "damage_type": "stab", "amount": 9 },
     "range": 13,
     "dispersion": 855
@@ -62,7 +62,6 @@
     "loudness": 23,
     "clip_size": 6,
     "valid_mod_locations": [
-      [ "accessories", 1 ],
       [ "mechanism", 1 ],
       [ "barrel", 1 ],
       [ "grip", 1 ],
@@ -95,14 +94,7 @@
     "durability": 7,
     "loudness": 23,
     "reload": 600,
-    "valid_mod_locations": [
-      [ "accessories", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
-      [ "stock mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
+    "valid_mod_locations": [ [ "grip mount", 1 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ], [ "underbarrel mount", 1 ] ],
     "flags": [ "NEVER_JAMS" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "flintlock": 1 } } ],
     "melee_damage": { "bash": 7 }
@@ -152,7 +144,6 @@
     "clip_size": 5,
     "barrel_volume": "1000 ml",
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "brass catcher", 1 ],
       [ "grip", 1 ],

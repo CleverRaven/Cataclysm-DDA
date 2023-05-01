@@ -126,8 +126,7 @@ int vehicle::slowdown( int at_velocity ) const
     return std::max( 1, slowdown );
 }
 
-void vehicle::smart_controller_handle_turn( bool thrusting,
-        const std::optional<float> &k_traction_cache )
+void vehicle::smart_controller_handle_turn( const std::optional<float> &k_traction_cache )
 {
     // get settings or defaults
     smart_controller_config cfg = smart_controller_cfg.value_or( smart_controller_config() );
@@ -212,10 +211,9 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
     //      ( max_battery_level * battery_hi / 100 - cur_battery_level )  * (1000 / (60 * 30))   // originally
     //                                ^ battery_hi%                  bat to W ^         ^ 30 minutes
 
-    int accel_demand = cruise_on
-                       ? // using avg_velocity reduces unnecessary oscillations when traction is low
-                       std::max( std::abs( cruise_velocity - velocity ), std::abs( cruise_velocity - avg_velocity ) ) :
-                       ( thrusting ? 1000 : 0 );
+    // using avg_velocity reduces unnecessary oscillations when traction is low
+    int accel_demand = std::max( std::abs( cruise_velocity - velocity ),
+                                 std::abs( cruise_velocity - avg_velocity ) );
     if( velocity != 0 && accel_demand == 0 ) {
         accel_demand = 1;    // to prevent zero fuel usage
     }
@@ -466,7 +464,7 @@ void vehicle::thrust( int thd, int z )
     float traction = k_traction( get_map().vehicle_wheel_traction( *this ) );
 
     if( thrusting ) {
-        smart_controller_handle_turn( true, traction );
+        smart_controller_handle_turn( traction );
     }
 
     int accel = current_acceleration() * traction;
@@ -502,8 +500,7 @@ void vehicle::thrust( int thd, int z )
     //find ratio of used acceleration to maximum available, returned in tenths of a percent
     //so 1000 = 100% and 453 = 45.3%
     int load;
-    // Keep exact cruise control speed
-    if( cruise_on && accel != 0 ) {
+    if( accel != 0 ) {
         int effective_cruise = std::min( cruise_velocity, max_vel );
         if( thd > 0 ) {
             vel_inc = std::min( vel_inc, effective_cruise - velocity );
@@ -1320,7 +1317,7 @@ void vehicle::selfdrive( const point &p )
     }
     if( p.y != 0 ) {
         int thr_amount = 100 * ( std::abs( velocity ) < 2000 ? 4 : 5 );
-        if( cruise_on && !is_towed() ) {
+        if( !is_towed() ) {
             cruise_thrust( -p.y * thr_amount );
         } else {
             thrust( -p.y );
@@ -1486,17 +1483,11 @@ void vehicle::pldrive( Character &driver, const point &p, int z )
     }
 
     if( p.y != 0 ) {
-        if( cruise_on ) {
-            cruise_thrust( -p.y * 400 );
-        } else {
-            thrust( -p.y );
-            driver.moves = std::min( driver.moves, 0 );
-        }
+        cruise_thrust( -p.y * 400 );
     }
 
     // TODO: Actually check if we're on land on water (or disable water-skidding)
-    // Only check for recovering from a skid if we did active steering (not cruise control).
-    if( skidding && ( p.x != 0 || ( p.y != 0 && !cruise_on ) ) && valid_wheel_config() ) {
+    if( skidding && p.x != 0 && valid_wheel_config() ) {
         ///\EFFECT_DEX increases chance of regaining control of a vehicle
 
         ///\EFFECT_DRIVING increases chance of regaining control of a vehicle

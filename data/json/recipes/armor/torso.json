@@ -170,6 +170,21 @@
     "proficiencies": [ { "proficiency": "prof_closures" } ]
   },
   {
+    "result": "carpet_cuirass",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "fabrication",
+    "time": "10 m",
+    "autolearn": true,
+    "components": [
+      [ [ "y_carpet", 1 ], [ "r_carpet", 1 ], [ "p_carpet", 1 ], [ "g_carpet", 1 ] ],
+      [ [ "cordage", 8, "LIST" ], [ "duct_tape", 200 ] ]
+    ],
+    "qualities": [ { "id": "CUT", "level": 2 } ]
+  },
+  {
     "result": "chestguard_metal_sheets",
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",

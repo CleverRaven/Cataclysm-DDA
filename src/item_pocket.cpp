@@ -909,6 +909,7 @@ void item_pocket::remove_all_mods( Character &guy )
             ++iter;
         }
     }
+    on_contents_changed();
 }
 
 void item_pocket::set_item_defaults()

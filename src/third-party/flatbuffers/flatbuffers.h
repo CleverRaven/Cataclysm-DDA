@@ -1433,7 +1433,7 @@ class FlatBufferBuilder {
     // If you get this assert, a corresponding StartTable wasn't called.
     FLATBUFFERS_ASSERT(nested);
     // Write the vtable offset, which is the start of any Table.
-    // We fill it's value later.
+    // We fill its value later.
     auto vtableoffsetloc = PushElement<soffset_t>(0);
     // Write a vtable, which consists entirely of voffset_t elements.
     // It starts with the number of offsets, followed by a type id, followed
