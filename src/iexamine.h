@@ -112,6 +112,7 @@ void part_con( Character &you, const tripoint &examp );
 void water_source( Character &, const tripoint &examp );
 void finite_water_source( Character &, const tripoint &examp );
 void digester_empty( Character &you, const tripoint &examp );
+void digester_full( Character &you, const tripoint &examp );
 void kiln_empty( Character &you, const tripoint &examp );
 void kiln_full( Character &you, const tripoint &examp );
 void stook_empty( Character &, const tripoint &examp );

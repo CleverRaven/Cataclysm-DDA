@@ -480,7 +480,7 @@
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": -1,
-    "examine_action": "kiln_full",
+    "examine_action": "digester_full",
     "flags": [ "NOITEM", "SEALED", "CONTAINER", "PLACE_ITEM" ],
     "deconstruct": {
       "items": [ { "item": "55gal_drum", "count": 1 }, { "item": "scrap", "count": [ 2, 8 ] }, { "item": "hose", "count": 4 } ]

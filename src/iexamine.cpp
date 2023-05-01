@@ -3029,8 +3029,7 @@ void iexamine::digester_empty( Character &you, const tripoint &examp )
             add_msg( _( "This digester already finished producing methane." ) );
             add_msg( _( "Remove it before starting the process again." ) );
             return;
-        } else if( i.made_of_any( methanable ) &&
-                   !item_group::group_contains_item( Item_spawn_data_corpses_all, itype_corpse ) ) {
+        } else if( i.made_of_any( methanable ) ) {
             fuel_present = true;
         } else {
             add_msg( m_bad, _( "This digester contains %s, which can't be used to produce methane!" ),
@@ -3076,6 +3075,65 @@ void iexamine::digester_empty( Character &you, const tripoint &examp )
     result.charges = char_charges;
     here.add_item( examp, result );
     add_msg( _( "You start the digestion process." ) );
+}
+
+//As long as we're copy pasting old code we might as well copy paste all of it
+void iexamine::digester_full( Character &, const tripoint &examp )
+{
+    map &here = get_map();
+    furn_id cur_digester_type = here.furn( examp );
+    furn_id next_digester_type = f_null;
+    if( cur_digester_type == f_digester_full ) {
+        next_digester_type = f_digester_empty;
+    } else {
+        debugmsg( "Examined furniture has action digester_full, but is of type %s",
+                  here.furn( examp ).id().c_str() );
+        return;
+    }
+    map_stack items = here.i_at( examp );
+    if( items.empty() ) {
+        add_msg( _( "This digester is empty…" ) );
+        here.furn_set( examp, next_digester_type );
+        return;
+    }
+    const itype *char_type = item::find_type( itype_methane );
+    add_msg( _( "There's a methane digester there." ) );
+    const time_duration firing_time =
+        2_hours; // test value, FIXME KAROL
+    const time_duration time_left = firing_time - items.only_item().age();
+    if( time_left > 0_turns ) {
+        int hours = to_hours<int>( time_left );
+        int minutes = to_minutes<int>( time_left ) + 1;
+        if( minutes > 60 ) {
+            add_msg( n_gettext( "It will finish burning in about %d hour.",
+                                "It will finish burning in about %d hours.",
+                                hours ), hours );
+        } else if( minutes > 30 ) {
+            add_msg( _( "It will finish burning in less than an hour." ) );
+        } else {
+            add_msg( n_gettext( "It should take about %d minute to finish burning.",
+                                "It should take about %d minutes to finish burning.",
+                                minutes ), minutes );
+        }
+        return;
+    }
+
+    units::volume total_volume = 0_ml;
+    // Burn stuff that should get charred, leave out the rest
+    for( auto item_it = items.begin(); item_it != items.end(); ) {
+        if( item_it->typeId() == itype_unfinished_methane || item_it->typeId() == itype_methane ) {
+            total_volume += item_it->volume();
+            item_it = items.erase( item_it );
+        } else {
+            item_it++;
+        }
+    }
+
+    item result( "methane", calendar::turn );
+    result.charges = char_type->charges_per_volume( total_volume );
+    here.add_item( examp, result );
+    here.furn_set( examp, next_digester_type );
+    add_msg( _( "It has finished burning, yielding %d methane." ), result.charges );
 }
 
 //arc furnance start
@@ -7171,12 +7229,10 @@ iexamine_functions iexamine_functions_from_string( const std::string &function_n
             { "locked_object_pickable", &iexamine::locked_object_pickable },
             { "kiln_empty", &iexamine::kiln_empty },
             { "kiln_full", &iexamine::kiln_full },
-<<<<<<< HEAD
             { "stook_empty", &iexamine::stook_empty },
             { "stook_full", &iexamine::stook_full },
-=======
             { "digester_empty", &iexamine::digester_empty },
->>>>>>> bfcdcf2425 (karol'd)
+            { "digester_full", &iexamine::digester_full },
             { "arcfurnace_empty", &iexamine::arcfurnace_empty },
             { "arcfurnace_full", &iexamine::arcfurnace_full },
             { "autoclave_empty", &iexamine::autoclave_empty },
