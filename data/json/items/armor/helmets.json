@@ -720,8 +720,7 @@
     "material": [ "acidchitin" ],
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "warmth": 1.5 },
     "relative": { "melee_damage": { "bash": 1 } },
-    "material_thickness": 5,
-    "extend": { "flags": [ "NO_REPAIR" ] }
+    "material_thickness": 5
   },
   {
     "id": "xl_helmet_acidchitin",

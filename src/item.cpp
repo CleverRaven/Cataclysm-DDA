@@ -131,7 +131,6 @@ static const damage_type_id damage_bash( "bash" );
 static const damage_type_id damage_bullet( "bullet" );
 static const damage_type_id damage_cut( "cut" );
 static const damage_type_id damage_heat( "heat" );
-static const damage_type_id damage_stab( "stab" );
 
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_cig( "cig" );
@@ -2683,15 +2682,29 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
         }
         if( parts->test( iteminfo_parts::AMMO_BARREL_DETAILS ) ) {
             std::string barrel_details;
-            for( const damage_unit &du : ammo.damage.damage_units ) {
-                barrel_details += enumerate_as_string( du.barrels,
-                []( const barrel_desc & bd ) {
-                    return string_format( "<info>%d %s</info>: %d", convert_length( bd.barrel_length ),
-                                          length_units( bd.barrel_length ), static_cast<int>( bd.amount ) );
-                } );
-            }
-            if( !barrel_details.empty() ) {
-                info.emplace_back( "AMMO", _( "Damage by barrel length: " ), barrel_details );
+            const units::length small = 150_mm;
+            const units::length medium = 400_mm;
+            const units::length large = 600_mm;
+            const int small_damage = static_cast<int>( ammo.damage.di_considering_length(
+                                         small ).total_damage() );
+            const int medium_damage = static_cast<int>( ammo.damage.di_considering_length(
+                                          medium ).total_damage() );
+            const int large_damage = static_cast<int>( ammo.damage.di_considering_length(
+                                         large ).total_damage() );
+            if( small_damage != medium_damage || medium_damage != large_damage ) {
+                info.emplace_back( "AMMO", _( "Damage by barrel length: " ) );
+                const std::string small_string = string_format( " <info>%d %s</info>: ",
+                                                 convert_length( small ),
+                                                 length_units( small ) );
+                info.emplace_back( "AMMO", small_string, small_damage );
+                const std::string medium_string = string_format( " <info>%d %s</info>: ",
+                                                  convert_length( medium ),
+                                                  length_units( medium ) );
+                info.emplace_back( "AMMO", medium_string, medium_damage );
+                const std::string large_string = string_format( " <info>%d %s</info>: ",
+                                                 convert_length( large ),
+                                                 length_units( large ) );
+                info.emplace_back( "AMMO", large_string, large_damage );
             }
         }
     }
@@ -2828,9 +2841,13 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
         } else {
             if( parts->test( iteminfo_parts::GUN_DAMAGE_LOADEDAMMO ) ) {
                 damage_instance ammo_dam = curammo->ammo->damage;
+                int bullet_damage = ammo_dam.total_damage();
+                if( mod->barrel_length().value() > 0 ) {
+                    bullet_damage = ammo_dam.di_considering_length( mod->barrel_length() ).total_damage();
+                }
                 info.emplace_back( "GUN", "ammo_damage", "",
                                    iteminfo::no_newline | iteminfo::no_name |
-                                   iteminfo::show_plus, ammo_dam.total_damage() );
+                                   iteminfo::show_plus, bullet_damage );
             }
         }
 
@@ -10540,7 +10557,7 @@ std::string item::print_ammo( ammotype at, const item *gun ) const
         if( gun ) {
             return enumerate_as_string( type->magazine->cached_ammos[at],
             [gun]( const itype_id & id ) {
-                return string_format( "<info>%s(%d)</info>", id->nname( 1 ),
+                return string_format( "<info>%s</info>(%d)", id->nname( 1 ),
                                       static_cast<int>( gun->gun_damage( id ).total_damage() ) );
             } );
         } else {
