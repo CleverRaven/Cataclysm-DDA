@@ -85,7 +85,7 @@
   {
     "id": "large_shelter_kit",
     "type": "TOOL",
-    "name": { "str": "Large shelter kit" },
+    "name": { "str": "large shelter kit" },
     "description": "A large dissassembled shelter made of sticks and skins.  Activate it to set it up.",
     "weight": "2226 g",
     "volume": "10 L",
