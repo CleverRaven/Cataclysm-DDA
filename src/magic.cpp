@@ -1491,15 +1491,15 @@ int spell::calc_temp_level_adjust()
     context &current_context = get_context();
     float raw_level_adjust = current_context.caster_level_adjustment;
     std::map<std::string, float>::iterator it =
-        current_context.caster_level_adjustment_by_school.find( ( std::string )this->spell_class() );
+        current_context.caster_level_adjustment_by_school.find( this->spell_class().str() );
     if( it != current_context.caster_level_adjustment_by_school.end() ) {
         raw_level_adjust += it->second;
     }
-    it = current_context.caster_level_adjustment_by_spell.find( ( std::string )this->id() );
+    it = current_context.caster_level_adjustment_by_spell.find( this->id().str() );
     if( it != current_context.caster_level_adjustment_by_spell.end() ) {
         raw_level_adjust += it->second;
     }
-    int final_level = clamp( get_level() + ( int )raw_level_adjust, 0,
+    int final_level = clamp( get_level() + static_cast<int>( raw_level_adjust ), 0,
                              get_max_level( get_player_character() ) );
     temp_level_adjustment = final_level - get_level();
     return temp_level_adjustment;
