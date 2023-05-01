@@ -755,7 +755,7 @@
     "category": "armor",
     "name": { "str_sp": "fresh sclerotin plate" },
     "description": "When the time comes to prey, this platemail will be ready for any resistance.",
-    "weight": "6 kg",
+    "weight": "3 kg",
     "volume": "2 L",
     "price": 0,
     "price_postapoc": 0,
