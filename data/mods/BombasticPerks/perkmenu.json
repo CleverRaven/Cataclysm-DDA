@@ -50,6 +50,16 @@
         "topic": "TALK_PERK_MENU_GYMRAT"
       },
       {
+        "condition": { "not": { "u_has_trait": "perk_safety_net" } },
+        "text": "Gain [<trait_name:perk_safety_net>]",
+        "topic": "TALK_PERK_MENU_SAFETY_NET"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_lucky_dodge" } },
+        "text": "Gain [<trait_name:perk_lucky_dodge>]",
+        "topic": "TALK_PERK_MENU_LUCKY_DODGE"
+      },
+      {
         "condition": { "not": { "u_has_trait": "perk_thick_skull" } },
         "text": "Gain [<trait_name:perk_thick_skull>]",
         "topic": "TALK_PERK_MENU_THICK_SKULL"
@@ -316,6 +326,50 @@
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [
           { "u_add_trait": "perk_gymrat" },
+          {
+            "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "u_val": "var", "var_name": "num_perks" }, "-", { "const": 1 } ]
+          }
+        ]
+      },
+      { "text": "Go Back.", "topic": "TALK_PERK_MENU_MAIN" },
+      { "text": "Quit.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_PERK_MENU_SAFETY_NET",
+    "dynamic_line": "<trait_name:perk_safety_net>: \"<trait_description:perk_safety_net>\"",
+    "responses": [
+      {
+        "text": "Select Perk.",
+        "topic": "TALK_PERK_MENU_MAIN",
+        "condition": { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+        "failure_explanation": "Requirements Not Met",
+        "failure_topic": "TALK_PERK_MENU_FAIL",
+        "effect": [
+          { "u_add_trait": "perk_safety_net" },
+          {
+            "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "u_val": "var", "var_name": "num_perks" }, "-", { "const": 1 } ]
+          }
+        ]
+      },
+      { "text": "Go Back.", "topic": "TALK_PERK_MENU_MAIN" },
+      { "text": "Quit.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_PERK_MENU_LUCKY_DODGE",
+    "dynamic_line": "<trait_name:perk_lucky_dodge>: \"<trait_description:perk_lucky_dodge>\"",
+    "responses": [
+      {
+        "text": "Select Perk.",
+        "topic": "TALK_PERK_MENU_MAIN",
+        "condition": { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+        "failure_explanation": "Requirements Not Met",
+        "failure_topic": "TALK_PERK_MENU_FAIL",
+        "effect": [
+          { "u_add_trait": "perk_lucky_dodge" },
           {
             "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "u_val": "var", "var_name": "num_perks" }, "-", { "const": 1 } ]
           }

@@ -1199,6 +1199,13 @@ float Character::get_dodge() const
 
 float Character::dodge_roll() const
 {
+    // if your character has evasion then try rolling that first
+    double evasion = enchantment_cache->modify_value( enchant_vals::mod::EVASION, 0.0 );
+    if( rng( 0, 99 ) < evasion * 100 ) {
+        // arbitrarily high number without being max float
+        return 999999.0f;
+    }
+
     if( has_flag( json_flag_HARDTOHIT ) ) {
         // two chances at rng!
         return std::max( get_dodge(), get_dodge() ) * 5;
