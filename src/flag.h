@@ -53,6 +53,7 @@ extern const flag_id flag_BIPOD;
 extern const flag_id flag_BIRD;
 extern const flag_id flag_BLED;
 extern const flag_id flag_BLIND;
+extern const flag_id flag_BLINDERS;
 extern const flag_id flag_BLOCK_WHILE_WORN;
 extern const flag_id flag_BOMB;
 extern const flag_id flag_BRASS_CATCHER;

@@ -1517,7 +1517,8 @@ bool Character::check_mount_is_spooked()
                 if( saddled ) {
                     chance /= 2;
                 }
-                if( combat_mount ) {
+                // don't double dip with combat mounts and blinders
+                if( !blinders && combat_mount ) {
                     chance /= 2;
                 }
                 chance = std::max( 1.0, chance );
