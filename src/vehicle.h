@@ -1989,7 +1989,7 @@ class vehicle
         std::vector<vehicle_part> real_parts() const;
         // Map of edge parts and their adjacency information
         std::map<point, vpart_edge_info> edges; // NOLINT(cata-serialize)
-        // For a given mount point, returns it's adjacency info
+        // For a given mount point, returns its adjacency info
         vpart_edge_info get_edge_info( const point &mount ) const;
 
         // Removes fake parts from the parts vector
