@@ -466,5 +466,5 @@
     "name": "GROUP_EGG_SALAMANDER",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_salamander" } ]
-  },
+  }
 ]

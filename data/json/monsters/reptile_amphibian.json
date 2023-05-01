@@ -490,5 +490,5 @@
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "SWIMS" ],
     "armor": { "bash": 8, "cut": 3, "bullet": 2, "electric": 1 }
-  },
+  }
 ]
