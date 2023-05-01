@@ -397,7 +397,7 @@
     "name": { "str": "salamander" },
     "description": "The salamander is a small amphibian. It is usually medium-small in size and does not exceed 20 centimeters in length, including the tail",
     "default_faction": "small_animal",
-	"species": [ "AMPHIBIAN" ],
+    "species": [ "AMPHIBIAN" ],
     "diff": 1,
     "volume": "100 ml",
     "weight": "100 g",
