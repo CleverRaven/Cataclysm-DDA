@@ -75,11 +75,7 @@
         ]
       },
       {
-        "arithmetic": [
-          { "u_val": "vitamin", "name": "mutagen" },
-          "+=",
-          { "arithmetic": [ { "rand": 100 }, "+", { "const": 750 } ] }
-        ]
+        "arithmetic": [ { "u_val": "vitamin", "name": "mutagen" }, "+=", { "arithmetic": [ { "rand": 100 }, "+", { "const": 750 } ] } ]
       },
       {
         "run_eocs": {
@@ -105,11 +101,7 @@
         ]
       },
       {
-        "arithmetic": [
-          { "u_val": "vitamin", "name": "mutagen" },
-          "+=",
-          { "arithmetic": [ { "rand": 100 }, "+", { "const": 1750 } ] }
-        ]
+        "arithmetic": [ { "u_val": "vitamin", "name": "mutagen" }, "+=", { "arithmetic": [ { "rand": 100 }, "+", { "const": 1750 } ] } ]
       },
       {
         "run_eocs": {
@@ -157,11 +149,7 @@
         ]
       },
       {
-        "arithmetic": [
-          { "u_val": "vitamin", "name": "mutagen" },
-          "+=",
-          { "arithmetic": [ { "rand": 100 }, "+", { "const": 1750 } ] }
-        ]
+        "arithmetic": [ { "u_val": "vitamin", "name": "mutagen" }, "+=", { "arithmetic": [ { "rand": 100 }, "+", { "const": 1750 } ] } ]
       },
       {
         "run_eocs": {
