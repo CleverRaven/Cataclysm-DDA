@@ -1883,7 +1883,7 @@ std::function<double( dialogue const & )> conditional_t::get_get_dbl( J const &j
         } else if( checked_value == "spell_level_adjustment" ) {
             if( jo.has_member( "school" ) ) {
                 const std::string school_name = jo.get_string( "school" );
-                return [school_name]( const T & d ) {
+                return [school_name]( dialogue const & d ) {
                     context &current_context = get_context();
                     std::map<std::string, float>::iterator it =
                         current_context.caster_level_adjustment_by_school.find( school_name );
@@ -1895,7 +1895,7 @@ std::function<double( dialogue const & )> conditional_t::get_get_dbl( J const &j
                 };
             } else if( jo.has_member( "spell" ) ) {
                 const std::string spell_name = jo.get_string( "spell" );
-                return [spell_name]( const T & d ) {
+                return [spell_name]( dialogue const & d ) {
                     context &current_context = get_context();
                     std::map<std::string, float>::iterator it =
                         current_context.caster_level_adjustment_by_spell.find( spell_name );
@@ -1906,7 +1906,7 @@ std::function<double( dialogue const & )> conditional_t::get_get_dbl( J const &j
                     }
                 };
             } else {
-                return []( const T & d ) {
+                return []( dialogue const & d ) {
                     return get_context().caster_level_adjustment;
                 };
             }
@@ -2399,31 +2399,31 @@ conditional_t::get_set_dbl( const J &jo, const std::optional<dbl_or_var_part> &m
         } else if( checked_value == "spell_level_adjustment" ) {
             if( jo.has_member( "school" ) ) {
                 const std::string school_name = jo.get_string( "school" );
-                return [min, max, school_name]( const T & d, double input ) {
+                return [min, max, school_name]( dialogue const & d, double input ) {
                     context &current_context = get_context();
                     std::map<std::string, float>::iterator it =
                         current_context.caster_level_adjustment_by_school.find( school_name );
                     if( it != current_context.caster_level_adjustment_by_school.end() ) {
-                        it->second = handle_min_max<T>( d, input, min, max );
+                        it->second = handle_min_max( d, input, min, max );
                     } else {
-                        current_context.caster_level_adjustment_by_school.insert( { school_name, handle_min_max<T>( d, input, min, max ) } );
+                        current_context.caster_level_adjustment_by_school.insert( { school_name, handle_min_max( d, input, min, max ) } );
                     }
                 };
             } else if( jo.has_member( "spell" ) ) {
                 const std::string spell_name = jo.get_string( "spell" );
-                return [min, max, spell_name]( const T & d, double input ) {
+                return [min, max, spell_name]( dialogue const & d, double input ) {
                     context &current_context = get_context();
                     std::map<std::string, float>::iterator it =
                         current_context.caster_level_adjustment_by_spell.find( spell_name );
                     if( it != current_context.caster_level_adjustment_by_spell.end() ) {
-                        it->second = handle_min_max<T>( d, input, min, max );
+                        it->second = handle_min_max( d, input, min, max );
                     } else {
-                        current_context.caster_level_adjustment_by_spell.insert( { spell_name, handle_min_max<T>( d, input, min, max ) } );
+                        current_context.caster_level_adjustment_by_spell.insert( { spell_name, handle_min_max( d, input, min, max ) } );
                     }
                 };
             } else {
-                return [min, max]( const T & d, double input ) {
-                    get_context().caster_level_adjustment = handle_min_max<T>( d, input, min, max );
+                return [min, max]( dialogue const & d, double input ) {
+                    get_context().caster_level_adjustment = handle_min_max( d, input, min, max );
                 };
             }
         } else if( checked_value == "spell_exp" ) {
