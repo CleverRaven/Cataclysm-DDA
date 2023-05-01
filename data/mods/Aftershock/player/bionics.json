@@ -304,7 +304,7 @@
   {
     "id": "afs_bio_blade_fire",
     "type": "bionic",
-    "name": { "str_sp": "Bioweapon Thermal Conduits" },
+    "name": { "str": "Bioweapon Thermal Conduits" },
     "description": "An improved ulnar sheath equipped with thermal inductors allows for the super heating of all types of implanted bladed weaponry.  While this bionic is active, any deployed bionic blades will deal additional fire damage to targets.",
     "occupied_bodyparts": [ [ "arm_r", 7 ] ],
     "encumbrance": [ [ "arm_r", 2 ] ],
@@ -330,7 +330,7 @@
   {
     "id": "afs_bio_blade_electric",
     "type": "bionic",
-    "name": { "str_sp": "Bioweapon Superconductive Channels" },
+    "name": { "str": "Bioweapon Superconductive Channels" },
     "description": "Paired capacitor banks maintain implanted bladed weaponry under constant electrical charge.  While this bionic is active, any deployed bionic blades will deal additional electric damage with a chance of the damage arcing to other nearby targets.",
     "occupied_bodyparts": [ [ "arm_r", 7 ] ],
     "encumbrance": [ [ "arm_r", 2 ] ],
