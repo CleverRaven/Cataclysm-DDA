@@ -1260,7 +1260,7 @@ void vehicle::open_or_close( const int part_index, const bool opening )
             parts.at( prt.fake_part_at ).open = opening;
         }
     };
-    //find_lines_of_parts() doesn't return the part_index we passed, so we set it on it's own
+    //find_lines_of_parts() doesn't return the part_index we passed, so we set it on its own
     part_open_or_close( part_index, opening );
     insides_dirty = true;
     map &here = get_map();
