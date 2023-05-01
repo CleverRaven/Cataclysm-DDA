@@ -50,7 +50,6 @@
       "type": "effect_on_condition",
       "effect_on_conditions": [
         {
-          "type": "effect_on_condition",
           "id": "admire_lily_effect",
           "effect": [
             {

@@ -1,15 +1,6 @@
 [
   {
     "type": "overmap_terrain",
-    "id": "corpse_bowels_empty_edge",
-    "name": "monster corpse bowels",
-    "sym": "O",
-    "color": "light_red",
-    "see_cost": 5,
-    "flags": [ "RISK_HIGH" ]
-  },
-  {
-    "type": "overmap_terrain",
     "id": "corpse_surface",
     "name": "monster corpse",
     "copy-from": "corpse_bowels_empty_edge",
@@ -18,125 +9,20 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "corpse_bowels_mid",
-    "copy-from": "corpse_bowels_empty_edge",
-    "flags": [ "RISK_HIGH", "NO_ROTATE" ],
-    "sym": "O"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "corpse_bowels_tentacle_edge",
-    "copy-from": "corpse_bowels_empty_edge",
-    "color": "red",
-    "sym": "E"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "corpse_bowels_neck_right",
-    "copy-from": "corpse_bowels_empty_edge",
-    "sym": "N"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "corpse_bowels_neck_left",
-    "copy-from": "corpse_bowels_empty_edge",
-    "sym": "N"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "corpse_bowels_neck_edge_center",
-    "copy-from": "corpse_bowels_empty_edge",
-    "sym": "N"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "corpse_bowels_lcorner",
-    "copy-from": "corpse_bowels_empty_edge"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "corpse_bowels_rcorner",
-    "copy-from": "corpse_bowels_empty_edge"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "corpse_neck",
-    "copy-from": "corpse_bowels_empty_edge",
-    "color": "red",
-    "sym": "N"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "corpse_neck_center",
-    "copy-from": "corpse_bowels_empty_edge",
-    "color": "red",
-    "sym": "N"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "corpse_head_neck_l",
-    "copy-from": "corpse_bowels_empty_edge",
-    "color": "red",
-    "sym": "H"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "corpse_head_neck_r",
-    "copy-from": "corpse_bowels_empty_edge",
-    "color": "red",
-    "sym": "H"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "corpse_head_neck_center",
-    "copy-from": "corpse_bowels_empty_edge",
-    "color": "red",
-    "sym": "H"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "corpse_head",
-    "copy-from": "corpse_bowels_empty_edge",
-    "color": "red",
-    "sym": "H"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "corpse_brain",
-    "copy-from": "corpse_head"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "corpse_under_brain",
-    "copy-from": "corpse_head"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "corpse_head_edge",
-    "copy-from": "corpse_bowels_empty_edge",
-    "color": "red",
-    "sym": "H"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "corpse_head_fin",
-    "copy-from": "corpse_bowels_empty_edge",
-    "color": "red",
-    "sym": "H"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "corpse_head_lcorner",
-    "copy-from": "corpse_bowels_empty_edge",
-    "color": "red",
-    "sym": "H"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "corpse_head_rcorner",
-    "copy-from": "corpse_bowels_empty_edge",
-    "color": "red",
-    "sym": "H"
+    "id": [
+      "corpse_bowels_mid",
+      "corpse_bowels_neck_right",
+      "corpse_bowels_neck_left",
+      "corpse_bowels_neck_edge_center",
+      "corpse_bowels_rcorner",
+      "corpse_bowels_lcorner",
+      "corpse_bowels_empty_edge"
+    ],
+    "name": "monster corpse bowels",
+    "sym": "O",
+    "color": "light_red",
+    "see_cost": 5,
+    "flags": [ "RISK_HIGH" ]
   },
   {
     "type": "overmap_terrain",
@@ -164,5 +50,39 @@
     "sym": "M",
     "color": "blue",
     "flags": [ "RISK_HIGH", "KNOWN_DOWN", "REQUIRES_PREDECESSOR" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "corpse_bowels_tentacle_edge",
+    "copy-from": "corpse_bowels_empty_edge",
+    "color": "red",
+    "sym": "E"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "corpse_neck", "corpse_neck_center" ],
+    "copy-from": "corpse_bowels_empty_edge",
+    "name": "monster corpse neck",
+    "color": "red",
+    "sym": "N"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "corpse_head",
+      "corpse_brain",
+      "corpse_under_brain",
+      "corpse_head_edge",
+      "corpse_head_fin",
+      "corpse_head_lcorner",
+      "corpse_head_rcorner",
+      "corpse_head_neck_l",
+      "corpse_head_neck_r",
+      "corpse_head_neck_center"
+    ],
+    "copy-from": "corpse_bowels_empty_edge",
+    "name": "monster corpse head",
+    "color": "red",
+    "sym": "H"
   }
 ]
