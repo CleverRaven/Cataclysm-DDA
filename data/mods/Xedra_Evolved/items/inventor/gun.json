@@ -367,7 +367,7 @@
     "dispersion_modifier": 15,
     "handling_modifier": 4,
     "loudness_modifier": 14,
-    "description": "Lorem ipsum."
+    "description": "Default energy transformer, that convert the power into raw power."
   },
   {
     "id": "inventor_glauncher_fire",
@@ -396,7 +396,7 @@
     "handling_modifier": 4,
     "loudness_modifier": 14,
     "overwrite_min_cycle_recoil": 1350,
-    "description": "Lorem ipsum."
+    "description": "Modified energy transformer, that convert the power frow into slow heat cloud, that ignite everything around."
   },
   {
     "id": "inventor_glauncher_elec",
@@ -427,7 +427,7 @@
     "handling_modifier": 4,
     "loudness_modifier": 14,
     "overwrite_min_cycle_recoil": 1350,
-    "description": "Lorem ipsum."
+    "description": "Instead converting energy, this energy transformer emit it as it is, throwing a giant high-voltage cloud."
   },
   {
     "id": "inventor_glauncher_direct",
