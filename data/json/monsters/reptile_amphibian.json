@@ -392,7 +392,7 @@
     "armor": { "bash": 4 }
   },
   {
-	"id": "mon_salamander",
+    "id": "mon_salamander",
     "type": "MONSTER",
     "name": { "str": "salamander" },
     "description": "The salamander is a small amphibian. It is usually medium-small in size and does not exceed 20 centimeters in length, including the tail",
