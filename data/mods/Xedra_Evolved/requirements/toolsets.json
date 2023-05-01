@@ -2,11 +2,16 @@
   {
     "id": "surface_heat",
     "type": "requirement",
-    "extend": { "tools": [ [ [ "heater_gun", 25 ] ] ] }
+    "extend": { "tools": [ [ [ "heater_tool", 20 ] ] ] }
   },
   {
     "id": "water_boiling_heat",
     "type": "requirement",
-    "extend": { "tools": [ [ [ "heater_gun", 25 ] ] ] }
+    "extend": { "tools": [ [ [ "heater_tool", 20 ] ] ] }
+  },
+  {
+    "id": "welding_standard",
+    "type": "requirement",
+    "extend": { "tools": [ [ [ "inventor_welder", 10 ] ] ] }
   }
 ]

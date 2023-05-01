@@ -393,7 +393,7 @@
     "looks_like": "gauntlets_chitin",
     "name": { "str": "\"Overture\"", "str_pl": "\"Overtures\"" },
     "description": "Thin piece of close with a lot of coils and wires, and a slot for a small battery.  Upon activation, it start to emit huge electrical charges, frying your enemies when you attack them in melee.",
-    "material": [ "cotton", "copper", "aluminum" ],
+    "material": [ "aluminum", "copper" ],
     "volume": "155 ml",
     "weight": "300 g",
     "longest_side": "25 cm",

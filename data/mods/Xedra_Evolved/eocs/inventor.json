@@ -7,7 +7,19 @@
     "effect": [
       { "math": [ "u_val('vitamin', 'name:creative_spark_research')", "-=", "base_difficulty_1" ] },
       { "math": [ "base_difficulty_1", "+=", "5" ] },
-      { "u_roll_remainder": [ "battery_gun" ], "type": "recipe" },
+      {
+        "u_roll_remainder": [
+          "inventor_leg_weight",
+          "inventor_jump_boots",
+          "inventor_sniper",
+          "inventor_shotgun",
+          "inventor_pistol",
+          "mace_magic",
+          "combatsaw_spear_off",
+          "inventor_research_base_2"
+        ],
+        "type": "recipe"
+      },
       { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
       { "u_message": "inventor_success", "snippet": true, "type": "good" }
     ],
@@ -25,7 +37,21 @@
       { "math": [ "u_val('vitamin', 'name:creative_spark_research')", "-=", "base_difficulty_2" ] },
       { "math": [ "base_difficulty_2", "+=", "10" ] },
       { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
-      { "u_roll_remainder": [ "battery_gun" ], "type": "recipe" },
+      {
+        "u_roll_remainder": [
+          "helmet_inventor",
+          "inventor_electric_fist",
+          "wolf_mask",
+          "magnetic_holster",
+          "bio_launcher",
+          "bio_warhead",
+          "trinket_damage",
+          "trinket_range",
+          "trinket_sound",
+          "inventor_research_base_3"
+        ],
+        "type": "recipe"
+      },
       { "u_message": "inventor_success", "snippet": true, "type": "good" }
     ],
     "false_effect": [
@@ -42,7 +68,10 @@
       { "math": [ "u_val('vitamin', 'name:creative_spark_research')", "-=", "base_difficulty_3" ] },
       { "math": [ "base_difficulty_3", "+=", "15" ] },
       { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
-      { "u_roll_remainder": [ "battery_gun" ], "type": "recipe" },
+      {
+        "u_roll_remainder": [ "inventor_backpack", "vision_halo", "sonic_gun", "inventor_research_energy_1" ],
+        "type": "recipe"
+      },
       { "u_message": "inventor_success", "snippet": true, "type": "good" }
     ],
     "false_effect": [
@@ -58,7 +87,19 @@
     "effect": [
       { "math": [ "u_val('vitamin', 'name:creative_spark_research')", "-=", "energy_difficulty_1" ] },
       { "math": [ "energy_difficulty_1", "+=", "7" ] },
-      { "u_roll_remainder": [ "battery_gun" ], "type": "recipe" },
+      {
+        "u_roll_remainder": [
+          "battery_gun",
+          "inventor_light_minus_cell",
+          "inventor_light_cell",
+          "inventor_medium_cell",
+          "inventor_heavy_cell",
+          "inventor_welder",
+          "heater_tool",
+          "inventor_research_energy_2"
+        ],
+        "type": "recipe"
+      },
       { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
       { "u_message": "inventor_success", "snippet": true, "type": "good" }
     ],
@@ -75,7 +116,24 @@
     "effect": [
       { "math": [ "u_val('vitamin', 'name:creative_spark_research')", "-=", "energy_difficulty_2" ] },
       { "math": [ "energy_difficulty_2", "+=", "13" ] },
-      { "u_roll_remainder": [ "battery_gun" ], "type": "recipe" },
+      {
+        "u_roll_remainder": [
+          "aura_force",
+          "ray_gun",
+          "ion_gun",
+          "accelerator_gun",
+          "inventor_grenade_noise_expl",
+          "inventor_grenade_noise_emp",
+          "inventor_grenade_noise_fire",
+          "heater_gun",
+          "inventor_lasmod_close_range",
+          "inventor_lasmod_long_range",
+          "inventor_lasmod_capasitor",
+          "inventor_lasmod_energy_safe",
+          "inventor_research_energy_3"
+        ],
+        "type": "recipe"
+      },
       { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
       { "u_message": "inventor_success", "snippet": true, "type": "good" }
     ],
@@ -92,7 +150,19 @@
     "effect": [
       { "math": [ "u_val('vitamin', 'name:creative_spark_research')", "-=", "energy_difficulty_3" ] },
       { "math": [ "energy_difficulty_3", "+=", "20" ] },
-      { "u_roll_remainder": [ "battery_gun" ], "type": "recipe" },
+      {
+        "u_roll_remainder": [
+          "inventor_glauncher",
+          "inventor_glauncher_fire",
+          "inventor_glauncher_elec",
+          "inventor_glauncher_direct",
+          "death_ray",
+          "inventor_lasmod_mega_capasitor",
+          "inventor_research_ai_1",
+          "inventor_research_dimesnion_1"
+        ],
+        "type": "recipe"
+      },
       { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
       { "u_message": "inventor_success", "snippet": true, "type": "good" }
     ],
@@ -117,7 +187,7 @@
       { "math": [ "base_difficulty_3", "+=", "10" ] },
       { "math": [ "AI_difficulty_1", "+=", "10" ] },
       { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
-      { "u_roll_remainder": [ "battery_gun" ], "type": "recipe" },
+      { "u_roll_remainder": [ "bot_sniperbot", "bot_shotgunbot", "bot_meleebot" ], "type": "recipe" },
       { "u_message": "inventor_success", "snippet": true, "type": "good" }
     ],
     "false_effect": [
@@ -141,7 +211,7 @@
       { "math": [ "base_difficulty_3", "+=", "10" ] },
       { "math": [ "dimension_difficulty_1", "+=", "10" ] },
       { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
-      { "u_roll_remainder": [ "battery_gun" ], "type": "recipe" },
+      { "u_roll_remainder": [ "rip_ticket" ], "type": "recipe" },
       { "u_message": "inventor_success", "snippet": true, "type": "good" }
     ],
     "false_effect": [

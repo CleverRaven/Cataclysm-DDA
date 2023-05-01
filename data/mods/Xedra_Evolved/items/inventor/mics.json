@@ -52,6 +52,49 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 3125 } } ]
   },
   {
+    "id": "inventor_welder",
+    "type": "TOOL",
+    "copy-from": "welder",
+    "name": { "str": "inventor's welder" },
+    "description": "A lightweigt, battery-powered tool to welding metal pieces together using plasma-inducted electric arc.  Decent tool, but you think you can do more with some modification.",
+    "weight": "2000 g",
+    "volume": "2500 ml",
+    "material": [ "steel", "plastic" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM", "BATTERY_HEAVY" ],
+        "default_magazine": "medium_battery_cell"
+      }
+    ]
+  },
+  {
+    "id": "heater_tool",
+    "type": "TOOL",
+    "name": { "str": "\"Heater\"" },
+    "description": "Extremely small and light tool, that create and transfer the heat in extremely effective way.  You think it would be interesting to develop it futher.",
+    "weight": "358 g",
+    "volume": "790 ml",
+    "longest_side": "25 cm",
+    "material": [ "aluminum", "plastic" ],
+    "symbol": ";",
+    "color": "green",
+    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
+    "ammo": [ "battery" ],
+    "charges_per_use": 20,
+    "use_action": [ "HOTPLATE" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_MEDIUM", "BATTERY_HEAVY" ],
+        "default_magazine": "medium_plus_battery_cell"
+      }
+    ],
+    "melee_damage": { "bash": 4 }
+  },
+  {
     "id": "software_AI",
     "copy-from": "software",
     "type": "TOOL",
