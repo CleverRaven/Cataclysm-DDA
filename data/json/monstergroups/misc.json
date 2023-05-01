@@ -285,7 +285,7 @@
       { "monster": "mon_llama", "weight": 10 },
       { "monster": "mon_woodlouse", "weight": 10 },
       { "monster": "mon_cicada_nymph", "weight": 10 },
-	  { "monster": "mon_gecko", "weight": 10 }
+      { "monster": "mon_gecko", "weight": 10 }
     ]
   },
   {
