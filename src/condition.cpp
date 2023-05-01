@@ -1883,30 +1883,30 @@ std::function<double( dialogue const & )> conditional_t::get_get_dbl( J const &j
         } else if( checked_value == "spell_level_adjustment" ) {
             if( jo.has_member( "school" ) ) {
                 const std::string school_name = jo.get_string( "school" );
-                return [school_name]( dialogue const & d ) {
+                return [school_name]( dialogue const & ) {
                     context &current_context = get_context();
                     std::map<std::string, float>::iterator it =
                         current_context.caster_level_adjustment_by_school.find( school_name );
                     if( it != current_context.caster_level_adjustment_by_school.end() ) {
                         return it->second;
                     } else {
-                        return ( float )0;
+                        return 0.0f;
                     }
                 };
             } else if( jo.has_member( "spell" ) ) {
                 const std::string spell_name = jo.get_string( "spell" );
-                return [spell_name]( dialogue const & d ) {
+                return [spell_name]( dialogue const & ) {
                     context &current_context = get_context();
                     std::map<std::string, float>::iterator it =
                         current_context.caster_level_adjustment_by_spell.find( spell_name );
                     if( it != current_context.caster_level_adjustment_by_spell.end() ) {
                         return it->second;
                     } else {
-                        return ( float )0;
+                        return 0.0f;
                     }
                 };
             } else {
-                return []( dialogue const & d ) {
+                return []( dialogue const & ) {
                     return get_context().caster_level_adjustment;
                 };
             }
