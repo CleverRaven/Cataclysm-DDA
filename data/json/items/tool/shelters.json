@@ -21,7 +21,7 @@
     "symbol": ";",
     "color": "green",
     "name": { "str": "large damaged shelter" },
-    "description": "A huge animal tent, very bulky but with plenty of space.  This tent is broken and cannot be deployed.",
+    "description": "A huge shelter made of sticks and skins, very bulky but with plenty of space.  This tent is broken and cannot be deployed.",
     "price": 10000,
     "price_postapoc": 150,
     "material": [ "wood", "leather" ],
