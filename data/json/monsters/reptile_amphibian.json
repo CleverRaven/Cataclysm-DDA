@@ -428,7 +428,8 @@
     "flags": [ "SEES", "HEARS", "SMELLS", "HARDTOSHOOT", "SWIMS" ],
     "reproduction": { "baby_egg": "egg_salamander", "baby_count": 8, "baby_timer": 26 }
   },
-  {"id": "mon_salamander_big",
+  {
+    "id": "mon_salamander_big",
     "type": "MONSTER",
     "name": { "str": "big salamander" },
     "description": "A mutant salamander the size of a person. Better not get too close.",
