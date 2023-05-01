@@ -442,6 +442,63 @@
   },
   {
     "type": "furniture",
+    "id": "f_digester_empty",
+    "name": "biogas digester",
+    "looks_like": "f_fireplace",
+    "description": "A primitive rock kiln designed to burn wood and organic material into charcoal in the absence of oxygen.  It isn't especially efficient compared to a modern metal variant.",
+    "symbol": "U",
+    "color": "green",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": -1,
+    "examine_action": "digester_empty",
+    "max_volume": "200 L",
+    "flags": [ "CONTAINER", "PLACE_ITEM" ],
+    "deconstruct": {
+      "items": [ { "item": "55gal_drum", "count": 1 }, { "item": "scrap", "count": [ 2, 8 ] }, { "item": "hose", "count": 4 } ]
+    },
+    "bash": {
+      "str_min": 12,
+      "str_max": 40,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 4, 20 ] },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "hose", "count": [ 1, 3 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_digester_full",
+    "name": "filled biogas digester",
+    "looks_like": "f_digester_empty",
+    "description": "A primitive rock kiln designed to burn wood and organic material into charcoal in the absence of oxygen.  It isn't especially efficient compared to a modern metal variant.",
+    "symbol": "U",
+    "color": "green",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": -1,
+    "examine_action": "kiln_full",
+    "flags": [ "NOITEM", "SEALED", "CONTAINER", "PLACE_ITEM" ],
+    "deconstruct": {
+      "items": [ { "item": "55gal_drum", "count": 1 }, { "item": "scrap", "count": [ 2, 8 ] }, { "item": "hose", "count": 4 } ]
+    },
+    "bash": {
+      "str_min": 12,
+      "str_max": 40,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 4, 20 ] },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "hose", "count": [ 1, 3 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_arcfurnace_empty",
     "name": "arc furnace",
     "looks_like": "f_arc_furnace",
