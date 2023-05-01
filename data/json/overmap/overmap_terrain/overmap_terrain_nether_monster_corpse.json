@@ -78,7 +78,10 @@
       "corpse_head_rcorner",
       "corpse_head_neck_l",
       "corpse_head_neck_r",
-      "corpse_head_neck_center"
+      "corpse_head_neck_center",
+      "corpse_head_neck_l_decap",
+      "corpse_head_neck_r_decap",
+      "corpse_head_neck_center_decap"
     ],
     "copy-from": "corpse_bowels_empty_edge",
     "name": "monster corpse head",
