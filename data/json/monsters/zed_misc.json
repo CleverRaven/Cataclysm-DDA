@@ -1671,9 +1671,7 @@
     "bleed_rate": 0,
     "vision_night": 7,
     "harvest": "zombie",
-    "special_attacks": [
-      [ "GRAB_DRAG", 3 ]
-    ],
+    "special_attacks": [ [ "GRAB_DRAG", 3 ] ],
     "regen_morale": true,
     "flags": [
       "SEES",
@@ -1691,7 +1689,7 @@
     "upgrades": { "half_life": 34, "into": "mon_frog_mother" },
     "armor": { "bash": 8, "cut": 2, "bullet": 1, "electric": 2 }
   },
- {
+  {
     "id": "mon_evoluted_z_salamander",
     "type": "MONSTER",
     "name": { "str": "evoluted zombie salamander" },
@@ -1716,9 +1714,7 @@
     "bleed_rate": 0,
     "vision_night": 7,
     "harvest": "zombie",
-    "special_attacks": [
-      [ "GRAB_DRAG", 3 ]
-    ],
+    "special_attacks": [ [ "GRAB_DRAG", 3 ] ],
     "regenerates": 40,
     "regen_morale": true,
     "flags": [
