@@ -10,7 +10,6 @@
   {
     "type": "overmap_terrain",
     "id": [
-      "corpse_bowels_mid",
       "corpse_bowels_neck_right",
       "corpse_bowels_neck_left",
       "corpse_bowels_neck_edge_center",
@@ -23,6 +22,15 @@
     "color": "light_red",
     "see_cost": 5,
     "flags": [ "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "corpse_bowels_mid" ],
+    "name": "monster corpse bowels",
+    "sym": "O",
+    "color": "light_red",
+    "see_cost": 5,
+    "flags": [ "RISK_HIGH", "NO_ROTATE" ]
   },
   {
     "type": "overmap_terrain",
