@@ -308,6 +308,7 @@ bioelectricity
 bioforms
 biofuel
 biofuels
+biogas
 biographic
 biohacker
 biokinesis
@@ -807,6 +808,7 @@ didn
 dieselpunk
 diffract
 diffracting
+digester
 diggable
 digitizes
 dilophosaurus
