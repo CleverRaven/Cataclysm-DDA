@@ -435,14 +435,15 @@
   {
     "type": "furniture",
     "id": "f_skin_center_groundsheet",
-    "name": "skin groundsheet",
+    "name": "large skin groundsheet",
     "looks_like": "f_skin_groundsheet", 
-    "description": "An animal-skin groundsheet to keep your feet dry inside the shelter.",
+    "description": "A Large animal-skin groundsheet to keep your feet dry inside the shelter.",
     "symbol": ";",
     "color": "brown",
     "move_cost_mod": 0,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "INDOORS", "NOCOLLIDE", "SUN_ROOF_ABOVE" ],
+    "examine_action": "portable_structure",
     "deployed_item": "large_shelter_kit",
     "bash": {
       "str_min": 1,
