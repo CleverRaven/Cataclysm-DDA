@@ -1097,5 +1097,15 @@
     "copy-from": "egg_insect",
     "rot_spawn": "GROUP_EGG_CICADA",
     "rot_spawn_chance": 50
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_gecko",
+    "name": { "str": "cluster of gecko's eggs", "str_pl": "clusters of gecko's eggs" },
+    "copy-from": "egg_chicken",
+    "weight": "20 g",
+    "volume": "650 ml",
+    "description": "A large clump of gecko eggs.  They're soff and stcky.",
+    "rot_spawn": "GROUP_EGG_GECKO"
   }
 ]
