@@ -369,7 +369,7 @@
       { "monster": "mon_gastro_bufo", "weight": 5, "cost_multiplier": 3, "starts": "15 days" },
       { "monster": "mon_zombullfrog", "weight": 10, "cost_multiplier": 2 },
       { "monster": "mon_frog_mother", "weight": 5, "cost_multiplier": 3, "starts": "15 days" },
-	  { "monster": "mon_gecko", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_gecko", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_gecko_big", "weight": 100, "cost_multiplier": 0 },
 	  { "monster": "mon_gecko_mega", "weight": 100, "cost_multiplier": 0 }
     ]
