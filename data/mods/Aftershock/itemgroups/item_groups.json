@@ -416,6 +416,14 @@
     ]
   },
   {
+    "id": "afs_escapepod_shootout_corpse",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "corpse",
+    "on_overflow": "spill",
+    "entries": [ { "group": "afs_escapepod_shootout" } ]
+  },
+  {
     "id": "afs_escapepod_shootout",
     "type": "item_group",
     "subtype": "collection",

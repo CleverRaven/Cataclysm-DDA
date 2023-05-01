@@ -196,11 +196,11 @@
         { "item": "crashing_ship_locker_card", "x": [ 16, 22 ], "y": [ 9, 15 ], "chance": 100 },
         { "item": "crashing_ship_armory_card", "x": [ 1, 7 ], "y": 1, "chance": 100 },
         { "item": "crashing_ship_exobay_card", "x": [ 16, 22 ], "y": [ 9, 15 ], "chance": 100 },
-        { "item": "electrohack", "x": [ 1, 7 ], "y": [ 1, 1 ], "prob": 3, "charges": [ 50, 100 ] },
-        { "group": "afs_escapepod_shootout", "x": 54, "y": 28, "prob": 100, "container-item": "corpse" },
-        { "group": "afs_escapepod_shootout", "x": 52, "y": 32, "prob": 100, "container-item": "corpse" }
+        { "item": "electrohack", "x": [ 1, 7 ], "y": [ 1, 1 ], "chance": 100 },
+        { "group": "afs_escapepod_shootout_corpse", "x": 54, "y": 28 },
+        { "group": "afs_escapepod_shootout_corpse", "x": 52, "y": 32 }
       ],
-      "place_rubble": [ { "x": [ 1, 4 ], "y": [ 24, 29 ], "chance": 100 } ],
+      "place_rubble": [ { "x": [ 1, 4 ], "y": [ 24, 29 ], "repeat": [ 5, 20 ] } ],
       "place_graffiti": [
         { "text": "Barracks", "x": 10, "y": 23 },
         { "text": "Barracks", "x": 13, "y": 23 },
