@@ -7,8 +7,6 @@
     "description": "The helmet of creative juices may look like a child's homemade toy, but its effects when turned on are real enough.  While wearing it, your thoughts are buffered from the outside world by a soft white noise that varies from person to person as to what they actually hear.  Some hear the ocean, a fan blowing or paper crumpling.  Whatever the sound, it helps you to think faster and more creatively than before.",
     "weight": "1383 g",
     "volume": "1750 ml",
-    "to_hit": -1,
-    "bashing": 5,
     "material": [ "steel", "plastic" ],
     "symbol": "[",
     "looks_like": "hat_hard",

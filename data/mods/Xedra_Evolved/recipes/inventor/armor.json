@@ -90,9 +90,9 @@
       { "proficiency": "prof_welding", "time_multiplier": 2, "skill_penalty": -100 }
     ],
     "components": [
-      [ [ "combat_boots", 1 ], [ "hiking_boots", 1 ] ],
+      [ [ "boots_combat", 1 ], [ "boots_hiking", 1 ] ],
       [ [ "cable", 10 ] ],
-      [ [ "shock_absorber", 2 ] ],
+      [ [ "spring_plate", 2 ] ],
       [ [ "e_scrap", 2 ] ],
       [ [ "power_supply", 4 ] ]
     ],

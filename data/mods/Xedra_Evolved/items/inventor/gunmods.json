@@ -21,7 +21,7 @@
     "id": "trinket_range",
     "type": "GUNMOD",
     "name": { "str": "rocket bullets" },
-    "description": "You can't properly explain how this thing works, but the end result should be clear - faster bullet with better damage, but awful recoil after each shot.",
+    "description": "You can't properly explain how this thing works, but the end result should be clear - faster bullet with better damage, but awful dispersion.",
     "weight": "68 g",
     "volume": "119 ml",
     "install_time": "2 m",
@@ -32,7 +32,7 @@
     "mod_targets": [ "pistol", "shotgun", "smg", "rifle" ],
     "range_modifier": 3,
     "damage_modifier": { "damage_type": "bullet", "amount": 6 },
-    "recoil_modifier": 40,
+    "dispersion_modifier": 40,
     "min_skills": [ [ "weapon", 6 ], [ "deduction", 5 ] ]
   },
   {
