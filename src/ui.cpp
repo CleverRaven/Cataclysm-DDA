@@ -980,14 +980,14 @@ uilist::handle_mouse_result_t uilist::handle_mouse( const input_context &ctxt,
                     // function is called again.
                     fselected = new_fselected;
                     selected = fentries[fselected];
+                    if( callback != nullptr ) {
+                        callback->select( this );
+                    }
                     if( ret_act == "SELECT" ) {
                         if( enabled || allow_disabled ) {
                             ret = entries[selected].retval;
                             // Treating clicking during filtering as confirmation and stop filtering
                             result = handle_mouse_result_t::confirmed;
-                        }
-                        if( callback != nullptr ) {
-                            callback->select( this );
                         }
                     }
                 }
