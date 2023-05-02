@@ -494,6 +494,8 @@ void mutation_branch::load( const JsonObject &jo, const std::string &src )
         deactivated_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
 
+    optional( jo, was_loaded, "activated_is_setup", activated_is_setup, false );
+
     int enchant_num = 0;
     for( JsonValue jv : jo.get_array( "enchantments" ) ) {
         std::string enchant_name = "INLINE_ENCH_" + raw_name + "_" + std::to_string( enchant_num++ );
