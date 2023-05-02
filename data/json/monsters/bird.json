@@ -458,7 +458,6 @@
     "id": "mon_raven_chick",
     "type": "MONSTER",
     "copy-from": "mon_crow_chick",
-    "name": { "str": "brown chick" },
     "volume": "750 ml",
     "weight": "60 g",
     "upgrades": { "age_grow": 35, "into": "mon_raven" }
@@ -466,8 +465,7 @@
   {
     "id": "mon_bluejay_chick",
     "type": "MONSTER",
-    "copy-from": "mon_crow_chick",
-    "name": { "str": "brown chick" },
+    "copy-from": "mon_generic_chick",
     "volume": "225 ml",
     "weight": "38 g",
     "upgrades": { "age_grow": 18, "into": "mon_bluejay" }
@@ -475,8 +473,7 @@
   {
     "id": "mon_cardinal_chick",
     "type": "MONSTER",
-    "copy-from": "mon_crow_chick",
-    "name": { "str": "brown chick" },
+    "copy-from": "mon_generic_chick",
     "volume": "200 ml",
     "weight": "15 g",
     "upgrades": { "age_grow": 11, "into": "mon_cardinal" }
@@ -484,8 +481,7 @@
   {
     "id": "mon_robin_chick",
     "type": "MONSTER",
-    "copy-from": "mon_crow_chick",
-    "name": { "str": "brown chick" },
+    "copy-from": "mon_generic_chick",
     "volume": "215 ml",
     "weight": "35 g",
     "upgrades": { "age_grow": 14, "into": "mon_robin" }
@@ -493,8 +489,7 @@
   {
     "id": "mon_sparrow_chick",
     "type": "MONSTER",
-    "copy-from": "mon_crow_chick",
-    "name": { "str": "brown chick" },
+    "copy-from": "mon_generic_chick",
     "volume": "175 ml",
     "weight": "12 g",
     "upgrades": { "age_grow": 15, "into": "mon_sparrow" }
