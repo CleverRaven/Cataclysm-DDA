@@ -493,9 +493,6 @@ class vpart_info
         int z_order = 0;
         // Display order in vehicle interact display
         int list_order = 0;
-
-        /** Legacy parts don't specify installation requirements */
-        bool legacy = true;
 };
 
 struct vehicle_item_spawn {

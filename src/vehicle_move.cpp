@@ -1270,54 +1270,35 @@ void vehicle::handle_trap( const tripoint &p, int part )
     }
 }
 
-bool vehicle::has_harnessed_animal() const
+monster *vehicle::get_harnessed_animal() const
 {
     for( size_t e = 0; e < parts.size(); e++ ) {
         const vehicle_part &vp = parts[ e ];
         if( vp.info().fuel_type == fuel_type_animal ) {
             monster *mon = get_monster( e );
             if( mon && mon->has_effect( effect_harnessed ) && mon->has_effect( effect_pet ) ) {
-                return true;
+                return mon;
             }
         }
     }
-    return false;
+    return nullptr;
 }
 
 void vehicle::selfdrive( const point &p )
 {
-    if( !is_towed() && !magic ) {
-        for( size_t e = 0; e < parts.size(); e++ ) {
-            const vehicle_part &vp = parts[ e ];
-            if( vp.info().fuel_type == fuel_type_animal ) {
-                monster *mon = get_monster( e );
-                if( !mon || !mon->has_effect( effect_harnessed ) || !mon->has_effect( effect_pet ) ) {
-                    is_following = false;
-                    return;
-                }
-            }
-        }
+    if( !is_towed() && !magic && !get_harnessed_animal() ) {
+        is_following = false;
+        return;
     }
-    units::angle turn_delta = vehicles::steer_increment * p.x;
-    const float handling_diff = handling_difficulty();
-    if( turn_delta != 0_degrees ) {
-        float eff = steering_effectiveness();
-        if( eff == -2 ) {
-            return;
+    if( p.x != 0 ) {
+        if( steering_effectiveness() <= 0 ) {
+            return; // no steering
         }
-
-        if( eff < 0 ) {
-            return;
-        }
-
-        if( eff == 0 ) {
-            return;
-        }
-        turn( turn_delta );
+        turn( p.x * vehicles::steer_increment );
     }
     if( p.y != 0 ) {
-        int thr_amount = 100 * ( std::abs( velocity ) < 2000 ? 4 : 5 );
         if( !is_towed() ) {
+            const int thr_amount = std::abs( velocity ) < 2000 ? 400 : 500;
             cruise_thrust( -p.y * thr_amount );
         } else {
             thrust( -p.y );
@@ -1325,9 +1306,7 @@ void vehicle::selfdrive( const point &p )
     }
     // TODO: Actually check if we're on land on water (or disable water-skidding)
     if( skidding && valid_wheel_config() ) {
-        ///\EFFECT_DEX increases chance of regaining control of a vehicle
-
-        ///\EFFECT_DRIVING increases chance of regaining control of a vehicle
+        const float handling_diff = handling_difficulty();
         if( handling_diff * rng( 1, 10 ) < 15 ) {
             velocity = static_cast<int>( forward_velocity() );
             skidding = false;
