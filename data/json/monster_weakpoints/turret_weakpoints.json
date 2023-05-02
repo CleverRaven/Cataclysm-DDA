@@ -36,10 +36,11 @@
         "effects": [
           { "effect": "blind", "chance": 40, "message": "The %s's camera is lightly scratched!", "damage_required": [ 1, 5 ] },
           {
-              "effect": "blind",
-              "chance": 40,
-              "message": "The %s's camera is lightly scratched!",
-              "damage_required": [ 1, 5 ]
+            "effect": "blind",
+            "duration": [ 3, 4 ],
+            "chance": 70,
+            "message": "The %s's camera is cracked!",
+            "damage_required": [ 6, 25 ]
           },
           {
               "effect": "blind",
