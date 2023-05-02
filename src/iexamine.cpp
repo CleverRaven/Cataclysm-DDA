@@ -3033,7 +3033,8 @@ void iexamine::digester_empty( Character &you, const tripoint &examp )
             add_msg( _( "This digester already finished producing methane." ) );
             add_msg( _( "Remove it before starting the process again." ) );
             return;
-        } else if( i.made_of_any( methanable ) ) {
+        } else if( i.made_of_any( methanable ) &&
+                   !item_group::group_contains_item( Item_spawn_data_corpses_all, i.typeId() ) ) {
             fuel_present = true;
         } else {
             add_msg( m_bad, _( "This digester contains %s, which can't be used to produce methane!" ),
