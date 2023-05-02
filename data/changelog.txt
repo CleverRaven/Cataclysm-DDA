@@ -25,7 +25,7 @@ Updates to several existing maps
 Add the first Exodii mission
 Combat Capable Mounts
 Add new Exodii NPC: Luliya
-Add new weather: mist and fog. maybe.
+Add new weather types: mist and fog
 adds .303 British as an ammo type in the game, plus corresponding FMJ, SP, and BTHP rounds, craft recipes, item groups, migrations, and the SMLE Mk III and No. 4 Mk I rifles
 Allow static NPCs to be given randomly generated missions.
 Allow players to keep bees
