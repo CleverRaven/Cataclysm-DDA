@@ -814,6 +814,8 @@ Effect | Description
 `u_add_trait, npc_add_trait: `string or [variable object](#variable-object) | Your character or the NPC will gain the trait.
 `u_lose_effect, npc_lose_effect: `string or [variable object](#variable-object) | Your character or the NPC will lose the effect if they have it.
 `u_lose_trait, npc_lose_trait: `string or [variable object](#variable-object) | Your character or the NPC will lose the trait.
+`u_activate_trait, npc_activate_trait: `string or [variable object](#variable-object) | Your character or the NPC will activate the trait.
+`u_deactivate_trait, npc_deactivate_trait: `string or [variable object](#variable-object) | Your character or the NPC will deactivate the trait.
 `u_learn_martial_art, npc_learn_martial_art: `string or [variable object](#variable-object) | Your character or the NPC will learn the martial art style.
 `u_forget_martial_art, npc_forget_martial_art: `string or [variable object](#variable-object) | Your character or the NPC will forget the martial art style.
 `u_add_var, npc_add_var`: `var_name, type: type_str`, `context: context_str`, either `value: value_str` or `time: true` or `possible_values: string_array` | Your character or the NPC will store `value_str` as a variable that can be later retrieved by `u_has_var` or `npc_has_var`.  `npc_add_var` can be used to store arbitrary local variables, and `u_add_var` can be used to store arbitrary "global" variables, and should be used in preference to setting effects.  If `time` is used instead of `value_str`, then the current turn of the game is stored. If `possible_values` is used one of the values given at random will be used.
