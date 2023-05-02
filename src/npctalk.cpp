@@ -1820,14 +1820,15 @@ dialogue::dialogue( const dialogue &d )
 {
     Creature *creature_alpha = d.has_alpha ? d.actor( false )->get_creature() : nullptr;
     item_location *item_alpha = d.has_alpha ? d.actor( false )->get_item() : nullptr;
+    computer *computer_alpha = d.has_alpha ? d.actor( false )->get_computer() : nullptr;
     Creature *creature_beta = d.has_beta ? d.actor( true )->get_creature() : nullptr;
     item_location *item_beta = d.has_beta ? d.actor( true )->get_item() : nullptr;
-
+    computer *computer_beta = d.has_beta ? d.actor( true )->get_computer() : nullptr;
 
     std::unique_ptr<talker> alpha_in = creature_alpha ? get_talker_for( creature_alpha ) : item_alpha ?
-                                       get_talker_for( item_alpha ) : nullptr;
+                                       get_talker_for( item_alpha ) : computer_alpha ? get_talker_for( computer_alpha ) : nullptr;
     std::unique_ptr<talker> beta_in = creature_beta ? get_talker_for( creature_beta ) : item_beta ?
-                                      get_talker_for( item_beta ) : nullptr;
+                                      get_talker_for( item_beta ) : computer_beta ? get_talker_for( computer_beta ) : nullptr;
 
     has_alpha = alpha_in != nullptr;
     has_beta = beta_in != nullptr;
