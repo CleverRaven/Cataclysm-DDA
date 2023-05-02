@@ -257,7 +257,7 @@
     "id": "accelerator_gun",
     "type": "GUN",
     "name": { "str": "acceleratron" },
-    "description": "Particle cannon of a carabin size.  It shoots a microscopic particles, and due the size of projectile, you don't need to reload it for decades.  Instead, you need a ton of energy to generate enough magnetic force.  The damage of weapon is not great, but it has perfect armor penetration, and no physical armor can stop a bullet.",
+    "description": "Particle cannon of a carabine size.  It shoots a microscopic particles, and due the size of projectile, you don't need to reload it for decades.  Instead, you need a ton of energy to generate enough magnetic force.  The damage of weapon is not great, but it has perfect armor penetration, and no physical armor can stop a bullet.",
     "weight": "3490 g",
     "volume": "4957 ml",
     "longest_side": "998 mm",
@@ -389,7 +389,7 @@
     "handling_modifier": 4,
     "loudness_modifier": 14,
     "overwrite_min_cycle_recoil": 1350,
-    "description": "Modified energy transformer, that convert the power frow into slow heat cloud, that ignite everything around."
+    "description": "Modified energy transformer, that convert the power flow into slow heat cloud, that ignite everything around."
   },
   {
     "id": "inventor_glauncher_elec",
@@ -439,7 +439,7 @@
     "color": "blue",
     "location": "energy transformer",
     "mod_targets": [ "inventor_glauncher" ],
-    "name": { "str": "focused energy tranformer" },
+    "name": { "str": "focused energy transformer" },
     "range_modifier": 35,
     "mode_modifier": [ [ "DEFAULT", "semi-auto", 1 ] ],
     "install_time": "1 m",
@@ -448,7 +448,7 @@
     "handling_modifier": 4,
     "loudness_modifier": 14,
     "overwrite_min_cycle_recoil": 1350,
-    "description": "Bunch of powerful lenses and reflectors, that transform the output of blablabla into powerful directed laser beam."
+    "description": "Bunch of powerful lenses and reflectors, that transform the energy output into powerful directed laser beam."
   },
   {
     "id": "inventor_grenade_noise_expl",
@@ -588,7 +588,7 @@
     "id": "sonic_gun",
     "type": "GUN",
     "name": { "str": "sonic gun" },
-    "description": "Small, square tube with pistol grip, that can emit a sonic waves, creating cavitations and tissue damage inside the living creatures.  Pretty weak as a weapon, using extremely high frequency sounds make it silent for most creatures you can met.  Would be fun to listen some music using it, but alas.",
+    "description": "Small, square tube with pistol grip, that can emit a sonic waves, creating cavitation and tissue damage inside the living creatures.  Pretty weak as a weapon, using extremely high frequency sounds make it silent for most creatures you can met.  Would be fun to listen some music using it, but alas.",
     "weight": "890 g",
     "volume": "658 ml",
     "longest_side": "998 mm",

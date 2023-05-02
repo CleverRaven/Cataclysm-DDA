@@ -228,7 +228,7 @@
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str": "force shield" },
-    "description": "Small, thin thoroid with a huge baterry case, and a belt.  You can activate it, to emit a field, that covers your whole body, and decelerate all objects that it touches.",
+    "description": "Small, thin torus with a huge battery case, and a belt.  You can activate it, to emit a field, that covers your whole body, and decelerate all objects that it touches.",
     "weight": "36 g",
     "volume": "55 ml",
     "material": [ "steel", "copper" ],
@@ -277,7 +277,7 @@
         "target": "aura_force_on",
         "need_charges": 1,
         "active": true,
-        "msg": "The thoroid start to emit an invisible waves.",
+        "msg": "The torus start to emit an invisible waves.",
         "type": "transform"
       }
     ],
@@ -290,14 +290,14 @@
     "copy-from": "aura_force",
     "name": { "str": "force shield (on)", "str_pl": "force shields (on)" },
     "power_draw": "250 W",
-    "use_action": [ { "ammo_scale": 0, "target": "aura_force", "msg": "Thoroid stops working.", "type": "transform" } ]
+    "use_action": [ { "ammo_scale": 0, "target": "aura_force", "msg": "Torus stops working.", "type": "transform" } ]
   },
   {
-    "id": "vision_halo",
+    "id": "vision_halo",    
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str": "electronic halo" },
-    "description": "A small crown with processor on the back, and few microprojectors, that project calculated information onto your eye.  The internal storage and RAM is capable to hold a simple AI, which, combined with various cameras, that cover whole 360 degree around, allow you to perform various tasks much more effective than before, and battle mode turn on the power-hungry aspect-radiation detector.",
+    "description": "A small crown with processor on the back, and few micro projectors, that project calculated information onto your eye.  The internal storage and RAM is capable to hold a simple AI, which, combined with various cameras, that cover whole 360 degree around, allow you to perform various tasks much more effective than before, and battle mode turn on the power-hungry aspect-radiation detector.",
     "weight": "155 g",
     "volume": "490 ml",
     "material": [ "aluminum", "copper" ],
@@ -448,7 +448,7 @@
     "type": "TOOL_ARMOR",
     "category": "clothing",
     "name": { "str": "wolf's mask" },
-    "description": "A huge, respirator-like mask, covering the whole head except for the right eye.  Upon activation saves you lungs from toxis gases, and improve your breathing and, therefore, stamina.",
+    "description": "A huge, respirator-like mask, covering the whole head except for the right eye.  Upon activation saves you lungs from toxic gases, and improve your breathing and, therefore, stamina.",
     "weight": "405 g",
     "volume": "1479 ml",
     "material": [ "aluminum" ],

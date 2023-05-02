@@ -56,7 +56,7 @@
     "type": "TOOL",
     "copy-from": "welder",
     "name": { "str": "inventor's welder" },
-    "description": "A lightweigt, battery-powered tool to welding metal pieces together using plasma-inducted electric arc.  Decent tool, but you think you can do more with some modification.",
+    "description": "A lightweight, battery-powered tool to welding metal pieces together using plasma-inducted electric arc.  Decent tool, but you think you can do more with some modification.",
     "weight": "2000 g",
     "volume": "2500 ml",
     "material": [ "steel", "plastic" ],
@@ -73,7 +73,7 @@
     "id": "heater_tool",
     "type": "TOOL",
     "name": { "str": "\"Heater\"", "str_pl": "\"Heaters\"" },
-    "description": "Extremely small and light tool, that create and transfer the heat in extremely effective way.  You think it would be interesting to develop it futher.",
+    "description": "Extremely small and light tool, that create and transfer the heat in extremely effective way.  You think it would be interesting to develop it further.",
     "weight": "358 g",
     "volume": "790 ml",
     "longest_side": "25 cm",
@@ -99,7 +99,7 @@
     "copy-from": "software",
     "type": "TOOL",
     "name": { "str_sp": "IA software" },
-    "description": "A USB with simple intelligent agent to provide support in parcing the big layers of information.",
+    "description": "A USB with simple intelligent agent to provide support in parsing the big layers of information.",
     "qualities": [ [ "AI_TOOL", 1 ] ]
   }
 ]
