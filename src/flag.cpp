@@ -206,7 +206,6 @@ const flag_id flag_NO_DROP( "NO_DROP" );
 const flag_id flag_NO_INGEST( "NO_INGEST" );
 const flag_id flag_NO_PACKED( "NO_PACKED" );
 const flag_id flag_NO_PARASITES( "NO_PARASITES" );
-const flag_id flag_NO_QUICKDRAW( "NO_QUICKDRAW" );
 const flag_id flag_NO_RELOAD( "NO_RELOAD" );
 const flag_id flag_NO_REPAIR( "NO_REPAIR" );
 const flag_id flag_NO_SALVAGE( "NO_SALVAGE" );
