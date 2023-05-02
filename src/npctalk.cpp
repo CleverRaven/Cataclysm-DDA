@@ -3831,6 +3831,28 @@ void talk_effect_fun_t::set_run_eocs( const JsonObject &jo, const std::string_vi
     };
 }
 
+void talk_effect_fun_t::set_run_eoc_with( const JsonObject &jo, const std::string_view member )
+{
+    effect_on_condition_id eoc = effect_on_conditions::load_inline_eoc( jo.get_member( member ), "" );
+
+    std::unordered_map<std::string, str_or_var> context;
+    if( jo.has_object( "variables" ) ) {
+        const JsonObject &variables = jo.get_object( "variables" );
+        for( const JsonMember &jv : variables ) {
+            context["npctalk_var_" + jv.name()] = get_str_or_var( variables.get_member( jv.name() ), jv.name(),
+                                                  true );
+        }
+    }
+
+    function = [eoc, context]( dialogue const & d ) {
+        dialogue newDialog( d );
+        for( const auto &val : context ) {
+            newDialog.set_value( val.first, val.second.evaluate( d ) );
+        }
+        eoc->activate( newDialog );
+    };
+}
+
 void talk_effect_fun_t::set_run_npc_eocs( const JsonObject &jo,
         const std::string_view member, bool is_npc )
 {
@@ -4705,6 +4727,8 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_make_sound( jo, "npc_make_sound", true );
     } else if( jo.has_array( "run_eocs" ) || jo.has_member( "run_eocs" ) ) {
         subeffect_fun.set_run_eocs( jo, "run_eocs" );
+    } else if( jo.has_member( "run_eoc_with" ) ) {
+        subeffect_fun.set_run_eoc_with( jo, "run_eoc_with" );
     } else if( jo.has_array( "queue_eocs" ) || jo.has_member( "queue_eocs" ) ) {
         subeffect_fun.set_queue_eocs( jo, "queue_eocs" );
     } else if( jo.has_array( "u_run_npc_eocs" ) ) {

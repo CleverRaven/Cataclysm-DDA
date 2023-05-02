@@ -33,6 +33,7 @@ static const effect_on_condition_id
 effect_on_condition_EOC_math_var( "EOC_math_var" );
 static const effect_on_condition_id
 effect_on_condition_EOC_math_weighted_list( "EOC_math_weighted_list" );
+static const effect_on_condition_id effect_on_condition_EOC_run_with_test( "EOC_run_with_test" );
 static const effect_on_condition_id effect_on_condition_EOC_teleport_test( "EOC_teleport_test" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
@@ -235,7 +236,6 @@ TEST_CASE( "EOC_activity_ongoing", "[eoc][timed_event]" )
     CHECK( stoi( get_avatar().get_value( "npctalk_var_activitiy_incrementer" ) ) == 3 );
 }
 
-
 TEST_CASE( "dialogue_copy", "[eoc]" )
 {
     standard_npc dude;
@@ -260,4 +260,28 @@ TEST_CASE( "dialogue_copy", "[eoc]" )
     d3_copy.set_value( "suppress", "1" );
     CHECK( d3_copy.actor( false )->get_monster() != nullptr );
     CHECK( d3_copy.actor( true )->get_character() == nullptr );
+}
+
+TEST_CASE( "EOC_run_with_test", "[eoc]" )
+{
+    clear_avatar();
+    clear_map();
+
+    dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
+    global_variables &globvars = get_globals();
+    globvars.clear_global_values();
+
+    REQUIRE( globvars.get_global_value( "npctalk_var_key1" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_key2" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_key3" ).empty() );
+
+    CHECK( effect_on_condition_EOC_run_with_test->activate( d ) );
+    CHECK( std::stod( globvars.get_global_value( "npctalk_var_key1" ) ) == Approx( 1 ) );
+    CHECK( std::stod( globvars.get_global_value( "npctalk_var_key2" ) ) == Approx( 2 ) );
+    CHECK( std::stod( globvars.get_global_value( "npctalk_var_key3" ) ) == Approx( 3 ) );
+
+    // value shouldn't exist in the original dialogue
+    CHECK( d.get_value( "npctalk_var_key" ).empty() );
+    CHECK( d.get_value( "npctalk_var_key2" ).empty() );
+    CHECK( d.get_value( "npctalk_var_key3" ).empty() );
 }
