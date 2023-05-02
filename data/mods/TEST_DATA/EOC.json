@@ -146,12 +146,15 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_activate_mutation_test",
-    "effect": [ { "u_deactivate_trait": {"context_val": "this" } } ]
+    "effect": [ { "u_deactivate_trait": { "context_val": "this" } } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_mark_mutation_test",
-    "effect": [ { "math": [ "test_val", "=", "1" ] }, { "set_string_var": { "context_val": "this" }, "target_var": {"global_val": "context_test"}} ]
+    "effect": [
+      { "math": [ "test_val", "=", "1" ] },
+      { "set_string_var": { "context_val": "this" }, "target_var": { "global_val": "context_test" } }
+    ]
   },
   {
     "type": "effect_on_condition",
