@@ -15,7 +15,7 @@
           {
             "effect": "stunned",
             "chance": 35,
-            "duration": [2, 3],
+            "duration": [ 2, 3 ],
             "message": "The %s's motor starts to jam up!",
             "damage_required": [ 5, 20 ]
           },
