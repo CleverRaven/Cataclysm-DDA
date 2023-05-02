@@ -45,7 +45,7 @@ Use the `Home` key to return to the top.
     - [Item Variables](#item-variables)
     - [Materials](#materials)
       - [Fuel data](#fuel-data)
-	  - [Burn data](#burn-data)
+      - [Burn data](#burn-data)
     - [Monster Groups](#monster-groups)
       - [Group definition](#group-definition)
       - [Monster/Subgroup definition](#monstersubgroup-definition)
