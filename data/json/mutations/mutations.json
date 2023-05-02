@@ -2879,6 +2879,7 @@
     "bodytemp_modifiers": [ 100, 150 ],
     "bodytemp_sleep": 50,
     "description": "You've developed some sort of hair growing out of your chitin.  It's a bit warmer than not having hair.",
+    "types": [ "BODY_ARMOR_MOD" ],
     "prereqs": [ "CHITIN", "CHITIN_MOLTED", "CHITIN2", "CHITIN2_MOLTED", "CHITIN3", "CHITIN3_MOLTED" ],
     "category": [ "SPIDER" ],
     "changes_to": [ "CHITIN_FUR2" ]
@@ -2893,6 +2894,7 @@
     "bodytemp_modifiers": [ 150, 250 ],
     "bodytemp_sleep": 75,
     "description": "Your chitin hair has thickened and spread across your body.  It provides minor warmth and helps you sense nearby vibrations.",
+    "types": [ "BODY_ARMOR_MOD" ],
     "prereqs": [ "CHITIN2", "CHITIN3", "CHITIN2_MOLTED", "CHITIN3_MOLTED" ],
     "prereqs2": [ "CHITIN", "CHITIN_MOLTED" ],
     "leads_to": [ "CF_HAIR" ],
@@ -2910,6 +2912,7 @@
     "bodytemp_modifiers": [ 150, 250 ],
     "bodytemp_sleep": 75,
     "description": "Your thick exoskeleton boasts a fine coat of hairs that put feline whiskers to shame.",
+    "types": [ "BODY_ARMOR_MOD" ],
     "prereqs": [ "CHITIN3", "CHITIN3_MOLTED" ],
     "prereqs2": [ "CHITIN", "CHITIN_MOLTED", "CHITIN2", "CHITIN2_MOLTED" ],
     "leads_to": [ "CF_HAIR" ],
