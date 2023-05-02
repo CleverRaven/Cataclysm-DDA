@@ -87,7 +87,7 @@
     "type": "TOOL",
     "name": { "str": "large shelter kit" },
     "description": "A large dissassembled shelter made of sticks and skins.  Activate it to set it up.",
-    "weight": "21,5 kg",
+    "weight": "21 kg",
     "volume": "15 L",
     "longest_side": "300 cm",
     "price": 6500,
