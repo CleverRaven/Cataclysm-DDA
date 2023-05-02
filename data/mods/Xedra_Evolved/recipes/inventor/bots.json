@@ -140,7 +140,7 @@
       }
     ],
     "components": [
-      [ [ "blade", 2 ] ],
+      [ [ "blade", 3 ] ],
       [ [ "scrap_aluminum", 400 ] ],
       [ [ "cable", 200 ] ],
       [ [ "e_scrap", 3 ] ],
