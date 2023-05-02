@@ -34,6 +34,9 @@ effect_on_condition_EOC_math_var( "EOC_math_var" );
 static const effect_on_condition_id
 effect_on_condition_EOC_math_weighted_list( "EOC_math_weighted_list" );
 static const effect_on_condition_id effect_on_condition_EOC_run_with_test( "EOC_run_with_test" );
+static const effect_on_condition_id
+effect_on_condition_EOC_run_with_test_2( "EOC_run_with_test_2" );
+
 static const effect_on_condition_id effect_on_condition_EOC_teleport_test( "EOC_teleport_test" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
@@ -284,4 +287,25 @@ TEST_CASE( "EOC_run_with_test", "[eoc]" )
     CHECK( d.get_value( "npctalk_var_key" ).empty() );
     CHECK( d.get_value( "npctalk_var_key2" ).empty() );
     CHECK( d.get_value( "npctalk_var_key3" ).empty() );
+}
+
+TEST_CASE( "EOC_run_with_test2", "[eoc]" )
+{
+    clear_avatar();
+    clear_map();
+
+    dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
+    global_variables &globvars = get_globals();
+    globvars.clear_global_values();
+
+    REQUIRE( globvars.get_global_value( "npctalk_var_key1" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_key2" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_key3" ).empty() );
+
+    CHECK( capture_debugmsg_during( [&]() {
+        effect_on_condition_EOC_run_with_test_2->activate( d );
+    } ) == "Missing required variables: key1, key2, key3, " );
+    CHECK( globvars.get_global_value( "npctalk_var_key1" ).empty() );
+    CHECK( globvars.get_global_value( "npctalk_var_key2" ).empty() );
+    CHECK( globvars.get_global_value( "npctalk_var_key3" ).empty() );
 }
