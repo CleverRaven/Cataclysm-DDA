@@ -1290,26 +1290,6 @@
     "flags": [ "BIONIC_FAULTY" ]
   },
   {
-    "id": "bio_power_armor_interface",
-    "type": "bionic",
-    "name": { "str": "Power Armor Interface" },
-    "description": "Interfaces your power system with the internal charging port on suits of power armor, allowing them to draw from your bionic power banks.",
-    "occupied_bodyparts": [ [ "torso", 4 ], [ "head", 1 ] ],
-    "flags": [ "BIONIC_ARMOR_INTERFACE", "BIONIC_TOGGLED" ],
-    "react_cost": 1,
-    "time": "1 s"
-  },
-  {
-    "id": "bio_power_armor_interface_mkII",
-    "type": "bionic",
-    "name": { "str": "Power Armor Interface Mk. II" },
-    "description": "Interfaces your power system with the internal charging port on suits of power armor, allowing them to draw from your bionic power banks.  Twice as efficient as the Mk. I model.",
-    "occupied_bodyparts": [ [ "torso", 3 ], [ "head", 2 ] ],
-    "flags": [ "BIONIC_ARMOR_INTERFACE", "BIONIC_TOGGLED" ],
-    "react_cost": 1,
-    "time": "2 s"
-  },
-  {
     "id": "bio_power_storage",
     "type": "bionic",
     "name": { "str": "Power Storage" },

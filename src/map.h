@@ -1830,7 +1830,7 @@ class map
          * when starting a new game, or after teleportation or after moving vertically).
          * If false, monsters are not spawned in view of player character.
          */
-        void spawn_monsters( bool ignore_sight );
+        void spawn_monsters( bool ignore_sight, bool spawn_nonlocal = false );
 
         /**
         * Checks to see if the item that is rotting away generates a creature when it does.
@@ -1840,7 +1840,7 @@ class map
         void rotten_item_spawn( const item &item, const tripoint &p );
     private:
         // Helper #1 - spawns monsters on one submap
-        void spawn_monsters_submap( const tripoint &gp, bool ignore_sight );
+        void spawn_monsters_submap( const tripoint &gp, bool ignore_sight, bool spawn_nonlocal = false );
         // Helper #2 - spawns monsters on one submap and from one group on this submap
         void spawn_monsters_submap_group( const tripoint &gp, mongroup &group,
                                           bool ignore_sight );

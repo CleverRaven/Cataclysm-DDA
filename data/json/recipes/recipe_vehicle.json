@@ -369,6 +369,10 @@
     "//": "400cm weld",
     "using": [ [ "welding_standard", 400 ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 1.1, "learning_time_multiplier": 0.1 } ],
+    "proficiencies": [
+      { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 1.1, "learning_time_multiplier": 0.1 },
+      { "proficiency": "prof_appliance_repair" }
+    ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
       { "id": "SAW_M", "level": 1 },
@@ -436,7 +440,10 @@
     "activity_level": "MODERATE_EXERCISE",
     "copy-from": "minifreezer",
     "skills_required": [ "fabrication", 4 ],
-    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 1.1, "learning_time_multiplier": 0.1 } ],
+    "proficiencies": [
+      { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 1.1, "learning_time_multiplier": 0.1 },
+      { "proficiency": "prof_appliance_repair" }
+    ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
       { "id": "SAW_M", "level": 1 },

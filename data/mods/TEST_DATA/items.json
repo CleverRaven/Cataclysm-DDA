@@ -1425,7 +1425,7 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 110,
-    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ],
+    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ],
     "use_action": {
       "menu_text": "Tighten Limbs",
       "type": "transform",

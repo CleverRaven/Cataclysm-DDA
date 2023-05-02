@@ -14,6 +14,7 @@ Identifier            | Type      | Description |
 `global`              | bool       | If this is true, this recurring eoc will be run on the player and every npc from a global queue.  Deactivate conditions will work based on the avatar. If it is false the avatar and every character will have their own copy and their own deactivated list. Defaults to false.
 `run_for_npcs`        | bool       | Can only be true if global is true. If false the eoc will only be run against the avatar. If true the eoc will be run against the avatar and all npcs.  Defaults to false.
 `EOC_TYPE`            | string     | The effect_on_condition is automatically invoked once on scenario start.
+
  Can be any of:ACTIVATION, RECURRING, SCENARIO_SPECIFIC, AVATAR_DEATH, NPC_DEATH, OM_MOVE, PREVENT_DEATH, EVENT. It defaults to ACTIVATION unless `recurrence` is provided in which case it defaults to RECURRING.  If it is SCENARIO_SPECIFIC it is automatically invoked once on scenario start. If it is PREVENT_DEATH whenever the current avatar dies it will be run with the avatar as u, if after it the player is no longer dead they will not die, if there are multiple they all be run until the player is not dead. If it is AVATAR_DEATH whenever the current avatar dies it will be run with the avatar as u and the killer as npc. NPC_DEATH eocs can only be assigned to run on the death of an npc, in which case u will be the dying npc and npc will be the killer. OM_MOVE EOCs trigger when the player moves overmap tiles. EVENT EOCs trigger when a specific event given by "required_event" takes place.
 
 ## Examples:
@@ -37,3 +38,101 @@ Identifier            | Type      | Description |
 
 # EVENT EOCs:
 EVENT EOCs trigger on in game events specified in the event_type enum in `event.h`. When an EVENT EOC triggers it tries to perform the EOC on the NPC that is the focus of the event and if it cannot determine one, triggers on the avatar. So any cata_event that has a field for "avatar_id", "character", "attacker", "killer", "npc" will potentially resolve to another npc rather than the avatar, based on who the event triggers for.
+
+## Event Context Vars:
+Every event EOC passes context vars with each of their key value pairs that the event has in C++.  They are all converted to strings when made context variables but their original types are included for reference below.  At some point this documentation may go out of sync, The up to date info for each event can be found in event.h
+
+## Event EOC Types:
+EVENT            | Description | Context Variables |
+--------------------- | --------- | ----------- |
+activates_artifact | Triggers when the player activates an artifact | { "character", `character_id` }, { "item_name", `string` }, |
+activates_mininuke |  | { "character", `character_id` } |
+administers_mutagen |  | { "character", `character_id` }, { "technique", `mutagen_technique` }, |
+angers_amigara_horrors |  | NONE |
+avatar_enters_omt |  | { "pos", `tripoint` }, { "oter_id", `oter_id` }, |
+avatar_moves |  | { "mount", `mtype_id` }, { "terrain", `ter_id` }, { "movement_mode", `move_mode_id` }, { "underwater", `bool` }, { "z", `int` }, |
+avatar_dies |  | NONE |
+awakes_dark_wyrms |  | NONE |
+becomes_wanted |  | { "character", `character_id` } |
+broken_bone |  | { "character", `character_id` }, { "part", `body_part` }, |
+broken_bone_mends |  | { "character", `character_id` }, { "part", `body_part` }, |
+buries_corpse |  | { "character", `character_id` }, { "corpse_type", `mtype_id` }, { "corpse_name", `string` }, |
+causes_resonance_cascade |  | NONE |
+character_consumes_item |  | { "character", `character_id` }, { "itype", `itype_id` }, |
+character_eats_item |  | { "character", `character_id` }, { "itype", `itype_id` }, |
+character_forgets_spell |  | { "character", `character_id` }, { "spell", `spell_id` } |
+character_gains_effect |  | { "character", `character_id` }, { "effect", `efftype_id` }, |
+character_gets_headshot |  | { "character", `character_id` } |
+character_heals_damage |  | { "character", `character_id` }, { "damage", `int` }, |
+character_kills_character |  | { "killer", `character_id` }, { "victim", `character_id` }, { "victim_name", `string` }, |
+character_kills_monster |  | { "killer", `character_id` }, { "victim_type", `mtype_id` }, |
+character_learns_spell |  | { "character", `character_id` }, { "spell", `spell_id` } |
+character_loses_effect |  | { "character", `character_id` }, { "effect", `efftype_id` }, |
+character_melee_attacks_character |  | { "attacker", `character_id` }, { "weapon", `itype_id` }, { "hits", `bool` }, { "victim", `character_id` }, { "victim_name", `string` }, |
+character_melee_attacks_monster | | { "attacker", `character_id` }, { "weapon", `itype_id` }, { "hits", `bool` }, { "victim_type", `mtype_id` },|
+character_ranged_attacks_character | |  { "attacker", `character_id` },  { "weapon", `itype_id` }, { "victim", `character_id` }, { "victim_name", `string` }, |
+character_ranged_attacks_monster | | { "attacker", `character_id` }, { "weapon", `itype_id` }, { "victim_type", `mtype_id` }, |
+character_smashes_tile | | { "character", `character_id` },  { "terrain", `ter_str_id` },  { "furniture", `furn_str_id` }, |
+character_takes_damage | | { "character", `character_id` }, { "damage", `int` }, |
+character_triggers_trap | | { "character", `character_id` }, { "trap", `trap_str_id` }, |
+character_wakes_up | | { "character", `character_id` }, |
+character_wields_item | | { "character", `character_id` }, { "itype", `itype_id` }, |
+character_wears_item | | { "character", `character_id` }, { "itype", `itype_id` }, |
+consumes_marloss_item | | { "character", `character_id` }, { "itype", `itype_id` }, |
+crosses_marloss_threshold | | { "character", `character_id` } |
+crosses_mutation_threshold | | { "character", `character_id` }, { "category", `mutation_category_id` }, |
+crosses_mycus_threshold | | { "character", `character_id` } |
+cuts_tree | | { "character", `character_id` } |
+dermatik_eggs_hatch | | { "character", `character_id` } |
+dermatik_eggs_injected | | { "character", `character_id` } |
+destroys_triffid_grove | | NONE |
+dies_from_asthma_attack | | { "character", `character_id` } |
+dies_from_drug_overdose | | { "character", `character_id` }, { "effect", `efftype_id` }, |
+dies_from_bleeding | | { "character", `character_id` }  |
+dies_from_hypovolemia | | { "character", `character_id` }  |
+dies_from_redcells_loss | | { "character", `character_id` }  |
+dies_of_infection | | { "character", `character_id` }  |
+dies_of_starvation | | { "character", `character_id` }  |
+dies_of_thirst | | { "character", `character_id` }  |
+digs_into_lava | | NONE  |
+disarms_nuke | | NONE  |
+eats_sewage | | NONE  |
+evolves_mutation | | { "character", `character_id` }, { "from_trait", `trait_id` }, { "to_trait", `trait_id` }, |
+exhumes_grave | | { "character", `character_id` } |
+fails_to_install_cbm | | { "character", `character_id` }, { "bionic", `bionic_id` }, |
+fails_to_remove_cbm | | { "character", `character_id` }, { "bionic", `bionic_id` }, |
+falls_asleep_from_exhaustion | | { "character", `character_id` } |
+fuel_tank_explodes | | { "vehicle_name", `string` }, |
+gains_addiction | |  { "character", `character_id` }, { "add_type", `addiction_id` }, |
+gains_mutation | |  { "character", `character_id` }, { "trait", `trait_id` }, |
+gains_skill_level | | { "character", `character_id` }, { "skill", `skill_id` }, { "new_level", `int` }, |
+game_avatar_death | | { "avatar_id", `character_id` }, { "avatar_name", `string` }, { "avatar_is_male", `bool` }, { "is_suicide", `bool` }, { "last_words", `string` }, |
+game_avatar_new | | { "is_new_game", `bool` }, { "is_debug", `bool` }, { "avatar_id", `character_id` }, { "avatar_name", `string` }, { "avatar_is_male", `bool` }, { "avatar_profession", `profession_id` }, { "avatar_custom_profession", `string` }, |
+game_load | | { "cdda_version", `string` }, |
+game_begin | | { "cdda_version", `string` }, |
+game_over | | { "total_time_played", `chrono_seconds` }, |
+game_save | | { "time_since_load", `chrono_seconds` }, { "total_time_played", `chrono_seconds` }, |
+game_start | | { "game_version", `string` }, |
+installs_cbm | | { "character", `character_id` }, { "bionic", `bionic_id` }, |
+installs_faulty_cbm | | { "character", `character_id` }, { "bionic", `bionic_id` }, |
+learns_martial_art | |  { "character", `character_id` }, { "martial_art", `matype_id` }, |
+loses_addiction | | { "character", `character_id` }, { "add_type", `addiction_id` }, |
+npc_becomes_hostile | | { "npc", `character_id` }, { "npc_name", `string` }, |
+opens_portal | | NONE |
+opens_temple | | NONE |
+player_fails_conduct | | { "conduct", `achievement_id` }, { "achievements_enabled", `bool` }, |
+player_gets_achievement | | { "achievement", `achievement_id` }, { "achievements_enabled", `bool` }, |
+player_levels_spell | | { "character", `character_id` }, { "spell", `spell_id` }, { "new_level", `int` }, |
+reads_book | | { "character", `character_id` } |
+releases_subspace_specimens | | NONE |
+removes_cbm | |  { "character", `character_id` }, { "bionic", `bionic_id` }, |
+seals_hazardous_material_sarcophagus | | NONE |
+telefrags_creature | | { "character", `character_id` }, { "victim_name", `string` }, |
+teleglow_teleports | | { "character", `character_id` } |
+teleports_into_wall | | { "character", `character_id` }, { "obstacle_name", `string` }, |
+terminates_subspace_specimens | | NONE |
+throws_up | | { "character", `character_id` } |
+triggers_alarm | | { "character", `character_id` } | 
+uses_debug_menu | | { "debug_menu_option", `debug_menu_index` }, | 
+u_var_changed | | { "var", `string` }, { "value", `string` }, |
+vehicle_moves | | { "avatar_on_board", `bool` }, { "avatar_is_driving", `bool` }, { "avatar_remote_control", `bool` }, { "is_flying_aircraft", `bool` }, { "is_floating_watercraft", `bool` }, { "is_on_rails", `bool` }, { "is_falling", `bool` }, { "is_sinking", `bool` }, { "is_skidding", `bool` }, { "velocity", `int` }, // vehicle current velocity, mph * 100 { "z", `int` }, |

@@ -36,6 +36,11 @@
     "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "mechanics",
     "skills_required": [ "electronics", 3 ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 },
+      { "proficiency": "prof_appliance_repair" }
+    ],
     "difficulty": 3,
     "time": "1 h",
     "autolearn": true,

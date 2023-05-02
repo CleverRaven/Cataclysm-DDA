@@ -1274,7 +1274,7 @@ void game::calc_driving_offset( vehicle *veh )
     rl_vec2d offset = veh->move_vec();
     if( !veh->skidding && veh->player_in_control( u ) &&
         std::abs( veh->cruise_velocity - veh->velocity ) < 7 * vehicles::vmiph_per_tile ) {
-        // Use the cruise controlled velocity, but only if
+        // Use cruise_velocity, but only if
         // it is not too different from the actual velocity.
         // The actual velocity changes too often (see above slowdown).
         // Using it makes would make the offset change far too often.
@@ -5621,7 +5621,7 @@ void game::control_vehicle()
         const bool controls_ok = controls_idx >= 0; // controls available to "drive"
         const bool reins_ok = reins_idx >= 0 // reins + animal available to "drive"
                               && veh->has_engine_type( fuel_type_animal, false )
-                              && veh->has_harnessed_animal();
+                              && veh->get_harnessed_animal();
         if( veh->player_in_control( u ) ) {
             // player already "driving" - offer ways to leave
             if( controls_ok ) {
@@ -12228,6 +12228,18 @@ void game::despawn_monster( monster &critter )
     remove_zombie( critter );
     // simulate it being dead so further processing of it (e.g. in monmove) will yield
     critter.set_hp( 0 );
+}
+
+void game::despawn_nonlocal_monsters()
+{
+    for( monster &critter : g->all_monsters() ) {
+        if( critter.posx() < 0 - MAPSIZE_X / 6 ||
+            critter.posy() < 0 - MAPSIZE_Y / 6 ||
+            critter.posx() > ( MAPSIZE_X * 7 ) / 6 ||
+            critter.posy() > ( MAPSIZE_Y * 7 ) / 6 ) {
+            g->despawn_monster( critter );
+        }
+    }
 }
 
 void game::shift_monsters( const tripoint &shift )

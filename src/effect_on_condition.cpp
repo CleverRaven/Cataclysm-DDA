@@ -6,6 +6,7 @@
 #include "condition.h"
 #include "game.h"
 #include "generic_factory.h"
+#include "npctalk.h"
 #include "scenario.h"
 #include "talker.h"
 #include "type_id.h"
@@ -278,18 +279,22 @@ void effect_on_conditions::process_reactivate()
 
 bool effect_on_condition::activate( dialogue &d ) const
 {
+    // each version needs a copy of the dialogue to pass down
+
     bool retval = false;
-    if( !has_condition || condition( d ) ) {
-        true_effect.apply( d );
+
+    dialogue d_eoc( d );
+    if( !has_condition || condition( d_eoc ) ) {
+        true_effect.apply( d_eoc );
         retval = true;
     } else if( has_false_effect ) {
-        false_effect.apply( d );
+        false_effect.apply( d_eoc );
     }
     // This works because if global is true then this is recurring and thus should only ever be passed containing the player
     // Thus we just need to run the npcs.
     if( global && run_for_npcs ) {
         for( npc &guy : g->all_npcs() ) {
-            dialogue d_npc( get_talker_for( guy ), nullptr );
+            dialogue d_npc( get_talker_for( guy ), nullptr, d.get_context() );
             if( !has_condition || condition( d_npc ) ) {
                 true_effect.apply( d_npc );
             } else if( has_false_effect ) {
@@ -501,13 +506,18 @@ void eoc_events::notify( const cata::event &e )
             }
         }
         dialogue d;
+        std::unordered_map<std::string, std::string> context;
+        for( const auto &val : e.data() ) {
+            context["npctalk_var_" + val.first] = val.second.get_string();
+        }
+
         // if we have an NPC to trigger this event for, do so,
         // otherwise fallback to having it effect the player
         if( alpha_talker ) {
-            d = dialogue( get_talker_for( alpha_talker ), nullptr );
+            d = dialogue( get_talker_for( alpha_talker ), nullptr, context );
         } else {
             avatar &player_character = get_avatar();
-            d = dialogue( get_talker_for( player_character ), nullptr );
+            d = dialogue( get_talker_for( player_character ), nullptr, context );
         }
 
         eoc.activate( d );

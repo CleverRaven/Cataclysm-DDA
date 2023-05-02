@@ -18,6 +18,7 @@
 #include "debug.h"
 #include "flag.h"
 #include "game_constants.h"
+#include "generic_factory.h"
 #include "init.h"
 #include "item.h"
 #include "item_factory.h"
@@ -39,7 +40,14 @@
 
 class npc;
 
+namespace
+{
+generic_factory<vehicle_prototype> vehicle_prototype_factory( "vehicle", "id" );
+} // namespace
+
 static const ammotype ammo_battery( "battery" );
+
+static const itype_id fuel_type_animal( "animal" );
 
 static const itype_id itype_null( "null" );
 
@@ -49,8 +57,6 @@ static const quality_id qual_LIFT( "LIFT" );
 static const skill_id skill_launcher( "launcher" );
 
 static const vpart_id vpart_turret_generic( "turret_generic" );
-
-static std::unordered_map<vproto_id, vehicle_prototype> vtypes;
 
 // GENERAL GUIDELINES
 // To determine mount position for parts (dx, dy), check this scheme:
@@ -1000,6 +1006,15 @@ void vpart_info::check()
         if( part.has_flag( VPFLAG_ENABLED_DRAINS_EPOWER ) && part.epower == 0_W ) {
             debugmsg( "%s is set to drain epower, but has epower == 0", part.id.c_str() );
         }
+        if( part.has_flag( VPFLAG_ENGINE ) ) {
+            if( part.power != 0_W && part.fuel_type == fuel_type_animal ) {
+                debugmsg( "engine part '%s' powered by '%s' can't define non-zero 'power'",
+                          part.id.c_str(), part.fuel_type.str() );
+            } else if( part.power == 0_W && part.fuel_type != fuel_type_animal ) {
+                debugmsg( "engine part '%s' powered by '%s' must define non zero 'power'",
+                          part.id.c_str(), part.fuel_type.str() );
+            }
+        }
         // Parts with non-zero epower must have a flag that affects epower usage
         static const std::vector<std::string> handled = {{
                 "ENABLED_DRAINS_EPOWER", "SECURITY", "ENGINE",
@@ -1315,49 +1330,35 @@ time_duration vpart_info::get_unfolding_time() const
 template<>
 const vehicle_prototype &string_id<vehicle_prototype>::obj() const
 {
-    const auto iter = vtypes.find( *this );
-    if( iter == vtypes.end() ) {
-        debugmsg( "invalid vehicle prototype id %s", c_str() );
-        static const vehicle_prototype dummy;
-        return dummy;
-    }
-    return iter->second;
+    return vehicle_prototype_factory.obj( *this );
 }
 
 /** @relates string_id */
 template<>
 bool string_id<vehicle_prototype>::is_valid() const
 {
-    return vtypes.count( *this ) > 0;
+    return vehicle_prototype_factory.is_valid( *this );
 }
 
-vehicle_prototype::vehicle_prototype() = default;
-vehicle_prototype::vehicle_prototype( vehicle_prototype && ) noexcept = default;
-vehicle_prototype::~vehicle_prototype() = default;
-
-vehicle_prototype &vehicle_prototype::operator=( vehicle_prototype &&
-                                               ) noexcept( string_is_noexcept ) = default;
-
-/**
- *Caches a vehicle definition from a JsonObject to be loaded after itypes is initialized.
- */
-void vehicle_prototype::load( const JsonObject &jo )
+void vehicles::load_prototype( const JsonObject &jo, const std::string &src )
 {
-    vproto_id vid = vproto_id( jo.get_string( "id" ) );
-    vehicle_prototype &vproto = vtypes[ vid ];
-    // If there are already parts defined, this vehicle prototype overrides an existing one.
-    // If the json contains a name, it means a completely new prototype (replacing the
-    // original one), therefore the old data has to be cleared.
-    // If the json does not contain a name (the prototype would have no name), it means appending
-    // to the existing prototype (the parts are not cleared).
-    if( !vproto.parts.empty() && jo.has_string( "name" ) ) {
-        vproto = vehicle_prototype();
-    }
-    if( vproto.parts.empty() ) {
-        jo.get_member( "name" ).read( vproto.name );
-    }
+    vehicle_prototype_factory.load( jo, src );
+}
 
-    vgroups[ vgroup_id( vid.str() ) ].add_vehicle( vid, 100 );
+const std::vector<vehicle_prototype> &vehicles::get_all_prototypes()
+{
+    return vehicle_prototype_factory.get_all();
+}
+
+void vehicles::reset_prototypes()
+{
+    vehicle_prototype_factory.reset();
+}
+
+void vehicle_prototype::load( const JsonObject &jo, std::string_view )
+{
+    vgroups[vgroup_id( id.str() )].add_vehicle( id, 100 );
+    mandatory( jo, was_loaded, "name", name );
 
     const auto add_part_obj = [&]( const JsonObject & part, point pos ) {
         part_def pt;
@@ -1370,7 +1371,7 @@ void vehicle_prototype::load( const JsonObject &jo )
         assign( part, "fuel", pt.fuel, true );
         assign( part, "tools", pt.tools, true );
 
-        vproto.parts.push_back( pt );
+        parts.emplace_back( pt );
     };
 
     const auto add_part_string = [&]( const std::string & part, point pos ) {
@@ -1378,7 +1379,7 @@ void vehicle_prototype::load( const JsonObject &jo )
         pt.pos = pos;
         std::tie( pt.part, pt.variant ) = get_vpart_id_variant( part );
 
-        vproto.parts.push_back( pt );
+        parts.emplace_back( pt );
     };
 
     if( jo.has_member( "blueprint" ) ) {
@@ -1412,7 +1413,7 @@ void vehicle_prototype::load( const JsonObject &jo )
         next_spawn.chance = spawn_info.get_int( "chance" );
         if( next_spawn.chance <= 0 || next_spawn.chance > 100 ) {
             debugmsg( "Invalid spawn chance in %s (%d, %d): %d%%",
-                      vproto.name, next_spawn.pos.x, next_spawn.pos.y, next_spawn.chance );
+                      name, next_spawn.pos.x, next_spawn.pos.y, next_spawn.chance );
         }
 
         // constrain both with_magazine and with_ammo to [0-100]
@@ -1442,7 +1443,7 @@ void vehicle_prototype::load( const JsonObject &jo )
         } else if( spawn_info.has_string( "item_groups" ) ) {
             next_spawn.item_groups.emplace_back( spawn_info.get_string( "item_groups" ) );
         }
-        vproto.item_spawns.push_back( std::move( next_spawn ) );
+        item_spawns.push_back( std::move( next_spawn ) );
     }
 
     for( JsonObject jzi : jo.get_array( "zones" ) ) {
@@ -1457,33 +1458,30 @@ void vehicle_prototype::load( const JsonObject &jo )
         if( jzi.has_string( "filter" ) ) {
             filter = jzi.get_string( "filter" );
         }
-        vproto.zone_defs.emplace_back( zone_def{ zone_type, name, filter, pt } );
+        zone_defs.emplace_back( zone_def{ zone_type, name, filter, pt } );
     }
-}
-
-void vehicle_prototype::reset()
-{
-    vtypes.clear();
 }
 
 /**
  *Works through cached vehicle definitions and creates vehicle objects from them.
  */
-void vehicle_prototype::finalize()
+void vehicles::finalize_prototypes()
 {
-    for( auto &[id, proto] : vtypes ) {
+    vehicle_prototype_factory.finalize();
+    for( const vehicle_prototype &const_proto : vehicles::get_all_prototypes() ) {
+        vehicle_prototype &proto = const_cast<vehicle_prototype &>( const_proto );
         std::unordered_set<point> cargo_spots;
 
         // Calls the default constructor to create an empty vehicle. Calling the constructor with
         // the type as parameter would make it look up the type in the map and copy the
         // (non-existing) blueprint.
-        proto.blueprint = std::make_unique<vehicle>();
+        proto.blueprint = make_shared_fast<vehicle>();
         vehicle &blueprint = *proto.blueprint;
-        blueprint.type = id;
+        blueprint.type = proto.id;
         blueprint.name = proto.name.translated();
 
         blueprint.suspend_refresh();
-        for( part_def &pt : proto.parts ) {
+        for( vehicle_prototype::part_def &pt : proto.parts ) {
             if( const vpart_migration *migration = vpart_migration::find_migration( pt.part ) ) {
                 debugmsg( "veh prototype '%s' needs fixing, part '%s' is migrated to '%s'",
                           proto.name, pt.part.str(), migration->part_id_new.str() );
@@ -1491,7 +1489,7 @@ void vehicle_prototype::finalize()
             }
 
             if( !pt.part.is_valid() ) {
-                debugmsg( "unknown vehicle part %s in %s", pt.part.c_str(), id.c_str() );
+                debugmsg( "unknown vehicle part %s in %s", pt.part.c_str(), proto.id.str() );
                 continue;
             }
 
@@ -1504,6 +1502,9 @@ void vehicle_prototype::finalize()
                 vehicle_part &vp = blueprint.part( part_idx );
                 for( const itype_id &it : pt.tools ) {
                     blueprint.get_tools( vp ).emplace_back( it, calendar::turn );
+                }
+                if( pt.fuel ) {
+                    vp.ammo_set( pt.fuel, vp.ammo_capacity( pt.fuel->ammo->type ) );
                 }
             }
 
@@ -1525,15 +1526,15 @@ void vehicle_prototype::finalize()
             if( !base->gun ) {
                 if( pt.with_ammo ) {
                     debugmsg( "init_vehicles: non-turret %s with ammo in %s", pt.part.c_str(),
-                              id.c_str() );
+                              proto.id.str() );
                 }
                 if( !pt.ammo_types.empty() ) {
                     debugmsg( "init_vehicles: non-turret %s with ammo_types in %s",
-                              pt.part.c_str(), id.c_str() );
+                              pt.part.c_str(), proto.id.str() );
                 }
                 if( pt.ammo_qty.first > 0 || pt.ammo_qty.second > 0 ) {
                     debugmsg( "init_vehicles: non-turret %s with ammo_qty in %s",
-                              pt.part.c_str(), id.c_str() );
+                              pt.part.c_str(), proto.id.str() );
                 }
 
             } else {
@@ -1541,7 +1542,7 @@ void vehicle_prototype::finalize()
                     const itype *ammo = item::find_type( e );
                     if( !ammo->ammo || !base->gun->ammo.count( ammo->ammo->type ) ) {
                         debugmsg( "init_vehicles: turret %s has invalid ammo_type %s in %s",
-                                  pt.part.c_str(), e.c_str(), id.c_str() );
+                                  pt.part.c_str(), e.c_str(), proto.id.str() );
                     }
                 }
                 if( pt.ammo_types.empty() && !base->gun->ammo.empty() ) {
@@ -1552,12 +1553,12 @@ void vehicle_prototype::finalize()
             if( type_can_contain( *base, pt.fuel ) || base->magazine ) {
                 if( !item::type_is_defined( pt.fuel ) ) {
                     debugmsg( "init_vehicles: tank %s specified invalid fuel in %s",
-                              pt.part.c_str(), id.c_str() );
+                              pt.part.c_str(), proto.id.str() );
                 }
             } else {
                 if( !pt.fuel.is_null() ) {
                     debugmsg( "init_vehicles: non-fuel store part %s with fuel in %s",
-                              pt.part.c_str(), id.c_str() );
+                              pt.part.c_str(), proto.id.str() );
                 }
             }
 
@@ -1574,26 +1575,16 @@ void vehicle_prototype::finalize()
             }
             for( auto &j : i.item_ids ) {
                 if( !item::type_is_defined( j ) ) {
-                    debugmsg( "unknown item %s in spawn list of %s", j.c_str(), id.c_str() );
+                    debugmsg( "unknown item %s in spawn list of %s", j.c_str(), proto.id.str() );
                 }
             }
             for( auto &j : i.item_groups ) {
                 if( !item_group::group_is_defined( j ) ) {
-                    debugmsg( "unknown item group %s in spawn list of %s", j.c_str(), id.c_str() );
+                    debugmsg( "unknown item group %s in spawn list of %s", j.c_str(), proto.id.str() );
                 }
             }
         }
     }
-}
-
-std::vector<vproto_id> vehicle_prototype::get_all()
-{
-    std::vector<vproto_id> result;
-    result.reserve( vtypes.size() );
-    for( auto &vp : vtypes ) {
-        result.push_back( vp.first );
-    }
-    return result;
 }
 
 static std::vector<vpart_category> vpart_categories_all;

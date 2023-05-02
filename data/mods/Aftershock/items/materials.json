@@ -59,7 +59,6 @@
     "specific_heat_solid": 0.45,
     "latent_heat": 273,
     "chip_resist": 30,
-    "repaired_with": "scrap",
     "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
     "bash_dmg_verb": "cracked",
     "cut_dmg_verb": "scratched",

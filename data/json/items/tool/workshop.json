@@ -700,7 +700,7 @@
       {
         "type": "repair_item",
         "item_action_type": "repair_metal",
-        "materials": [ "acidchitin", "bone", "chitin", "paper", "cardboard", "wood", "kevlar_rigid" ],
+        "materials": [ "bone", "chitin", "paper", "cardboard", "wood", "kevlar_rigid" ],
         "skill": "fabrication",
         "tool_quality": 5,
         "cost_scaling": 0.1,

@@ -68,8 +68,6 @@ static const ammotype ammo_NULL( "NULL" );
 
 static const damage_type_id damage_bash( "bash" );
 static const damage_type_id damage_bullet( "bullet" );
-static const damage_type_id damage_cut( "cut" );
-static const damage_type_id damage_stab( "stab" );
 
 static const gun_mode_id gun_mode_DEFAULT( "DEFAULT" );
 static const gun_mode_id gun_mode_MELEE( "MELEE" );
@@ -233,7 +231,7 @@ void Item_factory::finalize_pre( itype &obj )
             if( iter != obj.melee_proportional.end() ) {
                 dt.second *= iter->second;
                 // For maintaining legacy behaviour (when melee damage used ints)
-                std::floor( dt.second );
+                dt.second = std::floor( dt.second );
             }
         }
     }
@@ -244,13 +242,13 @@ void Item_factory::finalize_pre( itype &obj )
             if( iter != obj.melee_relative.end() ) {
                 dt.second += iter->second;
                 // For maintaining legacy behaviour (when melee damage used ints)
-                std::floor( dt.second );
+                dt.second = std::floor( dt.second );
             }
         }
     }
 
     if( obj.has_flag( flag_STAB ) ) {
-        debugmsg( "The \"STAB\" flag used on %s is obsolete. Add a \"stab\" value in the \"melee_damage\" object instead.",
+        debugmsg( "The \"STAB\" flag used on %s is obsolete, add a \"stab\" value in the \"melee_damage\" object instead.",
                   obj.id.c_str() );
     }
 
@@ -1379,8 +1377,8 @@ void Item_factory::finalize_item_blacklist()
             return r.result() == candidate->first;
         } );
     }
-    for( vproto_id &vid : vehicle_prototype::get_all() ) {
-        vehicle_prototype &prototype = const_cast<vehicle_prototype &>( vid.obj() );
+    for( const vehicle_prototype &const_prototype : vehicles::get_all_prototypes() ) {
+        vehicle_prototype &prototype = const_cast<vehicle_prototype &>( const_prototype );
         for( vehicle_item_spawn &vis : prototype.item_spawns ) {
             auto &vec = vis.item_ids;
             const auto iter = std::remove_if( vec.begin(), vec.end(), item_is_blacklisted );
@@ -1482,8 +1480,8 @@ void Item_factory::finalize_item_blacklist()
             }
         }
     }
-    for( vproto_id &vid : vehicle_prototype::get_all() ) {
-        vehicle_prototype &prototype = const_cast<vehicle_prototype &>( vid.obj() );
+    for( const vehicle_prototype &const_prototype : vehicles::get_all_prototypes() ) {
+        vehicle_prototype &prototype = const_cast<vehicle_prototype &>( const_prototype );
         for( vehicle_item_spawn &vis : prototype.item_spawns ) {
             for( itype_id &type_to_spawn : vis.item_ids ) {
                 std::map<itype_id, std::vector<migration>>::iterator replacement =

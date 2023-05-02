@@ -47,7 +47,6 @@
     "reload": 400,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 3 ] ],
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -73,7 +72,6 @@
     "price_postapoc": 6000,
     "modes": [ [ "DEFAULT", "manual", 1 ] ],
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "sights", 1 ],
@@ -175,7 +173,6 @@
     "blackpowder_tolerance": 48,
     "barrel_volume": "1250 ml",
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "grip", 1 ],

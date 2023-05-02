@@ -833,8 +833,7 @@ bool inventory_holster_preset::is_shown( const item_location &contained ) const
     if( contained->is_bucket_nonempty() ) {
         return false;
     }
-    if( !holster->all_pockets_rigid() &&
-        !holster.parents_can_contain_recursive( &item_copy ) ) {
+    if( !holster.parents_can_contain_recursive( &item_copy ) ) {
         return false;
     }
     return true;
