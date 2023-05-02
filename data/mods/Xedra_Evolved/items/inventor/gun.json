@@ -215,7 +215,7 @@
     "looks_like": "ar15",
     "type": "GUN",
     "name": { "str_sp": "\"Repeater\"" },
-    "description": "Hand-made lever action sniper rifle with extremely long barrel.  By logic such long barrel can not work properly, but somehow it is not only works fine enough, it is also accelerate the bullet much more than anyone can expect.  Two internal magazine tubes under the barrel accept 15 7.62x51 rounds each.",
+    "description": "Hand-made lever action sniper rifle with an extremely long barrel.  By logic such long barrel can not work properly, but somehow it not only works fine enough, it also accelerates the bullet much more than anyone can expect.  Two internal magazine tubes under the barrel accept 15 7.62x51 rounds each.",
     "weight": "3630 g",
     "volume": "5427 ml",
     "longest_side": "1678 mm",
