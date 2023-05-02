@@ -142,7 +142,7 @@ static const furn_str_id furn_f_water_mill_active( "f_water_mill_active" );
 static const furn_str_id furn_f_wind_mill( "f_wind_mill" );
 static const furn_str_id furn_f_wind_mill_active( "f_wind_mill_active" );
 
-const item_group_id Item_spawn_data_corpses_all( "corpses_all" );
+static const item_group_id Item_spawn_data_corpses_all( "corpses_all" );
 
 static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_arm_splint( "arm_splint" );
@@ -189,15 +189,19 @@ static const material_id material_bone( "bone" );
 static const material_id material_cac2powder( "cac2powder" );
 static const material_id material_ch_steel( "ch_steel" );
 static const material_id material_dry_plant( "dry_plant" );
+static const material_id material_egg( "egg" );
 static const material_id material_feces( "feces" );
 static const material_id material_flesh( "flesh" );
 static const material_id material_fruit( "fruit" );
 static const material_id material_hc_steel( "hc_steel" );
 static const material_id material_iflesh( "iflesh" );
+static const material_id material_junk( "junk" );
 static const material_id material_lc_steel( "lc_steel" );
 static const material_id material_mc_steel( "mc_steel" );
+static const material_id material_milk( "milk" );
 static const material_id material_qt_steel( "qt_steel" );
 static const material_id material_steel( "steel" );
+static const material_id material_tomato( "tomato" );
 static const material_id material_veggy( "veggy" );
 static const material_id material_wheat( "wheat" );
 static const material_id material_wood( "wood" );
@@ -3021,7 +3025,7 @@ void iexamine::digester_empty( Character &you, const tripoint &examp )
         return;
     }
 
-    static const std::set<material_id> methanable{ material_dry_plant, material_flesh, material_iflesh, material_wheat, material_veggy, material_fruit, material_feces };
+    static const std::set<material_id> methanable{ material_dry_plant, material_flesh, material_iflesh, material_wheat, material_veggy, material_fruit, material_feces, material_tomato, material_junk, material_egg, material_milk };
     bool fuel_present = false;
     map_stack items = here.i_at( examp );
     for( const item &i : items ) {
