@@ -26,7 +26,7 @@
     "price_postapoc": 150,
     "material": [ "wood", "leather" ],
     "weight": "15 kg",
-    "volume": "10 L",
+    "volume": "17 L",
     "to_hit": -3,
     "flags": [ "TRADER_AVOID" ],
     "melee_damage": { "bash": 4 }
@@ -88,7 +88,7 @@
     "name": { "str": "large shelter kit" },
     "description": "A large dissassembled shelter made of sticks and skins.  Activate it to set it up.",
     "weight": "21 kg",
-    "volume": "15 L",
+    "volume": "22 L",
     "longest_side": "300 cm",
     "price": 6500,
     "price_postapoc": 500,
