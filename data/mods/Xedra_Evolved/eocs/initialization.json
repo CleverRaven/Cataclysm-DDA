@@ -25,7 +25,7 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_INVENTOR_TIMER",
+    "id": "EOC_INVENTOR_RECIPE_GAIN",
     "//": "Gives you the very first research recipe for your class.",
     "recurrence": [ "20 hours", "28 hours" ],
     "condition": { "u_has_trait": "INVENTOR" },

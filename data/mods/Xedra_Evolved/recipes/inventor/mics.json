@@ -137,5 +137,18 @@
       [ [ "magnetron", 1 ] ],
       [ [ "amplifier", 2 ] ]
     ]
+  },
+  {
+    "result": "software_AI",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "tools": [ [ [ "laptop", 30 ] ], [ [ "software_math", -1 ] ], [ [ "software_electronics_reference", -1 ] ] ],
+    "time": "24 h",
+    "skill_used": "deduction",
+    "difficulty": 4,
+    "skills_required": [ "computer", 6 ],
+    "components": [ [ [ "usb_drive", 1 ] ] ],
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_MICS"
   }
 ]

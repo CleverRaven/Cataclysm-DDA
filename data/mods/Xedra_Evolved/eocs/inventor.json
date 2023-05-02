@@ -48,7 +48,9 @@
           "trinket_damage",
           "trinket_range",
           "trinket_sound",
-          "inventor_research_base_3"
+          "inventor_research_base_3",
+          "inventor_research_energy_1",
+          "software_AI"
         ],
         "type": "recipe"
       },

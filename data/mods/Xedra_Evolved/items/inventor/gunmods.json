@@ -20,7 +20,7 @@
   {
     "id": "trinket_range",
     "type": "GUNMOD",
-    "name": { "str": "rocket bullets" },
+    "name": { "str_sp": "rocket bullets" },
     "description": "You can't properly explain how this thing works, but the end result should be clear - faster bullet with better damage, but awful dispersion.",
     "weight": "68 g",
     "volume": "119 ml",
