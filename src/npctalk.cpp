@@ -386,6 +386,7 @@ static int creature_select_menu( const std::vector<Creature *> &talker_list,
         return 0;
     } else {
         uilist nmenu;
+        std::vector<tripoint> locations;
         nmenu.text = prompt;
         for( const Creature *elem : talker_list ) {
             if( elem->is_npc() ) {
@@ -393,10 +394,15 @@ static int creature_select_menu( const std::vector<Creature *> &talker_list,
             } else {
                 nmenu.addentry( -1, true, MENU_AUTOASSIGN, elem->disp_name() );
             }
+            locations.emplace_back( elem->pos_bub().raw() );
         }
         if( npc_count > 1 && everyone ) {
             nmenu.addentry( -1, true, MENU_AUTOASSIGN, _( "Everyone" ) );
+            locations.emplace_back( get_avatar().pos_bub().raw() );
         }
+        pointmenu_cb callback( locations );
+        nmenu.callback = &callback;
+        nmenu.w_y_setup = 0;
         nmenu.query();
         return nmenu.ret;
     }
