@@ -45,6 +45,7 @@ Use the `Home` key to return to the top.
     - [Item Variables](#item-variables)
     - [Materials](#materials)
       - [Fuel data](#fuel-data)
+	  - [Burn data](#burn-data)
     - [Monster Groups](#monster-groups)
       - [Group definition](#group-definition)
       - [Monster/Subgroup definition](#monstersubgroup-definition)
@@ -1417,6 +1418,24 @@ If a fuel has the PERPETUAL flag, engines powered by it never use any fuel.  Thi
         "size_factor": 0.1       // size factor - larger numbers make the remaining fuel increase explosion power more
     }
 }
+```
+
+#### Burn data
+
+Every material can have burn data that determines how it interacts with fire. Fundamentally, the intensity, smoke production, and longevity of fires depends on the volume of consumed items. However, these values allow for certain items to burn more for a given volume, or even put out or inhibit the growth of fires.
+
+Note that burn_data is defined per material, but items may be made of multiple materials. For such cases, each material of the item will be calculated separately, as if it was multiple items each corresponding to a single material.
+
+```C++
+"burn_data": [
+    { "immune": true,                    // Defaults to false, optional boolean. If true, makes the resulting material immune to fire. As such it can neither provide fuel nor be burned or damaged.
+	"fuel": 300,                     // Float value that determines how much time and intensity this material adds to a fire. Negative values will subtract fuel from the fire, smothering it. 
+	                                 // Items with a phase ID of liquid should be made of materials with a value of >= 200 if they are intended to be flammable.
+	"smoke": 0,                      // Float value, determines how much smoke this material produces when burning.
+	"volume_per_turn": "750 ml",     // If non-zero and lower than item's volume, scale burning by volume_per_turn / volume
+	"burn": 1 }                      // Float value, determines how quickly a fire will convert items made of this material to fuel. Does not affect the total fuel provided by a given
+                                         // volume of a given material.
+    ],
 ```
 
 ### Monster Groups
