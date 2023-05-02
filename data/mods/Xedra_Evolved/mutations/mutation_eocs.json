@@ -91,7 +91,7 @@
     "id": "manifested_destiny_goblin",
     "recurrence": [ "3 days", "5 days" ],
     "condition": { "u_has_trait": "MANIFESTED_DESTINY_GOBLIN" },
-    "deactivate_condition": { "not": { "u_has_trait": "MANIFESTED_DESTINY_GOBLIN" } },
+    "deactivate_condition": { "u_has_trait": "MANIFESTED_DESTINY_GOBLIN" },
     "effect": [
       {
         "arithmetic": [
@@ -116,8 +116,8 @@
     "type": "effect_on_condition",
     "id": "manifest_destiny_spider",
     "recurrence": [ "3 days", "5 days" ],
-    "condition": { "u_has_trait": "MANIFESTED_DESTINY_SPIDER" },
-    "deactivate_condition": { "not": { "u_has_trait": "MANIFESTED_DESTINY_SPIDER" } },
+    "condition": { "u_has_trait": "MANIFEST_DESTINY_SPIDER" },
+    "deactivate_condition": { "u_has_trait": "MANIFESTED_DESTINY_SPIDER" },
     "effect": [
       {
         "arithmetic": [ { "u_val": "vitamin", "name": "mutagen_spider" }, "+=", { "arithmetic": [ { "rand": 100 }, "+", { "const": 750 } ] } ]
