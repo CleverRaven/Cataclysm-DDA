@@ -18,7 +18,8 @@
           "combatsaw_spear_off",
           "inventor_research_base_2"
         ],
-        "type": "recipe"
+        "type": "recipe",
+        "false_eocs": [ "EOC_INVENTOR_COMPLETED_ROLL_REMAINDER" ]
       },
       { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
       { "u_message": "inventor_success", "snippet": true, "type": "good" }
@@ -52,7 +53,8 @@
           "inventor_research_energy_1",
           "software_AI"
         ],
-        "type": "recipe"
+        "type": "recipe",
+        "false_eocs": [ "EOC_INVENTOR_COMPLETED_ROLL_REMAINDER" ]
       },
       { "u_message": "inventor_success", "snippet": true, "type": "good" }
     ],
@@ -72,7 +74,8 @@
       { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
       {
         "u_roll_remainder": [ "inventor_backpack", "vision_halo", "sonic_gun", "inventor_research_energy_1" ],
-        "type": "recipe"
+        "type": "recipe",
+        "false_eocs": [ "EOC_INVENTOR_COMPLETED_ROLL_REMAINDER" ]
       },
       { "u_message": "inventor_success", "snippet": true, "type": "good" }
     ],
@@ -100,7 +103,8 @@
           "heater_tool",
           "inventor_research_energy_2"
         ],
-        "type": "recipe"
+        "type": "recipe",
+        "false_eocs": [ "EOC_INVENTOR_COMPLETED_ROLL_REMAINDER" ]
       },
       { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
       { "u_message": "inventor_success", "snippet": true, "type": "good" }
@@ -134,7 +138,8 @@
           "inventor_lasmod_energy_safe",
           "inventor_research_energy_3"
         ],
-        "type": "recipe"
+        "type": "recipe",
+        "false_eocs": [ "EOC_INVENTOR_COMPLETED_ROLL_REMAINDER" ]
       },
       { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
       { "u_message": "inventor_success", "snippet": true, "type": "good" }
@@ -163,7 +168,8 @@
           "inventor_research_ai_1",
           "inventor_research_dimesnion_1"
         ],
-        "type": "recipe"
+        "type": "recipe",
+        "false_eocs": [ "EOC_INVENTOR_COMPLETED_ROLL_REMAINDER" ]
       },
       { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
       { "u_message": "inventor_success", "snippet": true, "type": "good" }
@@ -189,7 +195,11 @@
       { "math": [ "base_difficulty_3", "+=", "10" ] },
       { "math": [ "AI_difficulty_1", "+=", "10" ] },
       { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
-      { "u_roll_remainder": [ "bot_sniperbot", "bot_shotgunbot", "bot_meleebot" ], "type": "recipe" },
+      {
+        "u_roll_remainder": [ "bot_sniperbot", "bot_shotgunbot", "bot_meleebot" ],
+        "type": "recipe",
+        "false_eocs": [ "EOC_INVENTOR_COMPLETED_ROLL_REMAINDER" ]
+      },
       { "u_message": "inventor_success", "snippet": true, "type": "good" }
     ],
     "false_effect": [
@@ -213,7 +223,11 @@
       { "math": [ "base_difficulty_3", "+=", "10" ] },
       { "math": [ "dimension_difficulty_1", "+=", "10" ] },
       { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
-      { "u_roll_remainder": [ "rip_ticket" ], "type": "recipe" },
+      {
+        "u_roll_remainder": [ "rip_ticket" ],
+        "type": "recipe",
+        "false_eocs": [ "EOC_INVENTOR_COMPLETED_ROLL_REMAINDER" ]
+      },
       { "u_message": "inventor_success", "snippet": true, "type": "good" }
     ],
     "false_effect": [
@@ -239,5 +253,10 @@
         "type": "debug"
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_INVENTOR_COMPLETED_ROLL_REMAINDER",
+    "effect": { "u_message": "You have nothing to research in this branch anymore." }
   }
 ]
