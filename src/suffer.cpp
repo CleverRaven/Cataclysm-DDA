@@ -282,6 +282,7 @@ void suffer::mutation_power( Character &you, const trait_id &mut_id )
         // if you haven't deactivated then run the EOC
         for( const effect_on_condition_id &eoc : mut_id->processed_eocs ) {
             dialogue d( get_talker_for( you ), nullptr );
+            d.set_value( "npctalk_var_this", mut_id.str() );
             if( eoc->type == eoc_type::ACTIVATION ) {
                 eoc->activate( d );
             } else {

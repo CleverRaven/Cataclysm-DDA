@@ -140,6 +140,21 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_activate_mutation_to_start_test",
+    "effect": [ { "u_activate_trait": "process_mutation" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_activate_mutation_test",
+    "effect": [ { "u_deactivate_trait": {"context_val": "this" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_mark_mutation_test",
+    "effect": [ { "math": [ "test_val", "=", "1" ] }, { "set_string_var": { "context_val": "this" }, "target_var": {"global_val": "context_test"}} ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_math_test_nested_context",
     "effect": [ { "math": [ "_nested_simple", "=", "7" ] }, { "math": [ "nested_simple_global", "=", "_nested_simple" ] } ]
   },
