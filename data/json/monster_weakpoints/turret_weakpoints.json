@@ -43,18 +43,11 @@
             "damage_required": [ 6, 25 ]
           },
           {
-              "effect": "blind",
-              "duration": [ 3, 4 ],
-              "chance": 70,
-              "message": "The %s's camera is cracked!",
-              "damage_required": [ 6, 25 ]
-          },
-          {
-              "effect": "blind",
-              "permanent": true,
-              "chance": 90,
-              "message": "The %s's camera lens shatters into pieces!",
-              "damage_required": [ 26, 100 ]
+            "effect": "blind",
+            "permanent": true,
+            "chance": 90,
+            "message": "The %s's camera lens shatters into pieces!",
+            "damage_required": [ 26, 100 ]
           }
         ]
       },
