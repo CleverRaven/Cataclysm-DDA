@@ -293,7 +293,7 @@
     "use_action": [ { "ammo_scale": 0, "target": "aura_force", "msg": "Torus stops working.", "type": "transform" } ]
   },
   {
-    "id": "vision_halo",    
+    "id": "vision_halo",
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str": "electronic halo" },
