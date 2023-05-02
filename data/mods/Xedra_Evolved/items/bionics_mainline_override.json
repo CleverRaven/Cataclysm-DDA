@@ -91,13 +91,6 @@
     "installation_data": "AID_bio_meteorologist"
   },
   {
-    "id": "bio_power_armor_interface",
-    "copy-from": "bio_power_armor_interface",
-    "type": "BIONIC_ITEM",
-    "name": { "str": "Power Armor Interface CBM" },
-    "installation_data": "AID_bio_power_armor_interface"
-  },
-  {
     "id": "bio_power_storage",
     "copy-from": "bio_power_storage",
     "type": "BIONIC_ITEM",
@@ -186,13 +179,6 @@
     "copy-from": "AID_abstract",
     "name": { "str_sp": "LED Tattoo CBM installation data" },
     "description": "Precise step-by-step instructions and other required data for installation of an LED Tattoo CBM, stored on a data card of proprietary form-factor, designed to be used extensively by an Autodoc, and allowing bionic installation with minimal failure chance.  An integrated security subroutine renders it unusable after a single installation."
-  },
-  {
-    "id": "AID_bio_power_armor_interface",
-    "type": "GENERIC",
-    "copy-from": "AID_abstract",
-    "name": { "str_sp": "Power Armor Interface CBM installation data" },
-    "description": "Precise step-by-step instructions and other required data for installation of a Power Armor Interface CBM, stored on a data card of proprietary form-factor, designed to be used extensively by an Autodoc, and allowing bionic installation with minimal failure chance.  An integrated security subroutine renders it unusable after a single installation."
   },
   {
     "id": "AID_bio_power_storage",
