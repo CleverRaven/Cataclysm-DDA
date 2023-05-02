@@ -1885,24 +1885,24 @@ std::function<double( dialogue const & )> conditional_t::get_get_dbl( J const &j
                 const std::string school_name = jo.get_string( "school" );
                 const trait_id spell_school( school_name );
                 return [is_npc, spell_school]( dialogue const & d ) {
-                    std::map<trait_id, float>::iterator it =
+                    std::map<trait_id, double>::iterator it =
                         d.actor( is_npc )->get_character()->magic->caster_level_adjustment_by_school.find( spell_school );
                     if( it != d.actor( is_npc )->get_character()->magic->caster_level_adjustment_by_school.end() ) {
                         return it->second;
                     } else {
-                        return 0.0f;
+                        return 0.0;
                     }
                 };
             } else if( jo.has_member( "spell" ) ) {
                 const std::string spell_name = jo.get_string( "spell" );
                 const spell_id this_spell_id( spell_name );
                 return [is_npc, this_spell_id]( dialogue const & d ) {
-                    std::map<spell_id, float>::iterator it =
+                    std::map<spell_id, double>::iterator it =
                         d.actor( is_npc )->get_character()->magic->caster_level_adjustment_by_spell.find( this_spell_id );
                     if( it != d.actor( is_npc )->get_character()->magic->caster_level_adjustment_by_spell.end() ) {
                         return it->second;
                     } else {
-                        return 0.0f;
+                        return 0.0;
                     }
                 };
             } else {
@@ -2401,7 +2401,7 @@ conditional_t::get_set_dbl( const J &jo, const std::optional<dbl_or_var_part> &m
                 const std::string school_name = jo.get_string( "school" );
                 const trait_id spell_school( school_name );
                 return [is_npc, min, max, spell_school]( dialogue const & d, double input ) {
-                    std::map<trait_id, float>::iterator it =
+                    std::map<trait_id, double>::iterator it =
                         d.actor( is_npc )->get_character()->magic->caster_level_adjustment_by_school.find( spell_school );
                     if( it != d.actor( is_npc )->get_character()->magic->caster_level_adjustment_by_school.end() ) {
                         it->second = handle_min_max( d, input, min, max );
@@ -2413,7 +2413,7 @@ conditional_t::get_set_dbl( const J &jo, const std::optional<dbl_or_var_part> &m
                 const std::string spell_name = jo.get_string( "spell" );
                 const spell_id this_spell_id( spell_name );
                 return [is_npc, min, max, this_spell_id]( dialogue const & d, double input ) {
-                    std::map<spell_id, float>::iterator it =
+                    std::map<spell_id, double>::iterator it =
                         d.actor( is_npc )->get_character()->magic->caster_level_adjustment_by_spell.find( this_spell_id );
                     if( it != d.actor( is_npc )->get_character()->magic->caster_level_adjustment_by_spell.end() ) {
                         it->second = handle_min_max( d, input, min, max );

@@ -2041,13 +2041,13 @@ void known_magic::clear_opens_spellbook_data()
 void known_magic::evaluate_opens_spellbook_data()
 {
     for( spell *sp : get_spells() ) {
-        float raw_level_adjust = caster_level_adjustment;
-        std::map<trait_id, float>::iterator school_it =
+        double raw_level_adjust = caster_level_adjustment;
+        std::map<trait_id, double>::iterator school_it =
             caster_level_adjustment_by_school.find( sp->spell_class() );
         if( school_it != caster_level_adjustment_by_school.end() ) {
             raw_level_adjust += school_it->second;
         }
-        std::map<spell_id, float>::iterator spell_it =
+        std::map<spell_id, double>::iterator spell_it =
             caster_level_adjustment_by_spell.find( sp->id() );
         if( spell_it != caster_level_adjustment_by_spell.end() ) {
             raw_level_adjust += spell_it->second;

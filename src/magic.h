@@ -680,9 +680,9 @@ class known_magic
         void on_mutation_loss( const trait_id &mid );
 
         // data written by EoC
-        float caster_level_adjustment;
-        std::map<spell_id, float> caster_level_adjustment_by_spell;
-        std::map<trait_id, float> caster_level_adjustment_by_school;
+        double caster_level_adjustment;
+        std::map<spell_id, double> caster_level_adjustment_by_spell;
+        std::map<trait_id, double> caster_level_adjustment_by_school;
 
         void serialize( JsonOut &json ) const;
         void deserialize( const JsonObject &data );
