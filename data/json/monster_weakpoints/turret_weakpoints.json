@@ -34,6 +34,7 @@
         "coverage": 5,
         "difficulty": { "broad": 6, "point": 7 },
         "effects": [
+          { "effect": "blind", "chance": 40, "message": "The %s's camera is lightly scratched!", "damage_required": [ 1, 5 ] },
           {
               "effect": "blind",
               "chance": 40,
