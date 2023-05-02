@@ -34,6 +34,8 @@ effect_on_condition_EOC_math_var( "EOC_math_var" );
 static const effect_on_condition_id
 effect_on_condition_EOC_math_weighted_list( "EOC_math_weighted_list" );
 static const effect_on_condition_id effect_on_condition_EOC_teleport_test( "EOC_teleport_test" );
+
+static const mtype_id mon_zombie( "mon_zombie" );
 namespace
 {
 void complete_activity( Character &u )
@@ -231,4 +233,31 @@ TEST_CASE( "EOC_activity_ongoing", "[eoc][timed_event]" )
 
     // been going for 3 whole seconds should have incremented 3 times
     CHECK( stoi( get_avatar().get_value( "npctalk_var_activitiy_incrementer" ) ) == 3 );
+}
+
+
+TEST_CASE( "dialogue_copy", "[eoc]" )
+{
+    standard_npc dude;
+    dialogue d( get_talker_for( get_avatar() ), get_talker_for( &dude ) );
+    dialogue d_copy( d );
+    d_copy.set_value( "suppress", "1" );
+    CHECK( d_copy.actor( false )->get_character() != nullptr );
+    CHECK( d_copy.actor( true )->get_character() != nullptr );
+
+    item hammer( "hammer" ) ;
+    item_location hloc( map_cursor( tripoint_zero ), &hammer );
+    computer comp( "test_computer", 0, tripoint_zero );
+    dialogue d2( get_talker_for( hloc ), get_talker_for( comp ) );
+    dialogue d2_copy( d2 );
+    d2_copy.set_value( "suppress", "1" );
+    CHECK( d2_copy.actor( false )->get_item() != nullptr );
+    CHECK( d2_copy.actor( true )->get_computer() != nullptr );
+
+    monster zombie( mon_zombie );
+    dialogue d3( get_talker_for( zombie ), std::make_unique<talker>() );
+    dialogue d3_copy( d3 );
+    d3_copy.set_value( "suppress", "1" );
+    CHECK( d3_copy.actor( false )->get_monster() != nullptr );
+    CHECK( d3_copy.actor( true )->get_character() == nullptr );
 }

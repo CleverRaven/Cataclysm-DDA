@@ -1828,26 +1828,13 @@ talker *dialogue::actor( const bool is_beta ) const
     return ( is_beta ? beta : alpha ).get();
 }
 
-dialogue::dialogue( const dialogue &d )
+dialogue::dialogue( const dialogue &d ) : has_beta( d.has_beta ), has_alpha( d.has_alpha )
 {
-    Creature *creature_alpha = d.has_alpha ? d.actor( false )->get_creature() : nullptr;
-    item_location *item_alpha = d.has_alpha ? d.actor( false )->get_item() : nullptr;
-    Creature *creature_beta = d.has_beta ? d.actor( true )->get_creature() : nullptr;
-    item_location *item_beta = d.has_beta ? d.actor( true )->get_item() : nullptr;
-
-
-    std::unique_ptr<talker> alpha_in = creature_alpha ? get_talker_for( creature_alpha ) : item_alpha ?
-                                       get_talker_for( item_alpha ) : nullptr;
-    std::unique_ptr<talker> beta_in = creature_beta ? get_talker_for( creature_beta ) : item_beta ?
-                                      get_talker_for( item_beta ) : nullptr;
-
-    has_alpha = alpha_in != nullptr;
-    has_beta = beta_in != nullptr;
     if( has_alpha ) {
-        alpha = std::move( alpha_in );
+        alpha = d.actor( false )->clone();
     }
     if( has_beta ) {
-        beta = std::move( beta_in );
+        beta = d.actor( true )->clone();
     }
     if( !has_alpha && !has_beta ) {
         debugmsg( "Constructed a dialogue with no actors!" );
