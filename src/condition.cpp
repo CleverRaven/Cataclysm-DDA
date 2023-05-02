@@ -1883,11 +1883,11 @@ std::function<double( dialogue const & )> conditional_t::get_get_dbl( J const &j
         } else if( checked_value == "spell_level_adjustment" ) {
             if( jo.has_member( "school" ) ) {
                 const std::string school_name = jo.get_string( "school" );
-                return [school_name]( dialogue const & ) {
-                    context &current_context = get_context();
-                    std::map<std::string, float>::iterator it =
-                        current_context.caster_level_adjustment_by_school.find( school_name );
-                    if( it != current_context.caster_level_adjustment_by_school.end() ) {
+                const trait_id spell_school( school_name );
+                return [is_npc, spell_school]( dialogue const & d ) {
+                    std::map<trait_id, float>::iterator it =
+                        d.actor( is_npc )->get_character()->magic->caster_level_adjustment_by_school.find( spell_school );
+                    if( it != d.actor( is_npc )->get_character()->magic->caster_level_adjustment_by_school.end() ) {
                         return it->second;
                     } else {
                         return 0.0f;
@@ -1895,19 +1895,19 @@ std::function<double( dialogue const & )> conditional_t::get_get_dbl( J const &j
                 };
             } else if( jo.has_member( "spell" ) ) {
                 const std::string spell_name = jo.get_string( "spell" );
-                return [spell_name]( dialogue const & ) {
-                    context &current_context = get_context();
-                    std::map<std::string, float>::iterator it =
-                        current_context.caster_level_adjustment_by_spell.find( spell_name );
-                    if( it != current_context.caster_level_adjustment_by_spell.end() ) {
+                const spell_id this_spell_id( spell_name );
+                return [is_npc, this_spell_id]( dialogue const & d ) {
+                    std::map<spell_id, float>::iterator it =
+                        d.actor( is_npc )->get_character()->magic->caster_level_adjustment_by_spell.find( this_spell_id );
+                    if( it != d.actor( is_npc )->get_character()->magic->caster_level_adjustment_by_spell.end() ) {
                         return it->second;
                     } else {
                         return 0.0f;
                     }
                 };
             } else {
-                return []( dialogue const & ) {
-                    return get_context().caster_level_adjustment;
+                return [is_npc]( dialogue const & d ) {
+                    return d.actor( is_npc )->get_character()->magic->caster_level_adjustment;
                 };
             }
         } else if( checked_value == "spell_exp" ) {
@@ -2399,31 +2399,32 @@ conditional_t::get_set_dbl( const J &jo, const std::optional<dbl_or_var_part> &m
         } else if( checked_value == "spell_level_adjustment" ) {
             if( jo.has_member( "school" ) ) {
                 const std::string school_name = jo.get_string( "school" );
-                return [min, max, school_name]( dialogue const & d, double input ) {
-                    context &current_context = get_context();
-                    std::map<std::string, float>::iterator it =
-                        current_context.caster_level_adjustment_by_school.find( school_name );
-                    if( it != current_context.caster_level_adjustment_by_school.end() ) {
+                const trait_id spell_school( school_name );
+                return [is_npc, min, max, spell_school]( dialogue const & d, double input ) {
+                    std::map<trait_id, float>::iterator it =
+                        d.actor( is_npc )->get_character()->magic->caster_level_adjustment_by_school.find( spell_school );
+                    if( it != d.actor( is_npc )->get_character()->magic->caster_level_adjustment_by_school.end() ) {
                         it->second = handle_min_max( d, input, min, max );
                     } else {
-                        current_context.caster_level_adjustment_by_school.insert( { school_name, handle_min_max( d, input, min, max ) } );
+                        d.actor( is_npc )->get_character()->magic->caster_level_adjustment_by_school.insert( { spell_school, handle_min_max( d, input, min, max ) } );
                     }
                 };
             } else if( jo.has_member( "spell" ) ) {
                 const std::string spell_name = jo.get_string( "spell" );
-                return [min, max, spell_name]( dialogue const & d, double input ) {
-                    context &current_context = get_context();
-                    std::map<std::string, float>::iterator it =
-                        current_context.caster_level_adjustment_by_spell.find( spell_name );
-                    if( it != current_context.caster_level_adjustment_by_spell.end() ) {
+                const spell_id this_spell_id( spell_name );
+                return [is_npc, min, max, this_spell_id]( dialogue const & d, double input ) {
+                    std::map<spell_id, float>::iterator it =
+                        d.actor( is_npc )->get_character()->magic->caster_level_adjustment_by_spell.find( this_spell_id );
+                    if( it != d.actor( is_npc )->get_character()->magic->caster_level_adjustment_by_spell.end() ) {
                         it->second = handle_min_max( d, input, min, max );
                     } else {
-                        current_context.caster_level_adjustment_by_spell.insert( { spell_name, handle_min_max( d, input, min, max ) } );
+                        d.actor( is_npc )->get_character()->magic->caster_level_adjustment_by_spell.insert( { this_spell_id, handle_min_max( d, input, min, max ) } );
                     }
                 };
             } else {
-                return [min, max]( dialogue const & d, double input ) {
-                    get_context().caster_level_adjustment = handle_min_max( d, input, min, max );
+                return [is_npc, min, max]( dialogue const & d, double input ) {
+                    d.actor( is_npc )->get_character()->magic->caster_level_adjustment =
+                        handle_min_max( d, input, min, max );
                 };
             }
         } else if( checked_value == "spell_exp" ) {

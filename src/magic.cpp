@@ -16,7 +16,6 @@
 #include "character.h"
 #include "color.h"
 #include "condition.h"
-#include "context.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "cursesdef.h"
@@ -1486,28 +1485,15 @@ int spell::get_max_level( const Creature &caster ) const
     return type->max_level.evaluate( d );
 }
 
-int spell::calc_temp_level_adjust()
-{
-    context &current_context = get_context();
-    float raw_level_adjust = current_context.caster_level_adjustment;
-    std::map<std::string, float>::iterator it =
-        current_context.caster_level_adjustment_by_school.find( this->spell_class().str() );
-    if( it != current_context.caster_level_adjustment_by_school.end() ) {
-        raw_level_adjust += it->second;
-    }
-    it = current_context.caster_level_adjustment_by_spell.find( this->id().str() );
-    if( it != current_context.caster_level_adjustment_by_spell.end() ) {
-        raw_level_adjust += it->second;
-    }
-    int final_level = clamp( get_level() + static_cast<int>( raw_level_adjust ), 0,
-                             get_max_level( get_player_character() ) );
-    temp_level_adjustment = final_level - get_level();
-    return temp_level_adjustment;
-}
-
 int spell::get_temp_level_adjustment() const
 {
     return temp_level_adjustment;
+}
+
+
+void spell::set_temp_level_adjustment( int adjustment )
+{
+    temp_level_adjustment = adjustment;
 }
 
 // helper function to calculate xp needed to be at a certain level
@@ -2045,6 +2031,33 @@ bool known_magic::has_enough_energy( const Character &guy, const spell &sp ) con
     }
 }
 
+void known_magic::clear_opens_spellbook_data()
+{
+    caster_level_adjustment = 0;
+    caster_level_adjustment_by_spell.clear();
+    caster_level_adjustment_by_school.clear();
+}
+
+void known_magic::evaluate_opens_spellbook_data()
+{
+    for( spell *sp : get_spells() ) {
+        float raw_level_adjust = caster_level_adjustment;
+        std::map<trait_id, float>::iterator school_it =
+            caster_level_adjustment_by_school.find( sp->spell_class() );
+        if( school_it != caster_level_adjustment_by_school.end() ) {
+            raw_level_adjust += school_it->second;
+        }
+        std::map<spell_id, float>::iterator spell_it =
+            caster_level_adjustment_by_spell.find( sp->id() );
+        if( spell_it != caster_level_adjustment_by_spell.end() ) {
+            raw_level_adjust += spell_it->second;
+        }
+        int final_level = clamp( sp->get_level() + static_cast<int>( raw_level_adjust ), 0,
+                                 sp->get_max_level( get_player_character() ) );
+        sp->set_temp_level_adjustment( final_level - sp->get_level() );
+    }
+}
+
 int known_magic::time_to_learn_spell( const Character &guy, const std::string &str ) const
 {
     return time_to_learn_spell( guy, spell_id( str ) );
@@ -2246,7 +2259,7 @@ void spellcasting_callback::spell_info_text( const spell &sp, int width )
     };
     // Calculates temp_level_adjust from EoC, saves it to the spell for later use, and prepares to display the result
     int temp_level_adjust = sp.get_temp_level_adjustment();
-    std::string temp_level_adjust_string = "";
+    std::string temp_level_adjust_string;
     if( temp_level_adjust < 0 ) {
         temp_level_adjust_string = " -" + std::to_string( -temp_level_adjust );
     } else if( temp_level_adjust > 0 ) {

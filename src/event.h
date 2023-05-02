@@ -677,10 +677,15 @@ struct event_spec<event_type::npc_becomes_hostile> {
 };
 
 template<>
-struct event_spec<event_type::opens_portal> : event_spec_empty {};
+struct event_spec<event_type::opens_spellbook> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 1> fields = { {
+            { "character", cata_variant_type::character_id }
+        }
+    };
+};
 
 template<>
-struct event_spec<event_type::opens_spellbook> : event_spec_empty {};
+struct event_spec<event_type::opens_portal> : event_spec_empty {};
 
 template<>
 struct event_spec<event_type::opens_temple> : event_spec_empty {};

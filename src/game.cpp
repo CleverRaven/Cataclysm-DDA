@@ -13050,11 +13050,6 @@ viewer &get_player_view()
     return g->u;
 }
 
-context &get_context()
-{
-    return g->context_instance;
-}
-
 avatar &get_avatar()
 {
     return g->u;
