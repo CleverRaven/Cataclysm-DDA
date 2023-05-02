@@ -95,7 +95,7 @@ struct mut_transform {
 struct reflex_activation_data {
 
     /**What variable controls the activation*/
-    std::function<bool( const dialogue & )>trigger;
+    std::function<bool( dialogue & )>trigger;
 
     std::pair<translation, game_message_type> msg_on;
     std::pair<translation, game_message_type> msg_off;
