@@ -4144,12 +4144,12 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, const std::stri
         bool is_npc )
 {
     bool group = jo.get_bool( "group", false );
-    mtype_id new_monster;
-    mongroup_id group_id;
+    str_or_var new_monster;
+    str_or_var group_id;
     if( group ) {
-        group_id = mongroup_id( jo.get_string( member ) );
+        group_id = get_str_or_var( jo.get_member( member ), member );
     } else {
-        new_monster = mtype_id( jo.get_string( member ) );
+        new_monster = get_str_or_var( jo.get_member( member ), member );
     }
     dbl_or_var dov_target_range = get_dbl_or_var( jo, "target_range", false, 0 );
     dbl_or_var dov_hallucination_count = get_dbl_or_var( jo, "hallucination_count", false, 0 );
@@ -4180,9 +4180,10 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, const std::stri
                  friendly, is_npc]( dialogue & d ) {
         monster target_monster;
 
-        if( group_id.is_valid() ) {
-            target_monster = monster( MonsterGroupManager::GetRandomMonsterFromGroup( group_id ) );
-        } else if( new_monster.is_empty() ) {
+        if( !group_id.evaluate( d ).empty() ) {
+            target_monster = monster( MonsterGroupManager::GetRandomMonsterFromGroup( mongroup_id(
+                                          group_id.evaluate( d ) ) ) );
+        } else if( new_monster.evaluate( d ).empty() ) {
             int target_range = dov_target_range.evaluate( d );
             //grab a random nearby hostile creature to create a hallucination or copy of
             Creature *copy = g->get_creature_if( [target_range]( const Creature & critter ) -> bool {
@@ -4197,7 +4198,7 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, const std::stri
             }
             target_monster = *copy->as_monster();
         } else {
-            target_monster = monster( new_monster );
+            target_monster = monster( mtype_id( new_monster.evaluate( d ) ) );
         }
         int min_radius = dov_min_radius.evaluate( d );
         int max_radius = dov_max_radius.evaluate( d );
@@ -4572,9 +4573,9 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_remove_trait( jo, "u_lose_trait" );
     } else if( jo.has_member( "npc_lose_trait" ) ) {
         subeffect_fun.set_remove_trait( jo, "npc_lose_trait", is_npc );
-    } else if( jo.has_member( "u_mutate" ) ) {
+    } else if( jo.has_member( "u_mutate" ) || jo.has_array( "u_mutate" ) ) {
         subeffect_fun.set_mutate( jo, "u_mutate" );
-    } else if( jo.has_member( "npc_mutate" ) ) {
+    } else if( jo.has_member( "npc_mutate" ) || jo.has_array( "npc_mutate" ) ) {
         subeffect_fun.set_mutate( jo, "npc_mutate", is_npc );
     } else if( jo.has_member( "u_mutate_category" ) ) {
         subeffect_fun.set_mutate_category( jo, "u_mutate_category" );
@@ -4659,9 +4660,9 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_revert_location( jo, "revert_location" );
     } else if( jo.has_member( "place_override" ) ) {
         subeffect_fun.set_place_override( jo, "place_override" );
-    } else if( jo.has_member( "u_transform_radius" ) ) {
+    } else if( jo.has_member( "u_transform_radius" ) || jo.has_array( "u_transform_radius" ) ) {
         subeffect_fun.set_transform_radius( jo, "u_transform_radius", false );
-    } else if( jo.has_member( "npc_transform_radius" ) ) {
+    } else if( jo.has_member( "npc_transform_radius" ) || jo.has_array( "npc_transform_radius" ) ) {
         subeffect_fun.set_transform_radius( jo, "npc_transform_radius", true );
     } else if( jo.has_member( "transform_line" ) ) {
         subeffect_fun.set_transform_line( jo, "transform_line" );
@@ -4671,9 +4672,9 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_location_variable( jo, "npc_location_variable", true );
     } else if( jo.has_object( "location_variable_adjust" ) ) {
         subeffect_fun.set_location_variable_adjust( jo, "location_variable_adjust" );
-    } else if( jo.has_int( "u_set_hp" ) ) {
+    } else if( jo.has_member( "u_set_hp" ) || jo.has_array( "u_set_hp" ) ) {
         subeffect_fun.set_hp( jo, "u_set_hp", false );
-    } else if( jo.has_int( "npc_set_hp" ) ) {
+    } else if( jo.has_member( "npc_set_hp" ) || jo.has_array( "npc_set_hp" ) ) {
         subeffect_fun.set_hp( jo, "npc_set_hp", true );
     } else if( jo.has_member( "u_buy_monster" ) ) {
         subeffect_fun.set_u_buy_monster( jo, "u_buy_monster" );
@@ -4689,9 +4690,9 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_message( jo, "u_message" );
     } else if( jo.has_member( "npc_message" ) ) {
         subeffect_fun.set_message( jo, "npc_message", true );
-    } else if( jo.has_int( "u_add_wet" ) || jo.has_object( "u_add_wet" ) ) {
+    } else if( jo.has_member( "u_add_wet" ) || jo.has_array( "u_add_wet" ) ) {
         subeffect_fun.set_add_wet( jo, "u_add_wet", false );
-    } else if( jo.has_int( "npc_add_wet" ) || jo.has_object( "npc_add_wet" ) ) {
+    } else if( jo.has_member( "npc_add_wet" ) || jo.has_array( "npc_add_wet" ) ) {
         subeffect_fun.set_add_wet( jo, "npc_add_wet", true );
     } else if( jo.has_member( "u_assign_activity" ) ) {
         subeffect_fun.set_assign_activity( jo, "u_assign_activity", false );
@@ -4725,9 +4726,9 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_roll_remainder( jo, "u_roll_remainder", false );
     } else if( jo.has_member( "npc_roll_remainder" ) ) {
         subeffect_fun.set_roll_remainder( jo, "npc_roll_remainder", true );
-    } else if( jo.has_member( "u_mod_healthy" ) ) {
+    } else if( jo.has_member( "u_mod_healthy" ) || jo.has_array( "u_mod_healthy" ) ) {
         subeffect_fun.set_mod_healthy( jo, "u_mod_healthy", false );
-    } else if( jo.has_member( "npc_mod_healthy" ) ) {
+    } else if( jo.has_member( "npc_mod_healthy" ) || jo.has_array( "npc_mod_healthy" ) ) {
         subeffect_fun.set_mod_healthy( jo, "npc_mod_healthy", true );
     } else if( jo.has_member( "u_add_morale" ) ) {
         subeffect_fun.set_add_morale( jo, "u_add_morale", false );
@@ -4737,9 +4738,9 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_lose_morale( jo, "u_lose_morale", false );
     } else if( jo.has_member( "npc_lose_morale" ) ) {
         subeffect_fun.set_lose_morale( jo, "npc_lose_morale", true );
-    } else if( jo.has_int( "u_add_faction_trust" ) || jo.has_object( "u_add_faction_trust" ) ) {
+    } else if( jo.has_member( "u_add_faction_trust" ) || jo.has_array( "u_add_faction_trust" ) ) {
         subeffect_fun.set_add_faction_trust( jo, "u_add_faction_trust" );
-    } else if( jo.has_int( "u_lose_faction_trust" ) || jo.has_object( "u_lose_faction_trust" ) ) {
+    } else if( jo.has_member( "u_lose_faction_trust" ) || jo.has_array( "u_lose_faction_trust" ) ) {
         subeffect_fun.set_lose_faction_trust( jo, "u_lose_faction_trust" );
     } else if( jo.has_member( "u_add_bionic" ) ) {
         subeffect_fun.set_add_bionic( jo, "u_add_bionic", false );
@@ -4765,9 +4766,9 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_arithmetic( jo, "arithmetic", false );
     } else if( jo.has_array( "math" ) ) {
         subeffect_fun.set_math( jo, "math" );
-    } else if( jo.has_string( "u_spawn_monster" ) ) {
+    } else if( jo.has_member( "u_spawn_monster" ) ) {
         subeffect_fun.set_spawn_monster( jo, "u_spawn_monster", false );
-    } else if( jo.has_string( "npc_spawn_monster" ) ) {
+    } else if( jo.has_member( "npc_spawn_monster" ) ) {
         subeffect_fun.set_spawn_monster( jo, "npc_spawn_monster", true );
     } else if( jo.has_member( "u_spawn_npc" ) ) {
         subeffect_fun.set_spawn_npc( jo, "u_spawn_npc", false );
@@ -4781,7 +4782,7 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_teleport( jo, "u_teleport", false );
     } else if( jo.has_object( "npc_teleport" ) ) {
         subeffect_fun.set_teleport( jo, "npc_teleport", true );
-    } else if( jo.has_int( "custom_light_level" ) || jo.has_object( "custom_light_level" ) ) {
+    } else if( jo.has_member( "custom_light_level" ) || jo.has_array( "custom_light_level" ) ) {
         subeffect_fun.set_custom_light_level( jo, "custom_light_level" );
     } else if( jo.has_object( "give_equipment" ) ) {
         subeffect_fun.set_give_equipment( jo, "give_equipment" );

@@ -2919,9 +2919,9 @@ conditional_t::conditional_t( const JsonObject &jo )
             }
         }
     }
-    if( jo.has_member( "u_has_any_trait" ) ) {
+    if( jo.has_array( "u_has_any_trait" ) ) {
         set_has_any_trait( jo, "u_has_any_trait" );
-    } else if( jo.has_member( "npc_has_any_trait" ) ) {
+    } else if( jo.has_array( "npc_has_any_trait" ) ) {
         set_has_any_trait( jo, "npc_has_any_trait", true );
     } else if( jo.has_member( "u_has_trait" ) ) {
         set_has_trait( jo, "u_has_trait" );
@@ -2943,79 +2943,79 @@ conditional_t::conditional_t( const JsonObject &jo )
         set_has_activity( is_npc );
     } else if( jo.has_string( "npc_is_riding" ) ) {
         set_is_riding( is_npc );
-    } else if( jo.has_string( "u_has_mission" ) ) {
+    } else if( jo.has_member( "u_has_mission" ) ) {
         set_u_has_mission( jo, "u_has_mission" );
-    } else if( jo.has_string( "u_monsters_in_direction" ) ) {
+    } else if( jo.has_member( "u_monsters_in_direction" ) ) {
         set_u_monsters_in_direction( jo, "u_monsters_in_direction" );
-    } else if( jo.has_string( "u_safe_mode_trigger" ) ) {
+    } else if( jo.has_member( "u_safe_mode_trigger" ) ) {
         set_u_safe_mode_trigger( jo, "u_safe_mode_trigger" );
-    } else if( jo.has_int( "u_has_strength" ) || jo.has_object( "u_has_strength" ) ) {
+    } else if( jo.has_member( "u_has_strength" ) || jo.has_array( "u_has_strength" ) ) {
         set_has_strength( jo, "u_has_strength" );
-    } else if( jo.has_int( "npc_has_strength" ) || jo.has_object( "npc_has_strength" ) ) {
+    } else if( jo.has_member( "npc_has_strength" ) || jo.has_array( "npc_has_strength" ) ) {
         set_has_strength( jo, "npc_has_strength", is_npc );
-    } else if( jo.has_int( "u_has_dexterity" ) || jo.has_object( "u_has_dexterity" ) ) {
+    } else if( jo.has_member( "u_has_dexterity" ) || jo.has_array( "u_has_dexterity" ) ) {
         set_has_dexterity( jo, "u_has_dexterity" );
-    } else if( jo.has_int( "npc_has_dexterity" ) || jo.has_object( "npc_has_dexterity" ) ) {
+    } else if( jo.has_member( "npc_has_dexterity" ) || jo.has_array( "npc_has_dexterity" ) ) {
         set_has_dexterity( jo, "npc_has_dexterity", is_npc );
-    } else if( jo.has_int( "u_has_intelligence" ) || jo.has_object( "u_has_intelligence" ) ) {
+    } else if( jo.has_member( "u_has_intelligence" ) || jo.has_array( "u_has_intelligence" ) ) {
         set_has_intelligence( jo, "u_has_intelligence" );
-    } else if( jo.has_int( "npc_has_intelligence" ) || jo.has_object( "npc_has_intelligence" ) ) {
+    } else if( jo.has_member( "npc_has_intelligence" ) || jo.has_array( "npc_has_intelligence" ) ) {
         set_has_intelligence( jo, "npc_has_intelligence", is_npc );
-    } else if( jo.has_int( "u_has_perception" ) || jo.has_object( "u_has_perception" ) ) {
+    } else if( jo.has_member( "u_has_perception" ) || jo.has_array( "u_has_perception" ) ) {
         set_has_perception( jo, "u_has_perception" );
-    } else if( jo.has_int( "npc_has_perception" ) || jo.has_object( "npc_has_perception" ) ) {
+    } else if( jo.has_member( "npc_has_perception" ) || jo.has_array( "npc_has_perception" ) ) {
         set_has_perception( jo, "npc_has_perception", is_npc );
-    } else if( jo.has_int( "u_has_hp" ) || jo.has_object( "u_has_hp" ) ) {
+    } else if( jo.has_member( "u_has_hp" ) || jo.has_array( "u_has_hp" ) ) {
         set_has_hp( jo, "u_has_hp" );
-    } else if( jo.has_int( "npc_has_hp" ) || jo.has_object( "npc_has_hp" ) ) {
+    } else if( jo.has_member( "npc_has_hp" ) || jo.has_array( "npc_has_hp" ) ) {
         set_has_hp( jo, "npc_has_hp", is_npc );
-    } else if( jo.has_int( "u_has_part_temp" ) || jo.has_object( "u_has_part_temp" ) ) {
+    } else if( jo.has_member( "u_has_part_temp" ) || jo.has_array( "u_has_part_temp" ) ) {
         set_has_part_temp( jo, "u_has_part_temp" );
-    } else if( jo.has_int( "npc_has_part_temp" ) || jo.has_object( "npc_has_part_temp" ) ) {
+    } else if( jo.has_member( "npc_has_part_temp" ) || jo.has_array( "npc_has_part_temp" ) ) {
         set_has_part_temp( jo, "npc_has_part_temp", is_npc );
-    } else if( jo.has_string( "u_is_wearing" ) ) {
+    } else if( jo.has_member( "u_is_wearing" ) ) {
         set_is_wearing( jo, "u_is_wearing" );
-    } else if( jo.has_string( "npc_is_wearing" ) ) {
+    } else if( jo.has_member( "npc_is_wearing" ) ) {
         set_is_wearing( jo, "npc_is_wearing", is_npc );
-    } else if( jo.has_string( "u_has_item" ) ) {
+    } else if( jo.has_member( "u_has_item" ) ) {
         set_has_item( jo, "u_has_item" );
-    } else if( jo.has_string( "npc_has_item" ) ) {
+    } else if( jo.has_member( "npc_has_item" ) ) {
         set_has_item( jo, "npc_has_item", is_npc );
-    } else if( jo.has_string( "u_has_item_with_flag" ) ) {
+    } else if( jo.has_member( "u_has_item_with_flag" ) ) {
         set_has_item_with_flag( jo, "u_has_item_with_flag" );
-    } else if( jo.has_string( "npc_has_item_with_flag" ) ) {
+    } else if( jo.has_member( "npc_has_item_with_flag" ) ) {
         set_has_item_with_flag( jo, "npc_has_item_with_flag", is_npc );
     } else if( jo.has_member( "u_has_items" ) ) {
         set_has_items( jo, "u_has_items" );
     } else if( jo.has_member( "npc_has_items" ) ) {
         set_has_items( jo, "npc_has_items", is_npc );
-    } else if( jo.has_string( "u_has_item_category" ) ) {
+    } else if( jo.has_member( "u_has_item_category" ) ) {
         set_has_item_category( jo, "u_has_item_category" );
-    } else if( jo.has_string( "npc_has_item_category" ) ) {
+    } else if( jo.has_member( "npc_has_item_category" ) ) {
         set_has_item_category( jo, "npc_has_item_category", is_npc );
-    } else if( jo.has_string( "u_has_bionics" ) ) {
+    } else if( jo.has_member( "u_has_bionics" ) ) {
         set_has_bionics( jo, "u_has_bionics" );
-    } else if( jo.has_string( "npc_has_bionics" ) ) {
+    } else if( jo.has_member( "npc_has_bionics" ) ) {
         set_has_bionics( jo, "npc_has_bionics", is_npc );
-    } else if( jo.has_string( "u_has_effect" ) ) {
+    } else if( jo.has_member( "u_has_effect" ) ) {
         set_has_effect( jo, "u_has_effect" );
-    } else if( jo.has_string( "npc_has_effect" ) ) {
+    } else if( jo.has_member( "npc_has_effect" ) ) {
         set_has_effect( jo, "npc_has_effect", is_npc );
-    } else if( jo.has_string( "u_need" ) ) {
+    } else if( jo.has_member( "u_need" ) ) {
         set_need( jo, "u_need" );
-    } else if( jo.has_string( "npc_need" ) ) {
+    } else if( jo.has_member( "npc_need" ) ) {
         set_need( jo, "npc_need", is_npc );
     } else if( jo.has_member( "u_query" ) ) {
         set_query( jo, "u_query" );
     } else if( jo.has_member( "npc_query" ) ) {
         set_query( jo, "npc_query", is_npc );
-    } else if( jo.has_string( "u_at_om_location" ) ) {
+    } else if( jo.has_member( "u_at_om_location" ) ) {
         set_at_om_location( jo, "u_at_om_location" );
-    } else if( jo.has_string( "npc_at_om_location" ) ) {
+    } else if( jo.has_member( "npc_at_om_location" ) ) {
         set_at_om_location( jo, "npc_at_om_location", is_npc );
-    } else if( jo.has_string( "u_near_om_location" ) ) {
+    } else if( jo.has_member( "u_near_om_location" ) ) {
         set_near_om_location( jo, "u_near_om_location" );
-    } else if( jo.has_string( "npc_near_om_location" ) ) {
+    } else if( jo.has_member( "npc_near_om_location" ) ) {
         set_near_om_location( jo, "npc_near_om_location", is_npc );
     } else if( jo.has_string( "u_has_var" ) ) {
         set_has_var( jo, "u_has_var" );
@@ -3031,51 +3031,51 @@ conditional_t::conditional_t( const JsonObject &jo )
         set_compare_time_since_var( jo, "npc_compare_time_since_var", is_npc );
     } else if( jo.has_string( "npc_role_nearby" ) ) {
         set_npc_role_nearby( jo, "npc_role_nearby" );
-    } else if( jo.has_int( "npc_allies" ) || jo.has_object( "npc_allies" ) ) {
+    } else if( jo.has_member( "npc_allies" ) || jo.has_array( "npc_allies" ) ) {
         set_npc_allies( jo, "npc_allies" );
-    } else if( jo.has_int( "npc_allies_global" ) || jo.has_object( "npc_allies_global" ) ) {
+    } else if( jo.has_member( "npc_allies_global" ) || jo.has_array( "npc_allies_global" ) ) {
         set_npc_allies_global( jo, "npc_allies_global" );
     } else if( jo.get_bool( "npc_service", false ) ) {
         set_npc_available( true );
     } else if( jo.get_bool( "u_service", false ) ) {
         set_npc_available( false );
-    } else if( jo.has_int( "u_has_cash" ) || jo.has_object( "u_has_cash" ) ) {
+    } else if( jo.has_member( "u_has_cash" ) || jo.has_array( "u_has_cash" ) ) {
         set_u_has_cash( jo, "u_has_cash" );
-    } else if( jo.has_int( "u_are_owed" ) || jo.has_object( "u_are_owed" ) ) {
+    } else if( jo.has_member( "u_are_owed" ) || jo.has_array( "u_are_owed" ) ) {
         set_u_are_owed( jo, "u_are_owed" );
-    } else if( jo.has_string( "npc_aim_rule" ) ) {
+    } else if( jo.has_member( "npc_aim_rule" ) ) {
         set_npc_aim_rule( jo, "npc_aim_rule", true );
-    } else if( jo.has_string( "u_aim_rule" ) ) {
+    } else if( jo.has_member( "u_aim_rule" ) ) {
         set_npc_aim_rule( jo, "u_aim_rule", false );
-    } else if( jo.has_string( "npc_engagement_rule" ) ) {
+    } else if( jo.has_member( "npc_engagement_rule" ) ) {
         set_npc_engagement_rule( jo, "npc_engagement_rule", true );
-    } else if( jo.has_string( "u_engagement_rule" ) ) {
+    } else if( jo.has_member( "u_engagement_rule" ) ) {
         set_npc_engagement_rule( jo, "u_engagement_rule", false );
-    } else if( jo.has_string( "npc_cbm_reserve_rule" ) ) {
+    } else if( jo.has_member( "npc_cbm_reserve_rule" ) ) {
         set_npc_cbm_reserve_rule( jo, "npc_cbm_reserve_rule", true );
-    } else if( jo.has_string( "u_cbm_reserve_rule" ) ) {
+    } else if( jo.has_member( "u_cbm_reserve_rule" ) ) {
         set_npc_cbm_reserve_rule( jo, "u_cbm_reserve_rule", false );
-    } else if( jo.has_string( "npc_cbm_recharge_rule" ) ) {
+    } else if( jo.has_member( "npc_cbm_recharge_rule" ) ) {
         set_npc_cbm_recharge_rule( jo, "npc_cbm_recharge_rule", true );
-    } else if( jo.has_string( "u_cbm_recharge_rule" ) ) {
+    } else if( jo.has_member( "u_cbm_recharge_rule" ) ) {
         set_npc_cbm_recharge_rule( jo, "u_cbm_recharge_rule", false );
-    } else if( jo.has_string( "npc_rule" ) ) {
+    } else if( jo.has_member( "npc_rule" ) ) {
         set_npc_rule( jo, "npc_rule", true );
-    } else if( jo.has_string( "u_rule" ) ) {
+    } else if( jo.has_member( "u_rule" ) ) {
         set_npc_rule( jo, "npc_rule", false );
-    } else if( jo.has_string( "npc_override" ) ) {
+    } else if( jo.has_member( "npc_override" ) ) {
         set_npc_override( jo, "npc_override", true );
     } else if( jo.has_string( "u_override" ) ) {
         set_npc_override( jo, "u_override", false );
-    } else if( jo.has_int( "days_since_cataclysm" ) || jo.has_object( "days_since_cataclysm" ) ) {
+    } else if( jo.has_member( "days_since_cataclysm" ) || jo.has_array( "days_since_cataclysm" ) ) {
         set_days_since( jo, "days_since_cataclysm" );
-    } else if( jo.has_string( "is_season" ) ) {
+    } else if( jo.has_member( "is_season" ) ) {
         set_is_season( jo, "is_season" );
-    } else if( jo.has_string( "mission_goal" ) ) {
+    } else if( jo.has_member( "mission_goal" ) ) {
         set_mission_goal( jo, "mission_goal", true );
-    } else if( jo.has_string( "npc_mission_goal" ) ) {
+    } else if( jo.has_member( "npc_mission_goal" ) ) {
         set_mission_goal( jo, "npc_mission_goal", true );
-    } else if( jo.has_string( "u_mission_goal" ) ) {
+    } else if( jo.has_member( "u_mission_goal" ) ) {
         set_mission_goal( jo, "u_mission_goal", false );
     } else if( jo.has_member( "u_has_skill" ) ) {
         set_has_skill( jo, "u_has_skill" );
@@ -3085,35 +3085,35 @@ conditional_t::conditional_t( const JsonObject &jo )
         set_roll_contested( jo, "roll_contested" );
     } else if( jo.has_member( "u_know_recipe" ) ) {
         set_u_know_recipe( jo, "u_know_recipe" );
-    } else if( jo.has_int( "one_in_chance" ) || jo.has_object( "one_in_chance" ) ) {
+    } else if( jo.has_member( "one_in_chance" ) || jo.has_array( "one_in_chance" ) ) {
         set_one_in_chance( jo, "one_in_chance" );
     } else if( jo.has_object( "x_in_y_chance" ) ) {
         set_x_in_y_chance( jo, "x_in_y_chance" );
-    } else if( jo.has_string( "u_has_worn_with_flag" ) ) {
+    } else if( jo.has_member( "u_has_worn_with_flag" ) ) {
         set_has_worn_with_flag( jo, "u_has_worn_with_flag" );
-    } else if( jo.has_string( "npc_has_worn_with_flag" ) ) {
+    } else if( jo.has_member( "npc_has_worn_with_flag" ) ) {
         set_has_worn_with_flag( jo, "npc_has_worn_with_flag", is_npc );
-    } else if( jo.has_string( "u_has_wielded_with_flag" ) ) {
+    } else if( jo.has_member( "u_has_wielded_with_flag" ) ) {
         set_has_wielded_with_flag( jo, "u_has_wielded_with_flag" );
-    } else if( jo.has_string( "npc_has_wielded_with_flag" ) ) {
+    } else if( jo.has_member( "npc_has_wielded_with_flag" ) ) {
         set_has_wielded_with_flag( jo, "npc_has_wielded_with_flag", is_npc );
-    } else if( jo.has_string( "u_is_on_terrain" ) ) {
+    } else if( jo.has_member( "u_is_on_terrain" ) ) {
         set_is_on_terrain( jo, "u_is_on_terrain" );
-    } else if( jo.has_string( "npc_is_on_terrain" ) ) {
+    } else if( jo.has_member( "npc_is_on_terrain" ) ) {
         set_is_on_terrain( jo, "npc_is_on_terrain", is_npc );
-    } else if( jo.has_string( "u_is_in_field" ) ) {
+    } else if( jo.has_member( "u_is_in_field" ) ) {
         set_is_in_field( jo, "u_is_in_field" );
-    } else if( jo.has_string( "npc_is_in_field" ) ) {
+    } else if( jo.has_member( "npc_is_in_field" ) ) {
         set_is_in_field( jo, "npc_is_in_field", is_npc );
-    } else if( jo.has_string( "u_has_move_mode" ) ) {
+    } else if( jo.has_member( "u_has_move_mode" ) ) {
         set_has_move_mode( jo, "u_has_move_mode" );
-    } else if( jo.has_string( "npc_has_move_mode" ) ) {
+    } else if( jo.has_member( "npc_has_move_mode" ) ) {
         set_has_move_mode( jo, "npc_has_move_mode", is_npc );
-    } else if( jo.has_string( "is_weather" ) ) {
+    } else if( jo.has_member( "is_weather" ) ) {
         set_is_weather( jo, "is_weather" );
-    } else if( jo.has_string( "mod_is_loaded" ) ) {
+    } else if( jo.has_member( "mod_is_loaded" ) ) {
         set_mod_is_loaded( jo, "mod_is_loaded" );
-    } else if( jo.has_int( "u_has_faction_trust" ) || jo.has_object( "u_has_faction_trust" ) ) {
+    } else if( jo.has_member( "u_has_faction_trust" ) || jo.has_array( "u_has_faction_trust" ) ) {
         set_has_faction_trust( jo, "u_has_faction_trust" );
     } else if( jo.has_member( "compare_int" ) ) {
         set_compare_num( jo, "compare_int" );
