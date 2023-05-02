@@ -66,7 +66,8 @@
       { "proficiency": "prof_welding", "time_multiplier": 2, "skill_penalty": -100 }
     ],
     "components": [
-      [ [ "tool_belt", 1 ], [ "police_belt", 1 ], [ "leather_belt", 1 ], [ "webbing_belt", 1 ] ],
+      [ [ "pipe", 12 ] ],
+      [ [ "tool_belt", 1 ], [ "police_belt", 1 ], [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "seatbelt", 1 ] ],
       [ [ "magnetron", 2 ] ],
       [ [ "power_supply", 4 ] ]
     ],
