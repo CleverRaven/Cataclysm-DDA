@@ -4144,13 +4144,7 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, const std::stri
         bool is_npc )
 {
     bool group = jo.get_bool( "group", false );
-    str_or_var new_monster;
-    str_or_var group_id;
-    if( group ) {
-        group_id = get_str_or_var( jo.get_member( member ), member );
-    } else {
-        new_monster = get_str_or_var( jo.get_member( member ), member );
-    }
+    str_or_var monster_id = get_str_or_var( jo.get_member( member ), member );
     dbl_or_var dov_target_range = get_dbl_or_var( jo, "target_range", false, 0 );
     dbl_or_var dov_hallucination_count = get_dbl_or_var( jo, "hallucination_count", false, 0 );
     dbl_or_var dov_real_count = get_dbl_or_var( jo, "real_count", false, 0 );
@@ -4174,16 +4168,16 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, const std::stri
     std::string spawn_message_plural = jo.get_string( "spawn_message_plural", "" );
     std::vector<effect_on_condition_id> true_eocs = load_eoc_vector( jo, "true_eocs" );
     std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );
-    function = [new_monster, dov_target_range, dov_hallucination_count, dov_real_count, dov_min_radius,
-                             dov_max_radius, outdoor_only, indoor_only, group_id, dov_lifespan, target_var,
-                             spawn_message, spawn_message_plural, true_eocs, false_eocs, open_air_allowed,
-                 friendly, is_npc]( dialogue & d ) {
+    function = [monster_id, dov_target_range, dov_hallucination_count, dov_real_count, dov_min_radius,
+                            dov_max_radius, outdoor_only, indoor_only, group, dov_lifespan, target_var,
+                            spawn_message, spawn_message_plural, true_eocs, false_eocs, open_air_allowed,
+                friendly, is_npc]( dialogue & d ) {
         monster target_monster;
 
-        if( !group_id.evaluate( d ).empty() ) {
+        if( group ) {
             target_monster = monster( MonsterGroupManager::GetRandomMonsterFromGroup( mongroup_id(
-                                          group_id.evaluate( d ) ) ) );
-        } else if( new_monster.evaluate( d ).empty() ) {
+                                          monster_id.evaluate( d ) ) ) );
+        } else if( monster_id.evaluate( d ).empty() ) {
             int target_range = dov_target_range.evaluate( d );
             //grab a random nearby hostile creature to create a hallucination or copy of
             Creature *copy = g->get_creature_if( [target_range]( const Creature & critter ) -> bool {
@@ -4198,7 +4192,7 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, const std::stri
             }
             target_monster = *copy->as_monster();
         } else {
-            target_monster = monster( mtype_id( new_monster.evaluate( d ) ) );
+            target_monster = monster( mtype_id( monster_id.evaluate( d ) ) );
         }
         int min_radius = dov_min_radius.evaluate( d );
         int max_radius = dov_max_radius.evaluate( d );
