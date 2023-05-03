@@ -1446,7 +1446,7 @@ class item : public visitable
             }
 
             void serialize( JsonOut &jsout ) const;
-            void deserialize( const JsonObject &jo );
+            void deserialize( const JsonObject &data );
         };
         cata::value_ptr<link_data> link;
         /**

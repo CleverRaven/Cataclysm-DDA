@@ -108,7 +108,7 @@ item vehicle_part::properties_to_item() const
             }
         }
         if( !iuse_found ) {
-            debugmsg( "Could not find link_up iuse data for %s! Using default values.", tmp.tname() );
+            debugmsg( "Could not find link_up iuse data for %s!  Using default values.", tmp.tname() );
             tmp.link->max_length = tmp.type->maximum_charges();
         }
 

@@ -12790,7 +12790,7 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos, it
         if( debug_mode ) {
             add_msg_debug( debugmode::DF_IUSE, "%s linked to %s%s, length %d/%d",
                            parent_item != nullptr ? parent_item->label( 1 ) : label( 1 ),
-                           link->t_abs_pos.to_string(), last_t_abs_pos_is_oob ? " (OoB)" : "",
+                           link->t_abs_pos.to_string_writable(), last_t_abs_pos_is_oob ? " (OoB)" : "",
                            link->max_length - charges, link->max_length );
         }
         if( charges == 0 && carrier != nullptr ) {
@@ -12960,7 +12960,7 @@ int item::charge_linked_batteries( item &linked_item, vehicle &linked_veh, int t
 
         // If a long time passed, multiply the total by the efficiency rather than cancelling a charge.
         int transfer_total = short_time_passed ? 1 :
-                             ( turns_elapsed / link->charge_interval ) * ( 1.0 - 1.0 / link->charge_efficiency );
+                             ( turns_elapsed * 1.0f / link->charge_interval ) * ( 1.0 - 1.0 / link->charge_efficiency );
 
         if( power_in ) {
             const int battery_deficit = linked_veh.discharge_battery( transfer_total, true );

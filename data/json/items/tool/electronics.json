@@ -391,8 +391,7 @@
         "rigid": true,
         "max_contains_volume": "1 ml",
         "max_contains_weight": "1 g",
-        "weight_multiplier": 0.0,
-        "flag_restriction": [ "CABLE_SPOOL" ]
+        "weight_multiplier": 0.0
       }
     ],
     "melee_damage": { "bash": 6 }
@@ -638,8 +637,7 @@
         "rigid": true,
         "max_contains_volume": "1 ml",
         "max_contains_weight": "1 g",
-        "weight_multiplier": 0.0,
-        "flag_restriction": [ "CABLE_SPOOL" ]
+        "weight_multiplier": 0.0
       }
     ]
   },

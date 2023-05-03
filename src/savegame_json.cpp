@@ -849,8 +849,6 @@ void Character::load( const JsonObject &data )
     }
     worn.on_item_wear( *this );
 
-    map &here = get_map();
-
     // TEMPORARY until 0.F
     if( data.has_array( "hp_cur" ) ) {
         set_anatomy( anatomy_human_anatomy );
@@ -2865,19 +2863,19 @@ void item::link_data::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-void item::link_data::deserialize( const JsonObject &obj )
+void item::link_data::deserialize( const JsonObject &data )
 {
-    obj.allow_omitted_members();
+    data.allow_omitted_members();
 
-    obj.read( "link_i_state", s_state );
-    obj.read( "link_t_state", t_state );
-    obj.read( "link_t_abs_pos", t_abs_pos );
-    obj.read( "link_t_mount", t_mount );
-    max_length = obj.get_int( "link_max_length" );
-    obj.read( "link_last_processed", last_processed );
-    charge_rate = obj.get_int( "link_charge_rate" );
-    charge_interval = obj.get_int( "link_charge_interval" );
-    charge_efficiency = obj.get_int( "link_charge_efficiency" );
+    data.read( "link_i_state", s_state );
+    data.read( "link_t_state", t_state );
+    data.read( "link_t_abs_pos", t_abs_pos );
+    data.read( "link_t_mount", t_mount );
+    max_length = data.get_int( "link_max_length" );
+    data.read( "link_last_processed", last_processed );
+    charge_rate = data.get_int( "link_charge_rate" );
+    charge_interval = data.get_int( "link_charge_interval" );
+    charge_efficiency = data.get_int( "link_charge_efficiency" );
 }
 
 // Template parameter because item::craft_data is private and I don't want to make it public.

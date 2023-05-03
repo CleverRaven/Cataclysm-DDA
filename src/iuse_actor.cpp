@@ -4379,7 +4379,7 @@ void link_up_actor::info( const item &, std::vector<iteminfo> &dump ) const
         targets_strings.emplace_back( _( "vehicle battery" ) );
         appliance = true;
     }
-    if( appliance == true ) {
+    if( appliance ) {
         targets_strings.emplace_back( _( "appliance" ) );
     }
     if( targets.count( link_state::bio_cable ) > 0 ) {
@@ -4478,7 +4478,7 @@ std::optional<int> link_up_actor::use( Character &p, item &it, bool t, const tri
         return std::nullopt;
     }
 
-    if( targets.size() == 0 ) {
+    if( targets.empty() ) {
         debugmsg( "Link up action for %s doesn't have any targets!", it.tname() );
         return std::nullopt;
     }
@@ -4660,7 +4660,7 @@ std::optional<int> link_up_actor::use( Character &p, item &it, bool t, const tri
             if( choice == 0 && t_vp && t_vp->vehicle().has_part( "CABLE_PORTS" ) ) {
                 p.add_msg_if_player( m_info,
                                      _( "You can't attach it there; try the dashboard or electronics controls." ) );
-            } else if( choice == 1 && t_vp && t_vp->vehicle().batteries.size() > 0 ) {
+            } else if( choice == 1 && t_vp && t_vp->vehicle().batteries.empty() ) {
                 p.add_msg_if_player( m_info,
                                      _( "You can't attach it there; try the battery." ) );
             } else {
@@ -4736,9 +4736,9 @@ std::optional<int> link_up_actor::use( Character &p, item &it, bool t, const tri
                     break;
                 }
             }
-            vpid_found = true;
+
             if( !vpid_found ) {
-                debugmsg( "item %s is not base item of any vehicle part! Using jumper_cable", item_id.c_str() );
+                debugmsg( "item %s is not base item of any vehicle part!  Using jumper_cable", item_id.c_str() );
             }
             const vpart_id vpid( vpid_found ? item_id.str() : "jumper_cable" );
 
@@ -4766,7 +4766,7 @@ std::optional<int> link_up_actor::use( Character &p, item &it, bool t, const tri
             return std::nullopt;
         }
 
-        const auto can_link = [&here, &choice]( const tripoint & point ) {
+        const auto can_link = [&here]( const tripoint & point ) {
             const optional_vpart_position ovp = here.veh_at( point );
             return ovp && ovp->vehicle().is_external_part( point );
         };
@@ -4842,9 +4842,9 @@ std::optional<int> link_up_actor::use( Character &p, item &it, bool t, const tri
                     break;
                 }
             }
-            vpid_found = true;
+
             if( !vpid_found ) {
-                debugmsg( "item %s is not base item of any vehicle part! Using hd_tow_cable", item_id.c_str() );
+                debugmsg( "item %s is not base item of any vehicle part!  Using hd_tow_cable", item_id.c_str() );
             }
             const vpart_id vpid( vpid_found ? item_id.str() : "hd_tow_cable" );
 
