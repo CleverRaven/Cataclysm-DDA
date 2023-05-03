@@ -626,6 +626,17 @@
   },
   {
     "type": "overmap_special",
+    "id": "Survivor Forest Camp",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "survivor_forest_camp_north" }
+    ],
+    "locations": [ "forest" ],
+    "city_distance": [ 25, -1 ],
+    "occurrences": [ 20, 100 ],
+    "flags": [ "CLASSIC", "WILDERNESS", "UNIQUE", "MAN_MADE" ]
+  },
+  {
+    "type": "overmap_special",
     "id": "Sugar House",
     "overmaps": [
       { "point": [ 0, -1, 0 ], "overmap": "sugar_house_parking_north" },
