@@ -12839,6 +12839,11 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos, it
             if( !vp ) {
                 return reset_cable( carrier, parent_item, true, pos );
             }
+            auto vp_displayed = vp.part_displayed();
+            if( vp_displayed && vp_displayed->part().has_flag( vp_flag::carried_flag ) ) {
+                // Connected vehicle was racked, so disconnect.
+                return reset_cable( carrier, parent_item, true, pos );
+            }
             link->t_veh_safe = vp.value().vehicle().get_safe_reference();
         }
     }
