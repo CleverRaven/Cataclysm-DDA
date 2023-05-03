@@ -362,10 +362,10 @@ bool Creature::sees( const Creature &critter ) const
     if( !fov_3d && posz() != critter.posz() ) {
         return false;
     }
-    
+
     // Creature has stumbled into an invisible player and is now aware of them
-    if ( has_effect( effect_stumbled_into_invisible ) && wanted_range <= 1 && critter.is_avatar() ) {
-    	return true;
+    if( has_effect( effect_stumbled_into_invisible ) && wanted_range <= 1 && critter.is_avatar() ) {
+        return true;
     }
 
     // This check is ridiculously expensive so defer it to after everything else.
