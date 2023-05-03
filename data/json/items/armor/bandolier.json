@@ -97,7 +97,7 @@
     "looks_like": "leather_belt",
     "color": "dark_gray",
     "material_thickness": 1,
-    "pocket_data": [ { "ammo_restriction": { "410shot": 25, "shot": 25, "20x66mm": 25, "signal_flare": 25 }, "moves": 25 }, "volume_encumber_modifier": 0.3 ],
+    "pocket_data": [ { "ammo_restriction": { "410shot": 25, "shot": 25, "20x66mm": 25, "signal_flare": 25 }, "moves": 25, "volume_encumber_modifier": 0.3 } ],
     "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE", "PALS_MEDIUM" ],
     "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
@@ -210,7 +210,7 @@
     "color": "dark_gray",
     "sided": true,
     "material_thickness": 1,
-    "pocket_data": [ { "ammo_restriction": { "40x46mm": 4, "40x53mm": 4 }, "moves": 20 } ],
+    "pocket_data": [ { "ammo_restriction": { "40x46mm": 4, "40x53mm": 4 }, "moves": 20, "volume_encumber_modifier": 0.3 } ],
     "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE", "PALS_MEDIUM" ],
     "armor": [
       {
@@ -236,7 +236,7 @@
     "color": "dark_gray",
     "sided": true,
     "material_thickness": 1,
-    "pocket_data": [ { "ammo_restriction": { "rock": 10, "pebble": 80 }, "moves": 20 } ],
+    "pocket_data": [ { "ammo_restriction": { "rock": 10, "pebble": 80 }, "moves": 20, "volume_encumber_modifier": 0.3 } ],
     "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE", "PALS_LARGE" ],
     "armor": [
       {
@@ -262,7 +262,7 @@
     "color": "dark_gray",
     "sided": true,
     "material_thickness": 1,
-    "pocket_data": [ { "ammo_restriction": { "rock": 10, "pebble": 80 }, "moves": 20 } ],
+    "pocket_data": [ { "ammo_restriction": { "rock": 10, "pebble": 80 }, "moves": 20, "volume_encumber_modifier": 0.3 } ],
     "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE", "PALS_LARGE" ],
     "armor": [
       {
