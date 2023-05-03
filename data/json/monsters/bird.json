@@ -744,8 +744,7 @@
   {
     "id": "mon_hummingbird_chick",
     "type": "MONSTER",
-    "copy-from": "mon_crow_chick",
-    "name": { "str": "brown chick" },
+    "copy-from": "mon_generic_chick",
     "volume": "80 ml",
     "weight": "7 g",
     "upgrades": { "age_grow": 11, "into": "mon_hummingbird" }
@@ -753,8 +752,7 @@
   {
     "id": "mon_woodpecker_chick",
     "type": "MONSTER",
-    "copy-from": "mon_crow_chick",
-    "name": { "str": "brown chick" },
+    "copy-from": "mon_generic_chick",
     "volume": "200 ml",
     "weight": "15 g",
     "upgrades": { "age_grow": 11, "into": "mon_woodpecker" }
@@ -832,29 +830,25 @@
   {
     "id": "mon_coot_chick",
     "type": "MONSTER",
-    "copy-from": "mon_duck_chick",
-    "name": { "str": "brown chick" },
+    "copy-from": "mon_generic_chick",
     "upgrades": { "age_grow": 14, "into": "mon_coot" }
   },
   {
     "id": "mon_cormorant_chick",
     "type": "MONSTER",
-    "copy-from": "mon_duck_chick",
-    "name": { "str": "brown chick" },
+    "copy-from": "mon_generic_chick",
     "upgrades": { "age_grow": 14, "into": "mon_cormorant" }
   },
   {
     "id": "mon_moorhen_chick",
     "type": "MONSTER",
-    "copy-from": "mon_duck_chick",
-    "name": { "str": "brown chick" },
+    "copy-from": "mon_generic_chick",
     "upgrades": { "age_grow": 14, "into": "mon_moorhen" }
   },
   {
     "id": "mon_grebe_chick",
     "type": "MONSTER",
-    "copy-from": "mon_duck_chick",
-    "name": { "str": "brown chick" },
+    "copy-from": "mon_generic_chick",
     "upgrades": { "age_grow": 14, "into": "mon_grebe" }
   }
 ]
