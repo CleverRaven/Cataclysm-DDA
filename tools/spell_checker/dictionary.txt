@@ -428,6 +428,8 @@ caparison
 caprison
 carabiner
 carabiners
+carapace
+carapaces
 caret
 carryin
 cartilaginous
@@ -2468,6 +2470,7 @@ scions
 scissorlimbs
 sclera
 sclerotin
+sclerotized
 scolosaurus
 scrabblin
 screecher
