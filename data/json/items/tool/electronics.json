@@ -385,13 +385,6 @@
         "max_contains_volume": "1 ml",
         "max_contains_weight": "1 g",
         "weight_multiplier": 0.0
-      },
-      {
-        "pocket_type": "CABLE",
-        "rigid": true,
-        "max_contains_volume": "1 ml",
-        "max_contains_weight": "1 g",
-        "weight_multiplier": 0.0
       }
     ],
     "melee_damage": { "bash": 6 }
@@ -627,13 +620,6 @@
       { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 120 } },
       {
         "pocket_type": "EBOOK",
-        "rigid": true,
-        "max_contains_volume": "1 ml",
-        "max_contains_weight": "1 g",
-        "weight_multiplier": 0.0
-      },
-      {
-        "pocket_type": "CABLE",
         "rigid": true,
         "max_contains_volume": "1 ml",
         "max_contains_weight": "1 g",
