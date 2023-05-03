@@ -264,6 +264,11 @@ var_info read_var_info( const JsonObject &jo )
         if( name.empty() ) {
             name = get_talk_varname( jo, "global_val", false, empty );
         }
+    } else if( jo.has_member( "context_val" ) ) {
+        type = var_type::context;
+        if( name.empty() ) {
+            name = get_talk_varname( jo, "context_val", false, empty );
+        }
     } else if( jo.has_member( "faction_val" ) ) {
         type = var_type::faction;
         if( name.empty() ) {
@@ -280,7 +285,7 @@ var_info read_var_info( const JsonObject &jo )
     return var_info( type, name, default_val );
 }
 
-void write_var_value( var_type type, const std::string &name, talker *talk,
+void write_var_value( var_type type, const std::string &name, talker *talk, dialogue *d,
                       const std::string &value )
 {
     global_variables &globvars = get_globals();
@@ -297,6 +302,9 @@ void write_var_value( var_type type, const std::string &name, talker *talk,
             break;
         case var_type::party:
             debugmsg( "Not implemented yet." );
+            break;
+        case var_type::context:
+            d->set_value( name, value );
             break;
         default:
             debugmsg( "Invalid type." );
@@ -317,7 +325,7 @@ static bodypart_id get_bp_from_str( const std::string &ctxt )
 }
 
 void read_condition( const JsonObject &jo, const std::string &member_name,
-                     std::function<bool( dialogue const & )> &condition, bool default_val )
+                     std::function<bool( dialogue & )> &condition, bool default_val )
 {
     const auto null_function = [default_val]( dialogue const & ) {
         return default_val;
@@ -328,13 +336,13 @@ void read_condition( const JsonObject &jo, const std::string &member_name,
     } else if( jo.has_string( member_name ) ) {
         const std::string type = jo.get_string( member_name );
         conditional_t sub_condition( type );
-        condition = [sub_condition]( dialogue const & d ) {
+        condition = [sub_condition]( dialogue & d ) {
             return sub_condition( d );
         };
     } else if( jo.has_object( member_name ) ) {
         JsonObject con_obj = jo.get_object( member_name );
         conditional_t sub_condition( con_obj );
-        condition = [sub_condition]( dialogue const & d ) {
+        condition = [sub_condition]( dialogue & d ) {
             return sub_condition( d );
         };
     } else {
@@ -454,7 +462,7 @@ void conditional_t::set_has_strength( const JsonObject &jo, const std::string &m
                                       bool is_npc )
 {
     dbl_or_var dov = get_dbl_or_var( jo, member );
-    condition = [dov, is_npc]( dialogue const & d ) {
+    condition = [dov, is_npc]( dialogue & d ) {
         return d.actor( is_npc )->str_cur() >= dov.evaluate( d );
     };
 }
@@ -463,7 +471,7 @@ void conditional_t::set_has_dexterity( const JsonObject &jo, const std::string &
                                        bool is_npc )
 {
     dbl_or_var dov = get_dbl_or_var( jo, member );
-    condition = [dov, is_npc]( dialogue const & d ) {
+    condition = [dov, is_npc]( dialogue & d ) {
         return d.actor( is_npc )->dex_cur() >= dov.evaluate( d );
     };
 }
@@ -472,7 +480,7 @@ void conditional_t::set_has_intelligence( const JsonObject &jo, const std::strin
         bool is_npc )
 {
     dbl_or_var dov = get_dbl_or_var( jo, member );
-    condition = [dov, is_npc]( dialogue const & d ) {
+    condition = [dov, is_npc]( dialogue & d ) {
         return d.actor( is_npc )->int_cur() >= dov.evaluate( d );
     };
 }
@@ -481,7 +489,7 @@ void conditional_t::set_has_perception( const JsonObject &jo, const std::string 
                                         bool is_npc )
 {
     dbl_or_var dov = get_dbl_or_var( jo, member );
-    condition = [dov, is_npc]( dialogue const & d ) {
+    condition = [dov, is_npc]( dialogue & d ) {
         return d.actor( is_npc )->per_cur() >= dov.evaluate( d );
     };
 }
@@ -491,7 +499,7 @@ void conditional_t::set_has_hp( const JsonObject &jo, const std::string &member,
     dbl_or_var dov = get_dbl_or_var( jo, member );
     std::optional<bodypart_id> bp;
     optional( jo, false, "bodypart", bp );
-    condition = [dov, bp, is_npc]( dialogue const & d ) {
+    condition = [dov, bp, is_npc]( dialogue & d ) {
         bodypart_id bid = bp.value_or( get_bp_from_str( d.reason ) );
         return d.actor( is_npc )->get_cur_hp( bid ) >= dov.evaluate( d );
     };
@@ -503,7 +511,7 @@ void conditional_t::set_has_part_temp( const JsonObject &jo, const std::string &
     dbl_or_var dov = get_dbl_or_var( jo, member );
     std::optional<bodypart_id> bp;
     optional( jo, false, "bodypart", bp );
-    condition = [dov, bp, is_npc]( dialogue const & d ) {
+    condition = [dov, bp, is_npc]( dialogue & d ) {
         bodypart_id bid = bp.value_or( get_bp_from_str( d.reason ) );
         return d.actor( is_npc )->get_cur_part_temp( bid ) >= dov.evaluate( d );
     };
@@ -541,7 +549,7 @@ void conditional_t::set_has_items( const JsonObject &jo, const std::string_view 
         str_or_var item_id = get_str_or_var( has_items.get_member( "item" ), "item", true );
         dbl_or_var count = get_dbl_or_var( has_items, "count", false );
         dbl_or_var charges = get_dbl_or_var( has_items, "charges", false );
-        condition = [item_id, count, charges, is_npc]( dialogue const & d ) {
+        condition = [item_id, count, charges, is_npc]( dialogue & d ) {
             const talker *actor = d.actor( is_npc );
             itype_id id = itype_id( item_id.evaluate( d ) );
             if( charges.evaluate( d ) == 0 && item::count_by_charges( id ) ) {
@@ -614,7 +622,7 @@ void conditional_t::set_has_effect( const JsonObject &jo, const std::string &mem
     } else {
         bp.str_val = "";
     }
-    condition = [effect_id, intensity, bp, is_npc]( dialogue const & d ) {
+    condition = [effect_id, intensity, bp, is_npc]( dialogue & d ) {
         bodypart_id bid = bp.evaluate( d ).empty() ? get_bp_from_str( d.reason ) : bodypart_id( bp.evaluate(
                               d ) );
         effect target = d.actor( is_npc )->get_effect( efftype_id( effect_id.evaluate( d ) ), bid );
@@ -637,7 +645,7 @@ void conditional_t::set_need( const JsonObject &jo, const std::string &member, b
             dov.min.dbl_val = static_cast<int>( flevel->second );
         }
     }
-    condition = [need, dov, is_npc]( dialogue const & d ) {
+    condition = [need, dov, is_npc]( dialogue & d ) {
         const talker *actor = d.actor( is_npc );
         int amount = dov.evaluate( d );
         return ( actor->get_fatigue() > amount && need.evaluate( d ) == "fatigue" ) ||
@@ -675,7 +683,7 @@ void conditional_t::set_near_om_location( const JsonObject &jo, const std::strin
 {
     str_or_var location = get_str_or_var( jo.get_member( member ), member, true );
     const dbl_or_var range = get_dbl_or_var( jo, "range", false, 1 );
-    condition = [location, range, is_npc]( dialogue const & d ) {
+    condition = [location, range, is_npc]( dialogue & d ) {
         const tripoint_abs_omt omt_pos = d.actor( is_npc )->global_omt_location();
         for( const tripoint_abs_omt &curr_pos : points_in_radius( omt_pos,
                 range.evaluate( d ) ) ) {
@@ -728,7 +736,7 @@ void conditional_t::set_compare_var( const JsonObject &jo, const std::string &me
     const std::string &op = jo.get_string( "op" );
 
     dbl_or_var dov = get_dbl_or_var( jo, "value" );
-    condition = [var_name, op, dov, is_npc]( dialogue const & d ) {
+    condition = [var_name, op, dov, is_npc]( dialogue & d ) {
         double stored_value = 0;
         double value = dov.evaluate( d );
         const std::string &var = d.actor( is_npc )->get_value( var_name );
@@ -817,7 +825,7 @@ void conditional_t::set_npc_role_nearby( const JsonObject &jo, const std::string
 void conditional_t::set_npc_allies( const JsonObject &jo, const std::string &member )
 {
     dbl_or_var dov = get_dbl_or_var( jo, member );
-    condition = [dov]( dialogue const & d ) {
+    condition = [dov]( dialogue & d ) {
         return g->allies().size() >= static_cast<std::vector<npc *>::size_type>( dov.evaluate( d ) );
     };
 }
@@ -825,7 +833,7 @@ void conditional_t::set_npc_allies( const JsonObject &jo, const std::string &mem
 void conditional_t::set_npc_allies_global( const JsonObject &jo, const std::string &member )
 {
     dbl_or_var dov = get_dbl_or_var( jo, member );
-    condition = [dov]( dialogue const & d ) {
+    condition = [dov]( dialogue & d ) {
         const auto all_npcs = overmap_buffer.get_overmap_npcs();
         const size_t count = std::count_if( all_npcs.begin(),
         all_npcs.end(), []( const shared_ptr_fast<npc> &ptr ) {
@@ -839,7 +847,7 @@ void conditional_t::set_npc_allies_global( const JsonObject &jo, const std::stri
 void conditional_t::set_u_has_cash( const JsonObject &jo, const std::string &member )
 {
     dbl_or_var dov = get_dbl_or_var( jo, member );
-    condition = [dov]( dialogue const & d ) {
+    condition = [dov]( dialogue & d ) {
         return d.actor( false )->cash() >= dov.evaluate( d );
     };
 }
@@ -847,7 +855,7 @@ void conditional_t::set_u_has_cash( const JsonObject &jo, const std::string &mem
 void conditional_t::set_u_are_owed( const JsonObject &jo, const std::string &member )
 {
     dbl_or_var dov = get_dbl_or_var( jo, member );
-    condition = [dov]( dialogue const & d ) {
+    condition = [dov]( dialogue & d ) {
         return d.actor( true )->debt() >= dov.evaluate( d );
     };
 }
@@ -908,7 +916,7 @@ void conditional_t::set_npc_override( const JsonObject &jo, const std::string &m
 void conditional_t::set_days_since( const JsonObject &jo, const std::string &member )
 {
     dbl_or_var dov = get_dbl_or_var( jo, member );
-    condition = [dov]( dialogue const & d ) {
+    condition = [dov]( dialogue & d ) {
         return calendar::turn >= calendar::start_of_cataclysm + 1_days * dov.evaluate( d );
     };
 }
@@ -1134,7 +1142,7 @@ void conditional_t::set_is_underwater( bool is_npc )
 void conditional_t::set_one_in_chance( const JsonObject &jo, const std::string &member )
 {
     dbl_or_var dov = get_dbl_or_var( jo, member );
-    condition = [dov]( dialogue const & d ) {
+    condition = [dov]( dialogue & d ) {
         return one_in( dov.evaluate( d ) );
     };
 }
@@ -1159,7 +1167,7 @@ void conditional_t::set_x_in_y_chance( const JsonObject &jo, const std::string_v
     const JsonObject &var_obj = jo.get_object( member );
     dbl_or_var dovx = get_dbl_or_var( var_obj, "x" );
     dbl_or_var dovy = get_dbl_or_var( var_obj, "y" );
-    condition = [dovx, dovy]( dialogue const & d ) {
+    condition = [dovx, dovy]( dialogue & d ) {
         return x_in_y( dovx.evaluate( d ),
                        dovy.evaluate( d ) );
     };
@@ -1190,7 +1198,7 @@ void conditional_t::set_mod_is_loaded( const JsonObject &jo, const std::string &
 void conditional_t::set_has_faction_trust( const JsonObject &jo, const std::string &member )
 {
     dbl_or_var dov = get_dbl_or_var( jo, member );
-    condition = [dov]( dialogue const & d ) {
+    condition = [dov]( dialogue & d ) {
         return d.actor( true )->get_faction()->trusts_u >= dov.evaluate( d );
     };
 }
@@ -1211,6 +1219,8 @@ static std::string get_string_from_input( const JsonArray &objects, int index )
         return "npc_" + get_talk_varname( object, "npc_val", false, empty );
     } else if( object.has_string( "global_val" ) ) {
         return "global_" + get_talk_varname( object, "global_val", false, empty );
+    } else if( object.has_string( "context_val" ) ) {
+        return "context_" + get_talk_varname( object, "context_val", false, empty );
     } else if( object.has_string( "faction_val" ) ) {
         return "faction_" + get_talk_varname( object, "faction_val", false, empty );
     } else if( object.has_string( "party_val" ) ) {
@@ -1284,34 +1294,34 @@ void conditional_t::set_compare_num( const JsonObject &jo, const std::string_vie
         };
         return;
     }
-    std::function<double( dialogue const & )> get_first_dbl = objects.has_object( 0 ) ? get_get_dbl(
+    std::function<double( dialogue & )> get_first_dbl = objects.has_object( 0 ) ? get_get_dbl(
                 objects.get_object( 0 ) ) : get_get_dbl( objects.get_string( 0 ), jo );
-    std::function<double( dialogue const & )> get_second_dbl = objects.has_object( 2 ) ? get_get_dbl(
+    std::function<double( dialogue & )> get_second_dbl = objects.has_object( 2 ) ? get_get_dbl(
                 objects.get_object( 2 ) ) : get_get_dbl( objects.get_string( 2 ), jo );
     const std::string &op = objects.get_string( 1 );
 
     if( op == "==" || op == "=" ) {
-        condition = [get_first_dbl, get_second_dbl]( dialogue const & d ) {
+        condition = [get_first_dbl, get_second_dbl]( dialogue & d ) {
             return get_first_dbl( d ) == get_second_dbl( d );
         };
     } else if( op == "!=" ) {
-        condition = [get_first_dbl, get_second_dbl]( dialogue const & d ) {
+        condition = [get_first_dbl, get_second_dbl]( dialogue & d ) {
             return get_first_dbl( d ) != get_second_dbl( d );
         };
     } else if( op == "<=" ) {
-        condition = [get_first_dbl, get_second_dbl]( dialogue const & d ) {
+        condition = [get_first_dbl, get_second_dbl]( dialogue & d ) {
             return get_first_dbl( d ) <= get_second_dbl( d );
         };
     } else if( op == ">=" ) {
-        condition = [get_first_dbl, get_second_dbl]( dialogue const & d ) {
+        condition = [get_first_dbl, get_second_dbl]( dialogue & d ) {
             return get_first_dbl( d ) >= get_second_dbl( d );
         };
     } else if( op == "<" ) {
-        condition = [get_first_dbl, get_second_dbl]( dialogue const & d ) {
+        condition = [get_first_dbl, get_second_dbl]( dialogue & d ) {
             return get_first_dbl( d ) < get_second_dbl( d );
         };
     } else if( op == ">" ) {
-        condition = [get_first_dbl, get_second_dbl]( dialogue const & d ) {
+        condition = [get_first_dbl, get_second_dbl]( dialogue & d ) {
             return get_first_dbl( d ) > get_second_dbl( d );
         };
     } else {
@@ -1326,14 +1336,14 @@ void conditional_t::set_math( const JsonObject &jo, const std::string_view membe
 {
     eoc_math math;
     math.from_json( jo, member );
-    condition = [math = std::move( math )]( dialogue const & d ) {
+    condition = [math = std::move( math )]( dialogue & d ) {
         return math.act( d );
     };
 }
 
 template<class J>
 // NOLINTNEXTLINE(readability-function-cognitive-complexity): not my problem!!
-std::function<double( dialogue const & )> conditional_t::get_get_dbl( J const &jo )
+std::function<double( dialogue & )> conditional_t::get_get_dbl( J const &jo )
 {
     if( jo.has_member( "const" ) ) {
         const double const_value = jo.get_float( "const" );
@@ -1456,11 +1466,13 @@ std::function<double( dialogue const & )> conditional_t::get_get_dbl( J const &j
             return fac->respects_u;
         };
     } else if( jo.has_member( "u_val" ) || jo.has_member( "npc_val" ) ||
-               jo.has_member( "global_val" ) ) {
+               jo.has_member( "global_val" ) || jo.has_member( "context_val" ) ) {
         const bool is_npc = jo.has_member( "npc_val" );
         const bool is_global = jo.has_member( "global_val" );
+        const bool is_context = jo.has_member( "context_val" );
         const std::string checked_value = is_npc ? jo.get_string( "npc_val" ) :
-                                          ( is_global ? jo.get_string( "global_val" ) : jo.get_string( "u_val" ) );
+                                          ( is_global ? jo.get_string( "global_val" ) : ( is_context ? jo.get_string( "context_val" ) :
+                                                  jo.get_string( "u_val" ) ) );
         if( checked_value == "strength" ) {
             return [is_npc]( dialogue const & d ) {
                 return d.actor( is_npc )->str_cur();
@@ -1840,7 +1852,7 @@ std::function<double( dialogue const & )> conditional_t::get_get_dbl( J const &j
                 radius_dov = get_dbl_or_var( jo, "radius", false, 10000 );
                 number_dov = get_dbl_or_var( jo, "number", false, 1 );
             }
-            return [target_var, radius_dov, id, number_dov, is_npc]( dialogue const & d ) {
+            return [target_var, radius_dov, id, number_dov, is_npc]( dialogue & d ) {
                 tripoint_abs_ms loc;
                 if( target_var.has_value() ) {
                     loc = get_tripoint_from_var( target_var, d );
@@ -1866,24 +1878,24 @@ std::function<double( dialogue const & )> conditional_t::get_get_dbl( J const &j
             if( jo.has_member( "school" ) ) {
                 const std::string school_name = jo.get_string( "school" );
                 const trait_id spell_school( school_name );
-                return [is_npc, spell_school]( dialogue const & d ) {
+                return [is_npc, spell_school]( dialogue & d ) {
                     return d.actor( is_npc )->get_spell_level( spell_school );
                 };
             } else if( jo.has_member( "spell" ) ) {
                 const std::string spell_name = jo.get_string( "spell" );
                 const spell_id this_spell_id( spell_name );
-                return [is_npc, this_spell_id]( dialogue const & d ) {
+                return [is_npc, this_spell_id]( dialogue & d ) {
                     return d.actor( is_npc )->get_spell_level( this_spell_id );
                 };
             } else {
-                return [is_npc]( dialogue const & d ) {
+                return [is_npc]( dialogue & d ) {
                     return d.actor( is_npc )->get_highest_spell_level();
                 };
             }
         } else if( checked_value == "spell_exp" ) {
             const std::string spell_name = jo.get_string( "spell" );
             const spell_id this_spell_id( spell_name );
-            return [is_npc, this_spell_id]( dialogue const & d ) {
+            return [is_npc, this_spell_id]( dialogue & d ) {
                 return d.actor( is_npc )->get_spell_exp( this_spell_id );
             };
         } else if( checked_value == "proficiency" ) {
@@ -1891,7 +1903,7 @@ std::function<double( dialogue const & )> conditional_t::get_get_dbl( J const &j
             const proficiency_id the_proficiency_id( proficiency_name );
             if( jo.has_int( "format" ) ) {
                 const int format = jo.get_int( "format" );
-                return [is_npc, format, the_proficiency_id]( dialogue const & d ) {
+                return [is_npc, format, the_proficiency_id]( dialogue & d ) {
                     return static_cast<int>( ( d.actor( is_npc )->proficiency_practiced_time(
                                                    the_proficiency_id ) * format ) /
                                              the_proficiency_id->time_to_learn() );
@@ -1899,28 +1911,28 @@ std::function<double( dialogue const & )> conditional_t::get_get_dbl( J const &j
             } else if( jo.has_member( "format" ) ) {
                 const std::string format = jo.get_string( "format" );
                 if( format == "time_spent" ) {
-                    return [is_npc, the_proficiency_id]( dialogue const & d ) {
+                    return [is_npc, the_proficiency_id]( dialogue & d ) {
                         return to_turns<int>( d.actor( is_npc )->proficiency_practiced_time( the_proficiency_id ) );
                     };
                 } else if( format == "percent" ) {
-                    return [is_npc, the_proficiency_id]( dialogue const & d ) {
+                    return [is_npc, the_proficiency_id]( dialogue & d ) {
                         return static_cast<int>( ( d.actor( is_npc )->proficiency_practiced_time(
                                                        the_proficiency_id ) * 100 ) /
                                                  the_proficiency_id->time_to_learn() );
                     };
                 } else if( format == "permille" ) {
-                    return [is_npc, the_proficiency_id]( dialogue const & d ) {
+                    return [is_npc, the_proficiency_id]( dialogue & d ) {
                         return static_cast<int>( ( d.actor( is_npc )->proficiency_practiced_time(
                                                        the_proficiency_id ) * 1000 ) /
                                                  the_proficiency_id->time_to_learn() );
                     };
                 } else if( format == "total_time_required" ) {
-                    return [the_proficiency_id]( dialogue const & d ) {
+                    return [the_proficiency_id]( dialogue & d ) {
                         static_cast<void>( d );
                         return to_turns<int>( the_proficiency_id->time_to_learn() );
                     };
                 } else if( format == "time_left" ) {
-                    return [is_npc, the_proficiency_id]( dialogue const & d ) {
+                    return [is_npc, the_proficiency_id]( dialogue & d ) {
                         return to_turns<int>( the_proficiency_id->time_to_learn() - d.actor(
                                                   is_npc )->proficiency_practiced_time( the_proficiency_id ) );
                     };
@@ -1944,7 +1956,7 @@ std::function<double( dialogue const & )> conditional_t::get_get_dbl( J const &j
         }
         std::string first = get_string_from_input( objects, 0 );
         std::string second = get_string_from_input( objects, 1 );
-        return [first, second]( dialogue const & d ) {
+        return [first, second]( dialogue & d ) {
             tripoint_abs_ms first_point = get_tripoint_from_string( first, d );
             tripoint_abs_ms second_point = get_tripoint_from_string( second, d );
             return rl_dist( first_point, second_point );
@@ -1966,7 +1978,7 @@ std::function<double( dialogue const & )> conditional_t::get_get_dbl( J const &j
         if constexpr( std::is_same_v<JsonObject, J> ) {
             arith.set_arithmetic( jo, "arithmetic", true );
         }
-        return [arith]( dialogue const & d ) {
+        return [arith]( dialogue & d ) {
             arith( d );
             var_info info = var_info( var_type::global, "temp_var" );
             std::string val = read_var_value( info, d );
@@ -1982,7 +1994,7 @@ std::function<double( dialogue const & )> conditional_t::get_get_dbl( J const &j
         if constexpr( std::is_same_v<JsonObject, J> ) {
             eoc_math math;
             math.from_json( jo, "math" );
-            return [math = std::move( math )]( dialogue const & d ) {
+            return [math = std::move( math )]( dialogue & d ) {
                 return math.act( d );
             };
         }
@@ -1993,7 +2005,7 @@ std::function<double( dialogue const & )> conditional_t::get_get_dbl( J const &j
     };
 }
 
-std::function<double( dialogue const & )> conditional_t::get_get_dbl( const std::string &value,
+std::function<double( dialogue & )> conditional_t::get_get_dbl( const std::string &value,
         const JsonObject &jo )
 {
     if( value == "moon" ) {
@@ -2011,7 +2023,7 @@ std::function<double( dialogue const & )> conditional_t::get_get_dbl( const std:
     };
 }
 
-static double handle_min_max( dialogue const &d, double input, std::optional<dbl_or_var_part> min,
+static double handle_min_max( dialogue &d, double input, std::optional<dbl_or_var_part> min,
                               std::optional<dbl_or_var_part> max )
 {
     if( min.has_value() ) {
@@ -2026,15 +2038,15 @@ static double handle_min_max( dialogue const &d, double input, std::optional<dbl
 }
 
 template <class J>
-std::function<void( dialogue const &, double )>
+std::function<void( dialogue &, double )>
 // NOLINTNEXTLINE(readability-function-cognitive-complexity): not my problem!!
 conditional_t::get_set_dbl( const J &jo, const std::optional<dbl_or_var_part> &min,
                             const std::optional<dbl_or_var_part> &max, bool temp_var )
 {
     if( temp_var ) {
         jo.allow_omitted_members();
-        return [min, max]( dialogue const & d, double input ) {
-            write_var_value( var_type::global, "temp_var", d.actor( false ),
+        return [min, max]( dialogue & d, double input ) {
+            write_var_value( var_type::global, "temp_var", d.actor( false ), &d,
                              std::to_string( handle_min_max( d,
                                              input, min,
                                              max ) ) );
@@ -2061,7 +2073,7 @@ conditional_t::get_set_dbl( const J &jo, const std::optional<dbl_or_var_part> &m
                 jo.throw_error( "unrecognized time unit in " + jo.str() );
             }
         }
-        return [given_unit, min, max]( dialogue const & d, double input ) {
+        return [given_unit, min, max]( dialogue & d, double input ) {
             calendar::turn = time_point( handle_min_max( d, input, min,
                                          max ) * to_turns<int>( given_unit ) );
         };
@@ -2070,48 +2082,49 @@ conditional_t::get_set_dbl( const J &jo, const std::optional<dbl_or_var_part> &m
     } else if( jo.has_member( "weather" ) ) {
         std::string weather_aspect = jo.get_string( "weather" );
         if( weather_aspect == "temperature" ) {
-            return [min, max]( dialogue const & d, double input ) {
+            return [min, max]( dialogue & d, double input ) {
                 const int new_temperature = handle_min_max( d, input, min, max );
                 get_weather().weather_precise->temperature = units::from_fahrenheit( new_temperature );
                 get_weather().temperature = units::from_fahrenheit( new_temperature );
                 get_weather().clear_temp_cache();
             };
         } else if( weather_aspect == "windpower" ) {
-            return [min, max]( dialogue const & d, double input ) {
+            return [min, max]( dialogue & d, double input ) {
                 get_weather().weather_precise->windpower = handle_min_max( d, input, min, max );
                 get_weather().clear_temp_cache();
             };
         } else if( weather_aspect == "humidity" ) {
-            return [min, max]( dialogue const & d, double input ) {
+            return [min, max]( dialogue & d, double input ) {
                 get_weather().weather_precise->humidity = handle_min_max( d, input, min, max );
                 get_weather().clear_temp_cache();
             };
         } else if( weather_aspect == "pressure" ) {
-            return [min, max]( dialogue const & d, double input ) {
+            return [min, max]( dialogue & d, double input ) {
                 get_weather().weather_precise->pressure = handle_min_max( d, input, min, max );
                 get_weather().clear_temp_cache();
             };
         }
     } else if( jo.has_member( "faction_trust" ) ) {
         str_or_var name = get_str_or_var( jo.get_member( "faction_trust" ), "faction_trust" );
-        return [name, min, max]( dialogue const & d, double input ) {
+        return [name, min, max]( dialogue & d, double input ) {
             faction *fac = g->faction_manager_ptr->get( faction_id( name.evaluate( d ) ) );
             fac->trusts_u = handle_min_max( d, input, min, max );
         };
     } else if( jo.has_member( "faction_like" ) ) {
         str_or_var name = get_str_or_var( jo.get_member( "faction_like" ), "faction_like" );
-        return [name, min, max]( dialogue const & d, double input ) {
+        return [name, min, max]( dialogue & d, double input ) {
             faction *fac = g->faction_manager_ptr->get( faction_id( name.evaluate( d ) ) );
             fac->likes_u = handle_min_max( d, input, min, max );
         };
     } else if( jo.has_member( "faction_respect" ) ) {
         str_or_var name = get_str_or_var( jo.get_member( "faction_respect" ), "faction_respect" );
-        return [name, min, max]( dialogue const & d, double input ) {
+        return [name, min, max]( dialogue & d, double input ) {
             faction *fac = g->faction_manager_ptr->get( faction_id( name.evaluate( d ) ) );
             fac->respects_u = handle_min_max( d, input, min, max );
         };
     } else if( jo.has_member( "u_val" ) || jo.has_member( "npc_val" ) ||
-               jo.has_member( "global_val" ) || jo.has_member( "faction_val" ) || jo.has_member( "party_val" ) ) {
+               jo.has_member( "global_val" ) || jo.has_member( "faction_val" ) || jo.has_member( "party_val" ) ||
+               jo.has_member( "context_val" ) ) {
         var_type type = var_type::u;
         std::string checked_value;
         if( jo.has_member( "u_val" ) ) {
@@ -2123,6 +2136,9 @@ conditional_t::get_set_dbl( const J &jo, const std::optional<dbl_or_var_part> &m
         } else if( jo.has_member( "global_val" ) ) {
             type = var_type::global;
             checked_value = jo.get_string( "global_val" );
+        } else if( jo.has_member( "context_val" ) ) {
+            type = var_type::context;
+            checked_value = jo.get_string( "context_val" );
         } else if( jo.has_member( "faction_val" ) ) {
             type = var_type::faction;
             checked_value = jo.get_string( "faction_val" );
@@ -2135,35 +2151,35 @@ conditional_t::get_set_dbl( const J &jo, const std::optional<dbl_or_var_part> &m
 
         const bool is_npc = type == var_type::npc;
         if( checked_value == "strength_base" ) {
-            return [is_npc, min, max]( dialogue const & d, double input ) {
+            return [is_npc, min, max]( dialogue & d, double input ) {
                 d.actor( is_npc )->set_str_max( handle_min_max( d, input, min, max ) );
             };
         } else if( checked_value == "dexterity_base" ) {
-            return [is_npc, min, max]( dialogue const & d, double input ) {
+            return [is_npc, min, max]( dialogue & d, double input ) {
                 d.actor( is_npc )->set_dex_max( handle_min_max( d, input, min, max ) );
             };
         } else if( checked_value == "intelligence_base" ) {
-            return [is_npc, min, max]( dialogue const & d, double input ) {
+            return [is_npc, min, max]( dialogue & d, double input ) {
                 d.actor( is_npc )->set_int_max( handle_min_max( d, input, min, max ) );
             };
         } else if( checked_value == "perception_base" ) {
-            return [is_npc, min, max]( dialogue const & d, double input ) {
+            return [is_npc, min, max]( dialogue & d, double input ) {
                 d.actor( is_npc )->set_per_max( handle_min_max( d, input, min, max ) );
             };
         } else if( checked_value == "strength_bonus" ) {
-            return [is_npc, min, max]( dialogue const & d, double input ) {
+            return [is_npc, min, max]( dialogue & d, double input ) {
                 d.actor( is_npc )->set_str_max( handle_min_max( d, input, min, max ) );
             };
         } else if( checked_value == "dexterity_bonus" ) {
-            return [is_npc, min, max]( dialogue const & d, double input ) {
+            return [is_npc, min, max]( dialogue & d, double input ) {
                 d.actor( is_npc )->set_dex_max( handle_min_max( d, input, min, max ) );
             };
         } else if( checked_value == "intelligence_bonus" ) {
-            return [is_npc, min, max]( dialogue const & d, double input ) {
+            return [is_npc, min, max]( dialogue & d, double input ) {
                 d.actor( is_npc )->set_int_max( handle_min_max( d, input, min, max ) );
             };
         } else if( checked_value == "perception_bonus" ) {
-            return [is_npc, min, max]( dialogue const & d, double input ) {
+            return [is_npc, min, max]( dialogue & d, double input ) {
                 d.actor( is_npc )->set_per_max( handle_min_max( d, input, min, max ) );
             };
         } else if( checked_value == "var" ) {
@@ -2172,9 +2188,8 @@ conditional_t::get_set_dbl( const J &jo, const std::optional<dbl_or_var_part> &m
             if constexpr( std::is_same_v<JsonObject, J> ) {
                 var_name = get_talk_varname( jo, "var_name", false, empty );
             }
-            return [is_npc, var_name, type, min, max]( dialogue const & d, double input ) {
-
-                write_var_value( type, var_name, d.actor( is_npc ),
+            return [is_npc, var_name, type, min, max]( dialogue & d, double input ) {
+                write_var_value( type, var_name, d.actor( is_npc ), &d,
                                  // NOLINTNEXTLINE(cata-translate-string-literal)
                                  string_format( "%g", handle_min_max( d, input, min, max ) ) );
             };
@@ -2185,7 +2200,7 @@ conditional_t::get_set_dbl( const J &jo, const std::optional<dbl_or_var_part> &m
             if constexpr( std::is_same_v<JsonObject, J> ) {
                 var_name = get_talk_varname( jo, "var_name", false, empty );
             }
-            return [is_npc, var_name, min, max]( dialogue const & d, double input ) {
+            return [is_npc, var_name, min, max]( dialogue & d, double input ) {
                 int storing_value = to_turn<int>( calendar::turn ) - handle_min_max( d, input, min, max );
                 d.actor( is_npc )->set_value( var_name, std::to_string( storing_value ) );
             };
@@ -2200,7 +2215,7 @@ conditional_t::get_set_dbl( const J &jo, const std::optional<dbl_or_var_part> &m
             if( is_npc ) {
                 jo.throw_error( "owed amount not supported for NPCs.  In " + jo.str() );
             } else {
-                return [min, max]( dialogue const & d, double input ) {
+                return [min, max]( dialogue & d, double input ) {
                     d.actor( true )->add_debt( handle_min_max( d, input, min, max ) - d.actor( true )->debt() );
                 };
             }
@@ -2208,75 +2223,75 @@ conditional_t::get_set_dbl( const J &jo, const std::optional<dbl_or_var_part> &m
             if( is_npc ) {
                 jo.throw_error( "sold amount not supported for NPCs.  In " + jo.str() );
             } else {
-                return [min, max]( dialogue const & d, double input ) {
+                return [min, max]( dialogue & d, double input ) {
                     d.actor( true )->add_sold( handle_min_max( d, input, min, max ) - d.actor( true )->sold() );
                 };
             }
         } else if( checked_value == "skill_level" ) {
             const skill_id skill( jo.get_string( "skill" ) );
-            return [is_npc, skill, min, max]( dialogue const & d, double input ) {
+            return [is_npc, skill, min, max]( dialogue & d, double input ) {
                 d.actor( is_npc )->set_skill_level( skill, handle_min_max( d, input, min, max ) );
             };
         } else if( checked_value == "pos_x" ) {
-            return [is_npc, min, max]( dialogue const & d, double input ) {
+            return [is_npc, min, max]( dialogue & d, double input ) {
                 d.actor( is_npc )->set_pos( tripoint( handle_min_max( d, input, min, max ),
                                                       d.actor( is_npc )->posy(),
                                                       d.actor( is_npc )->posz() ) );
             };
         } else if( checked_value == "pos_y" ) {
-            return [is_npc, min, max]( dialogue const & d, double input ) {
+            return [is_npc, min, max]( dialogue & d, double input ) {
                 d.actor( is_npc )->set_pos( tripoint( d.actor( is_npc )->posx(), handle_min_max( d, input, min,
                                                       max ),
                                                       d.actor( is_npc )->posz() ) );
             };
         } else if( checked_value == "pos_z" ) {
-            return [is_npc, min, max]( dialogue const & d, double input ) {
+            return [is_npc, min, max]( dialogue & d, double input ) {
                 d.actor( is_npc )->set_pos( tripoint( d.actor( is_npc )->posx(), d.actor( is_npc )->posy(),
                                                       handle_min_max( d, input, min, max ) ) );
             };
         } else if( checked_value == "power" ) {
-            return [is_npc, min, max]( dialogue const & d, double input ) {
+            return [is_npc, min, max]( dialogue & d, double input ) {
                 // Energy in milijoule
                 d.actor( is_npc )->set_power_cur( 1_mJ * handle_min_max( d, input, min, max ) );
             };
         } else if( checked_value == "power_max" ) {
             jo.throw_error( "altering max power this way is currently not supported.  In " + jo.str() );
         } else if( checked_value == "power_percentage" ) {
-            return [is_npc, min, max]( dialogue const & d, double input ) {
+            return [is_npc, min, max]( dialogue & d, double input ) {
                 // Energy in milijoule
                 d.actor( is_npc )->set_power_cur( ( d.actor( is_npc )->power_max() * handle_min_max( d, input,
                                                     min,
                                                     max ) ) / 100 );
             };
         } else if( checked_value == "focus" ) {
-            return [is_npc, min, max]( dialogue const & d, double input ) {
+            return [is_npc, min, max]( dialogue & d, double input ) {
                 d.actor( is_npc )->mod_focus( handle_min_max( d, input, min,
                                               max ) - d.actor( is_npc )->focus_cur() );
             };
         } else if( checked_value == "mana" ) {
-            return [is_npc, min, max]( dialogue const & d, double input ) {
+            return [is_npc, min, max]( dialogue & d, double input ) {
                 d.actor( is_npc )->set_mana_cur( handle_min_max( d, input, min, max ) );
             };
         } else if( checked_value == "mana_max" ) {
             jo.throw_error( "altering max mana this way is currently not supported.  In " + jo.str() );
         } else if( checked_value == "mana_percentage" ) {
-            return [is_npc, min, max]( dialogue const & d, double input ) {
+            return [is_npc, min, max]( dialogue & d, double input ) {
                 d.actor( is_npc )->set_mana_cur( ( d.actor( is_npc )->mana_max() * handle_min_max( d, input, min,
                                                    max ) ) / 100 );
             };
         } else if( checked_value == "hunger" ) {
             jo.throw_error( "altering hunger this way is currently not supported.  In " + jo.str() );
         } else if( checked_value == "thirst" ) {
-            return [is_npc, min, max]( dialogue const & d, double input ) {
+            return [is_npc, min, max]( dialogue & d, double input ) {
                 d.actor( is_npc )->set_thirst( handle_min_max( d, input, min, max ) );
             };
         } else if( checked_value == "stored_kcal" ) {
-            return [is_npc, min, max]( dialogue const & d, double input ) {
+            return [is_npc, min, max]( dialogue & d, double input ) {
                 d.actor( is_npc )->set_stored_kcal( handle_min_max( d, input, min, max ) );
             };
         } else if( checked_value == "stored_kcal_percentage" ) {
             // 100% is 55'000 kcal, which is considered healthy.
-            return [is_npc, min, max]( dialogue const & d, double input ) {
+            return [is_npc, min, max]( dialogue & d, double input ) {
                 d.actor( is_npc )->set_stored_kcal( handle_min_max( d, input, min, max ) * 5500 );
             };
         } else if( checked_value == "item_count" ) {
@@ -2285,91 +2300,91 @@ conditional_t::get_set_dbl( const J &jo, const std::optional<dbl_or_var_part> &m
             jo.throw_error( "altering max exp this way is currently not supported.  In " + jo.str() );
         } else if( checked_value == "addiction_turns" ) {
             const addiction_id add_id( jo.get_string( "addiction" ) );
-            return [is_npc, min, max, add_id]( dialogue const & d, double input ) {
+            return [is_npc, min, max, add_id]( dialogue & d, double input ) {
                 d.actor( is_npc )->set_addiction_turns( add_id, handle_min_max( d, input, min, max ) );
             };
         } else if( checked_value == "stim" ) {
-            return [is_npc, min, max]( dialogue const & d, double input ) {
+            return [is_npc, min, max]( dialogue & d, double input ) {
                 d.actor( is_npc )->set_stim( handle_min_max( d, input, min, max ) );
             };
         } else if( checked_value == "pkill" ) {
-            return [is_npc, min, max]( dialogue const & d, double input ) {
+            return [is_npc, min, max]( dialogue & d, double input ) {
                 d.actor( is_npc )->set_pkill( handle_min_max( d, input, min, max ) );
             };
         } else if( checked_value == "rad" ) {
-            return [is_npc, min, max]( dialogue const & d, double input ) {
+            return [is_npc, min, max]( dialogue & d, double input ) {
                 d.actor( is_npc )->set_rad( handle_min_max( d, input, min, max ) );
             };
         } else if( checked_value == "fatigue" ) {
-            return [is_npc, min, max]( dialogue const & d, double input ) {
+            return [is_npc, min, max]( dialogue & d, double input ) {
                 d.actor( is_npc )->set_fatigue( handle_min_max( d, input, min, max ) );
             };
         } else if( checked_value == "stamina" ) {
-            return [is_npc, min, max]( dialogue const & d, double input ) {
+            return [is_npc, min, max]( dialogue & d, double input ) {
                 d.actor( is_npc )->set_stamina( handle_min_max( d, input, min, max ) );
             };
         } else if( checked_value == "sleep_deprivation" ) {
-            return [is_npc, min, max]( dialogue const & d, double input ) {
+            return [is_npc, min, max]( dialogue & d, double input ) {
                 d.actor( is_npc )->set_sleep_deprivation( handle_min_max( d, input, min, max ) );
             };
         } else if( checked_value == "anger" ) {
-            return [is_npc, min, max]( dialogue const & d, double input ) {
+            return [is_npc, min, max]( dialogue & d, double input ) {
                 d.actor( is_npc )->set_anger( handle_min_max( d, input, min, max ) );
             };
         } else if( checked_value == "morale" ) {
-            return [is_npc, min, max]( dialogue const & d, double input ) {
+            return [is_npc, min, max]( dialogue & d, double input ) {
                 d.actor( is_npc )->set_morale( handle_min_max( d, input, min, max ) );
             };
         } else if( checked_value == "friendly" ) {
-            return [is_npc, min, max]( dialogue const & d, double input ) {
+            return [is_npc, min, max]( dialogue & d, double input ) {
                 d.actor( is_npc )->set_friendly( handle_min_max( d, input, min, max ) );
             };
         } else if( checked_value == "exp" ) {
-            return [is_npc, min, max]( dialogue const & d, double input ) {
+            return [is_npc, min, max]( dialogue & d, double input ) {
                 d.actor( is_npc )->set_kill_xp( handle_min_max( d, input, min, max ) );
             };
         } else if( checked_value == "vitamin" ) {
             std::string vitamin_name = jo.get_string( "name" );
-            return [is_npc, min, max, vitamin_name]( dialogue const & d, double input ) {
+            return [is_npc, min, max, vitamin_name]( dialogue & d, double input ) {
                 Character *you = d.actor( is_npc )->get_character();
                 if( you ) {
                     you->vitamin_set( vitamin_id( vitamin_name ), handle_min_max( d, input, min, max ) );
                 }
             };
         } else if( checked_value == "age" ) {
-            return [is_npc, min, max]( dialogue const & d, double input ) {
+            return [is_npc, min, max]( dialogue & d, double input ) {
                 d.actor( is_npc )->set_age( handle_min_max( d, input, min, max ) );
             };
         } else if( checked_value == "height" ) {
-            return [is_npc, min, max]( dialogue const & d, double input ) {
+            return [is_npc, min, max]( dialogue & d, double input ) {
                 d.actor( is_npc )->set_height( handle_min_max( d, input, min, max ) );
             };
         } else if( checked_value == "npc_trust" ) {
-            return [is_npc, min, max]( dialogue const & d, double input ) {
+            return [is_npc, min, max]( dialogue & d, double input ) {
                 d.actor( is_npc )->set_npc_trust( handle_min_max( d, input, min, max ) );
             };
         } else if( checked_value == "npc_fear" ) {
-            return [is_npc, min, max]( dialogue const & d, double input ) {
+            return [is_npc, min, max]( dialogue & d, double input ) {
                 d.actor( is_npc )->set_npc_fear( handle_min_max( d, input, min, max ) );
             };
         } else if( checked_value == "npc_value" ) {
-            return [is_npc, min, max]( dialogue const & d, double input ) {
+            return [is_npc, min, max]( dialogue & d, double input ) {
                 d.actor( is_npc )->set_npc_value( handle_min_max( d, input, min, max ) );
             };
         } else if( checked_value == "npc_anger" ) {
-            return [is_npc, min, max]( dialogue const & d, double input ) {
+            return [is_npc, min, max]( dialogue & d, double input ) {
                 d.actor( is_npc )->set_npc_anger( handle_min_max( d, input, min, max ) );
             };
         } else if( checked_value == "spell_level" ) {
             const std::string spell_name = jo.get_string( "spell" );
             const spell_id this_spell_id( spell_name );
-            return [is_npc, min, max, this_spell_id]( dialogue const & d, double input ) {
+            return [is_npc, min, max, this_spell_id]( dialogue & d, double input ) {
                 d.actor( is_npc )->set_spell_level( this_spell_id, handle_min_max( d, input, min, max ) );
             };
         } else if( checked_value == "spell_exp" ) {
             const std::string spell_name = jo.get_string( "spell" );
             const spell_id this_spell_id( spell_name );
-            return [is_npc, min, max, this_spell_id]( dialogue const & d, double input ) {
+            return [is_npc, min, max, this_spell_id]( dialogue & d, double input ) {
                 d.actor( is_npc )->set_spell_exp( this_spell_id, handle_min_max( d, input, min, max ) );
             };
         } else if( checked_value == "proficiency" ) {
@@ -2438,7 +2453,7 @@ void talk_effect_fun_t::set_arithmetic( const JsonObject &jo, const std::string_
     }
     std::string op = "none";
     std::string result = "none";
-    std::function<void( dialogue const &, double )> set_dbl = conditional_t::get_set_dbl(
+    std::function<void( dialogue &, double )> set_dbl = conditional_t::get_set_dbl(
                 objects.get_object( 0 ), min,
                 max, no_result );
     int no_result_mod = no_result ? 2 : 0; //In the case of a no result we have fewer terms.
@@ -2454,32 +2469,32 @@ void talk_effect_fun_t::set_arithmetic( const JsonObject &jo, const std::string_
                 };
             }
         }
-        std::function<double( dialogue const & )> get_first_dbl = conditional_t::get_get_dbl(
+        std::function<double( dialogue & )> get_first_dbl = conditional_t::get_get_dbl(
                     objects.get_object( 2 - no_result_mod ) );
-        std::function<double( dialogue const & )> get_second_dbl = conditional_t::get_get_dbl(
+        std::function<double( dialogue & )> get_second_dbl = conditional_t::get_get_dbl(
                     objects.get_object( 4 - no_result_mod ) );
         if( op == "*" ) {
-            function = [get_first_dbl, get_second_dbl, set_dbl]( dialogue const & d ) {
+            function = [get_first_dbl, get_second_dbl, set_dbl]( dialogue & d ) {
                 set_dbl( d, get_first_dbl( d ) * get_second_dbl( d ) );
             };
         } else if( op == "/" ) {
-            function = [get_first_dbl, get_second_dbl, set_dbl]( dialogue const & d ) {
+            function = [get_first_dbl, get_second_dbl, set_dbl]( dialogue & d ) {
                 set_dbl( d, get_first_dbl( d ) / get_second_dbl( d ) );
             };
         } else if( op == "+" ) {
-            function = [get_first_dbl, get_second_dbl, set_dbl]( dialogue const & d ) {
+            function = [get_first_dbl, get_second_dbl, set_dbl]( dialogue & d ) {
                 set_dbl( d, get_first_dbl( d ) + get_second_dbl( d ) );
             };
         } else if( op == "-" ) {
-            function = [get_first_dbl, get_second_dbl, set_dbl]( dialogue const & d ) {
+            function = [get_first_dbl, get_second_dbl, set_dbl]( dialogue & d ) {
                 set_dbl( d, get_first_dbl( d ) - get_second_dbl( d ) );
             };
         } else if( op == "%" ) {
-            function = [get_first_dbl, get_second_dbl, set_dbl]( dialogue const & d ) {
+            function = [get_first_dbl, get_second_dbl, set_dbl]( dialogue & d ) {
                 set_dbl( d, static_cast<int>( get_first_dbl( d ) ) % static_cast<int>( get_second_dbl( d ) ) );
             };
         } else if( op == "^" ) {
-            function = [get_first_dbl, get_second_dbl, set_dbl]( dialogue const & d ) {
+            function = [get_first_dbl, get_second_dbl, set_dbl]( dialogue & d ) {
                 set_dbl( d, pow( get_first_dbl( d ), get_second_dbl( d ) ) );
             };
         } else {
@@ -2498,10 +2513,10 @@ void talk_effect_fun_t::set_arithmetic( const JsonObject &jo, const std::string_
                 return false;
             };
         }
-        std::function<double( dialogue const & )> get_first_dbl = conditional_t::get_get_dbl(
+        std::function<double( dialogue & )> get_first_dbl = conditional_t::get_get_dbl(
                     objects.get_object( 2 ) );
         if( op == "~" ) {
-            function = [get_first_dbl, set_dbl]( dialogue const & d ) {
+            function = [get_first_dbl, set_dbl]( dialogue & d ) {
                 set_dbl( d, ~static_cast<int>( get_first_dbl( d ) ) );
             };
         } else {
@@ -2514,32 +2529,32 @@ void talk_effect_fun_t::set_arithmetic( const JsonObject &jo, const std::string_
         // =, -=, +=, *=, and /=
     } else if( objects.size() == 3 && !no_result ) {
         result = objects.get_string( 1 );
-        std::function<double( dialogue const & )> get_first_dbl = conditional_t::get_get_dbl(
+        std::function<double( dialogue & )> get_first_dbl = conditional_t::get_get_dbl(
                     objects.get_object( 0 ) );
-        std::function<double( dialogue const & )> get_second_dbl = conditional_t::get_get_dbl(
+        std::function<double( dialogue & )> get_second_dbl = conditional_t::get_get_dbl(
                     objects.get_object( 2 ) );
         if( result == "+=" ) {
-            function = [get_first_dbl, get_second_dbl, set_dbl]( dialogue const & d ) {
+            function = [get_first_dbl, get_second_dbl, set_dbl]( dialogue & d ) {
                 set_dbl( d, get_first_dbl( d ) + get_second_dbl( d ) );
             };
         } else if( result == "-=" ) {
-            function = [get_first_dbl, get_second_dbl, set_dbl]( dialogue const & d ) {
+            function = [get_first_dbl, get_second_dbl, set_dbl]( dialogue & d ) {
                 set_dbl( d, get_first_dbl( d ) - get_second_dbl( d ) );
             };
         } else if( result == "*=" ) {
-            function = [get_first_dbl, get_second_dbl, set_dbl]( dialogue const & d ) {
+            function = [get_first_dbl, get_second_dbl, set_dbl]( dialogue & d ) {
                 set_dbl( d, get_first_dbl( d ) * get_second_dbl( d ) );
             };
         } else if( result == "/=" ) {
-            function = [get_first_dbl, get_second_dbl, set_dbl]( dialogue const & d ) {
+            function = [get_first_dbl, get_second_dbl, set_dbl]( dialogue & d ) {
                 set_dbl( d, get_first_dbl( d ) / get_second_dbl( d ) );
             };
         } else if( result == "%=" ) {
-            function = [get_first_dbl, get_second_dbl, set_dbl]( dialogue const & d ) {
+            function = [get_first_dbl, get_second_dbl, set_dbl]( dialogue & d ) {
                 set_dbl( d, static_cast<int>( get_first_dbl( d ) ) % static_cast<int>( get_second_dbl( d ) ) );
             };
         } else if( result == "=" ) {
-            function = [get_second_dbl, set_dbl]( dialogue const & d ) {
+            function = [get_second_dbl, set_dbl]( dialogue & d ) {
                 set_dbl( d, get_second_dbl( d ) );
             };
         } else {
@@ -2551,14 +2566,14 @@ void talk_effect_fun_t::set_arithmetic( const JsonObject &jo, const std::string_
         // ++ and --
     } else if( objects.size() == 2 && !no_result ) {
         op = objects.get_string( 1 );
-        std::function<double( dialogue const & )> get_first_dbl = conditional_t::get_get_dbl(
+        std::function<double( dialogue & )> get_first_dbl = conditional_t::get_get_dbl(
                     objects.get_object( 0 ) );
         if( op == "++" ) {
-            function = [get_first_dbl, set_dbl]( dialogue const & d ) {
+            function = [get_first_dbl, set_dbl]( dialogue & d ) {
                 set_dbl( d, get_first_dbl( d ) + 1 );
             };
         } else if( op == "--" ) {
-            function = [get_first_dbl, set_dbl]( dialogue const & d ) {
+            function = [get_first_dbl, set_dbl]( dialogue & d ) {
                 set_dbl( d, get_first_dbl( d ) - 1 );
             };
         } else {
@@ -2568,9 +2583,9 @@ void talk_effect_fun_t::set_arithmetic( const JsonObject &jo, const std::string_
             };
         }
     } else if( objects.size() == 1 && no_result ) {
-        std::function<double( dialogue const & )> get_first_dbl = conditional_t::get_get_dbl(
+        std::function<double( dialogue & )> get_first_dbl = conditional_t::get_get_dbl(
                     objects.get_object( 0 ) );
-        function = [get_first_dbl, set_dbl]( dialogue const & d ) {
+        function = [get_first_dbl, set_dbl]( dialogue & d ) {
             set_dbl( d, get_first_dbl( d ) );
         };
     } else {
@@ -2586,7 +2601,7 @@ void talk_effect_fun_t::set_math( const JsonObject &jo, const std::string_view m
 {
     eoc_math math;
     math.from_json( jo, member );
-    function = [math = std::move( math )]( dialogue const & d ) {
+    function = [math = std::move( math )]( dialogue & d ) {
         return math.act( d );
     };
 }
@@ -2650,7 +2665,7 @@ void eoc_math::from_json( const JsonObject &jo, std::string_view member )
     }
 }
 
-double eoc_math::act( dialogue const &d ) const
+double eoc_math::act( dialogue &d ) const
 {
     switch( action ) {
         case oper::ret:
@@ -2737,7 +2752,7 @@ void conditional_t::set_has_skill( const JsonObject &jo, const std::string_view 
     } else {
         str_or_var skill = get_str_or_var( has_skill.get_member( "skill" ), "skill", true );
         dbl_or_var level = get_dbl_or_var( has_skill, "level", true );
-        condition = [skill, level, is_npc]( dialogue const & d ) {
+        condition = [skill, level, is_npc]( dialogue & d ) {
             return d.actor( is_npc )->get_skill_level( skill_id( skill.evaluate( d ) ) ) >= level.evaluate( d );
         };
     }
@@ -2745,11 +2760,11 @@ void conditional_t::set_has_skill( const JsonObject &jo, const std::string_view 
 
 void conditional_t::set_roll_contested( const JsonObject &jo, const std::string_view member )
 {
-    std::function<double( dialogue const & )> get_check = conditional_t::get_get_dbl( jo.get_object(
+    std::function<double( dialogue & )> get_check = conditional_t::get_get_dbl( jo.get_object(
                 member ) );
     dbl_or_var difficulty = get_dbl_or_var( jo, "difficulty", true );
     dbl_or_var die_size = get_dbl_or_var( jo, "die_size", false, 10 );
-    condition = [get_check, difficulty, die_size]( dialogue const & d ) {
+    condition = [get_check, difficulty, die_size]( dialogue & d ) {
         return rng( 1, die_size.evaluate( d ) ) + get_check( d ) > difficulty.evaluate( d );
     };
 }
@@ -2757,7 +2772,7 @@ void conditional_t::set_roll_contested( const JsonObject &jo, const std::string_
 void conditional_t::set_u_know_recipe( const JsonObject &jo, const std::string &member )
 {
     str_or_var known_recipe_id = get_str_or_var( jo.get_member( member ), member, true );
-    condition = [known_recipe_id]( dialogue const & d ) {
+    condition = [known_recipe_id]( dialogue & d ) {
         const recipe &rep = recipe_id( known_recipe_id.evaluate( d ) ).obj();
         // should be a talker function but recipes aren't in Character:: yet
         return get_player_character().knows_recipe( &rep );
@@ -2869,7 +2884,7 @@ conditional_t::conditional_t( const JsonObject &jo )
     if( jo.has_array( "and" ) ) {
         std::vector<conditional_t> and_conditionals = parse_array( jo, "and" );
         found_sub_member = true;
-        condition = [acs = std::move( and_conditionals )]( dialogue const & d ) {
+        condition = [acs = std::move( and_conditionals )]( dialogue & d ) {
             return std::all_of( acs.begin(), acs.end(), [&d]( conditional_t const & cond ) {
                 return cond( d );
             } );
@@ -2877,7 +2892,7 @@ conditional_t::conditional_t( const JsonObject &jo )
     } else if( jo.has_array( "or" ) ) {
         std::vector<conditional_t> or_conditionals = parse_array( jo, "or" );
         found_sub_member = true;
-        condition = [ocs = std::move( or_conditionals )]( dialogue const & d ) {
+        condition = [ocs = std::move( or_conditionals )]( dialogue & d ) {
             return std::any_of( ocs.begin(), ocs.end(), [&d]( conditional_t const & cond ) {
                 return cond( d );
             } );
@@ -2886,13 +2901,13 @@ conditional_t::conditional_t( const JsonObject &jo )
         JsonObject cond = jo.get_object( "not" );
         const conditional_t sub_condition = conditional_t( cond );
         found_sub_member = true;
-        condition = [sub_condition]( dialogue const & d ) {
+        condition = [sub_condition]( dialogue & d ) {
             return !sub_condition( d );
         };
     } else if( jo.has_string( "not" ) ) {
         const conditional_t sub_condition = conditional_t( jo.get_string( "not" ) );
         found_sub_member = true;
-        condition = [sub_condition]( dialogue const & d ) {
+        condition = [sub_condition]( dialogue & d ) {
             return !sub_condition( d );
         };
     }
@@ -3113,7 +3128,7 @@ conditional_t::conditional_t( const JsonObject &jo )
         for( const std::string &sub_member : dialogue_data::simple_string_conds ) {
             if( jo.has_string( sub_member ) ) {
                 const conditional_t sub_condition( jo.get_string( sub_member ) );
-                condition = [sub_condition]( dialogue const & d ) {
+                condition = [sub_condition]( dialogue & d ) {
                     return sub_condition( d );
                 };
                 found_sub_member = true;
@@ -3258,10 +3273,10 @@ conditional_t::conditional_t( const std::string &type )
     }
 }
 
-template std::function<double( const dialogue & )>
+template std::function<double( dialogue & )>
 conditional_t::get_get_dbl<>( kwargs_shim const & );
 
-template std::function<void( const dialogue &, double )>
+template std::function<void( dialogue &, double )>
 conditional_t::get_set_dbl<>( const kwargs_shim &,
                               const std::optional<dbl_or_var_part> &,
                               const std::optional<dbl_or_var_part> &, bool );

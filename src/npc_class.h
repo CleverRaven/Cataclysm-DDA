@@ -52,7 +52,7 @@ struct shopkeeper_item_group {
     int trust = 0;
     bool strict = false;
     std::string refusal;
-    std::function<bool( const dialogue & )> condition;
+    std::function<bool( dialogue & )> condition;
 
     // Rigid shopkeeper groups will be processed a single time. Default groups are not rigid, and will be processed until the shopkeeper has no more room or remaining value to populate goods with.
     bool rigid = false;

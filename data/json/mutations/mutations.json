@@ -261,6 +261,17 @@
   },
   {
     "type": "mutation",
+    "id": "HUMAN_ACCLIMATIZATION",
+    "name": { "str": "Human ACCLIMATIZATION" },
+    "points": 0,
+    "player_display": false,
+    "dummy": true,
+    "category": [ "HUMAN" ],
+    "cancels": [ "RESISTCHILL", "STRONGER_RESISTCHILL", "RESISTWARM", "STRONGER_RESISTWARM" ],
+    "description": "Your temperature tolerance is more or less normal for a human."
+  },
+  {
+    "type": "mutation",
     "id": "FLEET",
     "name": { "str": "Fleet-Footed" },
     "points": 2,
@@ -7949,7 +7960,10 @@
     "description": "This is an AI tag to give a static NPC a random mission.  If you see this, it's a bug.",
     "points": 0,
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "active": true,
+    "starts_active": true,
+    "processed_eocs": [ "EOC_GIVE_RANDOM_MISSION" ]
   },
   {
     "id": "GETS_RANDOM_MISSION_NOMOVE",
@@ -7958,7 +7972,10 @@
     "description": "This is an AI tag to give a static NPC a random mission that doesn't involve them following you.  If you see this, it's a bug.",
     "points": 0,
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "active": true,
+    "starts_active": true,
+    "processed_eocs": [ "EOC_GIVE_RANDOM_MISSION" ]
   },
   {
     "type": "mutation",
@@ -8528,7 +8545,7 @@
     "description": "You fare better than most in colder climates and are less bothered by lower temperatures.  Note that while you are slightly less prone to developing frostbite as a result, you aren't any better at dealing with the symptoms.",
     "starting_trait": true,
     "changes_to": [ "STRONGER_RESISTCHILL" ],
-    "types": [ "CONSTITUTION" ],
+    "types": [ "ACCLIMATIZATION" ],
     "category": [ "LUPINE", "URSINE", "CATTLE", "FELINE", "RABBIT", "MOUSE", "BEAST", "PLANT" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 10 } ] } ]
   },
@@ -8541,7 +8558,7 @@
     "description": "You are now even less bothered by the cold and it is harder for you to freeze or to even get chilly.  When you do though, it'll hit just as hard as it did before.",
     "prereqs": [ "RESISTCHILL" ],
     "category": [ "LUPINE", "URSINE", "CATTLE", "FELINE", "RABBIT", "MOUSE", "BEAST", "PLANT" ],
-    "types": [ "CONSTITUTION" ],
+    "types": [ "ACCLIMATIZATION" ],
     "threshreq": [
       "THRESH_LUPINE",
       "THRESH_URSINE",
@@ -8562,7 +8579,7 @@
     "description": "You fare better than most in warmer climates and are less bothered by hotter temperatures.  Note that while you'll sweat a little less in close proximity to a fire as a result, burns will still hurt just as much.",
     "starting_trait": true,
     "changes_to": [ "STRONGER_RESISTWARM" ],
-    "types": [ "CONSTITUTION" ],
+    "types": [ "ACCLIMATIZATION" ],
     "category": [ "FISH", "CEPHALOPOD", "GASTROPOD", "LIZARD", "BATRACHIAN", "PLANT" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 10 } ] } ]
   },
@@ -8574,7 +8591,7 @@
     "valid": true,
     "description": "You are now even less bothered by the heat and it is harder for you to overheat or even sweat.  When you do though, it'll hit just as hard as it did before.",
     "prereqs": [ "RESISTWARM" ],
-    "types": [ "CONSTITUTION" ],
+    "types": [ "ACCLIMATIZATION" ],
     "category": [ "FISH", "CEPHALOPOD", "GASTROPOD", "LIZARD", "BATRACHIAN", "PLANT" ],
     "threshreq": [ "THRESH_FISH", "THRESH_CEPHALOPOD", "THRESH_GASTROPOD", "THRESH_LIZARD", "THRESH_BATRACHIAN", "THRESH_PLANT" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 25 } ] } ]

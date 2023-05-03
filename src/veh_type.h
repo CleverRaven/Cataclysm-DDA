@@ -29,6 +29,16 @@ class JsonObject;
 class Character;
 class vehicle;
 
+template <typename T> class generic_factory;
+
+namespace vehicles
+{
+void load_prototype( const JsonObject &jo, const std::string &src );
+void reset_prototypes();
+void finalize_prototypes();
+const std::vector<vehicle_prototype> &get_all_prototypes();
+} // namespace vehicles
+
 // bitmask backing store of -certain- vpart_info.flags, ones that
 // won't be going away, are involved in core functionality, and are checked frequently
 enum vpart_bitflags : int {
@@ -493,9 +503,6 @@ class vpart_info
         int z_order = 0;
         // Display order in vehicle interact display
         int list_order = 0;
-
-        /** Legacy parts don't specify installation requirements */
-        bool legacy = true;
 };
 
 struct vehicle_item_spawn {
@@ -516,42 +523,36 @@ struct vehicle_item_spawn {
  * is a nullptr. Creating a new vehicle copies the blueprint vehicle.
  */
 struct vehicle_prototype {
-    struct part_def {
-        point pos;
-        vpart_id part;
-        std::string variant;
-        int with_ammo = 0;
-        std::set<itype_id> ammo_types;
-        std::pair<int, int> ammo_qty = { -1, -1 };
-        itype_id fuel = itype_id::NULL_ID();
-        std::vector<itype_id> tools;
-    };
+        struct part_def {
+            point pos;
+            vpart_id part;
+            std::string variant;
+            int with_ammo = 0;
+            std::set<itype_id> ammo_types;
+            std::pair<int, int> ammo_qty = { -1, -1 };
+            itype_id fuel = itype_id::NULL_ID();
+            std::vector<itype_id> tools;
+        };
 
-    struct zone_def {
-        zone_type_id zone_type;
-        std::string name;
-        std::string filter;
-        point pt;
-    };
+        struct zone_def {
+            zone_type_id zone_type;
+            std::string name;
+            std::string filter;
+            point pt;
+        };
 
-    vehicle_prototype();
-    vehicle_prototype( vehicle_prototype && ) noexcept;
-    ~vehicle_prototype();
+        vproto_id id;
+        translation name;
+        std::vector<part_def> parts;
+        std::vector<vehicle_item_spawn> item_spawns;
+        std::vector<zone_def> zone_defs;
 
-    vehicle_prototype &operator=( vehicle_prototype && ) noexcept( string_is_noexcept );
+        shared_ptr_fast<vehicle> blueprint;
 
-    translation name;
-    std::vector<part_def> parts;
-    std::vector<vehicle_item_spawn> item_spawns;
-    std::vector<zone_def> zone_defs;
-
-    std::unique_ptr<vehicle> blueprint;
-
-    static void load( const JsonObject &jo );
-    static void reset();
-    static void finalize();
-
-    static std::vector<vproto_id> get_all();
+        void load( const JsonObject &jo, std::string_view src );
+    private:
+        bool was_loaded = false; // used by generic_factory
+        friend class generic_factory<vehicle_prototype>;
 };
 
 /**

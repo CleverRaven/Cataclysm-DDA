@@ -3451,7 +3451,6 @@ void vehicle::deserialize( const JsonObject &data )
     data.read( "flying", is_flying );
     data.read( "cruise_velocity", cruise_velocity );
     data.read( "vertical_velocity", vertical_velocity );
-    data.read( "cruise_on", cruise_on );
     data.read( "engine_on", engine_on );
     data.read( "tracking_on", tracking_on );
     data.read( "skidding", skidding );
@@ -3626,7 +3625,6 @@ void vehicle::serialize( JsonOut &json ) const
     json.member( "flying", is_flying );
     json.member( "cruise_velocity", cruise_velocity );
     json.member( "vertical_velocity", vertical_velocity );
-    json.member( "cruise_on", cruise_on );
     json.member( "engine_on", engine_on );
     json.member( "tracking_on", tracking_on );
     json.member( "skidding", skidding );
@@ -3945,9 +3943,9 @@ void Creature::load( const JsonObject &jsin )
         jsin.read( "armor_bonus", armor_bonus );
     } else {
         // Legacy load conversion, remove after 0.H releases
-        int bash_bonus = 0;
-        int cut_bonus = 0;
-        int bullet_bonus = 0;
+        float bash_bonus = 0;
+        float cut_bonus = 0;
+        float bullet_bonus = 0;
         jsin.read( "armor_bash_bonus", bash_bonus );
         jsin.read( "armor_cut_bonus", cut_bonus );
         jsin.read( "armor_bullet_bonus", bullet_bonus );

@@ -1034,7 +1034,7 @@ std::pair<std::string, nc_color> display::vehicle_cruise_text_color( const Chara
     //     10 < 25 mph : decelerating toward 10
     // Text color indicates how much the engine is straining beyond its safe velocity.
     vehicle *veh = display::vehicle_driven( u );
-    if( veh && veh->cruise_on ) {
+    if( veh ) {
         int target = static_cast<int>( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) );
         int current = static_cast<int>( convert_velocity( veh->velocity, VU_VEHICLE ) );
         const std::string units = get_option<std::string> ( "USE_METRIC_SPEEDS" );
@@ -1061,7 +1061,7 @@ std::pair<std::string, nc_color> display::vehicle_fuel_percent_text_color( const
     nc_color fuel_color = c_light_gray;
 
     vehicle *veh = display::vehicle_driven( u );
-    if( veh && veh->cruise_on ) {
+    if( veh ) {
         itype_id fuel_type = itype_id::NULL_ID();
         // FIXME: Move this to a vehicle helper function like get_active_engine
         for( const int p : veh->engines ) {

@@ -392,7 +392,7 @@
     "color": "brown",
     "looks_like": "t_chickenwire_gate_o",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "PERMEABLE", "BURROWABLE", "CONNECT_WITH_WALL" ],
+    "flags": [ "TRANSPARENT", "FLAT", "PERMEABLE", "BURROWABLE", "CONNECT_WITH_WALL" ],
     "close": "t_screen_door_c",
     "deconstruct": {
       "ter_set": "t_floor",

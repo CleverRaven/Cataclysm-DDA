@@ -233,6 +233,45 @@
   {
     "type": "mapgen",
     "method": "json",
+    "om_terrain": [ [ "lodge_basement_residential3", "lodge_basement_residential4" ] ],
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_soil",
+      "rows": [
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                         %%%%%%%%%%%%%%         ",
+        "                         %__________BB%         ",
+        "                         %____________%         ",
+        "                         %____________%         ",
+        "                         %____________%         ",
+        "                         %____________%         ",
+        "                         %____________%         ",
+        "                         %%%______%%%%%         ",
+        "                         %<%______%             ",
+        "                         %_+______%             ",
+        "                         %%%%%%%%%%             ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                "
+      ],
+      "palettes": [ "basement_lodge" ],
+      "place_nested": [
+        { "chunks": [ [ "room_6x6_woodworker", 5 ], [ "room_6x6_bike", 15 ], [ "room_6x6_office_E", 5 ] ], "x": 26, "y": 10 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "om_terrain": [ "lodge_basement_laboratory_entrance" ],
     "//": "doesn't work rebuild later",
     "object": {
