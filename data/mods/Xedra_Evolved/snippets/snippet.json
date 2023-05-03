@@ -35,7 +35,7 @@
     "type": "snippet",
     "category": "inventor_success",
     "text": [
-      "After some work, you came to the solution that satisfy you.",
+      "After some work, you came to the solution that satisfies you.",
       "You spent a lot of time, and the result looks good now.",
       "Huge amount of time transferred into a knowledge you will utilize well.",
       "Finally, your work came to something good.",
@@ -48,13 +48,13 @@
     "type": "snippet",
     "category": "inventor_fail",
     "text": [
-      "You did lot of research and calculations, but the result do not satisfy you.",
+      "You did a lot of research and calculations, but the result do not satisfy you.",
       "Nope.",
       "That's bad.",
       "It won't work.",
       "It was a good idea, but you picked a wrong approach.",
-      "Why did you started it?  It is obviously not possible.",
-      "How did i…?  Ugh, nevermind."
+      "Why did you start it?  It is obviously not possible.",
+      "How did I…?  Ugh, nevermind."
     ]
   }
 ]
