@@ -13023,7 +13023,7 @@ bool item::reset_cable( Character *p, item *parent_item, const bool loose_messag
     if( link->max_length - charges > respool_length ) {
         // Cables that are too long need to be manually rewound before reuse.
         link->s_state = link_state::needs_reeling;
-        return has_flag( flag_AUTO_DELETE_CABLE );
+        return false;
     }
 
     charges = link->max_length;

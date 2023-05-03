@@ -4451,7 +4451,8 @@ std::optional<int> link_up_actor::use( Character &p, item &it, bool t, const tri
         }
         is_respool_length = cable->link->max_length - cable->charges > respool_length;
         if( cable->link->s_state == link_state::needs_reeling ) {
-            if( query_yn( string_format( _( "Reel in the %s?" ), it.label( 1 ) ) ) ) {
+            if( query_yn( is_cable_item ? string_format( _( "Reel in the %s?" ), it.label( 1 ) ) :
+                          string_format( _( "Reel in the %s's cable?" ), it.label( 1 ) ) ) ) {
                 p.assign_activity( player_activity( reel_cable_activity_actor( ( cable->link->max_length -
                                                     cable->charges - respool_length ) * respool_time_per_square, item_location{p, cable},
                                                     is_cable_item ? item_location::nowhere : item_location{p, &it} ) ) );
@@ -4466,11 +4467,26 @@ std::optional<int> link_up_actor::use( Character &p, item &it, bool t, const tri
             if( is_cable_item ) {
                 if( query_yn( string_format( _( "Detach and re-spool the %s?" ), it.label( 1 ) ) ) ) {
                     it.reset_cable( &p );
+                    if( cable->link && cable->link->s_state == link_state::needs_reeling ) {
+                        p.assign_activity( player_activity( reel_cable_activity_actor( ( cable->link->max_length -
+                                                            cable->charges - respool_length ) * respool_time_per_square, item_location{p, cable},
+                                                            is_cable_item ? item_location::nowhere : item_location{p, &it} ) ) );
+                    } else {
+                        p.add_msg_if_player( m_info, string_format( _( "You detach the %s." ), it.label( 1 ) ) );
+                    }
                     return 0;
                 }
             } else {
                 if( query_yn( string_format( _( "Detach and re-spool the %s's cable?" ), it.label( 1 ) ) ) ) {
                     it.reset_cables( &p );
+                    if( cable->link && cable->link->s_state == link_state::needs_reeling ) {
+                        p.assign_activity( player_activity( reel_cable_activity_actor( ( cable->link->max_length -
+                                                            cable->charges - respool_length ) * respool_time_per_square, item_location{p, cable},
+                                                            is_cable_item ? item_location::nowhere : item_location{p, &it} ) ) );
+                    } else {
+                        p.add_msg_if_player( m_info, string_format( _( "You gather the cable up with the %s." ),
+                                             it.label( 1 ) ) );
+                    }
                     return 0;
                 }
             }
@@ -4587,21 +4603,21 @@ std::optional<int> link_up_actor::use( Character &p, item &it, bool t, const tri
 
     } else if( choice == 999 ) { // Selection: Unconnect & respool.
 
-        if( is_respool_length ) {
+        if( is_cable_item ) {
+            it.reset_cable( &p );
+        } else {
+            it.reset_cables( &p );
+        }
+        if( cable->link && cable->link->s_state == link_state::needs_reeling ) {
             // Cables that are too long need to be manually rewound before reuse.
-            cable->active = false;
             // 2 seconds per square
             p.assign_activity( player_activity( reel_cable_activity_actor( ( cable->link->max_length -
                                                 cable->charges - respool_length ) * respool_time_per_square, item_location{p, cable},
                                                 is_cable_item ? item_location::nowhere : item_location{p, &it} ) ) );
             return 0;
-        }
-
-        p.add_msg_if_player( m_info, string_format( _( "You detach the %s." ), it.label( 1 ) ) );
-        if( is_cable_item ) {
-            it.reset_cable( &p );
         } else {
-            it.reset_cables( &p );
+            p.add_msg_if_player( m_info, is_cable_item ? string_format( _( "You detach the %s." ),
+                                 it.label( 1 ) ) : string_format( _( "You gather the cable up with the %s." ), it.label( 1 ) ) );
         }
         return 0;
     }

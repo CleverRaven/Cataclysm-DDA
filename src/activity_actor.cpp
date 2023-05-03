@@ -5012,10 +5012,13 @@ void reel_cable_activity_actor::finish( player_activity &act, Character &who )
     cable->active = false;
     cable->charges = cable->link->max_length;
     cable->link.reset();
-    who.add_msg_if_player( m_info, string_format( _( "You reel in the %s and wind it up." ),
-                           cable->label( 1 ) ) );
     if( parent_item ) {
         parent_item->contents_linked = false;
+        who.add_msg_if_player( m_info, string_format( _( "You gather the cable up with the %s." ),
+                               parent_item->label( 1 ) ) );
+    } else {
+        who.add_msg_if_player( m_info, string_format( _( "You reel in the %s and wind it up." ),
+                               cable->label( 1 ) ) );
     }
     if( cable->has_flag( flag_AUTO_DELETE_CABLE ) ) {
         cable.remove_item();
