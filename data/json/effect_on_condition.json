@@ -1184,7 +1184,7 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "chitin3_molt_timer4",
+    "id": "chitin_carapace_molt_timer4",
     "recurrence": [ "8 hours", "12 hours" ],
     "condition": {
       "and": [
