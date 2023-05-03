@@ -106,6 +106,7 @@ static const efftype_id effect_paralyzepoison( "paralyzepoison" );
 static const efftype_id effect_poison( "poison" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_run( "run" );
+static const efftype_id effect_stumbled_into_invisible( "stumbled_into_invisible" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_supercharged( "supercharged" );
 static const efftype_id effect_tied( "tied" );
@@ -1859,6 +1860,11 @@ bool monster::melee_attack( Creature &target, float accuracy )
             add_msg( _( "Something hits your %1$s, but your %2$s protects you." ),
                      body_part_name_accusative( dealt_dam.bp_hit ), target.skin_name() );
         }
+    }
+
+    // Creature attacking an invisible player will remain aware of their location as long as they keep hitting something
+    if( has_effect( effect_stumbled_into_invisible ) && hitspread >= 0 ) {
+    	add_effect( effect_stumbled_into_invisible, 2_seconds );
     }
 
     target.check_dead_state();

@@ -65,6 +65,7 @@ static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_operating( "operating" );
 static const efftype_id effect_pacified( "pacified" );
 static const efftype_id effect_pushed( "pushed" );
+static const efftype_id effect_stumbled_into_invisible( "stumbled_into_invisible" );
 static const efftype_id effect_stunned( "stunned" );
 
 static const itype_id itype_pressurized_tank( "pressurized_tank" );
@@ -1618,8 +1619,17 @@ bool monster::attack_at( const tripoint &p )
     }
 
     Character &player_character = get_player_character();
-    if( p == player_character.pos() && sees( player_character ) ) {
-        return melee_attack( player_character );
+    // Targeting player location
+    if( p == player_character.pos() ) {
+    	if ( sees( player_character ) ) {
+            return melee_attack( player_character );
+        } else {
+        	// Creature stumbles into a player it cannot see, briefly becoming aware of their location
+        	const bool player_sees = player_character.sees( *this );
+        	add_msg( m_bad, _( "The %s stumbles into you!" ), player_sees ? this->disp_name( false, true ) : _( "Something" ) );
+        	add_effect( effect_stumbled_into_invisible, 2_seconds );
+        	return false;
+        }
     }
 
     creature_tracker &creatures = get_creature_tracker();

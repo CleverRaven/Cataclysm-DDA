@@ -86,6 +86,7 @@ static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_sap( "sap" );
 static const efftype_id effect_sensor_stun( "sensor_stun" );
 static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_stumbled_into_invisible( "stumbled_into_invisible" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_zapped( "zapped" );
@@ -360,6 +361,11 @@ bool Creature::sees( const Creature &critter ) const
 
     if( !fov_3d && posz() != critter.posz() ) {
         return false;
+    }
+    
+    // Creature has stumbled into an invisible player and is now aware of them
+    if ( has_effect( effect_stumbled_into_invisible ) && wanted_range <= 1 && critter.is_avatar() ) {
+    	return true;
     }
 
     // This check is ridiculously expensive so defer it to after everything else.

@@ -392,6 +392,12 @@
     "flags": [ "DISABLE_FLIGHT" ]
   },
   {
+    "type": "effect_type",
+    "id": "stumbled_into_invisible",
+    "name": [ "Stumbled Into Invisible Player" ],
+    "desc": [ "This creature has stumbled into an invisible player and is now aware of their presence." ]
+  },
+  {
     "//": "ACTUAL PLAYER EFFECTS START HERE",
     "type": "effect_type",
     "id": "downed",
