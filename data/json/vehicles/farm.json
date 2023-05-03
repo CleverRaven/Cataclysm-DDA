@@ -378,7 +378,7 @@
 	{ "x": -3, "y": 1, "parts": [ "frame_horizontal", "door_shutter" ] },
 	{ "x": -3, "y": 2, "parts": [ "frame_se", "board_wheel_right", "wheel_mount_medium", "wheel" ] },
 	{ "x": -3, "y": -1, "parts": [ "frame_sw", "board_wheel_left", "wheel_mount_medium", "wheel" ] }
-	]
+	],
 	"items": [
       { "x": 1, "y": 0, "chance": 14, "item_groups": [ "farm_supply_riding_gear" ] },
       { "x": 1, "y": 1, "chance": 5, "item_groups": [ "farm_supply_riding_gear" ] },
