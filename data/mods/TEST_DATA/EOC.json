@@ -26,6 +26,18 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_run_with_test_queued",
+    "effect": [
+      { "math": [ "u_ukey", "=", "3" ] },
+      {
+        "queue_eoc_with": "EOC_run_with_test_nested",
+        "variables": { "key1": "1", "key2": "2", "key3": { "u_val": "ukey" } },
+        "time_in_future": "1 seconds"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_run_with_test_nested",
     "effect": [
       { "math": [ "key1", "=", "_key1" ] },

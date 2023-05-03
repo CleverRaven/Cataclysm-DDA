@@ -11,6 +11,7 @@
 
 static const activity_id ACT_ADD_VARIABLE_COMPLETE( "ACT_ADD_VARIABLE_COMPLETE" );
 static const activity_id ACT_ADD_VARIABLE_DURING( "ACT_ADD_VARIABLE_DURING" );
+static const activity_id ACT_WAIT( "ACT_WAIT" );
 
 static const effect_on_condition_id
 effect_on_condition_EOC_TEST_TRANSFORM_LINE( "EOC_TEST_TRANSFORM_LINE" );
@@ -36,6 +37,9 @@ effect_on_condition_EOC_math_weighted_list( "EOC_math_weighted_list" );
 static const effect_on_condition_id effect_on_condition_EOC_run_with_test( "EOC_run_with_test" );
 static const effect_on_condition_id
 effect_on_condition_EOC_run_with_test_2( "EOC_run_with_test_2" );
+static const effect_on_condition_id
+effect_on_condition_EOC_run_with_test_queued( "EOC_run_with_test_queued" );
+
 
 static const effect_on_condition_id effect_on_condition_EOC_teleport_test( "EOC_teleport_test" );
 
@@ -289,7 +293,7 @@ TEST_CASE( "EOC_run_with_test", "[eoc]" )
     CHECK( d.get_value( "npctalk_var_key3" ).empty() );
 }
 
-TEST_CASE( "EOC_run_with_test2", "[eoc]" )
+TEST_CASE( "EOC_run_with_test_expects", "[eoc]" )
 {
     clear_avatar();
     clear_map();
@@ -308,4 +312,33 @@ TEST_CASE( "EOC_run_with_test2", "[eoc]" )
     CHECK( globvars.get_global_value( "npctalk_var_key1" ).empty() );
     CHECK( globvars.get_global_value( "npctalk_var_key2" ).empty() );
     CHECK( globvars.get_global_value( "npctalk_var_key3" ).empty() );
+}
+
+TEST_CASE( "EOC_run_with_test_queue", "[eoc]" )
+{
+    clear_avatar();
+    clear_map();
+
+    dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
+    global_variables &globvars = get_globals();
+    globvars.clear_global_values();
+
+    REQUIRE( globvars.get_global_value( "npctalk_var_key1" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_key2" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_key3" ).empty() );
+
+    CHECK( effect_on_condition_EOC_run_with_test->activate( d ) );
+
+    // pass some time
+    get_avatar().assign_activity( ACT_WAIT, 200 );
+    complete_activity( get_avatar() );
+
+    CHECK( std::stod( globvars.get_global_value( "npctalk_var_key1" ) ) == Approx( 1 ) );
+    CHECK( std::stod( globvars.get_global_value( "npctalk_var_key2" ) ) == Approx( 2 ) );
+    CHECK( std::stod( globvars.get_global_value( "npctalk_var_key3" ) ) == Approx( 3 ) );
+
+    // value shouldn't exist in the original dialogue
+    CHECK( d.get_value( "npctalk_var_key" ).empty() );
+    CHECK( d.get_value( "npctalk_var_key2" ).empty() );
+    CHECK( d.get_value( "npctalk_var_key3" ).empty() );
 }
