@@ -1051,7 +1051,7 @@ class link_up_actor : public iuse_actor
         /** (Optional) Text displayed in the activation screen, defaults to "Plug in / Unplug". */
         translation menu_text;
 
-        std::set<link_state> targets = { link_state::no_link };
+        std::set<link_state> targets = { link_state::no_link, link_state::vehicle_port };
 
         link_up_actor() : iuse_actor( "link_up" ) {}
 
