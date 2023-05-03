@@ -2849,7 +2849,7 @@
     "points": 2,
     "visibility": 8,
     "ugliness": 5,
-    "description": "Your exoskeleton bears thick plates of chitin which have not fully sclerotized.  They won't provide good protection until they've had time to harden, but they're still bulky, reducing your Dexterity by 1.",
+    "description": "Your exoskeleton bears thick plates of chitin which have not fully sclerotized.  They won't provide good protection until they've had time to harden.",
     "types": [ "BODY_ARMOR" ],
     "prereqs": [ "CHITIN2_MOLTED" ],
     "leads_to": [ "CHITIN_FUR3" ],
@@ -2866,8 +2866,7 @@
       { "part": "hand_l", "ignored": 3 },
       { "part": "hand_r", "ignored": 3 },
       { "part": "torso", "ignored": 26 }
-    ],
-    "passive_mods": { "dex_mod": -1 }
+    ]
   },
   {
     "type": "mutation",
