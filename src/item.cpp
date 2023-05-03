@@ -13004,13 +13004,13 @@ bool item::reset_cable( Character *p, item *parent_item, const bool loose_messag
 
     if( loose_message ) {
         if( p != nullptr ) {
-            p->add_msg_if_player( m_bad, parent_item == nullptr ?
-                                  string_format( _( "You notice your %s has come loose!" ), label( 1 ) ) :
-                                  string_format( _( "You notice your %s's cable has come loose!" ), parent_item->label( 1 ) ) );
+            p->add_msg_if_player( m_warning, parent_item == nullptr ?
+                                  string_format( _( "Your %s has come loose." ), label( 1 ) ) :
+                                  string_format( _( "Your %s's cable has come loose." ), parent_item->label( 1 ) ) );
         } else {
-            add_msg_if_player_sees( sees_point, m_bad, parent_item == nullptr ?
-                                    string_format( _( "You notice the %s has come loose!" ), label( 1 ) ) :
-                                    string_format( _( "You notice the %s's cable has come loose!" ), parent_item->label( 1 ) ) );
+            add_msg_if_player_sees( sees_point, m_warning, parent_item == nullptr ?
+                                    string_format( _( "The %s has come loose." ), label( 1 ) ) :
+                                    string_format( _( "The %s's cable has come loose." ), parent_item->label( 1 ) ) );
         }
     }
     const int respool_length = 5;
