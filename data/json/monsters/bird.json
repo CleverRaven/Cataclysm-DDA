@@ -146,7 +146,7 @@
     "reproduction": { "baby_egg": "egg_bluejay", "baby_count": 5, "baby_timer": 18 },
     "baby_flags": [ "SPRING" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "SWARMS" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "FLIES", "SWARMS" ]
   },
   {
     "id": "mon_cardinal",
@@ -455,7 +455,7 @@
   {
     "id": "mon_bluejay_chick",
     "type": "MONSTER",
-    "copy-from": "mon_generic_chick",
+    "copy-from": "mon_crow_chick",
     "volume": "225 ml",
     "weight": "38 g",
     "upgrades": { "age_grow": 18, "into": "mon_bluejay" }
@@ -488,12 +488,24 @@
     "id": "mon_turkey_chick",
     "type": "MONSTER",
     "copy-from": "mon_generic_chick",
+    "petfood": {
+      "food": [ "BIRDFOOD" ],
+      "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
+      "pet": "The %s runs around your leg."
+    },
+    "extend": { "flags": [ "CANPLAY" ] },
     "upgrades": { "age_grow": 18, "into": "mon_turkey" }
   },
   {
     "id": "mon_pheasant_chick",
     "type": "MONSTER",
     "copy-from": "mon_generic_chick",
+    "petfood": {
+      "food": [ "BIRDFOOD" ],
+      "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
+      "pet": "The %s runs around your leg."
+    },
+    "extend": { "flags": [ "CANPLAY" ] },
     "upgrades": { "age_grow": 14, "into": "mon_pheasant" }
   },
   {
@@ -502,6 +514,12 @@
     "copy-from": "mon_generic_chick",
     "description": "A strange tiny chick, it could be from a number of different species.",
     "name": { "str": "strange chick" },
+    "petfood": {
+      "food": [ "BIRDFOOD" ],
+      "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
+      "pet": "The %s runs around your leg."
+    },
+    "extend": { "flags": [ "CANPLAY" ] },
     "upgrades": { "age_grow": 12, "into": "mon_cockatrice" }
   },
   {
