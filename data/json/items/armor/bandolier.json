@@ -108,7 +108,7 @@
     "//": "It's very much similar to the torso shotgun bandolier I'm patterning this off of, so I'm keeping the data the same.",
     "name": { "str": "torso grenade bandolier" },
     "description": "A leather bandolier strapped around the torso for keeping 40mm grenades close to hand.  For some reason, wearing this makes you feel Austrian.",
-    "pocket_data": [ { "ammo_restriction": { "40x46mm": 6, "40x53mm": 6 }, "moves": 20 }, "volume_encumber_modifier": 0.3 ],
+    "pocket_data": [ { "ammo_restriction": { "40x46mm": 6, "40x53mm": 6 }, "moves": 20, "volume_encumber_modifier": 0.3 } ],
     "//2": "The image I found when I went looking showed Arnie carrying six grenades in a bandolier.",
     "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE", "PALS_LARGE" ]
   },
@@ -188,7 +188,8 @@
           "50": 4,
           "700nx": 4
         },
-        "moves": 20
+        "moves": 20,
+        "volume_encumber_modifier": 0.3
       }
     ],
     "flags": [ "WATER_FRIENDLY", "BELTED", "PALS_SMALL", "ALLOWS_NATURAL_ATTACKS" ],
