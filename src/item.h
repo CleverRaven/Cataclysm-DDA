@@ -1454,7 +1454,7 @@ class item : public visitable
          * @return True if the cable should be deleted.
          */
         bool reset_cable( Character *p = nullptr, item *parent_item = nullptr,
-                          const bool loose_message = false, const tripoint sees_point = tripoint_zero );
+                          bool loose_message = false, tripoint sees_point = tripoint_zero );
         void reset_cables( Character *p );
 
         /**
@@ -2900,7 +2900,7 @@ class item : public visitable
         bool process_fake_mill( map &here, Character *carrier, const tripoint &pos );
         bool process_cable( map &here, Character *carrier, const tripoint &pos,
                             item *parent_item = nullptr );
-        bool process_linked_item( Character *carrier, const tripoint &pos, const link_state state );
+        bool process_linked_item( Character *carrier, const tripoint &pos, link_state required_state );
         bool process_blackpowder_fouling( Character *carrier );
         bool process_tool( Character *carrier, const tripoint &pos );
 
