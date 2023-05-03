@@ -13013,6 +13013,9 @@ bool item::reset_cable( Character *p, item *parent_item, const bool loose_messag
                                     string_format( _( "The %s's cable has come loose." ), parent_item->label( 1 ) ) );
         }
     }
+    if( parent_item != nullptr ) {
+        parent_item->contents_linked = false;
+    }
     const int respool_length = 5;
     if( link->max_length - charges > respool_length ) {
         // Cables that are too long need to be manually rewound before reuse.
@@ -13022,9 +13025,6 @@ bool item::reset_cable( Character *p, item *parent_item, const bool loose_messag
 
     charges = link->max_length;
     link.reset();
-    if( parent_item != nullptr ) {
-        parent_item->contents_linked = false;
-    }
     return has_flag( flag_AUTO_DELETE_CABLE );
 }
 
