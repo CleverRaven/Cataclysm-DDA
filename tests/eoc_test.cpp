@@ -36,7 +36,9 @@ static const effect_on_condition_id
 effect_on_condition_EOC_math_weighted_list( "EOC_math_weighted_list" );
 static const effect_on_condition_id effect_on_condition_EOC_run_with_test( "EOC_run_with_test" );
 static const effect_on_condition_id
-effect_on_condition_EOC_run_with_test_2( "EOC_run_with_test_2" );
+effect_on_condition_EOC_run_with_test_expects_fail( "EOC_run_with_test_expects_fail" );
+static const effect_on_condition_id
+effect_on_condition_EOC_run_with_test_expects_pass( "EOC_run_with_test_expects_pass" );
 static const effect_on_condition_id
 effect_on_condition_EOC_run_with_test_queued( "EOC_run_with_test_queued" );
 
@@ -307,11 +309,18 @@ TEST_CASE( "EOC_run_with_test_expects", "[eoc]" )
     REQUIRE( globvars.get_global_value( "npctalk_var_key3" ).empty() );
 
     CHECK( capture_debugmsg_during( [&]() {
-        effect_on_condition_EOC_run_with_test_2->activate( d );
-    } ) == "Missing required variables: key1, key2, key3, " );
+        effect_on_condition_EOC_run_with_test_expects_fail->activate( d );
+    } ) == "Missing required variables: npctalk_var_key1, npctalk_var_key2, npctalk_var_key3, " );
     CHECK( globvars.get_global_value( "npctalk_var_key1" ).empty() );
     CHECK( globvars.get_global_value( "npctalk_var_key2" ).empty() );
     CHECK( globvars.get_global_value( "npctalk_var_key3" ).empty() );
+
+    globvars.clear_global_values();
+
+    effect_on_condition_EOC_run_with_test_expects_pass->activate( d );
+    CHECK( std::stod( globvars.get_global_value( "npctalk_var_key1" ) ) == Approx( 1 ) );
+    CHECK( std::stod( globvars.get_global_value( "npctalk_var_key2" ) ) == Approx( 2 ) );
+    CHECK( std::stod( globvars.get_global_value( "npctalk_var_key3" ) ) == Approx( 3 ) );
 }
 
 TEST_CASE( "EOC_run_with_test_queue", "[eoc]" )
@@ -327,11 +336,10 @@ TEST_CASE( "EOC_run_with_test_queue", "[eoc]" )
     REQUIRE( globvars.get_global_value( "npctalk_var_key2" ).empty() );
     REQUIRE( globvars.get_global_value( "npctalk_var_key3" ).empty() );
 
-    CHECK( effect_on_condition_EOC_run_with_test->activate( d ) );
+    CHECK( effect_on_condition_EOC_run_with_test_queued->activate( d ) );
 
-    // pass some time
-    get_avatar().assign_activity( ACT_WAIT, 200 );
-    complete_activity( get_avatar() );
+    set_time( calendar::turn + 2_seconds );
+    effect_on_conditions::process_effect_on_conditions( get_avatar() );
 
     CHECK( std::stod( globvars.get_global_value( "npctalk_var_key1" ) ) == Approx( 1 ) );
     CHECK( std::stod( globvars.get_global_value( "npctalk_var_key2" ) ) == Approx( 2 ) );
