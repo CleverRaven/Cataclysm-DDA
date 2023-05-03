@@ -442,7 +442,7 @@ class spell
 
     public:
         spell() = default;
-        explicit spell( spell_id sp, int xp = 0 );
+        explicit spell( spell_id sp, int xp = 0, int level_adjustment = 0 );
 
         // sets the message to be different than the spell_type specifies
         void set_message( const translation &msg );
@@ -680,9 +680,9 @@ class known_magic
         void on_mutation_loss( const trait_id &mid );
 
         // data written by EoC
-        double caster_level_adjustment;
-        std::map<spell_id, double> caster_level_adjustment_by_spell;
-        std::map<trait_id, double> caster_level_adjustment_by_school;
+        double caster_level_adjustment; // NOLINT(cata-serialize)
+        std::map<spell_id, double> caster_level_adjustment_by_spell; // NOLINT(cata-serialize)
+        std::map<trait_id, double> caster_level_adjustment_by_school; // NOLINT(cata-serialize)
 
         void serialize( JsonOut &json ) const;
         void deserialize( const JsonObject &data );

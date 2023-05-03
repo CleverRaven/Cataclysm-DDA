@@ -1491,7 +1491,7 @@ void npc::evaluate_best_weapon( const Creature *target )
         }
         return VisitResponse::NEXT;
     } );
-    if( magic->spells().size() > 0 ) {
+    if( magic->spells().empty() ) {
         magic->clear_opens_spellbook_data();
         get_event_bus().send<event_type::opens_spellbook>( getID() );
         magic->evaluate_opens_spellbook_data();
