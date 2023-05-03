@@ -4022,5 +4022,26 @@
     },
     "limb_score_mods": [ { "limb_score": "reaction", "modifier": 0.75 }, { "limb_score": "manip", "modifier": 0.75 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+    "id": "glowing_gas",
+    "name": [ { "ctxt": "inhaled", "str": "Glowing Gas" } ],
+    "desc": [
+      "You've inhaled a lungful of glowing nether parasite spores.  Thankfully, they don't seem adapted to the human physiology."
+    ],
+    "apply_message": "You inhale a lungful of the glowing gas, and you have an urge to violently cough.",
+    "rating": "bad",
+    "miss_messages": [ [ "Your lungs burn from the glowing gas.", 1 ] ],
+    "harmful_cough": true,
+    "max_duration": "10 m",
+    "base_mods": { "str_mod": [ -1 ], "dex_mod": [ -1 ], "cough_chance": [ 10 ] },
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "glowing_gas_cover",
+    "name": [ "Glowing" ],
+    "desc": [ "You are covered in glowing nether spores!" ],
+    "apply_message": "The glowing spores settle on you!",
+    "rating": "bad"
   }
 ]

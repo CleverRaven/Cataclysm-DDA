@@ -93,7 +93,6 @@
         { "item": "electronics", "x": [ 14, 17 ], "y": 14, "chance": 25 },
         { "item": "snacks", "x": 16, "y": 9, "chance": 25 },
         { "item": "magazines", "x": 16, "y": 9, "chance": 20 },
-        { "item": "autodoc_installation_programs", "x": 21, "y": [ 12, 13 ], "chance": 85, "repeat": [ 1, 4 ] },
         { "item": "trash", "x": 18, "y": 15, "chance": 65 },
         { "item": "trash", "x": [ 15, 17 ], "y": [ 20, 21 ], "chance": 80 }
       ],

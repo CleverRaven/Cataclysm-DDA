@@ -70,7 +70,7 @@ duration_or_var_part get_duration_or_var_part( const JsonValue &jv, const std::s
         time_duration default_val = 0_seconds );
 tripoint_abs_ms get_tripoint_from_var( std::optional<var_info> var, dialogue const &d );
 var_info read_var_info( const JsonObject &jo );
-void write_var_value( var_type type, const std::string &name, talker *talk,
+void write_var_value( var_type type, const std::string &name, talker *talk, dialogue *d,
                       const std::string &value );
 std::string get_talk_varname( const JsonObject &jo, const std::string &member,
                               bool check_value, dbl_or_var &default_val );
@@ -78,7 +78,7 @@ std::string get_talk_var_basename( const JsonObject &jo, const std::string &memb
                                    bool check_value );
 // the truly awful declaration for the conditional_t loading helper_function
 void read_condition( const JsonObject &jo, const std::string &member_name,
-                     std::function<bool( dialogue const & )> &condition, bool default_val );
+                     std::function<bool( dialogue & )> &condition, bool default_val );
 
 /**
  * A condition for a response spoken by the player.
@@ -89,7 +89,7 @@ void read_condition( const JsonObject &jo, const std::string &member_name,
  */
 struct conditional_t {
     private:
-        std::function<bool( dialogue const & )> condition;
+        std::function<bool( dialogue & )> condition;
 
     public:
         conditional_t() = default;
@@ -192,14 +192,14 @@ struct conditional_t {
         void set_compare_num( const JsonObject &jo, std::string_view member );
         void set_math( const JsonObject &jo, std::string_view member );
         template<class J>
-        static std::function<double( dialogue const & )> get_get_dbl( J const &jo );
-        static std::function<double( dialogue const & )> get_get_dbl( const std::string &value,
+        static std::function<double( dialogue & )> get_get_dbl( J const &jo );
+        static std::function<double( dialogue & )> get_get_dbl( const std::string &value,
                 const JsonObject &jo );
         template <class J>
-        std::function<void( dialogue const &, double )>
+        std::function<void( dialogue &, double )>
         static get_set_dbl( const J &jo, const std::optional<dbl_or_var_part> &min,
                             const std::optional<dbl_or_var_part> &max, bool temp_var );
-        bool operator()( dialogue const &d ) const {
+        bool operator()( dialogue &d ) const {
             if( !condition ) {
                 return false;
             }
@@ -207,10 +207,10 @@ struct conditional_t {
         }
 };
 
-extern template std::function<double( const dialogue & )>
+extern template std::function<double( dialogue & )>
 conditional_t::get_get_dbl<>( kwargs_shim const & );
 
-extern template std::function<void( const dialogue &, double )>
+extern template std::function<void( dialogue &, double )>
 conditional_t::get_set_dbl<>( const kwargs_shim &,
                               const std::optional<dbl_or_var_part> &,
                               const std::optional<dbl_or_var_part> &, bool );

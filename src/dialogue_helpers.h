@@ -20,7 +20,7 @@ using trial_mod = std::pair<std::string, int>;
 
 struct talk_effect_fun_t {
     private:
-        std::function<void( dialogue const &d )> function;
+        std::function<void( dialogue &d )> function;
         std::vector<std::pair<int, itype_id>> likely_rewards;
 
     public:
@@ -115,7 +115,7 @@ struct talk_effect_fun_t {
         void set_open_dialogue( const JsonObject &jo, std::string_view member );
         void set_take_control( const JsonObject &jo );
         void set_take_control_menu();
-        void operator()( dialogue const &d ) const {
+        void operator()( dialogue &d ) const {
             if( !function ) {
                 return;
             }
@@ -169,7 +169,7 @@ struct eoc_math {
     eoc_math::oper action;
 
     void from_json( const JsonObject &jo, std::string_view member );
-    double act( dialogue const &d ) const;
+    double act( dialogue &d ) const;
 };
 
 struct dbl_or_var_part {
@@ -178,14 +178,14 @@ struct dbl_or_var_part {
     std::optional<double> default_val;
     std::optional<talk_effect_fun_t> arithmetic_val;
     std::optional<eoc_math> math_val;
-    double evaluate( dialogue const &d ) const;
+    double evaluate( dialogue &d ) const;
 };
 
 struct dbl_or_var {
     bool pair = false;
     dbl_or_var_part min;
     dbl_or_var_part max;
-    double evaluate( dialogue const &d ) const;
+    double evaluate( dialogue &d ) const;
 };
 
 struct duration_or_var_part {
@@ -194,14 +194,14 @@ struct duration_or_var_part {
     std::optional<time_duration> default_val;
     std::optional<talk_effect_fun_t> arithmetic_val;
     std::optional<eoc_math> math_val;
-    time_duration evaluate( dialogue const &d ) const;
+    time_duration evaluate( dialogue &d ) const;
 };
 
 struct duration_or_var {
     bool pair = false;
     duration_or_var_part min;
     duration_or_var_part max;
-    time_duration evaluate( dialogue const &d ) const;
+    time_duration evaluate( dialogue &d ) const;
 };
 
 #endif // CATA_SRC_DIALOGUE_HELPERS_H

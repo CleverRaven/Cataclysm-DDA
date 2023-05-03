@@ -1377,8 +1377,8 @@ void Item_factory::finalize_item_blacklist()
             return r.result() == candidate->first;
         } );
     }
-    for( vproto_id &vid : vehicle_prototype::get_all() ) {
-        vehicle_prototype &prototype = const_cast<vehicle_prototype &>( vid.obj() );
+    for( const vehicle_prototype &const_prototype : vehicles::get_all_prototypes() ) {
+        vehicle_prototype &prototype = const_cast<vehicle_prototype &>( const_prototype );
         for( vehicle_item_spawn &vis : prototype.item_spawns ) {
             auto &vec = vis.item_ids;
             const auto iter = std::remove_if( vec.begin(), vec.end(), item_is_blacklisted );
@@ -1480,8 +1480,8 @@ void Item_factory::finalize_item_blacklist()
             }
         }
     }
-    for( vproto_id &vid : vehicle_prototype::get_all() ) {
-        vehicle_prototype &prototype = const_cast<vehicle_prototype &>( vid.obj() );
+    for( const vehicle_prototype &const_prototype : vehicles::get_all_prototypes() ) {
+        vehicle_prototype &prototype = const_cast<vehicle_prototype &>( const_prototype );
         for( vehicle_item_spawn &vis : prototype.item_spawns ) {
             for( itype_id &type_to_spawn : vis.item_ids ) {
                 std::map<itype_id, std::vector<migration>>::iterator replacement =
