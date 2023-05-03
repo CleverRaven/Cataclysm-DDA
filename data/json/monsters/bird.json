@@ -390,7 +390,7 @@
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES" ]
   },
   {
-    "id": "mon_generic_chick",
+    "abstract": "mon_generic_chick",
     "type": "MONSTER",
     "name": { "str": "brown chick" },
     "description": "A tiny darkly-colored chick, it could be from a number of different species.",
