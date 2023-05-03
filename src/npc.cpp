@@ -2994,6 +2994,7 @@ void npc::die( Creature *nkiller )
                 }
             }
             my_fac->remove_member( getID() );
+            my_fac = nullptr;
         }
     }
     dead = true;
