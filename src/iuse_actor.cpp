@@ -4627,22 +4627,14 @@ std::optional<int> link_up_actor::use( Character &p, item &it, bool t, const tri
 
         // You used to be able to plug cables in anywhere on a vehicle, so there's extra effort here
         // to inform players that they can only plug them into dashboards or electrical controls now.
-        bool veh_available = false;
-        const std::function<bool( const tripoint & )> can_link = [&here, &veh_available, &choice]
-        ( const tripoint & point ) {
+        const auto can_link = [&here, &choice]( const tripoint & point ) {
             const optional_vpart_position ovp = here.veh_at( point );
             if( !ovp ) {
                 return false;
             }
             if( choice == 0 ) {
-                if( !veh_available && ovp->vehicle().has_part( "CABLE_PORTS" ) ) {
-                    veh_available = true;
-                }
                 return ovp.avail_part_with_feature( "CABLE_PORTS" ) || ovp.avail_part_with_feature( "APPLIANCE" );
             } else if( choice == 1 ) {
-                if( !veh_available && ovp->vehicle().batteries.size() > 0 ) {
-                    veh_available = true;
-                }
                 if( ovp.avail_part_with_feature( "APPLIANCE" ) ) {
                     return true;
                 }
@@ -4657,12 +4649,8 @@ std::optional<int> link_up_actor::use( Character &p, item &it, bool t, const tri
             return false;
         };
         const std::optional<tripoint> pnt_ = choose_adjacent_highlight( _( "Attach the cable where?" ),
-                                             "", can_link, false );
+                                             "", can_link, false, false );
         if( !pnt_ ) {
-            p.add_msg_if_player( !veh_available ? _( "There's nowhere to attach it nearby." ) : choice == 0 ?
-                                 _( "There's nowhere to attach it nearby; try the vehicle's dashboard or electronics controls." ) :
-                                 _( "There's nowhere to attach it nearby; try the vehicle's battery." ) );
-
             return std::nullopt;
         }
         const tripoint &pnt = *pnt_;
@@ -4778,24 +4766,25 @@ std::optional<int> link_up_actor::use( Character &p, item &it, bool t, const tri
             return std::nullopt;
         }
 
+        const auto can_link = [&here, &choice]( const tripoint & point ) {
+            const optional_vpart_position ovp = here.veh_at( point );
+            return ovp && ovp->vehicle().is_external_part( point );
+        };
+
         const std::optional<tripoint> pnt_ = choose_adjacent_highlight(
                 choice == 10 ? _( "Attach cable to the vehicle that will do the towing." ) :
-                _( "Attach cable to the vehicle that will be towed." ),
-                _( "There's no vehicle nearby." ),
-        [&here]( const tripoint & point ) {
-            return !!here.veh_at( point );
-        }, false );
+                _( "Attach cable to the vehicle that will be towed." ), "", can_link, false, false );
         if( !pnt_ ) {
             return std::nullopt;
         }
         const tripoint &pnt = *pnt_;
         const optional_vpart_position t_vp = here.veh_at( pnt );
-        vehicle *const target_veh = &t_vp->vehicle();
-        if( !target_veh ) {
+        if( !t_vp ) {
             p.add_msg_if_player( _( "There's no vehicle there." ) );
             return std::nullopt;
         }
 
+        vehicle *const target_veh = &t_vp->vehicle();
         if( target_veh->has_tow_attached() || target_veh->is_towed() ||
             target_veh->is_towing() ) {
             p.add_msg_if_player( _( "That vehicle already has a tow-line attached." ) );
