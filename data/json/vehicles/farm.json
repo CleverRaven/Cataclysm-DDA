@@ -187,7 +187,7 @@
       { "x": 0, "y": -1, "parts": [ "frame_wood#vertical_left", "wood box" ] },
       { "x": 0, "y": 1, "parts": [ "frame_wood#vertical_right", "wood box" ] },
       { "x": 1, "y": -1, "parts": [ "frame_wood#nw", "seat_wood", "wheel_mount_wood_steerable", "wheel_wood_b" ] },
-      { "x": 1, "y": 0, "parts": [ "frame_wood#cross", "seat_wood", "controls" ] },
+      { "x": 1, "y": 0, "parts": [ "frame_wood#cross", "seat_wood", "reins_tackle" ] },
       { "x": 1, "y": 1, "parts": [ "frame_wood#ne", "seat_wood", "wheel_mount_wood_steerable", "wheel_wood_b" ] },
       { "x": 2, "y": -1, "parts": [ "yoke_harness" ] },
       { "x": 2, "y": 1, "parts": [ "yoke_harness" ] },
@@ -223,7 +223,7 @@
       { "x": 1, "y": -2, "parts": [ "frame_wood#vertical_left", "clothboard#nw", "roof_cloth" ] },
       { "x": 1, "y": 2, "parts": [ "frame_wood#vertical_right", "clothboard#ne", "roof_cloth" ] },
       { "x": 2, "y": -1, "parts": [ "frame_wood#horizontal_front", "seat_wood" ] },
-      { "x": 2, "y": 0, "parts": [ "frame_wood#horizontal_front", "seat_wood", "controls" ] },
+      { "x": 2, "y": 0, "parts": [ "frame_wood#horizontal_front", "seat_wood", "reins_tackle" ] },
       { "x": 2, "y": 1, "parts": [ "frame_wood#horizontal_front", "seat_wood" ] },
       {
         "x": 2,
@@ -278,7 +278,7 @@
       [ " ## " ]
     ],
     "parts": [
-      { "x": 0, "y": 0, "parts": [ "frame_wood#nw", "seat_wood", "controls" ] },
+      { "x": 0, "y": 0, "parts": [ "frame_wood#nw", "seat_wood", "reins_tackle" ] },
       { "x": 0, "y": 1, "parts": [ "frame_wood#ne", "seat_wood" ] },
       { "x": 1, "y": 0, "parts": [ "yoke_harness" ] },
       { "x": 1, "y": 1, "parts": [ "yoke_harness" ] },
