@@ -1450,11 +1450,14 @@ class item : public visitable
         };
         cata::value_ptr<link_data> link;
         /**
-         * Helper to bring a cable back to its initial state.
+         * Brings a cable item back to its initial state.
          * @return True if the cable should be deleted.
          */
         bool reset_cable( Character *p = nullptr, item *parent_item = nullptr,
                           bool loose_message = false, tripoint sees_point = tripoint_zero );
+        /**
+        * Resets all of an items cables.
+        */
         void reset_cables( Character *p );
 
         /**
