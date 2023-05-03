@@ -4023,6 +4023,7 @@
     "limb_score_mods": [ { "limb_score": "reaction", "modifier": 0.75 }, { "limb_score": "manip", "modifier": 0.75 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
+    "type": "effect_type",
     "id": "glowing_gas",
     "name": [ { "ctxt": "inhaled", "str": "Glowing Gas" } ],
     "desc": [
