@@ -626,7 +626,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Survivor Forest Camp",
+    "id": "survivor_forest_camp",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "survivor_forest_camp_north" }
     ],
