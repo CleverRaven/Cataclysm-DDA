@@ -7,62 +7,135 @@
     "city_distance": [ 5, 40 ],
     "city_sizes": [ 1, -1 ],
     "occurrences": [ 67, 100 ],
-    "flags": [ "WILDERNESS", "UNIQUE" ],
-    "check_for_locations_area": [ { "type": [ "land" ], "from": [ -2, -1, 0 ], "to": [ 2, 14, 0 ] } ],
-    "joins": [ "root_to_road", "road_to_house", "road_to_extra", "house_to_extension", "farm_to_farm" ],
+    "flags": [ "WILDERNESS"],
+    "check_for_locations_area": [ { "type": [ "land" ], "from": [ -4, -2, 0 ], "to": [ 4, 22, 0 ] } ],
+    "joins": [ "root_to_road", "road_to_house", "road_to_stable", "road_to_extra", "road_to_paddock", "house_to_extension", "stable_to_extension", "farm_to_farm" ],
     "overmaps": {
-	}
-	"root": "dirt_road_ns_root_s",
-	"phases": [
+      "dirt_road_ns_root_s": { "overmap": "dirt_road_north", "south": "root_to_road", "connections": { "north": { "connection": "local_road" } } },
+      "dirt_road_ns_root_n": { "overmap": "dirt_road_north", "north": "root_to_road" },
+      "dirt_road_ns_road_n": { "overmap": "dirt_road_north", "connections": { "north": { "connection": "local_road" } } },
+      "dirt_road_ns": { "overmap": "dirt_road_north" },
+      "dirt_road_ew": { "overmap": "dirt_road_east" },
+      "dirt_road_sw": { "overmap": "dirt_road_turn_north" },
+      "dirt_road_nw": { "overmap": "dirt_road_turn_east" },
+      "dirt_road_ne": { "overmap": "dirt_road_turn_south" },
+      "dirt_road_se": { "overmap": "dirt_road_turn_west" },
+      "dirt_road_esw": { "overmap": "dirt_road_3way_north" },
+      "dirt_road_nsw": { "overmap": "dirt_road_3way_east" },
+      "dirt_road_new": { "overmap": "dirt_road_3way_south" },
+      "dirt_road_nes": { "overmap": "dirt_road_3way_west" },
+      "dirt_road_nesw": { "overmap": "dirt_road_4way_north" },
+      "farm_house_1_n": { "overmap": "horse_farm_house_1_north" },
+      "farm_house_2_n": { "overmap": "horse_farm_house_2_north" },
+	  "stables_1_n": { "overmap": "horse_farm_stable_1_north" },
+      "stables_2_n": { "overmap": "horse_farm_stable_2_north" },
+      "paddock_basic_n": { "overmap": "paddock_basic_north" },
+      "paddock_double_ns": { "overmap": "paddock_double_north" },
+      "paddock_double_ew": { "overmap": "paddock_double_east" },
+      "paddock_jumps": { "overmap": "paddock_jumps" },
+      "air_farm_ending": { "overmap": "open_air", "north": { "id": "farm_to_farm", "alternatives": [ "road_to_house", "road_to_extra" ] } },
+      "air_farm_n": { "overmap": "open_air", "north": "farm_to_farm" },
+      "air_farm_e": { "overmap": "open_air", "east": "farm_to_farm" },
+      "air_farm_s": { "overmap": "open_air", "south": "farm_to_farm" },
+      "air_farm_w": { "overmap": "open_air", "west": "farm_to_farm" },
+      "air_farm_s_house_e": { "overmap": "open_air", "south": "farm_to_farm", "east": "road_to_house" },
+      "air_house_n": { "overmap": "open_air", "north": "road_to_house" },
+      "air_house_e": { "overmap": "open_air", "east": "road_to_house" },
+      "air_house_s": { "overmap": "open_air", "south": "road_to_house" },
+      "air_house_w": { "overmap": "open_air", "west": "road_to_house" },
+      "air_stable_n": { "overmap": "open_air", "north": "road_to_stable" },
+      "air_stable_e": { "overmap": "open_air", "east": "road_to_stable" },
+      "air_stable_s": { "overmap": "open_air", "south": "road_to_stable" },
+      "air_stable_w": { "overmap": "open_air", "west": "road_to_stable" },
+      "air_extra_n": { "overmap": "open_air", "north": "road_to_extra" },
+      "air_extra_e": { "overmap": "open_air", "east": "road_to_extra" },
+      "air_extra_s": { "overmap": "open_air", "south": "road_to_extra" },
+      "air_extra_w": { "overmap": "open_air", "west": "road_to_extra" },
+      "hayfield_ew": { "overmap": "hayfield_straight_east" },
+      "hayfield_n": { "overmap": "hayfield_end_north" },
+      "hayfield_e": { "overmap": "hayfield_end_east" },
+      "hayfield_s": { "overmap": "hayfield_end_south" },
+      "hayfield_w": { "overmap": "hayfield_end_west" },
+      "hayfield_L_se": { "overmap": "hayfield_turnL_north" },
+      "hayfield_L_sw": { "overmap": "hayfield_turnL_east" },
+      "hayfield_L_nw": { "overmap": "hayfield_turnL_south" },
+      "hayfield_L_ne": { "overmap": "hayfield_turnL_west" },
+      "hayfield_R_sw": { "overmap": "hayfield_turnR_north" },
+      "hayfield_R_nw": { "overmap": "hayfield_turnR_east" },
+      "hayfield_R_ne": { "overmap": "hayfield_turnR_south" },
+      "hayfield_R_se": { "overmap": "hayfield_turnR_west" },
+      "forest_thick": { "overmap": "special_forest_thick" }
+    },
+    "root": "dirt_road_ns_root_s",
+    "phases": [
       [
         {
-          "name": "horse_entrance",
-		  "//" : "Yard from which dirt road branches"
+          "name": "horse_entrance_1",
           "chunk": [
-		    
+            { "overmap": "dirt_road_ns_root_n", "pos": [ 0, 0, 0 ] },
+            { "overmap": "dirt_road_ns", "pos": [ 0, 1, 0 ] },
+            { "overmap": "dirt_road_ns", "pos": [ 0, 2, 0 ] },
+            { "overmap": "dirt_road_ns", "pos": [ 0, 3, 0 ] },
+            { "overmap": "dirt_road_nes", "pos": [ 0, 4, 0 ] },
+            { "overmap": "dirt_road_ns", "pos": [ 0, 5, 0 ] },
+            { "overmap": "dirt_road_ns", "pos": [ 0, 6, 0 ] },
+            { "overmap": "dirt_road_nes", "pos": [ 0, 7, 0 ] },
+            { "overmap": "dirt_road_ns", "pos": [ 0, 8, 0 ] },
+            { "overmap": "air_farm_s", "pos": [ 0, 8, 10 ] },
+            { "overmap": "dirt_road_ew", "pos": [ 1, 4, 0 ] },
+            { "overmap": "dirt_road_esw", "pos": [ 2, 4, 0 ] },
+            { "overmap": "air_stable_s", "pos": [ 2, 4, 10 ] },
+            { "overmap": "dirt_road_nw", "pos": [ 3, 4, 0 ] },
+            { "overmap": "dirt_road_ns", "pos": [ 3, 3, 0 ] },
+            { "overmap": "air_house_n", "pos": [ 3, 3, 10 ] },
+            { "overmap": "dirt_road_ew", "pos": [ 1, 7, 0 ] },
+            { "overmap": "dirt_road_ew", "pos": [ 2, 7, 0 ] },
+            { "overmap": "dirt_road_nsw", "pos": [ 3, 7, 0 ] },
+            { "overmap": "dirt_road_sw", "pos": [ 3, 6, 0 ] },
+            { "overmap": "dirt_road_ns", "pos": [ 3, 8, 0 ] },
+            { "overmap": "air_farm_s", "pos": [ 3, 8, 10 ] }
           ],
           "max": 1
         }
       ],
-	  [
-	    {
-          "name": "farm_home_horse",
-		  "//" : "Always one house, comes with dirt road"
+      [
+        {
+          "name": "horse_home_1",
           "chunk": [
-		    
+            { "overmap": "farm_house_1_n", "pos": [ 0, 0, 0 ] },
+            { "overmap": "farm_house_2_n", "pos": [ 0, 1, 0 ] },
+            { "overmap": "air_house_n", "pos": [ 0, 0, 10 ] }
           ],
           "max": 1
         }
       ],
-	  [
-	    {
-          "name": "stables",
-		  "//" : "Always one stables, comes with dirt road"
+      [
+        {
+          "name": "stables_1",
           "chunk": [
-		    
+            { "overmap": "stables_1_n", "pos": [ 0, 0, 0 ] },
+            { "overmap": "stables_2_n", "pos": [ 0, 1, 0 ] },
+            { "overmap": "air_stable_n", "pos": [ 0, 0, 10 ] }
           ],
           "max": 1
         }
-	  ]
-	  [
-	    {
-          "name": "paddocks", 
-		  "//" : "Paddocks adjacent to dirt road or each other, some spawn with dirt road, also includes potential track, gravel ring, hay fields, silo, carriage house"
+      ],
+      [
+        {
+          "name": "paddock_end_1",
           "chunk": [
-		    
+		    { "overmap": "dirt_road_ns", "pos": [ 0, 0, 0 ] },
+            { "overmap": "air_farm_n", "pos": [ 0, 0, 10 ] },
+			{ "overmap": "dirt_road_ns", "pos": [ 0, 1, 0 ] },
+			{ "overmap": "paddock_basic_n", "pos": [ 0, 2, 0 ] },
+			{ "overmap": "paddock_basic_n", "pos": [ 1, 1, 0 ] },
+			{ "overmap": "paddock_basic_n", "pos": [ 1, 2, 0 ] },
+			{ "overmap": "paddock_basic_n", "pos": [ -1, 1, 0 ] },
+			{ "overmap": "paddock_basic_n", "pos": [ -1, 2, 0 ] }
           ],
-          "max": 1
-        }
-      ]
-	  [
-	    {
-          "name": "trail",
-		  "//" : "Trail bordered by forest"
-          "chunk": [
-		    
-          ],
-          "max": 1
+		  "weight": 1
         }
       ]
+	]
   }
 ]
