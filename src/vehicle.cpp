@@ -6734,7 +6734,7 @@ int vehicle::damage( map &here, int p, int dmg, const damage_type_id &type, bool
     const bool overhead = vpi_target.has_flag( "ROOF" ) || vpi_target.location == "on_roof";
     // Calling damage_direct may remove the damaged part completely, therefore the
     // other index (target_part) becomes wrong if target_part > armor_part.
-    // Damaging the part with the higher index first is save, as removing a part
+    // Damaging the part with the higher index first is safe, as removing a part
     // only changes indices after the removed part.
     if( armor_part < target_part ) {
         damage_direct( here, target_part, overhead ? dmg : dmg - protection, type );
@@ -6878,9 +6878,17 @@ int vehicle::break_off( map &here, int p, int dmg )
             }
 
             if( part_flag( parts_in_square[ index ], "TOW_CABLE" ) ) {
+                // Tow cables - remove it in one piece, remove remote part, and remove towing data
                 add_msg_if_player_sees( pos, m_bad, _( "The %1$s's %2$s is disconnected!" ), name,
                                         parts[ parts_in_square[ index ] ].name() );
                 invalidate_towing( true );
+            } else if( part_flag( parts_in_square[ index ], "POWER_TRANSFER" ) ) {
+                // Electrical cables - remove it in one piece and remove remote part
+                add_msg_if_player_sees( pos, m_bad, _( "The %1$s's %2$s is disconnected!" ), name,
+                                        parts[ parts_in_square[ index ] ].name() );
+                item part_as_item = parts[parts_in_square[index]].properties_to_item();
+                here.add_item_or_charges( pos, part_as_item );
+                remove_remote_part( parts_in_square[ index ] );
             } else if( parts[ parts_in_square[ index ] ].is_broken() ) {
                 // Tearing off a broken part - break it up
                 add_msg_if_player_sees( pos, m_bad, _( "The %s's %s breaks into pieces!" ), name,
@@ -6904,9 +6912,17 @@ int vehicle::break_off( map &here, int p, int dmg )
         find_and_split_vehicles( here, { p } );
     } else {
         if( part_flag( p, "TOW_CABLE" ) ) {
+            // Tow cables - remove it in one piece, remove remote part, and remove towing data
             add_msg_if_player_sees( pos, m_bad, _( "The %1$s's %2$s is disconnected!" ), name,
                                     parts[ p ].name() );
             invalidate_towing( true );
+        } else if( part_flag( p, "POWER_TRANSFER" ) ) {
+            // Electrical cables - remove it in one piece and remove remote part
+            add_msg_if_player_sees( pos, m_bad, _( "The %1$s's %2$s is disconnected!" ), name,
+                                    parts[ p ].name() );
+            item part_as_item = parts[p].properties_to_item();
+            here.add_item_or_charges( pos, part_as_item );
+            remove_remote_part( p );
         } else {
             //Just break it off
             add_msg_if_player_sees( pos, m_bad, _( "The %1$s's %2$s is destroyed!" ), name, parts[ p ].name() );
@@ -6936,6 +6952,9 @@ int vehicle::break_off( map &here, int p, int dmg )
                     if( part_flag( part, "TOW_CABLE" ) ) {
                         invalidate_towing( true );
                     } else {
+                        if( part_flag( p, "POWER_TRANSFER" ) ) {
+                            remove_remote_part( part );
+                        }
                         item part_as_item = parts[part].properties_to_item();
                         here.add_item_or_charges( pos, part_as_item );
                         remove_part( part, *handler_ptr );
@@ -7039,8 +7058,18 @@ int vehicle::damage_direct( map &here, int p, int dmg, const damage_type_id &typ
         if( part_flag( p, "TOW_CABLE" ) ) {
             invalidate_towing( true );
         } else {
-            here.spawn_item( global_part_pos3( p ), part_info( p ).base_item, 1, 0, calendar::turn,
-                             part_info( p ).base_item.obj().damage_max() - 1 );
+            item part_as_item = parts[p].properties_to_item();
+            add_msg_if_player_sees( global_part_pos3( p ), m_bad, _( "The %1$s's %2$s is disconnected!" ), name,
+                                    parts[p].name() );
+            if( part_flag( p, "POWER_TRANSFER" ) ) {
+                remove_remote_part( p );
+                part_as_item.set_damage( 0 );
+            } else {
+                part_as_item.set_damage( part_info( p ).base_item.obj().damage_max() - 1 );
+            }
+            if( !magic && !part_as_item.has_flag( flag_AUTO_DELETE_CABLE ) ) {
+                here.add_item_or_charges( global_part_pos3( p ), part_as_item );
+            }
             if( !g || &get_map() != &here ) {
                 MapgenRemovePartHandler handler( here );
                 remove_part( p, handler );
