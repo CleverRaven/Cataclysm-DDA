@@ -140,6 +140,15 @@
   },
   {
     "type": "effect_type",
+    "id": "mental_exhaustion",
+    "//": "Prevents you from learning new alchemy recipes.",
+    "name": [ "Mental Exhaustion" ],
+    "desc": [ "You have recently realized a new alchemical recipe and your thoughts are scattered." ],
+    "max_intensity": 1,
+    "rating": "bad"
+  },
+  {
+    "type": "effect_type",
     "id": "dreamer_eff",
     "name": [ "Matter Twist", "Matter Deformation", "Dimensional Shift", "Dimensional Chasm", "Reality Gateway" ],
     "desc": [

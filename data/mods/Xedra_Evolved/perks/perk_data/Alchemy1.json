@@ -10,5 +10,78 @@
       },
       { "u_add_effect": "mental_exhaustion", "intensity": 1, "duration": "24 hours" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ALCHEMY2",
+    "condition": { "and": [ { "u_has_trait": "perk_ALCHEMY2" }, { "not": { "u_has_effect": "mental_exhaustion" } } ] },
+    "effect": [
+      {
+        "u_roll_remainder": [ "prophets_lsd", "truckers_stamina_pills", "spiritshow_dust", "charm_of_marzanna" ],
+        "type": "recipe"
+      },
+      { "u_add_effect": "mental_exhaustion", "intensity": 1, "duration": "48 hours" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ALCHEMY3",
+    "condition": { "and": [ { "u_has_trait": "perk_ALCHEMY3" }, { "not": { "u_has_effect": "mental_exhaustion" } } ] },
+    "effect": [
+      {
+        "u_roll_remainder": [ "prophets_lsd", "truckers_stamina_pills", "spiritshow_dust", "charm_of_marzanna" ],
+        "type": "recipe"
+      },
+      { "u_add_effect": "mental_exhaustion", "intensity": 1, "duration": "96 hours" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_COLD_IRON",
+    "condition": {
+      "and": [
+        { "u_has_trait": "perk_ALCHEMY3" },
+        { "u_has_trait": "perk_ALCHEMY3_COLD_IRON" },
+        { "not": { "u_has_effect": "mental_exhaustion" } }
+      ]
+    },
+    "effect": [
+      {
+        "u_roll_remainder": [
+          "cold_iron_knife",
+          "cold_iron_sword",
+          "cold_iron_warhammer",
+          "cold_iron_charm",
+          "cold_iron_battleaxe",
+          "blood_of_saints"
+        ],
+        "type": "recipe"
+      },
+      { "u_add_effect": "mental_exhaustion", "intensity": 1, "duration": "96 hours" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ALCHEMY4",
+    "condition": { "and": [ { "u_has_trait": "perk_ALCHEMY4" }, { "not": { "u_has_effect": "mental_exhaustion" } } ] },
+    "effect": [
+      {
+        "u_roll_remainder": [ "life_extension_potion", "potion_strength", "potion_dex", "hare_leap", "potion_fish" ],
+        "type": "recipe"
+      },
+      { "u_add_effect": "mental_exhaustion", "intensity": 1, "duration": "192 hours" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ALCHEMY5",
+    "condition": { "and": [ { "u_has_trait": "perk_ALCHEMY5" }, { "not": { "u_has_effect": "mental_exhaustion" } } ] },
+    "effect": [
+      {
+        "u_roll_remainder": [ "ubermensch_amulet", "hyde_formula", "cats_eye_goggles", "clone_phylactery", "perfection_of_form", "apostates_blood" ],
+        "type": "recipe"
+      },
+      { "u_add_effect": "mental_exhaustion", "intensity": 1, "duration": "384 hours" }
+    ]
   }
 ]
