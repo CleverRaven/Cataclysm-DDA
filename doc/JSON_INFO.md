@@ -4004,7 +4004,7 @@ The contents of use_action fields can either be a string indicating a built-in f
     "cable_length": 5 // Maximum length of the cable ( Optional, defaults to 2 ).
     "charge_rate": "60 W" // Charge rate in watts. A positive value will charge the device's chargeable batteries at the expense of the connected power grid.
                           // A negative value will charge the connected electrical grid's batteries at the expense of the device's. 
-                          // A value of 0 will provide power to the device, but will not charge its batteries ( Optional, defaults to "0 W" ).
+                          // A value of 0 won't charge the device's batteries, but will still let the device operate off of the connected power grid ( Optional, defaults to "0 W" ).
     "efficiency": 7 // one_in(this) chance to fail adding 1 charge every charge interval ( Optional, defaults to 7, which is around 85% efficiency ).
     "menu_text": // Text displayed in the activation screen ( Optional, defaults to "Connect / Disconnect" ).
     "targets": [ // Array of link_states that are valid connection points of the cable ( Optional, defaults to only allowing disconnection ).

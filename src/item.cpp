@@ -10201,7 +10201,7 @@ int item::shots_remaining( const Character *carrier ) const
     return ret;
 }
 
-int item::ammo_remaining( const Character *carrier, bool cable_links ) const
+int item::ammo_remaining( const Character *carrier ) const
 {
     int ret = 0;
 
@@ -10212,16 +10212,19 @@ int item::ammo_remaining( const Character *carrier, bool cable_links ) const
     }
 
     // Cable connections
-    if( cable_links && contents_linked ) {
+    if( contents_linked ) {
         for( const item *cable : contents.cables( true ) ) {
-            if( cable->link && cable->link->t_veh_safe ) {
+            if( !cable->link ) {
+                continue;
+            }
+            if( cable->link->t_veh_safe ) {
                 ret += cable->link->t_veh_safe->connected_battery_power_level().first;
-                break;
+                continue;
             } else {
                 const optional_vpart_position vp = get_map().veh_at( cable->link->t_abs_pos );
                 if( vp ) {
                     ret += vp->vehicle().connected_battery_power_level().first;
-                    break;
+                    continue;
                 }
             }
         }
