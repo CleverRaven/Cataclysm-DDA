@@ -844,6 +844,71 @@
     "melee_damage": { "bash": 4, "cut": 8 }
   },
   {
+    "id": "integrated_carapace",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "sclerotin carapace" },
+    "description": "When the time comes to prey, this unwavering carapace will keep you safe from everything that could harm you.",
+    "weight": "11 kg",
+    "volume": "6 L",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "sclerotin" ],
+    "symbol": "x",
+    "color": "brown",
+    "warmth": 7,
+    "environmental_protection": 1,
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "BLOCK_WHILE_WORN", "UNBREAKABLE", "OUTER" ],
+    "armor": [
+      {
+        "material": [ { "type": "sclerotin", "covered_by_mat": 100, "thickness": 4.5 } ],
+        "covers": [ "head" ],
+        "coverage": 95,
+        "encumbrance": 15
+      },
+      {
+        "material": [ { "type": "sclerotin", "covered_by_mat": 100, "thickness": 7.5 } ],
+        "covers": [ "torso" ],
+        "coverage": 95,
+        "encumbrance": 18
+      },
+      {
+        "material": [ { "type": "sclerotin", "covered_by_mat": 100, "thickness": 5.1 } ],
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_upper_l", "arm_lower_l", "arm_upper_r", "arm_lower_r" ],
+        "coverage": 100,
+        "encumbrance": 8
+      },
+      {
+        "material": [ { "type": "sclerotin", "covered_by_mat": 100, "thickness": 4.9 } ],
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_elbow_l", "arm_shoulder_l", "arm_elbow_r", "arm_shoulder_r" ],
+        "coverage": 90,
+        "encumbrance": 9
+      },
+      {
+        "material": [ { "type": "sclerotin", "covered_by_mat": 100, "thickness": 5.3 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_lower_l", "leg_upper_r", "leg_lower_r" ],
+        "coverage": 100,
+        "encumbrance": 8
+      },
+      {
+        "material": [ { "type": "sclerotin", "covered_by_mat": 100, "thickness": 5.1 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_knee_l", "leg_hip_r", "leg_knee_r" ],
+        "coverage": 90,
+        "encumbrance": 8
+      },
+      {
+        "material": [ { "type": "sclerotin", "covered_by_mat": 100, "thickness": 4.1 } ],
+        "covers": [ "foot_l", "foot_r" ],
+        "coverage": 90,
+        "encumbrance": 9
+      }
+    ]
+  },
+  {
     "id": "integrated_shell",
     "type": "ARMOR",
     "category": "armor",
