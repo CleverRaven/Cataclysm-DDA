@@ -171,6 +171,16 @@
   {
     "type": "dream",
     "messages": [
+      "You have a strange dream about crabs.",
+      "Your dreams give you a strange shelled feeling.",
+      "You dream of grabbing something in an oversized claw."
+    ],
+    "category": "CRUSTACEAN",
+    "strength": 1
+  },
+  {
+    "type": "dream",
+    "messages": [
       "You have a disturbing dream of bathing in the sun on a rock.",
       "While dreaming, you see a distinctively lizard-like reflection of yourself."
     ],
@@ -384,6 +394,15 @@
     "type": "dream",
     "messages": [ "You dream of… sneaking.", "You dream of a cold winter night.  Your jacket is too big to put on." ],
     "category": "MOUSE",
+    "strength": 2
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You dream of walking along the sea floor.",
+      "You dream of something biting you but being stopped by your hard outer shell."
+    ],
+    "category": "CRUSTACEAN",
     "strength": 2
   },
   {
@@ -605,6 +624,15 @@
   },
   {
     "type": "dream",
+    "messages": [
+      "You have a disturbing dream of living in a supermarket lobster tank.",
+      "Your vivid dream of living as a crustacean frightens you."
+    ],
+    "category": "CRUSTACEAN",
+    "strength": 3
+  },
+  {
+    "type": "dream",
     "messages": [ "You are terrified by a dream of becoming an ape hybrid.", "You blissfully recall days spent lounging in the sun." ],
     "category": "LIZARD",
     "strength": 4
@@ -822,6 +850,16 @@
       "You hear the sirens again, but this time you stay in your hole in the wall.  Nobody will think to look there!"
     ],
     "category": "MOUSE",
+    "strength": 4
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You dream of pinching zombies with your claws.",
+      "You have a vivid dream of shedding your carapace.  It feels good.",
+      "You dream of tearing apart some hapless fish with your pincers."
+    ],
+    "category": "CRUSTACEAN",
     "strength": 4
   },
   {

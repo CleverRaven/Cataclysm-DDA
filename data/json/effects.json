@@ -1682,6 +1682,31 @@
   },
   {
     "type": "effect_type",
+    "id": "mutagen_crustacean",
+    "name": [ "Crustacean Mutation", "Crustacean Transformation", "Crustacean Metamorphosis" ],
+    "desc": [
+      "You consumed crustacean mutagen.",
+      "You consumed a large amount of crustacean mutagen.",
+      "You consumed a life-changing amount of crustacean mutagen."
+    ],
+    "max_intensity": 3,
+    "resist_traits": [ "THRESH_CRUSTACEAN" ],
+    "base_mods": {
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 75 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 100 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": { "hurt_chance": [ 21, 0 ], "pain_chance": [ -30 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Crustacean Mutagen Contamination"
+  },
+  {
+    "type": "effect_type",
     "id": "beartrap",
     "name": [ "Stuck in a Beartrap" ],
     "desc": [ "You can't move until you get free!" ],
