@@ -737,7 +737,7 @@
     "flags": [ "DURABLE_MELEE" ],
     "volume": "1450 ml",
     "price": "8 USD",
-    "price_postapoc": "5 cents",
+    "price_postapoc": 5,
     "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "melee_damage": { "bash": 7 },
     "//": "Based on https://www.amazon.com/Goodcook-05717000817-Good-Cook-23830/dp/B000ARPJRM/ref=sr_1_6?crid=934OZ18675K2&keywords=rolling%2Bpin&qid=1683202158&sprefix=rollingpin%2Caps%2C512&sr=8-6&th=1"
@@ -1106,7 +1106,7 @@
     "volume": "2625 ml",
     "longest_side": "41 cm",
     "price": "48 USD",
-    "price_postapoc": "5 cents",
+    "price_postapoc": 5,
     "melee_damage": { "bash": 7 },
     "//": "Based on https://www.amazon.com/John-Boos-Chop-N-Slice-Maple-Cutting/dp/B00063QBL8/ref=sr_1_51?crid=3HQVDF1UITVHX&keywords=cutting%2Bboard&qid=1683203867&sprefix=cutting%2Bboard%2Caps%2C213&sr=8-51&th=1"
   },
