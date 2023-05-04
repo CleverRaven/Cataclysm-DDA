@@ -28,7 +28,6 @@
 #include "clothing_mod.h"
 #include "clzones.h"
 #include "colony.h"
-#include "construction.h"
 #include "crafting.h"
 #include "creature.h"
 #include "creature_tracker.h"

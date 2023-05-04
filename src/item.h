@@ -33,7 +33,6 @@
 #include "units.h"
 #include "value_ptr.h"
 #include "visitable.h"
-#include "vpart_position.h"
 #include "rng.h"
 
 class Character;
@@ -66,6 +65,7 @@ struct tripoint;
 template<typename T>
 class ret_val;
 template <typename T> struct enum_traits;
+class vehicle;
 
 namespace enchant_vals
 {
