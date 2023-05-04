@@ -632,7 +632,7 @@
     ],
     "locations": [ "forest" ],
     "city_distance": [ 25, -1 ],
-    "occurrences": [ 20, 100 ],
+    "occurrences": [ 1 ],
     "flags": [ "CLASSIC", "WILDERNESS", "UNIQUE", "MAN_MADE" ]
   },
   {

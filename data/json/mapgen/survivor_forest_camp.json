@@ -36,10 +36,10 @@
       "terrain": { ",": [ [ "t_region_groundcover", 36 ], "t_region_shrub" ], "~": "t_water_dp" },
       "furniture": { "O": "f_firering", "@": "f_logstool" },
       "place_monsters": [
-        { "monster": "GROUP_POND_FISH", "x": [ 23 ], "y": [ 14 ], "chance": 100 },
-        { "monster": "mon_feral_sapien_spear", "x": [ 2 ], "y": [ 15 ], "chance": 50 },
-        { "monster": "GROUP_POND_FISH", "x": [ 21 ], "y": [ 16 ], "chance": 100 },
-        { "monster": "GROUP_POND_FISH", "x": [ 22 ], "y": [ 17 ], "chance": 100 }
+        { "monster": "GROUP_POND_FISH", "x": 23, "y": 14, "chance": 100 },
+        { "monster": "mon_feral_sapien_spear", "x": 12, "y": 12, "spawn_data": { "patrol": [ { "x": 12, "y": 12 } ] } },
+        { "monster": "GROUP_POND_FISH", "x": 21, "y": 16, "chance": 100 },
+        { "monster": "GROUP_POND_FISH", "x": 22, "y": 17, "chance": 100 }
       ],
       "place_loot": [
         { "item": "longbow", "x": 3, "y": 5, "chance": 100 },
@@ -91,10 +91,10 @@
       "terrain": { ",": [ [ "t_region_groundcover", 36 ], "t_region_shrub" ], "~": "t_water_dp" },
       "furniture": { "O": "f_firering", "@": "f_logstool" },
       "place_monsters": [
-        { "monster": "GROUP_POND_FISH", "x": [ 8 ], "y": [ 11 ], "chance": 100 },
-        { "monster": "mon_fleshy_shambler", "x": [ 2 ], "y": [ 11 ], "chance": 100 },
-        { "monster": "GROUP_POND_FISH", "x": [ 9 ], "y": [ 12 ], "chance": 100 },
-        { "monster": "GROUP_POND_FISH", "x": [ 8 ], "y": [ 13 ], "chance": 100 }
+        { "monster": "GROUP_POND_FISH", "x": 23, "y": 14, "chance": 100 },
+        { "monster": "mon_feral_sapien_spear", "x": 12, "y": 12, "spawn_data": { "patrol": [ { "x": 12, "y": 12 } ] } },
+        { "monster": "GROUP_POND_FISH", "x": 21, "y": 16, "chance": 100 },
+        { "monster": "GROUP_POND_FISH", "x": 22, "y": 17, "chance": 100 }
       ],
       "place_loot": [
         { "item": "longbow", "x": 3, "y": 5, "chance": 100 },
