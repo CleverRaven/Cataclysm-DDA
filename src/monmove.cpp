@@ -1406,7 +1406,8 @@ tripoint monster::scent_move()
         }
     }
 
-    return random_entry( smoves, next );
+    // Add some randomness to make creatures zigzag towards the source
+    return random_entry( here.points_in_radius( random_entry( smoves, next ), 1 ) );
 }
 
 int monster::calc_movecost( const tripoint &f, const tripoint &t ) const
