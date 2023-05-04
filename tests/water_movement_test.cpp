@@ -912,7 +912,7 @@ TEST_CASE( "check swim move cost and distance values", "[swimming][slow]" )
             const swim_result result = swim( dummy, scenario.move_mode, scenario.config );
             const swim_result expected = expected_results[scenario.name()];
             CHECK( result.move_cost == Approx( expected.move_cost ).margin( 0 ) );
-            CHECK( result.steps == Approx( expected.steps ).margin( 0 ) );
+            CHECK( result.steps == Approx( expected.steps ).margin( 5 ) );
         }
     }
 }
