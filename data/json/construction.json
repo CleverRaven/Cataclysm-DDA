@@ -219,6 +219,18 @@
   },
   {
     "type": "construction",
+    "id": "constr_excavate_forestfloor",
+    "group": "constr_excavate_forestfloor",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "survival", 1 ] ],
+    "time": "5 m",
+    "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+    "byproducts": [ { "item": "twig", "count": [ 2, 10 ] }, { "item": "leaves", "count": [ 10, 50 ] } ],
+    "pre_terrain": "t_forestfloor",
+    "post_terrain": "t_dirt"
+  },
+  {
+    "type": "construction",
     "id": "constr_fill_water_sh",
     "group": "fill_shallow_water_with_dirt",
     "category": "CONSTRUCT",

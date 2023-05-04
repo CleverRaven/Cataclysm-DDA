@@ -587,6 +587,7 @@
       "items": [
         { "item": "stick_long", "count": [ 0, 5 ] },
         { "item": "splinter", "count": [ 0, 4 ] },
+        { "item": "twig", "count": [ 2, 7 ] },
         { "item": "leaves", "count": [ 5, 20 ] }
       ]
     }
