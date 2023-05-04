@@ -1363,9 +1363,9 @@ class vehicle
         // Total power drain across all vehicle accessories.
         units::power total_accessory_epower() const;
         // Total power draw from all cable-connected devices. Is cleared every turn during idle().
-        units::power linked_item_epower_this_turn;
+        units::power linked_item_epower_this_turn; // NOLINT(cata-serialize)
         // Net power draw or drain on batteries.
-        units::power net_battery_charge_rate( bool include_reactors ) const; // NOLINT(cata-serialize)
+        units::power net_battery_charge_rate( bool include_reactors ) const;
         // Maximum available power available from all reactors. Power from
         // reactors is only drawn when batteries are empty.
         units::power max_reactor_epower() const;
