@@ -82,6 +82,7 @@
       [
         {
           "name": "horse_entrance_1",
+		  "//": "Entrance phase builds road for the farm house and stables leaving a minimum 2x2 gap for both with north facing varients connecting on the top right tile for stables and top left tile for farm houses. Ends in 2 road connections.",
           "chunk": [
             { "overmap": "dirt_road_ns_root_n", "pos": [ 0, 0, 0 ] },
             { "overmap": "dirt_road_ns", "pos": [ 0, 1, 0 ] },
@@ -209,6 +210,7 @@
       [
         {
           "name": "horse_home_1",
+		  "//": "Farm house phase placing a maximum 2x2 house facing north and connecting on the top left tile for 2x2.",
           "chunk": [
             { "overmap": "farm_house_1_n", "pos": [ 0, 0, 0 ] },
             { "overmap": "farm_house_2_n", "pos": [ 0, 1, 0 ] },
@@ -220,6 +222,7 @@
       [
         {
           "name": "stables_1",
+		  "//": "Stables phase placing a maximum 2x2 stables. North facing and connecting on the top right tile for 2x2.",
           "chunk": [
             { "overmap": "stables_1_n", "pos": [ 0, 0, 0 ] },
             { "overmap": "stables_2_n", "pos": [ 0, 1, 0 ] },
@@ -230,7 +233,8 @@
       ],
       [
         {
-          "name": "hayfield_1",
+          "name": "hayfield_end_1",
+		  "//": "Dead end phase.",
           "chunk": [
             { "overmap": "hayfield_L_se", "pos": [ 0, 0, 0 ] },
             { "overmap": "outer_to_inner_n", "pos": [ 0, 0, 10 ] },
@@ -238,10 +242,9 @@
             { "overmap": "hayfield_L_nw", "pos": [ 1, 1, 0 ] },
             { "overmap": "hayfield_R_sw", "pos": [ 1, 0, 0 ] }
           ],
-          "max": 1
-        }
-      ],
-      [
+          "max": 1,
+		  "weight": 1
+        },
         {
           "name": "paddock_end_1",
           "chunk": [
@@ -254,7 +257,7 @@
             { "overmap": "paddock_basic_n", "pos": [ -1, 1, 0 ] },
             { "overmap": "paddock_basic_n", "pos": [ -1, 2, 0 ] }
           ],
-          "weight": 1
+          "weight": 2
         }
       ],
       [
