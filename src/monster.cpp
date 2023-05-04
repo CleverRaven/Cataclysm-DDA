@@ -2010,6 +2010,17 @@ void monster::die_in_explosion( Creature *source )
     die( source );
 }
 
+bool monster::stumble_invis( const tripoint &p, const Character &player )
+{
+    const bool player_sees = player.sees( *this );
+    add_msg( m_bad, _( "%s stumbles into you!" ), player_sees ? this->disp_name( false,
+             true ) : _( "Something" ) );
+    add_effect( effect_stumbled_into_invisible, 2_seconds );
+    get_map().add_field( p, field_fd_last_known );
+    moves = 0;
+    return true;
+}
+
 void monster::heal_bp( bodypart_id, int dam )
 {
     heal( dam );

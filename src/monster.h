@@ -358,6 +358,7 @@ class monster : public Creature
         void explode();
         // Let the monster die and let its body explode into gibs
         void die_in_explosion( Creature *source );
+        bool stumble_invis( const tripoint &p, const Character &player );
 
         void heal_bp( bodypart_id bp, int dam ) override;
         /**

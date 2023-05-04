@@ -1627,14 +1627,8 @@ bool monster::attack_at( const tripoint &p )
         if( sees( player_character ) ) {
             return melee_attack( player_character );
         } else {
-            // Creature stumbles into a player it cannot see, briefly becoming aware of their location
-            const bool player_sees = player_character.sees( *this );
-            add_msg( m_bad, _( "%s stumbles into you!" ), player_sees ? this->disp_name( false,
-                     true ) : _( "Something" ) );
-            add_effect( effect_stumbled_into_invisible, 2_seconds );
-            get_map().add_field( p, field_fd_last_known );
-            moves = 0;
-            return true;
+        	// Creature stumbles into a player it cannot see, briefly becoming aware of their location
+            return stumble_invis( p, player_character );
         }
     }
 
