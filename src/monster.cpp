@@ -2012,7 +2012,7 @@ void monster::die_in_explosion( Creature *source )
 
 bool monster::stumble_invis( const tripoint &p, const Character &player )
 {
-	if( !fov_3d && posz() != player.posz() ) {
+    if( !fov_3d && posz() != player.posz() ) {
         return false;
     }
     const bool player_sees = player.sees( *this );

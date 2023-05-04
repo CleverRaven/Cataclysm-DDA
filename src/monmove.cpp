@@ -1627,7 +1627,7 @@ bool monster::attack_at( const tripoint &p )
         if( sees( player_character ) ) {
             return melee_attack( player_character );
         } else {
-        	// Creature stumbles into a player it cannot see, briefly becoming aware of their location
+            // Creature stumbles into a player it cannot see, briefly becoming aware of their location
             return stumble_invis( p, player_character );
         }
     }
