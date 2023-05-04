@@ -1,6 +1,23 @@
 [
   {
     "type": "material",
+    "id": "cold_iron",
+    "name": "Cold Iron",
+    "density": 8,
+    "specific_heat_liquid": 0.82,
+    "specific_heat_solid": 0.45,
+    "latent_heat": 247,
+    "conductive": true,
+    "chip_resist": 25,
+    "repaired_with": "scrap",
+    "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
+    "bash_dmg_verb": "dented",
+    "cut_dmg_verb": "scratched",
+    "burn_products": [ [ "scrap", 1 ] ],
+    "resist": { "bash": 5, "cut": 5, "acid": 2, "bullet": 2 }
+  },
+  {
+    "type": "material",
     "id": "fae_fur",
     "name": "Glimmer Fur",
     "//": "Shimmering fur common to creatures from Under the hill.",

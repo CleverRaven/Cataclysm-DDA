@@ -1,0 +1,12 @@
+[
+  {
+    "id": "xe_cold_iron_damage",
+    "type": "damage_type",
+    "physical": true,
+    "magic_color": "grey",
+    "name": "radiant",
+    "skill": "cutting",
+    "derived_from": [ "cutting", 1.2 ],
+    "immune_flags": { "character": [ "IRONSWORN" ], "monster": [ "IRONWROUGHT" ] }
+  }
+]

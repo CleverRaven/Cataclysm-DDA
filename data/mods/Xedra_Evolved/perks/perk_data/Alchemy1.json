@@ -29,7 +29,15 @@
     "condition": { "and": [ { "u_has_trait": "perk_ALCHEMY3" }, { "not": { "u_has_effect": "mental_exhaustion" } } ] },
     "effect": [
       {
-        "u_roll_remainder": [ "prophets_lsd", "truckers_stamina_pills", "spiritshow_dust", "charm_of_marzanna" ],
+        "u_roll_remainder": [
+          "feline_potion",
+          "lupine_potion",
+          "cephalopod_potion",
+          "plant_potion",
+          "scorpion_potion",
+          "butterfly_potion",
+          "spider_potion"
+        ],
         "type": "recipe"
       },
       { "u_add_effect": "mental_exhaustion", "intensity": 1, "duration": "96 hours" }
