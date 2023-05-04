@@ -1,7 +1,7 @@
 [
   {
     "type": "overmap_special",
-    "id": "Horse Mutable",
+    "id": "Horse Farm Mutable",
     "subtype": "mutable",
     "locations": [ "land", "open_air" ],
     "city_distance": [ 5, 40 ],
