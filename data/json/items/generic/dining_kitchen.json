@@ -714,9 +714,13 @@
     "name": { "str": "spatula" },
     "description": "A rubber scraper for making sure you get every last scrap of cookie dough.",
     "looks_like": "spoon",
-    "proportional": { "weight": 3.0, "volume": 2.0 },
+    "weight": "50 g",
+    "volume": "195 ml",
+    "longest_side": "24 cm",
+    "price": 435,
     "material": [ "rubber" ],
-    "copy-from": "base_plastic_silverware"
+    "copy-from": "base_plastic_silverware",
+    "//": "Based on https://www.amazon.com/Rubbermaid-Commercial-Products-Spatula-FG1901000000/dp/B001BKWXOY/ref=sr_1_8?crid=1JRXNWE266SFB&keywords=rubber%2Bspatula&qid=1683210364&sprefix=rubber%2Bspatula%2Caps%2C238&sr=8-8&th=1"
   },
   {
     "type": "GENERIC",
