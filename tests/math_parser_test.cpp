@@ -14,7 +14,7 @@ static const spell_id spell_test_spell_pew( "test_spell_pew" );
 // NOLINTNEXTLINE(readability-function-cognitive-complexity): false positive
 TEST_CASE( "math_parser_parsing", "[math_parser]" )
 {
-    dialogue const d( std::make_unique<talker>(), std::make_unique<talker>() );
+    dialogue d( std::make_unique<talker>(), std::make_unique<talker>() );
     math_exp testexp;
 
     CHECK_FALSE( testexp.parse( "" ) );
@@ -149,7 +149,7 @@ TEST_CASE( "math_parser_parsing", "[math_parser]" )
 TEST_CASE( "math_parser_dialogue_integration", "[math_parser]" )
 {
     standard_npc dude;
-    dialogue const d( get_talker_for( get_avatar() ), get_talker_for( &dude ) );
+    dialogue d( get_talker_for( get_avatar() ), get_talker_for( &dude ) );
     math_exp testexp;
     global_variables &globvars = get_globals();
 
@@ -165,6 +165,14 @@ TEST_CASE( "math_parser_dialogue_integration", "[math_parser]" )
     CHECK( testexp.eval( d ) == Approx( 21 ) );
     CHECK( testexp.parse( "x + u_x + n_x" ) );
     CHECK( testexp.eval( d ) == Approx( 213 ) );
+
+    CHECK( testexp.parse( "_ctx" ) );
+    CHECK( testexp.eval( d ) == Approx( 0 ) );
+
+    d.set_value( "npctalk_var_ctx", "14" );
+
+    CHECK( testexp.parse( "_ctx" ) );
+    CHECK( testexp.eval( d ) == Approx( 14 ) );
 
     // reading scoped values with u_val shim
     std::string dmsg = capture_debugmsg_during( [&testexp]() {
@@ -192,6 +200,9 @@ TEST_CASE( "math_parser_dialogue_integration", "[math_parser]" )
     CHECK( testexp.parse( "n_testvar", true ) );
     testexp.assign( d, 359 );
     CHECK( std::stoi( dude.get_value( "npctalk_var_testvar" ) ) == 359 );
+    CHECK( testexp.parse( "_testvar", true ) );
+    testexp.assign( d, 159 );
+    CHECK( std::stoi( d.get_value( "npctalk_var_testvar" ) ) == 159 );
 
     // assignment to scoped values with u_val shim
     CHECK( testexp.parse( "u_val('stamina')", true ) );

@@ -17,10 +17,14 @@ effect_on_condition_EOC_TEST_TRANSFORM_LINE( "EOC_TEST_TRANSFORM_LINE" );
 static const effect_on_condition_id
 effect_on_condition_EOC_TEST_TRANSFORM_RADIUS( "EOC_TEST_TRANSFORM_RADIUS" );
 static const effect_on_condition_id
+effect_on_condition_EOC_jmath_test( "EOC_jmath_test" );
+static const effect_on_condition_id
 effect_on_condition_EOC_math_diag_assign( "EOC_math_diag_assign" );
 static const effect_on_condition_id effect_on_condition_EOC_math_duration( "EOC_math_duration" );
 static const effect_on_condition_id
 effect_on_condition_EOC_math_switch_math( "EOC_math_switch_math" );
+static const effect_on_condition_id
+effect_on_condition_EOC_math_test_context( "EOC_math_test_context" );
 static const effect_on_condition_id
 effect_on_condition_EOC_math_test_equals_assign( "EOC_math_test_equals_assign" );
 static const effect_on_condition_id
@@ -129,6 +133,16 @@ TEST_CASE( "EOC_math_integration", "[eoc][math_parser]" )
     CHECK( std::stod( globvars.get_global_value( "npctalk_var_weighted_var" ) ) == Approx( 1 ) );
 }
 
+TEST_CASE( "EOC_jmath", "[eoc][math_parser]" )
+{
+    global_variables &globvars = get_globals();
+    globvars.clear_global_values();
+    REQUIRE( globvars.get_global_value( "npctalk_var_blorgy" ).empty() );
+    dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
+    effect_on_condition_EOC_jmath_test->activate( d );
+    CHECK( std::stod( globvars.get_global_value( "npctalk_var_blorgy" ) ) == Approx( 7 ) );
+}
+
 TEST_CASE( "EOC_transform_radius", "[eoc][timed_event]" )
 {
     // no introspection :(
@@ -181,6 +195,30 @@ TEST_CASE( "EOC_activity_finish", "[eoc][timed_event]" )
     complete_activity( get_avatar() );
 
     CHECK( stoi( get_avatar().get_value( "npctalk_var_activitiy_incrementer" ) ) == 1 );
+}
+
+TEST_CASE( "EOC_context_test", "[eoc][math_parser]" )
+{
+    clear_avatar();
+    clear_map();
+
+    dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
+    global_variables &globvars = get_globals();
+    globvars.clear_global_values();
+
+    REQUIRE( globvars.get_global_value( "npctalk_var_simple_global" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_nested_simple_global" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_non_nested_simple_global" ).empty() );
+    CHECK( effect_on_condition_EOC_math_test_context->activate( d ) );
+    CHECK( std::stod( globvars.get_global_value( "npctalk_var_simple_global" ) ) == Approx( 12 ) );
+    CHECK( std::stod( globvars.get_global_value( "npctalk_var_nested_simple_global" ) ) == Approx(
+               7 ) );
+    // shouldn't be passed back up
+    CHECK( std::stod( globvars.get_global_value( "npctalk_var_non_nested_simple_global" ) ) == Approx(
+               0 ) );
+
+    // value shouldn't exist in the original dialogue
+    CHECK( d.get_value( "npctalk_var_simple" ).empty() );
 }
 
 TEST_CASE( "EOC_activity_ongoing", "[eoc][timed_event]" )

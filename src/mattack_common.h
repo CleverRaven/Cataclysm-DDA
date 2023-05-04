@@ -33,7 +33,7 @@ class mattack_actor
         int attack_chance = 100;
 
         // Dialogue conditions of the attack
-        std::function<bool( const dialogue & )> condition;
+        std::function<bool( dialogue & )> condition;
         bool has_condition = false;
 
         void load( const JsonObject &jo, const std::string &src );

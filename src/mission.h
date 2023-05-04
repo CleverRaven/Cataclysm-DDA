@@ -229,7 +229,7 @@ struct mission_type {
         std::map<std::string, translation> dialogue;
 
         // A dynamic goal condition invoked by MGOAL_CONDITION.
-        std::function<bool( const struct dialogue & )> goal_condition;
+        std::function<bool( struct dialogue & )> goal_condition;
 
         mission_type() = default;
 
@@ -254,7 +254,7 @@ struct mission_type {
          */
         static const std::vector<mission_type> &get_all();
 
-        bool test_goal_condition( const struct dialogue &d ) const;
+        bool test_goal_condition( struct dialogue &d ) const;
 
         static void reset();
         static void load_mission_type( const JsonObject &jo, const std::string &src );
