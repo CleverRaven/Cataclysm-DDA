@@ -572,7 +572,7 @@
     "starting_trait": true,
     "types": [ "HEALING" ],
     "changes_to": [ "FASTHEALER2", "REGEN_LIZ" ],
-    "category": [ "MEDICAL", "PLANT", "BATRACHIAN", "LIZARD", "SLIME", "TROGLOBITE" ],
+    "category": [ "MEDICAL", "PLANT", "BATRACHIAN", "LIZARD", "SLIME", "TROGLOBITE", "CRUSTACEAN" ],
     "healing_awake": 0.133,
     "healing_multiplier": 1.5,
     "mending_modifier": 2.0
@@ -697,7 +697,8 @@
       "RAT",
       "BATRACHIAN",
       "CHIMERA",
-      "GASTROPOD"
+      "GASTROPOD",
+      "CRUSTACEAN"
     ]
   },
   {
@@ -900,7 +901,7 @@
     "description": "You can handle intoxicants well.  Their effects clear up more quickly for you.",
     "starting_trait": true,
     "leads_to": [ "ALCMET" ],
-    "category": [ "TROGLOBITE", "RAPTOR", "RAT", "CHIMERA", "BATRACHIAN" ],
+    "category": [ "TROGLOBITE", "RAPTOR", "RAT", "CHIMERA", "BATRACHIAN", "CRUSTACEAN" ],
     "cancels": [ "LIGHTWEIGHT" ]
   },
   {
@@ -963,7 +964,7 @@
     "description": "There's something about you that creatures find frightening, and they are more likely to try to flee.",
     "starting_trait": true,
     "types": [ "ANIMAL_EMPATHY" ],
-    "category": [ "BEAST", "INSECT", "CHIMERA" ],
+    "category": [ "BEAST", "INSECT", "CHIMERA", "CRUSTACEAN" ],
     "social_modifiers": { "intimidate": 15 }
   },
   {
@@ -1658,7 +1659,20 @@
     "types": [ "SCENT" ],
     "changes_to": [ "SMELLY2" ],
     "scent_intensity": 800,
-    "category": [ "FELINE", "LUPINE", "MOUSE", "BEAST", "SLIME", "CHIMERA", "URSINE", "BATRACHIAN", "FISH", "INSECT", "CATTLE" ]
+    "category": [
+      "FELINE",
+      "LUPINE",
+      "MOUSE",
+      "BEAST",
+      "SLIME",
+      "CHIMERA",
+      "URSINE",
+      "BATRACHIAN",
+      "FISH",
+      "INSECT",
+      "CATTLE",
+      "CRUSTACEAN"
+    ]
   },
   {
     "type": "mutation",
@@ -1726,6 +1740,7 @@
     "points": -1,
     "description": "You make more noise while walking.  You're also more likely to set off traps.",
     "starting_trait": true,
+    "category": [ "CRUSTACEAN" ],
     "cancels": [ "LIGHTSTEP" ],
     "noise_modifier": 1.7
   },
@@ -1796,7 +1811,19 @@
     "vomit_multiplier": 2,
     "types": [ "CONSTITUTION" ],
     "changes_to": [ "NAUSEA" ],
-    "category": [ "ALPHA", "SLIME", "RAT", "MEDICAL", "ELFA", "BATRACHIAN", "TROGLOBITE", "RAPTOR", "CHIMERA", "GASTROPOD" ]
+    "category": [
+      "ALPHA",
+      "SLIME",
+      "RAT",
+      "MEDICAL",
+      "ELFA",
+      "BATRACHIAN",
+      "TROGLOBITE",
+      "RAPTOR",
+      "CHIMERA",
+      "GASTROPOD",
+      "CRUSTACEAN"
+    ]
   },
   {
     "type": "mutation",
@@ -1844,7 +1871,8 @@
       "SLIME",
       "RAT",
       "CHIMERA",
-      "SPIDER"
+      "SPIDER",
+      "CRUSTACEAN"
     ]
   },
   {
@@ -1940,7 +1968,8 @@
       "RABBIT",
       "INSECT",
       "ELFA",
-      "URSINE"
+      "URSINE",
+      "CRUSTACEAN"
     ]
   },
   {
@@ -2307,8 +2336,8 @@
     "visibility": 5,
     "ugliness": 3,
     "description": "You've grown a set of gills in your neck, allowing you to breathe underwater.  Slightly increases wet benefits.",
-    "category": [ "FISH", "BATRACHIAN" ],
-    "threshreq": [ "THRESH_FISH", "THRESH_BATRACHIAN" ],
+    "category": [ "FISH", "BATRACHIAN", "CRUSTACEAN" ],
+    "threshreq": [ "THRESH_FISH", "THRESH_BATRACHIAN", "THRESH_CRUSTACEAN" ],
     "types": [ "GILLS" ],
     "flags": [ "GILLS" ],
     "wet_protection": [ { "part": "head", "good": 1 } ]
@@ -2721,7 +2750,7 @@
     "types": [ "SKIN" ],
     "prereqs": [ "SKIN_ROUGH" ],
     "leads_to": [ "CHITIN2", "CHITIN_FUR", "CHITIN_FUR2", "CHITIN_FUR3" ],
-    "category": [ "SPIDER", "INSECT" ],
+    "category": [ "SPIDER", "INSECT", "CRUSTACEAN" ],
     "integrated_armor": [ "integrated_chitin" ],
     "wet_protection": [
       { "part": "head", "ignored": 1 },
@@ -2747,8 +2776,8 @@
     "description": "You've grown a chitin exoskeleton, much like that of an insect.  It provides considerable physical protection, and make your punches hit a little harder.  Somewhat reduces wet effects.",
     "types": [ "BODY_ARMOR" ],
     "prereqs": [ "CHITIN" ],
-    "leads_to": [ "CHITIN3" ],
-    "category": [ "SPIDER", "INSECT" ],
+    "leads_to": [ "CHITIN3", "CRUSTACEAN_CARAPACE" ],
+    "category": [ "SPIDER", "INSECT", "CRUSTACEAN" ],
     "integrated_armor": [ "integrated_chitin2" ],
     "wet_protection": [
       { "part": "head", "ignored": 2 },
@@ -2774,7 +2803,7 @@
     "description": "You've grown a sclerotin exoskeleton, akin to an organic suit of platemail.  It provides excellent physical protection and makes your punches hit harder, but reduces your Dexterity by 1 and encumbers all body parts but your eyes and mouth.  Greatly reduces wet effects.",
     "types": [ "BODY_ARMOR" ],
     "prereqs": [ "CHITIN2" ],
-    "category": [ "SPIDER" ],
+    "category": [ "SPIDER", "CRUSTACEAN" ],
     "leads_to": [ "CHITIN_FUR3" ],
     "integrated_armor": [ "integrated_chitin3", "integrated_chitin3_claws" ],
     "wet_protection": [
@@ -2790,6 +2819,33 @@
       { "part": "torso", "ignored": 26 }
     ],
     "passive_mods": { "dex_mod": -1 }
+  },
+  {
+    "type": "mutation",
+    "id": "CRUSTACEAN_CARAPACE",
+    "name": { "str": "Crustacean Carapace" },
+    "points": 8,
+    "visibility": 10,
+    "ugliness": 8,
+    "description": "Your body is covered with a thick, near impenetrable, vividly-colored carapace.  It provides unmatched physical protection and even some protection from corrosive chemicals, but reduces your dexterity by 2 and encumbers all body parts except your eyes.  Greatly reduces wet effects.",
+    "types": [ "BODY_ARMOR" ],
+    "prereqs": [ "CHITIN2" ],
+    "category": [ "CRUSTACEAN" ],
+    "leads_to": [ "CRUSTACEAN_CLAW" ],
+    "integrated_armor": [ "integrated_carapace" ],
+    "wet_protection": [
+      { "part": "head", "ignored": 8 },
+      { "part": "leg_l", "ignored": 16 },
+      { "part": "leg_r", "ignored": 16 },
+      { "part": "foot_l", "ignored": 6 },
+      { "part": "foot_r", "ignored": 6 },
+      { "part": "arm_l", "ignored": 16 },
+      { "part": "arm_r", "ignored": 16 },
+      { "part": "hand_l", "ignored": 6 },
+      { "part": "hand_r", "ignored": 6 },
+      { "part": "torso", "ignored": 20 }
+    ],
+    "passive_mods": { "dex_mod": -2 }
   },
   {
     "type": "mutation",
@@ -2837,6 +2893,27 @@
     "leads_to": [ "CF_HAIR" ],
     "threshreq": [ "THRESH_SPIDER" ],
     "category": [ "SPIDER" ]
+  },
+  {
+    "type": "mutation",
+    "id": "CRUSTACEAN_CLAW",
+    "name": { "str": "Giant Pincer" },
+    "points": 0,
+    "visibility": 10,
+    "ugliness": 9,
+    "cut_dmg_bonus": 3,
+    "bash_dmg_bonus": 6,
+    "butchering_quality": -3,
+    "description": "Instead of your right hand, you now have a giant claw resembling ones found on crabs.  It encumbers you greatly, but you can use it in melee combat to deal massive damage.",
+    "encumbrance_always": [ [ "hand_r", 40 ] ],
+    "valid": false,
+    "cancels": [ "NAILS", "CLAWS", "TALONS", "WEBBED", "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8" ],
+    "prereqs": [ "CRUSTACEAN_CARAPACE" ],
+    "threshreq": [ "THRESH_CRUSTACEAN" ],
+    "category": [ "CRUSTACEAN" ],
+    "restricts_gear": [ "hand_r" ],
+    "types": [ "HANDS" ],
+    "armor": [ { "parts": [ "hand_r" ], "bash": 3, "cut": 3 } ]
   },
   {
     "type": "mutation",
@@ -3913,9 +3990,17 @@
     "prereqs": [ "POISRESIST" ],
     "//": "Yes, you eventually got over the massive digestive upset.  Mutations aren't easy on a system!",
     "prereqs2": [ "SAPROVORE", "TOLERANCE" ],
-    "threshreq": [ "THRESH_TROGLOBITE", "THRESH_CHIMERA", "THRESH_RAPTOR", "THRESH_RAT", "THRESH_MOUSE", "THRESH_BATRACHIAN" ],
+    "threshreq": [
+      "THRESH_TROGLOBITE",
+      "THRESH_CHIMERA",
+      "THRESH_RAPTOR",
+      "THRESH_RAT",
+      "THRESH_MOUSE",
+      "THRESH_BATRACHIAN",
+      "THRESH_CRUSTACEAN"
+    ],
     "vitamins_absorb_multi": [ [ "all", [ [ "mutant_toxin", 0.25 ] ] ] ],
-    "category": [ "TROGLOBITE", "RAPTOR", "RAT", "CHIMERA", "BATRACHIAN", "GASTROPOD" ]
+    "category": [ "TROGLOBITE", "RAPTOR", "RAT", "CHIMERA", "BATRACHIAN", "GASTROPOD", "CRUSTACEAN" ]
   },
   {
     "type": "mutation",
@@ -3925,10 +4010,10 @@
     "description": "Your digestion has evolved further.  In addition to mutated meat, you can also stomach the tainted and long-dead flesh of zombies… if you can stand the taste, of course.",
     "types": [ "CONSTITUTION" ],
     "prereqs": [ "EATPOISON" ],
-    "threshreq": [ "THRESH_CHIMERA", "THRESH_RAT" ],
+    "threshreq": [ "THRESH_CHIMERA", "THRESH_RAT", "THRESH_CRUSTACEAN" ],
     "cancels": [ "VEGETARIAN", "HERBIVORE", "RUMINANT", "GRAZER" ],
     "vitamins_absorb_multi": [ [ "all", [ [ "mutant_toxin", 0.25 ] ] ] ],
-    "category": [ "RAT", "CHIMERA" ],
+    "category": [ "RAT", "CHIMERA", "CRUSTACEAN" ],
     "flags": [ "IMMUNE_SPOIL" ]
   },
   {
@@ -4344,9 +4429,9 @@
     "social_modifiers": { "intimidate": 2 },
     "types": [ "DURABILITY" ],
     "prereqs": [ "LARGE_OK", "HUGE_OK", "STR_UP_3", "STR_UP_4" ],
-    "threshreq": [ "THRESH_URSINE", "THRESH_CATTLE", "THRESH_CHIMERA", "THRESH_LIZARD", "THRESH_BEAST" ],
+    "threshreq": [ "THRESH_URSINE", "THRESH_CATTLE", "THRESH_CHIMERA", "THRESH_LIZARD", "THRESH_BEAST", "THRESH_CRUSTACEAN" ],
     "changes_to": [ "MUT_TOUGH2" ],
-    "category": [ "URSINE", "CATTLE", "CHIMERA", "BEAST", "LIZARD" ],
+    "category": [ "URSINE", "CATTLE", "CHIMERA", "BEAST", "LIZARD", "CRUSTACEAN" ],
     "hp_modifier_secondary": 0.2
   },
   {
@@ -4358,9 +4443,9 @@
     "social_modifiers": { "intimidate": 3 },
     "types": [ "DURABILITY" ],
     "prereqs": [ "MUT_TOUGH" ],
-    "threshreq": [ "THRESH_URSINE", "THRESH_CATTLE", "THRESH_CHIMERA" ],
+    "threshreq": [ "THRESH_URSINE", "THRESH_CATTLE", "THRESH_CHIMERA", "THRESH_CRUSTACEAN" ],
     "changes_to": [ "MUT_TOUGH3" ],
-    "category": [ "URSINE", "CATTLE", "CHIMERA" ],
+    "category": [ "URSINE", "CATTLE", "CHIMERA", "CRUSTACEAN" ],
     "hp_modifier_secondary": 0.3
   },
   {
@@ -5022,7 +5107,7 @@
     "prereqs": [ "STR_UP", "STR_UP_2", "STR_UP_3", "STR_UP_4", "MASOCHIST_MED" ],
     "prereqs2": [ "DENSE_BONES" ],
     "changes_to": [ "LARGE_OK", "HUGE" ],
-    "category": [ "URSINE", "CATTLE", "LIZARD", "CHIMERA" ],
+    "category": [ "URSINE", "CATTLE", "LIZARD", "CHIMERA", "CRUSTACEAN" ],
     "passive_mods": { "str_mod": 2 },
     "stomach_size_multiplier": 1.5,
     "weight_capacity_modifier": 1.05
@@ -5038,9 +5123,9 @@
     "types": [ "SIZE" ],
     "prereqs": [ "LARGE" ],
     "prereqs2": [ "STR_UP", "STR_UP_2", "STR_UP_3", "STR_UP_4" ],
-    "threshreq": [ "THRESH_URSINE", "THRESH_CATTLE", "THRESH_LIZARD", "THRESH_CHIMERA" ],
+    "threshreq": [ "THRESH_URSINE", "THRESH_CATTLE", "THRESH_LIZARD", "THRESH_CHIMERA", "THRESH_CRUSTACEAN" ],
     "changes_to": [ "HUGE" ],
-    "category": [ "URSINE", "CATTLE", "LIZARD", "CHIMERA" ],
+    "category": [ "URSINE", "CATTLE", "LIZARD", "CHIMERA", "CRUSTACEAN" ],
     "passive_mods": { "str_mod": 2 },
     "stomach_size_multiplier": 1.5,
     "weight_capacity_modifier": 1.05
@@ -5059,7 +5144,7 @@
     "prereqs": [ "LARGE", "LARGE_OK" ],
     "prereqs2": [ "STR_UP_3", "STR_UP_4" ],
     "changes_to": [ "HUGE_OK" ],
-    "category": [ "URSINE", "CATTLE" ],
+    "category": [ "URSINE", "CATTLE", "CRUSTACEAN" ],
     "passive_mods": { "str_mod": 4 },
     "hp_adjustment": -6,
     "fatigue_modifier": 0.15,
@@ -5081,8 +5166,8 @@
     "types": [ "SIZE" ],
     "prereqs": [ "HUGE" ],
     "prereqs2": [ "STR_UP_3", "STR_UP_4" ],
-    "threshreq": [ "THRESH_URSINE", "THRESH_CATTLE" ],
-    "category": [ "URSINE", "CATTLE" ],
+    "threshreq": [ "THRESH_URSINE", "THRESH_CATTLE", "THRESH_CRUSTACEAN" ],
+    "category": [ "URSINE", "CATTLE", "CRUSTACEAN" ],
     "passive_mods": { "str_mod": 4 },
     "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r" ],
     "destroys_gear": true,
@@ -5097,7 +5182,20 @@
     "description": "Your muscles are a little stronger.  +1 Strength.",
     "types": [ "STR" ],
     "changes_to": [ "STR_UP_2" ],
-    "category": [ "INSECT", "RAPTOR", "LIZARD", "CATTLE", "PLANT", "ALPHA", "CHIMERA", "LUPINE", "TROGLOBITE", "BEAST", "URSINE" ],
+    "category": [
+      "INSECT",
+      "RAPTOR",
+      "LIZARD",
+      "CATTLE",
+      "PLANT",
+      "ALPHA",
+      "CHIMERA",
+      "LUPINE",
+      "TROGLOBITE",
+      "BEAST",
+      "URSINE",
+      "CRUSTACEAN"
+    ],
     "passive_mods": { "str_mod": 1 }
   },
   {
@@ -5109,7 +5207,7 @@
     "types": [ "STR" ],
     "prereqs": [ "STR_UP" ],
     "changes_to": [ "STR_UP_3", "STR_ALPHA" ],
-    "category": [ "LIZARD", "CATTLE", "PLANT", "ALPHA", "CHIMERA", "LUPINE", "TROGLOBITE", "BEAST", "URSINE" ],
+    "category": [ "LIZARD", "CATTLE", "PLANT", "ALPHA", "CHIMERA", "LUPINE", "TROGLOBITE", "BEAST", "URSINE", "CRUSTACEAN" ],
     "passive_mods": { "str_mod": 2 }
   },
   {
@@ -5122,8 +5220,16 @@
     "types": [ "STR" ],
     "prereqs": [ "STR_UP_2" ],
     "changes_to": [ "STR_UP_4" ],
-    "category": [ "CHIMERA", "LUPINE", "TROGLOBITE", "BEAST", "URSINE", "CATTLE" ],
-    "threshreq": [ "THRESH_CHIMERA", "THRESH_LUPINE", "THRESH_TROGLOBITE", "THRESH_BEAST", "THRESH_URSINE", "THRESH_CATTLE" ],
+    "category": [ "CHIMERA", "LUPINE", "TROGLOBITE", "BEAST", "URSINE", "CATTLE", "CRUSTACEAN" ],
+    "threshreq": [
+      "THRESH_CHIMERA",
+      "THRESH_LUPINE",
+      "THRESH_TROGLOBITE",
+      "THRESH_BEAST",
+      "THRESH_URSINE",
+      "THRESH_CATTLE",
+      "THRESH_CRUSTACEAN"
+    ],
     "passive_mods": { "str_mod": 4 }
   },
   {
@@ -5136,8 +5242,8 @@
     "description": "Your muscles are noticeably bulging.  +7 Strength.",
     "types": [ "STR" ],
     "prereqs": [ "STR_UP_3" ],
-    "threshreq": [ "THRESH_BEAST", "THRESH_URSINE" ],
-    "category": [ "BEAST", "URSINE" ],
+    "threshreq": [ "THRESH_BEAST", "THRESH_URSINE", "THRESH_CRUSTACEAN" ],
+    "category": [ "BEAST", "URSINE", "CRUSTACEAN" ],
     "passive_mods": { "str_mod": 7 }
   },
   {
@@ -5581,7 +5687,7 @@
     "description": "Your eyes bulge out several inches from your skull.  This does not affect your vision in any way.",
     "leads_to": [ "MEMBRANE" ],
     "changes_to": [ "COMPOUND_EYES", "EYESTALKS1", "FROG_EYES" ],
-    "category": [ "BATRACHIAN", "INSECT", "GASTROPOD", "FISH" ]
+    "category": [ "BATRACHIAN", "INSECT", "GASTROPOD", "FISH", "CRUSTACEAN" ]
   },
   {
     "type": "mutation",
@@ -5593,8 +5699,8 @@
     "mixed_effect": true,
     "description": "Your eyes barely protrude from your head on tentacles, preventing the use of any rigid eyewear.  On the plus side, you can have additional awareness, but sometimes your vision goes wonky as your brain tries to process the new angles.  Perception +1",
     "types": [ "EYES" ],
-    "changes_to": [ "EYESTALKS2" ],
-    "category": [ "GASTROPOD" ],
+    "changes_to": [ "EYESTALKS2", "EYESTALKS_RIGID" ],
+    "category": [ "GASTROPOD", "CRUSTACEAN" ],
     "restricts_gear": [ "eyes" ],
     "allow_soft_gear": true,
     "passive_mods": { "per_mod": 1 }
@@ -5613,6 +5719,22 @@
     "armor": [ { "parts": "eyes", "cut": 3, "bash": 1 } ],
     "restricts_gear": [ "eyes" ],
     "passive_mods": { "per_mod": 2 }
+  },
+  {
+    "type": "mutation",
+    "id": "EYESTALKS_RIGID",
+    "name": { "str": "Rigid Eyestalks" },
+    "points": 2,
+    "visibility": 8,
+    "ugliness": 8,
+    "mixed_effect": true,
+    "description": "You have compound eyes on rigid stalks that can fold back against your head to protect them from danger.  This gives you better all-around vision and allows you to see underwater, but interferes with eyewear.  Perception +1",
+    "types": [ "EYES" ],
+    "category": [ "CRUSTACEAN" ],
+    "restricts_gear": [ "eyes" ],
+    "allow_soft_gear": true,
+    "passive_mods": { "per_mod": 1 },
+    "flags": [ "EYE_MEMBRANE" ]
   },
   {
     "type": "mutation",
@@ -5707,7 +5829,7 @@
     "types": [ "SCENT" ],
     "prereqs": [ "SMELLY" ],
     "leads_to": [ "PHEROMONE_INSECT", "PHEROMONE_MAMMAL", "PHEROMONE_AMPHIBIAN" ],
-    "category": [ "FISH", "BEAST", "SLIME", "CHIMERA", "URSINE", "BATRACHIAN", "INSECT", "CATTLE" ]
+    "category": [ "FISH", "BEAST", "SLIME", "CHIMERA", "URSINE", "BATRACHIAN", "INSECT", "CATTLE", "CRUSTACEAN" ]
   },
   {
     "type": "mutation",
@@ -5735,7 +5857,8 @@
       "SLIME",
       "RAT",
       "CHIMERA",
-      "SPIDER"
+      "SPIDER",
+      "CRUSTACEAN"
     ]
   },
   {
@@ -5749,7 +5872,7 @@
     "types": [ "ATTRACTIVENESS" ],
     "prereqs": [ "DEFORMED" ],
     "changes_to": [ "DEFORMED3" ],
-    "category": [ "BEAST", "URSINE", "PLANT", "GASTROPOD", "SLIME", "RAT", "CHIMERA" ]
+    "category": [ "BEAST", "URSINE", "PLANT", "GASTROPOD", "SLIME", "RAT", "CHIMERA", "CRUSTACEAN" ]
   },
   {
     "type": "mutation",
@@ -5987,7 +6110,7 @@
     "mixed_effect": true,
     "description": "Your bones are particularly dense and durable.  Your tougher frame grants 5% more HP and 15% more carry capacity plus bashing attacks injure you less, but your higher weight makes attacking and moving 5% slower.  Also, dodging and swimming are harder.",
     "types": [ "BONES" ],
-    "category": [ "URSINE", "CATTLE", "CHIMERA", "BEAST", "LIZARD" ],
+    "category": [ "URSINE", "CATTLE", "CHIMERA", "BEAST", "LIZARD", "CRUSTACEAN" ],
     "movecost_modifier": 1.05,
     "movecost_swim_modifier": 1.2,
     "attackcost_modifier": 1.05,
@@ -6007,7 +6130,19 @@
     "types": [ "CONSTITUTION" ],
     "prereqs": [ "WEAKSTOMACH" ],
     "changes_to": [ "VOMITOUS" ],
-    "category": [ "ALPHA", "SLIME", "RAT", "MEDICAL", "ELFA", "BATRACHIAN", "TROGLOBITE", "RAPTOR", "CHIMERA", "GASTROPOD" ],
+    "category": [
+      "ALPHA",
+      "SLIME",
+      "RAT",
+      "MEDICAL",
+      "ELFA",
+      "BATRACHIAN",
+      "TROGLOBITE",
+      "RAPTOR",
+      "CHIMERA",
+      "GASTROPOD",
+      "CRUSTACEAN"
+    ],
     "active": true
   },
   {
@@ -6020,7 +6155,19 @@
     "types": [ "CONSTITUTION" ],
     "prereqs": [ "NAUSEA" ],
     "changes_to": [ "EATPOISON" ],
-    "category": [ "ALPHA", "SLIME", "RAT", "MEDICAL", "ELFA", "BATRACHIAN", "TROGLOBITE", "RAPTOR", "CHIMERA", "GASTROPOD" ],
+    "category": [
+      "ALPHA",
+      "SLIME",
+      "RAT",
+      "MEDICAL",
+      "ELFA",
+      "BATRACHIAN",
+      "TROGLOBITE",
+      "RAPTOR",
+      "CHIMERA",
+      "GASTROPOD",
+      "CRUSTACEAN"
+    ],
     "active": true
   },
   {
@@ -6112,7 +6259,7 @@
     "starting_trait": true,
     "types": [ "THIRST" ],
     "changes_to": [ "THIRST2" ],
-    "category": [ "SLIME", "CEPHALOPOD", "CHIMERA", "ELFA", "GASTROPOD", "FISH", "BATRACHIAN" ],
+    "category": [ "SLIME", "CEPHALOPOD", "CHIMERA", "ELFA", "GASTROPOD", "FISH", "BATRACHIAN", "CRUSTACEAN" ],
     "thirst_modifier": 0.5
   },
   {
@@ -6124,7 +6271,7 @@
     "types": [ "THIRST" ],
     "prereqs": [ "THIRST" ],
     "changes_to": [ "THIRST3" ],
-    "category": [ "FISH", "SLIME", "CEPHALOPOD", "BATRACHIAN" ],
+    "category": [ "FISH", "SLIME", "CEPHALOPOD", "BATRACHIAN", "CRUSTACEAN" ],
     "thirst_modifier": 1.0
   },
   {
@@ -6135,8 +6282,8 @@
     "description": "You dry out seriously quickly, requiring three times as much liquid to stay hydrated.",
     "types": [ "THIRST" ],
     "prereqs": [ "THIRST2" ],
-    "category": [ "BATRACHIAN" ],
-    "threshreq": [ "THRESH_BATRACHIAN" ],
+    "category": [ "BATRACHIAN", "CRUSTACEAN" ],
+    "threshreq": [ "THRESH_BATRACHIAN", "THRESH_CRUSTACEAN" ],
     "thirst_modifier": 2.0
   },
   {
@@ -6853,7 +7000,7 @@
     "description": "Your muscle response is dependent on ambient temperatures.  You lose 1% of your speed for every 5 (2.8) degrees below 65 F (18.3 C).  This sluggishness helps you conserve energy, however.",
     "types": [ "ECTOTHERMIC" ],
     "changes_to": [ "COLDBLOOD2" ],
-    "category": [ "FISH", "CEPHALOPOD", "SPIDER", "GASTROPOD", "INSECT", "LIZARD", "BATRACHIAN", "PLANT" ],
+    "category": [ "FISH", "CEPHALOPOD", "SPIDER", "GASTROPOD", "INSECT", "LIZARD", "BATRACHIAN", "PLANT", "CRUSTACEAN" ],
     "temperature_speed_modifier": 0.2,
     "metabolism_modifier": -0.333
   },
@@ -6868,7 +7015,7 @@
     "types": [ "ECTOTHERMIC" ],
     "prereqs": [ "COLDBLOOD" ],
     "changes_to": [ "COLDBLOOD3" ],
-    "category": [ "INSECT", "LIZARD", "BATRACHIAN", "PLANT" ],
+    "category": [ "INSECT", "LIZARD", "BATRACHIAN", "PLANT", "CRUSTACEAN" ],
     "temperature_speed_modifier": 0.333,
     "metabolism_modifier": -0.5
   },
@@ -7533,6 +7680,16 @@
     "threshold": true,
     "category": [ "MYCUS" ],
     "flags": [ "mycus" ]
+  },
+  {
+    "type": "mutation",
+    "id": "THRESH_CRUSTACEAN",
+    "name": { "str": "Crustacean" },
+    "points": 1,
+    "description": "Who needs skin when you can have a hard carapace?",
+    "valid": false,
+    "purifiable": false,
+    "threshold": true
   },
   {
     "type": "mutation",

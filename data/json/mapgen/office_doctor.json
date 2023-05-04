@@ -337,8 +337,7 @@
         { "item": "laptop", "x": 4, "y": 4, "chance": 85 },
         { "item": "television", "x": 15, "y": 6, "chance": 95 },
         { "item": "soap", "x": 5, "y": 18, "chance": 95 },
-        { "item": "anesthetic_kit", "x": 13, "y": 18, "chance": 75, "ammo": 100 },
-        { "group": "autodoc_installation_programs", "x": 21, "y": [ 16, 18 ], "chance": 75, "repeat": 3 }
+        { "item": "anesthetic_kit", "x": 13, "y": 18, "chance": 75, "ammo": 100 }
       ],
       "vehicles": { "W": { "vehicle": "swivel_chair", "chance": 100, "status": 1 } }
     }

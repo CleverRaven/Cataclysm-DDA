@@ -232,8 +232,11 @@
     "description": "Even with no one around you feel obligated to clean up the streets.  You find full cans of soda in the weirdest places.",
     "category": [ "perk" ],
     "active": true,
-    "activated_eocs": [ "EOC_queue_can_finder" ],
-    "deactivated_eocs": [ "EOC_deque_can_finder" ]
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_can_finder_on" ],
+    "deactivated_eocs": [ "EOC_can_finder_off" ],
+    "processed_eocs": [ "EOC_can_hunting" ],
+    "time": 24000
   },
   {
     "type": "mutation",

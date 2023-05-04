@@ -81,7 +81,7 @@
     "name": { "str": "Freezing Aura (on)" },
     "points": 0,
     "description": "Your body emits a large amount of cold energy, which freezes all enemies near you.",
-    "enchantments": [ "tundra_mage_aoe" ],
+    "enchantments": [ "TUNDRA_MAGE_AOE" ],
     "transform": { "target": "FREEZING_AURA_OFF", "msg_transform": "You suppress your freezing aura.", "active": false, "moves": 10 }
   }
 ]

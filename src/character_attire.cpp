@@ -1905,8 +1905,7 @@ void outfit::fire_options( Character &guy, std::vector<std::string> &options,
             return it.is_gun();
         } );
 
-        if( !guns.empty() && clothing.type->can_use( "holster" ) &&
-            !clothing.has_flag( flag_NO_QUICKDRAW ) ) {
+        if( !guns.empty() && clothing.type->can_use( "holster" ) ) {
             //~ draw (first) gun contained in holster
             //~ %1$s: weapon name, %2$s: container name, %3$d: remaining ammo count
             options.push_back( string_format( pgettext( "holster", "%1$s from %2$s (%3$d)" ),

@@ -430,7 +430,16 @@
     "price": 3500,
     "price_postapoc": 500,
     "material": [ "nanotubes" ],
-    "flags": [ "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "BIONIC_WEAPON", "UNBREAKABLE_MELEE", "TRADER_AVOID", "USE_UPS" ],
+    "flags": [
+      "REACH_ATTACK",
+      "REACH3",
+      "NONCONDUCTIVE",
+      "BIONIC_WEAPON",
+      "BIONIC_WEAPON_MELEE",
+      "UNBREAKABLE_MELEE",
+      "TRADER_AVOID",
+      "USE_UPS"
+    ],
     "techniques": [ "WBLOCK_1", "WIDE", "SPIN", "RAPID" ],
     "to_hit": { "grip": "bad", "length": "long", "surface": "every", "balance": "clumsy" },
     "weapon_category": [ "BIONIC_WEAPONRY" ],

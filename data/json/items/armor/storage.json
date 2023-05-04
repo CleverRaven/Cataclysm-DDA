@@ -1938,6 +1938,7 @@
     "type": "ARMOR",
     "name": { "str": "plastic shopping bag" },
     "description": "A bag used to carry groceries home.",
+    "category": "container",
     "weight": "2 g",
     "volume": "30 ml",
     "price": 1,
