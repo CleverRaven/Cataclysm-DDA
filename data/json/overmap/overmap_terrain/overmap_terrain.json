@@ -615,7 +615,7 @@
     "id": [ "survivor_forest_camp" ],
     "name": "Survivor Forest Camp",
     "sym": "S",
-    "color": "i_dark_green",
+    "color": "green",
     "see_cost": 5
   },
   {
