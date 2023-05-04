@@ -68,6 +68,15 @@ struct func {
     std::vector<thingie> params;
     math_func::f_t f{};
 };
+struct func_jmath {
+    explicit func_jmath( std::vector<thingie> &&params_, jmath_func_id const &id_ );
+
+    double eval( dialogue &d ) const;
+
+    std::vector<thingie> params;
+    jmath_func_id id;
+};
+
 struct func_diag_eval {
     using eval_f = std::function<double( dialogue & )>;
     explicit func_diag_eval( eval_f &&f_ ) : f( f_ ) {}
@@ -118,7 +127,7 @@ struct thingie {
     constexpr double eval( dialogue &d ) const;
 
     using impl_t =
-        std::variant<double, std::string, oper, func, func_diag_eval, func_diag_ass, var>;
+        std::variant<double, std::string, oper, func, func_jmath, func_diag_eval, func_diag_ass, var>;
     impl_t data;
 };
 
@@ -151,7 +160,7 @@ constexpr double thingie::eval( dialogue &d ) const
 }
 
 using op_t =
-    std::variant<pbin_op, punary_op, pmath_func, scoped_diag_eval, scoped_diag_ass, paren>;
+    std::variant<pbin_op, punary_op, pmath_func, jmath_func_id, scoped_diag_eval, scoped_diag_ass, paren>;
 
 constexpr bool operator>( op_t const &lhs, binary_op const &rhs )
 {
