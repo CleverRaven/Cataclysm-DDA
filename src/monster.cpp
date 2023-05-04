@@ -121,6 +121,8 @@ static const efftype_id effect_worked_on( "worked_on" );
 static const emit_id emit_emit_shock_cloud( "emit_shock_cloud" );
 static const emit_id emit_emit_shock_cloud_big( "emit_shock_cloud_big" );
 
+static const field_type_str_id field_fd_last_known( "fd_last_known" );
+
 static const flag_id json_flag_DISABLE_FLIGHT( "DISABLE_FLIGHT" );
 
 static const itype_id itype_milk( "milk" );
@@ -1863,8 +1865,9 @@ bool monster::melee_attack( Creature &target, float accuracy )
     }
 
     // Creature attacking an invisible player will remain aware of their location as long as they keep hitting something
-    if( has_effect( effect_stumbled_into_invisible ) && hitspread >= 0 ) {
+    if( has_effect( effect_stumbled_into_invisible ) && hitspread >= 0 && target.is_avatar() ) {
         add_effect( effect_stumbled_into_invisible, 2_seconds );
+        get_map().set_field_age( target.pos(), field_fd_last_known, 0_seconds );
     }
 
     target.check_dead_state();

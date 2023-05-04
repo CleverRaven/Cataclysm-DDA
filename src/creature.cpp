@@ -91,6 +91,8 @@ static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_zapped( "zapped" );
 
+static const field_type_str_id field_fd_last_known( "fd_last_known" );
+
 static const json_character_flag json_flag_IGNORE_TEMP( "IGNORE_TEMP" );
 static const json_character_flag json_flag_LIMB_LOWER( "LIMB_LOWER" );
 static const json_character_flag json_flag_LIMB_UPPER( "LIMB_UPPER" );
@@ -364,7 +366,7 @@ bool Creature::sees( const Creature &critter ) const
     }
 
     // Creature has stumbled into an invisible player and is now aware of them
-    if( has_effect( effect_stumbled_into_invisible ) && wanted_range <= 1 && critter.is_avatar() ) {
+    if( has_effect( effect_stumbled_into_invisible ) && here.has_field_at( critter.pos(), field_fd_last_known ) && critter.is_avatar() ) {
         return true;
     }
 

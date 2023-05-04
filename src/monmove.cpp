@@ -68,6 +68,8 @@ static const efftype_id effect_pushed( "pushed" );
 static const efftype_id effect_stumbled_into_invisible( "stumbled_into_invisible" );
 static const efftype_id effect_stunned( "stunned" );
 
+static const field_type_str_id field_fd_last_known( "fd_last_known" );
+
 static const itype_id itype_pressurized_tank( "pressurized_tank" );
 
 static const material_id material_iflesh( "iflesh" );
@@ -1630,6 +1632,7 @@ bool monster::attack_at( const tripoint &p )
             add_msg( m_bad, _( "%s stumbles into you!" ), player_sees ? this->disp_name( false,
                      true ) : _( "Something" ) );
             add_effect( effect_stumbled_into_invisible, 2_seconds );
+            get_map().add_field( p, field_fd_last_known );
             moves = 0;
             return true;
         }
