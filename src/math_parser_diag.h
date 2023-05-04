@@ -16,7 +16,7 @@ struct dialogue_func {
 };
 
 struct dialogue_func_eval : dialogue_func {
-    using f_t = std::function<double( dialogue const & )> ( * )( char scope,
+    using f_t = std::function<double( dialogue & )> ( * )( char scope,
                 std::vector<std::string> const & );
 
     dialogue_func_eval( std::string_view s_, std::string_view sc_, int n_, f_t f_ )
@@ -26,7 +26,7 @@ struct dialogue_func_eval : dialogue_func {
 };
 
 struct dialogue_func_ass : dialogue_func {
-    using f_t = std::function<void( dialogue const &, double )> ( * )( char scope,
+    using f_t = std::function<void( dialogue &, double )> ( * )( char scope,
                 std::vector<std::string> const & );
 
     dialogue_func_ass( std::string_view s_, std::string_view sc_, int n_, f_t f_ )
@@ -38,15 +38,15 @@ struct dialogue_func_ass : dialogue_func {
 using pdiag_func_eval = dialogue_func_eval const *;
 using pdiag_func_ass = dialogue_func_ass const *;
 
-std::function<double( dialogue const & )> u_val( char scope,
+std::function<double( dialogue & )> u_val( char scope,
         std::vector<std::string> const &params );
-std::function<void( dialogue const &, double )> u_val_ass( char scope,
+std::function<void( dialogue &, double )> u_val_ass( char scope,
         std::vector<std::string> const &params );
 
-std::function<double( dialogue const & )> pain_eval( char scope,
+std::function<double( dialogue & )> pain_eval( char scope,
         std::vector<std::string> const &/* params */ );
 
-std::function<void( dialogue const &, double )> pain_ass( char scope,
+std::function<void( dialogue &, double )> pain_ass( char scope,
         std::vector<std::string> const &/* params */ );
 
 inline std::array<dialogue_func_eval, 2> const dialogue_eval_f{

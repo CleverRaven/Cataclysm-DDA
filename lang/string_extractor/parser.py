@@ -152,6 +152,7 @@ parsers = {
     "item_category": parse_item_category,
     "item_blacklist": dummy_parser,
     "item_group": dummy_parser,
+    "jmath_function": dummy_parser,
     "json_flag": parse_json_flag,
     "keybinding": parse_keybinding,
     "limb_score": parse_limb_score,

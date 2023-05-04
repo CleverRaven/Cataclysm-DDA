@@ -224,7 +224,6 @@ static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_contacts( "contacts" );
 static const efftype_id effect_docile( "docile" );
 static const efftype_id effect_downed( "downed" );
-static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_laserlocked( "laserlocked" );
 static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_onfire( "onfire" );
@@ -266,6 +265,7 @@ static const itype_id itype_towel( "towel" );
 static const itype_id itype_towel_wet( "towel_wet" );
 
 static const json_character_flag json_flag_CLIMB_NO_LADDER( "CLIMB_NO_LADDER" );
+static const json_character_flag json_flag_GRAB( "GRAB" );
 static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
 static const json_character_flag json_flag_INFECTION_IMMUNE( "INFECTION_IMMUNE" );
 static const json_character_flag json_flag_NYCTOPHOBIA( "NYCTOPHOBIA" );
@@ -5621,7 +5621,7 @@ void game::control_vehicle()
         const bool controls_ok = controls_idx >= 0; // controls available to "drive"
         const bool reins_ok = reins_idx >= 0 // reins + animal available to "drive"
                               && veh->has_engine_type( fuel_type_animal, false )
-                              && veh->has_harnessed_animal();
+                              && veh->get_harnessed_animal();
         if( veh->player_in_control( u ) ) {
             // player already "driving" - offer ways to leave
             if( controls_ok ) {
@@ -11279,25 +11279,35 @@ void game::water_affect_items( Character &ch ) const
     }
 }
 
-void game::fling_creature( Creature *c, const units::angle &dir, float flvel, bool controlled )
+bool game::fling_creature( Creature *c, const units::angle &dir, float flvel, bool controlled )
 {
     if( c == nullptr ) {
         debugmsg( "game::fling_creature invoked on null target" );
-        return;
+        return false;
     }
 
     if( c->is_dead_state() ) {
         // Flinging a corpse causes problems, don't enable without testing
-        return;
+        return false;
     }
 
     if( c->is_hallucination() ) {
         // Don't fling hallucinations
-        return;
+        return false;
     }
 
     // Target creature shouldn't be grabbed if thrown
-    c->remove_effect( effect_grabbed );
+    // It should also not be thrown if the throw is weaker than the grab
+    for( const effect &eff : c->get_effects_with_flag( json_flag_GRAB ) ) {
+        if( !x_in_y( flvel / 2, eff.get_intensity() ) ) {
+            c->add_msg_player_or_npc( m_warning,
+                                      _( "You're almost sent flying, but something holds you in place!" ),
+                                      _( "<npcname> is almost sent flying, but something holds them in place!" ) );
+            return false;
+        } else {
+            c->remove_effect( eff.get_id(), eff.get_bp() );
+        }
+    }
 
     bool thru = true;
     const bool is_u = c == &u;
@@ -11357,7 +11367,7 @@ void game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
 
         // If the critter dies during flinging, moving it around causes debugmsgs
         if( c->is_dead_state() ) {
-            return;
+            return true;
         }
 
         flvel -= force;
@@ -11427,6 +11437,7 @@ void game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
             }
         }
     }
+    return true;
 }
 
 std::optional<tripoint> game::point_selection_menu( const std::vector<tripoint> &pts, bool up )

@@ -93,6 +93,11 @@
         "topic": "TALK_PERK_MENU_TUCK_AND_ROLL"
       },
       {
+        "condition": { "not": { "u_has_trait": "perk_recycler" } },
+        "text": "Gain [<trait_name:perk_recycler>]",
+        "topic": "TALK_PERK_MENU_RECYCLER"
+      },
+      {
         "condition": { "not": { "u_has_trait": "perk_tingly" } },
         "text": "Gain [<trait_name:perk_tingly>]",
         "topic": "TALK_PERK_MENU_TINGLY"
@@ -577,6 +582,38 @@
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [
           { "u_add_trait": "perk_tuck_and_roll" },
+          {
+            "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "u_val": "var", "var_name": "num_perks" }, "-", { "const": 1 } ]
+          }
+        ]
+      },
+      { "text": "Go Back.", "topic": "TALK_PERK_MENU_MAIN" },
+      { "text": "Quit.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_PERK_MENU_RECYCLER",
+    "dynamic_line": "<trait_name:perk_recycler>: \"<trait_description:perk_recycler>\"\nRequires survival 4.",
+    "responses": [
+      {
+        "text": "Select Perk.",
+        "topic": "TALK_PERK_MENU_MAIN",
+        "condition": {
+          "and": [
+            {
+              "or": [
+                { "compare_num": [ { "u_val": "var", "var_name": "no_prerecs" }, ">", { "const": 0 } ] },
+                { "or": [ { "u_has_skill": { "skill": "survival", "level": 4 } } ] }
+              ]
+            },
+            { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] }
+          ]
+        },
+        "failure_explanation": "Requirements Not Met",
+        "failure_topic": "TALK_PERK_MENU_FAIL",
+        "effect": [
+          { "u_add_trait": "perk_recycler" },
           {
             "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "u_val": "var", "var_name": "num_perks" }, "-", { "const": 1 } ]
           }

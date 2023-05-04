@@ -23,7 +23,7 @@ bool is_beta( char scope )
 }
 } // namespace
 
-std::function<double( dialogue const & )> u_val( char scope,
+std::function<double( dialogue & )> u_val( char scope,
         std::vector<std::string> const &params )
 {
     kwargs_shim const shim( params, scope );
@@ -37,7 +37,7 @@ std::function<double( dialogue const & )> u_val( char scope,
     }
 }
 
-std::function<void( dialogue const &, double )> u_val_ass( char scope,
+std::function<void( dialogue &, double )> u_val_ass( char scope,
         std::vector<std::string> const &params )
 {
     kwargs_shim const shim( params, scope );
@@ -49,7 +49,7 @@ std::function<void( dialogue const &, double )> u_val_ass( char scope,
     }
 }
 
-std::function<double( dialogue const & )> pain_eval( char scope,
+std::function<double( dialogue & )> pain_eval( char scope,
         std::vector<std::string> const &/* params */ )
 {
     return [beta = is_beta( scope )]( dialogue const & d ) {
@@ -57,7 +57,7 @@ std::function<double( dialogue const & )> pain_eval( char scope,
     };
 }
 
-std::function<void( dialogue const &, double )> pain_ass( char scope,
+std::function<void( dialogue &, double )> pain_ass( char scope,
         std::vector<std::string> const &/* params */ )
 {
     return [beta = is_beta( scope )]( dialogue const & d, double val ) {

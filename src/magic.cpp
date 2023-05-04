@@ -1016,7 +1016,7 @@ int spell::energy_cost( const Character &guy ) const
     } else {
         cost = type->base_energy_cost.evaluate( d );
     }
-    if( !has_flag( spell_flag::NO_HANDS ) ) {
+    if( !has_flag( spell_flag::NO_HANDS ) && !guy.has_flag( json_flag_SUBTLE_SPELL ) ) {
         // the first 10 points of combined encumbrance is ignored, but quickly adds up
         const int hands_encumb = std::max( 0,
                                            guy.avg_encumb_of_limb_type( body_part_type::type::hand ) - 5 );
@@ -1131,7 +1131,7 @@ int spell::casting_time( const Character &guy, bool ignore_encumb ) const
                                               guy.avg_encumb_of_limb_type( body_part_type::type::leg ) - 10 );
             casting_time += legs_encumb * 3;
         }
-        if( has_flag( spell_flag::SOMATIC ) ) {
+        if( has_flag( spell_flag::SOMATIC ) && !guy.has_flag( json_flag_SUBTLE_SPELL ) ) {
             // the first 20 points of encumbrance combined is ignored
             const int arms_encumb = std::max( 0,
                                               guy.avg_encumb_of_limb_type( body_part_type::type::arm ) - 10 );
@@ -2195,7 +2195,7 @@ bool spell_desc::casting_time_encumbered( const spell &sp, const Character &guy 
         // the first 20 points of encumbrance combined is ignored
         encumb += std::max( 0, guy.avg_encumb_of_limb_type( body_part_type::type::leg ) - 10 );
     }
-    if( sp.has_flag( spell_flag::SOMATIC ) ) {
+    if( sp.has_flag( spell_flag::SOMATIC ) && !guy.has_flag( json_flag_SUBTLE_SPELL ) ) {
         // the first 20 points of encumbrance combined is ignored
         encumb += std::max( 0, guy.avg_encumb_of_limb_type( body_part_type::type::arm ) - 10 );
     }
@@ -2204,7 +2204,7 @@ bool spell_desc::casting_time_encumbered( const spell &sp, const Character &guy 
 
 bool spell_desc::energy_cost_encumbered( const spell &sp, const Character &guy )
 {
-    if( !sp.has_flag( spell_flag::NO_HANDS ) ) {
+    if( !sp.has_flag( spell_flag::NO_HANDS ) && !guy.has_flag( json_flag_SUBTLE_SPELL ) ) {
         return std::max( 0, guy.avg_encumb_of_limb_type( body_part_type::type:: hand ) - 5 ) >
                0;
     }

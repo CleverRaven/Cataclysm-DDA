@@ -45,6 +45,7 @@ Use the `Home` key to return to the top.
     - [Item Variables](#item-variables)
     - [Materials](#materials)
       - [Fuel data](#fuel-data)
+      - [Burn data](#burn-data)
     - [Monster Groups](#monster-groups)
       - [Group definition](#group-definition)
       - [Monster/Subgroup definition](#monstersubgroup-definition)
@@ -791,6 +792,7 @@ reference at least one body part or sub body part.
 | `encumbrance_text`     | (_mandatory_) Message printed when the limb reaches 40 encumbrance.
 | `encumbrance_threshold`| (_optional_) Encumbrance value where the limb's scores start scaling based on encumbrance. Default 0, meaning scaling from the first point of encumbrance.
 | `encumbrance_limit`    | (_optional_) When encumbrance reaches or surpasses this value the limb stops contributing its scores. Default 100.
+| `grabbing_effect`      | (_optional_) Effect id of the `GRAB_FILTER` effect to apply to a monster grabbing this limb, necessary for adequate grab removal (see `MONSTER_SPECIAL_ATTACKS.md` for the grab logic). 
 | `hp_bar_ui_text`       | (_mandatory_) How it's displayed next to the hp bar in the panel.
 | `main_part`            | (_mandatory_) What is the main part this one is attached to. (If this is a main part it's attached to itself)
 | `connected_to`         | (_mandatory_ if main_part is itself) What is the next part this one is attached to towards the "root" bodypart (the root bodypart should be connected to itself).  Each anatomy should have a unique root bodypart, usually the head.
@@ -1417,6 +1419,24 @@ If a fuel has the PERPETUAL flag, engines powered by it never use any fuel.  Thi
         "size_factor": 0.1       // size factor - larger numbers make the remaining fuel increase explosion power more
     }
 }
+```
+
+#### Burn data
+
+Every material can have burn data that determines how it interacts with fire. Fundamentally, the intensity, smoke production, and longevity of fires depends on the volume of consumed items. However, these values allow for certain items to burn more for a given volume, or even put out or inhibit the growth of fires.
+
+Note that burn_data is defined per material, but items may be made of multiple materials. For such cases, each material of the item will be calculated separately, as if it was multiple items each corresponding to a single material.
+
+```C++
+"burn_data": [
+    { "immune": true,                    // Defaults to false, optional boolean. If true, makes the resulting material immune to fire. As such it can neither provide fuel nor be burned or damaged.
+	"fuel": 300,                     // Float value that determines how much time and intensity this material adds to a fire. Negative values will subtract fuel from the fire, smothering it. 
+	                                 // Items with a phase ID of liquid should be made of materials with a value of >= 200 if they are intended to be flammable.
+	"smoke": 0,                      // Float value, determines how much smoke this material produces when burning.
+	"volume_per_turn": "750 ml",     // If non-zero and lower than item's volume, scale burning by volume_per_turn / volume
+	"burn": 1 }                      // Float value, determines how quickly a fire will convert items made of this material to fuel. Does not affect the total fuel provided by a given
+                                         // volume of a given material.
+    ],
 ```
 
 ### Monster Groups

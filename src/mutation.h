@@ -95,7 +95,7 @@ struct mut_transform {
 struct reflex_activation_data {
 
     /**What variable controls the activation*/
-    std::function<bool( const dialogue & )>trigger;
+    std::function<bool( dialogue & )>trigger;
 
     std::pair<translation, game_message_type> msg_on;
     std::pair<translation, game_message_type> msg_off;
@@ -343,6 +343,8 @@ struct mutation_branch {
         std::map<mtype_id, int> moncams;
         /** effect_on_conditions triggered when this mutation activates */
         std::vector<effect_on_condition_id> activated_eocs;
+        // if the above activated eocs should be run without turning on the mutation
+        bool activated_is_setup = false;
         /** effect_on_conditions triggered while this mutation is active */
         std::vector<effect_on_condition_id> processed_eocs;
         /** effect_on_conditions triggered when this mutation deactivates */
