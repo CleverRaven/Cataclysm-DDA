@@ -3,6 +3,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "survivor_forest_camp" ],
+    "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
     "weight": 100,
     "object": {
       "fill_ter": "t_grass",
@@ -53,6 +54,7 @@
   {
     "type": "mapgen",
     "method": "json",
+    "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
     "om_terrain": [ "survivor_forest_camp" ],
     "weight": 100,
     "object": {
