@@ -218,7 +218,7 @@
     "skills_required": [ "computer", 5 ],
     "difficulty": 8,
     "time": "1 h",
-    "reversible": true,
+    "reversible": { "time": "20 m" },
     "//": "as with mp3, no learning how to encode the software from taking it apart",
     "book_learn": [ [ "textbook_electronics", 7 ], [ "textbook_robots", 6 ] ],
     "using": [ [ "soldering_standard", 10 ] ],

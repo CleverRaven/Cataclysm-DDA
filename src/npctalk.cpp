@@ -344,13 +344,19 @@ static int npc_select_menu( const std::vector<npc *> &npc_list, const std::strin
         return 0;
     } else {
         uilist nmenu;
+        std::vector<tripoint> locations;
         nmenu.text = prompt;
         for( const npc *elem : npc_list ) {
             nmenu.addentry( -1, true, MENU_AUTOASSIGN, elem->name_and_activity() );
+            locations.emplace_back( elem->pos_bub().raw() );
         }
         if( npc_count > 1 && everyone ) {
             nmenu.addentry( -1, true, MENU_AUTOASSIGN, _( "Everyone" ) );
+            locations.emplace_back( get_avatar().pos_bub().raw() );
         }
+        pointmenu_cb callback( locations );
+        nmenu.callback = &callback;
+        nmenu.w_y_setup = 0;
         nmenu.query();
         return nmenu.ret;
     }
@@ -369,6 +375,7 @@ static int creature_select_menu( const std::vector<Creature *> &talker_list,
         return 0;
     } else {
         uilist nmenu;
+        std::vector<tripoint> locations;
         nmenu.text = prompt;
         for( const Creature *elem : talker_list ) {
             if( elem->is_npc() ) {
@@ -376,10 +383,15 @@ static int creature_select_menu( const std::vector<Creature *> &talker_list,
             } else {
                 nmenu.addentry( -1, true, MENU_AUTOASSIGN, elem->disp_name() );
             }
+            locations.emplace_back( elem->pos_bub().raw() );
         }
         if( npc_count > 1 && everyone ) {
             nmenu.addentry( -1, true, MENU_AUTOASSIGN, _( "Everyone" ) );
+            locations.emplace_back( get_avatar().pos_bub().raw() );
         }
+        pointmenu_cb callback( locations );
+        nmenu.callback = &callback;
+        nmenu.w_y_setup = 0;
         nmenu.query();
         return nmenu.ret;
     }
@@ -1816,26 +1828,13 @@ talker *dialogue::actor( const bool is_beta ) const
     return ( is_beta ? beta : alpha ).get();
 }
 
-dialogue::dialogue( const dialogue &d )
+dialogue::dialogue( const dialogue &d ) : has_beta( d.has_beta ), has_alpha( d.has_alpha )
 {
-    Creature *creature_alpha = d.has_alpha ? d.actor( false )->get_creature() : nullptr;
-    item_location *item_alpha = d.has_alpha ? d.actor( false )->get_item() : nullptr;
-    Creature *creature_beta = d.has_beta ? d.actor( true )->get_creature() : nullptr;
-    item_location *item_beta = d.has_beta ? d.actor( true )->get_item() : nullptr;
-
-
-    std::unique_ptr<talker> alpha_in = creature_alpha ? get_talker_for( creature_alpha ) : item_alpha ?
-                                       get_talker_for( item_alpha ) : nullptr;
-    std::unique_ptr<talker> beta_in = creature_beta ? get_talker_for( creature_beta ) : item_beta ?
-                                      get_talker_for( item_beta ) : nullptr;
-
-    has_alpha = alpha_in != nullptr;
-    has_beta = beta_in != nullptr;
     if( has_alpha ) {
-        alpha = std::move( alpha_in );
+        alpha = d.actor( false )->clone();
     }
     if( has_beta ) {
-        beta = std::move( beta_in );
+        beta = d.actor( true )->clone();
     }
     if( !has_alpha && !has_beta ) {
         debugmsg( "Constructed a dialogue with no actors!" );

@@ -58,6 +58,31 @@ static const efftype_id effect_currently_busy( "currently_busy" );
 
 static const json_character_flag json_flag_MUTATION_THRESHOLD( "MUTATION_THRESHOLD" );
 
+namespace
+{
+struct deferred_math {
+    std::string str;
+    bool assignment;
+    std::shared_ptr<math_exp> exp;
+
+    deferred_math( std::string_view str_, bool ass_ ) : str( str_ ), assignment( ass_ ),
+        exp( std::make_shared<math_exp>() ) {}
+};
+
+std::queue<deferred_math> &get_deferred_math()
+{
+    static std::queue<deferred_math> dfr_math;
+    return dfr_math;
+}
+
+std::shared_ptr<math_exp> &defer_math( std::string_view str, bool ass )
+{
+    get_deferred_math().emplace( str, ass );
+    return get_deferred_math().back().exp;
+}
+
+} // namespace
+
 std::string get_talk_varname( const JsonObject &jo, const std::string &member,
                               bool check_value, dbl_or_var &default_val )
 {
@@ -312,6 +337,13 @@ void write_var_value( var_type type, const std::string &name, talker *talk, dial
     }
 }
 
+void write_var_value( var_type type, const std::string &name, talker *talk, dialogue *d,
+                      double value )
+{
+    // NOLINTNEXTLINE(cata-translate-string-literal)
+    write_var_value( type, name, talk, d, string_format( "%g", value ) );
+}
+
 static bodypart_id get_bp_from_str( const std::string &ctxt )
 {
     bodypart_id bid = bodypart_str_id::NULL_ID();
@@ -347,6 +379,16 @@ void read_condition( const JsonObject &jo, const std::string &member_name,
         };
     } else {
         jo.throw_error_at( member_name, "invalid condition syntax" );
+    }
+}
+
+void finalize_conditions()
+{
+    std::queue<deferred_math> &dfr = get_deferred_math();
+    while( !dfr.empty() ) {
+        deferred_math &math = dfr.front();
+        math.exp->parse( math.str, math.assignment );
+        dfr.pop();
     }
 }
 
@@ -2047,9 +2089,7 @@ conditional_t::get_set_dbl( const J &jo, const std::optional<dbl_or_var_part> &m
         jo.allow_omitted_members();
         return [min, max]( dialogue & d, double input ) {
             write_var_value( var_type::global, "temp_var", d.actor( false ), &d,
-                             std::to_string( handle_min_max( d,
-                                             input, min,
-                                             max ) ) );
+                             handle_min_max( d, input, min, max ) );
         };
     } else if( jo.has_member( "const" ) ) {
         jo.throw_error( "attempted to alter a constant value in " + jo.str() );
@@ -2190,8 +2230,7 @@ conditional_t::get_set_dbl( const J &jo, const std::optional<dbl_or_var_part> &m
             }
             return [is_npc, var_name, type, min, max]( dialogue & d, double input ) {
                 write_var_value( type, var_name, d.actor( is_npc ), &d,
-                                 // NOLINTNEXTLINE(cata-translate-string-literal)
-                                 string_format( "%g", handle_min_max( d, input, min, max ) ) );
+                                 handle_min_max( d, input, min, max ) );
             };
         } else if( checked_value == "time_since_var" ) {
             // This is a strange thing to want to adjust. But we allow it nevertheless.
@@ -2618,18 +2657,17 @@ void eoc_math::from_json( const JsonObject &jo, std::string_view member )
 
     if( objects.size() == 1 ) {
         action = oper::ret;
-    }
-
-    if( objects.size() == 2 ) {
+    } else if( objects.size() == 2 ) {
         if( oper == "++" ) {
             action = oper::increase;
         } else if( oper == "--" ) {
             action = oper::decrease;
         } else {
             jo.throw_error( "Invalid unary operator in " + jo.str() );
+            return;
         }
     } else if( objects.size() == 3 ) {
-        rhs.parse( objects.get_string( 2 ), false );
+        rhs = defer_math( objects.get_string( 2 ), false );
         if( oper == "=" ) {
             action = oper::assign;
         } else if( oper == "+=" ) {
@@ -2656,12 +2694,13 @@ void eoc_math::from_json( const JsonObject &jo, std::string_view member )
             action = oper::equal_or_greater;
         } else {
             jo.throw_error( "Invalid binary operator in " + jo.str() );
+            return;
         }
     }
     bool const lhs_assign = action >= oper::assign && action <= oper::decrease;
-    lhs.parse( objects.get_string( 0 ), lhs_assign );
+    lhs = defer_math( objects.get_string( 0 ), lhs_assign );
     if( action >= oper::plus_assign && action <= oper::decrease ) {
-        mhs.parse( objects.get_string( 0 ), false );
+        mhs = defer_math( objects.get_string( 0 ), false );
     }
 }
 
@@ -2669,43 +2708,44 @@ double eoc_math::act( dialogue &d ) const
 {
     switch( action ) {
         case oper::ret:
-            return lhs.eval( d );
+            return lhs->eval( d );
         case oper::assign:
-            lhs.assign( d, rhs.eval( d ) );
+            lhs->assign( d, rhs->eval( d ) );
             break;
         case oper::plus_assign:
-            lhs.assign( d, mhs.eval( d ) + rhs.eval( d ) );
+            lhs->assign( d, mhs->eval( d ) + rhs->eval( d ) );
             break;
         case oper::minus_assign:
-            lhs.assign( d, mhs.eval( d ) - rhs.eval( d ) );
+            lhs->assign( d, mhs->eval( d ) - rhs->eval( d ) );
             break;
         case oper::mult_assign:
-            lhs.assign( d, mhs.eval( d ) * rhs.eval( d ) );
+            lhs->assign( d, mhs->eval( d ) * rhs->eval( d ) );
             break;
         case oper::div_assign:
-            lhs.assign( d, mhs.eval( d ) / rhs.eval( d ) );
+            lhs->assign( d, mhs->eval( d ) / rhs->eval( d ) );
             break;
         case oper::mod_assign:
-            lhs.assign( d, std::fmod( mhs.eval( d ), rhs.eval( d ) ) );
+            lhs->assign( d, std::fmod( mhs->eval( d ), rhs->eval( d ) ) );
             break;
         case oper::increase:
-            lhs.assign( d, mhs.eval( d ) + 1 );
+            lhs->assign( d, mhs->eval( d ) + 1 );
             break;
         case oper::decrease:
-            lhs.assign( d, mhs.eval( d ) - 1 );
+            lhs->assign( d, mhs->eval( d ) - 1 );
             break;
         case oper::equal:
-            return float_equals( lhs.eval( d ), rhs.eval( d ) );
+            return static_cast<double>( float_equals( lhs->eval( d ), rhs->eval( d ) ) );
         case oper::not_equal:
-            return !float_equals( lhs.eval( d ), rhs.eval( d ) );
+            return static_cast<double>( !float_equals( lhs->eval( d ), rhs->eval( d ) ) );
         case oper::less:
-            return lhs.eval( d ) < rhs.eval( d );
+            return lhs->eval( d ) < rhs->eval( d );
         case oper::equal_or_less:
-            return lhs.eval( d ) <= rhs.eval( d );
+            return lhs->eval( d ) <= rhs->eval( d );
         case oper::greater:
-            return lhs.eval( d ) > rhs.eval( d );
+            return lhs->eval( d ) > rhs->eval( d );
         case oper::equal_or_greater:
-            return lhs.eval( d ) >= rhs.eval( d );
+            return lhs->eval( d ) >= rhs->eval( d );
+        case oper::invalid:
         default:
             debugmsg( "unknown eoc math operator %d", action );
     }

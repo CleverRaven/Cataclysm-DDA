@@ -25,7 +25,7 @@ struct tripoint;
  * Talker wrapper class for const Character access.
  * Should never be invoked directly.  Only talker_avatar and talker_npc are really valid.
  */
-class talker_character_const: public talker
+class talker_character_const: public talker_cloner<talker_character_const>
 {
     public:
         explicit talker_character_const( const Character *new_me ): me_chr_const( new_me ) {
@@ -151,7 +151,7 @@ class talker_character_const: public talker
  * Talker wrapper class for mutable Character access.
  * Should never be invoked directly.  Only talker_avatar and talker_npc are really valid.
  */
-class talker_character: public talker_character_const
+class talker_character: public talker_cloner<talker_character, talker_character_const>
 {
     public:
         explicit talker_character( Character *new_me );

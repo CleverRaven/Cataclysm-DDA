@@ -149,36 +149,6 @@
     ]
   },
   {
-    "type": "item_group",
-    "subtype": "distribution",
-    "id": "autodoc_installation_programs",
-    "items": [
-      { "item": "AID_bio_alarm" },
-      { "item": "AID_bio_tattoo_led" },
-      { "item": "AID_bio_power_armor_interface" },
-      { "item": "AID_bio_power_storage" },
-      { "item": "AID_bio_power_storage_mkII" },
-      { "item": "AID_bio_watch" },
-      { "item": "AID_bio_syringe" },
-      { "item": "AID_bio_blood_anal" },
-      { "item": "AID_bio_flashlight" },
-      { "item": "AID_bio_magnet" },
-      { "item": "AID_bio_soporific" },
-      { "item": "AID_bio_armor_arms" },
-      { "item": "AID_bio_armor_legs" },
-      { "item": "AID_bio_shotgun" },
-      { "item": "AID_bio_blood_filter" },
-      { "item": "AID_bio_climate" },
-      { "item": "AID_bio_geiger" },
-      { "item": "AID_bio_heatsink" },
-      { "item": "AID_bio_meteorologist" },
-      { "item": "AID_bio_pitch_perfect" },
-      { "item": "AID_bio_ups" },
-      { "item": "AID_bio_weight" },
-      { "item": "AID_bio_trickle" }
-    ]
-  },
-  {
     "id": "batteries",
     "type": "item_group",
     "subtype": "collection",

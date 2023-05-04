@@ -11,7 +11,7 @@
     "weight": "500 g",
     "volume": "2 L",
     "material": [ "qt_steel" ],
-    "flags": [ "WATER_FRIENDLY", "NO_QUICKDRAW", "BELTED", "EXO_LARGE_GADGET" ]
+    "flags": [ "WATER_FRIENDLY", "BELTED", "EXO_LARGE_GADGET" ]
   },
   {
     "id": "exo_melee_storage",

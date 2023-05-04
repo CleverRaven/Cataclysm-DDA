@@ -162,11 +162,13 @@ struct eoc_math {
         equal_or_less,
         greater,
         equal_or_greater,
+
+        invalid,
     };
-    math_exp lhs;
-    math_exp mhs;
-    math_exp rhs;
-    eoc_math::oper action;
+    std::shared_ptr<math_exp> lhs;
+    std::shared_ptr<math_exp> mhs;
+    std::shared_ptr<math_exp> rhs;
+    eoc_math::oper action = oper::invalid;
 
     void from_json( const JsonObject &jo, std::string_view member );
     double act( dialogue &d ) const;

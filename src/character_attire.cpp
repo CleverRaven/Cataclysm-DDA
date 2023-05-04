@@ -1905,8 +1905,7 @@ void outfit::fire_options( Character &guy, std::vector<std::string> &options,
             return it.is_gun();
         } );
 
-        if( !guns.empty() && clothing.type->can_use( "holster" ) &&
-            !clothing.has_flag( flag_NO_QUICKDRAW ) ) {
+        if( !guns.empty() && clothing.type->can_use( "holster" ) ) {
             //~ draw (first) gun contained in holster
             //~ %1$s: weapon name, %2$s: container name, %3$d: remaining ammo count
             options.push_back( string_format( pgettext( "holster", "%1$s from %2$s (%3$d)" ),
@@ -2502,7 +2501,25 @@ std::vector<item_pocket *> outfit::grab_drop_pockets()
 {
     std::vector<item_pocket *> pd;
     for( item &i : worn ) {
-        // if the item has ripoff pockets we should itterate on them also grabs only effect the torso
+        if( i.has_ripoff_pockets() ) {
+            for( item_pocket *pocket : i.get_all_contained_pockets() ) {
+                if( pocket->get_pocket_data()->ripoff > 0 && !pocket->empty() ) {
+                    pd.push_back( pocket );
+                }
+            }
+        }
+    }
+    return pd;
+}
+
+std::vector<item_pocket *> outfit::grab_drop_pockets( const bodypart_id &bp )
+{
+    std::vector<item_pocket *> pd;
+    for( item &i : worn ) {
+        // Check if we wear it on the grabbed limb in the first place
+        if( !is_wearing_on_bp( i.typeId(), bp ) ) {
+            continue;
+        }
         if( i.has_ripoff_pockets() ) {
             for( item_pocket *pocket : i.get_all_contained_pockets() ) {
                 if( pocket->get_pocket_data()->ripoff > 0 && !pocket->empty() ) {
