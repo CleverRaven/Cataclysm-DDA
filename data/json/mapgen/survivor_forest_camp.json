@@ -6,6 +6,7 @@
     "weight": 100,
     "object": {
       "fill_ter": "t_grass",
+      "predecessor_mapgen": "forest",
       "rows": [
         "                        ",
         "                        ",
@@ -16,15 +17,15 @@
         "                        ",
         "                        ",
         "                        ",
-        "    E       @      E    ",
+        "     E      @      E    ",
         "            O           ",
         "                        ",
         "                        ",
-        "                        ",
+        "            E           ",
         "                        ",
         "                        ",
         ",,,,,,,,,,,,M,,,,,,,,,,,",
-        ",,,,,,,,,,,,,,,,,,E,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,rbd@,,,,,,,,,,",
         ",,,,,,,~~~~~~~~~,,,,,,,,",
@@ -35,22 +36,17 @@
       "nested": { "E": { "chunks": [ [ "leather_tent_5x5_E", 100 ] ] } },
       "terrain": { ",": [ [ "t_region_groundcover", 36 ], "t_region_shrub" ], "~": "t_water_dp" },
       "furniture": { "O": "f_firering", "@": "f_logstool" },
-      "place_monsters": [
-        { "monster": "GROUP_POND_FISH", "x": 23, "y": 14, "chance": 100 },
-        { "monster": "mon_feral_sapien_spear", "x": 12, "y": 12, "spawn_data": { "patrol": [ { "x": 12, "y": 12 } ] } },
-        { "monster": "GROUP_POND_FISH", "x": 21, "y": 16, "chance": 100 },
-        { "monster": "GROUP_POND_FISH", "x": 22, "y": 17, "chance": 100 }
-      ],
+      "place_monster": [
+        { "monster": "mon_feral_sapien_spear", "x": 12, "y": 12 }
+    ],
       "place_loot": [
-        { "item": "longbow", "x": 3, "y": 5, "chance": 100 },
-        { "group": "sugar_house_drum", "x": 4, "y": 10, "chance": 60 },
-        { "group": "sugar_house_drum", "x": 4, "y": 10, "chance": 60 }
+        { "item": "longbow", "x": 3, "y": 5, "chance": 100 }
       ],
       "items": {
-        "r": { "item": "fishing_rod_basic", "chance": 100 },
-        "b": { "item": "fishing_rod_basic", "chance": 100 },
-        "d": { "item": "fishing_rod_basic", "chance": 100 },
-        "M": { "item": "fishing_rod_basic", "chance": 100 }
+        "r": { "item": "map_extra_science", "chance": 100 },
+        "b": { "item": "map_extra_science", "chance": 100 },
+        "d": { "item": "map_extra_science", "chance": 100 },
+        "M": { "item": "map_extra_science", "chance": 100 }
       }
     }
   },
@@ -58,9 +54,10 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "survivor_forest_camp" ],
-    "weight": 20,
+    "weight": 100,
     "object": {
       "fill_ter": "t_grass",
+      "predecessor_mapgen": "forest",
       "rows": [
         "                        ",
         "                        ",
@@ -71,15 +68,15 @@
         "                        ",
         "                        ",
         "                        ",
-        "    E       @      E    ",
+        "     E      @      E    ",
         "            O           ",
         "                        ",
         "                        ",
-        "                        ",
+        "            E           ",
         "                        ",
         "                        ",
         ",,,,,,,,,,,,M,,,,,,,,,,,",
-        ",,,,,,,,,,,,,,,,,,E,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,rbd@,,,,,,,,,,",
         ",,,,,,,~~~~~~~~~,,,,,,,,",
@@ -90,22 +87,17 @@
       "nested": { "E": { "chunks": [ [ "leather_tent_5x5_E", 100 ] ] } },
       "terrain": { ",": [ [ "t_region_groundcover", 36 ], "t_region_shrub" ], "~": "t_water_dp" },
       "furniture": { "O": "f_firering", "@": "f_logstool" },
-      "place_monsters": [
-        { "monster": "GROUP_POND_FISH", "x": 23, "y": 14, "chance": 100 },
-        { "monster": "mon_feral_sapien_spear", "x": 12, "y": 12, "spawn_data": { "patrol": [ { "x": 12, "y": 12 } ] } },
-        { "monster": "GROUP_POND_FISH", "x": 21, "y": 16, "chance": 100 },
-        { "monster": "GROUP_POND_FISH", "x": 22, "y": 17, "chance": 100 }
-      ],
+      "place_monster": [
+        { "monster": "mon_feral_sapien_spear", "x": 12, "y": 12 }
+    ],
       "place_loot": [
-        { "item": "longbow", "x": 3, "y": 5, "chance": 100 },
-        { "group": "sugar_house_drum", "x": 2, "y": 40, "chance": 60 },
-        { "group": "sugar_house_drum", "x": 3, "y": 40, "chance": 60 }
+        { "item": "longbow", "x": 3, "y": 5, "chance": 100 }
       ],
       "items": {
-        "r": { "item": "fishing_rod_basic", "chance": 100 },
-        "b": { "item": "fishing_rod_basic", "chance": 100 },
-        "d": { "item": "fishing_rod_basic", "chance": 100 },
-        "M": { "item": "fishing_rod_basic", "chance": 100 }
+        "r": { "item": "map_extra_science", "chance": 100 },
+        "b": { "item": "map_extra_science", "chance": 100 },
+        "d": { "item": "map_extra_science", "chance": 100 },
+        "M": { "item": "map_extra_science", "chance": 100 }
       }
     }
   }
