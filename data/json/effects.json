@@ -4035,7 +4035,7 @@
     "type": "effect_type",
     "id": "molting",
     "name": [ "Molting" ],
-    "desc": [ "You're exoskeleton feels uncomfortably tight.  Perhaps you should find somewhere to rest." ],
+    "desc": [ "Your exoskeleton feels uncomfortably tight.  Perhaps you should find somewhere to rest." ],
     "apply_message": "Your chitin plating itches against your body.",
     "rating": "bad",
     "base_mods": {
