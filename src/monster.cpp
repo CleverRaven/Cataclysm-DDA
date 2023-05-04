@@ -2012,6 +2012,9 @@ void monster::die_in_explosion( Creature *source )
 
 bool monster::stumble_invis( const tripoint &p, const Character &player )
 {
+	if( !fov_3d && posz() != player.posz() ) {
+        return false;
+    }
     const bool player_sees = player.sees( *this );
     add_msg( m_bad, _( "%s stumbles into you!" ), player_sees ? this->disp_name( false,
              true ) : _( "Something" ) );
