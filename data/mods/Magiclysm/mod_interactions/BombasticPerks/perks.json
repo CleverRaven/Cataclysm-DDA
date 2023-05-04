@@ -1,0 +1,10 @@
+[
+  {
+    "type": "mutation",
+    "id": "perk_caster_level_up",
+    "name": { "str": "Boosted caster level" },
+    "points": 0,
+    "description": "Your spells are a bit stronger than expected.  +1 caster level.",
+    "category": [ "perk" ]
+  }
+]

@@ -1,0 +1,34 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "TALK_PERK_MENU_MAIN",
+    "responses": [
+      {
+        "condition": { "not": { "u_has_trait": "perk_caster_level_up" } },
+        "text": "Gain [<trait_name:[perk_caster_level_up]>]",
+        "topic": "TALK_PERK_MENU_CASTER_LEVEL_UP"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_PERK_MENU_CASTER_LEVEL_UP",
+    "dynamic_line": "<trait_name:perk_caster_level_up>: \"<trait_description:perk_caster_level_up>\"",
+    "responses": [
+      {
+        "text": "Select Perk.",
+        "topic": "TALK_PERK_MENU_MAIN",
+        "condition": { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+        "failure_topic": "TALK_PERK_MENU_FAIL",
+        "effect": [
+          { "u_add_trait": "perk_caster_level_up" },
+          {
+            "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "u_val": "var", "var_name": "num_perks" }, "-", { "const": 1 } ]
+          }
+        ]
+      },
+      { "text": "Go Back.", "topic": "TALK_PERK_MENU_MAIN" },
+      { "text": "Quit.", "topic": "TALK_DONE" }
+    ]
+  }
+]
