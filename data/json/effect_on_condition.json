@@ -1010,7 +1010,8 @@
         { "u_has_trait": "CHITIN2" },
         { "not": { "u_has_effect": "molting" } },
         { "not": { "u_has_effect": "molting_imminent" } },
-        { "not": { "u_has_trait": "CHITIN3" } }
+        { "not": { "u_has_trait": "CHITIN3" } },
+        { "not": { "u_has_trait": "CHITIN_CARAPACE" } }
       ]
     },
     "effect": [ { "u_add_effect": "molting", "intensity": 1, "duration": "PERMANENT" } ]
@@ -1023,7 +1024,8 @@
       "and": [
         { "u_has_effect": "molting" },
         { "not": { "u_has_effect": "molting_imminent" } },
-        { "not": { "u_has_trait": "CHITIN3" } }
+        { "not": { "u_has_trait": "CHITIN3" } },
+        { "not": { "u_has_trait": "CHITIN_CARAPACE" } }
       ]
     },
     "effect": [ { "u_add_effect": "molting_imminent", "intensity": 1, "duration": "PERMANENT" }, { "u_lose_effect": "molting" } ]
@@ -1036,7 +1038,8 @@
       "and": [
         { "u_has_effect": "molting_imminent" },
         { "not": { "u_has_effect": "molting" } },
-        { "not": { "u_has_trait": "CHITIN3" } }
+        { "not": { "u_has_trait": "CHITIN3" } },
+        { "not": { "u_has_trait": "CHITIN_CARAPACE" } }
       ]
     },
     "effect": [
@@ -1063,7 +1066,8 @@
         { "u_has_trait": "CHITIN2_MOLTED" },
         { "not": { "u_has_effect": "molting" } },
         { "not": { "u_has_effect": "molting_imminent" } },
-        { "not": { "u_has_trait": "CHITIN3_MOLTED" } }
+        { "not": { "u_has_trait": "CHITIN3_MOLTED" } },
+        { "not": { "u_has_trait": "CHITIN_CARAPACE_MOLTED" } }
       ]
     },
     "effect": [
