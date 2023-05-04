@@ -231,8 +231,6 @@ static const efftype_id effect_foodpoison( "foodpoison" );
 static const efftype_id effect_fungus( "fungus" );
 static const efftype_id effect_glowing( "glowing" );
 static const efftype_id effect_glowy_led( "glowy_led" );
-static const efftype_id effect_grabbed( "grabbed" );
-static const efftype_id effect_grabbing( "grabbing" );
 static const efftype_id effect_harnessed( "harnessed" );
 static const efftype_id effect_heavysnare( "heavysnare" );
 static const efftype_id effect_in_pit( "in_pit" );
@@ -300,6 +298,7 @@ static const json_character_flag json_flag_ECTOTHERM( "ECTOTHERM" );
 static const json_character_flag json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
 static const json_character_flag json_flag_EYE_MEMBRANE( "EYE_MEMBRANE" );
 static const json_character_flag json_flag_FEATHER_FALL( "FEATHER_FALL" );
+static const json_character_flag json_flag_GRAB( "GRAB" );
 static const json_character_flag json_flag_HEAL_OVERRIDE( "HEAL_OVERRIDE" );
 static const json_character_flag json_flag_HEATSINK( "HEATSINK" );
 static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
@@ -648,7 +647,8 @@ int Character::get_oxygen_max() const
 
 bool Character::can_recover_oxygen() const
 {
-    return !has_effect( effect_grabbed, body_part_torso ) && !is_underwater();
+    return get_limb_score( limb_score_breathing ) > 0.5f && !is_underwater() &&
+           !has_effect_with_flag( json_flag_GRAB );
 }
 
 void Character::randomize_heartrate()
@@ -5294,7 +5294,7 @@ nc_color Character::symbol_color() const
 
     if( has_effect( effect_downed ) ) {
         return hilite( basic );
-    } else if( has_effect( effect_grabbed ) ) {
+    } else if( has_flag( json_flag_GRAB ) ) {
         return cyan_background( basic );
     }
 
@@ -6712,8 +6712,16 @@ int Character::item_handling_cost( const item &it, bool penalties, int base_cost
 
     if( weapon.typeId() == itype_e_handcuffs ) {
         mv *= 4;
-    } else if( penalties && has_effect( effect_grabbed ) ) {
-        mv *= 2;
+    } else if( penalties && has_flag( json_flag_GRAB ) ) {
+        // Grabbed penalty scales for grabbed arms/hands
+        int pen = 2;
+        for( const effect &eff : get_effects_with_flag( json_flag_GRAB ) ) {
+            if( eff.get_bp()->primary_limb_type() == body_part_type::type::arm ||
+                eff.get_bp()->primary_limb_type() == body_part_type::type::hand ) {
+                pen++;
+            }
+        }
+        mv *= pen;
     }
 
     // For single handed items use the least encumbered hand
@@ -7666,33 +7674,6 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
     // TODO: Scale with damage in a way that makes sense for power armors, plate armor and naked skin.
     recoil += recoil_mul * weapon.volume() / 250_ml;
     recoil = std::min( MAX_RECOIL, recoil );
-    //looks like this should be based off of dealt damages, not d as d has no damage reduction applied.
-    // Skip all this if the damage isn't from a creature. e.g. an explosion.
-    if( source != nullptr ) {
-        // TODO: is this code used anymore? It seems like it is now covered in the monattack file
-        if( source->has_flag( MF_GRABS ) && !source->is_hallucination() &&
-            !source->has_effect( effect_grabbing ) ) {
-            /** @EFFECT_DEX increases chance to avoid being grabbed */
-            const bool dodged_grab = rng( 0, get_dex() ) > rng( 0, 10 );
-
-            if( has_grab_break_tec() && dodged_grab ) {
-                if( has_effect( effect_grabbed ) ) {
-                    add_msg_if_player( m_warning, _( "The %s tries to grab you as well, but you bat it away!" ),
-                                       source->disp_name() );
-                } else {
-                    add_msg_player_or_npc( m_info, _( "The %s tries to grab you, but you break its grab!" ),
-                                           _( "The %s tries to grab <npcname>, but they break its grab!" ),
-                                           source->disp_name() );
-                }
-            } else {
-                const int prev_effect = get_effect_int( effect_grabbed, body_part_torso );
-                add_effect( effect_grabbed, 2_turns,  body_part_torso, false, prev_effect + 2 );
-                source->add_effect( effect_grabbing, 2_turns );
-                add_msg_player_or_npc( m_bad, _( "You are grabbed by %s!" ), _( "<npcname> is grabbed by %s!" ),
-                                       source->disp_name() );
-            }
-        }
-    }
 
     int sum_cover = 0;
     bool dealt_melee = false;
@@ -11857,11 +11838,6 @@ void Character::pause()
                                    _( "You attempt to put out the fire on you!" ),
                                    _( "<npcname> attempts to put out the fire on them!" ) );
         }
-    }
-
-    // Try to break free from grabs
-    if( has_effect( effect_grabbed ) ) {
-        try_remove_grab();
     }
 
     // put pressure on bleeding wound, prioritizing most severe bleeding that you can compress

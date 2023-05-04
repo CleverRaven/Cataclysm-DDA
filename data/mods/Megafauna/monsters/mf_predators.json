@@ -100,11 +100,12 @@
       { "damage_type": "cut", "amount": 4.0, "armor_penetration": 1, "armor_multiplier": 1.2, "damage_multiplier": 1.4 },
       { "damage_type": "stab", "amount": 8.0, "armor_penetration": 8 }
     ],
+    "grab_strength": 35,
     "special_attacks": [
       { "id": "cut_throat" },
       { "id": "impale", "cooldown": 10 },
       [ "LUNGE", 10 ],
-      [ "GRAB", 10 ],
+      { "id": "bite_grab" },
       { "type": "leap", "cooldown": 10, "max_range": 4 }
     ],
     "dodge": 3,
@@ -126,6 +127,7 @@
       "GOODHEARING",
       "KEENNOSE",
       "ANIMAL",
+      "GRABS",
       "PATH_AVOID_DANGER_1",
       "PATH_AVOID_FIRE",
       "KEEP_DISTANCE",

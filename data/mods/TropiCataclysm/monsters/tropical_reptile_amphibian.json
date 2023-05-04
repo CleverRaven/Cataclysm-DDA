@@ -301,22 +301,22 @@
     "harvest": "mammal_large_leather",
     "dissect": "dissect_lizard_sample_large",
     "path_settings": { "max_dist": 8 },
+    "grab_strength": 50,
     "special_attacks": [
       {
-        "type": "bite",
+        "id": "bite_grab",
         "cooldown": 20,
         "accuracy": 6,
         "damage_max_instance": [
           { "damage_type": "stab", "amount": 9, "armor_multiplier": 0.5 },
           { "damage_type": "bash", "amount": 27, "armor_multiplier": 0.5 }
         ],
-        "effects": [ { "id": "grabbed", "duration": 1000, "bp": "torso" } ],
         "infection_chance": 50
       }
     ],
     "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK", "HURT" ],
     "fear_triggers": [ "FIRE", "HURT" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "ANIMAL", "PUSH_MON", "SWIMS" ],
+    "flags": [ "SEES", "HEARS", "GRABS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "ANIMAL", "PUSH_MON", "SWIMS" ],
     "armor": { "bash": 6, "cut": 8, "bullet": 6 }
   },
   {
@@ -346,16 +346,17 @@
     "vision_night": 35,
     "harvest": "animal_large_noskin",
     "path_settings": { "max_dist": 8 },
+    "grab_strength": 20,
     "special_attacks": [
       {
-        "type": "bite",
+        "id": "bite_grab",
         "cooldown": 20,
         "accuracy": 6,
         "damage_max_instance": [
           { "damage_type": "stab", "amount": 4.5, "armor_multiplier": 0.5 },
           { "damage_type": "bash", "amount": 7.5, "armor_multiplier": 0.5 }
         ],
-        "effects": [ { "id": "grabbed", "duration": 1000, "bp": "torso" } ],
+        "attack_upper": false,
         "infection_chance": 50
       }
     ],
@@ -708,21 +709,22 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "harvest": "mammal_tiny",
     "reproduction": { "baby_egg": "egg_snapper", "baby_count": 4, "baby_timer": 10 },
+    "grab_strength": 10,
     "special_attacks": [
       {
-        "type": "bite",
+        "id": "bite_grab",
         "cooldown": 20,
         "accuracy": 6,
         "damage_max_instance": [
           { "damage_type": "stab", "amount": 3, "armor_multiplier": 0.5 },
           { "damage_type": "bash", "amount": 5, "armor_multiplier": 0.5 }
         ],
-        "effects": [ { "id": "grabbed", "duration": 1000, "bp": "torso" } ],
+        "attack_upper": false,
         "infection_chance": 50
       }
     ],
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
-    "flags": [ "SEES", "HEARS", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "ANIMAL", "SWIMS" ],
+    "flags": [ "SEES", "HEARS", "GRABS", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "ANIMAL", "SWIMS" ],
     "armor": { "bash": 5, "cut": 5, "bullet": 5 }
   },
   {
