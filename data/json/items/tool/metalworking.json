@@ -5,16 +5,16 @@
     "name": { "str": "anvil" },
     "description": "An enormously heavy block of oddly-shaped steel with a chisel-like projection set into the corner.  It's used in most metalworking fabrication recipes.",
     "weight": "54000 g",
-    "volume": "4 L",
+    "volume": "24 L",
     "price": 100000,
     "price_postapoc": 2000,
     "to_hit": -5,
-    "bashing": 40,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "dark_gray",
     "qualities": [ [ "ANVIL", 3 ] ],
-    "flags": [ "DURABLE_MELEE" ]
+    "flags": [ "DURABLE_MELEE" ],
+    "melee_damage": { "bash": 40 }
   },
   {
     "id": "anvil_bronze",
@@ -26,12 +26,12 @@
     "price": 60000,
     "price_postapoc": 750,
     "to_hit": -5,
-    "bashing": 20,
     "material": [ "bronze" ],
     "symbol": ";",
     "color": "yellow",
     "qualities": [ [ "ANVIL", 2 ] ],
-    "flags": [ "DURABLE_MELEE" ]
+    "flags": [ "DURABLE_MELEE" ],
+    "melee_damage": { "bash": 20 }
   },
   {
     "id": "boltcutters",
@@ -43,13 +43,12 @@
     "longest_side": "46 cm",
     "price": 3000,
     "price_postapoc": 250,
-    "bashing": 7,
-    "cutting": 4,
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "red",
     "use_action": [ "BOLTCUTTERS" ],
-    "flags": [ "BELT_CLIP" ]
+    "flags": [ "BELT_CLIP", "NO_SALVAGE" ],
+    "melee_damage": { "bash": 7, "cut": 4 }
   },
   {
     "id": "char_forge",
@@ -61,14 +60,14 @@
     "price": 20000,
     "price_postapoc": 3000,
     "to_hit": -2,
-    "bashing": 9,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "dark_gray",
     "ammo": [ "charcoal" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 500 } } ],
     "sub": "forge",
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "melee_damage": { "bash": 9 }
   },
   {
     "id": "char_kiln",
@@ -81,11 +80,11 @@
     "price": 16000,
     "price_postapoc": 1000,
     "to_hit": -2,
-    "bashing": 10,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "dark_gray",
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "chisel",
@@ -97,13 +96,12 @@
     "price": 1600,
     "price_postapoc": 250,
     "to_hit": -1,
-    "bashing": 4,
-    "cutting": 2,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "CHISEL", 3 ], [ "CHISEL_WOOD", 3 ] ],
-    "flags": [ "DURABLE_MELEE", "BELT_CLIP" ]
+    "flags": [ "DURABLE_MELEE", "BELT_CLIP" ],
+    "melee_damage": { "bash": 4, "cut": 2 }
   },
   {
     "id": "crucible",
@@ -115,7 +113,6 @@
     "price": 100000,
     "price_postapoc": 750,
     "to_hit": -2,
-    "bashing": 10,
     "material": [ "ceramic" ],
     "symbol": ";",
     "color": "dark_gray",
@@ -129,7 +126,8 @@
         "max_contains_weight": "1200 g"
       }
     ],
-    "qualities": [ [ "COOK", 1 ], [ "CHEM", 1 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "COOK", 1 ], [ "CHEM", 1 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "crucible_clay",
@@ -141,7 +139,6 @@
     "price": 60000,
     "price_postapoc": 250,
     "to_hit": -2,
-    "bashing": 10,
     "material": [ "clay" ],
     "symbol": ";",
     "color": "brown",
@@ -155,7 +152,8 @@
         "max_contains_weight": "1200 g"
       }
     ],
-    "qualities": [ [ "COOK", 1 ], [ "CHEM", 1 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "COOK", 1 ], [ "CHEM", 1 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "forge",
@@ -167,7 +165,6 @@
     "price": 40000,
     "price_postapoc": 4000,
     "to_hit": -2,
-    "bashing": 8,
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
@@ -175,7 +172,8 @@
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
     "pocket_data": [
       { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "BATTERY_HEAVY" ], "default_magazine": "heavy_battery_cell" }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "kiln_done",
@@ -308,11 +306,11 @@
     "price": 16000,
     "price_postapoc": 250,
     "to_hit": 1,
-    "bashing": 10,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
-    "flags": [ "DURABLE_MELEE" ]
+    "flags": [ "DURABLE_MELEE" ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "hotcut",
@@ -324,11 +322,11 @@
     "price": 1600,
     "price_postapoc": 25,
     "to_hit": 1,
-    "bashing": 10,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
-    "flags": [ "DURABLE_MELEE" ]
+    "flags": [ "DURABLE_MELEE" ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "drift",
@@ -340,11 +338,11 @@
     "price": 2400,
     "price_postapoc": 40,
     "to_hit": 1,
-    "bashing": 10,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
-    "flags": [ "DURABLE_MELEE" ]
+    "flags": [ "DURABLE_MELEE" ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "tongs",
@@ -356,13 +354,13 @@
     "longest_side": "30 cm",
     "price": 1600,
     "price_postapoc": 10,
-    "bashing": 3,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "COOK", 1 ] ],
     "use_action": [ "HEAT_FOOD" ],
-    "flags": [ "BELT_CLIP", "ALLOWS_REMOTE_USE" ]
+    "flags": [ "BELT_CLIP", "ALLOWS_REMOTE_USE" ],
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "metalworking_tongs",
@@ -374,13 +372,13 @@
     "longest_side": "30 cm",
     "price": 1600,
     "price_postapoc": 10,
-    "bashing": 6,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "COOK", 1 ] ],
     "use_action": [ "HEAT_FOOD" ],
-    "flags": [ "BELT_CLIP", "ALLOWS_REMOTE_USE" ]
+    "flags": [ "BELT_CLIP", "ALLOWS_REMOTE_USE" ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "sandpaper",
@@ -419,11 +417,11 @@
     "volume": "250 ml",
     "price": 1000,
     "price_postapoc": 10,
-    "bashing": 5,
     "to_hit": -3,
     "material": [ "steel" ],
     "symbol": "]",
-    "color": "light_cyan"
+    "color": "light_cyan",
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "casting_mold",
@@ -436,10 +434,10 @@
     "price": 800,
     "price_postapoc": 10,
     "to_hit": -2,
-    "bashing": 10,
     "material": [ "clay", "wood" ],
     "symbol": ";",
-    "color": "brown"
+    "color": "brown",
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "stone_polishing",
@@ -451,12 +449,12 @@
     "price": 400,
     "price_postapoc": 15,
     "to_hit": -2,
-    "bashing": 25,
     "material": [ "stone" ],
     "color": "dark_gray",
     "symbol": ";",
     "qualities": [ [ "GRIND", 2 ] ],
-    "flags": [ "DURABLE_MELEE" ]
+    "flags": [ "DURABLE_MELEE" ],
+    "melee_damage": { "bash": 25 }
   },
   {
     "id": "pedal_grindstone",
@@ -468,11 +466,11 @@
     "price": 1500,
     "price_postapoc": 35,
     "to_hit": -5,
-    "bashing": 30,
     "material": [ "stone", "wood", "steel" ],
     "color": "dark_gray",
     "symbol": ";",
-    "qualities": [ [ "GRIND", 2 ] ]
+    "qualities": [ [ "GRIND", 2 ] ],
+    "melee_damage": { "bash": 30 }
   },
   {
     "id": "scraper_steel",
@@ -484,13 +482,12 @@
     "price": 1200,
     "price_postapoc": 20,
     "to_hit": -1,
-    "bashing": 3,
-    "cutting": 4,
     "material": [ "wood", "steel" ],
     "color": "brown",
     "symbol": ";",
     "qualities": [ [ "GRIND", 2 ] ],
-    "flags": [ "DURABLE_MELEE" ]
+    "flags": [ "DURABLE_MELEE" ],
+    "melee_damage": { "bash": 3, "cut": 4 }
   },
   {
     "id": "gas_forge",
@@ -503,13 +500,13 @@
     "price": 80000,
     "price_postapoc": 10000,
     "to_hit": -5,
-    "bashing": 25,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "dark_gray",
     "ammo": [ "propane" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "GAS_TANK" ], "default_magazine": "large_propane_tank" } ],
     "sub": "forge",
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "melee_damage": { "bash": 25 }
   }
 ]

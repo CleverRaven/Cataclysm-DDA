@@ -6,6 +6,7 @@
 #include "condition.h"
 #include "game.h"
 #include "generic_factory.h"
+#include "npctalk.h"
 #include "scenario.h"
 #include "talker.h"
 #include "type_id.h"
@@ -55,7 +56,7 @@ void effect_on_conditions::check_consistency()
 {
 }
 
-void effect_on_condition::load( const JsonObject &jo, const std::string & )
+void effect_on_condition::load( const JsonObject &jo, const std::string_view )
 {
     mandatory( jo, was_loaded, "id", id );
     optional( jo, was_loaded, "eoc_type", type, eoc_type::NUM_EOC_TYPES );
@@ -64,18 +65,18 @@ void effect_on_condition::load( const JsonObject &jo, const std::string & )
             jo.throw_error( "A recurring effect_on_condition must be of type RECURRING." );
         }
         type = eoc_type::RECURRING;
-        recurrence = get_duration_or_var<dialogue>( jo, "recurrence", false );
+        recurrence = get_duration_or_var( jo, "recurrence", false );
     }
     if( type == eoc_type::NUM_EOC_TYPES ) {
         type = eoc_type::ACTIVATION;
     }
 
     if( jo.has_member( "deactivate_condition" ) ) {
-        read_condition<dialogue>( jo, "deactivate_condition", deactivate_condition, false );
+        read_condition( jo, "deactivate_condition", deactivate_condition, false );
         has_deactivate_condition = true;
     }
     if( jo.has_member( "condition" ) ) {
-        read_condition<dialogue>( jo, "condition", condition, false );
+        read_condition( jo, "condition", condition, false );
         has_condition = true;
     }
     true_effect.load_effect( jo, "effect" );
@@ -278,18 +279,22 @@ void effect_on_conditions::process_reactivate()
 
 bool effect_on_condition::activate( dialogue &d ) const
 {
+    // each version needs a copy of the dialogue to pass down
+
     bool retval = false;
-    if( !has_condition || condition( d ) ) {
-        true_effect.apply( d );
+
+    dialogue d_eoc( d );
+    if( !has_condition || condition( d_eoc ) ) {
+        true_effect.apply( d_eoc );
         retval = true;
     } else if( has_false_effect ) {
-        false_effect.apply( d );
+        false_effect.apply( d_eoc );
     }
     // This works because if global is true then this is recurring and thus should only ever be passed containing the player
     // Thus we just need to run the npcs.
     if( global && run_for_npcs ) {
         for( npc &guy : g->all_npcs() ) {
-            dialogue d_npc( get_talker_for( guy ), nullptr );
+            dialogue d_npc( get_talker_for( guy ), nullptr, d.get_context() );
             if( !has_condition || condition( d_npc ) ) {
                 true_effect.apply( d_npc );
             } else if( has_false_effect ) {
@@ -501,13 +506,18 @@ void eoc_events::notify( const cata::event &e )
             }
         }
         dialogue d;
+        std::unordered_map<std::string, std::string> context;
+        for( const auto &val : e.data() ) {
+            context["npctalk_var_" + val.first] = val.second.get_string();
+        }
+
         // if we have an NPC to trigger this event for, do so,
         // otherwise fallback to having it effect the player
         if( alpha_talker ) {
-            d = dialogue( get_talker_for( alpha_talker ), nullptr );
+            d = dialogue( get_talker_for( alpha_talker ), nullptr, context );
         } else {
             avatar &player_character = get_avatar();
-            d = dialogue( get_talker_for( player_character ), nullptr );
+            d = dialogue( get_talker_for( player_character ), nullptr, context );
         }
 
         eoc.activate( d );

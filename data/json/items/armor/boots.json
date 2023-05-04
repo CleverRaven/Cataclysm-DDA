@@ -50,7 +50,6 @@
     "price": 10000,
     "price_postapoc": 750,
     "to_hit": -1,
-    "bashing": 1,
     "symbol": "[",
     "looks_like": "dress_shoes",
     "color": "dark_gray",
@@ -83,7 +82,8 @@
         ],
         "coverage": 100
       }
-    ]
+    ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "xl_boots",
@@ -211,7 +211,6 @@
     "price": 13500,
     "price_postapoc": 1250,
     "to_hit": -1,
-    "bashing": 4,
     "material": [ "chitin" ],
     "symbol": "[",
     "looks_like": "boots_bone",
@@ -237,7 +236,8 @@
         "coverage": 95
       },
       { "coverage": 75, "covers": [ "foot_l", "foot_r" ], "specifically_covers": [ "foot_ankle_l", "foot_ankle_r" ] }
-    ]
+    ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "xl_boots_chitin",
@@ -265,9 +265,8 @@
     "price_postapoc": 1750,
     "material": [ "acidchitin" ],
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
-    "relative": { "bashing": 2 },
-    "material_thickness": 5,
-    "extend": { "flags": [ "NO_REPAIR" ] }
+    "relative": { "melee_damage": { "bash": 2 } },
+    "material_thickness": 5
   },
   {
     "id": "xl_boots_acidchitin",
@@ -298,7 +297,6 @@
     "price": 7000,
     "price_postapoc": 1500,
     "to_hit": -1,
-    "bashing": 1,
     "symbol": "[",
     "looks_like": "boots",
     "color": "dark_gray",
@@ -335,7 +333,8 @@
         ],
         "coverage": 100
       }
-    ]
+    ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "foot_protectors_eod",
@@ -366,7 +365,6 @@
     "volume": "1 L",
     "price": 2500,
     "to_hit": -1,
-    "bashing": 2,
     "material": [ "plastic", "steel" ],
     "repairs_like": "boots",
     "symbol": "[",
@@ -382,7 +380,8 @@
         "specifically_covers": [ "foot_toes_l", "foot_toes_r" ],
         "coverage": 100
       }
-    ]
+    ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "boots_fur",
@@ -394,7 +393,6 @@
     "price": 14000,
     "price_postapoc": 750,
     "to_hit": -1,
-    "bashing": 1,
     "material": [ "leather", "fur" ],
     "symbol": "[",
     "looks_like": "boots",
@@ -432,7 +430,8 @@
         ],
         "coverage": 100
       }
-    ]
+    ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "xl_boots_fur",
@@ -462,7 +461,6 @@
     "price": 14000,
     "price_postapoc": 500,
     "to_hit": -1,
-    "bashing": 1,
     "material": [ "leather", "plastic" ],
     "symbol": "[",
     "looks_like": "boots",
@@ -496,7 +494,8 @@
         ],
         "coverage": 100
       }
-    ]
+    ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "boots_larmor",
@@ -509,7 +508,6 @@
     "price": 12500,
     "price_postapoc": 1750,
     "to_hit": -1,
-    "bashing": 4,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "boots",
@@ -518,7 +516,8 @@
     "material_thickness": 5,
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ],
-    "armor": [ { "encumbrance": 18, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ]
+    "armor": [ { "encumbrance": 18, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "xl_boots_larmor",
@@ -548,7 +547,6 @@
     "price": 50000,
     "price_postapoc": 6000,
     "to_hit": -2,
-    "bashing": 7,
     "symbol": "[",
     "looks_like": "boots_steel",
     "color": "light_gray",
@@ -585,7 +583,8 @@
         ],
         "coverage": 100
       }
-    ]
+    ],
+    "melee_damage": { "bash": 7 }
   },
   {
     "id": "xl_boots_plate",
@@ -658,7 +657,6 @@
     "price": 12000,
     "price_postapoc": 500,
     "to_hit": -1,
-    "bashing": 4,
     "material": [ "budget_steel", "cotton" ],
     "symbol": "[",
     "looks_like": "boots_steel",
@@ -694,7 +692,8 @@
         ],
         "coverage": 80
       }
-    ]
+    ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "xl_boots_scrap",
@@ -724,7 +723,6 @@
     "price": 400,
     "price_postapoc": 200,
     "to_hit": -2,
-    "bashing": 7,
     "symbol": "[",
     "looks_like": "lc_sabaton",
     "material": [ "lc_steel" ],
@@ -742,7 +740,8 @@
         "encumbrance": 15,
         "layers": [ "OUTER" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 7 }
   },
   {
     "id": "ch_sabaton_metal_sheets",
@@ -775,7 +774,6 @@
     "price": 12000,
     "price_postapoc": 1000,
     "to_hit": -1,
-    "bashing": 4,
     "symbol": "[",
     "looks_like": "boots_combat",
     "color": "brown",
@@ -808,7 +806,8 @@
         ],
         "coverage": 100
       }
-    ]
+    ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "sneakers_steel",
@@ -824,7 +823,6 @@
     "price_postapoc": 925,
     "material": [ "leather", "plastic", "steel" ],
     "to_hit": -1,
-    "bashing": 3,
     "symbol": "[",
     "looks_like": "sneakers",
     "color": "light_blue",
@@ -864,7 +862,8 @@
         ],
         "coverage": 100
       }
-    ]
+    ],
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "boots_western",
@@ -987,7 +986,6 @@
     "volume": "1500 ml",
     "price": 7000,
     "price_postapoc": 750,
-    "bashing": 2,
     "material": [ "cotton", "leather" ],
     "symbol": "[",
     "looks_like": "sneakers",
@@ -1025,7 +1023,8 @@
         ],
         "coverage": 100
       }
-    ]
+    ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "golf_shoes",
@@ -1037,7 +1036,6 @@
     "volume": "1500 ml",
     "price": 6500,
     "price_postapoc": 250,
-    "bashing": 2,
     "material": [ "cotton", "leather" ],
     "symbol": "[",
     "looks_like": "dress_shoes",
@@ -1074,7 +1072,8 @@
         ],
         "coverage": 100
       }
-    ]
+    ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "clogs",
@@ -1086,7 +1085,6 @@
     "price": 4000,
     "price_postapoc": 150,
     "to_hit": -2,
-    "bashing": 5,
     "material": [ "wood" ],
     "symbol": "[",
     "looks_like": "leathersandals",
@@ -1116,7 +1114,8 @@
         "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 2.0 } ],
         "coverage": 100
       }
-    ]
+    ],
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "clownshoes",
@@ -1129,7 +1128,6 @@
     "price": 500,
     "price_postapoc": 50,
     "to_hit": -1,
-    "bashing": 14,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "sneakers",
@@ -1166,7 +1164,8 @@
         ],
         "coverage": 100
       }
-    ]
+    ],
+    "melee_damage": { "bash": 14 }
   },
   {
     "id": "dance_shoes",
@@ -1178,7 +1177,6 @@
     "price": 12000,
     "price_postapoc": 150,
     "to_hit": 1,
-    "bashing": 1,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "dress_shoes",
@@ -1211,7 +1209,8 @@
         ],
         "coverage": 100
       }
-    ]
+    ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "dress_shoes",
@@ -1224,7 +1223,6 @@
     "price": 12000,
     "price_postapoc": 250,
     "to_hit": 1,
-    "bashing": 1,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "sneakers",
@@ -1255,7 +1253,8 @@
         ],
         "coverage": 100
       }
-    ]
+    ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "flip_flops",
@@ -1299,7 +1298,6 @@
     "price": 10500,
     "price_postapoc": 50,
     "to_hit": -2,
-    "bashing": 1,
     "material": [ "rubber", "leather" ],
     "symbol": "[",
     "looks_like": "flip_flops",
@@ -1322,7 +1320,8 @@
         "material": [ { "type": "rubber", "covered_by_mat": 100, "thickness": 4.0 } ],
         "coverage": 80
       }
-    ]
+    ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "footrags",
@@ -1406,7 +1405,6 @@
     "price": 6500,
     "price_postapoc": 50,
     "to_hit": -2,
-    "bashing": 5,
     "symbol": "[",
     "looks_like": "clogs",
     "color": "yellow",
@@ -1430,7 +1428,8 @@
         ],
         "coverage": 80
       }
-    ]
+    ],
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "heels",
@@ -1443,7 +1442,6 @@
     "price": 4000,
     "price_postapoc": 50,
     "to_hit": -2,
-    "bashing": 6,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "dress_shoes",
@@ -1468,7 +1466,8 @@
         ],
         "coverage": 100
       }
-    ]
+    ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "knee_high_boots",
@@ -1481,7 +1480,6 @@
     "price": 8000,
     "price_postapoc": 1250,
     "to_hit": -1,
-    "bashing": 1,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "boots_larmor",
@@ -1522,7 +1520,8 @@
         "coverage": 100,
         "encumbrance": 15
       }
-    ]
+    ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "motor_police_boots",
@@ -1535,7 +1534,6 @@
     "price": 8000,
     "price_postapoc": 1250,
     "to_hit": -1,
-    "bashing": 1,
     "symbol": "[",
     "looks_like": "knee_high_boots",
     "color": "dark_gray",
@@ -1575,7 +1573,8 @@
     "warmth": 20,
     "material_thickness": 2,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "WATERPROOF", "OUTER", "STURDY" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "OUTER", "STURDY" ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "leathersandals",
@@ -1709,7 +1708,6 @@
     "volume": "2 L",
     "price": 8000,
     "price_postapoc": 750,
-    "bashing": 5,
     "material": [ "kevlar", "cotton" ],
     "symbol": "[",
     "looks_like": "boots_steel",
@@ -1747,7 +1745,8 @@
         ],
         "coverage": 100
       }
-    ]
+    ],
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "roller_blades",
@@ -1810,7 +1809,6 @@
     "price": 8500,
     "price_postapoc": 1500,
     "to_hit": -2,
-    "bashing": 6,
     "material": [ "leather", "steel" ],
     "symbol": "[",
     "looks_like": "roller_blades",
@@ -1849,7 +1847,8 @@
         ],
         "coverage": 100
       }
-    ]
+    ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "shoes_birchbark",
@@ -2122,7 +2121,6 @@
     "price": 8000,
     "price_postapoc": 500,
     "to_hit": -1,
-    "bashing": 1,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "boots_larmor",
@@ -2169,7 +2167,8 @@
         "covers": [ "leg_r", "leg_l" ],
         "specifically_covers": [ "leg_upper_l", "leg_upper_r" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "roller_shoes_off",
@@ -2899,7 +2898,6 @@
     "price": 40000,
     "price_postapoc": 3000,
     "to_hit": -2,
-    "bashing": 7,
     "symbol": "[",
     "looks_like": "boots_steel",
     "material": [ "lc_steel" ],
@@ -2917,7 +2915,8 @@
         "encumbrance": 10,
         "layers": [ "OUTER" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 7 }
   },
   {
     "id": "xl_lc_sabaton",

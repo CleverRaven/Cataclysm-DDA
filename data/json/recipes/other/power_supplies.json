@@ -565,7 +565,7 @@
       [ [ "power_supply", 1 ] ],
       [ [ "e_scrap", 3 ] ],
       [ [ "scrap", 3 ] ],
-      [ [ "motor_tiny", 1 ] ]
+      [ [ "motor_micro", 1 ] ]
     ]
   },
   {
@@ -584,7 +584,7 @@
     "components": [
       [ [ "compressor", 1 ] ],
       [ [ "cu_pipe", 3 ] ],
-      [ [ "motor_tiny", 1 ] ],
+      [ [ "motor_micro", 1 ] ],
       [ [ "sheet_metal_small", 5 ] ],
       [ [ "scrap", 12 ], [ "steel_chunk", 4 ] ]
     ]

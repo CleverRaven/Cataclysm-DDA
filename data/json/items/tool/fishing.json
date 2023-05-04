@@ -43,10 +43,10 @@
     "volume": "1 ml",
     "price": 25,
     "price_postapoc": 25,
-    "cutting": 3,
     "material": [ "steel" ],
     "symbol": ",",
-    "color": "cyan"
+    "color": "cyan",
+    "melee_damage": { "cut": 3 }
   },
   {
     "id": "fishing_hook_bone",
@@ -57,10 +57,10 @@
     "volume": "1 ml",
     "price": 25,
     "price_postapoc": 25,
-    "cutting": 3,
     "material": [ "bone" ],
     "symbol": ",",
-    "color": "white"
+    "color": "white",
+    "melee_damage": { "cut": 3 }
   },
   {
     "id": "fishing_rod_basic",
@@ -73,12 +73,12 @@
     "price": 0,
     "price_postapoc": 10,
     "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "neutral" },
-    "bashing": 12,
     "material": [ "wood" ],
     "symbol": "/",
     "color": "brown",
     "qualities": [ [ "FISHING_ROD", 1 ] ],
-    "flags": [ "SHEATH_SPEAR" ]
+    "flags": [ "SHEATH_SPEAR" ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "fishing_rod_professional",
@@ -91,7 +91,6 @@
     "price": 20000,
     "price_postapoc": 1500,
     "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "neutral" },
-    "bashing": 8,
     "//": "7 lead subst. for 8 bismuth, which doesn't have its own material",
     "//2": "plastic is stand-in for fiberglass / carbon fiber; kevlar_rigid is also an option but has no suitable item for uncraft output",
     "material": [
@@ -103,7 +102,8 @@
     "symbol": "/",
     "color": "brown",
     "qualities": [ [ "FISHING_ROD", 2 ] ],
-    "flags": [ "SHEATH_SPEAR" ]
+    "flags": [ "SHEATH_SPEAR" ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "fishing_rod_2pc_packed",
@@ -116,7 +116,6 @@
     "price": 22000,
     "price_postapoc": 1600,
     "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "neutral" },
-    "bashing": 8,
     "//": "7 lead subst. for 8 bismuth, which doesn't have its own material",
     "//2": "plastic is stand-in for fiberglass / carbon fiber; kevlar_rigid is also an option but has no suitable item for uncraft output",
     "material": [
@@ -134,7 +133,8 @@
       "type": "transform",
       "target": "fishing_rod_2pc",
       "msg": "You put together your two-piece fishing rod."
-    }
+    },
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "fishing_rod_2pc",
@@ -145,7 +145,6 @@
     "volume": "1250 ml",
     "longest_side": "190 cm",
     "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "neutral" },
-    "bashing": 7,
     "qualities": [ [ "FISHING_ROD", 2 ] ],
     "extend": { "flags": [ "FRAGILE_MELEE" ] },
     "looks_like": "fishing_rod_professional",
@@ -154,7 +153,8 @@
       "type": "transform",
       "target": "fishing_rod_2pc_packed",
       "msg": "You take apart your two-piece fishing rod."
-    }
+    },
+    "melee_damage": { "bash": 7 }
   },
   {
     "id": "fishing_rod_tele_packed",
@@ -167,7 +167,6 @@
     "price": 25000,
     "price_postapoc": 1750,
     "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "neutral" },
-    "bashing": 8,
     "//": "7 lead subst. for 8 bismuth, which doesn't have its own material",
     "//2": "plastic is stand-in for fiberglass / carbon fiber; kevlar_rigid is also an option but has no suitable item for uncraft output",
     "material": [
@@ -184,7 +183,8 @@
       "type": "transform",
       "target": "fishing_rod_tele",
       "msg": "You extend your telescoping fishing rod."
-    }
+    },
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "fishing_rod_tele",
@@ -195,7 +195,6 @@
     "volume": "1300 ml",
     "longest_side": "210 cm",
     "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "neutral" },
-    "bashing": 7,
     "qualities": [ [ "FISHING_ROD", 2 ] ],
     "flags": [ "SHEATH_SPEAR", "FRAGILE_MELEE" ],
     "looks_like": "fishing_rod_professional",
@@ -204,7 +203,8 @@
       "type": "transform",
       "target": "fishing_rod_tele_packed",
       "msg": "You retract your telescoping fishing rod."
-    }
+    },
+    "melee_damage": { "bash": 7 }
   },
   {
     "id": "plastichoboreel",
@@ -219,11 +219,11 @@
     "price": 1300,
     "price_postapoc": 750,
     "to_hit": -1,
-    "bashing": 4,
     "material": [ "plastic" ],
     "symbol": "/",
     "color": "black",
-    "qualities": [ [ "FISHING_ROD", 1 ] ]
+    "qualities": [ [ "FISHING_ROD", 1 ] ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "hoboreel",
@@ -237,10 +237,10 @@
     "price": 3500,
     "price_postapoc": 750,
     "to_hit": -1,
-    "bashing": 5,
     "material": [ "wood" ],
     "symbol": "/",
     "color": "brown",
-    "qualities": [ [ "FISHING_ROD", 1 ] ]
+    "qualities": [ [ "FISHING_ROD", 1 ] ],
+    "melee_damage": { "bash": 5 }
   }
 ]

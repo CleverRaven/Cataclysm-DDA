@@ -81,6 +81,7 @@ class outfit
         bool is_barefoot() const;
         item item_worn_with_flag( const flag_id &f, const bodypart_id &bp ) const;
         item item_worn_with_flag( const flag_id &f ) const;
+        item *item_worn_with_id( const itype_id &i );
         std::optional<const item *> item_worn_with_inv_let( char invlet ) const;
         // get the best blocking value with the flag that allows worn.
         item *best_shield();
@@ -141,7 +142,7 @@ class outfit
         bool adjust_worn( npc &guy );
         float clothing_wetness_mult( const bodypart_id &bp ) const;
         void damage_mitigate( const bodypart_id &bp, damage_unit &dam ) const;
-        float damage_resist( damage_type dmg_type, const bodypart_id &bp, bool to_self = false ) const;
+        float damage_resist( const damage_type_id &dt, const bodypart_id &bp, bool to_self = false ) const;
         // sums the coverage of items that do not have the listed flags
         int coverage_with_flags_exclude( const bodypart_id &bp, const std::vector<flag_id> &flags ) const;
         int get_coverage( bodypart_id bp,

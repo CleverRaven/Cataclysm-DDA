@@ -194,7 +194,7 @@ item Single_item_creator::create_single( const time_point &birthday, RecursionLi
     if( modifier ) {
         modifier->modify( tmp, "modifier for " + context() );
     } else {
-        int qty = tmp.charges;
+        int qty = tmp.count();
         if( modifier ) {
             qty = rng( modifier->charges.first, modifier->charges.second );
         } else if( tmp.made_of_from_type( phase_id::LIQUID ) ) {
@@ -207,7 +207,7 @@ item Single_item_creator::create_single( const time_point &birthday, RecursionLi
         tmp.overwrite_relic( artifact->generate_relic( tmp.typeId() ) );
     }
     if( container_item ) {
-        tmp = tmp.in_container( *container_item, tmp.charges, sealed );
+        tmp = tmp.in_container( *container_item, tmp.count(), sealed );
     }
     return tmp;
 }

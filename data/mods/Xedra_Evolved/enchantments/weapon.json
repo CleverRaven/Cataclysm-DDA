@@ -60,6 +60,6 @@
     "id": "PAIN_STR",
     "condition": "ALWAYS",
     "//": "proof of concept",
-    "values": [ { "value": "STRENGTH", "add": { "arithmetic": [ { "u_val": "pain" }, "/", { "const": 4 } ] } } ]
+    "values": [ { "value": "STRENGTH", "add": { "math": [ "u_pain() / 4" ] } } ]
   }
 ]

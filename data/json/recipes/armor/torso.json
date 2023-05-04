@@ -170,6 +170,21 @@
     "proficiencies": [ { "proficiency": "prof_closures" } ]
   },
   {
+    "result": "carpet_cuirass",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "fabrication",
+    "time": "10 m",
+    "autolearn": true,
+    "components": [
+      [ [ "y_carpet", 1 ], [ "r_carpet", 1 ], [ "p_carpet", 1 ], [ "g_carpet", 1 ] ],
+      [ [ "cordage", 8, "LIST" ], [ "duct_tape", 200 ] ]
+    ],
+    "qualities": [ { "id": "CUT", "level": 2 } ]
+  },
+  {
     "result": "chestguard_metal_sheets",
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
@@ -895,7 +910,7 @@
     "difficulty": 3,
     "time": "3 h",
     "autolearn": true,
-    "reversible": true,
+    "reversible": { "time": "25 m" },
     "using": [ [ "tailoring_cotton_patchwork", 40 ] ]
   },
   {
@@ -908,7 +923,7 @@
     "difficulty": 3,
     "time": "3 h",
     "autolearn": true,
-    "reversible": true,
+    "reversible": { "time": "25 m" },
     "using": [ [ "tailoring_cotton_patchwork", 38 ] ]
   },
   {
@@ -1843,7 +1858,7 @@
     "difficulty": 2,
     "time": "38 m",
     "autolearn": true,
-    "reversible": true,
+    "reversible": { "time": "5 m" },
     "using": [ [ "tailoring_cotton_patchwork", 4 ] ]
   },
   {
@@ -2020,7 +2035,7 @@
     "difficulty": 3,
     "time": "45 m",
     "autolearn": true,
-    "reversible": true,
+    "reversible": { "time": "5 m" },
     "using": [ [ "tailoring_cotton_patchwork", 8 ] ]
   },
   {
@@ -2047,7 +2062,7 @@
     "difficulty": 2,
     "time": "45 m",
     "autolearn": true,
-    "reversible": true,
+    "reversible": { "time": "5 m" },
     "using": [ [ "tailoring_cotton_patchwork", 3 ] ]
   },
   {

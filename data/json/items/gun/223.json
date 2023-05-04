@@ -12,7 +12,6 @@
     "price": 125000,
     "price_postapoc": 4000,
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -44,7 +43,8 @@
           "survivor223mag"
         ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "ar_pistol",
@@ -59,7 +59,6 @@
     "price": 91400,
     "price_postapoc": 3500,
     "to_hit": -2,
-    "bashing": 9,
     "material": [ "steel", "aluminum" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -71,7 +70,6 @@
     "durability": 6,
     "min_cycle_recoil": 1350,
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -108,7 +106,8 @@
           "survivor223mag"
         ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 9 }
   },
   {
     "id": "famas",
@@ -123,7 +122,6 @@
     "price": 2800000,
     "price_postapoc": 2500,
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -134,7 +132,6 @@
     "min_cycle_recoil": 1350,
     "built_in_mods": [ "bipod" ],
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -147,7 +144,8 @@
       [ "underbarrel mount", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "famasmag" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "famasmag" ] } ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "fs2000",
@@ -162,7 +160,6 @@
     "price": 125000,
     "price_postapoc": 2000,
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -174,7 +171,6 @@
     "default_mods": [ "factory_handguard" ],
     "//": "Forward ejection port would require a different brass catcher design, so there is no slot for it. Bullpup design requires the factory stock to function.",
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "muzzle", 1 ],
       [ "sling", 1 ],
       [ "grip mount", 1 ],
@@ -182,7 +178,8 @@
       [ "sights", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "stanag30", "stanag30ranger" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "stanag30", "stanag30ranger" ] } ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "//": "Groups all 'H&K416' related rifles together. Used M27 due to it being the most popular of the three in the US.",
@@ -218,7 +215,6 @@
       }
     ],
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -252,7 +248,8 @@
           "survivor223mag"
         ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "scar_l",
@@ -285,7 +282,6 @@
       }
     ],
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -294,7 +290,8 @@
     "durability": 8,
     "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "g36mag_30rd", "g36mag_100rd" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "g36mag_30rd", "g36mag_100rd" ] } ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "m249",
@@ -310,7 +307,6 @@
     "price": 750000,
     "price_postapoc": 8000,
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -322,7 +318,6 @@
     "modes": [ [ "DEFAULT", "burst", 4 ] ],
     "built_in_mods": [ "bipod" ],
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -360,7 +355,8 @@
           "survivor223mag"
         ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "m249_semi",
@@ -399,7 +395,6 @@
       }
     ],
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -433,7 +428,8 @@
           "survivor223mag"
         ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "m16a4",
@@ -457,7 +453,6 @@
       }
     ],
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -490,7 +485,8 @@
           "survivor223mag"
         ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "//": "Figured having 'm16' in the name would make it more understandable, seeing as I named 2 of the .223 rifle groups/names after it. ACR is grouped with it due to similar length.",
@@ -537,7 +533,6 @@
     "dispersion": 350,
     "sight_dispersion": 500,
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -565,7 +560,6 @@
     "price": 125000,
     "price_postapoc": 5500,
     "to_hit": -2,
-    "bashing": 9,
     "material": [ "steel", "aluminum" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -577,7 +571,6 @@
     "durability": 6,
     "min_cycle_recoil": 1350,
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -614,7 +607,8 @@
           "survivor223mag"
         ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 9 }
   },
   {
     "id": "ruger_mini",
@@ -630,7 +624,6 @@
     "price": 92100,
     "price_postapoc": 3750,
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "brown",
@@ -641,7 +634,6 @@
     "min_cycle_recoil": 1350,
     "barrel_volume": "500 ml",
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -659,7 +651,8 @@
         "pocket_type": "MAGAZINE_WELL",
         "item_restriction": [ "ruger20", "ruger5", "ruger10", "ruger30", "ruger90", "ruger100", "ruger_makeshiftmag" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "//": "Name changed to match the non-branded version. Also changed to the SIG 553, as the 552 is discontinued and the 553 is still in production and is identical to the 552.",
@@ -684,7 +677,6 @@
       }
     ],
     "to_hit": -1,
-    "bashing": 10,
     "material": [ "steel", "plastic" ],
     "ammo": [ "223" ],
     "dispersion": 180,
@@ -716,7 +708,8 @@
           "survivor223mag"
         ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "steyr_aug",
@@ -740,7 +733,6 @@
       }
     ],
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "light_gray",
@@ -751,7 +743,6 @@
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "built_in_mods": [ "grip" ],
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -766,7 +757,8 @@
     ],
     "pocket_data": [
       { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "augmag_30rd", "augmag_10rd", "augmag_42rd", "augmag_100rd" ] }
-    ]
+    ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "ak556",
@@ -790,7 +782,6 @@
     "price": 79500,
     "price_postapoc": 3000,
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "steel", "wood" ],
     "color": "brown",
     "ammo": [ "223" ],
@@ -798,7 +789,6 @@
     "durability": 8,
     "min_cycle_recoil": 1350,
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -812,7 +802,8 @@
       [ "stock accessory", 2 ],
       [ "underbarrel", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "zpap85mag" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "zpap85mag" ] } ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "minidraco556",
@@ -836,7 +827,6 @@
     "price": 72500,
     "price_postapoc": 2500,
     "to_hit": -5,
-    "bashing": 8,
     "material": [ "steel", "wood" ],
     "color": "brown",
     "ammo": [ "223" ],
@@ -845,7 +835,6 @@
     "durability": 7,
     "min_cycle_recoil": 1350,
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -858,6 +847,7 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "zpap85mag" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "zpap85mag" ] } ],
+    "melee_damage": { "bash": 8 }
   }
 ]

@@ -105,6 +105,7 @@
     "name": "base shotshell",
     "weight": "32 g",
     "volume": "439 ml",
+    "longest_side": "88 mm",
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "material": [ "plastic", "powder" ],
     "symbol": "=",
