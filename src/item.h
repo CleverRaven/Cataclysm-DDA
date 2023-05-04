@@ -1421,9 +1421,9 @@ class item : public visitable
             /// Absolute position of the linked target vehicle/appliance.
             tripoint_abs_ms t_abs_pos = tripoint_abs_ms( tripoint_min );
             /// Reality bubble position of the link's source cable item.
-            tripoint s_bub_pos = tripoint_min;
+            tripoint s_bub_pos = tripoint_min; // NOLINT(cata-serialize)
             /// A safe reference to the link's target vehicle. Will recreate itself whenever the vehicle enters the bubble.
-            safe_reference<vehicle> t_veh_safe;
+            safe_reference<vehicle> t_veh_safe; // NOLINT(cata-serialize)
             /// The linked part's mount offset on the target vehicle.
             point t_mount = point_zero;
             /// The maximum length of the cable. Set during initialization.
