@@ -779,16 +779,27 @@
     "id": "candlestick",
     "symbol": "/",
     "color": "yellow",
-    "name": { "str": "candlestick" },
+    "name": { "str": "gold candlestick" },
     "description": "A gold candlestick.",
     "category": "other",
-    "price": 10000,
+    "price": "5 USD",
     "price_postapoc": 10,
     "material": [ "gold" ],
-    "weight": "1500 g",
-    "volume": "250 ml",
+    "weight": "180 g",
+    "volume": "100 ml",
+    "longest_side": "28 cm",
     "to_hit": -2,
-    "melee_damage": { "bash": 9 }
+    "melee_damage": { "bash": 3 },
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "max_contains_weight": "300 g",
+        "max_contains_volume": "300 ml",
+        "item_restriction": [ "candle", "candle_lit" ]
+      }
+    ],
+    "//": "Based on the medium variation from https://www.amazon.com/Holders-Candlestick-Decorative-Centerpieces-Fitting/dp/B09TNCS7HL/ref=sr_1_27?crid=2NAMJT9OZJDQT&keywords=gold%2Bcandlesticks&qid=1683196194&sprefix=gold%2Bcandlest%2Caps%2C619&sr=8-27&th=1"
   },
   {
     "type": "GENERIC",
