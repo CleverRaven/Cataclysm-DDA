@@ -22,6 +22,8 @@ static const effect_on_condition_id
 effect_on_condition_EOC_math_armor( "EOC_math_armor" );
 static const effect_on_condition_id
 effect_on_condition_EOC_math_diag_assign( "EOC_math_diag_assign" );
+static const effect_on_condition_id
+effect_on_condition_EOC_math_diag_w_vars( "EOC_math_diag_w_vars" );
 static const effect_on_condition_id effect_on_condition_EOC_math_duration( "EOC_math_duration" );
 static const effect_on_condition_id
 effect_on_condition_EOC_math_switch_math( "EOC_math_switch_math" );
@@ -51,6 +53,8 @@ effect_on_condition_EOC_stored_condition_test( "EOC_stored_condition_test" );
 static const effect_on_condition_id effect_on_condition_EOC_teleport_test( "EOC_teleport_test" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
+
+static const skill_id skill_survival( "survival" );
 namespace
 {
 void complete_activity( Character &u )
@@ -158,6 +162,19 @@ TEST_CASE( "EOC_jmath", "[eoc][math_parser]" )
     dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
     effect_on_condition_EOC_jmath_test->activate( d );
     CHECK( std::stod( globvars.get_global_value( "npctalk_var_blorgy" ) ) == Approx( 7 ) );
+}
+
+TEST_CASE( "EOC_diag_with_vars", "[eoc][math_parser]" )
+{
+    global_variables &globvars = get_globals();
+    globvars.clear_global_values();
+    REQUIRE( globvars.get_global_value( "npctalk_var_myskill_math" ).empty() );
+    dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
+    effect_on_condition_EOC_math_diag_w_vars->activate( d );
+    CHECK( std::stod( globvars.get_global_value( "npctalk_var_myskill_math" ) ) == Approx( 0 ) );
+    get_avatar().set_skill_level( skill_survival, 3 );
+    effect_on_condition_EOC_math_diag_w_vars->activate( d );
+    CHECK( std::stod( globvars.get_global_value( "npctalk_var_myskill_math" ) ) == Approx( 3 ) );
 }
 
 TEST_CASE( "EOC_transform_radius", "[eoc][timed_event]" )
