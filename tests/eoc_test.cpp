@@ -11,7 +11,6 @@
 
 static const activity_id ACT_ADD_VARIABLE_COMPLETE( "ACT_ADD_VARIABLE_COMPLETE" );
 static const activity_id ACT_ADD_VARIABLE_DURING( "ACT_ADD_VARIABLE_DURING" );
-static const activity_id ACT_WAIT( "ACT_WAIT" );
 
 static const effect_on_condition_id
 effect_on_condition_EOC_TEST_TRANSFORM_LINE( "EOC_TEST_TRANSFORM_LINE" );
