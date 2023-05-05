@@ -2301,8 +2301,10 @@ class item : public visitable
         /**
          * Quantity of ammunition currently loaded in tool, gun or auxiliary gunmod.
          * @param carrier is used for UPS and bionic power for tools
+         * @param cable_links Add cable-linked vehicles' ammo to the ammo count
          */
-        int ammo_remaining( const Character *carrier = nullptr ) const;
+        int ammo_remaining( const Character *carrier = nullptr, bool cable_links = false ) const;
+        int ammo_remaining( bool cable_links ) const;
 
         /**
          * ammo capacity for a specific ammo

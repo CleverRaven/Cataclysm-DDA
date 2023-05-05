@@ -10193,7 +10193,7 @@ int item::shots_remaining( const Character *carrier ) const
 {
     int ret = 1000; // Arbitrary large number for things that do not require ammo.
     if( ammo_required() ) {
-        ret = std::min( ammo_remaining( carrier ) / ammo_required(), ret );
+        ret = std::min( ammo_remaining( carrier, true ) / ammo_required(), ret );
     }
     if( get_gun_energy_drain() > 0_kJ ) {
         ret = std::min( static_cast<int>( energy_remaining( carrier ) / get_gun_energy_drain() ), ret );
@@ -10201,7 +10201,7 @@ int item::shots_remaining( const Character *carrier ) const
     return ret;
 }
 
-int item::ammo_remaining( const Character *carrier ) const
+int item::ammo_remaining( const Character *carrier, bool cable_links ) const
 {
     int ret = 0;
 
@@ -10212,7 +10212,7 @@ int item::ammo_remaining( const Character *carrier ) const
     }
 
     // Cable connections
-    if( contents_linked ) {
+    if( cable_links && contents_linked ) {
         for( const item *cable : contents.cables( true ) ) {
             if( !cable->link ) {
                 continue;
@@ -10266,6 +10266,11 @@ int item::ammo_remaining( const Character *carrier ) const
     }
 
     return ret;
+}
+
+int item::ammo_remaining( bool cable_links ) const
+{
+    return ammo_remaining( nullptr, cable_links );
 }
 
 units::energy item::energy_remaining( const Character *carrier ) const
@@ -10374,7 +10379,7 @@ void item::handle_liquid_or_spill( Character &guy, const item *avoid )
 bool item::ammo_sufficient( const Character *carrier, int qty ) const
 {
     if( count_by_charges() ) {
-        return ammo_remaining( carrier ) >= qty;
+        return ammo_remaining( carrier, true ) >= qty;
     }
 
     return shots_remaining( carrier ) >= qty;
@@ -11374,14 +11379,15 @@ int item::getlight_emit() const
         has_flag( flag_USES_BIONIC_POWER ) ) {
         return lumint;
     }
-    if( ammo_remaining() == 0 ) {
+    if( ammo_remaining( true ) == 0 ) {
         return 0;
     }
     if( has_flag( flag_CHARGEDIM ) && is_tool() && !has_flag( flag_USE_UPS ) ) {
         // Falloff starts at 1/5 total charge and scales linearly from there to 0.
         const ammotype &loaded_ammo = ammo_data()->ammo->type;
-        if( ammo_capacity( loaded_ammo ) && ammo_remaining() < ( ammo_capacity( loaded_ammo ) / 5 ) ) {
-            lumint *= ammo_remaining() * 5.0 / ammo_capacity( loaded_ammo );
+        if( ammo_capacity( loaded_ammo ) &&
+            ammo_remaining( true ) < ( ammo_capacity( loaded_ammo ) / 5 ) ) {
+            lumint *= ammo_remaining( true ) * 5.0 / ammo_capacity( loaded_ammo );
         }
     }
     return lumint;
@@ -13087,7 +13093,7 @@ bool item::process_tool( Character *carrier, const tripoint &pos )
     avatar &player_character = get_avatar();
     // if insufficient available charges shutdown the tool
     if( ( type->tool->turns_per_charge > 0 || type->tool->power_draw > 0_W ) &&
-        ammo_remaining( carrier ) == 0 ) {
+        ammo_remaining( carrier, true ) == 0 ) {
         if( carrier && has_flag( flag_USE_UPS ) ) {
             carrier->add_msg_if_player( m_info, _( "You need an UPS to run the %s!" ), tname() );
         }

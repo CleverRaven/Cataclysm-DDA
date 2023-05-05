@@ -261,7 +261,7 @@ std::optional<int> iuse_transform::use( Character &p, item &it, bool t, const tr
         }
     }
 
-    if( need_charges && it.ammo_remaining( &p ) < need_charges ) {
+    if( need_charges && it.ammo_remaining( &p, true ) < need_charges ) {
 
         if( possess ) {
             p.add_msg_if_player( m_info, need_charges_msg, it.tname() );
