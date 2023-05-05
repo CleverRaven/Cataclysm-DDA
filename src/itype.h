@@ -867,6 +867,9 @@ struct islot_gunmod : common_ranged_data {
     /** Not compatible on weapons that have this mod slot */
     std::set<gunmod_location> blacklist_mod;
 
+    // hard coded barrel length from this mod
+    units::length barrel_length = 0_mm;
+
     // minimum recoil to cycle while this is installed
     int overwrite_min_cycle_recoil = -1;
 };
