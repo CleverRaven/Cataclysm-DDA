@@ -1249,7 +1249,7 @@ static std::string get_string_from_input( const JsonArray &objects, int index )
 {
     if( objects.has_string( index ) ) {
         std::string type = objects.get_string( index );
-        if( type == "u" || type == "npc" || type == "weather" ) {
+        if( type == "u" || type == "npc" ) {
             return type;
         }
     }
@@ -1293,8 +1293,8 @@ static tripoint_abs_ms get_tripoint_from_string( const std::string &type, dialog
     } else if( type.find( "party_" ) == 0 ) {
         var_info var = var_info( var_type::party, type.substr( 7, type.size() - 7 ) );
         return get_tripoint_from_var( var, d );
-    } else if( type == "weather" ) {
-        var_info var = var_info( var_type::global, "weather" );
+    } else if( type.find( "context_" ) == 0 ) {
+        var_info var = var_info( var_type::context, type.substr( 7, type.size() - 7 ) );
         return get_tripoint_from_var( var, d );
     }
     return tripoint_abs_ms();

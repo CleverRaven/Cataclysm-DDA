@@ -192,9 +192,10 @@ weather_type_id weather_generator::get_weather_conditions( const w_point &w ) co
     const weather_manager &game_weather = get_weather_const();
     w_point original_weather_precise = *game_weather.weather_precise;
     *game_weather.weather_precise = w;
-    write_var_value( var_type::global, "weather", nullptr, w.location.to_string() );
+    std::unordered_map<std::string, std::string> context;
+    context["npctalk_var_weather_location"] = w.location.to_string();
     weather_type_id current_conditions = WEATHER_CLEAR;
-    dialogue d( get_talker_for( get_avatar() ), nullptr );
+    dialogue d( get_talker_for( get_avatar() ), nullptr, context );
     for( const weather_type_id &type : sorted_weather ) {
         bool required_weather = type->required_weathers.empty();
         if( !required_weather ) {
