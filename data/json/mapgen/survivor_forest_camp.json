@@ -92,7 +92,7 @@
       "furniture": { "O": "f_firering", "@": "f_logstool" },
       "place_monster": [
         { "monster": "mon_feral_sapien_spear", "x": 12, "y": 12 },
-        { "monster": "GROUP_POND_FISH", "x": 22, "y": 12 }
+        { "monster": "GROUP_POND_FISH", "x": 22, "y": 13 }
     ],
       "place_loot": [
         { "item": "longbow", "x": 3, "y": 5, "chance": 100 }
