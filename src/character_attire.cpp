@@ -767,6 +767,9 @@ static void layer_item( std::map<bodypart_id, encumbrance_data> &vals, const ite
 
                 if( item_layer >= highest_layer_so_far[sbp] ) {
                     conflicts = vals[bp].add_sub_location( item_layer, sbp );
+                } else {
+                    // if it is on a lower layer it conflicts for sure
+                    conflicts = true;
                 }
 
                 highest_layer_so_far[sbp] = std::max( highest_layer_so_far[sbp], item_layer );
