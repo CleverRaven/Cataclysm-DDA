@@ -3696,7 +3696,7 @@
     "looks_like": "adobe_brick",
     "price": 5000,
     "price_postapoc": 100,
-    "material": [ "stone" ],
+    "material": [ "salt", "stone" ],
     "symbol": ".",
     "color": "white",
     "flags": [ "NO_REPAIR" ]
