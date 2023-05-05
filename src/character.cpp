@@ -8710,8 +8710,7 @@ units::energy Character::consume_ups( units::energy qty, const int radius )
     if( qty != 0_kJ ) {
         std::vector<const item *> ups_items = all_items_with_flag( flag_IS_UPS );
         for( const item *i : ups_items ) {
-            units::energy available = i->energy_remaining( nullptr );
-            qty -= const_cast<item *>( i )->energy_consume( available, tripoint_zero, nullptr );
+            qty -= const_cast<item *>( i )->energy_consume( qty, tripoint_zero, nullptr );
         }
     }
 
