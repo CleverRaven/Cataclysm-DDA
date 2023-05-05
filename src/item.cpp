@@ -6928,7 +6928,7 @@ units::mass item::weight( bool include_contents, bool integral ) const
     return ret;
 }
 
-units::length sawn_off_reduction( const itype *type )
+static units::length sawn_off_reduction( const itype *type )
 {
     int barrel_percentage = type->gun->barrel_volume / ( type->volume / 100 );
     return ( type->longest_side / 100 ) * barrel_percentage;
