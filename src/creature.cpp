@@ -2799,6 +2799,12 @@ bodypart_id Creature::random_body_part( bool main_parts_only ) const
     return  main_parts_only ? bp->main_part : bp ;
 }
 
+std::vector<bodypart_id> Creature::get_all_eligable_parts( int min_hit, int max_hit,
+        bool can_attack_high ) const
+{
+    return anatomy( get_all_body_parts() ).get_all_eligable_parts( min_hit, max_hit, can_attack_high );
+}
+
 void Creature::add_damage_over_time( const damage_over_time_data &DoT )
 {
     damage_over_time_map.emplace_back( DoT );
