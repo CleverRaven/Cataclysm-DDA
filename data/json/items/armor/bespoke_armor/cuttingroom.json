@@ -319,7 +319,7 @@
           { "type": "cotton", "covered_by_mat": 100, "thickness": 0.15 },
           { "type": "kevlar", "covered_by_mat": 95, "thickness": 3.3 }
         ],
-        "encumbrance": [ 4, 5 ]
+        "encumbrance": [ 4, 5 ],
         "coverage": 100,
         "cover_vitals": 70,
         "covers": [ "torso" ]
@@ -330,7 +330,7 @@
           { "type": "cotton", "covered_by_mat": 100, "thickness": 0.15 },
           { "type": "kevlar", "covered_by_mat": 90, "thickness": 2.2 }
         ],
-        "encumbrance": [ 4, 5 ]
+        "encumbrance": [ 4, 5 ],
         "coverage": 100,
         "cover_vitals": 30,
         "covers": [ "arm_l", "arm_r" ]
