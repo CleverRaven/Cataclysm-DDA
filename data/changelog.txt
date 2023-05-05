@@ -26,21 +26,14 @@ Add the first Exodii mission
 Combat Capable Mounts
 Add new Exodii NPC: Luliya
 Add new weather types: mist and fog
-adds .303 British as an ammo type in the game, plus corresponding FMJ, SP, and BTHP rounds, craft recipes, item groups, migrations, and the SMLE Mk III and No. 4 Mk I rifles
 Allow static NPCs to be given randomly generated missions.
 Allow players to keep bees
 Add carpet armor
 Adds a Cheesemaker hobby in character creation
 Added Proficiencies & Weakpoints to Zombie-Adjacent Monsters
-Hospitals can now spawn with piles of corpses outside; minor improvements
-map update: music store
-map update: pharmacy
 Paramilitary Zombies and everyday carry
 Apartment complex: parking garage, lobby variants, roof additions
-Added missing proficiency to appliance crafts & introduced new background with said proficiency
 Profession Requirements
-obsolete the power armor bionics
-Map update: regional airport
 
 
 ## Interface:
@@ -87,10 +80,6 @@ partial skill levels contribute to most game tests
 Portal Storm Coherency Pass
 Rebalanced 60-round magazines for exodii rifles
 Stop zomborgs from exploding on death
-less insane coal
-hardtack doesn't have the gross food vitamin
-Prevented melee from breaking the Phase Immersion Suit
-Make the following locations more rare: Hazardous waste sarcophagus, military outpost, military helipad, military bunker, LMOE shelter, convention center, bastion fort, cathedral
 
 
 ## Bugfixes:
@@ -122,21 +111,10 @@ Ferals can use their guns in GG
 Prevent fire damaging unbreakable items
 Fix energy guns(AFS) on NPC
 Faction camps now distribute calories based on actual calories and not default calories
-Reduce maid costume and other drops
-fix Free Merchant guard gear groups
-fixes #65092, straitens out the Kel-Tec SUB 2000’s folding properties.
-spawn forest mammals in winter
-Fix archery stamina use calculations
-Fixed large wooden box description.
 Inherit relative rot when disassembling
-Fix UPS powered guns with non integer kJ energy consumption
-Fixed display of tools required to repair an item
-correct artifacts spawn in distorted labs
-resolve issues with telefrag
 Separates weather tolerance traits from stomach related ones
 Fix calculation for inserting into nested containers
 fix random missions
-NPC spawn with reasonable stored_kcal
 
 
 ## Performance:
@@ -151,7 +129,6 @@ Refactor some crafting infrastructure to support removal of charges
 Unify gun battery/ups/bionic energy consumption
 Modernize string_formatter
 Migrate some JSON APIs to string_view
-Brief description
 Add clang-tidy check looking for opportunities to convert functions to use string_view
 Add units::temperature_delta
 
