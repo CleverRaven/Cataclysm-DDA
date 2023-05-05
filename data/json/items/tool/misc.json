@@ -952,13 +952,13 @@
     "description": "A long, thin and flexible rod that tapers to a point, originally used to stimulate a horse and give them orders.",
     "weight": "90 g",
     "volume": "732 ml",
-	"longest_side": "1100 mm",
+    "longest_side": "1100 mm",
     "price": 1000,
     "price_postapoc": 10,
     "material": [ "epoxy", "nylon" ],
     "flags": [ "REACH_ATTACK", "REACH3" ],
-    "cutting": 1,
-    "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "neutral" }
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "neutral" },
+    "melee_damage": { "cut": 1 }
   },
   {
     "id": "riding_crop",
@@ -969,11 +969,11 @@
     "description": "A rod ending in a leather popper originally used to stimulate a horse and give them orders.",
     "weight": "68 g",
     "volume": "1480 ml",
-	"longest_side": "600 mm",
+    "longest_side": "600 mm",
     "price": 1000,
     "price_postapoc": 10,
     "material": [ "epoxy", "leather" ],
     "flags": [ "REACH_ATTACK" ],
-    "cutting": 1
+    "melee_damage": { "cut": 1 }
   }
 ]

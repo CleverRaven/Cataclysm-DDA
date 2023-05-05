@@ -1188,10 +1188,9 @@
     "volume": "1800 ml",
     "price": 7000,
     "price_postapoc": 300,
-    "bashing": 5,
-	"techniques": [ "WBLOCK_1" ],
+    "techniques": [ "WBLOCK_1" ],
     "material": [ "plastic", "epoxy", "plastic_pad" ],
-	"symbol": "[",
+    "symbol": "[",
     "looks_like": "helmet_bike",
     "color": "dark_gray",
     "armor": [
@@ -1201,13 +1200,14 @@
           { "type": "epoxy", "covered_by_mat": 100, "thickness": 0.5 },
           { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 14 }
         ],
-		"encumbrance_modifiers": [ "NONE" ],
+        "encumbrance_modifiers": [ "NONE" ],
         "covers": [ "head" ],
         "coverage": 80
       }
     ],
     "warmth": 20,
-    "flags": [ "WATERPROOF", "STURDY", "PADDED", "SUN_GLASSES" ]
+    "flags": [ "WATERPROOF", "STURDY", "PADDED", "SUN_GLASSES" ],
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "helmet_riding",
@@ -1215,12 +1215,11 @@
     "copy-from": "helmet_riding_peakless",
     "name": { "str": "jockey skull cap" },
     "description": "A helmet designed to protect from falls and kicks involving horses.",
-	"weight": "650 g",
+    "weight": "650 g",
     "volume": "1750 ml",
-	"non_functional": "helmet_riding_peakless",
+    "non_functional": "helmet_riding_peakless",
     "delete": { "flags": [ "SUN_GLASSES" ] }
   },
-  
   {
     "id": "helmet_nasal",
     "type": "ARMOR",
