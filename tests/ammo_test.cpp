@@ -241,6 +241,8 @@ TEST_CASE( "battery energy test", "[ammo][energy][item]" )
     }
 
     SECTION( "Non-integer drain from battery" ) {
+        // Battery charge is in chunks of kj. Non integer kj drain is rounded up.
+        // 4.5 kJ drain becomes 5 kJ drain
         REQUIRE( test_battery.energy_remaining( nullptr ) == 300_kJ );
         units::energy consumed = test_battery.energy_consume( 4500_J, tripoint_zero, nullptr );
         CHECK( test_battery.energy_remaining( nullptr ) == 295_kJ );
