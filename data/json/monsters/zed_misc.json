@@ -483,7 +483,7 @@
     "id": "mon_zombie_grue",
     "type": "MONSTER",
     "name": { "str": "zombie prowler" },
-    "description": "Enveloped in darkness is the outline of what used to be a person, quick and spindly - and nigh invisible in the shadows.  Even with the unnatural camoflauge hiding its features you can make out large teeth and even larger claws.",
+    "description": "Enveloped in darkness is the outline of what used to be a person, quick and spindly - and nigh invisible in the shadows.  Even with the unnatural camouflage hiding its features you can make out large teeth and even larger claws.",
     "default_faction": "zombie",
     "looks_like": "mon_zombie_brute_ninja",
     "bodytype": "human",
