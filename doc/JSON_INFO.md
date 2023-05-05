@@ -792,6 +792,7 @@ reference at least one body part or sub body part.
 | `encumbrance_text`     | (_mandatory_) Message printed when the limb reaches 40 encumbrance.
 | `encumbrance_threshold`| (_optional_) Encumbrance value where the limb's scores start scaling based on encumbrance. Default 0, meaning scaling from the first point of encumbrance.
 | `encumbrance_limit`    | (_optional_) When encumbrance reaches or surpasses this value the limb stops contributing its scores. Default 100.
+| `grabbing_effect`      | (_optional_) Effect id of the `GRAB_FILTER` effect to apply to a monster grabbing this limb, necessary for adequate grab removal (see `MONSTER_SPECIAL_ATTACKS.md` for the grab logic). 
 | `hp_bar_ui_text`       | (_mandatory_) How it's displayed next to the hp bar in the panel.
 | `main_part`            | (_mandatory_) What is the main part this one is attached to. (If this is a main part it's attached to itself)
 | `connected_to`         | (_mandatory_ if main_part is itself) What is the next part this one is attached to towards the "root" bodypart (the root bodypart should be connected to itself).  Each anatomy should have a unique root bodypart, usually the head.

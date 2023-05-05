@@ -181,6 +181,7 @@ class outfit
          * that are hanging off your character
          */
         std::vector<item_pocket *> grab_drop_pockets();
+        std::vector<item_pocket *> grab_drop_pockets( const bodypart_id &bp );
         std::vector<layering_item_info> items_cover_bp( const Character &c, const bodypart_id &bp );
         item_penalties get_item_penalties( std::list<item>::const_iterator worn_item_it,
                                            const Character &c, const bodypart_id &_bp );

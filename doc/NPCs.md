@@ -1452,5 +1452,29 @@ More examples:
     { "math": [ "u_val('time: 1 d')" ] },
     { "math": [ "u_val('proficiency', 'proficiency_id: prof_test', 'format: percent')" ] }
 ```
+#### Math functions defined in JSON
+Math functions can be defined in JSON like this
+```JSON
+  {
+    "type": "jmath_function",
+    "id": "my_math_function",
+    "num_args": 2,
+    "return": "_0 * 2 + rand(_1)"
+  },
+```
+where `_0`, `_1`, etc are positional parameters.
+
+These functions can then be used like regular math functions, for example:
+```JSON
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_do_something",
+    "effect": [ { "math": [ "secret_value", "=", "my_math_function( u_pain(), 500)" ] } ]
+  },
+```
+so `_0` takes the value of `u_pain()` and `_1` takes the value 500 inside `my_math_function()`
+
+Function composition is also supported and the functions can be defined and used in any order.
+
 #### Assignment target
 An assignment target can be either a scoped [variable name](#variables) or a scoped [dialogue function](#dialogue-functions).

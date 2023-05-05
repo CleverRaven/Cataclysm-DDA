@@ -599,6 +599,8 @@ Effect flags. These are checked by hardcode for monsters (introducing new flags 
 - ```DISABLE_FLIGHT``` Monsters affected by an effect with this flag will never count as flying (even if they have the `FLIES` flag).
 - ```EFFECT_IMPEDING``` Character affected by an effect with this flag can't move until they break free from the effect.  Breaking free requires a strength check: `x_in_y( STR * limb lifting score * limb grip score, 6 * get_effect_int( eff_id )`
 - ```EFFECT_LIMB_SCORE_MOD``` Effect with a limb score component to be used in Character::get_limb_score. See [EFFECTS_JSON.md](EFFECTS_JSON.md) for the exact function of limb score modifiers and [JSON_INFO.md](JSON_INFO.md#limb-scores) for the effects of the scores.
+- ```GRAB``` This effect is a grab, creatures will attempt to break it as such (see `character_escape.cpp`)
+- ````GRAB_FILTER``` This effect is a grab filter effect, assigning grabs to their grabbing monster.  Handles targeted grab removal on grab break, as well as potentially acting as a filter for monster attack logic.  Bodypart `grabbing_effects` should have it defined.
 
 ## Furniture and Terrain
 
