@@ -60,7 +60,7 @@
       },
       {
         "id": "manual_rifle_1",
-        "name": { "str": "SAS and Elite Sniper Forces Guide", "str_pl": "copies of SAS and Elite Sniper Forces Guide" },
+        "name": { "str": "SAS and Elite Forces Guide Sniper", "str_pl": "copies of SAS and Elite Forces Guide Sniper" },
         "description": "An unofficial guide about the work and skills of British and NATO snipers.  There are a lot of photos of weapons and equipment, but it has a huge lack of details - the most important information is just mentioned or described without any value.",
         "//": "978-1493036752",
         "weight": 1
@@ -120,7 +120,6 @@
           "str_pl": "copies of FM 3-22.9: Rifle Marksmanship M16-/M4- Series"
         },
         "description": "An official U.S. Army manual that provides guidance for the planning and execution of training with the 5.56mm M16-series rifle and M4 carbine.",
-        "proficiencies": [ { "proficiency": "prof_gunsmithing_basic", "time_factor": 0.8, "fail_factor": 0.8 } ],
         "weight": 1
       },
       {
