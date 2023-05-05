@@ -405,8 +405,10 @@ class cata_tiles
         void draw_minimap( const point &dest, const tripoint &center, int width, int height );
 
     protected:
-        /** How many rows and columns of tiles fit into given dimensions **/
-        void get_window_tile_counts( int width, int height, int &columns, int &rows ) const;
+        /** How many rows and columns of tiles fit into given dimensions, fully or partially shown **/
+        point get_window_tile_counts( const point &size ) const;
+        /** How many rows and columns of tiles can be fully shown in the given dimensions **/
+        point get_window_full_tile_counts( const point &size ) const;
 
         std::optional<tile_lookup_res> find_tile_with_season( const std::string &id ) const;
 
