@@ -2010,7 +2010,7 @@ void monster::die_in_explosion( Creature *source )
     die( source );
 }
 
-bool monster::stumble_invis( const tripoint &p, const Character &player )
+bool monster::stumble_invis( const Character &player )
 {
     if( !fov_3d && posz() != player.posz() ) {
         return false;
@@ -2019,7 +2019,7 @@ bool monster::stumble_invis( const tripoint &p, const Character &player )
     add_msg( m_bad, _( "%s stumbles into you!" ), player_sees ? this->disp_name( false,
              true ) : _( "Something" ) );
     add_effect( effect_stumbled_into_invisible, 2_seconds );
-    get_map().add_field( p, field_fd_last_known );
+    get_map().add_field( player.pos(), field_fd_last_known );
     moves = 0;
     return true;
 }
