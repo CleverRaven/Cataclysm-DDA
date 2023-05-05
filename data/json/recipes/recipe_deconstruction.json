@@ -4533,14 +4533,6 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
-    "result": "usb_drive",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "time": "1 m 30 s",
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "RAM", 1 ] ] ]
-  },
-  {
     "result": "vac_sealer",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",

@@ -711,11 +711,12 @@
     "color": "white",
     "name": { "str": "USB drive" },
     "description": "A USB thumb drive.  Useful for holding software.",
-    "price": 10000,
+    "price": "12 USD",
     "price_postapoc": 10,
-    "material": [ "plastic" ],
-    "weight": "18 g",
-    "volume": "5 ml",
+    "material": [ "plastic", "aluminum" ],
+    "weight": "4536 mg",
+    "volume": "4 ml",
+    "longest_side": "5 cm",
     "pocket_data": [
       { "pocket_type": "SOFTWARE", "max_contains_volume": "1 L", "max_contains_weight": "1 kg" },
       {
@@ -726,7 +727,7 @@
         "weight_multiplier": 0.0
       }
     ],
-    "to_hit": -3,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
     "flags": [ "MC_USED" ]
   },
   {
@@ -740,8 +741,8 @@
     "price_postapoc": 10,
     "material": [ "steel", "plastic" ],
     "weight": "55 g",
-    "volume": "5 ml",
-    "to_hit": -3
+    "volume": "45 ml",
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" }
   },
   {
     "id": "robofac_hardcase",
