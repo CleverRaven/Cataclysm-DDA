@@ -240,7 +240,7 @@ bool JsonValue::read( std::string &s, bool throw_on_error ) const
 
 void JsonObject::report_unvisited() const
 {
-    if( !visited_fields_bitset_.all() ) {
+    if( !std::uncaught_exceptions() && !visited_fields_bitset_.all() ) {
         std::vector<size_t> skipped_members;
         skipped_members.reserve( visited_fields_bitset_.size() );
         tiny_bitset::block_t *bits = visited_fields_bitset_.bits();

@@ -6,13 +6,7 @@
     "recurrence": [ "20 hours", "28 hours" ],
     "condition": { "u_has_trait": "DREAMSMITH" },
     "effect": [
-      {
-        "arithmetic": [
-          { "global_val": "var", "var_name": "DREAMSMITH_RECIPE_SCORE" },
-          "+=",
-          { "global_val": "skill_level", "skill": "deduction" }
-        ]
-      },
+      { "math": [ "DREAMSMITH_RECIPE_SCORE", "+=", "u_skill('deduction')" ] },
       { "run_eocs": "EOC_DREAMSMITHS_RECIPES_ENCH" },
       { "u_roll_remainder": [ "dreamdross_bo", "dreamdross_knife", "dreamdross_club" ], "type": "recipe" }
     ]

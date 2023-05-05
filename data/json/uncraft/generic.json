@@ -388,7 +388,6 @@
     "result": "character_sheet",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "skill_used": "fabrication",
     "time": "1 s",
     "components": [ [ [ "paper", 3 ] ] ]
   },
@@ -396,7 +395,6 @@
     "result": "sandbag",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
-    "skill_used": "fabrication",
     "time": "10 s",
     "components": [ [ [ "bag_canvas", 1 ] ], [ [ "material_sand", 3000 ] ] ],
     "flags": [ "BLIND_EASY" ]
@@ -414,7 +412,6 @@
     "result": "spatula",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "skill_used": "fabrication",
     "time": "2 m",
     "components": [ [ [ "chunk_rubber", 2 ] ] ],
     "flags": [ "BLIND_HARD" ]
@@ -423,7 +420,6 @@
     "result": "sole_rubber",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "skill_used": "fabrication",
     "time": "4 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "chunk_rubber", 3 ] ] ]
@@ -432,7 +428,6 @@
     "result": "tire_medium",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "skill_used": "fabrication",
     "time": "5 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "rubber_tire_strip", 1 ] ] ]
@@ -441,7 +436,6 @@
     "result": "tire_medium_slick",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "skill_used": "fabrication",
     "time": "7 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "rubber_tire_strip", 2 ] ] ]
@@ -450,7 +444,6 @@
     "result": "tire_motorbike",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "skill_used": "fabrication",
     "time": "5 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "rubber_tire_strip", 1 ] ] ]
@@ -459,7 +452,6 @@
     "result": "tire_motorbike_or",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "skill_used": "fabrication",
     "time": "5 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "rubber_tire_strip", 1 ] ] ]
@@ -468,7 +460,6 @@
     "result": "tire_wide",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "skill_used": "fabrication",
     "time": "10 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "rubber_tire_strip", 3 ] ] ]
@@ -477,7 +468,6 @@
     "result": "tire_wide_or",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "skill_used": "fabrication",
     "time": "10 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "rubber_tire_strip", 3 ] ] ]
@@ -486,7 +476,6 @@
     "result": "tire_bicycle",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "skill_used": "fabrication",
     "time": "5 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "rubber_tire_chunk", 3 ] ] ]
@@ -495,7 +484,6 @@
     "result": "tire_bicycle_or",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "skill_used": "fabrication",
     "time": "5 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "rubber_tire_chunk", 3 ] ] ]
@@ -504,7 +492,6 @@
     "result": "rubber_tire_strip",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "skill_used": "fabrication",
     "time": "5 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "rubber_tire_chunk", 5 ] ] ]
@@ -513,7 +500,6 @@
     "result": "rubber_slug",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "skill_used": "fabrication",
     "time": "10 s",
     "components": [ [ [ "chunk_rubber", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
@@ -522,7 +508,6 @@
     "result": "earthbag",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
-    "skill_used": "fabrication",
     "time": "10 s",
     "components": [ [ [ "bag_canvas", 1 ] ], [ [ "material_soil", 3 ] ] ],
     "flags": [ "BLIND_EASY" ]
@@ -531,7 +516,6 @@
     "result": "gravelbag",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
-    "skill_used": "fabrication",
     "time": "10 s",
     "components": [ [ [ "bag_canvas", 1 ] ], [ [ "material_gravel", 2700 ] ] ],
     "flags": [ "BLIND_EASY" ]
@@ -540,7 +524,6 @@
     "result": "skull_human",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "skill_used": "fabrication",
     "time": "10 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "bone_human", 4 ] ] ],
@@ -550,10 +533,55 @@
     "result": "skull_canis",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "skill_used": "fabrication",
     "time": "10 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "bone", 2 ] ] ],
     "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "chalice",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "components": [ [ [ "gold_small", 40 ] ] ]
+  },
+  {
+    "result": "pillowcase",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "2 m",
+    "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ],
+    "components": [ [ [ "sheet_cotton", 3 ] ], [ [ "zipper_short_plastic", 1 ] ] ]
+  },
+  {
+    "result": "blanket",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "10 m",
+    "qualities": [ { "id": "FABRIC_CUT", "level": 1 }, { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_cotton", 30 ] ], [ [ "thread", 150 ] ] ]
+  },
+  {
+    "result": "crackpipe",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "1 s",
+    "components": [ [ [ "glass_shard", 3 ] ] ]
+  },
+  {
+    "result": "pipe_glass",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "1 s",
+    "components": [ [ [ "glass_shard", 2 ] ] ]
+  },
+  {
+    "result": "water_faucet",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "3 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "steel_chunk", 3 ] ], [ [ "scrap", 3 ] ] ]
   }
 ]

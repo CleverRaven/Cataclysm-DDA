@@ -52,7 +52,9 @@
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "vision_night": 3,
     "harvest": "zombie",
-    "special_attacks": [ [ "GRAB", 7 ], [ "scratch", 20 ], [ "ZOMBIE_FUSE", 80 ] ],
+    "//grab": "All these arms to grab you with",
+    "grab_strength": 50,
+    "special_attacks": [ { "id": "grab", "cooldown": 7 }, { "id": "scratch" }, [ "ZOMBIE_FUSE", 80 ] ],
     "death_drops": {
       "subtype": "collection",
       "groups": [ "default_zombie_death_drops", "default_zombie_death_drops", "default_zombie_death_drops" ]
@@ -101,6 +103,7 @@
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_syn_armored" ],
     "bleed_rate": 0,
     "vision_night": 10,
+    "grab_strength": 75,
     "special_attacks": [
       { "id": "longswipe", "min_mul": 1, "max_mul": 2, "cooldown": 5 },
       { "id": "slam", "min_mul": 2, "max_mul": 3, "cooldown": 5 },
@@ -338,7 +341,12 @@
     "vision_night": 2,
     "harvest": "exempt",
     "death_function": { "message": "A %s explodes!", "effect": { "id": "death_gas", "hit_self": true }, "corpse_type": "NO_CORPSE" },
-    "special_attacks": [ [ "RANGED_PULL", 20 ], { "id": "smash", "throw_strength": 30 } ],
+    "//grab": "High weight ratio since it's not *really* 81kg",
+    "grab_strength": 35,
+    "special_attacks": [
+      { "id": "ranged_pull", "cooldown": 20, "grab_data": { "pull_weight_ratio": 3.0 } },
+      { "id": "smash", "throw_strength": 30 }
+    ],
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "POISON", "CLIMBS", "NO_BREATHE", "IMMOBILE", "RANGED_ATTACKER" ],
     "armor": { "bash": 6, "cut": 10, "bullet": 6, "electric": 2 }
   },

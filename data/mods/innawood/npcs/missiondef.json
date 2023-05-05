@@ -426,7 +426,7 @@
       "and": [
         { "u_has_item": "backpack_leather" },
         { "u_has_items": { "item": "cattail_stalk", "count": 80 } },
-        { "u_has_skill": { "skill": "survival", "level": 1 } }
+        { "math": [ "u_skill('survival')", ">=", "1" ] }
       ]
     },
     "difficulty": 1,
