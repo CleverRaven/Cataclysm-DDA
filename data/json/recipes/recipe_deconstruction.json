@@ -5085,7 +5085,7 @@
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "3 m",
-    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "qualities": [ { "id": "SAW_M", "level": 2 } ],
     "components": [ [ [ "steel_chunk", 1 ] ], [ [ "sheet_metal_small", 9 ] ], [ [ "scrap", 3 ] ] ]
   },
   {
@@ -5095,8 +5095,8 @@
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "5 m",
-    "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "scrap", 17 ] ] ]
+    "qualities": [ { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "scrap", 20 ] ] ]
   },
   {
     "result": "pot_canning",
@@ -5105,7 +5105,7 @@
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "5 m",
-    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "qualities": [ { "id": "SAW_M", "level": 2 } ],
     "components": [ [ [ "sheet_metal_small", 20 ], [ "steel_chunk", 2 ] ] ]
   },
   {
