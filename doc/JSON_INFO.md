@@ -3642,7 +3642,7 @@ Gun mods can be defined like this:
 "consume_divisor": 10,         // Divide damage against mod by this amount (default 1)
 "handling_modifier": 4,        // Improve gun handling. For example a forward grip might have 6, a bipod 18
 "mode_modifier": [ [ "AUTO", "auto", 4 ] ], // Modify firing modes of the gun, to give AUTO or REACH for example
-"barrel_length": "45 mm" // 
+"barrel_length": "45 mm"       // Specify a direct barrel length for this gun mod. If used only the first mod with a barrel length will be counted
 ```
 
 Alternately, every item (book, tool, armor, even food) can be used as a gunmod if it has gunmod_data:
