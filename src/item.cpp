@@ -13271,7 +13271,7 @@ bool item::process_internal( map &here, Character *carrier, const tripoint &pos,
                 // DO NOT process this as a tool! It really isn't!
                 return process_linked_item( carrier, pos, link_state::ups );
             }
-            if( has_flag( flag_SOLARPACK ) || has_flag( flag_SOLARPACK_ON ) && mark_flag() ) {
+            if( ( has_flag( flag_SOLARPACK ) || has_flag( flag_SOLARPACK_ON ) ) && mark_flag() ) {
                 // DO NOT process this as a tool! It really isn't!
                 return process_linked_item( carrier, pos, link_state::solarpack );
             }
