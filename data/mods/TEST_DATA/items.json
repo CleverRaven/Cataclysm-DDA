@@ -2094,6 +2094,7 @@
     "price": 12000,
     "price_postapoc": 250,
     "integral_longest_side": "100 mm",
+    "barrel_length": "100 mm",
     "install_time": "0 s",
     "material": [ "steel" ],
     "symbol": ":",
