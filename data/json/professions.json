@@ -228,6 +228,8 @@
     ]
   },
   {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "army_mags_m110",
     "entries": [
       { "item": "hk417mag_20rd", "ammo-item": "762_51", "charges": 20 },
