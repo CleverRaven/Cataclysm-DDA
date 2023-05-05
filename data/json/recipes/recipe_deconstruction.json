@@ -2151,15 +2151,6 @@
     "components": [ [ [ "scrap", 5 ] ], [ [ "processor", 1 ] ], [ [ "plastic_chunk", 10 ] ], [ [ "e_scrap", 8 ] ], [ [ "lens", 2 ] ] ]
   },
   {
-    "result": "candlestick",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "time": "1 m",
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "gold_small", 27 ] ] ],
-    "//": "75% of weight only taken into account since the candlestick is rose gold, roughly 75% of the alloy is actually gold. This is kind of unideal but still better than giving 1:1 weight ratio."
-  },
-  {
     "result": "cannabis",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
