@@ -1336,6 +1336,7 @@ tripoint monster::scent_move()
     const std::set<scenttype_id> &tracked_scents = type->scents_tracked;
     const std::set<scenttype_id> &ignored_scents = type->scents_ignored;
 
+    std::vector<tripoint> sdirection;
     std::vector<tripoint> smoves;
 
     int bestsmell = 10; // Squares with smell 0 are not eligible targets.
@@ -1386,27 +1387,34 @@ tripoint monster::scent_move()
 
     const bool can_bash = bash_skill() > 0;
     map &here = get_map();
+    // Get direction of scent
     for( const tripoint &dest : here.points_in_radius( pos(), 1, SCENT_MAP_Z_REACH ) ) {
         int smell = scents.get( dest );
 
         if( ( !fleeing && smell < bestsmell ) || ( fleeing && smell > bestsmell ) ) {
             continue;
         }
-        if( here.valid_move( pos(), dest, can_bash, true ) &&
-            ( can_move_to( dest ) || ( dest == player_character.pos() ) ||
-              ( can_bash && here.bash_rating( bash_estimate(), dest ) > 0 ) ) ) {
-            if( ( !fleeing && smell > bestsmell ) || ( fleeing && smell < bestsmell ) ) {
-                smoves.clear();
-                smoves.push_back( dest );
-                bestsmell = smell;
-            } else if( ( !fleeing && smell == bestsmell ) || ( fleeing && smell == bestsmell ) ) {
+        if( ( !fleeing && smell > bestsmell ) || ( fleeing && smell < bestsmell ) ) {
+            sdirection.clear();
+            sdirection.push_back( dest );
+            bestsmell = smell;
+        } else if( ( !fleeing && smell == bestsmell ) || ( fleeing && smell == bestsmell ) ) {
+            sdirection.push_back( dest );
+        }
+    }
+
+    for( const tripoint &direction : sdirection ) {
+        // Add some randomness to make creatures zigzag towards the source
+        for( const tripoint &dest : here.points_in_radius( direction, 1 ) ) {
+            if( here.valid_move( pos(), dest, can_bash, true ) &&
+                ( can_move_to( dest ) || ( dest == player_character.pos() ) ||
+                  ( can_bash && here.bash_rating( bash_estimate(), dest ) > 0 ) ) ) {
                 smoves.push_back( dest );
             }
         }
     }
 
-    // Add some randomness to make creatures zigzag towards the source
-    return random_entry( here.points_in_radius( random_entry( smoves, next ), 1 ) );
+    return random_entry( smoves, next );
 }
 
 int monster::calc_movecost( const tripoint &f, const tripoint &t ) const
