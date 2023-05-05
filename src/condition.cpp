@@ -1654,11 +1654,6 @@ std::function<double( dialogue & )> conditional_t::get_get_dbl( J const &jo )
                     return d.actor( true )->sold();
                 };
             }
-        } else if( checked_value == "skill_level" ) {
-            const skill_id skill( jo.get_string( "skill" ) );
-            return [is_npc, skill]( dialogue const & d ) {
-                return static_cast<int>( d.actor( is_npc )->get_skill_level( skill ) );
-            };
         } else if( checked_value == "pos_x" ) {
             return [is_npc]( dialogue const & d ) {
                 return d.actor( is_npc )->posx();
@@ -2266,11 +2261,6 @@ conditional_t::get_set_dbl( const J &jo, const std::optional<dbl_or_var_part> &m
                     d.actor( true )->add_sold( handle_min_max( d, input, min, max ) - d.actor( true )->sold() );
                 };
             }
-        } else if( checked_value == "skill_level" ) {
-            const skill_id skill( jo.get_string( "skill" ) );
-            return [is_npc, skill, min, max]( dialogue & d, double input ) {
-                d.actor( is_npc )->set_skill_level( skill, handle_min_max( d, input, min, max ) );
-            };
         } else if( checked_value == "pos_x" ) {
             return [is_npc, min, max]( dialogue & d, double input ) {
                 d.actor( is_npc )->set_pos( tripoint( handle_min_max( d, input, min, max ),
@@ -2781,23 +2771,6 @@ void conditional_t::set_has_reason()
     };
 }
 
-void conditional_t::set_has_skill( const JsonObject &jo, const std::string_view member,
-                                   bool is_npc )
-{
-    JsonObject has_skill = jo.get_object( member );
-    if( !has_skill.has_string( "skill" ) || !has_skill.has_int( "level" ) ) {
-        condition = []( dialogue const & ) {
-            return false;
-        };
-    } else {
-        str_or_var skill = get_str_or_var( has_skill.get_member( "skill" ), "skill", true );
-        dbl_or_var level = get_dbl_or_var( has_skill, "level", true );
-        condition = [skill, level, is_npc]( dialogue & d ) {
-            return d.actor( is_npc )->get_skill_level( skill_id( skill.evaluate( d ) ) ) >= level.evaluate( d );
-        };
-    }
-}
-
 void conditional_t::set_roll_contested( const JsonObject &jo, const std::string_view member )
 {
     std::function<double( dialogue & )> get_check = conditional_t::get_get_dbl( jo.get_object(
@@ -3117,10 +3090,6 @@ conditional_t::conditional_t( const JsonObject &jo )
         set_mission_goal( jo, "npc_mission_goal", true );
     } else if( jo.has_member( "u_mission_goal" ) ) {
         set_mission_goal( jo, "u_mission_goal", false );
-    } else if( jo.has_member( "u_has_skill" ) ) {
-        set_has_skill( jo, "u_has_skill" );
-    } else if( jo.has_member( "npc_has_skill" ) ) {
-        set_has_skill( jo, "npc_has_skill", is_npc );
     } else if( jo.has_member( "roll_contested" ) ) {
         set_roll_contested( jo, "roll_contested" );
     } else if( jo.has_member( "u_know_recipe" ) ) {

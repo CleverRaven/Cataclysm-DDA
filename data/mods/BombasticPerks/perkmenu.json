@@ -321,7 +321,7 @@
             {
               "or": [
                 { "compare_num": [ { "u_val": "var", "var_name": "no_prerecs" }, ">", { "const": 0 } ] },
-                { "or": [ { "u_has_skill": { "skill": "swimming", "level": 3 } } ] }
+                { "or": [ { "math": [ "u_skill('swimming')", ">=", "3" ] } ] }
               ]
             },
             { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] }
@@ -420,7 +420,7 @@
               "or": [
                 { "compare_num": [ { "u_val": "var", "var_name": "no_prerecs" }, ">", { "const": 0 } ] },
                 {
-                  "and": [ { "u_has_skill": { "skill": "unarmed", "level": 2 } }, { "u_has_skill": { "skill": "cutting", "level": 1 } } ]
+                  "and": [ { "math": [ "u_skill('unarmed')", ">=", "2" ] }, { "math": [ "u_skill('cutting')", ">=", "1" ] } ]
                 }
               ]
             },
@@ -445,7 +445,7 @@
               "or": [
                 { "compare_num": [ { "u_val": "var", "var_name": "no_prerecs" }, ">", { "const": 0 } ] },
                 {
-                  "and": [ { "u_has_skill": { "skill": "unarmed", "level": 2 } }, { "u_has_skill": { "skill": "bashing", "level": 1 } } ]
+                  "and": [ { "math": [ "u_skill('unarmed')", ">=", "2" ] }, { "math": [ "u_skill('bashing')", ">=", "1" ] } ]
                 }
               ]
             },
@@ -470,7 +470,7 @@
               "or": [
                 { "compare_num": [ { "u_val": "var", "var_name": "no_prerecs" }, ">", { "const": 0 } ] },
                 {
-                  "and": [ { "u_has_skill": { "skill": "unarmed", "level": 2 } }, { "u_has_skill": { "skill": "stabbing", "level": 1 } } ]
+                  "and": [ { "math": [ "u_skill('unarmed')", ">=", "2" ] }, { "math": [ "u_skill('stabbing')", ">=", "1" ] } ]
                 }
               ]
             },
@@ -517,7 +517,7 @@
               "or": [
                 { "compare_num": [ { "u_val": "var", "var_name": "no_prerecs" }, ">", { "const": 0 } ] },
                 {
-                  "or": [ { "u_has_skill": { "skill": "melee", "level": 2 } }, { "u_has_skill": { "skill": "gun", "level": 2 } } ]
+                  "or": [ { "math": [ "u_skill('melee')", ">=", "2" ] }, { "math": [ "u_skill('gun')", ">=", "2" ] } ]
                 }
               ]
             },
@@ -550,7 +550,7 @@
             {
               "or": [
                 { "compare_num": [ { "u_val": "var", "var_name": "no_prerecs" }, ">", { "const": 0 } ] },
-                { "or": [ { "u_has_skill": { "skill": "pistol", "level": 2 } } ] }
+                { "or": [ { "math": [ "u_skill('pistol')", ">=", "2" ] } ] }
               ]
             },
             { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] }
@@ -604,7 +604,7 @@
             {
               "or": [
                 { "compare_num": [ { "u_val": "var", "var_name": "no_prerecs" }, ">", { "const": 0 } ] },
-                { "or": [ { "u_has_skill": { "skill": "survival", "level": 4 } } ] }
+                { "or": [ { "math": [ "u_skill('survival')", ">=", "4" ] } ] }
               ]
             },
             { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] }
@@ -703,7 +703,7 @@
               "or": [
                 { "compare_num": [ { "u_val": "var", "var_name": "no_prerecs" }, ">", { "const": 0 } ] },
                 {
-                  "and": [ { "u_has_skill": { "skill": "electronics", "level": 4 } }, { "u_has_skill": { "skill": "firstaid", "level": 4 } } ]
+                  "and": [ { "math": [ "u_skill('electronics')", ">=", "4" ] }, { "math": [ "u_skill('firstaid')", ">=", "4" ] } ]
                 }
               ]
             },
