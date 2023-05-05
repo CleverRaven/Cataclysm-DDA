@@ -72,6 +72,8 @@ tripoint_abs_ms get_tripoint_from_var( std::optional<var_info> var, dialogue con
 var_info read_var_info( const JsonObject &jo );
 void write_var_value( var_type type, const std::string &name, talker *talk, dialogue *d,
                       const std::string &value );
+void write_var_value( var_type type, const std::string &name, talker *talk, dialogue *d,
+                      double value );
 std::string get_talk_varname( const JsonObject &jo, const std::string &member,
                               bool check_value, dbl_or_var &default_val );
 std::string get_talk_var_basename( const JsonObject &jo, const std::string &member,
@@ -79,6 +81,8 @@ std::string get_talk_var_basename( const JsonObject &jo, const std::string &memb
 // the truly awful declaration for the conditional_t loading helper_function
 void read_condition( const JsonObject &jo, const std::string &member_name,
                      std::function<bool( dialogue & )> &condition, bool default_val );
+
+void finalize_conditions();
 
 /**
  * A condition for a response spoken by the player.

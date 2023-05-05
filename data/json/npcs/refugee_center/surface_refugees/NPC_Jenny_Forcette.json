@@ -241,9 +241,9 @@
         "text": "[SKILL 2] I'm not a total noob.",
         "condition": {
           "or": [
-            { "u_has_skill": { "skill": "computer", "level": 2 } },
-            { "u_has_skill": { "skill": "electronics", "level": 2 } },
-            { "u_has_skill": { "skill": "mechanics", "level": 2 } }
+            { "math": [ "u_skill('computer')", ">=", "2" ] },
+            { "math": [ "u_skill('electronics')", ">=", "2" ] },
+            { "math": [ "u_skill('mechanics')", ">=", "2" ] }
           ]
         },
         "topic": "TALK_REFUGEE_JENNY_Teach2"
@@ -251,13 +251,11 @@
       {
         "text": "[SKILL <2] No, that's why I want you to teach me.",
         "condition": {
-          "not": {
-            "or": [
-              { "u_has_skill": { "skill": "computer", "level": 2 } },
-              { "u_has_skill": { "skill": "electronics", "level": 2 } },
-              { "u_has_skill": { "skill": "mechanics", "level": 2 } }
-            ]
-          }
+          "and": [
+            { "math": [ "u_skill('computer')", "<", "2" ] },
+            { "math": [ "u_skill('electronics')", "<", "2" ] },
+            { "math": [ "u_skill('mechanics')", "<", "2" ] }
+          ]
         },
         "topic": "TALK_REFUGEE_JENNY_Teach2_Sorry"
       },
@@ -265,15 +263,9 @@
         "text": "[INT 10] No, but I'm a fast learner.",
         "condition": {
           "and": [
-            {
-              "not": {
-                "or": [
-                  { "u_has_skill": { "skill": "computer", "level": 2 } },
-                  { "u_has_skill": { "skill": "electronics", "level": 2 } },
-                  { "u_has_skill": { "skill": "mechanics", "level": 2 } }
-                ]
-              }
-            },
+            { "math": [ "u_skill('computer')", "<", "2" ] },
+            { "math": [ "u_skill('electronics')", "<", "2" ] },
+            { "math": [ "u_skill('mechanics')", "<", "2" ] },
             { "u_has_intelligence": 10 }
           ]
         },

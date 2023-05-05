@@ -960,7 +960,7 @@ class vehicle
         const vpart_info &part_info( int index, bool include_removed = false ) const;
 
         // check if certain part can be mounted at certain position (not accounting frame direction)
-        bool can_mount( const point &dp, const vpart_id &id ) const;
+        ret_val<void> can_mount( const point &dp, const vpart_id &id ) const;
 
         // check if certain part can be unmounted
         bool can_unmount( int p ) const;
@@ -1476,7 +1476,7 @@ class vehicle
          */
         int wheel_area() const;
         // average off-road rating for displaying off-road performance
-        float average_or_rating() const;
+        float average_offroad_rating() const;
 
         /**
          * Physical coefficients used for vehicle calculations.

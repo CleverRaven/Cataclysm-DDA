@@ -58,6 +58,31 @@ static const efftype_id effect_currently_busy( "currently_busy" );
 
 static const json_character_flag json_flag_MUTATION_THRESHOLD( "MUTATION_THRESHOLD" );
 
+namespace
+{
+struct deferred_math {
+    std::string str;
+    bool assignment;
+    std::shared_ptr<math_exp> exp;
+
+    deferred_math( std::string_view str_, bool ass_ ) : str( str_ ), assignment( ass_ ),
+        exp( std::make_shared<math_exp>() ) {}
+};
+
+std::queue<deferred_math> &get_deferred_math()
+{
+    static std::queue<deferred_math> dfr_math;
+    return dfr_math;
+}
+
+std::shared_ptr<math_exp> &defer_math( std::string_view str, bool ass )
+{
+    get_deferred_math().emplace( str, ass );
+    return get_deferred_math().back().exp;
+}
+
+} // namespace
+
 std::string get_talk_varname( const JsonObject &jo, const std::string &member,
                               bool check_value, dbl_or_var &default_val )
 {
@@ -312,6 +337,13 @@ void write_var_value( var_type type, const std::string &name, talker *talk, dial
     }
 }
 
+void write_var_value( var_type type, const std::string &name, talker *talk, dialogue *d,
+                      double value )
+{
+    // NOLINTNEXTLINE(cata-translate-string-literal)
+    write_var_value( type, name, talk, d, string_format( "%g", value ) );
+}
+
 static bodypart_id get_bp_from_str( const std::string &ctxt )
 {
     bodypart_id bid = bodypart_str_id::NULL_ID();
@@ -347,6 +379,16 @@ void read_condition( const JsonObject &jo, const std::string &member_name,
         };
     } else {
         jo.throw_error_at( member_name, "invalid condition syntax" );
+    }
+}
+
+void finalize_conditions()
+{
+    std::queue<deferred_math> &dfr = get_deferred_math();
+    while( !dfr.empty() ) {
+        deferred_math &math = dfr.front();
+        math.exp->parse( math.str, math.assignment );
+        dfr.pop();
     }
 }
 
@@ -1612,11 +1654,6 @@ std::function<double( dialogue & )> conditional_t::get_get_dbl( J const &jo )
                     return d.actor( true )->sold();
                 };
             }
-        } else if( checked_value == "skill_level" ) {
-            const skill_id skill( jo.get_string( "skill" ) );
-            return [is_npc, skill]( dialogue const & d ) {
-                return static_cast<int>( d.actor( is_npc )->get_skill_level( skill ) );
-            };
         } else if( checked_value == "pos_x" ) {
             return [is_npc]( dialogue const & d ) {
                 return d.actor( is_npc )->posx();
@@ -2047,9 +2084,7 @@ conditional_t::get_set_dbl( const J &jo, const std::optional<dbl_or_var_part> &m
         jo.allow_omitted_members();
         return [min, max]( dialogue & d, double input ) {
             write_var_value( var_type::global, "temp_var", d.actor( false ), &d,
-                             std::to_string( handle_min_max( d,
-                                             input, min,
-                                             max ) ) );
+                             handle_min_max( d, input, min, max ) );
         };
     } else if( jo.has_member( "const" ) ) {
         jo.throw_error( "attempted to alter a constant value in " + jo.str() );
@@ -2190,8 +2225,7 @@ conditional_t::get_set_dbl( const J &jo, const std::optional<dbl_or_var_part> &m
             }
             return [is_npc, var_name, type, min, max]( dialogue & d, double input ) {
                 write_var_value( type, var_name, d.actor( is_npc ), &d,
-                                 // NOLINTNEXTLINE(cata-translate-string-literal)
-                                 string_format( "%g", handle_min_max( d, input, min, max ) ) );
+                                 handle_min_max( d, input, min, max ) );
             };
         } else if( checked_value == "time_since_var" ) {
             // This is a strange thing to want to adjust. But we allow it nevertheless.
@@ -2227,11 +2261,6 @@ conditional_t::get_set_dbl( const J &jo, const std::optional<dbl_or_var_part> &m
                     d.actor( true )->add_sold( handle_min_max( d, input, min, max ) - d.actor( true )->sold() );
                 };
             }
-        } else if( checked_value == "skill_level" ) {
-            const skill_id skill( jo.get_string( "skill" ) );
-            return [is_npc, skill, min, max]( dialogue & d, double input ) {
-                d.actor( is_npc )->set_skill_level( skill, handle_min_max( d, input, min, max ) );
-            };
         } else if( checked_value == "pos_x" ) {
             return [is_npc, min, max]( dialogue & d, double input ) {
                 d.actor( is_npc )->set_pos( tripoint( handle_min_max( d, input, min, max ),
@@ -2618,18 +2647,17 @@ void eoc_math::from_json( const JsonObject &jo, std::string_view member )
 
     if( objects.size() == 1 ) {
         action = oper::ret;
-    }
-
-    if( objects.size() == 2 ) {
+    } else if( objects.size() == 2 ) {
         if( oper == "++" ) {
             action = oper::increase;
         } else if( oper == "--" ) {
             action = oper::decrease;
         } else {
             jo.throw_error( "Invalid unary operator in " + jo.str() );
+            return;
         }
     } else if( objects.size() == 3 ) {
-        rhs.parse( objects.get_string( 2 ), false );
+        rhs = defer_math( objects.get_string( 2 ), false );
         if( oper == "=" ) {
             action = oper::assign;
         } else if( oper == "+=" ) {
@@ -2656,12 +2684,13 @@ void eoc_math::from_json( const JsonObject &jo, std::string_view member )
             action = oper::equal_or_greater;
         } else {
             jo.throw_error( "Invalid binary operator in " + jo.str() );
+            return;
         }
     }
     bool const lhs_assign = action >= oper::assign && action <= oper::decrease;
-    lhs.parse( objects.get_string( 0 ), lhs_assign );
+    lhs = defer_math( objects.get_string( 0 ), lhs_assign );
     if( action >= oper::plus_assign && action <= oper::decrease ) {
-        mhs.parse( objects.get_string( 0 ), false );
+        mhs = defer_math( objects.get_string( 0 ), false );
     }
 }
 
@@ -2669,43 +2698,44 @@ double eoc_math::act( dialogue &d ) const
 {
     switch( action ) {
         case oper::ret:
-            return lhs.eval( d );
+            return lhs->eval( d );
         case oper::assign:
-            lhs.assign( d, rhs.eval( d ) );
+            lhs->assign( d, rhs->eval( d ) );
             break;
         case oper::plus_assign:
-            lhs.assign( d, mhs.eval( d ) + rhs.eval( d ) );
+            lhs->assign( d, mhs->eval( d ) + rhs->eval( d ) );
             break;
         case oper::minus_assign:
-            lhs.assign( d, mhs.eval( d ) - rhs.eval( d ) );
+            lhs->assign( d, mhs->eval( d ) - rhs->eval( d ) );
             break;
         case oper::mult_assign:
-            lhs.assign( d, mhs.eval( d ) * rhs.eval( d ) );
+            lhs->assign( d, mhs->eval( d ) * rhs->eval( d ) );
             break;
         case oper::div_assign:
-            lhs.assign( d, mhs.eval( d ) / rhs.eval( d ) );
+            lhs->assign( d, mhs->eval( d ) / rhs->eval( d ) );
             break;
         case oper::mod_assign:
-            lhs.assign( d, std::fmod( mhs.eval( d ), rhs.eval( d ) ) );
+            lhs->assign( d, std::fmod( mhs->eval( d ), rhs->eval( d ) ) );
             break;
         case oper::increase:
-            lhs.assign( d, mhs.eval( d ) + 1 );
+            lhs->assign( d, mhs->eval( d ) + 1 );
             break;
         case oper::decrease:
-            lhs.assign( d, mhs.eval( d ) - 1 );
+            lhs->assign( d, mhs->eval( d ) - 1 );
             break;
         case oper::equal:
-            return float_equals( lhs.eval( d ), rhs.eval( d ) );
+            return static_cast<double>( float_equals( lhs->eval( d ), rhs->eval( d ) ) );
         case oper::not_equal:
-            return !float_equals( lhs.eval( d ), rhs.eval( d ) );
+            return static_cast<double>( !float_equals( lhs->eval( d ), rhs->eval( d ) ) );
         case oper::less:
-            return lhs.eval( d ) < rhs.eval( d );
+            return lhs->eval( d ) < rhs->eval( d );
         case oper::equal_or_less:
-            return lhs.eval( d ) <= rhs.eval( d );
+            return lhs->eval( d ) <= rhs->eval( d );
         case oper::greater:
-            return lhs.eval( d ) > rhs.eval( d );
+            return lhs->eval( d ) > rhs->eval( d );
         case oper::equal_or_greater:
-            return lhs.eval( d ) >= rhs.eval( d );
+            return lhs->eval( d ) >= rhs->eval( d );
+        case oper::invalid:
         default:
             debugmsg( "unknown eoc math operator %d", action );
     }
@@ -2739,23 +2769,6 @@ void conditional_t::set_has_reason()
     condition = []( dialogue const & d ) {
         return !d.reason.empty();
     };
-}
-
-void conditional_t::set_has_skill( const JsonObject &jo, const std::string_view member,
-                                   bool is_npc )
-{
-    JsonObject has_skill = jo.get_object( member );
-    if( !has_skill.has_string( "skill" ) || !has_skill.has_int( "level" ) ) {
-        condition = []( dialogue const & ) {
-            return false;
-        };
-    } else {
-        str_or_var skill = get_str_or_var( has_skill.get_member( "skill" ), "skill", true );
-        dbl_or_var level = get_dbl_or_var( has_skill, "level", true );
-        condition = [skill, level, is_npc]( dialogue & d ) {
-            return d.actor( is_npc )->get_skill_level( skill_id( skill.evaluate( d ) ) ) >= level.evaluate( d );
-        };
-    }
 }
 
 void conditional_t::set_roll_contested( const JsonObject &jo, const std::string_view member )
@@ -2919,9 +2932,9 @@ conditional_t::conditional_t( const JsonObject &jo )
             }
         }
     }
-    if( jo.has_member( "u_has_any_trait" ) ) {
+    if( jo.has_array( "u_has_any_trait" ) ) {
         set_has_any_trait( jo, "u_has_any_trait" );
-    } else if( jo.has_member( "npc_has_any_trait" ) ) {
+    } else if( jo.has_array( "npc_has_any_trait" ) ) {
         set_has_any_trait( jo, "npc_has_any_trait", true );
     } else if( jo.has_member( "u_has_trait" ) ) {
         set_has_trait( jo, "u_has_trait" );
@@ -2943,79 +2956,79 @@ conditional_t::conditional_t( const JsonObject &jo )
         set_has_activity( is_npc );
     } else if( jo.has_string( "npc_is_riding" ) ) {
         set_is_riding( is_npc );
-    } else if( jo.has_string( "u_has_mission" ) ) {
+    } else if( jo.has_member( "u_has_mission" ) ) {
         set_u_has_mission( jo, "u_has_mission" );
-    } else if( jo.has_string( "u_monsters_in_direction" ) ) {
+    } else if( jo.has_member( "u_monsters_in_direction" ) ) {
         set_u_monsters_in_direction( jo, "u_monsters_in_direction" );
-    } else if( jo.has_string( "u_safe_mode_trigger" ) ) {
+    } else if( jo.has_member( "u_safe_mode_trigger" ) ) {
         set_u_safe_mode_trigger( jo, "u_safe_mode_trigger" );
-    } else if( jo.has_int( "u_has_strength" ) || jo.has_object( "u_has_strength" ) ) {
+    } else if( jo.has_member( "u_has_strength" ) || jo.has_array( "u_has_strength" ) ) {
         set_has_strength( jo, "u_has_strength" );
-    } else if( jo.has_int( "npc_has_strength" ) || jo.has_object( "npc_has_strength" ) ) {
+    } else if( jo.has_member( "npc_has_strength" ) || jo.has_array( "npc_has_strength" ) ) {
         set_has_strength( jo, "npc_has_strength", is_npc );
-    } else if( jo.has_int( "u_has_dexterity" ) || jo.has_object( "u_has_dexterity" ) ) {
+    } else if( jo.has_member( "u_has_dexterity" ) || jo.has_array( "u_has_dexterity" ) ) {
         set_has_dexterity( jo, "u_has_dexterity" );
-    } else if( jo.has_int( "npc_has_dexterity" ) || jo.has_object( "npc_has_dexterity" ) ) {
+    } else if( jo.has_member( "npc_has_dexterity" ) || jo.has_array( "npc_has_dexterity" ) ) {
         set_has_dexterity( jo, "npc_has_dexterity", is_npc );
-    } else if( jo.has_int( "u_has_intelligence" ) || jo.has_object( "u_has_intelligence" ) ) {
+    } else if( jo.has_member( "u_has_intelligence" ) || jo.has_array( "u_has_intelligence" ) ) {
         set_has_intelligence( jo, "u_has_intelligence" );
-    } else if( jo.has_int( "npc_has_intelligence" ) || jo.has_object( "npc_has_intelligence" ) ) {
+    } else if( jo.has_member( "npc_has_intelligence" ) || jo.has_array( "npc_has_intelligence" ) ) {
         set_has_intelligence( jo, "npc_has_intelligence", is_npc );
-    } else if( jo.has_int( "u_has_perception" ) || jo.has_object( "u_has_perception" ) ) {
+    } else if( jo.has_member( "u_has_perception" ) || jo.has_array( "u_has_perception" ) ) {
         set_has_perception( jo, "u_has_perception" );
-    } else if( jo.has_int( "npc_has_perception" ) || jo.has_object( "npc_has_perception" ) ) {
+    } else if( jo.has_member( "npc_has_perception" ) || jo.has_array( "npc_has_perception" ) ) {
         set_has_perception( jo, "npc_has_perception", is_npc );
-    } else if( jo.has_int( "u_has_hp" ) || jo.has_object( "u_has_hp" ) ) {
+    } else if( jo.has_member( "u_has_hp" ) || jo.has_array( "u_has_hp" ) ) {
         set_has_hp( jo, "u_has_hp" );
-    } else if( jo.has_int( "npc_has_hp" ) || jo.has_object( "npc_has_hp" ) ) {
+    } else if( jo.has_member( "npc_has_hp" ) || jo.has_array( "npc_has_hp" ) ) {
         set_has_hp( jo, "npc_has_hp", is_npc );
-    } else if( jo.has_int( "u_has_part_temp" ) || jo.has_object( "u_has_part_temp" ) ) {
+    } else if( jo.has_member( "u_has_part_temp" ) || jo.has_array( "u_has_part_temp" ) ) {
         set_has_part_temp( jo, "u_has_part_temp" );
-    } else if( jo.has_int( "npc_has_part_temp" ) || jo.has_object( "npc_has_part_temp" ) ) {
+    } else if( jo.has_member( "npc_has_part_temp" ) || jo.has_array( "npc_has_part_temp" ) ) {
         set_has_part_temp( jo, "npc_has_part_temp", is_npc );
-    } else if( jo.has_string( "u_is_wearing" ) ) {
+    } else if( jo.has_member( "u_is_wearing" ) ) {
         set_is_wearing( jo, "u_is_wearing" );
-    } else if( jo.has_string( "npc_is_wearing" ) ) {
+    } else if( jo.has_member( "npc_is_wearing" ) ) {
         set_is_wearing( jo, "npc_is_wearing", is_npc );
-    } else if( jo.has_string( "u_has_item" ) ) {
+    } else if( jo.has_member( "u_has_item" ) ) {
         set_has_item( jo, "u_has_item" );
-    } else if( jo.has_string( "npc_has_item" ) ) {
+    } else if( jo.has_member( "npc_has_item" ) ) {
         set_has_item( jo, "npc_has_item", is_npc );
-    } else if( jo.has_string( "u_has_item_with_flag" ) ) {
+    } else if( jo.has_member( "u_has_item_with_flag" ) ) {
         set_has_item_with_flag( jo, "u_has_item_with_flag" );
-    } else if( jo.has_string( "npc_has_item_with_flag" ) ) {
+    } else if( jo.has_member( "npc_has_item_with_flag" ) ) {
         set_has_item_with_flag( jo, "npc_has_item_with_flag", is_npc );
     } else if( jo.has_member( "u_has_items" ) ) {
         set_has_items( jo, "u_has_items" );
     } else if( jo.has_member( "npc_has_items" ) ) {
         set_has_items( jo, "npc_has_items", is_npc );
-    } else if( jo.has_string( "u_has_item_category" ) ) {
+    } else if( jo.has_member( "u_has_item_category" ) ) {
         set_has_item_category( jo, "u_has_item_category" );
-    } else if( jo.has_string( "npc_has_item_category" ) ) {
+    } else if( jo.has_member( "npc_has_item_category" ) ) {
         set_has_item_category( jo, "npc_has_item_category", is_npc );
-    } else if( jo.has_string( "u_has_bionics" ) ) {
+    } else if( jo.has_member( "u_has_bionics" ) ) {
         set_has_bionics( jo, "u_has_bionics" );
-    } else if( jo.has_string( "npc_has_bionics" ) ) {
+    } else if( jo.has_member( "npc_has_bionics" ) ) {
         set_has_bionics( jo, "npc_has_bionics", is_npc );
-    } else if( jo.has_string( "u_has_effect" ) ) {
+    } else if( jo.has_member( "u_has_effect" ) ) {
         set_has_effect( jo, "u_has_effect" );
-    } else if( jo.has_string( "npc_has_effect" ) ) {
+    } else if( jo.has_member( "npc_has_effect" ) ) {
         set_has_effect( jo, "npc_has_effect", is_npc );
-    } else if( jo.has_string( "u_need" ) ) {
+    } else if( jo.has_member( "u_need" ) ) {
         set_need( jo, "u_need" );
-    } else if( jo.has_string( "npc_need" ) ) {
+    } else if( jo.has_member( "npc_need" ) ) {
         set_need( jo, "npc_need", is_npc );
     } else if( jo.has_member( "u_query" ) ) {
         set_query( jo, "u_query" );
     } else if( jo.has_member( "npc_query" ) ) {
         set_query( jo, "npc_query", is_npc );
-    } else if( jo.has_string( "u_at_om_location" ) ) {
+    } else if( jo.has_member( "u_at_om_location" ) ) {
         set_at_om_location( jo, "u_at_om_location" );
-    } else if( jo.has_string( "npc_at_om_location" ) ) {
+    } else if( jo.has_member( "npc_at_om_location" ) ) {
         set_at_om_location( jo, "npc_at_om_location", is_npc );
-    } else if( jo.has_string( "u_near_om_location" ) ) {
+    } else if( jo.has_member( "u_near_om_location" ) ) {
         set_near_om_location( jo, "u_near_om_location" );
-    } else if( jo.has_string( "npc_near_om_location" ) ) {
+    } else if( jo.has_member( "npc_near_om_location" ) ) {
         set_near_om_location( jo, "npc_near_om_location", is_npc );
     } else if( jo.has_string( "u_has_var" ) ) {
         set_has_var( jo, "u_has_var" );
@@ -3031,89 +3044,85 @@ conditional_t::conditional_t( const JsonObject &jo )
         set_compare_time_since_var( jo, "npc_compare_time_since_var", is_npc );
     } else if( jo.has_string( "npc_role_nearby" ) ) {
         set_npc_role_nearby( jo, "npc_role_nearby" );
-    } else if( jo.has_int( "npc_allies" ) || jo.has_object( "npc_allies" ) ) {
+    } else if( jo.has_member( "npc_allies" ) || jo.has_array( "npc_allies" ) ) {
         set_npc_allies( jo, "npc_allies" );
-    } else if( jo.has_int( "npc_allies_global" ) || jo.has_object( "npc_allies_global" ) ) {
+    } else if( jo.has_member( "npc_allies_global" ) || jo.has_array( "npc_allies_global" ) ) {
         set_npc_allies_global( jo, "npc_allies_global" );
     } else if( jo.get_bool( "npc_service", false ) ) {
         set_npc_available( true );
     } else if( jo.get_bool( "u_service", false ) ) {
         set_npc_available( false );
-    } else if( jo.has_int( "u_has_cash" ) || jo.has_object( "u_has_cash" ) ) {
+    } else if( jo.has_member( "u_has_cash" ) || jo.has_array( "u_has_cash" ) ) {
         set_u_has_cash( jo, "u_has_cash" );
-    } else if( jo.has_int( "u_are_owed" ) || jo.has_object( "u_are_owed" ) ) {
+    } else if( jo.has_member( "u_are_owed" ) || jo.has_array( "u_are_owed" ) ) {
         set_u_are_owed( jo, "u_are_owed" );
-    } else if( jo.has_string( "npc_aim_rule" ) ) {
+    } else if( jo.has_member( "npc_aim_rule" ) ) {
         set_npc_aim_rule( jo, "npc_aim_rule", true );
-    } else if( jo.has_string( "u_aim_rule" ) ) {
+    } else if( jo.has_member( "u_aim_rule" ) ) {
         set_npc_aim_rule( jo, "u_aim_rule", false );
-    } else if( jo.has_string( "npc_engagement_rule" ) ) {
+    } else if( jo.has_member( "npc_engagement_rule" ) ) {
         set_npc_engagement_rule( jo, "npc_engagement_rule", true );
-    } else if( jo.has_string( "u_engagement_rule" ) ) {
+    } else if( jo.has_member( "u_engagement_rule" ) ) {
         set_npc_engagement_rule( jo, "u_engagement_rule", false );
-    } else if( jo.has_string( "npc_cbm_reserve_rule" ) ) {
+    } else if( jo.has_member( "npc_cbm_reserve_rule" ) ) {
         set_npc_cbm_reserve_rule( jo, "npc_cbm_reserve_rule", true );
-    } else if( jo.has_string( "u_cbm_reserve_rule" ) ) {
+    } else if( jo.has_member( "u_cbm_reserve_rule" ) ) {
         set_npc_cbm_reserve_rule( jo, "u_cbm_reserve_rule", false );
-    } else if( jo.has_string( "npc_cbm_recharge_rule" ) ) {
+    } else if( jo.has_member( "npc_cbm_recharge_rule" ) ) {
         set_npc_cbm_recharge_rule( jo, "npc_cbm_recharge_rule", true );
-    } else if( jo.has_string( "u_cbm_recharge_rule" ) ) {
+    } else if( jo.has_member( "u_cbm_recharge_rule" ) ) {
         set_npc_cbm_recharge_rule( jo, "u_cbm_recharge_rule", false );
-    } else if( jo.has_string( "npc_rule" ) ) {
+    } else if( jo.has_member( "npc_rule" ) ) {
         set_npc_rule( jo, "npc_rule", true );
-    } else if( jo.has_string( "u_rule" ) ) {
+    } else if( jo.has_member( "u_rule" ) ) {
         set_npc_rule( jo, "npc_rule", false );
-    } else if( jo.has_string( "npc_override" ) ) {
+    } else if( jo.has_member( "npc_override" ) ) {
         set_npc_override( jo, "npc_override", true );
     } else if( jo.has_string( "u_override" ) ) {
         set_npc_override( jo, "u_override", false );
-    } else if( jo.has_int( "days_since_cataclysm" ) || jo.has_object( "days_since_cataclysm" ) ) {
+    } else if( jo.has_member( "days_since_cataclysm" ) || jo.has_array( "days_since_cataclysm" ) ) {
         set_days_since( jo, "days_since_cataclysm" );
-    } else if( jo.has_string( "is_season" ) ) {
+    } else if( jo.has_member( "is_season" ) ) {
         set_is_season( jo, "is_season" );
-    } else if( jo.has_string( "mission_goal" ) ) {
+    } else if( jo.has_member( "mission_goal" ) ) {
         set_mission_goal( jo, "mission_goal", true );
-    } else if( jo.has_string( "npc_mission_goal" ) ) {
+    } else if( jo.has_member( "npc_mission_goal" ) ) {
         set_mission_goal( jo, "npc_mission_goal", true );
-    } else if( jo.has_string( "u_mission_goal" ) ) {
+    } else if( jo.has_member( "u_mission_goal" ) ) {
         set_mission_goal( jo, "u_mission_goal", false );
-    } else if( jo.has_member( "u_has_skill" ) ) {
-        set_has_skill( jo, "u_has_skill" );
-    } else if( jo.has_member( "npc_has_skill" ) ) {
-        set_has_skill( jo, "npc_has_skill", is_npc );
     } else if( jo.has_member( "roll_contested" ) ) {
         set_roll_contested( jo, "roll_contested" );
     } else if( jo.has_member( "u_know_recipe" ) ) {
         set_u_know_recipe( jo, "u_know_recipe" );
-    } else if( jo.has_int( "one_in_chance" ) || jo.has_object( "one_in_chance" ) ) {
+    } else if( jo.has_member( "one_in_chance" ) || jo.has_array( "one_in_chance" ) ) {
         set_one_in_chance( jo, "one_in_chance" );
     } else if( jo.has_object( "x_in_y_chance" ) ) {
         set_x_in_y_chance( jo, "x_in_y_chance" );
-    } else if( jo.has_string( "u_has_worn_with_flag" ) ) {
+    } else if( jo.has_member( "u_has_worn_with_flag" ) ) {
         set_has_worn_with_flag( jo, "u_has_worn_with_flag" );
-    } else if( jo.has_string( "npc_has_worn_with_flag" ) ) {
+    } else if( jo.has_member( "npc_has_worn_with_flag" ) ) {
         set_has_worn_with_flag( jo, "npc_has_worn_with_flag", is_npc );
-    } else if( jo.has_string( "u_has_wielded_with_flag" ) ) {
+    } else if( jo.has_member( "u_has_wielded_with_flag" ) ) {
         set_has_wielded_with_flag( jo, "u_has_wielded_with_flag" );
-    } else if( jo.has_string( "npc_has_wielded_with_flag" ) ) {
+    } else if( jo.has_member( "npc_has_wielded_with_flag" ) ) {
         set_has_wielded_with_flag( jo, "npc_has_wielded_with_flag", is_npc );
-    } else if( jo.has_string( "u_is_on_terrain" ) ) {
+    } else if( jo.has_member( "u_is_on_terrain" ) ) {
         set_is_on_terrain( jo, "u_is_on_terrain" );
-    } else if( jo.has_string( "npc_is_on_terrain" ) ) {
+    } else if( jo.has_member( "npc_is_on_terrain" ) ) {
         set_is_on_terrain( jo, "npc_is_on_terrain", is_npc );
-    } else if( jo.has_string( "u_is_in_field" ) ) {
+    } else if( jo.has_member( "u_is_in_field" ) ) {
         set_is_in_field( jo, "u_is_in_field" );
-    } else if( jo.has_string( "npc_is_in_field" ) ) {
+    } else if( jo.has_member( "npc_is_in_field" ) ) {
         set_is_in_field( jo, "npc_is_in_field", is_npc );
-    } else if( jo.has_string( "u_has_move_mode" ) ) {
+    } else if( jo.has_member( "u_has_move_mode" ) ) {
         set_has_move_mode( jo, "u_has_move_mode" );
-    } else if( jo.has_string( "npc_has_move_mode" ) ) {
+    } else if( jo.has_member( "npc_has_move_mode" ) ) {
         set_has_move_mode( jo, "npc_has_move_mode", is_npc );
-    } else if( jo.has_string( "is_weather" ) ) {
+    } else if( jo.has_member( "is_weather" ) ) {
         set_is_weather( jo, "is_weather" );
-    } else if( jo.has_string( "mod_is_loaded" ) ) {
+    } else if( jo.has_member( "mod_is_loaded" ) ) {
         set_mod_is_loaded( jo, "mod_is_loaded" );
-    } else if( jo.has_int( "u_has_faction_trust" ) || jo.has_object( "u_has_faction_trust" ) ) {
+    } else if( jo.has_member( "u_has_faction_trust" ) || jo.has_array( "u_has_faction_trust" ) ) {
         set_has_faction_trust( jo, "u_has_faction_trust" );
     } else if( jo.has_member( "compare_int" ) ) {
         set_compare_num( jo, "compare_int" );

@@ -73,6 +73,23 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_jmath_test",
+    "effect": [ { "math": [ "blorgy", "=", "jmath_test_blorg(1, 2)" ] } ]
+  },
+  {
+    "type": "jmath_function",
+    "id": "jmath_test_blorg",
+    "num_args": 2,
+    "return": "_0 + jmath_test_blorg2( _1 )"
+  },
+  {
+    "type": "jmath_function",
+    "id": "jmath_test_blorg2",
+    "num_args": 1,
+    "return": "_0 * 3"
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_mess_pass",
     "effect": { "math": [ "weighted_var", "=", "1" ] }
   },

@@ -91,6 +91,8 @@ static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
 static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
 
+static const addiction_id addiction_alcohol( "alcohol" );
+
 static const efftype_id effect_incorporeal( "incorporeal" );
 
 static const flag_id json_flag_MOP( "MOP" );
@@ -3276,8 +3278,8 @@ int get_auto_consume_moves( Character &you, const bool food )
                 // it's unclean
                 continue;
             }
-            if( comest.get_comestible()->add == STATIC( addiction_id( "alcohol" ) ) &&
-                !you.has_addiction( comest.get_comestible()->add ) ) {
+            if( comest.get_comestible()->addictions.count( addiction_alcohol ) &&
+                !you.has_addiction( addiction_alcohol ) ) {
                 continue;
             }
 
