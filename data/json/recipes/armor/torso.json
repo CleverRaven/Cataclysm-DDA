@@ -1131,7 +1131,7 @@
     "proficiencies": [ { "proficiency": "prof_polymerworking" }, { "proficiency": "prof_closures" } ]
   },
   {
-    "result": "xs_lsurvivor_armor",
+    "result": "xl_lsurvivor_armor",
     "type": "recipe",
     "copy-from": "lsurvivor_armor",
     "time": "7 h 45 m",
@@ -1155,7 +1155,7 @@
     "proficiencies": [ { "proficiency": "prof_polymerworking" }, { "proficiency": "prof_closures" } ]
   },
   {
-    "result": "xl_lsurvivor_armor",
+    "result": "xs_lsurvivor_armor",
     "type": "recipe",
     "copy-from": "lsurvivor_armor",
     "time": "4 h 5 m",
