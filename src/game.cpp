@@ -4613,6 +4613,7 @@ void game::cleanup_dead()
     if( npc_is_dead ) {
         for( auto it = critter_tracker->active_npc.begin(); it != critter_tracker->active_npc.end(); ) {
             if( ( *it )->is_dead() ) {
+                get_avatar().get_mon_visible().remove_npc( ( *it ).get() );
                 remove_npc_follower( ( *it )->getID() );
                 overmap_buffer.remove_npc( ( *it )->getID() );
                 it = critter_tracker->active_npc.erase( it );
