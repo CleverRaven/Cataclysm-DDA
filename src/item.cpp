@@ -2343,7 +2343,14 @@ void item::med_info( const item *med_item, std::vector<iteminfo> &info, const it
                            to_string( player_character.get_consume_time( *med_item ) ) );
     }
 
-    if( med_com->addict && parts->test( iteminfo_parts::DESCRIPTION_MED_ADDICTING ) ) {
+    bool addictive = false;
+    for( const std::pair<const addiction_id, int> &add : med_com->addictions ) {
+        if( add.second > 0 ) {
+            addictive = true;
+            break;
+        }
+    }
+    if( addictive && parts->test( iteminfo_parts::DESCRIPTION_MED_ADDICTING ) ) {
         info.emplace_back( "DESCRIPTION", _( "* Consuming this item is <bad>addicting</bad>." ) );
     }
 
