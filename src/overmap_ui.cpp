@@ -1889,13 +1889,11 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
                                 .only_digits( true )
                                 .query_int();
                 if( amount > -1 && amount <= max_amount ) {
-                    overmap_buffer.mark_note_dangerous( note_location(), amount, true );
-                    menu->ret = UILIST_MAP_NOTE_EDITED;
-                    return true;
+                    overmap_buffer.mark_note_dangerous( curs, amount, true );
                 }
-            } else if( overmap_buffer.is_marked_dangerous( note_location() ) &&
+            } else if( overmap_buffer.is_marked_dangerous( curs ) &&
                         query_yn( _( "Remove dangerous mark?" ) ) ) {
-                overmap_buffer.mark_note_dangerous( note_location(), 0, false );
+                overmap_buffer.mark_note_dangerous( curs, 0, false );
             }
         } else if( action == "LIST_NOTES" ) {
             const point_abs_omt p = draw_notes( curs );
