@@ -1276,6 +1276,11 @@ void Character::load( const JsonObject &data )
         queued_eoc temp;
         temp.time = time_point( elem.get_int( "time" ) );
         temp.eoc = effect_on_condition_id( elem.get_string( "eoc" ) );
+        std::unordered_map<std::string, std::string> context;
+        for( const JsonMember &jm : elem.get_object( "context" ) ) {
+            context[jm.name()] = jm.get_string();
+        }
+        temp.context = context;
         queued_effect_on_conditions.push( temp );
     }
     data.read( "inactive_eocs", inactive_effect_on_condition_vector );
@@ -1507,6 +1512,7 @@ void Character::store( JsonOut &json ) const
         json.start_object();
         json.member( "time", temp_queued.top().time );
         json.member( "eoc", temp_queued.top().eoc );
+        json.member( "context", temp_queued.top().context );
         json.end_object();
         temp_queued.pop();
     }

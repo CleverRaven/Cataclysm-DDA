@@ -33,6 +33,15 @@ static const effect_on_condition_id
 effect_on_condition_EOC_math_var( "EOC_math_var" );
 static const effect_on_condition_id
 effect_on_condition_EOC_math_weighted_list( "EOC_math_weighted_list" );
+static const effect_on_condition_id effect_on_condition_EOC_run_with_test( "EOC_run_with_test" );
+static const effect_on_condition_id
+effect_on_condition_EOC_run_with_test_expects_fail( "EOC_run_with_test_expects_fail" );
+static const effect_on_condition_id
+effect_on_condition_EOC_run_with_test_expects_pass( "EOC_run_with_test_expects_pass" );
+static const effect_on_condition_id
+effect_on_condition_EOC_run_with_test_queued( "EOC_run_with_test_queued" );
+
+
 static const effect_on_condition_id effect_on_condition_EOC_teleport_test( "EOC_teleport_test" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
@@ -235,7 +244,6 @@ TEST_CASE( "EOC_activity_ongoing", "[eoc][timed_event]" )
     CHECK( stoi( get_avatar().get_value( "npctalk_var_activitiy_incrementer" ) ) == 3 );
 }
 
-
 TEST_CASE( "dialogue_copy", "[eoc]" )
 {
     standard_npc dude;
@@ -260,4 +268,84 @@ TEST_CASE( "dialogue_copy", "[eoc]" )
     d3_copy.set_value( "suppress", "1" );
     CHECK( d3_copy.actor( false )->get_monster() != nullptr );
     CHECK( d3_copy.actor( true )->get_character() == nullptr );
+}
+
+TEST_CASE( "EOC_run_with_test", "[eoc]" )
+{
+    clear_avatar();
+    clear_map();
+
+    dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
+    global_variables &globvars = get_globals();
+    globvars.clear_global_values();
+
+    REQUIRE( globvars.get_global_value( "npctalk_var_key1" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_key2" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_key3" ).empty() );
+
+    CHECK( effect_on_condition_EOC_run_with_test->activate( d ) );
+    CHECK( std::stod( globvars.get_global_value( "npctalk_var_key1" ) ) == Approx( 1 ) );
+    CHECK( std::stod( globvars.get_global_value( "npctalk_var_key2" ) ) == Approx( 2 ) );
+    CHECK( std::stod( globvars.get_global_value( "npctalk_var_key3" ) ) == Approx( 3 ) );
+
+    // value shouldn't exist in the original dialogue
+    CHECK( d.get_value( "npctalk_var_key" ).empty() );
+    CHECK( d.get_value( "npctalk_var_key2" ).empty() );
+    CHECK( d.get_value( "npctalk_var_key3" ).empty() );
+}
+
+TEST_CASE( "EOC_run_with_test_expects", "[eoc]" )
+{
+    clear_avatar();
+    clear_map();
+
+    dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
+    global_variables &globvars = get_globals();
+    globvars.clear_global_values();
+
+    REQUIRE( globvars.get_global_value( "npctalk_var_key1" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_key2" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_key3" ).empty() );
+
+    CHECK( capture_debugmsg_during( [&]() {
+        effect_on_condition_EOC_run_with_test_expects_fail->activate( d );
+    } ) == "Missing required variables: npctalk_var_key1, npctalk_var_key2, npctalk_var_key3, " );
+    CHECK( globvars.get_global_value( "npctalk_var_key1" ).empty() );
+    CHECK( globvars.get_global_value( "npctalk_var_key2" ).empty() );
+    CHECK( globvars.get_global_value( "npctalk_var_key3" ).empty() );
+
+    globvars.clear_global_values();
+
+    effect_on_condition_EOC_run_with_test_expects_pass->activate( d );
+    CHECK( std::stod( globvars.get_global_value( "npctalk_var_key1" ) ) == Approx( 1 ) );
+    CHECK( std::stod( globvars.get_global_value( "npctalk_var_key2" ) ) == Approx( 2 ) );
+    CHECK( std::stod( globvars.get_global_value( "npctalk_var_key3" ) ) == Approx( 3 ) );
+}
+
+TEST_CASE( "EOC_run_with_test_queue", "[eoc]" )
+{
+    clear_avatar();
+    clear_map();
+
+    dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
+    global_variables &globvars = get_globals();
+    globvars.clear_global_values();
+
+    REQUIRE( globvars.get_global_value( "npctalk_var_key1" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_key2" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_key3" ).empty() );
+
+    CHECK( effect_on_condition_EOC_run_with_test_queued->activate( d ) );
+
+    set_time( calendar::turn + 2_seconds );
+    effect_on_conditions::process_effect_on_conditions( get_avatar() );
+
+    CHECK( std::stod( globvars.get_global_value( "npctalk_var_key1" ) ) == Approx( 1 ) );
+    CHECK( std::stod( globvars.get_global_value( "npctalk_var_key2" ) ) == Approx( 2 ) );
+    CHECK( std::stod( globvars.get_global_value( "npctalk_var_key3" ) ) == Approx( 3 ) );
+
+    // value shouldn't exist in the original dialogue
+    CHECK( d.get_value( "npctalk_var_key" ).empty() );
+    CHECK( d.get_value( "npctalk_var_key2" ).empty() );
+    CHECK( d.get_value( "npctalk_var_key3" ).empty() );
 }

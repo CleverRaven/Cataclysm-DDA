@@ -1,0 +1,262 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_INVENTOR_RESEARCH_BASE_1",
+    "//": "Check, do player has enough processed sparks to beat the difficulty. If true, substract difficulty from vitamin, increase difficulty for 5, roll_remainder recipe, process sparks, print success message. If false, give 1 processed spark, process sparks, print a fail message.",
+    "condition": { "math": [ "u_val('vitamin', 'name:creative_spark_research')", ">=", "base_difficulty_1" ] },
+    "effect": [
+      { "math": [ "u_val('vitamin', 'name:creative_spark_research')", "-=", "base_difficulty_1" ] },
+      { "math": [ "base_difficulty_1", "+=", "5" ] },
+      {
+        "u_roll_remainder": [
+          "inventor_leg_weight",
+          "inventor_jump_boots",
+          "inventor_sniper",
+          "inventor_shotgun",
+          "inventor_pistol",
+          "mace_magic",
+          "combatsaw_spear_off",
+          "inventor_research_base_2"
+        ],
+        "type": "recipe",
+        "false_eocs": [ "EOC_INVENTOR_COMPLETED_ROLL_REMAINDER" ]
+      },
+      { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
+      { "u_message": "inventor_success", "snippet": true, "type": "good" }
+    ],
+    "false_effect": [
+      { "u_message": "inventor_fail", "snippet": true, "type": "bad" },
+      { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
+      { "math": [ "u_val('vitamin', 'name:creative_spark_research')", "+=", "1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_INVENTOR_RESEARCH_BASE_2",
+    "condition": { "math": [ "u_val('vitamin', 'name:creative_spark_research')", ">=", "base_difficulty_2" ] },
+    "effect": [
+      { "math": [ "u_val('vitamin', 'name:creative_spark_research')", "-=", "base_difficulty_2" ] },
+      { "math": [ "base_difficulty_2", "+=", "10" ] },
+      { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
+      {
+        "u_roll_remainder": [
+          "helmet_inventor",
+          "inventor_electric_fist",
+          "wolf_mask",
+          "magnetic_holster",
+          "bio_launcher",
+          "bio_warhead",
+          "trinket_damage",
+          "trinket_range",
+          "trinket_sound",
+          "inventor_research_base_3",
+          "inventor_research_energy_1",
+          "software_AI"
+        ],
+        "type": "recipe",
+        "false_eocs": [ "EOC_INVENTOR_COMPLETED_ROLL_REMAINDER" ]
+      },
+      { "u_message": "inventor_success", "snippet": true, "type": "good" }
+    ],
+    "false_effect": [
+      { "u_message": "inventor_fail", "snippet": true, "type": "bad" },
+      { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
+      { "math": [ "u_val('vitamin', 'name:creative_spark_research')", "+=", "2" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_INVENTOR_RESEARCH_BASE_3",
+    "condition": { "math": [ "u_val('vitamin', 'name:creative_spark_research')", ">=", "base_difficulty_3" ] },
+    "effect": [
+      { "math": [ "u_val('vitamin', 'name:creative_spark_research')", "-=", "base_difficulty_3" ] },
+      { "math": [ "base_difficulty_3", "+=", "15" ] },
+      { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
+      {
+        "u_roll_remainder": [ "inventor_backpack", "vision_halo", "sonic_gun", "inventor_research_energy_1" ],
+        "type": "recipe",
+        "false_eocs": [ "EOC_INVENTOR_COMPLETED_ROLL_REMAINDER" ]
+      },
+      { "u_message": "inventor_success", "snippet": true, "type": "good" }
+    ],
+    "false_effect": [
+      { "u_message": "inventor_fail", "snippet": true, "type": "bad" },
+      { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
+      { "math": [ "u_val('vitamin', 'name:creative_spark_research')", "+=", "3" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_INVENTOR_RESEARCH_ENERGY_1",
+    "condition": { "math": [ "u_val('vitamin', 'name:creative_spark_research')", ">=", "energy_difficulty_1" ] },
+    "effect": [
+      { "math": [ "u_val('vitamin', 'name:creative_spark_research')", "-=", "energy_difficulty_1" ] },
+      { "math": [ "energy_difficulty_1", "+=", "7" ] },
+      {
+        "u_roll_remainder": [
+          "battery_gun",
+          "inventor_light_minus_cell",
+          "inventor_light_cell",
+          "inventor_medium_cell",
+          "inventor_heavy_cell",
+          "inventor_welder",
+          "heater_tool",
+          "inventor_research_energy_2"
+        ],
+        "type": "recipe",
+        "false_eocs": [ "EOC_INVENTOR_COMPLETED_ROLL_REMAINDER" ]
+      },
+      { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
+      { "u_message": "inventor_success", "snippet": true, "type": "good" }
+    ],
+    "false_effect": [
+      { "u_message": "inventor_fail", "snippet": true, "type": "bad" },
+      { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
+      { "math": [ "u_val('vitamin', 'name:creative_spark_research')", "+=", "1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_INVENTOR_RESEARCH_ENERGY_2",
+    "condition": { "math": [ "u_val('vitamin', 'name:creative_spark_research')", ">=", "energy_difficulty_2" ] },
+    "effect": [
+      { "math": [ "u_val('vitamin', 'name:creative_spark_research')", "-=", "energy_difficulty_2" ] },
+      { "math": [ "energy_difficulty_2", "+=", "13" ] },
+      {
+        "u_roll_remainder": [
+          "aura_force",
+          "ray_gun",
+          "ion_gun",
+          "accelerator_gun",
+          "inventor_grenade_noise_expl",
+          "inventor_grenade_noise_emp",
+          "inventor_grenade_noise_fire",
+          "heater_gun",
+          "inventor_lasmod_close_range",
+          "inventor_lasmod_long_range",
+          "inventor_lasmod_capasitor",
+          "inventor_lasmod_energy_safe",
+          "inventor_research_energy_3"
+        ],
+        "type": "recipe",
+        "false_eocs": [ "EOC_INVENTOR_COMPLETED_ROLL_REMAINDER" ]
+      },
+      { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
+      { "u_message": "inventor_success", "snippet": true, "type": "good" }
+    ],
+    "false_effect": [
+      { "u_message": "inventor_fail", "snippet": true, "type": "bad" },
+      { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
+      { "math": [ "u_val('vitamin', 'name:creative_spark_research')", "+=", "2" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_INVENTOR_RESEARCH_ENERGY_3",
+    "condition": { "math": [ "u_val('vitamin', 'name:creative_spark_research')", ">=", "energy_difficulty_3" ] },
+    "effect": [
+      { "math": [ "u_val('vitamin', 'name:creative_spark_research')", "-=", "energy_difficulty_3" ] },
+      { "math": [ "energy_difficulty_3", "+=", "20" ] },
+      {
+        "u_roll_remainder": [
+          "inventor_glauncher",
+          "inventor_glauncher_fire",
+          "inventor_glauncher_elec",
+          "inventor_glauncher_direct",
+          "death_ray",
+          "inventor_lasmod_mega_capasitor",
+          "inventor_research_ai_1",
+          "inventor_research_dimesnion_1"
+        ],
+        "type": "recipe",
+        "false_eocs": [ "EOC_INVENTOR_COMPLETED_ROLL_REMAINDER" ]
+      },
+      { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
+      { "u_message": "inventor_success", "snippet": true, "type": "good" }
+    ],
+    "false_effect": [
+      { "u_message": "inventor_fail", "snippet": true, "type": "bad" },
+      { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
+      { "math": [ "u_val('vitamin', 'name:creative_spark_research')", "+=", "3" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_INVENTOR_RESEARCH_AI_1",
+    "condition": {
+      "and": [
+        { "math": [ "u_val('vitamin', 'name:creative_spark_research')", ">=", "base_difficulty_3" ] },
+        { "math": [ "AI_sparks", ">=", "AI_difficulty_1" ] }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_val('vitamin', 'name:creative_spark_research')", "-=", "base_difficulty_3" ] },
+      { "math": [ "AI_sparks", "+=", "AI_difficulty_1" ] },
+      { "math": [ "base_difficulty_3", "+=", "10" ] },
+      { "math": [ "AI_difficulty_1", "+=", "10" ] },
+      { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
+      {
+        "u_roll_remainder": [ "bot_sniperbot", "bot_shotgunbot", "bot_meleebot" ],
+        "type": "recipe",
+        "false_eocs": [ "EOC_INVENTOR_COMPLETED_ROLL_REMAINDER" ]
+      },
+      { "u_message": "inventor_success", "snippet": true, "type": "good" }
+    ],
+    "false_effect": [
+      { "u_message": "inventor_fail", "snippet": true, "type": "bad" },
+      { "math": [ "u_val('vitamin', 'name:creative_spark_research')", "+=", "4" ] },
+      { "math": [ "AI_sparks", "+=", "4" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_INVENTOR_RESEARCH_DIMENSION_1",
+    "condition": {
+      "and": [
+        { "math": [ "u_val('vitamin', 'name:creative_spark_research')", ">=", "base_difficulty_3" ] },
+        { "math": [ "dimension_sparks", ">=", "dimension_difficulty_1" ] }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_val('vitamin', 'name:creative_spark_research')", "-=", "base_difficulty_3" ] },
+      { "math": [ "dimension_sparks", "+=", "dimension_difficulty_1" ] },
+      { "math": [ "base_difficulty_3", "+=", "10" ] },
+      { "math": [ "dimension_difficulty_1", "+=", "10" ] },
+      { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
+      {
+        "u_roll_remainder": [ "rip_ticket" ],
+        "type": "recipe",
+        "false_eocs": [ "EOC_INVENTOR_COMPLETED_ROLL_REMAINDER" ]
+      },
+      { "u_message": "inventor_success", "snippet": true, "type": "good" }
+    ],
+    "false_effect": [
+      { "u_message": "inventor_fail", "snippet": true, "type": "bad" },
+      { "math": [ "u_val('vitamin', 'name:creative_spark_research')", "+=", "5" ] },
+      { "math": [ "dimension_sparks", "+=", "4" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_INVENTOR_PROCESS_SPARKS",
+    "condition": { "math": [ "u_val('vitamin', 'name:creative_spark')", ">", "0" ] },
+    "effect": [
+      { "math": [ "u_val('vitamin', 'name:creative_spark_research')", ">", "u_val('vitamin', 'name:creative_spark')" ] },
+      {
+        "u_message": "creative_spark_research = <u_val:creative_spark_research>,\n base_difficulty_1 = <u_val:base_difficulty_1>,\n base_difficulty_2 = <u_val:base_difficulty_2>,\n base_difficulty_3 = <u_val:base_difficulty_3>,\n energy_difficulty_1 = <u_val:energy_difficulty_1>,\n energy_difficulty_2 = <u_val:energy_difficulty_2>,\n energy_difficulty_3 = <u_val:energy_difficulty_3>,\n dimension_sparks = <u_val:dimension_sparks>,\n dimension_difficulty_1 = <u_val:dimension_difficulty_1>.",
+        "type": "debug"
+      }
+    ],
+    "false_effect": [
+      {
+        "u_message": "creative_spark_research = <u_val:creative_spark_research>,\n base_difficulty_1 = <u_val:base_difficulty_1>,\n base_difficulty_2 = <u_val:base_difficulty_2>,\n base_difficulty_3 = <u_val:base_difficulty_3>,\n energy_difficulty_1 = <u_val:energy_difficulty_1>,\n energy_difficulty_2 = <u_val:energy_difficulty_2>,\n energy_difficulty_3 = <u_val:energy_difficulty_3>,\n dimension_sparks = <u_val:dimension_sparks>,\n dimension_difficulty_1 = <u_val:dimension_difficulty_1>.",
+        "type": "debug"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_INVENTOR_COMPLETED_ROLL_REMAINDER",
+    "effect": { "u_message": "You have nothing to research in this branch anymore." }
+  }
+]

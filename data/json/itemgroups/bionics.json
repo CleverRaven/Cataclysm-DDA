@@ -91,6 +91,7 @@
       [ "bio_taste_blocker", 10 ],
       [ "bio_soporific", 10 ],
       [ "bio_recoil", 10 ],
+      [ "bio_ar", 10 ],
       [ "bio_fitnessband", 10 ]
     ]
   },
