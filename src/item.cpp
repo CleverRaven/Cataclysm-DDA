@@ -6928,6 +6928,12 @@ units::mass item::weight( bool include_contents, bool integral ) const
     return ret;
 }
 
+static units::length sawn_off_reduction( const itype *type )
+{
+    int barrel_percentage = type->gun->barrel_volume / ( type->volume / 100 );
+    return ( type->longest_side / 100 ) * barrel_percentage;
+}
+
 units::length item::length() const
 {
     if( made_of( phase_id::LIQUID ) || ( is_soft() && is_container_empty() ) ) {
@@ -6943,9 +6949,7 @@ units::length item::length() const
 
         //TODO: Unhardcode this now that integral_longest_side can be used
         if( gunmod_find( itype_barrel_small ) ) {
-            int barrel_percentage = type->gun->barrel_volume / ( type->volume / 100 );
-            units::length reduce_by = ( type->longest_side / 100 ) * barrel_percentage;
-            length_adjusted = type->longest_side - reduce_by;
+            length_adjusted = type->longest_side - sawn_off_reduction( type );
         }
 
         std::vector<const item *> mods = gunmods();
@@ -6993,12 +6997,18 @@ units::length item::barrel_length() const
     if( is_gun() ) {
         units::length l = type->gun->barrel_length;
         for( const item *mod : mods() ) {
-            if( mod->type->gunmod->location.str() == "barrel" ) {
-                if( mod->type->integral_longest_side > 0_mm ) {
-                    l = mod->type->integral_longest_side;
-                }
+            // if a gun has a barrel length specifying mod then use that length for sure
+            if( mod->type->gunmod->barrel_length > 0_mm ) {
+                l = mod->type->gunmod->barrel_length;
+                // if we find an explicit barrel mod then use that and quit the loop
+                break;
             }
         }
+        // if we've sawn off the barrel reduce the damage
+        if( gunmod_find( itype_barrel_small ) ) {
+            l = l - sawn_off_reduction( type );
+        }
+
         return l;
     } else {
         return 0_mm;

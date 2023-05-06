@@ -5,8 +5,8 @@
 
 #include <llvm/ADT/StringRef.h>
 
-#include "ClangTidy.h"
-#include "ClangTidyCheck.h"
+#include <clang-tidy/ClangTidy.h>
+#include <clang-tidy/ClangTidyCheck.h>
 #include "Utils.h"
 
 namespace clang

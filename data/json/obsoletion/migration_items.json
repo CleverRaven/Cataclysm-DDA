@@ -115,5 +115,10 @@
     "id": "generic_figurine_plastic",
     "type": "MIGRATION",
     "replace": "toy_figurine"
+  },
+  {
+    "id": "bookmark_note_catalytic",
+    "type": "MIGRATION",
+    "replace": "paper"
   }
 ]
