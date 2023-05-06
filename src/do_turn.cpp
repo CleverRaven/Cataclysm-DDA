@@ -689,10 +689,16 @@ bool do_turn()
 
     if( calendar::once_every( 1_minutes ) ) {
         u.update_morale();
+        for( npc &guy : g->all_npcs() ) {
+            guy.update_morale();
+        }
     }
 
     if( calendar::once_every( 9_turns ) ) {
         u.check_and_recover_morale();
+        for( npc &guy : g->all_npcs() ) {
+            guy.check_and_recover_morale();
+        }
     }
 
     if( !u.is_deaf() ) {
