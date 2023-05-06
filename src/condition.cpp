@@ -770,6 +770,30 @@ void conditional_t::set_has_var( const JsonObject &jo, const std::string &member
     };
 }
 
+void conditional_t::set_expects_vars( const JsonObject &jo, const std::string &member )
+{
+    std::vector<str_or_var> to_check;
+    if( jo.has_array( member ) ) {
+        for( const JsonValue &jv : jo.get_array( member ) ) {
+            to_check.push_back( get_str_or_var( jv, member, true ) );
+        }
+    }
+
+    condition = [to_check]( dialogue const & d ) {
+        std::string missing_variables;
+        for( const str_or_var &val : to_check ) {
+            if( d.get_context().find( val.evaluate( d ) ) == d.get_context().end() ) {
+                missing_variables += val.evaluate( d ) + ", ";
+            }
+        }
+        if( !missing_variables.empty() ) {
+            debugmsg( string_format( "Missing required variables: %s", missing_variables ) );
+            return false;
+        }
+        return true;
+    };
+}
+
 void conditional_t::set_compare_var( const JsonObject &jo, const std::string &member,
                                      bool is_npc )
 {
@@ -3034,6 +3058,8 @@ conditional_t::conditional_t( const JsonObject &jo )
         set_has_var( jo, "u_has_var" );
     } else if( jo.has_string( "npc_has_var" ) ) {
         set_has_var( jo, "npc_has_var", is_npc );
+    } else if( jo.has_member( "expects_vars" ) ) {
+        set_expects_vars( jo, "expects_vars" );
     } else if( jo.has_string( "u_compare_var" ) ) {
         set_compare_var( jo, "u_compare_var" );
     } else if( jo.has_string( "npc_compare_var" ) ) {
