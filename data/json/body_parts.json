@@ -110,6 +110,98 @@
     "sub_parts": [ "torso_upper", "torso_neck", "torso_lower", "torso_hanging_front", "torso_hanging_back", "torso_waist" ]
   },
   {
+    "id": "big_head",
+    "type": "body_part",
+    "name": "big head",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "head" },
+    "heading": "big head",
+    "heading_multiple": "big heads",
+    "hp_bar_ui_text": "HEAD",
+    "encumbrance_text": "Dodging and blocking is hampered.",
+    "encumbrance_threshold": 10,
+    "main_part": "big_head",
+    "connected_to": "big_head",
+    "opposite_part": "big_head",
+    "limb_type": "head",
+    "limb_scores": [ [ "reaction", 0.3 ] ],
+    "is_vital": true,
+    "hit_size": 4,
+    "hit_difficulty": 1.2,
+    "side": "both",
+    "grabbing_effect": "grabbing_head",
+    "stylish_bonus": 3,
+    "hot_morale_mod": 2,
+    "cold_morale_mod": 2,
+    "fire_warmth_bonus": 150,
+    "squeamish_penalty": 7,
+    "base_hp": 60,
+    "drench_capacity": 700,
+    "smash_message": "You smash the %s with a firm headbutt.",
+    "smash_efficiency": 0.25,
+    "bionic_slots": 18,
+    "flags": [ "LIMB_UPPER" ],
+    "sub_parts": [ "head_forehead", "head_crown", "head_nape", "head_throat", "head_ear_r", "head_ear_l" ],
+    "encumbrance_per_weight": [
+      { "weight": "1 mg", "encumbrance": 1 },
+      { "weight": "300 g", "encumbrance": 4 },
+      { "weight": "800 g", "encumbrance": 8 },
+      { "weight": "1300 g", "encumbrance": 20 },
+      { "weight": "1600 g", "encumbrance": 30 },
+      { "weight": "2200 g", "encumbrance": 50 },
+      { "weight": "5600 g", "encumbrance": 80 },
+      { "weight": "10000 g", "encumbrance": 160 }
+    ],
+    "effects_on_hit": [
+      {
+        "id": "bleed",
+        "dmg_type": "cut",
+        "dmg_threshold": 5,
+        "dmg_scale_increment": 2,
+        "duration": 60,
+        "duration_dmg_scaling": 30,
+        "max_duration": 960
+      },
+      {
+        "id": "bleed",
+        "dmg_type": "stab",
+        "dmg_threshold": 1,
+        "dmg_scale_increment": 1.5,
+        "duration": 60,
+        "duration_dmg_scaling": 60,
+        "max_duration": 1200
+      },
+      {
+        "id": "bleed",
+        "dmg_type": "bullet",
+        "dmg_threshold": 1,
+        "dmg_scale_increment": 1,
+        "duration": 60,
+        "duration_dmg_scaling": 60
+      },
+      {
+        "id": "stunned",
+        "dmg_type": "bash",
+        "dmg_threshold": 10,
+        "dmg_scale_increment": 5,
+        "chance": 10,
+        "chance_dmg_scaling": 10,
+        "duration": 1,
+        "duration_dmg_scaling": 0.5,
+        "max_duration": 4
+      },
+      {
+        "id": "stunned",
+        "dmg_threshold": 30,
+        "dmg_scale_increment": 10,
+        "chance": 10,
+        "chance_dmg_scaling": 10,
+        "duration": 1,
+        "duration_dmg_scaling": 0.5,
+        "max_duration": 4
+      }
+    ]
+  },
+  {
     "id": "head",
     "type": "body_part",
     "name": "head",

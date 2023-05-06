@@ -23,6 +23,15 @@
   },
   {
     "type": "enchantment",
+    "id": "ENCH_DEBUG_BIG_HEAD",
+    "condition": "ALWAYS",
+    "modified_bodyparts": [
+      { "lose": "head" },
+      { "gain": "big_head" }
+    ]
+  },
+  {
+    "type": "enchantment",
     "id": "RM13",
     "condition": "ACTIVE",
     "values": [
