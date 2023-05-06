@@ -1354,9 +1354,8 @@ tripoint monster::scent_move()
     }
 
     tripoint next( -1, -1, posz() );
-    // When the scent is *either* too strong or too weak, can't follow it.
-    if( ( !fleeing && scent_here > smell_threshold ) ||
-        ( scent_here == 0 ) ) {
+    // Scent is too weak, can't follow it.
+    if( scent_here == 0 ) {
         return next;
     }
     // Check for the scent type being compatible.
@@ -1387,19 +1386,24 @@ tripoint monster::scent_move()
 
     const bool can_bash = bash_skill() > 0;
     map &here = get_map();
-    // Get direction of scent
-    for( const tripoint &dest : here.points_in_radius( pos(), 1, SCENT_MAP_Z_REACH ) ) {
-        int smell = scents.get( dest );
+    if( !fleeing && scent_here > smell_threshold ) {
+        // Smell too strong to track, wander around
+        sdirection.push_back( pos() );
+    } else {
+        // Get direction of scent
+        for( const tripoint &dest : here.points_in_radius( pos(), 1, SCENT_MAP_Z_REACH ) ) {
+            int smell = scents.get( dest );
 
-        if( ( !fleeing && smell < bestsmell ) || ( fleeing && smell > bestsmell ) ) {
-            continue;
-        }
-        if( ( !fleeing && smell > bestsmell ) || ( fleeing && smell < bestsmell ) ) {
-            sdirection.clear();
-            sdirection.push_back( dest );
-            bestsmell = smell;
-        } else if( ( !fleeing && smell == bestsmell ) || ( fleeing && smell == bestsmell ) ) {
-            sdirection.push_back( dest );
+            if( ( !fleeing && smell < bestsmell ) || ( fleeing && smell > bestsmell ) ) {
+                continue;
+            }
+            if( ( !fleeing && smell > bestsmell ) || ( fleeing && smell < bestsmell ) ) {
+                sdirection.clear();
+                sdirection.push_back( dest );
+                bestsmell = smell;
+            } else if( ( !fleeing && smell == bestsmell ) || ( fleeing && smell == bestsmell ) ) {
+                sdirection.push_back( dest );
+            }
         }
     }
 
