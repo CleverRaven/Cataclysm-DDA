@@ -67,6 +67,8 @@ static const efftype_id effect_pacified( "pacified" );
 static const efftype_id effect_pushed( "pushed" );
 static const efftype_id effect_stunned( "stunned" );
 
+static const field_type_str_id field_fd_last_known( "fd_last_known" );
+
 static const itype_id itype_pressurized_tank( "pressurized_tank" );
 
 static const material_id material_iflesh( "iflesh" );
@@ -1672,6 +1674,11 @@ bool monster::attack_at( const tripoint &p )
         // later on not hitting allied NPCs would be cool.
         guy->on_attacked( *this ); // allow NPC hallucination to be one shot by monsters
         return melee_attack( *guy );
+    }
+
+    // Attack last known position despite empty
+    if( get_map().has_field_at( p, field_fd_last_known ) ) {
+        return attack_air( p );
     }
 
     // Nothing to attack.

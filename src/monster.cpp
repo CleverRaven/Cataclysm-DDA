@@ -2029,6 +2029,20 @@ bool monster::stumble_invis( const Character &player )
     return true;
 }
 
+bool monster::attack_air( const tripoint &p )
+{
+    mod_moves( -type->attack_cost );
+    add_msg_if_player_sees( *this, _( "%s attacks, but there is nothing there!" ),
+                            this->disp_name( false, true ) );
+    // TODO replace hit anim
+    g->draw_hit_mon( p, *this );
+    // Chance to remove last known location
+    if( one_in( 2 ) ) {
+        get_map().set_field_intensity( p, field_fd_last_known, 0 );
+    }
+    return true;
+}
+
 void monster::heal_bp( bodypart_id, int dam )
 {
     heal( dam );
