@@ -1876,7 +1876,7 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
             if( overmap_buffer.has_note( curs ) && query_yn( _( "Really delete note?" ) ) ) {
                 overmap_buffer.delete_note( curs );
             }
-        } else if ( action == "MARK_DANGER" ) {
+        } else if ( action == "MARK_DANGER" ) { //TODO: does not actually add danger, just the menus
             // NOLINTNEXTLINE(cata-text-style): No need for two whitespaces
             if( query_yn( _( "Mark area as dangerous ( to avoid on auto move paths? )" ) ) ) {
                 const int max_amount = 20;
