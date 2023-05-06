@@ -2063,7 +2063,9 @@ const bodypart_id Creature::get_part_id( const bodypart_id &id ) const
             for( const auto &mp : bp.first->limbtypes ) {
                 // if the secondary limb type matches and is better than the current
                 if( mp.first == id->primary_limb_type() && mp.second > best.second ) {
-                    best = { bp.first, mp.second };
+                    // give an inflated bonus if the part sides match
+                    float bonus = id->part_side == bp.first->part_side ? 1.0 : 0.0;
+                    best = { bp.first, mp.second + bonus };
                 }
             }
         }
