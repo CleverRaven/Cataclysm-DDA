@@ -1318,7 +1318,7 @@ void vehicles::reset_prototypes()
 void vehicle_prototype::load( const JsonObject &jo, std::string_view )
 {
     vgroups[vgroup_id( id.str() )].add_vehicle( id, 100 );
-    mandatory( jo, was_loaded, "name", name );
+    optional( jo, was_loaded, "name", name );
 
     const auto add_part_obj = [&]( const JsonObject & part, point pos ) {
         part_def pt;
