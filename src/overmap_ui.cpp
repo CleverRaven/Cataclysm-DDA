@@ -1188,6 +1188,7 @@ static void draw_om_sidebar(
         print_hint( "SEARCH" );
         print_hint( "CREATE_NOTE" );
         print_hint( "DELETE_NOTE" );
+        print_hint( "MARK_DANGER" );
         print_hint( "LIST_NOTES" );
         print_hint( "MISSIONS" );
         print_hint( "TOGGLE_MAP_NOTES", uistate.overmap_show_map_notes ? c_pink : c_magenta );
@@ -1793,6 +1794,7 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
     ictxt.register_action( "CENTER" );
     ictxt.register_action( "CREATE_NOTE" );
     ictxt.register_action( "DELETE_NOTE" );
+    ictxt.register_action( "MARK_DANGER" );
     ictxt.register_action( "SEARCH" );
     ictxt.register_action( "LIST_NOTES" );
     ictxt.register_action( "TOGGLE_MAP_NOTES" );
@@ -1873,6 +1875,27 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
         } else if( action == "DELETE_NOTE" ) {
             if( overmap_buffer.has_note( curs ) && query_yn( _( "Really delete note?" ) ) ) {
                 overmap_buffer.delete_note( curs );
+            }
+        } else if ( action == "MARK_DANGER" ) {
+            // NOLINTNEXTLINE(cata-text-style): No need for two whitespaces
+            if( query_yn( _( "Mark area as dangerous ( to avoid on auto move paths? )" ) ) ) {
+                const int max_amount = 20;
+                // NOLINTNEXTLINE(cata-text-style): No need for two whitespaces
+                const std::string popupmsg = _( "Danger radius in overmap squares? ( 0-20 )" );
+                int amount = string_input_popup()
+                                .title( popupmsg )
+                                .width( 20 )
+                                .text( "0" )
+                                .only_digits( true )
+                                .query_int();
+                if( amount > -1 && amount <= max_amount ) {
+                    overmap_buffer.mark_note_dangerous( note_location(), amount, true );
+                    menu->ret = UILIST_MAP_NOTE_EDITED;
+                    return true;
+                }
+            } else if( overmap_buffer.is_marked_dangerous( note_location() ) &&
+                        query_yn( _( "Remove dangerous mark?" ) ) ) {
+                overmap_buffer.mark_note_dangerous( note_location(), 0, false );
             }
         } else if( action == "LIST_NOTES" ) {
             const point_abs_omt p = draw_notes( curs );
