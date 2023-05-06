@@ -1,12 +1,22 @@
 [
   {
-    "id": "xe_cold_iron_damage",
+    "id": "xe_cold_iron_cutting_damage",
     "type": "damage_type",
     "physical": true,
     "magic_color": "grey",
-    "name": "radiant",
+    "name": "cold iron cut",
     "skill": "cutting",
-    "derived_from": [ "cutting", 1.2 ],
+    "derived_from": [ "cutting", 1 ],
+    "immune_flags": { "character": [ "IRONSWORN" ], "monster": [ "IRONWROUGHT" ] }
+  },
+  {
+    "id": "xe_cold_iron_bash_damage",
+    "type": "damage_type",
+    "physical": true,
+    "magic_color": "grey",
+    "name": "cold iron bash",
+    "skill": "bashing",
+    "derived_from": [ "bashing", 1 ],
     "immune_flags": { "character": [ "IRONSWORN" ], "monster": [ "IRONWROUGHT" ] }
   }
 ]
