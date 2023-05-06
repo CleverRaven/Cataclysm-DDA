@@ -1398,6 +1398,16 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
     }
 }
 
+static void field_processor_fd_last_known( const tripoint &p, field_entry &cur,
+        field_proc_data &pd )
+{
+    ( void )pd;
+    const auto loc_creature = get_creature_tracker().creature_at( p, false );
+    // Remove field when duration expires or non-player creature enters
+    if( cur.get_field_age() > 5_seconds || ( loc_creature != nullptr && !loc_creature->is_avatar() ) ) {
+        cur.set_field_intensity( 0 );
+    }
+}
 // This entire function makes very little sense. Why are the rules the way they are? Why does walking into some things destroy them but not others?
 
 /*
@@ -2232,6 +2242,9 @@ std::vector<FieldProcessorPtr> map_field_processing::processors_for_type( const 
     }
     if( ft.id == fd_fungicidal_gas ) {
         processors.push_back( &field_processor_fd_fungicidal_gas );
+    }
+    if( ft.id == fd_last_known ) {
+        processors.push_back( &field_processor_fd_last_known );
     }
 
     return processors;

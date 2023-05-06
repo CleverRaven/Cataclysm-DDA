@@ -1656,9 +1656,7 @@
   {
     "id": "fd_last_known",
     "type": "field_type",
-    "intensity_levels": [ { "name": "last known position", "dangerous": false } ],
-    "half_life": "2 seconds",
-    "accelerated_decay": true
+    "intensity_levels": [ { "name": "last known position", "dangerous": false } ]
   },
   {
     "id": "fd_nm_monster_gas_1",
