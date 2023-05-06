@@ -3831,6 +3831,28 @@ void talk_effect_fun_t::set_run_eocs( const JsonObject &jo, const std::string_vi
     };
 }
 
+void talk_effect_fun_t::set_run_eoc_with( const JsonObject &jo, const std::string_view member )
+{
+    effect_on_condition_id eoc = effect_on_conditions::load_inline_eoc( jo.get_member( member ), "" );
+
+    std::unordered_map<std::string, str_or_var> context;
+    if( jo.has_object( "variables" ) ) {
+        const JsonObject &variables = jo.get_object( "variables" );
+        for( const JsonMember &jv : variables ) {
+            context["npctalk_var_" + jv.name()] = get_str_or_var( variables.get_member( jv.name() ), jv.name(),
+                                                  true );
+        }
+    }
+
+    function = [eoc, context]( dialogue const & d ) {
+        dialogue newDialog( d );
+        for( const auto &val : context ) {
+            newDialog.set_value( val.first, val.second.evaluate( d ) );
+        }
+        eoc->activate( newDialog );
+    };
+}
+
 void talk_effect_fun_t::set_run_npc_eocs( const JsonObject &jo,
         const std::string_view member, bool is_npc )
 {
@@ -3907,15 +3929,55 @@ void talk_effect_fun_t::set_queue_eocs( const JsonObject &jo, const std::string_
             if( eoc->type == eoc_type::ACTIVATION ) {
                 Character *alpha = d.has_alpha ? d.actor( false )->get_character() : nullptr;
                 if( alpha ) {
-                    effect_on_conditions::queue_effect_on_condition( time_in_future, eoc, *alpha );
+                    effect_on_conditions::queue_effect_on_condition( time_in_future, eoc, *alpha, d.get_context() );
                 } else if( eoc->global ) {
-                    effect_on_conditions::queue_effect_on_condition( time_in_future, eoc, get_player_character() );
+                    effect_on_conditions::queue_effect_on_condition( time_in_future, eoc, get_player_character(),
+                            d.get_context() );
                 }
                 // If the target is a monster or item and the eoc is non global it won't be queued and will silently "fail"
                 // this is so monster attacks against other monsters won't give error messages.
             } else {
                 debugmsg( "Cannot queue a non activation effect_on_condition." );
             }
+        }
+    };
+}
+
+void talk_effect_fun_t::set_queue_eoc_with( const JsonObject &jo, const std::string_view member )
+{
+    effect_on_condition_id eoc = effect_on_conditions::load_inline_eoc( jo.get_member( member ), "" );
+
+    std::unordered_map<std::string, str_or_var> context;
+    if( jo.has_object( "variables" ) ) {
+        const JsonObject &variables = jo.get_object( "variables" );
+        for( const JsonMember &jv : variables ) {
+            context["npctalk_var_" + jv.name()] = get_str_or_var( variables.get_member( jv.name() ), jv.name(),
+                                                  true );
+        }
+    }
+
+    duration_or_var dov_time_in_future = get_duration_or_var( jo, "time_in_future", false,
+                                         0_seconds );
+    function = [dov_time_in_future, eoc, context]( dialogue & d ) {
+        time_duration time_in_future = dov_time_in_future.evaluate( d );
+        if( eoc->type == eoc_type::ACTIVATION ) {
+
+            std::unordered_map<std::string, std::string> passed_variables;
+            for( const auto &val : context ) {
+                passed_variables[val.first] = val.second.evaluate( d );
+            }
+
+            Character *alpha = d.has_alpha ? d.actor( false )->get_character() : nullptr;
+            if( alpha ) {
+                effect_on_conditions::queue_effect_on_condition( time_in_future, eoc, *alpha, passed_variables );
+            } else if( eoc->global ) {
+                effect_on_conditions::queue_effect_on_condition( time_in_future, eoc, get_player_character(),
+                        passed_variables );
+            }
+            // If the target is a monster or item and the eoc is non global it won't be queued and will silently "fail"
+            // this is so monster attacks against other monsters won't give error messages.
+        } else {
+            debugmsg( "Cannot queue a non activation effect_on_condition." );
         }
     };
 }
@@ -4143,13 +4205,7 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, const std::stri
         bool is_npc )
 {
     bool group = jo.get_bool( "group", false );
-    mtype_id new_monster;
-    mongroup_id group_id;
-    if( group ) {
-        group_id = mongroup_id( jo.get_string( member ) );
-    } else {
-        new_monster = mtype_id( jo.get_string( member ) );
-    }
+    str_or_var monster_id = get_str_or_var( jo.get_member( member ), member );
     dbl_or_var dov_target_range = get_dbl_or_var( jo, "target_range", false, 0 );
     dbl_or_var dov_hallucination_count = get_dbl_or_var( jo, "hallucination_count", false, 0 );
     dbl_or_var dov_real_count = get_dbl_or_var( jo, "real_count", false, 0 );
@@ -4173,15 +4229,16 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, const std::stri
     std::string spawn_message_plural = jo.get_string( "spawn_message_plural", "" );
     std::vector<effect_on_condition_id> true_eocs = load_eoc_vector( jo, "true_eocs" );
     std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );
-    function = [new_monster, dov_target_range, dov_hallucination_count, dov_real_count, dov_min_radius,
-                             dov_max_radius, outdoor_only, indoor_only, group_id, dov_lifespan, target_var,
-                             spawn_message, spawn_message_plural, true_eocs, false_eocs, open_air_allowed,
-                 friendly, is_npc]( dialogue & d ) {
+    function = [monster_id, dov_target_range, dov_hallucination_count, dov_real_count, dov_min_radius,
+                            dov_max_radius, outdoor_only, indoor_only, group, dov_lifespan, target_var,
+                            spawn_message, spawn_message_plural, true_eocs, false_eocs, open_air_allowed,
+                friendly, is_npc]( dialogue & d ) {
         monster target_monster;
 
-        if( group_id.is_valid() ) {
-            target_monster = monster( MonsterGroupManager::GetRandomMonsterFromGroup( group_id ) );
-        } else if( new_monster.is_empty() ) {
+        if( group ) {
+            target_monster = monster( MonsterGroupManager::GetRandomMonsterFromGroup( mongroup_id(
+                                          monster_id.evaluate( d ) ) ) );
+        } else if( monster_id.evaluate( d ).empty() ) {
             int target_range = dov_target_range.evaluate( d );
             //grab a random nearby hostile creature to create a hallucination or copy of
             Creature *copy = g->get_creature_if( [target_range]( const Creature & critter ) -> bool {
@@ -4196,7 +4253,7 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, const std::stri
             }
             target_monster = *copy->as_monster();
         } else {
-            target_monster = monster( new_monster );
+            target_monster = monster( mtype_id( monster_id.evaluate( d ) ) );
         }
         int min_radius = dov_min_radius.evaluate( d );
         int max_radius = dov_max_radius.evaluate( d );
@@ -4543,13 +4600,13 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
     if( jo.has_string( "companion_mission" ) ) {
         std::string role_id = jo.get_string( "companion_mission" );
         subeffect_fun.set_companion_mission( role_id );
-    } else if( jo.has_string( "u_add_effect" ) ) {
+    } else if( jo.has_member( "u_add_effect" ) ) {
         subeffect_fun.set_add_effect( jo, "u_add_effect" );
-    } else if( jo.has_string( "npc_add_effect" ) ) {
+    } else if( jo.has_member( "npc_add_effect" ) ) {
         subeffect_fun.set_add_effect( jo, "npc_add_effect", is_npc );
-    } else if( jo.has_string( "u_lose_effect" ) ) {
+    } else if( jo.has_member( "u_lose_effect" ) ) {
         subeffect_fun.set_remove_effect( jo, "u_lose_effect" );
-    } else if( jo.has_string( "npc_lose_effect" ) ) {
+    } else if( jo.has_member( "npc_lose_effect" ) ) {
         subeffect_fun.set_remove_effect( jo, "npc_lose_effect", is_npc );
     } else if( jo.has_string( "u_add_var" ) ) {
         subeffect_fun.set_add_var( jo, "u_add_var" );
@@ -4563,17 +4620,17 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_adjust_var( jo, "u_adjust_var" );
     } else if( jo.has_string( "npc_adjust_var" ) ) {
         subeffect_fun.set_adjust_var( jo, "npc_adjust_var", is_npc );
-    } else if( jo.has_string( "u_add_trait" ) ) {
+    } else if( jo.has_member( "u_add_trait" ) ) {
         subeffect_fun.set_add_trait( jo, "u_add_trait" );
-    } else if( jo.has_string( "npc_add_trait" ) ) {
+    } else if( jo.has_member( "npc_add_trait" ) ) {
         subeffect_fun.set_add_trait( jo, "npc_add_trait", is_npc );
-    } else if( jo.has_string( "u_lose_trait" ) ) {
+    } else if( jo.has_member( "u_lose_trait" ) ) {
         subeffect_fun.set_remove_trait( jo, "u_lose_trait" );
-    } else if( jo.has_string( "npc_lose_trait" ) ) {
+    } else if( jo.has_member( "npc_lose_trait" ) ) {
         subeffect_fun.set_remove_trait( jo, "npc_lose_trait", is_npc );
-    } else if( jo.has_member( "u_mutate" ) ) {
+    } else if( jo.has_member( "u_mutate" ) || jo.has_array( "u_mutate" ) ) {
         subeffect_fun.set_mutate( jo, "u_mutate" );
-    } else if( jo.has_member( "npc_mutate" ) ) {
+    } else if( jo.has_member( "npc_mutate" ) || jo.has_array( "npc_mutate" ) ) {
         subeffect_fun.set_mutate( jo, "npc_mutate", is_npc );
     } else if( jo.has_member( "u_mutate_category" ) ) {
         subeffect_fun.set_mutate_category( jo, "u_mutate_category" );
@@ -4587,15 +4644,15 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_forget_martial_art( jo, "u_forget_martial_art" );
     } else if( jo.has_member( "npc_forget_martial_art" ) ) {
         subeffect_fun.set_forget_martial_art( jo, "npc_forget_martial_art", is_npc );
-    } else if( jo.has_int( "u_spend_cash" ) ) {
+    } else if( jo.has_member( "u_spend_cash" ) || jo.has_array( "u_spend_cash" ) ) {
         subeffect_fun.set_u_spend_cash( jo, "u_spend_cash" );
-    } else if( jo.has_string( "npc_change_faction" ) ) {
+    } else if( jo.has_member( "npc_change_faction" ) ) {
         subeffect_fun.set_npc_change_faction( jo, "npc_change_faction" );
-    } else if( jo.has_string( "npc_change_class" ) ) {
+    } else if( jo.has_member( "npc_change_class" ) ) {
         subeffect_fun.set_npc_change_class( jo, "npc_change_class" );
-    } else if( jo.has_int( "u_faction_rep" ) ) {
+    } else if( jo.has_member( "u_faction_rep" ) || jo.has_array( "u_faction_rep" ) ) {
         subeffect_fun.set_change_faction_rep( jo, "u_faction_rep" );
-    } else if( jo.has_string( "add_mission" ) ) {
+    } else if( jo.has_member( "add_mission" ) ) {
         subeffect_fun.set_add_mission( jo, "add_mission" );
     } else if( jo.has_member( "u_sell_item" ) ) {
         subeffect_fun.set_u_sell_item( jo, "u_sell_item" );
@@ -4603,13 +4660,13 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_u_buy_item( jo, "u_buy_item" );
     } else if( jo.has_member( "u_spawn_item" ) ) {
         subeffect_fun.set_u_spawn_item( jo, "u_spawn_item" );
-    } else if( jo.has_string( "u_consume_item" ) ) {
+    } else if( jo.has_member( "u_consume_item" ) ) {
         subeffect_fun.set_consume_item( jo, "u_consume_item" );
-    } else if( jo.has_string( "npc_consume_item" ) ) {
+    } else if( jo.has_member( "npc_consume_item" ) ) {
         subeffect_fun.set_consume_item( jo, "npc_consume_item", is_npc );
-    } else if( jo.has_string( "u_remove_item_with" ) ) {
+    } else if( jo.has_member( "u_remove_item_with" ) ) {
         subeffect_fun.set_remove_item_with( jo, "u_remove_item_with" );
-    } else if( jo.has_string( "npc_remove_item_with" ) ) {
+    } else if( jo.has_member( "npc_remove_item_with" ) ) {
         subeffect_fun.set_remove_item_with( jo, "npc_remove_item_with", is_npc );
     }  else if( jo.has_member( "u_bulk_trade_accept" ) ) {
         subeffect_fun.set_bulk_trade_accept( jo, "u_bulk_trade_accept" );
@@ -4628,19 +4685,19 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
             debt_modifiers.push_back( this_modifier );
         }
         subeffect_fun.set_add_debt( debt_modifiers );
-    } else if( jo.has_string( "toggle_npc_rule" ) ) {
+    } else if( jo.has_member( "toggle_npc_rule" ) ) {
         subeffect_fun.set_toggle_npc_rule( jo, "toggle_npc_rule" );
-    } else if( jo.has_string( "set_npc_rule" ) ) {
+    } else if( jo.has_member( "set_npc_rule" ) ) {
         subeffect_fun.set_set_npc_rule( jo, "set_npc_rule" );
-    } else if( jo.has_string( "clear_npc_rule" ) ) {
+    } else if( jo.has_member( "clear_npc_rule" ) ) {
         subeffect_fun.set_clear_npc_rule( jo, "clear_npc_rule" );
-    } else if( jo.has_string( "set_npc_engagement_rule" ) ) {
+    } else if( jo.has_member( "set_npc_engagement_rule" ) ) {
         subeffect_fun.set_npc_engagement_rule( jo, "set_npc_engagement_rule" );
-    } else if( jo.has_string( "set_npc_aim_rule" ) ) {
+    } else if( jo.has_member( "set_npc_aim_rule" ) ) {
         subeffect_fun.set_npc_aim_rule( jo, "set_npc_aim_rule" );
-    } else if( jo.has_string( "set_npc_cbm_reserve_rule" ) ) {
+    } else if( jo.has_member( "set_npc_cbm_reserve_rule" ) ) {
         subeffect_fun.set_npc_cbm_reserve_rule( jo, "set_npc_cbm_reserve_rule" );
-    } else if( jo.has_string( "set_npc_cbm_recharge_rule" ) ) {
+    } else if( jo.has_member( "set_npc_cbm_recharge_rule" ) ) {
         subeffect_fun.set_npc_cbm_recharge_rule( jo, "set_npc_cbm_recharge_rule" );
     } else if( jo.has_member( "u_set_goal" ) ) {
         subeffect_fun.set_npc_goal( jo, "u_set_goal" );
@@ -4658,11 +4715,11 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_revert_location( jo, "revert_location" );
     } else if( jo.has_member( "place_override" ) ) {
         subeffect_fun.set_place_override( jo, "place_override" );
-    } else if( jo.has_object( "u_transform_radius" ) || jo.has_int( "u_transform_radius" ) ) {
+    } else if( jo.has_member( "u_transform_radius" ) || jo.has_array( "u_transform_radius" ) ) {
         subeffect_fun.set_transform_radius( jo, "u_transform_radius", false );
-    } else if( jo.has_object( "npc_transform_radius" ) || jo.has_int( "npc_transform_radius" ) ) {
+    } else if( jo.has_member( "npc_transform_radius" ) || jo.has_array( "npc_transform_radius" ) ) {
         subeffect_fun.set_transform_radius( jo, "npc_transform_radius", true );
-    } else if( jo.has_string( "transform_line" ) ) {
+    } else if( jo.has_member( "transform_line" ) ) {
         subeffect_fun.set_transform_line( jo, "transform_line" );
     } else if( jo.has_object( "u_location_variable" ) ) {
         subeffect_fun.set_location_variable( jo, "u_location_variable", false );
@@ -4670,27 +4727,27 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_location_variable( jo, "npc_location_variable", true );
     } else if( jo.has_object( "location_variable_adjust" ) ) {
         subeffect_fun.set_location_variable_adjust( jo, "location_variable_adjust" );
-    } else if( jo.has_int( "u_set_hp" ) ) {
+    } else if( jo.has_member( "u_set_hp" ) || jo.has_array( "u_set_hp" ) ) {
         subeffect_fun.set_hp( jo, "u_set_hp", false );
-    } else if( jo.has_int( "npc_set_hp" ) ) {
+    } else if( jo.has_member( "npc_set_hp" ) || jo.has_array( "npc_set_hp" ) ) {
         subeffect_fun.set_hp( jo, "npc_set_hp", true );
-    } else if( jo.has_string( "u_buy_monster" ) ) {
+    } else if( jo.has_member( "u_buy_monster" ) ) {
         subeffect_fun.set_u_buy_monster( jo, "u_buy_monster" );
-    } else if( jo.has_string( "u_learn_recipe" ) ) {
+    } else if( jo.has_member( "u_learn_recipe" ) ) {
         subeffect_fun.set_u_learn_recipe( jo, "u_learn_recipe" );
-    } else if( jo.has_string( "npc_first_topic" ) ) {
+    } else if( jo.has_member( "npc_first_topic" ) ) {
         subeffect_fun.set_npc_first_topic( jo, "npc_first_topic" );
-    } else if( jo.has_string( "sound_effect" ) ) {
+    } else if( jo.has_member( "sound_effect" ) ) {
         subeffect_fun.set_sound_effect( jo, "sound_effect" );
-    } else if( jo.has_string( "give_achievement" ) ) {
+    } else if( jo.has_member( "give_achievement" ) ) {
         subeffect_fun.set_give_achievment( jo, "give_achievement" );
     } else if( jo.has_member( "u_message" ) ) {
         subeffect_fun.set_message( jo, "u_message" );
     } else if( jo.has_member( "npc_message" ) ) {
         subeffect_fun.set_message( jo, "npc_message", true );
-    } else if( jo.has_int( "u_add_wet" ) || jo.has_object( "u_add_wet" ) ) {
+    } else if( jo.has_member( "u_add_wet" ) || jo.has_array( "u_add_wet" ) ) {
         subeffect_fun.set_add_wet( jo, "u_add_wet", false );
-    } else if( jo.has_int( "npc_add_wet" ) || jo.has_object( "npc_add_wet" ) ) {
+    } else if( jo.has_member( "npc_add_wet" ) || jo.has_array( "npc_add_wet" ) ) {
         subeffect_fun.set_add_wet( jo, "npc_add_wet", true );
     } else if( jo.has_member( "u_assign_activity" ) ) {
         subeffect_fun.set_assign_activity( jo, "u_assign_activity", false );
@@ -4698,9 +4755,9 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_assign_activity( jo, "npc_assign_activity", true );
     } else if( jo.has_member( "assign_mission" ) ) {
         subeffect_fun.set_assign_mission( jo, "assign_mission" );
-    } else if( jo.has_string( "finish_mission" ) ) {
+    } else if( jo.has_member( "finish_mission" ) ) {
         subeffect_fun.set_finish_mission( jo, "finish_mission" );
-    } else if( jo.has_string( "remove_active_mission" ) ) {
+    } else if( jo.has_member( "remove_active_mission" ) ) {
         subeffect_fun.set_remove_active_mission( jo, "remove_active_mission" );
     } else if( jo.has_array( "offer_mission" ) || jo.has_string( "offer_mission" ) ) {
         subeffect_fun.set_offer_mission( jo, "offer_mission" );
@@ -4710,8 +4767,12 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_make_sound( jo, "npc_make_sound", true );
     } else if( jo.has_array( "run_eocs" ) || jo.has_member( "run_eocs" ) ) {
         subeffect_fun.set_run_eocs( jo, "run_eocs" );
+    } else if( jo.has_member( "run_eoc_with" ) ) {
+        subeffect_fun.set_run_eoc_with( jo, "run_eoc_with" );
     } else if( jo.has_array( "queue_eocs" ) || jo.has_member( "queue_eocs" ) ) {
         subeffect_fun.set_queue_eocs( jo, "queue_eocs" );
+    } else if( jo.has_member( "queue_eoc_with" ) ) {
+        subeffect_fun.set_queue_eoc_with( jo, "queue_eoc_with" );
     } else if( jo.has_array( "u_run_npc_eocs" ) ) {
         subeffect_fun.set_run_npc_eocs( jo, "u_run_npc_eocs", false );
     } else if( jo.has_array( "npc_run_npc_eocs" ) ) {
@@ -4724,29 +4785,29 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_roll_remainder( jo, "u_roll_remainder", false );
     } else if( jo.has_member( "npc_roll_remainder" ) ) {
         subeffect_fun.set_roll_remainder( jo, "npc_roll_remainder", true );
-    } else if( jo.has_member( "u_mod_healthy" ) ) {
+    } else if( jo.has_member( "u_mod_healthy" ) || jo.has_array( "u_mod_healthy" ) ) {
         subeffect_fun.set_mod_healthy( jo, "u_mod_healthy", false );
-    } else if( jo.has_member( "npc_mod_healthy" ) ) {
+    } else if( jo.has_member( "npc_mod_healthy" ) || jo.has_array( "npc_mod_healthy" ) ) {
         subeffect_fun.set_mod_healthy( jo, "npc_mod_healthy", true );
-    } else if( jo.has_string( "u_add_morale" ) ) {
+    } else if( jo.has_member( "u_add_morale" ) ) {
         subeffect_fun.set_add_morale( jo, "u_add_morale", false );
-    } else if( jo.has_string( "npc_add_morale" ) ) {
+    } else if( jo.has_member( "npc_add_morale" ) ) {
         subeffect_fun.set_add_morale( jo, "npc_add_morale", true );
-    } else if( jo.has_string( "u_lose_morale" ) ) {
+    } else if( jo.has_member( "u_lose_morale" ) ) {
         subeffect_fun.set_lose_morale( jo, "u_lose_morale", false );
-    } else if( jo.has_string( "npc_lose_morale" ) ) {
+    } else if( jo.has_member( "npc_lose_morale" ) ) {
         subeffect_fun.set_lose_morale( jo, "npc_lose_morale", true );
-    } else if( jo.has_int( "u_add_faction_trust" ) || jo.has_object( "u_add_faction_trust" ) ) {
+    } else if( jo.has_member( "u_add_faction_trust" ) || jo.has_array( "u_add_faction_trust" ) ) {
         subeffect_fun.set_add_faction_trust( jo, "u_add_faction_trust" );
-    } else if( jo.has_int( "u_lose_faction_trust" ) || jo.has_object( "u_lose_faction_trust" ) ) {
+    } else if( jo.has_member( "u_lose_faction_trust" ) || jo.has_array( "u_lose_faction_trust" ) ) {
         subeffect_fun.set_lose_faction_trust( jo, "u_lose_faction_trust" );
-    } else if( jo.has_string( "u_add_bionic" ) ) {
+    } else if( jo.has_member( "u_add_bionic" ) ) {
         subeffect_fun.set_add_bionic( jo, "u_add_bionic", false );
-    } else if( jo.has_string( "npc_add_bionic" ) ) {
+    } else if( jo.has_member( "npc_add_bionic" ) ) {
         subeffect_fun.set_add_bionic( jo, "npc_add_bionic", true );
-    } else if( jo.has_string( "u_lose_bionic" ) ) {
+    } else if( jo.has_member( "u_lose_bionic" ) ) {
         subeffect_fun.set_lose_bionic( jo, "u_lose_bionic", false );
-    } else if( jo.has_string( "npc_lose_bionic" ) ) {
+    } else if( jo.has_member( "npc_lose_bionic" ) ) {
         subeffect_fun.set_lose_bionic( jo, "npc_lose_bionic", true );
     } else if( jo.has_member( "u_cast_spell" ) ) {
         bool targeted = false;
@@ -4764,23 +4825,23 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_arithmetic( jo, "arithmetic", false );
     } else if( jo.has_array( "math" ) ) {
         subeffect_fun.set_math( jo, "math" );
-    } else if( jo.has_string( "u_spawn_monster" ) ) {
+    } else if( jo.has_member( "u_spawn_monster" ) ) {
         subeffect_fun.set_spawn_monster( jo, "u_spawn_monster", false );
-    } else if( jo.has_string( "npc_spawn_monster" ) ) {
+    } else if( jo.has_member( "npc_spawn_monster" ) ) {
         subeffect_fun.set_spawn_monster( jo, "npc_spawn_monster", true );
-    } else if( jo.has_string( "u_spawn_npc" ) ) {
+    } else if( jo.has_member( "u_spawn_npc" ) ) {
         subeffect_fun.set_spawn_npc( jo, "u_spawn_npc", false );
-    } else if( jo.has_string( "npc_spawn_npc" ) ) {
+    } else if( jo.has_member( "npc_spawn_npc" ) ) {
         subeffect_fun.set_spawn_npc( jo, "npc_spawn_npc", true );
-    } else if( jo.has_string( "u_set_field" ) ) {
+    } else if( jo.has_member( "u_set_field" ) ) {
         subeffect_fun.set_field( jo, "u_set_field", false );
-    } else if( jo.has_string( "npc_set_field" ) ) {
+    } else if( jo.has_member( "npc_set_field" ) ) {
         subeffect_fun.set_field( jo, "npc_set_field", true );
     } else if( jo.has_object( "u_teleport" ) ) {
         subeffect_fun.set_teleport( jo, "u_teleport", false );
     } else if( jo.has_object( "npc_teleport" ) ) {
         subeffect_fun.set_teleport( jo, "npc_teleport", true );
-    } else if( jo.has_int( "custom_light_level" ) || jo.has_object( "custom_light_level" ) ) {
+    } else if( jo.has_member( "custom_light_level" ) || jo.has_array( "custom_light_level" ) ) {
         subeffect_fun.set_custom_light_level( jo, "custom_light_level" );
     } else if( jo.has_object( "give_equipment" ) ) {
         subeffect_fun.set_give_equipment( jo, "give_equipment" );

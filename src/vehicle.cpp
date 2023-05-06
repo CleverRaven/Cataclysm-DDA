@@ -3845,14 +3845,15 @@ int vehicle::wheel_area() const
     return total_area;
 }
 
-float vehicle::average_or_rating() const
+float vehicle::average_offroad_rating() const
 {
     if( wheelcache.empty() ) {
         return 0.0f;
     }
     float total_rating = 0.0f;
-    for( const int &wheel_index : wheelcache ) {
-        total_rating += part_info( wheel_index ).wheel_or_rating();
+    for( const int wheel_index : wheelcache ) {
+        const vehicle_part &vp = part( wheel_index );
+        total_rating += vp.info().wheel_offroad_rating();
     }
     return total_rating / wheelcache.size();
 }

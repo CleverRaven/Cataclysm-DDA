@@ -291,6 +291,10 @@ CATCH_REGISTER_LISTENER( CataListener )
 int main( int argc, const char *argv[] )
 {
     reset_floating_point_mode();
+    on_out_of_scope json_member_reporting_guard{ [] {
+            // Disable reporting unvisited members if stack unwinding leaves main early.
+            Json::globally_report_unvisited_members( false );
+        } };
     Catch::Session session;
 
     std::vector<const char *> arg_vec( argv, argv + argc );

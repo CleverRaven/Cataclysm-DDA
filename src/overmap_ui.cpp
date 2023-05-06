@@ -1671,7 +1671,7 @@ static std::vector<tripoint_abs_omt> get_overmap_path_to( const tripoint_abs_omt
             params = overmap_path_params::for_watercraft();
         } else if( can_drive ) {
             const float offroad_coeff = player_veh->k_traction( player_veh->wheel_area() *
-                                        player_veh->average_or_rating() );
+                                        player_veh->average_offroad_rating() );
             const bool tiny = player_veh->get_points().size() <= 3;
             params = overmap_path_params::for_land_vehicle( offroad_coeff, tiny, can_float );
         } else {

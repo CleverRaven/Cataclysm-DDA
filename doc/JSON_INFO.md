@@ -2812,8 +2812,8 @@ Unless specified as optional, the following fields are mandatory for parts with 
 
 #### The following optional fields are specific to WHEELs.
 ```c++
-"wheel_type": "standard",     // Must be one of "standard", "rigid", "racing", "off_road", "treads", or "rail".
-                              // Indicates the class of wheel for determining off-road performance.
+"wheel_offroad_rating": 0.5,  // multiplier of wheel performance offroad
+"wheel_terrain_modifiers": { "FLAT": [ 0, 5 ], "ROAD": [ 0, 2 ] }, // see below
 "contact_area": 153,          // The surface area of the wheel in contact with the ground under
                               // normal conditions in cm^2.  Wheels with higher contact area
                               // perform better off-road.
@@ -2821,13 +2821,17 @@ Unless specified as optional, the following fields are mandatory for parts with 
                               // resistance increases vehicle drag linearly as vehicle weight
                               // and speed increase.
 ```
-The following `wheel_types` are available:
-* `standard`: typical car wheel with some grooves, intended primarily for road use.  Large penalty when not on a FLAT tile, small penalty when not on a ROAD tile.
-* `rigid`: hard roller wheel like a caster that only performs well on smooth, flat surface.  Massive penalty when not on a FLAT tile, moderate penalty when not on a ROAD tile.
-* `racing`: a smooth, ungrooved tile for maximum traction under optimum conditions.  Very large penalty when not on a FLAT tile, small penalty when not on a ROAD tile.
-* `off_road`: a knobbed, heavily grooved tire for maximum traction under a wide variety of conditions.  Moderate penalty when not on a FLAT tile, tiny penalty when not a ROAD tile.
-* `treads`: a link in a continuous track.  moderate penalty when not on a FLAT tile, no penalty when not on a ROAD tile.
-* `rail`: a rigid metal wheel with a flange on one edge, meant to keep it on a railroad track.  No penalty when on a RAIL tile, extreme penalty when not on a RAIL tile.
+
+`wheel_terrain_modifiers` field provides a way to modify wheel traction according to the flags set on terrain tile under each wheel.
+
+The key is one of the terrain flags, the list of flags can be found in [JSON_FLAGS.md](JSON_FLAGS.md#furniture-and-terrain).
+
+The value expects an array of length 2. The first element is a modifier override applied when wheel is on the flagged terrain, the second element is an additive modifier penalty applied when wheel is NOT on flagged terrain, values of 0 are ignored. The modifier is applied over a base value provided by `map::move_cost_ter_furn`.
+
+Examples:
+* Standard `wheel` has the field set to `{ "FLAT": [ 0, 4 ], "ROAD": [ 0, 2 ] }`. If wheel is not on terrain flagged `FLAT` then the traction is 1/4 of base value. If not on terrain flagged `ROAD` then it's 1/2 of base value. If neither flag is present then traction will be 1/6 of base value. If terrain is flagged with both `ROAD` and `FLAT` then the base value from `map::move_cost_ter_furn` is used.
+* `rail_wheel` has the field set to `{ "RAIL": [ 2, 8 ] }`. If wheel is on terrain flagged `RAIL` the traction is overriden to be 1/2 of value calculated by `map::move_cost_ter_furn`, this value is the first element and considered an override, so if there had been modifiers applied prior to this they are ignored. If on terrain not flagged with `RAIL` then traction will be 1/8 of base value.
+
 
 #### The following optional fields are specific to ROTORs.
 ```c++
@@ -3469,7 +3473,6 @@ CBMs can be defined like this:
 "type" : "COMESTIBLE",      // Defines this as a COMESTIBLE
 ...                         // same entries as above for the generic item.
 // Only COMESTIBLE type items may define the following fields:
-"addiction_type" : "crack", // Addiction type
 "spoils_in" : 0,            // A time duration: how long a comestible is good for. 0 = no spoilage.
 "use_action" : [ "CRACK" ],     // What effects a comestible has when used, see special definitions below
 "stim" : 40,                // Stimulant effect
@@ -3478,7 +3481,8 @@ CBMs can be defined like this:
 "consumption_effect_on_conditions" : [ "EOC_1" ],  // Effect on conditions to run after consuming.  Inline or string id supported
 "quench" : 0,               // Thirst quenched
 "healthy" : -2,             // Health effects (used for sickness chances)
-"addiction_potential" : 80, // Ability to cause addictions
+"addiction_potential" : 80, // Default strength for this item to cause addictions
+"addiction_type" : [ "crack", { "addiction": "cocaine", "potential": 5 } ], // Addiction types (if no potential is given, the "addiction_potential" field is used to determine the strength of that addiction)
 "monotony_penalty" : 0,     // (Optional, default: 2) Fun is reduced by this number for each one you've consumed in the last 48 hours.
                             // Can't drop fun below 0, unless the comestible also has the "NEGATIVE_MONOTONY_OK" flag.
 "calories" : 0,             // Hunger satisfied (in kcal)
@@ -3626,7 +3630,6 @@ Gun mods can be defined like this:
 "loudness_modifier": 4,        // Optional field increasing or decreasing base guns loudness
 "range_modifier": 2,           // Optional field increasing or decreasing base gun range
 "range_multiplier": 1.2,       // Optional field multiplying base gun range
-"recoil_modifier": -100,       // Optional field increasing or decreasing base gun recoil
 "energy_drain_modifier": "200 kJ",  // Optional field increasing or decreasing base gun energy consumption (per shot) by adding given value. This addition is not multiplied by energy_drains_multiplier.
 "energy_drains_multiplier": 2.5, // Optional field increasing or decreasing base gun energy consumption (per shot) by multiplying by given value.
 "reload_modifier": -10,        // Optional field increasing or decreasing base gun reload time in percent

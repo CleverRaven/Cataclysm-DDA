@@ -630,7 +630,7 @@ There are two possible syntaxes.  The first is by defining an enchantment object
     "id": "ENCH_INVISIBILITY",
     "condition": "ALWAYS",
     "has": "WIELD",
-    "hit_you_effect": [ { "id": "AEA_FIREBALL" } ],
+    "hit_you_effect": [ { "id": "AEA_FIREBALL", "hit_self": true, "once_in": 12 } ],
     "hit_me_effect": [ { "id": "AEA_HEAL" } ],
     "values": [ { "value": "STRENGTH", "multiply": 1.1, "add": -5 } ],
     "emitter": "emit_AEP_SMOKE",
@@ -831,12 +831,12 @@ Character status value  | Description
 `SOCIAL_LIE`            | Affects your ability to lie.
 `SOCIAL_PERSUADE`       | Affects your ability to persuade.
 `READING_EXP`           | Changes the minimum you learn from each reading increment.
-`RECOIL_MODIFIER`       | Affects recoil when shooting a gun. Can be applied only to guns. Positive value increase the dispersion, negative decrease one.
+`RECOIL_MODIFIER`       | Affects recoil when shooting a gun. Positive value increase the dispersion, negative decrease one.
 `REGEN_HP`              | Affects the rate you recover hp.
 `REGEN_MANA`            | 
 `REGEN_STAMINA`         | 
 `THIRST`                | 
-`WEAPON_DISPERSION`     | Can be applied only to guns. Positive value increase the dispersion, negative decrease one.
+`WEAPON_DISPERSION`     | Positive value increase the dispersion, negative decrease one.
 
 
 Melee-only enchantment values | Description

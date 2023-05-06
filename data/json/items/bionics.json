@@ -70,6 +70,17 @@
     "difficulty": 1
   },
   {
+    "id": "bio_ar",
+    "copy-from": "bionic_general_npc_usable",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Integrated AR System CBM" },
+    "looks_like": "bio_int_enhancer",
+    "description": "This bionic module integrates augmented reality interface into user's eyes.",
+    "price": 500000,
+    "weight": "100 g",
+    "difficulty": 6
+  },
+  {
     "id": "bio_armor_arms",
     "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
