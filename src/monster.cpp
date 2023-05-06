@@ -2019,7 +2019,12 @@ bool monster::stumble_invis( const Character &player )
     add_msg( m_bad, _( "%s stumbles into you!" ), player_sees ? this->disp_name( false,
              true ) : _( "Something" ) );
     add_effect( effect_stumbled_into_invisible, 6_seconds );
-    get_map().add_field( player.pos(), field_fd_last_known );
+    map &here = get_map();
+    if( here.has_field_at( player.pos(), field_fd_last_known ) ) {
+        here.set_field_age( player.pos(), field_fd_last_known, 0_seconds );
+    } else {
+        here.add_field( player.pos(), field_fd_last_known );
+    }
     moves = 0;
     return true;
 }
