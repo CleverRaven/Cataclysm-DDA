@@ -1866,8 +1866,7 @@ bool monster::melee_attack( Creature &target, float accuracy )
 
     // Creature attacking an invisible player will remain aware of their location as long as they keep hitting something
     if( has_effect( effect_stumbled_into_invisible ) && hitspread >= 0 && target.is_avatar() ) {
-        add_effect( effect_stumbled_into_invisible, 6_seconds );
-        get_map().set_field_age( target.pos(), field_fd_last_known, 0_seconds );
+        stumble_invis( target, false );
     }
 
     target.check_dead_state();
@@ -2010,16 +2009,19 @@ void monster::die_in_explosion( Creature *source )
     die( source );
 }
 
-bool monster::stumble_invis( const Character &player )
+bool monster::stumble_invis( const Creature &player, const bool msg )
 {
     if( !fov_3d && posz() != player.posz() ) {
         return false;
     }
-    const bool player_sees = player.sees( *this );
-    add_msg( m_bad, _( "%s stumbles into you!" ), player_sees ? this->disp_name( false,
-             true ) : _( "Something" ) );
+    if( msg ) {
+        const bool player_sees = player.sees( *this );
+        add_msg( m_bad, _( "%s stumbles into you!" ), player_sees ? this->disp_name( false,
+                 true ) : _( "Something" ) );
+    }
     add_effect( effect_stumbled_into_invisible, 6_seconds );
     map &here = get_map();
+    // Mark last known location, or extend duration if exists
     if( here.has_field_at( player.pos(), field_fd_last_known ) ) {
         here.set_field_age( player.pos(), field_fd_last_known, 0_seconds );
     } else {

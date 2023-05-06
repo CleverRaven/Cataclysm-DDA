@@ -359,7 +359,7 @@ class monster : public Creature
         // Let the monster die and let its body explode into gibs
         void die_in_explosion( Creature *source );
         // Temporarily reveals an invisible player when a monster tries to enter their location
-        bool stumble_invis( const Character &player );
+        bool stumble_invis( const Creature &player, const bool msg = true );
         // Attack an empty location
         bool attack_air( const tripoint &p );
 
