@@ -1876,9 +1876,13 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
             if( overmap_buffer.has_note( curs ) && query_yn( _( "Really delete note?" ) ) ) {
                 overmap_buffer.delete_note( curs );
             }
-        } else if ( action == "MARK_DANGER" ) {
-            // NOLINTNEXTLINE(cata-text-style): No need for two whitespaces
-            if( query_yn( _( "Mark area as dangerous ( to avoid on auto move paths? ) This will create a note if none exists already." ) ) ) { //TODO: better handling when a note or dangerous area exists; this is a bit clunky still
+        } else if( action == "MARK_DANGER" ) {
+            if( overmap_buffer.is_marked_dangerous( curs ) &&
+                query_yn( _( "Remove dangerous mark?" ) ) ) {
+                overmap_buffer.mark_note_dangerous( curs, 0,
+                                                    false );// NOLINTNEXTLINE(cata-text-style): No need for two whitespaces
+            } else if( query_yn(
+                           _( "Mark area as dangerous ( to avoid on auto move paths? )  This will create a note if none exists already." ) ) ) {
                 if( !overmap_buffer.has_note( curs ) ) {
                     create_note( curs );
                 }
@@ -1886,17 +1890,14 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
                 // NOLINTNEXTLINE(cata-text-style): No need for two whitespaces
                 const std::string popupmsg = _( "Danger radius in overmap squares? ( 0-20 )" );
                 int amount = string_input_popup()
-                                .title( popupmsg )
-                                .width( 20 )
-                                .text( "0" )
-                                .only_digits( true )
-                                .query_int();
+                             .title( popupmsg )
+                             .width( 20 )
+                             .text( "0" )
+                             .only_digits( true )
+                             .query_int();
                 if( amount > -1 && amount <= max_amount ) {
                     overmap_buffer.mark_note_dangerous( curs, amount, true );
                 }
-            } else if( overmap_buffer.is_marked_dangerous( curs ) &&
-                        query_yn( _( "Remove dangerous mark?" ) ) ) {
-                overmap_buffer.mark_note_dangerous( curs, 0, false );
             }
         } else if( action == "LIST_NOTES" ) {
             const point_abs_omt p = draw_notes( curs );
