@@ -10441,7 +10441,8 @@ units::energy item::energy_consume( units::energy qty, const tripoint &pos, Char
     // If consumption is not integer kJ we need to consume one extra battery charge to "round up".
     // Should happen only if battery powered and energy per shot is not integer kJ.
     if( qty > 0_kJ && is_battery() ) {
-        qty -= energy_consume( 1_kJ, pos, carrier );
+        int consumed_kj = contents.ammo_consume( 1, pos );
+        qty -= units::from_kilojoule( consumed_kj );
     }
 
     return wanted_energy - qty;
