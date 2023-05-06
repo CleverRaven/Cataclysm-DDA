@@ -12,7 +12,7 @@
     "price_postapoc": 100,
     "symbol": "i",
     "color": "cyan",
-    "flags": [ "SLEEP_AID" ],
+    "flags": [ "SLEEP_AID", "NO_SALVAGE" ],
     "variant_type": "generic",
     "variants": [
       {
