@@ -495,7 +495,7 @@
     "speed": 115,
     "material": "flesh",
     "symbol": "Z",
-    "color": "dark_grey_red",
+    "color": "dark_gray_red",
     "scents_tracked": [ "sc_human", "sc_fetid" ],
     "aggression": 100,
     "melee_skill": 5,
