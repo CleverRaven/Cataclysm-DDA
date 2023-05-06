@@ -235,8 +235,7 @@ weather_type_id get_weather_at_point( const tripoint_abs_omt &pos )
     }
     auto iter = weather_cache.find( pos );
     if( iter == weather_cache.end() ) {
-        // TODO: fix point types
-        const tripoint abs_ms_pos = project_to<coords::ms>( pos ).raw();
+        const tripoint_abs_ms abs_ms_pos = project_to<coords::ms>( pos );
         const weather_generator &wgen = overmap_buffer.get_settings( pos ).weather;
         const auto weather = wgen.get_weather_conditions( abs_ms_pos, calendar::turn, g->get_seed() );
         iter = weather_cache.insert( std::make_pair( pos, weather ) ).first;
