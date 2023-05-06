@@ -2747,21 +2747,25 @@ void map::drop_items( const tripoint &p )
     // Bash creature standing below
     Creature *creature_below = get_creature_tracker().creature_at( below );
     if( creature_below ) {
-		float dodge_mod = creature_below->dodge_roll();
-		dodge_mod = dodge_mod == 0 ? 1 : dodge_mod / 2;
+        float dodge_mod = creature_below->dodge_roll();
+        dodge_mod = dodge_mod == 0 ? 1 : dodge_mod / 2;
 
-		int creature_hit_chance = rng( 0, 100 );
-		creature_hit_chance *= dodge_mod;
+        int creature_hit_chance = rng( 0, 100 );
+        creature_hit_chance *= dodge_mod;
 
-		if( creature_hit_chance < 15 ) {
-			creature_below->deal_damage( nullptr, bodypart_id( "head" ), damage_instance( damage_bash, damage ) );
-		} else if( creature_hit_chance < 30 ) {
-			creature_below->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_bash, damage ) );
-		} else if( creature_hit_chance < 65 ) {
-			creature_below->deal_damage( nullptr, bodypart_id( "arm_l" ), damage_instance( damage_bash, damage ) );
-		} else if( creature_hit_chance < 100 ) {
-			creature_below->deal_damage( nullptr, bodypart_id( "arm_r" ), damage_instance( damage_bash, damage ) );
-		}
+        if( creature_hit_chance < 15 ) {
+            creature_below->deal_damage( nullptr, bodypart_id( "head" ), damage_instance( damage_bash,
+                                         damage ) );
+        } else if( creature_hit_chance < 30 ) {
+            creature_below->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_bash,
+                                         damage ) );
+        } else if( creature_hit_chance < 65 ) {
+            creature_below->deal_damage( nullptr, bodypart_id( "arm_l" ), damage_instance( damage_bash,
+                                         damage ) );
+        } else if( creature_hit_chance < 100 ) {
+            creature_below->deal_damage( nullptr, bodypart_id( "arm_r" ), damage_instance( damage_bash,
+                                         damage ) );
+        }
     }
 
     // Bash items at bottom since currently bash_items only bash glass items
