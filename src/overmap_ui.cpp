@@ -1876,9 +1876,12 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
             if( overmap_buffer.has_note( curs ) && query_yn( _( "Really delete note?" ) ) ) {
                 overmap_buffer.delete_note( curs );
             }
-        } else if ( action == "MARK_DANGER" ) { //TODO: does not actually add danger, just the menus
+        } else if ( action == "MARK_DANGER" ) {
             // NOLINTNEXTLINE(cata-text-style): No need for two whitespaces
-            if( query_yn( _( "Mark area as dangerous ( to avoid on auto move paths? )" ) ) ) {
+            if( query_yn( _( "Mark area as dangerous ( to avoid on auto move paths? ) This will create a note if none exists already." ) ) ) { //TODO: better handling when a note or dangerous area exists; this is a bit clunky still
+                if( !overmap_buffer.has_note( curs ) ) {
+                    create_note( curs );
+                }
                 const int max_amount = 20;
                 // NOLINTNEXTLINE(cata-text-style): No need for two whitespaces
                 const std::string popupmsg = _( "Danger radius in overmap squares? ( 0-20 )" );
