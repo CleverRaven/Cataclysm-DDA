@@ -4,7 +4,7 @@
     "id": "ench_longsword_holy",
     "has": "WIELD",
     "condition": "ALWAYS",
-    "name": { "str": "magical blade" },
+    "name": { "str": "Magic blade" },
     "description": "The damage done and light emitted by this sword increase with intelligence.",
     "values": [
       {
@@ -30,7 +30,7 @@
     "id": "ench_armor_spirit",
     "has": "WORN",
     "condition": "ALWAYS",
-    "name": { "str": "magic armor" },
+    "name": { "str": "Magic armor" },
     "description": "This magical armor improves with your intelligence and the spell's level.",
     "values": [
       {
