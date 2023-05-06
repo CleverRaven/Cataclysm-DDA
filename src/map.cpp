@@ -2770,10 +2770,10 @@ void map::drop_items( const tripoint &p )
 
     // Bash items at bottom since currently bash_items only bash glass items
     map_stack bash_items = i_at( below );
-    for( auto bash_item = bash_items.begin(); bash_item != bash_items.end(); bash_item++ ) {
-        int chance = static_cast<int>( 200 * bash_item->resist( damage_bash, true ) / damage + 1 );
+    for( auto &bash_item : bash_items ) {
+        int chance = static_cast<int>( 200 * bash_item.resist( damage_bash, true ) / damage + 1 );
         if( one_in( chance ) ) {
-            bash_item->inc_damage();
+            bash_item.inc_damage();
         }
     }
 
