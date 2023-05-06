@@ -11,7 +11,6 @@ Added sorting, showing&hiding pocket contents, and scrolling via mouse in invent
 New game event that triggers on load or new game start
 Add option to hide bionics
 Allow JSON monster special attacks to use the dialog condition system
-Quadrupedal movement with paws
 Confirmation before attacking neutral mobs
 
 
@@ -26,14 +25,8 @@ Add the first Exodii mission
 Combat Capable Mounts
 Add new Exodii NPC: Luliya
 Add new weather types: mist and fog
-Allow static NPCs to be given randomly generated missions.
 Allow players to keep bees
-Add carpet armor
-Adds a Cheesemaker hobby in character creation
-Added Proficiencies & Weakpoints to Zombie-Adjacent Monsters
-Paramilitary Zombies and everyday carry
 Apartment complex: parking garage, lobby variants, roof additions
-Profession Requirements
 
 
 ## Interface:
@@ -64,7 +57,7 @@ Mouse thumb button support
 [Xedra Evolved] Museum Location for Xedra Evolved
 [Magiclysm] Adds several new professions to the Magiclysm mod
 [Bombastic Perks] Added resurrecting meat monstrosities to bombastic perks
-Forcefield and Evasion enchants
+[Bombastic Perks] Forcefield and Evasion enchants
 
 
 ## Balance:
@@ -78,7 +71,6 @@ Remove flaming eye phantom melee attack that can disrupt aim
 Converts most of the armor and clothing still using the old limb system to the new system with sub-limbs
 partial skill levels contribute to most game tests
 Portal Storm Coherency Pass
-Rebalanced 60-round magazines for exodii rifles
 Stop zomborgs from exploding on death
 
 
@@ -111,10 +103,7 @@ Ferals can use their guns in GG
 Prevent fire damaging unbreakable items
 Fix energy guns(AFS) on NPC
 Faction camps now distribute calories based on actual calories and not default calories
-Inherit relative rot when disassembling
-Separates weather tolerance traits from stomach related ones
 Fix calculation for inserting into nested containers
-fix random missions
 
 
 ## Performance:
@@ -129,7 +118,6 @@ Refactor some crafting infrastructure to support removal of charges
 Unify gun battery/ups/bionic energy consumption
 Modernize string_formatter
 Migrate some JSON APIs to string_view
-Add clang-tidy check looking for opportunities to convert functions to use string_view
 Add units::temperature_delta
 
 
