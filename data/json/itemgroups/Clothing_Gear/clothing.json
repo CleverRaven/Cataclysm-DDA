@@ -2060,7 +2060,7 @@
   {
     "type": "item_group",
     "id": "female_underwear_top",
-    "items": [ [ "corset", 5 ], [ "corset_waist", 5 ], { "group": "bikini_top", "prob": 190 } ]
+    "items": [ [ "corset", 5 ], [ "corset_waist", 5 ], { "group": "female_underwear_top_child", "prob": 190 } ]
   },
   {
     "type": "item_group",
