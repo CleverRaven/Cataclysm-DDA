@@ -1,6 +1,6 @@
 [
   {
-    "id": "4x4_car",
+    "abstract": "4x4_car_abstract",
     "type": "vehicle",
     "name": "4x4 Car",
     "blueprint": [
@@ -24,8 +24,7 @@
       { "x": 1, "y": 2, "parts": [ "frame_vertical_T_right", "windshield_wheel_right" ] },
       { "x": 1, "y": 2, "parts": [ "wheel_mount_medium_steerable", "wheel_wide_or" ] },
       { "x": 2, "y": -1, "parts": [ "frame_nw", "halfboard_nw", "headlight" ] },
-      { "x": 2, "y": 0, "parts": [ "frame_horizontal", "halfboard_cover_left" ] },
-      { "x": 2, "y": 0, "parts": [ "engine_v6", "alternator_car", "battery_car" ] },
+      { "x": 2, "y": 0, "parts": [ "frame_horizontal", "halfboard_cover_left", "battery_car" ] },
       { "x": 2, "y": 1, "parts": [ "frame_horizontal", "halfboard_cover_right" ] },
       { "x": 2, "y": 2, "parts": [ "frame_ne", "halfboard_ne", "headlight" ] },
       { "x": 3, "y": -1, "part": "hdframe_horizontal_2_front" },
@@ -39,7 +38,6 @@
       { "x": -2, "y": -1, "parts": [ "frame_vertical_left", "halfboard_wheel_left" ] },
       { "x": -2, "y": -1, "parts": [ "wheel_mount_medium", "wheel_wide_or" ] },
       { "x": -2, "y": 0, "parts": [ "frame_vertical", "trunk", "roof" ] },
-      { "x": -2, "y": 0, "part": "tank", "fuel": "gasoline" },
       { "x": -2, "y": 1, "parts": [ "frame_vertical", "trunk", "roof" ] },
       { "x": -2, "y": 2, "parts": [ "frame_vertical_right", "halfboard_wheel_right" ] },
       { "x": -2, "y": 2, "parts": [ "wheel_mount_medium", "wheel_wide_or" ] },
@@ -62,6 +60,24 @@
       { "x": -1, "y": 1, "chance": 6, "item_groups": [ "car_kit" ] },
       { "x": -1, "y": 0, "chance": 100, "item_groups": [ "spare_tire_kit_tools_only" ] },
       { "x": -1, "y": 0, "chance": 8, "item_groups": [ "fuel_gasoline" ] }
+    ]
+  },
+  {
+    "id": "4x4_car",
+    "type": "vehicle",
+    "copy-from": "4x4_car_abstract",
+    "parts": [
+      { "x": 2, "y": 0, "parts": [ "engine_v6", "alternator_car" ] },
+      { "x": -2, "y": 0, "part": "tank", "fuel": "gasoline" }
+    ]
+  },
+  {
+    "id": "4x4_car_diesel",
+    "type": "vehicle",
+    "copy-from": "4x4_car_abstract",
+    "parts": [
+      { "x": 2, "y": 0, "parts": [ "diesel_engine_v6", "alternator_car" ] },
+      { "x": -2, "y": 0, "part": "tank", "fuel": "diesel" }
     ]
   },
   {
