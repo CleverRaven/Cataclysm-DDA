@@ -413,6 +413,7 @@ static const trait_id trait_ELFA_FNV( "ELFA_FNV" );
 static const trait_id trait_ELFA_NV( "ELFA_NV" );
 static const trait_id trait_FAT( "FAT" );
 static const trait_id trait_FEL_NV( "FEL_NV" );
+static const trait_id trait_GASTROPOD_BALANCE( "GASTROPOD_BALANCE" );
 static const trait_id trait_GILLS( "GILLS" );
 static const trait_id trait_GILLS_CEPH( "GILLS_CEPH" );
 static const trait_id trait_HATES_BOOKS( "HATES_BOOKS" );
@@ -451,6 +452,7 @@ static const trait_id trait_ROOTS2( "ROOTS2" );
 static const trait_id trait_ROOTS3( "ROOTS3" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
 static const trait_id trait_SAVANT( "SAVANT" );
+static const trait_id trait_SCUTTLE( "SCUTTLE" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SHELL3( "SHELL3" );
 static const trait_id trait_SHOUT2( "SHOUT2" );
@@ -650,6 +652,11 @@ bool Character::can_recover_oxygen() const
     return get_limb_score( limb_score_breathing ) > 0.5f && !is_underwater() &&
            !has_effect_with_flag( json_flag_GRAB );
 }
+
+bool Character::can_walk_underwater() const
+{
+    return has_trait( trait_SCUTTLE ) || has_trait( trait_GASTROPOD_BALANCE ) || has_trait( trait_LEG_TENT_BRACE );
+} 
 
 void Character::randomize_heartrate()
 {
@@ -6421,7 +6428,11 @@ void Character::burn_move_stamina( int moves )
     burn_ratio += overburden_percentage;
 
     ///\EFFECT_SWIMMING decreases stamina burn when swimming
+    //Appropriate traits let you walk along the bottom without getting as tired
+    ///\EFFECT_SWIMMING decreases stamina burn when swimming
+    //Appropriate traits let you walk along the bottom without getting as tired
     if( get_map().has_flag( ter_furn_flag::TFLAG_DEEP_WATER, pos() ) &&
+        ( !can_walk_underwater() || get_map().has_flag( ter_furn_flag::TFLAG_GOES_DOWN, pos() ) ) &&
         !get_map().has_flag_furn( "BRIDGE", pos() ) &&
         !( in_vehicle && get_map().veh_at( pos() )->vehicle().can_float() ) ) {
         burn_ratio += 100 / std::pow( 1.1, get_skill_level( skill_swimming ) );
