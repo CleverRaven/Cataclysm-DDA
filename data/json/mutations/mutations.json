@@ -101,6 +101,7 @@
       "LEAPING_LEGS",
       "LEAPING_LEGS2",
       "LEG_TENT_BRACE",
+      "SCUTTLE",
       "LIGHTSTEP",
       "STRONGKNEES"
     ],
@@ -4842,7 +4843,7 @@
     "mixed_effect": true,
     "description": "You have four prong-tipped legs, splayed out and articulated like a crab's.  They're a little quieter than human feet.",
     "category": [ "CRUSTACEAN" ],
-    "types": [ "LEGS", "FEET" ],
+    "types": [ "LEGS", "FEET", "SOLES" ],
     "prereqs": [ "CHITIN2", "CRUSTACEAN_CARAPACE" ],
     "leads_to": [ "SCUTTLE" ],
     "visibility": 8,
