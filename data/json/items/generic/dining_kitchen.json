@@ -641,14 +641,15 @@
     "flags": [ "ALLOWS_BODY_BLOCK" ],
     "symbol": "X",
     "color": "light_gray",
-    "price": 100,
+    "price": "1 USD",
     "price_postapoc": 0,
-    "weight": "28 g",
-    "volume": "15 ml",
+    "weight": "11 g",
+    "volume": "40 ml",
     "longest_side": "23 cm",
     "material": [ "wood" ],
-    "to_hit": -1,
-    "melee_damage": { "bash": 1, "stab": 1 }
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
+    "melee_damage": { "stab": 1 },
+    "//": "Based on https://www.amazon.com/Fuji-Merchandise-Quality-Wooden-Chopsticks/dp/B07N47CN44/ref=sr_1_8?crid=28MLMFZEJET90&keywords=chopsticks%2Bsingle%2Bpair&qid=1683476295&sprefix=chopsticks%2Bsingle%2Bpai%2Caps%2C210&sr=8-8&th=1"
   },
   {
     "type": "GENERIC",
