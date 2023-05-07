@@ -34,8 +34,8 @@
       "palettes": [ "bandit_city" ],
       "terrain": { "u": "t_gutter_downspout" },
       "place_npcs": [
-        { "class": "bandit", "x": 22, "y": 5 },
-        { "class": "bandit", "x": 17, "y": 18 }
+        { "class": "bandit", "x": 21, "y": 4 },
+        { "class": "bandit", "x": 17, "y": 17 }
       ]
     }
   },
@@ -56,7 +56,7 @@
         "/g````#hd.V..##########`",
         "/g````waf.V..#.......a#`",
         "/##########..#.ccccccc#`",
-        "/#rrf#^......+........#`",
+        "/#fff#^......+........#`",
         "/#...+.......#.....???#`",
         "/########+#####VGGVVVV#`",
         "/#T#T#T#yi#EEE#.......#`",
@@ -107,7 +107,7 @@
         "/*''''''''G'''G'''''''#/",
         "/###''''''#####'''''''w/",
         "/#S#''''''#ZZZ#'''''''#/",
-        "/#.+''''''#ZZZ-''Z##+##/",
+        "/#i+''''''#ZZZ-''Z##+##/",
         "/#T#''''''#ZZZ#'',,Z''#/",
         "/#################Z#Z##/",
         "////////////////////////"
@@ -130,7 +130,7 @@
         "Q": { "item": "guns_energy", "chance": 100 },
         "o": { "item": "guns_pistol_milspec", "chance": 80 }
 	  },
-	  "place_loot": [ {"item": "UPS_off", "x": 15, "y": 7, "chance": 85 } ],
+	  "place_loot": [ {"item": "UPS_off", "x": 14, "y": 6, "chance": 85 } ],
       "place_monster": [
         { "group": "GROUP_MUTANT_EVOLVED", "x": 21, "y": 4 },
         { "group": "GROUP_MUTANT_EVOLVED", "x": 21, "y": 8 },
