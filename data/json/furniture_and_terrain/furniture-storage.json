@@ -1141,7 +1141,7 @@
     "type": "furniture",
     "id": "f_storage_tank",
     "name": "bulk storage tank",
-    "description": "A gigantic tank that can store all of the liquid.  All of it.",
+    "description": "A 2 meters high tank that can store up to 1500 liters of liquid. That's a lot.",
     "symbol": "O",
     "looks_like": "f_standing_tank",
     "color": "light_gray",
