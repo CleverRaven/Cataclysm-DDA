@@ -4849,7 +4849,8 @@
     "ugliness": 9,
     "restricts_gear": [ "leg_l", "leg_r", "foot_l", "foot_r" ],
     "noise_modifier": 0.9,
-    "destroys_gear": true
+    "destroys_gear": true,
+    "flags": [ "TOUGH_FEET" ]
   },
   {
     "type": "mutation",
@@ -4880,7 +4881,8 @@
     "description": "By pushing your whole 'foot' against the ground you are able to move across rough terrain without losing your 'footing'.  You're also able to cling to the ground underwater, allowing you to move along the bottom more easily.",
     "prereqs": [ "GASTROPOD_FOOT" ],
     "threshreq": [ "THRESH_GASTROPOD" ],
-    "category": [ "GASTROPOD" ]
+    "category": [ "GASTROPOD" ],
+    "flags": [ "WALK_UNDERWATER" ]
   },
   {
     "type": "mutation",
@@ -7441,7 +7443,8 @@
     "description": "Your lower tentacles have developed suckers, perfect for walking along lake beds and ocean floors.  They make land movement marginally more tiring, do a good job of keeping you set in place.",
     "prereqs": [ "LEG_TENTACLES" ],
     "threshreq": [ "THRESH_CEPHALOPOD" ],
-    "category": [ "CEPHALOPOD" ]
+    "category": [ "CEPHALOPOD" ],
+    "flags": [ "WALK_UNDERWATER" ]
   },
   {
     "type": "mutation",
@@ -7455,7 +7458,8 @@
     "prereqs": [ "CRAB_LEGS" ],
     "threshreq": [ "THRESH_CRUSTACEAN" ],
     "movecost_obstacle_modifier": 0.87,
-    "category": [ "CRUSTACEAN" ]
+    "category": [ "CRUSTACEAN" ],
+    "flags": [ "WALK_UNDERWATER" ]
   },
   {
     "type": "mutation",
