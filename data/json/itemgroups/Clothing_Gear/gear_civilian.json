@@ -89,7 +89,7 @@
   {
     "type": "item_group",
     "id": "child_items_pockets",
-	"//": "Stuff that kids would have in their pockets or otherwise carry on them when they turned. NOT for items that they could have been carrying in their hands - those would have fallen out of their grasp once they died.",
+    "//": "Stuff that kids would have in their pockets or otherwise carry on them when they turned. NOT for items that they could have been carrying in their hands - those would have fallen out of their grasp once they died.",
     "items": [
       { "group": "candy_chocolate", "prob": 200 },
       { "group": "toastems", "prob": 25 },
