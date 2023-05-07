@@ -234,8 +234,7 @@
       { "item": "bubblewrap", "count": 2 },
       { "item": "manual_engine_kit" },
       { "item": "screwdriver" },
-      { "item": "wrench_small" },
-      { "item": "chem_ethanol", "charges-min": 750 }
+      { "item": "wrench_small" }
     ]
   },
   {
