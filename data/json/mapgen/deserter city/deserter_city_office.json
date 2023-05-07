@@ -33,10 +33,7 @@
       ],
       "palettes": [ "deserter_city" ],
       "terrain": { "u": "t_gutter_downspout" },
-      "place_npcs": [
-        { "class": "deserter", "x": 21, "y": 4 },
-        { "class": "deserter", "x": 17, "y": 17 }
-      ]
+      "place_npcs": [ { "class": "deserter", "x": 21, "y": 4 }, { "class": "deserter", "x": 17, "y": 17 } ]
     }
   },
   {
@@ -129,8 +126,8 @@
         "c": { "item": "science", "chance": 20, "repeat": [ 1, 2 ] },
         "Q": { "item": "guns_energy", "chance": 100 },
         "o": { "item": "guns_pistol_milspec", "chance": 80 }
-	  },
-	  "place_loot": [ {"item": "UPS_off", "x": 14, "y": 6, "chance": 85 } ],
+      },
+      "place_loot": [ { "item": "UPS_off", "x": 14, "y": 6, "chance": 85 } ],
       "place_monster": [
         { "group": "GROUP_MUTANT_EVOLVED", "x": 21, "y": 4 },
         { "group": "GROUP_MUTANT_EVOLVED", "x": 21, "y": 8 },
