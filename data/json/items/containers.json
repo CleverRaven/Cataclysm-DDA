@@ -3500,5 +3500,21 @@
       }
     ],
     "flags": [ "COLLAPSE_CONTENTS" ]
+  },
+  {
+    "id": "duct_tape_roll",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "duct tape roll" },
+    "description": "A small cardboard roll with duct tape rolled around it.",
+    "weight": "1 g",
+    "volume": "6 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "cardboard" ],
+    "symbol": "o",
+    "color": "dark_gray",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "2 kg" } ],
+    "flags": [ "NO_UNLOAD", "NO_RELOAD" ]
   }
 ]
