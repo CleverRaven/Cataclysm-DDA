@@ -28,10 +28,10 @@
     "fun": 5
   },
   {
-    "id": "sevendust",
+    "id": "sixdust",
     "type": "AMMO",
-    "name": { "str_sp": "sevendust" },
-    "description": "Sevendust, for when you must scorch the earth.  A sprayable anti-fungal/anti-insecticidal ammo for the chemical thrower.  Best used with some kind of mask or mouth protection.",
+    "name": { "str_sp": "sixdust" },
+    "description": "Sixdust, for when you must scorch the earth.  A sprayable anti-fungal/anti-insecticidal ammo for the chemical thrower.  Best used with some kind of mask or mouth protection.",
     "weight": "3 g",
     "volume": "250 ml",
     "price": 600,
@@ -73,8 +73,8 @@
     "id": "prophets_lsd",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
-    "name": { "str": "rainbow skull tabs" },
-    "description": "A windowpane worth of Rainbow Skull lsd tabs.  These tabs are said to grant the consumer the ability to see several seconds into the future.",
+    "name": { "str_sp": "prohpet's LSD" },
+    "description": "A windowpane worth of Rainbow Skull LSD tabs.  These tabs are said to grant the consumer the ability to see several seconds into the future.",
     "weight": "1 g",
     "volume": "250 ml",
     "price": 10000,
@@ -118,7 +118,36 @@
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You swallow a couple of the large green pills.",
-      "effects": [ { "id": "cheval" } ]
+      "vitamins": [ [ "cheval", 1000 ] ]
     }
+  },
+  {
+    "id": "spiritshow_dust",
+    "name": { "str": "spirit show dust" },
+    "description": "A key ingredient for Victorian seances led by actual occultists.  This dust summons spirits from beyond to walk the earth again for a short time.  The spirits it summons are mindless and disappear upon being touched.",
+    "use_action": { "type": "cast_spell", "spell_id": "ghost_inflatable", "no_fail": true, "level": 0 },
+    "type": "COMESTIBLE",
+    "weight": "265 g",
+    "quench": -1,
+    "calories": 0,
+    "volume": "250ml",
+    "charges": 1,
+    "fun": -1,
+    "symbol": "~",
+    "container": "flask_glass",
+    "color": "light_blue",
+    "comestible_type": "MED",
+    "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME", "NUTRIENT_OVERRIDE" ],
+    "material": [ "powder" ],
+    "price": 2500
+  },
+  {
+    "id": "charm_of_marzanna",
+    "copy-from": "garnet_silver_pendant_necklace",
+    "type": "ARMOR",
+    "name": { "str": "blue topaz and silver pendant necklace" },
+    "description": "A shiny, silver necklace adorned with a blue topaz pendant.",
+    "color": "light_blue",
+    "relic_data": { "passive_effects": [ { "id": "ench_climate_control_marzanna" } ] }
   }
 ]

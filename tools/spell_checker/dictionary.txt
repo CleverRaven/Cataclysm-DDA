@@ -59,6 +59,7 @@ alay
 albertonykus
 albertosaurus
 alchemic
+alchemically
 alchemies
 aldosterone
 alembic
@@ -1648,6 +1649,7 @@ macronutrient
 macrophenotypic
 macuahuitl
 maculata
+magickal
 magwells
 maiasaura
 maintainers
@@ -1945,6 +1947,7 @@ numbnut
 numpad
 obovate
 obsoleted
+occultism
 ocher
 octo
 ocularium
@@ -2552,6 +2555,7 @@ siloing
 sinensis
 sintering
 sithen
+sixdust
 skeletonized
 skeltal
 skillset
@@ -2904,6 +2908,7 @@ trippin
 troglobite
 troodon
 troublin
+truckstop
 trudges
 tryphillum
 tsumi

@@ -1,4 +1,13 @@
 [
+    {
+    "id": "ench_climate_control_marzanna",
+    "name": { "str": "Charm of Spring" },
+    "description": "You are wearing equipment that helps handle harsh climates and protects from damaging cold.",
+    "type": "enchantment",
+    "has": "WORN",
+    "condition": "ALWAYS",
+    "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 20 }, { "value": "ARMOR_COLD", "add": -15 } ]
+  },
   {
     "type": "enchantment",
     "id": "DEDUCTION_REGEN_MANA",
