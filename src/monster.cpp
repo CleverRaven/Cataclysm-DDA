@@ -1864,11 +1864,6 @@ bool monster::melee_attack( Creature &target, float accuracy )
         }
     }
 
-    // Creature attacking an invisible player will remain aware of their location as long as they keep hitting something
-    if( has_effect( effect_stumbled_into_invisible ) && hitspread >= 0 && target.is_avatar() ) {
-        stumble_invis( target, false );
-    }
-
     target.check_dead_state();
 
     if( is_hallucination() ) {

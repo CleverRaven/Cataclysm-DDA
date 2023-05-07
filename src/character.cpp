@@ -261,6 +261,7 @@ static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
+static const efftype_id effect_stumbled_into_invisible( "stumbled_into_invisible" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_tapeworm( "tapeworm" );
 static const efftype_id effect_tied( "tied" );
@@ -7441,6 +7442,11 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
         return;
     }
 
+    // Creature attacking an invisible player will remain aware of their location as long as they keep hitting something
+    if( is_avatar() && source->is_monster() && source->has_effect( effect_stumbled_into_invisible ) ) {
+        source->as_monster()->stumble_invis( *this, false );
+    }
+    
     if( is_npc() ) {
         as_npc()->on_attacked( *source );
     }
