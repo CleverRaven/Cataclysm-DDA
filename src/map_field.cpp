@@ -1402,7 +1402,7 @@ static void field_processor_fd_last_known( const tripoint &p, field_entry &cur,
         field_proc_data &pd )
 {
     ( void )pd;
-    const auto loc_creature = get_creature_tracker().creature_at( p, false );
+    Creature *const loc_creature = get_creature_tracker().creature_at( p, false );
     // Remove field when duration expires or non-player creature enters
     if( cur.get_field_age() > 5_seconds || ( loc_creature != nullptr && !loc_creature->is_avatar() ) ) {
         cur.set_field_intensity( 0 );
