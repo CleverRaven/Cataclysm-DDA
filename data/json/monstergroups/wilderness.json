@@ -546,6 +546,16 @@
   },
   {
     "type": "monstergroup",
+    "name": "GROUP_POND_FISH_2",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_fish_bluegill", "weight": 50, "cost_multiplier": 0 },
+      { "monster": "mon_fish_carp", "weight": 50, "cost_multiplier": 0 },
+      { "monster": "mon_fish_sbass", "weight": 50, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_BIRDFEEDER",
     "is_animal": true,
     "monsters": [

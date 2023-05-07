@@ -613,7 +613,7 @@
   {
     "type": "overmap_terrain",
     "id": [ "survivor_forest_camp" ],
-    "name": "Survivor Forest Camp",
+    "name": "survivor forest camp",
     "sym": "S",
     "color": "green",
     "see_cost": 5
