@@ -655,8 +655,9 @@ bool Character::can_recover_oxygen() const
 
 bool Character::can_walk_underwater() const
 {
-    return has_trait( trait_SCUTTLE ) || has_trait( trait_GASTROPOD_BALANCE ) || has_trait( trait_LEG_TENT_BRACE );
-} 
+    return has_trait( trait_SCUTTLE ) || has_trait( trait_GASTROPOD_BALANCE ) ||
+           has_trait( trait_LEG_TENT_BRACE );
+}
 
 void Character::randomize_heartrate()
 {
