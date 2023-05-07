@@ -1,4 +1,4 @@
-// RUN: %check_clang_tidy %s cata-determinism %t -- -plugins=%cata_plugin --
+// RUN: %check_clang_tidy %s cata-determinism %t -- --load=%cata_plugin --
 
 using size_t = unsigned long;
 

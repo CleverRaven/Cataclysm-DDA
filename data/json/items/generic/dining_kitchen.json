@@ -110,7 +110,7 @@
     "description": "generic item template",
     "type": "GENERIC",
     "symbol": ")",
-    "to_hit": 1,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
     "price": 4500,
     "price_postapoc": 10,
     "use_action": [ "HEAT_FOOD" ],
@@ -744,19 +744,21 @@
     "copy-from": "base_cookpot",
     "material": [ "steel" ],
     "color": "light_gray",
-    "weight": "880 g",
-    "volume": "3500 ml",
-    "longest_side": "23 cm",
+    "weight": "1 kg",
+    "volume": "3700 ml",
+    "longest_side": "19 cm",
+    "price": "31 USD",
     "pocket_data": [
       {
         "max_contains_volume": "2 L",
-        "max_contains_weight": "2 kg",
+        "max_contains_weight": "4 kg",
         "watertight": true,
         "open_container": true,
         "rigid": true
       }
     ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 6 },
+    "//": "Based on https://www.amazon.com/jalz-Stainless-Saucepan-Classic-Cookware/dp/B087PB2L83/ref=sr_1_14?crid=1RO37Q8AD174O&keywords=2l%2Bstainless%2Bsteel%2Bpot&qid=1683292826&sprefix=steel%2Bpot%2B2l%2Caps%2C184&sr=8-14&th=1"
   },
   {
     "type": "GENERIC",

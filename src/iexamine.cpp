@@ -2202,7 +2202,7 @@ void iexamine::flower_poppy( Character &you, const tripoint &examp )
     }
 
     weather_sum recentWeather = sum_conditions( calendar::turn - 10_minutes, calendar::turn,
-                                you.pos() );
+                                you.get_location() );
 
     // If it has been raining recently, then this event is twice less likely.
     if( ( ( recentWeather.rain_amount > 1 ) ? one_in( 6 ) : one_in( 3 ) ) && resist < 5 ) {

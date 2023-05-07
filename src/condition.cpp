@@ -1317,6 +1317,9 @@ static tripoint_abs_ms get_tripoint_from_string( const std::string &type, dialog
     } else if( type.find( "party_" ) == 0 ) {
         var_info var = var_info( var_type::party, type.substr( 7, type.size() - 7 ) );
         return get_tripoint_from_var( var, d );
+    } else if( type.find( "context_" ) == 0 ) {
+        var_info var = var_info( var_type::context, type.substr( 7, type.size() - 7 ) );
+        return get_tripoint_from_var( var, d );
     }
     return tripoint_abs_ms();
 }
