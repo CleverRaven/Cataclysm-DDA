@@ -227,8 +227,8 @@
     "special_attacks": [ [ "scratch", 15 ], [ "FUNGUS", 200 ] ],
     "death_drops": {
       "subtype": "collection",
-      "groups": [ [ "default_zombie_children_clothes", 100 ], [ "child_items", 65 ] ],
-      "//": "cloth as any other zombie (always), additional items from child_items (sometimes)"
+      "groups": [ [ "default_zombie_children_clothes", 100 ], [ "child_items_pockets", 65 ] ],
+      "//": "cloth as any other zombie (always), additional items from child_items_pockets (sometimes)"
     },
     "burn_into": "mon_zombie_child_scorched",
     "flags": [ "SEES", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "FILTHY" ],
@@ -305,7 +305,7 @@
         "monster_message": "Through a plume of fungal spores, a small beast struggles to take flight from the wretch’s abdomen!"
       }
     ],
-    "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_children_clothes", 100 ], [ "child_items", 65 ] ] },
+    "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_children_clothes", 100 ], [ "child_items_pockets", 65 ] ] },
     "burn_into": "mon_zombie_child_scorched",
     "flags": [ "SEES", "HEARS", "SMELLS", "IMMOBILE", "WARM", "POISON", "NO_BREATHE", "FILTHY" ],
     "armor": { "electric": 1 }

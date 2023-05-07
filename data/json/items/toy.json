@@ -127,7 +127,7 @@
         "weight": 1
       },
       {
-        "id": "toy_figure_idk_even",
+        "id": "toy_figure_krueger",
         "name": { "str": "? figurine" },
         "description": "This one wears a hat.  It wears a glove on it's right hand that has three blades sticking out.",
         "weight": 1
@@ -136,12 +136,6 @@
         "id": "toy_figure_unicorn",
         "name": { "str": "Unicorn figurine" },
         "description": "A blue unicorn that covers it's eyes with it's hooves.  It's in a sitting position.",
-        "weight": 1
-      },
-      {
-        "id": "toy_figure_???",
-        "name": { "str": "? figurine" },
-        "description": "It seems to wear a reindeer suit.  It has a skull for a head.",
         "weight": 1
       },
       {
