@@ -9753,7 +9753,7 @@ bool item::spill_open_pockets( Character &guy, const item *avoid )
     return contents.spill_open_pockets( guy, avoid );
 }
 
-void item::overflow( const tripoint &pos, item_location loc )
+void item::overflow( const tripoint &pos, const item_location &loc )
 {
     contents.overflow( pos, loc );
 }

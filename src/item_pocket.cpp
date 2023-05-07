@@ -1638,7 +1638,8 @@ std::optional<item> item_pocket::remove_item( const item_location &it )
     return remove_item( *it );
 }
 
-static void move_to_parent_pocket_recursive( const tripoint &pos, item &it, item_location loc )
+static void move_to_parent_pocket_recursive( const tripoint &pos, item &it,
+        const item_location &loc )
 {
     if( loc ) {
         item_pocket *parent_pocket = loc.parent_pocket();
@@ -1658,7 +1659,7 @@ static void move_to_parent_pocket_recursive( const tripoint &pos, item &it, item
     here.add_item_or_charges( pos, it );
 }
 
-void item_pocket::overflow( const tripoint &pos, item_location loc )
+void item_pocket::overflow( const tripoint &pos, const item_location &loc )
 {
     if( is_type( pocket_type::MOD ) || is_type( pocket_type::CORPSE ) ||
         is_type( pocket_type::EBOOK ) ) {

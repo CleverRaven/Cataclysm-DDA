@@ -1132,7 +1132,7 @@ bool item_contents::spill_contents( const tripoint &pos )
     return spilled;
 }
 
-void item_contents::overflow( const tripoint &pos, item_location loc )
+void item_contents::overflow( const tripoint &pos, const item_location &loc )
 {
     for( item_pocket &pocket : contents ) {
         pocket.overflow( pos, loc );

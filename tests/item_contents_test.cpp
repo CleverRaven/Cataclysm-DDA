@@ -133,7 +133,7 @@ TEST_CASE( "overflow test into parent item", "[item]" )
     item_location jar_loc( map_cursor( origin ), &jar );
     jar_loc.overflow();
     map &here = get_map();
-    CHECK( here.i_at( origin ).size() == 0 );
+    CHECK( here.i_at( origin ).empty() );
 
     int contents_count = 0;
     for( item *it : jar.all_items_top() ) {
