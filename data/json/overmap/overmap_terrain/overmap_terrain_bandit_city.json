@@ -1,0 +1,22 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "bandit_city_gate",
+      "bandit_city_park",
+      "bandit_city_office_1f",
+      "bandit_city_office_2f",
+      "bandit_city_office_3f",
+      "bandit_city_office_roof",
+      "bandit_city_office_1fb",
+      "bandit_city_office_2fb",
+      "bandit_city_office_3fb",
+      "bandit_city_office_roofb"
+    ],
+    "name": "bandit outpost",
+    "sym": "B",
+    "color": "brown",
+    "see_cost": 5,
+    "flags": [ "SIDEWALK" ]
+  }
+]
