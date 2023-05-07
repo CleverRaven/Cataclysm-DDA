@@ -68,5 +68,57 @@
       "effects": [ { "id": "curesome" } ]
     },
     "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ]
+  },
+  {
+    "id": "prophets_lsd",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "rainbow skull tabs" },
+    "description": "A windowpane worth of Rainbow Skull lsd tabs.  These tabs are said to grant the consumer the ability to see several seconds into the future.",
+    "weight": "1 g",
+    "volume": "250 ml",
+    "price": 10000,
+    "price_postapoc": 2500,
+    "charges": 5,
+    "stack_size": 100,
+    "symbol": "!",
+    "color": "pink",
+    "stim": 20,
+    "fun": 25,
+    "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE", "EDIBLE_FROZEN" ],
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You eat the rainbow skull tabs.",
+      "use_action": { "type": "cast_spell", "spell_id": "future_sight", "no_fail": true, "level": 25 }
+    }
+  },
+  {
+    "id": "truckers_stamina_pills",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str_sp": "alchemically altered trucker pills" },
+    "description": "When you began the sinister path into occultism, you never imagined you'd be alchemically altering truckstop viagra into combat drugs.  But here you are, no sleep til Boston.",
+    "weight": "1 g",
+    "volume": "250 ml",
+    "price": 15000,
+    "price_postapoc": 5000,
+    "charges": 6,
+    "stack_size": 100,
+    "material": [ "powder" ],
+    "symbol": "!",
+    "color": "light_cyan",
+    "container": "bag_zipper",
+    "quench": -2,
+    "stim": 20,
+    "healthy": -7,
+    "fun": 30,
+    "addiction_potential": 15,
+    "addiction_type": [ "amphetamine", { "addiction": "opiate", "potential": 10 } ],
+    "flags": [ "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You swallow a couple of the large green pills.",
+      "effects": [ { "id": "cheval" } ]
+    }
   }
 ]
