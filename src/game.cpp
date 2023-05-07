@@ -224,7 +224,6 @@ static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_contacts( "contacts" );
 static const efftype_id effect_docile( "docile" );
 static const efftype_id effect_downed( "downed" );
-static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_laserlocked( "laserlocked" );
 static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_onfire( "onfire" );
@@ -266,6 +265,7 @@ static const itype_id itype_towel( "towel" );
 static const itype_id itype_towel_wet( "towel_wet" );
 
 static const json_character_flag json_flag_CLIMB_NO_LADDER( "CLIMB_NO_LADDER" );
+static const json_character_flag json_flag_GRAB( "GRAB" );
 static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
 static const json_character_flag json_flag_INFECTION_IMMUNE( "INFECTION_IMMUNE" );
 static const json_character_flag json_flag_NYCTOPHOBIA( "NYCTOPHOBIA" );
@@ -1274,7 +1274,7 @@ void game::calc_driving_offset( vehicle *veh )
     rl_vec2d offset = veh->move_vec();
     if( !veh->skidding && veh->player_in_control( u ) &&
         std::abs( veh->cruise_velocity - veh->velocity ) < 7 * vehicles::vmiph_per_tile ) {
-        // Use the cruise controlled velocity, but only if
+        // Use cruise_velocity, but only if
         // it is not too different from the actual velocity.
         // The actual velocity changes too often (see above slowdown).
         // Using it makes would make the offset change far too often.
@@ -4613,6 +4613,7 @@ void game::cleanup_dead()
     if( npc_is_dead ) {
         for( auto it = critter_tracker->active_npc.begin(); it != critter_tracker->active_npc.end(); ) {
             if( ( *it )->is_dead() ) {
+                get_avatar().get_mon_visible().remove_npc( ( *it ).get() );
                 remove_npc_follower( ( *it )->getID() );
                 overmap_buffer.remove_npc( ( *it )->getID() );
                 it = critter_tracker->active_npc.erase( it );
@@ -5621,7 +5622,7 @@ void game::control_vehicle()
         const bool controls_ok = controls_idx >= 0; // controls available to "drive"
         const bool reins_ok = reins_idx >= 0 // reins + animal available to "drive"
                               && veh->has_engine_type( fuel_type_animal, false )
-                              && veh->has_harnessed_animal();
+                              && veh->get_harnessed_animal();
         if( veh->player_in_control( u ) ) {
             // player already "driving" - offer ways to leave
             if( controls_ok ) {
@@ -11279,25 +11280,35 @@ void game::water_affect_items( Character &ch ) const
     }
 }
 
-void game::fling_creature( Creature *c, const units::angle &dir, float flvel, bool controlled )
+bool game::fling_creature( Creature *c, const units::angle &dir, float flvel, bool controlled )
 {
     if( c == nullptr ) {
         debugmsg( "game::fling_creature invoked on null target" );
-        return;
+        return false;
     }
 
     if( c->is_dead_state() ) {
         // Flinging a corpse causes problems, don't enable without testing
-        return;
+        return false;
     }
 
     if( c->is_hallucination() ) {
         // Don't fling hallucinations
-        return;
+        return false;
     }
 
     // Target creature shouldn't be grabbed if thrown
-    c->remove_effect( effect_grabbed );
+    // It should also not be thrown if the throw is weaker than the grab
+    for( const effect &eff : c->get_effects_with_flag( json_flag_GRAB ) ) {
+        if( !x_in_y( flvel / 2, eff.get_intensity() ) ) {
+            c->add_msg_player_or_npc( m_warning,
+                                      _( "You're almost sent flying, but something holds you in place!" ),
+                                      _( "<npcname> is almost sent flying, but something holds them in place!" ) );
+            return false;
+        } else {
+            c->remove_effect( eff.get_id(), eff.get_bp() );
+        }
+    }
 
     bool thru = true;
     const bool is_u = c == &u;
@@ -11357,7 +11368,7 @@ void game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
 
         // If the critter dies during flinging, moving it around causes debugmsgs
         if( c->is_dead_state() ) {
-            return;
+            return true;
         }
 
         flvel -= force;
@@ -11427,6 +11438,7 @@ void game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
             }
         }
     }
+    return true;
 }
 
 std::optional<tripoint> game::point_selection_menu( const std::vector<tripoint> &pts, bool up )
@@ -12228,6 +12240,18 @@ void game::despawn_monster( monster &critter )
     remove_zombie( critter );
     // simulate it being dead so further processing of it (e.g. in monmove) will yield
     critter.set_hp( 0 );
+}
+
+void game::despawn_nonlocal_monsters()
+{
+    for( monster &critter : g->all_monsters() ) {
+        if( critter.posx() < 0 - MAPSIZE_X / 6 ||
+            critter.posy() < 0 - MAPSIZE_Y / 6 ||
+            critter.posx() > ( MAPSIZE_X * 7 ) / 6 ||
+            critter.posy() > ( MAPSIZE_Y * 7 ) / 6 ) {
+            g->despawn_monster( critter );
+        }
+    }
 }
 
 void game::shift_monsters( const tripoint &shift )

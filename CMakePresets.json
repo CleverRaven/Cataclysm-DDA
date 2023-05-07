@@ -1,64 +1,23 @@
 {
-  "version": 3,
+  "version": 2,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 20,
+    "patch": 0
+  },
   "configurePresets": [
     {
-      "name": "base",
-      "description": "Base Build Configuration",
-      "binaryDir": "${sourceDir}/out/build/${presetName}",
-      "installDir": "${sourceDir}/out/install/${presetName}",
-      "hidden": true
-    },
-    {
-      "name": "windows",
-      "description": "Windows Build Configuration",
-      "condition": {
-        "type": "allOf",
-        "conditions": [
-          {
-            "type": "equals",
-            "lhs": "$env{MSYSTEM}",
-            "rhs": ""
-          },
-          {
-            "type": "equals",
-            "lhs": "${hostSystemName}",
-            "rhs": "Windows"
-          }
-        ]
-      },
-      "cacheVariables": {
-        "VCPKG_OVERLAY_TRIPLETS": "${sourceDir}/build-scripts"
-      },
-      "hidden": true
-    },
-    {
-      "name": "MSVC",
-      "inherits": [ "windows" ],
-      "description": "Visual C++ Configuration",
-      "toolchainFile": "${sourceDir}/build-scripts/MSVC.cmake",
-      "cacheVariables": {
-        "VCPKG_ROOT": "C:/vcpkg"
-      },
-      "hidden": true
-    },
-    {
-      "name": "x64-windows-static",
-      "inherits": [ "base", "MSVC" ],
-      "description": "Link Statically",
-      "cacheVariables": {
-        "VCPKG_TARGET_TRIPLET": "x64-windows-static",
-        "DYNAMIC_LINKING": "False"
-      },
-      "hidden": true
-    },
-    {
       "name": "windows-tiles-sounds-x64-msvc",
-      "inherits": [ "x64-windows-static" ],
+      "binaryDir": "${sourceDir}/out/build/${presetName}",
       "displayName": "Windows Tiles Sounds x64 MSVC",
-      "description": "Target Windows (64-bit) with the Visual Studio development environment. (RelWithDebInfo)",
+      "description": "Target Windows (64-bit) with the Visual Studio development environment.",
+      "generator": "Ninja Multi-Config",
       "cacheVariables": {
-        "CMAKE_PROJECT_INCLUDE_BEFORE": "${sourceDir}/build-scripts/windows-tiles-sounds-x64-msvc.cmake",
-        "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+        "CMAKE_PROJECT_INCLUDE_BEFORE": "${sourceDir}/build-scripts/${presetName}.cmake",
+        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/build-scripts/MSVC.cmake",
+        "VCPKG_TARGET_TRIPLET": "x64-windows-static",
+        "VCPKG_ROOT": "C:/vcpkg",
+        "DYNAMIC_LINKING": "False",
         "RELEASE": "True",
         "CURSES": "False",
         "LOCALIZE": "True",
@@ -66,6 +25,31 @@
         "SOUND": "True",
         "TESTS":  "False"
       }
+    },
+    {
+      "name": "linux-tiles-sounds-x64",
+      "binaryDir": "${sourceDir}/out/build/${presetName}",
+      "displayName": "Linux Tiles Sounds x64",
+      "description": "Target Linux (64-bit) with the GCC development environment.",
+      "generator": "Ninja Multi-Config",
+      "cacheVariables": {
+        "VCPKG_TARGET_TRIPLET": "x64-linux",
+        "CMAKE_TOOLCHAIN_FILE": "/usr/local/share/vcpkg/scripts/buildsystems/vcpkg.cmake",
+        "VCPKG_MANIFEST_DIR": "msvc-full-features/",
+        "DYNAMIC_LINKING": "False",
+        "RELEASE": "True",
+        "CURSES": "False",
+        "LOCALIZE": "True",
+        "TILES": "True",
+        "SOUND": "True",
+        "TESTS": "False"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "linux-tiles-sounds-x64",
+      "configurePreset": "linux-tiles-sounds-x64"
     }
   ]
 }

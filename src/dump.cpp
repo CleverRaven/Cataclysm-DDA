@@ -298,9 +298,9 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             "Max velocity (mph)", "Safe velocity (mph)", "Acceleration (mph/turn)",
             "Aerodynamics coeff", "Rolling coeff", "Static Drag", "Offroad %"
         };
-        auto dump = [&rows]( const vproto_id & obj ) {
-            vehicle veh_empty( get_map(), obj, 0, 0 );
-            vehicle veh_fueled( get_map(), obj, 100, 0 );
+        auto dump = [&rows]( const vehicle_prototype & obj ) {
+            vehicle veh_empty( get_map(), obj.id, 0, 0 );
+            vehicle veh_fueled( get_map(), obj.id, 100, 0 );
 
             std::vector<std::string> r;
             r.push_back( veh_empty.name );
@@ -316,7 +316,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
                                          veh_fueled.k_traction( veh_fueled.wheel_area() ) ) ) );
             rows.push_back( r );
         };
-        for( auto &e : vehicle_prototype::get_all() ) {
+        for( const vehicle_prototype &e : vehicles::get_all_prototypes() ) {
             dump( e );
         }
 

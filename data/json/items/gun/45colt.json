@@ -23,7 +23,6 @@
     "blackpowder_tolerance": 80,
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "grip", 1 ],
@@ -60,7 +59,6 @@
     "reload_noise": "chik chik.",
     "flags": [ "RELOAD_ONE" ],
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],

@@ -1,4 +1,4 @@
-// RUN: %check_clang_tidy %s cata-static-int_id-constants %t -- -plugins=%cata_plugin -- -isystem %cata_include
+// RUN: %check_clang_tidy %s cata-static-int_id-constants %t -- --load=%cata_plugin -- -isystem %cata_include
 
 template<typename T>
 class int_id

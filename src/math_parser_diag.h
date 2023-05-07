@@ -16,7 +16,7 @@ struct dialogue_func {
 };
 
 struct dialogue_func_eval : dialogue_func {
-    using f_t = std::function<double( dialogue const & )> ( * )( char scope,
+    using f_t = std::function<double( dialogue & )> ( * )( char scope,
                 std::vector<std::string> const & );
 
     dialogue_func_eval( std::string_view s_, std::string_view sc_, int n_, f_t f_ )
@@ -26,7 +26,7 @@ struct dialogue_func_eval : dialogue_func {
 };
 
 struct dialogue_func_ass : dialogue_func {
-    using f_t = std::function<void( dialogue const &, double )> ( * )( char scope,
+    using f_t = std::function<void( dialogue &, double )> ( * )( char scope,
                 std::vector<std::string> const & );
 
     dialogue_func_ass( std::string_view s_, std::string_view sc_, int n_, f_t f_ )
@@ -38,25 +38,32 @@ struct dialogue_func_ass : dialogue_func {
 using pdiag_func_eval = dialogue_func_eval const *;
 using pdiag_func_ass = dialogue_func_ass const *;
 
-std::function<double( dialogue const & )> u_val( char scope,
+std::function<double( dialogue & )> u_val( char scope,
         std::vector<std::string> const &params );
-std::function<void( dialogue const &, double )> u_val_ass( char scope,
+std::function<void( dialogue &, double )> u_val_ass( char scope,
         std::vector<std::string> const &params );
 
-std::function<double( dialogue const & )> pain_eval( char scope,
+std::function<double( dialogue & )> pain_eval( char scope,
         std::vector<std::string> const &/* params */ );
 
-std::function<void( dialogue const &, double )> pain_ass( char scope,
+std::function<void( dialogue &, double )> pain_ass( char scope,
         std::vector<std::string> const &/* params */ );
 
-inline std::array<dialogue_func_eval, 2> const dialogue_eval_f{
+std::function<double( dialogue & )> skill_eval( char scope,
+        std::vector<std::string> const &params );
+std::function<void( dialogue &, double )> skill_ass( char scope,
+        std::vector<std::string> const &params );
+
+inline std::array<dialogue_func_eval, 3> const dialogue_eval_f{
     dialogue_func_eval{ "val", "un", -1, u_val },
     dialogue_func_eval{ "pain", "un", 0, pain_eval },
+    dialogue_func_eval{ "skill", "un", 1, skill_eval },
 };
 
-inline std::array<dialogue_func_ass, 2> const dialogue_assign_f{
+inline std::array<dialogue_func_ass, 3> const dialogue_assign_f{
     dialogue_func_ass{ "val", "un", -1, u_val_ass },
     dialogue_func_ass{ "pain", "un", 0, pain_ass },
+    dialogue_func_ass{ "skill", "un", 1, skill_ass },
 };
 
 #endif // CATA_SRC_MATH_PARSER_DIAG_H

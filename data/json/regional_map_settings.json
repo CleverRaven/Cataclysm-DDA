@@ -28,27 +28,34 @@
     "default_groundcover": [ [ "t_region_groundcover", 1 ] ],
     "region_terrain_and_furniture": {
       "terrain": {
-        "t_region_groundcover": { "t_grass": 12000, "t_grass_dead": 2000, "t_dirt": 1000 },
+        "t_region_groundcover": { "t_grass": 12, "t_grass_dead": 2, "t_dirt": 1 },
         "t_region_groundcover_urban": { "t_grass": 20, "t_grass_dead": 3 },
-        "t_region_groundcover_forest": { "t_grass_long": 5, "t_grass_tall": 1, "t_moss": 1, "t_grass_dead": 3 },
-        "t_region_groundcover_swamp": { "t_grass_long": 300, "t_grass_tall": 100, "t_moss": 200, "t_dirt": 200 },
+        "t_region_groundcover_forest": { "t_forestfloor": 10, "t_grass": 1, "t_grass_long": 1, "t_moss": 1, "t_grass_dead": 1 },
+        "t_region_groundcover_swamp": { "t_grass_long": 3, "t_grass_tall": 1, "t_moss": 2, "t_dirt": 2 },
         "t_region_groundcover_barren": { "t_dirt": 30, "t_grass_dead": 2, "t_railroad_rubble": 1 },
         "t_region_grass": { "t_grass": 1 },
         "t_region_soil": { "t_dirt": 1 },
-        "t_region_shrub": {
+        "t_region_shrub_forest_dense": {
           "t_underbrush": 30,
-          "t_shrub": 15,
+          "t_shrub": 10,
           "t_fern": 5,
           "t_shrub_blueberry": 2,
-          "t_shrub_strawberry": 2,
-          "t_shrub_blackberry": 2,
           "t_shrub_raspberry": 2,
           "t_shrub_huckleberry": 2,
-          "t_shrub_rose": 2,
-          "t_shrub_hydrangea": 2,
-          "t_shrub_lilac": 2,
+          "t_shrub_strawberry": 1,
           "t_shrub_grape": 1
         },
+        "t_region_shrub_forest": { "t_region_shrub_forest_dense": 60, "t_shrub_rose": 5, "t_shrub_blackberry": 5 },
+        "t_region_shrub_plains": {
+          "t_shrub": 10,
+          "t_shrub_blueberry": 2,
+          "t_shrub_blackberry": 2,
+          "t_shrub_rose": 2,
+          "t_shrub_huckleberry": 1,
+          "t_shrub_strawberry": 1,
+          "t_shrub_grape": 1
+        },
+        "t_region_shrub_swamp": { "t_fern": 2, "t_shrub_raspberry": 2, "t_shrub_blueberry": 2, "t_shrub_huckleberry": 1, "t_shrub_rose": 1 },
         "t_region_shrub_fruit": {
           "t_shrub_blueberry": 6,
           "t_shrub_strawberry": 6,
@@ -58,7 +65,8 @@
           "t_shrub_huckleberry": 2,
           "t_shrub_peanut": 1
         },
-        "t_region_shrub_decorative": { "t_shrub": 3, "t_fern": 1, "t_shrub_rose": 2, "t_shrub_hydrangea": 2, "t_shrub_lilac": 2, "t_bamboo_long": 1 },
+        "t_region_shrub_decorative": { "t_shrub": 30, "t_fern": 5, "t_shrub_rose": 20, "t_shrub_hydrangea": 20, "t_shrub_lilac": 20, "t_bamboo_long": 5 },
+        "t_region_shrub": { "t_region_shrub_decorative": 60, "t_underbrush": 10, "t_region_shrub_fruit": 30 },
         "t_region_tree_forest_dense": {
           "t_tree": 18,
           "t_tree_blackjack": 10,
@@ -358,7 +366,7 @@
         "clear_components": false,
         "components": {
           "trees": { "sequence": 0, "chance": 12, "clear_types": false, "types": { "t_region_tree_forest": 128, "t_tree_young": 32 } },
-          "shrubs_and_flowers": { "sequence": 1, "chance": 10, "clear_types": false, "types": { "t_region_shrub": 120, "f_region_forest": 10 } },
+          "shrubs_and_flowers": { "sequence": 1, "chance": 10, "clear_types": false, "types": { "t_region_shrub_forest": 120, "f_region_forest": 10 } },
           "clutter": {
             "sequence": 2,
             "chance": 80,
@@ -480,7 +488,12 @@
         "clear_components": false,
         "components": {
           "trees": { "sequence": 0, "chance": 5, "clear_types": false, "types": { "t_region_tree_forest_dense": 100, "t_tree_young": 5 } },
-          "shrubs_and_flowers": { "sequence": 1, "chance": 5, "clear_types": false, "types": { "t_region_shrub": 130, "f_region_forest_dense": 10 } },
+          "shrubs_and_flowers": {
+            "sequence": 1,
+            "chance": 5,
+            "clear_types": false,
+            "types": { "t_region_shrub_forest_dense": 130, "f_region_forest_dense": 10 }
+          },
           "clutter": {
             "sequence": 2,
             "chance": 64,
@@ -561,7 +574,12 @@
               "t_region_tree_dead": 90
             }
           },
-          "shrubs_and_flowers": { "sequence": 1, "chance": 15, "clear_types": false, "types": { "t_region_shrub": 80, "f_region_forest_water": 30 } },
+          "shrubs_and_flowers": {
+            "sequence": 1,
+            "chance": 15,
+            "clear_types": false,
+            "types": { "t_region_shrub_swamp": 80, "f_region_forest_water": 30 }
+          },
           "clutter": {
             "sequence": 2,
             "chance": 75,
@@ -993,7 +1011,8 @@
         "apartment_complex_3x3": 10,
         "apartment_complex_3x3_alt": 10,
         "apartment_complex_line": 10,
-        "apartment_complex_U": 10,
+        "apartment_complex_U": 5,
+        "apartment_complex_U_alt": 5,
         "s_apt": 30,
         "s_apt_2": 30,
         "school": 15,
@@ -1036,14 +1055,14 @@
         "communitygarden_3": 75,
         "publicgarden": 100,
         "publicgarden_2": 100,
-        "cathedral": 50,
+        "cathedral": 10,
         "football_field": 25,
         "baseball_field": 50,
         "botanical_garden": 100,
         "zoo": 25,
         "stadium": 25,
         "stadium_football": 25,
-        "convention_center": 25,
+        "convention_center": 10,
         "cemetery_city": 50,
         "public_pond_city": 50,
         "nature_trail_city": 50,

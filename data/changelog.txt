@@ -8,6 +8,10 @@ Added full mouse support to the keybindings screen
 Prevent attacking neutral critter via move in safemode
 Fix and enhance camp radio tower
 Added sorting, showing&hiding pocket contents, and scrolling via mouse in inventory screens
+New game event that triggers on load or new game start
+Add option to hide bionics
+Allow JSON monster special attacks to use the dialog condition system
+Confirmation before attacking neutral mobs
 
 
 ## Content:
@@ -19,6 +23,10 @@ Add several new bungalows
 Updates to several existing maps
 Add the first Exodii mission
 Combat Capable Mounts
+Add new Exodii NPC: Luliya
+Add new weather types: mist and fog
+Allow players to keep bees
+Apartment complex: parking garage, lobby variants, roof additions
 
 
 ## Interface:
@@ -28,6 +36,7 @@ Added ability to think to yourself in the message log
 Added Presets for pocket settings
 Prettier loading UI for loading the save
 Add min/max feedback to new character stats interface
+Mouse thumb button support
 
 
 ## Mods:
@@ -45,6 +54,10 @@ Add min/max feedback to new character stats interface
 [Bombastic Perks] New mod to earn perks through gameplay
 [DinoMod] Integrated mutation armor
 [DinoMod] Therizinosaurus
+[Xedra Evolved] Museum Location for Xedra Evolved
+[Magiclysm] Adds several new professions to the Magiclysm mod
+[Bombastic Perks] Added resurrecting meat monstrosities to bombastic perks
+[Bombastic Perks] Forcefield and Evasion enchants
 
 
 ## Balance:
@@ -56,6 +69,9 @@ Cody can make chainmail armor and charges more
 Rework melee, unarmed, dodge, cutting, stabbing, and bashing practice recipes to limit higher level practice actions to books
 Remove flaming eye phantom melee attack that can disrupt aim
 Converts most of the armor and clothing still using the old limb system to the new system with sub-limbs
+partial skill levels contribute to most game tests
+Portal Storm Coherency Pass
+Stop zomborgs from exploding on death
 
 
 ## Bugfixes:
@@ -86,6 +102,8 @@ Fix using unload_everything zone to remove gunmod gets copies of gunmod
 Ferals can use their guns in GG
 Prevent fire damaging unbreakable items
 Fix energy guns(AFS) on NPC
+Faction camps now distribute calories based on actual calories and not default calories
+Fix calculation for inserting into nested containers
 
 
 ## Performance:
@@ -100,6 +118,7 @@ Refactor some crafting infrastructure to support removal of charges
 Unify gun battery/ups/bionic energy consumption
 Modernize string_formatter
 Migrate some JSON APIs to string_view
+Add units::temperature_delta
 
 
 ## Build:

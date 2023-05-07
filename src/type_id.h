@@ -298,6 +298,9 @@ using flag_id = string_id<json_flag>;
 
 using json_character_flag = string_id<json_flag>;
 
+struct jmath_func;
+using jmath_func_id = string_id<jmath_func>;
+
 class widget;
 using widget_id = string_id<widget>;
 
