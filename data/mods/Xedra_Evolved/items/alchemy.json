@@ -73,7 +73,7 @@
     "id": "prophets_lsd",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
-    "name": { "str_sp": "prohpet's LSD" },
+    "name": { "str_sp": "prophet's LSD" },
     "description": "A windowpane worth of Rainbow Skull LSD tabs.  These tabs are said to grant the consumer the ability to see several seconds into the future.",
     "weight": "1 g",
     "volume": "250 ml",
