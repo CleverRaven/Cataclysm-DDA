@@ -343,6 +343,7 @@ const flag_id flag_USE_UPS( "USE_UPS" );
 const flag_id flag_VARSIZE( "VARSIZE" );
 const flag_id flag_VEHICLE( "VEHICLE" );
 const flag_id flag_WAIST( "WAIST" );
+const flag_id flag_WALK_UNDERWATER( "WALK_UNDERWATER" );
 const flag_id flag_WATCH( "WATCH" );
 const flag_id flag_WATERPROOF( "WATERPROOF" );
 const flag_id flag_WATERPROOF_GUN( "WATERPROOF_GUN" );
