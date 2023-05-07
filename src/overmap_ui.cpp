@@ -416,7 +416,11 @@ class map_notes_callback : public uilist_callback
                         overmap_buffer.mark_note_dangerous( note_location(), 0, false );
                     }
                     // NOLINTNEXTLINE(cata-text-style): No need for two whitespaces
-                    else if( query_yn( _( "Mark area as dangerous ( to avoid on auto move paths? )" ) ) ) {
+                    else if( ( overmap_buffer.is_marked_dangerous( note_location() ) &&
+                               query_yn( _( "Edit dangerous mark?" ) ) ) ||
+                             ( !overmap_buffer.is_marked_dangerous( note_location() ) &&
+                               // NOLINTNEXTLINE(cata-text-style): No need for two whitespaces
+                               query_yn( _( "Mark area as dangerous ( to avoid on auto move paths?  This will create a note if none exists already )" ) ) ) ) {
                         const int max_amount = 20;
                         // NOLINTNEXTLINE(cata-text-style): No need for two whitespaces
                         const std::string popupmsg = _( "Danger radius in overmap squares? ( 0-20 )" );
