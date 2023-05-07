@@ -4857,7 +4857,7 @@
     "name": { "str": "Gastropod Foot" },
     "points": 1,
     "mixed_effect": true,
-    "description": "Your legs have consolidated into a single muscular 'foot' that goes up into your belly. You move about a fourth of your previous speed and can no longer wear pants or shoes, on the other hand you make significantly less noise. In addition to being harder to knock down, you can move through sludge-covered surfaces easily.",
+    "description": "Your legs have consolidated into a single muscular 'foot' that goes up into your belly.  You move about a fourth of your previous speed and can no longer wear pants or shoes, on the other hand you make significantly less noise. In addition to being harder to knock down, you can move through sludge-covered surfaces easily.",
     "category": [ "GASTROPOD" ],
     "types": [ "RUNNING", "LEGS", "FEET" ],
     "prereqs": [ "SLIMY" ],
