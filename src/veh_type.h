@@ -550,7 +550,9 @@ struct vehicle_prototype {
         void load( const JsonObject &jo, std::string_view src );
     private:
         bool was_loaded = false; // used by generic_factory
+        std::vector<std::pair<vproto_id, mod_id>> src;
         friend class generic_factory<vehicle_prototype>;
+        friend struct mod_tracker;
 };
 
 /**
