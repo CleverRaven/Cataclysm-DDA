@@ -4645,7 +4645,8 @@
       "THRESH_SPIDER"
     ],
     "category": [ "BEAST", "RAPTOR", "CHIMERA", "LUPINE", "FELINE", "URSINE", "LIZARD", "SPIDER" ],
-    "flags": [ "PRED2" ]
+    "flags": [ "PRED2" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "COMBAT_CATCHUP", "multiply": 2.0 } ] } ]
   },
   {
     "type": "mutation",
@@ -4673,7 +4674,8 @@
     "cancels": [ "PACIFIST" ],
     "category": [ "BEAST", "RAPTOR", "CHIMERA", "LUPINE", "FELINE", "URSINE", "LIZARD", "SPIDER" ],
     "passive_mods": { "int_mod": -1 },
-    "flags": [ "PRED3" ]
+    "flags": [ "PRED3" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "COMBAT_CATCHUP", "multiply": 2.0 } ] } ]
   },
   {
     "type": "mutation",
@@ -4689,7 +4691,8 @@
     "threshreq": [ "THRESH_BEAST", "THRESH_RAPTOR", "THRESH_CHIMERA", "THRESH_URSINE" ],
     "category": [ "BEAST", "RAPTOR", "CHIMERA", "URSINE" ],
     "passive_mods": { "int_mod": -3 },
-    "flags": [ "PRED4" ]
+    "flags": [ "PRED4" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "COMBAT_CATCHUP", "multiply": 3.0 } ] } ]
   },
   {
     "type": "mutation",
