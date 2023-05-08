@@ -499,6 +499,8 @@
     "difficulty": 6,
     "time": "5 m",
     "book_learn": [ [ "textbook_anarch", 4 ], [ "recipe_bullets", 7 ] ],
+    "//": "Requires to accurately measure powder.",
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [
@@ -712,6 +714,7 @@
       "textbook_anarch": { "skill_level": 7, "recipe_name": "Stuff THE MAN doesn't want you to know" },
       "recipe_labchem": { "skill_level": 6 }
     },
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "components": [
       [ [ "gasoline", 125 ], [ "diesel", 125 ], [ "biodiesel", 125 ] ],
@@ -736,6 +739,7 @@
       "textbook_gaswarfare": { "skill_level": 2 },
       "textbook_anarch": { "skill_level": 2, "recipe_name": "Stuff THE MAN doesn't want you to know" }
     },
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" } ],
     "components": [ [ [ "gasoline", 100 ] ], [ [ "plastic_chunk", 1 ] ] ]
   },
   {
@@ -754,6 +758,7 @@
       "textbook_anarch": { "skill_level": 2, "recipe_name": "Stuff THE MAN doesn't want you to know" },
       "manual_launcher": { "skill_level": 2 }
     },
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
     "components": [ [ [ "gasoline", 125 ] ], [ [ "diesel", 125 ], [ "biodiesel", 125 ] ] ]
   },
   {
@@ -766,6 +771,8 @@
     "difficulty": 3,
     "time": "8 m",
     "book_learn": [ [ "manual_launcher", 4 ] ],
+    "//": "At least basic knowledge on chemical handling safety is required.",
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 1 } ],
     "tools": [
       [ [ "oxy_torch", 6 ], [ "welder", 30 ], [ "welder_crude", 45 ], [ "toolset", 45 ] ],
@@ -788,6 +795,8 @@
     "difficulty": 4,
     "time": "30 m",
     "book_learn": [ [ "manual_launcher", 5 ] ],
+    "//": "At least basic knowledge on chemical handling safety is required.",
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_handloading" } ],
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 1 } ],
     "tools": [ [ [ "hotplate", 50 ], [ "toolset", 50 ] ] ],
     "components": [
@@ -806,6 +815,8 @@
     "difficulty": 5,
     "time": "20 m",
     "book_learn": [ [ "manual_launcher", 6 ] ],
+    "//": "At least basic knowledge on chemical handling safety is required.",
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 1 } ],
     "tools": [ [ [ "hotplate", 50 ], [ "toolset", 50 ] ] ],
     "components": [
@@ -826,6 +837,7 @@
     "difficulty": 4,
     "time": "8 m",
     "book_learn": [ [ "textbook_gaswarfare", 4 ], [ "textbook_chemistry", 4 ], [ "adv_chemistry", 4 ], [ "recipe_labchem", 4 ] ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
     "qualities": [ { "id": "CHEM", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "fungicide", 50 ], [ "triffid_fungicide", 1 ] ], [ [ "chem_sulphur", 150 ] ] ]
@@ -841,6 +853,7 @@
     "difficulty": 4,
     "time": "8 m",
     "book_learn": [ [ "textbook_gaswarfare", 4 ], [ "textbook_chemistry", 4 ], [ "adv_chemistry", 4 ], [ "recipe_labchem", 4 ] ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
     "qualities": [ { "id": "CHEM", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "insecticide", 50 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ] ]
@@ -862,6 +875,7 @@
       [ "recipe_labchem", 3 ],
       [ "textbook_anarch", 3 ]
     ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
     "qualities": [ { "id": "CHEM", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "oxy_powder", 100 ] ], [ [ "lye_powder", 100 ] ] ]

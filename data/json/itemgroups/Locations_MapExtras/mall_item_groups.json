@@ -73,7 +73,8 @@
       { "group": "ammo_any_batteries_full", "prob": 50 },
       { "item": "radio", "prob": 30, "charges": 100 },
       { "item": "mp3", "prob": 30, "charges": 100 },
-      { "item": "pride_flag", "prob": 1 }
+      { "item": "pride_flag", "prob": 1 },
+      { "item": "national_flag", "prob": 1 }
     ]
   },
   {
@@ -265,6 +266,7 @@
       [ "string_6", 50 ],
       [ "leather", 10 ],
       [ "fur", 7 ],
+      [ "sheet_leather", 20 ],
       [ "tanned_hide", 20 ],
       [ "tanned_pelt", 20 ]
     ]

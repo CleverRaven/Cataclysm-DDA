@@ -23,6 +23,7 @@
 #include "player_activity.h"
 #include "player_helpers.h"
 #include "point.h"
+#include "profession.h"
 #include "ret_val.h"
 #include "stomach.h"
 #include "type_id.h"
@@ -116,6 +117,7 @@ void clear_character( Character &dummy, bool skip_nutrition )
 
     // Make sure we don't carry around weird effects.
     dummy.clear_effects();
+    dummy.set_underwater( false );
 
     // Make stats nominal.
     dummy.str_max = 8;
@@ -128,6 +130,8 @@ void clear_character( Character &dummy, bool skip_nutrition )
     dummy.set_per_bonus( 0 );
 
     dummy.cash = 0;
+
+    dummy.prof = profession::generic();
 
     const tripoint spot( 60, 60, 0 );
     dummy.setpos( spot );

@@ -5,6 +5,7 @@
 #include <cmath>
 #include <cstdlib>
 #include <memory>
+#include <optional>
 #include <ostream>
 #include <set>
 #include <tuple>
@@ -28,7 +29,6 @@
 #include "material.h"
 #include "messages.h"
 #include "monster.h"
-#include "optional.h"
 #include "options.h"
 #include "rng.h"
 #include "sounds.h"
@@ -41,6 +41,9 @@
 #include "vpart_range.h"
 
 #define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
+
+static const damage_type_id damage_bash( "bash" );
+static const damage_type_id damage_cut( "cut" );
 
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_harnessed( "harnessed" );
@@ -116,21 +119,20 @@ int vehicle::slowdown( int at_velocity ) const
                    "%s at %d vimph, f_drag %3.2f, drag accel %d vmiph - extra drag %d",
                    name, at_velocity, f_total_drag, slowdown, units::to_watt( static_drag() ) );
     // plows slow rolling vehicles, but not falling or floating vehicles
-    if( !( is_falling || is_floating || is_flying ) ) {
+    if( !( is_falling || ( is_watercraft() && can_float() ) || is_flying ) ) {
         slowdown -= units::to_watt( static_drag() );
     }
 
     return std::max( 1, slowdown );
 }
 
-void vehicle::smart_controller_handle_turn( bool thrusting,
-        const cata::optional<float> &k_traction_cache )
+void vehicle::smart_controller_handle_turn( const std::optional<float> &k_traction_cache )
 {
     // get settings or defaults
     smart_controller_config cfg = smart_controller_cfg.value_or( smart_controller_config() );
 
     if( !has_enabled_smart_controller ) {
-        smart_controller_state = cata::nullopt;
+        smart_controller_state = std::nullopt;
         return;
     }
 
@@ -181,7 +183,7 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
             add_msg( m_bad, _( "Smart controller is shutting down." ) );
         }
         has_enabled_smart_controller = false;
-        smart_controller_state = cata::nullopt;
+        smart_controller_state = std::nullopt;
         return;
     }
 
@@ -209,10 +211,9 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
     //      ( max_battery_level * battery_hi / 100 - cur_battery_level )  * (1000 / (60 * 30))   // originally
     //                                ^ battery_hi%                  bat to W ^         ^ 30 minutes
 
-    int accel_demand = cruise_on
-                       ? // using avg_velocity reduces unnecessary oscillations when traction is low
-                       std::max( std::abs( cruise_velocity - velocity ), std::abs( cruise_velocity - avg_velocity ) ) :
-                       ( thrusting ? 1000 : 0 );
+    // using avg_velocity reduces unnecessary oscillations when traction is low
+    int accel_demand = std::max( std::abs( cruise_velocity - velocity ),
+                                 std::abs( cruise_velocity - avg_velocity ) );
     if( velocity != 0 && accel_demand == 0 ) {
         accel_demand = 1;    // to prevent zero fuel usage
     }
@@ -233,7 +234,7 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
 
     int prev_mask = 0;
     // opt_ prefix denotes values for currently found "optimal" engine configuration
-    units::power opt_net_echarge_rate = net_battery_charge_rate();
+    units::power opt_net_echarge_rate = net_battery_charge_rate( /* include_reactors = */ true );
     // total engine fuel energy usage (J)
     units::power opt_fuel_usage = 0_W;
 
@@ -321,7 +322,7 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
         int safe_vel =  is_stationary ? 1 : safe_ground_velocity( true );
         int accel = is_stationary ? 1 : current_acceleration() * traction;
         units::power fuel_usage = 0_W;
-        units::power net_echarge_rate = net_battery_charge_rate();
+        units::power net_echarge_rate = net_battery_charge_rate( /* include_reactors = */ true );
         float load_approx = static_cast<float>( std::min( accel_demand, accel ) ) / std::max( accel, 1 );
         update_alternator_load();
         float load_approx_alternator  = std::min( 0.01f, static_cast<float>( alternator_load ) / 1000 );
@@ -387,7 +388,7 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
             }
         }
         if( failed_to_start ) {
-            this->smart_controller_state = cata::nullopt;
+            this->smart_controller_state = std::nullopt;
 
             for( size_t i = 0; i < c_engines.size(); ++i ) { // return to prev state
                 vehicle_part &vp = parts[engines[c_engines[i]]];
@@ -437,9 +438,9 @@ void vehicle::thrust( int thd, int z )
     bool pl_ctrl = player_in_control( get_player_character() );
 
     // No need to change velocity if there are no wheels
-    if( ( in_water && can_float() ) || ( is_rotorcraft() && ( z != 0 || is_flying ) ) ) {
+    if( ( is_watercraft() && can_float() ) || ( is_rotorcraft() && ( z != 0 || is_flying ) ) ) {
         // we're good
-    } else if( is_floating && !can_float() ) {
+    } else if( in_deep_water && !can_float() ) {
         stop();
         if( pl_ctrl ) {
             add_msg( _( "The %s is too leaky!" ), name );
@@ -463,7 +464,7 @@ void vehicle::thrust( int thd, int z )
     float traction = k_traction( get_map().vehicle_wheel_traction( *this ) );
 
     if( thrusting ) {
-        smart_controller_handle_turn( true, traction );
+        smart_controller_handle_turn( traction );
     }
 
     int accel = current_acceleration() * traction;
@@ -499,8 +500,7 @@ void vehicle::thrust( int thd, int z )
     //find ratio of used acceleration to maximum available, returned in tenths of a percent
     //so 1000 = 100% and 453 = 45.3%
     int load;
-    // Keep exact cruise control speed
-    if( cruise_on && accel != 0 ) {
+    if( accel != 0 ) {
         int effective_cruise = std::min( cruise_velocity, max_vel );
         if( thd > 0 ) {
             vel_inc = std::min( vel_inc, effective_cruise - velocity );
@@ -658,7 +658,7 @@ void vehicle::turn( units::angle deg )
     last_turn = deg;
     turn_dir = normalize( turn_dir + deg );
     // quick rounding the turn dir to a multiple of 15
-    turn_dir = round_to_multiple_of( turn_dir, 15_degrees );
+    turn_dir = round_to_multiple_of( turn_dir, vehicles::steer_increment );
 }
 
 void vehicle::stop( bool update_cache )
@@ -893,8 +893,8 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     if( armor_part >= 0 ) {
         ret.part = armor_part;
     }
-
-    int dmg_mod = part_info( ret.part ).dmg_mod;
+    const vehicle_part &vp = this->part( ret.part );
+    const vpart_info &vpi = vp.info();
     // Let's calculate type of collision & mass of object we hit
     float mass2 = 0.0f;
     // e = 0 -> plastic collision
@@ -919,7 +919,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
                    !here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_TINY, p ) ) &&
                  // Protrusions don't collide with short terrain.
                  // Tiny also doesn't, but it's already excluded unless there's a wheel present.
-                 !( part_with_feature( ret.part, "PROTRUSION", true ) >= 0 &&
+                 !( part_with_feature( vp.mount, "PROTRUSION", true ) >= 0 &&
                     here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_SHORT, p ) ) &&
                  // These are bashable, but don't interact with vehicles.
                  !here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_NOCOLLIDE, p ) &&
@@ -1057,7 +1057,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
                 }
             }
         } else if( ret.type == veh_coll_body ) {
-            int dam = obj_dmg * dmg_mod / 100;
+            int dam = obj_dmg * vpi.dmg_mod / 100;
 
             // We know critter is set for this type.  Assert to inform static
             // analysis.
@@ -1083,8 +1083,8 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
                 ph->hitall( dam, 40, driver );
             } else {
                 const int armor = part_flag( ret.part, "SHARP" ) ?
-                                  critter->get_armor_cut( bodypart_id( "torso" ) ) :
-                                  critter->get_armor_bash( bodypart_id( "torso" ) );
+                                  critter->get_armor_type( damage_cut, bodypart_id( "torso" ) ) :
+                                  critter->get_armor_type( damage_bash, bodypart_id( "torso" ) );
                 dam = std::max( 0, dam - armor );
                 critter->apply_damage( driver, bodypart_id( "torso" ), dam );
                 if( part_flag( ret.part, "SHARP" ) ) {
@@ -1270,54 +1270,35 @@ void vehicle::handle_trap( const tripoint &p, int part )
     }
 }
 
-bool vehicle::has_harnessed_animal() const
+monster *vehicle::get_harnessed_animal() const
 {
     for( size_t e = 0; e < parts.size(); e++ ) {
         const vehicle_part &vp = parts[ e ];
         if( vp.info().fuel_type == fuel_type_animal ) {
             monster *mon = get_monster( e );
             if( mon && mon->has_effect( effect_harnessed ) && mon->has_effect( effect_pet ) ) {
-                return true;
+                return mon;
             }
         }
     }
-    return false;
+    return nullptr;
 }
 
 void vehicle::selfdrive( const point &p )
 {
-    if( !is_towed() && !magic ) {
-        for( size_t e = 0; e < parts.size(); e++ ) {
-            const vehicle_part &vp = parts[ e ];
-            if( vp.info().fuel_type == fuel_type_animal ) {
-                monster *mon = get_monster( e );
-                if( !mon || !mon->has_effect( effect_harnessed ) || !mon->has_effect( effect_pet ) ) {
-                    is_following = false;
-                    return;
-                }
-            }
-        }
+    if( !is_towed() && !magic && !get_harnessed_animal() ) {
+        is_following = false;
+        return;
     }
-    units::angle turn_delta = 15_degrees * p.x;
-    const float handling_diff = handling_difficulty();
-    if( turn_delta != 0_degrees ) {
-        float eff = steering_effectiveness();
-        if( eff == -2 ) {
-            return;
+    if( p.x != 0 ) {
+        if( steering_effectiveness() <= 0 ) {
+            return; // no steering
         }
-
-        if( eff < 0 ) {
-            return;
-        }
-
-        if( eff == 0 ) {
-            return;
-        }
-        turn( turn_delta );
+        turn( p.x * vehicles::steer_increment );
     }
     if( p.y != 0 ) {
-        int thr_amount = 100 * ( std::abs( velocity ) < 2000 ? 4 : 5 );
-        if( cruise_on && !is_towed() ) {
+        if( !is_towed() ) {
+            const int thr_amount = std::abs( velocity ) < 2000 ? 400 : 500;
             cruise_thrust( -p.y * thr_amount );
         } else {
             thrust( -p.y );
@@ -1325,9 +1306,7 @@ void vehicle::selfdrive( const point &p )
     }
     // TODO: Actually check if we're on land on water (or disable water-skidding)
     if( skidding && valid_wheel_config() ) {
-        ///\EFFECT_DEX increases chance of regaining control of a vehicle
-
-        ///\EFFECT_DRIVING increases chance of regaining control of a vehicle
+        const float handling_diff = handling_difficulty();
         if( handling_diff * rng( 1, 10 ) < 15 ) {
             velocity = static_cast<int>( forward_velocity() );
             skidding = false;
@@ -1419,7 +1398,7 @@ void vehicle::pldrive( Character &driver, const point &p, int z )
         driver.moves = std::min( driver.moves, 0 );
         thrust( 0, z );
     }
-    units::angle turn_delta = 15_degrees * p.x;
+    units::angle turn_delta = vehicles::steer_increment * p.x;
     const float handling_diff = handling_difficulty();
     if( turn_delta != 0_degrees ) {
         float eff = steering_effectiveness();
@@ -1483,17 +1462,11 @@ void vehicle::pldrive( Character &driver, const point &p, int z )
     }
 
     if( p.y != 0 ) {
-        if( cruise_on ) {
-            cruise_thrust( -p.y * 400 );
-        } else {
-            thrust( -p.y );
-            driver.moves = std::min( driver.moves, 0 );
-        }
+        cruise_thrust( -p.y * 400 );
     }
 
     // TODO: Actually check if we're on land on water (or disable water-skidding)
-    // Only check for recovering from a skid if we did active steering (not cruise control).
-    if( skidding && ( p.x != 0 || ( p.y != 0 && !cruise_on ) ) && valid_wheel_config() ) {
+    if( skidding && p.x != 0 && valid_wheel_config() ) {
         ///\EFFECT_DEX increases chance of regaining control of a vehicle
 
         ///\EFFECT_DRIVING increases chance of regaining control of a vehicle
@@ -1790,7 +1763,7 @@ vehicle *vehicle::act_on_map()
     Character &player_character = get_player_character();
     const bool pl_ctrl = player_in_control( player_character );
     // TODO: Remove this hack, have vehicle sink a z-level
-    if( is_floating && !can_float() ) {
+    if( in_deep_water && !can_float() ) {
         add_msg( m_bad, _( "Your %s sank." ), name );
         if( pl_ctrl ) {
             unboard_all();
@@ -1884,15 +1857,15 @@ vehicle *vehicle::act_on_map()
 
         // Eventually send it skidding if no control
         // But not if it's remotely controlled, is in water or can use rails
-        if( !controlled && !pl_ctrl && !is_floating && !can_use_rails && !is_flying &&
-            requested_z_change == 0 ) {
+        if( !controlled && !pl_ctrl && !( is_watercraft() && can_float() ) && !can_use_rails &&
+            !is_flying && requested_z_change == 0 ) {
             skidding = true;
         }
     }
 
     if( skidding && one_in( 4 ) ) {
         // Might turn uncontrollably while skidding
-        turn( one_in( 2 ) ? -15_degrees : 15_degrees );
+        turn( vehicles::steer_increment * ( one_in( 2 ) ? -1 : 1 ) );
     }
 
     if( should_fall ) {
@@ -2006,7 +1979,7 @@ void vehicle::check_falling_or_floating()
     // If we're flying none of the rest of this matters.
     if( is_flying && is_rotorcraft() ) {
         is_falling = false;
-        is_floating = false;
+        in_deep_water = false;
         in_water = false;
         return;
     }
@@ -2044,7 +2017,7 @@ void vehicle::check_falling_or_floating()
         static_cast<size_t>( supported_wheels ) * 2 >= wheelcache.size() ) {
         is_falling = false;
         in_water = false;
-        is_floating = false;
+        in_deep_water = false;
         return;
     }
     // TODO: Make the vehicle "slide" towards its center of weight
@@ -2053,7 +2026,7 @@ void vehicle::check_falling_or_floating()
     if( pts.empty() ) {
         // Dirty vehicle with no parts
         is_falling = false;
-        is_floating = false;
+        in_deep_water = false;
         in_water = false;
         is_flying = false;
         return;
@@ -2069,67 +2042,64 @@ void vehicle::check_falling_or_floating()
         }
         is_falling = !has_support( position, true );
     }
-    // floating if 2/3rds of the vehicle is in deep water
-    is_floating = 3 * deep_water_tiles >= 2 * pts.size();
+    // in_deep_water if 2/3 of the vehicle is in deep water
+    in_deep_water = 3 * deep_water_tiles >= 2 * pts.size();
     // in_water if 1/2 of the vehicle is in water at all
     in_water =  2 * water_tiles >= pts.size();
 }
 
-float map::vehicle_wheel_traction( const vehicle &veh,
-                                   const bool ignore_movement_modifiers /*=false*/ ) const
+float map::vehicle_wheel_traction( const vehicle &veh, bool ignore_movement_modifiers ) const
 {
-    if( veh.is_in_water( true ) ) {
+    if( veh.is_in_water( /* deep_water = */ true ) ) {
         return veh.can_float() ? 1.0f : -1.0f;
     }
     if( veh.is_watercraft() && veh.can_float() ) {
         return 1.0f;
     }
 
-    const auto &wheel_indices = veh.wheelcache;
-    int num_wheels = wheel_indices.size();
-    if( num_wheels == 0 ) {
+    if( veh.wheelcache.empty() ) {
         // TODO: Assume it is digging in dirt
         // TODO: Return something that could be reused for dragging
         return 0.0f;
     }
 
     float traction_wheel_area = 0.0f;
-    for( int p : wheel_indices ) {
-        const tripoint pp = veh.global_part_pos3( p );
-        const int wheel_area = veh.part( p ).wheel_area();
-
+    for( const int wheel_idx : veh.wheelcache ) {
+        const vehicle_part &vp = veh.part( wheel_idx );
+        const tripoint pp = veh.global_part_pos3( vp );
         const ter_t &tr = ter( pp ).obj();
-        // Deep water and air
         if( tr.has_flag( ter_furn_flag::TFLAG_DEEP_WATER ) ||
             tr.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) ) {
-            // No traction from wheel in water or air
-            continue;
+            continue; // No traction from wheel in deep water or air
         }
 
         int move_mod = move_cost_ter_furn( pp );
         if( move_mod == 0 ) {
-            // Vehicle locked in wall
-            // Shouldn't happen, but does
-            return 0.0f;
+            return 0.0f; // Vehicle locked in wall, shouldn't happen, but does
         }
 
-        for( const auto &terrain_mod : veh.part_info( p ).wheel_terrain_mod() ) {
-            if( terrain_mod.second.movecost > 0 &&
-                tr.has_flag( terrain_mod.first ) ) {
-                move_mod = terrain_mod.second.movecost;
+        if( ignore_movement_modifiers ) {
+            traction_wheel_area += vp.wheel_area();
+            continue; // Ignore the movement modifier if caller specifies a bool
+        }
+
+        for( const veh_ter_mod &mod : vp.info().wheel_terrain_modifiers() ) {
+            const bool ter_has_flag = tr.has_flag( mod.terrain_flag );
+            if( ter_has_flag && mod.move_override ) {
+                move_mod = mod.move_override;
                 break;
-            } else if( terrain_mod.second.penalty && !tr.has_flag( terrain_mod.first ) ) {
-                move_mod += terrain_mod.second.penalty;
+            } else if( !ter_has_flag && mod.move_penalty ) {
+                move_mod += mod.move_penalty;
                 break;
             }
         }
 
-        // Ignore the movement modifier if needed.
-        if( ignore_movement_modifiers ) {
-            move_mod = 2;
+        if( move_mod == 0 ) {
+            debugmsg( "move_mod resulted in a 0, ignoring wheel" );
+            continue;
         }
 
-        traction_wheel_area += 2.0 * wheel_area / move_mod;
+        traction_wheel_area += 2.0 * vp.wheel_area() / move_mod;
     }
 
     return traction_wheel_area;
@@ -2187,7 +2157,7 @@ units::angle map::shake_vehicle( vehicle &veh, const int velocity_before,
         // Damage passengers if d_vel is too high
         if( !throw_from_seat && ( 10 * d_vel ) > 6 * rng( 25, 50 ) ) {
             if( psg ) {
-                psg->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_type::BASH, dmg ) );
+                psg->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_bash, dmg ) );
                 psg->add_msg_player_or_npc( m_bad,
                                             _( "You take %d damage by the power of the impact!" ),
                                             _( "<npcname> takes %d damage by the power of the "
@@ -2210,7 +2180,7 @@ units::angle map::shake_vehicle( vehicle &veh, const int velocity_before,
                 if( turn_amount < 1 ) {
                     turn_amount = 1;
                 }
-                units::angle turn_angle = std::min( turn_amount * 15_degrees, 120_degrees );
+                units::angle turn_angle = std::min( turn_amount * vehicles::steer_increment, 120_degrees );
                 coll_turn = one_in( 2 ) ? turn_angle : -turn_angle;
             }
         }

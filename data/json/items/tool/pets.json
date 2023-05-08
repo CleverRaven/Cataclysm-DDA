@@ -8,14 +8,13 @@
     "volume": "2500 ml",
     "price": 100,
     "price_postapoc": 100,
-    "bashing": 1,
-    "cutting": 1,
     "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
     "properties": [ [ "creature_size_capacity", "TINY" ] ],
     "use_action": [ "CAPTURE_MONSTER_ACT" ],
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID" ],
+    "melee_damage": { "bash": 1, "cut": 1 }
   },
   {
     "id": "dog_whistle",
@@ -41,12 +40,12 @@
     "price": 500,
     "price_postapoc": 250,
     "to_hit": -1,
-    "cutting": 3,
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "CUT", 1 ], [ "FABRIC_CUT", 1 ], [ "SHEAR", 1 ], [ "BUTCHER", 3 ] ],
-    "flags": [ "STAB" ]
+    "flags": [  ],
+    "melee_damage": { "stab": 3 }
   },
   {
     "id": "forged_shears",
@@ -58,12 +57,12 @@
     "price": 500,
     "price_postapoc": 250,
     "to_hit": -1,
-    "cutting": 3,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "CUT", 1 ], [ "FABRIC_CUT", 1 ], [ "SHEAR", 1 ], [ "BUTCHER", 3 ] ],
-    "flags": [ "STAB" ]
+    "flags": [  ],
+    "melee_damage": { "stab": 3 }
   },
   {
     "id": "bronze_shears",
@@ -75,13 +74,13 @@
     "price": 500,
     "price_postapoc": 250,
     "to_hit": -1,
-    "cutting": 3,
     "material": [ "bronze" ],
     "symbol": ";",
     "color": "yellow",
     "looks_like": "forged_shears",
     "qualities": [ [ "CUT", 1 ], [ "FABRIC_CUT", 1 ], [ "SHEAR", 1 ], [ "BUTCHER", 3 ] ],
-    "flags": [ "STAB", "FRAGILE_MELEE" ]
+    "flags": [ "FRAGILE_MELEE" ],
+    "melee_damage": { "stab": 3 }
   },
   {
     "id": "elec_shears",
@@ -93,7 +92,6 @@
     "price": 2400,
     "price_postapoc": 250,
     "to_hit": -1,
-    "bashing": 2,
     "material": [ "plastic", "steel" ],
     "symbol": ";",
     "color": "dark_gray",
@@ -108,7 +106,8 @@
         "flag_restriction": [ "BATTERY_ULTRA_LIGHT" ],
         "default_magazine": "light_minus_battery_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "horse_tack",
@@ -120,11 +119,11 @@
     "price": 0,
     "price_postapoc": 1000,
     "to_hit": -1,
-    "bashing": 5,
     "material": [ "leather", "steel" ],
     "symbol": "M",
     "color": "yellow",
-    "flags": [ "TACK" ]
+    "flags": [ "TACK" ],
+    "melee_damage": { "bash": 5 }
   },
   {
     "//": "https://primeusascales.com/product/sls-single-animal-livestock-scales/",
@@ -141,7 +140,6 @@
     "price": 1200000,
     "price_postapoc": 50,
     "to_hit": -8,
-    "bashing": 16,
     "material": [ "steel", "rubber" ],
     "ammo": [ "battery" ],
     "use_action": { "type": "weigh_self", "max_weight": "2300 kg" },
@@ -154,7 +152,8 @@
         "flag_restriction": [ "BATTERY_MEDIUM" ],
         "default_magazine": "medium_battery_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 16 }
   },
   {
     "id": "pet_carrier",
@@ -165,14 +164,13 @@
     "volume": "5 L",
     "price": 1000,
     "price_postapoc": 100,
-    "bashing": 1,
-    "cutting": 1,
     "material": [ "steel", "plastic" ],
     "symbol": "#",
     "color": "light_gray",
     "properties": [ [ "creature_size_capacity", "SMALL" ] ],
     "use_action": [ "CAPTURE_MONSTER_ACT" ],
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID" ],
+    "melee_damage": { "bash": 1, "cut": 1 }
   },
   {
     "id": "pet_carrier_wooden",

@@ -21,18 +21,17 @@
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
     "dodge": 5,
-    "armor_bash": 4,
-    "armor_cut": 1,
-    "armor_bullet": 4,
     "vision_night": 12,
     "path_settings": { "max_dist": 21, "avoid_traps": true, "avoid_sharp": true },
     "harvest": "mutant_mammal_fur",
     "reproduction": { "baby_monster": "mon_yulecat_cub", "baby_count": 6, "baby_timer": 234 },
     "baby_flags": [ "WINTER" ],
-    "special_attacks": [ { "type": "bite", "cooldown": 10 }, [ "GRAB", 8 ], [ "scratch", 6 ] ],
+    "grab_strength": 50,
+    "special_attacks": [ { "id": "bite_grab", "cooldown": 10 }, [ "scratch", 6 ] ],
     "anger_triggers": [ "PLAYER_NEAR_BABY" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "WARM", "GRABS" ],
-    "zombify_into": "mon_yulecat_zombie"
+    "flags": [ "SEES", "HEARS", "SMELLS", "GRABS", "KEENNOSE", "PATH_AVOID_DANGER_1", "WARM", "GRABS" ],
+    "zombify_into": "mon_yulecat_zombie",
+    "armor": { "bash": 4, "cut": 1, "bullet": 4 }
   },
   {
     "id": "mon_yulecat_cub",
@@ -76,14 +75,12 @@
     "melee_dice": 5,
     "melee_dice_sides": 6,
     "dodge": 3,
-    "armor_bash": 6,
-    "armor_cut": 2,
-    "armor_bullet": 3,
     "harvest": "demihuman",
     "families": [ "prof_wp_demihuman" ],
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "path_settings": { "avoid_traps": true, "avoid_sharp": true },
-    "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "WARM" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "WARM" ],
+    "armor": { "bash": 6, "cut": 2, "bullet": 3 }
   },
   {
     "id": "mon_leprechaun",

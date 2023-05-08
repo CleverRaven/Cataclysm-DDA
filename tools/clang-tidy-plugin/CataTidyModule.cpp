@@ -1,11 +1,11 @@
 #include <clang/Basic/Version.h>
+#include <clang-tidy/ClangTidyModule.h>
+#include <clang-tidy/ClangTidyModuleRegistry.h>
 #include <llvm/ADT/StringRef.h>
 
 #include "AlmostNeverAutoCheck.h"
 #include "AssertCheck.h"
 #include "AvoidAlternativeTokensCheck.h"
-#include "ClangTidyModule.h"
-#include "ClangTidyModuleRegistry.h"
 #include "CombineLocalsIntoPointCheck.h"
 #include "DeterminismCheck.h"
 #include "HeaderGuardCheck.h"
@@ -36,11 +36,12 @@
 #include "UseNamedPointConstantsCheck.h"
 #include "UsePointApisCheck.h"
 #include "UsePointArithmeticCheck.h"
+#include "UseStringViewCheck.h"
 #include "UTF8ToLowerUpperCheck.h"
 #include "XYCheck.h"
 
 #if defined( CATA_CLANG_TIDY_EXECUTABLE )
-#include "tool/ClangTidyMain.h"
+#include <clang-tidy/tool/ClangTidyMain.h>
 #endif
 
 namespace clang::tidy
@@ -105,6 +106,7 @@ class CataModule : public ClangTidyModule
                 "cata-use-named-point-constants" );
             CheckFactories.registerCheck<UsePointApisCheck>( "cata-use-point-apis" );
             CheckFactories.registerCheck<UsePointArithmeticCheck>( "cata-use-point-arithmetic" );
+            CheckFactories.registerCheck<UseStringViewCheck>( "cata-use-string_view" );
             CheckFactories.registerCheck<UTF8ToLowerUpperCheck>( "cata-utf8-no-to-lower-to-upper" );
             CheckFactories.registerCheck<XYCheck>( "cata-xy" );
         }

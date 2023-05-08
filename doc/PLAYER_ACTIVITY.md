@@ -74,6 +74,10 @@ drink from specific auto_consume zones during long activities.
 * multi_activity(false): This activity will repeat until it cannot do
 any more work, used for NPC and avatar zone activities.
 
+* completion_eoc: an EOC that is run when this activity completes
+
+* do_turn_eoc: an EOC that is run when this activity performs a turn
+
 ## Termination
 
 There are several ways an activity can be ended:

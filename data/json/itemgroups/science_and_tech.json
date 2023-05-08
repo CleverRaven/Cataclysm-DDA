@@ -122,9 +122,9 @@
       { "item": "closed_loop_extractor_large", "prob": 2 },
       { "item": "closed_loop_extractor_small", "prob": 2 },
       { "item": "gasket_plastic", "prob": 10 },
-      { "item": "butane_tank", "prob": 15, "charges-min": 1 },
+      { "item": "butane_tank", "prob": 15, "charges-min": 15000 },
       { "item": "vac_oven_small", "prob": 5 },
-      { "item": "butane_can", "prob": 2, "charges-min": 1 },
+      { "item": "butane_can", "prob": 2, "charges-min": 300 },
       { "item": "chem_citric_acid", "prob": 16 }
     ]
   },
@@ -188,7 +188,7 @@
       { "item": "extinguisher", "prob": 20, "charges": 100 },
       { "item": "hotplate_induction", "prob": 10, "charges": [ 0, 500 ] },
       {
-        "collection": [ { "item": "ref_lighter_butane" }, { "item": "butane_can", "charges": [ 1, 30 ] } ],
+        "collection": [ { "item": "ref_lighter_butane" }, { "item": "butane_can", "charges": [ 200, 400 ] } ],
         "prob": 5
       },
       [ "software_medical", 10 ],
@@ -284,6 +284,7 @@
       [ "iv_mutagen_lupine", 2 ],
       [ "iv_mutagen_mouse", 2 ],
       [ "iv_mutagen_rabbit", 2 ],
+      [ "iv_mutagen_crustacean", 2 ],
       [ "mutagen_chelator", 5 ],
       [ "purifier", 3 ],
       [ "iv_purifier", 8 ],
@@ -322,6 +323,7 @@
       [ "mutagen_feline", 2 ],
       [ "mutagen_lupine", 2 ],
       [ "mutagen_rabbit", 2 ],
+      [ "mutagen_crustacean", 2 ],
       [ "iv_mutagen", 6 ],
       [ "iv_mutagen_plant", 2 ],
       [ "iv_mutagen_insect", 2 ],
@@ -341,6 +343,7 @@
       [ "iv_mutagen_feline", 2 ],
       [ "iv_mutagen_lupine", 2 ],
       [ "iv_mutagen_rabbit", 2 ],
+      [ "iv_mutagen_crustacean", 2 ],
       [ "mutagen_chelator", 5 ],
       [ "purifier", 3 ],
       [ "iv_purifier", 8 ],
@@ -371,6 +374,7 @@
       [ "iv_mutagen_lupine", 2 ],
       [ "iv_mutagen_mouse", 2 ],
       [ "iv_mutagen_rabbit", 2 ],
+      [ "iv_mutagen_crustacean", 2 ],
       [ "iv_purifier", 20 ],
       [ "syringe", 10 ]
     ]
@@ -498,7 +502,7 @@
       [ "autoclave", 20 ],
       [ "syringe", 8 ],
       [ "cotton_patchwork", 1 ],
-      [ "scissors", 50 ],
+      [ "scissors_medical", 50 ],
       [ "boots_rubber", 20 ],
       [ "subsuit_xl", 4 ],
       { "item": "cotton_patchwork", "prob": 1, "custom-flags": [ "FILTHY" ] },

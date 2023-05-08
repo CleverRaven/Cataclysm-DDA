@@ -10,6 +10,7 @@
 #include <list>
 #include <map>
 #include <new>
+#include <optional>
 #include <set>
 #include <stack>
 #include <string>
@@ -31,7 +32,6 @@
 #include "item_location.h"
 #include "item_stack.h"
 #include "line.h"
-#include "optional.h"
 #include "point.h"
 #include "tileray.h"
 #include "type_id.h"
@@ -68,12 +68,16 @@ namespace catacurses
 {
 class window;
 } // namespace catacurses
+
 namespace vehicles
 {
 // ratio of constant rolling resistance to the part that varies with velocity
 constexpr double rolling_constant_to_variable = 33.33;
 constexpr float vmiph_per_tile = 400.0f;
+// steering/turning increment
+constexpr units::angle steer_increment = 15_degrees;
 } // namespace vehicles
+
 struct rider_data {
     Creature *psg = nullptr;
     int prt = -1;
@@ -218,7 +222,7 @@ int mps_to_vmiph( double mps );
 double vmiph_to_mps( int vmiph );
 int cmps_to_vmiph( int cmps );
 int vmiph_to_cmps( int vmiph );
-static constexpr float accel_g = 9.81f;
+constexpr float accel_g = 9.81f;
 
 enum class vp_flag : uint32_t {
     none = 0,
@@ -249,13 +253,14 @@ struct vehicle_part {
         explicit operator bool() const;
 
         bool has_flag( const vp_flag flag ) const noexcept {
-            return static_cast<uint32_t>( flag ) & static_cast<uint32_t>( flags );
+            const uint32_t flag_as_uint32 = static_cast<uint32_t>( flag );
+            return ( flags & flag_as_uint32 ) == flag_as_uint32;
         }
         void set_flag( const vp_flag flag ) noexcept {
-            flags = static_cast<vp_flag>( static_cast<uint32_t>( flags ) | static_cast<uint32_t>( flag ) );
+            flags |= static_cast<uint32_t>( flag );
         }
         void remove_flag( const vp_flag flag ) noexcept {
-            flags = static_cast<vp_flag>( static_cast<uint32_t>( flags ) & ~static_cast<uint32_t>( flag ) );
+            flags &= ~static_cast<uint32_t>( flag );
         }
 
         /**
@@ -437,14 +442,8 @@ struct vehicle_part {
         int degradation() const;
         /** max damage of part base */
         int max_damage() const;
-        /** Current damage floor of the part base */
-        int damage_floor( bool allow_negative ) const;
-        // @returns the maximum damage levels possible to repair, accounting for part degradation
-        int repairable_levels() const;
         // @returns true if part can be repaired, accounting for part degradation
         bool is_repairable() const;
-        /** Current part damage level in same units as item::damage_level */
-        int damage_level( int dmg = INT_MIN ) const;
 
         /** Current part damage as a percentage of maximum, with 0.0 being perfect condition */
         double damage_percent() const;
@@ -477,7 +476,6 @@ struct vehicle_part {
          */
         bool removed = false; // NOLINT(cata-serialize)
         bool enabled = true;
-        vp_flag flags = vp_flag::none;
 
         /** ID of player passenger */
         character_id passenger_id;
@@ -498,6 +496,7 @@ struct vehicle_part {
     private:
         /** What type of part is this? */
         vpart_id id;
+        uint32_t flags = 0;
     public:
         /** If it's a part with variants, which variant it is */
         std::string variant;
@@ -507,6 +506,7 @@ struct vehicle_part {
         mutable const vpart_info *info_cache = nullptr; // NOLINT(cata-serialize)
 
         item base;
+        std::vector<item> tools; // stores tools in VEH_TOOLS drawer
         cata::colony<item> items; // inventory
 
         /** Preferred ammo type when multiple are available */
@@ -762,11 +762,12 @@ class vehicle
 
         // direct damage to part (armor protection and internals are not counted)
         // returns damage bypassed
-        int damage_direct( map &here, int p, int dmg, damage_type type = damage_type::PURE );
+        int damage_direct( map &here, int p, int dmg,
+                           const damage_type_id &type = damage_type_id( "pure" ) );
         // Removes the part, breaks it into pieces and possibly removes parts attached to it
         int break_off( map &here, int p, int dmg );
         // Returns if it did actually explode
-        bool explode_fuel( int p, damage_type type );
+        bool explode_fuel( int p, const damage_type_id &type );
         //damages vehicle controls and security system
         void smash_security_system();
         // get vpart powerinfo for part number, accounting for variable-sized parts and hps.
@@ -812,21 +813,25 @@ class vehicle
          */
         static vehicle *find_vehicle( const tripoint &where );
 
-        /**
-         * Traverses the graph of connected vehicles, starting from start_veh, and continuing
-         * along all vehicles connected by some kind of POWER_TRANSFER part.
-         * @param start_veh The vehicle to start traversing from. NB: the start_vehicle is
-         * assumed to have been already visited!
-         * @param amount An amount of power to traverse with. This is passed back to the visitor,
-         * and reset to the visitor's return value at each step.
-         * @param action A function(vehicle* veh, int amount, int loss) returning int. The function
-         * may do whatever it desires, and may be a lambda (including a capturing lambda).
-         * NB: returning 0 from a visitor will stop traversal immediately!
-         * @return The last visitor's return value.
-         */
-        template <typename Func, typename Vehicle>
-        static int traverse_vehicle_graph( Vehicle *start_veh, int amount, Func action );
+        /// Returns a map of connected vehicle pointers to power loss factor:
+        /// Keys are vehicles connected by POWER_TRANSFER parts, includes self
+        /// Values are line loss, 0.01 corresponds to 1% charge loss to wire resistance
+        /// May load the connected vehicles' submaps
+        /// Templated to support const and non-const vehicle*
+        template<typename Vehicle>
+        static std::map<Vehicle *, float> search_connected_vehicles( Vehicle *start );
     public:
+        //! @copydoc vehicle::search_connected_vehicles( Vehicle *start )
+        std::map<vehicle *, float> search_connected_vehicles();
+        //! @copydoc vehicle::search_connected_vehicles( Vehicle *start )
+        std::map<const vehicle *, float> search_connected_vehicles() const;
+
+        /// Returns a map of connected battery references to power loss factor
+        /// Keys are batteries in vehicles (includes self) connected by POWER_TRANSFER parts
+        /// Values are line loss, 0.01 corresponds to 1% charge loss to wire resistance
+        /// May load the connected vehicles' submaps
+        std::map<vpart_reference, float> search_connected_batteries();
+
         vehicle( map &placed_on, const vproto_id &type_id, int init_veh_fuel = -1,
                  int init_veh_status = -1, bool may_spawn_locked = false );
         vehicle();
@@ -857,10 +862,9 @@ class vehicle
          * Apply damage to part constrained by range [0,durability] possibly destroying it
          * @param pt Part being damaged
          * @param qty maximum amount by which to adjust damage (negative permissible)
-         * @param dt type of damage which may be passed to base @ref item::on_damage callback
          * @return whether part was destroyed as a result of the damage
          */
-        bool mod_hp( vehicle_part &pt, int qty, damage_type dt = damage_type::NONE );
+        bool mod_hp( vehicle_part &pt, int qty );
 
         // check if given player controls this vehicle
         bool player_in_control( const Character &p ) const;
@@ -905,7 +909,7 @@ class vehicle
             old_owner = temp_owner;
         }
         void remove_old_owner() {
-            theft_time = cata::nullopt;
+            theft_time = std::nullopt;
             old_owner = faction_id::NULL_ID();
         }
         void set_owner( const faction_id &new_owner ) {
@@ -956,7 +960,7 @@ class vehicle
         const vpart_info &part_info( int index, bool include_removed = false ) const;
 
         // check if certain part can be mounted at certain position (not accounting frame direction)
-        bool can_mount( const point &dp, const vpart_id &id ) const;
+        ret_val<void> can_mount( const point &dp, const vpart_id &id ) const;
 
         // check if certain part can be unmounted
         bool can_unmount( int p ) const;
@@ -1092,14 +1096,43 @@ class vehicle
         std::vector<int> parts_at_relative( const point &dp, bool use_cache,
                                             bool include_fake = false ) const;
 
-        // returns index of part, inner to given, with certain flag, or -1
-        int part_with_feature( int p, const std::string &f, bool unbroken ) const;
+        /**
+        *  Returns index of part at mount point \p pt which has given \p f flag
+        *  @note does not use relative_parts cache
+        *  @param pt only returns parts from this mount point
+        *  @param f required flag in part's vpart_info flags collection
+        *  @param unbroken if true also requires the part to be !is_broken
+        *  @returns part index or -1
+        */
         int part_with_feature( const point &pt, const std::string &f, bool unbroken ) const;
+        /**
+        *  Returns \p p or part index at mount point \p pt which has given \p f flag
+        *  @note uses relative_parts cache
+        *  @param p index of part to start searching from
+        *  @param f required flag in part's vpart_info flags collection
+        *  @param unbroken if true also requires the part to be !is_broken()
+        *  @returns part index or -1
+        */
         int part_with_feature( int p, vpart_bitflags f, bool unbroken ) const;
-
-        // returns index of part, inner to given, with certain flag, or -1
-        int avail_part_with_feature( int p, const std::string &f ) const;
+        /**
+        *  Returns index of part at mount point \p pt which has given \p f flag
+        *  and is_available(), or -1 if no such part or it's not is_available()
+        *  @note does not use relative_parts cache
+        *  @param pt only returns parts from this mount point
+        *  @param f required flag in part's vpart_info flags collection
+        *  @param unbroken if true also requires the part to be !is_broken
+        *  @returns part index or -1
+        */
         int avail_part_with_feature( const point &pt, const std::string &f ) const;
+        /**
+        *  Returns \p p or part index at mount point \p pt which has given \p f flag
+        *  and is_available(), or -1 if no such part or it's not is_available()
+        *  @note uses relative_parts cache
+        *  @param p index of part to start searching from
+        *  @param f required flag in part's vpart_info flags collection
+        *  @param unbroken if true also requires the part to be !is_broken()
+        *  @returns part index or -1
+        */
         int avail_part_with_feature( int p, vpart_bitflags f ) const;
 
         /**
@@ -1187,8 +1220,9 @@ class vehicle
                                bool below_roof = true, bool roof = true ) const;
         int roof_at_part( int p ) const;
 
-        // Given a part, finds its index in the vehicle
-        int index_of_part( const vehicle_part *part, bool check_removed = false ) const;
+        // Finds index of a given vehicle_part in parts vector, compared by address
+        // @return index or -1 if part is nullptr, not found or removed and include_removed is false.
+        int index_of_part( const vehicle_part *part, bool include_removed = false ) const;
 
         // get symbol for map
         char part_sym( int p, bool exact = false, bool include_fake = true ) const;
@@ -1264,11 +1298,11 @@ class vehicle
         std::list<item *> fuel_items_left();
 
         // Checks how much certain fuel left in tanks.
-        int64_t fuel_left( const itype_id &ftype, bool recurse = false,
+        int64_t fuel_left( const itype_id &ftype,
                            const std::function<bool( const vehicle_part & )> &filter = return_true<const vehicle_part &> )
         const;
         // Checks how much of an engine's current fuel is left in the tanks.
-        int engine_fuel_left( const vehicle_part &vp, bool recurse = false ) const;
+        int engine_fuel_left( const vehicle_part &vp ) const;
         // Returns total vehicle fuel capacity for the given fuel type
         int fuel_capacity( const itype_id &ftype ) const;
 
@@ -1320,13 +1354,12 @@ class vehicle
         // Total power drain across all vehicle accessories.
         units::power total_accessory_epower() const;
         // Net power draw or drain on batteries.
-        units::power net_battery_charge_rate( bool include_reactors = true,
-                                              bool connected_vehicles = false ) const;
+        units::power net_battery_charge_rate( bool include_reactors ) const;
         // Maximum available power available from all reactors. Power from
         // reactors is only drawn when batteries are empty.
         units::power max_reactor_epower() const;
         // Active power from reactors that is actually being drained by batteries.
-        units::power active_reactor_epower( bool connected_vehicles ) const;
+        units::power active_reactor_epower() const;
         // Produce and consume electrical power, with excess power stored or
         // taken from batteries.
         void power_parts();
@@ -1338,20 +1371,26 @@ class vehicle
         std::pair<int, int> connected_battery_power_level() const;
 
         /**
-         * Try to charge our (and, optionally, connected vehicles') batteries by the given amount.
-         * @param amount to discharge in kJ
-         * @param include_other_vehicles if true charge also to cable connected vehicles.
-         * @return amount of charge left over.
-         */
-        int charge_battery( int amount, bool include_other_vehicles = true );
+        * @param apply_loss if true apply wire loss when charge crosses vehicle power cables
+        * @return battery charge in kJ from all connected batteries
+        */
+        int64_t battery_left( bool apply_loss = true ) const;
 
         /**
-         * Try to discharge our (and, optionally, connected vehicles') batteries by the given amount.
-         * @param amount to discharge in kJ
-         * @param recurse if true draws also from cable connected vehicles.
-         * @return amount of request unfulfilled (0 if totally successful).
+         * Charges batteries in connected vehicles/appliances
+         * @param amount to charge in kJ
+         * @param apply_loss if true apply wire loss when charge crosses vehicle power cables
+         * @return 0 or left over charge in kJ which does not fit in any connected batteries
          */
-        int discharge_battery( int amount, bool recurse = true );
+        int charge_battery( int amount, bool apply_loss = true );
+
+        /**
+         * Discharges batteries in connected vehicles/appliances
+         * @param amount to discharge in kJ
+         * @param apply_loss if true apply wire loss when charge crosses vehicle power cables
+         * @return 0 or unfulfilled part of \p amount in kJ
+         */
+        int discharge_battery( int amount, bool apply_loss = true );
 
         /**
          * Mark mass caches and pivot cache as dirty
@@ -1437,7 +1476,7 @@ class vehicle
          */
         int wheel_area() const;
         // average off-road rating for displaying off-road performance
-        float average_or_rating() const;
+        float average_offroad_rating() const;
 
         /**
          * Physical coefficients used for vehicle calculations.
@@ -1489,6 +1528,11 @@ class vehicle
          * is the vehicle mostly in water or mostly on fairly dry land?
          */
         bool is_in_water( bool deep_water = false ) const;
+        /**
+         * should vehicle be handled using watercraft logic
+         * as determined by amount of water it is in (and whether it is amphibious)
+         * result being true does not guarantee it is viable boat -- check @ref can_float()
+         */
         bool is_watercraft() const;
         /**
          * is the vehicle flying? is it a rotorcraft?
@@ -1536,16 +1580,9 @@ class vehicle
         /** Returns roughly driving skill level at which there is no chance of fumbling. */
         float handling_difficulty() const;
 
-        /**
-        * Use vehicle::traverse_vehicle_graph (breadth-first search) to enumerate all vehicles
-        * connected to @ref origins by parts with POWER_TRANSFER flag.
-        * @param origins set of pointers to vehicles to start searching from
-        * @return a map of vehicle pointers to a bool that is true if the
-        * vehicle is in the @ref origins set.
-        */
-        static std::map<vehicle *, bool> enumerate_vehicles( const std::set<vehicle *> &origins );
         // idle fuel consumption
-        void idle( bool on_map = true );
+        // @param on_map if true vehicle processes noise/smoke and updates time
+        void idle( bool on_map );
         // continuous processing for running vehicle alarms
         void alarm();
         // leak from broken tanks
@@ -1560,8 +1597,7 @@ class vehicle
          * @param thrusting must be true when called from vehicle::thrust and vehicle is thrusting
          * @param k_traction_cache cached value of vehicle::k_traction, if empty, will be computed
          */
-        void smart_controller_handle_turn( bool thrusting = false,
-                                           const cata::optional<float> &k_traction_cache = cata::nullopt );
+        void smart_controller_handle_turn( const std::optional<float> &k_traction_cache = std::nullopt );
 
         bool has_available_electric_engine();
         void disable_smart_controller_if_needed();
@@ -1616,6 +1652,28 @@ class vehicle
         units::volume max_volume( int part ) const;
         units::volume free_volume( int part ) const;
         units::volume stored_volume( int part ) const;
+
+        /**
+        * Flags item \p tool with PSEUDO, if it has MOD pocket then a `pseudo_magazine_mod` is
+        * installed and a `pseudo_magazine` is inserted into the magazine well pocket with however
+        * many ammo charges of the first ammo type required by the tool are available to this vehicle.
+        * @param tool the tool item to modify
+        * @return amount of ammo in the `pseudo_magazine` or 0
+        */
+        int prepare_tool( item &tool ) const;
+        /**
+        * if \p tool is not an itype with tool != nullptr this returns { itype::NULL_ID(), 0 } pair
+        * @param tool the item to examine
+        * @return a pair of tool's first ammo type and the amount of it available from tanks / batteries
+        */
+        std::pair<const itype_id &, int> tool_ammo_available( const itype_id &tool_type ) const;
+        /**
+        * @return pseudo- and attached tools available from this vehicle part,
+        * marked with PSEUDO flags, pseudo_magazine_mod and pseudo_magazine attached, magazines filled
+        * with the first ammo type required by the tool. pseudo tools are mapped to their hotkey if exists.
+        */
+        std::map<item, input_event> prepare_tools( const vehicle_part &vp ) const;
+
         /**
          * Update an item's active status, for example when adding
          * hot or perishable liquid to a container.
@@ -1624,13 +1682,13 @@ class vehicle
         /**
          * Try to add an item to part's cargo.
          *
-         * @returns cata::nullopt if it can't be put here (not a cargo part, adding this would violate
+         * @returns std::nullopt if it can't be put here (not a cargo part, adding this would violate
          * the volume limit or item count limit, not all charges can fit, etc.)
          * Otherwise, returns an iterator to the added item in the vehicle stack
          */
-        cata::optional<vehicle_stack::iterator> add_item( int part, const item &itm );
+        std::optional<vehicle_stack::iterator> add_item( int part, const item &itm );
         /** Like the above */
-        cata::optional<vehicle_stack::iterator> add_item( vehicle_part &pt, const item &obj );
+        std::optional<vehicle_stack::iterator> add_item( vehicle_part &pt, const item &obj );
         /**
          * Add an item counted by charges to the part's cargo.
          *
@@ -1644,7 +1702,8 @@ class vehicle
 
         vehicle_stack get_items( int part ) const;
         vehicle_stack get_items( int part );
-        void dump_items_from_part( size_t index );
+        std::vector<item> &get_tools( vehicle_part &vp );
+        const std::vector<item> &get_tools( const vehicle_part &vp ) const;
 
         // Generates starting items in the car, should only be called when placed on the map
         void place_spawn_items();
@@ -1667,10 +1726,11 @@ class vehicle
         // must exceed certain threshold to be subtracted from hp
         // (a lot light collisions will not destroy parts)
         // Returns damage bypassed
-        int damage( map &here, int p, int dmg, damage_type type = damage_type::BASH, bool aimed = true );
+        int damage( map &here, int p, int dmg, const damage_type_id &type = damage_type_id( "bash" ),
+                    bool aimed = true );
 
         // damage all parts (like shake from strong collision), range from dmg1 to dmg2
-        void damage_all( int dmg1, int dmg2, damage_type type, const point &impact );
+        void damage_all( int dmg1, int dmg2, const damage_type_id &type, const point &impact );
 
         //Shifts the coordinates of all parts and moves the vehicle in the opposite direction.
         void shift_parts( map &here, const point &delta );
@@ -1785,8 +1845,6 @@ class vehicle
         // @returns true if succeeded
         bool restore_folded_parts( const item &it );
 
-        //handles locked vehicles interaction
-        bool interact_vehicle_locked();
         //true if an alarm part is installed on the vehicle
         bool has_security_working() const;
         /**
@@ -1830,7 +1888,7 @@ class vehicle
         //true if an engine exists with specified type
         //If enabled true, this engine must be enabled to return true
         bool has_engine_type( const itype_id &ft, bool enabled ) const;
-        bool has_harnessed_animal() const;
+        monster *get_harnessed_animal() const;
         //true if an engine exists without the specified type
         //If enabled true, this engine must be enabled to return true
         bool has_engine_type_not( const itype_id &ft, bool enabled ) const;
@@ -1929,7 +1987,7 @@ class vehicle
         std::vector<vehicle_part> real_parts() const;
         // Map of edge parts and their adjacency information
         std::map<point, vpart_edge_info> edges; // NOLINT(cata-serialize)
-        // For a given mount point, returns it's adjacency info
+        // For a given mount point, returns its adjacency info
         vpart_edge_info get_edge_info( const point &mount ) const;
 
         // Removes fake parts from the parts vector
@@ -1948,7 +2006,7 @@ class vehicle
         vehicle_part &part( int part_num );
         const vehicle_part &part( int part_num ) const;
         // get the parent part of a fake part or return part_num otherwise
-        int get_non_fake_part( int part_num );
+        int get_non_fake_part( int part_num ) const;
         // Updates active state on all fake_mounts based on whether they can fill a gap
         // map.cpp calls this in displace_vehicle
         void update_active_fakes();
@@ -2010,12 +2068,12 @@ class vehicle
         // a magic vehicle, powered by magic.gif
         bool magic = false;
         // when does the magic vehicle disappear?
-        cata::optional<time_duration> summon_time_limit = cata::nullopt;
+        std::optional<time_duration> summon_time_limit = std::nullopt;
         // cached values of the factors that determined last chosen engine state
         // NOLINTNEXTLINE(cata-serialize)
-        cata::optional<smart_controller_cache> smart_controller_state = cata::nullopt;
+        std::optional<smart_controller_cache> smart_controller_state = std::nullopt;
         // SC config. optional, as majority of vehicles don't have SC installed
-        cata::optional<smart_controller_config> smart_controller_cfg = cata::nullopt;
+        std::optional<smart_controller_config> smart_controller_cfg = std::nullopt;
         bool has_enabled_smart_controller = false; // NOLINT(cata-serialize)
 
         void add_tag( const std::string &tag );
@@ -2071,7 +2129,7 @@ class vehicle
          * alpha is 0.5:  avg_velocity = avg_velocity + 0.5(velocity - avg_velocity) = 0.5 avg_velocity + 0.5 velocity
          */
         int avg_velocity = 0;
-        // velocity vehicle's cruise control trying to achieve
+        // velocity the vehicle is trying to achieve
         int cruise_velocity = 0;
         // Only used for collisions, vehicle falls instantly
         int vertical_velocity = 0;
@@ -2088,7 +2146,7 @@ class vehicle
         float of_turn_carry = 0.0f;
         units::power extra_drag = 0_W; // NOLINT(cata-serialize)
         // the time point when it was successfully stolen
-        cata::optional<time_point> theft_time;
+        std::optional<time_point> theft_time;
         // rotation used for mount precalc values
         // NOLINTNEXTLINE(cata-serialize)
         std::array<units::angle, 2> pivot_rotation = { { 0_degrees, 0_degrees } };
@@ -2121,9 +2179,11 @@ class vehicle
         // and that's the bit that controls recalculation.  The intent is to only recalculate
         // the coeffs once per turn, even if multiple parts are destroyed in a collision
         mutable bool coeff_air_changed = true; // NOLINT(cata-serialize)
-        // is the vehicle currently mostly in deep water
-        mutable bool is_floating = false;
-        // is the vehicle currently mostly in water
+        // is at least 2/3 of the vehicle on deep water tiles
+        // -- this is the "sink or swim" threshold
+        mutable bool in_deep_water = false;
+        // is at least 1/2 of the vehicle on water tiles
+        // -- fordable for ground vehicles; non-amphibious boats float
         mutable bool in_water = false;
         // is the vehicle currently flying
         mutable bool is_flying = false;
@@ -2137,9 +2197,6 @@ class vehicle
         bool is_following = false;
         bool is_patrolling = false;
         bool all_wheels_on_one_axis = false; // NOLINT(cata-serialize)
-        // TODO: change these to a bitset + enum?
-        // cruise control on/off
-        bool cruise_on = true;
         // at least one engine is on, of any type
         bool engine_on = false;
         // vehicle tracking on/off

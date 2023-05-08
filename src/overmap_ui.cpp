@@ -1,6 +1,5 @@
 #include "overmap_ui.h"
 
-#include <functional>
 #include <algorithm>
 #include <array>
 #include <chrono>
@@ -11,6 +10,7 @@
 #include <map>
 #include <memory>
 #include <new>
+#include <optional>
 #include <ratio>
 #include <set>
 #include <string>
@@ -34,6 +34,7 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
+#include "city.h"
 #include "clzones.h"
 #include "color.h"
 #include "coordinates.h"
@@ -55,7 +56,6 @@
 #include "mongroup.h"
 #include "npc.h"
 #include "omdata.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
@@ -115,7 +115,7 @@ namespace overmap_ui
 static void create_note( const tripoint_abs_omt &curs );
 
 // {note symbol, note color, offset to text}
-std::tuple<char, nc_color, size_t> get_note_display_info( const std::string &note )
+std::tuple<char, nc_color, size_t> get_note_display_info( const std::string_view note )
 {
     std::tuple<char, nc_color, size_t> result {'N', c_yellow, 0};
     bool set_color  = false;
@@ -179,7 +179,7 @@ static std::array<std::pair<nc_color, std::string>, npm_width *npm_height> get_o
     return map_around;
 }
 
-static void update_note_preview( const std::string &note,
+static void update_note_preview( const std::string_view note,
                                  const std::array<std::pair<nc_color, std::string>, npm_width *npm_height> &map_around,
                                  const std::tuple<catacurses::window *, catacurses::window *, catacurses::window *>
                                  &preview_windows )
@@ -187,7 +187,7 @@ static void update_note_preview( const std::string &note,
     auto om_symbol = get_note_display_info( note );
     const nc_color note_color = std::get<1>( om_symbol );
     const char symbol = std::get<0>( om_symbol );
-    const std::string note_text = note.substr( std::get<2>( om_symbol ), std::string::npos );
+    const std::string_view note_text = note.substr( std::get<2>( om_symbol ), std::string::npos );
 
     catacurses::window *w_preview = std::get<0>( preview_windows );
     catacurses::window *w_preview_title = std::get<1>( preview_windows );
@@ -235,8 +235,7 @@ weather_type_id get_weather_at_point( const tripoint_abs_omt &pos )
     }
     auto iter = weather_cache.find( pos );
     if( iter == weather_cache.end() ) {
-        // TODO: fix point types
-        const tripoint abs_ms_pos = project_to<coords::ms>( pos ).raw();
+        const tripoint_abs_ms abs_ms_pos = project_to<coords::ms>( pos );
         const weather_generator &wgen = overmap_buffer.get_settings( pos ).weather;
         const auto weather = wgen.get_weather_conditions( abs_ms_pos, calendar::turn, g->get_seed() );
         iter = weather_cache.insert( std::make_pair( pos, weather ) ).first;
@@ -1105,7 +1104,7 @@ static void draw_om_sidebar(
                 mvwprintz( wbar, point( 1, ++lines ), c_white, "- %s", pred->id().str() );
             }
         }
-        cata::optional<mapgen_arguments> *args = overmap_buffer.mapgen_args( center );
+        std::optional<mapgen_arguments> *args = overmap_buffer.mapgen_args( center );
         if( args ) {
             if( *args ) {
                 for( const std::pair<const std::string, cata_variant> &arg : ( **args ).map ) {
@@ -1570,14 +1569,14 @@ static void place_ter_or_special( const ui_adaptor &om_ui, tripoint_abs_omt &cur
 
             action = ctxt.handle_input( get_option<int>( "BLINK_SPEED" ) );
 
-            if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
+            if( const std::optional<tripoint> vec = ctxt.get_direction( action ) ) {
                 curs += vec->xy();
             } else if( action == "CONFIRM" ) { // Actually modify the overmap
                 if( terrain ) {
                     overmap_buffer.ter_set( curs, uistate.place_terrain->id.id() );
                     overmap_buffer.set_seen( curs, true );
                 } else {
-                    if( cata::optional<std::vector<tripoint_abs_omt>> used_points =
+                    if( std::optional<std::vector<tripoint_abs_omt>> used_points =
                             overmap_buffer.place_special( *uistate.place_special, curs,
                                                           uistate.omedit_rotation, false, true ) ) {
                         for( const tripoint_abs_omt &pos : *used_points ) {
@@ -1604,7 +1603,7 @@ static void place_ter_or_special( const ui_adaptor &om_ui, tripoint_abs_omt &cur
 
 static void set_special_args( tripoint_abs_omt &curs )
 {
-    cata::optional<mapgen_arguments> *maybe_args = overmap_buffer.mapgen_args( curs );
+    std::optional<mapgen_arguments> *maybe_args = overmap_buffer.mapgen_args( curs );
     if( !maybe_args ) {
         popup( _( "No overmap special args at this location." ) );
         return;
@@ -1613,7 +1612,7 @@ static void set_special_args( tripoint_abs_omt &curs )
         popup( _( "Overmap special args at this location have already been set." ) );
         return;
     }
-    cata::optional<overmap_special_id> s = overmap_buffer.overmap_special_at( curs );
+    std::optional<overmap_special_id> s = overmap_buffer.overmap_special_at( curs );
     if( !s ) {
         popup( _( "No overmap special at this location from which to fetch parameters." ) );
         return;
@@ -1671,7 +1670,7 @@ static std::vector<tripoint_abs_omt> get_overmap_path_to( const tripoint_abs_omt
             params = overmap_path_params::for_watercraft();
         } else if( can_drive ) {
             const float offroad_coeff = player_veh->k_traction( player_veh->wheel_area() *
-                                        player_veh->average_or_rating() );
+                                        player_veh->average_offroad_rating() );
             const bool tiny = player_veh->get_points().size() <= 3;
             params = overmap_path_params::for_land_vehicle( offroad_coeff, tiny, can_float );
         } else {
@@ -1722,7 +1721,7 @@ static bool try_travel_to_destination( avatar &player_character, const tripoint_
     }
     if( query_yn( confirm_msg ) ) {
         if( driving ) {
-            player_character.assign_activity( player_activity( autodrive_activity_actor() ) );
+            player_character.assign_activity( autodrive_activity_actor() );
         } else {
             player_character.reset_move_mode();
             player_character.assign_activity( ACT_TRAVELLING );
@@ -1817,7 +1816,7 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
     bool show_explored = true;
     static bool fast_scroll = false;
     int fast_scroll_offset = get_option<int>( "FAST_SCROLL_OFFSET" );
-    cata::optional<tripoint> mouse_pos;
+    std::optional<tripoint> mouse_pos;
     std::chrono::time_point<std::chrono::steady_clock> last_blink = std::chrono::steady_clock::now();
 
     ui.on_redraw( [&]( ui_adaptor & ui ) {
@@ -1838,7 +1837,7 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
 #else
         action = ictxt.handle_input( get_option<int>( "BLINK_SPEED" ) );
 #endif
-        if( const cata::optional<tripoint> vec = ictxt.get_direction( action ) ) {
+        if( const std::optional<tripoint> vec = ictxt.get_direction( action ) ) {
             int scroll_d = fast_scroll ? fast_scroll_offset : 1;
             curs += vec->xy() * scroll_d;
         } else if( action == "MOUSE_MOVE" || action == "TIMEOUT" ) {
@@ -2075,10 +2074,10 @@ void ui::omap::setup_cities_menu( uilist &cities_menu, std::vector<city> &cities
     }
 }
 
-cata::optional<city> ui::omap::select_city( uilist &cities_menu,
+std::optional<city> ui::omap::select_city( uilist &cities_menu,
         std::vector<city> &cities_container, bool random )
 {
-    cata::optional<city> ret_val = cata::nullopt;
+    std::optional<city> ret_val = std::nullopt;
     if( random ) {
         ret_val = random_entry( cities_container );
     } else {
@@ -2086,7 +2085,7 @@ cata::optional<city> ui::omap::select_city( uilist &cities_menu,
         if( cities_menu.ret == RANDOM_CITY_ENTRY ) {
             ret_val = random_entry( cities_container );
         } else if( cities_menu.ret == UILIST_CANCEL ) {
-            ret_val = cata::nullopt;
+            ret_val = std::nullopt;
         } else {
             if( cities_menu.entries.size() > 1 ) {
                 ret_val = cities_container[cities_menu.selected - 1];

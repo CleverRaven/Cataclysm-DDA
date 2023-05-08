@@ -18,6 +18,7 @@
 
 #include <ghc/fs_std_fwd.hpp>
 
+#include "cata_scope_helpers.h"
 #include "cata_utility.h"
 
 mmap_file::mmap_file() = default;

@@ -144,8 +144,8 @@ double npc_trading::net_price_adjustment( const Character &buyer, const Characte
     ///\EFFECT_BARTER increases bartering price changes, relative to NPC BARTER
     int const int_diff = seller.int_cur - buyer.int_cur;
     double const int_adj = 1 + 0.05 * std::min( 19, std::abs( int_diff ) );
-    double const soc_adj = price_adjustment( seller.get_skill_level( skill_speech ) -
-                           buyer.get_skill_level( skill_speech ) );
+    double const soc_adj = price_adjustment( round( seller.get_skill_level( skill_speech ) -
+                           buyer.get_skill_level( skill_speech ) ) );
     double const adjust = int_diff >= 0 ? int_adj * soc_adj : soc_adj / int_adj;
     return seller.is_npc() ? adjust : -1 / adjust;
 }
@@ -165,7 +165,7 @@ int npc_trading::adjusted_price( item const *it, int amount, Character const &bu
     npc const *faction_party = buyer.is_npc() ? buyer.as_npc() : seller.as_npc();
     faction_price_rule const *const fpr = faction_party->get_price_rules( *it );
 
-    double price = it->price_no_contents( true, fpr != nullptr ? fpr->price : cata::nullopt );
+    double price = it->price_no_contents( true, fpr != nullptr ? fpr->price : std::nullopt );
     if( fpr != nullptr ) {
         price *= fpr->premium;
         if( seller.is_npc() ) {

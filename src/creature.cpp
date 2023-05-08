@@ -7,6 +7,7 @@
 #include <functional>
 #include <map>
 #include <memory>
+#include <optional>
 #include <stack>
 #include <string>
 #include <tuple>
@@ -46,7 +47,6 @@
 #include "morale_types.h"
 #include "mtype.h"
 #include "npc.h"
-#include "optional.h"
 #include "output.h"
 #include "point.h"
 #include "projectile.h"
@@ -65,6 +65,11 @@
 struct mutation_branch;
 
 static const anatomy_id anatomy_human_anatomy( "human_anatomy" );
+
+static const damage_type_id damage_acid( "acid" );
+static const damage_type_id damage_bash( "bash" );
+static const damage_type_id damage_electric( "electric" );
+static const damage_type_id damage_heat( "heat" );
 
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_bounced( "bounced" );
@@ -213,9 +218,7 @@ void Creature::reset_bonuses()
     num_blocks_bonus = 0;
     num_dodges_bonus = 0;
 
-    armor_bash_bonus = 0;
-    armor_cut_bonus = 0;
-    armor_bullet_bonus = 0;
+    armor_bonus.clear();
 
     speed_bonus = 0;
     dodge_bonus = 0;
@@ -234,6 +237,7 @@ void Creature::reset_bonuses()
 
 void Creature::process_turn()
 {
+    decrement_summon_timer();
     if( is_dead_state() ) {
         return;
     }
@@ -250,6 +254,18 @@ void Creature::process_turn()
     if( !has_effect( effect_ridden ) ) {
         moves += get_speed();
     }
+}
+
+bool Creature::cant_do_underwater( bool msg ) const
+{
+    if( is_underwater() ) {
+        if( msg ) {
+            add_msg_player_or_npc( m_info, _( "You can't do that while underwater." ),
+                                   _( "<npcname> can't do that while underwater." ) );
+        }
+        return true;
+    }
+    return false;
 }
 
 bool Creature::is_underwater() const
@@ -755,6 +771,7 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
     attack_copy.type = weakpoint_attack::type_of_melee_attack( d );
 
     on_hit( source, bp_hit ); // trigger on-gethit events
+    dam.onhit_effects( source, this ); // on-hit effects for inflicted damage types
     dealt_dam = deal_damage( source, bp_hit, d, attack_copy );
     dealt_dam.bp_hit = bp_hit;
 }
@@ -975,11 +992,17 @@ void Creature::messaging_projectile_attack( const Creature *source,
                 add_msg( source->is_avatar() ? _( "You miss!" ) : _( "The shot misses!" ) );
             }
         } else if( total_damage == 0 ) {
-            //~ 1$ - monster name, 2$ - character's bodypart or monster's skin/armor
-            add_msg( _( "The shot reflects off %1$s %2$s!" ), disp_name( true ),
-                     is_monster() ?
-                     skin_name() :
-                     body_part_name_accusative( hit_selection.bp_hit ) );
+            if( hit_selection.wp_hit.empty() ) {
+                //~ 1$ - monster name, 2$ - character's bodypart or monster's skin/armor
+                add_msg( _( "The shot reflects off %1$s %2$s!" ), disp_name( true ),
+                         is_monster() ?
+                         skin_name() :
+                         body_part_name_accusative( hit_selection.bp_hit ) );
+            } else {
+                //~ %1$s: creature name, %2$s: weakpoint hit
+                add_msg( _( "The shot hits %1$s in %2$s but deals no damage." ),
+                         disp_name(), hit_selection.wp_hit );
+            }
         } else if( is_avatar() ) {
             //monster hits player ranged
             //~ Hit message. 1$s is bodypart name in accusative. 2$d is damage value.
@@ -1158,7 +1181,7 @@ dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
         deal_damage_handle_type( effect_source( source ), it, bp, cur_damage, total_pain );
         total_base_damage += std::max( 0.0f, it.amount * it.unconditional_damage_mult );
         if( cur_damage > 0 ) {
-            dealt_dams.dealt_dams[ static_cast<int>( it.type ) ] += cur_damage;
+            dealt_dams.dealt_dams[it.type] += cur_damage;
             total_damage += cur_damage;
         }
     }
@@ -1192,61 +1215,47 @@ void Creature::deal_damage_handle_type( const effect_source &source, const damag
 
     float div = 4.0f;
 
-    switch( du.type ) {
-        case damage_type::BASH:
-            // Bashing damage is less painful
-            div = 5.0f;
-            break;
+    // FIXME: Hardcoded damage types
+    if( du.type == damage_bash ) {
+        // Bashing damage is less painful
+        div = 5.0f;
+    } else if( du.type == damage_heat ) {
+        // heat damage sets us on fire sometimes
+        if( rng( 0, 100 ) < adjusted_damage ) {
+            add_effect( source, effect_onfire, rng( 1_turns, 3_turns ), bp );
 
-        case damage_type::HEAT:
-            // heat damage sets us on fire sometimes
-            if( rng( 0, 100 ) < adjusted_damage ) {
-                add_effect( source, effect_onfire, rng( 1_turns, 3_turns ), bp );
-
-                Character &player_character = get_player_character();
-                if( player_character.has_trait( trait_PYROMANIA ) &&
-                    !player_character.has_morale( MORALE_PYROMANIA_STARTFIRE ) && player_character.sees( *this ) ) {
-                    player_character.add_msg_if_player( m_good,
-                                                        _( "You feel a surge of euphoria as flame engulfs %s!" ), this->get_name() );
-                    player_character.add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
-                    player_character.rem_morale( MORALE_PYROMANIA_NOFIRE );
-                }
+            Character &player_character = get_player_character();
+            if( player_character.has_trait( trait_PYROMANIA ) &&
+                !player_character.has_morale( MORALE_PYROMANIA_STARTFIRE ) && player_character.sees( *this ) ) {
+                player_character.add_msg_if_player( m_good,
+                                                    _( "You feel a surge of euphoria as flame engulfs %s!" ), this->get_name() );
+                player_character.add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
+                player_character.rem_morale( MORALE_PYROMANIA_NOFIRE );
             }
-            break;
-
-        case damage_type::ELECTRIC: {
-            // Electrical damage adds a major speed/dex debuff
-            double multiplier = 1.0;
-            if( monster *mon = as_monster() ) {
-                multiplier = mon->type->status_chance_multiplier;
-            }
-            const int chance = std::log10( ( adjusted_damage + 2 ) * 0.5 ) * 100 * multiplier;
-            if( x_in_y( chance, 100 ) ) {
-                const int duration = std::max( adjusted_damage / 10.0 * multiplier, 2.0 );
-                add_effect( source, effect_zapped, 1_turns * duration );
-            }
-
-            if( Character *ch = as_character() ) {
-                const double pain_mult = ch->calculate_by_enchantment( 1.0, enchant_vals::mod::EXTRA_ELEC_PAIN );
-                div /= pain_mult;
-                if( pain_mult > 1.0 ) {
-                    ch->add_msg_player_or_npc( m_bad, _( "You're painfully electrocuted!" ),
-                                               _( "<npcname> is shocked!" ) );
-                }
-            }
-            break;
+        }
+    } else if( du.type == damage_electric ) {
+        // Electrical damage adds a major speed/dex debuff
+        double multiplier = 1.0;
+        if( monster *mon = as_monster() ) {
+            multiplier = mon->type->status_chance_multiplier;
+        }
+        const int chance = std::log10( ( adjusted_damage + 2 ) * 0.5 ) * 100 * multiplier;
+        if( x_in_y( chance, 100 ) ) {
+            const int duration = std::max( adjusted_damage / 10.0 * multiplier, 2.0 );
+            add_effect( source, effect_zapped, 1_turns * duration );
         }
 
-        case damage_type::ACID:
-            // Acid damage and acid burns are more painful
-            div = 3.0f;
-            break;
-
-        case damage_type::CUT:
-        case damage_type::STAB:
-        case damage_type::BULLET:
-        default:
-            break;
+        if( Character *ch = as_character() ) {
+            const double pain_mult = ch->calculate_by_enchantment( 1.0, enchant_vals::mod::EXTRA_ELEC_PAIN );
+            div /= pain_mult;
+            if( pain_mult > 1.0 ) {
+                ch->add_msg_player_or_npc( m_bad, _( "You're painfully electrocuted!" ),
+                                           _( "<npcname> is shocked!" ) );
+            }
+        }
+    } else if( du.type == damage_acid ) {
+        // Acid damage and acid burns are more painful
+        div = 3.0f;
     }
 
     on_damage_of_type( source, adjusted_damage, du.type, bp );
@@ -1836,6 +1845,26 @@ void Creature::set_killer( Creature *const killer )
     }
 }
 
+void Creature::clear_killer()
+{
+    killer = nullptr;
+}
+
+void Creature::set_summon_time( const time_duration &length )
+{
+    lifespan_end = calendar::turn + length;
+}
+
+void Creature::decrement_summon_timer()
+{
+    if( !lifespan_end ) {
+        return;
+    }
+    if( lifespan_end.value() <= calendar::turn ) {
+        die( nullptr );
+    }
+}
+
 int Creature::get_num_blocks() const
 {
     return num_blocks + num_blocks_bonus;
@@ -1871,41 +1900,18 @@ int Creature::get_env_resist( bodypart_id ) const
 {
     return 0;
 }
-int Creature::get_armor_bash( bodypart_id ) const
+int Creature::get_armor_res( const damage_type_id &dt, bodypart_id ) const
 {
-    return armor_bash_bonus;
+    return get_armor_res_bonus( dt );
 }
-int Creature::get_armor_cut( bodypart_id ) const
+int Creature::get_armor_res_base( const damage_type_id &dt, bodypart_id ) const
 {
-    return armor_cut_bonus;
+    return get_armor_res_bonus( dt );
 }
-int Creature::get_armor_bullet( bodypart_id ) const
+int Creature::get_armor_res_bonus( const damage_type_id &dt ) const
 {
-    return armor_bullet_bonus;
-}
-int Creature::get_armor_bash_base( bodypart_id ) const
-{
-    return armor_bash_bonus;
-}
-int Creature::get_armor_cut_base( bodypart_id ) const
-{
-    return armor_cut_bonus;
-}
-int Creature::get_armor_bullet_base( bodypart_id ) const
-{
-    return armor_bullet_bonus;
-}
-int Creature::get_armor_bash_bonus() const
-{
-    return armor_bash_bonus;
-}
-int Creature::get_armor_cut_bonus() const
-{
-    return armor_cut_bonus;
-}
-int Creature::get_armor_bullet_bonus() const
-{
-    return armor_bullet_bonus;
+    auto iter = armor_bonus.find( dt );
+    return iter == armor_bonus.end() ? 0 : std::round( iter->second );
 }
 
 int Creature::get_spell_resist() const
@@ -2630,17 +2636,9 @@ void Creature::mod_num_dodges_bonus( int ndodges )
     num_dodges_bonus += ndodges;
 }
 
-void Creature::set_armor_bash_bonus( int nbasharm )
+void Creature::set_armor_res_bonus( int narm, const damage_type_id &dt )
 {
-    armor_bash_bonus = nbasharm;
-}
-void Creature::set_armor_cut_bonus( int ncutarm )
-{
-    armor_cut_bonus = ncutarm;
-}
-void Creature::set_armor_bullet_bonus( int nbulletarm )
-{
-    armor_bullet_bonus = nbulletarm;
+    armor_bonus[dt] = narm;
 }
 
 void Creature::set_speed_base( int nspeed )
@@ -2799,6 +2797,12 @@ bodypart_id Creature::random_body_part( bool main_parts_only ) const
 {
     const bodypart_id &bp = get_anatomy()->random_body_part();
     return  main_parts_only ? bp->main_part : bp ;
+}
+
+std::vector<bodypart_id> Creature::get_all_eligable_parts( int min_hit, int max_hit,
+        bool can_attack_high ) const
+{
+    return anatomy( get_all_body_parts() ).get_all_eligable_parts( min_hit, max_hit, can_attack_high );
 }
 
 void Creature::add_damage_over_time( const damage_over_time_data &DoT )
@@ -3015,26 +3019,26 @@ tripoint_abs_omt Creature::global_omt_location() const
 std::unique_ptr<talker> get_talker_for( Creature &me )
 {
     if( me.is_monster() ) {
-        return std::make_unique<talker_monster>( static_cast<monster *>( &me ) );
+        return std::make_unique<talker_monster>( me.as_monster() );
     } else if( me.is_npc() ) {
-        return std::make_unique<talker_npc>( static_cast<npc *>( &me ) );
+        return std::make_unique<talker_npc>( me.as_npc() );
     } else if( me.is_avatar() ) {
-        return std::make_unique<talker_avatar>( static_cast<avatar *>( &me ) );
+        return std::make_unique<talker_avatar>( me.as_avatar() );
     } else {
         debugmsg( "Invalid creature type %s.", me.get_name() );
-        standard_npc default_npc( "Default" );
-        return get_talker_for( default_npc );
+        return std::make_unique<talker>();
     }
 }
 
 std::unique_ptr<talker> get_talker_for( const Creature &me )
 {
     if( !me.is_monster() ) {
-        return std::make_unique<talker_character_const>( static_cast<const Character *>( &me ) );
+        return std::make_unique<talker_character_const>( me.as_character() );
+    } else if( me.is_monster() ) {
+        return std::make_unique<talker_monster_const>( me.as_monster() );
     } else {
         debugmsg( "Invalid creature type %s.", me.get_name() );
-        standard_npc default_npc( "Default" );
-        return get_talker_for( default_npc );
+        return std::make_unique<talker>();
     }
 }
 
@@ -3042,17 +3046,15 @@ std::unique_ptr<talker> get_talker_for( Creature *me )
 {
     if( !me ) {
         debugmsg( "Null creature type." );
-        standard_npc default_npc( "Default" );
-        return get_talker_for( default_npc );
+        return std::make_unique<talker>();
     } else if( me->is_monster() ) {
-        return std::make_unique<talker_monster>( static_cast<monster *>( me ) );
+        return std::make_unique<talker_monster>( me->as_monster() );
     } else if( me->is_npc() ) {
-        return std::make_unique<talker_npc>( static_cast<npc *>( me ) );
+        return std::make_unique<talker_npc>( me->as_npc() );
     } else if( me->is_avatar() ) {
-        return std::make_unique<talker_avatar>( static_cast<avatar *>( me ) );
+        return std::make_unique<talker_avatar>( me->as_avatar() );
     } else {
         debugmsg( "Invalid creature type %s.", me->get_name() );
-        standard_npc default_npc( "Default" );
-        return get_talker_for( default_npc );
+        return std::make_unique<talker>();
     }
 }

@@ -105,7 +105,8 @@
     "m2c": 90,
     "contact_area": 60,
     "rolling_resistance": 1.5,
-    "wheel_type": "off-road",
+    "wheel_offroad_rating": 0.7,
+    "wheel_terrain_modifiers": { "FLAT": [ 0, 3 ], "ROAD": [ 0, 1 ] },
     "description": "Attach this part to a beast of burden to allow it to pull your vehicle.",
     "power": "0 W",
     "location": "structure",
@@ -1319,7 +1320,7 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "350 s", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "80 s", "using": [ [ "adhesive", 1 ] ] }
     },
-    "flags": [ "CTRL_ELECTRONIC", "DOME_LIGHT", "ENABLED_DRAINS_EPOWER" ],
+    "flags": [ "CTRL_ELECTRONIC", "DOME_LIGHT", "ENABLED_DRAINS_EPOWER", "WATCH", "ALARMCLOCK" ],
     "breaks_into": [ { "group": "ig_vp_device", "count": [ 2, 3 ] } ]
   },
   {
@@ -1456,7 +1457,7 @@
     "description": "A belt, attached to a seat.",
     "folded_volume": "500 ml",
     "bonus": 10,
-    "item": "rope_6",
+    "item": "seatbelt",
     "location": "on_seat",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "150 s", "using": [ [ "vehicle_screw", 1 ] ] },
@@ -1464,7 +1465,6 @@
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
     },
     "flags": [ "SEATBELT", "SIMPLE_PART" ],
-    "breaks_into": [ { "item": "string_36", "count": [ 0, 3 ] } ],
     "damage_reduction": { "bash": 15 }
   },
   {
@@ -1543,7 +1543,7 @@
     "description": "A series of straps attached to the seat, intended to fasten together after going over your shoulders and hips and between your legs.",
     "folded_volume": "1 L",
     "bonus": 25,
-    "item": "rope_30",
+    "item": "five-point_harness",
     "location": "on_seat",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "using": [ [ "vehicle_screw", 1 ] ] },
@@ -1551,7 +1551,6 @@
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
     },
     "flags": [ "SEATBELT", "SIMPLE_PART" ],
-    "breaks_into": [ { "item": "string_36", "count": [ 0, 3 ] } ],
     "damage_reduction": { "bash": 15 }
   },
   {
@@ -1869,7 +1868,7 @@
     "damage_modifier": 80,
     "durability": 400,
     "description": "A military ASRG covered in heavy plating.  Provides constant albeit low power to your car.",
-    "epower": 130,
+    "epower": "130 W",
     "location": "center",
     "item": "compact_ASRG_containment",
     "requirements": {
@@ -2455,7 +2454,7 @@
     "broken_symbol": "*",
     "broken_color": "dark_gray",
     "damage_modifier": 10,
-    "epower": "1 W",
+    "epower": "1 kW",
     "//": "Epower for POWER_TRANSFER stuff is how much percentage-wise loss there is in transmission",
     "durability": 120,
     "description": "Thick copper cable with leads on either end.  Attach one end to one vehicle and the other to another, and you can transfer electrical power between the two.",
@@ -2474,7 +2473,7 @@
     "broken_symbol": "*",
     "broken_color": "dark_gray",
     "damage_modifier": 10,
-    "epower": "1 W",
+    "epower": "1 kW",
     "//": "Epower for POWER_TRANSFER stuff is how much percentage-wise loss there is in transmission",
     "durability": 120,
     "description": "A long orange extension cord for connecting appliances.  Currently plugged in.",
@@ -2493,7 +2492,7 @@
     "broken_symbol": "*",
     "broken_color": "dark_gray",
     "damage_modifier": 10,
-    "epower": "1 W",
+    "epower": "1 kW",
     "//": "Epower for POWER_TRANSFER stuff is how much percentage-wise loss there is in transmission",
     "durability": 120,
     "description": "An extra long 30m orange extension cord for connecting outdoor appliances.  Currently plugged in.",
@@ -2514,7 +2513,7 @@
     "damage_modifier": 10,
     "durability": 120,
     "description": "Very thick copper cable with leads on either end.  Attach one end to one vehicle and the other to another, and you can transfer electrical power between the two.",
-    "epower": "5 W",
+    "epower": "5 kW",
     "//": "Epower for POWER_TRANSFER stuff is how much percentage-wise loss there is in transmission",
     "item": "jumper_cable_heavy",
     "requirements": { "removal": { "time": "5 s" } },
@@ -2896,7 +2895,7 @@
   {
     "type": "vehicle_part",
     "id": "vehicle_clock",
-    "name": { "str": "clock" },
+    "name": { "str": "makeshift clock" },
     "symbol": ":",
     "categories": [ "other" ],
     "color": "light_gray",
@@ -3084,7 +3083,7 @@
       "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ], [ "soldering_standard", 2 ] ] }
     },
     "flags": [  ],
-    "pseudo_tools": [ { "id": "pseudo_water_purifier", "hotkey": "p" } ],
+    "pseudo_tools": [ { "id": "water_purifier", "hotkey": "p" } ],
     "breaks_into": [ { "item": "plastic_chunk", "count": [ 1, 2 ] } ],
     "damage_reduction": { "all": 26 }
   },
@@ -3370,7 +3369,7 @@
       { "item": "motor_tiny", "prob": 25 }
     ],
     "damage_reduction": { "all": 32 },
-    "flag": "EXTRA_DRAG"
+    "flags": [ "EXTRA_DRAG" ]
   },
   {
     "type": "vehicle_part",
@@ -3403,6 +3402,6 @@
       { "item": "scrap_copper", "count": [ 1, 2 ] }
     ],
     "damage_reduction": { "all": 32 },
-    "flag": "EXTRA_DRAG"
+    "flags": [ "EXTRA_DRAG" ]
   }
 ]

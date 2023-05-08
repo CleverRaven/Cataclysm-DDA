@@ -275,6 +275,16 @@
   },
   {
     "type": "item_group",
+    "id": "hospital_oxygen",
+    "items": [
+      { "item": "smoxygen_tank", "charges": 0, "count": [ 0, 4 ] },
+      { "item": "smoxygen_tank", "prob": 60, "charges": [ 0, 12 ] },
+      { "item": "oxygen_tank", "charges": 0, "count": [ 0, 2 ] },
+      { "item": "oxygen_tank", "prob": 40, "charges": [ 0, 24 ] }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "cave_minerals",
     "subtype": "distribution",
     "entries": [ { "item": "material_niter", "prob": 20 }, { "item": "material_limestone", "prob": 5 } ]
@@ -794,7 +804,6 @@
       [ "wrapper_foil", 20 ],
       [ "cup_foil", 1 ],
       [ "golf_club", 3 ],
-      [ "antenna", 30 ],
       [ "bat_metal", 2 ],
       [ "can_drink", 130 ],
       [ "can_drink", 130 ],
@@ -806,7 +815,8 @@
       [ "rebreather", 1 ],
       [ "small_scuba_tank", 1 ],
       [ "hand_pump", 3 ],
-      [ "pilot_light", 30 ]
+      [ "pilot_light", 30 ],
+      [ "waffleiron", 30 ]
     ]
   },
   {
@@ -827,7 +837,8 @@
       [ "copper_locket", 25 ],
       [ "jumper_cable", 10 ],
       [ "jumper_cable_heavy", 10 ],
-      [ "extension_cable", 10 ]
+      [ "extension_cable", 10 ],
+      [ "antenna", 30 ]
     ]
   },
   {
@@ -838,7 +849,6 @@
       { "item": "oil_lamp", "prob": 20, "charges-min": 0, "charges-max": 3 },
       [ "steam_triple_small", 1 ],
       [ "steam_triple_medium", 1 ],
-      [ "waffleiron", 60 ],
       [ "spring", 150 ],
       [ "pastaextruder", 75 ],
       { "item": "nail", "prob": 300, "charges-min": 1, "charges-max": 15 },
@@ -974,7 +984,6 @@
       [ "survnote", 1 ],
       [ "tinder", 1 ],
       { "item": "hobo_stove", "prob": 1 },
-      { "item": "l-stick", "prob": 1, "charges": [ 0, 500 ] },
       [ "eclipse_glasses", 1 ],
       { "group": "writing_utensils", "prob": 5 }
     ]
@@ -1082,7 +1091,11 @@
       { "item": "bronze_pickaxe", "prob": 2, "damage": [ 2, 4 ] },
       { "item": "bone_flute", "prob": 10, "damage": [ 2, 4 ] },
       { "item": "spear_stone", "prob": 50, "damage": [ 2, 4 ] },
-      { "item": "hand_axe", "prob": 50, "damage": [ 2, 4 ] }
+      { "item": "hand_axe", "prob": 50, "damage": [ 2, 4 ] },
+      { "item": "bone_fossil", "prob": 20, "damage": [ 2, 4 ] },
+      { "item": "large_bone_fossil", "prob": 20, "damage": [ 2, 4 ] },
+      { "item": "bone_plaster", "prob": 50, "damage": [ 2, 4 ] },
+      { "item": "large_bone_plaster", "prob": 50, "damage": [ 2, 4 ] }
     ]
   },
   {
@@ -1226,7 +1239,7 @@
       { "item": "matches", "prob": 60, "charges": [ 0, 20 ] },
       { "item": "ref_matches", "prob": 60, "charges": [ 0, 32 ] },
       [ "sewage", 60 ],
-      [ "improvised_pipebomb", 4 ],
+      [ "pipebomb", 4 ],
       { "item": "crack", "prob": 8, "charges": [ 1, 4 ] },
       [ "crackpipe", 37 ],
       { "item": "lsd", "prob": 10, "charges": [ 1, 5 ] },
@@ -1295,8 +1308,7 @@
       [ "material_shrd_limestone", 40 ],
       [ "material_niter", 5 ],
       [ "chem_rdx", 5 ],
-      [ "chem_hmtd", 10 ],
-      [ "tool_anfo_charge", 2 ]
+      [ "chem_hmtd", 10 ]
     ]
   },
   {
@@ -1304,7 +1316,7 @@
     "id": "mine_materials",
     "subtype": "collection",
     "entries": [
-      { "item": "coal_lump", "prob": 20, "count": [ 10, 200 ] },
+      { "item": "coal_lump", "prob": 20, "count": [ 2, 20 ] },
       { "item": "rock", "prob": 40, "count": [ 1, 10 ] },
       { "item": "rock_large", "prob": 10, "count": [ 1, 10 ] },
       { "item": "rock_flaking", "prob": 20, "count": [ 1, 10 ] },
@@ -1369,7 +1381,6 @@
       { "group": "tools_toolbox", "prob": 1 },
       [ "apron_leather", 5 ],
       [ "apron_cut_resistant", 10 ],
-      [ "tool_anfo_charge", 1 ],
       { "item": "remotevehcontrol", "prob": 10, "charges": [ 0, 100 ] }
     ]
   },
@@ -1438,6 +1449,8 @@
       [ "horn_big", 2 ],
       [ "horn_bicycle", 8 ],
       [ "seat", 8 ],
+      { "item": "seatbelt", "prob": 8 },
+      { "item": "five-point_harness", "prob": 2 },
       [ "seat_leather", 1 ],
       [ "saddle", 8 ],
       [ "wheel", 10 ],
@@ -2023,11 +2036,9 @@
       [ "cookbook_italian", 25 ],
       [ "cookbook_mexican", 14 ],
       [ "manual_electronics", 20 ],
-      [ "decoy_elfa", 5 ],
       [ "manual_tailor", 15 ],
       [ "manual_carpentry", 10 ],
       [ "101_carpentry", 10 ],
-      [ "manual_driving", 20 ],
       [ "textbook_speech", 12 ],
       { "group": "novels", "prob": 439 },
       { "group": "kids_books", "prob": 50 },
@@ -2072,7 +2083,9 @@
       [ "sandbox_kit", 1 ],
       [ "dnd_handbook", 1 ],
       [ "balloon", 5 ],
-      { "group": "writing_utensils", "prob": 40 }
+      { "item": "scissors_wavy", "prob": 7 },
+      { "group": "pencil_case_contents", "prob": 50 },
+      { "group": "pencil_case_with_contents", "prob": 30 }
     ]
   },
   {
@@ -2118,6 +2131,7 @@
       { "item": "mutagen", "prob": 1 },
       { "item": "purifier", "prob": 1 },
       { "item": "yeast", "prob": 3 },
+      { "item": "yogurt_starter_culture", "prob": 1 },
       { "item": "royal_jelly", "prob": 4 },
       { "item": "superglue", "prob": 30 },
       { "item": "bottle_glass", "prob": 10 },
@@ -2490,7 +2504,7 @@
       { "item": "extinguisher", "prob": 20, "charges": 100 },
       { "item": "flashlight", "prob": 40, "charges": [ 0, 300 ] },
       { "item": "heavy_flashlight", "prob": 5, "charges": [ 0, 300 ] },
-      { "item": "mess_kit", "prob": 10, "charges": [ 0, 500 ] },
+      { "item": "mess_kit", "prob": 10 },
       { "item": "hotplate", "prob": 10, "charges": [ 0, 500 ] },
       { "item": "popcan_stove", "prob": 5, "charges": [ 0, 500 ] },
       { "item": "denat_alcohol", "prob": 6, "charges-min": 250 },
@@ -2557,7 +2571,6 @@
       [ "chem_hexamine", 4 ],
       { "item": "esbit_stove", "prob": 8, "charges": [ 0, 50 ] },
       [ "bottle_folding", 6 ],
-      [ "mess_tin", 8 ],
       [ "metal_file", 5 ],
       [ "pin_reamer", 3 ],
       { "group": "writing_utensils", "prob": 20 }
@@ -2739,7 +2752,7 @@
       { "group": "jewelry_accessories", "prob": 35 },
       [ "story_book", 5 ],
       [ "syringe", 3 ],
-      [ "teddy", 15 ],
+      { "item": "teddy_bear", "custom-flags": [ "FILTHY" ], "damage": [ 0, 3 ], "prob": 15 },
       [ "arm", 5 ],
       [ "leg", 5 ],
       [ "fetus", 5 ],

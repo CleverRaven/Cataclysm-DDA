@@ -1,4 +1,5 @@
 #include <memory>
+#include <optional>
 #include <vector>
 
 #include "action.h"
@@ -10,7 +11,6 @@
 #include "item.h"
 #include "map.h"
 #include "map_helpers.h"
-#include "optional.h"
 #include "player_helpers.h"
 #include "point.h"
 #include "type_id.h"
@@ -72,8 +72,9 @@ TEST_CASE( "ensure_fake_parts_enable_on_place", "[vehicle] [vehicle_fake]" )
         const tripoint test_origin( 30, 30, 0 );
 
         for( int quadrant = 0; quadrant < 4; quadrant += 1 ) {
-            for( int sub_angle = 0; sub_angle < 6; sub_angle += 1 )  {
-                const units::angle angle = quadrant * 90_degrees + sub_angle * 15_degrees;
+            for( int sub_angle = 0; sub_angle < std::round( 90_degrees / vehicles::steer_increment );
+                 sub_angle += 1 )  {
+                const units::angle angle = quadrant * 90_degrees + sub_angle * vehicles::steer_increment;
                 really_clear_map();
                 map &here = get_map();
 
@@ -139,16 +140,15 @@ TEST_CASE( "ensure_fake_parts_enable_on_turn", "[vehicle] [vehicle_fake]" )
         const int target_velocity = 12 * 100;
         veh->cruise_velocity = target_velocity;
         veh->velocity = veh->cruise_velocity;
-        veh->cruise_on = true;
 
         for( int quadrant = 0; quadrant < 4; quadrant += 1 ) {
-            for( int sub_angle = 0; sub_angle < 6; sub_angle += 1 )  {
-                const units::angle angle = quadrant * 90_degrees + sub_angle * 15_degrees;
+            for( int sub_angle = 0; sub_angle < std::round( 90_degrees / vehicles::steer_increment );
+                 sub_angle += 1 )  {
+                const units::angle angle = quadrant * 90_degrees + sub_angle * vehicles::steer_increment;
                 here.vehmove();
-                REQUIRE( veh->cruise_on );
                 validate_part_count( *veh, target_velocity, angle, original_parts, fake_parts,
                                      active_fakes_by_angle.at( sub_angle ) );
-                veh->turn( 15_degrees );
+                veh->turn( vehicles::steer_increment );
                 veh->velocity = veh->cruise_velocity;
             }
         }

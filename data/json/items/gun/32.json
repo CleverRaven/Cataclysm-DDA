@@ -12,7 +12,6 @@
     "price": 43000,
     "price_postapoc": 1000,
     "to_hit": -1,
-    "bashing": 8,
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -22,7 +21,6 @@
     "durability": 8,
     "min_cycle_recoil": 135,
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -37,7 +35,8 @@
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "flags": [ "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
-    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "sigp230mag" ] } ]
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "sigp230mag" ] } ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "skorpion_61",
@@ -53,7 +52,6 @@
     "price": 150000,
     "price_postapoc": 2500,
     "to_hit": -2,
-    "bashing": 9,
     "material": [ "steel" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -65,7 +63,6 @@
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 5 ] ],
     "built_in_mods": [ "folding_stock" ],
     "valid_mod_locations": [
-      [ "accessories", 3 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -79,7 +76,8 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "skorpion61mag" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "skorpion61mag" ] } ],
+    "melee_damage": { "bash": 9 }
   },
   {
     "id": "walther_ppk",
@@ -95,7 +93,6 @@
     "price": 45000,
     "price_postapoc": 1250,
     "to_hit": -1,
-    "bashing": 8,
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "light_gray",
@@ -105,7 +102,6 @@
     "durability": 8,
     "min_cycle_recoil": 135,
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -120,7 +116,8 @@
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "flags": [ "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
-    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ppkmag" ] } ]
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ppkmag" ] } ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "kp32",
@@ -136,13 +133,13 @@
     "price": 14000,
     "price_postapoc": 1000,
     "to_hit": -3,
-    "bashing": 1,
     "material": [ "steel", "plastic", "aluminum" ],
     "color": "dark_gray",
     "ammo": [ "32" ],
     "dispersion": 480,
     "durability": 8,
     "min_cycle_recoil": 135,
-    "pocket_data": [ { "magazine_well": "41 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "kp32mag" ] } ]
+    "pocket_data": [ { "magazine_well": "41 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "kp32mag" ] } ],
+    "melee_damage": { "bash": 1 }
   }
 ]
