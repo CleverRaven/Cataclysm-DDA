@@ -30,13 +30,13 @@
     "effect": [
       {
         "u_roll_remainder": [
-          "feline_potion",
-          "lupine_potion",
-          "cephalopod_potion",
-          "plant_potion",
-          "scorpion_potion",
-          "butterfly_potion",
-          "spider_potion"
+          "feline_periapta",
+          "lupine_periapta",
+          "cephalopod_periapta",
+          "plant_periapta",
+          "scorpion_periapta",
+          "butterfly_periapta",
+          "spider_periapta"
         ],
         "type": "recipe"
       },

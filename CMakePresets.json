@@ -23,7 +23,7 @@
         "LOCALIZE": "True",
         "TILES": "True",
         "SOUND": "True",
-        "TESTS":  "False"
+        "TESTS": "False"
       }
     },
     {
@@ -47,9 +47,6 @@
     }
   ],
   "buildPresets": [
-    {
-      "name": "linux-tiles-sounds-x64",
-      "configurePreset": "linux-tiles-sounds-x64"
-    }
+    { "name": "linux-tiles-sounds-x64", "configurePreset": "linux-tiles-sounds-x64" }
   ]
 }
