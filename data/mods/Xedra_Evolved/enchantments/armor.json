@@ -68,9 +68,6 @@
     "type": "effect_on_condition",
     "id": "DECREASE_BERSERKER",
     "recurrence": "25 s",
-    "effect": [
-      { "u_message": "BERSERK -1.", "type": "debug" },
-      { "arithmetic": [ { "global_val": "var", "var_name": "BERSERKER" }, "--" ], "min": 0 }
-    ]
+    "effect": [ { "arithmetic": [ { "global_val": "var", "var_name": "BERSERKER" }, "--" ], "min": 0 } ]
   }
 ]

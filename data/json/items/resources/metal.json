@@ -404,7 +404,8 @@
     "weight": "2 g",
     "//": "Density ~ 8g/cm³ ~ 2000kg/250ml @ stack 1000 = 2g/unit",
     "ammo_type": "components",
-    "count": 200
+    "count": 200,
+    "flags": [ "UNRECOVERABLE" ]
   },
   {
     "type": "AMMO",

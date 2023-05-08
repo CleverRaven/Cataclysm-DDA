@@ -794,15 +794,24 @@
     "temp_mod": [ 500, 500 ],
     "technique_encumbrance_limit": 10,
     "bmi_encumbrance_threshold": 15,
-    "bmi_encumbrance_scalar": 0.5
+    "bmi_encumbrance_scalar": 0.5,
+    "sub_parts": [ "sub_limb_debug_tail" ]
   },
   {
     "id": "sub_limb_debug",
     "type": "sub_body_part",
-    "parent": "debug_tail",
+    "parent": "bp_null",
     "side": 0,
     "opposite": "sub_limb_debug",
     "name": "debug limb should never be seen"
+  },
+  {
+    "id": "sub_limb_debug_tail",
+    "type": "sub_body_part",
+    "parent": "debug_tail",
+    "side": 0,
+    "opposite": "sub_limb_debug_tail",
+    "name": "debug limb for debug tail"
   },
   {
     "id": "torso_upper",

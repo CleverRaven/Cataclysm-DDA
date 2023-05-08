@@ -633,6 +633,16 @@ void game::toggle_pixel_minimap() const
 #endif // TILES
 }
 
+void game::toggle_language_to_en()
+{
+    const std::string english = "en" ;
+    static std::string secondary_lang = english;
+    std::string current_lang = TranslationManager::GetInstance().GetCurrentLanguage();
+    secondary_lang = current_lang != english ? current_lang : secondary_lang;
+    std::string new_lang = current_lang != english ? english : secondary_lang;
+    set_language( new_lang );
+}
+
 bool game::is_tileset_isometric() const
 {
 #if defined(TILES)
@@ -1967,119 +1977,129 @@ int game::inventory_item_menu( item_location locThisItem,
             add_key_to_quick_shortcuts( oThisItem.invlet, "INVENTORY", false );
         }
 #endif
-
+        const bool bHPR = get_auto_pickup().has_rule( &oThisItem );
         std::vector<iteminfo> vThisItem;
         std::vector<iteminfo> vDummy;
-
-        const bool bHPR = get_auto_pickup().has_rule( &oThisItem );
-        const hint_rating rate_drop_item = u.get_wielded_item() &&
-                                           u.get_wielded_item()->has_flag( flag_NO_UNWIELD ) ?
-                                           hint_rating::cant : hint_rating::good;
-
-        uilist action_menu;
-        action_menu.allow_anykey = true;
-        const auto addentry = [&]( const char key, const std::string & text, const hint_rating hint ) {
-            // The char is used as retval from the uilist *and* as hotkey.
-            action_menu.addentry( key, true, key, text );
-            auto &entry = action_menu.entries.back();
-            switch( hint ) {
-                case hint_rating::cant:
-                    entry.text_color = c_light_gray;
-                    break;
-                case hint_rating::iffy:
-                    entry.text_color = c_light_red;
-                    break;
-                case hint_rating::good:
-                    entry.text_color = c_light_green;
-                    break;
-            }
-        };
-        addentry( 'a', pgettext( "action", "activate" ), rate_action_use( u, oThisItem ) );
-        addentry( 'R', pgettext( "action", "read" ), rate_action_read( u, oThisItem ) );
-        addentry( 'E', pgettext( "action", "eat" ), rate_action_eat( u, oThisItem ) );
-        addentry( 'W', pgettext( "action", "wear" ), rate_action_wear( u, oThisItem ) );
-        addentry( 'w', pgettext( "action", "wield" ), rate_action_wield( u, oThisItem ) );
-        addentry( 't', pgettext( "action", "throw" ), rate_action_wield( u, oThisItem ) );
-        addentry( 'c', pgettext( "action", "change side" ), rate_action_change_side( u, oThisItem ) );
-        addentry( 'T', pgettext( "action", "take off" ), rate_action_take_off( u, oThisItem ) );
-        addentry( 'd', pgettext( "action", "drop" ), rate_drop_item );
-        addentry( 'U', pgettext( "action", "unload" ), u.rate_action_unload( oThisItem ) );
-        addentry( 'r', pgettext( "action", "reload" ), u.rate_action_reload( oThisItem ) );
-        addentry( 'p', pgettext( "action", "part reload" ), u.rate_action_reload( oThisItem ) );
-        addentry( 'm', pgettext( "action", "mend" ), rate_action_mend( u, oThisItem ) );
-        addentry( 'D', pgettext( "action", "disassemble" ), rate_action_disassemble( u, oThisItem ) );
-        if( oThisItem.is_container() && !oThisItem.is_corpse() ) {
-            addentry( 'i', pgettext( "action", "insert" ), rate_action_insert( u, locThisItem ) );
-            if( oThisItem.num_item_stacks() > 0 ) {
-                addentry( 'o', pgettext( "action", "open" ), hint_rating::good );
-            }
-            addentry( 'v', pgettext( "action", "pocket settings" ), hint_rating::good );
-        }
-
-        if( oThisItem.is_favorite ) {
-            addentry( 'f', pgettext( "action", "unfavorite" ), hint_rating::good );
-        } else {
-            addentry( 'f', pgettext( "action", "favorite" ), hint_rating::good );
-        }
-
-        addentry( 'V', pgettext( "action", "view recipe" ), rate_action_view_recipe( u, oThisItem ) );
-        addentry( '>', pgettext( "action", "hide contents" ), rate_action_collapse( oThisItem ) );
-        addentry( '<', pgettext( "action", "show contents" ), rate_action_expand( oThisItem ) );
-        addentry( '=', pgettext( "action", "reassign" ), hint_rating::good );
-
-        if( bHPR ) {
-            addentry( '-', _( "Auto pickup" ), hint_rating::iffy );
-        } else {
-            addentry( '+', _( "Auto pickup" ), hint_rating::good );
-        }
-
+        item_info_data data;
         int iScrollPos = 0;
-        oThisItem.info( true, vThisItem );
-
-        action_menu.w_y_setup = 0;
-        action_menu.w_x_setup = [&]( const int popup_width ) -> int {
-            switch( position )
-            {
-                default:
-                case RIGHT_TERMINAL_EDGE:
-                    return 0;
-                case LEFT_OF_INFO:
-                    return iStartX() - popup_width;
-                case RIGHT_OF_INFO:
-                    return iStartX() + iWidth();
-                case LEFT_TERMINAL_EDGE:
-                    return TERMX - popup_width;
-            }
-        };
-        // Filtering isn't needed, the number of entries is manageable.
-        action_menu.filtering = false;
-        // Default menu border color is different, this matches the border of the item info window.
-        action_menu.border_color = BORDER_COLOR;
-
-        item_info_data data( oThisItem.tname(), oThisItem.type_name(), vThisItem, vDummy, iScrollPos );
-        data.without_getch = true;
-
-        catacurses::window w_info;
         int iScrollHeight = 0;
-
-        std::unique_ptr<ui_adaptor> ui = std::make_unique<ui_adaptor>();
-        ui->on_screen_resize( [&]( ui_adaptor & ui ) {
-            w_info = catacurses::newwin( TERMY, iWidth(), point( iStartX(), 0 ) );
-            iScrollHeight = TERMY - 2;
-            ui.position_from_window( w_info );
-        } );
-        ui->mark_resize();
-
-        ui->on_redraw( [&]( const ui_adaptor & ) {
-            draw_item_info( w_info, data );
-        } );
-
-        action_menu.additional_actions = {
-            { "RIGHT", translation() }
-        };
+        uilist action_menu;
+        std::unique_ptr<ui_adaptor> ui;
 
         bool exit = false;
+        bool first_execution = true;
+        static int lang_version = detail::get_current_language_version();
         do {
+            //lang check here is needed to redraw the menu when using "Toggle language to English" option
+            if( first_execution || lang_version != detail::get_current_language_version() ) {
+
+                const hint_rating rate_drop_item = u.get_wielded_item() &&
+                                                   u.get_wielded_item()->has_flag( flag_NO_UNWIELD ) ?
+                                                   hint_rating::cant : hint_rating::good;
+                action_menu.reset();
+                action_menu.allow_anykey = true;
+                const auto addentry = [&]( const char key, const std::string & text, const hint_rating hint ) {
+                    // The char is used as retval from the uilist *and* as hotkey.
+                    action_menu.addentry( key, true, key, text );
+                    auto &entry = action_menu.entries.back();
+                    switch( hint ) {
+                        case hint_rating::cant:
+                            entry.text_color = c_light_gray;
+                            break;
+                        case hint_rating::iffy:
+                            entry.text_color = c_light_red;
+                            break;
+                        case hint_rating::good:
+                            entry.text_color = c_light_green;
+                            break;
+                    }
+                };
+                addentry( 'a', pgettext( "action", "activate" ), rate_action_use( u, oThisItem ) );
+                addentry( 'R', pgettext( "action", "read" ), rate_action_read( u, oThisItem ) );
+                addentry( 'E', pgettext( "action", "eat" ), rate_action_eat( u, oThisItem ) );
+                addentry( 'W', pgettext( "action", "wear" ), rate_action_wear( u, oThisItem ) );
+                addentry( 'w', pgettext( "action", "wield" ), rate_action_wield( u, oThisItem ) );
+                addentry( 't', pgettext( "action", "throw" ), rate_action_wield( u, oThisItem ) );
+                addentry( 'c', pgettext( "action", "change side" ), rate_action_change_side( u, oThisItem ) );
+                addentry( 'T', pgettext( "action", "take off" ), rate_action_take_off( u, oThisItem ) );
+                addentry( 'd', pgettext( "action", "drop" ), rate_drop_item );
+                addentry( 'U', pgettext( "action", "unload" ), u.rate_action_unload( oThisItem ) );
+                addentry( 'r', pgettext( "action", "reload" ), u.rate_action_reload( oThisItem ) );
+                addentry( 'p', pgettext( "action", "part reload" ), u.rate_action_reload( oThisItem ) );
+                addentry( 'm', pgettext( "action", "mend" ), rate_action_mend( u, oThisItem ) );
+                addentry( 'D', pgettext( "action", "disassemble" ), rate_action_disassemble( u, oThisItem ) );
+                if( oThisItem.is_container() && !oThisItem.is_corpse() ) {
+                    addentry( 'i', pgettext( "action", "insert" ), rate_action_insert( u, locThisItem ) );
+                    if( oThisItem.num_item_stacks() > 0 ) {
+                        addentry( 'o', pgettext( "action", "open" ), hint_rating::good );
+                    }
+                    addentry( 'v', pgettext( "action", "pocket settings" ), hint_rating::good );
+                }
+
+                if( oThisItem.is_favorite ) {
+                    addentry( 'f', pgettext( "action", "unfavorite" ), hint_rating::good );
+                } else {
+                    addentry( 'f', pgettext( "action", "favorite" ), hint_rating::good );
+                }
+
+                addentry( 'V', pgettext( "action", "view recipe" ), rate_action_view_recipe( u, oThisItem ) );
+                addentry( '>', pgettext( "action", "hide contents" ), rate_action_collapse( oThisItem ) );
+                addentry( '<', pgettext( "action", "show contents" ), rate_action_expand( oThisItem ) );
+                addentry( '=', pgettext( "action", "reassign" ), hint_rating::good );
+
+                if( bHPR ) {
+                    addentry( '-', _( "Auto pickup" ), hint_rating::iffy );
+                } else {
+                    addentry( '+', _( "Auto pickup" ), hint_rating::good );
+                }
+
+                oThisItem.info( true, vThisItem );
+
+                action_menu.w_y_setup = 0;
+                action_menu.w_x_setup = [&]( const int popup_width ) -> int {
+                    switch( position )
+                    {
+                        default:
+                        case RIGHT_TERMINAL_EDGE:
+                            return 0;
+                        case LEFT_OF_INFO:
+                            return iStartX() - popup_width;
+                        case RIGHT_OF_INFO:
+                            return iStartX() + iWidth();
+                        case LEFT_TERMINAL_EDGE:
+                            return TERMX - popup_width;
+                    }
+                };
+                // Filtering isn't needed, the number of entries is manageable.
+                action_menu.filtering = false;
+                // Default menu border color is different, this matches the border of the item info window.
+                action_menu.border_color = BORDER_COLOR;
+
+                data = item_info_data( oThisItem.tname(), oThisItem.type_name(), vThisItem, vDummy, iScrollPos );
+                data.without_getch = true;
+
+                catacurses::window w_info;
+
+                ui = std::make_unique<ui_adaptor>();
+                ui->on_screen_resize( [&]( ui_adaptor & ui ) {
+                    w_info = catacurses::newwin( TERMY, iWidth(), point( iStartX(), 0 ) );
+                    iScrollHeight = TERMY - 2;
+                    ui.position_from_window( w_info );
+                } );
+                ui->mark_resize();
+
+                ui->on_redraw( [&]( const ui_adaptor & ) {
+                    draw_item_info( w_info, data );
+                } );
+
+                action_menu.additional_actions = {
+                    { "RIGHT", translation() }
+                };
+
+                lang_version = detail::get_current_language_version();
+                first_execution = false;
+            }
+
             const int prev_selected = action_menu.selected;
             action_menu.query( false );
             if( action_menu.ret >= 0 ) {
@@ -2103,6 +2123,7 @@ int game::inventory_item_menu( item_location locThisItem,
                 exit = true;
                 ui = nullptr;
             }
+
 
             switch( cMenu ) {
                 case 'a': {
@@ -3356,6 +3377,11 @@ bool game::save()
             world_generator->last_character_name = u.name;
             world_generator->save_last_world_info();
             world_generator->active_world->add_save( save_t::from_save_id( u.get_save_id() ) );
+            write_to_file( PATH_INFO::world_base_save_path_path() / ( base64_encode(
+            u.get_save_id() ) + ".pt" ), [&total_time_played]( std::ostream & fout ) {
+                fout.imbue( std::locale::classic() );
+                fout << total_time_played.count();
+            } );
             return true;
         }
     } catch( std::ios::failure & ) {

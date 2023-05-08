@@ -1486,6 +1486,7 @@
     "healthy": -1,
     "fun": 15,
     "addiction_potential": 5,
+    "material": [ "veggy" ],
     "flags": [ "NO_INGEST", "EDIBLE_FROZEN" ],
     "use_action": {
       "type": "consume_drug",

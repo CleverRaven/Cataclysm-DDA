@@ -630,7 +630,7 @@ There are two possible syntaxes.  The first is by defining an enchantment object
     "id": "ENCH_INVISIBILITY",
     "condition": "ALWAYS",
     "has": "WIELD",
-    "hit_you_effect": [ { "id": "AEA_FIREBALL" } ],
+    "hit_you_effect": [ { "id": "AEA_FIREBALL", "hit_self": true, "once_in": 12 } ],
     "hit_me_effect": [ { "id": "AEA_HEAL" } ],
     "values": [ { "value": "STRENGTH", "multiply": 1.1, "add": -5 } ],
     "emitter": "emit_AEP_SMOKE",
@@ -785,6 +785,7 @@ Character status value  | Description
 `BONUS_BLOCK`           | Affects the number of blocks you can perform.
 `BONUS_DODGE`           | Affects the number of dodges you can perform.
 `CARRY_WEIGHT`          | Affect the summary weight player can carry. `"add": 1000` adds 1 kg of weight to carry.
+`COMBAT_CATCHUP`        | Affects the rate at which you relearn combat skills (multiplier)
 `CLIMATE_CONTROL_HEAT`  | Moves body temperature up towards comfortable by number of warmth units up to value.
 `CLIMATE_CONTROL_CHILL` | Moves body temperature down towards comfortable by number of warmth units up to value.
 `DEXTERITY`             | Affects the dexterity stat.
@@ -831,12 +832,12 @@ Character status value  | Description
 `SOCIAL_LIE`            | Affects your ability to lie.
 `SOCIAL_PERSUADE`       | Affects your ability to persuade.
 `READING_EXP`           | Changes the minimum you learn from each reading increment.
-`RECOIL_MODIFIER`       | Affects recoil when shooting a gun. Can be applied only to guns. Positive value increase the dispersion, negative decrease one.
+`RECOIL_MODIFIER`       | Affects recoil when shooting a gun. Positive value increase the dispersion, negative decrease one.
 `REGEN_HP`              | Affects the rate you recover hp.
 `REGEN_MANA`            | 
 `REGEN_STAMINA`         | 
 `THIRST`                | 
-`WEAPON_DISPERSION`     | Can be applied only to guns. Positive value increase the dispersion, negative decrease one.
+`WEAPON_DISPERSION`     | Positive value increase the dispersion, negative decrease one.
 
 
 Melee-only enchantment values | Description

@@ -16,7 +16,8 @@
     "side": "both",
     "base_hp": 60,
     "drench_capacity": 1,
-    "legacy_id": "NUM_BP"
+    "legacy_id": "NUM_BP",
+    "sub_parts": [ "sub_limb_debug" ]
   },
   {
     "id": "mx_null",

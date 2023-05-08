@@ -711,11 +711,12 @@
     "color": "white",
     "name": { "str": "USB drive" },
     "description": "A USB thumb drive.  Useful for holding software.",
-    "price": 10000,
+    "price": "12 USD",
     "price_postapoc": 10,
-    "material": [ "plastic" ],
-    "weight": "18 g",
-    "volume": "5 ml",
+    "material": [ "plastic", "aluminum" ],
+    "weight": "4536 mg",
+    "volume": "4 ml",
+    "longest_side": "5 cm",
     "pocket_data": [
       { "pocket_type": "SOFTWARE", "max_contains_volume": "1 L", "max_contains_weight": "1 kg" },
       {
@@ -726,8 +727,9 @@
         "weight_multiplier": 0.0
       }
     ],
-    "to_hit": -3,
-    "flags": [ "MC_USED" ]
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "flags": [ "MC_USED" ],
+    "//": "Based on https://www.amazon.com/SanDisk-Ultra-Flair-128GB-Flash/dp/B015CH1PJU/ref=sr_1_3?crid=3QN3ALWDNXCOT&keywords=usb%2Bdrive&qid=1683302125&sprefix=usb%2Bdrive%2Caps%2C499&sr=8-3&th=1"
   },
   {
     "type": "TOOL",
@@ -740,8 +742,8 @@
     "price_postapoc": 10,
     "material": [ "steel", "plastic" ],
     "weight": "55 g",
-    "volume": "5 ml",
-    "to_hit": -3
+    "volume": "45 ml",
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" }
   },
   {
     "id": "robofac_hardcase",
@@ -3696,7 +3698,7 @@
     "looks_like": "adobe_brick",
     "price": 5000,
     "price_postapoc": 100,
-    "material": [ "stone" ],
+    "material": [ "salt", "stone" ],
     "symbol": ".",
     "color": "white",
     "flags": [ "NO_REPAIR" ]

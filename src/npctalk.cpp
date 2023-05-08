@@ -3831,6 +3831,28 @@ void talk_effect_fun_t::set_run_eocs( const JsonObject &jo, const std::string_vi
     };
 }
 
+void talk_effect_fun_t::set_run_eoc_with( const JsonObject &jo, const std::string_view member )
+{
+    effect_on_condition_id eoc = effect_on_conditions::load_inline_eoc( jo.get_member( member ), "" );
+
+    std::unordered_map<std::string, str_or_var> context;
+    if( jo.has_object( "variables" ) ) {
+        const JsonObject &variables = jo.get_object( "variables" );
+        for( const JsonMember &jv : variables ) {
+            context["npctalk_var_" + jv.name()] = get_str_or_var( variables.get_member( jv.name() ), jv.name(),
+                                                  true );
+        }
+    }
+
+    function = [eoc, context]( dialogue const & d ) {
+        dialogue newDialog( d );
+        for( const auto &val : context ) {
+            newDialog.set_value( val.first, val.second.evaluate( d ) );
+        }
+        eoc->activate( newDialog );
+    };
+}
+
 void talk_effect_fun_t::set_run_npc_eocs( const JsonObject &jo,
         const std::string_view member, bool is_npc )
 {
@@ -3907,15 +3929,55 @@ void talk_effect_fun_t::set_queue_eocs( const JsonObject &jo, const std::string_
             if( eoc->type == eoc_type::ACTIVATION ) {
                 Character *alpha = d.has_alpha ? d.actor( false )->get_character() : nullptr;
                 if( alpha ) {
-                    effect_on_conditions::queue_effect_on_condition( time_in_future, eoc, *alpha );
+                    effect_on_conditions::queue_effect_on_condition( time_in_future, eoc, *alpha, d.get_context() );
                 } else if( eoc->global ) {
-                    effect_on_conditions::queue_effect_on_condition( time_in_future, eoc, get_player_character() );
+                    effect_on_conditions::queue_effect_on_condition( time_in_future, eoc, get_player_character(),
+                            d.get_context() );
                 }
                 // If the target is a monster or item and the eoc is non global it won't be queued and will silently "fail"
                 // this is so monster attacks against other monsters won't give error messages.
             } else {
                 debugmsg( "Cannot queue a non activation effect_on_condition." );
             }
+        }
+    };
+}
+
+void talk_effect_fun_t::set_queue_eoc_with( const JsonObject &jo, const std::string_view member )
+{
+    effect_on_condition_id eoc = effect_on_conditions::load_inline_eoc( jo.get_member( member ), "" );
+
+    std::unordered_map<std::string, str_or_var> context;
+    if( jo.has_object( "variables" ) ) {
+        const JsonObject &variables = jo.get_object( "variables" );
+        for( const JsonMember &jv : variables ) {
+            context["npctalk_var_" + jv.name()] = get_str_or_var( variables.get_member( jv.name() ), jv.name(),
+                                                  true );
+        }
+    }
+
+    duration_or_var dov_time_in_future = get_duration_or_var( jo, "time_in_future", false,
+                                         0_seconds );
+    function = [dov_time_in_future, eoc, context]( dialogue & d ) {
+        time_duration time_in_future = dov_time_in_future.evaluate( d );
+        if( eoc->type == eoc_type::ACTIVATION ) {
+
+            std::unordered_map<std::string, std::string> passed_variables;
+            for( const auto &val : context ) {
+                passed_variables[val.first] = val.second.evaluate( d );
+            }
+
+            Character *alpha = d.has_alpha ? d.actor( false )->get_character() : nullptr;
+            if( alpha ) {
+                effect_on_conditions::queue_effect_on_condition( time_in_future, eoc, *alpha, passed_variables );
+            } else if( eoc->global ) {
+                effect_on_conditions::queue_effect_on_condition( time_in_future, eoc, get_player_character(),
+                        passed_variables );
+            }
+            // If the target is a monster or item and the eoc is non global it won't be queued and will silently "fail"
+            // this is so monster attacks against other monsters won't give error messages.
+        } else {
+            debugmsg( "Cannot queue a non activation effect_on_condition." );
         }
     };
 }
@@ -4705,8 +4767,12 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_make_sound( jo, "npc_make_sound", true );
     } else if( jo.has_array( "run_eocs" ) || jo.has_member( "run_eocs" ) ) {
         subeffect_fun.set_run_eocs( jo, "run_eocs" );
+    } else if( jo.has_member( "run_eoc_with" ) ) {
+        subeffect_fun.set_run_eoc_with( jo, "run_eoc_with" );
     } else if( jo.has_array( "queue_eocs" ) || jo.has_member( "queue_eocs" ) ) {
         subeffect_fun.set_queue_eocs( jo, "queue_eocs" );
+    } else if( jo.has_member( "queue_eoc_with" ) ) {
+        subeffect_fun.set_queue_eoc_with( jo, "queue_eoc_with" );
     } else if( jo.has_array( "u_run_npc_eocs" ) ) {
         subeffect_fun.set_run_npc_eocs( jo, "u_run_npc_eocs", false );
     } else if( jo.has_array( "npc_run_npc_eocs" ) ) {
