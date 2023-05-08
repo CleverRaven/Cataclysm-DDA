@@ -167,7 +167,6 @@
     "difficulty": 3,
     "time": "24 m",
     "flags": [ "SECRET" ],
-    "charges": 10,
     "proficiencies": [ { "proficiency": "prof_fine_metalsmithing", "required": false, "time_multiplier": 3 } ],
     "tools": [ [ [ "metal_file", -1 ] ] ],
     "components": [ [ [ "gold_necklace", 1 ] ], [ [ "scrap_dreamdross", 3 ] ], [ [ "feline_sample", 1 ] ], [ [ "diamond", 1 ] ] ]
@@ -183,7 +182,6 @@
     "difficulty": 3,
     "time": "24 m",
     "flags": [ "SECRET" ],
-    "charges": 10,
     "proficiencies": [ { "proficiency": "prof_fine_metalsmithing", "required": false, "time_multiplier": 3 } ],
     "tools": [ [ [ "metal_file", -1 ] ] ],
     "components": [ [ [ "gold_necklace", 1 ] ], [ [ "scrap_dreamdross", 3 ] ], [ [ "lupine_sample", 1 ] ], [ [ "diamond", 1 ] ] ]
@@ -199,7 +197,6 @@
     "difficulty": 3,
     "time": "24 m",
     "flags": [ "SECRET" ],
-    "charges": 10,
     "proficiencies": [ { "proficiency": "prof_fine_metalsmithing", "required": false, "time_multiplier": 3 } ],
     "tools": [ [ [ "metal_file", -1 ] ] ],
     "components": [ [ [ "gold_necklace", 1 ] ], [ [ "scrap_dreamdross", 3 ] ], [ [ "cephalopod_sample", 1 ] ], [ [ "diamond", 1 ] ] ]
@@ -215,7 +212,6 @@
     "difficulty": 3,
     "time": "24 m",
     "flags": [ "SECRET" ],
-    "charges": 10,
     "proficiencies": [ { "proficiency": "prof_fine_metalsmithing", "required": false, "time_multiplier": 3 } ],
     "tools": [ [ [ "metal_file", -1 ] ] ],
     "components": [ [ [ "gold_necklace", 1 ] ], [ [ "scrap_dreamdross", 3 ] ], [ [ "insect_sample", 1 ] ], [ [ "diamond", 1 ] ] ]
@@ -231,7 +227,6 @@
     "difficulty": 3,
     "time": "24 m",
     "flags": [ "SECRET" ],
-    "charges": 10,
     "proficiencies": [ { "proficiency": "prof_fine_metalsmithing", "required": false, "time_multiplier": 3 } ],
     "tools": [ [ [ "metal_file", -1 ] ] ],
     "components": [ [ [ "gold_necklace", 1 ] ], [ [ "scrap_dreamdross", 3 ] ], [ [ "insect_sample", 1 ] ], [ [ "diamond", 1 ] ] ]
@@ -247,7 +242,6 @@
     "difficulty": 3,
     "time": "24 m",
     "flags": [ "SECRET" ],
-    "charges": 10,
     "proficiencies": [ { "proficiency": "prof_fine_metalsmithing", "required": false, "time_multiplier": 3 } ],
     "tools": [ [ [ "metal_file", -1 ] ] ],
     "components": [ [ [ "gold_necklace", 1 ] ], [ [ "scrap_dreamdross", 3 ] ], [ [ "spider_sample", 1 ] ], [ [ "diamond", 1 ] ] ]
@@ -263,7 +257,6 @@
     "difficulty": 3,
     "time": "24 m",
     "flags": [ "SECRET" ],
-    "charges": 10,
     "proficiencies": [ { "proficiency": "prof_fine_metalsmithing", "required": false, "time_multiplier": 3 } ],
     "tools": [ [ [ "metal_file", -1 ] ] ],
     "components": [ [ [ "gold_necklace", 1 ] ], [ [ "scrap_dreamdross", 3 ] ], [ [ "plant_sample", 1 ] ], [ [ "diamond", 1 ] ] ]

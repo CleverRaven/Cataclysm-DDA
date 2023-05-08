@@ -86,11 +86,7 @@
     "stim": 20,
     "fun": 25,
     "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE", "EDIBLE_FROZEN" ],
-    "use_action": {
-      "type": "consume_drug",
-      "activation_message": "You eat the rainbow skull tabs.",
       "use_action": { "type": "cast_spell", "spell_id": "future_sight", "no_fail": true, "level": 25 }
-    }
   },
   {
     "id": "truckers_stamina_pills",
@@ -146,7 +142,7 @@
     "copy-from": "garnet_silver_pendant_necklace",
     "type": "ARMOR",
     "name": { "str": "charm of Marzanna" },
-    "description": "A tiny effigy of a woman with singed extremties and a waterlogged face.",
+    "description": "A tiny effigy of a woman with singed extremities and a waterlogged face.",
     "color": "light_blue",
     "relic_data": { "passive_effects": [ { "id": "ench_climate_control_marzanna" } ] }
   },

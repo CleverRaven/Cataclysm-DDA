@@ -1948,6 +1948,7 @@ numpad
 obovate
 obsoleted
 occultism
+occultists
 ocher
 octo
 ocularium
@@ -2069,6 +2070,8 @@ pentagonal
 peptone
 percents
 perforator
+periapta
+periaptas
 peridot
 peridots
 peripheric
