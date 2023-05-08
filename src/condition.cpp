@@ -1353,6 +1353,14 @@ void conditional_t::set_compare_string( const JsonObject &jo, const std::string 
     };
 }
 
+void conditional_t::set_get_condition( const JsonObject &jo, const std::string &member )
+{
+    str_or_var conditionalToGet = get_str_or_var( jo.get_member( member ), member, true );
+    condition = [conditionalToGet]( dialogue & d ) {
+        return d.evaluate_conditional( conditionalToGet.evaluate( d ), d );
+    };
+}
+
 void conditional_t::set_compare_num( const JsonObject &jo, const std::string_view member )
 {
     JsonArray objects = jo.get_array( member );
@@ -3162,6 +3170,8 @@ conditional_t::conditional_t( const JsonObject &jo )
         found_sub_member = true;
     } else if( jo.has_member( "compare_string" ) ) {
         set_compare_string( jo, "compare_string" );
+    } else if( jo.has_member( "get_condition" ) ) {
+        set_get_condition( jo, "get_condition" );
     } else {
         for( const std::string &sub_member : dialogue_data::simple_string_conds ) {
             if( jo.has_string( sub_member ) ) {

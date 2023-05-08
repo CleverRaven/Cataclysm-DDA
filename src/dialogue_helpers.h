@@ -108,6 +108,7 @@ struct talk_effect_fun_t {
         void set_arithmetic( const JsonObject &jo, std::string_view member, bool no_result );
         void set_math( const JsonObject &jo, std::string_view member );
         void set_set_string_var( const JsonObject &jo, const std::string &member );
+        void set_set_condition( const JsonObject &jo, const std::string &member );
         void set_custom_light_level( const JsonObject &jo, const std::string &member );
         void set_spawn_monster( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_spawn_npc( const JsonObject &jo, const std::string &member, bool is_npc );

@@ -1801,9 +1801,27 @@ std::string dialogue::get_value( const std::string &key ) const
     return ( it == context.end() ) ? "" : it->second;
 }
 
+void dialogue::set_conditional( const std::string &key,
+                                const std::function<bool( dialogue & )> &value )
+{
+    conditionals[key] = value;
+}
+
+bool dialogue::evaluate_conditional( const std::string &key, dialogue &d )
+{
+    auto it = conditionals.find( key );
+    return ( it == conditionals.end() ) ? false : it->second( d );
+}
+
 const std::unordered_map<std::string, std::string> &dialogue::get_context() const
 {
     return context;
+}
+
+const std::unordered_map<std::string, std::function<bool( dialogue & )>>
+        &dialogue::get_conditionals() const
+{
+    return conditionals;
 }
 
 talker *dialogue::actor( const bool is_beta ) const
@@ -1841,10 +1859,13 @@ dialogue::dialogue( const dialogue &d ) : has_beta( d.has_beta ), has_alpha( d.h
     }
 
     context = d.get_context();
+    conditionals = d.get_conditionals();
 }
 
 dialogue::dialogue( std::unique_ptr<talker> alpha_in,
-                    std::unique_ptr<talker> beta_in, const std::unordered_map<std::string, std::string> &ctx )
+                    std::unique_ptr<talker> beta_in,
+                    const std::unordered_map<std::string, std::function<bool( dialogue & )>> &cond,
+                    const std::unordered_map<std::string, std::string> &ctx )
 {
     has_alpha = alpha_in != nullptr;
     has_beta = beta_in != nullptr;
@@ -1859,6 +1880,7 @@ dialogue::dialogue( std::unique_ptr<talker> alpha_in,
     }
 
     context = ctx;
+    conditionals = cond;
 }
 
 talk_data talk_response::create_option_line( dialogue &d, const input_event &hotkey,
@@ -3665,6 +3687,18 @@ void talk_effect_fun_t::set_set_string_var( const JsonObject &jo, const std::str
     };
 }
 
+void talk_effect_fun_t::set_set_condition( const JsonObject &jo, const std::string &member )
+{
+    str_or_var value;
+    value = get_str_or_var( jo.get_member( member ), member );
+
+    std::function<bool( dialogue & )> cond;
+    read_condition( jo, "condition", cond, false );
+    function = [value, cond]( dialogue & d ) {
+        d.set_conditional( value.evaluate( d ), cond );
+    };
+}
+
 void talk_effect_fun_t::set_assign_mission( const JsonObject &jo, const std::string &member )
 {
     str_or_var mission_name = get_str_or_var( jo.get_member( member ), member, true );
@@ -3890,7 +3924,7 @@ void talk_effect_fun_t::set_run_npc_eocs( const JsonObject &jo,
             } );
             for( npc *target : available ) {
                 for( const effect_on_condition_id &eoc : eocs ) {
-                    dialogue newDialog( get_talker_for( target ), nullptr, d.get_context() );
+                    dialogue newDialog( get_talker_for( target ), nullptr, d.get_conditionals(), d.get_context() );
                     eoc->activate( newDialog );
                 }
             }
@@ -3902,7 +3936,7 @@ void talk_effect_fun_t::set_run_npc_eocs( const JsonObject &jo,
                     for( const effect_on_condition_id &eoc : eocs ) {
                         npc *npc = g->find_npc_by_unique_id( target.evaluate( d ) );
                         if( npc ) {
-                            dialogue newDialog( get_talker_for( npc ), nullptr, d.get_context() );
+                            dialogue newDialog( get_talker_for( npc ), nullptr, d.get_conditionals(), d.get_context() );
                             eoc->activate( newDialog );
                         } else {
                             debugmsg( "Tried to use invalid npc: %s", target.evaluate( d ) );
@@ -4847,6 +4881,8 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_give_equipment( jo, "give_equipment" );
     } else if( jo.has_member( "set_string_var" ) || jo.has_array( "set_string_var" ) ) {
         subeffect_fun.set_set_string_var( jo, "set_string_var" );
+    } else if( jo.has_member( "set_condition" ) ) {
+        subeffect_fun.set_set_condition( jo, "set_condition" );
     } else if( jo.has_member( "open_dialogue" ) ) {
         subeffect_fun.set_open_dialogue( jo, "open_dialogue" );
     } else if( jo.has_member( "take_control" ) ) {
