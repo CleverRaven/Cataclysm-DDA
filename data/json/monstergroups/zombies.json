@@ -21,10 +21,7 @@
   {
     "name": "GROUP_SURVIVOR_FOREST",
     "type": "monstergroup",
-    "monsters": [
-      { "monster": "mon_zombie_survivor", "weight": 50 },
-      { "monster": "mon_feral_sapien_spear", "weight": 50 }
-    ]
+    "monsters": [ { "monster": "mon_zombie_survivor", "weight": 50 }, { "monster": "mon_feral_sapien_spear", "weight": 50 } ]
   },
   {
     "name": "GROUP_ROOF_ZOMBIE",
