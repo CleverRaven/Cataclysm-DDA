@@ -980,7 +980,6 @@
     "description": "You have long, sharp claws at the tips of your fingers.",
     "weight": "100 g",
     "volume": "200 ml",
-    "cutting": 8,
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 4 ] ],
     "price": 0,
     "price_postapoc": 0,
@@ -997,6 +996,7 @@
         "encumbrance": 1
       }
     ],
+    "melee_damage": { "cut": 9 },
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ATTACK_SPEED", "add": 20 } ] } ]
     }
@@ -1009,7 +1009,6 @@
     "description": "Your fingernails have become gnarled, twisted claws.",
     "weight": "100 g",
     "volume": "250 ml",
-    "cutting": 9,
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 6 ] ],
     "price": 0,
     "price_postapoc": 0,
@@ -1026,6 +1025,7 @@
         "encumbrance": 3
       }
     ],
+    "melee_damage": { "cut": 9 },
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ATTACK_SPEED", "add": 20 } ] } ]
     }
@@ -1038,7 +1038,6 @@
     "description": "Your claws have toughened to become something akin to miniature butcher knives.",
     "weight": "100 g",
     "volume": "300 ml",
-    "cutting": 11,
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 8 ] ],
     "price": 0,
     "price_postapoc": 0,
@@ -1055,6 +1054,7 @@
         "encumbrance": 5
       }
     ],
+    "melee_damage": { "cut": 11 },
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ATTACK_SPEED", "add": 20 } ] } ]
     }
@@ -1067,7 +1067,6 @@
     "description": "Your index fingers have become talons.  They make for wicked natural daggers.  Unfortunately, they get in the way of everything including gloves.",
     "weight": "100 g",
     "volume": "350 ml",
-    "cutting": 16,
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 12 ] ],
     "price": 0,
     "price_postapoc": 0,
@@ -1084,6 +1083,7 @@
         "encumbrance": 7
       }
     ],
+    "melee_damage": { "cut": 16 },
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ATTACK_SPEED", "add": 20 } ] } ]
     }
