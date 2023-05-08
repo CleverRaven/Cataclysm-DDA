@@ -436,14 +436,13 @@
     "milling": { "into": "paste_seed", "conversion_rate": 0.02 }
   },
   {
-    "type": "AMMO",
+    "type": "COMESTIBLE",
     "id": "fungal_seeds",
     "copy-from": "seed",
     "price": 100,
     "name": { "str_sp": "fungal seeds" },
     "color": "dark_gray",
     "description": "Some fungal seeds.",
-    "ammo_type": "NULL",
     "stack_size": 8,
     "seed_data": { "fruit": "null", "//": "dummy entry, results are hardcoded", "plant_name": "fungal flower", "grow": "91 days" }
   },
