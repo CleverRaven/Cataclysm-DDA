@@ -2045,7 +2045,7 @@ static void set_part_helper( Creature &c, const bodypart_id &id,
     }
 }
 
-const bodypart_id Creature::get_part_id( const bodypart_id &id ) const
+bodypart_id Creature::get_part_id( const bodypart_id &id ) const
 {
     auto found = body.find( id.id() );
     if( found == body.end() ) {
