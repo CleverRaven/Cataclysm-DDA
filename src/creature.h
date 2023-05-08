@@ -491,7 +491,7 @@ class Creature : public viewer
         bool stumble_invis( const Creature &player, const bool stumblemsg = true );
         // Attack an empty location
         bool attack_air( const tripoint &p );
-        
+
         /**
          * This creature just dodged an attack - possibly special/ranged attack - from source.
          * Players should train dodge, monsters may use some special defenses.

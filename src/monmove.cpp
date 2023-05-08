@@ -1679,7 +1679,9 @@ bool monster::attack_at( const tripoint &p )
     }
 
     // Attack last known position despite empty
-    if( has_effect( effect_stumbled_into_invisible ) && get_map().has_field_at( p, field_fd_last_known ) && !sees_player && attitude_to( player_character ) == Attitude::HOSTILE ) {
+    if( has_effect( effect_stumbled_into_invisible ) &&
+        get_map().has_field_at( p, field_fd_last_known ) && !sees_player &&
+        attitude_to( player_character ) == Attitude::HOSTILE ) {
         return attack_air( p );
     }
 

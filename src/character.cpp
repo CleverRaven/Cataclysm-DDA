@@ -7446,7 +7446,7 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
     if( is_avatar() && source->is_monster() && source->has_effect( effect_stumbled_into_invisible ) ) {
         source->as_monster()->stumble_invis( *this, false );
     }
-    
+
     if( is_npc() ) {
         as_npc()->on_attacked( *source );
     }
