@@ -2575,8 +2575,8 @@ static int salt_water_pipe_segment_of( const recipe &making );
 int salt_water_pipe_segment_of( const recipe &making )
 {
     int segment_number = -1;
-    const auto &requires = making.blueprint_requires();
-    for( auto const &element : requires ) {
+    const auto &requirements = making.blueprint_requires();
+    for( auto const &element : requirements ) {
         if( element.first.substr( 0, salt_water_pipe_string_base.length() ) == salt_water_pipe_string_base
             &&
             element.first.substr( element.first.length() - salt_water_pipe_string_suffix.length(),
