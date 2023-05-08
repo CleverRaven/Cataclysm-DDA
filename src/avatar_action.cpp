@@ -66,7 +66,6 @@ static const efftype_id effect_hunger_engorged( "hunger_engorged" );
 static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_pet( "pet" );
-static const efftype_id effect_relax_gas( "relax_gas" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_winded( "winded" );
@@ -77,7 +76,6 @@ static const move_mode_id move_mode_prone( "prone" );
 
 static const skill_id skill_swimming( "swimming" );
 
-static const trait_id trait_BRAWLER( "BRAWLER" );
 static const trait_id trait_GRAZER( "GRAZER" );
 static const trait_id trait_RUMINANT( "RUMINANT" );
 static const trait_id trait_SHELL2( "SHELL2" );
@@ -342,24 +340,28 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
                 you.clear_destination();
                 return false;
             }
-            if( you.has_effect( effect_relax_gas ) ) {
-                if( one_in( 8 ) ) {
-                    add_msg( m_good, _( "Your willpower asserts itself, and so do you!" ) );
-                } else {
-                    you.moves -= rng( 2, 8 ) * 10;
-                    add_msg( m_bad, _( "You're too pacified to strike anything…" ) );
+            if( !you.try_break_relax_gas( _( "Your willpower asserts itself, and so do you!" ),
+                                          _( "You're too pacified to strike anything…" ) ) ) {
+                return false;
+            }
+            bool safe_mode = ( get_option<bool>( "SAFEMODE" ) ? SAFE_MODE_ON : SAFE_MODE_OFF );
+            if( safe_mode ) {
+                // If safe mode is enabled, only allow attacking neutral creatures when it is inactive
+                if( critter.attitude_to( you ) == Creature::Attitude::NEUTRAL &&
+                    g->safe_mode != SAFE_MODE_OFF ) {
+                    const std::string msg_safe_mode = press_x( ACTION_TOGGLE_SAFEMODE );
+                    add_msg( m_warning,
+                             _( "Not attacking the %1$s -- safe mode is on!  (%2$s to turn it off)" ), critter.name(),
+                             msg_safe_mode );
+                    return false;
+                }
+            } else {
+                // If safe mode is disabled, ask for confirmation before attacking a neutral creature
+                if( critter.attitude_to( you ) == Creature::Attitude::NEUTRAL &&
+                    !query_yn( _( "You may be attacked!  Proceed?" ) ) ) {
                     return false;
                 }
             }
-            if( critter.attitude_to( you ) == Creature::Attitude::NEUTRAL &&
-                g->safe_mode != SAFE_MODE_OFF ) {
-                const std::string msg_safe_mode = press_x( ACTION_TOGGLE_SAFEMODE );
-                add_msg( m_warning,
-                         _( "Not attacking the %1$s -- safe mode is on!  (%2$s to turn it off)" ), critter.name(),
-                         msg_safe_mode );
-                return false;
-            }
-
             you.melee_attack( critter, true );
             if( critter.is_hallucination() ) {
                 critter.die( &you );
@@ -734,14 +736,9 @@ bool avatar_action::can_fire_weapon( avatar &you, const map &m, const item &weap
         return false;
     }
 
-    if( you.has_effect( effect_relax_gas ) ) {
-        if( one_in( 5 ) ) {
-            add_msg( m_good, _( "Your eyes steel, and you raise your weapon!" ) );
-        } else {
-            you.moves -= rng( 2, 5 ) * 10;
-            add_msg( m_bad, _( "You can't fire your weapon, it's too heavy…" ) );
-            return false;
-        }
+    if( !you.try_break_relax_gas( _( "Your eyes steel, and you raise your weapon!" ),
+                                  _( "You can't fire your weapon, it's too heavy…" ) ) ) {
+        return false;
     }
 
     std::vector<std::string> messages;
@@ -750,66 +747,6 @@ bool avatar_action::can_fire_weapon( avatar &you, const map &m, const item &weap
         bool check_common = gunmode_checks_common( you, m, messages, mode_map.second );
         bool check_weapon = gunmode_checks_weapon( you, m, messages, mode_map.second );
         bool can_use_mode = check_common && check_weapon;
-        if( can_use_mode ) {
-            return true;
-        }
-    }
-
-    for( const std::string &message : messages ) {
-        add_msg( m_info, message );
-    }
-    return false;
-}
-
-/**
- * Checks if the turret is valid and if the player meets certain conditions for manually firing it.
- * @param turret Turret to check.
- * @return True if all conditions are true, otherwise false.
- */
-static bool can_fire_turret( avatar &you, const map &m, const turret_data &turret )
-{
-    const item &weapon = *turret.base();
-    if( !weapon.is_gun() ) {
-        debugmsg( "Expected turret base to be a gun." );
-        return false;
-    }
-
-    if( you.has_trait( trait_BRAWLER ) ) {
-        add_msg( m_bad, _( "You refuse to use the %s." ), turret.name() );
-        return false;
-    }
-
-    switch( turret.query() ) {
-        case turret_data::status::no_ammo:
-            add_msg( m_bad, _( "The %s is out of ammo." ), turret.name() );
-            return false;
-
-        case turret_data::status::no_power:
-            add_msg( m_bad, _( "The %s is not powered." ), turret.name() );
-            return false;
-
-        case turret_data::status::ready:
-            break;
-
-        default:
-            debugmsg( "Unknown turret status" );
-            return false;
-    }
-
-    if( you.has_effect( effect_relax_gas ) ) {
-        if( one_in( 5 ) ) {
-            add_msg( m_good, _( "Your eyes steel, and you aim your weapon!" ) );
-        } else {
-            you.moves -= rng( 2, 5 ) * 10;
-            add_msg( m_bad, _( "You are too pacified to aim the turret…" ) );
-            return false;
-        }
-    }
-
-    std::vector<std::string> messages;
-
-    for( const std::pair<const gun_mode_id, gun_mode> &mode_map : weapon.gun_all_modes() ) {
-        bool can_use_mode = gunmode_checks_common( you, m, messages, mode_map.second );
         if( can_use_mode ) {
             return true;
         }
@@ -843,26 +780,55 @@ void avatar_action::fire_wielded_weapon( avatar &you )
         return;
     }
 
-    you.assign_activity( player_activity( aim_activity_actor::use_wielded() ), false );
+    you.assign_activity( aim_activity_actor::use_wielded() );
 }
 
 void avatar_action::fire_ranged_mutation( Character &you, const item &fake_gun )
 {
-    you.assign_activity( player_activity( aim_activity_actor::use_mutation( fake_gun ) ), false );
+    you.assign_activity( aim_activity_actor::use_mutation( fake_gun ) );
 }
 
 void avatar_action::fire_ranged_bionic( avatar &you, const item &fake_gun )
 {
-    you.assign_activity(
-        player_activity( aim_activity_actor::use_bionic( fake_gun ) ), false );
+    you.assign_activity( aim_activity_actor::use_bionic( fake_gun ) );
 }
 
-void avatar_action::fire_turret_manual( avatar &you, map &m, turret_data &turret )
+bool avatar_action::fire_turret_manual( avatar &you, map &m, turret_data &turret )
 {
-    if( !can_fire_turret( you, m, turret ) ) {
-        return;
+    if( !turret.base()->is_gun() ) {
+        debugmsg( "Expected turret base to be a gun." );
+        return false;
     }
 
+    switch( turret.query() ) {
+        case turret_data::status::no_ammo:
+            add_msg( m_bad, _( "The %s is out of ammo." ), turret.name() );
+            return false;
+        case turret_data::status::no_power:
+            add_msg( m_bad, _( "The %s is not powered." ), turret.name() );
+            return false;
+        case turret_data::status::ready:
+            break;
+        default:
+            debugmsg( "Unknown turret status" );
+            return false;
+    }
+
+    // check if any gun modes are usable
+    std::vector<std::string> messages;
+    const std::map<gun_mode_id, gun_mode> gunmodes = turret.base()->gun_all_modes();
+    if( !std::any_of( gunmodes.begin(), gunmodes.end(),
+    [&you, &m, &messages]( const std::pair<const gun_mode_id, gun_mode> &p ) {
+    return gunmode_checks_common( you, m, messages, p.second );
+    } ) ) {
+        // no gunmode is usable, dump reason messages why not
+        for( const std::string &msg : messages ) {
+            add_msg( m_bad, msg );
+        }
+        return false;
+    }
+
+    // all checks passed - start aiming
     g->temp_exit_fullscreen();
     target_handler::trajectory trajectory = target_handler::mode_turret_manual( you, turret );
 
@@ -870,6 +836,7 @@ void avatar_action::fire_turret_manual( avatar &you, map &m, turret_data &turret
         turret.fire( you, trajectory.back() );
     }
     g->reenter_fullscreen();
+    return true;
 }
 
 void avatar_action::mend( avatar &you, item_location loc )
@@ -905,7 +872,7 @@ bool avatar_action::eat_here( avatar &you )
         } else {
             here.ter_set( you.pos(), t_grass );
             item food( "underbrush", calendar::turn, 1 );
-            you.assign_activity( player_activity( consume_activity_actor( food ) ) );
+            you.assign_activity( consume_activity_actor( food ) );
             return true;
         }
     }
@@ -916,7 +883,7 @@ bool avatar_action::eat_here( avatar &you )
             return true;
         } else {
             item food( item( "grass", calendar::turn, 1 ) );
-            you.assign_activity( player_activity( consume_activity_actor( food ) ) );
+            you.assign_activity( consume_activity_actor( food ) );
             if( here.ter( you.pos() ) == t_grass_tall ) {
                 here.ter_set( you.pos(), t_grass_long );
             } else if( here.ter( you.pos() ) == t_grass_long ) {
@@ -963,8 +930,8 @@ void avatar_action::eat( avatar &you, const item_location &loc,
         add_msg( _( "Never mind." ) );
         return;
     }
-    you.assign_activity( player_activity( consume_activity_actor( loc, consume_menu_selections,
-                                          consume_menu_selected_items, consume_menu_filter, type ) ) );
+    you.assign_activity( consume_activity_actor( loc, consume_menu_selections,
+                         consume_menu_selected_items, consume_menu_filter, type ) );
     you.last_item = item( *loc ).typeId();
 }
 
@@ -1036,14 +1003,9 @@ void avatar_action::plthrow( avatar &you, item_location loc,
         return;
     }
 
-    if( you.has_effect( effect_relax_gas ) ) {
-        if( one_in( 5 ) ) {
-            add_msg( m_good, _( "You concentrate mightily, and your body obeys!" ) );
-        } else {
-            you.moves -= rng( 2, 5 ) * 10;
-            add_msg( m_bad, _( "You can't muster up the effort to throw anything…" ) );
-            return;
-        }
+    if( !you.try_break_relax_gas( _( "You concentrate mightily, and your body obeys!" ),
+                                  _( "You can't muster up the effort to throw anything…" ) ) ) {
+        return;
     }
     // if you're wearing the item you need to be able to take it off
     if( you.is_worn( *orig ) ) {

@@ -88,7 +88,7 @@ static float load_float_or_maxmovecost( const JsonObject &jo, const std::string 
     return val;
 }
 
-void character_modifier::load( const JsonObject &jo, const std::string & )
+void character_modifier::load( const JsonObject &jo, const std::string_view )
 {
     mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "description", desc );
@@ -220,7 +220,7 @@ float Character::get_limb_score( const limb_score_id &score, const body_part_typ
     if( score == limb_score_manip ) {
         return manipulator_score( body, bp, override_encumb, override_wounds ) * effect_mul;
     } else if( score == limb_score_swim ) {
-        skill = get_skill_level( skill_swimming );
+        skill = round( get_skill_level( skill_swimming ) );
     }
     float total = 0.0f;
     for( const std::pair<const bodypart_str_id, bodypart> &id : body ) {
@@ -262,7 +262,8 @@ static float aim_speed_skill_modifier( const Character &c, const skill_id &gun_s
         skill_mult = 0.5f;
         base_modifier = -1.5f;
     }
-    return skill_mult * std::min( MAX_SKILL, c.get_skill_level( gun_skill ) ) + base_modifier;
+    return skill_mult * std::min( static_cast<float>( MAX_SKILL ),
+                                  c.get_skill_level( gun_skill ) ) + base_modifier;
 }
 
 static float aim_speed_dex_modifier( const Character &c, const skill_id & )

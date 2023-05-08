@@ -213,7 +213,6 @@ extern const flag_id flag_NO_DROP;
 extern const flag_id flag_NO_INGEST;
 extern const flag_id flag_NO_PACKED;
 extern const flag_id flag_NO_PARASITES;
-extern const flag_id flag_NO_QUICKDRAW;
 extern const flag_id flag_NO_RELOAD;
 extern const flag_id flag_NO_REPAIR;
 extern const flag_id flag_NO_SALVAGE;
@@ -454,7 +453,7 @@ class json_flag
         int taste_mod_ = 0;
 
         /** Load flag definition from JSON */
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
 
         /** Load all flags from JSON */
         static void load_all( const JsonObject &jo, const std::string &src );

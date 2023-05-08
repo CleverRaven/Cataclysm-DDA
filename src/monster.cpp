@@ -70,6 +70,13 @@
 
 static const anatomy_id anatomy_default_anatomy( "default_anatomy" );
 
+static const damage_type_id damage_bash( "bash" );
+static const damage_type_id damage_bullet( "bullet" );
+static const damage_type_id damage_cut( "cut" );
+static const damage_type_id damage_electric( "electric" );
+static const damage_type_id damage_heat( "heat" );
+static const damage_type_id damage_stab( "stab" );
+
 static const efftype_id effect_badpoison( "badpoison" );
 static const efftype_id effect_beartrap( "beartrap" );
 static const efftype_id effect_bleed( "bleed" );
@@ -81,13 +88,14 @@ static const efftype_id effect_docile( "docile" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_dripping_mechanical_fluid( "dripping_mechanical_fluid" );
 static const efftype_id effect_emp( "emp" );
-static const efftype_id effect_grabbed( "grabbed" );
-static const efftype_id effect_grabbing( "grabbing" );
+static const efftype_id effect_has_bag( "has_bag" );
 static const efftype_id effect_heavysnare( "heavysnare" );
 static const efftype_id effect_hit_by_player( "hit_by_player" );
 static const efftype_id effect_in_pit( "in_pit" );
+static const efftype_id effect_leashed( "leashed" );
 static const efftype_id effect_lightsnare( "lightsnare" );
 static const efftype_id effect_monster_armor( "monster_armor" );
+static const efftype_id effect_monster_saddled( "monster_saddled" );
 static const efftype_id effect_natures_commune( "natures_commune" );
 static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_onfire( "onfire" );
@@ -111,6 +119,8 @@ static const emit_id emit_emit_shock_cloud( "emit_shock_cloud" );
 static const emit_id emit_emit_shock_cloud_big( "emit_shock_cloud_big" );
 
 static const flag_id json_flag_DISABLE_FLIGHT( "DISABLE_FLIGHT" );
+static const flag_id json_flag_GRAB( "GRAB" );
+static const flag_id json_flag_GRAB_FILTER( "GRAB_FILTER" );
 
 static const itype_id itype_milk( "milk" );
 static const itype_id itype_milk_raw( "milk_raw" );
@@ -239,6 +249,32 @@ monster::monster( const mtype_id &id ) : monster()
         item mech_bat_item = item( mech_bat, calendar::turn_zero );
         mech_bat_item.ammo_consume( rng( 0, max_charge ), tripoint_zero, nullptr );
         battery_item = cata::make_value<item>( mech_bat_item );
+    }
+    if( monster::has_flag( MF_PET_MOUNTABLE ) ) {
+        if( !type->mount_items.tied.is_empty() ) {
+            itype_id tied_item_id = itype_id( type->mount_items.tied );
+            item tied_item_item = item( tied_item_id, calendar::turn_zero );
+            add_effect( effect_leashed, 1_turns, true );
+            tied_item = cata::make_value<item>( tied_item_item );
+        }
+        if( !type->mount_items.tack.is_empty() ) {
+            itype_id tack_item_id = itype_id( type->mount_items.tack );
+            item tack_item_item = item( tack_item_id, calendar::turn_zero );
+            add_effect( effect_monster_saddled, 1_turns, true );
+            tack_item = cata::make_value<item>( tack_item_item );
+        }
+        if( !type->mount_items.armor.is_empty() ) {
+            itype_id armor_item_id = itype_id( type->mount_items.armor );
+            item armor_item_item = item( armor_item_id, calendar::turn_zero );
+            add_effect( effect_monster_armor, 1_turns, true );
+            armor_item = cata::make_value<item>( armor_item_item );
+        }
+        if( !type->mount_items.storage.is_empty() ) {
+            itype_id storage_item_id = itype_id( type->mount_items.storage );
+            item storage_item_item = item( storage_item_id, calendar::turn_zero );
+            add_effect( effect_has_bag, 1_turns, true );
+            tack_item = cata::make_value<item>( storage_item_item );
+        }
     }
     aggro_character = type->aggro_character;
 }
@@ -902,7 +938,7 @@ std::string monster::extended_description() const
 
     using flag_description = std::pair<m_flag, std::string>;
     const auto describe_flags = [this, &ss](
-                                    const std::string & format,
+                                    const std::string_view format,
                                     const std::vector<flag_description> &flags_names,
     const std::string &if_empty = "" ) {
         std::string flag_descriptions = enumerate_as_string( flags_names.begin(),
@@ -918,7 +954,7 @@ std::string monster::extended_description() const
 
     using property_description = std::pair<bool, std::string>;
     const auto describe_properties = [&ss](
-                                         const std::string & format,
+                                         const std::string_view format,
                                          const std::vector<property_description> &property_names,
     const std::string &if_empty = "" ) {
         std::string property_descriptions = enumerate_as_string( property_names.begin(),
@@ -1055,6 +1091,11 @@ bool monster::avoid_trap( const tripoint & /* pos */, const trap &tr ) const
 bool monster::has_flag( const m_flag f ) const
 {
     return type->has_flag( f );
+}
+
+bool monster::has_flag( const flag_id f ) const
+{
+    return has_effect_with_flag( f );
 }
 
 bool monster::can_see() const
@@ -1555,13 +1596,13 @@ bool monster::in_species( const species_id &spec ) const
 
 bool monster::is_elec_immune() const
 {
-    return is_immune_damage( damage_type::ELECTRIC );
+    return is_immune_damage( damage_electric );
 }
 
 bool monster::is_immune_effect( const efftype_id &effect ) const
 {
     if( effect == effect_onfire ) {
-        return is_immune_damage( damage_type::HEAT ) ||
+        return is_immune_damage( damage_heat ) ||
                made_of( phase_id::LIQUID ) ||
                has_flag( MF_FIREY );
     }
@@ -1605,31 +1646,24 @@ bool monster::is_immune_effect( const efftype_id &effect ) const
     return false;
 }
 
-bool monster::is_immune_damage( const damage_type dt ) const
+bool monster::is_immune_damage( const damage_type_id &dt ) const
 {
-    switch( dt ) {
-        case damage_type::PURE:
-        case damage_type::BIOLOGICAL: // NOTE: Unused
-        case damage_type::BASH:
-        case damage_type::CUT:
-        case damage_type::STAB:
-        case damage_type::BULLET:
-            return false;
-        case damage_type::ACID:
-            return has_flag( MF_ACIDPROOF );
-        case damage_type::HEAT:
-            // Ugly hardcode - remove later
-            return made_of( material_steel ) || made_of( material_stone );
-        case damage_type::COLD:
-            return false;
-        case damage_type::ELECTRIC:
-            return type->sp_defense == &mdefense::zapback ||
-                   has_flag( MF_ELECTRIC ) ||
-                   has_flag( MF_ELECTRIC_FIELD );
-        case damage_type::NONE:
-        default:
-            return true;
+    if( !dt->mon_immune_flags.empty() ) {
+        for( const m_flag &mf : dt->mon_immune_flags ) {
+            if( has_flag( mf ) ) {
+                return true;
+            }
+        }
     }
+    // FIXME: Hardcoded damage type specific immunities
+    if( dt == damage_heat && ( made_of( material_steel ) || made_of( material_stone ) ) ) {
+        return true;
+    }
+    if( dt == damage_electric && type->sp_defense == &mdefense::zapback ) {
+        return true;
+    }
+
+    return false;
 }
 
 void monster::make_bleed( const effect_source &source, time_duration duration, int intensity,
@@ -1667,11 +1701,11 @@ const weakpoint *monster::absorb_hit( const weakpoint_attack &attack, const body
     for( damage_unit &elem : dam.damage_units ) {
         add_msg_debug( debugmode::DF_MONSTER,
                        "Dam Type: %s :: Dam Amt: %.1f :: Ar Pen: %.1f :: Armor Mult: %.1f",
-                       io::enum_to_string( elem.type ), elem.amount, elem.res_pen, elem.res_mult );
+                       elem.type.c_str(), elem.amount, elem.res_pen, elem.res_mult );
         add_msg_debug( debugmode::DF_MONSTER,
                        "Weakpoint: %s :: Armor Mult: %.1f :: Armor Penalty: %.1f :: Resist: %.1f",
-                       wp->id, wp->armor_mult[static_cast<int>( elem.type )],
-                       wp->armor_penalty[static_cast<int>( elem.type )],
+                       wp->id, wp->armor_mult.count( elem.type ) > 0 ? wp->armor_mult.at( elem.type ) : 0.f,
+                       wp->armor_penalty.count( elem.type ) > 0 ? wp->armor_penalty.at( elem.type ) : 0.f,
                        r.get_effective_resist( elem ) );
         elem.amount -= std::min( r.get_effective_resist( elem ) +
                                  get_worn_armor_val( elem.type ), elem.amount );
@@ -1721,7 +1755,7 @@ bool monster::melee_attack( Creature &target, float accuracy )
 
     damage_instance damage = !is_hallucination() ? type->melee_damage : damage_instance();
     if( !is_hallucination() && type->melee_dice > 0 ) {
-        damage.add_damage( damage_type::BASH, dice( type->melee_dice, type->melee_sides ) );
+        damage.add_damage( damage_bash, dice( type->melee_dice, type->melee_sides ) );
     }
 
     dealt_damage_instance dealt_dam;
@@ -1851,8 +1885,7 @@ bool monster::melee_attack( Creature &target, float accuracy )
         }
     }
 
-    const int stab_cut = dealt_dam.type_damage( damage_type::CUT ) + dealt_dam.type_damage(
-                             damage_type::STAB );
+    const int stab_cut = dealt_dam.type_damage( damage_cut ) + dealt_dam.type_damage( damage_stab );
 
     if( stab_cut > 0 && has_flag( MF_VENOM ) ) {
         target.add_msg_if_player( m_bad, _( "You're envenomed!" ) );
@@ -1906,44 +1939,19 @@ void monster::deal_damage_handle_type( const effect_source &source, const damage
                                        bodypart_id bp, int &damage, int &pain )
 {
     const int adjusted_damage = du.amount * du.damage_multiplier * du.unconditional_damage_mult;
-    switch( du.type ) {
-        case damage_type::ELECTRIC:
-            if( has_flag( MF_ELECTRIC ) ) {
-                return; // immunity
-            }
-            break;
-        case damage_type::COLD:
-            if( has_flag( MF_COLDPROOF ) ) {
-                return; // immunity
-            }
-            break;
-        case damage_type::BASH:
-            if( has_flag( MF_PLASTIC ) ) {
-                damage += du.amount / rng( 2, 4 ); // lessened effect
-                pain += du.amount / 4;
-                return;
-            }
-            break;
-        case damage_type::NONE:
-            debugmsg( "monster::deal_damage_handle_type: illegal damage type damage_type::NONE" );
-            break;
-        case damage_type::ACID:
-            if( has_flag( MF_ACIDPROOF ) ) {
-                // immunity
-                return;
-            }
-        case damage_type::PURE:
-        // typeless damage, should always go through
-        case damage_type::BIOLOGICAL:
-        // internal damage, like from smoke or poison
-        case damage_type::HEAT:
-            break;
-        case damage_type::CUT:
-        case damage_type::STAB:
-        case damage_type::BULLET:
-            make_bleed( source, 1_minutes * rng( 0, adjusted_damage ) );
-        default:
-            break;
+    if( is_immune_damage( du.type ) ) {
+        return; // immunity
+    }
+    // FIXME: Hardcoded damage type effects (bash, bullet)
+    if( du.type == damage_bash ) {
+        if( has_flag( MF_PLASTIC ) ) {
+            damage += du.amount / rng( 2, 4 ); // lessened effect
+            pain += du.amount / 4;
+            return;
+        }
+    }
+    if( du.type == damage_bullet || du.type->edged ) {
+        make_bleed( source, 1_minutes * rng( 0, adjusted_damage ) );
     }
 
     Creature::deal_damage_handle_type( source, du,  bp, damage, pain );
@@ -2138,15 +2146,21 @@ bool monster::move_effects( bool )
             remove_effect( effect_in_pit );
         }
     }
-    if( has_effect( effect_grabbed ) ) {
-        if( dice( type->melee_dice + type->melee_sides, 3 ) < get_effect_int( effect_grabbed ) ||
-            !one_in( 4 ) ) {
-            return false;
-        } else {
-            if( u_see_me ) {
-                add_msg( _( "The %s breaks free from the grab!" ), name() );
+    if( has_effect_with_flag( json_flag_GRAB ) ) {
+        // Pretty hacky, but monsters have no stats
+        for( const effect &grab : get_effects_with_flag( json_flag_GRAB ) ) {
+            int monster = type->melee_skill + type->melee_damage.total_damage();
+            int grabber = get_effect_int( grab.get_id() );
+            add_msg_debug( debugmode::DF_MONSTER, "%s attempting to break grab %s, success %d in intensity %d",
+                           get_name(), grab.get_id().c_str(), monster, grabber );
+            if( !x_in_y( monster, grabber ) ) {
+                return false;
+            } else {
+                if( u_see_me ) {
+                    add_msg( _( "The %s breaks free from the grab!" ), name() );
+                }
+                remove_effect( grab.get_id() );
             }
-            remove_effect( effect_grabbed );
         }
     }
     return true;
@@ -2166,7 +2180,7 @@ std::string monster::get_effect_status() const
     return enumerate_as_string( effect_status );
 }
 
-int monster::get_worn_armor_val( damage_type dt ) const
+int monster::get_worn_armor_val( const damage_type_id &dt ) const
 {
     if( !has_effect( effect_monster_armor ) ) {
         return 0;
@@ -2177,61 +2191,9 @@ int monster::get_worn_armor_val( damage_type dt ) const
     return 0;
 }
 
-int monster::get_armor_cut( bodypart_id bp ) const
+int monster::get_armor_type( const damage_type_id &dt, bodypart_id /*bp*/ ) const
 {
-    ( void ) bp;
-    // TODO: Add support for worn armor?
-    return static_cast<int>( type->armor_cut ) + armor_cut_bonus + get_worn_armor_val(
-               damage_type::CUT );
-}
-
-int monster::get_armor_bash( bodypart_id bp ) const
-{
-    ( void ) bp;
-    return static_cast<int>( type->armor_bash ) + armor_bash_bonus + get_worn_armor_val(
-               damage_type::BASH );
-}
-
-int monster::get_armor_bullet( bodypart_id bp ) const
-{
-    ( void ) bp;
-    return static_cast<int>( type->armor_bullet ) + armor_bullet_bonus + get_worn_armor_val(
-               damage_type::BULLET );
-}
-
-int monster::get_armor_type( damage_type dt, bodypart_id bp ) const
-{
-    int worn_armor = get_worn_armor_val( dt );
-
-    switch( dt ) {
-        case damage_type::PURE:
-            return worn_armor + static_cast<int>( type->armor_pure );
-        case damage_type::BIOLOGICAL:
-            return worn_armor + static_cast<int>( type->armor_biological );
-        case damage_type::BASH:
-            return get_armor_bash( bp );
-        case damage_type::CUT:
-            return get_armor_cut( bp );
-        case damage_type::BULLET:
-            return get_armor_bullet( bp );
-        case damage_type::ACID:
-            return worn_armor + static_cast<int>( type->armor_acid );
-        case damage_type::STAB:
-            return worn_armor + static_cast<int>( type->armor_stab ) + armor_cut_bonus * 0.8f;
-        case damage_type::HEAT:
-            return worn_armor + static_cast<int>( type->armor_fire );
-        case damage_type::COLD:
-            return worn_armor + static_cast<int>( type->armor_cold );
-        case damage_type::ELECTRIC:
-            return worn_armor + static_cast<int>( type->armor_elec );
-        case damage_type::NONE:
-        case damage_type::NUM:
-            // Let it error below
-            break;
-    }
-
-    debugmsg( "Invalid damage type: %d", dt );
-    return 0;
+    return get_worn_armor_val( dt ) + type->armor.type_resist( dt ) + get_armor_res_bonus( dt );
 }
 
 float monster::get_hit_base() const
@@ -2363,12 +2325,14 @@ int monster::impact( const int force, const tripoint &p )
     const float mod = fall_damage_mod();
     int total_dealt = 0;
     if( get_map().has_flag( ter_furn_flag::TFLAG_SHARP, p ) ) {
-        const int cut_damage = std::max( 0.0f, 10 * mod - get_armor_cut( bodypart_id( "torso" ) ) );
+        const int cut_damage = std::max( 0.0f, 10 * mod - get_armor_type( damage_cut,
+                                         bodypart_id( "torso" ) ) );
         apply_damage( nullptr, bodypart_id( "torso" ), cut_damage );
         total_dealt += 10 * mod;
     }
 
-    const int bash_damage = std::max( 0.0f, force * mod - get_armor_bash( bodypart_id( "torso" ) ) );
+    const int bash_damage = std::max( 0.0f, force * mod - get_armor_type( damage_bash,
+                                      bodypart_id( "torso" ) ) );
     apply_damage( nullptr, bodypart_id( "torso" ), bash_damage );
     total_dealt += force * mod;
 
@@ -2409,7 +2373,7 @@ void monster::disable_special( const std::string &special_name )
     special_attacks.at( special_name ).enabled = false;
 }
 
-bool monster::special_available( const std::string &special_name ) const
+bool monster::special_available( const std::string_view special_name ) const
 {
     std::map<std::string, mon_special_attack>::const_iterator iter = special_attacks.find(
                 special_name );
@@ -2470,11 +2434,21 @@ void monster::process_turn()
     }
     creature_tracker &creatures = get_creature_tracker();
     // Persist grabs as long as there's an adjacent target.
-    if( has_effect( effect_grabbing ) ) {
+    if( has_effect_with_flag( json_flag_GRAB_FILTER ) ) {
+        bool remove = true;
         for( const tripoint &dest : here.points_in_radius( pos(), 1, 0 ) ) {
-            const Character *const you = creatures.creature_at<Character>( dest );
-            if( you && you->has_effect( effect_grabbed ) ) {
-                add_effect( effect_grabbing, 2_turns );
+            const Creature *const you = creatures.creature_at<Creature>( dest );
+            if( you && you->has_effect_with_flag( json_flag_GRAB ) ) {
+                add_msg_debug( debugmode::DF_MATTACK, "Grabbed creature %s found, persisting grab.",
+                               you->get_name() );
+                remove = false;
+            }
+        }
+        if( remove ) {
+            for( const effect &eff : get_effects_with_flag( json_flag_GRAB_FILTER ) ) {
+                const efftype_id effid = eff.get_id();
+                remove_effect( effid );
+                add_msg_debug( debugmode::DF_MATTACK, "Grab filter effect %s removed.", effid.c_str() );
             }
         }
     }
@@ -2565,17 +2539,19 @@ void monster::die( Creature *nkiller )
     }
     map &here = get_map();
     creature_tracker &creatures = get_creature_tracker();
-    if( has_effect( effect_grabbing ) ) {
-        remove_effect( effect_grabbing );
+    if( has_effect_with_flag( json_flag_GRAB_FILTER ) ) {
+        // Need to filter out which limb we were grabbing before death
         for( const tripoint &player_pos : here.points_in_radius( pos(), 1, 0 ) ) {
-            Character *you = creatures.creature_at<Character>( player_pos );
-            if( !you || !you->has_effect( effect_grabbed ) ) {
+            Creature *you = creatures.creature_at( player_pos );
+            if( !you || !you->has_effect_with_flag( json_flag_GRAB ) ) {
                 continue;
             }
+            // ...but if there are no grabbers around we can just skip to the end
             bool grabbed = false;
             for( const tripoint &mon_pos : here.points_in_radius( player_pos, 1, 0 ) ) {
                 const monster *const mon = creatures.creature_at<monster>( mon_pos );
-                if( mon && mon->has_effect( effect_grabbing ) ) {
+                // No persisting our grabs from beyond the grave, but we also don't get to remove the effect early
+                if( mon && mon->has_effect_with_flag( json_flag_GRAB_FILTER ) && mon != this ) {
                     grabbed = true;
                     break;
                 }
@@ -2583,7 +2559,18 @@ void monster::die( Creature *nkiller )
             if( !grabbed ) {
                 you->add_msg_player_or_npc( m_good, _( "The last enemy holding you collapses!" ),
                                             _( "The last enemy holding <npcname> collapses!" ) );
-                you->remove_effect( effect_grabbed );
+                // A loop for safety
+                for( const effect &grab : you->get_effects_with_flag( json_flag_GRAB ) ) {
+                    you->remove_effect( grab.get_id() );
+                }
+                continue;
+            }
+            // Iterate through all your grabs to figure out which one this critter held
+            for( const effect &grab : you->get_effects_with_flag( json_flag_GRAB ) ) {
+                if( has_effect( grab.get_bp()->grabbing_effect ) ) {
+                    const effect_type effid = *grab.get_effect_type();
+                    you->remove_effect( effid.id, grab.get_bp() );
+                }
             }
         }
     }
@@ -2921,7 +2908,7 @@ void monster::process_one_effect( effect &it, bool is_new )
             dam = rng( 5, 10 );
         }
 
-        dam -= get_armor_type( damage_type::HEAT, bodypart_id( "torso" ) );
+        dam -= get_armor_type( damage_heat, bodypart_id( "torso" ) );
         if( dam > 0 ) {
             apply_damage( it.get_source().resolve_creature(), bodypart_id( "torso" ), dam );
         } else {

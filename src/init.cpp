@@ -25,6 +25,7 @@
 #include "city.h"
 #include "clothing_mod.h"
 #include "clzones.h"
+#include "condition.h"
 #include "construction.h"
 #include "construction_category.h"
 #include "construction_group.h"
@@ -61,6 +62,7 @@
 #include "martialarts.h"
 #include "material.h"
 #include "mission.h"
+#include "math_parser_jmath.h"
 #include "mod_tileset.h"
 #include "monfaction.h"
 #include "mongroup.h"
@@ -227,7 +229,7 @@ void DynamicDataLoader::add( const std::string &type,
 void DynamicDataLoader::add( const std::string &type,
                              const std::function<void( const JsonObject & )> &f )
 {
-    add( type, [f]( const JsonObject & obj, const std::string &,  const cata_path &,
+    add( type, [f]( const JsonObject & obj, const std::string_view,  const cata_path &,
     const cata_path & ) {
         f( obj );
     } );
@@ -245,6 +247,7 @@ void DynamicDataLoader::initialize()
     add( "EXTERNAL_OPTION", &load_external_option );
     add( "option_slider", &option_slider::load_option_sliders );
     add( "json_flag", &json_flag::load_all );
+    add( "jmath_function", &jmath_func::load_func );
     add( "connect_group", &connect_group::load );
     add( "fault", &fault::load_fault );
     add( "relic_procgen_data", &relic_procgen_data::load_relic_procgen_data );
@@ -309,7 +312,7 @@ void DynamicDataLoader::initialize()
     add( "vehicle_part",  &vpart_info::load );
     add( "vehicle_part_category",  &vpart_category::load );
     add( "vehicle_part_migration", &vpart_migration::load );
-    add( "vehicle",  &vehicle_prototype::load );
+    add( "vehicle", &vehicles::load_prototype );
     add( "vehicle_group",  &VehicleGroup::load );
     add( "vehicle_placement",  &VehiclePlacement::load );
     add( "vehicle_spawn",  &VehicleSpawn::load );
@@ -475,6 +478,8 @@ void DynamicDataLoader::initialize()
     add( "conduct", &achievement::load_achievement );
     add( "widget", &widget::load_widget );
     add( "weakpoint_set", &weakpoints::load_weakpoint_sets );
+    add( "damage_type", &damage_type::load_damage_types );
+    add( "damage_info_order", &damage_info_order::load_damage_info_orders );
 #if defined(TILES)
     add( "mod_tileset", &load_mod_tileset );
 #else
@@ -559,6 +564,8 @@ void DynamicDataLoader::unload_data()
     clothing_mods::reset();
     construction_categories::reset();
     construction_groups::reset();
+    damage_type::reset();
+    damage_info_order::reset();
     disease_type::reset();
     dreams.clear();
     emit::reset();
@@ -574,6 +581,7 @@ void DynamicDataLoader::unload_data()
     harvest_list::reset();
     item_category::reset();
     item_controller->reset();
+    jmath_func::reset();
     json_flag::reset();
     connect_group::reset();
     limb_score::reset();
@@ -639,7 +647,7 @@ void DynamicDataLoader::unload_data()
     VehicleGroup::reset();
     VehiclePlacement::reset();
     VehicleSpawn::reset();
-    vehicle_prototype::reset();
+    vehicles::reset_prototypes();
     vitamin::reset();
     vpart_info::reset();
     vpart_category::reset();
@@ -677,11 +685,13 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Body parts" ), &body_part_type::finalize_all },
             { _( "Sub body parts" ), &sub_body_part_type::finalize_all },
             { _( "Body graphs" ), &bodygraph::finalize_all },
+            { _( "Bionics" ), &bionic_data::finalize_bionic },
             { _( "Weather types" ), &weather_types::finalize_all },
             { _( "Effect on conditions" ), &effect_on_conditions::finalize_all },
             { _( "Field types" ), &field_types::finalize_all },
             { _( "Ammo effects" ), &ammo_effects::finalize_all },
             { _( "Emissions" ), &emit::finalize },
+            { _( "Materials" ), &material_type::finalize_all },
             {
                 _( "Items" ), []()
                 {
@@ -705,9 +715,11 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Overmap specials" ), &overmap_specials::finalize },
             { _( "Overmap locations" ), &overmap_locations::finalize },
             { _( "Cities" ), &city::finalize },
+            { _( "Math functions" ), &jmath_func::finalize },
+            { _( "Math expressions" ), &finalize_conditions },
             { _( "Start locations" ), &start_locations::finalize_all },
             { _( "Vehicle part migrations" ), &vpart_migration::finalize },
-            { _( "Vehicle prototypes" ), &vehicle_prototype::finalize },
+            { _( "Vehicle prototypes" ), &vehicles::finalize_prototypes },
             { _( "Mapgen weights" ), &calculate_mapgen_weights },
             { _( "Mapgen parameters" ), &overmap_specials::finalize_mapgen_parameters },
             { _( "Behaviors" ), &behavior::finalize },
@@ -729,8 +741,9 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Missions" ), &mission_type::finalize },
             { _( "Harvest lists" ), &harvest_list::finalize_all },
             { _( "Anatomies" ), &anatomy::finalize_all },
-            { _( "Mutations" ), &mutation_branch::finalize },
+            { _( "Mutations" ), &mutation_branch::finalize_all },
             { _( "Achievements" ), &achievement::finalize },
+            { _( "Damage info orders" ), &damage_info_order::finalize_all },
             { _( "Widgets" ), &widget::finalize },
 #if defined(TILES)
             { _( "Tileset" ), &load_tileset },
@@ -837,6 +850,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Achievements" ), &achievement::check_consistency },
             { _( "Disease types" ), &disease_type::check_disease_consistency },
             { _( "Factions" ), &faction_template::check_consistency },
+            { _( "Damage types" ), &damage_type::check }
         }
     };
 

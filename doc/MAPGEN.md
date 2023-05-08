@@ -24,6 +24,8 @@
     * [Set things in a "square"](#set-things-in-a-square)
   * [Spawn a single monster with "place_monster"](#spawn-a-single-monster-with-place_monster)
   * [Spawn an entire group of monsters with "place_monsters"](#spawn-an-entire-group-of-monsters-with-place_monsters)
+  * [Spawn npcs with "place_npcs"](#spawn-npcs-with-place_npcs)
+  * [Set variables with "place_variables"](#set-variables-with-place_variables)
   * [Spawn specific items with a "place_item" array](#spawn-specific-items-with-a-place_item-array)
   * [Extra map features with specials](#extra-map-features-with-specials)
     * [Place smoke, gas, or blood with "fields"](#place-smoke-gas-or-blood-with-fields)
@@ -612,6 +614,23 @@ Using `place_monsters` to spawn a group of monsters works in a similar fashion t
 | repeat      | The spawning is repeated this many times. Can be a number or a range. Again, this represents the number of times the group will be spawned.
 | density | This number is multiplied by the spawn density of the world the player is in and then probabilistically rounded to determine how many times to spawn the group. This is done for each time the spawn is repeated. For instance, if the final multiplier from this calculation ends up being `2`, and the repeat value is `6`, then the group will be spawned `2 * 6` or 12 times.
 
+## Spawn npcs with "place_npcs"
+Using `place_npcs` to spawn a group of npcs.
+
+|Field|Description  |
+|--|--|
+| x, y        | Spawn coordinates ( specific or area rectangle ). Value: 0-23 or `[ 0-23, 0-23 ]` - random value between `[ a, b ]`.
+| class | The class of the npc that you wish to spawn |
+| add_trait      | A string of array of strings for traits the npc starts with.
+| unique_id      | A string for the unique_id the npc has.
+
+## Set variables with "place_variables"
+Using `place_variables` to set a group of variables.
+
+|Field|Description  |
+|--|--|
+| x, y        | Spawn coordinates ( specific or area rectangle ). Value: 0-23 or `[ 0-23, 0-23 ]` - random value between `[ a, b ]`.
+| name      | The name of the global variable to set with the absolute coordinates of x and y.
 
 ## Spawn specific items with a "place_item" array
 **optional** A list of *specific* things to add. WIP: Monsters and vehicles will be here too

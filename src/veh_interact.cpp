@@ -673,7 +673,7 @@ task_reason veh_interact::cant_do( char mode )
                     break;
                 }
             }
-            has_tools = player_character.has_quality( qual_HOSE );
+            has_tools = player_character.crafting_inventory( false ).has_quality( qual_HOSE );
             break;
 
         case 'd':
@@ -872,6 +872,14 @@ bool veh_interact::update_part_requirements()
         ok = res.first;
     }
     nmsg += res.second;
+
+    ret_val<void> can_mount = veh->can_mount(
+                                  -dd, sel_vpart_info->get_id() );
+    if( !can_mount.success() ) {
+        ok = false;
+        nmsg += _( "<color_white>Cannot install due to:</color>\n> " ) + colorize( can_mount.str(),
+                c_red ) + "\n";
+    }
 
     sel_vpart_info->format_description( nmsg, c_light_gray, getmaxx( w_msg ) - 4 );
 
@@ -1807,8 +1815,7 @@ vehicle_part *veh_interact::get_most_damaged_part() const
 
 vehicle_part *veh_interact::get_most_repairable_part() const
 {
-    vehicle_part &part = veh_utils::most_repairable_part( *veh, get_player_character() );
-    return part ? &part : nullptr;
+    return veh_utils::most_repairable_part( *veh, get_player_character() );
 }
 
 bool veh_interact::can_remove_part( int idx, const Character &you )
@@ -2364,7 +2371,7 @@ void veh_interact::move_cursor( const point &d, int dstart_at )
             if( has_critter && vp.has_flag( VPFLAG_OBSTACLE ) ) {
                 continue;
             }
-            if( veh->can_mount( vd, vp.get_id() ) ) {
+            if( veh->can_mount( vd, vp.get_id() ).success() ) {
                 if( vp.has_flag( VPFLAG_APPLIANCE ) ) {
                     // exclude "appliances" from vehicle part list
                     continue;
@@ -2378,6 +2385,8 @@ void veh_interact::move_cursor( const point &d, int dstart_at )
                 } else {
                     req_missing.push_back( &vp );
                 }
+            } else {
+                req_missing.push_back( &vp );
             }
         }
         auto vpart_localized_sort = []( const vpart_info * a, const vpart_info * b ) {
@@ -2763,7 +2772,7 @@ void veh_interact::display_stats() const
     fold_and_print( w_stats, point( x[i], y[i] ), w[i], c_light_gray,
                     _( "Offroad:        <color_light_blue>%4d</color>%%" ),
                     static_cast<int>( veh->k_traction( veh->wheel_area() *
-                                      veh->average_or_rating() ) * 100 ) );
+                                      veh->average_offroad_rating() ) * 100 ) );
     i += 1;
 
     if( is_boat ) {

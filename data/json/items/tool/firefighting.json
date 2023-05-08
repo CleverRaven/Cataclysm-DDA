@@ -15,13 +15,12 @@
     "weight": "907 g",
     "volume": "1 L",
     "longest_side": "40 cm",
-    "bashing": 10,
-    "cutting": 20,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "neutral" },
     "flags": [ "DURABLE_MELEE", "BELT_CLIP", "NONCONDUCTIVE", "SHEATH_AXE" ],
     "weapon_category": [ "HAND_AXES" ],
     "use_action": [ "CROWBAR" ],
-    "qualities": [ [ "AXE", 2 ], [ "CUT", 1 ], [ "PRY", 2 ], [ "BUTCHER", 16 ] ]
+    "qualities": [ [ "AXE", 2 ], [ "CUT", 1 ], [ "PRY", 2 ], [ "BUTCHER", 16 ] ],
+    "melee_damage": { "bash": 10, "cut": 20 }
   },
   {
     "id": "extinguisher",
@@ -34,7 +33,6 @@
     "price": 5000,
     "price_postapoc": 100,
     "to_hit": -4,
-    "bashing": 16,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "red",
@@ -49,7 +47,8 @@
     ],
     "charges_per_use": 1,
     "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
-    "use_action": [ "EXTINGUISHER" ]
+    "use_action": [ "EXTINGUISHER" ],
+    "melee_damage": { "bash": 16 }
   },
   {
     "id": "fire_ax",
@@ -61,8 +60,6 @@
     "price": 20000,
     "longest_side": "90 cm",
     "price_postapoc": 1500,
-    "bashing": 17,
-    "cutting": 34,
     "material": [ "steel", "wood" ],
     "symbol": "/",
     "color": "light_gray",
@@ -81,7 +78,8 @@
         "description": "Marrying strap for a Halligan bar.",
         "holster": true
       }
-    ]
+    ],
+    "melee_damage": { "bash": 17, "cut": 34 }
   },
   {
     "id": "halligan",
@@ -93,15 +91,14 @@
     "longest_side": "76 cm",
     "price": 7500,
     "price_postapoc": 1500,
-    "bashing": 42,
-    "cutting": 5,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "dark_gray",
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "qualities": [ [ "PRY", 4 ], [ "HAMMER", 2 ], [ "DIG", 1 ], [ "PRYING_NAIL", 1 ] ],
     "use_action": [ "CROWBAR" ],
-    "flags": [ "DURABLE_MELEE", "BELT_CLIP", "STAB", "SHEATH_AXE" ]
+    "flags": [ "DURABLE_MELEE", "BELT_CLIP", "SHEATH_AXE" ],
+    "melee_damage": { "bash": 42, "stab": 5 }
   },
   {
     "id": "sm_extinguisher",
@@ -114,7 +111,6 @@
     "price": 4000,
     "price_postapoc": 50,
     "to_hit": -1,
-    "bashing": 4,
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "red",
@@ -130,7 +126,8 @@
     "ammo": "extinguishing_agent",
     "charges_per_use": 1,
     "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
-    "use_action": [ "EXTINGUISHER" ]
+    "use_action": [ "EXTINGUISHER" ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "throw_extinguisher",
@@ -143,7 +140,6 @@
     "price": 3000,
     "price_postapoc": 50,
     "to_hit": -1,
-    "bashing": 3,
     "material": [ "steel" ],
     "symbol": "*",
     "color": "blue",
@@ -155,7 +151,8 @@
       "active": true,
       "type": "transform"
     },
-    "flags": [ "ACT_IN_FIRE", "BOMB", "GRENADE" ]
+    "flags": [ "ACT_IN_FIRE", "BOMB", "GRENADE" ],
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "throw_extinguisher_act",
@@ -168,7 +165,6 @@
     "price": 0,
     "price_postapoc": 0,
     "to_hit": -1,
-    "bashing": 6,
     "material": [ "steel" ],
     "symbol": "*",
     "color": "light_red",
@@ -177,7 +173,8 @@
     "turns_per_charge": 1,
     "emits": [ "emit_extinguisher_burst" ],
     "revert_to": "canister_empty",
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID" ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "pike_pole",
@@ -195,10 +192,9 @@
     "//": " If the pole itself has a diameter of around 3 cm which is thick, to be frank, then we half it for the radius -> 1,5 cm, square it -> 2,25, mulitplicate with pi -> ~7,07 cm² multiplicate with 160 cm length -> 1130 cm³ which is 1,13 liters. We add the hook which is around 100 ml of volume.",
     "volume": "1250 ml",
     "longest_side": "160 cm",
-    "bashing": 20,
-    "cutting": 6,
     "to_hit": -1,
-    "qualities": [ [ "COOK", 1 ] ]
+    "qualities": [ [ "COOK", 1 ] ],
+    "melee_damage": { "bash": 20, "cut": 6 }
   },
   {
     "id": "ny_hook",
@@ -211,14 +207,13 @@
     "price": 5500,
     "material": [ "steel" ],
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "DURABLE_MELEE", "STAB", "SHEATH_AXE" ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_AXE" ],
     "weight": "2900 g",
     "volume": "400 ml",
     "longest_side": "90 cm",
-    "bashing": 15,
-    "cutting": 13,
     "to_hit": -1,
     "qualities": [ [ "PRY", 3 ], [ "HAMMER", 1 ], [ "DIG", 1 ] ],
-    "use_action": [ "CROWBAR" ]
+    "use_action": [ "CROWBAR" ],
+    "melee_damage": { "bash": 15, "stab": 13 }
   }
 ]

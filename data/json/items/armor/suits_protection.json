@@ -10,7 +10,6 @@
     "price": 26000,
     "price_postapoc": 3000,
     "to_hit": -5,
-    "bashing": 2,
     "material": [ "leather" ],
     "symbol": "[",
     "longest_side": "60 cm",
@@ -29,7 +28,8 @@
     "warmth": 20,
     "material_thickness": 6,
     "valid_mods": [ "steel_padded" ],
-    "flags": [ "VARSIZE", "STURDY", "OUTER" ]
+    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "armor_chitin",
@@ -42,7 +42,6 @@
     "price": 120000,
     "price_postapoc": 3000,
     "to_hit": -5,
-    "bashing": 2,
     "material": [ "chitin" ],
     "symbol": "[",
     "looks_like": "armor_larmor",
@@ -59,7 +58,8 @@
         "encumbrance": [ 5, 5 ],
         "specifically_covers": [ "leg_upper_r", "leg_upper_l" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "xl_armor_chitin",
@@ -90,8 +90,7 @@
     "environmental_protection": 2,
     "price_postapoc": 3500,
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
-    "relative": { "bashing": 1 },
-    "extend": { "flags": [ "NO_REPAIR" ] }
+    "relative": { "melee_damage": { "bash": 1 } }
   },
   {
     "id": "xl_armor_acidchitin",
@@ -121,7 +120,6 @@
     "price": 100000,
     "price_postapoc": 1500,
     "to_hit": -5,
-    "bashing": 2,
     "material": [ "fur" ],
     "symbol": "[",
     "longest_side": "30 cm",
@@ -151,7 +149,8 @@
     "warmth": 60,
     "material_thickness": 4,
     "valid_mods": [ "steel_padded" ],
-    "flags": [ "VARSIZE", "POCKETS", "WATERPROOF", "STURDY", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "WATERPROOF", "STURDY", "OUTER" ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "xl_armor_farmor",
@@ -181,7 +180,6 @@
     "price": 12000,
     "price_postapoc": 2500,
     "to_hit": -5,
-    "bashing": 2,
     "material": [ "leather" ],
     "symbol": "[",
     "longest_side": "60 cm",
@@ -200,7 +198,8 @@
     "warmth": 25,
     "material_thickness": 4,
     "valid_mods": [ "steel_padded" ],
-    "flags": [ "VARSIZE", "STURDY", "OUTER" ]
+    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "xl_armor_larmor",
@@ -238,7 +237,6 @@
     "price": 6000,
     "price_postapoc": 1200,
     "to_hit": -5,
-    "bashing": 8,
     "material": [ "lc_steel" ],
     "symbol": "[",
     "looks_like": "armor_junk_lightplate",
@@ -251,7 +249,8 @@
       { "covers": [ "torso" ], "coverage": 95, "encumbrance": 18 },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 95, "encumbrance": 21 },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": 19 }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "armor_ch_metal_sheets",
@@ -273,7 +272,6 @@
     "price": 6000,
     "price_postapoc": 1300,
     "to_hit": -5,
-    "bashing": 8,
     "material": [ "lc_steel" ],
     "symbol": "[",
     "looks_like": "armor_junk_lightplate",
@@ -301,7 +299,8 @@
         "coverage": 95,
         "encumbrance": 21
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "armor_ch_metal_sheets_heavy",
@@ -342,7 +341,6 @@
     "price": 6000,
     "price_postapoc": 1300,
     "to_hit": -5,
-    "bashing": 8,
     "material": [ "lc_steel", "lc_steel_chain" ],
     "symbol": "[",
     "looks_like": "armor_junk_lightplate",
@@ -379,7 +377,8 @@
         "coverage": 100,
         "encumbrance": 25
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "armor_metal_sheets_chain_heavy",
@@ -392,7 +391,6 @@
     "price": 6000,
     "price_postapoc": 1300,
     "to_hit": -5,
-    "bashing": 8,
     "material": [ "lc_steel", "lc_steel_chain" ],
     "symbol": "[",
     "looks_like": "armor_junk_lightplate",
@@ -429,7 +427,8 @@
         "coverage": 100,
         "encumbrance": 25
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "armor_ch_metal_sheets_chain",
@@ -517,7 +516,6 @@
     "price": 60000,
     "price_postapoc": 12000,
     "to_hit": -5,
-    "bashing": 8,
     "material": [ "lc_steel", "lc_steel_chain" ],
     "symbol": "[",
     "looks_like": "armor_larmor",
@@ -557,7 +555,8 @@
         "coverage": 100,
         "encumbrance": 10
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "xl_armor_lc_lightplate",
@@ -770,7 +769,6 @@
     "price": 60000,
     "price_postapoc": 12000,
     "to_hit": -5,
-    "bashing": 8,
     "material": [ "lc_steel", "lc_steel_chain" ],
     "symbol": "[",
     "looks_like": "armor_larmor",
@@ -810,7 +808,8 @@
         "coverage": 100,
         "encumbrance": 15
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "xl_armor_lc_plate",
@@ -1023,7 +1022,6 @@
     "price": 60000,
     "price_postapoc": 12000,
     "to_hit": -5,
-    "bashing": 8,
     "material": [ "lc_steel", "lc_steel_chain" ],
     "symbol": "[",
     "looks_like": "armor_larmor",
@@ -1063,7 +1061,8 @@
         "coverage": 100,
         "encumbrance": 20
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "xl_armor_lc_heavyplate",
@@ -1276,7 +1275,6 @@
     "price": 110000,
     "price_postapoc": 3000,
     "to_hit": -5,
-    "bashing": 2,
     "material": [ "leather", "budget_steel" ],
     "symbol": "[",
     "color": "brown",
@@ -1329,7 +1327,8 @@
     ],
     "warmth": 25,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "STURDY", "OUTER" ]
+    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "xl_armor_plarmor",
@@ -1434,7 +1433,6 @@
     "volume": "11500 ml",
     "price": 90000,
     "price_postapoc": 8000,
-    "bashing": 8,
     "material": [ "iron", "leather" ],
     "symbol": "[",
     "looks_like": "armor_lightplate",
@@ -1443,7 +1441,8 @@
     "longest_side": "60 cm",
     "material_thickness": 4,
     "flags": [ "VARSIZE", "STURDY", "OUTER" ],
-    "armor": [ { "encumbrance": 15, "coverage": 85, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r" ] } ]
+    "armor": [ { "encumbrance": 15, "coverage": 85, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r" ] } ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "armor_scrapsuit",
@@ -1456,8 +1455,6 @@
     "price": 60000,
     "price_postapoc": 250,
     "to_hit": -5,
-    "bashing": 6,
-    "cutting": 8,
     "material": [ "budget_steel", "cotton" ],
     "symbol": "[",
     "looks_like": "armor_lightplate",
@@ -1493,7 +1490,8 @@
         "coverage": 95,
         "encumbrance": 15
       }
-    ]
+    ],
+    "melee_damage": { "bash": 6, "cut": 8 }
   },
   {
     "id": "armor_xl_scrapsuit",
@@ -2193,7 +2191,7 @@
         ],
         "covers": [ "torso" ],
         "coverage": 100,
-        "encumbrance": 15
+        "encumbrance": 20
       },
       {
         "material": [
@@ -2210,7 +2208,7 @@
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "coverage": 72,
-        "encumbrance": 8,
+        "encumbrance": 7,
         "layers": [ "BELTED" ],
         "//warmth": 20
       }
@@ -2258,14 +2256,14 @@
         ],
         "covers": [ "torso" ],
         "coverage": 100,
-        "encumbrance": 15
+        "encumbrance": 20
       },
       {
         "material": [ { "type": "cotton_quilted", "covered_by_mat": 100, "thickness": 2.0 } ],
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "coverage": 72,
-        "encumbrance": 8,
+        "encumbrance": 7,
         "layers": [ "BELTED" ],
         "//warmth": 20
       }
@@ -2620,7 +2618,7 @@
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "coverage": 72,
-        "encumbrance": 8,
+        "encumbrance": 7,
         "layers": [ "BELTED" ],
         "//warmth": 20
       }
@@ -2689,7 +2687,7 @@
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "coverage": 72,
-        "encumbrance": 8,
+        "encumbrance": 7,
         "layers": [ "BELTED" ],
         "//warmth": 20
       }
@@ -2750,7 +2748,7 @@
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "coverage": 72,
-        "encumbrance": 8,
+        "encumbrance": 7,
         "layers": [ "BELTED" ],
         "//warmth": 20
       }
@@ -3134,7 +3132,7 @@
     "//4": "5670g + 1944g + 810g = 8424g combined",
     "type": "ARMOR",
     "name": { "str": "nylon gambeson" },
-    "description": "A thick cloth greatcoat intended to be worn as standalone armor, as it's a little too thick to comfortably add chainmail or a cuirass on top.  Made of thirty layers of tough canvas, this will protect you from almost everything, but it's very heavy and warm.  The sleeves are a bit thinner for flexibility and it drapes below your legs, providing additional protection there.",
+    "description": "A thick cloth greatcoat intended to be worn as standalone armor, as it's a little too thick to comfortably add chainmail or a cuirass on top.  Made of thirty layers of tough nylon, this will protect you from almost everything, but it's very heavy and warm.  The sleeves are a bit thinner for flexibility and it drapes below your legs, providing additional protection there.",
     "weight": "8424 g",
     "volume": "7500 ml",
     "price_postapoc": 8500,
@@ -3172,7 +3170,7 @@
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "coverage": 72,
-        "encumbrance": 7,
+        "encumbrance": 5,
         "layers": [ "BELTED" ],
         "//warmth": 20
       }
@@ -3206,7 +3204,7 @@
     "//4": "5670g + 972g + 810g = 7452g combined",
     "type": "ARMOR",
     "name": { "str": "nylon thin-sleeved gambeson" },
-    "description": "A thick cloth greatcoat intended to be worn as standalone armor, as it's a little too thick to comfortably add chainmail or a cuirass on top.  Made of thirty layers of tough canvas, this will protect you from almost everything, but it's very heavy and warm.  The sleeves are a lot thinner for flexibility and it drapes below your legs, providing additional protection there.",
+    "description": "A thick cloth greatcoat intended to be worn as standalone armor, as it's a little too thick to comfortably add chainmail or a cuirass on top.  Made of thirty layers of tough nylon, this will protect you from almost everything, but it's very heavy and warm.  The sleeves are a lot thinner for flexibility and it drapes below your legs, providing additional protection there.",
     "weight": "7452 g",
     "volume": "7000 ml",
     "price_postapoc": 7500,
@@ -3241,7 +3239,7 @@
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "coverage": 72,
-        "encumbrance": 7,
+        "encumbrance": 5,
         "layers": [ "BELTED" ],
         "//warmth": 20
       }
@@ -3729,7 +3727,7 @@
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "coverage": 72,
-        "encumbrance": 8,
+        "encumbrance": 6,
         "layers": [ "BELTED" ],
         "//warmth": 22
       }
@@ -3799,7 +3797,7 @@
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "coverage": 72,
-        "encumbrance": 8,
+        "encumbrance": 6,
         "layers": [ "BELTED" ],
         "//warmth": 22
       }
@@ -3861,7 +3859,7 @@
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "coverage": 72,
-        "encumbrance": 8,
+        "encumbrance": 6,
         "layers": [ "BELTED" ],
         "//warmth": 20
       }
@@ -4387,7 +4385,6 @@
     "price": 58000,
     "price_postapoc": 1000,
     "to_hit": -5,
-    "bashing": 2,
     "material": [ "leather", "plastic_pad" ],
     "symbol": "[",
     "looks_like": "jumpsuit",
@@ -4441,7 +4438,8 @@
     "material_thickness": 4.3,
     "valid_mods": [ "steel_padded" ],
     "environmental_protection": 3,
-    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "OUTER", "POCKETS", "STURDY", "BLOCK_WHILE_WORN" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "OUTER", "POCKETS", "STURDY", "BLOCK_WHILE_WORN" ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "officer_uniform",

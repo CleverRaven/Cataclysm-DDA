@@ -114,10 +114,12 @@ static const activity_id ACT_WAIT_WEATHER( "ACT_WAIT_WEATHER" );
 
 static const bionic_id bio_remote( "bio_remote" );
 
+static const damage_type_id damage_bash( "bash" );
+static const damage_type_id damage_cut( "cut" );
+
 static const efftype_id effect_alarm_clock( "alarm_clock" );
 static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_laserlocked( "laserlocked" );
-static const efftype_id effect_relax_gas( "relax_gas" );
 static const efftype_id effect_stunned( "stunned" );
 
 static const flag_id json_flag_MOP( "MOP" );
@@ -128,6 +130,7 @@ static const itype_id fuel_type_animal( "animal" );
 static const itype_id itype_radiocontrol( "radiocontrol" );
 
 static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
+static const json_character_flag json_flag_SUBTLE_SPELL( "SUBTLE_SPELL" );
 
 static const material_id material_glass( "glass" );
 
@@ -467,7 +470,7 @@ static void pldrive( const tripoint &p )
         const bool has_animal_controls = veh->part_with_feature( vp.mount, "CONTROL_ANIMAL", true ) >= 0;
         const bool has_controls = veh->part_with_feature( vp.mount, "CONTROLS", true ) >= 0;
         const bool has_animal = veh->has_engine_type( fuel_type_animal, false ) &&
-                                veh->has_harnessed_animal();
+                                veh->get_harnessed_animal();
         if( !has_controls && !has_animal_controls ) {
             add_msg( m_info, _( "You can't drive the vehicle from here.  You need controls!" ) );
             player_character.controlling_vehicle = false;
@@ -721,7 +724,7 @@ static void smash()
     } else {
         smashskill = player_character.get_arm_str();
         if( player_character.get_wielded_item() ) {
-            smashskill += player_character.get_wielded_item()->damage_melee( damage_type::BASH );
+            smashskill += player_character.get_wielded_item()->damage_melee( damage_bash );
         }
     }
 
@@ -807,10 +810,10 @@ static void smash()
         std::pair<bodypart_id, int> best_part_to_smash = {bp_null, 0};
         int tmp_bash_armor = 0;
         for( const bodypart_id &bp : player_character.get_all_body_parts() ) {
-            tmp_bash_armor += player_character.worn.damage_resist( damage_type::BASH, bp );
+            tmp_bash_armor += player_character.worn.damage_resist( damage_bash, bp );
             for( const trait_id &mut : player_character.get_mutations() ) {
                 const resistances &res = mut->damage_resistance( bp );
-                tmp_bash_armor += std::floor( res.type_resist( damage_type::BASH ) );
+                tmp_bash_armor += std::floor( res.type_resist( damage_bash ) );
             }
             if( tmp_bash_armor > best_part_to_smash.second ) {
                 best_part_to_smash = {bp, tmp_bash_armor};
@@ -847,7 +850,7 @@ static void smash()
             const int mod_sta = 2 * player_character.get_standard_stamina_cost();
             player_character.mod_stamina( mod_sta );
 
-            if( player_character.get_skill_level( skill_melee ) == 0 ) {
+            if( static_cast<int>( player_character.get_skill_level( skill_melee ) ) == 0 ) {
                 player_character.practice( skill_melee, rng( 0, 1 ) * rng( 0, 1 ) );
             }
             if( weapon ) {
@@ -862,12 +865,12 @@ static void smash()
                     weapon->spill_contents( player_character.pos() );
                     sounds::sound( player_character.pos(), 24, sounds::sound_t::combat, "CRACK!", true, "smash",
                                    "glass" );
-                    player_character.deal_damage( nullptr, bodypart_id( "hand_r" ), damage_instance( damage_type::CUT,
+                    player_character.deal_damage( nullptr, bodypart_id( "hand_r" ), damage_instance( damage_cut,
                                                   rng( 0,
                                                        vol ) ) );
                     if( vol > 20 ) {
                         // Hurt left arm too, if it was big
-                        player_character.deal_damage( nullptr, bodypart_id( "hand_l" ), damage_instance( damage_type::CUT,
+                        player_character.deal_damage( nullptr, bodypart_id( "hand_l" ), damage_instance( damage_cut,
                                                       rng( 0,
                                                            static_cast<int>( vol * .5 ) ) ) );
                     }
@@ -1058,7 +1061,7 @@ static void wait()
 
         player_activity new_act( actType, 100 * to_turns<int>( time_to_wait ), 0 );
 
-        player_character.assign_activity( new_act, false );
+        player_character.assign_activity( new_act );
     }
 }
 
@@ -1381,8 +1384,7 @@ static void loot()
             player_character.assign_activity( ACT_MOVE_LOOT );
             break;
         case UnloadLoot:
-            player_character.assign_activity(
-                player_activity( unload_loot_activity_actor() ) );
+            player_character.assign_activity( unload_loot_activity_actor() );
             break;
         case FertilizePlots:
             player_character.assign_activity( ACT_FERTILIZE_PLOT );
@@ -1482,64 +1484,50 @@ static void reach_attack( avatar &you )
 
 static void fire()
 {
-    avatar &player_character = get_avatar();
+    avatar &you = get_avatar();
     map &here = get_map();
 
-    // Use vehicle turret or draw a pistol from a holster if unarmed
-    if( !player_character.is_armed() ) {
-
-        const optional_vpart_position vp = here.veh_at( player_character.pos() );
-
-        turret_data turret;
-        if( vp && ( turret = vp->vehicle().turret_query( player_character.pos() ) ) ) {
-            if( player_character.has_trait( trait_BRAWLER ) ) {
-                add_msg( m_bad, _( "You refuse to use the turret." ) );
-                return;
-            }
-            avatar_action::fire_turret_manual( player_character, here, turret );
-            return;
-        }
-
-        if( vp.part_with_feature( "CONTROLS", true ) ) {
-            if( player_character.has_trait( trait_BRAWLER ) ) {
-                add_msg( m_bad, _( "You refuse to use the turret." ) );
-                return;
-            }
-            if( vp->vehicle().turrets_aim_and_fire_all_manual() ) {
-                return;
-            }
-        }
-
-        std::vector<std::string> options;
-        std::vector<std::function<void()>> actions;
-
-        player_character.worn.fire_options( player_character, options, actions );
-        if( !options.empty() ) {
-            int sel = uilist( _( "Draw what?" ), options );
-            if( sel >= 0 ) {
-                actions[sel]();
-            }
-        }
-    }
-
-    const item_location weapon = player_character.get_wielded_item();
-    if( !weapon ) {
+    if( !you.try_break_relax_gas( _( "Your willpower asserts itself, and so do you!" ),
+                                  _( "You're too pacified to strike anything…" ) ) ) {
         return;
     }
 
-    if( weapon->is_gun() && !weapon->gun_current_mode().melee() ) {
-        avatar_action::fire_wielded_weapon( player_character );
-    } else if( weapon->current_reach_range( player_character ) > 1 ) {
-        if( player_character.has_effect( effect_relax_gas ) ) {
-            if( one_in( 8 ) ) {
-                add_msg( m_good, _( "Your willpower asserts itself, and so do you!" ) );
-                reach_attack( player_character );
-            } else {
-                player_character.moves -= rng( 2, 8 ) * 10;
-                add_msg( m_bad, _( "You're too pacified to strike anything…" ) );
+    const item_location weapon = you.get_wielded_item();
+    // try reach weapon
+    if( weapon && !weapon->is_gun() && weapon->current_reach_range( you ) > 1 ) {
+        reach_attack( you );
+        return;
+    }
+    if( you.has_trait( trait_BRAWLER ) ) {
+        add_msg( m_bad, _( "You refuse to use ranged weapons." ) );
+        return;
+    }
+    // try firing gun
+    if( weapon && weapon->is_gun() && !weapon->gun_current_mode().melee() ) {
+        avatar_action::fire_wielded_weapon( you );
+        return;
+    }
+    // try firing turrets
+    if( const optional_vpart_position ovp = here.veh_at( you.pos() ) ) {
+        if( turret_data turret_here = ovp->vehicle().turret_query( you.pos() ) ) {
+            if( avatar_action::fire_turret_manual( you, here, turret_here ) ) {
+                return;
             }
-        } else {
-            reach_attack( player_character );
+        } else if( ovp.part_with_feature( VPFLAG_CONTROLS, true ) ) {
+            if( ovp->vehicle().turrets_aim_and_fire_all_manual() ) {
+                return;
+            }
+        }
+    }
+    // offer to draw a gun from worn holster
+    std::vector<std::string> options;
+    std::vector<std::function<void()>> actions;
+    you.worn.fire_options( you, options, actions );
+    if( !options.empty() ) {
+        int sel = uilist( _( "Draw what?" ), options );
+        if( sel >= 0 ) {
+            actions[sel]();
+            return;
         }
     }
 }
@@ -1615,7 +1603,7 @@ static void cast_spell()
 bool Character::cast_spell( spell &sp, bool fake_spell,
                             const std::optional<tripoint> &target = std::nullopt )
 {
-    if( is_armed() && !sp.has_flag( spell_flag::NO_HANDS ) &&
+    if( is_armed() && !sp.has_flag( spell_flag::NO_HANDS ) && !has_flag( json_flag_SUBTLE_SPELL ) &&
         !get_wielded_item()->has_flag( flag_MAGIC_FOCUS ) && !sp.check_if_component_in_hand( *this ) ) {
         add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
                  _( "You need your hands free to cast this spell!" ) );
@@ -1629,7 +1617,8 @@ bool Character::cast_spell( spell &sp, bool fake_spell,
         return false;
     }
 
-    if( !sp.has_flag( spell_flag::NO_HANDS ) && has_effect( effect_stunned ) ) {
+    if( !sp.has_flag( spell_flag::NO_HANDS ) && !has_flag( json_flag_SUBTLE_SPELL ) &&
+        has_effect( effect_stunned ) ) {
         add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
                  _( "You can't focus enough to cast spell." ) );
         return false;
@@ -1673,7 +1662,7 @@ bool Character::cast_spell( spell &sp, bool fake_spell,
     if( target ) {
         spell_act.coords.emplace_back( get_map().getabs( *target ) );
     }
-    assign_activity( spell_act, false );
+    assign_activity( spell_act );
     return true;
 }
 
@@ -2427,9 +2416,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
         case ACTION_SLEEP:
             if( has_vehicle_control( player_character ) ) {
-                add_msg( m_info, _( "Vehicle control has moved, %s" ),
-                         press_x( ACTION_CONTROL_VEHICLE, _( "new binding is " ),
-                                  _( "new default binding is '^'." ) ) );
+                add_msg( m_info, _( "You can't sleep while controlling a vehicle" ) );
             } else {
                 sleep();
             }
@@ -2508,8 +2495,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
         case ACTION_WORKOUT:
             if( query_yn( _( "Start workout?" ) ) ) {
-                player_character.assign_activity( player_activity( workout_activity_actor(
-                                                      player_character.pos() ) ) );
+                player_character.assign_activity( workout_activity_actor( player_character.pos() ) );
             }
             break;
 

@@ -10,7 +10,7 @@
     "longest_side": "30 cm",
     "price_postapoc": 1250,
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "good" },
-    "proportional": { "cutting": 1.1, "price": 5, "weight": 0.8 },
+    "proportional": { "price": 5, "weight": 0.8, "melee_damage": { "stab": 1.1 } },
     "material": [ "moon_tears", "leather" ],
     "symbol": ";",
     "color": "light_gray",
@@ -18,7 +18,7 @@
     "techniques": [ "RAPID" ],
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
     "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ],
-    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE", "NPC_THROWN" ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE", "NPC_THROWN" ],
     "weapon_category": [ "KNIVES" ]
   },
   {
@@ -32,16 +32,15 @@
     "price_postapoc": 50000,
     "material": [ "moon_tears" ],
     "techniques": [ "WBLOCK_2", "PRECISE" ],
-    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
     "weapon_category": [ "MEDIEVAL_SWORDS", "LONG_SWORDS", "FENCING_WEAPONRY" ],
     "weight": "1214 g",
     "volume": "2750 ml",
     "longest_side": "130 cm",
-    "bashing": 8,
-    "cutting": 42,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "category": "weapons",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ]
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
+    "melee_damage": { "bash": 8, "stab": 42 }
   },
   {
     "id": "winter_lord_estoc",
@@ -115,13 +114,13 @@
     "volume": "400 ml",
     "longest_side": "30 cm",
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "good" },
-    "proportional": { "cutting": 0.6, "weight": 0.6 },
+    "proportional": { "weight": 0.6, "melee_damage": { "stab": 0.6 } },
     "material": [ "dreamstuff" ],
     "symbol": ";",
     "color": "light_gray",
     "techniques": [ "RAPID" ],
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 21 ] ],
-    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE", "NONCONDUCTIVE", "TRADER_AVOID" ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE", "NONCONDUCTIVE", "TRADER_AVOID" ],
     "weapon_category": [ "KNIVES" ]
   },
   {
@@ -134,7 +133,7 @@
     "volume": "1250 ml",
     "longest_side": "80 cm",
     "to_hit": { "grip": "weapon", "length": "short", "surface": "any", "balance": "neutral" },
-    "proportional": { "bashing": 0.9, "weight": 0.6 },
+    "proportional": { "weight": 0.6, "melee_damage": { "bash": 0.9 } },
     "material": [ "dreamstuff" ],
     "symbol": ";",
     "color": "light_gray",
@@ -156,7 +155,7 @@
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
     "weapon_category": [ "QUARTERSTAVES" ],
-    "proportional": { "bashing": 1.3, "weight": 0.6 },
+    "proportional": { "weight": 0.6, "melee_damage": { "bash": 1.3 } },
     "category": "weapons",
     "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "good" },
     "price_postapoc": 1000
@@ -169,7 +168,7 @@
     "description": "Long quarterstaff, forged entirely from dreamdross.  Twice as heavy than wooden one, but lot sturdier, and still useful as a weapon.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
     "material": [ "forged_dreamstuff" ],
     "//": "All dreamforged weapons are forged 100% from dreamdross. Wooden parts double their weight, but steel parts almost quarter their weight. 100% steel weapon like swords and knifes has too big benefit from it, so their damage is reduced respectively - the random properties will make them really good weapon anyway, but the basic stats will be sane enough.",
-    "proportional": { "bashing": 2.5, "weight": 2 }
+    "proportional": { "weight": 2, "melee_damage": { "bash": 2.5 } }
   },
   {
     "type": "GENERIC",
@@ -178,7 +177,7 @@
     "name": { "str": "dreamforged longsword" },
     "description": "Longsword, forged entirely from dreamdross.  It is much lighter than steel one, but it apply much less force to target.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
     "material": [ "forged_dreamstuff" ],
-    "proportional": { "cutting": 0.5, "weight": 0.25 }
+    "proportional": { "weight": 0.25, "melee_damage": { "cut": 0.5 } }
   },
   {
     "type": "GENERIC",
@@ -188,7 +187,7 @@
     "description": "Warhammer, forged entirely from dreamdross.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
     "weight": "1367 g",
     "material": [ "forged_dreamstuff" ],
-    "proportional": { "bashing": 1.1 }
+    "proportional": { "melee_damage": { "bash": 1.1 } }
   },
   {
     "type": "GENERIC",
@@ -198,7 +197,7 @@
     "description": "Spear, forged entirely from dreamdross.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
     "weight": "2129 g",
     "material": [ "forged_dreamstuff" ],
-    "proportional": { "cutting": 1.2 }
+    "proportional": { "melee_damage": { "stab": 1.2 } }
   },
   {
     "type": "GENERIC",
@@ -208,7 +207,7 @@
     "description": "Twohand halberd, forged entirely from dreamdross.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
     "weight": "2374 g",
     "material": [ "forged_dreamstuff" ],
-    "proportional": { "cutting": 1.1 }
+    "proportional": { "melee_damage": { "cut": 1.1 } }
   },
   {
     "type": "GENERIC",
@@ -218,7 +217,7 @@
     "description": "Twohand halberd, forged entirely from dreamdross.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
     "weight": "2285 g",
     "material": [ "forged_dreamstuff" ],
-    "proportional": { "cutting": 1.1 }
+    "proportional": { "melee_damage": { "cut": 1.1 } }
   },
   {
     "type": "GENERIC",
@@ -228,7 +227,7 @@
     "description": "Sturdy naginata, forged entirely from dreamdross.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
     "weight": "2181 g",
     "material": [ "forged_dreamstuff" ],
-    "proportional": { "cutting": 1.1 }
+    "proportional": { "melee_damage": { "cut": 1.1 } }
   },
   {
     "type": "GENERIC",
@@ -238,7 +237,7 @@
     "description": "Light mace, forged entirely from dreamdross.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
     "weight": "1160 g",
     "material": [ "forged_dreamstuff" ],
-    "proportional": { "bashing": 0.9 }
+    "proportional": { "melee_damage": { "bash": 0.9 } }
   },
   {
     "type": "GENERIC",
@@ -248,7 +247,7 @@
     "description": "Light morningstar, forged entirely from dreamdross.  So light, that you can't properly apply any force on it.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
     "weight": "1198 g",
     "material": [ "forged_dreamstuff" ],
-    "proportional": { "bashing": 0.9 }
+    "proportional": { "melee_damage": { "bash": 0.9 } }
   },
   {
     "type": "GENERIC",
@@ -257,7 +256,7 @@
     "name": { "str": "dreamforged estoc" },
     "description": "Estoc, forged entirely from dreamdross.  So light, that you can't properly apply any force on it.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
     "material": [ "forged_dreamstuff" ],
-    "proportional": { "cutting": 0.5, "weight": 0.25 }
+    "proportional": { "weight": 0.25, "melee_damage": { "stab": 0.5 } }
   },
   {
     "type": "GENERIC",
@@ -266,7 +265,7 @@
     "name": { "str": "dreamforged arming sword" },
     "description": "Arming sword, forged entirely from dreamdross.  So light, that you can't properly apply any force on it.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
     "material": [ "forged_dreamstuff" ],
-    "proportional": { "cutting": 0.5, "weight": 0.25 }
+    "proportional": { "weight": 0.25, "melee_damage": { "cut": 0.5 } }
   },
   {
     "type": "GENERIC",
@@ -275,7 +274,7 @@
     "name": { "str": "dreamforged broadsword" },
     "description": "Arming sword, forged entirely from dreamdross.  So light, that you can't properly apply any force on it.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
     "material": [ "forged_dreamstuff" ],
-    "proportional": { "cutting": 0.5, "weight": 0.25 }
+    "proportional": { "weight": 0.25, "melee_damage": { "cut": 0.5 } }
   },
   {
     "type": "GENERIC",
@@ -285,16 +284,16 @@
     "description": "Arming sword, forged entirely from dreamdross.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
     "weight": "1216 g",
     "material": [ "forged_dreamstuff" ],
-    "proportional": { "cutting": 0.7 }
+    "proportional": { "melee_damage": { "cut": 0.7 } }
   },
   {
     "type": "GENERIC",
     "id": "dreamforged_katana",
     "copy-from": "katana",
-    "name": { "str_sp": "katana" },
+    "name": { "str_sp": "dreamforged katana" },
     "description": "Katana, forged entirely from dreamdross.  So light, that you can't properly apply any force on it.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
     "material": [ "forged_dreamstuff" ],
-    "proportional": { "cutting": 0.3, "weight": 0.25 }
+    "proportional": { "weight": 0.25, "melee_damage": { "cut": 0.3 } }
   },
   {
     "type": "GENERIC",
@@ -303,7 +302,7 @@
     "name": { "str": "dreamforged combat knife", "str_pl": "dreamforged combat knives" },
     "description": "Small military knife, forged entirely from dreamdross.  You barely feel any weight.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
     "material": [ "forged_dreamstuff" ],
-    "proportional": { "cutting": 0.6, "weight": 0.25 }
+    "proportional": { "weight": 0.25, "melee_damage": { "stab": 0.6 } }
   },
   {
     "type": "GENERIC",
@@ -312,7 +311,7 @@
     "name": { "str": "dreamforged kris", "str_pl": "dreamforged krises" },
     "description": "Small curved knife, forged entirely from dreamdross.  You barely feel any weight.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
     "material": [ "forged_dreamstuff" ],
-    "proportional": { "cutting": 0.85, "bashing": 0.3, "weight": 0.25 }
+    "proportional": { "weight": 0.25, "melee_damage": { "bash": 0.3, "stab": 0.85 } }
   },
   {
     "type": "GENERIC",
@@ -321,16 +320,16 @@
     "name": { "str": "dreamforged kukri" },
     "description": "Small curved knife, forged entirely from dreamdross.  You barely feel any weight.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
     "material": [ "forged_dreamstuff" ],
-    "proportional": { "cutting": 0.9, "bashing": 0.3, "weight": 0.25 }
+    "proportional": { "weight": 0.25, "melee_damage": { "bash": 0.3, "stab": 0.9 } }
   },
   {
     "type": "GENERIC",
     "id": "dreamforged_nodachi",
     "copy-from": "qt_nodachi",
-    "name": { "str_sp": "nodachi" },
+    "name": { "str_sp": "dreamforged nodachi" },
     "description": "Long nodachi, forged entirely from dreamdross.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
     "material": [ "forged_dreamstuff" ],
-    "proportional": { "cutting": 0.3, "weight": 0.25 }
+    "proportional": { "weight": 0.25, "melee_damage": { "cut": 0.3 } }
   },
   {
     "type": "GENERIC",
@@ -339,25 +338,25 @@
     "name": { "str": "dreamforged rapier" },
     "description": "Long nodachi, forged entirely from dreamdross.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
     "material": [ "forged_dreamstuff" ],
-    "proportional": { "cutting": 0.65, "weight": 0.25 }
+    "proportional": { "weight": 0.25, "melee_damage": { "stab": 0.65 } }
   },
   {
     "type": "GENERIC",
     "id": "dreamforged_tanto",
     "copy-from": "tanto",
-    "name": { "str_sp": "tanto" },
+    "name": { "str_sp": "dreamforged tanto" },
     "description": "Long nodachi, forged entirely from dreamdross.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
     "material": [ "forged_dreamstuff" ],
-    "proportional": { "cutting": 0.3, "weight": 0.25 }
+    "proportional": { "weight": 0.25, "melee_damage": { "stab": 0.3 } }
   },
   {
     "type": "GENERIC",
     "id": "dreamforged_wakizashi",
     "copy-from": "wakizashi",
-    "name": { "str_sp": "wakizashi" },
+    "name": { "str_sp": "dreamforged wakizashi" },
     "description": "Long nodachi, forged entirely from dreamdross.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
     "material": [ "forged_dreamstuff" ],
-    "proportional": { "cutting": 0.3, "weight": 0.25 }
+    "proportional": { "weight": 0.25, "melee_damage": { "cut": 0.3 } }
   },
   {
     "type": "GENERIC",
@@ -366,7 +365,7 @@
     "name": { "str": "dreamforged zweihänder" },
     "description": "Huge twohand sword, forged entirely from dreamdross.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
     "material": [ "forged_dreamstuff" ],
-    "proportional": { "cutting": 0.6, "bashing": 0.3, "weight": 0.25 }
+    "proportional": { "weight": 0.25, "melee_damage": { "bash": 0.3, "cut": 0.6 } }
   },
   {
     "type": "GENERIC",
@@ -375,7 +374,7 @@
     "name": { "str": "dreamforged khopesh", "str_pl": "dreamforged khopeshes" },
     "description": "Light khopesh, forged entirely from dreamdross.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
     "material": [ "forged_dreamstuff" ],
-    "proportional": { "cutting": 0.8, "bashing": 0.3, "weight": 0.25 }
+    "proportional": { "weight": 0.25, "melee_damage": { "bash": 0.3, "stab": 0.8 } }
   },
   {
     "type": "GENERIC",
@@ -385,7 +384,7 @@
     "description": "lucerne hammer, forged entirely from dreamdross.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
     "weight": "2571 g",
     "material": [ "forged_dreamstuff" ],
-    "proportional": { "cutting": 0.9, "bashing": 1.1 }
+    "proportional": { "melee_damage": { "bash": 1.1, "stab": 0.9 } }
   },
   {
     "id": "dreamforged_knuckle",
@@ -393,7 +392,7 @@
     "name": { "str_sp": "dreamforged knuckles" },
     "description": "A pair of thick dreamdross plates covering your proximal phalange.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
     "copy-from": "knuckle_impact",
-    "proportional": { "bashing": 0.7, "weight": 0.25 },
+    "proportional": { "weight": 0.25, "melee_damage": { "bash": 0.7 } },
     "material": [ "forged_dreamstuff" ],
     "material_thickness": 3,
     "flags": [ "WATER_FRIENDLY", "DURABLE_MELEE", "OUTER" ],
@@ -413,8 +412,7 @@
     "description": "Fiery-red knuckles with tiny blades in the end.  They are fed with your energy and the blood of your enemies, and will fuel different items with berserk properties.",
     "//": "You actually can use it with any weapon, because enchantment applied always, both when you wear it or if you wield it, but it doesn't matter, because iirc fists has one of the biggest attack speed in the game, which is the only thing that matter here.",
     "copy-from": "dreamforged_knuckle",
-    "proportional": { "bashing": 0.5 },
-    "cutting": 3,
+    "proportional": { "melee_damage": { "bash": 0.5 } },
     "relic_data": { "passive_effects": [ { "id": "BERSERKING" } ] },
     "armor": [
       {
@@ -423,7 +421,8 @@
         "covers": [ "hand_l", "hand_r" ],
         "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
       }
-    ]
+    ],
+    "melee_damage": { "cut": 3 }
   },
   {
     "type": "GENERIC",

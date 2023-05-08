@@ -33,6 +33,8 @@
 #include "cursesdef.h"
 #include "debug.h"
 #include "do_turn.h"
+#include "event.h"
+#include "event_bus.h"
 #include "filesystem.h"
 #include "game.h"
 #include "game_constants.h"
@@ -608,6 +610,11 @@ int main( int argc, const char *argv[] )
     reset_floating_point_mode();
     flatbuffers::ClassicLocale::Get();
 
+    on_out_of_scope json_member_reporting_guard{ [] {
+            // Disable reporting unvisited members if stack unwinding leaves main early.
+            Json::globally_report_unvisited_members( false );
+        } };
+
 #if defined(_WIN32) and defined(TILES)
     const HANDLE std_output { GetStdHandle( STD_OUTPUT_HANDLE ) }, std_error { GetStdHandle( STD_ERROR_HANDLE ) };
     if( std_output != INVALID_HANDLE_VALUE and std_error != INVALID_HANDLE_VALUE ) {
@@ -812,6 +819,7 @@ int main( int argc, const char *argv[] )
         }
 
         shared_ptr_fast<ui_adaptor> ui = g->create_or_get_main_ui_adaptor();
+        get_event_bus().send<event_type::game_begin>( getVersionString() );
         while( !do_turn() );
     }
 

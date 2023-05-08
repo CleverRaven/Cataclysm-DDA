@@ -12,7 +12,6 @@
     "price": 2000000,
     "price_postapoc": 5000,
     "to_hit": 1,
-    "bashing": 12,
     "material": [ "steel", "wood" ],
     "color": "light_blue",
     "ammo": [ "700nx" ],
@@ -23,7 +22,6 @@
     "reload": 300,
     "barrel_volume": "1000 ml",
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "muzzle", 1 ],
@@ -35,6 +33,7 @@
       [ "underbarrel", 1 ]
     ],
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT", "RELOAD_ONE" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "700nx": 2 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "700nx": 2 } } ],
+    "melee_damage": { "bash": 12 }
   }
 ]

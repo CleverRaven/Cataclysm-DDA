@@ -355,7 +355,6 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```INTEGRATED``` This item represents a part of you granted by mutations or bionics.  It will always fit, cannot be unequipped (aside from losing the source), and won't drop on death, but otherwise behaves like normal armor with regards to function, encumbrance, layer conflicts and so on.
 - ```NORMAL``` Items worn like normal clothing. This is assumed as default.
 - ```NO_TAKEOFF``` Item with that flag can't be taken off.
-- ```NO_QUICKDRAW``` Don't offer to draw items from this holster when the fire key is pressed whilst the players hands are empty
 - ```NO_WEAR_EFFECT``` This gear doesn't provide any effects when worn (most jewelry).
 - ```ONLY_ONE``` You can wear only one.
 - ```OUTER```  Outer garment layer.
@@ -600,6 +599,8 @@ Effect flags. These are checked by hardcode for monsters (introducing new flags 
 - ```DISABLE_FLIGHT``` Monsters affected by an effect with this flag will never count as flying (even if they have the `FLIES` flag).
 - ```EFFECT_IMPEDING``` Character affected by an effect with this flag can't move until they break free from the effect.  Breaking free requires a strength check: `x_in_y( STR * limb lifting score * limb grip score, 6 * get_effect_int( eff_id )`
 - ```EFFECT_LIMB_SCORE_MOD``` Effect with a limb score component to be used in Character::get_limb_score. See [EFFECTS_JSON.md](EFFECTS_JSON.md) for the exact function of limb score modifiers and [JSON_INFO.md](JSON_INFO.md#limb-scores) for the effects of the scores.
+- ```GRAB``` This effect is a grab, creatures will attempt to break it as such (see `character_escape.cpp`)
+- ````GRAB_FILTER``` This effect is a grab filter effect, assigning grabs to their grabbing monster.  Handles targeted grab removal on grab break, as well as potentially acting as a filter for monster attack logic.  Bodypart `grabbing_effects` should have it defined.
 
 ## Furniture and Terrain
 
@@ -945,7 +946,6 @@ See [Mapgen flags](MAPGEN.md#mapgen-flags).
 - ```SHEATH_KNIFE``` Item can be sheathed in a knife sheath, it's applicable to small/medium knives (with volume not bigger than 2).
 - ```SHEATH_SWORD``` Item can be sheathed in a sword scabbard.
 - ```SPEAR``` When making reach attacks intervening `THIN_OBSTACLE` terrain is not an obstacle.  Should be paired with `REACH_ATTACK`.
-- ```STAB``` Changes item's damage type from cutting to stabbing.
 - ```UNARMED_WEAPON``` Fighting while wielding this item still counts as unarmed combat.
 - ```WHIP``` Has a chance of disarming the opponent.
 

@@ -296,7 +296,7 @@ class tileset_cache::loader
         tile_type &load_tile( const JsonObject &entry, const std::string &id );
 
         void load_tile_spritelists( const JsonObject &entry, weighted_int_list<std::vector<int>> &vs,
-                                    const std::string &objname ) const;
+                                    std::string_view objname ) const;
 
         void load_ascii( const JsonObject &config );
         /** Load tileset, R,G,B, are the color components of the transparent color
@@ -405,8 +405,10 @@ class cata_tiles
         void draw_minimap( const point &dest, const tripoint &center, int width, int height );
 
     protected:
-        /** How many rows and columns of tiles fit into given dimensions **/
-        void get_window_tile_counts( int width, int height, int &columns, int &rows ) const;
+        /** How many rows and columns of tiles fit into given dimensions, fully or partially shown **/
+        point get_window_tile_counts( const point &size ) const;
+        /** How many rows and columns of tiles can be fully shown in the given dimensions **/
+        point get_window_full_tile_counts( const point &size ) const;
 
         std::optional<tile_lookup_res> find_tile_with_season( const std::string &id ) const;
 
@@ -417,7 +419,7 @@ class cata_tiles
         // this templated method is used only from it's own cpp file, so it's ok to declare it here
         template<typename T>
         std::optional<tile_lookup_res>
-        find_tile_looks_like_by_string_id( const std::string &id, TILE_CATEGORY category,
+        find_tile_looks_like_by_string_id( std::string_view id, TILE_CATEGORY category,
                                            int looks_like_jumps_limit ) const;
 
         bool find_overlay_looks_like( bool male, const std::string &overlay, const std::string &variant,

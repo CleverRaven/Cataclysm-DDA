@@ -123,9 +123,9 @@
     "subtype": "collection",
     "entries": [
       { "group": "bugout_first_aid", "prob": 50 },
-      { "group": "bugout_small_gun", "prob": 90 },
-      { "group": "bugout_food", "prob": 100 },
-      { "group": "bugout_water", "prob": 100 },
+      { "group": "bugout_small_gun", "prob": 45 },
+      { "group": "bugout_food", "prob": 50 },
+      { "group": "bugout_water", "prob": 50 },
       { "group": "bugout_bad_pack", "prob": 100 }
     ]
   },
@@ -138,11 +138,11 @@
     "on_overflow": "spill",
     "entries": [
       { "group": "bugout_first_aid", "prob": 90 },
-      { "group": "bugout_gun", "prob": 100 },
-      { "group": "bugout_food", "prob": 100, "count": [ 1, 2 ] },
-      { "group": "bugout_water", "prob": 100, "count": [ 1, 2 ] },
+      { "group": "bugout_gun", "prob": 50 },
+      { "group": "bugout_food", "prob": 50, "count": [ 1, 2 ] },
+      { "group": "bugout_water", "prob": 50, "count": [ 1, 2 ] },
       { "group": "bugout_extras", "prob": 100, "count": [ 1, 4 ] },
-      { "group": "civilian_armor", "prob": 70 }
+      { "group": "civilian_armor", "prob": 35 }
     ]
   },
   {
@@ -154,12 +154,12 @@
     "on_overflow": "spill",
     "entries": [
       { "group": "bugout_first_aid", "count": 1, "prob": 90 },
-      { "group": "bugout_small_gun", "prob": 100 },
-      { "group": "bugout_long_gun", "prob": 80 },
-      { "group": "bugout_food", "prob": 100, "count": [ 1, 3 ] },
-      { "group": "bugout_water", "prob": 100, "count": [ 1, 3 ] },
+      { "group": "bugout_small_gun", "prob": 50 },
+      { "group": "bugout_long_gun", "prob": 40 },
+      { "group": "bugout_food", "prob": 50, "count": [ 1, 3 ] },
+      { "group": "bugout_water", "prob": 50, "count": [ 1, 3 ] },
       { "group": "bugout_extras", "prob": 100, "count": [ 2, 6 ] },
-      { "group": "civilian_armor", "count": 2, "prob": 70 }
+      { "group": "civilian_armor", "count": 2, "prob": 35 }
     ]
   },
   {
@@ -265,7 +265,7 @@
     "type": "item_group",
     "id": "bugout_bad_pack",
     "subtype": "distribution",
-    "//": "an item that wouldn't be super useful in a survival situation, recreational items and such.",
+    "//": "an item that wouldn't be super useful to the player, recreational items and such.",
     "entries": [
       { "group": "SUS_book", "prob": 50 },
       { "group": "games", "prob": 20 },

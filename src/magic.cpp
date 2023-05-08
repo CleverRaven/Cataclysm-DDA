@@ -225,7 +225,7 @@ const int spell_type::base_energy_cost_default = 0;
 const float spell_type::energy_increment_default = 0.0f;
 const trait_id spell_type::spell_class_default = trait_NONE;
 const magic_energy_type spell_type::energy_source_default = magic_energy_type::none;
-const damage_type spell_type::dmg_type_default = damage_type::NONE;
+const damage_type_id spell_type::dmg_type_default = damage_type_id::NULL_ID();
 const int spell_type::difficulty_default = 0;
 const int spell_type::max_level_default = 0;
 const int spell_type::base_casting_time_default = 0;
@@ -265,7 +265,7 @@ static std::string moves_to_string( const int moves )
     }
 }
 
-void spell_type::load( const JsonObject &jo, const std::string & )
+void spell_type::load( const JsonObject &jo, const std::string_view )
 {
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "description", description );
@@ -316,135 +316,135 @@ void spell_type::load( const JsonObject &jo, const std::string & )
         field = field_type_id( field_input );
     }
     if( !was_loaded || jo.has_member( "field_chance" ) ) {
-        field_chance = get_dbl_or_var<dialogue>( jo, "field_chance", false, field_chance_default );
+        field_chance = get_dbl_or_var( jo, "field_chance", false, field_chance_default );
     }
     if( !was_loaded || jo.has_member( "min_field_intensity" ) ) {
-        min_field_intensity = get_dbl_or_var<dialogue>( jo, "min_field_intensity", false,
-                              min_field_intensity_default );
+        min_field_intensity = get_dbl_or_var( jo, "min_field_intensity", false,
+                                              min_field_intensity_default );
     }
     if( !was_loaded || jo.has_member( "max_field_intensity" ) ) {
-        max_field_intensity = get_dbl_or_var<dialogue>( jo, "max_field_intensity", false,
-                              max_field_intensity_default );
+        max_field_intensity = get_dbl_or_var( jo, "max_field_intensity", false,
+                                              max_field_intensity_default );
     }
     if( !was_loaded || jo.has_member( "field_intensity_increment" ) ) {
-        field_intensity_increment = get_dbl_or_var<dialogue>( jo, "field_intensity_increment", false,
+        field_intensity_increment = get_dbl_or_var( jo, "field_intensity_increment", false,
                                     field_intensity_increment_default );
     }
     if( !was_loaded || jo.has_member( "field_intensity_variance" ) ) {
-        field_intensity_variance = get_dbl_or_var<dialogue>( jo, "field_intensity_variance", false,
+        field_intensity_variance = get_dbl_or_var( jo, "field_intensity_variance", false,
                                    field_intensity_variance_default );
     }
 
     if( !was_loaded || jo.has_member( "min_accuracy" ) ) {
-        min_accuracy = get_dbl_or_var<dialogue>( jo, "min_accuracy", false, min_accuracy_default );
+        min_accuracy = get_dbl_or_var( jo, "min_accuracy", false, min_accuracy_default );
     }
     if( !was_loaded || jo.has_member( "accuracy_increment" ) ) {
-        accuracy_increment = get_dbl_or_var<dialogue>( jo, "accuracy_increment", false,
-                             accuracy_increment_default );
+        accuracy_increment = get_dbl_or_var( jo, "accuracy_increment", false,
+                                             accuracy_increment_default );
     }
     if( !was_loaded || jo.has_member( "max_accuracy" ) ) {
-        max_accuracy = get_dbl_or_var<dialogue>( jo, "max_accuracy", false, max_accuracy_default );
+        max_accuracy = get_dbl_or_var( jo, "max_accuracy", false, max_accuracy_default );
     }
     if( !was_loaded || jo.has_member( "min_damage" ) ) {
-        min_damage = get_dbl_or_var<dialogue>( jo, "min_damage", false, min_damage_default );
+        min_damage = get_dbl_or_var( jo, "min_damage", false, min_damage_default );
     }
     if( !was_loaded || jo.has_member( "damage_increment" ) ) {
-        damage_increment = get_dbl_or_var<dialogue>( jo, "damage_increment", false,
-                           damage_increment_default );
+        damage_increment = get_dbl_or_var( jo, "damage_increment", false,
+                                           damage_increment_default );
     }
     if( !was_loaded || jo.has_member( "max_damage" ) ) {
-        max_damage = get_dbl_or_var<dialogue>( jo, "max_damage", false, max_damage_default );
+        max_damage = get_dbl_or_var( jo, "max_damage", false, max_damage_default );
     }
 
     if( !was_loaded || jo.has_member( "min_range" ) ) {
-        min_range = get_dbl_or_var<dialogue>( jo, "min_range", false, min_range_default );
+        min_range = get_dbl_or_var( jo, "min_range", false, min_range_default );
     }
     if( !was_loaded || jo.has_member( "range_increment" ) ) {
-        range_increment = get_dbl_or_var<dialogue>( jo, "range_increment", false, range_increment_default );
+        range_increment = get_dbl_or_var( jo, "range_increment", false, range_increment_default );
     }
     if( !was_loaded || jo.has_member( "max_range" ) ) {
-        max_range = get_dbl_or_var<dialogue>( jo, "max_range", false, max_range_default );
+        max_range = get_dbl_or_var( jo, "max_range", false, max_range_default );
     }
 
     if( !was_loaded || jo.has_member( "min_aoe" ) ) {
-        min_aoe = get_dbl_or_var<dialogue>( jo, "min_aoe", false, min_aoe_default );
+        min_aoe = get_dbl_or_var( jo, "min_aoe", false, min_aoe_default );
     }
     if( !was_loaded || jo.has_member( "aoe_increment" ) ) {
-        aoe_increment = get_dbl_or_var<dialogue>( jo, "aoe_increment", false, aoe_increment_default );
+        aoe_increment = get_dbl_or_var( jo, "aoe_increment", false, aoe_increment_default );
     }
     if( !was_loaded || jo.has_member( "max_aoe" ) ) {
-        max_aoe = get_dbl_or_var<dialogue>( jo, "max_aoe", false, max_aoe_default );
+        max_aoe = get_dbl_or_var( jo, "max_aoe", false, max_aoe_default );
     }
     if( !was_loaded || jo.has_member( "min_dot" ) ) {
-        min_dot = get_dbl_or_var<dialogue>( jo, "min_dot", false, min_dot_default );
+        min_dot = get_dbl_or_var( jo, "min_dot", false, min_dot_default );
     }
     if( !was_loaded || jo.has_member( "dot_increment" ) ) {
-        dot_increment = get_dbl_or_var<dialogue>( jo, "dot_increment", false, dot_increment_default );
+        dot_increment = get_dbl_or_var( jo, "dot_increment", false, dot_increment_default );
     }
     if( !was_loaded || jo.has_member( "max_dot" ) ) {
-        max_dot = get_dbl_or_var<dialogue>( jo, "max_dot", false, max_dot_default );
+        max_dot = get_dbl_or_var( jo, "max_dot", false, max_dot_default );
     }
 
     if( !was_loaded || jo.has_member( "min_duration" ) ) {
-        min_duration = get_dbl_or_var<dialogue>( jo, "min_duration", false, min_duration_default );
+        min_duration = get_dbl_or_var( jo, "min_duration", false, min_duration_default );
     }
     if( !was_loaded || jo.has_member( "duration_increment" ) ) {
-        duration_increment = get_dbl_or_var<dialogue>( jo, "duration_increment", false,
-                             duration_increment_default );
+        duration_increment = get_dbl_or_var( jo, "duration_increment", false,
+                                             duration_increment_default );
     }
     if( !was_loaded || jo.has_member( "max_duration" ) ) {
-        max_duration = get_dbl_or_var<dialogue>( jo, "max_duration", false, max_duration_default );
+        max_duration = get_dbl_or_var( jo, "max_duration", false, max_duration_default );
     }
 
     if( !was_loaded || jo.has_member( "min_pierce" ) ) {
-        min_pierce = get_dbl_or_var<dialogue>( jo, "min_pierce", false, min_pierce_default );
+        min_pierce = get_dbl_or_var( jo, "min_pierce", false, min_pierce_default );
     }
     if( !was_loaded || jo.has_member( "pierce_increment" ) ) {
-        pierce_increment = get_dbl_or_var<dialogue>( jo, "pierce_increment", false,
-                           pierce_increment_default );
+        pierce_increment = get_dbl_or_var( jo, "pierce_increment", false,
+                                           pierce_increment_default );
     }
     if( !was_loaded || jo.has_member( "max_pierce" ) ) {
-        max_pierce = get_dbl_or_var<dialogue>( jo, "max_pierce", false, max_pierce_default );
+        max_pierce = get_dbl_or_var( jo, "max_pierce", false, max_pierce_default );
     }
 
     if( !was_loaded || jo.has_member( "base_energy_cost" ) ) {
-        base_energy_cost = get_dbl_or_var<dialogue>( jo, "base_energy_cost", false,
-                           base_energy_cost_default );
+        base_energy_cost = get_dbl_or_var( jo, "base_energy_cost", false,
+                                           base_energy_cost_default );
     }
     if( jo.has_member( "final_energy_cost" ) ) {
-        final_energy_cost = get_dbl_or_var<dialogue>( jo, "final_energy_cost" );
+        final_energy_cost = get_dbl_or_var( jo, "final_energy_cost" );
     } else if( !was_loaded ) {
         final_energy_cost = base_energy_cost;
     }
     if( !was_loaded || jo.has_member( "energy_increment" ) ) {
-        energy_increment = get_dbl_or_var<dialogue>( jo, "energy_increment", false,
-                           energy_increment_default );
+        energy_increment = get_dbl_or_var( jo, "energy_increment", false,
+                                           energy_increment_default );
     }
 
     optional( jo, was_loaded, "spell_class", spell_class, spell_class_default );
     optional( jo, was_loaded, "energy_source", energy_source, energy_source_default );
     optional( jo, was_loaded, "damage_type", dmg_type, dmg_type_default );
     if( !was_loaded || jo.has_member( "difficulty" ) ) {
-        difficulty = get_dbl_or_var<dialogue>( jo, "difficulty", false, difficulty_default );
+        difficulty = get_dbl_or_var( jo, "difficulty", false, difficulty_default );
     }
     if( !was_loaded || jo.has_member( "max_level" ) ) {
-        max_level = get_dbl_or_var<dialogue>( jo, "max_level", false, max_level_default );
+        max_level = get_dbl_or_var( jo, "max_level", false, max_level_default );
     }
 
     if( !was_loaded || jo.has_member( "base_casting_time" ) ) {
-        base_casting_time = get_dbl_or_var<dialogue>( jo, "base_casting_time", false,
-                            base_casting_time_default );
+        base_casting_time = get_dbl_or_var( jo, "base_casting_time", false,
+                                            base_casting_time_default );
     }
     if( jo.has_member( "final_casting_time" ) ) {
-        final_casting_time = get_dbl_or_var<dialogue>( jo, "final_casting_time" );
+        final_casting_time = get_dbl_or_var( jo, "final_casting_time" );
     } else if( !was_loaded ) {
         final_casting_time = base_casting_time;
     }
     if( !was_loaded || jo.has_member( "max_damage" ) ) {
-        max_damage = get_dbl_or_var<dialogue>( jo, "max_damage", false, max_damage_default );
+        max_damage = get_dbl_or_var( jo, "max_damage", false, max_damage_default );
     }
     if( !was_loaded || jo.has_member( "casting_time_increment" ) ) {
-        casting_time_increment = get_dbl_or_var<dialogue>( jo, "casting_time_increment", false,
+        casting_time_increment = get_dbl_or_var( jo, "casting_time_increment", false,
                                  casting_time_increment_default );
     }
 
@@ -538,8 +538,7 @@ void spell_type::serialize( JsonOut &json ) const
     json.member( "spell_class", spell_class, spell_class_default );
     json.member( "energy_source", io::enum_to_string( energy_source ),
                  io::enum_to_string( energy_source_default ) );
-    json.member( "damage_type", io::enum_to_string( dmg_type ),
-                 io::enum_to_string( dmg_type_default ) );
+    json.member( "damage_type", dmg_type, dmg_type_default );
     json.member( "difficulty", static_cast<int>( difficulty.min.dbl_val.value() ), difficulty_default );
     json.member( "max_level", static_cast<int>( max_level.min.dbl_val.value() ), max_level_default );
     json.member( "base_casting_time", static_cast<int>( base_casting_time.min.dbl_val.value() ),
@@ -1013,7 +1012,7 @@ int spell::energy_cost( const Character &guy ) const
     } else {
         cost = type->base_energy_cost.evaluate( d );
     }
-    if( !has_flag( spell_flag::NO_HANDS ) ) {
+    if( !has_flag( spell_flag::NO_HANDS ) && !guy.has_flag( json_flag_SUBTLE_SPELL ) ) {
         // the first 10 points of combined encumbrance is ignored, but quickly adds up
         const int hands_encumb = std::max( 0,
                                            guy.avg_encumb_of_limb_type( body_part_type::type::hand ) - 5 );
@@ -1128,7 +1127,7 @@ int spell::casting_time( const Character &guy, bool ignore_encumb ) const
                                               guy.avg_encumb_of_limb_type( body_part_type::type::leg ) - 10 );
             casting_time += legs_encumb * 3;
         }
-        if( has_flag( spell_flag::SOMATIC ) ) {
+        if( has_flag( spell_flag::SOMATIC ) && !guy.has_flag( json_flag_SUBTLE_SPELL ) ) {
             // the first 20 points of encumbrance combined is ignored
             const int arms_encumb = std::max( 0,
                                               guy.avg_encumb_of_limb_type( body_part_type::type::arm ) - 10 );
@@ -1445,35 +1444,18 @@ std::string spell::description() const
 
 nc_color spell::damage_type_color() const
 {
-    switch( dmg_type() ) {
-        case damage_type::HEAT:
-            return c_red;
-        case damage_type::ACID:
-            return c_light_green;
-        case damage_type::BASH:
-            return c_magenta;
-        case damage_type::BIOLOGICAL:
-            return c_green;
-        case damage_type::COLD:
-            return c_white;
-        case damage_type::CUT:
-            return c_light_gray;
-        case damage_type::ELECTRIC:
-            return c_light_blue;
-        case damage_type::BULLET:
-        /* fallthrough */
-        case damage_type::STAB:
-            return c_light_red;
-        case damage_type::PURE:
-            return c_dark_gray;
-        default:
-            return c_black;
+    if( dmg_type().is_null() ) {
+        return c_black;
     }
+    return dmg_type()->magic_color;
 }
 
 std::string spell::damage_type_string() const
 {
-    return name_by_dt( dmg_type() );
+    if( dmg_type().is_null() ) {
+        return std::string();
+    }
+    return dmg_type()->name.translated();
 }
 
 // constants defined below are just for the formula to be used,
@@ -1598,7 +1580,7 @@ std::string spell::list_targeted_species_names() const
     return ret;
 }
 
-damage_type spell::dmg_type() const
+const damage_type_id &spell::dmg_type() const
 {
     return type->dmg_type;
 }
@@ -2162,7 +2144,7 @@ bool spell_desc::casting_time_encumbered( const spell &sp, const Character &guy 
         // the first 20 points of encumbrance combined is ignored
         encumb += std::max( 0, guy.avg_encumb_of_limb_type( body_part_type::type::leg ) - 10 );
     }
-    if( sp.has_flag( spell_flag::SOMATIC ) ) {
+    if( sp.has_flag( spell_flag::SOMATIC ) && !guy.has_flag( json_flag_SUBTLE_SPELL ) ) {
         // the first 20 points of encumbrance combined is ignored
         encumb += std::max( 0, guy.avg_encumb_of_limb_type( body_part_type::type::arm ) - 10 );
     }
@@ -2171,7 +2153,7 @@ bool spell_desc::casting_time_encumbered( const spell &sp, const Character &guy 
 
 bool spell_desc::energy_cost_encumbered( const spell &sp, const Character &guy )
 {
-    if( !sp.has_flag( spell_flag::NO_HANDS ) ) {
+    if( !sp.has_flag( spell_flag::NO_HANDS ) && !guy.has_flag( json_flag_SUBTLE_SPELL ) ) {
         return std::max( 0, guy.avg_encumb_of_limb_type( body_part_type::type:: hand ) - 5 ) >
                0;
     }
@@ -2616,8 +2598,8 @@ static void draw_spellbook_info( const spell_type &sp, uilist *menu )
                                        //~ translation should not exceed 7 console cells
                                        left_justify( _( "max lvl" ), 7 ) ) );
 
-    const auto row = [&]( const std::string & label, const dbl_or_var<dialogue> &min_d,
-    const dbl_or_var<dialogue> &inc_d, const dbl_or_var<dialogue> &max_d, bool check_minmax = false ) {
+    const auto row = [&]( const std::string & label, const dbl_or_var & min_d,
+    const dbl_or_var & inc_d, const dbl_or_var & max_d, bool check_minmax = false ) {
         const int min = static_cast<int>( min_d.evaluate( d ) );
         const float inc = static_cast<float>( inc_d.evaluate( d ) );
         const int max = static_cast<int>( max_d.evaluate( d ) );

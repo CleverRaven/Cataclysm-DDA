@@ -53,7 +53,6 @@ class time_duration;
 struct point;
 struct tripoint;
 
-enum class damage_type : int;
 enum m_flag : int;
 struct dealt_projectile_attack;
 struct pathfinding_settings;
@@ -525,7 +524,7 @@ class Creature : public viewer
         // Resistances
         virtual bool is_elec_immune() const = 0;
         virtual bool is_immune_effect( const efftype_id &type ) const = 0;
-        virtual bool is_immune_damage( damage_type type ) const = 0;
+        virtual bool is_immune_damage( const damage_type_id &type ) const = 0;
 
         // Field dangers
         /** Returns true if there is a field in the field set that is dangerous to us. */
@@ -677,18 +676,12 @@ class Creature : public viewer
 
         virtual int get_env_resist( bodypart_id bp ) const;
 
-        virtual int get_armor_bash( bodypart_id bp ) const;
-        virtual int get_armor_cut( bodypart_id bp ) const;
-        virtual int get_armor_bullet( bodypart_id bp ) const;
-        virtual int get_armor_bash_base( bodypart_id bp ) const;
-        virtual int get_armor_cut_base( bodypart_id bp ) const;
-        virtual int get_armor_bullet_base( bodypart_id bp ) const;
-        virtual int get_armor_bash_bonus() const;
-        virtual int get_armor_cut_bonus() const;
-        virtual int get_armor_bullet_bonus() const;
+        virtual int get_armor_res( const damage_type_id &dt, bodypart_id bp ) const;
+        virtual int get_armor_res_base( const damage_type_id &dt, bodypart_id bp ) const;
+        virtual int get_armor_res_bonus( const damage_type_id &dt ) const;
         virtual int get_spell_resist() const;
 
-        virtual int get_armor_type( damage_type dt, bodypart_id bp ) const = 0;
+        virtual int get_armor_type( const damage_type_id &dt, bodypart_id bp ) const = 0;
 
         virtual float get_dodge() const;
         virtual float get_melee() const = 0;
@@ -852,9 +845,7 @@ class Creature : public viewer
         virtual void mod_num_blocks_bonus( int nblocks );
         virtual void mod_num_dodges_bonus( int ndodges );
 
-        virtual void set_armor_bash_bonus( int nbasharm );
-        virtual void set_armor_cut_bonus( int ncutarm );
-        virtual void set_armor_bullet_bonus( int nbulletarm );
+        virtual void set_armor_res_bonus( int narm, const damage_type_id &dt );
 
         virtual void set_speed_base( int nspeed );
         virtual void set_speed_bonus( int nspeed );
@@ -1224,9 +1215,7 @@ class Creature : public viewer
         int num_blocks_bonus = 0; // bonus ""
         int num_dodges_bonus = 0;
 
-        int armor_bash_bonus = 0;
-        int armor_cut_bonus = 0;
-        int armor_bullet_bonus = 0;
+        std::map<damage_type_id, float> armor_bonus;
         int speed_base = 0; // only speed needs a base, the rest are assumed at 0 and calculated off skills
 
         int speed_bonus = 0;
@@ -1254,7 +1243,7 @@ class Creature : public viewer
 
         virtual void on_stat_change( const std::string &, int ) {}
         virtual void on_effect_int_change( const efftype_id &, int, const bodypart_id & ) {}
-        virtual void on_damage_of_type( const effect_source &, int, damage_type,
+        virtual void on_damage_of_type( const effect_source &, int, const damage_type_id &,
                                         const bodypart_id & ) {}
 
     public:
@@ -1266,6 +1255,8 @@ class Creature : public viewer
         bodypart_id select_body_part( int min_hit, int max_hit, bool can_attack_high, int hit_roll ) const;
         bodypart_id select_blocking_part( bool arm, bool leg, bool nonstandard ) const;
         bodypart_id random_body_part( bool main_parts_only = false ) const;
+        std::vector<bodypart_id> get_all_eligable_parts( int min_hit, int max_hit,
+                bool can_attack_high ) const;
 
         void add_damage_over_time( const damage_over_time_data &DoT );
         void process_damage_over_time();

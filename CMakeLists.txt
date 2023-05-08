@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.21)
+cmake_minimum_required(VERSION 3.20)
 
 project(CataclysmDDA)
 
@@ -39,7 +39,7 @@ if (TESTS)
 include(CTest)
 endif()
 
-message(STATUS "${PROJECT} build environment --")
+message(STATUS "${PROJECT_NAME} build environment --")
 message(STATUS "Build realm is: ${CMAKE_SYSTEM_NAME} ${CMAKE_HOST_SYSTEM_PROCESSOR}")
 
 if (NOT CMAKE_BUILD_TYPE)
@@ -195,7 +195,7 @@ endif ()
 # Set build types and display info
 if ("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
     set(RELEASE 0)
-    message(STATUS "Build ${PROJECT} in development mode --")
+    message(STATUS "Build ${PROJECT_NAME} in development mode --")
     message(STATUS "Binaries will be located in: " ${CMAKE_SOURCE_DIR})
     set(CMAKE_VERBOSE_MAKEFILE ON)
     # Since CataclysmDDA does not respect PREFIX for development builds
@@ -315,9 +315,9 @@ if (TILES)
     if (NOT VCPKG_MANIFEST_MODE)
         find_package(SDL2_ttf)
     else()
-        find_package(sdl2-ttf)
+        find_package(SDL2_ttf)
     endif()
-    if (NOT (SDL2_TTF_FOUND OR TARGET SDL2::SDL2_ttf OR TARGET SDL2::SDL2_ttf-static))
+    if (NOT (SDL2_TTF_FOUND OR TARGET SDL2::SDL2_ttf OR TARGET SDL2_ttf::SDL2_ttf-static))
         message(FATAL_ERROR
                 "This project requires SDL2_ttf to be installed to compile in graphical mode. \
                  Please install the SDL2_ttf development libraries, \
@@ -327,11 +327,11 @@ if (TILES)
 
     message(STATUS "Searching for SDL2_image library --")
     if(VCPKG_MANIFEST_MODE)
-        find_package(sdl2-image)
+        find_package(SDL2_image)
     else()
         find_package(SDL2_image)
     endif()
-    if (NOT (SDL2_IMAGE_FOUND OR TARGET SDL2::SDL2_image))
+    if (NOT (SDL2_IMAGE_FOUND OR TARGET SDL2_image::SDL2_image-static))
         message(FATAL_ERROR
                 "This project requires SDL2_image to be installed to compile in graphical mode. \
                  Please install the SDL2_image development libraries, \
@@ -371,8 +371,9 @@ if (SOUND)
     # Sound requires SDL_mixer library
     if(VCPKG_MANIFEST_MODE)
         message(STATUS "Searching for sdl2-mixer library --")
-        find_package(sdl2-mixer)
-        if (NOT TARGET SDL2::SDL2_mixer)
+        find_package(Ogg REQUIRED)
+        find_package(SDL2_mixer)
+        if (NOT (TARGET SDL2_mixer::SDL2_mixer OR TARGET SDL2_mixer::SDL2_mixer-static))
             message(FATAL_ERROR
                     "You need the sdl2-mixer development library \
                      to be able to compile with sound enabled. \

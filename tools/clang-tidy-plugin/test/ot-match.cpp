@@ -1,4 +1,4 @@
-// RUN: %check_clang_tidy %s cata-ot-match %t -- -plugins=%cata_plugin -- -isystem %cata_include
+// RUN: %check_clang_tidy %s cata-ot-match %t -- --load=%cata_plugin -- -isystem %cata_include
 
 struct oter_id;
 

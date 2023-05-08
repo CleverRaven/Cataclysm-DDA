@@ -19,6 +19,7 @@
 #include "mod_tracker.h"
 #include "string_id.h"
 #include "translations.h"
+#include "type_id.h"
 #include "subbodypart.h"
 #include "localized_comparator.h"
 #include "type_id.h"
@@ -109,7 +110,7 @@ struct limb_score {
     public:
         static void load_limb_scores( const JsonObject &jo, const std::string &src );
         static void reset();
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
         static const std::vector<limb_score> &get_all();
 
         const limb_score_id &getId() const {
@@ -146,7 +147,7 @@ struct bp_onhit_effect {
     // Apply the effect to the given bodypart, or to the whole character?
     bool global = false;
     // Type of damage that causes the effect - NONE always applies
-    damage_type dtype = damage_type::NONE;
+    damage_type_id dtype = damage_type_id::NULL_ID();
     // Percent of the limb's max HP required for the effect to trigger (or absolute DMG for minor limbs)
     int dmg_threshold = 100;
     // Percent HP / absolute damage triggering a scale tick
@@ -239,6 +240,9 @@ struct body_part_type {
 
         // Effects to trigger on getting hit
         std::vector<bp_onhit_effect> effects_on_hit;
+
+        // Monster effect added to mobs grabbing this limb (for dedicated removal)
+        efftype_id grabbing_effect;
 
         // Those are stored untranslated
         translation name;
@@ -335,7 +339,7 @@ struct body_part_type {
         // if secondary is true instead returns a part from only the secondary sublocations
         sub_bodypart_id random_sub_part( bool secondary ) const;
 
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
         void finalize();
         void check() const;
 
@@ -357,10 +361,10 @@ struct body_part_type {
             return bionic_slots_;
         }
 
-        float unarmed_damage( const damage_type &dt ) const;
-        float unarmed_arpen( const damage_type &dt ) const;
+        float unarmed_damage( const damage_type_id &dt ) const;
+        float unarmed_arpen( const damage_type_id &dt ) const;
 
-        float damage_resistance( const damage_type &dt ) const;
+        float damage_resistance( const damage_type_id &dt ) const;
         float damage_resistance( const damage_unit &du ) const;
 
         // combine matching body part and subbodypart strings together for printing
@@ -406,9 +410,9 @@ struct encumbrance_data {
     std::array<layer_details, static_cast<size_t>( layer_level::NUM_LAYER_LEVELS )>
     layer_penalty_details;
 
-    bool add_sub_locations( layer_level level, const std::vector<sub_bodypart_id> &sub_parts );
+    bool add_sub_location( layer_level level, sub_bodypart_id sbp );
 
-    bool add_sub_locations( layer_level level, const std::vector<sub_bodypart_str_id> &sub_parts );
+    bool add_sub_location( layer_level level, sub_bodypart_str_id sbp );
 
     void layer( const layer_level level, const int encumbrance, bool conflicts ) {
         layer_penalty_details[static_cast<size_t>( level )].layer( encumbrance, conflicts );
@@ -474,7 +478,7 @@ class bodypart
         std::set<matec_id> get_limb_techs() const;
 
         // Get onhit effects
-        std::vector<bp_onhit_effect> get_onhit_effects( damage_type dtype ) const;
+        std::vector<bp_onhit_effect> get_onhit_effects( damage_type_id dtype ) const;
 
         // Get modified limb score as defined in limb_scores.json.
         // override forces the limb score to be affected by encumbrance/wounds (-1 == no override).

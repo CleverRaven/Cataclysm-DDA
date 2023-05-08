@@ -35,7 +35,6 @@ static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_none( "null" );
 
 static const itype_id itype_battery( "battery" );
-static const itype_id itype_muscle( "muscle" );
 
 /*-----------------------------------------------------------------------------
  *                              VEHICLE_PART
@@ -100,29 +99,28 @@ item vehicle_part::properties_to_item() const
 
 std::string vehicle_part::name( bool with_prefix ) const
 {
-    std::string res = info().name();
-
-    if( base.engine_displacement() > 0 ) {
-        res.insert( 0, string_format( _( "%gL " ), base.engine_displacement() / 100.0 ) );
-
-    } else if( wheel_diameter() > 0 ) {
-        res.insert( 0, string_format( _( "%d\" " ), wheel_diameter() ) );
+    std::string res;
+    if( with_prefix ) {
+        res += base.damage_indicator() + base.degradation_symbol() + " ";
+        if( !base.type->degrade_increments() ) {
+            res += " "; // aligns names when printing degrading and non-degrading parts with prefixes
+        }
     }
-
-    if( base.is_faulty() ) {
-        res += _( " (faulty)" );
+    if( base.engine_displacement() ) {
+        res += string_format( _( "%gL " ), base.engine_displacement() / 100.0 );
     }
-
+    if( wheel_diameter() ) {
+        res += string_format( _( "%d\" " ), wheel_diameter() );
+    }
+    res += info().name();
     if( base.has_var( "contained_name" ) ) {
         res += string_format( _( " holding %s" ), base.get_var( "contained_name" ) );
     }
-
+    if( base.is_faulty() ) {
+        res += _( " (faulty)" );
+    }
     if( is_leaking() ) {
         res += _( " (draining)" );
-    }
-
-    if( with_prefix ) {
-        res.insert( 0, base.damage_indicator() + base.degradation_symbol() + " " );
     }
     return res;
 }
@@ -193,15 +191,10 @@ bool vehicle_part::is_available( const bool carried ) const
 
 itype_id vehicle_part::fuel_current() const
 {
-    if( is_engine() ) {
-        if( ammo_pref.is_null() ) {
-            return info().fuel_type != itype_muscle ? info().fuel_type : itype_id::NULL_ID();
-        } else {
-            return ammo_pref;
-        }
+    if( !ammo_pref.is_null() ) {
+        return ammo_pref;
     }
-
-    return itype_id::NULL_ID();
+    return info().fuel_type;
 }
 
 bool vehicle_part::fuel_set( const itype_id &fuel )

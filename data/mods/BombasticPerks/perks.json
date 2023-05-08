@@ -232,8 +232,11 @@
     "description": "Even with no one around you feel obligated to clean up the streets.  You find full cans of soda in the weirdest places.",
     "category": [ "perk" ],
     "active": true,
-    "activated_eocs": [ "EOC_queue_can_finder" ],
-    "deactivated_eocs": [ "EOC_deque_can_finder" ]
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_can_finder_on" ],
+    "deactivated_eocs": [ "EOC_can_finder_off" ],
+    "processed_eocs": [ "EOC_can_hunting" ],
+    "time": 24000
   },
   {
     "type": "mutation",
@@ -244,5 +247,31 @@
     "category": [ "perk" ],
     "active": true,
     "activated_eocs": [ "EOC_spinach_consumption" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_frakenstein",
+    "name": { "str": "Playing God" },
+    "points": 0,
+    "description": "You've been dissecting critters since high school.  Last night a voice gave you an idea for how to bring them back to life.",
+    "category": [ "perk" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_safety_net",
+    "name": { "str": "Safety net" },
+    "points": 0,
+    "description": "You've always felt like someone was looking out for you upstairs.  When you are attacked there is a 5% chance the attack will deal no damage.",
+    "category": [ "perk" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "FORCEFIELD", "add": 0.05 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_lucky_dodge",
+    "name": { "str": "Lucky dodge" },
+    "points": 0,
+    "description": "You have a habit of always ducking at the right time.  You have a 5% chance to dodge any incoming attack.",
+    "category": [ "perk" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "EVASION", "add": 0.05 } ] } ]
   }
 ]

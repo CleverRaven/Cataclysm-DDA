@@ -111,11 +111,11 @@ units::temperature weather_generator::get_weather_temperature(
     return weather_temperature_from_common_data( *this, get_common_data( location, real_t, seed ),
             season_effective_time( real_t ) );
 }
-w_point weather_generator::get_weather( const tripoint &location, const time_point &real_t,
+w_point weather_generator::get_weather( const tripoint_abs_ms &location, const time_point &real_t,
                                         unsigned seed ) const
 {
     season_effective_time t( real_t );
-    const weather_gen_common common = get_common_data( location, real_t, seed );
+    const weather_gen_common common = get_common_data( location.raw(), real_t, seed );
 
     const double x( common.x );
     const double y( common.y );
@@ -172,10 +172,10 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
         }
     }
     std::string wind_desc = get_wind_desc( W );
-    return w_point{ T, H, P, W, wind_desc, current_winddir, t };
+    return w_point{ T, H, P, W, wind_desc, current_winddir, t, location };
 }
 
-weather_type_id weather_generator::get_weather_conditions( const tripoint &location,
+weather_type_id weather_generator::get_weather_conditions( const tripoint_abs_ms &location,
         const time_point &t, unsigned seed ) const
 {
     w_point w( get_weather( location, t, seed ) );
@@ -192,9 +192,10 @@ weather_type_id weather_generator::get_weather_conditions( const w_point &w ) co
     const weather_manager &game_weather = get_weather_const();
     w_point original_weather_precise = *game_weather.weather_precise;
     *game_weather.weather_precise = w;
-
+    std::unordered_map<std::string, std::string> context;
+    context["npctalk_var_weather_location"] = w.location.to_string();
     weather_type_id current_conditions = WEATHER_CLEAR;
-    dialogue d( get_talker_for( get_avatar() ), nullptr );
+    dialogue d( get_talker_for( get_avatar() ), nullptr, context );
     for( const weather_type_id &type : sorted_weather ) {
         bool required_weather = type->required_weathers.empty();
         if( !required_weather ) {
@@ -289,7 +290,7 @@ void weather_generator::test_weather( unsigned seed ) const
         const time_point begin = calendar::turn;
         const time_point end = begin + 2 * calendar::year_length();
         for( time_point i = begin; i < end; i += 20_minutes ) {
-            w_point w = get_weather( tripoint_zero, i, seed );
+            w_point w = get_weather( tripoint_abs_ms( tripoint_zero ), i, seed );
             weather_type_id conditions = get_weather_conditions( w );
 
             int year = to_turns<int>( i - calendar::turn_zero ) / to_turns<int>

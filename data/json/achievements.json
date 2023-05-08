@@ -851,13 +851,23 @@
     ]
   },
   {
+    "id": "achievement_lvl_4_speech",
+    "type": "achievement",
+    "name": "Talkative",
+    "description": "Hi. Nice to meet you!",
+    "requirements": [
+      { "event_statistic": "num_gains_speech_level_4", "is": ">=", "target": 1, "description": "Gain social skill level 4" }
+    ]
+  },
+  {
     "id": "achievement_lvl_7_speech",
     "type": "achievement",
     "name": "Eloquent",
     "description": "We're friends, aren't we?",
     "requirements": [
       { "event_statistic": "num_gains_speech_level_7", "is": ">=", "target": 1, "description": "Gain social skill level 7" }
-    ]
+    ],
+    "hidden_by": [ "achievement_lvl_4_speech" ]
   },
   {
     "id": "achievement_lvl_10_speech",
@@ -868,6 +878,20 @@
       { "event_statistic": "num_gains_speech_level_10", "is": ">=", "target": 1, "description": "Gain social skill level 10" }
     ],
     "hidden_by": [ "achievement_lvl_7_speech" ]
+  },
+  {
+    "id": "achievement_lvl_4_computer",
+    "type": "achievement",
+    "name": "Help Desk",
+    "description": "Have you tried turning it off and back on again?.",
+    "requirements": [
+      {
+        "event_statistic": "num_gains_computer_level_4",
+        "is": ">=",
+        "target": 1,
+        "description": "Gain computers skill level 4"
+      }
+    ]
   },
   {
     "id": "achievement_lvl_7_computer",
@@ -881,7 +905,8 @@
         "target": 1,
         "description": "Gain computers skill level 7"
       }
-    ]
+    ],
+    "hidden_by": [ "achievement_lvl_4_computer" ]
   },
   {
     "id": "achievement_lvl_10_computer",
@@ -899,6 +924,20 @@
     "hidden_by": [ "achievement_lvl_7_computer" ]
   },
   {
+    "id": "achievement_lvl_4_firstaid",
+    "type": "achievement",
+    "name": "Nurse Practitioner",
+    "description": "Clean and disinfected.",
+    "requirements": [
+      {
+        "event_statistic": "num_gains_firstaid_level_4",
+        "is": ">=",
+        "target": 1,
+        "description": "Gain health care skill level 4"
+      }
+    ]
+  },
+  {
     "id": "achievement_lvl_7_firstaid",
     "type": "achievement",
     "name": "MD",
@@ -910,7 +949,8 @@
         "target": 1,
         "description": "Gain health care skill level 7"
       }
-    ]
+    ],
+    "hidden_by": [ "achievement_lvl_4_firstaid" ]
   },
   {
     "id": "achievement_lvl_10_firstaid",
@@ -928,6 +968,20 @@
     "hidden_by": [ "achievement_lvl_7_firstaid" ]
   },
   {
+    "id": "achievement_lvl_4_mechanics",
+    "type": "achievement",
+    "name": "Amatuer Mechanic",
+    "description": "Righty tighty, lefty loosey.",
+    "requirements": [
+      {
+        "event_statistic": "num_gains_mechanics_level_4",
+        "is": ">=",
+        "target": 1,
+        "description": "Gain mechanics skill level 4"
+      }
+    ]
+  },
+  {
     "id": "achievement_lvl_7_mechanics",
     "type": "achievement",
     "name": "Engineer",
@@ -939,7 +993,8 @@
         "target": 1,
         "description": "Gain mechanics skill level 7"
       }
-    ]
+    ],
+    "hidden_by": [ "achievement_lvl_4_mechanics" ]
   },
   {
     "id": "achievement_lvl_10_mechanics",
@@ -957,13 +1012,23 @@
     "hidden_by": [ "achievement_lvl_7_mechanics" ]
   },
   {
+    "id": "achievement_lvl_4_traps",
+    "type": "achievement",
+    "name": "Rigging",
+    "description": "This will slow them down!",
+    "requirements": [
+      { "event_statistic": "num_gains_traps_level_4", "is": ">=", "target": 1, "description": "Gain devices skill level 4" }
+    ]
+  },
+  {
     "id": "achievement_lvl_7_traps",
     "type": "achievement",
     "name": "Trapper",
     "description": "A good trap doesn't discriminate between beavers and zombeavers.",
     "requirements": [
       { "event_statistic": "num_gains_traps_level_7", "is": ">=", "target": 1, "description": "Gain devices skill level 7" }
-    ]
+    ],
+    "hidden_by": [ "achievement_lvl_4_traps" ]
   },
   {
     "id": "achievement_lvl_10_traps",
@@ -974,6 +1039,20 @@
       { "event_statistic": "num_gains_traps_level_10", "is": ">=", "target": 1, "description": "Gain devices skill level 10" }
     ],
     "hidden_by": [ "achievement_lvl_7_traps" ]
+  },
+  {
+    "id": "achievement_lvl_4_driving",
+    "type": "achievement",
+    "name": "Student Driver",
+    "description": "Easy on the brakes.",
+    "requirements": [
+      {
+        "event_statistic": "num_gains_driving_level_4",
+        "is": ">=",
+        "target": 1,
+        "description": "Gain vehicles skill level 4"
+      }
+    ]
   },
   {
     "id": "achievement_lvl_7_driving",
@@ -987,7 +1066,8 @@
         "target": 1,
         "description": "Gain vehicles skill level 7"
       }
-    ]
+    ],
+    "hidden_by": [ "achievement_lvl_4_driving" ]
   },
   {
     "id": "achievement_lvl_10_driving",
@@ -1005,6 +1085,20 @@
     "hidden_by": [ "achievement_lvl_7_driving" ]
   },
   {
+    "id": "achievement_lvl_4_swimming",
+    "type": "achievement",
+    "name": "Swimmer",
+    "description": "I can doggie paddle.",
+    "requirements": [
+      {
+        "event_statistic": "num_gains_swimming_level_4",
+        "is": ">=",
+        "target": 1,
+        "description": "Gain athletics skill level 4"
+      }
+    ]
+  },
+  {
     "id": "achievement_lvl_7_swimming",
     "type": "achievement",
     "name": "Swimmer",
@@ -1016,7 +1110,8 @@
         "target": 1,
         "description": "Gain athletics skill level 7"
       }
-    ]
+    ],
+    "hidden_by": [ "achievement_lvl_4_swimming" ]
   },
   {
     "id": "achievement_lvl_10_swimming",
@@ -1034,6 +1129,20 @@
     "hidden_by": [ "achievement_lvl_7_swimming" ]
   },
   {
+    "id": "achievement_lvl_4_fabrication",
+    "type": "achievement",
+    "name": "Household Handyman",
+    "description": "If I have the instructions, I can make it work.",
+    "requirements": [
+      {
+        "event_statistic": "num_gains_fabrication_level_4",
+        "is": ">=",
+        "target": 1,
+        "description": "Gain fabrication skill level 4"
+      }
+    ]
+  },
+  {
     "id": "achievement_lvl_7_fabrication",
     "type": "achievement",
     "name": "Do-It-Yourselfer",
@@ -1045,7 +1154,8 @@
         "target": 1,
         "description": "Gain fabrication skill level 7"
       }
-    ]
+    ],
+    "hidden_by": [ "achievement_lvl_4_fabrication" ]
   },
   {
     "id": "achievement_lvl_10_fabrication",
@@ -1063,6 +1173,20 @@
     "hidden_by": [ "achievement_lvl_7_fabrication" ]
   },
   {
+    "id": "achievement_lvl_4_cooking",
+    "type": "achievement",
+    "name": "Home Cook",
+    "description": "I can handle a roast.",
+    "requirements": [
+      {
+        "event_statistic": "num_gains_cooking_level_4",
+        "is": ">=",
+        "target": 1,
+        "description": "Gain food handling skill level 4"
+      }
+    ]
+  },
+  {
     "id": "achievement_lvl_7_cooking",
     "type": "achievement",
     "name": "Master Chef",
@@ -1074,7 +1198,8 @@
         "target": 1,
         "description": "Gain food handling skill level 7"
       }
-    ]
+    ],
+    "hidden_by": [ "achievement_lvl_4_cooking" ]
   },
   {
     "id": "achievement_lvl_10_cooking",
@@ -1092,6 +1217,20 @@
     "hidden_by": [ "achievement_lvl_7_cooking" ]
   },
   {
+    "id": "achievement_lvl_4_tailor",
+    "type": "achievement",
+    "name": "Patchwork",
+    "description": "Fixing tears isn't too bad.",
+    "requirements": [
+      {
+        "event_statistic": "num_gains_tailor_level_4",
+        "is": ">=",
+        "target": 1,
+        "description": "Gain tailoring skill level 4"
+      }
+    ]
+  },
+  {
     "id": "achievement_lvl_7_tailor",
     "type": "achievement",
     "name": "Tailor",
@@ -1103,7 +1242,8 @@
         "target": 1,
         "description": "Gain tailoring skill level 7"
       }
-    ]
+    ],
+    "hidden_by": [ "achievement_lvl_4_tailor" ]
   },
   {
     "id": "achievement_lvl_10_tailor",
@@ -1121,6 +1261,20 @@
     "hidden_by": [ "achievement_lvl_7_tailor" ]
   },
   {
+    "id": "achievement_lvl_4_survival",
+    "type": "achievement",
+    "name": "Enthusiast",
+    "description": "I just love the outdoors!",
+    "requirements": [
+      {
+        "event_statistic": "num_gains_survival_level_4",
+        "is": ">=",
+        "target": 1,
+        "description": "Gain survival skill level 4"
+      }
+    ]
+  },
+  {
     "id": "achievement_lvl_7_survival",
     "type": "achievement",
     "name": "Survivalist",
@@ -1132,7 +1286,8 @@
         "target": 1,
         "description": "Gain survival skill level 7"
       }
-    ]
+    ],
+    "hidden_by": [ "achievement_lvl_4_survival" ]
   },
   {
     "id": "achievement_lvl_10_survival",
@@ -1150,6 +1305,20 @@
     "hidden_by": [ "achievement_lvl_7_survival" ]
   },
   {
+    "id": "achievement_lvl_4_electronics",
+    "type": "achievement",
+    "name": "Shocking",
+    "description": "One is positive, one is negative.",
+    "requirements": [
+      {
+        "event_statistic": "num_gains_electronics_level_4",
+        "is": ">=",
+        "target": 1,
+        "description": "Gain electronics skill level 4"
+      }
+    ]
+  },
+  {
     "id": "achievement_lvl_7_electronics",
     "type": "achievement",
     "name": "Ohm's Law",
@@ -1161,7 +1330,8 @@
         "target": 1,
         "description": "Gain electronics skill level 7"
       }
-    ]
+    ],
+    "hidden_by": [ "achievement_lvl_4_electronics" ]
   },
   {
     "id": "achievement_lvl_10_electronics",
@@ -1179,13 +1349,23 @@
     "hidden_by": [ "achievement_lvl_7_electronics" ]
   },
   {
+    "id": "achievement_lvl_4_archery",
+    "type": "achievement",
+    "name": "Bowman",
+    "description": "Draw, aim and release.",
+    "requirements": [
+      { "event_statistic": "num_gains_archery_level_4", "is": ">=", "target": 1, "description": "Gain archery skill level 4" }
+    ]
+  },
+  {
     "id": "achievement_lvl_7_archery",
     "type": "achievement",
     "name": "Bull's Eye",
     "description": "Better than Legolas.",
     "requirements": [
       { "event_statistic": "num_gains_archery_level_7", "is": ">=", "target": 1, "description": "Gain archery skill level 7" }
-    ]
+    ],
+    "hidden_by": [ "achievement_lvl_4_archery" ]
   },
   {
     "id": "achievement_lvl_10_archery",
@@ -1203,6 +1383,20 @@
     "hidden_by": [ "achievement_lvl_7_archery" ]
   },
   {
+    "id": "achievement_lvl_4_gun",
+    "type": "achievement",
+    "name": "Marksman",
+    "description": "Lead the target.",
+    "requirements": [
+      {
+        "event_statistic": "num_gains_gun_level_4",
+        "is": ">=",
+        "target": 1,
+        "description": "Gain marksmanship skill level 4"
+      }
+    ]
+  },
+  {
     "id": "achievement_lvl_7_gun",
     "type": "achievement",
     "name": "Eagle Eye",
@@ -1214,7 +1408,8 @@
         "target": 1,
         "description": "Gain marksmanship skill level 7"
       }
-    ]
+    ],
+    "hidden_by": [ "achievement_lvl_4_gun" ]
   },
   {
     "id": "achievement_lvl_10_gun",
@@ -1232,9 +1427,23 @@
     "hidden_by": [ "achievement_lvl_7_gun" ]
   },
   {
-    "id": "achievement_lvl_7_launcher",
+    "id": "achievement_lvl_4_launcher",
     "type": "achievement",
     "name": "Gunner",
+    "description": "Serious Hardware.",
+    "requirements": [
+      {
+        "event_statistic": "num_gains_launcher_level_4",
+        "is": ">=",
+        "target": 1,
+        "description": "Gain launchers skill level 4"
+      }
+    ]
+  },
+  {
+    "id": "achievement_lvl_7_launcher",
+    "type": "achievement",
+    "name": "Heavy Gunner",
     "description": "Caliber makes the difference.",
     "requirements": [
       {
@@ -1243,7 +1452,8 @@
         "target": 1,
         "description": "Gain launchers skill level 7"
       }
-    ]
+    ],
+    "hidden_by": [ "achievement_lvl_4_launcher" ]
   },
   {
     "id": "achievement_lvl_10_launcher",
@@ -1261,13 +1471,23 @@
     "hidden_by": [ "achievement_lvl_7_launcher" ]
   },
   {
+    "id": "achievement_lvl_4_pistol",
+    "type": "achievement",
+    "name": "Pistoleer",
+    "description": "Don't forget the one in the chamber.",
+    "requirements": [
+      { "event_statistic": "num_gains_pistol_level_4", "is": ">=", "target": 1, "description": "Gain handguns skill level 4" }
+    ]
+  },
+  {
     "id": "achievement_lvl_7_pistol",
     "type": "achievement",
     "name": "Small But Deadly",
     "description": "Caliber doesn't count when you're on the receiving end of the barrel.",
     "requirements": [
       { "event_statistic": "num_gains_pistol_level_7", "is": ">=", "target": 1, "description": "Gain handguns skill level 7" }
-    ]
+    ],
+    "hidden_by": [ "achievement_lvl_4_pistol" ]
   },
   {
     "id": "achievement_lvl_10_pistol",
@@ -1285,13 +1505,23 @@
     "hidden_by": [ "achievement_lvl_7_pistol" ]
   },
   {
+    "id": "achievement_lvl_4_rifle",
+    "type": "achievement",
+    "name": "Recruit",
+    "description": "Point towards enemy and squeeze trigger.",
+    "requirements": [
+      { "event_statistic": "num_gains_rifle_level_4", "is": ">=", "target": 1, "description": "Gain rifles skill level 4" }
+    ]
+  },
+  {
     "id": "achievement_lvl_7_rifle",
     "type": "achievement",
     "name": "Rifleman",
     "description": "This is my rifle.  There are many like it, but this one is mine.  My rifle is my best friend.  It is my life.  I must master it as I must master my life.",
     "requirements": [
       { "event_statistic": "num_gains_rifle_level_7", "is": ">=", "target": 1, "description": "Gain rifles skill level 7" }
-    ]
+    ],
+    "hidden_by": [ "achievement_lvl_4_rifle" ]
   },
   {
     "id": "achievement_lvl_10_rifle",
@@ -1302,6 +1532,20 @@
       { "event_statistic": "num_gains_rifle_level_10", "is": ">=", "target": 1, "description": "Gain rifles skill level 10" }
     ],
     "hidden_by": [ "achievement_lvl_7_rifle" ]
+  },
+  {
+    "id": "achievement_lvl_4_shotgun",
+    "type": "achievement",
+    "name": "Buckshot Barrage",
+    "description": "This is my BOOMSTICK!",
+    "requirements": [
+      {
+        "event_statistic": "num_gains_shotgun_level_4",
+        "is": ">=",
+        "target": 1,
+        "description": "Gain shotguns skill level 4"
+      }
+    ]
   },
   {
     "id": "achievement_lvl_7_shotgun",
@@ -1315,7 +1559,8 @@
         "target": 1,
         "description": "Gain shotguns skill level 7"
       }
-    ]
+    ],
+    "hidden_by": [ "achievement_lvl_4_shotgun" ]
   },
   {
     "id": "achievement_lvl_10_shotgun",
@@ -1333,6 +1578,20 @@
     "hidden_by": [ "achievement_lvl_7_shotgun" ]
   },
   {
+    "id": "achievement_lvl_4_smg",
+    "type": "achievement",
+    "name": "Burst Fire",
+    "description": "Volume is a good strategy.",
+    "requirements": [
+      {
+        "event_statistic": "num_gains_smg_level_4",
+        "is": ">=",
+        "target": 1,
+        "description": "Gain submachine guns skill level 4"
+      }
+    ]
+  },
+  {
     "id": "achievement_lvl_7_smg",
     "type": "achievement",
     "name": "Spray'n'Pray",
@@ -1344,7 +1603,8 @@
         "target": 1,
         "description": "Gain submachine guns skill level 7"
       }
-    ]
+    ],
+    "hidden_by": [ "achievement_lvl_4_smg" ]
   },
   {
     "id": "achievement_lvl_10_smg",
@@ -1362,13 +1622,23 @@
     "hidden_by": [ "achievement_lvl_7_smg" ]
   },
   {
+    "id": "achievement_lvl_4_throw",
+    "type": "achievement",
+    "name": "Fling!",
+    "description": "Go that way!",
+    "requirements": [
+      { "event_statistic": "num_gains_throw_level_4", "is": ">=", "target": 1, "description": "Gain throwing skill level 4" }
+    ]
+  },
+  {
     "id": "achievement_lvl_7_throw",
     "type": "achievement",
     "name": "Yeet!",
     "description": "And never come back.",
     "requirements": [
       { "event_statistic": "num_gains_throw_level_7", "is": ">=", "target": 1, "description": "Gain throwing skill level 7" }
-    ]
+    ],
+    "hidden_by": [ "achievement_lvl_4_throw" ]
   },
   {
     "id": "achievement_lvl_10_throw",
@@ -1386,11 +1656,19 @@
     "hidden_by": [ "achievement_lvl_7_throw" ]
   },
   {
+    "id": "achievement_lvl_4_melee",
+    "type": "achievement",
+    "name": "Fighter",
+    "description": "I can take a punch.",
+    "requirements": [ { "event_statistic": "num_gains_melee_level_4", "is": ">=", "target": 1, "description": "Gain melee skill level 4" } ]
+  },
+  {
     "id": "achievement_lvl_7_melee",
     "type": "achievement",
     "name": "Brawler",
     "description": "Bottle in left hand, chair leg in right hand.",
-    "requirements": [ { "event_statistic": "num_gains_melee_level_7", "is": ">=", "target": 1, "description": "Gain melee skill level 7" } ]
+    "requirements": [ { "event_statistic": "num_gains_melee_level_7", "is": ">=", "target": 1, "description": "Gain melee skill level 7" } ],
+    "hidden_by": [ "achievement_lvl_4_melee" ]
   },
   {
     "id": "achievement_lvl_10_melee",
@@ -1403,10 +1681,24 @@
     "hidden_by": [ "achievement_lvl_7_melee" ]
   },
   {
-    "id": "achievement_lvl_7_bashing",
+    "id": "achievement_lvl_4_bashing",
     "type": "achievement",
     "name": "Batter",
     "description": "Every strike brings me closer to a home run.",
+    "requirements": [
+      {
+        "event_statistic": "num_gains_bashing_level_4",
+        "is": ">=",
+        "target": 1,
+        "description": "Gain bashing weapons skill level 4"
+      }
+    ]
+  },
+  {
+    "id": "achievement_lvl_7_bashing",
+    "type": "achievement",
+    "name": "Beater",
+    "description": "If you beat them enough, they stay down.",
     "requirements": [
       {
         "event_statistic": "num_gains_bashing_level_7",
@@ -1414,7 +1706,8 @@
         "target": 1,
         "description": "Gain bashing weapons skill level 7"
       }
-    ]
+    ],
+    "hidden_by": [ "achievement_lvl_4_bashing" ]
   },
   {
     "id": "achievement_lvl_10_bashing",
@@ -1432,6 +1725,20 @@
     "hidden_by": [ "achievement_lvl_7_bashing" ]
   },
   {
+    "id": "achievement_lvl_4_cutting",
+    "type": "achievement",
+    "name": "Edged Combat",
+    "description": "Blades are one of man's most useful tools.  It was true then and it's even more true now.",
+    "requirements": [
+      {
+        "event_statistic": "num_gains_cutting_level_4",
+        "is": ">=",
+        "target": 1,
+        "description": "Gain cutting weapons skill level 4"
+      }
+    ]
+  },
+  {
     "id": "achievement_lvl_7_cutting",
     "type": "achievement",
     "name": "Way of the Sword",
@@ -1443,7 +1750,8 @@
         "target": 1,
         "description": "Gain cutting weapons skill level 7"
       }
-    ]
+    ],
+    "hidden_by": [ "achievement_lvl_4_cutting" ]
   },
   {
     "id": "achievement_lvl_10_cutting",
@@ -1461,13 +1769,23 @@
     "hidden_by": [ "achievement_lvl_7_cutting" ]
   },
   {
+    "id": "achievement_lvl_4_dodge",
+    "type": "achievement",
+    "name": "Avoidant",
+    "description": "Better to move than to be still.",
+    "requirements": [
+      { "event_statistic": "num_gains_dodge_level_4", "is": ">=", "target": 1, "description": "Gain dodging skill level 4" }
+    ]
+  },
+  {
     "id": "achievement_lvl_7_dodge",
     "type": "achievement",
     "name": "Elusive",
     "description": "The strongest of blows is nothing if it doesn't land.",
     "requirements": [
       { "event_statistic": "num_gains_dodge_level_7", "is": ">=", "target": 1, "description": "Gain dodging skill level 7" }
-    ]
+    ],
+    "hidden_by": [ "achievement_lvl_4_dodge" ]
   },
   {
     "id": "achievement_lvl_10_dodge",
@@ -1478,6 +1796,20 @@
       { "event_statistic": "num_gains_dodge_level_10", "is": ">=", "target": 1, "description": "Gain dodging skill level 10" }
     ],
     "hidden_by": [ "achievement_lvl_7_dodge" ]
+  },
+  {
+    "id": "achievement_lvl_4_stabbing",
+    "type": "achievement",
+    "name": "Precise",
+    "description": "I strike where I mean to.",
+    "requirements": [
+      {
+        "event_statistic": "num_gains_stabbing_level_4",
+        "is": ">=",
+        "target": 1,
+        "description": "Gain piercing weapons skill level 4"
+      }
+    ]
   },
   {
     "id": "achievement_lvl_7_stabbing",
@@ -1491,7 +1823,8 @@
         "target": 1,
         "description": "Gain piercing weapons skill level 7"
       }
-    ]
+    ],
+    "hidden_by": [ "achievement_lvl_4_stabbing" ]
   },
   {
     "id": "achievement_lvl_10_stabbing",
@@ -1509,6 +1842,20 @@
     "hidden_by": [ "achievement_lvl_7_stabbing" ]
   },
   {
+    "id": "achievement_lvl_4_unarmed",
+    "type": "achievement",
+    "name": "Pugilist",
+    "description": "There is strength in my hands.",
+    "requirements": [
+      {
+        "event_statistic": "num_gains_unarmed_level_4",
+        "is": ">=",
+        "target": 1,
+        "description": "Gain unarmed combat skill level 4"
+      }
+    ]
+  },
+  {
     "id": "achievement_lvl_7_unarmed",
     "type": "achievement",
     "name": "Road to Shaolin",
@@ -1520,7 +1867,8 @@
         "target": 1,
         "description": "Gain unarmed combat skill level 7"
       }
-    ]
+    ],
+    "hidden_by": [ "achievement_lvl_4_unarmed" ]
   },
   {
     "id": "achievement_lvl_10_unarmed",
@@ -1538,9 +1886,23 @@
     "hidden_by": [ "achievement_lvl_7_unarmed" ]
   },
   {
-    "id": "achievement_lvl_7_chemistry",
+    "id": "achievement_lvl_4_chemistry",
     "type": "achievement",
     "name": "Periodic Table",
+    "description": "I remember some of this from school.",
+    "requirements": [
+      {
+        "event_statistic": "num_gains_chemistry_level_4",
+        "is": ">=",
+        "target": 1,
+        "description": "Gain applied science skill level 4"
+      }
+    ]
+  },
+  {
+    "id": "achievement_lvl_7_chemistry",
+    "type": "achievement",
+    "name": "Chemical engineer",
     "description": "It's somewhat like cooking.  Just don't lick the spoon.",
     "requirements": [
       {
@@ -1549,7 +1911,8 @@
         "target": 1,
         "description": "Gain applied science skill level 7"
       }
-    ]
+    ],
+    "hidden_by": [ "achievement_lvl_4_chemistry" ]
   },
   {
     "id": "achievement_lvl_10_chemistry",
@@ -1708,11 +2071,11 @@
     "name": "Eureka!",
     "requirements": [
       {
-        "event_statistic": "last_overmap_special_avatar_entered",
-        "is": "==",
-        "target": [ "overmap_special_id", "Lab_CORE_2x1x2" ],
+        "event_statistic": "num_avatar_enters_trans_lab",
+        "is": ">=",
+        "target": 1,
         "visible": "when_achievement_completed",
-        "description": "Reach Trans Coastal Lab"
+        "description": "Reach a Trans Coastal Facility"
       }
     ]
   },
@@ -1741,6 +2104,20 @@
         "target": [ "overmap_special_id", "mil_base" ],
         "visible": "when_achievement_completed",
         "description": "Reach a Military Base"
+      }
+    ]
+  },
+  {
+    "id": "achievement_reach_military_bunker",
+    "type": "achievement",
+    "name": "Zombie Forces",
+    "requirements": [
+      {
+        "event_statistic": "last_overmap_special_avatar_entered",
+        "is": "==",
+        "target": [ "overmap_special_id", "military_bunker_1" ],
+        "visible": "when_achievement_completed",
+        "description": "Reach a Military Bunker"
       }
     ]
   },
@@ -1837,6 +2214,20 @@
         "target": 1,
         "visible": "when_achievement_completed",
         "description": "Reach a Mine"
+      }
+    ]
+  },
+  {
+    "id": "achievement_reach_police_station",
+    "type": "achievement",
+    "name": "Zombie PD, to protect and zombify!",
+    "requirements": [
+      {
+        "event_statistic": "num_avatar_enters_police_station",
+        "is": ">=",
+        "target": 1,
+        "visible": "when_achievement_completed",
+        "description": "Reach a Police Station"
       }
     ]
   }

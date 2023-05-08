@@ -115,7 +115,7 @@ namespace overmap_ui
 static void create_note( const tripoint_abs_omt &curs );
 
 // {note symbol, note color, offset to text}
-std::tuple<char, nc_color, size_t> get_note_display_info( const std::string &note )
+std::tuple<char, nc_color, size_t> get_note_display_info( const std::string_view note )
 {
     std::tuple<char, nc_color, size_t> result {'N', c_yellow, 0};
     bool set_color  = false;
@@ -179,7 +179,7 @@ static std::array<std::pair<nc_color, std::string>, npm_width *npm_height> get_o
     return map_around;
 }
 
-static void update_note_preview( const std::string &note,
+static void update_note_preview( const std::string_view note,
                                  const std::array<std::pair<nc_color, std::string>, npm_width *npm_height> &map_around,
                                  const std::tuple<catacurses::window *, catacurses::window *, catacurses::window *>
                                  &preview_windows )
@@ -187,7 +187,7 @@ static void update_note_preview( const std::string &note,
     auto om_symbol = get_note_display_info( note );
     const nc_color note_color = std::get<1>( om_symbol );
     const char symbol = std::get<0>( om_symbol );
-    const std::string note_text = note.substr( std::get<2>( om_symbol ), std::string::npos );
+    const std::string_view note_text = note.substr( std::get<2>( om_symbol ), std::string::npos );
 
     catacurses::window *w_preview = std::get<0>( preview_windows );
     catacurses::window *w_preview_title = std::get<1>( preview_windows );
@@ -235,8 +235,7 @@ weather_type_id get_weather_at_point( const tripoint_abs_omt &pos )
     }
     auto iter = weather_cache.find( pos );
     if( iter == weather_cache.end() ) {
-        // TODO: fix point types
-        const tripoint abs_ms_pos = project_to<coords::ms>( pos ).raw();
+        const tripoint_abs_ms abs_ms_pos = project_to<coords::ms>( pos );
         const weather_generator &wgen = overmap_buffer.get_settings( pos ).weather;
         const auto weather = wgen.get_weather_conditions( abs_ms_pos, calendar::turn, g->get_seed() );
         iter = weather_cache.insert( std::make_pair( pos, weather ) ).first;
@@ -1671,7 +1670,7 @@ static std::vector<tripoint_abs_omt> get_overmap_path_to( const tripoint_abs_omt
             params = overmap_path_params::for_watercraft();
         } else if( can_drive ) {
             const float offroad_coeff = player_veh->k_traction( player_veh->wheel_area() *
-                                        player_veh->average_or_rating() );
+                                        player_veh->average_offroad_rating() );
             const bool tiny = player_veh->get_points().size() <= 3;
             params = overmap_path_params::for_land_vehicle( offroad_coeff, tiny, can_float );
         } else {
@@ -1722,7 +1721,7 @@ static bool try_travel_to_destination( avatar &player_character, const tripoint_
     }
     if( query_yn( confirm_msg ) ) {
         if( driving ) {
-            player_character.assign_activity( player_activity( autodrive_activity_actor() ) );
+            player_character.assign_activity( autodrive_activity_actor() );
         } else {
             player_character.reset_move_mode();
             player_character.assign_activity( ACT_TRAVELLING );

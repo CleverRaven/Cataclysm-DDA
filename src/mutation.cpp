@@ -794,7 +794,8 @@ void Character::activate_mutation( const trait_id &mut )
                 debugmsg( "Must use an activation eoc for a mutation activation.  If you don't want the effect_on_condition to happen on its own (without the mutation being activated), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this mutation with its condition and effects, then have a recurring one queue it." );
             }
         }
-        tdata.powered = false;
+        // if the activation EOCs are not just setup for processing then turn the mutation off
+        tdata.powered = mut->activated_is_setup;
     }
 
     if( mdata.transform ) {

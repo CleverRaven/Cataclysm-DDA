@@ -8,6 +8,7 @@
 #include <vector>
 
 #include "coordinates.h"
+#include "monster.h"
 #include "talker.h"
 #include "type_id.h"
 
@@ -18,12 +19,11 @@ class npc;
 class time_duration;
 class vehicle;
 struct tripoint;
-class monster;
 
 /*
  * Talker wrapper class for monster.
  */
-class talker_monster_const: public talker
+class talker_monster_const: public talker_cloner<talker_monster_const>
 {
     public:
         explicit talker_monster_const( const monster *new_me ): me_mon_const( new_me ) {
@@ -48,6 +48,8 @@ class talker_monster_const: public talker
 
         std::string get_value( const std::string &var_name ) const override;
 
+        bool has_flag( const flag_id &f ) const override;
+
         std::string short_description() const override;
         int get_anger() const override;
         int morale_cur() const override;
@@ -60,7 +62,7 @@ class talker_monster_const: public talker
         const monster *me_mon_const;
 };
 
-class talker_monster: public talker_monster_const
+class talker_monster: public talker_cloner<talker_monster, talker_monster_const>
 {
     public:
         explicit talker_monster( monster *new_me );

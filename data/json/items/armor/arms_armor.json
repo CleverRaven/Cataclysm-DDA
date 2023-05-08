@@ -10,7 +10,6 @@
     "price": 500,
     "price_postapoc": 250,
     "to_hit": -1,
-    "bashing": 8,
     "material": [ "wood" ],
     "symbol": "[",
     "looks_like": "arm_splint",
@@ -27,6 +26,77 @@
         "cover_melee": 80,
         "cover_ranged": 80,
         "cover_vitals": 0,
+        "specifically_covers": [ "arm_lower_r", "arm_lower_l" ]
+      }
+    ],
+    "melee_damage": { "bash": 8 }
+  },
+  {
+    "id": "carpet_armguards",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of carpet arm guards", "str_pl": "pairs of carpet arm guards" },
+    "description": "Small squares of carpet rolled around your upper and lower arms.  Armor of the truly desperate or crafty.",
+    "weight": "1360 g",
+    "//": "The weight assumes four squares of carpet of about 25cm x 20cm.",
+    "volume": "3 L",
+    "price": 20,
+    "price_postapoc": 10,
+    "to_hit": 1,
+    "material": [ "plastic", "carpet_pilling" ],
+    "symbol": "[",
+    "looks_like": "arm_warmers",
+    "color": "red",
+    "warmth": 10,
+    "material_thickness": 4,
+    "environmental_protection": 1,
+    "flags": [ "OUTER", "BLOCK_WHILE_WORN", "NO_REPAIR" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "carpet_pilling", "covered_by_mat": 100, "thickness": 3.0 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "encumbrance": 5,
+        "coverage": 90,
+        "cover_ranged": 95,
+        "cover_vitals": 70,
+        "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_upper_r", "arm_upper_l" ]
+      }
+    ]
+  },
+  {
+    "id": "carpet_bracers",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of carpet bracers", "str_pl": "pairs of carpet bracers" },
+    "description": "Small squares of carpet rolled around your lower arms.  The bare minimum to hopefully stop a bite or two.",
+    "weight": "680 g",
+    "//": "The weight assumes two squares of carpet of about 25cm x 20cm.",
+    "volume": "2 L",
+    "price": 10,
+    "price_postapoc": 5,
+    "to_hit": 1,
+    "material": [ "plastic", "carpet_pilling" ],
+    "symbol": "[",
+    "looks_like": "arm_warmers",
+    "color": "red",
+    "warmth": 10,
+    "material_thickness": 4,
+    "environmental_protection": 1,
+    "flags": [ "OUTER", "BLOCK_WHILE_WORN", "NO_REPAIR" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "carpet_pilling", "covered_by_mat": 100, "thickness": 3.0 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "encumbrance": 3,
+        "coverage": 90,
+        "cover_ranged": 95,
+        "cover_vitals": 70,
         "specifically_covers": [ "arm_lower_r", "arm_lower_l" ]
       }
     ]
@@ -92,8 +162,7 @@
     "description": "A pair of arm guards crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant but brittle.",
     "material": [ "acidchitin" ],
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
-    "material_thickness": 4,
-    "extend": { "flags": [ "NO_REPAIR" ] }
+    "material_thickness": 4
   },
   {
     "id": "xl_armguard_acidchitin",
@@ -572,8 +641,6 @@
     "price": 20000,
     "price_postapoc": 500,
     "to_hit": 1,
-    "bashing": 1,
-    "cutting": 1,
     "material": [ "budget_steel", "cotton" ],
     "symbol": "[",
     "looks_like": "armguard_metal",
@@ -591,7 +658,8 @@
         "coverage": 95,
         "specifically_covers": [ "arm_lower_r", "arm_lower_l" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 1, "cut": 1 }
   },
   {
     "id": "xl_armguard_scrap",
@@ -1173,7 +1241,6 @@
     "price": 60000,
     "price_postapoc": 12000,
     "to_hit": -5,
-    "bashing": 8,
     "symbol": "[",
     "looks_like": "armguard_metal",
     "material": [ "lc_steel", "lc_steel_chain" ],
@@ -1195,7 +1262,8 @@
         "coverage": 100,
         "encumbrance": 10
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "xl_armor_lc_lightarmguard",
@@ -1332,7 +1400,6 @@
     "price": 60000,
     "price_postapoc": 12000,
     "to_hit": -5,
-    "bashing": 8,
     "symbol": "[",
     "looks_like": "armor_larmor",
     "material": [ "lc_steel", "lc_steel_chain" ],
@@ -1354,7 +1421,8 @@
         "coverage": 100,
         "encumbrance": 15
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "xl_armor_lc_armguard",
@@ -1491,7 +1559,6 @@
     "price": 60000,
     "price_postapoc": 12000,
     "to_hit": -5,
-    "bashing": 8,
     "symbol": "[",
     "looks_like": "armor_larmor",
     "color": "light_gray",
@@ -1512,7 +1579,8 @@
         "coverage": 100,
         "encumbrance": 20
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "xl_armor_lc_heavyarmguard",

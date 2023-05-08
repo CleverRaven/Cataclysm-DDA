@@ -12,6 +12,7 @@
     "price_postapoc": 2,
     "to_hit": -5,
     "material": [ "cotton" ],
+    "repairs_like": "tshirt",
     "flags": [ "SLEEP_AID_CONTAINER" ],
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "15 L", "max_contains_weight": "15 kg", "moves": 400 } ],
     "symbol": ")",

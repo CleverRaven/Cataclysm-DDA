@@ -101,6 +101,9 @@ class Json
 
         static const std::string &flexbuffer_type_to_string( flexbuffers::Type t );
 
+        // Atomically sets whether Json destructors report unvisited members or not. Returns the prior value.
+        static bool globally_report_unvisited_members( bool do_report );
+
     protected:
         Json( std::shared_ptr<parsed_flexbuffer> root, flexbuffer json ) : root_{ std::move( root ) },
             json_ { json } {}
@@ -620,8 +623,8 @@ class JsonObject : JsonWithPath
         E get_enum_value( const char *name, E fallback ) const;
 
         // Sigh.
-        std::vector<int> get_int_array( const std::string &name ) const;
-        std::vector<std::string> get_string_array( const std::string &name ) const;
+        std::vector<int> get_int_array( std::string_view name ) const;
+        std::vector<std::string> get_string_array( std::string_view name ) const;
         std::vector<std::string> get_as_string_array( const std::string &name ) const;
 
         bool has_member( std::string_view key ) const;
@@ -730,7 +733,7 @@ class JsonObject : JsonWithPath
 //void deserialize( std::optional<T> &obj, const JsonValue &jsin );
 
 void add_array_to_set( std::set<std::string> &s, const JsonObject &json,
-                       const std::string &name );
+                       std::string_view name );
 
 #include "flexbuffer_json-inl.h"
 

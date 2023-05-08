@@ -17,7 +17,6 @@
     "morale": 100,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "vision_day": 1,
-    "armor_bullet": 100,
     "weakpoints": [
       { "name": "the knee", "armor_mult": { "bullet": 0.5 }, "armor_penalty": { "bullet": 25 }, "coverage": 25 },
       { "name": "the bugs", "armor_mult": { "bullet": 0.0 }, "armor_penalty": { "bullet": 0 }, "coverage": 25 }
@@ -26,7 +25,92 @@
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
     "regenerates": 50,
     "regeneration_modifiers": [ [ "onfire", -5 ], [ "corroding", 5 ] ],
-    "flags": [ "IMMOBILE", "NOT_HALLUCINATION", "FILTHY" ]
+    "flags": [ "IMMOBILE", "NOT_HALLUCINATION", "FILTHY" ],
+    "armor": { "bullet": 100 }
+  },
+  {
+    "id": "mon_debug_grabber",
+    "type": "MONSTER",
+    "name": { "str": "weak debug grabber" },
+    "description": "This monster exists only for grab testing purposes.  Same grab strength as a basic zombie.",
+    "looks_like": "mon_thing",
+    "default_faction": "",
+    "species": [ "ZOMBIE" ],
+    "volume": "62500 ml",
+    "weight": "300000 g",
+    "hp": 1,
+    "speed": 100,
+    "material": [ "flesh" ],
+    "symbol": "X",
+    "color": "white",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 100,
+    "//": "Basic zombie strength",
+    "grab_strength": 20,
+    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
+    "vision_day": 50,
+    "special_attacks": [ { "id": "grab", "cooldown": 0, "move_cost": 0 } ],
+    "harvest": "exempt",
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
+    "regeneration_modifiers": [ [ "onfire", -5 ], [ "corroding", 5 ] ],
+    "flags": [ "IMMOBILE", "SEES" ]
+  },
+  {
+    "id": "mon_debug_grabber_mid",
+    "type": "MONSTER",
+    "copy-from": "mon_debug_grabber",
+    "name": { "str": "middle-strength debug grabber" },
+    "description": "This monster exists only for grab testing purposes.  Same grab strength as a Tier 2  grabbing zombie.",
+    "grab_strength": 50
+  },
+  {
+    "id": "mon_debug_grabber_strong",
+    "type": "MONSTER",
+    "copy-from": "mon_debug_grabber",
+    "name": { "str": "strong debug grabber" },
+    "description": "This monster exists only for grab testing purposes.  Same grab strength as a Tier 3  grabbing zombie.",
+    "grab_strength": 100
+  },
+  {
+    "id": "mon_debug_grabber_left",
+    "type": "MONSTER",
+    "copy-from": "mon_debug_grabber",
+    "description": "This grab testing monster has a strange fascination with your left arm.",
+    "special_attacks": [ { "id": "grab", "cooldown": 0, "move_cost": 0, "body_parts": [ [ "arm_l", 3 ] ] } ]
+  },
+  {
+    "id": "mon_debug_grabber_right",
+    "type": "MONSTER",
+    "copy-from": "mon_debug_grabber",
+    "description": "This grab testing monster has a strange fascination with your right arm.",
+    "special_attacks": [ { "id": "grab", "cooldown": 0, "move_cost": 0, "body_parts": [ [ "arm_r", 1 ] ] } ]
+  },
+  {
+    "id": "mon_debug_puller_weak",
+    "type": "MONSTER",
+    "copy-from": "mon_debug_grabber",
+    "weight": "100 kg",
+    "extend": { "flags": [ "ALL_SEEING" ] },
+    "name": { "str": "weak debug puller" },
+    "description": "This 100kg monster exists only to test ranged pulls using the base 0.5 pull weight ratio.",
+    "special_attacks": [ { "id": "ranged_pull", "grab_data": { "pull_weight_ratio": 0.5 }, "cooldown": 0, "move_cost": 0 } ]
+  },
+  {
+    "id": "mon_debug_puller_strong",
+    "type": "MONSTER",
+    "copy-from": "mon_debug_puller_weak",
+    "name": { "str": "strong debug puller" },
+    "description": "This 100kg monster is strong enough to pull 250kg targets.",
+    "special_attacks": [ { "id": "ranged_pull", "grab_data": { "pull_weight_ratio": 2.5 }, "cooldown": 0, "move_cost": 0 } ]
+  },
+  {
+    "id": "mon_debug_puller_incompetent",
+    "type": "MONSTER",
+    "copy-from": "mon_debug_puller_strong",
+    "name": { "str": "incompetent debug puller" },
+    "description": "This monster exists only to fail pulling its target despite technically beign able to.  Truly a cursed existence.",
+    "special_attacks": [ { "id": "ranged_pull", "grab_data": { "pull_weight_ratio": 2.5, "pull_chance": 0 }, "cooldown": 0, "move_cost": 0 } ]
   },
   {
     "id": "weakpoint_mon",
@@ -46,7 +130,6 @@
     "morale": 100,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "vision_day": 1,
-    "armor_bullet": 100,
     "families": [ "prof_debug_weakpoint", { "proficiency": "prof_debug_weakpoint_expert", "bonus": 100 } ],
     "weakpoints": [
       {
@@ -78,7 +161,8 @@
       }
     ],
     "harvest": "zombie",
-    "flags": [ "IMMOBILE", "NOT_HALLUCINATION", "FILTHY" ]
+    "flags": [ "IMMOBILE", "NOT_HALLUCINATION", "FILTHY" ],
+    "armor": { "bullet": 100 }
   },
   {
     "id": "mon_dragon_dummy",
@@ -121,13 +205,11 @@
     "symbol": "4",
     "color": "white",
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "armor_bash": 2,
-    "armor_cut": 2,
-    "armor_bullet": 2,
     "harvest": "exempt",
     "special_attacks": [ [ "GENERATOR", 1 ] ],
     "death_function": { "effect": { "id": "death_gameover", "hit_self": true } },
-    "flags": [ "NOHEAD", "ACIDPROOF", "IMMOBILE", "STUN_IMMUNE" ]
+    "flags": [ "NOHEAD", "ACIDPROOF", "IMMOBILE", "STUN_IMMUNE" ],
+    "armor": { "bash": 2, "cut": 2, "bullet": 2 }
   },
   {
     "id": "mon_hallu_mom",

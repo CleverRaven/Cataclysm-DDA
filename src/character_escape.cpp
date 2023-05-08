@@ -1,23 +1,27 @@
 #include "character.h"
+#include "character_martial_arts.h"
 #include "creature_tracker.h"
 #include "flag.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "martialarts.h"
 #include "messages.h"
 #include "monster.h"
 #include "mtype.h"
 #include "output.h"
 
+static const character_modifier_id
+character_modifier_grab_break_limb_mod( "grab_break_limb_mod" );
+
 static const efftype_id effect_beartrap( "beartrap" );
 static const efftype_id effect_crushed( "crushed" );
 static const efftype_id effect_downed( "downed" );
-static const efftype_id effect_grabbed( "grabbed" );
-static const efftype_id effect_grabbing( "grabbing" );
 static const efftype_id effect_heavysnare( "heavysnare" );
 static const efftype_id effect_in_pit( "in_pit" );
 static const efftype_id effect_lightsnare( "lightsnare" );
-static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_webbed( "webbed" );
+
+static const flag_id json_flag_GRAB( "GRAB" );
 
 static const itype_id itype_rope_6( "rope_6" );
 static const itype_id itype_snare_trigger( "snare_trigger" );
@@ -28,6 +32,9 @@ static const json_character_flag json_flag_DOWNED_RECOVERY( "DOWNED_RECOVERY" );
 static const limb_score_id limb_score_balance( "balance" );
 static const limb_score_id limb_score_grip( "grip" );
 static const limb_score_id limb_score_manip( "manip" );
+
+static const skill_id skill_melee( "melee" );
+static const skill_id skill_unarmed( "unarmed" );
 
 bool Character::can_escape_trap( int difficulty, bool manip = false ) const
 {
@@ -159,99 +166,131 @@ void Character::try_remove_crushed()
 
 bool Character::try_remove_grab()
 {
-    int zed_number = 0;
     if( is_mounted() ) {
+        // Use the same calc as monster::move_effect
         auto *mon = mounted_creature.get();
-        if( mon->has_effect( effect_grabbed ) ) {
-            if( ( dice( mon->type->melee_dice + mon->type->melee_sides,
-                        3 ) < get_effect_int( effect_grabbed ) ) ||
-                !one_in( 4 ) ) {
-                add_msg( m_bad, _( "Your %s tries to break free, but fails!" ), mon->get_name() );
-                return false;
-            } else {
-                add_msg( m_good, _( "Your %s breaks free from the grab!" ), mon->get_name() );
-                remove_effect( effect_grabbed );
-                mon->remove_effect( effect_grabbed );
+        if( mon->has_effect_with_flag( json_flag_GRAB ) ) {
+            for( const effect &grab : mon->get_effects_with_flag( json_flag_GRAB ) ) {
+                const efftype_id effid = grab.get_effect_type()->id;
+                if( !x_in_y( mon->type->melee_skill + mon->type->melee_damage.total_damage(),
+                             mon->get_effect_int( effid ) ) ) {
+                    add_msg( m_bad, _( "Your %s tries to break free, but fails!" ), mon->get_name() );
+                    return false;
+                } else {
+                    add_msg( m_good, _( "Your %s breaks free from the grab!" ), mon->get_name() );
+                    mon->remove_effect( effid );
+                }
             }
         } else {
+            // No chivalrous zombies letting you go after pulling you off your horse
             if( one_in( 4 ) ) {
                 add_msg( m_bad, _( "You are pulled from your %s!" ), mon->get_name() );
-                remove_effect( effect_grabbed );
                 forced_dismount();
             }
         }
-    } else {
+    } else if( has_effect_with_flag( json_flag_GRAB ) ) {
+        // Need to know who's around for targeted removal
         map &here = get_map();
         creature_tracker &creatures = get_creature_tracker();
-        for( auto&& dest : here.points_in_radius( pos(), 1, 0 ) ) { // *NOPAD*
-            const monster *const mon = creatures.creature_at<monster>( dest );
-            if( mon && mon->has_effect( effect_grabbing ) ) {
-                zed_number += mon->get_grab_strength();
+
+        // No need to recalculate it in-loop, breaking previous grabs doesn't change skills
+        float skill_factor = std::min( 0.8f,
+                                       std::max( std::max( static_cast<float>( get_skill_level( skill_melee ) ) / 10, 0.1f ),
+                                               std::max( static_cast<float>( get_skill_level( skill_unarmed ) ) / 8, 0.1f ) ) );
+        int grab_break_factor = has_grab_break_tec() ? 10 : 0;
+        const tripoint_range<tripoint> &surrounding = here.points_in_radius( pos(), 1, 0 );
+
+        // Iterate through all our grabs and attempt to break them one by one
+        for( const effect &eff : get_effects_with_flag( json_flag_GRAB ) ) {
+            float escape_chance = 1.0f;
+            float grabber_roll = static_cast<float>( eff.get_intensity() );
+            // We need to figure out which monster is responsible for this grab early for good messaging
+            // For now, one grabber per limb TODO: handle multiple grabbers and decrement intensity
+            monster *grabber = nullptr;
+            for( const tripoint loc : surrounding ) {
+                monster *mon = creatures.creature_at<monster>( loc );
+                if( mon && mon->has_effect( eff.get_bp()->grabbing_effect ) ) {
+                    add_msg_debug( debugmode::DF_MATTACK, "Grabber %s found", mon->name() );
+                    grabber = mon;
+                    break;
+                }
             }
-        }
 
-        /** @EFFECT_STR increases chance to escape grab */
-        /** @EFFECT_DEX increases chance to escape grab */
-        int defender_check = rng( 0, std::max( get_arm_str(), get_dex() ) );
-        int attacker_check = rng( get_effect_int( effect_grabbed, body_part_torso ), 8 );
+            // Something went wrong, remove grab to be sure and throw an error
+            if( grabber == nullptr ) {
+                remove_effect( eff.get_id(), eff.get_bp() );
+                add_msg_debug( debugmode::DF_MATTACK, "Orphan grab found and removed" );
+                continue;
+            }
 
-        // Defender check is modified by the relevant scores
-        defender_check *= get_limb_score( limb_score_balance );
-        // Monster check is modified by number
-        attacker_check *= zed_number;
-
-        if( has_grab_break_tec() ) {
-            defender_check = defender_check + 2;
-        }
-
-        if( get_effect_int( effect_stunned ) ) {
-            defender_check = defender_check - 2;
-        }
-
-        if( get_effect_int( effect_downed ) ) {
-            defender_check /= 2;
-        }
-
-        if( zed_number == 0 ) {
-            add_msg_player_or_npc( m_good, _( "You find yourself no longer grabbed." ),
-                                   _( "<npcname> finds themselves no longer grabbed." ) );
-            remove_effect( effect_grabbed );
-
-            /** @EFFECT_STR increases chance to escape grab */
-        } else if( defender_check < attacker_check ) {
-            add_msg_player_or_npc( m_bad, _( "You try to break out of the grab, but fail!" ),
-                                   _( "<npcname> tries to break out of the grab, but fails!" ) );
-            return false;
-        } else {
-            std::vector<item_pocket *> pd = worn.grab_drop_pockets();
-            // if we have items that can be pulled off
+            bool torn_pocket = false;
+            std::vector<item_pocket *> pd = worn.grab_drop_pockets( eff.get_bp() );
             if( !pd.empty() ) {
                 // choose an item to be ripped off
                 int index = rng( 0, pd.size() - 1 );
-                int chance = rng( 0, get_effect_int( effect_grabbed, body_part_torso ) );
-                int sturdiness = rng( 0, pd[index]->get_pocket_data()->ripoff );
+                int chance = rng( 0, get_effect_int( eff.get_id(), eff.get_bp() ) );
+                int sturdiness = rng( 0, pd[index]->get_pocket_data()->ripoff * 10 );
+                add_msg_debug( debugmode::DF_MATTACK, "Tearoff pocket %s chosen, sturdiness %d, tearing chance %d",
+                               pd[index]->get_name(), sturdiness, chance );
                 // the item is ripped off your character
                 if( sturdiness < chance ) {
                     pd[index]->spill_contents( adjacent_tile() );
                     add_msg_player_or_npc( m_bad,
-                                           _( "As you escape the grab something comes loose and falls to the ground!" ),
-                                           _( "<npcname> escapes the grab something comes loose and falls to the ground!" ) );
+                                           _( "As you struggle to escape the grab something comes loose and falls to the ground!" ),
+                                           _( "As <npcname> struggles to escape the grab something comes loose and falls to the ground!" ) );
                     if( is_avatar() ) {
-                        popup( _( "As you escape the grab something comes loose and falls to the ground!" ) );
+                        popup( _( "As you struggle to escape the grab something comes loose and falls to the ground!" ) );
                     }
+                    torn_pocket = true;
                 }
             }
 
-            add_msg_player_or_npc( m_good, _( "You break out of the grab!" ),
-                                   _( "<npcname> breaks out of the grab!" ) );
-            remove_effect( effect_grabbed );
-
-            for( auto&& dest : here.points_in_radius( pos(), 1, 0 ) ) { // *NOPAD*
-                monster *mon = creatures.creature_at<monster>( dest );
-                if( mon && mon->has_effect( effect_grabbing ) ) {
-                    mon->remove_effect( effect_grabbing );
-                }
+            // Limb factor we check directly
+            // Stats might get modified by certain grabby effects, check them to be safe
+            float stat_factor = std::max( get_str() / 2, get_dex() / 3 );
+            float limb_factor = get_modifier( character_modifier_grab_break_limb_mod );
+            escape_chance = ( skill_factor * limb_factor ) * 100 + stat_factor;
+            grabber_roll = std::max( grabber_roll, escape_chance ) + rng( 1, 10 );
+            escape_chance += grab_break_factor;
+            add_msg_debug( debugmode::DF_MATTACK,
+                           "Attempting to break grab on %s, grab strength roll %.1f, skill factor %.1f, limb factor %.1f, stat bonus %.1f, grab break bonus %d, escape chance %.1f, final chance %.1f %%",
+                           eff.get_bp()->name, grabber_roll, skill_factor, limb_factor, stat_factor, grab_break_factor,
+                           escape_chance,
+                           escape_chance * 100 / grabber_roll );
+            if( torn_pocket ) {
+                escape_chance *= 1.5f;
+                add_msg_debug( debugmode::DF_MATTACK,
+                               "Pocket torn off in the attempt, escape chance increased to %.1f",
+                               escape_chance * 100 / eff.get_intensity() );
             }
+
+            // Every attempt burns some stamina - maybe some moves?
+            mod_stamina( -5 * eff.get_intensity() );
+            if( x_in_y( escape_chance, grabber_roll ) ) {
+                grabber->remove_effect( eff.get_bp()->grabbing_effect );
+                add_msg_debug( debugmode::DF_MATTACK, "Removed grab filter effect %s from monster %s",
+                               eff.get_bp()->grabbing_effect.c_str(), grabber->name() );
+
+                if( grab_break_factor > 0 ) {
+                    add_msg_if_player( m_info, martial_arts_data->get_grab_break( *this ).avatar_message.translated(),
+                                       grabber->disp_name() );
+                } else {
+                    add_msg_player_or_npc( m_good, _( "You break the %s grab on your %s!" ),
+                                           _( "<npcname> the %s grab on their %s!" ), grabber->disp_name( true ),
+                                           eff.get_bp()->name );
+                }
+                // Remove only this one grab
+                remove_effect( eff.get_id(), eff.get_bp() );
+            } else {
+                add_msg_player_or_npc( m_bad, _( "You try to break the %s grab on your %s, but fail!" ),
+                                       _( "<npcname> tries to break out of the grab, but fails!" ), grabber->disp_name( true ),
+                                       eff.get_bp()->name );
+            }
+        }
+
+        // We have attempted to break every grab but have failed to break at least one
+        if( has_effect_with_flag( json_flag_GRAB ) ) {
+            return false;
         }
     }
     return true;
@@ -346,7 +385,11 @@ bool Character::move_effects( bool attacking )
             remove_effect( effect_in_pit );
         }
     }
-    return !has_effect( effect_grabbed ) || attacking || try_remove_grab();
+    // Only attempt breaking grabs if we're grabbed and not attacking
+    if( has_flag( json_flag_GRAB ) && !attacking ) {
+        return try_remove_grab();
+    }
+    return true;
 }
 
 void Character::wait_effects( bool attacking )
@@ -375,7 +418,7 @@ void Character::wait_effects( bool attacking )
         try_remove_impeding_effect();
         return;
     }
-    if( has_effect( effect_grabbed ) && !attacking && !try_remove_grab() ) {
+    if( has_flag( json_flag_GRAB ) && !attacking && !try_remove_grab() ) {
         return;
     }
 }
