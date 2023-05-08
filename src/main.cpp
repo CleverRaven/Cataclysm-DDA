@@ -745,7 +745,7 @@ int main( int argc, const char *argv[] )
         get_options().load();
     }
 
-    set_language();
+    set_language_from_options();
 
     rng_set_engine_seed( cli.seed );
 
@@ -798,7 +798,7 @@ int main( int argc, const char *argv[] )
 #if defined(LOCALIZE)
     if( get_option<std::string>( "USE_LANG" ).empty() && !SystemLocale::Language().has_value() ) {
         select_language();
-        set_language();
+        set_language_from_options();
     }
 #endif
     replay_buffered_debugmsg_prompts();
