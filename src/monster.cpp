@@ -2004,42 +2004,6 @@ void monster::die_in_explosion( Creature *source )
     die( source );
 }
 
-bool monster::stumble_invis( const Creature &player, const bool msg )
-{
-    if( !fov_3d && posz() != player.posz() ) {
-        return false;
-    }
-    if( msg ) {
-        const bool player_sees = player.sees( *this );
-        add_msg( m_bad, _( "%s stumbles into you!" ), player_sees ? this->disp_name( false,
-                 true ) : _( "Something" ) );
-    }
-    add_effect( effect_stumbled_into_invisible, 6_seconds );
-    map &here = get_map();
-    // Mark last known location, or extend duration if exists
-    if( here.has_field_at( player.pos(), field_fd_last_known ) ) {
-        here.set_field_age( player.pos(), field_fd_last_known, 0_seconds );
-    } else {
-        here.add_field( player.pos(), field_fd_last_known );
-    }
-    moves = 0;
-    return true;
-}
-
-bool monster::attack_air( const tripoint &p )
-{
-    mod_moves( -type->attack_cost );
-    add_msg_if_player_sees( *this, _( "%s attacks, but there is nothing there!" ),
-                            this->disp_name( false, true ) );
-    // TODO replace hit anim
-    g->draw_hit_mon( p, *this );
-    // Chance to remove last known location
-    if( one_in( 2 ) ) {
-        get_map().set_field_intensity( p, field_fd_last_known, 0 );
-    }
-    return true;
-}
-
 void monster::heal_bp( bodypart_id, int dam )
 {
     heal( dam );

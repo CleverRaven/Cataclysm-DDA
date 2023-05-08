@@ -1327,6 +1327,56 @@ void Creature::longpull( const std::string &name, const tripoint &p )
     }
 }
 
+bool Creature::stumble_invis( const Creature &player, const bool msg )
+{
+    if( !fov_3d && posz() != player.posz() ) {
+        return false;
+    }
+    if( msg ) {
+        const bool player_sees = player.sees( *this );
+        add_msg( m_bad, _( "%s stumbles into you!" ), player_sees ? this->disp_name( false,
+                 true ) : _( "Something" ) );
+    }
+    add_effect( effect_stumbled_into_invisible, 6_seconds );
+    map &here = get_map();
+    // Mark last known location, or extend duration if exists
+    if( here.has_field_at( player.pos(), field_fd_last_known ) ) {
+        here.set_field_age( player.pos(), field_fd_last_known, 0_seconds );
+    } else {
+        here.add_field( player.pos(), field_fd_last_known );
+    }
+    moves = 0;
+    return true;
+}
+
+bool Creature::attack_air( const tripoint &p )
+{
+    int move_cost = 100;
+    if ( is_monster() ) {
+        move_cost = as_monster()->type->attack_cost;
+        // TODO replace hit anim
+        g->draw_hit_mon( p, *as_monster() );
+    }
+    
+    if ( is_npc() ) {
+    	// Simplified moves calculation from Character::melee_attack_abstract
+    	item_location cur_weapon = as_character()->used_weapon();
+        item cur_weap = cur_weapon ? *cur_weapon : null_item_reference();
+    	move_cost = as_character()->attack_speed( cur_weap ) * ( 1 / as_character()->exertion_adjusted_move_multiplier( EXTRA_EXERCISE ) );
+    	
+        // TODO replace hit anim
+        // g->draw_hit_mon( p, *as_monster() );
+    }
+    mod_moves( -move_cost );
+    add_msg_if_player_sees( *this, _( "%s attacks, but there is nothing there!" ),
+                            disp_name( false, true ) );
+    
+    // Chance to remove last known location
+    if( one_in( 2 ) ) {
+        get_map().set_field_intensity( p, field_fd_last_known, 0 );
+    }
+    return true;
+}
 /*
  * State check functions
  */

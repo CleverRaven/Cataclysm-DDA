@@ -2333,7 +2333,11 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         }
 
         if( critter->is_avatar() ) {
-            say( chatbin.snip_let_me_pass );
+        	if ( sees( *critter ) ) {
+                say( chatbin.snip_let_me_pass );
+        	} else {
+        		stumble_invis( *critter );
+        	}
         }
 
         // Let NPCs push each other when non-hostile
