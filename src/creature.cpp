@@ -2050,7 +2050,7 @@ const bodypart_id Creature::get_part_id( const bodypart_id &id ) const
     auto found = body.find( id.id() );
     if( found == body.end() ) {
         // try to find an equivalent part in the body map
-        for( auto &bp : body ) {
+        for( const auto &bp : body ) {
             if( id->part_side == bp.first->part_side &&
                 id->primary_limb_type() == bp.first->primary_limb_type() ) {
                 return bp.first;
@@ -2059,7 +2059,7 @@ const bodypart_id Creature::get_part_id( const bodypart_id &id ) const
 
         // try to find the next best thing
         std::pair<bodypart_id, float> best = { body_part_bp_null, 0.0 };
-        for( auto &bp : body ) {
+        for( const auto &bp : body ) {
             for( const auto &mp : bp.first->limbtypes ) {
                 // if the secondary limb type matches and is better than the current
                 if( mp.first == id->primary_limb_type() && mp.second > best.second ) {
