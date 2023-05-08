@@ -744,7 +744,7 @@
     "ammo": [ "weldgas" ],
     "charges_per_use": 4,
     "use_action": [ "OXYTORCH" ],
-    "charged_qualities": [ [ "WELD", 2 ], [ "SAW_M", 5 ] ]
+    "charged_qualities": [ [ "WELD", 2 ], [ "SAW_M", 5 ] ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "weldtank", "tinyweldtank" ] } ]
   },
