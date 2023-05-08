@@ -121,7 +121,10 @@ static const efftype_id effect_npc_flee_player( "npc_flee_player" );
 static const efftype_id effect_npc_player_still_looking( "npc_player_still_looking" );
 static const efftype_id effect_npc_run_away( "npc_run_away" );
 static const efftype_id effect_onfire( "onfire" );
+static const efftype_id effect_stumbled_into_invisible( "stumbled_into_invisible" );
 static const efftype_id effect_stunned( "stunned" );
+
+static const field_type_str_id field_fd_last_known( "fd_last_known" );
 
 static const itype_id itype_inhaler( "inhaler" );
 static const itype_id itype_lsd( "lsd" );
@@ -2392,6 +2395,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         }
     }
 
+    Character &player_character = get_player_character();
     if( p.z != posz() ) {
         // Z-level move
         // For now just teleport to the destination
@@ -2402,6 +2406,11 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         }
         moves -= 100;
         moved = true;
+    } else if( has_effect( effect_stumbled_into_invisible ) &&
+               here.has_field_at( p, field_fd_last_known ) && !sees( player_character ) &&
+               attitude_to( player_character ) == Attitude::HOSTILE ) {
+        attack_air( p );
+        move_pause();
     } else if( here.passable( p ) && !here.has_flag( ter_furn_flag::TFLAG_DOOR, p ) ) {
         bool diag = trigdist && posx() != p.x && posy() != p.y;
         if( is_mounted() ) {
