@@ -629,7 +629,7 @@
     "id": "survivor_forest_camp",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "survivor_forest_camp_north" } ],
     "locations": [ "forest" ],
-    "city_distance": [ 25, -1  ],
+    "city_distance": [ 25, -1 ],
     "occurrences": [ 50, 100 ],
     "flags": [ "CLASSIC", "WILDERNESS", "UNIQUE", "MAN_MADE" ]
   },
