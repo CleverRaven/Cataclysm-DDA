@@ -86,7 +86,7 @@
     "stim": 20,
     "fun": 25,
     "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE", "EDIBLE_FROZEN" ],
-      "use_action": { "type": "cast_spell", "spell_id": "future_sight", "no_fail": true, "level": 25 }
+    "use_action": { "type": "cast_spell", "spell_id": "future_sight", "no_fail": true, "level": 25 }
   },
   {
     "id": "truckers_stamina_pills",
