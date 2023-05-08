@@ -488,7 +488,7 @@ class Creature : public viewer
         void longpull( const std::string &name, const tripoint &p );
 
         // Temporarily reveals an invisible player when a monster tries to enter their location
-        bool stumble_invis( const Creature &player, const bool msg = true );
+        bool stumble_invis( const Creature &player, const bool stumblemsg = true );
         // Attack an empty location
         bool attack_air( const tripoint &p );
         

@@ -1327,12 +1327,12 @@ void Creature::longpull( const std::string &name, const tripoint &p )
     }
 }
 
-bool Creature::stumble_invis( const Creature &player, const bool msg )
+bool Creature::stumble_invis( const Creature &player, const bool stumblemsg )
 {
     if( !fov_3d && posz() != player.posz() ) {
         return false;
     }
-    if( msg ) {
+    if( stumblemsg ) {
         const bool player_sees = player.sees( *this );
         add_msg( m_bad, _( "%s stumbles into you!" ), player_sees ? this->disp_name( false,
                  true ) : _( "Something" ) );
