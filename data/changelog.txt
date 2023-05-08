@@ -12,8 +12,8 @@ New game event that triggers on load or new game start
 Add option to hide bionics
 Allow JSON monster special attacks to use the dialog condition system
 Confirmation before attacking neutral mobs
-Subtle spell and silent spell tweaks
 Unhardcode and rework grabs, ranged pulls
+EOCs can have context vars that can be passed into nested EOCs
 
 
 ## Content:
@@ -29,13 +29,8 @@ Add new Exodii NPC: Luliya
 Add new weather types: mist and fog
 Allow players to keep bees
 Apartment complex: parking garage, lobby variants, roof additions
-Improved nether monster corpse
-Added a new larger shelter kit with its recipes
-Crustacean Mutation tree
+Crustacean mutation tree
 Dead trees can be harvested for wood(once per tree)
-map update: bike shop
-Integrated AR system CBM
-map update: dive shop
 
 
 ## Interface:
@@ -69,8 +64,8 @@ Display why vehicle parts cannot be installed
 [Magiclysm] Adds several new professions to the Magiclysm mod
 [Bombastic Perks] Added resurrecting meat monstrosities to bombastic perks
 [Bombastic Perks] Forcefield and Evasion enchants
-Aftershock: Elemental bionic weapons.
-Adds the recycler perk
+[Aftershock] Elemental bionic weapons.
+[Bombastic Perks] Adds the recycler perk
 [Xedra Evolved] Revamped the inventor class
 
 
@@ -86,9 +81,6 @@ Converts most of the armor and clothing still using the old limb system to the n
 partial skill levels contribute to most game tests
 Portal Storm Coherency Pass
 Stop zomborgs from exploding on death
-Change anvil volume to a reasonable 24L
-Fix bird chicks and playing with corvids
-Plant distribution tweaks
 
 
 ## Bugfixes:
@@ -121,15 +113,8 @@ Prevent fire damaging unbreakable items
 Fix energy guns(AFS) on NPC
 Faction camps now distribute calories based on actual calories and not default calories
 Fix calculation for inserting into nested containers
-Cooking raw food once again improves their calories
-Fix crash when monster attacks a dead NPC
-[Magiclysm] Fix the diviner's swamp dragon quest
-mutagen chelator doesn't turn you into a crab
 Make copy-from copy terrain/furniture examine actions
-Fix crash when installing vehicle parts on empty square
-Fix a crash related to NPC death
 Prevent mission marker from being cutoff in the overmap
-Fix infinite recursion when trying to drain battery
 Exodii will now properly be mad at you if you steal all their resources from stone barns
 
 
@@ -146,8 +131,6 @@ Unify gun battery/ups/bionic energy consumption
 Modernize string_formatter
 Migrate some JSON APIs to string_view
 Add units::temperature_delta
-EOCs can have Context Vars
-Run EOC with passed in variables
 Upgrade clang-tidy used in CI to LLVM 16
 
 
