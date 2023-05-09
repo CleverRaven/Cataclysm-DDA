@@ -286,13 +286,13 @@
     "components": [
       [ [ "yoke_harness", 1 ] ],
       [ [ "frame", 1 ] ],
-      [ [ "scrap", 30 ], [ "steel_chunk", 10 ], [ "steel_lump", 4 ] ],
-      [ [ "pipe", 6 ], [ "scrap", 30 ], [ "steel_chunk", 10 ], [ "steel_lump", 4 ] ],
+      [ [ "scrap", 15 ], [ "steel_chunk", 5 ], [ "steel_lump", 2 ] ],
+      [ [ "pipe", 4 ], [ "scrap", 20 ], [ "steel_chunk", 6 ], [ "steel_lump", 3 ] ],
       [ [ "pipe", 2 ] ],
       [ [ "chain", 2 ], [ "hd_tow_cable", 1 ] ],
       [ [ "spring", 2 ], [ "tanned_hide", 2 ] ],
       [ [ "nuts_bolts", 6] ],
-      [ [ "rope_superior_short", 2, "LIST" ] ]
+      [ [ "rope_superior_short", 2, "LIST" ],  ["tailoring_canvas_patchwork", 4 ] ]
     ]
   },
   {
