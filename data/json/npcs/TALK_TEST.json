@@ -860,7 +860,7 @@
       {
         "text": "This is a driving test response.",
         "topic": "TALK_DONE",
-        "condition": { "u_has_skill": { "skill": "driving", "level": 7 } }
+        "condition": { "math": [ "u_skill('driving')", ">=", "7" ] }
       }
     ]
   },
@@ -873,7 +873,7 @@
       {
         "text": "This is a low driving test response.",
         "topic": "TALK_DONE",
-        "condition": { "not": { "u_has_skill": { "skill": "driving", "level": 7 } } }
+        "condition": { "math": [ "u_skill('driving')", "<", "7" ] }
       }
     ]
   },
@@ -1133,7 +1133,7 @@
       {
         "text": "Driving skill more than or equal to 5",
         "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "u_val": "skill_level", "skill": "driving" }, ">=", { "const": 5 } ] }
+        "condition": { "math": [ "u_skill('driving')", ">=", "5" ] }
       },
       {
         "text": "A random number between 0 and 10 equals 11.",
@@ -1463,7 +1463,7 @@
       {
         "text": "Sets skill level in driving to 10.",
         "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "u_val": "skill_level", "skill": "driving" }, "=", { "const": 10 } ] }
+        "effect": { "math": [ "u_skill('driving')", "=", "10" ] }
       },
       {
         "text": "Sets pos_x to 14.",

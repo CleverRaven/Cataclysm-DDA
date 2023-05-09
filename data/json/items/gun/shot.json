@@ -23,7 +23,6 @@
     "clip_size": 1,
     "reload": 80,
     "valid_mod_locations": [
-      [ "accessories", 1 ],
       [ "grip", 1 ],
       [ "stock mount", 1 ],
       [ "mechanism", 4 ],
@@ -55,7 +54,7 @@
     "modes": [ [ "DEFAULT", "burst", 6 ] ],
     "energy_drain": "1 kJ",
     "reload": 200,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "sights", 1 ], [ "rail mount", 1 ] ],
+    "valid_mod_locations": [ [ "sights", 1 ], [ "rail mount", 1 ] ],
     "flags": [ "MOUNTED_GUN", "USE_UPS" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "shotbelt_20" ] } ],
     "melee_damage": { "bash": 9 }
@@ -79,7 +78,6 @@
     "durability": 6,
     "barrel_volume": "500 ml",
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -127,7 +125,6 @@
     "clip_size": 7,
     "built_in_mods": [ "ksg_aux_shotgun" ],
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -173,7 +170,6 @@
     "clip_size": 12,
     "built_in_mods": [ "ksg25_aux_shotgun" ],
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -293,7 +289,6 @@
     "clip_size": 8,
     "built_in_mods": [ "wire_stock" ],
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "sling", 1 ],
       [ "barrel", 1 ],
       [ "grip mount", 1 ],
@@ -322,7 +317,6 @@
     "relative": { "weight": "625 g", "volume": "360 ml", "price": 5000 },
     "barrel_volume": "720 ml",
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "sling", 1 ],
       [ "stock mount", 1 ],
       [ "barrel", 1 ],
@@ -355,7 +349,6 @@
     "reload": 200,
     "barrel_volume": "360 ml",
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "sling", 1 ],
       [ "stock mount", 1 ],
       [ "barrel", 1 ],
@@ -443,7 +436,6 @@
     "barrel_volume": "0 ml",
     "built_in_mods": [ "breacher_grip" ],
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -506,7 +498,6 @@
     "reload": 200,
     "barrel_volume": "360 ml",
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "sling", 1 ],
       [ "stock mount", 1 ],
       [ "barrel", 1 ],
@@ -547,7 +538,6 @@
     "min_cycle_recoil": 1250,
     "barrel_volume": "81 ml",
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "sling", 1 ],
       [ "stock mount", 1 ],
       [ "mechanism", 4 ],
@@ -576,7 +566,6 @@
     "price_postapoc": 2000,
     "barrel_volume": "980 ml",
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "sights mount", 1 ],
@@ -609,7 +598,6 @@
     "clip_size": 1,
     "barrel_volume": "670 ml",
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "muzzle", 1 ],
@@ -657,7 +645,6 @@
     "built_in_mods": [ "wire_stock" ],
     "modes": [ [ "DEFAULT", "single", 1 ], [ "AUTO", "3 rd.", 3 ] ],
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -703,7 +690,6 @@
     "sight_dispersion": 500,
     "built_in_mods": [ "ts12_aux_shotgun", "ts12_aux_shotgun2" ],
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
       [ "grip mount", 1 ],
@@ -749,7 +735,6 @@
     "skill": "pistol",
     "modes": [ [ "DEFAULT", "single", 1 ] ],
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "stock mount", 1 ],
       [ "mechanism", 2 ],
       [ "barrel", 1 ],
@@ -789,7 +774,6 @@
     "durability": 8,
     "clip_size": 6,
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "stock mount", 1 ],
       [ "mechanism", 2 ],
       [ "barrel", 1 ],

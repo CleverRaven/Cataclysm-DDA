@@ -65,6 +65,7 @@
       [ "mutagen_mouse", 1 ],
       [ "mutagen_rat", 1 ],
       [ "mutagen_troglobite", 1 ],
+      [ "mutagen_crustacean", 1 ],
       [ "instability", 1 ],
       [ "mutant_toxin", 2 ]
     ]
@@ -105,7 +106,8 @@
       [ "mutagen_slime", -1 ],
       [ "mutagen_spider", -1 ],
       [ "mutagen_troglobite", -1 ],
-      [ "mutagen_ursine", -1 ]
+      [ "mutagen_ursine", -1 ],
+      [ "mutagen_crustacean", -1 ]
     ]
   },
   {
@@ -389,6 +391,17 @@
     "vit_type": "counter",
     "name": { "str": "Ursine Primer" },
     "excess": "mutagen_ursine",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
+    "id": "mutagen_crustacean",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Crustacean Primer" },
+    "excess": "mutagen_crustacean",
     "min": 0,
     "max": 2500,
     "rate": "1 h",

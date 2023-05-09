@@ -55,7 +55,7 @@ struct thingie;
 struct oper {
     oper( thingie l_, thingie r_, binary_op::f_t op_ );
 
-    double eval( dialogue const &d ) const;
+    double eval( dialogue &d ) const;
 
     std::shared_ptr<thingie> l, r;
     binary_op::f_t op{};
@@ -63,31 +63,40 @@ struct oper {
 struct func {
     explicit func( std::vector<thingie> &&params_, math_func::f_t f_ );
 
-    double eval( dialogue const &d ) const;
+    double eval( dialogue &d ) const;
 
     std::vector<thingie> params;
     math_func::f_t f{};
 };
+struct func_jmath {
+    explicit func_jmath( std::vector<thingie> &&params_, jmath_func_id const &id_ );
+
+    double eval( dialogue &d ) const;
+
+    std::vector<thingie> params;
+    jmath_func_id id;
+};
+
 struct func_diag_eval {
-    using eval_f = std::function<double( dialogue const & )>;
+    using eval_f = std::function<double( dialogue & )>;
     explicit func_diag_eval( eval_f &&f_ ) : f( f_ ) {}
 
-    double eval( dialogue const &d ) const {
+    double eval( dialogue &d ) const {
         return f( d );
     }
 
     eval_f f;
 };
 struct func_diag_ass {
-    using ass_f = std::function<void( dialogue const &, double )>;
+    using ass_f = std::function<void( dialogue &, double )>;
     explicit func_diag_ass( ass_f &&f_ ) : f( f_ ) {}
 
-    static double eval( dialogue const &/* d */ )  {
+    static double eval( dialogue &/* d */ )  {
         debugmsg( "eval() called on assignment function" );
         return 0;
     }
 
-    void assign( dialogue const &d, double val ) const {
+    void assign( dialogue &d, double val ) const {
         f( d, val );
     }
 
@@ -97,7 +106,7 @@ struct var {
     template<class... Args>
     explicit var( Args &&... args ) : varinfo( std::forward<Args>( args )... ) {}
 
-    double eval( dialogue const &d ) const {
+    double eval( dialogue &d ) const {
         std::string const str = read_var_value( varinfo, d );
         if( str.empty() ) {
             return 0;
@@ -115,10 +124,10 @@ struct thingie {
     explicit thingie( std::in_place_type_t<T> /*t*/, Args &&...args )
         : data( std::in_place_type<T>, std::forward<Args>( args )... ) {}
 
-    constexpr double eval( dialogue const &d ) const;
+    constexpr double eval( dialogue &d ) const;
 
     using impl_t =
-        std::variant<double, std::string, oper, func, func_diag_eval, func_diag_ass, var>;
+        std::variant<double, std::string, oper, func, func_jmath, func_diag_eval, func_diag_ass, var>;
     impl_t data;
 };
 
@@ -129,7 +138,7 @@ struct overloaded : Ts... {
 };
 template <class... Ts>
 explicit overloaded( Ts... ) -> overloaded<Ts...>;
-constexpr double thingie::eval( dialogue const &d ) const
+constexpr double thingie::eval( dialogue &d ) const
 {
     return std::visit( overloaded{
         []( double v )
@@ -151,7 +160,7 @@ constexpr double thingie::eval( dialogue const &d ) const
 }
 
 using op_t =
-    std::variant<pbin_op, punary_op, pmath_func, scoped_diag_eval, scoped_diag_ass, paren>;
+    std::variant<pbin_op, punary_op, pmath_func, jmath_func_id, scoped_diag_eval, scoped_diag_ass, paren>;
 
 constexpr bool operator>( op_t const &lhs, binary_op const &rhs )
 {

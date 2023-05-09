@@ -149,7 +149,8 @@
     "type": "material",
     "id": "magical_material",
     "name": "Magical Material",
-    "copy-from": "cotton"
+    "copy-from": "cotton",
+    "repaired_with": "null"
   },
   {
     "type": "material",

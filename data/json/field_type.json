@@ -1622,6 +1622,27 @@
     "display_field": false
   },
   {
+    "id": "fd_bee_swarm",
+    "type": "field_type",
+    "intensity_levels": [
+      { "name": "a few bees", "sym": ".", "dangerous": true, "translucency": 1 },
+      { "name": "a swarm of bees", "color": "yellow", "transparent": true, "translucency": 1 },
+      { "name": "a cloud of bees", "color": "green", "translucency": 0 }
+    ],
+    "decay_amount_factor": 5,
+    "gas_absorption_factor": 15,
+    "percent_spread": 25,
+    "outdoor_age_speedup": "10 minutes",
+    "dirty_transparency_cache": true,
+    "has_fume": true,
+    "immunity_data": { "body_part_env_resistance": [ [ "torso", 5 ] ] },
+    "priority": 3,
+    "half_life": "10 minute",
+    "phase": "gas",
+    "display_items": true,
+    "display_field": true
+  },
+  {
     "id": "fd_churned_earth",
     "type": "field_type",
     "intensity_levels": [ { "name": "churned earth", "sym": "^", "color": "brown", "dangerous": false } ],
@@ -1631,5 +1652,80 @@
     "display_items": true,
     "phase": "solid",
     "looks_like": "t_dirtmound"
+  },
+  {
+    "id": "fd_nm_monster_gas_1",
+    "//": "Spores cause players to light up",
+    "type": "field_type",
+    "intensity_levels": [
+      {
+        "name": "glowing gas spores",
+        "sym": ".",
+        "dangerous": true,
+        "light_emitted": 10,
+        "translucency": 5,
+        "effects": [
+          {
+            "effect_id": "glowing_gas_cover",
+            "body_part": "torso",
+            "intensity": 4,
+            "min_duration": "1 minutes",
+            "max_duration": "2 minutes"
+          }
+        ]
+      },
+      { "//": "repeat last entry" },
+      { "//": "repeat last entry" }
+    ],
+    "decay_amount_factor": 5,
+    "gas_absorption_factor": 15,
+    "percent_spread": 25,
+    "outdoor_age_speedup": "1 minutes",
+    "dirty_transparency_cache": true,
+    "has_fume": true,
+    "priority": 8,
+    "half_life": "15 minutes",
+    "phase": "gas",
+    "display_items": false,
+    "display_field": true,
+    "looks_like": "fd_tear_gas"
+  },
+  {
+    "id": "fd_nm_monster_gas_2",
+    "//": "Spores, when inhaled, act like smoke",
+    "type": "field_type",
+    "intensity_levels": [
+      {
+        "name": "glowing gas",
+        "sym": ".",
+        "dangerous": true,
+        "light_emitted": 10,
+        "translucency": 5,
+        "effects": [
+          {
+            "effect_id": "glowing_gas",
+            "body_part": "mouth",
+            "intensity": 4,
+            "min_duration": "15 seconds",
+            "max_duration": "25 seconds"
+          }
+        ]
+      },
+      { "//": "repeat last entry" },
+      { "//": "repeat last entry" }
+    ],
+    "decay_amount_factor": 5,
+    "gas_absorption_factor": 15,
+    "percent_spread": 25,
+    "outdoor_age_speedup": "1 minutes",
+    "dirty_transparency_cache": true,
+    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ] },
+    "has_fume": true,
+    "priority": 8,
+    "half_life": "15 minutes",
+    "phase": "gas",
+    "display_items": false,
+    "display_field": true,
+    "looks_like": "fd_tear_gas"
   }
 ]

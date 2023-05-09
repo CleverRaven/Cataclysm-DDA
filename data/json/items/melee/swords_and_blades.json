@@ -290,7 +290,7 @@
     "techniques": [ "RAPID" ],
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
     "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE", "NPC_THROWN", "ALLOWS_BODY_BLOCK" ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE", "NPC_THROWN", "ALLOWS_BODY_BLOCK", "NO_SALVAGE" ],
     "weapon_category": [ "KNIVES" ],
     "melee_damage": { "bash": 4, "stab": 26 }
   },
@@ -3334,5 +3334,33 @@
     "price_postapoc": 250,
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 14 ] ],
     "melee_damage": { "bash": 2, "cut": 15 }
+  },
+  {
+    "id": "enfield_bayonet",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "Enfield No. 4 bayonet" },
+    "description": "This is a vintage spike bayonet for the British Lee Enfield No. 4 rifle, featuring a distinct cruciform blade and socket-based mounting system.",
+    "weight": "500 g",
+    "volume": "300 ml",
+    "longest_side": "25 cm",
+    "price": 4281,
+    "price_postapoc": 3000,
+    "melee_damage": { "bash": 7, "stab": 12 },
+    "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "good" },
+    "material": [ "steel" ],
+    "symbol": "/",
+    "color": "light_gray",
+    "gunmod_data": {
+      "location": "underbarrel",
+      "mod_targets": [ "number4_mki" ],
+      "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ],
+      "install_time": "5 s"
+    },
+    "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
+    "techniques": [ "WBLOCK_1", "RAPID" ],
+    "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ], [ "BUTCHER", 7 ] ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "weapon_category": [ "KNIVES" ]
   }
 ]

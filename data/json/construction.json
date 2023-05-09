@@ -219,6 +219,18 @@
   },
   {
     "type": "construction",
+    "id": "constr_excavate_forestfloor",
+    "group": "constr_excavate_forestfloor",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "survival", 1 ] ],
+    "time": "5 m",
+    "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+    "byproducts": [ { "item": "twig", "count": [ 2, 10 ] }, { "item": "leaves", "count": [ 10, 50 ] } ],
+    "pre_terrain": "t_forestfloor",
+    "post_terrain": "t_dirt"
+  },
+  {
+    "type": "construction",
     "id": "constr_fill_water_sh",
     "group": "fill_shallow_water_with_dirt",
     "category": "CONSTRUCT",
@@ -5542,6 +5554,24 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
     "components": [ [ [ "2x4", 12 ] ], [ [ "nail", 36 ] ], [ [ "pebble", 200 ] ], [ [ "material_soil", 75 ] ] ],
     "post_terrain": "f_planter"
+  },
+  {
+    "type": "construction",
+    "id": "constr_apiary",
+    "group": "build_bee_hive",
+    "category": "FARM_WOOD",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": "4 h",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 }, { "id": "DRILL", "level": 1 } ] ],
+    "components": [
+      [ [ "2x4", 14 ] ],
+      [ [ "wood_panel", 8 ] ],
+      [ [ "nail", 28 ] ],
+      [ [ "swarm_bees", 1 ] ],
+      [ [ "sweet_water", 10 ], [ "honey_bottled", 10 ], [ "honeycomb", 10 ] ]
+    ],
+    "pre_special": "check_empty",
+    "post_terrain": "t_apiary_empty"
   },
   {
     "type": "construction",

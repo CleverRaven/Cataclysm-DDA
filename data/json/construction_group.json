@@ -476,6 +476,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_bee_hive",
+    "name": "Build An Apiary"
+  },
+  {
+    "type": "construction_group",
     "id": "build_plastic_window",
     "name": "Build Plastic Window"
   },
@@ -1723,5 +1728,10 @@
     "type": "construction_group",
     "id": "obstacle_rock",
     "name": "Build a Rocky Obstacle"
+  },
+  {
+    "type": "construction_group",
+    "id": "constr_excavate_forestfloor",
+    "name": "Turn forest floor into dirt"
   }
 ]

@@ -1015,7 +1015,7 @@
     "category": "container",
     "name": { "str": "large wooden box", "str_pl": "large wooden boxes" },
     "looks_like": "box_small_wood",
-    "description": "A small wooden crate.  Sturdy, but still light enough to be moved.",
+    "description": "A large wooden crate.  Sturdy, but still light enough to be moved.",
     "weight": "41600 g",
     "volume": "394400 ml",
     "longest_side": "92 cm",
@@ -3129,7 +3129,7 @@
       }
     ],
     "charges_per_use": 1,
-    "flags": [ "GAS_TANK", "COLLAPSE_CONTENTS" ],
+    "flags": [ "GAS_TANK", "COLLAPSE_CONTENTS", "NO_SALVAGE" ],
     "melee_damage": { "bash": 5 }
   },
   {
@@ -3158,7 +3158,7 @@
       }
     ],
     "charges_per_use": 1,
-    "flags": [ "GAS_TANK", "COLLAPSE_CONTENTS" ],
+    "flags": [ "GAS_TANK", "COLLAPSE_CONTENTS", "NO_SALVAGE" ],
     "melee_damage": { "bash": 5 }
   },
   {
@@ -3187,7 +3187,7 @@
       }
     ],
     "charges_per_use": 1,
-    "flags": [ "GAS_TANK", "COLLAPSE_CONTENTS" ],
+    "flags": [ "GAS_TANK", "COLLAPSE_CONTENTS", "NO_SALVAGE" ],
     "melee_damage": { "bash": 10 }
   },
   {
@@ -3216,7 +3216,7 @@
       }
     ],
     "charges_per_use": 1,
-    "flags": [ "GAS_TANK", "COLLAPSE_CONTENTS" ],
+    "flags": [ "GAS_TANK", "COLLAPSE_CONTENTS", "NO_SALVAGE" ],
     "melee_damage": { "bash": 10 }
   },
   {

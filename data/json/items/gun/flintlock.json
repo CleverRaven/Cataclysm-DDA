@@ -9,7 +9,6 @@
     "name": { "str": "flintlock carbine" },
     "description": "This short rifle design once dominated the battlefields of ancient Europe, and may yet re-earn its feared status due to its ease of handling and ability to use easily-crafted ammunition.",
     "valid_mod_locations": [
-      [ "accessories", 1 ],
       [ "sling", 1 ],
       [ "grip mount", 1 ],
       [ "rail mount", 1 ],
@@ -63,14 +62,7 @@
     "blackpowder_tolerance": 96,
     "clip_size": 1,
     "reload": 2500,
-    "valid_mod_locations": [
-      [ "accessories", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
-      [ "stock mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
+    "valid_mod_locations": [ [ "grip mount", 1 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ], [ "underbarrel mount", 1 ] ],
     "flags": [ "NEVER_JAMS" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "flintlock": 1 } } ],
     "melee_damage": { "bash": 5 }
@@ -102,7 +94,6 @@
     "//": "Sources place muzzle loader firing rate at at up to 4 / minute for elite professionals. Nominal 30s will be cut down to 15s at skill 10.",
     "reload": 3000,
     "valid_mod_locations": [
-      [ "accessories", 1 ],
       [ "sling", 1 ],
       [ "underbarrel", 1 ],
       [ "grip mount", 1 ],

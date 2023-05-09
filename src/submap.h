@@ -232,12 +232,12 @@ class submap
             cosmetics.push_back( ins );
         }
 
-        units::temperature get_temperature() const {
-            return units::from_kelvin( temperature_mod / 1.8 );
+        units::temperature_delta get_temperature_mod() const {
+            return units::from_fahrenheit_delta( temperature_mod );
         }
 
-        void set_temperature_mod( units::temperature new_temperature_mod ) {
-            temperature_mod = units::to_kelvin( new_temperature_mod ) * 1.8;
+        void set_temperature_mod( units::temperature_delta new_temperature_mod ) {
+            temperature_mod = units::to_fahrenheit_delta( new_temperature_mod );
         }
 
         bool has_graffiti( const point &p ) const;

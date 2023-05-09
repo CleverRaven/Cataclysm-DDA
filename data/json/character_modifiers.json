@@ -77,6 +77,14 @@
     "value": { "builtin": "move_mode_move_cost_modifier" }
   },
   {
+    "id": "grab_break_limb_mod",
+    "type": "character_mod",
+    "description": "Grab break success modifier",
+    "mod_type": "x",
+    "//": "Major limb scores - grip would be nice but unless",
+    "value": { "limb_score": [ "balance", [ "lift", 2 ], "move_speed", "grip" ], "limb_score_op": "x", "min": 0.1, "max": 0.9 }
+  },
+  {
     "type": "character_mod",
     "id": "stamina_move_cost_mod",
     "description": "Stamina move cost modifier",

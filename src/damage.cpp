@@ -106,7 +106,7 @@ static damage_info_order::info_disp read_info_disp( const std::string &s )
     }
 }
 
-void damage_type::load( const JsonObject &jo, const std::string & )
+void damage_type::load( const JsonObject &jo, std::string_view )
 {
     mandatory( jo, was_loaded, "name", name );
     optional( jo, was_loaded, "skill", skill, skill_id::NULL_ID() );
@@ -141,7 +141,7 @@ void damage_type::load( const JsonObject &jo, const std::string & )
 
     if( jo.has_array( "derived_from" ) ) {
         JsonArray ja = jo.get_array( "derived_from" );
-        derived_from = { damage_type_id( ja.get_string( 0 ) ), ja.get_float( 1 ) };
+        derived_from = { damage_type_id( ja.get_string( 0 ) ), static_cast<float>( ja.get_float( 1 ) ) };
     }
 
     for( JsonValue jv : jo.get_array( "onhit_eocs" ) ) {
@@ -164,7 +164,7 @@ void damage_type::check()
 }
 
 void damage_info_order::damage_info_order_entry::load( const JsonObject &jo,
-        const std::string &member )
+        std::string_view member )
 {
     if( jo.has_object( member ) || jo.has_int( member ) ) {
         if( jo.has_int( member ) ) {
@@ -178,7 +178,7 @@ void damage_info_order::damage_info_order_entry::load( const JsonObject &jo,
     }
 }
 
-void damage_info_order::load( const JsonObject &jo, const std::string & )
+void damage_info_order::load( const JsonObject &jo, std::string_view )
 {
     dmg_type = damage_type_id( id.c_str() );
     bionic_info.load( jo, "bionic_info" );

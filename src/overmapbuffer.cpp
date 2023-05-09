@@ -1590,7 +1590,7 @@ std::string overmapbuffer::get_description_at( const tripoint_abs_sm &where )
     return string_format( format_string, ter_name, dir_name, closest_city_name );
 }
 
-void overmapbuffer::spawn_monster( const tripoint_abs_sm &p )
+void overmapbuffer::spawn_monster( const tripoint_abs_sm &p, bool spawn_nonlocal )
 {
     point_abs_om omp;
     tripoint_om_sm current_submap_loc;
@@ -1603,7 +1603,9 @@ void overmapbuffer::spawn_monster( const tripoint_abs_sm &p )
         const map &here = get_map();
         const tripoint local = here.getlocal( this_monster.get_location().raw() );
         // The monster position must be local to the main map when added to the game
-        cata_assert( here.inbounds( local ) );
+        if( !spawn_nonlocal ) {
+            cata_assert( here.inbounds( local ) );
+        }
         monster *const placed = g->place_critter_around( make_shared_fast<monster>( this_monster ),
                                 local, 0, true );
         if( placed ) {

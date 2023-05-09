@@ -15,6 +15,86 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_run_with_test",
+    "effect": [
+      { "math": [ "u_ukey", "=", "3" ] },
+      {
+        "run_eoc_with": "EOC_run_with_test_nested",
+        "variables": { "key1": "1", "key2": "2", "key3": { "u_val": "ukey" } }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_run_with_test_queued",
+    "effect": [
+      { "math": [ "u_ukey", "=", "3" ] },
+      {
+        "queue_eoc_with": "EOC_run_with_test_nested",
+        "variables": { "key1": "1", "key2": "2", "key3": { "u_val": "ukey" } },
+        "time_in_future": "1 seconds"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_run_with_test_nested",
+    "effect": [ { "math": [ "key1", "=", "_key1" ] }, { "math": [ "key2", "=", "_key2" ] }, { "math": [ "key3", "=", "_key3" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_run_with_test_expects_pass",
+    "effect": [
+      { "math": [ "u_ukey", "=", "3" ] },
+      {
+        "run_eoc_with": "EOC_run_with_test_nested2",
+        "variables": { "key1": "1", "key2": "2", "key3": { "u_val": "ukey" } }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_run_with_test_expects_fail",
+    "effect": [ { "run_eoc_with": "EOC_run_with_test_nested2" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_run_with_test_nested2",
+    "condition": { "expects_vars": [ "npctalk_var_key1", "npctalk_var_key2", "npctalk_var_key3" ] },
+    "effect": [ { "math": [ "key1", "=", "_key1" ] }, { "math": [ "key2", "=", "_key2" ] }, { "math": [ "key3", "=", "_key3" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_mutator_test",
+    "effect": [
+      { "set_string_var": "mon_zombie", "target_var": { "context_val": "temp" } },
+      {
+        "set_string_var": { "mutator": "mon_faction", "mtype_id": "mon_zombie" },
+        "target_var": { "global_val": "key1" }
+      },
+      {
+        "set_string_var": { "mutator": "mon_faction", "mtype_id": { "context_val": "temp" } },
+        "target_var": { "global_val": "key2" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_math_test_context",
+    "effect": [
+      { "math": [ "_simple", "=", "12" ] },
+      { "math": [ "simple_global", "=", "_simple" ] },
+      { "run_eocs": [ "EOC_math_test_nested_context" ] },
+      { "math": [ "non_nested_simple_global", "=", "_nested_simple" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_math_test_nested_context",
+    "effect": [ { "math": [ "_nested_simple", "=", "7" ] }, { "math": [ "nested_simple_global", "=", "_nested_simple" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_math_test_equals_assign",
     "condition": { "math": [ "u_val('stamina')", "==", "500" ] },
     "effect": [ { "math": [ "math_test", "=", "-3^2" ] } ]
@@ -55,6 +135,23 @@
     "recurrence": { "math": [ "math_test_result" ] },
     "global": true,
     "effect": { "u_message": "test recurrence" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_jmath_test",
+    "effect": [ { "math": [ "blorgy", "=", "jmath_test_blorg(1, 2)" ] } ]
+  },
+  {
+    "type": "jmath_function",
+    "id": "jmath_test_blorg",
+    "num_args": 2,
+    "return": "_0 + jmath_test_blorg2( _1 )"
+  },
+  {
+    "type": "jmath_function",
+    "id": "jmath_test_blorg2",
+    "num_args": 1,
+    "return": "_0 * 3"
   },
   {
     "type": "effect_on_condition",

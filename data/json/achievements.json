@@ -2071,11 +2071,11 @@
     "name": "Eureka!",
     "requirements": [
       {
-        "event_statistic": "last_overmap_special_avatar_entered",
-        "is": "==",
-        "target": [ "overmap_special_id", "Lab_CORE_2x1x2" ],
+        "event_statistic": "num_avatar_enters_trans_lab",
+        "is": ">=",
+        "target": 1,
         "visible": "when_achievement_completed",
-        "description": "Reach Trans Coastal Lab"
+        "description": "Reach a Trans Coastal Facility"
       }
     ]
   },
@@ -2104,6 +2104,20 @@
         "target": [ "overmap_special_id", "mil_base" ],
         "visible": "when_achievement_completed",
         "description": "Reach a Military Base"
+      }
+    ]
+  },
+  {
+    "id": "achievement_reach_military_bunker",
+    "type": "achievement",
+    "name": "Zombie Forces",
+    "requirements": [
+      {
+        "event_statistic": "last_overmap_special_avatar_entered",
+        "is": "==",
+        "target": [ "overmap_special_id", "military_bunker_1" ],
+        "visible": "when_achievement_completed",
+        "description": "Reach a Military Bunker"
       }
     ]
   },
@@ -2200,6 +2214,20 @@
         "target": 1,
         "visible": "when_achievement_completed",
         "description": "Reach a Mine"
+      }
+    ]
+  },
+  {
+    "id": "achievement_reach_police_station",
+    "type": "achievement",
+    "name": "Zombie PD, to protect and zombify!",
+    "requirements": [
+      {
+        "event_statistic": "num_avatar_enters_police_station",
+        "is": ">=",
+        "target": 1,
+        "visible": "when_achievement_completed",
+        "description": "Reach a Police Station"
       }
     ]
   }

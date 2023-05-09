@@ -131,7 +131,6 @@ static const damage_type_id damage_bash( "bash" );
 static const damage_type_id damage_bullet( "bullet" );
 static const damage_type_id damage_cut( "cut" );
 static const damage_type_id damage_heat( "heat" );
-static const damage_type_id damage_stab( "stab" );
 
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_cig( "cig" );
@@ -2344,7 +2343,14 @@ void item::med_info( const item *med_item, std::vector<iteminfo> &info, const it
                            to_string( player_character.get_consume_time( *med_item ) ) );
     }
 
-    if( med_com->addict && parts->test( iteminfo_parts::DESCRIPTION_MED_ADDICTING ) ) {
+    bool addictive = false;
+    for( const std::pair<const addiction_id, int> &add : med_com->addictions ) {
+        if( add.second > 0 ) {
+            addictive = true;
+            break;
+        }
+    }
+    if( addictive && parts->test( iteminfo_parts::DESCRIPTION_MED_ADDICTING ) ) {
         info.emplace_back( "DESCRIPTION", _( "* Consuming this item is <bad>addicting</bad>." ) );
     }
 
@@ -2683,15 +2689,29 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
         }
         if( parts->test( iteminfo_parts::AMMO_BARREL_DETAILS ) ) {
             std::string barrel_details;
-            for( const damage_unit &du : ammo.damage.damage_units ) {
-                barrel_details += enumerate_as_string( du.barrels,
-                []( const barrel_desc & bd ) {
-                    return string_format( "<info>%d %s</info>: %d", convert_length( bd.barrel_length ),
-                                          length_units( bd.barrel_length ), static_cast<int>( bd.amount ) );
-                } );
-            }
-            if( !barrel_details.empty() ) {
-                info.emplace_back( "AMMO", _( "Damage by barrel length: " ), barrel_details );
+            const units::length small = 150_mm;
+            const units::length medium = 400_mm;
+            const units::length large = 600_mm;
+            const int small_damage = static_cast<int>( ammo.damage.di_considering_length(
+                                         small ).total_damage() );
+            const int medium_damage = static_cast<int>( ammo.damage.di_considering_length(
+                                          medium ).total_damage() );
+            const int large_damage = static_cast<int>( ammo.damage.di_considering_length(
+                                         large ).total_damage() );
+            if( small_damage != medium_damage || medium_damage != large_damage ) {
+                info.emplace_back( "AMMO", _( "Damage by barrel length: " ) );
+                const std::string small_string = string_format( " <info>%d %s</info>: ",
+                                                 convert_length( small ),
+                                                 length_units( small ) );
+                info.emplace_back( "AMMO", small_string, small_damage );
+                const std::string medium_string = string_format( " <info>%d %s</info>: ",
+                                                  convert_length( medium ),
+                                                  length_units( medium ) );
+                info.emplace_back( "AMMO", medium_string, medium_damage );
+                const std::string large_string = string_format( " <info>%d %s</info>: ",
+                                                 convert_length( large ),
+                                                 length_units( large ) );
+                info.emplace_back( "AMMO", large_string, large_damage );
             }
         }
     }
@@ -2828,9 +2848,13 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
         } else {
             if( parts->test( iteminfo_parts::GUN_DAMAGE_LOADEDAMMO ) ) {
                 damage_instance ammo_dam = curammo->ammo->damage;
+                int bullet_damage = ammo_dam.total_damage();
+                if( mod->barrel_length().value() > 0 ) {
+                    bullet_damage = ammo_dam.di_considering_length( mod->barrel_length() ).total_damage();
+                }
                 info.emplace_back( "GUN", "ammo_damage", "",
                                    iteminfo::no_newline | iteminfo::no_name |
-                                   iteminfo::show_plus, ammo_dam.total_damage() );
+                                   iteminfo::show_plus, bullet_damage );
             }
         }
 
@@ -3193,7 +3217,7 @@ void item::gunmod_info( std::vector<iteminfo> &info, const iteminfo_query *parts
             info.emplace_back( "GUNMOD", _( "Field of view: <good>No limit</good>" ) );
         } else {
             info.emplace_back( "GUNMOD", _( "Field of view: " ), "",
-                               iteminfo::lower_is_better, mod.field_of_view );
+                               iteminfo::no_flags, mod.field_of_view );
         }
     }
     if( mod.field_of_view > 0 && parts->test( iteminfo_parts::GUNMOD_AIM_SPEED_MODIFIER ) ) {
@@ -6904,6 +6928,12 @@ units::mass item::weight( bool include_contents, bool integral ) const
     return ret;
 }
 
+static units::length sawn_off_reduction( const itype *type )
+{
+    int barrel_percentage = type->gun->barrel_volume / ( type->volume / 100 );
+    return ( type->longest_side / 100 ) * barrel_percentage;
+}
+
 units::length item::length() const
 {
     if( made_of( phase_id::LIQUID ) || ( is_soft() && is_container_empty() ) ) {
@@ -6919,9 +6949,7 @@ units::length item::length() const
 
         //TODO: Unhardcode this now that integral_longest_side can be used
         if( gunmod_find( itype_barrel_small ) ) {
-            int barrel_percentage = type->gun->barrel_volume / ( type->volume / 100 );
-            units::length reduce_by = ( type->longest_side / 100 ) * barrel_percentage;
-            length_adjusted = type->longest_side - reduce_by;
+            length_adjusted = type->longest_side - sawn_off_reduction( type );
         }
 
         std::vector<const item *> mods = gunmods();
@@ -6969,12 +6997,18 @@ units::length item::barrel_length() const
     if( is_gun() ) {
         units::length l = type->gun->barrel_length;
         for( const item *mod : mods() ) {
-            if( mod->type->gunmod->location.str() == "barrel" ) {
-                if( mod->type->integral_longest_side > 0_mm ) {
-                    l = mod->type->integral_longest_side;
-                }
+            // if a gun has a barrel length specifying mod then use that length for sure
+            if( mod->type->gunmod->barrel_length > 0_mm ) {
+                l = mod->type->gunmod->barrel_length;
+                // if we find an explicit barrel mod then use that and quit the loop
+                break;
             }
         }
+        // if we've sawn off the barrel reduce the damage
+        if( gunmod_find( itype_barrel_small ) ) {
+            l = l - sawn_off_reduction( type );
+        }
+
         return l;
     } else {
         return 0_mm;
@@ -9729,9 +9763,9 @@ bool item::spill_open_pockets( Character &guy, const item *avoid )
     return contents.spill_open_pockets( guy, avoid );
 }
 
-void item::overflow( const tripoint &pos )
+void item::overflow( const tripoint &pos, const item_location &loc )
 {
-    contents.overflow( pos );
+    contents.overflow( pos, loc );
 }
 
 book_proficiency_bonuses item::get_book_proficiency_bonuses() const
@@ -10417,7 +10451,8 @@ units::energy item::energy_consume( units::energy qty, const tripoint &pos, Char
     // If consumption is not integer kJ we need to consume one extra battery charge to "round up".
     // Should happen only if battery powered and energy per shot is not integer kJ.
     if( qty > 0_kJ && is_battery() ) {
-        qty -= energy_consume( 1_kJ, pos, carrier );
+        int consumed_kj = contents.ammo_consume( 1, pos );
+        qty -= units::from_kilojoule( consumed_kj );
     }
 
     return wanted_energy - qty;
@@ -10540,7 +10575,7 @@ std::string item::print_ammo( ammotype at, const item *gun ) const
         if( gun ) {
             return enumerate_as_string( type->magazine->cached_ammos[at],
             [gun]( const itype_id & id ) {
-                return string_format( "<info>%s(%d)</info>", id->nname( 1 ),
+                return string_format( "<info>%s</info>(%d)", id->nname( 1 ),
                                       static_cast<int>( gun->gun_damage( id ).total_damage() ) );
             } );
         } else {
@@ -12060,7 +12095,7 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos, map &
     // body heat increases inventory temperature by 5 F (2.77 K) and insulation by 50%
     if( carried ) {
         insulation *= 1.5;
-        temp += units::from_kelvin( 2.77 );
+        temp += units::from_fahrenheit_delta( 5 );
     }
 
     time_point time = last_temp_check;
@@ -12072,19 +12107,19 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos, map &
 
         const weather_generator &wgen = get_weather().get_cur_weather_gen();
         const unsigned int seed = g->get_seed();
-        units::temperature local_mod = g->new_game ? 0_K : here.get_temperature_mod( pos );
 
-        units::temperature enviroment_mod;
+        units::temperature_delta temp_mod;
         // Toilets and vending machines will try to get the heat radiation and convection during mapgen and segfault.
         if( !g->new_game ) {
-            enviroment_mod = get_heat_radiation( pos );
-            enviroment_mod += get_convection_temperature( pos );
+            temp_mod = get_heat_radiation( pos );
+            temp_mod += get_convection_temperature( pos );
+            temp_mod += here.get_temperature_mod( pos );
         } else {
-            enviroment_mod = 0_K;
+            temp_mod = units::from_kelvin_delta( 0 );
         }
 
         if( carried ) {
-            local_mod += units::from_kelvin( 2.77 ); // body heat increases inventory temperature
+            temp_mod += units::from_fahrenheit_delta( 5 ); // body heat increases inventory temperature
         }
 
         // Process the past of this item in 1h chunks until there is less than 1h left.
@@ -12101,8 +12136,7 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos, map &
             } else {
                 env_temperature = AVERAGE_ANNUAL_TEMPERATURE;
             }
-            env_temperature += local_mod;
-            env_temperature += enviroment_mod;
+            env_temperature += temp_mod;
 
             switch( flag ) {
                 case temperature_flag::NORMAL:

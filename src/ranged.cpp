@@ -133,6 +133,7 @@ static const skill_id skill_dodge( "dodge" );
 static const skill_id skill_driving( "driving" );
 static const skill_id skill_gun( "gun" );
 static const skill_id skill_launcher( "launcher" );
+static const skill_id skill_swimming( "swimming" );
 static const skill_id skill_throw( "throw" );
 
 static const trait_id trait_BRAWLER( "BRAWLER" );
@@ -1392,7 +1393,7 @@ static void mod_stamina_archery( Character &you, const item &relevant )
 
     // Calculate stamina drain based on archery and athletics skill
     const float archery_skill = you.get_skill_level( skill_archery );
-    const float athletics_skill = you.get_skill_level( skill_archery );
+    const float athletics_skill = you.get_skill_level( skill_swimming );
     const float skill_modifier = ( 2 * archery_skill + athletics_skill ) / 3.0f;
 
     const int stamina_cost = pow( 20 - skill_modifier, 2 );
