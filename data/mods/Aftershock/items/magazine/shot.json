@@ -21,7 +21,7 @@
     "looks_like": "38_speedloader",
     "type": "MAGAZINE",
     "name": { "str": "RMGS5 8x40mm speedloader" },
-    "description": "This speedloader hods up to eight 12ga shotgun shells, intended for use with the Drotik.",
+    "description": "This speedloader holds up to eight 12ga shotgun shells, intended for use with the Drotik.",
     "weight": "150 g",
     "volume": "350 ml",
     "material": [ "superalloy", "plastic" ],
