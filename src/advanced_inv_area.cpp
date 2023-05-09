@@ -207,8 +207,8 @@ bool advanced_inv_area::is_same( const advanced_inv_area &other ) const
     // e.g. dragged vehicle (to the south) and AIM_SOUTH are the same.
     if( id != AIM_INVENTORY && other.id != AIM_INVENTORY &&
         id != AIM_WORN && other.id != AIM_WORN &&
-    ( id != AIM_CONTAINER && other.id != AIM_CONTAINER ) &&
-    ( id != AIM_CONTAINER2 && other.id != AIM_CONTAINER2 ) ) {
+        ( id != AIM_CONTAINER && other.id != AIM_CONTAINER ) &&
+        ( id != AIM_CONTAINER2 && other.id != AIM_CONTAINER2 ) ) {
         //     have a vehicle?...     ...do the cargo index and pos match?...    ...at least pos?
         return veh == other.veh ? pos == other.pos && vstor == other.vstor : pos == other.pos;
     }
@@ -221,8 +221,7 @@ bool advanced_inv_area::canputitems( const item_location &container ) const
     bool canputitems = false;
     switch( id ) {
         case AIM_CONTAINER:
-        case AIM_CONTAINER2:
-        {
+        case AIM_CONTAINER2: {
             if( container ) {
                 if( container.get_item()->is_container() ) {
                     canputitems = true;
