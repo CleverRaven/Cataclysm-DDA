@@ -777,7 +777,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str_sp": "sclerotin right pincer" },
-    "description": "Useful for the hunt, suitable for maximum efficiency.",
+    "description": "A powerful tool for snatching fish or breaking open shells.",
     "weight": "900 g",
     "volume": "1 L",
     "price": 0,
