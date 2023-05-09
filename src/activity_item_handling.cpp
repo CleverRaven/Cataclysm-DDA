@@ -229,7 +229,7 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
         } else {
             if( it.count_by_charges() ) {
                 // Maybe we can add a few charges in the trunk and the rest on the ground.
-                int charges_added = veh.add_charges( part, it );
+                const int charges_added = veh.add_charges( vp, it );
                 it.mod_charges( -charges_added );
                 into_vehicle_count += charges_added;
             }

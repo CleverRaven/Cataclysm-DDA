@@ -162,25 +162,32 @@ void DefaultRemovePartHandler::removed( vehicle &veh, const int part )
 }
 
 // Vehicle stack methods.
+vehicle_stack::vehicle_stack( vehicle &veh, vehicle_part &vp ) :
+    item_stack( &vp.items ), veh( veh ), vp( vp ) {}
+
 vehicle_stack::iterator vehicle_stack::erase( vehicle_stack::const_iterator it )
 {
-    return myorigin->remove_item( part_num, it );
+    return veh.remove_item( vp, it );
 }
 
 void vehicle_stack::insert( const item &newitem )
 {
-    myorigin->add_item( part_num, newitem );
+    veh.add_item( vp, newitem );
+}
+
+int vehicle_stack::count_limit() const
+{
+    return MAX_ITEM_IN_VEHICLE_STORAGE;
 }
 
 units::volume vehicle_stack::max_volume() const
 {
-    const vehicle_part &vp = myorigin->part( part_num );
     const vpart_info &vpi = vp.info();
-    if( vpi.has_flag( VPFLAG_CARGO ) && !vp.is_broken() ) {
-        // Set max volume for vehicle cargo to prevent integer overflow
-        return std::min( vpi.size, 10000_liter );
+    if( !vpi.has_flag( VPFLAG_CARGO ) || vp.is_broken() ) {
+        return 0_ml;
     }
-    return 0_ml;
+    // Set max volume for vehicle cargo to prevent integer overflow
+    return std::min( vpi.size, 10000_liter );
 }
 
 // Vehicle class methods.
@@ -2457,6 +2464,11 @@ std::map<item, input_event> vpart_position::get_tools() const
     return res;
 }
 
+std::optional<vpart_reference> vpart_position::cargo() const
+{
+    return part_with_feature( VPFLAG_CARGO, true );
+}
+
 std::optional<vpart_reference> vpart_position::part_with_feature( const std::string &f,
         const bool unbroken ) const
 {
@@ -2500,6 +2512,11 @@ std::optional<vpart_reference> optional_vpart_position::part_with_feature( const
         const bool unbroken ) const
 {
     return has_value() ? value().part_with_feature( f, unbroken ) : std::nullopt;
+}
+
+std::optional<vpart_reference> optional_vpart_position::cargo() const
+{
+    return has_value() ? value().cargo() : std::nullopt;
 }
 
 std::optional<vpart_reference> optional_vpart_position::avail_part_with_feature(
@@ -5496,20 +5513,20 @@ void vehicle::make_active( item_location &loc )
     active_items.add( target, cargo_part->mount );
 }
 
-int vehicle::add_charges( int part, const item &itm )
+int vehicle::add_charges( vehicle_part &vp, const item &itm )
 {
     if( !itm.count_by_charges() ) {
         debugmsg( "Add charges was called for an item not counted by charges!" );
         return 0;
     }
-    const int ret = get_items( part ).amount_can_fit( itm );
+    const int ret = get_items( vp ).amount_can_fit( itm );
     if( ret == 0 ) {
         return 0;
     }
 
     item itm_copy = itm;
     itm_copy.charges = ret;
-    return add_item( part, itm_copy ) ? ret : 0;
+    return add_item( vp, itm_copy ) ? ret : 0;
 }
 
 std::optional<vehicle_stack::iterator> vehicle::add_item( vehicle_part &pt, const item &obj )
@@ -5575,27 +5592,35 @@ std::optional<vehicle_stack::iterator> vehicle::add_item( int part, const item &
 
 bool vehicle::remove_item( int part, item *it )
 {
-    const cata::colony<item> &veh_items = parts[part].items;
+    return remove_item( parts[part], it );
+}
+
+bool vehicle::remove_item( vehicle_part &vp, item *it )
+{
+    const cata::colony<item> &veh_items = vp.items;
     const cata::colony<item>::const_iterator iter = veh_items.get_iterator_from_pointer( it );
     if( iter == veh_items.end() ) {
         return false;
     }
-    remove_item( part, iter );
+    remove_item( vp, iter );
     return true;
 }
 
 vehicle_stack::iterator vehicle::remove_item( int part, const vehicle_stack::const_iterator &it )
 {
-    cata::colony<item> &veh_items = parts[part].items;
+    return remove_item( parts[part], it );
+}
 
+vehicle_stack::iterator vehicle::remove_item( vehicle_part &vp,
+        const vehicle_stack::const_iterator &it )
+{
     invalidate_mass();
-    return veh_items.erase( it );
+    return vp.items.erase( it );
 }
 
 vehicle_stack vehicle::get_items( const int part )
 {
-    const tripoint pos = global_part_pos3( part );
-    return vehicle_stack( &parts[part].items, pos.xy(), this, part );
+    return vehicle_stack( *this, parts[part] );
 }
 
 vehicle_stack vehicle::get_items( const int part ) const
@@ -5603,6 +5628,16 @@ vehicle_stack vehicle::get_items( const int part ) const
     // HACK: callers could modify items through this
     // TODO: a const version of vehicle_stack is needed
     return const_cast<vehicle *>( this )->get_items( part );
+}
+
+vehicle_stack vehicle::get_items( vehicle_part &vp )
+{
+    return vehicle_stack( *this, vp );
+}
+
+vehicle_stack vehicle::get_items( const vehicle_part &vp ) const
+{
+    return const_cast<vehicle &>( *this ).get_items( const_cast<vehicle_part &>( vp ) );
 }
 
 std::vector<item> &vehicle::get_tools( vehicle_part &vp )
@@ -7404,6 +7439,11 @@ vehicle_part &vpart_reference::part() const
 const vpart_info &vpart_reference::info() const
 {
     return part().info();
+}
+
+vehicle_stack vpart_reference::items() const
+{
+    return vehicle().get_items( part() );
 }
 
 Character *vpart_reference::get_passenger() const

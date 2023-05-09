@@ -306,6 +306,14 @@ bool advanced_inv_area::can_store_in_vehicle() const
     }
 }
 
+vehicle_stack advanced_inv_area::get_vehicle_stack() const
+{
+    if( !can_store_in_vehicle() ) {
+        debugmsg( "advanced_inv_area::get_vehicle_stack when can_store_in_vehicle is false" );
+    }
+    return veh->get_items( veh->part( vstor ) );
+}
+
 template <typename T>
 advanced_inv_area::itemstack advanced_inv_area::i_stacked( T items )
 {
