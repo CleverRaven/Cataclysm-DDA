@@ -128,8 +128,6 @@ class effect_type
          *  an effect's "rating" value. */
         game_message_type lose_game_message_type() const;
 
-        /** Returns the message displayed when a new effect is obtained. */
-        std::string get_apply_message() const;
         /** Returns the memorial log added when a new effect is obtained. */
         std::string get_apply_memorial_log( memorial_gender gender ) const;
         /** Returns the message displayed when an effect is removed. */
@@ -151,6 +149,7 @@ class effect_type
         void load_mod_data( const JsonObject &jo );
         bool load_miss_msgs( const JsonObject &jo, std::string_view member );
         bool load_decay_msgs( const JsonObject &jo, std::string_view member );
+        bool load_apply_msgs( const JsonObject &jo, std::string_view member );
 
         /** Verifies data is accurate */
         static void check_consistency();

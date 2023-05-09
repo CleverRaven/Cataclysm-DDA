@@ -600,10 +600,6 @@ game_message_type effect_type::lose_game_message_type() const
             return m_neutral;
     }
 }
-std::string effect_type::get_apply_message() const
-{
-    return apply_message.translated();
-}
 std::string effect_type::get_apply_memorial_log( const memorial_gender gender ) const
 {
     switch( gender ) {
@@ -666,6 +662,33 @@ bool effect_type::load_decay_msgs( const JsonObject &jo, const std::string_view 
                                       "\"neutral\", " "\"bad\", or \"mixed\"", r ) );
             }
             decay_msgs.emplace_back( msg, rate );
+        }
+        return true;
+    }
+    return false;
+}
+bool effect_type::load_apply_msgs( const JsonObject &jo, const std::string_view member )
+{
+    if( jo.has_array( member ) ) {
+        for( JsonArray inner : jo.get_array( member ) ) {
+            translation msg;
+            inner.read( 0, msg );
+            std::string r = inner.get_string( 1 );
+            game_message_type rate = m_neutral;
+            if( r == "good" ) {
+                rate = m_good;
+            } else if( r == "neutral" ) {
+                rate = m_neutral;
+            } else if( r == "bad" ) {
+                rate = m_bad;
+            } else if( r == "mixed" ) {
+                rate = m_mixed;
+            } else {
+                inner.throw_error(
+                    1, string_format( "Unexpected message type \"%s\"; expected \"good\", "
+                                      "\"neutral\", " "\"bad\", or \"mixed\"", r ) );
+            }
+            apply_msgs.emplace_back( msg, rate );
         }
         return true;
     }
@@ -1462,7 +1485,6 @@ void load_effect_type( const JsonObject &jo )
     } else {
         new_etype.rating = e_neutral;
     }
-    jo.read( "apply_message", new_etype.apply_message );
     jo.read( "remove_message", new_etype.remove_message );
     optional( jo, false, "apply_memorial_log", new_etype.apply_memorial_log,
               text_style_check_reader() );
@@ -1511,6 +1533,7 @@ void load_effect_type( const JsonObject &jo )
 
     new_etype.load_miss_msgs( jo, "miss_messages" );
     new_etype.load_decay_msgs( jo, "decay_messages" );
+    new_etype.load_apply_msgs( jo, "apply_message" );
 
     new_etype.main_parts_only = jo.get_bool( "main_parts_only", false );
     new_etype.show_in_info = jo.get_bool( "show_in_info", false );
