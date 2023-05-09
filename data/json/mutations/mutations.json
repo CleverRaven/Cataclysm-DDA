@@ -2834,16 +2834,16 @@
     "leads_to": [ "CRUSTACEAN_CLAW" ],
     "integrated_armor": [ "integrated_carapace" ],
     "wet_protection": [
-      { "part": "head", "ignore": 15 },
-      { "part": "leg_l", "ignore": 20 },
-      { "part": "leg_r", "ignore": 20 },
-      { "part": "foot_l", "ignore": 9 },
-      { "part": "foot_r", "ignore": 9 },
-      { "part": "arm_l", "ignore": 20 },
-      { "part": "arm_r", "ignore": 20 },
-      { "part": "hand_l", "ignore": 9 },
-      { "part": "hand_r", "ignore": 9 },
-      { "part": "torso", "ignore": 34 }
+      { "part": "head", "ignored": 15 },
+      { "part": "leg_l", "ignored": 20 },
+      { "part": "leg_r", "ignored": 20 },
+      { "part": "foot_l", "ignored": 9 },
+      { "part": "foot_r", "ignored": 9 },
+      { "part": "arm_l", "ignored": 20 },
+      { "part": "arm_r", "ignored": 20 },
+      { "part": "hand_l", "ignored": 9 },
+      { "part": "hand_r", "ignored": 9 },
+      { "part": "torso", "ignored": 34 }
     ],
     "passive_mods": { "dex_mod": -2 }
   },
