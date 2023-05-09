@@ -741,10 +741,11 @@
       { "proficiency": "prof_inorganic_chemistry" },
       { "proficiency": "prof_inorganic_chemistry" }
     ],
+    "charges": 200,
     "batch_time_factors": [ 60, 4 ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "electrolysis_kit", 500 ] ], [ [ "surface_heat", 0.08, "LIST" ] ] ],
-    "components": [ [ [ "lye_powder", 200 ] ], [ [ "lamp_oil", 125 ] ] ],
+    "components": [ [ [ "lye_powder", 200 ] ], [ [ "lamp_oil", 100 ] ] ],
     "//1": "kerosene is used here because sodium metal needs to be suspended in a mineral oil to prevent it from reacting to air."
   },
   {
