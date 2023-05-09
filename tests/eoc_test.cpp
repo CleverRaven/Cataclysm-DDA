@@ -35,13 +35,13 @@ static const effect_on_condition_id
 effect_on_condition_EOC_math_weighted_list( "EOC_math_weighted_list" );
 static const effect_on_condition_id effect_on_condition_EOC_run_with_test( "EOC_run_with_test" );
 static const effect_on_condition_id
-effect_on_condition_EOC_stored_condition_test( "EOC_stored_condition_test" );
-static const effect_on_condition_id
 effect_on_condition_EOC_run_with_test_expects_fail( "EOC_run_with_test_expects_fail" );
 static const effect_on_condition_id
 effect_on_condition_EOC_run_with_test_expects_pass( "EOC_run_with_test_expects_pass" );
 static const effect_on_condition_id
 effect_on_condition_EOC_run_with_test_queued( "EOC_run_with_test_queued" );
+static const effect_on_condition_id
+effect_on_condition_EOC_stored_condition_test( "EOC_stored_condition_test" );
 
 
 static const effect_on_condition_id effect_on_condition_EOC_teleport_test( "EOC_teleport_test" );
