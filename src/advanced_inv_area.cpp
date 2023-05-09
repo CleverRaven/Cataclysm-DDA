@@ -197,8 +197,11 @@ units::volume advanced_inv_area::free_volume( bool in_vehicle ) const
     cata_assert( id != AIM_ALL );
     if( id == AIM_INVENTORY || id == AIM_WORN ) {
         return get_player_character().free_space();
+    } else if( in_vehicle ) {
+        return get_vehicle_stack().free_volume();
+    } else {
+        return get_map().free_volume( pos );
     }
-    return in_vehicle ? veh->free_volume( vstor ) : get_map().free_volume( pos );
 }
 
 bool advanced_inv_area::is_same( const advanced_inv_area &other ) const

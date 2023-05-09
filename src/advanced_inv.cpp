@@ -333,7 +333,7 @@ void advanced_inventory::print_items( const advanced_inventory_pane &pane, bool 
             if( ( pane.get_area() == AIM_CONTAINER || pane.get_area() == AIM_CONTAINER2 ) && pane.container ) {
                 maxvolume = pane.container->get_total_capacity();
             } else if( pane.in_vehicle() ) {
-                maxvolume = s.veh->max_volume( s.vstor );
+                maxvolume = s.get_vehicle_stack().max_volume();
             } else {
                 maxvolume = get_map().max_volume( s.pos );
             }

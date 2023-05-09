@@ -521,15 +521,9 @@ int activity_handlers::move_cost( const item &it, const tripoint_bub_ms &src,
 {
     avatar &player_character = get_avatar();
     if( player_character.get_grab_type() == object_type::VEHICLE ) {
-        tripoint cart_position = player_character.pos() + player_character.grab_point;
-
-        if( const std::optional<vpart_reference> vp = get_map().veh_at(
-                    cart_position ).part_with_feature( "CARGO", false ) ) {
-            const vehicle &veh = vp->vehicle();
-            size_t vstor = vp->part_index();
-            units::volume capacity = veh.free_volume( vstor );
-
-            return move_cost_cart( it, src, dest, capacity );
+        const tripoint cart_position = player_character.pos() + player_character.grab_point;
+        if( const std::optional<vpart_reference> ovp = get_map().veh_at( cart_position ).cargo() ) {
+            return move_cost_cart( it, src, dest, ovp->items().free_volume() );
         }
     }
 
@@ -2273,17 +2267,13 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
 
             for( const tripoint_abs_ms &dest : dest_set ) {
                 const tripoint_bub_ms dest_loc = here.bub_from_abs( dest );
-                vehicle *dest_veh;
-                int dest_part;
+                units::volume free_space;
 
                 //Check destination for cargo part
-                if( const std::optional<vpart_reference> vp =
-                        here.veh_at( dest_loc ).part_with_feature( "CARGO", false ) ) {
-                    dest_veh = &vp->vehicle();
-                    dest_part = vp->part_index();
+                if( const std::optional<vpart_reference> ovp = here.veh_at( dest_loc ).cargo() ) {
+                    free_space = ovp->items().free_volume();
                 } else {
-                    dest_veh = nullptr;
-                    dest_part = -1;
+                    free_space = here.free_volume( dest_loc );
                 }
 
                 // skip tiles with inaccessible furniture, like filled charcoal kiln
@@ -2292,13 +2282,6 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                     continue;
                 }
 
-                units::volume free_space;
-                // if there's a vehicle with space do not check the tile beneath
-                if( dest_veh ) {
-                    free_space = dest_veh->free_volume( dest_part );
-                } else {
-                    free_space = here.free_volume( dest_loc );
-                }
                 // check free space at destination
                 if( free_space >= thisitem.volume() ) {
                     move_item( you, thisitem, thisitem.count(), src_loc, dest_loc, this_veh, this_part );

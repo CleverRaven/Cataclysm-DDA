@@ -180,10 +180,11 @@ int vehicle::print_part_list( const catacurses::window &win, int y1, const int m
         }
 
         if( vpi.has_flag( VPFLAG_CARGO ) ) {
+            const vehicle_stack vs = get_items( vp );
             //~ used/total volume of a cargo vehicle part
             partname += string_format( _( " (vol: %s/%s %s)" ),
-                                       format_volume( stored_volume( pl[i] ) ),
-                                       format_volume( max_volume( pl[i] ) ),
+                                       format_volume( vs.stored_volume() ),
+                                       format_volume( vs.max_volume() ),
                                        volume_units_abbr() );
         }
 

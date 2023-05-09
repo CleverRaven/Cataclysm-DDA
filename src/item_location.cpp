@@ -535,7 +535,7 @@ class item_location::impl::item_on_vehicle : public item_location::impl
         }
 
         units::volume volume_capacity() const override {
-            return cur.veh.free_volume( cur.part );
+            return vpart_reference( cur.veh, cur.part ).items().free_volume();
         }
 
         units::mass weight_capacity() const override {
