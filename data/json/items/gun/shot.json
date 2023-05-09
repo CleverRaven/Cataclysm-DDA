@@ -53,7 +53,6 @@
     "durability": 8,
     "modes": [ [ "DEFAULT", "burst", 6 ] ],
     "energy_drain": "1 kJ",
-    "ups_charges": 1,
     "reload": 200,
     "valid_mod_locations": [ [ "sights", 1 ], [ "rail mount", 1 ] ],
     "flags": [ "MOUNTED_GUN", "USE_UPS" ],
