@@ -1586,8 +1586,8 @@ void Creature::add_effect( const effect_source &source, const efftype_id &eff_id
         ( *effects )[eff_id][bp] = e;
         if( Character *ch = as_character() ) {
             get_event_bus().send<event_type::character_gains_effect>( ch->getID(), eff_id );
-            if( is_avatar() && !const.load_apply_msgs().empty() ) {
-                add_msg( type.gain_game_message_type(), const.load_apply_msgs() );
+            if( is_avatar() && !type.load_apply_msgs().empty() ) {
+                add_msg( type.gain_game_message_type(), type.load_apply_msgs() );
             }
         }
         on_effect_int_change( eff_id, e.get_intensity(), bp );
