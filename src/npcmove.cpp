@@ -513,8 +513,8 @@ void npc::assess_danger()
     }
     if( is_friendly( player_character ) && sees( player_character.pos() ) ) {
         ai_cache.friends.emplace_back( g->shared_from( player_character ) );
-    } else if ( is_enemy() && sees( player_character ) ) {
-    	// Unlike allies, hostile npcs should not see invisible players
+    } else if( is_enemy() && sees( player_character ) ) {
+        // Unlike allies, hostile npcs should not see invisible players
         ai_cache.hostile_guys.emplace_back( g->shared_from( player_character ) );
     }
 
