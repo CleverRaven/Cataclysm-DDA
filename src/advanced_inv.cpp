@@ -1169,10 +1169,18 @@ void advanced_inventory::redraw_sidebar()
 void advanced_inventory::change_square( aim_location changeSquare,
                                         advanced_inventory_pane &dpane, advanced_inventory_pane &spane )
 {
-    if( changeSquare == AIM_CONTAINER && ( panes[left].get_area() == AIM_CONTAINER || panes[right].get_area() == AIM_CONTAINER ) ) {
-    	changeSquare = AIM_CONTAINER2;
+    // Opening a container, decide which AIM_CONTAINER to use
+    if( changeSquare == AIM_CONTAINER ) {
+        if( ( panes[left].get_area() == AIM_CONTAINER || panes[left].get_area() == AIM_CONTAINER2 ) && ( panes[right].get_area() == AIM_CONTAINER || panes[right].get_area() == AIM_CONTAINER2 ) ) {
+    	    // When both panes show containers and a third is opened, replace the current container
+    	    changeSquare = spane.get_area();
+        } else if ( panes[left].get_area() == AIM_CONTAINER || panes[right].get_area() == AIM_CONTAINER ) {
+        	// AIM_CONTAINER already used so opening a second container will use AIM_CONTAINER2
+    	    changeSquare = AIM_CONTAINER2;
+	    }
     }
-    if( panes[left].get_area() == changeSquare || panes[right].get_area() == changeSquare ) {
+    // Determine behavior if current pane is used.  AIM_CONTAINER should never swap to allow for multi-containers
+    if( ( panes[left].get_area() == changeSquare || panes[right].get_area() == changeSquare ) && ( changeSquare != AIM_CONTAINER && changeSquare != AIM_CONTAINER2 ) ) {
         if( squares[changeSquare].can_store_in_vehicle() && changeSquare != AIM_DRAGGED &&
             spane.get_area() != changeSquare ) {
             // only deal with spane, as you can't _directly_ change dpane
