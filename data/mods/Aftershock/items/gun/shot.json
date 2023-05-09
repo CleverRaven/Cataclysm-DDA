@@ -60,11 +60,8 @@
       [ "underbarrel mount", 1 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 8 } } ],
-        "allowed_speedloaders": [ "shot_speedloader8" ],
+    "allowed_speedloaders": [ "shot_speedloader8" ],
     "melee_damage": { "bash": 16 },
-	"flags": [
-    "RELOAD_ONE",
-  "RELOAD_EJECT",
-  "NEVER_JAMS" ]
+    "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS" ]
   }
 ]
