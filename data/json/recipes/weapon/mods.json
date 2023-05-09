@@ -1016,7 +1016,7 @@
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "DRILL", "level": 1 } ],
     "tools": [
       [
-        [ "ar15", -1 ],
+        [ "modular_ar15", -1 ],
         [ "ar15_223medium", -1 ],
         [ "ar15_223short", -1 ],
         [ "ar15_300", -1 ],
@@ -1031,10 +1031,10 @@
         [ "ar15_762", -1 ],
         [ "ar_pistol", -1 ],
         [ "oa93", -1 ],
-        [ "m27_assault_rifle", -1 ],
-        [ "m16_auto_rifle", -1 ],
-        [ "m4_carbine", -1 ],
-        [ "m16a4", -1 ]
+        [ "modular_m27_assault_rifle", -1 ],
+        [ "modular_m16_auto_rifle", -1 ],
+        [ "modular_m4_carbine", -1 ],
+        [ "modular_m16a4", -1 ]
       ],
       [ [ "small_repairkit", 40 ], [ "large_repairkit", 40 ] ]
     ],
@@ -1056,7 +1056,7 @@
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "tools": [
       [
-        [ "ar15", -1 ],
+        [ "modular_ar15", -1 ],
         [ "ar15_223medium", -1 ],
         [ "ar15_223short", -1 ],
         [ "ar15_300", -1 ],

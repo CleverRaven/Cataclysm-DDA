@@ -121,10 +121,10 @@
     "autolearn": true,
     "tools": [
       [
-        [ "m27_assault_rifle", -1 ],
-        [ "m16_auto_rifle", -1 ],
-        [ "m4_carbine", -1 ],
-        [ "ar15", -1 ],
+        [ "modular_m27_assault_rifle", -1 ],
+        [ "modular_m16_auto_rifle", -1 ],
+        [ "modular_m4_carbine", -1 ],
+        [ "modular_ar15", -1 ],
         [ "ar15_223medium", -1 ],
         [ "ar15_223short", -1 ],
         [ "ar15_300", -1 ],
@@ -138,7 +138,7 @@
         [ "ar15_450short", -1 ],
         [ "ar15_762", -1 ],
         [ "m249", -1 ],
-        [ "m16a4", -1 ]
+        [ "modular_m16a4", -1 ]
       ],
       [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ]
     ],
@@ -437,7 +437,7 @@
     "time": "5 m",
     "tools": [
       [
-        [ "ar15", -1 ],
+        [ "modular_ar15", -1 ],
         [ "ar15_223medium", -1 ],
         [ "ar15_223short", -1 ],
         [ "ar15_300", -1 ],
@@ -450,11 +450,11 @@
         [ "ar15_450medium", -1 ],
         [ "ar15_450short", -1 ],
         [ "ar15_762", -1 ],
-        [ "m4_carbine", -1 ],
+        [ "modular_m4_carbine", -1 ],
         [ "m4_cqbr", -1 ],
-        [ "m27_assault_rifle", -1 ],
-        [ "m16a4", -1 ],
-        [ "m16_auto_rifle", -1 ]
+        [ "modular_m27_assault_rifle", -1 ],
+        [ "modular_m16a4", -1 ],
+        [ "modular_m16_auto_rifle", -1 ]
       ],
       [
         [ "retool_ar15_50beowulf", -1 ],
@@ -479,7 +479,7 @@
     "time": "5 m",
     "tools": [
       [
-        [ "ar15", -1 ],
+        [ "modular_ar15", -1 ],
         [ "ar15_223medium", -1 ],
         [ "ar15_223short", -1 ],
         [ "ar15_300", -1 ],
@@ -492,11 +492,11 @@
         [ "ar15_450medium", -1 ],
         [ "ar15_450short", -1 ],
         [ "ar15_762", -1 ],
-        [ "m4_carbine", -1 ],
+        [ "modular_m4_carbine", -1 ],
         [ "m4_cqbr", -1 ],
-        [ "m27_assault_rifle", -1 ],
-        [ "m16a4", -1 ],
-        [ "m16_auto_rifle", -1 ]
+        [ "modular_m27_assault_rifle", -1 ],
+        [ "modular_m16a4", -1 ],
+        [ "modular_m16_auto_rifle", -1 ]
       ],
       [
         [ "retool_ar15_50beowulf", -1 ],
@@ -521,7 +521,7 @@
     "time": "5 m",
     "tools": [
       [
-        [ "ar15", -1 ],
+        [ "modular_ar15", -1 ],
         [ "ar15_223medium", -1 ],
         [ "ar15_223short", -1 ],
         [ "ar15_300", -1 ],
@@ -534,11 +534,11 @@
         [ "ar15_450medium", -1 ],
         [ "ar15_450short", -1 ],
         [ "ar15_762", -1 ],
-        [ "m4_carbine", -1 ],
+        [ "modular_m4_carbine", -1 ],
         [ "m4_cqbr", -1 ],
-        [ "m27_assault_rifle", -1 ],
-        [ "m16a4", -1 ],
-        [ "m16_auto_rifle", -1 ]
+        [ "modular_m27_assault_rifle", -1 ],
+        [ "modular_m16a4", -1 ],
+        [ "modular_m16_auto_rifle", -1 ]
       ],
       [
         [ "retool_ar15_50beowulf", -1 ],
@@ -563,7 +563,7 @@
     "time": "5 m",
     "tools": [
       [
-        [ "ar15", -1 ],
+        [ "modular_ar15", -1 ],
         [ "ar15_223medium", -1 ],
         [ "ar15_223short", -1 ],
         [ "ar15_300", -1 ],
@@ -576,11 +576,11 @@
         [ "ar15_450medium", -1 ],
         [ "ar15_450short", -1 ],
         [ "ar15_762", -1 ],
-        [ "m4_carbine", -1 ],
+        [ "modular_m4_carbine", -1 ],
         [ "m4_cqbr", -1 ],
-        [ "m27_assault_rifle", -1 ],
-        [ "m16a4", -1 ],
-        [ "m16_auto_rifle", -1 ]
+        [ "modular_m27_assault_rifle", -1 ],
+        [ "modular_m16a4", -1 ],
+        [ "modular_m16_auto_rifle", -1 ]
       ],
       [
         [ "retool_ar15_50beowulf", -1 ],

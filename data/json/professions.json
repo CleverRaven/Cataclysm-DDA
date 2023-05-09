@@ -1282,8 +1282,8 @@
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_combat", "container-item": "sheath" },
           {
-            "item": "m4_carbine",
-            "variant": "m4a1",
+            "item": "modular_m4_carbine",
+            "variant": "modular_m4a1",
             "ammo-item": "556",
             "charges": 30,
             "contents-item": [ "shoulder_strap", "holo_sight" ]
@@ -1487,8 +1487,8 @@
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_combat", "container-item": "sheath" },
           {
-            "item": "m4_carbine",
-            "variant": "m4a1",
+            "item": "modular_m4_carbine",
+            "variant": "modular_m4a1",
             "ammo-item": "556_mk318",
             "charges": 30,
             "contents-item": [ "shoulder_strap", "holo_sight" ]
@@ -1705,8 +1705,8 @@
         "entries": [
           { "item": "knife_combat", "container-item": "sheath" },
           {
-            "item": "m4_carbine",
-            "variant": "m4a1",
+            "item": "modular_m4_carbine",
+            "variant": "modular_m4a1",
             "ammo-item": "556",
             "charges": 30,
             "contents-item": "shoulder_strap"
@@ -2827,7 +2827,7 @@
           { "item": "m9", "ammo-item": "9mm", "charges": 15, "container-item": "holster" },
           { "item": "chestrig", "contents-group": "army_mags_m4" },
           { "item": "lighter", "charges": 100 },
-          { "item": "ar15", "ammo-item": "223", "charges": 30, "contents-item": [ "shoulder_strap" ] }
+          { "item": "modular_ar15", "ammo-item": "223", "charges": 30, "contents-item": [ "shoulder_strap" ] }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -3934,7 +3934,7 @@
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_combat", "container-item": "sheath" },
-          { "item": "m4_carbine", "variant": "m4a1", "ammo-item": "556", "contents-item": "shoulder_strap" },
+          { "item": "modular_m4_carbine", "variant": "modular_m4a1", "ammo-item": "556", "contents-item": "shoulder_strap" },
           { "group": "charged_two_way_radio" },
           { "item": "chestrig", "contents-group": "army_mags_m4" }
         ]
@@ -5263,8 +5263,8 @@
           { "item": "stethoscope", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_combat", "container-item": "sheath" },
           {
-            "item": "m4_carbine",
-            "variant": "m4a1",
+            "item": "modular_m4_carbine",
+            "variant": "modular_m4a1",
             "ammo-item": "556_mk262",
             "charges": 30,
             "contents-item": [ "shoulder_strap", "holo_sight" ]

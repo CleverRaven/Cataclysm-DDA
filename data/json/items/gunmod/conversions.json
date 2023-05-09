@@ -27,7 +27,7 @@
     "color": "green",
     "location": "bore",
     "mod_targets": [
-      "ar15",
+      "modular_ar15",
       "ar15_223medium",
       "ar15_223short",
       "ar15_300",
@@ -41,10 +41,10 @@
       "ar15_450short",
       "ar15_762",
       "m4_cqbr",
-      "m4_carbine",
-      "m16a4",
-      "m16_auto_rifle",
-      "m27_assault_rifle"
+      "modular_m4_carbine",
+      "modular_m16a4",
+      "modular_m16_auto_rifle",
+      "modular_m27_assault_rifle"
     ],
     "install_time": "5 m",
     "ammo_modifier": [ "223" ],
@@ -92,7 +92,7 @@
     "color": "green",
     "location": "bore",
     "mod_targets": [
-      "ar15",
+      "modular_ar15",
       "ar15_223medium",
       "ar15_223short",
       "ar15_300",
@@ -106,10 +106,10 @@
       "ar15_450short",
       "ar15_762",
       "m4_cqbr",
-      "m4_carbine",
-      "m16a4",
-      "m16_auto_rifle",
-      "m27_assault_rifle"
+      "modular_m4_carbine",
+      "modular_m16a4",
+      "modular_m16_auto_rifle",
+      "modular_m27_assault_rifle"
     ],
     "install_time": "5 m",
     "ammo_modifier": [ "300blk" ],
@@ -158,7 +158,7 @@
     "color": "green",
     "location": "bore",
     "mod_targets": [
-      "ar15",
+      "modular_ar15",
       "ar15_223medium",
       "ar15_223short",
       "ar15_300",
@@ -172,10 +172,10 @@
       "ar15_450short",
       "ar15_762",
       "m4_cqbr",
-      "m4_carbine",
-      "m16a4",
-      "m16_auto_rifle",
-      "m27_assault_rifle"
+      "modular_m4_carbine",
+      "modular_m16a4",
+      "modular_m16_auto_rifle",
+      "modular_m27_assault_rifle"
     ],
     "install_time": "5 m",
     "dispersion_modifier": 15,
@@ -227,7 +227,7 @@
     "color": "green",
     "location": "bore",
     "mod_targets": [
-      "ar15",
+      "modular_ar15",
       "ar15_223medium",
       "ar15_223short",
       "ar15_300",
@@ -241,10 +241,10 @@
       "ar15_450short",
       "ar15_762",
       "m4_cqbr",
-      "m4_carbine",
-      "m16a4",
-      "m16_auto_rifle",
-      "m27_assault_rifle"
+      "modular_m4_carbine",
+      "modular_m16a4",
+      "modular_m16_auto_rifle",
+      "modular_m27_assault_rifle"
     ],
     "install_time": "5 m",
     "dispersion_modifier": 15,
@@ -297,7 +297,7 @@
     "color": "green",
     "location": "bore",
     "mod_targets": [
-      "ar15",
+      "modular_ar15",
       "ar15_223medium",
       "ar15_223short",
       "ar15_300",
@@ -311,10 +311,10 @@
       "ar15_450short",
       "ar15_762",
       "m4_cqbr",
-      "m4_carbine",
-      "m16a4",
-      "m16_auto_rifle",
-      "m27_assault_rifle"
+      "modular_m4_carbine",
+      "modular_m16a4",
+      "modular_m16_auto_rifle",
+      "modular_m27_assault_rifle"
     ],
     "install_time": "5 m",
     "ammo_modifier": [ "762" ],

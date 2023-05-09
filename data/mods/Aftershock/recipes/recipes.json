@@ -227,7 +227,7 @@
       [ [ "gun_module", 3 ] ],
       [ [ "flamethrower", 1 ] ],
       [ [ "tazer", 1 ] ],
-      [ [ "m4_carbine", 1 ] ],
+      [ [ "modular_m4_carbine", 1 ] ],
       [ [ "power_supply", 20 ] ],
       [ [ "storage_battery", 1 ] ],
       [ [ "plut_cell", 4 ] ],

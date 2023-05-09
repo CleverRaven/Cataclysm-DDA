@@ -498,7 +498,7 @@
       { "item": "ar_pistol", "prob": 1, "charges-min": 0, "charges-max": 30 },
       { "item": "garand", "prob": 1, "charges-min": 0, "charges-max": 8 },
       { "item": "ar10", "prob": 1, "charges-min": 0, "charges-max": 20 },
-      { "item": "ar15", "prob": 15, "charges-min": 0, "charges-max": 30 },
+      { "item": "modular_ar15", "prob": 15, "charges-min": 0, "charges-max": 30 },
       { "item": "cx4", "prob": 1, "charges-min": 0, "charges-max": 15 },
       { "item": "ksub2000", "prob": 1, "charges-min": 0, "charges-max": 15 },
       { "item": "m1a", "prob": 1, "charges-min": 0, "charges-max": 5 },
@@ -534,7 +534,7 @@
     "//": "Empty rifles commonly found in gun stores.",
     "items": [
       { "item": "ar10", "prob": 35, "charges-min": 0, "charges-max": 0 },
-      { "item": "ar15", "prob": 45, "charges-min": 0, "charges-max": 0 },
+      { "item": "modular_ar15", "prob": 45, "charges-min": 0, "charges-max": 0 },
       { "item": "cx4", "prob": 30, "charges-min": 0, "charges-max": 0 },
       { "item": "ksub2000", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "remington700_270", "prob": 25, "charges-min": 0, "charges-max": 0 },
@@ -758,10 +758,10 @@
       { "item": "hk_g3", "prob": 40, "charges-min": 0, "charges-max": 0 },
       { "item": "hk_g36", "prob": 30, "charges-min": 0, "charges-max": 0 },
       { "item": "m1918", "prob": 30, "charges-min": 0, "charges-max": 0 },
-      { "item": "m4_carbine", "variant": "m4a1", "prob": 45, "charges-min": 0, "charges-max": 0 },
+      { "item": "modular_m4_carbine", "variant": "modular_m4a1", "prob": 45, "charges-min": 0, "charges-max": 0 },
       { "item": "m14ebr", "prob": 15, "charges-min": 0, "charges-max": 0 },
       { "item": "arx160", "prob": 10 },
-      { "item": "m16_auto_rifle", "variant": "acr", "prob": 25, "charges-min": 0, "charges-max": 0 },
+      { "item": "modular_m16_auto_rifle", "variant": "modular_acr", "prob": 25, "charges-min": 0, "charges-max": 0 },
       { "item": "fs2000", "prob": 6, "charges-min": 0, "charges-max": 0 },
       { "item": "acr_300blk", "prob": 15, "charges-min": 0, "charges-max": 0 },
       { "item": "hk417_13", "prob": 40, "charges-min": 0, "charges-max": 0 },
@@ -1113,7 +1113,7 @@
     "type": "item_group",
     "id": "longguns_cop",
     "items": [
-      { "item": "ar15", "prob": 20, "charges": [ 0, 30 ], "contents-item": "shoulder_strap" },
+      { "item": "modular_ar15", "prob": 20, "charges": [ 0, 30 ], "contents-item": "shoulder_strap" },
       { "item": "mossberg_500", "prob": 10, "charges": [ 0, 6 ], "contents-item": "shoulder_strap" },
       { "item": "remington_700", "prob": 5, "charges": [ 0, 4 ], "contents-item": "shoulder_strap" },
       { "item": "remington_870", "prob": 10, "charges": [ 0, 5 ], "contents-item": "shoulder_strap" }
@@ -1136,7 +1136,7 @@
     "//": "gun plus potential expended magazines",
     "items": [
       {
-        "collection": [ { "item": "ar15", "prob": 100, "charges": [ 0, 30 ], "contents-item": "shoulder_strap" }, { "group": "field_ar15" } ],
+        "collection": [ { "item": "modular_ar15", "prob": 100, "charges": [ 0, 30 ], "contents-item": "shoulder_strap" }, { "group": "field_ar15" } ],
         "prob": 20
       },
       {
@@ -1238,7 +1238,7 @@
     "items": [
       {
         "collection": [
-          { "item": "ar15", "prob": 100, "charges": [ 0, 30 ], "contents-item": "shoulder_strap_front" },
+          { "item": "modular_ar15", "prob": 100, "charges": [ 0, 30 ], "contents-item": "shoulder_strap_front" },
           { "group": "field_ar15" }
         ],
         "prob": 20
@@ -1248,7 +1248,7 @@
   {
     "type": "item_group",
     "id": "longguns_operator",
-    "items": [ { "item": "ar15", "prob": 20, "charges": [ 0, 30 ], "contents-item": "shoulder_strap_front" } ]
+    "items": [ { "item": "modular_ar15", "prob": 20, "charges": [ 0, 30 ], "contents-item": "shoulder_strap_front" } ]
   },
   {
     "type": "item_group",
@@ -1323,7 +1323,7 @@
       { "item": "hk_mp5k", "prob": 10, "charges-min": 0, "charges-max": 30 },
       { "item": "hk_mp5sd", "prob": 5, "charges-min": 0, "charges-max": 30 },
       { "item": "mossberg_930", "variant": "m1014", "prob": 10, "charges-min": 0, "charges-max": 8 },
-      { "item": "m4_carbine", "variant": "m4a1", "prob": 35, "charges-min": 0, "charges-max": 30 },
+      { "item": "modular_m4_carbine", "variant": "modular_m4a1", "prob": 35, "charges-min": 0, "charges-max": 30 },
       { "item": "as50", "prob": 5, "charges-min": 0, "charges-max": 10 },
       { "item": "axmc", "prob": 10, "charges-min": 0, "charges-max": 10 },
       { "item": "hk417_13", "prob": 30, "charges-min": 0, "charges-max": 20 }
@@ -1335,7 +1335,7 @@
     "//": "Guns typically carried by survivors, either improvised or thematically appropriate.",
     "items": [
       { "group": "guns_improvised", "prob": 50 },
-      { "item": "ar15", "prob": 13, "charges-min": 0, "charges-max": 30 },
+      { "item": "modular_ar15", "prob": 13, "charges-min": 0, "charges-max": 30 },
       { "item": "ar_pistol", "prob": 2, "charges-min": 0, "charges-max": 30 },
       { "item": "mossberg_500", "prob": 10, "charges-min": 0, "charges-max": 6 },
       { "item": "remington_870", "prob": 11, "charges-min": 0, "charges-max": 5 },

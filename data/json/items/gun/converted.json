@@ -1,84 +1,84 @@
 [
   {
     "id": "ar15_223medium",
-    "copy-from": "ar15",
+    "copy-from": "modular_ar15",
     "type": "GUN",
     "name": { "str": "AR-15" },
     "default_mods": [ "retool_ar15_223rem_medium" ]
   },
   {
     "id": "ar15_223short",
-    "copy-from": "ar15",
+    "copy-from": "modular_ar15",
     "type": "GUN",
     "name": { "str": "AR-15" },
     "default_mods": [ "retool_ar15_223rem_short" ]
   },
   {
     "id": "ar15_300",
-    "copy-from": "ar15",
+    "copy-from": "modular_ar15",
     "type": "GUN",
     "name": { "str": "AR-15" },
     "default_mods": [ "retool_ar15_300blk" ]
   },
   {
     "id": "ar15_300medium",
-    "copy-from": "ar15",
+    "copy-from": "modular_ar15",
     "type": "GUN",
     "name": { "str": "AR-15" },
     "default_mods": [ "retool_ar15_300blk_medium" ]
   },
   {
     "id": "ar15_300short",
-    "copy-from": "ar15",
+    "copy-from": "modular_ar15",
     "type": "GUN",
     "name": { "str": "AR-15" },
     "default_mods": [ "retool_ar15_300blk_short" ]
   },
   {
     "id": "ar15_50",
-    "copy-from": "ar15",
+    "copy-from": "modular_ar15",
     "type": "GUN",
     "name": { "str": "AR-15" },
     "default_mods": [ "retool_ar15_50beowulf" ]
   },
   {
     "id": "ar15_50medium",
-    "copy-from": "ar15",
+    "copy-from": "modular_ar15",
     "type": "GUN",
     "name": { "str": "AR-15" },
     "default_mods": [ "retool_ar15_50beowulf_medium" ]
   },
   {
     "id": "ar15_50short",
-    "copy-from": "ar15",
+    "copy-from": "modular_ar15",
     "type": "GUN",
     "name": { "str": "AR-15" },
     "default_mods": [ "retool_ar15_50beowulf_short" ]
   },
   {
     "id": "ar15_450",
-    "copy-from": "ar15",
+    "copy-from": "modular_ar15",
     "type": "GUN",
     "name": { "str": "AR-15" },
     "default_mods": [ "retool_ar15_450" ]
   },
   {
     "id": "ar15_450medium",
-    "copy-from": "ar15",
+    "copy-from": "modular_ar15",
     "type": "GUN",
     "name": { "str": "AR-15" },
     "default_mods": [ "retool_ar15_450_medium" ]
   },
   {
     "id": "ar15_450short",
-    "copy-from": "ar15",
+    "copy-from": "modular_ar15",
     "type": "GUN",
     "name": { "str": "AR-15" },
     "default_mods": [ "retool_ar15_450_short" ]
   },
   {
     "id": "ar15_762",
-    "copy-from": "ar15",
+    "copy-from": "modular_ar15",
     "type": "GUN",
     "name": { "str": "AR-15" },
     "default_mods": [ "retool_ar15_762" ]

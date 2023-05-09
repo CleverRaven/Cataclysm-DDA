@@ -21,7 +21,7 @@
     "//": "items found in a rifle hunting space",
     "subtype": "collection",
     "entries": [
-      { "item": "ar15", "prob": 150, "charges-min": 0, "charges-max": 30 },
+      { "item": "modular_ar15", "prob": 150, "charges-min": 0, "charges-max": 30 },
       { "item": "marlin_9a", "prob": 20, "charges-min": 0, "charges-max": 19 },
       { "item": "remington700_270", "prob": 10, "charges-min": 0, "charges-max": 4 },
       { "item": "remington_700", "prob": 40, "charges-min": 0, "charges-max": 4 },

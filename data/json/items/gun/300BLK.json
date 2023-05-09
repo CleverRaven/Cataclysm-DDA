@@ -111,7 +111,7 @@
   },
   {
     "id": "ar15_retool_300blk",
-    "copy-from": "ar15",
+    "copy-from": "modular_ar15",
     "type": "GUN",
     "name": { "str": "AR-15" },
     "default_mods": [ "retool_ar15_300blk" ]

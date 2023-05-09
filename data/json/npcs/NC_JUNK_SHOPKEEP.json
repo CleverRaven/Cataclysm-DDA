@@ -122,7 +122,7 @@
       { "item": "cx4", "prob": 1 },
       { "item": "usp_45", "prob": 10 },
       { "item": "m1911", "prob": 10 },
-      { "item": "ar15", "prob": 10 },
+      { "item": "modular_ar15", "prob": 10 },
       { "item": "savage_111f", "prob": 5 },
       { "item": "remington_700", "prob": 5 },
       { "item": "ruger_1022", "prob": 10 },

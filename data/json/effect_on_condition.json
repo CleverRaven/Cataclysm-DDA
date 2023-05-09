@@ -124,7 +124,7 @@
     "type": "effect_on_condition",
     "id": "get_m4_carbine",
     "global": true,
-    "effect": { "u_spawn_item": "m4_carbine" }
+    "effect": { "u_spawn_item": "modular_m4_carbine" }
   },
   {
     "type": "effect_on_condition",
