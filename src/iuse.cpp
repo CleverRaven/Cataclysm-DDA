@@ -3878,8 +3878,8 @@ std::optional<int> iuse::tazer( Character *p, item *it, bool, const tripoint &po
     p->moves -= to_moves<int>( 1_seconds );
 
     const bool tazer_was_dodged = target->dodge_check( p->hit_roll() );
-    const bool tazer_was_armored = hit_roll < target->get_armor_type( STATIC(damage_type_id("bash"),
-                                   bodypart_id( "torso" ) );
+    const bool tazer_was_armored = hit_roll < target->get_armor_type( STATIC(
+                                       damage_type_id( "bash" ) ), bodypart_id( "torso" ) );
     if( tazer_was_dodged ) {
         p->add_msg_player_or_npc( _( "You attempt to shock %s, but miss." ),
                                   _( "<npcname> attempts to shock %s, but misses." ),
