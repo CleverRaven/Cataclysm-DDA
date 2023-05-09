@@ -63,7 +63,7 @@
         { "furn": "f_cattails", "x": [ 10, 16 ], "y": [ 21, 23 ], "repeat": [ 3, 7 ] },
         { "furn": "f_boulder_large", "x": [ 10, 16 ], "y": [ 21, 23 ], "repeat": [ 1, 3 ] }
       ],
-      "sealed_item": { "=": { "items": { "item": "farming_seeds", "chance": 100 }, "furniture": "f_plant_harvest" } },
+      "sealed_item": { "=": { "items": { "item": "farming_seeds", "chance": 100 }, "furniture": "f_plant_seedling" } },
       "place_monster": [ { "group": "GROUP_POND_FISH_2", "x": 13, "y": 21, "chance": 100, "repeat": [ 4, 8 ] } ],
       "place_items": [
         { "item": "book_survival", "x": 11, "y": 14, "chance": 100, "repeat": [ 0, 2 ] },
