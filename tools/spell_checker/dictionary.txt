@@ -800,6 +800,7 @@ drivetrain
 dromaeosaurid
 dromaeosaurus
 droppers
+drotik
 drowse
 druidic
 druidry
@@ -2278,6 +2279,7 @@ rafflesia
 railguns
 raincatcher
 rainsuit
+raketa
 randomize
 randomizes
 rangehands
