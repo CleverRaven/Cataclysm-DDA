@@ -21,7 +21,13 @@
     "id": "military_standard_assault_rifles_sighted",
     "subtype": "distribution",
     "entries": [
-      { "item": "modular_m4_carbine", "variant": "modular_m4a1", "prob": 88, "charges": [ 0, 30 ], "contents-item": "acog_scope" },
+      {
+        "item": "modular_m4_carbine",
+        "variant": "modular_m4a1",
+        "prob": 88,
+        "charges": [ 0, 30 ],
+        "contents-item": "acog_scope"
+      },
       {
         "item": "modular_m27_assault_rifle",
         "variant": "modular_m27iar",
@@ -851,7 +857,12 @@
       { "item": "m249", "prob": 30, "charges": [ 0, 30 ] },
       { "item": "m240", "prob": 20, "charges": [ 0, 200 ] },
       { "item": "modular_m27_assault_rifle", "variant": "modular_m27iar", "prob": 30, "charges": [ 0, 30 ] },
-      { "item": "modular_m27_assault_rifle", "variant": "modular_m38dmr", "contents-group": "m38dmr_mods", "charges": [ 0, 30 ] },
+      {
+        "item": "modular_m27_assault_rifle",
+        "variant": "modular_m38dmr",
+        "contents-group": "m38dmr_mods",
+        "charges": [ 0, 30 ]
+      },
       { "item": "m2browning", "prob": 15, "charges": [ 0, 100 ] },
       { "item": "mark19", "prob": 15, "charges": [ 0, 50 ] },
       { "item": "556", "prob": 30, "charges": [ 1, 30 ] },

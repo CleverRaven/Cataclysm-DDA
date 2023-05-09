@@ -1136,7 +1136,10 @@
     "//": "gun plus potential expended magazines",
     "items": [
       {
-        "collection": [ { "item": "modular_ar15", "prob": 100, "charges": [ 0, 30 ], "contents-item": "shoulder_strap" }, { "group": "field_ar15" } ],
+        "collection": [
+          { "item": "modular_ar15", "prob": 100, "charges": [ 0, 30 ], "contents-item": "shoulder_strap" },
+          { "group": "field_ar15" }
+        ],
         "prob": 20
       },
       {
