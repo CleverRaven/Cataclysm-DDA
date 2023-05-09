@@ -226,8 +226,14 @@ str_or_var get_str_or_var( const JsonValue &jv, const std::string &member, bool 
     if( jv.test_string() ) {
         ret_val.str_val = jv.get_string();
     } else if( jv.test_object() ) {
-        ret_val.var_val = read_var_info( jv.get_object() );
-        ret_val.default_val = default_val;
+        const JsonObject &jo = jv.get_object();
+        if( jo.has_member( "mutator" ) ) {
+            // if we have a mutator then process that here.
+            ret_val.function = conditional_t::get_get_string( jo );
+        } else {
+            ret_val.var_val = read_var_info( jo );
+            ret_val.default_val = default_val;
+        }
     } else if( required ) {
         jv.throw_error( "No valid value for " + member );
     } else {
@@ -770,6 +776,30 @@ void conditional_t::set_has_var( const JsonObject &jo, const std::string &member
     };
 }
 
+void conditional_t::set_expects_vars( const JsonObject &jo, const std::string &member )
+{
+    std::vector<str_or_var> to_check;
+    if( jo.has_array( member ) ) {
+        for( const JsonValue &jv : jo.get_array( member ) ) {
+            to_check.push_back( get_str_or_var( jv, member, true ) );
+        }
+    }
+
+    condition = [to_check]( dialogue const & d ) {
+        std::string missing_variables;
+        for( const str_or_var &val : to_check ) {
+            if( d.get_context().find( val.evaluate( d ) ) == d.get_context().end() ) {
+                missing_variables += val.evaluate( d ) + ", ";
+            }
+        }
+        if( !missing_variables.empty() ) {
+            debugmsg( string_format( "Missing required variables: %s", missing_variables ) );
+            return false;
+        }
+        return true;
+    };
+}
+
 void conditional_t::set_compare_var( const JsonObject &jo, const std::string &member,
                                      bool is_npc )
 {
@@ -1293,6 +1323,9 @@ static tripoint_abs_ms get_tripoint_from_string( const std::string &type, dialog
     } else if( type.find( "party_" ) == 0 ) {
         var_info var = var_info( var_type::party, type.substr( 7, type.size() - 7 ) );
         return get_tripoint_from_var( var, d );
+    } else if( type.find( "context_" ) == 0 ) {
+        var_info var = var_info( var_type::context, type.substr( 7, type.size() - 7 ) );
+        return get_tripoint_from_var( var, d );
     }
     return tripoint_abs_ms();
 }
@@ -1380,6 +1413,22 @@ void conditional_t::set_math( const JsonObject &jo, const std::string_view membe
     math.from_json( jo, member );
     condition = [math = std::move( math )]( dialogue & d ) {
         return math.act( d );
+    };
+}
+
+template<class J>
+std::function<std::string( const dialogue & )> conditional_t::get_get_string( J const &jo )
+{
+    if( jo.get_string( "mutator" ) == "mon_faction" ) {
+        str_or_var mtypeid = get_str_or_var( jo.get_member( "mtype_id" ), "mtype_id" );
+        return [mtypeid]( const dialogue & d ) {
+            return static_cast<mtype_id>( mtypeid.evaluate( d ) )->default_faction.str();
+        };
+    }
+
+    jo.throw_error( "unrecognized string mutator in " + jo.str() );
+    return []( const dialogue & ) {
+        return "INVALID";
     };
 }
 
@@ -3034,6 +3083,8 @@ conditional_t::conditional_t( const JsonObject &jo )
         set_has_var( jo, "u_has_var" );
     } else if( jo.has_string( "npc_has_var" ) ) {
         set_has_var( jo, "npc_has_var", is_npc );
+    } else if( jo.has_member( "expects_vars" ) ) {
+        set_expects_vars( jo, "expects_vars" );
     } else if( jo.has_string( "u_compare_var" ) ) {
         set_compare_var( jo, "u_compare_var" );
     } else if( jo.has_string( "npc_compare_var" ) ) {

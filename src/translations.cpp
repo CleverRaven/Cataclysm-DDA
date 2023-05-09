@@ -73,14 +73,21 @@ std::string locale_dir()
     return loc_dir;
 }
 
-void set_language()
+void set_language_from_options()
 {
 #if defined(LOCALIZE)
     const std::string system_lang = SystemLocale::Language().value_or( "en" );
     std::string lang_opt = get_option<std::string>( "USE_LANG" ).empty() ? system_lang :
                            get_option<std::string>( "USE_LANG" );
-    DebugLog( D_INFO, D_MAIN ) << "Setting language to: '" << lang_opt << '\'';
-    TranslationManager::GetInstance().SetLanguage( lang_opt );
+    set_language( lang_opt );
+#endif
+}
+
+void set_language( const std::string &lang )
+{
+#if defined(LOCALIZE)
+    DebugLog( D_INFO, D_MAIN ) << "Setting language to: '" << lang << '\'';
+    TranslationManager::GetInstance().SetLanguage( lang );
 #if defined(_WIN32)
     // Use the ANSI code page 1252 to work around some language output bugs. (#8665)
     if( setlocale( LC_ALL, ".1252" ) == nullptr ) {

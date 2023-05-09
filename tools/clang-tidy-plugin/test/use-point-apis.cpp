@@ -1,4 +1,4 @@
-// RUN: %check_clang_tidy %s cata-use-point-apis %t -- -plugins=%cata_plugin -- -isystem %cata_include
+// RUN: %check_clang_tidy %s cata-use-point-apis %t -- --load=%cata_plugin -- -isystem %cata_include
 
 #define CATA_NO_STL
 #include "point.h"
@@ -129,7 +129,7 @@ int f11( int, const point &p, Args &&... );
 int g11()
 {
     return f11( 7, 0, 1, "foo", 3.5f );
-    // CHECK-MESSAGES: warning: Call to 'f11<char const (&)[4], float>' could instead call overload using a point parameter. [cata-use-point-apis]
+    // CHECK-MESSAGES: warning: Call to 'f11<const char (&)[4], float>' could instead call overload using a point parameter. [cata-use-point-apis]
     // CHECK-FIXES: return f11( 7, point( 0, 1 ), "foo", 3.5f );
 }
 

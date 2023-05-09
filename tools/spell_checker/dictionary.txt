@@ -3,6 +3,8 @@ aberrance
 aboveground
 abso
 acausal
+acceleratron
+acceleratrons
 accessorized
 accessorizing
 acclimatization
@@ -65,6 +67,7 @@ alexandrites
 algum
 alienis
 alient
+alinagerimi
 alkahest
 alkalis
 alkyl
@@ -76,7 +79,6 @@ allotrope
 allucination
 alnico
 alquerque
-alinagerimi
 altamente
 alternators
 alumentum
@@ -443,6 +445,7 @@ cattail
 cattails
 causer
 caustically
+cavitation
 cbm
 cdc
 cdda
@@ -637,6 +640,8 @@ cusses
 customizable
 customization
 cutlasses
+cutthroater
+cutthroaters
 cuvette
 cuvettes
 cuy
@@ -771,6 +776,7 @@ doesnt
 doffing
 dogbane
 doggo
+doglike 
 domestica
 dongle
 doomseer
@@ -1990,6 +1996,7 @@ overclock
 overclocks
 overdosage
 overdrinking
+overengineered 
 overexertion
 overgrowth
 overmap
@@ -2226,6 +2233,8 @@ puckish
 puffball
 pufts
 puker
+puller
+pullers
 pulping
 pulsate
 pulsates
@@ -3029,6 +3038,7 @@ vacuoles
 vajra
 valencian
 vambraces
+vancian
 vantablack
 varanid
 vars

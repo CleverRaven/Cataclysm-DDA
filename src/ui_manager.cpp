@@ -474,5 +474,10 @@ void screen_resized()
 {
     ui_adaptor::screen_resized();
 }
-
+void invalidate_all_ui_adaptors()
+{
+    for( ui_adaptor &adaptor : ui_stack ) {
+        adaptor.invalidate_ui();
+    }
+}
 } // namespace ui_manager

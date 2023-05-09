@@ -1,4 +1,4 @@
-// RUN: %check_clang_tidy %s cata-large-inline-function %t -- -plugins=%cata_plugin --
+// RUN: %check_clang_tidy %s cata-large-inline-function %t -- --load=%cata_plugin --
 
 inline void f0()
 // CHECK-MESSAGES: warning: Function 'f0' declared inline in a cpp file. 'inline' should only be used in header files. [cata-large-inline-function]

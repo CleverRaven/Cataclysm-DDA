@@ -711,11 +711,12 @@
     "color": "white",
     "name": { "str": "USB drive" },
     "description": "A USB thumb drive.  Useful for holding software.",
-    "price": 10000,
+    "price": "12 USD",
     "price_postapoc": 10,
-    "material": [ "plastic" ],
-    "weight": "18 g",
-    "volume": "5 ml",
+    "material": [ "plastic", "aluminum" ],
+    "weight": "4536 mg",
+    "volume": "4 ml",
+    "longest_side": "5 cm",
     "pocket_data": [
       { "pocket_type": "SOFTWARE", "max_contains_volume": "1 L", "max_contains_weight": "1 kg" },
       {
@@ -726,8 +727,9 @@
         "weight_multiplier": 0.0
       }
     ],
-    "to_hit": -3,
-    "flags": [ "MC_USED" ]
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "flags": [ "MC_USED" ],
+    "//": "Based on https://www.amazon.com/SanDisk-Ultra-Flair-128GB-Flash/dp/B015CH1PJU/ref=sr_1_3?crid=3QN3ALWDNXCOT&keywords=usb%2Bdrive&qid=1683302125&sprefix=usb%2Bdrive%2Caps%2C499&sr=8-3&th=1"
   },
   {
     "type": "TOOL",
@@ -740,8 +742,8 @@
     "price_postapoc": 10,
     "material": [ "steel", "plastic" ],
     "weight": "55 g",
-    "volume": "5 ml",
-    "to_hit": -3
+    "volume": "45 ml",
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" }
   },
   {
     "id": "robofac_hardcase",
@@ -780,15 +782,27 @@
     "symbol": "/",
     "color": "yellow",
     "name": { "str": "candlestick" },
-    "description": "A gold candlestick.",
+    "description": "A brass candlestick with a gold finish.",
     "category": "other",
-    "price": 10000,
+    "price": "5 USD",
     "price_postapoc": 10,
-    "material": [ "gold" ],
-    "weight": "1500 g",
-    "volume": "250 ml",
-    "to_hit": -2,
-    "melee_damage": { "bash": 9 }
+    "material": [ "brass" ],
+    "weight": "180 g",
+    "volume": "100 ml",
+    "longest_side": "28 cm",
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "neutral" },
+    "melee_damage": { "bash": 3 },
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "//1": "It's specifically not rigid because volume of candlestick and candle should be additive.",
+        "max_contains_weight": "500 g",
+        "max_contains_volume": "500 ml",
+        "item_restriction": [ "candle", "candle_lit" ]
+      }
+    ],
+    "//2": "Based on the medium variation from https://www.amazon.com/Holders-Candlestick-Decorative-Centerpieces-Fitting/dp/B09TNCS7HL/ref=sr_1_27?crid=2NAMJT9OZJDQT&keywords=gold%2Bcandlesticks&qid=1683196194&sprefix=gold%2Bcandlest%2Caps%2C619&sr=8-27&th=1"
   },
   {
     "type": "GENERIC",
@@ -3696,7 +3710,7 @@
     "looks_like": "adobe_brick",
     "price": 5000,
     "price_postapoc": 100,
-    "material": [ "stone" ],
+    "material": [ "salt", "stone" ],
     "symbol": ".",
     "color": "white",
     "flags": [ "NO_REPAIR" ]
