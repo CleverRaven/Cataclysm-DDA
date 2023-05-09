@@ -511,12 +511,11 @@ void npc::assess_danger()
             ai_cache.hostile_guys.emplace_back( g->shared_from( guy ) );
         }
     }
-    if( sees( player_character.pos() ) ) {
-        if( is_enemy() ) {
-            ai_cache.hostile_guys.emplace_back( g->shared_from( player_character ) );
-        } else if( is_friendly( player_character ) ) {
-            ai_cache.friends.emplace_back( g->shared_from( player_character ) );
-        }
+    if( is_friendly( player_character ) && sees( player_character.pos() ) ) {
+        ai_cache.friends.emplace_back( g->shared_from( player_character ) );
+    } else if ( is_enemy() && sees( player_character ) ) {
+    	// Unlike allies, hostile npcs should not see invisible players
+        ai_cache.hostile_guys.emplace_back( g->shared_from( player_character ) );
     }
 
     for( const monster &critter : g->all_monsters() ) {
