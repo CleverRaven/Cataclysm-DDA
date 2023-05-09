@@ -147,6 +147,11 @@ class item_location
          */
         bool eventually_contains( item_location loc ) const;
 
+        /**
+         * Overflow items into parent pockets recursively
+         */
+        void overflow();
+
     private:
         class impl;
 

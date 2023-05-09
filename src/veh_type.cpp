@@ -132,31 +132,6 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "ROOF", VPFLAG_ROOF },
 };
 
-static const std::vector<std::pair<std::string, veh_ter_mod>> standard_terrain_mod = {{
-        { "FLAT", { 0, 4 } }, { "ROAD", { 0, 2 } }
-    }
-};
-static const std::vector<std::pair<std::string, veh_ter_mod>> rigid_terrain_mod = {{
-        { "FLAT", { 0, 6 } }, { "ROAD", { 0, 3 } }
-    }
-};
-static const std::vector<std::pair<std::string, veh_ter_mod>> racing_terrain_mod = {{
-        { "FLAT", { 0, 5 } }, { "ROAD", { 0, 2 } }
-    }
-};
-static const std::vector<std::pair<std::string, veh_ter_mod>> off_road_terrain_mod = {{
-        { "FLAT", { 0, 3 } }, { "ROAD", { 0, 1 } }
-    }
-};
-static const std::vector<std::pair<std::string, veh_ter_mod>> treads_terrain_mod = {{
-        { "FLAT", { 0, 3 } }
-    }
-};
-static const std::vector<std::pair<std::string, veh_ter_mod>> rail_terrain_mod = {{
-        { "RAIL", { 2, 8 } }
-    }
-};
-
 static std::map<vpart_id, vpart_info> vpart_info_all;
 
 static std::map<vpart_id, vpart_info> abstract_parts;
@@ -329,28 +304,13 @@ void vpart_info::load_wheel( std::optional<vpslot_wheel> &whptr, const JsonObjec
     }
     assign( jo, "rolling_resistance", wh_info.rolling_resistance );
     assign( jo, "contact_area", wh_info.contact_area );
-    if( !jo.has_member( "copy-from" ) ) {
-        // if flag presented, it is already set
-        wh_info.terrain_mod = standard_terrain_mod;
-        wh_info.or_rating = 0.5f;
-    }
-    if( jo.has_string( "wheel_type" ) ) {
-        const std::string wheel_type = jo.get_string( "wheel_type" );
-        if( wheel_type == "rigid" ) {
-            wh_info.terrain_mod = rigid_terrain_mod;
-            wh_info.or_rating = 0.1;
-        } else if( wheel_type == "off-road" ) {
-            wh_info.terrain_mod = off_road_terrain_mod;
-            wh_info.or_rating = 0.7;
-        } else if( wheel_type == "racing" ) {
-            wh_info.terrain_mod = racing_terrain_mod;
-            wh_info.or_rating = 0.3;
-        } else if( wheel_type == "treads" ) {
-            wh_info.terrain_mod = treads_terrain_mod;
-            wh_info.or_rating = 0.9;
-        } else if( wheel_type == "rail" ) {
-            wh_info.terrain_mod = rail_terrain_mod;
-            wh_info.or_rating = 0.05;
+    assign( jo, "wheel_offroad_rating", wh_info.offroad_rating );
+    if( const std::optional<JsonValue> jo_termod = jo.get_member_opt( "wheel_terrain_modifiers" ) ) {
+        wh_info.terrain_mod.clear();
+        for( const JsonMember jo_mod : static_cast<JsonObject>( *jo_termod ) ) {
+            const JsonArray jo_mod_values = jo_mod.get_array();
+            veh_ter_mod mod { jo_mod.name(), jo_mod_values.get_int( 0 ), jo_mod_values.get_int( 1 ) };
+            wh_info.terrain_mod.emplace_back( std::move( mod ) );
         }
     }
 
@@ -1272,15 +1232,15 @@ int vpart_info::wheel_area() const
     return has_flag( VPFLAG_WHEEL ) ? wheel_info->contact_area : 0;
 }
 
-std::vector<std::pair<std::string, veh_ter_mod>> vpart_info::wheel_terrain_mod() const
+const std::vector<veh_ter_mod> &vpart_info::wheel_terrain_modifiers() const
 {
-    const std::vector<std::pair<std::string, veh_ter_mod>> null_map;
+    static const std::vector<veh_ter_mod> null_map;
     return has_flag( VPFLAG_WHEEL ) ? wheel_info->terrain_mod : null_map;
 }
 
-float vpart_info::wheel_or_rating() const
+float vpart_info::wheel_offroad_rating() const
 {
-    return has_flag( VPFLAG_WHEEL ) ? wheel_info->or_rating : 0.0f;
+    return has_flag( VPFLAG_WHEEL ) ? wheel_info->offroad_rating : 0.0f;
 }
 
 int vpart_info::rotor_diameter() const
@@ -1358,7 +1318,7 @@ void vehicles::reset_prototypes()
 void vehicle_prototype::load( const JsonObject &jo, std::string_view )
 {
     vgroups[vgroup_id( id.str() )].add_vehicle( id, 100 );
-    mandatory( jo, was_loaded, "name", name );
+    optional( jo, was_loaded, "name", name );
 
     const auto add_part_obj = [&]( const JsonObject & part, point pos ) {
         part_def pt;

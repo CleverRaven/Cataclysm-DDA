@@ -290,7 +290,7 @@
     "type": "GENERIC",
     "id": "dreamforged_katana",
     "copy-from": "katana",
-    "name": { "str_sp": "katana" },
+    "name": { "str_sp": "dreamforged katana" },
     "description": "Katana, forged entirely from dreamdross.  So light, that you can't properly apply any force on it.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
     "material": [ "forged_dreamstuff" ],
     "proportional": { "weight": 0.25, "melee_damage": { "cut": 0.3 } }
@@ -326,7 +326,7 @@
     "type": "GENERIC",
     "id": "dreamforged_nodachi",
     "copy-from": "qt_nodachi",
-    "name": { "str_sp": "nodachi" },
+    "name": { "str_sp": "dreamforged nodachi" },
     "description": "Long nodachi, forged entirely from dreamdross.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
     "material": [ "forged_dreamstuff" ],
     "proportional": { "weight": 0.25, "melee_damage": { "cut": 0.3 } }
@@ -344,7 +344,7 @@
     "type": "GENERIC",
     "id": "dreamforged_tanto",
     "copy-from": "tanto",
-    "name": { "str_sp": "tanto" },
+    "name": { "str_sp": "dreamforged tanto" },
     "description": "Long nodachi, forged entirely from dreamdross.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
     "material": [ "forged_dreamstuff" ],
     "proportional": { "weight": 0.25, "melee_damage": { "stab": 0.3 } }
@@ -353,7 +353,7 @@
     "type": "GENERIC",
     "id": "dreamforged_wakizashi",
     "copy-from": "wakizashi",
-    "name": { "str_sp": "wakizashi" },
+    "name": { "str_sp": "dreamforged wakizashi" },
     "description": "Long nodachi, forged entirely from dreamdross.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
     "material": [ "forged_dreamstuff" ],
     "proportional": { "weight": 0.25, "melee_damage": { "cut": 0.3 } }

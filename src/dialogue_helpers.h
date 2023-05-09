@@ -48,8 +48,10 @@ struct talk_effect_fun_t {
         void set_offer_mission( const JsonObject &jo, const std::string &member );
         void set_make_sound( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_run_eocs( const JsonObject &jo, std::string_view member );
+        void set_run_eoc_with( const JsonObject &jo, std::string_view member );
         void set_run_npc_eocs( const JsonObject &jo, std::string_view member, bool is_npc );
         void set_queue_eocs( const JsonObject &jo, std::string_view member );
+        void set_queue_eoc_with( const JsonObject &jo, std::string_view member );
         void set_switch( const JsonObject &jo, std::string_view member );
         void set_roll_remainder( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_weighted_list_eocs( const JsonObject &jo, std::string_view member );
@@ -139,6 +141,7 @@ struct str_or_var {
     std::optional<std::string> str_val;
     std::optional<var_info> var_val;
     std::optional<std::string> default_val;
+    std::optional<std::function<std::string( const dialogue & )>> function;
     std::string evaluate( dialogue const &d ) const;
 };
 

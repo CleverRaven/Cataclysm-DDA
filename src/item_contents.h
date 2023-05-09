@@ -262,7 +262,7 @@ class item_contents
         void on_pickup( Character &guy, item *avoid = nullptr );
         bool spill_contents( const tripoint &pos );
         // spill items that don't fit in the container
-        void overflow( const tripoint &pos );
+        void overflow( const tripoint &pos, const item_location &loc );
         void clear_items();
         // clears all items from magazine type pockets
         void clear_magazines();

@@ -39,6 +39,37 @@
     "qualities": [ [ "DIG", 2 ] ]
   },
   {
+    "id": "integrated_ar",
+    "type": "TOOL_ARMOR",
+    "copy-from": "fake_item",
+    "name": { "str": "Integrated AR System" },
+    "description": "Extreamly thin lenses provides user with augmented reality overlay allowing the user to zoom, and it displays handy information about local topology.",
+    "charges_per_use": 1,
+    "use_action": [ "CAMERA", "PORTABLE_GAME", "EINKTABLETPC", "ELECTRICSTORAGE", "EBOOKSAVE", "EBOOKREAD" ],
+    "pocket_data": [
+      {
+        "pocket_type": "EBOOK",
+        "rigid": true,
+        "max_contains_volume": "1 ml",
+        "max_contains_weight": "1 g",
+        "weight_multiplier": 0
+      }
+    ],
+    "flags": [
+      "ZOOM",
+      "WATCH",
+      "ALARMCLOCK",
+      "SUN_GLASSES",
+      "THERMOMETER",
+      "INTEGRATED",
+      "UNBREAKABLE",
+      "PERSONAL",
+      "NO_REPAIR",
+      "ALLOWS_NATURAL_ATTACKS",
+      "USES_BIONIC_POWER"
+    ]
+  },
+  {
     "id": "fake_goggles",
     "copy-from": "fake_item",
     "type": "TOOL",

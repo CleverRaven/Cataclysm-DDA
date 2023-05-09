@@ -120,18 +120,16 @@ struct vpslot_engine {
 };
 
 struct veh_ter_mod {
-    /* movecost for moving through this terrain (overrides current terrain movecost)
-                     * if movecost <= 0 ignore this parameter */
-    int movecost;
-    // penalty while not on this terrain (adds to movecost)
-    int penalty;
+    std::string terrain_flag; // terrain flag this mod block applies to
+    int move_override;        // override when on flagged terrain, ignored if 0
+    int move_penalty;         // penalty added when not on flagged terrain, ignored if 0
 };
 
 struct vpslot_wheel {
     float rolling_resistance = 1.0f;
     int contact_area = 1;
-    std::vector<std::pair<std::string, veh_ter_mod>> terrain_mod;
-    float or_rating = 0.0f;
+    std::vector<veh_ter_mod> terrain_mod;
+    float offroad_rating = 0.5f;
 };
 
 struct vpslot_rotor {
@@ -327,8 +325,8 @@ class vpart_info
          */
         float wheel_rolling_resistance() const;
         int wheel_area() const;
-        std::vector<std::pair<std::string, veh_ter_mod>> wheel_terrain_mod() const;
-        float wheel_or_rating() const;
+        const std::vector<veh_ter_mod> &wheel_terrain_modifiers() const;
+        float wheel_offroad_rating() const;
         /** @name rotor specific functions
         */
         int rotor_diameter() const;
@@ -552,7 +550,9 @@ struct vehicle_prototype {
         void load( const JsonObject &jo, std::string_view src );
     private:
         bool was_loaded = false; // used by generic_factory
+        std::vector<std::pair<vproto_id, mod_id>> src;
         friend class generic_factory<vehicle_prototype>;
+        friend struct mod_tracker;
 };
 
 /**

@@ -3845,14 +3845,15 @@ int vehicle::wheel_area() const
     return total_area;
 }
 
-float vehicle::average_or_rating() const
+float vehicle::average_offroad_rating() const
 {
     if( wheelcache.empty() ) {
         return 0.0f;
     }
     float total_rating = 0.0f;
-    for( const int &wheel_index : wheelcache ) {
-        total_rating += part_info( wheel_index ).wheel_or_rating();
+    for( const int wheel_index : wheelcache ) {
+        const vehicle_part &vp = part( wheel_index );
+        total_rating += vp.info().wheel_offroad_rating();
     }
     return total_rating / wheelcache.size();
 }
@@ -4751,7 +4752,7 @@ units::power vehicle::total_solar_epower() const
     }
     // Weather doesn't change much across the area of the vehicle, so just
     // sample it once.
-    weather_type_id wtype = current_weather( global_pos3() );
+    weather_type_id wtype = current_weather( global_square_location() );
     const float intensity = incident_sun_irradiance( wtype, calendar::turn ) / max_sun_irradiance();
     return epower * intensity;
 }
@@ -4770,7 +4771,7 @@ units::power vehicle::total_wind_epower() const
             continue;
         }
 
-        int windpower = get_local_windpower( weather.windspeed, cur_om_ter, pos,
+        int windpower = get_local_windpower( weather.windspeed, cur_om_ter, here.getglobal( pos ),
                                              weather.winddirection, false );
         if( windpower <= ( weather.windspeed / 10.0 ) ) {
             continue;
@@ -7433,7 +7434,7 @@ void vehicle::update_time( const time_point &update_to )
     }
     // Get one weather data set per vehicle, they don't differ much across vehicle area
     const weather_sum accum_weather = sum_conditions( update_from, update_to,
-                                      global_square_location().raw() );
+                                      global_square_location() );
     // make some reference objects to use to check for reload
     const item water( "water" );
     const item water_clean( "water_clean" );

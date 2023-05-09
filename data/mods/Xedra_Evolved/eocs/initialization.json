@@ -1,0 +1,34 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_VARIABLE_INIT",
+    "eoc_type": "EVENT",
+    "required_event": "game_begin",
+    "condition": { "not": { "math": [ "XE_INITIALIZATION", "=", "1" ] } },
+    "effect": [ { "queue_eocs": "EOC_XE_VARIABLE_INITIALIZATION" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_VARIABLE_INITIALIZATION",
+    "condition": { "not": { "math": [ "XE_INITIALIZATION", "=", "1" ] } },
+    "effect": [
+      { "math": [ "base_difficulty_1", "=", "5" ] },
+      { "math": [ "base_difficulty_2", "=", "10" ] },
+      { "math": [ "base_difficulty_3", "=", "15" ] },
+      { "math": [ "energy_difficulty_1", "=", "7" ] },
+      { "math": [ "energy_difficulty_2", "=", "13" ] },
+      { "math": [ "energy_difficulty_3", "=", "20" ] },
+      { "math": [ "AI_difficulty_1", "=", "10" ] },
+      { "math": [ "dimension_difficulty_1", "=", "10" ] },
+      { "math": [ "XE_INITIALIZATION", "=", "1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_INVENTOR_RECIPE_GAIN",
+    "//": "Gives you the very first research recipe for your class.",
+    "recurrence": [ "20 hours", "28 hours" ],
+    "condition": { "u_has_trait": "INVENTOR" },
+    "effect": [ { "u_roll_remainder": [ "inventor_research_base_1" ], "type": "recipe" } ]
+  }
+]
