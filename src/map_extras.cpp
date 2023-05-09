@@ -64,26 +64,16 @@
 
 static const flag_id json_flag_FILTHY( "FILTHY" );
 
-static const furn_str_id furn_f_active_backup_generator( "f_active_backup_generator" );
-static const furn_str_id furn_f_sign_warning( "f_sign_warning" );
-
 static const item_group_id Item_spawn_data_ammo_casings( "ammo_casings" );
 static const item_group_id Item_spawn_data_army_bed( "army_bed" );
 static const item_group_id Item_spawn_data_everyday_corpse( "everyday_corpse" );
 static const item_group_id Item_spawn_data_grenades( "grenades" );
 static const item_group_id Item_spawn_data_guns_rifle_milspec( "guns_rifle_milspec" );
 static const item_group_id Item_spawn_data_map_extra_casings( "map_extra_casings" );
-static const item_group_id Item_spawn_data_map_extra_police( "map_extra_police" );
 static const item_group_id Item_spawn_data_mil_armor( "mil_armor" );
 static const item_group_id Item_spawn_data_mil_bulk( "mil_bulk" );
 static const item_group_id Item_spawn_data_mil_food( "mil_food" );
 static const item_group_id
-Item_spawn_data_military_standard_assault_rifles( "military_standard_assault_rifles" );
-static const item_group_id Item_spawn_data_military_standard_lmgs( "military_standard_lmgs" );
-static const item_group_id
-Item_spawn_data_military_standard_shotguns( "military_standard_shotguns" );
-static const item_group_id
-Item_spawn_data_military_standard_sniper_rifles( "military_standard_sniper_rifles" );
 static const item_group_id Item_spawn_data_mine_equipment( "mine_equipment" );
 static const item_group_id
 Item_spawn_data_mon_zombie_soldier_death_drops( "mon_zombie_soldier_death_drops" );
@@ -150,14 +140,11 @@ static const mongroup_id GROUP_MIL_PILOT( "GROUP_MIL_PILOT" );
 static const mongroup_id GROUP_MIL_WEAK( "GROUP_MIL_WEAK" );
 static const mongroup_id GROUP_NETHER_PORTAL( "GROUP_NETHER_PORTAL" );
 static const mongroup_id GROUP_STRAY_DOGS( "GROUP_STRAY_DOGS" );
-static const mongroup_id GROUP_TURRET_RIOT( "GROUP_TURRET_RIOT" );
-static const mongroup_id GROUP_TURRET_SEARCHLIGHT( "GROUP_TURRET_SEARCHLIGHT" );
 static const mongroup_id GROUP_TURRET_SPEAKER( "GROUP_TURRET_SPEAKER" );
 static const mongroup_id GROUP_WASP_GUARD( "GROUP_WASP_GUARD" );
 static const mongroup_id GROUP_WASP_QUEEN( "GROUP_WASP_QUEEN" );
 
 static const mtype_id mon_wolf( "mon_wolf" );
-static const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
 
 static const oter_type_str_id oter_type_bridge( "bridge" );
 static const oter_type_str_id oter_type_bridgehead_ground( "bridgehead_ground" );
@@ -181,7 +168,6 @@ static const trap_str_id tr_engine( "tr_engine" );
 static const trap_str_id tr_nailboard( "tr_nailboard" );
 
 static const vgroup_id VehicleGroup_crashed_helicopters( "crashed_helicopters" );
-static const vgroup_id VehicleGroup_military_vehicles( "military_vehicles" );
 
 static const vproto_id vehicle_prototype_4x4_car( "4x4_car" );
 static const vproto_id vehicle_prototype_car( "car" );
