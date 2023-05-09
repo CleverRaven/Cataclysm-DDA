@@ -635,12 +635,15 @@ void game::toggle_pixel_minimap() const
 
 void game::toggle_language_to_en()
 {
+    // No-op if we aren't complied with localization
+#if defined(LOCALIZE)
     const std::string english = "en" ;
     static std::string secondary_lang = english;
     std::string current_lang = TranslationManager::GetInstance().GetCurrentLanguage();
     secondary_lang = current_lang != english ? current_lang : secondary_lang;
     std::string new_lang = current_lang != english ? english : secondary_lang;
     set_language( new_lang );
+#endif
 }
 
 bool game::is_tileset_isometric() const
