@@ -732,10 +732,10 @@
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
     "skill_used": "chemistry",
-    "difficulty": 1,
+    "difficulty": 4,
     "time": "20 m",
     "//": "placeholder time, will replace this with a fitting value later",
-    "book_learn": [ [ "adv_chemistry", 3 ], [ "textbook_chemistry", 3 ] ],
+    "book_learn": [ [ "adv_chemistry", 4 ], [ "textbook_chemistry", 4 ] ],
     "proficiencies": [
       { "proficiency": "prof_intro_chemistry" },
       { "proficiency": "prof_inorganic_chemistry" },
@@ -744,7 +744,7 @@
     "charges": 700,
     "batch_time_factors": [ 60, 4 ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "tools": [ [ [ "electrolysis_kit", 500 ] ], [ [ "surface_heat", 1, "LIST" ] ] ],
+    "tools": [ [ [ "electrolysis_kit", 100 ] ], [ [ "surface_heat", 1, "LIST" ] ] ],
     "components": [ [ [ "lye_powder", 1129 ] ], [ [ "lamp_oil", 350 ] ] ],
     "//0": "One battery charge is one kJ, one unit of surface_heat is 25 charges, 1129 lye powder is 30 grams, 25 kJ is needed to melt 30 grams of lye.",
     "//1": "kerosene is used here because sodium metal needs to be suspended in a mineral oil to prevent it from reacting to air. It's half of the resulting sodium because the item itself is 50/50."
