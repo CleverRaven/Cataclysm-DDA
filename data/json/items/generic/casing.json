@@ -1,4 +1,4 @@
-[
+u[
   {
     "abstract": "casing",
     "type": "GENERIC",
@@ -31,6 +31,7 @@
   },
   {
     "id": "22_casing_new",
+    "looks_like": "9mm_casing",
     "type": "GENERIC",
     "category": "spare_parts",
     "price": 100,
