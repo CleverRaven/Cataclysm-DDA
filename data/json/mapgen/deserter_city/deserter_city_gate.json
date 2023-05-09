@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "deserter_city_gate",
-    "weight": 250,
     "object": {
       "fill_ter": "t_pavement",
       "rows": [
@@ -42,9 +41,7 @@
           { "item": "tools_earthworking", "chance": 5 },
           { "item": "hardware_plumbing", "chance": 5 },
           { "item": "paint", "chance": 3 }
-        ],
-        ".": { "item": "bar_trash", "chance": 2 },
-        "S": { "item": "bar_trash", "chance": 1 }
+        ]
       },
       "place_npcs": [ { "class": "deserter", "x": 9, "y": 22 }, { "class": "deserter", "x": 16, "y": 15 } ],
       "place_vehicles": [ { "vehicle": "bandit_vehicles", "x": 10, "y": 13, "chance": 40, "rotation": 0, "status": 0 } ]
