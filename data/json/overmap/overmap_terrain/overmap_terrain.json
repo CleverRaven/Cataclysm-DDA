@@ -616,7 +616,8 @@
     "name": "survivor forest camp",
     "sym": "+",
     "color": "green",
-    "see_cost": 5
+    "see_cost": 5,
+    "flags": [ "REQUIRES_PREDECESSOR" ]
   },
   {
     "type": "overmap_terrain",
