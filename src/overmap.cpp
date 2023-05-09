@@ -3995,9 +3995,9 @@ void overmap::move_hordes()
             // Only monsters in the open (fields, forests, roads) are eligible to wander
             const oter_id &om_here = ter( project_to<coords::omt>( p ) );
             if( !is_ot_match( "field", om_here, ot_match_type::contains ) ) {
-                if( !is_ot_match( "forest", om_here, ot_match_type::prefix ) ) {
-                    if( !is_ot_match( "swamp", om_here, ot_match_type::prefix ) ) {
-                        if( !is_ot_match( "road", om_here, ot_match_type::contains ) ) {
+                if( !is_ot_match( "road", om_here, ot_match_type::contains ) ) {
+                    if( !is_ot_match( "forest", om_here, ot_match_type::prefix ) ) {
+                        if( !is_ot_match( "swamp", om_here, ot_match_type::prefix ) ) {
                             monster_map_it++;
                             continue;
                         }
@@ -4070,11 +4070,9 @@ void overmap::move_nemesis()
             movement_chance = 1;
         } else if( is_ot_match( "field", walked_into, ot_match_type::contains ) ) {
             movement_chance = 3;
-        } else if( is_ot_match( "forest", walked_into, ot_match_type::prefix ) ) {
-            movement_chance = 6;
-        } else if( is_ot_match( "swamp", walked_into, ot_match_type::prefix ) ) {
-            movement_chance = 6;
-        } else if( is_ot_match( "bridge", walked_into, ot_match_type::prefix ) ) {
+        } else if( is_ot_match( "forest", walked_into, ot_match_type::prefix ) ||
+                   is_ot_match( "swamp", walked_into, ot_match_type::prefix ) ||
+                   is_ot_match( "bridge", walked_into, ot_match_type::prefix ) ) {
             movement_chance = 6;
         } else if( is_ot_match( "river", walked_into, ot_match_type::prefix ) ) {
             movement_chance = 10;
