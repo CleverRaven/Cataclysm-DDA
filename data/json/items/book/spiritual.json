@@ -397,6 +397,62 @@
         "description": "This is volume 27 of 51, containing Tractate Chagigah.  It discusses the practice of offering ritual sacrifices at the Temple on festival days, with frequent interruptions to discuss the Book of Genesis.",
         "append": true,
         "weight": 1
+      },
+      {
+        "id": "holybook_talmud_28",
+        "name": { "str": "Talmud, Vol. 28, Tractate Moed Katan", "str_pl": "copies of the Talmud, Vol. 28, Tractate Moed Katan" },
+        "description": "This is volume 28 of 51, containing Tractate Moed Katan.  It discusses Chol HaMoed, the minor holidays in between the first and last days of Sukkot and Passover.",
+        "append": true,
+        "weight": 1
+      },
+      {
+        "id": "holybook_talmud_29",
+        "name": { "str": "Talmud, Vol. 29, Tractate Yevamot (Part 1)", "str_pl": "copies of the Talmud, Vol. 29, Tractate Yevamot (Part 1)" },
+        "description": "This is volume 29 of 51, containing the first part of Tractate Yevamot.  It deals with the laws of Yibbum, often translated as \"Levirate marriage,\" the requirement of a man to marry his brother's widow.",
+        "append": true,
+        "weight": 1
+      },
+      {
+        "id": "holybook_talmud_30",
+        "name": { "str": "Talmud, Vol. 30, Tractate Yevamot (Part 2)", "str_pl": "copies of the Talmud, Vol. 30, Tractate Yevamot (Part 2)" },
+        "description": "This is volume 30 of 51, containing the second part of Tractate Yevamot.  It continues the discussion of the laws of Yibbum, often translated as \"Levirate marriage,\" and the circumstances in which it does or does not apply.",
+        "append": true,
+        "weight": 1
+      },
+      {
+        "id": "holybook_talmud_31",
+        "name": { "str": "Talmud, Vol. 31, Tractate Ketubot (Part 1)", "str_pl": "copies of the Talmud, Vol. 31, Tractate Ketubot (Part 1)" },
+        "description": "This is volume 31 of 51, containing the first part of Tractate Ketubot.  It discusses the marriage contract (Ketubah), and the marital obligations between husband and wife.",
+        "append": true,
+        "weight": 1
+      },
+      {
+        "id": "holybook_talmud_32",
+        "name": { "str": "Talmud, Vol. 32, Tractate Ketubot (Part 2)", "str_pl": "copies of the Talmud, Vol. 32, Tractate Ketubot (Part 2)" },
+        "description": "This is volume 32 of 51, containing the second part of Tractate Ketubot.  It continues the discussion of the marriage contract, as well as divorce and giving formal testimony.",
+        "append": true,
+        "weight": 1
+      },
+      {
+        "id": "holybook_talmud_33",
+        "name": { "str": "Talmud, Vol. 33, Tractate Nedarim", "str_pl": "copies of the Talmud, Vol. 33, Tractate Nedarim" },
+        "description": "This is volume 33 of 51, containing Tractate Nedarim.  It deals with the making and breaking of vows and the conditions under which vows are automatically void.",
+        "append": true,
+        "weight": 1
+      },
+      {
+        "id": "holybook_talmud_34",
+        "name": { "str": "Talmud, Vol. 34, Tractate Nazir (Part 1)", "str_pl": "copies of the Talmud, Vol. 34, Tractate Nazir (Part 1)" },
+        "description": "This is volume 34 of 51, containing the first part of Tractate Nazir.  It deals with Nazirites, who make vows to abstain from wine, cutting their hair, and avoiding contact with the dead.",
+        "append": true,
+        "weight": 1
+      },
+      {
+        "id": "holybook_talmud_35",
+        "name": { "str": "Talmud, Vol. 35, Tractate Nazir (Part 2)", "str_pl": "copies of the Talmud, Vol. 35, Tractate Nazir (Part 2)" },
+        "description": "This is volume 35 of 51, containing the second part of Tractate Nazir.  It continues the discussion of Nazirite vows, as well as the transmission of ritual impurity between objects.",
+        "append": true,
+        "weight": 1
       }
     ]
   },
