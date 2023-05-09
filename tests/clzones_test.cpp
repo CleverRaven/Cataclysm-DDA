@@ -95,7 +95,7 @@ TEST_CASE( "zone_unloading_ammo_belts", "[zones][items][ammo_belt][activities][u
 
     WHEN( "unloading ammo belts using zone_unload_all " ) {
         if( in_vehicle ) {
-            vp->vehicle().add_item( vp->part_index(), ammo_belt );
+            vp->vehicle().add_item( vp->part(), ammo_belt );
         } else {
             here.add_item_or_charges( tripoint_east, ammo_belt );
         }

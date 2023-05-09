@@ -441,7 +441,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
         // Empty the vehicle of any cargo.
         v->get_items( part ).clear();
         for( int i = 0; i != count; ++i ) {
-            v->add_item( part, obj );
+            v->add_item( vp->part(), obj );
         }
 
         vehicle_selector sel( p.pos(), 1 );

@@ -5513,36 +5513,21 @@ int vehicle::add_charges( vehicle_part &vp, const item &itm )
     return add_item( vp, itm_copy ) ? ret : 0;
 }
 
-std::optional<vehicle_stack::iterator> vehicle::add_item( vehicle_part &pt, const item &obj )
+std::optional<vehicle_stack::iterator> vehicle::add_item( vehicle_part &vp, const item &itm )
 {
-    int idx = index_of_part( &pt );
-    if( idx < 0 ) {
-        debugmsg( "Tried to add item to invalid part" );
-        return std::nullopt;
-    }
-    return add_item( idx, obj );
-}
-
-std::optional<vehicle_stack::iterator> vehicle::add_item( int part, const item &itm )
-{
-    if( part < 0 || part >= static_cast<int>( parts.size() ) ) {
-        debugmsg( "int part (%d) is out of range", part );
-        return std::nullopt;
-    }
     // const int max_weight = ?! // TODO: weight limit, calculation per vpart & vehicle stats, not a hard user limit.
     // add creaking sounds and damage to overloaded vpart, outright break it past a certain point, or when hitting bumps etc
-    vehicle_part &p = parts[ part ];
-    if( p.is_broken() ) {
+    if( vp.is_broken() ) {
         return std::nullopt;
     }
 
-    if( p.base.is_gun() ) {
-        if( !itm.is_ammo() || !p.base.ammo_types().count( itm.ammo_type() ) ) {
+    if( vp.base.is_gun() ) {
+        if( !itm.is_ammo() || !vp.base.ammo_types().count( itm.ammo_type() ) ) {
             return std::nullopt;
         }
     }
     bool charge = itm.count_by_charges();
-    vehicle_stack istack = get_items( part );
+    vehicle_stack istack = get_items( vp );
     const int to_move = istack.amount_can_fit( itm );
     if( to_move == 0 || ( charge && to_move < itm.charges ) ) {
         return std::nullopt; // @add_charges should be used in the latter case
@@ -5564,19 +5549,14 @@ std::optional<vehicle_stack::iterator> vehicle::add_item( int part, const item &
     if( itm_copy.is_bucket_nonempty() ) {
         // this is a vehicle, so there is only one pocket.
         // so if it will spill, spill all of it
-        itm_copy.spill_contents( global_part_pos3( part ) );
+        itm_copy.spill_contents( global_part_pos3( vp ) );
     }
 
-    const vehicle_stack::iterator new_pos = p.items.insert( itm_copy );
-    active_items.add( *new_pos, p.mount );
+    const vehicle_stack::iterator new_pos = vp.items.insert( itm_copy );
+    active_items.add( *new_pos, vp.mount );
 
     invalidate_mass();
     return std::optional<vehicle_stack::iterator>( new_pos );
-}
-
-bool vehicle::remove_item( int part, item *it )
-{
-    return remove_item( parts[part], it );
 }
 
 bool vehicle::remove_item( vehicle_part &vp, item *it )
@@ -5588,11 +5568,6 @@ bool vehicle::remove_item( vehicle_part &vp, item *it )
     }
     remove_item( vp, iter );
     return true;
-}
-
-vehicle_stack::iterator vehicle::remove_item( int part, const vehicle_stack::const_iterator &it )
-{
-    return remove_item( parts[part], it );
 }
 
 vehicle_stack::iterator vehicle::remove_item( vehicle_part &vp,
@@ -5676,7 +5651,8 @@ void vehicle::place_spawn_items()
         if( part < 0 ) {
             debugmsg( "No CARGO parts at (%d, %d) of %s!", spawn.pos.x, spawn.pos.y, name );
         } else {
-            bool broken = parts[ part ].is_broken();
+            vehicle_part &vp = parts[part];
+            const bool broken = vp.is_broken();
 
             std::vector<item> created;
             const int spawn_count = roll_remainder( spawn.chance * std::max( spawn_rate, 1.0f ) / 100.0f );
@@ -5734,7 +5710,7 @@ void vehicle::place_spawn_items()
                     e.set_owner( get_owner() );
                 }
 
-                add_item( part, e );
+                add_item( vp, e );
             }
         }
     }

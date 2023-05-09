@@ -620,7 +620,8 @@ static void move_item( Character &you, item &it, const int quantity, const tripo
         put_into_vehicle_or_drop( you, item_drop_reason::deliberate, { it }, dest );
         // Remove from map or vehicle.
         if( src_veh ) {
-            src_veh->remove_item( src_part, &it );
+            vehicle_part &vp_src = src_veh->part( src_part );
+            src_veh->remove_item( vp_src, &it );
         } else {
             here.i_rem( src, &it );
         }
@@ -629,7 +630,8 @@ static void move_item( Character &you, item &it, const int quantity, const tripo
     // If we didn't pick up a whole stack, put the remainder back where it came from.
     if( leftovers.charges > 0 ) {
         if( src_veh ) {
-            if( !src_veh->add_item( src_part, leftovers ) ) {
+            vehicle_part &vp_src = src_veh->part( src_part );
+            if( !src_veh->add_item( vp_src, leftovers ) ) {
                 debugmsg( "SortLoot: Source vehicle failed to receive leftover charges." );
             }
         } else {
@@ -2200,7 +2202,8 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                                     if( it->first->type->magazine->linkage ) {
                                         item link( *it->first->type->magazine->linkage, calendar::turn, contained->count() );
                                         if( this_veh != nullptr ) {
-                                            this_veh->add_item( this_part, link );
+                                            vehicle_part &vp_this = this_veh->part( this_part );
+                                            this_veh->add_item( vp_this, link );
                                         } else {
                                             here.add_item_or_charges( src_loc, link );
                                         }
@@ -2244,7 +2247,8 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                     }
                     if( it->first->has_flag( flag_MAG_DESTROY ) && it->first->ammo_remaining() == 0 ) {
                         if( this_veh != nullptr ) {
-                            this_veh->remove_item( this_part, it->first );
+                            vehicle_part &vp_this = this_veh->part( this_part );
+                            this_veh->remove_item( vp_this, it->first );
                         } else {
                             here.i_rem( src_loc, it->first );
                         }

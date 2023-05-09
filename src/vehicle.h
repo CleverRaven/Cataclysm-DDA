@@ -1766,14 +1766,10 @@ class vehicle
         void make_active( item_location &loc );
         /**
          * Try to add an item to part's cargo.
-         *
-         * @returns std::nullopt if it can't be put here (not a cargo part, adding this would violate
-         * the volume limit or item count limit, not all charges can fit, etc.)
-         * Otherwise, returns an iterator to the added item in the vehicle stack
+         * @return iterator to added item or std::nullopt if it can't be put here (not a cargo part, adding
+         * this would violate the volume limit or item count limit, not all charges can fit, etc.)
          */
-        std::optional<vehicle_stack::iterator> add_item( int part, const item &itm );
-        /** Like the above */
-        std::optional<vehicle_stack::iterator> add_item( vehicle_part &pt, const item &obj );
+        std::optional<vehicle_stack::iterator> add_item( vehicle_part &vp, const item &itm );
         /**
          * Add an item counted by charges to the part's cargo.
          *
@@ -1782,9 +1778,7 @@ class vehicle
         int add_charges( vehicle_part &vp, const item &itm );
 
         // remove item from part's cargo
-        bool remove_item( int part, item *it );
         bool remove_item( vehicle_part &vp, item *it );
-        vehicle_stack::iterator remove_item( int part, const vehicle_stack::const_iterator &it );
         vehicle_stack::iterator remove_item( vehicle_part &vp, const vehicle_stack::const_iterator &it );
 
         vehicle_stack get_items( int part ) const;
