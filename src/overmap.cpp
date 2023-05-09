@@ -3979,16 +3979,6 @@ void overmap::move_hordes()
                 continue;
             }
 
-            // Only monsters in the open (fields, forests, roads) are eligible to wander
-            const oter_id &om_here = ter( project_to<coords::omt>( p ) );
-            if( is_ot_match( "field", om_here, ot_match_type::contains ) ||
-                is_ot_match( "forest", om_here, ot_match_type::prefix ) ||
-                is_ot_match( "swamp", om_here, ot_match_type::prefix ) ||
-                is_ot_match( "road", om_here, ot_match_type::contains ) ) {
-                monster_map_it++;
-                continue;
-            }
-
             // Check if the monster is a zombie.
             const mtype &type = *this_monster.type;
             if(
@@ -4000,6 +3990,19 @@ void overmap::move_hordes()
                 // Don't delete the monster, just increment the iterator.
                 monster_map_it++;
                 continue;
+            }
+
+            // Only monsters in the open (fields, forests, roads) are eligible to wander
+            const oter_id &om_here = ter( project_to<coords::omt>( p ) );
+            if( !is_ot_match( "field", om_here, ot_match_type::contains ) ) {
+                if( !is_ot_match( "forest", om_here, ot_match_type::prefix ) ) {
+                    if( !is_ot_match( "swamp", om_here, ot_match_type::prefix ) ) {
+                        if( !is_ot_match( "road", om_here, ot_match_type::contains ) ) {
+                            monster_map_it++;
+                            continue;
+                        }
+                    }
+                }
             }
 
             // Scan for compatible hordes in this area, selecting the largest.
