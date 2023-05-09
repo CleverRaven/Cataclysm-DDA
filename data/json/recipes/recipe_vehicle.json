@@ -283,16 +283,6 @@
     "proficiencies": [ { "proficiency": "prof_welding_basic" } ],
     "reversible": true,
     "autolearn": true,
-    "tools": [
-      [
-        [ "welder", 50 ],
-        [ "welding_kit", 50 ],
-        [ "welder_crude", 75 ],
-        [ "toolset", 75 ],
-        [ "forge", 50 ],
-        [ "oxy_torch", 10 ]
-      ]
-    ]
     "components": [
       [ [ "yoke_harness", 1 ] ],
       [ [ "frame", 1 ] ],

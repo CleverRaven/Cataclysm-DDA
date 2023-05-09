@@ -23,7 +23,7 @@
     "type": "WHEEL",
     "name": { "str": "reinforced yoke and harness", "str_pl": "reinforced yokes and harnesses" },
     "category": "veh_parts",
-    "description": "Heavy steel bars and harness to attach a sufficiently large creature to a wheeled vehicle, allowing them to pull it along, reinforced to withstand the rigours of the apocalypse and ill-adviced offroading. You would still need separate armor for your horse to wear.",
+    "description": "Heavy steel beams and harness to attach a sufficiently large creature to a wheeled vehicle, allowing them to pull it along, reinforced to withstand the rigours of the apocalypse and ill-adviced offroading. You would still need separate armor for said creature to wear.",
     "weight": "30000 g",
     "volume": "20 L",
     "price": 60000,
@@ -35,7 +35,6 @@
     "color": "light_gray",
     "diameter": 8,
     "width": 4,
-    "looks_like": "foldframe",
     "melee_damage": { "bash": 15 }
   }
 ]
