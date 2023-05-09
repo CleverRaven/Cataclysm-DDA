@@ -738,7 +738,7 @@
     "proficiencies": [
       { "proficiency": "prof_intro_chemistry" },
       { "proficiency": "prof_inorganic_chemistry" },
-      { "proficiency": "prof_inorganic_chemistry" }
+      { "proficiency": "prof_intro_chem_synth" }
     ],
     "charges": 700,
     "batch_time_factors": [ 60, 4 ],
