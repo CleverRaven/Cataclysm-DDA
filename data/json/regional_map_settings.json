@@ -121,6 +121,7 @@
           "t_tree_elderberry": 2,
           "t_tree_mulberry": 2,
           "t_tree_sassafras": 3,
+          "t_beehive_natural": 2,
           "t_region_tree_dead": 48
         },
         "t_region_tree_shade": {
@@ -140,6 +141,7 @@
           "t_tree_elderberry": 2,
           "t_tree_mulberry": 2,
           "t_tree_sassafras": 3,
+          "t_beehive_natural": 2,
           "t_tree_dead": 2
         },
         "t_region_tree_fruit": {
@@ -152,6 +154,7 @@
           "t_tree_plum": 2,
           "t_tree_elderberry": 2,
           "t_tree_mulberry": 2,
+          "t_beehive_natural": 2,
           "t_tree_dead": 4
         },
         "t_region_tree_dead": {
@@ -159,6 +162,7 @@
           "t_tree_dead": 7,
           "t_tree_dead_warped": 1,
           "t_tree_deadpine": 3,
+          "t_beehive_natural": 2,
           "t_tree_deadpine_warped": 1
         },
         "t_region_tree_nut": {
@@ -171,6 +175,7 @@
           "t_tree_beech": 2,
           "t_tree_hazelnut": 2,
           "t_tree_coffee": 2,
+          "t_beehive_natural": 2,
           "t_tree_dead": 4
         },
         "t_region_tree_evergreen": { "t_tree_pine": 32, "t_tree_juniper": 16, "t_tree_deadpine": 2 }
@@ -301,6 +306,7 @@
         "t_tree_mulberry": 0.02,
         "t_tree_sassafras": 0.02,
         "t_region_tree_dead": 0.15,
+        "t_beehive_natural": 0.05,
         "t_shrub_blueberry": 8.0,
         "t_shrub_strawberry": 5.0,
         "t_shrub_blackberry": 5.0,
@@ -1043,7 +1049,6 @@
         "zoo": 25,
         "stadium": 25,
         "stadium_football": 25,
-        "convention_center": 25,
         "cemetery_city": 50,
         "public_pond_city": 50,
         "nature_trail_city": 50,
@@ -1166,12 +1171,7 @@
         "fire_station": 200,
         "fire_station_1": 200,
         "home_improvement": 200,
-        "s_lot": 50,
-        "parking_lot_2x1": 400,
-        "parking_lot_2x2": 400,
-        "parking_lot_3x1": 400,
-        "parking_garage2x2": 200,
-        "parking_garage": 50,
+        "s_lot": 400,
         "s_arcade": 200,
         "s_games": 200,
         "s_jewelry_shop": 200,
@@ -1273,6 +1273,8 @@
         "cs_sex_shop": 100,
         "cs_tire_shop": 100,
         "homeless_shelter": 100,
+        "parking_garage": 50,
+        "parking_garage2x2": 200,
         "salon": 500,
         "strip_mall": 750
       }
