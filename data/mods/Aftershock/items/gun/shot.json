@@ -4,7 +4,7 @@
     "copy-from": "shotgun_base",
     "looks_like": "remington_870",
     "type": "GUN",
-    "name": { "str": "raketa" },
+    "name": { "str": "Raketa" },
     "description": "A massive TSKBEM-design shotgun intended for exosuit forces, the Raketa aka 'Rocket' is a magazine-fed bullpup shotgun featuring twin barrels.  This design remains popular for extra-atmospheric operations as the 12ga rounds are less likely to pierce a ship or station's delicate hull.",
     "weight": "8 kg",
     "volume": "3064 ml",
