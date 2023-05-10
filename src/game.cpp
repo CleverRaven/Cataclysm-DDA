@@ -976,7 +976,7 @@ bool game::start_game()
 
                     // Delete the items that would have spawned here from a "corpse"
                     for( const int sp : v.v->parts_at_relative( vp.mount(), true ) ) {
-                        v.v->get_items( v.v->part( sp ) ).clear();
+                        vpart_reference( *v.v, sp ).items().clear();
                     }
 
                     auto mons = critter_tracker->find( u.get_location() );

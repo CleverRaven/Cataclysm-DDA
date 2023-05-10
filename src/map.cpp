@@ -1125,12 +1125,13 @@ void map::register_vehicle_zone( vehicle *veh, const int zlev )
 
 bool map::deregister_vehicle_zone( zone_data &zone ) const
 {
-    if( const std::optional<vpart_reference> vp = veh_at( getlocal(
-                zone.get_start_point() ) ).part_with_feature( "CARGO", false ) ) {
-        auto bounds = vp->vehicle().loot_zones.equal_range( vp->mount() );
+    const tripoint pos = getlocal( zone.get_start_point() );
+    if( const std::optional<vpart_reference> vp = veh_at( pos ).cargo() ) {
+        vehicle &veh = vp->vehicle();
+        auto bounds = veh.loot_zones.equal_range( vp->mount() );
         for( auto it = bounds.first; it != bounds.second; it++ ) {
             if( &zone == &( it->second ) ) {
-                vp->vehicle().loot_zones.erase( it );
+                veh.loot_zones.erase( it );
                 return true;
             }
         }
@@ -2828,11 +2829,7 @@ bool map::has_flag( const std::string &flag, const tripoint &p ) const
 
 bool map::can_put_items( const tripoint &p ) const
 {
-    if( can_put_items_ter_furn( p ) ) {
-        return true;
-    }
-    const optional_vpart_position vp = veh_at( p );
-    return static_cast<bool>( vp.part_with_feature( "CARGO", true ) );
+    return can_put_items_ter_furn( p ) || veh_at( p ).cargo().has_value();
 }
 
 bool map::can_put_items( const tripoint_bub_ms &p ) const

@@ -433,7 +433,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
             return static_cast<bool>( here.veh_at( e ) );
         } ) == 1 );
 
-        const std::optional<vpart_reference> vp = here.veh_at( veh ).part_with_feature( "CARGO", true );
+        const std::optional<vpart_reference> vp = here.veh_at( veh ).cargo();
         REQUIRE( vp );
         vehicle *const v = &vp->vehicle();
         const int part = vp->part_index();

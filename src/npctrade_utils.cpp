@@ -134,8 +134,7 @@ std::list<item> distribute_items_to_npc_zones( std::list<item> &items, npc &guy 
         bool leftover = true;
         for( tripoint_abs_ms const &dpoint : dest ) {
             tripoint const dpoint_here = here.getlocal( dpoint );
-            std::optional<vpart_reference> const vp =
-                here.veh_at( dpoint_here ).part_with_feature( "CARGO", false );
+            std::optional<vpart_reference> const vp = here.veh_at( dpoint_here ).cargo();
             if( vp && vp->vehicle().get_owner() == fac_id ) {
                 leftover = _to_veh( it, vp );
             } else {

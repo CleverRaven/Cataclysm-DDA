@@ -5827,8 +5827,9 @@ void vehicle::refresh_active_item_cache()
 {
     // Need to manually backfill the active item cache since the part loader can't call its vehicle.
     for( const vpart_reference &vp : get_any_parts( VPFLAG_CARGO ) ) {
-        auto it = vp.part().items.begin();
-        auto end = vp.part().items.end();
+        vehicle_stack vs = vp.items();
+        auto it = vs.begin();
+        auto end = vs.end();
         for( ; it != end; ++it ) {
             active_items.add( *it, vp.mount() );
         }
@@ -7344,10 +7345,8 @@ std::list<item> vehicle::use_charges( const vpart_position &vp, const itype_id &
     const itype_id veh_tool_type = type.obj().phase > phase_id::SOLID
                                    ? itype_water_faucet
                                    : type;
-    const std::optional<vpart_reference> tool_vp = vp.part_with_tool( veh_tool_type );
-    const std::optional<vpart_reference> cargo_vp = vp.part_with_feature( "CARGO", true );
 
-    if( tool_vp ) { // handle vehicle tools
+    if( const std::optional<vpart_reference> tool_vp = vp.part_with_tool( veh_tool_type ) ) {
         const itype_id &tool_fuel_type = type->tool_slot_first_ammo();
         // use the tool's ammo charges
         const itype_id &fuel_type = tool_fuel_type.is_null() ? type : tool_fuel_type;
@@ -7364,9 +7363,8 @@ std::list<item> vehicle::use_charges( const vpart_position &vp, const itype_id &
         }
     }
 
-    if( cargo_vp ) {
-        vehicle_stack veh_stack = cargo_vp->items();
-        std::list<item> tmp = veh_stack.use_charges( type, quantity, vp.pos(), filter, in_tools );
+    if( const std::optional<vpart_reference> cargo_vp = vp.cargo() ) {
+        std::list<item> tmp = cargo_vp->items().use_charges( type, quantity, vp.pos(), filter, in_tools );
         ret.splice( ret.end(), tmp );
         if( quantity <= 0 ) {
             return ret;

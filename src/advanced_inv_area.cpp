@@ -90,20 +90,13 @@ void advanced_inv_area::init()
             off = player_character.grab_point;
             // Reset position because offset changed
             pos = player_character.pos() + off;
-            if( const std::optional<vpart_reference> vp = here.veh_at( pos ).part_with_feature( "CARGO",
-                    false ) ) {
+            if( const std::optional<vpart_reference> vp = here.veh_at( pos ).cargo() ) {
                 veh = &vp->vehicle();
                 vstor = vp->part_index();
-            } else {
-                veh = nullptr;
-                vstor = -1;
-            }
-            if( vstor >= 0 ) {
                 desc[0] = veh->name;
                 canputitemsloc = true;
                 max_size = MAX_ITEM_IN_VEHICLE_STORAGE;
             } else {
-                veh = nullptr;
                 canputitemsloc = false;
                 desc[0] = _( "No dragged vehicle!" );
             }
@@ -132,14 +125,10 @@ void advanced_inv_area::init()
         case AIM_NORTHWEST:
         case AIM_NORTH:
         case AIM_NORTHEAST: {
-            const std::optional<vpart_reference> vp =
-                here.veh_at( pos ).part_with_feature( "CARGO", false );
+            const std::optional<vpart_reference> vp = here.veh_at( pos ).cargo();
             if( vp ) {
                 veh = &vp->vehicle();
                 vstor = vp->part_index();
-            } else {
-                veh = nullptr;
-                vstor = -1;
             }
             canputitemsloc = can_store_in_vehicle() || here.can_put_items_ter_furn( pos );
             max_size = MAX_ITEM_IN_SQUARE;
@@ -275,8 +264,7 @@ void advanced_inv_area::set_container_position()
     // update the absolute position
     pos = player_character.pos() + off;
     // update vehicle information
-    if( const std::optional<vpart_reference> vp = get_map().veh_at( pos ).part_with_feature( "CARGO",
-            false ) ) {
+    if( const std::optional<vpart_reference> vp = get_map().veh_at( pos ).cargo() ) {
         veh = &vp->vehicle();
         vstor = vp->part_index();
     } else {
