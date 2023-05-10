@@ -36,7 +36,8 @@
           "plant_periapta",
           "scorpion_periapta",
           "butterfly_periapta",
-          "spider_periapta"
+          "spider_periapta",
+          "cold_iron_ingot"
         ],
         "type": "recipe"
       },

@@ -103,7 +103,13 @@
     "id": "TALK_PERK_MENU_MAIN",
     "responses": [
       {
-        "condition": { "and": [ { "u_has_trait": "perk_ALCHEMY3" }, { "not": { "u_has_trait": "perk_ALCHEMY3_COLD_IRON" } } ] },
+        "condition": {
+          "and": [
+            { "u_has_trait": "perk_ALCHEMY3" },
+            { "u_know_recipe": "cold_iron_ingot" },
+            { "not": { "u_has_trait": "perk_ALCHEMY3_COLD_IRON" } }
+          ]
+        },
         "text": "Gain [ Cold Iron Knowledge ]",
         "topic": "TALK_PERK_MENU_ALCHEMY3_COLD_IRON"
       }
