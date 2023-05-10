@@ -559,7 +559,8 @@
       { "item": "pocketwatch", "prob": 30 },
       { "item": "diving_watch", "prob": 20 },
       { "item": "game_watch", "prob": 20, "charges": [ 0, 50 ] },
-      { "item": "fitness_band", "prob": 10 }
+      { "item": "fitness_band", "prob": 10 },
+      { "item": "smart_watch", "prob": 10, "charges": [ 0, 80 ] }
     ]
   },
   {
