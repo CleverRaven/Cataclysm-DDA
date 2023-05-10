@@ -368,7 +368,6 @@
     "book_learn": [ [ "textbook_mechanics", 5 ], [ "manual_mechanics", 5 ], [ "textbook_fabrication", 5 ] ],
     "//": "400cm weld",
     "using": [ [ "welding_standard", 400 ] ],
-    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 1.1, "learning_time_multiplier": 0.1 } ],
     "proficiencies": [
       { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 1.1, "learning_time_multiplier": 0.1 },
       { "proficiency": "prof_appliance_repair" }
