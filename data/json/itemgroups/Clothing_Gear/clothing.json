@@ -559,7 +559,8 @@
       { "item": "pocketwatch", "prob": 30 },
       { "item": "diving_watch", "prob": 20 },
       { "item": "game_watch", "prob": 20, "charges": [ 0, 50 ] },
-      { "item": "fitness_band", "prob": 10 }
+      { "item": "fitness_band", "prob": 10 },
+      { "item": "smart_watch", "prob": 10, "charges": [ 0, 80 ] }
     ]
   },
   {
@@ -1421,12 +1422,17 @@
     "type": "item_group",
     "id": "pants_female",
     "subtype": "distribution",
+    "entries": [ { "item": "nanoskirt", "prob": 10 }, { "group": "pants_female_child", "prob": 290 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "pants_female_child",
+    "subtype": "distribution",
     "entries": [
       { "group": "pants_male", "prob": 200 },
       { "item": "skirt", "prob": 75 },
       { "item": "skirt_leather", "prob": 5 },
       { "item": "leggings", "prob": 15 },
-      { "item": "nanoskirt", "prob": 10 },
       { "item": "cheerleader_skirt", "prob": 1 },
       { "item": "cheerleader_skirt_short", "prob": 1 },
       { "group": "costume_skirts", "prob": 200, "event": "halloween" }
@@ -2055,6 +2061,11 @@
   {
     "type": "item_group",
     "id": "female_underwear_top",
+    "items": [ [ "corset", 5 ], [ "corset_waist", 5 ], { "group": "female_underwear_top_child", "prob": 190 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "female_underwear_top_child",
     "items": [
       [ "bra", 70 ],
       [ "sports_bra", 50 ],
@@ -2064,8 +2075,6 @@
       [ "bikini_top_short", 1 ],
       [ "bikini_top_leather", 3 ],
       [ "bikini_top_fur", 2 ],
-      [ "corset", 5 ],
-      [ "corset_waist", 5 ],
       { "item": "bikini_top", "variant": "flag_bikini_top", "prob": 70, "event": "independence_day" }
     ]
   },
