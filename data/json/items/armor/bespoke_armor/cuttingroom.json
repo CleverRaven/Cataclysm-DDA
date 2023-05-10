@@ -302,7 +302,7 @@
     "id": "lsurvivor_armor",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "light handmade body armor" },
+    "name": { "str": "mercenary body armor" },
     "description": "Custom-made armor that combines a level II vest with a combat shirt and adds extra padding to the arms for safety.  Fairly lightweight and ergonomic and has numerous pockets for storage.",
     "weight": "3000 g",
     "volume": "6 L",
