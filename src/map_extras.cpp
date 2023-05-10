@@ -76,7 +76,8 @@ static const item_group_id Item_spawn_data_mil_armor( "mil_armor" );
 static const item_group_id Item_spawn_data_mil_bulk( "mil_bulk" );
 static const item_group_id Item_spawn_data_mil_food( "mil_food" );
 static const item_group_id Item_spawn_data_mine_equipment( "mine_equipment" );
-static const item_group_id Item_spawn_data_mon_zombie_soldier_death_drops( "mon_zombie_soldier_death_drops" );
+static const item_group_id
+Item_spawn_data_mon_zombie_soldier_death_drops( "mon_zombie_soldier_death_drops" );
 static const item_group_id Item_spawn_data_remains_human_generic( "remains_human_generic" );
 static const item_group_id Item_spawn_data_trash_cart( "trash_cart" );
 
