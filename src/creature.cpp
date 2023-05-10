@@ -1363,12 +1363,17 @@ bool Creature::attack_air( const tripoint &p )
                     as_character()->exertion_adjusted_move_multiplier( EXTRA_EXERCISE ) );
     }
     mod_moves( -move_cost );
-    
+
+    // Attack animation
+    std::map<tripoint, nc_color> area_color;
+    area_color[p] = c_white;
+    explosion_handler::draw_custom_explosion( p, area_color, "animation_hit" );
+
     // Chance to remove last known location
     if( one_in( 2 ) ) {
         get_map().set_field_intensity( p, field_fd_last_known, 0 );
     }
-    
+
     add_msg_if_player_sees( *this, _( "%s attacks, but there is nothing there!" ),
                             disp_name( false, true ) );
     return true;
