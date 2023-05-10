@@ -17,7 +17,7 @@
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_AXE", "NO_SALVAGE" ],
     "weapon_category": [ "HOOKING_WEAPONRY", "GREAT_AXES" ],
-    "melee_damage": { "bash": 15, "cut": 30 }
+    "melee_damage": { "bash": 20, "cut": 40 }
   },
   {
     "id": "bow_saw",
@@ -174,7 +174,7 @@
     "qualities": [ [ "CUT", 1 ], [ "AXE", 1 ], [ "BUTCHER", -44 ] ],
     "flags": [ "BELT_CLIP", "NONCONDUCTIVE", "SHEATH_AXE" ],
     "weapon_category": [ "HAND_AXES" ],
-    "melee_damage": { "bash": 5, "cut": 10 }
+    "melee_damage": { "bash": 8, "cut": 15 }
   },
   {
     "id": "bronze_axe",
@@ -305,7 +305,7 @@
     "color": "brown",
     "qualities": [ [ "SAW_W", 1 ], [ "BUTCHER", -56 ] ],
     "flags": [ "BELT_CLIP", "SHEATH_AXE" ],
-    "melee_damage": { "bash": 9, "cut": 15 }
+    "melee_damage": { "bash": 8, "cut": 14 }
   },
   {
     "id": "primitive_axe",
@@ -324,7 +324,7 @@
     "qualities": [ [ "CUT", 1 ], [ "AXE", 1 ], [ "BUTCHER", -70 ], [ "HAMMER", 1 ] ],
     "flags": [ "BELT_CLIP", "SHEATH_AXE" ],
     "weapon_category": [ "HOOKING_WEAPONRY", "GREAT_AXES" ],
-    "melee_damage": { "bash": 9, "cut": 15 }
+    "melee_damage": { "bash": 8, "cut": 14 }
   },
   {
     "id": "saw",
