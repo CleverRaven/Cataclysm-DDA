@@ -59,8 +59,7 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 8 } } ],
-    "allowed_speedloaders": [ "afs_shot_speedloader8" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 8 },"allowed_speedloaders": [ "afs_shot_speedloader8" ] } ],
     "melee_damage": { "bash": 16 },
     "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS" ]
   }
