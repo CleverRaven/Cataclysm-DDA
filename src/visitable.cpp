@@ -518,7 +518,7 @@ VisitResponse vehicle_cursor::visit_items(
     const vehicle_part &vp = veh.part( part );
     const int idx = veh.part_with_feature( vp.mount, "CARGO", true );
     if( idx >= 0 ) {
-        for( item &e : veh.get_items( idx ) ) {
+        for( item &e : veh.get_items( veh.part( idx ) ) ) {
             if( visit_internal( func, &e ) == VisitResponse::ABORT ) {
                 return VisitResponse::ABORT;
             }

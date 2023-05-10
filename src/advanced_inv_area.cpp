@@ -44,7 +44,7 @@ int advanced_inv_area::get_item_count() const
     } else if( id == AIM_ALL ) {
         return 0;
     } else if( id == AIM_DRAGGED ) {
-        return can_store_in_vehicle() ? veh->get_items( vstor ).size() : 0;
+        return can_store_in_vehicle() ? get_vehicle_stack().size() : 0;
     } else {
         return get_map().i_at( pos ).size();
     }

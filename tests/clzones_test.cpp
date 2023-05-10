@@ -47,7 +47,7 @@ int count_items_or_charges( const tripoint src, const itype_id &id,
                             const std::optional<vpart_reference> &vp )
 {
     if( vp ) {
-        return _count_items_or_charges( vp->vehicle().get_items( vp->part_index() ), id );
+        return _count_items_or_charges( vp->vehicle().get_items( vp->part() ), id );
     }
     return _count_items_or_charges( get_map().i_at( src ), id );
 }

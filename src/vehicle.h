@@ -1781,8 +1781,8 @@ class vehicle
         bool remove_item( vehicle_part &vp, item *it );
         vehicle_stack::iterator remove_item( vehicle_part &vp, const vehicle_stack::const_iterator &it );
 
-        vehicle_stack get_items( int part ) const;
-        vehicle_stack get_items( int part );
+        // HACK: callers could modify items through this
+        // TODO: a const version of vehicle_stack is needed
         vehicle_stack get_items( const vehicle_part &vp ) const;
         vehicle_stack get_items( vehicle_part &vp );
 

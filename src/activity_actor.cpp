@@ -6618,10 +6618,8 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
             }
 
             //nothing to sort?
-            const std::optional<vpart_reference> vp = here.veh_at( src_loc ).part_with_feature( "CARGO",
-                    false );
-            if( ( !vp || vp->vehicle().get_items( vp->part_index() ).empty() )
-                && here.i_at( src_loc ).empty() ) {
+            const std::optional<vpart_reference> ovp = here.veh_at( src_loc ).cargo();
+            if( ( !ovp || ovp->items().empty() ) && here.i_at( src_loc ).empty() ) {
                 continue;
             }
 
@@ -6690,11 +6688,10 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
         //Check source for cargo part
         //map_stack and vehicle_stack are different types but inherit from item_stack
         // TODO: use one for loop
-        if( const std::optional<vpart_reference> vp = here.veh_at( src_loc ).part_with_feature( "CARGO",
-                false ) ) {
-            src_veh = &vp->vehicle();
-            src_part = vp->part_index();
-            for( item &it : src_veh->get_items( src_part ) ) {
+        if( const std::optional<vpart_reference> ovp = here.veh_at( src_loc ).cargo() ) {
+            src_veh = &ovp->vehicle();
+            src_part = ovp->part_index();
+            for( item &it : ovp->items() ) {
                 items.emplace_back( &it, true );
             }
         } else {
@@ -6883,8 +6880,8 @@ bool vehicle_folding_activity_actor::fold_vehicle( Character &p, bool check_only
 
     // Drop cargo to ground
     // TODO: make cargo shuffling add time to activity
-    for( const vpart_reference &vp : veh.get_any_parts( "CARGO" ) ) {
-        vehicle_stack cargo = veh.get_items( vp.part_index() );
+    for( const vpart_reference &vpr : veh.get_any_parts( VPFLAG_CARGO ) ) {
+        vehicle_stack cargo = vpr.items();
         for( const item &elem : cargo ) {
             here.add_item_or_charges( veh.pos_bub(), elem );
         }

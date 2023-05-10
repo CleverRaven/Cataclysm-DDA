@@ -6513,9 +6513,7 @@ void iexamine::workbench_internal( Character &you, const tripoint &examp,
 
     if( part ) {
         name = part->part().name();
-        vehicle_stack items_at_part = part->vehicle().get_items( part->part_index() );
-
-        for( item &it : items_at_part ) {
+        for( item &it : part->items() ) {
             if( it.is_craft() ) {
                 crafts.emplace_back( vehicle_cursor( part->vehicle(), part->part_index() ), &it );
             }

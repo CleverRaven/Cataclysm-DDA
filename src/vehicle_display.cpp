@@ -121,7 +121,7 @@ vpart_display vehicle::get_display_of_tile( const point &dp, bool rotate, bool i
 
     // if cargo has items color is inverted
     const int cargo_part = part_with_feature( dp, VPFLAG_CARGO, true );
-    if( cargo_part >= 0 && !get_items( cargo_part ).empty() ) {
+    if( cargo_part >= 0 && !get_items( part( cargo_part ) ).empty() ) {
         ret.has_cargo = true;
         ret.color = invert_color( ret.color );
     }

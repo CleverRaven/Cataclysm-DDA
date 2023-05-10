@@ -1910,7 +1910,7 @@ bool vehicle::remove_part( vehicle_part &vp, RemovePartHandler &handler )
         labels.erase( iter );
     }
 
-    for( item &i : get_items( vp_idx ) ) {
+    for( item &i : get_items( vp ) ) {
         // Note: this can spawn items on the other side of the wall!
         // TODO: fix this ^^
         if( !magic ) {
@@ -1934,22 +1934,20 @@ bool vehicle::do_remove_part_actual()
     map &here = get_map();
     for( std::vector<vehicle_part>::iterator it = parts.end(); it != parts.begin(); /*noop*/ ) {
         --it;
-        if( it->removed || it->is_fake ) {
+        vehicle_part &vp = *it;
+        if( vp.removed || vp.is_fake ) {
             // We are first stripping out removed parts and marking
             // their corresponding real parts as "not fake" so they are regenerated,
             // and then removing any parts that have been marked as removed.
             // This is assured by iterating from the end to the beginning as
             // fake parts are always at the end of the parts vector.
-            if( it->is_fake ) {
-                parts[it->fake_part_to].has_fake = false;
+            if( vp.is_fake ) {
+                parts[vp.fake_part_to].has_fake = false;
             } else {
-                vehicle_stack items = get_items( std::distance( parts.begin(), it ) );
-                while( !items.empty() ) {
-                    items.erase( items.begin() );
-                }
+                get_items( vp ).clear();
             }
-            if( it->is_real_or_active_fake() ) {
-                const tripoint pt = global_part_pos3( *it );
+            if( vp.is_real_or_active_fake() ) {
+                const tripoint pt = global_part_pos3( vp );
                 here.clear_vehicle_point_from_cache( this, pt );
             }
             it = parts.erase( it );
@@ -5577,18 +5575,6 @@ vehicle_stack::iterator vehicle::remove_item( vehicle_part &vp,
     return vp.items.erase( it );
 }
 
-vehicle_stack vehicle::get_items( const int part )
-{
-    return vehicle_stack( *this, parts[part] );
-}
-
-vehicle_stack vehicle::get_items( const int part ) const
-{
-    // HACK: callers could modify items through this
-    // TODO: a const version of vehicle_stack is needed
-    return const_cast<vehicle *>( this )->get_items( part );
-}
-
 vehicle_stack vehicle::get_items( vehicle_part &vp )
 {
     return vehicle_stack( *this, vp );
@@ -7379,7 +7365,7 @@ std::list<item> vehicle::use_charges( const vpart_position &vp, const itype_id &
     }
 
     if( cargo_vp ) {
-        vehicle_stack veh_stack = get_items( cargo_vp->part_index() );
+        vehicle_stack veh_stack = cargo_vp->items();
         std::list<item> tmp = veh_stack.use_charges( type, quantity, vp.pos(), filter, in_tools );
         ret.splice( ret.end(), tmp );
         if( quantity <= 0 ) {
@@ -7617,7 +7603,7 @@ void vehicle::calc_mass_center( bool use_precalc ) const
         units::mass m_part = 0_gram;
         units::mass m_part_items = 0_gram;
         m_part += vp.part().base.weight();
-        for( const item &j : get_items( i ) ) {
+        for( const item &j : get_items( vp.part() ) ) {
             m_part_items += j.weight();
         }
         for( const item &j : get_tools( vp.part() ) ) {

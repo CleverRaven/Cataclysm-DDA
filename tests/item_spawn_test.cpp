@@ -59,7 +59,7 @@ TEST_CASE( "correct_amounts_of_an_item_spawn_inside_a_container", "[item_spawn]"
                             vehicle *veh = here.get_vehicles()[0].v;
                             int part = veh->avail_part_with_feature( point_zero, "CARGO" );
                             REQUIRE( part >= 0 );
-                            for( item &it : veh->get_items( part ) ) {
+                            for( item &it : veh->get_items( veh->part( part ) ) ) {
                                 items.push_back( it );
                             }
                             break;

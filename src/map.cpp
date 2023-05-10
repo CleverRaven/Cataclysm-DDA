@@ -3406,15 +3406,15 @@ bool map::terrain_moppable( const tripoint_bub_ms &p )
     }
 
     // Moppable vehicles ( blood splatter )
-    if( const optional_vpart_position vp = veh_at( p ) ) {
-        vehicle *const veh = &vp->vehicle();
-        std::vector<int> parts_here = veh->parts_at_relative( vp->mount(), true );
-        for( int elem : parts_here ) {
-            if( veh->part( elem ).blood > 0 ) {
+    if( const optional_vpart_position ovp = veh_at( p ) ) {
+        vehicle *const veh = &ovp->vehicle();
+        for( const int elem : veh->parts_at_relative( ovp->mount(), true ) ) {
+            const vehicle_part &vp = veh->part( elem );
+            if( vp.blood > 0 ) {
                 return true;
             }
 
-            vehicle_stack items = veh->get_items( elem );
+            const vehicle_stack items = veh->get_items( vp );
             auto found = std::find_if( items.begin(), items.end(), []( const item & it ) {
                 return it.made_of( phase_id::LIQUID );
             } );
@@ -3451,16 +3451,16 @@ bool map::mop_spills( const tripoint_bub_ms &p )
         }
     }
 
-    if( const optional_vpart_position vp = veh_at( p ) ) {
-        vehicle *const veh = &vp->vehicle();
-        std::vector<int> parts_here = veh->parts_at_relative( vp->mount(), true );
-        for( int &elem : parts_here ) {
-            if( veh->part( elem ).blood > 0 ) {
-                veh->part( elem ).blood = 0;
+    if( const optional_vpart_position ovp = veh_at( p ) ) {
+        vehicle *const veh = &ovp->vehicle();
+        for( const int elem : veh->parts_at_relative( ovp->mount(), true ) ) {
+            vehicle_part &vp = veh->part( elem );
+            if( vp.blood > 0 ) {
+                vp.blood = 0;
                 retval = true;
             }
             //remove any liquids that somehow didn't fall through to the ground
-            vehicle_stack here = veh->get_items( elem );
+            vehicle_stack here = veh->get_items( vp );
             auto new_end = std::remove_if( here.begin(), here.end(), []( const item & it ) {
                 return it.made_of( phase_id::LIQUID );
             } );
@@ -5247,7 +5247,7 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
 
     if( washer_here ) {
         bool washing_machine_finished = false;
-        for( item &n : cur_veh.get_items( part ) ) {
+        for( item &n : cur_veh.get_items( vp ) ) {
             const time_duration washing_time = 90_minutes;
             const time_duration time_left = washing_time - n.age();
             if( time_left <= 0_turns ) {
@@ -5272,7 +5272,7 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
     const bool autoclave_here = vpi.has_flag( VPFLAG_AUTOCLAVE ) && vp.enabled;
     if( autoclave_here ) {
         bool autoclave_finished = false;
-        for( item &n : cur_veh.get_items( part ) ) {
+        for( item &n : cur_veh.get_items( vp ) ) {
             const time_duration cycle_time = 90_minutes;
             const time_duration time_left = cycle_time - n.age();
             if( time_left <= 0_turns ) {
@@ -5301,7 +5301,7 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
     if( recharge_part_idx >= 0 ) {
         const vehicle_part &recharge_part = cur_veh.part( recharge_part_idx );
         if( !recharge_part.removed && recharge_part.enabled ) {
-            for( item &n : cur_veh.get_items( part ) ) {
+            for( item &n : cur_veh.get_items( vp ) ) {
                 if( !n.has_flag( flag_RECHARGE ) && !n.has_flag( flag_USE_UPS ) ) {
                     continue;
                 }
@@ -5469,7 +5469,7 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap )
         // Find the cargo part and coordinates corresponding to the current active item.
         const vehicle_part &pt = it->part();
         const tripoint item_loc = it->pos();
-        vehicle_stack items = cur_veh.get_items( static_cast<int>( it->part_index() ) );
+        vehicle_stack items = cur_veh.get_items( pt );
         float it_insulation = 1.0f;
         temperature_flag flag = temperature_flag::NORMAL;
         if( target.has_temperature() || target.is_food_container() ) {
@@ -5616,9 +5616,8 @@ std::list<item> map::use_amount_square( const tripoint &p, const itype_id &type,
         return ret;
     }
 
-    if( const std::optional<vpart_reference> vp = veh_at( p ).part_with_feature( "CARGO", true ) ) {
-        std::list<item> tmp = use_amount_stack( vp->vehicle().get_items( vp->part_index() ), type,
-                                                quantity, filter );
+    if( const std::optional<vpart_reference> ovp = veh_at( p ).cargo() ) {
+        std::list<item> tmp = use_amount_stack( ovp->items(), type, quantity, filter );
         ret.splice( ret.end(), tmp );
     }
     std::list<item> tmp = use_amount_stack( i_at( p ), type, quantity, filter );
@@ -5630,8 +5629,8 @@ std::list<item_location> map::items_with( const tripoint &p,
         const std::function<bool( const item & )> &filter )
 {
     std::list<item_location> ret;
-    if( const std::optional<vpart_reference> vp = veh_at( p ).part_with_feature( "CARGO", true ) ) {
-        for( item &it : vp->vehicle().get_items( vp->part_index() ) ) {
+    if( const std::optional<vpart_reference> vp = veh_at( p ).cargo() ) {
+        for( item &it : vp->items() ) {
             if( filter( it ) ) {
                 ret.emplace_back( vehicle_cursor( vp->vehicle(), vp->part_index() ), &it );
             }
