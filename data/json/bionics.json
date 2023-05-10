@@ -1460,6 +1460,18 @@
     "flags": [ "BIONIC_FAULTY" ]
   },
   {
+    "id": "bio_solar_arms",
+    "type": "bionic",
+    "name": { "str": "Solar Generators" },
+    "description": "Photovoltaic supermaterials are implanted within the skin of your arms, providing constant power while your arms are exposed to sunlight.  Covering your arms will reduce the effect.",
+    "occupied_bodyparts": [ [ "arm_l", 8 ], [ "arm_r", 8 ] ],
+    "fuel_options": [ "arm_solar" ],
+    "//": "at max irradiance (~1000) generates about 8 watts",
+    "fuel_efficiency": 0.008,
+    "time": "1 s",
+    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_NPC_USABLE" ]
+  },
+  {
     "id": "bio_spasm",
     "type": "bionic",
     "name": { "str": "Motor Control Overstimulator" },
