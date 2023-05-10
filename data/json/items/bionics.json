@@ -877,6 +877,18 @@
     "difficulty": 5
   },
   {
+    "id": "bio_solar_arms",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Solar Power CBM" },
+    "looks_like": "bio_int_enhancer",
+    "description": "Photovoltaic supermaterials implanted within the skin on the arms.  Generates power while the arms are exposed to sunlight.",
+    "price": 120000,
+    "price_postapoc": 6000,
+    "weight": "1024 g",
+    "difficulty": 6
+  },
+  {
     "id": "bio_speed",
     "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
