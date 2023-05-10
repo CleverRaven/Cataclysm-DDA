@@ -141,6 +141,7 @@ struct str_or_var {
     std::optional<std::string> str_val;
     std::optional<var_info> var_val;
     std::optional<std::string> default_val;
+    std::optional<std::function<std::string( const dialogue & )>> function;
     std::string evaluate( dialogue const &d ) const;
 };
 

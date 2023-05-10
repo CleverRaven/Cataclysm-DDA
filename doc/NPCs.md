@@ -1238,6 +1238,18 @@ Example:
 ]
 ```
 
+### Mutators
+`mutators`: take in an ammount of data and provide you with a relevant string. This can be used to get information about items, monsters, etc. from the id, or other data. Mutators can be used anywhere that a string [variable object](#variable-object) can be used. Mutators take the form:
+```json
+{ "mutator": "MUTATOR_NAME", "REQUIRED_KEY1": "REQUIRED_VALUE1", ..., "REQUIRED_KEYn": "REQUIRED_VALUEn" }
+```
+
+#### List Of Mutators
+Mutator Name | Required Keys | Description
+--- | --- | ---
+`"mon_faction"` | `mtype_id`: String or [variable object](#variable-object). | Returns the faction of the monster with mtype_id.
+
+
 ### Compare Numbers and Arithmetics
 *`arithmetic` and `compare_num` are deprecated in the long term. See [Math](#math) for the replacement.*
 

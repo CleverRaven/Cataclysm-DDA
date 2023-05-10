@@ -226,8 +226,14 @@ str_or_var get_str_or_var( const JsonValue &jv, const std::string &member, bool 
     if( jv.test_string() ) {
         ret_val.str_val = jv.get_string();
     } else if( jv.test_object() ) {
-        ret_val.var_val = read_var_info( jv.get_object() );
-        ret_val.default_val = default_val;
+        const JsonObject &jo = jv.get_object();
+        if( jo.has_member( "mutator" ) ) {
+            // if we have a mutator then process that here.
+            ret_val.function = conditional_t::get_get_string( jo );
+        } else {
+            ret_val.var_val = read_var_info( jo );
+            ret_val.default_val = default_val;
+        }
     } else if( required ) {
         jv.throw_error( "No valid value for " + member );
     } else {
@@ -1407,6 +1413,22 @@ void conditional_t::set_math( const JsonObject &jo, const std::string_view membe
     math.from_json( jo, member );
     condition = [math = std::move( math )]( dialogue & d ) {
         return math.act( d );
+    };
+}
+
+template<class J>
+std::function<std::string( const dialogue & )> conditional_t::get_get_string( J const &jo )
+{
+    if( jo.get_string( "mutator" ) == "mon_faction" ) {
+        str_or_var mtypeid = get_str_or_var( jo.get_member( "mtype_id" ), "mtype_id" );
+        return [mtypeid]( const dialogue & d ) {
+            return static_cast<mtype_id>( mtypeid.evaluate( d ) )->default_faction.str();
+        };
+    }
+
+    jo.throw_error( "unrecognized string mutator in " + jo.str() );
+    return []( const dialogue & ) {
+        return "INVALID";
     };
 }
 

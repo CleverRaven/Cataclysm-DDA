@@ -276,6 +276,7 @@ void redraw_invalidated();
  * Not supposed to be directly called by the user.
  **/
 void screen_resized();
+void invalidate_all_ui_adaptors();
 } // namespace ui_manager
 
 #endif // CATA_SRC_UI_MANAGER_H
