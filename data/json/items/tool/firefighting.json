@@ -58,7 +58,7 @@
     "weight": "3448 g",
     "volume": "2 L",
     "price": 20000,
-    "longest_side": "91 cm",
+    "longest_side": "90 cm",
     "price_postapoc": 1500,
     "material": [ "steel", "wood" ],
     "symbol": "/",
