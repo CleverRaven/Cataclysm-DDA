@@ -1351,31 +1351,26 @@ bool Creature::stumble_invis( const Creature &player, const bool stumblemsg )
 
 bool Creature::attack_air( const tripoint &p )
 {
+    // Calculate move cost differently for monsters and npcs
     int move_cost = 100;
     if( is_monster() ) {
         move_cost = as_monster()->type->attack_cost;
-        // TODO replace hit anim
-        g->draw_hit_mon( p, *as_monster() );
-    }
-
-    if( is_npc() ) {
+    } else if( is_npc() ) {
         // Simplified moves calculation from Character::melee_attack_abstract
         item_location cur_weapon = as_character()->used_weapon();
         item cur_weap = cur_weapon ? *cur_weapon : null_item_reference();
         move_cost = as_character()->attack_speed( cur_weap ) * ( 1 /
                     as_character()->exertion_adjusted_move_multiplier( EXTRA_EXERCISE ) );
-
-        // TODO replace hit anim
-        // g->draw_hit_mon( p, *as_monster() );
     }
     mod_moves( -move_cost );
-    add_msg_if_player_sees( *this, _( "%s attacks, but there is nothing there!" ),
-                            disp_name( false, true ) );
-
+    
     // Chance to remove last known location
     if( one_in( 2 ) ) {
         get_map().set_field_intensity( p, field_fd_last_known, 0 );
     }
+    
+    add_msg_if_player_sees( *this, _( "%s attacks, but there is nothing there!" ),
+                            disp_name( false, true ) );
     return true;
 }
 /*
