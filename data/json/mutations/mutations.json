@@ -2834,16 +2834,16 @@
     "leads_to": [ "CRUSTACEAN_CLAW" ],
     "integrated_armor": [ "integrated_carapace" ],
     "wet_protection": [
-      { "part": "head", "ignored": 8 },
-      { "part": "leg_l", "ignored": 16 },
-      { "part": "leg_r", "ignored": 16 },
-      { "part": "foot_l", "ignored": 6 },
-      { "part": "foot_r", "ignored": 6 },
-      { "part": "arm_l", "ignored": 16 },
-      { "part": "arm_r", "ignored": 16 },
-      { "part": "hand_l", "ignored": 6 },
-      { "part": "hand_r", "ignored": 6 },
-      { "part": "torso", "ignored": 20 }
+      { "part": "head", "ignored": 15 },
+      { "part": "leg_l", "ignored": 20 },
+      { "part": "leg_r", "ignored": 20 },
+      { "part": "foot_l", "ignored": 9 },
+      { "part": "foot_r", "ignored": 9 },
+      { "part": "arm_l", "ignored": 20 },
+      { "part": "arm_r", "ignored": 20 },
+      { "part": "hand_l", "ignored": 9 },
+      { "part": "hand_r", "ignored": 9 },
+      { "part": "torso", "ignored": 34 }
     ],
     "passive_mods": { "dex_mod": -2 }
   },
@@ -2901,19 +2901,15 @@
     "points": 0,
     "visibility": 10,
     "ugliness": 9,
-    "cut_dmg_bonus": 3,
-    "bash_dmg_bonus": 6,
-    "butchering_quality": -3,
     "description": "Instead of your right hand, you now have a giant claw resembling ones found on crabs.  It encumbers you greatly, but you can use it in melee combat to deal massive damage.",
-    "encumbrance_always": [ [ "hand_r", 40 ] ],
     "valid": false,
     "cancels": [ "NAILS", "CLAWS", "TALONS", "WEBBED", "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8" ],
     "prereqs": [ "CRUSTACEAN_CARAPACE" ],
+    "integrated_armor": [ "integrated_giant_pincer" ],
     "threshreq": [ "THRESH_CRUSTACEAN" ],
     "category": [ "CRUSTACEAN" ],
     "restricts_gear": [ "hand_r" ],
-    "types": [ "HANDS" ],
-    "armor": [ { "parts": [ "hand_r" ], "bash": 3, "cut": 3 } ]
+    "types": [ "HANDS" ]
   },
   {
     "type": "mutation",

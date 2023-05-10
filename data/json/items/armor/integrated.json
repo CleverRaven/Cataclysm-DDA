@@ -720,7 +720,7 @@
     "material": [ "sclerotin" ],
     "symbol": "x",
     "color": "brown",
-    "warmth": 7,
+    "warmth": 20,
     "environmental_protection": 1,
     "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "BLOCK_WHILE_WORN", "UNBREAKABLE", "OUTER" ],
     "armor": [
@@ -771,6 +771,35 @@
         "encumbrance": 9
       }
     ]
+  },
+  {
+    "id": "integrated_giant_pincer",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "sclerotin right pincer" },
+    "description": "A powerful tool for snatching fish or breaking open shells.",
+    "weight": "900 g",
+    "volume": "1 L",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "sclerotin" ],
+    "symbol": ",",
+    "color": "brown",
+    "warmth": 10,
+    "to_hit": 1,
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -4 ], [ "PRY", 1 ], [ "HAMMER", 1 ] ],
+    "environmental_protection": 3,
+    "techniques": [ "BRUTAL", "WBLOCK_2" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "OUTER", "PADDED" ],
+    "armor": [
+      {
+        "material": [ { "type": "sclerotin", "covered_by_mat": 100, "thickness": 6.4 } ],
+        "covers": [ "hand_r" ],
+        "coverage": 80,
+        "encumbrance": 30
+      }
+    ],
+    "melee_damage": { "bash": 12, "cut": 3 }
   },
   {
     "id": "integrated_shell",
