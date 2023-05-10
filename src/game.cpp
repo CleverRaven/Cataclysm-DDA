@@ -10365,8 +10365,11 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
             }
         }
         // learn a little about parkour
-        u.practice_proficiency( proficiency_prof_parkour,
-                                time_duration::from_turns( ( mcost_from + mcost_to ) / 2 ) );
+        // don't learn anything from traversing tall grass or dirt mounts
+        if ( !m.has_flag_ter_or_furn( ter_furn_flag::TFLAG_DIGGABLE ) {
+            u.practice_proficiency( proficiency_prof_parkour,
+                                    time_duration::from_turns( ( mcost_from + mcost_to ) / 2 ) );
+        }
     }
     if( !u.is_mounted() && u.has_trait( trait_LEG_TENT_BRACE ) &&
         u.is_barefoot() ) {
