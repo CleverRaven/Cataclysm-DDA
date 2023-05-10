@@ -176,7 +176,6 @@ static const vproto_id vehicle_prototype_excavator( "excavator" );
 static const vproto_id vehicle_prototype_humvee( "humvee" );
 static const vproto_id vehicle_prototype_limousine( "limousine" );
 static const vproto_id vehicle_prototype_military_cargo_truck( "military_cargo_truck" );
-static const vproto_id vehicle_prototype_policecar( "policecar" );
 static const vproto_id vehicle_prototype_road_roller( "road_roller" );
 
 class npc_template;
