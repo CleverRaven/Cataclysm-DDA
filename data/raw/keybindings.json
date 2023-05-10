@@ -1061,7 +1061,7 @@
     "type": "keybinding",
     "id": "MARK_DANGER",
     "category": "OVERMAP_NOTES",
-    "name": "Mark/edit danger",
+    "name": "Mark danger",
     "bindings": [ { "input_method": "keyboard_char", "key": "R" }, { "input_method": "keyboard_code", "key": "r", "mod": [ "shift" ] } ]
   },
   {
@@ -1082,7 +1082,7 @@
     "type": "keybinding",
     "id": "MARK_DANGER",
     "category": "OVERMAP",
-    "name": "Mark/edit danger",
+    "name": "Mark danger",
     "bindings": [ { "input_method": "keyboard_char", "key": "R" }, { "input_method": "keyboard_code", "key": "r", "mod": [ "shift" ] } ]
   },
   {
