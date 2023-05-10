@@ -292,7 +292,7 @@
       [ [ "chain", 2 ], [ "hd_tow_cable", 1 ] ],
       [ [ "spring", 2 ], [ "tanned_hide", 2 ] ],
       [ [ "nuts_bolts", 6] ],
-      [ [ "rope_superior_short", 2, "LIST" ],  ["tailoring_canvas_patchwork", 4 ] ]
+      [ [ "rope_superior_short", 2, "LIST" ],  ["sheet_canvas", 4 ],  ["sheet_canvas_patchwork", 4 ] ]
     ]
   },
   {
