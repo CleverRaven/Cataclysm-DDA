@@ -197,6 +197,10 @@
         { "item": "crashing_ship_armory_card", "x": [ 1, 7 ], "y": 1, "chance": 100 },
         { "item": "crashing_ship_exobay_card", "x": [ 16, 22 ], "y": [ 9, 15 ], "chance": 100 },
         { "item": "electrohack", "x": [ 1, 7 ], "y": [ 1, 1 ], "chance": 100 },
+			{ "item": "mininuke_act", "x": 0, "y": 0, "ammo": 420 },
+			{ "item": "mininuke_act", "x": 54, "y": 5, "ammo": 420 },
+			{ "item": "mininuke_act", "x": 0, "y": 69, "ammo": 420 },
+			{ "item": "mininuke_act", "x": 71, "y": 69, "ammo": 420 },
         { "group": "afs_escapepod_shootout_corpse", "x": 54, "y": 28 },
         { "group": "afs_escapepod_shootout_corpse", "x": 52, "y": 32 }
       ],
