@@ -34,6 +34,7 @@ effect_on_condition_EOC_math_var( "EOC_math_var" );
 static const effect_on_condition_id
 effect_on_condition_EOC_math_weighted_list( "EOC_math_weighted_list" );
 static const effect_on_condition_id effect_on_condition_EOC_mutator_test( "EOC_mutator_test" );
+static const effect_on_condition_id effect_on_condition_EOC_options_tests( "EOC_options_tests" );
 static const effect_on_condition_id effect_on_condition_EOC_run_with_test( "EOC_run_with_test" );
 static const effect_on_condition_id
 effect_on_condition_EOC_run_with_test_expects_fail( "EOC_run_with_test_expects_fail" );
@@ -233,6 +234,24 @@ TEST_CASE( "EOC_context_test", "[eoc][math_parser]" )
 
     // value shouldn't exist in the original dialogue
     CHECK( d.get_value( "npctalk_var_simple" ).empty() );
+}
+
+TEST_CASE( "EOC_option_test", "[eoc][math_parser]" )
+{
+    clear_avatar();
+    clear_map();
+
+    dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
+    global_variables &globvars = get_globals();
+    globvars.clear_global_values();
+
+    REQUIRE( globvars.get_global_value( "npctalk_var_key1" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_key2" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_key3" ).empty() );
+    CHECK( effect_on_condition_EOC_options_tests->activate( d ) );
+    CHECK( globvars.get_global_value( "npctalk_var_key1" ) == "ALWAYS" );
+    CHECK( globvars.get_global_value( "npctalk_var_key2" ) == "4" );
+    CHECK( globvars.get_global_value( "npctalk_var_key3" ) == "1" );
 }
 
 TEST_CASE( "EOC_mutator_test", "[eoc][math_parser]" )
