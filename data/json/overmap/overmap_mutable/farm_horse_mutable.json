@@ -44,24 +44,28 @@
       "farm_house_2_n": { "overmap": "horse_farm_house_2_north" },
       "stables_1_n": { "overmap": "horse_farm_stable_1_north" },
       "stables_2_n": { "overmap": "horse_farm_stable_2_north" },
-      "horse_farm_track_1_n": { "overmap": "horse_farm_ring_1_north" },
-      "horse_farm_track_2_n": { "overmap": "horse_farm_ring_2_north" },
-      "horse_farm_track_3_n": { "overmap": "horse_farm_ring_3_north" },
-      "horse_farm_track_4_n": { "overmap": "horse_farm_ring_4_north" },
+      "horse_farm_track_1_n": { "overmap": "horse_farm_track_1_north" },
+      "horse_farm_track_2_n": { "overmap": "horse_farm_track_2_north" },
+      "horse_farm_track_3_n": { "overmap": "horse_farm_track_3_north" },
+      "horse_farm_track_4_n": { "overmap": "horse_farm_track_4_north" },
+      "horse_farm_track_large_1_n": { "overmap": "horse_farm_track_1_north" },
+      "horse_farm_track_large_2_n": { "overmap": "horse_farm_track_2_north" },
+      "horse_farm_track_large_3_n": { "overmap": "horse_farm_track_3_north" },
+      "horse_farm_track_large_4_n": { "overmap": "horse_farm_track_4_north" },
       "horse_farm_ring_1_n": { "overmap": "horse_farm_ring_1_north" },
-      "horse_farm_ring_2_n": { "overmap": "horse_farm_ring_1_north" },
-      "horse_farm_ring_3_n": { "overmap": "horse_farm_ring_1_north" },
-      "horse_farm_ring_4_n": { "overmap": "horse_farm_ring_1_north" },
+      "horse_farm_ring_2_n": { "overmap": "horse_farm_ring_2_north" },
+      "horse_farm_ring_3_n": { "overmap": "horse_farm_ring_3_north" },
+      "horse_farm_ring_4_n": { "overmap": "horse_farm_ring_4_north" },
       "silo_1_n": { "overmap": "ranch_camp_57_south" },
       "silo_1_roof_n": { "overmap": "ranch_camp_57_roof_south" },
       "silo_1_tower_n": { "overmap": "ranch_camp_57_silo_south" },
       "silo_1_cap_n": { "overmap": "ranch_camp_57_silocap_south" },
       "silo_2_n": { "overmap": "horse_farm_silo_north" },
-      "silo_2_tower_n": { "overmap": "horse_farm_silotower_north" },
-      "silo_2_cap_n": { "overmap": "horse_farm_silocap_north" },
+      "silo_2_tower_n": { "overmap": "horse_farm_silo_1_north" },
+      "silo_2_cap_n": { "overmap": "horse_farm_silo_roof_north" },
       "silo_2_w": { "overmap": "horse_farm_silo_west" },
-      "silo_2_tower_w": { "overmap": "horse_farm_silotower_west" },
-      "silo_2_cap_w": { "overmap": "horse_farm_silocap_west" },
+      "silo_2_tower_w": { "overmap": "horse_farm_silo_1_west" },
+      "silo_2_cap_w": { "overmap": "horse_farm_silo_roof_west" },
       "paddock_L_n": { "overmap": "paddock_edgeL_north" },
       "paddock_L_e": { "overmap": "paddock_edgeL_east" },
       "paddock_L_s": { "overmap": "paddock_edgeL_south" },
@@ -329,13 +333,25 @@
           "weight": 1
         },
         {
-          "name": "track_1",
+          "name": "track_small",
           "chunk": [
             { "overmap": "horse_farm_track_1_n", "pos": [ 0, 0, 0 ] },
             { "overmap": "extra_to_road_n", "pos": [ 0, 0, 10 ] },
             { "overmap": "horse_farm_track_2_n", "pos": [ 1, 0, 0 ] },
             { "overmap": "horse_farm_track_3_n", "pos": [ 0, 1, 0 ] },
             { "overmap": "horse_farm_track_4_n", "pos": [ 1, 1, 0 ] }
+          ],
+          "max": 1,
+          "weight": 1
+        },
+		{
+          "name": "track_large",
+          "chunk": [
+            { "overmap": "horse_farm_track_large_1_n", "pos": [ 0, 0, 0 ] },
+            { "overmap": "extra_to_road_n", "pos": [ 0, 0, 10 ] },
+            { "overmap": "horse_farm_track_large_2_n", "pos": [ 1, 0, 0 ] },
+            { "overmap": "horse_farm_track_large_3_n", "pos": [ 0, 1, 0 ] },
+            { "overmap": "horse_farm_track_large_4_n", "pos": [ 1, 1, 0 ] }
           ],
           "max": 1,
           "weight": 1
@@ -377,7 +393,7 @@
             { "overmap": "hayfield_R_sw", "pos": [ 1, 0, 0 ] }
           ],
           "max": 1,
-          "weight": 1
+          "weight": 2
         },
         {
           "name": "hayfield_end_2",
@@ -394,7 +410,7 @@
             { "overmap": "hayfield_R_ne", "pos": [ -1, 2, 0 ] }            
           ],
           "max": 1,
-          "weight": 1
+          "weight": 2
         },
         {
           "name": "paddock_end_1",
@@ -429,6 +445,28 @@
             { "overmap": "dirt_road_ew", "pos": [ 1, 0, 0 ] }
           ],
           "max": 1,
+          "weight": 2
+        },
+        {
+          "name": "paddock_end_3",
+          "chunk": [
+            { "overmap": "paddock_n", "pos": [ 0, 0, 0 ] },
+            { "overmap": "outer_to_inner_n", "pos": [ 0, 0, 10 ] }
+          ],
+          "weight": 1
+        }
+      ],
+      [
+        {
+          "name": "farm_exit",
+          "chunk": [ { "overmap": "dirt_road_ns_road_n", "pos": [ 0, 0, 0 ] }, { "overmap": "outer_to_inner_s", "pos": [ 0, 0, 10 ] } ],
+          "max": 1
+        }
+      ],
+      [
+        {
+          "name": "failsafe",
+          "chunk": [ { "overmap": "outer_to_inner_n", "pos": [ 0, 0, 0 ] } ],
           "weight": 1
         }
       ],
@@ -457,13 +495,6 @@
             "//": "I think it tries to spawn forest over this?",
             "chunk": [ { "overmap": "forest_end", "pos": [ 0, 0, 10 ] } ],
             "weight": 1
-        }
-      ],
-      [
-        {
-          "name": "farm_exit",
-          "chunk": [ { "overmap": "dirt_road_ns_road_n", "pos": [ 0, 0, 0 ] }, { "overmap": "outer_to_inner_s", "pos": [ 0, 0, 10 ] } ],
-          "max": 1
         }
       ]
     ]
