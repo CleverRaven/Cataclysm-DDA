@@ -583,5 +583,13 @@
     "time": "3 m",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
     "components": [ [ [ "steel_chunk", 3 ] ], [ [ "scrap", 3 ] ] ]
+  },
+  {
+    "result": "teddy_bear",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "2 m",
+    "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ],
+    "components": [ [ [ "cotton_patchwork", 20 ] ], [ [ "down_feather", 50 ] ] ]
   }
 ]
