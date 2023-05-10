@@ -169,13 +169,13 @@ TEST_CASE( "character reading speed", "[reading][character][speed]" )
 
         THEN( "reading speed gets slower as intelligence decreases" ) {
             dummy.int_max = 7;
-            CHECK( dummy.read_speed() * 60 == 6300 );
+            CHECK( dummy.read_speed() * 60 == 6180 );
             dummy.int_max = 6;
-            CHECK( dummy.read_speed() * 60 == 6600 );
+            CHECK( dummy.read_speed() * 60 == 6480 );
             dummy.int_max = 5;
             CHECK( dummy.read_speed() * 60 == 6900 );
             dummy.int_max = 4;
-            CHECK( dummy.read_speed() * 60 == 7200 );
+            CHECK( dummy.read_speed() * 60 == 6780 );
         }
     }
 
@@ -185,11 +185,11 @@ TEST_CASE( "character reading speed", "[reading][character][speed]" )
             dummy.int_max = 9;
             CHECK( dummy.read_speed() * 60 == 5700 );
             dummy.int_max = 10;
-            CHECK( dummy.read_speed() * 60 == 5400 );
+            CHECK( dummy.read_speed() * 60 == 5460 );
             dummy.int_max = 12;
-            CHECK( dummy.read_speed() * 60 == 4800 );
+            CHECK( dummy.read_speed() * 60 == 5100 );
             dummy.int_max = 14;
-            CHECK( dummy.read_speed() * 60 == 4200 );
+            CHECK( dummy.read_speed() * 60 == 4800 );
         }
     }
 }
