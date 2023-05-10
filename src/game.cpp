@@ -10326,12 +10326,13 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
     u.recoil = MAX_RECOIL;
     u.last_target_pos = std::nullopt;
 
+    const bool parkour = u.has_proficiency( proficiency_prof_parkour );
     // Print a message if movement is slow
     const int mcost_to = m.move_cost( dest_loc ); //calculate this _after_ calling grabbed_move
     const bool fungus = m.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FUNGUS, u.pos() ) ||
                         m.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FUNGUS,
                                 dest_loc ); //fungal furniture has no slowing effect on Mycus characters
-    const bool slowed = ( ( !u.has_proficiency( proficiency_prof_parkour ) && ( mcost_to > 2 ||
+    const bool slowed = ( ( !parkour && ( mcost_to > 2 ||
                             mcost_from > 2 ) ) ||
                           mcost_to > 4 || mcost_from > 4 ) &&
                         !( u.has_trait( trait_M_IMMUNE ) && fungus );
@@ -10364,6 +10365,9 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
                 }
             }
         }
+        // learn a little about parkour
+        units::time{
+        u.practice_proficiency( proficiency_prof_parkour, time_duration::from_turns( ( mcost_from + mcost_to ) / 2 ) );
     }
     if( !u.is_mounted() && u.has_trait( trait_LEG_TENT_BRACE ) &&
         u.is_barefoot() ) {
@@ -12822,7 +12826,9 @@ bool game::slip_down( bool check_for_traps )
         slip *= 2;
         add_msg( m_info, _( "Your bad knees make it difficult to climb." ) );
     }
-
+    if( !parkour ) {
+        u.practice_proficiency( proficiency_prof_parkour, 10_seconds );
+    }
     add_msg_debug( debugmode::DF_GAME, "Slip chance after proficiency/trait modifiers %d%%", slip );
 
     // Climbing is difficult with wet hands and feet.
