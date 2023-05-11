@@ -178,7 +178,8 @@
       [ "bio_jointservo", 10 ],
       [ "bio_taste_blocker", 10 ],
       [ "bio_trickle", 10 ],
-      [ "bio_ar", 10 ]
+      [ "bio_ar", 10 ],
+      [ "bio_solar_arms", 10 ]
     ]
   },
   {
