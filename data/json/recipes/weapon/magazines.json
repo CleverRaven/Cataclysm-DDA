@@ -124,6 +124,7 @@
         [ "modular_m27_assault_rifle", -1 ],
         [ "modular_m16_auto_rifle", -1 ],
         [ "modular_m4_carbine", -1 ],
+        [ "ar15_223long", -1 ],
         [ "modular_ar15", -1 ],
         [ "ar15_223medium", -1 ],
         [ "ar15_223short", -1 ],
@@ -437,6 +438,7 @@
     "time": "5 m",
     "tools": [
       [
+        [ "ar15_223long", -1 ],
         [ "modular_ar15", -1 ],
         [ "ar15_223medium", -1 ],
         [ "ar15_223short", -1 ],
@@ -479,6 +481,7 @@
     "time": "5 m",
     "tools": [
       [
+        [ "ar15_223long", -1 ],
         [ "modular_ar15", -1 ],
         [ "ar15_223medium", -1 ],
         [ "ar15_223short", -1 ],
@@ -521,6 +524,7 @@
     "time": "5 m",
     "tools": [
       [
+        [ "ar15_223long", -1 ],
         [ "modular_ar15", -1 ],
         [ "ar15_223medium", -1 ],
         [ "ar15_223short", -1 ],
@@ -563,6 +567,7 @@
     "time": "5 m",
     "tools": [
       [
+        [ "ar15_223long", -1 ],
         [ "modular_ar15", -1 ],
         [ "ar15_223medium", -1 ],
         [ "ar15_223short", -1 ],

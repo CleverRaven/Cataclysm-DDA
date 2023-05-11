@@ -115,5 +115,10 @@
     "id": "bookmark_note_catalytic",
     "type": "MIGRATION",
     "replace": "paper"
+  },
+  {
+    "id": "ar15_retool_300blk",
+    "type": "MIGRATION",
+    "replace": "iwi_tavor_x95_300blk"
   }
 ]

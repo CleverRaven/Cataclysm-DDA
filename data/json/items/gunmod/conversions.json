@@ -27,6 +27,7 @@
     "color": "green",
     "location": "bore",
     "mod_targets": [
+      "ar15_223long",
       "modular_ar15",
       "ar15_223medium",
       "ar15_223short",
@@ -92,6 +93,7 @@
     "color": "green",
     "location": "bore",
     "mod_targets": [
+      "ar15_223long",
       "modular_ar15",
       "ar15_223medium",
       "ar15_223short",
@@ -158,6 +160,7 @@
     "color": "green",
     "location": "bore",
     "mod_targets": [
+      "ar15_223long",
       "modular_ar15",
       "ar15_223medium",
       "ar15_223short",
@@ -227,6 +230,7 @@
     "color": "green",
     "location": "bore",
     "mod_targets": [
+      "ar15_223long",
       "modular_ar15",
       "ar15_223medium",
       "ar15_223short",
@@ -297,6 +301,7 @@
     "color": "green",
     "location": "bore",
     "mod_targets": [
+      "ar15_223long",
       "modular_ar15",
       "ar15_223medium",
       "ar15_223short",

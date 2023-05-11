@@ -9,6 +9,7 @@
     "entries": [
       {
         "distribution": [
+          { "item": "ar15_223long", "charges-min": 0, "charges-max": 30, "prob": 8 },
           { "item": "ar15_223medium", "charges-min": 0, "charges-max": 30, "prob": 8 },
           { "item": "ar15_223short", "charges-min": 0, "charges-max": 30, "prob": 6 }
         ],

@@ -1,5 +1,12 @@
 [
   {
+    "id": "ar15_223long",
+    "copy-from": "modular_ar15",
+    "type": "GUN",
+    "name": { "str": "AR-15" },
+    "default_mods": [ "retool_ar15_223rem_extended" ]
+  },
+  {
     "id": "ar15_223medium",
     "copy-from": "modular_ar15",
     "type": "GUN",
