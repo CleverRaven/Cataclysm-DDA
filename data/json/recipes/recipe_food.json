@@ -3973,7 +3973,7 @@
     "time": "5 h",
     "charges": 4,
     "autolearn": true,
-    "batch_time_factors": [ 60, 3 ],
+    "batch_time_factors": [ 80, 1 ],
     "qualities": [ { "id": "BOIL", "level": 2 } ],
     "tools": [ [ [ "water_boiling_heat", 60, "LIST" ] ], [ [ "cotton_patchwork", -1 ] ] ],
     "components": [ [ [ "maple_sap", 10 ] ] ]
