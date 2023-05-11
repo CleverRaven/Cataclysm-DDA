@@ -46,5 +46,35 @@
     "addiction_type": "amphetamine",
     "flags": [ "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "use_action": { "type": "consume_drug", "activation_message": "You take the %s.  Your skin feels like it is vibrating." }
+  },
+  {
+    "id": "blood_of_saints",
+    "type": "COMESTIBLE",
+    "name": { "str": "blood of the saints" },
+    "description": "A rare substance of uncertain origins.  Causes you to mutate.",
+    "price": "2500 USD",
+    "price_postapoc": "500 USD",
+    "//": "Not commercially traded, in case there was any question.",
+    "comestible_type": "MED",
+    "category": "mutagen",
+    "weight": "250 g",
+    "volume": "250 ml",
+    "phase": "liquid",
+    "container": "flask_glass",
+    "symbol": "~",
+    "color": "light_green",
+    "healthy": -2,
+    "addiction_potential": 2,
+    "addiction_type": "mutagen",
+    "flags": [ "NO_INGEST", "NUTRIENT_OVERRIDE" ],
+    "vitamins": [  ],
+    "material": [ "water" ],
+    "freezing_point": -8,
+    "use_action": {
+      "type": "cast_spell",
+      "spell_id": "learn_blood_of_saints",
+      "no_fail": true,
+      "activation_message": "You drink the %s.  Your veins flex with a warm soft glowing feeling."
+    }
   }
 ]
