@@ -1,6 +1,6 @@
 [
-	{
-	"type": "recipe",
+  {
+    "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
     "result": "cold_iron_ingot",
     "category": "CC_XEDRA",
@@ -8,7 +8,7 @@
     "skill_used": "fabrication",
     "difficulty": 3,
     "time": "8 h",
-	"flags": [ "SECRET" ],
+    "flags": [ "SECRET" ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -17,8 +17,8 @@
     "using": [ [ "blacksmithing_standard", 8 ], [ "lc_steel_standard", 2 ] ],
     "tools": [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
     "components": [ [ [ "wax", 1 ] ], [ [ "lamp_oil", 5 ] ], [ [ "dreamdross_scrap", 1 ], [ "holy_symbol", 2 ] ] ]
-	},
-	{
+  },
+  {
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
     "result": "warhammer",
@@ -27,7 +27,7 @@
     "skill_used": "fabrication",
     "difficulty": 7,
     "time": "8 h",
-	"flags": [ "SECRET" ],
+    "flags": [ "SECRET" ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -68,11 +68,21 @@
     "skill_used": "fabrication",
     "difficulty": 8,
     "time": "8 h",
-	"flags": [ "SECRET" ],
+    "flags": [ "SECRET" ],
     "proficiencies": [
-      { "proficiency": "prof_metalworking", "time_multiplier": 1.2, "learning_time_multiplier": 0.2, "skill_penalty": 0  },
-      { "proficiency": "prof_blacksmithing", "time_multiplier": 1.2, "learning_time_multiplier": 0.2, "skill_penalty": 0 },
-      { "proficiency": "prof_bladesmith", "time_multiplier": 1.2, "learning_time_multiplier": 0.2, "skill_penalty": 0 },
+      { "proficiency": "prof_metalworking", "time_multiplier": 1.2, "learning_time_multiplier": 0.2, "skill_penalty": 0 },
+      {
+        "proficiency": "prof_blacksmithing",
+        "time_multiplier": 1.2,
+        "learning_time_multiplier": 0.2,
+        "skill_penalty": 0
+      },
+      {
+        "proficiency": "prof_bladesmith",
+        "time_multiplier": 1.2,
+        "learning_time_multiplier": 0.2,
+        "skill_penalty": 0
+      },
       { "proficiency": "prof_carving", "time_multiplier": 1.2, "learning_time_multiplier": 0.2, "skill_penalty": 0 }
     ],
     "using": [ [ "blacksmithing_standard", 12 ] ],
@@ -90,7 +100,11 @@
     "difficulty": 4,
     "time": "6 h 30 m",
     "flags": [ "SECRET" ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_bladesmith" } ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_bladesmith" }
+    ],
     "using": [ [ "forging_standard", 2 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "tongs", -1 ], [ "metalworking_tongs", -1 ] ], [ [ "casting_mold", -1 ] ] ],
