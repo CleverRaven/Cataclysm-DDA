@@ -2102,7 +2102,7 @@
   },
   {
     "type": "keybinding",
-    "name": "Toggle language to English",
+    "name": "Toggle language to English (requires global keybind!)",
     "id": "toggle_language_to_en"
   },
   {

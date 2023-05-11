@@ -1359,6 +1359,14 @@ void conditional_t::set_compare_string( const JsonObject &jo, const std::string 
     };
 }
 
+void conditional_t::set_get_condition( const JsonObject &jo, const std::string &member )
+{
+    str_or_var conditionalToGet = get_str_or_var( jo.get_member( member ), member, true );
+    condition = [conditionalToGet]( dialogue & d ) {
+        return d.evaluate_conditional( conditionalToGet.evaluate( d ), d );
+    };
+}
+
 void conditional_t::set_compare_num( const JsonObject &jo, const std::string_view member )
 {
     JsonArray objects = jo.get_array( member );
@@ -1519,25 +1527,6 @@ std::function<double( dialogue & )> conditional_t::get_get_dbl( J const &jo )
         return [max_value]( dialogue const & ) {
             return rng( 0, max_value );
         };
-    } else if( jo.has_member( "weather" ) ) {
-        std::string weather_aspect = jo.get_string( "weather" );
-        if( weather_aspect == "temperature" ) {
-            return []( dialogue const & ) {
-                return static_cast<int>( units::to_fahrenheit( get_weather().weather_precise->temperature ) );
-            };
-        } else if( weather_aspect == "windpower" ) {
-            return []( dialogue const & ) {
-                return static_cast<int>( get_weather().weather_precise->windpower );
-            };
-        } else if( weather_aspect == "humidity" ) {
-            return []( dialogue const & ) {
-                return static_cast<int>( get_weather().weather_precise->humidity );
-            };
-        } else if( weather_aspect == "pressure" ) {
-            return []( dialogue const & ) {
-                return static_cast<int>( get_weather().weather_precise->pressure );
-            };
-        }
     } else if( jo.has_member( "faction_trust" ) ) {
         str_or_var name = get_str_or_var( jo.get_member( "faction_trust" ), "faction_trust" );
         return [name]( dialogue const & d ) {
@@ -2163,31 +2152,6 @@ conditional_t::get_set_dbl( const J &jo, const std::optional<dbl_or_var_part> &m
         };
     } else if( jo.has_member( "rand" ) ) {
         jo.throw_error( "can not alter the random number generator, silly!  In " + jo.str() );
-    } else if( jo.has_member( "weather" ) ) {
-        std::string weather_aspect = jo.get_string( "weather" );
-        if( weather_aspect == "temperature" ) {
-            return [min, max]( dialogue & d, double input ) {
-                const int new_temperature = handle_min_max( d, input, min, max );
-                get_weather().weather_precise->temperature = units::from_fahrenheit( new_temperature );
-                get_weather().temperature = units::from_fahrenheit( new_temperature );
-                get_weather().clear_temp_cache();
-            };
-        } else if( weather_aspect == "windpower" ) {
-            return [min, max]( dialogue & d, double input ) {
-                get_weather().weather_precise->windpower = handle_min_max( d, input, min, max );
-                get_weather().clear_temp_cache();
-            };
-        } else if( weather_aspect == "humidity" ) {
-            return [min, max]( dialogue & d, double input ) {
-                get_weather().weather_precise->humidity = handle_min_max( d, input, min, max );
-                get_weather().clear_temp_cache();
-            };
-        } else if( weather_aspect == "pressure" ) {
-            return [min, max]( dialogue & d, double input ) {
-                get_weather().weather_precise->pressure = handle_min_max( d, input, min, max );
-                get_weather().clear_temp_cache();
-            };
-        }
     } else if( jo.has_member( "faction_trust" ) ) {
         str_or_var name = get_str_or_var( jo.get_member( "faction_trust" ), "faction_trust" );
         return [name, min, max]( dialogue & d, double input ) {
@@ -3184,6 +3148,8 @@ conditional_t::conditional_t( const JsonObject &jo )
         found_sub_member = true;
     } else if( jo.has_member( "compare_string" ) ) {
         set_compare_string( jo, "compare_string" );
+    } else if( jo.has_member( "get_condition" ) ) {
+        set_get_condition( jo, "get_condition" );
     } else {
         for( const std::string &sub_member : dialogue_data::simple_string_conds ) {
             if( jo.has_string( sub_member ) ) {
