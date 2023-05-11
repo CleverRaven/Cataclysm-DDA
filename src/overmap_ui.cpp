@@ -522,7 +522,7 @@ static bool get_and_assign_los( int &los, avatar &player_character, const tripoi
 }
 
 static void draw_ascii(
-    ui_adaptor &ui, const catacurses::window &w, const tripoint_abs_omt &center,
+    const catacurses::window &w, const tripoint_abs_omt &center,
     const tripoint_abs_omt &orig, bool blink, bool show_explored, bool /* fast_scroll */,
     input_context * /* inp_ctxt */, const draw_data_t &data )
 {
@@ -995,12 +995,10 @@ static void draw_ascii(
     }
     // Done with all drawing!
     wnoutrefresh( w );
-    // Set cursor for screen readers
-    ui.set_cursor( w, point( om_half_width, om_half_height ) );
 }
 
 static void draw_om_sidebar(
-    const catacurses::window &wbar, const tripoint_abs_omt &center,
+    ui_adaptor &ui, const catacurses::window &wbar, const tripoint_abs_omt &center,
     const tripoint_abs_omt &orig, bool /* blink */, bool fast_scroll,
     input_context *inp_ctxt, const draw_data_t &data )
 {
@@ -1074,6 +1072,7 @@ static void draw_om_sidebar(
         mvwprintz( wbar, point( 1, 1 ), oter_unexplored.obj().get_color(), _( "%s %s" ),
                    oter_unexplored.obj().get_symbol(), oter_unexplored.obj().get_name() );
     }
+    ui.record_cursor( wbar );
 
     // Describe the weather conditions on the following line, if weather is visible
     if( viewing_weather ) {
@@ -1219,7 +1218,7 @@ static void draw(
     bool blink, bool show_explored, bool fast_scroll,
     input_context *inp_ctxt, const draw_data_t &data )
 {
-    draw_om_sidebar( g->w_omlegend, center, orig, blink, fast_scroll, inp_ctxt, data );
+    draw_om_sidebar( ui, g->w_omlegend, center, orig, blink, fast_scroll, inp_ctxt, data );
 #if defined( TILES )
     if( use_tiles && use_tiles_overmap ) {
         redraw_info = tiles_redraw_info { center, blink };
@@ -1229,7 +1228,7 @@ static void draw(
         return;
     }
 #endif // TILES
-    draw_ascii( ui, g->w_overmap, center, orig, blink, show_explored, fast_scroll, inp_ctxt, data );
+    draw_ascii( g->w_overmap, center, orig, blink, show_explored, fast_scroll, inp_ctxt, data );
 }
 
 static void create_note( const tripoint_abs_omt &curs )
