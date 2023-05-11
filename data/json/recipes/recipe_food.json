@@ -8902,7 +8902,7 @@
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
     "difficulty": 1,
-    "time": "5 m",
+    "time": "40 m",
     "batch_time_factors": [ 20, 1 ],
     "book_learn": [ [ "family_cookbook", 2 ], [ "cookbook_mexican", 1 ] ],
     "charges": 6,
