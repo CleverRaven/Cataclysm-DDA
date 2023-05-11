@@ -108,7 +108,7 @@
   {
     "type": "character_mod",
     "id": "limb_speed_movecost_mod",
-    "description": "Limb speed move cost modifier <color_dark_gray>(Movement Speed)</color>",
+    "description": "Limb speed move cost modifier <color_dark_gray>(Move Speed)</color>",
     "mod_type": "x",
     "value": { "limb_score": "move_speed", "max": "max_move_cost", "nominator": 1.0 }
   },
@@ -122,7 +122,7 @@
   {
     "type": "character_mod",
     "id": "limb_fall_mod",
-    "description": "Fall damage modifier <color_dark_gray>(Movement, Footing, Reaction)</color>",
+    "description": "Fall damage modifier <color_dark_gray>(Move Speed, Footing, Reaction)</color>",
     "mod_type": "x",
     "value": { "limb_score": [ "move_speed", "footing", "reaction" ], "limb_score_op": "x" }
   },
@@ -141,7 +141,7 @@
   {
     "type": "character_mod",
     "id": "obstacle_climb_mod",
-    "description": "Obstacle climb modifier <color_dark_gray>(Crawl, Grip, Lift)</color>",
+    "description": "Obstacle climb modifier <color_dark_gray>(Crawling, Grip, Lift)</color>",
     "mod_type": "x",
     "value": {
       "limb_score": [ [ "crawl", 3.0 ], [ "grip", 2.0 ], "lift" ],
