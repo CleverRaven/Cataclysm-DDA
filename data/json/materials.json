@@ -1055,11 +1055,11 @@
     "bash_dmg_verb": "bruised",
     "cut_dmg_verb": "sliced",
     "vitamins": [ [ "calcium", 1 ], [ "iron", 1.3 ] ],
-    "//": "Copied from chitin",
+    "//": "FIXME if you see me",
     "burn_data": [
-      { "fuel": 0, "smoke": 0, "burn": 0.0001 },
-      { "fuel": 0.2, "smoke": 3, "burn": 0.005, "volume_per_turn": "200 ml" },
-      { "fuel": 0.35, "smoke": 5, "burn": 0.015, "volume_per_turn": "200 ml" }
+      { "fuel": 0, "smoke": 1, "burn": 0.001, "volume_per_turn": "200 ml" },
+      { "fuel": 0.2, "smoke": 3, "burn": 0.002, "volume_per_turn": "500 ml" },
+      { "fuel": 0.35, "smoke": 5, "burn": 0.004, "volume_per_turn": "1 L" }
     ],
     "burn_products": [ [ "corpse_ash", 0.035 ] ],
     "resist": { "bash": 1, "cut": 1, "acid": 1, "heat": 1, "bullet": 1 }
@@ -1265,7 +1265,7 @@
     "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
     "bash_dmg_verb": "ripped",
     "cut_dmg_verb": "cut",
-    "//1": "Nylon/polyester react poorly to flame(they melt) but are hard to light. Doesn't break down easily unless exposed to a high-intensity fire.",
+    "//1": "Nylon/polyester reacts poorly to flame (it melts) but is hard to light. Doesn't break down easily unless exposed to a high-intensity fire.",
     "burn_data": [
       { "fuel": 0.05, "smoke": 1, "burn": 0.01 },
       { "fuel": 0.05, "smoke": 2, "burn": 0.03 },
@@ -1980,7 +1980,7 @@
     "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
     "bash_dmg_verb": "ripped",
     "cut_dmg_verb": "cut",
-    "//1": "Nylon reacts poorly to flame(it melts) but is hard to light. Doesn't break down easily unless exposed to a high-intensity fire.",
+    "//1": "Nylon reacts poorly to flame (it melts) but is hard to light. Doesn't break down easily unless exposed to a high-intensity fire.",
     "burn_data": [
       { "fuel": 0.05, "smoke": 1, "burn": 0.01 },
       { "fuel": 0.05, "smoke": 2, "burn": 0.03 },
@@ -2246,13 +2246,12 @@
     "bash_dmg_verb": "squished",
     "cut_dmg_verb": "cut",
     "vitamins": [ [ "iron", 0.1 ] ],
-    "//": "This burn data assumes wheat and chaff. In this form, it burns pretty well.",
+    "//": "This material is used primarily for foodstuffs, and should not provide any significant fuel value.",
     "burn_data": [
-      { "fuel": 0.6, "smoke": 1, "burn": 0.025, "volume_per_turn": "200 ml" },
-      { "fuel": 1.2, "smoke": 1, "burn": 0.05, "volume_per_turn": "825 ml" },
-      { "fuel": 1.8, "smoke": 1, "burn": 0.075 }
+      { "fuel": 0, "smoke": 1, "burn": 0.002 },
+      { "fuel": 0, "smoke": 3, "burn": 0.002 },
+      { "fuel": 0, "smoke": 5, "burn": 0.005 }
     ],
-    "burn_products": [ [ "ash", 0.013 ] ],
     "resist": { "bash": 1, "cut": 1, "acid": 1, "heat": 0, "bullet": 1 }
   },
   {
