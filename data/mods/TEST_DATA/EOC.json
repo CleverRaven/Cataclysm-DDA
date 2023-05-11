@@ -15,6 +15,29 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_stored_condition_test",
+    "effect": [
+      { "set_condition": "to_test", "condition": { "math": [ "_context", ">", "0" ] } },
+      { "run_eocs": "EOC_stored_condition_test_nested" },
+      { "run_eoc_with": "EOC_stored_condition_test_nested_var", "variables": { "condition_name": "to_test" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_stored_condition_test_nested",
+    "condition": { "get_condition": "to_test" },
+    "effect": [ { "math": [ "context", "=", "_context" ] }, { "math": [ "key1", "=", "1" ] } ],
+    "false_effect": [ { "math": [ "context", "=", "_context" ] }, { "math": [ "key1", "=", "0" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_stored_condition_test_nested_var",
+    "condition": { "get_condition": { "context_val": "condition_name" } },
+    "effect": [ { "math": [ "key2", "=", "1" ] } ],
+    "false_effect": [ { "math": [ "key2", "=", "0" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_run_with_test",
     "effect": [
       { "math": [ "u_ukey", "=", "3" ] },
