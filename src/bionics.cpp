@@ -164,7 +164,6 @@ static const json_character_flag json_flag_BIONIC_WEAPON( "BIONIC_WEAPON" );
 static const json_character_flag json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 
-static const material_id fuel_type_dermal_solar( "dermal_solar" );
 static const material_id fuel_type_metabolism( "metabolism" );
 static const material_id fuel_type_sun_light( "sunlight" );
 static const material_id fuel_type_wind( "wind" );
@@ -1400,7 +1399,7 @@ void Character::burn_fuel( bionic &bio )
             return;
         }
         // do passive solar bionic powergen according to solar irradiance and the total percentage of skin space that's covered by clothes
-        if( bio.id->fuel_opts.front() == fuel_type_dermal_solar && !g->is_sheltered( pos() ) ) {
+        if( bio.id->fuel_opts.front() == fuel_type_sun_light && !g->is_sheltered( pos() ) ) {
             const weather_type_id &wtype = current_weather( get_location() );
             float intensity = incident_sun_irradiance( wtype, calendar::turn ); // W/m2
             mod_power_level( units::from_joule( intensity * efficiency ) );
