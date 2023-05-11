@@ -17,7 +17,7 @@
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_AXE", "NO_SALVAGE" ],
     "weapon_category": [ "HOOKING_WEAPONRY", "GREAT_AXES" ],
-    "melee_damage": { "bash": 20, "cut": 40 }
+    "melee_damage": { "bash": 14, "cut": 28 }
   },
   {
     "id": "bow_saw",
@@ -174,7 +174,7 @@
     "qualities": [ [ "CUT", 1 ], [ "AXE", 1 ], [ "BUTCHER", -44 ] ],
     "flags": [ "BELT_CLIP", "NONCONDUCTIVE", "SHEATH_AXE" ],
     "weapon_category": [ "HAND_AXES" ],
-    "melee_damage": { "bash": 8, "cut": 15 }
+    "melee_damage": { "bash": 7, "cut": 14 }
   },
   {
     "id": "bronze_axe",
