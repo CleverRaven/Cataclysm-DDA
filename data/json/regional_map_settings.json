@@ -80,6 +80,7 @@
           "t_tree_cherry": 4,
           "t_tree_plum": 2,
           "t_tree_sassafras": 1,
+          "t_beehive_natural": 2,
           "t_region_tree_dead": 5,
           "t_region_tree_forest_other": 5
         },
@@ -97,6 +98,7 @@
           "t_tree_elderberry": 10,
           "t_tree_mulberry": 10,
           "t_tree_sassafras": 2,
+          "t_beehive_natural": 2,
           "t_tree_juniper": 5
         },
         "t_region_tree_forest": { "t_region_tree_forest_dense": 2, "t_region_tree_forest_other": 1 },
@@ -129,6 +131,7 @@
           "t_tree_elderberry": 2,
           "t_tree_mulberry": 2,
           "t_tree_sassafras": 3,
+          "t_beehive_natural": 2,
           "t_region_tree_dead": 48
         },
         "t_region_tree_shade": {
@@ -148,6 +151,7 @@
           "t_tree_elderberry": 2,
           "t_tree_mulberry": 2,
           "t_tree_sassafras": 3,
+          "t_beehive_natural": 2,
           "t_tree_dead": 2
         },
         "t_region_tree_fruit": {
