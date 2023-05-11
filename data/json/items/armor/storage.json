@@ -2997,7 +2997,7 @@
         "max_contains_weight": "150 kg",
         "moves": 300,
         "min_item_volume": "1 L",
-		"max_item_length": "180 cm"
+        "max_item_length": "180 cm"
       }
     ],
     "warmth": 5,
