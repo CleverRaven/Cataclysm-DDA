@@ -276,6 +276,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
+    "burn_products": [ [ "scrap_bronze", 0.5 ] ],
     "resist": { "bash": 4, "cut": 5, "acid": 1, "heat": 2, "bullet": 2 }
   },
   {
@@ -304,6 +305,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
+    "burn_products": [ [ "scrap_bronze", 0.5 ] ],
     "resist": { "bash": 5, "cut": 5, "acid": 5, "heat": 2, "bullet": 2 }
   },
   {
@@ -320,6 +322,7 @@
     "repaired_with": "scrap",
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
+    "burn_products": [ [ "scrap", 0.5 ] ],
     "resist": { "bash": 6, "cut": 6, "acid": 7, "heat": 3, "bullet": 2 }
   },
   {
@@ -478,6 +481,7 @@
     "dmg_adj": [ "chipped", "scratched", "cracked", "shattered" ],
     "bash_dmg_verb": "cracked",
     "cut_dmg_verb": "cut",
+    "burn_products": [ [ "ceramic_shard", 0.5 ] ],
     "resist": { "bash": 2, "cut": 3, "acid": 6, "heat": 3, "bullet": 2 }
   },
   {
@@ -508,6 +512,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
+    "burn_products": [ [ "copper", 0.5 ] ],
     "resist": { "bash": 2, "cut": 3, "acid": 0, "heat": 3, "bullet": 2 }
   },
   {
@@ -724,6 +729,7 @@
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
     "bash_dmg_verb": "squished",
     "cut_dmg_verb": "cut",
+    "burn_products": [ [ "ceramic_shard", 0.5 ] ],
     "resist": { "bash": 1, "cut": 1, "acid": 4, "heat": 3, "bullet": 1 }
   },
   {
@@ -814,7 +820,7 @@
       { "fuel": 0, "smoke": 0, "burn": 0 },
       { "fuel": 0, "smoke": 0, "burn": 1000, "volume_per_turn": "5000 ml", "//": "More like shattering than melting" }
     ],
-    "burn_products": [ [ "glass_shard", 1 ] ],
+    "burn_products": [ [ "glass_shard", 0.5 ] ],
     "resist": { "bash": 5, "cut": 10, "acid": 10, "heat": 3, "bullet": 9 }
   },
   {
@@ -835,7 +841,7 @@
       { "fuel": 0, "smoke": 0, "burn": 0 },
       { "fuel": 0, "smoke": 0, "burn": 1000, "volume_per_turn": "5000 ml", "//": "More like shattering than melting" }
     ],
-    "burn_products": [ [ "glass_shard", 1 ] ],
+    "burn_products": [ [ "glass_shard", 0.5 ] ],
     "resist": { "bash": 3, "cut": 4, "acid": 10, "heat": 3, "bullet": 3 }
   },
   {
@@ -856,7 +862,7 @@
       { "fuel": 0, "smoke": 0, "burn": 0 },
       { "fuel": 0, "smoke": 0, "burn": 1000, "volume_per_turn": "5000 ml", "//": "More like shattering than melting" }
     ],
-    "burn_products": [ [ "glass_shard", 1 ] ],
+    "burn_products": [ [ "glass_shard", 0.5 ] ],
     "resist": { "bash": 3, "cut": 4, "acid": 10, "heat": 3, "bullet": 3 }
   },
   {
@@ -873,6 +879,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
+    "burn_products": [ [ "gold_small", 0.5 ] ],
     "resist": { "bash": 1, "cut": 1, "acid": 10, "heat": 3, "bullet": 1 }
   },
   {
@@ -1055,7 +1062,6 @@
     "bash_dmg_verb": "bruised",
     "cut_dmg_verb": "sliced",
     "vitamins": [ [ "calcium", 1 ], [ "iron", 1.3 ] ],
-    "//": "FIXME if you see me",
     "burn_data": [
       { "fuel": 0, "smoke": 1, "burn": 0.001, "volume_per_turn": "200 ml" },
       { "fuel": 0.2, "smoke": 3, "burn": 0.002, "volume_per_turn": "500 ml" },
@@ -1078,6 +1084,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
+    "burn_products": [ [ "scrap", 0.5 ] ],
     "resist": { "bash": 4, "cut": 4, "acid": 5, "heat": 3, "bullet": 2 }
   },
   {
@@ -1198,6 +1205,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
+    "burn_products": [ [ "lead", 0.5 ] ],
     "resist": { "bash": 0, "cut": 0, "acid": 8, "heat": 3, "bullet": 0 }
   },
   {
@@ -1568,6 +1576,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
+    "burn_products": [ [ "silver_small", 0.5 ] ],
     "resist": { "bash": 2, "cut": 3, "acid": 10, "heat": 3, "bullet": 2 }
   },
   {
@@ -1584,6 +1593,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
+    "burn_products": [ [ "platinum_small", 0.5 ] ],
     "resist": { "bash": 1, "cut": 1, "acid": 10, "heat": 3, "bullet": 1 }
   },
   {
@@ -1637,6 +1647,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
+    "burn_products": [ [ "scrap", 0.5 ] ],
     "resist": { "bash": 6, "cut": 6, "acid": 7, "heat": 3, "bullet": 4.5 }
   },
   {
@@ -1654,6 +1665,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
+    "burn_products": [ [ "scrap", 0.5 ] ],
     "resist": { "bash": 7, "cut": 7, "acid": 7, "heat": 3, "bullet": 4.5 }
   },
   {
@@ -1671,6 +1683,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
+    "burn_products": [ [ "scrap", 0.5 ] ],
     "resist": { "bash": 10, "cut": 10, "acid": 7, "heat": 3, "bullet": 6.5 }
   },
   {
@@ -1688,6 +1701,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
+    "burn_products": [ [ "scrap", 0.5 ] ],
     "resist": { "bash": 10, "cut": 10, "acid": 7, "heat": 3, "bullet": 6.5 }
   },
   {
@@ -1705,6 +1719,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
+    "burn_products": [ [ "scrap", 0.5 ] ],
     "resist": { "bash": 11, "cut": 11, "acid": 7, "heat": 3, "bullet": 7.5 }
   },
   {
@@ -1725,6 +1740,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
+    "burn_products": [ [ "scrap", 0.5 ] ],
     "resist": { "bash": 6, "cut": 6, "acid": 7, "heat": 3, "bullet": 2 }
   },
   {
@@ -1746,6 +1762,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
+    "burn_products": [ [ "scrap", 0.5 ] ],
     "resist": { "bash": 6, "cut": 6, "acid": 7, "heat": 3, "bullet": 4.5 }
   },
   {
@@ -1767,6 +1784,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
+    "burn_products": [ [ "scrap", 0.5 ] ],
     "resist": { "bash": 7, "cut": 7, "acid": 7, "heat": 3, "bullet": 4.5 }
   },
   {
@@ -1788,6 +1806,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
+    "burn_products": [ [ "scrap", 0.5 ] ],
     "resist": { "bash": 10, "cut": 10, "acid": 7, "heat": 3, "bullet": 6.5 }
   },
   {
@@ -1809,6 +1828,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
+    "burn_products": [ [ "scrap", 0.5 ] ],
     "resist": { "bash": 10, "cut": 10, "acid": 7, "heat": 3, "bullet": 6.5 }
   },
   {
@@ -1830,6 +1850,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
+    "burn_products": [ [ "scrap", 0.5 ] ],
     "resist": { "bash": 11, "cut": 11, "acid": 7, "heat": 3, "bullet": 7.5 }
   },
   {
@@ -1846,6 +1867,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
+    "burn_products": [ [ "scrap", 0.5 ] ],
     "resist": { "bash": 6, "cut": 6, "acid": 7, "heat": 3, "bullet": 3 }
   },
   {
@@ -1914,6 +1936,7 @@
     "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
     "bash_dmg_verb": "cracked",
     "cut_dmg_verb": "chipped",
+    "burn_products": [ [ "pebble", 0.5 ] ],
     "resist": { "bash": 6, "cut": 6, "acid": 8, "heat": 3, "bullet": 3 }
   },
   {
