@@ -3373,6 +3373,11 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
             w_vehicle = catacurses::newwin( 2, ncol_small, point( begin_sncol, 13 ) );
             w_addictions = catacurses::newwin( 2, ncol_small, point( begin_sncol, 15 ) );
             w_guide = catacurses::newwin( 2, TERMX - 3, point( 2, TERMY - 3 ) );
+            w_traits = catacurses::window();
+            w_bionics = catacurses::window();
+            w_proficiencies = catacurses::window();
+            w_hobbies = catacurses::window();
+            w_skills = catacurses::window();
             ui.position_from_window( w );
         }
     };
@@ -3458,11 +3463,7 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
         }
         wnoutrefresh( w );
 
-        wclear( w_stats );
-        wclear( w_traits );
-        wclear( w_skills );
-        wclear( w_guide );
-
+        werase( w_stats );
         std::vector<std::string> vStatNames;
         mvwprintz( w_stats, point_zero, COL_HEADER, _( "Stats:" ) );
         vStatNames.emplace_back( _( "Strength:" ) );
@@ -3482,6 +3483,7 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
         wnoutrefresh( w_stats );
 
         if( isWide ) {
+            werase( w_traits );
             mvwprintz( w_traits, point_zero, COL_HEADER, _( "Traits: " ) );
             std::vector<trait_and_var> current_traits = you.get_mutations_variants();
             std::sort( current_traits.begin(), current_traits.end(), trait_display_sort );
@@ -3494,10 +3496,11 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
                                     current_trait.trait->get_display_color(), current_trait.name() );
                 }
             }
+            wnoutrefresh( w_traits );
         }
-        wnoutrefresh( w_traits );
 
         if( isWide ) {
+            werase( w_skills );
             mvwprintz( w_skills, point_zero, COL_HEADER, _( "Skills:" ) );
 
             auto skillslist = Skill::get_skills_sorted_by( [&]( const Skill & a, const Skill & b ) {
@@ -3563,8 +3566,8 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
             if( !has_skills ) {
                 mvwprintz( w_skills, point( utf8_width( _( "Skills:" ) ) + 1, 0 ), c_light_red, _( "None!" ) );
             }
+            wnoutrefresh( w_skills );
         }
-        wnoutrefresh( w_skills );
 
         if( isWide ) {
             werase( w_bionics );
@@ -3593,8 +3596,8 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
         }
 
         // Proficiencies description tab
-        werase( w_proficiencies );
         if( isWide ) {
+            werase( w_proficiencies );
             // Load in proficiencies from profession and hobbies
             std::vector<proficiency_id> prof_proficiencies = you.prof->proficiencies();
             const std::vector<proficiency_id> &known_proficiencies = you._proficiencies->known_profs();
@@ -3618,10 +3621,11 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
                     wprintz( w_proficiencies, c_light_gray, "\n" + trim_by_length( prof->name(), 18 ) );
                 }
             }
+            wnoutrefresh( w_proficiencies );
         }
-        wnoutrefresh( w_proficiencies );
 
         // Helptext description window
+        werase( w_guide );
         if( isWide ) {
             fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 9 ), TERMX, c_light_gray,
                             _( "Press <color_light_green>%s</color> to view and alter keybindings." ),
@@ -3691,7 +3695,7 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
         }
         wnoutrefresh( w_guide );
 
-        wclear( w_name );
+        werase( w_name );
         mvwprintz( w_name, point_zero,
                    current_selector == char_creation::NAME ? COL_SELECT : c_light_gray, _( "Name:" ) );
         if( no_name_entered ) {
@@ -3789,16 +3793,18 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
         wprintz( w_profession, c_light_gray, you.prof->gender_appropriate_name( you.male ) );
         wnoutrefresh( w_profession );
 
-        werase( w_hobbies );
-        mvwprintz( w_hobbies, point_zero, COL_HEADER, _( "Background: " ) );
-        if( you.hobbies.empty() ) {
-            mvwprintz( w_hobbies, point_south, c_light_red, _( "None!" ) );
-        } else {
-            for( const profession *prof : you.hobbies ) {
-                wprintz( w_hobbies, c_light_gray, "\n%s", prof->gender_appropriate_name( you.male ) );
+        if( isWide ) {
+            werase( w_hobbies );
+            mvwprintz( w_hobbies, point_zero, COL_HEADER, _( "Background: " ) );
+            if( you.hobbies.empty() ) {
+                mvwprintz( w_hobbies, point_south, c_light_red, _( "None!" ) );
+            } else {
+                for( const profession *prof : you.hobbies ) {
+                    wprintz( w_hobbies, c_light_gray, "\n%s", prof->gender_appropriate_name( you.male ) );
+                }
             }
+            wnoutrefresh( w_hobbies );
         }
-        wnoutrefresh( w_hobbies );
     } );
 
     int min_allowed_age = 16;
