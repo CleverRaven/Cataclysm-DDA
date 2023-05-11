@@ -788,7 +788,7 @@ void conditional_t::set_expects_vars( const JsonObject &jo, const std::string &m
     condition = [to_check]( dialogue const & d ) {
         std::string missing_variables;
         for( const str_or_var &val : to_check ) {
-            if( d.get_context().find( val.evaluate( d ) ) == d.get_context().end() ) {
+            if( d.get_context().find( "npctalk_var_" + val.evaluate( d ) ) == d.get_context().end() ) {
                 missing_variables += val.evaluate( d ) + ", ";
             }
         }
