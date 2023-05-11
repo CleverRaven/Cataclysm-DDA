@@ -79,7 +79,7 @@
         "holster": true
       }
     ],
-    "melee_damage": { "bash": 19, "cut": 38 }
+    "melee_damage": { "bash": 18, "cut": 37 }
   },
   {
     "id": "halligan",
