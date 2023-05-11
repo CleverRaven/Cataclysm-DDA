@@ -205,8 +205,7 @@
     "id": "mon_feral_human_pipe_fungal_infected",
     "type": "MONSTER",
     "copy-from": "mon_feral_human_pipe",
-    "delete": { "upgrades": { "half_life": 90, "into_group": "GROUP_ZOMBIE_UPGRADE" } },
-    "upgrades": { "age_grow": 4, "into": "mon_feral_human_pipe_fungal_corpse" },
+    "upgrades": { "age_grow": 4, "into_group": "GROUP_NULL", "into": "mon_feral_human_pipe_fungal_corpse" },
     "burn_into": "mon_starer_pipe",
     "extend": { "flags": [ "NO_FUNG_DMG" ] }
   },
@@ -214,8 +213,7 @@
     "id": "mon_feral_human_crowbar_fungal_infected",
     "type": "MONSTER",
     "copy-from": "mon_feral_human_crowbar",
-    "delete": { "upgrades": { "half_life": 90, "into_group": "GROUP_ZOMBIE_UPGRADE" } },
-    "upgrades": { "age_grow": 4, "into": "mon_feral_human_crowbar_fungal_corpse" },
+    "upgrades": { "age_grow": 4, "into_group": "GROUP_NULL", "into": "mon_feral_human_crowbar_fungal_corpse" },
     "burn_into": "mon_starer_crowbar",
     "extend": { "flags": [ "NO_FUNG_DMG" ] }
   },
@@ -223,8 +221,7 @@
     "id": "mon_feral_human_axe_fungal_infected",
     "type": "MONSTER",
     "copy-from": "mon_feral_human_axe",
-    "delete": { "upgrades": { "half_life": 90, "into_group": "GROUP_ZOMBIE_UPGRADE" } },
-    "upgrades": { "age_grow": 4, "into": "mon_feral_human_axe_fungal_corpse" },
+    "upgrades": { "age_grow": 4, "into_group": "GROUP_NULL", "into": "mon_feral_human_axe_fungal_corpse" },
     "burn_into": "mon_starer_axe",
     "extend": { "flags": [ "NO_FUNG_DMG" ] }
   },
@@ -234,8 +231,7 @@
     "description": "Delicate fungal stalks sprout in rows from sores covering this person's body, and their facial expression is pure agony.",
     "copy-from": "mon_feral_human_pipe",
     "default_faction": "fungus",
-    "delete": { "upgrades": { "half_life": 90, "into_group": "GROUP_ZOMBIE_UPGRADE" } },
-    "upgrades": { "half_life": 14, "into": "mon_fungaloid" },
+    "upgrades": { "half_life": 14, "into_group": "GROUP_NULL", "into": "mon_fungaloid" },
     "special_attacks": [ [ "FUNGUS", 40 ] ],
     "death_function": { "effect": { "id": "death_fungus", "hit_self": true } },
     "extend": { "flags": [ "NO_FUNG_DMG", "IMMOBILE" ] }
@@ -246,8 +242,7 @@
     "description": "Delicate fungal stalks sprout in rows from sores on this person's arms, and their facial expression is pure agony.  Their mouth opens and closes softly in a silent moan.",
     "copy-from": "mon_feral_human_crowbar",
     "default_faction": "fungus",
-    "delete": { "upgrades": { "half_life": 90, "into_group": "GROUP_ZOMBIE_UPGRADE" } },
-    "upgrades": { "half_life": 14, "into": "mon_fungaloid" },
+    "upgrades": { "half_life": 14, "into_group": "GROUP_NULL", "into": "mon_fungaloid" },
     "special_attacks": [ [ "FUNGUS", 40 ] ],
     "death_function": { "effect": { "id": "death_fungus", "hit_self": true } },
     "extend": { "flags": [ "NO_FUNG_DMG", "IMMOBILE" ] }
@@ -258,8 +253,7 @@
     "description": "Delicate fungal stalks sprout in rows from sores on this person's arms, and their facial expression is pure agony.",
     "copy-from": "mon_feral_human_axe",
     "default_faction": "fungus",
-    "delete": { "upgrades": { "half_life": 90, "into_group": "GROUP_ZOMBIE_UPGRADE" } },
-    "upgrades": { "half_life": 14, "into": "mon_fungaloid" },
+    "upgrades": { "half_life": 14, "into_group": "GROUP_NULL", "into": "mon_fungaloid" },
     "special_attacks": [ [ "FUNGUS", 40 ] ],
     "death_function": { "effect": { "id": "death_fungus", "hit_self": true } },
     "extend": { "flags": [ "NO_FUNG_DMG", "IMMOBILE" ] }
