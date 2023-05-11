@@ -874,7 +874,7 @@ bool veh_interact::update_part_requirements()
     nmsg += res.second;
 
     ret_val<void> can_mount = veh->can_mount(
-                                  veh->part( cpart ).mount, sel_vpart_info->get_id() );
+                                  -dd, sel_vpart_info->get_id() );
     if( !can_mount.success() ) {
         ok = false;
         nmsg += _( "<color_white>Cannot install due to:</color>\n> " ) + colorize( can_mount.str(),
@@ -2371,20 +2371,20 @@ void veh_interact::move_cursor( const point &d, int dstart_at )
             if( has_critter && vp.has_flag( VPFLAG_OBSTACLE ) ) {
                 continue;
             }
-            if( veh->can_mount( vd, vp.get_id() ).success() ) {
-                if( vp.has_flag( VPFLAG_APPLIANCE ) ) {
-                    // exclude "appliances" from vehicle part list
-                    continue;
-                }
-                if( vp.get_id() != vpart_shapes[ vp.name() + vp.base_item.str() ][ 0 ]->get_id() ) {
-                    // only add first shape to install list
-                    continue;
-                }
-                if( can_potentially_install( vp ) ) {
-                    can_mount.push_back( &vp );
-                } else {
-                    req_missing.push_back( &vp );
-                }
+            if( vp.has_flag( "NOINSTALL" ) ) {
+                // exclude parts that should never be installed through install menu
+                continue;
+            }
+            if( vp.has_flag( VPFLAG_APPLIANCE ) ) {
+                // exclude "appliances" from vehicle part list
+                continue;
+            }
+            if( vp.get_id() != vpart_shapes[ vp.name() + vp.base_item.str() ][ 0 ]->get_id() ) {
+                // only add first shape to install list
+                continue;
+            }
+            if( can_potentially_install( vp ) ) {
+                can_mount.push_back( &vp );
             } else {
                 req_missing.push_back( &vp );
             }
@@ -2772,7 +2772,7 @@ void veh_interact::display_stats() const
     fold_and_print( w_stats, point( x[i], y[i] ), w[i], c_light_gray,
                     _( "Offroad:        <color_light_blue>%4d</color>%%" ),
                     static_cast<int>( veh->k_traction( veh->wheel_area() *
-                                      veh->average_or_rating() ) * 100 ) );
+                                      veh->average_offroad_rating() ) * 100 ) );
     i += 1;
 
     if( is_boat ) {

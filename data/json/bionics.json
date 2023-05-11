@@ -42,6 +42,17 @@
     "flags": [ "BIONIC_FAULTY" ]
   },
   {
+    "id": "bio_ar",
+    "type": "bionic",
+    "name": { "str": "Integrated AR System" },
+    "description": "Extreamly thin lenses provide user with augmented reality overlay allowing the user to zoom, and it displays handy information about local topology.",
+    "//": "Basically implanted contact lenses with AR capabilities",
+    "occupied_bodyparts": [ [ "eyes", 1 ] ],
+    "flags": [ "USES_BIONIC_POWER" ],
+    "mutation_conflicts": [ "COMPOUND_EYES", "CEPH_VISION", "CEPH_EYES", "EYEBULGE", "EYESTALKS1", "EYESTALKS2" ],
+    "passive_pseudo_items": [ "integrated_ar" ]
+  },
+  {
     "id": "bio_armor_arms",
     "type": "bionic",
     "name": { "str": "Arms Alloy Plating" },

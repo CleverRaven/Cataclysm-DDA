@@ -1,4 +1,4 @@
-// RUN: %check_clang_tidy %s cata-tests-must-restore-global-state %t -- -plugins=%cata_plugin -- -isystem %cata_include
+// RUN: %check_clang_tidy %s cata-tests-must-restore-global-state %t -- --load=%cata_plugin -- -isystem %cata_include
 
 bool fov_3d;
 int fov_3d_z_range;

@@ -2048,61 +2048,58 @@ void vehicle::check_falling_or_floating()
     in_water =  2 * water_tiles >= pts.size();
 }
 
-float map::vehicle_wheel_traction( const vehicle &veh,
-                                   const bool ignore_movement_modifiers /*=false*/ ) const
+float map::vehicle_wheel_traction( const vehicle &veh, bool ignore_movement_modifiers ) const
 {
-    if( veh.is_in_water( true ) ) {
+    if( veh.is_in_water( /* deep_water = */ true ) ) {
         return veh.can_float() ? 1.0f : -1.0f;
     }
     if( veh.is_watercraft() && veh.can_float() ) {
         return 1.0f;
     }
 
-    const auto &wheel_indices = veh.wheelcache;
-    int num_wheels = wheel_indices.size();
-    if( num_wheels == 0 ) {
+    if( veh.wheelcache.empty() ) {
         // TODO: Assume it is digging in dirt
         // TODO: Return something that could be reused for dragging
         return 0.0f;
     }
 
     float traction_wheel_area = 0.0f;
-    for( int p : wheel_indices ) {
-        const tripoint pp = veh.global_part_pos3( p );
-        const int wheel_area = veh.part( p ).wheel_area();
-
+    for( const int wheel_idx : veh.wheelcache ) {
+        const vehicle_part &vp = veh.part( wheel_idx );
+        const tripoint pp = veh.global_part_pos3( vp );
         const ter_t &tr = ter( pp ).obj();
-        // Deep water and air
         if( tr.has_flag( ter_furn_flag::TFLAG_DEEP_WATER ) ||
             tr.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) ) {
-            // No traction from wheel in water or air
-            continue;
+            continue; // No traction from wheel in deep water or air
         }
 
         int move_mod = move_cost_ter_furn( pp );
         if( move_mod == 0 ) {
-            // Vehicle locked in wall
-            // Shouldn't happen, but does
-            return 0.0f;
+            return 0.0f; // Vehicle locked in wall, shouldn't happen, but does
         }
 
-        for( const auto &terrain_mod : veh.part_info( p ).wheel_terrain_mod() ) {
-            if( terrain_mod.second.movecost > 0 &&
-                tr.has_flag( terrain_mod.first ) ) {
-                move_mod = terrain_mod.second.movecost;
+        if( ignore_movement_modifiers ) {
+            traction_wheel_area += vp.wheel_area();
+            continue; // Ignore the movement modifier if caller specifies a bool
+        }
+
+        for( const veh_ter_mod &mod : vp.info().wheel_terrain_modifiers() ) {
+            const bool ter_has_flag = tr.has_flag( mod.terrain_flag );
+            if( ter_has_flag && mod.move_override ) {
+                move_mod = mod.move_override;
                 break;
-            } else if( terrain_mod.second.penalty && !tr.has_flag( terrain_mod.first ) ) {
-                move_mod += terrain_mod.second.penalty;
+            } else if( !ter_has_flag && mod.move_penalty ) {
+                move_mod += mod.move_penalty;
                 break;
             }
         }
 
-        // Ignore the movement modifier if needed.
-        if( ignore_movement_modifiers ) {
-            move_mod = 2;
+        if( move_mod == 0 ) {
+            debugmsg( "move_mod resulted in a 0, ignoring wheel" );
+            continue;
         }
 
-        traction_wheel_area += 2.0 * wheel_area / move_mod;
+        traction_wheel_area += 2.0 * vp.wheel_area() / move_mod;
     }
 
     return traction_wheel_area;

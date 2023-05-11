@@ -259,6 +259,12 @@
   },
   {
     "type": "mutation",
+    "id": "SPARSE_SCALES",
+    "copy-from": "SPARSE_SCALES",
+    "extend": { "category": [ "STEGO", "TYRANT", "HORNS" ] }
+  },
+  {
+    "type": "mutation",
     "id": "SCALES",
     "copy-from": "SCALES",
     "extend": { "category": [ "STEGO", "TYRANT", "HORNS" ] }

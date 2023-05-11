@@ -311,6 +311,20 @@ bodypart_id anatomy::select_blocking_part( const Creature *blocker, bool arm, bo
     return *ret;
 }
 
+std::vector<bodypart_id> anatomy::get_all_eligable_parts( int min_hit, int max_hit,
+        bool can_attack_high ) const
+{
+    std::vector<bodypart_id> ret;
+    for( const bodypart_id &bp : cached_bps ) {
+        if( ( bp->hit_size > max_hit && max_hit > 0 ) || bp->hit_size < min_hit || ( !can_attack_high &&
+                bp->has_flag( json_flag_LIMB_UPPER ) ) ) {
+            continue;
+        }
+        ret.emplace_back( bp );
+    }
+    return ret;
+}
+
 bodypart_id anatomy::select_body_part_projectile_attack( const double range_min,
         const double range_max, const double value ) const
 {

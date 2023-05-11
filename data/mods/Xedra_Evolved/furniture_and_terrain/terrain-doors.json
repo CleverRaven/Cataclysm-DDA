@@ -68,7 +68,7 @@
       "effect_on_conditions": [
         {
           "id": "eoc_unlock_elock",
-          "condition": { "roll_contested": { "u_val": "skill_level", "skill": "deduction" }, "difficulty": 12 },
+          "condition": { "roll_contested": { "math": [ "u_skill('deduction')" ] }, "difficulty": 12 },
           "effect": [
             { "u_location_variable": { "global_val": "door_transform" }, "min_radius": 1, "max_radius": 2 },
             {

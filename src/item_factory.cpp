@@ -3168,8 +3168,29 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
         slot.monotony_penalty = 0;
     }
     assign( jo, "monotony_penalty", slot.monotony_penalty, strict );
-    assign( jo, "addiction_type", slot.add, strict );
-    assign( jo, "addiction_potential", slot.addict, strict );
+    assign( jo, "addiction_potential", slot.default_addict_potential, strict );
+    if( jo.has_member( "addiction_type" ) ) {
+        slot.addictions.clear();
+        if( jo.has_string( "addiction_type" ) ) {
+            slot.addictions.emplace( addiction_id( jo.get_string( "addiction_type" ) ),
+                                     slot.default_addict_potential );
+        } else { //"addiction_type" is an array
+            for( JsonValue jval : jo.get_array( "addiction_type" ) ) {
+                if( jval.test_string() ) {
+                    slot.addictions.emplace( addiction_id( jval.get_string() ), slot.default_addict_potential );
+                } else { //nested object with addiction + potential
+                    JsonObject jobj = jval.get_object();
+                    slot.addictions.emplace( addiction_id( jobj.get_string( "addiction" ) ),
+                                             jobj.get_int( "potential" ) );
+                }
+            }
+        }
+    } else if( jo.has_member( "addiction_potential" ) ) {
+        // copy-from'd while only changing the general potential, so assign new potential to all addictions
+        for( std::pair<const addiction_id, int> &add : slot.addictions ) {
+            add.second = slot.default_addict_potential;
+        }
+    }
 
     bool got_calories = false;
 
@@ -3319,6 +3340,7 @@ void Item_factory::load( islot_gunmod &slot, const JsonObject &jo, const std::st
         }
     }
     assign( jo, "blacklist_mod", slot.blacklist_mod );
+    assign( jo, "barrel_length", slot.barrel_length );
 }
 
 void Item_factory::load_gunmod( const JsonObject &jo, const std::string &src )

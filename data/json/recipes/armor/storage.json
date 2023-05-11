@@ -145,6 +145,7 @@
     "difficulty": 4,
     "time": "6 h",
     "autolearn": true,
+    "reversible": { "time": "5 m" },
     "using": [ [ "tailoring_nylon_patchwork", 4 ], [ "fastener_small", 1 ], [ "clasps", 1 ], [ "plastic_molding", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },

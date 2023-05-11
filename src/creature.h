@@ -1255,6 +1255,8 @@ class Creature : public viewer
         bodypart_id select_body_part( int min_hit, int max_hit, bool can_attack_high, int hit_roll ) const;
         bodypart_id select_blocking_part( bool arm, bool leg, bool nonstandard ) const;
         bodypart_id random_body_part( bool main_parts_only = false ) const;
+        std::vector<bodypart_id> get_all_eligable_parts( int min_hit, int max_hit,
+                bool can_attack_high ) const;
 
         void add_damage_over_time( const damage_over_time_data &DoT );
         void process_damage_over_time();

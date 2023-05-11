@@ -610,6 +610,11 @@ int main( int argc, const char *argv[] )
     reset_floating_point_mode();
     flatbuffers::ClassicLocale::Get();
 
+    on_out_of_scope json_member_reporting_guard{ [] {
+            // Disable reporting unvisited members if stack unwinding leaves main early.
+            Json::globally_report_unvisited_members( false );
+        } };
+
 #if defined(_WIN32) and defined(TILES)
     const HANDLE std_output { GetStdHandle( STD_OUTPUT_HANDLE ) }, std_error { GetStdHandle( STD_ERROR_HANDLE ) };
     if( std_output != INVALID_HANDLE_VALUE and std_error != INVALID_HANDLE_VALUE ) {
@@ -740,7 +745,7 @@ int main( int argc, const char *argv[] )
         get_options().load();
     }
 
-    set_language();
+    set_language_from_options();
 
     rng_set_engine_seed( cli.seed );
 
@@ -793,7 +798,7 @@ int main( int argc, const char *argv[] )
 #if defined(LOCALIZE)
     if( get_option<std::string>( "USE_LANG" ).empty() && !SystemLocale::Language().has_value() ) {
         select_language();
-        set_language();
+        set_language_from_options();
     }
 #endif
     replay_buffered_debugmsg_prompts();

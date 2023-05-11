@@ -290,6 +290,7 @@ struct queued_eoc {
     public:
         effect_on_condition_id eoc;
         time_point time;
+        std::unordered_map<std::string, std::string> context;
 };
 
 struct eoc_compare {
