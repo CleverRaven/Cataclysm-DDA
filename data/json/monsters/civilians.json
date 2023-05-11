@@ -84,11 +84,7 @@
         "description": "The officer fires their Glock 22!"
       }
     ],
-    "armor_bash": 1,
-    "armor_cut": 2,
-    "armor_bullet": 6,
-    "armor_stab": 2,
-    "armor_elec": 2
+    "armor": { "bash": 6, "cut": 6, "stab": 6, "bullet": 6, "electric": 2 }
   },
   {
     "id": "mon_civilian_zombiefighter",
