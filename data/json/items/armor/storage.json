@@ -2992,7 +2992,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-		"holster": true,
+        "holster": true,
         "max_contains_volume": "1000 L",
         "max_contains_weight": "150 kg",
         "moves": 300,
