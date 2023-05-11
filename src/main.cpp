@@ -608,7 +608,9 @@ int main( int argc, const char *argv[] )
     ordered_static_globals();
     init_crash_handlers();
     reset_floating_point_mode();
+#if defined(FLATBUFFERS_LOCALE_INDEPENDENT) && (FLATBUFFERS_LOCALE_INDEPENDENT > 0)
     flatbuffers::ClassicLocale::Get();
+#endif
 
     on_out_of_scope json_member_reporting_guard{ [] {
             // Disable reporting unvisited members if stack unwinding leaves main early.

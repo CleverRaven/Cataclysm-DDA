@@ -257,7 +257,7 @@ namespace flatbuffers {
 #ifndef FLATBUFFERS_LOCALE_INDEPENDENT
 #define FLATBUFFERS_LOCALE_INDEPENDENT 1
 #elif FLATBUFFERS_LOCALE_INDEPENDENT != 1
-#error CDDA requires locale independent number parsing.
+#include "flatbuffers/cata_error_locale_dependent.h"
 #endif
 #ifndef FLATBUFFERS_LOCALE_INDEPENDENT
   // Enable locale independent functions {strtof_l, strtod_l,strtoll_l, strtoull_l}.
