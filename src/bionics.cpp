@@ -1403,7 +1403,7 @@ void Character::burn_fuel( bionic &bio )
         if( bio.id->fuel_opts.front() == fuel_type_dermal_solar && !g->is_sheltered( pos() ) ) {
             const weather_type_id &wtype = current_weather( get_location() );
             float intensity = incident_sun_irradiance( wtype, calendar::turn ); // W/m2
-            mod_power_level( units::from_joule( intensity ) );
+            mod_power_level( units::from_joule( intensity * efficiency ) );
         }
         return;
     } else {
