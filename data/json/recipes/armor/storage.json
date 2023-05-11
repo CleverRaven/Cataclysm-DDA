@@ -2300,9 +2300,7 @@
     "autolearn": true,
     "reversible": true,
     "using": [ [ "strap_large", 3 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_carving" }
-    ],
+    "proficiencies": [ { "proficiency": "prof_carving" } ],
     "components": [ [ [ "2x4", 2 ], [ "stick", 4 ] ] ]
   },
   {
