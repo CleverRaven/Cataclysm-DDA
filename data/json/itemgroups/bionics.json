@@ -92,7 +92,8 @@
       [ "bio_soporific", 10 ],
       [ "bio_recoil", 10 ],
       [ "bio_ar", 10 ],
-      [ "bio_fitnessband", 10 ]
+      [ "bio_fitnessband", 10 ],
+      [ "bio_solar_arms", 10 ]
     ]
   },
   {
@@ -116,7 +117,8 @@
       [ "bio_watch", 10 ],
       [ "bio_torsionratchet", 10 ],
       [ "bio_cable", 10 ],
-      [ "bio_fitnessband", 10 ]
+      [ "bio_fitnessband", 10 ],
+      [ "bio_solar_arms", 10 ]
     ]
   },
   {
@@ -181,7 +183,8 @@
       [ "bio_weight", 10 ],
       [ "bio_jointservo", 10 ],
       [ "bio_shotgun", 10 ],
-      [ "bio_recoil", 10 ]
+      [ "bio_recoil", 10 ],
+      [ "bio_solar_arms", 10 ]
     ]
   }
 ]
