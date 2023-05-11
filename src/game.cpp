@@ -10366,7 +10366,7 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
         }
         // learn a little about parkour
         // don't learn anything from traversing tall grass or dirt mounds
-        if ( !m.has_flag_ter_or_furn( ter_furn_flag::TFLAG_DIGGABLE, dest_loc ) ) {
+        if( !m.has_flag_ter_or_furn( ter_furn_flag::TFLAG_DIGGABLE, dest_loc ) ) {
             u.practice_proficiency( proficiency_prof_parkour,
                                     time_duration::from_turns( ( mcost_from + mcost_to ) / 2 ) );
         }
