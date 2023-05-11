@@ -1466,7 +1466,7 @@
     "description": "Photovoltaic supermaterials are implanted within the skin of your arms, providing constant power while exposed to sunlight.  Covering your arms will reduce their efficiency.",
     "occupied_bodyparts": [ [ "arm_l", 8 ], [ "arm_r", 8 ] ],
     "encumbrance": [ [ "arm_l", 1 ], [ "arm_r", 1 ] ],
-    "fuel_options": [ "dermal_solar" ],
+    "fuel_options": [ "sun_light" ],
     "//": "at max irradiance (~1000) generates about 8 watts",
     "passive_fuel_efficiency": 0.008,
     "coverage_power_gen_penalty": 1.0
