@@ -76,6 +76,14 @@
   },
   {
     "type": "material",
+    "id": "dermal_solar",
+    "//a": "this is a distinct thing from Sunlight because bionics that use Sunlight have to activate while these ones work passively and also factor in the amount they're covered by clothing",
+    "name": "Sunlight",
+    "fuel_data": { "energy": "1 kJ", "perpetual": true },
+    "copy-from": "pseudo_fuel"
+  },
+  {
+    "type": "material",
     "id": "animal",
     "name": "Animal",
     "fuel_data": { "energy": "1 kJ", "perpetual": true },
