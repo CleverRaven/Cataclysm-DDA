@@ -679,7 +679,7 @@
     "name": { "str": "tear gas sprayer" },
     "description": "A pocket sized plastic canister filled with a pressurized tear gas spray, a step above oleoresin capsicum pepper spray in terms of potency.  Most commonly used by law enforcement and bear-wary hikers, but it became more common in recent months due to anxiety over the riots.  Probably won't do much against a zombie, but should give anything still breathing a rather nasty surprise and give you time to get away.  It contains enough spray for about twenty seconds of continuous application.",
     "weight": "96 g",
-    "volume": "50 ml",
+    "volume": "100 ml",
     "longest_side": "9 cm",
     "price": 1000,
     "price_postapoc": 150,
