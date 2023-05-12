@@ -1025,7 +1025,7 @@
         "encumbrance": 3
       }
     ],
-    "melee_damage": { "cut": 9 },
+    "melee_damage": { "cut": 10 },
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ATTACK_SPEED", "add": 20 } ] } ]
     }
