@@ -251,11 +251,11 @@
         "run_eocs": [
           {
             "id": "void_spider_life_remaining",
-            "condition": { "and": [ { "math": [ "u_val('hp')", "<", "350" ] }, { "math": [ "void_spider_nest_disturbed", "!=", "1" ] } ] },
+            "condition": { "and": [ { "math": [ "u_val('hp')", "<", "350" ] }, { "math": [ "u_void_spider_nest_disturbed", "!=", "1" ] } ] },
             "effect": [
               { "u_make_sound": "the spider mimic an anguished scream", "volume": 60, "type": "speech" },
               { "run_eocs": [ "EOC_VOID_SPIDER_DISTURBED_NEST" ] },
-              { "math": [ "void_spider_nest_disturbed", "=", "1" ] }
+              { "math": [ "u_void_spider_nest_disturbed", "=", "1" ] }
             ]
           },
           {
@@ -369,6 +369,10 @@
     "id": "EOC_VOID_SPIDER_RESET_VARS",
     "global": true,
     "//": "Reset in case someone finds a second lair under some extraneous circumstances.",
-    "effect": [ { "math": [ "spider_lair_sealed", "=", "0" ] } ]
+    "effect": [ 
+      { "math": [ "spider_lair_sealed", "=", "0" ] },
+      { "math": [ "void_spider_nest_eggs_spawned", "=", "0" ] },
+      { "math": [ "void_spider_nest_corpses_spawned", "=", "0" ] }
+      ]
   }
 ]
