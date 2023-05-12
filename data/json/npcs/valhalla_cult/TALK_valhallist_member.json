@@ -83,7 +83,7 @@
     "id": "TALK_VALHALLIST_MEMBER_Story",
     "dynamic_line": {
       "npc_has_trait": "BGSS_Valhallist_AgSci",
-      "yes": "Half of us were from the Ag-Sci program at U Amherst, we'd heard some friends talk about a living histroy program the university ran here, a fortress modeled after Viking structures. When things got really hairy we started wandering this direction.  It was a hell of a journey and we lost several of our friends and found some other refugees on the way.  Others have come and gone since then, but we've held out.",
+      "yes": "Half of us were from the Ag-Sci program at U Amherst, we'd heard some friends talk about a living histroy program the university ran here, a fortress modeled after Viking structures.  When things got really hairy we started wandering this direction.  It was a hell of a journey and we lost several of our friends and found some other refugees on the way.  Others have come and gone since then, but we've held out.",
       "no": "I came from one of those government evac camps, when things all went <swear> sideways.  A bunch of us jumped ship before everything went down, and we met a group of grad students wandering down this way.  One of them was really into Norse stuff, started preaching about religion and gods, quite the convincing individual.  We heard they were going to some sort of fortress, so we opted to follow the."
     },
     "responses": [
