@@ -50,7 +50,7 @@
   {
     "id": "blood_of_saints",
     "type": "COMESTIBLE",
-    "name": { "str": "blood of the saints" },
+    "name": { "str_sp": "blood of the saints" },
     "description": "A rare substance of uncertain origins.  Causes you to mutate.",
     "price": "2500 USD",
     "price_postapoc": "500 USD",
