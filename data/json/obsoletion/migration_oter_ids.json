@@ -74,40 +74,6 @@
   {
     "type": "oter_id_migration",
     "//": "obsoleted in 0.H",
-    "oter_ids": {
-      "hive": "omt_obsolete",
-      "pagan_cult_enter_east": "omt_obsolete",
-      "pagan_cult_enter_north": "omt_obsolete",
-      "pagan_cult_enter_south": "omt_obsolete",
-      "pagan_cult_enter_west": "omt_obsolete",
-      "pagan_cult_henge_east": "omt_obsolete",
-      "pagan_cult_henge_north": "omt_obsolete",
-      "pagan_cult_henge_south": "omt_obsolete",
-      "pagan_cult_henge_west": "omt_obsolete",
-      "pagan_cult_left_corner_east": "omt_obsolete",
-      "pagan_cult_left_corner_north": "omt_obsolete",
-      "pagan_cult_left_corner_south": "omt_obsolete",
-      "pagan_cult_left_corner_up_east": "omt_obsolete",
-      "pagan_cult_left_corner_up_north": "omt_obsolete",
-      "pagan_cult_left_corner_up_south": "omt_obsolete",
-      "pagan_cult_left_corner_up_west": "omt_obsolete",
-      "pagan_cult_left_corner_west": "omt_obsolete",
-      "pagan_cult_long_wall_east": "omt_obsolete",
-      "pagan_cult_long_wall_north": "omt_obsolete",
-      "pagan_cult_long_wall_south": "omt_obsolete",
-      "pagan_cult_long_wall_west": "omt_obsolete",
-      "pagan_cult_longhouse_east": "omt_obsolete",
-      "pagan_cult_longhouse_north": "omt_obsolete",
-      "pagan_cult_longhouse_south": "omt_obsolete",
-      "pagan_cult_longhouse_west": "omt_obsolete",
-      "pagan_cult_right_corner_east": "omt_obsolete",
-      "pagan_cult_right_corner_north": "omt_obsolete",
-      "pagan_cult_right_corner_south": "omt_obsolete",
-      "pagan_cult_right_corner_up_east": "omt_obsolete",
-      "pagan_cult_right_corner_up_north": "omt_obsolete",
-      "pagan_cult_right_corner_up_south": "omt_obsolete",
-      "pagan_cult_right_corner_up_west": "omt_obsolete",
-      "pagan_cult_right_corner_west": "omt_obsolete"
-    }
+    "oter_ids": { "hive": "omt_obsolete" }
   }
 ]

@@ -106,11 +106,6 @@
   },
   {
     "type": "overmap_special_migration",
-    "id": "valhalla_cult",
-    "//": "Removed in 0.G - no new id"
-  },
-  {
-    "type": "overmap_special_migration",
     "id": "Fishing Pond",
     "//": "Removed in 0.G - no new id"
   },
