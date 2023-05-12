@@ -204,7 +204,7 @@ item_location mdeath::splatter( monster &z )
 
 void mdeath::disappear( monster &z )
 {
-    if ( !z.type->has_flag( MF_SILENT_DISAPPEAR ) ) {
+    if( !z.type->has_flag( MF_SILENT_DISAPPEAR ) ) {
         add_msg_if_player_sees( z.pos(), m_good, _( "The %s disappears." ), z.name() );
     }
 }
