@@ -39,8 +39,7 @@
         [ "irradiated_tomato", 1 ],
         [ "carrot", 2 ],
         [ "irradiated_carrot", 2 ],
-        [ "pineapple", 1 ],
-        [ "irradiated_pineapple", 1 ],
+        [ "pineapple_chunks", 1 ],
         [ "cranberries", 1 ],
         [ "irradiated_cranberries", 1 ],
         [ "raspberries", 1 ],
@@ -433,7 +432,15 @@
     "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
     "components": [
       [ [ "corn_kernels", 1 ], [ "can_corn", 1 ], [ "hominy", 1 ] ],
-      [ [ "raw_beans", 1 ], [ "can_beans", 1 ], [ "dry_beans", 1 ], [ "raw_lentils", 1 ], [ "dry_lentils", 1 ] ],
+      [
+        [ "raw_beans", 1 ],
+        [ "can_beans", 1 ],
+        [ "dry_beans", 1 ],
+        [ "raw_lentils", 1 ],
+        [ "dry_lentils", 1 ],
+        [ "soybean", 1 ],
+        [ "raw_edamame", 1 ]
+      ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [
         [ "salt", 1 ],
@@ -461,17 +468,28 @@
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
     "components": [
       [ [ "corn_kernels", 1 ], [ "can_corn", 1 ], [ "hominy", 1 ] ],
-      [ [ "raw_beans", 1 ], [ "can_beans", 1 ], [ "dry_beans", 1 ], [ "raw_lentils", 1 ], [ "dry_lentils", 1 ] ],
+      [
+        [ "raw_beans", 1 ],
+        [ "can_beans", 1 ],
+        [ "dry_beans", 1 ],
+        [ "raw_lentils", 1 ],
+        [ "dry_lentils", 1 ],
+        [ "soybean", 1 ],
+        [ "raw_edamame", 1 ]
+      ],
       [
         [ "onion", 2 ],
         [ "irradiated_onion", 2 ],
         [ "can_tomato", 1 ],
         [ "tomato", 1 ],
         [ "irradiated_tomato", 1 ],
+        [ "jerusalem_artichoke", 1 ],
         [ "jerusalem_artichoke_boiled", 1 ],
         [ "groundnut_prepared", 1 ],
         [ "potato", 1 ],
-        [ "irradiated_potato", 1 ]
+        [ "irradiated_potato", 1 ],
+        [ "bell_pepper", 1 ],
+        [ "pumpkin", 1 ]
       ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [

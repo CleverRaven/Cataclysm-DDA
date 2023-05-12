@@ -95,5 +95,30 @@
     "id": "mess_tin",
     "type": "MIGRATION",
     "replace": "mess_kit"
+  },
+  {
+    "id": "badge_cybercop",
+    "type": "MIGRATION",
+    "replace": "badge_marshal"
+  },
+  {
+    "id": "bio_power_armor_interface",
+    "type": "MIGRATION",
+    "replace": "burnt_out_bionic"
+  },
+  {
+    "id": "bio_power_armor_interface_mkII",
+    "type": "MIGRATION",
+    "replace": "burnt_out_bionic"
+  },
+  {
+    "id": "generic_figurine_plastic",
+    "type": "MIGRATION",
+    "replace": "toy_figurine"
+  },
+  {
+    "id": "bookmark_note_catalytic",
+    "type": "MIGRATION",
+    "replace": "paper"
   }
 ]

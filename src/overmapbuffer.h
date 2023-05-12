@@ -400,18 +400,18 @@ class overmapbuffer
         using t_point_with_note = std::pair<point_abs_omt, std::string>;
         using t_notes_vector = std::vector<t_point_with_note>;
         t_notes_vector get_all_notes( int z ) {
-            return get_notes( z, nullptr ); // NULL => don't filter notes
+            return get_notes( z, {} ); // empty string => don't filter notes
         }
-        t_notes_vector find_notes( int z, const std::string &pattern ) {
-            return get_notes( z, &pattern ); // filter with pattern
+        t_notes_vector find_notes( int z, const std::string_view pattern ) {
+            return get_notes( z, pattern ); // filter with pattern
         }
         using t_point_with_extra = std::pair<point_abs_omt, map_extra_id>;
         using t_extras_vector = std::vector<t_point_with_extra>;
         t_extras_vector get_all_extras( int z ) {
-            return get_extras( z, nullptr ); // NULL => don't filter extras
+            return get_extras( z, {} ); // empty string => don't filter extras
         }
-        t_extras_vector find_extras( int z, const std::string &pattern ) {
-            return get_extras( z, &pattern ); // filter with pattern
+        t_extras_vector find_extras( int z, const std::string_view pattern ) {
+            return get_extras( z, pattern ); // filter with pattern
         }
         /**
          * Signal nearby hordes to move to given location.
@@ -460,7 +460,7 @@ class overmapbuffer
          * Spawn monsters from the overmap onto the main map (game::m).
          * p is an absolute *submap* coordinate.
          */
-        void spawn_monster( const tripoint_abs_sm &p );
+        void spawn_monster( const tripoint_abs_sm &p, bool spawn_nonlocal = false );
         /**
          * Despawn the monster back onto the overmap. The monsters position
          * (monster::pos()) is interpreted as relative to the main map.
@@ -549,14 +549,14 @@ class overmapbuffer
          * @param pattern only notes that contain this pattern are returned.
          * If the pattern is NULL, every note matches.
          */
-        t_notes_vector get_notes( int z, const std::string *pattern );
+        t_notes_vector get_notes( int z, std::string_view pattern );
         /**
          * Get a list of map extras in the (loaded) overmaps.
          * @param z only this specific z-level is search for map extras.
          * @param pattern only map extras that contain this pattern are returned.
          * If the pattern is NULL, every map extra matches.
          */
-        t_extras_vector get_extras( int z, const std::string *pattern );
+        t_extras_vector get_extras( int z, std::string_view pattern );
     public:
         /**
          * See overmap::check_ot, this uses global

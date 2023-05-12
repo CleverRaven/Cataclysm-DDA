@@ -310,6 +310,7 @@ void timed_event::actualize()
         case timed_event_type::UPDATE_MAPGEN:
             run_mapgen_update_func(
                 update_mapgen_id( string_id ), project_to<coords::omt>( map_point ), {}, nullptr );
+            set_queued_points();
             get_map().invalidate_map_cache( map_point.z() );
             break;
 

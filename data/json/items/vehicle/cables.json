@@ -10,14 +10,15 @@
     "material": [ "steel", "plastic" ],
     "volume": "500 ml",
     "weight": "75 g",
-    "bashing": 2,
     "category": "tools",
     "price": 1,
     "price_postapoc": 100,
     "max_charges": 3,
     "initial_charges": 3,
     "use_action": [ "CABLE_ATTACH" ],
-    "flags": [ "CABLE_SPOOL", "SINGLE_USE" ]
+    "flags": [ "CABLE_SPOOL", "SINGLE_USE" ],
+    "qualities": [ [ "JUMPSTART", 1 ] ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "type": "TOOL",
@@ -52,7 +53,6 @@
     "material": [ "steel", "plastic" ],
     "volume": "3000 ml",
     "weight": "24000 g",
-    "bashing": 6,
     "category": "tools",
     "price": 80,
     "price_postapoc": 500,
@@ -60,7 +60,8 @@
     "initial_charges": 6,
     "use_action": [ "TOW_ATTACH" ],
     "qualities": [ [ "ROPE", 2 ] ],
-    "flags": [ "CABLE_SPOOL", "TOW_CABLE", "SINGLE_USE" ]
+    "flags": [ "CABLE_SPOOL", "TOW_CABLE", "SINGLE_USE" ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "type": "TOOL",

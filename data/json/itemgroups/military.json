@@ -541,7 +541,6 @@
     "id": "xedra_kill_team_set",
     "type": "item_group",
     "subtype": "collection",
-    "container_item": "xedra_corpse",
     "items": [
       { "group": "clothing_military" },
       { "item": "elbow_pads", "prob": 80 },
@@ -1118,7 +1117,9 @@
       [ "small_turbine_engine", 7 ],
       [ "medium_turbine_engine", 5 ],
       [ "large_turbine_engine", 3 ],
-      [ "weldrig", 1 ],
+      [ "veh_tools_workshop", 1 ],
+      [ "welder", 1 ],
+      [ "soldering_iron", 1 ],
       [ "solar_cell", 1 ],
       [ "bearing", 1 ],
       [ "headlight_reinforced", 10 ],

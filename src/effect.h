@@ -149,8 +149,8 @@ class effect_type
 
         /** Loading helper functions */
         void load_mod_data( const JsonObject &jo );
-        bool load_miss_msgs( const JsonObject &jo, const std::string &member );
-        bool load_decay_msgs( const JsonObject &jo, const std::string &member );
+        bool load_miss_msgs( const JsonObject &jo, std::string_view member );
+        bool load_decay_msgs( const JsonObject &jo, std::string_view member );
 
         /** Verifies data is accurate */
         static void check_consistency();
@@ -175,7 +175,7 @@ class effect_type
         }
 
         void extract_effect(
-            const JsonObject &j,
+            const std::array<std::optional<JsonObject>, 2> &j,
             const std::string &effect_name,
             const std::vector<std::pair<std::string, mod_action>> &action_keys );
 

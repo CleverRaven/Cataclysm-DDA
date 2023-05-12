@@ -1114,11 +1114,11 @@ size_t item_contents::num_item_stacks() const
     return num;
 }
 
-void item_contents::on_pickup( Character &guy )
+void item_contents::on_pickup( Character &guy, item *avoid )
 {
     for( item_pocket &pocket : contents ) {
         if( !pocket.is_type( item_pocket::pocket_type::MOD ) ) {
-            pocket.on_pickup( guy );
+            pocket.on_pickup( guy, avoid );
         }
     }
 }
@@ -1132,10 +1132,10 @@ bool item_contents::spill_contents( const tripoint &pos )
     return spilled;
 }
 
-void item_contents::overflow( const tripoint &pos )
+void item_contents::overflow( const tripoint &pos, const item_location &loc )
 {
     for( item_pocket &pocket : contents ) {
-        pocket.overflow( pos );
+        pocket.overflow( pos, loc );
     }
 }
 

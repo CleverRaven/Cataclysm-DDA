@@ -99,6 +99,12 @@ static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
 static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
 static const activity_id ACT_STUDY_SPELL( "ACT_STUDY_SPELL" );
 
+static const damage_type_id damage_acid( "acid" );
+static const damage_type_id damage_bash( "bash" );
+static const damage_type_id damage_bullet( "bullet" );
+static const damage_type_id damage_cut( "cut" );
+static const damage_type_id damage_heat( "heat" );
+
 static const efftype_id effect_asthma( "asthma" );
 static const efftype_id effect_bandaged( "bandaged" );
 static const efftype_id effect_bite( "bite" );
@@ -267,8 +273,7 @@ std::optional<int> iuse_transform::use( Character &p, item &it, bool t, const tr
             p.add_msg_if_player( m_info, need_fire_msg, it.tname() );
             return std::nullopt;
         }
-        if( p.is_underwater() ) {
-            p.add_msg_if_player( m_info, _( "You can't do that while underwater" ) );
+        if( p.cant_do_underwater() ) {
             return std::nullopt;
         }
     }
@@ -292,7 +297,7 @@ std::optional<int> iuse_transform::use( Character &p, item &it, bool t, const tr
         }
     }
 
-    if( it.count_by_charges() && it.count() > 1 ) {
+    if( it.count_by_charges() && it.count() > 1 && !it.type->comestible ) {
         item take_one = it.split( 1 );
         do_transform( p, take_one );
         p.i_add_or_drop( take_one );
@@ -929,9 +934,9 @@ std::optional<int> place_monster_iuse::use( Character &p, item &it, bool, const 
         }
     }
 
-    int skill_offset = 0;
+    float skill_offset = 0;
     for( const skill_id &sk : skills ) {
-        skill_offset += p.get_skill_level( sk ) / 2;
+        skill_offset += p.get_skill_level( sk ) / 2.0f;
     }
     /** @EFFECT_INT increases chance of a placed turret being friendly */
     if( rng( 0, p.int_cur / 2 ) + skill_offset < rng( 0, difficulty ) ) {
@@ -1047,8 +1052,7 @@ void deploy_furn_actor::load( const JsonObject &obj )
 std::optional<int> deploy_furn_actor::use( Character &p, item &it, bool,
         const tripoint &pos ) const
 {
-    if( p.is_mounted() ) {
-        p.add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
+    if( p.cant_do_mounted() ) {
         return std::nullopt;
     }
     tripoint pnt = pos;
@@ -1553,7 +1557,8 @@ void salvage_actor::cut_up( Character &p, item_location &cut ) const
     float efficiency = 1.0;
     // Higher fabrication, less chance of entropy, but still a chance.
     /** @EFFECT_FABRICATION reduces chance of losing components when cutting items up */
-    int entropy_threshold = std::max( 0, 5 - p.get_skill_level( skill_fabrication ) );
+    int entropy_threshold = std::max( 0,
+                                      5 - static_cast<int>( round( p.get_skill_level( skill_fabrication ) ) ) );
     if( rng( 1, 10 ) <= entropy_threshold ) {
         efficiency *= 0.9;
     }
@@ -1565,8 +1570,7 @@ void salvage_actor::cut_up( Character &p, item_location &cut ) const
     }
 
     // If the item being cut is damaged, additional losses will be incurred.
-    // Reinforcing does not decrease losses.
-    efficiency *= std::min( std::pow( 0.8, cut.get_item()->damage_level() ), 1.0 );
+    efficiency *= std::pow( 0.8, cut.get_item()->damage_level() );
 
     auto distribute_uniformly = [&mat_to_weight]( const item & x, float num_adjusted ) -> void {
         for( const auto &type : x.made_of() )
@@ -2292,7 +2296,7 @@ std::optional<int> learn_spell_actor::use( Character &p, item &, bool, const tri
         }
         study_spell.moves_total = study_time;
         spell &studying = p.magic->get_spell( spell_id( spells[action] ) );
-        if( studying.get_difficulty( p ) < p.get_skill_level( studying.skill() ) ) {
+        if( studying.get_difficulty( p ) < static_cast<int>( p.get_skill_level( studying.skill() ) ) ) {
             p.handle_skill_warning( studying.skill(),
                                     true ); // show the skill warning on start reading, since we don't show it during
         }
@@ -2304,7 +2308,7 @@ std::optional<int> learn_spell_actor::use( Character &p, item &, bool, const tri
         study_spell.values[1] = p.magic->get_spell( spell_id( spells[action] ) ).get_level() + 1;
     }
     study_spell.name = spells[action];
-    p.assign_activity( study_spell, false );
+    p.assign_activity( study_spell );
     return 0;
 }
 
@@ -2357,7 +2361,6 @@ std::optional<int> cast_spell_actor::use( Character &p, item &it, bool, const tr
     }
 
     spell casting = spell( spell_id( item_spell ) );
-    int charges = 1;
 
     player_activity cast_spell( ACT_SPELLCASTING, casting.casting_time( p ) );
     // [0] this is used as a spell level override for items casting spells
@@ -2373,13 +2376,14 @@ std::optional<int> cast_spell_actor::use( Character &p, item &it, bool, const tr
     if( it.has_flag( flag_USE_PLAYER_ENERGY ) ) {
         // [2] this value overrides the mana cost if set to 0
         cast_spell.values.emplace_back( 1 );
-        charges = 0;
     } else {
         // [2]
         cast_spell.values.emplace_back( 0 );
     }
-    p.assign_activity( cast_spell, false );
-    return charges;
+    p.assign_activity( cast_spell );
+    p.activity.targets.emplace_back( item_location( p, &it ) );
+    // Actual handling of charges_to_use is in activity_handlers::spellcasting_finish
+    return 0;
 }
 
 std::unique_ptr<iuse_actor> holster_actor::clone() const
@@ -2497,7 +2501,9 @@ std::optional<int> holster_actor::use( Character &you, item &it, bool, const tri
             internal_item = *iter;
         }
     } else {
-        internal_item = all_items.front();
+        if( !all_items.empty() ) {
+            internal_item = all_items.front();
+        }
     }
 
     if( pos < -1 ) {
@@ -2567,7 +2573,7 @@ std::optional<int> ammobelt_actor::use( Character &p, item &, bool, const tripoi
     item_location loc = p.i_add( mag );
     item::reload_option opt = p.select_ammo( loc, true );
     if( opt ) {
-        p.assign_activity( player_activity( reload_activity_actor( std::move( opt ) ) ) );
+        p.assign_activity( reload_activity_actor( std::move( opt ) ) );
     } else {
         loc.remove_item();
     }
@@ -2606,17 +2612,10 @@ bool repair_item_actor::can_use_tool( const Character &p, const item &tool, bool
         }
         return false;
     }
-    if( p.is_underwater() ) {
-        if( print_msg ) {
-            p.add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
-        }
+    if( p.cant_do_underwater( print_msg ) ) {
         return false;
     }
-    if( p.is_mounted() ) {
-        if( print_msg ) {
-            p.add_msg_player_or_npc( m_bad, _( "You can't do that while mounted." ),
-                                     _( "<npcname> can't do that while mounted." ) );
-        }
+    if( p.cant_do_mounted( print_msg ) ) {
         return false;
     }
     if( p.fine_detail_vision_mod() > 4 ) {
@@ -2925,27 +2924,14 @@ bool repair_item_actor::can_repair_target( Character &pl, const item &fix, bool 
         return true;
     }
 
-    if( fix.damage() > fix.damage_floor( false ) ) {
+    if( fix.damage() > fix.degradation() ) {
         return true;
     }
 
-    if( fix.damage() <= fix.damage_floor( true ) ) {
-        if( print_msg ) {
-            pl.add_msg_if_player( m_info, _( "Your %s is already enhanced to its maximum potential." ),
-                                  fix.tname() );
-        }
-        return false;
+    if( print_msg ) {
+        pl.add_msg_if_player( m_info, _( "You cannot improve your %s any more this way." ), fix.tname() );
     }
-
-    if( fix.has_flag( flag_PRIMITIVE_RANGED_WEAPON ) || !fix.reinforceable() ) {
-        if( print_msg ) {
-            pl.add_msg_if_player( m_info, _( "You cannot improve your %s any more this way." ),
-                                  fix.tname() );
-        }
-        return false;
-    }
-
-    return true;
+    return false;
 }
 
 std::pair<float, float> repair_item_actor::repair_chance(
@@ -2953,10 +2939,14 @@ std::pair<float, float> repair_item_actor::repair_chance(
 {
     /** @EFFECT_TAILOR randomly improves clothing repair efforts */
     /** @EFFECT_MECHANICS randomly improves metal repair efforts */
-    const int skill = pl.get_skill_level( used_skill );
+    const float skill = pl.get_skill_level( used_skill );
     const int recipe_difficulty = repair_recipe_difficulty( pl, fix );
     int action_difficulty = 0;
     switch( action_type ) {
+        case RT_NOTHING: /* fallthrough */
+        case RT_DOWNSIZING: /* fallthrough */
+        case RT_UPSIZING:
+            break;
         case RT_REPAIR:
             action_difficulty = fix.damage_level();
             break;
@@ -2964,15 +2954,14 @@ std::pair<float, float> repair_item_actor::repair_chance(
             // Let's make refitting as hard as recovering an almost-wrecked item
             action_difficulty = fix.max_damage() / itype::damage_scale;
             break;
-        case RT_REINFORCE:
-            // Reinforcing is at least as hard as refitting
-            action_difficulty = std::max( fix.max_damage() / itype::damage_scale, recipe_difficulty );
-            break;
         case RT_PRACTICE:
             // Skill gain scales with recipe difficulty, so practice difficulty should too
             action_difficulty = recipe_difficulty;
+            break;
         default:
-            ;
+            // 5 is obsoleted reinforcing, remove after 0.H
+            action_difficulty = 1'000'000; // ensure failure
+            break;
     }
 
     const int difficulty = recipe_difficulty + action_difficulty;
@@ -2998,7 +2987,7 @@ std::pair<float, float> repair_item_actor::repair_chance(
 repair_item_actor::repair_type repair_item_actor::default_action( const item &fix,
         int current_skill_level ) const
 {
-    if( fix.damage() > fix.damage_floor( false ) ) {
+    if( fix.damage() > fix.degradation() ) {
         return RT_REPAIR;
     }
 
@@ -3023,10 +3012,6 @@ repair_item_actor::repair_type repair_item_actor::default_action( const item &fi
     const bool too_small_while_big = !smol && is_undersized && !is_oversized;
     if( too_small_while_big && can_be_refitted && resizing_matters ) {
         return RT_UPSIZING;
-    }
-
-    if( fix.damage() > fix.damage_floor( true ) && fix.damage_floor( true ) < 0 ) {
-        return RT_REINFORCE;
     }
 
     if( current_skill_level <= trains_skill_to ) {
@@ -3135,22 +3120,17 @@ repair_item_actor::attempt_hint repair_item_actor::repair( Character &pl, item &
     if( action == RT_REPAIR ) {
         if( roll == SUCCESS ) {
             const std::string startdurability = fix->durability_indicator( true );
-            const int damage = fix->damage();
             handle_components( pl, *fix, false, false, true );
 
-            int dmg = fix->damage() + 1;
-            for( const int lvl = fix->damage_level(); lvl == fix->damage_level() && dmg != fix->damage(); ) {
-                dmg = fix->damage(); // break loop if clamped by degradation or no more repair needed
-                fix->mod_damage( -1 ); // scan for next damage indicator breakpoint, repairing that much damage
-            }
+            fix->mod_damage( -itype::damage_scale );
 
             const std::string resultdurability = fix->durability_indicator( true );
-            if( damage > itype::damage_scale ) {
-                pl.add_msg_if_player( m_good, _( "You repair your %s!  ( %s-> %s)" ), fix->tname( 1, false ),
-                                      startdurability, resultdurability );
+            if( fix->repairable_levels() ) {
+                pl.add_msg_if_player( m_good, _( "You repair your %s!  ( %s-> %s)" ),
+                                      fix->tname( 1, false ), startdurability, resultdurability );
             } else {
-                pl.add_msg_if_player( m_good, _( "You repair your %s completely!  ( %s-> %s)" ), fix->tname( 1,
-                                      false ), startdurability, resultdurability );
+                pl.add_msg_if_player( m_good, _( "You repair your %s completely!  ( %s-> %s)" ),
+                                      fix->tname( 1, false ), startdurability, resultdurability );
             }
             return AS_SUCCESS;
         }
@@ -3200,24 +3180,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( Character &pl, item &
         return AS_RETRY;
     }
 
-    if( action == RT_REINFORCE ) {
-        if( fix->has_flag( flag_PRIMITIVE_RANGED_WEAPON ) || !fix->reinforceable() ) {
-            pl.add_msg_if_player( m_info, _( "You cannot improve your %s any more this way." ),
-                                  fix->tname() );
-            return AS_CANT;
-        }
-
-        if( roll == SUCCESS ) {
-            pl.add_msg_if_player( m_good, _( "You make your %s extra sturdy." ), fix->tname() );
-            fix->mod_damage( -itype::damage_scale );
-            handle_components( pl, *fix, false, false, true );
-            return AS_SUCCESS;
-        }
-
-        return AS_RETRY;
-    }
-
-    pl.add_msg_if_player( m_info, _( "Your %s is already enhanced." ), fix->tname() );
+    pl.add_msg_if_player( m_info, _( "You cannot improve your %s any more this way." ), fix->tname() );
     return AS_CANT;
 }
 
@@ -3229,7 +3192,7 @@ std::string repair_item_actor::action_description( repair_item_actor::repair_typ
             translate_marker( "Refitting" ),
             translate_marker( "Downsizing" ),
             translate_marker( "Upsizing" ),
-            translate_marker( "Reinforcing" ),
+            "Obsolete",
             translate_marker( "Practicing" )
         }
     };
@@ -3311,12 +3274,10 @@ static Character &get_patient( Character &healer, const tripoint &pos )
 
 std::optional<int> heal_actor::use( Character &p, item &it, bool, const tripoint &pos ) const
 {
-    if( p.is_underwater() ) {
-        p.add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
+    if( p.cant_do_underwater() ) {
         return std::nullopt;
     }
-    if( p.is_mounted() ) {
-        p.add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
+    if( p.cant_do_mounted() ) {
         return std::nullopt;
     }
     if( it.is_filthy() ) {
@@ -3335,8 +3296,7 @@ std::optional<int> heal_actor::use( Character &p, item &it, bool, const tripoint
     cost = p.has_proficiency( proficiency_prof_wound_care_expert ) ? cost / 2 : cost;
     cost = p.has_proficiency( proficiency_prof_wound_care ) ? cost / 2 : cost;
 
-    p.assign_activity( player_activity( firstaid_activity_actor( cost, it.tname(),
-                                        patient.getID() ) ) );
+    p.assign_activity( firstaid_activity_actor( cost, it.tname(), patient.getID() ) );
 
     // Player: Only time this item_location gets used in firstaid::finish() is when activating the item's
     // container from the inventory window, so an item_on_person impl is all that is needed.
@@ -3370,7 +3330,7 @@ int heal_actor::get_heal_value( const Character &healer, bodypart_id healed ) co
 
     if( heal_base > 0 ) {
         /** @EFFECT_FIRSTAID increases healing item effects */
-        return heal_base + bonus_mult * healer.get_skill_level( skill_firstaid );
+        return round( heal_base + bonus_mult * healer.get_skill_level( skill_firstaid ) );
     }
 
     return heal_base;
@@ -3379,13 +3339,13 @@ int heal_actor::get_heal_value( const Character &healer, bodypart_id healed ) co
 int heal_actor::get_bandaged_level( const Character &healer ) const
 {
     if( bandages_power > 0 ) {
-        int prof_bonus = healer.get_skill_level( skill_firstaid );
+        float prof_bonus = healer.get_skill_level( skill_firstaid );
         prof_bonus = healer.has_proficiency( proficiency_prof_wound_care ) ?
                      prof_bonus + 1 : prof_bonus;
         prof_bonus = healer.has_proficiency( proficiency_prof_wound_care_expert ) ?
                      prof_bonus + 2 : prof_bonus;
         /** @EFFECT_FIRSTAID increases healing item effects */
-        return bandages_power + bandages_scaling * prof_bonus;
+        return round( bandages_power + bandages_scaling * prof_bonus );
     }
 
     return bandages_power;
@@ -3395,12 +3355,12 @@ int heal_actor::get_disinfected_level( const Character &healer ) const
 {
     if( disinfectant_power > 0 ) {
         /** @EFFECT_FIRSTAID increases healing item effects */
-        int prof_bonus = healer.get_skill_level( skill_firstaid );
+        float prof_bonus = healer.get_skill_level( skill_firstaid );
         prof_bonus = healer.has_proficiency( proficiency_prof_wound_care ) ?
                      prof_bonus + 1 : prof_bonus;
         prof_bonus = healer.has_proficiency( proficiency_prof_wound_care_expert ) ?
                      prof_bonus + 2 : prof_bonus;
-        return disinfectant_power + disinfectant_scaling * prof_bonus;
+        return round( disinfectant_power + disinfectant_scaling * prof_bonus );
     }
 
     return disinfectant_power;
@@ -3410,12 +3370,12 @@ int heal_actor::get_stopbleed_level( const Character &healer ) const
 {
     if( bleed > 0 ) {
         /** @EFFECT_FIRSTAID increases healing item effects */
-        int prof_bonus = healer.get_skill_level( skill_firstaid ) / 2;
+        float prof_bonus = healer.get_skill_level( skill_firstaid ) / 2;
         prof_bonus = healer.has_proficiency( proficiency_prof_wound_care ) ?
                      prof_bonus + 1 : prof_bonus;
         prof_bonus = healer.has_proficiency( proficiency_prof_wound_care_expert ) ?
                      prof_bonus + 2 : prof_bonus;
-        return bleed + prof_bonus;
+        return round( bleed + prof_bonus );
     }
 
     return bleed;
@@ -3845,12 +3805,10 @@ static void place_and_add_as_known( Character &p, const tripoint &pos, const tra
 std::optional<int> place_trap_actor::use( Character &p, item &it, bool, const tripoint & ) const
 {
     const bool could_bury = !bury_question.empty();
-    if( !allow_underwater && p.is_underwater() ) {
-        p.add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
+    if( !allow_underwater && p.cant_do_underwater() ) {
         return std::nullopt;
     }
-    if( p.is_mounted() ) {
-        p.add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
+    if( p.cant_do_mounted() ) {
         return std::nullopt;
     }
     const std::optional<tripoint> pos_ = choose_adjacent( string_format( _( "Place %s where?" ),
@@ -4342,6 +4300,7 @@ std::optional<int> modify_gunmods_actor::use( Character &p, item &it, bool,
         // set gun to default in case this changes anything
         it.gun_set_mode( gun_mode_DEFAULT );
         p.invoke_item( mods[prompt.ret], "transform", pnt );
+        it.on_contents_changed();
         return 0;
     }
 
@@ -4409,8 +4368,7 @@ void deploy_tent_actor::load( const JsonObject &obj )
 std::optional<int> deploy_tent_actor::use( Character &p, item &it, bool, const tripoint & ) const
 {
     int diam = 2 * radius + 1;
-    if( p.is_mounted() ) {
-        p.add_msg_if_player( _( "You cannot do that while mounted." ) );
+    if( p.cant_do_mounted() ) {
         return std::nullopt;
     }
     const std::optional<tripoint> dir = choose_direction( string_format(
@@ -4448,9 +4406,9 @@ std::optional<int> deploy_tent_actor::use( Character &p, item &it, bool, const t
     }
 
     //checks done start activity:
-    player_activity new_act = player_activity( tent_placement_activity_actor( to_moves<int>
-                              ( 20_minutes ), direction, radius, it, wall, floor, floor_center, door_closed ) );
-    get_player_character().assign_activity( new_act, false );
+    tent_placement_activity_actor actor( to_moves<int>( 20_minutes ), direction, radius, it, wall,
+                                         floor, floor_center, door_closed );
+    get_player_character().assign_activity( actor );
     p.i_rem( &it );
     return 0;
 }
@@ -4534,12 +4492,10 @@ std::optional<int> sew_advanced_actor::use( Character &p, item &it, bool, const 
     if( p.is_npc() ) {
         return std::nullopt;
     }
-    if( p.is_mounted() ) {
-        p.add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
+    if( p.cant_do_mounted() ) {
         return std::nullopt;
     }
-    if( p.is_underwater() ) {
-        p.add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
+    if( p.cant_do_underwater() ) {
         return std::nullopt;
     }
 
@@ -4649,23 +4605,24 @@ std::optional<int> sew_advanced_actor::use( Character &p, item &it, bool, const 
             prompt = obj.destroy_prompt.translated();
         }
         std::string desc;
-        desc += colorize( string_format( "%s: %.2f->%.2f\n", _( "Bash" ), mod.resist( damage_type::BASH ),
-                                         temp_item.resist( damage_type::BASH ) ), get_compare_color( mod.resist( damage_type::BASH ),
-                                                 temp_item.resist( damage_type::BASH ), true ) );
-        desc += colorize( string_format( "%s: %.2f->%.2f\n", _( "Cut" ), mod.resist( damage_type::CUT ),
-                                         temp_item.resist( damage_type::CUT ) ), get_compare_color( mod.resist( damage_type::CUT ),
-                                                 temp_item.resist( damage_type::CUT ), true ) );
+        // FIXME: Remove sew_advanced_actor, no longer used since before 0.G
+        desc += colorize( string_format( "%s: %.2f->%.2f\n", _( "Bash" ), mod.resist( damage_bash ),
+                                         temp_item.resist( damage_bash ) ), get_compare_color( mod.resist( damage_bash ),
+                                                 temp_item.resist( damage_bash ), true ) );
+        desc += colorize( string_format( "%s: %.2f->%.2f\n", _( "Cut" ), mod.resist( damage_cut ),
+                                         temp_item.resist( damage_cut ) ), get_compare_color( mod.resist( damage_cut ),
+                                                 temp_item.resist( damage_cut ), true ) );
         desc += colorize( string_format( "%s: %.2f->%.2f\n", _( "Ballistic" ),
-                                         mod.resist( damage_type::BULLET ),
-                                         temp_item.resist( damage_type::BULLET ) ), get_compare_color( mod.resist( damage_type::BULLET ),
-                                                 temp_item.resist( damage_type::BULLET ),
+                                         mod.resist( damage_bullet ),
+                                         temp_item.resist( damage_bullet ) ), get_compare_color( mod.resist( damage_bullet ),
+                                                 temp_item.resist( damage_bullet ),
                                                  true ) );
-        desc += colorize( string_format( "%s: %.2f->%.2f\n", _( "Acid" ), mod.resist( damage_type::ACID ),
-                                         temp_item.resist( damage_type::ACID ) ), get_compare_color( mod.resist( damage_type::ACID ),
-                                                 temp_item.resist( damage_type::ACID ), true ) );
-        desc += colorize( string_format( "%s: %.2f->%.2f\n", _( "Fire" ), mod.resist( damage_type::HEAT ),
-                                         temp_item.resist( damage_type::HEAT ) ), get_compare_color( mod.resist( damage_type::HEAT ),
-                                                 temp_item.resist( damage_type::HEAT ), true ) );
+        desc += colorize( string_format( "%s: %.2f->%.2f\n", _( "Acid" ), mod.resist( damage_acid ),
+                                         temp_item.resist( damage_acid ) ), get_compare_color( mod.resist( damage_acid ),
+                                                 temp_item.resist( damage_acid ), true ) );
+        desc += colorize( string_format( "%s: %.2f->%.2f\n", _( "Fire" ), mod.resist( damage_heat ),
+                                         temp_item.resist( damage_heat ) ), get_compare_color( mod.resist( damage_heat ),
+                                                 temp_item.resist( damage_heat ), true ) );
         desc += colorize( string_format( "%s: %d->%d\n", _( "Warmth" ), mod.get_warmth(),
                                          temp_item.get_warmth() ), get_compare_color( mod.get_warmth(), temp_item.get_warmth(), true ) );
         desc += colorize( string_format( "%s: %d->%d\n", _( "Encumbrance" ), mod.get_avg_encumber( p ),
@@ -4704,7 +4661,7 @@ std::optional<int> sew_advanced_actor::use( Character &p, item &it, bool, const 
     p.moves -= to_moves<int>( 30_seconds * p.fine_detail_vision_mod() );
     p.practice( used_skill, items_needed * 3 + 3 );
     /** @EFFECT_TAILOR randomly improves clothing modification efforts */
-    int rn = dice( 3, 2 + p.get_skill_level( used_skill ) ); // Skill
+    int rn = dice( 3, 2 + round( p.get_skill_level( used_skill ) ) ); // Skill
     /** @EFFECT_DEX randomly improves clothing modification efforts */
     rn += rng( 0, p.dex_cur / 2 );                    // Dexterity
     /** @EFFECT_PER randomly improves clothing modification efforts */
@@ -4803,9 +4760,18 @@ std::unique_ptr<iuse_actor> effect_on_conditons_actor::clone() const
 void effect_on_conditons_actor::load( const JsonObject &obj )
 {
     description = obj.get_string( "description" );
+    obj.read( "menu_text", menu_text );
     for( JsonValue jv : obj.get_array( "effect_on_conditions" ) ) {
         eocs.emplace_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
     }
+}
+
+std::string effect_on_conditons_actor::get_name() const
+{
+    if( !menu_text.empty() ) {
+        return menu_text.translated();
+    }
+    return iuse_actor::get_name();
 }
 
 void effect_on_conditons_actor::info( const item &, std::vector<iteminfo> &dump ) const
@@ -4813,9 +4779,13 @@ void effect_on_conditons_actor::info( const item &, std::vector<iteminfo> &dump 
     dump.emplace_back( "DESCRIPTION", description );
 }
 
-std::optional<int> effect_on_conditons_actor::use( Character &p, item &it, bool,
+std::optional<int> effect_on_conditons_actor::use( Character &p, item &it, bool t,
         const tripoint & ) const
 {
+    if( t ) {
+        return std::nullopt;
+    }
+
     Character *char_ptr = nullptr;
     if( avatar *u = p.as_avatar() ) {
         char_ptr = u;

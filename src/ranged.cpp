@@ -103,6 +103,9 @@ static const character_modifier_id
 character_modifier_ranged_dispersion_manip_mod( "ranged_dispersion_manip_mod" );
 static const character_modifier_id character_modifier_thrown_dex_mod( "thrown_dex_mod" );
 
+static const damage_type_id damage_bash( "bash" );
+static const damage_type_id damage_cut( "cut" );
+
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_hit_by_player( "hit_by_player" );
 static const efftype_id effect_on_roof( "on_roof" );
@@ -130,6 +133,7 @@ static const skill_id skill_dodge( "dodge" );
 static const skill_id skill_driving( "driving" );
 static const skill_id skill_gun( "gun" );
 static const skill_id skill_launcher( "launcher" );
+static const skill_id skill_swimming( "swimming" );
 static const skill_id skill_throw( "throw" );
 
 static const trait_id trait_BRAWLER( "BRAWLER" );
@@ -787,14 +791,13 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
         mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
         is_mech_weapon = true;
     }
-    // Number of shots to fire is limited by the amount of remaining ammo
-    if( gun.ammo_required() ) {
-        shots = std::min( shots, static_cast<int>( gun.ammo_remaining() / gun.ammo_required() ) );
-    }
 
-    // cap our maximum burst size by the amount of UPS power left
-    if( !gun.has_flag( flag_VEHICLE ) && gun.get_gun_ups_drain() > 0_kJ ) {
-        shots = std::min( shots, static_cast<int>( available_ups() / gun.get_gun_ups_drain() ) );
+    // cap our maximum burst size by ammo and energy
+    if( !gun.has_flag( flag_VEHICLE ) ) {
+        shots = std::min( shots, gun.shots_remaining( this ) );
+    } else if( gun.ammo_required() ) {
+        // This checks ammo only. Vehicle turret energy drain is handled elsewhere.
+        shots = std::min( shots, static_cast<int>( gun.ammo_remaining() / gun.ammo_required() ) );
     }
 
     if( shots <= 0 ) {
@@ -816,11 +819,11 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
     /** @EFFECT_RIFLE delays effects of recoil during automatic fire */
     /** @EFFECT_SHOTGUN delays effects of recoil during automatic fire */
     double absorb = std::min( get_skill_level( gun.gun_skill() ),
-                              MAX_SKILL ) / static_cast<double>( MAX_SKILL * 2 );
+                              static_cast<float>( MAX_SKILL ) ) / static_cast<double>( MAX_SKILL * 2 );
 
     itype_id gun_id = gun.typeId();
     skill_id gun_skill = gun.gun_skill();
-    add_msg_debug( debugmode::DF_RANGED, "Gun skill (%s) %d", gun_skill.c_str(),
+    add_msg_debug( debugmode::DF_RANGED, "Gun skill (%s) %g", gun_skill.c_str(),
                    get_skill_level( gun_skill ) ) ;
     tripoint aim = target;
     int curshot = 0;
@@ -934,12 +937,20 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
             break;
         }
 
-        if( !current_ammo.is_null() ) {
-            cycle_action( gun, current_ammo, pos() );
+
+        // Vehicle turrets drain vehicle battery and do not care about this
+        if( !gun.has_flag( flag_VEHICLE ) ) {
+            const units::energy energ_req = gun.get_gun_energy_drain();
+            const units::energy drained = gun.energy_consume( energ_req, pos(), this );
+            if( drained < energ_req ) {
+                debugmsg( "Unexpected shortage of energy whilst firing %s. Required: %i J, drained: %i J",
+                          gun.tname(), units::to_joule( energ_req ), units::to_joule( drained ) );
+                break;
+            }
         }
 
-        if( !gun.has_flag( flag_VEHICLE ) ) {
-            consume_ups( gun.get_gun_ups_drain() );
+        if( !current_ammo.is_null() ) {
+            cycle_action( gun, current_ammo, pos() );
         }
 
         if( gun_skill == skill_launcher ) {
@@ -997,7 +1008,8 @@ int throw_cost( const Character &c, const item &to_throw )
     // Dex is more (2x) important for throwing speed
     // At 10 skill, the cost is down to 0.75%, not 0.66%
     const int base_move_cost = to_throw.attack_time( c ) / 2;
-    const int throw_skill = std::min( MAX_SKILL, c.get_skill_level( skill_throw ) );
+    const float throw_skill = std::min( static_cast<float>( MAX_SKILL ),
+                                        c.get_skill_level( skill_throw ) );
     ///\EFFECT_THROW increases throwing speed
     const int skill_cost = static_cast<int>( ( base_move_cost * ( 20 - throw_skill ) / 20 ) );
     ///\EFFECT_DEX increases throwing speed
@@ -1082,7 +1094,8 @@ int Character::throwing_dispersion( const item &to_throw, Creature *critter,
 
     // Dispersion from difficult throws goes from 100% at lvl 0 to 25% at lvl 10
     ///\EFFECT_THROW increases throwing accuracy
-    const int throw_skill = std::min( MAX_SKILL, get_skill_level( skill_throw ) );
+    const float throw_skill = std::min( static_cast<float>( MAX_SKILL ),
+                                        get_skill_level( skill_throw ) );
     int dispersion = 10 * throw_difficulty / ( 8 * throw_skill + 4 );
     // If the target is a creature, it moves around and ruins aim
     // TODO: Inform projectile functions if the attacker actually aims for the critter or just the tile
@@ -1119,12 +1132,12 @@ static std::optional<int> character_throw_assist( const Character &guy )
     return throw_assist;
 }
 
-static int throwing_skill_adjusted( const Character &guy )
+static float throwing_skill_adjusted( const Character &guy )
 {
-    int skill_level = std::min( MAX_SKILL, guy.get_skill_level( skill_throw ) );
+    float skill_level = std::min( static_cast<float>( MAX_SKILL ), guy.get_skill_level( skill_throw ) );
     // if you are lying on the floor, you can't really throw that well
     if( guy.has_effect( effect_downed ) ) {
-        skill_level = std::max( 0, skill_level - 5 );
+        skill_level = std::max( 0.0f, skill_level - 5 );
     }
     return skill_level;
 }
@@ -1143,7 +1156,7 @@ int Character::thrown_item_adjusted_damage( const item &thrown ) const
     stats_mod = throw_assist ? *throw_assist / 2.0 : stats_mod;
     // modify strength impact based on skill level, clamped to [0.15 - 1]
     // mod = mod * [ ( ( skill / max_skill ) * 0.85 ) + 0.15 ]
-    stats_mod *= ( std::min( MAX_SKILL,
+    stats_mod *= ( std::min( static_cast<float>( MAX_SKILL ),
                              get_skill_level( skill_throw ) ) /
                    static_cast<double>( MAX_SKILL ) ) * 0.85 + 0.15;
     return stats_mod;
@@ -1154,14 +1167,14 @@ projectile Character::thrown_item_projectile( const item &thrown ) const
     // We'll be constructing a projectile
     projectile proj;
     proj.impact = thrown.base_damage_thrown();
-    proj.speed = 10 + throwing_skill_adjusted( *this );
+    proj.speed = 10 + round( throwing_skill_adjusted( *this ) );
     return proj;
 }
 
 int Character::thrown_item_total_damage_raw( const item &thrown ) const
 {
     projectile proj = thrown_item_projectile( thrown );
-    proj.impact.add_damage( damage_type::BASH, std::min( thrown.weight() / 100.0_gram,
+    proj.impact.add_damage( damage_bash, std::min( thrown.weight() / 100.0_gram,
                             static_cast<double>( thrown_item_adjusted_damage( thrown ) ) ) );
     const int glass_portion = thrown.made_of( material_glass );
     const float glass_fraction = glass_portion / static_cast<float>( thrown.type->mat_portion_total );
@@ -1169,11 +1182,11 @@ int Character::thrown_item_total_damage_raw( const item &thrown ) const
     // Item will shatter upon landing, destroying the item, dealing damage, and making noise
     if( !thrown.active && glass_portion &&
         rng( 0, units::to_milliliter( 2_liter - volume ) ) < get_arm_str() * 100 ) {
-        proj.impact.add_damage( damage_type::CUT, units::to_milliliter( volume ) / 500.0f );
+        proj.impact.add_damage( damage_cut, units::to_milliliter( volume ) / 500.0f );
     }
     // Some minor (skill/2) armor piercing for skillful throws
     // Not as much as in melee, though
-    const int skill_level = throwing_skill_adjusted( *this );
+    const float skill_level = throwing_skill_adjusted( *this );
     for( damage_unit &du : proj.impact.damage_units ) {
         du.res_pen += skill_level / 2.0f;
     }
@@ -1194,7 +1207,7 @@ dealt_projectile_attack Character::throw_item( const tripoint &target, const ite
     const int move_cost = throw_cost( *this, to_throw );
     mod_moves( -move_cost );
 
-    const int throwing_skill = get_skill_level( skill_throw );
+    const int throwing_skill = round( get_skill_level( skill_throw ) );
     const units::volume volume = to_throw.volume();
     const units::mass weight = to_throw.weight();
     const std::optional<int> throw_assist = character_throw_assist( *this );
@@ -1204,8 +1217,8 @@ dealt_projectile_attack Character::throw_item( const tripoint &target, const ite
         mod_stamina( stamina_cost + throwing_skill );
     }
 
-    const int skill_level = throwing_skill_adjusted( *this );
-    add_msg_debug( debugmode::DF_RANGED, "Adjusted throw skill %d", skill_level );
+    const float skill_level = throwing_skill_adjusted( *this );
+    add_msg_debug( debugmode::DF_RANGED, "Adjusted throw skill %g", skill_level );
     projectile proj = thrown_item_projectile( thrown );
     damage_instance &impact = proj.impact;
     std::set<std::string> &proj_effects = proj.proj_effects;
@@ -1213,7 +1226,7 @@ dealt_projectile_attack Character::throw_item( const tripoint &target, const ite
     const bool do_railgun = has_active_bionic( bio_railgun ) && thrown.made_of_any( ferric ) &&
                             !throw_assist;
 
-    impact.add_damage( damage_type::BASH, std::min( weight / 100.0_gram,
+    impact.add_damage( damage_bash, std::min( weight / 100.0_gram,
                        static_cast<double>( thrown_item_adjusted_damage( thrown ) ) ) );
 
     if( thrown.has_flag( flag_ACT_ON_RANGED_HIT ) ) {
@@ -1261,7 +1274,7 @@ dealt_projectile_attack Character::throw_item( const tripoint &target, const ite
 
     // Deal extra cut damage if the item breaks
     if( shatter ) {
-        impact.add_damage( damage_type::CUT, units::to_milliliter( volume ) / 500.0f );
+        impact.add_damage( damage_cut, units::to_milliliter( volume ) / 500.0f );
         proj_effects.insert( "SHATTER_SELF" );
     }
 
@@ -1297,7 +1310,7 @@ dealt_projectile_attack Character::throw_item( const tripoint &target, const ite
 
     float range = rl_dist( throw_from, target );
     proj.range = range;
-    int skill_lvl = get_skill_level( skill_throw );
+    float skill_lvl = get_skill_level( skill_throw );
     // Avoid awarding tons of xp for lucky throws against hard to hit targets
     const float range_factor = std::min<float>( range, skill_lvl + 3 );
     // We're aiming to get a damaging hit, not just an accurate one - reward proper weapons
@@ -1379,9 +1392,9 @@ static void mod_stamina_archery( Character &you, const item &relevant )
     you.set_activity_level( scaled_str_ratio );
 
     // Calculate stamina drain based on archery and athletics skill
-    const int archery_skill = you.get_skill_level( skill_archery );
-    const int athletics_skill = you.get_skill_level( skill_archery );
-    const int skill_modifier = ( 2 * archery_skill + athletics_skill ) / 3;
+    const float archery_skill = you.get_skill_level( skill_archery );
+    const float athletics_skill = you.get_skill_level( skill_swimming );
+    const float skill_modifier = ( 2 * archery_skill + athletics_skill ) / 3.0f;
 
     const int stamina_cost = pow( 20 - skill_modifier, 2 );
     you.mod_stamina( -stamina_cost );
@@ -1575,6 +1588,15 @@ static std::vector<aim_type_prediction> calculate_ranged_chances(
         aim_types = you.get_aim_types( weapon );
     }
 
+    // predict how long it'll take to reach from current recoil
+    // to the ui's selected default aim mode threshold.
+    const recoil_prediction aim_to_selected = predict_recoil( you, weapon, target,
+            ui.get_sight_dispersion(), ui.get_selected_aim_type(), you.recoil );
+
+    const int selected_steadiness = calc_steadiness( you, weapon, pos, aim_to_selected.recoil );
+
+    const int throw_moves = throw_cost( you, weapon );
+
     for( const aim_type &aim_type : aim_types ) {
         const std::vector<input_event> keys = ctxt.keys_bound_to( aim_type.action.empty() ? "FIRE" :
                                               aim_type.action, /*maximum_modifier_count=*/1 );
@@ -1585,20 +1607,11 @@ static std::vector<aim_type_prediction> calculate_ranged_chances(
         prediction.hotkey = ( keys.empty() ? input_event() : keys.front() ).short_description();
 
         if( mode == target_ui::TargetMode::Throw || mode == target_ui::TargetMode::ThrowBlind ) {
-            prediction.moves = throw_cost( you, weapon );
+            prediction.moves = throw_moves;
         } else {
             prediction.moves = you.gun_engagement_moves( weapon, aim_type.threshold, you.recoil, target )
                                + time_to_attack( you, *weapon.type );
         }
-        // predict how long it'll take to reach from current recoil
-        // to the current aim mode's threshold.
-        const recoil_prediction aim_to_type = predict_recoil( you, weapon, target,
-                                              ui.get_sight_dispersion(), aim_type, you.recoil );
-
-        // predict how long it'll take to reach from current recoil
-        // to the ui's selected default aim mode threshold.
-        const recoil_prediction aim_to_selected = predict_recoil( you, weapon, target,
-                ui.get_sight_dispersion(), ui.get_selected_aim_type(), you.recoil );
 
         // if the default method is "behind" the selected; e.g. you are in immediate
         // firing mode with almost close no chances of hitting, but UI has selected
@@ -1609,8 +1622,12 @@ static std::vector<aim_type_prediction> calculate_ranged_chances(
         // no-op.
         if( prediction.is_default ) {
             prediction.moves += aim_to_selected.moves;
-            prediction.steadiness = calc_steadiness( you, weapon, pos, aim_to_selected.recoil );
+            prediction.steadiness = selected_steadiness;
         } else {
+            // predict how long it'll take to reach from current recoil
+            // to the current aim mode's threshold.
+            const recoil_prediction aim_to_type = ( aim_type == ui.get_selected_aim_type() ) ? aim_to_selected :
+                                                  predict_recoil( you, weapon, target, ui.get_sight_dispersion(), aim_type, you.recoil );
             prediction.steadiness = calc_steadiness( you, weapon, pos, aim_to_type.recoil );
         }
 
@@ -1929,7 +1946,7 @@ static projectile make_gun_projectile( const item &gun )
 
     if( gun.ammo_data() ) {
         // Some projectiles have a chance of being recoverable
-        bool recover = std::any_of( fx.begin(), fx.end(), []( const std::string & e ) {
+        bool recover = std::any_of( fx.begin(), fx.end(), []( const std::string_view e ) {
             if( !string_starts_with( e, "RECOVER_" ) ) {
                 return false;
             }
@@ -1973,7 +1990,8 @@ int time_to_attack( const Character &p, const itype &firing )
     const skill_id &skill_used = firing.gun->skill_used;
     const time_info_t &info = skill_used->time_to_attack();
     return std::max( info.min_time,
-                     info.base_time - info.time_reduction_per_level * p.get_skill_level( skill_used ) );
+                     static_cast<int>( round( info.base_time - info.time_reduction_per_level * p.get_skill_level(
+                                           skill_used ) ) ) );
 }
 
 static void cycle_action( item &weap, const itype_id &ammo, const tripoint &pos )
@@ -2156,7 +2174,7 @@ dispersion_sources Character::get_weapon_dispersion( const item &obj ) const
         const int vol = ( parent ? parent->volume() : obj.volume() ) / 250_ml;
 
         /** @EFFECT_DRIVING reduces the inaccuracy penalty when using guns whilst driving */
-        dispersion.add_range( std::max( vol - get_skill_level( skill_driving ), 1 ) * 20 );
+        dispersion.add_range( std::max( vol - get_skill_level( skill_driving ), 1.0f ) * 20 );
     }
 
     /** @EFFECT_GUN improves usage of accurate weapons and sights */
@@ -3867,8 +3885,8 @@ bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::string> 
         result = false;
     }
 
-    if( gmode->get_gun_ups_drain() > 0_kJ ) {
-        const units::energy ups_drain = gmode->get_gun_ups_drain();
+    if( gmode->get_gun_energy_drain() > 0_kJ ) {
+        const units::energy energy_drain = gmode->get_gun_energy_drain();
         bool is_mech_weapon = false;
         if( you.is_mounted() ) {
             monster *mons = get_player_character().mounted_creature.get();
@@ -3876,27 +3894,21 @@ bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::string> 
                 is_mech_weapon = true;
             }
         }
-        if( !is_mech_weapon ) {
-            if( you.available_ups() < ups_drain ) {
-                messages.push_back( string_format(
-                                        _( "You need a UPS with at least %2$d charges to fire the %1$s!" ),
-                                        gmode->tname(), units::to_kilojoule( ups_drain ) ) );
-                result = false;
-            }
-        } else {
-            if( you.available_ups() < ups_drain ) {
+
+        if( gmode->energy_remaining( &you ) < energy_drain ) {
+            result = false;
+            if( is_mech_weapon ) {
                 messages.push_back( string_format( _( "Your mech has an empty battery, its %s will not fire." ),
                                                    gmode->tname() ) );
-                result = false;
+            } else if( gmode->has_flag( flag_USES_BIONIC_POWER ) ) {
+                messages.push_back( string_format(
+                                        _( "You need at least %2$d kJ of bionic power to fire the %1$s!" ),
+                                        gmode->tname(), units::to_kilojoule( energy_drain ) ) );
+            } else if( gmode->has_flag( flag_USE_UPS ) ) {
+                messages.push_back( string_format(
+                                        _( "You need a UPS with at least %2$d kJ to fire the %1$s!" ),
+                                        gmode->tname(), units::to_kilojoule( energy_drain ) ) );
             }
-        }
-        // Workaround for guns that use ups and normal ammo at same time.
-        // Remove once guns can support use of multiple ammo at once
-        if( !gmode->ammo_default().is_null() &&
-            gmode->ammo_remaining( nullptr ) < gmode->ammo_required() &&
-            !gmode->has_flag( flag_RELOAD_AND_SHOOT ) ) {
-            result = false;
-            messages.push_back( string_format( _( "Your %s is empty!" ), gmode->tname() ) );
         }
     }
 

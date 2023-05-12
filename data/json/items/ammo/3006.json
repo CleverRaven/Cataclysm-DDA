@@ -6,6 +6,7 @@
     "description": ".30-06 Springfield ammunition with a 165gr soft point bullet.  The .30-06 cartridge has excellent accuracy, range, and stopping power making it popular with hunters and snipers for well over a century.",
     "weight": "20 g",
     "volume": "192 ml",
+    "longest_side": "85 mm",
     "price": 160,
     "price_postapoc": 800,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
@@ -70,7 +71,7 @@
   },
   {
     "id": "bp_3006fmj",
-    "copy-from": "bp_3006",
+    "copy-from": "3006fmj",
     "type": "AMMO",
     "name": { "str_sp": ".30-06 Springfield M2 AP, black powder" },
     "description": "Armor piercing .30-06 M2 ammunition with a 168gr FMJ bullet.  It is an extremely powerful and accurate cartridge, but pays for its armor penetration abilities with lowered damage.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",

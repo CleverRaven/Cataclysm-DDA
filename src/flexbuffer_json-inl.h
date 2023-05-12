@@ -801,13 +801,10 @@ inline JsonValue JsonArray::get_next()
 //NOLINTNEXTLINE(modernize-use-equals-default)
 inline JsonObject::~JsonObject()
 {
-    // Unvisited member reporting currently disabled.
-#if 0
 #ifndef CATA_IN_TOOL
-    if( !std::uncaught_exception() && !visited_fields_bitset_.all() ) {
+    if( std::uncaught_exceptions() == 0 && !visited_fields_bitset_.all() ) {
         report_unvisited();
     }
-#endif
 #endif
 }
 
@@ -838,39 +835,22 @@ std::string JsonObject::get_string( const char *key, T &&fallback ) const
 }
 
 // Vanilla accessors. Just return the named member and use it's conversion function.
-inline int JsonObject::get_int( const std::string &key ) const
-{
-    return get_member( key.c_str() );
-}
-inline int JsonObject::get_int( const char *key ) const
+inline int JsonObject::get_int( const std::string_view key ) const
 {
     return get_member( key );
 }
 
-inline double JsonObject::get_float( const std::string &key ) const
-{
-    return get_member( key.c_str() );
-}
-inline double JsonObject::get_float( const char *key ) const
+inline double JsonObject::get_float( const std::string_view key ) const
 {
     return get_member( key );
 }
 
-inline bool JsonObject::get_bool( const std::string &key ) const
-{
-    return get_member( key.c_str() );
-}
-inline bool JsonObject::get_bool( const char *key ) const
+inline bool JsonObject::get_bool( const std::string_view key ) const
 {
     return get_member( key );
 }
 
-inline JsonArray JsonObject::get_array( const std::string &key ) const
-{
-    return get_array( key.c_str() );
-}
-
-inline JsonArray JsonObject::get_array( const char *key ) const
+inline JsonArray JsonObject::get_array( const std::string_view key ) const
 {
     std::optional<JsonValue> member_opt = get_member_opt( key );
     if( member_opt.has_value() ) {
@@ -879,12 +859,7 @@ inline JsonArray JsonObject::get_array( const char *key ) const
     return JsonArray{};
 }
 
-inline JsonObject JsonObject::get_object( const std::string &key ) const
-{
-    return get_object( key.c_str() );
-}
-
-inline JsonObject JsonObject::get_object( const char *key ) const
+inline JsonObject JsonObject::get_object( const std::string_view key ) const
 {
     std::optional<JsonValue> member_opt = get_member_opt( key );
     if( member_opt.has_value() ) {
@@ -929,7 +904,7 @@ E JsonObject::get_enum_value( const char *name, E fallback ) const
     }
 }
 
-inline std::vector<int> JsonObject::get_int_array( const std::string &name ) const
+inline std::vector<int> JsonObject::get_int_array( const std::string_view name ) const
 {
     std::vector<int> ret;
     JsonArray ja = get_array( name );
@@ -939,7 +914,7 @@ inline std::vector<int> JsonObject::get_int_array( const std::string &name ) con
     }
     return ret;
 }
-inline std::vector<std::string> JsonObject::get_string_array( const std::string &name ) const
+inline std::vector<std::string> JsonObject::get_string_array( const std::string_view name ) const
 {
     std::vector<std::string> ret;
     JsonArray ja = get_array( name );
@@ -964,105 +939,62 @@ inline std::vector<std::string> JsonObject::get_as_string_array( const std::stri
     return ret;
 }
 
-inline bool JsonObject::has_member( const std::string &key ) const
-{
-    return has_member( key.c_str() );
-}
-
-inline bool JsonObject::has_member( const char *key ) const
+inline bool JsonObject::has_member( const std::string_view key ) const
 {
     size_t idx;
     return find_map_key_idx( key, keys_, idx );
 }
 
-inline bool JsonObject::has_null( const char *key ) const
+inline bool JsonObject::has_null( const std::string_view key ) const
 {
     flexbuffers::Reference ref = find_value_ref( key );
     return ref.IsNull();
 }
-inline bool JsonObject::has_null( const std::string &key ) const
-{
-    return has_null( key.c_str() );
-}
 
-inline bool JsonObject::has_int( const char *key ) const
-{
-    return has_number( key );
-}
-inline bool JsonObject::has_int( const std::string &key ) const
+inline bool JsonObject::has_int( const std::string_view key ) const
 {
     return has_number( key );
 }
 
-inline bool JsonObject::has_float( const char *key ) const
-{
-    return has_number( key );
-}
-inline bool JsonObject::has_float( const std::string &key ) const
+inline bool JsonObject::has_float( const std::string_view key ) const
 {
     return has_number( key );
 }
 
-inline bool JsonObject::has_number( const char *key ) const
+inline bool JsonObject::has_number( const std::string_view key ) const
 {
     flexbuffers::Reference ref = find_value_ref( key );
     return ref.IsNumeric();
 }
-inline bool JsonObject::has_number( const std::string &key ) const
-{
-    return has_number( key.c_str() );
-}
 
-inline bool JsonObject::has_string( const std::string &key ) const
-{
-    return has_string( key.c_str() );
-}
-
-inline bool JsonObject::has_string( const char *key ) const
+inline bool JsonObject::has_string( const std::string_view key ) const
 {
     flexbuffers::Reference ref = find_value_ref( key );
     return ref.IsString();
 }
 
-inline bool JsonObject::has_bool( const std::string &key ) const
-{
-    return has_bool( key.c_str() );
-}
-inline bool JsonObject::has_bool( const char *key ) const
+inline bool JsonObject::has_bool( const std::string_view key ) const
 {
     flexbuffers::Reference ref = find_value_ref( key );
     return ref.IsBool();
 }
 
-inline bool JsonObject::has_array( const std::string &key ) const
-{
-    return has_array( key.c_str() );
-}
-
-inline bool JsonObject::has_array( const char *key ) const
+inline bool JsonObject::has_array( const std::string_view key ) const
 {
     flexbuffers::Reference ref = find_value_ref( key );
     return ref.IsAnyVector() && !ref.IsMap();
 }
 
-inline bool JsonObject::has_object( const char *key ) const
+inline bool JsonObject::has_object( const std::string_view key ) const
 {
     flexbuffers::Reference ref = find_value_ref( key );
     return ref.IsMap();
-}
-inline bool JsonObject::has_object( const std::string &key ) const
-{
-    return has_object( key.c_str() );
 }
 
 // Fallback accessors. Test if the named member exists, and if yes, return it,
 // else will return the fallback value. Does *not* test the member is the type
 // being requested.
-inline int JsonObject::get_int( const std::string &key, int fallback ) const
-{
-    return get_int( key.c_str(), fallback );
-}
-inline int JsonObject::get_int( const char *key, int fallback ) const
+inline int JsonObject::get_int( const std::string_view key, int fallback ) const
 {
     std::optional<JsonValue> member_opt = get_member_opt( key );
     if( member_opt.has_value() ) {
@@ -1071,11 +1003,7 @@ inline int JsonObject::get_int( const char *key, int fallback ) const
     return fallback;
 }
 
-inline double JsonObject::get_float( const std::string &key, double fallback ) const
-{
-    return get_float( key.c_str(), fallback );
-}
-inline double JsonObject::get_float( const char *key, double fallback ) const
+inline double JsonObject::get_float( const std::string_view key, double fallback ) const
 {
     std::optional<JsonValue> member_opt = get_member_opt( key );
     if( member_opt.has_value() ) {
@@ -1084,11 +1012,7 @@ inline double JsonObject::get_float( const char *key, double fallback ) const
     return fallback;
 }
 
-inline bool JsonObject::get_bool( const std::string &key, bool fallback ) const
-{
-    return get_bool( key.c_str(), fallback );
-}
-inline bool JsonObject::get_bool( const char *key, bool fallback ) const
+inline bool JsonObject::get_bool( const std::string_view key, bool fallback ) const
 {
     std::optional<JsonValue> member_opt = get_member_opt( key );
     if( member_opt.has_value() ) {
@@ -1098,7 +1022,7 @@ inline bool JsonObject::get_bool( const char *key, bool fallback ) const
 }
 
 // Tries to get the member, and if found, calls it visited.
-inline std::optional<JsonValue> JsonObject::get_member_opt( const char *key ) const
+inline std::optional<JsonValue> JsonObject::get_member_opt( const std::string_view key ) const
 {
     size_t idx = 0;
     bool found = find_map_key_idx( key, keys_, idx );
@@ -1109,11 +1033,7 @@ inline std::optional<JsonValue> JsonObject::get_member_opt( const char *key ) co
     return std::nullopt;
 }
 
-inline JsonValue JsonObject::get_member( const std::string &key ) const
-{
-    return get_member( key.c_str() );
-}
-inline JsonValue JsonObject::get_member( const char *key ) const
+inline JsonValue JsonObject::get_member( const std::string_view key ) const
 {
     // Manually bsearch for the key idx to store in visited_fields_bitset_.
     // flexbuffers::Map::operator[] will probably be faster but won't give us the idx,
@@ -1128,13 +1048,13 @@ inline JsonValue JsonObject::get_member( const char *key ) const
     return ( *this )[key];
 }
 
-inline JsonValue JsonObject::operator[]( const char *key ) const
+inline JsonValue JsonObject::operator[]( const std::string_view key ) const
 {
     return get_member( key );
 }
 
 template <typename T>
-bool JsonObject::read( const char *name, T &t, bool throw_on_error ) const
+bool JsonObject::read( std::string_view name, T &t, bool throw_on_error ) const
 {
     std::optional<JsonValue> member_opt = get_member_opt( name );
     if( !member_opt.has_value() ) {
@@ -1142,20 +1062,9 @@ bool JsonObject::read( const char *name, T &t, bool throw_on_error ) const
     }
     return ( *member_opt ).read( t, throw_on_error );
 }
-template <typename T>
-bool JsonObject::read( const std::string &name, T &t, bool throw_on_error ) const
-{
-    return read( name.c_str(), t, throw_on_error );
-}
 
 template <typename T, typename Res>
-Res JsonObject::get_tags( const std::string &name ) const
-{
-    return get_tags<T, Res>( name.c_str() );
-}
-
-template <typename T, typename Res>
-Res JsonObject::get_tags( const char *name ) const
+Res JsonObject::get_tags( const std::string_view name ) const
 {
     Res res;
     std::optional<JsonValue> member_opt = get_member_opt( name );
@@ -1197,7 +1106,7 @@ void deserialize( std::optional<T> &obj, const JsonValue &jsin )
 }
 
 inline void add_array_to_set( std::set<std::string> &s, const JsonObject &json,
-                              const std::string &name )
+                              const std::string_view name )
 {
     for( const std::string line : json.get_array( name ) ) {
         s.insert( line );

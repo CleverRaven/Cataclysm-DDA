@@ -34,8 +34,8 @@
     "id": "MISSION_GET_INHALER",
     "type": "mission_definition",
     "name": { "str": "Find Inhaler" },
-    "goal": "MGOAL_CONDITION",
-    "goal_condition": { "u_has_item": "inhaler" },
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "inhaler",
     "difficulty": 2,
     "value": 150000,
     "urgent": true,
@@ -174,6 +174,7 @@
     "type": "mission_definition",
     "name": { "str": "Find Flag" },
     "goal": "MGOAL_FIND_ITEM",
+    "start": { "effect": [ { "npc_remove_item_with": "american_flag" } ] },
     "difficulty": 2,
     "value": 100000,
     "item": "american_flag",
@@ -260,6 +261,29 @@
     }
   },
   {
+    "id": "MISSION_GET_HOLY_SYMBOL",
+    "type": "mission_definition",
+    "name": { "str": "Find a Holy Symbol" },
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 2,
+    "value": 100000,
+    "item": "holy_symbol",
+    "start": { "effect": [ { "npc_remove_item_with": "holy_symbol" } ], "reveal_om_ter": [ "church_1" ] },
+    "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
+    "followup": "MISSION_GET_RELIC",
+    "dialogue": {
+      "describe": "Any variant is fine, I am not that choosy…",
+      "offer": "The sky has torn apart and creatures beyond our wildest imaginations lurk in the dark now.  I beg you, find me a holy symbol.  Maybe some faith can help me sleep better at night.",
+      "accepted": "May whatever god or spirits that now reign the world protect you.",
+      "rejected": "I guess the stress may just be getting to me…",
+      "advice": "A church must be full of them and who knows, maybe some of those <zombies> carry some.  But please, do not waste your time making one yourself.",
+      "inquire": "Any luck?  Please find me a holy symbol.  Any of them will do.",
+      "success": "Thank the heavens.",
+      "success_lie": "What good does this do me?",
+      "failure": "It was a lost cause anyways…"
+    }
+  },
+  {
     "id": "MISSION_GET_RELIC",
     "type": "mission_definition",
     "name": { "str": "Find Relic" },
@@ -268,7 +292,7 @@
     "value": 100000,
     "item": "small_relic",
     "start": { "reveal_om_ter": [ "cathedral_1", "museum" ] },
-    "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
+    "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_RECOVER_PRIEST_DIARY",
     "dialogue": {
       "describe": "St. Michael the archangel defend me in battle…",
@@ -802,7 +826,7 @@
       "and": [
         { "u_has_item": "duffelbag" },
         { "u_has_items": { "item": "cattail_stalk", "count": 80 } },
-        { "u_has_skill": { "skill": "survival", "level": 1 } }
+        { "math": [ "u_skill('survival')", ">=", "1" ] }
       ]
     },
     "difficulty": 1,

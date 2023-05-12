@@ -19,7 +19,8 @@
     "base_energy_cost": 100,
     "min_duration": 24000,
     "max_duration": 360000,
-    "duration_increment": 24000
+    "duration_increment": 24000,
+    "learn_spells": { "stonefist_plus": 15 }
   },
   {
     "id": "stonefist_plus",

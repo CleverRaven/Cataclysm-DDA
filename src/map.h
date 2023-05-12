@@ -675,6 +675,10 @@ class map
         std::vector<zone_data *> get_vehicle_zones( int zlev );
         void register_vehicle_zone( vehicle *, int zlev );
         bool deregister_vehicle_zone( zone_data &zone ) const;
+        // returns a list of tripoints which contain parts from moving vehicles within \p max_range
+        // distance from \p z position, if any parts are CONTROLS, ENGINE or WHEELS returns a
+        // list of tripoints with exclusively such parts instead. Used for monster gun actor targeting.
+        std::set<tripoint_bub_ms> get_moving_vehicle_targets( const Creature &z, int max_range );
 
         // Removes vehicle from map and returns it in unique_ptr
         std::unique_ptr<vehicle> detach_vehicle( vehicle *veh );
@@ -1203,10 +1207,10 @@ class map
         }
 
         // Temperature modifier for submap
-        units::temperature get_temperature_mod( const tripoint &p ) const;
+        units::temperature_delta get_temperature_mod( const tripoint &p ) const;
         // Set temperature modifier for all four submap quadrants
-        void set_temperature_mod( const tripoint &p, units::temperature temperature_mod );
-        void set_temperature_mod( const point &p, units::temperature new_temperature_mod ) {
+        void set_temperature_mod( const tripoint &p, units::temperature_delta temperature_mod );
+        void set_temperature_mod( const point &p, units::temperature_delta new_temperature_mod ) {
             set_temperature_mod( tripoint( p, abs_sub.z() ), new_temperature_mod );
         }
 
@@ -1826,7 +1830,7 @@ class map
          * when starting a new game, or after teleportation or after moving vertically).
          * If false, monsters are not spawned in view of player character.
          */
-        void spawn_monsters( bool ignore_sight );
+        void spawn_monsters( bool ignore_sight, bool spawn_nonlocal = false );
 
         /**
         * Checks to see if the item that is rotting away generates a creature when it does.
@@ -1836,7 +1840,7 @@ class map
         void rotten_item_spawn( const item &item, const tripoint &p );
     private:
         // Helper #1 - spawns monsters on one submap
-        void spawn_monsters_submap( const tripoint &gp, bool ignore_sight );
+        void spawn_monsters_submap( const tripoint &gp, bool ignore_sight, bool spawn_nonlocal = false );
         // Helper #2 - spawns monsters on one submap and from one group on this submap
         void spawn_monsters_submap_group( const tripoint &gp, mongroup &group,
                                           bool ignore_sight );

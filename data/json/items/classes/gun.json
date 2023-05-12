@@ -46,7 +46,7 @@
     "modes": [ [ "DEFAULT", "single", 1, "NPC_AVOID" ] ],
     "//": "default handling for anything without a recoil stock",
     "handling": 10,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "sights", 1 ], [ "sling", 1 ] ],
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "sights", 1 ], [ "sling", 1 ] ],
     "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS" ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ]
   },
@@ -60,7 +60,6 @@
     "//": "default handling for anything without a stock",
     "handling": 10,
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -81,7 +80,6 @@
     "name": { "str": "classic pistol" },
     "//": "usually pre-1990's pistols that lack underbarrel rails, and sight mounting locations.",
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -101,8 +99,8 @@
     "name": { "str": "backup pistol" },
     "//": "diminutive backup pistols that lack underbarrel rails, sight dovetails and decent places to affix stocks.",
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "barrel", 1 ],
+      [ "belt_clip", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
       [ "grip", 1 ],
@@ -124,7 +122,6 @@
     "//": "Revolvers exclude the muzzle location preventing installation of suppressors",
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "grip", 1 ],
@@ -144,15 +141,7 @@
     "extend": { "flags": [ "RELOAD_ONE", "NO_UNLOAD" ] },
     "//": "Slower reloads, no unloading.  Base, unskilled person should take 1.5 seconds per chamber.  No underbarrel mods, that's where the ram goes.",
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
-    "valid_mod_locations": [
-      [ "accessories", 2 ],
-      [ "barrel", 1 ],
-      [ "bore", 1 ],
-      [ "grip", 1 ],
-      [ "stock", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ]
-    ]
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "stock", 1 ], [ "rail mount", 1 ], [ "sights mount", 1 ] ]
   },
   {
     "abstract": "rifle_base",
@@ -161,7 +150,6 @@
     "name": { "str": "base rifle" },
     "skill": "rifle",
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -185,7 +173,6 @@
     "//": "Manual actions exclude the magazine location preventing installation of belt-feed adaptors",
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -222,7 +209,6 @@
     "skill": "shotgun",
     "ammo": [ "shot" ],
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -253,7 +239,6 @@
     "//": "Anything that has the right pin arrangement for a speedloader chute",
     "name": { "str": "base race shotgun, pump", "str_pl": "base race shotguns, pump" },
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],

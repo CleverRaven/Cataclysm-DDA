@@ -125,7 +125,7 @@ void trap::load_trap( const JsonObject &jo, const std::string &src )
     trap_factory.load( jo, src );
 }
 
-void trap::load( const JsonObject &jo, const std::string & )
+void trap::load( const JsonObject &jo, const std::string_view )
 {
     mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "name", name_ );
@@ -250,7 +250,7 @@ bool trap::detect_trap( const tripoint &pos, const Character &p ) const
     // Obviously it rapidly gets better as your skills improve.
 
     // Devices skill is helpful for spotting traps
-    const int traps_skill_level = p.get_skill_level( skill_traps );
+    const float traps_skill_level = p.get_skill_level( skill_traps );
 
     // Perception is the main stat for spotting traps, int helps a bit.
     // In this case, stats are more important than skills.

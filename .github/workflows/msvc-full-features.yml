@@ -57,13 +57,10 @@ jobs:
     runs-on: windows-2019
 
     steps:
-    - name: checkout repository
-      uses: actions/checkout@v2
-      with:
-        fetch-depth: 1
+    - uses: actions/checkout@v3
 
     - name: Add msbuild to PATH
-      uses: microsoft/setup-msbuild@v1.0.2
+      uses: microsoft/setup-msbuild@v1.3.1
 
     - name: Use GNU tar to enable zstd for actions/cache
       run: |
@@ -71,21 +68,15 @@ jobs:
         echo C:\Program Files\Git\usr\bin>>"%GITHUB_PATH%"
       shell: cmd
 
-    - name: Restore artifacts, or run vcpkg, build and cache artifacts
-      uses: lukka/run-vcpkg@v10
+    - name: Install stable CMake
+      uses: lukka/get-cmake@latest
+
+    - name: Install vcpkg
+      uses: lukka/run-vcpkg@v11
       id: runvcpkg
       with:
-        # run-vcpkg tries to hash vcpkg.json but complans if it finds more than one.
-        # That said, we also have our custom vcpkg_triplets to hash, so we keep everything the same.
-        appendedCacheKey: ${{ hashFiles( 'msvc-full-features/vcpkg.json', 'msvc-object_creator/vcpkg.json', '.github/vcpkg_triplets/**', '.github/vckg_ports/**' ) }}
-        # Rev this value to drop cache without changing vcpkg commit
-        prependedCacheKey: v1-x64-full
         vcpkgDirectory: '${{ runner.workspace }}/b/vcpkg'
-        # We have to use at least this version of vcpkg to include fixes for yasm-tool's
-        # availability only as an x86 host tool. Keep it in sync with the builtin-baseline
-        # field in vcpkg.json. Caching happens as a post-action which runs at the end of
-        # the whole workflow, after vcpkg install happens during msbuild run.
-        vcpkgGitCommitId: 'd08e708c2111893da3cc7e49b597ee4654c8076e'
+        vcpkgGitCommitId: '5b1214315250939257ef5d62ecdcbca18cf4fb1c'
 
     - name: Integrate vcpkg
       run: |

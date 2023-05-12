@@ -66,13 +66,17 @@
 #include "vpart_position.h"
 #include "weather.h"
 
+static const damage_type_id damage_acid( "acid" );
+static const damage_type_id damage_bash( "bash" );
+static const damage_type_id damage_electric( "electric" );
+static const damage_type_id damage_heat( "heat" );
+
 static const efftype_id effect_badpoison( "badpoison" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_corroding( "corroding" );
 static const efftype_id effect_fungus( "fungus" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_poison( "poison" );
-static const efftype_id effect_stung( "stung" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_teargas( "teargas" );
 
@@ -134,8 +138,8 @@ int map::burn_body_part( Character &you, field_entry &cur, const bodypart_id &bp
     const int intensity = cur.get_field_intensity();
     const int damage = rng( 1, ( scale + intensity ) / 2 );
     // A bit ugly, but better than being annoyed by acid when in hazmat
-    if( you.get_armor_type( damage_type::ACID, bp ) < damage ) {
-        const dealt_damage_instance ddi = you.deal_damage( nullptr, bp, damage_instance( damage_type::ACID,
+    if( you.get_armor_type( damage_acid, bp ) < damage ) {
+        const dealt_damage_instance ddi = you.deal_damage( nullptr, bp, damage_instance( damage_acid,
                                           damage ) );
         total_damage += ddi.total_damage();
     }
@@ -263,7 +267,8 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
     const bool sheltered = g->is_sheltered( p );
     weather_manager &weather = get_weather();
     const int winddirection = weather.winddirection;
-    const int windpower = get_local_windpower( weather.windspeed, om_ter, p, winddirection,
+    const int windpower = get_local_windpower( weather.windspeed, om_ter, tripoint_abs_ms( p ),
+                          winddirection,
                           sheltered );
 
     const int current_intensity = cur.get_field_intensity();
@@ -783,19 +788,19 @@ static void field_processor_fd_push_items( const tripoint &p, field_entry &, fie
                 if( pd.player_character.pos() == newp ) {
                     add_msg( m_bad, _( "A %s hits you!" ), tmp.tname() );
                     const bodypart_id hit = pd.player_character.get_random_body_part();
-                    pd.player_character.deal_damage( nullptr, hit, damage_instance( damage_type::BASH, 6 ) );
+                    pd.player_character.deal_damage( nullptr, hit, damage_instance( damage_bash, 6 ) );
                     pd.player_character.check_dead_state();
                 }
 
                 if( npc *const n = creatures.creature_at<npc>( newp ) ) {
                     // TODO: combine with player character code above
                     const bodypart_id hit = pd.player_character.get_random_body_part();
-                    n->deal_damage( nullptr, hit, damage_instance( damage_type::BASH, 6 ) );
+                    n->deal_damage( nullptr, hit, damage_instance( damage_bash, 6 ) );
                     add_msg_if_player_sees( newp, _( "A %1$s hits %2$s!" ), tmp.tname(), n->get_name() );
                     n->check_dead_state();
                 } else if( monster *const mon = creatures.creature_at<monster>( newp ) ) {
                     mon->apply_damage( nullptr, bodypart_id( "torso" ),
-                                       6 - mon->get_armor_bash( bodypart_id( "torso" ) ) );
+                                       6 - mon->get_armor_type( damage_bash, bodypart_id( "torso" ) ) );
                     add_msg_if_player_sees( newp, _( "A %1$s hits the %2$s!" ), tmp.tname(), mon->name() );
                     mon->check_dead_state();
                 }
@@ -869,61 +874,6 @@ static void field_processor_fd_acid_vent( const tripoint &p, field_entry &cur, f
     }
 }
 
-void field_processor_fd_bees( const tripoint &p, field_entry &cur, field_proc_data &pd )
-{
-    // Poor bees are vulnerable to so many other fields.
-    // TODO: maybe adjust effects based on different fields.
-    // FIXME replace this insanity with a bool flag in the field_type
-    const field &curfield = pd.here.field_at( p );
-    if( curfield.find_field( fd_web ) ||
-        curfield.find_field( fd_fire ) ||
-        curfield.find_field( fd_smoke ) ||
-        curfield.find_field( fd_toxic_gas ) ||
-        curfield.find_field( fd_tear_gas ) ||
-        curfield.find_field( fd_relax_gas ) ||
-        curfield.find_field( fd_nuke_gas ) ||
-        curfield.find_field( fd_gas_vent ) ||
-        curfield.find_field( fd_smoke_vent ) ||
-        curfield.find_field( fd_fungicidal_gas ) ||
-        curfield.find_field( fd_insecticidal_gas ) ||
-        curfield.find_field( fd_fire_vent ) ||
-        curfield.find_field( fd_flame_burst ) ||
-        curfield.find_field( fd_electricity ) ||
-        curfield.find_field( fd_fatigue ) ||
-        curfield.find_field( fd_shock_vent ) ||
-        curfield.find_field( fd_plasma ) ||
-        curfield.find_field( fd_laser ) ||
-        curfield.find_field( fd_dazzling ) ||
-        curfield.find_field( fd_incendiary ) ) {
-        // Kill them at the end of processing.
-        cur.set_field_intensity( 0 );
-    } else {
-        // Bees chase the player if in range, wander randomly otherwise.
-        if( !pd.player_character.is_underwater() &&
-            rl_dist( p, pd.player_character.pos() ) < 10 &&
-            pd.here.clear_path( p, pd.player_character.pos(), 10, 1, 100 ) ) {
-
-            std::vector<point> candidate_positions =
-                squares_in_direction( p.xy(), pd.player_character.pos().xy() );
-            for( const point &candidate_position : candidate_positions ) {
-                field &target_field = pd.here.get_field( tripoint( candidate_position, p.z ) );
-                // Only shift if there are no bees already there.
-                // TODO: Figure out a way to merge bee fields without allowing
-                // Them to effectively move several times in a turn depending
-                // on iteration direction.
-                if( !target_field.find_field( fd_bees ) ) {
-                    pd.here.add_field( tripoint( candidate_position, p.z ), fd_bees,
-                                       cur.get_field_intensity(), cur.get_field_age() );
-                    cur.set_field_intensity( 0 );
-                    break;
-                }
-            }
-        } else {
-            pd.here.spread_gas( cur, p, 5, 0_turns, pd.sblk, pd.om_ter );
-        }
-    }
-}
-
 void field_processor_fd_incendiary( const tripoint &p, field_entry &cur, field_proc_data &pd )
 {
     // Needed for variable scope
@@ -977,7 +927,7 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
     bool sheltered = g->is_sheltered( p );
     weather_manager &weather = get_weather();
     int winddirection = weather.winddirection;
-    int windpower = get_local_windpower( weather.windspeed, om_ter, p, winddirection,
+    int windpower = get_local_windpower( weather.windspeed, om_ter, tripoint_abs_ms( p ), winddirection,
                                          sheltered );
     const ter_t &ter = map_tile.get_ter_t();
     const furn_t &frn = map_tile.get_furn_t();
@@ -1058,7 +1008,7 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
     // Get the part of the vehicle in the fire (_internal skips the boundary check)
     vehicle *veh = here.veh_at_internal( p, part );
     if( veh != nullptr ) {
-        veh->damage( here, part, cur.get_field_intensity() * 10, damage_type::HEAT, true );
+        veh->damage( here, part, cur.get_field_intensity() * 10, damage_heat, true );
         // Damage the vehicle in the fire.
     }
     if( can_burn ) {
@@ -1605,8 +1555,8 @@ void map::player_in_field( Character &you )
                     int total_damage = 0;
                     for( const bodypart_id &part_burned : parts_burned ) {
                         const dealt_damage_instance dealt = you.deal_damage( nullptr, part_burned,
-                                                            damage_instance( damage_type::HEAT, rng( burn_min, burn_max ) ) );
-                        total_damage += dealt.type_damage( damage_type::HEAT );
+                                                            damage_instance( damage_heat, rng( burn_min, burn_max ) ) );
+                        total_damage += dealt.type_damage( damage_heat );
                     }
                     if( total_damage > 0 ) {
                         you.add_msg_player_or_npc( m_bad, _( player_burn_msg[msg_num] ), _( npc_burn_msg[msg_num] ) );
@@ -1657,12 +1607,9 @@ void map::player_in_field( Character &you )
                     !you.is_wearing( itype_rm13_armor_on ) ) {
                     you.add_msg_player_or_npc( m_bad, _( "You're torched by flames!" ),
                                                _( "<npcname> is torched by flames!" ) );
-                    you.deal_damage( nullptr, bodypart_id( "leg_l" ), damage_instance( damage_type::HEAT, rng( 2,
-                                     6 ) ) );
-                    you.deal_damage( nullptr, bodypart_id( "leg_r" ), damage_instance( damage_type::HEAT, rng( 2,
-                                     6 ) ) );
-                    you.deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_type::HEAT, rng( 4,
-                                     9 ) ) );
+                    you.deal_damage( nullptr, bodypart_id( "leg_l" ), damage_instance( damage_heat, rng( 2, 6 ) ) );
+                    you.deal_damage( nullptr, bodypart_id( "leg_r" ), damage_instance( damage_heat, rng( 2, 6 ) ) );
+                    you.deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_heat, rng( 4, 9 ) ) );
                     you.check_dead_state();
                 } else {
                     you.add_msg_player_or_npc( _( "These flames do not burn you." ),
@@ -1676,8 +1623,7 @@ void map::player_in_field( Character &you )
                 const bodypart_id &main_part = bodypart_id( "torso" );
                 const int dmg = std::max( 1, rng( cur.get_field_intensity() / 2, cur.get_field_intensity() ) );
                 const int main_part_damage = you.deal_damage( nullptr, main_part,
-                                             damage_instance( damage_type::ELECTRIC,
-                                                     dmg ) ).total_damage();
+                                             damage_instance( damage_electric, dmg ) ).total_damage();
 
                 if( main_part_damage > 0 ) {
                     for( const bodypart_id &bp :
@@ -1709,24 +1655,6 @@ void map::player_in_field( Character &you )
         // Stepping on a shock vent shuts it down.
         if( ft == fd_shock_vent || ft == fd_acid_vent ) {
             cur.set_field_intensity( 0 );
-        }
-        if( ft == fd_bees ) {
-            // Player is immune to bees while underwater.
-            if( !you.is_underwater() ) {
-                const int intensity = cur.get_field_intensity();
-                // Bees will try to sting you in random body parts, up to 8 times.
-                for( int i = 0; i < rng( 1, 7 ); i++ ) {
-                    bodypart_id bp = you.get_random_body_part();
-                    int sum_cover = you.worn.get_coverage( bp );
-                    // Get stung if [clothing on a body part isn't thick enough (like t-shirt) OR clothing covers less than 100% of body part]
-                    // AND clothing on affected body part has low environmental protection value
-                    if( ( you.get_armor_cut( bp ) <= 1 || ( sum_cover < 100 && x_in_y( 100 - sum_cover, 100 ) ) ) &&
-                        you.add_env_effect( effect_stung, bp, intensity, 9_minutes ) ) {
-                        you.add_msg_if_player( m_bad, _( "The bees sting you in %s!" ),
-                                               body_part_name_accusative( bp ) );
-                    }
-                }
-            }
         }
         if( ft == fd_incendiary ) {
             // Mysterious incendiary substance melts you horribly.
@@ -1879,7 +1807,7 @@ void map::monster_in_field( monster &z )
         if( cur_field_type == fd_acid ) {
             if( !z.flies() ) {
                 const int d = rng( cur.get_field_intensity(), cur.get_field_intensity() * 3 );
-                z.deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_type::ACID, d ) );
+                z.deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_acid, d ) );
                 z.check_dead_state();
             }
 
@@ -1916,7 +1844,7 @@ void map::monster_in_field( monster &z )
             if( z.flies() ) {
                 dam -= 15;
             }
-            dam -= z.get_armor_type( damage_type::HEAT, bodypart_id( "torso" ) );
+            dam -= z.get_armor_type( damage_heat, bodypart_id( "torso" ) );
 
             if( cur.get_field_intensity() == 1 ) {
                 dam += rng( 2, 6 );
@@ -2034,8 +1962,7 @@ void map::monster_in_field( monster &z )
             // We don't want to increase dam, but deal a separate hit so that it can apply effects
             const int field_dmg = std::max( 1, rng( cur.get_field_intensity() / 2,
                                                     cur.get_field_intensity() ) );
-            z.deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_type::ELECTRIC,
-                           field_dmg ) );
+            z.deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_electric, field_dmg ) );
         }
         if( cur_field_type == fd_fatigue ) {
             if( rng( 0, 2 ) < cur.get_field_intensity() ) {
@@ -2300,9 +2227,6 @@ std::vector<FieldProcessorPtr> map_field_processing::processors_for_type( const 
     }
     if( ft.id == fd_acid_vent ) {
         processors.push_back( &field_processor_fd_acid_vent );
-    }
-    if( ft.id == fd_bees ) {
-        processors.push_back( &field_processor_fd_bees );
     }
     if( ft.id == fd_incendiary ) {
         processors.push_back( &field_processor_fd_incendiary );

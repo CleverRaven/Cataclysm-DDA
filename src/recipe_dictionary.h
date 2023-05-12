@@ -165,18 +165,19 @@ class recipe_subset
 
         /** Find recipes matching query (left anchored partial matches are supported) */
         std::vector<const recipe *> search(
-            const std::string &txt, search_type key = search_type::name,
+            std::string_view txt, search_type key = search_type::name,
             const std::function<void( size_t, size_t )> &progress_callback = {} ) const;
         /** Find recipes matching query and return a new recipe_subset */
         recipe_subset reduce(
-            const std::string &txt, search_type key = search_type::name,
+            std::string_view txt, search_type key = search_type::name,
             const std::function<void( size_t, size_t )> &progress_callback = {} ) const;
         /** Set intersection between recipe_subsets */
         recipe_subset intersection( const recipe_subset &subset ) const;
         /** Set difference between recipe_subsets */
         recipe_subset difference( const recipe_subset &subset ) const;
+        recipe_subset difference( const std::set<const recipe *> &recipe_set ) const;
         /** Find recipes producing the item */
-        std::vector<const recipe *> search_result( const itype_id &item ) const;
+        std::vector<const recipe *> recipes_that_produce( const itype_id &item ) const;
 
         size_t size() const {
             return recipes.size();

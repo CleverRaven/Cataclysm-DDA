@@ -12,7 +12,6 @@
     "price": 175000,
     "price_postapoc": 3000,
     "to_hit": -2,
-    "bashing": 7,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -24,7 +23,6 @@
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 5 ] ],
     "built_in_mods": [ "wire_stock" ],
     "valid_mod_locations": [
-      [ "accessories", 3 ],
       [ "barrel", 1 ],
       [ "brass catcher", 1 ],
       [ "grip", 1 ],
@@ -37,6 +35,7 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "hk46mag", "hk46bigmag" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "hk46mag", "hk46bigmag" ] } ],
+    "melee_damage": { "bash": 7 }
   }
 ]

@@ -47,8 +47,8 @@ static void calculate_bodypart_distribution( const bool can_attack_high,
 
     npc &defender = spawn_npc( point_zero, "thug" );
     clear_character( defender );
-    REQUIRE( defender.count_bodypart_with_flag( json_flag_LIMB_LOWER ) > 0 );
-    REQUIRE( defender.count_bodypart_with_flag( json_flag_LIMB_UPPER ) > 0 );
+    REQUIRE( defender.has_bodypart_with_flag( json_flag_LIMB_LOWER ) );
+    REQUIRE( defender.has_bodypart_with_flag( json_flag_LIMB_UPPER ) );
 
     const int num_tests = 15000;
 

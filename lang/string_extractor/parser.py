@@ -10,6 +10,8 @@ from .parsers.clothing_mod import parse_clothing_mod
 from .parsers.construction import parse_construction
 from .parsers.construction_category import parse_construction_category
 from .parsers.construction_group import parse_construction_group
+from .parsers.damage_info_order import parse_damage_info_order
+from .parsers.damage_type import parse_damage_type
 from .parsers.dream import parse_dream
 from .parsers.effect_on_condition import parse_effect_on_condition
 from .parsers.effect_type import parse_effect_type
@@ -122,6 +124,8 @@ parsers = {
     "construction": parse_construction,
     "construction_category": parse_construction_category,
     "construction_group": parse_construction_group,
+    "damage_info_order": parse_damage_info_order,
+    "damage_type": parse_damage_type,
     "dream": parse_dream,
     "disease_type": dummy_parser,
     "effect_on_condition": parse_effect_on_condition,
@@ -148,6 +152,7 @@ parsers = {
     "item_category": parse_item_category,
     "item_blacklist": dummy_parser,
     "item_group": dummy_parser,
+    "jmath_function": dummy_parser,
     "json_flag": parse_json_flag,
     "keybinding": parse_keybinding,
     "limb_score": parse_limb_score,
