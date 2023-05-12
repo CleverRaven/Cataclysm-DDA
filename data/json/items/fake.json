@@ -132,7 +132,7 @@
     "type": "TOOL",
     "name": { "str": "bionic radio" },
     "extend": { "flags": [ "TWO_WAY_RADIO", "USES_BIONIC_POWER" ] }
-  }
+  },
   {
     "id": "fake_tire_changer",
     "copy-from": "fake_item",
