@@ -52,10 +52,10 @@ std::function<void( dialogue &, double )> u_val_ass( char scope,
     }
 }
 
-std::function<double( dialogue & )> option_eval( char scope,
+std::function<double( dialogue & )> option_eval( char /* scope */,
         std::vector<std::string> const &params )
 {
-    return[option = params[0]]( dialogue const & d ) {
+    return[option = params[0]]( dialogue const & ) {
         return get_option<float>( option );
     };
 }
