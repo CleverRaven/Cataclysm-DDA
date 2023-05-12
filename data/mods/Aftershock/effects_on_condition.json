@@ -44,6 +44,11 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "afs_motion_sensor_eoc_end_ping",
+    "effect": [ { "u_add_var": "afs_motion_sensor_ping", "type": "flag", "context": "motion_sensor", "value": "0" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_ESCAPE_POD_CHAIR",
     "effect": [
       {
