@@ -1,0 +1,527 @@
+[
+  {
+    "id": "helmet_inventor",
+    "type": "TOOL_ARMOR",
+    "category": "armor",
+    "name": { "str": "helmet of creative juices", "str_pl": "helmets of creative juices" },
+    "description": "The helmet of creative juices may look like a child's homemade toy, but its effects when turned on are real enough.  While wearing it, your thoughts are buffered from the outside world by a soft white noise that varies from person to person as to what they actually hear.  Some hear the ocean, a fan blowing or paper crumpling.  Whatever the sound, it helps you to think faster and more creatively than before.",
+    "weight": "1383 g",
+    "volume": "1750 ml",
+    "material": [ "steel", "plastic" ],
+    "symbol": "[",
+    "looks_like": "hat_hard",
+    "ammo": [ "battery" ],
+    "color": "green",
+    "warmth": 20,
+    "material_thickness": 0.6,
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 85, "covers": [ "head" ] } ],
+    "charges_per_use": 1,
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "INTELLIGENCE", "add": 5 } ] } ] },
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "airtight": true,
+        "watertight": true,
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_MEDIUM" ],
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "default_magazine": "medium_battery_cell"
+      }
+    ],
+    "use_action": [
+      {
+        "target": "helmet_inventor_on",
+        "need_charges": 1,
+        "active": true,
+        "msg": "The helmet turns on.",
+        "type": "transform"
+      }
+    ],
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "WATERPROOF", "STURDY", "PADDED", "TRADER_AVOID", "PSYSHIELD_PARTIAL" ]
+  },
+  {
+    "id": "helmet_inventor_on",
+    "type": "TOOL_ARMOR",
+    "copy-from": "helmet_inventor",
+    "name": { "str": "helmet of creative juices (on)", "str_pl": "helmets of creative juices (on)" },
+    "power_draw": "7 W",
+    "use_action": [ { "ammo_scale": 0, "target": "helmet_inventor", "msg": "The helmet turns off.", "type": "transform" } ]
+  },
+  {
+    "id": "inventor_backpack",
+    "copy-from": "molle_medium_rucksack",
+    "type": "ARMOR",
+    "name": { "str": "vacuum backpack" },
+    "description": "A backpack with lot of light aluminum bars inside, that hold a perfect vacuum inside, which makes the backpack much lighter than it should be.",
+    "material": [ "nylon", "aluminum", "plastic" ],
+    "symbol": "[",
+    "looks_like": "molle_medium_rucksack",
+    "color": "green",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "50 L",
+        "max_contains_weight": "140 kg",
+        "max_item_length": "50 cm",
+        "magazine_well": "5 L",
+        "weight_multiplier": 0.35,
+        "//": "a bit smaller than i want, to compensate lack of weight multiplier in another pockets",
+        "moves": 300
+      },
+      {
+        "//": "hydration pouch storage",
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "3001 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "30 cm",
+        "moves": 500,
+        "description": "Pouch sized for a hydration pack."
+      },
+      {
+        "//": "carabiner pocket",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "5 L",
+        "max_contains_weight": "6 kg",
+        "max_item_length": "120 cm",
+        "min_item_length": "20 cm",
+        "moves": 150,
+        "extra_encumbrance": 3,
+        "ripoff": 2,
+        "description": "Attached with a carabiner or strap.",
+        "activity_noise": { "volume": 8, "chance": 10 }
+      },
+      {
+        "//": "carabiner pocket",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "5 L",
+        "max_contains_weight": "6 kg",
+        "max_item_length": "120 cm",
+        "min_item_length": "20 cm",
+        "moves": 150,
+        "extra_encumbrance": 3,
+        "ripoff": 2,
+        "description": "Attached with a carabiner or strap.",
+        "activity_noise": { "volume": 8, "chance": 10 }
+      },
+      {
+        "//": "tucked against back",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "5 L",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "150 cm",
+        "min_item_length": "60 cm",
+        "moves": 200,
+        "extra_encumbrance": 10,
+        "description": "Tucked between your back and the backpack.",
+        "ripoff": 3
+      }
+    ],
+    "warmth": 10,
+    "material_thickness": 2,
+    "flags": [ "BELTED", "WATER_FRIENDLY" ],
+    "use_action": [ { "type": "attach_molle", "size": 8 }, { "type": "detach_molle" } ],
+    "armor": [
+      {
+        "encumbrance": 6,
+        "volume_encumber_modifier": 0.15,
+        "coverage": 80,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_back" ]
+      }
+    ]
+  },
+  {
+    "id": "inventor_leg_weight",
+    "type": "TOOL_ARMOR",
+    "category": "armor",
+    "name": { "str": "leg weight suspension system" },
+    "description": "Compact leg attachments, that distribute your weight onto ground nearby using some kind of force.  It makes you leave giant spherical footprints, but makes carrying heavy weight much easier.",
+    "weight": "1657 g",
+    "volume": "1500 ml",
+    "material": [ "steel", "copper" ],
+    "symbol": "[",
+    "looks_like": "legguard_hard",
+    "color": "light_red",
+    "flags": [ "STURDY", "OUTER" ],
+    "ammo": "battery",
+    "use_action": {
+      "target": "inventor_leg_weight_on",
+      "msg": "You turn on the weight suspension system.",
+      "active": true,
+      "type": "transform"
+    },
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM", "BATTERY_HEAVY" ],
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "default_magazine": "medium_battery_cell"
+      }
+    ],
+    "armor": [
+      {
+        "material": [ { "type": "aluminum", "covered_by_mat": 100, "thickness": 0.6 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "coverage": 70,
+        "encumbrance": 10
+      }
+    ],
+    "relic_data": {
+      "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "CARRY_WEIGHT", "add": 35000 } ] } ]
+    }
+  },
+  {
+    "id": "inventor_leg_weight_on",
+    "copy-from": "inventor_leg_weight",
+    "name": { "str": "leg weight suspension system" },
+    "type": "TOOL_ARMOR",
+    "power_draw": "5 W",
+    "revert_to": "inventor_leg_weight",
+    "use_action": { "target": "inventor_leg_weight", "msg": "You turn off the weight suspension system.", "type": "transform" }
+  },
+  {
+    "id": "inventor_jump_boots",
+    "type": "TOOL_ARMOR",
+    "category": "armor",
+    "name": { "str": "jump driver" },
+    "description": "Heavily mechanized boots with small integrated battery slot inside.  Upon activation make you jump higher and farther.",
+    "weight": "1657 g",
+    "volume": "1500 ml",
+    "material": [ "steel", "copper" ],
+    "symbol": "[",
+    "looks_like": "legguard_hard",
+    "color": "light_red",
+    "flags": [ "STURDY", "OUTER" ],
+    "ammo": "battery",
+    "charges_per_use": 150,
+    "use_action": { "type": "cast_spell", "spell_id": "jump_boots_leap", "no_fail": true, "level": 0 },
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_MEDIUM" ],
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "default_magazine": "medium_battery_cell"
+      }
+    ],
+    "armor": [
+      {
+        "material": [ { "type": "aluminum", "covered_by_mat": 100, "thickness": 0.7 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "coverage": 95,
+        "encumbrance": 7
+      }
+    ]
+  },
+  {
+    "id": "aura_force",
+    "type": "TOOL_ARMOR",
+    "category": "armor",
+    "name": { "str": "force shield" },
+    "description": "Small, thin torus with a huge battery case, and a belt.  You can activate it, to emit a field, that covers your whole body, and decelerate all objects that it touches.",
+    "weight": "36 g",
+    "volume": "55 ml",
+    "material": [ "steel", "copper" ],
+    "symbol": "[",
+    "ammo": [ "battery" ],
+    "color": "blue",
+    "warmth": 0,
+    "material_thickness": 3,
+    "armor": [
+      {
+        "material": [ { "type": "aluminum", "covered_by_mat": 100, "thickness": 0.7 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "coverage": 95,
+        "encumbrance": 7
+      }
+    ],
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ACTIVE",
+          "values": [
+            { "value": "ARMOR_CUT", "multiply": -0.5 },
+            { "value": "ARMOR_BASH", "multiply": -0.5 },
+            { "value": "ARMOR_STAB", "multiply": -0.5 },
+            { "value": "ARMOR_BULLET", "multiply": -0.5 }
+          ]
+        }
+      ]
+    },
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "airtight": true,
+        "watertight": true,
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_MEDIUM" ],
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "default_magazine": "medium_battery_cell"
+      }
+    ],
+    "use_action": [
+      {
+        "target": "aura_force_on",
+        "need_charges": 1,
+        "active": true,
+        "msg": "The torus start to emit an invisible waves.",
+        "type": "transform"
+      }
+    ],
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "WATERPROOF", "STURDY", "PADDED", "TRADER_AVOID" ]
+  },
+  {
+    "id": "aura_force_on",
+    "type": "TOOL_ARMOR",
+    "copy-from": "aura_force",
+    "name": { "str": "force shield (on)", "str_pl": "force shields (on)" },
+    "power_draw": "250 W",
+    "use_action": [ { "ammo_scale": 0, "target": "aura_force", "msg": "Torus stops working.", "type": "transform" } ]
+  },
+  {
+    "id": "vision_halo",
+    "type": "TOOL_ARMOR",
+    "category": "armor",
+    "name": { "str": "electronic halo" },
+    "description": "A small crown with processor on the back, and few micro projectors, that project calculated information onto your eye.  The internal storage and RAM is capable to hold a simple AI, which, combined with various cameras, that cover whole 360 degree around, allow you to perform various tasks much more effective than before, and battle mode turn on the power-hungry aspect-radiation detector.",
+    "weight": "155 g",
+    "volume": "490 ml",
+    "material": [ "aluminum", "copper" ],
+    "symbol": "[",
+    "looks_like": "glasses_safety",
+    "color": "light_gray",
+    "use_action": [
+      "CAMERA",
+      "CALORIES_INTAKE_TRACKER",
+      "PORTABLE_GAME",
+      "EINKTABLETPC",
+      "ELECTRICSTORAGE",
+      "EBOOKSAVE",
+      "EBOOKREAD",
+      {
+        "target": "vision_halo_on",
+        "msg": "Turn on.",
+        "menu_text": "Turn on a battle mode",
+        "active": true,
+        "need_charges": 1,
+        "need_charges_msg": "The halo's charge is too low.",
+        "type": "transform"
+      }
+    ],
+    "ammo": [ "battery" ],
+    "material_thickness": 0.1,
+    "flags": [ "WATCH", "ALARMCLOCK", "SKINTIGHT", "WATER_BREAK", "CALORIES_INTAKE", "ELECTRONIC" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "airtight": true,
+        "watertight": true,
+        "flag_restriction": [ "BATTERY_ULTRA_LIGHT", "BATTERY_LIGHT" ],
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "default_magazine": "light_minus_disposable_cell"
+      },
+      {
+        "pocket_type": "EBOOK",
+        "rigid": true,
+        "max_contains_volume": "1 ml",
+        "max_contains_weight": "1 g",
+        "weight_multiplier": 0.0
+      }
+    ],
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ACTIVE",
+          "values": [
+            { "value": "BONUS_DODGE", "add": 1 },
+            { "value": "PERCEPTION", "add": 2 },
+            { "value": "MOTION_VISION_RANGE", "add": 30 }
+          ]
+        }
+      ]
+    },
+    "armor": [ { "encumbrance": 1, "coverage": 10, "covers": [ "eyes" ], "rigid_layer_only": true } ]
+  },
+  {
+    "id": "vision_halo_on",
+    "type": "TOOL_ARMOR",
+    "category": "armor",
+    "name": { "str": "electronic halo (on)", "str_pl": "electronic halos (on)" },
+    "copy-from": "vision_halo",
+    "power_draw": "500 W",
+    "revert_to": "vision_halo",
+    "use_action": [
+      "CAMERA",
+      "EINKTABLETPC",
+      "ELECTRICSTORAGE",
+      "EBOOKSAVE",
+      "EBOOKREAD",
+      {
+        "target": "vision_halo",
+        "msg": "Turn off.",
+        "menu_text": "Turn off a battle mode",
+        "active": false,
+        "need_charges": 0,
+        "type": "transform"
+      }
+    ]
+  },
+  {
+    "type": "TOOL_ARMOR",
+    "id": "inventor_electric_fist",
+    "symbol": "3",
+    "color": "light_gray",
+    "looks_like": "gauntlets_chitin",
+    "name": { "str": "\"Overture\"", "str_pl": "\"Overtures\"" },
+    "description": "Thin piece of close with a lot of coils and wires, and a slot for a small battery.  Upon activation, it start to emit huge electrical charges, frying your enemies when you attack them in melee.",
+    "material": [ "aluminum", "copper" ],
+    "volume": "155 ml",
+    "weight": "300 g",
+    "longest_side": "25 cm",
+    "ammo": [ "battery" ],
+    "flags": [ "ONLY_ONE", "TRADER_AVOID" ],
+    "use_action": [
+      {
+        "target": "inventor_electric_fist_act",
+        "msg": "Turn on.",
+        "menu_text": "Turn on the overture",
+        "active": true,
+        "need_charges": 1,
+        "need_charges_msg": "The halo's charge is too low.",
+        "type": "transform"
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "airtight": true,
+        "watertight": true,
+        "flag_restriction": [ "BATTERY_ULTRA_LIGHT", "BATTERY_LIGHT" ],
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "default_magazine": "light_minus_disposable_cell"
+      }
+    ],
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ACTIVE",
+          "hit_you_effect": [ { "id": "inventor_electric_fist_spell", "once_in": 6 } ],
+          "values": [ { "value": "ITEM_DAMAGE_ELEC", "add": 10 } ]
+        }
+      ]
+    },
+    "material_thickness": 0.3,
+    "armor": [ { "encumbrance": 4, "coverage": 45, "covers": [ "arm_l", "arm_r" ] } ]
+  },
+  {
+    "type": "TOOL_ARMOR",
+    "id": "inventor_electric_fist_act",
+    "copy-from": "inventor_electric_fist",
+    "symbol": "3",
+    "color": "light_gray",
+    "name": { "str": "\"Overture\" (on)", "str_pl": "\"Overtures\" (on)" },
+    "power_draw": "50 W",
+    "use_action": [ { "ammo_scale": 0, "target": "inventor_electric_fist", "msg": "The fist turns off.", "type": "transform" } ]
+  },
+  {
+    "id": "wolf_mask",
+    "type": "TOOL_ARMOR",
+    "category": "clothing",
+    "name": { "str": "wolf's mask" },
+    "description": "A huge, respirator-like mask, covering the whole head except for the right eye.  Upon activation saves you lungs from toxic gases, and improve your breathing and, therefore, stamina.",
+    "weight": "405 g",
+    "volume": "1479 ml",
+    "material": [ "aluminum" ],
+    "symbol": "[",
+    "looks_like": "mask_gas",
+    "ammo": [ "battery" ],
+    "color": "dark_gray",
+    "material_thickness": 0.4,
+    "environmental_protection": 4,
+    "relic_data": {
+      "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "REGEN_STAMINA", "multiply": 0.3 } ] } ]
+    },
+    "armor": [
+      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 4 },
+      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 15 }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "airtight": true,
+        "watertight": true,
+        "flag_restriction": [ "BATTERY_ULTRA_LIGHT", "BATTERY_LIGHT" ],
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "default_magazine": "light_minus_disposable_cell"
+      }
+    ],
+    "use_action": [
+      {
+        "target": "wolf_mask_act",
+        "msg": "Turn on.",
+        "menu_text": "Turn on the mask",
+        "active": true,
+        "need_charges": 1,
+        "need_charges_msg": "The mask's charge is too low.",
+        "type": "transform"
+      }
+    ]
+  },
+  {
+    "id": "wolf_mask_act",
+    "type": "TOOL_ARMOR",
+    "copy-from": "wolf_mask",
+    "name": { "str": "wolf's mask (on)", "str_pl": "a few wolf's mask (on)" },
+    "power_draw": "5 W",
+    "use_action": [ { "ammo_scale": 0, "target": "wolf_mask", "msg": "The mask stops working.", "type": "transform" } ]
+  },
+  {
+    "id": "magnetic_holster",
+    "type": "ARMOR",
+    "name": { "str": "magnetic holster" },
+    "looks_like": "shoulder_strap",
+    "description": "Long strap with small, powerful gravity pullers on the surface.  Allow to strap and carry almost anything.",
+    "weight": "250 g",
+    "volume": "250 ml",
+    "material": [ "plastic", "aluminum" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "sided": true,
+    "material_thickness": 1,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "5 kg",
+        "max_item_length": "200 cm",
+        "moves": 50
+      }
+    ],
+    "use_action": { "type": "holster" },
+    "flags": [ "BELTED", "OVERSIZE" ],
+    "armor": [ { "encumbrance": 1, "coverage": 5, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
+  }
+]

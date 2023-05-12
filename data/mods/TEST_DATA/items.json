@@ -433,7 +433,7 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Store tool or blade", "holster_msg": "You put your %1$s in your %2$s" },
-    "flags": [ "BELTED", "NO_QUICKDRAW", "WATER_FRIENDLY" ],
+    "flags": [ "BELTED", "WATER_FRIENDLY" ],
     "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ],
     "melee_damage": { "bash": 5 }
   },
@@ -511,7 +511,7 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Store tool or blade", "holster_msg": "You put your %1$s in your %2$s" },
-    "flags": [ "BELTED", "NO_QUICKDRAW", "WATER_FRIENDLY" ],
+    "flags": [ "BELTED", "WATER_FRIENDLY" ],
     "armor": [ { "encumbrance": [ 2, 12 ], "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ],
     "melee_damage": { "bash": 5 }
   },
@@ -672,7 +672,7 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Store tool or blade", "holster_msg": "You put your %1$s in your %2$s" },
-    "flags": [ "BELTED", "NO_QUICKDRAW", "WATER_FRIENDLY" ],
+    "flags": [ "BELTED", "WATER_FRIENDLY" ],
     "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ],
     "melee_damage": { "bash": 5 }
   },
@@ -1537,6 +1537,34 @@
     "rot_spawn_chance": 50
   },
   {
+    "type": "COMESTIBLE",
+    "id": "test_whiskey_caffenated",
+    "name": { "str_sp": "caffenated whiskey" },
+    "weight": "36 g",
+    "color": "brown",
+    "use_action": [ "ALCOHOL" ],
+    "stim": -12,
+    "container": "bottle_glass",
+    "comestible_type": "DRINK",
+    "symbol": "~",
+    "quench": -12,
+    "healthy": -1,
+    "//": "Very high addiction potential to guarantee addiction for unit tests",
+    "addiction_potential": 101,
+    "addiction_type": [ "alcohol", { "addiction": "caffeine", "potential": 102 } ],
+    "description": "A distilled grain alcohol, made from, by, and for real Southern colonels!",
+    "calories": 79,
+    "price": 2100,
+    "price_postapoc": 250,
+    "material": [ "alcohol" ],
+    "volume": "250 ml",
+    "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
+    "freezing_point": -30,
+    "phase": "liquid",
+    "charges": 7,
+    "fun": 15
+  },
+  {
     "id": "test_jug_plastic",
     "type": "GENERIC",
     "category": "container",
@@ -2066,6 +2094,7 @@
     "price": 12000,
     "price_postapoc": 250,
     "integral_longest_side": "100 mm",
+    "barrel_length": "100 mm",
     "install_time": "0 s",
     "material": [ "steel" ],
     "symbol": ":",
@@ -2524,6 +2553,7 @@
     "stim": 10,
     "quench": 50,
     "addiction_potential": 10,
+    "addiction_type": "caffeine",
     "flags": [ "NO_INGEST" ],
     "use_action": [ "CHEW" ]
   },

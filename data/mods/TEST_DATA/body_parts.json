@@ -26,7 +26,8 @@
     "hp_bar_ui_text": "TST TAIL",
     "base_hp": 20,
     "limb_scores": [ [ "test", 0.8 ] ],
-    "armor": { "bash": 5.0, "acid": 5.0 }
+    "armor": { "bash": 5.0, "acid": 5.0 },
+    "sub_parts": [ "sub_limb_debug_tail" ]
   },
   {
     "id": "test_corvid_beak",
@@ -52,7 +53,18 @@
     "smash_message": "You use your flippin' face to smash the %s.  EXTREME.",
     "smash_efficiency": 0.25,
     "bionic_slots": 4,
-    "flags": [ "LIMB_UPPER" ]
+    "flags": [ "LIMB_UPPER" ],
+    "sub_parts": [ "sub_limb_test_corvid_beak" ]
+  },
+  {
+    "id": "sub_limb_test_corvid_beak",
+    "type": "sub_body_part",
+    "max_coverage": 100,
+    "parent": "test_corvid_beak",
+    "side": 0,
+    "opposite": "sub_limb_test_corvid_beak",
+    "name_multiple": "corvid beaks",
+    "name": "corvid beak"
   },
   {
     "id": "test_bird_wing_l",
@@ -143,7 +155,18 @@
     "drench_capacity": 3,
     "smash_message": "You kick down the %s, smashing it.",
     "bionic_slots": 7,
-    "flags": [ "LIMB_LOWER" ]
+    "flags": [ "LIMB_LOWER" ],
+    "sub_parts": [ "sub_limb_test_bird_foot_l" ]
+  },
+  {
+    "id": "sub_limb_test_bird_foot_l",
+    "type": "sub_body_part",
+    "max_coverage": 100,
+    "parent": "test_bird_foot_l",
+    "side": 0,
+    "opposite": "sub_limb_test_bird_foot_l",
+    "name_multiple": "feet",
+    "name": "left bird foot"
   },
   {
     "id": "test_bird_foot_r",
@@ -172,7 +195,18 @@
     "drench_capacity": 3,
     "smash_message": "You kick down the %s, smashing it.",
     "bionic_slots": 7,
-    "flags": [ "LIMB_LOWER" ]
+    "flags": [ "LIMB_LOWER" ],
+    "sub_parts": [ "sub_limb_test_bird_foot_r" ]
+  },
+  {
+    "id": "sub_limb_test_bird_foot_r",
+    "type": "sub_body_part",
+    "max_coverage": 100,
+    "parent": "test_bird_foot_r",
+    "side": 0,
+    "opposite": "sub_limb_test_bird_foot_r",
+    "name_multiple": "feet",
+    "name": "right bird foot"
   },
   {
     "type": "enchantment",

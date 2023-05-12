@@ -145,6 +145,7 @@
     "difficulty": 4,
     "time": "6 h",
     "autolearn": true,
+    "reversible": { "time": "5 m" },
     "using": [ [ "tailoring_nylon_patchwork", 4 ], [ "fastener_small", 1 ], [ "clasps", 1 ], [ "plastic_molding", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
@@ -393,7 +394,7 @@
     "skill_used": "tailor",
     "difficulty": 6,
     "time": "18 h",
-    "reversible": { "time": "1 h" },
+    "reversible": { "time": "20 m" },
     "autolearn": true,
     "using": [ [ "tailoring_leather_patchwork", 2 ], [ "fastener_large", 2 ] ],
     "proficiencies": [
@@ -663,6 +664,7 @@
     "skills_required": [ "melee", 1 ],
     "time": "4 h",
     "autolearn": true,
+    "reversible": { "time": "40 m" },
     "using": [ [ "tailoring_leather_small", 15 ], [ "adhesive", 1 ], [ "clasps", 1 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ],

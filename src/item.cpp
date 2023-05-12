@@ -2343,7 +2343,14 @@ void item::med_info( const item *med_item, std::vector<iteminfo> &info, const it
                            to_string( player_character.get_consume_time( *med_item ) ) );
     }
 
-    if( med_com->addict && parts->test( iteminfo_parts::DESCRIPTION_MED_ADDICTING ) ) {
+    bool addictive = false;
+    for( const std::pair<const addiction_id, int> &add : med_com->addictions ) {
+        if( add.second > 0 ) {
+            addictive = true;
+            break;
+        }
+    }
+    if( addictive && parts->test( iteminfo_parts::DESCRIPTION_MED_ADDICTING ) ) {
         info.emplace_back( "DESCRIPTION", _( "* Consuming this item is <bad>addicting</bad>." ) );
     }
 
@@ -3210,7 +3217,7 @@ void item::gunmod_info( std::vector<iteminfo> &info, const iteminfo_query *parts
             info.emplace_back( "GUNMOD", _( "Field of view: <good>No limit</good>" ) );
         } else {
             info.emplace_back( "GUNMOD", _( "Field of view: " ), "",
-                               iteminfo::lower_is_better, mod.field_of_view );
+                               iteminfo::no_flags, mod.field_of_view );
         }
     }
     if( mod.field_of_view > 0 && parts->test( iteminfo_parts::GUNMOD_AIM_SPEED_MODIFIER ) ) {
@@ -6921,6 +6928,12 @@ units::mass item::weight( bool include_contents, bool integral ) const
     return ret;
 }
 
+static units::length sawn_off_reduction( const itype *type )
+{
+    int barrel_percentage = type->gun->barrel_volume / ( type->volume / 100 );
+    return ( type->longest_side / 100 ) * barrel_percentage;
+}
+
 units::length item::length() const
 {
     if( made_of( phase_id::LIQUID ) || ( is_soft() && is_container_empty() ) ) {
@@ -6936,9 +6949,7 @@ units::length item::length() const
 
         //TODO: Unhardcode this now that integral_longest_side can be used
         if( gunmod_find( itype_barrel_small ) ) {
-            int barrel_percentage = type->gun->barrel_volume / ( type->volume / 100 );
-            units::length reduce_by = ( type->longest_side / 100 ) * barrel_percentage;
-            length_adjusted = type->longest_side - reduce_by;
+            length_adjusted = type->longest_side - sawn_off_reduction( type );
         }
 
         std::vector<const item *> mods = gunmods();
@@ -6986,12 +6997,18 @@ units::length item::barrel_length() const
     if( is_gun() ) {
         units::length l = type->gun->barrel_length;
         for( const item *mod : mods() ) {
-            if( mod->type->gunmod->location.str() == "barrel" ) {
-                if( mod->type->integral_longest_side > 0_mm ) {
-                    l = mod->type->integral_longest_side;
-                }
+            // if a gun has a barrel length specifying mod then use that length for sure
+            if( mod->type->gunmod->barrel_length > 0_mm ) {
+                l = mod->type->gunmod->barrel_length;
+                // if we find an explicit barrel mod then use that and quit the loop
+                break;
             }
         }
+        // if we've sawn off the barrel reduce the damage
+        if( gunmod_find( itype_barrel_small ) ) {
+            l = l - sawn_off_reduction( type );
+        }
+
         return l;
     } else {
         return 0_mm;
@@ -9746,9 +9763,9 @@ bool item::spill_open_pockets( Character &guy, const item *avoid )
     return contents.spill_open_pockets( guy, avoid );
 }
 
-void item::overflow( const tripoint &pos )
+void item::overflow( const tripoint &pos, const item_location &loc )
 {
-    contents.overflow( pos );
+    contents.overflow( pos, loc );
 }
 
 book_proficiency_bonuses item::get_book_proficiency_bonuses() const
@@ -10434,7 +10451,8 @@ units::energy item::energy_consume( units::energy qty, const tripoint &pos, Char
     // If consumption is not integer kJ we need to consume one extra battery charge to "round up".
     // Should happen only if battery powered and energy per shot is not integer kJ.
     if( qty > 0_kJ && is_battery() ) {
-        qty -= energy_consume( 1_kJ, pos, carrier );
+        int consumed_kj = contents.ammo_consume( 1, pos );
+        qty -= units::from_kilojoule( consumed_kj );
     }
 
     return wanted_energy - qty;

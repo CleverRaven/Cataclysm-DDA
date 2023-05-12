@@ -30,6 +30,9 @@ class talker
 {
     public:
         virtual ~talker() = default;
+        virtual std::unique_ptr<talker> clone() const {
+            return std::make_unique<talker>();
+        }
         // virtual member accessor functions
         virtual Character *get_character() {
             return nullptr;
@@ -613,6 +616,14 @@ class talker
         virtual void forget_martial_art( const matype_id & ) const {}
         virtual bool knows_martial_art( const matype_id & ) const {
             return false;
+        }
+};
+template <class T, class B = talker>
+class talker_cloner : public B
+{
+    public:
+        std::unique_ptr<talker> clone() const override {
+            return std::make_unique<T>( static_cast<T const &>( *this ) );
         }
 };
 #endif // CATA_SRC_TALKER_H

@@ -153,7 +153,8 @@
     "damage_modifier": 70,
     "breaks_into": [ { "item": "scrap", "count": [ 4, 6 ] }, { "item": "steel_chunk", "count": [ 2, 3 ] } ],
     "rolling_resistance": 0.25,
-    "wheel_type": "rail",
+    "wheel_offroad_rating": 0.05,
+    "wheel_terrain_modifiers": { "RAIL": [ 2, 8 ] },
     "categories": [ "movement" ],
     "contact_area": 80,
     "requirements": {
@@ -215,7 +216,8 @@
       "repair": { "skills": [ [ "mechanics", 6 ] ], "time": "20 m", "using": [ [ "repair_welding_standard", 10 ] ] }
     },
     "flags": [ "ARMOR", "OBSTACLE", "WHEEL", "UNSTABLE_WHEEL", "NEEDS_JACKING", "STEERABLE" ],
-    "wheel_type": "rigid",
+    "wheel_offroad_rating": 0.1,
+    "wheel_terrain_modifiers": { "FLAT": [ 0, 6 ], "ROAD": [ 0, 3 ] },
     "contact_area": 400,
     "damage_reduction": { "all": 280 }
   },
@@ -238,7 +240,7 @@
       { "item": "scrap", "count": [ 1, 2 ] }
     ],
     "rolling_resistance": 1.0,
-    "wheel_type": "standard",
+    "wheel_terrain_modifiers": { "FLAT": [ 0, 4 ], "ROAD": [ 0, 2 ] },
     "contact_area": 153,
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_fasten", 1 ] ] },
@@ -254,7 +256,8 @@
     "type": "vehicle_part",
     "name": { "str": "racing slick" },
     "item": "wheel_slick",
-    "wheel_type": "racing",
+    "wheel_offroad_rating": 0.3,
+    "wheel_terrain_modifiers": { "FLAT": [ 0, 5 ], "ROAD": [ 0, 2 ] },
     "contact_area": 180,
     "damage_reduction": { "bash": 12 }
   },
@@ -278,7 +281,7 @@
       { "item": "scrap", "count": [ 2, 3 ] }
     ],
     "rolling_resistance": 0.6,
-    "wheel_type": "standard",
+    "wheel_terrain_modifiers": { "FLAT": [ 0, 4 ], "ROAD": [ 0, 2 ] },
     "contact_area": 480,
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "20 m", "using": [ [ "vehicle_fasten", 1 ] ] },
@@ -305,7 +308,8 @@
     "folded_volume": "2250 ml",
     "breaks_into": [ { "item": "steel_lump" }, { "item": "steel_chunk", "count": [ 1, 3 ] }, { "item": "scrap", "count": [ 1, 3 ] } ],
     "rolling_resistance": 1.62,
-    "wheel_type": "off-road",
+    "wheel_offroad_rating": 0.7,
+    "wheel_terrain_modifiers": { "FLAT": [ 0, 3 ], "ROAD": [ 0, 1 ] },
     "contact_area": 30,
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -335,7 +339,7 @@
       { "item": "scrap", "count": [ 1, 2 ] }
     ],
     "rolling_resistance": 0.45,
-    "wheel_type": "standard",
+    "wheel_terrain_modifiers": { "FLAT": [ 0, 4 ], "ROAD": [ 0, 2 ] },
     "contact_area": 40,
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -366,17 +370,14 @@
     "name": { "str": "off-road bicycle wheel" },
     "item": "wheel_bicycle_or",
     "contact_area": 36,
-    "wheel_type": "off-road"
+    "wheel_offroad_rating": 0.7,
+    "wheel_terrain_modifiers": { "FLAT": [ 0, 3 ], "ROAD": [ 0, 1 ] }
   },
   {
     "id": "wheel_bicycle_or_rear",
-    "copy-from": "wheel_bicycle_abstract",
+    "copy-from": "wheel_bicycle_or",
     "type": "vehicle_part",
-    "looks_like": "wheel_bicycle_rear",
-    "name": { "str": "off-road bicycle wheel" },
-    "item": "wheel_bicycle_or",
-    "contact_area": 36,
-    "wheel_type": "off-road"
+    "looks_like": "wheel_bicycle_rear"
   },
   {
     "id": "wheel_caster",
@@ -398,7 +399,8 @@
       { "item": "scrap", "count": [ 1, 2 ] }
     ],
     "rolling_resistance": 29.0,
-    "wheel_type": "rigid",
+    "wheel_offroad_rating": 0.1,
+    "wheel_terrain_modifiers": { "FLAT": [ 0, 6 ], "ROAD": [ 0, 3 ] },
     "contact_area": 4,
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_1", 1 ] ] },
@@ -427,7 +429,8 @@
       { "item": "plastic_chunk", "count": [ 1, 5 ] }
     ],
     "rolling_resistance": 29.0,
-    "wheel_type": "off-road",
+    "wheel_offroad_rating": 0.7,
+    "wheel_terrain_modifiers": { "FLAT": [ 0, 3 ], "ROAD": [ 0, 1 ] },
     "contact_area": 4,
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -456,7 +459,7 @@
       { "item": "scrap", "count": [ 1, 3 ] }
     ],
     "rolling_resistance": 1.9,
-    "wheel_type": "standard",
+    "wheel_terrain_modifiers": { "FLAT": [ 0, 4 ], "ROAD": [ 0, 2 ] },
     "contact_area": 66,
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_fasten", 1 ] ] },
@@ -487,18 +490,14 @@
     "name": { "str": "off-road motorbike wheel" },
     "item": "wheel_motorbike_or",
     "contact_area": 60,
-    "wheel_type": "off-road",
+    "wheel_offroad_rating": 0.7,
+    "wheel_terrain_modifiers": { "FLAT": [ 0, 3 ], "ROAD": [ 0, 1 ] },
     "damage_reduction": { "bash": 10, "cut": 8, "stab": 4 }
   },
   {
     "id": "wheel_motorbike_or_rear",
-    "copy-from": "wheel_motorbike_abstract",
-    "type": "vehicle_part",
-    "name": { "str": "off-road motorbike wheel" },
-    "item": "wheel_motorbike_or",
-    "contact_area": 60,
-    "wheel_type": "off-road",
-    "damage_reduction": { "bash": 10, "cut": 8, "stab": 4 }
+    "copy-from": "wheel_motorbike_or",
+    "type": "vehicle_part"
   },
   {
     "abstract": "wheel_small_abstract",
@@ -517,7 +516,8 @@
     "folded_volume": "2250 ml",
     "breaks_into": [ { "item": "steel_lump" }, { "item": "steel_chunk", "count": [ 1, 3 ] }, { "item": "scrap", "count": [ 1, 3 ] } ],
     "rolling_resistance": 1.5,
-    "wheel_type": "racing",
+    "wheel_offroad_rating": 0.3,
+    "wheel_terrain_modifiers": { "FLAT": [ 0, 5 ], "ROAD": [ 0, 2 ] },
     "contact_area": 30,
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_1", 1 ] ] },
@@ -561,7 +561,7 @@
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ] ] }
     },
     "rolling_resistance": 10.0,
-    "wheel_type": "standard",
+    "wheel_terrain_modifiers": { "FLAT": [ 0, 4 ], "ROAD": [ 0, 2 ] },
     "contact_area": 10,
     "flags": [ "STABLE", "STEERABLE", "WHEEL", "NEEDS_JACKING" ],
     "damage_reduction": { "bash": 8 }
@@ -587,7 +587,7 @@
       { "item": "scrap", "count": [ 1, 2 ] }
     ],
     "rolling_resistance": 0.45,
-    "wheel_type": "standard",
+    "wheel_terrain_modifiers": { "FLAT": [ 0, 4 ], "ROAD": [ 0, 2 ] },
     "contact_area": 20,
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -618,7 +618,8 @@
       { "item": "scrap", "count": [ 1, 2 ] }
     ],
     "rolling_resistance": 1.95,
-    "wheel_type": "racing",
+    "wheel_offroad_rating": 0.3,
+    "wheel_terrain_modifiers": { "FLAT": [ 0, 5 ], "ROAD": [ 0, 2 ] },
     "contact_area": 40,
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -648,7 +649,7 @@
       { "item": "scrap", "count": [ 2, 3 ] }
     ],
     "rolling_resistance": 0.575,
-    "wheel_type": "standard",
+    "wheel_terrain_modifiers": { "FLAT": [ 0, 4 ], "ROAD": [ 0, 2 ] },
     "contact_area": 360,
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_fasten", 1 ] ] },
@@ -664,7 +665,8 @@
     "type": "vehicle_part",
     "name": { "str": "off-road wide wheel" },
     "item": "wheel_wide_or",
-    "wheel_type": "off-road",
+    "wheel_offroad_rating": 0.7,
+    "wheel_terrain_modifiers": { "FLAT": [ 0, 3 ], "ROAD": [ 0, 1 ] },
     "contact_area": 320,
     "damage_reduction": { "bash": 20, "cut": 15, "stab": 10 }
   },
@@ -689,7 +691,8 @@
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "50 s", "using": [ [ "adhesive", 1 ] ] }
     },
     "rolling_resistance": 2.15,
-    "wheel_type": "rigid",
+    "wheel_offroad_rating": 0.1,
+    "wheel_terrain_modifiers": { "FLAT": [ 0, 6 ], "ROAD": [ 0, 3 ] },
     "contact_area": 60,
     "flags": [ "WHEEL", "UNSTABLE_WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_LIGHT" ],
     "damage_reduction": { "all": 14 }

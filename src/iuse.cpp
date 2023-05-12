@@ -8905,7 +8905,7 @@ std::optional<int> iuse::weather_tool( Character *p, item *it, bool, const tripo
         }
         const oter_id &cur_om_ter = overmap_buffer.ter( p->global_omt_location() );
         const int windpower = get_local_windpower( weather.windspeed + vehwindspeed, cur_om_ter,
-                              p->pos(), weather.winddirection, g->is_sheltered( p->pos() ) );
+                              p->get_location(), weather.winddirection, g->is_sheltered( p->pos() ) );
 
         p->add_msg_if_player( m_neutral, _( "Wind Speed: %.1f %s." ),
                               convert_velocity( windpower * 100, VU_WIND ),
@@ -8950,11 +8950,14 @@ std::optional<int> iuse::lux_meter( Character *p, item *it, bool, const tripoint
 
 std::optional<int> iuse::dbg_lux_meter( Character *p, item *, bool, const tripoint &pos )
 {
-    const float incident_light = incident_sunlight( current_weather( pos ), calendar::turn );
+    map &here = get_map();
+    const float incident_light = incident_sunlight( current_weather( here.getglobal( pos ) ),
+                                 calendar::turn );
     const float nat_light = g->natural_light_level( pos.z );
     const float sunlight = sun_light_at( calendar::turn );
     const float sun_irrad = sun_irradiance( calendar::turn );
-    const float incident_irrad = incident_sun_irradiance( current_weather( pos ), calendar::turn );
+    const float incident_irrad = incident_sun_irradiance( current_weather( here.getglobal( pos ) ),
+                                 calendar::turn );
     p->add_msg_if_player( m_neutral,
                           _( "Incident light: %.1f\nNatural light: %.1f\nSunlight: %.1f\nSun irradiance: %.1f\nIncident irradiance %.1f" ),
                           incident_light, nat_light, sunlight, sun_irrad, incident_irrad );

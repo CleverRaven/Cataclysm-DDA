@@ -284,6 +284,7 @@
       [ "iv_mutagen_lupine", 2 ],
       [ "iv_mutagen_mouse", 2 ],
       [ "iv_mutagen_rabbit", 2 ],
+      [ "iv_mutagen_crustacean", 2 ],
       [ "mutagen_chelator", 5 ],
       [ "purifier", 3 ],
       [ "iv_purifier", 8 ],
@@ -322,6 +323,7 @@
       [ "mutagen_feline", 2 ],
       [ "mutagen_lupine", 2 ],
       [ "mutagen_rabbit", 2 ],
+      [ "mutagen_crustacean", 2 ],
       [ "iv_mutagen", 6 ],
       [ "iv_mutagen_plant", 2 ],
       [ "iv_mutagen_insect", 2 ],
@@ -341,6 +343,7 @@
       [ "iv_mutagen_feline", 2 ],
       [ "iv_mutagen_lupine", 2 ],
       [ "iv_mutagen_rabbit", 2 ],
+      [ "iv_mutagen_crustacean", 2 ],
       [ "mutagen_chelator", 5 ],
       [ "purifier", 3 ],
       [ "iv_purifier", 8 ],
@@ -371,6 +374,7 @@
       [ "iv_mutagen_lupine", 2 ],
       [ "iv_mutagen_mouse", 2 ],
       [ "iv_mutagen_rabbit", 2 ],
+      [ "iv_mutagen_crustacean", 2 ],
       [ "iv_purifier", 20 ],
       [ "syringe", 10 ]
     ]

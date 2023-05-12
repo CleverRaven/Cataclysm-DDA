@@ -804,7 +804,6 @@
       [ "wrapper_foil", 20 ],
       [ "cup_foil", 1 ],
       [ "golf_club", 3 ],
-      [ "antenna", 30 ],
       [ "bat_metal", 2 ],
       [ "can_drink", 130 ],
       [ "can_drink", 130 ],
@@ -816,7 +815,8 @@
       [ "rebreather", 1 ],
       [ "small_scuba_tank", 1 ],
       [ "hand_pump", 3 ],
-      [ "pilot_light", 30 ]
+      [ "pilot_light", 30 ],
+      [ "waffleiron", 30 ]
     ]
   },
   {
@@ -837,7 +837,8 @@
       [ "copper_locket", 25 ],
       [ "jumper_cable", 10 ],
       [ "jumper_cable_heavy", 10 ],
-      [ "extension_cable", 10 ]
+      [ "extension_cable", 10 ],
+      [ "antenna", 30 ]
     ]
   },
   {
@@ -848,7 +849,6 @@
       { "item": "oil_lamp", "prob": 20, "charges-min": 0, "charges-max": 3 },
       [ "steam_triple_small", 1 ],
       [ "steam_triple_medium", 1 ],
-      [ "waffleiron", 60 ],
       [ "spring", 150 ],
       [ "pastaextruder", 75 ],
       { "item": "nail", "prob": 300, "charges-min": 1, "charges-max": 15 },

@@ -43,14 +43,14 @@ const std::unordered_set<std::string> complex_conds = { {
         "u_has_cash", "u_are_owed", "u_query", "npc_query", "u_has_item_with_flag", "npc_has_item_with_flag",
         "npc_aim_rule", "npc_engagement_rule", "npc_rule", "npc_override", "u_has_hp", "npc_has_hp",
         "u_has_part_temp", "npc_has_part_temp", "npc_cbm_reserve_rule", "npc_cbm_recharge_rule", "u_has_faction_trust",
-        "days_since_cataclysm", "is_season", "mission_goal", "u_has_var", "npc_has_var",
+        "days_since_cataclysm", "is_season", "mission_goal", "u_has_var", "npc_has_var", "expects_vars",
         "u_has_skill", "npc_has_skill", "u_know_recipe", "u_compare_var", "npc_compare_var",
         "u_compare_time_since_var", "npc_compare_time_since_var", "is_weather", "mod_is_loaded", "one_in_chance", "x_in_y_chance",
-        "is_temperature", "is_windpower", "is_humidity", "is_pressure", "u_is_height", "npc_is_height",
+        "u_is_height", "npc_is_height",
         "u_has_worn_with_flag", "npc_has_worn_with_flag", "u_has_wielded_with_flag", "npc_has_wielded_with_flag",
         "u_has_pain", "npc_has_pain", "u_has_power", "npc_has_power", "u_has_focus", "npc_has_focus", "u_has_morale",
         "npc_has_morale", "u_is_on_terrain", "npc_is_on_terrain", "u_is_in_field", "npc_is_in_field", "compare_int",
-        "compare_string", "roll_contested", "compare_num", "u_has_martial_art", "npc_has_martial_art"
+        "compare_string", "roll_contested", "compare_num", "u_has_martial_art", "npc_has_martial_art", "get_condition"
     }
 };
 } // namespace dialogue_data
@@ -72,6 +72,8 @@ tripoint_abs_ms get_tripoint_from_var( std::optional<var_info> var, dialogue con
 var_info read_var_info( const JsonObject &jo );
 void write_var_value( var_type type, const std::string &name, talker *talk, dialogue *d,
                       const std::string &value );
+void write_var_value( var_type type, const std::string &name, talker *talk, dialogue *d,
+                      double value );
 std::string get_talk_varname( const JsonObject &jo, const std::string &member,
                               bool check_value, dbl_or_var &default_val );
 std::string get_talk_var_basename( const JsonObject &jo, const std::string &member,
@@ -79,6 +81,8 @@ std::string get_talk_var_basename( const JsonObject &jo, const std::string &memb
 // the truly awful declaration for the conditional_t loading helper_function
 void read_condition( const JsonObject &jo, const std::string &member_name,
                      std::function<bool( dialogue & )> &condition, bool default_val );
+
+void finalize_conditions();
 
 /**
  * A condition for a response spoken by the player.
@@ -101,6 +105,7 @@ struct conditional_t {
         void set_has_martial_art( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_flag( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_var( const JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_expects_vars( const JsonObject &jo, const std::string &member );
         void set_compare_var( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_compare_time_since_var( const JsonObject &jo, const std::string &member,
                                          bool is_npc = false );
@@ -189,8 +194,11 @@ struct conditional_t {
         void set_mission_has_generic_rewards();
         void set_can_see( bool is_npc = false );
         void set_compare_string( const JsonObject &jo, const std::string &member );
+        void set_get_condition( const JsonObject &jo, const std::string &member );
         void set_compare_num( const JsonObject &jo, std::string_view member );
         void set_math( const JsonObject &jo, std::string_view member );
+        template<class J>
+        static std::function<std::string( const dialogue & )> get_get_string( J const &jo );
         template<class J>
         static std::function<double( dialogue & )> get_get_dbl( J const &jo );
         static std::function<double( dialogue & )> get_get_dbl( const std::string &value,
