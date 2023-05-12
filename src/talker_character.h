@@ -239,6 +239,7 @@ class talker_character: public talker_cloner<talker_character, talker_character_
         int get_part_hp_cur( const bodypart_id &id ) const override;
         int get_part_hp_max( const bodypart_id &id ) const override;
         void set_part_hp_cur( const bodypart_id &id, int set ) const override;
+        void die() override;
         void learn_martial_art( const matype_id &id ) const override;
         void forget_martial_art( const matype_id &id ) const override;
     protected:
