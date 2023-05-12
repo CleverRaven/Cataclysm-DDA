@@ -5550,12 +5550,13 @@
     "skills": [ { "level": 1, "name": "gun" }, { "level": 1, "name": "rifle" } ],
     "items": {
       "both": {
-        "items": [ "american_flag", "slippers", "wristwatch" ],
+        "items": [ "american_flag", "slippers" ],
         "entries": [
           { "group": "charged_smart_phone" },
           { "item": "mask_dust", "variant": "flag_mask_dust" },
           { "item": "chestrig", "variant": "flag_chestrig", "contents-group": "mags_ruger_arr" },
           { "item": "cowboy_hat", "variant": "flag_cowboy_hat" },
+          { "item": "leg_bag", "variant": "flag_leg_bag" },
           { "item": "ruger_arr", "ammo-item": "450_ftx", "charges": 3, "contents-item": "shoulder_strap" }
         ]
       },
@@ -5567,7 +5568,7 @@
     "type": "profession",
     "id": "cowboy",
     "name": "Cowboy",
-    "description": "You liked to spend your days taking care of the horses and cows, searching the perimeter of the ranch in your steed and looking out for anything suspicious, that's why you managed to escape in time when shit hit the fan.",
+    "description": "You liked to spend your days taking care of the horses and cows, searching the perimeter of the ranch on your steed and looking out for anything suspicious, that's why you managed to escape in time when shit hit the fan.",
     "points": 4,
     "proficiencies": [ "prof_gunsmithing_basic" ],
     "skills": [
