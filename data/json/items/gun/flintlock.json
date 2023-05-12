@@ -111,6 +111,16 @@
     "type": "GUN",
     "name": { "str": "flintlock rifle" },
     "description": "Also called a Pennsylvania rifle, this long-barreled rifled flintlock gun has significantly increased accuracy at the cost of taking even longer to reload.",
+    "variants": [
+      {
+        "id": "leadworks_longrifle_flintlock",
+        "name": { "str": "Leadworks Pennsylvania 2068" },
+        "description": "A high quality commemorative replica of a Pennsylvania rifle.  Its engraved stock plate claims it was built for the \"Northern American Federation Tricentennial Exhibition\".",
+        "color": "dark_gray",
+        "weight": 0,
+        "append": false
+      }
+    ],
     "weight": "3700 g",
     "volume": "1700 ml",
     "longest_side": "1278 mm",

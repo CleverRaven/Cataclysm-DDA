@@ -511,6 +511,37 @@
     "armor": [ { "encumbrance": 4, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {
+    "id": "cape_sci_fi",
+    "repairs_like": "sheet",
+    "type": "ARMOR",
+    "copy-from": "cape_fp",
+    "name": { "str": "heraldic cape" },
+    "looks_like": "holo_cloak",
+    "description": "Sable and argent fields retreat diagonally from a full-moon sigil.  It's metallic fibers reveal holographic motifs in accordance with ambient light.",
+    "weight": "5900 g",
+    "price_postapoc": "750 USD",
+    "sided": true,
+    "//": "It is worn as a half-cape.",
+    "armor": [
+      {
+        "encumbrance": 2,
+        "coverage": 100,
+        "covers": [ "torso", "arm_l", "arm_r" ],
+        "specifically_covers": [ "torso_hanging_back", "arm_shoulder_l", "arm_upper_l", "arm_shoulder_r", "arm_upper_r" ]
+      },
+      {
+        "encumbrance": 1,
+        "coverage": 80,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_elbow_l", "arm_lower_l", "arm_elbow_r", "arm_lower_r" ]
+      }
+    ],
+    "flags": [ "OVERSIZE", "BELTED", "POWERARMOR_COMPATIBLE", "UNBREAKABLE" ],
+    "material": [ "nanotubes" ],
+    "material_thickness": 2.5,
+    "color": "blue"
+  },
+  {
     "id": "grass_cloak",
     "type": "ARMOR",
     "name": { "str": "grass cloak" },
