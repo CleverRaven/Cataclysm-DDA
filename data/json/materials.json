@@ -2664,5 +2664,28 @@
     ],
     "burn_products": [ [ "corpse_ash", 0.035 ] ],
     "resist": { "bash": 2, "cut": 3, "acid": 7, "heat": 1, "bullet": 1 }
+  },
+  {
+    "type": "material",
+    "id": "mut_scales",
+    "name": "Mutant Scales",
+    "density": 1.2,
+    "specific_heat_liquid": 1.2,
+    "specific_heat_solid": 1.2,
+    "latent_heat": 200,
+    "chip_resist": 8,
+    "wind_resist": 75,
+    "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
+    "bash_dmg_verb": "cracked",
+    "cut_dmg_verb": "chipped",
+    "vitamins": [ [ "calcium", 2 ] ],
+    "burn_data": [
+      { "fuel": 0, "smoke": 0, "burn": 0 },
+      { "fuel": 0, "smoke": 1, "burn": 1, "volume_per_turn": "250 ml" },
+      { "fuel": 1, "smoke": 1, "burn": 2 }
+    ],
+    "soft": true,
+    "burn_products": [ [ "corpse_ash", 0.035 ] ],
+    "resist": { "bash": 2.2, "cut": 3.5, "acid": 7, "heat": 1, "bullet": 1.4 }
   }
 ]

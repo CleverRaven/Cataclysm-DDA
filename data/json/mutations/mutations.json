@@ -1950,7 +1950,7 @@
     "ugliness": 1,
     "description": "Your skin is slightly rough.  This has no gameplay effect.",
     "types": [ "SKIN" ],
-    "changes_to": [ "SCALES", "FEATHERS", "LIGHTFUR", "CHITIN", "PLANTSKIN", "PATCHSKIN1" ],
+    "changes_to": [ "SPARSE_SCALES", "FEATHERS", "LIGHTFUR", "CHITIN", "PLANTSKIN", "PATCHSKIN1" ],
     "category": [
       "LIZARD",
       "RAPTOR",
@@ -2444,15 +2444,42 @@
   },
   {
     "type": "mutation",
-    "id": "SCALES",
+    "id": "SPARSE_SCALES",
     "name": { "str": "Sparse Scales" },
     "points": 2,
-    "visibility": 10,
-    "ugliness": 3,
-    "description": "Your skin has toughened and grown thin, flexible scales in some places, acting as natural armor.  Somewhat reduces wet effects.",
+    "visibility": 5,
+    "ugliness": 1,
+    "description": "Your skin has toughened and grown thin, flexible scales in some places, acting as natural armor.",
     "types": [ "SKIN" ],
     "category": [ "RAPTOR", "LIZARD", "FISH" ],
     "prereqs": [ "SKIN_ROUGH" ],
+    "changes_to": [ "SCALES" ],
+    "wet_protection": [
+      { "part": "head", "ignored": 2 },
+      { "part": "leg_l", "ignored": 5 },
+      { "part": "leg_r", "ignored": 5 },
+      { "part": "foot_l", "ignored": 2 },
+      { "part": "foot_r", "ignored": 2 },
+      { "part": "arm_l", "ignored": 4 },
+      { "part": "arm_r", "ignored": 4 },
+      { "part": "hand_l", "ignored": 1 },
+      { "part": "hand_r", "ignored": 1 },
+      { "part": "torso", "ignored": 10 }
+    ],
+    "armor": [ { "part_types": [ "tail" ], "cut": 2, "bash": 1 } ],
+    "integrated_armor": [ "integrated_sparse_scales" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SCALES",
+    "name": { "str": "Scales" },
+    "points": 2,
+    "visibility": 10,
+    "ugliness": 3,
+    "description": "Your skin has toughened further and your scales have grown to cover most of your body.  Somewhat reduces wet effects.",
+    "types": [ "SKIN" ],
+    "category": [ "RAPTOR", "LIZARD", "FISH" ],
+    "prereqs": [ "SPARSE_SCALES" ],
     "changes_to": [ "THICK_SCALES", "SLEEK_SCALES" ],
     "wet_protection": [
       { "part": "head", "ignored": 2 },
@@ -2466,7 +2493,7 @@
       { "part": "hand_r", "ignored": 1 },
       { "part": "torso", "ignored": 10 }
     ],
-    "armor": [ { "part_types": [ "tail" ], "cut": 2, "bash": 2 } ],
+    "armor": [ { "part_types": [ "tail" ], "cut": 7, "bash": 4 } ],
     "integrated_armor": [ "integrated_scales" ]
   },
   {
@@ -2477,7 +2504,7 @@
     "visibility": 10,
     "ugliness": 4,
     "mixed_effect": true,
-    "description": "Your skin has grown thick and leathery and a set of heavy green scales has grown to cover most of your body, acting as natural armor.  While difficult to penetrate, it also limits your flexibility.  Greatly reduces wet effects.",
+    "description": "Your skin has grown thick and leathery and a set of heavy green scales has grown to cover most of your body, acting as natural armor.  Further, bony scutes cover your extremities, offering additional protection there.  While difficult to penetrate, it also limits your flexibility.  Greatly reduces wet effects.",
     "types": [ "SKIN" ],
     "prereqs": [ "SCALES" ],
     "threshreq": [ "THRESH_LIZARD" ],
@@ -2509,6 +2536,7 @@
     "prereqs": [ "SCALES" ],
     "category": [ "FISH" ],
     "movecost_swim_modifier": 0.75,
+    "threshreq": [ "THRESH_FISH" ],
     "wet_protection": [
       { "part": "head", "good": 7 },
       { "part": "leg_l", "good": 21 },
@@ -2834,16 +2862,16 @@
     "leads_to": [ "CRUSTACEAN_CLAW" ],
     "integrated_armor": [ "integrated_carapace" ],
     "wet_protection": [
-      { "part": "head", "ignored": 8 },
-      { "part": "leg_l", "ignored": 16 },
-      { "part": "leg_r", "ignored": 16 },
-      { "part": "foot_l", "ignored": 6 },
-      { "part": "foot_r", "ignored": 6 },
-      { "part": "arm_l", "ignored": 16 },
-      { "part": "arm_r", "ignored": 16 },
-      { "part": "hand_l", "ignored": 6 },
-      { "part": "hand_r", "ignored": 6 },
-      { "part": "torso", "ignored": 20 }
+      { "part": "head", "ignored": 15 },
+      { "part": "leg_l", "ignored": 20 },
+      { "part": "leg_r", "ignored": 20 },
+      { "part": "foot_l", "ignored": 9 },
+      { "part": "foot_r", "ignored": 9 },
+      { "part": "arm_l", "ignored": 20 },
+      { "part": "arm_r", "ignored": 20 },
+      { "part": "hand_l", "ignored": 9 },
+      { "part": "hand_r", "ignored": 9 },
+      { "part": "torso", "ignored": 34 }
     ],
     "passive_mods": { "dex_mod": -2 }
   },
@@ -2901,19 +2929,15 @@
     "points": 0,
     "visibility": 10,
     "ugliness": 9,
-    "cut_dmg_bonus": 3,
-    "bash_dmg_bonus": 6,
-    "butchering_quality": -3,
     "description": "Instead of your right hand, you now have a giant claw resembling ones found on crabs.  It encumbers you greatly, but you can use it in melee combat to deal massive damage.",
-    "encumbrance_always": [ [ "hand_r", 40 ] ],
     "valid": false,
     "cancels": [ "NAILS", "CLAWS", "TALONS", "WEBBED", "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8" ],
     "prereqs": [ "CRUSTACEAN_CARAPACE" ],
+    "integrated_armor": [ "integrated_giant_pincer" ],
     "threshreq": [ "THRESH_CRUSTACEAN" ],
     "category": [ "CRUSTACEAN" ],
     "restricts_gear": [ "hand_r" ],
-    "types": [ "HANDS" ],
-    "armor": [ { "parts": [ "hand_r" ], "bash": 3, "cut": 3 } ]
+    "types": [ "HANDS" ]
   },
   {
     "type": "mutation",
@@ -8155,6 +8179,16 @@
     "valid": false,
     "description": "They said college costs an arm and a leg, they sure weren't kidding!",
     "enchantments": [ "ENCH_DEBUG_ONLY_HEAD" ],
+    "debug": true
+  },
+  {
+    "type": "mutation",
+    "id": "DEBUG_BIG_HEAD",
+    "name": { "str": "Debug Big Head" },
+    "points": 99,
+    "valid": false,
+    "description": "They said college what make me smart, this is a lot to lug around!",
+    "enchantments": [ "ENCH_DEBUG_BIG_HEAD" ],
     "debug": true
   },
   {
