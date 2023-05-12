@@ -168,10 +168,11 @@
     "effect": [
       {
         "location_variable_adjust": { "global_val": "portal_storm_center" },
-        "x_adjust": [ -20, 20 ],
-        "y_adjust": [ -20, 20 ]
+        "overmap_tile": true,
+        "x_adjust": [ -1, 1 ],
+        "y_adjust": [ -1, 1 ]
       },
-      { "u_message": "The storm shifts!", "type": "bad" },
+      { "u_message": "The portal storm shifts!", "type": "bad" },
       { "remove_active_mission": "MISSION_INVESTIGATE_PORTAL_STORM_CENTER" },
       { "assign_mission": "MISSION_INVESTIGATE_PORTAL_STORM_CENTER" }
     ]
@@ -261,7 +262,13 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_WORSEN_PORTAL_STORM",
-    "effect": { "weighted_list_eocs": [ [ "EOC_PORTAL_STRENGTHEN", { "const": 1 } ], [ "EOC_PORTAL_LENGTHEN", { "const": 1 } ] ] }
+    "effect": {
+      "weighted_list_eocs": [
+        [ "EOC_PORTAL_STRENGTHEN", { "const": 1 } ],
+        [ "EOC_PORTAL_LENGTHEN", { "const": 1 } ],
+        [ "EOC_PORTAL_EXPAND", { "const": 3 } ]
+      ]
+    }
   },
   {
     "type": "effect_on_condition",
@@ -280,6 +287,15 @@
         "arithmetic": [ { "global_val": "var", "var_name": "ps_max_length", "default_time": "4 hours" }, "+=", { "time": "15 minutes" } ],
         "max_time": "6 hours"
       }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_EXPAND",
+    "effect": [
+      { "arithmetic": [ { "global_val": "var", "var_name": "portal_storm_distant_distance" }, "++" ] },
+      { "arithmetic": [ { "global_val": "var", "var_name": "portal_storm_close_distance" }, "++" ] },
+      { "arithmetic": [ { "global_val": "var", "var_name": "portal_storm_distance" }, "++" ] }
     ]
   },
   {
@@ -379,7 +395,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_EFFECTS_CENTER",
-    "recurrence": [ "45 seconds", "2 minutes" ],
+    "recurrence": [ "45 seconds", "1 minutes" ],
     "global": true,
     "condition": {
       "and": [

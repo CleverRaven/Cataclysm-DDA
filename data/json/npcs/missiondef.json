@@ -921,7 +921,7 @@
     "id": "MISSION_INVESTIGATE_PORTAL_STORM_CENTER",
     "type": "mission_definition",
     "name": { "str": "Center of the storm" },
-    "goal": "MGOAL_GO_TO",
+    "goal": "MGOAL_CONDITION",
     "description": "This is the center of the portal storm, you could find it upside down, dizzy and blindfolded.  Its presence is too altered to allow the mercy of ignorance.",
     "difficulty": 0,
     "value": 0,
