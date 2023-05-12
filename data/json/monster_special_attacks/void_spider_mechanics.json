@@ -373,6 +373,6 @@
       { "math": [ "spider_lair_sealed", "=", "0" ] },
       { "math": [ "void_spider_nest_eggs_spawned", "=", "0" ] },
       { "math": [ "void_spider_nest_corpses_spawned", "=", "0" ] }
-      ]
+    ]
   }
 ]
