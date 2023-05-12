@@ -10405,6 +10405,13 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
 
     if( moving ) {
         cata_event_dispatch::avatar_moves( old_abs_pos, u, m );
+        
+        // Add smoke effect when sprinting
+        if( u.is_running() ) {
+            std::map<tripoint, nc_color> area_color;
+            area_color[oldpos] = c_white;
+            explosion_handler::draw_custom_explosion( oldpos, area_color, "fd_smoke" );
+        }
     }
 
     if( furniture_move ) {
