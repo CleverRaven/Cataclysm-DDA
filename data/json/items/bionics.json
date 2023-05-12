@@ -6,7 +6,6 @@
     "name": { "str": "abstract bionic module" },
     "weight": "2041 g",
     "volume": "2500 ml",
-    "bashing": 8,
     "material": [ "steel", "plastic" ],
     "symbol": ":",
     "color": "yellow",
@@ -14,7 +13,8 @@
     "use_action": [ "install_bionic" ],
     "flags": [ "CBM" ],
     "is_upgrade": false,
-    "faults": [ "fault_bionic_salvaged" ]
+    "faults": [ "fault_bionic_salvaged" ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "abstract": "bionic_general_npc_usable",
@@ -67,8 +67,18 @@
     "price": 25000,
     "price_postapoc": 2000,
     "weight": "500 g",
-    "difficulty": 1,
-    "installation_data": "AID_bio_alarm"
+    "difficulty": 1
+  },
+  {
+    "id": "bio_ar",
+    "copy-from": "bionic_general_npc_usable",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Integrated AR System CBM" },
+    "looks_like": "bio_int_enhancer",
+    "description": "This bionic module integrates augmented reality interface into user's eyes.",
+    "price": 500000,
+    "weight": "100 g",
+    "difficulty": 6
   },
   {
     "id": "bio_armor_arms",
@@ -78,8 +88,7 @@
     "description": "An advanced protective mesh that weaves into the user's flesh.  Provides passive protection at the cost of mild encumbrance, and can be used in conjunction with bionic martial arts.",
     "price": 350000,
     "price_postapoc": 5000,
-    "difficulty": 6,
-    "installation_data": "AID_bio_armor_arms"
+    "difficulty": 6
   },
   {
     "id": "bio_armor_eyes",
@@ -114,8 +123,7 @@
     "description": "An advanced protective mesh that weaves into the user's flesh.  Provides passive protection at the cost of mild encumbrance, and can be used in conjunction with bionic martial arts.",
     "price": 350000,
     "price_postapoc": 5000,
-    "difficulty": 6,
-    "installation_data": "AID_bio_armor_legs"
+    "difficulty": 6
   },
   {
     "id": "bio_armor_torso",
@@ -162,8 +170,7 @@
     "description": "A concealed, single shot 12 gauge shotgun that is implanted inside the left forearm.  Perfect in a pinch.",
     "price": 220000,
     "price_postapoc": 2000,
-    "difficulty": 3,
-    "installation_data": "AID_bio_shotgun"
+    "difficulty": 3
   },
   {
     "id": "bio_blood_anal",
@@ -175,8 +182,7 @@
     "price": 320000,
     "price_postapoc": 1200,
     "weight": "150 g",
-    "difficulty": 2,
-    "installation_data": "AID_bio_blood_anal"
+    "difficulty": 2
   },
   {
     "id": "bio_blood_filter",
@@ -188,8 +194,7 @@
     "price": 350000,
     "price_postapoc": 2500,
     "weight": "200 g",
-    "difficulty": 3,
-    "installation_data": "AID_bio_blood_filter"
+    "difficulty": 3
   },
   {
     "id": "bio_cable",
@@ -245,8 +250,7 @@
     "description": "A network of thermal piping which eases the effects of high and low ambient temperatures once activated.",
     "price": 350000,
     "price_postapoc": 1500,
-    "difficulty": 3,
-    "installation_data": "AID_bio_climate"
+    "difficulty": 3
   },
   {
     "id": "bio_cloak",
@@ -444,8 +448,7 @@
     "price": 20000,
     "price_postapoc": 1000,
     "weight": "250 g",
-    "difficulty": 2,
-    "installation_data": "AID_bio_flashlight"
+    "difficulty": 2
   },
   {
     "id": "bio_tattoo_led",
@@ -457,8 +460,7 @@
     "price": 20000,
     "price_postapoc": 250,
     "weight": "20 g",
-    "difficulty": 1,
-    "installation_data": "AID_bio_tattoo_led"
+    "difficulty": 1
   },
   {
     "id": "bio_geiger",
@@ -470,8 +472,7 @@
     "price": 350000,
     "price_postapoc": 3000,
     "weight": "150 g",
-    "difficulty": 3,
-    "installation_data": "AID_bio_geiger"
+    "difficulty": 3
   },
   {
     "id": "bio_gills",
@@ -518,8 +519,7 @@
     "description": "A set of powerful heatsinks and supermaterials woven into the user's flesh.  While powered, this system will prevent external heat damage up to 2000 degrees Fahrenheit.  Note that this does not affect the internal body temperature.",
     "price": 350000,
     "price_postapoc": 2000,
-    "difficulty": 3,
-    "installation_data": "AID_bio_heatsink"
+    "difficulty": 3
   },
   {
     "id": "bio_hydraulics",
@@ -613,8 +613,7 @@
     "price": 200000,
     "price_postapoc": 400,
     "weight": "700 g",
-    "difficulty": 2,
-    "installation_data": "AID_bio_magnet"
+    "difficulty": 2
   },
   {
     "id": "bio_membrane",
@@ -662,8 +661,7 @@
     "price": 350000,
     "price_postapoc": 200,
     "weight": "700 g",
-    "difficulty": 3,
-    "installation_data": "AID_bio_meteorologist"
+    "difficulty": 3
   },
   {
     "id": "bio_nanobots",
@@ -725,31 +723,6 @@
     "difficulty": 4
   },
   {
-    "id": "bio_power_armor_interface",
-    "copy-from": "bionic_general",
-    "type": "BIONIC_ITEM",
-    "name": { "str": "Power Armor Interface CBM" },
-    "looks_like": "bio_int_enhancer",
-    "description": "Interfaces the user's bionic power system with the internal charging port on suits of power armor, allowing them to draw from the user's bionic power banks.",
-    "price": 120000,
-    "price_postapoc": 500,
-    "weight": "500 g",
-    "difficulty": 1,
-    "installation_data": "AID_bio_power_armor_interface"
-  },
-  {
-    "id": "bio_power_armor_interface_mkII",
-    "copy-from": "bionic_general",
-    "type": "BIONIC_ITEM",
-    "name": { "str": "Power Armor Interface Mk. II CBM" },
-    "looks_like": "bio_int_enhancer",
-    "description": "Interfaces the user's bionic power system with the internal charging port on suits of power armor, allowing them to draw from the user's bionic power banks.  Twice as efficient as the Mk. I model.  The Mk. II was designed by DoubleTech Inc., to meet the popularity of the Mk. II power armor series.",
-    "price": 1000000,
-    "price_postapoc": 500,
-    "weight": "400 g",
-    "difficulty": 8
-  },
-  {
     "id": "bio_power_storage",
     "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
@@ -759,8 +732,7 @@
     "price": 380000,
     "price_postapoc": 500,
     "weight": "70 g",
-    "difficulty": 1,
-    "installation_data": "AID_bio_power_storage"
+    "difficulty": 1
   },
   {
     "id": "bio_power_storage_mkII",
@@ -772,8 +744,7 @@
     "price": 1000000,
     "price_postapoc": 750,
     "weight": "50 g",
-    "difficulty": 1,
-    "installation_data": "AID_bio_power_storage_mkII"
+    "difficulty": 1
   },
   {
     "id": "bio_probability_travel",
@@ -1044,8 +1015,7 @@
     "price": 25000,
     "price_postapoc": 3500,
     "weight": "700 g",
-    "difficulty": 3,
-    "installation_data": "AID_bio_ups"
+    "difficulty": 3
   },
   {
     "id": "bio_watch",
@@ -1057,8 +1027,7 @@
     "price": 1000,
     "price_postapoc": 200,
     "weight": "10 g",
-    "difficulty": 1,
-    "installation_data": "AID_bio_watch"
+    "difficulty": 1
   },
   {
     "id": "bio_water_extractor",
@@ -1082,8 +1051,7 @@
     "price": 1000,
     "price_postapoc": 300,
     "weight": "10 g",
-    "difficulty": 1,
-    "installation_data": "AID_bio_syringe"
+    "difficulty": 1
   },
   {
     "id": "bio_weight",
@@ -1095,8 +1063,7 @@
     "price": 50000,
     "price_postapoc": 1500,
     "weight": "3000 g",
-    "difficulty": 3,
-    "installation_data": "AID_bio_weight"
+    "difficulty": 3
   },
   {
     "id": "bio_taste_blocker",
@@ -1120,8 +1087,7 @@
     "price": 350000,
     "price_postapoc": 500,
     "weight": "50 g",
-    "difficulty": 2,
-    "installation_data": "AID_bio_soporific"
+    "difficulty": 2
   },
   {
     "id": "bio_ankles",
@@ -1368,8 +1334,7 @@
     "weight": "500 g",
     "price": 120000,
     "price_postapoc": 1500,
-    "difficulty": 3,
-    "installation_data": "AID_bio_trickle"
+    "difficulty": 3
   },
   {
     "id": "bio_pitch_perfect",
@@ -1380,7 +1345,6 @@
     "description": "A CBM that links the eyes to a series of nerve stimulators along the arms and hands, resulting in a significant increase to throwing accuracy.  The user enjoys a significant edge in baseball, and it turns out it works great with fragmentation grenades too.",
     "price": 220000,
     "weight": "1000 g",
-    "difficulty": 3,
-    "installation_data": "AID_bio_pitch_perfect"
+    "difficulty": 3
   }
 ]

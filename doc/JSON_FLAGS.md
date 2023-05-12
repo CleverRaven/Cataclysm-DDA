@@ -355,7 +355,6 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```INTEGRATED``` This item represents a part of you granted by mutations or bionics.  It will always fit, cannot be unequipped (aside from losing the source), and won't drop on death, but otherwise behaves like normal armor with regards to function, encumbrance, layer conflicts and so on.
 - ```NORMAL``` Items worn like normal clothing. This is assumed as default.
 - ```NO_TAKEOFF``` Item with that flag can't be taken off.
-- ```NO_QUICKDRAW``` Don't offer to draw items from this holster when the fire key is pressed whilst the players hands are empty
 - ```NO_WEAR_EFFECT``` This gear doesn't provide any effects when worn (most jewelry).
 - ```ONLY_ONE``` You can wear only one.
 - ```OUTER```  Outer garment layer.
@@ -600,6 +599,8 @@ Effect flags. These are checked by hardcode for monsters (introducing new flags 
 - ```DISABLE_FLIGHT``` Monsters affected by an effect with this flag will never count as flying (even if they have the `FLIES` flag).
 - ```EFFECT_IMPEDING``` Character affected by an effect with this flag can't move until they break free from the effect.  Breaking free requires a strength check: `x_in_y( STR * limb lifting score * limb grip score, 6 * get_effect_int( eff_id )`
 - ```EFFECT_LIMB_SCORE_MOD``` Effect with a limb score component to be used in Character::get_limb_score. See [EFFECTS_JSON.md](EFFECTS_JSON.md) for the exact function of limb score modifiers and [JSON_INFO.md](JSON_INFO.md#limb-scores) for the effects of the scores.
+- ```GRAB``` This effect is a grab, creatures will attempt to break it as such (see `character_escape.cpp`)
+- ````GRAB_FILTER``` This effect is a grab filter effect, assigning grabs to their grabbing monster.  Handles targeted grab removal on grab break, as well as potentially acting as a filter for monster attack logic.  Bodypart `grabbing_effects` should have it defined.
 
 ## Furniture and Terrain
 
@@ -945,7 +946,6 @@ See [Mapgen flags](MAPGEN.md#mapgen-flags).
 - ```SHEATH_KNIFE``` Item can be sheathed in a knife sheath, it's applicable to small/medium knives (with volume not bigger than 2).
 - ```SHEATH_SWORD``` Item can be sheathed in a sword scabbard.
 - ```SPEAR``` When making reach attacks intervening `THIN_OBSTACLE` terrain is not an obstacle.  Should be paired with `REACH_ATTACK`.
-- ```STAB``` Changes item's damage type from cutting to stabbing.
 - ```UNARMED_WEAPON``` Fighting while wielding this item still counts as unarmed combat.
 - ```WHIP``` Has a chance of disarming the opponent.
 
@@ -1035,6 +1035,7 @@ Other monster flags.
 - ```ACIDTRAIL``` Leaves a trail of acid.
 - ```ACID_BLOOD``` Makes monster bleed acid. Does not automatically dissolve in a pool of acid on death.
 - ```ALL_SEEING``` Can see every creature within its vision (highest of day/night vision counts) on the same Z-level.
+- ```ALWAYS_SEES_YOU``` This monster always knows where the avatar is
 - ```ALWAYS_VISIBLE``` This monster can always be seen regardless of line of sight or light level.
 - ```ANIMAL``` Is an _animal_ for purposes of the `Animal Empathy` trait.
 - ```AQUATIC``` Confined to water.
@@ -1052,6 +1053,8 @@ Other monster flags.
 - ```CANPLAY``` This creature can be played with if it's a pet.
 - ```CLIMBS``` Can climb over fences or similar obstacles quickly.
 - ```COLDPROOF``` Immune to cold damage.
+- ```CONVERSATION``` This monster can engage in conversation.  Will need to have chat_topics as well.
+- ```DEADLY_VIRUS``` This monster can inflict the zombie_virus effect
 - ```DESTROYS``` Bashes down walls and more. (2.5x bash multiplier, where base is the critter's max melee bashing)
 - ```DIGS``` Digs through the ground. Will not travel through non-diggable terrain such as roads.
 - ```DOGFOOD``` Can be ordered to attack with a dog whistle.
@@ -1087,6 +1090,7 @@ Other monster flags.
 - ```MILITARY_MECH``` Is a military-grade mech.
 - ```MILKABLE``` Produces milk when milked.
 - ```NEMESIS``` Tags Nemesis enemies for the HAS_NEMESIS mutation.
+- ```NEVER_WANDER``` This monster will never join wandering hordes.
 - ```NIGHT_INVISIBILITY``` Monster becomes invisible if it's more than one tile away and the lighting on its tile is LL_LOW or less. Visibility is not affected by night vision.
 - ```NOT_HALLUCINATION``` This monster does not appear while the player is hallucinating.
 - ```NOGIB``` Does not leave gibs / meat chunks when killed with huge damage.
@@ -1129,6 +1133,7 @@ Other monster flags.
 - ```SUNDEATH``` Dies in full sunlight.
 - ```SWARMS``` Groups together and forms loose packs.
 - ```SWIMS``` Treats water as 50 movement point terrain.
+- ```VAMP_VIRUS``` This monster can inflict the vampire_virus effect
 - ```VENOM``` Attack may poison the player.
 - ```VERMIN``` Obsolete flag for inconsequential monsters, now prevents loading.
 - ```WARM``` Warm blooded.

@@ -33,7 +33,7 @@
     "copy-from": "fish",
     "type": "COMESTIBLE",
     "name": { "str": "scrap of fish", "str_pl": "scraps of fish" },
-    "description": "This is a tiny scrap of edible fish.  It's not much, but it'll do in a pinch.",
+    "description": "A tiny scrap of edible fish.  It's not much, but it'll do in a pinch.",
     "cooks_like": "fish_scrap_cooked",
     "proportional": { "weight": 0.1, "volume": 0.1, "price": 0.1, "calories": 0.1 },
     "delete": { "flags": [ "SMOKABLE" ] },
@@ -488,6 +488,7 @@
     "//": "This item should not get any use whatsoever, it is merely conservation of mass and an attractor for carrion.",
     "symbol": "¨",
     "name": { "str_sp": "butchery refuse" },
+    "category": "other",
     "charges": 15,
     "volume": "2500 ml",
     "weight": "250 g",
@@ -1308,9 +1309,9 @@
     "milling": { "into": "meal_bone", "conversion_rate": 4 },
     "volume": "36 L",
     "longest_side": "2000 cm",
-    "bashing": 15,
     "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
-    "vitamins": [ [ "calcium", 13824 ] ]
+    "vitamins": [ [ "calcium", 13824 ] ],
+    "melee_damage": { "bash": 15 }
   },
   {
     "type": "COMESTIBLE",

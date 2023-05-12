@@ -10,11 +10,12 @@
 #include <vector>
 
 #include "rng.h"
+#include "units.h"
 
 struct math_func {
     std::string_view symbol;
     int num_params;
-    using f_t = double ( * )( std::vector<double> & );
+    using f_t = double ( * )( std::vector<double> const & );
     f_t f;
 };
 using pmath_func = math_func const *;
@@ -25,48 +26,12 @@ struct math_const {
 };
 using pmath_const = math_const const *;
 
-template<class D>
-struct dialogue_func {
-    dialogue_func<D>( std::string_view s_, std::string_view sc_, int n_ ) : symbol( s_ ),
-        scopes( sc_ ), num_params( n_ ) {}
-    std::string_view symbol;
-    std::string_view scopes;
-    int num_params{};
-};
-
-template <class D>
-struct dialogue_func_eval : dialogue_func<D> {
-    using f_t = std::function<double( D const & )> ( * )( char scope,
-                std::vector<std::string> const & );
-
-    dialogue_func_eval<D>( std::string_view s_, std::string_view sc_, int n_, f_t f_ )
-        : dialogue_func<D>( s_, sc_, n_ ), f( f_ ) {}
-
-    f_t f;
-};
-
-template <class D>
-struct dialogue_func_ass : dialogue_func<D> {
-    using f_t = std::function<void( D const &, double )> ( * )( char scope,
-                std::vector<std::string> const & );
-
-    dialogue_func_ass<D>( std::string_view s_, std::string_view sc_, int n_, f_t f_ )
-        : dialogue_func<D>( s_, sc_, n_ ), f( f_ ) {}
-
-    f_t f;
-};
-
-template<class D>
-using pdiag_func_eval = dialogue_func_eval<D> const *;
-template<class D>
-using pdiag_func_ass = dialogue_func_ass<D> const *;
-
-inline double abs( std::vector<double> &params )
+inline double abs( std::vector<double> const &params )
 {
     return std::abs( params[0] );
 }
 
-inline double max( std::vector<double> &params )
+inline double max( std::vector<double> const &params )
 {
     if( params.empty() ) {
         return 0;
@@ -74,7 +39,7 @@ inline double max( std::vector<double> &params )
     return *std::max_element( params.begin(), params.end() );
 }
 
-inline double min( std::vector<double> &params )
+inline double min( std::vector<double> const &params )
 {
     if( params.empty() ) {
         return 0;
@@ -82,57 +47,104 @@ inline double min( std::vector<double> &params )
     return *std::min_element( params.begin(), params.end() );
 }
 
-inline double math_rng( std::vector<double> &params )
+inline double math_rng( std::vector<double> const &params )
 {
     return rng_float( params[0], params[1] );
 }
 
-inline double rand( std::vector<double> &params )
+inline double rand( std::vector<double> const &params )
 {
     return rng( 0, static_cast<int>( std::round( params[0] ) ) );
 }
 
-inline double sqrt( std::vector<double> &params )
+inline double sqrt( std::vector<double> const &params )
 {
     return std::sqrt( params[0] );
 }
 
-inline double log( std::vector<double> &params )
+inline double log( std::vector<double> const &params )
 {
     return std::log( params[0] );
 }
 
-inline double sin( std::vector<double> &params )
+inline double sin( std::vector<double> const &params )
 {
     return std::sin( params[0] );
 }
 
-inline double cos( std::vector<double> &params )
+inline double cos( std::vector<double> const &params )
 {
     return std::cos( params[0] );
 }
 
-inline double tan( std::vector<double> &params )
+inline double tan( std::vector<double> const &params )
 {
     return std::tan( params[0] );
 }
 
-constexpr double test_( std::vector<double> &/* params */ )
+inline double clamp( std::vector<double> const &params )
+{
+    if( params[2] < params[1] ) {
+        debugmsg( "clamp called with hi < lo (%f < %f)", params[2], params[1] );
+        return params[0];
+    }
+    return std::clamp( params[0], params[1], params[2] );
+}
+
+inline double floor( std::vector<double> const &params )
+{
+    return std::floor( params[0] );
+}
+
+inline double ceil( std::vector<double> const &params )
+{
+    return std::ceil( params[0] );
+}
+
+inline double trunc( std::vector<double> const &params )
+{
+    return std::trunc( params[0] );
+}
+
+inline double round( std::vector<double> const &params )
+{
+    return std::round( params[0] );
+}
+
+constexpr double test_( std::vector<double> const &/* params */ )
 {
     return 42;
 }
 
-template<class D>
-std::function<double( D const & )> u_val( char scope,
-        std::vector<std::string> const &params );
-template<class D>
-std::function<void( D const &, double )> u_val_ass( char scope,
-        std::vector<std::string> const &params );
+inline double celsius_from_kelvin( std::vector<double> const &params )
+{
+    return units::to_celsius( units::from_kelvin( params[0] ) );
+}
 
-constexpr std::array<math_func, 11> functions{
+inline double fahrenheit_from_kelvin( std::vector<double> const &params )
+{
+    return units::to_fahrenheit( units::from_kelvin( params[0] ) );
+}
+
+inline double celsius_to_kelvin( std::vector<double> const &params )
+{
+    return units::to_kelvin( units::from_celsius( params[0] ) );
+}
+
+inline double fahrenheit_to_kelvin( std::vector<double> const &params )
+{
+    return units::to_kelvin( units::from_fahrenheit( params[0] ) );
+}
+
+constexpr std::array<math_func, 20> functions{
     math_func{ "abs", 1, abs },
     math_func{ "max", -1, max },
     math_func{ "min", -1, min },
+    math_func{ "clamp", 3, clamp },
+    math_func{ "floor", 1, floor },
+    math_func{ "trunc", 1, trunc },
+    math_func{ "ceil", 1, ceil },
+    math_func{ "round", 1, round },
     math_func{ "rng", 2, math_rng },
     math_func{ "rand", 1, rand },
     math_func{ "sqrt", 1, sqrt },
@@ -141,16 +153,10 @@ constexpr std::array<math_func, 11> functions{
     math_func{ "cos", 1, cos },
     math_func{ "tan", 1, tan },
     math_func{ "_test_", 0, test_ },
-};
-
-template<class D>
-inline std::array<dialogue_func_eval<D>, 1> const dialogue_eval_f{
-    dialogue_func_eval{ "val", "un", -1, u_val<D> },
-};
-
-template<class D>
-inline std::array<dialogue_func_ass<D>, 1> const dialogue_assign_f{
-    dialogue_func_ass{ "val", "un", -1, u_val_ass<D> },
+    math_func{ "celsius", 1, celsius_from_kelvin },
+    math_func{ "fahrenheit", 1, fahrenheit_from_kelvin },
+    math_func{ "from_celsius", 1, celsius_to_kelvin },
+    math_func{ "from_fahrenheit", 1, fahrenheit_to_kelvin },
 };
 
 namespace math_constants

@@ -105,7 +105,8 @@
     "m2c": 90,
     "contact_area": 60,
     "rolling_resistance": 1.5,
-    "wheel_type": "off-road",
+    "wheel_offroad_rating": 0.7,
+    "wheel_terrain_modifiers": { "FLAT": [ 0, 3 ], "ROAD": [ 0, 1 ] },
     "description": "Attach this part to a beast of burden to allow it to pull your vehicle.",
     "power": "0 W",
     "location": "structure",
@@ -1319,7 +1320,7 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "350 s", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "80 s", "using": [ [ "adhesive", 1 ] ] }
     },
-    "flags": [ "CTRL_ELECTRONIC", "DOME_LIGHT", "ENABLED_DRAINS_EPOWER" ],
+    "flags": [ "CTRL_ELECTRONIC", "DOME_LIGHT", "ENABLED_DRAINS_EPOWER", "WATCH", "ALARMCLOCK" ],
     "breaks_into": [ { "group": "ig_vp_device", "count": [ 2, 3 ] } ]
   },
   {
@@ -1456,7 +1457,7 @@
     "description": "A belt, attached to a seat.",
     "folded_volume": "500 ml",
     "bonus": 10,
-    "item": "rope_6",
+    "item": "seatbelt",
     "location": "on_seat",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "150 s", "using": [ [ "vehicle_screw", 1 ] ] },
@@ -1464,7 +1465,6 @@
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
     },
     "flags": [ "SEATBELT", "SIMPLE_PART" ],
-    "breaks_into": [ { "item": "string_36", "count": [ 0, 3 ] } ],
     "damage_reduction": { "bash": 15 }
   },
   {
@@ -1543,7 +1543,7 @@
     "description": "A series of straps attached to the seat, intended to fasten together after going over your shoulders and hips and between your legs.",
     "folded_volume": "1 L",
     "bonus": 25,
-    "item": "rope_30",
+    "item": "five-point_harness",
     "location": "on_seat",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "using": [ [ "vehicle_screw", 1 ] ] },
@@ -1551,7 +1551,6 @@
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
     },
     "flags": [ "SEATBELT", "SIMPLE_PART" ],
-    "breaks_into": [ { "item": "string_36", "count": [ 0, 3 ] } ],
     "damage_reduction": { "bash": 15 }
   },
   {
@@ -2896,7 +2895,7 @@
   {
     "type": "vehicle_part",
     "id": "vehicle_clock",
-    "name": { "str": "clock" },
+    "name": { "str": "makeshift clock" },
     "symbol": ":",
     "categories": [ "other" ],
     "color": "light_gray",

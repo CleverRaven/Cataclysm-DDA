@@ -4,16 +4,24 @@
     "id": "ench_longsword_holy",
     "has": "WIELD",
     "condition": "ALWAYS",
-    "name": { "str": "magical blade" },
+    "name": { "str": "Magic blade" },
     "description": "The damage done and light emitted by this sword increase with intelligence.",
     "values": [
       {
         "value": "ITEM_DAMAGE_CUT",
-        "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "holy_blade" }, "+", { "u_val": "intelligence" } ] }
+        "add": {
+          "math": [
+            "(u_val('intelligence') * 2) + (u_val('spell_level', 'spell: holy_blade') + u_val('spell_level', 'spell: holy_blade_plus'))"
+          ]
+        }
       },
       {
         "value": "LUMINATION",
-        "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "holy_blade" }, "+", { "u_val": "intelligence" } ] }
+        "add": {
+          "math": [
+            "((u_val('intelligence') * 2) + (u_val('spell_level', 'spell: holy_blade') + u_val('spell_level', 'spell: holy_blade_plus'))) * 3"
+          ]
+        }
       }
     ]
   },
@@ -22,28 +30,48 @@
     "id": "ench_armor_spirit",
     "has": "WORN",
     "condition": "ALWAYS",
-    "name": { "str": "magic armor" },
-    "description": "This armor is made better as your spell level improves.",
+    "name": { "str": "Magic armor" },
+    "description": "This magical armor improves with your intelligence and the spell's level.",
     "values": [
       {
         "value": "ARMOR_BASH",
-        "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "spirit_armor" }, "*", { "const": -1 } ] }
+        "add": {
+          "math": [
+            "((u_val('intelligence') * 1.5) + (u_val('spell_level', 'spell: spirit_armor') + u_val('spell_level', 'spell: spirit_armor_plus')) * 0.5) * -1"
+          ]
+        }
       },
       {
         "value": "ARMOR_CUT",
-        "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "spirit_armor" }, "*", { "const": -1 } ] }
+        "add": {
+          "math": [
+            "((u_val('intelligence') * 1.5) + (u_val('spell_level', 'spell: spirit_armor') + u_val('spell_level', 'spell: spirit_armor_plus')) * 0.5) * -1"
+          ]
+        }
       },
       {
         "value": "ARMOR_STAB",
-        "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "spirit_armor" }, "*", { "const": -1 } ] }
+        "add": {
+          "math": [
+            "((u_val('intelligence') * 1.5) + (u_val('spell_level', 'spell: spirit_armor') + u_val('spell_level', 'spell: spirit_armor_plus')) * 0.5) * -1"
+          ]
+        }
       },
       {
         "value": "ARMOR_BULLET",
-        "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "spirit_armor" }, "*", { "const": -1 } ] }
+        "add": {
+          "math": [
+            "((u_val('intelligence') * 1.5) + (u_val('spell_level', 'spell: spirit_armor') + u_val('spell_level', 'spell: spirit_armor_plus')) * 0.5) * -1"
+          ]
+        }
       },
       {
         "value": "LUMINATION",
-        "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "spirit_armor" }, "*", { "const": 3 } ] }
+        "add": {
+          "math": [
+            "((u_val('intelligence') * 1.5) + (u_val('spell_level', 'spell: spirit_armor') + u_val('spell_level', 'spell: spirit_armor_plus')) * 0.5) * 3"
+          ]
+        }
       }
     ]
   }

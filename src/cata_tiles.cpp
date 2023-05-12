@@ -1141,7 +1141,7 @@ tile_type &tileset_cache::loader::load_tile( const JsonObject &entry, const std:
 
 void tileset_cache::loader::load_tile_spritelists( const JsonObject &entry,
         weighted_int_list<std::vector<int>> &vs,
-        const std::string &objname ) const
+        const std::string_view objname ) const
 {
     // json array indicates rotations or variations
     if( entry.has_array( objname ) ) {
@@ -1260,8 +1260,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
         geometry->rect( renderer, clipRect, SDL_Color() );
     }
 
-    point s;
-    get_window_tile_counts( width, height, s.x, s.y );
+    const point s = get_window_tile_counts( point( width, height ) );
 
     init_light();
     map &here = get_map();
@@ -1755,15 +1754,29 @@ void cata_tiles::draw_minimap( const point &dest, const tripoint &center, int wi
     minimap->draw( SDL_Rect{ dest.x, dest.y, width, height }, center );
 }
 
-void cata_tiles::get_window_tile_counts( const int width, const int height, int &columns,
-        int &rows ) const
+point cata_tiles::get_window_tile_counts( const point &size ) const
 {
     if( is_isometric() ) {
-        columns = std::ceil( static_cast<double>( width ) / tile_width ) * 2 + 4;
-        rows = std::ceil( static_cast<double>( height ) / ( tile_width / 2.0 - 1 ) ) * 2 + 4;
+        const int columns = divide_round_up( size.x, tile_width ) * 2 + 4;
+        const int rows = divide_round_up( size.y * 2, tile_width - 2 ) * 2 + 4;
+        return point( columns, rows );
     } else {
-        columns = std::ceil( static_cast<double>( width ) / tile_width );
-        rows = std::ceil( static_cast<double>( height ) / tile_height );
+        const int columns = divide_round_up( size.x, tile_width );
+        const int rows = divide_round_up( size.y, tile_height );
+        return point( columns, rows );
+    }
+}
+
+point cata_tiles::get_window_full_tile_counts( const point &size ) const
+{
+    if( is_isometric() ) {
+        const int columns = divide_round_down( size.x, tile_width ) * 2 + 4;
+        const int rows = divide_round_down( size.y * 2, tile_width - 2 ) * 2 + 4;
+        return point( columns, rows );
+    } else {
+        const int columns = divide_round_down( size.x, tile_width );
+        const int rows = divide_round_down( size.y, tile_height );
+        return point( columns, rows );
     }
 }
 
@@ -1857,7 +1870,7 @@ cata_tiles::find_tile_with_season( const std::string &id ) const
 
 template<typename T>
 std::optional<tile_lookup_res>
-cata_tiles::find_tile_looks_like_by_string_id( const std::string &id, TILE_CATEGORY category,
+cata_tiles::find_tile_looks_like_by_string_id( const std::string_view id, TILE_CATEGORY category,
         const int looks_like_jumps_limit ) const
 {
     const string_id<T> s_id( id );

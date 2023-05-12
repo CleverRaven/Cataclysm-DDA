@@ -258,6 +258,13 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_therizinosaurus",
+    "name": "therizinosaurus egg",
+    "copy-from": "egg_dino_theropod",
+    "rot_spawn": "GROUP_EGG_therizinosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_nothronychus",
     "name": "nothronychus egg",
     "copy-from": "egg_dino_theropod",

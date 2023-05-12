@@ -422,7 +422,6 @@ static std::string submap_vehicle_ss(
     "      \"flying\": false,\n"
     "      \"cruise_velocity\": 0,\n"
     "      \"vertical_velocity\": 0,\n"
-    "      \"cruise_on\": true,\n"
     "      \"engine_on\": false,\n"
     "      \"tracking_on\": false,\n"
     "      \"skidding\": false,\n"
@@ -534,9 +533,9 @@ static std::string submap_vehicle_ss(
     "          \"ammo_pref\": \"null\"\n"
     "        },\n"
     "        {\n"
-    "          \"id\": \"welding_rig\",\n"
+    "          \"id\": \"veh_tools_workshop\",\n"
     "          \"base\": {\n"
-    "            \"typeid\": \"weldrig\",\n"
+    "            \"typeid\": \"veh_tools_workshop\",\n"
     "            \"damaged\": 2000,\n"
     "            \"item_tags\": [ \"VEHICLE\" ],\n"
     "            \"relic_data\": null,\n"
@@ -797,7 +796,7 @@ static void load_from_jsin( submap &sm, const JsonValue &jsin )
     if( sm_json.has_member( "version" ) ) {
         version = sm_json.get_int( "version" );
     }
-    for( JsonMember member : jsin.get_object() ) {
+    for( JsonMember member : sm_json ) {
         std::string name = member.name();
         if( name != "version" ) {
             sm.load( member, name, version );

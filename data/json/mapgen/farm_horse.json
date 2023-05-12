@@ -147,13 +147,13 @@
         { "item": "birdfood", "x": [ 40, 44 ], "y": [ 48, 52 ], "chance": 80, "repeat": [ 2, 4 ] }
       ],
       "place_monster": [
-        { "monster": "mon_chicken", "x": [ 40, 44 ], "y": [ 48, 52 ], "repeat": [ 2, 6 ], "chance": 30 },
-        { "monster": "mon_horse", "x": [ 52, 54 ], "y": [ 31, 33 ], "chance": 30 },
-        { "monster": "mon_horse", "x": [ 52, 54 ], "y": [ 35, 37 ], "chance": 30 },
-        { "monster": "mon_horse", "x": [ 52, 54 ], "y": [ 39, 41 ], "chance": 30 },
-        { "monster": "mon_horse", "x": [ 66, 68 ], "y": [ 31, 33 ], "chance": 30 },
-        { "monster": "mon_horse", "x": [ 66, 68 ], "y": [ 35, 37 ], "chance": 30 },
-        { "monster": "mon_horse", "x": [ 66, 68 ], "y": [ 39, 41 ], "chance": 30 }
+        { "monster": "mon_chicken", "x": [ 40, 44 ], "y": [ 48, 52 ], "repeat": [ 3, 6 ], "chance": 40 },
+        { "group": "GROUP_HORSES", "x": [ 52, 54 ], "y": [ 31, 33 ], "chance": 45 },
+        { "group": "GROUP_HORSES", "x": [ 52, 54 ], "y": [ 35, 37 ], "chance": 45 },
+        { "group": "GROUP_HORSES", "x": [ 52, 54 ], "y": [ 39, 41 ], "chance": 45 },
+        { "group": "GROUP_HORSES", "x": [ 66, 68 ], "y": [ 31, 33 ], "chance": 45 },
+        { "group": "GROUP_HORSES", "x": [ 66, 68 ], "y": [ 35, 37 ], "chance": 45 },
+        { "group": "GROUP_HORSES", "x": [ 66, 68 ], "y": [ 39, 41 ], "chance": 45 }
       ],
       "place_vehicles": [ { "vehicle": "wagons_all", "x": 79, "y": 19, "rotation": 180, "chance": 30, "status": 0 } ]
     }

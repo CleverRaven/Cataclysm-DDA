@@ -12,7 +12,6 @@
     "price": 350000,
     "price_postapoc": 5500,
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -23,7 +22,8 @@
     "min_cycle_recoil": 2700,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "barrel_volume": "500 ml",
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "falmag", "falbigmag", "fal_makeshiftmag" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "falmag", "falbigmag", "fal_makeshiftmag" ] } ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "hk_g3",
@@ -38,7 +38,6 @@
     "price": 205000,
     "price_postapoc": 6000,
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -48,7 +47,8 @@
     "min_cycle_recoil": 2700,
     "durability": 8,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ], [ "AUTO", "auto", 4 ] ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "g3mag", "g3bigmag", "g3_makeshiftmag" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "g3mag", "g3bigmag", "g3_makeshiftmag" ] } ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "m134",
@@ -63,7 +63,6 @@
     "price": 5500000,
     "price_postapoc": 10000,
     "to_hit": -4,
-    "bashing": 18,
     "material": [ "qt_steel" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -79,7 +78,8 @@
     "modes": [ [ "DEFAULT", "low auto", 50 ], [ "AUTO", "high auto", 100 ] ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "NEVER_JAMS", "MOUNTED_GUN", "USE_UPS" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "belt308" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "belt308" ] } ],
+    "melee_damage": { "bash": 18 }
   },
   {
     "id": "m14ebr",
@@ -95,7 +95,6 @@
     "material": [ "steel", "plastic" ],
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -123,7 +122,6 @@
     "price": 130000,
     "price_postapoc": 3500,
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "brown",
@@ -134,7 +132,6 @@
     "min_cycle_recoil": 2700,
     "barrel_volume": "500 ml",
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -147,7 +144,8 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m14mag", "m14smallmag", "m14_makeshiftmag" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m14mag", "m14smallmag", "m14_makeshiftmag" ] } ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "m240",
@@ -163,7 +161,6 @@
     "price": 1000000,
     "price_postapoc": 7500,
     "to_hit": -1,
-    "bashing": 13,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -175,7 +172,6 @@
     "modes": [ [ "DEFAULT", "burst", 4 ] ],
     "built_in_mods": [ "bipod" ],
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -188,7 +184,8 @@
       [ "stock", 1 ],
       [ "stock accessory", 2 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "belt308" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "belt308" ] } ],
+    "melee_damage": { "bash": 13 }
   },
   {
     "id": "m60",
@@ -203,7 +200,6 @@
     "price": 1000000,
     "price_postapoc": 7500,
     "to_hit": -1,
-    "bashing": 15,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -216,7 +212,6 @@
     "modes": [ [ "DEFAULT", "burst", 4 ] ],
     "built_in_mods": [ "bipod" ],
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -229,7 +224,8 @@
       [ "stock", 1 ],
       [ "stock accessory", 2 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "belt308" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "belt308" ] } ],
+    "melee_damage": { "bash": 15 }
   },
   {
     "id": "m60_semi",
@@ -252,7 +248,6 @@
     "price": 53000,
     "price_postapoc": 4250,
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "brown",
@@ -263,7 +258,8 @@
     "clip_size": 3,
     "barrel_volume": "750 ml",
     "flags": [ "RELOAD_ONE", "NEVER_JAMS" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "308": 3 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "308": 3 } } ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "scar_h",
@@ -300,7 +296,6 @@
     "price": 350000,
     "price_postapoc": 4500,
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "blue",
@@ -312,7 +307,6 @@
     "default_mods": [ "rifle_scope", "bipod" ],
     "clip_size": 5,
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -326,7 +320,8 @@
       [ "underbarrel", 1 ]
     ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "308": 5 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "308": 5 } } ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "hk417_13",
@@ -341,7 +336,6 @@
     "price": 320000,
     "price_postapoc": 6000,
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -352,7 +346,8 @@
     "min_cycle_recoil": 2700,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "default_mods": [ "adjustable_stock" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "hk417mag_20rd", "hk417mag_10rd", "hk417_makeshiftmag" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "hk417mag_20rd", "hk417mag_10rd", "hk417_makeshiftmag" ] } ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "m110a1",
@@ -367,7 +362,6 @@
     "price": 320000,
     "price_postapoc": 6000,
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -377,7 +371,8 @@
     "durability": 8,
     "min_cycle_recoil": 2700,
     "default_mods": [ "adjustable_stock", "bipod", "rifle_scope", "suppressor" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "hk417mag_20rd", "hk417mag_10rd", "hk417_makeshiftmag" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "hk417mag_20rd", "hk417mag_10rd", "hk417_makeshiftmag" ] } ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "ak308",
@@ -401,7 +396,6 @@
     "price": 79500,
     "price_postapoc": 3000,
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "steel", "wood" ],
     "color": "brown",
     "ammo": [ "308" ],
@@ -409,7 +403,6 @@
     "durability": 8,
     "min_cycle_recoil": 2700,
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -423,7 +416,8 @@
       [ "stock accessory", 2 ],
       [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "papm77mag", "papm77mag_10rd" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "papm77mag", "papm77mag_10rd" ] } ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "ar10",
@@ -438,7 +432,6 @@
     "price": 120000,
     "price_postapoc": 5500,
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -447,6 +440,7 @@
     "dispersion": 150,
     "durability": 7,
     "min_cycle_recoil": 2700,
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ar10mag_20rd", "ar10_makeshiftmag" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ar10mag_20rd", "ar10_makeshiftmag" ] } ],
+    "melee_damage": { "bash": 12 }
   }
 ]

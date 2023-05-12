@@ -1,4 +1,4 @@
-// RUN: %check_clang_tidy %s cata-unused-statics %t -- -plugins=%cata_plugin --
+// RUN: %check_clang_tidy %s cata-unused-statics %t -- --load=%cata_plugin --
 
 class A0 {};
 

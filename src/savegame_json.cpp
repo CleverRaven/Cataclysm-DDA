@@ -999,14 +999,6 @@ void Character::load( const JsonObject &data )
     if( data.has_member( "inv" ) ) {
         inv->json_load_items( data.get_member( "inv" ) );
     }
-    // this is after inventory is loaded to make it more obvious that
-    // it needs to be changed again when Character::i_at is removed for nested containers
-    if( savegame_loading_version < 28 ) {
-        activity.migrate_item_position( *this );
-        destination_activity.migrate_item_position( *this );
-        stashed_outbounds_activity.migrate_item_position( *this );
-        stashed_outbounds_backlog.migrate_item_position( *this );
-    }
 
     set_wielded_item( item() );
     data.read( "weapon", weapon );
@@ -1284,6 +1276,11 @@ void Character::load( const JsonObject &data )
         queued_eoc temp;
         temp.time = time_point( elem.get_int( "time" ) );
         temp.eoc = effect_on_condition_id( elem.get_string( "eoc" ) );
+        std::unordered_map<std::string, std::string> context;
+        for( const JsonMember &jm : elem.get_object( "context" ) ) {
+            context[jm.name()] = jm.get_string();
+        }
+        temp.context = context;
         queued_effect_on_conditions.push( temp );
     }
     data.read( "inactive_eocs", inactive_effect_on_condition_vector );
@@ -1515,6 +1512,7 @@ void Character::store( JsonOut &json ) const
         json.start_object();
         json.member( "time", temp_queued.top().time );
         json.member( "eoc", temp_queued.top().eoc );
+        json.member( "context", temp_queued.top().context );
         json.end_object();
         temp_queued.pop();
     }
@@ -2889,7 +2887,7 @@ static void load_legacy_craft_data( io::JsonObjectOutputArchive &, T & )
 
 static std::set<itype_id> charge_removal_blacklist;
 
-void load_charge_removal_blacklist( const JsonObject &jo, const std::string &/*src*/ )
+void load_charge_removal_blacklist( const JsonObject &jo, const std::string_view/*src*/ )
 {
     jo.allow_omitted_members();
     std::set<itype_id> new_blacklist;
@@ -2899,7 +2897,7 @@ void load_charge_removal_blacklist( const JsonObject &jo, const std::string &/*s
 
 static std::set<itype_id> charge_migration_blacklist;
 
-void load_charge_migration_blacklist( const JsonObject &jo, const std::string &/*src*/ )
+void load_charge_migration_blacklist( const JsonObject &jo, const std::string_view/*src*/ )
 {
     jo.allow_omitted_members();
     std::set<itype_id> new_blacklist;
@@ -2909,7 +2907,7 @@ void load_charge_migration_blacklist( const JsonObject &jo, const std::string &/
 
 static std::set<itype_id> temperature_removal_blacklist;
 
-void load_temperature_removal_blacklist( const JsonObject &jo, const std::string &/*src*/ )
+void load_temperature_removal_blacklist( const JsonObject &jo, const std::string_view/*src*/ )
 {
     jo.allow_omitted_members();
     std::set<itype_id> new_blacklist;
@@ -3256,7 +3254,12 @@ void vehicle_part::deserialize( const JsonObject &data )
     vpart_id pid;
     data.read( "id", pid );
 
-    pid = vpart_migration::migrate( pid );
+    const vpart_migration *migration = vpart_migration::find_migration( pid );
+    if( migration != nullptr ) {
+        DebugLog( D_WARNING, D_MAIN ) << "vehicle_part::deserialize migrating '" << pid.str()
+                                      << "' to '" << migration->part_id_new.str() << "'";
+        pid = migration->part_id_new;
+    }
 
     std::tie( pid, variant ) = get_vpart_id_variant( pid );
 
@@ -3269,11 +3272,11 @@ void vehicle_part::deserialize( const JsonObject &data )
         data.read( "variant", variant );
     }
 
-    if( data.has_object( "base" ) ) {
-        data.read( "base", base );
+    if( migration != nullptr ) { // migration overrides the base item
+        data.get_member( "base" ); // mark member as visited
+        base = item( migration->part_id_new->base_item, calendar::turn );
     } else {
-        // handle legacy format which didn't include the base item
-        base = item( id.obj().base_item );
+        data.read( "base", base );
     }
 
     data.read( "mount_dx", mount.x );
@@ -3305,6 +3308,7 @@ void vehicle_part::deserialize( const JsonObject &data )
 
     data.read( "crew_id", crew_id );
     data.read( "items", items );
+    data.read( "tools", tools );
     data.read( "target_first_x", target.first.x );
     data.read( "target_first_y", target.first.y );
     data.read( "target_first_z", target.first.z );
@@ -3313,19 +3317,10 @@ void vehicle_part::deserialize( const JsonObject &data )
     data.read( "target_second_z", target.second.z );
     data.read( "ammo_pref", ammo_pref );
 
-    if( data.has_int( "hp" ) && id.obj().durability > 0 ) {
-        // migrate legacy savegames exploiting that all base items at that time had max_damage() of 4
-        base.set_damage( 4 * itype::damage_scale - 4 * itype::damage_scale * data.get_int( "hp" ) /
-                         id.obj().durability );
-    }
-
-    // legacy turrets loaded ammo via a pseudo CARGO space
-    if( is_turret() && !items.empty() ) {
-        const int qty = std::accumulate( items.begin(), items.end(), 0, []( int lhs, const item & rhs ) {
-            return lhs + rhs.charges;
-        } );
-        ammo_set( items.begin()->ammo_current(), qty );
-        items.clear();
+    if( migration != nullptr ) {
+        for( const itype_id &it : migration->add_veh_tools ) {
+            tools.emplace_back( item( it, calendar::turn ) );
+        }
     }
 }
 
@@ -3360,6 +3355,7 @@ void vehicle_part::serialize( JsonOut &json ) const
         json.member( "z_offset", precalc[0].z );
     }
     json.member( "items", items );
+    json.member( "tools", tools );
     if( target.first != tripoint_min ) {
         json.member( "target_first_x", target.first.x );
         json.member( "target_first_y", target.first.y );
@@ -3461,7 +3457,6 @@ void vehicle::deserialize( const JsonObject &data )
     data.read( "flying", is_flying );
     data.read( "cruise_velocity", cruise_velocity );
     data.read( "vertical_velocity", vertical_velocity );
-    data.read( "cruise_on", cruise_on );
     data.read( "engine_on", engine_on );
     data.read( "tracking_on", tracking_on );
     data.read( "skidding", skidding );
@@ -3598,7 +3593,7 @@ void vehicle::deserialize( const JsonObject &data )
     of_turn = 0;
 
     /** Legacy saved games did not store part enabled status within parts */
-    const auto set_legacy_state = [&]( const std::string & var, const std::string & flag ) {
+    const auto set_legacy_state = [&]( const std::string_view var, const std::string & flag ) {
         if( data.get_bool( var, false ) ) {
             for( const vpart_reference &vp : get_any_parts( flag ) ) {
                 vp.part().enabled = true;
@@ -3636,7 +3631,6 @@ void vehicle::serialize( JsonOut &json ) const
     json.member( "flying", is_flying );
     json.member( "cruise_velocity", cruise_velocity );
     json.member( "vertical_velocity", vertical_velocity );
-    json.member( "cruise_on", cruise_on );
     json.member( "engine_on", engine_on );
     json.member( "tracking_on", tracking_on );
     json.member( "skidding", skidding );
@@ -3878,9 +3872,7 @@ void Creature::store( JsonOut &jsout ) const
     jsout.member( "num_blocks_bonus", num_blocks_bonus );
     jsout.member( "num_dodges_bonus", num_dodges_bonus );
 
-    jsout.member( "armor_bash_bonus", armor_bash_bonus );
-    jsout.member( "armor_cut_bonus", armor_cut_bonus );
-    jsout.member( "armor_bullet_bonus", armor_bullet_bonus );
+    jsout.member( "armor_bonus", armor_bonus );
 
     jsout.member( "speed", speed_base );
 
@@ -3953,9 +3945,21 @@ void Creature::load( const JsonObject &jsin )
     jsin.read( "num_blocks_bonus", num_blocks_bonus );
     jsin.read( "num_dodges_bonus", num_dodges_bonus );
 
-    jsin.read( "armor_bash_bonus", armor_bash_bonus );
-    jsin.read( "armor_cut_bonus", armor_cut_bonus );
-    jsin.read( "armor_bullet_bonus", armor_bullet_bonus );
+    if( jsin.has_object( "armor_bonus" ) ) {
+        jsin.read( "armor_bonus", armor_bonus );
+    } else {
+        // Legacy load conversion, remove after 0.H releases
+        float bash_bonus = 0;
+        float cut_bonus = 0;
+        float bullet_bonus = 0;
+        jsin.read( "armor_bash_bonus", bash_bonus );
+        jsin.read( "armor_cut_bonus", cut_bonus );
+        jsin.read( "armor_bullet_bonus", bullet_bonus );
+        armor_bonus.clear();
+        armor_bonus.emplace( STATIC( damage_type_id( "bash" ) ), bash_bonus );
+        armor_bonus.emplace( STATIC( damage_type_id( "cut" ) ), cut_bonus );
+        armor_bonus.emplace( STATIC( damage_type_id( "bullet" ) ), bullet_bonus );
+    }
 
     jsin.read( "speed", speed_base );
 
@@ -4724,7 +4728,7 @@ void stats_tracker::deserialize( const JsonObject &jo )
 namespace
 {
 
-void _write_rle_terrain( JsonOut &jsout, std::string const &ter, int num )
+void _write_rle_terrain( JsonOut &jsout, const std::string_view ter, int num )
 {
     jsout.start_array();
     jsout.write( ter );

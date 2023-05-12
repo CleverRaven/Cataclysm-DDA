@@ -20,14 +20,11 @@
     "melee_dice": 1,
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
-    "armor_bash": 12,
-    "armor_cut": 16,
-    "armor_bullet": 13,
-    "armor_elec": 7,
     "harvest": "triffid_queen",
     "special_attacks": [ [ "SPIT_SAP", 5 ] ],
     "reproduction": { "baby_egg": "triffid_pod", "baby_count": 6, "baby_timer": 3 },
-    "flags": [ "HEARS", "SMELLS", "NOHEAD", "PARALYZEVENOM", "QUEEN" ]
+    "flags": [ "HEARS", "SMELLS", "NOHEAD", "PARALYZEVENOM", "QUEEN" ],
+    "armor": { "bash": 12, "cut": 16, "bullet": 13, "electric": 7 }
   },
   {
     "id": "mon_triffid_overqueen",
@@ -46,14 +43,11 @@
     "aggression": 100,
     "morale": 100,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "armor_bash": 12,
-    "armor_cut": 16,
-    "armor_bullet": 13,
-    "armor_elec": 7,
     "harvest": "triffid_queen",
     "special_attacks": [ [ "SPIT_SAP", 5 ] ],
     "reproduction": { "baby_monster": "mon_triffid_podling", "baby_count": 1, "baby_timer": 1 },
-    "flags": [ "HEARS", "SMELLS", "NOHEAD", "PARALYZEVENOM", "QUEEN" ]
+    "flags": [ "HEARS", "SMELLS", "NOHEAD", "PARALYZEVENOM", "QUEEN" ],
+    "armor": { "bash": 12, "cut": 16, "bullet": 13, "electric": 7 }
   },
   {
     "id": "mon_triffid_podling",
@@ -75,10 +69,10 @@
     "melee_dice": 1,
     "melee_dice_sides": 1,
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
-    "armor_elec": 1,
     "harvest": "triffid_small",
     "upgrades": { "age_grow": 14, "into": "mon_triffid_gardenling" },
-    "flags": [ "HEARS", "SMELLS", "NOHEAD", "STUMBLES" ]
+    "flags": [ "HEARS", "SMELLS", "NOHEAD", "STUMBLES" ],
+    "armor": { "electric": 1 }
   },
   {
     "id": "mon_triffid_gardenling",
@@ -99,13 +93,13 @@
     "melee_dice": 1,
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
-    "armor_elec": 2,
     "bleed_rate": 75,
     "harvest": "triffid_paralytic",
     "upgrades": { "age_grow": 14, "into_group": "GROUP_TRIFFID_GARDENLING" },
     "special_attacks": [ [ "TRIFFID_GROWTH", 28800 ] ],
     "fungalize_into": "mon_fungaloid",
-    "flags": [ "HEARS", "SMELLS", "NOHEAD", "PARALYZEVENOM" ]
+    "flags": [ "HEARS", "SMELLS", "NOHEAD", "PARALYZEVENOM" ],
+    "armor": { "electric": 2 }
   },
   {
     "id": "mon_triffid_biter",
@@ -127,26 +121,23 @@
     "melee_dice": 2,
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-    "armor_bash": 10,
-    "armor_cut": 4,
-    "armor_bullet": 3,
-    "armor_elec": 2,
     "bleed_rate": 60,
     "harvest": "triffid_paralytic",
+    "grab_strength": 30,
     "special_attacks": [
       {
-        "type": "bite",
+        "id": "bite_grab",
         "cooldown": 20,
         "accuracy": 6,
         "damage_max_instance": [
           { "damage_type": "stab", "amount": 9, "armor_multiplier": 0.5 },
           { "damage_type": "bash", "amount": 27, "armor_multiplier": 0.5 }
         ],
-        "effects": [ { "id": "grabbed", "duration": 1000, "bp": "torso" } ],
         "infection_chance": 50
       }
     ],
-    "flags": [ "SEES", "SMELLS", "BASHES", "GROUP_BASH", "NOHEAD", "PARALYZEVENOM" ]
+    "flags": [ "SEES", "SMELLS", "GRABS", "BASHES", "GROUP_BASH", "NOHEAD", "PARALYZEVENOM" ],
+    "armor": { "bash": 10, "cut": 4, "bullet": 3, "electric": 2 }
   },
   {
     "id": "mon_triffid_acid",
@@ -168,14 +159,11 @@
     "melee_dice": 2,
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-    "armor_bash": 10,
-    "armor_cut": 4,
-    "armor_bullet": 3,
-    "armor_elec": 2,
     "bleed_rate": 60,
     "harvest": "triffid_paralytic",
     "special_attacks": [ [ "ACID_BARF", 10 ] ],
-    "flags": [ "SEES", "SMELLS", "BASHES", "GROUP_BASH", "NOHEAD", "ACIDPROOF", "ACID_BLOOD", "PARALYZEVENOM" ]
+    "flags": [ "SEES", "SMELLS", "BASHES", "GROUP_BASH", "NOHEAD", "ACIDPROOF", "ACID_BLOOD", "PARALYZEVENOM" ],
+    "armor": { "bash": 10, "cut": 4, "bullet": 3, "electric": 2 }
   },
   {
     "id": "mon_triffid_gas",
@@ -198,10 +186,6 @@
     "melee_dice": 2,
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-    "armor_bash": 10,
-    "armor_cut": 4,
-    "armor_bullet": 3,
-    "armor_elec": 2,
     "bleed_rate": 60,
     "harvest": "biollante",
     "special_attacks": [
@@ -213,7 +197,8 @@
       }
     ],
     "death_drops": { "subtype": "collection", "groups": [ [ "biollante", 8 ] ], "//": "80% chance of an item from group biollante" },
-    "flags": [ "SEES", "SMELLS", "BASHES", "GROUP_BASH", "NOHEAD", "PARALYZEVENOM" ]
+    "flags": [ "SEES", "SMELLS", "BASHES", "GROUP_BASH", "NOHEAD", "PARALYZEVENOM" ],
+    "armor": { "bash": 10, "cut": 4, "bullet": 3, "electric": 2 }
   },
   {
     "id": "mon_triffid_lasher",
@@ -236,14 +221,11 @@
     "melee_dice": 2,
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-    "armor_bash": 10,
-    "armor_cut": 4,
-    "armor_bullet": 3,
-    "armor_elec": 2,
     "bleed_rate": 60,
     "harvest": "biollante",
     "special_attacks": [ { "id": "impale" } ],
     "death_drops": { "subtype": "collection", "groups": [ [ "biollante", 8 ] ], "//": "80% chance of an item from group biollante" },
-    "flags": [ "SEES", "SMELLS", "BASHES", "GROUP_BASH", "NOHEAD", "PARALYZEVENOM" ]
+    "flags": [ "SEES", "SMELLS", "BASHES", "GROUP_BASH", "NOHEAD", "PARALYZEVENOM" ],
+    "armor": { "bash": 10, "cut": 4, "bullet": 3, "electric": 2 }
   }
 ]

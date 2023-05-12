@@ -22,7 +22,6 @@
     "price": 240000,
     "price_postapoc": 5000,
     "to_hit": -2,
-    "bashing": 9,
     "material": [ "steel" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -34,7 +33,6 @@
     "min_cycle_recoil": 450,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "valid_mod_locations": [
-      [ "accessories", 3 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -48,7 +46,8 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "calicomag", "calicomag_100rd" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "calicomag", "calicomag_100rd" ] } ],
+    "melee_damage": { "bash": 9 }
   },
   {
     "id": "cx4",
@@ -72,7 +71,6 @@
     "price": 90000,
     "price_postapoc": 4000,
     "to_hit": -1,
-    "bashing": 8,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -85,7 +83,6 @@
     "min_cycle_recoil": 450,
     "barrel_volume": "250 ml",
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -105,7 +102,8 @@
         "pocket_type": "MAGAZINE_WELL",
         "item_restriction": [ "m9bigmag", "m9mag_10rd", "m9mag", "m9mag_17rd", "m9mag_18rd", "m9mag_20rd", "m9mag_32rd", "m9mag_35rd" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "glock_19",
@@ -130,7 +128,6 @@
     "price": 69000,
     "price_postapoc": 2500,
     "to_hit": -2,
-    "bashing": 8,
     "material": [ "plastic", "steel" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -148,7 +145,8 @@
         "pocket_type": "MAGAZINE_WELL",
         "item_restriction": [ "glockmag", "glockbigmag", "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "hk_mp5",
@@ -164,7 +162,6 @@
     "price": 280000,
     "price_postapoc": 3500,
     "to_hit": -2,
-    "bashing": 10,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -177,7 +174,6 @@
     "blackpowder_tolerance": 32,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ], [ "AUTO", "auto", 4 ] ],
     "valid_mod_locations": [
-      [ "accessories", 3 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -197,7 +193,8 @@
         "pocket_type": "MAGAZINE_WELL",
         "item_restriction": [ "mp5mag", "mp5mag_10rd", "mp5mag_15rd", "mp5mag_20rd", "mp5mag_38rd", "mp5mag_40rd", "mp5bigmag", "mp5mag_100rd" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "hk_mp5sd",
@@ -225,12 +222,10 @@
     "//": "Forward grip's 68g & 119ml deducted",
     "longest_side": "377 mm",
     "price_postapoc": 3500,
-    "bashing": 8,
     "dispersion": 270,
     "ranged_damage": { "damage_type": "bullet", "amount": 0 },
     "built_in_mods": [ "folding_stock", "grip" ],
     "valid_mod_locations": [
-      [ "accessories", 3 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -242,7 +237,8 @@
       [ "underbarrel", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ]
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "hk_mp5_semi_pistol",
@@ -255,10 +251,8 @@
     "longest_side": "377 mm",
     "skill": "pistol",
     "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
-    "bashing": 7,
     "dispersion": 270,
     "valid_mod_locations": [
-      [ "accessories", 3 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -272,7 +266,8 @@
       [ "stock", 1 ],
       [ "stock accessory", 1 ]
     ],
-    "ranged_damage": { "damage_type": "bullet", "amount": 0 }
+    "ranged_damage": { "damage_type": "bullet", "amount": 0 },
+    "melee_damage": { "bash": 7 }
   },
   {
     "id": "briefcase_smg",
@@ -286,7 +281,6 @@
     "longest_side": "544 mm",
     "price": 480000,
     "price_postapoc": 5000,
-    "bashing": 15,
     "dispersion": 520,
     "sight_dispersion": 520,
     "armor_data": {
@@ -311,7 +305,8 @@
         "rigid": true,
         "item_restriction": [ "mp5mag", "mp5mag_10rd", "mp5mag_15rd", "mp5mag_20rd" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 15 }
   },
   {
     "id": "p08",
@@ -326,7 +321,6 @@
     "price": 100000,
     "price_postapoc": 2500,
     "to_hit": -2,
-    "bashing": 8,
     "material": "steel",
     "symbol": "(",
     "color": "dark_gray",
@@ -336,7 +330,6 @@
     "durability": 8,
     "min_cycle_recoil": 450,
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -349,7 +342,8 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [ { "magazine_well": "55 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "p08mag_8rd", "p08mag_32rd" ] } ]
+    "pocket_data": [ { "magazine_well": "55 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "p08mag_8rd", "p08mag_32rd" ] } ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "mp18",
@@ -372,7 +366,6 @@
     "longest_side": "832 mm",
     "price": 2000000,
     "price_postapoc": 1500,
-    "bashing": 10,
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -383,7 +376,6 @@
     "min_cycle_recoil": 450,
     "modes": [ [ "DEFAULT", "burst", 4 ] ],
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -397,7 +389,8 @@
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [ { "magazine_well": "30 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "p08mag_32rd", "p08mag_8rd" ] } ]
+    "pocket_data": [ { "magazine_well": "30 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "p08mag_32rd", "p08mag_8rd" ] } ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "mauser_c96",
@@ -421,7 +414,6 @@
     "price": 130000,
     "price_postapoc": 2500,
     "to_hit": -2,
-    "bashing": 8,
     "material": "steel",
     "symbol": "(",
     "color": "dark_gray",
@@ -431,7 +423,6 @@
     "min_cycle_recoil": 450,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -451,7 +442,8 @@
         "ammo_restriction": { "9mm": 10 },
         "allowed_speedloaders": [ "clip9mm_10rd" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "mauser_m714",
@@ -497,7 +489,6 @@
     "longest_side": "648 mm",
     "price": 1500000,
     "price_postapoc": 1500,
-    "bashing": 10,
     "material": [ "steel" ],
     "symbol": "[",
     "color": "dark_gray",
@@ -509,7 +500,6 @@
     "built_in_mods": [ "under_folding_stock" ],
     "modes": [ [ "DEFAULT", "burst", 4 ] ],
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "mechanism", 4 ],
@@ -522,7 +512,8 @@
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [ { "magazine_well": "40 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "mp40mag_32rd" ] } ]
+    "pocket_data": [ { "magazine_well": "40 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "mp40mag_32rd" ] } ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "mp40semi",
@@ -536,7 +527,6 @@
     "price_postapoc": 1000,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -563,7 +553,6 @@
     "price": 75000,
     "price_postapoc": 3000,
     "to_hit": -1,
-    "bashing": 8,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -574,10 +563,8 @@
     "dispersion": 180,
     "durability": 7,
     "min_cycle_recoil": 450,
-    "barrel_volume": "250 ml",
     "built_in_mods": [ "sub2000_folding_mechanism" ],
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -596,7 +583,8 @@
         "pocket_type": "MAGAZINE_WELL",
         "item_restriction": [ "glockmag", "glockbigmag", "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "m9",
@@ -626,7 +614,6 @@
     ],
     "ascii_picture": "beretta_m9",
     "to_hit": -2,
-    "bashing": 8,
     "material": [ "steel", "aluminum" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -643,7 +630,8 @@
         "pocket_type": "MAGAZINE_WELL",
         "item_restriction": [ "m9mag", "m9mag_10rd", "m9mag_17rd", "m9mag_18rd", "m9mag_20rd", "m9bigmag", "m9mag_32rd", "m9mag_35rd" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "px4",
@@ -658,7 +646,6 @@
     "price": 65000,
     "price_postapoc": 2500,
     "to_hit": -2,
-    "bashing": 8,
     "material": [ "plastic", "steel" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -673,7 +660,8 @@
         "pocket_type": "MAGAZINE_WELL",
         "item_restriction": [ "px4mag", "px4mag_10rd", "px4mag_15rd", "px4mag_20rd" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "rifle_9mm",
@@ -690,7 +678,6 @@
     "price": 10000,
     "price_postapoc": 500,
     "to_hit": -1,
-    "bashing": 10,
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "brown",
@@ -705,7 +692,6 @@
     "reload": 200,
     "barrel_volume": "360 ml",
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "muzzle", 1 ],
       [ "sling", 1 ],
       [ "stock mount", 1 ],
@@ -716,7 +702,8 @@
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "RELOAD_EJECT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 1 } } ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "smg_9mm",
@@ -732,7 +719,6 @@
     "price": 20000,
     "price_postapoc": 750,
     "to_hit": -1,
-    "bashing": 10,
     "material": [ "steel" ],
     "color": "dark_gray",
     "ammo": [ "9mm" ],
@@ -745,7 +731,6 @@
     "loudness": 25,
     "barrel_volume": "250 ml",
     "valid_mod_locations": [
-      [ "accessories", 3 ],
       [ "barrel", 1 ],
       [ "brass catcher", 1 ],
       [ "grip mount", 1 ],
@@ -757,7 +742,8 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "survivor9mm_mag", "stenmag" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "survivor9mm_mag", "stenmag" ] } ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "sten",
@@ -771,7 +757,6 @@
     "longest_side": "765 mm",
     "price": 40000,
     "price_postapoc": 1500,
-    "bashing": 10,
     "material": [ "steel" ],
     "symbol": "[",
     "color": "dark_gray",
@@ -784,7 +769,6 @@
     "min_cycle_recoil": 450,
     "modes": [ [ "DEFAULT", "burst", 4 ] ],
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "muzzle", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
@@ -795,7 +779,8 @@
       [ "underbarrel mount", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "stenmag", "survivor9mm_mag" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "stenmag", "survivor9mm_mag" ] } ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "tec9",
@@ -810,7 +795,6 @@
     "price": 125000,
     "price_postapoc": 2750,
     "to_hit": -2,
-    "bashing": 9,
     "material": [ "steel" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -820,7 +804,6 @@
     "durability": 6,
     "min_cycle_recoil": 450,
     "valid_mod_locations": [
-      [ "accessories", 3 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -839,7 +822,8 @@
         "pocket_type": "MAGAZINE_WELL",
         "item_restriction": [ "tec9mag", "tec9mag_10rd", "tec9mag_20rd", "tec9mag_30rd", "tec9mag_36rd", "tec9mag_50rd", "tec9mag_72rd" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 9 }
   },
   {
     "id": "usp_9mm",
@@ -854,7 +838,6 @@
     "price": 68000,
     "price_postapoc": 2500,
     "to_hit": -2,
-    "bashing": 8,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -872,7 +855,8 @@
         "pocket_type": "MAGAZINE_WELL",
         "item_restriction": [ "usp9mag", "usp9mag_10rd", "usp9mag_18rd", "usp9mag_20rd", "usp9mag_32rd" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "uzi",
@@ -888,7 +872,6 @@
     "price": 208000,
     "price_postapoc": 3000,
     "to_hit": -2,
-    "bashing": 10,
     "material": [ "steel" ],
     "color": "dark_gray",
     "ammo": [ "9mm" ],
@@ -899,7 +882,6 @@
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "built_in_mods": [ "wire_stock" ],
     "valid_mod_locations": [
-      [ "accessories", 3 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -917,7 +899,8 @@
         "pocket_type": "MAGAZINE_WELL",
         "item_restriction": [ "uzimag", "uzimag_20rd", "uzimag_25rd", "uzimag_40rd", "uzimag_50rd", "uzimag_100rd" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "glock_17",
@@ -942,7 +925,6 @@
     "price": 69000,
     "price_postapoc": 2500,
     "to_hit": -2,
-    "bashing": 8,
     "material": [ "plastic", "steel" ],
     "color": "dark_gray",
     "ammo": [ "9mm" ],
@@ -960,7 +942,8 @@
         "pocket_type": "MAGAZINE_WELL",
         "item_restriction": [ "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd", "glockbigmag" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "glock_18c",
@@ -995,10 +978,10 @@
     "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "price": 18000,
     "price_postapoc": 2000,
-    "bashing": 2,
     "ammo": [ "9mm" ],
     "min_cycle_recoil": 450,
-    "pocket_data": [ { "magazine_well": "65 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "kpf9mag", "kpf9mag_8rd" ] } ]
+    "pocket_data": [ { "magazine_well": "65 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "kpf9mag", "kpf9mag_8rd" ] } ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "m11",
@@ -1012,14 +995,14 @@
     "price": 95000,
     "price_postapoc": 3000,
     "to_hit": -2,
-    "bashing": 8,
     "material": [ "plastic", "steel" ],
     "color": "dark_gray",
     "ammo": [ "9mm" ],
     "dispersion": 480,
     "durability": 7,
     "min_cycle_recoil": 450,
-    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "p228mag_13rd_9x19mm" ] } ]
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "p228mag_13rd_9x19mm" ] } ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "m17",
@@ -1043,7 +1026,6 @@
     "price": 69000,
     "price_postapoc": 2750,
     "to_hit": -2,
-    "bashing": 8,
     "material": [ "plastic", "steel" ],
     "color": "dark_gray",
     "ammo": [ "9mm" ],
@@ -1058,7 +1040,8 @@
         "pocket_type": "MAGAZINE_WELL",
         "item_restriction": [ "p320mag_17rd_9x19mm", "p320mag_21rd_9x19mm", "p320mag_10rd_9x19mm" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "m18",
@@ -1091,7 +1074,6 @@
     "price": 100000,
     "price_postapoc": 4500,
     "to_hit": -1,
-    "bashing": 8,
     "material": [ "steel", "aluminum", "plastic" ],
     "color": "dark_gray",
     "ammo": [ "9mm" ],
@@ -1104,7 +1086,8 @@
         "pocket_type": "MAGAZINE_WELL",
         "item_restriction": [ "p226mag_10rd_9x19mm", "p226mag_15rd_9x19mm" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "sp2022",
@@ -1118,7 +1101,6 @@
     "price": 50000,
     "price_postapoc": 3750,
     "to_hit": -2,
-    "bashing": 8,
     "material": [ "plastic", "steel" ],
     "color": "dark_gray",
     "ammo": [ "9mm" ],
@@ -1130,7 +1112,8 @@
         "pocket_type": "MAGAZINE_WELL",
         "item_restriction": [ "sp2022mag_10rd_9mm", "sp2022mag_12rd_9mm", "sp2022mag_15rd_9mm" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "hi_power_9mm",
@@ -1145,7 +1128,6 @@
     "price": 32000,
     "price_postapoc": 2250,
     "to_hit": -2,
-    "bashing": 8,
     "material": [ "plastic", "steel" ],
     "color": "dark_gray",
     "ammo": [ "9mm" ],
@@ -1156,7 +1138,8 @@
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [
       { "magazine_well": "191 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "bhp9mag_13rd", "bhp9mag_15rd" ] }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "walther_p38",
@@ -1171,7 +1154,6 @@
     "price": 39000,
     "price_postapoc": 2250,
     "to_hit": -2,
-    "bashing": 8,
     "material": [ "plastic", "steel" ],
     "color": "dark_gray",
     "ammo": [ "9mm" ],
@@ -1180,7 +1162,8 @@
     "min_cycle_recoil": 450,
     "flags": [ "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
-    "pocket_data": [ { "magazine_well": "228 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "p38mag" ] } ]
+    "pocket_data": [ { "magazine_well": "228 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "p38mag" ] } ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "walther_ppq_9mm",
@@ -1194,7 +1177,6 @@
     "longest_side": "209 mm",
     "price": 65000,
     "price_postapoc": 2500,
-    "bashing": 8,
     "material": [ "plastic", "steel" ],
     "color": "dark_gray",
     "ammo": [ "9mm" ],
@@ -1209,7 +1191,8 @@
         "pocket_type": "MAGAZINE_WELL",
         "item_restriction": [ "ppq9mag_10rd", "ppq9mag_15rd", "ppq9mag_17rd" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "hptc9",
@@ -1224,7 +1207,6 @@
     "price": 7500,
     "price_postapoc": 2250,
     "to_hit": -2,
-    "bashing": 8,
     "material": [ "plastic", "steel", "zinc" ],
     "color": "dark_gray",
     "ammo": [ "9mm" ],
@@ -1237,7 +1219,8 @@
         "pocket_type": "MAGAZINE_WELL",
         "item_restriction": [ "hptc9mag_8rd", "hptc9mag_10rd", "hptc9mag_15rd" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "cz75",
@@ -1252,7 +1235,6 @@
     "price": 10000,
     "price_postapoc": 2500,
     "to_hit": -2,
-    "bashing": 8,
     "material": [ "plastic", "steel" ],
     "color": "dark_gray",
     "ammo": [ "9mm" ],
@@ -1267,7 +1249,8 @@
         "pocket_type": "MAGAZINE_WELL",
         "item_restriction": [ "cz75mag_12rd", "cz75mag_20rd", "cz75mag_26rd" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "walther_ccp",
@@ -1282,7 +1265,6 @@
     "price": 12500,
     "price_postapoc": 2000,
     "to_hit": -2,
-    "bashing": 8,
     "material": [ "plastic", "steel" ],
     "color": "dark_gray",
     "ammo": [ "9mm" ],
@@ -1291,7 +1273,8 @@
     "min_cycle_recoil": 450,
     "flags": [ "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
-    "pocket_data": [ { "magazine_well": "176 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ccpmag", "ccpmag_9rd" ] } ]
+    "pocket_data": [ { "magazine_well": "176 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ccpmag", "ccpmag_9rd" ] } ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "colt_ro635",
@@ -1306,7 +1289,6 @@
     "price": 100000,
     "price_postapoc": 1750,
     "to_hit": -1,
-    "bashing": 11,
     "material": [ "steel", "plastic" ],
     "color": "dark_gray",
     "ammo": [ "9mm" ],
@@ -1317,7 +1299,6 @@
     "blackpowder_tolerance": 32,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "valid_mod_locations": [
-      [ "accessories", 3 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -1336,7 +1317,8 @@
         "pocket_type": "MAGAZINE_WELL",
         "item_restriction": [ "uzimag", "uzimag_20rd", "uzimag_25rd", "uzimag_40rd", "uzimag_50rd", "uzimag_100rd" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 11 }
   },
   {
     "id": "bt_apc9k",
@@ -1351,7 +1333,6 @@
     "price": 500000,
     "price_postapoc": 6000,
     "to_hit": -2,
-    "bashing": 9,
     "material": [ "steel", "plastic" ],
     "color": "dark_gray",
     "ammo": [ "9mm" ],
@@ -1361,7 +1342,6 @@
     "blackpowder_tolerance": 32,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "valid_mod_locations": [
-      [ "accessories", 3 ],
       [ "barrel", 1 ],
       [ "brass catcher", 1 ],
       [ "grip", 1 ],
@@ -1387,6 +1367,7 @@
           "btmp9mag_9x19mm_50rd"
         ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 9 }
   }
 ]

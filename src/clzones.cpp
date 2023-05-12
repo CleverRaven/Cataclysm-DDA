@@ -185,7 +185,7 @@ void zone_type::reset()
     zone_type_factory.reset();
 }
 
-void zone_type::load( const JsonObject &jo, const std::string & )
+void zone_type::load( const JsonObject &jo, const std::string_view )
 {
     mandatory( jo, was_loaded, "name", name_ );
     mandatory( jo, was_loaded, "id", id );
