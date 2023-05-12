@@ -13,13 +13,13 @@
     "weight": "657 g",
     "volume": "250 ml",
     "longest_side": "8 cm",
-    "bashing": 7,
     "damage": { "damage_type": "stab", "amount": 7 },
     "range": 10,
     "dispersion": 14,
     "loudness": 0,
     "to_hit": -1,
-    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_60" ]
+    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_60" ],
+    "melee_damage": { "bash": 7 }
   },
   {
     "type": "AMMO",
@@ -40,9 +40,9 @@
     "weight": "15768 g",
     "volume": "6 L",
     "longest_side": "30 cm",
-    "bashing": 28,
     "to_hit": -2,
-    "qualities": [ [ "ANVIL", 1 ] ]
+    "qualities": [ [ "ANVIL", 1 ] ],
+    "melee_damage": { "bash": 28 }
   },
   {
     "type": "GENERIC",
@@ -56,5 +56,73 @@
     "material": "epoxy",
     "weight": "150 g",
     "volume": "3 L"
+  },
+  {
+    "type": "GENERIC",
+    "id": "bone_plaster",
+    "category": "spare_parts",
+    "name": { "str": "bone replica" },
+    "weight": "500 g",
+    "color": "white",
+    "symbol": "%",
+    "description": "A plaster replica of a bone.",
+    "price": 0,
+    "price_postapoc": 10,
+    "material": [ "stone" ],
+    "volume": "250 ml",
+    "longest_side": "40 cm",
+    "to_hit": -1,
+    "melee_damage": { "bash": 7 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "large_bone_plaster",
+    "category": "spare_parts",
+    "name": { "str": "large bone replica" },
+    "weight": "70 kg",
+    "color": "white",
+    "symbol": "I",
+    "description": "A plaster replica of a huge bone.",
+    "price": 0,
+    "price_postapoc": 20,
+    "material": [ "stone" ],
+    "volume": "36 L",
+    "longest_side": "2000 cm",
+    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
+    "melee_damage": { "bash": 28 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "bone_fossil",
+    "category": "spare_parts",
+    "name": { "str": "bone fossil" },
+    "weight": "500 g",
+    "color": "white",
+    "symbol": "%",
+    "description": "A fossilized bone.  Not good to eat.",
+    "price": 0,
+    "price_postapoc": 10,
+    "material": [ "stone" ],
+    "volume": "250 ml",
+    "longest_side": "40 cm",
+    "to_hit": -1,
+    "melee_damage": { "bash": 7 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "large_bone_fossil",
+    "category": "spare_parts",
+    "name": { "str": "large bone replica" },
+    "weight": "70 kg",
+    "color": "white",
+    "symbol": "I",
+    "description": "A huge fossilized bone.  Not good to eat.",
+    "price": 0,
+    "price_postapoc": 20,
+    "material": [ "stone" ],
+    "volume": "36 L",
+    "longest_side": "2000 cm",
+    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
+    "melee_damage": { "bash": 28 }
   }
 ]

@@ -1,8 +1,17 @@
 [
   {
-    "id": "compute_standard",
+    "id": "surface_heat",
     "type": "requirement",
-    "//": "Standardized computer usage for recipes",
-    "tools": [ [ [ "laptop", 10 ] ], [ [ "software_math", -1 ] ], [ [ "software_electronics_reference", -1 ] ] ]
+    "extend": { "tools": [ [ [ "heater_tool", 20 ] ] ] }
+  },
+  {
+    "id": "water_boiling_heat",
+    "type": "requirement",
+    "extend": { "tools": [ [ [ "heater_tool", 20 ] ] ] }
+  },
+  {
+    "id": "welding_standard",
+    "type": "requirement",
+    "extend": { "tools": [ [ [ "inventor_welder", 10 ] ] ] }
   }
 ]

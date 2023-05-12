@@ -2,7 +2,6 @@
 #ifndef CATA_SRC_RNG_H
 #define CATA_SRC_RNG_H
 
-#include <functional>
 #include <array>
 #include <cstddef>
 #include <functional>
@@ -72,6 +71,8 @@ inline double rng_normal( double hi )
 }
 
 double normal_roll( double mean, double stddev );
+
+double chi_squared_roll( double trial_num );
 
 double rng_exponential( double min, double mean );
 

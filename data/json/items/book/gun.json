@@ -67,7 +67,6 @@
         "id": "manual_gun",
         "name": { "str": "The Gun Owner's Handbook", "str_pl": "copies of The Gun Owner's Handbook" },
         "description": "A thick soft-cover book that claims to be a complete guide to safely operating, maintaining, and repairing firearms.",
-        "proficiencies": [ { "proficiency": "prof_gunsmithing_basic", "time_factor": 0.8, "fail_factor": 0.8 } ],
         "weight": 1
       },
       {
@@ -115,10 +114,6 @@
         "id": "manual_gun_7",
         "name": { "str": "The Rifle-Musket", "str_pl": "copies of The Rifle-Musket" },
         "description": "\"A Practical Treatise on the Enfield-Pritchett Rifle, Recently Adopted in the British Service\".  This is a practical guide to using the newly adopted P-1853 Enfield Rifle-Musket.  Despite being written in 1854, it still has lot of useful information about shooting, as well as information about how to maintain this antique rifle.",
-        "proficiencies": [
-          { "proficiency": "prof_gunsmithing_basic", "time_factor": 0.8, "fail_factor": 0.8 },
-          { "proficiency": "prof_gunsmithing_antique", "time_factor": 0.9, "fail_factor": 0.9 }
-        ],
         "//": "978-1480115736",
         "weight": 1
       }
@@ -207,7 +202,6 @@
         "id": "text_gunsmith_5",
         "name": { "str": "The Guns of John Moses Browning", "str_pl": "copies of The Guns of John Moses Browning" },
         "description": "A major biography of John Moses Browning, \"the Thomas Edison of guns\", this book describes his story, and the inventions he made, as well as decisions behind their development, processes, manufacturing, and usage.",
-        "proficiencies": [ { "proficiency": "prof_gunsmithing_basic", "time_factor": 0.5, "fail_factor": 0.25 } ],
         "//": "978-1982129224",
         "weight": 1
       },
@@ -215,10 +209,6 @@
         "id": "text_gunsmith_6",
         "name": { "str": "DIY Guns: Easy DIY Gunsmithing Projects", "str_pl": "issues of DIY Guns: Easy DIY Gunsmithing Projects" },
         "description": "A big magazine about different gunsmithing projects, from tuning your gun to making a brand new one using common techniques.",
-        "proficiencies": [
-          { "proficiency": "prof_gunsmithing_basic", "time_factor": 0.75, "fail_factor": 0.5 },
-          { "proficiency": "prof_gunsmithing_improv", "time_factor": 0.75, "fail_factor": 0.5 }
-        ],
         "//": "978-1732132764",
         "weight": 1
       },
@@ -226,7 +216,6 @@
         "id": "text_gunsmith_7",
         "name": { "str": "The Book of the Crossbow", "str_pl": "copies of The Book of the Crossbow" },
         "description": "This book details the long story of crossbows - a devastating weapon which improved medieval distance warfare drastically - with lot of illustrations and information about additional weapons, like ballistae and catapults.",
-        "proficiencies": [ { "proficiency": "prof_gunsmithing_spring", "time_factor": 0.5, "fail_factor": 0.25 } ],
         "//": "978-0486287201",
         "weight": 1
       }

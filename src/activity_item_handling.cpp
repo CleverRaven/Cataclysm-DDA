@@ -91,6 +91,8 @@ static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
 static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
 
+static const addiction_id addiction_alcohol( "alcohol" );
+
 static const efftype_id effect_incorporeal( "incorporeal" );
 
 static const flag_id json_flag_MOP( "MOP" );
@@ -1930,7 +1932,7 @@ static bool chop_plank_activity( Character &you, const tripoint_bub_ms &src_loc 
             here.i_rem( src_loc, &i );
             int moves = to_moves<int>( 20_minutes );
             you.add_msg_if_player( _( "You cut the log into planks." ) );
-            you.assign_activity( player_activity( chop_planks_activity_actor( moves ) ) );
+            you.assign_activity( chop_planks_activity_actor( moves ) );
             you.activity.placement = here.getglobal( src_loc );
             return true;
         }
@@ -2379,7 +2381,7 @@ static bool mine_activity( Character &you, const tripoint_bub_ms &src_loc )
 static bool mop_activity( Character &you, const tripoint_bub_ms &src_loc )
 {
     // iuse::mop costs 15 moves per use
-    you.assign_activity( player_activity( mop_activity_actor( 15 ) ) );
+    you.assign_activity( mop_activity_actor( 15 ) );
     you.activity.placement = get_map().getglobal( src_loc );
     return true;
 }
@@ -2397,13 +2399,11 @@ static bool chop_tree_activity( Character &you, const tripoint_bub_ms &src_loc )
     map &here = get_map();
     const ter_id ter = here.ter( src_loc );
     if( here.has_flag( ter_furn_flag::TFLAG_TREE, src_loc ) ) {
-        you.assign_activity( player_activity( chop_tree_activity_actor( moves, item_location( you,
-                                              &best_qual ) ) ) );
+        you.assign_activity( chop_tree_activity_actor( moves, item_location( you, &best_qual ) ) );
         you.activity.placement = here.getglobal( src_loc );
         return true;
     } else if( ter == t_trunk || ter == t_stump ) {
-        you.assign_activity( player_activity( chop_logs_activity_actor( moves, item_location( you,
-                                              &best_qual ) ) ) );
+        you.assign_activity( chop_logs_activity_actor( moves, item_location( you, &best_qual ) ) );
         you.activity.placement = here.getglobal( src_loc );
         return true;
     }
@@ -2858,7 +2858,7 @@ static bool generic_multi_activity_do(
     } else if( reason == do_activity_reason::NEEDS_TILLING &&
                here.has_flag( ter_furn_flag::TFLAG_PLOWABLE, src_loc ) &&
                you.has_quality( qual_DIG, 1 ) && !here.has_furn( src_loc ) ) {
-        you.assign_activity( player_activity( churn_activity_actor( 18000, item_location() ) ) );
+        you.assign_activity( churn_activity_actor( 18000, item_location() ) );
         you.backlog.push_front( player_activity( act_id ) );
         you.activity.placement = src;
         return false;
@@ -3278,8 +3278,8 @@ int get_auto_consume_moves( Character &you, const bool food )
                 // it's unclean
                 continue;
             }
-            if( comest.get_comestible()->add == STATIC( addiction_id( "alcohol" ) ) &&
-                !you.has_addiction( comest.get_comestible()->add ) ) {
+            if( comest.get_comestible()->addictions.count( addiction_alcohol ) &&
+                !you.has_addiction( addiction_alcohol ) ) {
                 continue;
             }
 

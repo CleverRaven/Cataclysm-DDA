@@ -2,7 +2,6 @@
 #ifndef CATA_SRC_CHARACTER_H
 #define CATA_SRC_CHARACTER_H
 
-#include <functional>
 #include <algorithm>
 #include <bitset>
 #include <climits>
@@ -31,6 +30,7 @@
 #include "cata_utility.h"
 #include "character_attire.h"
 #include "character_id.h"
+#include "city.h"
 #include "coordinates.h"
 #include "craft_command.h"
 #include "creature.h"
@@ -44,7 +44,6 @@
 #include "item_pocket.h"
 #include "magic_enchantment.h"
 #include "memory_fast.h"
-#include "overmap.h"
 #include "pimpl.h"
 #include "player_activity.h"
 #include "point.h"
@@ -291,6 +290,7 @@ struct queued_eoc {
     public:
         effect_on_condition_id eoc;
         time_point time;
+        std::unordered_map<std::string, std::string> context;
 };
 
 struct eoc_compare {
@@ -305,6 +305,13 @@ struct aim_type {
     std::string help;
     bool has_threshold;
     int threshold;
+    bool operator==( const aim_type &other ) const {
+        return has_threshold == other.has_threshold &&
+               threshold == other.threshold &&
+               name == other.name &&
+               action == other.action &&
+               help == other.help;
+    }
 };
 
 struct special_attack {
@@ -399,12 +406,27 @@ struct pocket_data_with_parent {
     int nested_level;
 };
 
+struct speed_bonus_effect {
+    std::string description;
+    int bonus = 0;
+};
+
+struct run_cost_effect {
+    std::string description;
+    float times = 1.0;
+    float plus = 0;
+};
+
 class Character : public Creature, public visitable
 {
     public:
         Character( const Character & ) = delete;
         Character &operator=( const Character & ) = delete;
         ~Character() override;
+
+        // initialize avatar and avatar mocks
+        void initialize();
+
 
         Character *as_character() override {
             return this;
@@ -494,6 +516,12 @@ class Character : public Creature, public visitable
         int get_per_bonus() const;
         int get_int_bonus() const;
 
+    private:
+        /** Modifiers to character speed, with descriptions */
+        std::vector<speed_bonus_effect> speed_bonus_effects;
+
+    public:
+        std::vector<speed_bonus_effect> get_speed_bonus_effects() const;
         int get_speed() const override;
         int get_enchantment_speed_bonus() const;
         // Strength modified by limb lifting score
@@ -514,6 +542,10 @@ class Character : public Creature, public visitable
         void mod_dex_bonus( int ndex );
         void mod_per_bonus( int nper );
         void mod_int_bonus( int nint );
+
+        /** Setters for stats shared with other creatures */
+        using Creature::mod_speed_bonus;
+        void mod_speed_bonus( int nspeed, const std::string &desc );
 
         // Prints message(s) about current health
         void print_health() const;
@@ -1007,22 +1039,8 @@ class Character : public Creature, public visitable
         void roll_all_damage( bool crit, damage_instance &di, bool average, const item &weap,
                               const std::string &attack_vector,
                               const Creature *target, const bodypart_id &bp ) const;
-        /** Adds player's total bash damage to the damage instance */
-        void roll_bash_damage( bool crit, damage_instance &di, bool average, const item &weap,
-                               const std::string &attack_vector,
-                               float crit_mod ) const;
-        /** Adds player's total cut damage to the damage instance */
-        void roll_cut_damage( bool crit, damage_instance &di, bool average, const item &weap,
-                              const std::string &attack_vector,
-                              float crit_mod ) const;
-        /** Adds player's total stab damage to the damage instance */
-        void roll_stab_damage( bool crit, damage_instance &di, bool average, const item &weap,
-                               const std::string &attack_vector,
-                               float crit_mod ) const;
-        /** Adds player's total non-bash, non-cut, non-stab damage to the damage instance */
-        void roll_other_damage( bool crit, damage_instance &di, bool average, const item &weap,
-                                const std::string &attack_vector,
-                                float crit_mod ) const;
+        void roll_damage( const damage_type_id &dt, bool crit, damage_instance &di, bool average,
+                          const item &weap, const std::string &attack_vector, float crit_mod ) const;
 
         /** Returns true if the player should be dead */
         bool is_dead_state() const override;
@@ -1124,12 +1142,9 @@ class Character : public Creature, public visitable
          * Check for passive bionics that provide armor, and returns the armor bonus
          * This is called from player::passive_absorb_hit
          */
-        float bionic_armor_bonus( const bodypart_id &bp, damage_type dt ) const;
+        float bionic_armor_bonus( const bodypart_id &bp, const damage_type_id &dt ) const;
         /** Returns the armor bonus against given type from martial arts buffs */
-        int mabuff_armor_bonus( damage_type type ) const;
-        /** Returns overall fire resistance */
-        std::map<bodypart_id, int> get_armor_fire( const std::map<bodypart_id, std::vector<const item *>>
-                &clothing_map ) const;
+        int mabuff_armor_bonus( const damage_type_id &type ) const;
         // --------------- Mutation Stuff ---------------
         // In newcharacter.cpp
         /** Returns the id of a random starting trait that costs >= 0 points */
@@ -1176,15 +1191,23 @@ class Character : public Creature, public visitable
         /** Returns true if the player has the entered starting trait */
         bool has_base_trait( const trait_id &b ) const;
         /** Returns true if player has a trait with a flag */
-        int count_trait_flag( const json_character_flag &b ) const;
+        bool has_trait_flag( const json_character_flag &b ) const;
         /** Returns true if player has a bionic with a flag */
-        int count_bionic_with_flag( const json_character_flag &flag ) const;
+        bool has_bionic_with_flag( const json_character_flag &flag ) const;
         /** Returns true if the player has any bodypart with a flag */
+        bool has_bodypart_with_flag( const json_character_flag &flag ) const;
+        /** Returns count of traits with a flag */
+        int count_trait_flag( const json_character_flag &b ) const;
+        /** Returns count of bionics with a flag */
+        int count_bionic_with_flag( const json_character_flag &flag ) const;
+        /** Returns count of bodyparts with a flag */
         int count_bodypart_with_flag( const json_character_flag &flag ) const;
         /** This is to prevent clang complaining about overloading a virtual function, the creature version uses monster flags so confusion is unlikely. */
         using Creature::has_flag;
-        /** Returns true if player has a trait, bionic or effect with a flag */
-        int has_flag( const json_character_flag &flag ) const;
+        /** Returns true if player has a trait, bionic, effect, bodypart, or martial arts buff with a flag */
+        bool has_flag( const json_character_flag &flag ) const;
+        /** Returns the count of traits, bionics, effects, bodyparts, and martial arts buffs with a flag */
+        int count_flag( const json_character_flag &flag ) const;
         /** Returns the trait id with the given invlet, or an empty string if no trait has that invlet */
         trait_id trait_by_invlet( int ch ) const;
 
@@ -1226,6 +1249,7 @@ class Character : public Creature, public visitable
 
         bool can_mount( const monster &critter ) const;
         void mount_creature( monster &z );
+        bool cant_do_mounted( bool msg = true ) const;
         bool is_mounted() const;
         bool check_mount_will_move( const tripoint &dest_loc );
         bool check_mount_is_spooked();
@@ -1349,15 +1373,17 @@ class Character : public Creature, public visitable
         /** Returns the speed bonus from martial arts buffs */
         int mabuff_speed_bonus() const;
         /** Returns the arpen bonus from martial arts buffs*/
-        int mabuff_arpen_bonus( damage_type type ) const;
+        int mabuff_arpen_bonus( const damage_type_id &type ) const;
         /** Returns the damage multiplier to given type from martial arts buffs */
-        float mabuff_damage_mult( damage_type type ) const;
+        float mabuff_damage_mult( const damage_type_id &type ) const;
         /** Returns the flat damage bonus to given type from martial arts buffs, applied after the multiplier */
-        int mabuff_damage_bonus( damage_type type ) const;
+        int mabuff_damage_bonus( const damage_type_id &type ) const;
         /** Returns the flat penalty to move cost of attacks. If negative, that's a bonus. Applied after multiplier. */
         int mabuff_attack_cost_penalty() const;
         /** Returns the multiplier on move cost of attacks. */
         float mabuff_attack_cost_mult() const;
+        /** Returns true if player has a MA buff with a flag */
+        bool has_mabuff_flag( const json_character_flag &flag ) const;
         /* Returns the number of MA buffs with the flag*/
         int count_mabuff_flag( const json_character_flag &flag ) const;
 
@@ -1427,7 +1453,7 @@ class Character : public Creature, public visitable
         /// @brief Returns resistances on a body part provided by mutations
         /// @todo Cache this, it's kinda expensive to compute
         resistances mutation_armor( bodypart_id bp ) const;
-        float mutation_armor( bodypart_id bp, damage_type dt ) const;
+        float mutation_armor( bodypart_id bp, const damage_type_id &dt ) const;
         float mutation_armor( bodypart_id bp, const damage_unit &du ) const;
 
         /** gives every mutation in a category, optionally including post-thresh mutations */
@@ -1726,10 +1752,11 @@ class Character : public Creature, public visitable
          * @param it Item to calculate handling cost for
          * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered.
          * @param base_cost Cost due to storage type.
+         * @param charges_in_it the amount of charges to be handled (default is whole)
          * @return cost in moves ranging from 0 to MAX_HANDLING_COST
          */
         int item_handling_cost( const item &it, bool penalties = true,
-                                int base_cost = INVENTORY_HANDLING_PENALTY ) const;
+                                int base_cost = INVENTORY_HANDLING_PENALTY, int charges_in_it = -1 ) const;
 
         /**
          * Calculate (but do not deduct) the number of moves required when storing an item in a container
@@ -2138,6 +2165,8 @@ class Character : public Creature, public visitable
         /** Returns the first worn item with a given flag. */
         item item_worn_with_flag( const flag_id &flag, const bodypart_id &bp ) const;
         item item_worn_with_flag( const flag_id &flag ) const;
+        /** Returns pointer of the first worn item with a given id. */
+        item *item_worn_with_id( const itype_id &id );
 
         // drawing related stuff
         /**
@@ -2149,8 +2178,8 @@ class Character : public Creature, public visitable
         std::vector<std::pair<std::string, std::string>> get_overlay_ids() const;
 
         // --------------- Skill Stuff ---------------
-        int get_skill_level( const skill_id &ident ) const;
-        int get_skill_level( const skill_id &ident, const item &context ) const;
+        float get_skill_level( const skill_id &ident ) const;
+        float get_skill_level( const skill_id &ident, const item &context ) const;
         int get_knowledge_level( const skill_id &ident ) const;
         int get_knowledge_level( const skill_id &ident, const item &context ) const;
 
@@ -2278,7 +2307,7 @@ class Character : public Creature, public visitable
         /** Returns true if the player is immune to this kind of effect */
         bool is_immune_effect( const efftype_id & ) const override;
         /** Returns true if the player is immune to this kind of damage */
-        bool is_immune_damage( damage_type ) const override;
+        bool is_immune_damage( const damage_type_id & ) const override;
         /** Returns true if the player is protected from radiation */
         bool is_rad_immune() const;
         /** Returns true if the player's melee skill increases the bash damage weapon cap */
@@ -2572,8 +2601,10 @@ class Character : public Creature, public visitable
         void assign_activity( const activity_id &type, int moves = calendar::INDEFINITELY_LONG,
                               int index = -1, int pos = INT_MIN,
                               const std::string &name = "" );
-        /** Assigns activity to player, possibly resuming old activity if it's similar enough. */
-        void assign_activity( const player_activity &act, bool allow_resume = true );
+        /** Assigns activity to player, possibly resuming old activity if it's defined resumable. */
+        void assign_activity( const player_activity &act );
+        /** Assigns activity actor to player, possibly resuming old activity if it's defined resumable. */
+        void assign_activity( const activity_actor &actor );
         /** Check if player currently has a given activity */
         bool has_activity( const activity_id &type ) const;
         /** Check if player currently has any of the given activities */
@@ -2646,25 +2677,11 @@ class Character : public Creature, public visitable
         // outputs player activity level to a printable string
         std::string activity_level_str() const;
 
-        /** Returns overall bashing resistance for the body_part */
-        int get_armor_bash( bodypart_id bp ) const override;
-        /** Returns overall cutting resistance for the body_part */
-        int get_armor_cut( bodypart_id bp ) const override;
-        /** Returns overall bullet resistance for the body_part */
-        int get_armor_bullet( bodypart_id bp ) const override;
-        /** Returns bashing resistance from the creature and armor only */
-        int get_armor_bash_base( bodypart_id bp ) const override;
-        /** Returns cutting resistance from the creature and armor only */
-        int get_armor_cut_base( bodypart_id bp ) const override;
-        /** Returns cutting resistance from the creature and armor only */
-        int get_armor_bullet_base( bodypart_id bp ) const override;
         /** Returns overall env_resist on a body_part */
         int get_env_resist( bodypart_id bp ) const override;
-        /** Returns overall acid resistance for the body part */
-        int get_armor_acid( bodypart_id bp ) const;
         /** Returns overall resistance to given type on the bod part */
-        int get_armor_type( damage_type dt, bodypart_id bp ) const override;
-        std::map<bodypart_id, int> get_all_armor_type( damage_type dt,
+        int get_armor_type( const damage_type_id &dt, bodypart_id bp ) const override;
+        std::map<bodypart_id, int> get_all_armor_type( const damage_type_id &dt,
                 const std::map<bodypart_id, std::vector<const item *>> &clothing_map ) const;
 
         int get_stim() const;
@@ -2736,8 +2753,8 @@ class Character : public Creature, public visitable
                                             const std::optional<tripoint> &blind_throw_from_pos = std::nullopt );
 
     protected:
-        void on_damage_of_type( const effect_source &source, int adjusted_damage, damage_type type,
-                                const bodypart_id &bp ) override;
+        void on_damage_of_type( const effect_source &source, int adjusted_damage,
+                                const damage_type_id &dt, const bodypart_id &bp ) override;
     public:
         /** Called when an item is worn */
         void on_item_wear( const item &it );
@@ -2837,8 +2854,11 @@ class Character : public Creature, public visitable
         // Put corpse+inventory on defined om tile
         void place_corpse( const tripoint_abs_omt &om_target );
 
+        /** Modifies the movement cost and returns a list of effects */
+        std::vector<run_cost_effect> run_cost_effects( float &movecost ) const;
         /** Returns the player's modified base movement cost */
-        int  run_cost( int base_cost, bool diag = false ) const;
+        int run_cost( int base_cost, bool diag = false ) const;
+
         const pathfinding_settings &get_pathfinding_settings() const override;
         std::set<tripoint> get_path_avoid() const override;
         /**

@@ -15,13 +15,13 @@
     "weight": "500 g",
     "volume": "500 ml",
     "price": 1,
-    "bashing": 8,
     "to_hit": -4,
     "material": [ "steel" ],
     "symbol": "]",
     "color": "light_gray",
     "diameter": 20,
-    "width": 10
+    "width": 10,
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "magic_motorcycle",
@@ -55,7 +55,7 @@
     "item": "mana_wheel",
     "m2c": 90,
     "rolling_resistance": 0.45,
-    "wheel_type": "standard",
+    "wheel_terrain_modifiers": { "FLAT": [ 0, 4 ], "ROAD": [ 0, 2 ] },
     "contact_area": 20,
     "description": "A shape of pure mana that can float and carry items.",
     "size": "37500 ml",
@@ -99,13 +99,13 @@
     "description": "Seeing this is a bug.",
     "weight": "10 g",
     "volume": "10 ml",
-    "bashing": 1,
     "phase": "solid",
     "material": [ "mana" ],
     "flags": [ "PSEUDO", "PERPETUAL" ],
     "symbol": "?",
     "color": "magenta",
     "count": 1,
-    "ammo_type": "mana"
+    "ammo_type": "mana",
+    "melee_damage": { "bash": 1 }
   }
 ]

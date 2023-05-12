@@ -1,0 +1,1144 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ladder_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "^" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "^": "t_ladder_up" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "sewer_blockage_4x4",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rows": [
+        "!__!",
+        "!__!",
+        "!__!",
+        "!__!"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "sewers" ],
+      "terrain": { "!": "t_null" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "sewer_bridge_4x4",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rows": [
+        "!==!",
+        "-##-",
+        "!==!",
+        "!!!!"
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "sewers" ],
+      "terrain": { "!": "t_null" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "sewer_pump_10x10_R",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "rows": [
+        "!o|||!!!!!",
+        "!ooo|!!!!!",
+        "!..o|!!!!!",
+        "=.po|!!!!!",
+        "=..o|!!!!!",
+        "=..o|!!!!!",
+        "=.po|!!!!!",
+        "!..o|!!!!!",
+        "!ooo|!!!!!",
+        "!o|||!!!!!"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "sewers" ],
+      "terrain": { "!": "t_null" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "sewer_pump_10x10_R",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "rows": [
+        "!o|||||||!",
+        "!ooooooo|!",
+        "!......o|!",
+        "=#~~~#po|!",
+        "=#~~~#.o|!",
+        "=#~~~#.o|!",
+        "=#~~~#po|!",
+        "!......o|!",
+        "!ooooooo|!",
+        "!o|||||||!"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "sewers" ],
+      "terrain": { "!": "t_null" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "sewer_pump_10x10_R",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "rows": [
+        "!o|||||||!",
+        "!ooooooo|!",
+        "!..o|||o|!",
+        "=.po|!|o|!",
+        "=..o|!|o|!",
+        "=..o|!|o|!",
+        "=.po|!|o|!",
+        "!..o|||o|!",
+        "!ooooooo|!",
+        "!o|||||||!"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "sewers" ],
+      "terrain": { "!": "t_null" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "sewer_pump_10x10_R",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "rows": [
+        "!o|!!!!!!!",
+        "!o|||||||!",
+        "#+~~~~~~|!",
+        "-o|||||||!",
+        "-o!!!!!!!!",
+        "-o!!!!!!!!",
+        "-o|||||||!",
+        "#+~~~~~~|!",
+        "!o|||||||!",
+        "!o|!!!!!!!"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "sewers" ],
+      "terrain": { "!": "t_null" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "sewer_maint_10x10_R",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "rows": [
+        "!o|||||||!",
+        "!ooooooo|!",
+        "!.p||||o|!",
+        "=..D..|o|!",
+        "=..|.z|o|!",
+        "=..|^.|o|!",
+        "=..|rr|o|!",
+        "!.p||||o|!",
+        "!ooooooo|!",
+        "!o|||||||!"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "sewers" ],
+      "place_loot": [ { "item": "sleeping_bag", "x": 6, "y": 6, "chance": 15 } ],
+      "terrain": { "!": "t_null" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "sewer_pump_10x10_L",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "rows": [
+        "!!!!!|||o!",
+        "!!!!!|ooo!",
+        "!!!!!|o..!",
+        "!!!!!|op.=",
+        "!!!!!|o..=",
+        "!!!!!|o..=",
+        "!!!!!|op.=",
+        "!!!!!|o..!",
+        "!!!!!|ooo!",
+        "!!!!!|||o!"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "sewers" ],
+      "terrain": { "!": "t_null" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "sewer_pump_10x10_L",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "rows": [
+        "!|||||||o!",
+        "!|ooooooo!",
+        "!|o......!",
+        "!|op#~~~#=",
+        "!|o.#~~~#=",
+        "!|o.#~~~#=",
+        "!|op#~~~#=",
+        "!|o......!",
+        "!|ooooooo!",
+        "!|||||||o!"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "sewers" ],
+      "terrain": { "!": "t_null" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "sewer_pump_10x10_L",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "rows": [
+        "!|||||||o!",
+        "!|ooooooo!",
+        "!|o|||o..!",
+        "!|o|!|op.=",
+        "!|o|!|o..=",
+        "!|o|!|o..=",
+        "!|o|!|op.=",
+        "!|o|||o..!",
+        "!|ooooooo!",
+        "!|||||||o!"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "sewers" ],
+      "terrain": { "!": "t_null" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "sewer_maint_10x10_L",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "rows": [
+        "!|||||||o!",
+        "!|ooooooo!",
+        "!|o||||p.!",
+        "!|o|rr|..=",
+        "!|o|..|..=",
+        "!|o|z.|..=",
+        "!|o|..D..=",
+        "!|o||||p.!",
+        "!|ooooooo!",
+        "!|||||||o!"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "sewers" ],
+      "place_loot": [ { "item": "sleeping_bag", "x": 5, "y": 5, "chance": 15 } ],
+      "terrain": { "!": "t_null" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "sewer_pump_10x10_L",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "rows": [
+        "!!!!!!!|o!",
+        "!|||||||o!",
+        "!|~~~~~~+#",
+        "!|||||||o-",
+        "!!!!!!!!o-",
+        "!!!!!!!!o-",
+        "!|||||||o-",
+        "!|~~~~~~+#",
+        "!|||||||o!",
+        "!!!!!!!|o!"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "sewers" ],
+      "terrain": { "!": "t_null" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "sewer_straight" ],
+    "weight": 1000000,
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        "
+      ],
+      "palettes": [ "sewers" ],
+      "place_nested": [
+        { "chunks": [ [ "sewer_blockage_4x4", 1 ], [ "null", 6 ] ], "x": 10, "y": [ 0, 20 ] },
+        { "chunks": [ [ "sewer_pump_10x10_L", 1 ], [ "null", 7 ] ], "x": 1, "y": [ 0, 14 ] },
+        { "chunks": [ [ "sewer_pump_10x10_R", 1 ], [ "null", 7 ] ], "x": 13, "y": [ 0, 14 ] },
+        { "chunks": [ [ "sewer_bridge_4x4", 1 ], [ "null", 5 ] ], "x": 10, "y": [ 0, 20 ] },
+        { "chunks": [ "ladder_1x1" ], "x": 11, "y": 11, "neighbors": { "above": [ "road_nesw_manhole" ] } }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "sewer_straight" ],
+    "weight": 125000,
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        "
+      ],
+      "palettes": [ "sewers" ],
+      "place_nested": [
+        { "chunks": [ [ "sewer_blockage_4x4", 1 ], [ "null", 6 ] ], "x": 10, "y": [ 0, 20 ] },
+        { "chunks": [ [ "sewer_maint_10x10_L", 1 ], [ "null", 7 ] ], "x": 1, "y": [ 0, 14 ] },
+        { "chunks": [ [ "sewer_maint_10x10_R", 1 ], [ "null", 7 ] ], "x": 13, "y": [ 0, 14 ] },
+        { "chunks": [ [ "sewer_bridge_4x4", 1 ], [ "null", 5 ] ], "x": 10, "y": [ 0, 20 ] },
+        { "chunks": [ "ladder_1x1" ], "x": 11, "y": 11, "neighbors": { "above": [ "road_nesw_manhole" ] } }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "sewer_straight" ],
+    "weight": 20000,
+    "object": {
+      "fill_ter": "t_metal_floor",
+      "rows": [
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|||||||||",
+        "        |o-~~-pB...Bfff|",
+        "        |o-~~--..z..f?f|",
+        "        |o-~~--.....fFf|",
+        "        |o-~~--...O...B|",
+        "        |o-~~--..^...Z^|",
+        "        |o-~~--.fFf....|",
+        "        |o-~~--.f?f..^B|",
+        "        |o-~~-pBfff..Z?|",
+        "        |o-~~-o|||||||||",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        "
+      ],
+      "palettes": [ "sewers" ],
+      "place_nested": [
+        { "chunks": [ [ "sewer_blockage_4x4", 1 ], [ "null", 6 ] ], "x": 10, "y": [ 0, 20 ] },
+        { "chunks": [ [ "sewer_pump_10x10_L", 1 ], [ "null", 3 ] ], "x": 1, "y": [ 0, 14 ] },
+        { "chunks": [ "sewer_bridge_4x4" ], "x": 10, "y": [ 0, 20 ] },
+        { "chunks": [ "ladder_1x1" ], "x": 12, "y": 11, "neighbors": { "above": [ "road_nesw_manhole" ] } }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "sewer_straight" ],
+    "weight": 20000,
+    "object": {
+      "fill_ter": "t_metal_floor",
+      "rows": [
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "|||||||||o-~~-o|        ",
+        "|fffB^.?.p-~~-o|        ",
+        "|f?f..z..--~~-o|        ",
+        "|fFf.....--~~-o|        ",
+        "|...ZO...--~~-o|        ",
+        "|z.......--~~-o|        ",
+        "|fFf..Z..--~~-o|        ",
+        "|f?f.....--~~-o|        ",
+        "|fff^B^B^p-~~-o|        ",
+        "|||||||||o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        "
+      ],
+      "palettes": [ "sewers" ],
+      "place_nested": [
+        { "chunks": [ [ "sewer_blockage_4x4", 1 ], [ "null", 6 ] ], "x": 10, "y": [ 0, 20 ] },
+        { "chunks": [ "sewer_bridge_4x4" ], "x": 10, "y": [ 0, 20 ] },
+        { "chunks": [ [ "sewer_pump_10x10_R", 1 ], [ "null", 7 ] ], "x": 13, "y": [ 0, 14 ] },
+        { "chunks": [ "ladder_1x1" ], "x": 12, "y": 11, "neighbors": { "above": [ "road_nesw_manhole" ] } }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "sewer_straight" ],
+    "weight": 10000,
+    "object": {
+      "fill_ter": "t_metal_floor",
+      "rows": [
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "|||||||||o-~~-o|||||||||",
+        "|fffB^.?.p-~~-pB...Bfff|",
+        "|f?f..z..--~~--..z..f?f|",
+        "|fFf.....--~~--.....fFf|",
+        "|...ZO...--~~--...O...B|",
+        "|z.......--~~--......Z.|",
+        "|fFf..Z..--~~--.fFf....|",
+        "|f?f.....--~~--.f?f...B|",
+        "|fff^B^B^p-~~-pBfff..Z?|",
+        "|||||||||o-~~-o|||||||||",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        "
+      ],
+      "palettes": [ "sewers" ],
+      "place_nested": [
+        { "chunks": [ [ "sewer_blockage_4x4", 1 ], [ "null", 6 ] ], "x": 10, "y": [ 0, 20 ] },
+        { "chunks": [ "sewer_bridge_4x4" ], "x": 10, "y": [ 0, 20 ] },
+        { "chunks": [ "ladder_1x1" ], "x": 12, "y": 11, "neighbors": { "above": [ "road_nesw_manhole" ] } }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "sewer_straight" ],
+    "weight": 10000,
+    "object": {
+      "fill_ter": "t_metal_floor",
+      "rows": [
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "|||||||||o-~~-o|||||||||",
+        "|dd..JRR|p-~~-p|JJJ...?|",
+        "|h......|--~~--|......∞|",
+        "|.......|--~~--|......?|",
+        "|.......D------D......∞|",
+        "|.......|------|......?|",
+        "|D||...H|--~~--|B......|",
+        "|.s|...H|--~~--|B......|",
+        "|t.|....|p-~~-p|BBB.rrr|",
+        "|||||||||o-~~-o|||||||||",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        "
+      ],
+      "palettes": [ "sewers" ],
+      "place_nested": [ { "chunks": [ "ladder_1x1" ], "x": 12, "y": 11, "neighbors": { "above": [ "road_nesw_manhole" ] } } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "sewer_straight" ],
+    "weight": 50000,
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-==-o|        ",
+        "        |o-##-o|        ",
+        "        |oL++Lo|        ",
+        "        |o-__-o|        ",
+        "        |o-__-o|        ",
+        "        |o-__-o|        ",
+        "        |o-__-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        "
+      ],
+      "palettes": [ "sewers" ],
+      "place_nested": [
+        { "chunks": [ [ "sewer_blockage_4x4", 1 ], [ "null", 6 ] ], "x": 10, "y": [ 0, 12 ] },
+        { "chunks": [ [ "sewer_pump_10x10_L", 1 ], [ "null", 7 ] ], "x": 1, "y": [ 0, 9 ] },
+        { "chunks": [ [ "sewer_pump_10x10_R", 1 ], [ "null", 7 ] ], "x": 13, "y": [ 0, 9 ] },
+        { "chunks": [ [ "sewer_bridge_4x4", 1 ], [ "null", 5 ] ], "x": 10, "y": [ 18, 20 ] },
+        { "chunks": [ "ladder_1x1" ], "x": 11, "y": 11, "neighbors": { "above": [ "road_nesw_manhole" ] } }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "sewer_straight" ],
+    "weight": 50000,
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-__-o|        ",
+        "        |o-__-o|        ",
+        "        |o-__-o|        ",
+        "        |o-__-o|        ",
+        "        |oL++Lo|        ",
+        "        |o-##-o|        ",
+        "        |o-==-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        "
+      ],
+      "palettes": [ "sewers" ],
+      "place_nested": [
+        { "chunks": [ [ "sewer_blockage_4x4", 1 ], [ "null", 6 ] ], "x": 10, "y": [ 8, 20 ] },
+        { "chunks": [ [ "sewer_pump_10x10_L", 1 ], [ "null", 7 ] ], "x": 1, "y": [ 5, 14 ] },
+        { "chunks": [ [ "sewer_pump_10x10_R", 1 ], [ "null", 7 ] ], "x": 13, "y": [ 5, 14 ] },
+        { "chunks": [ [ "sewer_bridge_4x4", 1 ], [ "null", 5 ] ], "x": 10, "y": [ 0, 3 ] },
+        { "chunks": [ "ladder_1x1" ], "x": 11, "y": 11, "neighbors": { "above": [ "road_nesw_manhole" ] } }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "sewer_straight" ],
+    "weight": 20000,
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "        |o-~~-o|||||||  ",
+        "        |o-~~-..IIIII|  ",
+        "        |o-~~=..IrrrI|  ",
+        "        |o-~~=..D..rI|  ",
+        "        |o-~~=..Ir.rI|  ",
+        "        |o-~~=..Ir.rI|  ",
+        "        |o-~~=..IIDII|  ",
+        "        |o-~~-.......|  ",
+        "        |o-~~-.p.p.p.|  ",
+        "        |o-~~-ooooooo|  ",
+        "        |o-~~-o|||||o|  ",
+        "        |o-~~-o|   |o|  ",
+        "        |o-~~-o|||||o|  ",
+        "        |o-~~-ooooooo|  ",
+        "        |o-~~-o|||||o|  ",
+        "        |o-~~-o|   |o|  ",
+        "        |o-~~-o|||||o|  ",
+        "        |o-~~-ooooooo|  ",
+        "        |o-~~-o|||||o|  ",
+        "        |o-~~-o|   |o|  ",
+        "        |o-~~-o|||||o|  ",
+        "        |o-~~-ooooooo|  ",
+        "        |o-~~-o|||||||  ",
+        "        |o-~~-o|        "
+      ],
+      "palettes": [ "sewers" ],
+      "place_loot": [ { "item": "stepladder", "x": [ 16, 20 ], "y": 7, "chance": 50 } ],
+      "place_nested": [
+        { "chunks": [ [ "sewer_blockage_4x4", 1 ], [ "null", 6 ] ], "x": 10, "y": [ 0, 20 ] },
+        { "chunks": [ [ "sewer_pump_10x10_L", 1 ], [ "null", 3 ] ], "x": 1, "y": [ 0, 14 ] },
+        { "chunks": [ "sewer_bridge_4x4" ], "x": 10, "y": [ 0, 20 ] },
+        { "chunks": [ "ladder_1x1" ], "x": 12, "y": 11, "neighbors": { "above": [ "road_nesw_manhole" ] } }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "sewer_straight" ],
+    "weight": 80000,
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "        |o-~~-o|||||||| ",
+        "        |o-~~-oooooooo| ",
+        "        |o-~~-.......o| ",
+        "        |o-~~#=~~~~~.o| ",
+        "        |o-~~#=~~~~~.o| ",
+        "        |o-~~#=~~~~~.o| ",
+        "        |o-~~#=~~~~~.o| ",
+        "        |o-~~#=~~~~~.o| ",
+        "        |o-~~#=~~~~~.o| ",
+        "        |o-~~#=~~~==.o| ",
+        "        |o-~~#=~~~=p.o| ",
+        "        |o-~~#=~~~=..o| ",
+        "        |o-~~#=~~~=p.o| ",
+        "        |o-~~#=~~~==.o| ",
+        "        |o-~~#=~~~~~.o| ",
+        "        |o-~~#=~~~~~.o| ",
+        "        |o-~~#=~~~~~.o| ",
+        "        |o-~~#=~~~~~.o| ",
+        "        |o-~~#=~~~~~.o| ",
+        "        |o-~~#=~~~~~.o| ",
+        "        |o-~~-.......o| ",
+        "        |o-~~-oooooooo| ",
+        "        |o-~~-o|||||||| ",
+        "        |o-~~-o|        "
+      ],
+      "palettes": [ "sewers" ],
+      "place_nested": [
+        { "chunks": [ [ "sewer_blockage_4x4", 1 ], [ "null", 6 ] ], "x": 10, "y": [ 0, 20 ] },
+        { "chunks": [ [ "sewer_pump_10x10_L", 1 ], [ "null", 3 ] ], "x": 1, "y": [ 0, 14 ] },
+        { "chunks": [ "sewer_bridge_4x4" ], "x": 10, "y": [ 0, 20 ] },
+        { "chunks": [ "ladder_1x1" ], "x": 19, "y": 11, "neighbors": { "above": [ "road_nesw_manhole" ] } }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "sewer_straight" ],
+    "weight": 20000,
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "        |o-~~-o|        ",
+        "  |||||||o-~~-o|        ",
+        "  |ooooooo-~~-o|        ",
+        "  |o|||||o-~~-o|        ",
+        "  |o|   |o-~~-o|        ",
+        "  |o|||||o-~~-o|        ",
+        "  |ooooooo-~~-o|        ",
+        "  |o|||||o-~~-o|        ",
+        "  |o|   |o-~~-o|        ",
+        "  |o|||||o-~~-o|        ",
+        "  |ooooooo-~~-o|        ",
+        "  |o|||||o-~~-o|        ",
+        "  |o|   |o-~~-o|        ",
+        "  |o|||||o-~~-o|        ",
+        "  |ooooooo-~~-o|        ",
+        "  |.p.p.p.-~~-o|        ",
+        "  |.......=~~-o|        ",
+        "  |IIDII..=~~-o|        ",
+        "  |Ir.rI..=~~-o|        ",
+        "  |Ir.rI..=~~-o|        ",
+        "  |Ir..D..=~~-o|        ",
+        "  |IrrrI..=~~-o|        ",
+        "  |IIIII..-~~-o|        ",
+        "  |||||||o-~~-o|        "
+      ],
+      "palettes": [ "sewers" ],
+      "place_loot": [ { "item": "stepladder", "x": [ 3, 7 ], "y": 16, "chance": 50 } ],
+      "place_nested": [
+        { "chunks": [ [ "sewer_blockage_4x4", 1 ], [ "null", 6 ] ], "x": 10, "y": [ 0, 20 ] },
+        { "chunks": [ [ "sewer_pump_10x10_R", 1 ], [ "null", 3 ] ], "x": 13, "y": [ 0, 14 ] },
+        { "chunks": [ "sewer_bridge_4x4" ], "x": 10, "y": [ 0, 20 ] },
+        { "chunks": [ "ladder_1x1" ], "x": 11, "y": 11, "neighbors": { "above": [ "road_nesw_manhole" ] } }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "sewer_straight" ],
+    "weight": 80000,
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        " ||||||||o-~~-o|        ",
+        " |oooooooo-~~-o|        ",
+        " |o.......-~~-o|        ",
+        " |o.~~~~~=#~~-o|        ",
+        " |o.~~~~~=#~~-o|        ",
+        " |o.~~~~~=#~~-o|        ",
+        " |o.~~~~~=#~~-o|        ",
+        " |o.~~~~~=#~~-o|        ",
+        " |o.~~~~~=#~~-o|        ",
+        " |o.==~~~=#~~-o|        ",
+        " |o.p=~~~=#~~-o|        ",
+        " |o..=~~~=#~~-o|        ",
+        " |o.p=~~~=#~~-o|        ",
+        " |o.==~~~=#~~-o|        ",
+        " |o.~~~~~=#~~-o|        ",
+        " |o.~~~~~=#~~-o|        ",
+        " |o.~~~~~=#~~-o|        ",
+        " |o.~~~~~=#~~-o|        ",
+        " |o.~~~~~=#~~-o|        ",
+        " |o.~~~~~=#~~-o|        ",
+        " |o.......-~~-o|        ",
+        " |oooooooo-~~-o|        ",
+        " ||||||||o-~~-o|        ",
+        "        |o-~~-o|        "
+      ],
+      "palettes": [ "sewers" ],
+      "place_nested": [
+        { "chunks": [ [ "sewer_blockage_4x4", 1 ], [ "null", 6 ] ], "x": 10, "y": [ 0, 20 ] },
+        { "chunks": [ [ "sewer_pump_10x10_R", 1 ], [ "null", 3 ] ], "x": 13, "y": [ 0, 14 ] },
+        { "chunks": [ "sewer_bridge_4x4" ], "x": 10, "y": [ 0, 20 ] },
+        { "chunks": [ "ladder_1x1" ], "x": 4, "y": 11, "neighbors": { "above": [ "road_nesw_manhole" ] } }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "sewer_end" ],
+    "weight": 1000000,
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "                        ",
+        "                        ",
+        "        ||||||||        ",
+        "        |oooooo|        ",
+        "        |o----o|        ",
+        "        |o-__-o|        ",
+        "        |o-__-o|        ",
+        "        |o-__-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        "
+      ],
+      "palettes": [ "sewers" ],
+      "place_nested": [
+        { "chunks": [ [ "sewer_blockage_4x4", 1 ], [ "null", 6 ] ], "x": 10, "y": [ 8, 20 ] },
+        { "chunks": [ [ "sewer_pump_10x10_L", 1 ], [ "null", 7 ] ], "x": 1, "y": [ 5, 14 ] },
+        { "chunks": [ [ "sewer_pump_10x10_R", 1 ], [ "null", 7 ] ], "x": 13, "y": [ 5, 14 ] },
+        { "chunks": [ "ladder_1x1" ], "x": 11, "y": 11, "neighbors": { "above": [ "road_nesw_manhole" ] } }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "sewer_end" ],
+    "weight": 100000,
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "                        ",
+        "             / |        ",
+        "          //  /|        ",
+        "        |  ///          ",
+        "         //// /|        ",
+        "        |//////|        ",
+        "        |/-__//|        ",
+        "        |/-__-/|        ",
+        "        |o-__-/|        ",
+        "        |o-__-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        "
+      ],
+      "palettes": [ "sewers" ],
+      "place_nested": [
+        { "chunks": [ [ "sewer_blockage_4x4", 1 ], [ "null", 6 ] ], "x": 10, "y": [ 10, 20 ] },
+        { "chunks": [ [ "sewer_pump_10x10_L", 1 ], [ "null", 7 ] ], "x": 1, "y": [ 5, 14 ] },
+        { "chunks": [ [ "sewer_pump_10x10_R", 1 ], [ "null", 7 ] ], "x": 13, "y": [ 5, 14 ] },
+        { "chunks": [ "ladder_1x1" ], "x": 11, "y": 11, "neighbors": { "above": [ "road_nesw_manhole" ] } }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "sewer_curved" ],
+    "weight": 1000000,
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                ||||||||",
+        "               ||ooooooo",
+        "              ||oo------",
+        "             ||oo--~~~~~",
+        "            ||oo--~~~~~~",
+        "           ||oo--~~~~---",
+        "          ||oo--~~~~--oo",
+        "         ||oo--~~~~--oo|",
+        "        ||oo--~~~~--oo||",
+        "        |oo--~~~~--oo|| ",
+        "        |o--~~~~--oo||  ",
+        "        |o-~~~~--oo||   ",
+        "        |o-~~~--oo||    ",
+        "        |o-~~--oo||     ",
+        "        |o-~~-oo||      ",
+        "        |o-~~-o||       "
+      ],
+      "palettes": [ "sewers" ],
+      "place_nested": [ { "chunks": [ "ladder_1x1" ], "x": 15, "y": 15, "neighbors": { "above": [ "road_nesw_manhole" ] } } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "sewer_tee" ],
+    "weight": 750000,
+    "object": {
+      "rotation": [ 1, 1 ],
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|||||||||",
+        "        |o-==-oooooooooo",
+        "        |o-##-----------",
+        "        |o-~~#=~~~~~~~~~",
+        "        |o-~~#=~~~~~~~~~",
+        "        |o-~~-----------",
+        "        |o-~~-oooooooooo",
+        "        |o-~~-o|||||||||",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        "
+      ],
+      "palettes": [ "sewers" ],
+      "place_nested": [
+        { "chunks": [ [ "sewer_blockage_4x4", 1 ], [ "null", 12 ] ], "x": 10, "y": [ 0, 9 ] },
+        { "chunks": [ [ "sewer_blockage_4x4", 1 ], [ "null", 12 ] ], "x": 10, "y": [ 15, 20 ] },
+        { "chunks": [ [ "sewer_pump_10x10_L", 1 ], [ "null", 7 ] ], "x": 1, "y": [ 8, 14 ] },
+        { "chunks": [ "ladder_1x1" ], "x": 12, "y": 11, "neighbors": { "above": [ "road_nesw_manhole" ] } }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "sewer_tee" ],
+    "weight": 250000,
+    "object": {
+      "rotation": [ 1, 1 ],
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|||||||||",
+        "        |o-==-oooooooooo",
+        "        |o-##-----------",
+        "        |o-~~#=~~~~~~~~~",
+        "        |o-~~#=~~~~~~~~~",
+        "        |o-~~-----------",
+        "        |o-~~-oooooooooo",
+        "        |o-~~-o|||||||||",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        "
+      ],
+      "palettes": [ "sewers" ],
+      "place_nested": [
+        { "chunks": [ [ "sewer_blockage_4x4", 1 ], [ "null", 12 ] ], "x": 10, "y": [ 0, 9 ] },
+        { "chunks": [ [ "sewer_blockage_4x4", 1 ], [ "null", 12 ] ], "x": 10, "y": [ 15, 20 ] },
+        { "chunks": [ [ "sewer_maint_10x10_L", 1 ], [ "null", 7 ] ], "x": 1, "y": [ 8, 14 ] },
+        { "chunks": [ "ladder_1x1" ], "x": 12, "y": 11, "neighbors": { "above": [ "road_nesw_manhole" ] } }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "sewer_tee" ],
+    "weight": 500000,
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "    ||||||||||||||||    ",
+        "   ||oooooooooooooo||   ",
+        "   |op------------po|   ",
+        "   |o--~~~~~~~~~~--o|   ",
+        "   |o-~~~~~~~~~~~~-o|   ",
+        "||||o-~~~~~~~~~~~~-o||||",
+        "ooooo-~~~~----~~~~-ooooo",
+        "------~~~--||--~~~------",
+        "~~~~=#~~~-||||-~~~#=~~~~",
+        "~~~~=#~~~-||||-~~~#=~~~~",
+        "------~~~--||--~~~------",
+        "ooooo-~~~~----~~~~-ooooo",
+        "||||o-~~~~~~~~~~~~-o||||",
+        "   |o-~~~~~~~~~~~~-o|   ",
+        "   |o--~~~~~~~~~~--o|   ",
+        "   |op-----##-----po|   ",
+        "   ||ooooo-==-ooooo||   ",
+        "    |||||o-~~-o|||||    ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        "
+      ],
+      "palettes": [ "sewers" ],
+      "place_nested": [ { "chunks": [ "ladder_1x1" ], "x": 11, "y": 17, "neighbors": { "above": [ "road_nesw_manhole" ] } } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "sewer_tee" ],
+    "weight": 500000,
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "   ||||||||||||||||||   ",
+        "   |~~~~~~~~~~~~~~~~|   ",
+        "   |~~~~~~~~~~~~~~~~|   ",
+        "   |~~~||~~||~~||~~~|   ",
+        "   |~~-||oo||oo||~~~|   ",
+        "||||p~---------+~~~~||||",
+        "ooooo~~~~~~~-~~+~~~poooo",
+        "-----~~~~~----~+~~~-----",
+        "~~~=#~~||~-||-~||~~#=~~~",
+        "~~~=#~~||~-||-~||~~#=~~~",
+        "-----~~~~~--o-~+~~~-----",
+        "oooo-~~~~~~-o-~+~~~-oooo",
+        "|||o-##-----o--+~~~-o|||",
+        "  |o-==||oo||oo||~~-o|  ",
+        "  |o-~~||~~||~~||~~-o|  ",
+        "  |o-~~~~~~~~~~~~~~-o|  ",
+        "  |o-------##-------o|  ",
+        "  |ooooooo-==-ooooooo|  ",
+        "  |||||||o-~~-o|||||||  ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        "
+      ],
+      "palettes": [ "sewers" ],
+      "place_nested": [ { "chunks": [ "ladder_1x1" ], "x": 11, "y": 9, "neighbors": { "above": [ "road_nesw_manhole" ] } } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "sewer_four_way" ],
+    "weight": 1000000,
+    "object": {
+      "rotation": [ 0, 3 ],
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "|||||||||o-~~-o|||||||||",
+        "oooooooooo-==-oooooooooo",
+        "-----------##-----------",
+        "~~~~~~~~~~~~~#=~~~~~~~~~",
+        "~~~~~~~~~~~~~#=~~~~~~~~~",
+        "-----------##-----------",
+        "oooooooooo-==-oooooooooo",
+        "|||||||||o-~~-o|||||||||",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        ",
+        "        |o-~~-o|        "
+      ],
+      "palettes": [ "sewers" ],
+      "place_nested": [
+        { "chunks": [ [ "sewer_blockage_4x4", 1 ], [ "null", 12 ] ], "x": 10, "y": [ 0, 6 ] },
+        { "chunks": [ [ "sewer_blockage_4x4", 1 ], [ "null", 12 ] ], "x": 10, "y": [ 14, 20 ] },
+        { "chunks": [ "ladder_1x1" ], "x": 12, "y": 12, "neighbors": { "above": [ "road_nesw_manhole" ] } }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "sewer_four_way" ],
+    "weight": 1000000,
+    "object": {
+      "rotation": [ 0, 3 ],
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "        |o-~~-o|        ",
+        "  |||||||o-~~-o|||||||  ",
+        " ||ooooooo-~~-ooooooo|| ",
+        " |oo------####-p--p-oo| ",
+        " |o-------####-------o| ",
+        " |op--~~~~=##=~~~~---o| ",
+        " |o--~~~~~=##=~~~~~--o| ",
+        " |o--~~~~~=##=~~~~~--o| ",
+        "||op-~~~~------~~~~--o||",
+        "ooo--~~~--------~~~--ooo",
+        "---##~~~--||||--~~~##---",
+        "~~~##~~~--|  |--~~~##~~~",
+        "~~~##~~~--|  |--~~~##~~~",
+        "---##~~~--||||--~~~##---",
+        "ooo--~~~--------~~~--ooo",
+        "||o--~~~~------~~~~-po||",
+        " |o--~~~~~=##=~~~~~--o| ",
+        " |o--~~~~~=##=~~~~~--o| ",
+        " |o---~~~~=##=~~~~--po| ",
+        " |o-------####-------o| ",
+        " |oo-p--p-####------oo| ",
+        " ||ooooooo-~~-ooooooo|| ",
+        "  |||||||o-~~-o|||||||  ",
+        "        |o-~~-o|        "
+      ],
+      "palettes": [ "sewers" ],
+      "place_nested": [ { "chunks": [ "ladder_1x1" ], "x": 11, "y": 16, "neighbors": { "above": [ "road_nesw_manhole" ] } } ]
+    }
+  }
+]

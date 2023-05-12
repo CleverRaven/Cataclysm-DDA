@@ -17,7 +17,7 @@ generic_factory<ammo_effect> &get_all_ammo_effects();
 
 struct ammo_effect {
     public:
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
         void finalize();
         void check() const;
 

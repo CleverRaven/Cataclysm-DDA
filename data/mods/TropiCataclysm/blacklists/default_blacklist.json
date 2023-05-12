@@ -22,10 +22,7 @@
       "mon_lemming",
       "mon_moose",
       "mon_muskrat",
-      "mon_nakedmolerat_giant",
       "mon_wolf",
-      "mon_reindeer",
-      "mon_reindeer_fawn",
       "mon_bear_mutant_3headed",
       "mon_beaver_mutant_huge",
       "mon_beaver_mutant_avian",
@@ -42,8 +39,7 @@
       "mon_zombear",
       "mon_zombie_pig",
       "mon_zombeaver",
-      "mon_zoose",
-      "mon_zeindeer"
+      "mon_zoose"
     ]
   }
 ]

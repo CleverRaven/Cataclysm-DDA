@@ -13,7 +13,9 @@
 #include "units.h"
 
 static const itype_id itype_crowbar_pocket_test( "crowbar_pocket_test" );
+static const itype_id itype_jar_glass_sealed( "jar_glass_sealed" );
 static const itype_id itype_log( "log" );
+static const itype_id itype_pickle( "pickle" );
 static const itype_id itype_purse( "purse" );
 
 TEST_CASE( "item_contents" )
@@ -112,4 +114,30 @@ TEST_CASE( "overflow test", "[item]" )
     here.i_clear( origin );
     purse.overflow( origin );
     CHECK( here.i_at( origin ).size() == 1 );
+}
+
+TEST_CASE( "overflow test into parent item", "[item]" )
+{
+    clear_map();
+    tripoint origin{ 60, 60, 0 };
+    item jar( itype_jar_glass_sealed );
+    item pickle( itype_pickle );
+    pickle.force_insert_item( pickle, item_pocket::pocket_type::MIGRATION );
+    jar.put_in( pickle, item_pocket::pocket_type::CONTAINER );
+    int contents_pre = 0;
+    for( item *it : jar.all_items_top() ) {
+        contents_pre += it->count();
+    }
+    REQUIRE( contents_pre == 1 );
+
+    item_location jar_loc( map_cursor( origin ), &jar );
+    jar_loc.overflow();
+    map &here = get_map();
+    CHECK( here.i_at( origin ).empty() );
+
+    int contents_count = 0;
+    for( item *it : jar.all_items_top() ) {
+        contents_count += it->count();
+    }
+    CHECK( contents_count == 2 );
 }

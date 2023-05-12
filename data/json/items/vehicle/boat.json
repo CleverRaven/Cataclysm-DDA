@@ -11,9 +11,9 @@
     "material": [ "wood" ],
     "weight": "3000 g",
     "volume": "12500 ml",
-    "bashing": 8,
     "to_hit": -1,
-    "category": "veh_parts"
+    "category": "veh_parts",
+    "melee_damage": { "bash": 8 }
   },
   {
     "type": "GENERIC",
@@ -27,9 +27,9 @@
     "material": [ "wood" ],
     "weight": "6000 g",
     "volume": "12500 ml",
-    "bashing": 8,
     "to_hit": -3,
-    "category": "veh_parts"
+    "category": "veh_parts",
+    "melee_damage": { "bash": 8 }
   },
   {
     "type": "GENERIC",
@@ -43,9 +43,9 @@
     "material": [ "plastic" ],
     "weight": "1500 g",
     "volume": "12500 ml",
-    "bashing": 8,
     "to_hit": -1,
-    "category": "veh_parts"
+    "category": "veh_parts",
+    "melee_damage": { "bash": 8 }
   },
   {
     "type": "GENERIC",
@@ -59,9 +59,9 @@
     "material": [ "kevlar_rigid" ],
     "weight": "500 g",
     "volume": "12500 ml",
-    "bashing": 8,
     "to_hit": -1,
-    "category": "veh_parts"
+    "category": "veh_parts",
+    "melee_damage": { "bash": 8 }
   },
   {
     "type": "GENERIC",
@@ -73,10 +73,10 @@
     "symbol": ":",
     "material": [ "wood" ],
     "volume": "16 L",
-    "bashing": 18,
     "category": "veh_parts",
     "price": 9000,
-    "price_postapoc": 100
+    "price_postapoc": 100,
+    "melee_damage": { "bash": 18 }
   },
   {
     "type": "GENERIC",
@@ -89,10 +89,10 @@
     "symbol": ":",
     "material": [ "wood", "cotton" ],
     "volume": "7500 ml",
-    "bashing": 4,
     "category": "veh_parts",
     "price": 9000,
-    "price_postapoc": 1250
+    "price_postapoc": 1250,
+    "melee_damage": { "bash": 4 }
   },
   {
     "type": "GENERIC",
@@ -106,9 +106,9 @@
     "material": [ "plastic" ],
     "weight": "3000 g",
     "volume": "12500 ml",
-    "bashing": 8,
     "to_hit": -1,
-    "category": "veh_parts"
+    "category": "veh_parts",
+    "melee_damage": { "bash": 8 }
   },
   {
     "type": "GENERIC",
@@ -122,9 +122,9 @@
     "material": [ "plastic" ],
     "weight": "3000 g",
     "volume": "12500 ml",
-    "bashing": 8,
     "to_hit": -1,
-    "category": "veh_parts"
+    "category": "veh_parts",
+    "melee_damage": { "bash": 8 }
   },
   {
     "type": "GENERIC",
@@ -138,8 +138,8 @@
     "material": [ "aluminum" ],
     "weight": "2250 g",
     "volume": "12500 ml",
-    "bashing": 8,
     "to_hit": -1,
-    "category": "veh_parts"
+    "category": "veh_parts",
+    "melee_damage": { "bash": 8 }
   }
 ]

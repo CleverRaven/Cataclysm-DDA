@@ -1482,25 +1482,6 @@
     "difficulty": 6
   },
   {
-    "id": "nested_gambeson_sleeves",
-    "type": "nested_category",
-    "activity_level": "MODERATE_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_ARMS",
-    "name": "gambeson sleeves",
-    "description": "Recipes related to constructing gambeson sleeves in various sizes.",
-    "skill_used": "fabrication",
-    "nested_category_data": [
-      "gambeson_sleeve",
-      "xl_gambeson_sleeve",
-      "xs_gambeson_sleeve",
-      "k_gambeson_sleeve",
-      "xl_k_gambeson_sleeve",
-      "xs_k_gambeson_sleeve"
-    ],
-    "difficulty": 1
-  },
-  {
     "id": "nested_lc_chainmail_hauberk",
     "type": "nested_category",
     "activity_level": "MODERATE_EXERCISE",
@@ -2385,7 +2366,8 @@
       "flour_wheat_free",
       "flour_wheat_free_with_from_food_processor",
       "flour_wheat_free_mortar",
-      "bread_flour"
+      "bread_flour",
+      "bread_flour_with_from_food_processor"
     ],
     "difficulty": 2
   },
@@ -2878,22 +2860,10 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "name": "full gambesons",
+    "name": "full padded gambesons",
     "description": "Recipes related to constructing gambesons that cover the torso and arms.",
     "skill_used": "fabrication",
     "nested_category_data": [ "gambeson", "gambeson_xs", "xl_gambeson" ],
-    "difficulty": 1
-  },
-  {
-    "id": "nested_kevlar_gambeson_full",
-    "type": "nested_category",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "name": "full kevlar gambesons",
-    "description": "Recipes related to constructing gambesons that cover the torso and arms, these ones are more relevant in a world with lead projectiles.",
-    "skill_used": "fabrication",
-    "nested_category_data": [ "k_gambeson", "k_gambeson_xs", "xl_k_gambeson" ],
     "difficulty": 1
   },
   {
@@ -2903,35 +2873,9 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "gambeson vests",
-    "description": "Recipes related to constructing gambesons that cover the torso.",
+    "description": "Recipes related to constructing padded gambesons without sleeves.",
     "skill_used": "fabrication",
-    "nested_category_data": [
-      "gambeson_vest",
-      "gambeson_vest_cutting",
-      "gambeson_vest_xs",
-      "gambeson_vest_xs_cutting",
-      "xl_gambeson_vest",
-      "xl_gambeson_vest_cutting"
-    ],
-    "difficulty": 1
-  },
-  {
-    "id": "nested_kevlar_gambeson_vest",
-    "type": "nested_category",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "name": "kevlar gambeson vests",
-    "description": "Recipes related to constructing kevlar gambesons that cover the torso.",
-    "skill_used": "fabrication",
-    "nested_category_data": [
-      "k_gambeson_vest",
-      "k_gambeson_vest_cutting",
-      "k_gambeson_vest_xs",
-      "k_gambeson_vest_xs_cutting",
-      "xl_k_gambeson_vest",
-      "xl_k_gambeson_vest_cutting"
-    ],
+    "nested_category_data": [ "gambeson_vest", "gambeson_vest_xs", "xl_gambeson_vest" ],
     "difficulty": 1
   },
   {
@@ -2940,10 +2884,10 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_TORSO",
-    "name": "gambesons",
-    "description": "Recipes related to constructing a variety of gambesons.",
+    "name": "padded gambesons",
+    "description": "Recipes related to constructing padded gambesons.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "nested_gambeson_full", "nested_kevlar_gambeson_full", "nested_gambeson_vest", "nested_kevlar_gambeson_vest" ],
+    "nested_category_data": [ "nested_gambeson_full", "nested_gambeson_vest" ],
     "difficulty": 1
   },
   {
@@ -2952,10 +2896,10 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
-    "name": "arming pants",
-    "description": "Recipes related to constructing a variety of arming pants.",
+    "name": "padded arming pants",
+    "description": "Recipes related to constructing padded arming pants.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "gambeson_pants", "xl_gambeson_pants", "k_gambeson_pants", "xl_k_gambeson_pants" ],
+    "nested_category_data": [ "gambeson_pants", "xl_gambeson_pants", "gambeson_pants_xs" ],
     "difficulty": 1
   },
   {
@@ -2964,17 +2908,10 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_HEAD",
-    "name": "gambeson hoods",
-    "description": "Recipes related to constructing a variety of gambeson hoods.",
+    "name": "padded gambeson hoods",
+    "description": "Recipes related to constructing padded gambeson hoods.",
     "skill_used": "fabrication",
-    "nested_category_data": [
-      "gambeson_hood",
-      "xl_gambeson_hood",
-      "xs_gambeson_hood",
-      "k_gambeson_hood",
-      "xl_k_gambeson_hood",
-      "xs_k_gambeson_hood"
-    ],
+    "nested_category_data": [ "gambeson_hood", "xl_gambeson_hood", "xs_gambeson_hood" ],
     "difficulty": 1
   },
   {
@@ -3573,6 +3510,7 @@
       "bundle_cotton",
       "bundle_leather",
       "bundle_wool",
+      "bundle_nylon",
       "bundle_plank",
       "bundle_rebar",
       "bundle_pipe",
@@ -4272,6 +4210,272 @@
     "description": "Recipes related to creating scrap aluminum.",
     "skill_used": "fabrication",
     "nested_category_data": [ "scrap_aluminum_melted_foil", "scrap_aluminum_assorted_scrap" ]
+  },
+  {
+    "id": "nested_aketon_canvas",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "name": "canvas aketons",
+    "description": "Recipes related to canvas cloth armor meant to be worn under other armor.",
+    "skill_used": "tailor",
+    "nested_category_data": [
+      "aketon_canvas",
+      "xl_aketon_canvas",
+      "xs_aketon_canvas",
+      "aketon_canvas_vest",
+      "xl_aketon_canvas_vest",
+      "xs_aketon_canvas_vest"
+    ],
+    "difficulty": 3
+  },
+  {
+    "id": "nested_gambeson_canvas",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "name": "canvas gambesons",
+    "description": "Recipes related to thicker canvas cloth armor meant to be worn standalone.",
+    "skill_used": "tailor",
+    "nested_category_data": [
+      "gambeson_canvas",
+      "xl_gambeson_canvas",
+      "xs_gambeson_canvas",
+      "gambeson_canvas_thinsleeved",
+      "xl_gambeson_canvas_thinsleeved",
+      "xs_gambeson_canvas_thinsleeved",
+      "gambeson_canvas_vest",
+      "xl_gambeson_canvas_vest",
+      "xs_gambeson_canvas_vest"
+    ],
+    "difficulty": 3
+  },
+  {
+    "id": "nested_armingpants_canvas",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "name": "canvas arming pants",
+    "description": "Recipes related to armored cloth pants made of canvas.",
+    "skill_used": "tailor",
+    "nested_category_data": [
+      "aketon_pants_canvas",
+      "xl_aketon_pants_canvas",
+      "xs_aketon_pants_canvas",
+      "gambeson_pants_canvas",
+      "xl_gambeson_pants_canvas",
+      "xs_gambeson_pants_canvas"
+    ],
+    "difficulty": 3
+  },
+  {
+    "id": "nested_arminggloves_canvas",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HANDS",
+    "name": "canvas arming gloves",
+    "description": "Recipes related to armored cloth gloves made of canvas.",
+    "skill_used": "tailor",
+    "nested_category_data": [
+      "aketon_gloves_canvas",
+      "xl_aketon_gloves_canvas",
+      "xs_aketon_gloves_canvas",
+      "gambeson_gloves_canvas",
+      "xl_gambeson_gloves_canvas",
+      "xs_gambeson_gloves_canvas"
+    ],
+    "difficulty": 3
+  },
+  {
+    "id": "nested_hoods_canvas",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "name": "canvas coifs",
+    "description": "Recipes related to armored cloth hoods made of canvas.",
+    "skill_used": "tailor",
+    "nested_category_data": [ "aketon_hood_canvas", "xl_aketon_hood_canvas", "xs_aketon_hood_canvas" ],
+    "difficulty": 3
+  },
+  {
+    "id": "nested_aketon_nylon",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "name": "nylon aketons",
+    "description": "Recipes related to synthetic fabric armor meant to be worn under other armor.",
+    "skill_used": "tailor",
+    "nested_category_data": [
+      "aketon_nylon",
+      "xl_aketon_nylon",
+      "xs_aketon_nylon",
+      "aketon_nylon_vest",
+      "xl_aketon_nylon_vest",
+      "xs_aketon_nylon_vest"
+    ],
+    "difficulty": 3
+  },
+  {
+    "id": "nested_gambeson_nylon",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "name": "nylon gambesons",
+    "description": "Recipes related to thicker synthetic fabric armor meant to be worn standalone.",
+    "skill_used": "tailor",
+    "nested_category_data": [
+      "gambeson_nylon",
+      "xl_gambeson_nylon",
+      "xs_gambeson_nylon",
+      "gambeson_nylon_thinsleeved",
+      "xl_gambeson_nylon_thinsleeved",
+      "xs_gambeson_nylon_thinsleeved",
+      "gambeson_nylon_vest",
+      "xl_gambeson_nylon_vest",
+      "xs_gambeson_nylon_vest"
+    ],
+    "difficulty": 3
+  },
+  {
+    "id": "nested_armingpants_nylon",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "name": "nylon arming pants",
+    "description": "Recipes related to armored cloth pants made of synthetic fabric.",
+    "skill_used": "tailor",
+    "nested_category_data": [
+      "aketon_pants_nylon",
+      "xl_aketon_pants_nylon",
+      "xs_aketon_pants_nylon",
+      "gambeson_pants_nylon",
+      "xl_gambeson_pants_nylon",
+      "xs_gambeson_pants_nylon"
+    ],
+    "difficulty": 3
+  },
+  {
+    "id": "nested_arminggloves_nylon",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HANDS",
+    "name": "nylon arming gloves",
+    "description": "Recipes related to armored cloth gloves made of synthetic fabric.",
+    "skill_used": "tailor",
+    "nested_category_data": [
+      "aketon_gloves_nylon",
+      "xl_aketon_gloves_nylon",
+      "xs_aketon_gloves_nylon",
+      "gambeson_gloves_nylon",
+      "xl_gambeson_gloves_nylon",
+      "xs_gambeson_gloves_nylon"
+    ],
+    "difficulty": 3
+  },
+  {
+    "id": "nested_hoods_nylon",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "name": "nylon coifs",
+    "description": "Recipes related to armored cloth hoods made of synthetic fabric.",
+    "skill_used": "tailor",
+    "nested_category_data": [ "aketon_hood_nylon", "xl_aketon_hood_nylon", "xs_aketon_hood_nylon" ],
+    "difficulty": 3
+  },
+  {
+    "id": "nested_aketon_wool",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "name": "wool aketons",
+    "description": "Recipes related to wool armor meant to be worn under other armor.",
+    "skill_used": "tailor",
+    "nested_category_data": [ "aketon_wool", "xl_aketon_wool", "xs_aketon_wool", "aketon_wool_vest", "xl_aketon_wool_vest", "xs_aketon_wool_vest" ],
+    "difficulty": 3
+  },
+  {
+    "id": "nested_gambeson_wool",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "name": "wool gambesons",
+    "description": "Recipes related to thicker wool armor meant to be worn standalone.",
+    "skill_used": "tailor",
+    "nested_category_data": [
+      "gambeson_wool",
+      "xl_gambeson_wool",
+      "xs_gambeson_wool",
+      "gambeson_wool_thinsleeved",
+      "xl_gambeson_wool_thinsleeved",
+      "xs_gambeson_wool_thinsleeved",
+      "gambeson_wool_vest",
+      "xl_gambeson_wool_vest",
+      "xs_gambeson_wool_vest"
+    ],
+    "difficulty": 3
+  },
+  {
+    "id": "nested_armingpants_wool",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "name": "wool arming pants",
+    "description": "Recipes related to armored cloth pants made of wool.",
+    "skill_used": "tailor",
+    "nested_category_data": [
+      "aketon_pants_wool",
+      "xl_aketon_pants_wool",
+      "xs_aketon_pants_wool",
+      "gambeson_pants_wool",
+      "xl_gambeson_pants_wool",
+      "xs_gambeson_pants_wool"
+    ],
+    "difficulty": 3
+  },
+  {
+    "id": "nested_arminggloves_wool",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HANDS",
+    "name": "wool arming gloves",
+    "description": "Recipes related to armored cloth gloves made of wool.",
+    "skill_used": "tailor",
+    "nested_category_data": [
+      "aketon_gloves_wool",
+      "xl_aketon_gloves_wool",
+      "xs_aketon_gloves_wool",
+      "gambeson_gloves_wool",
+      "xl_gambeson_gloves_wool",
+      "xs_gambeson_gloves_wool"
+    ],
+    "difficulty": 3
+  },
+  {
+    "id": "nested_hoods_wool",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "name": "wool coifs",
+    "description": "Recipes related to armored cloth hoods made of wool.",
+    "skill_used": "tailor",
+    "nested_category_data": [ "aketon_hood_wool", "xl_aketon_hood_wool", "xs_aketon_hood_wool" ],
+    "difficulty": 3
   },
   {
     "id": "nested_pemmican",

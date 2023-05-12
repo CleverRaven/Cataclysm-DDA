@@ -20,6 +20,7 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
+#include "character_martial_arts.h"
 #include "colony.h"
 #include "color.h"
 #include "coordinates.h"
@@ -1060,33 +1061,47 @@ void spell_effect::directed_push( const spell &sp, Creature &caster, const tripo
 
 void spell_effect::spawn_ethereal_item( const spell &sp, Creature &caster, const tripoint & )
 {
-    item granted( sp.effect_data(), calendar::turn );
-    // Comestibles are never ethereal. Other spawned items are ethereal unless permanent and max level.
-    if( !granted.is_comestible() && !( sp.has_flag( spell_flag::PERMANENT ) &&
-                                       sp.is_max_level( caster ) ) &&
-        !sp.has_flag( spell_flag::PERMANENT_ALL_LEVELS ) ) {
-        granted.set_var( "ethereal", to_turns<int>( sp.duration_turns( caster ) ) );
-        granted.ethereal = true;
+    if( !caster.is_avatar() ) {
+        debugmsg( "Spells that spawn items are only supported for the avatar, not for %s.",
+                  caster.disp_name() );
+        return;
     }
-    if( granted.count_by_charges() && sp.damage( caster ) > 0 ) {
-        granted.charges = sp.damage( caster );
+
+    std::vector<item> granted;
+
+    int count = std::max( 1, sp.damage( caster ) );
+    for( int i = 0; i < count; i++ ) {
+        if( sp.has_flag( spell_flag::SPAWN_GROUP ) ) {
+            std::vector<item> group_items = item_group::items_from( item_group_id( sp.effect_data() ),
+                                            calendar::turn );
+            granted.insert( granted.end(), group_items.begin(), group_items.end() );
+        } else {
+            granted.emplace_back( sp.effect_data(), calendar::turn );
+        }
     }
-    if( sp.has_flag( spell_flag::WITH_CONTAINER ) ) {
-        granted = granted.in_its_container();
-    }
+
     avatar &player_character = get_avatar();
-    if( player_character.can_wear( granted ).success() ) {
-        granted.set_flag( json_flag_FIT );
-        player_character.wear_item( granted, false );
-    } else if( !player_character.has_wield_conflicts( granted ) &&
-               player_character.wield( granted, 0 ) ) {
-        // nothing to do
-    } else {
-        player_character.i_add( granted );
-    }
-    if( !granted.count_by_charges() ) {
-        for( int i = 1; i < sp.damage( caster ); i++ ) {
-            player_character.i_add( granted );
+    for( item &it : granted ) {
+        // Spawned items are ethereal unless permanent and max level. Comestibles are never ethereal.
+        if( !it.is_comestible() && !sp.has_flag( spell_flag::PERMANENT_ALL_LEVELS ) &&
+            !( sp.has_flag( spell_flag::PERMANENT ) && sp.is_max_level( caster ) ) ) {
+            it.set_var( "ethereal", to_turns<int>( sp.duration_turns( caster ) ) );
+            it.ethereal = true;
+        }
+
+        if( it.ethereal && player_character.is_wearing( it.typeId() ) ) {
+            // Ethereal equipment already exists so just update its duration
+            item *existing_item = player_character.item_worn_with_id( it.typeId() );
+            existing_item->set_var( "ethereal", to_turns<int>( sp.duration_turns( caster ) ) );
+        } else if( player_character.can_wear( it ).success() ) {
+            it.set_flag( json_flag_FIT );
+            player_character.wear_item( it, false );
+        } else if( !player_character.has_wield_conflicts( it ) &&
+                   !player_character.martial_arts_data->keep_hands_free && //No wield if hands free
+                   player_character.wield( it, 0 ) ) {
+            // nothing to do
+        } else {
+            player_character.i_add( it );
         }
     }
     sp.make_sound( caster.pos(), caster );

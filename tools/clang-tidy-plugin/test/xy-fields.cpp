@@ -1,4 +1,4 @@
-// RUN: %check_clang_tidy %s cata-xy %t -- -plugins=%cata_plugin --
+// RUN: %check_clang_tidy %s cata-xy %t -- --load=%cata_plugin --
 
 struct A0 {
     // CHECK-MESSAGES: warning: 'A0' defines fields 'x' and 'y'.  Consider combining into a single point field. [cata-xy]

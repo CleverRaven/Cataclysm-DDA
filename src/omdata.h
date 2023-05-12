@@ -42,10 +42,10 @@ struct mapgen_arguments;
 struct oter_t;
 struct overmap_location;
 
-static const overmap_land_use_code_id land_use_code_forest( "forest" );
-static const overmap_land_use_code_id land_use_code_wetland( "wetland" );
-static const overmap_land_use_code_id land_use_code_wetland_forest( "wetland_forest" );
-static const overmap_land_use_code_id land_use_code_wetland_saltwater( "wetland_saltwater" );
+inline const overmap_land_use_code_id land_use_code_forest( "forest" );
+inline const overmap_land_use_code_id land_use_code_wetland( "wetland" );
+inline const overmap_land_use_code_id land_use_code_wetland_forest( "wetland_forest" );
+inline const overmap_land_use_code_id land_use_code_wetland_saltwater( "wetland_saltwater" );
 
 /** Direction on the overmap. */
 namespace om_direction
@@ -426,7 +426,7 @@ struct oter_t {
 // OMSPEC_FREQ determines the length of the side of the square in which each
 // overmap special will be placed.  At OMSPEC_FREQ 6, the overmap is divided
 // into 900 squares; lots of space for interesting stuff!
-static constexpr int OMSPEC_FREQ = 15;
+constexpr int OMSPEC_FREQ = 15;
 
 struct overmap_special_spawns : public overmap_spawns {
     numeric_interval<int> radius;
@@ -588,7 +588,7 @@ struct overmap_special_migration {
     public:
         static void load_migrations( const JsonObject &jo, const std::string &src );
         static void reset();
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
         static void check();
         // Check if the given overmap special should be migrated
         static bool migrated( const overmap_special_id &os_id );
