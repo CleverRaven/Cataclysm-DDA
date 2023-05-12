@@ -1082,6 +1082,7 @@ Condition | Type | Description
 --- | --- | ---
 `"mod_is_loaded"` | string or [variable object](#variable-object) | `true` if the mod with the given ID is loaded.
 `"get_condition"` | string or [variable object](#variable-object) | Runs the condition stored in the variable `get_condition` for the current dialogue.
+`"get_game_option"` | string or [variable object](#variable-object) | gets the true or false game option for the provided string.
 
 ---
 
@@ -1250,6 +1251,7 @@ Example:
 Mutator Name | Required Keys | Description
 --- | --- | ---
 `"mon_faction"` | `mtype_id`: String or [variable object](#variable-object). | Returns the faction of the monster with mtype_id.
+`"game_option"` | `option`: String or [variable object](#variable-object). | Returns the value of the option as a string, for numerical options you should instead use the math function.
 
 
 ### Compare Numbers and Arithmetics
@@ -1428,10 +1430,10 @@ This section is a work in progress as functions are ported from `arithmetic` to 
 
 | Function | Eval | Assign |Scopes | Description |
 |----------|------|--------|-------|-------------|
+| game_option   |  ✅  |   ❌   | N/A<br/>(global)  | Return the numerical value of a game option<br/> Example:<br/>`"condition": { "math": [ "game_option('NPC_SPAWNTIME')", ">=", "5"] }`|
 | pain     |  ✅  |   ✅   | u, n  | Return or set pain<br/> Example:<br/>`{ "math": [ "n_pain()", "=", "u_pain() + 9000" ] }`|
 | skill    |  ✅  |   ✅   | u, n  | Return or set skill level<br/> Example:<br/>`"condition": { "math": [ "u_skill('driving')", ">=", "5"] }`|
 | weather  |  ✅  |   ✅   | N/A<br/>(global)  | Return or set a weather aspect<br/><br/>Aspect must be one of:<br/>`temperature` (in Kelvin),<br/>`humidity` (as percentage),<br/>`pressure` (in millibar),<br/>`windpower` (in mph).<br/><br/>Temperature conversion functions are available: `celsius()`, `fahrenheit()`, `from_celsius()`, and `from_fahrenheit()`.<br/><br/>Examples:<br/>`{ "math": [ "weather('temperature')", "<", "from_fahrenheit( 33 )" ] }`<br/>`{ "math": [ "fahrenheit( weather('temperature') )", "==", "21" ] }`|
-
 
 ##### u_val shim
 There is a `val()` shim available that can cover the missing arithmetic functions from `u_val` and `npc_val`:
