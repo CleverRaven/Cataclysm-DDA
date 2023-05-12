@@ -73,7 +73,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_VALHALLIST_GODE_Story",
-    "dynamic_line": "Half of us were from the Ag-Sci program at U Amherst, we'd heard some friends talk about a living histroy program the university ran here, a fortress modeled after Viking structures. When things got really hairy we started wandering this direction.  It was a hell of a journey and we lost several of our friends and found some other refugees on the way.  Others have come and gone since then, but we've held out.",
+    "dynamic_line": "Half of us were from the Ag-Sci program at U Amherst, we'd heard some friends talk about a living histroy program the university ran here, a fortress modeled after Viking structures.  When things got really hairy we started wandering this direction.  It was a hell of a journey and we lost several of our friends and found some other refugees on the way.  Others have come and gone since then, but we've held out.",
     "responses": [
       { "text": "Let's not focus on the past too much.", "topic": "TALK_VALHALLIST_GODE_2" },
       { "text": "Any way I could join in?", "topic": "TALK_VALHALLIST_GODE_Join" },
