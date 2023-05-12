@@ -95,7 +95,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_VALHALLIST_LEADER_Fight",
-    "dynamic_line": "You're quite the beligerent type, I take it.  If it were me, I'd keep my head steady and not do anything so rash like you've suggested.",
+    "dynamic_line": "You're quite the belligerent type, I take it.  If it were me, I'd keep my head steady and not do anything so rash like you've suggested.",
     "responses": [
       { "text": "I think you're full of shit <name_b>.  Take this!", "topic": "TALK_DONE", "effect": "hostile" },
       { "text": "You're right, I better not.  Bye.", "topic": "TALK_DONE" }

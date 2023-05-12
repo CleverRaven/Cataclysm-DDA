@@ -144,7 +144,7 @@
     "has_generic_rewards": false,
     "dialogue": {
       "describe": "Kill 1000 zombies for the Valhallists",
-      "offer": "We've had recent success in secuirng ourselves, now I think it's time to take grander strides.  The <zombies> are proving to be an ever-present threat to us, and thinning their numbers would prove handy.  If you so wish, I will provide a handsome reward for you.",
+      "offer": "We've had recent success in securing ourselves, now I think it's time to take grander strides.  The <zombies> are proving to be an ever-present threat to us, and thinning their numbers would prove handy.  If you so wish, I will provide a handsome reward for you.",
       "accepted": "May Thor protect you.",
       "rejected": "If we don't kill them now, they'll only come for us later.  It's better to fight them on our terms.",
       "advice": "Slay a few at a time, and don't let them surround you.",
@@ -428,7 +428,7 @@
       "offer": "We've tracked down a large group of raiders, and our scouts have reported that slaves and prisoners are being held there.  I need you to destroy the camp and free those slaves, then bring them back here.  We'll give them room and board, and see to their wellbeing for the time.",
       "accepted": "Be careful out there.",
       "rejected": "Are you certain?  It'll be worth your while.",
-      "advice": "I'd ambush the camp at night, take them by suprise.  They've got the perimeter trapped with mines and someone's always at the gates, so try going over one of the walls.  Bring some friends along with you too, they're numerous and all armed to the teeth.",
+      "advice": "I'd ambush the camp at night, take them by surprise.  They've got the perimeter trapped with mines and someone's always at the gates, so try going over one of the walls.  Bring some friends along with you too, they're numerous and all armed to the teeth.",
       "inquire": "Where are they?",
       "success": "The world will be a better place without thieves walking its surface, practicing such barbaric things.",
       "success_lie": "I don't see them anywhere.",

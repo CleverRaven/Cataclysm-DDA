@@ -62,7 +62,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_VALHALLIST_GODE_Job",
-    "dynamic_line": "This is where we live these days.  It's a giant fortess that U Amherst wanted to make into a reenactment place, a sort of living histroy project.  We put on finishing touches when we got here and started living out of it, hauling anything we might scavenege back here.  We've done pretty well for ourselves, haven't had any problems with <zombie>s or bandits yet.  I help guide an plan raiding missions and special events, along with religious rites and counseling.",
+    "dynamic_line": "This is where we live these days.  It's a giant fortress that U Amherst wanted to make into a reenactment place, a sort of living history project.  We put on finishing touches when we got here and started living out of it, hauling anything we might scavenge back here.  We've done pretty well for ourselves, haven't had any problems with <zombie>s or bandits yet.  I help guide an plan raiding missions and special events, along with religious rites and counseling.",
     "responses": [
       { "text": "What's your religion?", "topic": "TALK_VALHALLIST_GODE_Religion" },
       { "text": "How could I get in on this?", "topic": "TALK_VALHALLIST_GODE_Join" },
@@ -73,7 +73,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_VALHALLIST_GODE_Story",
-    "dynamic_line": "Half of us were from the Ag-Sci program at U Amherst, we'd heard some friends talk about a living histroy program the university ran here, a fortress modeled after Viking structures.  When things got really hairy we started wandering this direction.  It was a hell of a journey and we lost several of our friends and found some other refugees on the way.  Others have come and gone since then, but we've held out.",
+    "dynamic_line": "Half of us were from the Ag-Sci program at U Amherst, we'd heard some friends talk about a living history program the university ran here, a fortress modeled after Viking structures.  When things got really hairy we started wandering this direction.  It was a hell of a journey and we lost several of our friends and found some other refugees on the way.  Others have come and gone since then, but we've held out.",
     "responses": [
       { "text": "Let's not focus on the past too much.", "topic": "TALK_VALHALLIST_GODE_2" },
       { "text": "Any way I could join in?", "topic": "TALK_VALHALLIST_GODE_Join" },
