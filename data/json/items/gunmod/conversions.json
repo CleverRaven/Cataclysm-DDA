@@ -319,7 +319,7 @@
   {
     "id": "retool_mdrx_223rem",
     "type": "GUNMOD",
-    "name": { "str": "MDRX .223 extended-assembly" },
+    "name": { "str": "MDRX .223 extended-assembly", "str_pl": "MDRX .223 extended-assemblies" },
     "description": "Crowned with a proprietary gas compensator and complemented by a compatible bolt assembly, this is a quick-detach barrel installable within the chassis of a Desert Tec MDRX rifle.  Bored for .223-caliber munitions and requiring STANAG magazines for feeding, the assembly makes the most from the weapon’s bullpup design with a 20-inch barrel configuration, coaxing increased terminal performance from fired rounds.",
     "weight": "1000 g",
     "volume": "500 ml",
@@ -347,7 +347,7 @@
     "id": "retool_mdrx_223rem_medium",
     "copy-from": "retool_mdrx_223rem",
     "type": "GUNMOD",
-    "name": { "str": "MDRX .223 standard-assembly" },
+    "name": { "str": "MDRX .223 standard-assembly", "str_pl": "MDRX .223 standard-assemblies" },
     "description": "Crowned with a proprietary gas compensator and complemented by a compatible bolt assembly, this is a quick-detach barrel installable within the chassis of a Desert Tec MDRX rifle.  Bored for .223-caliber munitions, the assembly requires STANAG magazines for feeding.",
     "weight": "840 g",
     "longest_side": "406 mm",
@@ -359,7 +359,7 @@
     "id": "retool_mdrx_223rem_short",
     "copy-from": "retool_mdrx_223rem",
     "type": "GUNMOD",
-    "name": { "str": "MDRX .223 MICRON assembly" },
+    "name": { "str": "MDRX .223 MICRON assembly", "str_pl": "MDRX .223 MICRON assemblies" },
     "description": "Crowned with a proprietary gas compensator and complemented by a compatible bolt assembly, this is a quick-detach barrel installable within the chassis of a Desert Tec MDRX rifle.  Bored for .223-caliber munitions and requiring STANAG magazines for feeding, the assembly renders the MDRX into a compact CQB carbine, with an 11.5-inch barrel recessed into the weapon’s bullpup layout.",
     "weight": "680 g",
     "longest_side": "292 mm",
@@ -369,7 +369,7 @@
   {
     "id": "retool_mdrx_300blk",
     "type": "GUNMOD",
-    "name": { "str": "MDRX .300BLK standard-assembly" },
+    "name": { "str": "MDRX .300BLK standard-assembly", "str_pl": "MDRX .300BLK standard-assemblies" },
     "description": "Crowned with a proprietary gas compensator and complemented by a compatible bolt assembly, this is a quick-detach barrel installable within the chassis of a Desert Tec MDRX rifle.  Bored for .300 AAC Blackout munitions and requiring STANAG magazines for feeding, the assembly makes the most from the weapon’s bullpup design with a 20-inch configuration, coaxing increased terminal performance from fired rounds.",
     "weight": "840 g",
     "volume": "500 ml",
@@ -397,7 +397,7 @@
   {
     "id": "retool_mdrx_308win",
     "type": "GUNMOD",
-    "name": { "str": "MDRX .308 extended-assembly" },
+    "name": { "str": "MDRX .308 extended-assembly", "str_pl": "MDRX .308 extended-assemblies" },
     "description": "Crowned with a proprietary gas compensator and complemented by a compatible bolt assembly, this is a quick-detach, 20-inch barrel installable within the chassis of a Desert Tec MDRX rifle.  chambered for long-range .308 Winchester munitions and requiring AR-10 magazines for feeding, the assembly essentially retools the weapon into a designated marksman’s rifle.",
     "weight": "1000 g",
     "volume": "500 ml",
@@ -426,7 +426,7 @@
     "id": "retool_mdrx_308win_medium",
     "copy-from": "retool_mdrx_223rem",
     "type": "GUNMOD",
-    "name": { "str": "MDRX .308 standard-assembly" },
+    "name": { "str": "MDRX .308 standard-assembly", "str_pl": "MDRX .308 standard-assemblies" },
     "description": "Crowned with a proprietary gas compensator and complemented by a compatible bolt assembly, this is a quick-detach, 16-inch barrel installable within the chassis of a Desert Tec MDRX rifle.  Chambered for long-range .308 Winchester munitions and requiring AR-10 magazines for feeding, the assembly essentially retools the weapon into a designated marksman’s rifle.",
     "weight": "840 g",
     "longest_side": "406 mm",
@@ -437,7 +437,7 @@
   {
     "id": "retool_axmc_338lapua",
     "type": "GUNMOD",
-    "name": { "str": "AXMC .338 barrel-assembly" },
+    "name": { "str": "AXMC .338 barrel-assembly", "str_pl": "AXMC .338 barrel-assemblies" },
     "description": "This is a specialized 27-inch .338-caliber barrel and bolt face that is installable within the main chassis of an Accuracy International AXMC rifle, converting it to fire the .338 Lapua cartridge.",
     "weight": "1000 g",
     "volume": "500 ml",
@@ -460,7 +460,7 @@
   {
     "id": "retool_axmc_300win",
     "type": "GUNMOD",
-    "name": { "str": "AXMC .300 barrel-assembly" },
+    "name": { "str": "AXMC .300 barrel-assembly", "str_pl": "AXMC .300 barrel-assemblies" },
     "description": "This is a specialized 24-inch .300-caliber barrel and bolt face that is installable within the main chassis of an Accuracy International AXMC rifle, converting it to fire the .300 Winchester Magnum cartridge.",
     "weight": "1000 g",
     "volume": "500 ml",
@@ -483,7 +483,7 @@
   {
     "id": "retool_axmc_308win",
     "type": "GUNMOD",
-    "name": { "str": "AXMC .308 barrel-assembly" },
+    "name": { "str": "AXMC .308 barrel-assembly", "str_pl": "AXMC .308 barrel-assemblies" },
     "description": "This is a specialized 24-inch .308-caliber barrel and bolt face that is installable within the main chassis of an Accuracy International AXMC rifle, converting it to fire the .308 Winchester cartridge.",
     "weight": "1000 g",
     "volume": "500 ml",
@@ -507,7 +507,7 @@
   {
     "id": "retool_cz600_223rem",
     "type": "GUNMOD",
-    "name": { "str": "CZ .223 barrel-assembly" },
+    "name": { "str": "CZ .223 barrel-assembly", "str_pl": "CZ .223 barrel-assemblies" },
     "description": "This is a quick-detach .223-caliber barrel assembly and bolt-head, installable within the frame of a CZ 600 rifle, and secured with three fasteners.  With this assembly installed, a rifle is capable of feeding ammunition from standard STANAG-style magazines.",
     "weight": "1000 g",
     "volume": "500 ml",
@@ -531,7 +531,7 @@
   {
     "id": "retool_cz600_762",
     "type": "GUNMOD",
-    "name": { "str": "CZ 7.62x39mm barrel-assembly" },
+    "name": { "str": "CZ 7.62x39mm barrel-assembly", "str_pl": "CZ 7.62x39mm barrel-assemblies" },
     "description": "This is a quick-detach 7.62mm barrel assembly and bolt head, installable within the frame of a CZ 600 rifle, and secured with three fasteners.  With this assembly installed, a rifle is rendered compatible with 7.62x39mm CZ Bren 2 magazines.",
     "weight": "1000 g",
     "volume": "500 ml",
