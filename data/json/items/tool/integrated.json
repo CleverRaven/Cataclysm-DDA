@@ -136,7 +136,6 @@
         "encumbrance": 0
       }
     ],
-    "charges_per_use": 20,
     "qualities": [
       [ "SAW_W", 1 ],
       [ "SAW_M", 1 ],
@@ -185,6 +184,8 @@
         "tool_quality": 10
       }
     ],
+    "charges_per_use": 20,
+    "charged_qualities": [ [ "WELD", 2 ] ],
     "melee_damage": { "bash": 1, "cut": 3 }
   }
 ]
