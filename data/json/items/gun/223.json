@@ -30,6 +30,8 @@
       [ "stock accessory", 2 ],
       [ "stock", 1 ]
     ],
+    "flags": [ "NO_TURRET" ],
+    "//3": "This should be removed once vehicle turrets are capable of mounting guns with mods attached. As it stands, trying to mount this style of weapon would require the player to remove the conversion kit, thus rendering it unusable anyhow.",
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -255,6 +257,8 @@
       [ "stock accessory", 2 ],
       [ "stock", 1 ]
     ],
+    "flags": [ "NO_TURRET" ],
+    "//3": "This should be removed once vehicle turrets are capable of mounting guns with mods attached. As it stands, trying to mount this style of weapon would require the player to remove the conversion kit, thus rendering it unusable anyhow.",
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -491,6 +495,8 @@
       [ "stock accessory", 2 ],
       [ "stock", 1 ]
     ],
+    "flags": [ "NO_TURRET" ],
+    "//2": "This should be removed once vehicle turrets are capable of mounting guns with mods attached. As it stands, trying to mount this style of weapon would require the player to remove the conversion kit, thus rendering it unusable anyhow.",
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -569,6 +575,8 @@
       [ "stock accessory", 2 ],
       [ "stock", 1 ]
     ],
+    "flags": [ "NO_TURRET" ],
+    "//2": "This should be removed once vehicle turrets are capable of mounting guns with mods attached. As it stands, trying to mount this style of weapon would require the player to remove the conversion kit, thus rendering it unusable anyhow.",
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -647,6 +655,8 @@
       [ "stock accessory", 2 ],
       [ "stock", 1 ]
     ],
+    "flags": [ "NO_TURRET" ],
+    "//2": "This should be removed once vehicle turrets are capable of mounting guns with mods attached. As it stands, trying to mount this style of weapon would require the player to remove the conversion kit, thus rendering it unusable anyhow.",
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -705,7 +715,9 @@
         "description": "This carbine was developed for military use in the early 21st century.  It is damaging and accurate, though its rate of fire is a bit slower than competing carbines."
       }
     ],
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ]
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
+    "flags": [ "NO_TURRET" ],
+    "//2": "This should be removed once vehicle turrets are capable of mounting guns with mods attached. As it stands, trying to mount this style of weapon would require the player to remove the conversion kit, thus rendering it unusable anyhow."
   },
   {
     "id": "m231pfw",
@@ -1126,6 +1138,8 @@
       [ "stock accessory", 2 ],
       [ "underbarrel", 1 ]
     ],
+    "flags": [ "NO_TURRET" ],
+    "//2": "This should be removed once vehicle turrets are capable of mounting guns with mods attached. As it stands, trying to mount this style of weapon would require the player to remove the conversion kit, thus rendering it unusable anyhow.",
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -1268,6 +1282,8 @@
       [ "stock accessory", 2 ],
       [ "stock", 1 ]
     ],
+    "flags": [ "NO_TURRET" ],
+    "//2": "This should be removed once vehicle turrets are capable of mounting guns with mods attached. As it stands, trying to mount this style of weapon would require the player to remove the conversion kit, thus rendering it unusable anyhow.",
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
