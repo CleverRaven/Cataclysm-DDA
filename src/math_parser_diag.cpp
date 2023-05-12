@@ -60,13 +60,6 @@ std::function<double( dialogue & )> option_eval( char scope,
     };
 }
 
-std::function<void( dialogue &, double )> option_ass( char scope,
-        std::vector<std::string> const &/*params*/ )
-{
-    debugmsg( "assigning options is not currently supported in math" );
-    return []( dialogue const &, double ) {};
-}
-
 std::function<double( dialogue & )> pain_eval( char scope,
         std::vector<std::string> const &/* params */ )
 {
