@@ -6,8 +6,7 @@
     "name": { "str": "extended .223 upper receiver" },
     "description": "This is a complete upper receiver assembly containing a barrel, handguard, and bolt carrier group that, given the right knowledge, is installable upon an AR-15-style rifle’s lower frame.  Swappable uppers enable compatible firearms to be retooled for different cartridges and barrel lengths, with this kit providing a weapon with a 20-inch barrel chambered for .223 Remington ammunition, commonly installed on full-length M16 rifles.",
     "longest_side": "584 mm",
-    "integral_longest_side": "508 mm",
-    "ranged_damage": { "damage_type": "bullet", "amount": 3 }
+    "integral_longest_side": "508 mm"
   },
   {
     "id": "retool_ar15_223rem",
@@ -59,8 +58,7 @@
     "name": { "str": "mid-length .223 upper receiver" },
     "description": "This is a complete upper receiver assembly containing a barrel, handguard, and bolt carrier group that, given the right knowledge, is installable upon an AR-15-style rifle’s lower frame.  Swappable uppers enable compatible firearms to be retooled for different cartridges and barrel lengths, with this kit providing a weapon with a 14.5-inch barrel chambered for .223 Remington ammunition, commonly installed on standard-issue M4 carbines.",
     "longest_side": "445 mm",
-    "integral_longest_side": "368 mm",
-    "ranged_damage": { "damage_type": "bullet", "amount": -1 }
+    "integral_longest_side": "368 mm"
   },
   {
     "id": "retool_ar15_223rem_short",
@@ -72,8 +70,7 @@
     "longest_side": "337 mm",
     "integral_weight": "1360 g",
     "integral_longest_side": "261 mm",
-    "price": 26999,
-    "ranged_damage": { "damage_type": "bullet", "amount": -5 }
+    "price": 26999
   },
   {
     "id": "retool_ar15_300blk",
@@ -127,8 +124,7 @@
     "weight": "1814 g",
     "longest_side": "342 mm",
     "integral_weight": "1814 g",
-    "integral_longest_side": "266 mm",
-    "ranged_damage": { "damage_type": "bullet", "amount": -4 }
+    "integral_longest_side": "266 mm"
   },
   {
     "id": "retool_ar15_300blk_short",
@@ -139,8 +135,7 @@
     "weight": "1590 g",
     "longest_side": "240 mm",
     "integral_weight": "1590 g",
-    "integral_longest_side": "190 mm",
-    "ranged_damage": { "damage_type": "bullet", "amount": -7 }
+    "integral_longest_side": "190 mm"
   },
   {
     "id": "retool_ar15_50beowulf",
@@ -183,7 +178,6 @@
     "install_time": "5 m",
     "dispersion_modifier": 15,
     "ammo_modifier": [ "50beowulf" ],
-    "ranged_damage": { "damage_type": "bullet", "amount": 2 },
     "min_skills": [ [ "weapon", 2 ] ],
     "add_mod": [ [ "brass catcher", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "underbarrel", 1 ], [ "muzzle", 1 ] ]
   },
@@ -209,14 +203,13 @@
     "longest_side": "240 mm",
     "integral_weight": "454 g",
     "integral_longest_side": "190 mm",
-    "price": 10999,
-    "ranged_damage": { "damage_type": "bullet", "amount": -13 }
+    "price": 10999
   },
   {
     "id": "retool_ar15_450",
     "type": "GUNMOD",
     "name": { "str": ".450 upper receiver" },
-    "description": "This is a complete upper receiver assembly containing a barrel, handguard, and bolt carrier group that, given the right knowledge, is installable upon an AR-15-style rifle’s lower frame. Swappable uppers enable compatible firearms to be retooled for different cartridges and barrel lengths, with this kit furnishing a weapon with a high-caliber 18-inch barrel chambered for .450 Bushmaster cartridges.  Special-purpose low-capacity magazines are required to feed the large rounds, but the upper turns any AR-15 into a short-range powerhouse.",
+    "description": "This is a complete upper receiver assembly containing a barrel, handguard, and bolt carrier group that, given the right knowledge, is installable upon an AR-15-style rifle’s lower frame.  Swappable uppers enable compatible firearms to be retooled for different cartridges and barrel lengths, with this kit furnishing a weapon with a high-caliber 18-inch barrel chambered for .450 Bushmaster cartridges.  Special-purpose low-capacity magazines are required to feed the large rounds, but the upper turns any AR-15 into a short-range powerhouse.",
     "weight": "2722 g",
     "volume": "1550 ml",
     "longest_side": "533 mm",
@@ -253,7 +246,6 @@
     "install_time": "5 m",
     "dispersion_modifier": 15,
     "ammo_modifier": [ "450" ],
-    "ranged_damage": { "damage_type": "bullet", "amount": 2 },
     "min_skills": [ [ "weapon", 2 ] ],
     "add_mod": [ [ "brass catcher", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "underbarrel", 1 ], [ "muzzle", 1 ] ]
   },
@@ -267,8 +259,7 @@
     "longest_side": "342 mm",
     "integral_weight": "794 g",
     "integral_longest_side": "266 mm",
-    "price": 14299,
-    "ranged_damage": { "damage_type": "bullet", "amount": -6 }
+    "price": 14299
   },
   {
     "id": "retool_ar15_450_short",
@@ -280,8 +271,7 @@
     "longest_side": "240 mm",
     "integral_weight": "680 g",
     "integral_longest_side": "190 mm",
-    "price": 10699,
-    "ranged_damage": { "damage_type": "bullet", "amount": -11 }
+    "price": 10699
   },
   {
     "id": "retool_ar15_762",
@@ -350,7 +340,6 @@
     "dispersion_modifier": 15,
     "handling_modifier": 4,
     "loudness_modifier": 8,
-    "ranged_damage": { "damage_type": "bullet", "amount": 3 },
     "min_skills": [ [ "weapon", 1 ] ],
     "add_mod": [ [ "muzzle", 1 ] ]
   },
@@ -375,8 +364,7 @@
     "weight": "680 g",
     "longest_side": "292 mm",
     "integral_weight": "680 g",
-    "integral_longest_side": "89 mm",
-    "ranged_damage": { "damage_type": "bullet", "amount": -4 }
+    "integral_longest_side": "89 mm"
   },
   {
     "id": "retool_mdrx_300blk",
@@ -431,7 +419,6 @@
     "dispersion_modifier": 15,
     "handling_modifier": 4,
     "loudness_modifier": 8,
-    "ranged_damage": { "damage_type": "bullet", "amount": 4 },
     "min_skills": [ [ "weapon", 1 ] ],
     "add_mod": [ [ "muzzle", 1 ] ]
   },
@@ -440,7 +427,7 @@
     "copy-from": "retool_mdrx_223rem",
     "type": "GUNMOD",
     "name": { "str": "MDRX .308 standard-assembly" },
-    "description": "Crowned with a proprietary gas compensator and complemented by a compatible bolt assembly, this is a quick-detach, 16-inch barrel installable within the chassis of a Desert Tec MDRX rifle.  Chambered for long-range 308 Winchester munitions and requiring AR-10 magazines for feeding, the assembly essentially retools the weapon into a designated marksman’s rifle.",
+    "description": "Crowned with a proprietary gas compensator and complemented by a compatible bolt assembly, this is a quick-detach, 16-inch barrel installable within the chassis of a Desert Tec MDRX rifle.  Chambered for long-range .308 Winchester munitions and requiring AR-10 magazines for feeding, the assembly essentially retools the weapon into a designated marksman’s rifle.",
     "weight": "840 g",
     "longest_side": "406 mm",
     "integral_weight": "840 g",
@@ -490,7 +477,6 @@
     "mod_targets": [ "axmc", "axmc_300", "axmc_308" ],
     "install_time": "2 m",
     "ammo_modifier": [ "300" ],
-    "ranged_damage": { "damage_type": "bullet", "amount": 10 },
     "min_skills": [ [ "weapon", 1 ] ],
     "add_mod": [ [ "muzzle", 1 ] ]
   },
@@ -515,7 +501,6 @@
     "install_time": "2 m",
     "ammo_modifier": [ "308" ],
     "magazine_adaptor": [ [ "308", [ "ai_308mag_10" ] ] ],
-    "ranged_damage": { "damage_type": "bullet", "amount": 7 },
     "min_skills": [ [ "weapon", 1 ] ],
     "add_mod": [ [ "muzzle", 1 ] ]
   },
