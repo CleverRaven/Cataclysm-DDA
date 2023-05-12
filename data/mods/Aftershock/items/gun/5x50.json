@@ -8,7 +8,7 @@
     "description": "A slick, miniature derringer designed as a backup weapon for covert operations and close-range assassination.  It will fire up to four 5x50mm penetrators simultaneously, to devastating effect.",
     "dispersion": 410,
     "range": -48,
-    "valid_mod_locations": [ [ "accessories", 2 ] ],
+    "valid_mod_locations": [  ],
     "modes": [ [ "DEFAULT", "single", 1 ], [ "MULTI", "4 rd.", 4 ] ],
     "clip_size": 4,
     "flags": [ "NEVER_JAMS", "RELOAD_ONE", "RELOAD_EJECT" ],
@@ -27,7 +27,6 @@
     "price": 2320000,
     "price_postapoc": 8000,
     "to_hit": -2,
-    "bashing": 12,
     "material": [ "superalloy", "ceramic" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -40,7 +39,6 @@
     "barrel_volume": "250 ml",
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "5 rd.", 5 ], [ "AUTO", "auto", 4 ] ],
     "valid_mod_locations": [
-      [ "accessories", 3 ],
       [ "barrel", 1 ],
       [ "brass catcher", 1 ],
       [ "grip", 1 ],
@@ -54,7 +52,8 @@
       [ "underbarrel", 1 ]
     ],
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "afs_5x50_100_mag", "afs_5x50_50_mag" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "afs_5x50_100_mag", "afs_5x50_50_mag" ] } ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "afs_needlepistol",
@@ -69,7 +68,6 @@
     "price": 1200000,
     "price_postapoc": 8000,
     "to_hit": -2,
-    "bashing": 8,
     "material": [ "superalloy", "ceramic" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -79,7 +77,6 @@
     "durability": 9,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "2 rd.", 2 ], [ "AUTO", "auto", 4 ] ],
     "valid_mod_locations": [
-      [ "accessories", 3 ],
       [ "brass catcher", 1 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],
@@ -91,6 +88,7 @@
     ],
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "afs_5x50_50_mag", "afs_5x50_100_mag" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "afs_5x50_50_mag", "afs_5x50_100_mag" ] } ],
+    "melee_damage": { "bash": 8 }
   }
 ]

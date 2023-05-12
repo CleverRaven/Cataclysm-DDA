@@ -23,9 +23,6 @@
     "melee_dice_sides": 10,
     "melee_damage": [ { "damage_type": "cut", "amount": 15 } ],
     "dodge": 2,
-    "armor_bash": 20,
-    "armor_cut": 30,
-    "armor_bullet": 24,
     "bleed_rate": 60,
     "vision_day": 30,
     "vision_night": 20,
@@ -34,14 +31,16 @@
     "dissect": "dissect_crustacean_large",
     "weakpoint_sets": [ "wps_arthropod" ],
     "families": [ "prof_intro_biology", "prof_wp_nat_armored" ],
-    "special_attacks": [ [ "SHRIEK_ALERT", 6 ], [ "SHRIEK_STUN", 1 ] ],
+    "grab_strength": 50,
+    "special_attacks": [ { "id": "grab", "cooldown": 5 }, [ "SHRIEK_ALERT", 6 ], [ "SHRIEK_STUN", 1 ] ],
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "FIRE" ],
     "zombify_into": "mon_meat_cocoon_med",
-    "flags": [ "SMELLS", "HEARS", "SEES", "SWIMS", "GRABS", "ARTHROPOD_BLOOD", "QUEEN", "PATH_AVOID_DANGER_1" ]
+    "flags": [ "SMELLS", "HEARS", "SEES", "SWIMS", "GRABS", "ARTHROPOD_BLOOD", "QUEEN", "PATH_AVOID_DANGER_1" ],
+    "armor": { "bash": 20, "cut": 30, "bullet": 24 }
   },
   {
-    "id": "mon_fish_tiny",
+    "abstract": "mon_fish_tiny",
     "type": "MONSTER",
     "name": { "str_sp": "tiny fish" },
     "//": "a default fish type - does not appear in-game",
@@ -71,7 +70,7 @@
     "flags": [ "FISHABLE", "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
   },
   {
-    "id": "mon_fish_small",
+    "abstract": "mon_fish_small",
     "type": "MONSTER",
     "name": { "str_sp": "small fish" },
     "//": "a default fish type - does not appear in-game",
@@ -102,7 +101,7 @@
     "flags": [ "FISHABLE", "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
   },
   {
-    "id": "mon_fish_medium",
+    "abstract": "mon_fish_medium",
     "type": "MONSTER",
     "description": "A medium fish.",
     "default_faction": "fish",
@@ -133,7 +132,7 @@
     "flags": [ "FISHABLE", "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
   },
   {
-    "id": "mon_fish_large",
+    "abstract": "mon_fish_large",
     "type": "MONSTER",
     "description": "A large fish.",
     "default_faction": "fish",
@@ -164,7 +163,7 @@
     "flags": [ "FISHABLE", "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
   },
   {
-    "id": "mon_fish_huge",
+    "abstract": "mon_fish_huge",
     "type": "MONSTER",
     "description": "A huge fish.",
     "default_faction": "fish",
@@ -195,7 +194,7 @@
     "flags": [ "FISHABLE", "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
   },
   {
-    "id": "mon_fry",
+    "abstract": "mon_fry",
     "type": "MONSTER",
     "name": { "str_sp": "fish fry" },
     "//": "a default fish type - does not appear in-game",
@@ -892,9 +891,9 @@
     "melee_dice": 1,
     "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
+    "grab_strength": 30,
+    "special_attacks": [ { "id": "grab" } ],
     "dodge": 2,
-    "armor_cut": 8,
-    "armor_bullet": 6,
     "bleed_rate": 85,
     "harvest": "mutant_shellfish",
     "dissect": "dissect_crustacean_small",
@@ -904,7 +903,8 @@
     "fear_triggers": [ "FIRE" ],
     "upgrades": { "half_life": 42, "into": "mon_crayfish_mega" },
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SMELLS", "HEARS", "SEES", "SWIMS", "GRABS", "ARTHROPOD_BLOOD" ]
+    "flags": [ "SMELLS", "HEARS", "SEES", "SWIMS", "GRABS", "ARTHROPOD_BLOOD" ],
+    "armor": { "cut": 8, "bullet": 6 }
   },
   {
     "id": "mon_crayfish_mega",
@@ -912,9 +912,10 @@
     "name": { "str_sp": "colossal crayfish" },
     "description": "An enormous mutated gray crayfish with pincer claws and long antennae.",
     "copy-from": "mon_giant_crayfish",
-    "proportional": { "hp": 10, "speed": 0.25, "dodge": 0.5, "armor_cut": 2, "armor_bullet": 2 },
+    "proportional": { "hp": 10, "speed": 0.25, "dodge": 0.5, "armor": { "cut": 2, "bullet": 2 } },
     "volume": "625 L",
     "weight": "815 kg",
+    "grab_strength": 75,
     "melee_dice": 2,
     "bleed_rate": 60,
     "special_attacks": [
@@ -967,9 +968,6 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 7 } ],
     "dodge": 2,
-    "armor_bash": 10,
-    "armor_cut": 18,
-    "armor_bullet": 14,
     "bleed_rate": 65,
     "vision_day": 30,
     "vision_night": 15,
@@ -978,11 +976,13 @@
     "dissect": "dissect_crustacean_small",
     "weakpoint_sets": [ "wps_arthropod" ],
     "families": [ "prof_intro_biology", "prof_wp_nat_armored", "prof_wp_basic_bug" ],
-    "special_attacks": [ [ "SHRIEK_ALERT", 6 ], [ "SHRIEK_STUN", 1 ] ],
+    "grab_strength": 30,
+    "special_attacks": [ { "id": "grab", "cooldown": 5 }, [ "SHRIEK_ALERT", 6 ], [ "SHRIEK_STUN", 1 ] ],
     "anger_triggers": [ "PLAYER_CLOSE", "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
     "fear_triggers": [ "FIRE" ],
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SMELLS", "HEARS", "SEES", "SWIMS", "GRABS", "ARTHROPOD_BLOOD", "PATH_AVOID_DANGER_1" ]
+    "flags": [ "SMELLS", "HEARS", "SEES", "SWIMS", "GRABS", "ARTHROPOD_BLOOD", "PATH_AVOID_DANGER_1" ],
+    "armor": { "bash": 10, "cut": 18, "bullet": 14 }
   },
   {
     "id": "mon_mutant_carp",

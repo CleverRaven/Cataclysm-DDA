@@ -1,4 +1,4 @@
-// RUN: %check_clang_tidy %s cata-assert %t -- -plugins=%cata_plugin --
+// RUN: %check_clang_tidy %s cata-assert %t -- --load=%cata_plugin --
 
 // check_clang_tidy uses -nostdinc++, so we add dummy declarations of used values here
 #define assert( expr ) static_cast<void>( expr )

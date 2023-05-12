@@ -20,17 +20,14 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "bash", "amount": 5 } ],
     "dodge": 2,
-    "armor_bash": 12,
-    "armor_cut": 2,
-    "armor_bullet": 1,
-    "armor_elec": 2,
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "bleed_rate": 0,
     "vision_night": 7,
     "harvest": "zombie",
+    "grab_strength": 40,
     "special_attacks": [
       { "type": "leap", "cooldown": 12, "move_cost": 0, "max_range": 4, "min_consider_range": 2 },
-      [ "RANGED_PULL", 10 ],
+      { "id": "ranged_pull", "range": 4 },
       [ "GRAB_DRAG", 3 ],
       {
         "type": "spell",
@@ -48,6 +45,7 @@
       "KEENNOSE",
       "STUMBLES",
       "WARM",
+      "GRABS",
       "BASHES",
       "GROUP_BASH",
       "POISON",
@@ -57,7 +55,8 @@
       "PUSH_MON",
       "FILTHY",
       "RANGED_ATTACKER"
-    ]
+    ],
+    "armor": { "bash": 12, "cut": 2, "bullet": 1, "electric": 2 }
   },
   {
     "id": "mon_tadpole_grabber",
@@ -82,7 +81,11 @@
     "vision_day": 7,
     "vision_night": 7,
     "harvest": "exempt",
-    "special_attacks": [ { "type": "leap", "cooldown": 10, "move_cost": 0, "max_range": 4, "min_consider_range": 2 }, [ "GRAB", 1 ] ],
+    "grab_strength": 15,
+    "special_attacks": [
+      { "type": "leap", "cooldown": 10, "move_cost": 0, "max_range": 4, "min_consider_range": 2 },
+      { "id": "grab", "cooldown": 1 }
+    ],
     "death_function": {
       "message": "The %s's body melts away.",
       "effect": { "id": "death_acid", "hit_self": true },
@@ -112,17 +115,13 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "bash", "amount": 5 } ],
     "dodge": 1,
-    "armor_bash": 8,
-    "armor_cut": 2,
-    "armor_bullet": 1,
-    "armor_elec": 2,
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "bleed_rate": 0,
     "vision_night": 7,
     "harvest": "zombie",
     "special_attacks": [
       { "type": "leap", "cooldown": 12, "move_cost": 0, "max_range": 4, "min_consider_range": 2 },
-      [ "RANGED_PULL", 10 ],
+      { "id": "ranged_pull", "range": 4 },
       [ "GRAB_DRAG", 3 ]
     ],
     "regen_morale": true,
@@ -132,6 +131,7 @@
       "SMELLS",
       "KEENNOSE",
       "STUMBLES",
+      "GRABS",
       "WARM",
       "BASHES",
       "GROUP_BASH",
@@ -140,7 +140,8 @@
       "PUSH_MON",
       "RANGED_ATTACKER"
     ],
-    "upgrades": { "half_life": 34, "into": "mon_frog_mother" }
+    "upgrades": { "half_life": 34, "into": "mon_frog_mother" },
+    "armor": { "bash": 8, "cut": 2, "bullet": 1, "electric": 2 }
   },
   {
     "id": "mon_zombie_biter",
@@ -165,10 +166,6 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "dodge": 3,
-    "armor_bash": 5,
-    "armor_cut": 2,
-    "armor_bullet": 2,
-    "armor_elec": 1,
     "weakpoints": [
       { "name": "the inside of its mouth", "armor_mult": { "physical": 0 }, "coverage": 2 },
       { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
@@ -178,9 +175,10 @@
     "vision_day": 15,
     "vision_night": 3,
     "harvest": "zombie",
+    "grab_strength": 30,
     "special_attacks": [
       {
-        "type": "bite",
+        "id": "bite_humanoid",
         "cooldown": 4,
         "accuracy": 5,
         "damage_max_instance": [
@@ -188,7 +186,8 @@
           { "damage_type": "bash", "amount": 10, "armor_multiplier": 0.3 }
         ]
       },
-      [ "GRAB", 4 ]
+      { "id": "grab", "cooldown": 4 },
+      { "id": "scratch_humanoid", "damage_max_instance": [ { "damage_type": "cut", "amount": 12 } ] }
     ],
     "death_drops": "default_zombie_death_drops",
     "burn_into": "mon_zombie_scorched",
@@ -199,6 +198,7 @@
       "KEENNOSE",
       "STUMBLES",
       "WARM",
+      "GRABS",
       "BASHES",
       "GROUP_BASH",
       "POISON",
@@ -207,7 +207,8 @@
       "REVIVES",
       "PUSH_MON",
       "FILTHY"
-    ]
+    ],
+    "armor": { "bash": 5, "cut": 2, "bullet": 2, "electric": 1 }
   },
   {
     "id": "mon_zombie_brainless",
@@ -232,13 +233,13 @@
     "melee_dice": 2,
     "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "armor_elec": 1,
     "vision_day": 2,
     "vision_night": 0,
     "weakpoint_sets": [ "wps_humanoid_body_headless" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "harvest": "zombie",
-    "special_attacks": [ [ "GRAB", 7 ], [ "scratch", 20 ] ],
+    "grab_strength": 20,
+    "special_attacks": [ { "id": "grab", "cooldown": 7 }, { "id": "scratch_humanoid" } ],
     "//4": "Removed Bite attack to reflect damage to mouth.",
     "death_drops": "default_zombie_death_drops",
     "burn_into": "mon_zombie_scorched",
@@ -247,6 +248,7 @@
       "HEARS",
       "STUMBLES",
       "WARM",
+      "GRABS",
       "BASHES",
       "GROUP_BASH",
       "POISON",
@@ -255,7 +257,8 @@
       "REVIVES",
       "PUSH_MON",
       "FILTHY"
-    ]
+    ],
+    "armor": { "electric": 1 }
   },
   {
     "id": "mon_afs_headless_horror",
@@ -277,14 +280,14 @@
     "melee_dice": 4,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "armor_elec": 2,
     "//": "the headless horror is technically blind, but its feelers allow it to sense your presence if you're close to it",
     "vision_day": 2,
     "vision_night": 2,
     "weakpoint_sets": [ "wps_humanoid_body_headless" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_hulk" ],
     "harvest": "zombie",
-    "special_attacks": [ [ "GRAB", 7 ], [ "scratch", 20 ] ],
+    "grab_strength": 50,
+    "special_attacks": [ { "id": "grab", "cooldown": 7 }, { "id": "scratch_humanoid" } ],
     "death_drops": "default_zombie_death_drops",
     "flags": [
       "SEES",
@@ -301,7 +304,8 @@
       "FILTHY",
       "NOHEAD",
       "LOUDMOVES"
-    ]
+    ],
+    "armor": { "electric": 2 }
   },
   {
     "id": "mon_zombie_brute",
@@ -326,16 +330,18 @@
     "melee_dice": 3,
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
-    "armor_bash": 4,
-    "armor_cut": 6,
-    "armor_bullet": 5,
-    "armor_elec": 2,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_head_small" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "bleed_rate": 50,
     "vision_night": 4,
     "harvest": "zombie",
-    "special_attacks": [ { "id": "smash", "throw_strength": 72, "cooldown": 30 }, [ "GRAB", 7 ] ],
+    "grab_strength": 30,
+    "special_attacks": [
+      { "id": "smash", "throw_strength": 72, "cooldown": 30 },
+      { "id": "grab", "cooldown": 7 },
+      { "id": "bite_humanoid" },
+      { "id": "scratch_humanoid" }
+    ],
     "death_drops": "default_zombie_death_drops",
     "burn_into": "mon_zombie_fiend",
     "upgrades": { "half_life": 42, "into_group": "GROUP_ZOMBIE_BRUTE" },
@@ -346,6 +352,7 @@
       "SMELLS",
       "STUMBLES",
       "WARM",
+      "GRABS",
       "BASHES",
       "GROUP_BASH",
       "POISON",
@@ -354,7 +361,8 @@
       "PUSH_MON",
       "PUSH_VEH",
       "FILTHY"
-    ]
+    ],
+    "armor": { "bash": 4, "cut": 6, "bullet": 5, "electric": 2 }
   },
   {
     "id": "mon_zombie_brute_grappler",
@@ -380,20 +388,18 @@
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 3,
-    "armor_bash": 10,
-    "armor_cut": 14,
-    "armor_bullet": 8,
-    "armor_stab": 8,
-    "armor_elec": 2,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_head_small" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "bleed_rate": 50,
     "vision_night": 3,
     "harvest": "zombie",
+    "grab_strength": 40,
     "special_attacks": [
       { "id": "smash", "throw_strength": 72, "cooldown": 30 },
       { "id": "bio_op_takedown", "cooldown": 20 },
-      [ "RANGED_PULL", 20 ],
+      { "id": "ranged_pull", "cooldown": 20 },
+      { "id": "bite_humanoid" },
+      { "id": "scratch_humanoid" },
       [ "GRAB_DRAG", 10 ]
     ],
     "death_drops": "default_zombie_death_drops",
@@ -404,6 +410,7 @@
       "SMELLS",
       "STUMBLES",
       "WARM",
+      "GRABS",
       "BASHES",
       "GROUP_BASH",
       "POISON",
@@ -413,7 +420,8 @@
       "PUSH_VEH",
       "FILTHY",
       "RANGED_ATTACKER"
-    ]
+    ],
+    "armor": { "bash": 10, "cut": 14, "stab": 8, "bullet": 8, "electric": 2 }
   },
   {
     "id": "mon_zombie_brute_ninja",
@@ -439,10 +447,6 @@
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "dodge": 4,
-    "armor_bash": 8,
-    "armor_cut": 5,
-    "armor_bullet": 4,
-    "armor_elec": 2,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_head_small" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "bleed_rate": 0,
@@ -472,7 +476,8 @@
       "PUSH_VEH",
       "NIGHT_INVISIBILITY",
       "FILTHY"
-    ]
+    ],
+    "armor": { "bash": 8, "cut": 5, "bullet": 4, "electric": 2 }
   },
   {
     "id": "mon_zombie_ears",
@@ -496,14 +501,14 @@
     "melee_dice": 2,
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "armor_elec": 1,
     "bleed_rate": 50,
     "vision_day": 7,
     "vision_night": 4,
     "weakpoint_sets": [ "wps_humanoid_body_headless" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "harvest": "zombie",
-    "special_attacks": [ [ "GRAB", 6 ], [ "scratch", 20 ] ],
+    "grab_strength": 20,
+    "special_attacks": [ { "id": "grab", "cooldown": 7 }, { "id": "scratch_humanoid" } ],
     "//3": "Removed Bite as this creature does not have a 'mouth'.",
     "death_drops": "default_zombie_death_drops",
     "burn_into": "mon_zombie_scorched",
@@ -514,6 +519,7 @@
       "SEES",
       "STUMBLES",
       "WARM",
+      "GRABS",
       "BASHES",
       "GROUP_BASH",
       "POISON",
@@ -522,7 +528,8 @@
       "REVIVES",
       "PUSH_MON",
       "FILTHY"
-    ]
+    ],
+    "armor": { "electric": 1 }
   },
   {
     "id": "mon_zombie_nemesis",
@@ -547,16 +554,13 @@
     "melee_dice": 4,
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "armor_bash": 15,
-    "armor_cut": 15,
-    "armor_bullet": 15,
-    "armor_elec": 6,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_head_small" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_hulk" ],
     "vision_day": 50,
     "vision_night": 8,
     "harvest": "zombie",
-    "special_attacks": [ [ "SMASH", 20 ] ],
+    "grab_strength": 50,
+    "special_attacks": [ { "id": "grab", "cooldown": 7 }, { "id": "scratch_humanoid" }, { "id": "smash" } ],
     "death_drops": "mon_zombie_hulk_death_drops",
     "regenerates": 15,
     "flags": [
@@ -568,6 +572,7 @@
       "KEENNOSE",
       "STUMBLES",
       "WARM",
+      "GRABS",
       "BASHES",
       "DESTROYS",
       "POISON",
@@ -578,7 +583,8 @@
       "NEMESIS",
       "LOUDMOVES",
       "FILTHY"
-    ]
+    ],
+    "armor": { "bash": 15, "cut": 15, "bullet": 15, "electric": 6 }
   },
   {
     "id": "mon_zombie_grabber",
@@ -603,14 +609,14 @@
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 1,
-    "armor_elec": 1,
     "bleed_rate": 50,
     "vision_day": 30,
     "vision_night": 3,
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "harvest": "zombie",
-    "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "scratch", 20 ] ],
+    "grab_strength": 50,
+    "special_attacks": [ { "id": "grab", "cooldown": 7 }, { "id": "bite_humanoid", "cooldown": 5 }, { "id": "scratch_humanoid" } ],
     "death_drops": "default_zombie_death_drops",
     "burn_into": "mon_zombie_scorched",
     "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBIE_GRAB" },
@@ -629,7 +635,8 @@
       "REVIVES",
       "PUSH_MON",
       "FILTHY"
-    ]
+    ],
+    "armor": { "electric": 1 }
   },
   {
     "id": "mon_zombie_grappler",
@@ -654,14 +661,14 @@
     "melee_dice_sides": 5,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 2,
-    "armor_elec": 1,
     "bleed_rate": 50,
     "vision_day": 30,
     "vision_night": 5,
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "harvest": "zombie",
-    "special_attacks": [ [ "RANGED_PULL", 20 ], [ "GRAB_DRAG", 3 ], { "type": "bite", "cooldown": 5 } ],
+    "grab_strength": 100,
+    "special_attacks": [ { "id": "ranged_pull", "cooldown": 20 }, [ "GRAB_DRAG", 3 ], { "id": "bite_humanoid", "cooldown": 5 } ],
     "death_drops": "default_zombie_death_drops",
     "burn_into": "mon_zombie_scorched",
     "fungalize_into": "mon_zombie_fungus",
@@ -671,6 +678,7 @@
       "SMELLS",
       "STUMBLES",
       "WARM",
+      "GRABS",
       "BASHES",
       "GROUP_BASH",
       "POISON",
@@ -679,7 +687,8 @@
       "PUSH_MON",
       "FILTHY",
       "RANGED_ATTACKER"
-    ]
+    ],
+    "armor": { "electric": 1 }
   },
   {
     "id": "mon_zombie_hollow",
@@ -704,23 +713,20 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "dodge": 4,
-    "armor_bash": 8,
-    "armor_cut": 4,
-    "armor_bullet": 10,
-    "armor_stab": 10,
-    "armor_elec": 1,
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "bleed_rate": 0,
     "vision_day": 30,
     "vision_night": 3,
     "harvest": "zombie",
-    "special_attacks": [ { "id": "stretch_bite" }, { "id": "stretch_attack", "cooldown": 5 } ],
+    "grab_strength": 20,
+    "special_attacks": [ { "id": "grab" }, { "id": "scratch_humanoid" }, { "id": "stretch_bite" }, { "id": "stretch_attack", "cooldown": 5 } ],
     "death_function": {
       "message": "The %s splits in two!",
       "corpse_type": "NO_CORPSE",
       "effect": { "id": "death_blobsplit", "hit_self": true }
     },
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "FILTHY" ],
+    "armor": { "bash": 8, "cut": 4, "stab": 10, "bullet": 10, "electric": 1 }
   },
   {
     "id": "mon_zombie_hulk",
@@ -745,17 +751,14 @@
     "melee_dice": 4,
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "armor_bash": 8,
-    "armor_cut": 12,
-    "armor_bullet": 10,
-    "armor_elec": 5,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_head_small" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_hulk" ],
     "bleed_rate": 0,
     "vision_day": 83,
     "vision_night": 4,
     "harvest": "zombie",
-    "special_attacks": [ { "id": "smash", "throw_strength": 96 } ],
+    "grab_strength": 50,
+    "special_attacks": [ { "id": "grab" }, { "id": "scratch_humanoid" }, { "id": "bite_humanoid" }, { "id": "smash", "throw_strength": 96 } ],
     "death_drops": "mon_zombie_hulk_death_drops",
     "fungalize_into": "mon_zombie_fungus",
     "flags": [
@@ -764,6 +767,7 @@
       "SMELLS",
       "STUMBLES",
       "WARM",
+      "GRABS",
       "BASHES",
       "DESTROYS",
       "POISON",
@@ -772,7 +776,8 @@
       "PUSH_MON",
       "PUSH_VEH",
       "FILTHY"
-    ]
+    ],
+    "armor": { "bash": 8, "cut": 12, "bullet": 10, "electric": 5 }
   },
   {
     "id": "mon_zombie_hunter",
@@ -797,7 +802,6 @@
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "dodge": 3,
-    "armor_elec": 1,
     "bleed_rate": 50,
     "vision_night": 5,
     "//": "Legs are important to this monster as he needs them to climb and leap.",
@@ -821,7 +825,8 @@
     "burn_into": "mon_zombie_scorched",
     "upgrades": { "half_life": 42, "into": "mon_zombie_predator" },
     "fungalize_into": "mon_zombie_fungus",
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "CLIMBS", "PUSH_MON", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "CLIMBS", "PUSH_MON", "FILTHY" ],
+    "armor": { "electric": 1 }
   },
   {
     "id": "mon_zombie_mancroc",
@@ -846,10 +851,6 @@
     "melee_dice_sides": 5,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "dodge": 2,
-    "armor_bash": 8,
-    "armor_cut": 10,
-    "armor_bullet": 8,
-    "armor_elec": 1,
     "weakpoints": [
       { "name": "the inside of the mouth", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
       { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
@@ -859,9 +860,10 @@
     "vision_day": 25,
     "vision_night": 5,
     "harvest": "zombie",
+    "grab_strength": 50,
     "special_attacks": [
       {
-        "type": "bite",
+        "id": "bite_grab",
         "cooldown": 10,
         "accuracy": 6,
         "damage_max_instance": [
@@ -869,7 +871,6 @@
           { "damage_type": "bash", "amount": 16, "armor_multiplier": 0.3 }
         ]
       },
-      [ "GRAB", 20 ],
       [ "GRAB_DRAG", 10 ]
     ],
     "death_drops": "mon_zombie_swimmer_death_drops",
@@ -880,6 +881,7 @@
       "SMELLS",
       "STUMBLES",
       "WARM",
+      "GRABS",
       "BASHES",
       "GROUP_BASH",
       "POISON",
@@ -890,7 +892,8 @@
       "SWIMS",
       "FILTHY",
       "WATER_CAMOUFLAGE"
-    ]
+    ],
+    "armor": { "bash": 8, "cut": 10, "bullet": 8, "electric": 1 }
   },
   {
     "id": "mon_zombie_master",
@@ -916,10 +919,6 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 4,
-    "armor_bash": 2,
-    "armor_cut": 2,
-    "armor_bullet": 2,
-    "armor_elec": 3,
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "bleed_rate": 0,
@@ -945,7 +944,8 @@
       "NO_FUNG_DMG",
       "FILTHY",
       "PATH_AVOID_DANGER_1"
-    ]
+    ],
+    "armor": { "bash": 2, "cut": 2, "bullet": 2, "electric": 3 }
   },
   {
     "id": "mon_zombie_necro",
@@ -971,7 +971,6 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "dodge": 2,
-    "armor_elec": 2,
     "bleed_rate": 0,
     "vision_day": 50,
     "vision_night": 5,
@@ -998,7 +997,8 @@
       "PRIORITIZE_TARGETS",
       "NO_FUNG_DMG",
       "FILTHY"
-    ]
+    ],
+    "armor": { "electric": 2 }
   },
   {
     "id": "mon_zombie_necro_boomer",
@@ -1035,16 +1035,17 @@
     "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 1,
-    "armor_elec": 1,
     "vision_night": 3,
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "harvest": "zombie",
     "path_settings": { "max_dist": 4 },
+    "grab_strength": 20,
     "special_attacks": [
-      [ "scratch", 10 ],
+      { "id": "grab" },
+      { "id": "scratch_humanoid", "cooldown": 10 },
       {
-        "type": "bite",
+        "id": "bite_humanoid",
         "cooldown": 5,
         "damage_max_instance": [ { "damage_type": "stab", "amount": 10, "armor_multiplier": 0.7 } ]
       }
@@ -1052,7 +1053,8 @@
     "death_drops": "default_zombie_death_drops",
     "burn_into": "mon_zombie_scorched",
     "upgrades": { "half_life": 35, "into": "mon_zombie_hunter" },
-    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "GRABS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ],
+    "armor": { "electric": 1 }
   },
   {
     "id": "mon_zombie_regenerating",
@@ -1077,12 +1079,12 @@
     "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 1,
-    "armor_elec": 1,
     "vision_night": 3,
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "harvest": "zombie",
-    "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "GRAB", 7 ], [ "scratch", 20 ] ],
+    "grab_strength": 20,
+    "special_attacks": [ { "id": "grab", "cooldown": 7 }, { "id": "scratch_humanoid" }, { "id": "bite_humanoid", "cooldown": 5 } ],
     "death_drops": "default_zombie_death_drops",
     "regenerates": 12,
     "burn_into": "mon_zombie_scorched",
@@ -1092,6 +1094,7 @@
       "SMELLS",
       "STUMBLES",
       "WARM",
+      "GRABS",
       "BASHES",
       "GROUP_BASH",
       "POISON",
@@ -1100,7 +1103,8 @@
       "REVIVES_HEALTHY",
       "NO_NECRO",
       "FILTHY"
-    ]
+    ],
+    "armor": { "electric": 1 }
   },
   {
     "id": "mon_zombie_predator",
@@ -1125,10 +1129,6 @@
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
     "dodge": 5,
-    "armor_bash": 5,
-    "armor_cut": 5,
-    "armor_bullet": 4,
-    "armor_elec": 1,
     "weakpoints": [
       { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
       { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
@@ -1150,7 +1150,8 @@
     ],
     "death_drops": "default_zombie_death_drops",
     "burn_into": "mon_zombie_scorched",
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "CLIMBS", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "CLIMBS", "FILTHY" ],
+    "armor": { "bash": 5, "cut": 5, "bullet": 4, "electric": 1 }
   },
   {
     "id": "mon_zombie_screecher",
@@ -1176,17 +1177,18 @@
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
     "dodge": 2,
-    "armor_elec": 1,
     "bleed_rate": 50,
     "vision_day": 50,
     "vision_night": 8,
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "harvest": "zombie",
-    "special_attacks": [ [ "SHRIEK_ALERT", 20 ], [ "SHRIEK_STUN", 1 ], [ "scratch", 20 ] ],
+    "grab_strength": 15,
+    "special_attacks": [ { "id": "grab" }, [ "SHRIEK_ALERT", 20 ], [ "SHRIEK_STUN", 1 ], { "id": "scratch_humanoid" } ],
     "death_drops": "default_zombie_death_drops",
     "burn_into": "mon_zombie_scorched",
-    "flags": [ "SEES", "KEENNOSE", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
+    "flags": [ "SEES", "KEENNOSE", "STUMBLES", "GRABS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ],
+    "armor": { "electric": 1 }
   },
   {
     "id": "mon_zombie_shady",
@@ -1210,13 +1212,13 @@
     "melee_dice": 2,
     "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "armor_elec": 1,
     "vision_day": 3,
     "vision_night": 40,
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "harvest": "zombie",
-    "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "GRAB", 7 ], [ "scratch", 20 ] ],
+    "grab_strength": 20,
+    "special_attacks": [ { "id": "grab", "cooldown": 7 }, { "id": "scratch_humanoid" }, { "id": "bite_humanoid", "cooldown": 5 } ],
     "death_drops": "default_zombie_death_drops",
     "upgrades": { "half_life": 28, "into_group": "GROUP_ZOMBIE_SHADY_UPGRADES" },
     "burn_into": "mon_zombie_scorched",
@@ -1226,6 +1228,7 @@
       "SMELLS",
       "STUMBLES",
       "WARM",
+      "GRABS",
       "BASHES",
       "GROUP_BASH",
       "POISON",
@@ -1234,7 +1237,8 @@
       "PUSH_MON",
       "NIGHT_INVISIBILITY",
       "FILTHY"
-    ]
+    ],
+    "armor": { "electric": 1 }
   },
   {
     "id": "mon_zombie_shrieker",
@@ -1260,13 +1264,13 @@
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 1,
-    "armor_elec": 1,
     "vision_day": 50,
     "vision_night": 4,
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "harvest": "zombie",
-    "special_attacks": [ [ "SHRIEK", 10 ], [ "GRAB", 7 ], [ "scratch", 20 ] ],
+    "grab_strength": 20,
+    "special_attacks": [ { "id": "grab", "cooldown": 7 }, { "id": "scratch_humanoid" }, [ "SHRIEK", 10 ] ],
     "death_drops": "default_zombie_death_drops",
     "burn_into": "mon_zombie_scorched",
     "fungalize_into": "mon_zombie_fungus",
@@ -1277,6 +1281,7 @@
       "SMELLS",
       "STUMBLES",
       "WARM",
+      "GRABS",
       "BASHES",
       "GROUP_BASH",
       "POISON",
@@ -1284,7 +1289,8 @@
       "REVIVES",
       "PUSH_MON",
       "FILTHY"
-    ]
+    ],
+    "armor": { "electric": 1 }
   },
   {
     "id": "mon_zombie_skull",
@@ -1309,17 +1315,18 @@
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "dodge": 1,
-    "armor_bash": 5,
-    "armor_cut": 3,
-    "armor_bullet": 2,
-    "armor_elec": 2,
     "bleed_rate": 0,
     "vision_day": 25,
     "vision_night": 5,
     "weakpoint_sets": [ "wps_humanoid_body_headless" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "harvest": "zombie",
-    "special_attacks": [ { "type": "bite", "cooldown": 5, "min_mul": 0.7 }, [ "GRAB", 6 ], [ "scratch", 15 ] ],
+    "grab_strength": 35,
+    "special_attacks": [
+      { "id": "grab", "cooldown": 6 },
+      { "id": "scratch_humanoid", "cooldown": 15 },
+      { "id": "bite_humanoid", "cooldown": 5, "min_mul": 0.75, "max_mul": 1.5 }
+    ],
     "death_drops": "default_zombie_death_drops",
     "burn_into": "mon_zombie_scorched",
     "flags": [
@@ -1328,6 +1335,7 @@
       "SEES",
       "STUMBLES",
       "WARM",
+      "GRABS",
       "BASHES",
       "GROUP_BASH",
       "POISON",
@@ -1336,7 +1344,8 @@
       "REVIVES",
       "PUSH_MON",
       "FILTHY"
-    ]
+    ],
+    "armor": { "bash": 5, "cut": 3, "bullet": 2, "electric": 2 }
   },
   {
     "id": "mon_zombie_smoker",
@@ -1360,8 +1369,6 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "dodge": 4,
-    "armor_fire": 5,
-    "armor_elec": 1,
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "bleed_rate": 50,
@@ -1369,7 +1376,8 @@
     "vision_night": 3,
     "harvest": "zombie",
     "emit_fields": [ { "emit_id": "emit_smoke_stream", "delay": "1 s" } ],
-    "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "scratch", 15 ] ],
+    "grab_strength": 20,
+    "special_attacks": [ { "id": "grab" }, { "id": "scratch_humanoid", "cooldown": 15 }, { "id": "bite_humanoid", "cooldown": 5 } ],
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explode!" },
     "fungalize_into": "mon_zombie_smoker_fungus",
     "upgrades": { "half_life": 30, "into": "mon_smoker_brute" },
@@ -1378,6 +1386,7 @@
       "HEARS",
       "STUMBLES",
       "WARM",
+      "GRABS",
       "BASHES",
       "GROUP_BASH",
       "POISON",
@@ -1386,7 +1395,8 @@
       "REVIVES",
       "PUSH_MON",
       "FILTHY"
-    ]
+    ],
+    "armor": { "heat": 5, "electric": 1 }
   },
   {
     "id": "mon_smoker_brute",
@@ -1409,26 +1419,21 @@
     "melee_dice": 3,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
-    "armor_bash": 2,
-    "armor_cut": 8,
-    "armor_stab": 8,
-    "armor_bullet": 10,
-    "armor_elec": 2,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_head_small" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "bleed_rate": 50,
     "dodge": 7,
-    "armor_fire": 5,
     "vision_day": 30,
     "vision_night": 3,
     "harvest": "zombie",
     "emit_fields": [ { "emit_id": "emit_smoke_stream", "delay": "1 s" } ],
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explode!" },
+    "grab_strength": 35,
     "special_attacks": [
       { "id": "smash", "throw_strength": 48, "cooldown": 30 },
-      { "type": "bite", "cooldown": 5 },
-      [ "scratch", 15 ],
-      [ "RANGED_PULL", 20 ],
+      { "id": "bite_humanoid", "cooldown": 5 },
+      { "id": "scratch_humanoid", "cooldown": 15 },
+      { "id": "ranged_pull", "cooldown": 20 },
       [ "GRAB_DRAG", 10 ]
     ],
     "flags": [
@@ -1436,6 +1441,7 @@
       "HEARS",
       "STUMBLES",
       "WARM",
+      "GRABS",
       "BASHES",
       "GROUP_BASH",
       "POISON",
@@ -1446,7 +1452,8 @@
       "PUSH_VEH",
       "FILTHY",
       "RANGED_ATTACKER"
-    ]
+    ],
+    "armor": { "bash": 2, "cut": 8, "stab": 8, "heat": 5, "bullet": 10, "electric": 2 }
   },
   {
     "id": "mon_zombie_swimmer_base",
@@ -1470,18 +1477,32 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
     "dodge": 1,
-    "armor_elec": 1,
     "vision_night": 3,
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "harvest": "zombie",
-    "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "GRAB", 7 ], [ "scratch", 20 ] ],
+    "grab_strength": 20,
+    "special_attacks": [ { "id": "grab", "cooldown": 7 }, { "id": "scratch_humanoid" }, { "id": "bite_humanoid", "cooldown": 5 } ],
     "death_drops": "mon_zombie_swimmer_death_drops",
     "burn_into": "mon_zombie_scorched",
     "fungalize_into": "mon_zombie_fungus",
     "upgrades": { "half_life": 30, "into": "mon_zombie_swimmer" },
     "categories": [ "CLASSIC" ],
-    "flags": [ "SEES", "HEARS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "STUMBLES",
+      "WARM",
+      "GRABS",
+      "BASHES",
+      "GROUP_BASH",
+      "POISON",
+      "NO_BREATHE",
+      "REVIVES",
+      "PUSH_MON",
+      "FILTHY"
+    ],
+    "armor": { "electric": 1 }
   },
   {
     "id": "mon_zombie_swimmer",
@@ -1505,12 +1526,13 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "dodge": 2,
-    "armor_elec": 1,
     "vision_night": 3,
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "harvest": "zombie",
-    "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "GRAB", 7 ], [ "scratch", 20 ] ],
+    "//grab": "Tier 2 mob, but webbed hands don't sound very grabby",
+    "grab_strength": 20,
+    "special_attacks": [ { "id": "grab", "cooldown": 7 }, { "id": "scratch_humanoid" }, { "id": "bite_humanoid", "cooldown": 5 } ],
     "death_drops": "mon_zombie_swimmer_death_drops",
     "burn_into": "mon_zombie_scorched",
     "fungalize_into": "mon_zombie_fungus",
@@ -1520,6 +1542,7 @@
       "HEARS",
       "STUMBLES",
       "WARM",
+      "GRABS",
       "BASHES",
       "GROUP_BASH",
       "POISON",
@@ -1529,7 +1552,8 @@
       "PUSH_MON",
       "FILTHY",
       "WATER_CAMOUFLAGE"
-    ]
+    ],
+    "armor": { "electric": 1 }
   },
   {
     "id": "mon_zombie_technician",
@@ -1554,20 +1578,18 @@
     "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 1,
-    "armor_bash": 2,
-    "armor_cut": 2,
-    "armor_bullet": 2,
-    "armor_elec": 3,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_open_helmet" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "vision_day": 15,
     "vision_night": 2,
     "harvest": "zombie",
     "fungalize_into": "mon_zombie_fungus",
-    "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "GRAB", 7 ], [ "scratch", 20 ] ],
+    "grab_strength": 20,
+    "special_attacks": [ { "id": "grab", "cooldown": 7 }, { "id": "scratch_humanoid" }, { "id": "bite_humanoid", "cooldown": 5 } ],
     "death_drops": "mon_zombie_technician_death_drops",
     "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBIE_UPGRADE" },
-    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "WARM", "GRABS", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ],
+    "armor": { "bash": 2, "cut": 2, "bullet": 2, "electric": 3 }
   },
   {
     "id": "mon_zombie_miner",
@@ -1593,19 +1615,17 @@
     "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 1,
-    "armor_bash": 2,
-    "armor_cut": 2,
-    "armor_bullet": 2,
-    "armor_elec": 1,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_open_helmet" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "vision_day": 15,
     "vision_night": 2,
     "harvest": "zombie",
-    "special_attacks": [ { "type": "bite", "cooldown": 20 } ],
+    "grab_strength": 20,
+    "special_attacks": [ { "id": "grab" }, { "id": "scratch_humanoid" }, { "id": "bite_humanoid", "cooldown": 20 } ],
     "death_drops": "mon_zombie_miner_death_drops",
     "upgrades": { "half_life": 35, "into_group": "GROUP_ZOMBIE_MINER_UPGRADE" },
-    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "GRABS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ],
+    "armor": { "bash": 2, "cut": 2, "bullet": 2, "electric": 1 }
   },
   {
     "id": "mon_zombie_thorny",
@@ -1629,17 +1649,14 @@
     "melee_dice": 2,
     "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
-    "armor_bash": 2,
-    "armor_cut": 4,
-    "armor_bullet": 3,
-    "armor_elec": 1,
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "bleed_rate": 50,
     "vision_night": 5,
     "harvest": "zombie_thorny",
     "attack_effs": [ { "id": "paralyzepoison", "duration": 33 } ],
-    "special_attacks": [ [ "GRAB", 7 ], [ "scratch", 20 ], [ "PARA_STING", 30 ] ],
+    "grab_strength": 20,
+    "special_attacks": [ { "id": "grab", "cooldown": 7 }, { "id": "scratch_humanoid" }, [ "PARA_STING", 30 ] ],
     "death_drops": "mon_zombie_thorny_death_drops",
     "burn_into": "mon_zombie_scorched",
     "flags": [
@@ -1647,6 +1664,7 @@
       "HEARS",
       "SMELLS",
       "STUMBLES",
+      "GRABS",
       "BASHES",
       "GROUP_BASH",
       "POISON",
@@ -1655,7 +1673,8 @@
       "PUSH_MON",
       "FILTHY",
       "PARALYZEVENOM"
-    ]
+    ],
+    "armor": { "bash": 2, "cut": 4, "bullet": 3, "electric": 1 }
   },
   {
     "id": "mon_zombie_reenactor",
@@ -1681,9 +1700,6 @@
     "melee_skill": 3,
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
-    "armor_bash": 5,
-    "armor_cut": 5,
-    "armor_bullet": 1,
     "//1": "The torn fursuit offers slightly more protection.",
     "harvest": "zombie",
     "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_clothes", 100 ], [ "zombie_fursuits", 100 ] ] },
@@ -1694,6 +1710,7 @@
       "SMELLS",
       "STUMBLES",
       "WARM",
+      "GRABS",
       "BASHES",
       "GROUP_BASH",
       "POISON",
@@ -1701,6 +1718,7 @@
       "REVIVES",
       "PUSH_MON",
       "FILTHY"
-    ]
+    ],
+    "armor": { "bash": 5, "cut": 5, "bullet": 1, "electric": 1 }
   }
 ]

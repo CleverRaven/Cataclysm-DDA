@@ -98,12 +98,6 @@
     "melee_dice": 3,
     "melee_dice_sides": 3,
     "dodge": 6,
-    "armor_bash": 8,
-    "armor_cut": 4,
-    "armor_stab": 4,
-    "armor_bullet": 12,
-    "armor_acid": 5,
-    "armor_elec": 5,
     "bleed_rate": 0,
     "vision_day": 20,
     "vision_night": 8,
@@ -114,7 +108,8 @@
     "harvest": "zombie_amalgamation",
     "//": "TODO: When effects/spells can mess with path settings + flags move smartness to the effect of dedicated coordinatiors",
     "path_settings": { "avoid_sharp": true, "avoid_traps": true, "max_dist": 400 },
-    "flags": [ "SEES", "SMELLS", "HEARS", "PATH_AVOID_DANGER_2", "REVIVES", "NO_BREATHE" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "PATH_AVOID_DANGER_2", "REVIVES", "NO_BREATHE" ],
+    "armor": { "bash": 8, "cut": 4, "stab": 4, "acid": 5, "bullet": 12, "electric": 5 }
   },
   {
     "type": "MONSTER",
@@ -126,14 +121,9 @@
     "hp": 180,
     "melee_skill": 7,
     "dodge": 5,
-    "armor_bash": 16,
-    "armor_cut": 10,
-    "armor_stab": 16,
-    "armor_bullet": 30,
-    "armor_acid": 8,
-    "armor_elec": 8,
     "vision_night": 10,
-    "extend": { "flags": [ "BASHES", "GROUP_BASH" ] }
+    "extend": { "flags": [ "BASHES", "GROUP_BASH" ] },
+    "armor": { "bash": 16, "cut": 10, "stab": 16, "acid": 8, "bullet": 30, "electric": 8 }
   },
   {
     "type": "MONSTER",
@@ -158,7 +148,7 @@
         "hitsize_min": 4,
         "min_mul": 0.5,
         "max_mul": 1.2,
-        "forbidden_effects_any": [ "maimed_mandible" ],
+        "condition": { "not": { "u_has_effect": "maimed_mandible" } },
         "infection_chance": 10,
         "attack_upper": false
       }
@@ -184,9 +174,8 @@
     "vision_day": 60,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "tracking_distance": 12,
-    "armor_bash": 10,
-    "armor_cut": 5,
-    "extend": { "flags": [ "KEENNOSE", "KEEP_DISTANCE" ] }
+    "extend": { "flags": [ "KEENNOSE", "KEEP_DISTANCE" ] },
+    "armor": { "stab": 4, "acid": 5, "bullet": 12, "electric": 5, "bash": 10, "cut": 5 }
   },
   {
     "type": "MONSTER",
@@ -203,7 +192,7 @@
         "cooldown": 8,
         "damage_max_instance": [ { "damage_type": "stab", "amount": 8 }, { "damage_type": "acid", "amount": 8 } ],
         "effects": [ { "id": "corroding", "duration": [ 10, 30 ], "affect_hit_bp": true } ],
-        "forbidden_effects_any": [ "maimed_mandible" ]
+        "condition": { "not": { "u_has_effect": "maimed_mandible" } }
       },
       { "id": "acid_slash" },
       { "id": "acid_charge" }
@@ -240,14 +229,14 @@
         "max_range": 8,
         "allow_no_target": false,
         "cooldown": 3,
-        "forbidden_effects_any": [ "maimed_leg", "maimed_wings" ]
+        "condition": { "and": [ { "not": { "u_has_effect": "maimed_leg" } }, { "not": { "u_has_effect": "maimed_wings" } } ] }
       },
       {
         "type": "bite",
         "cooldown": 3,
         "move_cost": 150,
         "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_penetration": 8 } ],
-        "forbidden_effects_any": [ "maimed_mandible" ],
+        "condition": { "not": { "u_has_effect": "maimed_mandible" } },
         "infection_chance": 10
       }
     ],
@@ -271,8 +260,7 @@
         "spell_data": { "id": "shock_blast", "hit_self": true, "min_level": 1 },
         "cooldown": 25,
         "monster_message": "A cloud of electricity explodes from the %s",
-        "required_effects_any": [ "elec_charged" ],
-        "forbidden_effects_any": [ "maimed_capacitor" ]
+        "condition": { "and": [ { "not": { "u_has_effect": "maimed_capacitor" } }, { "u_has_effect": "elec_charged" } ] }
       },
       {
         "type": "spell",
@@ -280,9 +268,9 @@
         "spell_data": { "id": "shock_cone", "min_level": 1 },
         "monster_message": "A bolt of electricity arcs from %s!",
         "cooldown": 20,
-        "forbidden_effects_any": [ "maimed_capacitor" ]
+        "condition": { "not": { "u_has_effect": "maimed_capacitor" } }
       },
-      { "id": "elec_charge", "forbidden_effects_any": [ "maimed_capacitor" ] }
+      { "id": "elec_charge", "condition": { "not": { "u_has_effect": "maimed_capacitor" } } }
     ],
     "special_when_hit": [ "ZAPBACK", 100 ],
     "death_function": { "effect": { "id": "death_shock_blast", "hit_self": true } },
@@ -308,13 +296,14 @@
     "melee_skill": 8,
     "melee_dice": 4,
     "melee_dice_sides": 4,
+    "grab_strength": 100,
     "special_attacks": [
       {
-        "type": "bite",
+        "id": "bite_grab",
         "cooldown": 10,
         "move_cost": 120,
         "damage_max_instance": [ { "damage_type": "cut", "amount": 18, "armor_penetration": 22 } ],
-        "forbidden_effects_any": [ "maimed_mandible" ],
+        "condition": { "not": { "u_has_effect": "maimed_mandible" } },
         "infection_chance": 10,
         "hitsize_min": 0
       },
@@ -330,16 +319,12 @@
       [ "GRAB_DRAG", 15 ]
     ],
     "dodge": 3,
-    "armor_bash": 20,
-    "armor_cut": 25,
-    "armor_stab": 30,
-    "armor_bullet": 40,
-    "armor_acid": 12,
-    "armor_elec": 12,
     "vision_night": 8,
     "extend": {
       "weakpoint_sets": [ "wps_amalgamation_armor", "wps_amalgamation_mandible", "wps_amalgamation_tail" ],
       "families": [ "prof_wp_nat_armored" ]
-    }
+    },
+    "armor": { "bash": 20, "cut": 25, "stab": 30, "acid": 12, "bullet": 40, "electric": 12 },
+    "flags": [ "GRABS" ]
   }
 ]

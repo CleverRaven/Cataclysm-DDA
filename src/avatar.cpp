@@ -94,6 +94,7 @@ static const efftype_id effect_happy( "happy" );
 static const efftype_id effect_irradiated( "irradiated" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_pkill( "pkill" );
+static const efftype_id effect_relax_gas( "relax_gas" );
 static const efftype_id effect_sad( "sad" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_sleep_deprived( "sleep_deprived" );
@@ -443,15 +444,7 @@ bool avatar::read( item_location &book, item_location ereader )
             add_msg( m_info, _( "%s reads aloud…" ), reader->disp_name() );
         }
 
-        assign_activity(
-            player_activity(
-                read_activity_actor(
-                    to_moves<int>( time_taken ),
-                    book,
-                    ereader,
-                    false
-                ) ) );
-
+        assign_activity( read_activity_actor( time_taken, book, ereader, false ) );
         return true;
     }
 
@@ -676,15 +669,7 @@ bool avatar::read( item_location &book, item_location ereader )
         return false;
     }
 
-    assign_activity(
-        player_activity(
-            read_activity_actor(
-                to_moves<int>( time_taken ),
-                book,
-                ereader,
-                continuous,
-                learner_id
-            ) ) );
+    assign_activity( read_activity_actor( time_taken, book, ereader, continuous, learner_id ) );
 
     return true;
 }
@@ -873,6 +858,21 @@ void avatar::vomit()
         add_msg( m_warning, _( "You retched, but your stomach is empty." ) );
     }
     Character::vomit();
+}
+
+bool avatar::try_break_relax_gas( const std::string &msg_success, const std::string &msg_failure )
+{
+    const effect &pacify = get_effect( effect_relax_gas, body_part_mouth );
+    if( pacify.is_null() ) {
+        return true;
+    } else if( one_in( pacify.get_intensity() ) ) {
+        add_msg( m_good, msg_success );
+        return true;
+    } else {
+        mod_moves( std::max( 0, pacify.get_intensity() * 10 + rng( -30, 30 ) ) );
+        add_msg( m_bad, msg_failure );
+        return false;
+    }
 }
 
 nc_color avatar::basic_symbol_color() const
@@ -2059,7 +2059,7 @@ void avatar::try_to_sleep( const time_duration &dur )
             add_msg_if_player( m_bad, _( "Your soporific inducer doesn't have enough power to operate." ) );
         }
     }
-    assign_activity( player_activity( try_sleep_activity_actor( dur ) ) );
+    assign_activity( try_sleep_activity_actor( dur ) );
 }
 
 bool avatar::query_yn( const std::string &mes ) const

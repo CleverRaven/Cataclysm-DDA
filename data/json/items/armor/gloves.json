@@ -268,7 +268,6 @@
     "price": 38000,
     "price_postapoc": 1250,
     "to_hit": -2,
-    "bashing": 2,
     "material": [ "chitin" ],
     "symbol": "[",
     "looks_like": "gauntlets_larmor",
@@ -289,7 +288,8 @@
         "covers": [ "hand_l", "hand_r" ],
         "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "xl_gauntlets_chitin",
@@ -318,9 +318,8 @@
     "material": [ "acidchitin" ],
     "price_postapoc": 1750,
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
-    "relative": { "bashing": 1 },
-    "material_thickness": 5,
-    "extend": { "flags": [ "NO_REPAIR" ] }
+    "relative": { "melee_damage": { "bash": 1 } },
+    "material_thickness": 5
   },
   {
     "id": "xl_gauntlets_acidchitin",
@@ -349,7 +348,6 @@
     "volume": "270 ml",
     "price": 6000,
     "price_postapoc": 140,
-    "cutting": 1,
     "material": [ "plastic" ],
     "symbol": "[",
     "looks_like": "gloves_medical",
@@ -357,7 +355,8 @@
     "material_thickness": 0.5,
     "environmental_protection": 4,
     "flags": [ "WATER_FRIENDLY", "WATERPROOF" ],
-    "armor": [ { "encumbrance": 15, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [ { "encumbrance": 15, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ],
+    "melee_damage": { "cut": 1 }
   },
   {
     "id": "gauntlet_fencing",
@@ -410,7 +409,6 @@
     "price": 3400,
     "price_postapoc": 750,
     "to_hit": -2,
-    "bashing": 2,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "gloves_leather",
@@ -438,7 +436,8 @@
         "covers": [ "hand_l", "hand_r" ],
         "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "xl_gauntlets_larmor",
@@ -569,7 +568,6 @@
     "price": 400,
     "price_postapoc": 100,
     "to_hit": -2,
-    "bashing": 5,
     "symbol": "[",
     "looks_like": "lc_mitten_gaunt",
     "material": [ "lc_steel" ],
@@ -587,7 +585,8 @@
         "coverage": 100,
         "encumbrance": 25
       }
-    ]
+    ],
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "ch_mitten_gaunt_metal_sheets",
@@ -780,22 +779,20 @@
   },
   {
     "id": "gloves_medical",
-    "repairs_like": "gloves_light",
     "type": "ARMOR",
     "name": { "str": "pair of medical gloves", "str_pl": "pairs of medical gloves" },
     "description": "A pair of thin latex gloves, designed to limit the spread of disease.  Too fragile to protect you from much else.",
-    "weight": "10 g",
-    "volume": "2 ml",
-    "price": 1000,
+    "weight": "3 g",
+    "volume": "5 ml",
+    "price": 10,
     "price_postapoc": 10,
-    "to_hit": 1,
     "material": [ "plastic" ],
     "symbol": "[",
     "looks_like": "gloves_light",
     "color": "white",
     "material_thickness": 0.1,
     "environmental_protection": 2,
-    "flags": [ "WATER_FRIENDLY", "WATERPROOF", "SKINTIGHT", "SOFT", "FRAGILE" ],
+    "flags": [ "WATER_FRIENDLY", "WATERPROOF", "SKINTIGHT", "SOFT", "FRAGILE", "NO_REPAIR" ],
     "armor": [ { "encumbrance": 1, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
@@ -829,7 +826,6 @@
     "price": 40000,
     "price_postapoc": 3000,
     "to_hit": -2,
-    "bashing": 7,
     "material": [ "iron", "leather" ],
     "symbol": "[",
     "looks_like": "fire_gauntlets",
@@ -873,7 +869,8 @@
           { "type": "iron", "covered_by_mat": 80, "thickness": 2.0 }
         ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 7 }
   },
   {
     "id": "xl_gloves_plate",
@@ -1378,7 +1375,6 @@
     "price": 40000,
     "price_postapoc": 3000,
     "to_hit": -2,
-    "bashing": 7,
     "symbol": "[",
     "looks_like": "fire_gauntlets",
     "material": [ "lc_steel", "lc_steel_chain" ],
@@ -1416,7 +1412,8 @@
           { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
         ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 7 }
   },
   {
     "id": "xl_lc_demi_gaunt",
@@ -1621,7 +1618,6 @@
     "price": 40000,
     "price_postapoc": 3000,
     "to_hit": -2,
-    "bashing": 7,
     "symbol": "[",
     "looks_like": "fire_gauntlets",
     "material": [ "lc_steel", "lc_steel_chain" ],
@@ -1660,7 +1656,8 @@
           { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
         ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 7 }
   },
   {
     "id": "xl_lc_mitten_gaunt",

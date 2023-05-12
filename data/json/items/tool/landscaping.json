@@ -10,13 +10,13 @@
     "longest_side": "90 cm",
     "price": 0,
     "price_postapoc": 0,
-    "bashing": 8,
     "to_hit": -1,
     "material": [ "wood" ],
     "symbol": "/",
     "color": "brown",
     "techniques": [ "WBLOCK_1" ],
-    "qualities": [ [ "DIG", 1 ] ]
+    "qualities": [ [ "DIG", 1 ] ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "g_shovel",
@@ -29,12 +29,11 @@
     "price": 20,
     "price_postapoc": 50,
     "to_hit": 1,
-    "bashing": 3,
-    "cutting": 5,
     "material": [ "steel" ],
     "symbol": "/",
     "color": "dark_gray",
-    "qualities": [ [ "DIG", 1 ], [ "BUTCHER", -4 ], [ "CUT", 2 ] ]
+    "qualities": [ [ "DIG", 1 ], [ "BUTCHER", -4 ], [ "CUT", 2 ] ],
+    "melee_damage": { "bash": 3, "cut": 5 }
   },
   {
     "id": "hoe",
@@ -47,16 +46,15 @@
     "price": 2000,
     "price_postapoc": 250,
     "to_hit": 1,
-    "bashing": 10,
-    "cutting": 6,
     "material": [ "steel", "wood" ],
     "symbol": "/",
     "color": "brown",
     "qualities": [ [ "DIG", 1 ], [ "SAW_W", 1 ] ],
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "NONCONDUCTIVE" ],
+    "flags": [ "NONCONDUCTIVE", "NO_SALVAGE" ],
     "weapon_category": [ "BLADED_FARMING", "HOOKING_WEAPONRY" ],
-    "use_action": [ "MAKEMOUND" ]
+    "use_action": [ "MAKEMOUND" ],
+    "melee_damage": { "bash": 10, "cut": 6 }
   },
   {
     "id": "bronze_hoe",
@@ -69,8 +67,6 @@
     "price": 2000,
     "price_postapoc": 250,
     "to_hit": 1,
-    "bashing": 10,
-    "cutting": 5,
     "material": [ "bronze", "wood" ],
     "symbol": "/",
     "color": "yellow",
@@ -79,7 +75,8 @@
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "NONCONDUCTIVE" ],
     "weapon_category": [ "BLADED_FARMING", "HOOKING_WEAPONRY" ],
-    "use_action": [ "MAKEMOUND" ]
+    "use_action": [ "MAKEMOUND" ],
+    "melee_damage": { "bash": 10, "cut": 5 }
   },
   {
     "id": "primitive_shovel",
@@ -90,12 +87,11 @@
     "volume": "4 L",
     "longest_side": "120 cm",
     "price": 100,
-    "bashing": 15,
-    "cutting": 1,
     "material": [ "wood" ],
     "symbol": "/",
     "color": "brown",
-    "qualities": [ [ "DIG", 2 ] ]
+    "qualities": [ [ "DIG", 2 ] ],
+    "melee_damage": { "bash": 15, "cut": 1 }
   },
   {
     "id": "rake",
@@ -107,12 +103,11 @@
     "longest_side": "150 cm",
     "price": 1000,
     "price_postapoc": 150,
-    "bashing": 12,
-    "cutting": 3,
     "material": [ "steel", "wood" ],
     "symbol": "/",
     "color": "brown",
-    "flags": [ "NONCONDUCTIVE" ]
+    "flags": [ "NONCONDUCTIVE" ],
+    "melee_damage": { "bash": 12, "cut": 3 }
   },
   {
     "id": "rake_plastic",
@@ -124,12 +119,11 @@
     "longest_side": "150 cm",
     "price": 750,
     "price_postapoc": 100,
-    "bashing": 10,
-    "cutting": 1,
     "material": [ "plastic", "wood" ],
     "symbol": "/",
     "color": "brown",
-    "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE" ]
+    "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE" ],
+    "melee_damage": { "bash": 10, "cut": 1 }
   },
   {
     "id": "scythe",
@@ -142,15 +136,14 @@
     "price": 8000,
     "price_postapoc": 250,
     "to_hit": -6,
-    "bashing": 6,
-    "cutting": 14,
     "material": [ "steel", "wood" ],
     "symbol": "/",
     "color": "light_gray",
     "techniques": [ "WIDE", "BRUTAL" ],
     "qualities": [ [ "CUT", 1 ], [ "GRASS_CUT", 2 ], [ "BUTCHER", -22 ] ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ],
-    "weapon_category": [ "BLADED_FARMING", "HOOKING_WEAPONRY", "POLEARMS" ]
+    "weapon_category": [ "BLADED_FARMING", "HOOKING_WEAPONRY", "POLEARMS" ],
+    "melee_damage": { "bash": 6, "cut": 14 }
   },
   {
     "id": "scythe_fake",
@@ -161,7 +154,7 @@
     "color": "light_gray",
     "name": { "str": "scythe" },
     "description": "A dull, cheaply-made replica of an old-fashioned farming tool used to cut tall grass.",
-    "proportional": { "bashing": 1.8, "cutting": 0.064 },
+    "proportional": { "melee_damage": { "bash": 1.8, "cut": 0.064 } },
     "delete": { "flags": [ "DURABLE_MELEE" ] },
     "extend": { "flags": [ "FRAGILE_MELEE" ] },
     "material": [ "aluminum", "wood" ],
@@ -183,11 +176,11 @@
     "price": 3000,
     "price_postapoc": 10,
     "to_hit": -6,
-    "bashing": 7,
     "material": [ "plastic" ],
     "techniques": [ "WIDE", "BRUTAL" ],
     "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE", "POLEARM", "SHEATH_SPEAR", "REACH_ATTACK", "ALWAYS_TWOHAND" ],
-    "weapon_category": [ "BLADED_FARMING", "HOOKING_WEAPONRY", "POLEARMS" ]
+    "weapon_category": [ "BLADED_FARMING", "HOOKING_WEAPONRY", "POLEARMS" ],
+    "melee_damage": { "bash": 7 }
   },
   {
     "id": "shovel",
@@ -200,14 +193,13 @@
     "price": 2000,
     "price_postapoc": 250,
     "to_hit": 3,
-    "bashing": 14,
-    "cutting": 3,
     "material": [ "steel", "wood" ],
     "symbol": "/",
     "color": "brown",
     "qualities": [ [ "DIG", 3 ], [ "COOK", 1 ], [ "BUTCHER", -70 ] ],
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "NONCONDUCTIVE" ]
+    "flags": [ "NONCONDUCTIVE", "NO_SALVAGE" ],
+    "melee_damage": { "bash": 14, "cut": 3 }
   },
   {
     "id": "shovel_snow",
@@ -221,14 +213,13 @@
     "price": 2000,
     "price_postapoc": 250,
     "to_hit": 2,
-    "bashing": 16,
-    "cutting": 1,
     "material": [ "steel", "wood" ],
     "symbol": "/",
     "color": "brown",
     "qualities": [ [ "COOK", 1 ] ],
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "NONCONDUCTIVE" ]
+    "flags": [ "NONCONDUCTIVE" ],
+    "melee_damage": { "bash": 16, "cut": 1 }
   },
   {
     "id": "shovel_snow_plastic",
@@ -242,12 +233,12 @@
     "price": 1000,
     "price_postapoc": 100,
     "to_hit": 2,
-    "bashing": 5,
     "material": [ "plastic", "wood" ],
     "symbol": "/",
     "color": "brown",
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE" ]
+    "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE" ],
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "sickle_stone",
@@ -260,15 +251,14 @@
     "price": 1000,
     "price_postapoc": 100,
     "to_hit": -2,
-    "bashing": 3,
-    "cutting": 10,
     "material": [ "stone", "wood" ],
     "symbol": "/",
     "color": "light_gray",
     "qualities": [ [ "CUT", 1 ], [ "GRASS_CUT", 1 ], [ "BUTCHER", 2 ] ],
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE" ],
-    "weapon_category": [ "BLADED_FARMING" ]
+    "weapon_category": [ "BLADED_FARMING" ],
+    "melee_damage": { "bash": 3, "cut": 10 }
   },
   {
     "id": "sickle",
@@ -281,15 +271,14 @@
     "price": 3800,
     "price_postapoc": 250,
     "to_hit": -2,
-    "bashing": 3,
-    "cutting": 20,
     "material": [ "steel", "wood" ],
     "symbol": "/",
     "color": "light_gray",
     "qualities": [ [ "CUT", 1 ], [ "GRASS_CUT", 2 ], [ "BUTCHER", 7 ] ],
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "DURABLE_MELEE" ],
-    "weapon_category": [ "BLADED_FARMING" ]
+    "weapon_category": [ "BLADED_FARMING" ],
+    "melee_damage": { "bash": 3, "cut": 20 }
   },
   {
     "id": "bronze_sickle",
@@ -302,15 +291,14 @@
     "price": 1800,
     "price_postapoc": 250,
     "to_hit": -2,
-    "bashing": 3,
-    "cutting": 12,
     "material": [ "bronze", "wood" ],
     "symbol": "L",
     "color": "yellow",
     "looks_like": "sickle",
     "qualities": [ [ "CUT", 1 ], [ "GRASS_CUT", 2 ], [ "BUTCHER", 7 ] ],
     "techniques": [ "WBLOCK_1" ],
-    "weapon_category": [ "BLADED_FARMING" ]
+    "weapon_category": [ "BLADED_FARMING" ],
+    "melee_damage": { "bash": 3, "cut": 12 }
   },
   {
     "id": "brush_axe",
@@ -322,8 +310,6 @@
     "longest_side": "150 cm",
     "price": 5500,
     "price_postapoc": 250,
-    "bashing": 20,
-    "cutting": 30,
     "material": [ "wood", "steel" ],
     "symbol": "/",
     "color": "brown",
@@ -331,7 +317,8 @@
     "qualities": [ [ "AXE", 1 ], [ "GRASS_CUT", 1 ], [ "CUT", 1 ], [ "BUTCHER", -70 ] ],
     "techniques": [ "WBLOCK_1", "BRUTAL", "WIDE", "SWEEP" ],
     "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
-    "weapon_category": [ "HOOKING_WEAPONRY", "POLEARMS" ]
+    "weapon_category": [ "HOOKING_WEAPONRY", "POLEARMS" ],
+    "melee_damage": { "bash": 20, "cut": 30 }
   },
   {
     "id": "bronze_brush_axe",
@@ -343,8 +330,6 @@
     "longest_side": "150 cm",
     "price": 5500,
     "price_postapoc": 250,
-    "bashing": 20,
-    "cutting": 24,
     "material": [ "wood", "bronze" ],
     "symbol": "/",
     "color": "yellow",
@@ -352,7 +337,8 @@
     "qualities": [ [ "AXE", 1 ], [ "GRASS_CUT", 1 ], [ "CUT", 1 ], [ "BUTCHER", -70 ] ],
     "techniques": [ "WBLOCK_1", "BRUTAL", "WIDE", "SWEEP" ],
     "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
-    "weapon_category": [ "HOOKING_WEAPONRY", "POLEARMS" ]
+    "weapon_category": [ "HOOKING_WEAPONRY", "POLEARMS" ],
+    "melee_damage": { "bash": 20, "cut": 24 }
   },
   {
     "id": "trimmer_off",
@@ -365,8 +351,6 @@
     "price": 4000,
     "price_postapoc": 250,
     "to_hit": -1,
-    "bashing": 4,
-    "cutting": 8,
     "material": [ "steel", "plastic" ],
     "symbol": "/",
     "color": "green",
@@ -374,7 +358,8 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "watertight": true, "ammo_restriction": { "gasoline": 600 } } ],
     "charges_per_use": 5,
     "use_action": [ "TRIMMER_OFF" ],
-    "flags": [ "NONCONDUCTIVE" ]
+    "flags": [ "NONCONDUCTIVE" ],
+    "melee_damage": { "bash": 4, "cut": 8 }
   },
   {
     "id": "trimmer_on",
@@ -382,12 +367,12 @@
     "type": "TOOL",
     "name": { "str": "hedge trimmer (on)", "str_pl": "hedge trimmers (on)" },
     "description": "A cordless, double-sided, gasoline-powered hedge trimmer.  It is currently on, ready to do some zombie topiary; use this item to turn it off.",
-    "cutting": 40,
     "power_draw": "500 W",
     "charges_per_use": 0,
     "revert_to": "trimmer_off",
     "use_action": [ "TRIMMER_ON" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -60 ] ],
-    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ]
+    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ],
+    "melee_damage": { "bash": 4, "cut": 40 }
   }
 ]

@@ -10,13 +10,12 @@
     "volume": "2400 ml",
     "weight": "1000 g",
     "longest_side": "100 cm",
-    "bashing": 12,
-    "cutting": 1,
     "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "neutral" },
     "price_postapoc": 50,
     "flags": [ "BELT_CLIP" ],
     "weapon_category": [ "CONSTRUCTED_SWORDS", "MEDIUM_SWORDS" ],
-    "techniques": [ "WBLOCK_1" ]
+    "techniques": [ "WBLOCK_1" ],
+    "melee_damage": { "bash": 12, "cut": 1 }
   },
   {
     "type": "GENERIC",
@@ -30,13 +29,12 @@
     "volume": "3200 ml",
     "weight": "1600 g",
     "longest_side": "130 cm",
-    "bashing": 16,
-    "cutting": 2,
     "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "uneven" },
     "price_postapoc": 50,
     "flags": [ "BELT_CLIP", "ALWAYS_TWOHAND" ],
     "weapon_category": [ "CONSTRUCTED_SWORDS", "GREAT_SWORDS" ],
-    "techniques": [ "WBLOCK_1", "SWEEP", "BRUTAL" ]
+    "techniques": [ "WBLOCK_1", "SWEEP", "BRUTAL" ],
+    "melee_damage": { "bash": 16, "cut": 2 }
   },
   {
     "type": "GENERIC",
@@ -49,13 +47,12 @@
     "volume": "2600 ml",
     "weight": "1010 g",
     "longest_side": "100 cm",
-    "bashing": 12,
-    "cutting": 4,
     "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "neutral" },
     "price_postapoc": 100,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "FRAGILE_MELEE", "BELT_CLIP" ],
-    "weapon_category": [ "CONSTRUCTED_SWORDS", "MEDIUM_SWORDS" ]
+    "weapon_category": [ "CONSTRUCTED_SWORDS", "MEDIUM_SWORDS" ],
+    "melee_damage": { "bash": 12, "cut": 4 }
   },
   {
     "type": "GENERIC",
@@ -68,14 +65,13 @@
     "volume": "2450 ml",
     "weight": "1044 g",
     "longest_side": "100 cm",
-    "bashing": 6,
-    "cutting": 18,
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "uneven" },
     "price_postapoc": 250,
     "flags": [ "BELT_CLIP", "NONCONDUCTIVE" ],
     "weapon_category": [ "CONSTRUCTED_SWORDS", "MEDIUM_SWORDS" ],
     "qualities": [ [ "BUTCHER", -50 ] ],
-    "techniques": [ "WBLOCK_1" ]
+    "techniques": [ "WBLOCK_1" ],
+    "melee_damage": { "bash": 6, "cut": 18 }
   },
   {
     "type": "GENERIC",
@@ -89,14 +85,13 @@
     "volume": "3300 ml",
     "weight": "1700 g",
     "longest_side": "130 cm",
-    "bashing": 12,
-    "cutting": 20,
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "clumsy" },
     "price_postapoc": 250,
     "flags": [ "BELT_CLIP", "ALWAYS_TWOHAND" ],
     "weapon_category": [ "CONSTRUCTED_SWORDS", "GREAT_SWORDS" ],
     "qualities": [ [ "BUTCHER", -50 ] ],
-    "techniques": [ "WBLOCK_1", "SWEEP", "BRUTAL" ]
+    "techniques": [ "WBLOCK_1", "SWEEP", "BRUTAL" ],
+    "melee_damage": { "bash": 12, "cut": 20 }
   },
   {
     "type": "GENERIC",
@@ -110,14 +105,13 @@
     "volume": "2 L",
     "weight": "1300 g",
     "longest_side": "100 cm",
-    "bashing": 6,
-    "cutting": 22,
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "neutral" },
     "price_postapoc": 500,
     "flags": [ "SHEATH_SWORD" ],
     "weapon_category": [ "CONSTRUCTED_SWORDS", "MEDIUM_SWORDS" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -5 ] ],
-    "techniques": [ "WBLOCK_2" ]
+    "techniques": [ "WBLOCK_2" ],
+    "melee_damage": { "bash": 6, "cut": 22 }
   },
   {
     "type": "GENERIC",
@@ -138,14 +132,13 @@
     "volume": "3250 ml",
     "weight": "2800 g",
     "longest_side": "150 cm",
-    "bashing": 8,
-    "cutting": 32,
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "neutral" },
     "price_postapoc": 500,
     "flags": [ "SHEATH_SWORD", "NONCONDUCTIVE" ],
     "weapon_category": [ "CONSTRUCTED_SWORDS", "GREAT_SWORDS" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -20 ] ],
-    "techniques": [ "WBLOCK_1", "RAPID", "WIDE", "BRUTAL" ]
+    "techniques": [ "WBLOCK_1", "RAPID", "WIDE", "BRUTAL" ],
+    "melee_damage": { "bash": 8, "cut": 32 }
   },
   {
     "type": "GENERIC",
@@ -166,14 +159,13 @@
     "volume": "2 L",
     "weight": "1200 g",
     "longest_side": "100 cm",
-    "bashing": 7,
-    "cutting": 23,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
     "price_postapoc": 500,
     "flags": [ "SHEATH_SWORD", "DURABLE_MELEE" ],
     "weapon_category": [ "CONSTRUCTED_SWORDS", "MEDIUM_SWORDS" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 2 ] ],
-    "techniques": [ "WBLOCK_2" ]
+    "techniques": [ "WBLOCK_2" ],
+    "melee_damage": { "bash": 7, "cut": 23 }
   },
   {
     "type": "GENERIC",
@@ -185,8 +177,6 @@
     "volume": "3250 ml",
     "longest_side": "150 cm",
     "price_postapoc": 500,
-    "bashing": 20,
-    "cutting": 30,
     "//": "It's not razor-sharp and most of the damage is coming from the heavy weight, hence the high bash-to-cut ratio.",
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "uneven" },
     "material": [ "budget_steel" ],
@@ -196,7 +186,8 @@
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -30 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "ALWAYS_TWOHAND" ],
     "weapon_category": [ "CONSTRUCTED_SWORDS", "GREAT_SWORDS" ],
-    "category": "weapons"
+    "category": "weapons",
+    "melee_damage": { "bash": 20, "cut": 30 }
   },
   {
     "id": "sword_metal_fencing",
@@ -208,17 +199,16 @@
     "volume": "1750 ml",
     "longest_side": "100 cm",
     "price_postapoc": 500,
-    "bashing": 6,
-    "cutting": 22,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "neutral" },
     "material": [ "budget_steel" ],
     "symbol": "/",
     "color": "light_gray",
     "techniques": [ "RAPID", "WBLOCK_2", "PRECISE" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -8 ] ],
-    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
     "weapon_category": [ "FENCING_WEAPONRY" ],
-    "category": "weapons"
+    "category": "weapons",
+    "melee_damage": { "bash": 6, "stab": 22 }
   },
   {
     "id": "switchblade",
@@ -232,13 +222,12 @@
     "price": 2000,
     "price_postapoc": 50,
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "neutral" },
-    "cutting": 16,
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "dark_gray",
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 14 ] ],
     "techniques": [ "RAPID" ],
-    "flags": [ "STAB", "ALLOWS_BODY_BLOCK" ],
+    "flags": [ "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "KNIVES" ],
     "variant_type": "generic",
     "variants": [
@@ -254,7 +243,8 @@
         "description": "A long, thin knife with a spring-loaded blade that rests inside the handle while not in use.",
         "weight": 3
       }
-    ]
+    ],
+    "melee_damage": { "stab": 16 }
   },
   {
     "id": "knife_folding",
@@ -266,15 +256,14 @@
     "longest_side": "10 cm",
     "price": 1500,
     "price_postapoc": 50,
-    "bashing": 1,
-    "cutting": 12,
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "neutral" },
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 12 ] ],
-    "flags": [ "STAB", "BELT_CLIP", "ALLOWS_BODY_BLOCK" ],
-    "weapon_category": [ "KNIVES" ]
+    "flags": [ "BELT_CLIP", "ALLOWS_BODY_BLOCK" ],
+    "weapon_category": [ "KNIVES" ],
+    "melee_damage": { "bash": 1, "stab": 12 }
   },
   {
     "id": "knife_combat",
@@ -288,8 +277,6 @@
     "price": 10000,
     "price_postapoc": 1250,
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "good" },
-    "bashing": 4,
-    "cutting": 26,
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "dark_gray",
@@ -303,8 +290,9 @@
     "techniques": [ "RAPID" ],
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
     "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ],
-    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE", "NPC_THROWN", "ALLOWS_BODY_BLOCK" ],
-    "weapon_category": [ "KNIVES" ]
+    "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE", "NPC_THROWN", "ALLOWS_BODY_BLOCK", "NO_SALVAGE" ],
+    "weapon_category": [ "KNIVES" ],
+    "melee_damage": { "bash": 4, "stab": 26 }
   },
   {
     "id": "knife_combat_mod",
@@ -333,14 +321,14 @@
     "price": 4000,
     "price_postapoc": 750,
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "good" },
-    "cutting": 16,
     "material": [ "steel", "leather" ],
     "repairs_with": [ "steel" ],
     "symbol": "/",
     "color": "dark_gray",
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 30 ] ],
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
-    "weapon_category": [ "KNIVES" ]
+    "weapon_category": [ "KNIVES" ],
+    "melee_damage": { "cut": 16 }
   },
   {
     "id": "knife_rambo",
@@ -354,15 +342,13 @@
     "longest_side": "30 cm",
     "price": 2000,
     "price_postapoc": 500,
-    "bashing": 6,
-    "cutting": 20,
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "good" },
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "dark_gray",
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "CUT", 2 ], [ "SAW_W", 1 ], [ "SAW_M", 1 ], [ "BUTCHER", 7 ] ],
-    "flags": [ "STAB", "SHEATH_SWORD", "COLLAPSE_CONTENTS" ],
+    "flags": [ "SHEATH_SWORD", "COLLAPSE_CONTENTS" ],
     "weapon_category": [ "KNIVES" ],
     "pocket_data": [
       {
@@ -374,7 +360,8 @@
         "moves": 300,
         "description": "A hidden handle compartment.  Unscrew the compass to access ."
       }
-    ]
+    ],
+    "melee_damage": { "bash": 6, "stab": 20 }
   },
   {
     "id": "knife_rm42",
@@ -387,8 +374,6 @@
     "longest_side": "45 cm",
     "price": 720000,
     "price_postapoc": 5000,
-    "bashing": 4,
-    "cutting": 27,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "point", "balance": "good" },
     "material": [ "qt_steel", "diamond" ],
     "symbol": "/",
@@ -403,8 +388,9 @@
     "techniques": [ "RAPID", "WBLOCK_1" ],
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 24 ] ],
     "thrown_damage": [ { "damage_type": "stab", "amount": 22 } ],
-    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE", "DIAMOND", "NO_REPAIR" ],
-    "weapon_category": [ "KNIVES" ]
+    "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE", "DIAMOND", "NO_REPAIR" ],
+    "weapon_category": [ "KNIVES" ],
+    "melee_damage": { "bash": 4, "stab": 27 }
   },
   {
     "id": "knife_swissarmy",
@@ -418,12 +404,12 @@
     "price": 3000,
     "price_postapoc": 500,
     "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
-    "cutting": 6,
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "red",
     "qualities": [ [ "CUT", 2 ], [ "SAW_W", 1 ], [ "SAW_M", 1 ], [ "SCREW", 1 ], [ "BUTCHER", 8 ] ],
-    "flags": [ "STAB", "ALLOWS_BODY_BLOCK" ]
+    "flags": [ "ALLOWS_BODY_BLOCK" ],
+    "melee_damage": { "stab": 6 }
   },
   {
     "id": "knife_trench",
@@ -436,16 +422,15 @@
     "longest_side": "20 cm",
     "price": 11000,
     "price_postapoc": 1250,
-    "bashing": 6,
-    "cutting": 19,
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "good" },
     "material": [ "steel", "wood" ],
     "symbol": ";",
     "color": "dark_gray",
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
-    "flags": [ "DURABLE_MELEE", "STAB", "SHEATH_KNIFE" ],
-    "weapon_category": [ "KNIVES" ]
+    "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE" ],
+    "weapon_category": [ "KNIVES" ],
+    "melee_damage": { "bash": 6, "stab": 19 }
   },
   {
     "id": "makeshift_knife",
@@ -457,15 +442,14 @@
     "longest_side": "7 cm",
     "price": 0,
     "price_postapoc": 50,
-    "bashing": 2,
-    "cutting": 10,
     "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
     "material": [ "steel" ],
     "symbol": ";",
     "color": "dark_gray",
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 11 ] ],
-    "flags": [ "STAB", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
-    "weapon_category": [ "KNIVES" ]
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "weapon_category": [ "KNIVES" ],
+    "melee_damage": { "bash": 2, "stab": 10 }
   },
   {
     "id": "bone_knife",
@@ -480,13 +464,12 @@
     "longest_side": "20 cm",
     "price": 0,
     "price_postapoc": 0,
-    "bashing": 3,
-    "cutting": 12,
     "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
     "material": [ "bone" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 12 ] ],
-    "flags": [ "STAB", "SHEATH_KNIFE", "FRAGILE_MELEE", "ALLOWS_BODY_BLOCK" ],
-    "weapon_category": [ "KNIVES" ]
+    "flags": [ "SHEATH_KNIFE", "FRAGILE_MELEE", "ALLOWS_BODY_BLOCK" ],
+    "weapon_category": [ "KNIVES" ],
+    "melee_damage": { "bash": 3, "stab": 12 }
   },
   {
     "id": "knife_baselard",
@@ -497,15 +480,14 @@
     "volume": "250 ml",
     "longest_side": "60 cm",
     "price": 19590,
-    "bashing": 5,
-    "cutting": 16,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "point", "balance": "good" },
     "material": [ "iron" ],
     "symbol": ";",
     "color": "dark_gray",
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 15 ] ],
-    "flags": [ "STAB", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
-    "weapon_category": [ "KNIVES" ]
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "weapon_category": [ "KNIVES" ],
+    "melee_damage": { "bash": 5, "stab": 16 }
   },
   {
     "id": "makeshift_machete",
@@ -518,8 +500,6 @@
     "longest_side": "50 cm",
     "price": 1000,
     "price_postapoc": 250,
-    "bashing": 5,
-    "cutting": 16,
     "to_hit": { "grip": "solid", "length": "short", "surface": "line", "balance": "neutral" },
     "material": [ "steel" ],
     "symbol": "/",
@@ -527,7 +507,8 @@
     "qualities": [ [ "CUT", 2 ], [ "GRASS_CUT", 1 ], [ "BUTCHER", -27 ] ],
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "SHEATH_SWORD" ],
-    "weapon_category": [ "BLADED_FARMING" ]
+    "weapon_category": [ "BLADED_FARMING" ],
+    "melee_damage": { "bash": 5, "cut": 16 }
   },
   {
     "id": "machete",
@@ -540,8 +521,6 @@
     "longest_side": "50 cm",
     "price": 2800,
     "price_postapoc": 1500,
-    "bashing": 5,
-    "cutting": 21,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "good" },
     "material": [ "steel" ],
     "symbol": "/",
@@ -549,7 +528,8 @@
     "techniques": [ "WBLOCK_2" ],
     "qualities": [ [ "CUT", 2 ], [ "GRASS_CUT", 1 ], [ "BUTCHER", 15 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
-    "weapon_category": [ "BLADED_FARMING" ]
+    "weapon_category": [ "BLADED_FARMING" ],
+    "melee_damage": { "bash": 5, "cut": 21 }
   },
   {
     "id": "machete_gimmick",
@@ -563,13 +543,12 @@
     "volume": "250 ml",
     "price": 2300,
     "price_postapoc": 1800,
-    "bashing": 5,
-    "cutting": 15,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "good" },
     "material": [ "steel" ],
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 8 ], [ "SAW_W", 1 ], [ "DIG", 1 ], [ "PRY", 1 ] ],
     "flags": [ "SHEATH_SWORD", "FRAGILE_MELEE" ],
-    "weapon_category": [ "BLADED_FARMING" ]
+    "weapon_category": [ "BLADED_FARMING" ],
+    "melee_damage": { "bash": 5, "cut": 15 }
   },
   {
     "id": "cavalry_sabre",
@@ -581,8 +560,6 @@
     "longest_side": "100 cm",
     "price": 97000,
     "price_postapoc": 4000,
-    "bashing": 5,
-    "cutting": 26,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "material": [ "steel" ],
     "symbol": "/",
@@ -591,7 +568,8 @@
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 8 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
     "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS", "FENCING_WEAPONRY" ],
-    "category": "weapons"
+    "category": "weapons",
+    "melee_damage": { "bash": 5, "cut": 26 }
   },
   {
     "id": "lc_cavalry_sabre",
@@ -607,15 +585,14 @@
     "longest_side": "100 cm",
     "price": 97000,
     "price_postapoc": 4000,
-    "bashing": 5,
-    "cutting": 23,
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "neutral" },
     "material": [ "lc_steel" ],
     "repairs_with": [ "lc_steel" ],
     "techniques": [ "WBLOCK_2", "RAPID" ],
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 7 ] ],
     "flags": [ "SHEATH_SWORD", "CONDUCTIVE" ],
-    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS", "FENCING_WEAPONRY" ]
+    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS", "FENCING_WEAPONRY" ],
+    "melee_damage": { "bash": 5, "cut": 23 }
   },
   {
     "id": "mc_cavalry_sabre",
@@ -624,7 +601,6 @@
     "name": { "str": "medium steel cavalry saber" },
     "description": "A curved sword associated with cavalry from the Early Modern period onwards.  Lightweight, but a deadly slashing weapon.\n\nMade with mild carbon steel and with a grip made of leather wrapped in steel wire, this weapon is comfortable in your hand, though the balance isn't perfect and the edge could be sharper.",
     "weight": "1 kg",
-    "cutting": 27,
     "price": 97000,
     "price_postapoc": 4000,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
@@ -633,7 +609,8 @@
     "techniques": [ "WBLOCK_2", "RAPID" ],
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 8 ] ],
     "flags": [ "SHEATH_SWORD", "CONDUCTIVE" ],
-    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS", "FENCING_WEAPONRY" ]
+    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS", "FENCING_WEAPONRY" ],
+    "melee_damage": { "bash": 5, "cut": 27 }
   },
   {
     "id": "hc_cavalry_sabre",
@@ -642,7 +619,6 @@
     "name": { "str": "high steel cavalry saber" },
     "description": "A curved sword associated with cavalry from the Early Modern period onwards.  Lightweight, but a deadly slashing weapon.\n\nMade with high carbon steel and featuring a sturdy grip, this feels like a proper weapon.  The balance feels right and the blade is quite sharp.",
     "weight": "1 kg",
-    "cutting": 29,
     "price": 97000,
     "price_postapoc": 4000,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
@@ -651,7 +627,8 @@
     "techniques": [ "WBLOCK_2", "RAPID" ],
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 9 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "CONDUCTIVE" ],
-    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS", "FENCING_WEAPONRY" ]
+    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS", "FENCING_WEAPONRY" ],
+    "melee_damage": { "bash": 5, "cut": 29 }
   },
   {
     "id": "ch_cavalry_sabre",
@@ -660,7 +637,6 @@
     "name": { "str": "hardened cavalry saber" },
     "description": "A curved sword associated with cavalry from the Early Modern period onwards.  Lightweight, but a deadly slashing weapon.\n\nMade of hardened steel and with a molded grip that fits your hand perfectly, this weapon looks as good as any you might find in a museum.  The balance is perfect and the edge is as sharp as a razor.",
     "weight": "975 g",
-    "cutting": 30,
     "price": 97000,
     "price_postapoc": 4000,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
@@ -669,7 +645,8 @@
     "techniques": [ "WBLOCK_2", "RAPID" ],
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 9 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE" ],
-    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS", "FENCING_WEAPONRY" ]
+    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS", "FENCING_WEAPONRY" ],
+    "melee_damage": { "bash": 5, "cut": 30 }
   },
   {
     "id": "qt_cavalry_sabre",
@@ -678,7 +655,6 @@
     "name": { "str": "tempered cavalry saber" },
     "description": "A curved sword associated with cavalry from the Early Modern period onwards.  Lightweight, but a deadly slashing weapon.\n\nMade of tempered steel, this is a masterpiece.  The grip, the balance, the blade, all perfect.  This is the peak of the swordsmith's craft.",
     "weight": "975 g",
-    "cutting": 30,
     "price": 97000,
     "price_postapoc": 4000,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
@@ -687,7 +663,8 @@
     "techniques": [ "WBLOCK_2", "RAPID" ],
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 10 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE" ],
-    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS", "FENCING_WEAPONRY" ]
+    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS", "FENCING_WEAPONRY" ],
+    "melee_damage": { "bash": 5, "cut": 30 }
   },
   {
     "id": "kris",
@@ -699,17 +676,16 @@
     "longest_side": "50 cm",
     "price": 9000,
     "price_postapoc": 500,
-    "bashing": 2,
-    "cutting": 20,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "point", "balance": "good" },
     "material": [ "steel" ],
     "symbol": "/",
     "color": "dark_gray",
     "techniques": [ "WBLOCK_1", "RAPID" ],
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 12 ] ],
-    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
     "weapon_category": [ "KNIVES" ],
-    "category": "weapons"
+    "category": "weapons",
+    "melee_damage": { "bash": 2, "stab": 20 }
   },
   {
     "id": "kukri",
@@ -722,8 +698,6 @@
     "longest_side": "50 cm",
     "price": 8000,
     "price_postapoc": 1250,
-    "bashing": 3,
-    "cutting": 23,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "good" },
     "material": [ "steel", "plastic" ],
     "symbol": "/",
@@ -731,7 +705,8 @@
     "techniques": [ "WBLOCK_1", "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 18 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE" ],
-    "weapon_category": [ "KNIVES" ]
+    "weapon_category": [ "KNIVES" ],
+    "melee_damage": { "bash": 3, "cut": 23 }
   },
   {
     "id": "jian",
@@ -744,8 +719,6 @@
     "weight": "800 g",
     "volume": "2 L",
     "longest_side": "90 cm",
-    "bashing": 5,
-    "cutting": 28,
     "price": 100000,
     "price_postapoc": 4000,
     "material": [ "steel" ],
@@ -753,7 +726,8 @@
     "techniques": [ "WBLOCK_2" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
-    "weapon_category": [ "MEDIUM_SWORDS" ]
+    "weapon_category": [ "MEDIUM_SWORDS" ],
+    "melee_damage": { "bash": 5, "cut": 28 }
   },
   {
     "id": "lc_jian",
@@ -767,8 +741,6 @@
     "weight": "800 g",
     "volume": "2 L",
     "longest_side": "90 cm",
-    "bashing": 5,
-    "cutting": 25,
     "price": 100000,
     "price_postapoc": 4000,
     "material": [ "lc_steel" ],
@@ -777,7 +749,8 @@
     "techniques": [ "WBLOCK_2" ],
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 7 ] ],
-    "weapon_category": [ "MEDIUM_SWORDS" ]
+    "weapon_category": [ "MEDIUM_SWORDS" ],
+    "melee_damage": { "bash": 5, "cut": 25 }
   },
   {
     "id": "mc_jian",
@@ -786,7 +759,6 @@
     "name": { "str_sp": "medium steel jian" },
     "description": "An ancient Chinese doubled-edged straight sword, with an ornate guard and a tassel attached to the pommel.  One of the four major weapons in folklore, alongside the dao sabre, qiang spear, and gun staff.\n\nMade with mild carbon steel and with a grip made of leather wrapped in steel wire, this weapon is comfortable in your hand, though the balance isn't perfect and the edge could be sharper.",
     "weight": "890 g",
-    "cutting": 29,
     "price": 100000,
     "price_postapoc": 4000,
     "material": [ "mc_steel" ],
@@ -795,7 +767,8 @@
     "techniques": [ "WBLOCK_2" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
-    "weapon_category": [ "MEDIUM_SWORDS" ]
+    "weapon_category": [ "MEDIUM_SWORDS" ],
+    "melee_damage": { "bash": 5, "cut": 29 }
   },
   {
     "id": "hc_jian",
@@ -804,7 +777,6 @@
     "name": { "str_sp": "high steel jian" },
     "description": "An ancient Chinese doubled-edged straight sword, with an ornate guard and a tassel attached to the pommel.  One of the four major weapons in folklore, alongside the dao sabre, qiang spear, and gun staff.\n\nMade with high carbon steel and featuring a sturdy grip, this feels like a proper weapon.  The balance feels right and the blade is quite sharp.",
     "weight": "890 g",
-    "cutting": 31,
     "price": 100000,
     "price_postapoc": 4000,
     "material": [ "hc_steel" ],
@@ -813,7 +785,8 @@
     "techniques": [ "WBLOCK_2" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
-    "weapon_category": [ "MEDIUM_SWORDS" ]
+    "weapon_category": [ "MEDIUM_SWORDS" ],
+    "melee_damage": { "bash": 5, "cut": 31 }
   },
   {
     "id": "ch_jian",
@@ -822,7 +795,6 @@
     "name": { "str_sp": "hardened jian" },
     "description": "An ancient Chinese doubled-edged straight sword, with an ornate guard and a tassel attached to the pommel.  One of the four major weapons in folklore, alongside the dao sabre, qiang spear, and gun staff.\n\nMade of hardened steel and with a molded grip that fits your hand perfectly, this weapon looks as good as any you might find in a museum.  The balance is perfect and the edge is as sharp as a razor.",
     "weight": "865 g",
-    "cutting": 32,
     "price": 100000,
     "price_postapoc": 4000,
     "material": [ "ch_steel" ],
@@ -831,7 +803,8 @@
     "techniques": [ "WBLOCK_2" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
-    "weapon_category": [ "MEDIUM_SWORDS" ]
+    "weapon_category": [ "MEDIUM_SWORDS" ],
+    "melee_damage": { "bash": 5, "cut": 32 }
   },
   {
     "id": "qt_jian",
@@ -840,7 +813,6 @@
     "name": { "str_sp": "tempered jian" },
     "description": "An ancient Chinese doubled-edged straight sword, with an ornate guard and a tassel attached to the pommel.  One of the four major weapons in folklore, alongside the dao sabre, qiang spear, and gun staff.\n\nMade of tempered steel, this is a masterpiece.  The grip, the balance, the blade, all perfect.  This is the peak of the swordsmith's craft.",
     "weight": "865 g",
-    "cutting": 34,
     "price": 100000,
     "price_postapoc": 4000,
     "material": [ "qt_steel" ],
@@ -849,7 +821,8 @@
     "techniques": [ "WBLOCK_2" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 10 ] ],
-    "weapon_category": [ "MEDIUM_SWORDS" ]
+    "weapon_category": [ "MEDIUM_SWORDS" ],
+    "melee_damage": { "bash": 5, "cut": 34 }
   },
   {
     "id": "jian_inferior",
@@ -857,7 +830,7 @@
     "type": "TOOL",
     "name": { "str_sp": "jian" },
     "description": "An ancient Chinese doubled-edged straight sword.  The sword is quite worn, and bent at an odd angle.",
-    "proportional": { "bashing": 3.9, "cutting": 0.25 },
+    "proportional": { "melee_damage": { "bash": 3.9, "cut": 0.25 } },
     "delete": { "flags": [ "DURABLE_MELEE" ] },
     "material": [ "budget_steel" ],
     "price": 100000,
@@ -869,7 +842,7 @@
     "type": "GENERIC",
     "name": { "str_sp": "jian" },
     "description": "A dull, cheaply-made replica of an ancient Chinese doubled-edged straight sword, with an ornate guard.",
-    "proportional": { "bashing": 1.9, "cutting": 0.07 },
+    "proportional": { "melee_damage": { "bash": 1.9, "cut": 0.07 } },
     "delete": { "flags": [ "DURABLE_MELEE" ] },
     "extend": { "flags": [ "FRAGILE_MELEE" ] },
     "material": [ "aluminum" ],
@@ -893,11 +866,10 @@
     "weight": "1133 g",
     "volume": "2 L",
     "longest_side": "90 cm",
-    "bashing": 5,
-    "cutting": 29,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "category": "weapons",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ]
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
+    "melee_damage": { "bash": 5, "cut": 29 }
   },
   {
     "id": "lc_scimitar",
@@ -911,8 +883,6 @@
     "weight": "1133 g",
     "volume": "2 L",
     "longest_side": "90 cm",
-    "bashing": 5,
-    "cutting": 26,
     "price": 93000,
     "price_postapoc": 3500,
     "material": [ "lc_steel" ],
@@ -921,7 +891,8 @@
     "techniques": [ "WBLOCK_2" ],
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "neutral" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 7 ] ],
-    "weapon_category": [ "MEDIUM_SWORDS" ]
+    "weapon_category": [ "MEDIUM_SWORDS" ],
+    "melee_damage": { "bash": 5, "cut": 26 }
   },
   {
     "id": "mc_scimitar",
@@ -930,7 +901,6 @@
     "name": { "str": "medium steel scimitar" },
     "description": "A curved sword associated with various Middle Eastern and Central Asian countries.  Designed for slashing, and quite deadly against unarmored targets.\n\nMade with mild carbon steel and with a grip made of leather wrapped in steel wire, this weapon is comfortable in your hand, though the balance isn't perfect and the edge could be sharper.",
     "weight": "1223 g",
-    "cutting": 30,
     "price": 93000,
     "price_postapoc": 3500,
     "material": [ "mc_steel" ],
@@ -939,7 +909,8 @@
     "techniques": [ "WBLOCK_2" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
-    "weapon_category": [ "MEDIUM_SWORDS" ]
+    "weapon_category": [ "MEDIUM_SWORDS" ],
+    "melee_damage": { "bash": 5, "cut": 30 }
   },
   {
     "id": "hc_scimitar",
@@ -948,7 +919,6 @@
     "name": { "str": "high steel scimitar" },
     "description": "A curved sword associated with various Middle Eastern and Central Asian countries.  Designed for slashing, and quite deadly against unarmored targets.\n\nMade with high carbon steel and featuring a sturdy grip, this feels like a proper weapon.  The balance feels right and the blade is quite sharp.",
     "weight": "1223 g",
-    "cutting": 32,
     "price": 93000,
     "price_postapoc": 3500,
     "material": [ "hc_steel" ],
@@ -957,7 +927,8 @@
     "techniques": [ "WBLOCK_2" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
-    "weapon_category": [ "MEDIUM_SWORDS" ]
+    "weapon_category": [ "MEDIUM_SWORDS" ],
+    "melee_damage": { "bash": 5, "cut": 32 }
   },
   {
     "id": "ch_scimitar",
@@ -966,7 +937,6 @@
     "name": { "str": "hardened scimitar" },
     "description": "A curved sword associated with various Middle Eastern and Central Asian countries.  Designed for slashing, and quite deadly against unarmored targets.\n\nMade of hardened steel and with a molded grip that fits your hand perfectly, this weapon looks as good as any you might find in a museum.  The balance is perfect and the edge is as sharp as a razor.",
     "weight": "1198 g",
-    "cutting": 33,
     "price": 93000,
     "price_postapoc": 3500,
     "material": [ "ch_steel" ],
@@ -975,7 +945,8 @@
     "techniques": [ "WBLOCK_2" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
-    "weapon_category": [ "MEDIUM_SWORDS" ]
+    "weapon_category": [ "MEDIUM_SWORDS" ],
+    "melee_damage": { "bash": 5, "cut": 33 }
   },
   {
     "id": "qt_scimitar",
@@ -984,7 +955,6 @@
     "name": { "str": "tempered scimitar" },
     "description": "A curved sword associated with various Middle Eastern and Central Asian countries.  Designed for slashing, and quite deadly against unarmored targets.\n\nMade of tempered steel, this is a masterpiece.  The grip, the balance, the blade, all perfect.  This is the peak of the swordsmith's craft.",
     "weight": "1198 g",
-    "cutting": 35,
     "price": 93000,
     "price_postapoc": 3500,
     "material": [ "qt_steel" ],
@@ -993,7 +963,8 @@
     "techniques": [ "WBLOCK_2" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
-    "weapon_category": [ "MEDIUM_SWORDS" ]
+    "weapon_category": [ "MEDIUM_SWORDS" ],
+    "melee_damage": { "bash": 5, "cut": 35 }
   },
   {
     "id": "scimitar_inferior",
@@ -1001,7 +972,7 @@
     "type": "TOOL",
     "name": { "str": "scimitar" },
     "description": "A curved sword associated with various Middle Eastern and Central Asian countries.  This one seems oddly dull and worn.",
-    "proportional": { "bashing": 3.9, "cutting": 0.25 },
+    "proportional": { "melee_damage": { "bash": 3.9, "cut": 0.25 } },
     "delete": { "flags": [ "DURABLE_MELEE" ] },
     "material": [ "budget_steel" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
@@ -1014,7 +985,7 @@
     "type": "GENERIC",
     "name": { "str": "scimitar" },
     "description": "A dull, cheaply-made replica of a curved sword associated with various Middle Eastern and Central Asian countries.",
-    "proportional": { "bashing": 1.9, "cutting": 0.07 },
+    "proportional": { "melee_damage": { "bash": 1.9, "cut": 0.07 } },
     "delete": { "flags": [ "DURABLE_MELEE" ] },
     "extend": { "flags": [ "FRAGILE_MELEE" ] },
     "material": [ "aluminum" ],
@@ -1033,16 +1004,15 @@
     "price_postapoc": 5000,
     "material": [ "steel" ],
     "techniques": [ "WBLOCK_2", "PRECISE" ],
-    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
     "weapon_category": [ "MEDIEVAL_SWORDS", "LONG_SWORDS", "FENCING_WEAPONRY" ],
     "weight": "1814 g",
     "volume": "2750 ml",
     "longest_side": "130 cm",
-    "bashing": 11,
-    "cutting": 36,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "good" },
     "category": "weapons",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ]
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
+    "melee_damage": { "bash": 11, "stab": 36 }
   },
   {
     "id": "lc_estoc",
@@ -1056,17 +1026,16 @@
     "weight": "1814 g",
     "volume": "2750 ml",
     "longest_side": "130 cm",
-    "bashing": 11,
-    "cutting": 32,
     "price": 135000,
     "price_postapoc": 5000,
     "material": [ "lc_steel" ],
     "repairs_with": [ "lc_steel" ],
     "techniques": [ "WBLOCK_2", "PRECISE" ],
-    "flags": [ "STAB", "SHEATH_SWORD", "CONDUCTIVE" ],
+    "flags": [ "SHEATH_SWORD", "CONDUCTIVE" ],
     "weapon_category": [ "MEDIEVAL_SWORDS", "LONG_SWORDS", "FENCING_WEAPONRY" ],
     "to_hit": { "grip": "solid", "length": "long", "surface": "point", "balance": "good" },
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 7 ] ]
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 7 ] ],
+    "melee_damage": { "bash": 11, "stab": 32 }
   },
   {
     "id": "mc_estoc",
@@ -1075,16 +1044,16 @@
     "name": { "str": "medium steel estoc" },
     "description": "A thin thrusting sword, a sort of predecessor to the rapier.  It requires a larger baldric or scabbard, compared to smaller swords.\n\nMade with mild carbon steel and with a grip made of leather wrapped in steel wire, this weapon is comfortable in your hand, though the balance isn't perfect and the edge could be sharper.",
     "weight": "1994 g",
-    "cutting": 36,
     "price": 135000,
     "price_postapoc": 5000,
     "material": [ "mc_steel" ],
     "repairs_with": [ "mc_steel" ],
     "techniques": [ "WBLOCK_2", "PRECISE" ],
-    "flags": [ "STAB", "SHEATH_SWORD", "NONCONDUCTIVE" ],
+    "flags": [ "SHEATH_SWORD", "NONCONDUCTIVE" ],
     "weapon_category": [ "MEDIEVAL_SWORDS", "LONG_SWORDS", "FENCING_WEAPONRY" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "good" },
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ]
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
+    "melee_damage": { "bash": 11, "stab": 36 }
   },
   {
     "id": "hc_estoc",
@@ -1093,16 +1062,16 @@
     "name": { "str": "high steel estoc" },
     "description": "A thin thrusting sword, a sort of predecessor to the rapier.  It requires a larger baldric or scabbard, compared to smaller swords.\n\nMade with high carbon steel and featuring a sturdy grip, this feels like a proper weapon.  The balance feels right and the blade is quite sharp.",
     "weight": "1994 g",
-    "cutting": 40,
     "price": 135000,
     "price_postapoc": 5000,
     "material": [ "hc_steel" ],
     "repairs_with": [ "hc_steel" ],
     "techniques": [ "WBLOCK_2", "PRECISE" ],
-    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE" ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE" ],
     "weapon_category": [ "MEDIEVAL_SWORDS", "LONG_SWORDS", "FENCING_WEAPONRY" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "good" },
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ]
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
+    "melee_damage": { "bash": 11, "stab": 40 }
   },
   {
     "id": "ch_estoc",
@@ -1111,16 +1080,16 @@
     "name": { "str": "hardened estoc" },
     "description": "A thin thrusting sword, a sort of predecessor to the rapier.  It requires a larger baldric or scabbard, compared to smaller swords.\n\nMade of hardened steel and with a molded grip that fits your hand perfectly, this weapon looks as good as any you might find in a museum.  The balance is perfect and the edge is as sharp as a razor.",
     "weight": "1944 g",
-    "cutting": 41,
     "price": 135000,
     "price_postapoc": 5000,
     "material": [ "ch_steel" ],
     "repairs_with": [ "ch_steel" ],
     "techniques": [ "WBLOCK_2", "PRECISE" ],
-    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE" ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE" ],
     "weapon_category": [ "MEDIEVAL_SWORDS", "LONG_SWORDS", "FENCING_WEAPONRY" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "good" },
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ]
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
+    "melee_damage": { "bash": 11, "stab": 41 }
   },
   {
     "id": "qt_estoc",
@@ -1129,16 +1098,16 @@
     "name": { "str": "tempered estoc" },
     "description": "A thin thrusting sword, a sort of predecessor to the rapier.  It requires a larger baldric or scabbard, compared to smaller swords.\n\nMade of tempered steel, this is a masterpiece.  The grip, the balance, the blade, all perfect.  This is the peak of the swordsmith's craft.",
     "weight": "1944 g",
-    "cutting": 43,
     "price": 135000,
     "price_postapoc": 5000,
     "material": [ "qt_steel" ],
     "repairs_with": [ "qt_steel" ],
     "techniques": [ "WBLOCK_2", "PRECISE" ],
-    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE" ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE" ],
     "weapon_category": [ "MEDIEVAL_SWORDS", "LONG_SWORDS", "FENCING_WEAPONRY" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "good" },
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 10 ] ]
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 10 ] ],
+    "melee_damage": { "bash": 11, "stab": 43 }
   },
   {
     "id": "estoc_inferior",
@@ -1146,7 +1115,7 @@
     "type": "GENERIC",
     "name": { "str": "estoc" },
     "description": "A thin thrusting sword, a sort of predecessor to the rapier.  It requires a larger baldric or scabbard compared to smaller swords.  It seems a bit too bendy.",
-    "proportional": { "bashing": 2.6, "cutting": 0.25 },
+    "proportional": { "melee_damage": { "bash": 2.6, "stab": 0.25 } },
     "delete": { "flags": [ "DURABLE_MELEE" ] },
     "material": [ "budget_steel" ],
     "to_hit": { "grip": "solid", "length": "long", "surface": "point", "balance": "good" },
@@ -1159,7 +1128,7 @@
     "type": "GENERIC",
     "name": { "str": "estoc" },
     "description": "A dull, cheaply-made replica of a thin thrusting sword predating the rapier.  It requires a larger baldric or scabbard compared to smaller swords.",
-    "proportional": { "bashing": 1.2, "cutting": 0.08 },
+    "proportional": { "melee_damage": { "bash": 1.2, "stab": 0.08 } },
     "delete": { "flags": [ "DURABLE_MELEE" ] },
     "extend": { "flags": [ "FRAGILE_MELEE" ] },
     "material": [ "aluminum" ],
@@ -1184,11 +1153,10 @@
     "weight": "1814 g",
     "volume": "2750 ml",
     "longest_side": "120 cm",
-    "bashing": 9,
-    "cutting": 34,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "category": "weapons",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ]
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
+    "melee_damage": { "bash": 9, "cut": 34 }
   },
   {
     "id": "lc_longsword",
@@ -1202,8 +1170,6 @@
     "weight": "1814 g",
     "volume": "2750 ml",
     "longest_side": "120 cm",
-    "bashing": 9,
-    "cutting": 31,
     "price": 130000,
     "price_postapoc": 6000,
     "material": [ "lc_steel" ],
@@ -1212,7 +1178,8 @@
     "techniques": [ "WBLOCK_2", "BRUTAL", "RAPID" ],
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 7 ] ],
-    "weapon_category": [ "MEDIEVAL_SWORDS", "LONG_SWORDS", "GREAT_SWORDS" ]
+    "weapon_category": [ "MEDIEVAL_SWORDS", "LONG_SWORDS", "GREAT_SWORDS" ],
+    "melee_damage": { "bash": 9, "cut": 31 }
   },
   {
     "id": "mc_longsword",
@@ -1221,7 +1188,6 @@
     "name": { "str": "medium steel longsword" },
     "description": "A classic medieval sword, in between the lighter arming sword and later two-handed swords in size.  It's well-balanced and surprisingly easy to use due to its two-handed grip, but requires a larger baldric or scabbard, compared to smaller swords.\n\nMade with mild carbon steel and with a grip made of leather wrapped in steel wire, this weapon is comfortable in your hand, though the balance isn't perfect and the edge could be sharper.",
     "weight": "1904 g",
-    "cutting": 36,
     "price": 130000,
     "price_postapoc": 6000,
     "material": [ "mc_steel" ],
@@ -1230,7 +1196,8 @@
     "techniques": [ "WBLOCK_2", "BRUTAL", "RAPID" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
-    "weapon_category": [ "MEDIEVAL_SWORDS", "LONG_SWORDS", "GREAT_SWORDS" ]
+    "weapon_category": [ "MEDIEVAL_SWORDS", "LONG_SWORDS", "GREAT_SWORDS" ],
+    "melee_damage": { "bash": 9, "cut": 36 }
   },
   {
     "id": "hc_longsword",
@@ -1239,7 +1206,6 @@
     "name": { "str": "high steel longsword" },
     "description": "A classic medieval sword, in between the lighter arming sword and later two-handed swords in size.  It's well-balanced and surprisingly easy to use due to its two-handed grip, but requires a larger baldric or scabbard, compared to smaller swords.\n\nMade with high carbon steel and featuring a sturdy grip, this feels like a proper weapon.  The balance feels right and the blade is quite sharp.",
     "weight": "1904 g",
-    "cutting": 37,
     "price": 130000,
     "price_postapoc": 6000,
     "material": [ "hc_steel" ],
@@ -1248,7 +1214,8 @@
     "techniques": [ "WBLOCK_2", "BRUTAL", "RAPID" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
-    "weapon_category": [ "MEDIEVAL_SWORDS", "LONG_SWORDS", "GREAT_SWORDS" ]
+    "weapon_category": [ "MEDIEVAL_SWORDS", "LONG_SWORDS", "GREAT_SWORDS" ],
+    "melee_damage": { "bash": 9, "cut": 37 }
   },
   {
     "id": "ch_longsword",
@@ -1257,7 +1224,6 @@
     "name": { "str": "hardened longsword" },
     "description": "A classic medieval sword, in between the lighter arming sword and later two-handed swords in size.  It's well-balanced and surprisingly easy to use due to its two-handed grip, but requires a larger baldric or scabbard, compared to smaller swords.\n\nMade of hardened steel and with a molded grip that fits your hand perfectly, this weapon looks as good as any you might find in a museum.  The balance is perfect and the edge is as sharp as a razor.",
     "weight": "1879 g",
-    "cutting": 39,
     "price": 130000,
     "price_postapoc": 6000,
     "material": [ "ch_steel" ],
@@ -1266,7 +1232,8 @@
     "techniques": [ "WBLOCK_2", "BRUTAL", "RAPID" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 10 ] ],
-    "weapon_category": [ "MEDIEVAL_SWORDS", "LONG_SWORDS", "GREAT_SWORDS" ]
+    "weapon_category": [ "MEDIEVAL_SWORDS", "LONG_SWORDS", "GREAT_SWORDS" ],
+    "melee_damage": { "bash": 9, "cut": 39 }
   },
   {
     "id": "qt_longsword",
@@ -1275,7 +1242,6 @@
     "name": { "str": "tempered longsword" },
     "description": "A classic medieval sword, in between the lighter arming sword and later two-handed swords in size.  It's well-balanced and surprisingly easy to use due to its two-handed grip, but requires a larger baldric or scabbard, compared to smaller swords.\n\nMade of tempered steel, this is a masterpiece.  The grip, the balance, the blade, all perfect.  This is the peak of the swordsmith's craft.",
     "weight": "1879 g",
-    "cutting": 41,
     "price": 130000,
     "price_postapoc": 6000,
     "material": [ "qt_steel" ],
@@ -1284,7 +1250,8 @@
     "techniques": [ "WBLOCK_2", "BRUTAL", "RAPID" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 10 ] ],
-    "weapon_category": [ "MEDIEVAL_SWORDS", "LONG_SWORDS", "GREAT_SWORDS" ]
+    "weapon_category": [ "MEDIEVAL_SWORDS", "LONG_SWORDS", "GREAT_SWORDS" ],
+    "melee_damage": { "bash": 9, "cut": 41 }
   },
   {
     "id": "longsword_inferior",
@@ -1292,7 +1259,7 @@
     "type": "TOOL",
     "name": { "str": "longsword" },
     "description": "A classic medieval sword, in between the lighter arming sword and later two-handed swords in size.  You feel like the pommel could just snap off if you used it.",
-    "proportional": { "bashing": 2.4, "cutting": 0.25 },
+    "proportional": { "melee_damage": { "bash": 2.4, "cut": 0.25 } },
     "delete": { "flags": [ "DURABLE_MELEE" ] },
     "material": [ "budget_steel" ],
     "price_postapoc": 750
@@ -1303,7 +1270,7 @@
     "type": "GENERIC",
     "name": { "str": "longsword" },
     "description": "A dull, cheaply-made replica of the classic medieval longsword.  It requires a larger baldric or scabbard compared to smaller swords.",
-    "proportional": { "bashing": 1.2, "cutting": 0.08 },
+    "proportional": { "melee_damage": { "bash": 1.2, "cut": 0.08 } },
     "delete": { "flags": [ "DURABLE_MELEE" ] },
     "extend": { "flags": [ "FRAGILE_MELEE" ] },
     "material": [ "aluminum" ],
@@ -1327,12 +1294,11 @@
     "weight": "1360 g",
     "volume": "2 L",
     "longest_side": "90 cm",
-    "bashing": 6,
-    "cutting": 29,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "category": "weapons",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
-    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS" ]
+    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS" ],
+    "melee_damage": { "bash": 6, "cut": 29 }
   },
   {
     "id": "lc_arming_sword",
@@ -1346,8 +1312,6 @@
     "weight": "1360 g",
     "volume": "2 L",
     "longest_side": "90 cm",
-    "bashing": 6,
-    "cutting": 26,
     "price": 100000,
     "price_postapoc": 4500,
     "material": [ "lc_steel" ],
@@ -1356,7 +1320,8 @@
     "techniques": [ "WBLOCK_2" ],
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 7 ] ],
-    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS" ]
+    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS" ],
+    "melee_damage": { "bash": 6, "cut": 26 }
   },
   {
     "id": "mc_arming_sword",
@@ -1365,7 +1330,6 @@
     "name": { "str": "medium steel arming sword" },
     "description": "A classic medieval sword, just the right size to use one-handed.\n\nMade with mild carbon steel and with a grip made of leather wrapped in steel wire, this weapon is comfortable in your hand, though the balance isn't perfect and the edge could be sharper.",
     "weight": "1450 g",
-    "cutting": 30,
     "price": 100000,
     "price_postapoc": 4500,
     "material": [ "mc_steel" ],
@@ -1374,7 +1338,8 @@
     "techniques": [ "WBLOCK_2" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
-    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS" ]
+    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS" ],
+    "melee_damage": { "bash": 6, "cut": 30 }
   },
   {
     "id": "hc_arming_sword",
@@ -1383,7 +1348,6 @@
     "name": { "str": "high steel arming sword" },
     "description": "A classic medieval sword, just the right size to use one-handed.\n\nMade with high carbon steel and featuring a sturdy grip, this feels like a proper weapon.  The balance feels right and the blade is quite sharp.",
     "weight": "1450 g",
-    "cutting": 32,
     "price": 100000,
     "price_postapoc": 4500,
     "material": [ "hc_steel" ],
@@ -1392,7 +1356,8 @@
     "techniques": [ "WBLOCK_2" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
-    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS" ]
+    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS" ],
+    "melee_damage": { "bash": 6, "cut": 32 }
   },
   {
     "id": "ch_arming_sword",
@@ -1401,7 +1366,6 @@
     "name": { "str": "hardened arming sword" },
     "description": "A classic medieval sword, just the right size to use one-handed.\n\nMade of hardened steel and with a molded grip that fits your hand perfectly, this weapon looks as good as any you might find in a museum.  The balance is perfect and the edge is as sharp as a razor.",
     "weight": "1425 g",
-    "cutting": 33,
     "price": 100000,
     "price_postapoc": 4500,
     "material": [ "ch_steel" ],
@@ -1410,7 +1374,8 @@
     "techniques": [ "WBLOCK_2" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
-    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS" ]
+    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS" ],
+    "melee_damage": { "bash": 6, "cut": 33 }
   },
   {
     "id": "qt_arming_sword",
@@ -1419,7 +1384,6 @@
     "name": { "str": "tempered arming sword" },
     "description": "A classic medieval sword, just the right size to use one-handed.\n\nMade of tempered steel, this is a masterpiece.  The grip, the balance, the blade, all perfect.  This is the peak of the swordsmith's craft.",
     "weight": "1425 g",
-    "cutting": 35,
     "price": 100000,
     "price_postapoc": 4500,
     "material": [ "qt_steel" ],
@@ -1428,7 +1392,8 @@
     "techniques": [ "WBLOCK_2" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 10 ] ],
-    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS" ]
+    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS" ],
+    "melee_damage": { "bash": 6, "cut": 35 }
   },
   {
     "id": "arming_sword_fake",
@@ -1436,7 +1401,7 @@
     "type": "GENERIC",
     "name": { "str": "arming sword" },
     "description": "A dull, cheaply-made replica of a classic medieval sword, just the right size to use one-handed.",
-    "proportional": { "bashing": 2.3, "cutting": 0.07 },
+    "proportional": { "melee_damage": { "bash": 2.3, "cut": 0.07 } },
     "delete": { "flags": [ "DURABLE_MELEE" ] },
     "extend": { "flags": [ "FRAGILE_MELEE" ] },
     "material": [ "aluminum" ],
@@ -1450,7 +1415,7 @@
     "type": "TOOL",
     "name": { "str": "arming sword" },
     "description": "A classic medieval sword, just the right size to use one-handed.  This one doesn't seem to have been made right.",
-    "proportional": { "bashing": 2, "cutting": 0.86 },
+    "proportional": { "melee_damage": { "bash": 2, "cut": 0.86 } },
     "delete": { "flags": [ "DURABLE_MELEE" ] },
     "material": [ "budget_steel" ],
     "weight": "2721 g",
@@ -1469,8 +1434,6 @@
     "longest_side": "50 cm",
     "price": 12000,
     "price_postapoc": 2500,
-    "bashing": 6,
-    "cutting": 28,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "good" },
     "material": [ "bronze" ],
     "symbol": "!",
@@ -1478,7 +1441,8 @@
     "techniques": [ "WBLOCK_2" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
     "flags": [ "SHEATH_SWORD", "DURABLE_MELEE" ],
-    "weapon_category": [ "SHORT_SWORDS" ]
+    "weapon_category": [ "SHORT_SWORDS" ],
+    "melee_damage": { "bash": 6, "cut": 28 }
   },
   {
     "id": "khopesh",
@@ -1491,8 +1455,6 @@
     "longest_side": "50 cm",
     "price": 12000,
     "price_postapoc": 3000,
-    "bashing": 9,
-    "cutting": 27,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "good" },
     "material": [ "bronze" ],
     "symbol": "/",
@@ -1500,7 +1462,8 @@
     "techniques": [ "WBLOCK_2", "DEF_DISARM" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
     "flags": [ "DURABLE_MELEE" ],
-    "weapon_category": [ "BLADED_FARMING" ]
+    "weapon_category": [ "BLADED_FARMING" ],
+    "melee_damage": { "bash": 9, "cut": 27 }
   },
   {
     "id": "dao",
@@ -1513,8 +1476,6 @@
     "longest_side": "95 cm",
     "price": 12500,
     "price_postapoc": 3500,
-    "bashing": 8,
-    "cutting": 24,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "material": [ "bronze" ],
     "symbol": "/",
@@ -1522,7 +1483,8 @@
     "techniques": [ "WBLOCK_2" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
-    "weapon_category": [ "MEDIUM_SWORDS" ]
+    "weapon_category": [ "MEDIUM_SWORDS" ],
+    "melee_damage": { "bash": 8, "cut": 24 }
   },
   {
     "id": "sword_bronze",
@@ -1535,8 +1497,6 @@
     "longest_side": "50 cm",
     "price": 11000,
     "price_postapoc": 2000,
-    "bashing": 6,
-    "cutting": 21,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
     "material": [ "bronze" ],
     "symbol": "!",
@@ -1545,7 +1505,8 @@
     "techniques": [ "WBLOCK_2" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 2 ] ],
     "flags": [ "SHEATH_SWORD", "DURABLE_MELEE" ],
-    "weapon_category": [ "SHORT_SWORDS" ]
+    "weapon_category": [ "SHORT_SWORDS" ],
+    "melee_damage": { "bash": 6, "cut": 21 }
   },
   {
     "id": "survivor_machete",
@@ -1558,8 +1519,6 @@
     "longest_side": "50 cm",
     "price": 2800,
     "price_postapoc": 2500,
-    "bashing": 6,
-    "cutting": 23,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "good" },
     "material": [ "steel" ],
     "symbol": "/",
@@ -1567,7 +1526,8 @@
     "techniques": [ "WBLOCK_2", "RAPID" ],
     "qualities": [ [ "CUT", 2 ], [ "GRASS_CUT", 1 ], [ "BUTCHER", 10 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
-    "weapon_category": [ "BLADED_FARMING", "CONSTRUCTED_SWORDS" ]
+    "weapon_category": [ "BLADED_FARMING", "CONSTRUCTED_SWORDS" ],
+    "melee_damage": { "bash": 6, "cut": 23 }
   },
   {
     "id": "survivor_machete_qt",
@@ -1598,8 +1558,6 @@
     "longest_side": "50 cm",
     "price": 2800,
     "price_postapoc": 4500,
-    "bashing": 6,
-    "cutting": 28,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "good" },
     "material": [ "qt_steel" ],
     "symbol": "/",
@@ -1608,7 +1566,8 @@
     "qualities": [ [ "CUT", 2 ], [ "GRASS_CUT", 1 ], [ "BUTCHER", 14 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
     "weapon_category": [ "BLADED_FARMING", "CONSTRUCTED_SWORDS" ],
-    "looks_like": "survivor_machete"
+    "looks_like": "survivor_machete",
+    "melee_damage": { "bash": 6, "cut": 28 }
   },
   {
     "id": "sword_bayonet",
@@ -1621,8 +1580,6 @@
     "longest_side": "40 cm",
     "price": 25000,
     "price_postapoc": 4000,
-    "bashing": 7,
-    "cutting": 29,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "good" },
     "material": [ "steel" ],
     "symbol": "/",
@@ -1637,7 +1594,8 @@
     "techniques": [ "WBLOCK_1", "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ], [ "BUTCHER", 7 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
-    "weapon_category": [ "KNIVES" ]
+    "weapon_category": [ "KNIVES" ],
+    "melee_damage": { "bash": 7, "cut": 29 }
   },
   {
     "id": "sword_bayonet_mod",
@@ -1657,17 +1615,16 @@
     "longest_side": "35 cm",
     "price": 18000,
     "price_postapoc": 1500,
-    "bashing": 2,
-    "cutting": 21,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "point", "balance": "good" },
     "material": [ "steel" ],
     "symbol": "/",
     "color": "dark_gray",
     "techniques": [ "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 18 ] ],
-    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "KNIVES" ],
-    "category": "weapons"
+    "category": "weapons",
+    "melee_damage": { "bash": 2, "stab": 21 }
   },
   {
     "id": "wakizashi",
@@ -1679,8 +1636,6 @@
     "longest_side": "70 cm",
     "price": 17800,
     "price_postapoc": 2750,
-    "bashing": 2,
-    "cutting": 30,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "good" },
     "material": [ "steel" ],
     "symbol": "/",
@@ -1689,7 +1644,8 @@
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 13 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
     "weapon_category": [ "JAPANESE_SWORDS", "SHORT_SWORDS" ],
-    "category": "weapons"
+    "category": "weapons",
+    "melee_damage": { "bash": 2, "cut": 30 }
   },
   {
     "id": "lc_wakizashi",
@@ -1703,8 +1659,6 @@
     "weight": "835 g",
     "volume": "1500 ml",
     "longest_side": "70 cm",
-    "bashing": 2,
-    "cutting": 27,
     "price": 17800,
     "price_postapoc": 2750,
     "material": [ "lc_steel" ],
@@ -1713,7 +1667,8 @@
     "techniques": [ "RAPID", "WBLOCK_2" ],
     "to_hit": { "grip": "solid", "length": "short", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 12 ] ],
-    "weapon_category": [ "JAPANESE_SWORDS", "SHORT_SWORDS" ]
+    "weapon_category": [ "JAPANESE_SWORDS", "SHORT_SWORDS" ],
+    "melee_damage": { "bash": 2, "cut": 27 }
   },
   {
     "id": "mc_wakizashi",
@@ -1722,7 +1677,6 @@
     "name": { "str_sp": "medium steel wakizashi" },
     "description": "A comparatively-common Japanese short sword.  Smaller and lighter than a katana, but still effective in combat.\n\nMade with mild carbon steel and with a grip made of leather wrapped in steel wire, this weapon is comfortable in your hand, though the balance isn't perfect and the edge could be sharper.",
     "weight": "925 g",
-    "cutting": 32,
     "price": 17800,
     "price_postapoc": 2750,
     "material": [ "mc_steel" ],
@@ -1731,7 +1685,8 @@
     "techniques": [ "RAPID", "WBLOCK_2" ],
     "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 14 ] ],
-    "weapon_category": [ "JAPANESE_SWORDS", "SHORT_SWORDS" ]
+    "weapon_category": [ "JAPANESE_SWORDS", "SHORT_SWORDS" ],
+    "melee_damage": { "bash": 2, "cut": 32 }
   },
   {
     "id": "hc_wakizashi",
@@ -1740,7 +1695,6 @@
     "name": { "str_sp": "high steel wakizashi" },
     "description": "A comparatively-common Japanese short sword.  Smaller and lighter than a katana, but still effective in combat.\n\nMade with high carbon steel and featuring a sturdy grip, this feels like a proper weapon.  The balance feels right and the blade is quite sharp.",
     "weight": "925 g",
-    "cutting": 33,
     "price": 17800,
     "price_postapoc": 2750,
     "material": [ "hc_steel" ],
@@ -1749,7 +1703,8 @@
     "techniques": [ "RAPID", "WBLOCK_2" ],
     "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 14 ] ],
-    "weapon_category": [ "JAPANESE_SWORDS", "SHORT_SWORDS" ]
+    "weapon_category": [ "JAPANESE_SWORDS", "SHORT_SWORDS" ],
+    "melee_damage": { "bash": 2, "cut": 33 }
   },
   {
     "id": "ch_wakizashi",
@@ -1758,7 +1713,6 @@
     "name": { "str_sp": "hardened wakizashi" },
     "description": "A comparatively-common Japanese short sword.  Smaller and lighter than a katana, but still effective in combat.\n\nMade of hardened steel and with a molded grip that fits your hand perfectly, this weapon looks as good as any you might find in a museum.  The balance is perfect and the edge is as sharp as a razor.",
     "weight": "900 g",
-    "cutting": 35,
     "price": 17800,
     "price_postapoc": 2750,
     "material": [ "ch_steel" ],
@@ -1767,7 +1721,8 @@
     "techniques": [ "RAPID", "WBLOCK_2" ],
     "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 15 ] ],
-    "weapon_category": [ "JAPANESE_SWORDS", "SHORT_SWORDS" ]
+    "weapon_category": [ "JAPANESE_SWORDS", "SHORT_SWORDS" ],
+    "melee_damage": { "bash": 2, "cut": 35 }
   },
   {
     "id": "qt_wakizashi",
@@ -1776,7 +1731,6 @@
     "name": { "str_sp": "tempered wakizashi" },
     "description": "A comparatively-common Japanese short sword.  Smaller and lighter than a katana, but still effective in combat.\n\nMade of tempered steel, this is a masterpiece.  The grip, the balance, the blade, all perfect.  This is the peak of the swordsmith's craft.",
     "weight": "900 g",
-    "cutting": 36,
     "price": 17800,
     "price_postapoc": 2750,
     "material": [ "qt_steel" ],
@@ -1785,7 +1739,8 @@
     "techniques": [ "RAPID", "WBLOCK_2" ],
     "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 16 ] ],
-    "weapon_category": [ "JAPANESE_SWORDS", "SHORT_SWORDS" ]
+    "weapon_category": [ "JAPANESE_SWORDS", "SHORT_SWORDS" ],
+    "melee_damage": { "bash": 2, "cut": 36 }
   },
   {
     "id": "zweihander",
@@ -1797,8 +1752,6 @@
     "longest_side": "180 cm",
     "price": 160000,
     "price_postapoc": 9500,
-    "bashing": 8,
-    "cutting": 38,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
     "material": [ "steel" ],
     "symbol": "/",
@@ -1807,7 +1760,8 @@
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 4 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "ALWAYS_TWOHAND", "REACH_ATTACK" ],
     "weapon_category": [ "MEDIEVAL_SWORDS", "GREAT_SWORDS" ],
-    "category": "weapons"
+    "category": "weapons",
+    "melee_damage": { "bash": 8, "cut": 38 }
   },
   {
     "id": "lc_zweihander",
@@ -1823,15 +1777,14 @@
     "longest_side": "180 cm",
     "price": 160000,
     "price_postapoc": 9500,
-    "bashing": 10,
-    "cutting": 31,
     "material": [ "lc_steel" ],
     "repairs_with": [ "lc_steel" ],
     "flags": [ "SHEATH_SWORD", "ALWAYS_TWOHAND", "REACH_ATTACK", "CONDUCTIVE" ],
     "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL", "SWEEP" ],
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 4 ] ],
-    "weapon_category": [ "MEDIEVAL_SWORDS", "GREAT_SWORDS" ]
+    "weapon_category": [ "MEDIEVAL_SWORDS", "GREAT_SWORDS" ],
+    "melee_damage": { "bash": 10, "cut": 31 }
   },
   {
     "id": "mc_zweihander",
@@ -1840,14 +1793,14 @@
     "name": { "str": "medium steel zweihänder" },
     "description": "A huge two-handed sword from Germany.  It packs a real wallop.\n\nMade with mild carbon steel and with a grip made of leather wrapped in steel wire, this weapon is comfortable in your hand, though the balance isn't perfect and the edge could be sharper.",
     "weight": "3356 g",
-    "cutting": 36,
     "material": [ "mc_steel" ],
     "repairs_with": [ "mc_steel" ],
     "flags": [ "SHEATH_SWORD", "ALWAYS_TWOHAND", "REACH_ATTACK", "NONCONDUCTIVE" ],
     "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL", "SWEEP" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 4 ] ],
-    "weapon_category": [ "MEDIEVAL_SWORDS", "GREAT_SWORDS" ]
+    "weapon_category": [ "MEDIEVAL_SWORDS", "GREAT_SWORDS" ],
+    "melee_damage": { "bash": 10, "cut": 36 }
   },
   {
     "id": "hc_zweihander",
@@ -1856,14 +1809,14 @@
     "name": { "str": "high steel zweihänder" },
     "description": "A huge two-handed sword from Germany.  It packs a real wallop.\n\nMade with high carbon steel and featuring a sturdy grip, this feels like a proper weapon.  The balance feels right and the blade is quite sharp.",
     "weight": "3356 g",
-    "cutting": 37,
     "material": [ "hc_steel" ],
     "repairs_with": [ "hc_steel" ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "ALWAYS_TWOHAND", "REACH_ATTACK", "NONCONDUCTIVE" ],
     "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL", "SWEEP" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 4 ] ],
-    "weapon_category": [ "MEDIEVAL_SWORDS", "GREAT_SWORDS" ]
+    "weapon_category": [ "MEDIEVAL_SWORDS", "GREAT_SWORDS" ],
+    "melee_damage": { "bash": 10, "cut": 37 }
   },
   {
     "id": "ch_zweihander",
@@ -1872,14 +1825,14 @@
     "name": { "str": "hardened zweihänder" },
     "description": "A huge two-handed sword from Germany.  It packs a real wallop.\n\nMade of hardened steel and with a molded grip that fits your hand perfectly, this weapon looks as good as any you might find in a museum.  The balance is perfect and the edge is as sharp as a razor.",
     "weight": "3241 g",
-    "cutting": 39,
     "material": [ "ch_steel" ],
     "repairs_with": [ "ch_steel" ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "ALWAYS_TWOHAND", "REACH_ATTACK", "NONCONDUCTIVE" ],
     "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL", "SWEEP" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 5 ] ],
-    "weapon_category": [ "MEDIEVAL_SWORDS", "GREAT_SWORDS" ]
+    "weapon_category": [ "MEDIEVAL_SWORDS", "GREAT_SWORDS" ],
+    "melee_damage": { "bash": 10, "cut": 39 }
   },
   {
     "id": "qt_zweihander",
@@ -1888,14 +1841,14 @@
     "name": { "str": "tempered zweihänder" },
     "description": "A huge two-handed sword from Germany.  It packs a real wallop.\n\nMade of tempered steel, this is a masterpiece.  The grip, the balance, the blade, all perfect.  This is the peak of the swordsmith's craft.",
     "weight": "3241 g",
-    "cutting": 41,
     "material": [ "qt_steel" ],
     "repairs_with": [ "qt_steel" ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "ALWAYS_TWOHAND", "REACH_ATTACK", "NONCONDUCTIVE" ],
     "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL", "SWEEP" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 5 ] ],
-    "weapon_category": [ "MEDIEVAL_SWORDS", "GREAT_SWORDS" ]
+    "weapon_category": [ "MEDIEVAL_SWORDS", "GREAT_SWORDS" ],
+    "melee_damage": { "bash": 10, "cut": 41 }
   },
   {
     "id": "karambit",
@@ -1908,15 +1861,15 @@
     "longest_side": "22 cm",
     "price": 50,
     "price_postapoc": 50,
-    "cutting": 10,
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "good" },
     "material": [ "steel" ],
     "symbol": "/",
     "color": "dark_gray",
     "techniques": [ "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
-    "flags": [ "STAB", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
-    "weapon_category": [ "KNIVES" ]
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "weapon_category": [ "KNIVES" ],
+    "melee_damage": { "stab": 10 }
   },
   {
     "id": "kirpan",
@@ -1929,16 +1882,15 @@
     "longest_side": "20 cm",
     "price": 1800,
     "price_postapoc": 250,
-    "bashing": 1,
-    "cutting": 25,
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "good" },
     "material": [ "steel" ],
     "symbol": "/",
     "color": "dark_gray",
     "techniques": [ "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
-    "flags": [ "STAB", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
-    "weapon_category": [ "KNIVES" ]
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "weapon_category": [ "KNIVES" ],
+    "melee_damage": { "bash": 1, "stab": 25 }
   },
   {
     "id": "kirpan_cheap",
@@ -1946,7 +1898,7 @@
     "type": "TOOL",
     "name": { "str": "kirpan" },
     "description": "A ceremonial dagger carried by Sikh men.  This one is not particularly well-made.",
-    "proportional": { "bashing": 8, "cutting": 0.24 },
+    "proportional": { "melee_damage": { "bash": 8, "stab": 0.24 } },
     "delete": { "flags": [ "DURABLE_MELEE" ] },
     "extend": { "flags": [ "FRAGILE_MELEE" ] },
     "weapon_category": [ "KNIVES" ],
@@ -1961,7 +1913,7 @@
     "type": "GENERIC",
     "name": { "str_sp": "tanto" },
     "description": "A dull, cheaply-made replica of a long Japanese knife, typically used as a samurai's backup weapon.",
-    "proportional": { "bashing": 3.5, "cutting": 0.047 },
+    "proportional": { "melee_damage": { "bash": 3.5, "stab": 0.047 } },
     "delete": { "flags": [ "DURABLE_MELEE" ] },
     "extend": { "flags": [ "FRAGILE_MELEE" ] },
     "material": [ "aluminum" ],
@@ -1975,7 +1927,7 @@
     "type": "GENERIC",
     "name": { "str_sp": "tanto" },
     "description": "Long Japanese knives like this more-modern remake were the samurai's backup weapon, before the advent of the larger wakizashi.  This one doesn't feel well-balanced.",
-    "proportional": { "bashing": 6.5, "cutting": 0.28 },
+    "proportional": { "melee_damage": { "bash": 6.5, "stab": 0.28 } },
     "delete": { "flags": [ "DURABLE_MELEE" ] },
     "material": [ "budget_steel" ],
     "weight": "3 g",
@@ -1992,8 +1944,6 @@
     "longest_side": "120 cm",
     "price": 150000,
     "price_postapoc": 12000,
-    "bashing": 6,
-    "cutting": 44,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "material": [ "steel" ],
     "symbol": "/",
@@ -2002,7 +1952,8 @@
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 10 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "ALWAYS_TWOHAND" ],
     "weapon_category": [ "JAPANESE_SWORDS", "LONG_SWORDS", "GREAT_SWORDS" ],
-    "category": "weapons"
+    "category": "weapons",
+    "melee_damage": { "bash": 6, "cut": 44 }
   },
   {
     "id": "lc_nodachi",
@@ -2016,8 +1967,6 @@
     "weight": "2822 g",
     "volume": "3250 ml",
     "longest_side": "120 cm",
-    "bashing": 6,
-    "cutting": 40,
     "price": 150000,
     "price_postapoc": 12000,
     "material": [ "lc_steel" ],
@@ -2026,7 +1975,8 @@
     "techniques": [ "WBLOCK_1", "RAPID", "WIDE", "BRUTAL" ],
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
-    "weapon_category": [ "JAPANESE_SWORDS", "LONG_SWORDS", "GREAT_SWORDS" ]
+    "weapon_category": [ "JAPANESE_SWORDS", "LONG_SWORDS", "GREAT_SWORDS" ],
+    "melee_damage": { "bash": 6, "cut": 40 }
   },
   {
     "id": "mc_nodachi",
@@ -2035,7 +1985,6 @@
     "name": { "str_sp": "medium steel nodachi" },
     "description": "A huge, curved, two-handed sword from Japan.  It is surprisingly light for its size.\n\nMade with mild carbon steel and with a grip made of leather wrapped in steel wire, this weapon is comfortable in your hand, though the balance isn't perfect and the edge could be sharper.",
     "weight": "3002 g",
-    "cutting": 46,
     "price": 150000,
     "price_postapoc": 12000,
     "material": [ "mc_steel" ],
@@ -2044,7 +1993,8 @@
     "techniques": [ "WBLOCK_1", "RAPID", "WIDE", "BRUTAL" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 11 ] ],
-    "weapon_category": [ "JAPANESE_SWORDS", "LONG_SWORDS", "GREAT_SWORDS" ]
+    "weapon_category": [ "JAPANESE_SWORDS", "LONG_SWORDS", "GREAT_SWORDS" ],
+    "melee_damage": { "bash": 6, "cut": 46 }
   },
   {
     "id": "hc_nodachi",
@@ -2053,7 +2003,6 @@
     "name": { "str_sp": "high steel nodachi" },
     "description": "A huge, curved, two-handed sword from Japan.  It is surprisingly light for its size.\n\nMade with high carbon steel and featuring a sturdy grip, this feels like a proper weapon.  The balance feels right and the blade is quite sharp.",
     "weight": "3002 g",
-    "cutting": 48,
     "price": 150000,
     "price_postapoc": 12000,
     "material": [ "hc_steel" ],
@@ -2062,7 +2011,8 @@
     "techniques": [ "WBLOCK_1", "RAPID", "WIDE", "BRUTAL" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 11 ] ],
-    "weapon_category": [ "JAPANESE_SWORDS", "LONG_SWORDS", "GREAT_SWORDS" ]
+    "weapon_category": [ "JAPANESE_SWORDS", "LONG_SWORDS", "GREAT_SWORDS" ],
+    "melee_damage": { "bash": 6, "cut": 48 }
   },
   {
     "id": "ch_nodachi",
@@ -2071,7 +2021,6 @@
     "name": { "str_sp": "hardened nodachi" },
     "description": "A huge, curved, two-handed sword from Japan.  It is surprisingly light for its size.\n\nMade of hardened steel and with a molded grip that fits your hand perfectly, this weapon looks as good as any you might find in a museum.  The balance is perfect and the edge is as sharp as a razor.",
     "weight": "2952 g",
-    "cutting": 51,
     "price": 150000,
     "price_postapoc": 12000,
     "material": [ "ch_steel" ],
@@ -2080,7 +2029,8 @@
     "techniques": [ "WBLOCK_1", "RAPID", "WIDE", "BRUTAL" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 12 ] ],
-    "weapon_category": [ "JAPANESE_SWORDS", "LONG_SWORDS", "GREAT_SWORDS" ]
+    "weapon_category": [ "JAPANESE_SWORDS", "LONG_SWORDS", "GREAT_SWORDS" ],
+    "melee_damage": { "bash": 6, "cut": 51 }
   },
   {
     "id": "qt_nodachi",
@@ -2089,7 +2039,6 @@
     "name": { "str_sp": "tempered nodachi" },
     "description": "A huge, curved, two-handed sword from Japan.  It is surprisingly light for its size.\n\nMade of tempered steel, this is a masterpiece.  The grip, the balance, the blade, all perfect.  This is the peak of the swordsmith's craft.",
     "weight": "2952 g",
-    "cutting": 53,
     "price": 150000,
     "price_postapoc": 12000,
     "material": [ "qt_steel" ],
@@ -2098,7 +2047,8 @@
     "techniques": [ "WBLOCK_1", "RAPID", "WIDE", "BRUTAL" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 12 ] ],
-    "weapon_category": [ "JAPANESE_SWORDS", "LONG_SWORDS", "GREAT_SWORDS" ]
+    "weapon_category": [ "JAPANESE_SWORDS", "LONG_SWORDS", "GREAT_SWORDS" ],
+    "melee_damage": { "bash": 6, "cut": 53 }
   },
   {
     "id": "nodachi_fake",
@@ -2106,7 +2056,7 @@
     "type": "GENERIC",
     "name": { "str_sp": "nodachi" },
     "description": "A dull, cheaply-made replica of a huge, curved, two-handed sword from Japan.  It is surprisingly light for its size.",
-    "proportional": { "bashing": 2.3, "cutting": 0.068 },
+    "proportional": { "melee_damage": { "bash": 2.3, "cut": 0.068 } },
     "delete": { "flags": [ "DURABLE_MELEE" ] },
     "extend": { "flags": [ "FRAGILE_MELEE" ] },
     "material": [ "aluminum" ],
@@ -2120,7 +2070,7 @@
     "type": "GENERIC",
     "name": { "str_sp": "nodachi" },
     "description": "A huge, curved, two-handed sword from Japan.  It is surprisingly light for its size, but also much bendier than a sword should be.",
-    "proportional": { "bashing": 4.6, "cutting": 0.25 },
+    "proportional": { "melee_damage": { "bash": 4.6, "cut": 0.25 } },
     "delete": { "flags": [ "DURABLE_MELEE" ] },
     "material": [ "budget_steel" ],
     "weight": "1882 g",
@@ -2142,12 +2092,11 @@
     "weight": "450 g",
     "volume": "1250 ml",
     "longest_side": "100 cm",
-    "bashing": 1,
-    "cutting": 2,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "good" },
     "techniques": [ "PRECISE", "RAPID", "WBLOCK_2" ],
-    "flags": [ "STAB", "SHEATH_SWORD" ],
-    "weapon_category": [ "FENCING_WEAPONRY" ]
+    "flags": [ "SHEATH_SWORD" ],
+    "weapon_category": [ "FENCING_WEAPONRY" ],
+    "melee_damage": { "bash": 1, "stab": 2 }
   },
   {
     "id": "fencing_epee",
@@ -2162,12 +2111,11 @@
     "weight": "650 g",
     "volume": "1250 ml",
     "longest_side": "100 cm",
-    "bashing": 3,
-    "cutting": 7,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "good" },
     "techniques": [ "PRECISE", "RAPID", "WBLOCK_2" ],
-    "flags": [ "STAB", "SHEATH_SWORD" ],
-    "weapon_category": [ "FENCING_WEAPONRY" ]
+    "flags": [ "SHEATH_SWORD" ],
+    "weapon_category": [ "FENCING_WEAPONRY" ],
+    "melee_damage": { "bash": 3, "stab": 7 }
   },
   {
     "id": "fencing_sabre",
@@ -2182,12 +2130,11 @@
     "weight": "400 g",
     "volume": "1250 ml",
     "longest_side": "100 cm",
-    "bashing": 1,
-    "cutting": 6,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "good" },
     "techniques": [ "PRECISE", "RAPID", "WBLOCK_2" ],
-    "flags": [ "STAB", "SHEATH_SWORD" ],
-    "weapon_category": [ "FENCING_WEAPONRY" ]
+    "flags": [ "SHEATH_SWORD" ],
+    "weapon_category": [ "FENCING_WEAPONRY" ],
+    "melee_damage": { "bash": 1, "stab": 6 }
   },
   {
     "id": "fencing_foil_sharpened",
@@ -2196,7 +2143,7 @@
     "looks_like": "fencing_foil",
     "name": { "str": "sharpened foil" },
     "description": "What was once a mostly-harmless fencing foil has had its electrical plunger assembly removed and has been crudely sharpened to a point.  Though it still lacks a cutting edge, it is now somewhat more lethal, yet still familiar to the practiced fencer.",
-    "relative": { "weight": "-25 g", "cutting": 2 }
+    "relative": { "weight": "-25 g", "melee_damage": { "stab": 2 } }
   },
   {
     "id": "fencing_epee_sharpened",
@@ -2205,7 +2152,7 @@
     "looks_like": "fencing_epee",
     "name": { "str": "sharpened épée" },
     "description": "What was once a mostly-harmless fencing épée has had its electrical plunger assembly removed and has been crudely sharpened to a point.  Though it still lacks a cutting edge, it is now considerably more lethal, yet still familiar to the practiced fencer.",
-    "relative": { "weight": "-35 g", "cutting": 5 }
+    "relative": { "weight": "-35 g", "melee_damage": { "stab": 5 } }
   },
   {
     "id": "fencing_sabre_sharpened",
@@ -2214,7 +2161,7 @@
     "looks_like": "fencing_sabre",
     "name": { "str": "sharpened saber" },
     "description": "What was once a mostly-harmless fencing saber has had its rounded tip snapped off and has been crudely sharpened to a point.  Though it still lacks a cutting edge, it is now considerably more lethal, yet still familiar to the practiced fencer.",
-    "relative": { "weight": "-10 g", "cutting": 5 }
+    "relative": { "weight": "-10 g", "melee_damage": { "stab": 5 } }
   },
   {
     "id": "shock_foil",
@@ -2296,7 +2243,6 @@
     "weight": "200 g",
     "volume": "1532 ml",
     "longest_side": "80 cm",
-    "bashing": 3,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "any", "balance": "neutral" },
     "looks_like": "cane",
     "pocket_data": [
@@ -2313,7 +2259,8 @@
     "use_action": { "type": "holster", "holster_prompt": "Sheath sword", "holster_msg": "You sheath your %s" },
     "extend": { "flags": [ "CRUTCHES" ] },
     "techniques": [ "PRECISE", "RAPID", "WBLOCK_2" ],
-    "weapon_category": [ "BATONS", "FENCING_WEAPONRY" ]
+    "weapon_category": [ "BATONS", "FENCING_WEAPONRY" ],
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "sword_cane",
@@ -2328,13 +2275,12 @@
     "weight": "650 g",
     "volume": "1200 ml",
     "longest_side": "80 cm",
-    "bashing": 2,
-    "cutting": 25,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "good" },
     "looks_like": "rapier",
     "techniques": [ "PRECISE", "RAPID", "WBLOCK_2" ],
-    "flags": [ "STAB", "SHEATH_SWORD" ],
-    "weapon_category": [ "SHORT_SWORDS", "FENCING_WEAPONRY" ]
+    "flags": [ "SHEATH_SWORD" ],
+    "weapon_category": [ "SHORT_SWORDS", "FENCING_WEAPONRY" ],
+    "melee_damage": { "bash": 2, "stab": 25 }
   },
   {
     "id": "broadsword",
@@ -2346,8 +2292,6 @@
     "longest_side": "100 cm",
     "price": 120000,
     "price_postapoc": 5000,
-    "bashing": 6,
-    "cutting": 27,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "material": [ "steel" ],
     "symbol": "/",
@@ -2356,7 +2300,8 @@
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
     "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS", "FENCING_WEAPONRY" ],
-    "category": "weapons"
+    "category": "weapons",
+    "melee_damage": { "bash": 6, "cut": 27 }
   },
   {
     "id": "lc_broadsword",
@@ -2372,15 +2317,14 @@
     "longest_side": "100 cm",
     "price": 120000,
     "price_postapoc": 5000,
-    "bashing": 6,
-    "cutting": 24,
     "material": [ "lc_steel" ],
     "repairs_with": [ "lc_steel" ],
     "flags": [ "SHEATH_SWORD", "CONDUCTIVE" ],
     "techniques": [ "WBLOCK_2" ],
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
-    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS", "FENCING_WEAPONRY" ]
+    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS", "FENCING_WEAPONRY" ],
+    "melee_damage": { "bash": 6, "cut": 24 }
   },
   {
     "id": "mc_broadsword",
@@ -2391,14 +2335,14 @@
     "weight": "1223 g",
     "price": 120000,
     "price_postapoc": 5000,
-    "cutting": 28,
     "material": [ "mc_steel" ],
     "repairs_with": [ "mc_steel" ],
     "flags": [ "SHEATH_SWORD", "NONCONDUCTIVE" ],
     "techniques": [ "WBLOCK_2" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
-    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS", "FENCING_WEAPONRY" ]
+    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS", "FENCING_WEAPONRY" ],
+    "melee_damage": { "bash": 6, "cut": 28 }
   },
   {
     "id": "hc_broadsword",
@@ -2409,14 +2353,14 @@
     "weight": "1223 g",
     "price": 120000,
     "price_postapoc": 5000,
-    "cutting": 28,
     "material": [ "hc_steel" ],
     "repairs_with": [ "hc_steel" ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE" ],
     "techniques": [ "WBLOCK_2" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 10 ] ],
-    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS", "FENCING_WEAPONRY" ]
+    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS", "FENCING_WEAPONRY" ],
+    "melee_damage": { "bash": 6, "cut": 28 }
   },
   {
     "id": "ch_broadsword",
@@ -2427,14 +2371,14 @@
     "weight": "1198 g",
     "price": 120000,
     "price_postapoc": 5000,
-    "cutting": 31,
     "material": [ "ch_steel" ],
     "repairs_with": [ "ch_steel" ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE" ],
     "techniques": [ "WBLOCK_2" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 10 ] ],
-    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS", "FENCING_WEAPONRY" ]
+    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS", "FENCING_WEAPONRY" ],
+    "melee_damage": { "bash": 6, "cut": 31 }
   },
   {
     "id": "qt_broadsword",
@@ -2445,14 +2389,14 @@
     "weight": "1198 g",
     "price": 120000,
     "price_postapoc": 5000,
-    "cutting": 32,
     "material": [ "qt_steel" ],
     "repairs_with": [ "qt_steel" ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE" ],
     "techniques": [ "WBLOCK_2" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 11 ] ],
-    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS", "FENCING_WEAPONRY" ]
+    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS", "FENCING_WEAPONRY" ],
+    "melee_damage": { "bash": 6, "cut": 32 }
   },
   {
     "id": "broadsword_inferior",
@@ -2460,7 +2404,7 @@
     "type": "TOOL",
     "name": { "str": "broadsword" },
     "description": "An Early Modern sword that saw use in the 16th, 17th, and 18th centuries.  This sword appears to be made very poorly, but it should still stand up to a few swings.",
-    "proportional": { "bashing": 3.3, "cutting": 0.3 },
+    "proportional": { "melee_damage": { "bash": 3.3, "cut": 0.3 } },
     "delete": { "flags": [ "DURABLE_MELEE" ] },
     "material": [ "budget_steel" ],
     "price": 120000,
@@ -2472,7 +2416,7 @@
     "type": "GENERIC",
     "name": { "str": "cutlass", "str_pl": "cutlasses" },
     "description": "A dull, cheaply-made replica of a broad saber known for its use by sailors and pirates.",
-    "proportional": { "bashing": 1.8, "cutting": 0.076 },
+    "proportional": { "melee_damage": { "bash": 1.8, "cut": 0.076 } },
     "delete": { "flags": [ "DURABLE_MELEE" ] },
     "extend": { "flags": [ "FRAGILE_MELEE" ] },
     "material": [ "aluminum" ],
@@ -2486,7 +2430,7 @@
     "type": "TOOL",
     "name": { "str": "cutlass", "str_pl": "cutlasses" },
     "description": "A broad saber known for its use by sailors and pirates.  This sword appears to be made very poorly, but it should still stand up to a few swings.",
-    "proportional": { "bashing": 3.6, "cutting": 0.27 },
+    "proportional": { "melee_damage": { "bash": 3.6, "cut": 0.27 } },
     "delete": { "flags": [ "DURABLE_MELEE" ] },
     "material": [ "budget_steel" ],
     "price": 96000,
@@ -2502,17 +2446,16 @@
     "longest_side": "100 cm",
     "price": 98000,
     "price_postapoc": 2500,
-    "bashing": 3,
-    "cutting": 28,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "good" },
     "material": [ "steel" ],
     "symbol": "/",
     "color": "light_gray",
     "techniques": [ "RAPID", "WBLOCK_2", "PRECISE" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
-    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
     "weapon_category": [ "FENCING_WEAPONRY" ],
-    "category": "weapons"
+    "category": "weapons",
+    "melee_damage": { "bash": 3, "stab": 28 }
   },
   {
     "id": "lc_rapier",
@@ -2526,17 +2469,16 @@
     "weight": "1000 g",
     "volume": "1500 ml",
     "longest_side": "100 cm",
-    "bashing": 3,
-    "cutting": 25,
     "price": 98000,
     "price_postapoc": 2500,
     "material": [ "lc_steel" ],
     "repairs_with": [ "lc_steel" ],
-    "flags": [ "STAB", "SHEATH_SWORD", "CONDUCTIVE" ],
+    "flags": [ "SHEATH_SWORD", "CONDUCTIVE" ],
     "techniques": [ "RAPID", "WBLOCK_2", "PRECISE" ],
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
-    "weapon_category": [ "FENCING_WEAPONRY" ]
+    "weapon_category": [ "FENCING_WEAPONRY" ],
+    "melee_damage": { "bash": 3, "stab": 25 }
   },
   {
     "id": "mc_rapier",
@@ -2545,16 +2487,16 @@
     "name": { "str": "medium steel rapier" },
     "description": "A thin sword with an ornate hand guard.  It looks like the preferred weapon of gentlemen and swashbucklers.  Light and quick, it makes any battle a stylish battle.\n\nMade with mild carbon steel and with a grip made of leather wrapped in steel wire, this weapon is comfortable in your hand, though the balance isn't perfect and the edge could be sharper.",
     "weight": "1090 g",
-    "cutting": 29,
     "price": 98000,
     "price_postapoc": 2500,
     "material": [ "mc_steel" ],
     "repairs_with": [ "mc_steel" ],
-    "flags": [ "STAB", "SHEATH_SWORD", "NONCONDUCTIVE" ],
+    "flags": [ "SHEATH_SWORD", "NONCONDUCTIVE" ],
     "techniques": [ "RAPID", "WBLOCK_2", "PRECISE" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
-    "weapon_category": [ "FENCING_WEAPONRY" ]
+    "weapon_category": [ "FENCING_WEAPONRY" ],
+    "melee_damage": { "bash": 3, "stab": 29 }
   },
   {
     "id": "hc_rapier",
@@ -2563,16 +2505,16 @@
     "name": { "str": "high steel rapier" },
     "description": "A thin sword with an ornate hand guard.  It looks like the preferred weapon of gentlemen and swashbucklers.  Light and quick, it makes any battle a stylish battle.\n\nMade with high carbon steel and featuring a sturdy grip, this feels like a proper weapon.  The balance feels right and the blade is quite sharp.",
     "weight": "1090 g",
-    "cutting": 31,
     "price": 98000,
     "price_postapoc": 2500,
     "material": [ "hc_steel" ],
     "repairs_with": [ "hc_steel" ],
-    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE" ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE" ],
     "techniques": [ "RAPID", "WBLOCK_2", "PRECISE" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 10 ] ],
-    "weapon_category": [ "FENCING_WEAPONRY" ]
+    "weapon_category": [ "FENCING_WEAPONRY" ],
+    "melee_damage": { "bash": 3, "stab": 31 }
   },
   {
     "id": "ch_rapier",
@@ -2581,16 +2523,16 @@
     "name": { "str": "hardened rapier" },
     "description": "A thin sword with an ornate hand guard.  It looks like the preferred weapon of gentlemen and swashbucklers.  Light and quick, it makes any battle a stylish battle.\n\nMade of hardened steel and with a molded grip that fits your hand perfectly, this weapon looks as good as any you might find in a museum.  The balance is perfect and the edge is as sharp as a razor.",
     "weight": "1065 g",
-    "cutting": 32,
     "price": 98000,
     "price_postapoc": 2500,
     "material": [ "ch_steel" ],
     "repairs_with": [ "ch_steel" ],
-    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE" ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE" ],
     "techniques": [ "RAPID", "WBLOCK_2", "PRECISE" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 10 ] ],
-    "weapon_category": [ "FENCING_WEAPONRY" ]
+    "weapon_category": [ "FENCING_WEAPONRY" ],
+    "melee_damage": { "bash": 3, "stab": 32 }
   },
   {
     "id": "qt_rapier",
@@ -2599,16 +2541,16 @@
     "name": { "str": "tempered rapier" },
     "description": "A thin sword with an ornate hand guard.  It looks like the preferred weapon of gentlemen and swashbucklers.  Light and quick, it makes any battle a stylish battle.\n\nMade of tempered steel, this is a masterpiece.  The grip, the balance, the blade, all perfect.  This is the peak of the swordsmith's craft.",
     "weight": "1065 g",
-    "cutting": 34,
     "price": 98000,
     "price_postapoc": 2500,
     "material": [ "qt_steel" ],
     "repairs_with": [ "qt_steel" ],
-    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE" ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE" ],
     "techniques": [ "RAPID", "WBLOCK_2", "PRECISE" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 11 ] ],
-    "weapon_category": [ "FENCING_WEAPONRY" ]
+    "weapon_category": [ "FENCING_WEAPONRY" ],
+    "melee_damage": { "bash": 3, "stab": 34 }
   },
   {
     "id": "katana",
@@ -2620,8 +2562,6 @@
     "longest_side": "90 cm",
     "price": 98000,
     "price_postapoc": 4500,
-    "bashing": 5,
-    "cutting": 31,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "material": [ "steel" ],
     "ascii_picture": "katana",
@@ -2631,7 +2571,8 @@
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
     "weapon_category": [ "JAPANESE_SWORDS", "MEDIUM_SWORDS" ],
-    "category": "weapons"
+    "category": "weapons",
+    "melee_damage": { "bash": 5, "cut": 31 }
   },
   {
     "id": "lc_katana",
@@ -2646,8 +2587,6 @@
     "weight": "1133 g",
     "volume": "2 L",
     "longest_side": "90 cm",
-    "bashing": 5,
-    "cutting": 28,
     "price": 98000,
     "price_postapoc": 4500,
     "material": [ "lc_steel" ],
@@ -2656,7 +2595,8 @@
     "techniques": [ "RAPID", "WBLOCK_2" ],
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
-    "weapon_category": [ "JAPANESE_SWORDS", "MEDIUM_SWORDS" ]
+    "weapon_category": [ "JAPANESE_SWORDS", "MEDIUM_SWORDS" ],
+    "melee_damage": { "bash": 5, "cut": 28 }
   },
   {
     "id": "mc_katana",
@@ -2665,7 +2605,6 @@
     "name": { "str_sp": "medium steel katana" },
     "description": "A rare sword from Japan.  Deadly against unarmored targets, and still very effective against armor.\n\nMade with mild carbon steel and with a grip made of leather wrapped in steel wire, this weapon is comfortable in your hand, though the balance isn't perfect and the edge could be sharper.",
     "weight": "1313 g",
-    "cutting": 33,
     "price": 98000,
     "price_postapoc": 4500,
     "material": [ "mc_steel" ],
@@ -2674,7 +2613,8 @@
     "techniques": [ "RAPID", "WBLOCK_2" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
-    "weapon_category": [ "JAPANESE_SWORDS", "MEDIUM_SWORDS" ]
+    "weapon_category": [ "JAPANESE_SWORDS", "MEDIUM_SWORDS" ],
+    "melee_damage": { "bash": 5, "cut": 33 }
   },
   {
     "id": "hc_katana",
@@ -2683,7 +2623,6 @@
     "name": { "str_sp": "high steel katana" },
     "description": "A rare sword from Japan.  Deadly against unarmored targets, and still very effective against armor.\n\nMade with high carbon steel and featuring a sturdy grip, this feels like a proper weapon.  The balance feels right and the blade is quite sharp.",
     "weight": "1313 g",
-    "cutting": 34,
     "price": 98000,
     "price_postapoc": 4500,
     "material": [ "hc_steel" ],
@@ -2692,7 +2631,8 @@
     "techniques": [ "RAPID", "WBLOCK_2" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 10 ] ],
-    "weapon_category": [ "JAPANESE_SWORDS", "MEDIUM_SWORDS" ]
+    "weapon_category": [ "JAPANESE_SWORDS", "MEDIUM_SWORDS" ],
+    "melee_damage": { "bash": 5, "cut": 34 }
   },
   {
     "id": "ch_katana",
@@ -2701,7 +2641,6 @@
     "name": { "str_sp": "hardened katana" },
     "description": "A rare sword from Japan.  Deadly against unarmored targets, and still very effective against armor.\n\nMade of hardened steel and with a molded grip that fits your hand perfectly, this weapon looks as good as any you might find in a museum.  The balance is perfect and the edge is as sharp as a razor.",
     "weight": "1288 g",
-    "cutting": 36,
     "price": 98000,
     "price_postapoc": 4500,
     "material": [ "ch_steel" ],
@@ -2710,7 +2649,8 @@
     "techniques": [ "RAPID", "WBLOCK_2" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 10 ] ],
-    "weapon_category": [ "JAPANESE_SWORDS", "MEDIUM_SWORDS" ]
+    "weapon_category": [ "JAPANESE_SWORDS", "MEDIUM_SWORDS" ],
+    "melee_damage": { "bash": 5, "cut": 36 }
   },
   {
     "id": "qt_katana",
@@ -2719,7 +2659,6 @@
     "name": { "str_sp": "tempered katana" },
     "description": "A rare sword from Japan.  Deadly against unarmored targets, and still very effective against armor.\n\nMade of tempered steel, this is a masterpiece.  The grip, the balance, the blade, all perfect.  This is the peak of the swordsmith's craft.",
     "weight": "1288 g",
-    "cutting": 37,
     "price": 98000,
     "price_postapoc": 4500,
     "material": [ "qt_steel" ],
@@ -2728,7 +2667,8 @@
     "techniques": [ "RAPID", "WBLOCK_2" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 11 ] ],
-    "weapon_category": [ "JAPANESE_SWORDS", "MEDIUM_SWORDS" ]
+    "weapon_category": [ "JAPANESE_SWORDS", "MEDIUM_SWORDS" ],
+    "melee_damage": { "bash": 5, "cut": 37 }
   },
   {
     "id": "katana_fake",
@@ -2738,7 +2678,7 @@
     "color": "light_gray",
     "name": { "str_sp": "katana" },
     "description": "A dull, cheaply-made replica of a rare sword from Japan.",
-    "proportional": { "bashing": 1.8, "cutting": 0.064 },
+    "proportional": { "melee_damage": { "bash": 1.8, "cut": 0.064 } },
     "delete": { "flags": [ "DURABLE_MELEE" ] },
     "extend": { "flags": [ "FRAGILE_MELEE" ] },
     "material": [ "aluminum" ],
@@ -2754,7 +2694,7 @@
     "color": "light_gray",
     "name": { "str_sp": "katana" },
     "description": "A rare sword from Japan.  While it's got the right edge and weight, the pommel feels like it'll just snap off, and the blade seems pretty worn.",
-    "proportional": { "bashing": 3.4, "cutting": 0.25 },
+    "proportional": { "melee_damage": { "bash": 3.4, "cut": 0.25 } },
     "delete": { "flags": [ "DURABLE_MELEE" ] },
     "material": [ "budget_steel" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
@@ -2767,7 +2707,7 @@
     "type": "GENERIC",
     "name": { "str": "zweihänder" },
     "description": "A dull, cheaply-made replica of a huge two-handed sword from Germany.  Even blunted, it still packs a wallop.",
-    "proportional": { "bashing": 1.3, "cutting": 0.169 },
+    "proportional": { "melee_damage": { "bash": 1.3, "cut": 0.169 } },
     "delete": { "flags": [ "DURABLE_MELEE" ] },
     "extend": { "flags": [ "FRAGILE_MELEE" ] },
     "material": [ "aluminum" ],
@@ -2780,7 +2720,7 @@
     "type": "TOOL",
     "name": { "str": "zweihänder" },
     "description": "A huge two-handed sword from Germany.  You're not quite sure it's supposed to be this bendy.",
-    "proportional": { "bashing": 2.35, "cutting": 0.26 },
+    "proportional": { "melee_damage": { "bash": 2.35, "cut": 0.26 } },
     "delete": { "flags": [ "DURABLE_MELEE" ] },
     "material": [ "budget_steel" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "uneven" },
@@ -2793,7 +2733,7 @@
     "type": "GENERIC",
     "name": { "str": "broadsword" },
     "description": "A dull, cheaply-made replica of an Early Modern sword that saw use in the 16th, 17th, and 18th centuries.  Called 'broad' to contrast with the slimmer rapiers.",
-    "proportional": { "bashing": 1.66, "cutting": 0.11 },
+    "proportional": { "melee_damage": { "bash": 1.66, "cut": 0.11 } },
     "delete": { "flags": [ "DURABLE_MELEE" ] },
     "extend": { "flags": [ "FRAGILE_MELEE" ] },
     "material": [ "aluminum" ],
@@ -2807,7 +2747,7 @@
     "type": "GENERIC",
     "name": { "str": "cavalry saber" },
     "description": "A dull, cheaply-made replica of a curved sword associated with cavalry from the Early Modern period onwards.",
-    "proportional": { "bashing": 1.8, "cutting": 0.077 },
+    "proportional": { "melee_damage": { "bash": 1.8, "cut": 0.077 } },
     "delete": { "flags": [ "DURABLE_MELEE" ] },
     "extend": { "flags": [ "FRAGILE_MELEE" ] },
     "material": [ "aluminum" ],
@@ -2821,7 +2761,7 @@
     "type": "GENERIC",
     "name": { "str": "rapier" },
     "description": "A blunted, cheap replica of a thin sword with an ornate handguard.  It looks like the preferred weapon of gentlemen and swashbucklers.  Light and quick, it makes any battle a stylish battle.",
-    "proportional": { "bashing": 3, "cutting": 0.071 },
+    "proportional": { "melee_damage": { "bash": 3, "stab": 0.071 } },
     "delete": { "flags": [ "DURABLE_MELEE" ] },
     "extend": { "flags": [ "FRAGILE_MELEE" ] },
     "material": [ "aluminum" ],
@@ -2835,7 +2775,7 @@
     "type": "GENERIC",
     "name": { "str_sp": "wakizashi" },
     "description": "A dull, cheap replica of the more common wakizashi.  Smaller and lighter than a katana, but still effective in combat.",
-    "proportional": { "bashing": 4, "cutting": 0.066 },
+    "proportional": { "melee_damage": { "bash": 4, "cut": 0.066 } },
     "delete": { "flags": [ "DURABLE_MELEE" ] },
     "extend": { "flags": [ "FRAGILE_MELEE" ] },
     "material": [ "aluminum" ],
@@ -2849,7 +2789,7 @@
     "type": "TOOL",
     "name": { "str_sp": "wakizashi" },
     "description": "A comparatively common Japanese short sword.  There's something not quite right about this one.",
-    "proportional": { "bashing": 8.5, "cutting": 0.23 },
+    "proportional": { "melee_damage": { "bash": 8.5, "cut": 0.23 } },
     "delete": { "flags": [ "DURABLE_MELEE" ] },
     "material": [ "budget_steel" ],
     "price": 17800,
@@ -2861,7 +2801,7 @@
     "type": "GENERIC",
     "name": { "str": "kris", "str_pl": "krises" },
     "description": "A dull, cheap replica of a wavy-bladed dagger from Southeast Asia.",
-    "proportional": { "bashing": 0.25, "cutting": 0.083 },
+    "proportional": { "melee_damage": { "bash": 0.25, "stab": 0.083 } },
     "delete": { "flags": [ "DURABLE_MELEE" ] },
     "extend": { "flags": [ "FRAGILE_MELEE" ] },
     "material": [ "aluminum" ],
@@ -2886,11 +2826,10 @@
     "weight": "1766 g",
     "volume": "1500 ml",
     "longest_side": "50 cm",
-    "bashing": 6,
-    "cutting": 30,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "good" },
     "category": "weapons",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ]
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
+    "melee_damage": { "bash": 6, "cut": 30 }
   },
   {
     "id": "cutlass",
@@ -2902,8 +2841,6 @@
     "longest_side": "80 cm",
     "price": 96000,
     "price_postapoc": 3500,
-    "bashing": 5,
-    "cutting": 26,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "good" },
     "material": [ "steel" ],
     "symbol": "/",
@@ -2912,7 +2849,8 @@
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
     "weapon_category": [ "MEDIEVAL_SWORDS", "SHORT_SWORDS" ],
-    "category": "weapons"
+    "category": "weapons",
+    "melee_damage": { "bash": 5, "cut": 26 }
   },
   {
     "id": "lc_cutlass",
@@ -2928,15 +2866,14 @@
     "longest_side": "80 cm",
     "price": 96000,
     "price_postapoc": 3500,
-    "bashing": 5,
-    "cutting": 23,
     "material": [ "lc_steel" ],
     "repairs_with": [ "lc_steel" ],
     "flags": [ "SHEATH_SWORD", "CONDUCTIVE" ],
     "techniques": [ "WBLOCK_2" ],
     "to_hit": { "grip": "solid", "length": "short", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
-    "weapon_category": [ "MEDIEVAL_SWORDS", "SHORT_SWORDS" ]
+    "weapon_category": [ "MEDIEVAL_SWORDS", "SHORT_SWORDS" ],
+    "melee_damage": { "bash": 5, "cut": 23 }
   },
   {
     "id": "mc_cutlass",
@@ -2947,14 +2884,14 @@
     "weight": "1045 g",
     "price": 96000,
     "price_postapoc": 3500,
-    "cutting": 27,
     "material": [ "mc_steel" ],
     "repairs_with": [ "mc_steel" ],
     "flags": [ "SHEATH_SWORD", "NONCONDUCTIVE" ],
     "techniques": [ "WBLOCK_2" ],
     "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
-    "weapon_category": [ "MEDIEVAL_SWORDS", "SHORT_SWORDS" ]
+    "weapon_category": [ "MEDIEVAL_SWORDS", "SHORT_SWORDS" ],
+    "melee_damage": { "bash": 5, "cut": 27 }
   },
   {
     "id": "hc_cutlass",
@@ -2965,14 +2902,14 @@
     "weight": "1045 g",
     "price": 96000,
     "price_postapoc": 3500,
-    "cutting": 27,
     "material": [ "hc_steel" ],
     "repairs_with": [ "hc_steel" ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE" ],
     "techniques": [ "WBLOCK_2" ],
     "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 10 ] ],
-    "weapon_category": [ "MEDIEVAL_SWORDS", "SHORT_SWORDS" ]
+    "weapon_category": [ "MEDIEVAL_SWORDS", "SHORT_SWORDS" ],
+    "melee_damage": { "bash": 5, "cut": 27 }
   },
   {
     "id": "ch_cutlass",
@@ -2983,14 +2920,14 @@
     "weight": "1020 g",
     "price": 96000,
     "price_postapoc": 3500,
-    "cutting": 30,
     "material": [ "ch_steel" ],
     "repairs_with": [ "ch_steel" ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE" ],
     "techniques": [ "WBLOCK_2" ],
     "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 10 ] ],
-    "weapon_category": [ "MEDIEVAL_SWORDS", "SHORT_SWORDS" ]
+    "weapon_category": [ "MEDIEVAL_SWORDS", "SHORT_SWORDS" ],
+    "melee_damage": { "bash": 5, "cut": 30 }
   },
   {
     "id": "qt_cutlass",
@@ -3001,14 +2938,14 @@
     "weight": "1020 g",
     "price": 96000,
     "price_postapoc": 3500,
-    "cutting": 31,
     "material": [ "qt_steel" ],
     "repairs_with": [ "qt_steel" ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE" ],
     "techniques": [ "WBLOCK_2" ],
     "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 11 ] ],
-    "weapon_category": [ "MEDIEVAL_SWORDS", "SHORT_SWORDS" ]
+    "weapon_category": [ "MEDIEVAL_SWORDS", "SHORT_SWORDS" ],
+    "melee_damage": { "bash": 5, "cut": 31 }
   },
   {
     "id": "kriegsmesser",
@@ -3026,12 +2963,11 @@
     "weight": "1600 g",
     "volume": "2750 ml",
     "longest_side": "120 cm",
-    "bashing": 14,
-    "cutting": 33,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "category": "weapons",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -5 ] ],
-    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS" ]
+    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS" ],
+    "melee_damage": { "bash": 14, "cut": 33 }
   },
   {
     "id": "lc_kriegsmesser",
@@ -3045,8 +2981,6 @@
     "weight": "1600 g",
     "volume": "2750 ml",
     "longest_side": "120 cm",
-    "bashing": 14,
-    "cutting": 30,
     "price": 100000,
     "price_postapoc": 4500,
     "material": [ "lc_steel" ],
@@ -3055,7 +2989,8 @@
     "techniques": [ "WBLOCK_2", "BRUTAL" ],
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "neutral" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -6 ] ],
-    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS" ]
+    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS" ],
+    "melee_damage": { "bash": 14, "cut": 30 }
   },
   {
     "id": "mc_kriegsmesser",
@@ -3064,7 +2999,6 @@
     "name": { "str": "medium steel kriegsmesser" },
     "description": "A single-edged hand-and-a-half-sword of German design, with a long, curved blade.  It became popular across Europe due to it's low cost while maintaining strong cutting power in comparison to the more sophisticated longsword.\n\nMade with mild carbon steel and with a grip made of leather wrapped in steel wire, this weapon is comfortable in your hand, though the balance isn't perfect and the edge could be sharper.",
     "weight": "1690 g",
-    "cutting": 35,
     "price": 100000,
     "price_postapoc": 4500,
     "material": [ "mc_steel" ],
@@ -3073,7 +3007,8 @@
     "techniques": [ "WBLOCK_2", "BRUTAL" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -5 ] ],
-    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS" ]
+    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS" ],
+    "melee_damage": { "bash": 14, "cut": 35 }
   },
   {
     "id": "hc_kriegsmesser",
@@ -3082,7 +3017,6 @@
     "name": { "str": "high steel kriegsmesser" },
     "description": "A single-edged hand-and-a-half-sword of German design, with a long, curved blade.  It became popular across Europe due to it's low cost while maintaining strong cutting power in comparison to the more sophisticated longsword.\n\nMade with high carbon steel and featuring a sturdy grip, this feels like a proper weapon.  The balance feels right and the blade is quite sharp.",
     "weight": "1690 g",
-    "cutting": 36,
     "price": 100000,
     "price_postapoc": 4500,
     "material": [ "hc_steel" ],
@@ -3091,7 +3025,8 @@
     "techniques": [ "WBLOCK_2", "BRUTAL" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -5 ] ],
-    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS" ]
+    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS" ],
+    "melee_damage": { "bash": 14, "cut": 36 }
   },
   {
     "id": "ch_kriegsmesser",
@@ -3100,7 +3035,6 @@
     "name": { "str": "hardened kriegsmesser" },
     "description": "A single-edged hand-and-a-half-sword of German design, with a long, curved blade.  It became popular across Europe due to it's low cost while maintaining strong cutting power in comparison to the more sophisticated longsword.\n\nMade of hardened steel and with a molded grip that fits your hand perfectly, this weapon looks as good as any you might find in a museum.  The balance is perfect and the edge is as sharp as a razor.",
     "weight": "1665 g",
-    "cutting": 38,
     "price": 100000,
     "price_postapoc": 4500,
     "material": [ "ch_steel" ],
@@ -3109,7 +3043,8 @@
     "techniques": [ "WBLOCK_2", "BRUTAL" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -4 ] ],
-    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS" ]
+    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS" ],
+    "melee_damage": { "bash": 14, "cut": 38 }
   },
   {
     "id": "qt_kriegsmesser",
@@ -3118,7 +3053,6 @@
     "name": { "str": "tempered kriegsmesser" },
     "description": "A single-edged hand-and-a-half-sword of German design, with a long, curved blade.  It became popular across Europe due to it's low cost while maintaining strong cutting power in comparison to the more sophisticated longsword.\n\nMade of tempered steel, this is a masterpiece.  The grip, the balance, the blade, all perfect.  This is the peak of the swordsmith's craft.",
     "weight": "1665 g",
-    "cutting": 40,
     "price": 100000,
     "price_postapoc": 4500,
     "material": [ "qt_steel" ],
@@ -3127,7 +3061,8 @@
     "techniques": [ "WBLOCK_2", "BRUTAL" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -4 ] ],
-    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS" ]
+    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS" ],
+    "melee_damage": { "bash": 14, "cut": 40 }
   },
   {
     "id": "falx",
@@ -3144,12 +3079,11 @@
     "weight": "1360 g",
     "volume": "2 L",
     "longest_side": "90 cm",
-    "bashing": 5,
-    "cutting": 25,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
     "category": "weapons",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -15 ] ],
-    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS" ]
+    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS" ],
+    "melee_damage": { "bash": 5, "cut": 25 }
   },
   {
     "id": "lc_falx",
@@ -3162,8 +3096,6 @@
     "weight": "1360 g",
     "volume": "2 L",
     "longest_side": "90 cm",
-    "bashing": 5,
-    "cutting": 23,
     "price": 100000,
     "price_postapoc": 4500,
     "material": [ "lc_steel" ],
@@ -3172,7 +3104,8 @@
     "techniques": [ "WBLOCK_1", "SWEEP" ],
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "neutral" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -17 ] ],
-    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS" ]
+    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS" ],
+    "melee_damage": { "bash": 5, "cut": 23 }
   },
   {
     "id": "mc_falx",
@@ -3181,7 +3114,6 @@
     "name": { "str": "medium steel falx", "str_pl": "medium steel falxes" },
     "description": "A distinct Dacian sword that curves forward, allowing you to bypass shields or hook and pull enemies, while delivering decent chopping damage.\n\nMade with mild carbon steel and with a grip made of leather wrapped in steel wire, this weapon is comfortable in your hand, though the balance isn't perfect and the edge could be sharper.",
     "weight": "1540 g",
-    "cutting": 26,
     "price": 100000,
     "price_postapoc": 4500,
     "material": [ "mc_steel" ],
@@ -3190,7 +3122,8 @@
     "techniques": [ "WBLOCK_1", "SWEEP" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -14 ] ],
-    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS" ]
+    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS" ],
+    "melee_damage": { "bash": 5, "cut": 26 }
   },
   {
     "id": "hc_falx",
@@ -3199,7 +3132,6 @@
     "name": { "str": "high steel falx", "str_pl": "high steel falxes" },
     "description": "A distinct Dacian sword that curves forward, allowing you to bypass shields or hook and pull enemies, while delivering decent chopping damage.\n\nMade with high carbon steel and featuring a sturdy grip, this feels like a proper weapon.  The balance feels right and the blade is quite sharp.",
     "weight": "1540 g",
-    "cutting": 28,
     "price": 100000,
     "price_postapoc": 4500,
     "material": [ "hc_steel" ],
@@ -3208,7 +3140,8 @@
     "techniques": [ "WBLOCK_1", "SWEEP" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -14 ] ],
-    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS" ]
+    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS" ],
+    "melee_damage": { "bash": 5, "cut": 28 }
   },
   {
     "id": "ch_falx",
@@ -3217,7 +3150,6 @@
     "name": { "str": "hardened falx", "str_pl": "hardened falxes" },
     "description": "A distinct Dacian sword that curves forward, allowing you to bypass shields or hook and pull enemies, while delivering decent chopping damage.\n\nMade of hardened steel and with a molded grip that fits your hand perfectly, this weapon looks as good as any you might find in a museum.  The balance is perfect and the edge is as sharp as a razor.",
     "weight": "1490 g",
-    "cutting": 29,
     "price": 100000,
     "price_postapoc": 4500,
     "material": [ "ch_steel" ],
@@ -3226,7 +3158,8 @@
     "techniques": [ "WBLOCK_1", "SWEEP" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -13 ] ],
-    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS" ]
+    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS" ],
+    "melee_damage": { "bash": 5, "cut": 29 }
   },
   {
     "id": "qt_falx",
@@ -3235,7 +3168,6 @@
     "name": { "str": "tempered falx", "str_pl": "tempered falxes" },
     "description": "A distinct Dacian sword that curves forward, allowing you to bypass shields or hook and pull enemies, while delivering decent chopping damage.\n\nMade of tempered steel, this is a masterpiece.  The grip, the balance, the blade, all perfect.  This is the peak of the swordsmith's craft.",
     "weight": "1490 g",
-    "cutting": 30,
     "price": 100000,
     "price_postapoc": 4500,
     "material": [ "qt_steel" ],
@@ -3244,7 +3176,8 @@
     "techniques": [ "WBLOCK_1", "SWEEP" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -13 ] ],
-    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS" ]
+    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS" ],
+    "melee_damage": { "bash": 5, "cut": 30 }
   },
   {
     "type": "GENERIC",
@@ -3262,10 +3195,9 @@
     "weight": "2500 g",
     "volume": "6500 ml",
     "longest_side": "180 cm",
-    "bashing": 4,
-    "cutting": 26,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "uneven" },
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -18 ] ]
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -18 ] ],
+    "melee_damage": { "bash": 4, "cut": 26 }
   },
   {
     "id": "combatsaw_off",
@@ -3278,7 +3210,6 @@
     "longest_side": "70 cm",
     "price": 25000,
     "price_postapoc": 3000,
-    "bashing": 8,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "neutral" },
     "material": [ "steel", "plastic" ],
     "symbol": "/",
@@ -3288,7 +3219,8 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "watertight": true, "ammo_restriction": { "gasoline": 450 } } ],
     "use_action": [ "COMBATSAW_OFF" ],
     "techniques": [ "WBLOCK_1", "SWEEP" ],
-    "flags": [ "ALWAYS_TWOHAND", "FRAGILE_MELEE" ]
+    "flags": [ "ALWAYS_TWOHAND", "FRAGILE_MELEE" ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "combatsaw_on",
@@ -3296,14 +3228,14 @@
     "type": "TOOL",
     "name": { "str": "combat chainsaw (on)", "str_pl": "combat chainsaws (on)" },
     "description": "This combat chainsaw is on, and is continuously draining gasoline.  Use it to turn it off.",
-    "cutting": 50,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "every", "balance": "neutral" },
     "turns_per_charge": 4,
     "charges_per_use": 0,
     "revert_to": "combatsaw_off",
     "qualities": [ [ "AXE", 3 ], [ "BUTCHER", -120 ] ],
     "use_action": [ "COMBATSAW_ON" ],
-    "flags": [ "MESSY", "FRAGILE_MELEE", "TRADER_AVOID", "POWERED", "ALWAYS_TWOHAND" ]
+    "flags": [ "MESSY", "FRAGILE_MELEE", "TRADER_AVOID", "POWERED", "ALWAYS_TWOHAND" ],
+    "melee_damage": { "bash": 8, "cut": 50 }
   },
   {
     "id": "e_combatsaw_off",
@@ -3316,7 +3248,6 @@
     "longest_side": "70 cm",
     "price": 25000,
     "price_postapoc": 3000,
-    "bashing": 8,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "neutral" },
     "material": [ "steel", "plastic" ],
     "symbol": "/",
@@ -3333,7 +3264,8 @@
         "flag_restriction": [ "BATTERY_MEDIUM" ],
         "default_magazine": "medium_battery_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "e_combatsaw_on",
@@ -3341,14 +3273,14 @@
     "type": "TOOL",
     "name": { "str": "electric combat chainsaw (on)", "str_pl": "electric combat chainsaws (on)" },
     "description": "This electric combat chainsaw is on, and is continuously draining power.  Use it to turn it off.",
-    "cutting": 50,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "every", "balance": "neutral" },
     "power_draw": "2 kW",
     "charges_per_use": 0,
     "revert_to": "e_combatsaw_off",
     "qualities": [ [ "AXE", 3 ] ],
     "use_action": [ "E_COMBATSAW_ON" ],
-    "flags": [ "MESSY", "FRAGILE_MELEE", "TRADER_AVOID", "POWERED", "ALWAYS_TWOHAND" ]
+    "flags": [ "MESSY", "FRAGILE_MELEE", "TRADER_AVOID", "POWERED", "ALWAYS_TWOHAND" ],
+    "melee_damage": { "bash": 8, "cut": 50 }
   },
   {
     "type": "GENERIC",
@@ -3361,13 +3293,12 @@
     "symbol": "{",
     "material": [ "steel" ],
     "volume": "250 ml",
-    "bashing": 2,
-    "cutting": 14,
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "good" },
-    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "KNIVES" ],
     "price": 10000,
-    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 14 ] ]
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 14 ] ],
+    "melee_damage": { "bash": 2, "stab": 14 }
   },
   {
     "type": "GENERIC",
@@ -3379,13 +3310,12 @@
     "material": [ "steel" ],
     "volume": "500 ml",
     "weight": "1150 g",
-    "bashing": 3,
-    "cutting": 14,
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "any", "balance": "neutral" },
     "price_postapoc": 500,
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
-    "flags": [ "STAB" ],
-    "techniques": [ "WBLOCK_1" ]
+    "flags": [  ],
+    "techniques": [ "WBLOCK_1" ],
+    "melee_damage": { "bash": 3, "stab": 14 }
   },
   {
     "type": "GENERIC",
@@ -3397,13 +3327,40 @@
     "color": "dark_gray",
     "symbol": "{",
     "material": [ "steel" ],
-    "bashing": 2,
-    "cutting": 15,
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "any", "balance": "neutral" },
     "flags": [ "DURABLE_MELEE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "CLAWS" ],
     "price": 20000,
     "price_postapoc": 250,
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 14 ] ]
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 14 ] ],
+    "melee_damage": { "bash": 2, "cut": 15 }
+  },
+  {
+    "id": "enfield_bayonet",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "Enfield No. 4 bayonet" },
+    "description": "This is a vintage spike bayonet for the British Lee Enfield No. 4 rifle, featuring a distinct cruciform blade and socket-based mounting system.",
+    "weight": "500 g",
+    "volume": "300 ml",
+    "longest_side": "25 cm",
+    "price": 4281,
+    "price_postapoc": 3000,
+    "melee_damage": { "bash": 7, "stab": 12 },
+    "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "good" },
+    "material": [ "steel" ],
+    "symbol": "/",
+    "color": "light_gray",
+    "gunmod_data": {
+      "location": "underbarrel",
+      "mod_targets": [ "number4_mki" ],
+      "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ],
+      "install_time": "5 s"
+    },
+    "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
+    "techniques": [ "WBLOCK_1", "RAPID" ],
+    "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ], [ "BUTCHER", 7 ] ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "weapon_category": [ "KNIVES" ]
   }
 ]

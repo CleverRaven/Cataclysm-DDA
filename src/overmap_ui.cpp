@@ -235,8 +235,7 @@ weather_type_id get_weather_at_point( const tripoint_abs_omt &pos )
     }
     auto iter = weather_cache.find( pos );
     if( iter == weather_cache.end() ) {
-        // TODO: fix point types
-        const tripoint abs_ms_pos = project_to<coords::ms>( pos ).raw();
+        const tripoint_abs_ms abs_ms_pos = project_to<coords::ms>( pos );
         const weather_generator &wgen = overmap_buffer.get_settings( pos ).weather;
         const auto weather = wgen.get_weather_conditions( abs_ms_pos, calendar::turn, g->get_seed() );
         iter = weather_cache.insert( std::make_pair( pos, weather ) ).first;
@@ -1671,7 +1670,7 @@ static std::vector<tripoint_abs_omt> get_overmap_path_to( const tripoint_abs_omt
             params = overmap_path_params::for_watercraft();
         } else if( can_drive ) {
             const float offroad_coeff = player_veh->k_traction( player_veh->wheel_area() *
-                                        player_veh->average_or_rating() );
+                                        player_veh->average_offroad_rating() );
             const bool tiny = player_veh->get_points().size() <= 3;
             params = overmap_path_params::for_land_vehicle( offroad_coeff, tiny, can_float );
         } else {
@@ -1722,7 +1721,7 @@ static bool try_travel_to_destination( avatar &player_character, const tripoint_
     }
     if( query_yn( confirm_msg ) ) {
         if( driving ) {
-            player_character.assign_activity( player_activity( autodrive_activity_actor() ) );
+            player_character.assign_activity( autodrive_activity_actor() );
         } else {
             player_character.reset_move_mode();
             player_character.assign_activity( ACT_TRAVELLING );

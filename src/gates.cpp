@@ -245,10 +245,7 @@ void gates::open_gate( const tripoint &pos, Character &p )
     const gate_data &gate = gates_data.obj( gid );
 
     p.add_msg_if_player( gate.pull_message );
-    p.assign_activity( player_activity( open_gate_activity_actor(
-                                            gate.moves,
-                                            pos
-                                        ) ) );
+    p.assign_activity( open_gate_activity_actor( gate.moves, pos ) );
 }
 
 // Doors namespace

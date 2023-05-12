@@ -9,16 +9,15 @@
     "longest_side": "75 cm",
     "price": 10500,
     "price_postapoc": 750,
-    "bashing": 11,
-    "cutting": 24,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "uneven" },
     "material": [ "wood", "steel" ],
     "symbol": "/",
     "color": "light_gray",
     "qualities": [ [ "CUT", 1 ], [ "AXE", 3 ], [ "BUTCHER", -36 ] ],
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
-    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_AXE" ],
-    "weapon_category": [ "HOOKING_WEAPONRY", "GREAT_AXES" ]
+    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_AXE", "NO_SALVAGE" ],
+    "weapon_category": [ "HOOKING_WEAPONRY", "GREAT_AXES" ],
+    "melee_damage": { "bash": 11, "cut": 24 }
   },
   {
     "id": "bow_saw",
@@ -31,12 +30,12 @@
     "price": "30 USD",
     "price_postapoc": "1 USD",
     "to_hit": -2,
-    "cutting": 1,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "red",
     "qualities": [ [ "AXE", 2 ], [ "SAW_W", 2 ], [ "BUTCHER", -90 ] ],
-    "flags": [ "NONCONDUCTIVE", "BELT_CLIP", "NO_SALVAGE" ]
+    "flags": [ "NONCONDUCTIVE", "BELT_CLIP", "NO_SALVAGE" ],
+    "melee_damage": { "cut": 1 }
   },
   {
     "id": "chainsaw_off",
@@ -49,7 +48,6 @@
     "price": 8000,
     "price_postapoc": 500,
     "to_hit": -3,
-    "bashing": 10,
     "material": [ "steel", "plastic" ],
     "symbol": "/",
     "color": "red",
@@ -58,7 +56,8 @@
     "charges_per_use": 5,
     "techniques": [ "SWEEP" ],
     "use_action": [ "CHAINSAW_OFF" ],
-    "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE" ]
+    "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE" ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "chainsaw_on",
@@ -67,15 +66,14 @@
     "name": { "str": "chainsaw (on)", "str_pl": "chainsaws (on)" },
     "description": "This chainsaw is on and making a lot of noise.  Use it to turn it off.",
     "to_hit": -4,
-    "bashing": 4,
-    "cutting": 70,
     "turns_per_charge": 4,
     "charges_per_use": 0,
     "revert_to": "chainsaw_off",
     "techniques": [ "SWEEP" ],
     "qualities": [ [ "AXE", 4 ], [ "BUTCHER", -100 ] ],
     "use_action": [ "CHAINSAW_ON" ],
-    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "POWERED", "FRAGILE_MELEE" ]
+    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "POWERED", "FRAGILE_MELEE" ],
+    "melee_damage": { "bash": 4, "cut": 70 }
   },
   {
     "id": "polesaw_off",
@@ -88,7 +86,6 @@
     "price": 40000,
     "price_postapoc": 450,
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "clumsy" },
-    "bashing": 6,
     "looks_like": "chainsaw_off",
     "material": [ "steel", "plastic" ],
     "symbol": "/",
@@ -98,7 +95,8 @@
     "charges_per_use": 5,
     "techniques": [ "SWEEP" ],
     "use_action": [ "CHAINSAW_OFF" ],
-    "flags": [ "POLEARM", "NONCONDUCTIVE", "FRAGILE_MELEE", "REACH_ATTACK" ]
+    "flags": [ "POLEARM", "NONCONDUCTIVE", "FRAGILE_MELEE", "REACH_ATTACK" ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "polesaw_on",
@@ -107,15 +105,14 @@
     "name": { "str": "polesaw (on)", "str_pl": "polesaws (on)" },
     "description": "This polesaw is on and making a lot of noise.  Use it to turn it off.",
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "clumsy" },
-    "bashing": 4,
-    "cutting": 35,
     "turns_per_charge": 4,
     "charges_per_use": 0,
     "revert_to": "polesaw_off",
     "techniques": [ "SWEEP" ],
     "qualities": [ [ "AXE", 2 ], [ "BUTCHER", -100 ] ],
     "use_action": [ "CHAINSAW_ON" ],
-    "flags": [ "MESSY", "POLEARM", "TRADER_AVOID", "NONCONDUCTIVE", "POWERED", "FRAGILE_MELEE", "REACH_ATTACK" ]
+    "flags": [ "MESSY", "POLEARM", "TRADER_AVOID", "NONCONDUCTIVE", "POWERED", "FRAGILE_MELEE", "REACH_ATTACK" ],
+    "melee_damage": { "bash": 4, "cut": 35 }
   },
   {
     "id": "circsaw_off",
@@ -128,8 +125,6 @@
     "price": 5000,
     "price_postapoc": 250,
     "to_hit": -3,
-    "bashing": 2,
-    "cutting": 4,
     "material": [ "steel", "plastic" ],
     "symbol": "/",
     "color": "yellow",
@@ -144,7 +139,8 @@
         "flag_restriction": [ "BATTERY_MEDIUM" ],
         "default_magazine": "medium_battery_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 2, "cut": 4 }
   },
   {
     "id": "circsaw_on",
@@ -153,13 +149,13 @@
     "name": { "str": "circular saw (on)", "str_pl": "circular saws (on)" },
     "//": "Circular saw would be very fast but imprecise butchering tool - alas the qualities are not separate and so speed is sacrificed.",
     "description": "A lightweight, handheld cordless circular saw.  It is currently on and the blade is spinning; use this item to turn it off.",
-    "cutting": 50,
     "to_hit": -4,
     "power_draw": "1200 W",
     "revert_to": "circsaw_off",
     "qualities": [ [ "CUT", 1 ], [ "SAW_W", 2 ], [ "BUTCHER", -40 ] ],
     "use_action": [ "CIRCSAW_ON" ],
-    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ]
+    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ],
+    "melee_damage": { "bash": 2, "cut": 50 }
   },
   {
     "id": "copper_ax",
@@ -171,8 +167,6 @@
     "longest_side": "75 cm",
     "price": 5500,
     "price_postapoc": 50,
-    "bashing": 10,
-    "cutting": 20,
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "uneven" },
     "material": [ "wood", "copper" ],
     "symbol": "/",
@@ -180,7 +174,8 @@
     "qualities": [ [ "CUT", 1 ], [ "AXE", 1 ], [ "BUTCHER", -44 ] ],
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "flags": [ "NONCONDUCTIVE", "SHEATH_AXE" ],
-    "weapon_category": [ "HOOKING_WEAPONRY", "GREAT_AXES" ]
+    "weapon_category": [ "HOOKING_WEAPONRY", "GREAT_AXES" ],
+    "melee_damage": { "bash": 10, "cut": 20 }
   },
   {
     "id": "bronze_axe",
@@ -192,8 +187,6 @@
     "longest_side": "96 cm",
     "price": 5500,
     "price_postapoc": 250,
-    "bashing": 20,
-    "cutting": 25,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "uneven" },
     "material": [ "wood", "bronze" ],
     "symbol": "/",
@@ -202,7 +195,8 @@
     "qualities": [ [ "CUT", 1 ], [ "AXE", 2 ], [ "BUTCHER", -30 ] ],
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "flags": [ "NONCONDUCTIVE", "SHEATH_AXE" ],
-    "weapon_category": [ "HOOKING_WEAPONRY", "GREAT_AXES" ]
+    "weapon_category": [ "HOOKING_WEAPONRY", "GREAT_AXES" ],
+    "melee_damage": { "bash": 20, "cut": 25 }
   },
   {
     "type": "GENERIC",
@@ -218,13 +212,12 @@
     "weight": "907 g",
     "volume": "1 L",
     "longest_side": "38 cm",
-    "bashing": 10,
-    "cutting": 20,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "neutral" },
     "flags": [ "DURABLE_MELEE", "BELT_CLIP", "NONCONDUCTIVE", "SHEATH_AXE" ],
     "weapon_category": [ "HAND_AXES" ],
     "category": "weapons",
-    "qualities": [ [ "AXE", 2 ], [ "CUT", 1 ], [ "HAMMER", 2 ], [ "HAMMER_FINE", 1 ], [ "BUTCHER", 16 ] ]
+    "qualities": [ [ "AXE", 2 ], [ "CUT", 1 ], [ "HAMMER", 2 ], [ "HAMMER_FINE", 1 ], [ "BUTCHER", 16 ] ],
+    "melee_damage": { "bash": 10, "cut": 20 }
   },
   {
     "id": "elec_chainsaw_off",
@@ -237,7 +230,6 @@
     "price": 8000,
     "price_postapoc": 500,
     "to_hit": -3,
-    "bashing": 10,
     "material": [ "steel", "plastic" ],
     "symbol": "/",
     "color": "red",
@@ -253,7 +245,8 @@
         "flag_restriction": [ "BATTERY_MEDIUM" ],
         "default_magazine": "medium_battery_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "elec_chainsaw_on",
@@ -262,14 +255,13 @@
     "name": { "str": "electric chainsaw (on)", "str_pl": "electric chainsaws (on)" },
     "description": "This electric chainsaw is on and making a lot of noise.  Use it to turn it off.",
     "to_hit": -4,
-    "bashing": 4,
-    "cutting": 70,
     "power_draw": "2 kW",
     "charges_per_use": 0,
     "revert_to": "elec_chainsaw_off",
     "qualities": [ [ "AXE", 4 ], [ "BUTCHER", -100 ] ],
     "use_action": [ "ELEC_CHAINSAW_ON" ],
-    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "POWERED", "FRAGILE_MELEE" ]
+    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "POWERED", "FRAGILE_MELEE" ],
+    "melee_damage": { "bash": 4, "cut": 70 }
   },
   {
     "id": "hand_axe",
@@ -281,13 +273,12 @@
     "price": 0,
     "price_postapoc": 50,
     "to_hit": -3,
-    "bashing": 7,
-    "cutting": 11,
     "material": [ "stone" ],
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -50 ], [ "AXE", 1 ], [ "HAMMER", 1 ] ],
-    "flags": [ "SHEATH_AXE" ]
+    "flags": [ "SHEATH_AXE" ],
+    "melee_damage": { "bash": 7, "cut": 11 }
   },
   {
     "id": "makeshift_axe",
@@ -296,9 +287,8 @@
     "name": { "str": "metal axe head" },
     "description": "A chunk of steel with one edge hammered down to something resembling a cutting edge.  It works passably well, but really can't compare to a proper axe.",
     "material": [ "steel" ],
-    "bashing": 8,
-    "cutting": 12,
-    "flags": [ "SHEATH_AXE" ]
+    "flags": [ "SHEATH_AXE" ],
+    "melee_damage": { "bash": 8, "cut": 12 }
   },
   {
     "id": "primitive_adze",
@@ -310,14 +300,13 @@
     "longest_side": "96 cm",
     "price": 0,
     "price_postapoc": 50,
-    "bashing": 9,
-    "cutting": 15,
     "to_hit": -2,
     "material": [ "stone", "wood" ],
     "symbol": ";",
     "color": "brown",
     "qualities": [ [ "SAW_W", 1 ], [ "BUTCHER", -56 ] ],
-    "flags": [ "BELT_CLIP", "SHEATH_AXE" ]
+    "flags": [ "BELT_CLIP", "SHEATH_AXE" ],
+    "melee_damage": { "bash": 9, "cut": 15 }
   },
   {
     "id": "primitive_axe",
@@ -329,15 +318,14 @@
     "longest_side": "96 cm",
     "price": 0,
     "price_postapoc": 50,
-    "bashing": 9,
-    "cutting": 15,
     "to_hit": -2,
     "material": [ "wood", "stone" ],
     "symbol": "/",
     "color": "light_gray",
     "qualities": [ [ "CUT", 1 ], [ "AXE", 1 ], [ "BUTCHER", -70 ], [ "HAMMER", 1 ] ],
     "flags": [ "BELT_CLIP", "SHEATH_AXE" ],
-    "weapon_category": [ "HOOKING_WEAPONRY", "GREAT_AXES" ]
+    "weapon_category": [ "HOOKING_WEAPONRY", "GREAT_AXES" ],
+    "melee_damage": { "bash": 9, "cut": 15 }
   },
   {
     "id": "saw",
@@ -350,12 +338,12 @@
     "price": 3000,
     "price_postapoc": 100,
     "to_hit": -2,
-    "cutting": 1,
     "material": [ "steel", "wood" ],
     "symbol": ";",
     "color": "brown",
     "qualities": [ [ "AXE", 1 ], [ "SAW_W", 2 ], [ "BUTCHER", -90 ] ],
-    "flags": [ "NONCONDUCTIVE", "BELT_CLIP" ]
+    "flags": [ "NONCONDUCTIVE", "BELT_CLIP" ],
+    "melee_damage": { "cut": 1 }
   },
   {
     "id": "stone_chisel",
@@ -368,12 +356,11 @@
     "longest_side": "20 cm",
     "price": 200,
     "to_hit": 2,
-    "bashing": 2,
-    "cutting": 1,
     "material": [ "stone" ],
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "CHISEL", 1 ], [ "CHISEL_WOOD", 1 ] ],
-    "flags": [ "BELT_CLIP" ]
+    "flags": [ "BELT_CLIP" ],
+    "melee_damage": { "bash": 2, "cut": 1 }
   }
 ]

@@ -34,6 +34,8 @@ Use the `Home` key to return to the top.
     - [Character Modifiers](#character-modifiers)
       - [Character Modifiers - Value](#character-modifiers---value)
     - [Bionics](#bionics)
+    - [Damage Types](#damage-types)
+    - [Damage Info Ordering](#damage-info-ordering)
     - [Dreams](#dreams)
     - [Disease](#disease)
     - [Emitters](#emitters)
@@ -43,6 +45,7 @@ Use the `Home` key to return to the top.
     - [Item Variables](#item-variables)
     - [Materials](#materials)
       - [Fuel data](#fuel-data)
+      - [Burn data](#burn-data)
     - [Monster Groups](#monster-groups)
       - [Group definition](#group-definition)
       - [Monster/Subgroup definition](#monstersubgroup-definition)
@@ -789,6 +792,7 @@ reference at least one body part or sub body part.
 | `encumbrance_text`     | (_mandatory_) Message printed when the limb reaches 40 encumbrance.
 | `encumbrance_threshold`| (_optional_) Encumbrance value where the limb's scores start scaling based on encumbrance. Default 0, meaning scaling from the first point of encumbrance.
 | `encumbrance_limit`    | (_optional_) When encumbrance reaches or surpasses this value the limb stops contributing its scores. Default 100.
+| `grabbing_effect`      | (_optional_) Effect id of the `GRAB_FILTER` effect to apply to a monster grabbing this limb, necessary for adequate grab removal (see `MONSTER_SPECIAL_ATTACKS.md` for the grab logic). 
 | `hp_bar_ui_text`       | (_mandatory_) How it's displayed next to the hp bar in the panel.
 | `main_part`            | (_mandatory_) What is the main part this one is attached to. (If this is a main part it's attached to itself)
 | `connected_to`         | (_mandatory_ if main_part is itself) What is the next part this one is attached to towards the "root" bodypart (the root bodypart should be connected to itself).  Each anatomy should have a unique root bodypart, usually the head.
@@ -1048,9 +1052,7 @@ mod = min( max, ( limb_score / denominator ) - subtract );
 | `included_bionics`           | (_optional_) Additional bionics that are installed automatically when this bionic is installed. This can be used to install several bionics from one CBM item, which is useful as each of those can be activated independently.
 | `included`                   | (_optional_) Whether this bionic is included with another. If true this bionic does not require a CBM item to be defined. (default: `false`)
 | `env_protec`                 | (_optional_) How much environmental protection does this bionic provide on the specified body parts.
-| `bash_protec`                | (_optional_) How much bash protection does this bionic provide on the specified body parts.
-| `cut_protec`                 | (_optional_) How much cut protection does this bionic provide on the specified body parts.
-| `bullet_protect`             | (_optional_) How much bullet protect does this bionic provide on the specified body parts.
+| `protec`                     | (_optional_) An array of resistance values that determines the types of protection this bionic provides on the specified body parts.
 | `occupied_bodyparts`         | (_optional_) A list of body parts occupied by this bionic, and the number of bionic slots it take on those parts.
 | `capacity`                   | (_optional_) Amount of power storage added by this bionic.  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
 | `fuel_options`               | (_optional_) A list of materials that this bionic can use to produce bionic power.
@@ -1076,7 +1078,7 @@ mod = min( max, ( limb_score / denominator ) - subtract );
 | `dispersion_mod`             | (_optional_) Modifier to change firearm dispersion.
 | `activated_on_install`       | (_optional_) Auto-activates this bionic when installed.
 
-```C++
+```JSON
 {
     "id"           : "bio_batteries",
     "name"         : "Battery System",
@@ -1101,15 +1103,92 @@ mod = min( max, ( limb_score / denominator ) - subtract );
     "description": "Surgically implanted in your trachea is an advanced filtration system.  If toxins, or airborne diseases find their way into your windpipe, the filter will attempt to remove them.",
     "occupied_bodyparts": [ [ "torso", 4 ], [ "mouth", 2 ] ],
     "env_protec": [ [ "mouth", 7 ] ],
-    "bash_protec": [ [ "leg_l", 3 ], [ "leg_r", 3 ] ],
-    "cut_protec": [ [ "leg_l", 3 ], [ "leg_r", 3 ] ],
-    "bullet_protec": [ [ "leg_l", 3 ], [ "leg_r", 3 ] ],
+    "protec": [
+      [ "arm_l", { "bash": 3, "cut": 3, "bullet": 3 } ],
+      [ "arm_r", { "bash": 3, "cut": 3, "bullet": 3 } ],
+      [ "hand_l", { "bash": 3, "cut": 3, "bullet": 3 } ],
+      [ "hand_r", { "bash": 3, "cut": 3, "bullet": 3 } ]
+    ],
     "flags": [ "BIONIC_NPC_USABLE" ]
 }
 ```
 
 Bionics effects are defined in the code and new effects cannot be created through JSON alone.
 When adding a new bionic, if it's not included with another one, you must also add the corresponding CBM item in `data/json/items/bionics.json`. Even for a faulty bionic.
+
+
+### Damage Types
+
+| Field               | Description
+| ---                 | ---
+| `name`              | The name of the damage type as it appears in the protection values in the item info screen.
+| `skill`             | _(optional)_ Determines the skill used when dealing this damage type. (defaults to none)
+| `physical`          | _(optional)_ Identifies this damage type as originating from physical sources. (defaults to false)
+| `melee_only`        | _(optional)_ Identifies this damage type as originating from melee weapons and attacks. (defaults to false)
+| `edged`             | _(optional)_ Identifies this damage type as originating from a sharp or pointy weapon or implement. (defaults to false)
+| `environmental`     | _(optional)_ This damage type corresponds to environmental sources. Currently influences whether an item or piece of armor includes environmental resistance against this damage type. (defaults to false)
+| `material_required` | _(optional)_ Determines whether materials must defined a resistance for this damage type. (defaults to false)
+| `mon_difficulty`    | _(optional)_ Determines whether this damage type should contribute to a monster's difficulty rating. (defaults to false)
+| `no_resist`         | _(optional)_ Identifies this damage type as being impossible to resist against (ie. "pure" damage). (defaults to false)
+| `immune_flags`      | _(optional)_ An object with two optional fields: `"character"` and `"monster"`. Both inner fields list an array of character flags and monster flags, respectively, that would make the character or monster immune to this damage type.
+| `magic_color`       | _(optional)_ Determines which color identifies this damage type when used in spells. (defaults to "black")
+| `derived_from`      | _(optional)_ An array that determines how this damage type should be calculated in terms of armor protection and monster resistance values. The first value is the source damage type and the second value is the modifier applied to source damage type calculations.
+| `onhit_eocs`        | _(optional)_ An array of effect-on-conditions that activate when a monster or character hits another monster or character with this damage type. In this case, `u` refers to the damage source and `npc` refers to the damage target.
+
+```JSON
+  {
+    "//": "stabbing/piercing damage",
+    "id": "stab",
+    "type": "damage_type",
+    "melee_only": true,
+    "physical": true,
+    "edged": true,
+    "magic_color": "light_red",
+    "name": "pierce",
+    "skill": "stabbing",
+    "//2": "derived from cut only for monster defs",
+    "derived_from": [ "cut", 0.8 ],
+    "immune_flags": { "character": [ "STAB_IMMUNE" ] }
+  },
+  {
+    "//": "e.g. electrical discharge",
+    "id": "electric",
+    "type": "damage_type",
+    "physical": false,
+    "magic_color": "light_blue",
+    "name": "electric",
+    "immune_flags": { "character": [ "ELECTRIC_IMMUNE" ], "monster": [ "ELECTRIC", "ELECTRIC_FIELD" ] },
+    "onhit_eocs": [ "EOC_ELECTRIC_ONHIT" ]
+  }
+```
+
+
+### Damage Info Ordering
+
+Damage types are displayed in various parts of the item info UI, representing armor resistances, melee damage, etc.
+Using `damage_info_order` we can reorder how these are shown, and even determine whether they can be displayed at all.
+
+| Field          | Description
+| ---            | ---
+| `id`           | Unique identifier, must correspond to an existing `damage_type`
+| `info_display` | _(optional)_ Determines the detail in which this damage type is displayed in protection values. Valid values are "detailed", "basic", and "none". (defaults to "none")
+| `verb`         | _(optional)_ A verb describing how this damage type is applied (ex: "bashing"). Used in the melee section of an item's info.
+| `*_info`       | _(optional)_ An object that determines the order and visibility of this damage type for the specified section of an item's info. `"order"` determines where in the list of damage types it will be displayed in this section, and `"show_type"` determines whether to show this damage type in this section. Possible sections include: `bionic_info`, `protection_info`, `pet_prot_info`, `melee_combat_info`, and `ablative_info`.
+
+```JSON
+{
+  "id": "acid",
+  "type": "damage_info_order",
+  "info_display": "basic",
+  "verb": "corroding",
+  "bionic_info": { "order": 500, "show_type": true },
+  "protection_info": { "order": 800, "show_type": true },
+  "pet_prot_info": { "order": 500, "show_type": true },
+  "melee_combat_info": { "order": 500, "show_type": false },
+  "ablative_info": { "order": 500, "show_type": false }
+}
+```
+
 
 ### Dreams
 
@@ -1271,14 +1350,7 @@ flag is set.
 |---                     |---
 | `id`                   | Unique ID. Lowercase snake_case. Must be one continuous word, use underscores if necessary.
 | `name`                 | In-game name displayed.
-| `bash_resist`          | How well a material resists bashing damage.
-| `cut_resist`           | How well a material resists cutting damage.
-| `bullet_resist`        | How well a material resists bullet damage.
-| `acid_resist`          | Ability of a material to resist acid.
-| `elec_resist`          | Ability of a material to resist electricity. Optional defaults to 0.0
-| `biologic_resist`      | Ability of a material to resist biological damage. Optional defaults to 0.0
-| `cold_resist`          | Ability of a material to resist cold damage. Optional defaults to 0.0
-| `fire_resist`          | Ability of a material to resist fire.
+| `resist`               | An object that determines resistance values for this material.
 | `chip_resist`          | Returns resistance to being damaged by attacks against the item itself.
 | `bash_dmg_verb`        | Verb used when material takes bashing damage.
 | `cut_dmg_verb`         | Verb used when material takes cutting damage.
@@ -1299,7 +1371,7 @@ flag is set.
 
 There are seven -resist parameters: acid, bash, chip, cut, elec, fire, and bullet. These are integer values; the default is 0 and they can be negative to take more damage.
 
-```C++
+```JSON
 {
     "type": "material",
     "id": "hflesh",
@@ -1310,12 +1382,7 @@ There are seven -resist parameters: acid, bash, chip, cut, elec, fire, and bulle
     "latent_heat": 260,
     "edible": true,
     "rotting": true,
-    "bash_resist": 1,
-    "cut_resist": 1,
-    "bullet_resist": 1,
-    "acid_resist": 1,
-    "fire_resist": 1,
-    "elec_resist": 1,
+    "resist": { "bash": 1, "cut": 1, "acid": 1, "heat": 1, "bullet": 1 },
     "chip_resist": 2,
     "dmg_adj": [ "bruised", "mutilated", "badly mutilated", "thoroughly mutilated" ],
     "bash_dmg_verb": "bruised",
@@ -1352,6 +1419,24 @@ If a fuel has the PERPETUAL flag, engines powered by it never use any fuel.  Thi
         "size_factor": 0.1       // size factor - larger numbers make the remaining fuel increase explosion power more
     }
 }
+```
+
+#### Burn data
+
+Every material can have burn data that determines how it interacts with fire. Fundamentally, the intensity, smoke production, and longevity of fires depends on the volume of consumed items. However, these values allow for certain items to burn more for a given volume, or even put out or inhibit the growth of fires.
+
+Note that burn_data is defined per material, but items may be made of multiple materials. For such cases, each material of the item will be calculated separately, as if it was multiple items each corresponding to a single material.
+
+```C++
+"burn_data": [
+    { "immune": true,                    // Defaults to false, optional boolean. If true, makes the resulting material immune to fire. As such it can neither provide fuel nor be burned or damaged.
+	"fuel": 300,                     // Float value that determines how much time and intensity this material adds to a fire. Negative values will subtract fuel from the fire, smothering it. 
+	                                 // Items with a phase ID of liquid should be made of materials with a value of >= 200 if they are intended to be flammable.
+	"smoke": 0,                      // Float value, determines how much smoke this material produces when burning.
+	"volume_per_turn": "750 ml",     // If non-zero and lower than item's volume, scale burning by volume_per_turn / volume
+	"burn": 1 }                      // Float value, determines how quickly a fire will convert items made of this material to fuel. Does not affect the total fuel provided by a given
+                                         // volume of a given material.
+    ],
 ```
 
 ### Monster Groups
@@ -2599,6 +2684,9 @@ Vehicle components when installed on a vehicle.
 "color": "dark_gray",         // Color used when part is working
 "broken_symbol": "x",         // ASCII character displayed when part is broken
 "broken_color": "light_gray", // Color used when part is broken
+"location": "fuel_source",    // Optional. One of the checks used when determining if a part 
+                              // can be installed on a given tile. A part cannot be installed
+                              // if any existing part occupies the same location.
 "damage_modifier": 50,        // (Optional, default = 100) Dealt damage multiplier when this
                               // part hits something, as a percentage. Higher = more damage to
                               // creature struck
@@ -2724,8 +2812,8 @@ Unless specified as optional, the following fields are mandatory for parts with 
 
 #### The following optional fields are specific to WHEELs.
 ```c++
-"wheel_type": "standard",     // Must be one of "standard", "rigid", "racing", "off_road", "treads", or "rail".
-                              // Indicates the class of wheel for determining off-road performance.
+"wheel_offroad_rating": 0.5,  // multiplier of wheel performance offroad
+"wheel_terrain_modifiers": { "FLAT": [ 0, 5 ], "ROAD": [ 0, 2 ] }, // see below
 "contact_area": 153,          // The surface area of the wheel in contact with the ground under
                               // normal conditions in cm^2.  Wheels with higher contact area
                               // perform better off-road.
@@ -2733,13 +2821,17 @@ Unless specified as optional, the following fields are mandatory for parts with 
                               // resistance increases vehicle drag linearly as vehicle weight
                               // and speed increase.
 ```
-The following `wheel_types` are available:
-* `standard`: typical car wheel with some grooves, intended primarily for road use.  Large penalty when not on a FLAT tile, small penalty when not on a ROAD tile.
-* `rigid`: hard roller wheel like a caster that only performs well on smooth, flat surface.  Massive penalty when not on a FLAT tile, moderate penalty when not on a ROAD tile.
-* `racing`: a smooth, ungrooved tile for maximum traction under optimum conditions.  Very large penalty when not on a FLAT tile, small penalty when not on a ROAD tile.
-* `off_road`: a knobbed, heavily grooved tire for maximum traction under a wide variety of conditions.  Moderate penalty when not on a FLAT tile, tiny penalty when not a ROAD tile.
-* `treads`: a link in a continuous track.  moderate penalty when not on a FLAT tile, no penalty when not on a ROAD tile.
-* `rail`: a rigid metal wheel with a flange on one edge, meant to keep it on a railroad track.  No penalty when on a RAIL tile, extreme penalty when not on a RAIL tile.
+
+`wheel_terrain_modifiers` field provides a way to modify wheel traction according to the flags set on terrain tile under each wheel.
+
+The key is one of the terrain flags, the list of flags can be found in [JSON_FLAGS.md](JSON_FLAGS.md#furniture-and-terrain).
+
+The value expects an array of length 2. The first element is a modifier override applied when wheel is on the flagged terrain, the second element is an additive modifier penalty applied when wheel is NOT on flagged terrain, values of 0 are ignored. The modifier is applied over a base value provided by `map::move_cost_ter_furn`.
+
+Examples:
+* Standard `wheel` has the field set to `{ "FLAT": [ 0, 4 ], "ROAD": [ 0, 2 ] }`. If wheel is not on terrain flagged `FLAT` then the traction is 1/4 of base value. If not on terrain flagged `ROAD` then it's 1/2 of base value. If neither flag is present then traction will be 1/6 of base value. If terrain is flagged with both `ROAD` and `FLAT` then the base value from `map::move_cost_ter_furn` is used.
+* `rail_wheel` has the field set to `{ "RAIL": [ 2, 8 ] }`. If wheel is on terrain flagged `RAIL` the traction is overriden to be 1/2 of value calculated by `map::move_cost_ter_furn`, this value is the first element and considered an override, so if there had been modifiers applied prior to this they are ignored. If on terrain not flagged with `RAIL` then traction will be 1/8 of base value.
+
 
 #### The following optional fields are specific to ROTORs.
 ```c++
@@ -2928,8 +3020,10 @@ Weakpoints only match if they share the same id, so it's important to define the
 ],
 "repairs_with": [ "plastic" ],               // Material types that this item can be repaired with. Defaults to all the item materials.
 "weapon_category": [ "WEAPON_CAT1" ],        // (Optional) Weapon categories this item is in for martial arts.
-"cutting": 0,                                // (Optional, default = 0) Cutting damage caused by using it as a melee weapon.  This value cannot be negative.
-"bashing": 0,                                // (Optional, default = 0) Bashing damage caused by using it as a melee weapon.  This value cannot be negative.
+"melee_damage": {                            // (Optional) Damage caused by using it as a melee weapon.  These values cannot be negative.
+  "bash": 0,
+  "cut": 0
+},
 "to_hit": 0,                                 // (Optional, deprecated, default = 0) To-hit bonus if using it as a melee weapon (whatever for?).  The object version is preferred
 "to_hit" {                                   // (Optional, Preferred) To hit bonus values, see below
   "grip": "solid",                           // the item's grip value
@@ -3379,7 +3473,6 @@ CBMs can be defined like this:
 "type" : "COMESTIBLE",      // Defines this as a COMESTIBLE
 ...                         // same entries as above for the generic item.
 // Only COMESTIBLE type items may define the following fields:
-"addiction_type" : "crack", // Addiction type
 "spoils_in" : 0,            // A time duration: how long a comestible is good for. 0 = no spoilage.
 "use_action" : [ "CRACK" ],     // What effects a comestible has when used, see special definitions below
 "stim" : 40,                // Stimulant effect
@@ -3388,7 +3481,8 @@ CBMs can be defined like this:
 "consumption_effect_on_conditions" : [ "EOC_1" ],  // Effect on conditions to run after consuming.  Inline or string id supported
 "quench" : 0,               // Thirst quenched
 "healthy" : -2,             // Health effects (used for sickness chances)
-"addiction_potential" : 80, // Ability to cause addictions
+"addiction_potential" : 80, // Default strength for this item to cause addictions
+"addiction_type" : [ "crack", { "addiction": "cocaine", "potential": 5 } ], // Addiction types (if no potential is given, the "addiction_potential" field is used to determine the strength of that addiction)
 "monotony_penalty" : 0,     // (Optional, default: 2) Fun is reduced by this number for each one you've consumed in the last 48 hours.
                             // Can't drop fun below 0, unless the comestible also has the "NEGATIVE_MONOTONY_OK" flag.
 "calories" : 0,             // Hunger satisfied (in kcal)
@@ -3465,8 +3559,10 @@ Any Item can be a container. To add the ability to contain things to an item, yo
 ],
 "weight": 907,         // Weight, measured in grams
 "volume": "1500 ml",   // Volume, volume in ml and L can be used - "50 ml" or "2 L"
-"bashing": 12,         // Bashing damage caused by using it as a melee weapon
-"cutting": 12,         // Cutting damage caused by using it as a melee weapon
+"melee_damage": {      // Damage caused by using it as a melee weapon
+  "bash": 12,
+  "cut": 12
+},
 "flags" : ["CHOP"],    // Indicates special effects
 "to_hit": 1            // To-hit bonus if using it as a melee weapon
 ```
@@ -3500,7 +3596,7 @@ Guns can be defined like this:
 "built_in_mods": ["m203"], //An array of mods that will be integrated in the weapon using the IRREMOVABLE tag.
 "default_mods": ["m203"]   //An array of mods that will be added to a weapon on spawn.
 "barrel_volume": "30 mL",  // Amount of volume lost when the barrel is sawn. Approximately 250 ml per inch is a decent approximation.
-"valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ] ],  // The valid locations for gunmods and the mount of slots for that location.
+"valid_mod_locations": [ [ "brass catcher", 1 ], [ "grip", 1 ] ],  // The valid locations for gunmods and the mount of slots for that location.
 "loudness": 10             // Amount of noise produced by this gun when firing. If no value is defined, then it's calculated based on loudness value from loaded ammo. Final loudness is calculated as gun loudness + gunmod loudness + ammo loudness. If final loudness is 0, then the gun is completely silent.
 ```
 Alternately, every item (book, tool, armor, even food) can be used as gun if it has gun_data:
@@ -3534,7 +3630,6 @@ Gun mods can be defined like this:
 "loudness_modifier": 4,        // Optional field increasing or decreasing base guns loudness
 "range_modifier": 2,           // Optional field increasing or decreasing base gun range
 "range_multiplier": 1.2,       // Optional field multiplying base gun range
-"recoil_modifier": -100,       // Optional field increasing or decreasing base gun recoil
 "energy_drain_modifier": "200 kJ",  // Optional field increasing or decreasing base gun energy consumption (per shot) by adding given value. This addition is not multiplied by energy_drains_multiplier.
 "energy_drains_multiplier": 2.5, // Optional field increasing or decreasing base gun energy consumption (per shot) by multiplying by given value.
 "reload_modifier": -10,        // Optional field increasing or decreasing base gun reload time in percent
@@ -3545,6 +3640,7 @@ Gun mods can be defined like this:
 "consume_divisor": 10,         // Divide damage against mod by this amount (default 1)
 "handling_modifier": 4,        // Improve gun handling. For example a forward grip might have 6, a bipod 18
 "mode_modifier": [ [ "AUTO", "auto", 4 ] ], // Modify firing modes of the gun, to give AUTO or REACH for example
+"barrel_length": "45 mm"       // Specify a direct barrel length for this gun mod. If used only the first mod with a barrel length will be counted
 ```
 
 Alternately, every item (book, tool, armor, even food) can be used as a gunmod if it has gunmod_data:
@@ -3582,8 +3678,10 @@ Alternately, every item (book, tool, armor, even food) can be used as a gunmod i
 "flags": [ "FIRE" ],      // Indicates special effects
 "weight": 831,        // Weight, measured in grams
 "volume": "1500 ml",  // Volume, volume in ml and L can be used - "50 ml" or "2 L"
-"bashing": 12,        // Bashing damage caused by using it as a melee weapon
-"cutting": 0,         // Cutting damage caused by using it as a melee weapon
+"melee_damage": {     // Damage caused by using it as a melee weapon
+  "bash": 12,
+  "cut": 0
+},
 "to_hit": 3,          // To-hit bonus if using it as a melee weapon
 "turns_per_charge": 20, // Charges consumed over time, deprecated in favor of power_draw
 "use_action": [ "firestarter" ], // Action performed when tool is used, see special definition below

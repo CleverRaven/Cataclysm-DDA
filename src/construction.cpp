@@ -718,9 +718,12 @@ construction_id construction_menu( const bool blueprint )
             }
         }
         isnew = false;
+        static int lang_version = detail::get_current_language_version();
 
-        if( update_info ) {
+        //lang check here is needed to redraw the menu when using "Toggle language to English" option
+        if( update_info || lang_version != detail::get_current_language_version() ) {
             update_info = false;
+            lang_version = detail::get_current_language_version();
 
             notes.clear();
             if( tabindex == tabcount - 1 && !filter.empty() ) {
@@ -781,12 +784,10 @@ construction_id construction_menu( const bool blueprint )
         } else if( action == "LEFT" || action == "PREV_TAB" || action == "RIGHT" || action == "NEXT_TAB" ) {
             update_info = true;
             update_cat = true;
-            tabindex = increment_and_wrap( tabindex, action == "RIGHT" ||
-                                           action == "NEXT_TAB", tabcount );
+            tabindex = inc_clamp_wrap( tabindex, action == "RIGHT" || action == "NEXT_TAB", tabcount );
         } else if( action == "SCROLL_STAGE_UP" || action == "SCROLL_STAGE_DOWN" ) {
-            current_construct_breakpoint = increment_and_clamp( current_construct_breakpoint,
-                                           action == "SCROLL_STAGE_DOWN",
-                                           total_project_breakpoints - 1 );
+            current_construct_breakpoint = inc_clamp( current_construct_breakpoint,
+                                           action == "SCROLL_STAGE_DOWN", total_project_breakpoints - 1 );
         } else if( action == "QUIT" ) {
             exit = true;
         } else if( action == "TOGGLE_UNAVAILABLE_CONSTRUCTIONS" ) {

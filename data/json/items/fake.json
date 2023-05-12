@@ -34,9 +34,40 @@
     "copy-from": "fake_item",
     "type": "TOOL",
     "name": { "str_sp": "teeth and claws" },
-    "flags": [ "TRADER_AVOID" ],
+    "extend": { "flags": [ "TRADER_AVOID" ] },
     "use_action": [ "DIG" ],
     "qualities": [ [ "DIG", 2 ] ]
+  },
+  {
+    "id": "integrated_ar",
+    "type": "TOOL_ARMOR",
+    "copy-from": "fake_item",
+    "name": { "str": "Integrated AR System" },
+    "description": "Extreamly thin lenses provides user with augmented reality overlay allowing the user to zoom, and it displays handy information about local topology.",
+    "charges_per_use": 1,
+    "use_action": [ "CAMERA", "PORTABLE_GAME", "EINKTABLETPC", "ELECTRICSTORAGE", "EBOOKSAVE", "EBOOKREAD" ],
+    "pocket_data": [
+      {
+        "pocket_type": "EBOOK",
+        "rigid": true,
+        "max_contains_volume": "1 ml",
+        "max_contains_weight": "1 g",
+        "weight_multiplier": 0
+      }
+    ],
+    "flags": [
+      "ZOOM",
+      "WATCH",
+      "ALARMCLOCK",
+      "SUN_GLASSES",
+      "THERMOMETER",
+      "INTEGRATED",
+      "UNBREAKABLE",
+      "PERSONAL",
+      "NO_REPAIR",
+      "ALLOWS_NATURAL_ATTACKS",
+      "USES_BIONIC_POWER"
+    ]
   },
   {
     "id": "fake_goggles",
@@ -52,10 +83,10 @@
     "name": { "str_sp": "autonomous surgical scalpels" },
     "description": "A system of surgical-grade scalpels.  They allow you to make precise cuts on corpses.",
     "to_hit": 2,
-    "cutting": 8,
     "techniques": [ "PRECISE" ],
-    "flags": [ "TRADER_AVOID", "BIONIC_WEAPON", "UNBREAKABLE_MELEE", "SPEAR" ],
-    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 5 ], [ "BUTCHER", 14 ] ]
+    "extend": { "flags": [ "TRADER_AVOID", "BIONIC_WEAPON", "UNBREAKABLE_MELEE", "SPEAR" ] },
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 5 ], [ "BUTCHER", 14 ] ],
+    "melee_damage": { "stab": 8 }
   },
   {
     "id": "fake_razor",
@@ -77,7 +108,7 @@
     "type": "GENERIC",
     "name": { "str_sp": "semi ground grains" },
     "description": "A paste of half-finished milled grains, not yet flour.",
-    "flags": [ "TRADER_AVOID", "FAKE_MILL" ]
+    "extend": { "flags": [ "TRADER_AVOID", "FAKE_MILL" ] }
   },
   {
     "id": "fake_smoke_plume",
@@ -86,21 +117,21 @@
     "name": { "str_sp": "smoldering embers" },
     "description": "A handful of smoldering embers emitting smoke.  They are fading away before your eyes.",
     "emits": [ "emit_small_smoke_plume" ],
-    "flags": [ "TRADER_AVOID", "FAKE_SMOKE" ]
+    "extend": { "flags": [ "TRADER_AVOID", "FAKE_SMOKE" ] }
   },
   {
     "id": "fake_firestarter",
     "copy-from": "fake_item",
     "type": "TOOL",
     "name": { "str": "bionic firestarter" },
-    "flags": [ "FIRESTARTER", "USES_BIONIC_POWER" ]
+    "extend": { "flags": [ "FIRESTARTER", "USES_BIONIC_POWER" ] }
   },
   {
     "id": "fake_tire_changer",
     "copy-from": "fake_item",
     "type": "TOOL",
     "name": { "str": "tire changer" },
-    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ],
+    "extend": { "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ] },
     "qualities": [ [ "PRY", 1 ], [ "PRESSURIZATION", 1 ] ]
   },
   {
@@ -109,7 +140,7 @@
     "copy-from": "fake_item",
     "name": { "str": "fake power tool" },
     "ammo": [ "battery" ],
-    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO", "USE_UPS" ]
+    "extend": { "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO", "USE_UPS" ] }
   },
   {
     "id": "fake_arc_furnace",
@@ -122,7 +153,7 @@
     "copy-from": "fake_item",
     "type": "TOOL",
     "name": { "str": "Beverly shear" },
-    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "extend": { "flags": [ "ALLOWS_REMOTE_USE" ] },
     "qualities": [ [ "SAW_M", 2 ] ]
   },
   {

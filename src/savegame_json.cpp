@@ -1276,6 +1276,11 @@ void Character::load( const JsonObject &data )
         queued_eoc temp;
         temp.time = time_point( elem.get_int( "time" ) );
         temp.eoc = effect_on_condition_id( elem.get_string( "eoc" ) );
+        std::unordered_map<std::string, std::string> context;
+        for( const JsonMember &jm : elem.get_object( "context" ) ) {
+            context[jm.name()] = jm.get_string();
+        }
+        temp.context = context;
         queued_effect_on_conditions.push( temp );
     }
     data.read( "inactive_eocs", inactive_effect_on_condition_vector );
@@ -1507,6 +1512,7 @@ void Character::store( JsonOut &json ) const
         json.start_object();
         json.member( "time", temp_queued.top().time );
         json.member( "eoc", temp_queued.top().eoc );
+        json.member( "context", temp_queued.top().context );
         json.end_object();
         temp_queued.pop();
     }
@@ -3451,7 +3457,6 @@ void vehicle::deserialize( const JsonObject &data )
     data.read( "flying", is_flying );
     data.read( "cruise_velocity", cruise_velocity );
     data.read( "vertical_velocity", vertical_velocity );
-    data.read( "cruise_on", cruise_on );
     data.read( "engine_on", engine_on );
     data.read( "tracking_on", tracking_on );
     data.read( "skidding", skidding );
@@ -3626,7 +3631,6 @@ void vehicle::serialize( JsonOut &json ) const
     json.member( "flying", is_flying );
     json.member( "cruise_velocity", cruise_velocity );
     json.member( "vertical_velocity", vertical_velocity );
-    json.member( "cruise_on", cruise_on );
     json.member( "engine_on", engine_on );
     json.member( "tracking_on", tracking_on );
     json.member( "skidding", skidding );
@@ -3868,9 +3872,7 @@ void Creature::store( JsonOut &jsout ) const
     jsout.member( "num_blocks_bonus", num_blocks_bonus );
     jsout.member( "num_dodges_bonus", num_dodges_bonus );
 
-    jsout.member( "armor_bash_bonus", armor_bash_bonus );
-    jsout.member( "armor_cut_bonus", armor_cut_bonus );
-    jsout.member( "armor_bullet_bonus", armor_bullet_bonus );
+    jsout.member( "armor_bonus", armor_bonus );
 
     jsout.member( "speed", speed_base );
 
@@ -3943,9 +3945,21 @@ void Creature::load( const JsonObject &jsin )
     jsin.read( "num_blocks_bonus", num_blocks_bonus );
     jsin.read( "num_dodges_bonus", num_dodges_bonus );
 
-    jsin.read( "armor_bash_bonus", armor_bash_bonus );
-    jsin.read( "armor_cut_bonus", armor_cut_bonus );
-    jsin.read( "armor_bullet_bonus", armor_bullet_bonus );
+    if( jsin.has_object( "armor_bonus" ) ) {
+        jsin.read( "armor_bonus", armor_bonus );
+    } else {
+        // Legacy load conversion, remove after 0.H releases
+        float bash_bonus = 0;
+        float cut_bonus = 0;
+        float bullet_bonus = 0;
+        jsin.read( "armor_bash_bonus", bash_bonus );
+        jsin.read( "armor_cut_bonus", cut_bonus );
+        jsin.read( "armor_bullet_bonus", bullet_bonus );
+        armor_bonus.clear();
+        armor_bonus.emplace( STATIC( damage_type_id( "bash" ) ), bash_bonus );
+        armor_bonus.emplace( STATIC( damage_type_id( "cut" ) ), cut_bonus );
+        armor_bonus.emplace( STATIC( damage_type_id( "bullet" ) ), bullet_bonus );
+    }
 
     jsin.read( "speed", speed_base );
 
@@ -4714,7 +4728,7 @@ void stats_tracker::deserialize( const JsonObject &jo )
 namespace
 {
 
-void _write_rle_terrain( JsonOut &jsout, std::string const &ter, int num )
+void _write_rle_terrain( JsonOut &jsout, const std::string_view ter, int num )
 {
     jsout.start_array();
     jsout.write( ter );

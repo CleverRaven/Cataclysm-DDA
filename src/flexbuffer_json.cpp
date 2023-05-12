@@ -1,5 +1,6 @@
 #include "flexbuffer_json.h"
 
+#include <atomic>
 #include <cstring>
 #include <istream>
 #include <optional>
@@ -7,6 +8,16 @@
 #include "cata_unreachable.h"
 #include "filesystem.h"
 #include "json.h"
+
+namespace
+{
+std::atomic_bool report_unvisited_members{true};
+} // namespace
+
+bool Json::globally_report_unvisited_members( bool do_report )
+{
+    return report_unvisited_members.exchange( do_report );
+}
 
 const std::string &Json::flexbuffer_type_to_string( flexbuffers::Type t )
 {
@@ -240,7 +251,8 @@ bool JsonValue::read( std::string &s, bool throw_on_error ) const
 
 void JsonObject::report_unvisited() const
 {
-    if( !visited_fields_bitset_.all() ) {
+#ifndef CATA_IN_TOOL
+    if( !std::uncaught_exceptions() && report_unvisited_members && !visited_fields_bitset_.all() ) {
         std::vector<size_t> skipped_members;
         skipped_members.reserve( visited_fields_bitset_.size() );
         tiny_bitset::block_t *bits = visited_fields_bitset_.bits();
@@ -270,6 +282,7 @@ void JsonObject::report_unvisited() const
         error_skipped_members( skipped_members );
         visited_fields_bitset_.set_all();
     }
+#endif
 }
 
 void JsonObject::error_no_member( const std::string_view member ) const

@@ -1139,6 +1139,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     dialogue d;
     npc &beta = prep_test( d );
     Character &player_character = get_avatar();
+    clear_avatar();
 
     player_character.str_cur = 4;
     player_character.dex_cur = 4;

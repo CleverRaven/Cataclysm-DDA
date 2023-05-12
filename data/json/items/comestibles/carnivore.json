@@ -488,6 +488,7 @@
     "//": "This item should not get any use whatsoever, it is merely conservation of mass and an attractor for carrion.",
     "symbol": "¨",
     "name": { "str_sp": "butchery refuse" },
+    "category": "other",
     "charges": 15,
     "volume": "2500 ml",
     "weight": "250 g",
@@ -1308,9 +1309,9 @@
     "milling": { "into": "meal_bone", "conversion_rate": 4 },
     "volume": "36 L",
     "longest_side": "2000 cm",
-    "bashing": 15,
     "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
-    "vitamins": [ [ "calcium", 13824 ] ]
+    "vitamins": [ [ "calcium", 13824 ] ],
+    "melee_damage": { "bash": 15 }
   },
   {
     "type": "COMESTIBLE",

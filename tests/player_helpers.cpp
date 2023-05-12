@@ -23,6 +23,7 @@
 #include "player_activity.h"
 #include "player_helpers.h"
 #include "point.h"
+#include "profession.h"
 #include "ret_val.h"
 #include "stomach.h"
 #include "type_id.h"
@@ -130,9 +131,12 @@ void clear_character( Character &dummy, bool skip_nutrition )
 
     dummy.cash = 0;
 
+    dummy.prof = profession::generic();
+
     const tripoint spot( 60, 60, 0 );
     dummy.setpos( spot );
     dummy.clear_values();
+    dummy.magic = pimpl<known_magic>();
 }
 
 void arm_shooter( npc &shooter, const std::string &gun_type,

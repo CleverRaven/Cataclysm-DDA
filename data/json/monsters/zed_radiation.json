@@ -21,23 +21,22 @@
     "melee_dice_sides": 10,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "dodge": 2,
-    "armor_bash": 6,
-    "armor_cut": 6,
-    "armor_bullet": 5,
-    "armor_elec": 3,
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "bleed_rate": 0,
     "vision_day": 50,
     "vision_night": 3,
     "harvest": "zombie",
+    "grab_strength": 20,
     "special_attacks": [
+      { "id": "grab" },
       { "id": "longswipe", "cooldown": 8 },
       { "id": "cut_throat", "cooldown": 8 },
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 21 } ] }
+      { "id": "scratch_humanoid", "damage_max_instance": [ { "damage_type": "cut", "amount": 21 } ] }
     ],
     "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_clothes", 100 ], [ "vault_wanderer", 20 ] ] },
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "GRABS", "WARM", "BASHES", "GROUP_BASH", "POISON", "FILTHY" ],
+    "armor": { "bash": 6, "cut": 6, "bullet": 5, "electric": 3 }
   },
   {
     "id": "mon_irradiated_wanderer_1",
@@ -61,19 +60,17 @@
     "melee_dice_sides": 7,
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 1,
-    "armor_bash": 4,
-    "armor_cut": 4,
-    "armor_bullet": 3,
-    "armor_elec": 2,
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "bleed_rate": 50,
     "vision_day": 50,
     "vision_night": 3,
     "harvest": "zombie",
-    "special_attacks": [ [ "LUNGE", 20 ] ],
+    "grab_strength": 20,
+    "special_attacks": [ { "id": "grab" }, { "id": "scratch_humanoid" }, { "id": "bite_humanoid" }, [ "LUNGE", 20 ] ],
     "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_clothes", 100 ], [ "vault_wanderer", 30 ] ] },
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "FILTHY" ],
+    "armor": { "bash": 4, "cut": 4, "bullet": 3, "electric": 2 }
   },
   {
     "id": "mon_irradiated_wanderer_2",
@@ -97,10 +94,6 @@
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 1,
-    "armor_bash": 5,
-    "armor_cut": 5,
-    "armor_bullet": 4,
-    "armor_elec": 2,
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "bleed_rate": 50,
@@ -108,9 +101,11 @@
     "vision_night": 3,
     "luminance": 8,
     "harvest": "zombie",
-    "special_attacks": [ [ "LUNGE", 15 ] ],
+    "grab_strength": 20,
+    "special_attacks": [ { "id": "grab" }, { "id": "scratch_humanoid" }, { "id": "bite_humanoid" }, [ "LUNGE", 15 ] ],
     "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_clothes", 100 ], [ "vault_wanderer", 30 ] ] },
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "FILTHY" ],
+    "armor": { "bash": 5, "cut": 5, "bullet": 4, "electric": 2 }
   },
   {
     "id": "mon_irradiated_wanderer_3",
@@ -134,10 +129,6 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 1,
-    "armor_bash": 6,
-    "armor_cut": 6,
-    "armor_bullet": 5,
-    "armor_elec": 2,
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "bleed_rate": 50,
@@ -145,9 +136,11 @@
     "vision_night": 3,
     "luminance": 16,
     "harvest": "zombie",
-    "special_attacks": [ [ "LUNGE", 10 ] ],
+    "grab_strength": 20,
+    "special_attacks": [ { "id": "grab" }, { "id": "scratch_humanoid" }, { "id": "bite_humanoid" }, [ "LUNGE", 10 ] ],
     "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_clothes", 100 ], [ "vault_wanderer", 30 ] ] },
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "FILTHY" ],
+    "armor": { "bash": 6, "cut": 6, "bullet": 5, "electric": 2 }
   },
   {
     "id": "mon_irradiated_wanderer_4",
@@ -171,10 +164,6 @@
     "melee_dice_sides": 10,
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 2,
-    "armor_bash": 8,
-    "armor_cut": 8,
-    "armor_bullet": 6,
-    "armor_elec": 2,
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "bleed_rate": 50,
@@ -182,8 +171,10 @@
     "vision_night": 3,
     "luminance": 32,
     "harvest": "zombie",
-    "special_attacks": [ [ "LUNGE", 5 ] ],
+    "grab_strength": 20,
+    "special_attacks": [ { "id": "grab" }, { "id": "scratch_humanoid" }, { "id": "bite_humanoid" }, [ "LUNGE", 5 ] ],
     "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_clothes", 100 ], [ "vault_wanderer", 30 ] ] },
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "FILTHY" ],
+    "armor": { "bash": 8, "cut": 8, "bullet": 6, "electric": 2 }
   }
 ]

@@ -13,7 +13,6 @@
     "price": 10000,
     "price_postapoc": 1000,
     "to_hit": -1,
-    "bashing": 9,
     "material": [ "steel", "plastic" ],
     "flags": [ "NEVER_JAMS", "NON_FOULING" ],
     "ammo_to_fire": 50,
@@ -21,15 +20,8 @@
     "ammo": [ "chemical_spray" ],
     "dispersion": 300,
     "durability": 6,
-    "valid_mod_locations": [
-      [ "accessories", 4 ],
-      [ "grip", 1 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel", 1 ]
-    ],
-    "pocket_data": [ { "magazine_well": "2 L", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "pressurized_tank_chem" ] } ]
+    "valid_mod_locations": [ [ "grip", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "pocket_data": [ { "magazine_well": "2 L", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "pressurized_tank_chem" ] } ],
+    "melee_damage": { "bash": 9 }
   }
 ]

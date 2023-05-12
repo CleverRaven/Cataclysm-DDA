@@ -22,7 +22,6 @@
     "price": 124900,
     "price_postapoc": 2750,
     "to_hit": -2,
-    "bashing": 6,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "light_gray",
@@ -35,7 +34,6 @@
     "flags": [ "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "barrel", 1 ],
       [ "brass catcher", 1 ],
       [ "grip", 1 ],
@@ -47,7 +45,8 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "fn57mag" ] } ]
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "fn57mag" ] } ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "fn_p90",
@@ -71,7 +70,6 @@
     "price": 350000,
     "price_postapoc": 3500,
     "to_hit": -2,
-    "bashing": 10,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "light_gray",
@@ -82,7 +80,6 @@
     "min_cycle_recoil": 81,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 5 ] ],
     "valid_mod_locations": [
-      [ "accessories", 3 ],
       [ "barrel", 1 ],
       [ "brass catcher", 1 ],
       [ "mechanism", 4 ],
@@ -93,7 +90,8 @@
       [ "stock accessory", 2 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "pocket_data": [ { "magazine_well": "500 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "fnp90mag" ] } ]
+    "pocket_data": [ { "magazine_well": "500 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "fnp90mag" ] } ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "p50",
@@ -117,7 +115,6 @@
     "price": 99500,
     "price_postapoc": 2700,
     "to_hit": -2,
-    "bashing": 6,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "light_gray",
@@ -129,7 +126,6 @@
     "flags": [ "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "valid_mod_locations": [
-      [ "accessories", 3 ],
       [ "barrel", 1 ],
       [ "brass catcher", 1 ],
       [ "grip", 1 ],
@@ -141,7 +137,8 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "pocket_data": [ { "magazine_well": "500 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "fnp90mag" ] } ]
+    "pocket_data": [ { "magazine_well": "500 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "fnp90mag" ] } ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "ruger_57",
@@ -165,7 +162,6 @@
     "price": 79900,
     "price_postapoc": 2500,
     "to_hit": -2,
-    "bashing": 6,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "light_gray",
@@ -178,7 +174,6 @@
     "flags": [ "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "valid_mod_locations": [
-      [ "accessories", 3 ],
       [ "barrel", 1 ],
       [ "brass catcher", 1 ],
       [ "grip", 1 ],
@@ -196,7 +191,8 @@
         "pocket_type": "MAGAZINE_WELL",
         "item_restriction": [ "ruger_57mag", "ruger_57_10_round_mag" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "fn_ps90",
@@ -220,7 +216,6 @@
     "ranged_damage": { "damage_type": "bullet", "amount": 2 },
     "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
     "valid_mod_locations": [
-      [ "accessories", 3 ],
       [ "barrel", 1 ],
       [ "brass catcher", 1 ],
       [ "mechanism", 4 ],

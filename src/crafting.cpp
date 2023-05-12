@@ -876,7 +876,7 @@ void Character::start_craft( craft_command &command, const std::optional<tripoin
         return;
     }
 
-    assign_activity( player_activity( craft_activity_actor( craft_in_world, command.is_long() ) ) );
+    assign_activity( craft_activity_actor( craft_in_world, command.is_long() ) );
 
     add_msg_player_or_npc(
         pgettext( "in progress craft", "You start working on the %s." ),
@@ -2491,7 +2491,6 @@ bool Character::disassemble( item_location target, bool interactive, bool disass
     }
 
     if( activity.id() != ACT_DISASSEMBLE ) {
-        player_activity new_act;
         // When disassembling items with charges, prompt the player to specify amount
         int num_dis = 1;
         if( obj.count_by_charges() ) {
@@ -2509,13 +2508,9 @@ bool Character::disassemble( item_location target, bool interactive, bool disass
                 num_dis = obj.charges;
             }
         }
-        if( obj.typeId() != itype_disassembly ) {
-            new_act = player_activity( disassemble_activity_actor( r.time_to_craft_moves( *this,
-                                       recipe_time_flag::ignore_proficiencies ) * num_dis ) );
-        } else {
-            new_act = player_activity( disassemble_activity_actor( r.time_to_craft_moves( *this,
-                                       recipe_time_flag::ignore_proficiencies ) * obj.get_making_batch_size() ) );
-        }
+        const int64_t craft_moves = r.time_to_craft_moves( *this, recipe_time_flag::ignore_proficiencies );
+        const int num = obj.typeId() != itype_disassembly ? num_dis : obj.get_making_batch_size();
+        player_activity new_act( disassemble_activity_actor( num * craft_moves ) );
         new_act.targets.emplace_back( std::move( target ) );
 
         // index is used as a bool that indicates if we want recursive uncraft.
@@ -2539,7 +2534,7 @@ bool Character::disassemble( item_location target, bool interactive, bool disass
 void Character::disassemble_all( bool one_pass )
 {
     // Reset all the activity values
-    assign_activity( player_activity(), true );
+    assign_activity( player_activity() );
 
     bool found_any = false;
     std::vector<item_location> to_disassemble;
@@ -2626,9 +2621,8 @@ void Character::complete_disassemble( item_location target )
             num_dis = obj.charges;
         }
     }
-    player_activity new_act = player_activity( disassemble_activity_actor(
-                                  next_recipe.time_to_craft_moves( *this,
-                                          recipe_time_flag::ignore_proficiencies ) * num_dis ) );
+    int64_t moves = next_recipe.time_to_craft_moves( *this, recipe_time_flag::ignore_proficiencies );
+    player_activity new_act( disassemble_activity_actor( moves * num_dis ) );
     new_act.targets = activity.targets;
     new_act.index = activity.index;
     new_act.position = num_dis;
@@ -2775,6 +2769,8 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
             if( dis_item.is_filthy() ) {
                 act_item.set_flag( flag_FILTHY );
             }
+
+            act_item.set_relative_rot( dis_item.get_relative_rot() );
 
             ret_val<item> removed = dis_item.components.remove( newit.typeId() );
             if( removed.success() ) {

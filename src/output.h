@@ -758,7 +758,7 @@ std::string get_labeled_bar( double val, int width, const std::string &label,
  */
 std::string get_labeled_bar( double val, int width, const std::string &label, char c );
 
-void draw_tab( const catacurses::window &w, int iOffsetX, const std::string &sText,
+void draw_tab( const catacurses::window &w, int iOffsetX, std::string_view sText,
                bool bSelected );
 inclusive_rectangle<point> draw_subtab( const catacurses::window &w, int iOffsetX,
                                         const std::string &sText, bool bSelected,

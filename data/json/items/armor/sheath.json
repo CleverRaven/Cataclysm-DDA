@@ -36,7 +36,6 @@
     "volume": "2 L",
     "price": 7500,
     "price_postapoc": 500,
-    "bashing": 4,
     "material": [ "leather", "wood" ],
     "symbol": "[",
     "looks_like": "sheath",
@@ -55,7 +54,8 @@
     ],
     "use_action": { "type": "holster", "holster_prompt": "Sheath sword", "holster_msg": "You sheath your %s" },
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": [ 3, 5 ], "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
+    "armor": [ { "encumbrance": [ 3, 5 ], "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "leg_sheath6",
@@ -314,7 +314,6 @@
     "volume": "2250 ml",
     "price": 9000,
     "price_postapoc": 750,
-    "bashing": 4,
     "material": [ "leather", "wood" ],
     "symbol": "[",
     "looks_like": "baldric",
@@ -333,7 +332,8 @@
     ],
     "use_action": { "type": "holster", "holster_prompt": "Sheath sword", "holster_msg": "You sheath your %s" },
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": [ 6, 10 ], "coverage": 20, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+    "armor": [ { "encumbrance": [ 6, 10 ], "coverage": 20, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "scabbard",
@@ -344,7 +344,6 @@
     "volume": "1750 ml",
     "price": 6000,
     "price_postapoc": 500,
-    "bashing": 4,
     "material": [ "leather", "wood" ],
     "symbol": "[",
     "looks_like": "holster",
@@ -371,7 +370,8 @@
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_hip_r", "leg_hip_l" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "sheath",

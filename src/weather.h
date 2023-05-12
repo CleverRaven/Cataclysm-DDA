@@ -136,18 +136,18 @@ std::string print_humidity( double humidity, int decimals = 0 );
 std::string print_pressure( double pressure, int decimals = 0 );
 
 // Returns temperature delta caused by windchill at given temperature, humidity and wind
-units::temperature get_local_windchill( units::temperature temperature, double humidity,
-                                        double wind_mph );
+units::temperature_delta get_local_windchill( units::temperature temperature, double humidity,
+        double wind_mph );
 
 int get_local_humidity( double humidity, const weather_type_id &weather, bool sheltered = false );
 
 // Returns windspeed (mph) after being modified by local cover
-int get_local_windpower( int windpower, const oter_id &omter, const tripoint &location,
+int get_local_windpower( int windpower, const oter_id &omter, const tripoint_abs_ms &location,
                          const int &winddirection,
                          bool sheltered = false );
 weather_sum sum_conditions( const time_point &start,
                             const time_point &end,
-                            const tripoint &location );
+                            const tripoint_abs_ms &location );
 
 /**
  * @param it The container item which is to be filled.
@@ -156,7 +156,7 @@ weather_sum sum_conditions( const time_point &start,
  * @param tr The funnel (trap which acts as a funnel).
  */
 void retroactively_fill_from_funnel( item &it, const trap &tr, const time_point &start,
-                                     const time_point &end, const tripoint &pos );
+                                     const time_point &end, const tripoint_abs_ms &pos );
 
 double funnel_charges_per_turn( double surface_area_mm2, double rain_depth_mm_per_hour );
 
@@ -177,9 +177,9 @@ nc_color get_wind_color( double );
 bool warm_enough_to_plant( const tripoint &pos );
 bool warm_enough_to_plant( const tripoint_abs_omt &pos );
 
-bool is_wind_blocker( const tripoint &location );
+bool is_wind_blocker( const tripoint_bub_ms &location );
 
-weather_type_id current_weather( const tripoint &location,
+weather_type_id current_weather( const tripoint_abs_ms &location,
                                  const time_point &t = calendar::turn );
 
 void glare( const weather_type_id &w );

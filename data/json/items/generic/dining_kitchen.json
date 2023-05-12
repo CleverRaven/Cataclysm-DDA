@@ -11,9 +11,8 @@
     "weight": "48 g",
     "volume": "25 ml",
     "material": [ "steel" ],
-    "bashing": 2,
-    "cutting": 1,
-    "to_hit": -1
+    "to_hit": -1,
+    "melee_damage": { "bash": 2, "cut": 1 }
   },
   {
     "id": "base_utensil",
@@ -27,9 +26,8 @@
     "weight": "158 g",
     "volume": "75 ml",
     "material": [ "steel" ],
-    "bashing": 3,
-    "cutting": 2,
-    "to_hit": -1
+    "to_hit": -1,
+    "melee_damage": { "bash": 3, "cut": 2 }
   },
   {
     "id": "base_plastic_silverware",
@@ -43,9 +41,8 @@
     "weight": "28 g",
     "volume": "25 ml",
     "material": [ "plastic" ],
-    "bashing": 1,
-    "cutting": 1,
-    "to_hit": -2
+    "to_hit": -2,
+    "melee_damage": { "bash": 1, "cut": 1 }
   },
   {
     "id": "base_ceramic_dish",
@@ -59,8 +56,8 @@
     "material": [ "ceramic" ],
     "weight": "375 g",
     "volume": "375 ml",
-    "bashing": 3,
-    "to_hit": -1
+    "to_hit": -1,
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "base_glass_dish",
@@ -74,8 +71,8 @@
     "material": [ "glass" ],
     "weight": "322 g",
     "volume": "262 ml",
-    "bashing": 3,
-    "to_hit": -1
+    "to_hit": -1,
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "base_tin_dish",
@@ -89,8 +86,8 @@
     "material": [ "tin" ],
     "weight": "262 g",
     "volume": "262 ml",
-    "bashing": 2,
-    "to_hit": -1
+    "to_hit": -1,
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "base_plastic_dish",
@@ -104,8 +101,8 @@
     "material": [ "plastic" ],
     "weight": "130 g",
     "volume": "262 ml",
-    "bashing": 1,
-    "to_hit": -1
+    "to_hit": -1,
+    "melee_damage": { "bash": 1 }
   },
   {
     "abstract": "base_cookpot",
@@ -113,7 +110,7 @@
     "description": "generic item template",
     "type": "GENERIC",
     "symbol": ")",
-    "to_hit": 1,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
     "price": 4500,
     "price_postapoc": 10,
     "use_action": [ "HEAT_FOOD" ],
@@ -475,7 +472,8 @@
     "name": { "str": "fork" },
     "description": "A fork, if you stab something with it, you eat it right away.  Wait… nevermind.",
     "copy-from": "base_silverware",
-    "flags": [ "STAB", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ]
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "melee_damage": { "bash": 2, "stab": 1 }
   },
   {
     "type": "GENERIC",
@@ -488,7 +486,8 @@
     "longest_side": "15 cm",
     "looks_like": "fork",
     "copy-from": "base_plastic_silverware",
-    "flags": [ "STAB", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ]
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "melee_damage": { "bash": 1, "stab": 1 }
   },
   {
     "type": "GENERIC",
@@ -537,8 +536,9 @@
     "id": "knife_butter",
     "name": { "str": "butter knife", "str_pl": "butter knives" },
     "description": "A dull knife, absolutely worthless in combat.  Excellent for spreading soft things on bread.",
-    "flags": [ "STAB", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
-    "copy-from": "base_silverware"
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "copy-from": "base_silverware",
+    "melee_damage": { "bash": 2, "stab": 1 }
   },
   {
     "type": "GENERIC",
@@ -550,8 +550,9 @@
     "volume": "10 ml",
     "longest_side": "15 cm",
     "looks_like": "knife_butter",
-    "flags": [ "STAB", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
-    "copy-from": "base_plastic_silverware"
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "copy-from": "base_plastic_silverware",
+    "melee_damage": { "bash": 1, "stab": 1 }
   },
   {
     "type": "GENERIC",
@@ -568,9 +569,10 @@
     "id": "corkscrew",
     "name": { "str": "corkscrew" },
     "description": "Many a pleasant date has been ruined by forgetting this important tool.",
-    "flags": [ "STAB", "SHEATH_KNIFE" ],
+    "flags": [ "SHEATH_KNIFE" ],
     "looks_like": "fork",
-    "copy-from": "base_silverware"
+    "copy-from": "base_silverware",
+    "melee_damage": { "bash": 2, "stab": 1 }
   },
   {
     "type": "GENERIC",
@@ -614,9 +616,10 @@
     "id": "spork",
     "name": { "str": "spork" },
     "description": "The bastardized hybrid of a spoon and fork, with all the power and capabilities of both in a more annoying to use package.",
-    "flags": [ "STAB", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "looks_like": "fork",
-    "copy-from": "base_silverware"
+    "copy-from": "base_silverware",
+    "melee_damage": { "bash": 2, "stab": 1 }
   },
   {
     "type": "GENERIC",
@@ -624,9 +627,10 @@
     "id": "foon",
     "name": { "str": "foon" },
     "description": "Clearly the superior instrument.  Sporks are just imitators.",
-    "flags": [ "STAB", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "looks_like": "spork",
-    "copy-from": "base_silverware"
+    "copy-from": "base_silverware",
+    "melee_damage": { "bash": 2, "stab": 1 }
   },
   {
     "type": "GENERIC",
@@ -634,7 +638,7 @@
     "id": "chopsticks",
     "name": { "str": "chopsticks", "str_pl": "pairs of chopsticks" },
     "description": "One of the most popular eating utensils in the world.  Does double duty as a way of dealing with especially fragile vampires.",
-    "flags": [ "STAB", "ALLOWS_BODY_BLOCK" ],
+    "flags": [ "ALLOWS_BODY_BLOCK" ],
     "symbol": "X",
     "color": "light_gray",
     "price": 100,
@@ -643,9 +647,8 @@
     "volume": "15 ml",
     "longest_side": "23 cm",
     "material": [ "wood" ],
-    "bashing": 1,
-    "cutting": 1,
-    "to_hit": -1
+    "to_hit": -1,
+    "melee_damage": { "bash": 1, "stab": 1 }
   },
   {
     "type": "GENERIC",
@@ -700,8 +703,9 @@
     "description": "A utensil used to hold meat still while you slice it.  It's like a tiny pitchfork, or a very large dinner fork.",
     "looks_like": "fork",
     "copy-from": "base_utensil",
-    "proportional": { "cutting": 2 },
-    "flags": [ "STAB", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ]
+    "proportional": { "melee_damage": { "stab": 2 } },
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "melee_damage": { "bash": 3, "stab": 2 }
   },
   {
     "type": "GENERIC",
@@ -710,26 +714,33 @@
     "name": { "str": "spatula" },
     "description": "A rubber scraper for making sure you get every last scrap of cookie dough.",
     "looks_like": "spoon",
-    "proportional": { "weight": 3.0, "volume": 2.0 },
+    "weight": "50 g",
+    "volume": "195 ml",
+    "longest_side": "24 cm",
+    "price": 435,
     "material": [ "rubber" ],
-    "copy-from": "base_plastic_silverware"
+    "copy-from": "base_plastic_silverware",
+    "//": "Based on https://www.amazon.com/Rubbermaid-Commercial-Products-Spatula-FG1901000000/dp/B001BKWXOY/ref=sr_1_8?crid=1JRXNWE266SFB&keywords=rubber%2Bspatula&qid=1683210364&sprefix=rubber%2Bspatula%2Caps%2C238&sr=8-8&th=1"
   },
   {
     "type": "GENERIC",
     "category": "other",
     "id": "rolling_pin",
     "name": { "str": "rolling pin" },
-    "description": "A stout piece of hardwood, turned and sanded smooth, with rounded handles at the ends.  This timeless kitchen tool also doubles as a very effective club.",
-    "weight": "725 g",
-    "longest_side": "45 cm",
+    "description": "A stout piece of hardwood, turned and sanded smooth, with rounded handles at the ends.  This timeless kitchen tool also doubles as an effective club.",
+    "weight": "318 g",
+    "longest_side": "46 cm",
     "color": "brown",
     "symbol": "/",
     "material": [ "wood" ],
     "techniques": [ "WBLOCK_1", "RAPID" ],
     "flags": [ "DURABLE_MELEE" ],
-    "volume": "600 ml",
-    "bashing": 7,
-    "price": 700
+    "volume": "1450 ml",
+    "price": "8 USD",
+    "price_postapoc": 5,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
+    "melee_damage": { "bash": 7 },
+    "//": "Based on https://www.amazon.com/Goodcook-05717000817-Good-Cook-23830/dp/B000ARPJRM/ref=sr_1_6?crid=934OZ18675K2&keywords=rolling%2Bpin&qid=1683202158&sprefix=rollingpin%2Caps%2C512&sr=8-6&th=1"
   },
   {
     "type": "GENERIC",
@@ -740,19 +751,21 @@
     "copy-from": "base_cookpot",
     "material": [ "steel" ],
     "color": "light_gray",
-    "weight": "880 g",
-    "volume": "3500 ml",
-    "longest_side": "23 cm",
-    "bashing": 6,
+    "weight": "1 kg",
+    "volume": "3700 ml",
+    "longest_side": "19 cm",
+    "price": "31 USD",
     "pocket_data": [
       {
         "max_contains_volume": "2 L",
-        "max_contains_weight": "2 kg",
+        "max_contains_weight": "4 kg",
         "watertight": true,
         "open_container": true,
         "rigid": true
       }
-    ]
+    ],
+    "melee_damage": { "bash": 6 },
+    "//": "Based on https://www.amazon.com/jalz-Stainless-Saucepan-Classic-Cookware/dp/B087PB2L83/ref=sr_1_14?crid=1RO37Q8AD174O&keywords=2l%2Bstainless%2Bsteel%2Bpot&qid=1683292826&sprefix=steel%2Bpot%2B2l%2Caps%2C184&sr=8-14&th=1"
   },
   {
     "type": "GENERIC",
@@ -766,7 +779,6 @@
     "weight": "3000 g",
     "volume": "2375 ml",
     "longest_side": "24 cm",
-    "bashing": 10,
     "pocket_data": [
       {
         "max_contains_volume": "2 L",
@@ -775,7 +787,8 @@
         "open_container": true,
         "rigid": true
       }
-    ]
+    ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "type": "GENERIC",
@@ -789,7 +802,6 @@
     "weight": "750 g",
     "volume": "3500 ml",
     "longest_side": "23 cm",
-    "bashing": 6,
     "to_hit": -2,
     "pocket_data": [
       {
@@ -799,7 +811,8 @@
         "open_container": true,
         "rigid": true
       }
-    ]
+    ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "type": "GENERIC",
@@ -813,7 +826,6 @@
     "weight": "650 g",
     "volume": "2100 ml",
     "longest_side": "23 cm",
-    "bashing": 4,
     "pocket_data": [
       {
         "max_contains_volume": "2 L",
@@ -822,7 +834,8 @@
         "open_container": true,
         "rigid": true
       }
-    ]
+    ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "type": "GENERIC",
@@ -836,7 +849,6 @@
     "weight": "2490 g",
     "volume": "12800 ml",
     "longest_side": "25 cm",
-    "bashing": 8,
     "pocket_data": [
       {
         "max_contains_volume": "12 L",
@@ -845,7 +857,8 @@
         "open_container": true,
         "rigid": true
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "pot_canning",
@@ -858,7 +871,6 @@
     "longest_side": "32 cm",
     "price": 20000,
     "to_hit": -2,
-    "bashing": 10,
     "material": [ "steel" ],
     "symbol": ")",
     "color": "dark_gray",
@@ -873,7 +885,8 @@
     ],
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
     "use_action": [ "HEAT_FOOD" ],
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "pot_canning_clay",
@@ -886,7 +899,6 @@
     "longest_side": "35 cm",
     "price": 10000,
     "to_hit": -2,
-    "bashing": 9,
     "material": [ "clay" ],
     "symbol": ")",
     "color": "brown",
@@ -901,7 +913,8 @@
     ],
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
     "use_action": "HEAT_FOOD",
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "melee_damage": { "bash": 9 }
   },
   {
     "type": "GENERIC",
@@ -915,7 +928,6 @@
     "weight": "2628 g",
     "volume": "1335 ml",
     "longest_side": "36 cm",
-    "bashing": 12,
     "to_hit": -3,
     "pocket_data": [
       {
@@ -927,7 +939,8 @@
       }
     ],
     "delete": { "qualities": [ [ "COOK", 3 ] ] },
-    "extend": { "qualities": [ [ "HAMMER", 1 ], [ "COOK", 2 ] ] }
+    "extend": { "qualities": [ [ "HAMMER", 1 ], [ "COOK", 2 ] ] },
+    "melee_damage": { "bash": 12 }
   },
   {
     "type": "GENERIC",
@@ -942,7 +955,6 @@
     "weight": "660 g",
     "volume": "3 L",
     "longest_side": "35 cm",
-    "bashing": 8,
     "to_hit": -2,
     "pocket_data": [
       {
@@ -954,7 +966,8 @@
       }
     ],
     "delete": { "qualities": [ [ "COOK", 3 ] ] },
-    "extend": { "qualities": [ [ "COOK", 2 ] ] }
+    "extend": { "qualities": [ [ "COOK", 2 ] ] },
+    "melee_damage": { "bash": 8 }
   },
   {
     "type": "GENERIC",
@@ -969,7 +982,6 @@
     "weight": "628 g",
     "volume": "3 L",
     "longest_side": "35 cm",
-    "bashing": 7,
     "to_hit": -2,
     "pocket_data": [
       {
@@ -981,7 +993,8 @@
       }
     ],
     "delete": { "qualities": [ [ "COOK", 3 ] ] },
-    "extend": { "qualities": [ [ "COOK", 2 ] ] }
+    "extend": { "qualities": [ [ "COOK", 2 ] ] },
+    "melee_damage": { "bash": 7 }
   },
   {
     "id": "pot_makeshift",
@@ -995,7 +1008,6 @@
     "price": 200,
     "price_postapoc": 5,
     "to_hit": 1,
-    "bashing": 10,
     "material": [ "steel" ],
     "symbol": ")",
     "color": "light_gray",
@@ -1010,7 +1022,8 @@
     ],
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "use_action": [ "HEAT_FOOD" ],
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "pot_makeshift_copper",
@@ -1024,7 +1037,6 @@
     "price": 200,
     "price_postapoc": 5,
     "to_hit": 1,
-    "bashing": 10,
     "material": [ "copper" ],
     "symbol": ")",
     "color": "light_red",
@@ -1039,7 +1051,8 @@
     ],
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "use_action": [ "HEAT_FOOD" ],
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "type": "GENERIC",
@@ -1052,9 +1065,9 @@
     "color": "light_gray",
     "weight": "728 g",
     "volume": "1575 ml",
-    "bashing": 5,
     "pocket_data": [ { "max_contains_volume": "1500 ml", "max_contains_weight": "2 kg", "watertight": true, "rigid": true } ],
-    "delete": { "qualities": [ [ "COOK", 3 ] ] }
+    "delete": { "qualities": [ [ "COOK", 3 ] ] },
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "colander_steel",
@@ -1085,16 +1098,19 @@
     "category": "other",
     "name": { "str": "cutting board" },
     "description": "A large, flat piece of wood for chopping vegetables on without ruining your knife or your countertop.",
-    "weight": "945 g",
-    "to_hit": -1,
+    "weight": "455 g",
+    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "color": "brown",
     "symbol": "/",
     "material": [ "wood" ],
     "techniques": [ "WBLOCK_2" ],
     "flags": [ "DURABLE_MELEE" ],
-    "volume": "900 ml",
-    "bashing": 7,
-    "price": 200
+    "volume": "2625 ml",
+    "longest_side": "41 cm",
+    "price": "48 USD",
+    "price_postapoc": 5,
+    "melee_damage": { "bash": 7 },
+    "//": "Based on https://www.amazon.com/John-Boos-Chop-N-Slice-Maple-Cutting/dp/B00063QBL8/ref=sr_1_51?crid=3HQVDF1UITVHX&keywords=cutting%2Bboard&qid=1683203867&sprefix=cutting%2Bboard%2Caps%2C213&sr=8-51&th=1"
   },
   {
     "id": "mess_tray",
@@ -1109,9 +1125,9 @@
     "material": [ "steel" ],
     "weight": "300 g",
     "volume": "250 ml",
-    "bashing": 2,
     "to_hit": -1,
-    "qualities": [ [ "COOK", 1 ], [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "COOK", 1 ], [ "CONTAIN", 1 ] ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "type": "GENERIC",
@@ -1122,10 +1138,9 @@
     "weight": "190 g",
     "volume": "135 ml",
     "longest_side": "23 cm",
-    "bashing": 1,
-    "cutting": 2,
     "to_hit": -2,
-    "copy-from": "base_silverware"
+    "copy-from": "base_silverware",
+    "melee_damage": { "bash": 1, "cut": 2 }
   },
   {
     "type": "GENERIC",
@@ -1158,9 +1173,9 @@
     "weight": "6210 g",
     "volume": "12152 ml",
     "longest_side": "31 cm",
-    "bashing": 8,
     "pocket_data": [ { "max_contains_volume": "6300 ml", "max_contains_weight": "6300 g", "watertight": true, "rigid": true } ],
-    "extend": { "qualities": [ [ "OVEN", 2 ] ] }
+    "extend": { "qualities": [ [ "OVEN", 2 ] ] },
+    "melee_damage": { "bash": 8 }
   },
   {
     "type": "GENERIC",
@@ -1174,7 +1189,6 @@
     "weight": "2490 g",
     "volume": "12800 ml",
     "longest_side": "25 cm",
-    "bashing": 8,
     "pocket_data": [
       {
         "max_contains_volume": "12 L",
@@ -1184,7 +1198,8 @@
         "open_container": true
       }
     ],
-    "extend": { "qualities": [ [ "OVEN", 1 ] ] }
+    "extend": { "qualities": [ [ "OVEN", 1 ] ] },
+    "melee_damage": { "bash": 8 }
   },
   {
     "type": "GENERIC",
@@ -1199,9 +1214,9 @@
     "weight": "11388 g",
     "volume": "30 L",
     "longest_side": "35 cm",
-    "bashing": 8,
     "pocket_data": [ { "max_contains_volume": "2 L", "max_contains_weight": "2100 g", "watertight": true, "rigid": true } ],
-    "extend": { "qualities": [ [ "OVEN", 1 ] ] }
+    "extend": { "qualities": [ [ "OVEN", 1 ] ] },
+    "melee_damage": { "bash": 8 }
   },
   {
     "type": "GENERIC",
@@ -1216,7 +1231,6 @@
     "weight": "400 g",
     "volume": "3 L",
     "longest_side": "35 cm",
-    "bashing": 7,
     "to_hit": -2,
     "pocket_data": [
       {
@@ -1228,7 +1242,8 @@
       }
     ],
     "delete": { "qualities": [ [ "COOK", 3 ] ] },
-    "extend": { "qualities": [ [ "COOK", 2 ] ] }
+    "extend": { "qualities": [ [ "COOK", 2 ] ] },
+    "melee_damage": { "bash": 7 }
   },
   {
     "type": "GENERIC",
@@ -1242,7 +1257,6 @@
     "weight": "231 g",
     "volume": "2100 ml",
     "longest_side": "23 cm",
-    "bashing": 6,
     "to_hit": -2,
     "pocket_data": [
       {
@@ -1252,6 +1266,7 @@
         "open_container": true,
         "rigid": true
       }
-    ]
+    ],
+    "melee_damage": { "bash": 6 }
   }
 ]

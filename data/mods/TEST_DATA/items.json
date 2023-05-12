@@ -50,7 +50,6 @@
     "price": 10000,
     "price_postapoc": 250,
     "to_hit": -4,
-    "bashing": 6,
     "material": [ "steel" ],
     "symbol": "}",
     "color": "light_cyan",
@@ -63,7 +62,8 @@
         "max_contains_weight": "120 kg"
       }
     ],
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "type": "AMMO",
@@ -78,14 +78,14 @@
     "flags": [ "TRADER_AVOID" ],
     "weight": "657 g",
     "volume": "250 ml",
-    "bashing": 7,
     "damage": { "damage_type": "stab", "amount": 7 },
     "range": 10,
     "dispersion": 14,
     "loudness": 0,
     "to_hit": -2,
     "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_80" ],
-    "qualities": [ [ "HAMMER", 1 ] ]
+    "qualities": [ [ "HAMMER", 1 ] ],
+    "melee_damage": { "bash": 7 }
   },
   {
     "type": "TOOL_ARMOR",
@@ -115,7 +115,6 @@
     "price": 8500,
     "price_postapoc": 1500,
     "to_hit": -2,
-    "bashing": 6,
     "material": [ "leather", "steel" ],
     "symbol": "[",
     "looks_like": "roller_blades",
@@ -124,7 +123,8 @@
     "material_thickness": 3,
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "WATERPROOF", "ROLLER_QUAD", "REQUIRES_BALANCE" ],
-    "armor": [ { "covers": [ "foot_l", "foot_r" ], "encumbrance": 0 } ]
+    "armor": [ { "covers": [ "foot_l", "foot_r" ], "encumbrance": 0 } ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "test_roller_blades",
@@ -205,10 +205,10 @@
     "symbol": "/",
     "material": [ "wood" ],
     "techniques": [ "WBLOCK_1" ],
-    "bashing": 10,
     "price": 1000,
     "price_postapoc": 0,
-    "flags": [ "FIREWOOD" ]
+    "flags": [ "FIREWOOD" ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "type": "GENERIC",
@@ -225,9 +225,9 @@
     "material": [ "steel" ],
     "qualities": [ [ "HAMMER", 1 ] ],
     "techniques": [ "WBLOCK_1" ],
-    "bashing": 12,
     "price": 7500,
-    "price_postapoc": 300
+    "price_postapoc": 300,
+    "melee_damage": { "bash": 12 }
   },
   {
     "type": "GENERIC",
@@ -244,9 +244,9 @@
     "material": [ { "type": "steel", "portion": 9 }, { "type": "glass", "portion": 1 } ],
     "qualities": [ [ "HAMMER", 1 ] ],
     "techniques": [ "WBLOCK_1" ],
-    "bashing": 12,
     "price": 7500,
-    "price_postapoc": 300
+    "price_postapoc": 300,
+    "melee_damage": { "bash": 12 }
   },
   {
     "type": "GENERIC",
@@ -263,9 +263,9 @@
     "material": [ { "type": "steel", "portion": 1 }, { "type": "glass", "portion": 9 } ],
     "qualities": [ [ "HAMMER", 1 ] ],
     "techniques": [ "WBLOCK_1" ],
-    "bashing": 12,
     "price": 7500,
-    "price_postapoc": 300
+    "price_postapoc": 300,
+    "melee_damage": { "bash": 12 }
   },
   {
     "type": "TOOL",
@@ -277,12 +277,12 @@
     "price": 500,
     "price_postapoc": 250,
     "to_hit": -1,
-    "cutting": 3,
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "SHEAR", 1 ] ],
-    "flags": [ "STAB" ]
+    "flags": [  ],
+    "melee_damage": { "stab": 3 }
   },
   {
     "type": "TOOL",
@@ -294,12 +294,12 @@
     "price": 500,
     "price_postapoc": 250,
     "to_hit": -1,
-    "cutting": 3,
     "material": [ { "type": "steel", "portion": 9 }, { "type": "plastic", "portion": 1 } ],
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "SHEAR", 1 ] ],
-    "flags": [ "STAB" ]
+    "flags": [  ],
+    "melee_damage": { "stab": 3 }
   },
   {
     "type": "TOOL",
@@ -311,12 +311,12 @@
     "price": 500,
     "price_postapoc": 250,
     "to_hit": -1,
-    "cutting": 3,
     "material": [ { "type": "steel", "portion": 1 }, { "type": "plastic", "portion": 9 } ],
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "SHEAR", 1 ] ],
-    "flags": [ "STAB" ]
+    "flags": [  ],
+    "melee_damage": { "stab": 3 }
   },
   {
     "type": "TOOL",
@@ -389,7 +389,6 @@
     "volume": "2250 ml",
     "price": 4500,
     "price_postapoc": 1500,
-    "bashing": 5,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "holster",
@@ -434,8 +433,9 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Store tool or blade", "holster_msg": "You put your %1$s in your %2$s" },
-    "flags": [ "BELTED", "NO_QUICKDRAW", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ],
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "test_tool_belt_pocket_mix",
@@ -446,7 +446,6 @@
     "volume": "2250 ml",
     "price": 4500,
     "price_postapoc": 1500,
-    "bashing": 5,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "holster",
@@ -512,8 +511,9 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Store tool or blade", "holster_msg": "You put your %1$s in your %2$s" },
-    "flags": [ "BELTED", "NO_QUICKDRAW", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": [ 2, 12 ], "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": [ 2, 12 ], "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ],
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "crowbar_pocket_test",
@@ -526,15 +526,14 @@
     "price": 1300,
     "price_postapoc": 500,
     "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "neutral" },
-    "bashing": 20,
-    "cutting": 1,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "dark_gray",
     "qualities": [ [ "PRY", 3 ], [ "HAMMER", 1 ], [ "PRYING_NAIL", 1 ] ],
     "use_action": [ "CROWBAR" ],
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "BELT_CLIP", "DURABLE_MELEE" ]
+    "flags": [ "BELT_CLIP", "DURABLE_MELEE" ],
+    "melee_damage": { "bash": 20, "cut": 1 }
   },
   {
     "id": "hammer_pocket_test",
@@ -548,14 +547,14 @@
     "price": 700,
     "price_postapoc": 100,
     "to_hit": -1,
-    "bashing": 9,
     "material": [ "steel", "wood" ],
     "symbol": ";",
     "color": "brown",
     "qualities": [ [ "HAMMER", 3 ], [ "PRY", 1 ], [ "HAMMER_FINE", 1 ], [ "PRYING_NAIL", 1 ] ],
     "use_action": [ "CROWBAR" ],
     "flags": [ "BELT_CLIP", "NONCONDUCTIVE" ],
-    "weapon_category": [ "BATONS" ]
+    "weapon_category": [ "BATONS" ],
+    "melee_damage": { "bash": 9 }
   },
   {
     "id": "wrench_pocket_test",
@@ -567,13 +566,13 @@
     "longest_side": "20 cm",
     "price": 1200,
     "price_postapoc": 100,
-    "bashing": 9,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "WRENCH", 2 ], [ "WRENCH_FINE", 1 ] ],
     "flags": [ "BELT_CLIP" ],
-    "weapon_category": [ "BATONS" ]
+    "weapon_category": [ "BATONS" ],
+    "melee_damage": { "bash": 9 }
   },
   {
     "id": "tongs_pocket_test",
@@ -584,13 +583,13 @@
     "volume": "500 ml",
     "price": 1600,
     "price_postapoc": 10,
-    "bashing": 3,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "COOK", 1 ] ],
     "use_action": [ "HEAT_FOOD" ],
-    "flags": [ "BELT_CLIP", "ALLOWS_REMOTE_USE" ]
+    "flags": [ "BELT_CLIP", "ALLOWS_REMOTE_USE" ],
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "test_utility_belt",
@@ -601,7 +600,6 @@
     "volume": "4 L",
     "price": 25000,
     "price_postapoc": 9900,
-    "bashing": 5,
     "material": [ "kevlar" ],
     "symbol": "[",
     "looks_like": "holster",
@@ -674,8 +672,9 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Store tool or blade", "holster_msg": "You put your %1$s in your %2$s" },
-    "flags": [ "BELTED", "NO_QUICKDRAW", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ],
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "test_flashlight",
@@ -722,10 +721,10 @@
     "symbol": "]",
     "material": [ "steel" ],
     "volume": "1 L",
-    "bashing": 5,
     "category": "spare_parts",
     "price": 6000,
-    "qualities": [ [ "COOK", 1 ] ]
+    "qualities": [ [ "COOK", 1 ] ],
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "test_sheet_metal_small",
@@ -737,14 +736,14 @@
     "weight": "250 g",
     "volume": "250 ml",
     "price": 2000,
-    "bashing": 5,
     "to_hit": -3,
     "stack_size": 8,
     "//": "Roughly in the 15cm×15cm to 20cm×20cm range. Compact and stacks well, so equally dense as a solid block.",
     "material": [ "steel" ],
     "symbol": "]",
     "color": "light_cyan",
-    "ammo_type": "components"
+    "ammo_type": "components",
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "test_halligan",
@@ -756,15 +755,14 @@
     "longest_side": "76 cm",
     "price": 7500,
     "to_hit": 2,
-    "bashing": 20,
-    "cutting": 5,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "dark_gray",
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "qualities": [ [ "PRY", 4 ], [ "HAMMER", 2 ], [ "DIG", 1 ], [ "PRYING_NAIL", 1 ] ],
     "use_action": [ "CROWBAR" ],
-    "flags": [ "DURABLE_MELEE", "BELT_CLIP" ]
+    "flags": [ "DURABLE_MELEE", "BELT_CLIP" ],
+    "melee_damage": { "bash": 20, "cut": 5 }
   },
   {
     "type": "TOOL",
@@ -782,15 +780,14 @@
     "volume": "2 L",
     "price": 20000,
     "to_hit": 1,
-    "bashing": 20,
-    "cutting": 20,
     "material": [ "steel", "wood" ],
     "symbol": "/",
     "color": "light_gray",
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "qualities": [ [ "AXE", 3 ], [ "PRY", 3 ], [ "BUTCHER", -30 ] ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP", "SHEATH_AXE" ],
-    "use_action": [ "CROWBAR" ]
+    "use_action": [ "CROWBAR" ],
+    "melee_damage": { "bash": 20, "cut": 20 }
   },
   {
     "id": "test_fire_ax_mostly_steel",
@@ -801,15 +798,14 @@
     "volume": "2 L",
     "price": 20000,
     "to_hit": 1,
-    "bashing": 20,
-    "cutting": 20,
     "material": [ { "type": "steel", "portion": 9 }, { "type": "wood", "portion": 1 } ],
     "symbol": "/",
     "color": "light_gray",
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "qualities": [ [ "AXE", 3 ], [ "PRY", 3 ], [ "BUTCHER", -30 ] ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP", "SHEATH_AXE" ],
-    "use_action": [ "CROWBAR" ]
+    "use_action": [ "CROWBAR" ],
+    "melee_damage": { "bash": 20, "cut": 20 }
   },
   {
     "id": "test_fire_ax_mostly_wood",
@@ -820,15 +816,14 @@
     "volume": "2 L",
     "price": 20000,
     "to_hit": 1,
-    "bashing": 20,
-    "cutting": 20,
     "material": [ { "type": "steel", "portion": 1 }, { "type": "wood", "portion": 9 } ],
     "symbol": "/",
     "color": "light_gray",
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "qualities": [ [ "AXE", 3 ], [ "PRY", 3 ], [ "BUTCHER", -30 ] ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP", "SHEATH_AXE" ],
-    "use_action": [ "CROWBAR" ]
+    "use_action": [ "CROWBAR" ],
+    "melee_damage": { "bash": 20, "cut": 20 }
   },
   {
     "id": "test_screwdriver",
@@ -840,13 +835,12 @@
     "longest_side": "15 cm",
     "price": 450,
     "to_hit": -1,
-    "bashing": 2,
-    "cutting": 6,
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "yellow",
     "qualities": [ [ "SCREW", 1 ] ],
-    "flags": [ "SPEAR", "BELT_CLIP" ]
+    "flags": [ "SPEAR", "BELT_CLIP" ],
+    "melee_damage": { "bash": 2, "stab": 6 }
   },
   {
     "id": "test_sonic_screwdriver",
@@ -858,8 +852,6 @@
     "longest_side": "25 cm",
     "price": 450,
     "to_hit": -1,
-    "bashing": 2,
-    "cutting": 6,
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "yellow",
@@ -868,7 +860,8 @@
     "flags": [ "SPEAR", "BELT_CLIP" ],
     "min_skills": [ [ "electronics", 3 ], [ "traps", 2 ] ],
     "min_intelligence": 9,
-    "min_perception": 5
+    "min_perception": 5,
+    "melee_damage": { "bash": 2, "stab": 6 }
   },
   {
     "id": "test_multitool",
@@ -898,7 +891,7 @@
       [ "WRENCH", 1 ],
       [ "WRENCH_FINE", 1 ]
     ],
-    "flags": [ "STAB", "SHEATH_KNIFE" ]
+    "flags": [ "SHEATH_KNIFE" ]
   },
   {
     "id": "test_soldering_iron",
@@ -908,8 +901,6 @@
     "weight": "181 g",
     "volume": "500 ml",
     "price": 1000,
-    "bashing": 2,
-    "cutting": 6,
     "material": [ "iron" ],
     "symbol": ",",
     "color": "light_gray",
@@ -934,7 +925,8 @@
         "max_contains_weight": "20 kg",
         "item_restriction": [ "test_battery_disposable", "test_battery_rechargable" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 2, "stab": 6 }
   },
   {
     "type": "TOOL",
@@ -1021,9 +1013,9 @@
     "weight": "3000 g",
     "volume": "750 ml",
     "price": 5000,
-    "bashing": 4,
     "to_hit": -2,
-    "qualities": [ [ "JACK", 4 ] ]
+    "qualities": [ [ "JACK", 4 ] ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "test_smart_phone",
@@ -1298,6 +1290,50 @@
     ]
   },
   {
+    "id": "test_zentai_resist_test_fire",
+    "type": "ARMOR",
+    "name": { "str": "test zentai" },
+    "description": "Full-body suit completely covering all body parts, including the head, mouth, and eyes.",
+    "weight": "300 g",
+    "volume": "500 ml",
+    "price": 2500,
+    "price_postapoc": 50,
+    "material": [ "lycra_resist_test_fire" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "warmth": 20,
+    "material_thickness": 1,
+    "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ],
+    "armor": [
+      {
+        "coverage": 100,
+        "covers": [ "head", "mouth", "eyes", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ]
+  },
+  {
+    "id": "test_zentai_immune_test_fire",
+    "type": "ARMOR",
+    "name": { "str": "test zentai" },
+    "description": "Full-body suit completely covering all body parts, including the head, mouth, and eyes.",
+    "weight": "300 g",
+    "volume": "500 ml",
+    "price": 2500,
+    "price_postapoc": 50,
+    "material": [ "lycra" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "warmth": 20,
+    "material_thickness": 1,
+    "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY", "HEAT_IMMUNE" ],
+    "armor": [
+      {
+        "coverage": 100,
+        "covers": [ "head", "mouth", "eyes", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ]
+  },
+  {
     "id": "test_sunglasses",
     "repairs_like": "goggles_swim",
     "type": "ARMOR",
@@ -1355,14 +1391,13 @@
     "price": 2400,
     "price_postapoc": 50,
     "to_hit": 1,
-    "bashing": 6,
-    "cutting": 4,
     "material": [ "plastic", "aluminum" ],
     "ascii_picture": "umbrella",
     "symbol": "/",
     "color": "magenta",
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "STAB", "RAIN_PROTECT", "SHEATH_SWORD" ]
+    "flags": [ "RAIN_PROTECT", "SHEATH_SWORD" ],
+    "melee_damage": { "bash": 6, "stab": 4 }
   },
   {
     "id": "test_compbow",
@@ -1381,7 +1416,6 @@
     "ammo": [ "arrow" ],
     "weight": "907 g",
     "volume": "1500 ml",
-    "bashing": 8,
     "to_hit": 1,
     "reload_noise_volume": 3,
     "loudness": 10,
@@ -1391,7 +1425,7 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 110,
-    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ],
+    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ],
     "use_action": {
       "menu_text": "Tighten Limbs",
       "type": "transform",
@@ -1399,7 +1433,8 @@
       "qualities_needed": { "SCREW_FINE": 1 },
       "msg": "You tighten the limbs, increasing the strength of the bow."
     },
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "type": "COMESTIBLE",
@@ -1502,6 +1537,34 @@
     "rot_spawn_chance": 50
   },
   {
+    "type": "COMESTIBLE",
+    "id": "test_whiskey_caffenated",
+    "name": { "str_sp": "caffenated whiskey" },
+    "weight": "36 g",
+    "color": "brown",
+    "use_action": [ "ALCOHOL" ],
+    "stim": -12,
+    "container": "bottle_glass",
+    "comestible_type": "DRINK",
+    "symbol": "~",
+    "quench": -12,
+    "healthy": -1,
+    "//": "Very high addiction potential to guarantee addiction for unit tests",
+    "addiction_potential": 101,
+    "addiction_type": [ "alcohol", { "addiction": "caffeine", "potential": 102 } ],
+    "description": "A distilled grain alcohol, made from, by, and for real Southern colonels!",
+    "calories": 79,
+    "price": 2100,
+    "price_postapoc": 250,
+    "material": [ "alcohol" ],
+    "volume": "250 ml",
+    "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
+    "freezing_point": -30,
+    "phase": "liquid",
+    "charges": 7,
+    "fun": 15
+  },
+  {
     "id": "test_jug_plastic",
     "type": "GENERIC",
     "category": "container",
@@ -1553,7 +1616,6 @@
     "volume": "250 ml",
     "price": 2000,
     "to_hit": -1,
-    "bashing": 1,
     "material": [ "leather" ],
     "symbol": ")",
     "color": "brown",
@@ -1578,7 +1640,8 @@
         "moves": 220
       }
     ],
-    "flags": [ "BELTED", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "test_balloon",
@@ -1787,7 +1850,6 @@
     "volume": "15750 ml",
     "price": 24000,
     "to_hit": -2,
-    "bashing": 5,
     "material": [ "plastic" ],
     "symbol": "[",
     "looks_like": "plastic_shopping_bag",
@@ -1804,7 +1866,8 @@
     ],
     "material_thickness": 2,
     "flags": [ "FANCY", "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": 30, "coverage": 10, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ]
+    "armor": [ { "encumbrance": 30, "coverage": 10, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ],
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "test_quiver",
@@ -1815,7 +1878,6 @@
     "volume": "500 ml",
     "price": 6500,
     "price_postapoc": 1000,
-    "bashing": 2,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "bscabbard",
@@ -1824,7 +1886,8 @@
     "material_thickness": 1,
     "pocket_data": [ { "ammo_restriction": { "arrow": 20, "bolt": 20 }, "moves": 20 } ],
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": 3, "coverage": 10, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [ { "encumbrance": 3, "coverage": 10, "covers": [ "leg_l", "leg_r" ] } ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "test_arrow_wood",
@@ -1839,15 +1902,14 @@
     "volume": "250 ml",
     "price_postapoc": 250,
     "weight": "30 g",
-    "bashing": 2,
-    "cutting": 1,
     "ammo_type": "arrow",
     "damage": { "damage_type": "stab", "armor_penetration": 1, "constant_damage_multiplier": 1.5 },
     "dispersion": 110,
     "loudness": 0,
     "count": 10,
     "critical_multiplier": 10,
-    "effects": [ "RECOVER_25" ]
+    "effects": [ "RECOVER_25" ],
+    "melee_damage": { "bash": 2, "cut": 1 }
   },
   {
     "id": "test_pointy_stick",
@@ -1859,13 +1921,12 @@
     "weight": "900 g",
     "symbol": "/",
     "color": "brown",
-    "bashing": 5,
-    "cutting": 9,
     "to_hit": -1,
     "price_postapoc": 10,
     "flags": [ "SPEAR" ],
     "techniques": [ "WBLOCK_1" ],
-    "qualities": [ [ "COOK", 1 ] ]
+    "qualities": [ [ "COOK", 1 ] ],
+    "melee_damage": { "bash": 5, "stab": 9 }
   },
   {
     "type": "GENERIC",
@@ -1880,10 +1941,9 @@
     "color": "dark_gray",
     "symbol": "/",
     "material": [ "steel" ],
-    "bashing": 32,
-    "cutting": 32,
     "price": 7500,
-    "price_postapoc": 300
+    "price_postapoc": 300,
+    "melee_damage": { "bash": 32, "cut": 32 }
   },
   {
     "type": "GENERIC",
@@ -1898,10 +1958,9 @@
     "color": "dark_gray",
     "symbol": "/",
     "material": [ "steel" ],
-    "bashing": 32,
-    "cutting": 32,
     "price": 7500,
-    "price_postapoc": 300
+    "price_postapoc": 300,
+    "melee_damage": { "bash": 32, "cut": 32 }
   },
   {
     "type": "GENERIC",
@@ -1916,10 +1975,26 @@
     "color": "dark_gray",
     "symbol": "/",
     "material": [ "steel" ],
-    "bashing": 32,
-    "cutting": 32,
     "price": 7500,
-    "price_postapoc": 300
+    "price_postapoc": 300,
+    "melee_damage": { "bash": 32, "cut": 32 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_fire_sword",
+    "name": "TEST fire sword",
+    "description": "A sword that inflicts fire damage for test purposes",
+    "category": "spare_parts",
+    "weight": "1250 g",
+    "volume": "1 L",
+    "longest_side": "1 meter",
+    "to_hit": 3,
+    "color": "dark_gray",
+    "symbol": "/",
+    "material": [ "steel" ],
+    "price": 7500,
+    "price_postapoc": 300,
+    "melee_damage": { "test_fire": 8 }
   },
   {
     "id": "test_bullwhip",
@@ -1934,8 +2009,8 @@
     "price_postapoc": 500,
     "material": [ "leather" ],
     "flags": [ "REACH_ATTACK", "REACH3", "WHIP" ],
-    "cutting": 3,
-    "category": "weapons"
+    "category": "weapons",
+    "melee_damage": { "cut": 3 }
   },
   {
     "id": "test_glaive",
@@ -1952,9 +2027,8 @@
     "weight": "2100 g",
     "volume": "2500 ml",
     "longest_side": "180 cm",
-    "bashing": 17,
-    "cutting": 40,
-    "price_postapoc": 8000
+    "price_postapoc": 8000,
+    "melee_damage": { "bash": 17, "cut": 40 }
   },
   {
     "id": "test_glock",
@@ -1966,7 +2040,6 @@
     "price": 69000,
     "price_postapoc": 2500,
     "to_hit": -2,
-    "bashing": 8,
     "material": [ "plastic", "steel" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -1985,7 +2058,8 @@
         "max_contains_weight": "20 kg",
         "item_restriction": [ "test_glockmag", "test_glockbigmag" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "test_glock_super_long",
@@ -1999,7 +2073,6 @@
     "price": 69000,
     "price_postapoc": 2500,
     "to_hit": -2,
-    "bashing": 8,
     "material": [ "plastic", "steel" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -2009,7 +2082,8 @@
     "blackpowder_tolerance": 48,
     "min_cycle_recoil": 380,
     "skill": "pistol",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "test_100mm": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "test_100mm": 1 } } ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "barrel_glock_short",
@@ -2020,6 +2094,7 @@
     "price": 12000,
     "price_postapoc": 250,
     "integral_longest_side": "100 mm",
+    "barrel_length": "100 mm",
     "install_time": "0 s",
     "material": [ "steel" ],
     "symbol": ":",
@@ -2146,6 +2221,25 @@
     "dispersion": 50,
     "recoil": 600,
     "effects": [ "COOKOFF" ]
+  },
+  {
+    "id": "test_shot_00_fire_damage",
+    "copy-from": "shotshell_abstract",
+    "type": "AMMO",
+    "name": { "str_sp": "00 shot" },
+    "description": "A shell filled with metal pellets.  Extremely damaging, plus the spread makes it very accurate at short range.  Favored by SWAT forces.",
+    "price": 500,
+    "price_postapoc": 800,
+    "range": 18,
+    "weight": "10 g",
+    "volume": "250 ml",
+    "damage": { "damage_type": "test_fire", "amount": 60 },
+    "shot_damage": { "damage_type": "test_fire", "amount": 15 },
+    "projectile_count": 9,
+    "shot_spread": 300,
+    "recoil": 2500,
+    "loudness": 160,
+    "effects": [ "COOKOFF", "SHOT" ]
   },
   {
     "id": "test_liquid",
@@ -2307,7 +2401,6 @@
     "price_postapoc": 250,
     "install_time": "30 s",
     "to_hit": 1,
-    "bashing": 3,
     "material": [ "steel" ],
     "symbol": ":",
     "color": "dark_gray",
@@ -2321,7 +2414,8 @@
     "field_of_view": 300,
     "handling_modifier": 1,
     "loudness_modifier": -30,
-    "flags": [ "DISABLE_SIGHTS", "CONSUMABLE", "REACH_ATTACK" ]
+    "flags": [ "DISABLE_SIGHTS", "CONSUMABLE", "REACH_ATTACK" ],
+    "melee_damage": { "bash": 3 }
   },
   {
     "type": "TOOL",
@@ -2459,6 +2553,7 @@
     "stim": 10,
     "quench": 50,
     "addiction_potential": 10,
+    "addiction_type": "caffeine",
     "flags": [ "NO_INGEST" ],
     "use_action": [ "CHEW" ]
   },
@@ -2538,7 +2633,6 @@
     "volume": "1500 ml",
     "price": 7800,
     "price_postapoc": 500,
-    "bashing": 6,
     "material": [ "paper" ],
     "symbol": "?",
     "color": "green",
@@ -2547,7 +2641,8 @@
     "max_level": 7,
     "intelligence": 12,
     "time": "50 m",
-    "fun": -1
+    "fun": -1,
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "test_power_armor",
@@ -2560,7 +2655,6 @@
     "price": 7000000,
     "price_postapoc": 30000,
     "to_hit": 1,
-    "bashing": 1,
     "material": [ "qt_steel", "ceramic", "kevlar_rigid" ],
     "symbol": "[",
     "looks_like": "depowered_armor",
@@ -2595,7 +2689,8 @@
         "coverage": 100,
         "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "test_power_armor_on",
@@ -2690,7 +2785,6 @@
     "price": 285000,
     "price_postapoc": 2000,
     "to_hit": -3,
-    "bashing": 6,
     "material": [ "kevlar_layered", "cotton" ],
     "symbol": "[",
     "looks_like": "touring_suit",
@@ -2706,7 +2800,8 @@
     "material_thickness": 11,
     "valid_mods": [ "steel_padded" ],
     "environmental_protection": 4,
-    "flags": [ "POCKETS", "STURDY" ]
+    "flags": [ "POCKETS", "STURDY" ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "test_swat_mostly_cotton",
@@ -3267,7 +3362,6 @@
     "price": 69000,
     "price_postapoc": 2500,
     "to_hit": -2,
-    "bashing": 8,
     "material": [ "plastic", "steel" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -3287,7 +3381,8 @@
         "max_contains_weight": "20 kg",
         "item_restriction": [ "test_glockmag", "test_glockbigmag" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "test_exo_lense_module",
@@ -3298,11 +3393,11 @@
     "volume": "250 ml",
     "price": "10 kUSD",
     "to_hit": -2,
-    "bashing": 6,
     "material": [ "lvl4ballisticglass", "qt_steel" ],
     "symbol": "(",
     "color": "yellow",
-    "flags": [ "CANT_WEAR", "FIX_NEARSIGHT", "FIX_FARSIGHT", "ZOOM", "EXO_HELMET_GADGET" ]
+    "flags": [ "CANT_WEAR", "FIX_NEARSIGHT", "FIX_FARSIGHT", "ZOOM", "EXO_HELMET_GADGET" ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "test_modular_exosuit",
@@ -3464,7 +3559,6 @@
     "price": 120000,
     "price_postapoc": 3000,
     "to_hit": -5,
-    "bashing": 2,
     "material": [ "chitin" ],
     "symbol": "[",
     "looks_like": "armor_larmor",
@@ -3475,7 +3569,8 @@
     "environmental_protection": 6,
     "environmental_protection_with_filter": 10,
     "flags": [ "STURDY", "OUTER" ],
-    "armor": [ { "encumbrance": 10, "coverage": 90, "covers": [ "torso", "leg_l", "leg_r" ] } ]
+    "armor": [ { "encumbrance": 10, "coverage": 90, "covers": [ "torso", "leg_l", "leg_r" ] } ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "test_armor_chitin_copy",
@@ -4073,7 +4168,6 @@
     "price": 60000,
     "price_postapoc": 12000,
     "to_hit": -5,
-    "bashing": 8,
     "symbol": "[",
     "looks_like": "armor_larmor",
     "material": [ "lc_steel", "lc_steel_chain" ],
@@ -4095,7 +4189,8 @@
         "coverage": 100,
         "encumbrance": 15
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "test_consolidate",
@@ -4239,7 +4334,6 @@
     "price": 280000,
     "price_postapoc": 1500,
     "to_hit": -1,
-    "bashing": 8,
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
@@ -4251,6 +4345,7 @@
         "flag_restriction": [ "BATTERY_HEAVY" ],
         "default_magazine": "heavy_plus_battery_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   }
 ]

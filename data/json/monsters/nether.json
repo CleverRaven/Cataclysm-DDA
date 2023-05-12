@@ -21,9 +21,6 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 8 } ],
     "dodge": 2,
-    "armor_bash": 6,
-    "armor_cut": 2,
-    "armor_bullet": 2,
     "vision_day": 5,
     "vision_night": 5,
     "families": [ "prof_intro_biology", "prof_wp_basic_bird" ],
@@ -33,7 +30,8 @@
     "anger_triggers": [ "HURT", "FRIEND_DIED", "FRIEND_ATTACKED" ],
     "harvest": "mutant_bird_flightless",
     "dissect": "dissect_bird_sample_large",
-    "flags": [ "HEARS", "KEENNOSE", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "SWIMS", "SUNDEATH" ]
+    "flags": [ "HEARS", "KEENNOSE", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "SWIMS", "SUNDEATH" ],
+    "armor": { "bash": 6, "cut": 2, "bullet": 2 }
   },
   {
     "id": "mon_amigara_horror",
@@ -58,7 +56,6 @@
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 2,
-    "armor_elec": 1,
     "bleed_rate": 50,
     "harvest": "demihuman",
     "families": [ "prof_wp_demihuman" ],
@@ -66,7 +63,8 @@
     "special_attacks": [ [ "FEAR_PARALYZE", 0 ] ],
     "death_function": { "effect": { "id": "death_amigara" } },
     "dissect": "dissect_human_sample_single",
-    "flags": [ "SMELLS", "HEARS", "SEES", "STUMBLES", "HARDTOSHOOT" ]
+    "flags": [ "SMELLS", "HEARS", "SEES", "STUMBLES", "HARDTOSHOOT" ],
+    "armor": { "electric": 1 }
   },
   {
     "id": "mon_blank",
@@ -186,14 +184,12 @@
     "melee_dice": 2,
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 22 } ],
-    "armor_bash": 2,
-    "armor_cut": 8,
-    "armor_bullet": 6,
     "vision_day": 4,
     "vision_night": 4,
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s grows inert." },
     "death_drops": "shrapnel_swarm_drops",
-    "flags": [ "SEES", "FLIES", "NOHEAD", "ELECTRONIC", "BASHES", "GROUP_BASH", "NO_BREATHE", "NOGIB", "HIT_AND_RUN", "STUN_IMMUNE" ]
+    "flags": [ "SEES", "FLIES", "NOHEAD", "ELECTRONIC", "BASHES", "GROUP_BASH", "NO_BREATHE", "NOGIB", "HIT_AND_RUN", "STUN_IMMUNE" ],
+    "armor": { "bash": 2, "cut": 8, "bullet": 6 }
   },
   {
     "id": "mon_structural_spur",
@@ -214,10 +210,6 @@
     "color": "white_red",
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "harvest": "exempt",
-    "armor_bash": 80,
-    "armor_cut": 80,
-    "armor_bullet": 80,
-    "armor_fire": 80,
     "vision_day": 20,
     "vision_night": 20,
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The distortion fades as the %s crumbles." },
@@ -230,7 +222,8 @@
       }
     ],
     "death_drops": "structural_spur_drops",
-    "flags": [ "ACIDPROOF", "NO_BREATHE", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NOGIB", "STUN_IMMUNE" ]
+    "flags": [ "ACIDPROOF", "NO_BREATHE", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NOGIB", "STUN_IMMUNE" ],
+    "armor": { "bash": 80, "cut": 80, "heat": 80, "bullet": 80 }
   },
   {
     "id": "mon_darkman",
@@ -253,17 +246,14 @@
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
     "dodge": 3,
-    "armor_bash": 12,
-    "armor_cut": 8,
-    "armor_bullet": 6,
-    "armor_elec": 3,
     "vision_day": 50,
     "luminance": 6,
     "harvest": "exempt",
     "special_attacks": [ [ "DARKMAN", 5 ], [ "scratch", 15 ] ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away.", "effect": { "id": "death_darkman" } },
     "regenerates_in_dark": true,
-    "flags": [ "NOHEAD", "HARDTOSHOOT", "WEBWALK", "FLIES", "PLASTIC", "ELECTRIC", "ACIDPROOF", "SUNDEATH", "NO_BREATHE" ]
+    "flags": [ "NOHEAD", "HARDTOSHOOT", "WEBWALK", "FLIES", "PLASTIC", "ELECTRIC", "ACIDPROOF", "SUNDEATH", "NO_BREATHE" ],
+    "armor": { "bash": 12, "cut": 8, "bullet": 6, "electric": 3 }
   },
   {
     "id": "mon_dementia",
@@ -343,7 +333,6 @@
     "aggression": 100,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 1,
-    "armor_bash": 4,
     "bleed_rate": 20,
     "vision_day": 50,
     "vision_night": 40,
@@ -351,7 +340,8 @@
     "harvest": "zombie_meatslug",
     "//": "Add a demihuman alien anatomy for things like flaming eye's and Mi-go, polyps and other lovecraftian horrors from other dimensions",
     "special_attacks": [ [ "STARE", 12 ] ],
-    "flags": [ "SEES", "WARM", "FLIES", "FIREY", "NO_BREATHE", "NOHEAD", "PACIFIST" ]
+    "flags": [ "SEES", "WARM", "FLIES", "FIREY", "NO_BREATHE", "NOHEAD", "PACIFIST" ],
+    "armor": { "bash": 4 }
   },
   {
     "id": "mon_flying_polyp",
@@ -376,8 +366,6 @@
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "dodge": 7,
-    "armor_bash": 8,
-    "armor_elec": 3,
     "bleed_rate": 40,
     "harvest": "exempt",
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
@@ -394,7 +382,8 @@
       "NO_BREATHE",
       "HIT_AND_RUN",
       "NOGIB"
-    ]
+    ],
+    "armor": { "bash": 8, "electric": 3 }
   },
   {
     "id": "mon_unseen_hunter",
@@ -422,15 +411,13 @@
     "vision_day": 20,
     "vision_night": 20,
     "path_settings": { "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
+    "//grab": "Great at pulling, bad at holding - maybe it's playing with you",
+    "grab_strength": 10,
     "special_attacks": [
-      [ "RANGED_PULL", 8 ],
+      { "id": "ranged_pull", "cooldown": 8, "grab_data": { "pull_weight_ratio": 2.0 } },
       { "type": "leap", "cooldown": 20, "max_range": 6, "allow_no_target": true },
       { "id": "hunter_peck" }
     ],
-    "armor_bash": 5,
-    "armor_cut": 5,
-    "armor_stab": 5,
-    "armor_bullet": 30,
     "//": "Reduce bullet armor when things are harder to hit or players miss more",
     "anger_triggers": [ "FIRE" ],
     "fear_triggers": [ "HURT" ],
@@ -448,7 +435,8 @@
       "PATH_AVOID_DANGER_1",
       "HARDTOSHOOT",
       "HIT_AND_RUN"
-    ]
+    ],
+    "armor": { "bash": 5, "cut": 5, "stab": 5, "bullet": 30 }
   },
   {
     "id": "mon_gozu",
@@ -503,13 +491,13 @@
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 4,
-    "armor_elec": 1,
     "bleed_rate": 60,
     "path_settings": { "avoid_traps": true, "avoid_sharp": true },
     "harvest": "demihuman",
     "families": [ "prof_wp_demihuman" ],
     "weakpoint_sets": [ "wps_humanoid_body" ],
-    "flags": [ "SMELLS", "HEARS", "WARM", "NO_BREATHE", "GRABS", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_1" ]
+    "flags": [ "SMELLS", "HEARS", "WARM", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_1" ],
+    "armor": { "electric": 1 }
   },
   {
     "id": "mon_headless_dog_thing",
@@ -534,11 +522,11 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 4,
-    "armor_elec": 1,
     "harvest": "exempt",
     "special_attacks": [ { "id": "tentacle" } ],
     "death_function": { "effect": { "id": "death_thing", "hit_self": true }, "corpse_type": "NO_CORPSE", "message": "The %s emerges!" },
-    "flags": [ "SEES", "SMELLS", "HEARS", "BASHES" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "BASHES" ],
+    "armor": { "electric": 1 }
   },
   {
     "id": "mon_hound_tindalos",
@@ -562,9 +550,6 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
     "dodge": 5,
-    "armor_cut": 50,
-    "armor_bullet": 40,
-    "armor_elec": 1,
     "bleed_rate": 20,
     "vision_day": 50,
     "vision_night": 50,
@@ -584,7 +569,8 @@
       "ARTHROPOD_BLOOD",
       "NO_BREATHE",
       "HARDTOSHOOT"
-    ]
+    ],
+    "armor": { "cut": 50, "bullet": 40, "electric": 1 }
   },
   {
     "id": "mon_hound_tindalos_afterimage",
@@ -608,9 +594,6 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
     "dodge": 5,
-    "armor_cut": 50,
-    "armor_bullet": 40,
-    "armor_elec": 1,
     "bleed_rate": 0,
     "vision_day": 50,
     "vision_night": 50,
@@ -630,7 +613,8 @@
       "ARTHROPOD_BLOOD",
       "NO_BREATHE",
       "HARDTOSHOOT"
-    ]
+    ],
+    "armor": { "cut": 50, "bullet": 40, "electric": 1 }
   },
   {
     "id": "mon_human_snail",
@@ -652,15 +636,13 @@
     "melee_dice": 1,
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "armor_bash": 6,
-    "armor_cut": 12,
-    "armor_bullet": 10,
     "harvest": "demihuman_snail",
     "families": [ "prof_wp_demihuman" ],
     "dissect": "dissect_gastropod_sample_large",
     "special_attacks": [ [ "ACID", 15 ] ],
     "anger_triggers": [ "PLAYER_WEAK", "FRIEND_DIED" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "ACIDPROOF", "ACID_BLOOD" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "ACIDPROOF", "ACID_BLOOD" ],
+    "armor": { "bash": 6, "cut": 12, "bullet": 10 }
   },
   {
     "id": "mon_hunting_horror",
@@ -682,7 +664,6 @@
     "melee_dice_sides": 12,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "dodge": 8,
-    "armor_elec": 1,
     "harvest": "exempt",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
@@ -698,7 +679,8 @@
       "NO_BREATHE",
       "HIT_AND_RUN",
       "NOGIB"
-    ]
+    ],
+    "armor": { "electric": 1 }
   },
   {
     "id": "mon_kreck",
@@ -722,15 +704,14 @@
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 8,
-    "armor_cut": 5,
-    "armor_bullet": 4,
     "bleed_rate": 40,
     "vision_day": 50,
     "//": "a good candidate for an alien anatomy harvest",
     "harvest": "exempt",
     "path_settings": { "max_dist": 10 },
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "BASHES", "HIT_AND_RUN", "NO_BREATHE", "NOGIB" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "BASHES", "HIT_AND_RUN", "NO_BREATHE", "NOGIB" ],
+    "armor": { "cut": 5, "bullet": 4 }
   },
   {
     "id": "mon_shadow",
@@ -765,7 +746,6 @@
       "SMELLS",
       "NOHEAD",
       "HARDTOSHOOT",
-      "GRABS",
       "WEBWALK",
       "FLIES",
       "PLASTIC",
@@ -824,10 +804,6 @@
     "melee_dice": 7,
     "melee_dice_sides": 5,
     "melee_damage": [ { "damage_type": "acid", "amount": 20 }, { "damage_type": "cut", "amount": 6 } ],
-    "armor_bash": 10,
-    "armor_cut": 30,
-    "armor_bullet": 24,
-    "armor_elec": 4,
     "harvest": "exempt",
     "path_settings": { "max_dist": 5 },
     "special_attacks": [ [ "PARROT", 400 ], [ "ABSORB_ITEMS", 0 ], [ "SPLIT", 5 ] ],
@@ -838,7 +814,8 @@
     "split_move_cost": 180,
     "absorb_move_cost_max": 300,
     "absorb_move_cost_per_ml": 0.025,
-    "flags": [ "SEES", "SMELLS", "SWIMS", "PLASTIC", "SLUDGEPROOF", "ACID_BLOOD", "ACIDPROOF", "NOHEAD", "NOGIB" ]
+    "flags": [ "SEES", "SMELLS", "SWIMS", "PLASTIC", "SLUDGEPROOF", "ACID_BLOOD", "ACIDPROOF", "NOHEAD", "NOGIB" ],
+    "armor": { "bash": 10, "cut": 30, "bullet": 24, "electric": 4 }
   },
   {
     "id": "mon_thing",
@@ -863,13 +840,12 @@
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 2,
-    "armor_bash": 8,
-    "armor_elec": 1,
     "bleed_rate": 20,
     "harvest": "exempt",
     "special_attacks": [ { "id": "tentacle" } ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
-    "flags": [ "SMELLS", "HEARS", "NOHEAD", "BASHES", "GROUP_BASH", "SWIMS", "ATTACKMON", "PLASTIC", "ACIDPROOF", "NOGIB", "CLIMBS" ]
+    "flags": [ "SMELLS", "HEARS", "NOHEAD", "BASHES", "GROUP_BASH", "SWIMS", "ATTACKMON", "PLASTIC", "ACIDPROOF", "NOGIB", "CLIMBS" ],
+    "armor": { "bash": 8, "electric": 1 }
   },
   {
     "id": "mon_twisted_body",
@@ -921,12 +897,11 @@
     "melee_dice_sides": 5,
     "melee_damage": [ { "damage_type": "cut", "amount": 8 } ],
     "dodge": 1,
-    "armor_bash": 6,
-    "armor_elec": 3,
     "bleed_rate": 50,
     "harvest": "meatslug",
     "special_attacks": [ [ "GENE_STING", 20 ] ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "BASHES", "DESTROYS", "POISON", "VENOM", "NO_BREATHE", "DIGS" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "BASHES", "DESTROYS", "POISON", "VENOM", "NO_BREATHE", "DIGS" ],
+    "armor": { "bash": 6, "electric": 3 }
   },
   {
     "id": "mon_vortex",
@@ -1073,9 +1048,10 @@
     "melee_dice": 1,
     "melee_dice_sides": 1,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "special_attacks": [ [ "GRAB", 2 ], [ "PARROT", 4 ] ],
+    "grab_strength": 20,
+    "special_attacks": [ { "id": "grab", "cooldown": 2 }, [ "PARROT", 4 ] ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s begins to cry as it disappears." },
-    "flags": [ "NO_BREATHE", "PUSH_MON", "GROUP_BASH" ]
+    "flags": [ "NO_BREATHE", "GRABS", "PUSH_MON", "GROUP_BASH" ]
   },
   {
     "id": "mon_swarm_structure",
@@ -1092,9 +1068,6 @@
     "color": "dark_gray",
     "aggression": 100,
     "morale": 100,
-    "armor_bash": 5,
-    "armor_cut": 5,
-    "armor_bullet": 5,
     "special_attacks": [
       {
         "type": "spell",
@@ -1104,7 +1077,8 @@
       }
     ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "Your memory can't decide whether the %s was even there in the first place." },
-    "flags": [ "IMMOBILE", "NO_BREATHE", "SEES", "HEARS", "RANGED_ATTACKER" ]
+    "flags": [ "IMMOBILE", "NO_BREATHE", "SEES", "HEARS", "RANGED_ATTACKER" ],
+    "armor": { "bash": 5, "cut": 5, "bullet": 5 }
   },
   {
     "id": "mon_twisting_blade",
@@ -1150,12 +1124,6 @@
     "morale": 100,
     "anger_triggers": [ "HURT" ],
     "speed": 75,
-    "armor_bash": 20,
-    "armor_cut": 20,
-    "armor_stab": 20,
-    "armor_bullet": 20,
-    "armor_fire": 20,
-    "armor_elec": 20,
     "bleed_rate": 0,
     "special_attacks": [
       [ "TENTACLE", 2 ],
@@ -1171,7 +1139,8 @@
       "message": "The material stabilizes and reforms itself into a small chunk of unknown composition."
     },
     "death_drops": "ps_artifact_weak",
-    "flags": [ "COLDPROOF", "SEES", "HEARS", "NO_BREATHE", "STUN_IMMUNE", "NOHEAD", "ACIDPROOF" ]
+    "flags": [ "COLDPROOF", "SEES", "HEARS", "NO_BREATHE", "STUN_IMMUNE", "NOHEAD", "ACIDPROOF" ],
+    "armor": { "bash": 20, "cut": 20, "stab": 20, "heat": 20, "bullet": 20, "electric": 20 }
   },
   {
     "id": "mon_archunk_medium",
@@ -1181,14 +1150,9 @@
     "description": "This formless, pitch-black mass wriggles and pulses on the ground as it reshapes itself before your eyes.  It slowly drags itself towards you with many tendrils of varied sizes.  As it gets closer to you, its pulsing intensifies as if it reacted to you.",
     "symbol": "H",
     "hp": 315,
-    "armor_bash": 25,
-    "armor_cut": 25,
-    "armor_stab": 25,
-    "armor_bullet": 25,
-    "armor_fire": 25,
-    "armor_elec": 25,
     "color": "dark_gray",
-    "death_drops": "ps_artifact_medium"
+    "death_drops": "ps_artifact_medium",
+    "armor": { "bash": 25, "cut": 25, "stab": 25, "heat": 25, "bullet": 25, "electric": 25 }
   },
   {
     "id": "mon_archunk_strong",
@@ -1198,15 +1162,10 @@
     "description": "This formless, pitch-black mass wriggles violently and noisily on the ground as it reshapes itself before your eyes.  It slowly drags itself towards you with many tendrils of varied sizes sparkling with electricity.  As it gets closer to you, its wriggling intensifies and its sparks grow brighter as if it reacted to you.",
     "symbol": "H",
     "hp": 445,
-    "armor_bash": 30,
-    "armor_cut": 30,
-    "armor_stab": 30,
-    "armor_bullet": 30,
-    "armor_fire": 30,
-    "armor_elec": 30,
     "color": "dark_gray",
     "emit_fields": [ { "emit_id": "emit_shock_cloud", "delay": "1 s" } ],
-    "death_drops": "ps_artifact_strong"
+    "death_drops": "ps_artifact_strong",
+    "armor": { "bash": 30, "cut": 30, "stab": 30, "heat": 30, "bullet": 30, "electric": 30 }
   },
   {
     "id": "mon_pale_reflection",
@@ -1272,9 +1231,6 @@
     "name": { "str": "mercenary officer" },
     "copy-from": "mon_zombie_bio_op",
     "hp": 150,
-    "armor_bash": 30,
-    "armor_cut": 30,
-    "armor_bullet": 40,
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "ACIDPROOF", "NO_BREATHE" ],
     "death_drops": "xedra_officer_set",
     "bleed_rate": 0,
@@ -1288,7 +1244,8 @@
         "monster_message": "The creature screams \"SOMEONE HELP ME, ANYONE!\"."
       }
     ],
-    "death_function": { "effect": { "id": "mon_XEDRA_officer_banish", "hit_self": true } }
+    "death_function": { "effect": { "id": "mon_XEDRA_officer_banish", "hit_self": true } },
+    "armor": { "electric": 3, "bash": 30, "cut": 30, "bullet": 40 }
   },
   {
     "id": "mon_XEDRA_soldier",
@@ -1400,5 +1357,34 @@
     ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s fades away." },
     "flags": [ "SEES", "HEARS", "NO_BREATHE", "PUSH_MON", "ALWAYS_VISIBLE", "ALWAYS_SEES_YOU" ]
+  },
+  {
+    "id": "mon_nether_fish",
+    "type": "MONSTER",
+    "name": { "str": "nether fish symbiote" },
+    "description": "A small fish symbiote that resembles a deformed, eyeless piranha.  It swims blindly in the yellow ichor, wriggling incessantly with malicious intent.",
+    "default_faction": "nether",
+    "bodytype": "fish",
+    "species": [ "NETHER" ],
+    "volume": "1500 ml",
+    "weight": "1000 g",
+    "hp": 25,
+    "speed": 100,
+    "material": [ "flesh" ],
+    "symbol": "^",
+    "color": "white_magenta",
+    "aggression": 100,
+    "morale": 105,
+    "melee_skill": 4,
+    "melee_dice": 1,
+    "melee_dice_sides": 5,
+    "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
+    "dodge": 5,
+    "armor": { "bash": 0, "cut": 2, "bullet": 0 },
+    "luminance": 0,
+    "harvest": "fish_small",
+    "looks_like": "mon_fish_brown_trout",
+    "fear_triggers": [ "FIRE" ],
+    "flags": [ "HEARS", "WARM", "SWIMS", "AQUATIC", "NO_BREATHE", "WATER_CAMOUFLAGE", "ARTHROPOD_BLOOD", "GOODHEARING", "ANIMAL" ]
   }
 ]

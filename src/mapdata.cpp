@@ -603,7 +603,7 @@ void map_data_common_t::load_symbol( const JsonObject &jo, const std::string &co
     if( has_color && has_bgcolor ) {
         jo.throw_error( "Found both color and bgcolor, only one of these is allowed." );
     } else if( has_color ) {
-        load_season_array( jo, "color", context, color_, []( const std::string & str ) {
+        load_season_array( jo, "color", context, color_, []( const std::string_view str ) {
             // has to use a lambda because of default params
             return color_from_string( str );
         } );
@@ -1378,13 +1378,15 @@ void init_mapdata()
 void map_data_common_t::load( const JsonObject &jo, const std::string & )
 {
     if( jo.has_string( "examine_action" ) ) {
+        examine_actor = nullptr;
         examine_func = iexamine_functions_from_string( jo.get_string( "examine_action" ) );
     } else if( jo.has_object( "examine_action" ) ) {
         JsonObject data = jo.get_object( "examine_action" );
         examine_actor = iexamine_actor_from_jsobj( data );
         examine_actor->load( data );
         examine_func = iexamine_functions_from_string( "invalid" );
-    } else {
+    } else if( !was_loaded ) {
+        examine_actor = nullptr;
         examine_func = iexamine_functions_from_string( "none" );
     }
 

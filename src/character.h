@@ -290,6 +290,7 @@ struct queued_eoc {
     public:
         effect_on_condition_id eoc;
         time_point time;
+        std::unordered_map<std::string, std::string> context;
 };
 
 struct eoc_compare {
@@ -1038,22 +1039,8 @@ class Character : public Creature, public visitable
         void roll_all_damage( bool crit, damage_instance &di, bool average, const item &weap,
                               const std::string &attack_vector,
                               const Creature *target, const bodypart_id &bp ) const;
-        /** Adds player's total bash damage to the damage instance */
-        void roll_bash_damage( bool crit, damage_instance &di, bool average, const item &weap,
-                               const std::string &attack_vector,
-                               float crit_mod ) const;
-        /** Adds player's total cut damage to the damage instance */
-        void roll_cut_damage( bool crit, damage_instance &di, bool average, const item &weap,
-                              const std::string &attack_vector,
-                              float crit_mod ) const;
-        /** Adds player's total stab damage to the damage instance */
-        void roll_stab_damage( bool crit, damage_instance &di, bool average, const item &weap,
-                               const std::string &attack_vector,
-                               float crit_mod ) const;
-        /** Adds player's total non-bash, non-cut, non-stab damage to the damage instance */
-        void roll_other_damage( bool crit, damage_instance &di, bool average, const item &weap,
-                                const std::string &attack_vector,
-                                float crit_mod ) const;
+        void roll_damage( const damage_type_id &dt, bool crit, damage_instance &di, bool average,
+                          const item &weap, const std::string &attack_vector, float crit_mod ) const;
 
         /** Returns true if the player should be dead */
         bool is_dead_state() const override;
@@ -1155,12 +1142,9 @@ class Character : public Creature, public visitable
          * Check for passive bionics that provide armor, and returns the armor bonus
          * This is called from player::passive_absorb_hit
          */
-        float bionic_armor_bonus( const bodypart_id &bp, damage_type dt ) const;
+        float bionic_armor_bonus( const bodypart_id &bp, const damage_type_id &dt ) const;
         /** Returns the armor bonus against given type from martial arts buffs */
-        int mabuff_armor_bonus( damage_type type ) const;
-        /** Returns overall fire resistance */
-        std::map<bodypart_id, int> get_armor_fire( const std::map<bodypart_id, std::vector<const item *>>
-                &clothing_map ) const;
+        int mabuff_armor_bonus( const damage_type_id &type ) const;
         // --------------- Mutation Stuff ---------------
         // In newcharacter.cpp
         /** Returns the id of a random starting trait that costs >= 0 points */
@@ -1389,11 +1373,11 @@ class Character : public Creature, public visitable
         /** Returns the speed bonus from martial arts buffs */
         int mabuff_speed_bonus() const;
         /** Returns the arpen bonus from martial arts buffs*/
-        int mabuff_arpen_bonus( damage_type type ) const;
+        int mabuff_arpen_bonus( const damage_type_id &type ) const;
         /** Returns the damage multiplier to given type from martial arts buffs */
-        float mabuff_damage_mult( damage_type type ) const;
+        float mabuff_damage_mult( const damage_type_id &type ) const;
         /** Returns the flat damage bonus to given type from martial arts buffs, applied after the multiplier */
-        int mabuff_damage_bonus( damage_type type ) const;
+        int mabuff_damage_bonus( const damage_type_id &type ) const;
         /** Returns the flat penalty to move cost of attacks. If negative, that's a bonus. Applied after multiplier. */
         int mabuff_attack_cost_penalty() const;
         /** Returns the multiplier on move cost of attacks. */
@@ -1469,7 +1453,7 @@ class Character : public Creature, public visitable
         /// @brief Returns resistances on a body part provided by mutations
         /// @todo Cache this, it's kinda expensive to compute
         resistances mutation_armor( bodypart_id bp ) const;
-        float mutation_armor( bodypart_id bp, damage_type dt ) const;
+        float mutation_armor( bodypart_id bp, const damage_type_id &dt ) const;
         float mutation_armor( bodypart_id bp, const damage_unit &du ) const;
 
         /** gives every mutation in a category, optionally including post-thresh mutations */
@@ -2323,7 +2307,7 @@ class Character : public Creature, public visitable
         /** Returns true if the player is immune to this kind of effect */
         bool is_immune_effect( const efftype_id & ) const override;
         /** Returns true if the player is immune to this kind of damage */
-        bool is_immune_damage( damage_type ) const override;
+        bool is_immune_damage( const damage_type_id & ) const override;
         /** Returns true if the player is protected from radiation */
         bool is_rad_immune() const;
         /** Returns true if the player's melee skill increases the bash damage weapon cap */
@@ -2617,8 +2601,10 @@ class Character : public Creature, public visitable
         void assign_activity( const activity_id &type, int moves = calendar::INDEFINITELY_LONG,
                               int index = -1, int pos = INT_MIN,
                               const std::string &name = "" );
-        /** Assigns activity to player, possibly resuming old activity if it's similar enough. */
-        void assign_activity( const player_activity &act, bool allow_resume = true );
+        /** Assigns activity to player, possibly resuming old activity if it's defined resumable. */
+        void assign_activity( const player_activity &act );
+        /** Assigns activity actor to player, possibly resuming old activity if it's defined resumable. */
+        void assign_activity( const activity_actor &actor );
         /** Check if player currently has a given activity */
         bool has_activity( const activity_id &type ) const;
         /** Check if player currently has any of the given activities */
@@ -2691,25 +2677,11 @@ class Character : public Creature, public visitable
         // outputs player activity level to a printable string
         std::string activity_level_str() const;
 
-        /** Returns overall bashing resistance for the body_part */
-        int get_armor_bash( bodypart_id bp ) const override;
-        /** Returns overall cutting resistance for the body_part */
-        int get_armor_cut( bodypart_id bp ) const override;
-        /** Returns overall bullet resistance for the body_part */
-        int get_armor_bullet( bodypart_id bp ) const override;
-        /** Returns bashing resistance from the creature and armor only */
-        int get_armor_bash_base( bodypart_id bp ) const override;
-        /** Returns cutting resistance from the creature and armor only */
-        int get_armor_cut_base( bodypart_id bp ) const override;
-        /** Returns cutting resistance from the creature and armor only */
-        int get_armor_bullet_base( bodypart_id bp ) const override;
         /** Returns overall env_resist on a body_part */
         int get_env_resist( bodypart_id bp ) const override;
-        /** Returns overall acid resistance for the body part */
-        int get_armor_acid( bodypart_id bp ) const;
         /** Returns overall resistance to given type on the bod part */
-        int get_armor_type( damage_type dt, bodypart_id bp ) const override;
-        std::map<bodypart_id, int> get_all_armor_type( damage_type dt,
+        int get_armor_type( const damage_type_id &dt, bodypart_id bp ) const override;
+        std::map<bodypart_id, int> get_all_armor_type( const damage_type_id &dt,
                 const std::map<bodypart_id, std::vector<const item *>> &clothing_map ) const;
 
         int get_stim() const;
@@ -2781,8 +2753,8 @@ class Character : public Creature, public visitable
                                             const std::optional<tripoint> &blind_throw_from_pos = std::nullopt );
 
     protected:
-        void on_damage_of_type( const effect_source &source, int adjusted_damage, damage_type type,
-                                const bodypart_id &bp ) override;
+        void on_damage_of_type( const effect_source &source, int adjusted_damage,
+                                const damage_type_id &dt, const bodypart_id &bp ) override;
     public:
         /** Called when an item is worn */
         void on_item_wear( const item &it );

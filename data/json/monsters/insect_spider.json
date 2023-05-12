@@ -1,6 +1,6 @@
 [
   {
-    "id": "mon_larva_abstract",
+    "abstract": "mon_larva_abstract",
     "type": "MONSTER",
     "name": { "str": "larva", "str_pl": "larvae" },
     "description": "A fake monster.  If you're seeing this something went wrong.",
@@ -49,15 +49,14 @@
     "melee_dice": 2,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
-    "armor_elec": 3,
     "dodge": 4,
-    "armor_bash": 6,
     "bleed_rate": 60,
     "harvest": "arachnid_acid",
     "dissect": "dissect_troglobite_sample_small",
     "fear_triggers": [ "FIRE" ],
     "zombify_into": "mon_meat_cocoon_med",
-    "flags": [ "SMELLS", "HEARS", "GOODHEARING", "BASHES", "BORES", "POISON", "SUNDEATH", "ACIDPROOF", "ACIDTRAIL" ]
+    "flags": [ "SMELLS", "HEARS", "GOODHEARING", "BASHES", "BORES", "POISON", "SUNDEATH", "ACIDPROOF", "ACIDTRAIL" ],
+    "armor": { "bash": 6, "electric": 3 }
   },
   {
     "id": "mon_graboid",
@@ -80,10 +79,6 @@
     "melee_dice": 3,
     "melee_dice_sides": 12,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-    "armor_bash": 12,
-    "armor_cut": 8,
-    "armor_bullet": 6,
-    "armor_elec": 2,
     "bleed_rate": 60,
     "harvest": "meatslug",
     "dissect": "dissect_troglobite_sample_large",
@@ -95,7 +90,8 @@
       "corpse_type": "NO_CORPSE"
     },
     "zombify_into": "mon_meat_cocoon_med",
-    "flags": [ "DIGS", "HEARS", "POISON", "GOODHEARING", "BASHES", "DESTROYS", "ATTACK_LOWER" ]
+    "flags": [ "DIGS", "HEARS", "POISON", "GOODHEARING", "BASHES", "DESTROYS", "ATTACK_LOWER" ],
+    "armor": { "bash": 12, "cut": 8, "bullet": 6, "electric": 2 }
   },
   {
     "id": "mon_halfworm",
@@ -118,12 +114,12 @@
     "melee_dice": 2,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "armor_bash": 2,
     "harvest": "mutant_meatslug",
     "dissect": "dissect_troglobite_sample_single",
     "upgrades": { "age_grow": 10, "into": "mon_worm" },
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "DIGS", "HEARS", "GOODHEARING", "ATTACK_LOWER" ]
+    "flags": [ "DIGS", "HEARS", "GOODHEARING", "ATTACK_LOWER" ],
+    "armor": { "bash": 2 }
   },
   {
     "id": "mon_worm",
@@ -146,7 +142,6 @@
     "melee_dice": 4,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
-    "armor_bash": 2,
     "harvest": "mutant_meatslug",
     "dissect": "dissect_troglobite_sample_small",
     "reproduction": { "baby_egg": "egg_worm", "baby_count": 1, "baby_timer": 30 },
@@ -157,7 +152,8 @@
       "corpse_type": "NO_CORPSE"
     },
     "upgrades": { "half_life": 60, "into": "mon_graboid" },
-    "flags": [ "DIGS", "HEARS", "GOODHEARING", "ATTACK_LOWER" ]
+    "flags": [ "DIGS", "HEARS", "GOODHEARING", "ATTACK_LOWER" ],
+    "armor": { "bash": 2 }
   },
   {
     "id": "mon_worm_small",
@@ -227,9 +223,6 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
     "dodge": 1,
-    "armor_bash": 5,
-    "armor_cut": 7,
-    "armor_bullet": 6,
     "weakpoint_sets": [ "wps_arthropod" ],
     "families": [ "prof_wp_basic_bug" ],
     "vision_day": 5,
@@ -242,7 +235,8 @@
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK" ],
     "special_attacks": [ [ "EAT_FOOD", 60 ] ],
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "STUMBLES", "PATH_AVOID_FIRE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "STUMBLES", "PATH_AVOID_FIRE" ],
+    "armor": { "bash": 5, "cut": 7, "bullet": 6 }
   },
   {
     "id": "mon_plague_nymph",
@@ -284,9 +278,6 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 7 } ],
     "dodge": 1,
-    "armor_bash": 5,
-    "armor_cut": 10,
-    "armor_bullet": 8,
     "weakpoint_sets": [ "wps_arthropod" ],
     "families": [ "prof_wp_basic_bug" ],
     "vision_day": 5,
@@ -298,7 +289,8 @@
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK" ],
     "special_attacks": [ [ "EAT_FOOD", 40 ] ],
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "STUMBLES", "PATH_AVOID_FIRE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "STUMBLES", "PATH_AVOID_FIRE" ],
+    "armor": { "bash": 5, "cut": 10, "bullet": 8 }
   },
   {
     "id": "mon_giant_cockroach",
@@ -322,9 +314,6 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
     "dodge": 1,
-    "armor_bash": 5,
-    "armor_cut": 10,
-    "armor_bullet": 8,
     "weakpoint_sets": [ "wps_arthropod" ],
     "families": [ "prof_wp_basic_bug" ],
     "vision_day": 5,
@@ -337,7 +326,8 @@
     "upgrades": { "age_grow": 35, "into": "mon_pregnant_giant_cockroach" },
     "special_attacks": [ [ "EAT_FOOD", 60 ] ],
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FIRE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FIRE" ],
+    "armor": { "bash": 5, "cut": 10, "bullet": 8 }
   },
   {
     "id": "mon_giant_cockroach_nymph",
@@ -400,9 +390,6 @@
     "attack_effs": [ { "id": "venom_weaken", "duration": 150 } ],
     "//": "21 hits to max intensity, 25 hits to max duration",
     "dodge": 4,
-    "armor_bash": 4,
-    "armor_cut": 6,
-    "armor_bullet": 5,
     "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_flying", "wps_arthropod_hymenoptera" ],
     "families": [ "prof_wp_basic_bug", "prof_wp_hymenoptera" ],
     "vision_day": 10,
@@ -413,7 +400,8 @@
     "fear_triggers": [ "FIRE" ],
     "upgrades": { "half_life": 42, "into": "mon_bee_mega" },
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SEES", "SMELLS", "FLIES", "STUMBLES", "SWARMS", "GROUP_MORALE", "CANPLAY", "PATH_AVOID_FIRE" ]
+    "flags": [ "SEES", "SMELLS", "FLIES", "STUMBLES", "SWARMS", "GROUP_MORALE", "CANPLAY", "PATH_AVOID_FIRE" ],
+    "armor": { "bash": 4, "cut": 6, "bullet": 5 }
   },
   {
     "id": "mon_bee_mega",
@@ -426,11 +414,11 @@
     "weight": "815 kg",
     "melee_dice": 3,
     "dodge": 2,
-    "armor_elec": 1,
     "dissect": "dissect_insect_sample_small",
     "special_attacks": [ { "id": "impale" } ],
     "zombify_into": "mon_meat_cocoon_large",
-    "extend": { "flags": [ "DESTROYS", "PUSH_MON", "PUSH_VEH" ] }
+    "extend": { "flags": [ "DESTROYS", "PUSH_MON", "PUSH_VEH" ] },
+    "armor": { "bash": 4, "cut": 6, "bullet": 5, "electric": 1 }
   },
   {
     "id": "mon_centipede_small",
@@ -461,19 +449,17 @@
         "max_mul": 5.4,
         "//": "Bite does 6-10 dmg, armor penetration 5, 8 hits to max venom intensity",
         "effects": [ { "id": "venom_dmg", "duration": 250, "affect_hit_bp": true } ],
-        "forbidden_effects_any": [ "maimed_mandible" ]
+        "condition": { "not": { "u_has_effect": "maimed_mandible" } }
       }
     ],
     "dodge": 4,
-    "armor_bash": 1,
-    "armor_cut": 3,
-    "armor_bullet": 2,
-    "armor_stab": 2,
     "dissect": "dissect_insect_sample_single",
     "anger_triggers": [ "PLAYER_CLOSE" ],
     "fear_triggers": [ "HURT" ],
     "zombify_into": "mon_meat_cocoon_tiny",
-    "upgrades": { "age_grow": 30, "into_group": "GROUP_CENTIPEDE_ADULT" }
+    "upgrades": { "age_grow": 30, "into_group": "GROUP_CENTIPEDE_ADULT" },
+    "armor": { "bash": 1, "cut": 3, "stab": 2, "bullet": 2 },
+    "delete": { "flags": [ "GRABS" ] }
   },
   {
     "id": "mon_centipede_giant",
@@ -498,8 +484,9 @@
     "melee_dice": 2,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
+    "grab_strength": 35,
     "special_attacks": [
-      [ "GRAB", 5 ],
+      { "id": "grab", "cooldown": 5, "condition": { "not": { "u_has_effect": "maimed_leg" } } },
       {
         "type": "bite",
         "cooldown": 3,
@@ -509,15 +496,11 @@
         "max_mul": 2.1,
         "infection_chance": 4,
         "effects": [ { "id": "venom_dmg", "duration": 500, "affect_hit_bp": true } ],
-        "forbidden_effects_any": [ "maimed_mandible" ]
+        "condition": { "not": { "u_has_effect": "maimed_mandible" } }
       }
     ],
     "//": "10-20 dmg, 4 hits to max intensity, 5 hits to max duration",
     "dodge": 2,
-    "armor_bash": 10,
-    "armor_cut": 25,
-    "armor_bullet": 12,
-    "armor_stab": 14,
     "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_centipede" ],
     "families": [ "prof_wp_basic_bug", "prof_wp_centipede" ],
     "bleed_rate": 80,
@@ -528,7 +511,8 @@
     "dissect": "dissect_insect_sample_small",
     "upgrades": { "age_grow": 45, "into_group": "GROUP_CENTIPEDE_GIANT" },
     "zombify_into": "mon_meat_cocoon_med",
-    "flags": [ "CLIMBS", "SEES", "SMELLS", "KEENNOSE", "HEARS", "GOODHEARING", "PATH_AVOID_FIRE" ]
+    "flags": [ "CLIMBS", "SEES", "GRABS", "SMELLS", "KEENNOSE", "HEARS", "GOODHEARING", "PATH_AVOID_FIRE" ],
+    "armor": { "bash": 10, "cut": 25, "stab": 14, "bullet": 12 }
   },
   {
     "id": "mon_centipede_larva",
@@ -549,8 +533,6 @@
     "melee_dice": 1,
     "melee_dice_sides": 6,
     "dodge": 3,
-    "armor_bash": 1,
-    "armor_cut": 2,
     "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
     "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_centipede" ],
     "families": [ "prof_wp_basic_bug", "prof_wp_centipede" ],
@@ -569,10 +551,11 @@
         "max_mul": 2.1,
         "infection_chance": 4,
         "effects": [ { "id": "venom_dmg", "duration": 500, "affect_hit_bp": true } ],
-        "forbidden_effects_any": [ "maimed_mandible" ]
+        "condition": { "not": { "u_has_effect": "maimed_mandible" } }
       }
     ],
-    "anger_triggers": [ "PLAYER_CLOSE" ]
+    "anger_triggers": [ "PLAYER_CLOSE" ],
+    "armor": { "bash": 1, "cut": 2 }
   },
   {
     "id": "mon_centipede_mom",
@@ -591,8 +574,9 @@
     "aggro_character": false,
     "melee_skill": 3,
     "melee_dice_sides": 5,
+    "grab_strength": 25,
     "special_attacks": [
-      [ "GRAB", 8 ],
+      { "id": "grab", "cooldown": 8, "condition": { "not": { "u_has_effect": "maimed_leg" } } },
       {
         "type": "bite",
         "move_cost": 120,
@@ -602,7 +586,7 @@
         "max_mul": 2.1,
         "infection_chance": 4,
         "effects": [ { "id": "venom_dmg", "duration": 500, "affect_hit_bp": true } ],
-        "forbidden_effects_any": [ "maimed_mandible" ]
+        "condition": { "not": { "u_has_effect": "maimed_mandible" } }
       },
       {
         "type": "spell",
@@ -612,7 +596,6 @@
       }
     ],
     "dodge": 0,
-    "armor_elec": 1,
     "proportional": { "vision_day": 0.5, "vision_night": 0.5 },
     "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
     "harvest": "arachnid_centipede_mom",
@@ -621,7 +604,8 @@
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "upgrades": { "age_grow": 45, "into_group": "GROUP_CENTIPEDE_MOM" },
     "zombify_into": "mon_meat_cocoon_large",
-    "delete": { "flags": [ "KEENNOSE", "GOODHEARING" ] }
+    "delete": { "flags": [ "KEENNOSE", "GOODHEARING" ] },
+    "armor": { "bash": 10, "cut": 25, "stab": 14, "bullet": 12, "electric": 1 }
   },
   {
     "id": "mon_centipede_mega",
@@ -647,7 +631,9 @@
     "melee_dice": 3,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "stab", "amount": 15, "armor_penetration": 25 } ],
+    "grab_strength": 75,
     "special_attacks": [
+      { "id": "grab", "cooldown": 5, "condition": { "not": { "u_has_effect": "maimed_leg" } } },
       [ "GRAB_DRAG", 12 ],
       {
         "type": "bite",
@@ -658,15 +644,10 @@
         "max_mul": 1.1,
         "infection_chance": 3,
         "effects": [ { "id": "venom_dmg", "duration": 750, "affect_hit_bp": true } ],
-        "forbidden_effects_any": [ "maimed_mandible" ]
+        "condition": { "not": { "u_has_effect": "maimed_mandible" } }
       }
     ],
     "//": "3 hits to max intensity, 4 to max duration",
-    "armor_bash": 25,
-    "armor_bullet": 45,
-    "armor_cut": 35,
-    "armor_stab": 15,
-    "armor_elec": 3,
     "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_centipede" ],
     "families": [ "prof_wp_basic_bug", "prof_wp_centipede" ],
     "bleed_rate": 60,
@@ -676,7 +657,8 @@
     "harvest": "arachnid_centipede_mega",
     "dissect": "dissect_insect_sample_large",
     "zombify_into": "mon_meat_cocoon_large",
-    "flags": [ "SEES", "SMELLS", "KEENNOSE", "HEARS", "GOODHEARING", "PATH_AVOID_DANGER_1", "DESTROYS", "PUSH_MON", "PUSH_VEH" ]
+    "flags": [ "SEES", "SMELLS", "KEENNOSE", "HEARS", "GOODHEARING", "PATH_AVOID_DANGER_1", "DESTROYS", "PUSH_MON", "PUSH_VEH" ],
+    "armor": { "bash": 25, "cut": 35, "stab": 15, "bullet": 45, "electric": 3 }
   },
   {
     "id": "mon_dragonfly_naiad",
@@ -709,7 +691,7 @@
         "no_dmg_msg_npc": "%1$s's mouthpart hits <npcname>'s %2$s, but it glances off their armor!",
         "miss_msg_u": "%s thrusts its mouthpart at you, but you dodge!",
         "miss_msg_npc": "%s thrusts its mouthpart at <npcname>, but they dodge!",
-        "forbidden_effects_any": [ "maimed_mandible" ]
+        "condition": { "not": { "u_has_effect": "maimed_mandible" } }
       }
     ],
     "dodge": 3,
@@ -745,8 +727,13 @@
     "melee_dice": 1,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 8, "armor_penetration": 10 } ],
+    "grab_strength": 20,
     "special_attacks": [
-      [ "GRAB", 100 ],
+      {
+        "id": "grab",
+        "cooldown": 100,
+        "condition": { "and": [ { "not": { "u_has_effect": "maimed_leg" } }, { "not": { "u_has_effect": "maimed_wings" } } ] }
+      },
       {
         "type": "bite",
         "cooldown": 6,
@@ -754,7 +741,8 @@
         "move_cost": 300,
         "damage_max_instance": [ { "damage_type": "cut", "amount": 6, "armor_penetration": 20 } ],
         "min_mul": 1,
-        "max_mul": 2
+        "max_mul": 2,
+        "condition": { "not": { "u_has_effect": "maimed_mandible" } }
       }
     ],
     "dodge": 2,
@@ -768,7 +756,7 @@
     "fear_triggers": [ "HURT", "FIRE" ],
     "upgrades": { "age_grow": 60, "into": "mon_dragonfly_mega" },
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SWARMS", "HEARS", "SEES", "FLIES", "PATH_AVOID_FIRE" ]
+    "flags": [ "SWARMS", "HEARS", "SEES", "FLIES", "GRABS", "PATH_AVOID_FIRE" ]
   },
   {
     "id": "mon_dragonfly_mega",
@@ -798,7 +786,6 @@
         "damage_max_instance": [ { "damage_type": "cut", "amount": 40, "armor_penetration": 20 } ]
       }
     ],
-    "armor_elec": 2,
     "weakpoint_sets": [ "wps_arthropod" ],
     "families": [ "prof_wp_basic_bug" ],
     "vision_day": 30,
@@ -809,7 +796,8 @@
     "reproduction": { "baby_egg": "egg_dragonfly", "baby_count": 3, "baby_timer": 1 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "zombify_into": "mon_meat_cocoon_large",
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "SWIMS", "BASHES", "PUSH_MON", "PUSH_VEH" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "SWIMS", "BASHES", "PUSH_MON", "PUSH_VEH" ],
+    "armor": { "electric": 2 }
   },
   {
     "id": "mon_firefly",
@@ -848,11 +836,9 @@
     "weight": "6 kg",
     "symbol": "y",
     "color": "yellow",
-    "armor_bash": 1,
-    "armor_cut": 2,
-    "armor_stab": 1,
     "dissect": "dissect_insect_sample_single",
-    "upgrades": { "age_grow": 30, "into": "mon_firefly" }
+    "upgrades": { "age_grow": 30, "into": "mon_firefly" },
+    "armor": { "bash": 1, "cut": 2, "stab": 1 }
   },
   {
     "id": "mon_fly_small",
@@ -1040,7 +1026,8 @@
     "upgrades": { "age_grow": 14, "into_group": "GROUP_SPIDER_CELLAR" },
     "delete": {
       "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK", "HOSTILE_SEEN" ],
-      "special_attacks": [ "GRAB" ],
+      "flags": [ "GRABS" ],
+      "special_attacks": [ "grab" ],
       "reproduction": { "baby_egg": "egg_spider_cellar", "baby_count": 3, "baby_timer": 15 },
       "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ]
     }
@@ -1068,21 +1055,18 @@
     "melee_dice": 1,
     "melee_dice_sides": 9,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
+    "grab_strength": 20,
     "special_attacks": [
-      [ "GRAB", 10 ],
+      { "id": "grab", "condition": { "not": { "u_has_effect": "maimed_leg" } } },
       {
         "type": "bite",
         "damage_max_instance": [ { "damage_type": "cut", "amount": 10 }, { "damage_type": "stab", "amount": 6 } ],
-        "forbidden_effects_any": [ "maimed_mandible" ],
+        "condition": { "not": { "u_has_effect": "maimed_mandible" } },
         "cooldown": 5,
         "effects": [ { "id": "venom_pain", "chance": 50, "duration": 350, "affect_hit_bp": true } ]
       }
     ],
     "dodge": 8,
-    "armor_bash": 1,
-    "armor_cut": 5,
-    "armor_bullet": 2,
-    "armor_acid": 3,
     "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_spider" ],
     "families": [ "prof_wp_basic_bug", "prof_wp_spider" ],
     "vision_day": 12,
@@ -1097,7 +1081,8 @@
     "fungalize_into": "mon_spider_fungus",
     "upgrades": { "age_grow": 14, "into_group": "GROUP_SPIDER_CELLAR_GIANT" },
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SEES", "SMELLS", "HEARS", "WEBWALK", "CLIMBS", "HARDTOSHOOT", "PATH_AVOID_DANGER_1" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "GRABS", "WEBWALK", "CLIMBS", "HARDTOSHOOT", "PATH_AVOID_DANGER_1" ],
+    "armor": { "bash": 1, "cut": 5, "acid": 3, "bullet": 2 }
   },
   {
     "id": "mon_spider_cellar_giant_s",
@@ -1127,7 +1112,7 @@
     "speed": 85,
     "aggression": -15,
     "morale": 10,
-    "special_attacks": [ [ "GRAB", 25 ] ],
+    "special_attacks": [ { "id": "grab", "cooldown": 25, "condition": { "not": { "u_has_effect": "maimed_leg" } } } ],
     "death_function": { "message": "The spiderlings fall to the ground!", "effect": { "id": "death_spider_cellar_mom", "hit_self": true } },
     "delete": { "flags": [ "HARDTOSHOOT" ], "anger_triggers": [ "PLAYER_WEAK" ] },
     "extend": { "flags": [ "STUMBLES" ] }
@@ -1140,17 +1125,17 @@
     "copy-from": "mon_spider_cellar_giant",
     "proportional": { "hp": 7, "weight": 5, "volume": 5, "speed": 1.2, "attack_cost": 1.2 },
     "morale": 50,
-    "grab_strength": 3,
     "melee_dice": 3,
     "melee_skill": 7,
+    "grab_strength": 75,
     "special_attacks": [
-      [ "GRAB", 5 ],
+      { "id": "grab", "cooldown": 5, "condition": { "not": { "u_has_effect": "maimed_leg" } } },
       [ "GRAB_DRAG", 10 ],
       {
         "type": "bite",
         "move_cost": 120,
         "damage_max_instance": [ { "damage_type": "cut", "amount": 10 }, { "damage_type": "stab", "amount": 8 } ],
-        "forbidden_effects_any": [ "maimed_mandible" ],
+        "condition": { "not": { "u_has_effect": "maimed_mandible" } },
         "cooldown": 3,
         "effects": [ { "id": "venom_pain", "chance": 50, "duration": 350, "affect_hit_bp": true } ]
       },
@@ -1159,15 +1144,10 @@
         "spell_data": { "id": "cellar_spider_leg_detach", "min_level": 1 },
         "monster_message": "The maimed legs start twitching erratically!",
         "cooldown": 15,
-        "required_effects_any": [ "maimed_leg" ]
+        "condition": { "u_has_effect": "maimed_leg" }
       }
     ],
     "dodge": 6,
-    "armor_acid": 5,
-    "armor_bash": 5,
-    "armor_cut": 7,
-    "armor_elec": 3,
-    "armor_stab": 7,
     "weakpoints": [
       {
         "id": "leg",
@@ -1223,7 +1203,8 @@
     "upgrades": false,
     "extend": { "anger_triggers": [ "HOSTILE_SEEN" ], "flags": [ "BASHES" ] },
     "zombify_into": "mon_meat_cocoon_med",
-    "dissect": "dissect_spider_sample_large"
+    "dissect": "dissect_spider_sample_large",
+    "armor": { "bullet": 2, "bash": 5, "cut": 7, "stab": 7, "acid": 5, "electric": 3 }
   },
   {
     "id": "mon_spider_cellar_leg",
@@ -1247,11 +1228,12 @@
     "melee_dice": 2,
     "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
-    "special_attacks": [ [ "SUICIDE", 180 ], [ "GRAB", 5 ] ],
+    "grab_strength": 10,
+    "special_attacks": [ { "id": "grab", "cooldown": 5 }, [ "SUICIDE", 180 ] ],
     "dodge": 7,
     "bleed_rate": 0,
     "death_function": { "corpse_type": "NO_CORPSE" },
-    "flags": [ "HEARS", "GOODHEARING", "STUMBLES", "WEBWALK", "ATTACKMON", "HARDTOSHOOT", "STUN_IMMUNE", "NOHEAD" ]
+    "flags": [ "HEARS", "GOODHEARING", "STUMBLES", "WEBWALK", "GRABS", "ATTACKMON", "HARDTOSHOOT", "STUN_IMMUNE", "NOHEAD" ]
   },
   {
     "id": "mon_spider_jumping_small",
@@ -1295,8 +1277,6 @@
     "attack_effs": [ { "id": "venom_weaken", "duration": 250 } ],
     "//": "13 hits to max intensity, 17 hits to max duration",
     "dodge": 8,
-    "armor_cut": 3,
-    "armor_bullet": 2,
     "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_spider" ],
     "families": [ "prof_wp_basic_bug", "prof_wp_spider" ],
     "vision_day": 5,
@@ -1306,13 +1286,20 @@
     "reproduction": { "baby_egg": "egg_spider_jumping", "baby_count": 3, "baby_timer": 15 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "special_attacks": [
-      { "type": "leap", "cooldown": 2, "max_range": 5, "allow_no_target": true, "forbidden_effects_any": [ "maimed_leg" ] }
+      {
+        "type": "leap",
+        "cooldown": 2,
+        "max_range": 5,
+        "allow_no_target": true,
+        "condition": { "not": { "u_has_effect": "maimed_leg" } }
+      }
     ],
     "anger_triggers": [ "PLAYER_CLOSE" ],
     "fungalize_into": "mon_spider_fungus",
     "upgrades": { "half_life": 42, "into": "mon_spider_jumping_mega" },
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SEES", "SMELLS", "HEARS", "HIT_AND_RUN", "CLIMBS", "PATH_AVOID_DANGER_1" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "HIT_AND_RUN", "CLIMBS", "PATH_AVOID_DANGER_1" ],
+    "armor": { "cut": 3, "bullet": 2 }
   },
   {
     "id": "mon_spider_jumping_giant_s",
@@ -1342,13 +1329,13 @@
     "volume": "625 L",
     "weight": "815 kg",
     "melee_dice": 2,
-    "armor_elec": 1,
     "death_function": {
       "effect": { "id": "death_explosion_mon_spider_jumping_mega", "hit_self": true },
       "corpse_type": "NO_CORPSE",
       "message": "The %s explodes!"
     },
-    "extend": { "flags": [ "DESTROYS", "PUSH_MON", "PUSH_VEH", "FLAMMABLE" ] }
+    "extend": { "flags": [ "DESTROYS", "PUSH_MON", "PUSH_VEH", "FLAMMABLE" ] },
+    "armor": { "cut": 3, "bullet": 2, "electric": 1 }
   },
   {
     "id": "mon_spider_trapdoor_small",
@@ -1388,10 +1375,9 @@
     "melee_dice": 1,
     "melee_dice_sides": 1,
     "melee_damage": [ { "damage_type": "cut", "amount": 8 } ],
+    "grab_strength": 30,
+    "special_attacks": [ { "id": "grab" } ],
     "dodge": 2,
-    "armor_bash": 4,
-    "armor_cut": 8,
-    "armor_bullet": 6,
     "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_spider" ],
     "families": [ "prof_wp_basic_bug", "prof_wp_spider" ],
     "vision_day": 5,
@@ -1403,7 +1389,8 @@
     "fungalize_into": "mon_spider_fungus",
     "upgrades": { "half_life": 42, "into": "mon_spider_trapdoor_mega" },
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "GRABS", "CAN_DIG", "WEBWALK", "CLIMBS", "PATH_AVOID_FIRE" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "GRABS", "CAN_DIG", "WEBWALK", "CLIMBS", "PATH_AVOID_FIRE" ],
+    "armor": { "bash": 4, "cut": 8, "bullet": 6 }
   },
   {
     "id": "mon_spider_trapdoor_s",
@@ -1435,7 +1422,7 @@
     "weight": "815 kg",
     "melee_dice": 2,
     "dissect": "dissect_spider_sample_small",
-    "special_attacks": [ [ "GRAB", 5 ] ],
+    "grab_strength": 75,
     "zombify_into": "mon_meat_cocoon_large",
     "extend": { "flags": [ "DESTROYS", "PUSH_MON", "PUSH_VEH" ] }
   },
@@ -1482,9 +1469,6 @@
     "attack_effs": [ { "id": "venom_dmg", "duration": 400, "affect_hit_bp": true } ],
     "//": "5 hits to max intensity, 6 hits to max duration",
     "dodge": 2,
-    "armor_bash": 2,
-    "armor_cut": 6,
-    "armor_bullet": 5,
     "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_spider" ],
     "families": [ "prof_wp_basic_bug", "prof_wp_spider" ],
     "vision_day": 5,
@@ -1498,7 +1482,8 @@
     "upgrades": { "half_life": 42, "into": "mon_spider_web_mega" },
     "zombify_into": "mon_meat_cocoon_small",
     "trap_avoids": [ "tr_sinkhole" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "WEBWALK", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "WEBWALK", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ],
+    "armor": { "bash": 2, "cut": 6, "bullet": 5 }
   },
   {
     "id": "mon_spider_web_mega",
@@ -1510,11 +1495,12 @@
     "volume": "625 L",
     "weight": "815 kg",
     "melee_dice": 2,
-    "armor_elec": 1,
     "dissect": "dissect_spider_sample_small",
-    "special_attacks": [ [ "GRAB", 5 ] ],
+    "grab_strength": 75,
+    "special_attacks": [ { "id": "grab", "cooldown": 5, "condition": { "not": { "u_has_effect": "maimed_leg" } } } ],
     "zombify_into": "mon_meat_cocoon_large",
-    "extend": { "flags": [ "DESTROYS", "PUSH_MON", "PUSH_VEH" ] }
+    "extend": { "flags": [ "DESTROYS", "PUSH_MON", "PUSH_VEH" ] },
+    "armor": { "bash": 2, "cut": 6, "bullet": 5, "electric": 1 }
   },
   {
     "id": "mon_spider_web_s",
@@ -1533,7 +1519,8 @@
     "vision_day": 5,
     "vision_night": 5,
     "upgrades": { "age_grow": 30, "into": "mon_spider_web" },
-    "extend": { "flags": [ "WEBWALK" ] }
+    "extend": { "flags": [ "WEBWALK" ] },
+    "armor": { "bash": 2, "cut": 6, "bullet": 5 }
   },
   {
     "id": "mon_spider_widow_small",
@@ -1575,9 +1562,6 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "dodge": 2,
-    "armor_bash": 2,
-    "armor_cut": 4,
-    "armor_bullet": 3,
     "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_spider" ],
     "families": [ "prof_wp_basic_bug", "prof_wp_spider" ],
     "vision_day": 5,
@@ -1590,7 +1574,8 @@
     "fungalize_into": "mon_spider_fungus",
     "upgrades": { "half_life": 42, "into": "mon_spider_widow_mega" },
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SEES", "SMELLS", "HEARS", "BADVENOM", "WEBWALK", "CLIMBS", "PATH_AVOID_FIRE" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "BADVENOM", "WEBWALK", "CLIMBS", "PATH_AVOID_FIRE" ],
+    "armor": { "bash": 2, "cut": 4, "bullet": 3 }
   },
   {
     "id": "mon_spider_widow_mega",
@@ -1603,7 +1588,8 @@
     "weight": "815 kg",
     "melee_dice": 3,
     "dissect": "dissect_spider_sample_large",
-    "special_attacks": [ [ "GRAB", 5 ] ],
+    "grab_strength": 75,
+    "special_attacks": [ { "id": "grab", "cooldown": 5, "condition": { "not": { "u_has_effect": "maimed_leg" } } } ],
     "zombify_into": "mon_meat_cocoon_large",
     "extend": { "flags": [ "DESTROYS", "PUSH_MON", "PUSH_VEH" ] }
   },
@@ -1624,7 +1610,8 @@
     "vision_day": 5,
     "vision_night": 5,
     "upgrades": { "age_grow": 30, "into": "mon_spider_widow_giant" },
-    "extend": { "flags": [ "WEBWALK" ] }
+    "extend": { "flags": [ "WEBWALK" ] },
+    "armor": { "bash": 2, "cut": 4, "bullet": 3 }
   },
   {
     "id": "mon_spider_wolf_small",
@@ -1668,9 +1655,6 @@
     "attack_effs": [ { "id": "venom_dmg", "duration": 400, "affect_hit_bp": true } ],
     "//": "5 hits to max intensity, 6 hits to max duration",
     "dodge": 4,
-    "armor_bash": 4,
-    "armor_cut": 8,
-    "armor_bullet": 6,
     "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_spider" ],
     "families": [ "prof_wp_basic_bug", "prof_wp_spider" ],
     "vision_day": 5,
@@ -1683,7 +1667,8 @@
     "fungalize_into": "mon_spider_fungus",
     "upgrades": { "half_life": 42, "into": "mon_spider_wolf_mega" },
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SEES", "SMELLS", "HEARS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ],
+    "armor": { "bash": 4, "cut": 8, "bullet": 6 }
   },
   {
     "id": "mon_spider_wolf_giant_s",
@@ -1783,8 +1768,7 @@
         "cooldown": 8,
         "min_mul": 0.3,
         "max_mul": 0.5,
-        "effects": [ { "id": "venom_weaken", "duration": 100, "chance": 50 } ],
-        "forbidden_effects_any": [ "maimed_stinger" ]
+        "effects": [ { "id": "venom_weaken", "duration": 100, "chance": 50 } ]
       },
       {
         "type": "bite",
@@ -1793,14 +1777,11 @@
         "damage_max_instance": [ { "damage_type": "cut", "amount": 10 } ],
         "min_mul": 0.2,
         "max_mul": 0.5,
-        "forbidden_effects_any": [ "maimed_mandible" ]
+        "condition": { "not": { "u_has_effect": "maimed_mandible" } }
       }
     ],
     "//": "sting 3-5 dmg, 40 hits to max intensity, 50 to max duration",
     "dodge": 8,
-    "armor_bash": 1,
-    "armor_cut": 6,
-    "armor_stab": 4,
     "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_flying", "wps_arthropod_hymenoptera" ],
     "families": [ "prof_wp_basic_bug", "prof_wp_hymenoptera" ],
     "vision_day": 15,
@@ -1811,7 +1792,8 @@
     "fear_triggers": [ "HURT", "FIRE" ],
     "upgrades": { "half_life": 30, "into": "mon_wasp" },
     "zombify_into": "mon_meat_cocoon_tiny",
-    "flags": [ "SEES", "SMELLS", "HEARS", "FLIES", "SWARMS", "GROUP_MORALE", "CANPLAY", "PATH_AVOID_FIRE", "HARDTOSHOOT" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "FLIES", "SWARMS", "GROUP_MORALE", "CANPLAY", "PATH_AVOID_FIRE", "HARDTOSHOOT" ],
+    "armor": { "bash": 1, "cut": 6, "stab": 4 }
   },
   {
     "id": "mon_wasp_small_guard",
@@ -1831,11 +1813,11 @@
     "name": { "str": "wasp queen" },
     "description": "A mutated wasp queen grown to the size of a person, laying a single white egg in each empty cell she comes across while scurrying around on the paper walls of her home.  She struggles to fit into some of them, but the newer cells seem to be getting larger…",
     "copy-from": "mon_wasp_guard",
-    "armor_elec": 3,
     "harvest": "arachnid_wasp_queen",
     "dissect": "dissect_insect_sample_large",
     "reproduction": { "baby_egg": "egg_wasp", "baby_count": 2, "baby_timer": 5 },
-    "upgrades": { "half_life": 30, "into": "mon_wasp_mega" }
+    "upgrades": { "half_life": 30, "into": "mon_wasp_mega" },
+    "armor": { "bash": 5, "cut": 14, "stab": 12, "bullet": 12, "electric": 3 }
   },
   {
     "id": "mon_wasp",
@@ -1866,8 +1848,7 @@
         "cooldown": 5,
         "damage_max_instance": [ { "damage_type": "stab", "amount": 10, "armor_penetration": 25 } ],
         "min_mul": 0.5,
-        "max_mul": 2,
-        "forbidden_effects_any": [ "maimed_stinger" ]
+        "max_mul": 2
       },
       {
         "type": "bite",
@@ -1877,15 +1858,11 @@
         "body_parts": [ [ "leg_l", 2 ], [ "leg_r", 2 ], [ "head", 1 ], [ "arm_l", 2 ], [ "arm_r", 2 ], [ "torso", 4 ] ],
         "min_mul": 0.5,
         "max_mul": 1.5,
-        "forbidden_effects_any": [ "maimed_mandible" ]
+        "condition": { "not": { "u_has_effect": "maimed_mandible" } }
       }
     ],
     "//": "sting 5-15 damage, 8 hits to max intensity, 9 to max duration",
     "dodge": 7,
-    "armor_bash": 5,
-    "armor_cut": 14,
-    "armor_stab": 12,
-    "armor_bullet": 12,
     "bleed_rate": 80,
     "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_flying", "wps_arthropod_hymenoptera" ],
     "families": [ "prof_wp_basic_bug", "prof_wp_hymenoptera" ],
@@ -1896,7 +1873,8 @@
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_CLOSE", "PLAYER_WEAK", "HOSTILE_SEEN" ],
     "fear_triggers": [ "HURT", "FIRE" ],
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SEES", "SMELLS", "HEARS", "FLIES", "SWARMS", "GROUP_MORALE", "CANPLAY", "HARDTOSHOOT", "PATH_AVOID_FIRE" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "FLIES", "SWARMS", "GROUP_MORALE", "CANPLAY", "HARDTOSHOOT", "PATH_AVOID_FIRE" ],
+    "armor": { "bash": 5, "cut": 14, "stab": 12, "bullet": 12 }
   },
   {
     "id": "mon_wasp_guard",
@@ -1906,10 +1884,10 @@
     "copy-from": "mon_wasp",
     "aggression": 4,
     "melee_skill": 8,
-    "armor_elec": 2,
     "dissect": "dissect_insect_sample_small",
     "extend": { "anger_triggers": [ "HURT", "FIRE" ], "flags": [ "BASHES" ] },
-    "delete": { "fear_triggers": [ "HURT", "FIRE" ] }
+    "delete": { "fear_triggers": [ "HURT", "FIRE" ] },
+    "armor": { "bash": 5, "cut": 14, "stab": 12, "bullet": 12, "electric": 2 }
   },
   {
     "id": "mon_wasp_mega",
@@ -1933,8 +1911,7 @@
         "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_penetration": 60 } ],
         "min_mul": 1,
         "max_mul": 3,
-        "effects": [ { "id": "venom_weaken", "duration": 600 }, { "id": "downed", "duration": 1, "chance": 50 } ],
-        "forbidden_effects_any": [ "maimed_stinger" ]
+        "effects": [ { "id": "venom_weaken", "duration": 600 }, { "id": "downed", "duration": 1, "chance": 50 } ]
       },
       {
         "type": "bite",
@@ -1944,24 +1921,20 @@
         "min_mul": 1,
         "max_mul": 3,
         "body_parts": [ [ "leg_l", 2 ], [ "leg_r", 2 ], [ "head", 1 ], [ "arm_l", 2 ], [ "arm_r", 2 ], [ "torso", 4 ] ],
-        "forbidden_effects_any": [ "maimed_mandible" ]
+        "condition": { "not": { "u_has_effect": "maimed_mandible" } }
       }
     ],
     "//": "sting 15-45 damage, 6 hits to max intensity, 8 to max duration; bite 10-30",
     "dodge": 3,
     "vision_night": 15,
-    "armor_bash": 8,
-    "armor_cut": 30,
-    "armor_stab": 18,
-    "armor_bullet": 22,
-    "armor_elec": 4,
     "bleed_rate": 60,
     "harvest": "arachnid_wasp_queen",
     "dissect": "dissect_insect_sample_huge",
     "reproduction": { "baby_egg": "egg_wasp", "baby_count": 4, "baby_timer": 5 },
     "extend": { "flags": [ "PUSH_MON" ] },
     "zombify_into": "mon_meat_cocoon_large",
-    "delete": { "flags": [ "HARDTOSHOOT", "FLIES" ] }
+    "delete": { "flags": [ "HARDTOSHOOT", "FLIES" ] },
+    "armor": { "bash": 8, "cut": 30, "stab": 18, "bullet": 22, "electric": 4 }
   },
   {
     "id": "mon_dermatik_larva",
@@ -2006,8 +1979,6 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
     "dodge": 8,
-    "armor_bash": 2,
-    "armor_cut": 5,
     "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_flying", "wps_arthropod_hymenoptera" ],
     "families": [ "prof_wp_basic_bug", "prof_wp_hymenoptera" ],
     "weakpoints": [ { "id": "abdomen", "name": "the abdomen", "coverage": 30 } ],
@@ -2019,7 +1990,8 @@
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK" ],
     "fear_triggers": [ "HURT", "FIRE" ],
     "zombify_into": "mon_meat_cocoon_tiny",
-    "flags": [ "SEES", "HEARS", "SMELLS", "FLIES", "PATH_AVOID_FIRE", "CANPLAY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "FLIES", "PATH_AVOID_FIRE", "CANPLAY" ],
+    "armor": { "bash": 2, "cut": 5 }
   },
   {
     "id": "mon_dermatik_midwife",
@@ -2130,10 +2102,6 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "dodge": 1,
-    "armor_bash": 5,
-    "armor_cut": 10,
-    "armor_bullet": 8,
-    "armor_elec": 1,
     "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_hymenoptera" ],
     "families": [ "prof_wp_basic_bug", "prof_wp_hymenoptera" ],
     "//": "No stinging, for now",
@@ -2148,7 +2116,8 @@
     "special_attacks": [ [ "EAT_FOOD", 30 ] ],
     "fungalize_into": "mon_ant_fungus",
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ],
+    "armor": { "bash": 5, "cut": 10, "bullet": 8, "electric": 1 }
   },
   {
     "id": "mon_ant_acid_small",
@@ -2185,10 +2154,6 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "dodge": 1,
-    "armor_bash": 6,
-    "armor_cut": 10,
-    "armor_bullet": 8,
-    "armor_elec": 2,
     "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_hymenoptera" ],
     "families": [ "prof_wp_basic_bug", "prof_wp_hymenoptera" ],
     "//": "No stinging, for now",
@@ -2203,7 +2168,8 @@
     "harvest": "arachnid_acid",
     "dissect": "dissect_insect_sample_single",
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "ACIDPROOF", "CLIMBS", "HEARS", "POISON", "SEES", "SMELLS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
+    "flags": [ "ACIDPROOF", "CLIMBS", "HEARS", "POISON", "SEES", "SMELLS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ],
+    "armor": { "bash": 6, "cut": 10, "bullet": 8, "electric": 2 }
   },
   {
     "id": "mon_ant_acid_larva",
@@ -2250,10 +2216,6 @@
     "melee_dice": 3,
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 8 } ],
-    "armor_bash": 8,
-    "armor_cut": 10,
-    "armor_bullet": 8,
-    "armor_elec": 1,
     "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_hymenoptera" ],
     "families": [ "prof_wp_basic_bug", "prof_wp_hymenoptera" ],
     "weakpoints": [ { "id": "abdomen", "name": "the abdomen", "coverage": 50, "armor_mult": { "all": 0.25 } } ],
@@ -2264,7 +2226,8 @@
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE" ],
     "fungalize_into": "mon_ant_fungus",
     "zombify_into": "mon_meat_cocoon_med",
-    "flags": [ "ACIDPROOF", "CLIMBS", "HEARS", "QUEEN", "SEES", "SMELLS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL", "BASHES" ]
+    "flags": [ "ACIDPROOF", "CLIMBS", "HEARS", "QUEEN", "SEES", "SMELLS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL", "BASHES" ],
+    "armor": { "bash": 8, "cut": 10, "bullet": 8, "electric": 1 }
   },
   {
     "id": "mon_ant_acid_soldier",
@@ -2289,10 +2252,6 @@
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 8 } ],
     "dodge": 2,
-    "armor_bash": 12,
-    "armor_cut": 14,
-    "armor_bullet": 11,
-    "armor_elec": 1,
     "bleed_rate": 80,
     "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_hymenoptera" ],
     "families": [ "prof_wp_basic_bug", "prof_wp_hymenoptera" ],
@@ -2307,7 +2266,8 @@
     "dissect": "dissect_insect_sample_single",
     "zombify_into": "mon_meat_cocoon_small",
     "upgrades": { "half_life": 42, "into": "mon_ant_acid_soldier_mega" },
-    "flags": [ "ACIDPROOF", "SHORTACIDTRAIL", "CLIMBS", "HEARS", "POISON", "SEES", "SMELLS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
+    "flags": [ "ACIDPROOF", "SHORTACIDTRAIL", "CLIMBS", "HEARS", "POISON", "SEES", "SMELLS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ],
+    "armor": { "bash": 12, "cut": 14, "bullet": 11, "electric": 1 }
   },
   {
     "id": "mon_ant_acid_soldier_mega",
@@ -2320,27 +2280,23 @@
     "weight": "815 kg",
     "morale": 30,
     "melee_dice": 2,
-    "grab_strength": 3,
-    "armor_bash": 15,
-    "armor_cut": 24,
-    "armor_bullet": 15,
-    "armor_elec": 4,
     "bleed_rate": 60,
+    "grab_strength": 100,
     "special_attacks": [
       { "id": "smash", "throw_strength": 48, "cooldown": 30 },
       { "id": "leg_sweep" },
       {
-        "type": "bite",
+        "id": "bite_grab",
         "cooldown": 5,
-        "forbidden_effects_any": [ "maimed_mandible" ],
+        "condition": { "not": { "u_has_effect": "maimed_mandible" } },
         "damage_max_instance": [ { "damage_type": "cut", "amount": 12, "armor_penetration": 14 } ]
       },
-      [ "GRAB", 10 ],
       [ "ACID", 20 ]
     ],
     "dissect": "dissect_insect_sample_large",
     "zombify_into": "mon_meat_cocoon_large",
-    "extend": { "flags": [ "DESTROYS", "PUSH_MON", "PUSH_VEH", "RANGED_ATTACKER" ] }
+    "extend": { "flags": [ "DESTROYS", "PUSH_MON", "PUSH_VEH", "RANGED_ATTACKER" ] },
+    "armor": { "bash": 15, "cut": 24, "bullet": 15, "electric": 4 }
   },
   {
     "id": "mon_ant_larva",
@@ -2383,10 +2339,6 @@
     "melee_dice": 3,
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 8 } ],
-    "armor_bash": 8,
-    "armor_cut": 10,
-    "armor_bullet": 8,
-    "armor_elec": 1,
     "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_hymenoptera" ],
     "families": [ "prof_wp_basic_bug", "prof_wp_hymenoptera" ],
     "weakpoints": [ { "id": "abdomen", "name": "the abdomen", "coverage": 50, "armor_mult": { "all": 0.25 } } ],
@@ -2397,7 +2349,8 @@
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE" ],
     "fungalize_into": "mon_ant_fungus",
     "zombify_into": "mon_meat_cocoon_med",
-    "flags": [ "SMELLS", "QUEEN", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL", "BASHES" ]
+    "flags": [ "SMELLS", "QUEEN", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL", "BASHES" ],
+    "armor": { "bash": 8, "cut": 10, "bullet": 8, "electric": 1 }
   },
   {
     "id": "mon_ant_soldier",
@@ -2420,11 +2373,9 @@
     "melee_dice": 1,
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
+    "grab_strength": 35,
+    "special_attacks": [ { "id": "bite_grab" } ],
     "dodge": 2,
-    "armor_bash": 10,
-    "armor_cut": 12,
-    "armor_bullet": 10,
-    "armor_elec": 2,
     "bleed_rate": 80,
     "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_hymenoptera" ],
     "families": [ "prof_wp_basic_bug", "prof_wp_hymenoptera" ],
@@ -2438,7 +2389,8 @@
     "fungalize_into": "mon_ant_fungus",
     "upgrades": { "half_life": 42, "into": "mon_ant_soldier_mega" },
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ],
+    "armor": { "bash": 10, "cut": 12, "bullet": 10, "electric": 2 }
   },
   {
     "id": "mon_ant_soldier_mega",
@@ -2451,26 +2403,23 @@
     "weight": "815 kg",
     "morale": 30,
     "melee_dice": 2,
-    "grab_strength": 3,
-    "armor_bash": 15,
-    "armor_cut": 24,
-    "armor_bullet": 15,
-    "armor_elec": 4,
     "bleed_rate": 60,
+    "grab_strength": 75,
     "special_attacks": [
       { "id": "smash", "throw_strength": 48, "cooldown": 30 },
       { "id": "leg_sweep" },
       {
-        "type": "bite",
+        "id": "bite_grab",
         "cooldown": 5,
-        "forbidden_effects_any": [ "maimed_mandible" ],
+        "condition": { "not": { "u_has_effect": "maimed_mandible" } },
         "damage_max_instance": [ { "damage_type": "cut", "amount": 12, "armor_penetration": 14 } ]
       },
       [ "GRAB_DRAG", 10 ]
     ],
     "zombify_into": "mon_meat_cocoon_large",
     "dissect": "dissect_insect_sample_large",
-    "extend": { "flags": [ "DESTROYS", "PUSH_MON", "PUSH_VEH" ] }
+    "extend": { "flags": [ "DESTROYS", "PUSH_MON", "PUSH_VEH" ] },
+    "armor": { "bash": 15, "cut": 24, "bullet": 15, "electric": 4 }
   },
   {
     "id": "mon_locust_small",
@@ -2506,10 +2455,6 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
     "dodge": 2,
-    "armor_bash": 3,
-    "armor_cut": 4,
-    "armor_bullet": 3,
-    "armor_elec": 1,
     "weakpoint_sets": [ "wps_arthropod" ],
     "families": [ "prof_wp_basic_bug" ],
     "vision_day": 10,
@@ -2522,11 +2467,18 @@
     "fear_triggers": [ "HURT", "FIRE" ],
     "upgrades": { "half_life": 42, "into": "mon_locust_mega" },
     "special_attacks": [
-      { "type": "leap", "cooldown": 2, "max_range": 8, "allow_no_target": true, "forbidden_effects_any": [ "maimed_leg" ] },
+      {
+        "type": "leap",
+        "cooldown": 2,
+        "max_range": 8,
+        "allow_no_target": true,
+        "condition": { "not": { "u_has_effect": "maimed_leg" } }
+      },
       [ "EAT_CROP", 60 ]
     ],
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "STUMBLES", "PATH_AVOID_FIRE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "STUMBLES", "PATH_AVOID_FIRE" ],
+    "armor": { "bash": 3, "cut": 4, "bullet": 3, "electric": 1 }
   },
   {
     "id": "mon_locust_mega",
@@ -2538,15 +2490,21 @@
     "volume": "625 L",
     "weight": "815 kg",
     "melee_dice": 2,
-    "armor_elec": 3,
     "dissect": "dissect_insect_sample_large",
     "special_attacks": [
-      { "type": "leap", "cooldown": 2, "max_range": 4, "allow_no_target": true, "forbidden_effects_any": [ "maimed_leg" ] },
+      {
+        "type": "leap",
+        "cooldown": 2,
+        "max_range": 4,
+        "allow_no_target": true,
+        "condition": { "not": { "u_has_effect": "maimed_leg" } }
+      },
       [ "EAT_CROP", 3 ],
       { "id": "smash", "throw_strength": 36, "cooldown": 30 }
     ],
     "zombify_into": "mon_meat_cocoon_large",
-    "extend": { "flags": [ "DESTROYS", "PUSH_MON", "PUSH_VEH" ] }
+    "extend": { "flags": [ "DESTROYS", "PUSH_MON", "PUSH_VEH" ] },
+    "armor": { "bash": 3, "cut": 4, "bullet": 3, "electric": 3 }
   },
   {
     "id": "mon_locust_nymph",
@@ -2561,7 +2519,13 @@
     "color": "brown",
     "upgrades": { "age_grow": 30, "into": "mon_locust" },
     "special_attacks": [
-      { "type": "leap", "cooldown": 4, "max_range": 4, "allow_no_target": true, "forbidden_effects_any": [ "maimed_leg" ] },
+      {
+        "type": "leap",
+        "cooldown": 4,
+        "max_range": 4,
+        "allow_no_target": true,
+        "condition": { "not": { "u_has_effect": "maimed_leg" } }
+      },
       [ "EAT_CROP", 120 ]
     ]
   },
@@ -2605,9 +2569,6 @@
     "melee_dice_sides": 2,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "dodge": 3,
-    "armor_bash": 2,
-    "armor_cut": 5,
-    "armor_bullet": 3,
     "weakpoint_sets": [ "wps_arthropod" ],
     "families": [ "prof_wp_basic_bug" ],
     "vision_day": 10,
@@ -2620,7 +2581,8 @@
     "reproduction": { "baby_monster": "mon_aphid_small", "baby_count": 1, "baby_timer": 20 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "honeydew", "biosig_timer": 600 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL", "SWARMS" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL", "SWARMS" ],
+    "armor": { "bash": 2, "cut": 5, "bullet": 3 }
   },
   {
     "id": "mon_mantis_small",
@@ -2632,14 +2594,14 @@
     "volume": "60 L",
     "weight": "80 kg",
     "melee_damage": [ { "damage_type": "cut", "amount": 8 } ],
-    "armor_elec": 1,
     "dissect": "dissect_insect_sample_single",
     "delete": {
       "reproduction": { "baby_egg": "egg_mantis", "baby_count": 1, "baby_timer": 30 },
       "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ]
     },
     "upgrades": { "half_life": 42, "into": "mon_mantis_giant" },
-    "zombify_into": "mon_meat_cocoon_small"
+    "zombify_into": "mon_meat_cocoon_small",
+    "armor": { "bash": 10, "cut": 16, "bullet": 13, "electric": 1 }
   },
   {
     "id": "mon_mantis_giant",
@@ -2663,10 +2625,6 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 10.0, "armor_penetration": 12 } ],
     "dodge": 3,
-    "armor_bash": 10,
-    "armor_cut": 16,
-    "armor_bullet": 13,
-    "armor_elec": 2,
     "weakpoint_sets": [ "wps_arthropod" ],
     "families": [ "prof_wp_basic_bug" ],
     "vision_day": 8,
@@ -2677,20 +2635,23 @@
     "fear_triggers": [ "FIRE", "HURT" ],
     "reproduction": { "baby_egg": "egg_mantis", "baby_count": 1, "baby_timer": 30 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
+    "//grab": "Good at pulling, grabbing, chewing your face off afterwards",
+    "grab_strength": 35,
     "special_attacks": [
-      [ "RANGED_PULL", 30 ],
+      { "id": "ranged_pull", "cooldown": 30, "grab_data": { "pull_weight_ratio": 1.0 } },
       [ "GRAB_DRAG", 10 ],
       {
         "type": "leap",
         "cooldown": 8,
         "max_range": 5,
         "allow_no_target": false,
-        "forbidden_effects_any": [ "maimed_leg" ]
+        "condition": { "not": { "u_has_effect": "maimed_leg" } }
       }
     ],
     "upgrades": { "half_life": 42, "into": "mon_mantis_mega" },
     "zombify_into": "mon_meat_cocoon_med",
-    "flags": [ "SEES", "HEARS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
+    "flags": [ "SEES", "HEARS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ],
+    "armor": { "bash": 10, "cut": 16, "bullet": 13, "electric": 2 }
   },
   {
     "id": "mon_mantis_nymph",
@@ -2711,17 +2672,21 @@
     "melee_dice": 1,
     "melee_dice_sides": 6,
     "dodge": 3,
-    "armor_bash": 1,
-    "armor_cut": 2,
-    "armor_bullet": 1,
     "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
     "vision_night": 4,
     "dissect": "dissect_insect_sample_single",
     "upgrades": { "age_grow": 30, "into": "mon_mantis_giant" },
     "special_attacks": [
-      { "type": "leap", "cooldown": 8, "max_range": 3, "allow_no_target": false, "forbidden_effects_any": [ "maimed_leg" ] }
+      {
+        "type": "leap",
+        "cooldown": 8,
+        "max_range": 3,
+        "allow_no_target": false,
+        "condition": { "not": { "u_has_effect": "maimed_leg" } }
+      }
     ],
-    "anger_triggers": [ "PLAYER_CLOSE" ]
+    "anger_triggers": [ "PLAYER_CLOSE" ],
+    "armor": { "bash": 1, "cut": 2, "bullet": 1 }
   },
   {
     "id": "mon_mantis_mega",
@@ -2737,8 +2702,8 @@
     "melee_dice": 2,
     "melee_damage": [ { "damage_type": "cut", "amount": 15.0, "armor_penetration": 16 } ],
     "dodge": 2,
-    "armor_elec": 3,
     "attack_cost": 25,
+    "grab_strength": 75,
     "special_attacks": [
       {
         "type": "bite",
@@ -2747,7 +2712,7 @@
         "infection_chance": 75,
         "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_penetration": 18 } ]
       },
-      [ "RANGED_PULL", 30 ],
+      { "id": "ranged_pull", "move_cost": 50, "cooldown": 30, "grab_data": { "pull_weight_ratio": 1.0 } },
       [ "GRAB_DRAG", 10 ]
     ],
     "zombify_into": "mon_meat_cocoon_large",
@@ -2758,7 +2723,8 @@
       "max_range": 5,
       "allow_no_target": false,
       "upgrades": { "half_life": 42, "into": "mon_mantis_mega" }
-    }
+    },
+    "armor": { "bash": 10, "cut": 16, "bullet": 13, "electric": 3 }
   },
   {
     "id": "mon_mole_cricket",
@@ -2782,10 +2748,6 @@
     "melee_dice": 4,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 7 } ],
-    "armor_bash": 15,
-    "armor_cut": 18,
-    "armor_bullet": 20,
-    "armor_elec": 2,
     "weakpoint_sets": [ "wps_arthropod" ],
     "families": [ "prof_wp_basic_bug" ],
     "vision_day": 10,
@@ -2808,7 +2770,8 @@
     "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
     "fear_triggers": [ "FIRE" ],
     "zombify_into": "mon_meat_cocoon_med",
-    "flags": [ "SEES", "CAN_DIG", "BORES", "PUSH_VEH", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SMELLS" ]
+    "flags": [ "SEES", "CAN_DIG", "BORES", "PUSH_VEH", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SMELLS" ],
+    "armor": { "bash": 15, "cut": 18, "bullet": 20, "electric": 2 }
   },
   {
     "id": "mon_mole_cricket_nymph",
@@ -2849,10 +2812,6 @@
     "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "dodge": 2,
-    "armor_bash": 3,
-    "armor_cut": 10,
-    "armor_bullet": 15,
-    "armor_elec": 3,
     "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_beetle" ],
     "families": [ "prof_wp_basic_bug", "prof_wp_beetle" ],
     "vision_day": 20,
@@ -2866,12 +2825,13 @@
         "cooldown": 4,
         "accuracy": 4,
         "damage_max_instance": [ { "damage_type": "stab", "amount": 7, "armor_penetration": 4 } ],
-        "forbidden_effects_any": [ "maimed_mandible" ]
+        "condition": { "not": { "u_has_effect": "maimed_mandible" } }
       }
     ],
     "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_FIRE" ],
     "zombify_into": "mon_meat_cocoon_small",
-    "upgrades": { "age_grow": 42, "into": "mon_lady_bug_giant" }
+    "upgrades": { "age_grow": 42, "into": "mon_lady_bug_giant" },
+    "armor": { "bash": 3, "cut": 10, "bullet": 15, "electric": 3 }
   },
   {
     "id": "mon_lady_bug_giant",
@@ -2896,10 +2856,6 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 8 } ],
     "dodge": 1,
-    "armor_bash": 7,
-    "armor_cut": 20,
-    "armor_bullet": 30,
-    "armor_elec": 3,
     "vision_day": 20,
     "vision_night": 5,
     "harvest": "arachnid",
@@ -2914,13 +2870,14 @@
         "cooldown": 4,
         "accuracy": 6,
         "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_penetration": 8 } ],
-        "forbidden_effects_any": [ "maimed_mandible" ]
+        "condition": { "not": { "u_has_effect": "maimed_mandible" } }
       }
     ],
     "flags": [ "SEES", "HEARS", "SMELLS", "BASHES", "PATH_AVOID_FIRE" ],
     "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_beetle" ],
     "zombify_into": "mon_meat_cocoon_large",
-    "families": [ "prof_wp_basic_bug", "prof_wp_beetle" ]
+    "families": [ "prof_wp_basic_bug", "prof_wp_beetle" ],
+    "armor": { "bash": 7, "cut": 20, "bullet": 30, "electric": 3 }
   },
   {
     "id": "mon_lady_bug_larva",
@@ -2938,12 +2895,10 @@
     "melee_skill": 1,
     "melee_dice": 1,
     "dodge": 3,
-    "armor_bash": 1,
-    "armor_cut": 2,
-    "armor_stab": 2,
     "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
     "dissect": "dissect_insect_sample_single",
-    "upgrades": { "age_grow": 30, "into": "mon_lady_bug_giant" }
+    "upgrades": { "age_grow": 30, "into": "mon_lady_bug_giant" },
+    "armor": { "bash": 1, "cut": 2, "stab": 2 }
   },
   {
     "id": "mon_grasshopper_small",
@@ -2983,8 +2938,6 @@
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "dodge": 4,
-    "armor_bash": 5,
-    "armor_cut": 10,
     "weakpoint_sets": [ "wps_arthropod" ],
     "families": [ "prof_wp_basic_bug" ],
     "vision_day": 20,
@@ -3002,11 +2955,12 @@
         "cooldown": 3,
         "max_range": 10,
         "allow_no_target": true,
-        "forbidden_effects_any": [ "maimed_leg" ]
+        "condition": { "not": { "u_has_effect": "maimed_leg" } }
       }
     ],
     "zombify_into": "mon_meat_cocoon_tiny",
-    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FALL", "PATH_AVOID_FIRE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FALL", "PATH_AVOID_FIRE" ],
+    "armor": { "bash": 5, "cut": 10 }
   },
   {
     "id": "mon_grasshopper_nymph",
@@ -3018,7 +2972,13 @@
     "color": "light_green",
     "upgrades": { "age_grow": 30, "into": "mon_grasshopper_giant" },
     "special_attacks": [
-      { "type": "leap", "cooldown": 3, "max_range": 4, "allow_no_target": true, "forbidden_effects_any": [ "maimed_leg" ] },
+      {
+        "type": "leap",
+        "cooldown": 3,
+        "max_range": 4,
+        "allow_no_target": true,
+        "condition": { "not": { "u_has_effect": "maimed_leg" } }
+      },
       [ "EAT_FOOD", 100 ],
       [ "EAT_CROP", 133 ]
     ]
@@ -3041,17 +3001,14 @@
     "aggression": -99,
     "morale": -10,
     "special_attacks": [ [ "EAT_CROP", 30 ] ],
-    "armor_bash": 5,
-    "armor_cut": 6,
-    "armor_bullet": 3,
-    "armor_acid": 6,
     "harvest": "arachnid",
     "dissect": "dissect_subterranean_insect_large",
     "//": "when taming becomes more involved, this should be slowly tameable with honeydew, allowing for a tamed stag beetle through almost a year of effort",
     "fear_triggers": [ "FIRE", "HURT" ],
     "upgrades": { "age_grow": 288, "into": "mon_stag_beetle_small" },
     "zombify_into": "mon_meat_cocoon_large",
-    "flags": [ "PATH_AVOID_FIRE", "PET_WONT_FOLLOW" ]
+    "flags": [ "PATH_AVOID_FIRE", "PET_WONT_FOLLOW" ],
+    "armor": { "bash": 5, "cut": 6, "acid": 6, "bullet": 3 }
   },
   {
     "id": "mon_stag_beetle_small",
@@ -3064,11 +3021,6 @@
     "weight": "300 kg",
     "diff": 1,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
-    "armor_bash": 24,
-    "armor_cut": 32,
-    "armor_bullet": 20,
-    "armor_acid": 8,
-    "armor_fire": 2,
     "special_attacks": [
       {
         "id": "stag_smash",
@@ -3080,7 +3032,8 @@
     "upgrades": { "half_life": 60, "into": "mon_stag_beetle_giant" },
     "zombify_into": "mon_meat_cocoon_large",
     "extend": { "flags": [ "NO_BREED" ] },
-    "delete": { "flags": [ "DESTROYS", "PUSH_VEH" ] }
+    "delete": { "flags": [ "DESTROYS", "PUSH_VEH" ] },
+    "armor": { "bash": 24, "cut": 32, "acid": 8, "heat": 2, "bullet": 20 }
   },
   {
     "id": "mon_stag_beetle_giant",
@@ -3106,11 +3059,6 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 9 } ],
     "dodge": 1,
-    "armor_bash": 60,
-    "armor_cut": 72,
-    "armor_bullet": 50,
-    "armor_acid": 18,
-    "armor_fire": 8,
     "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_beetle" ],
     "families": [ "prof_wp_basic_bug", "prof_wp_beetle" ],
     "weakpoints": [
@@ -3151,7 +3099,8 @@
       "PUSH_VEH",
       "PET_WONT_FOLLOW",
       "PET_MOUNTABLE"
-    ]
+    ],
+    "armor": { "bash": 60, "cut": 72, "acid": 18, "heat": 8, "bullet": 50 }
   },
   {
     "id": "mon_stag_beetle_mega",
@@ -3163,9 +3112,6 @@
     "volume": "950 L",
     "weight": "1000 kg",
     "diff": 4,
-    "armor_bash": 86,
-    "armor_cut": 100,
-    "armor_bullet": 75,
     "special_attacks": [
       {
         "id": "stag_smash",
@@ -3180,7 +3126,8 @@
     "dissect": "dissect_insect_sample_huge",
     "reproduction": { "baby_egg": "egg_stag_beetle", "baby_count": 1, "baby_timer": 364 },
     "zombify_into": "mon_meat_cocoon_large",
-    "upgrades": false
+    "upgrades": false,
+    "armor": { "acid": 18, "heat": 8, "bash": 86, "cut": 100, "bullet": 75 }
   },
   {
     "id": "mon_antlion_larva",
@@ -3203,9 +3150,6 @@
     "melee_dice": 1,
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-    "armor_bash": 4,
-    "armor_cut": 10,
-    "armor_bullet": 10,
     "weakpoint_sets": [ "wps_arthropod" ],
     "families": [ "prof_wp_basic_bug" ],
     "weakpoints": [
@@ -3246,9 +3190,10 @@
     "upgrades": { "age_grow": 42, "into": "mon_antlion_giant" },
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "fear_triggers": [ "FIRE" ],
+    "grab_strength": 3,
     "special_attacks": [
-      [ "RANGED_PULL", 10 ],
-      [ "GRAB", 3 ],
+      { "id": "grab", "cooldown": 3 },
+      { "id": "ranged_pull", "cooldown": 10 },
       { "id": "impale", "accuracy": 6, "attack_upper": false, "cooldown": 10 },
       {
         "type": "bite",
@@ -3257,11 +3202,12 @@
         "accuracy": 8,
         "infection_chance": 75,
         "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_penetration": 12 } ],
-        "forbidden_effects_any": [ "maimed_mandible" ]
+        "condition": { "not": { "u_has_effect": "maimed_mandible" } }
       }
     ],
     "zombify_into": "mon_meat_cocoon_med",
-    "flags": [ "SEES", "SMELLS", "IMMOBILE", "DIGS", "RANGED_ATTACKER", "ATTACK_LOWER" ]
+    "flags": [ "SEES", "SMELLS", "IMMOBILE", "DIGS", "RANGED_ATTACKER", "ATTACK_LOWER" ],
+    "armor": { "bash": 4, "cut": 10, "bullet": 10 }
   },
   {
     "id": "mon_antlion_giant",
@@ -3285,7 +3231,6 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "dodge": 8,
-    "armor_cut": 4,
     "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_flying" ],
     "families": [ "prof_wp_basic_bug" ],
     "vision_day": 25,
@@ -3297,7 +3242,8 @@
     "anger_triggers": [ "HURT" ],
     "fear_triggers": [ "PLAYER_CLOSE", "FIRE" ],
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SEES", "SMELLS", "FLIES", "HEARS", "HIT_AND_RUN", "PATH_AVOID_FIRE" ]
+    "flags": [ "SEES", "SMELLS", "FLIES", "HEARS", "HIT_AND_RUN", "PATH_AVOID_FIRE" ],
+    "armor": { "cut": 4 }
   },
   {
     "id": "mon_strider_small",
@@ -3339,9 +3285,6 @@
     "melee_dice_sides": 2,
     "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
     "dodge": 4,
-    "armor_bash": 1,
-    "armor_cut": 3,
-    "armor_bullet": 2,
     "weakpoint_sets": [ "wps_arthropod" ],
     "families": [ "prof_wp_basic_bug" ],
     "vision_day": 12,
@@ -3352,7 +3295,8 @@
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "anger_triggers": [ "PLAYER_WEAK" ],
     "fear_triggers": [ "FIRE", "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "SWIMS" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "SWIMS" ],
+    "armor": { "bash": 1, "cut": 3, "bullet": 2 }
   },
   {
     "id": "mon_strider_nymph",
@@ -3589,10 +3533,6 @@
     "melee_dice": 1,
     "melee_dice_sides": 2,
     "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
-    "armor_bash": 1,
-    "armor_cut": 3,
-    "armor_bullet": 2,
-    "armor_elec": 2,
     "vision_night": 15,
     "dissect": "dissect_insect_sample_single",
     "upgrades": { "age_grow": 21, "into": "mon_cicada" },
@@ -3600,7 +3540,8 @@
     "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
     "fear_triggers": [ "FIRE" ],
     "zombify_into": "mon_meat_cocoon_small",
-    "extend": { "flags": [ "BORES" ] }
+    "extend": { "flags": [ "BORES" ] },
+    "armor": { "bash": 1, "cut": 3, "bullet": 2, "electric": 2 }
   },
   {
     "id": "mon_cicada",
@@ -3623,10 +3564,6 @@
     "melee_dice": 1,
     "melee_dice_sides": 2,
     "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
-    "armor_bash": 1,
-    "armor_cut": 3,
-    "armor_bullet": 2,
-    "armor_elec": 2,
     "vision_day": 10,
     "vision_night": 15,
     "harvest": "arachnid_flying",
@@ -3639,7 +3576,8 @@
     "anger_triggers": [ "HURT" ],
     "fear_triggers": [ "FIRE", "HURT" ],
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SEES", "FLIES", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SMELLS" ]
+    "flags": [ "SEES", "FLIES", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SMELLS" ],
+    "armor": { "bash": 1, "cut": 3, "bullet": 2, "electric": 2 }
   },
   {
     "id": "mon_woodlouse",
@@ -3656,10 +3594,6 @@
     "material": [ "iflesh" ],
     "symbol": "w",
     "color": "brown",
-    "armor_bash": 15,
-    "armor_cut": 18,
-    "armor_bullet": 20,
-    "armor_elec": 2,
     "vision_day": 10,
     "vision_night": 15,
     "harvest": "mutant_shellfish",
@@ -3669,7 +3603,8 @@
     "reproduction": { "baby_monster": "mon_woodlouse_manca", "baby_count": 5, "baby_timer": 210 },
     "fear_triggers": [ "FIRE", "HURT" ],
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SEES", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SMELLS" ]
+    "flags": [ "SEES", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SMELLS" ],
+    "armor": { "bash": 15, "cut": 18, "bullet": 20, "electric": 2 }
   },
   {
     "id": "mon_woodlouse_manca",
@@ -3735,10 +3670,6 @@
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
     "dodge": 1,
-    "armor_bash": 7,
-    "armor_cut": 9,
-    "armor_bullet": 10,
-    "armor_elec": 2,
     "vision_day": 14,
     "vision_night": 12,
     "harvest": "arachnid_beetle",
@@ -3748,7 +3679,8 @@
     "reproduction": { "baby_egg": "egg_water_beetle", "baby_count": 3, "baby_timer": 15 },
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "fear_triggers": [ "FIRE" ],
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "SWIMS", "WATER_CAMOUFLAGE" ]
+    "flags": [ "SEES", "HEARS", "GOODHEARING", "SWIMS", "WATER_CAMOUFLAGE" ],
+    "armor": { "bash": 7, "cut": 9, "bullet": 10, "electric": 2 }
   },
   {
     "id": "mon_water_scorpion",
@@ -3773,9 +3705,6 @@
     "melee_dice_sides": 5,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "dodge": 3,
-    "armor_bash": 1,
-    "armor_cut": 3,
-    "armor_bullet": 2,
     "vision_day": 12,
     "vision_night": 5,
     "harvest": "arachnid",
@@ -3785,7 +3714,8 @@
     "reproduction": { "baby_egg": "egg_water_bug", "baby_count": 3, "baby_timer": 10 },
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "fear_triggers": [ "HURT" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "SWIMS", "AQUATIC" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "SWIMS", "AQUATIC" ],
+    "armor": { "bash": 1, "cut": 3, "bullet": 2 }
   },
   {
     "id": "mon_water_scorpion_larva",

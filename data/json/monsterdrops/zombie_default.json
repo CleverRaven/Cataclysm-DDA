@@ -256,12 +256,20 @@
     "type": "item_group",
     "subtype": "distribution",
     "//": "items that an average zombie carries around and drops on death",
+    "//2": "any zombie could have died carrying a gun, or holding one",
     "id": "default_zombie_items",
     "entries": [
       { "group": "large_bags", "damage": [ 1, 4 ], "contents-group": "default_zombie_items_bags", "prob": 6 },
       { "group": "small_bags", "damage": [ 1, 4 ], "contents-group": "default_zombie_items_bags_small", "prob": 10 },
       { "group": "bugout_bag", "prob": 1 },
-      { "group": "default_zombie_items_pockets", "prob": 20 }
+      { "group": "default_zombie_items_pockets", "prob": 20 },
+      {
+        "distribution": [
+          { "group": "guns_pistol_common_everyday_carry", "damage": [ 1, 4 ], "prob": 1 },
+          { "collection": [ { "item": "holster" }, { "group": "guns_pistol_common_everyday_carry" } ], "prob": 10 }
+        ],
+        "prob": 2
+      }
     ]
   },
   {

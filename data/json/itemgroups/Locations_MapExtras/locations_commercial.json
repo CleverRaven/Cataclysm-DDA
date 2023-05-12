@@ -2110,6 +2110,7 @@
       [ "knitting_needles", 15 ],
       [ "sheet_kevlar_layered", 10 ],
       [ "leather", 10 ],
+      [ "sheet_leather", 10 ],
       [ "cotton_patchwork", 20 ],
       [ "needle_curved", 10 ],
       [ "nomex", 10 ],

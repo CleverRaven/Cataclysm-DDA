@@ -70,8 +70,8 @@
     "volume": "250 ml",
     "weight": "500 g",
     "//": "density is around 2g/cm3",
-    "bashing": 1,
-    "ammo_type": "components"
+    "ammo_type": "components",
+    "melee_damage": { "bash": 1 }
   },
   {
     "type": "AMMO",
@@ -79,7 +79,7 @@
     "category": "spare_parts",
     "price": 200,
     "price_postapoc": 10,
-    "name": { "str_sp": "cement" },
+    "name": { "str_sp": "cement powder" },
     "symbol": "=",
     "color": "dark_gray",
     "description": "Portland is most likely long gone, but its memory persists in cement.  This ubiquitous binder can be used for all kinds of advanced masonry.  Just add water.",
@@ -102,9 +102,9 @@
     "material": [ "stone" ],
     "volume": "250 ml",
     "weight": "6 g",
-    "bashing": 1,
     "ammo_type": "components",
-    "count": 50
+    "count": 50,
+    "melee_damage": { "bash": 1 }
   },
   {
     "type": "AMMO",
@@ -135,9 +135,9 @@
     "material": [ "stone" ],
     "volume": "250 ml",
     "weight": "14 g",
-    "bashing": 1,
     "ammo_type": "components",
-    "count": 50
+    "count": 50,
+    "melee_damage": { "bash": 1 }
   },
   {
     "type": "AMMO",
@@ -218,8 +218,8 @@
     "material": [ "stone" ],
     "weight": "700 g",
     "volume": "1 L",
-    "bashing": 2,
-    "to_hit": -2
+    "to_hit": -2,
+    "melee_damage": { "bash": 2 }
   },
   {
     "type": "GENERIC",
@@ -234,7 +234,7 @@
     "material": [ "salt", "stone" ],
     "volume": "3500 ml",
     "weight": "650 g",
-    "bashing": 1
+    "melee_damage": { "bash": 1 }
   },
   {
     "type": "GENERIC",
@@ -250,7 +250,7 @@
     "volume": "250 ml",
     "weight": "915 g",
     "//": "density: 3.57–3.76 g/cm3",
-    "bashing": 1
+    "melee_damage": { "bash": 1 }
   },
   {
     "type": "GENERIC",
@@ -266,7 +266,7 @@
     "volume": "250 ml",
     "weight": "1412 g",
     "//": "density: 5.64–5.68 g/cm3",
-    "bashing": 1
+    "melee_damage": { "bash": 1 }
   },
   {
     "type": "COMESTIBLE",
@@ -924,8 +924,8 @@
     "material": [ "powder_nonflam" ],
     "volume": "1250 ml",
     "weight": "790 g",
-    "bashing": 1,
-    "ammo_type": "components"
+    "ammo_type": "components",
+    "melee_damage": { "bash": 1 }
   },
   {
     "type": "AMMO",
@@ -1111,10 +1111,10 @@
     "material": [ "powder" ],
     "volume": "250 ml",
     "weight": "70 g",
-    "bashing": 1,
     "ammo_type": "components",
     "container": "bag_plastic",
-    "count": 10
+    "count": 10,
+    "melee_damage": { "bash": 1 }
   },
   {
     "type": "COMESTIBLE",
@@ -1637,12 +1637,12 @@
     "price": 500,
     "price_postapoc": 10,
     "to_hit": 1,
-    "bashing": 2,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
     "looks_like": "link_sheet",
-    "flags": [ "FRAGILE_MELEE" ]
+    "flags": [ "FRAGILE_MELEE" ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "cobalt_60",
@@ -1904,8 +1904,8 @@
     "container": "test_tube",
     "symbol": ";",
     "color": "light_gray",
-    "price": 2000,
-    "price_postapoc": 20000,
+    "price": "20 USD",
+    "price_postapoc": "2 USD",
     "count": 1,
     "stack_size": 1
   },
@@ -1969,7 +1969,7 @@
     "count": 100
   },
   {
-    "type": "AMMO",
+    "type": "COMESTIBLE",
     "id": "liquid_soap",
     "name": { "str_sp": "liquid soap" },
     "category": "chems",
@@ -1984,9 +1984,9 @@
     "price_postapoc": 0,
     "volume": "250 ml",
     "phase": "liquid",
-    "ammo_type": "components",
     "flags": [ "DETERGENT" ],
-    "count": 5
+    "comestible_type": "INVALID",
+    "charges": 5
   },
   {
     "id": "pine_resin",

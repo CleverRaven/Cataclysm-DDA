@@ -67,6 +67,8 @@ static const activity_id ACT_START_ENGINES( "ACT_START_ENGINES" );
 
 static const ammotype ammo_battery( "battery" );
 
+static const damage_type_id damage_bash( "bash" );
+
 static const efftype_id effect_harnessed( "harnessed" );
 static const efftype_id effect_tied( "tied" );
 
@@ -992,7 +994,7 @@ void vehicle::transform_terrain()
         } else {
             const int speed = std::abs( velocity );
             int v_damage = rng( 3, speed );
-            damage( here, vp.part_index(), v_damage, damage_type::BASH, false );
+            damage( here, vp.part_index(), v_damage, damage_bash, false );
             sounds::sound( start_pos, v_damage, sounds::sound_t::combat, _( "Clanggggg!" ), false,
                            "smash_success", "hit_vehicle" );
         }
@@ -1061,7 +1063,7 @@ void vehicle::operate_planter()
                     here.set( loc, t_dirt, f_plant_seed );
                 } else if( !here.has_flag( ter_furn_flag::TFLAG_PLOWABLE, loc ) ) {
                     //If it isn't plowable terrain, then it will most likely be damaged.
-                    damage( here, planter_id, rng( 1, 10 ), damage_type::BASH, false );
+                    damage( here, planter_id, rng( 1, 10 ), damage_bash, false );
                     sounds::sound( loc, rng( 10, 20 ), sounds::sound_t::combat, _( "Clink" ), false, "smash_success",
                                    "hit_vehicle" );
                 }
@@ -1258,7 +1260,7 @@ void vehicle::open_or_close( const int part_index, const bool opening )
             parts.at( prt.fake_part_at ).open = opening;
         }
     };
-    //find_lines_of_parts() doesn't return the part_index we passed, so we set it on it's own
+    //find_lines_of_parts() doesn't return the part_index we passed, so we set it on its own
     part_open_or_close( part_index, opening );
     insides_dirty = true;
     map &here = get_map();
@@ -1578,7 +1580,7 @@ void vehicle::build_bike_rack_menu( veh_menu &menu, int part )
         .skip_locked_check()
         .on_submit( [this, rackable] {
             bikerack_racking_activity_actor rack( *this, *rackable.veh, rackable.racks );
-            get_player_character().assign_activity( player_activity( rack ), false );
+            get_player_character().assign_activity( rack );
         } );
 
         has_rack_actions = true;
@@ -1590,7 +1592,7 @@ void vehicle::build_bike_rack_menu( veh_menu &menu, int part )
         .skip_locked_check()
         .on_submit( [this, unrackable] {
             bikerack_unracking_activity_actor unrack( *this, unrackable.parts, unrackable.racks );
-            get_player_character().assign_activity( player_activity( unrack ), false );
+            get_player_character().assign_activity( unrack );
         } );
 
         has_rack_actions = true;
@@ -1770,7 +1772,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
             const int moves = to_moves<int>( 6000_seconds / skill );
             const tripoint target = global_square_location().raw() + coord_translate( parts[0].mount );
             const hotwire_car_activity_actor hotwire_act( moves, target );
-            get_player_character().assign_activity( player_activity( hotwire_act ) );
+            get_player_character().assign_activity( hotwire_act );
         } );
 
         if( !is_alarm_on ) {
@@ -1854,7 +1856,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
             .on_submit( [] { handbrake(); } );
         }
 
-        if( controls_here ) {
+        if( controls_here && engines.size() > 1 ) {
             menu.add( _( "Control individual engines" ) )
             .hotkey( "CONTROL_ENGINES" )
             .on_submit( [this] { control_engines(); } );
@@ -1869,16 +1871,6 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
 
     if( is_appliance() || vp.avail_part_with_feature( "CTRL_ELECTRONIC" ) ) {
         build_electronics_menu( menu );
-    }
-
-    if( controls_here ) {
-        menu.add( cruise_on ? _( "Disable cruise control" ) : _( "Enable cruise control" ) )
-        .hotkey( "TOGGLE_CRUISE_CONTROL" )
-        .keep_menu_open()
-        .on_submit( [this] {
-            cruise_on = !cruise_on;
-            add_msg( cruise_on ? _( "Cruise control turned on" ) : _( "Cruise control turned off" ) );
-        } );
     }
 
     if( has_electronic_controls && has_part( "SMART_ENGINE_CONTROLLER" ) ) {
@@ -1924,7 +1916,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
             if( opt )
             {
                 reload_activity_actor reload_act( std::move( opt ) );
-                get_player_character().assign_activity( player_activity( reload_act ) );
+                get_player_character().assign_activity( reload_act );
             }
         } );
     }
@@ -2066,7 +2058,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
                 item_location base_loc( vehicle_cursor( *this, vp_tank_idx ), &vp_tank.base );
                 item_location water_loc( base_loc, &vp_tank.base.only_item() );
                 const consume_activity_actor consume_act( water_loc );
-                get_player_character().assign_activity( player_activity( consume_act ) );
+                get_player_character().assign_activity( consume_act );
             } );
         }
     }
@@ -2216,7 +2208,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         .hotkey( "FOLD_VEHICLE" )
         .on_submit( [this] {
             vehicle_folding_activity_actor folding_act( *this );
-            get_avatar().assign_activity( player_activity( folding_act ) );
+            get_avatar().assign_activity( folding_act );
         } );
     }
 }

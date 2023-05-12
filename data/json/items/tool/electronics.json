@@ -8,7 +8,6 @@
     "volume": "250 ml",
     "price": 20000,
     "price_postapoc": 50,
-    "bashing": 1,
     "material": [ "plastic", "steel" ],
     "symbol": ";",
     "color": "yellow",
@@ -23,7 +22,8 @@
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
         "default_magazine": "light_plus_battery_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "camera_pro",
@@ -34,7 +34,6 @@
     "volume": "1250 ml",
     "price": 800000,
     "price_postapoc": 100,
-    "bashing": 1,
     "material": [ "plastic", "steel" ],
     "symbol": ";",
     "color": "yellow",
@@ -49,7 +48,8 @@
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
         "default_magazine": "light_plus_battery_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "cell_phone",
@@ -125,7 +125,6 @@
     "price": 0,
     "price_postapoc": 0,
     "to_hit": -8,
-    "cutting": 1,
     "material": [ "plastic", "steel" ],
     "symbol": ";",
     "color": "white",
@@ -133,7 +132,8 @@
     "turns_per_charge": 1,
     "use_action": [ "EHANDCUFFS" ],
     "//": "Don't add ELECTRONIC flag here, since these handcuffs have their own behavior when affected by EMP blast",
-    "flags": [ "ALWAYS_TWOHAND", "TRADER_AVOID", "WATER_BREAK" ]
+    "flags": [ "ALWAYS_TWOHAND", "TRADER_AVOID", "WATER_BREAK" ],
+    "melee_damage": { "cut": 1 }
   },
   {
     "id": "eink_tablet_pc",
@@ -217,7 +217,6 @@
     "price": 40000,
     "price_postapoc": 500,
     "to_hit": 1,
-    "bashing": 5,
     "material": [ "plastic", "aluminum" ],
     "ascii_picture": "electrohack",
     "symbol": ",",
@@ -231,7 +230,8 @@
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
         "default_magazine": "light_battery_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "geiger_off",
@@ -242,7 +242,6 @@
     "volume": "500 ml",
     "price": 15000,
     "price_postapoc": 1000,
-    "bashing": 2,
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "green",
@@ -257,7 +256,8 @@
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
         "default_magazine": "light_battery_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "geiger_on",
@@ -279,7 +279,6 @@
     "volume": "2735 ml",
     "price": 15000,
     "price_postapoc": 100,
-    "bashing": 2,
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "red",
@@ -298,7 +297,8 @@
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
         "default_magazine": "light_battery_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "hand_crank_charger",
@@ -339,7 +339,6 @@
     "longest_side": "40 cm",
     "price": 75000,
     "price_postapoc": 250,
-    "bashing": 6,
     "ammo": [ "battery" ],
     "charges_per_use": 1,
     "use_action": [
@@ -349,7 +348,7 @@
       "PORTABLE_GAME",
       {
         "type": "effect_on_conditions",
-        "//menu_text": "Dig into local files and logs",
+        "menu_text": "Dig into local files and logs",
         "description": "You can take a look at the local files stored on this laptop.",
         "//need_charges_msg": "The laptop's batteries need more charge.",
         "effect_on_conditions": [ "EOC_READ_LOCAL_FILES" ]
@@ -379,7 +378,8 @@
         "max_contains_weight": "1 g",
         "weight_multiplier": 0.0
       }
-    ]
+    ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "laptop_screen_lit",
@@ -457,7 +457,6 @@
     "price": 0,
     "price_postapoc": 50,
     "to_hit": -1,
-    "bashing": 6,
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "yellow",
@@ -472,7 +471,8 @@
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
         "default_magazine": "light_battery_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "noise_emitter_on",
@@ -496,7 +496,6 @@
     "price": 0,
     "price_postapoc": 50,
     "to_hit": -1,
-    "bashing": 6,
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "yellow",
@@ -511,7 +510,8 @@
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
         "default_magazine": "light_battery_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "emf_detector_on",
@@ -576,7 +576,7 @@
       "EBOOKREAD",
       {
         "type": "effect_on_conditions",
-        "//menu_text": "Dig into local files and logs",
+        "menu_text": "Dig into local files and logs",
         "description": "You can take a look at the local files stored on this smartphone.",
         "//need_charges_msg": "The smartphone's charge is too low.",
         "effect_on_conditions": [ "EOC_READ_LOCAL_FILES" ]
@@ -653,7 +653,6 @@
     "price": 280000,
     "price_postapoc": 1500,
     "to_hit": -1,
-    "bashing": 8,
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
@@ -665,7 +664,8 @@
         "flag_restriction": [ "BATTERY_HEAVY" ],
         "default_magazine": "heavy_plus_battery_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "methanol_fuel_cell",
@@ -720,7 +720,6 @@
     "price": 280000,
     "price_postapoc": 1500,
     "to_hit": -1,
-    "bashing": 8,
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
@@ -742,7 +741,8 @@
       "need_charges": 1,
       "need_charges_msg": "The charger's tank is empty.",
       "type": "transform"
-    }
+    },
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "gas_charger_on",

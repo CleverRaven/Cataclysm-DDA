@@ -171,6 +171,11 @@ static const ammotype ammo_battery( "battery" );
 
 static const bionic_id bio_painkiller( "bio_painkiller" );
 
+static const damage_type_id damage_acid( "acid" );
+static const damage_type_id damage_bash( "bash" );
+static const damage_type_id damage_cut( "cut" );
+static const damage_type_id damage_stab( "stab" );
+
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_controlled( "controlled" );
@@ -194,6 +199,7 @@ static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const json_character_flag json_flag_PSYCHOPATH( "PSYCHOPATH" );
 static const json_character_flag json_flag_SAPIOVORE( "SAPIOVORE" );
+static const json_character_flag json_flag_SILENT_SPELL( "SILENT_SPELL" );
 
 static const mongroup_id GROUP_FISH( "GROUP_FISH" );
 
@@ -1572,9 +1578,10 @@ void activity_handlers::pulp_do_turn( player_activity *act, Character *you )
     int mess_radius = 1;
 
     if( weapon ) {
-        weap_cut = weapon->damage_melee( damage_type::CUT );
-        weap_stab = weapon->damage_melee( damage_type::STAB );
-        weap_bash = weapon->damage_melee( damage_type::BASH );
+        // FIXME: Hardcoded damage types
+        weap_cut = weapon->damage_melee( damage_cut );
+        weap_stab = weapon->damage_melee( damage_stab );
+        weap_bash = weapon->damage_melee( damage_bash );
         if( weapon->has_flag( flag_MESSY ) ) {
             mess_radius = 2;
         }
@@ -1586,6 +1593,7 @@ void activity_handlers::pulp_do_turn( player_activity *act, Character *you )
     ///\EFFECT_STR increases pulping power, with diminishing returns
     float pulp_power = std::sqrt( ( you->get_arm_str() + weap_bash ) * ( cut_power + 1.0f ) );
     float pulp_effort = you->str_cur + weap_bash;
+
     // Multiplier to get the chance right + some bonus for survival skill
     pulp_power *= 40 + you->get_skill_level( skill_survival ) * 5;
 
@@ -1595,7 +1603,7 @@ void activity_handlers::pulp_do_turn( player_activity *act, Character *you )
     map_stack corpse_pile = here.i_at( pos );
     for( item &corpse : corpse_pile ) {
         const mtype *corpse_mtype = corpse.get_mtype();
-        const bool acid_immune = you->is_immune_damage( damage_type::ACID ) ||
+        const bool acid_immune = you->is_immune_damage( damage_acid ) ||
                                  you->is_immune_field( fd_acid );
         if( !corpse.is_corpse() || !corpse.can_revive() ||
             ( ( std::find( act->str_values.begin(), act->str_values.end(), "auto_pulp_no_acid" ) !=
@@ -2505,6 +2513,7 @@ void activity_handlers::toolmod_add_finish( player_activity *act, Character *you
                             mod.tname(), tool.tname() );
     mod.set_flag( flag_IRREMOVABLE );
     tool.put_in( mod, item_pocket::pocket_type::MOD );
+    tool.on_contents_changed();
     act->targets[1].remove_item();
 }
 
@@ -3566,7 +3575,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
                 return;
             }
 
-            if( spell_being_cast.has_flag( spell_flag::VERBAL ) ) {
+            if( spell_being_cast.has_flag( spell_flag::VERBAL ) && !you->has_flag( json_flag_SILENT_SPELL ) ) {
                 sounds::sound( you->pos(), you->get_shout_volume() / 2, sounds::sound_t::speech,
                                _( "cast a spell" ),
                                false );

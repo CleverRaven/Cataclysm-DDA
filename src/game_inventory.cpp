@@ -316,25 +316,15 @@ class armor_inventory_preset: public inventory_selector_preset
                 return get_number_string( loc->get_warmth() );
             }, _( "WARMTH" ) );
 
-            append_cell( [ this ]( const item_location & loc ) {
-                return get_decimal_string( loc->resist( damage_type::BASH ) );
-            }, _( "BASH" ) );
-
-            append_cell( [ this ]( const item_location & loc ) {
-                return get_decimal_string( loc->resist( damage_type::CUT ) );
-            }, _( "CUT" ) );
-
-            append_cell( [ this ]( const item_location & loc ) {
-                return get_decimal_string( loc->resist( damage_type::BULLET ) );
-            }, _( "BULLET" ) );
-
-            append_cell( [ this ]( const item_location & loc ) {
-                return get_decimal_string( loc->resist( damage_type::ACID ) );
-            }, _( "ACID" ) );
-
-            append_cell( [ this ]( const item_location & loc ) {
-                return get_decimal_string( loc->resist( damage_type::HEAT ) );
-            }, _( "FIRE" ) );
+            for( const damage_type &dt : damage_type::get_all() ) {
+                if( dt.no_resist ) {
+                    continue;
+                }
+                const damage_type_id &dtid = dt.id;
+                append_cell( [ this, dtid ]( const item_location & loc ) {
+                    return get_decimal_string( loc->resist( dtid ) );
+                }, to_upper_case( dt.name.translated() ) );
+            }
 
             append_cell( [ this ]( const item_location & loc ) {
                 return get_number_string( loc->get_env_resist() );
@@ -1492,17 +1482,15 @@ class weapon_inventory_preset: public inventory_selector_preset
                 }
             }, pgettext( "Shot as damage", "SHOT" ) );
 
-            append_cell( [ this ]( const item_location & loc ) {
-                return get_damage_string( loc->damage_melee( damage_type::BASH ) );
-            }, _( "BASH" ) );
-
-            append_cell( [ this ]( const item_location & loc ) {
-                return get_damage_string( loc->damage_melee( damage_type::CUT ) );
-            }, _( "CUT" ) );
-
-            append_cell( [ this ]( const item_location & loc ) {
-                return get_damage_string( loc->damage_melee( damage_type::STAB ) );
-            }, _( "STAB" ) );
+            for( const damage_type &dt : damage_type::get_all() ) {
+                if( !dt.melee_only ) {
+                    continue;
+                }
+                const damage_type_id &dtid = dt.id;
+                append_cell( [ this, dtid ]( const item_location & loc ) {
+                    return get_damage_string( loc->damage_melee( dtid ) );
+                }, to_upper_case( dt.name.translated() ) );
+            }
 
             append_cell( [ this ]( const item_location & loc ) {
                 if( deals_melee_damage( *loc ) ) {
@@ -1541,8 +1529,12 @@ class weapon_inventory_preset: public inventory_selector_preset
 
     private:
         bool deals_melee_damage( const item &it ) const {
-            return it.damage_melee( damage_type::BASH ) || it.damage_melee( damage_type::CUT ) ||
-                   it.damage_melee( damage_type::STAB );
+            for( const damage_type &dt : damage_type::get_all() ) {
+                if( it.damage_melee( dt.id ) ) {
+                    return true;
+                }
+            }
+            return false;
         }
 
         std::string get_damage_string( float damage, bool display_zeroes = false ) const {
@@ -1615,9 +1607,7 @@ void game_menus::inv::insert_items( avatar &you, item_location &holster )
     drop_locations holstered_list = game_menus::inv::holster( you, holster );
 
     if( !holstered_list.empty() ) {
-        you.assign_activity(
-            player_activity(
-                insert_item_activity_actor( holster, holstered_list ) ) );
+        you.assign_activity( insert_item_activity_actor( holster, holstered_list ) );
     }
 }
 
@@ -2076,72 +2066,80 @@ drop_locations game_menus::inv::smoke_food( Character &you, units::volume total_
 bool game_menus::inv::compare_items( const item &first, const item &second,
                                      const std::string &confirm_message )
 {
-    std::vector<iteminfo> v_item_first;
-    std::vector<iteminfo> v_item_second;
-
-    first.info( true, v_item_first );
-    second.info( true, v_item_second );
-
+    std::string action;
+    input_context ctxt;
+    ui_adaptor ui;
+    item_info_data item_info_first;
+    item_info_data item_info_second;
+    int page_size = 0;
     int scroll_pos_first = 0;
     int scroll_pos_second = 0;
-
-    item_info_data item_info_first( first.tname(), first.type_name(),
-                                    v_item_first, v_item_second, scroll_pos_first );
-
-    item_info_data item_info_second( second.tname(), second.type_name(),
-                                     v_item_second, v_item_first, scroll_pos_second );
-
-    item_info_first.without_getch = true;
-    item_info_second.without_getch = true;
-
-    input_context ctxt;
-    ctxt.register_action( "HELP_KEYBINDINGS" );
-    if( !confirm_message.empty() ) {
-        ctxt.register_action( "CONFIRM" );
-    }
-    ctxt.register_action( "QUIT" );
-    ctxt.register_action( "UP" );
-    ctxt.register_action( "DOWN" );
-    ctxt.register_action( "PAGE_UP" );
-    ctxt.register_action( "PAGE_DOWN" );
-
-    catacurses::window wnd_first;
-    catacurses::window wnd_second;
-    catacurses::window wnd_message;
-
-    const int half_width = TERMX / 2;
-    const int height = TERMY;
-    const int offset_y = confirm_message.empty() ? 0 : 3;
-    const int page_size = TERMY - offset_y - 2;
-
-    ui_adaptor ui;
-    ui.on_screen_resize( [&]( ui_adaptor & ui ) {
-        wnd_first = catacurses::newwin( height - offset_y, half_width, point_zero );
-        wnd_second = catacurses::newwin( height - offset_y, half_width, point( half_width, 0 ) );
-
-        if( !confirm_message.empty() ) {
-            wnd_message = catacurses::newwin( offset_y, TERMX, point( 0, height - offset_y ) );
-        }
-
-        ui.position( point_zero, point( half_width * 2, height ) );
-    } );
-    ui.mark_resize();
-    ui.on_redraw( [&]( const ui_adaptor & ) {
-        if( !confirm_message.empty() ) {
-            draw_border( wnd_message );
-            mvwputch( wnd_message, point( 3, 1 ), c_white, confirm_message
-                      + " " + ctxt.describe_key_and_name( "CONFIRM" )
-                      + " " + ctxt.describe_key_and_name( "QUIT" ) );
-            wnoutrefresh( wnd_message );
-        }
-
-        draw_item_info( wnd_first, item_info_first );
-        draw_item_info( wnd_second, item_info_second );
-    } );
-
-    std::string action;
-
+    bool first_execution = true;
+    static int lang_version = detail::get_current_language_version();
     do {
+        //lang check here is needed to redraw the menu when using "Toggle language to English" option
+        if( first_execution || lang_version != detail::get_current_language_version() ) {
+            std::vector<iteminfo> v_item_first;
+            std::vector<iteminfo> v_item_second;
+
+            first.info( true, v_item_first );
+            second.info( true, v_item_second );
+
+            item_info_first = item_info_data( first.tname(), first.type_name(),
+                                              v_item_first, v_item_second, scroll_pos_first );
+
+            item_info_second = item_info_data( second.tname(), second.type_name(),
+                                               v_item_second, v_item_first, scroll_pos_second );
+
+            item_info_first.without_getch = true;
+            item_info_second.without_getch = true;
+
+            ctxt.register_action( "HELP_KEYBINDINGS" );
+            if( !confirm_message.empty() ) {
+                ctxt.register_action( "CONFIRM" );
+            }
+            ctxt.register_action( "QUIT" );
+            ctxt.register_action( "UP" );
+            ctxt.register_action( "DOWN" );
+            ctxt.register_action( "PAGE_UP" );
+            ctxt.register_action( "PAGE_DOWN" );
+
+            catacurses::window wnd_first;
+            catacurses::window wnd_second;
+            catacurses::window wnd_message;
+
+            ui.reset();
+            ui.on_screen_resize( [&]( ui_adaptor & ui ) {
+                const int half_width = TERMX / 2;
+                const int height = TERMY;
+                const int offset_y = confirm_message.empty() ? 0 : 3;
+                page_size = TERMY - offset_y - 2;
+                wnd_first = catacurses::newwin( height - offset_y, half_width, point_zero );
+                wnd_second = catacurses::newwin( height - offset_y, half_width, point( half_width, 0 ) );
+
+                if( !confirm_message.empty() ) {
+                    wnd_message = catacurses::newwin( offset_y, TERMX, point( 0, height - offset_y ) );
+                }
+
+                ui.position( point_zero, point( half_width * 2, height ) );
+            } );
+            ui.mark_resize();
+            ui.on_redraw( [&]( const ui_adaptor & ) {
+                if( !confirm_message.empty() ) {
+                    draw_border( wnd_message );
+                    mvwputch( wnd_message, point( 3, 1 ), c_white, confirm_message
+                              + " " + ctxt.describe_key_and_name( "CONFIRM" )
+                              + " " + ctxt.describe_key_and_name( "QUIT" ) );
+                    wnoutrefresh( wnd_message );
+                }
+
+                draw_item_info( wnd_first, item_info_first );
+                draw_item_info( wnd_second, item_info_second );
+            } );
+            lang_version = detail::get_current_language_version();
+            first_execution = false;
+        }
+
         ui_manager::redraw();
 
         action = ctxt.handle_input();

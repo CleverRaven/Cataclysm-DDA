@@ -21,10 +21,6 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "dodge": 4,
-    "armor_bash": 4,
-    "armor_cut": 12,
-    "armor_bullet": 10,
-    "armor_elec": 2,
     "bleed_rate": 75,
     "vision_day": 50,
     "vision_night": 20,
@@ -49,7 +45,8 @@
       "PATH_AVOID_DANGER_1",
       "CAN_OPEN_DOORS",
       "PRIORITIZE_TARGETS"
-    ]
+    ],
+    "armor": { "bash": 4, "cut": 12, "bullet": 10, "electric": 2 }
   },
   {
     "id": "mon_mi_go_slaver",
@@ -74,10 +71,6 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "dodge": 4,
-    "armor_bash": 4,
-    "armor_cut": 12,
-    "armor_bullet": 10,
-    "armor_elec": 3,
     "bleed_rate": 50,
     "vision_day": 50,
     "vision_night": 20,
@@ -108,7 +101,8 @@
       "PATH_AVOID_DANGER_1",
       "CAN_OPEN_DOORS",
       "PRIORITIZE_TARGETS"
-    ]
+    ],
+    "armor": { "bash": 4, "cut": 12, "bullet": 10, "electric": 3 }
   },
   {
     "id": "mon_mi_go_surgeon",
@@ -133,10 +127,6 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 8 } ],
     "dodge": 4,
-    "armor_bash": 5,
-    "armor_cut": 13,
-    "armor_bullet": 10,
-    "armor_elec": 3,
     "bleed_rate": 75,
     "vision_day": 50,
     "vision_night": 20,
@@ -161,7 +151,8 @@
       "PATH_AVOID_DANGER_1",
       "CAN_OPEN_DOORS",
       "PRIORITIZE_TARGETS"
-    ]
+    ],
+    "armor": { "bash": 5, "cut": 13, "bullet": 10, "electric": 3 }
   },
   {
     "id": "mon_mi_go_guard",
@@ -186,10 +177,6 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "dodge": 5,
-    "armor_bash": 17,
-    "armor_cut": 22,
-    "armor_bullet": 18,
-    "armor_elec": 4,
     "bleed_rate": 50,
     "vision_day": 50,
     "vision_night": 20,
@@ -223,7 +210,8 @@
       "PATH_AVOID_DANGER_1",
       "CAN_OPEN_DOORS",
       "PRIORITIZE_TARGETS"
-    ]
+    ],
+    "armor": { "bash": 17, "cut": 22, "bullet": 18, "electric": 4 }
   },
   {
     "id": "mon_mi_go_myrmidon",
@@ -248,10 +236,6 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 10 } ],
     "dodge": 4,
-    "armor_bash": 19,
-    "armor_cut": 27,
-    "armor_bullet": 22,
-    "armor_elec": 6,
     "bleed_rate": 25,
     "vision_day": 50,
     "vision_night": 25,
@@ -285,7 +269,8 @@
       "PATH_AVOID_DANGER_1",
       "CAN_OPEN_DOORS",
       "PRIORITIZE_TARGETS"
-    ]
+    ],
+    "armor": { "bash": 19, "cut": 27, "bullet": 22, "electric": 6 }
   },
   {
     "id": "mon_mi_go_captured",
@@ -304,10 +289,6 @@
     "color": "light_gray",
     "aggression": 20,
     "morale": 50,
-    "armor_bash": 10,
-    "armor_cut": 10,
-    "armor_bullet": 10,
-    "armor_elec": 6,
     "bleed_rate": 25,
     "vision_day": 50,
     "vision_night": 25,
@@ -326,7 +307,8 @@
       "SEES",
       "SMELLS",
       "HEARS"
-    ]
+    ],
+    "armor": { "bash": 10, "cut": 10, "bullet": 10, "electric": 6 }
   },
   {
     "id": "mon_mi_go_scout",
@@ -351,10 +333,6 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "dodge": 5,
-    "armor_elec": 2,
-    "armor_bash": 4,
-    "armor_cut": 5,
-    "armor_bullet": 4,
     "bleed_rate": 25,
     "vision_day": 50,
     "vision_night": 25,
@@ -390,6 +368,7 @@
       "PATH_AVOID_DANGER_1",
       "CAN_OPEN_DOORS",
       "PRIORITIZE_TARGETS"
-    ]
+    ],
+    "armor": { "bash": 4, "cut": 5, "bullet": 4, "electric": 2 }
   }
 ]

@@ -31,6 +31,77 @@
     ]
   },
   {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "operator_headgear",
+    "entries": [ { "item": "helmet_army", "prob": 20 }, { "item": "hat_ball", "prob": 80 }, { "item": "hat_boonie", "prob": 20 } ]
+  },
+  {
+    "id": "operator_holster",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "holster", "contents-group": "sidearms_operator", "prob": 20 }, { "item": "holster", "prob": 80 } ]
+  },
+  {
+    "id": "operator_holster_field",
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "same as above but with the assumption that you have storage for magazines",
+    "entries": [
+      { "collection": [ { "item": "holster" }, { "group": "sidearms_operator_in_field" } ], "prob": 20 },
+      { "collection": [ { "item": "holster" }, { "group": "sidearms_operator_in_field_no_gun" } ], "prob": 80 }
+    ]
+  },
+  {
+    "id": "operator_armaments",
+    "type": "item_group",
+    "//": "this group sorts out what the paramilitary has for storage that might influence other stuff",
+    "//2": "for example if the person doesn't have storage they can't have any additional magazines",
+    "//3": "an operator like this never loses their long gun, it's on a front sling",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "collection": [
+          { "group": "contractor_ballistic_vest_light" },
+          { "group": "longguns_operator_in_field", "prob": 100, "damage": [ 0, 1 ], "dirt": [ 1500, 7050 ] },
+          { "group": "operator_holster_field", "damage": [ 1, 4 ], "prob": 80 }
+        ],
+        "prob": 70
+      },
+      {
+        "collection": [
+          { "group": "longguns_operator", "prob": 100, "damage": [ 0, 1 ], "dirt": [ 1500, 7050 ] },
+          { "group": "operator_holster", "damage": [ 1, 4 ], "prob": 80 }
+        ],
+        "prob": 30
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "mon_zombie_paramilitary_death_drops",
+    "magazine": 100,
+    "entries": [
+      { "group": "clothing_military", "damage": [ 1, 4 ] },
+      { "item": "elbow_pads", "damage": [ 1, 4 ], "prob": 10 },
+      { "item": "knee_pads", "damage": [ 1, 4 ], "prob": 85 },
+      { "group": "operator_headgear", "damage": [ 1, 4 ], "prob": 80 },
+      { "item": "gloves_tactical", "damage": [ 1, 4 ], "prob": 60 },
+      { "group": "operator_armaments", "prob": 90 },
+      { "group": "bugout_bag", "damage": [ 1, 4 ], "prob": 10 },
+      { "group": "clothing_tactical_leg", "damage": [ 1, 4 ], "prob": 15 },
+      {
+        "distribution": [
+          { "group": "clothing_glasses", "damage": [ 1, 4 ], "prob": 60 },
+          { "item": "glasses_bal", "damage": [ 1, 4 ], "prob": 30 }
+        ],
+        "prob": 90
+      },
+      { "group": "clothing_watch", "damage": [ 1, 4 ], "prob": 5 }
+    ]
+  },
+  {
     "id": "survivor_bashing",
     "type": "item_group",
     "items": [

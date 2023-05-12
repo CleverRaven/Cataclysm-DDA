@@ -11,11 +11,11 @@
     "material": [ "steel" ],
     "techniques": [ "DEF_DISARM" ],
     "volume": "22500 ml",
-    "bashing": 20,
     "category": "veh_parts",
     "price": 10000,
     "price_postapoc": 50,
-    "qualities": [ [ "COOK", 1 ] ]
+    "qualities": [ [ "COOK", 1 ] ],
+    "melee_damage": { "bash": 20 }
   },
   {
     "id": "bike_rack",
@@ -77,10 +77,10 @@
     "symbol": "]",
     "material": [ "steel", "plastic" ],
     "volume": "50 L",
-    "bashing": 2,
     "category": "veh_parts",
     "price": 40000,
-    "price_postapoc": 500
+    "price_postapoc": 500,
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "cargo_aisle",
@@ -91,11 +91,11 @@
     "color": "cyan",
     "symbol": "]",
     "volume": "50 L",
-    "bashing": 2,
     "material": [ "steel", "plastic" ],
     "category": "veh_parts",
     "price": 20000,
-    "price_postapoc": 500
+    "price_postapoc": 500,
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "livestock_carrier",

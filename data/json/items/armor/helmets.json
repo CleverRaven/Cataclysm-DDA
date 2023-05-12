@@ -9,7 +9,6 @@
     "volume": "2 L",
     "price": 4500,
     "price_postapoc": 50,
-    "bashing": 10,
     "material": [ "iron" ],
     "symbol": "[",
     "looks_like": "helmet_plate",
@@ -27,7 +26,8 @@
       },
       { "coverage": 80, "covers": [ "head" ], "specifically_covers": [ "head_forehead" ] },
       { "coverage": 20, "covers": [ "head" ], "specifically_covers": [ "head_ear_l", "head_ear_r" ] }
-    ]
+    ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "stockpot_helmet",
@@ -40,7 +40,6 @@
     "volume": "13 L",
     "price": 4500,
     "price_postapoc": 50,
-    "bashing": 10,
     "material": [ "mc_steel", "aluminum" ],
     "symbol": "[",
     "looks_like": "helmet_plate",
@@ -104,7 +103,8 @@
         "rigid_layer_only": true
       }
     ],
-    "flags": [ "RAINPROOF", "PADDED", "OUTER" ]
+    "flags": [ "RAINPROOF", "PADDED", "OUTER" ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "headgear",
@@ -169,7 +169,6 @@
     "price": 15000,
     "price_postapoc": 1500,
     "to_hit": -1,
-    "bashing": 10,
     "material": [ "kevlar_rigid", "plastic" ],
     "symbol": "[",
     "looks_like": "hat_hard",
@@ -253,7 +252,8 @@
         "description": "Pocket for a flashlight attachment.",
         "flag_restriction": [ "HELMET_HEAD_ATTACHMENT" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "tac_fullhelmet",
@@ -267,7 +267,6 @@
     "price": 25000,
     "price_postapoc": 2500,
     "to_hit": -1,
-    "bashing": 10,
     "material": [ "kevlar_rigid", "plastic" ],
     "symbol": "[",
     "looks_like": "helmet_motor",
@@ -281,7 +280,8 @@
     "material_thickness": 8,
     "environmental_protection": 2,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "SUN_GLASSES", "PADDED" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "SUN_GLASSES", "PADDED" ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "tac_helmet",
@@ -295,7 +295,6 @@
     "price": 20000,
     "price_postapoc": 2000,
     "to_hit": -1,
-    "bashing": 10,
     "material": [ "kevlar_rigid", "plastic" ],
     "symbol": "[",
     "looks_like": "tac_fullhelmet",
@@ -379,7 +378,8 @@
         "description": "Pocket for a flashlight attachment.",
         "flag_restriction": [ "HELMET_HEAD_ATTACHMENT" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "firehelmet",
@@ -393,7 +393,6 @@
     "price": 24000,
     "price_postapoc": 500,
     "to_hit": 1,
-    "bashing": 4,
     "material": [ "plastic", "nomex" ],
     "symbol": "[",
     "looks_like": "cowboy_hat",
@@ -420,7 +419,8 @@
         "covers": [ "head" ],
         "specifically_covers": [ "head_ear_l", "head_ear_r", "head_nape" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "helmet_ball",
@@ -434,7 +434,6 @@
     "price": 3100,
     "price_postapoc": 250,
     "to_hit": -1,
-    "bashing": 7,
     "material": [ "plastic", "plastic_pad" ],
     "symbol": "[",
     "looks_like": "hat_hard",
@@ -465,7 +464,8 @@
         "covers": [ "head" ],
         "specifically_covers": [ "head_ear_l", "head_ear_r" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 7 }
   },
   {
     "id": "helmet_barbute",
@@ -477,7 +477,6 @@
     "volume": "2500 ml",
     "price": 30000,
     "price_postapoc": 4000,
-    "bashing": 10,
     "material": [ "steel", "leather" ],
     "symbol": "[",
     "looks_like": "helmet_plate",
@@ -514,7 +513,8 @@
     "warmth": 10,
     "material_thickness": 4,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "STURDY" ]
+    "flags": [ "VARSIZE", "STURDY" ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "xl_helmet_barbute",
@@ -546,7 +546,6 @@
     "volume": "1500 ml",
     "price": 17000,
     "price_postapoc": 250,
-    "bashing": 4,
     "material": [ "plastic", "plastic_pad" ],
     "symbol": "[",
     "looks_like": "hat_hard",
@@ -596,7 +595,8 @@
         "description": "Pocket for a strapped mandible guard.",
         "flag_restriction": [ "HELMET_MANDIBLE_GUARD_STRAPPED" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "helmet_chitin",
@@ -609,7 +609,6 @@
     "price": 38000,
     "price_postapoc": 1250,
     "to_hit": -2,
-    "bashing": 2,
     "material": [ "chitin" ],
     "symbol": "[",
     "looks_like": "helmet_larmor",
@@ -640,7 +639,8 @@
     "warmth": 20,
     "material_thickness": 4,
     "environmental_protection": 4,
-    "flags": [ "WATERPROOF", "STURDY" ]
+    "flags": [ "WATERPROOF", "STURDY" ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "xl_helmet_chitin",
@@ -671,7 +671,6 @@
     "volume": "3500 ml",
     "price": 40000,
     "price_postapoc": 3500,
-    "bashing": 6,
     "material": [ "iron", "fur" ],
     "symbol": "[",
     "looks_like": "helmet_barbute",
@@ -688,7 +687,8 @@
         "specifically_covers": [ "head_forehead", "head_crown", "head_ear_l", "head_ear_r" ]
       },
       { "coverage": 90, "covers": [ "head" ], "specifically_covers": [ "head_nape" ] }
-    ]
+    ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "xl_helmet_conical",
@@ -719,9 +719,8 @@
     "price_postapoc": 1750,
     "material": [ "acidchitin" ],
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "warmth": 1.5 },
-    "relative": { "bashing": 1 },
-    "material_thickness": 5,
-    "extend": { "flags": [ "NO_REPAIR" ] }
+    "relative": { "melee_damage": { "bash": 1 } },
+    "material_thickness": 5
   },
   {
     "id": "xl_helmet_acidchitin",
@@ -807,7 +806,6 @@
     "volume": "2500 ml",
     "price": 35000,
     "price_postapoc": 3500,
-    "bashing": 10,
     "material": [ "iron", "leather" ],
     "symbol": "[",
     "looks_like": "helmet_barbute",
@@ -832,7 +830,8 @@
     "warmth": 10,
     "material_thickness": 3,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "STURDY" ]
+    "flags": [ "VARSIZE", "STURDY" ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "xl_helmet_galea",
@@ -864,7 +863,6 @@
     "volume": "3500 ml",
     "price": 50000,
     "price_postapoc": 5000,
-    "bashing": 6,
     "material": [ "iron", "leather" ],
     "symbol": "[",
     "looks_like": "helmet_barbute",
@@ -901,7 +899,8 @@
     "material_thickness": 4,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "STURDY" ]
+    "flags": [ "STURDY" ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "xl_helmet_kabuto",
@@ -1009,7 +1008,6 @@
     "price": 1000,
     "price_postapoc": 50,
     "to_hit": -1,
-    "bashing": 1,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "balclava",
@@ -1017,7 +1015,8 @@
     "warmth": 30,
     "material_thickness": 0.5,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 100, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 100, "covers": [ "head" ] } ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "helmet_motor",
@@ -1031,7 +1030,6 @@
     "price": 32500,
     "price_postapoc": 750,
     "to_hit": -1,
-    "bashing": 7,
     "material": [ "plastic", "epoxy", "plastic_pad" ],
     "symbol": "[",
     "color": "dark_gray",
@@ -1107,7 +1105,8 @@
     "warmth": 30,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "WATERPROOF", "STURDY", "PADDED" ]
+    "flags": [ "WATERPROOF", "STURDY", "PADDED" ],
+    "melee_damage": { "bash": 7 }
   },
   {
     "id": "helmet_motor_raised",
@@ -1123,7 +1122,6 @@
     "price": 32500,
     "price_postapoc": 750,
     "to_hit": -1,
-    "bashing": 7,
     "material": [ "plastic", "epoxy" ],
     "symbol": "[",
     "color": "dark_gray",
@@ -1176,7 +1174,8 @@
     "warmth": 30,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "WATERPROOF", "STURDY", "PADDED" ]
+    "flags": [ "WATERPROOF", "STURDY", "PADDED" ],
+    "melee_damage": { "bash": 7 }
   },
   {
     "id": "helmet_nasal",
@@ -1188,7 +1187,6 @@
     "volume": "2 L",
     "price": 26000,
     "price_postapoc": 3000,
-    "bashing": 10,
     "material": [ "iron", "leather" ],
     "symbol": "[",
     "looks_like": "helmet_barbute",
@@ -1217,7 +1215,8 @@
     "warmth": 10,
     "material_thickness": 3,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "STURDY" ]
+    "flags": [ "VARSIZE", "STURDY" ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "xl_helmet_nasal",
@@ -1248,7 +1247,6 @@
     "volume": "2750 ml",
     "price": 40000,
     "price_postapoc": 5000,
-    "bashing": 10,
     "material": [ "steel", "leather" ],
     "symbol": "[",
     "looks_like": "helmet_barbute",
@@ -1262,7 +1260,8 @@
     "material_thickness": 5,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "STURDY" ]
+    "flags": [ "VARSIZE", "STURDY" ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "xl_helmet_plate",
@@ -1293,7 +1292,6 @@
     "volume": "2050 ml",
     "price": 30000,
     "price_postapoc": 4000,
-    "bashing": 7,
     "material": [ "steel", "leather" ],
     "symbol": "n",
     "looks_like": "helmet_barbute",
@@ -1310,7 +1308,8 @@
     "material_thickness": 4,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "STURDY" ]
+    "flags": [ "VARSIZE", "STURDY" ],
+    "melee_damage": { "bash": 7 }
   },
   {
     "id": "xl_helmet_kettle",
@@ -1332,8 +1331,6 @@
     "price": 35000,
     "price_postapoc": 500,
     "to_hit": -1,
-    "bashing": 1,
-    "cutting": 2,
     "material": [ "budget_steel", "cotton" ],
     "symbol": "[",
     "looks_like": "helmet_plate",
@@ -1351,7 +1348,8 @@
         "coverage": 100,
         "encumbrance_modifiers": [ "IMBALANCED" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 1, "cut": 2 }
   },
   {
     "id": "xl_helmet_scrap",
@@ -1383,7 +1381,6 @@
     "volume": "2 L",
     "price": 4500,
     "price_postapoc": 50,
-    "bashing": 18,
     "material": [ "lc_steel", "cotton" ],
     "repairs_with": [ "steel" ],
     "symbol": "[",
@@ -1415,7 +1412,8 @@
         "coverage": 100,
         "encumbrance": 10
       }
-    ]
+    ],
+    "melee_damage": { "bash": 18 }
   },
   {
     "id": "ch_helmet_metal_sheets_full",
@@ -1460,7 +1458,6 @@
     "volume": "2 L",
     "price": 4500,
     "price_postapoc": 50,
-    "bashing": 16,
     "material": [ "lc_steel", "cotton" ],
     "repairs_with": [ "steel" ],
     "symbol": "[",
@@ -1480,7 +1477,8 @@
         "coverage": 100,
         "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 16 }
   },
   {
     "id": "ch_helmet_metal_sheets",
@@ -1514,7 +1512,6 @@
     "volume": "1250 ml",
     "price": 4500,
     "price_postapoc": 750,
-    "bashing": 8,
     "material": [ "plastic", "iron" ],
     "symbol": "[",
     "looks_like": "helmet_bike",
@@ -1529,7 +1526,8 @@
         "covers": [ "head" ],
         "specifically_covers": [ "head_crown", "head_forehead" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "pickelhaube",
@@ -1543,15 +1541,13 @@
     "price": 24000,
     "price_postapoc": 3500,
     "to_hit": -3,
-    "bashing": 2,
-    "cutting": 4,
     "material": [ "leather", "iron" ],
     "symbol": "[",
     "looks_like": "helmet_plate",
     "color": "dark_gray",
     "warmth": 15,
     "material_thickness": 3,
-    "flags": [ "STAB", "PADDED" ],
+    "flags": [ "PADDED" ],
     "armor": [
       { "encumbrance_modifiers": [ "NONE" ], "coverage": 100, "specifically_covers": [ "head_crown" ], "covers": [ "head" ] },
       { "coverage": 90, "specifically_covers": [ "head_forehead" ], "covers": [ "head" ] }
@@ -1577,7 +1573,8 @@
         "description": "Pocket for a strapped mandible guard.",
         "flag_restriction": [ "HELMET_MANDIBLE_GUARD_STRAPPED" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 2, "stab": 4 }
   },
   {
     "id": "helmet_corinthian",
@@ -1589,7 +1586,6 @@
     "volume": "2500 ml",
     "price": 30000,
     "price_postapoc": 3500,
-    "bashing": 10,
     "material": [ "bronze" ],
     "symbol": "[",
     "looks_like": "helmet_plate",
@@ -1621,7 +1617,8 @@
     "warmth": 10,
     "material_thickness": 3,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "STURDY" ]
+    "flags": [ "VARSIZE", "STURDY" ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "xl_helmet_corinthian",
@@ -1651,7 +1648,6 @@
     "volume": "2500 ml",
     "price": 20000,
     "price_postapoc": 2500,
-    "bashing": 10,
     "material": [ "bronze" ],
     "symbol": "[",
     "looks_like": "helmet_corinthian",
@@ -1669,7 +1665,8 @@
     "warmth": 10,
     "material_thickness": 2,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "STURDY" ]
+    "flags": [ "STURDY" ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "xl_helmet_bronze",
@@ -1734,7 +1731,6 @@
     "price": 55000,
     "price_postapoc": 5500,
     "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "lc_helm_close_raised", "menu_text": "Raise" },
-    "bashing": 8,
     "material": [ "lc_steel" ],
     "symbol": "o",
     "looks_like": "helmet_sallet",
@@ -1772,7 +1768,8 @@
     "warmth": 5,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "STURDY", "CONDUCTIVE", "ONLY_ONE" ]
+    "flags": [ "STURDY", "CONDUCTIVE", "ONLY_ONE" ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "lc_helm_close_raised",
@@ -1827,7 +1824,6 @@
     "price": 55000,
     "price_postapoc": 5500,
     "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "lc_helm_close_raised", "menu_text": "Raise" },
-    "bashing": 8,
     "material": [ "mc_steel" ],
     "symbol": "o",
     "looks_like": "helmet_sallet",
@@ -1865,7 +1861,8 @@
     "warmth": 5,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "STURDY", "CONDUCTIVE", "ONLY_ONE" ]
+    "flags": [ "STURDY", "CONDUCTIVE", "ONLY_ONE" ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "mc_helm_close_raised",
@@ -1920,7 +1917,6 @@
     "price": 55000,
     "price_postapoc": 5500,
     "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "mc_helm_close_raised", "menu_text": "Raise" },
-    "bashing": 8,
     "material": [ "hc_steel" ],
     "symbol": "o",
     "looks_like": "helmet_sallet",
@@ -1958,7 +1954,8 @@
     "warmth": 5,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "STURDY", "CONDUCTIVE", "ONLY_ONE" ]
+    "flags": [ "STURDY", "CONDUCTIVE", "ONLY_ONE" ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "hc_helm_close_raised",
@@ -2013,7 +2010,6 @@
     "price": 55000,
     "price_postapoc": 5500,
     "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "hc_helm_close_raised", "menu_text": "Raise" },
-    "bashing": 8,
     "material": [ "ch_steel" ],
     "symbol": "o",
     "looks_like": "helmet_sallet",
@@ -2051,7 +2047,8 @@
     "warmth": 5,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "STURDY", "CONDUCTIVE", "ONLY_ONE" ]
+    "flags": [ "STURDY", "CONDUCTIVE", "ONLY_ONE" ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "ch_helm_close_raised",
@@ -2106,7 +2103,6 @@
     "price": 55000,
     "price_postapoc": 5500,
     "use_action": { "type": "transform", "msg": "You raise the helm's visor.", "target": "qt_helm_close_raised", "menu_text": "Raise" },
-    "bashing": 8,
     "material": [ "qt_steel" ],
     "symbol": "o",
     "looks_like": "helmet_sallet",
@@ -2144,7 +2140,8 @@
     "warmth": 5,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "STURDY", "CONDUCTIVE", "ONLY_ONE" ]
+    "flags": [ "STURDY", "CONDUCTIVE", "ONLY_ONE" ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "qt_helm_close_raised",
@@ -2200,7 +2197,6 @@
     "price": 6000,
     "price_postapoc": 1000,
     "to_hit": -1,
-    "bashing": 10,
     "material": [ "plastic", "plastic_pad" ],
     "symbol": "[",
     "looks_like": "helmet_army",
@@ -2281,6 +2277,7 @@
         "description": "Pocket for a counterweight pouch.",
         "flag_restriction": [ "HELMET_BACK_POUCH" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 10 }
   }
 ]

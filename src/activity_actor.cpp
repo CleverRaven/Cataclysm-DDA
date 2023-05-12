@@ -361,7 +361,7 @@ void aim_activity_actor::finish( player_activity &act, Character &who )
     if( !last_target || last_target->is_dead_state() ) {
         who.last_target.reset();
     }
-    who.assign_activity( player_activity( aim_actor ), false );
+    who.assign_activity( aim_actor );
 }
 
 void aim_activity_actor::canceled( player_activity &/*act*/, Character &/*who*/ )
@@ -613,6 +613,7 @@ void gunmod_remove_activity_actor::finish( player_activity &act, Character &who 
     }
     act.set_to_null();
     gunmod_remove( who, *it_gun, *it_mod );
+    it_gun->on_contents_changed();
 }
 
 bool gunmod_remove_activity_actor::gunmod_unload( Character &who, item &gunmod )
@@ -3902,8 +3903,8 @@ void insert_item_activity_actor::finish( player_activity &act, Character &who )
     if( holstered_item.first ) {
         item &it = *holstered_item.first;
         if( !it.count_by_charges() ) {
-            if( holster->can_contain_directly( it ).success() && ( all_pockets_rigid ||
-                    holster.parents_can_contain_recursive( &it ) ) ) {
+            if( holster->can_contain_directly( it ).success() &&
+                holster.parents_can_contain_recursive( &it ) ) {
 
                 success = holster->put_in( it, item_pocket::pocket_type::CONTAINER,
                                            /*unseal_pockets=*/true ).success();
@@ -3918,8 +3919,7 @@ void insert_item_activity_actor::finish( player_activity &act, Character &who )
 
             }
         } else {
-            int charges = all_pockets_rigid ? holstered_item.second : std::min( holstered_item.second,
-                          holster.max_charges_by_parent_recursive( it ) );
+            int charges = std::min( holstered_item.second, holster.max_charges_by_parent_recursive( it ) );
 
             if( charges > 0 && holster->can_contain_partial_directly( it ) ) {
                 int result = holster->fill_with( it, charges,
@@ -5983,6 +5983,7 @@ void gunmod_add_activity_actor::finish( player_activity &act, Character &who )
         add_msg( m_good, _( "You successfully attached the %1$s to your %2$s." ), mod.tname(),
                  gun.tname() );
         gun.put_in( who.i_rem( &mod ), item_pocket::pocket_type::MOD );
+        gun.on_contents_changed();
 
     } else if( rng( 0, 100 ) <= risk ) {
         if( gun.inc_damage() ) {

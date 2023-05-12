@@ -66,11 +66,30 @@ class mon_spellcasting_actor : public mattack_actor
         std::unique_ptr<mattack_actor> clone() const override;
 };
 
+struct grab {
+    // Intensity of grab effect applied, defaults to the monster's defined grab_strength unless specified
+    int grab_strength;
+    // Percent chance to initiate a pull
+    int pull_chance;
+    // Ratio of pullee:puller weight
+    float pull_weight_ratio;
+    // Which effect should we apply on a successful grab to our target (bp)
+    // Limited to one GRAB-flagged effect per bp
+    efftype_id grab_effect;
+    // Messages for pulls
+    translation pull_msg_u;
+    translation pull_fail_msg_u;
+    translation pull_msg_npc;
+    translation pull_fail_msg_npc;
+    void load_grab( const JsonObject &jo );
+    bool was_loaded = false;
+};
+
 class melee_actor : public mattack_actor
 {
     public:
         // Maximum damage from the attack
-        damage_instance damage_max_instance = damage_instance::physical( 9, 0, 0, 0 );
+        damage_instance damage_max_instance;
         // Minimum multiplier on damage above (rolled per attack)
         float min_mul = 0.5f;
         // Maximum multiplier on damage above (also per attack)
@@ -98,6 +117,8 @@ class melee_actor : public mattack_actor
         int hitsize_min = -1;
         int hitsize_max = -1;
         bool attack_upper = true;
+        grab grab_data;
+        bool is_grab = false;
 
         /**
          * If empty, regular melee roll body part selection is used.

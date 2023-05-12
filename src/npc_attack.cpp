@@ -18,6 +18,8 @@
 
 static const bionic_id bio_hydraulics( "bio_hydraulics" );
 
+static const json_character_flag json_flag_SUBTLE_SPELL( "SUBTLE_SPELL" );
+
 namespace npc_attack_constants
 {
 // if you are attacking your target, multiply potential by this number
@@ -98,7 +100,7 @@ void npc_attack_spell::use( npc &source, const tripoint &location ) const
 {
     spell &sp = source.magic->get_spell( attack_spell_id );
     if( source.has_weapon() && !source.get_wielded_item()->has_flag( flag_MAGIC_FOCUS ) &&
-        !sp.has_flag( spell_flag::NO_HANDS ) ) {
+        !sp.has_flag( spell_flag::NO_HANDS ) && !source.has_flag( json_flag_SUBTLE_SPELL ) ) {
         source.unwield();
     }
     add_msg_debug( debugmode::debug_filter::DF_NPC, "%s is casting %s", source.disp_name(), sp.name() );
@@ -159,7 +161,7 @@ int npc_attack_spell::base_time_penalty( const npc &source ) const
     const spell &attack_spell = source.magic->get_spell( attack_spell_id );
     int time_penalty = 0;
     if( source.has_weapon() && !source.get_wielded_item()->has_flag( flag_MAGIC_FOCUS ) &&
-        !attack_spell.has_flag( spell_flag::NO_HANDS ) ) {
+        !attack_spell.has_flag( spell_flag::NO_HANDS ) && !source.has_flag( json_flag_SUBTLE_SPELL ) ) {
         time_penalty += npc_attack_constants::base_time_penalty;
     }
     // costs a point per second spent.
