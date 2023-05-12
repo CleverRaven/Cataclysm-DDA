@@ -25,7 +25,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_VALHALLIST_LEADER_Compound",
-    "dynamic_line": "I didn't build this, it was a living history exhibit run by U Amherst, modeled after old Norse structures and culture.  One of my buddies wanted to make it big in the re-enacting business, so they took an internship here.  I was planning on getting in to it with them as a tour guide, but <the_cataclysm> put a stop to it.  We came here from town, found the place wasn't occupied by those horrors, and set up camp here.  My friend must've thought that the old legends he'd studied had some meaning in them, and convinced the rest of us that we should start following them. We found large group fleeing one of those FEMA camps when we went out for food, and he convinced them to join us.",
+    "dynamic_line": "I didn't build this, it was a living history exhibit run by U Amherst, modeled after old Norse structures and culture.  One of my buddies wanted to make it big in the re-enacting business, so they took an internship here.  I was planning on getting in to it with them as a tour guide, but <the_cataclysm> put a stop to it.  We came here from town, found the place wasn't occupied by those horrors, and set up camp here.  My friend must've thought that the old legends he'd studied had some meaning in them, and convinced the rest of us that we should start following them.  We found large group fleeing one of those FEMA camps when we went out for food, and he convinced them to join us.",
     "responses": [
       { "text": "What did you do before <the_cataclysm>?", "topic": "TALK_VALHALLIST_LEADER_Ex_Job" },
       { "text": "How did you come to power here?", "topic": "TALK_VALHALLIST_LEADER_Position" },
