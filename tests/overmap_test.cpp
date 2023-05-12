@@ -310,14 +310,6 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
         oter_type_s_gas_g0_roof.id(),
         oter_type_s_gas_g1.id(),
         oter_type_s_gas_g1_roof.id(),
-        oter_type_pagan_cult_henge.id(),
-        oter_type_pagan_cult_long_wall.id(),
-        oter_type_pagan_cult_longhouse.id(),
-        oter_type_pagan_cult_enter.id(),
-        oter_type_pagan_cult_right_corner_up.id(),
-        oter_type_pagan_cult_left_corner_up.id(),
-        oter_type_pagan_cult_right_corner.id(),
-        oter_type_pagan_cult_left_corner.id(),
         oter_type_s_restaurant_deserted_test.id(), // only in the desert test region
     };
 
