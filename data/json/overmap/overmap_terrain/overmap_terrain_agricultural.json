@@ -176,9 +176,7 @@
       "horse_farm_isherwood_6",
       "horse_farm_isherwood_8",
       "horse_farm_ring_3",
-      "horse_farm_ring_4",
-	  "horse_farm_track_2",
-	  "horse_farm_track_4"
+      "horse_farm_ring_4"
     ],
     "copy-from": "generic_rural_building",
     "name": "farm field"
@@ -437,7 +435,90 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "paddock", "paddock_edgeL", "paddock_edgeR" ],
+    "id": "fence",
+    "copy-from": "generic_rural_building",
+    "name": "fence",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "fence_split_nw",
+    "copy-from": "fence",
+    "sym": "┌"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "fence_split_n", "fence_split_s" ],
+    "copy-from": "fence",
+    "sym": "─"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "fence_split_ne",
+    "copy-from": "fence",
+    "sym": "┐"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "fence_split_e", "fence_split_w" ],
+    "copy-from": "fence",
+    "sym": "│"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "fence_split_se",
+    "copy-from": "fence",
+    "sym": "┘"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "fence_split_sw",
+    "copy-from": "fence",
+    "sym": "└"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "horse_farm_track_2",
+      "horse_farm_track_4",
+      "paddock_1",
+      "paddock_2",
+      "paddock_3",
+      "paddock_4",
+      "paddock_5",
+      "paddock_6",
+      "paddock_7",
+      "paddock_8",
+      "paddock_9",
+      "paddock_10",
+      "paddock_11",
+      "paddock_12",
+      "paddock_13",
+      "paddock_14",
+      "paddock_15",
+      "paddock_16",
+      "paddock_17",
+      "paddock_18",
+      "paddock_19",
+      "paddock_20",
+      "paddock_21",
+      "paddock_22",
+      "paddock_23",
+      "paddock_24",
+      "paddock_25",
+      "paddock_26",
+      "paddock_27",
+      "paddock_28",
+      "paddock_29",
+      "paddock_30",
+      "paddock_31",
+      "paddock_32",
+      "paddock_33",
+      "paddock_34",
+      "paddock_35",
+      "paddock_36",
+      "paddock_37"
+    ],
     "copy-from": "generic_rural_building",
     "name": "paddock",
     "sym": "#",
@@ -456,8 +537,8 @@
     "id": [ "horse_farm_track_1", "horse_farm_track_3" ],
     "copy-from": "generic_rural_building",
     "name": "track",
-    "sym": "#",
-    "color": "light_gray"
+    "sym": "_",
+    "color": "i_light_gray"
   },
   {
     "type": "overmap_terrain",
@@ -465,7 +546,7 @@
     "copy-from": "generic_rural_building",
     "name": "track",
     "sym": "┌",
-    "color": "light_gray"
+    "color": "i_light_gray"
   },
   {
     "type": "overmap_terrain",
@@ -473,14 +554,15 @@
     "copy-from": "generic_rural_building",
     "name": "track",
     "sym": "┐",
-    "color": "light_gray"
-  },{
+    "color": "i_light_gray"
+  },
+  {
     "type": "overmap_terrain",
     "id": [ "horse_farm_track_large_3" ],
     "copy-from": "generic_rural_building",
     "name": "track",
     "sym": "└",
-    "color": "light_gray"
+    "color": "i_light_gray"
   },
   {
     "type": "overmap_terrain",
@@ -488,7 +570,7 @@
     "copy-from": "generic_rural_building",
     "name": "track",
     "sym": "┘",
-    "color": "light_gray"
+    "color": "i_light_gray"
   },
   {
     "type": "overmap_terrain",

@@ -7,7 +7,7 @@
     "city_distance": [ 5, 40 ],
     "city_sizes": [ 1, -1 ],
     "occurrences": [ 0, 2 ],
-    "flags": [ "WILDERNESS"],
+    "flags": [ "WILDERNESS" ],
     "check_for_locations_area": [ { "type": [ "land" ], "from": [ -4, -2, 0 ], "to": [ 4, 22, 0 ] } ],
     "joins": [
       "root_to_road",
@@ -28,6 +28,7 @@
       "dirt_road_ns_root_n": { "overmap": "dirt_road_north", "north": "root_to_road" },
       "dirt_road_nsw_root_n": { "overmap": "dirt_road_3way_east", "north": "root_to_road" },
       "dirt_road_new_root_n": { "overmap": "dirt_road_3way_south", "north": "root_to_road" },
+      "dirt_road_nes_root_n": { "overmap": "dirt_road_3way_west", "north": "root_to_road" },
       "dirt_road_ns_road_n": { "overmap": "dirt_road_north", "connections": { "north": { "connection": "local_road" } } },
       "dirt_road_ns": { "overmap": "dirt_road_north" },
       "dirt_road_ew": { "overmap": "dirt_road_east" },
@@ -40,44 +41,60 @@
       "dirt_road_new": { "overmap": "dirt_road_3way_south" },
       "dirt_road_nes": { "overmap": "dirt_road_3way_west" },
       "dirt_road_nesw": { "overmap": "dirt_road_4way_north" },
-      "farm_house_1_n": { "overmap": "horse_farm_house_1_north" },
-      "farm_house_2_n": { "overmap": "horse_farm_house_2_north" },
-      "stables_1_n": { "overmap": "horse_farm_stable_1_north" },
-      "stables_2_n": { "overmap": "horse_farm_stable_2_north" },
-      "horse_farm_track_1_n": { "overmap": "horse_farm_track_1_north" },
-      "horse_farm_track_2_n": { "overmap": "horse_farm_track_2_north" },
-      "horse_farm_track_3_n": { "overmap": "horse_farm_track_3_north" },
-      "horse_farm_track_4_n": { "overmap": "horse_farm_track_4_north" },
-      "horse_farm_track_large_1_n": { "overmap": "horse_farm_track_1_north" },
-      "horse_farm_track_large_2_n": { "overmap": "horse_farm_track_2_north" },
-      "horse_farm_track_large_3_n": { "overmap": "horse_farm_track_3_north" },
-      "horse_farm_track_large_4_n": { "overmap": "horse_farm_track_4_north" },
-      "horse_farm_ring_1_n": { "overmap": "horse_farm_ring_1_north" },
-      "horse_farm_ring_2_n": { "overmap": "horse_farm_ring_2_north" },
-      "horse_farm_ring_3_n": { "overmap": "horse_farm_ring_3_north" },
-      "horse_farm_ring_4_n": { "overmap": "horse_farm_ring_4_north" },
-      "silo_1_n": { "overmap": "ranch_camp_57_south" },
+      "farm_house_1_n": { "overmap": "horse_farm_house_1_north", "locations": [ "special_field" ] },
+      "farm_house_2_n": { "overmap": "horse_farm_house_2_north", "locations": [ "special_field" ] },
+      "stables_1_n": { "overmap": "horse_farm_stable_1_north", "locations": [ "special_field" ] },
+      "stables_2_n": { "overmap": "horse_farm_stable_2_north", "locations": [ "special_field" ] },
+      "track_1_n": { "overmap": "horse_farm_track_1_north", "locations": [ "special_field" ] },
+      "track_2_n": { "overmap": "horse_farm_track_2_north", "locations": [ "special_field" ] },
+      "track_3_n": { "overmap": "horse_farm_track_3_north", "locations": [ "special_field" ] },
+      "track_4_n": { "overmap": "horse_farm_track_4_north", "locations": [ "special_field" ] },
+      "track_large_1_n": { "overmap": "horse_farm_track_large_1_north", "locations": [ "special_field" ] },
+      "track_large_2_n": { "overmap": "horse_farm_track_large_2_north", "locations": [ "special_field" ] },
+      "track_large_3_n": { "overmap": "horse_farm_track_large_3_north", "locations": [ "special_field" ] },
+      "track_large_4_n": { "overmap": "horse_farm_track_large_4_north", "locations": [ "special_field" ] },
+      "ring_1_n": { "overmap": "horse_farm_ring_1_north", "locations": [ "special_field" ] },
+      "ring_2_n": { "overmap": "horse_farm_ring_2_north", "locations": [ "special_field" ] },
+      "ring_3_n": { "overmap": "horse_farm_ring_3_north", "locations": [ "special_field" ] },
+      "ring_4_n": { "overmap": "horse_farm_ring_4_north", "locations": [ "special_field" ] },
+      "silo_1_n": { "overmap": "ranch_camp_57_south", "locations": [ "special_field" ] },
       "silo_1_roof_n": { "overmap": "ranch_camp_57_roof_south" },
       "silo_1_tower_n": { "overmap": "ranch_camp_57_silo_south" },
       "silo_1_cap_n": { "overmap": "ranch_camp_57_silocap_south" },
-      "silo_2_n": { "overmap": "horse_farm_silo_north" },
+      "silo_2_n": { "overmap": "horse_farm_silo_north", "locations": [ "special_field" ] },
       "silo_2_tower_n": { "overmap": "horse_farm_silo_1_north" },
       "silo_2_cap_n": { "overmap": "horse_farm_silo_roof_north" },
       "silo_2_w": { "overmap": "horse_farm_silo_west" },
       "silo_2_tower_w": { "overmap": "horse_farm_silo_1_west" },
       "silo_2_cap_w": { "overmap": "horse_farm_silo_roof_west" },
-      "paddock_L_n": { "overmap": "paddock_edgeL_north" },
-      "paddock_L_e": { "overmap": "paddock_edgeL_east" },
-      "paddock_L_s": { "overmap": "paddock_edgeL_south" },
-      "paddock_L_w": { "overmap": "paddock_edgeL_west" },
-      "paddock_R_n": { "overmap": "paddock_edgeR_north" },
-      "paddock_R_e": { "overmap": "paddock_edgeR_east" },
-      "paddock_R_s": { "overmap": "paddock_edgeR_south" },
-      "paddock_R_w": { "overmap": "paddock_edgeR_west" },
-      "paddock_n": { "overmap": "paddock_north" },
-      "paddock_e": { "overmap": "paddock_east" },
-      "paddock_s": { "overmap": "paddock_south" },
-      "paddock_w": { "overmap": "paddock_west" },
+      "paddock_1_n": { "overmap": "paddock_1_north" },
+      "paddock_1_e": { "overmap": "paddock_1_east" },
+      "paddock_1_s": { "overmap": "paddock_1_south" },
+      "paddock_1_w": { "overmap": "paddock_1_west" },
+      "paddock_4_e": { "overmap": "paddock_4_east" },
+      "paddock_5_e": { "overmap": "paddock_5_east" },
+      "paddock_6_e": { "overmap": "paddock_6_east" },
+      "paddock_7_n": { "overmap": "paddock_7_north" },
+      "paddock_7_w": { "overmap": "paddock_7_west" },
+      "paddock_8_w": { "overmap": "paddock_8_west" },
+      "paddock_9_n": { "overmap": "paddock_9_north" },
+      "paddock_9_w": { "overmap": "paddock_9_west" },
+      "paddock_10_w": { "overmap": "paddock_10_west" },
+      "paddock_23_n": { "overmap": "paddock_23_north" },
+      "paddock_24_n": { "overmap": "paddock_24_north" },
+      "paddock_25_n": { "overmap": "paddock_25_north" },
+      "paddock_26_n": { "overmap": "paddock_26_north" },
+      "paddock_27_n": { "overmap": "paddock_27_north" },
+      "paddock_28_n": { "overmap": "paddock_28_north" },
+      "paddock_29_n": { "overmap": "paddock_29_north" },
+      "paddock_30_n": { "overmap": "paddock_30_north" },
+      "paddock_31_n": { "overmap": "paddock_31_north" },
+      "paddock_32_n": { "overmap": "paddock_32_north" },
+      "paddock_33_n": { "overmap": "paddock_33_north" },
+      "paddock_34_n": { "overmap": "paddock_34_north" },
+      "paddock_35_n": { "overmap": "paddock_35_north" },
+      "paddock_36_n": { "overmap": "paddock_36_north" },
+      "paddock_37_n": { "overmap": "paddock_37_north" },
       "hayfield_L_se": { "overmap": "hayfield_turnL_north" },
       "hayfield_L_sw": { "overmap": "hayfield_turnL_east" },
       "hayfield_L_nw": { "overmap": "hayfield_turnL_south" },
@@ -86,6 +103,8 @@
       "hayfield_R_nw": { "overmap": "hayfield_turnR_east" },
       "hayfield_R_ne": { "overmap": "hayfield_turnR_south" },
       "hayfield_R_se": { "overmap": "hayfield_turnR_west" },
+      "field_border": { "overmap": "special_field" },
+      "field_reserved": { "overmap": "special_field" },
       "forest": { "overmap": "special_forest" },
       "forest_thick": { "overmap": "special_forest_thick" },
       "inner_to_outer_n": { "overmap": "open_air", "north": "inner_to_outer" },
@@ -144,7 +163,7 @@
       [
         {
           "name": "horse_entrance_1",
-          "//": "Entrance phase builds road for the farm house and stables leaving a minimum 2x2 gap for both with north facing varients connecting on the top right tile for stables and top left tile for farm houses. Ends in 2 road connections.",
+          "//": "Entrance phase builds road for the farm house and stables reserving their placement with 2x2s of special_field. Ends in 2 road connections and completes borders with special_field to form rectangular tiles.",
           "chunk": [
             { "overmap": "dirt_road_ns_root_n", "pos": [ 0, 0, 0 ] },
             { "overmap": "dirt_road_ns", "pos": [ 0, 1, 0 ] },
@@ -158,42 +177,59 @@
             { "overmap": "dirt_road_ew", "pos": [ 1, 3, 0 ] },
             { "overmap": "dirt_road_esw", "pos": [ 2, 3, 0 ] },
             { "overmap": "road_to_stable_s", "pos": [ 2, 3, 10 ] },
+            { "overmap": "field_reserved", "pos": [ 2, 4, 0 ] },
+            { "overmap": "field_reserved", "pos": [ 1, 4, 0 ] },
+            { "overmap": "field_reserved", "pos": [ 2, 5, 0 ] },
+            { "overmap": "field_reserved", "pos": [ 1, 5, 0 ] },
             { "overmap": "dirt_road_nw", "pos": [ 3, 3, 0 ] },
             { "overmap": "dirt_road_ns", "pos": [ 3, 2, 0 ] },
             { "overmap": "road_to_house_n", "pos": [ 3, 2, 10 ] },
+            { "overmap": "field_reserved", "pos": [ 3, 1, 0 ] },
+            { "overmap": "field_reserved", "pos": [ 2, 1, 0 ] },
+            { "overmap": "field_reserved", "pos": [ 3, 0, 0 ] },
+            { "overmap": "field_reserved", "pos": [ 2, 0, 0 ] },
             { "overmap": "dirt_road_ew", "pos": [ 1, 6, 0 ] },
             { "overmap": "dirt_road_ew", "pos": [ 2, 6, 0 ] },
             { "overmap": "dirt_road_nsw", "pos": [ 3, 6, 0 ] },
             { "overmap": "dirt_road_sw", "pos": [ 3, 5, 0 ] },
             { "overmap": "dirt_road_ns", "pos": [ 3, 7, 0 ] },
-            { "overmap": "inner_to_outer_s", "pos": [ 3, 7, 10 ] }
+            { "overmap": "inner_to_outer_s", "pos": [ 3, 7, 10 ] },
+            { "overmap": "field_border", "pos": [ 1, 7, 0 ] },
+            { "overmap": "field_border", "pos": [ 2, 7, 0 ] },
+            { "overmap": "field_border", "pos": [ 3, 4, 0 ] },
+            { "overmap": "field_border", "pos": [ 1, 0, 0 ] }
           ],
           "weight": 1
         },
         {
           "name": "horse_entrance_2",
           "chunk": [
-            { "overmap": "dirt_road_ns_root_n", "pos": [ 0, 0, 0 ] },
-            { "overmap": "dirt_road_nes", "pos": [ 0, 1, 0 ] },
-            { "overmap": "road_to_house_s", "pos": [ 0, 1, 10 ] },
-            { "overmap": "dirt_road_ew", "pos": [ 1, 1, 0 ] },
-            { "overmap": "dirt_road_ew", "pos": [ 2, 1, 0 ] },
-            { "overmap": "dirt_road_esw", "pos": [ 3, 1, 0 ] },
-            { "overmap": "road_to_stable_s", "pos": [ 3, 1, 10 ] },
-            { "overmap": "dirt_road_ew", "pos": [ 4, 1, 0 ] },
-            { "overmap": "dirt_road_sw", "pos": [ 5, 1, 0 ] },
-            { "overmap": "dirt_road_ns", "pos": [ 5, 2, 0 ] },
+            { "overmap": "dirt_road_nes_root_n", "pos": [ 0, 0, 0 ] },
+            { "overmap": "road_to_house_s", "pos": [ 0, 0, 10 ] },
+            { "overmap": "field_reserved", "pos": [ 0, 1, 0 ] },
+            { "overmap": "field_reserved", "pos": [ 1, 1, 0 ] },
+            { "overmap": "field_reserved", "pos": [ 0, 2, 0 ] },
+            { "overmap": "field_reserved", "pos": [ 1, 2, 0 ] },
+            { "overmap": "dirt_road_ew", "pos": [ 1, 0, 0 ] },
+            { "overmap": "dirt_road_ew", "pos": [ 2, 0, 0 ] },
+            { "overmap": "dirt_road_esw", "pos": [ 3, 0, 0 ] },
+            { "overmap": "road_to_stable_s", "pos": [ 3, 0, 10 ] },
+            { "overmap": "field_reserved", "pos": [ 3, 1, 0 ] },
+            { "overmap": "field_reserved", "pos": [ 2, 1, 0 ] },
+            { "overmap": "field_reserved", "pos": [ 3, 2, 0 ] },
+            { "overmap": "field_reserved", "pos": [ 2, 2, 0 ] },
+            { "overmap": "dirt_road_ew", "pos": [ 4, 0, 0 ] },
+            { "overmap": "dirt_road_sw", "pos": [ 5, 0, 0 ] },
+            { "overmap": "dirt_road_ns", "pos": [ 5, 1, 0 ] },
+            { "overmap": "dirt_road_nsw", "pos": [ 5, 2, 0 ] },
             { "overmap": "dirt_road_nsw", "pos": [ 5, 3, 0 ] },
-            { "overmap": "dirt_road_nsw", "pos": [ 5, 4, 0 ] },
-            { "overmap": "dirt_road_ns", "pos": [ 5, 5, 0 ] },
-            { "overmap": "inner_to_outer_s", "pos": [ 5, 5, 10 ] },
-            { "overmap": "dirt_road_ew", "pos": [ 4, 4, 0 ] },
-            { "overmap": "dirt_road_ew", "pos": [ 3, 4, 0 ] },
-            { "overmap": "dirt_road_ew", "pos": [ 2, 4, 0 ] },
-            { "overmap": "dirt_road_ew", "pos": [ 1, 4, 0 ] },
-            { "overmap": "dirt_road_new", "pos": [ 0, 4, 0 ] },
-            { "overmap": "dirt_road_ew", "pos": [ -1, 4, 0 ] },
-            { "overmap": "inner_to_outer_w", "pos": [ -1, 4, 10 ] }
+            { "overmap": "inner_to_outer_s", "pos": [ 5, 3, 10 ] },
+            { "overmap": "dirt_road_ew", "pos": [ 4, 3, 0 ] },
+            { "overmap": "dirt_road_ew", "pos": [ 3, 3, 0 ] },
+            { "overmap": "dirt_road_ew", "pos": [ 2, 3, 0 ] },
+            { "overmap": "dirt_road_ew", "pos": [ 1, 3, 0 ] },
+            { "overmap": "dirt_road_new", "pos": [ 0, 3, 0 ] },
+            { "overmap": "inner_to_outer_w", "pos": [ 0, 3, 10 ] }
           ],
           "weight": 1
         },
@@ -203,22 +239,43 @@
             { "overmap": "dirt_road_nsw_root_n", "pos": [ 0, 0, 0 ] },
             { "overmap": "dirt_road_nes", "pos": [ 0, 1, 0 ] },
             { "overmap": "road_to_stable_e", "pos": [ 0, 1, 10 ] },
+            { "overmap": "field_reserved", "pos": [ 1, 1, 0 ] },
+            { "overmap": "field_reserved", "pos": [ 1, 2, 0 ] },
+            { "overmap": "field_reserved", "pos": [ 2, 1, 0 ] },
+            { "overmap": "field_reserved", "pos": [ 2, 2, 0 ] },
             { "overmap": "dirt_road_ns", "pos": [ 0, 2, 0 ] },
             { "overmap": "dirt_road_nes", "pos": [ 0, 3, 0 ] },
             { "overmap": "dirt_road_ns", "pos": [ 0, 4, 0 ] },
             { "overmap": "dirt_road_ns", "pos": [ 0, 5, 0 ] },
             { "overmap": "dirt_road_ns", "pos": [ 0, 6, 0 ] },
-            { "overmap": "dirt_road_ns", "pos": [ 0, 7, 0 ] },
-            { "overmap": "dirt_road_ne", "pos": [ 0, 8, 0 ] },
+            { "overmap": "dirt_road_ne", "pos": [ 0, 7, 0 ] },
             { "overmap": "dirt_road_ew", "pos": [ -1, 0, 0 ] },
             { "overmap": "dirt_road_ew", "pos": [ -2, 0, 0 ] },
             { "overmap": "road_to_house_w", "pos": [ -2, 0, 10 ] },
+            { "overmap": "field_reserved", "pos": [ -3, 0, 0 ] },
+            { "overmap": "field_reserved", "pos": [ -3, 1, 0 ] },
+            { "overmap": "field_reserved", "pos": [ -4, 0, 0 ] },
+            { "overmap": "field_reserved", "pos": [ -4, 1, 0 ] },
             { "overmap": "dirt_road_ew", "pos": [ 1, 3, 0 ] },
             { "overmap": "dirt_road_ew", "pos": [ 2, 3, 0 ] },
             { "overmap": "inner_to_outer_e", "pos": [ 2, 3, 10 ] },
-            { "overmap": "dirt_road_ew", "pos": [ 1, 8, 0 ] },
-            { "overmap": "dirt_road_ew", "pos": [ 2, 8, 0 ] },
-            { "overmap": "inner_to_outer_e", "pos": [ 2, 8, 10 ] }
+            { "overmap": "dirt_road_ew", "pos": [ 1, 7, 0 ] },
+            { "overmap": "dirt_road_ew", "pos": [ 2, 7, 0 ] },
+            { "overmap": "inner_to_outer_e", "pos": [ 2, 7, 10 ] },
+            { "overmap": "field_border", "pos": [ 1, 0, 0 ] },
+            { "overmap": "field_border", "pos": [ 2, 0, 0 ] },
+            { "overmap": "field_border", "pos": [ 2, 4, 0 ] },
+            { "overmap": "field_border", "pos": [ 2, 5, 0 ] },
+            { "overmap": "field_border", "pos": [ 2, 6, 0 ] },
+            { "overmap": "field_border", "pos": [ -4, 2, 0 ] },
+            { "overmap": "field_border", "pos": [ -4, 3, 0 ] },
+            { "overmap": "field_border", "pos": [ -4, 4, 0 ] },
+            { "overmap": "field_border", "pos": [ -4, 5, 0 ] },
+            { "overmap": "field_border", "pos": [ -4, 6, 0 ] },
+            { "overmap": "field_border", "pos": [ -4, 7, 0 ] },
+            { "overmap": "field_border", "pos": [ -3, 7, 0 ] },
+            { "overmap": "field_border", "pos": [ -2, 7, 0 ] },
+            { "overmap": "field_border", "pos": [ -1, 7, 0 ] }
           ],
           "weight": 1
         },
@@ -229,9 +286,17 @@
             { "overmap": "dirt_road_sw", "pos": [ 1, 0, 0 ] },
             { "overmap": "dirt_road_nes", "pos": [ 1, 1, 0 ] },
             { "overmap": "road_to_house_e", "pos": [ 1, 1, 10 ] },
+            { "overmap": "field_reserved", "pos": [ 2, 1, 0 ] },
+            { "overmap": "field_reserved", "pos": [ 2, 0, 0 ] },
+            { "overmap": "field_reserved", "pos": [ 3, 1, 0 ] },
+            { "overmap": "field_reserved", "pos": [ 3, 0, 0 ] },
             { "overmap": "dirt_road_nw", "pos": [ 1, 2, 0 ] },
             { "overmap": "dirt_road_esw", "pos": [ 0, 2, 0 ] },
             { "overmap": "road_to_stable_s", "pos": [ 0, 2, 10 ] },
+            { "overmap": "field_reserved", "pos": [ 0, 3, 0 ] },
+            { "overmap": "field_reserved", "pos": [ -1, 3, 0 ] },
+            { "overmap": "field_reserved", "pos": [ 0, 4, 0 ] },
+            { "overmap": "field_reserved", "pos": [ -1, 4, 0 ] },
             { "overmap": "dirt_road_ne", "pos": [ -1, 2, 0 ] },
             { "overmap": "dirt_road_nsw", "pos": [ -1, 1, 0 ] },
             { "overmap": "dirt_road_se", "pos": [ -1, 0, 0 ] },
@@ -248,45 +313,39 @@
             { "overmap": "dirt_road_ew", "pos": [ 1, 5, 0 ] },
             { "overmap": "dirt_road_ew", "pos": [ 2, 5, 0 ] },
             { "overmap": "dirt_road_ew", "pos": [ 3, 5, 0 ] },
-            { "overmap": "inner_to_outer_e", "pos": [ 3, 5, 10 ] }
+            { "overmap": "inner_to_outer_e", "pos": [ 3, 5, 10 ] },
+            { "overmap": "field_border", "pos": [ -2, 0, 0 ] },
+            { "overmap": "field_border", "pos": [ -3, 0, 0 ] },
+            { "overmap": "field_border", "pos": [ 3, 2, 0 ] },
+            { "overmap": "field_border", "pos": [ 3, 3, 0 ] },
+            { "overmap": "field_border", "pos": [ 3, 4, 0 ] }
           ],
           "weight": 1
         },
         {
           "name": "horse_entrance_5",
           "chunk": [
-            { "overmap": "dirt_road_nsw_root_n", "pos": [ 0, 0, 0 ] },
-            { "overmap": "road_to_house_w", "pos": [ 0, 0, 10 ] },
-            { "overmap": "dirt_road_nes", "pos": [ 0, 1, 0 ] },
-            { "overmap": "dirt_road_ns", "pos": [ 0, 2, 0 ] },
+            { "overmap": "dirt_road_ns_root_n", "pos": [ 0, 0, 0 ] },
+            { "overmap": "dirt_road_nsw", "pos": [ 0, 1, 0 ] },
+            { "overmap": "road_to_house_w", "pos": [ 0, 1, 10 ] },
+            { "overmap": "field_reserved", "pos": [ -1, 1, 0 ] },
+            { "overmap": "field_reserved", "pos": [ -1, 2, 0 ] },
+            { "overmap": "field_reserved", "pos": [ -2, 1, 0 ] },
+            { "overmap": "field_reserved", "pos": [ -2, 2, 0 ] },
+            { "overmap": "dirt_road_nes", "pos": [ 0, 2, 0 ] },
             { "overmap": "inner_to_outer_s", "pos": [ 0, 2, 10 ] },
-            { "overmap": "dirt_road_ew", "pos": [ 1, 1, 0 ] },
-            { "overmap": "dirt_road_new", "pos": [ 2, 1, 0 ] },
-            { "overmap": "road_to_stable_n", "pos": [ 2, 1, 10 ] },
-            { "overmap": "dirt_road_ew", "pos": [ 3, 1, 0 ] },
-            { "overmap": "inner_to_outer_e", "pos": [ 3, 1, 10 ] }
-          ],
-          "weight": 1
-        }
-      ],
-      [
-        {
-          "name": "horse_home_1",
-          "//": "Farm house phase placing a maximum 2x2 house facing north and connecting on the top left tile for 2x2.",
-          "chunk": [
-            { "overmap": "farm_house_1_n", "pos": [ 0, 0, 0 ] },
-            { "overmap": "farm_house_2_n", "pos": [ 0, 1, 0 ] },
-            { "overmap": "house_to_road_n", "pos": [ 0, 0, 10 ] }
-          ],
-          "weight": 1
-        },
-        {
-          "name": "stables_1",
-          "//": "Stables phase placing a maximum 2x2 stables. North facing and connecting on the top right tile for 2x2.",
-          "chunk": [
-            { "overmap": "stables_1_n", "pos": [ 0, 0, 0 ] },
-            { "overmap": "stables_2_n", "pos": [ 0, 1, 0 ] },
-            { "overmap": "stable_to_road_n", "pos": [ 0, 0, 10 ] }
+            { "overmap": "dirt_road_ew", "pos": [ 1, 2, 0 ] },
+            { "overmap": "dirt_road_new", "pos": [ 2, 2, 0 ] },
+            { "overmap": "road_to_stable_n", "pos": [ 2, 2, 10 ] },
+            { "overmap": "field_reserved", "pos": [ 2, 1, 0 ] },
+            { "overmap": "field_reserved", "pos": [ 3, 1, 0 ] },
+            { "overmap": "field_reserved", "pos": [ 2, 0, 0 ] },
+            { "overmap": "field_reserved", "pos": [ 3, 0, 0 ] },
+            { "overmap": "dirt_road_ew", "pos": [ 3, 2, 0 ] },
+            { "overmap": "inner_to_outer_e", "pos": [ 3, 2, 10 ] },
+            { "overmap": "field_border", "pos": [ 1, 0, 0 ] },
+            { "overmap": "field_border", "pos": [ -1, 0, 0 ] },
+            { "overmap": "field_border", "pos": [ -2, 0, 0 ] }
           ],
           "weight": 1
         }
@@ -299,8 +358,21 @@
             { "overmap": "outer_to_inner_n", "pos": [ 0, 0, 10 ] },
             { "overmap": "dirt_road_nes", "pos": [ 0, 1, 0 ] },
             { "overmap": "road_to_extra_e", "pos": [ 0, 1, 10 ] },
+            { "overmap": "field_reserved", "pos": [ 1, 1, 0 ] },
+            { "overmap": "field_reserved", "pos": [ 1, 0, 0 ] },
+            { "overmap": "field_reserved", "pos": [ 2, 1, 0 ] },
+            { "overmap": "field_reserved", "pos": [ 2, 0, 0 ] },
             { "overmap": "dirt_road_ns", "pos": [ 0, 2, 0 ] },
-            { "overmap": "inner_to_outer_s", "pos": [ 0, 2, 10 ] }
+            { "overmap": "dirt_road_ns", "pos": [ 0, 3, 0 ] },
+            { "overmap": "inner_to_outer_s", "pos": [ 0, 3, 10 ] },
+            { "overmap": "paddock_8_w", "pos": [ 1, 2, 0 ] },
+            { "overmap": "paddock_10_w", "pos": [ 2, 2, 0 ] },
+            { "overmap": "paddock_7_w", "pos": [ 1, 3, 0 ] },
+            { "overmap": "paddock_9_w", "pos": [ 2, 3, 0 ] },
+            { "overmap": "paddock_4_e", "pos": [ -1, 0, 0 ] },
+            { "overmap": "paddock_5_e", "pos": [ -1, 1, 0 ] },
+            { "overmap": "paddock_6_e", "pos": [ -1, 2, 0 ] },
+            { "overmap": "paddock_1_e", "pos": [ -1, 3, 0 ] }
           ],
           "max": 3,
           "weight": 1
@@ -315,69 +387,6 @@
             { "overmap": "inner_to_outer_s", "pos": [ 0, 2, 10 ] }
           ],
           "max": 5,
-          "weight": 1
-        }
-      ],
-      [
-        {
-          "name": "ring_1",
-          "//": "Adds potential ring, track and silo to the connectors, might change connections to be a generic road_to_extra extra_to_road pair instead.",
-          "chunk": [
-            { "overmap": "horse_farm_ring_1_n", "pos": [ 0, 0, 0 ] },
-            { "overmap": "extra_to_road_n", "pos": [ 0, 0, 10 ] },
-            { "overmap": "horse_farm_ring_2_n", "pos": [ 1, 0, 0 ] },
-            { "overmap": "horse_farm_ring_3_n", "pos": [ 0, 1, 0 ] },
-            { "overmap": "horse_farm_ring_4_n", "pos": [ 1, 1, 0 ] }
-          ],
-          "max": 1,
-          "weight": 1
-        },
-        {
-          "name": "track_small",
-          "chunk": [
-            { "overmap": "horse_farm_track_1_n", "pos": [ 0, 0, 0 ] },
-            { "overmap": "extra_to_road_n", "pos": [ 0, 0, 10 ] },
-            { "overmap": "horse_farm_track_2_n", "pos": [ 1, 0, 0 ] },
-            { "overmap": "horse_farm_track_3_n", "pos": [ 0, 1, 0 ] },
-            { "overmap": "horse_farm_track_4_n", "pos": [ 1, 1, 0 ] }
-          ],
-          "max": 1,
-          "weight": 1
-        },
-		{
-          "name": "track_large",
-          "chunk": [
-            { "overmap": "horse_farm_track_large_1_n", "pos": [ 0, 0, 0 ] },
-            { "overmap": "extra_to_road_n", "pos": [ 0, 0, 10 ] },
-            { "overmap": "horse_farm_track_large_2_n", "pos": [ 1, 0, 0 ] },
-            { "overmap": "horse_farm_track_large_3_n", "pos": [ 0, 1, 0 ] },
-            { "overmap": "horse_farm_track_large_4_n", "pos": [ 1, 1, 0 ] }
-          ],
-          "max": 1,
-          "weight": 1
-        },
-        {
-          "name": "silo_1",
-          "chunk": [
-            { "overmap": "silo_1_n", "pos": [ 0, 0, 0 ] },
-            { "overmap": "silo_1_roof_n", "pos": [ 0, 0, 1 ] },
-            { "overmap": "silo_1_tower_n", "pos": [ 0, 0, 2 ] },
-            { "overmap": "silo_1_cap_n", "pos": [ 0, 0, 3 ] },
-            { "overmap": "extra_to_road_n", "pos": [ 0, 0, 10 ] }
-          ],
-          "max": 1,
-          "weight": 1
-        },
-        {
-          "name": "silo_2",
-          "chunk": [
-            { "overmap": "silo_2_n", "pos": [ 0, 0, 0 ] },
-            { "overmap": "silo_2_tower_n", "pos": [ 0, 0, 1 ] },
-            { "overmap": "silo_2_tower_n", "pos": [ 0, 0, 2 ] },
-            { "overmap": "silo_2_cap_n", "pos": [ 0, 0, 3 ] },
-            { "overmap": "extra_to_road_n", "pos": [ 0, 0, 10 ] }
-          ],
-          "max": 1,
           "weight": 1
         }
       ],
@@ -415,13 +424,13 @@
         {
           "name": "paddock_end_1",
           "chunk": [
-            { "overmap": "dirt_road_ns", "pos": [ 0, 0, 0 ] },
+            { "overmap": "paddock_33_n", "pos": [ 0, 0, 0 ] },
             { "overmap": "outer_to_inner_n", "pos": [ 0, 0, 10 ] },
-            { "overmap": "paddock_L_n", "pos": [ -1, 1, 0 ] },
-            { "overmap": "paddock_n", "pos": [ 0, 1, 0 ] },
-            { "overmap": "paddock_R_n", "pos": [ 1, 1, 0 ] },
-            { "overmap": "paddock_w", "pos": [ 1, 0, 0 ] },
-            { "overmap": "paddock_e", "pos": [ -1, 0, 0 ] }
+            { "overmap": "paddock_32_n", "pos": [ -1, 0, 0 ] },
+            { "overmap": "paddock_34_n", "pos": [ 1, 0, 0 ] },
+            { "overmap": "paddock_35_n", "pos": [ -1, 1, 0 ] },
+            { "overmap": "paddock_36_n", "pos": [ 0, 1, 0 ] },
+            { "overmap": "paddock_37_n", "pos": [ 1, 1, 0 ] }
           ],
           "weight": 3
         },
@@ -450,9 +459,110 @@
         {
           "name": "paddock_end_3",
           "chunk": [
-            { "overmap": "paddock_n", "pos": [ 0, 0, 0 ] },
+            { "overmap": "paddock_1_n", "pos": [ 0, 0, 0 ] },
             { "overmap": "outer_to_inner_n", "pos": [ 0, 0, 10 ] }
           ],
+          "weight": 1
+        },
+        {
+          "name": "paddock_end_testing",
+          "chunk": [
+            { "overmap": "dirt_road_ne", "pos": [ 0, 0, 0 ] },
+            { "overmap": "outer_to_inner_n", "pos": [ 0, 0, 10 ] },
+            { "overmap": "dirt_road_ew", "pos": [ 1, 0, 0 ] },
+            { "overmap": "dirt_road_ew", "pos": [ 2, 0, 0 ] },
+            { "overmap": "paddock_23_n", "pos": [ 0, 1, 0 ] },
+            { "overmap": "paddock_24_n", "pos": [ 1, 1, 0 ] },
+            { "overmap": "paddock_25_n", "pos": [ 2, 1, 0 ] },
+            { "overmap": "paddock_26_n", "pos": [ 0, 2, 0 ] },
+            { "overmap": "paddock_27_n", "pos": [ 1, 2, 0 ] },
+            { "overmap": "paddock_28_n", "pos": [ 2, 2, 0 ] },
+            { "overmap": "paddock_29_n", "pos": [ 0, 3, 0 ] },
+            { "overmap": "paddock_30_n", "pos": [ 1, 3, 0 ] },
+            { "overmap": "paddock_31_n", "pos": [ 2, 3, 0 ] }
+          ],
+          "weight": 1
+        }
+      ],
+      [
+        {
+          "name": "horse_home_1",
+          "//": "Farm houses should be up to 2x2 and connect on the top left when facing north.",
+          "chunk": [
+            { "overmap": "farm_house_1_n", "pos": [ 0, 0, 0 ] },
+            { "overmap": "house_to_road_n", "pos": [ 0, 0, 10 ] },
+            { "overmap": "farm_house_2_n", "pos": [ 0, 1, 0 ] }
+          ],
+          "weight": 1
+        },
+        {
+          "name": "stables_1",
+          "//": "Stables should be up to 2x2 and connect on the top right when facing north.",
+          "chunk": [
+            { "overmap": "stables_1_n", "pos": [ 0, 0, 0 ] },
+            { "overmap": "stable_to_road_n", "pos": [ 0, 0, 10 ] },
+            { "overmap": "stables_2_n", "pos": [ 0, 1, 0 ] }
+          ],
+          "weight": 1
+        },
+        {
+          "name": "ring_1",
+          "chunk": [
+            { "overmap": "ring_1_n", "pos": [ 0, 0, 0 ] },
+            { "overmap": "extra_to_road_n", "pos": [ 0, 0, 10 ] },
+            { "overmap": "ring_2_n", "pos": [ 1, 0, 0 ] },
+            { "overmap": "ring_3_n", "pos": [ 0, 1, 0 ] },
+            { "overmap": "ring_4_n", "pos": [ 1, 1, 0 ] }
+          ],
+          "max": 1,
+          "weight": 1
+        },
+        {
+          "name": "track_small",
+          "chunk": [
+            { "overmap": "track_1_n", "pos": [ 0, 0, 0 ] },
+            { "overmap": "extra_to_road_n", "pos": [ 0, 0, 10 ] },
+            { "overmap": "track_2_n", "pos": [ 1, 0, 0 ] },
+            { "overmap": "track_3_n", "pos": [ 0, 1, 0 ] },
+            { "overmap": "track_4_n", "pos": [ 1, 1, 0 ] }
+          ],
+          "max": 1,
+          "weight": 1
+        },
+        {
+          "name": "track_large",
+          "chunk": [
+            { "overmap": "track_large_1_n", "pos": [ 0, 0, 0 ] },
+            { "overmap": "extra_to_road_n", "pos": [ 0, 0, 10 ] },
+            { "overmap": "track_large_2_n", "pos": [ 1, 0, 0 ] },
+            { "overmap": "track_large_3_n", "pos": [ 0, 1, 0 ] },
+            { "overmap": "track_large_4_n", "pos": [ 1, 1, 0 ] }
+          ],
+          "max": 1,
+          "weight": 1
+        },
+        {
+          "name": "silo_1",
+          "chunk": [
+            { "overmap": "silo_1_n", "pos": [ 0, 0, 0 ] },
+            { "overmap": "silo_1_roof_n", "pos": [ 0, 0, 1 ] },
+            { "overmap": "silo_1_tower_n", "pos": [ 0, 0, 2 ] },
+            { "overmap": "silo_1_cap_n", "pos": [ 0, 0, 3 ] },
+            { "overmap": "extra_to_road_n", "pos": [ 0, 0, 10 ] }
+          ],
+          "max": 1,
+          "weight": 1
+        },
+        {
+          "name": "silo_2",
+          "chunk": [
+            { "overmap": "silo_2_n", "pos": [ 0, 0, 0 ] },
+            { "overmap": "silo_2_tower_n", "pos": [ 0, 0, 1 ] },
+            { "overmap": "silo_2_tower_n", "pos": [ 0, 0, 2 ] },
+            { "overmap": "silo_2_cap_n", "pos": [ 0, 0, 3 ] },
+            { "overmap": "extra_to_road_n", "pos": [ 0, 0, 10 ] }
+          ],
+          "max": 1,
           "weight": 1
         }
       ],

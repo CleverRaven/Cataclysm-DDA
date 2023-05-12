@@ -12,7 +12,7 @@
       "/": "t_region_groundcover_barren",
       "7": "t_dirtfloor",
       ";": "t_dirtfloor",
-	  "R": "t_railroad_rubble",
+      "R": "t_railroad_rubble",
       "`": "t_water_dp",
       "~": "t_water_sh",
       "-": "t_wall_w",
@@ -35,6 +35,7 @@
       "<": "t_stairs_up",
       ">": "t_stairs_down",
       "#": "t_ladder_up",
+      "2": [ [ "t_region_groundcover", 25 ], [ "t_region_shrub", 2 ], [ "t_region_tree", 1 ], [ "t_region_tree_fruit", 1 ], [ "t_region_tree_nut", 1 ] ],
       "9": [ "t_region_tree", "t_region_tree_fruit", "t_region_tree_nut" ]
     },
     "furniture": {
@@ -65,6 +66,22 @@
       "y": [ "f_indoor_plant_y", "f_indoor_plant" ],
       "b": "f_rotary_clothesline",
       "p": "f_region_flower_decorative"
+    }
+  },
+  {
+    "type": "palette",
+    "id": "paddock",
+    "terrain": {
+      ".": "t_region_groundcover",
+      ",": [ [ "t_region_groundcover", 45 ], [ "t_region_shrub", 2 ] ],
+      "_": [ [ "t_region_grass", 1 ], [ "t_grass_dead", 12 ], [ "t_region_soil", 2 ] ],
+      ";": "t_railroad_rubble",
+      "o": "t_splitrail_fencegate_o",
+      "c": "t_splitrail_fencegate_c",
+      "%": "t_splitrail_fence",
+      "2": [ [ "t_region_groundcover", 25 ], [ "t_region_shrub", 2 ], [ "t_region_tree", 1 ], [ "t_region_tree_fruit", 1 ], [ "t_region_tree_nut", 1 ] ],
+      "9": [ "t_region_tree", "t_region_tree_fruit", "t_region_tree_nut" ],
+      "/": [ [ "t_region_soil", 200 ], [ "t_region_groundcover", 5 ] ]
     }
   }
 ]
