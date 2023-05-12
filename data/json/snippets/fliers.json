@@ -343,7 +343,7 @@
       {
         "id": "flier_83",
         "text": {
-          "str": "This flyer appears to have been hastily photocopied on cheap cartridge paper. It appears to be advertising an event 7 days after the evacuation order was sent out. 'Great Antler Bar & Grill is closing down forever. Come and celebrate the memmeries. fFood will be free. come quick fresh and tender.' There are several grainy photos of an empty restaurant with the windows boarded up, rotting food haphazardly served on the tables in different stages of decomposition. At the bottom of the flier is a blurry photo of a woman, her eyes bloodshot and mouth are disturbingly wide. You can't quite determine whether she is laughing or crying.",
+          "str": "This flyer appears to have been hastily photocopied on cheap cartridge paper. It appears to be advertising an event 7 days after the evacuation order was sent out. 'Great Antler Bar & Grill is closing down forever. Come and celebrate the memmeries. fFood will be free. come quick fresh and tender.' There are several grainy photos of an empty restaurant with the windows boarded up, rotting food haphazardly served on the tables at different stages of decomposition. The bottom of the flier is a blurry photo of a woman, her eyes bloodshot and mouth disturbingly wide. You can't quite determine whether she is laughing or crying.",
           "//NOLINT(cata-text-style)": "intentional format"
         }
       }
