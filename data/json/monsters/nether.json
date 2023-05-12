@@ -218,7 +218,7 @@
         "type": "spell",
         "spell_data": { "id": "spur_shrill", "hit_self": true },
         "cooldown": 5,
-        "monster_message": "Scraps of metal fly off the spur and into the nearby swarms! It is a living shadow, "
+        "monster_message": "Scraps of metal fly off the spur and into the nearby swarms!"
       }
     ],
     "death_drops": "structural_spur_drops",
@@ -288,7 +288,7 @@
     "default_faction": "nether",
     "copy-from": "mon_void_spider",
     "symbol": "w",
-    "hp": 30,
+    "hp": 15,
     "proportional": { "speed": 1.2, "dodge": 0.25, "vision_day": 2 },
     "melee_dice": 5,
     "melee_dice_sides": 5,
