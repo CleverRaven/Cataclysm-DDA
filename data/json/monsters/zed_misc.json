@@ -512,13 +512,13 @@
     "vision_day": 6,
     "vision_night": 40,
     "harvest": "zombie",
-    "grab_strength": 75,
     "special_attacks": [
       {
-        "id": "bite_humanoid",
+        "type": "bite",
+        "cooldown": 10,
         "damage_max_instance": [ { "damage_type": "stab", "amount": 10, "armor_multiplier": 0.2 } ]
       },
-      { "id": "impale", "condition": { "not": { "u_has_flag": "GRAB_FILTER" } }, },
+      { "id": "impale" },
       [ "GRAB_DRAG", 10 ]
     ],
     "death_drops": "default_zombie_death_drops",
