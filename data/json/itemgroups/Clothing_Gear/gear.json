@@ -131,7 +131,7 @@
       [ "jack", 5 ],
       [ "throw_extinguisher", 10 ],
       [ "grapnel", 5 ],
-      { "item": "wearable_light", "prob": 5, "charges-min": 0 },
+      { "item": "wearable_light", "prob": 5, "charges-min": 1 },
       { "group": "tools_toolbox", "prob": 1 },
       { "item": "smoxygen_tank", "prob": 35, "charges-min": 4 },
       { "item": "watercannon", "prob": 10, "charges-min": 0 },
