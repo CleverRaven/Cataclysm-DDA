@@ -184,6 +184,7 @@
         "tool_quality": 10
       }
     ],
+    "ammo": [ "battery" ],
     "charges_per_use": 20,
     "charged_qualities": [ [ "WELD", 2 ] ],
     "melee_damage": { "bash": 1, "cut": 3 }
