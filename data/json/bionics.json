@@ -1467,8 +1467,8 @@
     "occupied_bodyparts": [ [ "arm_l", 8 ], [ "arm_r", 8 ] ],
     "encumbrance": [ [ "arm_l", 1 ], [ "arm_r", 1 ] ],
     "fuel_options": [ "sunlight" ],
-    "//": "at max irradiance (~1000) generates about 8 watts",
-    "passive_fuel_efficiency": 0.008,
+    "//": "at max irradiance (~1000) generates about 6 watts",
+    "passive_fuel_efficiency": 0.006,
     "coverage_power_gen_penalty": 1.0,
     "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_NPC_USABLE" ]
   },
