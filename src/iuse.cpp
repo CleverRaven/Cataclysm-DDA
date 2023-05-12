@@ -2292,6 +2292,51 @@ class exosuit_interact
         }
 };
 
+std::optional<int> iuse::mace( Character *p, item *it, bool, const tripoint & )
+{
+    if( !it->ammo_sufficient( p ) ) {
+        return std::nullopt;
+    }
+    // If anyone other than the player wants to use one of these,
+    // they're going to need to figure out how to aim it.
+    const std::optional<tripoint> dest_ = choose_adjacent( _( "Spray where?" ) );
+    if( !dest_ ) {
+        return std::nullopt;
+    }
+    tripoint dest = *dest_;
+
+    p->moves -= to_moves<int>( 2_seconds );
+
+    map &here = get_map();
+    // Reduce the strength of fire (if any) in the target tile.
+    here.add_field( dest, fd_tear_gas, 3, 10_turns );
+
+    // Also spray monsters in that tile.
+    if( monster *const mon_ptr = get_creature_tracker().creature_at<monster>( dest, true ) ) {
+        monster &critter = *mon_ptr;
+        critter.moves -= to_moves<int>( 2_seconds );
+        bool blind = false;
+        if( one_in( 2 ) && critter.has_flag( MF_SEES ) ) {
+            blind = true;
+            critter.add_effect( effect_blind, rng( 1_minutes, 2_minutes ) );
+        }
+        // even if it's not blinded getting maced hurts a lot and stuns it
+        if( !critter.has_flag( NO_BREATHE ) ) {
+            critter.moves -= to_moves<int>( 3_seconds )
+            p->add_msg_if_player( _( "The %s recoils in pain!" ), critter.name() );
+        }
+        viewer &player_view = get_player_view();
+        if( player_view.sees( critter ) ) {
+            p->add_msg_if_player( _( "The %s is sprayed!" ), critter.name() );
+            if( blind ) {
+                p->add_msg_if_player( _( "The %s looks blinded." ), critter.name() );
+            }
+        }
+    }
+
+    return 1;
+}
+
 std::optional<int> iuse::manage_exosuit( Character *p, item *it, bool, const tripoint & )
 {
     if( !p->is_avatar() ) {
