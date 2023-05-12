@@ -2308,8 +2308,7 @@ std::optional<int> iuse::mace( Character *p, item *it, bool, const tripoint & )
     p->moves -= to_moves<int>( 2_seconds );
 
     map &here = get_map();
-    // Reduce the strength of fire (if any) in the target tile.
-    here.add_field( dest, fd_tear_gas, 3, 10_turns );
+    here.add_field( dest, fd_tear_gas, 2, 3_turns );
 
     // Also spray monsters in that tile.
     if( monster *const mon_ptr = get_creature_tracker().creature_at<monster>( dest, true ) ) {
