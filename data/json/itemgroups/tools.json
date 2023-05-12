@@ -215,7 +215,8 @@
       { "item": "tinderbox", "prob": 10, "charges": [ 0, 100 ] },
       [ "lifestraw", 4 ],
       [ "chem_hexamine", 10 ],
-      { "item": "esbit_stove", "prob": 15, "charges": [ 0, 50 ] }
+      { "item": "esbit_stove", "prob": 15, "charges": [ 0, 50 ] },
+      { "item": "teargas_sprayer", "prob": 15, "charges": 10 }
     ]
   },
   {
