@@ -6,9 +6,53 @@
     "label": "Health + All Graphs",
     "description": "All sorts of <color_yellow>health stats</color>, and four <color_yellow>tiny bodygraphs</color> for HP, status, encumbrance and temperature.\n\nSee the other Health widgets for alternatives.",
     "arrange": "columns",
-    "separator": " ",
     "height": 7,
-    "widgets": [ "structured_health_tiny_body_graphs_layout", "structured_health_mid_layout", "structured_health_right_layout" ]
+    "widgets": [
+      "structured_tiny_body_graphs_and_health_left_layout",
+      "structured_health_mid_layout",
+      "structured_health_right_layout"
+    ]
+  },
+  {
+    "id": "structured_health_all_side_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Health + All (side)",
+    "description": "All sorts of <color_yellow>health stats</color>, and four <color_yellow>tiny side-view bodygraphs</color> for HP, status, encumbrance and temperature.\n\nSee the other Health widgets for alternatives.",
+    "arrange": "columns",
+    "height": 7,
+    "widgets": [
+      "structured_tiny_body_graphs_side_and_health_left_layout",
+      "structured_health_mid_layout",
+      "structured_health_right_layout"
+    ],
+    "flags": [ "W_DISABLED_BY_DEFAULT" ]
+  },
+  {
+    "id": "structured_tiny_body_graphs_and_health_left_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "width": 21,
+    "padding": 0,
+    "widgets": [
+      "structured_tiny_body_graphs_left_layout",
+      "structured_tiny_body_graphs_right_layout",
+      "structured_health_left_layout"
+    ]
+  },
+  {
+    "id": "structured_tiny_body_graphs_side_and_health_left_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "width": 21,
+    "padding": 0,
+    "widgets": [
+      "structured_tiny_body_graphs_side_left_layout",
+      "structured_tiny_body_graphs_side_right_layout",
+      "structured_health_left_layout"
+    ]
   },
   {
     "id": "structured_health_encumb_layout",
@@ -17,7 +61,6 @@
     "label": "Health + Encumb Graph",
     "description": "All sorts of <color_yellow>health stats</color>, and a bodygraph for <color_yellow>encumbrance</color>.\n\nSee the other Health widgets for alternatives.",
     "arrange": "columns",
-    "separator": " ",
     "height": 7,
     "widgets": [
       "structured_body_graph_encumb_layout",
@@ -93,38 +136,59 @@
     ]
   },
   {
-    "id": "structured_health_tiny_body_graphs_layout",
-    "type": "widget",
-    "style": "layout",
-    "arrange": "minimum_columns",
-    "width": 20,
-    "padding": 0,
-    "widgets": [ "structured_tiny_body_graph_layout", "structured_health_left_layout" ]
-  },
-  {
     "id": "structured_health_sa_layout",
     "type": "widget",
-    "style": "layout",
+    "copy-from": "structured_health_encumb_layout",
     "label": "Health (self-aware)",
-    "description": "All sorts of <color_yellow>health stats (self-aware</color>, i.e. as numbers), and a bodygraph for <color_yellow>hitpoints</color>.\n\nSee the other Health widgets for alternatives.",
-    "arrange": "columns",
-    "separator": " ",
-    "height": 7,
+    "description": "All sorts of <color_yellow>health stats (self-aware</color>, i.e. as numbers), and four <color_yellow>tiny bodygraphs</color> for HP, status, encumbrance and temperature.\n\nSee the other Health widgets for alternatives.",
     "widgets": [
-      "structured_body_graph_layout",
-      "structured_health_left_sa_layout",
+      "structured_tiny_body_graphs_and_health_left_sa_layout",
       "structured_health_mid_sa_layout",
       "structured_health_right_layout"
     ],
     "flags": [ "W_DISABLED_BY_DEFAULT" ]
   },
   {
+    "id": "structured_health_sa_side_layout",
+    "type": "widget",
+    "copy-from": "structured_health_encumb_layout",
+    "label": "Health (self-a side)",
+    "description": "All sorts of <color_yellow>health stats (self-aware</color>, i.e. as numbers), and four <color_yellow>tiny side-view bodygraphs</color> for HP, status, encumbrance and temperature.\n\nSee the other Health widgets for alternatives.",
+    "widgets": [
+      "structured_tiny_body_graphs_side_and_health_left_sa_layout",
+      "structured_health_mid_sa_layout",
+      "structured_health_right_layout"
+    ],
+    "flags": [ "W_DISABLED_BY_DEFAULT" ]
+  },
+  {
+    "id": "structured_tiny_body_graphs_and_health_left_sa_layout",
+    "type": "widget",
+    "copy-from": "structured_tiny_body_graphs_and_health_left_layout",
+    "padding": 0,
+    "widgets": [
+      "structured_tiny_body_graphs_left_layout",
+      "structured_tiny_body_graphs_right_layout",
+      "structured_health_left_sa_layout"
+    ]
+  },
+  {
+    "id": "structured_tiny_body_graphs_side_and_health_left_sa_layout",
+    "type": "widget",
+    "copy-from": "structured_tiny_body_graphs_side_and_health_left_layout",
+    "padding": 0,
+    "widgets": [
+      "structured_tiny_body_graphs_side_left_layout",
+      "structured_tiny_body_graphs_side_right_layout",
+      "structured_health_left_sa_layout"
+    ]
+  },
+  {
     "id": "structured_health_left_layout",
     "type": "widget",
     "style": "layout",
     "arrange": "rows",
-    "width": 10,
-    "separator": " ",
+    "width": 11,
     "widgets": [
       "status_hpg_layout_head",
       "status_hpg_layout_torso",
@@ -141,7 +205,6 @@
     "style": "layout",
     "arrange": "rows",
     "width": 12,
-    "separator": " ",
     "pad_labels": false,
     "widgets": [
       "pain_desc_no_label",
@@ -149,16 +212,14 @@
       "thirst_desc_no_label",
       "fatigue_desc_no_label",
       "body_temp_desc_no_label",
-      "focus_num",
-      "structured_speed_vehicle_layout"
+      "structured_temp_radiation_layout",
+      "structured_focus_mood_layout"
     ]
   },
   {
     "id": "structured_health_left_sa_layout",
     "type": "widget",
-    "style": "layout",
-    "arrange": "rows",
-    "width": 10,
+    "copy-from": "structured_health_left_layout",
     "widgets": [
       "status_hpn_layout_head",
       "status_hpn_layout_torso",
@@ -172,18 +233,15 @@
   {
     "id": "structured_health_mid_sa_layout",
     "type": "widget",
-    "style": "layout",
-    "arrange": "rows",
-    "width": 12,
-    "//": "TODO - It is not currently possible to conditionally swap out widgets on the fly. When this is added, vehicle speed should replace speed when driving.",
+    "copy-from": "structured_health_mid_layout",
     "widgets": [
       "pain_num_label",
       "hunger_desc_no_label",
       "thirst_desc_no_label",
       "fatigue_desc_no_label",
       "body_temp_desc_no_label",
-      "focus_num",
-      "structured_speed_vehicle_layout"
+      "structured_temp_radiation_layout",
+      "focus_num"
     ]
   },
   {
@@ -192,28 +250,43 @@
     "style": "layout",
     "arrange": "rows",
     "width": 11,
+    "pad_labels": false,
     "widgets": [
       "structured_stats_label",
       "stats_no_label_layout",
-      "wielding_simple_desc_no_label",
-      "style_desc_no_label",
-      "structured_temp_extras_layout",
-      "structured_mood_safe_mode_layout",
-      "structured_stamina_graph"
+      "structured_stamina_graph",
+      "activity_desc_no_label",
+      "structured_weariness_transition_graph",
+      "weariness_desc_no_label",
+      "structured_weary_malus_safe_mode"
     ]
   },
   {
-    "id": "structured_temp_extras_layout",
+    "id": "structured_temp_radiation_layout",
     "type": "widget",
     "style": "layout",
-    "arrange": "columns",
-    "widgets": [ "body_temp_delta_sym_no_label", "structured_env_temp" ]
+    "arrange": "minimum_columns",
+    "widgets": [ "structured_temp_layout", "rad_badge_letter_no_label" ]
   },
   {
-    "id": "structured_env_temp",
+    "id": "structured_temp_layout",
     "type": "widget",
-    "text_align": "right",
-    "copy-from": "env_temp_desc_no_label"
+    "style": "layout",
+    "width": 10,
+    "widgets": [ "env_temp_desc_no_label", "body_temp_delta_sym_no_label" ]
+  },
+  {
+    "id": "structured_focus_mood_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [ "structured_focus", "mood_desc_no_label" ]
+  },
+  {
+    "id": "structured_focus",
+    "type": "widget",
+    "label": "F",
+    "copy-from": "focus_num"
   },
   {
     "id": "structured_stats_label",
@@ -222,21 +295,36 @@
     "string": "St De In Pe"
   },
   {
-    "id": "structured_mood_safe_mode_layout",
+    "id": "structured_weary_malus_safe_mode",
     "type": "widget",
     "style": "layout",
     "arrange": "columns",
-    "padding": 0,
-    "widgets": [ "mood_desc_no_label", "safe_mode_classic_desc_right" ]
+    "widgets": [ "weary_malus_desc_no_label", "structured_safe_mode_desc" ]
+  },
+  {
+    "id": "structured_safe_mode_desc",
+    "type": "widget",
+    "text_align": "right",
+    "copy-from": "safe_mode_classic_desc"
   },
   {
     "id": "structured_stamina_graph",
     "type": "widget",
     "var": "stamina",
     "style": "graph",
-    "width": 11,
+    "width": 9,
+    "label": { "str": "S", "ctxt": "Label for the stamina bar graph" },
     "symbols": ".\\|",
-    "colors": [ "c_red", "c_light_red", "c_yellow", "c_light_green", "c_green" ],
-    "flags": [ "W_LABEL_NONE" ]
+    "colors": [ "c_red", "c_light_red", "c_yellow", "c_light_green", "c_green" ]
+  },
+  {
+    "id": "structured_weariness_transition_graph",
+    "type": "widget",
+    "var": "weary_transition_level",
+    "style": "graph",
+    "width": 9,
+    "label": { "str": "W", "ctxt": "Label for the weariness bar graph" },
+    "symbols": ".\\|",
+    "colors": [ "c_red", "c_light_red", "c_yellow", "c_light_green", "c_green" ]
   }
 ]

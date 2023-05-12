@@ -3,7 +3,7 @@
     "type": "COMESTIBLE",
     "id": "sauce_red",
     "looks_like": "tomato_juice",
-    "name": { "str": "red sauce" },
+    "name": { "str": "tomato sauce" },
     "weight": "68 g",
     "color": "red",
     "spoils_in": "3 days",

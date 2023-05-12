@@ -21,8 +21,6 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
     "dodge": 2,
-    "armor_bash": 3,
-    "armor_cut": 1,
     "vision_day": 30,
     "vision_night": 5,
     "harvest": "zombie_leather",
@@ -33,7 +31,8 @@
     ],
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "fear_triggers": [ "FIRE" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY", "SWIMS" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY", "SWIMS" ],
+    "armor": { "bash": 3, "cut": 1 }
   },
   {
     "id": "mon_bushelephant_fungal",
@@ -50,12 +49,11 @@
     "melee_skill": 4,
     "melee_dice": 2,
     "melee_dice_sides": 3,
-    "armor_bash": 3,
-    "armor_cut": 1,
     "death_function": { "effect": { "id": "death_fungus", "hit_self": true } },
     "special_attacks": [ [ "FUNGUS", 200 ], [ "SMASH", 15 ], [ "FUNGUS_BRISTLE", 20 ], [ "FUNGUS_BIG_BLOSSOM", 30 ] ],
     "extend": { "flags": [ "POISON", "NO_BREATHE" ] },
-    "delete": { "flags": [ "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "GROUP_MORALE", "GOODHEARING", "SWARMS" ] }
+    "delete": { "flags": [ "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "GROUP_MORALE", "GOODHEARING", "SWARMS" ] },
+    "armor": { "bash": 3, "cut": 1 }
   },
   {
     "id": "mon_zandcrawler",

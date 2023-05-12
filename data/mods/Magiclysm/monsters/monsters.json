@@ -21,17 +21,17 @@
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 8 } ],
     "dodge": 3,
-    "armor_bash": 5,
-    "armor_cut": 2,
-    "armor_bullet": 2,
     "vision_night": 20,
     "path_settings": { "max_dist": 25 },
     "harvest": "owlbear",
     "reproduction": { "baby_egg": "egg_owlbear_rock", "baby_count": 1, "baby_timer": 20 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ],
-    "special_attacks": [ { "type": "bite", "cooldown": 10 }, [ "GRAB", 7 ], [ "scratch", 7 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "WARM", "GRABS", "SWARMS" ],
-    "zombify_into": "mon_owlbear_zombie"
+    "//grab": "Assuming they are grabbing you with their paws",
+    "grab_strength": 50,
+    "special_attacks": [ { "type": "bite", "cooldown": 10 }, { "id": "grab", "cooldown": 7 }, { "id": "scratch_humanoid", "cooldown": 7 } ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "GRABS", "PATH_AVOID_DANGER_1", "WARM", "GRABS", "SWARMS" ],
+    "zombify_into": "mon_owlbear_zombie",
+    "armor": { "bash": 5, "cut": 2, "bullet": 2 }
   },
   {
     "id": "mon_black_pudding",
@@ -55,9 +55,6 @@
     "melee_dice": 2,
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "armor_bash": 12,
-    "armor_stab": 14,
-    "armor_acid": 15,
     "harvest": "exempt",
     "path_settings": { "avoid_traps": true, "avoid_sharp": true },
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
@@ -69,7 +66,8 @@
         "monster_message": "The black pudding burns %3$s with acid!"
       }
     ],
-    "flags": [ "HEARS", "GOODHEARING", "NOHEAD", "POISON", "NO_BREATHE", "ACIDPROOF", "PATH_AVOID_DANGER_1" ]
+    "flags": [ "HEARS", "GOODHEARING", "NOHEAD", "POISON", "NO_BREATHE", "ACIDPROOF", "PATH_AVOID_DANGER_1" ],
+    "armor": { "bash": 12, "stab": 14, "acid": 15 }
   },
   {
     "id": "mon_krabgek",
@@ -221,9 +219,6 @@
     "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "bash", "amount": 20 }, { "damage_type": "cut", "amount": 10 } ],
     "dodge": 2,
-    "armor_bash": 32,
-    "armor_cut": 30,
-    "armor_bullet": 24,
     "harvest": "bulette",
     "anger_triggers": [ "SOUND" ],
     "special_attacks": [
@@ -239,7 +234,8 @@
       },
       [ "SMASH", 10 ]
     ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "WARM", "CAN_DIG", "HIT_AND_RUN", "HARDTOSHOOT" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "WARM", "CAN_DIG", "HIT_AND_RUN", "HARDTOSHOOT" ],
+    "armor": { "bash": 32, "cut": 30, "bullet": 24 }
   },
   {
     "id": "mon_wisp",
@@ -305,17 +301,23 @@
     "melee_dice_sides": 7,
     "melee_damage": [ { "damage_type": "cut", "amount": 12 } ],
     "dodge": 1,
-    "armor_cut": 16,
-    "armor_bullet": 13,
     "vision_day": 40,
     "vision_night": 3,
     "harvest": "human_large_leather",
     "families": [ "prof_wp_demihuman" ],
     "weakpoint_sets": [ "wps_humanoid_body" ],
-    "special_attacks": [ { "type": "bite", "cooldown": 30 }, [ "GRAB", 15 ], [ "scratch", 15 ], [ "slam", 10 ], [ "SMASH", 30 ] ],
+    "grab_strength": 50,
+    "special_attacks": [
+      { "id": "bite_humanoid", "cooldown": 30 },
+      { "id": "grab", "cooldown": 15 },
+      { "id": "scratch_humanoid", "cooldown": 15 },
+      [ "slam", 10 ],
+      [ "SMASH", 30 ]
+    ],
     "regenerates": 1,
     "flags": [ "SEES", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "WARM", "GRABS", "FLAMMABLE" ],
-    "zombify_into": "mon_troll_zombie"
+    "zombify_into": "mon_troll_zombie",
+    "armor": { "cut": 16, "bullet": 13 }
   },
   {
     "id": "mon_stirge",
@@ -445,16 +447,14 @@
     "melee_dice_sides": 5,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "dodge": 6,
-    "armor_bash": 3,
-    "armor_cut": 3,
-    "armor_fire": 50,
     "vision_night": 7,
     "harvest": "mammal_fur",
     "path_settings": { "max_dist": 10 },
     "special_attacks": [ { "type": "spell", "spell_data": { "id": "cone_cold", "min_level": 4 }, "cooldown": 25 } ],
     "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "zombify_into": "mon_zolf",
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "COLDPROOF" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "COLDPROOF" ],
+    "armor": { "bash": 3, "cut": 3, "heat": 50 }
   },
   {
     "id": "mon_loup_garou",
@@ -479,9 +479,6 @@
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "dodge": 6,
-    "armor_bash": 48,
-    "armor_cut": 36,
-    "armor_bullet": 40,
     "vision_night": 5,
     "harvest": "demihuman_fur",
     "families": [ "prof_wp_demihuman" ],
@@ -489,7 +486,8 @@
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "zombify_into": "mon_were_zolf",
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE" ],
+    "armor": { "bash": 48, "cut": 36, "bullet": 40 }
   },
   {
     "id": "mon_balrog",
@@ -511,9 +509,6 @@
     "melee_dice": 7,
     "melee_dice_sides": 5,
     "melee_damage": [ { "damage_type": "heat", "amount": 20 }, { "damage_type": "cut", "amount": 10 } ],
-    "armor_bash": 12,
-    "armor_cut": 12,
-    "armor_bullet": 25,
     "bleed_rate": 0,
     "vision_day": 83,
     "vision_night": 60,
@@ -540,7 +535,8 @@
     ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
     "path_settings": { "avoid_traps": true, "avoid_sharp": true },
-    "flags": [ "SEES", "WARM", "BASHES", "DESTROYS", "NO_BREATHE", "PUSH_MON", "PUSH_VEH", "FIREY", "PATH_AVOID_DANGER_1" ]
+    "flags": [ "SEES", "WARM", "BASHES", "DESTROYS", "NO_BREATHE", "PUSH_MON", "PUSH_VEH", "FIREY", "PATH_AVOID_DANGER_1" ],
+    "armor": { "bash": 12, "cut": 12, "bullet": 25 }
   },
   {
     "id": "mon_teravolt",
@@ -564,12 +560,12 @@
     "melee_skill": 0,
     "melee_dice": 1,
     "melee_dice_sides": 1,
-    "armor_elec": 50,
     "death_function": {
       "effect": { "id": "teravolt_explosion", "hit_self": true },
       "message": "The %s explode, creating a giant cloud of sparks.",
       "corpse_type": "NO_CORPSE"
-    }
+    },
+    "armor": { "electric": 50 }
   },
   {
     "id": "mon_razor_butterflies",
@@ -593,16 +589,14 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 15 } ],
     "dodge": 8,
     "luminance": 0,
-    "armor_bash": 0,
-    "armor_cut": 0,
-    "armor_bullet": 0,
     "vision_day": 14,
     "vision_night": 14,
     "special_attacks": [ { "type": "leap", "cooldown": 3, "max_range": 2, "allow_no_target": true }, { "id": "cut_throat" } ],
     "material": [ "iflesh" ],
     "death_function": { "message": "A %s dissolves.", "corpse_type": "NO_CORPSE" },
     "flags": [ "SEES", "HEARS", "NOHEAD", "HARDTOSHOOT", "FLIES", "NO_BREATHE", "NOGIB", "ATTACKMON", "STUN_IMMUNE", "SWARMS" ],
-    "//1": "has no HIT_AND_RUN cause they start to be too dumb"
+    "//1": "has no HIT_AND_RUN cause they start to be too dumb",
+    "armor": { "bash": 0, "cut": 0, "bullet": 0 }
   },
   {
     "id": "mon_shambling_mound",
@@ -625,16 +619,14 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 0,
     "luminance": 0,
-    "armor_bash": 20,
-    "armor_cut": 20,
-    "armor_bullet": 20,
     "vision_day": 45,
     "vision_night": 6,
     "special_attacks": [ { "type": "spell", "spell_data": { "id": "shambling_aoe", "min_level": 0 }, "cooldown": 1 } ],
     "material": [ "veggy" ],
     "death_function": { "message": "A %s dissolves.", "corpse_type": "NO_CORPSE" },
     "//1": "PACIFIST because #55528",
-    "flags": [ "SEES", "HEARS", "WARM", "HARDTOSHOOT", "BASHES", "DESTROYS", "ATTACKMON", "PUSH_MON", "PUSH_VEH", "PACIFIST" ]
+    "flags": [ "SEES", "HEARS", "WARM", "HARDTOSHOOT", "BASHES", "DESTROYS", "ATTACKMON", "PUSH_MON", "PUSH_VEH", "PACIFIST" ],
+    "armor": { "bash": 20, "cut": 20, "bullet": 20 }
   },
   {
     "id": "mon_electric_demon",
@@ -655,10 +647,6 @@
     "melee_dice_sides": 1,
     "dodge": 9,
     "luminance": 600,
-    "armor_bash": 3,
-    "armor_cut": 3,
-    "armor_bullet": 3,
-    "armor_elec": 50,
     "vision_day": 30,
     "vision_night": 30,
     "emit_fields": [ { "emit_id": "emit_electric_sparks", "delay": "1 s" } ],
@@ -684,7 +672,8 @@
       "NOGIB",
       "ATTACKMON",
       "ELECTRIC"
-    ]
+    ],
+    "armor": { "bash": 3, "cut": 3, "bullet": 3, "electric": 50 }
   },
   {
     "id": "mon_electric_turret",
@@ -701,10 +690,6 @@
     "aggression": 100,
     "morale": 100,
     "luminance": 1200,
-    "armor_bash": 7,
-    "armor_cut": 7,
-    "armor_bullet": 7,
-    "armor_elec": 50,
     "vision_day": 60,
     "vision_night": 60,
     "emit_fields": [ { "emit_id": "emit_electric_sparks", "delay": "1 s" } ],
@@ -745,6 +730,7 @@
       "ATTACKMON",
       "PACIFIST",
       "ELECTRIC"
-    ]
+    ],
+    "armor": { "bash": 7, "cut": 7, "bullet": 7, "electric": 50 }
   }
 ]

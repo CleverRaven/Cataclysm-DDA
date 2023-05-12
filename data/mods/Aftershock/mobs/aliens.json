@@ -90,18 +90,18 @@
     "attack_cost": 330,
     "melee_damage": [ { "damage_type": "cut", "amount": 12 } ],
     "dodge": 3,
-    "armor_bash": 15,
-    "armor_elec": 3,
     "bleed_rate": 40,
     "harvest": "alien_floater",
     "vision_day": 3,
     "vision_night": 3,
-    "special_attacks": [ [ "RANGED_PULL", 10 ], [ "GRAB_DRAG", 3 ] ],
+    "grab_strength": 50,
+    "special_attacks": [ { "id": "ranged_pull", "cooldown": 10, "grab_data": { "pull_weight_ratio": 5.0 } }, [ "GRAB_DRAG", 3 ] ],
     "flags": [
       "ANIMAL",
       "SEES",
       "SMELLS",
       "HEARS",
+      "GRABS",
       "GOODHEARING",
       "NOHEAD",
       "BASHES",
@@ -111,7 +111,8 @@
       "WARM",
       "PUSH_MON",
       "PUSH_VEH"
-    ]
+    ],
+    "armor": { "bash": 15, "electric": 3 }
   },
   {
     "id": "afs_runner",
@@ -133,15 +134,13 @@
     "morale": -7,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 1,
-    "armor_bash": 4,
-    "armor_cut": 1,
-    "armor_bullet": 1,
     "vision_night": 25,
     "path_settings": { "max_dist": 10 },
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "harvest": "alien_large_leather",
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 8 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ],
+    "armor": { "bash": 4, "cut": 1, "bullet": 1 }
   },
   {
     "id": "afs_grazer",
@@ -166,16 +165,14 @@
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 1,
-    "armor_bash": 4,
-    "armor_cut": 1,
-    "armor_bullet": 1,
     "vision_night": 7,
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "HURT", "MATING_SEASON" ],
     "baby_flags": [ "AUTUMN" ],
     "harvest": "alien_large_leather",
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 8 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "ATTACKMON" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "ATTACKMON" ],
+    "armor": { "bash": 4, "cut": 1, "bullet": 1 }
   },
   {
     "id": "afs_mon_hevel",
@@ -229,12 +226,12 @@
     "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "dodge": 4,
-    "armor_bash": 1,
     "vision_night": 5,
     "harvest": "alien_mammal_fur",
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK", "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE" ],
+    "armor": { "bash": 1 }
   },
   {
     "type": "MONSTER",
@@ -256,8 +253,6 @@
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "dodge": 2,
-    "armor_bash": 1,
-    "armor_cut": 1,
     "luminance": 0,
     "hp": 60,
     "special_attacks": [ { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true }, { "type": "bite", "cooldown": 10 } ],
@@ -267,6 +262,7 @@
     "harvest": "bird_large",
     "anger_triggers": [ "PLAYER_WEAK", "HURT", "FRIEND_ATTACKED", "PLAYER_CLOSE" ],
     "fear_triggers": [ "FIRE", "FRIEND_DIED" ],
-    "categories": [ "WILDLIFE" ]
+    "categories": [ "WILDLIFE" ],
+    "armor": { "bash": 1, "cut": 1 }
   }
 ]

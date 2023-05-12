@@ -750,13 +750,11 @@
       "place_monster": [
         { "group": "GROUP_NURSING_HOME_LAB", "x": [ 40, 47 ], "y": [ 10, 13 ], "repeat": [ 3, 4 ] },
         { "group": "GROUP_NURSING_HOME_LAB", "x": [ 51, 63 ], "y": [ 15, 20 ], "repeat": [ 3, 4 ] },
-        { "monster": "mon_feral_big_pappy", "x": [ 58, 59 ], "y": [ 39, 40 ], "chance": 100 },
-        { "monster": "mon_feral_granny", "x": [ 58, 59 ], "y": [ 39, 40 ], "chance": 100 },
-        { "monster": "mon_feral_granny", "x": [ 58, 59 ], "y": [ 39, 40 ], "chance": 100 },
-        { "monster": "mon_zeriatric", "x": [ 48, 49 ], "y": [ 22, 23 ], "chance": 100 },
-        { "monster": "mon_zeriatric", "x": [ 48, 49 ], "y": [ 22, 23 ], "chance": 100 },
+        { "group": "GROUP_MUTANT_EVOLVED", "x": [ 58, 59 ], "y": [ 39, 40 ], "repeat": [ 2, 3 ] },
+        { "monster": "mon_zombie_rot", "x": [ 48, 49 ], "y": [ 22, 23 ], "chance": 100 },
+        { "monster": "mon_zombie_rot", "x": [ 48, 49 ], "y": [ 22, 23 ], "chance": 100 },
         { "monster": "mon_boomer", "x": [ 54, 55 ], "y": [ 22, 22 ], "chance": 100 },
-        { "monster": "mon_zeriatric", "x": [ 54, 55 ], "y": [ 22, 22 ], "chance": 100 }
+        { "monster": "mon_zombie_rot", "x": [ 54, 55 ], "y": [ 22, 22 ], "chance": 100 }
       ],
       "items": {
         "7": { "item": "bed", "chance": 80 },

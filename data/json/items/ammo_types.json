@@ -229,6 +229,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "303",
+    "name": ".303 British",
+    "default": "303_bthp"
+  },
+  {
+    "type": "ammunition_type",
     "id": "3006",
     "name": ".30-06",
     "default": "3006"
@@ -493,12 +499,6 @@
   },
   {
     "type": "ammunition_type",
-    "id": "5x50",
-    "name": "5x50mm flechette",
-    "default": "5x50dart"
-  },
-  {
-    "type": "ammunition_type",
     "id": "signal_flare",
     "name": "signal flare",
     "default": "signal_flare"
@@ -508,12 +508,6 @@
     "id": "charcoal",
     "name": "charcoal",
     "default": "charcoal"
-  },
-  {
-    "type": "ammunition_type",
-    "id": "cac2powder",
-    "name": "powdered calcium carbide premix",
-    "default": "cac2powder"
   },
   {
     "type": "ammunition_type",
@@ -532,6 +526,12 @@
     "id": "albuterol",
     "name": "albuterol",
     "default": "albuterol"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "liq_bandage",
+    "name": "liquid bandage",
+    "default": "liq_bandage"
   },
   {
     "type": "ammunition_type",
@@ -646,12 +646,6 @@
     "id": "unfinished_char",
     "name": "semi-charred fuel",
     "default": "unfinished_charcoal"
-  },
-  {
-    "type": "ammunition_type",
-    "id": "unfinished_cac2",
-    "name": "partially burned calcium carbide",
-    "default": "unfinished_cac2"
   },
   {
     "type": "ammunition_type",
@@ -772,6 +766,12 @@
     "id": "ammonia_liquid",
     "name": "ammonia",
     "default": "ammonia_liquid"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "notch",
+    "name": "notch",
+    "default": "notch"
   },
   {
     "type": "ammunition_type",

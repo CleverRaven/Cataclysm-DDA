@@ -3,6 +3,7 @@
 #include <map>
 #include <memory>
 #include <new>
+#include <optional>
 #include <string>
 #include <utility>
 #include <vector>
@@ -23,7 +24,6 @@
 #include "iuse_actor.h"
 #include "map.h"
 #include "map_helpers.h"
-#include "optional.h"
 #include "player_helpers.h"
 #include "ret_val.h"
 #include "type_id.h"
@@ -1824,8 +1824,7 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
     item_location obj1( map_cursor( u.pos() ), &m.add_item_or_charges( u.pos(), rigid_obj ) );
     item_location obj2( map_cursor( u.pos() ), &m.add_item_or_charges( u.pos(), soft_obj ) );
     pickup_activity_actor act_actor( { obj1, obj2 }, { 1, 1 }, u.pos(), autopickup );
-    player_activity act( act_actor );
-    u.assign_activity( act );
+    u.assign_activity( act_actor );
 
     item_location pack;
     if( wear ) {
@@ -2054,8 +2053,7 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
             REQUIRE( obj3->charges == 300 );
             u.cancel_activity();
             pickup_activity_actor new_actor( { obj3 }, { 300 }, u.pos(), autopickup );
-            player_activity new_act( new_actor );
-            u.assign_activity( new_act );
+            u.assign_activity( new_actor );
             THEN( ( soft_nested ? "pickup most, nested empty" : "pickup all, overflow into nested" ) ) {
                 if( soft_nested ) {
                     test_pickup_autoinsert_results( u, wear, c, 61, 239, 0, true );
@@ -2086,8 +2084,7 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
             REQUIRE( obj3->charges == 300 );
             u.cancel_activity();
             pickup_activity_actor new_actor( { obj3 }, { 300 }, u.pos(), autopickup );
-            player_activity new_act( new_actor );
-            u.assign_activity( new_act );
+            u.assign_activity( new_actor );
             THEN( "pickup most, nested empty" ) {
                 if( soft_nested ) {
                     test_pickup_autoinsert_results( u, wear, c, 61, 239, 0, true );
@@ -2119,8 +2116,7 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
             REQUIRE( obj3->charges == 300 );
             u.cancel_activity();
             pickup_activity_actor new_actor( { obj3 }, { 300 }, u.pos(), autopickup );
-            player_activity new_act( new_actor );
-            u.assign_activity( new_act );
+            u.assign_activity( new_actor );
             THEN( "pickup most, nested empty" ) {
                 if( soft_nested ) {
                     test_pickup_autoinsert_results( u, wear, c, 61, 239, 0, true );
@@ -2680,4 +2676,56 @@ TEST_CASE( "bag with restrictions and nested bag doesn't fit too large items", "
     CHECK( backpack.can_contain( backpack_two ).success() );
     CHECK( !mini_backpack.can_contain( backpack_two ).success() );
 
+}
+
+TEST_CASE( "pocket_leak" )
+{
+    clear_avatar();
+    clear_map();
+    avatar &u = get_avatar();
+    map &here = get_map();
+    item backpack( "test_backpack" );
+    item water( "water" );
+    water.set_item_temperature( water.get_freeze_point() );
+    REQUIRE( water.is_frozen_liquid() );
+    REQUIRE( backpack.put_in( water, item_pocket::pocket_type::CONTAINER ).success() );
+
+    WHEN( "single container" ) {
+        auto backpack_iter = *u.wear_item( backpack );
+        item &bkit = *backpack_iter;
+        item &waterit = bkit.only_item();
+        waterit.set_item_temperature( water.get_freeze_point() + units::from_celsius_delta( 10 ) );
+        REQUIRE( !waterit.is_frozen_liquid() );
+        REQUIRE( here.i_at( u.pos_bub() ).empty() );
+        u.process_turn();
+        CHECK( here.i_at( u.pos_bub() ).begin()->typeId() == water.typeId() );
+        CHECK( bkit.empty() );
+    }
+
+    WHEN( "nested container" ) {
+        bool const top_watertight = GENERATE( true, false );
+        CAPTURE( top_watertight );
+        item top( top_watertight ? "55gal_drum" : "test_backpack" );
+        REQUIRE( top.is_watertight_container() == top_watertight );
+        REQUIRE( top.put_in( backpack, item_pocket::pocket_type::CONTAINER ).success() );
+        u.wield( top );
+        item &topit = *u.get_wielded_item();
+        item &bkit = topit.only_item();
+        item &wit = bkit.only_item();
+        wit.set_item_temperature( water.get_freeze_point() + units::from_celsius_delta( 10 ) );
+        REQUIRE( !wit.is_frozen_liquid() );
+        REQUIRE( here.i_at( u.pos_bub() ).empty() );
+        u.process_turn();
+        if( top_watertight ) {
+            CHECK( here.i_at( u.pos_bub() ).empty() );
+        } else {
+            CHECK( here.i_at( u.pos_bub() ).begin()->typeId() == water.typeId() );
+        }
+        CHECK( bkit.empty() == !top_watertight );
+        bool bkit_has_water = false;
+        for( item const *it : bkit.all_items_top() ) {
+            bkit_has_water |= it->typeId() == water.typeId();
+        }
+        CHECK( bkit_has_water == top_watertight );
+    }
 }

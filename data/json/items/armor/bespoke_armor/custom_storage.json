@@ -342,6 +342,7 @@
     "symbol": "[",
     "looks_like": "legrig",
     "color": "brown",
+    "ammo": "battery",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -430,11 +431,12 @@
         "volume_encumber_modifier": 0.5
       }
     ],
-    "charges_per_use": 1,
+    "charges_per_use": 14,
     "use_action": [
       "WATER_PURIFIER",
       {
         "type": "transform",
+        "ammo_scale": 0,
         "msg": "You turn the shoulder mounted flashlight on.",
         "target": "nomad_rig_on",
         "active": true,

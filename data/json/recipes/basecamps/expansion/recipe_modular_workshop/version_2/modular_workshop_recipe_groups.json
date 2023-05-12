@@ -79,6 +79,7 @@
       { "id": "gold_ring", "description": " Craft: Gold Ring" },
       { "id": "hammer_sledge", "description": " Craft: Hammer, Sledge" },
       { "id": "ch_wire", "description": " Craft: Case Hardened Steel, Wire" },
+      { "id": "welding_rod_steel", "description": " Craft: Steel Welding Rod" },
       { "id": "ch_chain_link_fabrication", "description": " Craft: Case Hardened Steel, Link" },
       { "id": "ch_link_sheet", "description": " Craft: Case Hardened Steel, Link Sheet" },
       { "id": "mc_wire", "description": " Craft: Medium Carbon Steel, Wire" },

@@ -19,7 +19,6 @@ class character_martial_arts
     private:
         std::vector<matype_id> ma_styles;
         matype_id style_selected = matype_id( "style_none" );
-        bool keep_hands_free = false;
     public:
         character_martial_arts();
         character_martial_arts( const std::vector<matype_id> &styles,
@@ -30,8 +29,10 @@ class character_martial_arts
         void deserialize( const JsonObject &data );
 
         void reset_style();
+        void clear_style( const matype_id &id );
         // checks that style selected is one that is known, otherwise resets it
         void selected_style_check();
+        bool keep_hands_free = false;
         /** Creates the UI and handles player input for picking martial arts styles */
         bool pick_style( const avatar &you );
 

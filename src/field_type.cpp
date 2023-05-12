@@ -11,7 +11,6 @@
 const field_type_str_id fd_null = field_type_str_id::NULL_ID();
 const field_type_str_id fd_acid( "fd_acid" );
 const field_type_str_id fd_acid_vent( "fd_acid_vent" );
-const field_type_str_id fd_bees( "fd_bees" );
 const field_type_str_id fd_bile( "fd_bile" );
 const field_type_str_id fd_blood( "fd_blood" );
 const field_type_str_id fd_blood_insect( "fd_blood_insect" );
@@ -176,7 +175,7 @@ const field_intensity_level &field_type::get_intensity_level( int level ) const
     return intensity_levels[level];
 }
 
-void field_type::load( const JsonObject &jo, const std::string & )
+void field_type::load( const JsonObject &jo, const std::string_view )
 {
     optional( jo, was_loaded, "legacy_enum_id", legacy_enum_id, -1 );
     for( const JsonObject jao : jo.get_array( "intensity_levels" ) ) {

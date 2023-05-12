@@ -79,17 +79,15 @@
     "type": "overmap_terrain",
     "id": [ "office_tower_ne" ],
     "copy-from": "generic_city_building",
-    "name": "office tower",
+    "name": "office building",
     "sym": "T",
     "color": "i_light_gray"
   },
   {
     "type": "overmap_terrain",
     "id": [ "office_tower_nw", "office_tower_sw", "office_tower_se" ],
-    "copy-from": "generic_city_building",
-    "name": "office tower",
-    "sym": "t",
-    "color": "i_light_gray"
+    "copy-from": "office_tower_ne",
+    "sym": "t"
   },
   {
     "type": "overmap_terrain",
@@ -100,7 +98,7 @@
       "office_tower_underground_se"
     ],
     "copy-from": "generic_city_building_no_sidewalk",
-    "name": "tower parking",
+    "name": "office building parking",
     "sym": "p",
     "color": "i_light_gray"
   },
@@ -108,7 +106,7 @@
     "type": "overmap_terrain",
     "id": [ "office_tower_roof_nw", "office_tower_roof_ne", "office_tower_roof_sw", "office_tower_roof_se" ],
     "copy-from": "generic_city_building_no_sidewalk",
-    "name": "tower roof",
+    "name": "office building roof",
     "sym": "t",
     "color": "i_light_gray"
   },
@@ -120,6 +118,22 @@
       "office_tower_2_b1",
       "office_tower_2_b2",
       "office_tower_2_b3",
+      "office_tower_2_a1_1",
+      "office_tower_2_a2_1",
+      "office_tower_2_a3_1",
+      "office_tower_2_b1_1",
+      "office_tower_2_b2_1",
+      "office_tower_2_b3_1",
+      "office_tower_2_a1_2",
+      "office_tower_2_a2_2",
+      "office_tower_2_b1_2",
+      "office_tower_2_b2_2",
+      "office_tower_2_b3_2",
+      "office_tower_2_a1_roof",
+      "office_tower_2_a2_roof",
+      "office_tower_2_b1_roof",
+      "office_tower_2_b2_roof",
+      "office_tower_2_b3_roof",
       "office_tower_collapse_a1",
       "office_tower_collapse_b_a1",
       "office_tower_2_a1_tower_lab"
@@ -1234,7 +1248,7 @@
   {
     "type": "overmap_terrain",
     "abstract": "generic_large_office_tower",
-    "name": "large office tower",
+    "name": "office tower",
     "copy-from": "generic_city_building",
     "sym": "T",
     "color": "white"
@@ -1714,6 +1728,7 @@
   {
     "type": "overmap_terrain",
     "id": [ "urban_14_1", "urban_14_2", "urban_25_1", "urban_25_2" ],
+    "spawns": { "group": "GROUP_BASEMENT_HOUSE", "population": [ 1, 1 ], "chance": 80 },
     "copy-from": "generic_city_house_basement"
   },
   {
@@ -1834,5 +1849,59 @@
     "copy-from": "generic_city_building",
     "sym": ".",
     "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "convention_0_0_0",
+      "convention_1_0_0",
+      "convention_2_0_0",
+      "convention_3_0_0",
+      "convention_4_0_0",
+      "convention_0_1_0",
+      "convention_1_1_0",
+      "convention_2_1_0",
+      "convention_3_1_0",
+      "convention_4_1_0",
+      "convention_0_2_0",
+      "convention_1_2_0",
+      "convention_2_2_0",
+      "convention_3_2_0",
+      "convention_4_2_0",
+      "convention_0_0_1",
+      "convention_1_0_1",
+      "convention_2_0_1",
+      "convention_3_0_1",
+      "convention_4_0_1",
+      "convention_0_1_1",
+      "convention_1_1_1",
+      "convention_2_1_1",
+      "convention_3_1_1",
+      "convention_4_1_1",
+      "convention_0_2_1",
+      "convention_1_2_1",
+      "convention_2_2_1",
+      "convention_3_2_1",
+      "convention_4_2_1",
+      "convention_0_0_2",
+      "convention_1_0_2",
+      "convention_2_0_2",
+      "convention_3_0_2",
+      "convention_4_0_2",
+      "convention_0_1_2",
+      "convention_1_1_2",
+      "convention_2_1_2",
+      "convention_3_1_2",
+      "convention_4_1_2",
+      "convention_0_2_2",
+      "convention_1_2_2",
+      "convention_2_2_2",
+      "convention_3_2_2",
+      "convention_4_2_2"
+    ],
+    "copy-from": "generic_city_building",
+    "name": "convention center",
+    "sym": "C",
+    "color": "yellow"
   }
 ]

@@ -94,7 +94,6 @@ TEST_CASE( "dining with table and chair", "[food][modify_morale][table][chair]" 
     const std::vector<std::string> no_table_eating_bonus = {
         {
             "aspirin",
-            "bandages",
             "caffeine",
             "cig",
             "codeine",

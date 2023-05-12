@@ -60,7 +60,7 @@ void bodygraph::check_all()
     bodygraph_factory.check();
 }
 
-void bodygraph::load( const JsonObject &jo, const std::string & )
+void bodygraph::load( const JsonObject &jo, const std::string_view )
 {
     optional( jo, was_loaded, "parent_bodypart", parent_bp );
     optional( jo, was_loaded, "fill_sym", fill_sym );
@@ -210,8 +210,6 @@ void bodygraph::check() const
 
 */
 
-#define BPGRAPH_HEIGHT 24
-
 using part_tuple =
     std::tuple<bodypart_id, const sub_body_part_type *, const bodygraph_part *, bool>;
 
@@ -265,7 +263,8 @@ bodygraph_display::bodygraph_display( const Character *u, const bodygraph_id &id
         this->id = bodygraph_full_body;
     }
 
-    ctxt.register_directions();
+    ctxt.register_navigate_ui_list();
+    ctxt.register_leftright();
     ctxt.register_action( "SCROLL_INFOBOX_UP" );
     ctxt.register_action( "SCROLL_INFOBOX_DOWN" );
     ctxt.register_action( "PAGE_UP" );
@@ -278,7 +277,7 @@ void bodygraph_display::init_ui_windows()
 {
     partlist_width = 18;
     info_width = 18;
-    all_height = clamp( BPGRAPH_HEIGHT + 20, 0, TERMY );
+    all_height = clamp( BPGRAPH_MAXROWS + 24, 0, TERMY );
 
     int base_width = BPGRAPH_MAXCOLS + partlist_width + info_width + 4;
     all_width = clamp( base_width + 40, 0, TERMX );
@@ -312,7 +311,7 @@ void bodygraph_display::draw_borders()
     bh_borders.draw_border( w_border, c_white );
 
     const int first_win_width = partlist_width;
-    auto center_txt_start = [&first_win_width]( const std::string & txt ) {
+    auto center_txt_start = [&first_win_width]( const std::string_view txt ) {
         return 2 + first_win_width + ( BPGRAPH_MAXCOLS / 2 - utf8_width( txt, true ) / 2 );
     };
 
@@ -401,7 +400,7 @@ void bodygraph_display::draw_info()
     werase( w_info );
     if( std::get<3>( partlist[sel_part] ) ) {
         int y = 0;
-        for( unsigned i = top_info; i < info_txt.size() && y < BPGRAPH_HEIGHT - 2; i++, y++ ) {
+        for( unsigned i = top_info; i < info_txt.size() && y < all_height - 2; i++, y++ ) {
             if( info_txt[i] == "--" ) {
                 for( int x = 1; x < info_width - 2; x++ ) {
                     mvwputch( w_info, point( x, y ), c_dark_gray, LINE_OXOX );
@@ -489,8 +488,8 @@ void bodygraph_display::prepare_infotext( bool reset_pos )
     info_txt.emplace_back( string_format( "%s: %s", colorize( _( "Health" ), c_magenta ),
                                           colorize( hpbar.first, hpbar.second ) ) );
     // part wetness
-    info_txt.emplace_back( string_format( "%s: %.2f%%", colorize( _( "Wetness" ), c_magenta ),
-                                          info.wetness ) );
+    info_txt.emplace_back( string_format( "%s: %d%%", colorize( _( "Wetness" ), c_magenta ),
+                                          static_cast<int>( info.wetness * 100.0f ) ) );
     // part temperature
     const bool temp_precise = u->has_item_with_flag( STATIC( flag_id( "THERMOMETER" ) ) ) ||
                               u->has_flag( STATIC( json_character_flag( "THERMOMETER" ) ) );
@@ -532,7 +531,7 @@ void bodygraph_display::prepare_infotext( bool reset_pos )
     int wavail = clamp( ( info_width - 2 ) - utf8_width( prot_legend, true ), 0, info_width - 2 );
     prot_legend.insert( prot_legend.begin(), wavail > 4 ? 4 : wavail, ' ' );
     info_txt.emplace_back( prot_legend );
-    auto get_res_str = [&]( damage_type dt ) -> std::string {
+    auto get_res_str = [&]( const damage_type_id & dt ) -> std::string {
         const std::string wval = string_format( info_width <= 18 ? "%4.1f" : "%5.2f", info.worst_case.type_resist( dt ) );
         const std::string mval = string_format( info_width <= 18 ? "%4.1f" : "%5.2f", info.median_case.type_resist( dt ) );
         const std::string bval = string_format( info_width <= 18 ? "%4.1f" : "%5.2f", info.best_case.type_resist( dt ) );
@@ -541,29 +540,11 @@ void bodygraph_display::prepare_infotext( bool reset_pos )
         txt.insert( txt.begin(), res_avail > 4 ? 4 : res_avail, ' ' );
         return txt;
     };
-    info_txt.emplace_back( string_format( "  %s:", _( "Bash" ) ) );
-    info_txt.emplace_back( get_res_str( damage_type::BASH ) );
-    info_txt.emplace_back( string_format( "  %s:", _( "Cut" ) ) );
-    info_txt.emplace_back( get_res_str( damage_type::CUT ) );
-    info_txt.emplace_back( string_format( "  %s:", _( "Pierce" ) ) );
-    info_txt.emplace_back( get_res_str( damage_type::STAB ) );
-    info_txt.emplace_back( string_format( "  %s:", _( "Ballistic" ) ) );
-    info_txt.emplace_back( get_res_str( damage_type::BULLET ) );
-    info_txt.emplace_back( string_format( "  %s:", _( "Acid" ) ) );
-    info_txt.emplace_back( get_res_str( damage_type::ACID ) );
-    info_txt.emplace_back( string_format( "  %s:", _( "Fire" ) ) );
-    info_txt.emplace_back( get_res_str( damage_type::HEAT ) );
-    if( info.best_case.type_resist( damage_type::COLD ) > 1 ) {
-        info_txt.emplace_back( string_format( "  %s:", _( "Endothermic" ) ) );
-        info_txt.emplace_back( get_res_str( damage_type::COLD ) );
-    }
-    if( info.best_case.type_resist( damage_type::ELECTRIC ) > 1 ) {
-        info_txt.emplace_back( string_format( "  %s:", _( "Electrical" ) ) );
-        info_txt.emplace_back( get_res_str( damage_type::ELECTRIC ) );
-    }
-    if( info.best_case.type_resist( damage_type::BIOLOGICAL ) > 1 ) {
-        info_txt.emplace_back( string_format( "  %s:", _( "Biological" ) ) );
-        info_txt.emplace_back( get_res_str( damage_type::BIOLOGICAL ) );
+    for( const damage_type &dt : damage_type::get_all() ) {
+        if( info.best_case.type_resist( dt.id ) > 1 ) {
+            info_txt.emplace_back( string_format( "  %s:", uppercase_first_letter( dt.name.translated() ) ) );
+            info_txt.emplace_back( get_res_str( dt.id ) );
+        }
     }
 }
 
@@ -611,22 +592,12 @@ void bodygraph_display::display()
                     prepare_infolist();
                 }
             }
-        } else if( action == "UP" ) {
-            sel_part--;
-            if( sel_part < 0 ) {
-                sel_part = partlist.size() - 1;
-            }
-            prepare_infolist();
-        } else if( action == "DOWN" ) {
-            sel_part++;
-            if( sel_part >= static_cast<int>( partlist.size() ) ) {
-                sel_part = 0;
-            }
-            prepare_infolist();
         } else if( action == "SCROLL_INFOBOX_UP" || action == "PAGE_UP" ) {
             top_info--;
         } else if( action == "SCROLL_INFOBOX_DOWN" || action == "PAGE_DOWN" ) {
             top_info++;
+        } else if( navigate_ui_list( action, sel_part, 3, partlist.size(), true ) ) {
+            prepare_infolist();
         }
         if( static_cast<int>( info_txt.size() ) >= all_height - 2 ) {
             top_info = clamp( top_info, 0, static_cast<int>( info_txt.size() ) - ( all_height - 2 ) );

@@ -24,6 +24,7 @@ const flag_id flag_ALLERGEN_NUT( "ALLERGEN_NUT" );
 const flag_id flag_ALLERGEN_VEGGY( "ALLERGEN_VEGGY" );
 const flag_id flag_ALLERGEN_WHEAT( "ALLERGEN_WHEAT" );
 const flag_id flag_ALLERGEN_WOOL( "ALLERGEN_WOOL" );
+const flag_id flag_ALLOWS_BODY_BLOCK( "ALLOWS_BODY_BLOCK" );
 const flag_id flag_ALLOWS_NATURAL_ATTACKS( "ALLOWS_NATURAL_ATTACKS" );
 const flag_id flag_ALLOWS_REMOTE_USE( "ALLOWS_REMOTE_USE" );
 const flag_id flag_ALWAYS_TWOHAND( "ALWAYS_TWOHAND" );
@@ -89,6 +90,8 @@ const flag_id flag_EATEN_COLD( "EATEN_COLD" );
 const flag_id flag_EATEN_HOT( "EATEN_HOT" );
 const flag_id flag_EDIBLE_FROZEN( "EDIBLE_FROZEN" );
 const flag_id flag_EFFECT_IMPEDING( "EFFECT_IMPEDING" );
+const flag_id flag_EFFECT_LIMB_SCORE_MOD( "EFFECT_LIMB_SCORE_MOD" );
+const flag_id flag_EFFECT_LIMB_SCORE_MOD_LOCAL( "EFFECT_LIMB_SCORE_MOD_LOCAL" );
 const flag_id flag_ELECTRIC_IMMUNE( "ELECTRIC_IMMUNE" );
 const flag_id flag_ELECTRONIC( "ELECTRONIC" );
 const flag_id flag_ETHEREAL_ITEM( "ETHEREAL_ITEM" );
@@ -121,8 +124,6 @@ const flag_id flag_FIRE_100( "FIRE_100" );
 const flag_id flag_FIRE_20( "FIRE_20" );
 const flag_id flag_FIRE_50( "FIRE_50" );
 const flag_id flag_FIRE_TWOHAND( "FIRE_TWOHAND" );
-const flag_id flag_FISH_GOOD( "FISH_GOOD" );
-const flag_id flag_FISH_POOR( "FISH_POOR" );
 const flag_id flag_FIT( "FIT" );
 const flag_id flag_FIX_FARSIGHT( "FIX_FARSIGHT" );
 const flag_id flag_FIX_NEARSIGHT( "FIX_NEARSIGHT" );
@@ -205,7 +206,6 @@ const flag_id flag_NO_DROP( "NO_DROP" );
 const flag_id flag_NO_INGEST( "NO_INGEST" );
 const flag_id flag_NO_PACKED( "NO_PACKED" );
 const flag_id flag_NO_PARASITES( "NO_PARASITES" );
-const flag_id flag_NO_QUICKDRAW( "NO_QUICKDRAW" );
 const flag_id flag_NO_RELOAD( "NO_RELOAD" );
 const flag_id flag_NO_REPAIR( "NO_REPAIR" );
 const flag_id flag_NO_SALVAGE( "NO_SALVAGE" );
@@ -227,6 +227,7 @@ const flag_id flag_ORGANIC( "ORGANIC" );
 const flag_id flag_OUTER( "OUTER" );
 const flag_id flag_OVERSIZE( "OVERSIZE" );
 const flag_id flag_PADDED( "PADDED" );
+const flag_id flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 const flag_id flag_PALS_LARGE( "PALS_LARGE" );
 const flag_id flag_PALS_MEDIUM( "PALS_MEDIUM" );
 const flag_id flag_PALS_SMALL( "PALS_SMALL" );
@@ -304,6 +305,7 @@ const flag_id flag_SOLARPACK_ON( "SOLARPACK_ON" );
 const flag_id flag_SPAWN_ACTIVE( "SPAWN_ACTIVE" );
 const flag_id flag_SPEAR( "SPEAR" );
 const flag_id flag_SPEEDLOADER( "SPEEDLOADER" );
+const flag_id flag_SPEEDLOADER_CLIP( "SPEEDLOADER_CLIP" );
 const flag_id flag_SPLINT( "SPLINT" );
 const flag_id flag_STAB( "STAB" );
 const flag_id flag_STAB_IMMUNE( "STAB_IMMUNE" );
@@ -321,6 +323,7 @@ const flag_id flag_THERMOMETER( "THERMOMETER" );
 const flag_id flag_TIE_UP( "TIE_UP" );
 const flag_id flag_TINDER( "TINDER" );
 const flag_id flag_TOBACCO( "TOBACCO" );
+const flag_id flag_TOUGH_FEET( "TOUGH_FEET" );
 const flag_id flag_TOURNIQUET( "TOURNIQUET" );
 const flag_id flag_TOW_CABLE( "TOW_CABLE" );
 const flag_id flag_TRADER_AVOID( "TRADER_AVOID" );
@@ -392,7 +395,7 @@ const json_flag &json_flag::get( const std::string &id )
     return f_id.is_valid() ? *f_id : null_value;
 }
 
-void json_flag::load( const JsonObject &jo, const std::string & )
+void json_flag::load( const JsonObject &jo, const std::string_view )
 {
     // TODO: mark fields as mandatory where appropriate
     optional( jo, was_loaded, "info", info_ );

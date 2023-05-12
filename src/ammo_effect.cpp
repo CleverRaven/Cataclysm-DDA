@@ -60,8 +60,10 @@ int_id<ammo_effect>::int_id( const string_id<ammo_effect> &id ) : _id( id.id() )
 {
 }
 
-void ammo_effect::load( const JsonObject &jo, const std::string & )
+void ammo_effect::load( const JsonObject &jo, const std::string_view )
 {
+    optional( jo, was_loaded, "trigger_chance", trigger_chance, 1 );
+
     if( jo.has_member( "aoe" ) ) {
         JsonObject joa = jo.get_object( "aoe" );
         optional( joa, was_loaded, "field_type", aoe_field_type_name, "fd_null" );

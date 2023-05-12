@@ -3,20 +3,42 @@
     "type": "palette",
     "id": "sewers",
     "terrain": {
-      "o": [ "t_sewage_pipe" ],
-      "p": [ "t_sewage_pump" ],
-      "-": [ "t_bridge" ],
-      "#": [ "t_grate" ],
-      "+": [ "t_bars" ],
-      "~": [ "t_sewage" ],
-      "_": [ [ "t_moss", 2 ], [ "t_dirt", 3 ], [ "t_dirtmound", 1 ], [ "t_sewage", 10 ] ],
-      "|": [ "t_concrete_wall" ],
-      "I": [ "t_wall_metal" ],
-      "W": [ "t_soil" ],
-      "r": [ "t_metal_floor" ],
-      "L": [ [ "t_door_bar_o", 1 ], [ "t_door_bar_locked", 5 ] ],
-      "D": [ "t_door_metal_c" ],
-      ".": [ "t_metal_floor" ]
+      " ": "t_soil",
+      "|": "t_concrete_wall",
+      "I": "t_wall_metal",
+      "=": "t_metal_railing",
+      "L": [ [ "t_door_bar_locked", 2 ], [ "t_door_bar_c", 2 ], "t_door_bar_o" ],
+      "D": "t_door_metal_c",
+      "+": "t_bars",
+      ".": "t_metal_floor",
+      "r": "t_metal_floor",
+      "^": "t_metal_floor",
+      "z": "t_metal_floor",
+      "Z": "t_metal_floor",
+      "~": "t_sewage",
+      "_": [ [ "t_moss", 2 ], [ "t_dirtmound", 4 ], [ "t_sewage", 4 ] ],
+      "-": "t_bridge",
+      "#": "t_grate",
+      "<": "t_ladder_up",
+      "o": "t_sewage_pipe",
+      "p": "t_sewage_pump"
+    },
+    "traps": { "?": [ "tr_cot" ] },
+    "furniture": {
+      "r": "f_utility_shelf",
+      "/": "f_rubble",
+      "O": "f_55gal_firebarrel",
+      "B": "f_cardboard_box",
+      "f": "f_canvas_wall",
+      "F": "f_canvas_door_o",
+      "d": "f_desk",
+      "h": "f_chair",
+      "H": "f_sofa",
+      "s": "f_sink",
+      "t": "f_toilet",
+      "J": "f_counter",
+      "R": "f_bookcase",
+      "∞": "f_foot_locker"
     },
     "items": {
       "_": [
@@ -24,8 +46,15 @@
         { "item": "sewer", "chance": 5 },
         { "item": "sewage_plant", "chance": 1 }
       ],
-      "r": [ { "item": "sewage_plant", "chance": 15 }, { "item": "os_items", "chance": 45, "repeat": [ 1, 3 ] } ]
+      "r": [ { "item": "sewage_plant", "chance": 15 }, { "item": "os_items", "chance": 45, "repeat": [ 1, 3 ] } ],
+      "^": [ { "item": "vending_food_items", "chance": 75, "repeat": [ 1, 2 ] } ],
+      ".": [ { "item": "trash", "chance": 3, "repeat": [ 1, 2 ] } ],
+      "-": [ { "item": "trash", "chance": 1 } ]
     },
-    "furniture": { "r": [ "f_rack" ] }
+    "monster": {
+      "~": { "group": "GROUP_SEWER", "chance": 2 },
+      "z": { "group": "GROUP_ZOMBIE", "chance": 25 },
+      "Z": { "group": "GROUP_ZOMBIE", "chance": 100 }
+    }
   }
 ]

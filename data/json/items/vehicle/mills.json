@@ -10,10 +10,10 @@
     "symbol": "T",
     "material": [ "steel" ],
     "volume": "20 L",
-    "bashing": 1,
     "category": "veh_parts",
     "price": 60000,
-    "price_postapoc": 1000
+    "price_postapoc": 1000,
+    "melee_damage": { "bash": 1 }
   },
   {
     "type": "GENERIC",
@@ -38,10 +38,10 @@
     "symbol": "*",
     "material": [ "wood" ],
     "volume": "30 L",
-    "bashing": 3,
     "price": 120000,
     "price_postapoc": 1000,
-    "copy-from": "wind_turbine"
+    "copy-from": "wind_turbine",
+    "melee_damage": { "bash": 3 }
   },
   {
     "type": "GENERIC",

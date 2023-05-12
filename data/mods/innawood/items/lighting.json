@@ -51,7 +51,6 @@
     "price": 0,
     "price_postapoc": 0,
     "to_hit": 1,
-    "bashing": 8,
     "material": [ "wood" ],
     "symbol": "/",
     "color": "brown",
@@ -70,6 +69,7 @@
       }
     ],
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "FIRE", "LIGHT_60", "CHARGEDIM", "FLAMING", "TRADER_AVOID", "WATER_EXTINGUISH", "BURNOUT" ]
+    "flags": [ "FIRE", "LIGHT_60", "CHARGEDIM", "FLAMING", "TRADER_AVOID", "WATER_EXTINGUISH", "BURNOUT" ],
+    "melee_damage": { "bash": 8 }
   }
 ]

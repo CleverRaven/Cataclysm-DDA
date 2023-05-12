@@ -100,5 +100,21 @@
     "//": "This has explicit needs which don't match, so it disables checking",
     "blueprint_needs": {  },
     "check_blueprint_needs": false
+  },
+  {
+    "type": "recipe",
+    "result": "test_base_stove_plus_pipe_4",
+    "description": "Test data only.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "time": "20 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "pipe", 2 ], [ "scrap", 1 ] ] ],
+    "construction_blueprint": "test_stove_update",
+    "blueprint_name": "stove",
+    "//": "This doesn't declare blueprint_needs at all, and disables checking, so they are taken exclusively from the recipe needs",
+    "check_blueprint_needs": false
   }
 ]

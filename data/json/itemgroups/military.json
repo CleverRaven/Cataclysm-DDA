@@ -17,6 +17,28 @@
     ]
   },
   {
+    "type": "item_group",
+    "id": "military_standard_assault_rifles_sighted",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "m4_carbine", "variant": "m4a1", "prob": 88, "charges": [ 0, 30 ], "contents-item": "acog_scope" },
+      {
+        "item": "m27_assault_rifle",
+        "variant": "m27iar",
+        "prob": 10,
+        "charges": [ 0, 30 ],
+        "contents-item": "acog_scope"
+      },
+      { "item": "m16a4", "prob": 2, "charges": [ 0, 30 ], "contents-item": "acog_scope" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "military_grenadier_assault_rifles",
+    "subtype": "distribution",
+    "entries": [ { "item": "m4_carbine", "contents-group": "military_grenadier_mods", "prob": 100, "charges": [ 0, 30 ] } ]
+  },
+  {
     "id": "armor_plates",
     "type": "item_group",
     "//": "a list of all plates that could be sold in stores",
@@ -379,6 +401,13 @@
     "entries": [ { "item": "ballistic_vest_heavy", "contents-group": "kitted_heavy_vest" } ]
   },
   {
+    "id": "xedra_ballistic_vest_heavy_pristine",
+    "type": "item_group",
+    "//": "heavy xedra ballistic vest plus plates",
+    "subtype": "collection",
+    "entries": [ { "item": "ballistic_vest_heavy", "variant": "ballistic_vest_heavy_xedra", "contents-group": "kitted_heavy_vest" } ]
+  },
+  {
     "id": "military_ballistic_vest_heavy",
     "type": "item_group",
     "//": "heavy ballistic vest plus plates",
@@ -424,7 +453,7 @@
     "type": "item_group",
     "id": "military_standard_grenades",
     "subtype": "distribution",
-    "entries": [ { "item": "grenade", "prob": 100 } ]
+    "entries": [ { "item": "grenade", "prob": 80 }, { "item": "smokebomb", "prob": 20 } ]
   },
   {
     "type": "item_group",
@@ -490,6 +519,53 @@
   },
   {
     "type": "item_group",
+    "id": "xedra_gun",
+    "items": [
+      {
+        "collection": [
+          { "item": "xedra_gun", "prob": 100, "charges": 0, "contents-item": "xedra_gun_ar" },
+          { "group": "field_xedra_rifle" }
+        ],
+        "prob": 50
+      },
+      {
+        "collection": [
+          { "item": "xedra_gun", "prob": 100, "charges": 0, "contents-item": "xedra_gun_shotgun" },
+          { "group": "field_xedra_shotgun" }
+        ],
+        "prob": 50
+      }
+    ]
+  },
+  {
+    "id": "xedra_kill_team_set",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      { "group": "clothing_military" },
+      { "item": "elbow_pads", "prob": 80 },
+      { "item": "knee_pads", "prob": 85 },
+      { "item": "tac_helmet", "prob": 100 },
+      { "item": "mask_gas", "prob": 100 },
+      { "item": "gloves_tactical", "prob": 80 },
+      { "group": "xedra_ballistic_vest_heavy_pristine", "prob": 100 },
+      { "group": "clothing_tactical_leg", "prob": 80 },
+      { "group": "clothing_watch", "prob": 45 },
+      {
+        "distribution": [
+          { "item": "glasses_bal", "prob": 30 },
+          { "item": "goggles_nv", "prob": 30, "charges": [ 50, 100 ] },
+          { "item": "goggles_ir", "prob": 30, "charges": [ 50, 100 ] }
+        ],
+        "prob": 100
+      },
+      { "group": "xedra_gun" },
+      { "group": "cop_melee" },
+      { "group": "cop_holster_field" }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "military",
     "subtype": "distribution",
     "entries": [
@@ -507,9 +583,9 @@
       { "item": "knuckle_brass", "prob": 10 },
       { "item": "knuckle_steel_forged", "prob": 5 },
       { "item": "battery_ups", "prob": 10 },
-      { "item": "bandages", "prob": 30 },
-      { "item": "adhesive_bandages", "prob": 20, "count": [ 1, 20 ] },
-      { "item": "cotton_ball", "prob": 20 },
+      { "item": "bandages", "prob": 30, "count": [ 1, 3 ] },
+      { "group": "adhesive_bandages_box_used", "prob": 20 },
+      { "group": "cotton_ball_bag_used", "prob": 20 },
       { "item": "iodine", "prob": 5 },
       { "item": "prussian_blue", "prob": 5 },
       { "item": "adrenaline_injector", "prob": 4 },
@@ -533,8 +609,7 @@
       { "item": "chestpouch", "prob": 6 },
       { "item": "ammo_satchel", "prob": 3 },
       { "item": "gobag", "prob": 1 },
-      { "item": "mess_kit", "prob": 9, "charges": [ 0, 500 ] },
-      { "item": "mil_mess_kit", "prob": 1, "charges": [ 0, 500 ] },
+      { "item": "mess_kit", "prob": 9 },
       { "item": "tent_kit", "prob": 10 },
       { "item": "large_tent_kit", "prob": 10 },
       { "item": "pistol_bayonet", "prob": 4 },
@@ -571,7 +646,7 @@
       { "item": "m27_assault_rifle", "variant": "h&k416a5", "prob": 7 },
       { "item": "mossberg_930", "variant": "m1014", "prob": 2 },
       { "item": "m26_mass_standalone", "prob": 1 },
-      { "item": "m27_assault_rifle", "variant": "scar_l", "prob": 6 },
+      { "item": "scar_l", "prob": 6 },
       { "item": "scar_h", "prob": 5 },
       { "item": "sig_mcx_rattler_sbr", "prob": 1 },
       { "item": "m249", "prob": 1 },
@@ -648,10 +723,6 @@
       { "item": "improve_sights", "prob": 10 },
       { "item": "waterproof_gunmod", "prob": 4 },
       { "item": "cleansuit", "prob": 5 },
-      { "item": "needlegun", "prob": 4 },
-      { "item": "needlepistol", "prob": 6 },
-      { "item": "5x50dart", "prob": 8 },
-      { "item": "5x50heavy", "prob": 4 },
       { "item": "hazmat_suit", "prob": 5 },
       { "item": "e_tool", "prob": 20 },
       { "item": "knife_trench", "prob": 14 },
@@ -676,10 +747,8 @@
       { "item": "single_sling", "prob": 16 },
       { "item": "bot_manhack", "prob": 1 },
       { "item": "bot_grenade_hack", "prob": 1 },
-      { "item": "l-stick", "prob": 1 },
       { "item": "chem_hexamine", "prob": 5 },
       { "item": "esbit_stove", "prob": 8 },
-      { "item": "mess_tin", "prob": 4 },
       { "item": "beam_scatterer", "prob": 1 },
       { "item": "focusing_lens", "prob": 1 },
       { "item": "electrolaser_conversion", "prob": 1 },
@@ -712,8 +781,8 @@
       { "group": "ammo_pocket_batteries_full", "prob": 40 },
       { "item": "radio", "prob": 10, "charges-min": 10, "charges-max": 95 },
       { "item": "boots_combat", "prob": 50 },
-      { "item": "bandages", "prob": 10, "charges-min": 1, "charges-max": 3 },
-      { "item": "adhesive_bandages", "prob": 10, "count": [ 1, 20 ] },
+      { "item": "bandages", "prob": 10, "count": [ 1, 3 ] },
+      { "group": "adhesive_bandages_box_used", "prob": 10 },
       { "item": "cig", "prob": 60, "charges-min": 1, "charges-max": 20 },
       { "item": "knife_combat", "prob": 30 },
       { "item": "pockknife", "prob": 30 },
@@ -735,7 +804,7 @@
       { "item": "heatpack", "prob": 30 },
       { "item": "sleeping_bag_roll", "prob": 20 },
       { "item": "duffelbag", "prob": 25 },
-      { "item": "mil_mess_kit", "prob": 50, "charges": [ 0, 500 ] },
+      { "item": "mess_kit", "prob": 50 },
       { "item": "flashlight", "prob": 50, "charges": [ 0, 300 ] },
       { "item": "heavy_flashlight", "prob": 10, "charges": [ 0, 300 ] },
       { "item": "mag_fieldrepair", "prob": 20 },
@@ -766,6 +835,7 @@
       { "item": "manual_rifle", "prob": 5 },
       { "item": "manual_pistol", "prob": 5 },
       { "item": "manual_traps_mil", "prob": 5 },
+      { "item": "manual_traps_mil_basic", "prob": 5 },
       { "item": "mag_pistol", "prob": 10 },
       { "item": "mag_rifle", "prob": 10 }
     ]
@@ -831,7 +901,7 @@
     "//": "A bulk of uniform goods all of the same type likely found in a shipping crate",
     "subtype": "distribution",
     "entries": [
-      { "item": "mil_mess_kit", "prob": 10, "count": 32 },
+      { "item": "mess_kit", "prob": 10, "count": 32 },
       { "item": "voltmeter", "prob": 10, "count": 32 },
       { "item": "multimeter", "prob": 10, "count": 32 },
       { "item": "drivebelt", "prob": 10, "count": 64 },
@@ -1047,7 +1117,9 @@
       [ "small_turbine_engine", 7 ],
       [ "medium_turbine_engine", 5 ],
       [ "large_turbine_engine", 3 ],
-      [ "weldrig", 1 ],
+      [ "veh_tools_workshop", 1 ],
+      [ "welder", 1 ],
+      [ "soldering_iron", 1 ],
       [ "solar_cell", 1 ],
       [ "bearing", 1 ],
       [ "headlight_reinforced", 10 ],

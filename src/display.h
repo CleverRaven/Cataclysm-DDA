@@ -12,6 +12,7 @@ enum class bodygraph_var : int {
     temp,        // temperature
     encumb,      // encumbrance
     status,      // limb status (bite, bleeding, ...)
+    wet,         // wetness
     last // END OF ENUMS
 };
 
@@ -150,10 +151,7 @@ std::pair<std::string, nc_color> temp_text_color( const Character &u,
 std::pair<std::string, nc_color> power_text_color( const Character &u );
 std::pair<std::string, nc_color> power_balance_text_color( const avatar &u );
 std::pair<std::string, nc_color> mana_text_color( const Character &you );
-std::pair<std::string, nc_color> str_text_color( const Character &p );
-std::pair<std::string, nc_color> dex_text_color( const Character &p );
-std::pair<std::string, nc_color> int_text_color( const Character &p );
-std::pair<std::string, nc_color> per_text_color( const Character &p );
+
 std::pair<std::string, nc_color> safe_mode_text_color( bool classic_mode );
 std::pair<std::string, nc_color> wind_text_color( const Character &u );
 std::pair<std::string, nc_color> weather_text_color( const Character &u );
@@ -183,7 +181,7 @@ nc_color encumb_color( int level );
 std::pair<std::string, nc_color> overmap_tile_symbol_color( const avatar &u,
         const tripoint_abs_omt &omt, bool edge_tile, bool &found_mi );
 // Colorized symbol for an overmap note, given its full text
-std::pair<std::string, nc_color> overmap_note_symbol_color( const std::string &note_text );
+std::pair<std::string, nc_color> overmap_note_symbol_color( std::string_view note_text );
 // Mission marker position as an offset within an overmap of given width and height
 point mission_arrow_offset( const avatar &you, int width, int height );
 // Fully colorized newline-separated overmap string of the given size, centered on character

@@ -39,24 +39,24 @@ struct enum_traits<aim_entry> {
 };
 
 using I = std::underlying_type_t<aim_entry>;
-static constexpr aim_entry &operator++( aim_entry &lhs )
+inline constexpr aim_entry &operator++( aim_entry &lhs )
 {
     lhs = static_cast<aim_entry>( static_cast<I>( lhs ) + 1 );
     return lhs;
 }
 
-static constexpr aim_entry &operator--( aim_entry &lhs )
+inline constexpr aim_entry &operator--( aim_entry &lhs )
 {
     lhs = static_cast<aim_entry>( static_cast<I>( lhs ) - 1 );
     return lhs;
 }
 
-static constexpr aim_entry operator+( const aim_entry &lhs, const I &rhs )
+inline constexpr aim_entry operator+( const aim_entry &lhs, const I &rhs )
 {
     return static_cast<aim_entry>( static_cast<I>( lhs ) + rhs );
 }
 
-static constexpr aim_entry operator-( const aim_entry &lhs, const I &rhs )
+inline constexpr aim_entry operator-( const aim_entry &lhs, const I &rhs )
 {
     return static_cast<aim_entry>( static_cast<I>( lhs ) - rhs );
 }
@@ -331,7 +331,13 @@ enum class distraction_type : int {
     hunger,
     thirst,
     temperature,
-    mutation
+    mutation,
+    last,
+};
+
+template<>
+struct enum_traits<distraction_type> {
+    static constexpr distraction_type last = distraction_type::last;
 };
 
 enum game_message_type : int {
@@ -448,6 +454,21 @@ enum class character_type : int {
     TEMPLATE,
     NOW,
     FULL_RANDOM,
+};
+
+enum class aggregate_type : int {
+    FIRST,
+    LAST,
+    MIN,
+    MAX,
+    SUM,
+    AVERAGE,
+    num_aggregate_types
+};
+
+template<>
+struct enum_traits<aggregate_type> {
+    static constexpr aggregate_type last = aggregate_type::num_aggregate_types;
 };
 
 #endif // CATA_SRC_ENUMS_H

@@ -7,6 +7,7 @@
 #include <functional>
 #include <map>
 #include <memory>
+#include <optional>
 #include <stack>
 #include <string>
 #include <tuple>
@@ -46,7 +47,6 @@
 #include "morale_types.h"
 #include "mtype.h"
 #include "npc.h"
-#include "optional.h"
 #include "output.h"
 #include "point.h"
 #include "projectile.h"
@@ -65,6 +65,11 @@
 struct mutation_branch;
 
 static const anatomy_id anatomy_human_anatomy( "human_anatomy" );
+
+static const damage_type_id damage_acid( "acid" );
+static const damage_type_id damage_bash( "bash" );
+static const damage_type_id damage_electric( "electric" );
+static const damage_type_id damage_heat( "heat" );
 
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_bounced( "bounced" );
@@ -143,14 +148,11 @@ Creature::Creature()
 }
 
 Creature::Creature( const Creature & ) = default;
-Creature::Creature( Creature && ) noexcept( map_is_noexcept ) = default;
+Creature::Creature( Creature && ) noexcept( map_is_noexcept &&list_is_noexcept ) = default;
 Creature &Creature::operator=( const Creature & ) = default;
 Creature &Creature::operator=( Creature && ) noexcept = default;
 
 Creature::~Creature() = default;
-
-std::queue<scheduled_effect> Creature::scheduled_effects = std::queue<scheduled_effect> {};
-std::queue<terminating_effect> Creature::terminating_effects = std::queue<terminating_effect> {};
 
 tripoint Creature::pos() const
 {
@@ -216,9 +218,7 @@ void Creature::reset_bonuses()
     num_blocks_bonus = 0;
     num_dodges_bonus = 0;
 
-    armor_bash_bonus = 0;
-    armor_cut_bonus = 0;
-    armor_bullet_bonus = 0;
+    armor_bonus.clear();
 
     speed_bonus = 0;
     dodge_bonus = 0;
@@ -237,6 +237,7 @@ void Creature::reset_bonuses()
 
 void Creature::process_turn()
 {
+    decrement_summon_timer();
     if( is_dead_state() ) {
         return;
     }
@@ -253,6 +254,18 @@ void Creature::process_turn()
     if( !has_effect( effect_ridden ) ) {
         moves += get_speed();
     }
+}
+
+bool Creature::cant_do_underwater( bool msg ) const
+{
+    if( is_underwater() ) {
+        if( msg ) {
+            add_msg_player_or_npc( m_info, _( "You can't do that while underwater." ),
+                                   _( "<npcname> can't do that while underwater." ) );
+        }
+        return true;
+    }
+    return false;
 }
 
 bool Creature::is_underwater() const
@@ -499,11 +512,11 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
     boo_hoo = 0;         // how many targets were passed due to IFF. Tragically.
     bool self_area_iff = false; // Need to check if the target is near the vehicle we're a part of
     bool area_iff = false;      // Need to check distance from target to player
-    bool angle_iff = true;      // Need to check if player is in a cone between us and target
+    bool angle_iff = sees( player_character ); // Need to check if player is in cone to target
     int pldist = rl_dist( pos(), player_pos );
     map &here = get_map();
     vehicle *in_veh = is_fake() ? veh_pointer_or_null( here.veh_at( pos() ) ) : nullptr;
-    if( pldist < iff_dist && sees( player_character ) ) {
+    if( pldist < iff_dist && angle_iff ) {
         area_iff = area > 0;
         // Player inside vehicle won't be hit by shots from the roof,
         // so we can fire "through" them just fine.
@@ -524,7 +537,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
     std::vector<Creature *> targets = g->get_creatures_if( [&]( const Creature & critter ) {
         if( critter.is_monster() ) {
             // friendly to the player, not a target for us
-            return static_cast<const monster *>( &critter )->friendly == 0;
+            return static_cast<const monster *>( &critter )->attitude( &player_character ) == MATT_ATTACK;
         }
         if( critter.is_npc() ) {
             // friendly to the player, not a target for us
@@ -758,6 +771,7 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
     attack_copy.type = weakpoint_attack::type_of_melee_attack( d );
 
     on_hit( source, bp_hit ); // trigger on-gethit events
+    dam.onhit_effects( source, this ); // on-hit effects for inflicted damage types
     dealt_dam = deal_damage( source, bp_hit, d, attack_copy );
     dealt_dam.bp_hit = bp_hit;
 }
@@ -852,9 +866,11 @@ void projectile::apply_effects_damage( Creature &target, Creature *source,
         }
     }
 
-    if( dealt_dam.bp_hit == bodypart_id( "head" ) && proj_effects.count( "BLINDS_EYES" ) ) {
+    if( dealt_dam.bp_hit->has_type( body_part_type::type::head ) &&
+        proj_effects.count( "BLINDS_EYES" ) ) {
         // TODO: Change this to require bp_eyes
-        target.add_env_effect( effect_blind, bodypart_id( "eyes" ), 5, rng( 3_turns, 10_turns ) );
+        target.add_env_effect( effect_blind,
+                               target.get_random_body_part_of_type( body_part_type::type::sensor ), 5, rng( 3_turns, 10_turns ) );
     }
 
     if( proj_effects.count( "APPLY_SAP" ) ) {
@@ -976,11 +992,17 @@ void Creature::messaging_projectile_attack( const Creature *source,
                 add_msg( source->is_avatar() ? _( "You miss!" ) : _( "The shot misses!" ) );
             }
         } else if( total_damage == 0 ) {
-            //~ 1$ - monster name, 2$ - character's bodypart or monster's skin/armor
-            add_msg( _( "The shot reflects off %1$s %2$s!" ), disp_name( true ),
-                     is_monster() ?
-                     skin_name() :
-                     body_part_name_accusative( hit_selection.bp_hit ) );
+            if( hit_selection.wp_hit.empty() ) {
+                //~ 1$ - monster name, 2$ - character's bodypart or monster's skin/armor
+                add_msg( _( "The shot reflects off %1$s %2$s!" ), disp_name( true ),
+                         is_monster() ?
+                         skin_name() :
+                         body_part_name_accusative( hit_selection.bp_hit ) );
+            } else {
+                //~ %1$s: creature name, %2$s: weakpoint hit
+                add_msg( _( "The shot hits %1$s in %2$s but deals no damage." ),
+                         disp_name(), hit_selection.wp_hit );
+            }
         } else if( is_avatar() ) {
             //monster hits player ranged
             //~ Hit message. 1$s is bodypart name in accusative. 2$d is damage value.
@@ -1159,7 +1181,7 @@ dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
         deal_damage_handle_type( effect_source( source ), it, bp, cur_damage, total_pain );
         total_base_damage += std::max( 0.0f, it.amount * it.unconditional_damage_mult );
         if( cur_damage > 0 ) {
-            dealt_dams.dealt_dams[ static_cast<int>( it.type ) ] += cur_damage;
+            dealt_dams.dealt_dams[it.type] += cur_damage;
             total_damage += cur_damage;
         }
     }
@@ -1193,67 +1215,50 @@ void Creature::deal_damage_handle_type( const effect_source &source, const damag
 
     float div = 4.0f;
 
-    switch( du.type ) {
-        case damage_type::BASH:
-            // Bashing damage is less painful
-            div = 5.0f;
-            break;
+    // FIXME: Hardcoded damage types
+    if( du.type == damage_bash ) {
+        // Bashing damage is less painful
+        div = 5.0f;
+    } else if( du.type == damage_heat ) {
+        // heat damage sets us on fire sometimes
+        if( rng( 0, 100 ) < adjusted_damage ) {
+            add_effect( source, effect_onfire, rng( 1_turns, 3_turns ), bp );
 
-        case damage_type::HEAT:
-            // heat damage sets us on fire sometimes
-            if( rng( 0, 100 ) < adjusted_damage ) {
-                add_effect( source, effect_onfire, rng( 1_turns, 3_turns ), bp );
-
-                Character &player_character = get_player_character();
-                if( player_character.has_trait( trait_PYROMANIA ) &&
-                    !player_character.has_morale( MORALE_PYROMANIA_STARTFIRE ) && player_character.sees( *this ) ) {
-                    player_character.add_msg_if_player( m_good,
-                                                        _( "You feel a surge of euphoria as flame engulfs %s!" ), this->get_name() );
-                    player_character.add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
-                    player_character.rem_morale( MORALE_PYROMANIA_NOFIRE );
-                }
+            Character &player_character = get_player_character();
+            if( player_character.has_trait( trait_PYROMANIA ) &&
+                !player_character.has_morale( MORALE_PYROMANIA_STARTFIRE ) && player_character.sees( *this ) ) {
+                player_character.add_msg_if_player( m_good,
+                                                    _( "You feel a surge of euphoria as flame engulfs %s!" ), this->get_name() );
+                player_character.add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
+                player_character.rem_morale( MORALE_PYROMANIA_NOFIRE );
             }
-            break;
-
-        case damage_type::ELECTRIC: {
-            // Electrical damage adds a major speed/dex debuff
-            double multiplier = 1.0;
-            if( monster *mon = as_monster() ) {
-                multiplier = mon->type->status_chance_multiplier;
-            }
-            const int chance = std::log10( ( adjusted_damage + 2 ) * 0.5 ) * 100 * multiplier;
-            if( x_in_y( chance, 100 ) ) {
-                const int duration = std::max( adjusted_damage / 10.0 * multiplier, 2.0 );
-                add_effect( source, effect_zapped, 1_turns * duration );
-            }
-
-            if( Character *ch = as_character() ) {
-                const double pain_mult = ch->calculate_by_enchantment( 1.0, enchant_vals::mod::EXTRA_ELEC_PAIN );
-                div /= pain_mult;
-                if( pain_mult > 1.0 ) {
-                    ch->add_msg_player_or_npc( m_bad, _( "You're painfully electrocuted!" ),
-                                               _( "<npcname> is shocked!" ) );
-                }
-            }
-            break;
+        }
+    } else if( du.type == damage_electric ) {
+        // Electrical damage adds a major speed/dex debuff
+        double multiplier = 1.0;
+        if( monster *mon = as_monster() ) {
+            multiplier = mon->type->status_chance_multiplier;
+        }
+        const int chance = std::log10( ( adjusted_damage + 2 ) * 0.5 ) * 100 * multiplier;
+        if( x_in_y( chance, 100 ) ) {
+            const int duration = std::max( adjusted_damage / 10.0 * multiplier, 2.0 );
+            add_effect( source, effect_zapped, 1_turns * duration );
         }
 
-        case damage_type::ACID:
-            // Acid damage and acid burns are more painful
-            div = 3.0f;
-            break;
-
-        case damage_type::CUT:
-        case damage_type::STAB:
-        case damage_type::BULLET:
-            // these are bleed inducing damage types
-            make_bleed( source, bp, 1_minutes * rng( 1, adjusted_damage ) );
-
-        default:
-            break;
+        if( Character *ch = as_character() ) {
+            const double pain_mult = ch->calculate_by_enchantment( 1.0, enchant_vals::mod::EXTRA_ELEC_PAIN );
+            div /= pain_mult;
+            if( pain_mult > 1.0 ) {
+                ch->add_msg_player_or_npc( m_bad, _( "You're painfully electrocuted!" ),
+                                           _( "<npcname> is shocked!" ) );
+            }
+        }
+    } else if( du.type == damage_acid ) {
+        // Acid damage and acid burns are more painful
+        div = 3.0f;
     }
 
-    on_damage_of_type( adjusted_damage, du.type, bp );
+    on_damage_of_type( source, adjusted_damage, du.type, bp );
 
     damage += adjusted_damage;
     pain += roll_remainder( adjusted_damage / div );
@@ -1369,6 +1374,12 @@ void Creature::add_effect( const effect_source &source, const efftype_id &eff_id
     if( type.get_main_parts() ) {
         bp = bp->main_part;
     }
+
+    // Filter out bodypart immunity
+    for( json_character_flag flag : eff_id->immune_bp_flags )
+        if( bp->has_flag( flag ) ) {
+            return;
+        }
 
     bool found = false;
     // Check if we already have it
@@ -1633,6 +1644,19 @@ std::vector<effect> Creature::get_effects() const
     return effs;
 }
 
+std::vector<effect> Creature::get_effects_from_bp( const bodypart_id &bp ) const
+{
+    std::vector<effect> effs;
+    for( auto &elem : *effects ) {
+        for( const std::pair<const bodypart_id, effect> &_it : elem.second ) {
+            if( _it.first == bp ) {
+                effs.push_back( _it.second );
+            }
+        }
+    }
+    return effs;
+}
+
 effect &Creature::get_effect( const efftype_id &eff_id, const bodypart_id &bp )
 {
     return const_cast<effect &>( const_cast<const Creature *>( this )->get_effect( eff_id, bp ) );
@@ -1821,22 +1845,51 @@ void Creature::set_killer( Creature *const killer )
     }
 }
 
+void Creature::clear_killer()
+{
+    killer = nullptr;
+}
+
+void Creature::set_summon_time( const time_duration &length )
+{
+    lifespan_end = calendar::turn + length;
+}
+
+void Creature::decrement_summon_timer()
+{
+    if( !lifespan_end ) {
+        return;
+    }
+    if( lifespan_end.value() <= calendar::turn ) {
+        die( nullptr );
+    }
+}
+
 int Creature::get_num_blocks() const
 {
     return num_blocks + num_blocks_bonus;
 }
+
 int Creature::get_num_dodges() const
 {
     return num_dodges + num_dodges_bonus;
 }
+
 int Creature::get_num_blocks_bonus() const
 {
     return num_blocks_bonus;
 }
+
 int Creature::get_num_dodges_bonus() const
 {
     return num_dodges_bonus;
 }
+
+int Creature::get_num_blocks_base() const
+{
+    return num_blocks;
+}
+
 int Creature::get_num_dodges_base() const
 {
     return num_dodges;
@@ -1847,41 +1900,18 @@ int Creature::get_env_resist( bodypart_id ) const
 {
     return 0;
 }
-int Creature::get_armor_bash( bodypart_id ) const
+int Creature::get_armor_res( const damage_type_id &dt, bodypart_id ) const
 {
-    return armor_bash_bonus;
+    return get_armor_res_bonus( dt );
 }
-int Creature::get_armor_cut( bodypart_id ) const
+int Creature::get_armor_res_base( const damage_type_id &dt, bodypart_id ) const
 {
-    return armor_cut_bonus;
+    return get_armor_res_bonus( dt );
 }
-int Creature::get_armor_bullet( bodypart_id ) const
+int Creature::get_armor_res_bonus( const damage_type_id &dt ) const
 {
-    return armor_bullet_bonus;
-}
-int Creature::get_armor_bash_base( bodypart_id ) const
-{
-    return armor_bash_bonus;
-}
-int Creature::get_armor_cut_base( bodypart_id ) const
-{
-    return armor_cut_bonus;
-}
-int Creature::get_armor_bullet_base( bodypart_id ) const
-{
-    return armor_bullet_bonus;
-}
-int Creature::get_armor_bash_bonus() const
-{
-    return armor_bash_bonus;
-}
-int Creature::get_armor_cut_bonus() const
-{
-    return armor_cut_bonus;
-}
-int Creature::get_armor_bullet_bonus() const
-{
-    return armor_bullet_bonus;
+    auto iter = armor_bonus.find( dt );
+    return iter == armor_bonus.end() ? 0 : std::round( iter->second );
 }
 
 int Creature::get_spell_resist() const
@@ -1962,7 +1992,7 @@ bool Creature::has_part( const bodypart_id &id ) const
 
 bodypart *Creature::get_part( const bodypart_id &id )
 {
-    auto found = body.find( id.id() );
+    auto found = body.find( get_part_id( id ).id() );
     if( found == body.end() ) {
         debugmsg( "Could not find bodypart %s in %s's body", id.id().c_str(), get_name() );
         return nullptr;
@@ -1972,7 +2002,7 @@ bodypart *Creature::get_part( const bodypart_id &id )
 
 const bodypart *Creature::get_part( const bodypart_id &id ) const
 {
-    auto found = body.find( id.id() );
+    auto found = body.find( get_part_id( id ).id() );
     if( found == body.end() ) {
         debugmsg( "Could not find bodypart %s in %s's body", id.id().c_str(), get_name() );
         return nullptr;
@@ -2013,6 +2043,40 @@ static void set_part_helper( Creature &c, const bodypart_id &id,
     if( part ) {
         ( part->*set )( val );
     }
+}
+
+bodypart_id Creature::get_part_id( const bodypart_id &id ) const
+{
+    auto found = body.find( id.id() );
+    if( found == body.end() ) {
+        // try to find an equivalent part in the body map
+        for( const std::pair<const bodypart_str_id, bodypart> &bp : body ) {
+            if( id->part_side == bp.first->part_side &&
+                id->primary_limb_type() == bp.first->primary_limb_type() ) {
+                return bp.first;
+            }
+        }
+
+        // try to find the next best thing
+        std::pair<bodypart_id, float> best = { body_part_bp_null, 0.0 };
+        for( const std::pair<const bodypart_str_id, bodypart> &bp : body ) {
+            for( const std::pair<const body_part_type::type, float> &mp : bp.first->limbtypes ) {
+                // if the secondary limb type matches and is better than the current
+                if( mp.first == id->primary_limb_type() && mp.second > best.second ) {
+                    // give an inflated bonus if the part sides match
+                    float bonus = id->part_side == bp.first->part_side ? 1.0 : 0.0;
+                    best = { bp.first, mp.second + bonus };
+                }
+            }
+        }
+
+        if( best.first == body_part_bp_null ) {
+            debugmsg( "Could not find equivalent bodypart id %s in %s's body", id.id().c_str(), get_name() );
+        }
+
+        return best.first;
+    }
+    return found->first;
 }
 
 int Creature::get_part_hp_cur( const bodypart_id &id ) const
@@ -2251,7 +2315,7 @@ bodypart_id Creature::get_random_body_part( bool main ) const
     return main ? part->main_part.id() : part;
 }
 
-static void sort_body_parts( std::vector<bodypart_id> &bps )
+static void sort_body_parts( std::vector<bodypart_id> &bps, const Creature *c )
 {
     // We want to dynamically sort the parts based on their connections as
     // defined in json.
@@ -2263,7 +2327,7 @@ static void sort_body_parts( std::vector<bodypart_id> &bps )
     std::unordered_map<bodypart_id, cata::flat_set<bodypart_id>> parts_connected_to;
     bodypart_id root_part;
     for( const bodypart_id &bp : bps ) {
-        bodypart_id conn = bp->connected_to;
+        bodypart_id conn = c->get_part_id( bp->connected_to );
         if( conn == bp ) {
             root_part = bp;
         } else {
@@ -2296,7 +2360,7 @@ static void sort_body_parts( std::vector<bodypart_id> &bps )
         parts_with_no_connections.erase( last );
         unaccounted_parts.erase( bp );
         topo_sorted_parts.push_back( bp );
-        bodypart_id conn = bp->connected_to;
+        bodypart_id conn = c->get_part_id( bp->connected_to );
         if( conn == bp ) {
             break;
         }
@@ -2368,18 +2432,19 @@ static void sort_body_parts( std::vector<bodypart_id> &bps )
 std::vector<bodypart_id> Creature::get_all_body_parts( get_body_part_flags flags ) const
 {
     bool only_main( flags & get_body_part_flags::only_main );
-
+    bool only_minor( flags & get_body_part_flags::only_minor );
     std::vector<bodypart_id> all_bps;
     all_bps.reserve( body.size() );
     for( const std::pair<const bodypart_str_id, bodypart> &elem : body ) {
-        if( only_main && elem.first->main_part != elem.first ) {
+        if( ( only_main && elem.first->main_part != elem.first ) || ( only_minor &&
+                elem.first->main_part == elem.first ) ) {
             continue;
         }
         all_bps.emplace_back( elem.first );
     }
 
     if( flags & get_body_part_flags::sorted ) {
-        sort_body_parts( all_bps );
+        sort_body_parts( all_bps, this );
     }
 
     return  all_bps;
@@ -2417,10 +2482,15 @@ std::vector<bodypart_id> Creature::get_all_body_parts_of_type(
     }
 
     if( flags & get_body_part_flags::sorted ) {
-        sort_body_parts( bodyparts );
+        sort_body_parts( bodyparts, this );
     }
 
     return bodyparts;
+}
+
+bodypart_id Creature::get_random_body_part_of_type( body_part_type::type part_type ) const
+{
+    return random_entry( get_all_body_parts_of_type( part_type ) );
 }
 
 std::vector<bodypart_id> Creature::get_all_body_parts_with_flag( const json_character_flag &flag )
@@ -2589,22 +2659,20 @@ void Creature::set_num_blocks_bonus( int nblocks )
 {
     num_blocks_bonus = nblocks;
 }
+
+void Creature::mod_num_blocks_bonus( int nblocks )
+{
+    num_blocks_bonus += nblocks;
+}
+
 void Creature::mod_num_dodges_bonus( int ndodges )
 {
     num_dodges_bonus += ndodges;
 }
 
-void Creature::set_armor_bash_bonus( int nbasharm )
+void Creature::set_armor_res_bonus( int narm, const damage_type_id &dt )
 {
-    armor_bash_bonus = nbasharm;
-}
-void Creature::set_armor_cut_bonus( int ncutarm )
-{
-    armor_cut_bonus = ncutarm;
-}
-void Creature::set_armor_bullet_bonus( int nbulletarm )
-{
-    armor_bullet_bonus = nbulletarm;
+    armor_bonus[dt] = narm;
 }
 
 void Creature::set_speed_base( int nspeed )
@@ -2763,6 +2831,12 @@ bodypart_id Creature::random_body_part( bool main_parts_only ) const
 {
     const bodypart_id &bp = get_anatomy()->random_body_part();
     return  main_parts_only ? bp->main_part : bp ;
+}
+
+std::vector<bodypart_id> Creature::get_all_eligable_parts( int min_hit, int max_hit,
+        bool can_attack_high ) const
+{
+    return anatomy( get_all_body_parts() ).get_all_eligable_parts( min_hit, max_hit, can_attack_high );
 }
 
 void Creature::add_damage_over_time( const damage_over_time_data &DoT )
@@ -2979,26 +3053,26 @@ tripoint_abs_omt Creature::global_omt_location() const
 std::unique_ptr<talker> get_talker_for( Creature &me )
 {
     if( me.is_monster() ) {
-        return std::make_unique<talker_monster>( static_cast<monster *>( &me ) );
+        return std::make_unique<talker_monster>( me.as_monster() );
     } else if( me.is_npc() ) {
-        return std::make_unique<talker_npc>( static_cast<npc *>( &me ) );
+        return std::make_unique<talker_npc>( me.as_npc() );
     } else if( me.is_avatar() ) {
-        return std::make_unique<talker_avatar>( static_cast<avatar *>( &me ) );
+        return std::make_unique<talker_avatar>( me.as_avatar() );
     } else {
         debugmsg( "Invalid creature type %s.", me.get_name() );
-        standard_npc default_npc( "Default" );
-        return get_talker_for( default_npc );
+        return std::make_unique<talker>();
     }
 }
 
 std::unique_ptr<talker> get_talker_for( const Creature &me )
 {
     if( !me.is_monster() ) {
-        return std::make_unique<talker_character_const>( static_cast<const Character *>( &me ) );
+        return std::make_unique<talker_character_const>( me.as_character() );
+    } else if( me.is_monster() ) {
+        return std::make_unique<talker_monster_const>( me.as_monster() );
     } else {
         debugmsg( "Invalid creature type %s.", me.get_name() );
-        standard_npc default_npc( "Default" );
-        return get_talker_for( default_npc );
+        return std::make_unique<talker>();
     }
 }
 
@@ -3006,17 +3080,15 @@ std::unique_ptr<talker> get_talker_for( Creature *me )
 {
     if( !me ) {
         debugmsg( "Null creature type." );
-        standard_npc default_npc( "Default" );
-        return get_talker_for( default_npc );
+        return std::make_unique<talker>();
     } else if( me->is_monster() ) {
-        return std::make_unique<talker_monster>( static_cast<monster *>( me ) );
+        return std::make_unique<talker_monster>( me->as_monster() );
     } else if( me->is_npc() ) {
-        return std::make_unique<talker_npc>( static_cast<npc *>( me ) );
+        return std::make_unique<talker_npc>( me->as_npc() );
     } else if( me->is_avatar() ) {
-        return std::make_unique<talker_avatar>( static_cast<avatar *>( me ) );
+        return std::make_unique<talker_avatar>( me->as_avatar() );
     } else {
         debugmsg( "Invalid creature type %s.", me->get_name() );
-        standard_npc default_npc( "Default" );
-        return get_talker_for( default_npc );
+        return std::make_unique<talker>();
     }
 }

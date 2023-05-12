@@ -91,7 +91,7 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
 {
     if( !assure_dir_exist( user_dir ) ) {
         // NOLINTNEXTLINE(misc-static-assert,cert-dcl03-c)
-        cata_fatal( "Unable to make user_dir directory.  Check permissions." );
+        cata_fatal( "Unable to make user_dir directory '%s'.  Check permissions.", user_dir );
     }
 
     PATH_INFO::init_base_path( "" );
@@ -291,6 +291,10 @@ CATCH_REGISTER_LISTENER( CataListener )
 int main( int argc, const char *argv[] )
 {
     reset_floating_point_mode();
+    on_out_of_scope json_member_reporting_guard{ [] {
+            // Disable reporting unvisited members if stack unwinding leaves main early.
+            Json::globally_report_unvisited_members( false );
+        } };
     Catch::Session session;
 
     std::vector<const char *> arg_vec( argv, argv + argc );

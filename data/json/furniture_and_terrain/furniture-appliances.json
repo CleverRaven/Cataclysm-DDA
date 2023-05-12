@@ -138,7 +138,7 @@
         { "item": "wire_mesh", "count": 1 },
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "pipe_fittings", "count": [ 2, 6 ] },
-        { "item": "motor_small", "charges": 1 },
+        { "item": "motor_tiny", "charges": 1 },
         { "item": "cu_pipe", "count": [ 1, 3 ] }
       ]
     },
@@ -163,7 +163,7 @@
     "id": "f_fridge",
     "name": "refrigerator",
     "symbol": "{",
-    "description": "A tall metal storage container that, if powered, will refrigerate food and other perishables for preservation.",
+    "description": "A standard household refrigerator.  If powered, it will cool its contents to extend the time before they spoil.",
     "color": "light_cyan",
     "move_cost_mod": -1,
     "coverage": 90,
@@ -182,6 +182,7 @@
         { "item": "sheet_metal_small", "count": [ 8, 12 ] },
         { "item": "steel_chunk", "count": [ 0, 3 ] },
         { "item": "scrap", "count": [ 2, 8 ] },
+        { "item": "plastic_chunk", "count": [ 9, 14 ] },
         { "item": "cable", "charges": [ 1, 2 ] },
         { "item": "pipe_fittings", "count": [ 1, 3 ] },
         { "item": "hose", "count": 1 },
@@ -245,7 +246,7 @@
     "name": "freezer",
     "looks_like": "f_fridge",
     "symbol": "{",
-    "description": "A chest freezer that could be used to freeze foods, if it were connected to a working power source.",
+    "description": "A chest freezer.  If powered, it could freeze and preserve its contents.",
     "color": "blue",
     "move_cost_mod": -1,
     "coverage": 60,
@@ -264,6 +265,7 @@
         { "item": "sheet_metal_small", "count": [ 8, 12 ] },
         { "item": "steel_chunk", "count": [ 0, 3 ] },
         { "item": "scrap", "count": [ 2, 8 ] },
+        { "item": "plastic_chunk", "count": [ 13, 18 ] },
         { "item": "cable", "charges": [ 1, 2 ] },
         { "item": "pipe_fittings", "count": [ 1, 3 ] },
         { "item": "hose", "count": 1 },
@@ -318,7 +320,7 @@
     "type": "furniture",
     "id": "f_washer",
     "name": "washing machine",
-    "description": "A large, chunky machine that uses soap and large amounts of water to wash batches of clothes with minimal effort.",
+    "description": "An appliance used to clean laundry.  It needs to be plugged into a grid that provides it with electricity and large amounts of water to be used.",
     "symbol": "{",
     "bgcolor": "white",
     "move_cost_mod": -1,
@@ -351,7 +353,7 @@
     "id": "f_oven",
     "name": "oven",
     "symbol": "#",
-    "description": "A standard convection-based oven, commonly used for heating and cooking food.  It can safely contain a fire, although it's not adequately ventilated.  You could disconnect it and plug it in to a working power grid, or power it with UPS.",
+    "description": "A standard electric convection-based oven, commonly used for heating and cooking food.  It can safely contain a fire, although it's not adequately ventilated.  You could disconnect it and plug it into a working power grid, or power it with a UPS.",
     "color": "dark_gray",
     "move_cost_mod": 2,
     "coverage": 60,
@@ -385,7 +387,7 @@
         { "item": "pilot_light", "count": 1 }
       ]
     },
-    "crafting_pseudo_item": "pseudo_app_oven_hotplate"
+    "crafting_pseudo_item": "oven"
   },
   {
     "type": "furniture",
@@ -393,7 +395,7 @@
     "name": "gas oven",
     "looks_like": "f_oven",
     "symbol": "#",
-    "description": "A standard gas powered oven, commonly used for heating and cooking food.  With the state of nearby gas lines unknown it's best not to put any fire near it.",
+    "description": "A standard gas-powered oven, commonly used for heating and cooking food.  With the state of nearby gas lines unknown, it's best not to put any fire near it.",
     "color": "dark_gray",
     "move_cost_mod": 2,
     "coverage": 60,
@@ -431,7 +433,7 @@
     "name": "gas oven and microwave combo",
     "copy-from": "f_gas_oven",
     "symbol": "#",
-    "description": "A standard gas powered oven, commonly used for heating and cooking food.  With the state of nearby gas lines unknown it's best not to put any fire near it.  You could disassemble the shelving holding them together and pull the microwave out.",
+    "description": "A standard gas-powered oven, commonly used for heating and cooking food.  This one has an attached microwave.  With the state of nearby gas lines unknown, it's best not to put any fire near it.  You could disassemble the shelving holding them together and pull the microwave out.",
     "color": "dark_gray",
     "flags": [ "PLACE_ITEM", "TRANSPARENT", "EASY_DECONSTRUCT", "CONTAINER", "BLOCKSDOOR", "MOUNTABLE", "NO_SELF_CONNECT" ],
     "deconstruct": { "items": [ { "item": "microwave", "count": 1 } ], "furn_set": "f_gas_oven" },
@@ -544,7 +546,7 @@
         { "item": "sheet_metal", "count": [ 2, 4 ] },
         { "item": "pipe", "count": [ 1, 4 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
-        { "item": "motor", "count": 1 },
+        { "item": "motor_tiny", "count": 1 },
         { "item": "solder_wire", "charges": [ 1, 15 ] }
       ]
     },
@@ -604,6 +606,35 @@
   },
   {
     "type": "furniture",
+    "id": "f_melchior_unit",
+    "name": "supercomputer",
+    "looks_like": "f_server",
+    "description": "Hanging platters assembled into an inverted cone, their positions kept stable by dense threading of copper cabling.",
+    "symbol": "V",
+    "color": "yellow",
+    "move_cost_mod": -1,
+    "coverage": 50,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "NOITEM", "INDOORS", "SHORT", "PERMEABLE" ],
+    "bash": {
+      "str_min": 16,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "items": [
+        { "item": "melchior_platter", "count": [ 4, 6 ] },
+        { "item": "RAM", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "cable", "charges": [ 4, 6 ], "prob": 50 },
+        { "item": "e_scrap", "count": [ 1, 4 ], "prob": 50 },
+        { "item": "circuit", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "power_supply", "prob": 25 },
+        { "item": "amplifier", "prob": 25 },
+        { "item": "scrap", "count": [ 2, 6 ], "prob": 50 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_satellite",
     "name": "large satellite dish",
     "looks_like": "t_radio_tower",
@@ -624,7 +655,7 @@
         { "item": "sheet_metal", "count": [ 8, 10 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "pipe_fittings", "count": [ 4, 8 ] },
-        { "item": "motor", "count": 1 }
+        { "item": "motor_tiny", "count": 2 }
       ]
     },
     "bash": {
@@ -671,6 +702,59 @@
         { "item": "scrap", "count": [ 4, 6 ] },
         { "item": "plastic_chunk", "count": [ 1, 2 ] },
         { "item": "steel_chunk", "count": 3 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_oxygen_concentrator",
+    "name": "oxygen concentrator",
+    "description": "A machine capable of generating pure oxygen from the air.  It needs power to function.",
+    "symbol": "&",
+    "color": "light_gray",
+    "move_cost_mod": -1,
+    "required_str": 12,
+    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "oxygen_concentrator" },
+    "flags": [ "OBSTACLE" ],
+    "deconstruct": { "items": [ { "item": "oxygen_concentrator", "count": 1 } ] },
+    "bash": {
+      "str_min": 35,
+      "str_max": 140,
+      "sound": "crunch!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "plastic_chunk", "count": [ 4, 7 ] },
+        { "item": "steel_chunk", "count": [ 3, 6 ] },
+        { "item": "sheet_metal_small", "count": [ 4, 8 ] },
+        { "item": "scrap", "count": [ 4, 7 ] },
+        { "item": "element", "count": [ 0, 2 ] },
+        { "item": "glass_shard", "prob": 50 },
+        { "item": "motor_small", "prob": 25 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_hd_compressor_unit",
+    "name": "high pressure compressor unit",
+    "description": "A machine designed to compress an input gas to a very high pressure.  It needs large amounts of power to function.",
+    "symbol": "&",
+    "color": "light_gray",
+    "move_cost_mod": -1,
+    "required_str": 16,
+    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "hd_compressor_unit" },
+    "flags": [ "OBSTACLE" ],
+    "deconstruct": { "items": [ { "item": "hd_compressor_unit", "count": 1 } ] },
+    "bash": {
+      "str_min": 45,
+      "str_max": 180,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "plastic_chunk", "count": [ 1, 2 ] },
+        { "item": "scrap", "count": [ 6, 12 ] },
+        { "item": "steel_chunk", "count": [ 8, 16 ] },
+        { "item": "sheet_metal_small", "count": [ 1, 4 ] }
       ]
     }
   }

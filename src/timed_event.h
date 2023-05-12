@@ -48,13 +48,13 @@ struct timed_event {
     /** key to alter this event later */
     std::string key;
 
-    submap_revert revert;
+    submap revert;
     timed_event( timed_event_type e_t, const time_point &w, int f_id, tripoint_abs_ms p, int s,
                  std::string key );
     timed_event( timed_event_type e_t, const time_point &w, int f_id, tripoint_abs_ms p, int s,
                  std::string s_id, std::string key );
     timed_event( timed_event_type e_t, const time_point &w, int f_id, tripoint_abs_ms p, int s,
-                 std::string s_id, submap_revert &sr, std::string key );
+                 std::string s_id, submap sr, std::string key );
 
     // When the time runs out
     void actualize();
@@ -84,7 +84,7 @@ class timed_event_manager
                   const tripoint_abs_ms &where, int strength, const std::string &string_id,
                   const std::string &key = "" );
         void add( timed_event_type type, const time_point &when, int faction_id,
-                  const tripoint_abs_ms &where, int strength, const std::string &string_id, submap_revert sr,
+                  const tripoint_abs_ms &where, int strength, const std::string &string_id, submap sr,
                   const std::string &key = "" );
         /// @returns Whether at least one element of the given type is queued.
         bool queued( timed_event_type type ) const;
@@ -92,7 +92,7 @@ class timed_event_manager
         /// if no event of that type is queued.
         timed_event *get( timed_event_type type );
         timed_event *get( timed_event_type type, const std::string &key );
-        std::list<timed_event> get_all() const;
+        std::list<timed_event> const &get_all() const;
         void set_all( const std::string &key, time_duration time_in_future );
         /// Process all queued events, potentially altering the game state and
         /// modifying the event queue.

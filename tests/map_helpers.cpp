@@ -133,6 +133,7 @@ void clear_map( int zmin, int zmax )
     for( int z = zmin; z <= zmax; ++z ) {
         clear_items( z );
     }
+    here.process_items();
 }
 
 void clear_map_and_put_player_underground()
@@ -142,9 +143,11 @@ void clear_map_and_put_player_underground()
     get_player_character().setpos( { 0, 0, -2 } );
 }
 
-monster &spawn_test_monster( const std::string &monster_type, const tripoint &start )
+monster &spawn_test_monster( const std::string &monster_type, const tripoint &start,
+                             const bool death_drops )
 {
     monster *const added = g->place_critter_at( mtype_id( monster_type ), start );
+    added->death_drops = death_drops;
     cata_assert( added );
     return *added;
 }
@@ -160,6 +163,30 @@ void build_test_map( const ter_id &terrain )
         here.ter_set( p, terrain );
         here.trap_set( p, trap_id( "tr_null" ) );
         here.i_clear( p );
+    }
+
+    here.invalidate_map_cache( 0 );
+    here.build_map_cache( 0, true );
+}
+
+void build_water_test_map( const ter_id &surface, const ter_id &mid, const ter_id &bottom )
+{
+    constexpr int z_surface = 0;
+    constexpr int z_bottom = -2;
+
+    clear_map( z_bottom, z_surface );
+
+    map &here = get_map();
+    for( const tripoint &p : here.points_in_rectangle( tripoint_zero,
+            tripoint( MAPSIZE * SEEX, MAPSIZE * SEEY, z_bottom ) ) ) {
+
+        if( p.z == z_surface ) {
+            here.ter_set( p, surface );
+        } else if( p.z < z_surface && p.z > z_bottom ) {
+            here.ter_set( p, mid );
+        } else if( p.z == z_bottom ) {
+            here.ter_set( p, bottom );
+        }
     }
 
     here.invalidate_map_cache( 0 );

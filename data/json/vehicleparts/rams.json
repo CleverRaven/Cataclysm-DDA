@@ -187,7 +187,7 @@
     "color": "dark_gray",
     "broken_color": "dark_gray",
     "durability": 450,
-    "power": -1750,
+    "power": "-1750 W",
     "damage_modifier": 500,
     "breaks_into": [  ],
     "description": "A circular blade, powered by the vehicle's engine.  It will dramatically increase the damage the vehicle delivers in collisions.  Mount on the edges of the vehicle, preferably the front.",

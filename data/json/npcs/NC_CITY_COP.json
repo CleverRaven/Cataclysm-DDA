@@ -189,7 +189,6 @@
       { "item": "radiocontrol", "prob": 15 },
       { "item": "magnifying_glass", "prob": 4 },
       { "item": "omnicamera", "prob": 2 },
-      { "item": "l-stick", "prob": 1 },
       { "item": "reading_light", "prob": 6, "charges-min": 0 }
     ]
   }

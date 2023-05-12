@@ -281,37 +281,6 @@
     "extra_effects": [ { "id": "death_pouf", "hit_self": true } ]
   },
   {
-    "id": "remove_controlled_jackson",
-    "type": "SPELL",
-    "name": { "str": "Uncontrol Dancers" },
-    "valid_targets": [ "self", "ally" ],
-    "description": "Removes control effect from polymorphed dancers.",
-    "targeted_monster_ids": [ "mon_zombie_hulk" ],
-    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "min_aoe": 48,
-    "max_aoe": 48,
-    "shape": "blast",
-    "effect_str": "controlled",
-    "effect": "remove_effect"
-  },
-  {
-    "id": "death_jackson",
-    "type": "SPELL",
-    "name": { "str": "Jackson Death" },
-    "description": "Hee Hee!  WOO!",
-    "valid_targets": [ "self", "ally" ],
-    "effect": "targeted_polymorph",
-    "min_aoe": 48,
-    "max_aoe": 48,
-    "min_damage": 400,
-    "max_damage": 400,
-    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "shape": "blast",
-    "effect_str": "mon_zombie_hulk",
-    "targeted_monster_ids": [ "mon_zombie_dancer" ],
-    "extra_effects": [ { "id": "remove_controlled_jackson", "hit_self": true } ]
-  },
-  {
     "id": "death_darkman",
     "type": "SPELL",
     "name": { "str": "Darkman Death" },
@@ -473,7 +442,7 @@
     "flags": [ "RANDOM_DAMAGE", "HOSTILE_SUMMON", "PERMANENT", "SPAWN_WITH_DEATH_DROPS", "SILENT", "NO_EXPLOSION_SFX" ],
     "shape": "blast",
     "effect": "summon",
-    "effect_str": "mon_spider_cellar_small",
+    "effect_str": "mon_spider_cellar_giant_s",
     "min_aoe": 2,
     "max_aoe": 2
   },

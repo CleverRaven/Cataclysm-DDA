@@ -107,7 +107,7 @@ static item_pocket::pocket_type guess_pocket_for( const item &container, const i
 
 static void put_into_container(
     Item_spawn_data::ItemList &items, std::size_t num_items,
-    const cata::optional<itype_id> &container_type,
+    const std::optional<itype_id> &container_type,
     time_point birthday, Item_spawn_data::overflow_behaviour on_overflow,
     const std::string &context )
 {
@@ -194,7 +194,7 @@ item Single_item_creator::create_single( const time_point &birthday, RecursionLi
     if( modifier ) {
         modifier->modify( tmp, "modifier for " + context() );
     } else {
-        int qty = tmp.charges;
+        int qty = tmp.count();
         if( modifier ) {
             qty = rng( modifier->charges.first, modifier->charges.second );
         } else if( tmp.made_of_from_type( phase_id::LIQUID ) ) {
@@ -207,7 +207,7 @@ item Single_item_creator::create_single( const time_point &birthday, RecursionLi
         tmp.overwrite_relic( artifact->generate_relic( tmp.typeId() ) );
     }
     if( container_item ) {
-        tmp = tmp.in_container( *container_item, tmp.charges, sealed );
+        tmp = tmp.in_container( *container_item, tmp.count(), sealed );
     }
     return tmp;
 }
@@ -717,6 +717,7 @@ std::size_t Item_group::create( Item_spawn_data::ItemList &list,
     }
     const std::size_t items_created = list.size() - prev_list_size;
     put_into_container( list, items_created, container_item, birthday, on_overflow, context() );
+
     return list.size() - prev_list_size;
 }
 

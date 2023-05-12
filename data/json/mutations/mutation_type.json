@@ -17,6 +17,10 @@
   },
   {
     "type": "mutation_type",
+    "id": "ACCLIMATIZATION"
+  },
+  {
+    "type": "mutation_type",
     "id": "ATTRACTIVENESS"
   },
   {
@@ -174,6 +178,10 @@
   {
     "type": "mutation_type",
     "id": "HORNS"
+  },
+  {
+    "type": "mutation_type",
+    "id": "TUSKS"
   },
   {
     "type": "mutation_type",
