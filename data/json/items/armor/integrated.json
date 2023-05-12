@@ -2,7 +2,7 @@
   {
     "id": "integrated_plantskin",
     "type": "ARMOR",
-    "category": "armor", 
+    "category": "armor",
     "name": { "str": "phelloderm" },
     "description": "A pliable but hefty layer of living plant matter.",
     "weight": "2 kg",
