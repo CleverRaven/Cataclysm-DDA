@@ -2321,9 +2321,9 @@ std::optional<int> iuse::mace( Character *p, item *it, bool, const tripoint & )
             critter.add_effect( effect_blind, rng( 1_minutes, 2_minutes ) );
         }
         // even if it's not blinded getting maced hurts a lot and stuns it
-        if( !critter.has_flag( NO_BREATHE ) ) {
-            critter.moves -= to_moves<int>( 3_seconds )
-                             p->add_msg_if_player( _( "The %s recoils in pain!" ), critter.name() );
+        if( !critter.has_flag( MF_NO_BREATHE ) ) {
+            critter.moves -= to_moves<int>( 3_seconds );
+            p->add_msg_if_player( _( "The %s recoils in pain!" ), critter.name() );
         }
         viewer &player_view = get_player_view();
         if( player_view.sees( critter ) ) {
