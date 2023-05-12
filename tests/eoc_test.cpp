@@ -41,6 +41,8 @@ static const effect_on_condition_id
 effect_on_condition_EOC_run_with_test_expects_pass( "EOC_run_with_test_expects_pass" );
 static const effect_on_condition_id
 effect_on_condition_EOC_run_with_test_queued( "EOC_run_with_test_queued" );
+static const effect_on_condition_id
+effect_on_condition_EOC_stored_condition_test( "EOC_stored_condition_test" );
 
 
 static const effect_on_condition_id effect_on_condition_EOC_teleport_test( "EOC_teleport_test" );
@@ -259,6 +261,42 @@ TEST_CASE( "EOC_activity_ongoing", "[eoc][timed_event]" )
 
     // been going for 3 whole seconds should have incremented 3 times
     CHECK( stoi( get_avatar().get_value( "npctalk_var_activitiy_incrementer" ) ) == 3 );
+}
+
+TEST_CASE( "EOC_stored_condition_test", "[eoc]" )
+{
+    clear_avatar();
+    clear_map();
+
+    dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
+    global_variables &globvars = get_globals();
+    globvars.clear_global_values();
+
+    REQUIRE( globvars.get_global_value( "npctalk_var_key1" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_key2" ).empty() );
+
+    d.set_value( "npctalk_var_context", "0" );
+
+    // running with a value of 0 will have the conditional evaluate to 0
+    CHECK( effect_on_condition_EOC_stored_condition_test->activate( d ) );
+    CHECK( std::stod( globvars.get_global_value( "npctalk_var_key1" ) ) == Approx( 0 ) );
+    CHECK( std::stod( globvars.get_global_value( "npctalk_var_key2" ) ) == Approx( 0 ) );
+    CHECK( std::stod( d.get_value( "npctalk_var_context" ) ) == Approx( 0 ) );
+
+    // try again with a different value
+    globvars.clear_global_values();
+
+    REQUIRE( globvars.get_global_value( "npctalk_var_key1" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_key2" ).empty() );
+
+    d.set_value( "npctalk_var_context", "10" );
+
+    // running with a value greater than 1 will have the conditional evaluate to 1
+    CHECK( effect_on_condition_EOC_stored_condition_test->activate( d ) );
+    CHECK( std::stod( globvars.get_global_value( "npctalk_var_key1" ) ) == Approx( 1 ) );
+    CHECK( std::stod( globvars.get_global_value( "npctalk_var_key2" ) ) == Approx( 1 ) );
+    CHECK( std::stod( d.get_value( "npctalk_var_context" ) ) == Approx( 10 ) );
+
 }
 
 TEST_CASE( "dialogue_copy", "[eoc]" )

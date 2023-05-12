@@ -10,6 +10,7 @@
 #include <vector>
 
 #include "rng.h"
+#include "units.h"
 
 struct math_func {
     std::string_view symbol;
@@ -115,7 +116,27 @@ constexpr double test_( std::vector<double> const &/* params */ )
     return 42;
 }
 
-constexpr std::array<math_func, 16> functions{
+inline double celsius_from_kelvin( std::vector<double> const &params )
+{
+    return units::to_celsius( units::from_kelvin( params[0] ) );
+}
+
+inline double fahrenheit_from_kelvin( std::vector<double> const &params )
+{
+    return units::to_fahrenheit( units::from_kelvin( params[0] ) );
+}
+
+inline double celsius_to_kelvin( std::vector<double> const &params )
+{
+    return units::to_kelvin( units::from_celsius( params[0] ) );
+}
+
+inline double fahrenheit_to_kelvin( std::vector<double> const &params )
+{
+    return units::to_kelvin( units::from_fahrenheit( params[0] ) );
+}
+
+constexpr std::array<math_func, 20> functions{
     math_func{ "abs", 1, abs },
     math_func{ "max", -1, max },
     math_func{ "min", -1, min },
@@ -132,6 +153,10 @@ constexpr std::array<math_func, 16> functions{
     math_func{ "cos", 1, cos },
     math_func{ "tan", 1, tan },
     math_func{ "_test_", 0, test_ },
+    math_func{ "celsius", 1, celsius_from_kelvin },
+    math_func{ "fahrenheit", 1, fahrenheit_from_kelvin },
+    math_func{ "from_celsius", 1, celsius_to_kelvin },
+    math_func{ "from_fahrenheit", 1, fahrenheit_to_kelvin },
 };
 
 namespace math_constants

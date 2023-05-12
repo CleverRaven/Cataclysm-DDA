@@ -246,6 +246,17 @@
   },
   {
     "type": "monstergroup",
+    "name": "GROUP_POLICE_EXTRA",
+    "//": "100% cops, 0% civilians",
+    "default": "mon_zombie",
+    "monsters": [
+      { "monster": "mon_zombie_cop", "weight": 280, "cost_multiplier": 3 },
+      { "monster": "mon_zombie_swat", "weight": 140, "cost_multiplier": 3 },
+      { "monster": "mon_dog_zombie_cop", "weight": 40, "cost_multiplier": 2 }
+    ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_HOUSE",
     "//": "+15% child",
     "monsters": [
