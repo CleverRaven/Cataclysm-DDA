@@ -743,6 +743,7 @@
     "color": "dark_gray",
     "skill": "rifle",
     "material": [ "aluminum", "steel", "plastic" ],
+    "ammo": [ "223" ],
     "dispersion": 350,
     "sight_dispersion": 500,
     "durability": 7,
