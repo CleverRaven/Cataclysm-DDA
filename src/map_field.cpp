@@ -1882,16 +1882,10 @@ void map::monster_in_field( monster &z )
             if( z.made_of_any( Creature::cmat_fleshnveg ) && !z.has_flag( MF_NO_BREATHE ) ) {
                 if( cur.get_field_intensity() == 3 ) {
                     z.add_effect( effect_stunned, rng( 1_minutes, 2_minutes ) );
-                    dam += rng( 4, 10 );
                 } else if( cur.get_field_intensity() == 2 ) {
                     z.add_effect( effect_stunned, rng( 5_turns, 10_turns ) );
-                    dam += rng( 2, 5 );
                 } else {
                     z.add_effect( effect_stunned, rng( 1_turns, 5_turns ) );
-                }
-                if( z.made_of( material_veggy ) ) {
-                    z.moves -= rng( cur.get_field_intensity() * 5, cur.get_field_intensity() * 12 );
-                    dam += cur.get_field_intensity() * rng( 8, 14 );
                 }
                 if( z.has_flag( MF_SEES ) ) {
                     z.add_effect( effect_blind, cur.get_field_intensity() * 8_turns );
