@@ -1438,7 +1438,7 @@ std::function<std::string( const dialogue & )> conditional_t::get_get_string( J 
     if( jo.get_string( "mutator" ) == "mon_faction" ) {
         str_or_var mtypeid = get_str_or_var( jo.get_member( "mtype_id" ), "mtype_id" );
         return [mtypeid]( const dialogue & d ) {
-            return static_cast<mtype_id>( mtypeid.evaluate( d ) )->default_faction.str();
+            return ( static_cast<mtype_id>( mtypeid.evaluate( d ) ) )->default_faction.str();
         };
     } else if( jo.get_string( "mutator" ) == "game_option" ) {
         str_or_var option = get_str_or_var( jo.get_member( "option" ), "option" );
