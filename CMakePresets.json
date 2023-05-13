@@ -12,18 +12,16 @@
       "displayName": "Windows Tiles Sounds x64 MSVC",
       "description": "Target Windows (64-bit) with the Visual Studio development environment.",
       "generator": "Ninja Multi-Config",
+      "environment": {
+        "VCPKG_ROOT": "C:/vcpkg"
+      },
       "cacheVariables": {
         "CMAKE_PROJECT_INCLUDE_BEFORE": "${sourceDir}/build-scripts/${presetName}.cmake",
         "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/build-scripts/MSVC.cmake",
         "VCPKG_TARGET_TRIPLET": "x64-windows-static",
-        "VCPKG_ROOT": "C:/vcpkg",
-        "DYNAMIC_LINKING": "False",
-        "RELEASE": "True",
-        "CURSES": "False",
-        "LOCALIZE": "True",
-        "TILES": "True",
-        "SOUND": "True",
-        "TESTS": "False"
+        "DYNAMIC_LINKING": "False", "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+        "CURSES": "False", "LOCALIZE": "True", "TILES": "True", "SOUND": "True", "TESTS": "False",
+        "CMAKE_INSTALL_MESSAGE": "NEVER"
       }
     },
     {
@@ -32,17 +30,16 @@
       "displayName": "Linux Tiles Sounds x64",
       "description": "Target Linux (64-bit) with the GCC development environment.",
       "generator": "Ninja Multi-Config",
+      "environment": {
+        "VCPKG_ROOT": "/usr/local/vcpkg"
+      },
       "cacheVariables": {
+        "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
         "VCPKG_TARGET_TRIPLET": "x64-linux",
-        "CMAKE_TOOLCHAIN_FILE": "/usr/local/share/vcpkg/scripts/buildsystems/vcpkg.cmake",
-        "VCPKG_MANIFEST_DIR": "msvc-full-features/",
-        "DYNAMIC_LINKING": "False",
-        "RELEASE": "True",
-        "CURSES": "False",
-        "LOCALIZE": "True",
-        "TILES": "True",
-        "SOUND": "True",
-        "TESTS": "False"
+        "VCPKG_MANIFEST_DIR": "${sourceDir}/msvc-full-features/",
+        "DYNAMIC_LINKING": "False", "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+        "CURSES": "False", "LOCALIZE": "True", "TILES": "True", "SOUND": "True", "TESTS": "False",
+        "CMAKE_INSTALL_MESSAGE": "NEVER",
       }
     }
   ],
