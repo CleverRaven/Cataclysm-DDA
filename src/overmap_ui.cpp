@@ -1041,20 +1041,22 @@ static void draw_om_sidebar(
     int lines = 1;
     if( center_seen ) {
         if( !mgroups.empty() ) {
-            int line_number = 6;
+            const point desc_pos( 3, 6 );
+            ui.set_cursor( wbar, desc_pos );
+            int line_number = 0;
             for( mongroup * const &mgroup : mgroups ) {
-                mvwprintz( wbar, point( 3, line_number++ ),
+                mvwprintz( wbar, desc_pos + point( 0, line_number++ ),
                            c_blue, "  Species: %s", mgroup->type.c_str() );
-                mvwprintz( wbar, point( 3, line_number++ ),
+                mvwprintz( wbar, desc_pos + point( 0, line_number++ ),
                            c_blue, "# monsters: %d", mgroup->population + mgroup->monsters.size() );
                 if( !mgroup->horde ) {
                     continue;
                 }
-                mvwprintz( wbar, point( 3, line_number++ ),
+                mvwprintz( wbar, desc_pos + point( 0, line_number++ ),
                            c_blue, "  Interest: %d", mgroup->interest );
-                mvwprintz( wbar, point( 3, line_number ),
+                mvwprintz( wbar, desc_pos + point( 0, line_number++ ),
                            c_blue, "  Target: %s", mgroup->target.to_string() );
-                mvwprintz( wbar, point( 3, line_number++ ),
+                mvwprintz( wbar, desc_pos + point( 0, line_number++ ),
                            c_red, "x" );
             }
         } else {
@@ -1064,15 +1066,23 @@ static void draw_om_sidebar(
             // NOLINTNEXTLINE(cata-use-named-point-constants)
             mvwputch( wbar, point( 1, 1 ), ter.get_color(), ter.get_symbol() );
 
-            lines = fold_and_print( wbar, point( 3, 1 ), getmaxx( wbar ) - 3, c_light_gray,
+            const point desc_pos( 3, 1 );
+            ui.set_cursor( wbar, desc_pos );
+            lines = fold_and_print( wbar, desc_pos, getmaxx( wbar ) - desc_pos.x,
+                                    c_light_gray,
                                     overmap_buffer.get_description_at( sm_pos ) );
         }
     } else {
+        const oter_t &ter = oter_unexplored.obj();
+
         // NOLINTNEXTLINE(cata-use-named-point-constants)
-        mvwprintz( wbar, point( 1, 1 ), oter_unexplored.obj().get_color(), _( "%s %s" ),
-                   oter_unexplored.obj().get_symbol(), oter_unexplored.obj().get_name() );
+        mvwputch( wbar, point( 1, 1 ), ter.get_color(), ter.get_symbol() );
+
+        const point desc_pos( 3, 1 );
+        ui.set_cursor( wbar, desc_pos );
+        lines = fold_and_print( wbar, desc_pos, getmaxx( wbar ) - desc_pos.x,
+                                ter.get_color(), ter.get_name() );
     }
-    ui.record_cursor( wbar );
 
     // Describe the weather conditions on the following line, if weather is visible
     if( viewing_weather ) {

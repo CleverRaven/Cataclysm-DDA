@@ -27,10 +27,11 @@ There are people who use screen readers to play Cataclysm DDA. In order for scre
 readers to announce the most important information in a UI, the terminal cursor has
 to be placed at the correct location. This information may be text such as selected
 item names in a list, etc, and the cursor has to be placed exactly at the beginning
-or right after the end of of the text for screen readers to announce it.
-
-(Note: There has been conflicting feedbacks regarding whether the cursor should
-be before or behind the text. Update after getting more information.)
+of the text for screen readers to announce it. (Note: from my test with an Ubuntu
+VM, if the cursor is placed after the end of the text, the cursor might be wrapped
+to the next line and cause the screen reader to announce the text incorrectly. It
+also seems to be easier for people to control the screen reader to read from the
+beginning of the text where the cursor is placed.)
 
 The recommended way to place the cursor is to use `ui_adaptor`. This ensures the
 desired cursor position is preserved when subsequent output code changes the

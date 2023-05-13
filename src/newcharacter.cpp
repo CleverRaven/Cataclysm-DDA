@@ -1034,10 +1034,11 @@ void set_points( tab_manager &tabs, avatar &u, pool_type &pool )
             } else {
                 color = highlighted == i ? COL_SELECT : c_light_gray;
             }
-            mvwprintz( w, point( 2, 6 + i ), color, std::get<1>( opts[i] ) );
+            const point opt_pos( 2, 6 + i );
             if( highlighted == i ) {
-                ui.record_cursor( w );
+                ui.set_cursor( w, opt_pos );
             }
+            mvwprintz( w, opt_pos, color, std::get<1>( opts[i] ) );
         }
 
         fold_and_print( w_description, point_zero, getmaxx( w_description ),
@@ -1142,9 +1143,10 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
         u.set_stored_kcal( u.get_healthy_kcal() );
         u.reset_bonuses(); // Removes pollution of stats by modifications appearing inside reset_stats(). Is reset_stats() even necessary in this context?
 
-        mvwprintz( w, point( 2, sel + 6 ), COL_SELECT, "%s:", stat_labels[sel].translated() );
-        mvwprintz( w, point( 16, sel + 6 ), c_light_gray, "%2d", *stats[sel] );
-        ui.record_cursor( w );
+        const point opt_pos( 2, sel + 6 );
+        ui.set_cursor( w, opt_pos );
+        mvwprintz( w, opt_pos, COL_SELECT, "%s:", stat_labels[sel].translated() );
+        mvwprintz( w, opt_pos + point( 14, 0 ), c_light_gray, "%2d", *stats[sel] );
         if( *stats[sel] <= min_stat_points ) {
             mvwprintz( w, point( iSecondColumn, 3 ), c_red,
                        //~ %s - stat
@@ -1530,11 +1532,12 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
 
                 const int cur_line_y = 6 + i - start;
                 const int cur_line_x = 2 + iCurrentPage * page_width;
-                mvwprintz( w, point( cur_line_x, cur_line_y ), cLine,
-                           utf8_truncate( cursor.name(), page_width - 2 ) );
+                const point opt_pos( cur_line_x, cur_line_y );
                 if( iCurWorkingPage == iCurrentPage && current == i ) {
-                    ui.record_cursor( w );
+                    ui.set_cursor( w, opt_pos );
                 }
+                mvwprintz( w, opt_pos, cLine,
+                           utf8_truncate( cursor.name(), page_width - 2 ) );
             }
 
             trait_sbs[iCurrentPage].offset_x( page_width * iCurrentPage )
@@ -2073,11 +2076,12 @@ void set_profession( tab_manager &tabs, avatar &u, pool_type pool )
                 col = ( cur_id_is_valid &&
                         sorted_profs[i] == sorted_profs[cur_id] ? hilite( c_light_green ) : COL_SKILL_USED );
             }
-            mvwprintz( w, point( 2, 6 + i - iStartPos ), col,
-                       sorted_profs[i]->gender_appropriate_name( u.male ) );
+            const point opt_pos( 2, 6 + i - iStartPos );
             if( i == cur_id ) {
-                ui.record_cursor( w );
+                ui.set_cursor( w, opt_pos );
             }
+            mvwprintz( w, opt_pos, col,
+                       sorted_profs[i]->gender_appropriate_name( u.male ) );
         }
 
         list_sb.offset_x( 0 )
@@ -2374,11 +2378,12 @@ void set_hobbies( tab_manager &tabs, avatar &u, pool_type pool )
                         sorted_hobbies[i] == sorted_hobbies[cur_id] ? COL_SELECT : c_light_gray );
             }
 
-            mvwprintz( w, point( 2, 6 + i - iStartPos ), col,
-                       sorted_hobbies[i]->gender_appropriate_name( u.male ) );
+            const point opt_pos( 2, 6 + i - iStartPos );
             if( i == cur_id ) {
-                ui.record_cursor( w );
+                ui.set_cursor( w, opt_pos );
             }
+            mvwprintz( w, opt_pos, col,
+                       sorted_hobbies[i]->gender_appropriate_name( u.male ) );
         }
 
         list_sb.offset_x( 0 )
@@ -2755,14 +2760,17 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
                     }
                 }
             }
-            const point line_pos( 1, y );
+            const point opt_pos( 1, y );
+            if( i == cur_pos ) {
+                ui.set_cursor( w_list, opt_pos );
+            }
             if( !thisSkill ) {
-                mvwprintz( w_list, line_pos, c_yellow, display_type->display_string() );
+                mvwprintz( w_list, opt_pos, c_yellow, display_type->display_string() );
             } else if( static_cast<int>( u.get_skill_level( thisSkill->ident() ) ) + prof_skill_level == 0 ) {
-                mvwprintz( w_list, line_pos,
+                mvwprintz( w_list, opt_pos,
                            ( i == cur_pos ? COL_SELECT : c_light_gray ), thisSkill->name() );
             } else {
-                mvwprintz( w_list, line_pos,
+                mvwprintz( w_list, opt_pos,
                            ( i == cur_pos ? hilite( COL_SKILL_USED ) : COL_SKILL_USED ),
                            thisSkill->name() );
                 if( prof_skill_level > 0 ) {
@@ -2772,9 +2780,6 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
                     wprintz( w_list, ( i == cur_pos ? hilite( COL_SKILL_USED ) : COL_SKILL_USED ),
                              " ( %d )", static_cast<int>( u.get_skill_level( thisSkill->ident() ) ) );
                 }
-            }
-            if( i == cur_pos ) {
-                ui.record_cursor( w_list );
             }
         }
 
@@ -3107,12 +3112,12 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
                 col = ( cur_id_is_valid &&
                         sorted_scens[i] == sorted_scens[cur_id] ? hilite( c_light_green ) : COL_SKILL_USED );
             }
-            mvwprintz( w, point( 2, 6 + i - iStartPos ), col,
-                       sorted_scens[i]->gender_appropriate_name( u.male ) );
+            const point opt_pos( 2, 6 + i - iStartPos );
             if( i == cur_id ) {
-                ui.record_cursor( w );
+                ui.set_cursor( w, opt_pos );
             }
-
+            mvwprintz( w, opt_pos, col,
+                       sorted_scens[i]->gender_appropriate_name( u.male ) );
         }
 
         list_sb.offset_x( 0 )
@@ -3219,21 +3224,21 @@ enum description_selector {
 static void draw_gender( ui_adaptor &ui, const catacurses::window &w_gender,
                          const avatar &you, const bool highlight )
 {
-    unsigned male_pos = 1 + utf8_width( _( "Gender:" ) );
-    unsigned female_pos = 2 + male_pos + utf8_width( _( "Male" ) );
+    const point male_pos( 1 + utf8_width( _( "Gender:" ) ), 0 );
+    const point female_pos = male_pos + point( 2 + utf8_width( _( "Male" ) ), 0 );
 
     werase( w_gender );
     mvwprintz( w_gender, point_zero, highlight ? COL_SELECT : c_light_gray, _( "Gender:" ) );
-    mvwprintz( w_gender, point( male_pos, 0 ), ( you.male ? c_light_cyan : c_light_gray ),
-               _( "Male" ) );
     if( highlight && you.male ) {
-        ui.record_cursor( w_gender );
+        ui.set_cursor( w_gender, male_pos );
     }
-    mvwprintz( w_gender, point( female_pos, 0 ), ( you.male ? c_light_gray : c_pink ),
-               _( "Female" ) );
+    mvwprintz( w_gender, male_pos, ( you.male ? c_light_cyan : c_light_gray ),
+               _( "Male" ) );
     if( highlight && !you.male ) {
-        ui.record_cursor( w_gender );
+        ui.set_cursor( w_gender, female_pos );
     }
+    mvwprintz( w_gender, female_pos, ( you.male ? c_light_gray : c_pink ),
+               _( "Female" ) );
     wnoutrefresh( w_gender );
 }
 
@@ -3242,11 +3247,11 @@ static void draw_height( ui_adaptor &ui, const catacurses::window &w_height,
 {
     werase( w_height );
     mvwprintz( w_height, point_zero, highlight ? COL_SELECT : c_light_gray, _( "Height:" ) );
-    unsigned height_pos = 1 + utf8_width( _( "Height:" ) );
-    mvwprintz( w_height, point( height_pos, 0 ), c_white, you.height_string() );
+    const point opt_pos( 1 + utf8_width( _( "Height:" ) ), 0 );
     if( highlight ) {
-        ui.record_cursor( w_height );
+        ui.set_cursor( w_height, opt_pos );
     }
+    mvwprintz( w_height, opt_pos, c_white, you.height_string() );
     wnoutrefresh( w_height );
 }
 
@@ -3255,11 +3260,11 @@ static void draw_age( ui_adaptor &ui, const catacurses::window &w_age,
 {
     werase( w_age );
     mvwprintz( w_age, point_zero, highlight ? COL_SELECT : c_light_gray, _( "Age:" ) );
-    unsigned age_pos = 1 + utf8_width( _( "Age:" ) );
-    mvwprintz( w_age, point( age_pos, 0 ), c_white, you.age_string( get_scenario()->start_of_game() ) );
+    const point opt_pos( 1 + utf8_width( _( "Age:" ) ), 0 );
     if( highlight ) {
-        ui.record_cursor( w_age );
+        ui.set_cursor( w_age, opt_pos );
     }
+    mvwprintz( w_age, opt_pos, c_white, you.age_string( get_scenario()->start_of_game() ) );
     wnoutrefresh( w_age );
 }
 
@@ -3268,12 +3273,12 @@ static void draw_blood( ui_adaptor &ui, const catacurses::window &w_blood,
 {
     werase( w_blood );
     mvwprintz( w_blood, point_zero, highlight ? COL_SELECT : c_light_gray, _( "Blood type:" ) );
-    unsigned blood_pos = 1 + utf8_width( _( "Blood type:" ) );
-    mvwprintz( w_blood, point( blood_pos, 0 ), c_white,
-               io::enum_to_string( you.my_blood_type ) + ( you.blood_rh_factor ? "+" : "-" ) );
+    const point opt_pos( 1 + utf8_width( _( "Blood type:" ) ), 0 );
     if( highlight ) {
-        ui.record_cursor( w_blood );
+        ui.set_cursor( w_blood, opt_pos );
     }
+    mvwprintz( w_blood, opt_pos, c_white,
+               io::enum_to_string( you.my_blood_type ) + ( you.blood_rh_factor ? "+" : "-" ) );
     wnoutrefresh( w_blood );
 }
 
@@ -3288,16 +3293,17 @@ static void draw_location( ui_adaptor &ui, const catacurses::window &w_location,
     werase( w_location );
     mvwprintz( w_location, point_zero, highlight ? COL_SELECT : c_light_gray,
                _( "Starting location:" ) );
+    const point opt_pos( utf8_width( _( "Starting location:" ) ) + 1, 0 );
+    if( highlight ) {
+        ui.set_cursor( w_location, opt_pos );
+    }
     // ::find will return empty location if id was not found. Debug msg will be printed too.
-    mvwprintz( w_location, point( utf8_width( _( "Starting location:" ) ) + 1, 0 ),
+    mvwprintz( w_location, opt_pos,
                you.random_start_location ? c_red : c_white,
                you.random_start_location ? remove_color_tags( random_start_location_text ) :
                string_format( n_gettext( "%s (%d variant)", "%s (%d variants)",
                                          you.start_location.obj().targets_count() ),
                               you.start_location.obj().name(), you.start_location.obj().targets_count() ) );
-    if( highlight ) {
-        ui.record_cursor( w_location );
-    }
     wnoutrefresh( w_location );
 }
 
@@ -3383,8 +3389,6 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
     };
     init_windows( ui );
     ui.on_screen_resize( init_windows );
-
-    const unsigned namebar_pos = 1 + utf8_width( _( "Name:" ) );
 
     input_context ctxt( "NEW_CHAR_DESCRIPTION" );
     tabs.set_up_tab_navigation( ctxt );
@@ -3698,15 +3702,16 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
         werase( w_name );
         mvwprintz( w_name, point_zero,
                    current_selector == char_creation::NAME ? COL_SELECT : c_light_gray, _( "Name:" ) );
-        if( no_name_entered ) {
-            mvwprintz( w_name, point( namebar_pos, 0 ), COL_SELECT, _( "--- NO NAME ENTERED ---" ) );
-        } else if( you.name.empty() ) {
-            mvwprintz( w_name, point( namebar_pos, 0 ), c_light_gray, _( "--- RANDOM NAME ---" ) );
-        } else {
-            mvwprintz( w_name, point( namebar_pos, 0 ), c_white, you.name );
-        }
+        const point opt_pos( 1 + utf8_width( _( "Name:" ) ), 0 );
         if( current_selector == char_creation::NAME ) {
-            ui.record_cursor( w_name );
+            ui.set_cursor( w_name, opt_pos );
+        }
+        if( no_name_entered ) {
+            mvwprintz( w_name, opt_pos, COL_SELECT, _( "--- NO NAME ENTERED ---" ) );
+        } else if( you.name.empty() ) {
+            mvwprintz( w_name, opt_pos, c_light_gray, _( "--- RANDOM NAME ---" ) );
+        } else {
+            mvwprintz( w_name, opt_pos, c_white, you.name );
         }
 
         wnoutrefresh( w_name );
