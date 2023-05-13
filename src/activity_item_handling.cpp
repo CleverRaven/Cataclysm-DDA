@@ -970,7 +970,8 @@ static bool are_requirements_nearby(
     }
     // use nearby welding rig without needing to drag it or position yourself on the right side of the vehicle.
     if( !found_welder ) {
-        for( const tripoint_bub_ms &elem : here.points_in_radius( src_loc, PICKUP_RANGE - 1, PICKUP_RANGE - 1) ) {
+        for( const tripoint_bub_ms &elem : here.points_in_radius( src_loc, PICKUP_RANGE - 1,
+                PICKUP_RANGE - 1 ) ) {
             const std::optional<vpart_reference> &vp = here.veh_at( elem ).part_with_tool( itype_welder );
 
             if( vp ) {
