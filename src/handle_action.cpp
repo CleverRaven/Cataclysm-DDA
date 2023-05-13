@@ -886,12 +886,12 @@ static void smash()
             // Bash results in destruction of target
             std::map<tripoint, nc_color> area_color;
             area_color[smashp] = c_black;
-            explosion_handler::draw_custom_explosion( smashp, area_color, "fd_smoke" );
+            explosion_handler::draw_custom_explosion( smashp, area_color, "bash_complete" );
         } else if( smashskill >= here.bash_resistance( smashp ) ) {
             // Bash effective but target not yet destroyed
             std::map<tripoint, nc_color> area_color;
             area_color[smashp] = c_black;
-            explosion_handler::draw_custom_explosion( smashp, area_color, "crack_glass_center_tall" );
+            explosion_handler::draw_custom_explosion( smashp, area_color, "bash_effective" );
         } else {
             // Bash not effective
             if( one_in( 10 ) ) {

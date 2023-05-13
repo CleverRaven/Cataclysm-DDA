@@ -10410,7 +10410,7 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
         if( u.is_running() ) {
             std::map<tripoint, nc_color> area_color;
             area_color[oldpos] = c_black;
-            explosion_handler::draw_custom_explosion( oldpos, area_color, "fd_smoke" );
+            explosion_handler::draw_custom_explosion( oldpos, area_color, "sprint_n" );
         }
     }
 
