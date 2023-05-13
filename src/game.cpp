@@ -10412,25 +10412,25 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
             area_color[oldpos] = c_black;
             if( u.posy() < oldpos.y ) {
                 if( u.posx() < oldpos.x ) {
-                    explosion_handler::draw_custom_explosion( oldpos, area_color, "sprint_nw" );
+                    explosion_handler::draw_custom_explosion( oldpos, area_color, "run_nw" );
                 } else if( u.posx() == oldpos.x ) {
-                    explosion_handler::draw_custom_explosion( oldpos, area_color, "sprint_n" );
+                    explosion_handler::draw_custom_explosion( oldpos, area_color, "run_n" );
                 } else {
-                    explosion_handler::draw_custom_explosion( oldpos, area_color, "sprint_ne" );
+                    explosion_handler::draw_custom_explosion( oldpos, area_color, "run_ne" );
                 }
             } else if( u.posy() == oldpos.y ) {
                 if( u.posx() < oldpos.x ) {
-                    explosion_handler::draw_custom_explosion( oldpos, area_color, "sprint_w" );
+                    explosion_handler::draw_custom_explosion( oldpos, area_color, "run_w" );
                 } else {
-                    explosion_handler::draw_custom_explosion( oldpos, area_color, "sprint_e" );
+                    explosion_handler::draw_custom_explosion( oldpos, area_color, "run_e" );
                 }
             } else {
                 if( u.posx() < oldpos.x ) {
-                    explosion_handler::draw_custom_explosion( oldpos, area_color, "sprint_sw" );
+                    explosion_handler::draw_custom_explosion( oldpos, area_color, "run_sw" );
                 } else if( u.posx() == oldpos.x ) {
-                    explosion_handler::draw_custom_explosion( oldpos, area_color, "sprint_s" );
+                    explosion_handler::draw_custom_explosion( oldpos, area_color, "run_s" );
                 } else {
-                    explosion_handler::draw_custom_explosion( oldpos, area_color, "sprint_se" );
+                    explosion_handler::draw_custom_explosion( oldpos, area_color, "run_se" );
                 }
             }
         }
