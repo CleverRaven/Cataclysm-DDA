@@ -8,7 +8,7 @@ if(NOT GETTEXT_MSGFMT_EXECUTABLE)
 endif()
 
 foreach (LANG ${LANGUAGES})
-    message(STATUS "Add translation for ${LANG}: ${LANG}.po")
+    message(VERBOSE "Add translation for ${LANG}: ${LANG}.po")
 endforeach ()
 
 cmake_path(GET GETTEXT_MSGFMT_EXECUTABLE PARENT_PATH _path)
