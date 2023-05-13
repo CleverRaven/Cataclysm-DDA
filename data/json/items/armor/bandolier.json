@@ -104,7 +104,7 @@
         "volume_encumber_modifier": 0.3
       }
     ],
-    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE", "PALS_MEDIUM" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ],
     "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
   {
@@ -116,7 +116,7 @@
     "description": "A leather bandolier strapped around the torso for keeping 40mm grenades close to hand.  For some reason, wearing this makes you feel Austrian.",
     "pocket_data": [ { "ammo_restriction": { "40x46mm": 6, "40x53mm": 6 }, "moves": 20, "volume_encumber_modifier": 0.3 } ],
     "//2": "The image I found when I went looking showed Arnie carrying six grenades in a bandolier.",
-    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE", "PALS_LARGE" ]
+    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ]
   },
   {
     "id": "torso_bandolier_shotgun",
@@ -139,7 +139,7 @@
         "volume_encumber_modifier": 0.3
       }
     ],
-    "flags": [ "WATER_FRIENDLY", "OVERSIZE", "BELTED", "PALS_LARGE" ],
+    "flags": [ "WATER_FRIENDLY", "OVERSIZE", "BELTED" ],
     "armor": [ { "encumbrance": 3, "coverage": 20, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
   },
   {
@@ -289,7 +289,7 @@
     "id": "grenadebandolier",
     "type": "ARMOR",
     "name": { "str": "large grenade pouch", "str_pl": "large grenade pouches" },
-    "description": "A pouch for holding up to four full-sized grenades of various types.",
+    "description": "A pouch for holding up to four full-sized grenades of various types, with straps for attaching it to your belt or other webbing.",
     "weight": "600 g",
     "volume": "1250 ml",
     "price": 3000,
@@ -382,7 +382,7 @@
         "volume_encumber_modifier": 0.3
       }
     ],
-    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "PALS_LARGE" ],
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
     "armor": [ { "encumbrance": 4, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
   {
@@ -409,7 +409,7 @@
         "volume_encumber_modifier": 0.3
       }
     ],
-    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "PALS_LARGE" ],
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
     "armor": [ { "encumbrance": 4, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
   {
@@ -436,7 +436,7 @@
         "volume_encumber_modifier": 0.3
       }
     ],
-    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "PALS_LARGE" ],
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
     "armor": [ { "encumbrance": 4, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   }
 ]
