@@ -167,7 +167,16 @@ if ("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
 else ()
     set(RELEASE 1)
     add_definitions(-DRELEASE)
+    # Use CMAKE_INSTALL_PREFIX as storage of data,gfx, etc.. Useful only on *nix OS.
     if(USE_PREFIX_DATA_DIR)
+        if ("${CMAKE_SYSTEM_NAME}" MATCHES "(Linux|FreeBSD|Darwin)")
+            add_definitions(-DPREFIX=${CMAKE_INSTALL_PREFIX})
+            configure_file(
+                "${CMAKE_SOURCE_DIR}/src/prefix.h.in"
+                "${CMAKE_SOURCE_DIR}/src/prefix.h"
+                @ONLY)
+            add_definitions(-DDATA_DIR_PREFIX)
+        endif ()
     else()
         set(CMAKE_INSTALL_DATADIR   data)
         set(CMAKE_INSTALL_DOCDIR    .   )
@@ -183,16 +192,6 @@ else ()
     message(STATUS "PIXMAPS_ENTRY_PATH            : ${PIXMAPS_ENTRY_PATH}")
     message(STATUS "PIXMAPS_UNITY_ENTRY_PATH      : ${PIXMAPS_UNITY_ENTRY_PATH}")
     message(STATUS "MANPAGE_ENTRY_PATH            : ${MANPAGE_ENTRY_PATH}")
-    add_definitions(-DRELEASE)
-    # Use CMAKE_INSTALL_PREFIX as storage of data,gfx, etc.. Useful only on *nix OS.
-    if (CMAKE_INSTALL_PREFIX AND NOT WIN32 AND USE_PREFIX_DATA_DIR)
-        add_definitions(-DPREFIX=${CMAKE_INSTALL_PREFIX})
-        configure_file(
-            "${CMAKE_SOURCE_DIR}/src/prefix.h.in"
-            "${CMAKE_SOURCE_DIR}/src/prefix.h"
-            @ONLY)
-        add_definitions(-DDATA_DIR_PREFIX)
-    endif ()
 endif ()
 
 message(STATUS "GIT_BINARY                    : ${GIT_EXECUTABLE}")
