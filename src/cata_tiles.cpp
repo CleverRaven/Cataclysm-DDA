@@ -4212,6 +4212,8 @@ void cata_tiles::draw_custom_explosion_frame()
             explosion_tile_id = exp_strong;
         } else if( col == c_yellow ) {
             explosion_tile_id = exp_medium;
+        } else if( col == c_black ) {
+            return;
         } else {
             explosion_tile_id = exp_weak;
         }

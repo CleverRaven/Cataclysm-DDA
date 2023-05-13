@@ -884,11 +884,11 @@ static void smash()
 
         if( bash_result.success ) {
             std::map<tripoint, nc_color> area_color;
-            area_color[smashp] = c_white;
+            area_color[smashp] = c_black;
             explosion_handler::draw_custom_explosion( smashp, area_color, "fd_smoke" );
         } else if( smashskill >= here.bash_resistance( smashp ) ) {
             std::map<tripoint, nc_color> area_color;
-            area_color[smashp] = c_white;
+            area_color[smashp] = c_black;
             explosion_handler::draw_custom_explosion( smashp, area_color, "crack_glass_center_tall" );
         } else if( one_in( 10 ) ) {
             if( here.has_furn( smashp ) && here.furn( smashp ).obj().bash.str_min != -1 ) {

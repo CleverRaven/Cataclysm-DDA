@@ -10409,7 +10409,7 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
         // Add smoke effect when sprinting
         if( u.is_running() ) {
             std::map<tripoint, nc_color> area_color;
-            area_color[oldpos] = c_white;
+            area_color[oldpos] = c_black;
             explosion_handler::draw_custom_explosion( oldpos, area_color, "fd_smoke" );
         }
     }
