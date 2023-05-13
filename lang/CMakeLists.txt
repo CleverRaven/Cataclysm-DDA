@@ -53,11 +53,13 @@ foreach (LANG ${LANGUAGES})
     )
     list(APPEND _MO_FILES ${_MO})
     if (RELEASE)
-        if ("${CMAKE_SYSTEM_NAME}" MATCHES "Windows")
-            install(DIRECTORY ${CMAKE_SOURCE_DIR}/lang/mo/${LANG} DESTINATION ${LOCALE_DIR}/mo)
-        else ()
-            install(DIRECTORY ${CMAKE_SOURCE_DIR}/lang/mo/${LANG} DESTINATION ${LOCALE_DIR})
-        endif ()
+        if(USE_PREFIX_DATA_DIR)
+            install(DIRECTORY ${CMAKE_SOURCE_DIR}/lang/mo/${LANG}
+                TYPE LOCALE)
+        else()
+            install(DIRECTORY ${CMAKE_SOURCE_DIR}/lang/mo/${LANG}
+                DESTINATION lang/mo)
+        endif()
     endif ()
 endforeach()
 
