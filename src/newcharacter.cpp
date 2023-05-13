@@ -3221,6 +3221,28 @@ enum description_selector {
     LOCATION
 };
 
+static void draw_name( ui_adaptor &ui, const catacurses::window &w_name,
+                       const avatar &you, const bool highlight,
+                       const bool no_name_entered )
+{
+    werase( w_name );
+    mvwprintz( w_name, point_zero,
+               highlight ? COL_SELECT : c_light_gray, _( "Name:" ) );
+    const point opt_pos( 1 + utf8_width( _( "Name:" ) ), 0 );
+    if( highlight ) {
+        ui.set_cursor( w_name, opt_pos );
+    }
+    if( no_name_entered ) {
+        mvwprintz( w_name, opt_pos, COL_SELECT, _( "--- NO NAME ENTERED ---" ) );
+    } else if( you.name.empty() ) {
+        mvwprintz( w_name, opt_pos, c_light_gray, _( "--- RANDOM NAME ---" ) );
+    } else {
+        mvwprintz( w_name, opt_pos, c_white, you.name );
+    }
+
+    wnoutrefresh( w_name );
+}
+
 static void draw_gender( ui_adaptor &ui, const catacurses::window &w_gender,
                          const avatar &you, const bool highlight )
 {
@@ -3699,23 +3721,8 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
         }
         wnoutrefresh( w_guide );
 
-        werase( w_name );
-        mvwprintz( w_name, point_zero,
-                   current_selector == char_creation::NAME ? COL_SELECT : c_light_gray, _( "Name:" ) );
-        const point opt_pos( 1 + utf8_width( _( "Name:" ) ), 0 );
-        if( current_selector == char_creation::NAME ) {
-            ui.set_cursor( w_name, opt_pos );
-        }
-        if( no_name_entered ) {
-            mvwprintz( w_name, opt_pos, COL_SELECT, _( "--- NO NAME ENTERED ---" ) );
-        } else if( you.name.empty() ) {
-            mvwprintz( w_name, opt_pos, c_light_gray, _( "--- RANDOM NAME ---" ) );
-        } else {
-            mvwprintz( w_name, opt_pos, c_white, you.name );
-        }
-
-        wnoutrefresh( w_name );
-
+        char_creation::draw_name( ui, w_name, you, current_selector == char_creation::NAME,
+                                  no_name_entered );
         char_creation::draw_gender( ui, w_gender, you, current_selector == char_creation::GENDER );
         char_creation::draw_age( ui, w_age, you, current_selector == char_creation::AGE );
         char_creation::draw_height( ui, w_height, you, current_selector == char_creation::HEIGHT );
