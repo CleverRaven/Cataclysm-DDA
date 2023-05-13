@@ -59,7 +59,7 @@
           },
           {
             "collection": [
-              { "group": "female_underwear", "prob": 90, "custom-flags": [ "UNDERSIZE" ], "damage": [ 1, 4 ] },
+              { "group": "female_underwear_child", "prob": 90, "custom-flags": [ "UNDERSIZE" ], "damage": [ 1, 4 ] },
               {
                 "group": "accesories_personal_womens_child",
                 "prob": 15,
@@ -70,7 +70,7 @@
                 "distribution": [
                   {
                     "collection": [
-                      { "group": "pants_female", "prob": 60, "custom-flags": [ "UNDERSIZE" ], "damage": [ 1, 4 ] },
+                      { "group": "pants_female_child", "prob": 60, "custom-flags": [ "UNDERSIZE" ], "damage": [ 1, 4 ] },
                       {
                         "distribution": [
                           { "group": "child_shoes", "prob": 50, "custom-flags": [ "UNDERSIZE" ], "damage": [ 1, 4 ] },

@@ -17,8 +17,8 @@ class math_exp
         math_exp &operator=( math_exp &&/* other */ ) noexcept;
 
         bool parse( std::string_view str, bool assignment = false );
-        double eval( dialogue const &d ) const;
-        void assign( dialogue const &d, double val ) const;
+        double eval( dialogue &d ) const;
+        void assign( dialogue &d, double val ) const;
 
     private:
         class math_exp_impl;

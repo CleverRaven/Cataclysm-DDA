@@ -55,7 +55,7 @@
     "item": "mana_wheel",
     "m2c": 90,
     "rolling_resistance": 0.45,
-    "wheel_type": "standard",
+    "wheel_terrain_modifiers": { "FLAT": [ 0, 4 ], "ROAD": [ 0, 2 ] },
     "contact_area": 20,
     "description": "A shape of pure mana that can float and carry items.",
     "size": "37500 ml",

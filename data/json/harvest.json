@@ -223,6 +223,11 @@
     "entries": [ { "drop": "birchbark", "base_num": [ 2, 8 ] } ]
   },
   {
+    "id": "tree_dead_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "stick", "base_num": [ 2, 5 ] }, { "drop": "twig", "base_num": [ 6, 20 ] } ]
+  },
+  {
     "id": "pine_harv",
     "type": "harvest",
     "entries": [

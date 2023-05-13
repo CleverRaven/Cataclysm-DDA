@@ -486,9 +486,15 @@ void mutation_branch::load( const JsonObject &jo, const std::string &src )
         activated_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
 
+    for( JsonValue jv : jo.get_array( "processed_eocs" ) ) {
+        processed_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
+    }
+
     for( JsonValue jv : jo.get_array( "deactivated_eocs" ) ) {
         deactivated_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
+
+    optional( jo, was_loaded, "activated_is_setup", activated_is_setup, false );
 
     int enchant_num = 0;
     for( JsonValue jv : jo.get_array( "enchantments" ) ) {

@@ -443,11 +443,6 @@
     "//": "Item can never be used with a CVD machine."
   },
   {
-    "id": "NO_QUICKDRAW",
-    "type": "json_flag",
-    "//": "Don't offer to draw items from this holster when the fire key is pressed whilst the player's hands are empty."
-  },
-  {
     "id": "NO_REPAIR",
     "type": "json_flag",
     "//": "Prevents repairing of this item even if otherwise suitable tools exist.",
@@ -2026,7 +2021,7 @@
   {
     "id": "LASER_SIGHT",
     "type": "json_flag",
-    "info": "Invalid when the target position is <bad>too far</bad> or <bad>too bright</bad>.",
+    "info": "Laser sights are invalid when the target position is <bad>too far</bad> or <bad>too bright</bad>.",
     "name": "laser sight"
   },
   {
@@ -2132,6 +2127,11 @@
     "id": "BIONIC_FUEL_SOURCE",
     "type": "json_flag",
     "info": "Contents of this item are used for fueling bionics."
+  },
+  {
+    "id": "BIONIC_WEAPON_MELEE",
+    "type": "json_flag",
+    "//": "This bionic weapon is meant to be used in melee."
   },
   {
     "id": "ELECTRONIC",

@@ -1,0 +1,27 @@
+[
+  {
+    "type": "palette",
+    "id": "nether_monster_palette",
+    "terrain": {
+      "#": "t_nm_wall_flesh",
+      "O": "t_nm_wall_flesh_pupating",
+      "@": "t_nm_wall_bone",
+      "B": "t_nm_ichor_sh",
+      "C": "t_nm_cartilage",
+      "X": "t_soil",
+      "x": "t_dirt_underground",
+      "T": "t_nm_wall_teeth"
+    },
+    "furniture": {
+      "g": "f_nm_tube",
+      "G": "f_nm_tube_emitter",
+      "f": "f_nm_nether_lily",
+      "F": "f_nm_nether_patchwork",
+      "l": "f_nm_nether_grass",
+      "L": "f_nm_nether_grass_tall",
+      "Z": "f_nm_nether_lichen"
+    },
+    "traps": { "P": "tr_portal" },
+    "fields": { "q": { "field": "fd_fatigue", "intensity": 1 }, "Q": { "field": "fd_fatigue", "intensity": 2 } }
+  }
+]

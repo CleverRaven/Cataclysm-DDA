@@ -5,12 +5,7 @@
     "has": "WORN",
     "condition": "ALWAYS",
     "//": "Increase the mana regen depending on your deduction level. +0.1x for each level, so doubles your mana regen when deduction is 10",
-    "values": [
-      {
-        "value": "REGEN_MANA",
-        "multiply": { "arithmetic": [ { "u_val": "skill_level", "skill": "deduction" }, "/", { "const": 10 } ] }
-      }
-    ]
+    "values": [ { "value": "REGEN_MANA", "multiply": { "math": [ "u_skill('deduction') / 10" ] } } ]
   },
   {
     "type": "enchantment",
@@ -73,9 +68,6 @@
     "type": "effect_on_condition",
     "id": "DECREASE_BERSERKER",
     "recurrence": "25 s",
-    "effect": [
-      { "u_message": "BERSERK -1.", "type": "debug" },
-      { "arithmetic": [ { "global_val": "var", "var_name": "BERSERKER" }, "--" ], "min": 0 }
-    ]
+    "effect": [ { "arithmetic": [ { "global_val": "var", "var_name": "BERSERKER" }, "--" ], "min": 0 } ]
   }
 ]

@@ -629,6 +629,16 @@
   },
   {
     "type": "profession",
+    "subtype": "hobby",
+    "id": "home_improvement",
+    "name": "Home Improvement",
+    "points": 2,
+    "description": "You'd fix up any holes and appliances in your own home with nothing but your two hands and some elbow grease.  You did it to save money on repairmen, but now it seems you'll do it to save your life.",
+    "skills": [ { "level": 2, "name": "fabrication" }, { "level": 1, "name": "mechanics" }, { "level": 1, "name": "electronics" } ],
+    "proficiencies": [ "prof_carpentry_basic", "prof_appliance_repair" ]
+  },
+  {
+    "type": "profession",
     "id": "fishing",
     "subtype": "hobby",
     "name": "Fishing",

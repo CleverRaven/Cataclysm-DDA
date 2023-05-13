@@ -174,6 +174,8 @@ void build_water_test_map( const ter_id &surface, const ter_id &mid, const ter_i
     constexpr int z_surface = 0;
     constexpr int z_bottom = -2;
 
+    clear_map( z_bottom, z_surface );
+
     map &here = get_map();
     for( const tripoint &p : here.points_in_rectangle( tripoint_zero,
             tripoint( MAPSIZE * SEEX, MAPSIZE * SEEY, z_bottom ) ) ) {

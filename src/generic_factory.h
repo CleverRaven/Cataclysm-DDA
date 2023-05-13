@@ -670,14 +670,14 @@ static_assert( !supports_relative<bool>::value, "bools should not support relati
 static_assert( !supports_proportional<bool>::value, "bools should not support proportional" );
 
 // Using string ids with ints doesn't make sense in practice, but it doesn't matter here
-// The type that it is templated with does not change it's behavior
+// The type that it is templated with does not change its behavior
 static_assert( !supports_relative<string_id<int>>::value,
                "string ids should not support relative" );
 static_assert( !supports_proportional<string_id<int>>::value,
                "string ids should not support proportional" );
 
 // Using int ids with ints doesn't make sense in practice, but it doesn't matter here
-// The type that it is templated with does not change it's behavior
+// The type that it is templated with does not change its behavior
 static_assert( !supports_relative<int_id<int>>::value,
                "int ids should not support relative" );
 static_assert( !supports_proportional<int_id<int>>::value,

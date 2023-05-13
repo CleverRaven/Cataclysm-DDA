@@ -833,8 +833,7 @@ bool inventory_holster_preset::is_shown( const item_location &contained ) const
     if( contained->is_bucket_nonempty() ) {
         return false;
     }
-    if( !holster->all_pockets_rigid() &&
-        !holster.parents_can_contain_recursive( &item_copy ) ) {
+    if( !holster.parents_can_contain_recursive( &item_copy ) ) {
         return false;
     }
     return true;
@@ -986,11 +985,13 @@ void inventory_entry::reset_entry_cell_cache() const
 const inventory_entry::entry_cell_cache_t &inventory_entry::get_entry_cell_cache(
     inventory_selector_preset const &preset ) const
 {
-
-    if( !entry_cell_cache ) {
+    //lang check here is needed to rebuild cache when using "Toggle language to English" option
+    if( !entry_cell_cache ||
+        entry_cell_cache->lang_version != detail::get_current_language_version() ) {
         make_entry_cell_cache( preset, false );
         cache_denial( preset );
         cata_assert( entry_cell_cache.has_value() );
+        entry_cell_cache->lang_version = detail::get_current_language_version();
     }
 
     return *entry_cell_cache;

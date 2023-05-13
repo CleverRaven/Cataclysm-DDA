@@ -7,7 +7,6 @@
     "copy-from": "mon_zombie_crawler",
     "delete": { "categories": [ "CLASSIC" ] },
     "bleed_rate": 50,
-    "special_attacks": [ { "type": "bite", "attack_upper": false, "cooldown": 3 } ],
     "regenerates": 10,
     "extend": { "flags": [ "SMALLSLUDGETRAIL", "SLUDGEPROOF" ] },
     "armor": { "electric": 1, "bash": 7, "cut": 5, "bullet": 5 }
@@ -117,7 +116,13 @@
     "vision_day": 83,
     "vision_night": 4,
     "harvest": "zombie",
-    "special_attacks": [ [ "SMASH", 30 ] ],
+    "grab_strength": 35,
+    "special_attacks": [
+      { "id": "grab" },
+      { "id": "bite_humanoid", "cooldown": 5 },
+      { "id": "scratch_humanoid" },
+      { "id": "smash", "cooldown": 30 }
+    ],
     "death_drops": "mon_zombie_hulk_death_drops",
     "regenerates": 10,
     "flags": [
@@ -126,6 +131,7 @@
       "SMELLS",
       "STUMBLES",
       "WARM",
+      "GRABS",
       "BASHES",
       "DESTROYS",
       "POISON",
@@ -169,7 +175,10 @@
     "vision_night": 4,
     "harvest": "zombie",
     "special_attacks": [
-      [ "SMASH", 30 ],
+      { "id": "grab" },
+      { "id": "bite_humanoid", "cooldown": 5 },
+      { "id": "scratch_humanoid" },
+      { "id": "smash", "cooldown": 30 },
       {
         "type": "spell",
         "spell_data": { "id": "hive_raptor_spawn", "hit_self": true },
@@ -185,6 +194,7 @@
       "SMELLS",
       "STUMBLES",
       "WARM",
+      "GRABS",
       "BASHES",
       "DESTROYS",
       "POISON",

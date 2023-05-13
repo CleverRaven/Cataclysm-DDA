@@ -63,7 +63,7 @@
     "color": "black",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You inject the concentrated black dragon mutagenic primer.",
+      "activation_message": "You inject the black dragon mutagenic primer.",
       "tools_needed": { "syringe": -1 },
       "vitamins": [ [ "mutagen_black_dragon", 450, 550 ] ]
     }
