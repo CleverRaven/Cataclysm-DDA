@@ -766,6 +766,9 @@ class Creature : public viewer
         bodypart *get_part( const bodypart_id &id );
         const bodypart *get_part( const bodypart_id &id ) const;
 
+        // get the body part id that matches for the character
+        bodypart_id get_part_id( const bodypart_id &id ) const;
+
         int get_part_hp_cur( const bodypart_id &id ) const;
         int get_part_hp_max( const bodypart_id &id ) const;
 

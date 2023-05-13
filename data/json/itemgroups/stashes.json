@@ -347,7 +347,7 @@
       { "group": "bugout_water", "prob": 75 },
       { "group": "bugout_cans", "prob": 33 },
       { "item": "toothbrush_plain", "prob": 10 },
-      { "item": "childnote", "prob": 10 }
+      { "item": "childnote", "prob": 33 }
     ]
   },
   {

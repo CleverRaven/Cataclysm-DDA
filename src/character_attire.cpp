@@ -1992,10 +1992,10 @@ void outfit::best_pocket( Character &guy, const item &it, const item *avoid,
     }
 }
 
-void outfit::overflow( const tripoint &pos )
+void outfit::overflow( Character &guy )
 {
-    for( item &clothing : worn ) {
-        clothing.overflow( pos );
+    for( item_location &clothing : top_items_loc( guy ) ) {
+        clothing.overflow();
     }
 }
 

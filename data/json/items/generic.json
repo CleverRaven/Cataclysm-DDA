@@ -782,15 +782,27 @@
     "symbol": "/",
     "color": "yellow",
     "name": { "str": "candlestick" },
-    "description": "A gold candlestick.",
+    "description": "A brass candlestick with a gold finish.",
     "category": "other",
-    "price": 10000,
+    "price": "5 USD",
     "price_postapoc": 10,
-    "material": [ "gold" ],
-    "weight": "1500 g",
-    "volume": "250 ml",
-    "to_hit": -2,
-    "melee_damage": { "bash": 9 }
+    "material": [ "brass" ],
+    "weight": "180 g",
+    "volume": "100 ml",
+    "longest_side": "28 cm",
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "neutral" },
+    "melee_damage": { "bash": 3 },
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "//1": "It's specifically not rigid because volume of candlestick and candle should be additive.",
+        "max_contains_weight": "500 g",
+        "max_contains_volume": "500 ml",
+        "item_restriction": [ "candle", "candle_lit" ]
+      }
+    ],
+    "//2": "Based on the medium variation from https://www.amazon.com/Holders-Candlestick-Decorative-Centerpieces-Fitting/dp/B09TNCS7HL/ref=sr_1_27?crid=2NAMJT9OZJDQT&keywords=gold%2Bcandlesticks&qid=1683196194&sprefix=gold%2Bcandlest%2Caps%2C619&sr=8-27&th=1"
   },
   {
     "type": "GENERIC",

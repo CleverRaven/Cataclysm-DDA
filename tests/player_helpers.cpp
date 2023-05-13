@@ -136,6 +136,7 @@ void clear_character( Character &dummy, bool skip_nutrition )
     const tripoint spot( 60, 60, 0 );
     dummy.setpos( spot );
     dummy.clear_values();
+    dummy.magic = pimpl<known_magic>();
 }
 
 void arm_shooter( npc &shooter, const std::string &gun_type,

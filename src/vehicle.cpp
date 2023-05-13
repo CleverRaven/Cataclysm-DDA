@@ -1118,6 +1118,7 @@ ret_val<void> vehicle::can_mount( const point &dp, const vpart_id &id ) const
     }
 
     //It also has to be a real part, not the null part
+    //Fallback. This response should never actually be displayed as veh_interact::move_cursor now(May 2023) excludes NOINSTALL parts
     const vpart_info &part = id.obj();
     if( part.has_flag( "NOINSTALL" ) ) {
         return ret_val<void>::make_failure( _( "Part cannot be installed." ) );

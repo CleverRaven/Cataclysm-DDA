@@ -25,7 +25,7 @@
     ],
     "use_action": { "type": "holster", "holster_prompt": "Sheath axe", "holster_msg": "You sheath your %s" },
     "flags": [ "NONCONDUCTIVE", "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": 2, "coverage": 50, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
+    "armor": [ { "encumbrance": 0, "coverage": 50, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
   {
     "id": "baldric",

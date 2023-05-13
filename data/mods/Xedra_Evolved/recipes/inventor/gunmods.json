@@ -26,7 +26,7 @@
     "difficulty": 7,
     "skills_required": [ "fabrication", 3 ],
     "category": "CC_XEDRA",
-    "subcategory": "CSC_XEDRA_MICS"
+    "subcategory": "CSC_XEDRA_MISC"
   },
   {
     "type": "recipe",
@@ -55,7 +55,7 @@
     "difficulty": 7,
     "skills_required": [ "fabrication", 3 ],
     "category": "CC_XEDRA",
-    "subcategory": "CSC_XEDRA_MICS"
+    "subcategory": "CSC_XEDRA_MISC"
   },
   {
     "type": "recipe",
@@ -84,14 +84,14 @@
     "difficulty": 7,
     "skills_required": [ "fabrication", 3 ],
     "category": "CC_XEDRA",
-    "subcategory": "CSC_XEDRA_MICS"
+    "subcategory": "CSC_XEDRA_MISC"
   },
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "inventor_lasmod_close_range",
     "category": "CC_XEDRA",
-    "subcategory": "CSC_XEDRA_MICS",
+    "subcategory": "CSC_XEDRA_MISC",
     "skill_used": "deduction",
     "difficulty": 5,
     "skills_required": [ "electronics", 3 ],
@@ -118,7 +118,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "result": "inventor_lasmod_long_range",
     "category": "CC_XEDRA",
-    "subcategory": "CSC_XEDRA_MICS",
+    "subcategory": "CSC_XEDRA_MISC",
     "skill_used": "deduction",
     "difficulty": 5,
     "skills_required": [ "electronics", 3 ],
@@ -145,7 +145,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "result": "inventor_lasmod_capasitor",
     "category": "CC_XEDRA",
-    "subcategory": "CSC_XEDRA_MICS",
+    "subcategory": "CSC_XEDRA_MISC",
     "skill_used": "deduction",
     "difficulty": 5,
     "skills_required": [ "electronics", 3 ],
@@ -172,7 +172,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "result": "inventor_lasmod_mega_capasitor",
     "category": "CC_XEDRA",
-    "subcategory": "CSC_XEDRA_MICS",
+    "subcategory": "CSC_XEDRA_MISC",
     "skill_used": "deduction",
     "difficulty": 5,
     "skills_required": [ "electronics", 3 ],
@@ -199,7 +199,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "result": "inventor_lasmod_energy_safe",
     "category": "CC_XEDRA",
-    "subcategory": "CSC_XEDRA_MICS",
+    "subcategory": "CSC_XEDRA_MISC",
     "skill_used": "deduction",
     "difficulty": 5,
     "skills_required": [ "electronics", 3 ],

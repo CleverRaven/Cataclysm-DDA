@@ -300,7 +300,7 @@ bool effect_on_condition::activate( dialogue &d ) const
     // Thus we just need to run the npcs.
     if( global && run_for_npcs ) {
         for( npc &guy : g->all_npcs() ) {
-            dialogue d_npc( get_talker_for( guy ), nullptr, d.get_context() );
+            dialogue d_npc( get_talker_for( guy ), nullptr, d.get_conditionals(), d.get_context() );
             if( !has_condition || condition( d_npc ) ) {
                 true_effect.apply( d_npc );
             } else if( has_false_effect ) {
@@ -520,10 +520,10 @@ void eoc_events::notify( const cata::event &e )
         // if we have an NPC to trigger this event for, do so,
         // otherwise fallback to having it effect the player
         if( alpha_talker ) {
-            d = dialogue( get_talker_for( alpha_talker ), nullptr, context );
+            d = dialogue( get_talker_for( alpha_talker ), nullptr, {}, context );
         } else {
             avatar &player_character = get_avatar();
-            d = dialogue( get_talker_for( player_character ), nullptr, context );
+            d = dialogue( get_talker_for( player_character ), nullptr, {}, context );
         }
 
         eoc.activate( d );

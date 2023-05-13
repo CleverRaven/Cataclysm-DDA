@@ -3217,7 +3217,7 @@ void item::gunmod_info( std::vector<iteminfo> &info, const iteminfo_query *parts
             info.emplace_back( "GUNMOD", _( "Field of view: <good>No limit</good>" ) );
         } else {
             info.emplace_back( "GUNMOD", _( "Field of view: " ), "",
-                               iteminfo::lower_is_better, mod.field_of_view );
+                               iteminfo::no_flags, mod.field_of_view );
         }
     }
     if( mod.field_of_view > 0 && parts->test( iteminfo_parts::GUNMOD_AIM_SPEED_MODIFIER ) ) {
@@ -9763,9 +9763,9 @@ bool item::spill_open_pockets( Character &guy, const item *avoid )
     return contents.spill_open_pockets( guy, avoid );
 }
 
-void item::overflow( const tripoint &pos )
+void item::overflow( const tripoint &pos, const item_location &loc )
 {
-    contents.overflow( pos );
+    contents.overflow( pos, loc );
 }
 
 book_proficiency_bonuses item::get_book_proficiency_bonuses() const
