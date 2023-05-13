@@ -575,21 +575,23 @@ static void npc_temp_orders_menu( const std::vector<npc *> &npc_list )
 static int npc_activities_menu()
 {
     uilist nmenu;
-    nmenu.text = _("What should be worked on?");
+    nmenu.text = _( "What should be worked on?" );
 
-    nmenu.addentry(NPC_CHAT_ACTIVITIES_MOVE_LOOT, true, 'l', _("Organizing loot into zones"));
-    nmenu.addentry(NPC_CHAT_ACTIVITIES_BUTCHERY, true, 'b', _("Butchering corpses"));
-    nmenu.addentry(NPC_CHAT_ACTIVITIES_CHOP_TREES, true, 't', _("Chopping down trees"));
-    nmenu.addentry(NPC_CHAT_ACTIVITIES_CHOP_PLANKS, true, 'p', _("Chopping logs into planks"));
-    nmenu.addentry(NPC_CHAT_ACTIVITIES_CONSTRUCTION, true, 'c', _("Constructing blueprints"));
-    nmenu.addentry(NPC_CHAT_ACTIVITIES_DISASSEMBLY, true, 'd', _("Disassembly of items"));
-    nmenu.addentry(NPC_CHAT_ACTIVITIES_FARMING, true, 'f', _("Farming plots"));
-    nmenu.addentry(NPC_CHAT_ACTIVITIES_FISHING, true, 'F', _("Fishing in a zone"));
-    nmenu.addentry(NPC_CHAT_ACTIVITIES_MINING, true, 'M', _("Mining out tiles"));
-    nmenu.addentry(NPC_CHAT_ACTIVITIES_MOPPING, true, 'm', _("Mopping up stains"));
-    nmenu.addentry(NPC_CHAT_ACTIVITIES_VEHICLE_DECONSTRUCTION, true, 'v', _("Deconstructing vehicles"));
-    nmenu.addentry(NPC_CHAT_ACTIVITIES_VEHICLE_REPAIR, true, 'V', _("Repairing vehicles"));
-    nmenu.addentry(NPC_CHAT_ACTIVITIES_UNASSIGN, true, '-', _("Taking it easy (Stop what they are working on)"));
+    nmenu.addentry( NPC_CHAT_ACTIVITIES_MOVE_LOOT, true, 'l', _( "Organizing loot into zones" ) );
+    nmenu.addentry( NPC_CHAT_ACTIVITIES_BUTCHERY, true, 'b', _( "Butchering corpses" ) );
+    nmenu.addentry( NPC_CHAT_ACTIVITIES_CHOP_TREES, true, 't', _( "Chopping down trees" ) );
+    nmenu.addentry( NPC_CHAT_ACTIVITIES_CHOP_PLANKS, true, 'p', _( "Chopping logs into planks" ) );
+    nmenu.addentry( NPC_CHAT_ACTIVITIES_CONSTRUCTION, true, 'c', _( "Constructing blueprints" ) );
+    nmenu.addentry( NPC_CHAT_ACTIVITIES_DISASSEMBLY, true, 'd', _( "Disassembly of items" ) );
+    nmenu.addentry( NPC_CHAT_ACTIVITIES_FARMING, true, 'f', _( "Farming plots" ) );
+    nmenu.addentry( NPC_CHAT_ACTIVITIES_FISHING, true, 'F', _( "Fishing in a zone" ) );
+    nmenu.addentry( NPC_CHAT_ACTIVITIES_MINING, true, 'M', _( "Mining out tiles" ) );
+    nmenu.addentry( NPC_CHAT_ACTIVITIES_MOPPING, true, 'm', _( "Mopping up stains" ) );
+    nmenu.addentry( NPC_CHAT_ACTIVITIES_VEHICLE_DECONSTRUCTION, true, 'v',
+                    _( "Deconstructing vehicles" ) );
+    nmenu.addentry( NPC_CHAT_ACTIVITIES_VEHICLE_REPAIR, true, 'V', _( "Repairing vehicles" ) );
+    nmenu.addentry( NPC_CHAT_ACTIVITIES_UNASSIGN, true, '-',
+                    _( "Taking it easy (Stop what they are working on)" ) );
 
     nmenu.query();
 
@@ -676,9 +678,10 @@ void game::chat()
     } );
     const int guard_count = guards.size();
 
-    const std::vector<npc*> available_for_activities = get_npcs_if([&](const npc& guy) {
-        return guy.is_player_ally() && guy.can_hear(u.pos(), volume) && guy.companion_mission_role_id != "FACTION CAMP";
-        });
+    const std::vector<npc *> available_for_activities = get_npcs_if( [&]( const npc & guy ) {
+        return guy.is_player_ally() && guy.can_hear( u.pos(), volume ) &&
+               guy.companion_mission_role_id != "FACTION CAMP";
+    } );
     const int available_for_activities_count = available_for_activities.size();
 
     if( player_character.has_trait( trait_PROF_FOODP ) &&
@@ -730,19 +733,18 @@ void game::chat()
                         _( "Talk to…" ) );
     }
 
-    if ( !available_for_activities.empty() ) {
-        const Creature* guy = available_for_activities.front();
+    if( !available_for_activities.empty() ) {
+        const Creature *guy = available_for_activities.front();
         std::string title;
-        if (guy->is_npc()) {
+        if( guy->is_npc() ) {
             title = guy->as_npc()->name_and_activity();
-        }
-        else if (guy->is_monster()) {
+        } else if( guy->is_monster() ) {
             title = guy->as_monster()->disp_name();
         }
-        nmenu.addentry(NPC_CHAT_ACTIVITIES, true, 'A', available_for_activities_count == 1 ?
-                    string_format(_("Tell %s to work on…"), title) :
-                    _("Tell someone to work on…")
-                );
+        nmenu.addentry( NPC_CHAT_ACTIVITIES, true, 'A', available_for_activities_count == 1 ?
+                        string_format( _( "Tell %s to work on…" ), title ) :
+                        _( "Tell someone to work on…" )
+                      );
     }
 
     nmenu.addentry( NPC_CHAT_YELL, true, 'a', _( "Yell" ) );
@@ -955,69 +957,68 @@ void game::chat()
 
             std::vector<int> npcs_selected;
 
-            if (available_for_activities_count == 1) {
-                npcs_selected.push_back(0);
+            if( available_for_activities_count == 1 ) {
+                npcs_selected.push_back( 0 );
+            } else {
+                std::vector<Character *> clist( available_for_activities.begin(), available_for_activities.end() );
+                npcs_selected = npcs_select_menu( clist, _( "Who should we assign?" ), nullptr );
             }
-            else {
-                std::vector<Character*> clist(available_for_activities.begin(), available_for_activities.end());
-                npcs_selected = npcs_select_menu(clist, _("Who should we assign?"), nullptr);
-            }
 
-            for (int i : npcs_selected) {
+            for( int i : npcs_selected ) {
 
-                npc* selected_npc = available_for_activities[i];
+                npc *selected_npc = available_for_activities[i];
 
-                switch (activity) {
+                switch( activity ) {
                     case NPC_CHAT_ACTIVITIES_MOVE_LOOT: {
-                        talk_function::sort_loot(*selected_npc);
+                        talk_function::sort_loot( *selected_npc );
                         break;
                     }
                     case NPC_CHAT_ACTIVITIES_BUTCHERY: {
-                        talk_function::do_butcher(*selected_npc);
+                        talk_function::do_butcher( *selected_npc );
                         break;
                     }
                     case NPC_CHAT_ACTIVITIES_CHOP_PLANKS: {
-                        talk_function::do_chop_plank(*selected_npc);
+                        talk_function::do_chop_plank( *selected_npc );
                         break;
                     }
                     case NPC_CHAT_ACTIVITIES_CHOP_TREES: {
-                        talk_function::do_chop_trees(*selected_npc);
+                        talk_function::do_chop_trees( *selected_npc );
                         break;
                     }
                     case NPC_CHAT_ACTIVITIES_CONSTRUCTION: {
-                        talk_function::do_construction(*selected_npc);
+                        talk_function::do_construction( *selected_npc );
                         break;
                     }
                     case NPC_CHAT_ACTIVITIES_DISASSEMBLY: {
-                        talk_function::do_disassembly(*selected_npc);
+                        talk_function::do_disassembly( *selected_npc );
                         break;
                     }
                     case NPC_CHAT_ACTIVITIES_FARMING: {
-                        talk_function::do_farming(*selected_npc);
+                        talk_function::do_farming( *selected_npc );
                         break;
                     }
                     case NPC_CHAT_ACTIVITIES_FISHING: {
-                        talk_function::do_fishing(*selected_npc);
+                        talk_function::do_fishing( *selected_npc );
                         break;
                     }
                     case NPC_CHAT_ACTIVITIES_MINING: {
-                        talk_function::do_mining(*selected_npc);
+                        talk_function::do_mining( *selected_npc );
                         break;
                     }
                     case NPC_CHAT_ACTIVITIES_MOPPING: {
-                        talk_function::do_mopping(*selected_npc);
+                        talk_function::do_mopping( *selected_npc );
                         break;
                     }
                     case NPC_CHAT_ACTIVITIES_VEHICLE_DECONSTRUCTION: {
-                        talk_function::do_vehicle_deconstruct(*selected_npc);
+                        talk_function::do_vehicle_deconstruct( *selected_npc );
                         break;
                     }
                     case NPC_CHAT_ACTIVITIES_VEHICLE_REPAIR: {
-                        talk_function::do_vehicle_repair(*selected_npc);
+                        talk_function::do_vehicle_repair( *selected_npc );
                         break;
                     }
                     case NPC_CHAT_ACTIVITIES_UNASSIGN: {
-                        talk_function::revert_activity(*selected_npc);
+                        talk_function::revert_activity( *selected_npc );
                         break;
                     }
                     default:
