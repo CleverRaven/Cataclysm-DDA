@@ -883,20 +883,25 @@ static void smash()
         player_character.recoil = MAX_RECOIL;
 
         if( bash_result.success ) {
+            // Bash results in destruction of target
             std::map<tripoint, nc_color> area_color;
             area_color[smashp] = c_black;
             explosion_handler::draw_custom_explosion( smashp, area_color, "fd_smoke" );
         } else if( smashskill >= here.bash_resistance( smashp ) ) {
+            // Bash effective but target not yet destroyed
             std::map<tripoint, nc_color> area_color;
             area_color[smashp] = c_black;
             explosion_handler::draw_custom_explosion( smashp, area_color, "crack_glass_center_tall" );
-        } else if( one_in( 10 ) ) {
-            if( here.has_furn( smashp ) && here.furn( smashp ).obj().bash.str_min != -1 ) {
-                // %s is the smashed furniture
-                add_msg( m_neutral, _( "You don't seem to be damaging the %s." ), here.furnname( smashp ) );
-            } else {
-                // %s is the smashed terrain
-                add_msg( m_neutral, _( "You don't seem to be damaging the %s." ), here.tername( smashp ) );
+        } else {
+            // Bash not effective
+            if( one_in( 10 ) ) {
+                if( here.has_furn( smashp ) && here.furn( smashp ).obj().bash.str_min != -1 ) {
+                    // %s is the smashed furniture
+                    add_msg( m_neutral, _( "You don't seem to be damaging the %s." ), here.furnname( smashp ) );
+                } else {
+                    // %s is the smashed terrain
+                    add_msg( m_neutral, _( "You don't seem to be damaging the %s." ), here.tername( smashp ) );
+                }
             }
         }
 
