@@ -290,11 +290,13 @@
         "distribution": [
           { "group": "survivor_helmet_plus_mask", "prob": 60 },
           { "group": "survivor_basic_head_full", "prob": 40 }
+        ]
       },
       {
         "distribution": [
           { "group": "survivor_basic_with_jacket", "prob": 30 },
           { "group": "survivor_basic_individual", "prob": 70 }
+        ]
       }
     ]
   },
@@ -456,6 +458,7 @@
       [ "chaps_leather", 15 ],
       [ "chaps_cut_resistant", 10 ],
       [ "legguard_hard", 10 ]
+    ]
   },
   {
     "id": "survivor_basic_hands",
@@ -478,6 +481,7 @@
       [ "fire_gauntlets", 5 ],
       [ "gauntlet_fencing", 2 ],
       [ "gauntlet_fencing_l", 1 ]
+    ]
   },
   {
     "id": "survivor_basic_feet",
@@ -496,6 +500,7 @@
       [ "boots_fur", 10 ],
       [ "sneakers_steel", 10 ],
       [ "boots_rubber", 5 ]
+    ]
   },
   {
     "id": "survivor_basic_pants",
@@ -513,6 +518,7 @@
       [ "pants_faux_fur", 5 ],
       [ "pants_ski", 5 ],
       [ "pants", 5 ]
+    ]
   },
   {
     "id": "survivor_basic_shirt",
@@ -529,5 +535,6 @@
       [ "cloth_shirt_padded", 15 ],
       [ "combat_shirt", 5 ],
       [ "fencing_jacket", 1 ]
+    ]
   }
 ]
