@@ -885,7 +885,7 @@ static void smash()
         // Variables for bash animation
         std::map<tripoint, nc_color> anim_area;
         anim_area[smashp] = c_black;
-        
+
         if( bash_result.success ) {
             // Bash results in destruction of target
             explosion_handler::draw_custom_explosion( smashp, anim_area, "bash_complete" );

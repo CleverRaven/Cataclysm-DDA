@@ -10410,28 +10410,28 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
         if( u.is_running() ) {
             std::map<tripoint, nc_color> area_color;
             area_color[oldpos] = c_black;
-            if( u.posy() < oldpos.y ){
-            	if( u.posx() < oldpos.x ) {
+            if( u.posy() < oldpos.y ) {
+                if( u.posx() < oldpos.x ) {
                     explosion_handler::draw_custom_explosion( oldpos, area_color, "sprint_nw" );
-            	} else if( u.posx() == oldpos.x ) {
+                } else if( u.posx() == oldpos.x ) {
                     explosion_handler::draw_custom_explosion( oldpos, area_color, "sprint_n" );
-            	} else {
+                } else {
                     explosion_handler::draw_custom_explosion( oldpos, area_color, "sprint_ne" );
-            	}
-            } else if( u.posy() == oldpos.y ){
-            	if( u.posx() < oldpos.x ) {
+                }
+            } else if( u.posy() == oldpos.y ) {
+                if( u.posx() < oldpos.x ) {
                     explosion_handler::draw_custom_explosion( oldpos, area_color, "sprint_w" );
-            	} else {
+                } else {
                     explosion_handler::draw_custom_explosion( oldpos, area_color, "sprint_e" );
-            	}
+                }
             } else {
-            	if( u.posx() < oldpos.x ) {
+                if( u.posx() < oldpos.x ) {
                     explosion_handler::draw_custom_explosion( oldpos, area_color, "sprint_sw" );
-            	} else if( u.posx() == oldpos.x ) {
+                } else if( u.posx() == oldpos.x ) {
                     explosion_handler::draw_custom_explosion( oldpos, area_color, "sprint_s" );
-            	} else {
+                } else {
                     explosion_handler::draw_custom_explosion( oldpos, area_color, "sprint_se" );
-            	}
+                }
             }
         }
     }
