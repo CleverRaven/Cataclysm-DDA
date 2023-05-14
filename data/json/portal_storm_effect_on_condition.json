@@ -172,7 +172,6 @@
         "x_adjust": [ -1, 1 ],
         "y_adjust": [ -1, 1 ]
       },
-      { "u_message": "The portal storm shifts!", "type": "bad" },
       { "remove_active_mission": "MISSION_INVESTIGATE_PORTAL_STORM_CENTER" },
       { "assign_mission": "MISSION_INVESTIGATE_PORTAL_STORM_CENTER" }
     ]
