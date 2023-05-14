@@ -2794,6 +2794,7 @@ bionic_uid Character::add_bionic( const bionic_id &b, bionic_uid parent_uid )
         }
     }
 
+    invalidate_pseudo_items();
     update_bionic_power_capacity();
 
     calc_encumbrance();
@@ -2806,8 +2807,6 @@ bionic_uid Character::add_bionic( const bionic_id &b, bionic_uid parent_uid )
         recalculate_enchantment_cache();
     }
     effect_on_conditions::process_reactivate( *this );
-
-    invalidate_pseudo_items();
 
     return bio_uid;
 }

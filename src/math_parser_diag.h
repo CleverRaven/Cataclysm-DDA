@@ -44,6 +44,9 @@ std::function<double( dialogue & )> u_val( char scope,
 std::function<void( dialogue &, double )> u_val_ass( char scope,
         std::vector<std::string> const &params );
 
+std::function<double( dialogue & )> option_eval( char scope,
+        std::vector<std::string> const &params );
+
 std::function<double( dialogue & )> pain_eval( char scope,
         std::vector<std::string> const &/* params */ );
 
@@ -60,8 +63,9 @@ std::function<double( dialogue & )> weather_eval( char /* scope */,
 std::function<void( dialogue &, double )> weather_ass( char /* scope */,
         std::vector<std::string> const &params );
 
-inline std::array<dialogue_func_eval, 4> const dialogue_eval_f{
+inline std::array<dialogue_func_eval, 5> const dialogue_eval_f{
     dialogue_func_eval{ "val", "un", -1, u_val },
+    dialogue_func_eval{ "game_option", "g", -1, option_eval },
     dialogue_func_eval{ "pain", "un", 0, pain_eval },
     dialogue_func_eval{ "skill", "un", 1, skill_eval },
     dialogue_func_eval{ "weather", "g", 1, weather_eval },

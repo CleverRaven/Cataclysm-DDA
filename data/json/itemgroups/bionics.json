@@ -93,7 +93,8 @@
       [ "bio_recoil", 10 ],
       [ "bio_ar", 10 ],
       [ "bio_fitnessband", 10 ],
-      [ "bio_solar_arms", 10 ]
+      [ "bio_solar_arms", 10 ],
+      [ "bio_radio", 10 ]
     ]
   },
   {
@@ -184,7 +185,8 @@
       [ "bio_jointservo", 10 ],
       [ "bio_shotgun", 10 ],
       [ "bio_recoil", 10 ],
-      [ "bio_solar_arms", 10 ]
+      [ "bio_solar_arms", 10 ],
+      [ "bio_radio", 10 ]
     ]
   }
 ]

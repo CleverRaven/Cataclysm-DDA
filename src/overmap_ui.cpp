@@ -522,7 +522,7 @@ static bool get_and_assign_los( int &los, avatar &player_character, const tripoi
 }
 
 static void draw_ascii(
-    ui_adaptor &ui, const catacurses::window &w, const tripoint_abs_omt &center,
+    const catacurses::window &w, const tripoint_abs_omt &center,
     const tripoint_abs_omt &orig, bool blink, bool show_explored, bool /* fast_scroll */,
     input_context * /* inp_ctxt */, const draw_data_t &data )
 {
@@ -995,12 +995,10 @@ static void draw_ascii(
     }
     // Done with all drawing!
     wnoutrefresh( w );
-    // Set cursor for screen readers
-    ui.set_cursor( w, point( om_half_width, om_half_height ) );
 }
 
 static void draw_om_sidebar(
-    const catacurses::window &wbar, const tripoint_abs_omt &center,
+    ui_adaptor &ui, const catacurses::window &wbar, const tripoint_abs_omt &center,
     const tripoint_abs_omt &orig, bool /* blink */, bool fast_scroll,
     input_context *inp_ctxt, const draw_data_t &data )
 {
@@ -1043,20 +1041,22 @@ static void draw_om_sidebar(
     int lines = 1;
     if( center_seen ) {
         if( !mgroups.empty() ) {
-            int line_number = 6;
+            const point desc_pos( 3, 6 );
+            ui.set_cursor( wbar, desc_pos );
+            int line_number = 0;
             for( mongroup * const &mgroup : mgroups ) {
-                mvwprintz( wbar, point( 3, line_number++ ),
+                mvwprintz( wbar, desc_pos + point( 0, line_number++ ),
                            c_blue, "  Species: %s", mgroup->type.c_str() );
-                mvwprintz( wbar, point( 3, line_number++ ),
+                mvwprintz( wbar, desc_pos + point( 0, line_number++ ),
                            c_blue, "# monsters: %d", mgroup->population + mgroup->monsters.size() );
                 if( !mgroup->horde ) {
                     continue;
                 }
-                mvwprintz( wbar, point( 3, line_number++ ),
+                mvwprintz( wbar, desc_pos + point( 0, line_number++ ),
                            c_blue, "  Interest: %d", mgroup->interest );
-                mvwprintz( wbar, point( 3, line_number ),
+                mvwprintz( wbar, desc_pos + point( 0, line_number++ ),
                            c_blue, "  Target: %s", mgroup->target.to_string() );
-                mvwprintz( wbar, point( 3, line_number++ ),
+                mvwprintz( wbar, desc_pos + point( 0, line_number++ ),
                            c_red, "x" );
             }
         } else {
@@ -1066,13 +1066,22 @@ static void draw_om_sidebar(
             // NOLINTNEXTLINE(cata-use-named-point-constants)
             mvwputch( wbar, point( 1, 1 ), ter.get_color(), ter.get_symbol() );
 
-            lines = fold_and_print( wbar, point( 3, 1 ), getmaxx( wbar ) - 3, c_light_gray,
+            const point desc_pos( 3, 1 );
+            ui.set_cursor( wbar, desc_pos );
+            lines = fold_and_print( wbar, desc_pos, getmaxx( wbar ) - desc_pos.x,
+                                    c_light_gray,
                                     overmap_buffer.get_description_at( sm_pos ) );
         }
     } else {
+        const oter_t &ter = oter_unexplored.obj();
+
         // NOLINTNEXTLINE(cata-use-named-point-constants)
-        mvwprintz( wbar, point( 1, 1 ), oter_unexplored.obj().get_color(), _( "%s %s" ),
-                   oter_unexplored.obj().get_symbol(), oter_unexplored.obj().get_name() );
+        mvwputch( wbar, point( 1, 1 ), ter.get_color(), ter.get_symbol() );
+
+        const point desc_pos( 3, 1 );
+        ui.set_cursor( wbar, desc_pos );
+        lines = fold_and_print( wbar, desc_pos, getmaxx( wbar ) - desc_pos.x,
+                                ter.get_color(), ter.get_name() );
     }
 
     // Describe the weather conditions on the following line, if weather is visible
@@ -1219,7 +1228,7 @@ static void draw(
     bool blink, bool show_explored, bool fast_scroll,
     input_context *inp_ctxt, const draw_data_t &data )
 {
-    draw_om_sidebar( g->w_omlegend, center, orig, blink, fast_scroll, inp_ctxt, data );
+    draw_om_sidebar( ui, g->w_omlegend, center, orig, blink, fast_scroll, inp_ctxt, data );
 #if defined( TILES )
     if( use_tiles && use_tiles_overmap ) {
         redraw_info = tiles_redraw_info { center, blink };
@@ -1229,7 +1238,7 @@ static void draw(
         return;
     }
 #endif // TILES
-    draw_ascii( ui, g->w_overmap, center, orig, blink, show_explored, fast_scroll, inp_ctxt, data );
+    draw_ascii( g->w_overmap, center, orig, blink, show_explored, fast_scroll, inp_ctxt, data );
 }
 
 static void create_note( const tripoint_abs_omt &curs )

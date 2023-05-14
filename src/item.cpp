@@ -5510,8 +5510,8 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                        ? string_format( "<good>%s</good>", e->nname( 1 ) )
                                        : e->nname( 1 ) );
         }
-        info.emplace_back( "DESCRIPTION",
-                           _( "<bold>Can be stored in</bold>: " ) + enumerate_lcsorted_with_limit( holsters_str ) );
+        info.emplace_back( "DESCRIPTION", _( "<bold>Can be stored in</bold>: " ) +
+                           enumerate_lcsorted_with_limit( holsters_str, 30 ) );
         info.back().sName += ".";
     }
 
@@ -5599,7 +5599,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 const std::string name = r->result_name( /* decorated = */ true );
                 crafts.emplace_back( can_make ? name : string_format( "<dark>%s</dark>", name ) );
             }
-            const std::string recipes = enumerate_lcsorted_with_limit( crafts, 12 );
+            const std::string recipes = enumerate_lcsorted_with_limit( crafts, 15 );
             info.emplace_back( " DESCRIPTION", string_format( _( "You could use it to craft: %s" ), recipes ) );
         }
     }
@@ -5651,10 +5651,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 return;
             }
 
-            // Sort according to the user's locale
-            std::sort( result_parts.begin(), result_parts.end(), localized_compare );
-
-            const std::string installable_parts = enumerate_lcsorted_with_limit( result_parts, 12 );
+            const std::string installable_parts = enumerate_lcsorted_with_limit( result_parts, 15 );
 
             insert_separation_line( info );
             info.emplace_back( " DESCRIPTION", string_format( install_where, installable_parts ) );

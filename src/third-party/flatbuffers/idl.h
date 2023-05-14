@@ -1,3 +1,5 @@
+/* Modified by the Cataclysm: Dark Days Ahead project. */
+
 /*
  * Copyright 2014 Google Inc. All rights reserved.
  *

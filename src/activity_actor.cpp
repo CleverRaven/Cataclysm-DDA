@@ -6534,9 +6534,10 @@ bool vehicle_folding_activity_actor::fold_vehicle( Character &p, bool check_only
         return false;
     }
 
+    const inventory &inv = p.crafting_inventory();
     for( const vpart_reference &vp : veh.get_all_parts() ) {
         for( const itype_id &tool : vp.info().get_folding_tools() ) {
-            if( !p.has_amount( tool, 1 ) ) {
+            if( !inv.has_tools( tool, 1 ) ) {
                 p.add_msg_if_player( _( "You need %s to do it!" ), item::nname( tool ) );
                 return false;
             }
@@ -6652,6 +6653,8 @@ bool vehicle_unfolding_activity_actor::unfold_vehicle( Character &p, bool check_
                || here.veh_at( p )
                || here.impassable( p );
     };
+
+    const inventory &inv = p.crafting_inventory();
     for( const vpart_reference &vp : veh->get_all_parts() ) {
         if( vp.info().location != "structure" ) {
             continue;
@@ -6662,7 +6665,7 @@ bool vehicle_unfolding_activity_actor::unfold_vehicle( Character &p, bool check_
             return false;
         }
         for( const itype_id &tool : vp.info().get_unfolding_tools() ) {
-            if( !p.has_amount( tool, 1 ) ) {
+            if( !inv.has_tools( tool, 1 ) ) {
                 p.add_msg_if_player( _( "You need %s to do it!" ), item::nname( tool ) );
                 here.destroy_vehicle( veh );
                 return false;
