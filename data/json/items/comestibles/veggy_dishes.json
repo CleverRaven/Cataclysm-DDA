@@ -14,6 +14,13 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "cooked_burdock_stalk",
+    "name": { "str": "cooked burdock stalk" },
+    "copy-from": "cooked_cattail_stalk",
+    "description": "A cooked stalk from a burdock plant.  Its fibrous outer leaves have been stripped away, and now it is quite delicious."
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "roasted_cattail_rhizome",
     "name": { "str": "roasted cattail rhizome" },
     "copy-from": "cattail_rhizome",
@@ -791,6 +798,7 @@
       { "type": "COMPONENT_ID", "condition": "carrot", "name": { "str_sp": "%s, carrot" } },
       { "type": "COMPONENT_ID", "condition": "carrot_wild", "name": { "str_sp": "%s, wild root" } },
       { "type": "COMPONENT_ID", "condition": "cattail_stalk", "name": { "str_sp": "%s, cattail stalk" } },
+      { "type": "COMPONENT_ID", "condition": "burdock_stalk", "name": { "str_sp": "%s, burdock stalk" } },
       { "type": "COMPONENT_ID", "condition": "celery", "name": { "str_sp": "%s, celery" } },
       { "type": "COMPONENT_ID", "condition": "corn_kernels", "name": { "str_sp": "%s, corn kernels" } },
       { "type": "COMPONENT_ID", "condition": "cucumber", "name": { "str_sp": "%s, cucumber" } },
