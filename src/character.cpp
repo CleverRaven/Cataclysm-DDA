@@ -288,6 +288,7 @@ static const itype_id itype_foodperson_mask_on( "foodperson_mask_on" );
 static const itype_id itype_null( "null" );
 static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 
+static const json_character_flag json_flag_ACIDBLOOD( "ACIDBLOOD" );
 static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
 static const json_character_flag json_flag_ALWAYS_HEAL( "ALWAYS_HEAL" );
 static const json_character_flag json_flag_BLIND( "BLIND" );
@@ -384,7 +385,6 @@ static const species_id species_HUMAN( "HUMAN" );
 
 static const start_location_id start_location_sloc_shelter( "sloc_shelter" );
 
-static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_ADRENALINE( "ADRENALINE" );
 static const trait_id trait_ANTENNAE( "ANTENNAE" );
 static const trait_id trait_BADBACK( "BADBACK" );
@@ -690,7 +690,7 @@ void Character::randomize_blood()
 
 field_type_id Character::bloodType() const
 {
-    if( has_trait( trait_ACIDBLOOD ) ) {
+    if( has_flag( json_flag_ACIDBLOOD ) ) {
         return fd_acid;
     }
     if( has_trait( trait_THRESH_PLANT ) ) {
@@ -7634,7 +7634,7 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
     bool u_see = player_character.sees( *this );
     // FIXME: Hardcoded damage type
     int cut_dam = dealt_dams.type_damage( damage_cut );
-    if( source && has_trait( trait_ACIDBLOOD ) && !one_in( 3 ) &&
+    if( source && has_flag( json_flag_ACIDBLOOD ) && !one_in( 3 ) &&
         ( dam >= 4 || cut_dam > 0 ) && ( rl_dist( player_character.pos(), source->pos() ) <= 1 ) ) {
         if( is_avatar() ) {
             add_msg( m_good, _( "Your acidic blood splashes %s in mid-attack!" ),
@@ -9886,10 +9886,10 @@ void Character::process_effects()
         remove_effect( effect_paincysts );
         add_msg_if_player( m_good, _( "Something writhes inside of you as it dies." ) );
     }
-    if( has_trait( trait_ACIDBLOOD ) && ( has_effect( effect_dermatik ) ||
-                                          has_effect( effect_bloodworms ) ||
-                                          has_effect( effect_blood_spiders ) ||
-                                          has_effect( effect_brainworms ) ) ) {
+    if( has_flag( json_flag_ACIDBLOOD ) && ( has_effect( effect_dermatik ) ||
+            has_effect( effect_bloodworms ) ||
+            has_effect( effect_blood_spiders ) ||
+            has_effect( effect_brainworms ) ) ) {
         remove_effect( effect_dermatik );
         remove_effect( effect_bloodworms );
         remove_effect( effect_blood_spiders );

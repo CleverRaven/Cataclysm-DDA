@@ -37,6 +37,18 @@
   },
   {
     "type": "mutation",
+    "id": "HUMAN_BLOOD",
+    "name": { "str": "Human Blood" },
+    "points": 0,
+    "player_display": false,
+    "dummy": true,
+    "category": [ "HUMAN" ],
+    "types": [ "BLOOD" ],
+    "cancels": [ "ACIDBLOOD" ],
+    "description": "You have human blood."
+  },
+  {
+    "type": "mutation",
     "id": "HUMAN_EARS",
     "name": { "str": "Human Ears" },
     "points": 0,
@@ -7734,6 +7746,8 @@
     "points": 4,
     "description": "Your body has developed a wonderful defense mechanism.  Instead of normal blood, you bleed a strong molecular acid which will damage any creature foolish enough to harm you.",
     "prereqs": [ "ACIDPROOF" ],
+    "types": [ "BLOOD" ],
+    "flags": [ "ACIDBLOOD" ],
     "threshreq": [ "THRESH_INSECT", "THRESH_CHIMERA", "THRESH_MEDICAL", "THRESH_SLIME" ],
     "category": [ "INSECT", "CHIMERA", "MEDICAL", "SLIME" ]
   },
