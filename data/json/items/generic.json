@@ -884,7 +884,18 @@
     "price_postapoc": 10,
     "material": [ "steel" ],
     "weight": "11 g",
-    "volume": "50 ml"
+    "volume": "50 ml",
+    "qualities": [ [ "TREE_TAP", 1 ] ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "makeshift_tree_spile",
+    "copy-from": "tree_spile",
+    "color": "brown",
+    "name": { "str": "makeshift tree spile" },
+    "description": "A carved piece of wood which is inserted in a tree crust in order to slowly harvest its sap.  Can be used on a maple tree in between late winter and early spring to harvest maple sap.",
+    "material": [ "wood" ],
+    "qualities": [ [ "TREE_TAP", 1 ] ]
   },
   {
     "type": "GENERIC",
