@@ -355,8 +355,8 @@
       ],
       [
         {
-           "name": "paddock_connector_extra",
-           "chunk": [
+          "name": "paddock_connector_extra",
+          "chunk": [
             { "overmap": "dirt_road_ns", "pos": [ 0, 0, 0 ] },
             { "overmap": "outer_to_inner_n", "pos": [ 0, 0, 10 ] },
             { "overmap": "dirt_road_nes", "pos": [ 0, 1, 0 ] },
@@ -381,8 +381,8 @@
           "weight": 1
         },
         {
-           "name": "paddock_connector",
-           "chunk": [
+          "name": "paddock_connector",
+          "chunk": [
             { "overmap": "dirt_road_ns", "pos": [ 0, 0, 0 ] },
             { "overmap": "outer_to_inner_n", "pos": [ 0, 0, 10 ] },
             { "overmap": "dirt_road_ns", "pos": [ 0, 1, 0 ] },
@@ -419,7 +419,7 @@
             { "overmap": "hayfield_R_sw", "pos": [ 0, 1, 0 ] },
             { "overmap": "hayfield_L_nw", "pos": [ 0, 2, 0 ] },
             { "overmap": "hayfield_L_se", "pos": [ -1, 1, 0 ] },
-            { "overmap": "hayfield_R_ne", "pos": [ -1, 2, 0 ] }            
+            { "overmap": "hayfield_R_ne", "pos": [ -1, 2, 0 ] }
           ],
           "max": 1,
           "weight": 2
@@ -461,10 +461,7 @@
         },
         {
           "name": "paddock_end_3",
-          "chunk": [
-            { "overmap": "paddock_1_n", "pos": [ 0, 0, 0 ] },
-            { "overmap": "outer_to_inner_n", "pos": [ 0, 0, 10 ] }
-          ],
+          "chunk": [ { "overmap": "paddock_1_n", "pos": [ 0, 0, 0 ] }, { "overmap": "outer_to_inner_n", "pos": [ 0, 0, 10 ] } ],
           "weight": 1
         },
         {
@@ -588,41 +585,23 @@
           "max": 1
         }
       ],
-      [
-        {
-          "name": "failsafe",
-          "chunk": [ { "overmap": "outer_to_inner_n", "pos": [ 0, 0, 0 ] } ],
-          "weight": 1
-        }
-      ],
+      [ { "name": "failsafe", "chunk": [ { "overmap": "outer_to_inner_n", "pos": [ 0, 0, 0 ] } ], "weight": 1 } ],
       [
         {
           "name": "forest_sparse",
           "//": "Forest phase, spawns forest around endpoints with the intention of potentially spawning a trail, currently not set to spawn",
-          "chunk": [
-              { "overmap": "forest", "pos": [ 0, 0, 0 ] },
-              { "overmap": "forest_connection", "pos": [ 0, 0, 10 ] }
-            ],
-            "max": 20,
-            "weight": 3
+          "chunk": [ { "overmap": "forest", "pos": [ 0, 0, 0 ] }, { "overmap": "forest_connection", "pos": [ 0, 0, 10 ] } ],
+          "max": 20,
+          "weight": 3
         },
         {
-            "name": "forest_dense",
-            "chunk": [
-              { "overmap": "forest_thick", "pos": [ 0, 0, 0 ] },
-              { "overmap": "forest_connection", "pos": [ 0, 0, 10 ] }
-            ],
-            "max": 20,
-            "weight": 3
+          "name": "forest_dense",
+          "chunk": [ { "overmap": "forest_thick", "pos": [ 0, 0, 0 ] }, { "overmap": "forest_connection", "pos": [ 0, 0, 10 ] } ],
+          "max": 20,
+          "weight": 3
         }
       ],
-      [
-        {
-            "name": "forest_end",
-            "chunk": [ { "overmap": "forest_end", "pos": [ 0, 0, 10 ] } ],
-            "weight": 1
-        }
-      ]
+      [ { "name": "forest_end", "chunk": [ { "overmap": "forest_end", "pos": [ 0, 0, 10 ] } ], "weight": 1 } ]
     ]
   }
 ]

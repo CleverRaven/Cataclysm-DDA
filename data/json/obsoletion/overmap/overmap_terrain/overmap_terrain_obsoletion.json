@@ -54,7 +54,7 @@
     "copy-from": "generic_rural_building",
     "name": "carriage house roof",
     "sym": "o",
-	"flags": [ "SHOULD_NOT_SPAWN" ]
+    "flags": [ "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",
@@ -62,7 +62,7 @@
     "copy-from": "generic_rural_building",
     "name": "horse stable",
     "sym": "&",
-	"flags": [ "SHOULD_NOT_SPAWN" ]
+    "flags": [ "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",
@@ -70,15 +70,15 @@
     "copy-from": "generic_rural_building",
     "name": "horse stable hayloft",
     "sym": "&",
-	"flags": [ "SHOULD_NOT_SPAWN" ]
+    "flags": [ "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",
-    "id": [ "horse_farm_7_roof"],
+    "id": [ "horse_farm_7_roof" ],
     "copy-from": "generic_rural_building",
     "name": "horse stable roof",
     "sym": "&",
-	"flags": [ "SHOULD_NOT_SPAWN" ]
+    "flags": [ "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",
@@ -86,7 +86,7 @@
     "copy-from": "generic_rural_building",
     "name": "greenhouse",
     "sym": "o",
-	"flags": [ "SHOULD_NOT_SPAWN" ]
+    "flags": [ "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",
@@ -94,7 +94,7 @@
     "copy-from": "generic_rural_building",
     "name": "greenhouse roof",
     "sym": "o",
-	"flags": [ "SHOULD_NOT_SPAWN" ]
+    "flags": [ "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",
@@ -102,7 +102,7 @@
     "copy-from": "generic_rural_building",
     "name": "chicken coop",
     "sym": "o",
-	"flags": [ "SHOULD_NOT_SPAWN" ]
+    "flags": [ "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",
@@ -110,7 +110,7 @@
     "copy-from": "generic_rural_building",
     "name": "chicken coop roof",
     "sym": "o",
-	"flags": [ "SHOULD_NOT_SPAWN" ]
+    "flags": [ "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",
@@ -118,6 +118,6 @@
     "copy-from": "generic_rural_building",
     "name": "farm house 2nd floor",
     "sym": "^",
-	"flags": [ "SHOULD_NOT_SPAWN" ]
+    "flags": [ "SHOULD_NOT_SPAWN" ]
   }
 ]
