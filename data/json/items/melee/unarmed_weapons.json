@@ -41,7 +41,7 @@
         "specifically_covers": [ "arm_lower_l", "arm_lower_r" ]
       }
     ],
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "xl_cestus",
@@ -80,7 +80,7 @@
         "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
       }
     ],
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "xl_knuckle_brass",
@@ -119,7 +119,7 @@
         "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
       }
     ],
-    "melee_damage": { "bash": 2, "stab": 3 }
+    "melee_damage": { "bash": 4, "stab": 4 }
   },
   {
     "id": "xl_knuckle_nail",
@@ -158,7 +158,7 @@
         "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
       }
     ],
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "xl_knuckle_steel",
@@ -199,7 +199,7 @@
         "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
       }
     ],
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 7 }
   },
   {
     "id": "xl_knuckle_steel_forged",
@@ -234,7 +234,7 @@
     "material_thickness": 2,
     "flags": [ "WATER_FRIENDLY", "DURABLE_MELEE" ],
     "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ],
-    "melee_damage": { "bash": 2, "stab": 1 }
+    "melee_damage": { "bash": 2, "stab": 4 }
   },
   {
     "id": "xl_gloves_studded",
@@ -275,7 +275,7 @@
         "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
       }
     ],
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 9 }
   },
   {
     "id": "xl_knuckle_impact",
@@ -310,7 +310,7 @@
     "material_thickness": 2,
     "flags": [ "WATER_FRIENDLY", "DURABLE_MELEE", "OUTER" ],
     "armor": [ { "encumbrance": 5, "coverage": 20, "covers": [ "hand_l", "hand_r" ] } ],
-    "melee_damage": { "bash": 2, "stab": 10 }
+    "melee_damage": { "bash": 3, "stab": 6 }
   },
   {
     "id": "xl_knuckle_skewer",
