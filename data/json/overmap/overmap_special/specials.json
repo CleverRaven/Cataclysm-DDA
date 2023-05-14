@@ -7943,7 +7943,7 @@
     "city_distance": [ 5, -1 ],
     "occurrences": [ 50, 70 ],
     "eoc": { "id": "EOC_VALHALLA_CULT_GENERATE", "condition": { "days_since_cataclysm": 30 } },
-    "flags": [ "CLASSIC", "UNIQUE", "SAFE_AT_WORLDGEN", "MAN_MADE" ]
+    "flags": [ "CLASSIC", "GLOBALLY_UNIQUE", "SAFE_AT_WORLDGEN", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
