@@ -303,7 +303,7 @@
     "symbol": "7",
     "color": "yellow_cyan",
     "categories": [ "utility" ],
-    "description": "Power saw with long, toothed blade, stretched between wheels.  Plugged in and ready to go.",
+    "description": "A power saw with long, toothed blade stretched between wheels.  Plugged in and ready to go.",
     "broken_color": "yellow_cyan",
     "broken_symbol": "x",
     "damage_modifier": 10,
