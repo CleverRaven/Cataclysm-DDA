@@ -41,32 +41,35 @@
       "dirt_road_new": { "overmap": "dirt_road_3way_south" },
       "dirt_road_nes": { "overmap": "dirt_road_3way_west" },
       "dirt_road_nesw": { "overmap": "dirt_road_4way_north" },
-      "farm_house_1_n": { "overmap": "horse_farm_house_1_north", "locations": [ "special_field" ] },
-      "farm_house_2_n": { "overmap": "horse_farm_house_2_north", "locations": [ "special_field" ] },
-      "stables_1_n": { "overmap": "horse_farm_stable_1_north", "locations": [ "special_field" ] },
-      "stables_2_n": { "overmap": "horse_farm_stable_2_north", "locations": [ "special_field" ] },
-      "track_1_n": { "overmap": "horse_farm_track_1_north", "locations": [ "special_field" ] },
-      "track_2_n": { "overmap": "horse_farm_track_2_north", "locations": [ "special_field" ] },
-      "track_3_n": { "overmap": "horse_farm_track_3_north", "locations": [ "special_field" ] },
-      "track_4_n": { "overmap": "horse_farm_track_4_north", "locations": [ "special_field" ] },
-      "track_large_1_n": { "overmap": "horse_farm_track_large_1_north", "locations": [ "special_field" ] },
-      "track_large_2_n": { "overmap": "horse_farm_track_large_2_north", "locations": [ "special_field" ] },
-      "track_large_3_n": { "overmap": "horse_farm_track_large_3_north", "locations": [ "special_field" ] },
-      "track_large_4_n": { "overmap": "horse_farm_track_large_4_north", "locations": [ "special_field" ] },
-      "ring_1_n": { "overmap": "horse_farm_ring_1_north", "locations": [ "special_field" ] },
-      "ring_2_n": { "overmap": "horse_farm_ring_2_north", "locations": [ "special_field" ] },
-      "ring_3_n": { "overmap": "horse_farm_ring_3_north", "locations": [ "special_field" ] },
-      "ring_4_n": { "overmap": "horse_farm_ring_4_north", "locations": [ "special_field" ] },
+      "farm_house_1_n": { "overmap": "farm_horse_house_1_north", "locations": [ "special_field" ] },
+      "farm_house_2_n": { "overmap": "farm_horse_house_2_north", "locations": [ "special_field" ] },
+      "yard_n": { "overmap": "yard_north", "locations": [ "special_field" ] },
+      "greenhouse_n": { "overmap": "farm_horse_greenhouse_north", "locations": [ "special_field" ] },
+      "greenhouse_roof_n": { "overmap": "farm_horse_greenhouse_roof_north" },
+      "stables_1_n": { "overmap": "farm_horse_stable_1_north", "locations": [ "special_field" ] },
+      "stables_2_n": { "overmap": "farm_horse_stable_2_north", "locations": [ "special_field" ] },
+      "track_1_n": { "overmap": "farm_horse_track_1_north", "locations": [ "special_field" ] },
+      "track_2_n": { "overmap": "farm_horse_track_2_north", "locations": [ "special_field" ] },
+      "track_3_n": { "overmap": "farm_horse_track_3_north", "locations": [ "special_field" ] },
+      "track_4_n": { "overmap": "farm_horse_track_4_north", "locations": [ "special_field" ] },
+      "track_large_1_n": { "overmap": "farm_horse_track_large_1_north", "locations": [ "special_field" ] },
+      "track_large_2_n": { "overmap": "farm_horse_track_large_2_north", "locations": [ "special_field" ] },
+      "track_large_3_n": { "overmap": "farm_horse_track_large_3_north", "locations": [ "special_field" ] },
+      "track_large_4_n": { "overmap": "farm_horse_track_large_4_north", "locations": [ "special_field" ] },
+      "ring_1_n": { "overmap": "farm_horse_ring_1_north", "locations": [ "special_field" ] },
+      "ring_2_n": { "overmap": "farm_horse_ring_2_north", "locations": [ "special_field" ] },
+      "ring_3_n": { "overmap": "farm_horse_ring_3_north", "locations": [ "special_field" ] },
+      "ring_4_n": { "overmap": "farm_horse_ring_4_north", "locations": [ "special_field" ] },
       "silo_1_n": { "overmap": "ranch_camp_57_south", "locations": [ "special_field" ] },
       "silo_1_roof_n": { "overmap": "ranch_camp_57_roof_south" },
       "silo_1_tower_n": { "overmap": "ranch_camp_57_silo_south" },
       "silo_1_cap_n": { "overmap": "ranch_camp_57_silocap_south" },
-      "silo_2_n": { "overmap": "horse_farm_silo_north", "locations": [ "special_field" ] },
-      "silo_2_tower_n": { "overmap": "horse_farm_silo_1_north" },
-      "silo_2_cap_n": { "overmap": "horse_farm_silo_roof_north" },
-      "silo_2_w": { "overmap": "horse_farm_silo_west" },
-      "silo_2_tower_w": { "overmap": "horse_farm_silo_1_west" },
-      "silo_2_cap_w": { "overmap": "horse_farm_silo_roof_west" },
+      "silo_2_n": { "overmap": "farm_horse_silo_north", "locations": [ "special_field" ] },
+      "silo_2_tower_n": { "overmap": "farm_horse_silo_1_north" },
+      "silo_2_cap_n": { "overmap": "farm_horse_silo_roof_north" },
+      "silo_2_w": { "overmap": "farm_horse_silo_west" },
+      "silo_2_tower_w": { "overmap": "farm_horse_silo_1_west" },
+      "silo_2_cap_w": { "overmap": "farm_horse_silo_roof_west" },
       "paddock_1_n": { "overmap": "paddock_1_north" },
       "paddock_1_e": { "overmap": "paddock_1_east" },
       "paddock_1_s": { "overmap": "paddock_1_south" },
@@ -103,10 +106,10 @@
       "hayfield_R_nw": { "overmap": "hayfield_turnR_east" },
       "hayfield_R_ne": { "overmap": "hayfield_turnR_south" },
       "hayfield_R_se": { "overmap": "hayfield_turnR_west" },
-      "field_border": { "overmap": "special_field" },
+      "field_fill": { "overmap": "special_field" },
       "field_reserved": { "overmap": "special_field" },
-      "forest": { "overmap": "special_forest" },
-      "forest_thick": { "overmap": "special_forest_thick" },
+      "forest": { "overmap": "special_forest", "locations": [ "field" ] },
+      "forest_thick": { "overmap": "special_forest_thick", "locations": [ "field" ] },
       "inner_to_outer_n": { "overmap": "open_air", "north": "inner_to_outer" },
       "inner_to_outer_e": { "overmap": "open_air", "east": "inner_to_outer" },
       "inner_to_outer_s": { "overmap": "open_air", "south": "inner_to_outer" },
@@ -152,10 +155,10 @@
       },
       "forest_end": {
         "overmap": "open_air",
-        "north": { "id": "forest_to_forest", "type": "available" },
-        "east": { "id": "forest_to_forest", "type": "available" },
-        "south": { "id": "forest_to_forest", "type": "available" },
-        "west": { "id": "forest_to_forest", "type": "available" }
+        "north": { "id": "forest_to_forest", "alternatives": [ "forest_to_edge" ], "type": "available" },
+        "east": { "id": "forest_to_forest", "alternatives": [ "forest_to_edge" ], "type": "available" },
+        "south": { "id": "forest_to_forest", "alternatives": [ "forest_to_edge" ], "type": "available" },
+        "west": { "id": "forest_to_forest", "alternatives": [ "forest_to_edge" ], "type": "available" }
       }
     },
     "root": "dirt_road_ns_root_s",
@@ -194,10 +197,10 @@
             { "overmap": "dirt_road_sw", "pos": [ 3, 5, 0 ] },
             { "overmap": "dirt_road_ns", "pos": [ 3, 7, 0 ] },
             { "overmap": "inner_to_outer_s", "pos": [ 3, 7, 10 ] },
-            { "overmap": "field_border", "pos": [ 1, 7, 0 ] },
-            { "overmap": "field_border", "pos": [ 2, 7, 0 ] },
-            { "overmap": "field_border", "pos": [ 3, 4, 0 ] },
-            { "overmap": "field_border", "pos": [ 1, 0, 0 ] }
+            { "overmap": "field_fill", "pos": [ 1, 7, 0 ] },
+            { "overmap": "field_fill", "pos": [ 2, 7, 0 ] },
+            { "overmap": "field_fill", "pos": [ 3, 4, 0 ] },
+            { "overmap": "field_fill", "pos": [ 1, 0, 0 ] }
           ],
           "weight": 1
         },
@@ -262,20 +265,20 @@
             { "overmap": "dirt_road_ew", "pos": [ 1, 7, 0 ] },
             { "overmap": "dirt_road_ew", "pos": [ 2, 7, 0 ] },
             { "overmap": "inner_to_outer_e", "pos": [ 2, 7, 10 ] },
-            { "overmap": "field_border", "pos": [ 1, 0, 0 ] },
-            { "overmap": "field_border", "pos": [ 2, 0, 0 ] },
-            { "overmap": "field_border", "pos": [ 2, 4, 0 ] },
-            { "overmap": "field_border", "pos": [ 2, 5, 0 ] },
-            { "overmap": "field_border", "pos": [ 2, 6, 0 ] },
-            { "overmap": "field_border", "pos": [ -4, 2, 0 ] },
-            { "overmap": "field_border", "pos": [ -4, 3, 0 ] },
-            { "overmap": "field_border", "pos": [ -4, 4, 0 ] },
-            { "overmap": "field_border", "pos": [ -4, 5, 0 ] },
-            { "overmap": "field_border", "pos": [ -4, 6, 0 ] },
-            { "overmap": "field_border", "pos": [ -4, 7, 0 ] },
-            { "overmap": "field_border", "pos": [ -3, 7, 0 ] },
-            { "overmap": "field_border", "pos": [ -2, 7, 0 ] },
-            { "overmap": "field_border", "pos": [ -1, 7, 0 ] }
+            { "overmap": "field_fill", "pos": [ 1, 0, 0 ] },
+            { "overmap": "field_fill", "pos": [ 2, 0, 0 ] },
+            { "overmap": "field_fill", "pos": [ 2, 4, 0 ] },
+            { "overmap": "field_fill", "pos": [ 2, 5, 0 ] },
+            { "overmap": "field_fill", "pos": [ 2, 6, 0 ] },
+            { "overmap": "field_fill", "pos": [ -4, 2, 0 ] },
+            { "overmap": "field_fill", "pos": [ -4, 3, 0 ] },
+            { "overmap": "field_fill", "pos": [ -4, 4, 0 ] },
+            { "overmap": "field_fill", "pos": [ -4, 5, 0 ] },
+            { "overmap": "field_fill", "pos": [ -4, 6, 0 ] },
+            { "overmap": "field_fill", "pos": [ -4, 7, 0 ] },
+            { "overmap": "field_fill", "pos": [ -3, 7, 0 ] },
+            { "overmap": "field_fill", "pos": [ -2, 7, 0 ] },
+            { "overmap": "field_fill", "pos": [ -1, 7, 0 ] }
           ],
           "weight": 1
         },
@@ -314,11 +317,11 @@
             { "overmap": "dirt_road_ew", "pos": [ 2, 5, 0 ] },
             { "overmap": "dirt_road_ew", "pos": [ 3, 5, 0 ] },
             { "overmap": "inner_to_outer_e", "pos": [ 3, 5, 10 ] },
-            { "overmap": "field_border", "pos": [ -2, 0, 0 ] },
-            { "overmap": "field_border", "pos": [ -3, 0, 0 ] },
-            { "overmap": "field_border", "pos": [ 3, 2, 0 ] },
-            { "overmap": "field_border", "pos": [ 3, 3, 0 ] },
-            { "overmap": "field_border", "pos": [ 3, 4, 0 ] }
+            { "overmap": "field_fill", "pos": [ -2, 0, 0 ] },
+            { "overmap": "field_fill", "pos": [ -3, 0, 0 ] },
+            { "overmap": "field_fill", "pos": [ 3, 2, 0 ] },
+            { "overmap": "field_fill", "pos": [ 3, 3, 0 ] },
+            { "overmap": "field_fill", "pos": [ 3, 4, 0 ] }
           ],
           "weight": 1
         },
@@ -343,9 +346,9 @@
             { "overmap": "field_reserved", "pos": [ 3, 0, 0 ] },
             { "overmap": "dirt_road_ew", "pos": [ 3, 2, 0 ] },
             { "overmap": "inner_to_outer_e", "pos": [ 3, 2, 10 ] },
-            { "overmap": "field_border", "pos": [ 1, 0, 0 ] },
-            { "overmap": "field_border", "pos": [ -1, 0, 0 ] },
-            { "overmap": "field_border", "pos": [ -2, 0, 0 ] }
+            { "overmap": "field_fill", "pos": [ 1, 0, 0 ] },
+            { "overmap": "field_fill", "pos": [ -1, 0, 0 ] },
+            { "overmap": "field_fill", "pos": [ -2, 0, 0 ] }
           ],
           "weight": 1
         }
@@ -486,12 +489,24 @@
       ],
       [
         {
-          "name": "horse_home_1",
+          "name": "house_1_yard",
           "//": "Farm houses should be up to 2x2 and connect on the top left when facing north.",
           "chunk": [
             { "overmap": "farm_house_1_n", "pos": [ 0, 0, 0 ] },
             { "overmap": "house_to_road_n", "pos": [ 0, 0, 10 ] },
-            { "overmap": "farm_house_2_n", "pos": [ 0, 1, 0 ] }
+            { "overmap": "farm_house_2_n", "pos": [ 1, 0, 0 ] },
+            { "overmap": "yard_n", "pos": [ 0, 1, 0 ] }
+          ],
+          "weight": 1
+        },
+        {
+          "name": "house_1_greenhouse",
+          "chunk": [
+            { "overmap": "farm_house_1_n", "pos": [ 0, 0, 0 ] },
+            { "overmap": "house_to_road_n", "pos": [ 0, 0, 10 ] },
+            { "overmap": "farm_house_2_n", "pos": [ 1, 0, 0 ] },
+            { "overmap": "greenhouse_n", "pos": [ 0, 1, 0 ] },
+            { "overmap": "greenhouse_roof_n", "pos": [ 0, 1, 1 ] }
           ],
           "weight": 1
         },
@@ -582,7 +597,7 @@
       ],
       [
         {
-          "name": "forest_a",
+          "name": "forest_sparse",
           "//": "Forest phase, spawns forest around endpoints with the intention of potentially spawning a trail, currently not set to spawn",
           "chunk": [
               { "overmap": "forest", "pos": [ 0, 0, 0 ] },
@@ -592,17 +607,18 @@
             "weight": 3
         },
         {
-            "name": "forest_thick_a",
+            "name": "forest_dense",
             "chunk": [
               { "overmap": "forest_thick", "pos": [ 0, 0, 0 ] },
               { "overmap": "forest_connection", "pos": [ 0, 0, 10 ] }
             ],
             "max": 20,
             "weight": 3
-        },
+        }
+      ],
+      [
         {
-            "name": "forest_end_a",
-            "//": "I think it tries to spawn forest over this?",
+            "name": "forest_end",
             "chunk": [ { "overmap": "forest_end", "pos": [ 0, 0, 10 ] } ],
             "weight": 1
         }

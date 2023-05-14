@@ -175,8 +175,8 @@
       "horse_farm_isherwood_5",
       "horse_farm_isherwood_6",
       "horse_farm_isherwood_8",
-      "horse_farm_ring_3",
-      "horse_farm_ring_4"
+      "farm_horse_ring_3",
+      "farm_horse_ring_4"
     ],
     "copy-from": "generic_rural_building",
     "name": "farm field"
@@ -254,8 +254,8 @@
     "id": [
       "farm_2",
       "horse_farm_isherwood_13",
-      "horse_farm_house_1",
-      "horse_farm_house_2",
+      "farm_horse_house_1",
+      "farm_horse_house_2",
       "farm_isherwood_2",
       "2farm_11",
       "farm_stills_3",
@@ -479,8 +479,8 @@
   {
     "type": "overmap_terrain",
     "id": [
-      "horse_farm_track_2",
-      "horse_farm_track_4",
+      "farm_horse_track_2",
+      "farm_horse_track_4",
       "paddock_1",
       "paddock_2",
       "paddock_3",
@@ -526,7 +526,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "horse_farm_ring_1", "horse_farm_ring_2" ],
+    "id": [ "farm_horse_ring_1", "farm_horse_ring_2" ],
     "copy-from": "generic_rural_building",
     "name": "ring",
     "sym": "#",
@@ -534,7 +534,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "horse_farm_track_1", "horse_farm_track_3" ],
+    "id": [ "farm_horse_track_1", "farm_horse_track_3" ],
     "copy-from": "generic_rural_building",
     "name": "track",
     "sym": "_",
@@ -542,7 +542,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "horse_farm_track_large_1" ],
+    "id": [ "farm_horse_track_large_1" ],
     "copy-from": "generic_rural_building",
     "name": "track",
     "sym": "┌",
@@ -550,7 +550,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "horse_farm_track_large_2" ],
+    "id": [ "farm_horse_track_large_2" ],
     "copy-from": "generic_rural_building",
     "name": "track",
     "sym": "┐",
@@ -558,7 +558,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "horse_farm_track_large_3" ],
+    "id": [ "farm_horse_track_large_3" ],
     "copy-from": "generic_rural_building",
     "name": "track",
     "sym": "└",
@@ -566,7 +566,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "horse_farm_track_large_4" ],
+    "id": [ "farm_horse_track_large_4" ],
     "copy-from": "generic_rural_building",
     "name": "track",
     "sym": "┘",
@@ -617,7 +617,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "horse_farm_isherwood_7", "horse_farm_stable_1", "horse_farm_stable_2" ],
+    "id": [ "horse_farm_isherwood_7", "farm_horse_stable_1", "farm_horse_stable_2" ],
     "copy-from": "generic_rural_building",
     "name": "horse stable",
     "sym": "&"
@@ -638,14 +638,14 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "farm_1_greenhouse", "horse_farm_isherwood_9" ],
+    "id": [ "farm_1_greenhouse", "horse_farm_isherwood_9", "farm_horse_greenhouse" ],
     "copy-from": "generic_rural_building",
     "name": "greenhouse",
     "sym": "o"
   },
   {
     "type": "overmap_terrain",
-    "id": [ "farm_1_greenhouse_roof", "horse_farm_isherwood_9_roof" ],
+    "id": [ "farm_1_greenhouse_roof", "horse_farm_isherwood_9_roof", "farm_horse_greenhouse_roof" ],
     "copy-from": "generic_rural_building",
     "name": "greenhouse roof",
     "sym": "o"
@@ -679,9 +679,9 @@
       "2farm_6_1",
       "2farm_6_2",
       "2farm_6_3",
-      "horse_farm_silo",
-      "horse_farm_silo_1",
-      "horse_farm_silo_roof"
+      "farm_horse_silo",
+      "farm_horse_silo_1",
+      "farm_horse_silo_roof"
     ],
     "copy-from": "generic_rural_building",
     "name": "silo",

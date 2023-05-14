@@ -331,5 +331,255 @@
       "palettes": [ "farm_lots" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "shed_5x5_garden_E",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "|||||",
+        "|BB |",
+        "|   +",
+        "| AA|",
+        "|||||"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        "|": "t_wall_wood",
+        "+": "t_door_locked",
+        " ": "t_thconc_floor",
+        "A": "t_thconc_floor",
+        "B": "t_thconc_floor"
+      },
+      "furniture": {
+        "A": "f_table",
+        "B": "f_rack_wood"
+      },
+      "place_items": [
+        { "item": "garden_shed", "x": [ 1, 2 ], "y": 1, "chance": 50, "repeat": [ 1, 3 ] },
+        { "item": "farming_seeds", "x": [ 2, 3 ], "y": 3, "chance": 70, "repeat": [ 1, 4 ] },
+        { "item": "flower_pots", "x": [ 2, 3 ], "y": 3, "chance": 50, "repeat": [ 1, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "paddock_gate_5x5_n",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "  c  ",
+        "?___?",
+        "___??",
+        "????_",
+        " ?_? "
+      ],
+      "palettes": [ "paddock" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        "?": [ [ "t_region_grass", 6 ], [ "t_grass_dead", 6 ], [ "t_region_soil", 3 ] ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "paddock_gate_5x5_e",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        " ?_? ",
+        "??__ ",
+        "_?__c",
+        "???_ ",
+        " _?? "
+      ],
+      "palettes": [ "paddock" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        "?": [ [ "t_region_grass", 6 ], [ "t_grass_dead", 6 ], [ "t_region_soil", 3 ] ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "paddock_gate_5x5_s",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        " ?_? ",
+        "????_",
+        "___??",
+        "?___?",
+        "  c  "
+      ],
+      "palettes": [ "paddock" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        "?": [ [ "t_region_grass", 6 ], [ "t_grass_dead", 6 ], [ "t_region_soil", 3 ] ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "paddock_gate_5x5_w",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        " ?_? ",
+        " __??",
+        "c__?_",
+        " _???",
+        " ??_ "
+      ],
+      "palettes": [ "paddock" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "paddock_feeder_4x4",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "?__?",
+        "_rr_",
+        "_rr_",
+        "?__?",
+      ],
+      "palettes": [ "paddock" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        "r": "t_metal_railing"
+      },
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 50 ],
+            [ "2x2_haybale", 50 ]
+          ],
+          "x": 1,
+          "y": 1
+        }
+      ]
+    }
+  }
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_paddock_divider_v",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "                        ",
+        "           %            ",
+        "           %            ",
+        "           %            ",
+        "                        ",
+        "           %            ",
+        "           %            ",
+        "           %            ",
+        "           %            ",
+        "           %            ",
+        "           %            ",
+        "           %            ",
+        "           %            ",
+        "           %            ",
+        "           %            ",
+        "           %            ",
+        "           %            ",
+        "           %            ",
+        "           %            ",
+        "           %            ",
+        "           %            ",
+        "           %            ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "paddock" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_nested": [
+        {
+          "chunks": [
+            [ "paddock_gate_5x5_e" ]
+          ],
+          "x": 7,
+          "y": 2
+        },
+        {
+          "chunks": [
+            [ "paddock_gate_5x5_w" ]
+          ],
+          "x": 11,
+          "y": 2
+        }
+      ]
+    }
+  }
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_paddock_divider_h",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        " %%% %%%%%%%%%%%%%%%%%  ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "paddock" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_nested": [
+        {
+          "chunks": [
+            [ "paddock_gate_5x5_n" ]
+          ],
+          "x": 2,
+          "y": 11
+        },
+        {
+          "chunks": [
+            [ "paddock_gate_5x5_s" ]
+          ],
+          "x": 2,
+          "y": 7
+        }
+      ]
+    }
   }
 ]

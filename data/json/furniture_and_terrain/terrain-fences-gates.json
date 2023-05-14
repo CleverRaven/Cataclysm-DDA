@@ -1297,5 +1297,68 @@
       "ter_set": "t_pavement",
       "items": [ { "item": "pipe", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 3, 6 ] } ]
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_showjump",
+    "alias": [ "t_showjump_h", "t_showjump_v" ],
+    "name": "show jump",
+    "description": "A show jump made of planks and a long pole, suitable for showing off your equestrian skills.",
+    "symbol": "LINE_OXOX",
+    "color": "white",
+    "looks_like": "t_fence",
+    "move_cost": 0,
+    "examine_action": "chainfence",
+    "flags": [
+      "TRANSPARENT",
+      "NOITEM",
+      "THIN_OBSTACLE",
+      "PERMEABLE",
+      "FLAMMABLE_ASH",
+      "CLIMBABLE",
+      "AUTO_WALL_SYMBOL",
+      "BURROWABLE",
+      "EASY_DECONSTRUCT"
+    ],
+    "deconstruct": { "ter_set": "t_showjump_empty", "items": [ { "item": "long_pole", "count": 1 } ] },
+    "bash": {
+      "str_min": 5,
+      "str_max": 12,
+      "sound": "whump!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "2x4", "count": [ 2, 4 ] }, { "item": "long_pole", "count": [ 0, 1 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_showjump_empty",
+    "alias": [ "t_showjump_empty_h", "t_showjump_empty_v" ],
+    "name": "empty show jump",
+    "description": "A show jump lacking a pole.",
+    "symbol": "LINE_OXOX",
+    "color": "white",
+    "looks_like": "t_showjump",
+    "move_cost": 0,
+    "examine_action": "chainfence",
+    "flags": [
+      "TRANSPARENT",
+      "NOITEM",
+      "THIN_OBSTACLE",
+      "PERMEABLE",
+      "FLAMMABLE_ASH",
+      "CLIMBABLE",
+      "AUTO_WALL_SYMBOL",
+      "BURROWABLE"
+    ],
+    "deconstruct": { "ter_set": "t_dirt", "items": [ { "item": "2x4", "count": 4 }, { "item": "nail", "charges": 10 } ] },
+    "bash": {
+      "str_min": 5,
+      "str_max": 12,
+      "sound": "whump!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "2x4", "count": [ 2, 4 ] } ]
+    }
   }
 ]

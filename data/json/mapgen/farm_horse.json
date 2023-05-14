@@ -2,63 +2,38 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ [ "horse_farm_house_1" ], [ "horse_farm_house_2" ] ],
+    "om_terrain": [ [ "farm_horse_house_1", "farm_horse_house_2" ] ],
     "weight": 250,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "%%%%%%%..........%%%%%%%",
-        "%......................%",
-        "%.........,,..ppp....99%",
-        "%..pppppp..,.|vvv|..9..%",
-        "%.|||vvv|||+||y1g|-..9.%",
-        "%p-8 yy8-1g a    8-....%",
-        "%pv     -n    Y  n-...9%",
-        "%,- hhh -     Y  n-..9.%",
-        "%,+ nnn i     Y  n-p...%",
-        "%.- nnn -     Y  n-....%",
-        "%.- hhh -     Y  n-p...%",
-        "%.-     -888     8-..9.%",
-        "%p|     ||||- -|||-....%",
-        "%pvc    -rrr- -Y 8-....%",
-        "%pvS    +  r- -Y  --..9%",
-        "%pvc    -rrr- -y  kv...%",
-        "%p|c cc ||||- +  hkv...%",
-        "%.-f    -y D- -   kv.0.%",
-        "%.-c    -   + -8  --...%",
-        "%.-coccD-t S-<-818-...9%",
-        "%.|||vv|||||||||v||.9..%",
-        "%................4...9.%",
-        "%......................%",
-        "%%%%%%%%%%%%%%%%%%%%...%",
-        "%......................%",
-        "%......................%",
-        "%......................%",
-        "%......................%",
-        "%......................%",
-        "%...........$$OOO$$....%",
-        "%...........$Q;Q;Q$....%",
-        "%...........OQ;Q;QO....%",
-        "%...........OQ;Q;QO....%",
-        "%...........$Q;Q;Q$....%",
-        "%...........*;;;;;*....%",
-        "%...........$Q;Q;Q$....%",
-        "%...........OQ;Q;QO....%",
-        "%...........OQ;Q;QO....%",
-        "%...........$Q;Q;Q$....%",
-        "%...........$$OOO$$....%",
-        "%......................%",
-        "%......................%",
-        "%......................%",
-        "%......................%",
-        "%......................%",
-        "%......................%",
-        "%......................%",
-        "%%%%%%%%%%%%%%%%%%%%%%%%"
+        ",,,,,,,,///..///,,,,,,,,......p.p...-vvv-.......",
+        ",,,,,,,,///..///,,,,,,,,..-----------kkk--|.....",
+        ",,,,,,,///..///_________.||8nnnnn8|8  h  8|4....",
+        ",,,,,,,///..///,,,,,,,,,pvg       |      1v.....",
+        ",,,,,,,///..///,,,,,,,,,pv1       |YYy  88|.....",
+        ",,,,,,///../////,,,,,,,,pvy YYYYY ----+---|.....",
+        ",,,,,,///..//////,,,,,,,.||              <|.....",
+        ",,,,,/////.///////,,,,,,..|a      ------+-|.....",
+        ",,,,,//////////////,,,,,,,+      8|rrr|D S|.....",
+        ",,,,,////////../////,,,,,.|g     8|r r|   |.....",
+        "_____///./////../////,,,..|1n    8|r r|y t|.....",
+        ",,,,///..//////..////,,,.p|---i---|-+-|---|.....",
+        ",,,,///..///.///..///,,,.pv8             D|.....",
+        ",,,,///..///..///..///,,.pvy hnnh     c  cv.....",
+        ",,,,///..///..///..///,,.pvy hnnh     c  cv.....",
+        ",,,,///..///..///..///,,.p|  hnnh        o|.....",
+        ",,,,///..////////..///,,.p|8       cSccfcc|.....",
+        ",,,,////..//////...///,,..|-v-+---|vvv|---|.....",
+        "_,,,/////..///....///,,,...pp,,...ppppp.........",
+        "__,,//////...../////,,,_........................",
+        "_____/////////////______........................",
+        "______///////////_______........................",
+        "_______////////_________........................",
+        "________________________........................"
       ],
       "palettes": [ "farm_horse" ],
       "terrain": { "p": "t_grass", "0": "t_grass", "6": "t_grass", "Ы": "t_dirtfloor" },
-      "sealed_item": { "Q": { "item": { "item": "seed_rose" }, "furniture": "f_planter_mature" } },
       "items": {
         "k": { "item": "office", "chance": 30 },
         "f": { "item": "fridge", "chance": 30 },
@@ -69,14 +44,97 @@
         "D": { "item": "trash", "chance": 20, "repeat": [ 2, 4 ] },
         "7": { "item": "horse_gear", "chance": 20 },
         "^": { "item": "horse_gear", "chance": 30 }
-      },
-      "item": { "Ы": { "item": "salt_lick", "chance": 80, "repeat": [ 1, 4 ] } }
+      }
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ [ "horse_farm_stable_1" ], [ "horse_farm_stable_2" ] ],
+    "om_terrain": [ "farm_horse_greenhouse" ],
+    "weight": 250,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "..........____..........",
+        "...........____.........",
+        "............____........",
+        ".............____.......",
+        "..............____......",
+        "...............___......",
+        "................__......",
+        "................__......",
+        "................__......",
+        "................__......",
+        "................__......",
+        "................__......",
+        "................__......",
+        "................__......",
+        "................__......",
+        "................__......",
+        "............$$OO$*$OO$$.",
+        "............$QQQQ;QQQQ$.",
+        "............O;;;;;;;;;O.",
+        "............OQQQQ;QQQQO.",
+        "............O;;;;;;;;;O.",
+        "............$QQQQ;QQQQ$.",
+        "............$$OO$*$OO$$.",
+        "........................"
+      ],
+      "palettes": [ "farm_horse" ],
+      "sealed_item": { "Q": { "item": { "item": "seed_rose" }, "furniture": "f_planter_mature" } },
+      "item": { "Ы": { "item": "salt_lick", "chance": 80, "repeat": [ 1, 4 ] } },
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 50 ],
+            [ "shed_5x5_garden_E", 50 ]
+          ],
+          "x": 11,
+          "y": [ 6, 9 ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "farm_horse_greenhouse_roof" ],
+    "weight": 250,
+    "object": {
+      "fill_ter": "t_glass_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "            ooooooooooo ",
+        "            ooooooooooo ",
+        "            ooooooooooo ",
+        "            ooooooooooo ",
+        "            ooooooooooo ",
+        "            ooooooooooo ",
+        "            ooooooooooo ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ [ "farm_horse_stable_1" ], [ "farm_horse_stable_2" ] ],
     "weight": 250,
     "object": {
       "fill_ter": "t_floor",
@@ -617,7 +675,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ [ "horse_farm_ring_1", "horse_farm_ring_2" ], [ "horse_farm_ring_3", "horse_farm_ring_4" ] ],
+    "om_terrain": [ [ "farm_horse_ring_1", "farm_horse_ring_2" ], [ "farm_horse_ring_3", "farm_horse_ring_4" ] ],
     "weight": 250,
     "object": {
       "fill_ter": "t_floor",
@@ -677,7 +735,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ [ "horse_farm_track_1", "horse_farm_track_2" ], [ "horse_farm_track_3", "horse_farm_track_4" ] ],
+    "om_terrain": [ [ "farm_horse_track_1", "farm_horse_track_2" ], [ "farm_horse_track_3", "farm_horse_track_4" ] ],
     "weight": 250,
     "object": {
       "fill_ter": "t_floor",
@@ -737,7 +795,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ [ "horse_farm_track_large_1", "horse_farm_track_large_2" ], [ "horse_farm_track_large_3", "horse_farm_track_large_4" ] ],
+    "om_terrain": [ [ "farm_horse_track_large_1", "farm_horse_track_large_2" ], [ "farm_horse_track_large_3", "farm_horse_track_large_4" ] ],
     "weight": 250,
     "object": {
       "fill_ter": "t_floor",
@@ -797,7 +855,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": "horse_farm_silo",
+    "om_terrain": "farm_horse_silo",
     "weight": 250,
     "object": {
       "fill_ter": "t_floor",
@@ -834,7 +892,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": "horse_farm_silo_1",
+    "om_terrain": "farm_horse_silo_1",
     "weight": 250,
     "object": {
       "fill_ter": "t_open_air",
@@ -871,7 +929,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": "horse_farm_silo_roof",
+    "om_terrain": "farm_horse_silo_roof",
     "weight": 250,
     "object": {
       "fill_ter": "t_open_air",
