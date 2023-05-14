@@ -158,7 +158,7 @@
         "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
       }
     ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 5, "cut": 1 }
   },
   {
     "id": "xl_knuckle_steel",
