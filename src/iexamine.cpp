@@ -3839,8 +3839,10 @@ void iexamine::tree_maple( Character &you, const tripoint &examp )
         return;
     }
 
-    item_location spile_loc = g->inv_map_splice( []( const item & it ) {
-        return it.get_quality_nonrecursive( qual_TREE_TAP ) > 0;
+    map &here = get_map();
+    item_location spile_loc = g->inv_map_splice( [&here]( const item_location & it ) {
+        return it->get_quality_nonrecursive( qual_TREE_TAP ) > 0 &&
+               t_tree_maple_tapped != here.ter( it.position() );
     }, _( "Use which tapping tool?" ), PICKUP_RANGE, _( "You don't have a tapping tool at hand." ) );
 
     item *spile = spile_loc.get_item();
@@ -3850,7 +3852,6 @@ void iexamine::tree_maple( Character &you, const tripoint &examp )
     std::string spile_name = spile->tname();
 
     you.mod_moves( -to_moves<int>( 20_seconds ) );
-    map &here = get_map();
     here.ter_set( examp, t_tree_maple_tapped );
     here.add_item_or_charges( examp, *spile, false );
     spile_loc.remove_item();
