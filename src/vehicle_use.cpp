@@ -1775,9 +1775,8 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
             get_player_character().assign_activity( hotwire_act );
         } );
 
-        if( !is_alarm_on ) {
+        if( !is_alarm_on && has_security_working() ) {
             menu.add( _( "Trigger the alarm" ) )
-            .enable( has_security_working() )
             .desc( _( "Trigger the alarm to make noise." ) )
             .skip_locked_check()
             .hotkey( "TOGGLE_ALARM" )
@@ -1785,14 +1784,14 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
                 is_alarm_on = true;
                 add_msg( _( "You trigger the alarm" ) );
             } );
-        } else { // alarm is on
-            if( velocity == 0 && !remote ) {
-                menu.add( _( "Try to disarm alarm" ) )
-                .skip_locked_check()
-                .hotkey( "TOGGLE_ALARM" )
-                .on_submit( [this] { smash_security_system(); } );
-            }
         }
+    }
+
+    if( is_alarm_on && controls_here && !is_moving() ) {
+        menu.add( _( "Try to smash alarm" ) )
+        .skip_locked_check()
+        .hotkey( "TOGGLE_ALARM" )
+        .on_submit( [this] { smash_security_system(); } );
     }
 
     if( remote ) {
