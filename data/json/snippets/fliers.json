@@ -9,7 +9,7 @@
       },
       {
         "id": "flier_2",
-        "text": "This is an advertisement for compact bionic modules.  \"Nerve pain?  Depression?  Tardiness?  There's not a problem a compact bionic module can't solve.  Talk to your doctor to find out of CBMs are right for you!\""
+        "text": "This is an advertisement for an personal injury lawyer.  \"Had an accident while working?  Botched surgery gone wrong?  Relatives missing after the government investigated them?  There's only one solution to all of this; SUE!\""
       },
       {
         "id": "flier_3",
@@ -209,7 +209,7 @@
       },
       {
         "id": "flier_52",
-        "text": "This is a poster advertising a underground bunker.  The poster shows a nuclear bomb wiping out a city while a family huddles safely underground.  There a slogan \"Concerned about enemy attack?  Want to protect your family?  Join the VAULT program today.\" which is written in the middle.  However, there seems to be no information about *how* one might do so."
+        "text": "This is high quality flier, mass produced with photocopying.  \"IF YOU ARE STUCK IN THE CITY, DO NOT LEAVE UNTIL NIGHTFALL, *THEY* WILL SEE YOU!\" The flier further discusses how to barricade your apartment, and to duct tape sheets to your windows."
       },
       {
         "id": "flier_53",
@@ -217,7 +217,7 @@
       },
       {
         "id": "flier_54",
-        "text": "This is an old flier for a movie from the 30s.  A tan man with slick black hair and muscles bulging through his off-white suit is clasping a woman to his hip with one hand, and the woman is wearing a black leather dress.  With her hips splayed, she is holding a pistol in one hand and starring directly out of the advert.  The caption reads \"Witness the rebirth of New Noir with 'Jersey Shore Blues'.  Starring Jenifer Languiz as 'Snookie'!\""
+        "text": "This is a flier for some kind of reality TV show that takes place in New Jersey.  The flier claims that the finale will 'blow your minds', and was to air the day the evacuation order was given."
       },
       {
         "id": "flier_55",
@@ -229,7 +229,7 @@
       },
       {
         "id": "flier_57",
-        "text": "This is a leaflet about autoclaving procedure.  One sentence catches your attention \"/!\\Always place your tools into an autoclave pouch before autoclaving./!\\\""
+        "text": "This is a public alert from the Center of Disease Control.  Its message, repeated in several languages reads: \"ADVISORY.  Do not attempt to bring infected loved ones or friends to any hospitals, they are being currently overwhelmed due to the volume of incoming patients.  Restrain those believed to be infected, and wait for further information at www.cdc.gov.\""
       },
       {
         "id": "flier_58",
@@ -317,7 +317,7 @@
       {
         "id": "flier_78",
         "text": {
-          "str": "This ancient missing persons poster is faded and torn.  It features a photo of a stern looking woman in her early fifties.  It reads \"Missing Adult - Prof. Amy Takatoshi - Last Seen Thursday, July 12 - Please contact the Boston Police Missing Persons Unit.\"",
+          "str": "This scrap of paper appears to be an advertisement for a Music Venue dated a few days before the evacuation order. It's printed on bright neon green paper, with pictures of people dancing manically. It's main headliner features a locally famous DJ.",
           "//NOLINT(cata-text-style)": "intentional format"
         }
       },
@@ -339,6 +339,13 @@
       {
         "id": "flier_82",
         "text": "Foodplace is advertising the \"Big Deal™\" on this flyer.  Plainly worded sentences on the distinct blue-and-magenta colored background try to convince the reader to buy their \"Delicious Food™\" in bulk to save money.  There is a picture showing a sample order at the bottom."
+      },
+      {
+        "id": "flier_83",
+        "text": {
+          "str": "This flier has been hastily photocopied on cheap cartridge paper. It appears to be advertising an event 7 days after the evacuation order was sent out. 'Great Antler Bar & Grill is closing down forever. Come and celebrate the memmeries. fFood will be free. come quick fresh and tender.' There are several grainy photos of an empty restaurant with the windows boarded up, rotting food haphazardly served on the tables at different stages of decomposition. The bottom of the flier is a blurry photo of a woman, her eyes bloodshot and mouth disturbingly wide. You can't quite determine whether she is laughing or crying.",
+          "//NOLINT(cata-text-style)": "intentional format"
+        }
       }
     ]
   }

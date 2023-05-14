@@ -983,7 +983,6 @@
     "name": { "str": "High Adrenaline" },
     "points": 1,
     "description": "If you are in a very dangerous situation, you may experience a temporary rush which increases your speed and strength significantly.",
-    "starting_trait": true,
     "changes_to": [ "ADRENALINE2" ],
     "category": [ "BEAST", "CHIMERA" ],
     "threshreq": [ "THRESH_BEAST", "THRESH_CHIMERA" ]

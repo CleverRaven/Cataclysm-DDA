@@ -88,6 +88,24 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_options_tests",
+    "effect": [
+      {
+        "set_string_var": { "mutator": "game_option", "option": "DANGEROUS_TERRAIN_WARNING_PROMPT" },
+        "target_var": { "global_val": "key1" }
+      },
+      { "math": [ "key2", "=", "game_option('NPC_SPAWNTIME')" ] },
+      { "run_eocs": "EOC_options_test_nested" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_options_test_nested",
+    "condition": { "get_game_option": "AUTOSAVE" },
+    "effect": [ { "math": [ "key3", "=", "1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_mutator_test",
     "effect": [
       { "set_string_var": "mon_zombie", "target_var": { "context_val": "temp" } },
