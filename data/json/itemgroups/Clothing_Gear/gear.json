@@ -105,7 +105,6 @@
       { "item": "rx11_stimpack", "prob": 1, "charges-min": 0 },
       [ "flaregun", 5 ],
       [ "signal_flare", 5 ],
-      { "item": "flamethrower", "prob": 1, "charges-min": 0, "charges-max": 500 },
       { "item": "handflare", "prob": 20, "charges": 300 },
       { "item": "heavy_flashlight", "prob": 30, "charges": [ 0, 300 ] },
       { "item": "glowstick", "prob": 10, "charges": 1400 },
