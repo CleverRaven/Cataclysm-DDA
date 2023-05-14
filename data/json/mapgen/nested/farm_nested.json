@@ -347,17 +347,8 @@
         "|||||"
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": {
-        "|": "t_wall_wood",
-        "+": "t_door_locked",
-        " ": "t_thconc_floor",
-        "A": "t_thconc_floor",
-        "B": "t_thconc_floor"
-      },
-      "furniture": {
-        "A": "f_table",
-        "B": "f_rack_wood"
-      },
+      "terrain": { "|": "t_wall_wood", "+": "t_door_locked", " ": "t_thconc_floor", "A": "t_thconc_floor", "B": "t_thconc_floor" },
+      "furniture": { "A": "f_table", "B": "f_rack_wood" },
       "place_items": [
         { "item": "garden_shed", "x": [ 1, 2 ], "y": 1, "chance": 50, "repeat": [ 1, 3 ] },
         { "item": "farming_seeds", "x": [ 2, 3 ], "y": 3, "chance": 70, "repeat": [ 1, 4 ] },
@@ -381,9 +372,7 @@
       ],
       "palettes": [ "paddock" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": {
-        "?": [ [ "t_region_grass", 6 ], [ "t_grass_dead", 6 ], [ "t_region_soil", 3 ] ]
-      }
+      "terrain": { "?": [ [ "t_region_grass", 6 ], [ "t_grass_dead", 6 ], [ "t_region_soil", 3 ] ] }
     }
   },
   {
@@ -402,9 +391,7 @@
       ],
       "palettes": [ "paddock" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": {
-        "?": [ [ "t_region_grass", 6 ], [ "t_grass_dead", 6 ], [ "t_region_soil", 3 ] ]
-      }
+      "terrain": { "?": [ [ "t_region_grass", 6 ], [ "t_grass_dead", 6 ], [ "t_region_soil", 3 ] ] }
     }
   },
   {
@@ -423,9 +410,7 @@
       ],
       "palettes": [ "paddock" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": {
-        "?": [ [ "t_region_grass", 6 ], [ "t_grass_dead", 6 ], [ "t_region_soil", 3 ] ]
-      }
+      "terrain": { "?": [ [ "t_region_grass", 6 ], [ "t_grass_dead", 6 ], [ "t_region_soil", 3 ] ] }
     }
   },
   {
@@ -461,19 +446,8 @@
       ],
       "palettes": [ "paddock" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": {
-        "r": "t_metal_railing"
-      },
-      "place_nested": [
-        {
-          "chunks": [
-            [ "null", 50 ],
-            [ "2x2_haybale", 50 ]
-          ],
-          "x": 1,
-          "y": 1
-        }
-      ]
+      "terrain": { "r": "t_metal_railing" },
+      "place_nested": [ { "chunks": [ [ "null", 50 ], [ "2x2_haybale", 50 ] ], "x": 1, "y": 1 } ]
     }
   },
   {
@@ -511,18 +485,7 @@
       ],
       "palettes": [ "paddock" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "place_nested": [
-        {
-          "chunks": [ "paddock_gate_5x5_e" ],
-          "x": 7,
-          "y": 2
-        },
-        {
-          "chunks": [ "paddock_gate_5x5_w" ],
-          "x": 11,
-          "y": 2
-        }
-      ]
+      "place_nested": [ { "chunks": [ "paddock_gate_5x5_e" ], "x": 7, "y": 2 }, { "chunks": [ "paddock_gate_5x5_w" ], "x": 11, "y": 2 } ]
     }
   },
   {
@@ -560,18 +523,7 @@
       ],
       "palettes": [ "paddock" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "place_nested": [
-        {
-          "chunks": [ "paddock_gate_5x5_n" ],
-          "x": 2,
-          "y": 11
-        },
-        {
-          "chunks": [ "paddock_gate_5x5_s" ],
-          "x": 2,
-          "y": 7
-        }
-      ]
+      "place_nested": [ { "chunks": [ "paddock_gate_5x5_n" ], "x": 2, "y": 11 }, { "chunks": [ "paddock_gate_5x5_s" ], "x": 2, "y": 7 } ]
     }
   }
 ]

@@ -1206,7 +1206,7 @@
         "specifically_covers": [ "head_crown" ],
         "coverage": 100
       },
-	  {
+      {
         "material": [
           { "type": "cotton", "covered_by_mat": 100, "thickness": 0.5 },
           { "type": "epoxy", "covered_by_mat": 100, "thickness": 0.5 },

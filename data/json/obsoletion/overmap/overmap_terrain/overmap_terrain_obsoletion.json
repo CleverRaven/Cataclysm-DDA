@@ -2,7 +2,7 @@
   {
     "type": "overmap_terrain",
     "id": [
-	  "horse_farm_1",
+      "horse_farm_1",
       "horse_farm_11",
       "horse_farm_12",
       "horse_farm_14",
@@ -12,10 +12,10 @@
       "horse_farm_5",
       "horse_farm_6",
       "horse_farm_8"
-	  ],
-	"copy-from": "generic_rural_building",
+    ],
+    "copy-from": "generic_rural_building",
     "name": "farm field",
-	"flags": [ "SHOULD_NOT_SPAWN" ]
+    "flags": [ "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",
@@ -23,7 +23,7 @@
     "copy-from": "generic_rural_building",
     "name": "farm house roof",
     "sym": "^",
-	"flags": [ "SHOULD_NOT_SPAWN" ]
+    "flags": [ "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",
@@ -31,14 +31,14 @@
     "copy-from": "generic_rural_building",
     "name": "farm house",
     "sym": "^",
-	"flags": [ "SHOULD_NOT_SPAWN" ]
+    "flags": [ "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",
     "id": [ "horse_farm_2" ],
     "copy-from": "generic_rural_building",
     "name": "farm field",
-	"flags": [ "SHOULD_NOT_SPAWN" ]
+    "flags": [ "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",
@@ -46,7 +46,7 @@
     "copy-from": "generic_rural_building",
     "name": "carriage house",
     "sym": "o",
-	"flags": [ "SHOULD_NOT_SPAWN" ]
+    "flags": [ "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",

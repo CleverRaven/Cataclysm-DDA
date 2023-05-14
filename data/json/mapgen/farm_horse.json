@@ -83,16 +83,7 @@
       "palettes": [ "farm_horse" ],
       "sealed_item": { "Q": { "item": { "item": "seed_rose" }, "furniture": "f_planter_mature" } },
       "item": { "Ы": { "item": "salt_lick", "chance": 80, "repeat": [ 1, 4 ] } },
-      "place_nested": [
-        {
-          "chunks": [
-            [ "null", 50 ],
-            [ "shed_5x5_garden_E", 50 ]
-          ],
-          "x": 11,
-          "y": [ 6, 9 ]
-        }
-      ]
+      "place_nested": [ { "chunks": [ [ "null", 50 ], [ "shed_5x5_garden_E", 50 ] ], "x": 11, "y": [ 6, 9 ] } ]
     }
   },
   {
@@ -516,13 +507,7 @@
         "                                                ",
         "                                                "
       ],
-      "place_nested": [
-        {
-          "chunks": [ [ "pond_6x6", 15 ] ],
-          "x": [ 3, 10 ],
-          "y": [ 63, 65 ] 
-        }
-      ],
+      "place_nested": [ { "chunks": [ [ "pond_6x6", 15 ] ], "x": [ 3, 10 ], "y": [ 63, 65 ] } ],
       "palettes": [ "paddock" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
@@ -530,7 +515,11 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ [ "paddock_23", "paddock_24", "paddock_25" ], [ "paddock_26", "paddock_27", "paddock_28" ], [ "paddock_29", "paddock_30", "paddock_31" ] ],
+    "om_terrain": [
+      [ "paddock_23", "paddock_24", "paddock_25" ],
+      [ "paddock_26", "paddock_27", "paddock_28" ],
+      [ "paddock_29", "paddock_30", "paddock_31" ]
+    ],
     "weight": 250,
     "object": {
       "predecessor_mapgen": "forest_thick",
@@ -795,7 +784,10 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ [ "farm_horse_track_large_1", "farm_horse_track_large_2" ], [ "farm_horse_track_large_3", "farm_horse_track_large_4" ] ],
+    "om_terrain": [
+      [ "farm_horse_track_large_1", "farm_horse_track_large_2" ],
+      [ "farm_horse_track_large_3", "farm_horse_track_large_4" ]
+    ],
     "weight": 250,
     "object": {
       "fill_ter": "t_floor",
@@ -884,9 +876,9 @@
         "........................",
         "........................",
         "........................"
-        ],
-        "palettes": [ "ranch_camp" ],
-        "terrain": { "0": "t_metal_floor" }
+      ],
+      "palettes": [ "ranch_camp" ],
+      "terrain": { "0": "t_metal_floor" }
     }
   },
   {
@@ -995,9 +987,9 @@
         "%                       ",
         "%                       ",
         "%                       "
-        ],
-        "palettes": [ "paddock" ],
-        "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+      ],
+      "palettes": [ "paddock" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -1032,9 +1024,9 @@
         "                        ",
         "                        ",
         "                        "
-        ],
-        "palettes": [ "paddock" ],
-        "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+      ],
+      "palettes": [ "paddock" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -1069,9 +1061,9 @@
         "                       %",
         "                       %",
         "                       %"
-        ],
-        "palettes": [ "paddock" ],
-        "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+      ],
+      "palettes": [ "paddock" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -1106,9 +1098,9 @@
         "                       %",
         "                       %",
         "                       %"
-        ],
-        "palettes": [ "paddock" ],
-        "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+      ],
+      "palettes": [ "paddock" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -1143,9 +1135,9 @@
         "                       %",
         "                       %",
         "%%%%%%%%%%%%%%%%%%%%%%%%"
-        ],
-        "palettes": [ "paddock" ],
-        "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+      ],
+      "palettes": [ "paddock" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -1180,9 +1172,9 @@
         "                        ",
         "                        ",
         "%%%%%%%%%%%%%%%%%%%%%%%%"
-        ],
-        "palettes": [ "paddock" ],
-        "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+      ],
+      "palettes": [ "paddock" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -1217,9 +1209,9 @@
         "%                       ",
         "%                       ",
         "%%%%%%%%%%%%%%%%%%%%%%%%"
-        ],
-        "palettes": [ "paddock" ],
-        "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+      ],
+      "palettes": [ "paddock" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -1254,9 +1246,9 @@
         "%                       ",
         "%                       ",
         "%                       "
-        ],
-        "palettes": [ "paddock" ],
-        "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+      ],
+      "palettes": [ "paddock" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   }
 ]
