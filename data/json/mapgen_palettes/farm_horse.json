@@ -79,6 +79,7 @@
     "type": "palette",
     "id": "paddock",
     "terrain": {
+      " ": "t_null",
       ".": "t_region_groundcover",
       ",": [ [ "t_region_groundcover", 45 ], [ "t_region_shrub", 2 ] ],
       "_": [ [ "t_region_grass", 1 ], [ "t_grass_dead", 12 ], [ "t_region_soil", 2 ] ],
@@ -87,6 +88,9 @@
       "o": "t_splitrail_fencegate_o",
       "c": "t_splitrail_fencegate_c",
       "%": "t_splitrail_fence",
+      "j": "t_showjump",
+      "s": "t_region_shrub",
+      "w": "t_water_sh",
       "2": [
         [ "t_region_groundcover", 25 ],
         [ "t_region_shrub", 2 ],

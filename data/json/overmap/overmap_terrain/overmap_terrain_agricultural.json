@@ -766,11 +766,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [
-      "horse_farm_isherwood_13_2ndfloor",
-      "farm_dairy_twd_second_floor_3",
-      "farm_dairy_twd_second_floor_4"
-    ],
+    "id": [ "horse_farm_isherwood_13_2ndfloor", "farm_dairy_twd_second_floor_3", "farm_dairy_twd_second_floor_4" ],
     "copy-from": "generic_rural_building",
     "name": "farm house 2nd floor",
     "sym": "^"
