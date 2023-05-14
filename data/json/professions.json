@@ -176,6 +176,12 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "charged_penblack",
+    "entries": [ { "item": "pen", "ammo-item": "black_pen_ink", "charges": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "full_rebreather_mask",
     "entries": [ { "item": "rebreather", "ammo-item": "rebreather_filter", "charges": 60 } ]
   },
