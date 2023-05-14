@@ -451,13 +451,13 @@
     "method": "json",
     "nested_mapgen_id": "paddock_feeder_4x4",
     "object": {
-      "mapgensize": [ 5, 5 ],
+      "mapgensize": [ 4, 4 ],
       "rotation": [ 0, 3 ],
       "rows": [
         "?__?",
         "_rr_",
         "_rr_",
-        "?__?",
+        "?__?"
       ],
       "palettes": [ "paddock" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
@@ -475,13 +475,13 @@
         }
       ]
     }
-  }
+  },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "24x24_paddock_divider_v",
     "object": {
-      "mapgensize": [ 5, 5 ],
+      "mapgensize": [ 24, 24 ],
       "rotation": [ 0, 3 ],
       "rows": [
         "                        ",
@@ -513,28 +513,24 @@
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_nested": [
         {
-          "chunks": [
-            [ "paddock_gate_5x5_e" ]
-          ],
+          "chunks": [ "paddock_gate_5x5_e" ],
           "x": 7,
           "y": 2
         },
         {
-          "chunks": [
-            [ "paddock_gate_5x5_w" ]
-          ],
+          "chunks": [ "paddock_gate_5x5_w" ],
           "x": 11,
           "y": 2
         }
       ]
     }
-  }
+  },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "24x24_paddock_divider_h",
     "object": {
-      "mapgensize": [ 5, 5 ],
+      "mapgensize": [ 24, 24 ],
       "rotation": [ 0, 3 ],
       "rows": [
         "                        ",
@@ -566,16 +562,12 @@
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_nested": [
         {
-          "chunks": [
-            [ "paddock_gate_5x5_n" ]
-          ],
+          "chunks": [ "paddock_gate_5x5_n" ],
           "x": 2,
           "y": 11
         },
         {
-          "chunks": [
-            [ "paddock_gate_5x5_s" ]
-          ],
+          "chunks": [ "paddock_gate_5x5_s" ],
           "x": 2,
           "y": 7
         }
