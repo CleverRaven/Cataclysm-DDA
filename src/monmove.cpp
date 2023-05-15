@@ -894,20 +894,22 @@ void monster::move()
     if( friendly > 0 ) {
         --friendly;
     }
-
-    // don't move if a passenger in a moving vehicle
-    optional_vpart_position vp = here.veh_at( pos() );
-    bool harness_part = static_cast<bool>( here.veh_at( pos() ).part_with_feature( "ANIMAL_CTRL",
-                                           true ) );
-    if( vp && ( ( friendly != 0 && vp->vehicle().is_moving() &&
-                  vp->vehicle().get_monster( vp->part_index() ) ) ||
-                // Don't move if harnessed, even if vehicle is stationary
-                has_effect( effect_harnessed ) ) ) {
-        moves = 0;
-        return;
-        // If harnessed monster finds itself moved from the harness point, the harness probably broke!
-    } else if( !harness_part && has_effect( effect_harnessed ) ) {
-        remove_effect( effect_harnessed );
+    const optional_vpart_position ovp = here.veh_at( pos() );
+    if( has_effect( effect_harnessed ) ) {
+        if( !ovp.part_with_feature( "ANIMAL_CTRL", true ) ) {
+            remove_effect( effect_harnessed ); // the harness part probably broke
+        } else {
+            moves = 0;
+            return; // don't move if harnessed
+        }
+    }
+    const std::optional<vpart_reference> vp_boardable = ovp.part_with_feature( "BOARDABLE", true );
+    if( vp_boardable && friendly != 0 ) {
+        const vehicle &veh = vp_boardable->vehicle();
+        if( veh.is_moving() && veh.get_monster( vp_boardable->part_index() ) ) {
+            moves = 0;
+            return; // don't move if friendly and passenger in a moving vehicle
+        }
     }
     // Set attitude to attitude to our current target
     monster_attitude current_attitude = attitude( nullptr );

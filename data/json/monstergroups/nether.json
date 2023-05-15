@@ -93,5 +93,34 @@
     "type": "monstergroup",
     "name": "GROUP_TINDALOS",
     "monsters": [ { "monster": "mon_hound_tindalos" } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_NETHER_CORPSE",
+    "default": "mon_gracke",
+    "monsters": [
+      { "monster": "mon_gelatin", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_kreck", "weight": 150, "cost_multiplier": 0 },
+      { "monster": "mon_gracke", "weight": 150, "cost_multiplier": 0 },
+      { "monster": "mon_unseen_hunter", "weight": 75, "cost_multiplier": 0, "starts": "15 days" },
+      { "monster": "mon_blank", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_shoggoth", "weight": 30, "cost_multiplier": 0 },
+      { "monster": "mon_flying_polyp", "weight": 50, "cost_multiplier": 0 },
+      { "monster": "mon_yugg", "weight": 50, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_NETHER_CORPSE_PORTAL",
+    "default": "mon_gracke",
+    "monsters": [
+      { "monster": "mon_gelatin", "weight": 70, "cost_multiplier": 0 },
+      { "monster": "mon_kreck", "weight": 180, "cost_multiplier": 0 },
+      { "monster": "mon_gracke", "weight": 50, "cost_multiplier": 0 },
+      { "monster": "mon_unseen_hunter", "weight": 30, "cost_multiplier": 0, "starts": "15 days" },
+      { "monster": "mon_blank", "weight": 50, "cost_multiplier": 0 },
+      { "monster": "mon_shoggoth", "weight": 10, "cost_multiplier": 0 },
+      { "monster": "mon_yugg", "weight": 5, "cost_multiplier": 0 }
+    ]
   }
 ]

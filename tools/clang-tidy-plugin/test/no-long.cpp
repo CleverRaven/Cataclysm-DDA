@@ -1,4 +1,4 @@
-// RUN: %check_clang_tidy %s cata-no-long %t -- -plugins=%cata_plugin --
+// RUN: %check_clang_tidy %s cata-no-long %t -- --load=%cata_plugin --
 
 // check_clang_tidy uses -nostdinc++, so we add dummy declarations of used values here
 // They're probably not the correct values, but it doesn't matter.

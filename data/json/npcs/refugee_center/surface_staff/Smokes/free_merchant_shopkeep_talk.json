@@ -170,7 +170,7 @@
       {
         "text": "[SOCIAL 1+] If I could look into clearing them out of here, would you be able to pay me back?",
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_Beggars_Reward",
-        "condition": { "u_has_skill": { "skill": "speech", "level": 1 } },
+        "condition": { "math": [ "u_skill('speech')", ">=", "1" ] },
         "effect": { "npc_add_var": "beggars_reward_agreed", "type": "general", "context": "recruit", "value": "yes" }
       },
       { "text": "Why haven't they gone anywhere else?", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Beggars2" },

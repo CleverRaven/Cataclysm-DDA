@@ -27,7 +27,11 @@ There are people who use screen readers to play Cataclysm DDA. In order for scre
 readers to announce the most important information in a UI, the terminal cursor has
 to be placed at the correct location. This information may be text such as selected
 item names in a list, etc, and the cursor has to be placed exactly at the beginning
-of the text for screen readers to announce it.
+of the text for screen readers to announce it. (Note: from my test with an Ubuntu
+VM, if the cursor is placed after the end of the text, the cursor might be wrapped
+to the next line and cause the screen reader to announce the text incorrectly. It
+also seems to be easier for people to control the screen reader to read from the
+beginning of the text where the cursor is placed.)
 
 The recommended way to place the cursor is to use `ui_adaptor`. This ensures the
 desired cursor position is preserved when subsequent output code changes the
@@ -36,5 +40,9 @@ position in a redrawing callback, and the last cursor position of the topmost UI
 set via the call will be used as the final cursor position. You can also call
 `ui_adaptor::disable_cursor` to prevent a UI's cursor from being used as the final
 cursor position.
+
+For debugging purposes, you can set the `DEBUG_CURSES_CURSOR` compile flag to
+always show the cursor in the terminal (currently only works with the curses
+build).
 
 For more information and examples, please see the documentation in `ui_manager.h`.

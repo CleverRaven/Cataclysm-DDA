@@ -41,34 +41,34 @@
     },
     "deactivate_condition": { "not": { "is_weather": "early_portal_storm" } },
     "effect": {
-      "switch": { "global_val": "var", "var_name": "ps_base_str" },
+      "switch": { "distance": [ "u", { "global_val": "portal_storm_center" } ] },
       "cases": [
         {
           "case": 0,
           "effect": {
             "run_eocs": [
               {
-                "id": "EOC_PORTAL_STORM_WARN_CAN_SEE_OUTDOORS_1",
+                "id": "EOC_PORTAL_STORM_WARN_CAN_SEE_OUTDOORS_3",
                 "condition": "u_is_outside",
                 "effect": {
                   "run_eocs": {
-                    "id": "EOC_PORTAL_STORM_WARN_DAY_NIGHT_1",
+                    "id": "EOC_PORTAL_STORM_WARN_DAY_NIGHT_3",
                     "condition": "is_day",
-                    "effect": { "u_message": "PORTAL_STORM_DAY_MESSAGES_1", "snippet": true },
-                    "false_effect": { "u_message": "PORTAL_STORM_NIGHT_MESSAGES_1", "snippet": true }
+                    "effect": { "u_message": "PORTAL_STORM_DAY_MESSAGES_3", "snippet": true },
+                    "false_effect": { "u_message": "PORTAL_STORM_NIGHT_MESSAGES_3", "snippet": true }
                   }
                 }
               },
               {
-                "id": "EOC_PORTAL_STORM_WARN_CAN_SEE_INDOORS_1",
+                "id": "EOC_PORTAL_STORM_WARN_CAN_SEE_INDOORS_3",
                 "condition": { "not": "u_is_outside" },
-                "effect": { "u_message": "PORTAL_STORM_INDOOR_MESSAGES_1", "snippet": true }
+                "effect": { "u_message": "PORTAL_STORM_INDOOR_MESSAGES_3", "snippet": true }
               }
             ]
           }
         },
         {
-          "case": 3,
+          "case": { "global_val": "portal_storm_distance", "default": 50 },
           "effect": [
             {
               "run_eocs": [
@@ -94,25 +94,25 @@
           ]
         },
         {
-          "case": 6,
+          "case": { "global_val": "portal_storm_near_distance", "default": 100 },
           "effect": {
             "run_eocs": [
               {
-                "id": "EOC_PORTAL_STORM_WARN_CAN_SEE_OUTDOORS_3",
+                "id": "EOC_PORTAL_STORM_WARN_CAN_SEE_OUTDOORS_1",
                 "condition": "u_is_outside",
                 "effect": {
                   "run_eocs": {
-                    "id": "EOC_PORTAL_STORM_WARN_DAY_NIGHT_3",
+                    "id": "EOC_PORTAL_STORM_WARN_DAY_NIGHT_1",
                     "condition": "is_day",
-                    "effect": { "u_message": "PORTAL_STORM_DAY_MESSAGES_3", "snippet": true },
-                    "false_effect": { "u_message": "PORTAL_STORM_NIGHT_MESSAGES_3", "snippet": true }
+                    "effect": { "u_message": "PORTAL_STORM_DAY_MESSAGES_1", "snippet": true },
+                    "false_effect": { "u_message": "PORTAL_STORM_NIGHT_MESSAGES_1", "snippet": true }
                   }
                 }
               },
               {
-                "id": "EOC_PORTAL_STORM_WARN_CAN_SEE_INDOORS_3",
+                "id": "EOC_PORTAL_STORM_WARN_CAN_SEE_INDOORS_1",
                 "condition": { "not": "u_is_outside" },
-                "effect": { "u_message": "PORTAL_STORM_INDOOR_MESSAGES_3", "snippet": true }
+                "effect": { "u_message": "PORTAL_STORM_INDOOR_MESSAGES_1", "snippet": true }
               }
             ]
           }
@@ -136,14 +136,44 @@
       }
     },
     "effect": [
+      { "u_location_variable": { "global_val": "portal_storm_center" }, "min_radius": 30, "max_radius": 75 },
       { "arithmetic": [ { "global_val": "var", "var_name": "cause_early_portal_storm" }, "=", { "const": 1 } ] },
       "next_weather",
-      { "queue_eocs": "EOC_CAUSE_PORTAL_STORM", "time_in_future": [ "2 minutes", "20 minutes" ] },
+      { "queue_eocs": "EOC_CAUSE_PORTAL_STORM", "time_in_future": [ "30 seconds", "1 minutes" ] },
+      { "assign_mission": "MISSION_INVESTIGATE_PORTAL_STORM_CENTER" },
       {
-        "u_message": "You suddenly register a buzzing in your senses.  It's getting louder, and your head starts to throb.  Something is coming.",
+        "u_message": "You suddenly register a buzzing in your senses.  It's getting louder, and your head starts to throb.  Somewhere nearby a mini cataclysm has begun(check mission log for details).",
         "type": "bad",
         "popup": true
       }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_STORM_CHECK",
+    "//": "Normally weather is only checked every 5 minutes or so, since your distance to the storm center can change quickly we want to test much more often.",
+    "recurrence": [ "1 seconds", "5 seconds" ],
+    "global": true,
+    "condition": { "or": [ { "math": [ "cause_early_portal_storm", "==", "1" ] }, { "math": [ "cause_portal_storm", "==", "1" ] } ] },
+    "deactivate_condition": { "and": [ { "math": [ "cause_early_portal_storm", "!=", "1" ] }, { "math": [ "cause_portal_storm", "!=", "1" ] } ] },
+    "effect": "next_weather"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MOVE_PORTAL_STORM",
+    "recurrence": [ "45 seconds", "90 seconds" ],
+    "global": true,
+    "condition": { "or": [ { "math": [ "cause_early_portal_storm", "==", "1" ] }, { "math": [ "cause_portal_storm", "==", "1" ] } ] },
+    "deactivate_condition": { "and": [ { "math": [ "cause_early_portal_storm", "!=", "1" ] }, { "math": [ "cause_portal_storm", "!=", "1" ] } ] },
+    "effect": [
+      {
+        "location_variable_adjust": { "global_val": "portal_storm_center" },
+        "overmap_tile": true,
+        "x_adjust": [ -1, 1 ],
+        "y_adjust": [ -1, 1 ]
+      },
+      { "remove_active_mission": "MISSION_INVESTIGATE_PORTAL_STORM_CENTER" },
+      { "assign_mission": "MISSION_INVESTIGATE_PORTAL_STORM_CENTER" }
     ]
   },
   {
@@ -172,7 +202,6 @@
           { "const": 1 }
         ]
       },
-      { "run_eocs": "EOC_PORTAL_STORM_MAPGEN" },
       {
         "set_string_var": [
           "PORTAL_STORM_DUNGEON_ANGRY",
@@ -223,14 +252,22 @@
       { "u_add_var": "u_witnessed_portal_storm", "type": "global", "context": "portal_storms", "value": "yes" },
       { "run_eocs": [ "EOC_WORSEN_PORTAL_STORM", "EOC_PORTAL_STORM_DUNGEON_EXIT" ] },
       { "remove_active_mission": "MISSION_INVESTIGATE_PORTAL_DUNGEON" },
+      { "remove_active_mission": "MISSION_INVESTIGATE_PORTAL_STORM_CENTER" },
       { "alter_timed_events": "portal_dungeon_entrance" },
-      { "u_adjust_var": "portal_storm_counter", "type": "counter", "adjustment": 1 }
+      { "u_adjust_var": "portal_storm_counter", "type": "counter", "adjustment": 1 },
+      { "math": [ "talked_to_storm", "=", "0" ] }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_WORSEN_PORTAL_STORM",
-    "effect": { "weighted_list_eocs": [ [ "EOC_PORTAL_STRENGTHEN", { "const": 1 } ], [ "EOC_PORTAL_LENGTHEN", { "const": 1 } ] ] }
+    "effect": {
+      "weighted_list_eocs": [
+        [ "EOC_PORTAL_STRENGTHEN", { "const": 1 } ],
+        [ "EOC_PORTAL_LENGTHEN", { "const": 1 } ],
+        [ "EOC_PORTAL_EXPAND", { "const": 3 } ]
+      ]
+    }
   },
   {
     "type": "effect_on_condition",
@@ -253,13 +290,28 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_PORTAL_EXPAND",
+    "effect": [
+      { "arithmetic": [ { "global_val": "var", "var_name": "portal_storm_distant_distance" }, "++" ] },
+      { "arithmetic": [ { "global_val": "var", "var_name": "portal_storm_close_distance" }, "++" ] },
+      { "arithmetic": [ { "global_val": "var", "var_name": "portal_storm_distance" }, "++" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_PORTAL_EFFECTS_PASSIVE",
     "//": "Passive effects not directly dangerous to the player.",
-    "recurrence": [ "30 seconds", "75 seconds" ],
+    "recurrence": [ "20 seconds", "55 seconds" ],
     "global": true,
     "condition": {
       "and": [
-        { "is_weather": "portal_storm" },
+        {
+          "or": [
+            { "and": [ { "is_weather": "distant_portal_storm" }, { "x_in_y_chance": { "x": 5, "y": 10 } } ] },
+            { "and": [ { "is_weather": "near_portal_storm" }, { "x_in_y_chance": { "x": 8, "y": 10 } } ] },
+            { "is_weather": "portal_storm" }
+          ]
+        },
         { "compare_num": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, "=", { "const": 0 } ] }
       ]
     },
@@ -280,11 +332,17 @@
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_EFFECTS_ACTIVE",
     "//": "More dangerous portal effects, should cost IRE to do.",
-    "recurrence": [ "30 seconds", "70 seconds" ],
+    "recurrence": [ "20 seconds", "50 seconds" ],
     "global": true,
     "condition": {
       "and": [
-        { "is_weather": "portal_storm" },
+        {
+          "or": [
+            { "and": [ { "is_weather": "distant_portal_storm" }, { "x_in_y_chance": { "x": 5, "y": 10 } } ] },
+            { "and": [ { "is_weather": "near_portal_storm" }, { "x_in_y_chance": { "x": 7, "y": 10 } } ] },
+            { "is_weather": "portal_storm" }
+          ]
+        },
         { "compare_num": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, "=", { "const": 0 } ] },
         { "math": [ "u_ire", ">", "0" ] }
       ]
@@ -309,18 +367,47 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_EFFECTS_IRE",
-    "//": "Being outside generates IRE which can be spent on more dangerous entities.",
+    "//": "Being outside generates IRE which can be spent on more dangerous entities.  The closer to the storm center the more likely IRE is",
     "recurrence": [ "5 seconds", "20 seconds" ],
+    "global": true,
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "and": [ { "is_weather": "distant_portal_storm" }, { "x_in_y_chance": { "x": 3, "y": 10 } } ] },
+            { "and": [ { "is_weather": "near_portal_storm" }, { "x_in_y_chance": { "x": 7, "y": 10 } } ] },
+            { "is_weather": "portal_storm" }
+          ]
+        },
+        { "compare_num": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, "=", { "const": 0 } ] },
+        "u_is_outside",
+        { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } }
+      ]
+    },
+    "deactivate_condition": {
+      "not": {
+        "or": [ { "is_weather": "distant_portal_storm" }, { "is_weather": "near_portal_storm" }, { "is_weather": "portal_storm" } ]
+      }
+    },
+    "effect": [ { "math": [ "u_ire", "++" ] }, { "u_message": "PORTAL_STORM_WITNESSED", "snippet": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_EFFECTS_CENTER",
+    "recurrence": [ "45 seconds", "1 minutes" ],
     "global": true,
     "condition": {
       "and": [
         { "is_weather": "portal_storm" },
         { "compare_num": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, "=", { "const": 0 } ] },
-        "u_is_outside"
+        "u_is_outside",
+        { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } },
+        { "math": [ "talked_to_storm", "!=", "1" ] },
+        { "x_in_y_chance": { "x": 7, "y": 10 } }
       ]
     },
     "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
-    "effect": [ { "math": [ "u_ire", "++" ] }, { "u_message": "PORTAL_STORM_WITNESSED", "snippet": true } ]
+    "effect": [ { "open_dialogue": { "topic": "TALK_PORTAL_STORM" } }, { "math": [ "talked_to_storm", "=", "1" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -328,23 +415,23 @@
     "//": "This displays messages depending on the storms strength.",
     "condition": { "and": [ "u_can_see", { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } } ] },
     "effect": {
-      "switch": { "global_val": "var", "var_name": "ps_str" },
+      "switch": { "distance": [ "u", { "global_val": "portal_storm_center" } ] },
       "cases": [
         {
           "case": 0,
           "effect": {
             "run_eocs": {
-              "id": "EOC_PORTAL_STORM_MESSAGE_INDOOR_OUTDOOR_1",
+              "id": "EOC_PORTAL_STORM_MESSAGE_INDOOR_OUTDOOR_3",
               "condition": "u_is_outside",
-              "effect": { "u_message": "PORTAL_STORM_MESSAGES_1", "snippet": true },
+              "effect": { "u_message": "PORTAL_STORM_MESSAGES_3", "snippet": true },
               "false_effect": {
-                "weighted_list_eocs": [ [ "EOC_PORTAL_STORM_INDOOR_MESSAGES_1", { "const": 1 } ], [ "EOC_PORTAL_STORM_VOICES_1", { "const": 1 } ] ]
+                "weighted_list_eocs": [ [ "EOC_PORTAL_STORM_INDOOR_MESSAGES_3", { "const": 1 } ], [ "EOC_PORTAL_STORM_VOICES_3", { "const": 1 } ] ]
               }
             }
           }
         },
         {
-          "case": 2,
+          "case": { "global_val": "portal_storm_distance", "default": 50 },
           "effect": {
             "run_eocs": {
               "id": "EOC_PORTAL_STORM_MESSAGE_INDOOR_OUTDOOR_2",
@@ -357,14 +444,14 @@
           }
         },
         {
-          "case": 4,
+          "case": { "global_val": "portal_storm_near_distance", "default": 100 },
           "effect": {
             "run_eocs": {
-              "id": "EOC_PORTAL_STORM_MESSAGE_INDOOR_OUTDOOR_3",
+              "id": "EOC_PORTAL_STORM_MESSAGE_INDOOR_OUTDOOR_1",
               "condition": "u_is_outside",
-              "effect": { "u_message": "PORTAL_STORM_MESSAGES_3", "snippet": true },
+              "effect": { "u_message": "PORTAL_STORM_MESSAGES_1", "snippet": true },
               "false_effect": {
-                "weighted_list_eocs": [ [ "EOC_PORTAL_STORM_INDOOR_MESSAGES_3", { "const": 1 } ], [ "EOC_PORTAL_STORM_VOICES_3", { "const": 1 } ] ]
+                "weighted_list_eocs": [ [ "EOC_PORTAL_STORM_INDOOR_MESSAGES_1", { "const": 1 } ], [ "EOC_PORTAL_STORM_VOICES_1", { "const": 1 } ] ]
               }
             }
           }

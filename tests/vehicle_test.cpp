@@ -156,6 +156,21 @@ static void complete_activity( Character &u, const activity_actor &act )
     }
 }
 
+static void spawn_tools_nearby( map &m, Character &u, const vehicle_preset &veh_preset )
+{
+    map_stack spot = m.i_at( u.pos_bub() + tripoint_north );
+    for( const itype_id &tool_itype_id : veh_preset.tool_itype_ids ) {
+        spot.insert( item( tool_itype_id ) );
+    }
+    u.invalidate_crafting_inventory();
+}
+
+static void clear_spawned_tools( map &m, Character &u )
+{
+    m.i_at( u.pos_bub() + tripoint_north ).clear();
+    u.invalidate_crafting_inventory();
+}
+
 static void unfold_and_check( const vehicle_preset &veh_preset, const damage_preset &damage_preset )
 {
     map &m = get_map();
@@ -197,12 +212,9 @@ static void unfold_and_check( const vehicle_preset &veh_preset, const damage_pre
 
     INFO( "unfolding vehicle item sourced from item factory" );
 
-    // spawn unfolding tools
-    for( const itype_id &tool_itype_id : veh_preset.tool_itype_ids ) {
-        u.inv->add_item( item( tool_itype_id ) );
-    }
-
+    spawn_tools_nearby( m, u, veh_preset );
     complete_activity( u, vehicle_unfolding_activity_actor( veh_item ) );
+    clear_spawned_tools( m, u );
 
     // should succeed now avatar has hand_pump
     optional_vpart_position ovp = m.veh_at( u.get_location() );
@@ -219,7 +231,9 @@ static void unfold_and_check( const vehicle_preset &veh_preset, const damage_pre
     }
 
     // fold into an item
+    spawn_tools_nearby( m, u, veh_preset );
     complete_activity( u, vehicle_folding_activity_actor( veh ) );
+    clear_spawned_tools( m, u );
 
     // should have no value as vehicle is now folded into item
     REQUIRE( !m.veh_at( u.get_location() ).has_value() );
@@ -236,7 +250,9 @@ static void unfold_and_check( const vehicle_preset &veh_preset, const damage_pre
     CHECK( factory_item_weight == player_folded_veh.weight() );
 
     // unfold the player folded one
+    spawn_tools_nearby( m, u, veh_preset );
     complete_activity( u, vehicle_unfolding_activity_actor( player_folded_veh ) );
+    clear_spawned_tools( m, u );
 
     optional_vpart_position ovp_unfolded = m.veh_at( u.get_location() );
     REQUIRE( ovp_unfolded.has_value() );

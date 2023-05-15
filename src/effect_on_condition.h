@@ -48,8 +48,8 @@ struct effect_on_condition {
         effect_on_condition_id id;
         std::vector<std::pair<effect_on_condition_id, mod_id>> src;
         eoc_type type;
-        std::function<bool( const dialogue & )> condition;
-        std::function<bool( const dialogue & )> deactivate_condition;
+        std::function<bool( dialogue & )> condition;
+        std::function<bool( dialogue & )> deactivate_condition;
         talk_effect_t true_effect;
         talk_effect_t false_effect;
         bool has_deactivate_condition = false;
@@ -86,7 +86,7 @@ void load_existing_character( Character &you );
 effect_on_condition_id load_inline_eoc( const JsonValue &jv, const std::string &src );
 /** queue an eoc to happen in the future */
 void queue_effect_on_condition( time_duration duration, effect_on_condition_id eoc,
-                                Character &you );
+                                Character &you, const std::unordered_map<std::string, std::string> &context );
 /** called every turn to process the queued eocs */
 void process_effect_on_conditions( Character &you );
 /** called after certain events to test whether to reactivate eocs */

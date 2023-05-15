@@ -55,6 +55,13 @@ double exponential_roll( double lambda )
                                  std::exponential_distribution<>::param_type( lambda ) );
 }
 
+double chi_squared_roll( double trial_num )
+{
+    static std::chi_squared_distribution<double> rng_chi_squared_dist;
+    return rng_chi_squared_dist( rng_get_engine(),
+                                 std::chi_squared_distribution<>::param_type( trial_num ) );
+}
+
 double rng_exponential( double min, double mean )
 {
     const double adjusted_mean = mean - min;

@@ -20,7 +20,6 @@
     "durability": 8,
     "clip_size": 6,
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "brass catcher", 1 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],
@@ -58,7 +57,6 @@
     "durability": 8,
     "clip_size": 5,
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "barrel", 1 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],
@@ -95,7 +93,6 @@
     "clip_size": 1,
     "built_in_mods": [ "match_trigger" ],
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "barrel", 1 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],

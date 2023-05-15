@@ -1869,7 +1869,7 @@
     "//": "For s_electronics shops",
     "items": [
       [ "usb_drive", 65 ],
-      [ "mobile_memory_card", 95 ],
+      [ "memory_card", 95 ],
       [ "software_math", 15 ],
       [ "software_useless", 25 ],
       [ "software_medical", 5 ],
@@ -2110,6 +2110,7 @@
       [ "knitting_needles", 15 ],
       [ "sheet_kevlar_layered", 10 ],
       [ "leather", 10 ],
+      [ "sheet_leather", 10 ],
       [ "cotton_patchwork", 20 ],
       [ "needle_curved", 10 ],
       [ "nomex", 10 ],

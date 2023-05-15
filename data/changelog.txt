@@ -11,6 +11,9 @@ Added sorting, showing&hiding pocket contents, and scrolling via mouse in invent
 New game event that triggers on load or new game start
 Add option to hide bionics
 Allow JSON monster special attacks to use the dialog condition system
+Confirmation before attacking neutral mobs
+Unhardcode and rework grabs, ranged pulls
+EOCs can have context vars that can be passed into nested EOCs
 
 
 ## Content:
@@ -23,7 +26,11 @@ Updates to several existing maps
 Add the first Exodii mission
 Combat Capable Mounts
 Add new Exodii NPC: Luliya
-Add new weather: mist and fog. maybe.
+Add new weather types: mist and fog
+Allow players to keep bees
+Apartment complex: parking garage, lobby variants, roof additions
+Crustacean mutation tree
+Dead trees can be harvested for wood(once per tree)
 
 
 ## Interface:
@@ -34,6 +41,8 @@ Added Presets for pocket settings
 Prettier loading UI for loading the save
 Add min/max feedback to new character stats interface
 Mouse thumb button support
+Show NPC location when selecting NPC to chat with, guard, or follow
+Display why vehicle parts cannot be installed
 
 
 ## Mods:
@@ -54,6 +63,10 @@ Mouse thumb button support
 [Xedra Evolved] Museum Location for Xedra Evolved
 [Magiclysm] Adds several new professions to the Magiclysm mod
 [Bombastic Perks] Added resurrecting meat monstrosities to bombastic perks
+[Bombastic Perks] Forcefield and Evasion enchants
+[Aftershock] Elemental bionic weapons.
+[Bombastic Perks] Adds the recycler perk
+[Xedra Evolved] Revamped the inventor class
 
 
 ## Balance:
@@ -67,6 +80,7 @@ Remove flaming eye phantom melee attack that can disrupt aim
 Converts most of the armor and clothing still using the old limb system to the new system with sub-limbs
 partial skill levels contribute to most game tests
 Portal Storm Coherency Pass
+Stop zomborgs from exploding on death
 
 
 ## Bugfixes:
@@ -98,6 +112,10 @@ Ferals can use their guns in GG
 Prevent fire damaging unbreakable items
 Fix energy guns(AFS) on NPC
 Faction camps now distribute calories based on actual calories and not default calories
+Fix calculation for inserting into nested containers
+Make copy-from copy terrain/furniture examine actions
+Prevent mission marker from being cutoff in the overmap
+Exodii will now properly be mad at you if you steal all their resources from stone barns
 
 
 ## Performance:
@@ -112,6 +130,8 @@ Refactor some crafting infrastructure to support removal of charges
 Unify gun battery/ups/bionic energy consumption
 Modernize string_formatter
 Migrate some JSON APIs to string_view
+Add units::temperature_delta
+Upgrade clang-tidy used in CI to LLVM 16
 
 
 ## Build:
