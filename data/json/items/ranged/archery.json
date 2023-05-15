@@ -310,7 +310,7 @@
     "color": "light_green",
     "looks_like": "arrow_fire_hardened_fletched",
     "description": "A fletched lance carved from inscrutable green stone.  Impractically heavy, its difficult to imagine who or what could have fired it from a bow.",
-    "material": [ "monolith" ],
+    "material": [ "monolith_heavy" ],
     "volume": "1000 ml",
     "price_postapoc": 1000,
     "weight": "27 kg",

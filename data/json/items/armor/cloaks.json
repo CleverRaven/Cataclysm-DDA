@@ -517,7 +517,7 @@
     "copy-from": "cape_fp",
     "name": { "str": "heraldic cape" },
     "looks_like": "holo_cloak",
-    "description": "Sable and argent fields retreat diagonally from a full-moon sigil.  It's metallic fibers reveal holographic motifs in accordance with ambient light.",
+    "description": "Sable and argent fields retreat diagonally from a full-moon sigil.  Its metallic fibers reveal holographic motifs in accordance with ambient light.",
     "weight": "5900 g",
     "price_postapoc": "750 USD",
     "sided": true,
