@@ -37,6 +37,18 @@
   },
   {
     "type": "mutation",
+    "id": "HUMAN_BLOOD",
+    "name": { "str": "Human Blood" },
+    "points": 0,
+    "player_display": false,
+    "dummy": true,
+    "category": [ "HUMAN" ],
+    "types": [ "BLOOD" ],
+    "cancels": [ "ACIDBLOOD" ],
+    "description": "You have human blood."
+  },
+  {
+    "type": "mutation",
     "id": "HUMAN_EARS",
     "name": { "str": "Human Ears" },
     "points": 0,
@@ -7468,6 +7480,7 @@
     "name": { "str": "Gastropod" },
     "points": 1,
     "description": "You feel bad for all the creatures that don't carry their home on their backs.",
+    "flags": [ "INVERTEBRATEBLOOD" ],
     "valid": false,
     "purifiable": false,
     "threshold": true
@@ -7549,6 +7562,7 @@
     "name": { "str": "Insect" },
     "points": 1,
     "description": "It would be good to be a queen, having workers constantly servicing your every need… but how would you keep them in line?",
+    "flags": [ "INSECTBLOOD" ],
     "valid": false,
     "purifiable": false,
     "threshold": true
@@ -7559,6 +7573,7 @@
     "name": { "str": "Plant" },
     "points": 1,
     "description": "Well, you still have those other walking flowers--and the mushrooms, too--to deal with.  But you'll manage.",
+    "flags": [ "PLANTBLOOD" ],
     "valid": false,
     "purifiable": false,
     "threshold": true
@@ -7589,6 +7604,7 @@
     "name": { "str": "Cephalopod" },
     "points": 1,
     "description": "Strange aeons, true, but Death seems to be slacking, and you are doing just fine.",
+    "flags": [ "INVERTEBRATEBLOOD" ],
     "valid": false,
     "purifiable": false,
     "threshold": true
@@ -7599,6 +7615,7 @@
     "name": { "str": "Arachnid" },
     "points": 1,
     "description": "Well, maybe you'll just have to make your own worldwide web.",
+    "flags": [ "INSECTBLOOD" ],
     "valid": false,
     "purifiable": false,
     "threshold": true
@@ -7713,6 +7730,7 @@
     "name": { "str": "Crustacean" },
     "points": 1,
     "description": "Who needs skin when you can have a hard carapace?",
+    "flags": [ "INVERTEBRATEBLOOD" ],
     "valid": false,
     "purifiable": false,
     "threshold": true
@@ -7734,6 +7752,8 @@
     "points": 4,
     "description": "Your body has developed a wonderful defense mechanism.  Instead of normal blood, you bleed a strong molecular acid which will damage any creature foolish enough to harm you.",
     "prereqs": [ "ACIDPROOF" ],
+    "types": [ "BLOOD" ],
+    "flags": [ "ACIDBLOOD" ],
     "threshreq": [ "THRESH_INSECT", "THRESH_CHIMERA", "THRESH_MEDICAL", "THRESH_SLIME" ],
     "category": [ "INSECT", "CHIMERA", "MEDICAL", "SLIME" ]
   },
