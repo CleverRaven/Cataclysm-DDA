@@ -585,6 +585,7 @@ Character::Character() :
     if( !!g && json_flag::is_ready() ) {
         recalc_sight_limits();
         calc_encumbrance();
+        worn.recalc_ablative_blocking(this);
     }
 }
 // *INDENT-ON*

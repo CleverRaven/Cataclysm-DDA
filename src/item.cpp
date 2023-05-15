@@ -3734,7 +3734,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         info.emplace_back( "ARMOR", coverage );
     }
 
-    if( parts->test( iteminfo_parts::ARMOR_RIGIDITY ) && is_rigid() ) {
+    if( parts->test( iteminfo_parts::ARMOR_RIGIDITY ) && ( is_rigid() || is_ablative() ) ) {
         // if the item has no armor data it doesn't cover that part
         const islot_armor *armor = find_armor_data();
         if( armor != nullptr ) {
@@ -3744,17 +3744,36 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             } else {
                 // only some parts are rigid
                 std::string coverage = _( "<bold>Rigid Locations</bold>:" );
-                std::vector<sub_bodypart_id> covered;
+                std::set<sub_bodypart_id> covered;
+                // if ablative check if there are hard plates in locations
+                if( armor->ablative ) {
+                    // if item has ablative armor we should check those too.
+                    for( const item_pocket *pocket : get_all_contained_pockets() ) {
+                        // if the pocket is ablative and not empty we should use its values
+                        if( pocket->get_pocket_data()->ablative && !pocket->empty() ) {
+                            // get the contained plate
+                            const item &ablative_armor = pocket->front();
+                            for( const armor_portion_data &entry : ablative_armor.find_armor_data()->sub_data ) {
+                                if( entry.rigid ) {
+                                    for( const sub_bodypart_str_id &sbp : entry.sub_coverage ) {
+                                        covered.emplace( sbp );
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
                 for( const armor_portion_data &entry : armor->sub_data ) {
                     if( entry.rigid ) {
                         for( const sub_bodypart_str_id &sbp : entry.sub_coverage ) {
-                            covered.emplace_back( sbp );
+                            covered.emplace( sbp );
                         }
                     }
                 }
 
                 if( !covered.empty() ) {
-                    std::set<translation, localized_comparator> to_print = body_part_type::consolidate( covered );
+                    std::vector<sub_bodypart_id> covered_vec( covered.begin(), covered.end() );
+                    std::set<translation, localized_comparator> to_print = body_part_type::consolidate( covered_vec );
                     for( const translation &entry : to_print ) {
                         coverage += string_format( _( " The <info>%s</info>." ), entry );
                     }
@@ -6112,6 +6131,12 @@ void item::on_takeoff( Character &p )
 
     if( is_sided() ) {
         set_side( side::BOTH );
+    }
+    // reset any pockets to not have restrictions
+    if( is_ablative() ) {
+        for( item_pocket *pocket : get_all_standard_pockets() ) {
+            pocket->set_no_rigid( {} );
+        }
     }
 }
 
@@ -9295,6 +9320,11 @@ std::vector<const item_pocket *> item::get_all_standard_pockets() const
 std::vector<item_pocket *> item::get_all_standard_pockets()
 {
     return contents.get_all_standard_pockets();
+}
+
+std::vector<item_pocket *> item::get_all_ablative_pockets()
+{
+    return contents.get_all_ablative_pockets();
 }
 
 item_pocket *item::contained_where( const item &contained )
@@ -14134,6 +14164,16 @@ std::list<item *> item::all_known_contents()
 std::list<const item *> item::all_known_contents() const
 {
     return contents.all_known_contents();
+}
+
+std::list<item *> item::all_ablative_armor()
+{
+    return contents.all_ablative_armor();
+}
+
+std::list<const item *> item::all_ablative_armor() const
+{
+    return contents.all_ablative_armor();
 }
 
 void item::clear_items()
