@@ -1601,8 +1601,9 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                 ( this->*f )( p_draw, p.ll, cur_height_3d, p.invisible );
             }
 
-            // Then keep going up until current position
+            // Keep going up and drawing until current position
             while( p_draw.z < p.pos.z ) {
+                // Draws fog overlay to give the impression of distance
                 draw_zlevel_overlay( p_draw, p.ll, color_blocks );
                 p_draw.z += 1;
                 cur_height_3d += 1;
