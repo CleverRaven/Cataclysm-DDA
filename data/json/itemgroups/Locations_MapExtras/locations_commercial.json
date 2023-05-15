@@ -379,6 +379,7 @@
       [ "legpouch_large", 2 ],
       [ "chestpouch", 3 ],
       [ "ammo_satchel", 1 ],
+      [ "ammo_pouch", 1 ],
       [ "remington_870", 9 ],
       [ "browning_blr", 8 ],
       [ "remington_700", 14 ],
