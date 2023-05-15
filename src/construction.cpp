@@ -1532,7 +1532,6 @@ void construct::done_appliance( const tripoint_bub_ms &p, Character &player_char
                 }
             }
         }
-        
         const tripoint old_view_offset = player_character.view_offset;
         const tripoint offset = veh->global_pos3();
         player_character.view_offset = offset - player_character.pos();
