@@ -16,7 +16,6 @@ Unhardcode and rework grabs, ranged pulls
 EOCs can have context vars that can be passed into nested EOCs
 Pockets overflow into their parent pockets if possible
 Adds a key to toggle the language to English and back on the fly while playing
-Changed Giant Pincer into a piece of integrated armor with Prying 1, Hammer 1, Cut 1, and Butchering -4 also decreased its encumbrance from 40 to 30. It also know has the built in moves Parry and Brutal Strike.
 Add new menu element to the `Shift+C` menu for NPCs you are in charge of to streamline assigning tasks
 
 
@@ -35,10 +34,6 @@ Allow players to keep bees
 Apartment complex: parking garage, lobby variants, roof additions
 Crustacean mutation tree
 Dead trees can be harvested for wood(once per tree)
-Newspaper snipper for protein rations
-This adds a smart watch as an item.
-add a new large opaque 1500L/400 gal standing tank.
-Changing flyers to fit with the lore of the game.
 Bionic radio system
 
 
@@ -78,7 +73,6 @@ Open multiple containers in Advanced Inventory Manager
 [Aftershock] Elemental bionic weapons.
 [Bombastic Perks] Adds the recycler perk
 [Xedra Evolved] Revamped the inventor class
-Typo fix for Xedra Evolved
 
 
 ## Balance:
@@ -94,14 +88,6 @@ partial skill levels contribute to most game tests
 Portal Storm Coherency Pass
 Stop zomborgs from exploding on death
 Add a more accessible holy symbol mission, replacing the small relic one
-Sig 553 rifle has less damage
-one more stage of Scales mutations, adjust coverage, thresholdify sleek scales
-Removed hardcoded lighter from some starting NPC inventories
-Removed a bunch of rare cases where inappropriate items could spawn in innawoods
-water_boiling_heat audit
-Axe ring empty encumberance to 0
-Make makeshift sling not give survival skill
-cloaks go on the belted layer
 
 
 ## Bugfixes:
@@ -138,10 +124,6 @@ Make copy-from copy terrain/furniture examine actions
 Prevent mission marker from being cutoff in the overmap
 Exodii will now properly be mad at you if you steal all their resources from stone barns
 NPC morale modifiers now updates regularly instead of being permanently applied
-fix irradiated melon deconstruct
-arming mittens cover the palms
-Allow natural beehives to spawn
-Fix for groundcover changes that broke Innawood 
 Fix UI and accessibility issues in the overmap UI and character creation menu
 
 
