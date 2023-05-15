@@ -794,7 +794,7 @@
       [ "screwdriver_set", 20 ],
       [ "socket_screwdriver_set", 20 ],
       { "item": "flashlight", "prob": 20, "charges": [ 0, 300 ] },
-      [ "mobile_memory_card_science", 40 ],
+      [ "memory_card_science", 40 ],
       { "item": "camera_pro", "prob": 1, "charges": [ 0, 150 ] },
       { "item": "camera_pro", "container-item": "camera_bag", "prob": 1, "charges": [ 0, 150 ] },
       [ "element", 5 ],

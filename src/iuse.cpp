@@ -278,9 +278,8 @@ static const itype_id itype_joint( "joint" );
 static const itype_id itype_liquid_soap( "liquid_soap" );
 static const itype_id itype_log( "log" );
 static const itype_id itype_mask_h20survivor_on( "mask_h20survivor_on" );
+static const itype_id itype_memory_card( "memory_card" );
 static const itype_id itype_mininuke_act( "mininuke_act" );
-static const itype_id itype_mobile_memory_card( "mobile_memory_card" );
-static const itype_id itype_mobile_memory_card_used( "mobile_memory_card_used" );
 static const itype_id itype_molotov( "molotov" );
 static const itype_id itype_mp3( "mp3" );
 static const itype_id itype_mp3_on( "mp3_on" );
@@ -404,12 +403,6 @@ static void item_save_monsters( Character &p, item &it, const std::vector<monste
                                 int photo_quality );
 static bool show_photo_selection( Character &p, item &it, const std::string &var_name );
 
-static bool item_read_extended_photos( item &, std::vector<extended_photo_def> &,
-                                       const std::string &,
-                                       bool = false );
-static void item_write_extended_photos( item &, const std::vector<extended_photo_def> &,
-                                        const std::string & );
-
 static std::string format_object_pair( const std::pair<std::string, int> &pair,
                                        const std::string &article );
 static std::string format_object_pair_article( const std::pair<std::string, int> &pair );
@@ -435,7 +428,7 @@ static object_names_collection enumerate_objects_around_point( const tripoint &p
         const tripoint &camera_pos, const units::volume &min_visible_volume, bool create_figure_desc,
         std::unordered_set<tripoint> &ignored_points,
         std::unordered_set<const vehicle *> &vehicles_recorded );
-static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
+static item::extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
         const tripoint &camera_pos,
         std::vector<monster *> &monster_vec, std::vector<Character *> &character_vec );
 
@@ -5689,64 +5682,6 @@ std::optional<int> iuse::robotcontrol( Character *p, item *it, bool active, cons
     return 0;
 }
 
-static void init_memory_card_with_random_stuff( item &it )
-{
-    if( it.has_flag( flag_MC_MOBILE ) && ( it.has_flag( flag_MC_RANDOM_STUFF ) ||
-                                           it.has_flag( flag_MC_SCIENCE_STUFF ) ) && !( it.has_flag( flag_MC_USED ) ||
-                                                   it.has_flag( flag_MC_HAS_DATA ) ) ) {
-
-        it.set_flag( flag_MC_HAS_DATA );
-
-        bool encrypted = false;
-
-        //encrypted memory cards have a second chance to contain data
-        if( it.has_flag( flag_MC_MAY_BE_ENCRYPTED ) && one_in( 8 ) ) {
-            it.convert( itype_id( it.typeId().str() + "_encrypted" ) );
-            encrypted = true;
-        }
-
-        //some special cards can contain "MC_ENCRYPTED" flag
-        if( it.has_flag( flag_MC_ENCRYPTED ) ) {
-            encrypted = true;
-        }
-
-        //chance for data
-        const int photo_chance = 5;
-        const int music_chance = 5;
-        const int recipe_chance = 5;
-
-        //encryption allows for a retry for data
-        const int photo_retry = 5;
-        const int music_retry = 5;
-        const int recipe_retry = 5;
-
-        //add someone's personal photos
-        if( one_in( photo_chance ) || ( encrypted && one_in( photo_retry ) ) ) {
-            const int duckfaces_count = rng( 5, 30 );
-            it.set_var( "MC_PHOTOS", duckfaces_count );
-        }
-
-        //add some songs
-        if( one_in( music_chance ) || ( encrypted && one_in( music_retry ) ) ) {
-            const int new_songs_count = rng( 5, 15 );
-            it.set_var( "MC_MUSIC", new_songs_count );
-        }
-
-        //add random recipes
-        if( one_in( recipe_chance ) || ( encrypted && one_in( recipe_retry ) ) ) {
-            const std::array<std::string, 6> recipe_category = {
-                "CC_AMMO", "CC_ARMOR", "CC_CHEM", "CC_ELECTRONIC", "CC_FOOD", "CC_WEAPON"
-            };
-            int cc_random = rng( 0, 5 );
-            it.set_var( "MC_RECIPE", recipe_category[cc_random] );
-        }
-
-        if( it.has_flag( flag_MC_SCIENCE_STUFF ) ) {
-            it.set_var( "MC_RECIPE", "SCIENCE" );
-        }
-    }
-}
-
 static int get_quality_from_string( const std::string_view s )
 {
     const ret_val<int> try_quality = try_parse_integer<int>( s, false );
@@ -5758,165 +5693,6 @@ static int get_quality_from_string( const std::string_view s )
     }
 }
 
-static bool einkpc_download_memory_card( Character &p, item &eink, item &mc )
-{
-    bool something_downloaded = false;
-    if( mc.get_var( "MC_PHOTOS", 0 ) > 0 ) {
-        something_downloaded = true;
-
-        int new_photos = mc.get_var( "MC_PHOTOS", 0 );
-        mc.erase_var( "MC_PHOTOS" );
-
-        p.add_msg_if_player( m_good, n_gettext( "You download %d new photo into the internal memory.",
-                                                "You download %d new photos into the internal memory.", new_photos ), new_photos );
-
-        const int old_photos = eink.get_var( "EIPC_PHOTOS", 0 );
-        eink.set_var( "EIPC_PHOTOS", old_photos + new_photos );
-    }
-
-    if( mc.get_var( "MC_MUSIC", 0 ) > 0 ) {
-        something_downloaded = true;
-
-        int new_songs = mc.get_var( "MC_MUSIC", 0 );
-        mc.erase_var( "MC_MUSIC" );
-
-        p.add_msg_if_player( m_good, n_gettext( "You download %d new song into the internal memory.",
-                                                "You download %d new songs into the internal memory.", new_songs ), new_songs );
-
-        const int old_songs = eink.get_var( "EIPC_MUSIC", 0 );
-        eink.set_var( "EIPC_MUSIC", old_songs + new_songs );
-    }
-
-    if( !mc.get_var( "MC_RECIPE" ).empty() ) {
-        std::string category = mc.get_var( "MC_RECIPE" );
-        const bool science = category == "SCIENCE";
-        int recipe_num = rng( 1, 3 );
-
-        if( category == "SIMPLE" ) {
-            category = "CC_FOOD";
-        }
-
-        mc.erase_var( "MC_RECIPE" );
-
-        std::vector<const recipe *> candidates;
-
-        for( const auto &e : recipe_dict ) {
-            const recipe &r = e.second;
-            if( r.never_learn || r.obsolete ) {
-                continue;
-            }
-            if( science ) {
-                if( r.difficulty >= 6 && r.category == "CC_CHEM" ) {
-                    candidates.push_back( &r );
-                }
-            } else {
-                if( r.difficulty <= 5 && ( r.category == category ) ) {
-                    candidates.push_back( &r );
-                }
-            }
-        }
-
-        if( !candidates.empty() ) {
-            std::vector<const recipe *> new_recipes;
-
-            for( int i = 0; i < recipe_num; i++ ) {
-                const recipe *r = random_entry( candidates );
-                if( std::find( new_recipes.begin(), new_recipes.end(), r ) != new_recipes.end() ) {
-                    // Avoid duplicate. Try again.
-                    i--;
-                } else {
-                    new_recipes.push_back( r );
-                }
-            }
-
-            std::set<recipe_id> saved_recipes = eink.get_saved_recipes();
-            for( const recipe *r : new_recipes ) {
-                const recipe_id &rident = r->ident();
-                if( saved_recipes.emplace( rident ).second ) { // recipe added
-                    eink.set_saved_recipes( saved_recipes );
-                    p.add_msg_if_player( m_good, _( "You download a recipe for %s into the tablet's memory." ),
-                                         r->result_name() );
-                    something_downloaded = true;
-                } else {
-                    p.add_msg_if_player( m_good, _( "The recipe for %s is already stored in the tablet's memory." ),
-                                         r->result_name() );
-                }
-            }
-        }
-    }
-
-    if( mc.has_var( "MC_EXTENDED_PHOTOS" ) ) {
-        std::vector<extended_photo_def> extended_photos;
-        try {
-            item_read_extended_photos( mc, extended_photos, "MC_EXTENDED_PHOTOS" );
-            item_read_extended_photos( eink, extended_photos, "EIPC_EXTENDED_PHOTOS", true );
-            item_write_extended_photos( eink, extended_photos, "EIPC_EXTENDED_PHOTOS" );
-            something_downloaded = true;
-            p.add_msg_if_player( m_good, _( "You have downloaded your photos." ) );
-        } catch( const JsonError &e ) {
-            debugmsg( "Error card reading photos (loaded photos = %i) : %s", extended_photos.size(),
-                      e.c_str() );
-        }
-    }
-
-    const auto monster_photos = mc.get_var( "MC_MONSTER_PHOTOS" );
-    if( !monster_photos.empty() ) {
-        something_downloaded = true;
-        p.add_msg_if_player( m_good, _( "You have updated your monster collection." ) );
-
-        std::string photos = eink.get_var( "EINK_MONSTER_PHOTOS" );
-        if( photos.empty() ) {
-            eink.set_var( "EINK_MONSTER_PHOTOS", monster_photos );
-        } else {
-            std::istringstream f( monster_photos );
-            std::string s;
-            while( getline( f, s, ',' ) ) {
-
-                if( s.empty() ) {
-                    continue;
-                }
-
-                const std::string mtype = s;
-                getline( f, s, ',' );
-                const int quality = get_quality_from_string( s );
-
-                const size_t eink_strpos = photos.find( "," + mtype + "," );
-
-                if( eink_strpos == std::string::npos ) {
-                    photos += mtype + "," + string_format( "%d", quality ) + ",";
-                } else {
-                    const size_t strqpos = eink_strpos + mtype.size() + 2;
-                    const size_t next_comma = photos.find( ',', strqpos );
-                    const int old_quality =
-                        get_quality_from_string( photos.substr( strqpos, next_comma ) );
-
-                    if( quality > old_quality ) {
-                        const std::string quality_s = string_format( "%d", quality );
-                        cata_assert( quality_s.size() == 1 );
-                        photos[strqpos] = quality_s.front();
-                    }
-                }
-
-            }
-            eink.set_var( "EINK_MONSTER_PHOTOS", photos );
-        }
-    }
-
-    if( mc.has_flag( flag_MC_TURN_USED ) ) {
-        mc.clear_vars();
-        mc.unset_flags();
-        mc.convert( itype_mobile_memory_card_used );
-    }
-
-    if( !something_downloaded ) {
-        p.add_msg_if_player( m_info, _( "This memory card does not contain any new data." ) );
-        return false;
-    }
-
-    return true;
-
-}
-
 static std::string photo_quality_name( const int index )
 {
     static const std::array<std::string, 6> names {
@@ -5926,6 +5702,22 @@ static std::string photo_quality_name( const int index )
         }
     };
     return _( names[index] );
+}
+
+void item::extended_photo_def::deserialize( const JsonObject &obj )
+{
+    quality = obj.get_int( "quality" );
+    name = obj.get_string( "name" );
+    description = obj.get_string( "description" );
+}
+
+void item::extended_photo_def::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "quality", quality );
+    jsout.member( "name", name );
+    jsout.member( "description", description );
+    jsout.end_object();
 }
 
 std::optional<int> iuse::einktabletpc( Character *p, item *it, bool t, const tripoint &pos )
@@ -5947,7 +5739,7 @@ std::optional<int> iuse::einktabletpc( Character *p, item *it, bool t, const tri
     } else if( !p->is_npc() ) {
 
         enum {
-            ei_invalid, ei_photo, ei_music, ei_recipe, ei_uploaded_photos, ei_monsters, ei_download, ei_decrypt
+            ei_invalid, ei_photo, ei_music, ei_recipe, ei_uploaded_photos, ei_monsters, ei_download,
         };
 
         if( p->cant_do_underwater() ) {
@@ -6003,15 +5795,7 @@ std::optional<int> iuse::einktabletpc( Character *p, item *it, bool t, const tri
             amenu.addentry( ei_monsters, false, 'y', _( "Collection of monsters is empty" ) );
         }
 
-        amenu.addentry( ei_download, true, 'w', _( "Download data from memory card" ) );
-
-        /** @EFFECT_COMPUTER >2 allows decrypting memory cards more easily */
-        if( p->get_skill_level( skill_computer ) > 2 ) {
-            amenu.addentry( ei_decrypt, true, 'd', _( "Decrypt memory card" ) );
-        } else {
-            amenu.addentry( ei_decrypt, false, 'd', _( "Decrypt memory card (low skill)" ) );
-        }
-
+        amenu.addentry( ei_download, true, 'w', _( "Download data from memory cards" ) );
         amenu.query();
 
         const int choice = amenu.ret;
@@ -6129,121 +5913,40 @@ std::optional<int> iuse::einktabletpc( Character *p, item *it, bool t, const tri
             return 1;
         }
 
-        avatar *you = p->as_avatar();
-        item_location loc;
-        auto filter = []( const item & it ) {
-            return it.has_flag( flag_MC_MOBILE );
-        };
-        const std::string title = _( "Insert memory card:" );
-
         if( ei_download == choice ) {
-
-            p->moves -= to_moves<int>( 2_seconds );
-
-            if( you != nullptr ) {
-                loc = game_menus::inv::titled_filter_menu( filter, *you, title );
-            }
-            if( !loc ) {
+            if( !p->has_item( *it ) ) {
                 p->add_msg_if_player( m_info, _( "You don't have that item!" ) );
-                return 1;
+                return std::nullopt; // need posession of reader item for item_location to work right
             }
-            item &mc = *loc;
-
-            if( !mc.has_flag( flag_MC_MOBILE ) ) {
-                p->add_msg_if_player( m_info, _( "This is not a compatible memory card." ) );
-                return 1;
+            if( !p->is_avatar() ) {
+                return std::nullopt; // npc triggered iuse?
             }
+            inventory_filter_preset preset( []( const item_location & it ) {
+                return it->has_flag( flag_MC_HAS_DATA ) || it->type->memory_card_data;
+            } );
+            inventory_multiselector inv_s( *p, preset );
 
-            init_memory_card_with_random_stuff( mc );
+            inv_s.set_title( _( "Choose memory cards to download data from:" ) );
+            inv_s.set_display_stats( true );
+            inv_s.add_character_items( *p );
+            inv_s.add_nearby_items( 1 );
 
-            if( mc.has_flag( flag_MC_ENCRYPTED ) ) {
-                p->add_msg_if_player( m_info, _( "This memory card is encrypted." ) );
-                return 1;
+            const std::list<std::pair<item_location, int>> locs = inv_s.execute();
+            if( locs.empty() ) {
+                p->add_msg_if_player( m_info, _( "Nevermind." ) );
+                return std::nullopt;
             }
-            if( !mc.has_flag( flag_MC_HAS_DATA ) ) {
-                p->add_msg_if_player( m_info, _( "This memory card does not contain any new data." ) );
-                return 1;
+            std::vector<item_location> targets;
+            for( const auto& [item_loc, count] : locs ) {
+                targets.emplace_back( item_loc );
             }
-
-            einkpc_download_memory_card( *p, *it, mc );
-
-            return 1;
-        }
-
-        if( ei_decrypt == choice ) {
-            p->moves -= to_moves<int>( 2_seconds );
-            if( you != nullptr ) {
-                loc = game_menus::inv::titled_filter_menu( filter, *you, title );
-            }
-            if( !loc ) {
-                p->add_msg_if_player( m_info, _( "You don't have that item!" ) );
-                return 1;
-            }
-            item &mc = *loc;
-
-            if( !mc.has_flag( flag_MC_MOBILE ) ) {
-                p->add_msg_if_player( m_info, _( "This is not a compatible memory card." ) );
-                return 1;
-            }
-
-            init_memory_card_with_random_stuff( mc );
-
-            if( !mc.has_flag( flag_MC_ENCRYPTED ) ) {
-                p->add_msg_if_player( m_info, _( "This memory card is not encrypted." ) );
-                return 1;
-            }
-
-            p->practice( skill_computer, rng( 2, 5 ) );
-
-            /** @EFFECT_INT increases chance of safely decrypting memory card */
-
-            /** @EFFECT_COMPUTER increases chance of safely decrypting memory card */
-            const int success = round( p->get_skill_level( skill_computer ) ) * rng( 1,
-                                round( p->get_skill_level( skill_computer ) ) ) *
-                                rng( 1, p->int_cur ) - rng( 30, 80 );
-            if( success > 0 ) {
-                p->practice( skill_computer, rng( 5, 10 ) );
-                p->add_msg_if_player( m_good, _( "You successfully decrypted content on %s!" ),
-                                      mc.tname() );
-                einkpc_download_memory_card( *p, *it, mc );
-            } else {
-                if( success > -10 || one_in( 5 ) ) {
-                    p->add_msg_if_player( m_neutral, _( "You failed to decrypt the %s." ), mc.tname() );
-                } else {
-                    p->add_msg_if_player( m_bad,
-                                          _( "You tripped the firmware protection, and the card deleted its data!" ) );
-                    mc.clear_vars();
-                    mc.unset_flags();
-                    mc.convert( itype_mobile_memory_card_used );
-                }
-            }
-            return 1;
+            const item_location reader( *p, it );
+            const data_handling_activity_actor actor( reader, targets );
+            p->assign_activity( player_activity( actor ) );
         }
     }
-    return 0;
+    return std::nullopt;
 }
-
-struct extended_photo_def {
-    int quality = 0;
-    std::string name;
-    std::string description;
-
-    extended_photo_def() = default;
-
-    void deserialize( const JsonObject &obj ) {
-        quality = obj.get_int( "quality" );
-        name = obj.get_string( "name" );
-        description = obj.get_string( "description" );
-    }
-
-    void serialize( JsonOut &jsout ) const {
-        jsout.start_object();
-        jsout.member( "quality", quality );
-        jsout.member( "name", name );
-        jsout.member( "description", description );
-        jsout.end_object();
-    }
-};
 
 static std::string colorized_trap_name_at( const tripoint &point )
 {
@@ -6639,7 +6342,7 @@ static object_names_collection enumerate_objects_around_point( const tripoint &p
     return ret_obj;
 }
 
-static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
+static item::extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
         const tripoint &camera_pos,
         std::vector<monster *> &monster_vec, std::vector<Character *> &character_vec )
 {
@@ -6656,7 +6359,7 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
     int dist = rl_dist( camera_pos, aim_point );
     map &here = get_map();
     const tripoint_range<tripoint> bounds = here.points_in_radius( aim_point, 2 );
-    extended_photo_def photo;
+    item::extended_photo_def photo;
     bool need_store_weather = false;
     int outside_tiles_num = 0;
     int total_tiles_num = 0;
@@ -6961,11 +6664,11 @@ static void item_save_monsters( Character &p, item &it, const std::vector<monste
 }
 
 // throws exception
-static bool item_read_extended_photos( item &it, std::vector<extended_photo_def> &extended_photos,
-                                       const std::string &var_name, bool insert_at_begin )
+bool item::read_extended_photos( std::vector<extended_photo_def> &extended_photos,
+                                 const std::string &var_name, bool insert_at_begin ) const
 {
     bool result = false;
-    std::optional<JsonValue> json_opt = json_loader::from_string_opt( it.get_var( var_name ) );
+    std::optional<JsonValue> json_opt = json_loader::from_string_opt( get_var( var_name ) );
     if( !json_opt.has_value() ) {
         return result;
     }
@@ -6982,14 +6685,13 @@ static bool item_read_extended_photos( item &it, std::vector<extended_photo_def>
 }
 
 // throws exception
-static void item_write_extended_photos( item &it,
-                                        const std::vector<extended_photo_def> &extended_photos,
-                                        const std::string &var_name )
+void item::write_extended_photos( const std::vector<extended_photo_def> &extended_photos,
+                                  const std::string &var_name )
 {
     std::ostringstream extended_photos_data;
     JsonOut json( extended_photos_data );
     json.write( extended_photos );
-    it.set_var( var_name, extended_photos_data.str() );
+    set_var( var_name, extended_photos_data.str() );
 }
 
 static bool show_photo_selection( Character &p, item &it, const std::string &var_name )
@@ -7003,24 +6705,24 @@ static bool show_photo_selection( Character &p, item &it, const std::string &var
     pmenu.text = _( "Photos saved on camera:" );
 
     std::vector<std::string> descriptions;
-    std::vector<extended_photo_def> extended_photos;
+    std::vector<item::extended_photo_def> extended_photos;
 
     try {
-        item_read_extended_photos( it, extended_photos, var_name );
+        it.read_extended_photos( extended_photos, var_name, false );
     } catch( const JsonError &e ) {
         debugmsg( "Error reading photos: %s", e.c_str() );
     }
     try { // if there is old photos format, append them; delete old and save new
-        if( item_read_extended_photos( it, extended_photos, "CAMERA_NPC_PHOTOS", true ) ) {
+        if( it.read_extended_photos( extended_photos, "CAMERA_NPC_PHOTOS", true ) ) {
             it.erase_var( "CAMERA_NPC_PHOTOS" );
-            item_write_extended_photos( it, extended_photos, var_name );
+            it.write_extended_photos( extended_photos, var_name );
         }
     } catch( const JsonError &e ) {
         debugmsg( "Error migrating old photo format: %s", e.c_str() );
     }
 
     int k = 0;
-    for( const extended_photo_def &extended_photo : extended_photos ) {
+    for( const item::extended_photo_def &extended_photo : extended_photos ) {
         std::string menu_str = extended_photo.name;
 
         size_t index = menu_str.find( p.name );
@@ -7172,17 +6874,17 @@ std::optional<int> iuse::camera( Character *p, item *it, bool t, const tripoint 
                     photo_quality = photo_quality == 0 ? 0 : photo_quality - 1;
                 }
 
-                std::vector<extended_photo_def> extended_photos;
+                std::vector<item::extended_photo_def> extended_photos;
                 std::vector<monster *> monster_vec;
                 std::vector<Character *> character_vec;
-                extended_photo_def photo = photo_def_for_camera_point( trajectory_point, p->pos(), monster_vec,
-                                           character_vec );
+                item::extended_photo_def photo = photo_def_for_camera_point( trajectory_point, p->pos(),
+                                                 monster_vec, character_vec );
                 photo.quality = photo_quality;
 
                 try {
-                    item_read_extended_photos( *it, extended_photos, "CAMERA_EXTENDED_PHOTOS" );
+                    it->read_extended_photos( extended_photos, "CAMERA_EXTENDED_PHOTOS", false );
                     extended_photos.push_back( photo );
-                    item_write_extended_photos( *it, extended_photos, "CAMERA_EXTENDED_PHOTOS" );
+                    it->write_extended_photos( extended_photos, "CAMERA_EXTENDED_PHOTOS" );
                 } catch( const JsonError &e ) {
                     debugmsg( "Error when adding new photo (loaded photos = %i): %s", extended_photos.size(),
                               e.c_str() );
@@ -7309,25 +7011,13 @@ std::optional<int> iuse::camera( Character *p, item *it, bool t, const tripoint 
         }
         item &mc = *loc;
 
-        if( !mc.has_flag( flag_MC_MOBILE ) ) {
-            p->add_msg_if_player( m_info, _( "This is not a compatible memory card." ) );
-            return 1;
-        }
-
-        init_memory_card_with_random_stuff( mc );
-
-        if( mc.has_flag( flag_MC_ENCRYPTED ) ) {
-            if( !query_yn( _( "This memory card is encrypted.  Format and clear data?" ) ) ) {
-                return 1;
-            }
-        }
         if( mc.has_flag( flag_MC_HAS_DATA ) ) {
             if( !query_yn( _( "Are you sure you want to clear the old data on the card?" ) ) ) {
                 return 1;
             }
         }
 
-        mc.convert( itype_mobile_memory_card );
+        mc.convert( itype_memory_card );
         mc.clear_vars();
         mc.unset_flags();
         mc.set_flag( flag_MC_HAS_DATA );
@@ -9564,9 +9254,9 @@ std::optional<int> iuse::electricstorage( Character *p, item *it, bool t, const 
         return std::nullopt;
     }
 
-    auto filter = []( const item & itm ) {
+    auto filter = [it]( const item & itm ) {
         return !itm.is_broken() &&
-               itm.has_flag( flag_MC_USED ) &&
+               &itm != it &&
                itm.has_pocket_type( item_pocket::pocket_type::EBOOK );
     };
 

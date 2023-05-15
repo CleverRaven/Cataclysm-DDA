@@ -3566,6 +3566,28 @@ Any Item can be a container. To add the ability to contain things to an item, yo
 "flags" : ["CHOP"],    // Indicates special effects
 "to_hit": 1            // To-hit bonus if using it as a melee weapon
 ```
+### Memory Cards
+
+Memory card information can be defined on any GENERIC item by adding an object named `memory_card`, this field does not support `extend`/`remove`, only override.
+
+```C++
+"id": "memory_card_unread",
+"name": "memory card (unread)",
+// ...
+"memory_card": {
+  "data_chance": 0.5,                  // 50% chance to contain data
+  "on_read_convert_to": "memory_card", // converted to this itype_id on read
+  "photos_chance": 0.33,               // 33% chance to contain new photos
+  "photos_amount": 3,                  // contains between 1 and 3 new photos
+  "songs_chance": 0.33,                // 33% chance to contain new songs
+  "songs_amount": 4,                   // contains between 1 and 4 new songs
+  "recipes_chance": 0.33,              // 33% chance to contain new recipes
+  "recipes_amount": 5,                 // contains between 1 and 5 new recipes
+  "recipes_level_min": 4,              // recipes will have at least level 4
+  "recipes_level_max": 8,              // recipes will have at most level 8
+  "recipes_categories": [ "CC_FOOD" ]  // recipes from CC_FOOD category
+}
+```
 
 ### Gun
 
