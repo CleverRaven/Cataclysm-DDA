@@ -5351,6 +5351,18 @@
   },
   {
     "type": "construction",
+    "id": "app_standing_directed_floodlight",
+    "group": "place_standing_directed_floodlight",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 s",
+    "components": [ [ [ "standing_directed_floodlight", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance",
+    "activity_level": "NO_EXERCISE"
+  },
+  {
+    "type": "construction",
     "id": "ap_foot_locker_recharge_station",
     "group": "place_ap_foot_locker_recharge_station",
     "category": "APPLIANCE",

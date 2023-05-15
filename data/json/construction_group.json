@@ -1356,6 +1356,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_standing_directed_floodlight",
+    "name": "Place Standing Directed Floodlight"
+  },
+  {
+    "type": "construction_group",
     "id": "place_ap_foot_locker_recharge_station",
     "name": "Place Recharging Station"
   },

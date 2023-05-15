@@ -633,6 +633,16 @@
     "requirements": { "removal": { "time": "6 m" } }
   },
   {
+    "id": "ap_standing_directed_floodlight",
+    "type": "vehicle_part",
+    "name": { "str": "standing directed floodlight" },
+    "item": "standing_directed_floodlight",
+    "description": "A large, heavy light that illuminates a wide semicircle around it when switched on.",
+    "copy-from": "directed_floodlight",
+    "flags": [ "HALF_CIRCLE_LIGHT", "ENABLED_DRAINS_EPOWER", "APPLIANCE", "CTRL_ELECTRONIC" ],
+    "requirements": { "removal": { "time": "6 m" } }
+  },
+  {
     "id": "ap_wall_wiring",
     "type": "vehicle_part",
     "name": { "str": "wall wirings" },
