@@ -50,8 +50,6 @@
       "stables_2_n": { "overmap": "farm_horse_stable_2_north", "locations": [ "special_field" ] },
       "track_1_n": { "overmap": "farm_horse_track_1_north", "locations": [ "special_field" ] },
       "track_2_n": { "overmap": "farm_horse_track_2_north", "locations": [ "special_field" ] },
-      "track_3_n": { "overmap": "farm_horse_track_3_north", "locations": [ "special_field" ] },
-      "track_4_n": { "overmap": "farm_horse_track_4_north", "locations": [ "special_field" ] },
       "track_large_1_n": { "overmap": "farm_horse_track_large_1_north", "locations": [ "special_field" ] },
       "track_large_2_n": { "overmap": "farm_horse_track_large_2_north", "locations": [ "special_field" ] },
       "track_large_3_n": { "overmap": "farm_horse_track_large_3_north", "locations": [ "special_field" ] },
@@ -70,34 +68,32 @@
       "silo_2_w": { "overmap": "farm_horse_silo_west" },
       "silo_2_tower_w": { "overmap": "farm_horse_silo_1_west" },
       "silo_2_cap_w": { "overmap": "farm_horse_silo_roof_west" },
-      "paddock_1_n": { "overmap": "paddock_1_north" },
-      "paddock_1_e": { "overmap": "paddock_1_east" },
-      "paddock_1_s": { "overmap": "paddock_1_south" },
-      "paddock_1_w": { "overmap": "paddock_1_west" },
-      "paddock_4_e": { "overmap": "paddock_4_east" },
-      "paddock_5_e": { "overmap": "paddock_5_east" },
-      "paddock_6_e": { "overmap": "paddock_6_east" },
-      "paddock_7_n": { "overmap": "paddock_7_north" },
-      "paddock_7_w": { "overmap": "paddock_7_west" },
-      "paddock_8_w": { "overmap": "paddock_8_west" },
-      "paddock_9_n": { "overmap": "paddock_9_north" },
-      "paddock_9_w": { "overmap": "paddock_9_west" },
-      "paddock_10_w": { "overmap": "paddock_10_west" },
-      "paddock_23_n": { "overmap": "paddock_23_north" },
-      "paddock_24_n": { "overmap": "paddock_24_north" },
-      "paddock_25_n": { "overmap": "paddock_25_north" },
-      "paddock_26_n": { "overmap": "paddock_26_north" },
-      "paddock_27_n": { "overmap": "paddock_27_north" },
-      "paddock_28_n": { "overmap": "paddock_28_north" },
-      "paddock_29_n": { "overmap": "paddock_29_north" },
-      "paddock_30_n": { "overmap": "paddock_30_north" },
-      "paddock_31_n": { "overmap": "paddock_31_north" },
-      "paddock_32_n": { "overmap": "paddock_32_north" },
-      "paddock_33_n": { "overmap": "paddock_33_north" },
-      "paddock_34_n": { "overmap": "paddock_34_north" },
-      "paddock_35_n": { "overmap": "paddock_35_north" },
-      "paddock_36_n": { "overmap": "paddock_36_north" },
-      "paddock_37_n": { "overmap": "paddock_37_north" },
+      "paddock_n": { "overmap": "paddock_north" },
+      "paddock_e": { "overmap": "paddock_east" },
+      "paddock_s": { "overmap": "paddock_south" },
+      "paddock_w": { "overmap": "paddock_west" },
+      "paddock_h_L_e": { "overmap": "paddock_h_L_east" },
+      "paddock_h_n": { "overmap": "paddock_h_north" },
+      "paddock_h_e": { "overmap": "paddock_h_east" },
+      "paddock_h_R_e": { "overmap": "paddock_h_R_east" },
+      "paddock_v_U_n": { "overmap": "paddock_v_U_north" },
+      "paddock_v_U_w": { "overmap": "paddock_v_U_west" },
+      "paddock_diagup_w": { "overmap": "paddock_diagup_west" },
+      "paddock_trailhead_1_n": { "overmap": "paddock_trailhead_1_north" },
+      "paddock_trailhead_2_n": { "overmap": "paddock_trailhead_2_north" },
+      "paddock_trailhead_3_n": { "overmap": "paddock_trailhead_3_north" },
+      "paddock_trailhead_4_n": { "overmap": "paddock_trailhead_4_north" },
+      "paddock_trailhead_5_n": { "overmap": "paddock_trailhead_5_north" },
+      "paddock_trailhead_6_n": { "overmap": "paddock_trailhead_6_north" },
+      "paddock_trailhead_7_n": { "overmap": "paddock_trailhead_7_north" },
+      "paddock_trailhead_8_n": { "overmap": "paddock_trailhead_8_north" },
+      "paddock_trailhead_9_n": { "overmap": "paddock_trailhead_9_north" },
+      "paddock_end_1_n": { "overmap": "paddock_end_1_north" },
+      "paddock_end_2_n": { "overmap": "paddock_end_2_north" },
+      "paddock_end_3_n": { "overmap": "paddock_end_3_north" },
+      "paddock_end_4_n": { "overmap": "paddock_end_4_north" },
+      "paddock_end_5_n": { "overmap": "paddock_end_5_north" },
+      "paddock_end_6_n": { "overmap": "paddock_end_6_north" },
       "hayfield_L_se": { "overmap": "hayfield_turnL_north" },
       "hayfield_L_sw": { "overmap": "hayfield_turnL_east" },
       "hayfield_L_nw": { "overmap": "hayfield_turnL_south" },
@@ -368,14 +364,14 @@
             { "overmap": "dirt_road_ns", "pos": [ 0, 2, 0 ] },
             { "overmap": "dirt_road_ns", "pos": [ 0, 3, 0 ] },
             { "overmap": "inner_to_outer_s", "pos": [ 0, 3, 10 ] },
-            { "overmap": "paddock_8_w", "pos": [ 1, 2, 0 ] },
-            { "overmap": "paddock_10_w", "pos": [ 2, 2, 0 ] },
-            { "overmap": "paddock_7_w", "pos": [ 1, 3, 0 ] },
-            { "overmap": "paddock_9_w", "pos": [ 2, 3, 0 ] },
-            { "overmap": "paddock_4_e", "pos": [ -1, 0, 0 ] },
-            { "overmap": "paddock_5_e", "pos": [ -1, 1, 0 ] },
-            { "overmap": "paddock_6_e", "pos": [ -1, 2, 0 ] },
-            { "overmap": "paddock_1_e", "pos": [ -1, 3, 0 ] }
+            { "overmap": "paddock_v_U_w", "pos": [ 1, 2, 0 ] },
+            { "overmap": "paddock_diagup_w", "pos": [ 2, 2, 0 ] },
+            { "overmap": "paddock_v_U_w", "pos": [ 1, 3, 0 ] },
+            { "overmap": "paddock_w", "pos": [ 2, 3, 0 ] },
+            { "overmap": "paddock_h_L_e", "pos": [ -1, 0, 0 ] },
+            { "overmap": "paddock_h_e", "pos": [ -1, 1, 0 ] },
+            { "overmap": "paddock_h_R_e", "pos": [ -1, 2, 0 ] },
+            { "overmap": "paddock_e", "pos": [ -1, 3, 0 ] }
           ],
           "max": 3,
           "weight": 1
@@ -427,13 +423,13 @@
         {
           "name": "paddock_end_1",
           "chunk": [
-            { "overmap": "paddock_33_n", "pos": [ 0, 0, 0 ] },
+            { "overmap": "paddock_end_2_n", "pos": [ 0, 0, 0 ] },
             { "overmap": "outer_to_inner_n", "pos": [ 0, 0, 10 ] },
-            { "overmap": "paddock_32_n", "pos": [ -1, 0, 0 ] },
-            { "overmap": "paddock_34_n", "pos": [ 1, 0, 0 ] },
-            { "overmap": "paddock_35_n", "pos": [ -1, 1, 0 ] },
-            { "overmap": "paddock_36_n", "pos": [ 0, 1, 0 ] },
-            { "overmap": "paddock_37_n", "pos": [ 1, 1, 0 ] }
+            { "overmap": "paddock_end_1_n", "pos": [ -1, 0, 0 ] },
+            { "overmap": "paddock_end_3_n", "pos": [ 1, 0, 0 ] },
+            { "overmap": "paddock_end_4_n", "pos": [ -1, 1, 0 ] },
+            { "overmap": "paddock_end_5_n", "pos": [ 0, 1, 0 ] },
+            { "overmap": "paddock_end_6_n", "pos": [ 1, 1, 0 ] }
           ],
           "weight": 3
         },
@@ -461,25 +457,25 @@
         },
         {
           "name": "paddock_end_3",
-          "chunk": [ { "overmap": "paddock_1_n", "pos": [ 0, 0, 0 ] }, { "overmap": "outer_to_inner_n", "pos": [ 0, 0, 10 ] } ],
+          "chunk": [ { "overmap": "paddock_n", "pos": [ 0, 0, 0 ] }, { "overmap": "outer_to_inner_n", "pos": [ 0, 0, 10 ] } ],
           "weight": 1
         },
         {
-          "name": "paddock_end_testing",
+          "name": "paddock_end_trailhead",
           "chunk": [
             { "overmap": "dirt_road_ne", "pos": [ 0, 0, 0 ] },
             { "overmap": "outer_to_inner_n", "pos": [ 0, 0, 10 ] },
             { "overmap": "dirt_road_ew", "pos": [ 1, 0, 0 ] },
             { "overmap": "dirt_road_ew", "pos": [ 2, 0, 0 ] },
-            { "overmap": "paddock_23_n", "pos": [ 0, 1, 0 ] },
-            { "overmap": "paddock_24_n", "pos": [ 1, 1, 0 ] },
-            { "overmap": "paddock_25_n", "pos": [ 2, 1, 0 ] },
-            { "overmap": "paddock_26_n", "pos": [ 0, 2, 0 ] },
-            { "overmap": "paddock_27_n", "pos": [ 1, 2, 0 ] },
-            { "overmap": "paddock_28_n", "pos": [ 2, 2, 0 ] },
-            { "overmap": "paddock_29_n", "pos": [ 0, 3, 0 ] },
-            { "overmap": "paddock_30_n", "pos": [ 1, 3, 0 ] },
-            { "overmap": "paddock_31_n", "pos": [ 2, 3, 0 ] }
+            { "overmap": "paddock_trailhead_1_n", "pos": [ 0, 1, 0 ] },
+            { "overmap": "paddock_trailhead_2_n", "pos": [ 1, 1, 0 ] },
+            { "overmap": "paddock_trailhead_3_n", "pos": [ 2, 1, 0 ] },
+            { "overmap": "paddock_trailhead_4_n", "pos": [ 0, 2, 0 ] },
+            { "overmap": "paddock_trailhead_5_n", "pos": [ 1, 2, 0 ] },
+            { "overmap": "paddock_trailhead_6_n", "pos": [ 2, 2, 0 ] },
+            { "overmap": "paddock_trailhead_7_n", "pos": [ 0, 3, 0 ] },
+            { "overmap": "paddock_trailhead_8_n", "pos": [ 1, 3, 0 ] },
+            { "overmap": "paddock_trailhead_9_n", "pos": [ 2, 3, 0 ] }
           ],
           "weight": 1
         }
@@ -494,7 +490,7 @@
             { "overmap": "farm_house_2_n", "pos": [ 1, 0, 0 ] },
             { "overmap": "yard_n", "pos": [ 0, 1, 0 ] }
           ],
-          "weight": 1
+          "weight": 5
         },
         {
           "name": "house_1_greenhouse",
@@ -505,7 +501,7 @@
             { "overmap": "greenhouse_n", "pos": [ 0, 1, 0 ] },
             { "overmap": "greenhouse_roof_n", "pos": [ 0, 1, 1 ] }
           ],
-          "weight": 1
+          "weight": 10
         },
         {
           "name": "stables_1",
@@ -515,7 +511,7 @@
             { "overmap": "stable_to_road_n", "pos": [ 0, 0, 10 ] },
             { "overmap": "stables_2_n", "pos": [ 0, 1, 0 ] }
           ],
-          "weight": 1
+          "weight": 10
         },
         {
           "name": "ring_1",
@@ -527,19 +523,19 @@
             { "overmap": "ring_4_n", "pos": [ 1, 1, 0 ] }
           ],
           "max": 1,
-          "weight": 1
+          "weight": 10
         },
         {
           "name": "track_small",
           "chunk": [
             { "overmap": "track_1_n", "pos": [ 0, 0, 0 ] },
             { "overmap": "extra_to_road_n", "pos": [ 0, 0, 10 ] },
-            { "overmap": "track_2_n", "pos": [ 1, 0, 0 ] },
-            { "overmap": "track_3_n", "pos": [ 0, 1, 0 ] },
-            { "overmap": "track_4_n", "pos": [ 1, 1, 0 ] }
+            { "overmap": "paddock_v_U_n", "pos": [ 1, 0, 0 ] },
+            { "overmap": "track_2_n", "pos": [ 0, 1, 0 ] },
+            { "overmap": "paddock_n", "pos": [ 1, 1, 0 ] }
           ],
           "max": 1,
-          "weight": 1
+          "weight": 10
         },
         {
           "name": "track_large",
@@ -563,7 +559,7 @@
             { "overmap": "extra_to_road_n", "pos": [ 0, 0, 10 ] }
           ],
           "max": 1,
-          "weight": 1
+          "weight": 2
         },
         {
           "name": "silo_2",
@@ -575,7 +571,7 @@
             { "overmap": "extra_to_road_n", "pos": [ 0, 0, 10 ] }
           ],
           "max": 1,
-          "weight": 1
+          "weight": 2
         }
       ],
       [

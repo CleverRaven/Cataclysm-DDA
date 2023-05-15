@@ -431,6 +431,19 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "2x2_feed",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "rows": [
+        "@@",
+        "@@"
+      ],
+      "item": { "@": [ { "item": "cattlefodder", "chance": 10, "repeat": 5 }, { "item": "straw_pile", "chance": 10, "repeat": 5 } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "paddock_feeder_4x4",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -444,7 +457,7 @@
       "palettes": [ "paddock" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": { "r": "t_metal_railing" },
-      "place_nested": [ { "chunks": [ [ "null", 50 ], [ "2x2_haybale", 50 ] ], "x": 1, "y": 1 } ]
+      "place_nested": [ { "chunks": [ [ "null", 30 ], [ "2x2_haybale", 40 ], [ "2x2_feed", 40 ] ], "x": 1, "y": 1 } ]
     }
   },
   {
@@ -657,6 +670,80 @@
       "palettes": [ "paddock" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_nested": [ { "chunks": [ "paddock_gate_5x5_n" ], "x": 2, "y": 11 }, { "chunks": [ "paddock_gate_5x5_s" ], "x": 2, "y": 7 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_paddock_divider_diagup",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "                        ",
+        "                      % ",
+        "                     %% ",
+        "                    %%  ",
+        "                   %%   ",
+        "                  %%    ",
+        "                 %%     ",
+        "                %%      ",
+        "               %%       ",
+        "              %%        ",
+        "             %%         ",
+        "            %%          ",
+        "           %%           ",
+        "          %%            ",
+        "         %%             ",
+        "        %%              ",
+        "       %%               ",
+        "      %%                ",
+        "     %%                 ",
+        "    %%                  ",
+        "   %%                   ",
+        "  %%                    ",
+        " %%                     ",
+        "                        "
+      ],
+      "palettes": [ "paddock" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_paddock_divider_diagdown",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        " %                      ",
+        " %%                     ",
+        "  %%                    ",
+        "   %%                   ",
+        "    %%                  ",
+        "     %%                 ",
+        "      %%                ",
+        "       %%               ",
+        "        %%              ",
+        "         %%             ",
+        "          %%            ",
+        "           %%           ",
+        "            %%          ",
+        "             %%         ",
+        "              %%        ",
+        "               %%       ",
+        "                %%      ",
+        "                 %%     ",
+        "                  %%    ",
+        "                   %%   ",
+        "                    %%  ",
+        "                        "
+      ],
+      "palettes": [ "paddock" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {

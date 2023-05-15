@@ -84,6 +84,7 @@
       ",": [ [ "t_region_groundcover", 45 ], [ "t_region_shrub", 2 ] ],
       "_": [ [ "t_region_grass", 1 ], [ "t_grass_dead", 12 ], [ "t_region_soil", 2 ] ],
       "?": [ [ "t_region_grass", 6 ], [ "t_grass_dead", 6 ], [ "t_region_soil", 3 ] ],
+      "!": [ [ "t_null", 2 ], [ "t_grass_dead", 1 ] ],
       ";": "t_railroad_rubble",
       "o": "t_splitrail_fencegate_o",
       "c": "t_splitrail_fencegate_c",
@@ -100,6 +101,7 @@
       ],
       "9": [ "t_region_tree", "t_region_tree_fruit", "t_region_tree_nut" ],
       "/": [ [ "t_region_soil", 200 ], [ "t_region_groundcover", 5 ] ]
-    }
+    },
+    "item": { ".": { "item": "feces_manure", "chance": 1 } }
   }
 ]

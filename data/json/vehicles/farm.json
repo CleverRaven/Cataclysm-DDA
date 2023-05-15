@@ -385,5 +385,12 @@
       { "x": -2, "y": 0, "chance": 8, "item_groups": [ "car_misc" ] },
       { "x": -2, "y": 1, "chance": 10, "item_groups": [ "suits" ] }
     ]
+  },
+  {
+    "id": "disconnected_floodlight",
+    "type": "vehicle",
+    "name": "Disconencted directed floodlight",
+    "blueprint": [ [ "o" ] ],
+    "parts": [ { "x": 0, "y": 0, "parts": [ "frame_cross", "directed_floodlight", "controls_electronic" ] } ]
   }
 ]
