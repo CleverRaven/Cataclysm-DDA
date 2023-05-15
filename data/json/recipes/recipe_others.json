@@ -463,7 +463,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_carving" } ],
-    "components": [ [ [ "skewer_bone", 2 ], [ "splinter", 2 ] ] ]
+    "components": [ [ [ "splinter", 2 ] ] ]
   },
   {
     "type": "recipe",
