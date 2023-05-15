@@ -1377,6 +1377,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             const int &x = pos.x;
             const int &y = pos.y;
 
+            // light level is now used for choosing between grayscale filter and normal lit tiles.
             lit_level ll;
             // invisible to normal eyes
             std::array<bool, 5> invisible;
@@ -1572,27 +1573,40 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
 
             int height_3d = 0;
 
-            // light level is now used for choosing between grayscale filter and normal lit tiles.
-            draw_terrain( pos, ll, height_3d, invisible );
-
             draw_points.emplace_back( pos, height_3d, ll, invisible );
         }
-        const std::array<decltype( &cata_tiles::draw_furniture ), 13> drawing_layers = {{
-                &cata_tiles::draw_furniture, &cata_tiles::draw_graffiti, &cata_tiles::draw_trap, &cata_tiles::draw_part_con,
-                &cata_tiles::draw_field_or_item, &cata_tiles::draw_vpart_below,
-                &cata_tiles::draw_critter_at_below, &cata_tiles::draw_terrain_below,
+        
+        // List all layers for a single z-level
+        const std::array<decltype( &cata_tiles::draw_furniture ), 11> drawing_layers = {{
+                &cata_tiles::draw_terrain, &cata_tiles::draw_furniture, &cata_tiles::draw_graffiti, &cata_tiles::draw_trap, &cata_tiles::draw_part_con,
+                &cata_tiles::draw_field_or_item,
                 &cata_tiles::draw_vpart_no_roof, &cata_tiles::draw_vpart_roof,
                 &cata_tiles::draw_critter_at, &cata_tiles::draw_zone_mark,
                 &cata_tiles::draw_zombie_revival_indicators
             }
         };
-        // for each of the drawing layers in order, back to front ...
-        for( auto f : drawing_layers ) {
-            // ... draw all the points we drew terrain for, in the same order
-            for( tile_render_info &p : draw_points ) {
+        
+        // For every point we drew terrain for ...
+        for( tile_render_info &p : draw_points ) {
+        	// Draw all layers for the current z-level
+            for( auto f : drawing_layers ) {
                 ( this->*f )( p.pos, p.ll, p.height_3d, p.invisible );
             }
+            
+            // Then keep going down and drawing until we reach something opaque
+        	tripoint p_draw = p.pos;
+        	while( !here.dont_draw_lower_floor( p_draw ) && p_draw.z > -10 ) {
+        		p_draw.z -= 1;
+                for( auto f : drawing_layers ) {
+                    ( this->*f )( p_draw, p.ll, p.height_3d, p.invisible );
+                }
+            }
+            int height = p.pos.z - p_draw.z;
+            if( height > 0 ) {
+                draw_zlevel_overlay( p_draw, p.ll, height, color_blocks);
+            }
         }
+        
         // display number of monsters to spawn in mapgen preview
         for( const tile_render_info &p : draw_points ) {
             const auto mon_override = monster_override.find( p.pos );
@@ -3797,6 +3811,34 @@ bool cata_tiles::draw_zombie_revival_indicators( const tripoint &pos, const lit_
         }
     }
     return false;
+}
+
+void cata_tiles::draw_zlevel_overlay( const tripoint &p, const lit_level ll, const int height, color_block_overlay_container &color_blocks )
+{
+	// Set position for overlay
+	point fog_loc;
+	fog_loc.x = ( p.x - o.x ) * tile_width + op.x;
+	fog_loc.y = ( p.y - o.y ) * tile_height + op.y;
+	
+	// Overlay color is based on light level
+	SDL_Color fog_color = curses_color_to_SDL( c_black );
+    if( ll == lit_level::BRIGHT_ONLY || ll == lit_level::BRIGHT ) {
+    	fog_color = curses_color_to_SDL( c_light_gray );
+    } else if( ll == lit_level::LIT ) {
+    	fog_color = curses_color_to_SDL( c_light_gray );
+    } else if( ll == lit_level::LOW ) {
+    	fog_color = curses_color_to_SDL( c_dark_gray );
+    }
+	// Overlay color transparancy is based on relative height
+	// blur_power determines how fast visibility falls off with each z-level (Max: 1.0f)
+	const float blur_power = 0.4f;
+	const int alpha = 255 * ( 1 - pow( blur_power, height ) );
+    fog_color.a = alpha;
+    
+	// Transparancy will only work in blend mode
+    color_blocks.first = SDL_BLENDMODE_BLEND;
+    color_blocks.second.emplace( fog_loc, fog_color );
+	return;
 }
 
 void cata_tiles::draw_entity_with_overlays( const Character &ch, const tripoint &p, lit_level ll,
