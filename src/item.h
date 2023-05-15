@@ -1306,6 +1306,13 @@ class item : public visitable
         // @see itype::damage_level()
         int damage_level() const;
 
+        // modifies melee weapon damage to account for item's damage
+        float damage_adjusted_melee_weapon_damage( float value ) const;
+        // modifies gun damage to account for item's damage
+        float damage_adjusted_gun_damage( float value ) const;
+        // modifies armor resist to account for item's damage
+        float damage_adjusted_armor_resist( float value ) const;
+
         // @return 0 if item is count_by_charges() or 4000 ( value of itype::damage_max_ )
         int max_damage() const;
 
