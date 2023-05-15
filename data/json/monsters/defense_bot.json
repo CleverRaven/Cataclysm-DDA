@@ -415,7 +415,7 @@
     "vision_night": 10,
     "path_settings": { "avoid_traps": true, "avoid_sharp": true },
     "revert_to_itype": "bot_dispatch_military",
-    "starting_ammo": { "bot_c4_hack": 10, "bot_flashbang_hack": 10, "bot_gasbomb_hack": 10, "bot_grenade_hack": 20, "bot_mininuke_hack": 1 },
+    "starting_ammo": { "bot_c4_hack": 10, "bot_flashbang_hack": 10, "bot_gasbomb_hack": 10, "bot_grenade_hack": 20 },
     "special_attacks": [ [ "GRENADIER_ELITE", 10 ] ],
     "death_drops": { "groups": [ [ "robots", 1 ] ] },
     "death_function": { "corpse_type": "BROKEN" },
