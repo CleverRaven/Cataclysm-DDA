@@ -1506,7 +1506,7 @@
   {
     "type": "terrain",
     "id": "t_brick_oven_struct",
-	"looks_like": "f_fireplace",
+    "looks_like": "f_fireplace",
     "name": "exposed brick oven",
     "symbol": "#",
     "description": "A large brick oven that could make several pizzas at once.  This one seems to be missing its door, and cannot be used in such a state.",
@@ -1526,7 +1526,7 @@
   {
     "type": "terrain",
     "id": "t_brick_oven",
-	"looks_like": "f_fireplace",
+    "looks_like": "f_fireplace",
     "name": "brick oven",
     "symbol": "#",
     "description": "A large brick oven that could make several pizzas at once.  Smells faintly like pizza.",
