@@ -1506,8 +1506,8 @@ void construct::done_appliance( const tripoint_bub_ms &p, Character &player_char
         vehicle *veh = here.add_vehicle( vehicle_prototype_none, p.raw(), 0_degrees, 0, 0 );
 
         if( !veh ) {
-          debugmsg( "error constructing vehicle" );
-          return;
+            debugmsg( "error constructing vehicle" );
+            return;
         }
 
         veh->add_tag( flag_APPLIANCE );
@@ -1520,17 +1520,17 @@ void construct::done_appliance( const tripoint_bub_ms &p, Character &player_char
 
         std::unordered_set<const vehicle *> connected_vehicles;
         for( const tripoint_bub_ms &trip : here.points_in_radius( p, 1 ) ) {
-          const optional_vpart_position vp = here.veh_at( trip );
-          if( !vp ) {
-            continue;
-          }
-          const vehicle &veh_target = vp->vehicle();
-          if( veh_target.is_appliance() || veh_target.has_tag( flag_WIRING ) ) {
-            if( connected_vehicles.find( &veh_target ) == connected_vehicles.end() ) {
-              veh->connect( p.raw(), trip.raw() );
-              connected_vehicles.insert( &veh_target );
+            const optional_vpart_position vp = here.veh_at( trip );
+            if( !vp ) {
+                continue;
             }
-          }
+            const vehicle &veh_target = vp->vehicle();
+            if( veh_target.is_appliance() || veh_target.has_tag( flag_WIRING ) ) {
+                if( connected_vehicles.find( &veh_target ) == connected_vehicles.end() ) {
+                    veh->connect( p.raw(), trip.raw() );
+                    connected_vehicles.insert( &veh_target );
+                }
+            }
         }
         
         const tripoint old_view_offset = player_character.view_offset;
@@ -1539,15 +1539,15 @@ void construct::done_appliance( const tripoint_bub_ms &p, Character &player_char
 
         point delta;
         do {
-          popup( _( "Press space, choose a facing direction for the new %s and "
-                    "confirm with enter." ),
-                 vpinfo.name() );
-          
-          const std::optional<tripoint> chosen = g->look_around();
-          if( !chosen ) {
-              continue;
-          }
-          delta = ( *chosen - offset ).xy();
+            popup( _( "Press space, choose a facing direction for the new %s and "
+                      "confirm with enter." ),
+                   vpinfo.name() );
+
+            const std::optional<tripoint> chosen = g->look_around();
+            if( !chosen ) {
+                continue;
+            }
+            delta = ( *chosen - offset ).xy();
         } while( delta == point_zero );
 
         player_character.view_offset = old_view_offset;
@@ -1557,8 +1557,8 @@ void construct::done_appliance( const tripoint_bub_ms &p, Character &player_char
 
         veh->part( partnum ).direction = dir;
     } else {
-      // TODO: fix point types
-      place_appliance( p.raw(), vpart, base );
+        // TODO: fix point types
+        place_appliance( p.raw(), vpart, base );
     }
 }
 
