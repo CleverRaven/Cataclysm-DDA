@@ -38,6 +38,7 @@
 #include "vpart_position.h"
 
 static const itype_id itype_aspirin( "aspirin" );
+static const itype_id itype_brick_oven_pseudo( "brick_oven_pseudo" );
 static const itype_id itype_butchery_tree_pseudo( "butchery_tree_pseudo" );
 static const itype_id itype_codeine( "codeine" );
 static const itype_id itype_fire( "fire" );
@@ -518,6 +519,11 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
         // a temporary hack while trees are terrain
         if( m.ter( p )->has_flag( ter_furn_flag::TFLAG_TREE ) ) {
             provide_pseudo_item( itype_butchery_tree_pseudo );
+        }
+        // Another terrible hack, as terrain can't provide pseudo items, and construction can't do multi-step furniture
+        ter_id brick_oven( "t_brick_oven" );
+        if( m.ter( p ) == brick_oven ) {
+            provide_pseudo_item( itype_brick_oven_pseudo );
         }
         const furn_t &f = m.furn( p ).obj();
         if( item *furn_item = provide_pseudo_item( f.crafting_pseudo_item ) ) {
