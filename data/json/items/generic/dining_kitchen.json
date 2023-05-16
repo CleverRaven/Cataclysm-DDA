@@ -1071,6 +1071,21 @@
     "melee_damage": { "bash": 5 }
   },
   {
+    "type": "GENERIC",
+    "category": "tools",
+    "id": "coffeepot",
+    "name": { "str": "coffee pot" },
+    "description": "A glass pot for making a cup of joe.",
+    "copy-from": "base_cookpot",
+    "material": [ "glass" ],
+    "color": "light_gray",
+    "weight": "676 g",
+    "volume": "3100 ml",
+    "melee_damage": { "bash": 5 },
+    "pocket_data": [ { "max_contains_volume": "3000 ml", "max_contains_weight": "6 kg", "watertight": true, "rigid": true } ],
+    "delete": { "qualities": [ [ "COOK", 3 ] ] }
+  },
+  {
     "id": "colander_steel",
     "name": { "str": "mesh colander" },
     "category": "other",
