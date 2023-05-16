@@ -98,7 +98,6 @@
     "material": [ "steel", "wood" ],
     "color": "brown",
     "ammo": [ "3006" ],
-    "ranged_damage": { "damage_type": "bullet", "amount": 8 },
     "dispersion": 120,
     "durability": 8,
     "blackpowder_tolerance": 60,
