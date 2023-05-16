@@ -188,7 +188,7 @@
         "material": [
           { "type": "nylon", "covered_by_mat": 100, "thickness": 0.1 },
           { "type": "nomex", "covered_by_mat": 100, "thickness": 0.1 },
-          { "type": "faux_fur", "covered_by_mat": 100, "thickness": 1.0 }
+          { "type": "faux_fur", "covered_by_mat": 100, "thickness": 1.0 },
           { "type": "rubber", "covered_by_mat": 100, "thickness": 6.0 }
         ],
         "coverage": 100
@@ -255,7 +255,7 @@
         "material": [
           { "type": "nylon", "covered_by_mat": 100, "thickness": 0.1 },
           { "type": "nomex", "covered_by_mat": 100, "thickness": 0.1 },
-          { "type": "fur", "covered_by_mat": 100, "thickness": 1.0 }
+          { "type": "fur", "covered_by_mat": 100, "thickness": 1.0 },
           { "type": "rubber", "covered_by_mat": 100, "thickness": 6.0 }
         ],
         "coverage": 100
