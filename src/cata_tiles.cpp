@@ -3822,26 +3822,30 @@ bool cata_tiles::draw_zombie_revival_indicators( const tripoint &pos, const lit_
 void cata_tiles::draw_zlevel_overlay( const tripoint &p, const lit_level ll,
                                       color_block_overlay_container &color_blocks )
 {
-    // Set position for overlay
-    point fog_loc;
-    fog_loc.x = ( p.x - o.x ) * tile_width + op.x;
-    fog_loc.y = ( p.y - o.y ) * tile_height + op.y;
+    // Draw tileset fog sprite if exists
+    if( tileset_ptr->find_tile_type( "zlevel_fog" ) ) {
+        draw_from_id_string( "zlevel_fog", TILE_CATEGORY::NONE, empty_string, p, 0, 0, ll, false );
+    } else {
+        // Tileset fog not found, use solid color overlay
+        // Set position for overlay
+        point fog_loc;
+        fog_loc.x = ( p.x - o.x ) * tile_width + op.x;
+        fog_loc.y = ( p.y - o.y ) * tile_height + op.y;
 
-    // Overlay color is based on light level
-    SDL_Color fog_color = curses_color_to_SDL( c_black );
-    if( ll == lit_level::BRIGHT_ONLY || ll == lit_level::BRIGHT ) {
-        fog_color = curses_color_to_SDL( c_light_gray );
-    } else if( ll == lit_level::LIT ) {
-        fog_color = curses_color_to_SDL( c_light_gray );
-    } else if( ll == lit_level::LOW ) {
-        fog_color = curses_color_to_SDL( c_dark_gray );
+        // Overlay color is based on light level
+        SDL_Color fog_color = curses_color_to_SDL( c_black );
+        if( ll == lit_level::BRIGHT_ONLY || ll == lit_level::BRIGHT || ll == lit_level::LIT ) {
+            fog_color = curses_color_to_SDL( c_light_gray );
+        } else if( ll == lit_level::LOW ) {
+            fog_color = curses_color_to_SDL( c_dark_gray );
+        }
+        // Setting for fog transparancy
+        fog_color.a = 100;
+
+        // Transparancy will only work in blend mode
+        color_blocks.first = SDL_BLENDMODE_BLEND;
+        color_blocks.second.emplace( fog_loc, fog_color );
     }
-    // Setting for fog transparancy
-    fog_color.a = 100;
-
-    // Transparancy will only work in blend mode
-    color_blocks.first = SDL_BLENDMODE_BLEND;
-    color_blocks.second.emplace( fog_loc, fog_color );
     return;
 }
 
