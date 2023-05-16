@@ -196,7 +196,7 @@ void orient_part( vehicle *veh, const vpart_info &vpinfo, int partnum,
     // Appliances are one tile so the part placement there is always point_zero
     if( part_placement ) {
         point copied_placement = *part_placement ;
-        offset += std::move( copied_placement );
+        offset += copied_placement ;
     }
     player_character.view_offset = offset - player_character.pos();
 
