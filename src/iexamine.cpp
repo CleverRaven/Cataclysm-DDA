@@ -4039,6 +4039,7 @@ void iexamine::shrub_wildveggies( Character &you, const tripoint &examp )
 void trap::examine( const tripoint &examp ) const
 {
     avatar &player_character = get_avatar();
+    map &here = get_map();
 
     // If the player can't see the trap, they can't interact with it.
     if( !can_see( examp, player_character ) ) {
