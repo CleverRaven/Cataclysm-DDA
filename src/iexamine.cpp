@@ -177,7 +177,6 @@ static const itype_id itype_unfinished_cac2( "unfinished_cac2" );
 static const itype_id itype_unfinished_charcoal( "unfinished_charcoal" );
 
 static const json_character_flag json_flag_ATTUNEMENT( "ATTUNEMENT" );
-static const flag_id json_flag_DIMENSIONAL_ANCHOR( "DIMENSIONAL_ANCHOR" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
 static const json_character_flag json_flag_WALL_CLING( "WALL_CLING" );
@@ -4066,7 +4065,7 @@ void trap::examine( const tripoint &examp ) const
         return;
     }
     // If there is a telepad and we are anchored, there is no risk involved in disarming it.
-    if( id() == tr_telepad && player_character.has_flag( DIMENSIONAL_ANCHOR ) {
+    if( id() == tr_telepad && player_character.has_flag( flag_DIMENSIONAL_ANCHOR ) ) {
         if( !query_yn( _( "There is a %s there.  Take down?" ), name() ) ) {
             return;
         }
