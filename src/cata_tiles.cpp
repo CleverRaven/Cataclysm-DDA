@@ -4205,6 +4205,7 @@ void cata_tiles::draw_custom_explosion_frame()
 
         const tripoint &p = pr.first;
         std::string explosion_tile_id;
+        // Use target sprite if exist, otherwise col will determine fallback sprite
         if( pr.second.tile_name &&
             find_tile_looks_like( *pr.second.tile_name, TILE_CATEGORY::NONE, "" ) ) {
             explosion_tile_id = *pr.second.tile_name;
@@ -4212,6 +4213,9 @@ void cata_tiles::draw_custom_explosion_frame()
             explosion_tile_id = exp_strong;
         } else if( col == c_yellow ) {
             explosion_tile_id = exp_medium;
+        } else if( col == c_black ) {
+            // c_black results in no fallback sprite
+            return;
         } else {
             explosion_tile_id = exp_weak;
         }

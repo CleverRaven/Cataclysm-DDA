@@ -3789,6 +3789,13 @@ void talk_effect_fun_t::set_cast_spell( const JsonObject &jo, const std::string_
     };
 }
 
+void talk_effect_fun_t::set_die( bool is_npc )
+{
+    function = [is_npc]( dialogue const & d ) {
+        d.actor( is_npc )->die();
+    };
+}
+
 void talk_effect_fun_t::set_lightning()
 {
     function = []( dialogue const &/* d */ ) {
@@ -5133,6 +5140,18 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
 
     if( effect_id == "lightning" ) {
         subeffect_fun.set_lightning();
+        set_effect( subeffect_fun );
+        return;
+    }
+
+    if( effect_id == "u_die" ) {
+        subeffect_fun.set_die( false );
+        set_effect( subeffect_fun );
+        return;
+    }
+
+    if( effect_id == "npc_die" ) {
+        subeffect_fun.set_die( true );
         set_effect( subeffect_fun );
         return;
     }

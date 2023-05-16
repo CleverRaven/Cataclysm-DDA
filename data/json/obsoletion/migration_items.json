@@ -5,6 +5,29 @@
     "replace": "tinfoil_hat"
   },
   {
+    "id": "mobile_memory_card_used",
+    "type": "MIGRATION",
+    "replace": "memory_card"
+  },
+  {
+    "id": "mobile_memory_card",
+    "type": "MIGRATION",
+    "replace": "memory_card_unread",
+    "reset_item_vars": true
+  },
+  {
+    "id": "mobile_memory_card_encrypted",
+    "type": "MIGRATION",
+    "replace": "memory_card_unread",
+    "reset_item_vars": true
+  },
+  {
+    "id": "mobile_memory_card_science",
+    "type": "MIGRATION",
+    "replace": "memory_card_science",
+    "reset_item_vars": true
+  },
+  {
     "id": "nato_assault_rifle",
     "from_variant": "scar_l",
     "type": "MIGRATION",
