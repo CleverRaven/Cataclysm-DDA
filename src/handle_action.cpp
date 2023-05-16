@@ -882,8 +882,20 @@ static void smash()
         player_character.moves -= move_cost * weary_mult;
         player_character.recoil = MAX_RECOIL;
 
-        if( !bash_result.success ) {
-            if( smashskill < here.bash_resistance( smashp ) && one_in( 10 ) ) {
+        // Variables for bash animation
+        std::map<tripoint, nc_color> anim_area;
+        anim_area[smashp] = c_black;
+
+        if( bash_result.success ) {
+            // Bash results in destruction of target
+            explosion_handler::draw_custom_explosion( smashp, anim_area, "bash_complete" );
+        } else if( smashskill >= here.bash_resistance( smashp ) ) {
+            // Bash effective but target not yet destroyed
+            explosion_handler::draw_custom_explosion( smashp, anim_area, "bash_effective" );
+        } else {
+            // Bash not effective
+            explosion_handler::draw_custom_explosion( smashp, anim_area, "bash_ineffective" );
+            if( one_in( 10 ) ) {
                 if( here.has_furn( smashp ) && here.furn( smashp ).obj().bash.str_min != -1 ) {
                     // %s is the smashed furniture
                     add_msg( m_neutral, _( "You don't seem to be damaging the %s." ), here.furnname( smashp ) );
