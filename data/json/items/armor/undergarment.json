@@ -758,9 +758,9 @@
     "type": "ARMOR",
     "name": { "str": "tank top" },
     "description": "A sleeveless cotton shirt.  Very easy to move in.",
-    "weight": "78 g",
-    "volume": "250 ml",
-    "price": 500,
+    "weight": "130 g",
+    "volume": "115 ml",
+    "price": "9 USD",
     "price_postapoc": 50,
     "material": [ "cotton" ],
     "symbol": "[",
@@ -778,21 +778,22 @@
         "id": "tank_top_generic",
         "name": { "str": "tank top" },
         "description": "A sleeveless cotton shirt.  Very easy to move in.",
-        "weight": 50
+        "weight": 45
       },
       {
         "id": "tank_top_camo",
         "name": { "str": "camo tank top" },
         "description": "A sleeveless cotton shirt with a camouflage pattern.  Very easy to move in.",
-        "weight": 50
+        "weight": 3
       },
       {
         "id": "tank_top_cheerleader",
         "name": { "str": "cheerleader tank top" },
         "description": "A red cheerleader tank top.  It has the word \"Cheers\" printed at the top.",
-        "weight": 50
+        "weight": 2
       }
-    ]
+    ],
+    "//": "Based on https://www.amazon.com/dp/B07SDD5CZH/ref=twister_B07SB568SW?th=1"
   },
   {
     "id": "tights",
