@@ -4039,8 +4039,6 @@ void iexamine::shrub_wildveggies( Character &you, const tripoint &examp )
 void trap::examine( const tripoint &examp ) const
 {
     avatar &player_character = get_avatar();
-    map &here = get_map();
-    trap_id trap_type = here.trap( examp );
 
     // If the player can't see the trap, they can't interact with it.
     if( !can_see( examp, player_character ) ) {
@@ -4058,9 +4056,7 @@ void trap::examine( const tripoint &examp ) const
 
     // Some traps are not actual traps. Those should get a different query, no skill checks, and the option to grab it right away.
     // If there is a telepad and we are anchored, there is no risk involved in disarming it also.
-    if( easy_take_down() || ( trap_type = tr_telepad &&
-                                          player_character.has_flag(
-                                                  flag_DIMENSIONAL_ANCHOR ) ) ) { // Separated so saying no doesn't trigger the other query.
+    if( easy_take_down() || ( id = tr_telepad && player_character.has_flag( flag_DIMENSIONAL_ANCHOR ) ) ) { // Separated so saying no doesn't trigger the other query.
         if( !query_yn( _( "There is a %s there.  Take down?" ), name() ) ) {
             return;
         }
