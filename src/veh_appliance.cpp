@@ -12,6 +12,7 @@
 #include "ui_manager.h"
 #include "units.h"
 #include "veh_appliance.h"
+#include "veh_interact.h"
 #include "veh_type.h"
 #include "veh_utils.h"
 #include "vehicle.h"
@@ -96,30 +97,7 @@ void place_appliance( const tripoint &p, const vpart_id &vpart, const std::optio
 
     // Make some lighting appliances directed
     if( vpinfo.has_flag( flag_HALF_CIRCLE_LIGHT ) && partnum != -1 ) {
-        avatar &player_character = get_avatar();
-        const tripoint old_view_offset = player_character.view_offset;
-        const tripoint offset = veh->global_pos3();
-        player_character.view_offset = offset - player_character.pos();
-
-        point delta;
-        do {
-            popup( _( "Press space, choose a facing direction for the new %s and "
-                      "confirm with enter." ),
-                   vpinfo.name() );
-
-            const std::optional<tripoint> chosen = g->look_around();
-            if( !chosen ) {
-                continue;
-            }
-            delta = ( *chosen - offset ).xy();
-        } while( delta == point_zero );
-
-        player_character.view_offset = old_view_offset;
-
-        // since the vehicle is added facing 0 degrees, there's no point subtracting it from the delta
-        units::angle dir = atan2( delta );
-
-        veh->part( partnum ).direction = dir;
+        orient_part( veh, vpinfo, partnum );
     }
 }
 

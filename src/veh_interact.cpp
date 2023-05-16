@@ -184,6 +184,43 @@ player_activity veh_interact::serialize_activity()
     return res;
 }
 
+void orient_part( vehicle *veh, const vpart_info &vpinfo, int partnum, const std::optional<point> &part_placement )
+{
+  
+    avatar &player_character = get_avatar();
+    // Stash offset and set it to the location of the part so look_around will
+    // start there.
+    const tripoint old_view_offset = player_character.view_offset;
+    tripoint offset = veh->global_pos3();
+    // Appliances are one tile so the part placement there is always point_zero
+    if( part_placement ) {
+        point copied_placement = *part_placement ;
+        offset += std::move( copied_placement );
+    }
+    player_character.view_offset = offset - player_character.pos();
+
+    point delta;
+    do {
+        popup( _( "Press space, choose a facing direction for the new %s and "
+                  "confirm with enter." ),
+               vpinfo.name() );
+
+        const std::optional<tripoint> chosen = g->look_around();
+        if( !chosen ) {
+          continue;
+        }
+        delta = ( *chosen - offset ).xy();
+        // atan2 only gives reasonable values when delta is not all zero
+    } while( delta == point_zero );
+
+    // Restore previous view offsets.
+    player_character.view_offset = old_view_offset;
+
+    units::angle dir = normalize( atan2( delta ) - veh->face.dir() );
+
+    veh->part( partnum ).direction = dir;
+}
+
 player_activity veh_interact::run( vehicle &veh, const point &p )
 {
     veh_interact vehint( veh, p );
@@ -3316,31 +3353,7 @@ void veh_interact::complete_vehicle( Character &you )
             if( vpinfo.has_flag( VPFLAG_CONE_LIGHT ) ||
                 vpinfo.has_flag( VPFLAG_WIDE_CONE_LIGHT ) ||
                 vpinfo.has_flag( VPFLAG_HALF_CIRCLE_LIGHT ) ) {
-                // Stash offset and set it to the location of the part so look_around will
-                // start there.
-                const tripoint old_view_offset = you.view_offset;
-                const tripoint offset = veh->global_pos3() + q;
-                you.view_offset = offset - you.pos();
-
-                point delta;
-                do {
-                    popup( _( "Press space, choose a facing direction for the new %s and "
-                              "confirm with enter." ),
-                           vpinfo.name() );
-                    const std::optional<tripoint> chosen = g->look_around();
-                    if( !chosen ) {
-                        continue;
-                    }
-                    delta = ( *chosen - offset ).xy();
-                    // atan2 only gives reasonable values when delta is not all zero
-                } while( delta == point_zero );
-
-                // Restore previous view offsets.
-                you.view_offset = old_view_offset;
-
-                units::angle dir = normalize( atan2( delta ) - veh->face.dir() );
-
-                veh->part( partnum ).direction = dir;
+                orient_part( veh, vpinfo, partnum, q );
             }
 
             const tripoint vehp = veh->global_pos3() + tripoint( q, 0 );

@@ -302,4 +302,7 @@ class veh_interact
 
 void act_vehicle_siphon( vehicle *veh );
 
+void orient_part( vehicle *veh, const vpart_info &vpinfo, int partnum,
+                  const std::optional<point> &part_placement = std::nullopt );
+
 #endif // CATA_SRC_VEH_INTERACT_H
