@@ -184,9 +184,10 @@ player_activity veh_interact::serialize_activity()
     return res;
 }
 
-void orient_part( vehicle *veh, const vpart_info &vpinfo, int partnum, const std::optional<point> &part_placement )
+void orient_part( vehicle *veh, const vpart_info &vpinfo, int partnum,
+                  const std::optional<point> &part_placement )
 {
-  
+
     avatar &player_character = get_avatar();
     // Stash offset and set it to the location of the part so look_around will
     // start there.
@@ -207,7 +208,7 @@ void orient_part( vehicle *veh, const vpart_info &vpinfo, int partnum, const std
 
         const std::optional<tripoint> chosen = g->look_around();
         if( !chosen ) {
-          continue;
+            continue;
         }
         delta = ( *chosen - offset ).xy();
         // atan2 only gives reasonable values when delta is not all zero
