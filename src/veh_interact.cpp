@@ -3295,14 +3295,14 @@ void veh_interact::complete_vehicle( Character &you )
 
             you.invalidate_crafting_inventory();
             cata_assert( you.activity.str_values.size() >= 2 );
-            const std::string &variant_id = you.activity.str_values[1];
-            int partnum = !base.is_null() ? veh->install_part( d, part_id,
-                          std::move( base ), variant_id ) : -1;
+            const int partnum = veh->install_part( d, part_id, std::move( base ) );
             if( partnum < 0 ) {
                 debugmsg( "complete_vehicle install part fails dx=%d dy=%d id=%s",
                           d.x, d.y, part_id.c_str() );
                 break;
             }
+            ::vehicle_part &vp_new = veh->part( partnum );
+            vp_new.variant = you.activity.str_values[1];
 
             // Need map-relative coordinates to compare to output of look_around.
             // Need to call coord_translate() directly since it's a new part.
@@ -3335,7 +3335,7 @@ void veh_interact::complete_vehicle( Character &you )
 
                 units::angle dir = normalize( atan2( delta ) - veh->face.dir() );
 
-                veh->part( partnum ).direction = dir;
+                vp_new.direction = dir;
             }
 
             const tripoint vehp = veh->global_pos3() + tripoint( q, 0 );
@@ -3346,7 +3346,7 @@ void veh_interact::complete_vehicle( Character &you )
             }
 
             you.add_msg_if_player( m_good, _( "You install a %1$s into the %2$s." ),
-                                   veh->part( partnum ).name(), veh->name );
+                                   vp_new.name(), veh->name );
 
             for( const auto &sk : vpinfo.install_skills ) {
                 you.practice( sk.first, veh_utils::calc_xp_gain( vpinfo, sk.first, you ) );

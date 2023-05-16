@@ -966,16 +966,17 @@ class vehicle
         bool can_unmount( int p ) const;
         bool can_unmount( int p, std::string &reason ) const;
 
-        // install a new part to vehicle
-        int install_part( const point &dp, const vpart_id &id, const std::string &variant = "",
-                          bool force = false );
+        // install a part of type \p type at mount \p dp
+        // @return installed part index or -1 if can_mount(...) failed
+        int install_part( const point &dp, const vpart_id &type );
 
-        // Install a copy of the given part, skips possibility check
-        int install_part( const point &dp, const vehicle_part &part );
+        // install a part of type \p type at mount \p dp with \p base for base item
+        // @return installed part index or -1 if can_mount(...) failed
+        int install_part( const point &dp, const vpart_id &type, item &&base );
 
-        /** install item specified item to vehicle as a vehicle part */
-        int install_part( const point &dp, const vpart_id &id, item &&obj,
-                          const std::string &variant = "", bool force = false );
+        // install the given part (moving it), skips can_mount check
+        // @return installed part index
+        int install_part( const point &dp, vehicle_part &&vp );
 
         struct rackable_vehicle {
             std::string name;

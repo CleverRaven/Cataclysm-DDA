@@ -549,7 +549,7 @@ void vehicle::connect( const tripoint &source_pos, const tripoint &target_pos )
     vehicle_part source_part( vpid, item( cord ) );
     source_part.target.first = target_global;
     source_part.target.second = target_veh->global_square_location().raw();
-    source_veh->install_part( vcoords, source_part );
+    source_veh->install_part( vcoords, std::move( source_part ) );
 
     vcoords = target_vp->mount();
     vehicle_part target_part( vpid, item( cord ) );
@@ -558,7 +558,7 @@ void vehicle::connect( const tripoint &source_pos, const tripoint &target_pos )
                             cord.get_var( "source_z", 0 ) );
     target_part.target.first = here.getabs( source_global );
     target_part.target.second = source_veh->global_square_location().raw();
-    target_veh->install_part( vcoords, target_part );
+    target_veh->install_part( vcoords, std::move( target_part ) );
 }
 
 double vehicle::engine_cold_factor( const vehicle_part &vp ) const

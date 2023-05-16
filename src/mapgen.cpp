@@ -6786,7 +6786,7 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
                     const point source_point = parts_to_move.front()->mount;
                     for( const vehicle_part *vp : parts_to_move ) {
                         // TODO: change mount points to be tripoint
-                        first_veh->install_part( target_point, *vp );
+                        first_veh->install_part( target_point, vehicle_part( *vp ) );
                     }
 
                     if( !handler_ptr ) {

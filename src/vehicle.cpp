@@ -1394,36 +1394,20 @@ bool vehicle::is_appliance() const
     return has_tag( flag_APPLIANCE );
 }
 
-/**
- * Installs a part into this vehicle.
- * @param dp The coordinate of where to install the part.
- * @param id The string ID of the part to install. (see vehicle_parts.json)
- * @param force Skip check of whether we can mount the part here.
- * @return false if the part could not be installed, true otherwise.
- */
-int vehicle::install_part( const point &dp, const vpart_id &id, const std::string &variant_id,
-                           bool force )
+int vehicle::install_part( const point &dp, const vpart_id &type )
 {
-    if( !( force || can_mount( dp, id ).success() ) ) {
-        return -1;
-    }
-    vehicle_part vp( id, item( id.obj().base_item ) );
-    vp.variant = variant_id;
-    return install_part( dp, vp );
+    return install_part( dp, type, item( type.obj().base_item ) );
 }
 
-int vehicle::install_part( const point &dp, const vpart_id &id, item &&obj,
-                           const std::string &variant_id, bool force )
+int vehicle::install_part( const point &dp, const vpart_id &type, item &&base )
 {
-    if( !( force || can_mount( dp, id ).success() ) ) {
+    if( !can_mount( dp, type ).success() ) {
         return -1;
     }
-    vehicle_part vp( id, std::move( obj ) );
-    vp.variant = variant_id;
-    return install_part( dp, std::move( vp ) );
+    return install_part( dp, vehicle_part( type, std::move( base ) ) );
 }
 
-int vehicle::install_part( const point &dp, const vehicle_part &new_part )
+int vehicle::install_part( const point &dp, vehicle_part &&new_part )
 {
     // Should be checked before installing the part
     bool enable = false;
@@ -1470,9 +1454,8 @@ int vehicle::install_part( const point &dp, const vehicle_part &new_part )
     }
     // refresh will add them back if needed
     remove_fake_parts( true );
-    parts.push_back( new_part );
-    vehicle_part &pt = parts.back();
-    int new_part_index = parts.size() - 1;
+    vehicle_part &pt = parts.emplace_back( std::move( new_part ) );
+    const int new_part_index = parts.size() - 1;
 
     pt.enabled = enable;
 
