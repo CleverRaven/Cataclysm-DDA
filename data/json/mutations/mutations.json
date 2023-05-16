@@ -876,6 +876,7 @@
     "social_modifiers": { "persuade": 5 },
     "valid": false,
     "flags": [ "SPIRITUAL" ]
+    
   },
   {
     "type": "mutation",
