@@ -40,19 +40,12 @@ static const itype_id itype_battery( "battery" );
  *                              VEHICLE_PART
  *-----------------------------------------------------------------------------*/
 vehicle_part::vehicle_part()
-    : id( vpart_id::NULL_ID() ) {}
+    : vehicle_part( vpart_id::NULL_ID(), item( vpart_id::NULL_ID()->base_item ) ) { }
 
-vehicle_part::vehicle_part( const vpart_id &vp, const std::string &variant_id, const point &dp,
-                            item &&obj )
-    : mount( dp ), id( vp ), variant( variant_id ), base( std::move( obj ) )
+vehicle_part::vehicle_part( const vpart_id &type, item &&base )
+    : info_( &type.obj() )
 {
-    // Mark base item as being installed as a vehicle part
-    base.set_flag( flag_VEHICLE );
-
-    if( base.typeId() != vp->base_item ) {
-        debugmsg( "incorrect vehicle part item, expected: %s, received: %s",
-                  vp->base_item.c_str(), base.typeId().c_str() );
-    }
+    set_base( std::move( base ) );
 }
 
 const item &vehicle_part::get_base() const
@@ -60,9 +53,15 @@ const item &vehicle_part::get_base() const
     return base;
 }
 
-void vehicle_part::set_base( const item &new_base )
+void vehicle_part::set_base( item &&new_base )
 {
-    base = new_base;
+    if( new_base.typeId() != info().base_item ) {
+        debugmsg( "new base '%s' doesn't match part type '%s', this is a bug",
+                  new_base.typeId().str(), info().get_id().str() );
+        return;
+    }
+    base = std::move( new_base );
+    base.set_flag( flag_VEHICLE );
 }
 
 item vehicle_part::properties_to_item() const
@@ -583,18 +582,7 @@ bool vehicle_part::is_seat() const
 
 const vpart_info &vehicle_part::info() const
 {
-    static const vpart_info info_none = vpart_info();
-    if( !info_cache ) {
-        // segmentation fault occurs here during severe vehicle crash
-        // probably this part is removed/destroyed?
-        if( !id.is_null() && id.is_valid() ) {
-            info_cache = &id.obj();
-        } else {
-            info_cache = nullptr;
-            return info_none;
-        }
-    }
-    return *info_cache;
+    return *info_;
 }
 
 void vehicle::set_hp( vehicle_part &pt, int qty, bool keep_degradation, int new_degradation )

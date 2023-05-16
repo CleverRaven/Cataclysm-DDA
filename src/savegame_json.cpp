@@ -3267,7 +3267,7 @@ void vehicle_part::deserialize( const JsonObject &data )
     if( !pid.is_valid() ) {
         data.throw_error_at( "id", "bad vehicle part" );
     }
-    id = pid;
+    info_ = &pid.obj();
     if( variant.empty() ) {
         data.read( "variant", variant );
     }
@@ -3327,7 +3327,7 @@ void vehicle_part::deserialize( const JsonObject &data )
 void vehicle_part::serialize( JsonOut &json ) const
 {
     json.start_object();
-    json.member( "id", id.str() );
+    json.member( "id", info_->get_id().str() );
     if( !variant.empty() ) {
         json.member( "variant", variant );
     }

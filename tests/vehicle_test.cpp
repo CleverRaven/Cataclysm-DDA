@@ -226,7 +226,7 @@ static void unfold_and_check( const vehicle_preset &veh_preset, const damage_pre
         item base = vpr.part().get_base();
         base.set_degradation( damage_preset.degradation );
         base.set_damage( damage_preset.damage );
-        vpr.part().set_base( base );
+        vpr.part().set_base( std::move( base ) );
         veh.set_hp( vpr.part(), vpr.info().durability, true );
     }
 
@@ -445,13 +445,13 @@ static void connect_power_line( const tripoint &src_pos, const tripoint &dst_pos
     const vpart_id vpid( cord.typeId().str() );
 
     point vcoords = source_vp->mount();
-    vehicle_part source_part( vpid, "", vcoords, item( cord ) );
+    vehicle_part source_part( vpid, item( cord ) );
     source_part.target.first = target_global;
     source_part.target.second = target_veh->global_square_location().raw();
     source_veh->install_part( vcoords, source_part );
 
     vcoords = target_vp->mount();
-    vehicle_part target_part( vpid, "", vcoords, item( cord ) );
+    vehicle_part target_part( vpid, item( cord ) );
     tripoint source_global( cord.get_var( "source_x", 0 ),
                             cord.get_var( "source_y", 0 ),
                             cord.get_var( "source_z", 0 ) );

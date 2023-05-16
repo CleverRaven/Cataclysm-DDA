@@ -8107,10 +8107,10 @@ std::optional<int> iuse::tow_attach( Character *p, item *it, bool, const tripoin
             }
             const vpart_id vpid( it->typeId().str() );
             point vcoords = source_vp->mount();
-            vehicle_part source_part( vpid, "", vcoords, item( *it ) );
+            vehicle_part source_part( vpid, item( *it ) );
             source_veh->install_part( vcoords, source_part );
             vcoords = target_vp->mount();
-            vehicle_part target_part( vpid, "", vcoords, item( *it ) );
+            vehicle_part target_part( vpid, item( *it ) );
             target_veh->install_part( vcoords, target_part );
 
             if( p->has_item( *it ) ) {
@@ -8367,13 +8367,13 @@ std::optional<int> iuse::cable_attach( Character *p, item *it, bool, const tripo
             const vpart_id vpid( it->typeId().str() );
 
             point vcoords = source_vp->mount();
-            vehicle_part source_part( vpid, "", vcoords, item( *it ) );
+            vehicle_part source_part( vpid, item( *it ) );
             source_part.target.first = target_global;
             source_part.target.second = target_veh->global_square_location().raw();
             source_veh->install_part( vcoords, source_part );
 
             vcoords = target_vp->mount();
-            vehicle_part target_part( vpid, "", vcoords, item( *it ) );
+            vehicle_part target_part( vpid, item( *it ) );
             tripoint source_global( it->get_var( "source_x", 0 ),
                                     it->get_var( "source_y", 0 ),
                                     it->get_var( "source_z", 0 ) );
@@ -8493,13 +8493,13 @@ std::optional<int> iuse::cord_attach( Character *p, item *it, bool, const tripoi
             const vpart_id vpid( it->typeId().str() );
 
             point vcoords = source_vp->mount();
-            vehicle_part source_part( vpid, "", vcoords, item( *it ) );
+            vehicle_part source_part( vpid, item( *it ) );
             source_part.target.first = target_global;
             source_part.target.second = target_veh->global_square_location().raw();
             source_veh->install_part( vcoords, source_part );
 
             vcoords = target_vp->mount();
-            vehicle_part target_part( vpid, "", vcoords, item( *it ) );
+            vehicle_part target_part( vpid, item( *it ) );
             tripoint source_global( it->get_var( "source_x", 0 ),
                                     it->get_var( "source_y", 0 ),
                                     it->get_var( "source_z", 0 ) );

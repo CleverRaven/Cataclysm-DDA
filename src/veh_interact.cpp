@@ -3422,7 +3422,7 @@ void veh_interact::complete_vehicle( Character &you )
         case 'o': {
             const bool appliance_removal = static_cast<char>( you.activity.index ) == 'O';
             const bool wall_wire_removal = appliance_removal &&
-                                           veh->part( vehicle_part ).id == vpart_ap_wall_wiring;
+                                           veh->part( vehicle_part ).info().get_id() == vpart_ap_wall_wiring;
             const inventory &inv = you.crafting_inventory();
             if( vehicle_part >= veh->part_count() ) {
                 vehicle_part = veh->get_next_shifted_index( vehicle_part, you );

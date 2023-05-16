@@ -1407,7 +1407,9 @@ int vehicle::install_part( const point &dp, const vpart_id &id, const std::strin
     if( !( force || can_mount( dp, id ).success() ) ) {
         return -1;
     }
-    return install_part( dp, vehicle_part( id, variant_id, dp, item( id.obj().base_item ) ) );
+    vehicle_part vp( id, item( id.obj().base_item ) );
+    vp.variant = variant_id;
+    return install_part( dp, vp );
 }
 
 int vehicle::install_part( const point &dp, const vpart_id &id, item &&obj,
@@ -1416,7 +1418,9 @@ int vehicle::install_part( const point &dp, const vpart_id &id, item &&obj,
     if( !( force || can_mount( dp, id ).success() ) ) {
         return -1;
     }
-    return install_part( dp, vehicle_part( id, variant_id, dp, std::move( obj ) ) );
+    vehicle_part vp( id, std::move( obj ) );
+    vp.variant = variant_id;
+    return install_part( dp, std::move( vp ) );
 }
 
 int vehicle::install_part( const point &dp, const vehicle_part &new_part )
@@ -1870,7 +1874,7 @@ bool vehicle::remove_part( const int p, RemovePartHandler &handler )
     if( parts[p].has_flag( vp_flag::animal_flag ) ) {
         item base = parts[p].get_base();
         handler.spawn_animal_from_part( base, part_loc );
-        parts[p].set_base( base );
+        parts[p].set_base( std::move( base ) );
         parts[p].remove_flag( vp_flag::animal_flag );
     }
 
