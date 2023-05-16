@@ -245,8 +245,6 @@ static const trait_id trait_SHELL3( "SHELL3" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 
-const trap_str_id tr_telepad( "tr_telepad" );
-
 // @TODO maybe make this a property of the item (depend on volume/type)
 static const time_duration milling_time = 6_hours;
 
@@ -4057,9 +4055,7 @@ void trap::examine( const tripoint &examp ) const
 
     // Some traps are not actual traps. Those should get a different query, no skill checks, and the option to grab it right away.
     // If there is a telepad and we are anchored, there is no risk involved in disarming it also.
-    if( easy_take_down() || ( id == tr_telepad &&
-                                   player_character.has_flag(
-                                       flag_DIMENSIONAL_ANCHOR ) ) ) { // Separated so saying no doesn't trigger the other query.
+    if( easy_take_down() || ( id == tr_telepad && player_character.worn_with_flag( flag_DIMENSIONAL_ANCHOR ) ) ) { // Separated so saying no doesn't trigger the other query.
         if( !query_yn( _( "There is a %s there.  Take down?" ), name() ) ) {
             return;
         }
