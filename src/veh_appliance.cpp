@@ -31,6 +31,7 @@ static const vproto_id vehicle_prototype_none( "none" );
 
 static const std::string flag_APPLIANCE( "APPLIANCE" );
 static const std::string flag_WIRING( "WIRING" );
+static const std::string flag_HALF_CIRCLE_LIGHT( "HALF_CIRCLE_LIGHT" );
 
 // Width of the entire set of windows. 60 is sufficient for
 // all tested cases while remaining within the 80x24 limit.
@@ -51,6 +52,9 @@ vpart_id vpart_appliance_from_item( const itype_id &item_id )
 
 void place_appliance( const tripoint &p, const vpart_id &vpart, const std::optional<item> &base )
 {
+
+    const vpart_info &vpinfo = vpart.obj();
+  
     map &here = get_map();
     vehicle *veh = here.add_vehicle( vehicle_prototype_none, p, 0_degrees, 0, 0 );
 
@@ -61,9 +65,10 @@ void place_appliance( const tripoint &p, const vpart_id &vpart, const std::optio
 
     veh->add_tag( flag_APPLIANCE );
 
+    int partnum = -1;
     if( base ) {
         item copied = *base;
-        veh->install_part( point_zero, vpart, std::move( copied ) );
+        partnum = veh->install_part( point_zero, vpart, std::move( copied ) );
     } else {
         veh->install_part( point_zero, vpart );
     }
@@ -88,6 +93,35 @@ void place_appliance( const tripoint &p, const vpart_id &vpart, const std::optio
                 connected_vehicles.insert( &veh_target );
             }
         }
+    }
+
+    // Make some lighting appliances directed
+    if( vpinfo.has_flag( flag_HALF_CIRCLE_LIGHT ) && partnum != -1 ) {
+      
+        avatar &player_character = get_avatar();
+        const tripoint old_view_offset = player_character.view_offset;
+        const tripoint offset = veh->global_pos3();
+        player_character.view_offset = offset - player_character.pos();
+
+        point delta;
+        do {
+          popup( _( "Press space, choose a facing direction for the new %s and "
+                    "confirm with enter." ),
+                 vpinfo.name() );
+          
+          const std::optional<tripoint> chosen = g->look_around();
+          if( !chosen ) {
+              continue;
+          }
+          delta = ( *chosen - offset ).xy();
+        } while( delta == point_zero );
+
+        player_character.view_offset = old_view_offset;
+
+        // since the vehicle is added facing 0 degrees, there's no point subtracting it from the delta
+        units::angle dir = atan2( delta );
+
+        veh->part( partnum ).direction = dir;
     }
 }
 

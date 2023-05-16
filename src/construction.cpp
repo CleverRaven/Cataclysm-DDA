@@ -1478,7 +1478,7 @@ void construct::done_wiring( const tripoint_bub_ms &p, Character &/*who*/ )
     }
 }
 
-void construct::done_appliance( const tripoint_bub_ms &p, Character &player_character )
+void construct::done_appliance( const tripoint_bub_ms &p, Character & )
 {
     map &here = get_map();
     partial_con *pc = here.partial_con_at( p );
@@ -1495,70 +1495,13 @@ void construct::done_appliance( const tripoint_bub_ms &p, Character &player_char
         return;
     }
 
-    item base = components.front();
+    const item &base = components.front();
     const vpart_id &vpart = vpart_appliance_from_item( base.typeId() );
 
     // Make some lighting appliances directed
-    const vpart_info &vpinfo = vpart.obj();
 
-    if( vpinfo.has_flag( flag_HALF_CIRCLE_LIGHT ) ) {
-
-        vehicle *veh = here.add_vehicle( vehicle_prototype_none, p.raw(), 0_degrees, 0, 0 );
-
-        if( !veh ) {
-            debugmsg( "error constructing vehicle" );
-            return;
-        }
-
-        veh->add_tag( flag_APPLIANCE );
-
-        int partnum = veh->install_part( point_zero, vpart, std::move( base ) );
-        veh->name = vpart->name();
-        veh->last_update = calendar::turn;
-
-        here.add_vehicle_to_cache( veh );
-
-        std::unordered_set<const vehicle *> connected_vehicles;
-        for( const tripoint_bub_ms &trip : here.points_in_radius( p, 1 ) ) {
-            const optional_vpart_position vp = here.veh_at( trip );
-            if( !vp ) {
-                continue;
-            }
-            const vehicle &veh_target = vp->vehicle();
-            if( veh_target.is_appliance() || veh_target.has_tag( flag_WIRING ) ) {
-                if( connected_vehicles.find( &veh_target ) == connected_vehicles.end() ) {
-                    veh->connect( p.raw(), trip.raw() );
-                    connected_vehicles.insert( &veh_target );
-                }
-            }
-        }
-        const tripoint old_view_offset = player_character.view_offset;
-        const tripoint offset = veh->global_pos3();
-        player_character.view_offset = offset - player_character.pos();
-
-        point delta;
-        do {
-            popup( _( "Press space, choose a facing direction for the new %s and "
-                      "confirm with enter." ),
-                   vpinfo.name() );
-
-            const std::optional<tripoint> chosen = g->look_around();
-            if( !chosen ) {
-                continue;
-            }
-            delta = ( *chosen - offset ).xy();
-        } while( delta == point_zero );
-
-        player_character.view_offset = old_view_offset;
-
-        // since the vehicle is added facing 0 degrees, there's no point subtracting it from the delta
-        units::angle dir = atan2( delta );
-
-        veh->part( partnum ).direction = dir;
-    } else {
         // TODO: fix point types
-        place_appliance( p.raw(), vpart, base );
-    }
+   place_appliance( p.raw(), vpart, base );
 }
 
 void construct::done_deconstruct( const tripoint_bub_ms &p, Character &player_character )
