@@ -1087,7 +1087,6 @@ void complete_construction( Character *you )
             debugmsg( "No space to displace items from construction finishing" );
         }
     }
-
     // Make the terrain change
     if( !built.post_terrain.empty() ) {
         if( built.post_is_furniture ) {
@@ -1496,8 +1495,6 @@ void construct::done_appliance( const tripoint_bub_ms &p, Character & )
 
     const item &base = components.front();
     const vpart_id &vpart = vpart_appliance_from_item( base.typeId() );
-
-    // Make some lighting appliances directed
 
     // TODO: fix point types
     place_appliance( p.raw(), vpart, base );
