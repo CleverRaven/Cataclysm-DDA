@@ -54,7 +54,6 @@ void place_appliance( const tripoint &p, const vpart_id &vpart, const std::optio
 {
 
     const vpart_info &vpinfo = vpart.obj();
-  
     map &here = get_map();
     vehicle *veh = here.add_vehicle( vehicle_prototype_none, p, 0_degrees, 0, 0 );
 
@@ -97,7 +96,6 @@ void place_appliance( const tripoint &p, const vpart_id &vpart, const std::optio
 
     // Make some lighting appliances directed
     if( vpinfo.has_flag( flag_HALF_CIRCLE_LIGHT ) && partnum != -1 ) {
-      
         avatar &player_character = get_avatar();
         const tripoint old_view_offset = player_character.view_offset;
         const tripoint offset = veh->global_pos3();
@@ -105,15 +103,15 @@ void place_appliance( const tripoint &p, const vpart_id &vpart, const std::optio
 
         point delta;
         do {
-          popup( _( "Press space, choose a facing direction for the new %s and "
-                    "confirm with enter." ),
-                 vpinfo.name() );
-          
-          const std::optional<tripoint> chosen = g->look_around();
-          if( !chosen ) {
-              continue;
-          }
-          delta = ( *chosen - offset ).xy();
+            popup( _( "Press space, choose a facing direction for the new %s and "
+                      "confirm with enter." ),
+                   vpinfo.name() );
+
+            const std::optional<tripoint> chosen = g->look_around();
+            if( !chosen ) {
+                continue;
+            }
+            delta = ( *chosen - offset ).xy();
         } while( delta == point_zero );
 
         player_character.view_offset = old_view_offset;

@@ -1500,8 +1500,8 @@ void construct::done_appliance( const tripoint_bub_ms &p, Character & )
 
     // Make some lighting appliances directed
 
-        // TODO: fix point types
-   place_appliance( p.raw(), vpart, base );
+    // TODO: fix point types
+    place_appliance( p.raw(), vpart, base );
 }
 
 void construct::done_deconstruct( const tripoint_bub_ms &p, Character &player_character )
