@@ -271,7 +271,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 25,
-    "description": "A stiff green stalk from a cattail plant.  It is starchy and fibrous, but it would be much better if you cooked it.",
+    "description": "A stiff, green stalk from a cattail plant.  It is starchy and fibrous, but it would be much better if you cooked it.",
     "price": 0,
     "price_postapoc": 10,
     "material": [ "veggy" ],
@@ -280,6 +280,13 @@
     "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
     "vitamins": [ [ "calcium", 5 ], [ "iron", 5 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "burdock_stalk",
+    "name": { "str": "burdock stalk" },
+    "description": "A stiff, green stalk from a burdock plant.  It is starchy and fibrous, but it would be much better if you cooked it.",
+    "copy-from": "cattail_stalk"
   },
   {
     "type": "COMESTIBLE",

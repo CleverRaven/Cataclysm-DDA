@@ -1109,86 +1109,74 @@
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "tailor",
     "difficulty": 5,
-    "skills_required": [ "fabrication", 6 ],
-    "time": "14 h 45 m",
+    "time": "5 h 15 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 60 ], [ "fabric_standard_nostretch", 15 ] ],
+    "using": [ [ "tailoring_kevlar_fabric", 30 ] ],
     "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [
-      [ [ "coat_rain", 1 ] ],
+      [ [ "combat_shirt", 1 ] ],
       [
         [ "tacvest", 1 ],
         [ "legrig", 1 ],
         [ "vest", 1 ],
         [ "tool_belt", 1 ],
-        [ "ragpouch", 2 ],
         [ "leather_pouch", 2 ],
         [ "dump_pouch", 1 ],
         [ "purse", 1 ],
         [ "fanny", 1 ]
       ],
-      [ [ "duct_tape", 150 ] ],
-      [
-        [ "kevlar", 1 ],
-        [ "ballistic_vest_light", 1 ],
-        [ "ballistic_vest_esapi", 1 ],
-        [ "sheet_kevlar_layered", 16 ]
-      ]
+      [ [ "kevlar", 1 ] ],
+      [ [ "filament_durable", 30, "LIST" ] ]
     ],
-    "proficiencies": [ { "proficiency": "prof_polymerworking" }, { "proficiency": "prof_closures_waterproofing" } ]
-  },
-  {
-    "result": "xs_lsurvivor_armor",
-    "type": "recipe",
-    "copy-from": "lsurvivor_armor",
-    "time": "14 h 45 m",
-    "using": [ [ "sewing_standard", 45 ], [ "fabric_standard_nostretch", 11 ] ],
-    "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
-    "components": [
-      [ [ "coat_rain", 1 ] ],
-      [
-        [ "tacvest", 1 ],
-        [ "legrig", 1 ],
-        [ "vest", 1 ],
-        [ "tool_belt", 1 ],
-        [ "ragpouch", 1 ],
-        [ "leather_pouch", 1 ],
-        [ "dump_pouch", 1 ],
-        [ "purse", 1 ],
-        [ "fanny", 1 ]
-      ],
-      [ [ "duct_tape", 113 ] ],
-      [
-        [ "kevlar", 1 ],
-        [ "ballistic_vest_light", 1 ],
-        [ "ballistic_vest_esapi", 1 ],
-        [ "sheet_kevlar_layered", 12 ]
-      ]
-    ]
+    "proficiencies": [ { "proficiency": "prof_polymerworking" }, { "proficiency": "prof_closures" } ]
   },
   {
     "result": "xl_lsurvivor_armor",
     "type": "recipe",
     "copy-from": "lsurvivor_armor",
-    "time": "16 h 35 m",
-    "using": [ [ "sewing_standard", 90 ], [ "fabric_standard_nostretch", 22 ] ],
+    "time": "7 h 45 m",
+    "using": [ [ "tailoring_kevlar_fabric", 50 ] ],
     "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [
-      [ [ "coat_rain", 2 ] ],
+      [ [ "combat_shirt", 2 ] ],
       [
         [ "tacvest", 1 ],
         [ "legrig", 1 ],
         [ "vest", 1 ],
         [ "tool_belt", 1 ],
-        [ "ragpouch", 2 ],
         [ "leather_pouch", 2 ],
         [ "dump_pouch", 1 ],
         [ "purse", 1 ],
         [ "fanny", 1 ]
       ],
-      [ [ "duct_tape", 225 ] ],
-      [ [ "kevlar", 2 ], [ "ballistic_vest_esapi", 2 ], [ "sheet_kevlar_layered", 32 ] ]
-    ]
+      [ [ "kevlar", 1 ] ],
+      [ [ "filament_durable", 60, "LIST" ] ]
+    ],
+    "proficiencies": [ { "proficiency": "prof_polymerworking" }, { "proficiency": "prof_closures" } ]
+  },
+  {
+    "result": "xs_lsurvivor_armor",
+    "type": "recipe",
+    "copy-from": "lsurvivor_armor",
+    "time": "4 h 5 m",
+    "using": [ [ "tailoring_kevlar_fabric", 24 ] ],
+    "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
+    "components": [
+      [ [ "combat_shirt", 1 ] ],
+      [
+        [ "tacvest", 1 ],
+        [ "legrig", 1 ],
+        [ "vest", 1 ],
+        [ "tool_belt", 1 ],
+        [ "leather_pouch", 2 ],
+        [ "dump_pouch", 1 ],
+        [ "purse", 1 ],
+        [ "fanny", 1 ]
+      ],
+      [ [ "kevlar", 1 ] ],
+      [ [ "filament_durable", 27, "LIST" ] ]
+    ],
+    "proficiencies": [ { "proficiency": "prof_polymerworking" }, { "proficiency": "prof_closures" } ]
   },
   {
     "result": "ballistic_vest_heavy",

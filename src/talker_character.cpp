@@ -891,6 +891,11 @@ void talker_character::set_part_hp_cur( const bodypart_id &id, int set ) const
     me_chr->set_part_hp_cur( id, set );
 }
 
+void talker_character::die()
+{
+    me_chr->die( nullptr );
+}
+
 void talker_character::learn_martial_art( const matype_id &id ) const
 {
     me_chr->martial_arts_data->add_martialart( id );

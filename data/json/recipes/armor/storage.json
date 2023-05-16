@@ -1243,7 +1243,6 @@
     "activity_level": "NO_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
-    "skill_used": "survival",
     "time": "48 s",
     "reversible": true,
     "autolearn": true,
