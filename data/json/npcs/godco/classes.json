@@ -730,7 +730,7 @@
       { "item": "socks" },
       { "item": "boots_steel" },
       { "item": "pants_cargo" },
-      { "item": "army_top" },
+      { "item": "tank_top", "variant": "tank_top_camo" },
       { "item": "bandolier_rifle", "contents-group": "bandolier_rifle_hunter" },
       { "item": "jacket_army" },
       { "item": "knit_scarf" },

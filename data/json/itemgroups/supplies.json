@@ -725,7 +725,7 @@
       [ "hockey_stick", 10 ],
       [ "towel", 30 ],
       [ "pom_poms", 50 ],
-      [ "cheerleader_top", 25 ],
+      { "item": "tank_top", "variant": "tank_top_cheerleader", "prob": 25 },
       [ "cheerleader_top_short", 1 ],
       [ "cheerleader_skirt", 25 ],
       [ "cheerleader_skirt_short", 1 ],

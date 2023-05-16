@@ -143,5 +143,17 @@
     "id": "bookmark_note_catalytic",
     "type": "MIGRATION",
     "replace": "paper"
+  },
+  {
+    "id": "army_top",
+    "type": "MIGRATION",
+    "replace": "tank_top",
+    "variant": "tank_top_camo"
+  },
+  {
+    "id": "cheerleader_top",
+    "type": "MIGRATION",
+    "replace": "tank_top",
+    "variant": "tank_top_cheerleader"
   }
 ]
