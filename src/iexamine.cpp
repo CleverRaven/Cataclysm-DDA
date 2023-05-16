@@ -177,6 +177,7 @@ static const itype_id itype_unfinished_cac2( "unfinished_cac2" );
 static const itype_id itype_unfinished_charcoal( "unfinished_charcoal" );
 
 static const json_character_flag json_flag_ATTUNEMENT( "ATTUNEMENT" );
+static const flag_id json_flag_DIMENSIONAL_ANCHOR( "DIMENSIONAL_ANCHOR" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
 static const json_character_flag json_flag_WALL_CLING( "WALL_CLING" );
@@ -224,6 +225,8 @@ static const ter_str_id ter_t_diesel_pump( "t_diesel_pump" );
 static const ter_str_id ter_t_diesel_pump_a( "t_diesel_pump_a" );
 static const ter_str_id ter_t_gas_pump( "t_gas_pump" );
 static const ter_str_id ter_t_gas_pump_a( "t_gas_pump_a" );
+
+const trap_str_id tr_telepad( "tr_telepad" );
 
 static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
 static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
@@ -4055,6 +4058,15 @@ void trap::examine( const tripoint &examp ) const
 
     // Some traps are not actual traps. Those should get a different query, no skill checks, and the option to grab it right away.
     if( easy_take_down() ) { // Separated so saying no doesn't trigger the other query.
+        if( !query_yn( _( "There is a %s there.  Take down?" ), name() ) ) {
+            return;
+        }
+        add_msg( _( "The %s is taken down." ), name() );
+        on_disarmed( here, examp );
+        return;
+    }
+    // If there is a telepad and we are anchored, there is no risk involved in disarming it.
+    if( id() == tr_telepad && player_character.has_flag( DIMENSIONAL_ANCHOR ) {
         if( !query_yn( _( "There is a %s there.  Take down?" ), name() ) ) {
             return;
         }
