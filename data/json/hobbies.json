@@ -69,11 +69,20 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "caffiend",
+    "name": "Caffeine Fiend",
+    "description": "Caffeine gave you life and without it you are nothing.  Your dependence upon it was so extreme that you can barely function in its absence and you've done lasting psychological harm to yourself.  You'd better find a steady supply, and fast.",
+    "points": -1,
+    "traits": [ "STIMBOOST", "SLEEPY" ],
+    "addictions": [ { "intensity": 50, "type": "caffeine" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "caffeine_junkie",
     "name": "Caffeine Dependence",
     "description": "Coffee was your faithful companion every morning, and without it you feel like a zombie.  Thanks to all the actual zombies shambling about, getting your caffeine fix will be much harder now.",
     "points": -1,
-    "traits": [ "STIMBOOST" ],
     "addictions": [ { "intensity": 10, "type": "caffeine" } ]
   },
   {
