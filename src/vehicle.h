@@ -970,12 +970,12 @@ class vehicle
         // @return installed part index or -1 if can_mount(...) failed
         int install_part( const point &dp, const vpart_id &type );
 
-        // install a part of type \p type at mount \p dp with \p base for base item
+        // install a part of type \p type at mount \p dp with \p base (std::move -ing it)
         // @return installed part index or -1 if can_mount(...) failed
         int install_part( const point &dp, const vpart_id &type, item &&base );
 
-        // install the given part (moving it), skips can_mount check
-        // @return installed part index
+        // install the given part \p vp (std::move -ing it)
+        // @return installed part index or -1 if can_mount(...) failed
         int install_part( const point &dp, vehicle_part &&vp );
 
         struct rackable_vehicle {

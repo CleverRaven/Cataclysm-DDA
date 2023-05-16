@@ -1401,20 +1401,23 @@ int vehicle::install_part( const point &dp, const vpart_id &type )
 
 int vehicle::install_part( const point &dp, const vpart_id &type, item &&base )
 {
-    if( !can_mount( dp, type ).success() ) {
-        return -1;
-    }
     return install_part( dp, vehicle_part( type, std::move( base ) ) );
 }
 
-int vehicle::install_part( const point &dp, vehicle_part &&new_part )
+int vehicle::install_part( const point &dp, vehicle_part &&vp )
 {
+    const vpart_info &vpi = vp.info();
+    const ret_val<void> valid_mount = can_mount( dp, vpi.get_id() );
+    if( !valid_mount.success() ) {
+        debugmsg( "installing %s would make invalid vehicle: %s", vpi.get_id().str(), valid_mount.str() );
+        return -1;
+    }
     // Should be checked before installing the part
     bool enable = false;
-    if( new_part.is_engine() ) {
+    if( vp.is_engine() ) {
         enable = true;
         // if smart controller is enabled there is charge in battery, no need to test it
-        if( has_enabled_smart_controller && !engine_on && new_part.info().fuel_type == fuel_type_battery &&
+        if( has_enabled_smart_controller && !engine_on && vpi.fuel_type == fuel_type_battery &&
             !has_available_electric_engine() ) {
             engine_on = true;
             sfx::do_vehicle_engine_sfx();
@@ -1446,7 +1449,7 @@ int vehicle::install_part( const point &dp, vehicle_part &&new_part )
         };
 
         for( const std::string &flag : enable_like ) {
-            if( new_part.info().has_flag( flag ) ) {
+            if( vpi.has_flag( flag ) ) {
                 enable = has_part( flag, true );
                 break;
             }
@@ -1454,16 +1457,13 @@ int vehicle::install_part( const point &dp, vehicle_part &&new_part )
     }
     // refresh will add them back if needed
     remove_fake_parts( true );
-    vehicle_part &pt = parts.emplace_back( std::move( new_part ) );
-    const int new_part_index = parts.size() - 1;
-
-    pt.enabled = enable;
-
-    pt.mount = dp;
-
+    vehicle_part &vp_installed = parts.emplace_back( std::move( vp ) );
+    vp_installed.enabled = enable;
+    vp_installed.mount = dp;
+    const int vp_installed_index = parts.size() - 1;
     refresh();
     coeff_air_changed = true;
-    return new_part_index;
+    return vp_installed_index;
 }
 
 std::vector<vehicle::rackable_vehicle> vehicle::find_vehicles_to_rack( int rack ) const
