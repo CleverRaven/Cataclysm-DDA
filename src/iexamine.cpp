@@ -4040,6 +4040,7 @@ void trap::examine( const tripoint &examp ) const
 {
     avatar &player_character = get_avatar();
     map &here = get_map();
+    trap_id trap_type = here.trap( examp );
 
     // If the player can't see the trap, they can't interact with it.
     if( !can_see( examp, player_character ) ) {
@@ -4056,16 +4057,8 @@ void trap::examine( const tripoint &examp ) const
     }
 
     // Some traps are not actual traps. Those should get a different query, no skill checks, and the option to grab it right away.
-    if( easy_take_down() ) { // Separated so saying no doesn't trigger the other query.
-        if( !query_yn( _( "There is a %s there.  Take down?" ), name() ) ) {
-            return;
-        }
-        add_msg( _( "The %s is taken down." ), name() );
-        on_disarmed( here, examp );
-        return;
-    }
-    // If there is a telepad and we are anchored, there is no risk involved in disarming it.
-    if( id() == "tr_telepad" && player_character.has_flag( flag_DIMENSIONAL_ANCHOR ) ) {
+    // If there is a telepad and we are anchored, there is no risk involved in disarming it also.
+    if( easy_take_down() || ( trap_type = tr_telepad && player_character.has_flag( flag_DIMENSIONAL_ANCHOR ) ) ) { // Separated so saying no doesn't trigger the other query.
         if( !query_yn( _( "There is a %s there.  Take down?" ), name() ) ) {
             return;
         }
