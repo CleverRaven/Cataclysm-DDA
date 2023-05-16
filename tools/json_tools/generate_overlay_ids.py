@@ -33,6 +33,7 @@ CPP_IDS = (
     'infrared_creature',
     'run_nw', 'run_n', 'run_ne', 'run_w', 'run_e', 'run_sw', 'run_s', 'run_se',
     'bash_complete', 'bash_effective', 'bash_ineffective',
+    'zlevel_fog',
 )
 VP_STANDARD_SYMBOLS = {
     "cover": "^", "cross": "c", "horizontal": "h", "horizontal_2": "=",

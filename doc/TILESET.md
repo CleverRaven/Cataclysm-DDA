@@ -82,6 +82,9 @@ Bashing animations (handle_action.cpp):
 `bash_effective` Bash effective but target not yet destroyed.
 `bash_ineffective` Bash not effective.
 
+Z-level fog (cata_tiles.cpp):
+`zlevel_fog` Semi-transparent fog effect applied when rendering lower z-levels
+
 #### Complex IDs
 
 Special prefixes that are used include:
