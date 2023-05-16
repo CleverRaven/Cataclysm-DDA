@@ -1329,7 +1329,8 @@ dealt_projectile_attack Character::throw_item( const tripoint &target, const ite
         practice( skill_throw, final_xp_mult, MAX_SKILL );
         // TODO: Check target for existence of head
         get_event_bus().send<event_type::character_gets_headshot>( getID() );
-    } else if( dealt_attack.hit_critter != nullptr && missed_by > 0.0f && !critter->has_flag( MF_IMMOBILE ) ) {
+    } else if( dealt_attack.hit_critter != nullptr && missed_by > 0.0f &&
+               !critter->has_flag( MF_IMMOBILE ) ) {
         practice( skill_throw, final_xp_mult / ( 1.0f + missed_by ), MAX_SKILL );
     } else {
         // Pure grindy practice - cap gain at lvl 2
