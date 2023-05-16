@@ -871,12 +871,11 @@ bool veh_interact::update_part_requirements()
     }
     nmsg += res.second;
 
-    ret_val<void> can_mount = veh->can_mount(
-                                  -dd, sel_vpart_info->get_id() );
+    const ret_val<void> can_mount = veh->can_mount( -dd, *sel_vpart_info );
     if( !can_mount.success() ) {
         ok = false;
-        nmsg += _( "<color_white>Cannot install due to:</color>\n> " ) + colorize( can_mount.str(),
-                c_red ) + "\n";
+        nmsg += _( "<color_white>Cannot install due to:</color>\n> " ) +
+                colorize( can_mount.str(), c_red ) + "\n";
     }
 
     sel_vpart_info->format_description( nmsg, c_light_gray, getmaxx( w_msg ) - 4 );
@@ -951,23 +950,20 @@ void veh_interact::do_install()
     std::string filter; // The user specified filter
     std::vector<vpart_category> &tab_list = install_info->tab_list = {};
     std::vector <std::function<bool( const vpart_info * )>> tab_filters;
-    const static auto obsolete_filter = []( const vpart_info * vpi ) {
-        return !vpi->has_flag( "OBSOLETE" );
-    };
 
     for( const vpart_category &cat : vpart_category::all() ) {
         tab_list.push_back( cat );
         if( cat.get_id() == "_all" ) {
-            tab_filters.emplace_back( []( const vpart_info * p ) {
-                return obsolete_filter( p );
+            tab_filters.emplace_back( []( const vpart_info * ) {
+                return true;
             } );
         } else if( cat.get_id() == "_filter" ) {
             tab_filters.emplace_back( [&filter]( const vpart_info * p ) {
-                return lcmatch( p->name(), filter ) && obsolete_filter( p );
+                return lcmatch( p->name(), filter );
             } );
         } else {
             tab_filters.emplace_back( [ cat = cat.get_id()]( const vpart_info * p ) {
-                return p->has_category( cat ) && obsolete_filter( p );
+                return p->has_category( cat );
             } );
         }
     }
@@ -2369,7 +2365,7 @@ void veh_interact::move_cursor( const point &d, int dstart_at )
             if( has_critter && vp.has_flag( VPFLAG_OBSTACLE ) ) {
                 continue;
             }
-            if( vp.has_flag( "NOINSTALL" ) ) {
+            if( vp.has_flag( "NO_INSTALL_HIDDEN" ) ) {
                 // exclude parts that should never be installed through install menu
                 continue;
             }

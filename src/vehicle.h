@@ -959,8 +959,12 @@ class vehicle
         // get vpart type info for part number (part at given vector index)
         const vpart_info &part_info( int index, bool include_removed = false ) const;
 
-        // check if certain part can be mounted at certain position (not accounting frame direction)
-        ret_val<void> can_mount( const point &dp, const vpart_id &id ) const;
+        /**
+         * @param dp The coordinate to mount at (in vehicle mount point coords)
+         * @param vpi The part type to check
+         * @return true if the part can be mounted at specified position.
+         */
+        ret_val<void> can_mount( const point &dp, const vpart_info &vpi ) const;
 
         // check if certain part can be unmounted
         bool can_unmount( int p ) const;
