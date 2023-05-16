@@ -191,14 +191,12 @@ player_activity veh_interact::run( vehicle &veh, const point &p )
     return vehint.serialize_activity();
 }
 
-vehicle_part &veh_interact::select_part( const vehicle &veh, const part_selector &sel,
-        const std::string &title )
+std::optional<vpart_reference> veh_interact::select_part( const vehicle &veh,
+        const part_selector &sel, const std::string &title )
 {
-    static vehicle_part null_part;
-    vehicle_part *res = &null_part;
-
-    auto act = [&]( const vehicle_part & pt ) {
-        res = const_cast<vehicle_part *>( &pt );
+    std::optional<vpart_reference> res = std::nullopt;
+    const auto act = [&]( const vehicle_part & pt ) {
+        res = vpart_reference( const_cast<vehicle &>( veh ), veh.index_of_part( &pt ) );
     };
     std::function<bool( const vpart_reference & )> sel_wrapper = [sel]( const vpart_reference & vpr ) {
         return sel( vpr.part() );
@@ -216,7 +214,7 @@ vehicle_part &veh_interact::select_part( const vehicle &veh, const part_selector
         vehint.overview( sel, act );
     }
 
-    return *res;
+    return res;
 }
 
 /**
@@ -3156,14 +3154,11 @@ void act_vehicle_siphon( vehicle *veh )
     auto sel = []( const vehicle_part & pt ) {
         return pt.contains_liquid();
     };
-    vehicle_part &tank = veh_interact::select_part( *veh, sel, title );
-    if( tank ) {
-        const item &base = tank.get_base();
-        const int idx = veh->index_of_part( &tank );
-        item liquid( base.legacy_front() );
+    if( const std::optional<vpart_reference> tank = veh_interact::select_part( *veh, sel, title ) ) {
+        item liquid( tank->part().get_base().only_item() );
         const int liq_charges = liquid.charges;
-        if( liquid_handler::handle_liquid( liquid, nullptr, 1, nullptr, veh, idx ) ) {
-            veh->drain( idx, liq_charges - liquid.charges );
+        if( liquid_handler::handle_liquid( liquid, nullptr, 1, nullptr, veh, tank->part_index() ) ) {
+            veh->drain( tank->part_index(), liq_charges - liquid.charges );
             veh->invalidate_mass();
         }
     }

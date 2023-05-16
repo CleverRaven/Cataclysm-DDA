@@ -55,11 +55,6 @@ vehicle_part::vehicle_part( const vpart_id &vp, const std::string &variant_id, c
     }
 }
 
-vehicle_part::operator bool() const
-{
-    return id != vpart_id::NULL_ID();
-}
-
 const item &vehicle_part::get_base() const
 {
     return base;

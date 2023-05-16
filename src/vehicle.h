@@ -249,9 +249,6 @@ struct vehicle_part {
         vehicle_part( const vpart_id &vp, const std::string &variant_id, const point &dp,
                       item &&obj );
 
-        /** Check this instance is non-null (not default constructed) */
-        explicit operator bool() const;
-
         bool has_flag( const vp_flag flag ) const noexcept {
             const uint32_t flag_as_uint32 = static_cast<uint32_t>( flag );
             return ( flags & flag_as_uint32 ) == flag_as_uint32;

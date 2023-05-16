@@ -2074,11 +2074,12 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
             };
             std::string title = string_format( _( "Purify <color_%s>water</color> in tank" ),
                                                get_all_colors().get_name( itype_water->color ) );
-            vehicle_part &tank = veh_interact::select_part( *this, sel, title );
-            if( !tank )
+            const std::optional<vpart_reference> vpr = veh_interact::select_part( *this, sel, title );
+            if( !vpr )
             {
                 return;
             }
+            vehicle_part &tank = vpr->part();
             int64_t cost = static_cast<int64_t>( itype_water_purifier->charges_to_use() );
             if( fuel_left( itype_battery ) < tank.ammo_remaining() * cost )
             {
