@@ -225,8 +225,6 @@ static const ter_str_id ter_t_diesel_pump_a( "t_diesel_pump_a" );
 static const ter_str_id ter_t_gas_pump( "t_gas_pump" );
 static const ter_str_id ter_t_gas_pump_a( "t_gas_pump_a" );
 
-const trap_str_id tr_telepad( "tr_telepad" );
-
 static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
 static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
 static const trait_id trait_BADKNEES( "BADKNEES" );
@@ -246,6 +244,8 @@ static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SHELL3( "SHELL3" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
+
+const trap_str_id tr_telepad( "tr_telepad" );
 
 // @TODO maybe make this a property of the item (depend on volume/type)
 static const time_duration milling_time = 6_hours;
@@ -4065,7 +4065,7 @@ void trap::examine( const tripoint &examp ) const
         return;
     }
     // If there is a telepad and we are anchored, there is no risk involved in disarming it.
-    if( id() == tr_telepad && player_character.has_flag( flag_DIMENSIONAL_ANCHOR ) ) {
+    if( id() == "tr_telepad" && player_character.has_flag( flag_DIMENSIONAL_ANCHOR ) ) {
         if( !query_yn( _( "There is a %s there.  Take down?" ), name() ) ) {
             return;
         }
