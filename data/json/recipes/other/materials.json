@@ -859,7 +859,7 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 2,
-    "time": "60 m",
+    "time": "90 m",
     "batch_time_factors": [ 90, 4 ],
     "reversible": true,
     "autolearn": true,
