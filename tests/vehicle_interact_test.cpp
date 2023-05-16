@@ -90,8 +90,9 @@ TEST_CASE( "repair_vehicle_part", "[vehicle]" )
 
         item ups( "UPS_off" );
         item ups_mag( ups.magazine_default() );
-        ups_mag.ammo_set( ups_mag.ammo_default(), 10000 );
+        ups_mag.ammo_set( ups_mag.ammo_default(), 1250 );
         ups.put_in( ups_mag, item_pocket::pocket_type::MAGAZINE_WELL );
+        tools.push_back( ups );
         tools.push_back( ups );
 
         tools.emplace_back( "goggles_welding" );
