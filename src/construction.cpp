@@ -121,7 +121,6 @@ static const std::string flag_INITIAL_PART( "INITIAL_PART" );
 static const std::string flag_APPLIANCE( "APPLIANCE" );
 static const std::string flag_CANT_DRAG( "CANT_DRAG" );
 static const std::string flag_WIRING( "WIRING" );
-static const std::string flag_HALF_CIRCLE_LIGHT( "HALF_CIRCLE_LIGHT" );
 
 static const int MAX_WIRE_VEHICLE_SIZE = 24;
 
