@@ -79,7 +79,7 @@ TEST_CASE( "repair_vehicle_part", "[vehicle]" )
         tools.emplace_back( "goggles_welding" );
         tools.emplace_back( "hammer" );
         tools.insert( tools.end(), 2, item( "steel_chunk" ) );
-        tools.insert( tools.end(), 1 item( "welding_wire_steel" ) );
+        tools.insert( tools.end(), 1, item( "welding_wire_steel" ) );
         test_repair( tools, true );
     }
     SECTION( "UPS_modded_welder" ) {
@@ -97,7 +97,7 @@ TEST_CASE( "repair_vehicle_part", "[vehicle]" )
         tools.emplace_back( "goggles_welding" );
         tools.emplace_back( "hammer" );
         tools.insert( tools.end(), 2, item( "steel_chunk" ) );
-        tools.insert( tools.end(), 1 item( "welding_wire_steel" ) );
+        tools.insert( tools.end(), 1, item( "welding_wire_steel" ) );
         test_repair( tools, true );
     }
     SECTION( "welder_missing_goggles" ) {
@@ -105,7 +105,7 @@ TEST_CASE( "repair_vehicle_part", "[vehicle]" )
         tools.push_back( tool_with_ammo( "welder", 1000 ) );
         tools.emplace_back( "hammer" );
         tools.insert( tools.end(), 2, item( "steel_chunk" ) );
-        tools.insert( tools.end(), 1 item( "welding_wire_steel" ) );
+        tools.insert( tools.end(), 1, item( "welding_wire_steel" ) );
         test_repair( tools, false );
     }
     SECTION( "welder_missing_charge" ) {
@@ -114,7 +114,7 @@ TEST_CASE( "repair_vehicle_part", "[vehicle]" )
         tools.emplace_back( "goggles_welding" );
         tools.emplace_back( "hammer" );
         tools.insert( tools.end(), 2, item( "steel_chunk" ) );
-        tools.insert( tools.end(), 1 item( "welding_wire_steel" ) );
+        tools.insert( tools.end(), 1, item( "welding_wire_steel" ) );
         test_repair( tools, false );
     }
     SECTION( "UPS_modded_welder_missing_charges" ) {
