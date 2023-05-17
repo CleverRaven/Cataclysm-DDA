@@ -605,27 +605,27 @@ bool trapfunc::blade( const tripoint &, Creature *c, item * )
 
 bool trapfunc::snare_light( const tripoint &p, Creature *c, item * )
 {
-    sounds::sound( p, 2, sounds::sound_t::combat, _( "Snap!" ), false, "trap", "snare" );
-    get_map().remove_trap( p );
+    sounds::sound( p, 4, sounds::sound_t::combat, _( "Snap!" ), false, "trap", "snare" );
+    map &here = get_map();
+    // Trap is always destroyed when triggered (function is not called unless trap is triggered, even if creature steps on tile)
+    here.remove_trap( p );
     if( c == nullptr ) {
         return false;
     }
-    // Determine what gets hit
-    const bodypart_id hit = one_in( 2 ) ? bodypart_id( "leg_l" ) : bodypart_id( "leg_r" );
-    // Messages
-    if( c->has_effect( effect_ridden ) ) {
-        add_msg( m_bad, _( "A snare closes on your %s's leg!" ), c->get_name() );
-    }
-    c->add_msg_player_or_npc( m_bad, _( "A snare closes on your leg." ),
-                              _( "A snare closes on <npcname>s leg." ) );
 
-    // Actual effects
-    c->add_effect( effect_lightsnare, 1_turns, hit, true );
-    monster *z = dynamic_cast<monster *>( c );
-    if( z != nullptr && z->type->size == creature_size::tiny ) {
-        z->deal_damage( nullptr, hit, damage_instance( damage_bash, 10 ) );
+    if( c->get_size() == creature_size::tiny || c->get_size() == creature_size::small ) {
+        // The lightsnare effect multiplies speed by 0.01 so on average this is actually 10,000 turns duration.
+        // Creatures can still escape earlier (possibly much earlier) based on their melee dice(for creatures) or strength/limb scores (character)
+        c->add_effect( effect_lightsnare, 100_turns, true );
+        if( c->has_effect( effect_ridden ) ) {
+            add_msg( m_bad, _( "A snare closes on your %s's leg!" ), c->get_name() );
+        }
+        c->add_msg_player_or_npc( m_bad, _( "A snare closes on your leg." ),
+                                  _( "A snare closes on <npcname>s leg." ) );
     }
-    c->check_dead_state();
+
+    // Always get trap components back on triggering tile
+    here.spawn_item( p, "light_snare_kit" );
     return true;
 }
 

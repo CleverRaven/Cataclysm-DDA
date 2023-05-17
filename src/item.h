@@ -1306,6 +1306,13 @@ class item : public visitable
         // @see itype::damage_level()
         int damage_level() const;
 
+        // modifies melee weapon damage to account for item's damage
+        float damage_adjusted_melee_weapon_damage( float value ) const;
+        // modifies gun damage to account for item's damage
+        float damage_adjusted_gun_damage( float value ) const;
+        // modifies armor resist to account for item's damage
+        float damage_adjusted_armor_resist( float value ) const;
+
         // @return 0 if item is count_by_charges() or 4000 ( value of itype::damage_max_ )
         int max_damage() const;
 
@@ -1743,6 +1750,18 @@ class item : public visitable
         /** Removes all item variables. */
         void clear_vars();
         /*@}*/
+
+        struct extended_photo_def {
+            int quality = 0;
+            std::string name;
+            std::string description;
+
+            void deserialize( const JsonObject &obj );
+            void serialize( JsonOut &jsout ) const;
+        };
+        bool read_extended_photos( std::vector<extended_photo_def> &extended_photos,
+                                   const std::string &var_name, bool insert_at_begin ) const;
+        void write_extended_photos( const std::vector<extended_photo_def> &, const std::string & );
 
         /**
          * @name Item flags

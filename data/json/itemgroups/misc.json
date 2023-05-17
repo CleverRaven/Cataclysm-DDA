@@ -177,10 +177,9 @@
       { "item": "magic_8_ball", "prob": 5 },
       { "item": "family_photo", "prob": 5 },
       { "item": "coin_quarter", "prob": 5 },
-      { "item": "mobile_memory_card_used", "count": [ 1, 4 ], "prob": 15 },
       { "item": "RPG_die", "prob": 5 },
       { "item": "metal_RPG_die", "prob": 1 },
-      { "item": "mobile_memory_card_encrypted", "count": [ 1, 2 ], "prob": 15 }
+      { "item": "memory_card_unread", "count": [ 1, 5 ], "prob": 30 }
     ]
   },
   {

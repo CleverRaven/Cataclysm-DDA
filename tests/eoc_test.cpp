@@ -383,7 +383,7 @@ TEST_CASE( "EOC_run_with_test_expects", "[eoc]" )
 
     CHECK( capture_debugmsg_during( [&]() {
         effect_on_condition_EOC_run_with_test_expects_fail->activate( d );
-    } ) == "Missing required variables: npctalk_var_key1, npctalk_var_key2, npctalk_var_key3, " );
+    } ) == "Missing required variables: key1, key2, key3, " );
     CHECK( globvars.get_global_value( "npctalk_var_key1" ).empty() );
     CHECK( globvars.get_global_value( "npctalk_var_key2" ).empty() );
     CHECK( globvars.get_global_value( "npctalk_var_key3" ).empty() );

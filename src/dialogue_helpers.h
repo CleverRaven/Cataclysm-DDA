@@ -58,6 +58,7 @@ struct talk_effect_fun_t {
         void set_mod_healthy( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_cast_spell( const JsonObject &jo, std::string_view member, bool is_npc,
                              bool targeted = false );
+        void set_die( bool is_npc );
         void set_lightning();
         void set_next_weather();
         void set_hp( const JsonObject &jo, const std::string &member, bool is_npc );
