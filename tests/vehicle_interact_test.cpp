@@ -74,12 +74,12 @@ TEST_CASE( "repair_vehicle_part", "[vehicle]" )
         tools.emplace_back( "goggles_welding" );
         tools.emplace_back( "hammer" );
         tools.emplace_back( "wrench" );
-        tools.insert( tools.end(), 20, item( "steel_chunk" ) );
-        tools.insert( tools.end(), 50, item( "scrap" ) );
-        tools.insert( tools.end(), 25, item( "nuts_bolts" ) );
+        tools.insert( tools.end(), 10, item( "steel_chunk" ) );
+        tools.insert( tools.end(), 25, item( "scrap" ) );
+        tools.insert( tools.end(), 10, item( "nuts_bolts" ) );
         tools.insert( tools.end(), 4, item( "material_aluminium_ingot" ) );
-        tools.insert( tools.end(), 300, item( "welding_wire_steel" ) );
-        tools.insert( tools.end(), 100, item( "welding_wire_alloy" ) );
+        tools.insert( tools.end(), 10, item( "welding_wire_steel" ) );
+        tools.insert( tools.end(), 10, item( "welding_wire_alloy" ) );
         test_repair( tools, true );
     }
     SECTION( "UPS_modded_welder" ) {
