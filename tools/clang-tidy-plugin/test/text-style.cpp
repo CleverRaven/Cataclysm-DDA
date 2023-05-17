@@ -1,4 +1,4 @@
-// RUN: %check_clang_tidy %s cata-text-style %t -- -plugins=%cata_plugin -config="{CheckOptions: [{key: cata-text-style.EscapeUnicode, value: 1}]}" --
+// RUN: %check_clang_tidy %s cata-text-style %t -- --load=%cata_plugin -config="{CheckOptions: [{key: cata-text-style.EscapeUnicode, value: 1}]}" --
 
 // check_clang_tidy uses -nostdinc++, so we add dummy declaration of std::string here
 namespace std

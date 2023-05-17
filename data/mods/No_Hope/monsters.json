@@ -710,6 +710,12 @@
     "name": { "str": "zombie technician" },
     "description": "Still wearing its work clothes and hardhat, this zombie likely used to work on power lines or other electrical equipment.  As it approaches, everything metal you're carrying shifts very slightly in the zombie's direction, as if attracted by a strong magnetic force.",
     "copy-from": "mon_zombie_technician",
-    "special_attacks": [ [ "PULL_METAL_WEAPON", 25 ], { "type": "bite", "cooldown": 20 }, [ "GRAB", 7 ], [ "scratch", 20 ] ]
+    "grab_strength": 20,
+    "special_attacks": [
+      [ "PULL_METAL_WEAPON", 25 ],
+      { "id": "grab", "cooldown": 7 },
+      { "id": "scratch_humanoid" },
+      { "id": "bite_humanoid", "cooldown": 5 }
+    ]
   }
 ]

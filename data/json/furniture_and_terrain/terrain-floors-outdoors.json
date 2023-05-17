@@ -14,6 +14,18 @@
   },
   {
     "type": "terrain",
+    "id": "t_forestfloor",
+    "name": "forest floor",
+    "description": "Covered in twigs and lots of brown, decaying leaves.",
+    "symbol": ".",
+    "color": "brown",
+    "looks_like": "t_grass_tall",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ],
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
     "id": "t_sand",
     "name": "sand",
     "description": "A large area of fine sand that could be useful in a number of ways, if it was extracted properly.",

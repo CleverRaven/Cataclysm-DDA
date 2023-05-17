@@ -21,7 +21,7 @@
         "condition": {
           "and": [
             { "or": [ { "npc_has_trait": "EGGSAC_SURVIVABLE" }, { "npc_has_trait": "EGGSAC_FATAL" } ] },
-            { "u_has_skill": { "skill": "deduction", "level": 2 } }
+            { "math": [ "u_skill('deduction')", ">=", "2" ] }
           ]
         },
         "effect": { "u_add_var": "u_knows_goblinspider_eggs", "type": "knowledge", "context": "reproduction", "value": "yes" },

@@ -51,7 +51,7 @@
     "color": "brown",
     "qualities": [ [ "DIG", 1 ], [ "SAW_W", 1 ] ],
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "NONCONDUCTIVE" ],
+    "flags": [ "NONCONDUCTIVE", "NO_SALVAGE" ],
     "weapon_category": [ "BLADED_FARMING", "HOOKING_WEAPONRY" ],
     "use_action": [ "MAKEMOUND" ],
     "melee_damage": { "bash": 10, "cut": 6 }
@@ -198,7 +198,7 @@
     "color": "brown",
     "qualities": [ [ "DIG", 3 ], [ "COOK", 1 ], [ "BUTCHER", -70 ] ],
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "NONCONDUCTIVE" ],
+    "flags": [ "NONCONDUCTIVE", "NO_SALVAGE" ],
     "melee_damage": { "bash": 14, "cut": 3 }
   },
   {

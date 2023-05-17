@@ -224,7 +224,6 @@ static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_contacts( "contacts" );
 static const efftype_id effect_docile( "docile" );
 static const efftype_id effect_downed( "downed" );
-static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_laserlocked( "laserlocked" );
 static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_onfire( "onfire" );
@@ -266,6 +265,7 @@ static const itype_id itype_towel( "towel" );
 static const itype_id itype_towel_wet( "towel_wet" );
 
 static const json_character_flag json_flag_CLIMB_NO_LADDER( "CLIMB_NO_LADDER" );
+static const json_character_flag json_flag_GRAB( "GRAB" );
 static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
 static const json_character_flag json_flag_INFECTION_IMMUNE( "INFECTION_IMMUNE" );
 static const json_character_flag json_flag_NYCTOPHOBIA( "NYCTOPHOBIA" );
@@ -631,6 +631,19 @@ void game::toggle_pixel_minimap() const
     pixel_minimap_option = !pixel_minimap_option;
     mark_main_ui_adaptor_resize();
 #endif // TILES
+}
+
+void game::toggle_language_to_en()
+{
+    // No-op if we aren't complied with localization
+#if defined(LOCALIZE)
+    const std::string english = "en" ;
+    static std::string secondary_lang = english;
+    std::string current_lang = TranslationManager::GetInstance().GetCurrentLanguage();
+    secondary_lang = current_lang != english ? current_lang : secondary_lang;
+    std::string new_lang = current_lang != english ? english : secondary_lang;
+    set_language( new_lang );
+#endif
 }
 
 bool game::is_tileset_isometric() const
@@ -1274,7 +1287,7 @@ void game::calc_driving_offset( vehicle *veh )
     rl_vec2d offset = veh->move_vec();
     if( !veh->skidding && veh->player_in_control( u ) &&
         std::abs( veh->cruise_velocity - veh->velocity ) < 7 * vehicles::vmiph_per_tile ) {
-        // Use the cruise controlled velocity, but only if
+        // Use cruise_velocity, but only if
         // it is not too different from the actual velocity.
         // The actual velocity changes too often (see above slowdown).
         // Using it makes would make the offset change far too often.
@@ -1551,9 +1564,9 @@ static int maptile_field_intensity( maptile &mt, field_type_id fld )
     return field_ptr == nullptr ? 0 : field_ptr->get_field_intensity();
 }
 
-units::temperature get_heat_radiation( const tripoint &location )
+units::temperature_delta get_heat_radiation( const tripoint &location )
 {
-    units::temperature temp_mod = 0_K;
+    units::temperature_delta temp_mod = units::from_kelvin_delta( 0 );
     Character &player_character = get_player_character();
     map &here = get_map();
     // Convert it to an int id once, instead of 139 times per turn
@@ -1582,7 +1595,7 @@ units::temperature get_heat_radiation( const tripoint &location )
         }
         // Ensure fire_dist >= 1 to avoid divide-by-zero errors.
         const int fire_dist = std::max( 1, square_dist( dest, location ) );
-        temp_mod += units::from_kelvin( 6.f * heat_intensity * heat_intensity / fire_dist / 1.8 );
+        temp_mod += units::from_fahrenheit_delta( 6.f * heat_intensity * heat_intensity / fire_dist );
     }
     return temp_mod;
 }
@@ -1624,20 +1637,23 @@ int get_best_fire( const tripoint &location )
     return best_fire;
 }
 
-units::temperature get_convection_temperature( const tripoint &location )
+units::temperature_delta get_convection_temperature( const tripoint &location )
 {
-    units::temperature temp_mod = 0_K;
+    units::temperature_delta temp_mod = units::from_kelvin_delta( 0 );
     map &here = get_map();
     // Directly on lava tiles
-    units::temperature lava_mod = here.tr_at( location ).has_flag( json_flag_CONVECTS_TEMPERATURE ) ?
-                                  units::from_kelvin( fd_fire->get_intensity_level().convection_temperature_mod / 1.8 ) : 0_K;
+    units::temperature_delta lava_mod = here.tr_at( location ).has_flag(
+                                            json_flag_CONVECTS_TEMPERATURE ) ?
+                                        units::from_fahrenheit_delta( fd_fire->get_intensity_level().convection_temperature_mod ) :
+                                        units::from_kelvin_delta( 0 );
     // Modifier from fields
     for( auto fd : here.field_at( location ) ) {
         // Nullify lava modifier when there is open fire
         if( fd.first.obj().has_fire ) {
-            lava_mod = 0_K;
+            lava_mod = units::from_kelvin_delta( 0 );
         }
-        temp_mod += units::from_kelvin( fd.second.get_intensity_level().convection_temperature_mod / 1.8 );
+        temp_mod += units::from_fahrenheit_delta(
+                        fd.second.get_intensity_level().convection_temperature_mod );
     }
     return temp_mod + lava_mod;
 }
@@ -1964,119 +1980,129 @@ int game::inventory_item_menu( item_location locThisItem,
             add_key_to_quick_shortcuts( oThisItem.invlet, "INVENTORY", false );
         }
 #endif
-
+        const bool bHPR = get_auto_pickup().has_rule( &oThisItem );
         std::vector<iteminfo> vThisItem;
         std::vector<iteminfo> vDummy;
-
-        const bool bHPR = get_auto_pickup().has_rule( &oThisItem );
-        const hint_rating rate_drop_item = u.get_wielded_item() &&
-                                           u.get_wielded_item()->has_flag( flag_NO_UNWIELD ) ?
-                                           hint_rating::cant : hint_rating::good;
-
-        uilist action_menu;
-        action_menu.allow_anykey = true;
-        const auto addentry = [&]( const char key, const std::string & text, const hint_rating hint ) {
-            // The char is used as retval from the uilist *and* as hotkey.
-            action_menu.addentry( key, true, key, text );
-            auto &entry = action_menu.entries.back();
-            switch( hint ) {
-                case hint_rating::cant:
-                    entry.text_color = c_light_gray;
-                    break;
-                case hint_rating::iffy:
-                    entry.text_color = c_light_red;
-                    break;
-                case hint_rating::good:
-                    entry.text_color = c_light_green;
-                    break;
-            }
-        };
-        addentry( 'a', pgettext( "action", "activate" ), rate_action_use( u, oThisItem ) );
-        addentry( 'R', pgettext( "action", "read" ), rate_action_read( u, oThisItem ) );
-        addentry( 'E', pgettext( "action", "eat" ), rate_action_eat( u, oThisItem ) );
-        addentry( 'W', pgettext( "action", "wear" ), rate_action_wear( u, oThisItem ) );
-        addentry( 'w', pgettext( "action", "wield" ), rate_action_wield( u, oThisItem ) );
-        addentry( 't', pgettext( "action", "throw" ), rate_action_wield( u, oThisItem ) );
-        addentry( 'c', pgettext( "action", "change side" ), rate_action_change_side( u, oThisItem ) );
-        addentry( 'T', pgettext( "action", "take off" ), rate_action_take_off( u, oThisItem ) );
-        addentry( 'd', pgettext( "action", "drop" ), rate_drop_item );
-        addentry( 'U', pgettext( "action", "unload" ), u.rate_action_unload( oThisItem ) );
-        addentry( 'r', pgettext( "action", "reload" ), u.rate_action_reload( oThisItem ) );
-        addentry( 'p', pgettext( "action", "part reload" ), u.rate_action_reload( oThisItem ) );
-        addentry( 'm', pgettext( "action", "mend" ), rate_action_mend( u, oThisItem ) );
-        addentry( 'D', pgettext( "action", "disassemble" ), rate_action_disassemble( u, oThisItem ) );
-        if( oThisItem.is_container() && !oThisItem.is_corpse() ) {
-            addentry( 'i', pgettext( "action", "insert" ), rate_action_insert( u, locThisItem ) );
-            if( oThisItem.num_item_stacks() > 0 ) {
-                addentry( 'o', pgettext( "action", "open" ), hint_rating::good );
-            }
-            addentry( 'v', pgettext( "action", "pocket settings" ), hint_rating::good );
-        }
-
-        if( oThisItem.is_favorite ) {
-            addentry( 'f', pgettext( "action", "unfavorite" ), hint_rating::good );
-        } else {
-            addentry( 'f', pgettext( "action", "favorite" ), hint_rating::good );
-        }
-
-        addentry( 'V', pgettext( "action", "view recipe" ), rate_action_view_recipe( u, oThisItem ) );
-        addentry( '>', pgettext( "action", "hide contents" ), rate_action_collapse( oThisItem ) );
-        addentry( '<', pgettext( "action", "show contents" ), rate_action_expand( oThisItem ) );
-        addentry( '=', pgettext( "action", "reassign" ), hint_rating::good );
-
-        if( bHPR ) {
-            addentry( '-', _( "Auto pickup" ), hint_rating::iffy );
-        } else {
-            addentry( '+', _( "Auto pickup" ), hint_rating::good );
-        }
-
+        item_info_data data;
         int iScrollPos = 0;
-        oThisItem.info( true, vThisItem );
-
-        action_menu.w_y_setup = 0;
-        action_menu.w_x_setup = [&]( const int popup_width ) -> int {
-            switch( position )
-            {
-                default:
-                case RIGHT_TERMINAL_EDGE:
-                    return 0;
-                case LEFT_OF_INFO:
-                    return iStartX() - popup_width;
-                case RIGHT_OF_INFO:
-                    return iStartX() + iWidth();
-                case LEFT_TERMINAL_EDGE:
-                    return TERMX - popup_width;
-            }
-        };
-        // Filtering isn't needed, the number of entries is manageable.
-        action_menu.filtering = false;
-        // Default menu border color is different, this matches the border of the item info window.
-        action_menu.border_color = BORDER_COLOR;
-
-        item_info_data data( oThisItem.tname(), oThisItem.type_name(), vThisItem, vDummy, iScrollPos );
-        data.without_getch = true;
-
-        catacurses::window w_info;
         int iScrollHeight = 0;
-
-        std::unique_ptr<ui_adaptor> ui = std::make_unique<ui_adaptor>();
-        ui->on_screen_resize( [&]( ui_adaptor & ui ) {
-            w_info = catacurses::newwin( TERMY, iWidth(), point( iStartX(), 0 ) );
-            iScrollHeight = TERMY - 2;
-            ui.position_from_window( w_info );
-        } );
-        ui->mark_resize();
-
-        ui->on_redraw( [&]( const ui_adaptor & ) {
-            draw_item_info( w_info, data );
-        } );
-
-        action_menu.additional_actions = {
-            { "RIGHT", translation() }
-        };
+        uilist action_menu;
+        std::unique_ptr<ui_adaptor> ui;
 
         bool exit = false;
+        bool first_execution = true;
+        static int lang_version = detail::get_current_language_version();
         do {
+            //lang check here is needed to redraw the menu when using "Toggle language to English" option
+            if( first_execution || lang_version != detail::get_current_language_version() ) {
+
+                const hint_rating rate_drop_item = u.get_wielded_item() &&
+                                                   u.get_wielded_item()->has_flag( flag_NO_UNWIELD ) ?
+                                                   hint_rating::cant : hint_rating::good;
+                action_menu.reset();
+                action_menu.allow_anykey = true;
+                const auto addentry = [&]( const char key, const std::string & text, const hint_rating hint ) {
+                    // The char is used as retval from the uilist *and* as hotkey.
+                    action_menu.addentry( key, true, key, text );
+                    auto &entry = action_menu.entries.back();
+                    switch( hint ) {
+                        case hint_rating::cant:
+                            entry.text_color = c_light_gray;
+                            break;
+                        case hint_rating::iffy:
+                            entry.text_color = c_light_red;
+                            break;
+                        case hint_rating::good:
+                            entry.text_color = c_light_green;
+                            break;
+                    }
+                };
+                addentry( 'a', pgettext( "action", "activate" ), rate_action_use( u, oThisItem ) );
+                addentry( 'R', pgettext( "action", "read" ), rate_action_read( u, oThisItem ) );
+                addentry( 'E', pgettext( "action", "eat" ), rate_action_eat( u, oThisItem ) );
+                addentry( 'W', pgettext( "action", "wear" ), rate_action_wear( u, oThisItem ) );
+                addentry( 'w', pgettext( "action", "wield" ), rate_action_wield( u, oThisItem ) );
+                addentry( 't', pgettext( "action", "throw" ), rate_action_wield( u, oThisItem ) );
+                addentry( 'c', pgettext( "action", "change side" ), rate_action_change_side( u, oThisItem ) );
+                addentry( 'T', pgettext( "action", "take off" ), rate_action_take_off( u, oThisItem ) );
+                addentry( 'd', pgettext( "action", "drop" ), rate_drop_item );
+                addentry( 'U', pgettext( "action", "unload" ), u.rate_action_unload( oThisItem ) );
+                addentry( 'r', pgettext( "action", "reload" ), u.rate_action_reload( oThisItem ) );
+                addentry( 'p', pgettext( "action", "part reload" ), u.rate_action_reload( oThisItem ) );
+                addentry( 'm', pgettext( "action", "mend" ), rate_action_mend( u, oThisItem ) );
+                addentry( 'D', pgettext( "action", "disassemble" ), rate_action_disassemble( u, oThisItem ) );
+                if( oThisItem.is_container() && !oThisItem.is_corpse() ) {
+                    addentry( 'i', pgettext( "action", "insert" ), rate_action_insert( u, locThisItem ) );
+                    if( oThisItem.num_item_stacks() > 0 ) {
+                        addentry( 'o', pgettext( "action", "open" ), hint_rating::good );
+                    }
+                    addentry( 'v', pgettext( "action", "pocket settings" ), hint_rating::good );
+                }
+
+                if( oThisItem.is_favorite ) {
+                    addentry( 'f', pgettext( "action", "unfavorite" ), hint_rating::good );
+                } else {
+                    addentry( 'f', pgettext( "action", "favorite" ), hint_rating::good );
+                }
+
+                addentry( 'V', pgettext( "action", "view recipe" ), rate_action_view_recipe( u, oThisItem ) );
+                addentry( '>', pgettext( "action", "hide contents" ), rate_action_collapse( oThisItem ) );
+                addentry( '<', pgettext( "action", "show contents" ), rate_action_expand( oThisItem ) );
+                addentry( '=', pgettext( "action", "reassign" ), hint_rating::good );
+
+                if( bHPR ) {
+                    addentry( '-', _( "Auto pickup" ), hint_rating::iffy );
+                } else {
+                    addentry( '+', _( "Auto pickup" ), hint_rating::good );
+                }
+
+                oThisItem.info( true, vThisItem );
+
+                action_menu.w_y_setup = 0;
+                action_menu.w_x_setup = [&]( const int popup_width ) -> int {
+                    switch( position )
+                    {
+                        default:
+                        case RIGHT_TERMINAL_EDGE:
+                            return 0;
+                        case LEFT_OF_INFO:
+                            return iStartX() - popup_width;
+                        case RIGHT_OF_INFO:
+                            return iStartX() + iWidth();
+                        case LEFT_TERMINAL_EDGE:
+                            return TERMX - popup_width;
+                    }
+                };
+                // Filtering isn't needed, the number of entries is manageable.
+                action_menu.filtering = false;
+                // Default menu border color is different, this matches the border of the item info window.
+                action_menu.border_color = BORDER_COLOR;
+
+                data = item_info_data( oThisItem.tname(), oThisItem.type_name(), vThisItem, vDummy, iScrollPos );
+                data.without_getch = true;
+
+                catacurses::window w_info;
+
+                ui = std::make_unique<ui_adaptor>();
+                ui->on_screen_resize( [&]( ui_adaptor & ui ) {
+                    w_info = catacurses::newwin( TERMY, iWidth(), point( iStartX(), 0 ) );
+                    iScrollHeight = TERMY - 2;
+                    ui.position_from_window( w_info );
+                } );
+                ui->mark_resize();
+
+                ui->on_redraw( [&]( const ui_adaptor & ) {
+                    draw_item_info( w_info, data );
+                } );
+
+                action_menu.additional_actions = {
+                    { "RIGHT", translation() }
+                };
+
+                lang_version = detail::get_current_language_version();
+                first_execution = false;
+            }
+
             const int prev_selected = action_menu.selected;
             action_menu.query( false );
             if( action_menu.ret >= 0 ) {
@@ -2100,6 +2126,7 @@ int game::inventory_item_menu( item_location locThisItem,
                 exit = true;
                 ui = nullptr;
             }
+
 
             switch( cMenu ) {
                 case 'a': {
@@ -3353,6 +3380,11 @@ bool game::save()
             world_generator->last_character_name = u.name;
             world_generator->save_last_world_info();
             world_generator->active_world->add_save( save_t::from_save_id( u.get_save_id() ) );
+            write_to_file( PATH_INFO::world_base_save_path_path() / ( base64_encode(
+            u.get_save_id() ) + ".pt" ), [&total_time_played]( std::ostream & fout ) {
+                fout.imbue( std::locale::classic() );
+                fout << total_time_played.count();
+            } );
             return true;
         }
     } catch( std::ios::failure & ) {
@@ -4610,6 +4642,7 @@ void game::cleanup_dead()
     if( npc_is_dead ) {
         for( auto it = critter_tracker->active_npc.begin(); it != critter_tracker->active_npc.end(); ) {
             if( ( *it )->is_dead() ) {
+                get_avatar().get_mon_visible().remove_npc( ( *it ).get() );
                 remove_npc_follower( ( *it )->getID() );
                 overmap_buffer.remove_npc( ( *it )->getID() );
                 it = critter_tracker->active_npc.erase( it );
@@ -5618,7 +5651,7 @@ void game::control_vehicle()
         const bool controls_ok = controls_idx >= 0; // controls available to "drive"
         const bool reins_ok = reins_idx >= 0 // reins + animal available to "drive"
                               && veh->has_engine_type( fuel_type_animal, false )
-                              && veh->has_harnessed_animal();
+                              && veh->get_harnessed_animal();
         if( veh->player_in_control( u ) ) {
             // player already "driving" - offer ways to leave
             if( controls_ok ) {
@@ -10372,6 +10405,35 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
 
     if( moving ) {
         cata_event_dispatch::avatar_moves( old_abs_pos, u, m );
+
+        // Add trail animation when sprinting
+        if( get_option<bool>( "ANIMATIONS" ) && u.is_running() ) {
+            std::map<tripoint, nc_color> area_color;
+            area_color[oldpos] = c_black;
+            if( u.posy() < oldpos.y ) {
+                if( u.posx() < oldpos.x ) {
+                    explosion_handler::draw_custom_explosion( oldpos, area_color, "run_nw" );
+                } else if( u.posx() == oldpos.x ) {
+                    explosion_handler::draw_custom_explosion( oldpos, area_color, "run_n" );
+                } else {
+                    explosion_handler::draw_custom_explosion( oldpos, area_color, "run_ne" );
+                }
+            } else if( u.posy() == oldpos.y ) {
+                if( u.posx() < oldpos.x ) {
+                    explosion_handler::draw_custom_explosion( oldpos, area_color, "run_w" );
+                } else {
+                    explosion_handler::draw_custom_explosion( oldpos, area_color, "run_e" );
+                }
+            } else {
+                if( u.posx() < oldpos.x ) {
+                    explosion_handler::draw_custom_explosion( oldpos, area_color, "run_sw" );
+                } else if( u.posx() == oldpos.x ) {
+                    explosion_handler::draw_custom_explosion( oldpos, area_color, "run_s" );
+                } else {
+                    explosion_handler::draw_custom_explosion( oldpos, area_color, "run_se" );
+                }
+            }
+        }
     }
 
     if( furniture_move ) {
@@ -11276,25 +11338,35 @@ void game::water_affect_items( Character &ch ) const
     }
 }
 
-void game::fling_creature( Creature *c, const units::angle &dir, float flvel, bool controlled )
+bool game::fling_creature( Creature *c, const units::angle &dir, float flvel, bool controlled )
 {
     if( c == nullptr ) {
         debugmsg( "game::fling_creature invoked on null target" );
-        return;
+        return false;
     }
 
     if( c->is_dead_state() ) {
         // Flinging a corpse causes problems, don't enable without testing
-        return;
+        return false;
     }
 
     if( c->is_hallucination() ) {
         // Don't fling hallucinations
-        return;
+        return false;
     }
 
     // Target creature shouldn't be grabbed if thrown
-    c->remove_effect( effect_grabbed );
+    // It should also not be thrown if the throw is weaker than the grab
+    for( const effect &eff : c->get_effects_with_flag( json_flag_GRAB ) ) {
+        if( !x_in_y( flvel / 2, eff.get_intensity() ) ) {
+            c->add_msg_player_or_npc( m_warning,
+                                      _( "You're almost sent flying, but something holds you in place!" ),
+                                      _( "<npcname> is almost sent flying, but something holds them in place!" ) );
+            return false;
+        } else {
+            c->remove_effect( eff.get_id(), eff.get_bp() );
+        }
+    }
 
     bool thru = true;
     const bool is_u = c == &u;
@@ -11354,7 +11426,7 @@ void game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
 
         // If the critter dies during flinging, moving it around causes debugmsgs
         if( c->is_dead_state() ) {
-            return;
+            return true;
         }
 
         flvel -= force;
@@ -11424,6 +11496,7 @@ void game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
             }
         }
     }
+    return true;
 }
 
 std::optional<tripoint> game::point_selection_menu( const std::vector<tripoint> &pts, bool up )
@@ -12225,6 +12298,18 @@ void game::despawn_monster( monster &critter )
     remove_zombie( critter );
     // simulate it being dead so further processing of it (e.g. in monmove) will yield
     critter.set_hp( 0 );
+}
+
+void game::despawn_nonlocal_monsters()
+{
+    for( monster &critter : g->all_monsters() ) {
+        if( critter.posx() < 0 - MAPSIZE_X / 6 ||
+            critter.posy() < 0 - MAPSIZE_Y / 6 ||
+            critter.posx() > ( MAPSIZE_X * 7 ) / 6 ||
+            critter.posy() > ( MAPSIZE_Y * 7 ) / 6 ) {
+            g->despawn_monster( critter );
+        }
+    }
 }
 
 void game::shift_monsters( const tripoint &shift )

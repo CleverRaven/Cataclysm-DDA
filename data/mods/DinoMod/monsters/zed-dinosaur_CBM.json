@@ -67,9 +67,10 @@
     "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
     "vision_day": 50,
     "luminance": 4,
+    "grab_strength": 100,
     "special_attacks": [
+      { "id": "bite_grab", "cooldown": 7 },
       [ "scratch", 10 ],
-      [ "GRAB", 7 ],
       { "id": "teeth_zino_max", "cooldown": 5 },
       { "id": "bio_op_takedown", "cooldown": 20 },
       { "type": "spell", "spell_data": { "id": "CBM_TRex_recording" }, "cooldown": 1600 }

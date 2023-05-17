@@ -110,7 +110,7 @@
     "description": "generic item template",
     "type": "GENERIC",
     "symbol": ")",
-    "to_hit": 1,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
     "price": 4500,
     "price_postapoc": 10,
     "use_action": [ "HEAT_FOOD" ],
@@ -641,14 +641,15 @@
     "flags": [ "ALLOWS_BODY_BLOCK" ],
     "symbol": "X",
     "color": "light_gray",
-    "price": 100,
+    "price": "1 USD",
     "price_postapoc": 0,
-    "weight": "28 g",
-    "volume": "15 ml",
+    "weight": "11 g",
+    "volume": "40 ml",
     "longest_side": "23 cm",
     "material": [ "wood" ],
-    "to_hit": -1,
-    "melee_damage": { "bash": 1, "stab": 1 }
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
+    "melee_damage": { "stab": 1 },
+    "//": "Based on https://www.amazon.com/Fuji-Merchandise-Quality-Wooden-Chopsticks/dp/B07N47CN44/ref=sr_1_8?crid=28MLMFZEJET90&keywords=chopsticks%2Bsingle%2Bpair&qid=1683476295&sprefix=chopsticks%2Bsingle%2Bpai%2Caps%2C210&sr=8-8&th=1"
   },
   {
     "type": "GENERIC",
@@ -714,26 +715,33 @@
     "name": { "str": "spatula" },
     "description": "A rubber scraper for making sure you get every last scrap of cookie dough.",
     "looks_like": "spoon",
-    "proportional": { "weight": 3.0, "volume": 2.0 },
+    "weight": "50 g",
+    "volume": "195 ml",
+    "longest_side": "24 cm",
+    "price": 435,
     "material": [ "rubber" ],
-    "copy-from": "base_plastic_silverware"
+    "copy-from": "base_plastic_silverware",
+    "//": "Based on https://www.amazon.com/Rubbermaid-Commercial-Products-Spatula-FG1901000000/dp/B001BKWXOY/ref=sr_1_8?crid=1JRXNWE266SFB&keywords=rubber%2Bspatula&qid=1683210364&sprefix=rubber%2Bspatula%2Caps%2C238&sr=8-8&th=1"
   },
   {
     "type": "GENERIC",
     "category": "other",
     "id": "rolling_pin",
     "name": { "str": "rolling pin" },
-    "description": "A stout piece of hardwood, turned and sanded smooth, with rounded handles at the ends.  This timeless kitchen tool also doubles as a very effective club.",
-    "weight": "725 g",
-    "longest_side": "45 cm",
+    "description": "A stout piece of hardwood, turned and sanded smooth, with rounded handles at the ends.  This timeless kitchen tool also doubles as an effective club.",
+    "weight": "318 g",
+    "longest_side": "46 cm",
     "color": "brown",
     "symbol": "/",
     "material": [ "wood" ],
     "techniques": [ "WBLOCK_1", "RAPID" ],
     "flags": [ "DURABLE_MELEE" ],
-    "volume": "600 ml",
-    "price": 700,
-    "melee_damage": { "bash": 7 }
+    "volume": "1450 ml",
+    "price": "8 USD",
+    "price_postapoc": 5,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
+    "melee_damage": { "bash": 7 },
+    "//": "Based on https://www.amazon.com/Goodcook-05717000817-Good-Cook-23830/dp/B000ARPJRM/ref=sr_1_6?crid=934OZ18675K2&keywords=rolling%2Bpin&qid=1683202158&sprefix=rollingpin%2Caps%2C512&sr=8-6&th=1"
   },
   {
     "type": "GENERIC",
@@ -744,19 +752,21 @@
     "copy-from": "base_cookpot",
     "material": [ "steel" ],
     "color": "light_gray",
-    "weight": "880 g",
-    "volume": "3500 ml",
-    "longest_side": "23 cm",
+    "weight": "1 kg",
+    "volume": "3700 ml",
+    "longest_side": "19 cm",
+    "price": "31 USD",
     "pocket_data": [
       {
         "max_contains_volume": "2 L",
-        "max_contains_weight": "2 kg",
+        "max_contains_weight": "4 kg",
         "watertight": true,
         "open_container": true,
         "rigid": true
       }
     ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 6 },
+    "//": "Based on https://www.amazon.com/jalz-Stainless-Saucepan-Classic-Cookware/dp/B087PB2L83/ref=sr_1_14?crid=1RO37Q8AD174O&keywords=2l%2Bstainless%2Bsteel%2Bpot&qid=1683292826&sprefix=steel%2Bpot%2B2l%2Caps%2C184&sr=8-14&th=1"
   },
   {
     "type": "GENERIC",
@@ -1061,6 +1071,21 @@
     "melee_damage": { "bash": 5 }
   },
   {
+    "type": "GENERIC",
+    "category": "tools",
+    "id": "coffeepot",
+    "name": { "str": "coffee pot" },
+    "description": "A glass pot for making a cup of joe.",
+    "copy-from": "base_cookpot",
+    "material": [ "glass" ],
+    "color": "light_gray",
+    "weight": "676 g",
+    "volume": "3100 ml",
+    "melee_damage": { "bash": 5 },
+    "pocket_data": [ { "max_contains_volume": "3000 ml", "max_contains_weight": "6 kg", "watertight": true, "rigid": true } ],
+    "delete": { "qualities": [ [ "COOK", 3 ] ] }
+  },
+  {
     "id": "colander_steel",
     "name": { "str": "mesh colander" },
     "category": "other",
@@ -1089,16 +1114,19 @@
     "category": "other",
     "name": { "str": "cutting board" },
     "description": "A large, flat piece of wood for chopping vegetables on without ruining your knife or your countertop.",
-    "weight": "945 g",
-    "to_hit": -1,
+    "weight": "455 g",
+    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "color": "brown",
     "symbol": "/",
     "material": [ "wood" ],
     "techniques": [ "WBLOCK_2" ],
     "flags": [ "DURABLE_MELEE" ],
-    "volume": "900 ml",
-    "price": 200,
-    "melee_damage": { "bash": 7 }
+    "volume": "2625 ml",
+    "longest_side": "41 cm",
+    "price": "48 USD",
+    "price_postapoc": 5,
+    "melee_damage": { "bash": 7 },
+    "//": "Based on https://www.amazon.com/John-Boos-Chop-N-Slice-Maple-Cutting/dp/B00063QBL8/ref=sr_1_51?crid=3HQVDF1UITVHX&keywords=cutting%2Bboard&qid=1683203867&sprefix=cutting%2Bboard%2Caps%2C213&sr=8-51&th=1"
   },
   {
     "id": "mess_tray",

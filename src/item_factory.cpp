@@ -68,8 +68,6 @@ static const ammotype ammo_NULL( "NULL" );
 
 static const damage_type_id damage_bash( "bash" );
 static const damage_type_id damage_bullet( "bullet" );
-static const damage_type_id damage_cut( "cut" );
-static const damage_type_id damage_stab( "stab" );
 
 static const gun_mode_id gun_mode_DEFAULT( "DEFAULT" );
 static const gun_mode_id gun_mode_MELEE( "MELEE" );
@@ -233,7 +231,7 @@ void Item_factory::finalize_pre( itype &obj )
             if( iter != obj.melee_proportional.end() ) {
                 dt.second *= iter->second;
                 // For maintaining legacy behaviour (when melee damage used ints)
-                std::floor( dt.second );
+                dt.second = std::floor( dt.second );
             }
         }
     }
@@ -244,13 +242,13 @@ void Item_factory::finalize_pre( itype &obj )
             if( iter != obj.melee_relative.end() ) {
                 dt.second += iter->second;
                 // For maintaining legacy behaviour (when melee damage used ints)
-                std::floor( dt.second );
+                dt.second = std::floor( dt.second );
             }
         }
     }
 
     if( obj.has_flag( flag_STAB ) ) {
-        debugmsg( "The \"STAB\" flag used on %s is obsolete. Add a \"stab\" value in the \"melee_damage\" object instead.",
+        debugmsg( "The \"STAB\" flag used on %s is obsolete, add a \"stab\" value in the \"melee_damage\" object instead.",
                   obj.id.c_str() );
     }
 
@@ -1379,8 +1377,8 @@ void Item_factory::finalize_item_blacklist()
             return r.result() == candidate->first;
         } );
     }
-    for( vproto_id &vid : vehicle_prototype::get_all() ) {
-        vehicle_prototype &prototype = const_cast<vehicle_prototype &>( vid.obj() );
+    for( const vehicle_prototype &const_prototype : vehicles::get_all_prototypes() ) {
+        vehicle_prototype &prototype = const_cast<vehicle_prototype &>( const_prototype );
         for( vehicle_item_spawn &vis : prototype.item_spawns ) {
             auto &vec = vis.item_ids;
             const auto iter = std::remove_if( vec.begin(), vec.end(), item_is_blacklisted );
@@ -1482,8 +1480,8 @@ void Item_factory::finalize_item_blacklist()
             }
         }
     }
-    for( vproto_id &vid : vehicle_prototype::get_all() ) {
-        vehicle_prototype &prototype = const_cast<vehicle_prototype &>( vid.obj() );
+    for( const vehicle_prototype &const_prototype : vehicles::get_all_prototypes() ) {
+        vehicle_prototype &prototype = const_cast<vehicle_prototype &>( const_prototype );
         for( vehicle_item_spawn &vis : prototype.item_spawns ) {
             for( itype_id &type_to_spawn : vis.item_ids ) {
                 std::map<itype_id, std::vector<migration>>::iterator replacement =
@@ -2513,6 +2511,31 @@ void islot_milling::deserialize( const JsonObject &jo )
     load( jo );
 }
 
+static void load_memory_card_data( memory_card_info &mcd, const JsonObject &jo )
+{
+    mcd.data_chance = jo.get_float( "data_chance", 1.0f );
+    mcd.on_read_convert_to = itype_id( jo.get_string( "on_read_convert_to" ) );
+
+    mcd.photos_chance = jo.get_float( "photos_chance", 0.0f );
+    mcd.photos_amount = jo.get_int( "photos_amount", 0 );
+
+    mcd.songs_chance = jo.get_float( "songs_chance", 0.0f );
+    mcd.songs_amount = jo.get_int( "songs_amount", 0 );
+
+    mcd.recipes_chance = jo.get_float( "recipes_chance", 0.0f );
+    mcd.recipes_amount = jo.get_int( "recipes_amount", 0 );
+    mcd.recipes_level_min = jo.get_int( "recipes_level_min", 0 );
+    mcd.recipes_level_max = jo.get_int( "recipes_level_max", 10 );
+    mcd.recipes_categories.clear();
+    if( jo.has_array( "recipes_categories" ) ) {
+        for( const std::string &cat : jo.get_string_array( "recipes_categories" ) ) {
+            mcd.recipes_categories.emplace( cat );
+        }
+    } else {
+        mcd.recipes_categories = { "CC_FOOD" };
+    }
+}
+
 void islot_ammo::load( const JsonObject &jo )
 {
     bool strict = false;
@@ -3170,8 +3193,29 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
         slot.monotony_penalty = 0;
     }
     assign( jo, "monotony_penalty", slot.monotony_penalty, strict );
-    assign( jo, "addiction_type", slot.add, strict );
-    assign( jo, "addiction_potential", slot.addict, strict );
+    assign( jo, "addiction_potential", slot.default_addict_potential, strict );
+    if( jo.has_member( "addiction_type" ) ) {
+        slot.addictions.clear();
+        if( jo.has_string( "addiction_type" ) ) {
+            slot.addictions.emplace( addiction_id( jo.get_string( "addiction_type" ) ),
+                                     slot.default_addict_potential );
+        } else { //"addiction_type" is an array
+            for( JsonValue jval : jo.get_array( "addiction_type" ) ) {
+                if( jval.test_string() ) {
+                    slot.addictions.emplace( addiction_id( jval.get_string() ), slot.default_addict_potential );
+                } else { //nested object with addiction + potential
+                    JsonObject jobj = jval.get_object();
+                    slot.addictions.emplace( addiction_id( jobj.get_string( "addiction" ) ),
+                                             jobj.get_int( "potential" ) );
+                }
+            }
+        }
+    } else if( jo.has_member( "addiction_potential" ) ) {
+        // copy-from'd while only changing the general potential, so assign new potential to all addictions
+        for( std::pair<const addiction_id, int> &add : slot.addictions ) {
+            add.second = slot.default_addict_potential;
+        }
+    }
 
     bool got_calories = false;
 
@@ -3321,6 +3365,7 @@ void Item_factory::load( islot_gunmod &slot, const JsonObject &jo, const std::st
         }
     }
     assign( jo, "blacklist_mod", slot.blacklist_mod );
+    assign( jo, "barrel_length", slot.barrel_length );
 }
 
 void Item_factory::load_gunmod( const JsonObject &jo, const std::string &src )
@@ -4029,6 +4074,11 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     if( jo.has_member( "explosion" ) ) {
         JsonObject je = jo.get_object( "explosion" );
         def.explosion = load_explosion_data( je );
+    }
+
+    if( jo.has_member( "memory_card" ) ) {
+        def.memory_card_data = cata::make_value<memory_card_info>();
+        load_memory_card_data( *def.memory_card_data, jo.get_object( "memory_card" ) );
     }
 
     assign( jo, "variables", def.item_variables );

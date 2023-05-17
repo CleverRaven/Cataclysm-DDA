@@ -5,6 +5,29 @@
     "replace": "tinfoil_hat"
   },
   {
+    "id": "mobile_memory_card_used",
+    "type": "MIGRATION",
+    "replace": "memory_card"
+  },
+  {
+    "id": "mobile_memory_card",
+    "type": "MIGRATION",
+    "replace": "memory_card_unread",
+    "reset_item_vars": true
+  },
+  {
+    "id": "mobile_memory_card_encrypted",
+    "type": "MIGRATION",
+    "replace": "memory_card_unread",
+    "reset_item_vars": true
+  },
+  {
+    "id": "mobile_memory_card_science",
+    "type": "MIGRATION",
+    "replace": "memory_card_science",
+    "reset_item_vars": true
+  },
+  {
     "id": "nato_assault_rifle",
     "from_variant": "scar_l",
     "type": "MIGRATION",
@@ -100,5 +123,25 @@
     "id": "badge_cybercop",
     "type": "MIGRATION",
     "replace": "badge_marshal"
+  },
+  {
+    "id": "bio_power_armor_interface",
+    "type": "MIGRATION",
+    "replace": "burnt_out_bionic"
+  },
+  {
+    "id": "bio_power_armor_interface_mkII",
+    "type": "MIGRATION",
+    "replace": "burnt_out_bionic"
+  },
+  {
+    "id": "generic_figurine_plastic",
+    "type": "MIGRATION",
+    "replace": "toy_figurine"
+  },
+  {
+    "id": "bookmark_note_catalytic",
+    "type": "MIGRATION",
+    "replace": "paper"
   }
 ]

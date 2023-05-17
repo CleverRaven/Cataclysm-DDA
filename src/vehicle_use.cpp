@@ -83,14 +83,17 @@ static const itype_id fuel_type_wind( "wind" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_detergent( "detergent" );
 static const itype_id itype_fungal_seeds( "fungal_seeds" );
+static const itype_id itype_large_repairkit( "large_repairkit" );
 static const itype_id itype_marloss_seed( "marloss_seed" );
 static const itype_id itype_null( "null" );
+static const itype_id itype_small_repairkit( "small_repairkit" );
 static const itype_id itype_soldering_iron( "soldering_iron" );
 static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
 static const itype_id itype_water_faucet( "water_faucet" );
 static const itype_id itype_water_purifier( "water_purifier" );
 static const itype_id itype_welder( "welder" );
+static const itype_id itype_welder_crude( "welder_crude" );
 static const itype_id itype_welding_kit( "welding_kit" );
 
 static const quality_id qual_SCREW( "SCREW" );
@@ -1260,7 +1263,7 @@ void vehicle::open_or_close( const int part_index, const bool opening )
             parts.at( prt.fake_part_at ).open = opening;
         }
     };
-    //find_lines_of_parts() doesn't return the part_index we passed, so we set it on it's own
+    //find_lines_of_parts() doesn't return the part_index we passed, so we set it on its own
     part_open_or_close( part_index, opening );
     insides_dirty = true;
     map &here = get_map();
@@ -1703,8 +1706,11 @@ static bool use_vehicle_tool( vehicle &veh, const tripoint &vp_pos, const itype_
     player_activity &act = get_player_character().activity;
     if( act.id() == ACT_REPAIR_ITEM &&
         ( tool_type == itype_welder ||
+          tool_type == itype_welder_crude ||
           tool_type == itype_welding_kit ||
-          tool_type == itype_soldering_iron
+          tool_type == itype_soldering_iron ||
+          tool_type == itype_small_repairkit ||
+          tool_type == itype_large_repairkit
         ) ) {
         act.index = INT_MIN; // tell activity the item doesn't really exist
         act.coords.push_back( vp_pos ); // tell it to search for the tool on `pos`
@@ -1775,9 +1781,8 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
             get_player_character().assign_activity( hotwire_act );
         } );
 
-        if( !is_alarm_on ) {
+        if( !is_alarm_on && has_security_working() ) {
             menu.add( _( "Trigger the alarm" ) )
-            .enable( has_security_working() )
             .desc( _( "Trigger the alarm to make noise." ) )
             .skip_locked_check()
             .hotkey( "TOGGLE_ALARM" )
@@ -1785,14 +1790,14 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
                 is_alarm_on = true;
                 add_msg( _( "You trigger the alarm" ) );
             } );
-        } else { // alarm is on
-            if( velocity == 0 && !remote ) {
-                menu.add( _( "Try to disarm alarm" ) )
-                .skip_locked_check()
-                .hotkey( "TOGGLE_ALARM" )
-                .on_submit( [this] { smash_security_system(); } );
-            }
         }
+    }
+
+    if( is_alarm_on && controls_here && !is_moving() ) {
+        menu.add( _( "Try to smash alarm" ) )
+        .skip_locked_check()
+        .hotkey( "TOGGLE_ALARM" )
+        .on_submit( [this] { smash_security_system(); } );
     }
 
     if( remote ) {
@@ -1856,7 +1861,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
             .on_submit( [] { handbrake(); } );
         }
 
-        if( controls_here ) {
+        if( controls_here && engines.size() > 1 ) {
             menu.add( _( "Control individual engines" ) )
             .hotkey( "CONTROL_ENGINES" )
             .on_submit( [this] { control_engines(); } );
@@ -1871,16 +1876,6 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
 
     if( is_appliance() || vp.avail_part_with_feature( "CTRL_ELECTRONIC" ) ) {
         build_electronics_menu( menu );
-    }
-
-    if( controls_here ) {
-        menu.add( cruise_on ? _( "Disable cruise control" ) : _( "Enable cruise control" ) )
-        .hotkey( "TOGGLE_CRUISE_CONTROL" )
-        .keep_menu_open()
-        .on_submit( [this] {
-            cruise_on = !cruise_on;
-            add_msg( cruise_on ? _( "Cruise control turned on" ) : _( "Cruise control turned off" ) );
-        } );
     }
 
     if( has_electronic_controls && has_part( "SMART_ENGINE_CONTROLLER" ) ) {
