@@ -29,8 +29,7 @@
         { "chunks": [ [ "supply_water_bottles_full", 50 ] ], "x": [ 0, 22 ], "y": [ 0, 22 ] },
         { "chunks": [ [ "supply_water_bottles_full", 20 ] ], "x": [ 0, 22 ], "y": [ 0, 22 ] },
         { "chunks": [ [ "supply_generatos", 30 ] ], "x": [ 0, 22 ], "y": [ 0, 22 ] }
-      ],
-      "place_monsters": [ { "monster": "GROUP_MIL_EXTRA", "x": [ 0, 22 ], "y": [ 0, 22 ], "chance": 40, "density": 1 } ]
+      ]
     }
   },
   {

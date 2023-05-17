@@ -16,7 +16,8 @@
         { "chunks": [ [ "supply_fuel_jp8", 35 ] ], "x": [ 0, 22 ], "y": [ 0, 22 ] },
         { "chunks": [ [ "supply_military_kit", 50 ] ], "x": [ 0, 22 ], "y": [ 0, 22 ] },
         { "chunks": [ [ "supply_military_kit", 50 ] ], "x": [ 0, 22 ], "y": [ 0, 22 ] }
-      ]
+      ],
+      "place_monster": [ { "group": "GROUP_MIL_EXTRA", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 10, 16 ] } ]
     }
   },
   {
