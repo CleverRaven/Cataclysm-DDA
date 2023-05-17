@@ -22,7 +22,7 @@
 
 static const skill_id skill_mechanics( "mechanics" );
 
-static const vproto_id vehicle_prototype_bicycle( "bicycle" );
+static const vproto_id vehicle_prototype_car( "car_abstract" );
 
 static void test_repair( const std::vector<item> &tools, bool expect_craftable )
 {
@@ -40,7 +40,7 @@ static void test_repair( const std::vector<item> &tools, bool expect_craftable )
     player_character.set_skill_level( skill_mechanics, 10 );;
 
     const tripoint vehicle_origin = test_origin + tripoint_south_east;
-    vehicle *veh_ptr = get_map().add_vehicle( vehicle_prototype_bicycle, vehicle_origin, -90_degrees,
+    vehicle *veh_ptr = get_map().add_vehicle( vehicle_prototype_car, vehicle_origin, -90_degrees,
                        0, 0 );
     REQUIRE( veh_ptr != nullptr );
     // Find the frame at the origin.
@@ -53,8 +53,9 @@ static void test_repair( const std::vector<item> &tools, bool expect_craftable )
     }
     REQUIRE( origin_frame != nullptr );
     REQUIRE( origin_frame->hp() == origin_frame->info().durability );
-    veh_ptr->mod_hp( *origin_frame, -1 );
+    veh_ptr->mod_hp( *origin_frame, -50 );
     REQUIRE( origin_frame->hp() < origin_frame->info().durability );
+    // for a steel frame, one quadrant of damage takes 1000 kJ, 5 chunks of steel and 50 welding wires/rods to fix. (it has 400 max hp)
 
     const vpart_info &vp = origin_frame->info();
     // Assertions about frame part?
@@ -73,14 +74,11 @@ TEST_CASE( "repair_vehicle_part", "[vehicle]" )
 {
     SECTION( "welder" ) {
         std::vector<item> tools;
-        tools.push_back( tool_with_ammo( "welder", 5000 ) );
+        tools.push_back( tool_with_ammo( "welder", 1000 ) );
         tools.emplace_back( "goggles_welding" );
         tools.emplace_back( "hammer" );
-        tools.emplace_back( "wrench" );
-        tools.insert( tools.end(), 10, item( "material_aluminium_ingot" ) );
-        tools.insert( tools.end(), 100, item( "welding_wire_alloy" ) );
-        tools.insert( tools.end(), 10, item( "steel_chunk" ) );
-        tools.insert( tools.end(), 100, item( "welding_wire_steel" ) );
+        tools.insert( tools.end(), 2, item( "steel_chunk" ) ); // 2 x 4 default charges
+        tools.insert( tools.end(), 1 item( "welding_wire_steel" ) );  // 1 x 180 default charges
         test_repair( tools, true );
     }
     SECTION( "UPS_modded_welder" ) {
@@ -91,28 +89,31 @@ TEST_CASE( "repair_vehicle_part", "[vehicle]" )
 
         item ups( "UPS_off" );
         item ups_mag( ups.magazine_default() );
-        ups_mag.ammo_set( ups_mag.ammo_default(), 1250 );
+        ups_mag.ammo_set( ups_mag.ammo_default(), 1000
         ups.put_in( ups_mag, item_pocket::pocket_type::MAGAZINE_WELL );
         tools.push_back( ups );
 
         tools.emplace_back( "goggles_welding" );
         tools.emplace_back( "hammer" );
-        tools.emplace_back( "wrench" );
-        tools.insert( tools.end(), 10, item( "material_aluminium_ingot" ) );
-        tools.insert( tools.end(), 100, item( "welding_wire_alloy" ) );
-        tools.insert( tools.end(), 10, item( "steel_chunk" ) );
-        tools.insert( tools.end(), 100, item( "welding_wire_steel" ) );
+        tools.insert( tools.end(), 5, item( "steel_chunk" ) ); // 2 x 4 default charges
+        tools.insert( tools.end(), 50 item( "welding_wire_steel" ) );  // 1 x 180 default charges
         test_repair( tools, true );
     }
     SECTION( "welder_missing_goggles" ) {
         std::vector<item> tools;
-        tools.push_back( tool_with_ammo( "welder", 5000 ) );
+        tools.push_back( tool_with_ammo( "welder", 1000 ) );
+        tools.emplace_back( "hammer" );
+        tools.insert( tools.end(), 2, item( "steel_chunk" ) ); // 2 x 4 default charges
+        tools.insert( tools.end(), 1 item( "welding_wire_steel" ) );  // 1 x 180 default charges
         test_repair( tools, false );
     }
     SECTION( "welder_missing_charge" ) {
         std::vector<item> tools;
-        tools.push_back( tool_with_ammo( "welder", 5 ) );
+        tools.push_back( tool_with_ammo( "welder", 500 ) );
         tools.emplace_back( "goggles_welding" );
+        tools.emplace_back( "hammer" );
+        tools.insert( tools.end(), 2, item( "steel_chunk" ) ); // 2 x 4 default charges
+        tools.insert( tools.end(), 1 item( "welding_wire_steel" ) );  // 1 x 180 default charges
         test_repair( tools, false );
     }
     SECTION( "UPS_modded_welder_missing_charges" ) {
@@ -123,16 +124,18 @@ TEST_CASE( "repair_vehicle_part", "[vehicle]" )
 
         item ups( "UPS_off" );
         item ups_mag( ups.magazine_default() );
-        ups_mag.ammo_set( ups_mag.ammo_default(), 5 );
+        ups_mag.ammo_set( ups_mag.ammo_default(), 500 );
         ups.put_in( ups_mag, item_pocket::pocket_type::MAGAZINE_WELL );
         tools.push_back( ups );
 
         tools.emplace_back( "goggles_welding" );
+        tools.insert( tools.end(), 2, item( "steel_chunk" ) ); // 2 x 4 default charges
+        tools.insert( tools.end(), 1 item( "welding_wire_steel" ) );  // 1 x 180 default charges
         test_repair( tools, false );
     }
     SECTION( "welder_missing_consumables" ) {
         std::vector<item> tools;
-        tools.push_back( tool_with_ammo( "welder", 500 ) );
+        tools.push_back( tool_with_ammo( "welder", 1000 );
         tools.emplace_back( "goggles_welding" );
         test_repair( tools, false );
     }
