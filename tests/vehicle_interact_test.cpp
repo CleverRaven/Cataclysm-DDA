@@ -31,7 +31,7 @@ static void test_repair( const std::vector<item> &tools, bool expect_craftable )
     Character &player_character = get_player_character();
     player_character.setpos( test_origin );
     const item backpack( "bigback" );
-    player_character.wear_item( "bigback" );
+    player_character.wear_item( backpack );
     for( const item &gear : tools ) {
         player_character.i_add( gear );
     }
