@@ -502,7 +502,7 @@ void DynamicDataLoader::load_data_from_path( const cata_path &path, const std::s
     // get a list of all files in the directory
     std::vector<cata_path> files = get_files_from_path( ".json", path, true, true );
     if( files.empty() ) {
-        cata::ifstream tmp( path.get_unrelative_path(), std::ios::in );
+        std::ifstream tmp( path.get_unrelative_path(), std::ios::in );
         if( tmp ) {
             // path is actually a file, don't checking the extension,
             // assume we want to load this file anyway

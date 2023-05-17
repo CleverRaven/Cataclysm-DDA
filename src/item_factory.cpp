@@ -2511,6 +2511,31 @@ void islot_milling::deserialize( const JsonObject &jo )
     load( jo );
 }
 
+static void load_memory_card_data( memory_card_info &mcd, const JsonObject &jo )
+{
+    mcd.data_chance = jo.get_float( "data_chance", 1.0f );
+    mcd.on_read_convert_to = itype_id( jo.get_string( "on_read_convert_to" ) );
+
+    mcd.photos_chance = jo.get_float( "photos_chance", 0.0f );
+    mcd.photos_amount = jo.get_int( "photos_amount", 0 );
+
+    mcd.songs_chance = jo.get_float( "songs_chance", 0.0f );
+    mcd.songs_amount = jo.get_int( "songs_amount", 0 );
+
+    mcd.recipes_chance = jo.get_float( "recipes_chance", 0.0f );
+    mcd.recipes_amount = jo.get_int( "recipes_amount", 0 );
+    mcd.recipes_level_min = jo.get_int( "recipes_level_min", 0 );
+    mcd.recipes_level_max = jo.get_int( "recipes_level_max", 10 );
+    mcd.recipes_categories.clear();
+    if( jo.has_array( "recipes_categories" ) ) {
+        for( const std::string &cat : jo.get_string_array( "recipes_categories" ) ) {
+            mcd.recipes_categories.emplace( cat );
+        }
+    } else {
+        mcd.recipes_categories = { "CC_FOOD" };
+    }
+}
+
 void islot_ammo::load( const JsonObject &jo )
 {
     bool strict = false;
@@ -4049,6 +4074,11 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     if( jo.has_member( "explosion" ) ) {
         JsonObject je = jo.get_object( "explosion" );
         def.explosion = load_explosion_data( je );
+    }
+
+    if( jo.has_member( "memory_card" ) ) {
+        def.memory_card_data = cata::make_value<memory_card_info>();
+        load_memory_card_data( *def.memory_card_data, jo.get_object( "memory_card" ) );
     }
 
     assign( jo, "variables", def.item_variables );
