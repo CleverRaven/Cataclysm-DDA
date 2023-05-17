@@ -246,10 +246,10 @@
       { "proficiency": "prof_furriery" }
     ],
     "components": [
-      [ [ "filament_durable", 150 ] ],
+      [ [ "filament_durable", 150, "LIST" ] ],
       [ [ "nomex_socks", 1 ], [ "sheet_nomex", 4 ], [ "sheet_nomex_patchwork", 4 ] ],
       [ [ "thread_nomex", 20 ] ],
-      [ [ "boots_steel", 1 ], [ "shoes_steel", 1 ] ],
+      [ [ "boots_steel", 1 ], [ "sneakers_steel", 1 ] ],
       [ [ "sheet_faux_fur", 2 ], [ "sheet_faux_fur_patchwork", 2 ] ],
       [ [ "faux_fur", 8 ] ]
     ]
@@ -411,7 +411,7 @@
       { "proficiency": "prof_polymerworking" }
     ],
     "components": [
-      [ [ "filament_durable", 50 ] ],
+      [ [ "filament_durable", 60, "LIST"  ] ],
       [ [ "nomex_socks", 1 ], [ "sheet_nomex", 4 ], [ "sheet_nomex_patchwork", 4 ] ],
       [ [ "thread_nomex", 20 ] ],
       [ [ "rubber_tire_chunk", 1 ] ]
@@ -545,10 +545,10 @@
       { "proficiency": "prof_welding_basic" }
     ],
     "components": [
-      [ [ "filament_durable", 100 ] ],
+      [ [ "filament_durable", 100, "LIST"  ] ],
       [ [ "nomex_socks", 1 ], [ "sheet_nomex", 4 ], [ "sheet_nomex_patchwork", 4 ] ],
       [ [ "thread_nomex", 20 ] ],
-      [ [ "boots_steel", 1 ], [ "shoes_steel", 1 ] ]
+      [ [ "boots_steel", 1 ], [ "sneakers_steel", 1 ] ]
     ]
   },
   {
@@ -661,10 +661,10 @@
       { "proficiency": "prof_furriery" }
     ],
     "components": [
-      [ [ "filament_durable", 150 ] ],
+      [ [ "filament_durable", 150, "LIST"  ] ],
       [ [ "nomex_socks", 1 ], [ "sheet_nomex", 4 ], [ "sheet_nomex_patchwork", 4 ] ],
       [ [ "thread_nomex", 20 ] ],
-      [ [ "boots_steel", 1 ], [ "shoes_steel", 1 ] ],
+      [ [ "boots_steel", 1 ], [ "sneakers_steel", 1 ] ],
       [ [ "sheet_fur_patchwork", 2 ], [ "tanned_pelt", 2 ] ],
       [ [ "fur", 8 ] ]
     ]
