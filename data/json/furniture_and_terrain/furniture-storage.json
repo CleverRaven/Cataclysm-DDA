@@ -1469,9 +1469,9 @@
   },
   {
     "type": "furniture",
-    "id": "f_paltte_belted",
+    "id": "f_pallet_belted",
     "name": "packed pallet",
-    "description": "A wooden palette loaded with cargo, wrapped with a watertight cover, and belted to secure the contents.",
+    "description": "A wooden pallet loaded with cargo, wrapped with a watertight cover, and belted to secure the contents.",
     "symbol": "X",
     "bgcolor": "brown",
     "move_cost_mod": -1,
@@ -1489,15 +1489,15 @@
       "str_max": 50,
       "sound": "rip!",
       "sound_fail": "wham!",
-      "furn_set": "f_paltte_belted_open",
+      "furn_set": "f_pallet_belted_open",
       "items": [ { "item": "rope_6", "count": [ 1, 2 ] }, { "item": "plastic_sheet", "charges": [ 1, 2 ] } ]
     }
   },
   {
     "type": "furniture",
-    "id": "f_paltte_belted_open",
+    "id": "f_pallet_belted_open",
     "name": "damaged pallet",
-    "description": "A wooden palette containing cargo and possessing a torn cover.  You can reach the contents, but it’s awfully hard due to the belts still being in place.",
+    "description": "A wooden pallet, containing cargo and possessing a torn cover.  You can reach the contents, but it’s awfully hard due to the belts still being in place.",
     "symbol": "O",
     "bgcolor": "brown",
     "move_cost_mod": -1,

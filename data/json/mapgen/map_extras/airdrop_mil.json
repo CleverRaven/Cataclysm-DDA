@@ -2,13 +2,31 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "mx_airdrop_mil",
+    "//": "extra rare version, also has few mil troops.  Should be a separate map extra, but i still don't know what one should contain, ",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "place_nested": [
+        { "chunks": [ [ "supply_fuel_jp8", 50 ] ], "x": [ 0, 22 ], "y": [ 0, 22 ] },
+        { "chunks": [ [ "supply_fuel_diesel", 50 ] ], "x": [ 0, 22 ], "y": [ 0, 22 ] },
+        { "chunks": [ [ "supply_fuel_gas", 50 ] ], "x": [ 0, 22 ], "y": [ 0, 22 ] },
+        { "chunks": [ [ "supply_water_drums_55", 100 ] ], "x": [ 0, 22 ], "y": [ 0, 22 ] },
+        { "chunks": [ [ "supply_water_drums_55", 50 ] ], "x": [ 0, 22 ], "y": [ 0, 22 ] },
+        { "chunks": [ [ "supply_water_drums_55", 20 ] ], "x": [ 0, 22 ], "y": [ 0, 22 ] },
+        { "chunks": [ [ "supply_generatos_mil", 50 ] ], "x": [ 0, 22 ], "y": [ 0, 22 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "supply_generatos_mil",
     "rotation": [ 0, 3 ],
     "object": {
       "mapgensize": [ 2, 2 ],
       "place_item": [ { "item": "parachute_mil", "x": [ 0, 1 ], "y": 1 }, { "item": "parachute_mil", "x": 1, "y": [ 0, 1 ] } ],
       "place_items": [ { "item": "airdrop_generator", "x": 0, "y": 0, "chance": 100 } ],
-      "place_furniture": [ { "furn": "f_paltte_belted", "x": 0, "y": 0 } ]
+      "place_furniture": [ { "furn": "f_pallet_belted", "x": 0, "y": 0 } ]
     }
   },
   {
@@ -20,7 +38,7 @@
       "mapgensize": [ 2, 2 ],
       "place_item": [ { "item": "parachute_mil", "x": [ 0, 1 ], "y": 1 }, { "item": "parachute_mil", "x": 1, "y": [ 0, 1 ] } ],
       "place_items": [ { "item": "airdrop_water_drum", "x": 0, "y": 0, "chance": 100, "repeat": 4 } ],
-      "place_furniture": [ { "furn": "f_paltte_belted", "x": 0, "y": 0 } ]
+      "place_furniture": [ { "furn": "f_pallet_belted", "x": 0, "y": 0 } ]
     }
   },
   {
