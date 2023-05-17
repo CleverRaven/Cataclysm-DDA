@@ -20,6 +20,8 @@
 #include "veh_type.h"
 #include "vehicle.h"
 
+static const skill_id skill_mechanics( "mechanics" );
+
 static const vproto_id vehicle_prototype_bicycle( "bicycle" );
 
 static void test_repair( const std::vector<item> &tools, bool expect_craftable )
@@ -35,6 +37,7 @@ static void test_repair( const std::vector<item> &tools, bool expect_craftable )
     for( const item &gear : tools ) {
         player_character.i_add( gear );
     }
+    player_character.set_skill_level( skill_mechanics, 10 );;
 
     const tripoint vehicle_origin = test_origin + tripoint_south_east;
     vehicle *veh_ptr = get_map().add_vehicle( vehicle_prototype_bicycle, vehicle_origin, -90_degrees,
