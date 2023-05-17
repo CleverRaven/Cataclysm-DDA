@@ -4,7 +4,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of light survivor boots", "str_pl": "pairs of light survivor boots" },
-    "description": "A pair of custom-made Kevlar boots with a chemical-resistant layer.  Will keep you highly mobile without the worry of zombie acid dissolving your feet.",
+    "description": "A pair of custom-made Kevlar boots with a chemical-resistant layer and rubber toes.  Will keep you highly mobile without the worry of zombie acid dissolving your feet.",
     "weight": "1120 g",
     "volume": "2 L",
     "price": 24000,
@@ -162,9 +162,9 @@
     "id": "boots_wsurvivor_nofur",
     "type": "ARMOR",
     "name": { "str": "pair of faux fur winter survivor boots", "str_pl": "pairs of faux fur winter survivor boots" },
-    "description": "A pair of customized, Kevlar-armored boots with a chemical-resistant layer.  Warm thanks to the faux-fur lining, and quite protective due to the thick materials, though perhaps a little hard to move in.",
+    "description": "A pair of customized, Kevlar-armored boots with a chemical-resistant layer and steel toes.  Warm thanks to the faux-fur lining, and quite protective due to the thick materials, though perhaps a little hard to move in.",
     "copy-from": "boots_wsurvivor",
-    "material": [ "kevlar", "nylon", "nomex", "faux_fur" ],
+    "material": [ "kevlar", "nylon", "nomex", "faux_fur", "steel" ],
     "symbol": "[",
     "warmth": 50,
     "looks_like": "boots_fur",
@@ -196,7 +196,7 @@
           { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.6 },
           { "type": "nomex", "covered_by_mat": 100, "thickness": 0.1 },
           { "type": "nylon", "covered_by_mat": 100, "thickness": 0.3 },
-          { "type": "faux_fur", "covered_by_mat": 100, "thickness": 2.0 }
+          { "type": "faux_fur", "covered_by_mat": 100, "thickness": 2.0 },
           { "type": "steel", "covered_by_mat": 100, "thickness": 0.5 }
         ],
         "coverage": 100
@@ -241,13 +241,13 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of winter survivor boots", "str_pl": "pairs of winter survivor boots" },
-    "description": "A pair of customized, Kevlar-armored boots with a chemical-resistant layer.  Warm thanks to the real fur lining, and quite protective due to the thick materials, though perhaps a little hard to move in.",
+    "description": "A pair of customized, Kevlar-armored boots with a chemical-resistant layer and steel toes.  Warm thanks to the real fur lining, and quite protective due to the thick materials, though perhaps a little hard to move in.",
     "weight": "1760 g",
     "volume": "3500 ml",
     "price": 24000,
     "price_postapoc": 6000,
     "to_hit": -1,
-    "material": [ "kevlar", "nylon", "nomex", "fur" ],
+    "material": [ "kevlar", "nylon", "nomex", "fur", "steel" ],
     "symbol": "[",
     "looks_like": "boots_fur",
     "color": "light_gray",
@@ -282,7 +282,7 @@
           { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.6 },
           { "type": "nomex", "covered_by_mat": 100, "thickness": 0.1 },
           { "type": "nylon", "covered_by_mat": 100, "thickness": 0.3 },
-          { "type": "fur", "covered_by_mat": 100, "thickness": 2.0 }
+          { "type": "fur", "covered_by_mat": 100, "thickness": 2.0 },
           { "type": "steel", "covered_by_mat": 100, "thickness": 0.5 }
         ],
         "coverage": 100
