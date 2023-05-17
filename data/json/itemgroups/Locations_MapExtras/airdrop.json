@@ -9,8 +9,8 @@
         "distribution": [ { "group": "bottle_pur_tablets" }, { "group": "twoliter_water_batch", "count": [ 3, 8 ] } ]
       },
       { "group": "disinfectant_bottle", "prob": 25 },
-      { "group": "toilet_paper_packed", "repeat": [ 3, 4 ], "prob": 50 },
-      { "group": "soap_packed", "repeat": [ 1, 4 ], "prob": 50 },
+      { "group": "toilet_paper_packed", "count": [ 3, 4 ], "prob": 50 },
+      { "group": "soap_packed", "count": [ 1, 4 ], "prob": 50 },
       { "group": "toothbrush_packed", "prob": 25 },
       { "group": "airdrop_tent", "prob": 25 },
       { "group": "emer_blanket_box", "prob": 50 },
@@ -24,10 +24,10 @@
     "subtype": "collection",
     "entries": [
       { "item": "protein_bar_evac", "prob": 60, "count": [ 2, 100 ] },
-      { "item": "toilet_paper", "repeat": [ 0, 10 ], "prob": 50 },
-      { "group": "soap_packed", "repeat": [ 0, 1 ], "prob": 50 },
-      { "item": "large_tent_kit", "repeat": [ 0, 3 ], "prob": 50 },
-      { "item": "emer_blanket", "repeat": [ 0, 7 ], "prob": 75 },
+      { "item": "toilet_paper", "count": [ 0, 10 ], "prob": 50 },
+      { "group": "soap_packed", "count": [ 0, 1 ], "prob": 50 },
+      { "item": "large_tent_kit", "count": [ 0, 3 ], "prob": 50 },
+      { "item": "emer_blanket", "count": [ 0, 7 ], "prob": 75 },
       { "item": "cardboard", "count": [ 1200, 1700 ] }
     ]
   },

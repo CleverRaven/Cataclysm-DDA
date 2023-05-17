@@ -7,13 +7,15 @@
     "object": {
       "mapgensize": [ 24, 24 ],
       "place_nested": [
-        { "chunks": [ [ "supply_fuel_jp8", 50 ] ], "x": [ 0, 22 ], "y": [ 0, 22 ] },
-        { "chunks": [ [ "supply_fuel_diesel", 50 ] ], "x": [ 0, 22 ], "y": [ 0, 22 ] },
-        { "chunks": [ [ "supply_fuel_gas", 50 ] ], "x": [ 0, 22 ], "y": [ 0, 22 ] },
+        { "chunks": [ [ "supply_generatos_mil", 50 ] ], "x": [ 0, 22 ], "y": [ 0, 22 ] },
         { "chunks": [ [ "supply_water_drums_55", 100 ] ], "x": [ 0, 22 ], "y": [ 0, 22 ] },
         { "chunks": [ [ "supply_water_drums_55", 50 ] ], "x": [ 0, 22 ], "y": [ 0, 22 ] },
         { "chunks": [ [ "supply_water_drums_55", 20 ] ], "x": [ 0, 22 ], "y": [ 0, 22 ] },
-        { "chunks": [ [ "supply_generatos_mil", 50 ] ], "x": [ 0, 22 ], "y": [ 0, 22 ] }
+        { "chunks": [ [ "supply_fuel_gas", 35 ] ], "x": [ 0, 22 ], "y": [ 0, 22 ] },
+        { "chunks": [ [ "supply_fuel_diesel", 35 ] ], "x": [ 0, 22 ], "y": [ 0, 22 ] },
+        { "chunks": [ [ "supply_fuel_jp8", 35 ] ], "x": [ 0, 22 ], "y": [ 0, 22 ] },
+        { "chunks": [ [ "supply_military_kit", 50 ] ], "x": [ 0, 22 ], "y": [ 0, 22 ] },
+        { "chunks": [ [ "supply_military_kit", 50 ] ], "x": [ 0, 22 ], "y": [ 0, 22 ] }
       ]
     }
   },
@@ -21,7 +23,6 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "supply_generatos_mil",
-    "rotation": [ 0, 3 ],
     "object": {
       "mapgensize": [ 2, 2 ],
       "place_item": [ { "item": "parachute_mil", "x": [ 0, 1 ], "y": 1 }, { "item": "parachute_mil", "x": 1, "y": [ 0, 1 ] } ],
@@ -33,7 +34,6 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "supply_water_drums_55",
-    "rotation": [ 0, 3 ],
     "object": {
       "mapgensize": [ 2, 2 ],
       "place_item": [ { "item": "parachute_mil", "x": [ 0, 1 ], "y": 1 }, { "item": "parachute_mil", "x": 1, "y": [ 0, 1 ] } ],
@@ -45,7 +45,6 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "supply_fuel_gas",
-    "rotation": [ 0, 3 ],
     "object": {
       "mapgensize": [ 2, 2 ],
       "place_furniture": [ { "furn": "f_432gal_drum_rubber", "x": 0, "y": 0 }, { "furn": "f_432gal_drum_rubber", "x": 1, "y": 1 } ],
@@ -60,7 +59,6 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "supply_fuel_diesel",
-    "rotation": [ 0, 3 ],
     "object": {
       "mapgensize": [ 2, 2 ],
       "place_furniture": [ { "furn": "f_432gal_drum_rubber", "x": 0, "y": 0 }, { "furn": "f_432gal_drum_rubber", "x": 1, "y": 1 } ],
@@ -75,7 +73,6 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "supply_fuel_jp8",
-    "rotation": [ 0, 3 ],
     "object": {
       "mapgensize": [ 2, 2 ],
       "place_furniture": [ { "furn": "f_432gal_drum_rubber", "x": 0, "y": 0 }, { "furn": "f_432gal_drum_rubber", "x": 1, "y": 1 } ],
@@ -84,6 +81,18 @@
         { "liquid": "jp8", "x": 0, "y": 0, "amount": [ 900000, 1000000 ] },
         { "liquid": "jp8", "x": 1, "y": 1, "amount": [ 900000, 1000000 ] }
       ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "supply_military_kit",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_item": [ { "item": "parachute_mil", "x": [ 0, 1 ], "y": 1 }, { "item": "parachute_mil", "x": 1, "y": [ 0, 1 ] } ],
+      "place_items": [ { "item": "airdrop_military_kit", "x": 0, "y": 0, "chance": 100 } ],
+      "place_furniture": [ { "furn": "f_pallet_belted", "x": 0, "y": 0 } ]
     }
   }
 ]

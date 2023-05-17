@@ -7,7 +7,7 @@
     "object": {
       "place_nested": [
         {
-          "chunks": [ [ "mx_airdrop_humanitarian_full", 10 ], [ "mx_airdrop_humanitarian_looted", 80 ], [ "mx_airdrop_mil", 1 ] ],
+          "chunks": [ [ "mx_airdrop_humanitarian_full", 10 ], [ "mx_airdrop_humanitarian_looted", 80 ], [ "mx_airdrop_mil", 2 ] ],
           "x": 0,
           "y": 0
         }
@@ -37,7 +37,6 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "supply_humanitarian",
-    "rotation": [ 0, 3 ],
     "object": {
       "mapgensize": [ 2, 2 ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
@@ -50,7 +49,6 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "supply_water_bottles_full",
-    "rotation": [ 0, 3 ],
     "object": {
       "mapgensize": [ 2, 2 ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
@@ -67,7 +65,6 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "supply_generatos",
-    "rotation": [ 0, 3 ],
     "object": {
       "mapgensize": [ 2, 2 ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
@@ -116,7 +113,6 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "supply_water_bottles_open",
-    "rotation": [ 0, 3 ],
     "object": {
       "mapgensize": [ 1, 1 ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
