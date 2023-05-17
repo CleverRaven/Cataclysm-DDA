@@ -5,13 +5,15 @@
     "category": "tools",
     "name": { "str": "stapler" },
     "description": "A desk tool for fastening sheets of paper together.",
-    "weight": "300 g",
-    "volume": "150 ml",
-    "price": 1000,
+    "weight": "148 g",
+    "volume": "320 ml",
+    "longest_side": "16 cm",
+    "price": "6 USD",
     "price_postapoc": 10,
-    "material": [ "steel" ],
+    "material": [ { "type": "plastic", "portion": 17 }, { "type": "aluminum", "portion": 3 } ],
     "symbol": ";",
-    "color": "light_gray"
+    "color": "light_gray",
+    "//": "Based on https://www.amazon.com/Amazon-Basics-Stapler-Capacity-Non-Slip/dp/B079ZV4V3C/ref=sr_1_5?crid=2ZKFCK28Z0F3E&keywords=stapler&qid=1684350703&sprefix=stapler%2Caps%2C284&sr=8-5&th=1"
   },
   {
     "id": "office_holepunch",
