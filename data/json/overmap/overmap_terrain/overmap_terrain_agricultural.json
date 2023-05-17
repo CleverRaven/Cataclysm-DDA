@@ -569,7 +569,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "paddock_trailhead_5", "paddock_trailhead_8" ],
+    "id": [ "paddock_trailhead_5", "paddock_trailhead_8", "trail_intersection" ],
     "copy-from": "generic_rural_building",
     "name": "forest trail",
     "sym": "│",

@@ -21,6 +21,7 @@
       { "id": "outer_to_inner", "opposite": "inner_to_outer" },
       { "id": "edge_to_forest", "opposite": "forest_to_edge" },
       { "id": "forest_to_edge", "opposite": "edge_to_forest" },
+      "trail_to_trail",
       "forest_to_forest"
     ],
     "overmaps": {
@@ -104,6 +105,10 @@
       "hayfield_R_se": { "overmap": "hayfield_turnR_west" },
       "field_fill": { "overmap": "special_field" },
       "field_reserved": { "overmap": "special_field" },
+      "trail_intersect": { "overmap": "trail_intersection_north", "locations": [ "forest_trail" ] },
+      "trail_ns": { "overmap": "forest_trail_ns" },
+      "trail_ne": { "overmap": "forest_trail_ne" },
+      "trail_nw": { "overmap": "forest_trail_wn" },
       "forest": { "overmap": "special_forest", "locations": [ "field" ] },
       "forest_thick": { "overmap": "special_forest_thick", "locations": [ "field" ] },
       "inner_to_outer_n": { "overmap": "open_air", "north": "inner_to_outer" },
@@ -138,6 +143,35 @@
       "extra_to_road_e": { "overmap": "open_air", "east": "extra_to_road" },
       "extra_to_road_s": { "overmap": "open_air", "south": "extra_to_road" },
       "extra_to_road_w": { "overmap": "open_air", "west": "extra_to_road" },
+      "trail_to_trail_ns": {
+        "overmap": "open_air",
+        "north": "trail_to_trail",
+        "east": { "id": "edge_to_forest", "alternatives": [ "forest_to_forest" ] },
+        "south": "trail_to_trail",
+        "west": { "id": "edge_to_forest", "alternatives": [ "forest_to_forest" ] }
+      },
+      "trail_to_trail_ne": {
+        "overmap": "open_air",
+        "north": "trail_to_trail",
+        "east": "trail_to_trail",
+        "south": { "id": "edge_to_forest", "alternatives": [ "forest_to_forest" ] },
+        "west": { "id": "edge_to_forest", "alternatives": [ "forest_to_forest" ] }
+      },
+      "trail_to_trail_nw": {
+        "overmap": "open_air",
+        "north": "trail_to_trail",
+        "east": { "id": "edge_to_forest", "alternatives": [ "forest_to_forest" ] },
+        "south": { "id": "edge_to_forest", "alternatives": [ "forest_to_forest" ] },
+        "west": "trail_to_trail"
+      },
+      "trail_to_trail_s": { "overmap": "open_air", "south": "trail_to_trail" },
+      "trail_end_n": {
+        "overmap": "open_air",
+        "north": "trail_to_trail",
+        "east": { "id": "forest_to_forest", "alternatives": [ "forest_to_edge" ], "type": "available" },
+        "south": { "id": "forest_to_forest", "alternatives": [ "forest_to_edge" ], "type": "available" },
+        "west": { "id": "forest_to_forest", "alternatives": [ "forest_to_edge" ], "type": "available" }
+      },
       "forest_edge_n": { "overmap": "open_air", "north": "edge_to_forest" },
       "forest_edge_e": { "overmap": "open_air", "east": "edge_to_forest" },
       "forest_edge_s": { "overmap": "open_air", "south": "edge_to_forest" },
@@ -199,8 +233,7 @@
             { "overmap": "field_fill", "pos": [ 1, 0, 0 ] },
             { "overmap": "field_fill", "pos": [ 1, 1, 0 ] },
             { "overmap": "field_fill", "pos": [ 1, 2, 0 ] },
-            { "overmap": "field_fill", "pos": [ 2, 2, 0 ] },
-            { "overmap": "field_fill", "pos": [ 3, 4, 0 ] }
+            { "overmap": "field_fill", "pos": [ 2, 2, 0 ] }
           ],
           "weight": 1
         },
@@ -411,7 +444,7 @@
             { "overmap": "hayfield_R_sw", "pos": [ 1, 0, 0 ] }
           ],
           "max": 1,
-          "weight": 2
+          "weight": 10
         },
         {
           "name": "hayfield_end_2",
@@ -428,10 +461,10 @@
             { "overmap": "hayfield_R_ne", "pos": [ -1, 2, 0 ] }
           ],
           "max": 1,
-          "weight": 2
+          "weight": 10
         },
         {
-          "name": "paddock_end_1",
+          "name": "paddock_end",
           "chunk": [
             { "overmap": "paddock_end_2_n", "pos": [ 0, 0, 0 ] },
             { "overmap": "outer_to_inner_n", "pos": [ 0, 0, 10 ] },
@@ -441,10 +474,10 @@
             { "overmap": "paddock_end_5_n", "pos": [ 0, 1, 0 ] },
             { "overmap": "paddock_end_6_n", "pos": [ 1, 1, 0 ] }
           ],
-          "weight": 3
+          "weight": 30
         },
         {
-          "name": "paddock_end_2",
+          "name": "paddock_end_loop",
           "chunk": [
             { "overmap": "dirt_road_nes", "pos": [ 0, 0, 0 ] },
             { "overmap": "outer_to_inner_n", "pos": [ 0, 0, 10 ] },
@@ -463,10 +496,10 @@
             { "overmap": "dirt_road_ew", "pos": [ 1, 0, 0 ] }
           ],
           "max": 1,
-          "weight": 2
+          "weight": 20
         },
         {
-          "name": "paddock_end_3",
+          "name": "paddock_end_tiny",
           "chunk": [ { "overmap": "paddock_n", "pos": [ 0, 0, 0 ] }, { "overmap": "outer_to_inner_n", "pos": [ 0, 0, 10 ] } ],
           "weight": 1
         },
@@ -487,7 +520,8 @@
             { "overmap": "paddock_trailhead_8_n", "pos": [ 1, 3, 0 ] },
             { "overmap": "paddock_trailhead_9_n", "pos": [ 2, 3, 0 ] }
           ],
-          "weight": 1
+          "max": 1,
+          "weight": 20
         }
       ],
       [
@@ -591,11 +625,39 @@
           "max": 1
         }
       ],
-      [ { "name": "failsafe", "chunk": [ { "overmap": "outer_to_inner_n", "pos": [ 0, 0, 0 ] } ], "weight": 1 } ],
+      [ { "name": "failsafe", "chunk": [ { "overmap": "outer_to_inner_n", "pos": [ 0, 0, 10 ] } ], "weight": 1 } ],
+      [
+        {
+          "name": "trail_ns",
+          "//": "Trail phase, spawns a trail from paddock_trailhead_8 that ends if it runs out of pieces or if it hits an existing mapgen trail, currently not set to spawn",
+          "chunk": [ { "overmap": "trail_ns", "pos": [ 0, 0, 0 ] }, { "overmap": "trail_to_trail_ns", "pos": [ 0, 0, 10 ] } ],
+          "weight": 1,
+          "max": 10
+        },
+        {
+          "name": "trail_ne",
+          "//": "Trail phase, spawns a trail from paddock_trailhead_8 that ends if it runs out of pieces or if it hits an existing mapgen trail, currently not set to spawn",
+          "chunk": [ { "overmap": "trail_ne", "pos": [ 0, 0, 0 ] }, { "overmap": "trail_to_trail_ne", "pos": [ 0, 0, 10 ] } ],
+          "weight": 1,
+          "max": 10
+        },
+        {
+          "name": "trail_nw",
+          "//": "Trail phase, spawns a trail from paddock_trailhead_8 that ends if it runs out of pieces or if it hits an existing mapgen trail, currently not set to spawn",
+          "chunk": [ { "overmap": "trail_nw", "pos": [ 0, 0, 0 ] }, { "overmap": "trail_to_trail_nw", "pos": [ 0, 0, 10 ] } ],
+          "weight": 1,
+          "max": 10
+        },
+        {
+          "name": "trail_interset",
+          "chunk": [ { "overmap": "trail_intersect", "pos": [ 0, 0, 0 ] }, { "overmap": "trail_end_n", "pos": [ 0, 0, 10 ] } ],
+          "weight": 100
+        }
+      ],
       [
         {
           "name": "forest_sparse",
-          "//": "Forest phase, spawns forest around endpoints with the intention of potentially spawning a trail, currently not set to spawn",
+          "//": "Forest phase, spawns forest around endpoints, currently not set to spawn",
           "chunk": [ { "overmap": "forest", "pos": [ 0, 0, 0 ] }, { "overmap": "forest_connection", "pos": [ 0, 0, 10 ] } ],
           "max": 20,
           "weight": 3
@@ -607,7 +669,10 @@
           "weight": 3
         }
       ],
-      [ { "name": "forest_end", "chunk": [ { "overmap": "forest_end", "pos": [ 0, 0, 10 ] } ], "weight": 1 } ]
+      [
+        { "name": "trail_end", "chunk": [ { "overmap": "trail_end_n", "pos": [ 0, 0, 10 ] } ], "weight": 1 },
+        { "name": "forest_end", "chunk": [ { "overmap": "forest_end", "pos": [ 0, 0, 10 ] } ], "weight": 1 }
+      ]
     ]
   }
 ]
