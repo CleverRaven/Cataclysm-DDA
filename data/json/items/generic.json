@@ -728,7 +728,6 @@
       }
     ],
     "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
-    "flags": [ "MC_USED" ],
     "//": "Based on https://www.amazon.com/SanDisk-Ultra-Flair-128GB-Flash/dp/B015CH1PJU/ref=sr_1_3?crid=3QN3ALWDNXCOT&keywords=usb%2Bdrive&qid=1683302125&sprefix=usb%2Bdrive%2Caps%2C499&sr=8-3&th=1"
   },
   {
@@ -884,7 +883,18 @@
     "price_postapoc": 10,
     "material": [ "steel" ],
     "weight": "11 g",
-    "volume": "50 ml"
+    "volume": "50 ml",
+    "qualities": [ [ "TREE_TAP", 1 ] ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "makeshift_tree_spile",
+    "copy-from": "tree_spile",
+    "color": "brown",
+    "name": { "str": "makeshift tree spile" },
+    "description": "A carved piece of wood which is inserted in a tree crust in order to slowly harvest its sap.  Can be used on a maple tree in between late winter and early spring to harvest maple sap.",
+    "material": [ "wood" ],
+    "qualities": [ [ "TREE_TAP", 1 ] ]
   },
   {
     "type": "GENERIC",
@@ -2140,32 +2150,19 @@
   },
   {
     "type": "GENERIC",
-    "id": "mobile_memory_card",
+    "id": "memory_card",
+    "name": { "str": "memory card" },
+    "description": "A memory card, can be used to store data.",
+    "looks_like": "mobile_memory_card",
+    "weight": "1 g",
+    "volume": "1 ml",
     "symbol": ",",
     "color": "white",
-    "name": { "str": "SD-Memory card" },
-    "description": "A memory card, used.  Might be worth a look.",
     "price": 1000,
     "price_postapoc": 10,
     "material": [ "plastic" ],
-    "ascii_picture": "mobile_memory_card",
-    "flags": [ "MC_MOBILE", "MC_RANDOM_STUFF", "MC_MAY_BE_ENCRYPTED", "MC_TURN_USED" ],
-    "weight": "5 g",
-    "volume": "2 ml"
-  },
-  {
-    "type": "TOOL",
-    "id": "mobile_memory_card_used",
-    "looks_like": "mobile_memory_card",
-    "symbol": ",",
-    "color": "white",
-    "name": { "str": "SD-Memory card (clean)", "str_pl": "SD-Memory cards (clean)" },
-    "description": "This memory card is either unused or has been wiped clean.  You could use it to store your own data.",
-    "price": 500,
-    "price_postapoc": 10,
-    "material": [ "plastic" ],
-    "ascii_picture": "mobile_memory_card",
-    "flags": [ "MC_MOBILE", "MC_USED" ],
+    "ascii_picture": "memory_card",
+    "flags": [ "MC_MOBILE" ],
     "pocket_data": [
       {
         "pocket_type": "EBOOK",
@@ -2174,41 +2171,43 @@
         "max_contains_weight": "1 g",
         "weight_multiplier": 0.0
       }
-    ],
-    "weight": "5 g",
-    "volume": "1 ml"
+    ]
   },
   {
     "type": "GENERIC",
-    "id": "mobile_memory_card_encrypted",
-    "looks_like": "mobile_memory_card",
-    "symbol": ",",
-    "color": "white",
-    "name": { "str": "SD-Memory card (encrypted)", "str_pl": "SD-Memory cards (encrypted)" },
-    "description": "This memory card appears to have the firmware encryption set.  Hopefully it contains something worth encrypting.",
-    "price": 2000,
-    "price_postapoc": 10,
-    "material": [ "plastic" ],
-    "ascii_picture": "mobile_memory_card",
-    "flags": [ "MC_MOBILE", "MC_ENCRYPTED", "MC_TURN_USED" ],
-    "weight": "5 g",
-    "volume": "1 ml"
+    "id": "memory_card_unread",
+    "copy-from": "memory_card",
+    "name": { "str": "memory card (unread)", "str_pl": "memory cards (unread)" },
+    "description": "A memory card, can be used to store data.  Looks like it has been in use, might be worth taking a look.",
+    "memory_card": {
+      "data_chance": 0.875,
+      "on_read_convert_to": "memory_card",
+      "photos_chance": 0.33,
+      "photos_amount": 30,
+      "songs_chance": 0.33,
+      "songs_amount": 15,
+      "recipes_chance": 0.33,
+      "recipes_amount": 3,
+      "recipes_categories": [ "CC_AMMO", "CC_ARMOR", "CC_CHEM", "CC_ELECTRONIC", "CC_FOOD", "CC_WEAPON" ],
+      "recipes_level_max": 5
+    },
+    "pocket_data": [  ]
   },
   {
     "type": "GENERIC",
-    "id": "mobile_memory_card_science",
-    "looks_like": "mobile_memory_card",
-    "symbol": ",",
-    "color": "white",
-    "name": { "str": "Science SD-Memory card" },
-    "description": "This memory card appears to be related to 'XEDRA', and is certainly encrypted.  Looks *Interesting*, though…",
-    "price": 10000,
-    "price_postapoc": 100,
-    "material": [ "plastic" ],
-    "ascii_picture": "mobile_memory_card",
-    "flags": [ "MC_MOBILE", "MC_ENCRYPTED", "MC_TURN_USED", "MC_SCIENCE_STUFF" ],
-    "weight": "5 g",
-    "volume": "1 ml"
+    "id": "memory_card_science",
+    "copy-from": "memory_card",
+    "name": { "str": "memory card (XEDRA)", "str_pl": "memory cards (XEDRA)" },
+    "description": "A memory card, can be used to store data.  This one appears to be related to 'XEDRA'.",
+    "memory_card": {
+      "data_chance": 1.0,
+      "on_read_convert_to": "memory_card",
+      "recipes_chance": 1.0,
+      "recipes_amount": 3,
+      "recipes_categories": [ "CC_CHEM" ],
+      "recipes_level_min": 6
+    },
+    "pocket_data": [  ]
   },
   {
     "type": "GENERIC",

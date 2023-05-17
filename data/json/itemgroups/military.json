@@ -608,6 +608,7 @@
       { "item": "legpouch_large", "prob": 4 },
       { "item": "chestpouch", "prob": 6 },
       { "item": "ammo_satchel", "prob": 3 },
+      { "item": "ammo_pouch", "prob": 3 },
       { "item": "gobag", "prob": 1 },
       { "item": "mess_kit", "prob": 9 },
       { "item": "tent_kit", "prob": 10 },

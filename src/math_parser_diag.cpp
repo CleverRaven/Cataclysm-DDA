@@ -8,6 +8,7 @@
 #include "dialogue.h"
 #include "math_parser_shim.h"
 #include "mission.h"
+#include "options.h"
 #include "units.h"
 #include "weather.h"
 
@@ -49,6 +50,14 @@ std::function<void( dialogue &, double )> u_val_ass( char scope,
         debugmsg( "shim failed: %s", e.what() );
         return []( dialogue const &, double ) {};
     }
+}
+
+std::function<double( dialogue & )> option_eval( char /* scope */,
+        std::vector<std::string> const &params )
+{
+    return[option = params[0]]( dialogue const & ) {
+        return get_option<float>( option );
+    };
 }
 
 std::function<double( dialogue & )> pain_eval( char scope,

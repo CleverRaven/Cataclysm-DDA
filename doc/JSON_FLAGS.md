@@ -769,6 +769,7 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 - ```LEAK_ALWAYS``` ... Leaks (may be combined with `RADIOACTIVE`).
 - ```LEAK_DAM``` ... Leaks when damaged (may be combined with `RADIOACTIVE`).
 - ```MISSION_ITEM``` ... This item's chance to spawn isn't affected by world item spawn scaling factor.
+- ```MC_MOBILE```, ```MC_HAS_DATA``` Memory card related flags, see einktabletpc and camera related functions
 - ```MOP``` ... This item could be used to mop up spilled liquids like blood or water.
 - ```NEEDS_UNFOLD``` ... Has an additional time penalty upon wielding. For melee weapons and guns this is offset by the relevant skill. Stacks with `SLOW_WIELD`.
 - ```NO_PACKED``` ... This item is not protected against contamination and won't stay sterile.  Only applies to CBMs.
@@ -1346,7 +1347,6 @@ Melee flags are fully compatible with tool flags, and vice versa.
 - ```HAS_RECIPE``` Used by the E-Ink tablet to indicate it's currently showing a recipe.
 - ```IS_UPS``` Item is Unified Power Supply. Used in active item processing.
 - ```LIGHT_[X]``` Illuminates the area with light intensity `[X]` where `[X]` is an intensity value. (e.x. `LIGHT_4` or `LIGHT_100`). Note: this flags sets `itype::light_emission` field and then is removed (can't be found using `has_flag`);
-- ```MC_MOBILE```, ```MC_RANDOM_STUFF```, ```MC_SCIENCE_STUFF```, ```MC_USED```, ```MC_HAS_DATA``` Memory card related flags, see `iuse.cpp`
 - ```NO_DROP``` Item should never exist on map tile as a discrete item (must be contained by another item).
 - ```NO_UNLOAD``` Cannot be unloaded.
 - ```POWERED``` If turned ON, item uses its own source of power, instead of relying on power of the user.
