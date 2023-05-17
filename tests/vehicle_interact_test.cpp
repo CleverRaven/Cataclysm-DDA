@@ -131,7 +131,7 @@ TEST_CASE( "repair_vehicle_part", "[vehicle]" )
 
         tools.emplace_back( "goggles_welding" );
         tools.insert( tools.end(), 2, item( "steel_chunk" ) );
-        tools.insert( tools.end(), 1 item( "welding_wire_steel" ) );
+        tools.insert( tools.end(), 1, item( "welding_wire_steel" ) );
         test_repair( tools, false );
     }
     SECTION( "welder_missing_consumables" ) {
