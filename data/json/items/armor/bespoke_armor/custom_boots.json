@@ -172,14 +172,7 @@
     "armor": [
       {
         "covers": [ "foot_l", "foot_r" ],
-        "specifically_covers": [
-          "foot_ankle_r",
-          "foot_ankle_l",
-          "foot_arch_r",
-          "foot_arch_l",
-          "foot_heel_r",
-          "foot_heel_l"
-        ],
+        "specifically_covers": [ "foot_ankle_r", "foot_ankle_l", "foot_arch_r", "foot_arch_l", "foot_heel_r", "foot_heel_l" ],
         "material": [
           { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.6 },
           { "type": "nomex", "covered_by_mat": 100, "thickness": 0.1 },
@@ -258,14 +251,7 @@
     "armor": [
       {
         "covers": [ "foot_l", "foot_r" ],
-        "specifically_covers": [
-          "foot_ankle_r",
-          "foot_ankle_l",
-          "foot_arch_r",
-          "foot_arch_l",
-          "foot_heel_r",
-          "foot_heel_l"
-        ],
+        "specifically_covers": [ "foot_ankle_r", "foot_ankle_l", "foot_arch_r", "foot_arch_l", "foot_heel_r", "foot_heel_l" ],
         "material": [
           { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.6 },
           { "type": "nomex", "covered_by_mat": 100, "thickness": 0.1 },
