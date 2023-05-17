@@ -228,7 +228,14 @@
     "skills_required": [ "fabrication", 5 ],
     "time": "36 h",
     "autolearn": true,
-    "using": [ [ "tailoring_kevlar_fabric", 14 ], [ "fastener_small", 6 ], [ "shoe_rubber", 1 ], [ "adhesive_rubber", 1 ], [ "tailoring_nylon_patchwork", 4 ], [ "welding_standard", 10 ] ],
+    "using": [
+      [ "tailoring_kevlar_fabric", 14 ],
+      [ "fastener_small", 6 ],
+      [ "shoe_rubber", 1 ],
+      [ "adhesive_rubber", 1 ],
+      [ "tailoring_nylon_patchwork", 4 ],
+      [ "welding_standard", 10 ]
+    ],
     "proficiencies": [
       { "proficiency": "prof_cobbling" },
       { "proficiency": "prof_closures" },
@@ -390,7 +397,13 @@
     "skills_required": [ "fabrication", 3 ],
     "time": "20 h",
     "autolearn": true,
-    "using": [ [ "tailoring_kevlar_fabric", 8 ], [ "fastener_small", 4 ], [ "shoe_rubber", 1 ], [ "adhesive_rubber", 2 ], [ "tailoring_nylon_patchwork", 4 ] ],
+    "using": [
+      [ "tailoring_kevlar_fabric", 8 ],
+      [ "fastener_small", 4 ],
+      [ "shoe_rubber", 1 ],
+      [ "adhesive_rubber", 2 ],
+      [ "tailoring_nylon_patchwork", 4 ]
+    ],
     "proficiencies": [
       { "proficiency": "prof_cobbling" },
       { "proficiency": "prof_closures" },
@@ -515,7 +528,14 @@
     "skills_required": [ "fabrication", 4 ],
     "time": "30 h",
     "autolearn": true,
-    "using": [ [ "tailoring_kevlar_fabric", 18 ], [ "fastener_small", 6 ], [ "shoe_rubber", 1 ], [ "adhesive_rubber", 1 ], [ "tailoring_nylon_patchwork", 10 ], [ "welding_standard", 10 ] ],
+    "using": [
+      [ "tailoring_kevlar_fabric", 18 ],
+      [ "fastener_small", 6 ],
+      [ "shoe_rubber", 1 ],
+      [ "adhesive_rubber", 1 ],
+      [ "tailoring_nylon_patchwork", 10 ],
+      [ "welding_standard", 10 ]
+    ],
     "proficiencies": [
       { "proficiency": "prof_cobbling" },
       { "proficiency": "prof_closures" },
@@ -623,7 +643,14 @@
     "skills_required": [ "fabrication", 5 ],
     "time": "36 h",
     "autolearn": true,
-    "using": [ [ "tailoring_kevlar_fabric", 14 ], [ "fastener_small", 6 ], [ "shoe_rubber", 1 ], [ "adhesive_rubber", 1 ], [ "tailoring_nylon_patchwork", 4 ], [ "welding_standard", 10 ] ],
+    "using": [
+      [ "tailoring_kevlar_fabric", 14 ],
+      [ "fastener_small", 6 ],
+      [ "shoe_rubber", 1 ],
+      [ "adhesive_rubber", 1 ],
+      [ "tailoring_nylon_patchwork", 4 ],
+      [ "welding_standard", 10 ]
+    ],
     "proficiencies": [
       { "proficiency": "prof_cobbling" },
       { "proficiency": "prof_closures" },
