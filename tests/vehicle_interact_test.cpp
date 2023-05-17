@@ -135,7 +135,7 @@ TEST_CASE( "repair_vehicle_part", "[vehicle]" )
     }
     SECTION( "welder_missing_consumables" ) {
         std::vector<item> tools;
-        tools.push_back( tool_with_ammo( "welder", 1000 );
+        tools.push_back( tool_with_ammo( "welder", 1000 ) );
         tools.emplace_back( "goggles_welding" );
         test_repair( tools, false );
     }
