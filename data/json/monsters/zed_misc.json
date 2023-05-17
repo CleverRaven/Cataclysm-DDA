@@ -36,7 +36,7 @@
         "monster_message": "Some of the pustules pop, and the frog mother opens her mouth and vomits tadpoles!"
       }
     ],
-    "regenerates": 40,
+    "regenerates": 15,
     "regen_morale": true,
     "flags": [
       "SEES",
@@ -68,7 +68,7 @@
     "volume": "10 L",
     "weight": "18 kg",
     "hp": 20,
-    "speed": 200,
+    "speed": 70,
     "material": [ "flesh" ],
     "symbol": "S",
     "color": "black_green",
