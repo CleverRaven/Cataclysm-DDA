@@ -30,8 +30,8 @@ static void test_repair( const std::vector<item> &tools, bool expect_craftable )
     const tripoint test_origin( 60, 60, 0 );
     Character &player_character = get_player_character();
     player_character.setpos( test_origin );
-    const item backpack( "backpack" );
-    player_character.wear_item( backpack );
+    const item backpack( "bigback" );
+    player_character.wear_item( bigback );
     for( const item &gear : tools ) {
         player_character.i_add( gear );
     }
@@ -70,15 +70,15 @@ TEST_CASE( "repair_vehicle_part", "[vehicle]" )
 {
     SECTION( "welder" ) {
         std::vector<item> tools;
-        tools.push_back( tool_with_ammo( "welder", 10000 ) );
+        tools.push_back( tool_with_ammo( "welder", 5000 ) );
         tools.emplace_back( "goggles_welding" );
         tools.emplace_back( "hammer" );
         tools.emplace_back( "wrench" );
         tools.insert( tools.end(), 20, item( "steel_chunk" ) );
         tools.insert( tools.end(), 50, item( "scrap" ) );
         tools.insert( tools.end(), 25, item( "nuts_bolts" ) );
-        tools.insert( tools.end(), 8, item( "material_aluminium_ingot" ) );
-        tools.insert( tools.end(), 500, item( "welding_wire_steel" ) );
+        tools.insert( tools.end(), 4, item( "material_aluminium_ingot" ) );
+        tools.insert( tools.end(), 300, item( "welding_wire_steel" ) );
         tools.insert( tools.end(), 100, item( "welding_wire_alloy" ) );
         test_repair( tools, true );
     }
@@ -93,7 +93,6 @@ TEST_CASE( "repair_vehicle_part", "[vehicle]" )
         ups_mag.ammo_set( ups_mag.ammo_default(), 1250 );
         ups.put_in( ups_mag, item_pocket::pocket_type::MAGAZINE_WELL );
         tools.push_back( ups );
-        tools.push_back( ups );
 
         tools.emplace_back( "goggles_welding" );
         tools.emplace_back( "hammer" );
@@ -102,13 +101,13 @@ TEST_CASE( "repair_vehicle_part", "[vehicle]" )
         tools.insert( tools.end(), 50, item( "scrap" ) );
         tools.insert( tools.end(), 25, item( "nuts_bolts" ) );
         tools.insert( tools.end(), 8, item( "material_aluminium_ingot" ) );
-        tools.insert( tools.end(), 500, item( "welding_wire_steel" ) );
-        tools.insert( tools.end(), 100, item( "welding_wire_alloy" ) );
+        tools.insert( tools.end(), 200, item( "welding_wire_steel" ) );
+        tools.insert( tools.end(), 50, item( "welding_wire_alloy" ) );
         test_repair( tools, true );
     }
     SECTION( "welder_missing_goggles" ) {
         std::vector<item> tools;
-        tools.push_back( tool_with_ammo( "welder", 10000 ) );
+        tools.push_back( tool_with_ammo( "welder", 5000 ) );
         test_repair( tools, false );
     }
     SECTION( "welder_missing_charge" ) {
@@ -134,7 +133,7 @@ TEST_CASE( "repair_vehicle_part", "[vehicle]" )
     }
     SECTION( "welder_missing_consumables" ) {
         std::vector<item> tools;
-        tools.push_back( tool_with_ammo( "welder", 10000 ) );
+        tools.push_back( tool_with_ammo( "welder", 500 ) );
         tools.emplace_back( "goggles_welding" );
         test_repair( tools, false );
     }
