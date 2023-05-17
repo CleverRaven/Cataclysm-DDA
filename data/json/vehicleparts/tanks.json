@@ -250,7 +250,11 @@
     ],
     "//": "50cm weld install. weld repairs would involve patching up holes, for a medium-large tank assume 10cm squares (40 cm weld total)",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 50 ], [ "drilling_standard", 50 ] ] },
+      "install": {
+        "skills": [ [ "mechanics", 1 ] ],
+        "time": "60 m",
+        "using": [ [ "welding_standard", 50 ], [ "drilling_standard", 50 ] ]
+      },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "8 m", "using": [ [ "repair_welding_standard", 4 ] ] }
     },
