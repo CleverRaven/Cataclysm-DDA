@@ -387,7 +387,7 @@
     "using": [ [ "tailoring_kevlar_fabric", 8 ], [ "fastener_small", 4 ], [ "shoe_rubber", 1 ], [ "adhesive_rubber", 2 ], [ "tailoring_nylon_patchwork", 4 ] ],
     "proficiencies": [
       { "proficiency": "prof_cobbling" },
-      { "proficiency": "prof_closures },
+      { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
       { "proficiency": "prof_polymerworking" }
     ],
@@ -512,7 +512,7 @@
     "using": [ [ "tailoring_kevlar_fabric", 18 ], [ "fastener_small", 6 ], [ "shoe_rubber", 1 ], [ "adhesive_rubber", 1 ], [ "tailoring_nylon_patchwork", 10 ], [ "welding_standard", 4 ] ]
     "proficiencies": [
       { "proficiency": "prof_cobbling" },
-      { "proficiency": "prof_closures },
+      { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
       { "proficiency": "prof_polymerworking" },
       { "proficiency": "prof_metalworking" },
