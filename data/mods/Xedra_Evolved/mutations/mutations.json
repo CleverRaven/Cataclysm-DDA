@@ -108,12 +108,6 @@
   },
   {
     "type": "mutation",
-    "id": "ACIDBLOOD",
-    "copy-from": "ACIDBLOOD",
-    "mutation_type": "BLOOD"
-  },
-  {
-    "type": "mutation",
     "id": "VAMPIRE",
     "name": { "str": "Infected with the vampire disease." },
     "points": 0,
