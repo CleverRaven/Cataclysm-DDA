@@ -50,7 +50,7 @@ static void test_repair( const std::vector<item> &tools, bool expect_craftable )
     }
     REQUIRE( origin_frame != nullptr );
     REQUIRE( origin_frame->hp() == origin_frame->info().durability );
-    veh_ptr->mod_hp( *origin_frame, -20 );
+    veh_ptr->mod_hp( *origin_frame, -1 );
     REQUIRE( origin_frame->hp() < origin_frame->info().durability );
 
     const vpart_info &vp = origin_frame->info();
@@ -74,8 +74,10 @@ TEST_CASE( "repair_vehicle_part", "[vehicle]" )
         tools.emplace_back( "goggles_welding" );
         tools.emplace_back( "hammer" );
         tools.emplace_back( "wrench" );
-        tools.insert( tools.end(), 5, item( "material_aluminium_ingot" ) );
-        tools.insert( tools.end(), 50, item( "welding_wire_alloy" ) );
+        tools.insert( tools.end(), 10, item( "material_aluminium_ingot" ) );
+        tools.insert( tools.end(), 100, item( "welding_wire_alloy" ) );
+        tools.insert( tools.end(), 10, item( "chunk_steel" ) );
+        tools.insert( tools.end(), 100, item( "welding_wire_steel" ) );
         test_repair( tools, true );
     }
     SECTION( "UPS_modded_welder" ) {
