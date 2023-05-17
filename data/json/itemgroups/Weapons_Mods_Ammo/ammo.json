@@ -716,7 +716,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "10mm_casing", "prob": 60 },
-      { "item": "22_casing_new", "prob": 80 },
+      { "item": "22_casing", "prob": 80 },
       { "item": "223_casing", "prob": 100 },
       { "item": "270win_casing", "prob": 60 },
       { "item": "300_casing", "prob": 80 },
@@ -770,6 +770,13 @@
     ]
   },
   {
+    "id": "ammo_casings_gunsmith",
+    "//": "Casings found in prepper/gunsmith locations, including primed casings",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "group": "ammo_casings", "prob": 98 }, { "item": "22_casing_new", "prob": 2 } ]
+  },
+  {
     "id": "casings",
     "//": "casings list for shooting range.",
     "type": "item_group",
@@ -820,6 +827,17 @@
       { "group": "ammo_casings", "prob": 10, "charges-min": 100, "charges-max": 100 },
       { "group": "ammo_casings", "prob": 2, "charges-min": 250, "charges-max": 250 },
       { "group": "ammo_casings", "prob": 1, "charges-min": 500, "charges-max": 500 }
+    ]
+  },
+  {
+    "id": "ammo_casings_gunsmith_bulk",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "ammo_casings_gunsmith", "prob": 25, "charges-min": 50, "charges-max": 50 },
+      { "group": "ammo_casings_gunsmith", "prob": 10, "charges-min": 100, "charges-max": 100 },
+      { "group": "ammo_casings_gunsmith", "prob": 2, "charges-min": 250, "charges-max": 250 },
+      { "group": "ammo_casings_gunsmith", "prob": 1, "charges-min": 500, "charges-max": 500 }
     ]
   },
   {
