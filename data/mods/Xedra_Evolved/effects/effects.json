@@ -312,7 +312,7 @@
     "death_msg": "You succumb to your deadly necrotic condition.",
     "apply_memorial_log": "Contracted a bloodborne pathogen out of legend.",
     "remove_memorial_log": "Rid themselves of a horrific curse of the blood.",
-    "resist_traits": [ "ACIDBLOOD" ],
+    "resist_traits": [ "ACIDBLOOD", "BLOOD_OF_SAINTS" ],
     "resist_effects": [ "blood_treatment" ],
     "blocks_effects": [ "cold", "flu" ],
     "max_intensity": 3,

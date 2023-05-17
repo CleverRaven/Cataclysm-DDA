@@ -7703,13 +7703,13 @@
   },
   {
     "type": "mutation",
-    "id": "ACIDBLOOD",
-    "name": { "str": "Acid Blood" },
-    "points": 4,
-    "description": "Your body has developed a wonderful defense mechanism.  Instead of normal blood, you bleed a strong molecular acid which will damage any creature foolish enough to harm you.",
-    "prereqs": [ "ACIDPROOF" ],
-    "threshreq": [ "THRESH_INSECT", "THRESH_CHIMERA", "THRESH_MEDICAL", "THRESH_SLIME" ],
-    "category": [ "INSECT", "CHIMERA", "MEDICAL", "SLIME" ]
+    "id": "BLOOD_OF_SAINTS",
+    "name": { "str": "Saint's blood" },
+    "points": 0,
+    "description": "Through a complicated ritual utilizing a saint's relic, you have transubstantiated your own blood with the holy blood of the saints.  It'll prevent you from becoming infected with vampirism while you live, effects postmortem unknown.",
+    "valid": false,
+    "purifiable": false,
+    "types": [ "BLOOD" ]
   },
   {
     "type": "mutation",
