@@ -380,20 +380,22 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
-    "difficulty": 5,
-    "skills_required": [ "fabrication", 3 ],
+    "difficulty": 6,
+    "skills_required": [ "fabrication", 5 ],
     "time": "20 h",
     "autolearn": true,
-    "using": [ [ "tailoring_kevlar_fabric", 4 ], [ "fastener_small", 2 ] ],
+    "using": [ [ "tailoring_kevlar_fabric", 8 ], [ "fastener_small", 4 ], [ "shoe_rubber", 1 ], [ "adhesive_rubber", 2 ], [ "tailoring_nylon_patchwork", 4 ] ],
     "proficiencies": [
       { "proficiency": "prof_cobbling" },
-      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_closures },
       { "proficiency": "prof_closures_waterproofing" },
       { "proficiency": "prof_polymerworking" }
     ],
     "components": [
-      [ [ "duct_tape", 100 ] ],
-      [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_hiking", 1 ], [ "boots_bunker", 1 ], [ "boots", 1 ] ]
+      [ [ "filament_durable", 50 ] ],
+      [ [ "nomex_socks", 1 ], [ "sheet_nomex", 4 ], [ "sheet_nomex_patchwork", 4 ] ],
+      [ [ "thread_nomex", 20 ] ],
+      [ [ "rubber_tire_chunk", 1 ] ]
     ]
   },
   {
@@ -505,19 +507,22 @@
     "skill_used": "tailor",
     "difficulty": 6,
     "skills_required": [ "fabrication", 4 ],
-    "time": "22 h",
+    "time": "30 h",
     "autolearn": true,
-    "using": [ [ "tailoring_kevlar_fabric", 4 ], [ "tailoring_leather_small", 8 ] ],
+    "using": [ [ "tailoring_kevlar_fabric", 18 ], [ "fastener_small", 6 ], [ "shoe_rubber", 1 ], [ "adhesive_rubber", 1 ], [ "tailoring_nylon_patchwork", 10 ], [ "welding_standard", 4 ] ]
     "proficiencies": [
       { "proficiency": "prof_cobbling" },
-      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_closures },
       { "proficiency": "prof_closures_waterproofing" },
       { "proficiency": "prof_polymerworking" },
-      { "proficiency": "prof_leatherworking" }
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_welding_basic" }
     ],
     "components": [
-      [ [ "duct_tape", 100 ] ],
-      [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_hiking", 1 ], [ "boots_bunker", 1 ], [ "boots", 1 ] ]
+      [ [ "filament_durable", 100 ] ],
+      [ [ "nomex_socks", 1 ], [ "sheet_nomex", 4 ], [ "sheet_nomex_patchwork", 4 ] ],
+      [ [ "thread_nomex", 20 ] ],
+      [ [ "boots_steel", 1 ], [ "shoes_steel", 1 ] ]
     ]
   },
   {
