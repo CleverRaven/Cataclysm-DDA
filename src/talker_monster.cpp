@@ -144,6 +144,11 @@ void talker_monster::set_friendly( int new_val )
     me_mon->friendly = new_val;
 }
 
+void talker_monster::die()
+{
+    me_mon->die( nullptr );
+}
+
 std::vector<std::string> talker_monster_const::get_topics( bool )
 {
     return me_mon_const->type->chat_topics;

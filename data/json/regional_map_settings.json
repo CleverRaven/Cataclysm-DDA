@@ -26,12 +26,13 @@
       "deep_rock"
     ],
     "default_groundcover": [ [ "t_region_groundcover", 1 ] ],
+    "//": "Weights are set high in order to allow mods to add rare terrains.  Dividing current weights by 1000 breaks in repo mods and should not be approved.",
     "region_terrain_and_furniture": {
       "terrain": {
-        "t_region_groundcover": { "t_grass": 12, "t_grass_dead": 2, "t_dirt": 1 },
+        "t_region_groundcover": { "t_grass": 12000, "t_grass_dead": 2000, "t_dirt": 1000 },
         "t_region_groundcover_urban": { "t_grass": 20, "t_grass_dead": 3 },
         "t_region_groundcover_forest": { "t_forestfloor": 10, "t_grass": 1, "t_grass_long": 1, "t_moss": 1, "t_grass_dead": 1 },
-        "t_region_groundcover_swamp": { "t_grass_long": 3, "t_grass_tall": 1, "t_moss": 2, "t_dirt": 2 },
+        "t_region_groundcover_swamp": { "t_grass_long": 300, "t_grass_tall": 100, "t_moss": 200, "t_dirt": 200 },
         "t_region_groundcover_barren": { "t_dirt": 30, "t_grass_dead": 2, "t_railroad_rubble": 1 },
         "t_region_grass": { "t_grass": 1 },
         "t_region_soil": { "t_dirt": 1 },
@@ -80,6 +81,7 @@
           "t_tree_cherry": 4,
           "t_tree_plum": 2,
           "t_tree_sassafras": 1,
+          "t_beehive_natural": 2,
           "t_region_tree_dead": 5,
           "t_region_tree_forest_other": 5
         },
@@ -97,6 +99,7 @@
           "t_tree_elderberry": 10,
           "t_tree_mulberry": 10,
           "t_tree_sassafras": 2,
+          "t_beehive_natural": 2,
           "t_tree_juniper": 5
         },
         "t_region_tree_forest": { "t_region_tree_forest_dense": 2, "t_region_tree_forest_other": 1 },
@@ -129,6 +132,7 @@
           "t_tree_elderberry": 2,
           "t_tree_mulberry": 2,
           "t_tree_sassafras": 3,
+          "t_beehive_natural": 2,
           "t_region_tree_dead": 48
         },
         "t_region_tree_shade": {
@@ -148,6 +152,7 @@
           "t_tree_elderberry": 2,
           "t_tree_mulberry": 2,
           "t_tree_sassafras": 3,
+          "t_beehive_natural": 2,
           "t_tree_dead": 2
         },
         "t_region_tree_fruit": {
@@ -755,7 +760,8 @@
           "mx_military": 50,
           "mx_science": 400,
           "mx_collegekids": 500,
-          "mx_roadblock": 1000,
+          "mx_roadblock": 830,
+          "mx_roadblock_mil": 170,
           "mx_bandits_block": 800,
           "mx_drugdeal": 300,
           "mx_supplydrop": 100,
