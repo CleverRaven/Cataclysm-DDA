@@ -162,7 +162,7 @@
       [
         {
           "name": "horse_entrance_1",
-          "//": "Entrance phase builds road for the farm house and stables reserving their placement with 2x2s of special_field. Ends in 2 road connections and completes borders with special_field to form rectangular tiles.",
+          "//": "Entrance phase builds road for the farm house and stables reserving their placement with 2x2s of special_field. Ends in 2 road connections and uses special_field to form rectangular tiles preventing future intrusive mapgen.",
           "chunk": [
             { "overmap": "dirt_road_ns_root_n", "pos": [ 0, 0, 0 ] },
             { "overmap": "dirt_road_ns", "pos": [ 0, 1, 0 ] },
@@ -196,7 +196,11 @@
             { "overmap": "field_fill", "pos": [ 1, 7, 0 ] },
             { "overmap": "field_fill", "pos": [ 2, 7, 0 ] },
             { "overmap": "field_fill", "pos": [ 3, 4, 0 ] },
-            { "overmap": "field_fill", "pos": [ 1, 0, 0 ] }
+            { "overmap": "field_fill", "pos": [ 1, 0, 0 ] },
+            { "overmap": "field_fill", "pos": [ 1, 1, 0 ] },
+            { "overmap": "field_fill", "pos": [ 1, 2, 0 ] },
+            { "overmap": "field_fill", "pos": [ 2, 2, 0 ] },
+            { "overmap": "field_fill", "pos": [ 3, 4, 0 ] }
           ],
           "weight": 1
         },
@@ -263,18 +267,14 @@
             { "overmap": "inner_to_outer_e", "pos": [ 2, 7, 10 ] },
             { "overmap": "field_fill", "pos": [ 1, 0, 0 ] },
             { "overmap": "field_fill", "pos": [ 2, 0, 0 ] },
+            { "overmap": "field_fill", "pos": [ 1, 4, 0 ] },
+            { "overmap": "field_fill", "pos": [ 1, 5, 0 ] },
+            { "overmap": "field_fill", "pos": [ 1, 6, 0 ] },
             { "overmap": "field_fill", "pos": [ 2, 4, 0 ] },
             { "overmap": "field_fill", "pos": [ 2, 5, 0 ] },
             { "overmap": "field_fill", "pos": [ 2, 6, 0 ] },
-            { "overmap": "field_fill", "pos": [ -4, 2, 0 ] },
-            { "overmap": "field_fill", "pos": [ -4, 3, 0 ] },
-            { "overmap": "field_fill", "pos": [ -4, 4, 0 ] },
-            { "overmap": "field_fill", "pos": [ -4, 5, 0 ] },
-            { "overmap": "field_fill", "pos": [ -4, 6, 0 ] },
-            { "overmap": "field_fill", "pos": [ -4, 7, 0 ] },
-            { "overmap": "field_fill", "pos": [ -3, 7, 0 ] },
-            { "overmap": "field_fill", "pos": [ -2, 7, 0 ] },
-            { "overmap": "field_fill", "pos": [ -1, 7, 0 ] }
+            { "overmap": "field_fill", "pos": [ -1, 1, 0 ] },
+            { "overmap": "field_fill", "pos": [ -2, 1, 0 ] }
           ],
           "weight": 1
         },
@@ -313,8 +313,17 @@
             { "overmap": "dirt_road_ew", "pos": [ 2, 5, 0 ] },
             { "overmap": "dirt_road_ew", "pos": [ 3, 5, 0 ] },
             { "overmap": "inner_to_outer_e", "pos": [ 3, 5, 10 ] },
+            { "overmap": "field_fill", "pos": [ 0, 1, 0 ] },
             { "overmap": "field_fill", "pos": [ -2, 0, 0 ] },
             { "overmap": "field_fill", "pos": [ -3, 0, 0 ] },
+            { "overmap": "field_fill", "pos": [ -2, 2, 0 ] },
+            { "overmap": "field_fill", "pos": [ -2, 3, 0 ] },
+            { "overmap": "field_fill", "pos": [ -2, 4, 0 ] },
+            { "overmap": "field_fill", "pos": [ 1, 3, 0 ] },
+            { "overmap": "field_fill", "pos": [ 1, 4, 0 ] },
+            { "overmap": "field_fill", "pos": [ 2, 2, 0 ] },
+            { "overmap": "field_fill", "pos": [ 2, 3, 0 ] },
+            { "overmap": "field_fill", "pos": [ 2, 4, 0 ] },
             { "overmap": "field_fill", "pos": [ 3, 2, 0 ] },
             { "overmap": "field_fill", "pos": [ 3, 3, 0 ] },
             { "overmap": "field_fill", "pos": [ 3, 4, 0 ] }
@@ -343,6 +352,7 @@
             { "overmap": "dirt_road_ew", "pos": [ 3, 2, 0 ] },
             { "overmap": "inner_to_outer_e", "pos": [ 3, 2, 10 ] },
             { "overmap": "field_fill", "pos": [ 1, 0, 0 ] },
+            { "overmap": "field_fill", "pos": [ 1, 1, 0 ] },
             { "overmap": "field_fill", "pos": [ -1, 0, 0 ] },
             { "overmap": "field_fill", "pos": [ -2, 0, 0 ] }
           ],
