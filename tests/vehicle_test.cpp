@@ -19,6 +19,8 @@
 #include "vehicle.h"
 #include "veh_type.h"
 
+static const damage_type_id damage_pure( "pure" );
+
 static const itype_id itype_folded_bicycle( "folded_bicycle" );
 static const itype_id itype_folded_inflatable_boat( "folded_inflatable_boat" );
 static const itype_id itype_folded_wheelchair_generic( "folded_wheelchair_generic" );
@@ -147,11 +149,26 @@ struct damage_preset {
 
 static void complete_activity( Character &u, const activity_actor &act )
 {
-    u.assign_activity( player_activity( act ) );
+    u.assign_activity( act );
     while( !u.activity.is_null() ) {
         u.set_moves( u.get_speed() );
         u.activity.do_turn( u );
     }
+}
+
+static void spawn_tools_nearby( map &m, Character &u, const vehicle_preset &veh_preset )
+{
+    map_stack spot = m.i_at( u.pos_bub() + tripoint_north );
+    for( const itype_id &tool_itype_id : veh_preset.tool_itype_ids ) {
+        spot.insert( item( tool_itype_id ) );
+    }
+    u.invalidate_crafting_inventory();
+}
+
+static void clear_spawned_tools( map &m, Character &u )
+{
+    m.i_at( u.pos_bub() + tripoint_north ).clear();
+    u.invalidate_crafting_inventory();
 }
 
 static void unfold_and_check( const vehicle_preset &veh_preset, const damage_preset &damage_preset )
@@ -195,12 +212,9 @@ static void unfold_and_check( const vehicle_preset &veh_preset, const damage_pre
 
     INFO( "unfolding vehicle item sourced from item factory" );
 
-    // spawn unfolding tools
-    for( const itype_id &tool_itype_id : veh_preset.tool_itype_ids ) {
-        u.inv->add_item( item( tool_itype_id ) );
-    }
-
+    spawn_tools_nearby( m, u, veh_preset );
     complete_activity( u, vehicle_unfolding_activity_actor( veh_item ) );
+    clear_spawned_tools( m, u );
 
     // should succeed now avatar has hand_pump
     optional_vpart_position ovp = m.veh_at( u.get_location() );
@@ -217,7 +231,9 @@ static void unfold_and_check( const vehicle_preset &veh_preset, const damage_pre
     }
 
     // fold into an item
+    spawn_tools_nearby( m, u, veh_preset );
     complete_activity( u, vehicle_folding_activity_actor( veh ) );
+    clear_spawned_tools( m, u );
 
     // should have no value as vehicle is now folded into item
     REQUIRE( !m.veh_at( u.get_location() ).has_value() );
@@ -234,7 +250,9 @@ static void unfold_and_check( const vehicle_preset &veh_preset, const damage_pre
     CHECK( factory_item_weight == player_folded_veh.weight() );
 
     // unfold the player folded one
+    spawn_tools_nearby( m, u, veh_preset );
     complete_activity( u, vehicle_unfolding_activity_actor( player_folded_veh ) );
+    clear_spawned_tools( m, u );
 
     optional_vpart_position ovp_unfolded = m.veh_at( u.get_location() );
     REQUIRE( ovp_unfolded.has_value() );
@@ -311,7 +329,7 @@ static void check_folded_item_to_parts_damage_transfer( const folded_item_damage
 
     // don't actually need point_north but damage_all filters out direct damage
     // do some damage so it is transferred when folding
-    ovp->vehicle().damage_all( 100, 100, damage_type::PURE, ovp->mount() + point_north );
+    ovp->vehicle().damage_all( 100, 100, damage_pure, ovp->mount() + point_north );
 
     // fold vehicle into an item
     complete_activity( u, vehicle_folding_activity_actor( ovp->vehicle() ) );
@@ -631,7 +649,7 @@ static void rack_check( const rack_preset &preset )
             REQUIRE( error ==
                      "vehicle named Foldable wheelchair is already racked on this vehicle"
                      "racking actor failed: failed racking Foldable wheelchair on Car, "
-                     "racks: [82, 81, and 79]." );
+                     "racks: [81, 80, and 78]." );
         }
 
         const optional_vpart_position ovp_racked = m.veh_at(

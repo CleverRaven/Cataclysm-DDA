@@ -170,6 +170,7 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
         case ter_furn_flag::TFLAG_WALL: return "WALL";
         case ter_furn_flag::TFLAG_DEEP_WATER: return "DEEP_WATER";
         case ter_furn_flag::TFLAG_SHALLOW_WATER: return "SHALLOW_WATER";
+        case ter_furn_flag::TFLAG_WATER_CUBE: return "WATER_CUBE";
         case ter_furn_flag::TFLAG_CURRENT: return "CURRENT";
         case ter_furn_flag::TFLAG_HARVESTED: return "HARVESTED";
         case ter_furn_flag::TFLAG_PERMEABLE: return "PERMEABLE";
@@ -336,7 +337,7 @@ map_bash_info::map_bash_info() : str_min( -1 ), str_max( -1 ),
     drop_group( Item_spawn_data_EMPTY_GROUP ),
     ter_set( ter_str_id::NULL_ID() ), furn_set( furn_str_id::NULL_ID() ) {}
 
-bool map_bash_info::load( const JsonObject &jsobj, const std::string &member,
+bool map_bash_info::load( const JsonObject &jsobj, const std::string_view member,
                           map_object_type obj_type, const std::string &context )
 {
     if( !jsobj.has_object( member ) ) {
@@ -401,7 +402,7 @@ bool map_bash_info::load( const JsonObject &jsobj, const std::string &member,
 map_deconstruct_info::map_deconstruct_info() : can_do( false ), deconstruct_above( false ),
     ter_set( ter_str_id::NULL_ID() ), furn_set( furn_str_id::NULL_ID() ) {}
 
-bool map_deconstruct_info::load( const JsonObject &jsobj, const std::string &member,
+bool map_deconstruct_info::load( const JsonObject &jsobj, const std::string_view member,
                                  bool is_furniture, const std::string &context )
 {
     if( !jsobj.has_object( member ) ) {
@@ -421,7 +422,7 @@ bool map_deconstruct_info::load( const JsonObject &jsobj, const std::string &mem
     return true;
 }
 
-bool map_shoot_info::load( const JsonObject &jsobj, const std::string &member, bool was_loaded )
+bool map_shoot_info::load( const JsonObject &jsobj, const std::string_view member, bool was_loaded )
 {
     JsonObject j = jsobj.get_object( member );
 
@@ -450,7 +451,7 @@ bool map_shoot_info::load( const JsonObject &jsobj, const std::string &member, b
 furn_workbench_info::furn_workbench_info() : multiplier( 1.0f ), allowed_mass( units::mass_max ),
     allowed_volume( units::volume_max ) {}
 
-bool furn_workbench_info::load( const JsonObject &jsobj, const std::string &member )
+bool furn_workbench_info::load( const JsonObject &jsobj, const std::string_view member )
 {
     JsonObject j = jsobj.get_object( member );
 
@@ -464,7 +465,7 @@ bool furn_workbench_info::load( const JsonObject &jsobj, const std::string &memb
 plant_data::plant_data() : transform( furn_str_id::NULL_ID() ), base( furn_str_id::NULL_ID() ),
     growth_multiplier( 1.0f ), harvest_multiplier( 1.0f ) {}
 
-bool plant_data::load( const JsonObject &jsobj, const std::string &member )
+bool plant_data::load( const JsonObject &jsobj, const std::string_view member )
 {
     JsonObject j = jsobj.get_object( member );
 
@@ -602,7 +603,7 @@ void map_data_common_t::load_symbol( const JsonObject &jo, const std::string &co
     if( has_color && has_bgcolor ) {
         jo.throw_error( "Found both color and bgcolor, only one of these is allowed." );
     } else if( has_color ) {
-        load_season_array( jo, "color", context, color_, []( const std::string & str ) {
+        load_season_array( jo, "color", context, color_, []( const std::string_view str ) {
             // has to use a lambda because of default params
             return color_from_string( str );
         } );
@@ -1377,13 +1378,15 @@ void init_mapdata()
 void map_data_common_t::load( const JsonObject &jo, const std::string & )
 {
     if( jo.has_string( "examine_action" ) ) {
+        examine_actor = nullptr;
         examine_func = iexamine_functions_from_string( jo.get_string( "examine_action" ) );
     } else if( jo.has_object( "examine_action" ) ) {
         JsonObject data = jo.get_object( "examine_action" );
         examine_actor = iexamine_actor_from_jsobj( data );
         examine_actor->load( data );
         examine_func = iexamine_functions_from_string( "invalid" );
-    } else {
+    } else if( !was_loaded ) {
+        examine_actor = nullptr;
         examine_func = iexamine_functions_from_string( "none" );
     }
 

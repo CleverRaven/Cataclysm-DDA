@@ -21,6 +21,7 @@
 #include "item_pocket.h"
 #include "item_stack.h"
 #include "itype.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"

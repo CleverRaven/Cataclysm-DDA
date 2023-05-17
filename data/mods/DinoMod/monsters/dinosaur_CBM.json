@@ -7,7 +7,7 @@
     "diff": 5,
     "proportional": { "hp": 1.2, "speed": 1.15 },
     "aggression": 99,
-    "relative": { "morale": 50, "melee_skill": 2, "melee_dice": 1, "dodge": 2, "armor_bash": 3, "armor_cut": 3, "armor_bullet": 3 },
+    "relative": { "morale": 50, "melee_skill": 2, "melee_dice": 1, "dodge": 2, "armor": { "bash": 3, "cut": 3, "bullet": 3 } },
     "flags": [
       "ELECTRIC",
       "NO_BREATHE",
@@ -65,17 +65,15 @@
       "melee_skill": 2,
       "melee_dice": 1,
       "dodge": 2,
-      "armor_bash": 3,
-      "armor_cut": 3,
-      "armor_bullet": 3
+      "armor": { "bash": 3, "cut": 3, "bullet": 3 }
     },
     "extend": { "flags": [ "ACIDPROOF", "ELECTRIC" ] },
     "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
     "vision_day": 100,
     "luminance": 4,
+    "grab_strength": 100,
     "special_attacks": [
-      [ "GRAB", 7 ],
-      { "type": "bite", "cooldown": 5 },
+      { "id": "bite_grab", "cooldown": 5 },
       [ "LUNGE", 10 ],
       { "id": "bio_op_takedown", "cooldown": 15 },
       { "type": "spell", "spell_data": { "id": "CBM_TRex_recording" }, "cooldown": 1600 }
@@ -98,9 +96,7 @@
       "melee_skill": 2,
       "melee_dice": 1,
       "dodge": 2,
-      "armor_bash": 3,
-      "armor_cut": 3,
-      "armor_bullet": 3
+      "armor": { "bash": 3, "cut": 3, "bullet": 3 }
     },
     "extend": { "flags": [ "ACIDPROOF", "ELECTRIC" ] },
     "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
@@ -124,9 +120,7 @@
       "melee_skill": 2,
       "melee_dice": 1,
       "dodge": 2,
-      "armor_bash": 3,
-      "armor_cut": 3,
-      "armor_bullet": 3
+      "armor": { "bash": 3, "cut": 3, "bullet": 3 }
     },
     "extend": { "flags": [ "ACIDPROOF", "ELECTRIC" ] },
     "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
@@ -151,9 +145,7 @@
       "melee_skill": 2,
       "melee_dice": 1,
       "dodge": 2,
-      "armor_bash": 3,
-      "armor_cut": 3,
-      "armor_bullet": 3
+      "armor": { "bash": 3, "cut": 3, "bullet": 3 }
     },
     "extend": { "flags": [ "ACIDPROOF", "ELECTRIC" ] },
     "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
@@ -178,9 +170,7 @@
       "melee_skill": 2,
       "melee_dice": 1,
       "dodge": 2,
-      "armor_bash": 3,
-      "armor_cut": 3,
-      "armor_bullet": 3
+      "armor": { "bash": 3, "cut": 3, "bullet": 3 }
     },
     "extend": { "flags": [ "ACIDPROOF", "ELECTRIC" ] },
     "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
@@ -207,9 +197,7 @@
       "melee_skill": 2,
       "melee_dice": 1,
       "dodge": 2,
-      "armor_bash": 3,
-      "armor_cut": 3,
-      "armor_bullet": 3
+      "armor": { "bash": 3, "cut": 3, "bullet": 3 }
     },
     "extend": { "flags": [ "ACIDPROOF", "ELECTRIC" ] },
     "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
@@ -236,9 +224,7 @@
       "melee_skill": 2,
       "melee_dice": 1,
       "dodge": 2,
-      "armor_bash": 3,
-      "armor_cut": 3,
-      "armor_bullet": 3
+      "armor": { "bash": 3, "cut": 3, "bullet": 3 }
     },
     "extend": { "flags": [ "ACIDPROOF", "ELECTRIC" ] },
     "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
@@ -266,9 +252,7 @@
       "melee_skill": 2,
       "melee_dice": 1,
       "dodge": 2,
-      "armor_bash": 3,
-      "armor_cut": 3,
-      "armor_bullet": 3
+      "armor": { "bash": 3, "cut": 3, "bullet": 3 }
     },
     "extend": { "flags": [ "ACIDPROOF", "ELECTRIC" ] },
     "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
@@ -295,9 +279,7 @@
       "melee_skill": 2,
       "melee_dice": 1,
       "dodge": 2,
-      "armor_bash": 3,
-      "armor_cut": 3,
-      "armor_bullet": 3
+      "armor": { "bash": 3, "cut": 3, "bullet": 3 }
     },
     "extend": { "flags": [ "ACIDPROOF", "ELECTRIC" ] },
     "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
@@ -324,9 +306,7 @@
       "melee_skill": 2,
       "melee_dice": 1,
       "dodge": 2,
-      "armor_bash": 3,
-      "armor_cut": 3,
-      "armor_bullet": 3
+      "armor": { "bash": 3, "cut": 3, "bullet": 3 }
     },
     "extend": { "flags": [ "ACIDPROOF", "ELECTRIC" ] },
     "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
@@ -350,9 +330,7 @@
       "melee_skill": 2,
       "melee_dice": 1,
       "dodge": 2,
-      "armor_bash": 3,
-      "armor_cut": 3,
-      "armor_bullet": 3
+      "armor": { "bash": 3, "cut": 3, "bullet": 3 }
     },
     "extend": { "flags": [ "ACIDPROOF", "ELECTRIC" ] },
     "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
@@ -382,9 +360,7 @@
       "melee_skill": 2,
       "melee_dice": 1,
       "dodge": 2,
-      "armor_bash": 3,
-      "armor_cut": 3,
-      "armor_bullet": 3
+      "armor": { "bash": 3, "cut": 3, "bullet": 3 }
     },
     "extend": { "flags": [ "ACIDPROOF", "ELECTRIC" ] },
     "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
@@ -408,9 +384,7 @@
       "melee_skill": 2,
       "melee_dice": 1,
       "dodge": 2,
-      "armor_bash": 3,
-      "armor_cut": 3,
-      "armor_bullet": 3
+      "armor": { "bash": 3, "cut": 3, "bullet": 3 }
     },
     "extend": { "flags": [ "ACIDPROOF", "ELECTRIC" ] },
     "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
@@ -434,9 +408,7 @@
       "melee_skill": 2,
       "melee_dice": 1,
       "dodge": 2,
-      "armor_bash": 3,
-      "armor_cut": 3,
-      "armor_bullet": 3
+      "armor": { "bash": 3, "cut": 3, "bullet": 3 }
     },
     "extend": { "flags": [ "ACIDPROOF", "ELECTRIC" ] },
     "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
@@ -461,9 +433,7 @@
       "melee_skill": 2,
       "melee_dice": 1,
       "dodge": 2,
-      "armor_bash": 3,
-      "armor_cut": 3,
-      "armor_bullet": 3
+      "armor": { "bash": 3, "cut": 3, "bullet": 3 }
     },
     "extend": { "flags": [ "ACIDPROOF", "ELECTRIC" ] },
     "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
@@ -488,9 +458,7 @@
       "melee_skill": 2,
       "melee_dice": 1,
       "dodge": 2,
-      "armor_bash": 3,
-      "armor_cut": 3,
-      "armor_bullet": 3
+      "armor": { "bash": 3, "cut": 3, "bullet": 3 }
     },
     "extend": { "flags": [ "ACIDPROOF", "ELECTRIC" ] },
     "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
@@ -515,9 +483,7 @@
       "melee_skill": 2,
       "melee_dice": 1,
       "dodge": 2,
-      "armor_bash": 3,
-      "armor_cut": 3,
-      "armor_bullet": 3
+      "armor": { "bash": 3, "cut": 3, "bullet": 3 }
     },
     "extend": { "flags": [ "ACIDPROOF", "ELECTRIC" ] },
     "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
@@ -541,9 +507,7 @@
       "melee_skill": 2,
       "melee_dice": 1,
       "dodge": 2,
-      "armor_bash": 3,
-      "armor_cut": 3,
-      "armor_bullet": 3
+      "armor": { "bash": 3, "cut": 3, "bullet": 3 }
     },
     "extend": { "flags": [ "ACIDPROOF", "ELECTRIC" ] },
     "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
@@ -567,9 +531,7 @@
       "melee_skill": 2,
       "melee_dice": 1,
       "dodge": 2,
-      "armor_bash": 3,
-      "armor_cut": 3,
-      "armor_bullet": 3
+      "armor": { "bash": 3, "cut": 3, "bullet": 3 }
     },
     "extend": { "flags": [ "ACIDPROOF", "ELECTRIC" ] },
     "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],

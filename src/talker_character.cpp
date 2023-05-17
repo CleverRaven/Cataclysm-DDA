@@ -583,6 +583,11 @@ void talker_character::mod_pain( int amount )
     me_chr->mod_pain( amount );
 }
 
+void talker_character::set_pain( int amount )
+{
+    me_chr->set_pain( amount );
+}
+
 bool talker_character_const::worn_with_flag( const flag_id &flag, const bodypart_id &bp ) const
 {
     return me_chr_const->worn_with_flag( flag, bp );
@@ -884,6 +889,11 @@ int talker_character::get_part_hp_max( const bodypart_id &id ) const
 void talker_character::set_part_hp_cur( const bodypart_id &id, int set ) const
 {
     me_chr->set_part_hp_cur( id, set );
+}
+
+void talker_character::die()
+{
+    me_chr->die( nullptr );
 }
 
 void talker_character::learn_martial_art( const matype_id &id ) const

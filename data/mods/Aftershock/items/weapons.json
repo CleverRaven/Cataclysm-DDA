@@ -17,7 +17,6 @@
     "ammo": [ "battery" ],
     "techniques": [ "WBLOCK_2", "RAPID" ],
     "charges_per_use": 1,
-    "bashing": 22,
     "to_hit": 3,
     "use_action": {
       "menu_text": "Activate",
@@ -45,7 +44,8 @@
           "light_disposable_cell"
         ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 22 }
   },
   {
     "id": "afs_energy_saber_on",
@@ -61,7 +61,6 @@
     "turns_per_charge": 4,
     "relic_data": { "passive_effects": [ { "id": "afs_ench_esab" } ] },
     "to_hit": 2,
-    "bashing": 8,
     "flags": [ "DURABLE_MELEE" ],
     "techniques": [ "WBLOCK_2" ],
     "revert_to": "afs_energy_saber_off",
@@ -70,7 +69,8 @@
       "type": "transform",
       "target": "afs_energy_saber_off",
       "msg": "The blade stops humming, and its edge dissipates into a smooth curve as it cools."
-    }
+    },
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "afs_hardlight_longbow",
@@ -89,7 +89,6 @@
     "weight": "500 g",
     "volume": "2700 ml",
     "longest_side": "90 cm",
-    "bashing": 8,
     "to_hit": -2,
     "reload_noise_volume": 0,
     "loudness": 0,
@@ -110,7 +109,8 @@
         "max_contains_weight": "20 kg",
         "item_restriction": [ "alien_battery" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "afs_hydraulic_gauntlet",
@@ -125,11 +125,11 @@
     "symbol": "[",
     "looks_like": "gauntlets_chitin",
     "color": "light_gray",
-    "bashing": 50,
     "to_hit": -2,
     "flags": [ "NO_REPAIR", "NONCONDUCTIVE", "SLOW_WIELD", "DURABLE_MELEE", "LEAK_DAM" ],
     "techniques": [ "BRUTAL", "AFS_PRESSURE_CRUNCH" ],
-    "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "hand_r" ] } ]
+    "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "hand_r" ] } ],
+    "melee_damage": { "bash": 50 }
   },
   {
     "id": "afs_freeze_gauntlet",
@@ -144,7 +144,6 @@
     "symbol": "[",
     "looks_like": "gauntlets_chitin",
     "color": "light_cyan",
-    "bashing": 3,
     "relic_data": {
       "passive_effects": [
         {
@@ -160,7 +159,8 @@
     "flags": [ "NO_REPAIR", "NONCONDUCTIVE", "SLOW_WIELD", "DURABLE_MELEE" ],
     "techniques": [ "WBLOCK_1" ],
     "material_thickness": 1,
-    "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ],
+    "melee_damage": { "bash": 3 }
   },
   {
     "type": "GENERIC",
@@ -177,7 +177,6 @@
     "volume": "2250 ml",
     "price": 0,
     "to_hit": -2,
-    "bashing": 9,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "looks_like": "bio_int_enhancer",
@@ -189,7 +188,8 @@
     "clip_size": 1,
     "reload": 150,
     "flags": [ "NEVER_JAMS", "BIONIC_WEAPON", "TRADER_AVOID", "ZERO_WEIGHT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40x46mm": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40x46mm": 1 } } ],
+    "melee_damage": { "bash": 9 }
   },
   {
     "id": "TANK",
@@ -205,14 +205,14 @@
     "ammo": [ "120mm" ],
     "weight": "2500 g",
     "volume": "2500 ml",
-    "bashing": 6,
     "to_hit": -3,
     "dispersion": 60,
     "durability": 9,
     "clip_size": 1,
     "loudness": 300,
     "flags": [ "NO_TURRET" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "120mm": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "120mm": 1 } } ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "type": "GENERIC",
@@ -225,9 +225,9 @@
     "color": "light_gray",
     "symbol": "/",
     "material": [ "titanium" ],
-    "bashing": 22,
     "price": 20000,
-    "price_postapoc": 1750
+    "price_postapoc": 1750,
+    "melee_damage": { "bash": 22 }
   },
   {
     "id": "ceramic_knife",
@@ -238,13 +238,12 @@
     "weight": "390 g",
     "volume": "250 ml",
     "price": 4000,
-    "bashing": 2,
-    "cutting": 15,
     "material": [ "ceramic", "plastic" ],
     "symbol": "/",
     "color": "dark_gray",
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 5 ] ],
-    "flags": [ "SHEATH_KNIFE", "DURABLE_MELEE", "STAB" ]
+    "flags": [ "SHEATH_KNIFE", "DURABLE_MELEE" ],
+    "melee_damage": { "bash": 2, "stab": 15 }
   },
   {
     "type": "GENERIC",
@@ -260,12 +259,11 @@
     "techniques": [ "WBLOCK_1", "DEF_DISARM" ],
     "volume": "1750 ml",
     "longest_side": "140 cm",
-    "bashing": 5,
-    "cutting": 28,
     "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "STAB" ],
+    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
     "price": 7500,
-    "price_postapoc": 1200
+    "price_postapoc": 1200,
+    "melee_damage": { "bash": 5, "stab": 28 }
   },
   {
     "id": "azabow_off",
@@ -339,11 +337,10 @@
     "weight": "1360 g",
     "volume": "2 L",
     "longest_side": "90 cm",
-    "bashing": 10,
-    "cutting": 50,
     "to_hit": 2,
     "category": "weapons",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ]
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
+    "melee_damage": { "bash": 10, "cut": 50 }
   },
   {
     "id": "scrapbow",
@@ -359,7 +356,6 @@
     "volume": "2500 ml",
     "longest_side": "152 cm",
     "price_postapoc": 2000,
-    "bashing": 12,
     "armor_data": {
       "armor": [
         {
@@ -377,9 +373,10 @@
     "range": 14,
     "dispersion": 850,
     "durability": 6,
-    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ],
+    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ],
-    "extend": { "flags": [ "USE_UPS" ] }
+    "extend": { "flags": [ "USE_UPS" ] },
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "scrapcrossbow",
@@ -400,7 +397,6 @@
     "longest_side": "69 cm",
     "price_postapoc": 6000,
     "energy_drain": "4 kJ",
-    "bashing": 11,
     "to_hit": 1,
     "ranged_damage": { "damage_type": "stab", "amount": 16 },
     "range": 22,
@@ -410,7 +406,6 @@
     "clip_size": 1,
     "reload": 900,
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "rail", 1 ],
@@ -420,7 +415,8 @@
       [ "underbarrel", 1 ],
       [ "dampening", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "bolt": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "bolt": 1 } } ],
+    "melee_damage": { "bash": 11 }
   },
   {
     "id": "afs_bio_whip_weapon",
@@ -434,10 +430,19 @@
     "price": 3500,
     "price_postapoc": 500,
     "material": [ "nanotubes" ],
-    "flags": [ "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "BIONIC_WEAPON", "UNBREAKABLE_MELEE", "TRADER_AVOID", "USE_UPS" ],
+    "flags": [
+      "REACH_ATTACK",
+      "REACH3",
+      "NONCONDUCTIVE",
+      "BIONIC_WEAPON",
+      "BIONIC_WEAPON_MELEE",
+      "UNBREAKABLE_MELEE",
+      "TRADER_AVOID",
+      "USE_UPS"
+    ],
     "techniques": [ "WBLOCK_1", "WIDE", "SPIN", "RAPID" ],
-    "cutting": 27,
     "to_hit": { "grip": "bad", "length": "long", "surface": "every", "balance": "clumsy" },
-    "weapon_category": [ "BIONIC_WEAPONRY" ]
+    "weapon_category": [ "BIONIC_WEAPONRY" ],
+    "melee_damage": { "cut": 27 }
   }
 ]

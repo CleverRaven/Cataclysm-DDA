@@ -846,8 +846,8 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
         geometry->rect( renderer, clipRect, SDL_Color() );
     }
 
-    point s;
-    get_window_tile_counts( width, height, s.x, s.y );
+    const point s = get_window_tile_counts( point( width, height ) );
+    const point full_s = get_window_full_tile_counts( point( width, height ) );
 
     op = point( dest.x * fontwidth, dest.y * fontheight );
     // Rounding up to include incomplete tiles at the bottom/right edges
@@ -864,6 +864,9 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     const tripoint_abs_omt corner_NW = center_abs_omt - point( max_col / 2, max_row / 2 );
     const tripoint_abs_omt corner_SE = corner_NW + point( max_col - 1, max_row - 1 );
     const inclusive_cuboid<tripoint> overmap_area( corner_NW.raw(), corner_SE.raw() );
+    // Area of fully shown tiles
+    const tripoint_abs_omt full_corner_SE = corner_NW + full_s + point_north_west;
+    const inclusive_cuboid<tripoint> full_om_tile_area( corner_NW.raw(), full_corner_SE.raw() );
     // Debug vision allows seeing everything
     const bool has_debug_vision = you.has_trait( trait_DEBUG_NIGHTVISION );
     // sight_points is hoisted for speed reasons.
@@ -1052,11 +1055,9 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
             }
         }
 
-        // reduce the area where the map cursor is drawn so it doesn't get cut off
-        inclusive_cuboid<tripoint> map_cursor_area = overmap_area;
-        map_cursor_area.p_max.y--;
+        // only draw in full tiles so it doesn't get cut off
         const std::optional<std::pair<tripoint_abs_omt, std::string>> mission_arrow =
-                    get_mission_arrow( map_cursor_area, center_abs_omt );
+                    get_mission_arrow( full_om_tile_area, center_abs_omt );
         if( mission_arrow ) {
             draw_from_id_string( mission_arrow->second, global_omt_to_draw_position( mission_arrow->first ), 0,
                                  0, lit_level::LIT, false );
@@ -3276,6 +3277,12 @@ static void CheckMessages()
                     case SDL_BUTTON_RIGHT:
                         last_input = input_event( MouseInput::RightButtonPressed, input_event_t::mouse );
                         break;
+                    case SDL_BUTTON_X1:
+                        last_input = input_event( MouseInput::X1ButtonPressed, input_event_t::mouse );
+                        break;
+                    case SDL_BUTTON_X2:
+                        last_input = input_event( MouseInput::X2ButtonPressed, input_event_t::mouse );
+                        break;
                 }
                 break;
 
@@ -3286,6 +3293,12 @@ static void CheckMessages()
                         break;
                     case SDL_BUTTON_RIGHT:
                         last_input = input_event( MouseInput::RightButtonReleased, input_event_t::mouse );
+                        break;
+                    case SDL_BUTTON_X1:
+                        last_input = input_event( MouseInput::X1ButtonReleased, input_event_t::mouse );
+                        break;
+                    case SDL_BUTTON_X2:
+                        last_input = input_event( MouseInput::X2ButtonReleased, input_event_t::mouse );
                         break;
                 }
                 break;
@@ -3620,7 +3633,7 @@ void catacurses::init_interface()
 
     get_options().init();
     get_options().load();
-    set_language(); //Prevent translated language strings from causing an error if language not set
+    set_language_from_options(); //Prevent translated language strings from causing an error if language not set
 
     font_loader fl;
     fl.load();

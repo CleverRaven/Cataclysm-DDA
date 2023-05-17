@@ -172,7 +172,7 @@ static void proc_weather_sum( const weather_type_id &wtype, weather_sum &data,
     data.radiant_exposure += tick_irradiance * to_seconds<int>( tick_size );
 }
 
-weather_type_id current_weather( const tripoint &location, const time_point &t )
+weather_type_id current_weather( const tripoint_abs_ms &location, const time_point &t )
 {
     weather_manager &weather = get_weather();
     const weather_generator wgen = weather.get_cur_weather_gen();
@@ -184,7 +184,7 @@ weather_type_id current_weather( const tripoint &location, const time_point &t )
 
 ////// Funnels.
 weather_sum sum_conditions( const time_point &start, const time_point &end,
-                            const tripoint &location )
+                            const tripoint_abs_ms &location )
 {
     time_duration tick_size = 0_turns;
     weather_sum data;
@@ -203,8 +203,7 @@ weather_sum sum_conditions( const time_point &start, const time_point &end,
         weather_type_id wtype = current_weather( location, t );
         proc_weather_sum( wtype, data, t, tick_size );
         data.wind_amount += get_local_windpower( weather.windspeed,
-                            // TODO: fix point types
-                            overmap_buffer.ter( tripoint_abs_omt( ms_to_omt_copy( location ) ) ),
+                            overmap_buffer.ter( project_to<coords::omt>( location ) ),
                             location,
                             weather.winddirection, false ) * to_turns<int>( tick_size );
     }
@@ -215,7 +214,7 @@ weather_sum sum_conditions( const time_point &start, const time_point &end,
  * Determine what a funnel has filled out of game, using funnelcontainer.bday as a starting point.
  */
 void retroactively_fill_from_funnel( item &it, const trap &tr, const time_point &start,
-                                     const time_point &end, const tripoint &pos )
+                                     const time_point &end, const tripoint_abs_ms &pos )
 {
     if( start > end || !tr.is_funnel() ) {
         return;
@@ -553,9 +552,7 @@ std::string weather_forecast( const point_abs_sm &abs_sm_pos )
     // int weather_proportions[NUM_WEATHER_TYPES] = {0};
     units::temperature high = 0_K;
     units::temperature low = 1000_K;
-    // TODO: fix point types
-    const tripoint abs_ms_pos =
-        tripoint( project_to<coords::ms>( abs_sm_pos ).raw(), 0 );
+    const tripoint_abs_ms abs_ms_pos( project_to<coords::ms>( abs_sm_pos ), 0 );
     w_point weatherPoint = *weather.weather_precise;
     // TODO: wind direction and speed
     const time_point last_hour = calendar::turn - ( calendar::turn - calendar::turn_zero ) %
@@ -635,8 +632,8 @@ std::string print_pressure( double pressure, int decimals )
     return string_format( pgettext( "air pressure in kPa", "%s kPa" ), ret );
 }
 
-units::temperature get_local_windchill( units::temperature temperature, double humidity,
-                                        double wind_mph )
+units::temperature_delta get_local_windchill( units::temperature temperature, double humidity,
+        double wind_mph )
 {
     double windchill_k = 0;
 
@@ -648,7 +645,7 @@ units::temperature get_local_windchill( units::temperature temperature, double h
 
         if( wind_mph < 3 ) {
             // This model fails when wind is less than 3 mph
-            return units::from_kelvin( 0 );
+            return units::from_kelvin_delta( 0 );
         }
 
         // Temperature is removed at the end, because get_local_windchill is meant to calculate the difference.
@@ -673,7 +670,7 @@ units::temperature get_local_windchill( units::temperature temperature, double h
                       wind_meters_per_sec - 4.00;
     }
 
-    return units::from_kelvin( windchill_k );
+    return units::from_kelvin_delta( windchill_k );
 }
 
 nc_color get_wind_color( double windpower )
@@ -785,7 +782,7 @@ int get_local_humidity( double humidity, const weather_type_id &weather, bool sh
     return tmphumidity;
 }
 
-int get_local_windpower( int windpower, const oter_id &omter, const tripoint &location,
+int get_local_windpower( int windpower, const oter_id &omter, const tripoint_abs_ms &location,
                          const int &winddirection, bool sheltered )
 {
     /**
@@ -795,14 +792,15 @@ int get_local_windpower( int windpower, const oter_id &omter, const tripoint &lo
         return 0;
     }
     rl_vec2d windvec = convert_wind_to_coord( winddirection );
-    tripoint triblocker( location + point( windvec.x, windvec.y ) );
+    const tripoint_bub_ms triblocker( get_map().bub_from_abs( location ) + point( windvec.x,
+                                      windvec.y ) );
     // Over map terrain may modify the effect of wind.
     if( ( omter->get_type_id() == oter_type_forest ) ||
         ( omter->get_type_id() == oter_type_forest_water ) ) {
         windpower = windpower / 2;
     }
-    if( location.z > 0 ) {
-        windpower = windpower + ( location.z * std::min( 5, windpower ) );
+    if( location.z() > 0 ) {
+        windpower = windpower + ( location.z() * std::min( 5, windpower ) );
     }
     // An adjacent wall will block wind
     if( is_wind_blocker( triblocker ) ) {
@@ -811,7 +809,7 @@ int get_local_windpower( int windpower, const oter_id &omter, const tripoint &lo
     return windpower;
 }
 
-bool is_wind_blocker( const tripoint &location )
+bool is_wind_blocker( const tripoint_bub_ms &location )
 {
     return get_map().has_flag( ter_furn_flag::TFLAG_BLOCK_WIND, location );
 }
@@ -906,7 +904,7 @@ void weather_manager::update_weather()
     if( weather_id == WEATHER_NULL || calendar::turn >= nextweather ) {
         w_point &w = *weather_precise;
         const weather_generator &weather_gen = get_cur_weather_gen();
-        w = weather_gen.get_weather( player_character.get_location().raw(), calendar::turn,
+        w = weather_gen.get_weather( player_character.get_location(), calendar::turn,
                                      g->get_seed() );
         weather_type_id old_weather = weather_id;
         std::string eternal_weather_option = get_option<std::string>( "ETERNAL_WEATHER" );
@@ -967,13 +965,13 @@ units::temperature weather_manager::get_temperature( const tripoint &location )
     }
 
     //underground temperature = average New England temperature = 43F/6C
-    units::temperature temp = ( location.z < 0 ? AVERAGE_ANNUAL_TEMPERATURE : temperature ) +
-                              ( g->new_game ? 0_K : get_map().get_temperature_mod( location ) );
+    units::temperature temp = location.z < 0 ? AVERAGE_ANNUAL_TEMPERATURE : temperature;
 
     if( !g->new_game ) {
-        units::temperature temp_mod = 0_K;
-        temp_mod += get_heat_radiation( location );
+        units::temperature_delta temp_mod;
+        temp_mod = get_heat_radiation( location );
         temp_mod += get_convection_temperature( location );
+        temp_mod += get_map().get_temperature_mod( location );
 
         temp += temp_mod;
     }

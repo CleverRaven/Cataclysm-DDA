@@ -547,6 +547,10 @@
     "color": "brown",
     "move_cost": 0,
     "coverage": 80,
+    "examine_action": "harvest_ter",
+    "//": "gives a maximum of ~15L and ~8.5kg of wood between sticks and twigs",
+    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn", "winter" ], "id": "tree_dead_harv" } ],
+    "transforms_into": "t_tree_very_dead",
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
     "bash": {
       "str_min": 70,
@@ -555,6 +559,28 @@
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
       "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 15, 30 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_very_dead",
+    "//": "we must avoid copy-from here so that the dead tree cannot regrow and be harvested again",
+    "name": "dead tree",
+    "looks_like": "t_tree_dead",
+    "description": "An indiscernible tree that has withered away due to weather, fire, or otherworldly causes.  Someone or something has broken most of its dead branches, leaving little but its gnarled trunk.",
+    "symbol": "7",
+    "color": "brown",
+    "move_cost": 0,
+    "coverage": 80,
+    "examine_action": "harvested_plant",
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "bash": {
+      "str_min": 70,
+      "str_max": 140,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "stick_long", "count": [ 2, 6 ] }, { "item": "splinter", "count": [ 10, 20 ] } ]
     }
   },
   {
@@ -587,6 +613,7 @@
       "items": [
         { "item": "stick_long", "count": [ 0, 5 ] },
         { "item": "splinter", "count": [ 0, 4 ] },
+        { "item": "twig", "count": [ 2, 7 ] },
         { "item": "leaves", "count": [ 5, 20 ] }
       ]
     }
@@ -1809,6 +1836,78 @@
       "sound_fail": "brush.",
       "ter_set": "t_dirt",
       "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_beehive_natural",
+    "name": "bee hive",
+    "description": "A hive of bees located in a cavity inside a tree, swarming in and out at a feverish pace.  There's probably honey inside.",
+    "symbol": "h",
+    "color": [ "yellow" ],
+    "move_cost": 0,
+    "coverage": 10,
+    "flags": [ "FLAMMABLE_ASH", "NOITEM" ],
+    "examine_action": "harvest_ter",
+    "harvest_by_season": [ { "seasons": [ "summer", "autumn" ], "id": "beehive_harv" } ],
+    "transforms_into": "t_tree",
+    "emissions": [ "emit_bees" ],
+    "bash": {
+      "str_min": 2,
+      "str_max": 5,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_tree",
+      "items": [ { "item": "wax", "count": [ 10, 25 ] }, { "item": "honeycomb", "count": [ 3, 10 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_apiary",
+    "name": "apiary",
+    "description": "A man-made wooden box designed to hold honeybees and facilitate the care for a hive.  The modular construction allows for inspecting the bees and harvesting their bounty without destroying the hive completely.  This year's harvest should be ready by now.",
+    "symbol": "h",
+    "color": [ "yellow" ],
+    "move_cost": 1,
+    "coverage": 50,
+    "flags": [ "FLAMMABLE_ASH", "NOITEM" ],
+    "examine_action": "harvest_ter",
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "beehive_harv" } ],
+    "transforms_into": "t_apiary_empty",
+    "emissions": [ "emit_bees" ],
+    "bash": {
+      "str_min": 10,
+      "str_max": 15,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "wax", "count": [ 10, 25 ] },
+        { "item": "honeycomb", "count": [ 3, 10 ] },
+        { "item": "2x4", "count": [ 8, 10 ] },
+        { "item": "nail", "count": [ 12, 20 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_apiary_empty",
+    "name": "apiary",
+    "description": "A man-made wooden box designed to host honeybees and facilitate the care for a hive.  The modular construction allows for inspecting the bees and harvesting their bounty without destroying the hive completely.  It will be some time before this one is ready to harvest.",
+    "symbol": "h",
+    "color": [ "light_gray" ],
+    "move_cost": 1,
+    "coverage": 50,
+    "flags": [ "FLAMMABLE_ASH", "NOITEM" ],
+    "transforms_into": "t_apiary",
+    "emissions": [ "emit_bees" ],
+    "bash": {
+      "str_min": 10,
+      "str_max": 15,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "2x4", "count": [ 8, 10 ] }, { "item": "nail", "count": [ 12, 20 ] } ]
     }
   },
   {

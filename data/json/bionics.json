@@ -28,7 +28,7 @@
     "flags": [ "BIONIC_TOGGLED", "BIONIC_SLEEP_FRIENDLY" ],
     "act_cost": "1 J",
     "react_cost": "1 J",
-    "trigger_cost": "25 kJ",
+    "trigger_cost": "5 J",
     "time": "1 s"
   },
   {
@@ -42,14 +42,28 @@
     "flags": [ "BIONIC_FAULTY" ]
   },
   {
+    "id": "bio_ar",
+    "type": "bionic",
+    "name": { "str": "Integrated AR System" },
+    "description": "Extreamly thin lenses provide user with augmented reality overlay allowing the user to zoom, and it displays handy information about local topology.",
+    "//": "Basically implanted contact lenses with AR capabilities",
+    "occupied_bodyparts": [ [ "eyes", 1 ] ],
+    "flags": [ "USES_BIONIC_POWER" ],
+    "mutation_conflicts": [ "COMPOUND_EYES", "CEPH_VISION", "CEPH_EYES", "EYEBULGE", "EYESTALKS1", "EYESTALKS2" ],
+    "passive_pseudo_items": [ "integrated_ar" ]
+  },
+  {
     "id": "bio_armor_arms",
     "type": "bionic",
     "name": { "str": "Arms Alloy Plating" },
     "description": "An advanced protective meshwork has been woven into the flesh on your arms and hands, protecting them from physical trauma.",
     "occupied_bodyparts": [ [ "arm_l", 4 ], [ "arm_r", 4 ], [ "hand_l", 1 ], [ "hand_r", 1 ] ],
-    "bash_protec": [ [ "arm_l", 3 ], [ "arm_r", 3 ], [ "hand_l", 3 ], [ "hand_r", 3 ] ],
-    "cut_protec": [ [ "arm_l", 3 ], [ "arm_r", 3 ], [ "hand_l", 3 ], [ "hand_r", 3 ] ],
-    "bullet_protec": [ [ "arm_l", 3 ], [ "arm_r", 3 ], [ "hand_l", 3 ], [ "hand_r", 3 ] ],
+    "protec": [
+      [ "arm_l", { "bash": 3, "cut": 3, "bullet": 3 } ],
+      [ "arm_r", { "bash": 3, "cut": 3, "bullet": 3 } ],
+      [ "hand_l", { "bash": 3, "cut": 3, "bullet": 3 } ],
+      [ "hand_r", { "bash": 3, "cut": 3, "bullet": 3 } ]
+    ],
     "encumbrance": [ [ "arm_l", 1 ], [ "arm_r", 1 ], [ "hand_l", 1 ], [ "hand_r", 1 ] ],
     "//": "cant_remove_reason removed for now as these are presently functionally obsolete and characters should be able to remove them to get with the times.",
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
@@ -159,9 +173,7 @@
     "name": { "str": "Head Alloy Plating" },
     "description": "An advanced protective meshwork has been woven into the flesh on your head and jaw region, protecting your skull from physical trauma.",
     "occupied_bodyparts": [ [ "head", 3 ], [ "mouth", 1 ] ],
-    "bash_protec": [ [ "head", 3 ], [ "mouth", 3 ] ],
-    "cut_protec": [ [ "head", 3 ], [ "mouth", 3 ] ],
-    "bullet_protec": [ [ "head", 3 ], [ "mouth", 3 ] ],
+    "protec": [ [ "head", { "bash": 3, "cut": 3, "bullet": 3 } ], [ "mouth", { "bash": 3, "cut": 3, "bullet": 3 } ] ],
     "encumbrance": [ [ "head", 1 ] ],
     "//": "cant_remove_reason removed for now as these are presently functionally obsolete and characters should be able to remove them to get with the times.",
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
@@ -276,9 +288,12 @@
     "name": { "str": "Legs Alloy Plating" },
     "description": "An advanced protective meshwork has been woven into the flesh on your legs and feet, protecting them from physical trauma.",
     "occupied_bodyparts": [ [ "leg_l", 6 ], [ "leg_r", 6 ], [ "foot_l", 1 ], [ "foot_r", 1 ] ],
-    "bash_protec": [ [ "leg_l", 3 ], [ "leg_r", 3 ], [ "foot_l", 3 ], [ "foot_r", 3 ] ],
-    "cut_protec": [ [ "leg_l", 3 ], [ "leg_r", 3 ], [ "foot_l", 3 ], [ "foot_r", 3 ] ],
-    "bullet_protec": [ [ "leg_l", 3 ], [ "leg_r", 3 ], [ "foot_l", 3 ], [ "foot_r", 3 ] ],
+    "protec": [
+      [ "leg_l", { "bash": 3, "cut": 3, "bullet": 3 } ],
+      [ "leg_r", { "bash": 3, "cut": 3, "bullet": 3 } ],
+      [ "foot_l", { "bash": 3, "cut": 3, "bullet": 3 } ],
+      [ "foot_r", { "bash": 3, "cut": 3, "bullet": 3 } ]
+    ],
     "encumbrance": [ [ "leg_l", 1 ], [ "leg_r", 1 ], [ "foot_l", 1 ], [ "foot_r", 1 ] ],
     "//": "cant_remove_reason removed for now as these are presently functionally obsolete and characters should be able to remove them to get with the times.",
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
@@ -373,9 +388,7 @@
     "name": { "str": "Torso Alloy Plating" },
     "description": "An advanced protective meshwork has been woven into the flesh on your torso, protecting it from physical trauma.",
     "occupied_bodyparts": [ [ "torso", 10 ] ],
-    "bash_protec": [ [ "torso", 3 ] ],
-    "cut_protec": [ [ "torso", 3 ] ],
-    "bullet_protec": [ [ "torso", 3 ] ],
+    "protec": [ [ "torso", { "bash": 3, "cut": 3, "bullet": 3 } ] ],
     "encumbrance": [ [ "torso", 1 ] ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
     "//": "cant_remove_reason removed for now as these are presently functionally obsolete and characters should be able to remove them to get with the times.",
@@ -544,42 +557,18 @@
       [ "mouth", 1 ]
     ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
-    "bash_protec": [
-      [ "torso", 2 ],
-      [ "head", 2 ],
-      [ "mouth", 2 ],
-      [ "arm_r", 2 ],
-      [ "leg_l", 2 ],
-      [ "leg_r", 2 ],
-      [ "foot_l", 2 ],
-      [ "foot_r", 2 ],
-      [ "hand_l", 2 ],
-      [ "hand_r", 2 ]
-    ],
-    "cut_protec": [
-      [ "torso", 4 ],
-      [ "head", 4 ],
-      [ "mouth", 4 ],
-      [ "arm_l", 4 ],
-      [ "arm_r", 4 ],
-      [ "leg_l", 4 ],
-      [ "leg_r", 4 ],
-      [ "foot_l", 4 ],
-      [ "foot_r", 4 ],
-      [ "hand_l", 4 ],
-      [ "hand_r", 4 ]
-    ],
-    "bullet_protec": [
-      [ "torso", 4 ],
-      [ "head", 4 ],
-      [ "mouth", 4 ],
-      [ "arm_r", 4 ],
-      [ "leg_l", 4 ],
-      [ "leg_r", 4 ],
-      [ "foot_l", 4 ],
-      [ "foot_r", 4 ],
-      [ "hand_l", 4 ],
-      [ "hand_r", 4 ]
+    "protec": [
+      [ "torso", { "bash": 2, "cut": 4, "bullet": 4 } ],
+      [ "head", { "bash": 2, "cut": 4, "bullet": 4 } ],
+      [ "mouth", { "bash": 2, "cut": 4, "bullet": 4 } ],
+      [ "arm_l", { "bash": 2, "cut": 4, "bullet": 4 } ],
+      [ "arm_r", { "bash": 2, "cut": 4, "bullet": 4 } ],
+      [ "leg_l", { "bash": 2, "cut": 4, "bullet": 4 } ],
+      [ "leg_r", { "bash": 2, "cut": 4, "bullet": 4 } ],
+      [ "foot_l", { "bash": 2, "cut": 4, "bullet": 4 } ],
+      [ "foot_r", { "bash": 2, "cut": 4, "bullet": 4 } ],
+      [ "hand_l", { "bash": 2, "cut": 4, "bullet": 4 } ],
+      [ "hand_r", { "bash": 2, "cut": 4, "bullet": 4 } ]
     ]
   },
   {
@@ -957,11 +946,26 @@
     "name": { "str": "Cranial Flashlight" },
     "description": "Surgically mounted between your eyes is a small but powerful LED flashlight.",
     "occupied_bodyparts": [ [ "head", 1 ] ],
-    "act_cost": "3 J",
-    "react_cost": "3 J",
+    "act_cost": "2 J",
+    "react_cost": "2 J",
     "time": "1 s",
     "flags": [ "BIONIC_TOGGLED" ],
-    "enchantments": [ { "condition": "ACTIVE", "values": [ { "value": "LUMINATION", "add": 60 } ] } ]
+    "enchantments": [ { "condition": "ACTIVE", "values": [ { "value": "LUMINATION", "add": 60 } ] } ],
+    "auto_deactivates": [ "bio_flashlight_highmode" ],
+    "included_bionics": [ "bio_flashlight_highmode" ]
+  },
+  {
+    "id": "bio_flashlight_highmode",
+    "type": "bionic",
+    "name": { "str": "Ultrabright Flashlight" },
+    "description": "You can greatly intensify the power of your bionic flashlight to be much brighter at a much higher power cost.",
+    "act_cost": "15 J",
+    "react_cost": "15 J",
+    "time": "1 s",
+    "included": true,
+    "flags": [ "BIONIC_TOGGLED" ],
+    "enchantments": [ { "condition": "ACTIVE", "values": [ { "value": "LUMINATION", "add": 500 } ] } ],
+    "auto_deactivates": [ "bio_flashlight" ]
   },
   {
     "id": "bio_tattoo_led",
@@ -1297,26 +1301,6 @@
     "flags": [ "BIONIC_FAULTY" ]
   },
   {
-    "id": "bio_power_armor_interface",
-    "type": "bionic",
-    "name": { "str": "Power Armor Interface" },
-    "description": "Interfaces your power system with the internal charging port on suits of power armor, allowing them to draw from your bionic power banks.",
-    "occupied_bodyparts": [ [ "torso", 4 ], [ "head", 1 ] ],
-    "flags": [ "BIONIC_ARMOR_INTERFACE", "BIONIC_TOGGLED" ],
-    "react_cost": 1,
-    "time": "1 s"
-  },
-  {
-    "id": "bio_power_armor_interface_mkII",
-    "type": "bionic",
-    "name": { "str": "Power Armor Interface Mk. II" },
-    "description": "Interfaces your power system with the internal charging port on suits of power armor, allowing them to draw from your bionic power banks.  Twice as efficient as the Mk. I model.",
-    "occupied_bodyparts": [ [ "torso", 3 ], [ "head", 2 ] ],
-    "flags": [ "BIONIC_ARMOR_INTERFACE", "BIONIC_TOGGLED" ],
-    "react_cost": 1,
-    "time": "2 s"
-  },
-  {
     "id": "bio_power_storage",
     "type": "bionic",
     "name": { "str": "Power Storage" },
@@ -1362,6 +1346,15 @@
     "occupied_bodyparts": [ [ "torso", 5 ], [ "mouth", 1 ] ],
     "env_protec": [ [ "mouth", 15 ] ],
     "flags": [ "BIONIC_NPC_USABLE" ]
+  },
+  {
+    "id": "bio_radio",
+    "type": "bionic",
+    "name": { "str": "Infolink" },
+    "description": "A compact communications device has been built into your ears, enabling you to communicate over radio waves.",
+    "occupied_bodyparts": [ [ "head", 2 ] ],
+    "flags": [ "BIONIC_NPC_USABLE" ],
+    "passive_pseudo_items": [ "fake_radio" ]
   },
   {
     "id": "bio_radscrubber",

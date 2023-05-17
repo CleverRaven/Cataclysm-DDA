@@ -303,6 +303,9 @@
     "entries": [
       { "item": "300_winmag", "prob": 40 },
       { "item": "3006fmj", "prob": 50 },
+      { "item": "303_bthp", "prob": 30 },
+      { "item": "303_sp", "prob": 25 },
+      { "item": "303_fmjbt", "prob": 25 },
       { "item": "223", "prob": 74 },
       { "item": "556", "prob": 25 },
       { "item": "556_m855a1", "prob": 1 },
@@ -326,6 +329,9 @@
     "entries": [
       { "item": "300_winmag", "prob": 40 },
       { "item": "3006fmj", "prob": 50 },
+      { "item": "303_bthp", "prob": 30 },
+      { "item": "303_sp", "prob": 25 },
+      { "item": "303_fmjbt", "prob": 25 },
       { "item": "556", "prob": 75 },
       { "item": "762_51", "prob": 75 },
       { "item": "4570_sp", "prob": 40 },
@@ -427,6 +433,9 @@
       { "item": "reloaded_762_51_incendiary", "prob": 5 },
       { "item": "reloaded_762_54R", "prob": 40 },
       { "item": "reloaded_762_m43", "prob": 20 },
+      { "item": "reloaded_303", "prob": 20 },
+      { "item": "reloaded_303sp", "prob": 5 },
+      { "item": "reloaded_303fmj", "prob": 5 },
       { "item": "reloaded_300blk", "prob": 10 }
     ]
   },
@@ -707,7 +716,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "10mm_casing", "prob": 60 },
-      { "item": "22_casing_new", "prob": 80 },
+      { "item": "22_casing", "prob": 80 },
       { "item": "223_casing", "prob": 100 },
       { "item": "270win_casing", "prob": 60 },
       { "item": "300_casing", "prob": 80 },
@@ -761,6 +770,13 @@
     ]
   },
   {
+    "id": "ammo_casings_gunsmith",
+    "//": "Casings found in prepper/gunsmith locations, including primed casings",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "group": "ammo_casings", "prob": 98 }, { "item": "22_casing_new", "prob": 2 } ]
+  },
+  {
     "id": "casings",
     "//": "casings list for shooting range.",
     "type": "item_group",
@@ -811,6 +827,17 @@
       { "group": "ammo_casings", "prob": 10, "charges-min": 100, "charges-max": 100 },
       { "group": "ammo_casings", "prob": 2, "charges-min": 250, "charges-max": 250 },
       { "group": "ammo_casings", "prob": 1, "charges-min": 500, "charges-max": 500 }
+    ]
+  },
+  {
+    "id": "ammo_casings_gunsmith_bulk",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "ammo_casings_gunsmith", "prob": 25, "charges-min": 50, "charges-max": 50 },
+      { "group": "ammo_casings_gunsmith", "prob": 10, "charges-min": 100, "charges-max": 100 },
+      { "group": "ammo_casings_gunsmith", "prob": 2, "charges-min": 250, "charges-max": 250 },
+      { "group": "ammo_casings_gunsmith", "prob": 1, "charges-min": 500, "charges-max": 500 }
     ]
   },
   {

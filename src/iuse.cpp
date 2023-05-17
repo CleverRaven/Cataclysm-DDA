@@ -278,9 +278,8 @@ static const itype_id itype_joint( "joint" );
 static const itype_id itype_liquid_soap( "liquid_soap" );
 static const itype_id itype_log( "log" );
 static const itype_id itype_mask_h20survivor_on( "mask_h20survivor_on" );
+static const itype_id itype_memory_card( "memory_card" );
 static const itype_id itype_mininuke_act( "mininuke_act" );
-static const itype_id itype_mobile_memory_card( "mobile_memory_card" );
-static const itype_id itype_mobile_memory_card_used( "mobile_memory_card_used" );
 static const itype_id itype_molotov( "molotov" );
 static const itype_id itype_mp3( "mp3" );
 static const itype_id itype_mp3_on( "mp3_on" );
@@ -314,6 +313,7 @@ static const json_character_flag json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
 static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
 static const json_character_flag json_flag_MYOPIC( "MYOPIC" );
 static const json_character_flag json_flag_MYOPIC_IN_LIGHT( "MYOPIC_IN_LIGHT" );
+static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 
 static const mongroup_id GROUP_FISH( "GROUP_FISH" );
 
@@ -377,7 +377,6 @@ static const trait_id trait_MARLOSS_AVOID( "MARLOSS_AVOID" );
 static const trait_id trait_MARLOSS_BLUE( "MARLOSS_BLUE" );
 static const trait_id trait_MARLOSS_YELLOW( "MARLOSS_YELLOW" );
 static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
-static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
@@ -404,12 +403,6 @@ static void item_save_monsters( Character &p, item &it, const std::vector<monste
                                 int photo_quality );
 static bool show_photo_selection( Character &p, item &it, const std::string &var_name );
 
-static bool item_read_extended_photos( item &, std::vector<extended_photo_def> &,
-                                       const std::string &,
-                                       bool = false );
-static void item_write_extended_photos( item &, const std::vector<extended_photo_def> &,
-                                        const std::string & );
-
 static std::string format_object_pair( const std::pair<std::string, int> &pair,
                                        const std::string &article );
 static std::string format_object_pair_article( const std::pair<std::string, int> &pair );
@@ -435,7 +428,7 @@ static object_names_collection enumerate_objects_around_point( const tripoint &p
         const tripoint &camera_pos, const units::volume &min_visible_volume, bool create_figure_desc,
         std::unordered_set<tripoint> &ignored_points,
         std::unordered_set<const vehicle *> &vehicles_recorded );
-static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
+static item::extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
         const tripoint &camera_pos,
         std::vector<monster *> &monster_vec, std::vector<Character *> &character_vec );
 
@@ -769,7 +762,7 @@ std::optional<int> iuse::antiparasitic( Character *p, item *, bool, const tripoi
     if( p->has_effect( effect_tapeworm ) ) {
         p->remove_effect( effect_tapeworm );
         p->guts.mod_nutr( -1 ); // You just digested the tapeworm.
-        if( p->has_trait( trait_NOPAIN ) ) {
+        if( p->has_flag( json_flag_PAIN_IMMUNE ) ) {
             p->add_msg_if_player( m_good, _( "Your bowels clench as something inside them dies." ) );
         } else {
             p->add_msg_if_player( m_mixed, _( "Your bowels spasm painfully as something inside them dies." ) );
@@ -786,7 +779,7 @@ std::optional<int> iuse::antiparasitic( Character *p, item *, bool, const tripoi
     }
     if( p->has_effect( effect_brainworms ) ) {
         p->remove_effect( effect_brainworms );
-        if( p->has_trait( trait_NOPAIN ) ) {
+        if( p->has_flag( json_flag_PAIN_IMMUNE ) ) {
             p->add_msg_if_player( m_good, _( "The pressure inside your head feels better already." ) );
         } else {
             p->add_msg_if_player( m_mixed,
@@ -796,7 +789,7 @@ std::optional<int> iuse::antiparasitic( Character *p, item *, bool, const tripoi
     }
     if( p->has_effect( effect_paincysts ) ) {
         p->remove_effect( effect_paincysts );
-        if( p->has_trait( trait_NOPAIN ) ) {
+        if( p->has_flag( json_flag_PAIN_IMMUNE ) ) {
             p->add_msg_if_player( m_good, _( "The stiffness in your joints goes away." ) );
         } else {
             p->add_msg_if_player( m_good, _( "The pain in your joints goes away." ) );
@@ -954,7 +947,7 @@ std::optional<int> iuse::meditate( Character *p, item *it, bool t, const tripoin
         return std::nullopt;
     }
     if( p->has_trait( trait_SPIRITUAL ) ) {
-        p->assign_activity( player_activity( meditate_activity_actor() ) );
+        p->assign_activity( meditate_activity_actor() );
     } else {
         p->add_msg_if_player( _( "This %s probably meant a lot to someone at one time." ),
                               it->tname() );
@@ -1596,7 +1589,8 @@ std::optional<int> iuse::petfood( Character *p, item *it, bool, const tripoint &
 
         if( mon->type->id == mon_dog_thing ) {
             if( !halluc ) {
-                p->deal_damage( mon, bodypart_id( "hand_r" ), damage_instance( damage_type::CUT, rng( 1, 10 ) ) );
+                p->deal_damage( mon, bodypart_id( "hand_r" ), damage_instance( STATIC( damage_type_id( "cut" ) ),
+                                rng( 1, 10 ) ) );
             }
             p->add_msg_if_player( m_bad, _( "You want to feed it the dog food, but it bites your fingers!" ) );
             if( one_in( 5 ) ) {
@@ -1732,8 +1726,8 @@ std::optional<int> iuse::remove_all_mods( Character *p, item *, bool, const trip
         add_msg( m_info, _( "You remove the %s from the tool." ), mod->tname() );
         p->i_add_or_drop( *mod );
         loc->remove_item( *mod );
-
         remove_radio_mod( *loc, *p );
+        loc->on_contents_changed();
     }
     return 0;
 }
@@ -1842,11 +1836,11 @@ std::optional<int> iuse::fish_trap( Character *p, item *it, bool t, const tripoi
             }
 
             int success = -50;
-            const int surv = p->get_skill_level( skill_survival );
+            const float surv = p->get_skill_level( skill_survival );
             const int attempts = rng( it->ammo_remaining(), it->ammo_remaining() * it->ammo_remaining() );
             for( int i = 0; i < attempts; i++ ) {
                 /** @EFFECT_SURVIVAL randomly increases number of fish caught in fishing trap */
-                success += rng( surv, surv * surv );
+                success += rng( round( surv ), round( surv * surv ) );
             }
 
             int bait_consumed = rng( 0, it->ammo_remaining() + 1 );
@@ -2376,7 +2370,7 @@ std::optional<int> iuse::pack_cbm( Character *p, item *it, bool, const tripoint 
         return 0;
     }
 
-    const int success = p->get_skill_level( skill_firstaid ) - rng( 0, 6 );
+    const int success = round( p->get_skill_level( skill_firstaid ) ) - rng( 0, 6 );
     if( success > 0 ) {
         p->add_msg_if_player( m_good, _( "You carefully prepare the CBM for sterilization." ) );
         bionic.get_item()->unset_flag( flag_NO_PACKED );
@@ -2815,8 +2809,7 @@ std::optional<int> iuse::crowbar( Character *p, item *it, bool, const tripoint &
 
     // previously iuse::hammer
     if( prying->prying_nails ) {
-        p->assign_activity(
-            player_activity( prying_activity_actor( pnt, item_location{*p, it} ) ) );
+        p->assign_activity( prying_activity_actor( pnt, item_location{*p, it} ) );
         return std::nullopt;
     }
 
@@ -2836,8 +2829,7 @@ std::optional<int> iuse::crowbar( Character *p, item *it, bool, const tripoint &
         return std::nullopt;
     }
 
-    p->assign_activity(
-        player_activity( prying_activity_actor( pnt, item_location{*p, it} ) ) );
+    p->assign_activity( prying_activity_actor( pnt, item_location{*p, it} ) );
 
     return std::nullopt;
 }
@@ -2866,7 +2858,7 @@ std::optional<int> iuse::makemound( Character *p, item *it, bool t, const tripoi
     if( here.has_flag( ter_furn_flag::TFLAG_PLOWABLE, pnt ) &&
         !here.has_flag( ter_furn_flag::TFLAG_PLANT, pnt ) ) {
         p->add_msg_if_player( _( "You start churning up the earth here." ) );
-        p->assign_activity( player_activity( churn_activity_actor( 18000, item_location( *p, it ) ) ) );
+        p->assign_activity( churn_activity_actor( 18000, item_location( *p, it ) ) );
         p->activity.placement = here.getglobal( pnt );
         return 1;
     } else {
@@ -2967,7 +2959,7 @@ std::optional<int> iuse::clear_rubble( Character *p, item *it, bool, const tripo
     for( std::size_t i = 0; i < helpersize; i++ ) {
         add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
     }
-    p->assign_activity( player_activity( clear_rubble_activity_actor( moves / bonus ) ) );
+    p->assign_activity( clear_rubble_activity_actor( moves / bonus ) );
     p->activity.placement = get_map().getglobal( pnt );
     return 1;
 }
@@ -3202,7 +3194,10 @@ std::optional<int> iuse::change_skin( Character *p, item *, bool, const tripoint
     return std::nullopt;
 }
 
-std::optional<int> iuse::jackhammer( Character *p, item *it, bool, const tripoint &pos )
+static std::optional<int> dig_tool( Character *p, item *it, bool, const tripoint &pos,
+                                    const activity_id activity,
+                                    const std::string &prompt, const std::string &fail, const std::string &success,
+                                    int extra_moves = 0 )
 {
     // use has_enough_charges to check for UPS availability
     // p is assumed to exist for iuse cases
@@ -3218,7 +3213,7 @@ std::optional<int> iuse::jackhammer( Character *p, item *it, bool, const tripoin
 
     tripoint pnt = pos;
     if( pos == p->pos() ) {
-        const std::optional<tripoint> pnt_ = choose_adjacent( _( "Drill where?" ) );
+        const std::optional<tripoint> pnt_ = choose_adjacent( prompt );
         if( !pnt_ ) {
             return std::nullopt;
         }
@@ -3230,7 +3225,7 @@ std::optional<int> iuse::jackhammer( Character *p, item *it, bool, const tripoin
     const bool mineable_ter = here.has_flag_ter( ter_furn_flag::TFLAG_MINEABLE, pnt );
     const int max_mining_ability = 70;
     if( !mineable_furn && !mineable_ter ) {
-        p->add_msg_if_player( m_info, _( "You can't drill there." ) );
+        p->add_msg_if_player( m_info, fail );
         if( here.bash_resistance( pnt ) > max_mining_ability ) {
             p->add_msg_if_player( m_info,
                                   _( "The material is too hard for you to even make a dent." ) );
@@ -3243,10 +3238,6 @@ std::optional<int> iuse::jackhammer( Character *p, item *it, bool, const tripoin
     }
 
     int moves = to_moves<int>( 30_minutes );
-    if( here.move_cost( pnt ) == 2 ) {
-        // We're breaking up some flat surface like pavement, which is much easier
-        moves /= 2;
-    }
 
     const std::vector<npc *> helpers = p->get_crafting_helpers();
     const std::size_t helpersize = p->get_num_crafting_helpers( 3 );
@@ -3255,17 +3246,37 @@ std::optional<int> iuse::jackhammer( Character *p, item *it, bool, const tripoin
         add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
     }
 
-    p->assign_activity( ACT_JACKHAMMER, moves );
+    moves += extra_moves;
+
+    if( here.move_cost( pnt ) == 2 ) {
+        // We're breaking up some flat surface like pavement, which is much easier
+        moves /= 2;
+    }
+
+    p->assign_activity( activity, moves );
     p->activity.targets.emplace_back( *p, it );
     p->activity.placement = here.getglobal( pnt );
 
     // You can mine either furniture or terrain, and furniture goes first,
     // according to @ref map::bash_ter_furn()
     std::string mining_what = mineable_furn ? here.furnname( pnt ) : here.tername( pnt );
-    p->add_msg_if_player( _( "You start drilling into the %1$s with your %2$s." ),
-                          mining_what, it->tname() );
+    p->add_msg_if_player( success, mining_what, it->tname() );
 
     return 0; // handled when the activity finishes
+}
+
+std::optional<int> iuse::jackhammer( Character *p, item *it, bool, const tripoint &pos )
+{
+    // use has_enough_charges to check for UPS availability
+    // p is assumed to exist for iuse cases
+    if( !it->ammo_sufficient( p ) ) {
+        return std::nullopt;
+    }
+
+    return dig_tool( p, it, true, pos, ACT_JACKHAMMER,
+                     _( "Drill where?" ), _( "You can't drill there." ),
+                     _( "You start drilling into the %1$s with your %2$s." ) );
+
 }
 
 std::optional<int> iuse::pick_lock( Character *p, item *it, bool, const tripoint &pos )
@@ -3306,14 +3317,12 @@ std::optional<int> iuse::pick_lock( Character *p, item *it, bool, const tripoint
     time_duration duration = 5_seconds;
     if( !it->has_flag( flag_PERFECT_LOCKPICK ) ) {
         duration = std::max( 30_seconds,
-                             ( 10_minutes - time_duration::from_minutes( qual + you.dex_cur / 4 +
+                             ( 10_minutes - time_duration::from_minutes( qual + static_cast<float>( you.dex_cur ) / 4.0f +
                                      you.get_skill_level( skill_traps ) ) ) * duration_proficiency_factor );
     }
 
-    you.assign_activity(
-        player_activity( lockpick_activity_actor::use_item( to_moves<int>( duration ),
-                         item_location( you, it ),
-                         get_map().getabs( *target ) ) ) );
+    you.assign_activity( lockpick_activity_actor::use_item( to_moves<int>( duration ),
+                         item_location( you, it ), get_map().getabs( *target ) ) );
     return 1;
 }
 
@@ -3323,64 +3332,13 @@ std::optional<int> iuse::pickaxe( Character *p, item *it, bool, const tripoint &
         // Long action
         return std::nullopt;
     }
-    if( p->cant_do_mounted() ) {
-        return std::nullopt;
-    }
-    if( p->cant_do_underwater() ) {
-        return std::nullopt;
-    }
+    /** @EFFECT_STR decreases time to dig with a pickaxe */
+    int extra_moves = ( ( MAX_STAT + 4 ) -
+                        std::min( p->get_arm_str(), MAX_STAT ) ) * to_moves<int>( 5_minutes );
+    return dig_tool( p, it, true, pos, ACT_PICKAXE,
+                     _( "Mine where?" ), _( "You can't mine there." ), _( "You strike the %1$s with your %2$s." ),
+                     extra_moves );
 
-    tripoint pnt = pos;
-    if( pos == p->pos() ) {
-        const std::optional<tripoint> pnt_ = choose_adjacent( _( "Mine where?" ) );
-        if( !pnt_ ) {
-            return std::nullopt;
-        }
-        pnt = *pnt_;
-    }
-
-    map &here = get_map();
-    const bool mineable_furn = here.has_flag_furn( ter_furn_flag::TFLAG_MINEABLE, pnt );
-    const bool mineable_ter = here.has_flag_ter( ter_furn_flag::TFLAG_MINEABLE, pnt );
-    const int max_mining_ability = 70;
-    if( !mineable_furn && !mineable_ter ) {
-        p->add_msg_if_player( m_info, _( "You can't mine there." ) );
-        if( here.bash_resistance( pnt ) > max_mining_ability ) {
-            p->add_msg_if_player( m_info,
-                                  _( "The material is too hard for you to even make a dent." ) );
-        }
-        return std::nullopt;
-    }
-    if( here.veh_at( pnt ) ) {
-        p->add_msg_if_player( _( "There's a vehicle in the way!" ) );
-        return std::nullopt;
-    }
-
-    int moves = to_moves<int>( 20_minutes );
-    moves += ( ( MAX_STAT + 4 ) - std::min( p->get_arm_str(), MAX_STAT ) ) * to_moves<int>( 5_minutes );
-    if( here.move_cost( pnt ) == 2 ) {
-        // We're breaking up some flat surface like pavement, which is much easier
-        moves /= 2;
-    }
-
-    const std::vector<npc *> helpers = p->get_crafting_helpers();
-    const std::size_t helpersize = p->get_num_crafting_helpers( 3 );
-    moves *= ( 1.0f - ( helpersize / 10.0f ) );
-    for( std::size_t i = 0; i < helpersize; i++ ) {
-        add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
-    }
-
-    p->assign_activity( ACT_PICKAXE, moves, -1 );
-    p->activity.targets.emplace_back( *p, it );
-    p->activity.placement = here.getglobal( pnt );
-
-    // You can mine either furniture or terrain, and furniture goes first,
-    // according to @ref map::bash_ter_furn()
-    std::string mining_what = mineable_furn ? here.furnname( pnt ) : here.tername( pnt );
-    p->add_msg_if_player( _( "You strike the %1$s with your %2$s." ),
-                          mining_what, it->tname() );
-
-    return 0; // handled when the activity finishes
 }
 
 std::optional<int> iuse::geiger( Character *p, item *it, bool t, const tripoint &pos )
@@ -3920,12 +3878,14 @@ std::optional<int> iuse::tazer( Character *p, item *it, bool, const tripoint &po
 
     /** @EFFECT_DEX slightly increases chance of successfully using tazer */
     /** @EFFECT_MELEE increases chance of successfully using a tazer */
-    int numdice = 3 + ( p->dex_cur / 2.5 ) + p->get_skill_level( skill_melee ) * 2;
+    int numdice = round( 3 + ( static_cast<float>( p->dex_cur ) / 2.5 ) + p->get_skill_level(
+                             skill_melee ) * 2 );
     p->moves -= to_moves<int>( 1_seconds );
 
     /** @EFFECT_DODGE increases chance of dodging a tazer attack */
     const bool tazer_was_dodged = dice( numdice, 10 ) < dice( target->get_dodge(), 10 );
-    const int tazer_resistance = target->get_armor_bash( bodypart_id( "torso" ) );
+    const int tazer_resistance = target->get_armor_type( STATIC( damage_type_id( "bash" ) ),
+                                 bodypart_id( "torso" ) );
     const bool tazer_was_armored = dice( numdice, 10 ) < dice( tazer_resistance, 10 );
     if( tazer_was_dodged ) {
         p->add_msg_player_or_npc( _( "You attempt to shock %s, but miss." ),
@@ -4757,7 +4717,7 @@ void iuse::cut_log_into_planks( Character &p )
     const int moves = to_moves<int>( 20_minutes );
     p.add_msg_if_player( _( "You cut the log into planks." ) );
 
-    p.assign_activity( player_activity( chop_planks_activity_actor( moves ) ) );
+    p.assign_activity( chop_planks_activity_actor( moves ) );
     p.activity.placement = get_map().getglobal( p.pos() );
 }
 
@@ -4847,7 +4807,7 @@ std::optional<int> iuse::chop_tree( Character *p, item *it, bool t, const tripoi
     for( std::size_t i = 0; i < helpers.size() && i < 3; i++ ) {
         add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
     }
-    p->assign_activity( player_activity( chop_tree_activity_actor( moves, item_location( *p, it ) ) ) );
+    p->assign_activity( chop_tree_activity_actor( moves, item_location( *p, it ) ) );
     p->activity.placement = here.getglobal( pnt );
 
     return 1;
@@ -4889,7 +4849,7 @@ std::optional<int> iuse::chop_logs( Character *p, item *it, bool t, const tripoi
     for( std::size_t i = 0; i < helpers.size() && i < 3; i++ ) {
         add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
     }
-    p->assign_activity( player_activity( chop_logs_activity_actor( moves, item_location( *p, it ) ) ) );
+    p->assign_activity( chop_logs_activity_actor( moves, item_location( *p, it ) ) );
     p->activity.placement = here.getglobal( pnt );
 
     return 1;
@@ -4937,8 +4897,7 @@ std::optional<int> iuse::oxytorch( Character *p, item *it, bool, const tripoint 
         return std::nullopt;
     }
 
-    p->assign_activity(
-        player_activity( oxytorch_activity_actor( pnt, item_location{*p, it} ) ) );
+    p->assign_activity( oxytorch_activity_actor( pnt, item_location{*p, it} ) );
 
     return std::nullopt;
 }
@@ -4981,8 +4940,7 @@ std::optional<int> iuse::hacksaw( Character *p, item *it, bool t, const tripoint
         return std::nullopt;
     }
 
-    p->assign_activity(
-        player_activity( hacksaw_activity_actor( pnt, item_location{*p, it} ) ) );
+    p->assign_activity( hacksaw_activity_actor( pnt, item_location{*p, it} ) );
 
     return std::nullopt;
 }
@@ -5022,7 +4980,7 @@ std::optional<int> iuse::boltcutters( Character *p, item *it, bool, const tripoi
         return std::nullopt;
     }
 
-    p->assign_activity( player_activity( boltcutting_activity_actor( pnt, item_location{*p, it} ) ) );
+    p->assign_activity( boltcutting_activity_actor( pnt, item_location{*p, it} ) );
     return std::nullopt;
 }
 
@@ -5284,7 +5242,7 @@ int iuse::towel_common( Character *p, item *it, bool t )
 
 std::optional<int> iuse::unfold_generic( Character *p, item *it, bool, const tripoint & )
 {
-    p->assign_activity( player_activity( vehicle_unfolding_activity_actor( *it ) ) );
+    p->assign_activity( vehicle_unfolding_activity_actor( *it ) );
     p->i_rem( it );
     return 0;
 }
@@ -5677,7 +5635,8 @@ std::optional<int> iuse::robotcontrol( Character *p, item *it, bool active, cons
 
             /** @EFFECT_INT speeds up hacking preparation */
             /** @EFFECT_COMPUTER speeds up hacking preparation */
-            int move_cost = std::max( 100, 1000 - p->int_cur * 10 - p->get_skill_level( skill_computer ) * 10 );
+            int move_cost = std::max( 100,
+                                      1000 - static_cast<int>( p->int_cur * 10 - p->get_skill_level( skill_computer ) * 10 ) );
             player_activity act( ACT_ROBOT_CONTROL, move_cost );
             act.monsters.emplace_back( z );
 
@@ -5723,65 +5682,7 @@ std::optional<int> iuse::robotcontrol( Character *p, item *it, bool active, cons
     return 0;
 }
 
-static void init_memory_card_with_random_stuff( item &it )
-{
-    if( it.has_flag( flag_MC_MOBILE ) && ( it.has_flag( flag_MC_RANDOM_STUFF ) ||
-                                           it.has_flag( flag_MC_SCIENCE_STUFF ) ) && !( it.has_flag( flag_MC_USED ) ||
-                                                   it.has_flag( flag_MC_HAS_DATA ) ) ) {
-
-        it.set_flag( flag_MC_HAS_DATA );
-
-        bool encrypted = false;
-
-        //encrypted memory cards have a second chance to contain data
-        if( it.has_flag( flag_MC_MAY_BE_ENCRYPTED ) && one_in( 8 ) ) {
-            it.convert( itype_id( it.typeId().str() + "_encrypted" ) );
-            encrypted = true;
-        }
-
-        //some special cards can contain "MC_ENCRYPTED" flag
-        if( it.has_flag( flag_MC_ENCRYPTED ) ) {
-            encrypted = true;
-        }
-
-        //chance for data
-        const int photo_chance = 5;
-        const int music_chance = 5;
-        const int recipe_chance = 5;
-
-        //encryption allows for a retry for data
-        const int photo_retry = 5;
-        const int music_retry = 5;
-        const int recipe_retry = 5;
-
-        //add someone's personal photos
-        if( one_in( photo_chance ) || ( encrypted && one_in( photo_retry ) ) ) {
-            const int duckfaces_count = rng( 5, 30 );
-            it.set_var( "MC_PHOTOS", duckfaces_count );
-        }
-
-        //add some songs
-        if( one_in( music_chance ) || ( encrypted && one_in( music_retry ) ) ) {
-            const int new_songs_count = rng( 5, 15 );
-            it.set_var( "MC_MUSIC", new_songs_count );
-        }
-
-        //add random recipes
-        if( one_in( recipe_chance ) || ( encrypted && one_in( recipe_retry ) ) ) {
-            const std::array<std::string, 6> recipe_category = {
-                "CC_AMMO", "CC_ARMOR", "CC_CHEM", "CC_ELECTRONIC", "CC_FOOD", "CC_WEAPON"
-            };
-            int cc_random = rng( 0, 5 );
-            it.set_var( "MC_RECIPE", recipe_category[cc_random] );
-        }
-
-        if( it.has_flag( flag_MC_SCIENCE_STUFF ) ) {
-            it.set_var( "MC_RECIPE", "SCIENCE" );
-        }
-    }
-}
-
-static int get_quality_from_string( const std::string &s )
+static int get_quality_from_string( const std::string_view s )
 {
     const ret_val<int> try_quality = try_parse_integer<int>( s, false );
     if( try_quality.success() ) {
@@ -5790,165 +5691,6 @@ static int get_quality_from_string( const std::string &s )
         debugmsg( "Error parsing photo quality: %s", try_quality.str() );
         return 0;
     }
-}
-
-static bool einkpc_download_memory_card( Character &p, item &eink, item &mc )
-{
-    bool something_downloaded = false;
-    if( mc.get_var( "MC_PHOTOS", 0 ) > 0 ) {
-        something_downloaded = true;
-
-        int new_photos = mc.get_var( "MC_PHOTOS", 0 );
-        mc.erase_var( "MC_PHOTOS" );
-
-        p.add_msg_if_player( m_good, n_gettext( "You download %d new photo into the internal memory.",
-                                                "You download %d new photos into the internal memory.", new_photos ), new_photos );
-
-        const int old_photos = eink.get_var( "EIPC_PHOTOS", 0 );
-        eink.set_var( "EIPC_PHOTOS", old_photos + new_photos );
-    }
-
-    if( mc.get_var( "MC_MUSIC", 0 ) > 0 ) {
-        something_downloaded = true;
-
-        int new_songs = mc.get_var( "MC_MUSIC", 0 );
-        mc.erase_var( "MC_MUSIC" );
-
-        p.add_msg_if_player( m_good, n_gettext( "You download %d new song into the internal memory.",
-                                                "You download %d new songs into the internal memory.", new_songs ), new_songs );
-
-        const int old_songs = eink.get_var( "EIPC_MUSIC", 0 );
-        eink.set_var( "EIPC_MUSIC", old_songs + new_songs );
-    }
-
-    if( !mc.get_var( "MC_RECIPE" ).empty() ) {
-        std::string category = mc.get_var( "MC_RECIPE" );
-        const bool science = category == "SCIENCE";
-        int recipe_num = rng( 1, 3 );
-
-        if( category == "SIMPLE" ) {
-            category = "CC_FOOD";
-        }
-
-        mc.erase_var( "MC_RECIPE" );
-
-        std::vector<const recipe *> candidates;
-
-        for( const auto &e : recipe_dict ) {
-            const recipe &r = e.second;
-            if( r.never_learn || r.obsolete ) {
-                continue;
-            }
-            if( science ) {
-                if( r.difficulty >= 6 && r.category == "CC_CHEM" ) {
-                    candidates.push_back( &r );
-                }
-            } else {
-                if( r.difficulty <= 5 && ( r.category == category ) ) {
-                    candidates.push_back( &r );
-                }
-            }
-        }
-
-        if( !candidates.empty() ) {
-            std::vector<const recipe *> new_recipes;
-
-            for( int i = 0; i < recipe_num; i++ ) {
-                const recipe *r = random_entry( candidates );
-                if( std::find( new_recipes.begin(), new_recipes.end(), r ) != new_recipes.end() ) {
-                    // Avoid duplicate. Try again.
-                    i--;
-                } else {
-                    new_recipes.push_back( r );
-                }
-            }
-
-            std::set<recipe_id> saved_recipes = eink.get_saved_recipes();
-            for( const recipe *r : new_recipes ) {
-                const recipe_id &rident = r->ident();
-                if( saved_recipes.emplace( rident ).second ) { // recipe added
-                    eink.set_saved_recipes( saved_recipes );
-                    p.add_msg_if_player( m_good, _( "You download a recipe for %s into the tablet's memory." ),
-                                         r->result_name() );
-                    something_downloaded = true;
-                } else {
-                    p.add_msg_if_player( m_good, _( "The recipe for %s is already stored in the tablet's memory." ),
-                                         r->result_name() );
-                }
-            }
-        }
-    }
-
-    if( mc.has_var( "MC_EXTENDED_PHOTOS" ) ) {
-        std::vector<extended_photo_def> extended_photos;
-        try {
-            item_read_extended_photos( mc, extended_photos, "MC_EXTENDED_PHOTOS" );
-            item_read_extended_photos( eink, extended_photos, "EIPC_EXTENDED_PHOTOS", true );
-            item_write_extended_photos( eink, extended_photos, "EIPC_EXTENDED_PHOTOS" );
-            something_downloaded = true;
-            p.add_msg_if_player( m_good, _( "You have downloaded your photos." ) );
-        } catch( const JsonError &e ) {
-            debugmsg( "Error card reading photos (loaded photos = %i) : %s", extended_photos.size(),
-                      e.c_str() );
-        }
-    }
-
-    const auto monster_photos = mc.get_var( "MC_MONSTER_PHOTOS" );
-    if( !monster_photos.empty() ) {
-        something_downloaded = true;
-        p.add_msg_if_player( m_good, _( "You have updated your monster collection." ) );
-
-        std::string photos = eink.get_var( "EINK_MONSTER_PHOTOS" );
-        if( photos.empty() ) {
-            eink.set_var( "EINK_MONSTER_PHOTOS", monster_photos );
-        } else {
-            std::istringstream f( monster_photos );
-            std::string s;
-            while( getline( f, s, ',' ) ) {
-
-                if( s.empty() ) {
-                    continue;
-                }
-
-                const std::string mtype = s;
-                getline( f, s, ',' );
-                const int quality = get_quality_from_string( s );
-
-                const size_t eink_strpos = photos.find( "," + mtype + "," );
-
-                if( eink_strpos == std::string::npos ) {
-                    photos += mtype + "," + string_format( "%d", quality ) + ",";
-                } else {
-                    const size_t strqpos = eink_strpos + mtype.size() + 2;
-                    const size_t next_comma = photos.find( ',', strqpos );
-                    const int old_quality =
-                        get_quality_from_string( photos.substr( strqpos, next_comma ) );
-
-                    if( quality > old_quality ) {
-                        const std::string quality_s = string_format( "%d", quality );
-                        cata_assert( quality_s.size() == 1 );
-                        photos[strqpos] = quality_s.front();
-                    }
-                }
-
-            }
-            eink.set_var( "EINK_MONSTER_PHOTOS", photos );
-        }
-    }
-
-    if( mc.has_flag( flag_MC_TURN_USED ) ) {
-        mc.clear_vars();
-        mc.unset_flags();
-        mc.convert( itype_mobile_memory_card_used );
-    }
-
-    if( !something_downloaded ) {
-        p.add_msg_if_player( m_info, _( "This memory card does not contain any new data." ) );
-        return false;
-    }
-
-    return true;
-
 }
 
 static std::string photo_quality_name( const int index )
@@ -5960,6 +5702,22 @@ static std::string photo_quality_name( const int index )
         }
     };
     return _( names[index] );
+}
+
+void item::extended_photo_def::deserialize( const JsonObject &obj )
+{
+    quality = obj.get_int( "quality" );
+    name = obj.get_string( "name" );
+    description = obj.get_string( "description" );
+}
+
+void item::extended_photo_def::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "quality", quality );
+    jsout.member( "name", name );
+    jsout.member( "description", description );
+    jsout.end_object();
 }
 
 std::optional<int> iuse::einktabletpc( Character *p, item *it, bool t, const tripoint &pos )
@@ -5981,7 +5739,7 @@ std::optional<int> iuse::einktabletpc( Character *p, item *it, bool t, const tri
     } else if( !p->is_npc() ) {
 
         enum {
-            ei_invalid, ei_photo, ei_music, ei_recipe, ei_uploaded_photos, ei_monsters, ei_download, ei_decrypt
+            ei_invalid, ei_photo, ei_music, ei_recipe, ei_uploaded_photos, ei_monsters, ei_download,
         };
 
         if( p->cant_do_underwater() ) {
@@ -6037,15 +5795,7 @@ std::optional<int> iuse::einktabletpc( Character *p, item *it, bool t, const tri
             amenu.addentry( ei_monsters, false, 'y', _( "Collection of monsters is empty" ) );
         }
 
-        amenu.addentry( ei_download, true, 'w', _( "Download data from memory card" ) );
-
-        /** @EFFECT_COMPUTER >2 allows decrypting memory cards more easily */
-        if( p->get_skill_level( skill_computer ) > 2 ) {
-            amenu.addentry( ei_decrypt, true, 'd', _( "Decrypt memory card" ) );
-        } else {
-            amenu.addentry( ei_decrypt, false, 'd', _( "Decrypt memory card (low skill)" ) );
-        }
-
+        amenu.addentry( ei_download, true, 'w', _( "Download data from memory cards" ) );
         amenu.query();
 
         const int choice = amenu.ret;
@@ -6163,121 +5913,40 @@ std::optional<int> iuse::einktabletpc( Character *p, item *it, bool t, const tri
             return 1;
         }
 
-        avatar *you = p->as_avatar();
-        item_location loc;
-        auto filter = []( const item & it ) {
-            return it.has_flag( flag_MC_MOBILE );
-        };
-        const std::string title = _( "Insert memory card:" );
-
         if( ei_download == choice ) {
-
-            p->moves -= to_moves<int>( 2_seconds );
-
-            if( you != nullptr ) {
-                loc = game_menus::inv::titled_filter_menu( filter, *you, title );
-            }
-            if( !loc ) {
+            if( !p->has_item( *it ) ) {
                 p->add_msg_if_player( m_info, _( "You don't have that item!" ) );
-                return 1;
+                return std::nullopt; // need posession of reader item for item_location to work right
             }
-            item &mc = *loc;
-
-            if( !mc.has_flag( flag_MC_MOBILE ) ) {
-                p->add_msg_if_player( m_info, _( "This is not a compatible memory card." ) );
-                return 1;
+            if( !p->is_avatar() ) {
+                return std::nullopt; // npc triggered iuse?
             }
+            inventory_filter_preset preset( []( const item_location & it ) {
+                return it->has_flag( flag_MC_HAS_DATA ) || it->type->memory_card_data;
+            } );
+            inventory_multiselector inv_s( *p, preset );
 
-            init_memory_card_with_random_stuff( mc );
+            inv_s.set_title( _( "Choose memory cards to download data from:" ) );
+            inv_s.set_display_stats( true );
+            inv_s.add_character_items( *p );
+            inv_s.add_nearby_items( 1 );
 
-            if( mc.has_flag( flag_MC_ENCRYPTED ) ) {
-                p->add_msg_if_player( m_info, _( "This memory card is encrypted." ) );
-                return 1;
+            const std::list<std::pair<item_location, int>> locs = inv_s.execute();
+            if( locs.empty() ) {
+                p->add_msg_if_player( m_info, _( "Nevermind." ) );
+                return std::nullopt;
             }
-            if( !mc.has_flag( flag_MC_HAS_DATA ) ) {
-                p->add_msg_if_player( m_info, _( "This memory card does not contain any new data." ) );
-                return 1;
+            std::vector<item_location> targets;
+            for( const auto& [item_loc, count] : locs ) {
+                targets.emplace_back( item_loc );
             }
-
-            einkpc_download_memory_card( *p, *it, mc );
-
-            return 1;
-        }
-
-        if( ei_decrypt == choice ) {
-            p->moves -= to_moves<int>( 2_seconds );
-            if( you != nullptr ) {
-                loc = game_menus::inv::titled_filter_menu( filter, *you, title );
-            }
-            if( !loc ) {
-                p->add_msg_if_player( m_info, _( "You don't have that item!" ) );
-                return 1;
-            }
-            item &mc = *loc;
-
-            if( !mc.has_flag( flag_MC_MOBILE ) ) {
-                p->add_msg_if_player( m_info, _( "This is not a compatible memory card." ) );
-                return 1;
-            }
-
-            init_memory_card_with_random_stuff( mc );
-
-            if( !mc.has_flag( flag_MC_ENCRYPTED ) ) {
-                p->add_msg_if_player( m_info, _( "This memory card is not encrypted." ) );
-                return 1;
-            }
-
-            p->practice( skill_computer, rng( 2, 5 ) );
-
-            /** @EFFECT_INT increases chance of safely decrypting memory card */
-
-            /** @EFFECT_COMPUTER increases chance of safely decrypting memory card */
-            const int success = p->get_skill_level( skill_computer ) * rng( 1,
-                                p->get_skill_level( skill_computer ) ) *
-                                rng( 1, p->int_cur ) - rng( 30, 80 );
-            if( success > 0 ) {
-                p->practice( skill_computer, rng( 5, 10 ) );
-                p->add_msg_if_player( m_good, _( "You successfully decrypted content on %s!" ),
-                                      mc.tname() );
-                einkpc_download_memory_card( *p, *it, mc );
-            } else {
-                if( success > -10 || one_in( 5 ) ) {
-                    p->add_msg_if_player( m_neutral, _( "You failed to decrypt the %s." ), mc.tname() );
-                } else {
-                    p->add_msg_if_player( m_bad,
-                                          _( "You tripped the firmware protection, and the card deleted its data!" ) );
-                    mc.clear_vars();
-                    mc.unset_flags();
-                    mc.convert( itype_mobile_memory_card_used );
-                }
-            }
-            return 1;
+            const item_location reader( *p, it );
+            const data_handling_activity_actor actor( reader, targets );
+            p->assign_activity( player_activity( actor ) );
         }
     }
-    return 0;
+    return std::nullopt;
 }
-
-struct extended_photo_def {
-    int quality = 0;
-    std::string name;
-    std::string description;
-
-    extended_photo_def() = default;
-
-    void deserialize( const JsonObject &obj ) {
-        quality = obj.get_int( "quality" );
-        name = obj.get_string( "name" );
-        description = obj.get_string( "description" );
-    }
-
-    void serialize( JsonOut &jsout ) const {
-        jsout.start_object();
-        jsout.member( "quality", quality );
-        jsout.member( "name", name );
-        jsout.member( "description", description );
-        jsout.end_object();
-    }
-};
 
 static std::string colorized_trap_name_at( const tripoint &point )
 {
@@ -6673,7 +6342,7 @@ static object_names_collection enumerate_objects_around_point( const tripoint &p
     return ret_obj;
 }
 
-static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
+static item::extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
         const tripoint &camera_pos,
         std::vector<monster *> &monster_vec, std::vector<Character *> &character_vec )
 {
@@ -6690,7 +6359,7 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
     int dist = rl_dist( camera_pos, aim_point );
     map &here = get_map();
     const tripoint_range<tripoint> bounds = here.points_in_radius( aim_point, 2 );
-    extended_photo_def photo;
+    item::extended_photo_def photo;
     bool need_store_weather = false;
     int outside_tiles_num = 0;
     int total_tiles_num = 0;
@@ -6995,11 +6664,11 @@ static void item_save_monsters( Character &p, item &it, const std::vector<monste
 }
 
 // throws exception
-static bool item_read_extended_photos( item &it, std::vector<extended_photo_def> &extended_photos,
-                                       const std::string &var_name, bool insert_at_begin )
+bool item::read_extended_photos( std::vector<extended_photo_def> &extended_photos,
+                                 const std::string &var_name, bool insert_at_begin ) const
 {
     bool result = false;
-    std::optional<JsonValue> json_opt = json_loader::from_string_opt( it.get_var( var_name ) );
+    std::optional<JsonValue> json_opt = json_loader::from_string_opt( get_var( var_name ) );
     if( !json_opt.has_value() ) {
         return result;
     }
@@ -7016,14 +6685,13 @@ static bool item_read_extended_photos( item &it, std::vector<extended_photo_def>
 }
 
 // throws exception
-static void item_write_extended_photos( item &it,
-                                        const std::vector<extended_photo_def> &extended_photos,
-                                        const std::string &var_name )
+void item::write_extended_photos( const std::vector<extended_photo_def> &extended_photos,
+                                  const std::string &var_name )
 {
     std::ostringstream extended_photos_data;
     JsonOut json( extended_photos_data );
     json.write( extended_photos );
-    it.set_var( var_name, extended_photos_data.str() );
+    set_var( var_name, extended_photos_data.str() );
 }
 
 static bool show_photo_selection( Character &p, item &it, const std::string &var_name )
@@ -7037,24 +6705,24 @@ static bool show_photo_selection( Character &p, item &it, const std::string &var
     pmenu.text = _( "Photos saved on camera:" );
 
     std::vector<std::string> descriptions;
-    std::vector<extended_photo_def> extended_photos;
+    std::vector<item::extended_photo_def> extended_photos;
 
     try {
-        item_read_extended_photos( it, extended_photos, var_name );
+        it.read_extended_photos( extended_photos, var_name, false );
     } catch( const JsonError &e ) {
         debugmsg( "Error reading photos: %s", e.c_str() );
     }
     try { // if there is old photos format, append them; delete old and save new
-        if( item_read_extended_photos( it, extended_photos, "CAMERA_NPC_PHOTOS", true ) ) {
+        if( it.read_extended_photos( extended_photos, "CAMERA_NPC_PHOTOS", true ) ) {
             it.erase_var( "CAMERA_NPC_PHOTOS" );
-            item_write_extended_photos( it, extended_photos, var_name );
+            it.write_extended_photos( extended_photos, var_name );
         }
     } catch( const JsonError &e ) {
         debugmsg( "Error migrating old photo format: %s", e.c_str() );
     }
 
     int k = 0;
-    for( const extended_photo_def &extended_photo : extended_photos ) {
+    for( const item::extended_photo_def &extended_photo : extended_photos ) {
         std::string menu_str = extended_photo.name;
 
         size_t index = menu_str.find( p.name );
@@ -7206,17 +6874,17 @@ std::optional<int> iuse::camera( Character *p, item *it, bool t, const tripoint 
                     photo_quality = photo_quality == 0 ? 0 : photo_quality - 1;
                 }
 
-                std::vector<extended_photo_def> extended_photos;
+                std::vector<item::extended_photo_def> extended_photos;
                 std::vector<monster *> monster_vec;
                 std::vector<Character *> character_vec;
-                extended_photo_def photo = photo_def_for_camera_point( trajectory_point, p->pos(), monster_vec,
-                                           character_vec );
+                item::extended_photo_def photo = photo_def_for_camera_point( trajectory_point, p->pos(),
+                                                 monster_vec, character_vec );
                 photo.quality = photo_quality;
 
                 try {
-                    item_read_extended_photos( *it, extended_photos, "CAMERA_EXTENDED_PHOTOS" );
+                    it->read_extended_photos( extended_photos, "CAMERA_EXTENDED_PHOTOS", false );
                     extended_photos.push_back( photo );
-                    item_write_extended_photos( *it, extended_photos, "CAMERA_EXTENDED_PHOTOS" );
+                    it->write_extended_photos( extended_photos, "CAMERA_EXTENDED_PHOTOS" );
                 } catch( const JsonError &e ) {
                     debugmsg( "Error when adding new photo (loaded photos = %i): %s", extended_photos.size(),
                               e.c_str() );
@@ -7343,25 +7011,13 @@ std::optional<int> iuse::camera( Character *p, item *it, bool t, const tripoint 
         }
         item &mc = *loc;
 
-        if( !mc.has_flag( flag_MC_MOBILE ) ) {
-            p->add_msg_if_player( m_info, _( "This is not a compatible memory card." ) );
-            return 1;
-        }
-
-        init_memory_card_with_random_stuff( mc );
-
-        if( mc.has_flag( flag_MC_ENCRYPTED ) ) {
-            if( !query_yn( _( "This memory card is encrypted.  Format and clear data?" ) ) ) {
-                return 1;
-            }
-        }
         if( mc.has_flag( flag_MC_HAS_DATA ) ) {
             if( !query_yn( _( "Are you sure you want to clear the old data on the card?" ) ) ) {
                 return 1;
             }
         }
 
-        mc.convert( itype_mobile_memory_card );
+        mc.convert( itype_memory_card );
         mc.clear_vars();
         mc.unset_flags();
         mc.set_flag( flag_MC_HAS_DATA );
@@ -7772,7 +7428,8 @@ static bool hackveh( Character &p, item &it, vehicle &veh )
     /** @EFFECT_INT increases chance of bypassing vehicle security system */
 
     /** @EFFECT_COMPUTER increases chance of bypassing vehicle security system */
-    int roll = dice( p.get_skill_level( skill_computer ) + 2, p.int_cur ) - ( advanced ? 50 : 25 );
+    int roll = dice( round( p.get_skill_level( skill_computer ) ) + 2,
+                     p.int_cur ) - ( advanced ? 50 : 25 );
     int effort = 0;
     bool success = false;
     if( roll < -20 ) { // Really bad rolls will trigger the alarm before you know it exists
@@ -8096,7 +7753,7 @@ std::optional<int> iuse::multicooker( Character *p, item *it, bool t, const trip
                 /** @EFFECT_ELECTRONICS >3 allows multicooker upgrade */
 
                 /** @EFFECT_FABRICATION >3 allows multicooker upgrade */
-                if( p->get_skill_level( skill_electronics ) > 3 && p->get_skill_level( skill_fabrication ) > 3 ) {
+                if( p->get_skill_level( skill_electronics ) >= 4 && p->get_skill_level( skill_fabrication ) >= 4 ) {
                     const auto upgr = it->get_var( "MULTI_COOK_UPGRADE" );
                     if( upgr.empty() ) {
                         menu.addentry( mc_upgrade, true, 'u', _( "Upgrade multi-cooker" ) );
@@ -8277,7 +7934,7 @@ std::optional<int> iuse::multicooker( Character *p, item *it, bool t, const trip
             }
 
             if( !cinv.has_quality( qual_SCREW_FINE ) ) {
-                p->add_msg_if_player( m_warning, _( "You need an item with %s of 1 or more to disassemble this." ),
+                p->add_msg_if_player( m_warning, _( "You need an item with %s of 1 or more to upgrade this." ),
                                       qual_SCREW_FINE.obj().name );
                 has_tools = false;
             }
@@ -8870,7 +8527,7 @@ std::optional<int> iuse::shavekit( Character *p, item *it, bool, const tripoint 
     if( !it->ammo_sufficient( p ) ) {
         p->add_msg_if_player( _( "You need soap to use this." ) );
     } else {
-        p->assign_activity( player_activity( shave_activity_actor() ) );
+        p->assign_activity( shave_activity_actor() );
     }
     return 1;
 }
@@ -8880,7 +8537,7 @@ std::optional<int> iuse::hairkit( Character *p, item *, bool, const tripoint & )
     if( p->cant_do_mounted() ) {
         return std::nullopt;
     }
-    p->assign_activity( player_activity( haircut_activity_actor() ) );
+    p->assign_activity( haircut_activity_actor() );
     return 1;
 }
 
@@ -8938,7 +8595,7 @@ std::optional<int> iuse::weather_tool( Character *p, item *it, bool, const tripo
         }
         const oter_id &cur_om_ter = overmap_buffer.ter( p->global_omt_location() );
         const int windpower = get_local_windpower( weather.windspeed + vehwindspeed, cur_om_ter,
-                              p->pos(), weather.winddirection, g->is_sheltered( p->pos() ) );
+                              p->get_location(), weather.winddirection, g->is_sheltered( p->pos() ) );
 
         p->add_msg_if_player( m_neutral, _( "Wind Speed: %.1f %s." ),
                               convert_velocity( windpower * 100, VU_WIND ),
@@ -8983,11 +8640,14 @@ std::optional<int> iuse::lux_meter( Character *p, item *it, bool, const tripoint
 
 std::optional<int> iuse::dbg_lux_meter( Character *p, item *, bool, const tripoint &pos )
 {
-    const float incident_light = incident_sunlight( current_weather( pos ), calendar::turn );
+    map &here = get_map();
+    const float incident_light = incident_sunlight( current_weather( here.getglobal( pos ) ),
+                                 calendar::turn );
     const float nat_light = g->natural_light_level( pos.z );
     const float sunlight = sun_light_at( calendar::turn );
     const float sun_irrad = sun_irradiance( calendar::turn );
-    const float incident_irrad = incident_sun_irradiance( current_weather( pos ), calendar::turn );
+    const float incident_irrad = incident_sun_irradiance( current_weather( here.getglobal( pos ) ),
+                                 calendar::turn );
     p->add_msg_if_player( m_neutral,
                           _( "Incident light: %.1f\nNatural light: %.1f\nSunlight: %.1f\nSun irradiance: %.1f\nIncident irradiance %.1f" ),
                           incident_light, nat_light, sunlight, sun_irrad, incident_irrad );
@@ -9342,7 +9002,7 @@ std::optional<int> iuse::wash_items( Character *p, bool soft_items, bool hard_it
         add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
     }
     // Assign the activity values.
-    p->assign_activity( player_activity( wash_activity_actor( to_clean, required ) ) );
+    p->assign_activity( wash_activity_actor( to_clean, required ) );
 
     return 0;
 }
@@ -9456,7 +9116,7 @@ std::optional<int> iuse::craft( Character *p, item *it, bool, const tripoint & )
         pgettext( "in progress craft", "You start working on the %s." ),
         pgettext( "in progress craft", "<npcname> starts working on the %s." ), craft_name );
     item_location craft_loc = item_location( *p, it );
-    p->assign_activity( player_activity( craft_activity_actor( craft_loc, false ) ) );
+    p->assign_activity( craft_activity_actor( craft_loc, false ) );
 
     return 0;
 }
@@ -9594,9 +9254,9 @@ std::optional<int> iuse::electricstorage( Character *p, item *it, bool t, const 
         return std::nullopt;
     }
 
-    auto filter = []( const item & itm ) {
+    auto filter = [it]( const item & itm ) {
         return !itm.is_broken() &&
-               itm.has_flag( flag_MC_USED ) &&
+               &itm != it &&
                itm.has_pocket_type( item_pocket::pocket_type::EBOOK );
     };
 
@@ -9738,8 +9398,7 @@ std::optional<int> iuse::ebooksave( Character *p, item *it, bool t, const tripoi
         return std::nullopt;
     }
 
-    p->assign_activity(
-        player_activity( ebooksave_activity_actor( book, item_location( *p, it ) ) ) );
+    p->assign_activity( ebooksave_activity_actor( book, item_location( *p, it ) ) );
 
     return std::nullopt;
 }
@@ -9861,7 +9520,7 @@ std::optional<int> iuse::binder_add_recipe( Character *p, item *binder, bool, co
     }
 
     bookbinder_copy_activity_actor act( item_location( *p, binder ), recipes[menu.ret]->ident() );
-    p->assign_activity( player_activity( act ) );
+    p->assign_activity( act );
 
     return std::nullopt;
 }

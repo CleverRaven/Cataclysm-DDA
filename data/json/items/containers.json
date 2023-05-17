@@ -11,7 +11,6 @@
     "price": 1000,
     "price_postapoc": 50,
     "to_hit": -1,
-    "bashing": 1,
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "dark_gray",
@@ -36,7 +35,8 @@
         }
       ]
     },
-    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "COLLAPSE_CONTENTS" ]
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "COLLAPSE_CONTENTS" ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "30gal_barrel",
@@ -50,7 +50,6 @@
     "price": 5000,
     "price_postapoc": 250,
     "to_hit": -5,
-    "bashing": 8,
     "material": [ "plastic" ],
     "symbol": "0",
     "color": "light_blue",
@@ -64,7 +63,8 @@
       }
     ],
     "qualities": [ [ "CONTAIN", 1 ] ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "flags": [ "COLLAPSE_CONTENTS" ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "30gal_drum",
@@ -78,7 +78,6 @@
     "price": 8000,
     "price_postapoc": 250,
     "to_hit": -5,
-    "bashing": 8,
     "material": [ "steel" ],
     "symbol": "0",
     "color": "dark_gray",
@@ -92,7 +91,8 @@
       }
     ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "flags": [ "COLLAPSE_CONTENTS" ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "55gal_drum",
@@ -106,7 +106,6 @@
     "price": 10000,
     "price_postapoc": 250,
     "to_hit": -5,
-    "bashing": 8,
     "material": [ "steel" ],
     "symbol": "0",
     "color": "dark_gray",
@@ -120,7 +119,8 @@
       }
     ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "flags": [ "COLLAPSE_CONTENTS" ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "bag_canvas",
@@ -392,7 +392,6 @@
     "price": 0,
     "price_postapoc": 10,
     "to_hit": 1,
-    "bashing": 2,
     "material": [ "glass" ],
     "ascii_picture": "glass_bottle",
     "symbol": ")",
@@ -409,7 +408,8 @@
       }
     ],
     "qualities": [ [ "BOIL", 1 ] ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "flags": [ "COLLAPSE_CONTENTS" ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "bottle_plastic",
@@ -1015,7 +1015,7 @@
     "category": "container",
     "name": { "str": "large wooden box", "str_pl": "large wooden boxes" },
     "looks_like": "box_small_wood",
-    "description": "A small wooden crate.  Sturdy, but still light enough to be moved.",
+    "description": "A large wooden crate.  Sturdy, but still light enough to be moved.",
     "weight": "41600 g",
     "volume": "394400 ml",
     "longest_side": "92 cm",
@@ -1228,7 +1228,6 @@
     "price": 10000,
     "price_postapoc": 250,
     "to_hit": -1,
-    "bashing": 1,
     "material": [ "cotton", "plastic" ],
     "symbol": ")",
     "color": "dark_gray",
@@ -1255,7 +1254,8 @@
         }
       ]
     },
-    "flags": [ "BELTED", "COLLAPSE_CONTENTS" ]
+    "flags": [ "BELTED", "COLLAPSE_CONTENTS" ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "can_drink",
@@ -1268,7 +1268,6 @@
     "price": 0,
     "price_postapoc": 0,
     "to_hit": -3,
-    "bashing": 2,
     "material": [ "aluminum" ],
     "symbol": ")",
     "color": "light_blue",
@@ -1285,7 +1284,8 @@
       }
     ],
     "qualities": [ [ "BOIL", 1 ] ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "flags": [ "COLLAPSE_CONTENTS" ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "carton_sealed",
@@ -1551,7 +1551,6 @@
     "price": 2000,
     "price_postapoc": 50,
     "to_hit": -1,
-    "bashing": 1,
     "material": [ "clay" ],
     "symbol": ")",
     "color": "brown",
@@ -1564,7 +1563,8 @@
         "max_contains_weight": "25 kg"
       }
     ],
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "clay_watercont",
@@ -1657,7 +1657,6 @@
     "price": 400,
     "price_postapoc": 10,
     "to_hit": 1,
-    "bashing": 3,
     "material": [ "glass", "rubber" ],
     "symbol": ")",
     "color": "light_cyan",
@@ -1671,7 +1670,8 @@
       }
     ],
     "qualities": [ [ "BOIL", 1 ] ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "flags": [ "COLLAPSE_CONTENTS" ],
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "test_tube",
@@ -1686,7 +1686,6 @@
     "price": 300,
     "price_postapoc": 10,
     "to_hit": -1,
-    "bashing": 1,
     "material": [ "glass", "rubber" ],
     "symbol": ")",
     "color": "light_cyan",
@@ -1700,7 +1699,8 @@
       }
     ],
     "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "flags": [ "COLLAPSE_CONTENTS" ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "beaker",
@@ -1802,7 +1802,6 @@
     "price": 4000,
     "price_postapoc": 10,
     "to_hit": 1,
-    "bashing": 3,
     "material": [ "steel" ],
     "symbol": ")",
     "color": "light_gray",
@@ -1828,7 +1827,8 @@
       ]
     },
     "qualities": [ [ "BOIL", 1 ] ],
-    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "COLLAPSE_CONTENTS" ]
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "COLLAPSE_CONTENTS" ],
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "jar_3l_glass_sealed",
@@ -1843,7 +1843,6 @@
     "price": 0,
     "price_postapoc": 10,
     "to_hit": -1,
-    "bashing": 5,
     "material": [ "glass" ],
     "symbol": ")",
     "color": "light_cyan",
@@ -1858,7 +1857,8 @@
       }
     ],
     "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 1 ] ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "flags": [ "COLLAPSE_CONTENTS" ],
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "jar_glass_sealed",
@@ -1870,7 +1870,6 @@
     "volume": "680 ml",
     "longest_side": "132 mm",
     "price": 0,
-    "bashing": 4,
     "material": [ "glass" ],
     "symbol": ")",
     "color": "light_cyan",
@@ -1885,7 +1884,8 @@
       }
     ],
     "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 1 ] ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "flags": [ "COLLAPSE_CONTENTS" ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "jerrycan",
@@ -1926,7 +1926,6 @@
     "price": 5000,
     "price_postapoc": 100,
     "to_hit": -3,
-    "bashing": 4,
     "material": [ "steel" ],
     "symbol": ")",
     "color": "green",
@@ -1941,7 +1940,8 @@
       }
     ],
     "qualities": [ [ "BOIL", 1 ] ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "flags": [ "COLLAPSE_CONTENTS" ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "jug_clay",
@@ -1954,7 +1954,6 @@
     "volume": "1180 ml",
     "price": 100,
     "price_postapoc": 10,
-    "bashing": 1,
     "material": [ "clay" ],
     "symbol": ")",
     "color": "brown",
@@ -1967,7 +1966,8 @@
         "max_contains_weight": "2 kg"
       }
     ],
-    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ]
+    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "jug_plastic",
@@ -2009,7 +2009,6 @@
     "price": 10000,
     "price_postapoc": 250,
     "to_hit": -5,
-    "bashing": 10,
     "material": [ "aluminum" ],
     "symbol": ")",
     "color": "light_cyan",
@@ -2024,7 +2023,8 @@
       }
     ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "flags": [ "COLLAPSE_CONTENTS" ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "keg_steel",
@@ -2038,7 +2038,6 @@
     "price": 8000,
     "price_postapoc": 250,
     "to_hit": -5,
-    "bashing": 10,
     "material": [ "steel" ],
     "symbol": ")",
     "color": "light_cyan",
@@ -2053,7 +2052,8 @@
       }
     ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "flags": [ "COLLAPSE_CONTENTS" ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "large_stomach_sealed",
@@ -2066,7 +2066,6 @@
     "price": 4000,
     "price_postapoc": 10,
     "to_hit": -1,
-    "bashing": 1,
     "material": [ "gutskin" ],
     "symbol": ")",
     "color": "brown",
@@ -2078,7 +2077,8 @@
         "max_item_volume": "17 ml",
         "max_contains_weight": "6 kg"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "metal_tank",
@@ -2092,7 +2092,6 @@
     "price": 10000,
     "price_postapoc": 250,
     "to_hit": -4,
-    "bashing": 6,
     "material": [ "steel" ],
     "symbol": "}",
     "color": "light_cyan",
@@ -2106,7 +2105,8 @@
       }
     ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "flags": [ "COLLAPSE_CONTENTS" ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "metal_tank_little",
@@ -2121,7 +2121,6 @@
     "price": 1000,
     "price_postapoc": 50,
     "to_hit": -4,
-    "bashing": 5,
     "material": [ "steel" ],
     "symbol": "}",
     "color": "light_cyan",
@@ -2135,7 +2134,8 @@
       }
     ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "flags": [ "COLLAPSE_CONTENTS" ],
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "canteen_wood",
@@ -2186,7 +2186,6 @@
     "price": 2000,
     "price_postapoc": 10,
     "to_hit": -1,
-    "bashing": 1,
     "material": [ "gutskin" ],
     "symbol": ")",
     "color": "brown",
@@ -2198,7 +2197,8 @@
         "max_item_volume": "17 ml",
         "max_contains_weight": "3 kg"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "waterproof_smart_phone_case",
@@ -2283,7 +2283,6 @@
     "price": 2000,
     "price_postapoc": 50,
     "to_hit": -1,
-    "bashing": 1,
     "material": [ "leather" ],
     "symbol": ")",
     "color": "brown",
@@ -2307,7 +2306,8 @@
         }
       ]
     },
-    "flags": [ "BELTED", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "waterskin2",
@@ -2321,7 +2321,6 @@
     "price": 4000,
     "price_postapoc": 50,
     "to_hit": -1,
-    "bashing": 2,
     "material": [ "leather" ],
     "symbol": ")",
     "color": "brown",
@@ -2344,7 +2343,8 @@
         }
       ]
     },
-    "flags": [ "BELTED", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "waterskin3",
@@ -2358,7 +2358,6 @@
     "price": 6000,
     "price_postapoc": 100,
     "to_hit": -1,
-    "bashing": 3,
     "material": [ "leather" ],
     "symbol": ")",
     "color": "brown",
@@ -2381,7 +2380,8 @@
         }
       ]
     },
-    "flags": [ "BELTED", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ],
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "wooden_barrel",
@@ -2395,7 +2395,6 @@
     "price": 12000,
     "price_postapoc": 250,
     "to_hit": -5,
-    "bashing": 8,
     "material": [ "wood", "steel" ],
     "symbol": ")",
     "color": "brown",
@@ -2409,7 +2408,8 @@
       }
     ],
     "qualities": [ [ "CONTAIN", 1 ] ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "flags": [ "COLLAPSE_CONTENTS" ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "wrapper",
@@ -2921,7 +2921,6 @@
     "longest_side": "91 cm",
     "price": 10000,
     "price_postapoc": 1500,
-    "bashing": 1,
     "material": [ "glass" ],
     "symbol": ")",
     "color": "light_cyan",
@@ -2935,7 +2934,8 @@
         "max_contains_weight": "300 kg"
       }
     ],
-    "qualities": [ [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "CONTAIN", 1 ] ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "aquarium_medium_drying",
@@ -2948,7 +2948,6 @@
     "longest_side": "91 cm",
     "price": 5000,
     "price_postapoc": 750,
-    "bashing": 1,
     "material": [ "glass" ],
     "symbol": ")",
     "color": "light_cyan",
@@ -2971,7 +2970,8 @@
       "transform_age": 604800,
       "not_ready_msg": "The silicone hasn't dried quite yet.",
       "//": "The time it takes is a week and this appears to be the minimum time the internet says it takes."
-    }
+    },
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "aquarium_small",
@@ -2984,7 +2984,6 @@
     "longest_side": "91 cm",
     "price": 5000,
     "price_postapoc": 1000,
-    "bashing": 1,
     "material": [ "glass" ],
     "symbol": ")",
     "color": "light_cyan",
@@ -2999,7 +2998,8 @@
         "max_contains_weight": "180 kg"
       }
     ],
-    "qualities": [ [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "CONTAIN", 1 ] ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "aquarium_small_drying",
@@ -3012,7 +3012,6 @@
     "longest_side": "91 cm",
     "price": 1500,
     "price_postapoc": 350,
-    "bashing": 1,
     "material": [ "glass" ],
     "symbol": ")",
     "color": "light_cyan",
@@ -3036,7 +3035,8 @@
       "transform_age": 604800,
       "not_ready_msg": "The silicone hasn't dried quite yet.",
       "//": "The time it takes is a week and this appears to be the minimum time the internet says it takes."
-    }
+    },
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "aquarium_large",
@@ -3049,7 +3049,6 @@
     "longest_side": "183 cm",
     "price": 50000,
     "price_postapoc": 2500,
-    "bashing": 1,
     "material": [ "glass" ],
     "symbol": ")",
     "color": "light_cyan",
@@ -3064,7 +3063,8 @@
         "max_contains_weight": "500 kg"
       }
     ],
-    "qualities": [ [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "CONTAIN", 1 ] ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "aquarium_large_drying",
@@ -3077,7 +3077,6 @@
     "longest_side": "183 cm",
     "price": 20000,
     "price_postapoc": 1000,
-    "bashing": 1,
     "material": [ "glass" ],
     "symbol": ")",
     "color": "light_cyan",
@@ -3101,7 +3100,8 @@
       "transform_age": 604800,
       "not_ready_msg": "The silicone hasn't dried quite yet.",
       "//": "The time it takes is a week and this appears to be the minimum time the internet says it takes."
-    }
+    },
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "small_propane_tank",
@@ -3116,7 +3116,6 @@
     "price": 2000,
     "price_postapoc": 500,
     "to_hit": -4,
-    "bashing": 5,
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "green",
@@ -3130,7 +3129,8 @@
       }
     ],
     "charges_per_use": 1,
-    "flags": [ "GAS_TANK", "COLLAPSE_CONTENTS" ]
+    "flags": [ "GAS_TANK", "COLLAPSE_CONTENTS", "NO_SALVAGE" ],
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "medium_propane_tank",
@@ -3145,7 +3145,6 @@
     "price": 2000,
     "price_postapoc": 500,
     "to_hit": -4,
-    "bashing": 5,
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "green",
@@ -3159,7 +3158,8 @@
       }
     ],
     "charges_per_use": 1,
-    "flags": [ "GAS_TANK", "COLLAPSE_CONTENTS" ]
+    "flags": [ "GAS_TANK", "COLLAPSE_CONTENTS", "NO_SALVAGE" ],
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "large_propane_tank",
@@ -3174,7 +3174,6 @@
     "price": 6000,
     "price_postapoc": 500,
     "to_hit": -4,
-    "bashing": 10,
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
@@ -3188,7 +3187,8 @@
       }
     ],
     "charges_per_use": 1,
-    "flags": [ "GAS_TANK", "COLLAPSE_CONTENTS" ]
+    "flags": [ "GAS_TANK", "COLLAPSE_CONTENTS", "NO_SALVAGE" ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "xl_propane_tank",
@@ -3203,7 +3203,6 @@
     "price": 6000,
     "price_postapoc": 500,
     "to_hit": -4,
-    "bashing": 10,
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
@@ -3217,7 +3216,8 @@
       }
     ],
     "charges_per_use": 1,
-    "flags": [ "GAS_TANK", "COLLAPSE_CONTENTS" ]
+    "flags": [ "GAS_TANK", "COLLAPSE_CONTENTS", "NO_SALVAGE" ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "shot_glass",
@@ -3230,7 +3230,6 @@
     "longest_side": "58 mm",
     "price": 300,
     "price_postapoc": 5,
-    "bashing": 1,
     "material": [ "glass" ],
     "symbol": "v",
     "color": "cyan",
@@ -3244,7 +3243,8 @@
         "max_contains_weight": "500 g"
       }
     ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "flags": [ "COLLAPSE_CONTENTS" ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "30gal_drum_aluminum",
@@ -3258,7 +3258,6 @@
     "price": 8000,
     "price_postapoc": 250,
     "to_hit": -5,
-    "bashing": 8,
     "material": [ "aluminum" ],
     "symbol": "0",
     "color": "light_gray",
@@ -3272,7 +3271,8 @@
       }
     ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "flags": [ "COLLAPSE_CONTENTS" ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "55gal_drum_aluminum",
@@ -3286,7 +3286,6 @@
     "price": 10000,
     "price_postapoc": 250,
     "to_hit": -5,
-    "bashing": 8,
     "material": [ "aluminum" ],
     "symbol": "0",
     "color": "light_gray",
@@ -3300,7 +3299,8 @@
       }
     ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "flags": [ "COLLAPSE_CONTENTS" ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "squeeze_tube",
@@ -3313,7 +3313,6 @@
     "price": 100,
     "price_postapoc": 10,
     "to_hit": -2,
-    "bashing": 1,
     "material": [ "plastic" ],
     "symbol": "t",
     "color": "light_cyan",
@@ -3328,7 +3327,8 @@
       }
     ],
     "qualities": [ [ "CONTAIN", 1 ] ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "flags": [ "COLLAPSE_CONTENTS" ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "squeeze_tube_small",
@@ -3341,7 +3341,6 @@
     "price": 50,
     "price_postapoc": 5,
     "to_hit": -2,
-    "bashing": 1,
     "material": [ "plastic" ],
     "symbol": "t",
     "color": "light_cyan",
@@ -3357,7 +3356,8 @@
       }
     ],
     "qualities": [ [ "CONTAIN", 1 ] ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "flags": [ "COLLAPSE_CONTENTS" ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "bottle_gourd",

@@ -45,7 +45,8 @@ class anatomy
         bodypart_id select_body_part( int min_hit, int max_hit, bool can_attack_high, int hit_roll ) const;
         bodypart_id select_blocking_part( const Creature *blocker, bool arm, bool leg,
                                           bool nonstandard ) const;
-
+        std::vector<bodypart_id> get_all_eligable_parts( int min_hit, int max_hit,
+                bool can_attack_high ) const;
         // Based on the value provided (which is between range_min and range_max),
         // select an appropriate body part to hit with a projectile attack
         bodypart_id select_body_part_projectile_attack( double range_min, double range_max,
@@ -58,7 +59,7 @@ class anatomy
         void add_body_part( const bodypart_str_id &new_bp );
         // TODO: remove_body_part
 
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
         void finalize();
         void check() const;
 

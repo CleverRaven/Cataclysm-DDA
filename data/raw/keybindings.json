@@ -2047,6 +2047,13 @@
   },
   {
     "type": "keybinding",
+    "id": "TOGGLE_SPRITE",
+    "category": "BIONICS",
+    "name": "Toggle sprite",
+    "bindings": [ { "input_method": "keyboard_char", "key": "H" }, { "input_method": "keyboard_code", "key": "h", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
     "id": "REFUEL",
     "category": "BIONICS",
     "name": "Open refuel menu",
@@ -2092,6 +2099,11 @@
       { "input_method": "keyboard_code", "key": "KEYPAD_5" },
       { "input_method": "gamepad", "key": "JOY_7" }
     ]
+  },
+  {
+    "type": "keybinding",
+    "name": "Toggle language to English (requires global keybind!)",
+    "id": "toggle_language_to_en"
   },
   {
     "type": "keybinding",

@@ -162,6 +162,7 @@ static const json_character_flag json_flag_BIONIC_POWER_SOURCE( "BIONIC_POWER_SO
 static const json_character_flag json_flag_BIONIC_TOGGLED( "BIONIC_TOGGLED" );
 static const json_character_flag json_flag_BIONIC_WEAPON( "BIONIC_WEAPON" );
 static const json_character_flag json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
+static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 
 static const material_id fuel_type_metabolism( "metabolism" );
 static const material_id fuel_type_sun_light( "sunlight" );
@@ -189,7 +190,6 @@ static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
 static const trait_id trait_MASOCHIST( "MASOCHIST" );
 static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
 static const trait_id trait_NONE( "NONE" );
-static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PROF_AUTODOC( "PROF_AUTODOC" );
 static const trait_id trait_PROF_MED( "PROF_MED" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
@@ -318,7 +318,7 @@ static social_modifiers load_bionic_social_mods( const JsonObject &jo )
     return ret;
 }
 
-void bionic_data::load( const JsonObject &jsobj, const std::string & )
+void bionic_data::load( const JsonObject &jsobj, const std::string &src )
 {
 
     mandatory( jsobj, was_loaded, "id", id );
@@ -383,21 +383,21 @@ void bionic_data::load( const JsonObject &jsobj, const std::string & )
     optional( jsobj, was_loaded, "deactivated_close_ui", deactivated_close_ui, false );
 
     for( JsonValue jv : jsobj.get_array( "activated_eocs" ) ) {
-        activated_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        activated_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
 
     for( JsonValue jv : jsobj.get_array( "processed_eocs" ) ) {
-        processed_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        processed_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
 
     for( JsonValue jv : jsobj.get_array( "deactivated_eocs" ) ) {
-        deactivated_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        deactivated_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
 
     int enchant_num = 0;
     for( JsonValue jv : jsobj.get_array( "enchantments" ) ) {
         std::string enchant_name = "INLINE_ENCH_" + name + "_" + std::to_string( enchant_num++ );
-        enchantments.push_back( enchantment::load_inline_enchantment( jv, "", enchant_name ) );
+        enchantments.push_back( enchantment::load_inline_enchantment( jv, src, enchant_name ) );
     }
 
     if( jsobj.has_array( "stat_bonus" ) ) {
@@ -431,28 +431,11 @@ void bionic_data::load( const JsonObject &jsobj, const std::string & )
             env_protec.emplace( bodypart_str_id( ja.get_string( 0 ) ), ja.get_int( 1 ) );
         }
     }
-    if( jsobj.has_array( "bash_protec" ) ) {
-        // clear data first so that copy-from can override it
-        bash_protec.clear();
-        for( JsonArray ja : jsobj.get_array( "bash_protec" ) ) {
-            bash_protec.emplace( bodypart_str_id( ja.get_string( 0 ) ),
-                                 ja.get_int( 1 ) );
-        }
-    }
-    if( jsobj.has_array( "cut_protec" ) ) {
-        // clear data first so that copy-from can override it
-        cut_protec.clear();
-        for( JsonArray ja : jsobj.get_array( "cut_protec" ) ) {
-            cut_protec.emplace( bodypart_str_id( ja.get_string( 0 ) ),
-                                ja.get_int( 1 ) );
-        }
-    }
-    if( jsobj.has_array( "bullet_protec" ) ) {
-        // clear data first so that copy-from can override it
-        bullet_protec.clear();
-        for( JsonArray ja : jsobj.get_array( "bullet_protec" ) ) {
-            bullet_protec.emplace( bodypart_str_id( ja.get_string( 0 ) ),
-                                   ja.get_int( 1 ) );
+    if( jsobj.has_array( "protec" ) ) {
+        protec.clear();
+        for( JsonArray ja : jsobj.get_array( "protec" ) ) {
+            protec.emplace( bodypart_str_id( ja.get_string( 0 ) ),
+                            load_resistances_instance( ja.get_object( 1 ) ) );
         }
     }
     if( jsobj.has_object( "social_modifiers" ) ) {
@@ -474,6 +457,13 @@ void bionic_data::load( const JsonObject &jsobj, const std::string & )
     }
 }
 
+void bionic_data::finalize()
+{
+    for( auto &p : protec ) {
+        finalize_damage_map( p.second.resist_vals );
+    }
+}
+
 void bionic_data::load_bionic( const JsonObject &jo, const std::string &src )
 {
     bionic_factory.load( jo, src );
@@ -481,13 +471,18 @@ void bionic_data::load_bionic( const JsonObject &jo, const std::string &src )
 
 std::map<bionic_id, bionic_id> bionic_data::migrations;
 
-void bionic_data::load_bionic_migration( const JsonObject &jo, const std::string & )
+void bionic_data::load_bionic_migration( const JsonObject &jo, const std::string_view )
 {
     const bionic_id from( jo.get_string( "from" ) );
     const bionic_id to = jo.has_string( "to" )
                          ? bionic_id( jo.get_string( "to" ) )
                          : bionic_id::NULL_ID();
     migrations.emplace( from, to );
+}
+
+void bionic_data::finalize_bionic()
+{
+    bionic_factory.finalize();
 }
 
 const std::vector<bionic_data> &bionic_data::get_all()
@@ -1048,7 +1043,9 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         for( const std::pair<item, tripoint> &pr : affected ) {
             projectile proj;
             proj.speed  = 50;
-            proj.impact = damage_instance::physical( pr.first.weight() / 250_gram, 0, 0, 0 );
+            proj.impact = damage_instance();
+            // FIXME: Hardcoded damage type
+            proj.impact.add_damage( STATIC( damage_type_id( "bash" ) ), pr.first.weight() / 250_gram );
             // make the projectile stop one tile short to prevent hitting the player
             proj.range = rl_dist( pr.second, pos() ) - 1;
             proj.proj_effects = {{ "NO_ITEM_DAMAGE", "DRAW_AS_LINE", "NO_DAMAGE_SCALING", "JET" }};
@@ -1066,8 +1063,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         std::optional<tripoint> target = lockpick_activity_actor::select_location( player_character );
         if( target.has_value() ) {
             add_msg_activate();
-            assign_activity(
-                player_activity( lockpick_activity_actor::use_bionic( here.getabs( *target ) ) ) );
+            assign_activity( lockpick_activity_actor::use_bionic( here.getabs( *target ) ) );
             if( close_bionics_ui ) {
                 *close_bionics_ui = true;
             }
@@ -1097,7 +1093,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         weather_manager &weather = get_weather();
         const units::temperature player_local_temp = weather.get_temperature( player_character.pos() );
         const int windpower = get_local_windpower( weather.windspeed + vehwindspeed,
-                              cur_om_ter, pos(), weather.winddirection, g->is_sheltered( pos() ) );
+                              cur_om_ter, get_location(), weather.winddirection, g->is_sheltered( pos() ) );
         add_msg_if_player( m_info, _( "Temperature: %s." ), print_temperature( player_local_temp ) );
         const w_point weatherPoint = *weather.weather_precise;
         add_msg_if_player( m_info, _( "Relative Humidity: %s." ),
@@ -1476,7 +1472,7 @@ void Character::burn_fuel( bionic &bio )
     if( energy_gain == 0_J && solar_powered && !g->is_sheltered( pos() ) ) {
         // Some sort of solar source
 
-        const weather_type_id &wtype = current_weather( pos() );
+        const weather_type_id &wtype = current_weather( get_location() );
         float intensity = incident_sun_irradiance( wtype, calendar::turn ); // W/m2
 
         if( !result.connected_solar.empty() ) {
@@ -1518,7 +1514,7 @@ void Character::burn_fuel( bionic &bio )
         }
         weather_manager &weather = get_weather();
         const int windpower = get_local_windpower( weather.windspeed + vehwindspeed,
-                              overmap_buffer.ter( global_omt_location() ), pos(), weather.winddirection,
+                              overmap_buffer.ter( global_omt_location() ), get_location(), weather.winddirection,
                               g->is_sheltered( pos() ) );
         energy_gain = 1_kJ * windpower;
     }
@@ -1807,7 +1803,7 @@ void Character::bionics_uninstall_failure( int difficulty, int success, float ad
     std::set<bodypart_id> bp_hurt;
     switch( fail_type ) {
         case 1:
-            if( !has_trait( trait_NOPAIN ) ) {
+            if( !has_flag( json_flag_PAIN_IMMUNE ) ) {
                 add_msg_if_player( m_bad, _( "It really hurts!" ) );
                 mod_pain( rng( 10, 30 ) );
             }
@@ -1894,7 +1890,7 @@ void Character::bionics_uninstall_failure( monster &installer, Character &patien
     std::set<bodypart_id> bp_hurt;
     switch( fail_type ) {
         case 1:
-            if( !has_trait( trait_NOPAIN ) ) {
+            if( !has_flag( json_flag_PAIN_IMMUNE ) ) {
                 patient.add_msg_if_player( m_bad, _( "It really hurts!" ) );
                 patient.mod_pain( rng( 10, 30 ) );
             }
@@ -1947,7 +1943,7 @@ bool Character::has_enough_anesth( const itype &cbm, Character &patient ) const
         return false;
     }
 
-    if( patient.has_bionic( bio_painkiller ) || patient.has_trait( trait_NOPAIN ) ||
+    if( patient.has_bionic( bio_painkiller ) || patient.has_flag( json_flag_PAIN_IMMUNE ) ||
         has_trait( trait_DEBUG_BIONICS ) ) {
         return true;
     }
@@ -1961,7 +1957,7 @@ bool Character::has_enough_anesth( const itype &cbm, Character &patient ) const
 
 bool Character::has_enough_anesth( const itype &cbm ) const
 {
-    if( has_bionic( bio_painkiller ) || has_trait( trait_NOPAIN ) ||
+    if( has_bionic( bio_painkiller ) || has_flag( json_flag_PAIN_IMMUNE ) ||
         has_trait( trait_DEBUG_BIONICS ) ) {
         return true;
     }
@@ -2051,7 +2047,7 @@ int Character::bionics_pl_skill( bool autodoc, int skill_level ) const
         least_important_skill = skill_mechanics;
     }
 
-    int pl_skill;
+    float pl_skill;
     if( skill_level == -1 ) {
         pl_skill = int_cur                                  * 4 +
                    get_skill_level( most_important_skill )  * 4 +
@@ -2071,7 +2067,7 @@ int Character::bionics_pl_skill( bool autodoc, int skill_level ) const
     if( has_trait( trait_PROF_AUTODOC ) ) {
         pl_skill += 7;
     }
-    return pl_skill;
+    return round( pl_skill );
 }
 
 int bionic_success_chance( bool autodoc, int skill_level, int difficulty, const Character &target )
@@ -2569,7 +2565,7 @@ void Character::bionics_install_failure( const bionic_id &bid, const std::string
         switch( fail_type ) {
 
             case 1:
-                if( !has_trait( trait_NOPAIN ) ) {
+                if( !has_flag( json_flag_PAIN_IMMUNE ) ) {
                     add_msg_if_player( m_bad, _( "It really hurts!" ) );
                     mod_pain( rng( 10, 30 ) );
                 }
@@ -2792,6 +2788,7 @@ bionic_uid Character::add_bionic( const bionic_id &b, bionic_uid parent_uid )
         }
     }
 
+    invalidate_pseudo_items();
     update_bionic_power_capacity();
 
     calc_encumbrance();
@@ -2804,8 +2801,6 @@ bionic_uid Character::add_bionic( const bionic_id &b, bionic_uid parent_uid )
         recalculate_enchantment_cache();
     }
     effect_on_conditions::process_reactivate( *this );
-
-    invalidate_pseudo_items();
 
     return bio_uid;
 }
@@ -3111,6 +3106,7 @@ void bionic::serialize( JsonOut &json ) const
     if( is_safe_fuel_on() ) {
         json.member( "safe_fuel_threshold", safe_fuel_threshold );
     }
+    json.member( "show_sprite", show_sprite );
 
     if( has_weapon() ) {
         json.member( "weapon", weapon );
@@ -3161,6 +3157,9 @@ void bionic::deserialize( const JsonObject &jo )
     }
     if( jo.has_float( "safe_fuel_threshold" ) ) {
         safe_fuel_threshold = jo.get_float( "safe_fuel_threshold" );
+    }
+    if( jo.has_bool( "show_sprite" ) ) {
+        show_sprite = jo.get_bool( "show_sprite" );
     }
     if( jo.has_array( "bionic_tags" ) ) {
         for( const std::string line : jo.get_array( "bionic_tags" ) ) {
@@ -3443,29 +3442,13 @@ bionic_uid Character::get_weapon_bionic_uid() const
     return weapon_bionic_uid;
 }
 
-float Character::bionic_armor_bonus( const bodypart_id &bp, damage_type dt ) const
+float Character::bionic_armor_bonus( const bodypart_id &bp, const damage_type_id &dt ) const
 {
     float result = 0.0f;
-    if( dt == damage_type::CUT || dt == damage_type::STAB ) {
-        for( const bionic_id &bid : get_bionics() ) {
-            const auto cut_prot = bid->cut_protec.find( bp.id() );
-            if( cut_prot != bid->cut_protec.end() ) {
-                result += cut_prot->second;
-            }
-        }
-    } else if( dt == damage_type::BASH ) {
-        for( const bionic_id &bid : get_bionics() ) {
-            const auto bash_prot = bid->bash_protec.find( bp.id() );
-            if( bash_prot != bid->bash_protec.end() ) {
-                result += bash_prot->second;
-            }
-        }
-    } else if( dt == damage_type::BULLET ) {
-        for( const bionic_id &bid : get_bionics() ) {
-            const auto bullet_prot = bid->bullet_protec.find( bp.id() );
-            if( bullet_prot != bid->bullet_protec.end() ) {
-                result += bullet_prot->second;
-            }
+    for( const bionic_id &bid : get_bionics() ) {
+        const auto prot = bid->protec.find( bp.id() );
+        if( prot != bid->protec.end() ) {
+            result += prot->second.type_resist( dt );
         }
     }
 

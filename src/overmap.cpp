@@ -2692,7 +2692,7 @@ void overmap_special::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "subtype", subtype_, overmap_special_subtype::fixed );
     optional( jo, was_loaded, "locations", default_locations_ );
     if( jo.has_member( "eoc" ) ) {
-        eoc = effect_on_conditions::load_inline_eoc( jo.get_member( "eoc" ), "" );
+        eoc = effect_on_conditions::load_inline_eoc( jo.get_member( "eoc" ), src );
         has_eoc_ = true;
     }
     switch( subtype_ ) {
@@ -3730,7 +3730,7 @@ void overmap::generate_bridgeheads( const std::vector<point_om_omt> &bridge_poin
     }
 }
 
-std::vector<point_abs_omt> overmap::find_terrain( const std::string &term, int zlevel ) const
+std::vector<point_abs_omt> overmap::find_terrain( const std::string_view term, int zlevel ) const
 {
     std::vector<point_abs_omt> found;
     for( int x = 0; x < OMAPX; x++ ) {
@@ -6706,7 +6706,7 @@ void overmap_special_migration::reset()
     migrations.reset();
 }
 
-void overmap_special_migration::load( const JsonObject &jo, const std::string & )
+void overmap_special_migration::load( const JsonObject &jo, const std::string_view )
 {
     mandatory( jo, was_loaded, "id", id );
     optional( jo, was_loaded, "new_id", new_id, overmap_special_id() );

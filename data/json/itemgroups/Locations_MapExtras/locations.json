@@ -594,7 +594,7 @@
       [ "screwdriver", 40 ],
       { "group": "ammo_pocket_batteries_full", "prob": 50 },
       [ "manual_electronics", 20 ],
-      [ "mobile_memory_card", 20 ],
+      [ "memory_card_unread", 20 ],
       [ "usb_drive", 5 ],
       [ "software_useless", 10 ],
       [ "survnote", 1 ]
@@ -696,9 +696,7 @@
       [ "receiver", 25 ],
       [ "small_lcd_screen", 10 ],
       [ "large_lcd_screen", 10 ],
-      [ "mobile_memory_card", 35 ],
-      [ "mobile_memory_card_used", 35 ],
-      [ "mobile_memory_card_encrypted", 35 ],
+      [ "memory_card_unread", 80 ],
       { "item": "radiocontrol", "prob": 15, "charges-min": 0, "charges-max": 25 },
       { "item": "radio_car", "prob": 15, "charges-min": 0, "charges-max": 25 },
       [ "RAM", 45 ],
@@ -804,7 +802,6 @@
       [ "wrapper_foil", 20 ],
       [ "cup_foil", 1 ],
       [ "golf_club", 3 ],
-      [ "antenna", 30 ],
       [ "bat_metal", 2 ],
       [ "can_drink", 130 ],
       [ "can_drink", 130 ],
@@ -816,7 +813,8 @@
       [ "rebreather", 1 ],
       [ "small_scuba_tank", 1 ],
       [ "hand_pump", 3 ],
-      [ "pilot_light", 30 ]
+      [ "pilot_light", 30 ],
+      [ "waffleiron", 30 ]
     ]
   },
   {
@@ -837,7 +835,8 @@
       [ "copper_locket", 25 ],
       [ "jumper_cable", 10 ],
       [ "jumper_cable_heavy", 10 ],
-      [ "extension_cable", 10 ]
+      [ "extension_cable", 10 ],
+      [ "antenna", 30 ]
     ]
   },
   {
@@ -848,7 +847,6 @@
       { "item": "oil_lamp", "prob": 20, "charges-min": 0, "charges-max": 3 },
       [ "steam_triple_small", 1 ],
       [ "steam_triple_medium", 1 ],
-      [ "waffleiron", 60 ],
       [ "spring", 150 ],
       [ "pastaextruder", 75 ],
       { "item": "nail", "prob": 300, "charges-min": 1, "charges-max": 15 },
@@ -956,7 +954,7 @@
       { "item": "laptop", "prob": 20, "charges": [ 0, 500 ] },
       [ "atomic_light", 1 ],
       { "item": "eink_tablet_pc", "prob": 1, "charges": [ 0, 100 ] },
-      [ "mobile_memory_card", 5 ],
+      [ "memory_card_unread", 5 ],
       { "item": "cell_phone", "prob": 5, "charges": [ 0, 150 ] },
       { "item": "smart_phone", "prob": 35, "charges-min": 0 },
       [ "cotton_patchwork", 1 ],
@@ -1316,7 +1314,7 @@
     "id": "mine_materials",
     "subtype": "collection",
     "entries": [
-      { "item": "coal_lump", "prob": 20, "count": [ 10, 200 ] },
+      { "item": "coal_lump", "prob": 20, "count": [ 2, 20 ] },
       { "item": "rock", "prob": 40, "count": [ 1, 10 ] },
       { "item": "rock_large", "prob": 10, "count": [ 1, 10 ] },
       { "item": "rock_flaking", "prob": 20, "count": [ 1, 10 ] },
@@ -1449,6 +1447,8 @@
       [ "horn_big", 2 ],
       [ "horn_bicycle", 8 ],
       [ "seat", 8 ],
+      { "item": "seatbelt", "prob": 8 },
+      { "item": "five-point_harness", "prob": 2 },
       [ "seat_leather", 1 ],
       [ "saddle", 8 ],
       [ "wheel", 10 ],
@@ -1923,8 +1923,8 @@
       { "item": "cell_phone", "prob": 7, "charges": [ 0, 150 ] },
       { "item": "smart_phone", "prob": 54, "charges": [ 0, 150 ] },
       { "item": "eink_tablet_pc", "prob": 15, "charges": [ 0, 100 ] },
-      [ "mobile_memory_card", 40 ],
-      [ "mobile_memory_card_science", 10 ],
+      [ "memory_card_unread", 40 ],
+      [ "memory_card_science", 10 ],
       [ "standard_template_construct", 5 ],
       { "item": "camera", "prob": 15, "charges": [ 0, 150 ] },
       { "item": "camera_pro", "prob": 5, "charges": [ 0, 150 ] },
@@ -2129,6 +2129,7 @@
       { "item": "mutagen", "prob": 1 },
       { "item": "purifier", "prob": 1 },
       { "item": "yeast", "prob": 3 },
+      { "item": "yogurt_starter_culture", "prob": 1 },
       { "item": "royal_jelly", "prob": 4 },
       { "item": "superglue", "prob": 30 },
       { "item": "bottle_glass", "prob": 10 },

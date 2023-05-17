@@ -91,6 +91,8 @@ static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
 static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
 
+static const addiction_id addiction_alcohol( "alcohol" );
+
 static const efftype_id effect_incorporeal( "incorporeal" );
 
 static const flag_id json_flag_MOP( "MOP" );
@@ -968,7 +970,8 @@ static bool are_requirements_nearby(
     }
     // use nearby welding rig without needing to drag it or position yourself on the right side of the vehicle.
     if( !found_welder ) {
-        for( const tripoint_bub_ms &elem : here.points_in_radius( src_loc, PICKUP_RANGE - 1 ) ) {
+        for( const tripoint_bub_ms &elem : here.points_in_radius( src_loc, PICKUP_RANGE - 1,
+                PICKUP_RANGE - 1 ) ) {
             const std::optional<vpart_reference> &vp = here.veh_at( elem ).part_with_tool( itype_welder );
 
             if( vp ) {
@@ -1930,7 +1933,7 @@ static bool chop_plank_activity( Character &you, const tripoint_bub_ms &src_loc 
             here.i_rem( src_loc, &i );
             int moves = to_moves<int>( 20_minutes );
             you.add_msg_if_player( _( "You cut the log into planks." ) );
-            you.assign_activity( player_activity( chop_planks_activity_actor( moves ) ) );
+            you.assign_activity( chop_planks_activity_actor( moves ) );
             you.activity.placement = here.getglobal( src_loc );
             return true;
         }
@@ -2379,7 +2382,7 @@ static bool mine_activity( Character &you, const tripoint_bub_ms &src_loc )
 static bool mop_activity( Character &you, const tripoint_bub_ms &src_loc )
 {
     // iuse::mop costs 15 moves per use
-    you.assign_activity( player_activity( mop_activity_actor( 15 ) ) );
+    you.assign_activity( mop_activity_actor( 15 ) );
     you.activity.placement = get_map().getglobal( src_loc );
     return true;
 }
@@ -2397,13 +2400,11 @@ static bool chop_tree_activity( Character &you, const tripoint_bub_ms &src_loc )
     map &here = get_map();
     const ter_id ter = here.ter( src_loc );
     if( here.has_flag( ter_furn_flag::TFLAG_TREE, src_loc ) ) {
-        you.assign_activity( player_activity( chop_tree_activity_actor( moves, item_location( you,
-                                              &best_qual ) ) ) );
+        you.assign_activity( chop_tree_activity_actor( moves, item_location( you, &best_qual ) ) );
         you.activity.placement = here.getglobal( src_loc );
         return true;
     } else if( ter == t_trunk || ter == t_stump ) {
-        you.assign_activity( player_activity( chop_logs_activity_actor( moves, item_location( you,
-                                              &best_qual ) ) ) );
+        you.assign_activity( chop_logs_activity_actor( moves, item_location( you, &best_qual ) ) );
         you.activity.placement = here.getglobal( src_loc );
         return true;
     }
@@ -2698,7 +2699,8 @@ static requirement_check_result generic_multi_activity_check_requirement(
             loot_zone_spots.emplace_back( elem );
             combined_spots.emplace_back( elem );
         }
-        for( const tripoint_bub_ms &elem : here.points_in_radius( src_loc, PICKUP_RANGE - 1 ) ) {
+        for( const tripoint_bub_ms &elem : here.points_in_radius( src_loc, PICKUP_RANGE - 1,
+                PICKUP_RANGE - 1 ) ) {
             combined_spots.push_back( elem );
         }
         add_basecamp_storage_to_loot_zone_list( mgr, src_loc, you, loot_zone_spots, combined_spots );
@@ -2808,7 +2810,8 @@ static requirement_check_result generic_multi_activity_check_requirement(
                         local_src_set.push_back( here.bub_from_abs( elem ) );
                     }
                     std::vector<tripoint_bub_ms> candidates;
-                    for( const tripoint_bub_ms &point_elem : here.points_in_radius( src_loc, PICKUP_RANGE - 1 ) ) {
+                    for( const tripoint_bub_ms &point_elem : here.points_in_radius( src_loc, PICKUP_RANGE - 1,
+                            PICKUP_RANGE - 1 ) ) {
                         // we don't want to place the components where they could interfere with our ( or someone else's ) construction spots
                         if( !you.sees( point_elem ) || ( std::find( local_src_set.begin(), local_src_set.end(),
                                                          point_elem ) != local_src_set.end() ) || !here.can_put_items_ter_furn( point_elem ) ) {
@@ -2858,7 +2861,7 @@ static bool generic_multi_activity_do(
     } else if( reason == do_activity_reason::NEEDS_TILLING &&
                here.has_flag( ter_furn_flag::TFLAG_PLOWABLE, src_loc ) &&
                you.has_quality( qual_DIG, 1 ) && !here.has_furn( src_loc ) ) {
-        you.assign_activity( player_activity( churn_activity_actor( 18000, item_location() ) ) );
+        you.assign_activity( churn_activity_actor( 18000, item_location() ) );
         you.backlog.push_front( player_activity( act_id ) );
         you.activity.placement = src;
         return false;
@@ -3278,8 +3281,8 @@ int get_auto_consume_moves( Character &you, const bool food )
                 // it's unclean
                 continue;
             }
-            if( comest.get_comestible()->add == STATIC( addiction_id( "alcohol" ) ) &&
-                !you.has_addiction( comest.get_comestible()->add ) ) {
+            if( comest.get_comestible()->addictions.count( addiction_alcohol ) &&
+                !you.has_addiction( addiction_alcohol ) ) {
                 continue;
             }
 

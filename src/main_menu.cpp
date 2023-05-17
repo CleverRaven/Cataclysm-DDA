@@ -609,7 +609,6 @@ bool main_menu::opening_screen()
     player_character = avatar();
 
     int sel_line = 0;
-    size_t last_world_pos = 0;
 
     // Make [Load Game] the default cursor position if there's game save available
     if( !world_generator->get_all_worlds().empty() ) {
@@ -651,7 +650,8 @@ bool main_menu::opening_screen()
         input_event sInput = ctxt.get_raw_input();
 
         // check automatic menu shortcuts
-        for( int i = 0; static_cast<size_t>( i ) < vMenuHotkeys.size(); ++i ) {
+        bool match = false;
+        for( int i = 0; static_cast<size_t>( i ) < vMenuHotkeys.size() && !match; ++i ) {
             for( const std::string &hotkey : vMenuHotkeys[i] ) {
                 if( sInput.text == hotkey && sel1 != i ) {
                     sel1 = i;
@@ -662,25 +662,31 @@ bool main_menu::opening_screen()
                     } else if( i == getopt( main_menu_opts::QUIT ) ) {
                         action = "QUIT";
                     }
+                    match = true;
+                    break;
                 }
             }
         }
         if( sel1 == getopt( main_menu_opts::SETTINGS ) ) {
-            for( int i = 0; static_cast<size_t>( i ) < vSettingsSubItems.size(); ++i ) {
+            for( int i = 0; !match && static_cast<size_t>( i ) < vSettingsSubItems.size(); ++i ) {
                 for( const std::string &hotkey : vSettingsHotkeys[i] ) {
                     if( sInput.text == hotkey ) {
                         sel2 = i;
                         action = "CONFIRM";
+                        match = true;
+                        break;
                     }
                 }
             }
         }
         if( sel1 == getopt( main_menu_opts::NEWCHAR ) ) {
-            for( int i = 0; static_cast<size_t>( i ) < vNewGameSubItems.size(); ++i ) {
+            for( int i = 0; !match && static_cast<size_t>( i ) < vNewGameSubItems.size(); ++i ) {
                 for( const std::string &hotkey : vNewGameHotkeys[i] ) {
                     if( sInput.text == hotkey ) {
                         sel2 = i;
                         action = "CONFIRM";
+                        match = true;
+                        break;
                     }
                 }
             }
@@ -702,22 +708,25 @@ bool main_menu::opening_screen()
                         action = "CONFIRM";
                     }
                     ui_manager::redraw();
+                    match = true;
                     break;
                 }
             }
-            for( const auto &it : main_menu_sub_button_map ) {
-                if( coord.has_value() && it.first.contains( coord.value() ) ) {
-                    if( sel1 != it.second.first || sel2 != it.second.second ) {
-                        on_move();
+            if( !match ) {
+                for( const auto &it : main_menu_sub_button_map ) {
+                    if( coord.has_value() && it.first.contains( coord.value() ) ) {
+                        if( sel1 != it.second.first || sel2 != it.second.second ) {
+                            on_move();
+                        }
+                        sel1 = it.second.first;
+                        sel2 = it.second.second;
+                        sel_line = 0;
+                        if( action == "SELECT" ) {
+                            action = "CONFIRM";
+                        }
+                        ui_manager::redraw();
+                        break;
                     }
-                    sel1 = it.second.first;
-                    sel2 = it.second.second;
-                    sel_line = 0;
-                    if( action == "SELECT" ) {
-                        action = "CONFIRM";
-                    }
-                    ui_manager::redraw();
-                    break;
                 }
             }
         }
@@ -729,8 +738,8 @@ bool main_menu::opening_screen()
             }
         } else if( action == "LEFT" || action == "PREV_TAB" || action == "RIGHT" || action == "NEXT_TAB" ) {
             sel_line = 0;
-            sel1 = increment_and_wrap( sel1, action == "RIGHT" ||
-                                       action == "NEXT_TAB", static_cast<int>( main_menu_opts::NUM_MENU_OPTS ) );
+            sel1 = inc_clamp_wrap( sel1, action == "RIGHT" || action == "NEXT_TAB",
+                                   static_cast<int>( main_menu_opts::NUM_MENU_OPTS ) );
             sel2 = sel1 == getopt( main_menu_opts::LOADCHAR ) ? last_world_pos : 0;
             on_move();
         } else if( action == "UP" || action == "DOWN" ||
@@ -1035,9 +1044,29 @@ bool main_menu::load_game( std::string const &worldname, save_t const &savegame 
     return false;
 }
 
+static std::optional<std::chrono::seconds> get_playtime_from_save( const WORLD *world,
+        const save_t &save )
+{
+    cata_path playtime_file = world->folder_path_path() / ( save.base_path() + ".pt" );
+    std::optional<std::chrono::seconds> pt_seconds;
+    if( file_exist( playtime_file ) ) {
+        read_from_file( playtime_file, [&pt_seconds]( std::istream & fin ) {
+            if( fin.eof() ) {
+                return;
+            }
+            std::chrono::seconds::rep dur_seconds = 0;
+            fin.imbue( std::locale::classic() );
+            fin >> dur_seconds;
+            pt_seconds = std::chrono::seconds( dur_seconds );
+        } );
+    }
+    return pt_seconds;
+}
+
 bool main_menu::load_character_tab( const std::string &worldname )
 {
-    savegames = world_generator->get_world( worldname )->world_saves;
+    WORLD *cur_world = world_generator->get_world( worldname );
+    savegames = cur_world->world_saves;
     if( MAP_SHARING::isSharing() ) {
         auto new_end = std::remove_if( savegames.begin(), savegames.end(), []( const save_t &str ) {
             return str.decoded_name() != MAP_SHARING::getUsername();
@@ -1056,7 +1085,19 @@ bool main_menu::load_character_tab( const std::string &worldname )
     mmenu.border_color = c_white;
     int opt_val = 0;
     for( const save_t &s : savegames ) {
-        mmenu.entries.emplace_back( opt_val++, true, MENU_AUTOASSIGN, s.decoded_name() );
+        std::optional<std::chrono::seconds> playtime = get_playtime_from_save( cur_world, s );
+        std::string save_str = s.decoded_name();
+        if( playtime ) {
+            int padding = std::max( 16 - utf8_width( save_str ), 0 ) + 2;
+            std::chrono::seconds::rep tmp_sec = playtime->count();
+            int pt_sec = static_cast<int>( tmp_sec % 60 );
+            int pt_min = static_cast<int>( tmp_sec % 3600 ) / 60;
+            int pt_hrs = static_cast<int>( tmp_sec / 3600 );
+            save_str = string_format( "%s%s<color_c_light_blue>[%02d:%02d:%02d]</color>",
+                                      save_str, std::string( padding, ' ' ), pt_hrs, pt_min,
+                                      static_cast<int>( pt_sec ) );
+        }
+        mmenu.entries.emplace_back( opt_val++, true, MENU_AUTOASSIGN, save_str );
     }
     mmenu.entries.emplace_back( opt_val, true, 'q', _( "<- Back to Main Menu" ), c_yellow, c_yellow );
     mmenu.query();
@@ -1072,7 +1113,11 @@ void main_menu::world_tab( const std::string &worldname )
 {
     // Create world
     if( sel2 == 0 ) {
-        world_generator->make_new_world();
+        WORLD *world = world_generator->make_new_world();
+        // NOLINTNEXTLINE(cata-use-localized-sorting)
+        if( world != nullptr && world->world_name < world_generator->all_worldnames()[last_world_pos] ) {
+            last_world_pos++;
+        }
         return;
     }
 
@@ -1094,6 +1139,10 @@ void main_menu::world_tab( const std::string &worldname )
 
     auto clear_world = [this, &worldname]( bool do_delete ) {
         world_generator->delete_world( worldname, do_delete );
+        // NOLINTNEXTLINE(cata-use-localized-sorting)
+        if( last_world_pos > 0 && worldname <= world_generator->all_worldnames()[last_world_pos] ) {
+            last_world_pos--;
+        }
         savegames.clear();
         MAPBUFFER.clear();
         overmap_buffer.clear();

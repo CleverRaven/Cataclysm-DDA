@@ -17,6 +17,12 @@ void volume::serialize( JsonOut &jsout ) const
 }
 
 template<>
+void volume::deserialize( const JsonValue &jv )
+{
+    *this = read_from_json_string( jv, units::volume_units );
+}
+
+template<>
 void mass::serialize( JsonOut &jsout ) const
 {
     if( value_ % 1000000 == 0 ) {
@@ -177,6 +183,27 @@ time_duration operator/( const units::energy &energy, const units::power &power 
     const int64_t mj = to_millijoule( energy );
     const int64_t mw = to_milliwatt( power );
     return time_duration::from_seconds( mj / mw );
+}
+
+units::temperature_delta operator-( const units::temperature &T1, const units::temperature &T2 )
+{
+    return from_kelvin_delta( to_kelvin( T1 ) - to_kelvin( T2 ) );
+}
+
+units::temperature operator+( const units::temperature &T, const units::temperature_delta &T_delta )
+{
+    return from_kelvin( to_kelvin( T ) + to_kelvin_delta( T_delta ) );
+}
+
+units::temperature operator+( const units::temperature_delta &T_delta, const units::temperature &T )
+{
+    return from_kelvin( to_kelvin( T ) + to_kelvin_delta( T_delta ) );
+}
+
+units::temperature &operator+=( units::temperature &T, const units::temperature_delta &T_delta )
+{
+    T = T + T_delta;
+    return T;
 }
 
 } // namespace units

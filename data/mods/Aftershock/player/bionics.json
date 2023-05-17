@@ -302,6 +302,59 @@
     "time": "10 s"
   },
   {
+    "id": "afs_bio_blade_fire",
+    "type": "bionic",
+    "name": { "str": "Bioweapon Thermal Conduits" },
+    "description": "An improved ulnar sheath equipped with thermal inductors allows for the super heating of all types of implanted bladed weaponry.  While this bionic is active, any deployed bionic blades will deal additional fire damage to targets.",
+    "occupied_bodyparts": [ [ "arm_r", 7 ] ],
+    "encumbrance": [ [ "arm_r", 2 ] ],
+    "act_cost": "1500 J",
+    "react_cost": "250 J",
+    "activated_eocs": [ "eoc_bio_superheater_on" ],
+    "deactivated_eocs": [ "eoc_bio_superheater_off" ],
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
+    "enchantments": [
+      {
+        "name": { "str": "Super Heated Bionic Weapon" },
+        "description": "The superheated bionic weapon cuts and burns with ease.",
+        "condition": {
+          "and": [
+            { "u_has_var": "on", "type": "bio", "context": "superheater", "value": "yes" },
+            { "u_has_wielded_with_flag": "BIONIC_WEAPON_MELEE" }
+          ]
+        },
+        "values": [ { "value": "ITEM_DAMAGE_HEAT", "add": 35 } ]
+      }
+    ]
+  },
+  {
+    "id": "afs_bio_blade_electric",
+    "type": "bionic",
+    "name": { "str": "Bioweapon Superconductive Channels" },
+    "description": "Paired capacitor banks maintain implanted bladed weaponry under constant electrical charge.  While this bionic is active, any deployed bionic blades will deal additional electric damage with a chance of the damage arcing to other nearby targets.",
+    "occupied_bodyparts": [ [ "arm_r", 7 ] ],
+    "encumbrance": [ [ "arm_r", 2 ] ],
+    "act_cost": "1500 J",
+    "react_cost": "1000 J",
+    "activated_eocs": [ "eoc_bio_blade_electric_on" ],
+    "deactivated_eocs": [ "eoc_bio_blade_electric_off" ],
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
+    "enchantments": [
+      {
+        "name": { "str": "Charged Bionic Weapon" },
+        "description": "Your bionic weapon sparks under constant electrical charge.",
+        "condition": {
+          "and": [
+            { "u_has_var": "on", "type": "bio", "context": "blade_electric", "value": "yes" },
+            { "u_has_wielded_with_flag": "BIONIC_WEAPON_MELEE" }
+          ]
+        },
+        "hit_you_effect": [ { "id": "bio_blade_electric_arc" } ],
+        "values": [ { "value": "ITEM_DAMAGE_ELEC", "add": 10 } ]
+      }
+    ]
+  },
+  {
     "type": "bionic",
     "id": "afs_bio_skullgun",
     "name": { "str": "Skullgun" },

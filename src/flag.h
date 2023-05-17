@@ -182,14 +182,8 @@ extern const flag_id flag_MAG_BELT;
 extern const flag_id flag_MAG_BULKY;
 extern const flag_id flag_MAG_DESTROY;
 extern const flag_id flag_MAG_EJECT;
-extern const flag_id flag_MC_ENCRYPTED;
 extern const flag_id flag_MC_HAS_DATA;
-extern const flag_id flag_MC_MAY_BE_ENCRYPTED;
 extern const flag_id flag_MC_MOBILE;
-extern const flag_id flag_MC_RANDOM_STUFF;
-extern const flag_id flag_MC_SCIENCE_STUFF;
-extern const flag_id flag_MC_TURN_USED;
-extern const flag_id flag_MC_USED;
 extern const flag_id flag_MECH_BAT;
 extern const flag_id flag_MELTS;
 extern const flag_id flag_MESSY;
@@ -213,7 +207,6 @@ extern const flag_id flag_NO_DROP;
 extern const flag_id flag_NO_INGEST;
 extern const flag_id flag_NO_PACKED;
 extern const flag_id flag_NO_PARASITES;
-extern const flag_id flag_NO_QUICKDRAW;
 extern const flag_id flag_NO_RELOAD;
 extern const flag_id flag_NO_REPAIR;
 extern const flag_id flag_NO_SALVAGE;
@@ -234,6 +227,7 @@ extern const flag_id flag_ORGANIC;
 extern const flag_id flag_OUTER;
 extern const flag_id flag_OVERSIZE;
 extern const flag_id flag_PADDED;
+extern const flag_id flag_PAIN_IMMUNE;
 extern const flag_id flag_PALS_SMALL;
 extern const flag_id flag_PALS_MEDIUM;
 extern const flag_id flag_PALS_LARGE;
@@ -453,7 +447,7 @@ class json_flag
         int taste_mod_ = 0;
 
         /** Load flag definition from JSON */
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
 
         /** Load all flags from JSON */
         static void load_all( const JsonObject &jo, const std::string &src );

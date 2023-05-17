@@ -67,6 +67,12 @@ using scenttype_id = string_id<scent_type>;
 class ascii_art;
 using ascii_art_id = string_id<ascii_art>;
 
+struct damage_type;
+using damage_type_id = string_id<damage_type>;
+
+struct damage_info_order;
+using damage_info_order_id = string_id<damage_info_order>;
+
 class disease_type;
 using diseasetype_id = string_id<disease_type>;
 
@@ -291,6 +297,9 @@ class json_flag;
 using flag_id = string_id<json_flag>;
 
 using json_character_flag = string_id<json_flag>;
+
+struct jmath_func;
+using jmath_func_id = string_id<jmath_func>;
 
 class widget;
 using widget_id = string_id<widget>;
