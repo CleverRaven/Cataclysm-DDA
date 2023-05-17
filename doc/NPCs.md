@@ -820,6 +820,7 @@ Effect | Description
 `u_lose_var`, `npc_lose_var`: `var_name`, `type: type_str`, `context: context_str` | Your character or the NPC will clear any stored variable that has the same `var_name`, `type_str`, and `context_str`.
 `u_adjust_var, npc_adjust_var`: `var_name, type: type_str`, `context: context_str`, `adjustment: `int or [variable object](#variable-object) | Your character or the NPC will adjust the stored variable by `adjustment`.
 `set_string_var`: string or [variable object](#variable-object) or array of either, `target_var: ` [variable object](#variable-object) | Store string from `set_string_var` in the variable object `target_var`. If an array is provided a random element will be used.
+`set_condition`: string or [variable object](#variable-object), `condition`: a dialogue condition object. | Store the dialogue condition object `condition` as the provided name. Set conditions have the same scope as context variables and can be gotten in nested EOCs.
 `u_location_variable, npc_location_variable`: `target_var`, (*optional* `min_radius: `int or [variable object](#variable-object)) , (*optional* `max_radius: ` int or [variable object](#variable-object)), (*optional* `outdoor_only: outdoor_only_bool`), (*optional* `target_params: assign_mission_target` parameters), (*optional* `z_adjust: ` int or [variable object](#variable-object)), (*optional* `x_adjust: `string or [variable object](#variable-object)), (*optional* `y_adjust: `int or [variable object](#variable-object)), (*optional* `z_override: bool`), (*optional* `terrain, furniture, trap, monster, zone, or npc: `string or [variable object](#variable-object)), (*optional* `target_min_radius: `int or [variable object](#variable-object)), (*optional* `target_max_radius: `int or [variable object](#variable-object)) | If `target_params` is defined it will be used to find a tile any of the following commands will search from that tile rather than the player or npc location. See [the missions docs](MISSIONS_JSON.md) for `assign_mission_target` parameters.  If `terrain`, `furniture`, `trap`, `monster`, or `npc` are defined then an entity with the corresponding id will be found between `target_min_radius`(defaults to 0) and `target_max_radius`(defaults to 0) before the following alterations are made to it.  If an empty string is passed for `furniture`, `trap`, `monster`, `zone`, or `npc` than any will be found.  Otherwise targets a point between `min_radius_int`( or `min_radius_variable_object`)(defaults to 0) and `max_radius_int`( or `max_radius_variable_object`)(defaults to 0) spaces of the target and if `outdoor_only_bool` is true(defaults to false) will only choose outdoor spaces. The chosen point will be saved to `target_var` which is a `variable_object`.  `z_adjust` will be used as the Z value if `z_override`(defaults false) is true or added to the current z value otherwise. x_adjust and y_adjust are added to the final position.
 `location_variable_adjust`: `target_var`, (*optional* `z_adjust: ` int or [variable object](#variable-object)), (*optional* `x_adjust: `string or [variable object](#variable-object)), (*optional* `y_adjust: `int or [variable object](#variable-object)), (*optional* `z_override: bool`), (*optional* `output_var: `[variable object](#variable-object)), (*optional* `overmap_tile: bool`) | Adjusts `target_var` which is a `variable_object` most likely made using `u_location_variable`.  `z_adjust` will be used as the Z value if `z_override`(defaults false) is true or added to the current z value otherwise.  x_adjust and y_adjust are added to the final position.  If `output_var` is provided the adjusted value will be save to it instead of `target_var`.  If `overmap_tile`(defaults false) is true, the adjustments will be made in overmap tiles rather than map tiles.
 `barber_hair` | Opens a menu allowing the player to choose a new hair style.
@@ -838,6 +839,7 @@ Effect | Description
 `u_assign_activity, npc_assign_activity: `string or [variable object](#variable-object), `duration: `duration or [variable object](#variable-object) | Your character or the NPC will start activity `u_assign_activity`. It will last for `duration` time.
 `u_teleport, npc_teleport: `[variable object](#variable-object), (*optional* `success_message: `string or [variable object](#variable-object)), (*optional* `fail_message: `string or [variable object](#variable-object)), (*optional* `force: force_bool`) | u or npc are teleported to the destination stored in the variable named by `target_var`.  If the teleport succeeds and `success_message` is defined it will be displayed, if it fails and `fail_message` is defined it will be displayed.  If `force` is true any creatures at the destination will be killed and if blocked a nearby spot will be chosen to teleport to instead.
 `u_set_hp, npc_set_hp : `int or [variable object](#variable-object), (*optional* `target_part: `string or [variable object](#variable-object)), (*optional* `only_increase: bool`), (*optional* `main_only: bool`), (*optional* `minor_only: bool`), (*optional* `max: bool`) | Your character or the NPC will have the hp of `target_part`(or all parts if it was not used) set to `amount`.  If `only_increase` is true (defaults to false) this will only happen if it increases the parts hp.  If `major_only` is true (defaults to false) only major body parts will be affected, if `minor_only` (defaults to false) instead only minor parts will be affected.  If `max` (defaults to false) is true `amount` will be ignored and the part will be set to its max hp.
+`u_die, npc_die` | Your character or the NPC will die.
 
 #### Trade / Items
 
@@ -1080,6 +1082,8 @@ Condition | Type | Description
 Condition | Type | Description
 --- | --- | ---
 `"mod_is_loaded"` | string or [variable object](#variable-object) | `true` if the mod with the given ID is loaded.
+`"get_condition"` | string or [variable object](#variable-object) | Runs the condition stored in the variable `get_condition` for the current dialogue.
+`"get_game_option"` | string or [variable object](#variable-object) | gets the true or false game option for the provided string.
 
 ---
 
@@ -1238,6 +1242,19 @@ Example:
 ]
 ```
 
+### Mutators
+`mutators`: take in an ammount of data and provide you with a relevant string. This can be used to get information about items, monsters, etc. from the id, or other data. Mutators can be used anywhere that a string [variable object](#variable-object) can be used. Mutators take the form:
+```json
+{ "mutator": "MUTATOR_NAME", "REQUIRED_KEY1": "REQUIRED_VALUE1", ..., "REQUIRED_KEYn": "REQUIRED_VALUEn" }
+```
+
+#### List Of Mutators
+Mutator Name | Required Keys | Description
+--- | --- | ---
+`"mon_faction"` | `mtype_id`: String or [variable object](#variable-object). | Returns the faction of the monster with mtype_id.
+`"game_option"` | `option`: String or [variable object](#variable-object). | Returns the value of the option as a string, for numerical options you should instead use the math function.
+
+
 ### Compare Numbers and Arithmetics
 *`arithmetic` and `compare_num` are deprecated in the long term. See [Math](#math) for the replacement.*
 
@@ -1269,10 +1286,6 @@ Example | Description
 `"faction_trust": "free_merchants"` | The trust the faction has for the player (see [FACTIONS.md](FACTIONS.md)) for details.
 `"faction_like": "free_merchants"` | How much the faction likes the player (see [FACTIONS.md](FACTIONS.md)) for details.
 `"faction_respect": "free_merchants"` | How much the faction respects the player(see [FACTIONS.md](FACTIONS.md)) for details.
-`"weather": "temperature"` | Current temperature.
-`"weather": "windpower"` | Current windpower.
-`"weather": "humidity"` | Current humidity.
-`"weather": "pressure"` | Current pressure.
 `"u_val": "strength"` | Player character's strength. Can be read but not written to. Replace `"strength"` with `"dexterity"`, `"intelligence"`, or `"perception"` to get such values.
 `"u_val": "strength_base"` | Player character's strength. Replace `"strength_base"` with `"dexterity_base"`, `"intelligence_base"`, or `"perception_base"` to get such values.
 `"u_val": "strength_bonus"` | Player character's current strength bonus. Replace `"strength_bonus"` with `"dexterity_bonus"`, `"intelligence_bonus"`, or `"perception_bonus"` to get such values.
@@ -1418,9 +1431,10 @@ This section is a work in progress as functions are ported from `arithmetic` to 
 
 | Function | Eval | Assign |Scopes | Description |
 |----------|------|--------|-------|-------------|
+| game_option   |  ✅  |   ❌   | N/A<br/>(global)  | Return the numerical value of a game option<br/> Example:<br/>`"condition": { "math": [ "game_option('NPC_SPAWNTIME')", ">=", "5"] }`|
 | pain     |  ✅  |   ✅   | u, n  | Return or set pain<br/> Example:<br/>`{ "math": [ "n_pain()", "=", "u_pain() + 9000" ] }`|
 | skill    |  ✅  |   ✅   | u, n  | Return or set skill level<br/> Example:<br/>`"condition": { "math": [ "u_skill('driving')", ">=", "5"] }`|
-
+| weather  |  ✅  |   ✅   | N/A<br/>(global)  | Return or set a weather aspect<br/><br/>Aspect must be one of:<br/>`temperature` (in Kelvin),<br/>`humidity` (as percentage),<br/>`pressure` (in millibar),<br/>`windpower` (in mph).<br/><br/>Temperature conversion functions are available: `celsius()`, `fahrenheit()`, `from_celsius()`, and `from_fahrenheit()`.<br/><br/>Examples:<br/>`{ "math": [ "weather('temperature')", "<", "from_fahrenheit( 33 )" ] }`<br/>`{ "math": [ "fahrenheit( weather('temperature') )", "==", "21" ] }`|
 
 ##### u_val shim
 There is a `val()` shim available that can cover the missing arithmetic functions from `u_val` and `npc_val`:
@@ -1450,7 +1464,6 @@ Most of the values from [arithmetic](#list-of-values-that-can-be-read-andor-writ
 More examples:
 ```JSON
     { "math": [ "u_val('age')" ] },
-    { "math": [ "u_val('weather: temperature')" ] },
     { "math": [ "u_val('time: 1 d')" ] },
     { "math": [ "u_val('proficiency', 'proficiency_id: prof_test', 'format: percent')" ] }
 ```

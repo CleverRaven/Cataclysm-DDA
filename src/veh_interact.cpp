@@ -2371,20 +2371,20 @@ void veh_interact::move_cursor( const point &d, int dstart_at )
             if( has_critter && vp.has_flag( VPFLAG_OBSTACLE ) ) {
                 continue;
             }
-            if( veh->can_mount( vd, vp.get_id() ).success() ) {
-                if( vp.has_flag( VPFLAG_APPLIANCE ) ) {
-                    // exclude "appliances" from vehicle part list
-                    continue;
-                }
-                if( vp.get_id() != vpart_shapes[ vp.name() + vp.base_item.str() ][ 0 ]->get_id() ) {
-                    // only add first shape to install list
-                    continue;
-                }
-                if( can_potentially_install( vp ) ) {
-                    can_mount.push_back( &vp );
-                } else {
-                    req_missing.push_back( &vp );
-                }
+            if( vp.has_flag( "NOINSTALL" ) ) {
+                // exclude parts that should never be installed through install menu
+                continue;
+            }
+            if( vp.has_flag( VPFLAG_APPLIANCE ) ) {
+                // exclude "appliances" from vehicle part list
+                continue;
+            }
+            if( vp.get_id() != vpart_shapes[ vp.name() + vp.base_item.str() ][ 0 ]->get_id() ) {
+                // only add first shape to install list
+                continue;
+            }
+            if( can_potentially_install( vp ) ) {
+                can_mount.push_back( &vp );
             } else {
                 req_missing.push_back( &vp );
             }

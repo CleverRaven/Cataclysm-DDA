@@ -15,6 +15,29 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_stored_condition_test",
+    "effect": [
+      { "set_condition": "to_test", "condition": { "math": [ "_context", ">", "0" ] } },
+      { "run_eocs": "EOC_stored_condition_test_nested" },
+      { "run_eoc_with": "EOC_stored_condition_test_nested_var", "variables": { "condition_name": "to_test" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_stored_condition_test_nested",
+    "condition": { "get_condition": "to_test" },
+    "effect": [ { "math": [ "context", "=", "_context" ] }, { "math": [ "key1", "=", "1" ] } ],
+    "false_effect": [ { "math": [ "context", "=", "_context" ] }, { "math": [ "key1", "=", "0" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_stored_condition_test_nested_var",
+    "condition": { "get_condition": { "context_val": "condition_name" } },
+    "effect": [ { "math": [ "key2", "=", "1" ] } ],
+    "false_effect": [ { "math": [ "key2", "=", "0" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_run_with_test",
     "effect": [
       { "math": [ "u_ukey", "=", "3" ] },
@@ -60,8 +83,41 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_run_with_test_nested2",
-    "condition": { "expects_vars": [ "npctalk_var_key1", "npctalk_var_key2", "npctalk_var_key3" ] },
+    "condition": { "expects_vars": [ "key1", "key2", "key3" ] },
     "effect": [ { "math": [ "key1", "=", "_key1" ] }, { "math": [ "key2", "=", "_key2" ] }, { "math": [ "key3", "=", "_key3" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_options_tests",
+    "effect": [
+      {
+        "set_string_var": { "mutator": "game_option", "option": "DANGEROUS_TERRAIN_WARNING_PROMPT" },
+        "target_var": { "global_val": "key1" }
+      },
+      { "math": [ "key2", "=", "game_option('NPC_SPAWNTIME')" ] },
+      { "run_eocs": "EOC_options_test_nested" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_options_test_nested",
+    "condition": { "get_game_option": "AUTOSAVE" },
+    "effect": [ { "math": [ "key3", "=", "1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_mutator_test",
+    "effect": [
+      { "set_string_var": "mon_zombie", "target_var": { "context_val": "temp" } },
+      {
+        "set_string_var": { "mutator": "mon_faction", "mtype_id": "mon_zombie" },
+        "target_var": { "global_val": "key1" }
+      },
+      {
+        "set_string_var": { "mutator": "mon_faction", "mtype_id": { "context_val": "temp" } },
+        "target_var": { "global_val": "key2" }
+      }
+    ]
   },
   {
     "type": "effect_on_condition",

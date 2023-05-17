@@ -635,12 +635,15 @@ void game::toggle_pixel_minimap() const
 
 void game::toggle_language_to_en()
 {
+    // No-op if we aren't complied with localization
+#if defined(LOCALIZE)
     const std::string english = "en" ;
     static std::string secondary_lang = english;
     std::string current_lang = TranslationManager::GetInstance().GetCurrentLanguage();
     secondary_lang = current_lang != english ? current_lang : secondary_lang;
     std::string new_lang = current_lang != english ? english : secondary_lang;
     set_language( new_lang );
+#endif
 }
 
 bool game::is_tileset_isometric() const
@@ -10402,6 +10405,35 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
 
     if( moving ) {
         cata_event_dispatch::avatar_moves( old_abs_pos, u, m );
+
+        // Add trail animation when sprinting
+        if( get_option<bool>( "ANIMATIONS" ) && u.is_running() ) {
+            std::map<tripoint, nc_color> area_color;
+            area_color[oldpos] = c_black;
+            if( u.posy() < oldpos.y ) {
+                if( u.posx() < oldpos.x ) {
+                    explosion_handler::draw_custom_explosion( oldpos, area_color, "run_nw" );
+                } else if( u.posx() == oldpos.x ) {
+                    explosion_handler::draw_custom_explosion( oldpos, area_color, "run_n" );
+                } else {
+                    explosion_handler::draw_custom_explosion( oldpos, area_color, "run_ne" );
+                }
+            } else if( u.posy() == oldpos.y ) {
+                if( u.posx() < oldpos.x ) {
+                    explosion_handler::draw_custom_explosion( oldpos, area_color, "run_w" );
+                } else {
+                    explosion_handler::draw_custom_explosion( oldpos, area_color, "run_e" );
+                }
+            } else {
+                if( u.posx() < oldpos.x ) {
+                    explosion_handler::draw_custom_explosion( oldpos, area_color, "run_sw" );
+                } else if( u.posx() == oldpos.x ) {
+                    explosion_handler::draw_custom_explosion( oldpos, area_color, "run_s" );
+                } else {
+                    explosion_handler::draw_custom_explosion( oldpos, area_color, "run_se" );
+                }
+            }
+        }
     }
 
     if( furniture_move ) {
