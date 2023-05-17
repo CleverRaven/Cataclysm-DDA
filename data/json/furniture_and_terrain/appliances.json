@@ -303,7 +303,7 @@
     "symbol": "7",
     "color": "yellow_cyan",
     "categories": [ "utility" ],
-    "description": "A circular sawblade on an arm that can slide and rotate in several directions, this is a staple tool for nearly any carpentry.  Plugged in and ready to go.",
+    "description": "A power saw with long, toothed blade stretched between wheels.  Plugged in and ready to go.",
     "broken_color": "yellow_cyan",
     "broken_symbol": "x",
     "damage_modifier": 10,
@@ -324,7 +324,7 @@
   {
     "type": "vehicle_part",
     "id": "ap_router",
-    "name": { "str": "router" },
+    "name": { "str": "router table" },
     "looks_like": "f_machinery_light",
     "symbol": "7",
     "color": "yellow_green",

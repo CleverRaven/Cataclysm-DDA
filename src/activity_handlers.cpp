@@ -2608,8 +2608,15 @@ void activity_handlers::toolmod_add_finish( player_activity *act, Character *you
 }
 
 // This activity opens the menu (it's not meant to queue consumption of items)
-void activity_handlers::eat_menu_do_turn( player_activity *, Character * )
+void activity_handlers::eat_menu_do_turn( player_activity *, Character *you )
 {
+    if( !you->is_avatar() ) {
+        debugmsg( "Character %s somehow opened the eat menu!  Cancelling their activity to prevent infinite loop",
+                  you->name );
+        you->cancel_activity();
+        return;
+    }
+
     avatar &player_character = get_avatar();
     avatar_action::eat_or_use( player_character, game_menus::inv::consume( player_character ) );
 }

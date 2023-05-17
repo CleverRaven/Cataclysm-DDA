@@ -192,7 +192,11 @@
         "chance": 45
       },
       "Q": {
-        "item": { "subtype": "collection", "//": "bulk casing on racks in the FoH", "entries": [ { "group": "ammo_casings_bulk" } ] },
+        "item": {
+          "subtype": "collection",
+          "//": "bulk casing on racks in the FoH",
+          "entries": [ { "group": "ammo_casings_gunsmith_bulk" } ]
+        },
         "repeat": 15,
         "chance": 35
       },

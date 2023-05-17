@@ -37,6 +37,18 @@
   },
   {
     "type": "mutation",
+    "id": "HUMAN_BLOOD",
+    "name": { "str": "Human Blood" },
+    "points": 0,
+    "player_display": false,
+    "dummy": true,
+    "category": [ "HUMAN" ],
+    "types": [ "BLOOD" ],
+    "cancels": [ "ACIDBLOOD" ],
+    "description": "You have human blood."
+  },
+  {
+    "type": "mutation",
     "id": "HUMAN_EARS",
     "name": { "str": "Human Ears" },
     "points": 0,
@@ -101,6 +113,7 @@
       "LEAPING_LEGS",
       "LEAPING_LEGS2",
       "LEG_TENT_BRACE",
+      "SCUTTLE",
       "LIGHTSTEP",
       "STRONGKNEES"
     ],
@@ -983,7 +996,6 @@
     "name": { "str": "High Adrenaline" },
     "points": 1,
     "description": "If you are in a very dangerous situation, you may experience a temporary rush which increases your speed and strength significantly.",
-    "starting_trait": true,
     "changes_to": [ "ADRENALINE2" ],
     "category": [ "BEAST", "CHIMERA" ],
     "threshreq": [ "THRESH_BEAST", "THRESH_CHIMERA" ]
@@ -3282,30 +3294,29 @@
     "points": 2,
     "visibility": 3,
     "ugliness": 2,
-    "cut_dmg_bonus": 3,
-    "pierce_dmg_bonus": 3,
-    "butchering_quality": 4,
+    "integrated_armor": [ "integrated_claws" ],
+    "flags": [ "UNARMED_BONUS" ],
     "description": "You have claws on the ends of your fingers.  If you aren't wearing gloves, your unarmed attacks deal a minor amount of cutting damage.",
     "types": [ "CLAWS" ],
     "prereqs": [ "NAILS" ],
     "changes_to": [ "CLAWS_RETRACT", "CLAWS_RAT" ],
-    "category": [ "BEAST", "RAT", "URSINE", "FELINE", "LUPINE" ]
+    "category": [ "BEAST", "RAT", "URSINE", "FELINE" ],
+    "//": "No Lupine, wolf claws aren't long or sharp enough."
   },
   {
     "type": "mutation",
     "id": "CLAWS_RAT",
-    "name": { "str": "Rat Claws" },
+    "name": { "str": "Gnarled Claws" },
     "points": 3,
     "visibility": 3,
     "ugliness": 4,
-    "cut_dmg_bonus": 1,
-    "butchering_quality": 4,
+    "integrated_armor": [ "integrated_claws_rat" ],
     "flags": [ "UNARMED_BONUS" ],
     "description": "Your claws have grown tougher and slightly gnarled.",
     "types": [ "CLAWS" ],
     "prereqs": [ "CLAWS" ],
     "changes_to": [ "CLAWS_ST" ],
-    "category": [ "RAT" ]
+    "category": [ "RAT", "URSINE" ]
   },
   {
     "type": "mutation",
@@ -3315,16 +3326,13 @@
     "visibility": 3,
     "ugliness": 5,
     "purifiable": false,
-    "cut_dmg_bonus": 1,
-    "pierce_dmg_bonus": 3,
-    "butchering_quality": 8,
-    "flags": [ "UNARMED_BONUS" ],
+    "integrated_armor": [ "integrated_claws_st" ],
     "description": "Your paws are bone, muscle, and claw with a thin layer of skin and fur.  They might as well be made of stainless steel.",
     "types": [ "CLAWS" ],
     "prereqs": [ "CLAWS_RAT" ],
     "prereqs2": [ "PAWS" ],
-    "threshreq": [ "THRESH_RAT" ],
-    "category": [ "RAT" ]
+    "threshreq": [ "THRESH_RAT", "THRESH_URSINE" ],
+    "category": [ "RAT", "URSINE" ]
   },
   {
     "type": "mutation",
@@ -3347,9 +3355,7 @@
     "active": true,
     "valid": false,
     "ugliness": 1,
-    "cut_dmg_bonus": 3,
-    "pierce_dmg_bonus": 3,
-    "butchering_quality": 4,
+    "integrated_armor": [ "integrated_claws" ],
     "description": "Sharp claws are extending from the end of your fingers.",
     "transform": { "target": "CLAWS_RETRACT", "msg_transform": "You retract your claws.", "active": false, "moves": 10 },
     "cost": 0
@@ -3362,6 +3368,7 @@
     "visibility": 4,
     "ugliness": 4,
     "mixed_effect": true,
+    "//": "Didn't integrate-ize tentacle rakes because they are hardcoded, waiting for limb rework.",
     "description": "Your upper tentacles have grown large, hook-barbed rakes on the ends.  They're quite vicious, but really aren't suited for fine manipulation.",
     "encumbrance_always": [ [ "hand_l", 20 ], [ "hand_r", 20 ] ],
     "prereqs": [ "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8" ],
@@ -4863,6 +4870,24 @@
   },
   {
     "type": "mutation",
+    "id": "CRAB_LEGS",
+    "name": { "str": "Crab Legs" },
+    "points": 1,
+    "mixed_effect": true,
+    "description": "You have four prong-tipped legs, splayed out and articulated like a crab's.  They're a little quieter than human feet.",
+    "category": [ "CRUSTACEAN" ],
+    "types": [ "LEGS", "FEET", "SOLES" ],
+    "prereqs": [ "CHITIN2", "CRUSTACEAN_CARAPACE" ],
+    "leads_to": [ "SCUTTLE" ],
+    "visibility": 8,
+    "ugliness": 9,
+    "restricts_gear": [ "leg_l", "leg_r", "foot_l", "foot_r" ],
+    "noise_modifier": 0.9,
+    "destroys_gear": true,
+    "flags": [ "TOUGH_FEET" ]
+  },
+  {
+    "type": "mutation",
     "id": "GASTROPOD_FOOT",
     "name": { "str": "Gastropod Foot" },
     "points": 1,
@@ -4887,10 +4912,11 @@
     "id": "GASTROPOD_BALANCE",
     "name": { "str": "Gastropod Balance" },
     "points": 1,
-    "description": "By pushing your whole 'foot' against the ground you are able to move across rough terrain without losing your 'footing'.",
+    "description": "By pushing your whole 'foot' against the ground you are able to move across rough terrain without losing your 'footing'.  You're also able to cling to the ground underwater, allowing you to move along the bottom more easily.",
     "prereqs": [ "GASTROPOD_FOOT" ],
     "threshreq": [ "THRESH_GASTROPOD" ],
-    "category": [ "GASTROPOD" ]
+    "category": [ "GASTROPOD" ],
+    "flags": [ "WALK_UNDERWATER" ]
   },
   {
     "type": "mutation",
@@ -6479,7 +6505,7 @@
     "restricts_gear": [ "hand_l", "hand_r" ],
     "craft_skill_bonus": [ [ "electronics", -2 ], [ "tailor", -2 ], [ "mechanics", -2 ] ],
     "types": [ "HANDS" ],
-    "prereqs": [ "CLAWS", "CLAWS_RETRACT", "CLAWS_RAT" ],
+    "prereqs": [ "NAILS", "CLAWS", "CLAWS_RETRACT", "CLAWS_RAT" ],
     "cancels": [ "TALONS" ],
     "changes_to": [ "PAWS_LARGE" ],
     "category": [ "LUPINE", "RAT", "FELINE", "BEAST", "URSINE" ],
@@ -7448,10 +7474,26 @@
     "visibility": 4,
     "ugliness": 2,
     "mixed_effect": true,
-    "description": "Your lower tentacles have developed suckers.  They make land movement marginally more tiring, but do a good job of keeping you set in place.",
+    "description": "Your lower tentacles have developed suckers, perfect for walking along lake beds and ocean floors.  They make land movement marginally more tiring, do a good job of keeping you set in place.",
     "prereqs": [ "LEG_TENTACLES" ],
     "threshreq": [ "THRESH_CEPHALOPOD" ],
-    "category": [ "CEPHALOPOD" ]
+    "category": [ "CEPHALOPOD" ],
+    "flags": [ "WALK_UNDERWATER" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SCUTTLE",
+    "name": { "str": "Scuttle" },
+    "points": 0,
+    "visibility": 4,
+    "ugliness": 2,
+    "mixed_effect": true,
+    "description": "Your hook-shaped feet curl inward to grip the ground, allowing you to easily walk along the bottom when you're underwater.  They're also a bit quicker at climbing over obstacles, even on dry land.",
+    "prereqs": [ "CRAB_LEGS" ],
+    "threshreq": [ "THRESH_CRUSTACEAN" ],
+    "movecost_obstacle_modifier": 0.87,
+    "category": [ "CRUSTACEAN" ],
+    "flags": [ "WALK_UNDERWATER" ]
   },
   {
     "type": "mutation",
@@ -7469,6 +7511,7 @@
     "name": { "str": "Gastropod" },
     "points": 1,
     "description": "You feel bad for all the creatures that don't carry their home on their backs.",
+    "flags": [ "INVERTEBRATEBLOOD" ],
     "valid": false,
     "purifiable": false,
     "threshold": true
@@ -7550,6 +7593,7 @@
     "name": { "str": "Insect" },
     "points": 1,
     "description": "It would be good to be a queen, having workers constantly servicing your every need… but how would you keep them in line?",
+    "flags": [ "INSECTBLOOD" ],
     "valid": false,
     "purifiable": false,
     "threshold": true
@@ -7560,6 +7604,7 @@
     "name": { "str": "Plant" },
     "points": 1,
     "description": "Well, you still have those other walking flowers--and the mushrooms, too--to deal with.  But you'll manage.",
+    "flags": [ "PLANTBLOOD" ],
     "valid": false,
     "purifiable": false,
     "threshold": true
@@ -7590,6 +7635,7 @@
     "name": { "str": "Cephalopod" },
     "points": 1,
     "description": "Strange aeons, true, but Death seems to be slacking, and you are doing just fine.",
+    "flags": [ "INVERTEBRATEBLOOD" ],
     "valid": false,
     "purifiable": false,
     "threshold": true
@@ -7600,6 +7646,7 @@
     "name": { "str": "Arachnid" },
     "points": 1,
     "description": "Well, maybe you'll just have to make your own worldwide web.",
+    "flags": [ "INSECTBLOOD" ],
     "valid": false,
     "purifiable": false,
     "threshold": true
@@ -7714,6 +7761,7 @@
     "name": { "str": "Crustacean" },
     "points": 1,
     "description": "Who needs skin when you can have a hard carapace?",
+    "flags": [ "INVERTEBRATEBLOOD" ],
     "valid": false,
     "purifiable": false,
     "threshold": true
@@ -7735,6 +7783,8 @@
     "points": 4,
     "description": "Your body has developed a wonderful defense mechanism.  Instead of normal blood, you bleed a strong molecular acid which will damage any creature foolish enough to harm you.",
     "prereqs": [ "ACIDPROOF" ],
+    "types": [ "BLOOD" ],
+    "flags": [ "ACIDBLOOD" ],
     "threshreq": [ "THRESH_INSECT", "THRESH_CHIMERA", "THRESH_MEDICAL", "THRESH_SLIME" ],
     "category": [ "INSECT", "CHIMERA", "MEDICAL", "SLIME" ]
   },

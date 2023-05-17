@@ -4191,5 +4191,15 @@
     "desc": [ "You are covered in glowing nether spores!" ],
     "apply_message": "The glowing spores settle on you!",
     "rating": "bad"
+  },
+  {
+    "id": "lightsnare",
+    "type": "effect_type",
+    "name": [ "Snared" ],
+    "desc": [ "For such a tiny creature, you're in a very big pickle." ],
+    "rating": "bad",
+    "show_intensity": false,
+    "//": "Don't multiply speed by 0 or else the effect will never be removed for creatures with 0 damage(e.g. rabbits)",
+    "enchantments": [ { "values": [ { "value": "SPEED", "multiply": 0.01 } ] } ]
   }
 ]
