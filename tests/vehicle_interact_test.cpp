@@ -22,7 +22,7 @@
 
 static const skill_id skill_mechanics( "mechanics" );
 
-static const vproto_id vehicle_prototype_car( "car_abstract" );
+static const vproto_id vehicle_prototype_car_abstract( "car_abstract" );
 
 static void test_repair( const std::vector<item> &tools, bool expect_craftable )
 {
@@ -40,7 +40,7 @@ static void test_repair( const std::vector<item> &tools, bool expect_craftable )
     player_character.set_skill_level( skill_mechanics, 10 );;
 
     const tripoint vehicle_origin = test_origin + tripoint_south_east;
-    vehicle *veh_ptr = get_map().add_vehicle( vehicle_prototype_car, vehicle_origin, -90_degrees,
+    vehicle *veh_ptr = get_map().add_vehicle( vehicle_prototype_car_abstract, vehicle_origin, -90_degrees,
                        0, 0 );
     REQUIRE( veh_ptr != nullptr );
     // Find the frame at the origin.
@@ -77,8 +77,8 @@ TEST_CASE( "repair_vehicle_part", "[vehicle]" )
         tools.push_back( tool_with_ammo( "welder", 1000 ) );
         tools.emplace_back( "goggles_welding" );
         tools.emplace_back( "hammer" );
-        tools.insert( tools.end(), 2, item( "steel_chunk" ) ); // 2 x 4 default charges
-        tools.insert( tools.end(), 1 item( "welding_wire_steel" ) );  // 1 x 180 default charges
+        tools.insert( tools.end(), 2, item( "steel_chunk" ) );
+        tools.insert( tools.end(), 1 item( "welding_wire_steel" ) );
         test_repair( tools, true );
     }
     SECTION( "UPS_modded_welder" ) {
@@ -95,16 +95,16 @@ TEST_CASE( "repair_vehicle_part", "[vehicle]" )
 
         tools.emplace_back( "goggles_welding" );
         tools.emplace_back( "hammer" );
-        tools.insert( tools.end(), 5, item( "steel_chunk" ) ); // 2 x 4 default charges
-        tools.insert( tools.end(), 50 item( "welding_wire_steel" ) );  // 1 x 180 default charges
+        tools.insert( tools.end(), 2, item( "steel_chunk" ) );
+        tools.insert( tools.end(), 1 item( "welding_wire_steel" ) );
         test_repair( tools, true );
     }
     SECTION( "welder_missing_goggles" ) {
         std::vector<item> tools;
         tools.push_back( tool_with_ammo( "welder", 1000 ) );
         tools.emplace_back( "hammer" );
-        tools.insert( tools.end(), 2, item( "steel_chunk" ) ); // 2 x 4 default charges
-        tools.insert( tools.end(), 1 item( "welding_wire_steel" ) );  // 1 x 180 default charges
+        tools.insert( tools.end(), 2, item( "steel_chunk" ) );
+        tools.insert( tools.end(), 1 item( "welding_wire_steel" ) );
         test_repair( tools, false );
     }
     SECTION( "welder_missing_charge" ) {
@@ -112,8 +112,8 @@ TEST_CASE( "repair_vehicle_part", "[vehicle]" )
         tools.push_back( tool_with_ammo( "welder", 500 ) );
         tools.emplace_back( "goggles_welding" );
         tools.emplace_back( "hammer" );
-        tools.insert( tools.end(), 2, item( "steel_chunk" ) ); // 2 x 4 default charges
-        tools.insert( tools.end(), 1 item( "welding_wire_steel" ) );  // 1 x 180 default charges
+        tools.insert( tools.end(), 2, item( "steel_chunk" ) );
+        tools.insert( tools.end(), 1 item( "welding_wire_steel" ) );
         test_repair( tools, false );
     }
     SECTION( "UPS_modded_welder_missing_charges" ) {
@@ -129,8 +129,8 @@ TEST_CASE( "repair_vehicle_part", "[vehicle]" )
         tools.push_back( ups );
 
         tools.emplace_back( "goggles_welding" );
-        tools.insert( tools.end(), 2, item( "steel_chunk" ) ); // 2 x 4 default charges
-        tools.insert( tools.end(), 1 item( "welding_wire_steel" ) );  // 1 x 180 default charges
+        tools.insert( tools.end(), 2, item( "steel_chunk" ) );
+        tools.insert( tools.end(), 1 item( "welding_wire_steel" ) );
         test_repair( tools, false );
     }
     SECTION( "welder_missing_consumables" ) {
