@@ -5355,7 +5355,7 @@
     "skills": [ { "level": 2, "name": "dodge" }, { "level": 3, "name": "speech" }, { "level": 3, "name": "swimming" } ],
     "items": {
       "both": {
-        "items": [ "pom_poms", "cheerleader_top", "socks_ankle", "sneakers" ],
+        "items": [ "pom_poms", "socks_ankle", "sneakers" ],
         "entries": [ { "item": "tank_top", "variant": "tank_top_cheerleader" } ]
       },
       "male": [ "briefs", "shorts", "tank_top" ],
