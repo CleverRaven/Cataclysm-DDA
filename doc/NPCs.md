@@ -1431,7 +1431,7 @@ This section is a work in progress as functions are ported from `arithmetic` to 
 
 | Function | Eval | Assign |Scopes | Description |
 |----------|------|--------|-------|-------------|
-| armor    |  ✅   |   ❌  | u, n  | Return the numerical value for a characters armor on a body part, for a damage type.<br/> Example:<br/>`"condition": { "math": [ "armor('BASH', 'TORSO')", ">=", "5"] }`|  
+| armor    |  ✅   |   ❌  | u, n  | Return the numerical value for a characters armor on a body part, for a damage type.<br/> Example:<br/>`"condition": { "math": [ "u_armor('bash', 'torso')", ">=", "5"] }`|  
 | game_option   |  ✅  |   ❌   | N/A<br/>(global)  | Return the numerical value of a game option<br/> Example:<br/>`"condition": { "math": [ "game_option('NPC_SPAWNTIME')", ">=", "5"] }`|
 | pain     |  ✅  |   ✅   | u, n  | Return or set pain<br/> Example:<br/>`{ "math": [ "n_pain()", "=", "u_pain() + 9000" ] }`|
 | skill    |  ✅  |   ✅   | u, n  | Return or set skill level<br/> Example:<br/>`"condition": { "math": [ "u_skill('driving')", ">=", "5"] }`|
