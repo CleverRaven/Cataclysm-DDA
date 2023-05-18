@@ -1761,17 +1761,17 @@ npc_ptr basecamp::start_mission( const mission_id &miss_id, time_duration durati
 }
 
 comp_list basecamp::start_multi_mission( const mission_id &miss_id,
-        bool must_feed, const std::string &desc,
+        bool must_feed, const std::string &desc, float exertion_level,
         // const std::vector<item*>& equipment, //  No support for extracting equipment from recipes currently..
         const skill_id &skill_tested, int skill_level )
 {
     std::map<skill_id, int> required_skills;
     required_skills[skill_tested] = skill_level;
-    return start_multi_mission( miss_id, must_feed, desc, required_skills );
+    return start_multi_mission( miss_id, must_feed, desc, exertion_level, required_skills );
 }
 
 comp_list basecamp::start_multi_mission( const mission_id &miss_id,
-        bool must_feed, const std::string &desc,
+        bool must_feed, const std::string &desc, float exertion_level,
         // const std::vector<item*>& equipment, //  No support for extracting equipment from recipes currently..
         const std::map<skill_id, int> &required_skills )
 {
@@ -1788,7 +1788,7 @@ comp_list basecamp::start_multi_mission( const mission_id &miss_id,
     while( true ) { //  We'll break out of the loop when all the workers have been assigned
         work_days = base_camps::to_workdays( base_time / ( result.size() + 1 ) );
 
-        if( must_feed && camp_food_supply() < time_to_food( work_days * ( result.size() + 1 ) ) ) {
+        if( must_feed && camp_food_supply() < time_to_food( work_days * ( result.size() + 1), exertion_level ) ) {
             if( result.empty() ) {
                 popup( _( "You don't have enough food stored to feed your companion for this task." ) );
                 return result;
@@ -1820,7 +1820,7 @@ comp_list basecamp::start_multi_mission( const mission_id &miss_id,
             comp->companion_mission_time_ret = calendar::turn + work_days;
         }
         if( must_feed ) {
-            camp_food_supply( work_days * result.size() );
+            camp_food_supply( work_days * result.size(), exertion_level );
         }
         return result;
     }
@@ -1855,14 +1855,14 @@ void basecamp::start_upgrade( const mission_id &miss_id )
         if( bld_reqs.skills.empty() ) {
             if( making.skill_used.is_valid() ) {
                 comp = start_multi_mission( miss_id, must_feed,
-                                            _( "begins to upgrade the camp…" ),
+                                            _( "begins to upgrade the camp…" ), BRISK_EXERCISE,
                                             making.skill_used, making.difficulty );
             } else {
                 comp = start_multi_mission( miss_id, must_feed,
-                                            _( "begins to upgrade the camp…" ) );
+                                            _( "begins to upgrade the camp…" ), BRISK_EXERCISE );
             }
         } else {
-            comp = start_multi_mission( miss_id, must_feed, _( "begins to upgrade the camp…" ),
+            comp = start_multi_mission( miss_id, must_feed, _( "begins to upgrade the camp…" ), BRISK_EXERCISE,
                                         bld_reqs.skills );
         }
         if( comp.empty() ) {
@@ -2233,10 +2233,6 @@ void basecamp::start_cut_logs( const mission_id &miss_id, float exertion_level )
             om_cutdown_trees_logs( forest, 50 );
             om_harvest_ter( *comp, forest, ter_id( "t_tree_young" ), 50 );
             mass_volume harvest = om_harvest_itm( comp, forest, 95 );
-            // recalculate trips based on actual load and capacity
-            travel_time = companion_travel_time_calc( forest, omt_pos, 0_minutes, 2,
-                          harvest.count );
-            work_time = travel_time + chop_time;
             comp->companion_mission_time_ret = calendar::turn + work_time;
             //If we cleared a forest...
             if( om_cutdown_trees_est( forest ) < 5 ) {
@@ -2678,11 +2674,11 @@ bool basecamp::common_salt_water_pipe_construction(
 
     if( segment_number == 0 ) {
         comp = start_multi_mission( miss_id, true,
-                                    _( "Start constructing salt water pipes…" ),
+                                    _( "Start constructing salt water pipes…" ), BRISK_EXERCISE,
                                     making.required_skills );
     } else {
         comp = start_multi_mission( miss_id, true,
-                                    _( "Continue constructing salt water pipes…" ),
+                                    _( "Continue constructing salt water pipes…" ), BRISK_EXERCISE,
                                     making.required_skills );
     }
 

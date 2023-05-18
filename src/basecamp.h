@@ -296,11 +296,11 @@ class basecamp
                                const std::vector<item *> &equipment, float exertion_level,
                                const std::map<skill_id, int> &required_skills = {} );
         comp_list start_multi_mission( const mission_id &miss_id,
-                                       bool must_feed, const std::string &desc,
+                                       bool must_feed, const std::string &desc, float exertion_level,
                                        // const std::vector<item*>& equipment, //  No support for extracting equipment from recipes currently..
                                        const skill_id &skill_tested, int skill_level );
         comp_list start_multi_mission( const mission_id &miss_id,
-                                       bool must_feed, const std::string &desc,
+                                       bool must_feed, const std::string &desc, float exertion_level,
                                        //  const std::vector<item*>& equipment, //  No support for extracting equipment from recipes currently..
                                        const std::map<skill_id, int> &required_skills = {} );
         void start_upgrade( const mission_id &miss_id );
