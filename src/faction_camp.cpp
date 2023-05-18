@@ -100,9 +100,9 @@ static const item_group_id Item_spawn_data_forest( "forest" );
 static const item_group_id
 Item_spawn_data_gathering_faction_camp_firewood( "gathering_faction_camp_firewood" );
 
+static const itype_id itype_duffelbag( "duffelbag" );
 static const itype_id itype_fungal_seeds( "fungal_seeds" );
 static const itype_id itype_log( "log" );
-static const itype_id itype_duffelbag( "duffelbag" );
 static const itype_id itype_marloss_seed( "marloss_seed" );
 
 static const mtype_id mon_bear( "mon_bear" );
