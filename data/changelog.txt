@@ -15,8 +15,7 @@ Confirmation before attacking neutral mobs
 Unhardcode and rework grabs, ranged pulls
 EOCs can have context vars that can be passed into nested EOCs
 Pockets overflow into their parent pockets if possible
-Adds a key to toggle the language to English and back on the fly while playing
-Add new menu element to the `Shift+C` menu for NPCs you are in charge of to streamline assigning tasks
+Stored conditionals for EOCs
 
 
 ## Content:
@@ -34,7 +33,6 @@ Allow players to keep bees
 Apartment complex: parking garage, lobby variants, roof additions
 Crustacean mutation tree
 Dead trees can be harvested for wood(once per tree)
-Bionic radio system
 
 
 ## Interface:
@@ -47,7 +45,6 @@ Add min/max feedback to new character stats interface
 Mouse thumb button support
 Show NPC location when selecting NPC to chat with, guard, or follow
 Display why vehicle parts cannot be installed
-Provides a clear instruction on how to use "Toggle language to English" option correctly
 Open multiple containers in Advanced Inventory Manager
 
 
@@ -141,9 +138,6 @@ Modernize string_formatter
 Migrate some JSON APIs to string_view
 Add units::temperature_delta
 Upgrade clang-tidy used in CI to LLVM 16
-Mutators for strings in EOC
-Store Conditionals
-Options accessible by EOC
 
 
 ## Build:
