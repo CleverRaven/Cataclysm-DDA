@@ -1591,9 +1591,15 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             // Find lowest z-level to draw
             tripoint p_draw = p.pos;
             int cur_height_3d = p.height_3d;
-            while( !here.dont_draw_lower_floor( p_draw ) && p_draw.z > -10 ) {
-                p_draw.z -= 1;
-                cur_height_3d -= 1;
+            // Disabled for isometric tilesets. Can be enabled but will cause the following issues:
+            // 1. Supposedly transparent terrain and fields such as t_open_air need to be given sprites
+            // Otherwise they will be replaced with an opaque fallback sprite
+            // 2. May worsen visibility issues in isometric tilesets with inconsistent terrain heights
+            if( !is_isometric() ) {
+                while( !here.dont_draw_lower_floor( p_draw ) && p_draw.z > -10 ) {
+                    p_draw.z -= 1;
+                    cur_height_3d -= 1;
+                }
             }
 
             // Draw all layers for the bottom z-level
@@ -3822,15 +3828,16 @@ bool cata_tiles::draw_zombie_revival_indicators( const tripoint &pos, const lit_
 void cata_tiles::draw_zlevel_overlay( const tripoint &p, const lit_level ll,
                                       color_block_overlay_container &color_blocks )
 {
+    if( is_isometric() ) {
+        return;
+    }
     // Draw tileset fog sprite if exists
     if( tileset_ptr->find_tile_type( "zlevel_fog" ) ) {
         draw_from_id_string( "zlevel_fog", TILE_CATEGORY::NONE, empty_string, p, 0, 0, ll, false );
     } else {
         // Tileset fog not found, use solid color overlay
         // Set position for overlay
-        point fog_loc;
-        fog_loc.x = ( p.x - o.x ) * tile_width + op.x;
-        fog_loc.y = ( p.y - o.y ) * tile_height + op.y;
+        point fog_loc = player_to_screen( p.xy() );
 
         // Overlay color is based on light level
         SDL_Color fog_color = curses_color_to_SDL( c_black );
