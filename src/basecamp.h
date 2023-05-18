@@ -313,9 +313,9 @@ class basecamp
 
         /// Called when a companion is sent to cut logs
         void start_cut_logs( const mission_id &miss_id, float exertion_level );
-        void start_clearcut( const mission_id &miss_id, float exertion_level);
-        void start_setup_hide_site( const mission_id &miss_id, float exertion_level);
-        void start_relay_hide_site( const mission_id &miss_id, float exertion_level);
+        void start_clearcut( const mission_id &miss_id, float exertion_level );
+        void start_setup_hide_site( const mission_id &miss_id, float exertion_level );
+        void start_relay_hide_site( const mission_id &miss_id, float exertion_level );
         /// Called when a companion is sent to start fortifications
         void start_fortifications( const mission_id &miss_id, float exertion_level);
         /// Called when a companion is sent to start digging down salt water pipes
