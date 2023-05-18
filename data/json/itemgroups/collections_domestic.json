@@ -359,21 +359,6 @@
   },
   {
     "type": "item_group",
-    "id": "memorial_mansion",
-    "subtype": "collection",
-    "entries": [
-      { "item": "corpse_ash", "prob": 100, "charges-min": 1905, "charges-max": 3969, "container-item": "crystal_urn" },
-      { "item": "photo_album", "prob": 80 },
-      { "item": "bouquet", "prob": 80 },
-      { "item": "candlestick", "prob": 50, "charges-min": 1, "charges-max": 6 },
-      { "group": "liquor_and_spirits", "prob": 60 },
-      { "group": "wines_worthy", "prob": 50 },
-      { "item": "cigar", "prob": 50 },
-      { "group": "jewelry_accessories", "prob": 50 }
-    ]
-  },
-  {
-    "type": "item_group",
     "id": "grave_cremains",
     "subtype": "collection",
     "entries": [
