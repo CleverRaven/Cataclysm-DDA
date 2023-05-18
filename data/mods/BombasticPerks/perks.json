@@ -273,5 +273,26 @@
     "description": "You have a habit of always ducking at the right time.  You have a 5% chance to dodge any incoming attack.",
     "category": [ "perk" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "EVASION", "add": 0.05 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_crafty_hands",
+    "name": { "str": "Crafty hands" },
+    "points": 0,
+    "description": "You really like to do stuff with your own hands.  +10% for crafting speed.",
+    "category": [ "perk" ],
+    "crafting_speed_multiplier": 1.1
+  },
+  {
+    "type": "mutation",
+    "id": "perk_chainsmoker",
+    "name": { "str": "Chainsmoker" },
+    "points": 0,
+    "description": "Smoking is bad, but damn it's badass.  You deal more damage and shoot more accurately when you smoke.",
+    "category": [ "perk" ],
+    "enchantments": [
+      { "condition": { "u_has_effect": "cig" }, "values": [ { "value": "MELEE_DAMAGE", "multiply": 0.25 } ] },
+      { "condition": { "u_has_effect": "cig" }, "values": [ { "value": "WEAPON_DISPERSION", "multiply": 0.25 } ] }
+    ]
   }
 ]

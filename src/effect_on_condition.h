@@ -31,6 +31,7 @@ class eoc_events : public event_subscriber
 {
     public:
         void notify( const cata::event &e ) override;
+        void clear();
 
     private:
         std::map<event_type, std::vector<effect_on_condition>> event_EOCs;
