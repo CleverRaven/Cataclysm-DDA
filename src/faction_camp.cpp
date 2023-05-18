@@ -301,7 +301,7 @@ static std::string camp_trip_description( const time_duration &total_time,
 static int camp_food_supply( int change = 0, bool return_days = false );
 /// Same as above but takes a time_duration and consumes from faction food supply for that
 /// duration of work
-static int camp_food_supply( time_duration work );
+static int camp_food_supply( time_duration work, float exertion_level = NO_EXERCISE );
 /// Returns the total charges of food time_duration @ref work costs
 static int time_to_food( time_duration work, float exertion_level = NO_EXERCISE );
 /// Changes the faction respect for you by @ref change, returns respect
@@ -1746,7 +1746,7 @@ npc_ptr basecamp::start_mission( const mission_id &miss_id, time_duration durati
     if( comp != nullptr ) {
         comp->companion_mission_time_ret = calendar::turn + duration;
         if( must_feed ) {
-            camp_food_supply( duration );
+            camp_food_supply( duration, exertion_level );
         }
 
         map *target_map = &get_map();
@@ -4949,9 +4949,9 @@ int camp_food_supply( int change, bool return_days )
     return yours->food_supply;
 }
 
-int camp_food_supply( time_duration work )
+int camp_food_supply( time_duration work, float exertion_level )
 {
-    return camp_food_supply( -time_to_food( work ) );
+    return camp_food_supply( -time_to_food( work, exertion_level ) );
 }
 
 int time_to_food( time_duration work, float exertion_level )
