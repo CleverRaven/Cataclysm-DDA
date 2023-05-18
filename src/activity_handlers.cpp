@@ -2332,7 +2332,6 @@ void repair_item_finish( player_activity *act, Character *you, bool no_menu )
             } else {
                 current_ammo = item_controller->find_template( used_tool->ammo_current() )->ammo->type;
             }
-            
             ammo_name = item::nname( used_tool->ammo_current() );
         }
 
