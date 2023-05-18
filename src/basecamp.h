@@ -324,8 +324,9 @@ class basecamp
                 int segment_number ); //  Code factored out from the two following operation, not intended to be used elsewhere.
         void start_salt_water_pipe( const mission_id &miss_id );
         void continue_salt_water_pipe( const mission_id &miss_id );
-        void start_combat_mission( const mission_id &miss_id, float exertion_level);
-        void start_farm_op( const tripoint_abs_omt &omt_tgt, const mission_id &miss_id, float exertion_level);
+        void start_combat_mission( const mission_id &miss_id, float exertion_level );
+        void start_farm_op( const tripoint_abs_omt &omt_tgt, const mission_id &miss_id,
+                            float exertion_level );
         ///Display items listed in @ref equipment to let the player pick what to give the departing
         ///NPC, loops until quit or empty.
         std::vector<item *> give_equipment( std::vector<item *> equipment, const std::string &msg );
