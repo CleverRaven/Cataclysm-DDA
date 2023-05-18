@@ -10330,7 +10330,6 @@ int item::ammo_capacity( const ammotype &ammo ) const
     } else if( contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE ) ) {
         res += contents.ammo_capacity( ammo );
     }
-    
     if( has_flag( flag_USES_BIONIC_POWER ) ) {
         res += units::to_kilojoule( get_player_character().get_max_power_level() );
     }
