@@ -1251,6 +1251,7 @@
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
         "item_restriction": [
+          "medium_storage_battery",
           "medium_battery_cell",
           "medium_plus_battery_cell",
           "medium_disposable_cell",
@@ -1260,7 +1261,6 @@
           "heavy_disposable_cell",
           "heavy_atomic_battery_cell",
           "small_storage_battery",
-          "medium_storage_battery",
           "large_storage_battery",
           "storage_battery"
         ],
