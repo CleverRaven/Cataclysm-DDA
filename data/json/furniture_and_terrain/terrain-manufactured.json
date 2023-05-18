@@ -1512,7 +1512,7 @@
     "description": "A large brick oven that could make several pizzas at once.  This one seems to be missing its door, and cannot be used in such a state.",
     "color": "yellow",
     "move_cost": 0,
-    "flags": [ "REDUCE_SCENT" ],
+    "flags": [ "REDUCE_SCENT", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PERMEABLE" ],
     "deconstruct": { "ter_set": "t_dirt", "items": [ { "item": "fire_brick", "count": 90 } ] },
     "bash": {
       "str_min": 25,
@@ -1529,10 +1529,10 @@
     "looks_like": "f_fireplace",
     "name": "brick oven",
     "symbol": "#",
-    "description": "A large brick oven that could make several pizzas at once.  Smells faintly like pizza.",
+    "description": "A large brick oven that could make several pizzas at once.",
     "color": "red",
     "move_cost": 0,
-    "flags": [ "REDUCE_SCENT" ],
+    "flags": [ "REDUCE_SCENT", "NOITEM", "PERMEABLE", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE" ],
     "deconstruct": { "ter_set": "t_dirt", "items": [ { "item": "fire_brick", "count": 90 } ] },
     "bash": {
       "str_min": 25,

@@ -508,5 +508,10 @@
     "type": "requirement",
     "//": "Carbon resources, used for case hardening.",
     "components": [ [ [ "charcoal", 25 ], [ "coal_lump", 25 ] ] ]
+  },
+  {
+    "id": "any_fresh_water",
+    "type": "requirement",
+    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   }
 ]
