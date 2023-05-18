@@ -19,6 +19,8 @@ effect_on_condition_EOC_TEST_TRANSFORM_RADIUS( "EOC_TEST_TRANSFORM_RADIUS" );
 static const effect_on_condition_id
 effect_on_condition_EOC_jmath_test( "EOC_jmath_test" );
 static const effect_on_condition_id
+effect_on_condition_EOC_math_armor( "EOC_math_armor" );
+static const effect_on_condition_id
 effect_on_condition_EOC_math_diag_assign( "EOC_math_diag_assign" );
 static const effect_on_condition_id effect_on_condition_EOC_math_duration( "EOC_math_duration" );
 static const effect_on_condition_id
@@ -268,6 +270,27 @@ TEST_CASE( "EOC_mutator_test", "[eoc][math_parser]" )
     CHECK( effect_on_condition_EOC_mutator_test->activate( d ) );
     CHECK( globvars.get_global_value( "npctalk_var_key1" ) == "zombie" );
     CHECK( globvars.get_global_value( "npctalk_var_key2" ) == "zombie" );
+}
+
+TEST_CASE( "EOC_math_armor", "[eoc][math_parser]" )
+{
+    clear_avatar();
+    clear_map();
+    avatar &a = get_avatar();
+    a.worn.wear_item( a, item( "test_eoc_armor_suit" ), false, true, true );
+
+    dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
+    global_variables &globvars = get_globals();
+    globvars.clear_global_values();
+
+    REQUIRE( globvars.get_global_value( "npctalk_var_key1" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_key2" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_key3" ).empty() );
+    CHECK( effect_on_condition_EOC_math_armor->activate( d ) );
+    CHECK( std::stod( globvars.get_global_value( "npctalk_var_key1" ) ) == Approx( 4 ) );
+    CHECK( std::stod( globvars.get_global_value( "npctalk_var_key2" ) ) == Approx( 9 ) );
+    CHECK( std::stod( globvars.get_global_value( "npctalk_var_key3" ) ) == Approx( 0 ) );
+
 }
 
 TEST_CASE( "EOC_activity_ongoing", "[eoc][timed_event]" )
