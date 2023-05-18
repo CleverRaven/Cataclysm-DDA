@@ -1788,7 +1788,8 @@ comp_list basecamp::start_multi_mission( const mission_id &miss_id,
     while( true ) { //  We'll break out of the loop when all the workers have been assigned
         work_days = base_camps::to_workdays( base_time / ( result.size() + 1 ) );
 
-        if( must_feed && camp_food_supply() < time_to_food( work_days * ( result.size() + 1), exertion_level ) ) {
+        if( must_feed &&
+            camp_food_supply() < time_to_food( work_days * ( result.size() + 1 ), exertion_level ) ) {
             if( result.empty() ) {
                 popup( _( "You don't have enough food stored to feed your companion for this task." ) );
                 return result;
@@ -1862,7 +1863,8 @@ void basecamp::start_upgrade( const mission_id &miss_id )
                                             _( "begins to upgrade the camp…" ), BRISK_EXERCISE );
             }
         } else {
-            comp = start_multi_mission( miss_id, must_feed, _( "begins to upgrade the camp…" ), BRISK_EXERCISE,
+            comp = start_multi_mission( miss_id, must_feed, _( "begins to upgrade the camp…" ),
+                                        BRISK_EXERCISE,
                                         bld_reqs.skills );
         }
         if( comp.empty() ) {
