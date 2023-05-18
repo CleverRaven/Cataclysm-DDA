@@ -2313,7 +2313,7 @@ void basecamp::start_setup_hide_site( const mission_id &miss_id, float exertion_
                                     2, haulage );
         time_duration work_time = travel_time + build_time;
         if( !query_yn( _( "Trip Estimate:\n%s" ), camp_trip_description( work_time,
-                       build_time, travel_time, dist, trips, time_to_food( work_time, exertion_level) ) ) ) {
+                       build_time, travel_time, dist, trips, time_to_food( work_time, exertion_level ) ) ) ) {
             return;
         }
         npc_ptr comp = start_mission( miss_id,
