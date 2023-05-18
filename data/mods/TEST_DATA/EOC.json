@@ -94,10 +94,6 @@
       { "math": [ "key2", "=", "u_armor('acid', 'torso')" ] },
       { "math": [ "key3", "=", "u_armor('bash', 'head')" ] }
     ]
-      { "math": [ "key1", "=", "u_armor('bash', 'torso')" ] },
-      { "math": [ "key2", "=", "u_armor('acid', 'torso')" ] },
-      { "math": [ "key3", "=", "u_armor('bash', 'head')" ] }
-    ]
   },
   {
     "type": "effect_on_condition",
