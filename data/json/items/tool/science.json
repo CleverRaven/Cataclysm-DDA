@@ -707,7 +707,6 @@
     "ammo_type": [ "oxygen" ],
     "capacity": 300,
     "count": 300,
-    "charges_per_use": 1,
     "melee_damage": { "bash": 10 }
   },
   {
