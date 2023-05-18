@@ -10323,27 +10323,27 @@ int item::remaining_ammo_capacity() const
 
 int item::ammo_capacity( const ammotype &ammo ) const
 {
+    int res = 0;
     const item *mag = magazine_current();
     if( mag ) {
-        return mag->ammo_capacity( ammo );
-    } else if( has_flag( flag_USES_BIONIC_POWER ) ) {
-        return units::to_kilojoule( get_player_character().get_max_power_level() );
+        res += mag->ammo_capacity( ammo );
+    } 
+    else if( contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE ) ) {
+        res += contents.ammo_capacity( ammo );
     }
-
-    if( contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE ) ) {
-        return contents.ammo_capacity( ammo );
+    
+    if( has_flag( flag_USES_BIONIC_POWER ) ) {
+        res += units::to_kilojoule( get_player_character().get_max_power_level() );
     }
     if( is_magazine() ) {
-        return type->magazine->capacity;
+        res += type->magazine->capacity;
     }
     if( has_flag( flag_USE_UPS ) ) {
-        int j = 0;
         for( const item *i : get_player_character().all_items_with_flag( flag_IS_UPS ) ) {
-            j += i->ammo_capacity( ammo );
+            res += i->ammo_capacity( ammo );
         }
-        return j;
     }
-    return 0;
+    return res;
 }
 
 int item::ammo_required() const
