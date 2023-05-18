@@ -2272,7 +2272,7 @@ void basecamp::start_clearcut( const mission_id &miss_id, float exertion_level)
         npc_ptr comp = start_mission( miss_id,
                                       work_time,
                                       true, _( "departs to clear a forest…" ), false, {},
-                                      skill_fabrication, 1, exertion_level);
+                                      skill_fabrication, 1, exertion_level );
         if( comp != nullptr ) {
             om_cutdown_trees_trunks( forest, 95 );
             om_harvest_ter_break( *comp, forest, ter_id( "t_tree_young" ), 95 );
