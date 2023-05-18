@@ -78,8 +78,8 @@ TEST_CASE( "repair_vehicle_part", "[vehicle]" )
         tools.push_back( tool_with_ammo( "welder", 1000 ) );
         tools.emplace_back( "goggles_welding" );
         tools.emplace_back( "hammer" );
-        tools.insert( tools.end(), 2, item( "steel_chunk" ) );
-        tools.insert( tools.end(), 1, item( "welding_wire_steel" ) );
+        tools.insert( tools.end(), 5, item( "steel_chunk" ) );
+        tools.insert( tools.end(), 50, item( "welding_wire_steel" ) );
         test_repair( tools, true );
     }
     SECTION( "UPS_modded_welder" ) {
@@ -96,16 +96,16 @@ TEST_CASE( "repair_vehicle_part", "[vehicle]" )
 
         tools.emplace_back( "goggles_welding" );
         tools.emplace_back( "hammer" );
-        tools.insert( tools.end(), 2, item( "steel_chunk" ) );
-        tools.insert( tools.end(), 1, item( "welding_wire_steel" ) );
+        tools.insert( tools.end(), 5, item( "steel_chunk" ) );
+        tools.insert( tools.end(), 50, item( "welding_wire_steel" ) );
         test_repair( tools, true );
     }
     SECTION( "welder_missing_goggles" ) {
         std::vector<item> tools;
         tools.push_back( tool_with_ammo( "welder", 1000 ) );
         tools.emplace_back( "hammer" );
-        tools.insert( tools.end(), 2, item( "steel_chunk" ) );
-        tools.insert( tools.end(), 1, item( "welding_wire_steel" ) );
+        tools.insert( tools.end(), 5, item( "steel_chunk" ) );
+        tools.insert( tools.end(), 50, item( "welding_wire_steel" ) );
         test_repair( tools, false );
     }
     SECTION( "welder_missing_charge" ) {
@@ -113,8 +113,8 @@ TEST_CASE( "repair_vehicle_part", "[vehicle]" )
         tools.push_back( tool_with_ammo( "welder", 500 ) );
         tools.emplace_back( "goggles_welding" );
         tools.emplace_back( "hammer" );
-        tools.insert( tools.end(), 2, item( "steel_chunk" ) );
-        tools.insert( tools.end(), 1, item( "welding_wire_steel" ) );
+        tools.insert( tools.end(), 5, item( "steel_chunk" ) );
+        tools.insert( tools.end(), 50, item( "welding_wire_steel" ) );
         test_repair( tools, false );
     }
     SECTION( "UPS_modded_welder_missing_charges" ) {
@@ -130,8 +130,8 @@ TEST_CASE( "repair_vehicle_part", "[vehicle]" )
         tools.push_back( ups );
 
         tools.emplace_back( "goggles_welding" );
-        tools.insert( tools.end(), 2, item( "steel_chunk" ) );
-        tools.insert( tools.end(), 1, item( "welding_wire_steel" ) );
+        tools.insert( tools.end(), 5, item( "steel_chunk" ) );
+        tools.insert( tools.end(), 50, item( "welding_wire_steel" ) );
         test_repair( tools, false );
     }
     SECTION( "welder_missing_consumables" ) {
