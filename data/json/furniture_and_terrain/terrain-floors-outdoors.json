@@ -35,7 +35,7 @@
     "looks_like": "t_dirt",
     "move_cost": 3,
     "connect_groups": "MUD",
-    "connects_to": "MUD",    
+    "connects_to": "MUD",
     "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ],
     "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
   },
