@@ -1565,7 +1565,8 @@ bool basecamp::handle_mission( const ui_mission_id &miss_id )
                                          msg,
                                          skill_construction.str(), 2 );
             } else {
-                start_crafting( recipe_group::get_building_of_recipe( miss_id.id.parameters ), miss_id.id, MODERATE_EXERCISE);
+                start_crafting( recipe_group::get_building_of_recipe( miss_id.id.parameters ), miss_id.id,
+                                MODERATE_EXERCISE );
             }
             break;
 
@@ -1574,7 +1575,7 @@ bool basecamp::handle_mission( const ui_mission_id &miss_id )
                 gathering_return( miss_id.id, 3_hours );
             } else {
                 start_mission( miss_id.id, 3_hours, true,
-                               _( "departs to search for materials…" ), false, {}, skill_survival, 0, LIGHT_EXERCISE);
+                               _( "departs to search for materials…" ), false, {}, skill_survival, 0, LIGHT_EXERCISE );
             }
             break;
 
@@ -1583,7 +1584,7 @@ bool basecamp::handle_mission( const ui_mission_id &miss_id )
                 gathering_return( miss_id.id, 3_hours );
             } else {
                 start_mission( miss_id.id, 3_hours, true,
-                               _( "departs to search for firewood…" ), false, {}, skill_survival, 0, LIGHT_EXERCISE);
+                               _( "departs to search for firewood…" ), false, {}, skill_survival, 0, LIGHT_EXERCISE );
             }
             break;
 
@@ -1600,7 +1601,7 @@ bool basecamp::handle_mission( const ui_mission_id &miss_id )
                 survey_return( miss_id.id );
             } else {
                 start_mission( miss_id.id, 3_hours, true,
-                               _( "departs to survey land…" ), false, {}, skill_gun, 0, MODERATE_EXERCISE);
+                               _( "departs to survey land…" ), false, {}, skill_gun, 0, MODERATE_EXERCISE );
             }
             break;
 
@@ -1610,7 +1611,7 @@ bool basecamp::handle_mission( const ui_mission_id &miss_id )
                                 _( "returns from working in the woods…" ),
                                 skill_construction.str(), 2 );
             } else {
-                start_cut_logs( miss_id.id, ACTIVE_EXERCISE);
+                start_cut_logs( miss_id.id, ACTIVE_EXERCISE );
             }
             break;
 
@@ -1620,7 +1621,7 @@ bool basecamp::handle_mission( const ui_mission_id &miss_id )
                                 _( "returns from working in the woods…" ),
                                 skill_construction.str(), 1 );
             } else {
-                start_clearcut( miss_id.id, ACTIVE_EXERCISE);
+                start_clearcut( miss_id.id, ACTIVE_EXERCISE );
             }
             break;
 
@@ -1629,7 +1630,7 @@ bool basecamp::handle_mission( const ui_mission_id &miss_id )
                 mission_return( miss_id.id, 3_hours, true,
                                 _( "returns from working on the hide site…" ), skill_survival.str(), 3 );
             } else {
-                start_setup_hide_site( miss_id.id, LIGHT_EXERCISE);
+                start_setup_hide_site( miss_id.id, LIGHT_EXERCISE );
             }
             break;
 
@@ -1639,7 +1640,7 @@ bool basecamp::handle_mission( const ui_mission_id &miss_id )
                 mission_return( miss_id.id, 3_hours, true,
                                 msg, skill_survival.str(), 3 );
             } else {
-                start_relay_hide_site( miss_id.id, LIGHT_EXERCISE);
+                start_relay_hide_site( miss_id.id, LIGHT_EXERCISE );
             }
             break;
 
@@ -1657,7 +1658,7 @@ bool basecamp::handle_mission( const ui_mission_id &miss_id )
                 gathering_return( miss_id.id, 6_hours );
             } else {
                 start_mission( miss_id.id, 6_hours, true,
-                               _( "departs to set traps for small animals…" ), false, {}, skill_traps, 0, LIGHT_EXERCISE);
+                               _( "departs to set traps for small animals…" ), false, {}, skill_traps, 0, LIGHT_EXERCISE );
             }
             break;
 
@@ -1666,7 +1667,7 @@ bool basecamp::handle_mission( const ui_mission_id &miss_id )
                 gathering_return( miss_id.id, 6_hours );
             } else {
                 start_mission( miss_id.id, 6_hours, true,
-                               _( "departs to hunt for meat…" ), false, {}, skill_gun, 0, MODERATE_EXERCISE);
+                               _( "departs to hunt for meat…" ), false, {}, skill_gun, 0, MODERATE_EXERCISE );
             }
             break;
 
@@ -1675,7 +1676,7 @@ bool basecamp::handle_mission( const ui_mission_id &miss_id )
                 fortifications_return( miss_id.id );
             } else {
                 std::string bldg_exp = miss_id.id.parameters;
-                start_fortifications( miss_id.id, ACTIVE_EXERCISE);
+                start_fortifications( miss_id.id, ACTIVE_EXERCISE );
             }
             break;
 
@@ -1685,7 +1686,7 @@ bool basecamp::handle_mission( const ui_mission_id &miss_id )
                                 recruit_evaluation() );
             } else {
                 start_mission( miss_id.id, 4_days, true,
-                               _( "departs to search for recruits…" ), false, {}, skill_gun, 0, MODERATE_EXERCISE);
+                               _( "departs to search for recruits…" ), false, {}, skill_gun, 0, MODERATE_EXERCISE );
             }
             break;
 
@@ -1694,7 +1695,7 @@ bool basecamp::handle_mission( const ui_mission_id &miss_id )
             if( miss_id.ret ) {
                 combat_mission_return( miss_id.id );
             } else {
-                start_combat_mission( miss_id.id, BRISK_EXERCISE);
+                start_combat_mission( miss_id.id, BRISK_EXERCISE );
             }
             break;
 
@@ -1708,7 +1709,7 @@ bool basecamp::handle_mission( const ui_mission_id &miss_id )
             if( miss_id.ret ) {
                 farm_return( miss_id.id, omt_trg );
             } else {
-                start_farm_op( omt_trg, miss_id.id, MODERATE_EXERCISE);
+                start_farm_op( omt_trg, miss_id.id, MODERATE_EXERCISE );
             }
             break;
 
@@ -1723,11 +1724,12 @@ bool basecamp::handle_mission( const ui_mission_id &miss_id )
 npc_ptr basecamp::start_mission( const mission_id &miss_id, time_duration duration,
                                  bool must_feed, const std::string &desc, bool /*group*/,
                                  const std::vector<item *> &equipment,
-                                 const skill_id &skill_tested, int skill_level, float exertion_level)
+                                 const skill_id &skill_tested, int skill_level, float exertion_level )
 {
     std::map<skill_id, int> required_skills;
     required_skills[ skill_tested ] = skill_level;
-    return start_mission( miss_id, duration, must_feed, desc, false, equipment, exertion_level, required_skills);
+    return start_mission( miss_id, duration, must_feed, desc, false, equipment, exertion_level,
+                          required_skills );
 }
 
 npc_ptr basecamp::start_mission( const mission_id &miss_id, time_duration duration,
@@ -2200,7 +2202,7 @@ void basecamp::start_menial_labor()
     popup( _( "%s goes off to clean toilets and sort loot." ), comp->disp_name() );
 }
 
-void basecamp::start_cut_logs( const mission_id &miss_id, float exertion_level)
+void basecamp::start_cut_logs( const mission_id &miss_id, float exertion_level )
 {
     std::vector<std::string> log_sources = { "forest", "forest_thick", "forest_water", "forest_trail" };
     popup( _( "Forests and swamps are the only valid cutting locations." ) );
@@ -2219,14 +2221,14 @@ void basecamp::start_cut_logs( const mission_id &miss_id, float exertion_level)
                                     2, haul_items );
         time_duration work_time = travel_time + chop_time;
         if( !query_yn( _( "Trip Estimate:\n%s" ), camp_trip_description( work_time,
-                       chop_time, travel_time, dist, 2, time_to_food( work_time, exertion_level) ) ) ) {
+                       chop_time, travel_time, dist, 2, time_to_food( work_time, exertion_level ) ) ) ) {
             return;
         }
 
         npc_ptr comp = start_mission( miss_id,
                                       work_time, true,
                                       _( "departs to cut logs…" ), false, {},
-                                      skill_fabrication, 2, exertion_level);
+                                      skill_fabrication, 2, exertion_level );
         if( comp != nullptr ) {
             om_cutdown_trees_logs( forest, 50 );
             om_harvest_ter( *comp, forest, ter_id( "t_tree_young" ), 50 );
@@ -2248,7 +2250,7 @@ void basecamp::start_cut_logs( const mission_id &miss_id, float exertion_level)
     }
 }
 
-void basecamp::start_clearcut( const mission_id &miss_id, float exertion_level)
+void basecamp::start_clearcut( const mission_id &miss_id, float exertion_level )
 {
     std::vector<std::string> log_sources = { "forest", "forest_thick", "forest_trail" };
     popup( _( "Forests are the only valid cutting locations." ) );
