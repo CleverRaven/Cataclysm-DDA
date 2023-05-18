@@ -216,7 +216,7 @@
       [ "bat_metal", 80 ],
       [ "boxing_gloves", 20 ],
       [ "pom_poms", 40 ],
-      [ "cheerleader_top", 20 ],
+      { "item": "tank_top", "variant": "tank_top_cheerleader", "prob": 20 },
       [ "cheerleader_top_short", 1 ],
       [ "cheerleader_skirt", 20 ],
       [ "cheerleader_skirt_short", 1 ],
