@@ -244,13 +244,15 @@ struct vehicle_part {
         friend class turret_data;
 
 
-        vehicle_part(); /** DefaultConstructible */
+        // DefaultConstructible, with vpart_id::NULL_ID type and default base item
+        vehicle_part();
+        // constructs part with \p type and std::move()-ing \p base as part's base
+        vehicle_part( const vpart_id &type, item &&base );
 
-        vehicle_part( const vpart_id &vp, const std::string &variant_id, const point &dp,
-                      item &&obj );
-
-        /** Check this instance is non-null (not default constructed) */
-        explicit operator bool() const;
+        // gets reference to the current base item
+        const item &get_base() const;
+        // set part base to \p new_base, std::move()-ing it
+        void set_base( item &&new_base );
 
         bool has_flag( const vp_flag flag ) const noexcept {
             const uint32_t flag_as_uint32 = static_cast<uint32_t>( flag );
@@ -493,21 +495,22 @@ struct vehicle_part {
          */
         std::pair<tripoint, tripoint> target = { tripoint_min, tripoint_min };
 
-    private:
-        /** What type of part is this? */
-        vpart_id id;
-        uint32_t flags = 0;
-    public:
         /** If it's a part with variants, which variant it is */
         std::string variant;
 
     private:
-        /** As a performance optimization we cache the part information here on first lookup */
-        mutable const vpart_info *info_cache = nullptr; // NOLINT(cata-serialize)
-
+        // part type definition
+        // note: this could be a const& but doing so would require hassle with implementing
+        // operator= and deserializing the part, this must be always a valid pointer
+        const vpart_info *info_; // NOLINT(cata-serialize)
+        // flags storage, see vp_flag
+        uint32_t flags = 0;
+        // part base item, e.g. the container of a TANK, gun of the turret, etc...
         item base;
-        std::vector<item> tools; // stores tools in VEH_TOOLS drawer
-        cata::colony<item> items; // inventory
+        // tools attached to VEH_TOOLS parts
+        std::vector<item> tools;
+        // items of CARGO parts
+        cata::colony<item> items;
 
         /** Preferred ammo type when multiple are available */
         itype_id ammo_pref = itype_id::NULL_ID();
@@ -524,9 +527,6 @@ struct vehicle_part {
 
         void serialize( JsonOut &json ) const;
         void deserialize( const JsonObject &data );
-
-        const item &get_base() const;
-        void set_base( const item &new_base );
         /**
          * Generate the corresponding item from this vehicle part. It includes
          * the hp (item damage), fuel charges (battery or liquids), aspect, ...
@@ -959,23 +959,28 @@ class vehicle
         // get vpart type info for part number (part at given vector index)
         const vpart_info &part_info( int index, bool include_removed = false ) const;
 
-        // check if certain part can be mounted at certain position (not accounting frame direction)
-        ret_val<void> can_mount( const point &dp, const vpart_id &id ) const;
+        /**
+         * @param dp The coordinate to mount at (in vehicle mount point coords)
+         * @param vpi The part type to check
+         * @return true if the part can be mounted at specified position.
+         */
+        ret_val<void> can_mount( const point &dp, const vpart_info &vpi ) const;
 
         // check if certain part can be unmounted
         bool can_unmount( int p ) const;
         bool can_unmount( int p, std::string &reason ) const;
 
-        // install a new part to vehicle
-        int install_part( const point &dp, const vpart_id &id, const std::string &variant = "",
-                          bool force = false );
+        // install a part of type \p type at mount \p dp
+        // @return installed part index or -1 if can_mount(...) failed
+        int install_part( const point &dp, const vpart_id &type );
 
-        // Install a copy of the given part, skips possibility check
-        int install_part( const point &dp, const vehicle_part &part );
+        // install a part of type \p type at mount \p dp with \p base (std::move -ing it)
+        // @return installed part index or -1 if can_mount(...) failed
+        int install_part( const point &dp, const vpart_id &type, item &&base );
 
-        /** install item specified item to vehicle as a vehicle part */
-        int install_part( const point &dp, const vpart_id &id, item &&obj,
-                          const std::string &variant = "", bool force = false );
+        // install the given part \p vp (std::move -ing it)
+        // @return installed part index or -1 if can_mount(...) failed
+        int install_part( const point &dp, vehicle_part &&vp );
 
         struct rackable_vehicle {
             std::string name;
