@@ -7089,7 +7089,7 @@ void map::reachable_flood_steps( std::vector<tripoint> &reachable_pts, const tri
         const tripoint tp = { p.xy(), f.z };
         const int tp_cost = move_cost( tp );
         // rejection conditions
-        if( tp_cost < cost_min || tp_cost > cost_max || ( !has_floor_or_support( tp ) && tp != f ) ) {
+        if( tp_cost < cost_min || tp_cost > cost_max || is_open_air( tp ) ) {
             continue;
         }
         // set initial cost for grid point
