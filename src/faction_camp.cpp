@@ -2265,7 +2265,7 @@ void basecamp::start_clearcut( const mission_id &miss_id, float exertion_level)
         time_duration travel_time = companion_travel_time_calc( forest, omt_pos, 0_minutes, 2 );
         time_duration work_time = travel_time + chop_time;
         if( !query_yn( _( "Trip Estimate:\n%s" ), camp_trip_description( work_time,
-                       chop_time, travel_time, dist, 2, time_to_food( work_time, exertion_level) ) ) ) {
+                       chop_time, travel_time, dist, 2, time_to_food( work_time, exertion_level ) ) ) ) {
             return;
         }
 
