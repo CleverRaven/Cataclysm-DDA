@@ -1552,8 +1552,8 @@ These flags apply to the `use_action` field, instead of the `flags` field.
 - ```NAILABLE``` Attached with nails.
 - ```NEEDS_BATTERY_MOUNT``` Part with this flag needs to be installed over part with `BATTERY_MOUNT` flag.
 - ```NEEDS_HANDHELD_BATTERY_MOUNT``` Same as `NEEDS_BATTERY_MOUNT`, but for handheld battery mount.
-- ```NOINSTALL``` Cannot be installed.
-- ```NO_INSTALL_PLAYER``` Cannot be installed by a player, but can be installed on vehicles.
+- ```NO_INSTALL_PLAYER``` Part can't be installed by player but visible in install menu (e.g. helicopter rotors).
+- ```NO_INSTALL_HIDDEN``` Part can't be installed by player and hidden in install menu (e.g. power cords, inflatable boat parts, summoned vehicle parts).
 - ```NO_MODIFY_VEHICLE``` Installing a part with this flag on a vehicle will mean that it can no longer be modified. Parts with this flag should not be installable by players.
 - ```NO_UNINSTALL``` Cannot be uninstalled.
 - ```NO_REPAIR``` Cannot be repaired.
