@@ -75,7 +75,14 @@ TEST_CASE( "repair_vehicle_part", "[vehicle]" )
 {
     SECTION( "welder" ) {
         std::vector<item> tools;
-        tools.push_back( tool_with_ammo( "welder", 10000 ) );
+        // tools.push_back( tool_with_ammo( "welder", 10000 ) );
+
+        item welder( "welder" );
+        item welder_mag( welder.magazine_default() );
+        welder_mag.ammo_set( welder_mag.ammo_default(), 1000 );
+        welder.put_in( welder_mag, item_pocket::pocket_type::MAGAZINE_WELL );
+        tools.push_back( welder );
+
         tools.emplace_back( "goggles_welding" );
         tools.emplace_back( "hammer" );
         tools.insert( tools.end(), 20, item( "steel_chunk" ) );
@@ -102,7 +109,13 @@ TEST_CASE( "repair_vehicle_part", "[vehicle]" )
     }
     SECTION( "welder_missing_goggles" ) {
         std::vector<item> tools;
-        tools.push_back( tool_with_ammo( "welder", 1000 ) );
+
+        item welder( "welder" );
+        item welder_mag( welder.magazine_default() );
+        welder_mag.ammo_set( welder_mag.ammo_default(), 1000 );
+        welder.put_in( welder_mag, item_pocket::pocket_type::MAGAZINE_WELL );
+        tools.push_back( welder );
+
         tools.emplace_back( "hammer" );
         tools.insert( tools.end(), 5, item( "steel_chunk" ) );
         tools.insert( tools.end(), 50, item( "welding_wire_steel" ) );
@@ -110,7 +123,13 @@ TEST_CASE( "repair_vehicle_part", "[vehicle]" )
     }
     SECTION( "welder_missing_charge" ) {
         std::vector<item> tools;
-        tools.push_back( tool_with_ammo( "welder", 500 ) );
+
+        item welder( "welder" );
+        item welder_mag( welder.magazine_default() );
+        welder_mag.ammo_set( welder_mag.ammo_default(), 500 );
+        welder.put_in( welder_mag, item_pocket::pocket_type::MAGAZINE_WELL );
+        tools.push_back( welder );
+
         tools.emplace_back( "goggles_welding" );
         tools.emplace_back( "hammer" );
         tools.insert( tools.end(), 5, item( "steel_chunk" ) );
@@ -136,7 +155,13 @@ TEST_CASE( "repair_vehicle_part", "[vehicle]" )
     }
     SECTION( "welder_missing_consumables" ) {
         std::vector<item> tools;
-        tools.push_back( tool_with_ammo( "welder", 1000 ) );
+
+        item welder( "welder" );
+        item welder_mag( welder.magazine_default() );
+        welder_mag.ammo_set( welder_mag.ammo_default(), 500 );
+        welder.put_in( welder_mag, item_pocket::pocket_type::MAGAZINE_WELL );
+        tools.push_back( welder );
+
         tools.emplace_back( "goggles_welding" );
         test_repair( tools, false );
     }
