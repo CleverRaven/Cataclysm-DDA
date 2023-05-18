@@ -303,7 +303,7 @@ static int camp_food_supply( int change = 0, bool return_days = false );
 /// duration of work
 static int camp_food_supply( time_duration work );
 /// Returns the total charges of food time_duration @ref work costs
-static int time_to_food( time_duration work, float exertion_level = NO_EXERCISE);
+static int time_to_food( time_duration work, float exertion_level = NO_EXERCISE );
 /// Changes the faction respect for you by @ref change, returns respect
 static int camp_discipline( int change = 0 );
 /// Changes the faction opinion for you by @ref change, returns opinion
