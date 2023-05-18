@@ -474,6 +474,12 @@ void effect_on_conditions::load( const JsonObject &jo, const std::string &src )
     effect_on_condition_factory.load( jo, src );
 }
 
+void eoc_events::clear()
+{
+    has_cached = false;
+    event_EOCs.clear();
+}
+
 void eoc_events::notify( const cata::event &e )
 {
     if( !has_cached ) {

@@ -1846,8 +1846,8 @@
     "difficulty": 2,
     "time": "38 m",
     "autolearn": true,
-    "reversible": { "time": "5 m" },
-    "using": [ [ "tailoring_cotton_patchwork", 4 ] ]
+    "using": [ [ "tailoring_cotton_patchwork", 4 ] ],
+    "byproducts": [ [ "scrap_cotton", 22 ] ]
   },
   {
     "result": "tireplate",

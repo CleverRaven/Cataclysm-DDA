@@ -775,6 +775,7 @@ void game::setup()
     // reset kill counts
     kill_tracker_ptr->clear();
     achievements_tracker_ptr->clear();
+    eoc_events_ptr->clear();
     // reset follower list
     follower_ids.clear();
     scent.reset();
@@ -10407,7 +10408,7 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
         cata_event_dispatch::avatar_moves( old_abs_pos, u, m );
 
         // Add trail animation when sprinting
-        if( u.is_running() ) {
+        if( get_option<bool>( "ANIMATIONS" ) && u.is_running() ) {
             std::map<tripoint, nc_color> area_color;
             area_color[oldpos] = c_black;
             if( u.posy() < oldpos.y ) {

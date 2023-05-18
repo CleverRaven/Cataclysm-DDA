@@ -14,7 +14,7 @@
       [ "boxing_gloves", 35 ],
       [ "pool_cue", 30 ],
       [ "bat_metal", 60 ],
-      [ "cheerleader_top", 10 ],
+      { "item": "tank_top", "variant": "tank_top_cheerleader", "prob": 10 },
       [ "cheerleader_top_short", 2 ],
       [ "cheerleader_skirt", 10 ],
       [ "cheerleader_skirt_short", 2 ],

@@ -655,10 +655,10 @@ void vpart_info::finalize()
         int mechanics_req = 3 + static_cast<int>( item->weight / 10_kilogram );
         int electronics_req = 0; // calculated below
 
-        // mark turrets with migrated-from or blacklisted items obsolete
+        // if turret base item is migrated-from or blacklisted hide it from install menu
         if( item_id != item_controller->migrate_id( item_id ) ||
             item_is_blacklisted( item->get_id() ) ) {
-            new_part.set_flag( "OBSOLETE" );
+            new_part.set_flag( "NO_INSTALL_HIDDEN" );
         }
 
         if( gun_uses_liquid_ammo( *item ) ) {
@@ -1453,13 +1453,14 @@ void vehicles::finalize_prototypes()
                 continue;
             }
 
-            const int part_idx = blueprint.install_part( pt.pos, pt.part, pt.variant );
+            const int part_idx = blueprint.install_part( pt.pos, pt.part );
             if( part_idx < 0 ) {
                 debugmsg( "init_vehicles: '%s' part '%s'(%d) can't be installed to %d,%d",
                           blueprint.name, pt.part.c_str(),
                           blueprint.part_count(), pt.pos.x, pt.pos.y );
             } else {
                 vehicle_part &vp = blueprint.part( part_idx );
+                vp.variant = pt.variant;
                 for( const itype_id &it : pt.tools ) {
                     blueprint.get_tools( vp ).emplace_back( it, calendar::turn );
                 }

@@ -345,7 +345,7 @@
       [ "winter_pants_army", 10 ],
       [ "winter_jacket_army", 10 ],
       [ "winter_gloves_army", 10 ],
-      [ "army_top", 30 ],
+      { "item": "tank_top", "variant": "tank_top_camo", "prob": 30 },
       [ "skirt", 75 ],
       [ "skirt_leather", 5 ],
       [ "jumpsuit", 20 ],
