@@ -703,9 +703,7 @@
         "ammo_restriction": { "oxygen": 300 }
       }
     ],
-    "ammo_type": [
-      "oxygen"
-    ],
+    "ammo_type": [ "oxygen" ],
     "capacity": 300,
     "count": 300,
     "charges_per_use": 1,
