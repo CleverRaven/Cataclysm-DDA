@@ -682,7 +682,7 @@
   },
   {
     "id": "oxygen_cylinder",
-    "type": "TOOL",
+    "type": "MAGAZINE",
     "name": { "str": "oxygen cylinder" },
     "description": "A large steel cylinder used for storing pressurized gas.  It is marked with a faded, but legible O2 symbol.",
     "weight": "19050 g",
@@ -703,10 +703,12 @@
         "ammo_restriction": { "oxygen": 300 }
       }
     ],
-    "initial_charges": 300,
-    "max_charges": 300,
+    "ammo_type": [
+      "oxygen"
+    ],
+    "capacity": 300,
+    "count": 300,
     "charges_per_use": 1,
-    "use_action": [ "OXYGEN_BOTTLE" ],
     "melee_damage": { "bash": 10 }
   },
   {
