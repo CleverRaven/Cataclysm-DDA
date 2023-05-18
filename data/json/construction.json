@@ -1426,7 +1426,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 5 ] ],
     "time": "120 m",
-    "using": [ [ "welding_standard", 2 ] ],
+    "using": [ [ "welding_standard", 60 ] ],
     "components": [ [ [ "rebar", 8 ] ], [ [ "2x4", 12 ] ], [ [ "pipe", 4 ] ], [ [ "pipe_fittings", 2 ] ] ],
     "pre_terrain": "t_pit_shallow",
     "post_terrain": "t_ov_smreb_cage"
