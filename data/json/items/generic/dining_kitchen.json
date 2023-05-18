@@ -666,8 +666,15 @@
     "id": "whisk",
     "name": { "str": "whisk" },
     "description": "A tool designed for finely mixing ingredients or introducing air into the blend.  Also known as a 'wire whip', but it's a less effective weapon than that name makes it sound.",
+    "weight": "90 g",
+    "volume": "220 ml",
+    "//1": "Volume calculated as a cylinder with ~3cm diameter and 30.5cm length",
+    "longest_side": "31 cm",
+    "price": "6 USD",
     "looks_like": "spoon",
-    "copy-from": "base_utensil"
+    "copy-from": "base_utensil",
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "neutral" },
+    "//2": "Based on https://www.dimensions.com/element/ikea-koncis-whisk"
   },
   {
     "type": "GENERIC",
