@@ -309,7 +309,7 @@ class basecamp
         void start_menial_labor();
         void worker_assignment_ui();
         void job_assignment_ui();
-        void start_crafting( const std::string &type, const mission_id &miss_id, float exertion_level);
+        void start_crafting( const std::string &type, const mission_id &miss_id, float exertion_level );
 
         /// Called when a companion is sent to cut logs
         void start_cut_logs( const mission_id &miss_id, float exertion_level );
