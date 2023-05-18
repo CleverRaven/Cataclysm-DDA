@@ -3,6 +3,7 @@
 
 #include <array>
 #include <functional>
+#include <map>
 #include <string>
 #include <string_view>
 #include <variant>
@@ -10,6 +11,7 @@
 
 #include "dialogue_helpers.h"
 
+class math_exp;
 struct dialogue;
 struct dialogue_func {
     dialogue_func( std::string_view s_, std::string_view sc_, int n_ ) : symbol( s_ ),
@@ -20,11 +22,24 @@ struct dialogue_func {
 };
 
 struct diag_value {
-    std::string_view sv() const;
-    std::string str() const;
-    std::string eval( dialogue const &d ) const;
+    diag_value() = default;
+    template <class U>
+    explicit diag_value( U u ) : data( std::in_place_type<U>, std::forward<U>( u ) ) {}
+    template <class T, class... Args>
+    explicit diag_value( std::in_place_type_t<T> /*t*/, Args &&...args )
+        : data( std::in_place_type<T>, std::forward<Args>( args )... ) {}
 
-    using impl_t = std::variant<std::string, var_info>;
+    // these functions can be used at parse time if the parameter needs to be of exactly this type
+    // with no conversion. These throw so they should *NOT* be used at runtime.
+    double dbl() const;
+    std::string_view str() const;
+    var_info var() const;
+
+    // evaluate and possibly convert the parameter to this type
+    double dbl( dialogue const &d ) const;
+    std::string str( dialogue const &d ) const;
+
+    using impl_t = std::variant<double, std::string, var_info, math_exp>;
     impl_t data;
 };
 
@@ -33,9 +48,32 @@ constexpr bool operator==( diag_value const &lhs, std::string_view rhs )
     return std::holds_alternative<std::string>( lhs.data ) && std::get<std::string>( lhs.data ) == rhs;
 }
 
+// helper struct that makes it easy to determine whether a kwarg's value has been used
+struct deref_diag_value {
+    public:
+        deref_diag_value() = default;
+        explicit deref_diag_value( diag_value &&dv ) : _val( dv ) {}
+        diag_value const *operator->() const {
+            _used = true;
+            return &_val;
+        }
+        diag_value const &operator*() const {
+            _used = true;
+            return _val;
+        }
+        bool was_used() const {
+            return _used;
+        }
+    private:
+        bool mutable _used = false;
+        diag_value _val;
+};
+
+using diag_kwargs = std::map<std::string, deref_diag_value>;
+
 struct dialogue_func_eval : dialogue_func {
     using f_t = std::function<double( dialogue & )> ( * )( char scope,
-                std::vector<diag_value> const & );
+                std::vector<diag_value> const &, diag_kwargs const & );
 
     dialogue_func_eval( std::string_view s_, std::string_view sc_, int n_, f_t f_ )
         : dialogue_func( s_, sc_, n_ ), f( f_ ) {}
@@ -45,7 +83,7 @@ struct dialogue_func_eval : dialogue_func {
 
 struct dialogue_func_ass : dialogue_func {
     using f_t = std::function<void( dialogue &, double )> ( * )( char scope,
-                std::vector<diag_value> const & );
+                std::vector<diag_value> const &, diag_kwargs const & );
 
     dialogue_func_ass( std::string_view s_, std::string_view sc_, int n_, f_t f_ )
         : dialogue_func( s_, sc_, n_ ), f( f_ ) {}
@@ -56,40 +94,27 @@ struct dialogue_func_ass : dialogue_func {
 using pdiag_func_eval = dialogue_func_eval const *;
 using pdiag_func_ass = dialogue_func_ass const *;
 
-std::function<double( dialogue & )> u_val( char scope,
-        std::vector<diag_value> const &params );
-std::function<void( dialogue &, double )> u_val_ass( char scope,
-        std::vector<diag_value> const &params );
+using decl_diag_eval = std::function<double( dialogue & )> ( char scope,
+                       std::vector<diag_value> const &params, diag_kwargs const &kwargs );
+using decl_diag_ass = std::function<void( dialogue &, double )> ( char scope,
+                      std::vector<diag_value> const &params, diag_kwargs const &kwargs );
 
-std::function<double( dialogue & )> option_eval( char scope,
-        std::vector<diag_value> const &params );
+decl_diag_eval armor_eval;
+decl_diag_eval attack_speed_eval;
+decl_diag_eval num_input_eval;
+decl_diag_eval option_eval;
+decl_diag_eval pain_eval;
+decl_diag_ass pain_ass;
+decl_diag_eval skill_eval;
+decl_diag_ass skill_ass;
+decl_diag_eval test_diag;
+decl_diag_eval u_val;
+decl_diag_ass u_val_ass;
+decl_diag_eval weather_eval;
+decl_diag_ass weather_ass;
 
-std::function<double( dialogue & )> armor_eval( char scope,
-        std::vector<diag_value> const &params );
-
-std::function<double( dialogue & )> num_input_eval( char /*scope*/,
-        std::vector<diag_value> const &params );
-
-std::function<double( dialogue & )> attack_speed_eval( char scope,
-        std::vector<diag_value> const &/* params */ );
-
-std::function<double( dialogue & )> pain_eval( char scope,
-        std::vector<diag_value> const &/* params */ );
-
-std::function<void( dialogue &, double )> pain_ass( char scope,
-        std::vector<diag_value> const &/* params */ );
-
-std::function<double( dialogue & )> skill_eval( char scope,
-        std::vector<diag_value> const &params );
-std::function<void( dialogue &, double )> skill_ass( char scope,
-        std::vector<diag_value> const &params );
-
-std::function<double( dialogue & )> weather_eval( char /* scope */,
-        std::vector<diag_value> const &params );
-std::function<void( dialogue &, double )> weather_ass( char /* scope */,
-        std::vector<diag_value> const &params );
-
-inline std::array<dialogue_func_eval, 8> const dialogue_eval_f{
+inline std::array<dialogue_func_eval, 9> const dialogue_eval_f{
+    dialogue_func_eval{ "_test_diag_", "g", -1, test_diag },
     dialogue_func_eval{ "val", "un", -1, u_val },
     dialogue_func_eval{ "game_option", "g", -1, option_eval },
     dialogue_func_eval{ "pain", "un", 0, pain_eval },
