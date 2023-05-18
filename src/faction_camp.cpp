@@ -2383,7 +2383,7 @@ void basecamp::start_relay_hide_site( const mission_id &miss_id, float exertion_
             npc_ptr comp = start_mission( miss_id,
                                           work_time, true,
                                           _( "departs for the hide site…" ), false, {},
-                                          skill_survival, 3, exertion_level);
+                                          skill_survival, 3, exertion_level );
             if( comp != nullptr ) {
                 // recalculate trips based on actual load
                 trips = std::max( om_carry_weight_to_trips( total_import_mass, total_import_volume, comp ),
