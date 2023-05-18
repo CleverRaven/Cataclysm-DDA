@@ -2320,7 +2320,10 @@ void repair_item_finish( player_activity *act, Character *you, bool no_menu )
                                            fix.tname() );
         ammotype current_ammo;
         std::string ammo_name;
-        if( used_tool->has_flag( flag_USES_BIONIC_POWER ) ) {
+        if (used_tool->has_flag( flag_USE_UPS ) ) {
+            ammo_name = _( "battery" );
+            current_ammo = ammo_battery;
+        } else if( used_tool->has_flag( flag_USES_BIONIC_POWER ) ) {
             ammo_name = _( "bionic power" );
 
         } else {
@@ -2329,7 +2332,7 @@ void repair_item_finish( player_activity *act, Character *you, bool no_menu )
             } else {
                 current_ammo = item_controller->find_template( used_tool->ammo_current() )->ammo->type;
             }
-
+            
             ammo_name = item::nname( used_tool->ammo_current() );
         }
 

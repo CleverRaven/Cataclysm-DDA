@@ -10336,6 +10336,13 @@ int item::ammo_capacity( const ammotype &ammo ) const
     if( is_magazine() ) {
         return type->magazine->capacity;
     }
+    if ( has_flag( flag_USE_UPS) ) {
+        int j = 0;
+        for ( const item* i : get_player_character().all_items_with_flag( flag_IS_UPS ) ) {
+            j += i->ammo_capacity( ammo );
+        }
+        return j;
+    }
     return 0;
 }
 

@@ -619,15 +619,6 @@ void activity_tracker::deserialize( const JsonObject &jo )
     }
 }
 
-// migration handling of items that used to have charges instead of real items.
-// remove this migration function after 0.F
-static void migrate_item_charges( item &it )
-{
-    if( it.charges != 0 && it.has_pocket_type( item_pocket::pocket_type::MAGAZINE ) ) {
-        it.ammo_set( it.ammo_default(), it.charges );
-        it.charges = 0;
-    }
-}
 
 /**
  * Gather variables for saving. These variables are common to both the avatar and NPCs.
@@ -1068,14 +1059,6 @@ void Character::load( const JsonObject &data )
         const tripoint p( pmap.get_int( "x" ), pmap.get_int( "y" ), pmap.get_int( "z" ) );
         const std::string t = pmap.get_string( "trap" );
         known_traps.insert( trap_map::value_type( p, t ) );
-    }
-
-    // remove after 0.F
-    if( savegame_loading_version < 33 ) {
-        visit_items( []( item * it, item * ) {
-            migrate_item_charges( *it );
-            return VisitResponse::NEXT;
-        } );
     }
 
     JsonArray parray;
@@ -3528,10 +3511,6 @@ void vehicle::deserialize( const JsonObject &data )
         auto it = vp.part().items.begin();
         auto end = vp.part().items.end();
         for( ; it != end; ++it ) {
-            // remove after 0.F
-            if( savegame_loading_version < 33 ) {
-                migrate_item_charges( *it );
-            }
         }
     }
 
@@ -5084,10 +5063,6 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
                     update_lum_add( p, it );
                 }
                 active_items.add( it, p );
-                if( savegame_loading_version < 33 ) {
-                    // remove after 0.F
-                    migrate_item_charges( it );
-                }
             }
         }
     } else if( member_name == "traps" ) {
