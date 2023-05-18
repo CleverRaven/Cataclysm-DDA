@@ -1250,6 +1250,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
+        "default_magazine": "medium_storage_battery",
         "item_restriction": [
           "medium_storage_battery",
           "medium_battery_cell",
@@ -1263,8 +1264,7 @@
           "small_storage_battery",
           "large_storage_battery",
           "storage_battery"
-        ],
-        "default_magazine": "medium_storage_battery"
+        ]
       }
     ],
     "melee_damage": { "bash": 7 }
