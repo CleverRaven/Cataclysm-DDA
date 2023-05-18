@@ -288,7 +288,7 @@
     "id": "perk_chainsmoker",
     "name": { "str": "Chainsmoker" },
     "points": 0,
-    "description": "Smoking is bad, but damn its badass.  You deal more damage and shoot faster when you smoke.",
+    "description": "Smoking is bad, but damn it's badass.  You deal more damage and shoot more accurately when you smoke.",
     "category": [ "perk" ],
     "enchantments": [
       { "condition": { "u_has_effect": "cig" }, "values": [ { "value": "MELEE_DAMAGE", "multiply": 0.25 } ] },
