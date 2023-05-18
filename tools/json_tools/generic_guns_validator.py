@@ -27,6 +27,7 @@ AMMO_TYPE_WHITELIST = {
     'metal_rail',
     'nail',
     'nuts_bolts',
+    'oxygen',
     'paintball',
     'pebble',
     'plasma',
