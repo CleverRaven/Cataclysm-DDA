@@ -10327,8 +10327,7 @@ int item::ammo_capacity( const ammotype &ammo ) const
     const item *mag = magazine_current();
     if( mag ) {
         res += mag->ammo_capacity( ammo );
-    } 
-    else if( contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE ) ) {
+    } else if( contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE ) ) {
         res += contents.ammo_capacity( ammo );
     }
     
