@@ -317,7 +317,7 @@ class basecamp
         void start_setup_hide_site( const mission_id &miss_id, float exertion_level );
         void start_relay_hide_site( const mission_id &miss_id, float exertion_level );
         /// Called when a companion is sent to start fortifications
-        void start_fortifications( const mission_id &miss_id, float exertion_level);
+        void start_fortifications( const mission_id &miss_id, float exertion_level );
         /// Called when a companion is sent to start digging down salt water pipes
         bool common_salt_water_pipe_construction( const mission_id &miss_id,
                 expansion_salt_water_pipe *pipe,
