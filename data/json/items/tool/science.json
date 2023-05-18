@@ -683,6 +683,7 @@
   {
     "id": "oxygen_cylinder",
     "type": "MAGAZINE",
+    "category": "spare_parts",
     "name": { "str": "oxygen cylinder" },
     "description": "A large steel cylinder used for storing pressurized gas.  It is marked with a faded, but legible O2 symbol.",
     "weight": "19050 g",
