@@ -2232,7 +2232,7 @@ void basecamp::start_cut_logs( const mission_id &miss_id, float exertion_level )
         if( comp != nullptr ) {
             om_cutdown_trees_logs( forest, 50 );
             om_harvest_ter( *comp, forest, ter_id( "t_tree_young" ), 50 );
-            mass_volume harvest = om_harvest_itm( comp, forest, 95 );
+            om_harvest_itm( comp, forest, 95 );
             comp->companion_mission_time_ret = calendar::turn + work_time;
             //If we cleared a forest...
             if( om_cutdown_trees_est( forest ) < 5 ) {
