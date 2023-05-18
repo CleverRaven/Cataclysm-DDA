@@ -22,7 +22,7 @@
 
 static const skill_id skill_mechanics( "mechanics" );
 
-static const vproto_id vehicle_prototype_car_abstract( "car_abstract" );
+static const vproto_id vehicle_prototype_car( "car" );
 
 static void test_repair( const std::vector<item> &tools, bool expect_craftable )
 {
@@ -40,8 +40,7 @@ static void test_repair( const std::vector<item> &tools, bool expect_craftable )
     player_character.set_skill_level( skill_mechanics, 10 );
 
     const tripoint vehicle_origin = test_origin + tripoint_south_east;
-    vehicle *veh_ptr = get_map().add_vehicle( vehicle_prototype_car_abstract, vehicle_origin,
-                       -90_degrees, 0, 0 );
+    vehicle *veh_ptr = get_map().add_vehicle( vehicle_prototype_car, vehicle_origin, -90_degrees, 0, 0 );
 
     REQUIRE( veh_ptr != nullptr );
     // Find the frame at the origin.
