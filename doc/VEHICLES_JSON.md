@@ -56,7 +56,7 @@ with any of the optional keys  "ammo", "ammo_types", "ammo_qty", or "fuel" as ab
 Several different lines can have the same X, Y co-ordinates and each one adds additional parts to that location. Parts must be added in the correct order ie: A wheel hub must be added prior to the wheel, but after the frame.
 
 #### PARTID and variants
-Some parts can be installed with different symbols (and tileset sprites) in different locations.  The different symbols can either be different parts (usually generated with copy-from) or the same part with a `"symbols"` or `"standard_symbols"` entry.  In the latter case, the different symbols are variants of the part.
+Some parts can be installed with different symbols (and tileset sprites) in different locations.  The different symbols can either be different parts (usually generated with copy-from) or the same part with a `"symbols"`.  In the latter case, the different symbols are variants of the part.
 
 If a part has variants, the specific variant can be specified in the vehicle prototype by appending the variant to the part id after a `_` symbol.  Thus, `"frame_cross"` is the `"cross"` variant of the `"frame"` part.
 

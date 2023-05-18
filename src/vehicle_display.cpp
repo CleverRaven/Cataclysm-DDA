@@ -53,13 +53,13 @@ char vehicle::part_sym( const int p, const bool exact, const bool include_fake )
         return '\'';
     } else {
         if( vp.is_broken() ) {
-            return vp_info.sym_broken;
+            return vp_info.get_symbol_broken();
         } else if( vp.variant.empty() ) {
-            return vp_info.sym;
+            return vp_info.get_symbol();
         } else {
             const auto vp_symbol = vp_info.symbols.find( vp.variant );
             if( vp_symbol == vp_info.symbols.end() ) {
-                return vp_info.sym;
+                return vp_info.get_symbol();
             } else {
                 return vp_symbol->second;
             }

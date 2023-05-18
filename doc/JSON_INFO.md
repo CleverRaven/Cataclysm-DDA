@@ -2671,8 +2671,7 @@ Vehicle components when installed on a vehicle.
 "symbol": "0",                // (Optional) ASCII character displayed when part is working
 "symbols": {                  // (Optional) ASCII characters displayed when the part is working,
   "left": "0", "right": "0"   // listed by variant suffix.  See below for more on variants
-"standard_symbols": false,     // (Optional) Use the standard ASCII characters for variants
-                              // must have one of symbol, symbols, or standard_symbols
+                              // must have symbol or symbols
 "looks_like": "small_wheel",  // (Optional) hint to tilesets if this part has no tile,
                               // use the looks_like tile.
 "bonus": 100,                 // Function depends on part type:
@@ -2754,14 +2753,8 @@ Vehicle components when installed on a vehicle.
 
 #### Symbols and Variants
 Vehicle parts can have multiple identical variants that use different symbols (and potentially
-tileset sprites).  They are declared by the `"standard_symbols"` boolean or the "symbols" object.
+tileset sprites).  They are declared by the "symbols" object.
 Variants are used in the vehicle prototype as a suffix following the part id (ie `id_variant`), such as `"frame_nw"` or `"halfboard_cover"`.
-
-setting `"standard_symbols"` to true gives the vehicle the following variants:
-```
-"cover": "^", "cross": "c", "horizontal": "h", "horizontal_2": "=", "vertical": "j",
-"vertical_2": "H", "ne": "u", "nw": "y", "se": "n", "sw": "b"
-```
 
 Otherwise, variants can use any of the following suffices:
 ```
