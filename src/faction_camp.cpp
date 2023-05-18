@@ -2473,7 +2473,7 @@ void basecamp::start_fortifications( const mission_id &miss_id, float exertion_l
             travel_time += companion_travel_time_calc( fort_om, omt_pos, 0_minutes, 2 );
         }
         time_duration total_time = base_camps::to_workdays( travel_time + build_time );
-        int need_food = time_to_food( total_time, exertion_level);
+        int need_food = time_to_food( total_time, exertion_level );
         if( !query_yn( _( "Trip Estimate:\n%s" ), camp_trip_description( total_time, build_time,
                        travel_time, dist, trips, need_food ) ) ) {
             return;
@@ -2492,7 +2492,7 @@ void basecamp::start_fortifications( const mission_id &miss_id, float exertion_l
         npc_ptr comp = start_mission(
                            miss_id, total_time, true,
                            _( "begins constructing fortifications…" ), false, {},
-                            exertion_level, making.required_skills );
+                           exertion_level, making.required_skills );
         if( comp != nullptr ) {
             components.consume_components();
             for( tripoint_abs_omt &pt : fortify_om ) {
@@ -2930,11 +2930,11 @@ void basecamp::start_combat_mission( const mission_id &miss_id, float exertion_l
     int trips = 2;
     time_duration travel_time = companion_travel_time_calc( scout_points, 0_minutes, trips );
     if( !query_yn( _( "Trip Estimate:\n%s" ), camp_trip_description( 0_hours, 0_hours,
-                   travel_time, dist, trips, time_to_food( travel_time, exertion_level) ) ) ) {
+                   travel_time, dist, trips, time_to_food( travel_time, exertion_level ) ) ) ) {
         return;
     }
     npc_ptr comp = start_mission( miss_id, travel_time, true, _( "departs on patrol…" ),
-                                  false, {}, skill_survival, 3, exertion_level);
+                                  false, {}, skill_survival, 3, exertion_level );
     if( comp != nullptr ) {
         comp->companion_mission_points = scout_points;
     }
@@ -2946,7 +2946,8 @@ void basecamp::start_combat_mission( const mission_id &miss_id, float exertion_l
 // and then search for the mission id without direction prefix in the recipes
 // if there's a match, the player has selected a crafting mission
 
-void basecamp::start_crafting( const std::string &type, const mission_id &miss_id, float exertion_level)
+void basecamp::start_crafting( const std::string &type, const mission_id &miss_id,
+                               float exertion_level )
 {
     const std::map<recipe_id, translation> &recipes = recipe_deck( type );
     const auto it = recipes.find( recipe_id( miss_id.parameters ) );
@@ -2983,7 +2984,7 @@ void basecamp::start_crafting( const std::string &type, const mission_id &miss_i
                                   batch_size ) );
         npc_ptr comp = start_mission( miss_id, work_days, true,
                                       _( "begins to work…" ), false, {}, exertion_level,
-                                      making.required_skills);
+                                      making.required_skills );
         if( comp != nullptr ) {
             components.consume_components();
             for( const item &results : making.create_results( batch_size ) ) {
@@ -3131,7 +3132,8 @@ static std::pair<size_t, std::string> farm_action( const tripoint_abs_omt &omt_t
     return std::make_pair( plots_cnt, crops );
 }
 
-void basecamp::start_farm_op( const tripoint_abs_omt &omt_tgt, const mission_id &miss_id, float exertion_level)
+void basecamp::start_farm_op( const tripoint_abs_omt &omt_tgt, const mission_id &miss_id,
+                              float exertion_level )
 {
     farm_ops op = farm_ops::plow;
     if( miss_id.id == Camp_Plow ) {
@@ -3182,12 +3184,12 @@ void basecamp::start_farm_op( const tripoint_abs_omt &omt_tgt, const mission_id 
             work += 1_minutes * seed_cnt;
             start_mission( miss_id, work, true,
                            _( "begins planting the field…" ), false, plant_these,
-                           skill_survival, 1, exertion_level);
+                           skill_survival, 1, exertion_level );
             break;
         }
         case farm_ops::plow:
             work += 5_minutes * plots_cnt;
-            start_mission(miss_id, work, true, _("begins plowing the field…"), false, {}, exertion_level );
+            start_mission( miss_id, work, true, _( "begins plowing the field…" ), false, {}, exertion_level );
             break;
         default:
             debugmsg( "Farm operations called with no operation" );
@@ -4498,18 +4500,18 @@ time_duration companion_travel_time_calc( const std::vector<tripoint_abs_omt> &j
         std::string om_id = omt_ref.id().c_str();
         // Player walks 1 om in roughly 30 seconds
         if( om_id == "field" ) {
-            one_way += 30 + (30 + haulage);
+            one_way += 30 + ( 30 + haulage );
         } else if( omt_ref->get_type_id() == oter_type_forest_trail ) {
-            one_way += 35 + (30 + haulage);
+            one_way += 35 + ( 30 + haulage );
         } else if( om_id == "forest_thick" ) {
-            one_way += 50 + (30 + haulage);
+            one_way += 50 + ( 30 + haulage );
         } else if( om_id == "forest_water" ) {
-            one_way += 60 + (30 + haulage);
+            one_way += 60 + ( 30 + haulage );
         } else if( is_river( omt_ref ) ) {
             // hauling stuff over a river is slow, because you have to portage most items
-            one_way += 200 + (40 + haulage);
+            one_way += 200 + ( 40 + haulage );
         } else {
-            one_way += 40 + (30 + haulage);
+            one_way += 40 + ( 30 + haulage );
         }
     }
     return work + one_way * trips * 1_seconds;
@@ -4529,7 +4531,7 @@ int om_carry_weight_to_trips( const units::mass &total_mass, const units::volume
 {
     units::mass max_m = comp ? comp->weight_capacity() - comp->weight_carried() : 60_kilogram;
     //Assume an additional pack will be carried in addition to normal gear
-    units::volume sack_v = item( itype_duffelbag).get_total_capacity();
+    units::volume sack_v = item( itype_duffelbag ).get_total_capacity();
     units::volume max_v = comp ? comp->free_space() : sack_v;
     max_v += sack_v;
     return om_carry_weight_to_trips( total_mass, total_volume, max_m, max_v );
@@ -4952,9 +4954,9 @@ int camp_food_supply( time_duration work )
     return camp_food_supply( -time_to_food( work ) );
 }
 
-int time_to_food( time_duration work, float exertion_level)
+int time_to_food( time_duration work, float exertion_level )
 {
-    return (2500 * exertion_level) * to_hours<int>( work ) / 24;
+    return ( 2500 * exertion_level ) * to_hours<int>( work ) / 24;
 }
 
 static const npc &getAverageJoe()
