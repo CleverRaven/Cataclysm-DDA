@@ -780,7 +780,7 @@
       [ [ "filament_durable", 225, "LIST" ] ],
       [ [ "xlnomex_socks", 1 ], [ "sheet_nomex", 6 ], [ "sheet_nomex_patchwork", 6 ] ],
       [ [ "thread_nomex", 30 ] ],
-      [ [ "sheet_fur", 4 ], [ "tanned_pelt", 4 ] ],
+      [ [ "sheet_fur_patchwork", 4 ], [ "tanned_pelt", 4 ] ],
       [ [ "fur", 12 ] ]
     ]
   },
@@ -788,7 +788,6 @@
     "result": "boots_xlsurvivor",
     "type": "recipe",
     "copy-from": "boots_survivor",
-    "skill_used": "tailor",
     "difficulty": 7,
     "skills_required": [ "fabrication", 5 ],
     "time": "45 h",
