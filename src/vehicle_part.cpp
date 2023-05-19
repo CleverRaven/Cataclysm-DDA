@@ -80,10 +80,8 @@ item vehicle_part::properties_to_item() const
             tmp.set_flag( flag_NO_DROP );
         }
 
-        tmp.set_var( "source_x", target.first.x );
-        tmp.set_var( "source_y", target.first.y );
-        tmp.set_var( "source_z", target.first.z );
-        tmp.set_var( "state", "hanging_from_vehicle" );
+        tmp.link.pos = target.first;
+        tmp.link.state = item::cable_link::hanging_from_vehicle;
         tmp.active = true;
     }
 

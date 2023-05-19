@@ -505,10 +505,8 @@ void vehicle::toggle_tracking()
 item vehicle::init_cord( const tripoint &pos )
 {
     item powercord( "power_cord" );
-    powercord.set_var( "source_x", pos.x );
-    powercord.set_var( "source_y", pos.y );
-    powercord.set_var( "source_z", pos.z );
-    powercord.set_var( "state", "hanging_from_vehicle" );
+    powercord.link.pos = pos;
+    powercord.link.state = item::cable_link::hanging_from_vehicle;
     powercord.active = true;
 
     return powercord;
@@ -527,7 +525,6 @@ void vehicle::plug_in( const tripoint &pos )
 
 void vehicle::connect( const tripoint &source_pos, const tripoint &target_pos )
 {
-
     item cord = init_cord( source_pos );
     map &here = get_map();
 
@@ -556,10 +553,7 @@ void vehicle::connect( const tripoint &source_pos, const tripoint &target_pos )
 
     vcoords = target_vp->mount();
     vehicle_part target_part( vpid, item( cord ) );
-    tripoint source_global( cord.get_var( "source_x", 0 ),
-                            cord.get_var( "source_y", 0 ),
-                            cord.get_var( "source_z", 0 ) );
-    target_part.target.first = here.getabs( source_global );
+    target_part.target.first = cord.link.pos;
     target_part.target.second = source_veh->global_square_location().raw();
     target_veh->install_part( vcoords, std::move( target_part ) );
 }
