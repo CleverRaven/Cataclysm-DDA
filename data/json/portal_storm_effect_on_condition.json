@@ -142,7 +142,7 @@
       { "queue_eocs": "EOC_CAUSE_PORTAL_STORM", "time_in_future": [ "30 seconds", "1 minutes" ] },
       { "assign_mission": "MISSION_INVESTIGATE_PORTAL_STORM_CENTER" },
       {
-        "u_message": "You suddenly register a buzzing in your senses.  It's getting louder, and your head starts to throb.  Somewhere nearby a mini cataclysm has begun(check mission log for details).",
+        "u_message": "You suddenly register a buzzing in your senses.  It's getting louder, and your head starts to throb.  Somewhere nearby a small cataclysm has begun.\n\n(check mission log for details).",
         "type": "bad",
         "popup": true
       }
