@@ -139,6 +139,7 @@ class material_type
         std::string cut_dmg_verb() const;
         std::string dmg_adj( int damage_level ) const;
         int chip_resist() const;
+        int repair_difficulty() const;
         float specific_heat_liquid() const;
         float specific_heat_solid() const;
         float latent_heat() const;
