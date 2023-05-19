@@ -217,9 +217,7 @@
     "id": "cheval_overdose",
     "//": "Intensity 1 is a standard dosage of the drug.  Further intensities reflect taking pills while the first dose hasn't worn off.  It is not wise to do so.",
     "name": [ "Energized", "Enflamed", "Arythmic", "Tachycardiac" ],
-    "apply_message": [
-      [ "These magickal trucker pills have kicked in and you feel great!  ", "good" ]
-    ],
+    "apply_message": [ [ "These magickal trucker pills have kicked in and you feel great!  ", "good" ] ],
     "decay_messages": [
       [
         "These magickal trucker pills have worn off and you feel rough.  It might be best to go ahead and sleep through the hangover as best you can.",
