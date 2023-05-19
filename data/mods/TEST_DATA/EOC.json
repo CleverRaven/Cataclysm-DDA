@@ -88,6 +88,15 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_math_armor",
+    "effect": [
+      { "math": [ "key1", "=", "u_armor('bash', 'torso')" ] },
+      { "math": [ "key2", "=", "u_armor('acid', 'torso')" ] },
+      { "math": [ "key3", "=", "u_armor('bash', 'head')" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_options_tests",
     "effect": [
       {

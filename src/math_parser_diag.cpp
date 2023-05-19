@@ -60,6 +60,16 @@ std::function<double( dialogue & )> option_eval( char /* scope */,
     };
 }
 
+std::function<double( dialogue & )> armor_eval( char scope,
+        std::vector<std::string> const &params )
+{
+    return[type = params[0], bpid = params[1], beta = is_beta( scope )]( dialogue const & d ) {
+        damage_type_id dt( type );
+        bodypart_id bp( bpid );
+        return d.actor( beta )->armor_at( dt, bp );
+    };
+}
+
 std::function<double( dialogue & )> pain_eval( char scope,
         std::vector<std::string> const &/* params */ )
 {
