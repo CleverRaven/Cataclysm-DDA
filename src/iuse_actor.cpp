@@ -4404,6 +4404,9 @@ std::optional<int> link_up_actor::use( Character &p, item &it, bool t, const tri
     // If the item is the cable, we can assign some variables now.
     // Otherwise, wait until after target selection to create the cable and assign this pointer.
     item *cable = nullptr;
+    const int respool_length = 5;
+    const int respool_time_per_square = 200;
+    bool is_respool_length = false;
     if( is_cable_item ) {
         cable = &it;
     } else {
@@ -4415,8 +4418,14 @@ std::optional<int> link_up_actor::use( Character &p, item &it, bool t, const tri
         if( !cable->link ) {
             cable->link = cata::make_value<item::link_data>();
         }
+        is_respool_length = cable->link->max_length - cable->charges > respool_length;
         if( cable->link->s_state == link_state::needs_reeling ) {
-            return std::nullopt; // Cables that need reeling can't be linked up.
+            if( query_yn( string_format( _( "Reel in the %s?" ), it.label( 1 ) ) ) ) {
+                p.assign_activity( player_activity( reel_cable_activity_actor( ( cable->link->max_length -
+                                                    cable->charges - respool_length ) * respool_time_per_square, item_location{p, cable},
+                                                    is_cable_item ? item_location::nowhere : item_location{p, &it} ) ) );
+            }
+            return 0;
         }
     }
 
@@ -4473,7 +4482,8 @@ std::optional<int> link_up_actor::use( Character &p, item &it, bool t, const tri
             }
         }
         if( targets.count( link_state::no_link ) > 0 ) {
-            link_menu.addentry( 99, false, -1, _( "Detach and re-spool the cable" ) );
+            link_menu.addentry( 99, false, -1,
+                                is_respool_length ? _( "Detach and re-spool the cable" ) : _( "Detach the cable" ) );
         }
 
     } else if( cable != nullptr && cable->link->has_state( link_state::vehicle_tow ) ) {
@@ -4484,7 +4494,8 @@ std::optional<int> link_up_actor::use( Character &p, item &it, bool t, const tri
         link_menu.addentry( 2, cable->link->s_state == link_state::vehicle_tow, -1,
                             _( "Attach loose end to towed vehicle" ) );
         if( targets.count( link_state::no_link ) > 0 ) {
-            link_menu.addentry( 99, true, -1, _( "Detach and re-spool the cable" ) );
+            link_menu.addentry( 99, true, -1,
+                                is_respool_length ? _( "Detach and re-spool the cable" ) : _( "Detach the cable" ) );
         }
 
     } else if( is_cable_item ) {
@@ -4515,7 +4526,8 @@ std::optional<int> link_up_actor::use( Character &p, item &it, bool t, const tri
             }
         }
         if( targets.count( link_state::no_link ) > 0 ) {
-            link_menu.addentry( 99, true, -1, _( "Detach and re-spool the cable" ) );
+            link_menu.addentry( 99, true, -1,
+                                is_respool_length ? _( "Detach and re-spool the cable" ) : _( "Detach the cable" ) );
         }
     } else {
         debugmsg( "An already connected device (%s) tried to link up again!", it.tname() );
@@ -4536,6 +4548,17 @@ std::optional<int> link_up_actor::use( Character &p, item &it, bool t, const tri
 
     } else if( choice == 99 ) { // Selection: Unconnect & respool.
 
+        if( is_respool_length ) {
+            // Cables that are too long need to be manually rewound before reuse.
+            cable->active = false;
+            // 2 seconds per square
+            p.assign_activity( player_activity( reel_cable_activity_actor( ( cable->link->max_length -
+                                                cable->charges - respool_length ) * respool_time_per_square, item_location{p, cable},
+                                                is_cable_item ? item_location::nowhere : item_location{p, &it} ) ) );
+            return 0;
+        }
+
+        p.add_msg_if_player( m_info, string_format( _( "You detach the %s." ), it.label( 1 ) ) );
         if( is_cable_item ) {
             it.reset_cable( &p );
         } else {

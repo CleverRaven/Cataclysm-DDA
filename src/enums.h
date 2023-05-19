@@ -472,9 +472,9 @@ struct enum_traits<aggregate_type> {
 };
 
 enum class link_state : int {
-    // Default / utility states
-    no_link = 0,
-    needs_reeling,
+    // Utility states
+    no_link = 0,   // No connection, the default state
+    needs_reeling, // Cable has been disconnected and needs to be manually reeled in before it can be used again
 
     // States of a cable's link at the end represented by the item (s_state)
     ups,       // Linked to a UPS the cable holder is holding
@@ -484,7 +484,7 @@ enum class link_state : int {
     vehicle, // Linked to a vehicle's cable ports / vehicle's electrical controls / appliance
 
     // States of a link that could be at either the source or the target
-    bio_cable, // Linked to the cable holder's cable system bionic - s_state if connected to a vehicle, t_state otherwise
+    bio_cable,   // Linked to the cable holder's cable system bionic - s_state if connected to a vehicle, t_state otherwise
     vehicle_tow, // Linked to a valid tow point on a vehicle - s_state if it's the towing vehicle, t_state if the towed one
 
     last

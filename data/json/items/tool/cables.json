@@ -60,8 +60,8 @@
     "category": "tools",
     "price": 1,
     "price_postapoc": 100,
-    "max_charges": 3,
-    "initial_charges": 3,
+    "max_charges": 4,
+    "initial_charges": 4,
     "use_action": {
       "type": "link_up",
       "menu_text": "Attach / Detach",

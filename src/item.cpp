@@ -6562,10 +6562,10 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         tagtext += _( " (lit)" );
     } else if( contents_linked || ( has_flag( flag_IS_UPS ) && get_var( "cable" ) == "plugged_in" ) ) {
         tagtext += _( " (plugged in)" );
-    } else if( active && link ) {
-        if( link->s_state == link_state::needs_reeling || link->has_no_links() ) {
+    } else if( link ) {
+        if( link->s_state == link_state::needs_reeling ) {
             tagtext += _( " (unspooled)" );
-        } else {
+        } else if( active ) {
             tagtext += _( " (connected)" );
         }
     } else if( active && !has_temperature() && !string_ends_with( typeId().str(), "_on" ) ) {
@@ -12745,13 +12745,9 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos, it
         return reset_cable( carrier, parent_item );
     }
 
-    // Loose, unspooled cables shouldn't do anything but wait to be picked up.
-    // Also a failsafe for unlinked cables that are active somehow.
+    // Failsafe for loose, unwound cables that are somehow still active.
     if( link->s_state == link_state::needs_reeling || link->has_no_links() ) {
-        if( carrier != nullptr ) {
-            return reset_cable( carrier, parent_item );
-        }
-        return false;
+        return reset_cable( carrier, parent_item );
     }
 
     // Handle item-side links.
@@ -12982,6 +12978,7 @@ int item::charge_linked_batteries( item &linked_item, vehicle &linked_veh, int t
 bool item::reset_cable( Character *p, item *parent_item, const bool loose_message,
                         const tripoint sees_point )
 {
+    active = false;
     if( !link ) {
         if( parent_item != nullptr ) {
             debugmsg( "%s's active cable lost its cable data!", parent_item->tname() );
@@ -12989,38 +12986,34 @@ bool item::reset_cable( Character *p, item *parent_item, const bool loose_messag
         } else {
             debugmsg( "Active cable %s lost its cable data!", tname() );
         }
-        active = false;
         charges = type->maximum_charges();
         return has_flag( flag_AUTO_DELETE_CABLE );
     }
 
-    charges = link->max_length;
-
-    if( p != nullptr || !link ) {
-        active = false;
-        link.reset();
-        // Character is holding the item, so immediately reel it up.
-        if( loose_message ) {
+    if( loose_message ) {
+        if( p != nullptr ) {
             p->add_msg_if_player( m_bad, parent_item == nullptr ?
                                   string_format( _( "You notice your %s has come loose!" ), label( 1 ) ) :
                                   string_format( _( "You notice your %s's cable has come loose!" ), parent_item->label( 1 ) ) );
-        }
-        p->add_msg_if_player( m_info, _( "You reel in the cable." ) );
-        //p->moves -= charges * 10; TODOkama Make this only happen when safe, and interruptible?
-        if( parent_item != nullptr ) {
-            parent_item->contents_linked = false;
-        }
-        return has_flag( flag_AUTO_DELETE_CABLE );
-    } else {
-        if( loose_message ) {
+        } else {
             add_msg_if_player_sees( sees_point, m_bad, parent_item == nullptr ?
                                     string_format( _( "You notice the %s has come loose!" ), label( 1 ) ) :
                                     string_format( _( "You notice the %s's cable has come loose!" ), parent_item->label( 1 ) ) );
         }
-        // Character isn't holding the item, so wait until the player picks it up to reel it up.
-        link->s_state = link_state::needs_reeling;
     }
-    return false;
+    const int respool_length = 5;
+    if( link->max_length - charges > respool_length ) {
+        // Cables that are too long need to be manually rewound before reuse.
+        link->s_state = link_state::needs_reeling;
+        return has_flag( flag_AUTO_DELETE_CABLE );
+    }
+
+    charges = link->max_length;
+    link.reset();
+    if( parent_item != nullptr ) {
+        parent_item->contents_linked = false;
+    }
+    return has_flag( flag_AUTO_DELETE_CABLE );
 }
 
 void item::reset_cables( Character *p )
