@@ -2796,6 +2796,7 @@ static std::pair<int, bool> find_repair_difficulty( const Character &pl, const i
                 min = material.first->repair_difficulty();
                 difficulty_defined = true;
             }
+        }
     }
     return { min, difficulty_defined };
 }
