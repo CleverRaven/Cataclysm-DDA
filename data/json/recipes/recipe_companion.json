@@ -157,7 +157,7 @@
   {
     "type": "recipe",
     "activity_level": "fake",
-    "result": "mobile_memory_card",
+    "result": "memory_card_unread",
     "id_suffix": "npc_hack",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -168,7 +168,7 @@
     "never_learn": true,
     "skills_required": [ [ "computer", 2 ] ],
     "tools": [ [ [ "laptop", 120 ] ] ],
-    "components": [ [ [ "mobile_memory_card_used", 1 ] ] ]
+    "components": [ [ [ "memory_card", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -207,7 +207,7 @@
   {
     "type": "recipe",
     "activity_level": "fake",
-    "result": "mobile_memory_card_science",
+    "result": "memory_card_science",
     "id_suffix": "npc_hack",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -218,7 +218,7 @@
     "never_learn": true,
     "skills_required": [ [ "computer", 5 ] ],
     "tools": [ [ [ "laptop", 360 ] ], [ [ "software_hacking", -1 ] ] ],
-    "components": [ [ [ "mobile_memory_card_used", 1 ] ] ]
+    "components": [ [ [ "memory_card", 1 ] ] ]
   },
   {
     "type": "recipe",

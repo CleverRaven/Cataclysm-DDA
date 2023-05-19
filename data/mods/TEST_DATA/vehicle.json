@@ -7,6 +7,17 @@
     "parts": [ { "x": 0, "y": 0, "parts": [ "frame_vertical", "cargo_space" ] } ]
   },
   {
+    "id": "test_turret_rig",
+    "type": "vehicle",
+    "//": "used for vehicle_turret test in vehicle_turrets_test.cpp",
+    "name": "TEST turret rig",
+    "blueprint": [ "o" ],
+    "parts": [
+      { "x": 0, "y": 0, "parts": [ "frame_vertical", "turret_mount", "storage_battery" ] },
+      { "x": 1, "y": 0, "parts": [ "frame_vertical", "tank" ] }
+    ]
+  },
+  {
     "id": "test_rv",
     "type": "vehicle",
     "name": "RV",

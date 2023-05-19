@@ -83,8 +83,35 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_run_with_test_nested2",
-    "condition": { "expects_vars": [ "npctalk_var_key1", "npctalk_var_key2", "npctalk_var_key3" ] },
+    "condition": { "expects_vars": [ "key1", "key2", "key3" ] },
     "effect": [ { "math": [ "key1", "=", "_key1" ] }, { "math": [ "key2", "=", "_key2" ] }, { "math": [ "key3", "=", "_key3" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_math_armor",
+    "effect": [
+      { "math": [ "key1", "=", "u_armor('bash', 'torso')" ] },
+      { "math": [ "key2", "=", "u_armor('acid', 'torso')" ] },
+      { "math": [ "key3", "=", "u_armor('bash', 'head')" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_options_tests",
+    "effect": [
+      {
+        "set_string_var": { "mutator": "game_option", "option": "DANGEROUS_TERRAIN_WARNING_PROMPT" },
+        "target_var": { "global_val": "key1" }
+      },
+      { "math": [ "key2", "=", "game_option('NPC_SPAWNTIME')" ] },
+      { "run_eocs": "EOC_options_test_nested" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_options_test_nested",
+    "condition": { "get_game_option": "AUTOSAVE" },
+    "effect": [ { "math": [ "key3", "=", "1" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -158,6 +185,14 @@
     "recurrence": { "math": [ "math_test_result" ] },
     "global": true,
     "effect": { "u_message": "test recurrence" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_math_diag_w_vars",
+    "effect": [
+      { "set_string_var": "survival", "target_var": { "global_val": "myskill" } },
+      { "math": [ "myskill_math", "=", "u_skill(myskill)" ] }
+    ]
   },
   {
     "type": "effect_on_condition",

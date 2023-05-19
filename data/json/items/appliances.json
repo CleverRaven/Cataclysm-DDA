@@ -141,7 +141,7 @@
     "symbol": "7",
     "description": "This table has an inset router, a rotating motor with an exchangeable blade head for cutting specific profiles and grooves.  Needs to be placed and plugged into a power source.",
     "color": "yellow_green",
-    "name": { "str": "disconnected router" },
+    "name": { "str": "disconnected router table" },
     "material": [ "steel" ],
     "//": "Based off Powermatic TS29 Shaper.  TODO: When support for multi-tile appliances is added, this can stretch two tiles",
     "longest_side": "147 cm",

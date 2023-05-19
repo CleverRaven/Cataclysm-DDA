@@ -612,6 +612,15 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "survivor_forest_camp" ],
+    "name": "survivor forest camp",
+    "sym": "+",
+    "color": "green",
+    "see_cost": 5,
+    "flags": [ "REQUIRES_PREDECESSOR" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "hunter_shack_roof", "hunter_shack_roof_1" ],
     "name": "swamp shack roof",
     "sym": "+",

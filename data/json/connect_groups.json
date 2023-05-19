@@ -55,6 +55,14 @@
   },
   {
     "type": "connect_group",
+    "id": "SANDMOUND"
+  },
+  {
+    "type": "connect_group",
+    "id": "SANDGLASS"
+  },
+  {
+    "type": "connect_group",
     "id": "PIT_DEEP"
   },
   {
@@ -83,7 +91,19 @@
   },
   {
     "type": "connect_group",
+    "id": "CLAYMOUND"
+  },
+  {
+    "type": "connect_group",
     "id": "DIRT"
+  },
+  {
+    "type": "connect_group",
+    "id": "DIRTMOUND"
+  },
+  {
+    "type": "connect_group",
+    "id": "MUD"
   },
   {
     "type": "connect_group",

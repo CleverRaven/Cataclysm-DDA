@@ -178,7 +178,8 @@
       { "monster": "mon_zombie_shady" },
       { "monster": "mon_zombie_brute_ninja", "weight": 500 },
       { "monster": "mon_zombie_pupa_decoy_shady", "weight": 250 },
-      { "monster": "mon_zombie_pupa_shady", "weight": 250 }
+      { "monster": "mon_zombie_pupa_shady", "weight": 250 },
+      { "monster": "mon_zombie_grue", "weight": 250 }
     ]
   },
   {

@@ -839,6 +839,7 @@ Effect | Description
 `u_assign_activity, npc_assign_activity: `string or [variable object](#variable-object), `duration: `duration or [variable object](#variable-object) | Your character or the NPC will start activity `u_assign_activity`. It will last for `duration` time.
 `u_teleport, npc_teleport: `[variable object](#variable-object), (*optional* `success_message: `string or [variable object](#variable-object)), (*optional* `fail_message: `string or [variable object](#variable-object)), (*optional* `force: force_bool`) | u or npc are teleported to the destination stored in the variable named by `target_var`.  If the teleport succeeds and `success_message` is defined it will be displayed, if it fails and `fail_message` is defined it will be displayed.  If `force` is true any creatures at the destination will be killed and if blocked a nearby spot will be chosen to teleport to instead.
 `u_set_hp, npc_set_hp : `int or [variable object](#variable-object), (*optional* `target_part: `string or [variable object](#variable-object)), (*optional* `only_increase: bool`), (*optional* `main_only: bool`), (*optional* `minor_only: bool`), (*optional* `max: bool`) | Your character or the NPC will have the hp of `target_part`(or all parts if it was not used) set to `amount`.  If `only_increase` is true (defaults to false) this will only happen if it increases the parts hp.  If `major_only` is true (defaults to false) only major body parts will be affected, if `minor_only` (defaults to false) instead only minor parts will be affected.  If `max` (defaults to false) is true `amount` will be ignored and the part will be set to its max hp.
+`u_die, npc_die` | Your character or the NPC will die.
 
 #### Trade / Items
 
@@ -1082,6 +1083,7 @@ Condition | Type | Description
 --- | --- | ---
 `"mod_is_loaded"` | string or [variable object](#variable-object) | `true` if the mod with the given ID is loaded.
 `"get_condition"` | string or [variable object](#variable-object) | Runs the condition stored in the variable `get_condition` for the current dialogue.
+`"get_game_option"` | string or [variable object](#variable-object) | gets the true or false game option for the provided string.
 
 ---
 
@@ -1250,6 +1252,7 @@ Example:
 Mutator Name | Required Keys | Description
 --- | --- | ---
 `"mon_faction"` | `mtype_id`: String or [variable object](#variable-object). | Returns the faction of the monster with mtype_id.
+`"game_option"` | `option`: String or [variable object](#variable-object). | Returns the value of the option as a string, for numerical options you should instead use the math function.
 
 
 ### Compare Numbers and Arithmetics
@@ -1426,12 +1429,15 @@ Dialogue functions take single-quoted strings as arguments and can return or man
 
 This section is a work in progress as functions are ported from `arithmetic` to `math`.
 
+_function arguments are either `s`trings or `v`[ariables](#variables)_
+
 | Function | Eval | Assign |Scopes | Description |
 |----------|------|--------|-------|-------------|
-| pain     |  ✅  |   ✅   | u, n  | Return or set pain<br/> Example:<br/>`{ "math": [ "n_pain()", "=", "u_pain() + 9000" ] }`|
-| skill    |  ✅  |   ✅   | u, n  | Return or set skill level<br/> Example:<br/>`"condition": { "math": [ "u_skill('driving')", ">=", "5"] }`|
-| weather  |  ✅  |   ✅   | N/A<br/>(global)  | Return or set a weather aspect<br/><br/>Aspect must be one of:<br/>`temperature` (in Kelvin),<br/>`humidity` (as percentage),<br/>`pressure` (in millibar),<br/>`windpower` (in mph).<br/><br/>Temperature conversion functions are available: `celsius()`, `fahrenheit()`, `from_celsius()`, and `from_fahrenheit()`.<br/><br/>Examples:<br/>`{ "math": [ "weather('temperature')", "<", "from_fahrenheit( 33 )" ] }`<br/>`{ "math": [ "fahrenheit( weather('temperature') )", "==", "21" ] }`|
-
+| armor(`s`/`v`,`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the numerical value for a characters armor on a body part, for a damage type.<br/> Example:<br/>`"condition": { "math": [ "u_armor('bash', 'torso')", ">=", "5"] }`<br/>`"condition": { "math": [ "u_armor(u_dmgtype, u_bp)", ">=", "5"] }`|  
+| game_option(`s`)   |  ✅  |   ❌   | N/A<br/>(global)  | Return the numerical value of a game option<br/> Example:<br/>`"condition": { "math": [ "game_option('NPC_SPAWNTIME')", ">=", "5"] }`|
+| pain()     |  ✅  |   ✅   | u, n  | Return or set pain<br/> Example:<br/>`{ "math": [ "n_pain()", "=", "u_pain() + 9000" ] }`|
+| skill(`s`/`v`)    |  ✅  |   ✅   | u, n  | Return or set skill level<br/> Example:<br/>`"condition": { "math": [ "u_skill('driving')", ">=", "5"] }`<br/>`"condition": { "math": [ "u_skill(someskill)", ">=", "5"] }`|
+| weather(`s`)  |  ✅  |   ✅   | N/A<br/>(global)  | Return or set a weather aspect<br/><br/>Aspect must be one of:<br/>`temperature` (in Kelvin),<br/>`humidity` (as percentage),<br/>`pressure` (in millibar),<br/>`windpower` (in mph).<br/><br/>Temperature conversion functions are available: `celsius()`, `fahrenheit()`, `from_celsius()`, and `from_fahrenheit()`.<br/><br/>Examples:<br/>`{ "math": [ "weather('temperature')", "<", "from_fahrenheit( 33 )" ] }`<br/>`{ "math": [ "fahrenheit( weather('temperature') )", "==", "21" ] }`|
 
 ##### u_val shim
 There is a `val()` shim available that can cover the missing arithmetic functions from `u_val` and `npc_val`:

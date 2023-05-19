@@ -537,6 +537,12 @@
     "flags": [ "DISABLE_FLIGHT" ]
   },
   {
+    "type": "effect_type",
+    "id": "stumbled_into_invisible",
+    "name": [ "Stumbled Into Invisible Player" ],
+    "desc": [ "This creature has stumbled into an invisible player and is now aware of their presence." ]
+  },
+  {
     "//": "ACTUAL PLAYER EFFECTS START HERE",
     "type": "effect_type",
     "id": "downed",
@@ -4193,6 +4199,16 @@
     "rating": "bad"
   },
   {
+    "id": "lightsnare",
+    "type": "effect_type",
+    "name": [ "Snared" ],
+    "desc": [ "For such a tiny creature, you're in a very big pickle." ],
+    "rating": "bad",
+    "show_intensity": false,
+    "//": "Don't multiply speed by 0 or else the effect will never be removed for creatures with 0 damage(e.g. rabbits)",
+    "enchantments": [ { "values": [ { "value": "SPEED", "multiply": 0.01 } ] } ]
+  },
+  {
     "type": "effect_type",
     "id": "molting",
     "name": [ "Molting" ],
@@ -4215,9 +4231,7 @@
     "type": "effect_type",
     "id": "molting_imminent",
     "name": [ "Imminent Molting" ],
-    "desc": [
-      "Your exoskeleton has grown so tight and rigid that it grips you like a vise.  You must seek shelter for the coming molt."
-    ],
+    "desc": [ "Your exoskeleton has grown so tight and rigid that it grips you like a vise.  You must seek shelter for the coming molt." ],
     "apply_message": "You can hardly move in your tightening exoskeleton, and you feel a strong impulse to hunker down somewhere safe.",
     "rating": "bad",
     "base_mods": {

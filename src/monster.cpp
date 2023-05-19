@@ -2089,8 +2089,6 @@ bool monster::move_effects( bool )
     if( has_effect( effect_lightsnare ) ) {
         if( x_in_y( type->melee_dice * type->melee_sides, 12 ) ) {
             remove_effect( effect_lightsnare );
-            here.spawn_item( pos(), "string_36" );
-            here.spawn_item( pos(), "snare_trigger" );
             if( u_see_me ) {
                 add_msg( _( "The %s escapes the light snare!" ), name() );
             }
@@ -2646,15 +2644,12 @@ void monster::die( Creature *nkiller )
         move_special_item_to_inv( storage_item );
         move_special_item_to_inv( tied_item );
 
-        if( has_effect( effect_lightsnare ) ) {
-            add_item( item( "string_36", calendar::turn_zero ) );
-            add_item( item( "snare_trigger", calendar::turn_zero ) );
-        }
         if( has_effect( effect_heavysnare ) ) {
             add_item( item( "rope_6", calendar::turn_zero ) );
             add_item( item( "snare_trigger", calendar::turn_zero ) );
         }
     }
+
 
     if( death_drops && !no_extra_death_drops ) {
         drop_items_on_death( corpse.get_item() );

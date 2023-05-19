@@ -20,6 +20,11 @@
     "entries": [ { "drop": "raw_burdock", "base_num": [ 1, 4 ] } ]
   },
   {
+    "id": "burdock_summer_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "raw_burdock", "base_num": [ 1, 4 ] }, { "drop": "burdock_stalk", "base_num": [ 1, 4 ] } ]
+  },
+  {
     "id": "salsify_harv",
     "type": "harvest",
     "entries": [ { "drop": "salsify_raw" } ]
@@ -38,7 +43,7 @@
     "id": "beehive_harv",
     "type": "harvest",
     "message": "You carefully crack open the hive structure and drain the liquid.",
-    "entries": [ { "drop": "honeycomb", "base_num": [ 160, 180 ] }, { "drop": "wax", "base_num": [ 40, 50 ] } ]
+    "entries": [ { "drop": "honeycomb", "base_num": [ 30, 180 ] }, { "drop": "wax", "base_num": [ 4, 5 ] } ]
   },
   {
     "id": "jerusalem_artichoke_harv",

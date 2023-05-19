@@ -667,4 +667,12 @@ T aggregate( const std::vector<T> &values, aggregate_type agg_func )
     }
 }
 
+// overload pattern for std::variant from https://en.cppreference.com/w/cpp/utility/variant/visit
+template <class... Ts>
+struct overloaded : Ts... {
+    using Ts::operator()...;
+};
+template <class... Ts>
+explicit overloaded( Ts... ) -> overloaded<Ts...>;
+
 #endif // CATA_SRC_CATA_UTILITY_H
