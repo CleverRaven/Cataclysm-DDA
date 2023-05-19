@@ -79,9 +79,9 @@ item vehicle_part::properties_to_item() const
             // That vehicle ain't there no more.
             tmp.set_flag( flag_NO_DROP );
         }
-
-        tmp.link.t_abs_pos = tripoint_abs_ms( target.first );
-        tmp.link.state = cable_state::hanging_from_vehicle;
+        tmp.link = cata::make_value<item::link_data>();
+        tmp.link->t_abs_pos = tripoint_abs_ms( target.first );
+        tmp.link->state = cable_state::hanging_from_vehicle;
         tmp.active = true;
     }
 

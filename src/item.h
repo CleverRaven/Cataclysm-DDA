@@ -1411,7 +1411,7 @@ class item : public visitable
 
         bool leak( map &here, Character *carrier, const tripoint &pos, item_pocket *pocke = nullptr );
 
-        struct cable_link {
+        struct link_data {
             /// State of the link, @ref cable_state. State names are self-explanatory.
             cable_state state = cable_state::no_attachments;
             /// The last turn process_cable was called on this cable. Used for time the cable spends outside the bubble.
@@ -1432,8 +1432,11 @@ class item : public visitable
             int charge_interval = -1;
             /// one_in(this) chance to fail adding 1 charge. Set during initialization.
             int charge_efficiency = 7;
+
+            void serialize( JsonOut &jsout ) const;
+            void deserialize( const JsonObject &jo );
         };
-        cable_link link;
+        cata::value_ptr<link_data> link;
         /**
          * Helper to bring a cable back to its initial state.
          * @return True if the cable should be deleted.

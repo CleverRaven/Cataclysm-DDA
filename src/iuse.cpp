@@ -7995,14 +7995,17 @@ std::optional<int> iuse::tow_attach( Character *p, item *it, bool, const tripoin
     if( !p ) {
         return std::nullopt;
     }
+
+    it->link = cata::make_value<item::link_data>();
+
     const auto set_cable_active = []( Character * p, item * it, cable_state state ) {
-        it->link.state = state;
+        it->link->state = state;
         it->active = true;
         it->process( get_map(), p, p->pos() );
         p->moves -= 15;
     };
     map &here = get_map();
-    if( it->link.state == cable_state::no_attachments ) {
+    if( it->link->state == cable_state::no_attachments ) {
         const std::optional<tripoint> posp_ = choose_adjacent(
                 _( "Attach cable to the vehicle that will do the towing." ) );
         if( !posp_ ) {
@@ -8030,14 +8033,14 @@ std::optional<int> iuse::tow_attach( Character *p, item *it, bool, const tripoin
                     return std::nullopt;
                 }
             }
-            it->link.t_abs_pos = here.getglobal( posp );
-            it->link.t_mount = vp.value().mount();
+            it->link->t_abs_pos = here.getglobal( posp );
+            it->link->t_mount = vp.value().mount();
             set_cable_active( p, it, cable_state::hanging_from_vehicle );
         }
     } else {
         const auto confirm_source_vehicle = [&here]( Character * p, item * it,
         const bool detach_if_missing ) {
-            tripoint source_local = here.getlocal( it->link.t_abs_pos );
+            tripoint source_local = here.getlocal( it->link->t_abs_pos );
             optional_vpart_position source_vp = here.veh_at( source_local );
             vehicle *const source_veh = veh_pointer_or_null( source_vp );
             if( detach_if_missing && source_veh == nullptr ) {
@@ -8049,7 +8052,7 @@ std::optional<int> iuse::tow_attach( Character *p, item *it, bool, const tripoin
             return source_vp;
         };
 
-        const bool paying_out = it->link.state == cable_state::hanging_from_vehicle;
+        const bool paying_out = it->link->state == cable_state::hanging_from_vehicle;
         uilist kmenu;
         kmenu.text = _( "Using cable:" );
         kmenu.addentry( 0, true, -1, _( "Detach and re-spool the cable" ) );
@@ -8141,14 +8144,16 @@ std::optional<int> iuse::cable_attach( Character *p, item *it, bool, const tripo
     const std::string choose_solar = _( "Choose solar panel:" );
     const std::string dont_have_solar = _( "You don't have any solar panels." );
 
+    it->link = cata::make_value<item::link_data>();
+
     const auto set_cable_active = []( Character * p, item * it, const cable_state state ) {
-        it->link.state = state;
+        it->link->state = state;
         it->active = true;
         it->process( get_map(), p, p->pos() );
         p->moves -= 15;
     };
     map &here = get_map();
-    if( it->link.state == cable_state::no_attachments ) {
+    if( it->link->state == cable_state::no_attachments ) {
         if( has_bio_cable ) {
             uilist kmenu;
             kmenu.text = _( "Using cable:" );
@@ -8213,14 +8218,14 @@ std::optional<int> iuse::cable_attach( Character *p, item *it, bool, const tripo
             p->add_msg_if_player( _( "There's no vehicle there." ) );
             return std::nullopt;
         } else {
-            it->link.t_abs_pos = here.getglobal( posp );
-            it->link.t_mount = vp.value().mount();
+            it->link->t_abs_pos = here.getglobal( posp );
+            it->link->t_mount = vp.value().mount();
             set_cable_active( p, it, cable_state::hanging_from_vehicle );
         }
     } else {
         const auto confirm_source_vehicle = [&here]( Character * p, item * it,
         const bool detach_if_missing ) {
-            tripoint source_local = here.getlocal( it->link.t_abs_pos );
+            tripoint source_local = here.getlocal( it->link->t_abs_pos );
             optional_vpart_position source_vp = here.veh_at( source_local );
             vehicle *const source_veh = veh_pointer_or_null( source_vp );
             if( detach_if_missing && source_veh == nullptr ) {
@@ -8232,10 +8237,10 @@ std::optional<int> iuse::cable_attach( Character *p, item *it, bool, const tripo
             return source_vp;
         };
 
-        const bool paying_out = it->link.state == cable_state::hanging_from_vehicle;
-        const bool cable_cbm = it->link.state == cable_state::hanging_from_bionic;
-        const bool solar_pack = it->link.state == cable_state::hanging_from_solarpack;
-        const bool UPS = it->link.state == cable_state::hanging_from_UPS;
+        const bool paying_out = it->link->state == cable_state::hanging_from_vehicle;
+        const bool cable_cbm = it->link->state == cable_state::hanging_from_bionic;
+        const bool solar_pack = it->link->state == cable_state::hanging_from_solarpack;
+        const bool UPS = it->link->state == cable_state::hanging_from_UPS;
         bool loose_ends = paying_out || cable_cbm || solar_pack || UPS;
         bool auto_delete_cable = it->has_flag( flag_AUTO_DELETE_CABLE );
         uilist kmenu;
@@ -8333,8 +8338,8 @@ std::optional<int> iuse::cable_attach( Character *p, item *it, bool, const tripo
             p->add_msg_if_player( _( "There's no vehicle there." ) );
             return std::nullopt;
         } else if( cable_cbm ) {
-            it->link.t_abs_pos = here.getglobal( vpos );
-            it->link.t_mount = target_vp.value().mount();
+            it->link->t_abs_pos = here.getglobal( vpos );
+            it->link->t_mount = target_vp.value().mount();
             set_cable_active( p, it, cable_state::vehicle_bionic_link );
             p->add_msg_if_player( m_good, _( "You are now plugged into the vehicle." ) );
             return 0;
@@ -8361,7 +8366,7 @@ std::optional<int> iuse::cable_attach( Character *p, item *it, bool, const tripo
 
             vcoords = target_vp->mount();
             vehicle_part target_part( vpid, item( *it ) );
-            target_part.target.first = it->link.t_abs_pos.raw();
+            target_part.target.first = it->link->t_abs_pos.raw();
             target_part.target.second = source_veh->global_square_location().raw();
             target_veh->install_part( vcoords, std::move( target_part ) );
 
@@ -8381,14 +8386,16 @@ std::optional<int> iuse::cord_attach( Character *p, item *it, bool, const tripoi
 {
     item_location loc;
 
+    it->link = cata::make_value<item::link_data>();
+
     const auto set_cable_active = []( Character * p, item * it, cable_state state ) {
-        it->link.state = state;
+        it->link->state = state;
         it->active = true;
         it->process( get_map(), p, p->pos() );
         p->moves -= 15;
     };
     map &here = get_map();
-    if( it->link.state == cable_state::no_attachments ) {
+    if( it->link->state == cable_state::no_attachments ) {
         const std::optional<tripoint> posp_ = choose_adjacent( _( "Attach cable to appliance where?" ) );
         if( !posp_ ) {
             return std::nullopt;
@@ -8399,15 +8406,15 @@ std::optional<int> iuse::cord_attach( Character *p, item *it, bool, const tripoi
             p->add_msg_if_player( _( "There's no appliance here." ) );
             return std::nullopt;
         } else {
-            it->link.t_abs_pos = here.getglobal( posp );
-            it->link.t_mount = vp.value().mount();
+            it->link->t_abs_pos = here.getglobal( posp );
+            it->link->t_mount = vp.value().mount();
             p->add_msg_if_player( _( "You attach the %1$s to the %2$s." ), it->tname(), vp->vehicle().name );
             set_cable_active( p, it, cable_state::hanging_from_vehicle );
         }
     } else {
         const auto confirm_source_vehicle = [&here]( Character * p, item * it,
         const bool detach_if_missing ) {
-            tripoint source_local = here.getlocal( it->link.t_abs_pos );
+            tripoint source_local = here.getlocal( it->link->t_abs_pos );
             optional_vpart_position source_vp = here.veh_at( source_local );
             vehicle *const source_veh = veh_pointer_or_null( source_vp );
             if( detach_if_missing && source_veh == nullptr ) {
@@ -8419,7 +8426,7 @@ std::optional<int> iuse::cord_attach( Character *p, item *it, bool, const tripoi
             return source_vp;
         };
 
-        const bool paying_out = it->link.state == cable_state::hanging_from_vehicle;
+        const bool paying_out = it->link->state == cable_state::hanging_from_vehicle;
         bool auto_delete_cable = it->has_flag( flag_AUTO_DELETE_CABLE );
         uilist kmenu;
         kmenu.text = _( "Using cable:" );
@@ -8477,7 +8484,7 @@ std::optional<int> iuse::cord_attach( Character *p, item *it, bool, const tripoi
 
             vcoords = target_vp->mount();
             vehicle_part target_part( vpid, item( *it ) );
-            target_part.target.first = it->link.t_abs_pos.raw();
+            target_part.target.first = it->link->t_abs_pos.raw();
             target_part.target.second = source_veh->global_square_location().raw();
             target_veh->install_part( vcoords, std::move( target_part ) );
 

@@ -851,18 +851,18 @@ void Character::load( const JsonObject &data )
 
     map &here = get_map();
     // Send cable data to the map immediately.
-    /*visit_items( [this, &here]( item * e, item * ) {
+    /*visit_items( [this, &here]( item * e, item * ) { TODOkama
         if( e->plugged_in ) {
             std::list<item *> links = e->all_items_top( item_pocket::pocket_type::CABLE );
             for( item *link : links ) {
-                if( link->link.vp_index > -1 && link->active ) {
-                    const optional_vpart_position vp = here.veh_at( here.getlocal( link->link.pos ) );
+                if( link->link->vp_index > -1 && link->active ) {
+                    const optional_vpart_position vp = here.veh_at( here.getlocal( link->link->pos ) );
                     here.setup_link_processing( &link->link, &vp->vehicle() );
                 }
             }
         }
-        if( e->link.vp_index > -1 && e->active ) {
-            const optional_vpart_position vp = here.veh_at( here.getlocal( e->link.pos ) );
+        if( e->link->vp_index > -1 && e->active ) {
+            const optional_vpart_position vp = here.veh_at( here.getlocal( e->link->pos ) );
             here.setup_link_processing( &e->link, &vp->vehicle() );
         }
         return VisitResponse::NEXT;
@@ -2867,6 +2867,34 @@ void item::craft_data::deserialize( const JsonObject &obj )
     obj.read( "cached_tool_selections", cached_tool_selections );
 }
 
+void item::link_data::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "link_state", state );
+    jsout.member( "link_t_abs_pos", t_abs_pos );
+    jsout.member( "link_t_mount", t_mount );
+    jsout.member( "link_max_length", max_length );
+    jsout.member( "link_last_processed", last_processed );
+    jsout.member( "link_charge_rate", charge_rate );
+    jsout.member( "link_charge_interval", charge_interval );
+    jsout.member( "link_charge_efficiency", charge_efficiency );
+    jsout.end_object();
+}
+
+void item::link_data::deserialize( const JsonObject &obj )
+{
+    obj.allow_omitted_members();
+
+    obj.read( "link_state", state );
+    obj.read( "link_t_abs_pos", t_abs_pos );
+    obj.read( "link_t_mount", t_mount );
+    max_length = obj.get_int( "link_max_length" );
+    obj.read( "link_last_processed", last_processed );
+    charge_rate = obj.get_int( "link_charge_rate" );
+    charge_interval = obj.get_int( "link_charge_interval" );
+    charge_efficiency = obj.get_int( "link_charge_efficiency" );
+}
+
 // Template parameter because item::craft_data is private and I don't want to make it public.
 template<typename T>
 static void load_legacy_craft_data( io::JsonObjectInputArchive &archive, T &value )
@@ -2976,14 +3004,6 @@ void item::io( Archive &archive )
     archive.io( "specific_energy", specific_energy, units::from_joule_per_gram( -10.f ) );
     archive.io( "temperature", temperature, units::from_kelvin( 0.f ) );
     archive.io( "recipe_charges", recipe_charges, 1 );
-    archive.io( "link_state", link.state, cable_state::no_attachments );
-    archive.io( "link_t_abs_pos", link.t_abs_pos, tripoint_abs_ms( tripoint_min ) );
-    archive.io( "link_t_mount", link.t_mount, point_zero );
-    archive.io( "link_max_length", link.max_length, -1 );
-    archive.io( "link_last_processed", link.last_processed, calendar::turn );
-    archive.io( "link_charge_rate", link.charge_rate, 0 );
-    archive.io( "link_charge_interval", link.charge_interval, -1 );
-    archive.io( "link_charge_efficiency", link.charge_efficiency, 7 );
     // Legacy: remove flag check/unset after 0.F
     archive.io( "ethereal", ethereal, has_flag( flag_ETHEREAL_ITEM ) );
     unset_flag( flag_ETHEREAL_ITEM );
@@ -3005,6 +3025,8 @@ void item::io( Archive &archive )
 
     static const cata::value_ptr<relic> null_relic_ptr = nullptr;
     archive.io( "relic_data", relic_data, null_relic_ptr );
+    static const cata::value_ptr<link_data> null_link_ptr = nullptr;
+    archive.io( "link_data", link, null_link_ptr );
 
     item_controller->migrate_item( orig, *this );
 

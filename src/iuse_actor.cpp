@@ -4445,18 +4445,20 @@ std::optional<int> link_up_actor::use( Character &p, item &it, bool t, const tri
 
     if( it.get_contents().cables().empty() ) {
         item cable( type );
-        cable.link.t_abs_pos = here.getglobal( pnt );
-        cable.link.t_mount = vp_port->mount();
-        cable.link.charge_efficiency = charge_efficiency;
-        cable.link.charge_rate = charge_rate.value();
+        cable.link = cata::make_value<item::link_data>();
+
+        cable.link->t_abs_pos = here.getglobal( pnt );
+        cable.link->t_mount = vp_port->mount();
+        cable.link->charge_efficiency = charge_efficiency;
+        cable.link->charge_rate = charge_rate.value();
         // Convert wattage to how long it takes to charge 1 kW, the unit batteries use.
         // -1 means batteries won't be charged, but it can still provide epower to devices.
-        cable.link.charge_interval = charge_rate == 0_W ? -1 :
+        cable.link->charge_interval = charge_rate == 0_W ? -1 :
                                      std::max( 1, static_cast<int>( std::floor( 1000000.0 / abs( charge_rate.value() ) + 0.5 ) ) );
-        cable.link.state = cable_state::hanging_from_vehicle;
+        cable.link->state = cable_state::hanging_from_vehicle;
 
-        cable.link.max_length = cable_length != -1 ? cable_length : type->maximum_charges();
-        cable.link.last_processed = calendar::turn;
+        cable.link->max_length = cable_length != -1 ? cable_length : type->maximum_charges();
+        cable.link->last_processed = calendar::turn;
         cable.active = true;
 
         if( it.put_in( cable, item_pocket::pocket_type::CABLE ).success() ) {
@@ -4471,11 +4473,13 @@ std::optional<int> link_up_actor::use( Character &p, item &it, bool t, const tri
         }
     } else {
         item *existing_cable = it.get_contents().cables().front();
-        existing_cable->link.t_abs_pos = here.getglobal( pnt );
-        existing_cable->link.t_mount = vp_port->mount();
-        existing_cable->link.state = cable_state::hanging_from_vehicle;
-        existing_cable->link.max_length = cable_length != -1 ? cable_length : type->maximum_charges();
-        existing_cable->link.last_processed = calendar::turn;
+        existing_cable->link = cata::make_value<item::link_data>();
+
+        existing_cable->link->t_abs_pos = here.getglobal( pnt );
+        existing_cable->link->t_mount = vp_port->mount();
+        existing_cable->link->state = cable_state::hanging_from_vehicle;
+        existing_cable->link->max_length = cable_length != -1 ? cable_length : type->maximum_charges();
+        existing_cable->link->last_processed = calendar::turn;
         existing_cable->active = true;
         it.plugged_in = true;
         it.process( get_map(), &p, p.pos() );

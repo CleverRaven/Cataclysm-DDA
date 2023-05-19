@@ -10208,11 +10208,11 @@ int item::ammo_remaining( const Character *carrier, bool cable_links ) const
     // Cable connections
     if( cable_links && plugged_in ) {
         for( const item *cable : contents.cables( true ) ) {
-            if( cable->link.t_veh_safe ) {
-                ret += cable->link.t_veh_safe->connected_battery_power_level().first;
+            if( cable->link && cable->link->t_veh_safe ) {
+                ret += cable->link->t_veh_safe->connected_battery_power_level().first;
                 break;
             } else {
-                const optional_vpart_position vp = get_map().veh_at( cable->link.t_abs_pos );
+                const optional_vpart_position vp = get_map().veh_at( cable->link->t_abs_pos );
                 if( vp ) {
                     ret += vp->vehicle().connected_battery_power_level().first;
                     break;
@@ -10408,10 +10408,10 @@ int item::ammo_consume( int qty, const tripoint &pos, Character *carrier )
     // Consume power from appliances/vehicles connected with cables
     if( plugged_in ) {
         for( const item *cable : contents.cables( true ) ) {
-            if( cable->link.t_veh_safe ) {
-                qty = cable->link.t_veh_safe->discharge_battery( qty, true );
+            if( cable->link && cable->link->t_veh_safe ) {
+                qty = cable->link->t_veh_safe->discharge_battery( qty, true );
             } else {
-                const optional_vpart_position vp = get_map().veh_at( cable->link.t_abs_pos );
+                const optional_vpart_position vp = get_map().veh_at( cable->link->t_abs_pos );
                 if( vp ) {
                     qty = vp->vehicle().discharge_battery( qty, true );
                 }
@@ -12750,8 +12750,14 @@ bool item::process_extinguish( map &here, Character *carrier, const tripoint &po
 
 bool item::process_cable( map &here, Character *carrier, const tripoint &pos, item *parent_item )
 {
+    // Active cables need link data to process.
+    if( !link ) {
+        debugmsg( "Active cable %s lost its link data!", tname() );
+        return reset_cable( carrier, parent_item );
+    }
+
     // Loose, unspooled cables shouldn't do anything but wait to be picked up.
-    if( link.state == cable_state::needs_reeling ) {
+    if( link->state == cable_state::needs_reeling ) {
         if( carrier != nullptr ) {
             return reset_cable( carrier, parent_item );
         }
@@ -12759,8 +12765,8 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos, it
     }
 
     // Handle bionic cables.
-    if( link.state == cable_state::solarpack_bionic_link ||
-        link.state == cable_state::hanging_from_solarpack ) {
+    if( link->state == cable_state::solarpack_bionic_link ||
+        link->state == cable_state::hanging_from_solarpack ) {
         if( carrier == nullptr || !carrier->worn_with_flag( flag_SOLARPACK_ON ) ) {
             carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
             reset_cable( carrier, parent_item );
@@ -12770,7 +12776,7 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos, it
     const item_filter used_ups = [&]( const item & itm ) {
         return itm.get_var( "cable" ) == "plugged_in";
     };
-    if( link.state == cable_state::hanging_from_UPS ) {
+    if( link->state == cable_state::hanging_from_UPS ) {
         if( carrier == nullptr || !carrier->has_item_with( used_ups ) ) {
             carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
             for( item *used : carrier->items_with( used_ups ) ) {
@@ -12781,7 +12787,7 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos, it
         }
     }
 
-    const bool last_t_abs_pos_is_oob = !here.inbounds( link.t_abs_pos );
+    const bool last_t_abs_pos_is_oob = !here.inbounds( link->t_abs_pos );
 
     // Lambda function for checking if a cable's been stretched too long, resetting it if so.
     // @return True if the cable is disconnected.
@@ -12789,8 +12795,8 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos, it
         if( debug_mode ) {
             add_msg_debug( debugmode::DF_IUSE, "%s linked to %s%s, length %d/%d",
                            parent_item != nullptr ? parent_item->label( 1 ) : label( 1 ),
-                           link.t_abs_pos.to_string(), last_t_abs_pos_is_oob ? " (OoB)" : "",
-                           link.max_length - charges, link.max_length );
+                           link->t_abs_pos.to_string(), last_t_abs_pos_is_oob ? " (OoB)" : "",
+                           link->max_length - charges, link->max_length );
         }
         if( charges == 0 && carrier != nullptr ) {
             carrier->add_msg_if_player( m_warning, parent_item == nullptr ?
@@ -12813,20 +12819,20 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos, it
 
     // Check if the item has moved positions this turn.
     bool check_length = false;
-    if( link.i_bub_pos != pos ) {
-        link.i_bub_pos = pos;
+    if( link->i_bub_pos != pos ) {
+        link->i_bub_pos = pos;
         check_length = true;
     }
 
     // If the vehicle pointer is lost...
-    if( !link.t_veh_safe ) {
+    if( !link->t_veh_safe ) {
         if( last_t_abs_pos_is_oob ) {
             // ... and the last recorded target point is out of bounds, just check the length if needed and exit early.
             if( check_length ) {
                 // We can't get the exact connection point without the vehicle loaded, so fudge some forgiveness by adding the mount dimensions.
                 // Better to err on the side of keeping things connected.
-                charges = link.max_length - rl_dist( here.getabs( pos ), link.t_abs_pos.raw() ) +
-                          link.t_mount.abs().x + link.t_mount.abs().y;
+                charges = link->max_length - rl_dist( here.getabs( pos ), link->t_abs_pos.raw() ) +
+                          link->t_mount.abs().x + link->t_mount.abs().y;
                 if( is_cable_too_long() ) {
                     return reset_cable( carrier, parent_item );
                 }
@@ -12834,23 +12840,23 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos, it
             return false;
         } else {
             // ... and the last recorded target point is in-bounds, try to recreate the vehicle pointer, disconnecting if it fails.
-            const optional_vpart_position vp = here.veh_at( link.t_abs_pos );
+            const optional_vpart_position vp = here.veh_at( link->t_abs_pos );
             if( !vp ) {
                 return reset_cable( carrier, parent_item, true, pos );
             }
-            link.t_veh_safe = vp.value().vehicle().get_safe_reference();
+            link->t_veh_safe = vp.value().vehicle().get_safe_reference();
         }
     }
 
     // Regular pointers are faster, so make one now that we know the reference is valid.
-    vehicle *t_veh = link.t_veh_safe.get();
+    vehicle *t_veh = link->t_veh_safe.get();
 
     // We should skip processing if the last saved target point is out of bounds, but if the linked vehicle is moving fast enough,
     // we should always process it to avoid erroneously skipping devices riding inside of it.
     if( last_t_abs_pos_is_oob && t_veh->velocity < HALF_MAPSIZE_X * 400 ) {
         if( check_length ) {
-            charges = link.max_length - rl_dist( here.getabs( pos ), link.t_abs_pos.raw() ) +
-                      link.t_mount.abs().x + link.t_mount.abs().y;
+            charges = link->max_length - rl_dist( here.getabs( pos ), link->t_abs_pos.raw() ) +
+                      link->t_mount.abs().x + link->t_mount.abs().y;
             if( is_cable_too_long() ) {
                 return reset_cable( carrier, parent_item );
             }
@@ -12861,7 +12867,7 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos, it
     // Find the vp_part index the cable is linked to.
     int link_vp_index = -1;
     for( int idx : t_veh->cable_ports ) {
-        if( t_veh->part( idx ).mount == link.t_mount ) {
+        if( t_veh->part( idx ).mount == link->t_mount ) {
             link_vp_index = idx;
             break;
         }
@@ -12874,21 +12880,21 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos, it
     // Set the new absolute position to the vehicle's origin.
     tripoint t_veh_bub_pos = t_veh->global_pos3();
     tripoint_abs_ms new_t_abs_pos = here.getglobal( t_veh_bub_pos );
-    if( link.t_abs_pos != new_t_abs_pos ) {
-        link.t_abs_pos = new_t_abs_pos;
+    if( link->t_abs_pos != new_t_abs_pos ) {
+        link->t_abs_pos = new_t_abs_pos;
         check_length = true;
     }
 
     // If either the link's connected sides moved, check cable's length.
     if( check_length ) {
-        charges = link.max_length - rl_dist( pos, t_veh_bub_pos + t_veh->part( link_vp_index ).precalc[0] );
+        charges = link->max_length - rl_dist( pos, t_veh_bub_pos + t_veh->part( link_vp_index ).precalc[0] );
         if( is_cable_too_long() ) {
             return reset_cable( carrier, parent_item );
         }
     }
 
-    int turns_elapsed = to_turns<int>( calendar::turn - link.last_processed );
-    link.last_processed = calendar::turn;
+    int turns_elapsed = to_turns<int>( calendar::turn - link->last_processed );
+    link->last_processed = calendar::turn;
 
     // Extra behaviors for the cabled item.
     if( parent_item != nullptr ) {
@@ -12916,7 +12922,7 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos, it
 
 const int item::charge_linked_batteries( item &linked_item, vehicle &linked_veh, int turns_elapsed )
 {
-    if( link.charge_rate == 0 || turns_elapsed < 1 || link.charge_interval < 1 ) {
+    if( !link || link->charge_rate == 0 || turns_elapsed < 1 || link->charge_interval < 1 ) {
         return 0;
     }
     const item *parent_mag = linked_item.magazine_current();
@@ -12924,7 +12930,7 @@ const int item::charge_linked_batteries( item &linked_item, vehicle &linked_veh,
         return 0;
     }
 
-    const bool power_in = link.charge_rate > 0;
+    const bool power_in = link->charge_rate > 0;
 
     if( ( power_in && parent_mag->has_flag( flag_RECHARGE ) &&
           linked_item.ammo_remaining() < linked_item.ammo_capacity( ammo_battery ) ) ||
@@ -12933,26 +12939,26 @@ const int item::charge_linked_batteries( item &linked_item, vehicle &linked_veh,
         // Normally efficiency is a random chance to skip a charge, but if we're catching up from time
         // spent ouside the reality bubble it should be applied as a percentage of the total instead.
         // This is used for determining which to do.
-        bool short_time_passed = turns_elapsed <= link.charge_interval;
+        bool short_time_passed = turns_elapsed <= link->charge_interval;
 
-        if( !calendar::once_every( time_duration::from_turns( link.charge_interval ) ) &&
+        if( !calendar::once_every( time_duration::from_turns( link->charge_interval ) ) &&
             short_time_passed ) {
-            return link.charge_rate;
+            return link->charge_rate;
         }
 
         // If a long time passed, multiply the total by the efficiency rather than cancelling a charge.
         int transfer_total = short_time_passed ? 1 :
-                             ( turns_elapsed / link.charge_interval ) * ( 1.0 - 1.0 / link.charge_efficiency );
+                             ( turns_elapsed / link->charge_interval ) * ( 1.0 - 1.0 / link->charge_efficiency );
 
         if( power_in ) {
             const int battery_deficit = linked_veh.discharge_battery( transfer_total, true );
             // Around 85% efficient by default; a few of the discharges don't actually recharge
-            if( battery_deficit == 0 && !( short_time_passed && one_in( link.charge_efficiency ) ) ) {
+            if( battery_deficit == 0 && !( short_time_passed && one_in( link->charge_efficiency ) ) ) {
                 linked_item.ammo_set( itype_battery, linked_item.ammo_remaining() + transfer_total );
             }
         } else {
             // Around 85% efficient by default; a few of the discharges don't actually charge
-            if( !( short_time_passed && one_in( link.charge_efficiency ) ) ) {
+            if( !( short_time_passed && one_in( link->charge_efficiency ) ) ) {
                 const int battery_surplus = linked_veh.charge_battery( transfer_total, true );
                 if( battery_surplus == 0 ) {
                     linked_item.ammo_set( itype_battery, linked_item.ammo_remaining() - transfer_total );
@@ -12964,7 +12970,7 @@ const int item::charge_linked_batteries( item &linked_item, vehicle &linked_veh,
                 }
             }
         }
-        return link.charge_rate;
+        return link->charge_rate;
     }
     return 0;
 }
@@ -12972,12 +12978,11 @@ const int item::charge_linked_batteries( item &linked_item, vehicle &linked_veh,
 const bool item::reset_cable( Character *p, item *parent_item, const bool loose_message,
                               const tripoint sees_point )
 {
-    link.t_abs_pos = tripoint_abs_ms( tripoint_min );
-    link.i_bub_pos = tripoint_min;
-    link.state = cable_state::no_attachments;
     charges = get_var( "cable_length", type->maximum_charges() );
 
-    if( p != nullptr ) {
+    if( p != nullptr || !link ) {
+        active = false;
+        link.reset();
         // Character is holding the item, so immediately reel it up.
         if( loose_message ) {
             p->add_msg_if_player( m_bad, parent_item == nullptr ?
@@ -12986,7 +12991,6 @@ const bool item::reset_cable( Character *p, item *parent_item, const bool loose_
         }
         p->add_msg_if_player( m_info, _( "You reel in the cable." ) );
         //p->moves -= charges * 10; TODOkama Make this only happen when safe, and interruptible?
-        active = false;
         if( parent_item != nullptr ) {
             parent_item->plugged_in = false;
         }
@@ -12998,7 +13002,7 @@ const bool item::reset_cable( Character *p, item *parent_item, const bool loose_
                                     string_format( _( "You notice the %s's cable has come loose!" ), parent_item->label( 1 ) ) );
         }
         // Character isn't holding the item, so wait until the player picks it up to reel it up.
-        link.state = cable_state::needs_reeling;
+        link->state = cable_state::needs_reeling;
     }
     return false;
 }
@@ -13026,9 +13030,9 @@ bool item::process_UPS( Character *carrier, const tripoint & /*pos*/ )
         return false;
     }
     bool has_connected_cable = carrier->has_item_with( []( const item & it ) {
-        return it.active && it.has_flag( flag_CABLE_SPOOL ) &&
-               ( it.link.state == cable_state::UPS_bionic_link ||
-                 it.link.state == cable_state::hanging_from_UPS );
+        return it.active && it.has_flag( flag_CABLE_SPOOL ) && it.link &&
+               ( it.link->state == cable_state::UPS_bionic_link ||
+                 it.link->state == cable_state::hanging_from_UPS );
     } );
     if( !has_connected_cable ) {
         erase_var( "cable" );
