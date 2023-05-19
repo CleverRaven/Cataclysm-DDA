@@ -1876,7 +1876,7 @@ static std::string get_repair_hint( const Character &you, const repair_item_acto
                                 actor->used_skill.obj().name(), static_cast<int>( you.get_skill_level( actor->used_skill ) ) ) );
     hint.append( string_format( " | " ) );
     hint.append( string_format( _( "Skill needed: <color_cyan>%d</color>" ),
-                                actor->repair_recipe_difficulty( you, main_tool->id(), false ) ) );
+                                actor->repair_recipe_difficulty( you, *main_tool, false ) ) );
     return hint;
 }
 
