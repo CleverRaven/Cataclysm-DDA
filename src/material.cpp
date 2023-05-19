@@ -97,6 +97,8 @@ void material_type::load( const JsonObject &jsobj, const std::string_view )
 
     optional( jsobj, was_loaded, "sheet_thickness", _sheet_thickness );
 
+    optional( jsobj, was_loaded, "repair_difficulty", _repair_difficulty );
+
     optional( jsobj, was_loaded, "wind_resist", _wind_resist );
     optional( jsobj, was_loaded, "specific_heat_liquid", _specific_heat_liquid );
     optional( jsobj, was_loaded, "specific_heat_solid", _specific_heat_solid );
@@ -167,6 +169,11 @@ void material_type::check() const
 
     if( _wind_resist && ( *_wind_resist > 100 || *_wind_resist < 0 ) ) {
         debugmsg( "Wind resistance outside of range (100%% to 0%%, is %d%%) for %s.", *_wind_resist,
+                  id.str() );
+    }
+
+    if( _repair_difficulty && ( *_repair_difficulty > 10 || *_repair_difficulty < 0 ) ) {
+        debugmsg( "Repair difficulty (0 to 10, is %d) for %s.", *_repair_difficulty,
                   id.str() );
     }
 
