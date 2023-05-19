@@ -97,7 +97,7 @@ void material_type::load( const JsonObject &jsobj, const std::string_view )
 
     optional( jsobj, was_loaded, "sheet_thickness", _sheet_thickness );
 
-    mandatory( jsobj, was_loaded, "repair_difficulty", _repair_difficulty );
+    optional( jsobj, was_loaded, "repair_difficulty", _repair_difficulty );
 
     optional( jsobj, was_loaded, "wind_resist", _wind_resist );
     optional( jsobj, was_loaded, "specific_heat_liquid", _specific_heat_liquid );
