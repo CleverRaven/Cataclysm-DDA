@@ -14,6 +14,8 @@ Allow JSON monster special attacks to use the dialog condition system
 Confirmation before attacking neutral mobs
 Unhardcode and rework grabs, ranged pulls
 EOCs can have context vars that can be passed into nested EOCs
+Pockets overflow into their parent pockets if possible
+Stored conditionals for EOCs
 
 
 ## Content:
@@ -43,6 +45,7 @@ Add min/max feedback to new character stats interface
 Mouse thumb button support
 Show NPC location when selecting NPC to chat with, guard, or follow
 Display why vehicle parts cannot be installed
+Open multiple containers in Advanced Inventory Manager
 
 
 ## Mods:
@@ -81,6 +84,7 @@ Converts most of the armor and clothing still using the old limb system to the n
 partial skill levels contribute to most game tests
 Portal Storm Coherency Pass
 Stop zomborgs from exploding on death
+Add a more accessible holy symbol mission, replacing the small relic one
 
 
 ## Bugfixes:
@@ -116,6 +120,8 @@ Fix calculation for inserting into nested containers
 Make copy-from copy terrain/furniture examine actions
 Prevent mission marker from being cutoff in the overmap
 Exodii will now properly be mad at you if you steal all their resources from stone barns
+NPC morale modifiers now updates regularly instead of being permanently applied
+Fix UI and accessibility issues in the overmap UI and character creation menu
 
 
 ## Performance:
