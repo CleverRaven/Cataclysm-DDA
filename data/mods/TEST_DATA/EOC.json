@@ -88,6 +88,15 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_math_armor",
+    "effect": [
+      { "math": [ "key1", "=", "u_armor('bash', 'torso')" ] },
+      { "math": [ "key2", "=", "u_armor('acid', 'torso')" ] },
+      { "math": [ "key3", "=", "u_armor('bash', 'head')" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_options_tests",
     "effect": [
       {
@@ -176,6 +185,14 @@
     "recurrence": { "math": [ "math_test_result" ] },
     "global": true,
     "effect": { "u_message": "test recurrence" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_math_diag_w_vars",
+    "effect": [
+      { "set_string_var": "survival", "target_var": { "global_val": "myskill" } },
+      { "math": [ "myskill_math", "=", "u_skill(myskill)" ] }
+    ]
   },
   {
     "type": "effect_on_condition",

@@ -19,6 +19,7 @@ from .parsers.enchant import parse_enchant
 from .parsers.event_statistic import parse_event_statistic
 from .parsers.faction import parse_faction
 from .parsers.fault import parse_fault
+from .parsers.fault_fix import parse_fault_fix
 from .parsers.field_type import parse_field_type
 from .parsers.furniture import parse_furniture
 from .parsers.gate import parse_gate
@@ -138,6 +139,7 @@ parsers = {
     "external_option": dummy_parser,
     "faction": parse_faction,
     "fault": parse_fault,
+    "fault_fix": parse_fault_fix,
     "field_type": parse_field_type,
     "furniture": parse_furniture,
     "gate": parse_gate,

@@ -486,25 +486,6 @@
     ]
   },
   {
-    "id": "cheerleader_top",
-    "repairs_like": "tank_top",
-    "type": "ARMOR",
-    "name": { "str": "cheerleader tank top" },
-    "description": "A red cheerleader tank top.  It has the word \"Cheers\" printed at the top.",
-    "weight": "120 g",
-    "volume": "250 ml",
-    "price": 850,
-    "price_postapoc": 50,
-    "material": [ "cotton" ],
-    "symbol": "[",
-    "looks_like": "tank_top",
-    "color": "red",
-    "armor": [ { "covers": [ "torso" ], "coverage": 90, "encumbrance": 3 } ],
-    "warmth": 2,
-    "material_thickness": 0.2,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY" ]
-  },
-  {
     "id": "cheerleader_top_short",
     "repairs_like": "tank_top",
     "type": "ARMOR",

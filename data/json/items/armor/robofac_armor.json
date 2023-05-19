@@ -197,7 +197,12 @@
           "robofac_gun_46"
         ]
       },
-      { "pocket_type": "MAGAZINE_WELL", "rigid": true, "item_restriction": [ "medium_atomic_battery_cell" ] }
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_atomic_battery_cell"
+      }
     ],
     "ammo": "battery",
     "use_action": {

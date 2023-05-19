@@ -81,7 +81,6 @@
           "t_tree_cherry": 4,
           "t_tree_plum": 2,
           "t_tree_sassafras": 1,
-          "t_beehive_natural": 2,
           "t_region_tree_dead": 5,
           "t_region_tree_forest_other": 5
         },
@@ -99,7 +98,6 @@
           "t_tree_elderberry": 10,
           "t_tree_mulberry": 10,
           "t_tree_sassafras": 2,
-          "t_beehive_natural": 2,
           "t_tree_juniper": 5
         },
         "t_region_tree_forest": { "t_region_tree_forest_dense": 2, "t_region_tree_forest_other": 1 },
@@ -132,7 +130,6 @@
           "t_tree_elderberry": 2,
           "t_tree_mulberry": 2,
           "t_tree_sassafras": 3,
-          "t_beehive_natural": 2,
           "t_region_tree_dead": 48
         },
         "t_region_tree_shade": {
@@ -152,7 +149,6 @@
           "t_tree_elderberry": 2,
           "t_tree_mulberry": 2,
           "t_tree_sassafras": 3,
-          "t_beehive_natural": 2,
           "t_tree_dead": 2
         },
         "t_region_tree_fruit": {
@@ -447,6 +443,10 @@
           "spider_pit_south",
           "spider_pit_east",
           "spider_pit_west",
+          "survivor_forest_camp_north",
+          "survivor_forest_camp_south",
+          "survivor_forest_camp_east",
+          "survivor_forest_camp_west",
           "central_lab_entrance",
           "moonshine_still_north",
           "moonshine_still_south",
@@ -652,6 +652,7 @@
           "mx_portal_in": 3,
           "mx_helicopter": 1,
           "mx_exocrash_1": 1,
+          "mx_beehive_natural": 20,
           "mx_exocrash_2": 1
         }
       },
@@ -689,6 +690,7 @@
           "mx_jabberwock": 1,
           "mx_exocrash_1": 1,
           "mx_helicopter": 1,
+          "mx_beehive_natural": 30,
           "mx_exocrash_2": 1
         }
       },
@@ -718,6 +720,7 @@
           "mx_portal_in": 7,
           "mx_helicopter": 5,
           "mx_exocrash_1": 1,
+          "mx_beehive_natural": 25,
           "mx_exocrash_2": 1
         }
       },
