@@ -565,24 +565,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [
-      "pagan_cult_enter",
-      "pagan_cult_right_corner",
-      "pagan_cult_right_corner_up",
-      "pagan_cult_left_corner",
-      "pagan_cult_left_corner_up",
-      "pagan_cult_long_wall",
-      "pagan_cult_longhouse",
-      "pagan_cult_henge"
-    ],
-    "name": "fortress",
-    "sym": "W",
-    "color": "brown",
-    "see_cost": 5,
-    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
-  },
-  {
-    "type": "overmap_terrain",
     "id": "campsite_cabin_incomplete",
     "name": "incomplete cabin",
     "sym": "+",
@@ -758,6 +740,24 @@
     "sym": "i",
     "color": "light_green",
     "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ 
+      "valhallist_enter", 
+      "valhallist_right_corner",
+      "valhallist_left_corner",
+      "valhallist_right_corner_up",
+      "valhallist_left_corner_up",
+      "valhallist_long_wall",
+      "valhallist_longhouse",
+      "valhallist_henge"
+    ],
+    "name": "fortress",
+    "sym": "W",
+    "color": "brown",
+    "see_cost": 5,
+    "mondensity": 1
   },
   {
     "type": "overmap_terrain",
