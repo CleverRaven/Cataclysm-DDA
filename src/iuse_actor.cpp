@@ -2789,18 +2789,13 @@ static std::pair<int, bool> find_repair_difficulty( const Character &pl, const i
     const itype_id iid = it.get_id();
     bool difficulty_defined = false;
 
-    // the item can manually define its difficulty
-    if( it.repair_difficulty() > -1 ) {
-        difficulty_defined = true;
-        min = it.repair_difficulty();
-    } else if( it.made_of() ) {
+    if( it.made_of() ) {
         // otherwise determine it based on material
         for( const auto &material : it.made_of() ) {
             if( min < material.first->repair_difficulty() ) {
                 min = material.first->repair_difficulty();
                 difficulty_defined = true;
             }
-        }
     }
     return { min, difficulty_defined };
 }
