@@ -69,7 +69,7 @@
     "id": "eat_dreamdross_ingot",
     "type": "SPELL",
     "name": "Eat dreamdross ingots",
-    "description": "You can't really process so much dreamdross at once, and additionally to restoring your mana pool, it directly improves your body, making your stronger and healthier.  It is probably the most delisious thing in your life.",
+    "description": "You can't really process so much dreamdross at once, and additionally to restoring your mana pool, it directly improves your body, making your stronger and healthier.  It is probably the most delicious thing in your life.",
     "valid_targets": [ "self" ],
     "max_level": { "math": [ "eater_level(1)" ] },
     "effect": "attack",
