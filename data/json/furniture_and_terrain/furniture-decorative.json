@@ -206,7 +206,7 @@
   {
     "type": "furniture",
     "id": "f_floor_lamp",
-    "name": "floor lamp",
+    "name": "standing lamp",
     "symbol": "T",
     "looks_like": "f_rack_coat",
     "description": "A light mounted on the top of a metal pole, this would be plugged into a wall socket to illuminate a room.",

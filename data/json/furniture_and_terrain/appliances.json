@@ -841,7 +841,7 @@
     "symbol": "D",
     "color": "light_blue",
     "flags": [ "OBSTACLE", "APPLIANCE", "AUTOCLAVE", "CARGO", "COVERED", "ENABLED_DRAINS_EPOWER" ],
-    "description": "An autoclave that can steam its contents at high enough temperatures to completely sterilize them, killing any possible contaminants.  This one is plugged into a power grid and running off internal water tanks",
+    "description": "An autoclave that can steam its contents at high enough temperatures to completely sterilize them, killing any possible contaminants.  This one is plugged into a power grid and running off internal water tanks.",
     "copy-from": "autoclave",
     "item": "autoclave",
     "requirements": { "removal": { "time": "6 m" } }

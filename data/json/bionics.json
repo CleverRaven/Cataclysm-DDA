@@ -45,7 +45,7 @@
     "id": "bio_ar",
     "type": "bionic",
     "name": { "str": "Integrated AR System" },
-    "description": "Extreamly thin lenses provide user with augmented reality overlay allowing the user to zoom, and it displays handy information about local topology.",
+    "description": "Extremely thin lenses provide user with augmented reality overlay allowing the user to zoom, and it displays handy information about local topology.",
     "//": "Basically implanted contact lenses with AR capabilities",
     "occupied_bodyparts": [ [ "eyes", 1 ] ],
     "flags": [ "USES_BIONIC_POWER" ],

@@ -2522,7 +2522,7 @@
     "desc": [ "You're covered in thick goo!" ],
     "apply_message": "You're covered in thick goo!",
     "rating": "bad",
-    "miss_messages": [ [ "This goo makes you slip", 2 ] ],
+    "miss_messages": [ [ "This goo makes you slip.", 2 ] ],
     "base_mods": { "dex_mod": [ -2 ], "speed_mod": [ -25 ], "vomit_chance": [ 2100 ] },
     "show_in_info": true,
     "limb_score_mods": [

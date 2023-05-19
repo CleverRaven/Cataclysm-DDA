@@ -2411,7 +2411,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
-    "//": "electric arc furnace smelting, cooling, then grinding",
+    "//": "industrial arc furnace smelting, cooling, then grinding",
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": "60 m",

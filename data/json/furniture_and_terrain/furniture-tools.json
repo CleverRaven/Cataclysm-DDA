@@ -758,7 +758,7 @@
   {
     "type": "furniture",
     "id": "f_arc_furnace",
-    "name": "electric arc furnace",
+    "name": "industrial arc furnace",
     "looks_like": "f_machinery_heavy",
     "description": "Not the kind of furnace you'd heat your house with, this is a device for heating things to extreme temperatures as part of industrial fabrication processes.  Can be used in recipes instead of a forge, when supplied with power from a UPS.",
     "symbol": "0",

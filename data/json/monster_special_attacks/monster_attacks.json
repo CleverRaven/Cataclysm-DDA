@@ -32,12 +32,12 @@
         { "u_has_effect": "acid_charged" }
       ]
     },
-    "hit_dmg_u": "The %1$s slashes your %2$s, covering it in acid!",
-    "hit_dmg_npc": "The %1$s slashes at <npcname>, covering them in acid!",
-    "miss_msg_u": "The %1$s tries to slash at your %2$s, but you dodge!",
-    "miss_msg_npc": "The %1$s tries to slash at <npcname>, but they dodge!",
-    "no_dmg_msg_u": "The %1$s slashes your %2$s, covering the armor in acid!",
-    "no_dmg_msg_npc": "The %1$s slashes at <npcname>, covering their armor in acid!"
+    "hit_dmg_u": "%1$s slashes your %2$s, covering it in acid!",
+    "hit_dmg_npc": "%1$s slashes at <npcname>, covering them in acid!",
+    "miss_msg_u": "%1$s tries to slash at your %2$s, but you dodge!",
+    "miss_msg_npc": "%1$s tries to slash at <npcname>, but they dodge!",
+    "no_dmg_msg_u": "%1$s slashes your %2$s, covering the armor in acid!",
+    "no_dmg_msg_npc": "%1$s slashes at <npcname>, covering their armor in acid!"
   },
   {
     "type": "monster_attack",
