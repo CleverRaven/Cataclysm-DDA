@@ -100,7 +100,7 @@ class material_type
         float _sheet_thickness = 0.0f;
 
         // the skill needed to repair this type of material
-        float _repair_difficulty = 10.0f;
+        int _repair_difficulty = 10;
 
         translation _bash_dmg_verb;
         translation _cut_dmg_verb;
