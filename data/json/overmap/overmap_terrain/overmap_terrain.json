@@ -743,8 +743,8 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ 
-      "valhallist_enter", 
+    "id": [
+      "valhallist_enter",
       "valhallist_right_corner",
       "valhallist_left_corner",
       "valhallist_right_corner_up",
