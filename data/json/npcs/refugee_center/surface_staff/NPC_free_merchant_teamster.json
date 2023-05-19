@@ -52,16 +52,18 @@
       {
         "text": "So, have your caravans seen anything interesting out there in the wasteland?",
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS",
-        "condition": { "and": [ {
-          "npc_compare_time_since_var": "directions_recycler",
-          "type": "timer",
-          "context": "teamster",
-          "op": ">=",
-          "time": "2 days"
+        "condition": {
+          "and": [
+            {
+              "npc_compare_time_since_var": "directions_recycler",
+              "type": "timer",
+              "context": "teamster",
+              "op": ">=",
+              "time": "2 days"
+            },
+            { "not": { "days_since_cataclysm": 30 } }
+          ]
         },
-        { "not": { "days_since_cataclysm": 30 } }
-      ]
-    },
         "effect": [
           {
             "arithmetic": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "rand": 4 } ]
@@ -168,8 +170,8 @@
                 "compare_num": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 5 } ],
                 "yes": "One of my caravans reports seeing some strange folk a ways from here, dressed in skulls and armor, runnin' around killing everything that crossed their path that they didn't seem to like.  Spooked them really good, so they didn't approach, but they did see a few of them camped out at some fort.  I'd keep my eyes open for them.",
                 "no": "ERROR: out of bounds on randomize_directions."
+              }
             }
-           }
           }
         }
       }
