@@ -52,13 +52,16 @@
       {
         "text": "So, have your caravans seen anything interesting out there in the wasteland?",
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS",
-        "condition": {
+        "condition": { "and": [ {
           "npc_compare_time_since_var": "directions_recycler",
           "type": "timer",
           "context": "teamster",
           "op": ">=",
           "time": "2 days"
         },
+        { "not": { "days_since_cataclysm": 30 } }
+      ]
+    },
         "effect": [
           {
             "arithmetic": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "rand": 4 } ]
@@ -82,9 +85,23 @@
       {
         "text": "So, have your caravans seen anything interesting out there in the wasteland?",
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS",
+        "condition": { "not": { "days_since_cataclysm": 30 } },
         "effect": [
           {
             "arithmetic": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "rand": 4 } ]
+          },
+          { "npc_add_var": "directions_recycler", "type": "timer", "context": "teamster", "time": true }
+        ],
+        "switch": true,
+        "default": true
+      },
+      {
+        "text": "So, have your caravans seen anything interesting out there in the wasteland?",
+        "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS",
+        "condition": { "days_since_cataclysm": 30 },
+        "effect": [
+          {
+            "arithmetic": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "rand": 5 } ]
           },
           { "npc_add_var": "directions_recycler", "type": "timer", "context": "teamster", "time": true }
         ],
@@ -147,8 +164,12 @@
             "no": {
               "compare_num": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 4 } ],
               "yes": "A few of my people have come back now talkin' about some yuppie trying to start a bank that uses bullets for money.  Silly idea but the lad lives on a homestead with a woman who wouldn't let my guys leave without a full belly.",
-              "no": "ERROR: out of bounds on randomize_directions."
+              "no": {
+                "compare_num": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 5 } ],
+                "yes": "One of my caravans reports seeing some strange folk a ways from here, dressed in skulls and armor, runnin' around killing everything that crossed their path that they didn't seem to like.  Spooked them really good, so they didn't approach, but they did see a few of them camped out at some fort.  I'd keep my eyes open for them.",
+                "no": "ERROR: out of bounds on randomize_directions."
             }
+           }
           }
         }
       }
@@ -208,6 +229,20 @@
           ]
         },
         "effect": { "assign_mission": "directions_artisans" },
+        "switch": true
+      },
+      {
+        "text": "How do I get to that fort?",
+        "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS_2",
+        "condition": {
+          "and": [
+            {
+              "compare_num": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 5 } ]
+            },
+            { "not": { "u_has_var": "directions", "type": "teamster", "context": "mission", "value": "valhallists" } }
+          ]
+        },
+        "effect": { "assign_mission": "directions_valhallists" },
         "switch": true
       },
       {
@@ -356,6 +391,31 @@
       "accepted": "Hopefully they are still around.",
       "rejected": "Seems reasonable.",
       "advice": "Don't worry about the turrets they seem friendly to people.",
+      "inquire": "How is the search going?",
+      "success": "Huh, go figure.",
+      "success_lie": "Huh, go figure.",
+      "failure": "Seems reasonable."
+    }
+  },
+  {
+    "id": "directions_valhallists",
+    "type": "mission_definition",
+    "name": { "str": "Check out the fort" },
+    "description": "One of my caravans reports seeing some strange folk a ways from here, dressed in skulls and armor, runnin' around killing everything that crossed their path that they didn't seem to like.  Spooked them really good, so they didn't approach, but they did see a few of them camped out at some fort.  I'd keep my eyes open for them.",
+    "goal": "MGOAL_GO_TO",
+    "difficulty": 2,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "om_special": "valhalla_cult", "om_terrain": "pagan_cult_enter", "reveal_radius": 2, "search_range": 400 },
+      "effect": { "u_add_var": "directions", "type": "teamster", "context": "mission", "value": "valhallists" }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "One of my caravans reports seeing some strange folk a ways from here, dressed in skulls and armor, runnin' around killing everything that crossed their path that they didn't seem to like.  Spooked them really good, so they didn't approach, but they did see a few of them camped out at some fort.  I'd keep my eyes open for them.",
+      "offer": "One of my caravans reports seeing some strange folk a ways from here, dressed in skulls and armor, runnin' around killing everything that crossed their path that they didn't seem to like.  Spooked them really good, so they didn't approach, but they did see a few of them camped out at some fort.  I'd keep my eyes open for them.",
+      "accepted": "Hopefully they are still around.",
+      "rejected": "Seems reasonable.",
+      "advice": "Go there unarmed, and keep your wits about you.  I wouldn't want to piss them off for any reason.",
       "inquire": "How is the search going?",
       "success": "Huh, go figure.",
       "success_lie": "Huh, go figure.",
