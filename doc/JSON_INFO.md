@@ -43,6 +43,8 @@ Use the `Home` key to return to the top.
     - [Item Category](#item-category)
     - [Item Properties](#item-properties)
     - [Item Variables](#item-variables)
+    - [Item faults](#item-faults)
+    - [Item fault fixes](#item-fault-fixes)
     - [Materials](#materials)
       - [Fuel data](#fuel-data)
       - [Burn data](#burn-data)
