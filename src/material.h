@@ -99,6 +99,9 @@ class material_type
         // the thickness that sheets of this material come in, anything that uses it should be a multiple of this
         float _sheet_thickness = 0.0f;
 
+        // the skill needed to repair this type of material
+        float _repair_difficulty = 10.0f;
+
         translation _bash_dmg_verb;
         translation _cut_dmg_verb;
         std::vector<translation> _dmg_adj;
