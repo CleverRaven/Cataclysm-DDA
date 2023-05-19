@@ -1585,36 +1585,51 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                 &cata_tiles::draw_zombie_revival_indicators
             }
         };
-
-        // For every point we drew terrain for ...
-        for( tile_render_info &p : draw_points ) {
-            // Find lowest z-level to draw
-            tripoint p_draw = p.pos;
-            int cur_height_3d = p.height_3d;
-            // Disabled for isometric tilesets. Can be enabled but will cause the following issues:
+        // Legacy code for isometric tilesets until they are ready
+        const std::array<decltype( &cata_tiles::draw_furniture ), 14> drawing_layers_legacy = {{
+                &cata_tiles::draw_terrain, &cata_tiles::draw_furniture, &cata_tiles::draw_graffiti, &cata_tiles::draw_trap, &cata_tiles::draw_part_con,
+                &cata_tiles::draw_field_or_item, &cata_tiles::draw_vpart_below,
+                &cata_tiles::draw_critter_at_below, &cata_tiles::draw_terrain_below,
+                &cata_tiles::draw_vpart_no_roof, &cata_tiles::draw_vpart_roof,
+                &cata_tiles::draw_critter_at, &cata_tiles::draw_zone_mark,
+                &cata_tiles::draw_zombie_revival_indicators
+            }
+        };
+        if( is_isometric() ) {
+            // Disable multi z-level display on isometric tilesets. Can be enabled but will cause the following issues:
             // 1. Supposedly transparent terrain and fields such as t_open_air need to be given sprites
             // Otherwise they will be replaced with an opaque fallback sprite
             // 2. May worsen visibility issues in isometric tilesets with inconsistent terrain heights
-            if( !is_isometric() ) {
+            for( tile_render_info &p : draw_points ) {
+                for( auto f : drawing_layers_legacy ) {
+                    ( this->*f )( p.pos, p.ll, p.height_3d, p.invisible );
+                }
+            }
+        } else {
+            // For every point we drew terrain for ...
+            for( tile_render_info &p : draw_points ) {
+                // Find lowest z-level to draw
+                tripoint p_draw = p.pos;
+                int cur_height_3d = p.height_3d;
                 while( !here.dont_draw_lower_floor( p_draw ) && p_draw.z > -10 ) {
                     p_draw.z -= 1;
                     cur_height_3d -= 1;
                 }
-            }
 
-            // Draw all layers for the bottom z-level
-            for( auto f : drawing_layers ) {
-                ( this->*f )( p_draw, p.ll, cur_height_3d, p.invisible );
-            }
-
-            // Keep going up and drawing until current position
-            while( p_draw.z < p.pos.z ) {
-                // Draws fog overlay to give the impression of distance
-                draw_zlevel_overlay( p_draw, p.ll, color_blocks );
-                p_draw.z += 1;
-                cur_height_3d += 1;
+                // Draw all layers for the bottom z-level
                 for( auto f : drawing_layers ) {
                     ( this->*f )( p_draw, p.ll, cur_height_3d, p.invisible );
+                }
+
+                // Keep going up and drawing until current position
+                while( p_draw.z < p.pos.z ) {
+                    // Draws fog overlay to give the impression of distance
+                    draw_zlevel_overlay( p_draw, p.ll, color_blocks );
+                    p_draw.z += 1;
+                    cur_height_3d += 1;
+                    for( auto f : drawing_layers ) {
+                        ( this->*f )( p_draw, p.ll, cur_height_3d, p.invisible );
+                    }
                 }
             }
         }
