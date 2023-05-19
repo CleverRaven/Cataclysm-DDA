@@ -41,6 +41,7 @@
     "name": "dreamforged long sword",
     "id": "dreamforged_longsword_ench",
     "activity_level": "ACTIVE_EXERCISE",
+    "description": "Shape the weapon you imagine, using your powers and some dreamdross ingots.  The result is unclear, and the effects are uncontrollable.",
     "result_eocs": [
       {
         "id": "dreamforged_longsword_ench",
@@ -62,6 +63,7 @@
     "name": "dreamforged quarterstaff",
     "id": "dreamforged_q_staff_ench",
     "copy-from": "dreamforged_longsword_ench",
+    "description": "Shape the weapon you imagine, using your powers and some dreamdross ingots.  The result is unclear, and the effects are uncontrollable.",
     "result_eocs": [
       {
         "id": "dreamforged_q_staff_ench",
@@ -79,6 +81,7 @@
     "name": "dreamforged warhammer",
     "id": "dreamforged_warhammer_ench",
     "copy-from": "dreamforged_longsword_ench",
+    "description": "Shape the weapon you imagine, using your powers and some dreamdross ingots.  The result is unclear, and the effects are uncontrollable.",
     "result_eocs": [
       {
         "id": "dreamforged_warhammer_ench",
@@ -96,6 +99,7 @@
     "name": "dreamforged spear",
     "id": "dreamforged_spear_ench",
     "copy-from": "dreamforged_longsword_ench",
+    "description": "Shape the weapon you imagine, using your powers and some dreamdross ingots.  The result is unclear, and the effects are uncontrollable.",
     "result_eocs": [
       { "id": "dreamforged_spear_ench", "effect": [ { "u_spawn_item": "dreamforged_spear_ench", "use_item_group": true } ] }
     ],
@@ -110,6 +114,7 @@
     "name": "dreamforged halberd",
     "id": "dreamforged_halberd_ench",
     "copy-from": "dreamforged_longsword_ench",
+    "description": "Shape the weapon you imagine, using your powers and some dreamdross ingots.  The result is unclear, and the effects are uncontrollable.",
     "result_eocs": [
       {
         "id": "dreamforged_halberd_ench",
@@ -127,6 +132,7 @@
     "name": "dreamforged glaive",
     "id": "dreamforged_glaive_ench",
     "copy-from": "dreamforged_longsword_ench",
+    "description": "Shape the weapon you imagine, using your powers and some dreamdross ingots.  The result is unclear, and the effects are uncontrollable.",
     "result_eocs": [
       { "id": "dreamforged_glaive_ench", "effect": [ { "u_spawn_item": "dreamforged_glaive_ench", "use_item_group": true } ] }
     ],
@@ -141,6 +147,7 @@
     "name": "dreamforged naginata",
     "id": "dreamforged_naginata_ench",
     "copy-from": "dreamforged_longsword_ench",
+    "description": "Shape the weapon you imagine, using your powers and some dreamdross ingots.  The result is unclear, and the effects are uncontrollable.",
     "result_eocs": [
       {
         "id": "dreamforged_naginata_ench",
@@ -158,6 +165,7 @@
     "name": "dreamforged mace",
     "id": "dreamforged_mace_ench",
     "copy-from": "dreamforged_longsword_ench",
+    "description": "Shape the weapon you imagine, using your powers and some dreamdross ingots.  The result is unclear, and the effects are uncontrollable.",
     "result_eocs": [ { "id": "dreamforged_mace_ench", "effect": [ { "u_spawn_item": "dreamforged_mace_ench", "use_item_group": true } ] } ],
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
     "components": [ [ [ "forged_dreamstuff_ingot", 3 ] ] ],
@@ -170,6 +178,7 @@
     "name": "dreamforged morningstar",
     "id": "dreamforged_morningstar_ench",
     "copy-from": "dreamforged_longsword_ench",
+    "description": "Shape the weapon you imagine, using your powers and some dreamdross ingots.  The result is unclear, and the effects are uncontrollable.",
     "result_eocs": [
       {
         "id": "dreamforged_morningstar_ench",
@@ -187,6 +196,7 @@
     "name": "dreamforged estoc",
     "id": "dreamforged_estoc_ench",
     "copy-from": "dreamforged_longsword_ench",
+    "description": "Shape the weapon you imagine, using your powers and some dreamdross ingots.  The result is unclear, and the effects are uncontrollable.",
     "result_eocs": [
       { "id": "dreamforged_estoc_ench", "effect": [ { "u_spawn_item": "dreamforged_estoc_ench", "use_item_group": true } ] }
     ],
@@ -201,6 +211,7 @@
     "name": "dreamforged arming sword",
     "id": "dreamforged_arming_sword_ench",
     "copy-from": "dreamforged_longsword_ench",
+    "description": "Shape the weapon you imagine, using your powers and some dreamdross ingots.  The result is unclear, and the effects are uncontrollable.",
     "result_eocs": [
       {
         "id": "dreamforged_arming_sword_ench",
@@ -218,6 +229,7 @@
     "name": "dreamforged broadsword",
     "id": "dreamforged_broadsword_ench",
     "copy-from": "dreamforged_longsword_ench",
+    "description": "Shape the weapon you imagine, using your powers and some dreamdross ingots.  The result is unclear, and the effects are uncontrollable.",
     "result_eocs": [
       {
         "id": "dreamforged_broadsword_ench",
@@ -235,6 +247,7 @@
     "name": "dreamforged battle axe",
     "id": "dreamforged_battleaxe_ench",
     "copy-from": "dreamforged_longsword_ench",
+    "description": "Shape the weapon you imagine, using your powers and some dreamdross ingots.  The result is unclear, and the effects are uncontrollable.",
     "result_eocs": [
       {
         "id": "dreamforged_battleaxe_ench",
@@ -252,6 +265,7 @@
     "name": "dreamforged katana",
     "id": "dreamforged_katana_ench",
     "copy-from": "dreamforged_longsword_ench",
+    "description": "Shape the weapon you imagine, using your powers and some dreamdross ingots.  The result is unclear, and the effects are uncontrollable.",
     "result_eocs": [
       { "id": "dreamforged_katana_ench", "effect": [ { "u_spawn_item": "dreamforged_katana_ench", "use_item_group": true } ] }
     ],
@@ -266,6 +280,7 @@
     "name": "dreamforged combat knife",
     "id": "dreamforged_knife_combat_ench",
     "copy-from": "dreamforged_longsword_ench",
+    "description": "Shape the weapon you imagine, using your powers and some dreamdross ingots.  The result is unclear, and the effects are uncontrollable.",
     "result_eocs": [
       {
         "id": "dreamforged_knife_combat_ench",
@@ -283,6 +298,7 @@
     "name": "dreamforged kris",
     "id": "dreamforged_kris_ench",
     "copy-from": "dreamforged_longsword_ench",
+    "description": "Shape the weapon you imagine, using your powers and some dreamdross ingots.  The result is unclear, and the effects are uncontrollable.",
     "result_eocs": [ { "id": "dreamforged_kris_ench", "effect": [ { "u_spawn_item": "dreamforged_kris_ench", "use_item_group": true } ] } ],
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
     "components": [ [ [ "forged_dreamstuff_ingot", 1 ] ] ],
@@ -295,6 +311,7 @@
     "name": "dreamforged kukri",
     "id": "dreamforged_kukri_ench",
     "copy-from": "dreamforged_longsword_ench",
+    "description": "Shape the weapon you imagine, using your powers and some dreamdross ingots.  The result is unclear, and the effects are uncontrollable.",
     "result_eocs": [
       { "id": "dreamforged_kukri_ench", "effect": [ { "u_spawn_item": "dreamforged_kukri_ench", "use_item_group": true } ] }
     ],
@@ -309,6 +326,7 @@
     "name": "dreamforged nodachi",
     "id": "dreamforged_nodachi_ench",
     "copy-from": "dreamforged_longsword_ench",
+    "description": "Shape the weapon you imagine, using your powers and some dreamdross ingots.  The result is unclear, and the effects are uncontrollable.",
     "result_eocs": [
       {
         "id": "dreamforged_nodachi_ench",
@@ -326,6 +344,7 @@
     "name": "dreamforged rapier",
     "id": "dreamforged_rapier_ench",
     "copy-from": "dreamforged_longsword_ench",
+    "description": "Shape the weapon you imagine, using your powers and some dreamdross ingots.  The result is unclear, and the effects are uncontrollable.",
     "result_eocs": [
       { "id": "dreamforged_rapier_ench", "effect": [ { "u_spawn_item": "dreamforged_rapier_ench", "use_item_group": true } ] }
     ],
@@ -340,6 +359,7 @@
     "name": "dreamforged tanto",
     "id": "dreamforged_tanto_ench",
     "copy-from": "dreamforged_longsword_ench",
+    "description": "Shape the weapon you imagine, using your powers and some dreamdross ingots.  The result is unclear, and the effects are uncontrollable.",
     "result_eocs": [
       { "id": "dreamforged_tanto_ench", "effect": [ { "u_spawn_item": "dreamforged_tanto_ench", "use_item_group": true } ] }
     ],
@@ -354,6 +374,7 @@
     "name": "dreamforged wakizashi",
     "id": "dreamforged_wakizashi_ench",
     "copy-from": "dreamforged_longsword_ench",
+    "description": "Shape the weapon you imagine, using your powers and some dreamdross ingots.  The result is unclear, and the effects are uncontrollable.",
     "result_eocs": [
       {
         "id": "dreamforged_wakizashi_ench",
@@ -371,6 +392,7 @@
     "name": "dreamforged zweihänder",
     "id": "dreamforged_zweihander_ench",
     "copy-from": "dreamforged_longsword_ench",
+    "description": "Shape the weapon you imagine, using your powers and some dreamdross ingots.  The result is unclear, and the effects are uncontrollable.",
     "result_eocs": [
       {
         "id": "dreamforged_zweihander_ench",
@@ -388,6 +410,7 @@
     "name": "dreamforged khopesh",
     "id": "dreamforged_khopesh_ench",
     "copy-from": "dreamforged_longsword_ench",
+    "description": "Shape the weapon you imagine, using your powers and some dreamdross ingots.  The result is unclear, and the effects are uncontrollable.",
     "result_eocs": [
       {
         "id": "dreamforged_khopesh_ench",
@@ -405,6 +428,7 @@
     "name": "dreamforged lucerne hammer",
     "id": "dreamforged_lucerne_ench",
     "copy-from": "dreamforged_longsword_ench",
+    "description": "Shape the weapon you imagine, using your powers and some dreamdross ingots.  The result is unclear, and the effects are uncontrollable.",
     "result_eocs": [
       {
         "id": "dreamforged_lucerne_ench",
@@ -422,6 +446,7 @@
     "name": "dreamforged knuckles",
     "id": "dreamforged_knuckle_ench",
     "copy-from": "dreamforged_longsword_ench",
+    "description": "Shape the weapon you imagine, using your powers and some dreamdross ingots.  The result is unclear, and the effects are uncontrollable.",
     "result_eocs": [
       {
         "id": "dreamforged_knuckle_ench",

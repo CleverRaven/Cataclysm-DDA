@@ -1348,6 +1348,15 @@
     "flags": [ "BIONIC_NPC_USABLE" ]
   },
   {
+    "id": "bio_radio",
+    "type": "bionic",
+    "name": { "str": "Infolink" },
+    "description": "A compact communications device has been built into your ears, enabling you to communicate over radio waves.",
+    "occupied_bodyparts": [ [ "head", 2 ] ],
+    "flags": [ "BIONIC_NPC_USABLE" ],
+    "passive_pseudo_items": [ "fake_radio" ]
+  },
+  {
     "id": "bio_radscrubber",
     "type": "bionic",
     "name": { "str": "Radiation Scrubber System" },

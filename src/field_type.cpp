@@ -42,6 +42,7 @@ const field_type_str_id fd_hot_air4( "fd_hot_air4" );
 const field_type_str_id fd_incendiary( "fd_incendiary" );
 const field_type_str_id fd_insecticidal_gas( "fd_insecticidal_gas" );
 const field_type_str_id fd_laser( "fd_laser" );
+const field_type_str_id fd_last_known( "fd_last_known" );
 const field_type_str_id fd_nuke_gas( "fd_nuke_gas" );
 const field_type_str_id fd_plasma( "fd_plasma" );
 const field_type_str_id fd_push_items( "fd_push_items" );

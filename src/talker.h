@@ -494,6 +494,9 @@ class talker
         virtual int pain_cur() const {
             return 0;
         }
+        virtual double armor_at( damage_type_id &, bodypart_id & ) const {
+            return 0;
+        }
         virtual bool worn_with_flag( const flag_id &, const bodypart_id & ) const {
             return false;
         }
@@ -611,7 +614,7 @@ class talker
             return 0;
         }
         virtual void set_part_hp_cur( const bodypart_id &, int ) const {}
-
+        virtual void die() {}
         virtual void learn_martial_art( const matype_id & ) const {}
         virtual void forget_martial_art( const matype_id & ) const {}
         virtual bool knows_martial_art( const matype_id & ) const {

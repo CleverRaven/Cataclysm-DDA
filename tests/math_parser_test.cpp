@@ -9,6 +9,7 @@
 #include "math_parser.h"
 #include "math_parser_func.h"
 
+static const skill_id skill_survival( "survival" );
 static const spell_id spell_test_spell_pew( "test_spell_pew" );
 
 // NOLINTNEXTLINE(readability-function-cognitive-complexity): false positive
@@ -176,8 +177,8 @@ TEST_CASE( "math_parser_dialogue_integration", "[math_parser]" )
 
     // reading scoped values with u_val shim
     std::string dmsg = capture_debugmsg_during( [&testexp]() {
-        CHECK_FALSE( testexp.parse( "u_val( 3 )" ) ); // only quoted strings accepted as parameters
-        CHECK_FALSE( testexp.parse( "u_val( stamina )" ) );
+        CHECK_FALSE( testexp.parse( "u_val( 3 )" ) ); // only quoted strings or variables accepted
+        CHECK_FALSE( testexp.parse( "u_val(myval)" ) ); // this function doesn't support variables
         CHECK_FALSE( testexp.parse( "val( 'stamina' )" ) ); // invalid scope for this function
     } );
     CHECK( testexp.parse( "u_val('stamina')" ) );
@@ -189,6 +190,12 @@ TEST_CASE( "math_parser_dialogue_integration", "[math_parser]" )
     CHECK( testexp.eval( d ) == d.actor( false )->get_spell_level( spell_test_spell_pew ) );
     CHECK( testexp.parse( "u_val('time: 1 m')" ) ); // test get_member() in shim
     CHECK( testexp.eval( d ) == 60 );
+
+    // evaluating string variables in dialogue functions
+    globvars.set_global_value( "npctalk_var_someskill", "survival" );
+    CHECK( testexp.parse( "u_skill(someskill)" ) );
+    get_avatar().set_skill_level( skill_survival, 3 );
+    CHECK( testexp.eval( d ) == 3 );
 
     // assignment to scoped variables
     CHECK( testexp.parse( "u_testvar", true ) );

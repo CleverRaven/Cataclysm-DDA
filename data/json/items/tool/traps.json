@@ -26,12 +26,34 @@
     "melee_damage": { "bash": 9, "cut": 1 }
   },
   {
+    "id": "light_snare_kit",
+    "type": "TOOL",
+    "name": "light snare kit",
+    "description": "A simple loop snare, comprising a carefully wound loop of string, two anchor points, and a tool to hammer them in.  It is suitable for immobilizing only small animals.  It has no means of harming its target, as live meat lasts longer.",
+    "weight": "2500 g",
+    "volume": "3150 ml",
+    "longest_side": "80 cm",
+    "price": 1500,
+    "price_postapoc": 500,
+    "material": "wood",
+    "symbol": ";",
+    "color": "brown",
+    "flags": [ "SINGLE_USE" ],
+    "use_action": {
+      "type": "place_trap",
+      "trap": "tr_light_snare",
+      "moves": 150,
+      "practice": 2,
+      "done_message": "You set the snare trap."
+    }
+  },
+  {
     "id": "blade_trap",
     "type": "TOOL",
     "name": { "str": "blade trap" },
     "description": "A machete attached laterally to a motor, with a tripwire controlling its throttle.  When the tripwire is pulled, the blade is swung around with great force.  The trap forms a 3x3 area of effect.",
-    "weight": "6142 g",
-    "volume": "4500 ml",
+    "weight": "10142 g",
+    "volume": "9500 ml",
     "price": 5000,
     "price_postapoc": 1500,
     "to_hit": -4,

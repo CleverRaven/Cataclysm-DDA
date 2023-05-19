@@ -959,7 +959,7 @@
     "category": "armor",
     "copy-from": "armor_lightplate",
     "name": { "str_sp": "mage armor" },
-    "description": "A summoned magic armor.  It gets shinier and sturdier with each spell level.",
+    "description": "A summoned magic armor.  It gets shinier and sturdier with each spell level and is affected by your intelligence.",
     "weight": "1 g",
     "material": [ "concentrated_mana" ],
     "warmth": 0,
