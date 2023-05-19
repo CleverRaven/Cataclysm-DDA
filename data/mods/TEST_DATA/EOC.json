@@ -188,6 +188,14 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_math_diag_w_vars",
+    "effect": [
+      { "set_string_var": "survival", "target_var": { "global_val": "myskill" } },
+      { "math": [ "myskill_math", "=", "u_skill(myskill)" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_jmath_test",
     "effect": [ { "math": [ "blorgy", "=", "jmath_test_blorg(1, 2)" ] } ]
   },

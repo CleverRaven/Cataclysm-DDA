@@ -8,6 +8,7 @@
 #include <variant>
 #include <vector>
 
+#include "cata_utility.h"
 #include "debug.h"
 #include "dialogue_helpers.h"
 #include "math_parser_diag.h"
@@ -131,13 +132,6 @@ struct thingie {
     impl_t data;
 };
 
-// overload pattern from https://en.cppreference.com/w/cpp/utility/variant/visit
-template <class... Ts>
-struct overloaded : Ts... {
-    using Ts::operator()...;
-};
-template <class... Ts>
-explicit overloaded( Ts... ) -> overloaded<Ts...>;
 constexpr double thingie::eval( dialogue &d ) const
 {
     return std::visit( overloaded{

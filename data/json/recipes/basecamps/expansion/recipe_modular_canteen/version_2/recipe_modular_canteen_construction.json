@@ -1,0 +1,275 @@
+[
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmk_2_room_1",
+    "description": "Let's start building the kitchen walls.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmk_2_1",
+    "blueprint_name": "build the kitchen",
+    "blueprint_parameter_names": {
+      "fbmk_2_construction_palette": {
+        "fbmk_2_concrete_palette": "Concrete walls and roof",
+        "fbmk_2_log_palette": "Log walls and wooden roof",
+        "fbmk_2_metal_palette": "Metal walls and roof",
+        "fbmk_2_migo_resin_palette": "Mi-go resin walls and roof",
+        "fbmk_2_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbmk_2_rock_palette": "Rock walls and wooden roof",
+        "fbmk_2_wad_palette": "Wattle-and-daub walls and sod roof",
+        "fbmk_2_wood_palette": "Wooden walls and wooden roof"
+      }
+    },
+    "blueprint_requires": [ { "id": "fbmk_2" } ],
+    "blueprint_provides": [ { "id": "fbmk_2_center" } ],
+    "blueprint_excludes": [ { "id": "fbmk_2_center" } ],
+    "flags": [
+      "MAP_MIRROR_HORIZONTAL_IF_N",
+      "MAP_ROTATE_90_IF_NE",
+      "MAP_MIRROR_HORIZONTAL_IF_E",
+      "MAP_ROTATE_90_IF_E",
+      "MAP_ROTATE_180_IF_SE",
+      "MAP_MIRROR_HORIZONTAL_IF_S",
+      "MAP_ROTATE_180_IF_S",
+      "MAP_ROTATE_270_IF_SW",
+      "MAP_MIRROR_HORIZONTAL_IF_W",
+      "MAP_ROTATE_270_IF_W"
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmk_2_room_2_center",
+    "description": "Let's finish the kitchen walls.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmk_2_2",
+    "blueprint_name": "finish the kitchen",
+    "blueprint_parameter_names": {
+      "fbmk_2_construction_palette": {
+        "fbmk_2_concrete_palette": "Concrete walls and roof",
+        "fbmk_2_log_palette": "Log walls and wooden roof",
+        "fbmk_2_metal_palette": "Metal walls and roof",
+        "fbmk_2_migo_resin_palette": "Mi-go resin walls and roof",
+        "fbmk_2_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbmk_2_rock_palette": "Rock walls and wooden roof",
+        "fbmk_2_wad_palette": "Wattle-and-daub walls and sod roof",
+        "fbmk_2_wood_palette": "Wooden walls and wooden roof"
+      }
+    },
+    "blueprint_requires": [ { "id": "fbmk_2_center" } ],
+    "blueprint_provides": [ { "id": "fbmk_2_center_2" } ],
+    "blueprint_excludes": [ { "id": "fbmk_2_center_2" } ],
+    "flags": [
+      "MAP_MIRROR_HORIZONTAL_IF_N",
+      "MAP_ROTATE_90_IF_NE",
+      "MAP_MIRROR_HORIZONTAL_IF_E",
+      "MAP_ROTATE_90_IF_E",
+      "MAP_ROTATE_180_IF_SE",
+      "MAP_MIRROR_HORIZONTAL_IF_S",
+      "MAP_ROTATE_180_IF_S",
+      "MAP_ROTATE_270_IF_SW",
+      "MAP_MIRROR_HORIZONTAL_IF_W",
+      "MAP_ROTATE_270_IF_W"
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmk_2_smoking_area",
+    "description": "Let's get this smoking area covered to protect the workers from the weather.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmk_2_smoking_area_construction",
+    "blueprint_name": "build a roofed area for smoking racks",
+    "blueprint_parameter_names": {
+      "fbmk_2_construction_palette": {
+        "fbmk_2_concrete_palette": "Concrete walls and roof",
+        "fbmk_2_log_palette": "Log walls and wooden roof",
+        "fbmk_2_metal_palette": "Metal walls and roof",
+        "fbmk_2_migo_resin_palette": "Mi-go resin walls and roof",
+        "fbmk_2_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbmk_2_rock_palette": "Rock walls and wooden roof",
+        "fbmk_2_wad_palette": "Wattle-and-daub walls and sod roof",
+        "fbmk_2_wood_palette": "Wooden walls and wooden roof"
+      }
+    },
+    "blueprint_requires": [ { "id": "fbmk_2_center_2" } ],
+    "blueprint_provides": [ { "id": "fbmk_2_smoking_area" } ],
+    "blueprint_excludes": [ { "id": "fbmk_2_smoking_area" } ],
+    "flags": [
+      "MAP_MIRROR_HORIZONTAL_IF_N",
+      "MAP_ROTATE_90_IF_NE",
+      "MAP_MIRROR_HORIZONTAL_IF_E",
+      "MAP_ROTATE_90_IF_E",
+      "MAP_ROTATE_180_IF_SE",
+      "MAP_MIRROR_HORIZONTAL_IF_S",
+      "MAP_ROTATE_180_IF_S",
+      "MAP_ROTATE_270_IF_SW",
+      "MAP_MIRROR_HORIZONTAL_IF_W",
+      "MAP_ROTATE_270_IF_W"
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmk_2_pantry",
+    "description": "Let's build a pantry beside the kitchen.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmk_2_pantry_construction",
+    "blueprint_name": "build a pantry",
+    "blueprint_parameter_names": {
+      "fbmk_2_construction_palette": {
+        "fbmk_2_concrete_palette": "Concrete walls and roof",
+        "fbmk_2_log_palette": "Log walls and wooden roof",
+        "fbmk_2_metal_palette": "Metal walls and roof",
+        "fbmk_2_migo_resin_palette": "Mi-go resin walls and roof",
+        "fbmk_2_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbmk_2_rock_palette": "Rock walls and wooden roof",
+        "fbmk_2_wad_palette": "Wattle-and-daub walls and sod roof",
+        "fbmk_2_wood_palette": "Wooden walls and wooden roof"
+      }
+    },
+    "blueprint_requires": [ { "id": "fbmk_2_center_2" } ],
+    "blueprint_provides": [ { "id": "fbmk_2_pantry_room" } ],
+    "blueprint_excludes": [ { "id": "fbmk_2_pantry_room" } ],
+    "flags": [
+      "MAP_MIRROR_HORIZONTAL_IF_N",
+      "MAP_ROTATE_90_IF_NE",
+      "MAP_MIRROR_HORIZONTAL_IF_E",
+      "MAP_ROTATE_90_IF_E",
+      "MAP_ROTATE_180_IF_SE",
+      "MAP_MIRROR_HORIZONTAL_IF_S",
+      "MAP_ROTATE_180_IF_S",
+      "MAP_ROTATE_270_IF_SW",
+      "MAP_MIRROR_HORIZONTAL_IF_W",
+      "MAP_ROTATE_270_IF_W"
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmk_2_dining_1",
+    "description": "Let's build the first part of the dining hall.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmk_2_dining_1",
+    "blueprint_name": "build first dining hall section",
+    "blueprint_parameter_names": {
+      "fbmk_2_construction_palette": {
+        "fbmk_2_concrete_palette": "Concrete walls and roof",
+        "fbmk_2_log_palette": "Log walls and wooden roof",
+        "fbmk_2_metal_palette": "Metal walls and roof",
+        "fbmk_2_migo_resin_palette": "Mi-go resin walls and roof",
+        "fbmk_2_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbmk_2_rock_palette": "Rock walls and wooden roof",
+        "fbmk_2_wad_palette": "Wattle-and-daub walls and sod roof",
+        "fbmk_2_wood_palette": "Wooden walls and wooden roof"
+      }
+    },
+    "blueprint_requires": [ { "id": "fbmk_2_smoking_area" } ],
+    "blueprint_provides": [ { "id": "fbmk_2_dining_1" } ],
+    "blueprint_excludes": [ { "id": "fbmk_2_dining_1" } ],
+    "flags": [
+      "MAP_MIRROR_HORIZONTAL_IF_N",
+      "MAP_ROTATE_90_IF_NE",
+      "MAP_MIRROR_HORIZONTAL_IF_E",
+      "MAP_ROTATE_90_IF_E",
+      "MAP_ROTATE_180_IF_SE",
+      "MAP_MIRROR_HORIZONTAL_IF_S",
+      "MAP_ROTATE_180_IF_S",
+      "MAP_ROTATE_270_IF_SW",
+      "MAP_MIRROR_HORIZONTAL_IF_W",
+      "MAP_ROTATE_270_IF_W"
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmk_2_dining_2",
+    "description": "Let's build the second half of the dining hall.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmk_2_dining_2",
+    "blueprint_name": "build second half of the dining hall",
+    "blueprint_parameter_names": {
+      "fbmk_2_construction_palette": {
+        "fbmk_2_concrete_palette": "Concrete walls and roof",
+        "fbmk_2_log_palette": "Log walls and wooden roof",
+        "fbmk_2_metal_palette": "Metal walls and roof",
+        "fbmk_2_migo_resin_palette": "Mi-go resin walls and roof",
+        "fbmk_2_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbmk_2_rock_palette": "Rock walls and wooden roof",
+        "fbmk_2_wad_palette": "Wattle-and-daub walls and sod roof",
+        "fbmk_2_wood_palette": "Wooden walls and wooden roof"
+      }
+    },
+    "blueprint_requires": [ { "id": "fbmk_2_dining_1" } ],
+    "blueprint_provides": [ { "id": "fbmk_2_dining_2" } ],
+    "blueprint_excludes": [ { "id": "fbmk_2_dining_2" } ],
+    "flags": [
+      "MAP_MIRROR_HORIZONTAL_IF_N",
+      "MAP_ROTATE_90_IF_NE",
+      "MAP_MIRROR_HORIZONTAL_IF_E",
+      "MAP_ROTATE_90_IF_E",
+      "MAP_ROTATE_180_IF_SE",
+      "MAP_MIRROR_HORIZONTAL_IF_S",
+      "MAP_ROTATE_180_IF_S",
+      "MAP_ROTATE_270_IF_SW",
+      "MAP_MIRROR_HORIZONTAL_IF_W",
+      "MAP_ROTATE_270_IF_W"
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmk_2_brewery",
+    "description": "Let's build a brewery.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmk_2_brewery",
+    "blueprint_name": "build brewery",
+    "blueprint_parameter_names": {
+      "fbmk_2_construction_palette": {
+        "fbmk_2_concrete_palette": "Concrete walls and roof",
+        "fbmk_2_log_palette": "Log walls and wooden roof",
+        "fbmk_2_metal_palette": "Metal walls and roof",
+        "fbmk_2_migo_resin_palette": "Mi-go resin walls and roof",
+        "fbmk_2_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbmk_2_rock_palette": "Rock walls and wooden roof",
+        "fbmk_2_wad_palette": "Wattle-and-daub walls and sod roof",
+        "fbmk_2_wood_palette": "Wooden walls and wooden roof"
+      }
+    },
+    "blueprint_requires": [ { "id": "fbmk_2" } ],
+    "blueprint_provides": [ { "id": "fbmk_2_brewery" } ],
+    "blueprint_excludes": [ { "id": "fbmk_2_brewery" } ],
+    "flags": [
+      "MAP_MIRROR_HORIZONTAL_IF_N",
+      "MAP_ROTATE_90_IF_NE",
+      "MAP_MIRROR_HORIZONTAL_IF_E",
+      "MAP_ROTATE_90_IF_E",
+      "MAP_ROTATE_180_IF_SE",
+      "MAP_MIRROR_HORIZONTAL_IF_S",
+      "MAP_ROTATE_180_IF_S",
+      "MAP_ROTATE_270_IF_SW",
+      "MAP_MIRROR_HORIZONTAL_IF_W",
+      "MAP_ROTATE_270_IF_W"
+    ]
+  }
+]
