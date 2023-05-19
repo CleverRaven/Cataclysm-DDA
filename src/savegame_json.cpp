@@ -851,7 +851,7 @@ void Character::load( const JsonObject &data )
 
     map &here = get_map();
     // Send cable data to the map immediately.
-    visit_items( [this, &here]( item * e, item * ) {
+    /*visit_items( [this, &here]( item * e, item * ) {
         if( e->plugged_in ) {
             std::list<item *> links = e->all_items_top( item_pocket::pocket_type::CABLE );
             for( item *link : links ) {
@@ -866,7 +866,7 @@ void Character::load( const JsonObject &data )
             here.setup_link_processing( &e->link, &vp->vehicle() );
         }
         return VisitResponse::NEXT;
-    } );
+    } );*/
 
     // TEMPORARY until 0.F
     if( data.has_array( "hp_cur" ) ) {
@@ -2977,9 +2977,13 @@ void item::io( Archive &archive )
     archive.io( "temperature", temperature, units::from_kelvin( 0.f ) );
     archive.io( "recipe_charges", recipe_charges, 1 );
     archive.io( "link_state", link.state, cable_state::no_attachments );
-    archive.io( "link_pos", link.pos, tripoint_min );
+    archive.io( "link_t_abs_pos", link.t_abs_pos, tripoint_abs_ms( tripoint_min ) );
+    archive.io( "link_t_mount", link.t_mount, point_zero );
     archive.io( "link_max_length", link.max_length, -1 );
-    archive.io( "link_vp_index", link.vp_index, -1 );
+    archive.io( "link_last_processed", link.last_processed, calendar::turn );
+    archive.io( "link_charge_rate", link.charge_rate, 0 );
+    archive.io( "link_charge_interval", link.charge_interval, -1 );
+    archive.io( "link_charge_efficiency", link.charge_efficiency, 7 );
     // Legacy: remove flag check/unset after 0.F
     archive.io( "ethereal", ethereal, has_flag( flag_ETHEREAL_ITEM ) );
     unset_flag( flag_ETHEREAL_ITEM );

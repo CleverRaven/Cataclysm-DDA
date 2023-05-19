@@ -2172,11 +2172,6 @@ class map
         std::set<tripoint_abs_sm> submaps_with_active_items_dirty;
 
         /**
-         * Cables connected to vehicles; update their target points if their vehicle moves. Cleared every turn.
-         */
-        std::unordered_multimap<const vehicle *, item::cable_link *> links_to_process;
-
-        /**
          * Cache of coordinate pairs recently checked for visibility.
          */
         mutable lru_cache<point, char> skew_vision_cache;
@@ -2267,12 +2262,6 @@ class map
 
         bool has_haulable_items( const tripoint &pos );
         std::vector<item_location> get_haulable_items( const tripoint &pos );
-
-        // TODOkama
-        void setup_link_processing( item::cable_link *link, const vehicle *veh = nullptr );
-        void process_linked_movement();
-        void process_linked_removal( const vehicle *veh, const int removed_index );
-        units::power get_linked_power_draw( const vehicle *veh ) const;
 };
 
 map &get_map();

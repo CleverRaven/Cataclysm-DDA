@@ -1931,7 +1931,6 @@ bool vehicle::do_remove_part_actual()
                 const tripoint pt = global_part_pos3( *it );
                 here.clear_vehicle_point_from_cache( this, pt );
             }
-            here.process_linked_removal( this, it - parts.begin() );
             it = parts.erase( it );
             changed = true;
         }
@@ -4624,11 +4623,6 @@ units::power vehicle::total_accessory_epower() const
     return epower;
 }
 
-units::power vehicle::total_cable_link_epower() const
-{
-    return get_map().get_linked_power_draw( this );
-}
-
 std::pair<int, int> vehicle::battery_power_level() const
 {
     int total_epower_capacity = 0;
@@ -4781,7 +4775,7 @@ units::power vehicle::net_battery_charge_rate( bool include_reactors, bool inclu
     return total_engine_epower() + total_alternator_epower() + total_accessory_epower() +
            total_solar_epower() + total_wind_epower() + total_water_wheel_epower() +
            ( include_reactors ? active_reactor_epower( false ) : 0_W ) +
-           ( include_cable_links ? total_cable_link_epower() : 0_W );
+           ( include_cable_links ? linked_item_epower_this_turn : 0_W );
 }
 
 units::power vehicle::active_reactor_epower() const
@@ -5266,6 +5260,7 @@ void vehicle::idle( bool on_map )
         }
     }
 
+    linked_item_epower_this_turn = 0_W;
     smart_controller_handle_turn();
 
     if( !on_map ) {
@@ -5809,6 +5804,7 @@ void vehicle::refresh( const bool remove_fakes )
     mufflers.clear();
     planters.clear();
     accessories.clear();
+    cable_ports.clear();
 
     alternator_load = 0;
     extra_drag = 0_W;
@@ -5963,6 +5959,9 @@ void vehicle::refresh( const bool remove_fakes )
         }
         if( vpi.has_flag( VPFLAG_ENABLED_DRAINS_EPOWER ) ) {
             accessories.push_back( p );
+        }
+        if( vpi.has_flag( VPFLAG_CABLE_PORTS ) || vpi.has_flag( VPFLAG_APPLIANCE ) ) {
+            cable_ports.push_back( p );
         }
     }
 

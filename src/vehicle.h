@@ -1362,8 +1362,8 @@ class vehicle
         units::power total_water_wheel_epower() const;
         // Total power drain across all vehicle accessories.
         units::power total_accessory_epower() const;
-        // Total power draw from all cable-connected devices.
-        units::power total_cable_link_epower() const;
+        // Total power draw from all cable-connected devices. Is cleared every turn during idle().
+        units::power linked_item_epower_this_turn;
         // Net power draw or drain on batteries.
         units::power net_battery_charge_rate( bool include_reactors, bool connected_cable_links = false ) const;
         // Maximum available power available from all reactors. Power from
@@ -2056,6 +2056,7 @@ class vehicle
         std::vector<int> mufflers; // NOLINT(cata-serialize)
         std::vector<int> planters; // NOLINT(cata-serialize)
         std::vector<int> accessories; // NOLINT(cata-serialize)
+        std::vector<int> cable_ports; // NOLINT(cata-serialize)
         std::vector<int> fake_parts; // NOLINT(cata-serialize)
 
         // config values

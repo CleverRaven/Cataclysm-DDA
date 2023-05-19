@@ -1412,30 +1412,33 @@ class item : public visitable
         bool leak( map &here, Character *carrier, const tripoint &pos, item_pocket *pocke = nullptr );
 
         struct cable_link {
-            /**TODOkama */
+            /// State of the link, @ref cable_state. State names are self-explanatory.
             cable_state state = cable_state::no_attachments;
-            /** TODOkama */
-            tripoint pos = tripoint_min;
-            /**TODOkama */
-            int vp_index = -1;
-            /**TODOkama */
-            int power_draw = 0;
-            /**TODOkama */
-            int max_length = 2;
-            /**TODOkama */
-            int charge_rate = 0;
-            /**TODOkama */
-            int charge_interval = -1;
-            /**TODOkama */
-            int charge_efficiency = 7;
-            /**TODOkama */
+            /// The last turn process_cable was called on this cable. Used for time the cable spends outside the bubble.
             time_point last_processed = calendar::turn;
+            /// Absolute position of the linked target vehicle/appliance.
+            tripoint_abs_ms t_abs_pos = tripoint_abs_ms( tripoint_min );
+            /// Reality bubble position of the link's source cable item.
+            tripoint i_bub_pos = tripoint_min;
+            /// A safe reference to the link's target vehicle. Will recreate itself whenever the vehicle enters the bubble.
+            safe_reference<vehicle> t_veh_safe;
+            /// The linked part's mount offset on the target vehicle.
+            point t_mount = point_zero;
+            /// The maximum length of the cable. Set during initialization.
+            int max_length = 2;
+            /// The cable's charge rate in watts. Set during initialization.
+            int charge_rate = 0;
+            /// The turn interval between charges. Set during initialization.
+            int charge_interval = -1;
+            /// one_in(this) chance to fail adding 1 charge. Set during initialization.
+            int charge_efficiency = 7;
         };
         cable_link link;
         /**
          * Helper to bring a cable back to its initial state.
+         * @return True if the cable should be deleted.
          */
-        void reset_cable( Character *p, item *parent_item = nullptr );
+        const bool reset_cable( Character *p = nullptr, item *parent_item = nullptr, const bool loose_message = false, const tripoint sees_point = tripoint_zero );
         void reset_cables( Character *p );
 
         /**
@@ -1448,7 +1451,7 @@ class item : public visitable
         * @param turns_elapsed The number of turns the link has spent outside the reality bubble. Default 1.
         * @return The amount of power given or taken to be displayed; ignores turns_elapsed and inefficiency.
         */
-        int charge_linked_batteries( item &linked_item, vehicle &linked_veh, int turns_elapsed = 1 );
+        const int charge_linked_batteries( item &linked_item, vehicle &linked_veh, int turns_elapsed = 1 );
 
         /**
          * Whether the item should be processed (by calling @ref process).

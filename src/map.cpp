@@ -5290,7 +5290,6 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
 
 void map::process_items()
 {
-    process_linked_movement();
     const int minz = zlevels ? -OVERMAP_DEPTH : abs_sub.z();
     const int maxz = zlevels ? OVERMAP_HEIGHT : abs_sub.z();
     for( int gz = minz; gz <= maxz; ++gz ) {
@@ -5474,69 +5473,6 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap )
         // parts would move up to fill the gap).
         cargo_parts = cur_veh.get_any_parts( VPFLAG_CARGO );
     }
-}
-
-void map::setup_link_processing( item::cable_link *link, const vehicle *veh )
-{
-    links_to_process.emplace( veh, link );
-}
-
-void map::process_linked_movement()
-{
-    const auto process_link_move = [this]( std::pair<const vehicle *, item::cable_link *> l ) {
-        if( l.second->vp_index > -1 && inbounds( getlocal( l.second->pos ) ) ) {
-            tripoint new_pos;
-            if( l.first == nullptr ) {
-                // No vehicle pointer, try finding it via the saved link position:
-                const optional_vpart_position vp = get_map().veh_at( getlocal( l.second->pos ) );
-                if( vp && l.second->vp_index < vp->vehicle().part_count() ) {
-                    new_pos = vp->vehicle().global_part_pos3( l.second->vp_index );
-                    if( inbounds( new_pos ) ) {
-                        l.second->pos = getabs( new_pos );
-                    }
-                }
-            } else if( l.second->vp_index < l.first->part_count() ) {
-                new_pos = l.first->global_part_pos3( l.second->vp_index );
-                if( inbounds( new_pos ) ) {
-                    l.second->pos = getabs( new_pos );
-                }
-            }
-        }
-    };
-
-    std::for_each( links_to_process.begin(), links_to_process.end(), process_link_move );
-    links_to_process.clear();
-}
-
-void map::process_linked_removal( const vehicle *veh, const int removed_index )
-{
-    auto bounds = links_to_process.equal_range( veh );
-    std::for_each( bounds.first, bounds.second, [this, removed_index]
-    ( std::pair<const vehicle *, item::cable_link *> l ) {
-        if( l.second->vp_index == removed_index ) {
-            add_msg_if_player_sees( getlocal( l.second->pos ), m_bad, _( "The cable has come loose!" ) );
-            l.second->state = cable_state::needs_reeling;
-            l.second->pos = tripoint_min;
-            l.second->vp_index = -1;
-        } else if( l.second->vp_index > removed_index ) {
-            l.second->vp_index--;
-        }
-    } );
-}
-
-units::power map::get_linked_power_draw( const vehicle *veh ) const
-{
-    int milliwatts = 0;
-    auto bounds = links_to_process.equal_range( veh );
-    std::for_each( bounds.first, bounds.second, [this, &milliwatts]
-    ( std::pair<const vehicle *, item::cable_link *> l ) {
-        milliwatts += l.second->power_draw;
-    } );
-    /*units::power epower = 0_W;
-    for( item::cable_link *link : cables_to_update ) {
-    epower += units::from_milliwatt( milliwatts );
-    }*/
-    return units::from_milliwatt( milliwatts );
 }
 
 // Crafting/item finding functions

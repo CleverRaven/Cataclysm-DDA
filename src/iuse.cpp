@@ -8030,14 +8030,14 @@ std::optional<int> iuse::tow_attach( Character *p, item *it, bool, const tripoin
                     return std::nullopt;
                 }
             }
-            it->link.pos = here.getabs( posp );
-            it->link.vp_index = vp.value().part_index();
+            it->link.t_abs_pos = here.getglobal( posp );
+            it->link.t_mount = vp.value().mount();
             set_cable_active( p, it, cable_state::hanging_from_vehicle );
         }
     } else {
         const auto confirm_source_vehicle = [&here]( Character * p, item * it,
         const bool detach_if_missing ) {
-            tripoint source_local = here.getlocal( it->link.pos );
+            tripoint source_local = here.getlocal( it->link.t_abs_pos );
             optional_vpart_position source_vp = here.veh_at( source_local );
             vehicle *const source_veh = veh_pointer_or_null( source_vp );
             if( detach_if_missing && source_veh == nullptr ) {
@@ -8214,14 +8214,14 @@ std::optional<int> iuse::cable_attach( Character *p, item *it, bool, const tripo
             p->add_msg_if_player( _( "There's no vehicle there." ) );
             return std::nullopt;
         } else {
-            it->link.pos = here.getabs( posp );
-            it->link.vp_index = vp.value().part_index();
+            it->link.t_abs_pos = here.getglobal( posp );
+            it->link.t_mount = vp.value().mount();
             set_cable_active( p, it, cable_state::hanging_from_vehicle );
         }
     } else {
         const auto confirm_source_vehicle = [&here]( Character * p, item * it,
         const bool detach_if_missing ) {
-            tripoint source_local = here.getlocal( it->link.pos );
+            tripoint source_local = here.getlocal( it->link.t_abs_pos );
             optional_vpart_position source_vp = here.veh_at( source_local );
             vehicle *const source_veh = veh_pointer_or_null( source_vp );
             if( detach_if_missing && source_veh == nullptr ) {
@@ -8334,8 +8334,8 @@ std::optional<int> iuse::cable_attach( Character *p, item *it, bool, const tripo
             p->add_msg_if_player( _( "There's no vehicle there." ) );
             return std::nullopt;
         } else if( cable_cbm ) {
-            it->link.pos = here.getabs( vpos );
-            it->link.vp_index = target_vp.value().part_index();
+            it->link.t_abs_pos = here.getglobal( vpos );
+            it->link.t_mount = target_vp.value().mount();
             set_cable_active( p, it, cable_state::vehicle_bionic_link );
             p->add_msg_if_player( m_good, _( "You are now plugged into the vehicle." ) );
             return 0;
@@ -8362,7 +8362,7 @@ std::optional<int> iuse::cable_attach( Character *p, item *it, bool, const tripo
 
             vcoords = target_vp->mount();
             vehicle_part target_part( vpid, item( *it ) );
-            target_part.target.first = it->link.pos;
+            target_part.target.first = it->link.t_abs_pos.raw();
             target_part.target.second = source_veh->global_square_location().raw();
             target_veh->install_part( vcoords, std::move( target_part ) );
 
@@ -8401,15 +8401,15 @@ std::optional<int> iuse::cord_attach( Character *p, item *it, bool, const tripoi
             p->add_msg_if_player( _( "There's no appliance here." ) );
             return std::nullopt;
         } else {
-            it->link.pos = here.getabs( posp );
-            it->link.vp_index = vp.value().part_index();
+            it->link.t_abs_pos = here.getglobal( posp );
+            it->link.t_mount = vp.value().mount();
             p->add_msg_if_player( _( "You attach the %1$s to the %2$s." ), it->tname(), vp->vehicle().name );
             set_cable_active( p, it, cable_state::hanging_from_vehicle );
         }
     } else {
         const auto confirm_source_vehicle = [&here]( Character * p, item * it,
         const bool detach_if_missing ) {
-            tripoint source_local = here.getlocal( it->link.pos );
+            tripoint source_local = here.getlocal( it->link.t_abs_pos );
             optional_vpart_position source_vp = here.veh_at( source_local );
             vehicle *const source_veh = veh_pointer_or_null( source_vp );
             if( detach_if_missing && source_veh == nullptr ) {
@@ -8479,7 +8479,7 @@ std::optional<int> iuse::cord_attach( Character *p, item *it, bool, const tripoi
 
             vcoords = target_vp->mount();
             vehicle_part target_part( vpid, item( *it ) );
-            target_part.target.first = it->link.pos;
+            target_part.target.first = it->link.t_abs_pos.raw();
             target_part.target.second = source_veh->global_square_location().raw();
             target_veh->install_part( vcoords, std::move( target_part ) );
 

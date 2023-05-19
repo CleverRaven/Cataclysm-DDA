@@ -423,7 +423,7 @@ static void connect_power_line( const tripoint &src_pos, const tripoint &dst_pos
 {
     map &here = get_map();
     item cord( itm );
-    cord.link.pos = src_pos;
+    cord.link.t_abs_pos = tripoint_abs_ms( src_pos );
     cord.link.state = cable_state::hanging_from_vehicle;
     cord.active = true;
 
@@ -450,7 +450,7 @@ static void connect_power_line( const tripoint &src_pos, const tripoint &dst_pos
 
     vcoords = target_vp->mount();
     vehicle_part target_part( vpid, item( cord ) );
-    target_part.target.first = cord.link.pos;
+    target_part.target.first = cord.link.t_abs_pos.raw();
     target_part.target.second = source_veh->global_square_location().raw();
     target_veh->install_part( vcoords, std::move( target_part ) );
 }

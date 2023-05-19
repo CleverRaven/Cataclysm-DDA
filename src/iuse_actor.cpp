@@ -4445,19 +4445,15 @@ cata::optional<int> link_up_actor::use( Character &p, item &it, bool t, const tr
 
     if( it.get_contents().cables().empty() ) {
         item cable( type );
-        cable.link.pos = here.getabs( pnt );
-        cable.link.vp_index = vp_port.value().part_index();
+        cable.link.t_abs_pos = here.getglobal( pnt );
+        cable.link.t_mount = vp_port->mount();
         cable.link.charge_efficiency = charge_efficiency;
         cable.link.charge_rate = charge_rate.value();
-        // Convert wattage to how long it takes to charge 1 kW, the unit batteries use. Minimum 1 mW.
+        // Convert wattage to how long it takes to charge 1 kW, the unit batteries use.
+        // -1 means batteries won't be charged, but it can still provide epower to devices.
         cable.link.charge_interval = charge_rate == 0_W ? -1 :
                                      std::max( 1, static_cast<int>( std::floor( 1000000.0 / abs( charge_rate.value() ) + 0.5 ) ) );
-
         cable.link.state = cable_state::hanging_from_vehicle;
-        if( cable.link.max_length > HALF_MAPSIZE_X || cable.link.max_length > HALF_MAPSIZE_Y ) {
-            debugmsg( "%s is longer than the reality bubble - it could potentially stretch forever!",
-                      cable.tname() );
-        }
 
         cable.link.max_length = cable_length != -1 ? cable_length : type->maximum_charges();
         cable.link.last_processed = calendar::turn;
@@ -4475,8 +4471,8 @@ cata::optional<int> link_up_actor::use( Character &p, item &it, bool t, const tr
         }
     } else {
         item *existing_cable = it.get_contents().cables().front();
-        existing_cable->link.pos = here.getabs( pnt );
-        existing_cable->link.vp_index = vp_port.value().part_index();
+        existing_cable->link.t_abs_pos = here.getglobal( pnt );
+        existing_cable->link.t_mount = vp_port->mount();
         existing_cable->link.state = cable_state::hanging_from_vehicle;
         existing_cable->link.max_length = cable_length != -1 ? cable_length : type->maximum_charges();
         existing_cable->link.last_processed = calendar::turn;
