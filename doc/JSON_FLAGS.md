@@ -1402,7 +1402,6 @@ These flags apply to the `use_action` field, instead of the `flags` field.
 - ```BOLTCUTTERS``` Use your town key to gain access anywhere.
 - ```BREAK_STICK``` Breaks long branch into two.
 - ```C4``` Arm the C4.
-- ```CABLE_ATTACH``` This item is a cable spool. Use it to try to attach to a vehicle.
 - ```CAN_GOO``` Release a little blob buddy.
 - ```CAPTURE_MONSTER_ACT``` Capture and encapsulate a monster. The associated action is also used for releasing it.
 - ```CARVER_OFF``` Turn the carver on.
@@ -1483,7 +1482,6 @@ These flags apply to the `use_action` field, instead of the `flags` field.
 - ```TORCH``` Light a torch.
 - ```TOURISTMAP``` Learn of local points-of-interest that a tourist would like to visit, and show roads.
 - ```TOWEL``` Dry your character using the item as towel.
-- ```TOW_ATTACH``` This is a tow cable, activate it to attach it to a vehicle.
 - ```TURRET``` Activate a turret.
 - ```WASH_ALL_ITEMS``` Wash items with ```FILTHY``` flag.
 - ```WASH_HARD_ITEMS``` Wash hard items with ```FILTHY``` flag.

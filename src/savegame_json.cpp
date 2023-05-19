@@ -850,23 +850,6 @@ void Character::load( const JsonObject &data )
     worn.on_item_wear( *this );
 
     map &here = get_map();
-    // Send cable data to the map immediately.
-    /*visit_items( [this, &here]( item * e, item * ) { TODOkama
-        if( e->plugged_in ) {
-            std::list<item *> links = e->all_items_top( item_pocket::pocket_type::CABLE );
-            for( item *link : links ) {
-                if( link->link->vp_index > -1 && link->active ) {
-                    const optional_vpart_position vp = here.veh_at( here.getlocal( link->link->pos ) );
-                    here.setup_link_processing( &link->link, &vp->vehicle() );
-                }
-            }
-        }
-        if( e->link->vp_index > -1 && e->active ) {
-            const optional_vpart_position vp = here.veh_at( here.getlocal( e->link->pos ) );
-            here.setup_link_processing( &e->link, &vp->vehicle() );
-        }
-        return VisitResponse::NEXT;
-    } );*/
 
     // TEMPORARY until 0.F
     if( data.has_array( "hp_cur" ) ) {
@@ -2870,7 +2853,8 @@ void item::craft_data::deserialize( const JsonObject &obj )
 void item::link_data::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
-    jsout.member( "link_state", state );
+    jsout.member( "link_i_state", s_state );
+    jsout.member( "link_t_state", t_state );
     jsout.member( "link_t_abs_pos", t_abs_pos );
     jsout.member( "link_t_mount", t_mount );
     jsout.member( "link_max_length", max_length );
@@ -2885,7 +2869,8 @@ void item::link_data::deserialize( const JsonObject &obj )
 {
     obj.allow_omitted_members();
 
-    obj.read( "link_state", state );
+    obj.read( "link_i_state", s_state );
+    obj.read( "link_t_state", t_state );
     obj.read( "link_t_abs_pos", t_abs_pos );
     obj.read( "link_t_mount", t_mount );
     max_length = obj.get_int( "link_max_length" );
@@ -2992,7 +2977,7 @@ void item::io( Archive &archive )
     archive.io( "is_favorite", is_favorite, false );
     archive.io( "item_counter", item_counter, static_cast<decltype( item_counter )>( 0 ) );
     archive.io( "wetness", wetness, 0 );
-    archive.io( "plugged_in", plugged_in, false );
+    archive.io( "contents_linked", contents_linked, false );
     archive.io( "dropped_from", dropped_from, harvest_drop_type_id::NULL_ID() );
     archive.io( "rot", rot, 0_turns );
     archive.io( "last_temp_check", last_temp_check, calendar::start_of_cataclysm );

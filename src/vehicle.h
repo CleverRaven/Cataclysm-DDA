@@ -892,7 +892,7 @@ class vehicle
         void print_vparts_descs( const catacurses::window &win, int max_y, int width, int p,
                                  int &start_at, int &start_limit ) const;
         // towing functions
-        void invalidate_towing( bool first_vehicle = false );
+        void invalidate_towing( bool first_vehicle = false, Character *remover = nullptr );
         void do_towing_move();
         bool tow_cable_too_far() const;
         bool no_towing_slack() const;

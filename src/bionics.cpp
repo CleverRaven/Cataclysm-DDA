@@ -1131,7 +1131,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         }
     } else if( bio.info().is_remote_fueled ) {
         std::vector<item *> cables = items_with( []( const item & it ) {
-            return it.link && it.has_flag( flag_CABLE_SPOOL );
+            return it.has_flag( flag_CABLE_SPOOL );
         } );
         bool has_cable = !cables.empty();
         bool free_cable = false;
@@ -1141,43 +1141,37 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
                                _( "You need a jumper cable connected to a power source to drain power from it." ) );
         } else {
             for( item *cable : cables ) {
-                const cable_state state = cable->link->state;
-                if( state == cable_state::hanging_from_bionic ) {
+                if( !cable->link || cable->link->has_no_links() ) {
+                    free_cable = true;
+                } else if( cable->link->has_states( link_state::no_link, link_state::bio_cable ) ) {
                     add_msg_if_player( m_info,
-                                       _( "Cable is attached to your CBM but it also has to be connected to a power source." ) );
-                }
-                if( state == cable_state::vehicle_bionic_link ) {
-                    add_msg_activate();
-                    success = true;
-                    add_msg_if_player( m_info,
-                                       _( "You are attached to a vehicle.  It will charge you if it has some juice in it." ) );
-                }
-                if( state == cable_state::solarpack_bionic_link ) {
+                                       _( "You have a cable attached to your CBM but it also has to be connected to a power source." ) );
+                } else if( cable->link->has_states( link_state::solarpack, link_state::bio_cable ) ) {
                     add_msg_activate();
                     success = true;
                     add_msg_if_player( m_info,
                                        _( "You are attached to a solar pack.  It will charge you if it's unfolded and in sunlight." ) );
-                }
-                if( state == cable_state::UPS_bionic_link ) {
+                } else if( cable->link->has_states( link_state::ups, link_state::bio_cable ) ) {
                     add_msg_activate();
                     success = true;
                     add_msg_if_player( m_info,
                                        _( "You are attached to a UPS.  It will charge you if it has some juice in it." ) );
-                }
-                if( state == cable_state::hanging_from_solarpack || state == cable_state::hanging_from_UPS ) {
+                } else if( cable->link->has_states( link_state::bio_cable, link_state::vehicle ) ) {
+                    add_msg_activate();
+                    success = true;
+                    add_msg_if_player( m_info,
+                                       _( "You are attached to a vehicle.  It will charge you if it has some juice in it." ) );
+                } else if( cable->link->s_state == link_state::solarpack ||
+                           cable->link->s_state == link_state::ups ) {
                     add_msg_if_player( m_info,
                                        _( "You have a cable attached to a portable power source, but you also need to connect it to your CBM." ) );
-                }
-                if( state == cable_state::hanging_from_vehicle ) {
+                } else if( cable->link->t_state == link_state::vehicle ) {
                     add_msg_if_player( m_info,
                                        _( "You have a cable attached to a vehicle, but you also need to connect it to your CBM." ) );
                 }
-                if( state == cable_state::no_attachments ) {
-                    free_cable = true;
-                }
             }
 
-            if( free_cable ) {
+            if( free_cable && !success ) {
                 add_msg_if_player( m_info,
                                    _( "You have at least one free cable in your inventory that you could use to connect yourself." ) );
             }
@@ -3334,7 +3328,7 @@ std::vector<item *> Character::get_cable_ups()
     std::vector<item *> stored_fuels;
 
     const std::vector<item *> cables = items_with( []( const item & it ) {
-        return it.link && it.link->state == cable_state::UPS_bionic_link;
+        return it.link && it.link->has_states( link_state::ups, link_state::bio_cable );
     } );
     int n = cables.size();
     if( n == 0 ) {
@@ -3367,14 +3361,14 @@ std::vector<item *> Character::get_cable_solar()
     std::vector<item *> solar_sources;
 
     const std::vector<item *> cables = items_with( []( const item & it ) {
-        return it.link && it.link->state == cable_state::solarpack_bionic_link;
+        return it.link && it.link->has_states( link_state::solarpack, link_state::bio_cable );
     } );
     int n = cables.size();
     if( n == 0 ) {
         return solar_sources;
     }
 
-    // There is no way to check which cable is connected to which ups
+    // There is no way to check which cable is connected to which solar pack
     // So if there are multiple cables and some of them are only partially connected this may add wrong solar pack
     for( item_location it : all_items_loc() ) {
         if( it->has_flag( flag_SOLARPACK_ON ) && it->get_var( "cable" ) == "plugged_in" ) {
@@ -3398,7 +3392,7 @@ std::vector<vehicle *> Character::get_cable_vehicle()
     std::vector<vehicle *> remote_vehicles;
 
     const std::vector<item *> cables = items_with( []( const item & it ) {
-        return it.link && it.link->state == cable_state::vehicle_bionic_link;
+        return it.link && it.link->has_states( link_state::bio_cable, link_state::vehicle );
     } );
     int n = cables.size();
     if( n == 0 ) {
@@ -3408,9 +3402,13 @@ std::vector<vehicle *> Character::get_cable_vehicle()
     map &here = get_map();
 
     for( const item *cable : cables ) {
-        const optional_vpart_position vp = here.veh_at( cable->link->t_abs_pos );
-        if( vp ) {
-            remote_vehicles.emplace_back( &vp->vehicle() );
+        if( cable->link->t_veh_safe ) {
+            remote_vehicles.emplace_back( cable->link->t_veh_safe.get() );
+        } else {
+            const optional_vpart_position vp = here.veh_at( cable->link->t_abs_pos );
+            if( vp ) {
+                remote_vehicles.emplace_back( &vp->vehicle() );
+            }
         }
     }
 

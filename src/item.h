@@ -85,7 +85,7 @@ class map;
 struct damage_instance;
 struct damage_unit;
 struct fire_data;
-enum class cable_state : int;
+enum class link_state : int;
 
 enum clothing_mod_type : int;
 
@@ -1412,14 +1412,16 @@ class item : public visitable
         bool leak( map &here, Character *carrier, const tripoint &pos, item_pocket *pocke = nullptr );
 
         struct link_data {
-            /// State of the link, @ref cable_state. State names are self-explanatory.
-            cable_state state = cable_state::no_attachments;
+            /// State of the link's source, the end usually represented by the cable item. @ref link_state.
+            link_state s_state = link_state::no_link;
+            /// State of the link's target, the end represented by t_abs_pos, @ref link_state.
+            link_state t_state = link_state::no_link;
             /// The last turn process_cable was called on this cable. Used for time the cable spends outside the bubble.
             time_point last_processed = calendar::turn;
             /// Absolute position of the linked target vehicle/appliance.
             tripoint_abs_ms t_abs_pos = tripoint_abs_ms( tripoint_min );
             /// Reality bubble position of the link's source cable item.
-            tripoint i_bub_pos = tripoint_min;
+            tripoint s_bub_pos = tripoint_min;
             /// A safe reference to the link's target vehicle. Will recreate itself whenever the vehicle enters the bubble.
             safe_reference<vehicle> t_veh_safe;
             /// The linked part's mount offset on the target vehicle.
@@ -1432,6 +1434,16 @@ class item : public visitable
             int charge_interval = -1;
             /// one_in(this) chance to fail adding 1 charge. Set during initialization.
             int charge_efficiency = 7;
+
+            bool has_state( link_state state ) const {
+                return s_state == state || t_state == state;
+            }
+            bool has_states( link_state i_state_, link_state t_state_ ) const {
+                return s_state == i_state_ && t_state == t_state_;
+            }
+            bool has_no_links() const {
+                return s_state == link_state::no_link && t_state == link_state::no_link;
+            }
 
             void serialize( JsonOut &jsout ) const;
             void deserialize( const JsonObject &jo );
@@ -2888,7 +2900,7 @@ class item : public visitable
         bool process_fake_mill( map &here, Character *carrier, const tripoint &pos );
         bool process_cable( map &here, Character *carrier, const tripoint &pos,
                             item *parent_item = nullptr );
-        bool process_UPS( Character *carrier, const tripoint &pos );
+        bool process_linked_item( Character *carrier, const tripoint &pos, const link_state state );
         bool process_blackpowder_fouling( Character *carrier );
         bool process_tool( Character *carrier, const tripoint &pos );
 
@@ -2969,7 +2981,9 @@ class item : public visitable
         int player_id = -1;        // Only give a mission to the right player!
         bool ethereal = false;
         int wetness = 0;           // Turns until this item is completely dry.
-        bool plugged_in = false;
+
+        // This contains a cable with an active link. Is NOT true for linked cable items themselves.
+        bool contents_linked = false;
 
         int seed = rng( 0, INT_MAX );  // A random seed for layering and other options
 

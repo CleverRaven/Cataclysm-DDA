@@ -471,21 +471,27 @@ struct enum_traits<aggregate_type> {
     static constexpr aggregate_type last = aggregate_type::num_aggregate_types;
 };
 
-enum class cable_state : int {
-    no_attachments = 0,
+enum class link_state : int {
+    // Default / utility states
+    no_link = 0,
     needs_reeling,
-    hanging_from_vehicle,
-    hanging_from_bionic,
-    hanging_from_UPS,
-    hanging_from_solarpack,
-    vehicle_bionic_link,
-    UPS_bionic_link,
-    solarpack_bionic_link,
-    num_cable_states
+
+    // States of a cable's link at the end represented by the item (s_state)
+    ups,       // Linked to a UPS the cable holder is holding
+    solarpack, // Linked to a solarpack the cable holder is wearing
+
+    // States of a cable's link at the end represented by t_abs_pos (t_state)
+    vehicle, // Linked to a vehicle's cable ports / vehicle's electrical controls / appliance
+
+    // States of a link that could be at either the source or the target
+    bio_cable, // Linked to the cable holder's cable system bionic - s_state if connected to a vehicle, t_state otherwise
+    vehicle_tow, // Linked to a valid tow point on a vehicle - s_state if it's the towing vehicle, t_state if the towed one
+
+    last
 };
 template<>
-struct enum_traits<cable_state> {
-    static constexpr cable_state last = cable_state::num_cable_states;
+struct enum_traits<link_state> {
+    static constexpr link_state last = link_state::last;
 };
 
 #endif // CATA_SRC_ENUMS_H

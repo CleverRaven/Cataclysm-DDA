@@ -1038,9 +1038,11 @@ class modify_gunmods_actor : public iuse_actor
 class link_up_actor : public iuse_actor
 {
     public:
+        /** True if the link_up action is called by the cable item itself, rather than by a device. */
+        bool is_cable_item = false;
         /** The type of cable created with this action */
         itype_id type = itype_id( "generic_device_cable" );
-        /** Maximum length of the cable */
+        /** Maximum length of the cable. At -1, will use the item type's max_charges. */
         int cable_length = -1;
         /** Charge rate in watts */
         units::power charge_rate = 0_W;
@@ -1048,6 +1050,8 @@ class link_up_actor : public iuse_actor
         int charge_efficiency = 7;
         /** (Optional) Text displayed in the activation screen, defaults to "Plug in / Unplug". */
         translation menu_text;
+
+        std::set<link_state> targets = { link_state::no_link };
 
         link_up_actor() : iuse_actor( "link_up" ) {}
 

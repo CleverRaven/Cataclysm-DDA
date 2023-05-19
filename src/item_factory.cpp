@@ -1621,12 +1621,9 @@ void Item_factory::init()
     add_iuse( "BLECH_BECAUSE_UNCLEAN", &iuse::blech_because_unclean );
     add_iuse( "BOLTCUTTERS", &iuse::boltcutters );
     add_iuse( "C4", &iuse::c4 );
-    add_iuse( "TOW_ATTACH", &iuse::tow_attach );
-    add_iuse( "CABLE_ATTACH", &iuse::cable_attach );
     add_iuse( "CAMERA", &iuse::camera );
     add_iuse( "CAN_GOO", &iuse::can_goo );
     add_iuse( "COIN_FLIP", &iuse::coin_flip );
-    add_iuse( "CORD_ATTACH", &iuse::cord_attach );
     add_iuse( "DIRECTIONAL_HOLOGRAM", &iuse::directional_hologram );
     add_iuse( "CAPTURE_MONSTER_ACT", &iuse::capture_monster_act );
     add_iuse( "CAPTURE_MONSTER_VEH", &iuse::capture_monster_veh );
@@ -3751,31 +3748,27 @@ namespace io
 {
 // *INDENT-OFF*
 template<>
-std::string enum_to_string<cable_state>( cable_state data )
+std::string enum_to_string<link_state>( link_state data )
 {
     switch( data ) {
-        case cable_state::no_attachments:
-            return "no_attachments";
-        case cable_state::needs_reeling:
+        case link_state::no_link:
+            return "no_link";
+        case link_state::needs_reeling:
             return "needs_reeling";
-        case cable_state::hanging_from_vehicle:
-            return "hanging_from_vehicle";
-        case cable_state::hanging_from_bionic:
-            return "hanging_from_bionic";
-        case cable_state::hanging_from_UPS:
-            return "hanging_from_UPS";
-        case cable_state::hanging_from_solarpack:
-            return "hanging_from_solarpack";
-        case cable_state::vehicle_bionic_link:
-            return "vehicle_bionic_link";
-        case cable_state::UPS_bionic_link:
-            return "UPS_bionic_link";
-        case cable_state::solarpack_bionic_link:
-            return "solarpack_bionic_link";
-        case cable_state::num_cable_states:
+        case link_state::vehicle:
+            return "vehicle";
+        case link_state::vehicle_tow:
+            return "vehicle_tow";
+        case link_state::bio_cable:
+            return "bio_cable";
+        case link_state::ups:
+            return "ups";
+        case link_state::solarpack:
+            return "solarpack";
+        case link_state::last:
             break;
     }
-    cata_fatal( "Invalid cable_state" );
+    cata_fatal( "Invalid link_state" );
 }
 // *INDENT-ON*
 } // namespace io

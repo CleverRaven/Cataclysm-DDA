@@ -28,6 +28,7 @@
 #include "clothing_mod.h"
 #include "clzones.h"
 #include "colony.h"
+#include "construction.h"
 #include "crafting.h"
 #include "creature.h"
 #include "creature_tracker.h"
@@ -84,6 +85,7 @@
 #include "ui.h"
 #include "units_utility.h"
 #include "value_ptr.h"
+#include "veh_type.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
 #include "visitable.h"
@@ -4356,11 +4358,13 @@ std::unique_ptr<iuse_actor> link_up_actor::clone() const
 
 void link_up_actor::load( const JsonObject &jo )
 {
+    jo.read( "is_cable_item", is_cable_item );
     jo.read( "cable_type", type );
     jo.read( "cable_length", cable_length );
     jo.read( "charge_rate", charge_rate );
     jo.read( "efficiency", charge_efficiency );
     jo.read( "menu_text", menu_text );
+    jo.read( "targets", targets );
 }
 
 void link_up_actor::info( const item &, std::vector<iteminfo> &dump ) const
@@ -4388,104 +4392,486 @@ std::string link_up_actor::get_name() const
 std::optional<int> link_up_actor::use( Character &p, item &it, bool t, const tripoint & ) const
 {
     if( t ) {
-        return std::nullopt; // invoked from active item processing, do nothing.
+        return std::nullopt;
     }
 
-    if( it.plugged_in ) {
-        if( query_yn( string_format( _( "Unplug the %s?" ), it.label( 1 ) ) ) ) {
-            it.reset_cables( &p );
-            return 0;
+    if( !is_cable_item && !it.has_pocket_type( item_pocket::pocket_type::CABLE ) ) {
+        debugmsg( "Called a link_up action on an item (%s) without a CABLE pocket or \"is_cable_item: true\" set!",
+                  it.tname() );
+        return std::nullopt;
+    }
+
+    // If the item is the cable, we can assign some variables now.
+    // Otherwise, wait until after target selection to create the cable and assign this pointer.
+    item *cable = nullptr;
+    if( is_cable_item ) {
+        cable = &it;
+    } else {
+        if( !it.get_contents().cables().empty() ) {
+            cable = it.get_contents().cables().front();
+        }
+    }
+    if( cable != nullptr ) {
+        if( !cable->link ) {
+            cable->link = cata::make_value<item::link_data>();
+        }
+        if( cable->link->s_state == link_state::needs_reeling ) {
+            return std::nullopt; // Cables that need reeling can't be linked up.
+        }
+    }
+
+    if( it.contents_linked || cable != nullptr && !cable->link->has_state( link_state::no_link ) ) {
+        // Cables without any free ends can only be disconnected.
+        if( targets.count( link_state::no_link ) > 0 ) {
+            if( is_cable_item ) {
+                if( query_yn( string_format( _( "Detach and re-spool the %s?" ), it.label( 1 ) ) ) ) {
+                    it.reset_cable( &p );
+                    return 0;
+                }
+            } else {
+                if( query_yn( string_format( _( "Detach and re-spool the %s's cable?" ), it.label( 1 ) ) ) ) {
+                    it.reset_cables( &p );
+                    return 0;
+                }
+            }
         }
         return std::nullopt;
     }
 
-    if( !it.has_pocket_type( item_pocket::pocket_type::CABLE ) ) {
-        debugmsg( "Called a link_up action on an item (%s) without a CABLE pocket!", it.tname() );
+    if( targets.size() == 0 ) {
+        debugmsg( "Link up action for %s doesn't have any targets!", it.tname() );
         return std::nullopt;
+    }
+
+    uilist link_menu;
+    if( cable == nullptr || cable->link->has_no_links() ) {
+        // Cable doesn't have any connections, or is a device cable:
+
+        link_menu.text = is_cable_item ? string_format( _( "Attaching the %s:" ), it.label( 1 ) ) :
+                         string_format( _( "Attaching the %s's cable:" ), it.label( 1 ) );
+        if( targets.count( link_state::vehicle ) > 0 ) {
+            link_menu.addentry( 0, true, -1, _( "Attach cable to vehicle or appliance" ) );
+        }
+        if( targets.count( link_state::vehicle_tow ) > 0 ) {
+            link_menu.addentry( 1, true, -1, _( "Attach tow cable to towing vehicle" ) );
+            link_menu.addentry( 2, true, -1, _( "Attach tow cable to towed vehicle" ) );
+        }
+        if( targets.count( link_state::bio_cable ) > 0 ) {
+            if( !p.get_remote_fueled_bionic().is_empty() ) {
+                link_menu.addentry( 3, true, -1, _( "Attach cable to Cable Charger System CBM" ) );
+            }
+        }
+        if( targets.count( link_state::ups ) > 0 ) {
+            if( !( p.all_items_with_flag( flag_IS_UPS ) ).empty() ) {
+                link_menu.addentry( 4, true, -1, _( "Attach cable to UPS" ) );
+            }
+        }
+        if( targets.count( link_state::solarpack ) > 0 ) {
+            const bool has_solar_pack_on = p.worn_with_flag( flag_SOLARPACK_ON );
+            if( has_solar_pack_on || p.worn_with_flag( flag_SOLARPACK ) ) {
+                link_menu.addentry( 5, has_solar_pack_on, -1, _( "Attach cable to solar pack" ) );
+            }
+        }
+        if( targets.count( link_state::no_link ) > 0 ) {
+            link_menu.addentry( 99, false, -1, _( "Detach and re-spool the cable" ) );
+        }
+
+    } else if( cable != nullptr && cable->link->has_state( link_state::vehicle_tow ) ) {
+        // Cables that started a tow can finish one or detach, nothing else.
+
+        link_menu.addentry( 1, cable->link->t_state == link_state::vehicle_tow, -1,
+                            _( "Attach loose end to towing vehicle" ) );
+        link_menu.addentry( 2, cable->link->s_state == link_state::vehicle_tow, -1,
+                            _( "Attach loose end to towed vehicle" ) );
+        if( targets.count( link_state::no_link ) > 0 ) {
+            link_menu.addentry( 99, true, -1, _( "Detach and re-spool the cable" ) );
+        }
+
+    } else if( is_cable_item ) {
+        // Cable has one connection already:
+
+        link_menu.text = string_format( _( "Attaching the %s's loose end:" ), it.label( 1 ) );
+
+        // TODO: Allow plugging UPSes and Solar Packs into more than just bionics.
+        // There is already code to support setting up a link, but none for actual functionality.
+        if( targets.count( link_state::vehicle ) > 0 ) {
+            link_menu.addentry( 0, !cable->link->has_state( link_state::ups ) &&
+                                !cable->link->has_state( link_state::solarpack ),
+                                -1, _( "Attach loose end to vehicle or appliance" ) );
+        }
+        if( targets.count( link_state::bio_cable ) > 0 && !p.get_remote_fueled_bionic().is_empty() ) {
+            link_menu.addentry( 3, !cable->link->has_state( link_state::bio_cable ),
+                                -1, _( "Attach loose end to Cable Charger System CBM" ) );
+        }
+        if( targets.count( link_state::ups ) > 0 && !( p.all_items_with_flag( flag_IS_UPS ) ).empty() ) {
+            link_menu.addentry( 4, cable->link->has_state( link_state::bio_cable ),
+                                -1, _( "Attach loose end to UPS" ) );
+        }
+        if( targets.count( link_state::solarpack ) > 0 ) {
+            const bool has_solar_pack_on = p.worn_with_flag( flag_SOLARPACK_ON );
+            if( has_solar_pack_on || p.worn_with_flag( flag_SOLARPACK ) ) {
+                link_menu.addentry( 5, has_solar_pack_on && cable->link->has_state( link_state::bio_cable ),
+                                    -1, _( "Attach loose end to solar pack" ) );
+            }
+        }
+        if( targets.count( link_state::no_link ) > 0 ) {
+            link_menu.addentry( 99, true, -1, _( "Detach and re-spool the cable" ) );
+        }
+    } else {
+        debugmsg( "An already connected device (%s) tried to link up again!", it.tname() );
+        return std::nullopt;
+    }
+    int choice = -1;
+    if( targets.size() == 1 ) {
+        choice = link_menu.entries.begin()->retval;
+    } else {
+        link_menu.query();
+        choice = link_menu.ret;
+    }
+
+    if( choice < 0 ) { // Cancelled selection.
+
+        p.add_msg_if_player( _( "Never mind" ) );
+        return std::nullopt;
+
+    } else if( choice == 99 ) { // Selection: Unconnect & respool.
+
+        if( is_cable_item ) {
+            it.reset_cable( &p );
+        } else {
+            it.reset_cables( &p );
+        }
+        return 0;
     }
 
     map &here = get_map();
-
-    bool vehicle_nearby = false;
-    const std::function<bool( const tripoint & )> has_port = [&here, &vehicle_nearby]
-    ( const tripoint & point ) {
-        const optional_vpart_position vp = here.veh_at( point );
-        if( !vp ) {
-            return false;
+    const int move_cost = 5;
+    // Lambda that assigns an address to the cable pointer, creating the cable if needed. Returns false if it failed.
+    const auto set_cable_pointer = [this, &it, &cable]() {
+        if( cable == nullptr ) {
+            item new_cable( type );
+            if( !it.put_in( new_cable, item_pocket::pocket_type::CABLE ).success() ) {
+                debugmsg( "Failed to add the %s inside the %s!", new_cable.tname(), it.tname() );
+                return false;
+            }
+            cable = it.get_contents().cables().front();
+            cable->link = cata::make_value<item::link_data>();
         }
-        if( !vehicle_nearby && vp->vehicle().has_part( "CABLE_PORTS" ) ) {
-            vehicle_nearby = true;
-        }
-        return vp.avail_part_with_feature( "CABLE_PORTS" ) || vp.avail_part_with_feature( "APPLIANCE" );
+        return true;
     };
-    const std::optional<tripoint> pnt_ = choose_adjacent_highlight( _( "Connect your device where?" ),
-                                         "", has_port, false );
-    if( !pnt_ ) {
-        add_msg( vehicle_nearby ?
-                 _( "There's nowhere to plug it in nearby; try the vehicle's dashboard or electronics controls." ) :
-                 _( "There's nowhere to plug it in nearby." ) );
-        return std::nullopt;
-    }
-    const tripoint &pnt = *pnt_;
-    const optional_vpart_position vp = here.veh_at( pnt );
-    if( !has_port( pnt ) ) {
-        if( vp && vp->vehicle().has_part( "CABLE_PORTS" ) ) {
-            p.add_msg_if_player( m_info,
-                                 _( "You can't plug it in there; try the dashboard or electronics controls." ) );
-        } else {
-            p.add_msg_if_player( m_info, _( "You can't plug it in there." ) );
-        }
-        return std::nullopt;
-    }
 
-    std::optional<vpart_reference> vp_port = vp.avail_part_with_feature( "CABLE_PORTS" );
-    if( !vp_port ) {
-        vp_port = vp.avail_part_with_feature( "APPLIANCE" );
-    }
+    if( choice == 0 ) { // Selection: Attach electrical cable to vehicle or appliance.
 
-    if( it.get_contents().cables().empty() ) {
-        item cable( type );
-        cable.link = cata::make_value<item::link_data>();
-
-        cable.link->t_abs_pos = here.getglobal( pnt );
-        cable.link->t_mount = vp_port->mount();
-        cable.link->charge_efficiency = charge_efficiency;
-        cable.link->charge_rate = charge_rate.value();
-        // Convert wattage to how long it takes to charge 1 kW, the unit batteries use.
-        // -1 means batteries won't be charged, but it can still provide epower to devices.
-        cable.link->charge_interval = charge_rate == 0_W ? -1 :
-                                      std::max( 1, static_cast<int>( std::floor( 1000000.0 / abs( charge_rate.value() ) + 0.5 ) ) );
-        cable.link->state = cable_state::hanging_from_vehicle;
-
-        cable.link->max_length = cable_length != -1 ? cable_length : type->maximum_charges();
-        cable.link->last_processed = calendar::turn;
-        cable.active = true;
-
-        if( it.put_in( cable, item_pocket::pocket_type::CABLE ).success() ) {
-            it.plugged_in = true;
-            it.process( get_map(), &p, p.pos() );
-            p.moves -= 5;
-            p.add_msg_if_player( _( "You connect the %1$s to the %2$s." ),
-                                 it.label( 1 ), vp->vehicle().name );
-        } else {
-            debugmsg( "Failed to add the %s inside the %s!", cable.tname(), it.tname() );
+        // You used to be able to plug cables in anywhere on a vehicle, so there's extra effort here
+        // to inform players that they can only plug them into dashboards or electrical controls now.
+        bool veh_available = false;
+        const std::function<bool( const tripoint & )> can_link = [&here,
+        &veh_available]( const tripoint & point ) {
+            const optional_vpart_position ovp = here.veh_at( point );
+            if( !ovp ) {
+                return false;
+            }
+            if( !veh_available && ovp->vehicle().has_part( "CABLE_PORTS" ) ) {
+                veh_available = true;
+            }
+            return ovp.avail_part_with_feature( "CABLE_PORTS" ) || ovp.avail_part_with_feature( "APPLIANCE" );
+        };
+        const std::optional<tripoint> pnt_ = choose_adjacent_highlight( _( "Attach the cable where?" ),
+                                             "", can_link, false );
+        if( !pnt_ ) {
+            p.add_msg_if_player( veh_available ?
+                                 _( "There's nowhere to plug it in nearby; try the vehicle's dashboard or electronics controls." ) :
+                                 _( "There's nowhere to plug it in nearby." ) );
             return std::nullopt;
         }
-    } else {
-        item *existing_cable = it.get_contents().cables().front();
-        existing_cable->link = cata::make_value<item::link_data>();
+        const tripoint &pnt = *pnt_;
 
-        existing_cable->link->t_abs_pos = here.getglobal( pnt );
-        existing_cable->link->t_mount = vp_port->mount();
-        existing_cable->link->state = cable_state::hanging_from_vehicle;
-        existing_cable->link->max_length = cable_length != -1 ? cable_length : type->maximum_charges();
-        existing_cable->link->last_processed = calendar::turn;
-        existing_cable->active = true;
-        it.plugged_in = true;
-        it.process( get_map(), &p, p.pos() );
-        p.moves -= 5;
-        p.add_msg_if_player( _( "You connect the %1$s to the %2$s." ),
-                             it.label( 1 ), vp->vehicle().name );
+        const optional_vpart_position t_vp = here.veh_at( pnt );
+        if( !can_link( pnt ) ) {
+            if( t_vp && t_vp->vehicle().has_part( "CABLE_PORTS" ) ) {
+                p.add_msg_if_player( m_info,
+                                     _( "You can't plug it in there; try the dashboard or electronics controls." ) );
+            } else {
+                p.add_msg_if_player( m_info, _( "You can't plug it in there." ) );
+            }
+            return std::nullopt;
+        }
+
+        if( !set_cable_pointer() ) {
+            return std::nullopt;
+        }
+
+        if( !cable->link->has_state( link_state::vehicle ) ) {
+            // Starting a new connection to a vehicle or connecting a cable CBM to a vehicle.
+
+            if( cable->link->has_no_links() ) {
+                p.add_msg_if_player( _( "You connect the %1$s to the %2$s." ), it.label( 1 ),
+                                     t_vp->vehicle().name );
+            } else if( cable->link->has_state( link_state::bio_cable ) ) {
+                p.add_msg_if_player( m_good, _( "You are now plugged into the vehicle." ) );
+                cable->link->s_state = link_state::bio_cable;
+            } else {
+                debugmsg( "Failed to connect the %s, it tried to make an invalid connection!", cable->tname() );
+                return std::nullopt;
+            }
+            cable->link->t_state = link_state::vehicle;
+            cable->link->t_abs_pos = here.getglobal( pnt );
+            cable->link->t_mount = t_vp->mount();
+            cable->link->max_length = cable_length != -1 ? cable_length : type->maximum_charges();
+            cable->link->charge_efficiency = charge_efficiency;
+            cable->link->charge_rate = charge_rate.value();
+            // Convert wattage to how long it takes to charge 1 kW, the unit batteries use.
+            // -1 means batteries won't be charged, but it can still provide epower to devices.
+            cable->link->charge_interval = charge_rate == 0_W ? -1 :
+                                           std::max( 1, static_cast<int>( std::floor( 1000000.0 / abs( charge_rate.value() ) + 0.5 ) ) );
+            cable->link->last_processed = calendar::turn;
+            cable->active = true;
+            it.contents_linked = !is_cable_item;
+            p.moves -= move_cost;
+            it.process( here, &p, p.pos() );
+
+        } else {
+            // Connecting one vehicle/appliance to another.
+
+            if( !cable->link->t_veh_safe ) {
+                debugmsg( "Failed to connect the %s, it lost its vehicle pointer!", cable->tname() );
+                return std::nullopt;
+            }
+            vehicle *const target_veh = &t_vp->vehicle();
+            vehicle *const prev_veh = cable->link->t_veh_safe.get();
+            if( prev_veh == target_veh ) {
+                p.add_msg_if_player( m_warning, _( "You cannot connect the %s to itself." ), prev_veh->name );
+                return std::nullopt;
+            }
+            // TODO: make sure there is always a matching vpart id here. Maybe transform this into
+            // a iuse_actor class, or add a check in item_factory.
+            const vpart_id vpid( it.typeId().str() );
+
+            point vcoords = cable->link->t_mount;
+            vehicle_part source_part( vpid, "", vcoords, item( it ) );
+            source_part.target.first = here.getabs( pnt );
+            source_part.target.second = target_veh->global_square_location().raw();
+            prev_veh->install_part( vcoords, source_part );
+
+            vcoords = t_vp->mount();
+            vehicle_part target_part( vpid, "", vcoords, item( it ) );
+            target_part.target.first = here.getabs( prev_veh->mount_to_tripoint( cable->link->t_mount ) );
+            target_part.target.second = prev_veh->global_square_location().raw();
+            target_veh->install_part( vcoords, target_part );
+
+            p.add_msg_if_player( m_good, _( "You link up the %1$s and the %2$s." ),
+                                 prev_veh->name, target_veh->name );
+
+            return 1; // Let the cable be destroyed.
+        }
+
+    } else if( choice == 1 || choice == 2 ) { // Selection: Attach tow cable to towing/towed vehicle.
+
+        if( !set_cable_pointer() ) {
+            return std::nullopt;
+        }
+
+        const std::optional<tripoint> pnt_ = choose_adjacent_highlight(
+                choice == 1 ? _( "Attach cable to the vehicle that will do the towing." ) :
+                _( "Attach cable to the vehicle that will be towed." ),
+                _( "There's no vehicle nearby." ),
+        [&here]( const tripoint & point ) {
+            return !!here.veh_at( point );
+        }, false );
+        if( !pnt_ ) {
+            return std::nullopt;
+        }
+        const tripoint &pnt = *pnt_;
+        const optional_vpart_position t_vp = here.veh_at( pnt );
+        vehicle *const target_veh = &t_vp->vehicle();
+        if( !target_veh ) {
+            p.add_msg_if_player( _( "There's no vehicle there." ) );
+            return std::nullopt;
+        }
+
+        if( target_veh->has_tow_attached() || target_veh->is_towed() ||
+            target_veh->is_towing() ) {
+            p.add_msg_if_player( _( "That vehicle already has a tow-line attached." ) );
+            return std::nullopt;
+        }
+        if( !target_veh->is_external_part( pnt ) ) {
+            p.add_msg_if_player( _( "You can't attach the tow-line to an internal part." ) );
+            return std::nullopt;
+        }
+        if( !target_veh->part( t_vp->part_index() ).carried_stack.empty() ) {
+            p.add_msg_if_player( _( "You can't attach the tow-line to a racked part." ) );
+            return std::nullopt;
+        }
+
+        if( cable->link->has_no_links() ) {
+            // Starting a new tow cable connection.
+
+            p.add_msg_if_player( _( "You connect the %1$s to the %2$s." ), it.label( 1 ),
+                                 t_vp->vehicle().name );
+            if( choice == 1 ) {
+                cable->link->s_state = link_state::vehicle_tow; // Assign towing vehicle.
+            } else {
+                cable->link->t_state = link_state::vehicle_tow; // Assign towed vehicle.
+            }
+            //cable->link->t_state = link_state::vehicle_tow;
+            cable->link->t_abs_pos = here.getglobal( pnt );
+            cable->link->t_mount = t_vp->mount();
+            cable->link->max_length = cable_length != -1 ? cable_length : type->maximum_charges();
+            cable->link->last_processed = calendar::turn;
+            cable->active = true;
+            it.contents_linked = !is_cable_item;
+            p.moves -= move_cost;
+            it.process( here, &p, p.pos() );
+
+        } else {
+            // Connecting two vehicles with tow cable.
+
+            if( !cable->link->t_veh_safe ) {
+                debugmsg( "Failed to connect the %s, it lost its vehicle pointer!", cable->tname() );
+                return std::nullopt;
+            }
+            vehicle *const prev_veh = cable->link->t_veh_safe.get();
+            const bool prev_veh_towed = cable->link->t_state == link_state::vehicle_tow;
+            //vehicle *const target_veh = &t_vp->vehicle();
+            if( prev_veh == target_veh ) {
+                if( p.has_item( it ) ) {
+                    p.add_msg_if_player( m_warning, _( "The %s cannot tow itself!" ), prev_veh->name );
+                }
+                return std::nullopt;
+            };
+
+            tripoint target_global = here.getabs( pnt );
+            // TODO: make sure there is always a matching vpart id here. Maybe transform this into
+            // a iuse_actor class, or add a check in item_factory.
+            const vpart_id vpid( cable->typeId().str() );
+
+            point vcoords = cable->link->t_mount;
+            vehicle_part prev_part( vpid, "", vcoords, item( it ) );
+            prev_part.target.first = here.getabs( pnt );
+            prev_part.target.second = target_veh->global_square_location().raw();
+            prev_veh->install_part( vcoords, prev_part );
+
+            vcoords = t_vp->mount();
+            vehicle_part target_part( vpid, "", vcoords, item( it ) );
+            target_part.target.first = here.getabs( prev_veh->mount_to_tripoint( cable->link->t_mount ) );
+            target_part.target.second = prev_veh->global_square_location().raw();
+            target_veh->install_part( vcoords, target_part );
+
+            if( p.has_item( it ) ) {
+                p.add_msg_if_player( m_good, _( "You link up the %1$s and the %2$s." ),
+                                     prev_veh->name, target_veh->name );
+            }
+            if( choice == 1 ) {
+                target_veh->tow_data.set_towing( target_veh, prev_veh );
+            } else {
+                prev_veh->tow_data.set_towing( prev_veh, target_veh );
+            }
+
+            return 1; // Let the cable be destroyed.
+        }
+
+    } else if( choice == 3 ) { // Selection: Attach electrical cable to Cable Charger System CBM.
+
+        if( !set_cable_pointer() ) {
+            return std::nullopt;
+        }
+        if( cable->link->has_no_links() ) {
+            cable->link->t_state = link_state::bio_cable;
+            p.add_msg_if_player( m_info, _( "You attach the cable to your Cable Charger System." ) );
+        } else if( cable->link->s_state == link_state::ups ) {
+            cable->link->t_state = link_state::bio_cable;
+            p.add_msg_if_player( m_good, _( "You are now plugged into the UPS." ) );
+        } else if( cable->link->s_state == link_state::solarpack ) {
+            cable->link->t_state = link_state::bio_cable;
+            p.add_msg_if_player( m_good, _( "You are now plugged into the solar backpack." ) );
+        } else if( cable->link->t_state == link_state::vehicle ) {
+            cable->link->s_state = link_state::bio_cable;
+            p.add_msg_if_player( m_good, _( "You are now plugged into the vehicle." ) );
+        }
+        cable->active = true;
+        it.contents_linked = !is_cable_item;
+        p.moves -= move_cost;
+        it.process( here, &p, p.pos() );
+        return 0;
+
+    } else if( choice == 4 ) { // Selection: Attach electrical cable to ups.
+
+        item_location loc;
+        avatar *you = p.as_avatar();
+        const std::string choose_ups = _( "Choose UPS:" );
+        const std::string dont_have_ups = _( "You don't have any UPS." );
+        auto ups_filter = [&]( const item & itm ) {
+            return itm.has_flag( flag_IS_UPS );
+        };
+
+        if( you != nullptr ) {
+            loc = game_menus::inv::titled_filter_menu( ups_filter, *you, choose_ups, -1, dont_have_ups );
+        }
+        if( !loc ) {
+            p.add_msg_if_player( _( "Never mind" ) );
+            return std::nullopt;
+        }
+
+        if( !set_cable_pointer() ) {
+            return std::nullopt;
+        }
+        if( cable->link->has_no_links() ) {
+            p.add_msg_if_player( m_info, _( "You attach the cable to the UPS." ) );
+        } else if( cable->link->t_state == link_state::bio_cable ) {
+            p.add_msg_if_player( m_good, _( "You are now plugged into the UPS." ) );
+        } else if( cable->link->s_state == link_state::solarpack ) {
+            p.add_msg_if_player( m_good, _( "You link up the UPS and the solar backpack." ) );
+        } else if( cable->link->t_state == link_state::vehicle ) {
+            p.add_msg_if_player( m_good, _( "You link up the UPS and the vehicle." ) );
+        }
+        cable->link->s_state = link_state::ups;
+        loc->set_var( "cable", "plugged_in" );
+        loc->activate();
+        cable->active = true;
+        it.contents_linked = !is_cable_item;
+        p.moves -= move_cost;
+        it.process( here, &p, p.pos() );
+        return 0;
+
+    } else if( choice == 5 ) { // Selection: Attach electrical cable to solar pack.
+
+        item_location loc;
+        avatar *you = p.as_avatar();
+        const std::string choose_solar = _( "Choose solar pack:" );
+        const std::string dont_have_solar = _( "You need an unfolded solar pack." );
+        auto solar_filter = [&]( const item & itm ) {
+            return itm.has_flag( flag_SOLARPACK_ON );
+        };
+
+        if( you != nullptr ) {
+            loc = game_menus::inv::titled_filter_menu( solar_filter, *you, choose_solar, -1, dont_have_solar );
+        }
+        if( !loc ) {
+            p.add_msg_if_player( _( "Never mind" ) );
+            return std::nullopt;
+        }
+
+        if( !set_cable_pointer() ) {
+            return std::nullopt;
+        }
+        if( cable->link->has_no_links() ) {
+            p.add_msg_if_player( m_info, _( "You attach the cable to the solar pack." ) );
+        } else if( cable->link->t_state == link_state::bio_cable ) {
+            p.add_msg_if_player( m_good, _( "You are now plugged into the solar pack." ) );
+        } else if( cable->link->s_state == link_state::ups ) {
+            p.add_msg_if_player( m_good, _( "You link up the solar pack and the UPS." ) );
+        } else if( cable->link->t_state == link_state::vehicle ) {
+            p.add_msg_if_player( m_good, _( "You link up the solar pack and the vehicle." ) );
+        }
+        cable->link->s_state = link_state::solarpack;
+        loc->set_var( "cable", "plugged_in" );
+        loc->activate();
+        cable->active = true;
+        cable->process( here, &p, p.pos() );
+        it.contents_linked = !is_cable_item;
+        p.moves -= move_cost;
+        it.process( here, &p, p.pos() );
+        return 0;
     }
 
     return 0;

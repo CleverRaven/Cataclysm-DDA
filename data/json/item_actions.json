@@ -312,26 +312,6 @@
   },
   {
     "type": "item_action",
-    "id": "CABLE_ATTACH",
-    "name": { "str": "Attach" }
-  },
-  {
-    "type": "item_action",
-    "id": "CORD_ATTACH",
-    "name": { "str": "Attach" }
-  },
-  {
-    "type": "item_action",
-    "id": "TOW_ATTACH",
-    "name": { "str": "Attach" }
-  },
-  {
-    "type": "item_action",
-    "id": "link_up",
-    "name": { "str": "Connect / Disconnect" }
-  },
-  {
-    "type": "item_action",
     "id": "CAMERA",
     "name": { "str": "Use camera" }
   },
@@ -994,6 +974,11 @@
     "type": "item_action",
     "id": "heal",
     "name": { "str": "Apply to wound" }
+  },
+  {
+    "type": "item_action",
+    "id": "link_up",
+    "name": { "str": "Attach / Detach" }
   },
   {
     "type": "item_action",

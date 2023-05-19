@@ -6560,8 +6560,14 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     }
     if( active && ( has_flag( flag_WATER_EXTINGUISH ) || has_flag( flag_LITCIG ) ) ) {
         tagtext += _( " (lit)" );
-    } else if( plugged_in || ( has_flag( flag_IS_UPS ) && get_var( "cable" ) == "plugged_in" ) ) {
+    } else if( contents_linked || ( has_flag( flag_IS_UPS ) && get_var( "cable" ) == "plugged_in" ) ) {
         tagtext += _( " (plugged in)" );
+    } else if( active && link ) {
+        if( link->s_state == link_state::needs_reeling || link->has_no_links() ) {
+            tagtext += _( " (unspooled)" );
+        } else {
+            tagtext += _( " (connected)" );
+        }
     } else if( active && !has_temperature() && !string_ends_with( typeId().str(), "_on" ) ) {
         // Usually the items whose ids end in "_on" have the "active" or "on" string already contained
         // in their name, also food is active while it rots.
@@ -10206,7 +10212,7 @@ int item::ammo_remaining( const Character *carrier, bool cable_links ) const
     }
 
     // Cable connections
-    if( cable_links && plugged_in ) {
+    if( cable_links && contents_linked ) {
         for( const item *cable : contents.cables( true ) ) {
             if( cable->link && cable->link->t_veh_safe ) {
                 ret += cable->link->t_veh_safe->connected_battery_power_level().first;
@@ -10390,7 +10396,7 @@ int item::ammo_consume( int qty, const tripoint &pos, Character *carrier )
     const int wanted_qty = qty;
 
     // Consume power from appliances/vehicles connected with cables
-    if( plugged_in ) {
+    if( contents_linked ) {
         for( const item *cable : contents.cables( true ) ) {
             if( cable->link && cable->link->t_veh_safe ) {
                 qty = cable->link->t_veh_safe->discharge_battery( qty, true );
@@ -12062,7 +12068,7 @@ int item::processing_speed() const
         return to_turns<int>( 10_minutes );
     }
 
-    if( active || ethereal || wetness || plugged_in ||
+    if( active || ethereal || wetness || contents_linked ||
         has_flag( flag_RADIO_ACTIVATION ) || has_relic_recharge() ) {
         // Unless otherwise indicated, update every turn.
         return 1;
@@ -12740,34 +12746,44 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos, it
     }
 
     // Loose, unspooled cables shouldn't do anything but wait to be picked up.
-    if( link->state == cable_state::needs_reeling || link->state == cable_state::no_attachments ) {
+    // Also a failsafe for unlinked cables that are active somehow.
+    if( link->s_state == link_state::needs_reeling || link->has_no_links() ) {
         if( carrier != nullptr ) {
             return reset_cable( carrier, parent_item );
         }
         return false;
     }
 
-    // Handle bionic cables.
-    if( link->state == cable_state::solarpack_bionic_link ||
-        link->state == cable_state::hanging_from_solarpack ) {
+    // Handle item-side links.
+    if( link->s_state == link_state::solarpack ) {
         if( carrier == nullptr || !carrier->worn_with_flag( flag_SOLARPACK_ON ) ) {
-            carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
+            add_msg_if_player_sees( pos, m_bad, parent_item == nullptr ?
+                string_format( _( "The %s has come loose from the solar pack." ), label( 1 ) ) :
+                                    string_format( _( "The %s's cable has come loose from the solar pack." ),
+                                                   parent_item->label( 1 ) ) );
             reset_cable( carrier, parent_item );
             return false;
         }
     }
     const item_filter used_ups = [&]( const item & itm ) {
-        return itm.get_var( "cable" ) == "plugged_in";
+        return itm.has_flag( flag_IS_UPS ) && itm.get_var( "cable" ) == "plugged_in";
     };
-    if( link->state == cable_state::hanging_from_UPS ) {
+    if( link->s_state == link_state::ups ) {
         if( carrier == nullptr || !carrier->has_item_with( used_ups ) ) {
-            carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
-            for( item *used : carrier->items_with( used_ups ) ) {
-                used->erase_var( "cable" );
-            }
+            add_msg_if_player_sees( pos, m_bad, parent_item == nullptr ?
+                string_format( _( "The %s has come loose from the UPS." ), label( 1 ) ) :
+                string_format( _( "The %s's cable has come loose from the UPS." ), parent_item->label( 1 ) ) );
             reset_cable( carrier, parent_item );
             return false;
         }
+    }
+    if( link->t_state == link_state::no_link && link->s_state != link_state::vehicle_tow ||
+        link->t_state == link_state::bio_cable ) {
+        // Certain cable states should skip processing and also become inactive if dropped.
+        if( carrier == nullptr ) {
+            return reset_cable( nullptr, parent_item, true, pos );
+        }
+        return false;
     }
 
     const bool last_t_abs_pos_is_oob = !here.inbounds( link->t_abs_pos );
@@ -12802,8 +12818,8 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos, it
 
     // Check if the item has moved positions this turn.
     bool check_length = false;
-    if( link->i_bub_pos != pos ) {
-        link->i_bub_pos = pos;
+    if( link->s_bub_pos != pos ) {
+        link->s_bub_pos = pos;
         check_length = true;
     }
 
@@ -12849,11 +12865,15 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos, it
 
     // Find the vp_part index the cable is linked to.
     int link_vp_index = -1;
+    if( link->t_state == link_state::vehicle ) {
     for( int idx : t_veh->cable_ports ) {
         if( t_veh->part( idx ).mount == link->t_mount ) {
             link_vp_index = idx;
             break;
         }
+    }
+    } else if( link->t_state == link_state::vehicle_tow || link->s_state == link_state::vehicle_tow ) {
+        link_vp_index = t_veh->part_at( t_veh->coord_translate( link->t_mount ) );
     }
     if( link_vp_index == -1 ) {
         // The part with cable ports was lost, so disconnect the cable.
@@ -12965,7 +12985,7 @@ bool item::reset_cable( Character *p, item *parent_item, const bool loose_messag
     if( !link ) {
         if( parent_item != nullptr ) {
             debugmsg( "%s's active cable lost its cable data!", parent_item->tname() );
-            parent_item->plugged_in = false;
+            parent_item->contents_linked = false;
         } else {
             debugmsg( "Active cable %s lost its cable data!", tname() );
         }
@@ -12988,7 +13008,7 @@ bool item::reset_cable( Character *p, item *parent_item, const bool loose_messag
         p->add_msg_if_player( m_info, _( "You reel in the cable." ) );
         //p->moves -= charges * 10; TODOkama Make this only happen when safe, and interruptible?
         if( parent_item != nullptr ) {
-            parent_item->plugged_in = false;
+            parent_item->contents_linked = false;
         }
         return has_flag( flag_AUTO_DELETE_CABLE );
     } else {
@@ -12998,7 +13018,7 @@ bool item::reset_cable( Character *p, item *parent_item, const bool loose_messag
                                     string_format( _( "You notice the %s's cable has come loose!" ), parent_item->label( 1 ) ) );
         }
         // Character isn't holding the item, so wait until the player picks it up to reel it up.
-        link->state = cable_state::needs_reeling;
+        link->s_state = link_state::needs_reeling;
     }
     return false;
 }
@@ -13006,6 +13026,7 @@ bool item::reset_cable( Character *p, item *parent_item, const bool loose_messag
 void item::reset_cables( Character *p )
 {
     if( !plugged_in ) {
+    if( !contents_linked ) {
         debugmsg( "Tried to reset %s's cables but it wasn't plugged in.", tname() );
         return;
     }
@@ -13015,7 +13036,7 @@ void item::reset_cables( Character *p )
             remove_item( *cable );
         }
     }
-    plugged_in = false;
+    contents_linked = false;
 }
 
 bool item::process_UPS( Character *carrier, const tripoint & /*pos*/ )
@@ -13025,10 +13046,8 @@ bool item::process_UPS( Character *carrier, const tripoint & /*pos*/ )
         active = false;
         return false;
     }
-    bool has_connected_cable = carrier->has_item_with( []( const item & it ) {
-        return it.active && it.has_flag( flag_CABLE_SPOOL ) && it.link &&
-               ( it.link->state == cable_state::UPS_bionic_link ||
-                 it.link->state == cable_state::hanging_from_UPS );
+    bool has_connected_cable = carrier->has_item_with( [&required_state]( const item & it ) {
+        return it.link && it.link->has_state( required_state );
     } );
     if( !has_connected_cable ) {
         erase_var( "cable" );
@@ -13171,7 +13190,7 @@ bool item::process_internal( map &here, Character *carrier, const tripoint &pos,
         wetness -= 1;
     }
 
-    if( plugged_in ) {
+    if( contents_linked ) {
         std::vector<item *> cables = contents.cables( true );
         if( !cables.empty() ) {
             for( item *cable : cables ) {
@@ -13181,7 +13200,7 @@ bool item::process_internal( map &here, Character *carrier, const tripoint &pos,
             }
         } else {
             debugmsg( "%s was labeled as plugged in but had no active cables inside.", tname() );
-            plugged_in = false;
+            contents_linked = false;
         }
     }
 

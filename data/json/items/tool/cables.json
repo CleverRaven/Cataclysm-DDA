@@ -17,7 +17,13 @@
     "price_postapoc": 100,
     "max_charges": 3,
     "initial_charges": 3,
-    "use_action": [ "CABLE_ATTACH" ],
+    "use_action": {
+      "type": "link_up",
+      "menu_text": "Plug in / Unplug",
+      "is_cable_item": true,
+      "cable_length": 3,
+      "targets": [ "vehicle" ]
+    },
     "flags": [ "CABLE_SPOOL", "AUTO_DELETE_CABLE", "SINGLE_USE" ]
   },
   {
@@ -56,9 +62,14 @@
     "price_postapoc": 100,
     "max_charges": 3,
     "initial_charges": 3,
-    "use_action": [ "CABLE_ATTACH" ],
+    "use_action": {
+      "type": "link_up",
+      "menu_text": "Attach / Detach",
+      "is_cable_item": true,
+      "cable_length": 4,
+      "targets": [ "no_link", "bio_cable", "ups", "solarpack", "vehicle" ]
+    },
     "flags": [ "CABLE_SPOOL", "SINGLE_USE" ],
-    "qualities": [ [ "JUMPSTART", 1 ] ],
     "melee_damage": { "bash": 2 }
   },
   {
@@ -71,7 +82,13 @@
     "weight": "800 g",
     "max_charges": 10,
     "initial_charges": 10,
-    "use_action": [ "CORD_ATTACH" ],
+    "use_action": {
+      "type": "link_up",
+      "menu_text": "Plug in / Unplug",
+      "is_cable_item": true,
+      "cable_length": 10, 
+      "targets": [ "no_link", "vehicle" ]
+    },
     "flags": [ "CABLE_SPOOL", "SINGLE_USE" ]
   },
   {
@@ -84,7 +101,13 @@
     "weight": "2500 g",
     "max_charges": 30,
     "initial_charges": 30,
-    "use_action": [ "CORD_ATTACH" ],
+    "use_action": {
+      "type": "link_up",
+      "menu_text": "Plug in / Unplug",
+      "is_cable_item": true,
+      "cable_length": 30,
+      "targets": [ "no_link", "vehicle" ]
+    },
     "flags": [ "CABLE_SPOOL", "SINGLE_USE" ]
   },
   {
@@ -103,7 +126,12 @@
     "price_postapoc": 500,
     "max_charges": 6,
     "initial_charges": 6,
-    "use_action": [ "TOW_ATTACH" ],
+    "use_action": {
+      "type": "link_up",
+      "is_cable_item": true,
+      "cable_length": 6,
+      "targets": [ "no_link", "vehicle_tow" ]
+    },
     "qualities": [ [ "ROPE", 2 ] ],
     "flags": [ "CABLE_SPOOL", "TOW_CABLE", "SINGLE_USE" ],
     "melee_damage": { "bash": 6 }
@@ -117,6 +145,13 @@
     "weight": "750 g",
     "max_charges": 20,
     "initial_charges": 20,
+    "use_action": {
+      "type": "link_up",
+      "menu_text": "Attach / Detach",
+      "is_cable_item": true,
+      "cable_length": 20,
+      "targets": [ "no_link", "bio_cable", "ups", "solarpack", "vehicle" ]
+    },
     "copy-from": "jumper_cable"
   },
   {
@@ -128,6 +163,15 @@
     "volume": "1 ml",
     "max_charges": 100,
     "initial_charges": 100,
+    "use_action": {
+      "type": "link_up",
+      "menu_text": "Plug in / Unplug",
+      "is_cable_item": true,
+      "cable_length": 100,
+      "charge_rate": "1000 W",
+      "efficiency": 1000,
+      "targets": [ "no_link", "bio_cable", "ups", "solarpack", "vehicle", "vehicle_tow" ]
+    },
     "copy-from": "jumper_cable"
   }
 ]

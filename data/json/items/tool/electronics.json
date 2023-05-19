@@ -367,7 +367,8 @@
         "menu_text": "Plug in / Unplug",
         "ammo_scale": 0,
         "cable_length": 5,
-        "charge_rate": "140 W"
+        "charge_rate": "140 W",
+        "targets": [ "no_link", "vehicle" ]
       }
     ],
     "flags": [ "WATCH", "WATER_BREAK", "ELECTRONIC" ],
