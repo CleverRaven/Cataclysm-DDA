@@ -76,7 +76,7 @@
     "difficulty": 3,
     "time": "2 hours",
     "batch_time_factors": [ 80, 1 ],
-    "charges": 10,
+    "charges": 14,
     "book_learn": [ [ "cookbook_turkish", 2 ] ],
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "OVEN", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
