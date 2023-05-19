@@ -440,9 +440,7 @@ static void clear_faults( item &it )
     if( it.get_var( "dirt", 0 ) > 0 ) {
         it.set_var( "dirt", 0 );
     }
-    if( it.is_faulty() ) {
-        it.faults.clear();
-    }
+    it.faults.clear();
 }
 
 std::list<item> profession::items( bool male, const std::vector<trait_id> &traits ) const

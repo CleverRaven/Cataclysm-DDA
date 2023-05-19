@@ -1345,6 +1345,48 @@ the item is spawned the variables set on the prototype no longer affect the item
 a migration can clear out the item's variables and reassign the prototype ones if reset_item_vars
 flag is set.
 
+### Item faults
+
+Faults can be defined for more specialized damage of an item.
+
+```C++
+{
+  "type": "fault",
+  "id": "fault_gun_chamber_spent", // unique id for the fault
+  "name": { "str": "Spent casing in chamber" }, // fault name for display
+  "description": "This gun currently...", // fault description
+  "item_prefix": "jammed", // optional string, items with this fault will be prefixed with this
+  "flags": [ "JAMMED_GUN" ] // optional flags, see below
+}
+```
+
+`flags` trigger hardcoded C++ chunks that provide effects, see [JSON_FLAGS.md](JSON_FLAGS.md#faults) for a list of possible flags.
+
+### Item fault fixes
+
+Fault fixes are methods to fix faults, the fixes can optionally add other faults, modify damage, degradation and item variables.
+
+```C++
+{
+  "type": "fault_fix",
+  "id": "mend_gun_fouling_clean", // unique id for the fix
+  "name": "Clean fouling", // name for display
+  "success_msg": "You clean your %s.", // message printed when fix is applied
+  "time": "50 m", // time to apply fix
+  "faults_removed": [ "fault_gun_dirt", "fault_gun_blackpowder" ], // faults removed when fix is applied
+  "faults_added": [ "fault_gun_unlubricated" ], // faults added when fix is applied
+  "skills": { "mechanics": 1 }, // skills required to apply fix
+  "set_variables": { "dirt": "0" }, // sets the variables on the item when fix is applied
+  "requirements": [ [ "gun_cleaning", 1 ] ], // requirements array, see below
+  "mod_damage": 1000, // damage to modify on item when fix is applied, can be negative to repair
+  "mod_degradation": 50 // degradation to modify on item when fix is applied, can be negative to reduce degradation
+}
+```
+
+`requirements` is an array of requirements, they can be specified in 2 ways:
+* An array specifying an already defined requirement by it's id and a multiplier, `[ "gun_lubrication", 2 ]` will add `gun_lubrication` requirement and multiply the components and tools ammo required by 2.
+* Inline object specifying the requirement in the same way [recipes define it](#recipe-requirements)
+
 ### Materials
 
 | Identifier             | Description

@@ -216,7 +216,6 @@ static const std::string flag_NO_DISPLAY( "NO_DISPLAY" );
 
 // fault flags
 static const std::string flag_BLACKPOWDER_FOULING_DAMAGE( "BLACKPOWDER_FOULING_DAMAGE" );
-static const std::string flag_SILENT( "SILENT" );
 
 // item pricing
 static const int PRICE_FILTHY_MALUS = 100;  // cents
@@ -6267,36 +6266,19 @@ void item::on_contents_changed()
 
 std::string item::dirt_symbol() const
 {
-    const int dirt_level = get_var( "dirt", 0 ) / 2000;
-    std::string dirt_symbol;
-    // TODO: MATERIALS put this in json
-
     // these symbols are unicode square characters of different heights, representing a rough
-    // estimation of fouling in a gun. This appears instead of "faulty"
-    // since most guns will have some level of fouling in them, and usually it is not a big deal.
-    switch( dirt_level ) {
-        case 0:
-            dirt_symbol.clear();
-            break;
-        case 1:
-            dirt_symbol = "<color_white>\u2581</color>";
-            break;
-        case 2:
-            dirt_symbol = "<color_light_gray>\u2583</color>";
-            break;
-        case 3:
-            dirt_symbol = "<color_light_gray>\u2585</color>";
-            break;
-        case 4:
-            dirt_symbol = "<color_dark_gray>\u2587</color>";
-            break;
-        case 5:
-            dirt_symbol = "<color_brown>\u2588</color>";
-            break;
-        default:
-            dirt_symbol.clear();
+    // estimation of fouling in a gun. This appears instead of "faulty" since most guns will
+    // have some level of fouling in them, and usually it is not a big deal.
+    switch( static_cast<int>( get_var( "dirt", 0 ) / 2000 ) ) {
+        // *INDENT-OFF*
+        case 1:  return "<color_white>\u2581</color>";
+        case 2:  return "<color_light_gray>\u2583</color>";
+        case 3:  return "<color_light_gray>\u2585</color>";
+        case 4:  return "<color_dark_gray>\u2587</color>";
+        case 5:  return "<color_brown>\u2588</color>";
+        default: return "";
+        // *INDENT-ON*
     }
-    return dirt_symbol;
 }
 
 std::string item::degradation_symbol() const
@@ -6331,9 +6313,19 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     // item damage and/or fouling level
     std::string damtext;
 
+    // add first prefix if item has a fault that defines a prefix (prioritize?)
+    for( const fault_id &f : faults ) {
+        const std::string prefix = f->item_prefix();
+        if( !prefix.empty() ) {
+            damtext = prefix + " ";
+            break;
+        }
+    }
+    damtext += dirt_symbol();
+
     if( get_option<std::string>( "ASTERISK_POSITION" ) == "prefix" && with_prefix ) {
         if( is_favorite ) {
-            damtext = _( "* " ); // Display asterisk for favorite items, before item's name
+            damtext += _( "* " ); // Display asterisk for favorite items, before item's name
         }
     }
 
@@ -6346,20 +6338,6 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         if( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
             // get the utf8 width of the tags
             truncate_override = utf8_width( damtext, false ) - utf8_width( damtext, true );
-        }
-    }
-    if( !faults.empty() ) {
-        bool silent = true;
-        for( const auto &fault : faults ) {
-            if( !fault->has_flag( flag_SILENT ) ) {
-                silent = false;
-                break;
-            }
-        }
-        if( silent ) {
-            damtext.insert( 0, dirt_symbol() );
-        } else {
-            damtext.insert( 0, _( "faulty " ) + dirt_symbol() );
         }
     }
 
@@ -9360,11 +9338,6 @@ bool item::is_fuel() const
 bool item::is_toolmod() const
 {
     return !is_gunmod() && type->mod;
-}
-
-bool item::is_faulty() const
-{
-    return is_engine() ? !faults.empty() : false;
 }
 
 bool item::is_irremovable() const

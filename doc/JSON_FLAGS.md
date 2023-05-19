@@ -1640,9 +1640,6 @@ The requirement for other vehicle parts is defined for a json flag by setting ``
 
 #### Flags
 
-General fault flag:
-- ```SILENT``` Makes the "faulty " text NOT appear next to item on general UI. Otherwise the fault works the same.
-
 Vehicle fault flags:
 - ```NO_ALTERNATOR_CHARGE``` The alternator connected to this engine does not work.
 - ```BAD_COLD_START``` The engine starts as if the temperature was 20 F colder. Does not stack with multiples of itself.
@@ -1660,9 +1657,4 @@ Gun fault flags:
 - ```JAMMED_GUN``` Stops burst fire. Adds delay on next shot.
 - ```UNLUBRICATED``` Randomly causes screeching noise when firing and applies damage when that happens.
 - ```BAD_CYCLING``` One in 16 chance that the gun fails to cycle when fired resulting in `fault_gun_chamber_spent` fault.
-
-#### Parameters
-
-- ```turns_into``` Causes this fault to apply to the item just mended.
-- ```also_mends``` Causes this fault to be mended (in addition to fault selected) once that fault is mended.
 
