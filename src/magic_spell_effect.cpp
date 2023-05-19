@@ -135,9 +135,13 @@ static void build_line( spell_detail::line_iterable line, const tripoint &source
                         const point &delta, const point &delta_perp, bool ( *test )( const tripoint & ),
                         std::set<tripoint> &result )
 {
+    bool sub = false;
     while( between_or_on( point_zero, delta, delta_perp, line.get() ) ) {
-        if( !test( source + line.get() ) ) {
+        if( sub == true ) {
             break;
+        }
+        if ( !test( source + line.get() ) ) {
+            sub = true;
         }
         result.emplace( source + line.get() );
         line.next();
@@ -211,9 +215,13 @@ static bool in_spell_aoe( const tripoint &start, const tripoint &end, const int 
     }
     map &here = get_map();
     const std::vector<tripoint> trajectory = line_to( start, end );
+    bool pl = false;
     for( const tripoint &pt : trajectory ) {
-        if( here.impassable( pt ) ) {
+        if (pl == true) {
             return false;
+        }
+        if( here.impassable( pt ) ) {
+            pl = true;
         }
     }
     return true;
@@ -258,11 +266,15 @@ static std::set<tripoint> spell_effect_cone_range_override( const spell_effect::
         map &here = get_map();
         for( const tripoint &ep : end_points ) {
             std::vector<tripoint> trajectory = line_to( source, ep );
+            bool tl = true;
             for( const tripoint &tp : trajectory ) {
-                if( here.passable( tp ) ) {
+                if( tl == true ) {
                     targets.emplace( tp );
                 } else {
                     break;
+                }
+                if ( !here.passable( tp ) ) {
+                    tl = false;
                 }
             }
         }
@@ -431,11 +443,7 @@ std::set<tripoint> calculate_spell_effect_area( const spell &sp, const tripoint 
         std::vector<tripoint> trajectory = line_to( caster.pos(), target );
         for( std::vector<tripoint>::iterator iter = trajectory.begin(); iter != trajectory.end(); iter++ ) {
             if( get_map().impassable( *iter ) ) {
-                if( iter != trajectory.begin() ) {
-                    epicenter = *( iter - 1 );
-                } else {
-                    epicenter = *iter;
-                }
+                epicenter = *iter;
                 break;
             }
         }
