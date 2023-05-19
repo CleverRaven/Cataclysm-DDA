@@ -222,5 +222,33 @@
     "color": "white",
     "delete": { "flags": [ "NO_WEAR_EFFECT" ] },
     "relic_data": { "passive_effects": [ { "id": "ench_climate_periapta_spider" } ] }
+  },
+  {
+    "id": "life_extension_potion",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str_sp": "life extension potion" },
+    "description": "The primary means by which alchemists gain wealthy patrons these potions will add decades of healthy life to their users span.  But the ingredients are rare and even this won't prolong life forever.  You'll have to resort to other means of achieving immortality, if that's even a goal you are seeking.",
+    "weight": "50 g",
+    "volume": "250 ml",
+    "price": 15000,
+    "price_postapoc": 50000,
+    "charges": 1,
+    "stack_size": 100,
+    "material": [ "water" ],
+    "symbol": "!",
+    "color": "light_cyan",
+    "container": "flask_glass",
+    "quench": 2,
+    "healthy": 7,
+    "fun": -30,
+    "flags": [ "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
+    "use_action": {
+      "type": "cast_spell",
+      "activation_message": "You swallow the potion and feel younger already.  Though the taste lingers long past when you'd hope it would pass.",
+      "spell_id": "extend_life",
+      "no_fail": true,
+      "level": 1
+    }
   }
 ]
