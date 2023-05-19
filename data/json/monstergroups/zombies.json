@@ -568,6 +568,14 @@
   },
   {
     "type": "monstergroup",
+    "name": "GROUP_ZOMBULL_FROG_UPGRADE",
+    "monsters": [
+      { "monster": "mon_frog_dad", "weight": 75, "cost_multiplier": 3 },
+      { "monster": "mon_frog_mother", "weight": 25, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_MANSION_POOL",
     "monsters": [
       { "monster": "mon_zombie_swimmer_base", "weight": 850 },
