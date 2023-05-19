@@ -47,7 +47,7 @@
     "spoils_in": "7 days",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "calories": 1000,
+    "calories": 200,
     "description": "A layered pastry dessert made of filo pastry, filled with chopped nuts, and sweetened with syrup or honey.",
     "price": 350,
     "price_postapoc": 175,
