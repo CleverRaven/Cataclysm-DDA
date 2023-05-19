@@ -49,7 +49,7 @@ struct quality {
 
     std::vector<std::pair<int, std::string>> usages;
 
-    void load( const JsonObject &jo, const std::string &src );
+    void load( const JsonObject &jo, std::string_view src );
 
     static void reset();
     static void load_static( const JsonObject &jo, const std::string &src );
@@ -349,7 +349,7 @@ struct requirement_data {
         /** @param filter see @ref can_make_with_inventory */
         std::vector<std::string> get_folded_components_list( int width, nc_color col,
                 const read_only_visitable &crafting_inv, const std::function<bool( const item & )> &filter,
-                int batch = 1, const std::string &hilite = "",
+                int batch = 1, std::string_view hilite = {},
                 requirement_display_flags = requirement_display_flags::none ) const;
 
         std::vector<std::string> get_folded_tools_list( int width, nc_color col,
@@ -416,7 +416,7 @@ struct requirement_data {
         std::vector<std::string> get_folded_list( int width, const read_only_visitable &crafting_inv,
                 const std::function<bool( const item & )> &filter,
                 const std::vector< std::vector<T> > &objs, int batch = 1,
-                const std::string &hilite = "",
+                std::string_view hilite = {},
                 requirement_display_flags = requirement_display_flags::none ) const;
 
         template<typename T>

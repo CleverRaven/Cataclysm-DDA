@@ -113,12 +113,12 @@ std::pair<int, int> Character::gunmod_installation_odds( const item_location &gu
 
     int roll = 100; // chance of success (%)
     int risk = 0;   // chance of failure (%)
-    int chances = 1; // start with 1 in 6 (~17% chance)
+    float chances = 1.0f; // start with 1 in 6 (~17% chance)
 
     for( const auto &e : mod.type->min_skills ) {
         // gain an additional chance for every level above the minimum requirement
         skill_id sk = e.first.str() == "weapon" ? gun->gun_skill() : e.first;
-        chances += std::max( get_skill_level( sk ) - e.second, 0 );
+        chances += std::max( get_skill_level( sk ) - e.second, 0.0f );
     }
     // cap success from skill alone to 1 in 5 (~83% chance)
     roll = std::min( static_cast<double>( chances ), 5.0 ) / 6.0 * 100;
@@ -128,7 +128,7 @@ std::pair<int, int> Character::gunmod_installation_odds( const item_location &gu
     roll += ( get_dex() - 12 ) * 2;
     roll += ( get_int() - 12 ) * 2;
     // each level of damage to the base gun reduces success by 10%
-    roll -= std::max( gun->damage_level(), 0 ) * 10;
+    roll -= gun->damage_level() * 10;
     roll = std::min( std::max( roll, 0 ), 100 );
 
     // risk of causing damage on failure increases with less durable guns
@@ -233,7 +233,7 @@ void Character::gunmod_add( item &gun, item &mod )
 
     const int moves = !has_trait( trait_DEBUG_HS ) ? moved_mod.type->gunmod->install_time : 0;
 
-    assign_activity( player_activity( gunmod_add_activity_actor( moves, tool ) ) );
+    assign_activity( gunmod_add_activity_actor( moves, tool ) );
     activity.targets.emplace_back( wielded_gun );
     activity.targets.emplace_back( *this, &moved_mod );
     activity.values.push_back( 0 ); // dummy value
@@ -264,9 +264,7 @@ bool Character::gunmod_remove( item &gun, item &mod )
     // Removing gunmod takes only half as much time as installing it
     const int moves = has_trait( trait_DEBUG_HS ) ? 0 : mod.type->gunmod->install_time / 2;
     item_location gun_loc = item_location( *this, &gun );
-    assign_activity(
-        player_activity(
-            gunmod_remove_activity_actor( moves, gun_loc, static_cast<int>( gunmod_idx ) ) ) );
+    assign_activity( gunmod_remove_activity_actor( moves, gun_loc, static_cast<int>( gunmod_idx ) ) );
     return true;
 }
 

@@ -18,6 +18,8 @@
     "type": "enchantment",
     "id": "GAIAS_CHOSEN",
     "condition": "ALWAYS",
+    "name": { "str": "Gaia's Champion" },
+    "description": "Your Gaia's Chosen abilities grant you bigger HP pool, and your enemies impale themselves upon your thorns when they attack you.",
     "values": [ { "value": "MAX_HP", "multiply": 0.3 } ],
     "hit_me_effect": [
       {
@@ -42,7 +44,7 @@
     "effect": [
       { "u_location_variable": { "u_val": "dust_reborn_teleport" }, "min_radius": 0, "max_radius": 0 },
       { "u_add_effect": "effect_dust_reborn", "duration": "30 days" },
-      { "u_add_trait": "DUST_REBORN", "duration": "30 days" },
+      { "u_add_trait": "DUST_REBORN" },
       { "u_message": "Part of your body and soul were divorced.", "type": "neutral" }
     ]
   },
@@ -78,7 +80,7 @@
     "effect": [
       { "u_teleport": { "u_val": "dust_reborn_teleport" } },
       { "u_lose_trait": "DUST_REBORN" },
-      { "arithmetic": [ { "u_val": "pain" }, "=", { "const": 0 } ] },
+      { "math": [ "u_pain()", "=", "0" ] },
       { "arithmetic": [ { "u_val": "stored_kcal" }, "=", { "const": 15000 } ] },
       { "arithmetic": [ { "u_val": "thirst" }, "=", { "const": 0 } ] },
       { "arithmetic": [ { "u_val": "vitamin", "name": "bad_food" }, "=", { "const": 0 } ] },

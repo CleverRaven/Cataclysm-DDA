@@ -229,6 +229,8 @@ enum action_id : int {
     ACTION_TOGGLE_AUTOSAFE,
     /** Toggle permanent attitude to stealing */
     ACTION_TOGGLE_THIEF_MODE,
+    /** Switch current language to English and back */
+    ACTION_TOGGLE_LANGUAGE_TO_EN,
     /** Ignore the enemy that triggered safemode */
     ACTION_IGNORE_ENEMY,
     /** Whitelist the enemy that triggered safemode */
@@ -257,7 +259,7 @@ enum action_id : int {
     ACTION_MISSIONS,
     /** Display factions screen */
     ACTION_FACTIONS,
-    /** Display morale effects screen */
+    /** Displays morale menu */
     ACTION_MORALE,
     /** Displays medical menu */
     ACTION_MEDICAL,

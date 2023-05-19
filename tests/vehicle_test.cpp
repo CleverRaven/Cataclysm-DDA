@@ -19,6 +19,8 @@
 #include "vehicle.h"
 #include "veh_type.h"
 
+static const damage_type_id damage_pure( "pure" );
+
 static const itype_id itype_folded_bicycle( "folded_bicycle" );
 static const itype_id itype_folded_inflatable_boat( "folded_inflatable_boat" );
 static const itype_id itype_folded_wheelchair_generic( "folded_wheelchair_generic" );
@@ -92,7 +94,7 @@ TEST_CASE( "add_item_to_broken_vehicle_part", "[vehicle]" )
     //Must not be broken yet
     REQUIRE( !cargo_part->is_broken() );
     //For some reason (0 - cargo_part->hp()) is just not enough to destroy a part
-    REQUIRE( veh_ptr->mod_hp( *cargo_part, -( 1 + cargo_part->hp() ), damage_type::BASH ) );
+    REQUIRE( veh_ptr->mod_hp( *cargo_part, -( 1 + cargo_part->hp() ) ) );
     //Now it must be broken
     REQUIRE( cargo_part->is_broken() );
     //Now part is really broken, adding an item should fail
@@ -138,20 +140,35 @@ struct vehicle_preset {
 };
 
 struct damage_preset {
-    double damage;
-    double degradation;
-    double expect_damage;
-    double expect_degradation;
-    double expect_hp;
+    int damage;
+    int degradation;
+    int expect_damage;
+    int expect_degradation;
+    int expect_hp;
 };
 
 static void complete_activity( Character &u, const activity_actor &act )
 {
-    u.assign_activity( player_activity( act ) );
+    u.assign_activity( act );
     while( !u.activity.is_null() ) {
         u.set_moves( u.get_speed() );
         u.activity.do_turn( u );
     }
+}
+
+static void spawn_tools_nearby( map &m, Character &u, const vehicle_preset &veh_preset )
+{
+    map_stack spot = m.i_at( u.pos_bub() + tripoint_north );
+    for( const itype_id &tool_itype_id : veh_preset.tool_itype_ids ) {
+        spot.insert( item( tool_itype_id ) );
+    }
+    u.invalidate_crafting_inventory();
+}
+
+static void clear_spawned_tools( map &m, Character &u )
+{
+    m.i_at( u.pos_bub() + tripoint_north ).clear();
+    u.invalidate_crafting_inventory();
 }
 
 static void unfold_and_check( const vehicle_preset &veh_preset, const damage_preset &damage_preset )
@@ -195,12 +212,9 @@ static void unfold_and_check( const vehicle_preset &veh_preset, const damage_pre
 
     INFO( "unfolding vehicle item sourced from item factory" );
 
-    // spawn unfolding tools
-    for( const itype_id &tool_itype_id : veh_preset.tool_itype_ids ) {
-        u.inv->add_item( item( tool_itype_id ) );
-    }
-
+    spawn_tools_nearby( m, u, veh_preset );
     complete_activity( u, vehicle_unfolding_activity_actor( veh_item ) );
+    clear_spawned_tools( m, u );
 
     // should succeed now avatar has hand_pump
     optional_vpart_position ovp = m.veh_at( u.get_location() );
@@ -210,14 +224,16 @@ static void unfold_and_check( const vehicle_preset &veh_preset, const damage_pre
     vehicle &veh = ovp->vehicle();
     for( const vpart_reference &vpr : veh.get_all_parts() ) {
         item base = vpr.part().get_base();
-        base.set_degradation( damage_preset.degradation * base.max_damage() );
-        base.set_damage( damage_preset.damage * base.max_damage() );
-        vpr.part().set_base( base );
+        base.set_degradation( damage_preset.degradation );
+        base.set_damage( damage_preset.damage );
+        vpr.part().set_base( std::move( base ) );
         veh.set_hp( vpr.part(), vpr.info().durability, true );
     }
 
     // fold into an item
+    spawn_tools_nearby( m, u, veh_preset );
     complete_activity( u, vehicle_folding_activity_actor( veh ) );
+    clear_spawned_tools( m, u );
 
     // should have no value as vehicle is now folded into item
     REQUIRE( !m.veh_at( u.get_location() ).has_value() );
@@ -234,7 +250,9 @@ static void unfold_and_check( const vehicle_preset &veh_preset, const damage_pre
     CHECK( factory_item_weight == player_folded_veh.weight() );
 
     // unfold the player folded one
+    spawn_tools_nearby( m, u, veh_preset );
     complete_activity( u, vehicle_unfolding_activity_actor( player_folded_veh ) );
+    clear_spawned_tools( m, u );
 
     optional_vpart_position ovp_unfolded = m.veh_at( u.get_location() );
     REQUIRE( ovp_unfolded.has_value() );
@@ -242,9 +260,9 @@ static void unfold_and_check( const vehicle_preset &veh_preset, const damage_pre
     // verify the damage/degradation roundtripped via serialization on every part
     for( const vpart_reference &vpr : ovp_unfolded->vehicle().get_all_parts() ) {
         const item &base = vpr.part().get_base();
-        CHECK( base.damage() == ( damage_preset.expect_damage * base.max_damage() ) );
-        CHECK( base.degradation() == ( damage_preset.expect_degradation * base.max_damage() ) );
-        CHECK( vpr.part().health_percent() == damage_preset.expect_hp );
+        CHECK( base.damage() == damage_preset.expect_damage );
+        CHECK( base.degradation() == damage_preset.expect_degradation );
+        CHECK( ( vpr.part().max_damage() - vpr.part().damage() ) == damage_preset.expect_hp );
     }
 
     m.destroy_vehicle( &ovp_unfolded->vehicle() );
@@ -260,12 +278,11 @@ TEST_CASE( "Unfolding vehicle parts and testing degradation", "[item][degradatio
     };
 
     const std::vector<damage_preset> presets {
-        { 0.00, 0.00, 0.00, 0.00, 1.00 }, //   0% damaged,   0% degraded
-        { 0.25, 0.25, 0.00, 0.25, 1.00 }, //  25% damaged,  25% degraded
-        { 0.50, 0.50, 0.25, 0.50, 0.75 }, //  50% damaged,  50% degraded
-        { 0.75, 0.50, 0.25, 0.50, 0.75 }, //  75% damaged,  50% degraded
-        { 0.75, 1.00, 0.75, 1.00, 0.25 }, //  75% damaged, 100% degraded
-        { 1.00, 1.00, 0.75, 1.00, 0.25 }, // 100% damaged, 100% degraded
+        {    0,    0,    0,    0, 4000 },
+        { 1000, 1000, 1000, 1000, 3000 },
+        { 2000, 2000, 2000, 2000, 2000 },
+        { 1800, 2000, 2000, 2000, 2000 },
+        { 3000, 3999, 3999, 3999,    1 },
     };
 
     for( const vehicle_preset &veh_preset : vehicle_presets ) {
@@ -312,7 +329,7 @@ static void check_folded_item_to_parts_damage_transfer( const folded_item_damage
 
     // don't actually need point_north but damage_all filters out direct damage
     // do some damage so it is transferred when folding
-    ovp->vehicle().damage_all( 100, 100, damage_type::PURE, ovp->mount() + point_north );
+    ovp->vehicle().damage_all( 100, 100, damage_pure, ovp->mount() + point_north );
 
     // fold vehicle into an item
     complete_activity( u, vehicle_folding_activity_actor( ovp->vehicle() ) );
@@ -428,19 +445,19 @@ static void connect_power_line( const tripoint &src_pos, const tripoint &dst_pos
     const vpart_id vpid( cord.typeId().str() );
 
     point vcoords = source_vp->mount();
-    vehicle_part source_part( vpid, "", vcoords, item( cord ) );
+    vehicle_part source_part( vpid, item( cord ) );
     source_part.target.first = target_global;
     source_part.target.second = target_veh->global_square_location().raw();
-    source_veh->install_part( vcoords, source_part );
+    source_veh->install_part( vcoords, std::move( source_part ) );
 
     vcoords = target_vp->mount();
-    vehicle_part target_part( vpid, "", vcoords, item( cord ) );
+    vehicle_part target_part( vpid, item( cord ) );
     tripoint source_global( cord.get_var( "source_x", 0 ),
                             cord.get_var( "source_y", 0 ),
                             cord.get_var( "source_z", 0 ) );
     target_part.target.first = here.getabs( source_global );
     target_part.target.second = source_veh->global_square_location().raw();
-    target_veh->install_part( vcoords, target_part );
+    target_veh->install_part( vcoords, std::move( target_part ) );
 }
 
 TEST_CASE( "power_cable_stretch_disconnect" )
@@ -632,7 +649,7 @@ static void rack_check( const rack_preset &preset )
             REQUIRE( error ==
                      "vehicle named Foldable wheelchair is already racked on this vehicle"
                      "racking actor failed: failed racking Foldable wheelchair on Car, "
-                     "racks: [82, 81, and 79]." );
+                     "racks: [81, 80, and 78]." );
         }
 
         const optional_vpart_position ovp_racked = m.veh_at(

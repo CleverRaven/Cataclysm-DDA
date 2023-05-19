@@ -32,7 +32,7 @@ resistances Character::mutation_armor( bodypart_id bp ) const
     return res;
 }
 
-float Character::mutation_armor( bodypart_id bp, damage_type dt ) const
+float Character::mutation_armor( bodypart_id bp, const damage_type_id &dt ) const
 {
     return mutation_armor( bp ).type_resist( dt );
 }
@@ -42,153 +42,36 @@ float Character::mutation_armor( bodypart_id bp, const damage_unit &du ) const
     return mutation_armor( bp ).get_effective_resist( du );
 }
 
-int Character::get_armor_bash( bodypart_id bp ) const
+int Character::get_armor_type( const damage_type_id &dt, bodypart_id bp ) const
 {
-    return get_armor_bash_base( bp ) + armor_bash_bonus;
-}
-
-int Character::get_armor_cut( bodypart_id bp ) const
-{
-    return get_armor_cut_base( bp ) + armor_cut_bonus;
-}
-
-int Character::get_armor_bullet( bodypart_id bp ) const
-{
-    return get_armor_bullet_base( bp ) + armor_bullet_bonus;
-}
-
-// TODO: Reduce duplication with below function
-int Character::get_armor_type( damage_type dt, bodypart_id bp ) const
-{
-    switch( dt ) {
-        case damage_type::PURE:
-        case damage_type::BIOLOGICAL:
-            return 0;
-        case damage_type::BASH:
-            return get_armor_bash( bp );
-        case damage_type::CUT:
-            return get_armor_cut( bp );
-        case damage_type::STAB:
-            return get_armor_cut( bp ) * 0.8f;
-        case damage_type::BULLET:
-            return get_armor_bullet( bp );
-        case damage_type::ACID:
-        case damage_type::HEAT:
-        case damage_type::COLD:
-        case damage_type::ELECTRIC: {
-            return worn.damage_resist( dt, bp ) + mutation_armor( bp, dt ) + bp->damage_resistance( dt );
-        }
-        case damage_type::NONE:
-        case damage_type::NUM:
-            // Let it error below
-            break;
+    if( dt->no_resist ) {
+        return 0;
     }
-
-    debugmsg( "Invalid damage type: %d", dt );
-    return 0;
+    int ret = worn.damage_resist( dt, bp );
+    auto bonus = armor_bonus.find( dt );
+    if( bonus != armor_bonus.end() ) {
+        ret += bonus->second;
+    }
+    for( const bionic_id &bid : get_bionics() ) {
+        const auto prot = bid->protec.find( bp.id() );
+        if( prot != bid->protec.end() ) {
+            ret += prot->second.type_resist( dt );
+        }
+    }
+    return ret + mutation_armor( bp, dt ) + bp->damage_resistance( dt );
 }
 
-std::map<bodypart_id, int> Character::get_all_armor_type( damage_type dt,
+std::map<bodypart_id, int> Character::get_all_armor_type( const damage_type_id &dt,
         const std::map<bodypart_id, std::vector<const item *>> &clothing_map ) const
 {
     std::map<bodypart_id, int> ret;
     for( const bodypart_id &bp : get_all_body_parts() ) {
-        ret.emplace( bp, 0 );
-    }
-
-    for( std::pair<const bodypart_id, int> &per_bp : ret ) {
-        const bodypart_id &bp = per_bp.first;
-        switch( dt ) {
-            case damage_type::PURE:
-            case damage_type::BIOLOGICAL:
-                // Characters cannot resist this
-                return ret;
-            /* BASH, CUT, STAB, and BULLET don't benefit from the clothing_map optimization */
-            // TODO: Fix that
-            case damage_type::BASH:
-                per_bp.second += get_armor_bash( bp );
-                break;
-            case damage_type::CUT:
-                per_bp.second += get_armor_cut( bp );
-                break;
-            case damage_type::STAB:
-                per_bp.second += get_armor_cut( bp ) * 0.8f;
-                break;
-            case damage_type::BULLET:
-                per_bp.second += get_armor_bullet( bp );
-                break;
-            case damage_type::ACID:
-            case damage_type::HEAT:
-            case damage_type::COLD:
-            case damage_type::ELECTRIC: {
-                for( const item *it : clothing_map.at( bp ) ) {
-                    per_bp.second += it->resist( dt, false, bp );
-                }
-
-                per_bp.second += mutation_armor( bp, dt );
-                per_bp.second += bp->damage_resistance( dt );
-                break;
-            }
-            case damage_type::NONE:
-            case damage_type::NUM:
-                debugmsg( "Invalid damage type: %d", dt );
-                return ret;
+        ret.emplace( bp, get_armor_type( dt, bp ) );
+        for( const item *it : clothing_map.at( bp ) ) {
+            ret[bp] += it->resist( dt, false, bp );
         }
     }
-
     return ret;
-}
-
-int Character::get_armor_bash_base( bodypart_id bp ) const
-{
-    float ret = worn.damage_resist( damage_type::BASH, bp );
-    for( const bionic_id &bid : get_bionics() ) {
-        const auto bash_prot = bid->bash_protec.find( bp.id() );
-        if( bash_prot != bid->bash_protec.end() ) {
-            ret += bash_prot->second;
-        }
-    }
-
-    ret += mutation_armor( bp, damage_type::BASH );
-    ret += bp->damage_resistance( damage_type::BASH );
-    return ret;
-}
-
-int Character::get_armor_cut_base( bodypart_id bp ) const
-{
-    float ret = worn.damage_resist( damage_type::CUT, bp );
-
-    for( const bionic_id &bid : get_bionics() ) {
-        const auto cut_prot = bid->cut_protec.find( bp.id() );
-        if( cut_prot != bid->cut_protec.end() ) {
-            ret += cut_prot->second;
-        }
-    }
-
-    ret += mutation_armor( bp, damage_type::CUT );
-    ret += bp->damage_resistance( damage_type::CUT );
-    return ret;
-}
-
-int Character::get_armor_bullet_base( bodypart_id bp ) const
-{
-    float ret = worn.damage_resist( damage_type::BULLET, bp );
-
-    for( const bionic_id &bid : get_bionics() ) {
-        const auto bullet_prot = bid->bullet_protec.find( bp.id() );
-        if( bullet_prot != bid->bullet_protec.end() ) {
-            ret += bullet_prot->second;
-        }
-    }
-
-    ret += mutation_armor( bp, damage_type::BULLET );
-    ret += bp->damage_resistance( damage_type::BULLET );
-    return ret;
-}
-
-int Character::get_armor_acid( bodypart_id bp ) const
-{
-    return get_armor_type( damage_type::ACID, bp );
 }
 
 int Character::get_env_resist( bodypart_id bp ) const
@@ -208,46 +91,29 @@ int Character::get_env_resist( bodypart_id bp ) const
     return ret;
 }
 
-std::map<bodypart_id, int> Character::get_armor_fire( const
-        std::map<bodypart_id, std::vector<const item *>> &clothing_map ) const
-{
-    return get_all_armor_type( damage_type::HEAT, clothing_map );
-}
-
 // adjusts damage unit depending on type by enchantments.
 // the ITEM_ enchantments only affect the damage resistance for that one item, while the others affect all of them
 static void armor_enchantment_adjust( Character &guy, damage_unit &du )
 {
-    switch( du.type ) {
-        case damage_type::ACID:
-            du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_ACID );
-            break;
-        case damage_type::BASH:
-            du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_BASH );
-            break;
-        case damage_type::BIOLOGICAL:
-            du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_BIO );
-            break;
-        case damage_type::COLD:
-            du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_COLD );
-            break;
-        case damage_type::CUT:
-            du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_CUT );
-            break;
-        case damage_type::ELECTRIC:
-            du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_ELEC );
-            break;
-        case damage_type::HEAT:
-            du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_HEAT );
-            break;
-        case damage_type::STAB:
-            du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_STAB );
-            break;
-        case damage_type::BULLET:
-            du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_BULLET );
-            break;
-        default:
-            return;
+    // FIXME: hardcoded damage types -> enchantments
+    if( du.type == STATIC( damage_type_id( "acid" ) ) ) {
+        du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_ACID );
+    } else if( du.type == STATIC( damage_type_id( "bash" ) ) ) {
+        du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_BASH );
+    } else if( du.type == STATIC( damage_type_id( "biological" ) ) ) {
+        du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_BIO );
+    } else if( du.type == STATIC( damage_type_id( "cold" ) ) ) {
+        du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_COLD );
+    } else if( du.type == STATIC( damage_type_id( "cut" ) ) ) {
+        du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_CUT );
+    } else if( du.type == STATIC( damage_type_id( "electric" ) ) ) {
+        du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_ELEC );
+    } else if( du.type == STATIC( damage_type_id( "heat" ) ) ) {
+        du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_HEAT );
+    } else if( du.type == STATIC( damage_type_id( "stab" ) ) ) {
+        du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_STAB );
+    } else if( du.type == STATIC( damage_type_id( "bullet" ) ) ) {
+        du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_BULLET );
     }
     du.amount = std::max( 0.0f, du.amount );
 }
@@ -268,36 +134,25 @@ void destroyed_armor_msg( Character &who, const std::string &pre_damage_name )
 
 void post_absorbed_damage_enchantment_adjust( Character &guy, damage_unit &du )
 {
-    switch( du.type ) {
-        case damage_type::ACID:
-            du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::EXTRA_ACID );
-            break;
-        case damage_type::BASH:
-            du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::EXTRA_BASH );
-            break;
-        case damage_type::BIOLOGICAL:
-            du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::EXTRA_BIO );
-            break;
-        case damage_type::COLD:
-            du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::EXTRA_COLD );
-            break;
-        case damage_type::CUT:
-            du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::EXTRA_CUT );
-            break;
-        case damage_type::ELECTRIC:
-            du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::EXTRA_ELEC );
-            break;
-        case damage_type::HEAT:
-            du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::EXTRA_HEAT );
-            break;
-        case damage_type::STAB:
-            du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::EXTRA_STAB );
-            break;
-        case damage_type::BULLET:
-            du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::EXTRA_BULLET );
-            break;
-        default:
-            return;
+    // FIXME: hardcoded damage types -> enchantments
+    if( du.type == STATIC( damage_type_id( "acid" ) ) ) {
+        du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::EXTRA_ACID );
+    } else if( du.type == STATIC( damage_type_id( "bash" ) ) ) {
+        du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::EXTRA_BASH );
+    } else if( du.type == STATIC( damage_type_id( "biological" ) ) ) {
+        du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::EXTRA_BIO );
+    } else if( du.type == STATIC( damage_type_id( "cold" ) ) ) {
+        du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::EXTRA_COLD );
+    } else if( du.type == STATIC( damage_type_id( "cut" ) ) ) {
+        du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::EXTRA_CUT );
+    } else if( du.type == STATIC( damage_type_id( "electric" ) ) ) {
+        du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::EXTRA_ELEC );
+    } else if( du.type == STATIC( damage_type_id( "heat" ) ) ) {
+        du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::EXTRA_HEAT );
+    } else if( du.type == STATIC( damage_type_id( "stab" ) ) ) {
+        du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::EXTRA_STAB );
+    } else if( du.type == STATIC( damage_type_id( "bullet" ) ) ) {
+        du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::EXTRA_BULLET );
     }
     du.amount = std::max( 0.0f, du.amount );
 }
@@ -308,7 +163,21 @@ const weakpoint *Character::absorb_hit( const weakpoint_attack &, const bodypart
     std::list<item> worn_remains;
     bool armor_destroyed = false;
 
+    bool damage_mitigated = false;
+
+    double forcefield = enchantment_cache->modify_value( enchant_vals::mod::FORCEFIELD, 0.0 );
+
+    if( rng( 0, 99 ) < forcefield * 100 ) {
+        add_msg_if_player( m_good,
+                           _( "The incoming attack was made ineffective." ) );
+        damage_mitigated = true;
+    }
+
     for( damage_unit &elem : dam.damage_units ) {
+        if( damage_mitigated ) {
+            elem.amount = 0;
+        }
+
         if( elem.amount < 0 ) {
             // Prevents 0 damage hits (like from hallucinations) from ripping armor
             elem.amount = 0;
@@ -330,11 +199,13 @@ const weakpoint *Character::absorb_hit( const weakpoint_attack &, const bodypart
 
                 // If damage is higher than maximum absorption capability, lower the damage by a flat amount of this capability
                 // Otherwise, divide the damage by X times, depending on damage type
-                if( elem.type == damage_type::BASH ) {
+                // FIXME: Harcoded damage types
+                if( elem.type == STATIC( damage_type_id( "bash" ) ) ) {
                     elem.amount = elem.amount > max_absorption ? elem.amount - max_absorption : elem.amount / 2;
-                } else if( elem.type == damage_type::CUT ) {
+                } else if( elem.type == STATIC( damage_type_id( "cut" ) ) ) {
                     elem.amount = elem.amount > max_absorption ? elem.amount - max_absorption : elem.amount / 3;
-                } else if( elem.type == damage_type::STAB || elem.type == damage_type::BULLET ) {
+                } else if( elem.type == STATIC( damage_type_id( "stab" ) ) ||
+                           elem.type == STATIC( damage_type_id( "bullet" ) ) ) {
                     elem.amount = elem.amount > max_absorption ? elem.amount - max_absorption : elem.amount / 4;
                 }
                 mod_power_level( power_cost );
@@ -509,8 +380,9 @@ bool Character::ablative_armor_absorb( damage_unit &du, item &armor, const sub_b
 void Character::describe_damage( damage_unit &du, item &armor ) const
 {
     const material_type &material = armor.get_random_material();
-    std::string damage_verb = ( du.type == damage_type::BASH ) ? material.bash_dmg_verb() :
-                              material.cut_dmg_verb();
+    // FIXME: Hardcoded damage types
+    std::string damage_verb = ( du.type == STATIC( damage_type_id( "bash" ) ) ) ?
+                              material.bash_dmg_verb() : material.cut_dmg_verb();
 
     const std::string pre_damage_name = armor.tname();
     const std::string pre_damage_adj = armor.get_base_material().dmg_adj( armor.damage_level() );

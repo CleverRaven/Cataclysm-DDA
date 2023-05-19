@@ -642,15 +642,15 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     dmg_type_box.setToolTip( QString( _( "The casting time of the spell at level 0" ) ) );
     dmg_type_box.show();
     QStringList damage_types;
-    for( int i = 0; i < static_cast<int>( damage_type::NUM ); i++ ) {
-        damage_types.append( QString( io::enum_to_string( static_cast<damage_type>( i ) ).c_str() ) );
+    damage_types.append( QString( damage_type_id::NULL_ID().c_str() ) );
+    for( const damage_type &dt : damage_type::get_all() ) {
+        damage_types.append( QString( dt.id.c_str() ) );
     }
     dmg_type_box.addItems( damage_types );
-    dmg_type_box.setCurrentIndex( static_cast<int>( damage_type::NONE ) );
+    dmg_type_box.setCurrentIndex( 0 );
     QObject::connect( &dmg_type_box, &QComboBox::currentTextChanged,
     [&]() {
-        const damage_type tp = static_cast<damage_type>( dmg_type_box.currentIndex() );
-        editable_spell.dmg_type = tp;
+        editable_spell.dmg_type = damage_type_id( dmg_type_box.currentText().toStdString() );
         write_json();
     } );
 
@@ -1422,8 +1422,7 @@ void creator::spell_window::populate_fields()
                 energy_source_box.setCurrentIndex( index );
             }
 
-            index = dmg_type_box.findText( QString( io::enum_to_string<damage_type>
-                                                    ( sp_t.dmg_type ).c_str() ) );
+            index = dmg_type_box.findText( QString( sp_t.dmg_type.is_null() ? "NONE" : sp_t.dmg_type->name.translated().c_str() ) );
             if( index != -1 ) {
                 dmg_type_box.setCurrentIndex( index );
             }

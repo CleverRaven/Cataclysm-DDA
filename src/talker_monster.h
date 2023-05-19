@@ -8,6 +8,7 @@
 #include <vector>
 
 #include "coordinates.h"
+#include "monster.h"
 #include "talker.h"
 #include "type_id.h"
 
@@ -18,15 +19,14 @@ class npc;
 class time_duration;
 class vehicle;
 struct tripoint;
-class monster;
 
 /*
  * Talker wrapper class for monster.
  */
-class talker_monster_const: public talker
+class talker_monster_const: public talker_cloner<talker_monster_const>
 {
     public:
-        explicit talker_monster_const( const monster *new_me ): me_mon( new_me ) {
+        explicit talker_monster_const( const monster *new_me ): me_mon_const( new_me ) {
         }
         ~talker_monster_const() override = default;
 
@@ -48,6 +48,8 @@ class talker_monster_const: public talker
 
         std::string get_value( const std::string &var_name ) const override;
 
+        bool has_flag( const flag_id &f ) const override;
+
         std::string short_description() const override;
         int get_anger() const override;
         int morale_cur() const override;
@@ -57,28 +59,27 @@ class talker_monster_const: public talker
         int get_cur_hp( const bodypart_id & ) const override;
     protected:
         talker_monster_const() = default;
-        const monster *me_mon;
+        const monster *me_mon_const;
 };
 
-class talker_monster: public talker_monster_const
+class talker_monster: public talker_cloner<talker_monster, talker_monster_const>
 {
     public:
-        explicit talker_monster( monster *new_me ): me_mon( new_me ) {
-        }
+        explicit talker_monster( monster *new_me );
         ~talker_monster() override = default;
 
         // underlying element accessor functions
         monster *get_monster() override {
             return me_mon;
         }
-        monster *get_monster() const override {
-            return me_mon;
+        const monster *get_monster() const override {
+            return me_mon_const;
         }
         Creature *get_creature() override {
             return me_mon;
         }
-        Creature *get_creature() const override {
-            return me_mon;
+        const Creature *get_creature() const override {
+            return me_mon_const;
         }
 
         // effects and values
@@ -94,6 +95,7 @@ class talker_monster: public talker_monster_const
         void set_anger( int ) override;
         void set_morale( int ) override;
         void set_friendly( int ) override;
+        void die() override;
     protected:
         talker_monster() = default;
         monster *me_mon;

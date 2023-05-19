@@ -26,8 +26,6 @@
 #include "weather.h"
 
 #if defined(TILES)
-#include <memory>
-
 #include "cata_tiles.h" // all animation functions will be pushed out to a cata_tiles function in some manner
 #include "sdltiles.h"
 #endif

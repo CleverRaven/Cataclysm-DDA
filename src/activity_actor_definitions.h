@@ -43,7 +43,6 @@ class aim_activity_actor : public activity_actor
 {
     private:
         std::optional<item> fake_weapon;
-        units::energy bp_cost_per_shot = 0_J;
         std::vector<tripoint> fin_trajectory;
 
     public:
@@ -77,7 +76,7 @@ class aim_activity_actor : public activity_actor
         static aim_activity_actor use_wielded();
 
         /** Aiming fake gun provided by a bionic */
-        static aim_activity_actor use_bionic( const item &fake_gun, const units::energy &cost_per_shot );
+        static aim_activity_actor use_bionic( const item &fake_gun );
 
         /** Aiming fake gun provided by a mutation */
         static aim_activity_actor use_mutation( const item &fake_gun );
@@ -267,6 +266,45 @@ class bookbinder_copy_activity_actor: public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 };
 
+class data_handling_activity_actor: public activity_actor
+{
+    public:
+        explicit data_handling_activity_actor() = default;
+        explicit data_handling_activity_actor( const item_location &, const std::vector<item_location> & );
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_DATA_HANDLING" );
+        }
+
+        bool can_resume_with_internal( const activity_actor &, const Character & ) const override {
+            return false;
+        }
+
+        void start( player_activity &, Character & ) override;
+        void do_turn( player_activity &, Character & ) override;
+        void finish( player_activity &, Character & ) override;
+        void canceled( player_activity &, Character & ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<data_handling_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut & ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue & );
+    private:
+        static constexpr time_duration time_per_card = 1_minutes;
+        item_location recorder;
+        std::vector<item_location> targets;
+        time_duration time_until_next_card = 0_seconds;
+        int handled_cards = 0;
+        int encrypted_cards = 0;
+        int downloaded_photos = 0;
+        int downloaded_songs = 0;
+        std::vector<recipe_id> downloaded_recipes;
+        int downloaded_extended_photos = 0;
+        int downloaded_monster_photos = 0;
+};
+
 class hotwire_car_activity_actor : public activity_actor
 {
     private:
@@ -369,9 +407,9 @@ class read_activity_actor : public activity_actor
         read_activity_actor() = default;
 
         explicit read_activity_actor(
-            int moves, item_location &book, item_location &ereader,
+            time_duration read_time, item_location &book, item_location &ereader,
             bool continuous = false, int learner_id = -1 )
-            : moves_total( moves ), book( book ), ereader( ereader ),
+            : moves_total( to_moves<int>( read_time ) ), book( book ), ereader( ereader ),
               continuous( continuous ), learner_id( learner_id ) {};
 
         activity_id get_type() const override {

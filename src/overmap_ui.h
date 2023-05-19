@@ -6,7 +6,7 @@
 #include "regional_settings.h"
 #include "string_id.h"
 
-static constexpr int RANDOM_CITY_ENTRY = INT_MIN;
+constexpr int RANDOM_CITY_ENTRY = INT_MIN;
 
 class uilist;
 
@@ -111,6 +111,6 @@ extern tiles_redraw_info redraw_info;
 #endif
 
 weather_type_id get_weather_at_point( const tripoint_abs_omt &pos );
-std::tuple<char, nc_color, size_t> get_note_display_info( const std::string &note );
+std::tuple<char, nc_color, size_t> get_note_display_info( std::string_view note );
 } // namespace overmap_ui
 #endif // CATA_SRC_OVERMAP_UI_H

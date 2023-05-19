@@ -45,7 +45,7 @@ class eoc_events;
 class spell_events;
 class viewer;
 
-static constexpr int DEFAULT_TILESET_ZOOM = 16;
+constexpr int DEFAULT_TILESET_ZOOM = 16;
 
 // The reference to the one and only game instance.
 class game;
@@ -359,9 +359,16 @@ class game
         /** Spawns a hallucination at a determined position of a given monster. */
         bool spawn_hallucination( const tripoint &p, const mtype_id &mt,
                                   std::optional<time_duration> lifespan );
-        /** Finds somewhere to spawn a monster. */
+        /** Spawns a npc at a determined position. */
+        bool spawn_npc( const tripoint &p, const string_id<npc_template> &npc_class, std::string &unique_id,
+                        std::vector<trait_id> &traits, std::optional<time_duration> lifespan );
+        /** Finds somewhere to spawn a monster or npc. */
         bool find_nearby_spawn_point( const tripoint &target, const mtype_id &mt, int min_radius,
-                                      int max_radius, tripoint &point, bool outdoor_only, bool open_air_allowed = false );
+                                      int max_radius, tripoint &point, bool outdoor_only, bool indoor_only,
+                                      bool open_air_allowed = false );
+        bool find_nearby_spawn_point( const tripoint &target, int min_radius,
+                                      int max_radius, tripoint &point, bool outdoor_only, bool indoor_only,
+                                      bool open_air_allowed = false );
         /** Swaps positions of two creatures */
         bool swap_critters( Creature &, Creature & );
 
@@ -563,7 +570,7 @@ class game
         void water_affect_items( Character &ch ) const;
 
         /** Flings the input creature in the given direction. */
-        void fling_creature( Creature *c, const units::angle &dir, float flvel,
+        bool fling_creature( Creature *c, const units::angle &dir, float flvel,
                              bool controlled = false );
 
         float natural_light_level( int zlev ) const;
@@ -664,6 +671,7 @@ class game
 
         void toggle_fullscreen();
         void toggle_pixel_minimap() const;
+        void toggle_language_to_en();
         bool is_tileset_isometric() const;
         void reload_tileset();
         void temp_exit_fullscreen();
@@ -942,6 +950,8 @@ class game
          * point to a different monster after calling this (or to no monster at all).
          */
         void despawn_monster( monster &critter );
+        // Despawn all monsters not in the reality bubble
+        void despawn_nonlocal_monsters();
     private:
         // Routine loop functions, approximately in order of execution
         void open_consume_item_menu(); // Custom menu for consuming specific group of items
@@ -1215,12 +1225,12 @@ class game
 
 // Returns temperature modifier from direct heat radiation of nearby sources
 // @param location Location affected by heat sources
-units::temperature get_heat_radiation( const tripoint &location );
+units::temperature_delta get_heat_radiation( const tripoint &location );
 
 // Returns heat intensity of adjecent fires
 int get_best_fire( const tripoint &location );
 // Returns temperature modifier from hot air fields of given location
-units::temperature get_convection_temperature( const tripoint &location );
+units::temperature_delta get_convection_temperature( const tripoint &location );
 
 namespace cata_event_dispatch
 {

@@ -3,18 +3,18 @@ aberrance
 aboveground
 abso
 acausal
+acceleratron
+acceleratrons
 accessorized
 accessorizing
 acclimatization
 accoustrement
 accuracies
-accurize
-accurized
-accurizing 
 achelousaurus
 acho
 acidball
 acrocanthosaurus
+acrostic
 acrylamide
 activatable
 actuated
@@ -44,11 +44,14 @@ agape
 agelessness
 agender
 aggregates
+ahimsa
 airgun
 airhorn
 airjack
 airsoft
 airworthy
+aketon
+aketons
 alamosaurus
 alate
 alates
@@ -64,6 +67,7 @@ alexandrites
 algum
 alienis
 alient
+alinagerimi
 alkahest
 alkalis
 alkyl
@@ -78,6 +82,7 @@ alquerque
 altamente
 alternators
 alumentum
+aluminized
 amargasaurus
 ambusher
 amigara
@@ -139,6 +144,7 @@ aquilops
 aramid
 arapaima
 arborescent
+arebinya
 args
 armeniaca
 armet
@@ -166,6 +172,7 @@ asymmetrically
 ategory
 aterial
 athame
+athames
 atmmonoid
 atomically
 atompot
@@ -263,6 +270,7 @@ bifocal
 biggun
 bigpack
 bileworm
+bilonyali
 bimetal
 binocs
 bioactive
@@ -437,12 +445,14 @@ cattail
 cattails
 causer
 caustically
+cavitation
 cbm
 cdc
 cdda
 cegamente
 centric
 centrosaurus
+centrum
 cepa
 cephalopod
 cephalothorax
@@ -551,6 +561,7 @@ compsognathus
 concavities
 concealability
 concealable
+concentrator
 concentrically
 concerningly
 condensor
@@ -581,6 +592,7 @@ corporality
 corporeality
 corvid
 corythosaurus
+cosplayers
 countermine
 countertime
 couters
@@ -597,6 +609,7 @@ creped
 criniere
 cripplingly
 crispier
+crossbeams
 crossbuck
 crossfit
 crossguard
@@ -627,6 +640,8 @@ cusses
 customizable
 customization
 cutlasses
+cutthroater
+cutthroaters
 cuvette
 cuvettes
 cuy
@@ -667,8 +682,10 @@ debugged
 decap
 decelerates
 deceptived
+dedicational
 defatted
 deforming
+dehina
 dehydrator
 dehydrators
 deines
@@ -708,17 +725,20 @@ devourer
 devs
 dewlap
 dextrous
+dharmachakra
 dieselpunk
 diffract
 diffracting
 diggable
 digitizes
 dilophosaurus
+dimensionalism
 dimensionally
 dimestore
 diminute
 dimorphism
 dimorphodon
+dioceses
 diodes
 dioicus
 dionaea
@@ -756,6 +776,7 @@ doesnt
 doffing
 dogbane
 doggo
+doglike 
 domestica
 dongle
 doomseer
@@ -860,11 +881,13 @@ enervating
 enfranchisement
 enjoyability
 entropic
+envenom
 envenomations
 envenomed
 eocs
 eolocanth
 eoraptor
+eou
 epicuticle
 epistemology
 eppies
@@ -879,6 +902,7 @@ erythrocytes
 erzeugen
 escalier
 eset
+esous
 espatier
 espatiers
 esque
@@ -892,6 +916,7 @@ euoplocephalus
 eusocial
 evacs
 evacuee
+evangelized
 everburning
 everfrost
 eviscerations
@@ -968,6 +993,7 @@ fightin
 filenames
 fileset
 filmstrip
+finial
 finned
 fireboots
 firebrick
@@ -1007,6 +1033,7 @@ flechettes
 fleshier
 fletched
 fletching
+flexibility
 flightworthy
 flim
 flintknapping
@@ -1031,6 +1058,7 @@ foodborne
 foodburger
 foodcart
 footgear
+footrest
 forager
 foregrip
 foregrips
@@ -1281,6 +1309,8 @@ homebrewing
 homemaking
 homewrecker
 homovorus
+homunculi
+homunculus
 honeygold
 honker
 hoose
@@ -1325,7 +1355,9 @@ hypervitaminosis
 hypno
 hypochlorite
 hypogaea
+ibalalehu
 ichor
+ichthys
 idkont
 ifoundramsesthecat
 ignitable
@@ -1359,6 +1391,7 @@ infirma
 influencers
 inhalant
 inhalative
+inidatseda
 injest
 inlays
 innawood
@@ -1389,6 +1422,7 @@ intoxicative
 inulin
 inverts
 invlets
+ios
 ironshod
 irradiance
 irremovable
@@ -1401,6 +1435,7 @@ issi
 issuer
 itchiness
 itemname
+iwedalehu
 j
 jabberwock
 jabberwocks
@@ -1418,6 +1453,7 @@ jointer
 jointing
 jort
 jorts
+jpg
 jtest
 junglefowl
 junipers
@@ -1471,6 +1507,7 @@ knapping
 knifehand
 knifemaker
 knockback
+knockin
 knotweed
 knowium
 knuckleduster
@@ -1483,6 +1520,7 @@ kops
 kord
 kosmoceratops
 krabgek
+krar
 kreck
 krick
 kriegsmesser
@@ -1663,10 +1701,12 @@ megalith
 megastore
 membranous
 mendacium
+menorah
 mesenterium
 meshwork
 messily
 messin
+metahi
 metallics
 metalloid
 metalsmithing
@@ -1699,6 +1739,7 @@ midden
 mideast
 mideastern
 midgame
+midground 
 midrange
 midsentence
 migo
@@ -1738,6 +1779,7 @@ modernday
 modifier
 modifiers
 modularity
+modulations
 mohawks
 moisturized
 moldspring
@@ -1793,6 +1835,7 @@ mutagenicity
 mutagens
 mutatur
 mutus
+muzika
 muzzleloaders
 mycoid
 mycus
@@ -1830,11 +1873,13 @@ nearsightedness
 necco
 neckbeard
 neckin
+neckwear
 necro
 necrowolf
 nectivore
 needin
 needlelike
+negeri
 neonate
 neotenic
 neotheropod
@@ -1951,6 +1996,7 @@ overclock
 overclocks
 overdosage
 overdrinking
+overengineered 
 overexertion
 overgrowth
 overmap
@@ -2111,6 +2157,7 @@ polymorph
 polymorphed
 polypous
 polysexual
+polytheistic
 pomelos
 pomes
 ponderously
@@ -2186,6 +2233,8 @@ puckish
 puffball
 pufts
 puker
+puller
+pullers
 pulping
 pulsate
 pulsates
@@ -2397,6 +2446,7 @@ saltworks
 salvager
 salved
 samghati
+samsara
 sandleather
 sapience
 saproling
@@ -2435,10 +2485,12 @@ scrrrash
 scruffs
 scutcher
 scutellosaurus
+scute
+scutes
 scuttles
 sealab
-sealabs
 sealable
+sealabs
 seater
 secretively
 secubot
@@ -2555,6 +2607,7 @@ sommat
 somniferum
 soother
 sorrowfully
+soteriological
 soundpack
 sourness
 sp
@@ -2702,6 +2755,7 @@ superpositional
 supersoldier
 supersoldiers
 suppurated
+surcoat
 survivalcraft
 survivalists
 susurrate
@@ -2748,6 +2802,7 @@ technomancer
 technomancy
 techo
 tegmental
+tegwazhi
 teil
 telepad
 telepads
@@ -2764,6 +2819,7 @@ tetrahedron
 th
 thawb
 themm
+therizinosaurus
 thermochemistry
 thermoplastics
 theropod
@@ -2783,6 +2839,7 @@ thumbholes
 thumbless
 thunderball
 thyreophoran
+tifeligalehi
 tileset
 tillable
 tillage
@@ -2827,6 +2884,7 @@ travelogue
 travelpack
 traversal
 travois
+treatin
 treelines
 trenchcoat
 trenchcoats
@@ -2982,6 +3040,7 @@ vacuoles
 vajra
 valencian
 vambraces
+vancian
 vantablack
 varanid
 vars
@@ -3131,6 +3190,7 @@ yarker
 yarkin
 yateveo
 yd
+yelemi
 yellowjacket
 yme
 ynn
@@ -3177,3 +3237,4 @@ zweitimber
 zygomaticus
 zzz
 zzzzchzzzzchurzzz
+zzzzchzzzzchurzzzpileus

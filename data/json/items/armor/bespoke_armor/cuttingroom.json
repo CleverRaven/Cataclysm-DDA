@@ -10,7 +10,6 @@
     "price": 24000,
     "price_postapoc": 6000,
     "to_hit": -1,
-    "bashing": 1,
     "material": [ "kevlar", "nomex" ],
     "symbol": "[",
     "looks_like": "boots_combat",
@@ -19,7 +18,8 @@
     "material_thickness": 5,
     "environmental_protection": 10,
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ],
-    "armor": [ { "encumbrance": 35, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ]
+    "armor": [ { "encumbrance": 35, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "xl_boots_fsurvivor",
@@ -49,7 +49,6 @@
     "price": 24000,
     "price_postapoc": 8000,
     "to_hit": -1,
-    "bashing": 1,
     "material": [ "kevlar", "steel" ],
     "symbol": "[",
     "looks_like": "boots_combat",
@@ -58,7 +57,8 @@
     "material_thickness": 5,
     "environmental_protection": 5,
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ],
-    "armor": [ { "encumbrance": 35, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ]
+    "armor": [ { "encumbrance": 35, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "xl_boots_hsurvivor",
@@ -164,7 +164,6 @@
     "price": 58000,
     "price_postapoc": 4000,
     "to_hit": -1,
-    "bashing": 10,
     "material": [ "kevlar_layered", "nomex" ],
     "symbol": "[",
     "looks_like": "hood_survivor",
@@ -173,7 +172,8 @@
     "material_thickness": 5,
     "environmental_protection": 10,
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER" ],
-    "armor": [ { "encumbrance": 30, "coverage": 100, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance": 30, "coverage": 100, "covers": [ "head" ] } ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "xl_hood_fsurvivor",
@@ -205,7 +205,6 @@
     "price": 200000,
     "price_postapoc": 5000,
     "to_hit": -3,
-    "bashing": 6,
     "material": [ "kevlar_layered", "nomex" ],
     "symbol": "[",
     "looks_like": "survivor_suit",
@@ -227,7 +226,8 @@
     "material_thickness": 4,
     "valid_mods": [ "steel_padded" ],
     "environmental_protection": 10,
-    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "RAINPROOF", "STURDY", "OBSOLETE" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "RAINPROOF", "STURDY", "OBSOLETE" ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "xl_fsurvivor_suit",
@@ -257,7 +257,6 @@
     "price": 200000,
     "price_postapoc": 7000,
     "to_hit": -3,
-    "bashing": 6,
     "material": [ "kevlar_layered", "steel", "leather" ],
     "symbol": "[",
     "looks_like": "survivor_suit",
@@ -276,7 +275,8 @@
     "warmth": 15,
     "material_thickness": 6,
     "environmental_protection": 3,
-    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "OBSOLETE" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "OBSOLETE" ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "xlhsurvivor_suit",
@@ -302,29 +302,94 @@
     "id": "lsurvivor_armor",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "light survivor body armor" },
-    "description": "Lightweight, custom-built body armor made from Kevlar and tough fabric.  Mostly waterproof.",
+    "name": { "str": "mercenary body armor" },
+    "description": "Custom-made armor that combines a level II vest with a combat shirt and adds extra padding to the arms for safety.  Fairly lightweight and ergonomic and has numerous pockets for storage.",
     "weight": "3000 g",
     "volume": "6 L",
     "price": 60000,
     "price_postapoc": 4000,
-    "material": [ "kevlar", "cotton" ],
+    "material": [ "kevlar", "cotton", "nylon" ],
     "symbol": "[",
-    "looks_like": "lsurvivor_suit",
+    "looks_like": "combat_shirt",
     "color": "green",
-    "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "3 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "3 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 }
+    "armor": [
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.55 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.15 },
+          { "type": "kevlar", "covered_by_mat": 95, "thickness": 3.3 }
+        ],
+        "encumbrance": [ 4, 5 ],
+        "coverage": 100,
+        "cover_vitals": 70,
+        "covers": [ "torso" ]
+      },
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.15 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.15 },
+          { "type": "kevlar", "covered_by_mat": 90, "thickness": 2.2 }
+        ],
+        "encumbrance": [ 4, 5 ],
+        "coverage": 100,
+        "cover_vitals": 30,
+        "covers": [ "arm_l", "arm_r" ]
+      }
     ],
-    "warmth": 15,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "description": "Shoulder pouch.",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "13 cm",
+        "moves": 120
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "description": "Shoulder pouch.",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "13 cm",
+        "moves": 120
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "description": "Reinforced pen pouch.",
+        "max_contains_volume": "10 ml",
+        "max_contains_weight": "150 g",
+        "max_item_length": "13 cm",
+        "moves": 120
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "description": "Front torso pouch.",
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "500 g",
+        "max_item_length": "13 cm",
+        "moves": 150
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "description": "Front torso pouch.",
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "500 g",
+        "max_item_length": "13 cm",
+        "moves": 150
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "description": "Lower back pouch.",
+        "max_contains_volume": "1000 ml",
+        "max_contains_weight": "2500 g",
+        "max_item_length": "18 cm",
+        "moves": 250
+      }
+    ],
+    "warmth": 10,
     "material_thickness": 4,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY" ],
-    "armor": [ { "encumbrance": [ 8, 16 ], "coverage": 95, "covers": [ "torso" ] } ]
+    "flags": [ "STURDY" ]
   },
   {
     "id": "xl_lsurvivor_armor",
@@ -423,7 +488,6 @@
     "price": 150000,
     "price_postapoc": 4000,
     "to_hit": -3,
-    "bashing": 6,
     "material": [ "kevlar_layered", "leather" ],
     "symbol": "[",
     "looks_like": "survivor_suit",
@@ -445,7 +509,8 @@
     "material_thickness": 4,
     "valid_mods": [ "steel_padded" ],
     "environmental_protection": 3,
-    "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "OBSOLETE" ]
+    "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "OBSOLETE" ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "wsurvivor_suit",
@@ -458,7 +523,6 @@
     "price": 200000,
     "price_postapoc": 5000,
     "to_hit": -3,
-    "bashing": 6,
     "material": [ "kevlar_layered", "fur" ],
     "symbol": "[",
     "looks_like": "survivor_suit",
@@ -478,7 +542,8 @@
     "material_thickness": 5,
     "valid_mods": [ "steel_padded" ],
     "environmental_protection": 5,
-    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "OBSOLETE" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "OBSOLETE" ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "xl_wsurvivor_suit",
@@ -523,7 +588,6 @@
     "price": 110000,
     "price_postapoc": 5000,
     "to_hit": -3,
-    "bashing": 6,
     "material": [ "kevlar", "plastic", "neoprene" ],
     "symbol": "[",
     "looks_like": "wetsuit",
@@ -543,6 +607,7 @@
     "warmth": 15,
     "material_thickness": 3,
     "environmental_protection": 10,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "OBSOLETE" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "OBSOLETE" ],
+    "melee_damage": { "bash": 6 }
   }
 ]

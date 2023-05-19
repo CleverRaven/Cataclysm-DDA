@@ -37,6 +37,8 @@ static const activity_id ACT_CRAFT( "ACT_CRAFT" );
 static const ammotype ammo_flammable( "flammable" );
 static const ammotype ammo_water( "water" );
 
+static const damage_type_id damage_bash( "bash" );
+
 static const itype_id itype_fridge_test( "fridge_test" );
 static const itype_id itype_metal_tank_test( "metal_tank_test" );
 static const itype_id itype_oatmeal( "oatmeal" );
@@ -61,7 +63,7 @@ TEST_CASE( "verify_copy_from_gets_damage_reduction", "[vehicle]" )
     // Picking halfboard_horizontal as a vpart which is likely to remain
     // defined via copy-from, and which should have non-zero damage reduction.
     const vpart_info &vp = vpart_halfboard_horizontal.obj();
-    CHECK( vp.damage_reduction[static_cast<int>( damage_type::BASH )] != 0 );
+    CHECK( vp.damage_reduction.at( damage_bash ) != 0.f );
 }
 
 TEST_CASE( "vehicle_parts_seats_and_beds_have_beltable_flags", "[vehicle][vehicle_parts]" )
@@ -302,7 +304,7 @@ static void check_part_ammo_capacity( vpart_id part_type, itype_id item_type, am
     CAPTURE( part_type );
     CAPTURE( item_type );
     CAPTURE( ammo_type );
-    vehicle_part test_part( part_type, "", point_zero, item( item_type ) );
+    vehicle_part test_part( part_type, item( item_type ) );
     CHECK( expected_count == test_part.ammo_capacity( ammo_type ) );
 }
 
@@ -317,7 +319,7 @@ TEST_CASE( "verify_vehicle_tank_refill", "[vehicle]" )
 TEST_CASE( "check_capacity_fueltype_handling", "[vehicle]" )
 {
     GIVEN( "tank is empty" ) {
-        vehicle_part vp( vpart_tank_test, "", point_zero, item( itype_metal_tank_test ) );
+        vehicle_part vp( vpart_tank_test, item( itype_metal_tank_test ) );
         REQUIRE( vp.ammo_remaining() == 0 );
         THEN( "ammo_current ammotype is always null" ) {
             CHECK( vp.ammo_current().is_null() );
@@ -331,10 +333,10 @@ TEST_CASE( "check_capacity_fueltype_handling", "[vehicle]" )
     }
 
     GIVEN( "tank is not empty" ) {
-        vehicle_part vp( vpart_tank_test, "", point_zero, item( itype_metal_tank_test ) );
+        vehicle_part vp( vpart_tank_test, item( itype_metal_tank_test ) );
         item tank( itype_metal_tank_test );
         REQUIRE( tank.fill_with( item( itype_water_clean ), 100 ) == 100 );
-        vp.set_base( tank );
+        vp.set_base( std::move( tank ) );
         REQUIRE( vp.ammo_remaining() == 100 );
 
         THEN( "ammo_current is not null" ) {

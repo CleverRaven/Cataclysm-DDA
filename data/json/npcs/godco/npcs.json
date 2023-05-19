@@ -292,7 +292,6 @@
     "attitude": 0,
     "mission": 3,
     "chat": "TALK_CARAVAN_MERCHANT_1",
-    "faction": "free_merchants",
-    "traits": [ { "trait": "IGNORE_SOUND" }, { "trait": "NO_BASH" }, { "trait": "RETURN_TO_START_POS" } ]
+    "faction": "free_merchants"
   }
 ]

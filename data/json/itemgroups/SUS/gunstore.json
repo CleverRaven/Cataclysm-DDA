@@ -124,7 +124,7 @@
       { "item": "helmet_liner", "prob": 30 },
       { "item": "mask_gas", "prob": 10, "charges": [ 0, 100 ] },
       { "item": "knife_combat", "container-item": "sheath", "prob": 20 },
-      { "item": "army_top", "prob": 30 },
+      { "item": "tank_top", "variant": "tank_top_camo", "prob": 30 },
       { "item": "beret", "prob": 30 },
       { "item": "beret_wool", "prob": 30 },
       { "item": "bandolier_shotgun", "prob": 15 },

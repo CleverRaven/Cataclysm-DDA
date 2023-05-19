@@ -17,21 +17,14 @@
     "volume": "2500 ml",
     "longest_side": "88 cm",
     "price_postapoc": 3500,
-    "bashing": 6,
     "to_hit": -3,
     "dispersion": 300,
     "durability": 9,
     "clip_size": 1,
     "reload": 150,
-    "valid_mod_locations": [
-      [ "accessories", 1 ],
-      [ "sling", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "66mm": 1 } } ]
+    "valid_mod_locations": [ [ "sling", 1 ], [ "grip mount", 1 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "underbarrel mount", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "66mm": 1 } } ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "RPG",
@@ -52,22 +45,14 @@
     "weight": "7000 g",
     "volume": "4500 ml",
     "longest_side": "95 cm",
-    "bashing": 10,
     "to_hit": -3,
     "dispersion": 600,
     "durability": 10,
     "clip_size": 1,
     "reload": 150,
-    "valid_mod_locations": [
-      [ "accessories", 4 ],
-      [ "grip", 1 ],
-      [ "mechanism", 4 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "rail mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "RPG-7": 1 } } ]
+    "valid_mod_locations": [ [ "grip", 1 ], [ "mechanism", 4 ], [ "sights", 1 ], [ "sling", 1 ], [ "rail mount", 1 ], [ "underbarrel mount", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "RPG-7": 1 } } ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "surv_rocket_launcher",
@@ -86,7 +71,6 @@
     "volume": "5 L",
     "longest_side": "90 cm",
     "price_postapoc": 500,
-    "bashing": 10,
     "to_hit": -3,
     "dispersion": 300,
     "durability": 5,
@@ -95,7 +79,8 @@
     "reload": 800,
     "loudness": 200,
     "valid_mod_locations": [ [ "sling", 1 ], [ "grip mount", 1 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "underbarrel mount", 1 ] ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "homebrew_rocket": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "homebrew_rocket": 1 } } ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "watercannon",
@@ -114,7 +99,6 @@
     "weight": "24500 g",
     "volume": "12500 ml",
     "price_postapoc": 500,
-    "bashing": 10,
     "to_hit": -5,
     "range": 10,
     "dispersion": 450,
@@ -123,6 +107,7 @@
     "clip_size": 100,
     "reload": 0,
     "valid_mod_locations": [ [ "sling", 1 ] ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "water": 100 }, "watertight": true } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "water": 100 }, "watertight": true } ],
+    "melee_damage": { "bash": 10 }
   }
 ]

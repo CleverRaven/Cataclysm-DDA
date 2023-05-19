@@ -10,13 +10,13 @@
     "price": 3500,
     "price_postapoc": 350,
     "to_hit": -1,
-    "cutting": 10,
     "material": [ "steel", "plastic" ],
     "symbol": ",",
     "color": "yellow",
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 5 ], [ "FABRIC_CUT", 2 ], [ "SHEAR", 1 ] ],
-    "flags": [ "STAB", "BELT_CLIP", "SHEATH_KNIFE" ],
-    "weapon_category": [ "SHIVS" ]
+    "flags": [ "BELT_CLIP", "SHEATH_KNIFE" ],
+    "weapon_category": [ "SHIVS" ],
+    "melee_damage": { "stab": 10 }
   },
   {
     "id": "sewing_kit",

@@ -7,14 +7,19 @@
     "move_cost": 0,
     "damage_max_instance": [ { "damage_type": "cut", "amount": 0 } ],
     "effects_require_dmg": false,
-    "target_required_effects_any": [ "bleed", "took_thorazine_visible" ],
-    "target_required_effects_all": [ "downed", "staggered" ],
-    "target_forbidden_effects_any": [ "took_flumed", "took_prozac_bad" ],
-    "target_forbidden_effects_all": [ "took_antiasthmatic", "took_xanax" ],
-    "required_effects_any": [ "acid_charged", "maimed_armor" ],
-    "required_effects_all": [ "elec_charged", "maimed_tail" ],
-    "forbidden_effects_any": [ "maimed_wings", "maimed_leg" ],
-    "forbidden_effects_all": [ "maimed_acid_gland", "maimed_claws" ],
+    "condition": {
+      "or": [
+        {
+          "and": [
+            { "u_has_effect": "bleed" },
+            { "not": { "npc_has_effect": "took_flumed" } },
+            "u_is_outside",
+            { "npc_has_flag": "TOUGH_FEET" }
+          ]
+        },
+        { "u_has_effect": "took_flumed" }
+      ]
+    },
     "hit_dmg_u": "The %1$s tests your %2$s, covering it in acid!",
     "miss_msg_u": "The %1$s tries to test your %2$s, but you dodge!",
     "no_dmg_msg_u": "The %1$s tests your %2$s, bouncing off yor armor!"

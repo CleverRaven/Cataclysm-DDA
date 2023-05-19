@@ -83,7 +83,7 @@ bool compare_items( const item &first, const item &second,
  * Select items to drop.
  * @return A list of pairs of item_location, quantity.
  */
-drop_locations multidrop( avatar &you );
+drop_locations multidrop( Character &you );
 /**
  * Select items to pick up.
  * If target is provided, pick up items only from that tile (presumably adjacent to the avatar).
@@ -134,6 +134,9 @@ item_location saw_barrel( Character &you, item &tool );
 item_location saw_stock( Character &you, item &tool );
 /** Choosing an item to attach to a load bearing vest. */
 item_location molle_attach( Character &you, item &tool );
+/** Choosing an item to attach to a vehicle tool station. */
+item_location veh_tool_attach( Character &you, const std::string &vp_name,
+                               const std::set<itype_id> &allowed_types );
 /** Choose item to wear. */
 item_location wear( Character &you, const bodypart_id &bp = bodypart_id( "bp_null" ) );
 /** Choose item to take off. */

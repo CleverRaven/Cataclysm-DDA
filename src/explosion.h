@@ -67,7 +67,7 @@ struct queued_explosion {
     queued_explosion( const Creature *source, const tripoint_abs_ms &pos, const explosion_data &data )
         : source( source ), pos( pos ), data( data ) {}
 };
-static std::vector<queued_explosion> _explosions;
+inline std::vector<queued_explosion> _explosions;
 
 /** Queue an explosion at p of intensity (power) with (shrapnel) chunks of shrapnel.
     Explosion intensity formula is roughly power*factor^distance.

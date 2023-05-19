@@ -55,5 +55,13 @@
     "id": "hive",
     "subtype": "distribution",
     "entries": [ { "item": "honeycomb", "prob": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "wasp_lair",
+    "//": "Override for mx_Trapdoor_spider_den, no loot value but even more warning",
+    "subtype": "distribution",
+    "ammo": 10,
+    "entries": [ { "group": "human_parts", "prob": 1 } ]
   }
 ]
