@@ -124,7 +124,6 @@
       { "id": "ranged_pull", "range": 4 },
       [ "GRAB_DRAG", 3 ]
     ],
-    
     "regen_morale": true,
     "flags": [
       "SEES",
@@ -141,8 +140,7 @@
       "PUSH_MON",
       "RANGED_ATTACKER"
     ],
-    
-    "upgrades": { "half_life": 34, "into_group": "GROUP_ZOMBULL_FROG_UPGRADE"},
+    "upgrades": { "half_life": 34, "into_group": "GROUP_ZOMBULL_FROG_UPGRADE" },
     "armor": { "bash": 8, "cut": 2, "bullet": 1, "electric": 2 }
   },
   {
@@ -177,10 +175,9 @@
       { "type": "leap", "cooldown": 8, "move_cost": 0, "max_range": 8, "min_consider_range": 2 },
       { "id": "ranged_pull", "range": 4 },
       [ "GRAB_DRAG", 3 ],
-      [ "SHRIEK_ALERT",20 ],
+      [ "SHRIEK_ALERT", 20 ],
       [ "SHRIEK_STUN", 5 ]
     ],
-    
     "regen_morale": true,
     "flags": [
       "SEES",
@@ -197,7 +194,6 @@
       "PUSH_MON",
       "RANGED_ATTACKER"
     ],
-    
     "armor": { "bash": 15, "cut": 7, "bullet": 5, "electric": 2 }
   },
   {
