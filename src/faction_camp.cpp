@@ -347,6 +347,9 @@ static std::string mission_ui_activity_of( const mission_id &miss_id )
         case Camp_Distribute_Food:
             return _( "Distribute Food" );
 
+        case Camp_Determine_Leadership:
+            return _( "Choose New Leader" );
+
         case Camp_Hide_Mission:
             return _( "Hide Mission" );
 
@@ -1412,6 +1415,16 @@ void basecamp::get_available_missions( mission_data &mission_key )
                              entry );
         }
         {
+            const mission_id miss_id = { Camp_Determine_Leadership, "", {}, base_dir };
+            entry = string_format( _( "Notes:\n"
+                                      "Choose a new leader for your faction.\n"
+                                      "<color_yellow>You will switch to playing as the new leader.</color>\n"
+                                      "Difficulty: N/A\n"
+                                      "Risk: None\n" ) );
+            mission_key.add( { miss_id, false }, name_display_of( miss_id ),
+                             entry );
+        }
+        {
             validate_assignees();
             const mission_id miss_id = { Camp_Assign_Jobs, "", {}, base_dir };
             entry = string_format( _( "Notes:\n"
@@ -1475,6 +1488,98 @@ void basecamp::get_available_missions( mission_data &mission_key )
     }
 }
 
+void basecamp::choose_new_leader()
+{
+    time_duration time_to_next_succession;
+    if( time_to_next_succession > time_duration::from_turns( 0 ) ) {
+        popup( _( "It's too early for that.  A new leader can be chosen in %s days.",
+                  time_duration::from_days( time_to_next_succession ) ) );
+        return;
+    }
+    time_to_next_succession = time_duration::from_weeks( 12 );
+    // set_global_var to tick down for 3 months
+    std::vector<std::string> choices;
+    int choice = 0;
+    choices.push_back _( "autocratic" );
+    choices.push_back _( "sortition" );
+    choices.push_back _( "democratic" );
+
+    choice = uilist( _( "Choose how the new leader will be determined." ), choices );
+
+    if( choice < 0 || static_cast<size_t>( choice ) >= choices.size() ) {
+        popup( _( "You choose to wait…" ) );
+        return;
+    }
+
+    // Autocratic
+    if( choice == 0 ) {
+        if( !query_yn(
+                _( "As an experienced leader, only you know what will be required of future leaders.  You will choose.  \n\nIs this acceptable?" ) ) ) {
+            time_to_next_succession = time_duration::from_turns( 0 );
+            //set_global_var NOW;
+            return;
+        }
+        // Possible to exit menu and not choose a *new* leader. However this doesn't reset global timer. 100% on purpose, since you are "choosing" yourself.
+        get_avatar().control_npc_menu( false );
+    }
+
+    // Vector of pairs containing a pointer to an NPC and their modified social score
+    std::vector<std::pair<shared_ptr_fast<npc>, int>> followers;
+    // You is still a nullptr! We never want to actually call the first value, this will crash.
+    shared_ptr_fast<npc> you;
+    followers.emplace_back( you, rng( 0, 5 ) +
+                            rng( 0, get_avatar().get_skill_level( skill_speech ) * 2 ) );
+    int charnum = 0;
+    for( const character_id &elem : g->get_follower_list() ) {
+        shared_ptr_fast<npc> follower = overmap_buffer.find_npc( elem );
+        if( follower ) {
+            // Yes this is a very barren representation of who gets elected in a democracy. Too bad!
+            int popularity = rng( 0, 5 ) + rng( 0, follower->get_skill_level( skill_speech ) * 2 );
+            followers.emplace_back( follower, popularity );
+            charnum++;
+        }
+    }
+    // Sortition
+    if( choice == 1 ) {
+        if( !query_yn(
+                _( "You will allow fate to choose the next leader.  Whether it's by dice, drawing straws, or picking names out of a hat, it will be purely random.  \n\nIs this acceptable?" ) ) ) {
+            //set_global_var NOW;
+            return;
+        }
+        int selected = rng( 0, charnum );
+        // Vector starts at 0, we inserted 'you' first, 0 will always be 'you' pre-sort (that's why we don't sort unless democracy is called)
+        if( selected == 0 ) {
+            popup( _( "Fate calls for you to remain in your role as leader... for now." ) );
+            return;
+        }
+        npc_ptr chosen = followers.at( selected ).first;
+        popup( _( "Fate chooses %s to lead your faction." ), chosen->get_name() );
+        get_avatar().control_npc( *chosen, false );
+        return;
+    }
+
+    // Democratic
+    if( choice == 2 ) {
+        if( !query_yn(
+                _( "A leader can only lead those willing to follow.  Everyone must get a say in choosing the new leader.  \n\nIs this acceptable?" ) ) ) {
+            //set_global_var NOW;
+            return;
+        }
+        std::sort( followers.begin(), followers.end(), []( const auto & x, const auto & y ) {
+            return x.second > y.second;
+        } );
+        npc_ptr elected = followers.at( 0 ).first;
+        // you == nullptr
+        if( elected == nullptr ) {
+            popup( _( "You win the election!" ) );
+            return;
+        }
+        popup( _( "%1$s wins the election with a popularity of %2$s!  The runner-up had a popularity of %3$s." ),
+               elected->get_name(), followers.at( 0 ).second, followers.at( 1 ).second );
+        get_avatar().control_npc( *elected, false );
+    }
+}
+
 bool basecamp::handle_mission( const ui_mission_id &miss_id )
 {
     if( miss_id.id.id == No_Mission ) {
@@ -1489,6 +1594,10 @@ bool basecamp::handle_mission( const ui_mission_id &miss_id )
     switch( miss_id.id.id ) {
         case Camp_Distribute_Food:
             distribute_food();
+            break;
+
+        case Camp_Determine_Leadership:
+            choose_new_leader();
             break;
 
         case Camp_Hide_Mission:
@@ -5080,6 +5189,7 @@ std::string basecamp::name_display_of( const mission_id &miss_id )
 
         //  Faction camp tasks
         case Camp_Distribute_Food:
+        case Camp_Determine_Leadership:
         case Camp_Hide_Mission:
         case Camp_Reveal_Mission:
         case Camp_Assign_Jobs:
