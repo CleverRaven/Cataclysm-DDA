@@ -4758,16 +4758,16 @@ std::optional<int> link_up_actor::use( Character &p, item &it, bool t, const tri
             const vpart_id vpid( vpid_found ? item_id.str() : "jumper_cable" );
 
             point vcoords = cable->link->t_mount;
-            vehicle_part source_part( vpid, "", vcoords, vpid_found ? item( it ) : item( "jumper_cable" ) );
+            vehicle_part source_part( vpid, vpid_found ? item( it ) : item( "jumper_cable" ) );
             source_part.target.first = here.getabs( pnt );
             source_part.target.second = target_veh->global_square_location().raw();
-            prev_veh->install_part( vcoords, source_part );
+            prev_veh->install_part( vcoords, std::move( source_part ) );
 
             vcoords = t_vp->mount();
-            vehicle_part target_part( vpid, "", vcoords, vpid_found ? item( it ) : item( "jumper_cable" ) );
+            vehicle_part target_part( vpid, vpid_found ? item( it ) : item( "jumper_cable" ) );
             target_part.target.first = prev_target.first;
             target_part.target.second = prev_target.second;
-            target_veh->install_part( vcoords, target_part );
+            target_veh->install_part( vcoords, std::move( target_part ) );
 
             p.add_msg_if_player( m_good, _( "You link up the %1$s and the %2$s." ),
                                  prev_veh->name, target_veh->name );
@@ -4864,16 +4864,16 @@ std::optional<int> link_up_actor::use( Character &p, item &it, bool t, const tri
             const vpart_id vpid( vpid_found ? item_id.str() : "hd_tow_cable" );
 
             point vcoords = cable->link->t_mount;
-            vehicle_part prev_part( vpid, "", vcoords, vpid_found ? item( it ) : item( "hd_tow_cable" ) );
+            vehicle_part prev_part( vpid, vpid_found ? item( it ) : item( "hd_tow_cable" ) );
             prev_part.target.first = here.getabs( pnt );
             prev_part.target.second = target_veh->global_square_location().raw();
-            prev_veh->install_part( vcoords, prev_part );
+            prev_veh->install_part( vcoords, std::move( prev_part ) );
 
             vcoords = t_vp->mount();
-            vehicle_part target_part( vpid, "", vcoords, vpid_found ? item( it ) : item( "hd_tow_cable" ) );
+            vehicle_part target_part( vpid, vpid_found ? item( it ) : item( "hd_tow_cable" ) );
             target_part.target.first = here.getabs( prev_veh->mount_to_tripoint( cable->link->t_mount ) );
             target_part.target.second = prev_veh->global_square_location().raw();
-            target_veh->install_part( vcoords, target_part );
+            target_veh->install_part( vcoords, std::move( target_part ) );
 
             if( p.has_item( it ) ) {
                 p.add_msg_if_player( m_good, _( "You link up the %1$s and the %2$s." ),
