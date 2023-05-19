@@ -178,5 +178,19 @@
     "max_damage": 10000,
     "flags": [ "SILENT", "MUTATE_TRAIT" ],
     "valid_targets": [ "self", "ally" ]
+  },
+  {
+    "type": "SPELL",
+    "id": "extend_life",
+    "name": { "str": "Extend Life" },
+    "effect": "mutate",
+    "shape": "blast",
+    "effect_str": "EXTEND_LIFE",
+    "description": "This grants a specific mutation.",
+    "message": "You imbibed the concoction and you feel your chakras align and your DNA de-age.",
+    "min_damage": 10000,
+    "max_damage": 10000,
+    "flags": [ "SILENT", "MUTATE_TRAIT" ],
+    "valid_targets": [ "self", "ally" ]
   }
 ]

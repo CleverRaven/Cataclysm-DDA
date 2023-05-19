@@ -84,6 +84,14 @@
   },
   {
     "type": "mutation",
+    "id": "EXTEND_LIFE",
+    "name": { "str": "Extended Life" },
+    "points": 0,
+    "description": "You have imbibed a potion that proclaims to extend your life.  You feel healthier at least.",
+    "valid": false
+  },
+  {
+    "type": "mutation",
     "id": "NIGHTMARE_CHIMERAS",
     "name": { "str": "Haunted by your dreams made flesh" },
     "points": 0,
