@@ -19,6 +19,7 @@
     "weight": "730 g",
     "volume": "346 ml",
     "longest_side": "196 mm",
+	"barrel_length": "93 mm",
     "price": 25000,
     "price_postapoc": 2000,
     "to_hit": -2,
@@ -62,6 +63,7 @@
       }
     ],
     "weight": "1440 g",
+	"barrel_length": "113 mm",
     "price": 20000,
     "price_postapoc": 2000,
     "ammo": [ "9x18" ],

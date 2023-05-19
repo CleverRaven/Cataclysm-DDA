@@ -31,6 +31,7 @@
     "weight": "2948 g",
     "volume": "1748 ml",
     "longest_side": "1152 mm",
+	"barrel_length": "660 mm",
     "price_postapoc": 2000,
     "blackpowder_tolerance": 80,
     "ammo": [ "410shot" ],
