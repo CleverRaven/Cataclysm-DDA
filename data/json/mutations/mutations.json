@@ -8788,8 +8788,8 @@
     "points": 1,
     "description": "You fare better than most in colder climates and are less bothered by lower temperatures.  Note that while you are slightly less prone to developing frostbite as a result, you aren't any better at dealing with the symptoms.",
     "starting_trait": true,
-    "changes_to": [ "STRONGER_RESISTCHILL", "ECTOTHERMIC" ],
-    "types": [ "ACCLIMATIZATION" ],
+    "changes_to": [ "ECTOTHERMIC" ],
+    "types": [ "ACCLIMATIZATION", "ECTOTHERMIC" ],
     "category": [ "LUPINE", "URSINE", "CATTLE", "FELINE", "RABBIT", "MOUSE", "BEAST" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 10 } ] } ]
   },
@@ -8800,9 +8800,9 @@
     "points": 3,
     "valid": true,
     "description": "You are now even less bothered by the cold and it is harder for you to freeze or to even get chilly.  When you do though, it'll hit just as hard as it did before.",
-    "prereqs": [ "RESISTCHILL", "ECTOTHERMIC" ],
+    "prereqs": [ "RESISTCHILL" ],
     "category": [ "LUPINE", "URSINE", "CATTLE", "FELINE", "RABBIT", "MOUSE", "BEAST" ],
-    "types": [ "ACCLIMATIZATION" ],
+    "types": [ "ACCLIMATIZATION", "ECTOTHERMIC" ],
     "threshreq": [
       "THRESH_LUPINE",
       "THRESH_URSINE",
