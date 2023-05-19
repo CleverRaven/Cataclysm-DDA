@@ -7,8 +7,8 @@
     "global": true,
     "condition": {
       "and": [
-        { "u_near_om_location": "pagan_cult_left_corner_up", "range": 30 },
-        { "not": { "u_near_om_location": "pagan_cult_left_corner_up", "range": 2 } },
+        { "u_near_om_location": "valhallist_left_corner_up", "range": 30 },
+        { "not": { "u_near_om_location": "valhallist_left_corner_up", "range": 2 } },
         "is_day",
         { "one_in_chance": 10 },
         {
@@ -17,11 +17,11 @@
       ]
     },
     "effect": [
-      { "mapgen_update": "nest_RandEnc_RC_Shoppers_add", "om_terrain": "pagan_cult_left_corner_up" },
+      { "mapgen_update": "nest_RandEnc_RC_Shoppers_add", "om_terrain": "valhallist_left_corner_up" },
       { "u_add_var": "RandEnc", "type": "timer", "context": "VC_Shoppers", "time": true },
       {
         "u_location_variable": { "global_val": "randenc_shoppers_loc" },
-        "target_params": { "om_terrain": "pagan_cult_left_corner_up" }
+        "target_params": { "om_terrain": "valhallist_left_corner_up" }
       },
       { "arithmetic": [ { "global_val": "var", "var_name": "VC_Shoppers_visiting" }, "=", { "const": 1 } ] }
     ]
@@ -40,13 +40,13 @@
           ]
         },
         { "compare_num": [ { "global_val": "var", "var_name": "VC_Shoppers_visiting" }, "==", { "const": 1 } ] },
-        { "not": { "u_near_om_location": "pagan_cult_left_corner_up", "range": 2 } }
+        { "not": { "u_near_om_location": "valhallist_left_corner_up", "range": 2 } }
       ]
     },
     "effect": [
       {
         "mapgen_update": "nest_RandEnc_RC_Shoppers_remove",
-        "om_terrain": "pagan_cult_left_corner_up",
+        "om_terrain": "valhallist_left_corner_up",
         "target_var": { "global_val": "randenc_shoppers_loc" }
       },
       { "arithmetic": [ { "global_val": "var", "var_name": "VC_Shoppers_visiting" }, "=", { "const": 0 } ] }
