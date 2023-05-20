@@ -27,5 +27,6 @@
     ],
     "cmake.configureOnOpen": false,
     "github-actions.remote-name": "upstream",
-    "C_Cpp.formatting": "disabled"
+    // NOTE: This disable the plugins formatting so astyle is used.
+    "C_Cpp.formatting": "disabled",
 }
