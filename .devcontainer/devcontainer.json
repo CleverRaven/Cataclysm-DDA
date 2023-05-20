@@ -10,7 +10,8 @@
 		"extensions": [
 			"github.vscode-github-actions",
 			"ms-vscode.makefile-tools",
-			"EditorConfig.EditorConfig"
+			"EditorConfig.EditorConfig",
+			"chiehyu.vscode-astyle"
 		]
 	}
 }

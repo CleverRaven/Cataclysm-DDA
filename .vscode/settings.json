@@ -26,5 +26,6 @@
         }
     ],
     "cmake.configureOnOpen": false,
-    "github-actions.remote-name": "upstream"
+    "github-actions.remote-name": "upstream",
+    "C_Cpp.formatting": "disabled"
 }
