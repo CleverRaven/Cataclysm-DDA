@@ -335,7 +335,9 @@
     "name": "Mutant - Cephalopod Threshold",
     "description": "Start as a post-threshold Cephalopod Mutant",
     "forced_traits": "THRESH_CEPHALOPOD",
-    "extend": { "traits": [ "CAMO2", "CEPH_MIND", "CLAWS_TENTACLE", "DEX_UP_4", "INT_UP_4", "LEG_TENT_BRACE", "SHELL2", "STRONGER_RESISTWARM" ] }
+    "extend": {
+      "traits": [ "CAMO2", "CEPH_MIND", "CLAWS_TENTACLE", "DEX_UP_4", "INT_UP_4", "LEG_TENT_BRACE", "SHELL2", "STRONGER_RESISTWARM" ]
+    }
   },
   {
     "type": "scenario",
@@ -389,7 +391,18 @@
     "name": "Mutant - Aquatic Threshold",
     "description": "Start as a post-threshold Aquatic Mutant",
     "forced_traits": "THRESH_FISH",
-    "extend": { "traits": [ "AMPHIBIAN", "DEX_UP_4", "FRESHWATEROSMOSIS", "SEESLEEP", "SHARKTEETH", "STRONGER_RESISTWARM", "TOXICFLESH", "WATERSLEEP" ] }
+    "extend": {
+      "traits": [
+        "AMPHIBIAN",
+        "DEX_UP_4",
+        "FRESHWATEROSMOSIS",
+        "SEESLEEP",
+        "SHARKTEETH",
+        "STRONGER_RESISTWARM",
+        "TOXICFLESH",
+        "WATERSLEEP"
+      ]
+    }
   },
   {
     "type": "scenario",
@@ -408,7 +421,18 @@
     "description": "Start as a post-threshold Lizard Mutant",
     "forced_traits": "THRESH_LIZARD",
     "extend": {
-      "traits": [ "COLDBLOOD4", "LARGE_OK", "MUT_TOUGH", "PRED1", "PRED2", "PRED3", "REGEN_LIZ", "SAPIOVORE", "STRONGER_RESISTWARM", "THICK_SCALES" ]
+      "traits": [
+        "COLDBLOOD4",
+        "LARGE_OK",
+        "MUT_TOUGH",
+        "PRED1",
+        "PRED2",
+        "PRED3",
+        "REGEN_LIZ",
+        "SAPIOVORE",
+        "STRONGER_RESISTWARM",
+        "THICK_SCALES"
+      ]
     }
   },
   {
@@ -447,7 +471,19 @@
     "name": "Mutant - Diminutive Threshold",
     "description": "Start as a post-threshold Diminutive Mutant",
     "forced_traits": "THRESH_MOUSE",
-    "extend": { "traits": [ "CRAFTY", "EASYSLEEPER2", "EATDEAD", "EATPOISON", "GOODCARDIO2", "NO_THIRST", "PROJUNK2", "SMALL_OK", "STRONGER_RESISTCHILL" ] }
+    "extend": {
+      "traits": [
+        "CRAFTY",
+        "EASYSLEEPER2",
+        "EATDEAD",
+        "EATPOISON",
+        "GOODCARDIO2",
+        "NO_THIRST",
+        "PROJUNK2",
+        "SMALL_OK",
+        "STRONGER_RESISTCHILL"
+      ]
+    }
   },
   {
     "type": "scenario",
