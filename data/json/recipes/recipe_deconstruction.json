@@ -2187,13 +2187,6 @@
     "components": [ [ [ "ceramic_shard", 1 ] ] ]
   },
   {
-    "result": "ceramic_mug",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "time": "3 s",
-    "components": [ [ [ "ceramic_shard", 1 ] ] ]
-  },
-  {
     "result": "ceramic_plate",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",

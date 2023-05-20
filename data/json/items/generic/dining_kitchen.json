@@ -175,9 +175,14 @@
     "symbol": "u",
     "description": "A ceramic coffee cup with a logo on the side.",
     "copy-from": "base_ceramic_dish",
+    "weight": "318 g",
+    "volume": "475 ml",
+    "longest_side": "12 cm",
+    "price": "16 USD",
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "clumsy" },
     "pocket_data": [
       {
-        "max_contains_volume": "250 ml",
+        "max_contains_volume": "330 ml",
         "max_contains_weight": "1 kg",
         "watertight": true,
         "open_container": true,
@@ -236,7 +241,8 @@
       },
       { "id": "mug25", "text": "A white ceramic coffee mug.  There's a tiny dinosaur sculpture inside of it." },
       { "id": "mug26", "text": "A white ceramic coffee mug.  It says \"I <3 Massachusetts.\" on the side." }
-    ]
+    ],
+    "//": "Based on https://www.amazon.com/Black-Novelty-Coffee-Homeyes-Ceramic/dp/B0B6CWNKCP/ref=sr_1_51?keywords=ceramic%2Bmug&qid=1684583367&sr=8-51&th=1"
   },
   {
     "type": "GENERIC",
