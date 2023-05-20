@@ -2648,7 +2648,7 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "1 s",
-    "components": [ [ [ "glass_shard", 5 ] ] ]
+    "components": [ [ [ "glass_shard", 12 ] ] ]
   },
   {
     "result": "bottle_glass",
@@ -2669,7 +2669,7 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "1 s",
-    "components": [ [ [ "glass_shard", 2 ] ] ]
+    "components": [ [ [ "glass_shard", 3 ] ] ]
   },
   {
     "result": "beaker",
