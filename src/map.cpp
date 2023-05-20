@@ -82,6 +82,7 @@
 #include "overmapbuffer.h"
 #include "pathfinding.h"
 #include "projectile.h"
+#include "ranged.h"
 #include "relic.h"
 #include "ret_val.h"
 #include "rng.h"
@@ -2751,7 +2752,7 @@ void map::drop_items( const tripoint &p )
         dodge_mod = dodge_mod == 0 ? 1 : dodge_mod / 2;
 
         int creature_hit_chance = rng( 0, 100 );
-        creature_hit_chance *= dodge_mod;
+        creature_hit_chance *= dodge_mod / occupied_tile_fraction( creature_below->get_size() );
 
         if( creature_hit_chance < 15 ) {
             creature_below->deal_damage( nullptr, bodypart_id( "head" ), damage_instance( damage_bash,
