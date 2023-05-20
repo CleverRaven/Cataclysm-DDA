@@ -31,7 +31,7 @@
     "burn_into": "mon_zombie_scorched",
     "fungalize_into": "mon_zombie_fungus",
     "flags": [ "SEES", "HEARS", "WARM", "GRABS", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ],
-    "armor": { "bash": 7, "cut": 7, "stab": 5, "acid": 4, "bullet": 6, "electric": 2 }
+    "armor": { "bash": 9, "cut": 12, "stab": 9, "acid": 4, "bullet": 10, "electric": 2 }
   },
   {
     "id": "mon_zombie_paramilitary",
