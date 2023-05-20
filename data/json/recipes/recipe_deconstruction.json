@@ -5035,8 +5035,6 @@
     "result": "pot",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "skill_used": "fabrication",
-    "difficulty": 1,
     "time": "5 m",
     "qualities": [ { "id": "SAW_M", "level": 2 } ],
     "components": [ [ [ "scrap", 20 ] ] ]
@@ -5045,11 +5043,9 @@
     "result": "pot_canning",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "skill_used": "fabrication",
-    "difficulty": 1,
-    "time": "5 m",
+    "time": "15 m",
     "qualities": [ { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "sheet_metal_small", 20 ], [ "steel_chunk", 2 ] ] ]
+    "components": [ [ [ "steel_lump", 3 ] ], [ [ "steel_chunk", 6 ] ], [ [ "scrap", 10 ] ] ]
   },
   {
     "result": "fluid_preserved_brain",
