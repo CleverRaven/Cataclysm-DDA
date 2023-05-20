@@ -62,7 +62,6 @@ json_formatter
 *.vcxproj.filters
 *.lastbuildstate
 .vs/
-.vscode/
 Directory.Build.props
 Directory.Build.targets
 
