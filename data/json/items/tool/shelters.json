@@ -16,6 +16,22 @@
     "melee_damage": { "bash": 4 }
   },
   {
+    "type": "GENERIC",
+    "id": "large_damaged_shelter_kit",
+    "symbol": ";",
+    "color": "brown",
+    "name": { "str": "large damaged shelter" },
+    "description": "A huge shelter made of sticks and skins, very bulky but with plenty of space.  This is broken and cannot be deployed.",
+    "price": 10000,
+    "price_postapoc": 150,
+    "material": [ "wood", "leather" ],
+    "weight": "15 kg",
+    "volume": "17 L",
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID" ],
+    "melee_damage": { "bash": 4 }
+  },
+  {
     "id": "large_tent_kit",
     "type": "TOOL",
     "name": { "str": "large tent" },
@@ -63,6 +79,32 @@
       "floor": "f_skin_groundsheet",
       "door_opened": "f_skin_door_o",
       "door_closed": "f_skin_door"
+    },
+    "melee_damage": { "bash": 4 }
+  },
+  {
+    "id": "large_shelter_kit",
+    "type": "TOOL",
+    "name": { "str": "large shelter kit" },
+    "description": "A large dissassembled shelter made of sticks and skins.  Activate it to set it up.",
+    "weight": "21 kg",
+    "volume": "22 L",
+    "longest_side": "300 cm",
+    "price": 6500,
+    "price_postapoc": 500,
+    "to_hit": -3,
+    "material": [ "wood", "leather" ],
+    "symbol": ";",
+    "color": "brown",
+    "use_action": {
+      "type": "deploy_tent",
+      "radius": 2,
+      "broken_type": "large_damaged_shelter_kit",
+      "wall": "f_large_skin_wall",
+      "floor": "f_large_skin_groundsheet",
+      "floor_center": "f_skin_center_groundsheet",
+      "door_opened": "f_large_skin_door_o",
+      "door_closed": "f_large_skin_door"
     },
     "melee_damage": { "bash": 4 }
   },

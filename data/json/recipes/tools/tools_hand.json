@@ -380,13 +380,14 @@
     "difficulty": 4,
     "time": "5 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 3 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" }
     ],
-    "qualities": [ { "id": "GRIND", "level": 2 } ]
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
+    "components": [ [ [ "scrap", 9 ], [ "steel_chunk", 2 ] ] ]
   },
   {
     "type": "recipe",

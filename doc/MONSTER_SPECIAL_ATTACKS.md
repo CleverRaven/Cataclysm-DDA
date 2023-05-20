@@ -195,6 +195,8 @@ These special attacks are defined in [JSON](/data/json/monster_special_attacks),
 | `condition`                 | Object, dialog conditions enabling the attack - see `NPC.md` for the potential conditions - note that `u` refers to the monster, `npc` to the attack target, and for `x_has_flag` conditions targeting monsters only take effect flags into consideration, not monster flags.
 | `attack_upper`		      | Boolean, default true. If false the attack can't target any bodyparts with the `UPPER_LIMB` flag with the regular attack rolls (provided the bodypart is not explicitly targeted).
 | `range`       		      | Integer, range of the attack in tiles (Default 1, this equals melee range). Melee attacks require unobstructed straight paths.
+| `grab`                      | Boolean, default false. Denotes this attack as a grabbing one. See `grabs` for further information
+| `grab_data`                 | Array, grab data of the attack. Read only if `grab: true`, see `grabs` for the possible variables.
 | `hitsize_min`               | Integer, lower bound of limb size this attack can target (if no bodypart targets are explicitly defined)
 | `hitsize_max`               | Integer, upper bound of limb size this attack can target.
 | `no_adjacent`			      | Boolean, default false. The attack can't target adjacent creatures.
@@ -226,7 +228,21 @@ If `hitsize_min` is undefined it will default to 1 (disqualifying bites on the e
 | ---                         | ---                                                                                  |
 | `infection_chance`          | Chance to give infection in a percentage.  Exact chance is `infection_chance` / 100. |
 
+### Grab attacks
 
+Any melee/bite-type JSON attack can function as a grab, which leads to special behavior in addition to the base attack functions:  Grabs are not allowed to hit an already-grabbed bodypart, filtered by any effect on the BP having the `GRAB` flag, instead they will attempt to retarget to another limb.  A successful (not-dodged) grab will apply an instance of its `grab_effect` (which should have the `GRAB` effect flag) with the intensity defined by `grab_strength` and will gain the target bodypart's `grabbing_effect` to facilitate targeted grab removal (see later).
+The attack's behavior is determined by the `grab_data` array, using the below variables:
+
+| field                       | description
+| ---                         | ---
+| `grab_strength`             | Optional integer.  The strength of the grab effect applied on a successful grab, defaults to the monster's own `grab_strength`.
+| `grab_effect`               | Optional string.  ID of the effect to apply on a successful grab (defaults to `grabbed`).  The effect id `null` will apply a null effect without a bug message, allowing for e.g. pull attacks without grab effects.
+| `pull_chance`               | Optional integer.  Percent chance for a connecting attack to initiate a pull, moving the target adjacent.  Pulls are prevented by seatbelts, and existing grabs on the target will be attempted to be removed one-by-one ( on a `puller grab_strength / 2 in effect intensity` roll).
+| `pull_weight_ratio`         | Optional float.  Ratio of weight the monster can successfully pull when succeeding the `pull_chance` roll.  Default 0.75.
+| `pull_msg_u/npc`            | Optional strings.  Message to print on a successful pull.
+| `pull_fail_msg_u/npc`       | Optional strings.  Message to print on a failed pull attempt - either because of too high target weight or because of other grabs holding them back.
+
+`GRAB`-flagged effects prevent movement for monsters and characters as well, and might have additional debuffs like every effect.  Grab break attempts happen effect by effect on non-attack movement or waiting in place, with the chance affected by limb scores, stats, and the existence of grab break MA techniques.  A successful grab removal removes the effect in question from the limb, as well as the bodypart's `grabbing_effect` from whichever monster has the latter.  If all grabs are broken movement is allowed on the same turn.
 
 ### `gun`
 

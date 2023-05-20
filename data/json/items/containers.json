@@ -3129,7 +3129,7 @@
       }
     ],
     "charges_per_use": 1,
-    "flags": [ "GAS_TANK", "COLLAPSE_CONTENTS" ],
+    "flags": [ "GAS_TANK", "COLLAPSE_CONTENTS", "NO_SALVAGE" ],
     "melee_damage": { "bash": 5 }
   },
   {
@@ -3158,7 +3158,7 @@
       }
     ],
     "charges_per_use": 1,
-    "flags": [ "GAS_TANK", "COLLAPSE_CONTENTS" ],
+    "flags": [ "GAS_TANK", "COLLAPSE_CONTENTS", "NO_SALVAGE" ],
     "melee_damage": { "bash": 5 }
   },
   {
@@ -3187,7 +3187,7 @@
       }
     ],
     "charges_per_use": 1,
-    "flags": [ "GAS_TANK", "COLLAPSE_CONTENTS" ],
+    "flags": [ "GAS_TANK", "COLLAPSE_CONTENTS", "NO_SALVAGE" ],
     "melee_damage": { "bash": 10 }
   },
   {
@@ -3216,7 +3216,7 @@
       }
     ],
     "charges_per_use": 1,
-    "flags": [ "GAS_TANK", "COLLAPSE_CONTENTS" ],
+    "flags": [ "GAS_TANK", "COLLAPSE_CONTENTS", "NO_SALVAGE" ],
     "melee_damage": { "bash": 10 }
   },
   {

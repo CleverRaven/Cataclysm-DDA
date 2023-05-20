@@ -139,7 +139,7 @@
     "description": "An ordinary book.  Or is it?  It is.",
     "weight": "600 g",
     "price": 1000,
-    "price_postapoc": 5000,
+    "price_postapoc": 200,
     "flags": [ "TINDER" ],
     "skill": "dodge",
     "intelligence": 4,

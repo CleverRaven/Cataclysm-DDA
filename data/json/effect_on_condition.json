@@ -842,7 +842,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_READ_LOCAL_FILES",
-    "condition": { "and": [ { "u_has_skill": { "skill": "computer", "level": 2 } }, { "one_in_chance": 15 } ] },
+    "condition": { "and": [ { "math": [ "u_skill('computer')", ">=", "2" ] }, { "one_in_chance": 15 } ] },
     "effect": [ { "u_message": "local_files_simple", "snippet": true, "same_snippet": true, "popup": true } ],
     "false_effect": [ { "u_message": "You found nothing interesting in the local files." } ]
   },

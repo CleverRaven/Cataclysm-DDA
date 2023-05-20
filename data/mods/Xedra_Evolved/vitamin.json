@@ -25,6 +25,16 @@
     "disease_excess": [ [ 1800, 2400 ], [ 2401, 4400 ], [ 4401, 5600 ] ]
   },
   {
+    "id": "creative_spark_research",
+    "type": "vitamin",
+    "//": "Processed sparks, it respond for inventor's researches of different items, recipes and spells.",
+    "vit_type": "counter",
+    "name": { "str": "Processed Creativity" },
+    "min": 0,
+    "max": 1000,
+    "rate": "0 m"
+  },
+  {
     "id": "creative_spark",
     "type": "vitamin",
     "//": "This vitamin powers any Spark type abilities for the Inventor/Mad Genius spellcasting class.",

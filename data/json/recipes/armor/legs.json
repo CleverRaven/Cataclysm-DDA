@@ -1030,7 +1030,7 @@
     "difficulty": 4,
     "time": "8 h",
     "autolearn": true,
-    "using": [ [ "tailoring_leather_patchwork", 4 ], [ "fastener_small", 1 ] ],
+    "using": [ [ "tailoring_leather_patchwork", 5 ], [ "fastener_small", 1 ] ],
     "byproducts": [ [ "leather", 3 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
@@ -1137,8 +1137,8 @@
     "difficulty": 1,
     "time": "3 h 30m",
     "autolearn": true,
-    "using": [ [ "tailoring_cotton_patchwork", 7 ], [ "fastener_small", 1 ] ],
-    "byproducts": [ [ "cotton_patchwork", 3 ] ],
+    "using": [ [ "tailoring_cotton_patchwork", 4 ], [ "fastener_small", 1 ] ],
+    "byproducts": [ [ "cotton_patchwork", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" } ]
   },
   {

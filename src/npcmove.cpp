@@ -121,7 +121,10 @@ static const efftype_id effect_npc_flee_player( "npc_flee_player" );
 static const efftype_id effect_npc_player_still_looking( "npc_player_still_looking" );
 static const efftype_id effect_npc_run_away( "npc_run_away" );
 static const efftype_id effect_onfire( "onfire" );
+static const efftype_id effect_stumbled_into_invisible( "stumbled_into_invisible" );
 static const efftype_id effect_stunned( "stunned" );
+
+static const field_type_str_id field_fd_last_known( "fd_last_known" );
 
 static const itype_id itype_inhaler( "inhaler" );
 static const itype_id itype_lsd( "lsd" );
@@ -508,12 +511,11 @@ void npc::assess_danger()
             ai_cache.hostile_guys.emplace_back( g->shared_from( guy ) );
         }
     }
-    if( sees( player_character.pos() ) ) {
-        if( is_enemy() ) {
-            ai_cache.hostile_guys.emplace_back( g->shared_from( player_character ) );
-        } else if( is_friendly( player_character ) ) {
-            ai_cache.friends.emplace_back( g->shared_from( player_character ) );
-        }
+    if( is_friendly( player_character ) && sees( player_character.pos() ) ) {
+        ai_cache.friends.emplace_back( g->shared_from( player_character ) );
+    } else if( is_enemy() && sees( player_character ) ) {
+        // Unlike allies, hostile npcs should not see invisible players
+        ai_cache.hostile_guys.emplace_back( g->shared_from( player_character ) );
     }
 
     for( const monster &critter : g->all_monsters() ) {
@@ -2333,7 +2335,11 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         }
 
         if( critter->is_avatar() ) {
-            say( chatbin.snip_let_me_pass );
+            if( sees( *critter ) ) {
+                say( chatbin.snip_let_me_pass );
+            } else {
+                stumble_invis( *critter );
+            }
         }
 
         // Let NPCs push each other when non-hostile
@@ -2388,6 +2394,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         }
     }
 
+    Character &player_character = get_player_character();
     if( p.z != posz() ) {
         // Z-level move
         // For now just teleport to the destination
@@ -2398,6 +2405,11 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         }
         moves -= 100;
         moved = true;
+    } else if( has_effect( effect_stumbled_into_invisible ) &&
+               here.has_field_at( p, field_fd_last_known ) && !sees( player_character ) &&
+               attitude_to( player_character ) == Attitude::HOSTILE ) {
+        attack_air( p );
+        move_pause();
     } else if( here.passable( p ) && !here.has_flag( ter_furn_flag::TFLAG_DOOR, p ) ) {
         bool diag = trigdist && posx() != p.x && posy() != p.y;
         if( is_mounted() ) {

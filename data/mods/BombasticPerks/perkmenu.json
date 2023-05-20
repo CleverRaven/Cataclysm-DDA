@@ -93,6 +93,11 @@
         "topic": "TALK_PERK_MENU_TUCK_AND_ROLL"
       },
       {
+        "condition": { "not": { "u_has_trait": "perk_recycler" } },
+        "text": "Gain [<trait_name:perk_recycler>]",
+        "topic": "TALK_PERK_MENU_RECYCLER"
+      },
+      {
         "condition": { "not": { "u_has_trait": "perk_tingly" } },
         "text": "Gain [<trait_name:perk_tingly>]",
         "topic": "TALK_PERK_MENU_TINGLY"
@@ -116,6 +121,16 @@
         "condition": { "not": { "u_has_trait": "perk_popeye" } },
         "text": "Gain [<trait_name:perk_popeye>]",
         "topic": "TALK_PERK_MENU_POPEYE"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_crafty_hands" } },
+        "text": "Gain [<trait_name:perk_crafty_hands>]",
+        "topic": "TALK_PERK_MENU_CRAFTY_HANDS"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_chainsmoker" } },
+        "text": "Gain [<trait_name:perk_chainsmoker>]",
+        "topic": "TALK_PERK_MENU_CHAINSMOKER"
       },
       { "text": "Settings", "topic": "TALK_PERK_MENU_CONFIG" },
       { "text": "Quit.", "topic": "TALK_DONE" }
@@ -316,7 +331,7 @@
             {
               "or": [
                 { "compare_num": [ { "u_val": "var", "var_name": "no_prerecs" }, ">", { "const": 0 } ] },
-                { "or": [ { "u_has_skill": { "skill": "swimming", "level": 3 } } ] }
+                { "or": [ { "math": [ "u_skill('swimming')", ">=", "3" ] } ] }
               ]
             },
             { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] }
@@ -415,7 +430,7 @@
               "or": [
                 { "compare_num": [ { "u_val": "var", "var_name": "no_prerecs" }, ">", { "const": 0 } ] },
                 {
-                  "and": [ { "u_has_skill": { "skill": "unarmed", "level": 2 } }, { "u_has_skill": { "skill": "cutting", "level": 1 } } ]
+                  "and": [ { "math": [ "u_skill('unarmed')", ">=", "2" ] }, { "math": [ "u_skill('cutting')", ">=", "1" ] } ]
                 }
               ]
             },
@@ -440,7 +455,7 @@
               "or": [
                 { "compare_num": [ { "u_val": "var", "var_name": "no_prerecs" }, ">", { "const": 0 } ] },
                 {
-                  "and": [ { "u_has_skill": { "skill": "unarmed", "level": 2 } }, { "u_has_skill": { "skill": "bashing", "level": 1 } } ]
+                  "and": [ { "math": [ "u_skill('unarmed')", ">=", "2" ] }, { "math": [ "u_skill('bashing')", ">=", "1" ] } ]
                 }
               ]
             },
@@ -465,7 +480,7 @@
               "or": [
                 { "compare_num": [ { "u_val": "var", "var_name": "no_prerecs" }, ">", { "const": 0 } ] },
                 {
-                  "and": [ { "u_has_skill": { "skill": "unarmed", "level": 2 } }, { "u_has_skill": { "skill": "stabbing", "level": 1 } } ]
+                  "and": [ { "math": [ "u_skill('unarmed')", ">=", "2" ] }, { "math": [ "u_skill('stabbing')", ">=", "1" ] } ]
                 }
               ]
             },
@@ -512,7 +527,7 @@
               "or": [
                 { "compare_num": [ { "u_val": "var", "var_name": "no_prerecs" }, ">", { "const": 0 } ] },
                 {
-                  "or": [ { "u_has_skill": { "skill": "melee", "level": 2 } }, { "u_has_skill": { "skill": "gun", "level": 2 } } ]
+                  "or": [ { "math": [ "u_skill('melee')", ">=", "2" ] }, { "math": [ "u_skill('gun')", ">=", "2" ] } ]
                 }
               ]
             },
@@ -545,7 +560,7 @@
             {
               "or": [
                 { "compare_num": [ { "u_val": "var", "var_name": "no_prerecs" }, ">", { "const": 0 } ] },
-                { "or": [ { "u_has_skill": { "skill": "pistol", "level": 2 } } ] }
+                { "or": [ { "math": [ "u_skill('pistol')", ">=", "2" ] } ] }
               ]
             },
             { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] }
@@ -577,6 +592,38 @@
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [
           { "u_add_trait": "perk_tuck_and_roll" },
+          {
+            "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "u_val": "var", "var_name": "num_perks" }, "-", { "const": 1 } ]
+          }
+        ]
+      },
+      { "text": "Go Back.", "topic": "TALK_PERK_MENU_MAIN" },
+      { "text": "Quit.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_PERK_MENU_RECYCLER",
+    "dynamic_line": "<trait_name:perk_recycler>: \"<trait_description:perk_recycler>\"\nRequires survival 4.",
+    "responses": [
+      {
+        "text": "Select Perk.",
+        "topic": "TALK_PERK_MENU_MAIN",
+        "condition": {
+          "and": [
+            {
+              "or": [
+                { "compare_num": [ { "u_val": "var", "var_name": "no_prerecs" }, ">", { "const": 0 } ] },
+                { "or": [ { "math": [ "u_skill('survival')", ">=", "4" ] } ] }
+              ]
+            },
+            { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] }
+          ]
+        },
+        "failure_explanation": "Requirements Not Met",
+        "failure_topic": "TALK_PERK_MENU_FAIL",
+        "effect": [
+          { "u_add_trait": "perk_recycler" },
           {
             "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "u_val": "var", "var_name": "num_perks" }, "-", { "const": 1 } ]
           }
@@ -666,7 +713,7 @@
               "or": [
                 { "compare_num": [ { "u_val": "var", "var_name": "no_prerecs" }, ">", { "const": 0 } ] },
                 {
-                  "and": [ { "u_has_skill": { "skill": "electronics", "level": 4 } }, { "u_has_skill": { "skill": "firstaid", "level": 4 } } ]
+                  "and": [ { "math": [ "u_skill('electronics')", ">=", "4" ] }, { "math": [ "u_skill('firstaid')", ">=", "4" ] } ]
                 }
               ]
             },
@@ -700,6 +747,50 @@
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [
           { "u_add_trait": "perk_popeye" },
+          {
+            "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "u_val": "var", "var_name": "num_perks" }, "-", { "const": 1 } ]
+          }
+        ]
+      },
+      { "text": "Go Back.", "topic": "TALK_PERK_MENU_MAIN" },
+      { "text": "Quit.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_PERK_MENU_CRAFTY_HANDS",
+    "dynamic_line": "<trait_name:perk_crafty_hands>: \"<trait_description:perk_crafty_hands>\"",
+    "responses": [
+      {
+        "text": "Select Perk.",
+        "topic": "TALK_PERK_MENU_MAIN",
+        "condition": { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+        "failure_explanation": "Requirements Not Met",
+        "failure_topic": "TALK_PERK_MENU_FAIL",
+        "effect": [
+          { "u_add_trait": "perk_crafty_hands" },
+          {
+            "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "u_val": "var", "var_name": "num_perks" }, "-", { "const": 1 } ]
+          }
+        ]
+      },
+      { "text": "Go Back.", "topic": "TALK_PERK_MENU_MAIN" },
+      { "text": "Quit.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_PERK_MENU_CHAINSMOKER",
+    "dynamic_line": "<trait_name:perk_chainsmoker>: \"<trait_description:perk_chainsmoker>\"",
+    "responses": [
+      {
+        "text": "Select Perk.",
+        "topic": "TALK_PERK_MENU_MAIN",
+        "condition": { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+        "failure_explanation": "Requirements Not Met",
+        "failure_topic": "TALK_PERK_MENU_FAIL",
+        "effect": [
+          { "u_add_trait": "perk_chainsmoker" },
           {
             "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "u_val": "var", "var_name": "num_perks" }, "-", { "const": 1 } ]
           }

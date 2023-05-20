@@ -70,7 +70,8 @@
       [ "tatra_truck", 100 ],
       [ "4seat_pickup", 125 ],
       [ "extended_pickup", 65 ],
-      [ "4x4_car", 500 ],
+      [ "4x4_car", 250 ],
+      [ "4x4_car_diesel", 250 ],
       [ "underlift_tow_truck", 250 ]
     ]
   },
@@ -127,7 +128,8 @@
       [ "van_full-size", 200 ],
       [ "van_mini", 300 ],
       [ "van_cargo", 400 ],
-      [ "4x4_car", 500 ],
+      [ "4x4_car", 250 ],
+      [ "4x4_car_diesel", 250 ],
       [ "extended_pickup", 65 ],
       [ "car_hybrid", 500 ],
       [ "underlift_tow_truck", 250 ]
@@ -187,7 +189,8 @@
       [ "surv_car", 2 ],
       [ "wienermobile", 5 ],
       [ "tatra_truck", 300 ],
-      [ "4x4_car", 400 ],
+      [ "4x4_car", 200 ],
+      [ "4x4_car_diesel", 200 ],
       [ "extended_pickup", 65 ],
       [ "underlift_tow_truck", 250 ]
     ]
@@ -230,7 +233,8 @@
       [ "bicycle_dirt", 150 ],
       [ "bicycle_electric", 100 ],
       [ "tricycle", 5 ],
-      [ "4x4_car", 200 ],
+      [ "4x4_car", 100 ],
+      [ "4x4_car_diesel", 100 ],
       [ "wheelbarrow", 100 ]
     ]
   },
@@ -325,7 +329,8 @@
       [ "food_truck", 20 ],
       [ "wienermobile", 5 ],
       [ "portable_generator", 50 ],
-      [ "4x4_car", 200 ],
+      [ "4x4_car", 100 ],
+      [ "4x4_car_diesel", 100 ],
       [ "underlift_tow_truck", 250 ]
     ]
   },
@@ -439,7 +444,8 @@
       [ "hippie_van", 700 ],
       [ "van_full-size", 500 ],
       [ "van_mini", 300 ],
-      [ "4x4_car", 500 ]
+      [ "4x4_car", 250 ],
+      [ "4x4_car_diesel", 250 ]
     ]
   },
   {
@@ -464,7 +470,8 @@
       [ "cube_van_cheap", 400 ],
       [ "pickup", 500 ],
       [ "hippie_van", 350 ],
-      [ "4x4_car", 500 ]
+      [ "4x4_car", 250 ],
+      [ "4x4_car_diesel", 250 ]
     ]
   },
   {
@@ -493,7 +500,8 @@
       [ "hippie_van", 800 ],
       [ "van_camper", 200 ],
       [ "van_motorhome", 50 ],
-      [ "4x4_car", 800 ]
+      [ "4x4_car", 400 ],
+      [ "4x4_car_diesel", 400 ]
     ]
   },
   {
@@ -778,7 +786,8 @@
     "type": "vehicle_group",
     "id": "parking_garage",
     "vehicles": [
-      [ "4x4_car", 200 ],
+      [ "4x4_car", 100 ],
+      [ "4x4_car_diesel", 100 ],
       [ "car_sports_electric", 100 ],
       [ "car_mini", 375 ],
       [ "car_hybrid", 200 ],
@@ -979,7 +988,8 @@
     "type": "vehicle_group",
     "id": "cars_only",
     "vehicles": [
-      [ "4x4_car", 200 ],
+      [ "4x4_car", 100 ],
+      [ "4x4_car_diesel", 100 ],
       [ "car_sports_electric", 100 ],
       [ "car_mini", 375 ],
       [ "car_hybrid", 200 ],

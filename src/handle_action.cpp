@@ -130,6 +130,7 @@ static const itype_id fuel_type_animal( "animal" );
 static const itype_id itype_radiocontrol( "radiocontrol" );
 
 static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
+static const json_character_flag json_flag_SUBTLE_SPELL( "SUBTLE_SPELL" );
 
 static const material_id material_glass( "glass" );
 
@@ -469,7 +470,7 @@ static void pldrive( const tripoint &p )
         const bool has_animal_controls = veh->part_with_feature( vp.mount, "CONTROL_ANIMAL", true ) >= 0;
         const bool has_controls = veh->part_with_feature( vp.mount, "CONTROLS", true ) >= 0;
         const bool has_animal = veh->has_engine_type( fuel_type_animal, false ) &&
-                                veh->has_harnessed_animal();
+                                veh->get_harnessed_animal();
         if( !has_controls && !has_animal_controls ) {
             add_msg( m_info, _( "You can't drive the vehicle from here.  You need controls!" ) );
             player_character.controlling_vehicle = false;
@@ -885,8 +886,26 @@ static void smash()
         player_character.moves -= move_cost * weary_mult;
         player_character.recoil = MAX_RECOIL;
 
-        if( !bash_result.success ) {
-            if( smashskill < here.bash_resistance( smashp ) && one_in( 10 ) ) {
+        // Variables for bash animation
+        std::map<tripoint, nc_color> anim_area;
+        anim_area[smashp] = c_black;
+
+        if( bash_result.success ) {
+            // Bash results in destruction of target
+            if( get_option<bool>( "ANIMATIONS" ) ) {
+                explosion_handler::draw_custom_explosion( smashp, anim_area, "bash_complete" );
+            }
+        } else if( smashskill >= here.bash_resistance( smashp ) ) {
+            // Bash effective but target not yet destroyed
+            if( get_option<bool>( "ANIMATIONS" ) ) {
+                explosion_handler::draw_custom_explosion( smashp, anim_area, "bash_effective" );
+            }
+        } else {
+            // Bash not effective
+            if( get_option<bool>( "ANIMATIONS" ) ) {
+                explosion_handler::draw_custom_explosion( smashp, anim_area, "bash_ineffective" );
+            }
+            if( one_in( 10 ) ) {
                 if( here.has_furn( smashp ) && here.furn( smashp ).obj().bash.str_min != -1 ) {
                     // %s is the smashed furniture
                     add_msg( m_neutral, _( "You don't seem to be damaging the %s." ), here.furnname( smashp ) );
@@ -1606,7 +1625,7 @@ static void cast_spell()
 bool Character::cast_spell( spell &sp, bool fake_spell,
                             const std::optional<tripoint> &target = std::nullopt )
 {
-    if( is_armed() && !sp.has_flag( spell_flag::NO_HANDS ) &&
+    if( is_armed() && !sp.has_flag( spell_flag::NO_HANDS ) && !has_flag( json_flag_SUBTLE_SPELL ) &&
         !get_wielded_item()->has_flag( flag_MAGIC_FOCUS ) && !sp.check_if_component_in_hand( *this ) ) {
         add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
                  _( "You need your hands free to cast this spell!" ) );
@@ -1620,7 +1639,8 @@ bool Character::cast_spell( spell &sp, bool fake_spell,
         return false;
     }
 
-    if( !sp.has_flag( spell_flag::NO_HANDS ) && has_effect( effect_stunned ) ) {
+    if( !sp.has_flag( spell_flag::NO_HANDS ) && !has_flag( json_flag_SUBTLE_SPELL ) &&
+        has_effect( effect_stunned ) ) {
         add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
                  _( "You can't focus enough to cast spell." ) );
         return false;

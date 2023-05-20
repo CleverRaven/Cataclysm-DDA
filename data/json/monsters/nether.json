@@ -411,8 +411,10 @@
     "vision_day": 20,
     "vision_night": 20,
     "path_settings": { "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
+    "//grab": "Great at pulling, bad at holding - maybe it's playing with you",
+    "grab_strength": 10,
     "special_attacks": [
-      [ "RANGED_PULL", 8 ],
+      { "id": "ranged_pull", "cooldown": 8, "grab_data": { "pull_weight_ratio": 2.0 } },
       { "type": "leap", "cooldown": 20, "max_range": 6, "allow_no_target": true },
       { "id": "hunter_peck" }
     ],
@@ -494,7 +496,7 @@
     "harvest": "demihuman",
     "families": [ "prof_wp_demihuman" ],
     "weakpoint_sets": [ "wps_humanoid_body" ],
-    "flags": [ "SMELLS", "HEARS", "WARM", "NO_BREATHE", "GRABS", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_1" ],
+    "flags": [ "SMELLS", "HEARS", "WARM", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_1" ],
     "armor": { "electric": 1 }
   },
   {
@@ -744,7 +746,6 @@
       "SMELLS",
       "NOHEAD",
       "HARDTOSHOOT",
-      "GRABS",
       "WEBWALK",
       "FLIES",
       "PLASTIC",
@@ -1047,9 +1048,10 @@
     "melee_dice": 1,
     "melee_dice_sides": 1,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "special_attacks": [ [ "GRAB", 2 ], [ "PARROT", 4 ] ],
+    "grab_strength": 20,
+    "special_attacks": [ { "id": "grab", "cooldown": 2 }, [ "PARROT", 4 ] ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s begins to cry as it disappears." },
-    "flags": [ "NO_BREATHE", "PUSH_MON", "GROUP_BASH" ]
+    "flags": [ "NO_BREATHE", "GRABS", "PUSH_MON", "GROUP_BASH" ]
   },
   {
     "id": "mon_swarm_structure",
@@ -1355,5 +1357,34 @@
     ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s fades away." },
     "flags": [ "SEES", "HEARS", "NO_BREATHE", "PUSH_MON", "ALWAYS_VISIBLE", "ALWAYS_SEES_YOU" ]
+  },
+  {
+    "id": "mon_nether_fish",
+    "type": "MONSTER",
+    "name": { "str": "nether fish symbiote" },
+    "description": "A small fish symbiote that resembles a deformed, eyeless piranha.  It swims blindly in the yellow ichor, wriggling incessantly with malicious intent.",
+    "default_faction": "nether",
+    "bodytype": "fish",
+    "species": [ "NETHER" ],
+    "volume": "1500 ml",
+    "weight": "1000 g",
+    "hp": 25,
+    "speed": 100,
+    "material": [ "flesh" ],
+    "symbol": "^",
+    "color": "white_magenta",
+    "aggression": 100,
+    "morale": 105,
+    "melee_skill": 4,
+    "melee_dice": 1,
+    "melee_dice_sides": 5,
+    "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
+    "dodge": 5,
+    "armor": { "bash": 0, "cut": 2, "bullet": 0 },
+    "luminance": 0,
+    "harvest": "fish_small",
+    "looks_like": "mon_fish_brown_trout",
+    "fear_triggers": [ "FIRE" ],
+    "flags": [ "HEARS", "WARM", "SWIMS", "AQUATIC", "NO_BREATHE", "WATER_CAMOUFLAGE", "ARTHROPOD_BLOOD", "GOODHEARING", "ANIMAL" ]
   }
 ]

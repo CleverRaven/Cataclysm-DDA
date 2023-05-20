@@ -19,6 +19,11 @@
     ]
   },
   {
+    "name": "GROUP_SURVIVOR_FOREST",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_zombie_survivor", "weight": 50 }, { "monster": "mon_feral_sapien_spear", "weight": 50 } ]
+  },
+  {
     "name": "GROUP_ROOF_ZOMBIE",
     "type": "monstergroup",
     "monsters": [
@@ -242,6 +247,17 @@
       { "monster": "mon_zombie_paramilitary", "weight": 10, "cost_multiplier": 25 },
       { "monster": "mon_zombie_survivor", "weight": 1, "cost_multiplier": 25, "starts": "30 days" },
       { "monster": "mon_zombie_survivor_elite", "weight": 1, "cost_multiplier": 25, "starts": "60 days" }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_POLICE_EXTRA",
+    "//": "100% cops, 0% civilians",
+    "default": "mon_zombie",
+    "monsters": [
+      { "monster": "mon_zombie_cop", "weight": 280, "cost_multiplier": 3 },
+      { "monster": "mon_zombie_swat", "weight": 140, "cost_multiplier": 3 },
+      { "monster": "mon_dog_zombie_cop", "weight": 40, "cost_multiplier": 2 }
     ]
   },
   {

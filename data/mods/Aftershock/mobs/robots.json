@@ -398,7 +398,8 @@
     "melee_dice": 4,
     "melee_dice_sides": 2,
     "attack_effs": [ { "id": "downed", "chance": 20, "duration": 5 } ],
-    "special_attacks": [ [ "GRAB", 1 ] ],
+    "grab_strength": 50,
+    "special_attacks": [ { "id": "grab", "cooldown": 2 } ],
     "extend": { "flags": [ "SWARMS", "GRABS", "GROUP_BASH", "SMELLS" ] },
     "armor": { "bullet": 10, "electric": 5, "bash": 8, "cut": 8 }
   },

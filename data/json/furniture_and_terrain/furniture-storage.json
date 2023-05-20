@@ -1149,6 +1149,29 @@
   },
   {
     "type": "furniture",
+    "id": "f_storage_tank",
+    "name": "bulk storage tank",
+    "description": "A 2 meters high tank that can store up to 1500 liters of liquid.  That's a lot.",
+    "symbol": "O",
+    "looks_like": "f_standing_tank",
+    "color": "light_gray",
+    "move_cost_mod": -1,
+    "coverage": 95,
+    "required_str": -1,
+    "flags": [ "CONTAINER", "LIQUIDCONT", "NOITEM", "SEALED" ],
+    "deconstruct": { "items": [ { "item": "sheet_metal", "count": 24 }, { "item": "water_faucet", "count": 1 } ] },
+    "examine_action": "keg",
+    "keg_capacity": 6000,
+    "bash": {
+      "str_min": 16,
+      "str_max": 32,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [ { "item": "scrap", "count": [ 40, 160 ] }, { "item": "water_faucet", "prob": 50 } ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_gas_tank",
     "name": "fuel tank",
     "description": "A tank filled with gasoline.",

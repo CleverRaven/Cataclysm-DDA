@@ -25,7 +25,7 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Attach what to belt loop?", "holster_msg": "You clip your %s to your %s" },
-    "flags": [ "BELTED", "OVERSIZE", "NO_QUICKDRAW", "WATER_FRIENDLY" ],
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
     "armor": [
       {
         "encumbrance": [ 2, 5 ],
@@ -313,7 +313,7 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Store tool or blade", "holster_msg": "You put your %1$s in your %2$s" },
-    "flags": [ "BELTED", "OVERSIZE", "NO_QUICKDRAW", "WATER_FRIENDLY" ],
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
     "armor": [ { "encumbrance": [ 2, 12 ], "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ],
     "melee_damage": { "bash": 5 }
   },
@@ -392,7 +392,7 @@
     "description": "A pair of leather suspenders with a holster placed near the stomach.",
     "copy-from": "suspenders_leather",
     "use_action": { "type": "holster", "holster_prompt": "Store tool or blade", "holster_msg": "You put your %1$s in your %2$s" },
-    "flags": [ "BELTED", "WATER_FRIENDLY", "NO_QUICKDRAW" ],
+    "flags": [ "BELTED", "WATER_FRIENDLY" ],
     "pocket_data": [
       {
         "magazine_well": "350 ml",

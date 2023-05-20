@@ -433,7 +433,7 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Store tool or blade", "holster_msg": "You put your %1$s in your %2$s" },
-    "flags": [ "BELTED", "NO_QUICKDRAW", "WATER_FRIENDLY" ],
+    "flags": [ "BELTED", "WATER_FRIENDLY" ],
     "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ],
     "melee_damage": { "bash": 5 }
   },
@@ -511,7 +511,7 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Store tool or blade", "holster_msg": "You put your %1$s in your %2$s" },
-    "flags": [ "BELTED", "NO_QUICKDRAW", "WATER_FRIENDLY" ],
+    "flags": [ "BELTED", "WATER_FRIENDLY" ],
     "armor": [ { "encumbrance": [ 2, 12 ], "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ],
     "melee_damage": { "bash": 5 }
   },
@@ -672,7 +672,7 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Store tool or blade", "holster_msg": "You put your %1$s in your %2$s" },
-    "flags": [ "BELTED", "NO_QUICKDRAW", "WATER_FRIENDLY" ],
+    "flags": [ "BELTED", "WATER_FRIENDLY" ],
     "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ],
     "melee_damage": { "bash": 5 }
   },
@@ -1137,6 +1137,31 @@
     "armor": [ { "encumbrance": 40, "coverage": 100, "covers": [ "test_tail" ] } ]
   },
   {
+    "id": "test_eoc_armor_suit",
+    "repairs_like": "fsurvivor_suit",
+    "type": "ARMOR",
+    "name": "TEST hazmat suit",
+    "description": "An impermeable whole-body garment worn as protection against hazardous materials.  Though very restrictive and fragile, wearing it will provide complete protection against ambient radiation.  It requires a separate gas mask for full protection.",
+    "weight": "5000 g",
+    "volume": "17 L",
+    "price": 117500,
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "looks_like": "beekeeping_suit",
+    "color": "yellow",
+    "warmth": 40,
+    "material_thickness": 2,
+    "environmental_protection": 20,
+    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "RAD_PROOF", "ELECTRIC_IMMUNE", "OUTER" ],
+    "armor": [
+      {
+        "encumbrance": 37,
+        "coverage": 100,
+        "covers": [ "eyes", "mouth", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ]
+  },
+  {
     "id": "test_hazmat_suit",
     "repairs_like": "fsurvivor_suit",
     "type": "ARMOR",
@@ -1535,6 +1560,34 @@
     "rot_spawn": "GROUP_EGG_BIRD_WILD",
     "vitamins": [ [ "calcium", 3 ], [ "iron", 4 ] ],
     "rot_spawn_chance": 50
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "test_whiskey_caffenated",
+    "name": { "str_sp": "caffenated whiskey" },
+    "weight": "36 g",
+    "color": "brown",
+    "use_action": [ "ALCOHOL" ],
+    "stim": -12,
+    "container": "bottle_glass",
+    "comestible_type": "DRINK",
+    "symbol": "~",
+    "quench": -12,
+    "healthy": -1,
+    "//": "Very high addiction potential to guarantee addiction for unit tests",
+    "addiction_potential": 101,
+    "addiction_type": [ "alcohol", { "addiction": "caffeine", "potential": 102 } ],
+    "description": "A distilled grain alcohol, made from, by, and for real Southern colonels!",
+    "calories": 79,
+    "price": 2100,
+    "price_postapoc": 250,
+    "material": [ "alcohol" ],
+    "volume": "250 ml",
+    "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
+    "freezing_point": -30,
+    "phase": "liquid",
+    "charges": 7,
+    "fun": 15
   },
   {
     "id": "test_jug_plastic",
@@ -2066,6 +2119,7 @@
     "price": 12000,
     "price_postapoc": 250,
     "integral_longest_side": "100 mm",
+    "barrel_length": "100 mm",
     "install_time": "0 s",
     "material": [ "steel" ],
     "symbol": ":",
@@ -2524,6 +2578,7 @@
     "stim": 10,
     "quench": 50,
     "addiction_potential": 10,
+    "addiction_type": "caffeine",
     "flags": [ "NO_INGEST" ],
     "use_action": [ "CHEW" ]
   },

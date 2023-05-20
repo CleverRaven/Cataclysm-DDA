@@ -163,7 +163,8 @@
       { "item": "engineering_makerspace_kit" },
       { "item": "bubblewrap", "count": 2 },
       { "item": "manual_makerspace" },
-      { "item": "screwdriver" }
+      { "item": "screwdriver" },
+      { "item": "wrench_small" }
     ]
   },
   {
@@ -201,7 +202,8 @@
       { "item": "engineering_robotics_kit" },
       { "item": "bubblewrap", "count": 2 },
       { "item": "manual_robotics_kit" },
-      { "item": "screwdriver" }
+      { "item": "screwdriver" },
+      { "item": "wrench_small" }
     ]
   },
   {
@@ -231,7 +233,8 @@
       { "item": "engineering_engine_kit" },
       { "item": "bubblewrap", "count": 2 },
       { "item": "manual_engine_kit" },
-      { "item": "screwdriver" }
+      { "item": "screwdriver" },
+      { "item": "wrench_small" }
     ]
   },
   {

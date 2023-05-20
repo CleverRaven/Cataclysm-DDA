@@ -41,12 +41,7 @@
     "id": "UNARMED_MELEE_BOOST",
     "condition": "ALWAYS",
     "//": "not used currently, just proof of concept",
-    "values": [
-      {
-        "value": "MELEE_DAMAGE",
-        "multiply": { "arithmetic": [ { "u_val": "skill_level", "skill": "unarmed" }, "*", { "const": 5 } ] }
-      }
-    ]
+    "values": [ { "value": "MELEE_DAMAGE", "multiply": { "math": [ "u_skill('unarmed') * 5" ] } } ]
   },
   {
     "type": "enchantment",

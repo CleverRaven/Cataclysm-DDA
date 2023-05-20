@@ -25,6 +25,7 @@
 #include "city.h"
 #include "clothing_mod.h"
 #include "clzones.h"
+#include "condition.h"
 #include "construction.h"
 #include "construction_category.h"
 #include "construction_group.h"
@@ -61,6 +62,7 @@
 #include "martialarts.h"
 #include "material.h"
 #include "mission.h"
+#include "math_parser_jmath.h"
 #include "mod_tileset.h"
 #include "monfaction.h"
 #include "mongroup.h"
@@ -245,8 +247,10 @@ void DynamicDataLoader::initialize()
     add( "EXTERNAL_OPTION", &load_external_option );
     add( "option_slider", &option_slider::load_option_sliders );
     add( "json_flag", &json_flag::load_all );
+    add( "jmath_function", &jmath_func::load_func );
     add( "connect_group", &connect_group::load );
-    add( "fault", &fault::load_fault );
+    add( "fault", &fault::load );
+    add( "fault_fix", &fault_fix::load );
     add( "relic_procgen_data", &relic_procgen_data::load_relic_procgen_data );
     add( "effect_on_condition", &effect_on_conditions::load );
     add( "field_type", &field_types::load );
@@ -309,7 +313,7 @@ void DynamicDataLoader::initialize()
     add( "vehicle_part",  &vpart_info::load );
     add( "vehicle_part_category",  &vpart_category::load );
     add( "vehicle_part_migration", &vpart_migration::load );
-    add( "vehicle",  &vehicle_prototype::load );
+    add( "vehicle", &vehicles::load_prototype );
     add( "vehicle_group",  &VehicleGroup::load );
     add( "vehicle_placement",  &VehiclePlacement::load );
     add( "vehicle_spawn",  &VehicleSpawn::load );
@@ -499,7 +503,7 @@ void DynamicDataLoader::load_data_from_path( const cata_path &path, const std::s
     // get a list of all files in the directory
     std::vector<cata_path> files = get_files_from_path( ".json", path, true, true );
     if( files.empty() ) {
-        cata::ifstream tmp( path.get_unrelative_path(), std::ios::in );
+        std::ifstream tmp( path.get_unrelative_path(), std::ios::in );
         if( tmp ) {
             // path is actually a file, don't checking the extension,
             // assume we want to load this file anyway
@@ -571,6 +575,7 @@ void DynamicDataLoader::unload_data()
     effect_on_conditions::reset();
     event_transformation::reset();
     faction_template::reset();
+    fault_fix::reset();
     fault::reset();
     field_types::reset();
     gates::reset();
@@ -578,6 +583,7 @@ void DynamicDataLoader::unload_data()
     harvest_list::reset();
     item_category::reset();
     item_controller->reset();
+    jmath_func::reset();
     json_flag::reset();
     connect_group::reset();
     limb_score::reset();
@@ -643,7 +649,7 @@ void DynamicDataLoader::unload_data()
     VehicleGroup::reset();
     VehiclePlacement::reset();
     VehicleSpawn::reset();
-    vehicle_prototype::reset();
+    vehicles::reset_prototypes();
     vitamin::reset();
     vpart_info::reset();
     vpart_category::reset();
@@ -711,9 +717,11 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Overmap specials" ), &overmap_specials::finalize },
             { _( "Overmap locations" ), &overmap_locations::finalize },
             { _( "Cities" ), &city::finalize },
+            { _( "Math functions" ), &jmath_func::finalize },
+            { _( "Math expressions" ), &finalize_conditions },
             { _( "Start locations" ), &start_locations::finalize_all },
             { _( "Vehicle part migrations" ), &vpart_migration::finalize },
-            { _( "Vehicle prototypes" ), &vehicle_prototype::finalize },
+            { _( "Vehicle prototypes" ), &vehicles::finalize_prototypes },
             { _( "Mapgen weights" ), &calculate_mapgen_weights },
             { _( "Mapgen parameters" ), &overmap_specials::finalize_mapgen_parameters },
             { _( "Behaviors" ), &behavior::finalize },
@@ -739,6 +747,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Achievements" ), &achievement::finalize },
             { _( "Damage info orders" ), &damage_info_order::finalize_all },
             { _( "Widgets" ), &widget::finalize },
+            { _( "Fault fixes" ), &fault_fix::finalize },
 #if defined(TILES)
             { _( "Tileset" ), &load_tileset },
 #endif
@@ -789,7 +798,8 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
                 }
             },
             { _( "Materials" ), &materials::check },
-            { _( "Engine faults" ), &fault::check_consistency },
+            { _( "Faults" ), &fault::check_consistency },
+            { _( "Fault fixes" ), &fault_fix::check_consistency },
             { _( "Vehicle parts" ), &vpart_info::check },
             { _( "Mapgen definitions" ), &check_mapgen_definitions },
             { _( "Mapgen palettes" ), &mapgen_palette::check_definitions },

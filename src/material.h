@@ -134,7 +134,7 @@ class material_type
         float resist( const damage_type_id &dmg_type ) const;
         std::string bash_dmg_verb() const;
         std::string cut_dmg_verb() const;
-        std::string dmg_adj( int damage ) const;
+        std::string dmg_adj( int damage_level ) const;
         int chip_resist() const;
         float specific_heat_liquid() const;
         float specific_heat_solid() const;

@@ -22,10 +22,10 @@
 #include "dialogue.h"
 #include "dialogue_helpers.h"
 #include "global_vars.h"
-#include "math_parser_func.h"
 #include "math_parser_diag.h"
+#include "math_parser_func.h"
 #include "math_parser_impl.h"
-#include "mission.h"
+#include "math_parser_jmath.h"
 #include "string_formatter.h"
 
 namespace
@@ -168,6 +168,7 @@ struct parse_state {
 bool is_function( op_t const &op )
 {
     return std::holds_alternative<pmath_func>( op ) ||
+           std::holds_alternative<jmath_func_id>( op ) ||
            std::holds_alternative<scoped_diag_eval>( op ) ||
            std::holds_alternative<scoped_diag_ass>( op );
 }
@@ -178,28 +179,40 @@ bool is_assign_target( thingie const &thing )
            std::holds_alternative<func_diag_ass>( thing.data );
 }
 
-} // namespace
-
-func::func( std::vector<thingie> &&params_, math_func::f_t f_ ) : params( params_ ),
-    f( f_ ) {}
-
-double func::eval( dialogue const &d ) const
+std::vector<double> _eval_params( std::vector<thingie> const &params, dialogue &d )
 {
     std::vector<double> elems( params.size() );
     std::transform( params.begin(), params.end(), elems.begin(),
     [&d]( thingie const & e ) {
         return e.eval( d );
     } );
-    return f( elems );
+    return elems;
 }
 
+} // namespace
+
+func::func( std::vector<thingie> &&params_, math_func::f_t f_ ) : params( params_ ),
+    f( f_ ) {}
+func_jmath::func_jmath( std::vector<thingie> &&params_,
+                        jmath_func_id const &id_ ) : params( params_ ),
+    id( id_ ) {}
+
+double func::eval( dialogue &d ) const
+{
+    return f( _eval_params( params, d ) );
+}
+
+double func_jmath::eval( dialogue &d ) const
+{
+    return id->eval( d, _eval_params( params, d ) );
+}
 
 oper::oper( thingie l_, thingie r_, binary_op::f_t op_ ):
     l( std::make_shared<thingie>( std::move( l_ ) ) ),
     r( std::make_shared<thingie>( std::move( r_ ) ) ),
     op( op_ ) {}
 
-double oper::eval( dialogue const &d ) const
+double oper::eval( dialogue &d ) const
 {
     return ( *op )( l->eval( d ), r->eval( d ) );
 }
@@ -227,11 +240,11 @@ class math_exp::math_exp_impl
             }
             return true;
         }
-        double eval( dialogue const &d ) const {
+        double eval( dialogue &d ) const {
             return tree.eval( d );
         }
 
-        void assign( dialogue const &d, double val ) const {
+        void assign( dialogue &d, double val ) const {
             std::visit( overloaded{
                 [&d, val]( func_diag_ass const & v ) {
                     v.assign( d, val );
@@ -239,8 +252,7 @@ class math_exp::math_exp_impl
                 [&d, val]( var const & v ) {
                     write_var_value( v.varinfo.type, v.varinfo.name,
                                      d.actor( v.varinfo.type == var_type::npc ),
-                                     // NOLINTNEXTLINE(cata-translate-string-literal)
-                                     string_format( "%g", val ) );
+                                     &d, val );
                 },
                 []( auto &/* v */ ) {
                     debugmsg( "Assignment called on eval tree" );
@@ -277,8 +289,8 @@ class math_exp::math_exp_impl
         void maybe_first_argument();
         void error( std::string_view str, std::string_view what );
         void validate_string( std::string_view str, std::string_view label, std::string_view badlist );
-        std::vector<std::string> _get_strings( std::vector<thingie> const &params,
-                                               size_t nparams ) const;
+        std::vector<diag_value> _get_diag_vals( std::vector<thingie> &params,
+                                                size_t nparams ) const;
 };
 
 void math_exp::math_exp_impl::maybe_first_argument()
@@ -308,6 +320,13 @@ void math_exp::math_exp_impl::_parse( std::string_view str, bool assignment )
             maybe_first_argument();
             ops.emplace( *ftoken );
             arity.emplace( arity_t{ ( *ftoken )->symbol, 0, ( *ftoken )->num_params } );
+            state.set( parse_state::expect::lparen, false );
+
+        } else if( jmath_func_id jmfid( token ); jmfid.is_valid() ) {
+            state.validate( parse_state::expect::operand );
+            maybe_first_argument();
+            ops.emplace( jmfid );
+            arity.emplace( arity_t{ token, 0, jmfid->num_params } );
             state.set( parse_state::expect::lparen, false );
 
         } else if( std::optional<scoped_diag_eval> feval = get_dialogue_eval( token ); feval &&
@@ -455,17 +474,21 @@ void math_exp::math_exp_impl::new_func()
         std::visit( overloaded{
             [&params, nparams, this]( scoped_diag_eval const & v )
             {
-                std::vector<std::string> const strings = _get_strings( params, nparams );
+                std::vector<diag_value> const strings = _get_diag_vals( params, nparams );
                 output.emplace( std::in_place_type_t<func_diag_eval>(), v.df->f( v.scope, strings ) );
             },
             [&params, nparams, this]( scoped_diag_ass const & v )
             {
-                std::vector<std::string> const strings = _get_strings( params, nparams );
+                std::vector<diag_value> const strings = _get_diag_vals( params, nparams );
                 output.emplace( std::in_place_type_t<func_diag_ass>(), v.df->f( v.scope, strings ) );
             },
             [&params, this]( pmath_func v )
             {
                 output.emplace( std::in_place_type_t<func>(), std::move( params ), v->f );
+            },
+            [&params, this]( jmath_func_id const & v )
+            {
+                output.emplace( std::in_place_type_t<func_jmath>(), std::move( params ), v );
             },
             []( auto /* v */ )
             {
@@ -477,20 +500,30 @@ void math_exp::math_exp_impl::new_func()
     }
 }
 
-std::vector<std::string> math_exp::math_exp_impl::_get_strings( std::vector<thingie> const
-        &params, size_t nparams ) const
+std::vector<diag_value> math_exp::math_exp_impl::_get_diag_vals( std::vector<thingie> &params,
+        size_t nparams ) const
 {
-    std::vector<std::string> strings( nparams );
-    std::transform( params.begin(), params.end(), strings.begin(), [this]( thingie const & e ) {
-        if( std::holds_alternative<std::string>( e.data ) ) {
-            return std::get<std::string>( e.data );
-        }
-        throw std::invalid_argument( string_format(
-                                         "Parameters for %s() must be strings contained in single quotes",
-                                         arity.top().sym.data() ) );
-        return std::string{};
-    } );
-    return strings;
+    std::vector<diag_value> vals( nparams );
+    for( decltype( vals )::size_type i = 0; i < params.size(); i++ ) {
+        std::visit( overloaded{
+            [&vals, i]( std::string & v )
+            {
+                vals[i].data.emplace<std::string>( std::move( v ) );
+            },
+            [&vals, i]( var & v )
+            {
+                vals[i].data.emplace<var_info>( std::move( v.varinfo ) );
+            },
+            [this]( auto const &/* v */ )
+            {
+                throw std::invalid_argument(
+                    string_format( "Parameters for %s() must be variables or strings contained in single quotes",
+                                   arity.top().sym ) );
+            },
+        },
+        params[i].data );
+    }
+    return vals;
 }
 
 void math_exp::math_exp_impl::new_oper()
@@ -512,25 +545,11 @@ void math_exp::math_exp_impl::new_oper()
             output.pop();
             output.emplace( std::in_place_type_t<oper>(), thingie { 0.0 }, rhs, v->f );
         },
-        []( pmath_func v )
+        []( auto /* v */ )
         {
-            throw std::invalid_argument( string_format(
-                                             "Unterminated math function %s()",
-                                             v->symbol.data() ) );
-        },
-        []( scoped_diag_eval const & v )
-        {
-            throw std::invalid_argument( string_format(
-                                             "Unterminated dialogue function %s()",
-                                             v.df->symbol.data() ) );
-        },
-        []( scoped_diag_ass const & v )
-        {
-            throw std::invalid_argument( string_format(
-                                             "Unterminated dialogue function %s()",
-                                             v.df->symbol.data() ) );
-        },
-        []( paren /* v */ ) {}
+            // we should never get here due to paren validation
+            throw std::invalid_argument( "Internal error.  That's all we know." );
+        }
     },
     ops.top() );
 
@@ -553,6 +572,9 @@ void math_exp::math_exp_impl::new_var( std::string_view str )
             default:
                 debugmsg( "Unknown scope %c in variable %.*s", str[0], str.size(), str.data() );
         }
+    } else if( str.size() > 1 && str[0] == '_' ) {
+        type = var_type::context;
+        scoped = scoped.substr( 1 );
     }
     validate_string( scoped, "variable", " \'" );
     output.emplace( std::in_place_type_t<var>(), type, "npctalk_var_" + std::string{ scoped } );
@@ -611,12 +633,12 @@ math_exp::~math_exp() = default;
 math_exp::math_exp( math_exp &&/* other */ ) noexcept = default;
 math_exp &math_exp::operator=( math_exp &&/* other */ )  noexcept = default;
 
-double math_exp::eval( dialogue const &d ) const
+double math_exp::eval( dialogue &d ) const
 {
     return impl->eval( d );
 }
 
-void math_exp::assign( dialogue const &d, double val ) const
+void math_exp::assign( dialogue &d, double val ) const
 {
     return impl->assign( d, val );
 }

@@ -231,8 +231,6 @@ static const efftype_id effect_foodpoison( "foodpoison" );
 static const efftype_id effect_fungus( "fungus" );
 static const efftype_id effect_glowing( "glowing" );
 static const efftype_id effect_glowy_led( "glowy_led" );
-static const efftype_id effect_grabbed( "grabbed" );
-static const efftype_id effect_grabbing( "grabbing" );
 static const efftype_id effect_harnessed( "harnessed" );
 static const efftype_id effect_heavysnare( "heavysnare" );
 static const efftype_id effect_in_pit( "in_pit" );
@@ -240,7 +238,6 @@ static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_jetinjector( "jetinjector" );
 static const efftype_id effect_lack_sleep( "lack_sleep" );
-static const efftype_id effect_lightsnare( "lightsnare" );
 static const efftype_id effect_lying_down( "lying_down" );
 static const efftype_id effect_masked_scent( "masked_scent" );
 static const efftype_id effect_melatonin( "melatonin" );
@@ -263,6 +260,7 @@ static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
+static const efftype_id effect_stumbled_into_invisible( "stumbled_into_invisible" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_tapeworm( "tapeworm" );
 static const efftype_id effect_tied( "tied" );
@@ -290,6 +288,7 @@ static const itype_id itype_foodperson_mask_on( "foodperson_mask_on" );
 static const itype_id itype_null( "null" );
 static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 
+static const json_character_flag json_flag_ACIDBLOOD( "ACIDBLOOD" );
 static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
 static const json_character_flag json_flag_ALWAYS_HEAL( "ALWAYS_HEAL" );
 static const json_character_flag json_flag_BLIND( "BLIND" );
@@ -300,12 +299,15 @@ static const json_character_flag json_flag_ECTOTHERM( "ECTOTHERM" );
 static const json_character_flag json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
 static const json_character_flag json_flag_EYE_MEMBRANE( "EYE_MEMBRANE" );
 static const json_character_flag json_flag_FEATHER_FALL( "FEATHER_FALL" );
+static const json_character_flag json_flag_GRAB( "GRAB" );
 static const json_character_flag json_flag_HEAL_OVERRIDE( "HEAL_OVERRIDE" );
 static const json_character_flag json_flag_HEATSINK( "HEATSINK" );
 static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
 static const json_character_flag json_flag_IMMUNE_HEARING_DAMAGE( "IMMUNE_HEARING_DAMAGE" );
 static const json_character_flag json_flag_INFECTION_IMMUNE( "INFECTION_IMMUNE" );
 static const json_character_flag json_flag_INFRARED( "INFRARED" );
+static const json_character_flag json_flag_INSECTBLOOD( "INSECTBLOOD" );
+static const json_character_flag json_flag_INVERTERBRATEBLOOD( "INVERTERBRATEBLOOD" );
 static const json_character_flag json_flag_INVISIBLE( "INVISIBLE" );
 static const json_character_flag json_flag_MYOPIC( "MYOPIC" );
 static const json_character_flag json_flag_MYOPIC_IN_LIGHT( "MYOPIC_IN_LIGHT" );
@@ -315,6 +317,7 @@ static const json_character_flag json_flag_NO_DISEASE( "NO_DISEASE" );
 static const json_character_flag json_flag_NO_RADIATION( "NO_RADIATION" );
 static const json_character_flag json_flag_NO_THIRST( "NO_THIRST" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
+static const json_character_flag json_flag_PLANTBLOOD( "PLANTBLOOD" );
 static const json_character_flag json_flag_PRED2( "PRED2" );
 static const json_character_flag json_flag_PRED3( "PRED3" );
 static const json_character_flag json_flag_PRED4( "PRED4" );
@@ -325,6 +328,7 @@ static const json_character_flag json_flag_SUPER_CLAIRVOYANCE( "SUPER_CLAIRVOYAN
 static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
 static const json_character_flag json_flag_TOUGH_FEET( "TOUGH_FEET" );
 static const json_character_flag json_flag_UNCANNY_DODGE( "UNCANNY_DODGE" );
+static const json_character_flag json_flag_WALK_UNDERWATER( "WALK_UNDERWATER" );
 static const json_character_flag json_flag_WATCH( "WATCH" );
 static const json_character_flag json_flag_WEBBED_FEET( "WEBBED_FEET" );
 static const json_character_flag json_flag_WEBBED_HANDS( "WEBBED_HANDS" );
@@ -385,7 +389,6 @@ static const species_id species_HUMAN( "HUMAN" );
 
 static const start_location_id start_location_sloc_shelter( "sloc_shelter" );
 
-static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_ADRENALINE( "ADRENALINE" );
 static const trait_id trait_ANTENNAE( "ANTENNAE" );
 static const trait_id trait_BADBACK( "BADBACK" );
@@ -463,9 +466,6 @@ static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_STRONGBACK( "STRONGBACK" );
 static const trait_id trait_SUNLIGHT_DEPENDENT( "SUNLIGHT_DEPENDENT" );
 static const trait_id trait_THORNS( "THORNS" );
-static const trait_id trait_THRESH_CEPHALOPOD( "THRESH_CEPHALOPOD" );
-static const trait_id trait_THRESH_INSECT( "THRESH_INSECT" );
-static const trait_id trait_THRESH_PLANT( "THRESH_PLANT" );
 static const trait_id trait_THRESH_SPIDER( "THRESH_SPIDER" );
 static const trait_id trait_TRANSPIRATION( "TRANSPIRATION" );
 static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
@@ -648,7 +648,8 @@ int Character::get_oxygen_max() const
 
 bool Character::can_recover_oxygen() const
 {
-    return !has_effect( effect_grabbed, body_part_torso ) && !is_underwater();
+    return get_limb_score( limb_score_breathing ) > 0.5f && !is_underwater() &&
+           !has_effect_with_flag( json_flag_GRAB );
 }
 
 void Character::randomize_heartrate()
@@ -690,16 +691,16 @@ void Character::randomize_blood()
 
 field_type_id Character::bloodType() const
 {
-    if( has_trait( trait_ACIDBLOOD ) ) {
+    if( has_flag( json_flag_ACIDBLOOD ) ) {
         return fd_acid;
     }
-    if( has_trait( trait_THRESH_PLANT ) ) {
+    if( has_flag( json_flag_PLANTBLOOD ) ) {
         return fd_blood_veggy;
     }
-    if( has_trait( trait_THRESH_INSECT ) || has_trait( trait_THRESH_SPIDER ) ) {
+    if( has_flag( json_flag_INSECTBLOOD ) ) {
         return fd_blood_insect;
     }
-    if( has_trait( trait_THRESH_CEPHALOPOD ) ) {
+    if( has_flag( json_flag_INVERTERBRATEBLOOD ) ) {
         return fd_blood_invertebrate;
     }
     return fd_blood;
@@ -2441,16 +2442,9 @@ bool Character::practice( const skill_id &id, int amount, int cap, bool suppress
     if( has_trait( trait_PACIFIST ) && skill.is_combat_skill() ) {
         amount /= 3.0f;
     }
-    if( has_flag( json_flag_PRED2 ) && skill.is_combat_skill() ) {
-        catchup_modifier *= 2.0f;
-    }
-    if( has_flag( json_flag_PRED3 ) && skill.is_combat_skill() ) {
-        catchup_modifier *= 2.0f;
-    }
 
-    if( has_flag( json_flag_PRED4 ) && skill.is_combat_skill() ) {
-        catchup_modifier *= 3.0f;
-    }
+    catchup_modifier = enchantment_cache->modify_value( enchant_vals::mod::COMBAT_CATCHUP,
+                       catchup_modifier );
 
     if( isSavant && id != savantSkill ) {
         amount *= 0.5f;
@@ -3129,9 +3123,10 @@ std::string Character::enumerate_unmet_requirements( const item &it, const item 
 int Character::read_speed() const
 {
     // Stat window shows stat effects on based on current stat
-    const int intel = get_int();
-    /** @EFFECT_INT increases reading speed by 3s per level above 8*/
-    time_duration ret = 1_minutes - 3_seconds * ( intel - 8 );
+    const float intel = 2.0f + get_int() / 8.0f;
+    // 4 int = 72 seconds, 8 int = 60 seconds, 12 int = 51 seconds, 16 int = 45 seconds, 20 int = 40 seconds
+    /** @EFFECT_INT affects reading speed by an decreasing amount the higher intelligence goes, intially about 9% per point at 4 int to lower than 4% at 20+ int */
+    time_duration ret = 180_seconds / intel;
 
     if( has_bionic( afs_bio_linguistic_coprocessor ) ) { // Aftershock
         ret *= .85;
@@ -3206,10 +3201,6 @@ void Character::die( Creature *nkiller )
         }
     }
 
-    if( has_effect( effect_lightsnare ) ) {
-        inv->add_item( item( "string_36", calendar::turn_zero ) );
-        inv->add_item( item( "snare_trigger", calendar::turn_zero ) );
-    }
     if( has_effect( effect_heavysnare ) ) {
         inv->add_item( item( "rope_6", calendar::turn_zero ) );
         inv->add_item( item( "snare_trigger", calendar::turn_zero ) );
@@ -5294,7 +5285,7 @@ nc_color Character::symbol_color() const
 
     if( has_effect( effect_downed ) ) {
         return hilite( basic );
-    } else if( has_effect( effect_grabbed ) ) {
+    } else if( has_flag( json_flag_GRAB ) ) {
         return cyan_background( basic );
     }
 
@@ -6145,26 +6136,26 @@ void Character::mend_item( item_location &&obj, bool interactive )
         return;
     }
 
-    inventory inv = crafting_inventory();
+    const inventory &inv = crafting_inventory();
 
     struct mending_option {
         fault_id fault;
-        std::reference_wrapper<const mending_method> method;
+        std::reference_wrapper<const fault_fix> fix;
         bool doable;
     };
 
     std::vector<mending_option> mending_options;
     for( const fault_id &f : obj->faults ) {
-        for( const auto &m : f->mending_methods() ) {
-            mending_option opt{ f, m.second, true };
-            for( const auto &sk : m.second.skills ) {
-                if( get_skill_level( sk.first ) < sk.second ) {
+        for( const fault_fix_id &fix_id : f->get_fixes() ) {
+            const fault_fix &fix = *fix_id;
+            mending_option opt{ f, fix, true };
+            for( const auto &[skill_id, level] : fix.skills ) {
+                if( get_skill_level( skill_id ) < level ) {
                     opt.doable = false;
                     break;
                 }
             }
-            opt.doable = opt.doable &&
-                         m.second.get_requirements().can_make_with_inventory( inv, is_crafting_component );
+            opt.doable &= fix.get_requirements().can_make_with_inventory( inv, is_crafting_component );
             mending_options.emplace_back( opt );
         }
     }
@@ -6201,41 +6192,42 @@ void Character::mend_item( item_location &&obj, bool interactive )
         constexpr int fold_width = 80;
 
         for( const mending_option &opt : mending_options ) {
-            const mending_method &method = opt.method;
+            const fault_fix &fix = opt.fix;
             const nc_color col = opt.doable ? c_white : c_light_gray;
 
-            requirement_data reqs = method.get_requirements();
+            const requirement_data &reqs = fix.get_requirements();
             auto tools = reqs.get_folded_tools_list( fold_width, col, inv );
             auto comps = reqs.get_folded_components_list( fold_width, col, inv, is_crafting_component );
 
-            std::string descr = word_rewrap( method.description.translated(), 80 ) + "\n\n";
-            if( method.heal_stages.value_or( 0 ) > 0 ) {
-                descr += string_format( _( "<color_green>Repairs</color> item damage.\n" ) );
+            std::string descr = word_rewrap( opt.fault->description(), 80 ) + "\n\n";
+            for( const fault_id &fid : fix.faults_removed ) {
+                if( obj->has_fault( fid ) ) {
+                    descr += string_format( _( "Removes fault: <color_green>%s</color>\n" ), fid->name() );
+                } else {
+                    descr += string_format( _( "Removes fault: <color_light_gray>%s</color>\n" ), fid->name() );
+                }
             }
-            if( method.turns_into ) {
-                descr += string_format( _( "Turns into: <color_cyan>%s</color>\n" ),
-                                        method.turns_into->obj().name() );
+            for( const fault_id &fid : fix.faults_added ) {
+                descr += string_format( _( "Adds fault: <color_yellow>%s</color>\n" ), fid->name() );
             }
-            if( method.also_mends ) {
-                descr += string_format( _( "Also mends: <color_cyan>%s</color>\n" ),
-                                        method.also_mends->obj().name() );
+            if( fix.mod_damage > 0 ) {
+                descr += string_format( _( "<color_green>Repairs</color> %d damage.\n" ), fix.mod_damage );
+            } else if( fix.mod_damage < 0 ) {
+                descr += string_format( _( "<color_red>Applies</color> %d damage.\n" ), -fix.mod_damage );
             }
             descr += string_format( _( "Time required: <color_cyan>%s</color>\n" ),
-                                    to_string_approx( method.time ) );
-            if( method.skills.empty() ) {
+                                    to_string_approx( fix.time ) );
+            if( fix.skills.empty() ) {
                 descr += string_format( _( "Skills: <color_cyan>none</color>\n" ) );
             } else {
-                descr += string_format( _( "Skills: %s\n" ),
-                                        enumerate_as_string( method.skills.begin(), method.skills.end(),
-                [this]( const std::pair<skill_id, int> &sk ) -> std::string {
-                    if( get_skill_level( sk.first ) >= sk.second )
-                    {
+                descr += string_format( _( "Skills: %s\n" ), enumerate_as_string(
+                fix.skills.begin(), fix.skills.end(), [this]( const std::pair<skill_id, int> &sk ) {
+                    if( get_skill_level( sk.first ) >= sk.second ) {
                         return string_format( pgettext( "skill requirement",
                                                         //~ %1$s: skill name, %2$s: current skill level, %3$s: required skill level
                                                         "<color_cyan>%1$s</color> <color_green>(%2$d/%3$d)</color>" ),
                                               sk.first->name(), static_cast<int>( get_skill_level( sk.first ) ), sk.second );
-                    } else
-                    {
+                    } else {
                         return string_format( pgettext( "skill requirement",
                                                         //~ %1$s: skill name, %2$s: current skill level, %3$s: required skill level
                                                         "<color_cyan>%1$s</color> <color_red>(%2$d/%3$d)</color>" ),
@@ -6251,7 +6243,7 @@ void Character::mend_item( item_location &&obj, bool interactive )
                 descr += line + "\n";
             }
 
-            menu.addentry_desc( -1, true, -1, method.name.translated(), colorize( descr, col ) );
+            menu.addentry_desc( -1, true, -1, fix.name.translated(), colorize( descr, col ) );
         }
         menu.query();
         if( menu.ret < 0 ) {
@@ -6270,10 +6262,10 @@ void Character::mend_item( item_location &&obj, bool interactive )
             return;
         }
 
-        const mending_method &method = opt.method;
-        assign_activity( ACT_MEND_ITEM, to_moves<int>( method.time ) );
+        const fault_fix &fix = opt.fix;
+        assign_activity( ACT_MEND_ITEM, to_moves<int>( fix.time ) );
         activity.name = opt.fault.str();
-        activity.str_values.emplace_back( method.id );
+        activity.str_values.emplace_back( fix.id_ );
         activity.targets.push_back( std::move( obj ) );
     }
 }
@@ -6421,7 +6413,10 @@ void Character::burn_move_stamina( int moves )
     burn_ratio += overburden_percentage;
 
     ///\EFFECT_SWIMMING decreases stamina burn when swimming
+    //Appropriate traits let you walk along the bottom without getting as tired
     if( get_map().has_flag( ter_furn_flag::TFLAG_DEEP_WATER, pos() ) &&
+        ( !has_flag( json_flag_WALK_UNDERWATER ) ||
+          get_map().has_flag( ter_furn_flag::TFLAG_GOES_DOWN, pos() ) ) &&
         !get_map().has_flag_furn( "BRIDGE", pos() ) &&
         !( in_vehicle && get_map().veh_at( pos() )->vehicle().can_float() ) ) {
         burn_ratio += 100 / std::pow( 1.1, get_skill_level( skill_swimming ) );
@@ -6712,8 +6707,16 @@ int Character::item_handling_cost( const item &it, bool penalties, int base_cost
 
     if( weapon.typeId() == itype_e_handcuffs ) {
         mv *= 4;
-    } else if( penalties && has_effect( effect_grabbed ) ) {
-        mv *= 2;
+    } else if( penalties && has_flag( json_flag_GRAB ) ) {
+        // Grabbed penalty scales for grabbed arms/hands
+        int pen = 2;
+        for( const effect &eff : get_effects_with_flag( json_flag_GRAB ) ) {
+            if( eff.get_bp()->primary_limb_type() == body_part_type::type::arm ||
+                eff.get_bp()->primary_limb_type() == body_part_type::type::hand ) {
+                pen++;
+            }
+        }
+        mv *= pen;
     }
 
     // For single handed items use the least encumbered hand
@@ -7433,6 +7436,11 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
         return;
     }
 
+    // Creature attacking an invisible player will remain aware of their location as long as they keep hitting something
+    if( is_avatar() && source->is_monster() && source->has_effect( effect_stumbled_into_invisible ) ) {
+        source->as_monster()->stumble_invis( *this, false );
+    }
+
     if( is_npc() ) {
         as_npc()->on_attacked( *source );
     }
@@ -7633,7 +7641,7 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
     bool u_see = player_character.sees( *this );
     // FIXME: Hardcoded damage type
     int cut_dam = dealt_dams.type_damage( damage_cut );
-    if( source && has_trait( trait_ACIDBLOOD ) && !one_in( 3 ) &&
+    if( source && has_flag( json_flag_ACIDBLOOD ) && !one_in( 3 ) &&
         ( dam >= 4 || cut_dam > 0 ) && ( rl_dist( player_character.pos(), source->pos() ) <= 1 ) ) {
         if( is_avatar() ) {
             add_msg( m_good, _( "Your acidic blood splashes %s in mid-attack!" ),
@@ -7666,33 +7674,6 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
     // TODO: Scale with damage in a way that makes sense for power armors, plate armor and naked skin.
     recoil += recoil_mul * weapon.volume() / 250_ml;
     recoil = std::min( MAX_RECOIL, recoil );
-    //looks like this should be based off of dealt damages, not d as d has no damage reduction applied.
-    // Skip all this if the damage isn't from a creature. e.g. an explosion.
-    if( source != nullptr ) {
-        // TODO: is this code used anymore? It seems like it is now covered in the monattack file
-        if( source->has_flag( MF_GRABS ) && !source->is_hallucination() &&
-            !source->has_effect( effect_grabbing ) ) {
-            /** @EFFECT_DEX increases chance to avoid being grabbed */
-            const bool dodged_grab = rng( 0, get_dex() ) > rng( 0, 10 );
-
-            if( has_grab_break_tec() && dodged_grab ) {
-                if( has_effect( effect_grabbed ) ) {
-                    add_msg_if_player( m_warning, _( "The %s tries to grab you as well, but you bat it away!" ),
-                                       source->disp_name() );
-                } else {
-                    add_msg_player_or_npc( m_info, _( "The %s tries to grab you, but you break its grab!" ),
-                                           _( "The %s tries to grab <npcname>, but they break its grab!" ),
-                                           source->disp_name() );
-                }
-            } else {
-                const int prev_effect = get_effect_int( effect_grabbed, body_part_torso );
-                add_effect( effect_grabbed, 2_turns,  body_part_torso, false, prev_effect + 2 );
-                source->add_effect( effect_grabbing, 2_turns );
-                add_msg_player_or_npc( m_bad, _( "You are grabbed by %s!" ), _( "<npcname> is grabbed by %s!" ),
-                                       source->disp_name() );
-            }
-        }
-    }
 
     int sum_cover = 0;
     bool dealt_melee = false;
@@ -9912,10 +9893,10 @@ void Character::process_effects()
         remove_effect( effect_paincysts );
         add_msg_if_player( m_good, _( "Something writhes inside of you as it dies." ) );
     }
-    if( has_trait( trait_ACIDBLOOD ) && ( has_effect( effect_dermatik ) ||
-                                          has_effect( effect_bloodworms ) ||
-                                          has_effect( effect_blood_spiders ) ||
-                                          has_effect( effect_brainworms ) ) ) {
+    if( has_flag( json_flag_ACIDBLOOD ) && ( has_effect( effect_dermatik ) ||
+            has_effect( effect_bloodworms ) ||
+            has_effect( effect_blood_spiders ) ||
+            has_effect( effect_brainworms ) ) ) {
         remove_effect( effect_dermatik );
         remove_effect( effect_bloodworms );
         remove_effect( effect_blood_spiders );
@@ -11857,11 +11838,6 @@ void Character::pause()
                                    _( "You attempt to put out the fire on you!" ),
                                    _( "<npcname> attempts to put out the fire on them!" ) );
         }
-    }
-
-    // Try to break free from grabs
-    if( has_effect( effect_grabbed ) ) {
-        try_remove_grab();
     }
 
     // put pressure on bleeding wound, prioritizing most severe bleeding that you can compress

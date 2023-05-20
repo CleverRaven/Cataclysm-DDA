@@ -10,7 +10,7 @@
     "id": "NC_SOLDIER_shirt",
     "subtype": "distribution",
     "entries": [
-      { "item": "army_top", "prob": 20 },
+      { "item": "tank_top", "variant": "tank_top_camo", "prob": 20 },
       { "item": "tshirt", "prob": 20 },
       { "item": "polo_shirt", "prob": 20 },
       { "item": "longshirt", "prob": 20 }

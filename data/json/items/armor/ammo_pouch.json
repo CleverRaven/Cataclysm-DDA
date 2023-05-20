@@ -61,11 +61,12 @@
           "762R": 60,
           "paintball": 60
         },
-        "moves": 35
+        "moves": 35,
+        "volume_encumber_modifier": 0.3
       }
     ],
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "PALS_LARGE" ],
-    "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ],
+    "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ],
     "melee_damage": { "bash": 1 }
   },
   {
@@ -223,7 +224,8 @@
         "max_contains_weight": "2 kg",
         "moves": 60,
         "flag_restriction": [ "JAVELIN" ],
-        "max_item_length": "150 cm"
+        "max_item_length": "150 cm",
+        "volume_encumber_modifier": 0.3
       },
       {
         "pocket_type": "CONTAINER",
@@ -232,7 +234,8 @@
         "max_contains_weight": "2 kg",
         "moves": 60,
         "flag_restriction": [ "JAVELIN" ],
-        "max_item_length": "150 cm"
+        "max_item_length": "150 cm",
+        "volume_encumber_modifier": 0.3
       },
       {
         "pocket_type": "CONTAINER",
@@ -241,7 +244,8 @@
         "max_contains_weight": "2 kg",
         "moves": 60,
         "flag_restriction": [ "JAVELIN" ],
-        "max_item_length": "150 cm"
+        "max_item_length": "150 cm",
+        "volume_encumber_modifier": 0.3
       },
       {
         "pocket_type": "CONTAINER",
@@ -250,7 +254,8 @@
         "max_contains_weight": "2 kg",
         "moves": 60,
         "flag_restriction": [ "JAVELIN" ],
-        "max_item_length": "150 cm"
+        "max_item_length": "150 cm",
+        "volume_encumber_modifier": 0.3
       },
       {
         "pocket_type": "CONTAINER",
@@ -259,12 +264,13 @@
         "max_contains_weight": "2 kg",
         "moves": 60,
         "flag_restriction": [ "JAVELIN" ],
-        "max_item_length": "150 cm"
+        "max_item_length": "150 cm",
+        "volume_encumber_modifier": 0.3
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stash javelins", "holster_msg": "You stash your %s." },
     "flags": [ "WATER_FRIENDLY", "OVERSIZE", "BELTED" ],
-    "armor": [ { "encumbrance": 10, "coverage": 60, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+    "armor": [ { "encumbrance": 5, "coverage": 60, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {
     "id": "legpouch",
@@ -514,7 +520,8 @@
         "max_contains_volume": "1000 ml",
         "max_contains_weight": "2 kg",
         "max_item_length": "30 cm",
-        "moves": 50
+        "moves": 50,
+        "volume_encumber_modifier": 0.3
       },
       {
         "pocket_type": "CONTAINER",
@@ -523,7 +530,8 @@
         "max_contains_volume": "1 L",
         "max_contains_weight": "2 kg",
         "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
-        "moves": 60
+        "moves": 60,
+        "volume_encumber_modifier": 0.25
       },
       {
         "pocket_type": "CONTAINER",
@@ -532,7 +540,8 @@
         "max_contains_volume": "1 L",
         "max_contains_weight": "2 kg",
         "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
-        "moves": 60
+        "moves": 60,
+        "volume_encumber_modifier": 0.25
       },
       {
         "pocket_type": "CONTAINER",
@@ -541,7 +550,8 @@
         "max_contains_volume": "800 ml",
         "max_contains_weight": "1600 g",
         "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
-        "moves": 60
+        "moves": 60,
+        "volume_encumber_modifier": 0.25
       },
       {
         "pocket_type": "CONTAINER",
@@ -550,7 +560,8 @@
         "max_contains_volume": "800 ml",
         "max_contains_weight": "1600 g",
         "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
-        "moves": 60
+        "moves": 60,
+        "volume_encumber_modifier": 0.25
       },
       {
         "pocket_type": "CONTAINER",
@@ -559,12 +570,17 @@
         "max_contains_volume": "800 ml",
         "max_contains_weight": "1600 g",
         "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
-        "moves": 60
+        "moves": 60,
+        "volume_encumber_modifier": 0.25
       },
-      { "ammo_restriction": { "410shot": 6, "shot": 6, "20x66mm": 6, "signal_flare": 6 }, "moves": 25 }
+      {
+        "ammo_restriction": { "410shot": 6, "shot": 6, "20x66mm": 6, "signal_flare": 6 },
+        "moves": 25,
+        "volume_encumber_modifier": 0.2
+      }
     ],
     "flags": [ "WATER_FRIENDLY", "BELTED" ],
-    "armor": [ { "encumbrance": [ 2, 14 ], "coverage": 85, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
+    "armor": [ { "encumbrance": 2, "coverage": 85, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
   },
   {
     "id": "xl_tacvest",

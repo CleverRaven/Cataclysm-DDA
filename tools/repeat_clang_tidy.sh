@@ -46,7 +46,7 @@ plugin_lib="$top_dir/build/tools/clang-tidy-plugin/libCataAnalyzerPlugin.so"
 plugin_opt=
 if [ -r "$plugin_lib" ]
 then
-    plugin_opt="-plugins=$plugin_lib"
+    plugin_opt="-load=$plugin_lib"
 fi
 
 temp_file=$(mktemp)

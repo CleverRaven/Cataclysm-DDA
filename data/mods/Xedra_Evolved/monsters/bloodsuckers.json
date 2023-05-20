@@ -32,16 +32,17 @@
     "vision_night": 15,
     "harvest": "demihuman",
     "path_settings": { "max_dist": 5 },
+    "grab_strength": 20,
     "special_attacks": [
       {
-        "type": "bite",
+        "id": "bite_humanoid",
         "cooldown": 10,
         "damage_max_instance": [ { "damage_type": "stab", "amount": 10, "armor_multiplier": 0.2 } ]
       },
-      [ "GRAB", 7 ]
+      { "id": "grab", "cooldown": 7 }
     ],
     "death_drops": "default_moroi_death_drops",
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "REVIVES", "PUSH_MON", "VAMP_VIRUS" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "GRABS", "WARM", "BASHES", "REVIVES", "PUSH_MON", "VAMP_VIRUS" ],
     "armor": { "bash": 15, "cut": 5, "bullet": 14, "electric": 6 }
   },
   {
@@ -77,17 +78,18 @@
     "vision_night": 15,
     "harvest": "demihuman",
     "path_settings": { "max_dist": 5 },
+    "grab_strength": 20,
     "special_attacks": [
       { "type": "leap", "cooldown": 10, "max_range": 5, "min_consider_range": 2, "max_consider_range": 15 },
       {
-        "type": "bite",
+        "id": "bite_humanoid",
         "cooldown": 10,
         "damage_max_instance": [ { "damage_type": "stab", "amount": 10, "armor_multiplier": 0.2 } ]
       },
-      [ "GRAB", 7 ]
+      { "id": "grab", "cooldown": 7 }
     ],
     "death_drops": "default_moroi_death_drops",
-    "flags": [ "SEES", "HEARS", "SMELLS", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY", "VAMP_VIRUS" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "BASHES", "GRABS", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY", "VAMP_VIRUS" ],
     "armor": { "bash": 25, "cut": 8, "bullet": 24, "electric": 14 }
   },
   {

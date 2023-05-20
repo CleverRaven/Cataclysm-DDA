@@ -235,6 +235,7 @@ Note that **all new traits that can be obtained through mutation must be purifia
       }
     ]
   ],
+  "activated_is_setup": true,                 // If this is true the bellow activated EOC runs then the mutation turns on for processing every turn. If this is false the below "activated_eocs" will run and then the mod will turn itself off.
   "activated_eocs": [ "eoc_id_1" ],           // List of effect_on_conditions that attempt to activate when this mutation is successfully activated.
   "processed_eocs": [ "eoc_id_1" ],           // List of effect_on_conditions that attempt to activate every time (defined above) units of time. Time of 0 means every turn it processes.
   "deactivated_eocs": [ "eoc_id_1" ],         // List of effect_on_conditions that attempt to activate when this mutation is successfully deactivated.

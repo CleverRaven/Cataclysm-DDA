@@ -1,4 +1,4 @@
-// RUN: %check_clang_tidy %s cata-use-localized-sorting %t -- -plugins=%cata_plugin -- -isystem %cata_include
+// RUN: %check_clang_tidy %s cata-use-localized-sorting %t -- --load=%cata_plugin -- -isystem %cata_include
 
 namespace std
 {

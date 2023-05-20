@@ -287,6 +287,8 @@ std::string action_ident( action_id act )
             return "autosafe";
         case ACTION_TOGGLE_THIEF_MODE:
             return "toggle_thief_mode";
+        case ACTION_TOGGLE_LANGUAGE_TO_EN:
+            return "toggle_language_to_en";
         case ACTION_IGNORE_ENEMY:
             return "ignore_enemy";
         case ACTION_WHITELIST_ENEMY:

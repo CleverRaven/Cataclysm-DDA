@@ -216,7 +216,6 @@
         ]
       },
       "nested": { "=": { "chunks": [ [ "null", 70 ], [ "pile_bodybag_corpses", 30 ] ] } },
-      "place_loot": [ { "group": "autodoc_installation_programs", "x": 1, "y": [ 12, 14 ], "chance": 75, "repeat": 3 } ],
       "computers": {
         "6": {
           "name": "Centrifuge",

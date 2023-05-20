@@ -93,7 +93,7 @@ std::string vehicle::part_id_string( const int p, char &part_mod, bool below_roo
         part_mod = 2;
     }
 
-    return vp.id.str() + ( vp.variant.empty() ?  "" : "_" + vp.variant );
+    return vp.info().get_id().str() + ( vp.variant.empty() ?  "" : "_" + vp.variant );
 }
 
 nc_color vehicle::part_color( const int p, const bool exact, const bool include_fake ) const

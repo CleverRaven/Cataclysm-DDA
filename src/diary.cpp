@@ -657,7 +657,7 @@ void diary::delete_page()
 
 void diary::export_to_txt( bool lastexport )
 {
-    cata::ofstream myfile;
+    std::ofstream myfile;
     std::string path = lastexport ? PATH_INFO::memorialdir() : PATH_INFO::world_base_save_path();
     path += "/" + owner + "s_diary.txt";
     myfile.open( fs::u8path( path ) );

@@ -382,7 +382,7 @@ void worldfactory::init()
 
     // This returns files as well, but they are going to be discarded later as
     // we look for files *within* these dirs. If it's a file, there won't be
-    // be any of those inside it and is_save_dir will return false.
+    // any files inside it and is_save_dir will return false.
     for( const std::string &dir : get_files_from_path( "", PATH_INFO::savedir(), false ) ) {
         if( !is_save_dir( dir ) ) {
             continue;

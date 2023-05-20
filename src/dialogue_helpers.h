@@ -20,7 +20,7 @@ using trial_mod = std::pair<std::string, int>;
 
 struct talk_effect_fun_t {
     private:
-        std::function<void( dialogue const &d )> function;
+        std::function<void( dialogue &d )> function;
         std::vector<std::pair<int, itype_id>> likely_rewards;
 
     public:
@@ -48,14 +48,17 @@ struct talk_effect_fun_t {
         void set_offer_mission( const JsonObject &jo, const std::string &member );
         void set_make_sound( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_run_eocs( const JsonObject &jo, std::string_view member );
+        void set_run_eoc_with( const JsonObject &jo, std::string_view member );
         void set_run_npc_eocs( const JsonObject &jo, std::string_view member, bool is_npc );
         void set_queue_eocs( const JsonObject &jo, std::string_view member );
+        void set_queue_eoc_with( const JsonObject &jo, std::string_view member );
         void set_switch( const JsonObject &jo, std::string_view member );
         void set_roll_remainder( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_weighted_list_eocs( const JsonObject &jo, std::string_view member );
         void set_mod_healthy( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_cast_spell( const JsonObject &jo, std::string_view member, bool is_npc,
                              bool targeted = false );
+        void set_die( bool is_npc );
         void set_lightning();
         void set_next_weather();
         void set_hp( const JsonObject &jo, const std::string &member, bool is_npc );
@@ -106,6 +109,7 @@ struct talk_effect_fun_t {
         void set_arithmetic( const JsonObject &jo, std::string_view member, bool no_result );
         void set_math( const JsonObject &jo, std::string_view member );
         void set_set_string_var( const JsonObject &jo, const std::string &member );
+        void set_set_condition( const JsonObject &jo, const std::string &member );
         void set_custom_light_level( const JsonObject &jo, const std::string &member );
         void set_spawn_monster( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_spawn_npc( const JsonObject &jo, const std::string &member, bool is_npc );
@@ -115,7 +119,7 @@ struct talk_effect_fun_t {
         void set_open_dialogue( const JsonObject &jo, std::string_view member );
         void set_take_control( const JsonObject &jo );
         void set_take_control_menu();
-        void operator()( dialogue const &d ) const {
+        void operator()( dialogue &d ) const {
             if( !function ) {
                 return;
             }
@@ -139,6 +143,7 @@ struct str_or_var {
     std::optional<std::string> str_val;
     std::optional<var_info> var_val;
     std::optional<std::string> default_val;
+    std::optional<std::function<std::string( const dialogue & )>> function;
     std::string evaluate( dialogue const &d ) const;
 };
 
@@ -162,14 +167,16 @@ struct eoc_math {
         equal_or_less,
         greater,
         equal_or_greater,
+
+        invalid,
     };
-    math_exp lhs;
-    math_exp mhs;
-    math_exp rhs;
-    eoc_math::oper action;
+    std::shared_ptr<math_exp> lhs;
+    std::shared_ptr<math_exp> mhs;
+    std::shared_ptr<math_exp> rhs;
+    eoc_math::oper action = oper::invalid;
 
     void from_json( const JsonObject &jo, std::string_view member );
-    double act( dialogue const &d ) const;
+    double act( dialogue &d ) const;
 };
 
 struct dbl_or_var_part {
@@ -178,14 +185,14 @@ struct dbl_or_var_part {
     std::optional<double> default_val;
     std::optional<talk_effect_fun_t> arithmetic_val;
     std::optional<eoc_math> math_val;
-    double evaluate( dialogue const &d ) const;
+    double evaluate( dialogue &d ) const;
 };
 
 struct dbl_or_var {
     bool pair = false;
     dbl_or_var_part min;
     dbl_or_var_part max;
-    double evaluate( dialogue const &d ) const;
+    double evaluate( dialogue &d ) const;
 };
 
 struct duration_or_var_part {
@@ -194,14 +201,14 @@ struct duration_or_var_part {
     std::optional<time_duration> default_val;
     std::optional<talk_effect_fun_t> arithmetic_val;
     std::optional<eoc_math> math_val;
-    time_duration evaluate( dialogue const &d ) const;
+    time_duration evaluate( dialogue &d ) const;
 };
 
 struct duration_or_var {
     bool pair = false;
     duration_or_var_part min;
     duration_or_var_part max;
-    time_duration evaluate( dialogue const &d ) const;
+    time_duration evaluate( dialogue &d ) const;
 };
 
 #endif // CATA_SRC_DIALOGUE_HELPERS_H

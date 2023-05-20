@@ -218,7 +218,7 @@ bool vehicle::player_in_control( const Character &p ) const
     if( vp && &vp->vehicle() == this &&
         p.controlling_vehicle &&
         ( ( part_with_feature( vp->mount(), "CONTROL_ANIMAL", true ) >= 0 &&
-            has_engine_type( fuel_type_animal, false ) && has_harnessed_animal() ) ||
+            has_engine_type( fuel_type_animal, false ) && get_harnessed_animal() ) ||
           ( part_with_feature( vp->part_index(), VPFLAG_CONTROLS, false ) >= 0 ) )
       ) {
         return true;
@@ -965,7 +965,7 @@ bool vehicle::is_alternator_on( const vehicle_part &vp ) const
             && vp_engine.enabled
             && fuel_left( vp_engine.fuel_current() )
             && !vp_engine.has_fault_flag( "NO_ALTERNATOR_CHARGE" ) ) {
-            return true; // the engine can drive it's alternator
+            return true; // the engine can drive its alternator
         }
     }
     return false;
@@ -1011,43 +1011,32 @@ const vpart_info &vehicle::part_info( int index, bool include_removed ) const
 units::power vehicle::part_vpower_w( const vehicle_part &vp, const bool at_full_hp ) const
 {
     const vpart_info &vpi = vp.info();
+    const int vp_index = index_of_part( &vp );
     units::power pwr = vpi.power;
     if( vpi.has_flag( VPFLAG_ENGINE ) ) {
-        if( pwr == 0_W ) {
-            pwr = vp.base.engine_displacement() * 373_W;
-        }
         if( vpi.fuel_type == fuel_type_animal ) {
-            monster *mon = get_monster( index_of_part( &vp ) );
-            if( mon != nullptr && mon->has_effect( effect_harnessed ) ) {
-                // An animal that can carry twice as much weight, can pull a cart twice as hard.
-                pwr = units::from_watt( mon->get_speed() * ( mon->get_size() - 1 ) * 3
-                                        * ( mon->get_mountable_weight_ratio() * 5 ) );
-            } else {
-                pwr = 0_W;
+            int factor = 0;
+            if( const monster *mon = get_monster( vp_index ); mon && mon->has_effect( effect_harnessed ) ) {
+                factor += mon->get_size() - 1;
+                factor *= mon->get_speed();
+                factor *= mon->get_mountable_weight_ratio();
             }
-        }
-        // Weary multiplier
-        const float weary_mult = get_player_character().exertion_adjusted_move_multiplier();
-        ///\EFFECT_STR increases power produced for MUSCLE_* vehicles
-        pwr += units::from_watt( get_player_character().str_cur - 8 ) * vpi.engine_muscle_power_factor() *
-               weary_mult;
-        /// wind-powered vehicles have differing power depending on wind direction
-        if( vpi.fuel_type == fuel_type_wind ) {
-            weather_manager &weather = get_weather();
-            int windpower = weather.windspeed;
-            rl_vec2d windvec;
-            double raddir = ( ( weather.winddirection + 180 ) % 360 ) * ( M_PI / 180 );
-            windvec = windvec.normalized();
-            windvec.y = -std::cos( raddir );
-            windvec.x = std::sin( raddir );
-            rl_vec2d fv = face_vec();
-            double dot = windvec.dot_product( fv );
-            if( dot <= 0 ) {
-                dot = std::min( -0.1, dot );
-            } else {
-                dot = std::max( 0.1, dot );
+            pwr = 15_W * factor;
+        } else if( vpi.fuel_type == fuel_type_muscle ) {
+            if( const Character *muscle_user = get_passenger( vp_index ) ) {
+                ///\EFFECT_STR increases power produced for MUSCLE_* vehicles
+                const float muscle_multiplier = muscle_user->str_cur - 8;
+                const float weary_multiplier = muscle_user->exertion_adjusted_move_multiplier();
+                const float engine_multiplier = vpi.engine_muscle_power_factor();
+                pwr += units::from_watt( muscle_multiplier * weary_multiplier * engine_multiplier );
             }
-            units::power windeffectint = units::from_watt( ( windpower * dot ) * 200 );
+        } else if( vpi.fuel_type == fuel_type_wind ) {
+            /// wind-powered vehicles have differing power depending on wind direction
+            const weather_manager &weather = get_weather();
+            const double raddir = ( ( weather.winddirection + 180 ) % 360 ) * ( M_PI / 180 );
+            const rl_vec2d windvec( std::sin( raddir ), -std::cos( raddir ) );
+            const double dot = windvec.dot_product( face_vec() );
+            const units::power windeffectint = units::from_watt( weather.windspeed * dot * 200 );
             pwr = std::max( 1_W, pwr + windeffectint );
         }
     }
@@ -1113,57 +1102,63 @@ bool vehicle::is_structural_part_removed() const
     return false;
 }
 
-/**
- * Returns whether or not the vehicle part with the given id can be mounted in
- * the specified square.
- * @param dp The local coordinate to mount in.
- * @param id The id of the part to install.
- * @return true if the part can be mounted, false if not.
- */
-bool vehicle::can_mount( const point &dp, const vpart_id &id ) const
+ret_val<void> vehicle::can_mount( const point &dp, const vpart_info &vpi ) const
 {
-    //The part has to actually exist.
-    if( !id.is_valid() ) {
-        return false;
+    const std::vector<int> parts_in_square = parts_at_relative( dp,
+            /* use_cache = */ false, /* include_fake = */ false );
+
+    if( parts_in_square.empty() ) {
+        // First part in an empty square MUST be a structural part or be an appliance
+        if( vpi.location != part_location_structure ) {
+            return ret_val<void>::make_failure( _( "There's no structure to support it." ) );
+        }
+    } else {
+        const vpart_info &vpi_first_in_square = part( parts_in_square[0] ).info();
+        // Parts can't be placed on tiles with an animal harness or protrusions
+        if( vpi_first_in_square.has_flag( "ANIMAL_CTRL" ) ||
+            vpi_first_in_square.has_flag( "PROTRUSION" ) ) {
+            return ret_val<void>::make_failure( _( "%s is in the way." ), vpi_first_in_square.name() );
+        }
     }
 
-    //It also has to be a real part, not the null part
-    const vpart_info &part = id.obj();
-    if( part.has_flag( "NOINSTALL" ) ) {
-        return false;
-    }
-
-    const std::vector<int> parts_in_square = parts_at_relative( dp, false, false );
-
-    //First part in an empty square MUST be a structural part or be an appliance
-    if( parts_in_square.empty() &&  part.location != part_location_structure &&
-        !part.has_flag( flag_APPLIANCE ) ) {
-        return false;
-    }
-    // If its a part that harnesses animals that don't allow placing on it.
-    if( !parts_in_square.empty() && part_info( parts_in_square[0] ).has_flag( "ANIMAL_CTRL" ) ) {
-        return false;
-    }
-    //No other part can be placed on a protrusion
-    if( !parts_in_square.empty() && part_info( parts_in_square[0] ).has_flag( "PROTRUSION" ) ) {
-        return false;
-    }
-
-    //No part type can stack with itself, or any other part in the same slot
-    for( const int &elem : parts_in_square ) {
-        const vpart_info &other_part = parts[elem].info();
-
-        //Parts with no location can stack with each other (but not themselves)
-        if( part.get_id() == other_part.get_id() ||
-            ( !part.location.empty() && part.location == other_part.location ) ) {
-            return false;
+    for( const int elem : parts_in_square ) {
+        const vpart_info &vpi_other = part( elem ).info();
+        // No part type can stack with itself, except power cables
+        if( vpi.get_id() == vpi_other.get_id() && !vpi.has_flag( "POWER_TRANSFER" ) ) {
+            return ret_val<void>::make_failure( _( "%s is already installed here." ), vpi.name() );
+        }
+        // Only parts with empty or different locations can be on same tile
+        if( !vpi.location.empty() && vpi.location == vpi_other.location ) {
+            const std::string loc = string_replace( vpi.location, "_", " " ); // slightly more user friendly
+            //~ %1$s - already installed part name, %2$s - part location name
+            return ret_val<void>::make_failure( _( "The installed %1$s already occupies the '%2$s' location." ),
+                                                vpi_other.name(), loc );
         }
         // Until we have an interface for handling multiple components with CARGO space,
         // exclude them from being mounted in the same tile.
-        if( part.has_flag( "CARGO" ) && other_part.has_flag( "CARGO" ) ) {
-            return false;
+        if( vpi.has_flag( VPFLAG_CARGO ) && vpi_other.has_flag( VPFLAG_CARGO ) ) {
+            return ret_val<void>::make_failure(
+                       _( "There can't be two cargo parts on the same tile.  "
+                          "Part conflicts with existing %1$s." ), vpi_other.name() );
         }
-
+        // Mirrors cannot be mounted on OPAQUE parts
+        if( vpi.has_flag( "VISION" ) && !vpi.has_flag( "CAMERA" ) ) {
+            if( vpi_other.has_flag( VPFLAG_OPAQUE ) ) {
+                return ret_val<void>::make_failure( _( "Mirrors cannot be mounted on opaque parts." ) );
+            }
+        }
+        // Opaque parts cannot be mounted on mirrors parts
+        if( vpi.has_flag( VPFLAG_OPAQUE ) ) {
+            if( vpi_other.has_flag( "VISION" ) && !vpi_other.has_flag( "CAMERA" ) ) {
+                return ret_val<void>::make_failure( _( "Opaque parts cannot be mounted on mirror parts." ) );
+            }
+        }
+        // Turret mounts must NOT be installed on other (modded) turret mounts
+        if( vpi.has_flag( "TURRET_MOUNT" ) ) {
+            if( vpi_other.has_flag( "TURRET_MOUNT" ) ) {
+                return ret_val<void>::make_failure( _( "Only one turret mount can be installed." ) );
+            }
+        }
     }
 
     // All parts after the first must be installed on or next to an existing part
@@ -1175,61 +1170,50 @@ bool vehicle::can_mount( const point &dp, const vpart_id &id ) const
             !has_structural_part( dp + point_south ) &&
             !has_structural_part( dp + point_west ) &&
             !has_structural_part( dp + point_north ) ) {
-            return false;
+            return ret_val<void>::make_failure( _( "Part needs to be adjacent to or on existing structure." ) );
         }
     }
 
-    // only one exclusive engine allowed
-    std::string empty;
-    if( has_engine_conflict( &part, empty ) ) {
-        return false;
+    std::string engine_conflict;
+    if( has_engine_conflict( &vpi, engine_conflict ) ) {
+        return ret_val<void>::make_failure( _( "Engine conflict: %s." ), engine_conflict );
     }
 
     // Check all the flags of the part to see if they require other flags
     // If other flags are required check if those flags are present
-    for( const std::string &flag : part.get_flags() ) {
-        if( !json_flag::get( flag ).requires_flag().empty() ) {
-            bool anchor_found = false;
-            for( const int &elem : parts_in_square ) {
-                if( part_info( elem ).has_flag( json_flag::get( flag ).requires_flag() ) ) {
-                    anchor_found = true;
-                }
+    for( const std::string &flag : vpi.get_flags() ) {
+        const std::string &required_flag = json_flag::get( flag ).requires_flag();
+        if( required_flag.empty() ) {
+            continue;
+        }
+        const bool flag_found = std::any_of( parts_in_square.begin(), parts_in_square.end(),
+        [this, &required_flag]( int elem ) {
+            return part( elem ).info().has_flag( required_flag );
+        } );
+        if( flag_found ) {
+            continue;
+        }
+        std::set<std::string> possible_parts;
+        for( const auto&[id, vpi_option] : vpart_info::all() ) {
+            if( vpi_option.has_flag( required_flag ) &&
+                !vpi_option.has_flag( "NO_INSTALL_PLAYER" ) &&
+                !vpi_option.has_flag( "NO_INSTALL_HIDDEN" ) ) {
+                possible_parts.emplace( vpi_option.name() );
             }
-            if( !anchor_found ) {
-                return false;
-            }
+        }
+        if( possible_parts.empty() ) {
+            return ret_val<void>::make_failure( "%s flag required but no parts provide it, this is a bug",
+                                                required_flag );
+        } else if( possible_parts.size() == 1 ) {
+            return ret_val<void>::make_failure( _( "Part requires %s." ), *possible_parts.begin() );
+        } else {
+            return ret_val<void>::make_failure( _( "Part requires any of: %s." ),
+                                                enumerate_as_string( possible_parts, enumeration_conjunction::or_ ) );
         }
     }
 
-    //Mirrors cannot be mounted on OPAQUE parts
-    if( part.has_flag( "VISION" ) && !part.has_flag( "CAMERA" ) ) {
-        for( const int &elem : parts_in_square ) {
-            if( part_info( elem ).has_flag( "OPAQUE" ) ) {
-                return false;
-            }
-        }
-    }
-    //Opaque parts cannot be mounted on mirrors parts
-    if( part.has_flag( "OPAQUE" ) ) {
-        for( const int &elem : parts_in_square ) {
-            if( part_info( elem ).has_flag( "VISION" ) &&
-                !part_info( elem ).has_flag( "CAMERA" ) ) {
-                return false;
-            }
-        }
-    }
-
-    //Turret mounts must NOT be installed on other (modded) turret mounts
-    if( part.has_flag( "TURRET_MOUNT" ) ) {
-        for( const int &elem : parts_in_square ) {
-            if( part_info( elem ).has_flag( "TURRET_MOUNT" ) ) {
-                return false;
-            }
-        }
-    }
-
-    //Anything not explicitly denied is permitted
-    return true;
+    // Anything not explicitly denied is permitted
+    return ret_val<void>::make_success();
 }
 
 bool vehicle::can_unmount( const int p ) const
@@ -1378,9 +1362,9 @@ bool vehicle::is_connected( const vehicle_part &to, const vehicle_part &from,
             vehicle_part vp_next = parts[ parts_there[ 0 ] ];
 
             if( vp_next.info().location != part_location_structure || // not a structure part
-                vp_next.info().has_flag( "PROTRUSION" ) ||            // protrusions are not really structure
-                vp_next.has_flag( vp_flag::carried_flag ) ) {    // carried frames are not structure
-                continue; // can't connect if it's not structure
+                vp_next.info().has_flag( "PROTRUSION" ) ||            // protrusions are not really a structure
+                vp_next.has_flag( vp_flag::carried_flag ) ) {         // carried frames are not a structure
+                continue; // can't connect if it's not a structure
             }
 
             if( visited.insert( vp_next.mount ).second ) { // .second is false if already in visited
@@ -1396,39 +1380,30 @@ bool vehicle::is_appliance() const
     return has_tag( flag_APPLIANCE );
 }
 
-/**
- * Installs a part into this vehicle.
- * @param dp The coordinate of where to install the part.
- * @param id The string ID of the part to install. (see vehicle_parts.json)
- * @param force Skip check of whether we can mount the part here.
- * @return false if the part could not be installed, true otherwise.
- */
-int vehicle::install_part( const point &dp, const vpart_id &id, const std::string &variant_id,
-                           bool force )
+int vehicle::install_part( const point &dp, const vpart_id &type )
 {
-    if( !( force || can_mount( dp, id ) ) ) {
-        return -1;
-    }
-    return install_part( dp, vehicle_part( id, variant_id, dp, item( id.obj().base_item ) ) );
+    return install_part( dp, type, item( type.obj().base_item ) );
 }
 
-int vehicle::install_part( const point &dp, const vpart_id &id, item &&obj,
-                           const std::string &variant_id, bool force )
+int vehicle::install_part( const point &dp, const vpart_id &type, item &&base )
 {
-    if( !( force || can_mount( dp, id ) ) ) {
-        return -1;
-    }
-    return install_part( dp, vehicle_part( id, variant_id, dp, std::move( obj ) ) );
+    return install_part( dp, vehicle_part( type, std::move( base ) ) );
 }
 
-int vehicle::install_part( const point &dp, const vehicle_part &new_part )
+int vehicle::install_part( const point &dp, vehicle_part &&vp )
 {
+    const vpart_info &vpi = vp.info();
+    const ret_val<void> valid_mount = can_mount( dp, vpi );
+    if( !valid_mount.success() ) {
+        debugmsg( "installing %s would make invalid vehicle: %s", vpi.get_id().str(), valid_mount.str() );
+        return -1;
+    }
     // Should be checked before installing the part
     bool enable = false;
-    if( new_part.is_engine() ) {
+    if( vp.is_engine() ) {
         enable = true;
         // if smart controller is enabled there is charge in battery, no need to test it
-        if( has_enabled_smart_controller && !engine_on && new_part.info().fuel_type == fuel_type_battery &&
+        if( has_enabled_smart_controller && !engine_on && vpi.fuel_type == fuel_type_battery &&
             !has_available_electric_engine() ) {
             engine_on = true;
             sfx::do_vehicle_engine_sfx();
@@ -1460,7 +1435,7 @@ int vehicle::install_part( const point &dp, const vehicle_part &new_part )
         };
 
         for( const std::string &flag : enable_like ) {
-            if( new_part.info().has_flag( flag ) ) {
+            if( vpi.has_flag( flag ) ) {
                 enable = has_part( flag, true );
                 break;
             }
@@ -1468,17 +1443,13 @@ int vehicle::install_part( const point &dp, const vehicle_part &new_part )
     }
     // refresh will add them back if needed
     remove_fake_parts( true );
-    parts.push_back( new_part );
-    vehicle_part &pt = parts.back();
-    int new_part_index = parts.size() - 1;
-
-    pt.enabled = enable;
-
-    pt.mount = dp;
-
+    vehicle_part &vp_installed = parts.emplace_back( std::move( vp ) );
+    vp_installed.enabled = enable;
+    vp_installed.mount = dp;
+    const int vp_installed_index = parts.size() - 1;
     refresh();
     coeff_air_changed = true;
-    return new_part_index;
+    return vp_installed_index;
 }
 
 std::vector<vehicle::rackable_vehicle> vehicle::find_vehicles_to_rack( int rack ) const
@@ -1538,16 +1509,16 @@ std::vector<vehicle::unrackable_vehicle> vehicle::find_vehicles_to_unrack( int r
     for( const std::vector<int> &rack_parts : find_lines_of_parts( rack, "BIKE_RACK_VEH" ) ) {
         unrackable_vehicle unrackable;
 
-        // a racked vehicle is "finished" by collecting all of it's carried parts and carrying racks
+        // a racked vehicle is "finished" by collecting all of its carried parts and carrying racks
         // involved, if any parts have been collected add them to the lists and clear the temporary
-        // variables for next carried vehicle
+        // variables for the next carried vehicle
         const auto commit_vehicle = [&]() {
             if( unrackable.racks.empty() ) {
                 return; // not valid unrackable
             }
 
-            // 2 results with same name is either a bug or this rack is a "corner" that scanned
-            // the vehicle twice: once on correct axis and once on wrong axis resulting in a 1 tile
+            // 2 results with the same name either indicate a bug or this rack is a "corner" that scanned
+            // the vehicle twice: once on the correct axis and once on the wrong axis resulting in a 1 tile
             // slice see #47374 for more details. Keep the longest of the two "slices".
             const auto same_name = std::find_if( unrackables.begin(), unrackables.end(),
             [name = unrackable.name]( const unrackable_vehicle & v ) {
@@ -1872,7 +1843,7 @@ bool vehicle::remove_part( const int p, RemovePartHandler &handler )
     if( parts[p].has_flag( vp_flag::animal_flag ) ) {
         item base = parts[p].get_base();
         handler.spawn_animal_from_part( base, part_loc );
-        parts[p].set_base( base );
+        parts[p].set_base( std::move( base ) );
         parts[p].remove_flag( vp_flag::animal_flag );
     }
 
@@ -2905,10 +2876,8 @@ std::vector<std::vector<int>> vehicle::find_lines_of_parts(
     std::vector<int> x_parts;
     std::vector<int> y_parts;
 
-    if( parts[part].is_fake ) {
-        // start from the real part, otherwise it fails in certain orientations
-        part = parts[part].fake_part_to;
-    }
+    // start from the real part, otherwise it fails in certain orientations
+    part = get_non_fake_part( part );
 
     vpart_id part_id = part_info( part ).get_id();
     // create vectors of parts on the same X or Y axis
@@ -3014,25 +2983,14 @@ int vehicle::part_at( const point &dp ) const
     return -1;
 }
 
-/**
- * Given a vehicle part which is inside of this vehicle, returns the index of
- * that part. This exists solely because activities relating to vehicle editing
- * require the index of the vehicle part to be passed around.
- * @param part The part to find.
- * @param check_removed Check whether this part can be removed
- * @return The part index, -1 if it is not part of this vehicle.
- */
-int vehicle::index_of_part( const vehicle_part *const part, const bool check_removed ) const
+int vehicle::index_of_part( const vehicle_part *part, bool include_removed ) const
 {
-    if( part != nullptr ) {
-        for( const vpart_reference &vp : get_all_parts() ) {
-            const vehicle_part &next_part = vp.part();
-            if( !check_removed && next_part.removed ) {
-                continue;
-            }
-            if( part->id == next_part.id && part->mount == vp.mount() ) {
-                return vp.part_index();
-            }
+    if( !part || ( !include_removed && part->removed ) ) {
+        return -1;
+    }
+    for( size_t i = 0; i < parts.size(); i++ ) {
+        if( &parts[i] == part ) {
+            return static_cast<int>( i );
         }
     }
     return -1;
@@ -3909,14 +3867,15 @@ int vehicle::wheel_area() const
     return total_area;
 }
 
-float vehicle::average_or_rating() const
+float vehicle::average_offroad_rating() const
 {
     if( wheelcache.empty() ) {
         return 0.0f;
     }
     float total_rating = 0.0f;
-    for( const int &wheel_index : wheelcache ) {
-        total_rating += part_info( wheel_index ).wheel_or_rating();
+    for( const int wheel_index : wheelcache ) {
+        const vehicle_part &vp = part( wheel_index );
+        total_rating += vp.info().wheel_offroad_rating();
     }
     return total_rating / wheelcache.size();
 }
@@ -4113,7 +4072,7 @@ double vehicle::coeff_rolling_drag() const
     if( wheelcache.empty() ) {
         wheel_factor = 50;
     } else {
-        // should really sum the each wheel's c_rolling_resistance * it's share of vehicle mass
+        // should really sum each wheel's c_rolling_resistance * its share of vehicle mass
         for( int wheel : wheelcache ) {
             wheel_factor += parts[ wheel ].info().wheel_rolling_resistance();
         }
@@ -4538,21 +4497,18 @@ float vehicle::steering_effectiveness() const
     if( steering.empty() ) {
         return -1.0f; // No steering installed
     }
-    // If the only steering part is an animal harness, with no animal in, it
-    // is not steerable.
-    const vehicle_part &vp = parts[ steering[0] ];
-    if( steering.size() == 1 && vp.info().fuel_type == fuel_type_animal ) {
-        monster *mon = get_monster( steering[0] );
-        if( mon == nullptr || !mon->has_effect( effect_harnessed ) ) {
-            return -2.0f;
-        }
+    // no steering if only steering part is animal harness without animal in it
+    const vehicle_part &vp = parts[steering[0]];
+    if( steering.size() == 1 && vp.info().fuel_type == fuel_type_animal && !get_harnessed_animal() ) {
+        return -2.0f;
     }
     // For now, you just need one wheel working for 100% effective steering.
     // TODO: return something less than 1.0 if the steering isn't so good
     // (unbalanced, long wheelbase, back-heavy vehicle with front wheel steering,
     // etc)
-    for( int p : steering ) {
-        if( parts[ p ].is_available() ) {
+    for( const int p : steering ) {
+        const vehicle_part &vp = parts[p];
+        if( vp.is_available() ) {
             return 1.0f;
         }
     }
@@ -4818,7 +4774,7 @@ units::power vehicle::total_solar_epower() const
     }
     // Weather doesn't change much across the area of the vehicle, so just
     // sample it once.
-    weather_type_id wtype = current_weather( global_pos3() );
+    weather_type_id wtype = current_weather( global_square_location() );
     const float intensity = incident_sun_irradiance( wtype, calendar::turn ) / max_sun_irradiance();
     return epower * intensity;
 }
@@ -4837,7 +4793,7 @@ units::power vehicle::total_wind_epower() const
             continue;
         }
 
-        int windpower = get_local_windpower( weather.windspeed, cur_om_ter, pos,
+        int windpower = get_local_windpower( weather.windspeed, cur_om_ter, here.getglobal( pos ),
                                              weather.winddirection, false );
         if( windpower <= ( weather.windspeed / 10.0 ) ) {
             continue;
@@ -5800,25 +5756,20 @@ void vehicle::gain_moves()
     }
 }
 
-void vehicle::dump_items_from_part( const size_t index )
-{
-    map &here = get_map();
-    vehicle_part &vp = parts[ index ];
-    for( item &e : vp.items ) {
-        here.add_item_or_charges( global_part_pos3( vp ), e );
-    }
-    vp.items.clear();
-}
-
 bool vehicle::decrement_summon_timer()
 {
     if( !summon_time_limit ) {
         return false;
     }
     if( *summon_time_limit <= 0_turns ) {
-        for( const vpart_reference &vp : get_all_parts() ) {
-            const size_t p = vp.part_index();
-            dump_items_from_part( p );
+        map &here = get_map();
+        for( const vpart_reference &vpr : get_all_parts() ) {
+            vehicle_part &vp = vpr.part();
+            const tripoint_bub_ms pos = bub_part_pos( vp );
+            for( item &it : vp.items ) {
+                here.add_item_or_charges( pos, it );
+            }
+            vp.items.clear();
         }
         add_msg_if_player_sees( global_pos3(), m_info, _( "Your %s winks out of existence." ), name );
         get_map().destroy_vehicle( this );
@@ -7505,7 +7456,7 @@ void vehicle::update_time( const time_point &update_to )
     }
     // Get one weather data set per vehicle, they don't differ much across vehicle area
     const weather_sum accum_weather = sum_conditions( update_from, update_to,
-                                      global_square_location().raw() );
+                                      global_square_location() );
     // make some reference objects to use to check for reload
     const item water( "water" );
     const item water_clean( "water_clean" );
@@ -7707,19 +7658,15 @@ const vehicle_part &vehicle::part( int part_num ) const
     return parts[part_num];
 }
 
-int vehicle::get_non_fake_part( const int part_num )
+int vehicle::get_non_fake_part( const int part_num ) const
 {
-    if( part_num != -1 && part_num < part_count() ) {
-        const vehicle_part &vp = parts.at( part_num );
-        if( vp.is_fake ) {
-            return vp.fake_part_to;
-        } else {
-            return part_num;
-        }
+    if( part_num < 0 || part_num >= part_count() ) {
+        debugmsg( "get_non_fake_part(%d) returning -1 on '%s', which has %d parts.",
+                  part_num, disp_name(), parts.size() );
+        return -1;
     }
-    debugmsg( "Returning -1 for get_non_fake_part on part_num %d on %s, which has %d parts.", part_num,
-              disp_name(), parts.size() );
-    return -1;
+    const vehicle_part &vp = parts[part_num];
+    return vp.is_fake ? vp.fake_part_to : part_num;
 }
 
 vehicle_part_range vehicle::get_all_parts() const

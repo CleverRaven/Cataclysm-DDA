@@ -18,7 +18,7 @@ struct icg_entry {
     item_group_id item_group;
     std::string message;
 
-    std::function<bool( const dialogue & )> condition;
+    std::function<bool( dialogue & )> condition;
 
     bool operator==( icg_entry const &rhs ) const;
     bool matches( item const &it, npc const &beta ) const;

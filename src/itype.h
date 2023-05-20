@@ -135,11 +135,8 @@ struct islot_comestible {
         /** Time until becomes rotten at standard temperature, or zero if never spoils */
         time_duration spoils = 0_turns;
 
-        /** addiction potential */
-        int addict = 0;
-
-        /** effects of addiction */
-        addiction_id add = addiction_id::NULL_ID();
+        /** list of addictions and their potential */
+        std::map<addiction_id, int> addictions;
 
         /** stimulant effect */
         int stim = 0;
@@ -199,6 +196,9 @@ struct islot_comestible {
     private:
         /** effect on morale when consuming */
         int fun = 0;
+
+        /** addiction potential to use when an addiction was given without one */
+        int default_addict_potential = 0;
 };
 
 struct islot_brewable {
@@ -867,6 +867,9 @@ struct islot_gunmod : common_ranged_data {
     /** Not compatible on weapons that have this mod slot */
     std::set<gunmod_location> blacklist_mod;
 
+    // hard coded barrel length from this mod
+    units::length barrel_length = 0_mm;
+
     // minimum recoil to cycle while this is installed
     int overwrite_min_cycle_recoil = -1;
 };
@@ -1081,6 +1084,23 @@ class islot_milling
         void deserialize( const JsonObject &jo );
 };
 
+struct memory_card_info {
+    float data_chance;
+    itype_id on_read_convert_to;
+
+    float photos_chance;
+    int photos_amount;
+
+    float songs_chance;
+    int songs_amount;
+
+    float recipes_chance;
+    int recipes_amount;
+    int recipes_level_min;
+    int recipes_level_max;
+    std::set<std::string> recipes_categories;
+};
+
 struct itype {
         friend class Item_factory;
         friend struct mod_tracker;
@@ -1239,6 +1259,8 @@ struct itype {
         FlagsSetType item_tags;
 
     public:
+        // memory card related per-type static data
+        cata::value_ptr<memory_card_info> memory_card_data;
         // How should the item explode
         explosion_data explosion;
 

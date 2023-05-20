@@ -131,19 +131,18 @@
     "harvest": "arachnid",
     "special_attacks": [
       {
-        "type": "bite",
+        "id": "bite_grab",
         "cooldown": 20,
         "accuracy": 6,
         "damage_max_instance": [
           { "damage_type": "stab", "amount": 3, "armor_multiplier": 0.5 },
           { "damage_type": "bash", "amount": 5, "armor_multiplier": 0.5 }
         ],
-        "effects": [ { "id": "grabbed", "duration": 1000, "bp": "torso" } ],
         "infection_chance": 50
       }
     ],
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "GRABS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ],
     "armor": { "bash": 10, "cut": 12, "bullet": 10, "electric": 2 }
   },
   {
@@ -230,13 +229,14 @@
     "color": "light_gray",
     "melee_dice": 2,
     "bleed_rate": 60,
+    "grab_strength": 75,
     "special_attacks": [
       { "id": "smash", "throw_strength": 48, "cooldown": 30 },
       [ "BIO_OP_TAKEDOWN", 20 ],
-      [ "RANGED_PULL", 20 ],
-      [ "GRAB", 5 ]
+      { "id": "ranged_pull", "cooldown": 20 },
+      { "id": "grab", "cooldown": 5 }
     ],
-    "extend": { "flags": [ "DESTROYS", "PUSH_MON", "PUSH_VEH", "RANGED_ATTACKER" ] },
+    "extend": { "flags": [ "DESTROYS", "GRABS", "PUSH_MON", "PUSH_VEH", "RANGED_ATTACKER" ] },
     "armor": { "bash": 10, "cut": 12, "bullet": 10, "electric": 4 }
   },
   {
