@@ -7940,7 +7940,7 @@
       { "point": [ -1, 1, 0 ], "overmap": "valhallist_left_corner_north" }
     ],
     "locations": [ "land" ],
-    "city_distance": [ 5, -1 ],
+    "city_distance": [ 5, 10 ],
     "occurrences": [ 90, 100 ],
     "eoc": { "id": "EOC_VALHALLA_CULT_GENERATE", "condition": { "days_since_cataclysm": 30 } },
     "flags": [ "CLASSIC", "GLOBALLY_UNIQUE", "SAFE_AT_WORLDGEN", "MAN_MADE" ]

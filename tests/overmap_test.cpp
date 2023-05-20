@@ -41,6 +41,14 @@ static const oter_type_str_id oter_type_s_gas_g0_roof( "s_gas_g0_roof" );
 static const oter_type_str_id oter_type_s_gas_g1( "s_gas_g1" );
 static const oter_type_str_id oter_type_s_gas_g1_roof( "s_gas_g1_roof" );
 static const oter_type_str_id oter_type_s_restaurant_deserted_test( "s_restaurant_deserted_test" );
+static const oter_type_str_id oter_type_valhallist_henge( "valhallist_henge" );
+static const oter_type_str_id oter_type_valhallist_long_wall( "valhallist_long_wall" );
+static const oter_type_str_id oter_type_valhallist_longhouse( "valhallist_longhouse" );
+static const oter_type_str_id oter_type_valhallist_enter( "valhallist_enter" );
+static const oter_type_str_id oter_type_svalhallist_right_corner_up( "valhallist_right_corner_up" );
+static const oter_type_str_id oter_type_valhallist_left_corner_up( "valhallist_left_corner_up" );
+static const oter_type_str_id oter_type_svalhallist_right_corner( "valhallist_right_corner" );
+static const oter_type_str_id oter_type_valhallist_left_corner( "valhallist_left_corner" );
 
 static const overmap_special_id overmap_special_Cabin( "Cabin" );
 static const overmap_special_id overmap_special_Lab( "Lab" );
@@ -311,6 +319,14 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
         oter_type_s_gas_g1.id(),
         oter_type_s_gas_g1_roof.id(),
         oter_type_s_restaurant_deserted_test.id(), // only in the desert test region
+        oter_type_valhallist_henge.id(), // valhallists are a rare thing
+        oter_type_valhallist_long_wall.id(),
+        oter_type_valhallist_longhouse.id(),
+        oter_type_valhallist_enter.id(),
+        oter_type_valhallist_right_corner_up.id(),
+        oter_type_valhallist_left_corner_up.id(),
+        oter_type_valhallist_right_corner.id(),
+        oter_type_valhallist_left_corner.id()
     };
 
     std::unordered_set<oter_type_id> done;
