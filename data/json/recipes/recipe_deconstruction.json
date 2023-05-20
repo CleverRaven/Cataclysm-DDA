@@ -127,7 +127,7 @@
     "result": "corkscrew",
     "time": "6 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "scrap", 1 ] ] ]
+    "components": [ [ [ "scrap", 2 ] ] ]
   },
   {
     "result": "cufflinks",
