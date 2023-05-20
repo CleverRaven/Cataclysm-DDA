@@ -118,6 +118,7 @@ static const itype_id itype_oxygen_tank( "oxygen_tank" );
 static const itype_id itype_smoxygen_tank( "smoxygen_tank" );
 
 static const json_character_flag json_flag_ALBINO( "ALBINO" );
+static const json_character_flag json_flag_DAYFEAR( "DAYFEAR" );
 static const json_character_flag json_flag_GILLS( "GILLS" );
 static const json_character_flag json_flag_GLARE_RESIST( "GLARE_RESIST" );
 static const json_character_flag json_flag_GRAB( "GRAB" );
@@ -898,6 +899,13 @@ void suffer::in_sunlight( Character &you )
         you.add_miss_reason( _( "The sunlight distracts you." ), 1 );
         you.mod_int_bonus( -1 );
         you.mod_per_bonus( -1 );
+    }
+    if( you.has_flag( json_flag_DAYFEAR ) ) {
+        you.mod_str_bonus( -2 );
+        you.mod_dex_bonus( -2 );
+        you.add_miss_reason( _( "You fear the sunlight!" ), 2 );
+        you.mod_int_bonus( -2 );
+        you.mod_per_bonus( -2 );
     }
     if( you.has_trait( trait_TROGLO3 ) ) {
         you.mod_str_bonus( -4 );
