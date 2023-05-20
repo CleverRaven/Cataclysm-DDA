@@ -217,7 +217,7 @@ static bool in_spell_aoe( const tripoint &start, const tripoint &end, const int 
     const std::vector<tripoint> trajectory = line_to( start, end );
     bool pl = false;
     for( const tripoint &pt : trajectory ) {
-        if (pl == true) {
+        if( pl == true ) {
             return false;
         }
         if( here.impassable( pt ) ) {
