@@ -2169,9 +2169,9 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
                 if( subtile == open_ ) {
                     sym = '\'';
                 } else if( subtile == broken ) {
-                    sym = v.sym_broken;
+                    sym = v.get_symbol_broken();
                 } else {
-                    sym = v.sym;
+                    sym = v.get_symbol();
                     if( !vpid_data.second.empty() ) {
                         const auto &var_data = v.symbols.find( vpid_data.second );
                         if( var_data != v.symbols.end() ) {
