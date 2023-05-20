@@ -7,7 +7,7 @@
     "looks_like": "pillow",
     "description": "A simple cotton pillowcase.",
     "weight": "136 g",
-    "volume": "120 ml",
+    "volume": "90 ml",
     "price": 650,
     "price_postapoc": 2,
     "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
