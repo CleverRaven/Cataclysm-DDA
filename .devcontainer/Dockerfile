@@ -1,7 +1,7 @@
 FROM mcr.microsoft.com/devcontainers/cpp:0-ubuntu-22.04
 
 # NOTE: Uninstall CMake extensions
-# This is not CDDAs prefered method and it's confusing to have both in the editor
+# This is not a supported method by CDDA maintainers and it's confusing have this in the editor
 # TODO: Not possible yet, waiting on upstream. 
 # Considered trying to get cheeky and deleting the folder but I believe that is held on the host
 # This would require building out a more full featured container. Easier to wait and see. 
