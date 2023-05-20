@@ -512,7 +512,7 @@
       {
         "id": "acr",
         "name": { "str": "Remington ACR" },
-        "description": "This carbine was developed for military use in the early 21st century.  It is damaging and accurate, though its rate of fire is a bit slower than competing carbines."
+        "description": "This carbine was developed for military use in the early 21st century.  It is damaging and accurate, though its rate of fire is a bit slower than competing carbines.",
 	      "barrel_length": "419 mm",
       }
     ],
