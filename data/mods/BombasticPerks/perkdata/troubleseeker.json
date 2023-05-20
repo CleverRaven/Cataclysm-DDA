@@ -2,6 +2,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_troubleseeking",
+   "u_message": "You suddently feel that you have found some trouble.",
     "effect": [
       {
         "u_spawn_monster": "mon_zombie",
