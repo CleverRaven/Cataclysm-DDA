@@ -12,7 +12,6 @@
     "price": 40000,
     "price_postapoc": 750,
     "to_hit": -3,
-    "bashing": 12,
     "material": [ "steel", "wood" ],
     "ammo": [ "40x46mm" ],
     "dispersion": 550,
@@ -21,7 +20,6 @@
     "clip_size": 1,
     "reload": 350,
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "barrel", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
@@ -30,7 +28,8 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "40x46mm": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "40x46mm": 1 } } ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "m320",
@@ -45,7 +44,6 @@
     "price": 850000,
     "price_postapoc": 2250,
     "to_hit": -3,
-    "bashing": 6,
     "material": [ "steel" ],
     "symbol": "(",
     "ammo": [ "40x46mm" ],
@@ -54,7 +52,8 @@
     "blackpowder_tolerance": 60,
     "clip_size": 1,
     "reload": 150,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "40x46mm": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "40x46mm": 1 } } ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "m79",
@@ -69,7 +68,6 @@
     "price": 400000,
     "price_postapoc": 2500,
     "to_hit": -3,
-    "bashing": 12,
     "material": [ "steel", "wood" ],
     "ammo": [ "40x46mm" ],
     "ranged_damage": { "damage_type": "bullet", "amount": 3 },
@@ -79,7 +77,6 @@
     "clip_size": 1,
     "reload": 250,
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "barrel", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
@@ -88,7 +85,8 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "40x46mm": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "40x46mm": 1 } } ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "mgl",
@@ -103,7 +101,6 @@
     "price": 1040000,
     "price_postapoc": 5000,
     "to_hit": -3,
-    "bashing": 12,
     "material": [ "steel" ],
     "ammo": [ "40x46mm" ],
     "dispersion": 270,
@@ -112,7 +109,6 @@
     "clip_size": 6,
     "reload": 300,
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "barrel", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
@@ -121,7 +117,8 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "40x46mm": 6 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "40x46mm": 6 } } ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "rm802",
@@ -137,7 +134,6 @@
     "price": 2920000,
     "price_postapoc": 8000,
     "to_hit": -1,
-    "bashing": 8,
     "material": [ "superalloy", "ceramic" ],
     "ammo": [ "40x46mm" ],
     "dispersion": 140,
@@ -145,7 +141,6 @@
     "blackpowder_tolerance": 60,
     "clip_size": 4,
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "brass catcher", 1 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],
@@ -157,7 +152,8 @@
       [ "underbarrel", 1 ]
     ],
     "flags": [ "RELOAD_ONE", "WATERPROOF_GUN", "NEVER_JAMS" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "40x46mm": 4 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "40x46mm": 4 } } ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "triple_launcher_simple",
@@ -184,7 +180,6 @@
     "price": 250000,
     "price_postapoc": 4500,
     "to_hit": -1,
-    "bashing": 14,
     "material": [ "steel" ],
     "ammo": [ "40x46mm" ],
     "range": 30,
@@ -196,6 +191,7 @@
     "modes": [ [ "DEFAULT", "semi-auto", 1, "NPC_AVOID" ] ],
     "clip_size": 6,
     "flags": [ "MOUNTED_GUN" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "40x46mm": 6 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "40x46mm": 6 } } ],
+    "melee_damage": { "bash": 14 }
   }
 ]

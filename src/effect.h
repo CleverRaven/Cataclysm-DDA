@@ -149,8 +149,8 @@ class effect_type
 
         /** Loading helper functions */
         void load_mod_data( const JsonObject &jo );
-        bool load_miss_msgs( const JsonObject &jo, const std::string &member );
-        bool load_decay_msgs( const JsonObject &jo, const std::string &member );
+        bool load_miss_msgs( const JsonObject &jo, std::string_view member );
+        bool load_decay_msgs( const JsonObject &jo, std::string_view member );
 
         /** Verifies data is accurate */
         static void check_consistency();

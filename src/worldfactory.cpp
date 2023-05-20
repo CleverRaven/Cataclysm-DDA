@@ -382,7 +382,7 @@ void worldfactory::init()
 
     // This returns files as well, but they are going to be discarded later as
     // we look for files *within* these dirs. If it's a file, there won't be
-    // be any of those inside it and is_save_dir will return false.
+    // any files inside it and is_save_dir will return false.
     for( const std::string &dir : get_files_from_path( "", PATH_INFO::savedir(), false ) ) {
         if( !is_save_dir( dir ) ) {
             continue;
@@ -1367,7 +1367,7 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
         if( navigate_ui_list( action, cursel[active_header], scroll_rate, recmax, true ) ) {
             recalc_start = true;
         } else if( action == "LEFT" || action == "RIGHT" ) {
-            active_header = increment_and_wrap( active_header, action == "RIGHT", headers.size() );
+            active_header = inc_clamp_wrap( active_header, action == "RIGHT", headers.size() );
             recalc_start = true;
         } else if( action == "CONFIRM" ) {
             const std::vector<mod_id> &current_tab_mods = all_tabs[iCurrentTab].mods;
@@ -2071,7 +2071,7 @@ size_t worldfactory::get_world_index( const std::string &name )
 }
 
 // Helper predicate to exclude files from deletion when resetting a world directory.
-static bool isForbidden( const std::string &candidate )
+static bool isForbidden( const std::string_view candidate )
 {
     return candidate.find( PATH_INFO::worldoptions() ) != std::string::npos ||
            candidate.find( "mods.json" ) != std::string::npos;

@@ -107,7 +107,7 @@ void option_slider::check_consistency()
     }
 }
 
-void option_slider::load( const JsonObject &jo, const std::string & )
+void option_slider::load( const JsonObject &jo, const std::string_view )
 {
     mandatory( jo, was_loaded, "name", _name );
     optional( jo, was_loaded, "default", _default_level, 0 );
@@ -3742,7 +3742,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
 
     if( lang_changed ) {
         update_global_locale();
-        set_language();
+        set_language_from_options();
     }
     calendar::set_eternal_season( ::get_option<bool>( "ETERNAL_SEASON" ) );
     calendar::set_season_length( ::get_option<int>( "SEASON_LENGTH" ) );

@@ -138,7 +138,7 @@
         "using": [ [ "repair_welding_standard", 1 ] ]
       }
     },
-    "flags": [ "CARGO", "BOARDABLE" ],
+    "flags": [ "CARGO" ],
     "damage_reduction": { "all": 6 }
   },
   {

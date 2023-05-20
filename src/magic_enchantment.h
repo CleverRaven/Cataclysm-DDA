@@ -115,7 +115,10 @@ enum class mod : int {
     ITEM_ATTACK_SPEED,
     CLIMATE_CONTROL_HEAT,
     CLIMATE_CONTROL_CHILL,
+    COMBAT_CATCHUP,
     FALL_DAMAGE,
+    FORCEFIELD,
+    EVASION,
     OVERKILL_DAMAGE,
     NUM_MOD
 };
@@ -143,12 +146,12 @@ class enchantment
 
         static void load_enchantment( const JsonObject &jo, const std::string &src );
         static void reset();
-        void load( const JsonObject &jo, const std::string &src = "",
+        void load( const JsonObject &jo, std::string_view src = {},
                    const std::optional<std::string> &inline_id = std::nullopt, bool is_child = false );
 
         // Takes in a JsonValue which can be either a string or an enchantment object and returns the id of the enchantment the caller will use.
         // If the input is a string return it as an enchantment_id otherwise create an enchantment with id inline_id and return inline_id as an enchantment id
-        static enchantment_id load_inline_enchantment( const JsonValue &jv, const std::string &src,
+        static enchantment_id load_inline_enchantment( const JsonValue &jv, std::string_view src,
                 std::string &inline_id );
 
         // this enchantment has a valid condition and is in the right location
@@ -212,7 +215,7 @@ class enchantment
         std::map<time_duration, std::vector<fake_spell>> intermittent_activation;
 
         std::pair<has, condition> active_conditions;
-        std::function<bool( const dialogue & )> dialog_condition; // NOLINT(cata-serialize)
+        std::function<bool( dialogue & )> dialog_condition; // NOLINT(cata-serialize)
 
         void add_activation( const time_duration &dur, const fake_spell &fake );
 };
@@ -259,7 +262,7 @@ class enchant_cache : public enchantment
         void add_value_mult( enchant_vals::mod value, float mult_value );
         void add_hit_you( const fake_spell &sp );
         void add_hit_me( const fake_spell &sp );
-        void load( const JsonObject &jo, const std::string &src = "",
+        void load( const JsonObject &jo, std::string_view src = {},
                    const std::optional<std::string> &inline_id = std::nullopt );
         bool operator==( const enchant_cache &rhs ) const;
 

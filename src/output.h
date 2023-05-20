@@ -174,14 +174,14 @@ std::string rm_prefix( std::string str, char c1 = '<', char c2 = '>' );
  * If color_error == report_color_error::yes a debugmsg will be shown when the tag is not valid.
  */
 color_tag_parse_result::tag_type update_color_stack(
-    std::stack<nc_color> &color_stack, const std::string &seg,
+    std::stack<nc_color> &color_stack, std::string_view seg,
     report_color_error color_error = report_color_error::yes );
 
 /**
  * Removes the color tags from the input string. This might be required when the string is to
  * be used for functions that don't handle color tags.
  */
-std::string remove_color_tags( const std::string &s );
+std::string remove_color_tags( std::string_view s );
 /*@}*/
 
 /**
@@ -208,7 +208,7 @@ std::vector<std::string> foldstring( const std::string &str, int width, char spl
  * @param base_color Base color that is used outside of any color tag.
  **/
 void print_colored_text( const catacurses::window &w, const point &p, nc_color &cur_color,
-                         const nc_color &base_color, const std::string &text,
+                         const nc_color &base_color, std::string_view text,
                          report_color_error color_error = report_color_error::yes );
 /**
  * Print word wrapped text (with @ref color_tags) into the window.
@@ -361,7 +361,7 @@ inline void mvwprintz( const catacurses::window &w, const point &p, const nc_col
 
 void wprintz( const catacurses::window &w, const nc_color &FG, const std::string &text );
 template<typename ...Args>
-inline void wprintz( const catacurses::window &w, const nc_color &FG, const char *const mes,
+inline void wprintz( const catacurses::window &w, const nc_color &FG, std::string_view mes,
                      Args &&... args )
 {
     wprintz( w, FG, string_format( mes, std::forward<Args>( args )... ) );
@@ -418,8 +418,8 @@ class border_helper
 };
 
 std::string word_rewrap( const std::string &ins, int width, uint32_t split = ' ' );
-std::vector<size_t> get_tag_positions( const std::string &s );
-std::vector<std::string> split_by_color( const std::string &s );
+std::vector<size_t> get_tag_positions( std::string_view s );
+std::vector<std::string> split_by_color( std::string_view s );
 
 bool query_yn( const std::string &text );
 template<typename ...Args>
@@ -435,7 +435,7 @@ inline bool query_int( int &result, const char *const msg, Args &&... args )
     return query_int( result, string_format( msg, std::forward<Args>( args )... ) );
 }
 
-std::vector<std::string> get_hotkeys( const std::string &s );
+std::vector<std::string> get_hotkeys( std::string_view s );
 
 /**
  * @name Popup windows
@@ -576,11 +576,11 @@ int special_symbol( int sym );
 int special_symbol( char sym );
 
 // Remove spaces from the start and the end of a string.
-std::string trim( const std::string &s );
+std::string trim( std::string_view s );
 // Removes trailing periods and exclamation marks.
-std::string trim_trailing_punctuations( const std::string &s );
+std::string trim_trailing_punctuations( std::string_view s );
 // Removes all punctuation except underscore.
-std::string remove_punctuations( const std::string &s );
+std::string remove_punctuations( std::string_view s );
 // Converts the string to upper case.
 std::string to_upper_case( const std::string &s );
 
@@ -758,7 +758,7 @@ std::string get_labeled_bar( double val, int width, const std::string &label,
  */
 std::string get_labeled_bar( double val, int width, const std::string &label, char c );
 
-void draw_tab( const catacurses::window &w, int iOffsetX, const std::string &sText,
+void draw_tab( const catacurses::window &w, int iOffsetX, std::string_view sText,
                bool bSelected );
 inclusive_rectangle<point> draw_subtab( const catacurses::window &w, int iOffsetX,
                                         const std::string &sText, bool bSelected,
@@ -1125,7 +1125,7 @@ extern scrollingcombattext SCT;
 
 std::string wildcard_trim_rule( const std::string &pattern_in );
 bool wildcard_match( const std::string &text_in, const std::string &pattern_in );
-int ci_find_substr( const std::string &str1, const std::string &str2,
+int ci_find_substr( std::string_view str1, std::string_view str2,
                     const std::locale &loc = std::locale() );
 
 std::string format_volume( const units::volume &volume );

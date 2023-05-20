@@ -225,7 +225,7 @@ const int spell_type::base_energy_cost_default = 0;
 const float spell_type::energy_increment_default = 0.0f;
 const trait_id spell_type::spell_class_default = trait_NONE;
 const magic_energy_type spell_type::energy_source_default = magic_energy_type::none;
-const damage_type spell_type::dmg_type_default = damage_type::NONE;
+const damage_type_id spell_type::dmg_type_default = damage_type_id::NULL_ID();
 const int spell_type::difficulty_default = 0;
 const int spell_type::max_level_default = 0;
 const int spell_type::base_casting_time_default = 0;
@@ -265,7 +265,7 @@ static std::string moves_to_string( const int moves )
     }
 }
 
-void spell_type::load( const JsonObject &jo, const std::string & )
+void spell_type::load( const JsonObject &jo, const std::string_view )
 {
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "description", description );
@@ -538,8 +538,7 @@ void spell_type::serialize( JsonOut &json ) const
     json.member( "spell_class", spell_class, spell_class_default );
     json.member( "energy_source", io::enum_to_string( energy_source ),
                  io::enum_to_string( energy_source_default ) );
-    json.member( "damage_type", io::enum_to_string( dmg_type ),
-                 io::enum_to_string( dmg_type_default ) );
+    json.member( "damage_type", dmg_type, dmg_type_default );
     json.member( "difficulty", static_cast<int>( difficulty.min.dbl_val.value() ), difficulty_default );
     json.member( "max_level", static_cast<int>( max_level.min.dbl_val.value() ), max_level_default );
     json.member( "base_casting_time", static_cast<int>( base_casting_time.min.dbl_val.value() ),
@@ -1013,7 +1012,7 @@ int spell::energy_cost( const Character &guy ) const
     } else {
         cost = type->base_energy_cost.evaluate( d );
     }
-    if( !has_flag( spell_flag::NO_HANDS ) ) {
+    if( !has_flag( spell_flag::NO_HANDS ) && !guy.has_flag( json_flag_SUBTLE_SPELL ) ) {
         // the first 10 points of combined encumbrance is ignored, but quickly adds up
         const int hands_encumb = std::max( 0,
                                            guy.avg_encumb_of_limb_type( body_part_type::type::hand ) - 5 );
@@ -1128,7 +1127,7 @@ int spell::casting_time( const Character &guy, bool ignore_encumb ) const
                                               guy.avg_encumb_of_limb_type( body_part_type::type::leg ) - 10 );
             casting_time += legs_encumb * 3;
         }
-        if( has_flag( spell_flag::SOMATIC ) ) {
+        if( has_flag( spell_flag::SOMATIC ) && !guy.has_flag( json_flag_SUBTLE_SPELL ) ) {
             // the first 20 points of encumbrance combined is ignored
             const int arms_encumb = std::max( 0,
                                               guy.avg_encumb_of_limb_type( body_part_type::type::arm ) - 10 );
@@ -1445,35 +1444,18 @@ std::string spell::description() const
 
 nc_color spell::damage_type_color() const
 {
-    switch( dmg_type() ) {
-        case damage_type::HEAT:
-            return c_red;
-        case damage_type::ACID:
-            return c_light_green;
-        case damage_type::BASH:
-            return c_magenta;
-        case damage_type::BIOLOGICAL:
-            return c_green;
-        case damage_type::COLD:
-            return c_white;
-        case damage_type::CUT:
-            return c_light_gray;
-        case damage_type::ELECTRIC:
-            return c_light_blue;
-        case damage_type::BULLET:
-        /* fallthrough */
-        case damage_type::STAB:
-            return c_light_red;
-        case damage_type::PURE:
-            return c_dark_gray;
-        default:
-            return c_black;
+    if( dmg_type().is_null() ) {
+        return c_black;
     }
+    return dmg_type()->magic_color;
 }
 
 std::string spell::damage_type_string() const
 {
-    return name_by_dt( dmg_type() );
+    if( dmg_type().is_null() ) {
+        return std::string();
+    }
+    return dmg_type()->name.translated();
 }
 
 // constants defined below are just for the formula to be used,
@@ -1598,7 +1580,7 @@ std::string spell::list_targeted_species_names() const
     return ret;
 }
 
-damage_type spell::dmg_type() const
+const damage_type_id &spell::dmg_type() const
 {
     return type->dmg_type;
 }
@@ -2162,7 +2144,7 @@ bool spell_desc::casting_time_encumbered( const spell &sp, const Character &guy 
         // the first 20 points of encumbrance combined is ignored
         encumb += std::max( 0, guy.avg_encumb_of_limb_type( body_part_type::type::leg ) - 10 );
     }
-    if( sp.has_flag( spell_flag::SOMATIC ) ) {
+    if( sp.has_flag( spell_flag::SOMATIC ) && !guy.has_flag( json_flag_SUBTLE_SPELL ) ) {
         // the first 20 points of encumbrance combined is ignored
         encumb += std::max( 0, guy.avg_encumb_of_limb_type( body_part_type::type::arm ) - 10 );
     }
@@ -2171,7 +2153,7 @@ bool spell_desc::casting_time_encumbered( const spell &sp, const Character &guy 
 
 bool spell_desc::energy_cost_encumbered( const spell &sp, const Character &guy )
 {
-    if( !sp.has_flag( spell_flag::NO_HANDS ) ) {
+    if( !sp.has_flag( spell_flag::NO_HANDS ) && !guy.has_flag( json_flag_SUBTLE_SPELL ) ) {
         return std::max( 0, guy.avg_encumb_of_limb_type( body_part_type::type:: hand ) - 5 ) >
                0;
     }

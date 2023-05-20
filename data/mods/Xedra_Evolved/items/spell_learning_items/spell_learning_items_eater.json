@@ -219,13 +219,13 @@
     "description": "A small Korean novel, that describes the journey of an incredibly strong protagonist attempting to save the world.",
     "weight": "460 g",
     "volume": "500 ml",
-    "bashing": 1,
     "symbol": "[",
     "color": "brown",
     "material": [ "forged_dreamstuff" ],
     "looks_like": "book_newage_generic",
     "//scannable": [ false, "not a book, but shouldn't be scannable" ],
-    "use_action": { "type": "learn_spell", "spells": [ "spell_melee_damage" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "spell_melee_damage" ] },
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "artifact_horn",
@@ -238,16 +238,16 @@
     "longest_side": "33 cm",
     "price": 1000,
     "price_postapoc": 10,
-    "cutting": 12,
     "to_hit": { "grip": "bad", "length": "hand", "surface": "point", "balance": "neutral" },
     "techniques": [ "RAPID" ],
-    "flags": [ "STAB" ],
+    "flags": [  ],
     "weapon_category": [ "KNIVES" ],
     "material": [ "forged_dreamstuff" ],
     "symbol": "l",
     "color": "red",
     "//scannable": [ false, "not a book, but shouldn't be scannable" ],
-    "use_action": { "type": "learn_spell", "spells": [ "spell_spear" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "spell_spear" ] },
+    "melee_damage": { "stab": 12 }
   },
   {
     "id": "artifact_muscle",

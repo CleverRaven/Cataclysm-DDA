@@ -46,10 +46,12 @@
   },
   {
     "type": "MONSTER",
-    "id": "mon_test_mattack",
-    "name": { "str": "mattack test monster" },
-    "description": "It exists only to try and mostly fail to attack you",
+    "id": "mon_test_mattack_dialog",
+    "name": { "str": "mattack dialog condition test monster" },
+    "description": "It exists only to try and mostly fail to attack you, in a dialog-y way",
     "default_faction": "zombie",
+    "material": [ "flesh" ],
+    "species": [ "HUMAN", "ZOMBIE" ],
     "symbol": "D",
     "volume": "81500 ml",
     "speed": 100,
@@ -58,6 +60,61 @@
     "morale": 100,
     "aggression": 100,
     "special_attacks": [ { "id": "test_conditions_1" } ]
+  },
+  {
+    "id": "mon_test_zombie",
+    "type": "MONSTER",
+    "name": { "str": "zombie" },
+    "description": "A human body, swaying as it moves, an unstoppable rage visible in its oily black eyes.",
+    "default_faction": "zombie",
+    "bodytype": "human",
+    "categories": [ "CLASSIC" ],
+    "species": [ "ZOMBIE", "HUMAN" ],
+    "volume": "62500 ml",
+    "weight": "81500 g",
+    "hp": 80,
+    "speed": 70,
+    "material": [ "flesh" ],
+    "symbol": "Z",
+    "color": "light_green",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 4,
+    "melee_dice": 2,
+    "melee_dice_sides": 3,
+    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
+    "vision_night": 3,
+    "weakpoint_sets": [ "wps_humanoid_body" ],
+    "families": [ "prof_intro_biology", "prof_wp_zombie" ],
+    "harvest": "zombie",
+    "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "GRAB", 7 ], [ "scratch", 20 ] ],
+    "death_drops": "default_zombie_death_drops",
+    "burn_into": "mon_zombie_scorched",
+    "fungalize_into": "mon_zombie_fungus",
+    "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBIE_UPGRADE" },
+    "flags": [ "SEES", "HEARS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ],
+    "armor": { "electric": 1 }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_test_fire_resist",
+    "copy-from": "mon_test_zombie",
+    "name": { "str": "zombie" },
+    "armor": { "electric": 1, "test_fire": 5 }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_test_fire_vresist",
+    "copy-from": "mon_test_zombie",
+    "name": { "str": "zombie" },
+    "armor": { "electric": 1, "test_fire": 50 }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_test_fire_immune",
+    "copy-from": "mon_test_zombie",
+    "name": { "str": "zombie" },
+    "extend": { "flags": [ "FIREPROOF" ] }
   },
   {
     "type": "MONSTER",
@@ -220,10 +277,6 @@
     "melee_skill": 6,
     "melee_dice": 2,
     "melee_dice_sides": 4,
-    "armor_bash": 6,
-    "armor_cut": 6,
-    "armor_bullet": 6,
-    "armor_stab": 6,
     "weakpoints": [
       {
         "id": "test_leg",
@@ -243,13 +296,14 @@
     "vision_day": 30,
     "vision_night": 3,
     "harvest": "zombie",
-    "special_attacks": [ [ "GRAB", 7 ], [ "scratch", 20 ] ],
+    "special_attacks": [ { "id": "bite_grab", "cooldown": 7 }, [ "scratch", 20 ] ],
     "death_drops": "mon_zombie_cop_death_drops",
     "burn_into": "mon_zombie_scorched",
     "fungalize_into": "mon_zombie_fungus",
     "flags": [
       "SEES",
       "HEARS",
+      "GRABS",
       "SMELLS",
       "STUMBLES",
       "WARM",
@@ -260,15 +314,8 @@
       "REVIVES",
       "PUSH_MON",
       "FILTHY"
-    ]
-  },
-  {
-    "id": "mon_debug_grab",
-    "type": "MONSTER",
-    "copy-from": "debug_mon",
-    "name": { "str": "debug grabber" },
-    "melee_skill": 200,
-    "special_attacks": [ [ "GRAB", 0 ] ]
+    ],
+    "armor": { "bash": 6, "cut": 6, "stab": 6, "bullet": 6 }
   },
   {
     "id": "mon_debug_memory",

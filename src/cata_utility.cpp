@@ -1,6 +1,7 @@
 #include "cata_utility.h"
 
 #include <cctype>
+#include <charconv>
 #include <clocale>
 #include <cwctype>
 #include <algorithm>
@@ -78,8 +79,15 @@ bool isBetween( int test, int down, int up )
     return test > down && test < up;
 }
 
-bool lcmatch( const std::string &str, const std::string &qry )
+bool lcmatch( const std::string_view str, const std::string_view qry )
 {
+    // It will be quite common for the query string to be empty.  Anything will
+    // match in that case, so short-circuit and avoid the expensive
+    // conversions.
+    if( qry.empty() ) {
+        return true;
+    }
+
     std::u32string u32_str = utf8_to_utf32( str );
     std::u32string u32_qry = utf8_to_utf32( qry );
     std::for_each( u32_str.begin(), u32_str.end(), u32_to_lowercase );
@@ -100,12 +108,12 @@ bool lcmatch( const std::string &str, const std::string &qry )
     return false;
 }
 
-bool lcmatch( const translation &str, const std::string &qry )
+bool lcmatch( const translation &str, const std::string_view qry )
 {
     return lcmatch( str.translated(), qry );
 }
 
-bool match_include_exclude( const std::string &text, std::string filter )
+bool match_include_exclude( const std::string_view text, std::string filter )
 {
     size_t iPos;
     bool found = false;
@@ -287,7 +295,14 @@ bool write_to_file( const std::string &path, const std::function<void( std::ostr
 
     } catch( const std::exception &err ) {
         if( fail_message ) {
-            popup( _( "Failed to write %1$s to \"%2$s\": %3$s" ), fail_message, path.c_str(), err.what() );
+            const std::string msg =
+                string_format( _( "Failed to write %1$s to \"%2$s\": %3$s" ),
+                               fail_message, path, err.what() );
+            if( test_mode ) {
+                DebugLog( D_ERROR, DC_ALL ) << msg;
+            } else {
+                popup( "%s", msg );
+            }
         }
         return false;
     }
@@ -310,8 +325,14 @@ bool write_to_file( const cata_path &path, const std::function<void( std::ostrea
 
     } catch( const std::exception &err ) {
         if( fail_message ) {
-            popup( _( "Failed to write %1$s to \"%2$s\": %3$s" ), fail_message,
-                   path.generic_u8string().c_str(), err.what() );
+            const std::string msg =
+                string_format( _( "Failed to write %1$s to \"%2$s\": %3$s" ),
+                               fail_message, path.generic_u8string(), err.what() );
+            if( test_mode ) {
+                DebugLog( D_ERROR, DC_ALL ) << msg;
+            } else {
+                popup( "%s", msg );
+            }
         }
         return false;
     }
@@ -446,7 +467,7 @@ std::unique_ptr<std::istream> read_maybe_compressed_file( const std::string &pat
 std::unique_ptr<std::istream> read_maybe_compressed_file( const fs::path &path )
 {
     try {
-        cata::ifstream fin( path, std::ios::binary );
+        std::ifstream fin( path, std::ios::binary );
         if( !fin ) {
             throw std::runtime_error( "opening file failed" );
         }
@@ -464,7 +485,7 @@ std::unique_ptr<std::istream> read_maybe_compressed_file( const fs::path &path )
             inflated_contents_stream.write( outstring.data(), outstring.size() );
             return std::make_unique<std::stringstream>( std::move( inflated_contents_stream ) );
         } else {
-            return std::make_unique<cata::ifstream>( std::move( fin ) );
+            return std::make_unique<std::ifstream>( std::move( fin ) );
         }
         if( fin.bad() ) {
             throw std::runtime_error( "reading file failed" );
@@ -490,7 +511,7 @@ std::optional<std::string> read_whole_file( const fs::path &path )
 {
     std::string outstring;
     try {
-        cata::ifstream fin( path, std::ios::binary );
+        std::ifstream fin( path, std::ios::binary );
         if( !fin ) {
             throw std::runtime_error( "opening file failed" );
         }
@@ -651,6 +672,20 @@ int string_view_cmp( const std::string_view l, const std::string_view r )
     }
     return l.size() < r.size() ? -1 : 1;
 }
+
+template<typename Integer>
+Integer svto( const std::string_view s )
+{
+    Integer result = 0;
+    const char *end = s.data() + s.size();
+    std::from_chars_result r = std::from_chars( s.data(), end, result );
+    if( r.ptr != end ) {
+        cata_fatal( "could not parse string_view as an integer" );
+    }
+    return result;
+}
+
+template int svto<int>( std::string_view );
 
 std::vector<std::string> string_split( const std::string_view string, char delim )
 {

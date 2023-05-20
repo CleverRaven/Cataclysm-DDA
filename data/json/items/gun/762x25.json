@@ -21,7 +21,6 @@
     "price": 280000,
     "price_postapoc": 2250,
     "to_hit": -2,
-    "bashing": 10,
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "brown",
@@ -35,7 +34,6 @@
     "barrel_volume": "500 ml",
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 5 ] ],
     "valid_mod_locations": [
-      [ "accessories", 3 ],
       [ "barrel", 1 ],
       [ "brass catcher", 1 ],
       [ "grip", 1 ],
@@ -49,7 +47,8 @@
       [ "rail mount", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ppshmag", "ppshdrum" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ppshmag", "ppshdrum" ] } ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "tokarev",
@@ -74,7 +73,6 @@
     "price": 100000,
     "price_postapoc": 1250,
     "to_hit": -2,
-    "bashing": 10,
     "material": [ "steel", "plastic" ],
     "ammo": [ "762x25" ],
     "dispersion": 225,
@@ -82,6 +80,7 @@
     "min_cycle_recoil": 270,
     "flags": [ "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
-    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "tokarevmag" ] } ]
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "tokarevmag" ] } ],
+    "melee_damage": { "bash": 10 }
   }
 ]

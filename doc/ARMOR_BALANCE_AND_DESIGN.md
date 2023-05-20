@@ -468,7 +468,7 @@ Items with actions can be worn as armor. Usually you need to swap the type to ``
   "flags": [ "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS" ],
   "weight": "620 g",
   "volume": "500 ml",
-  "bashing": 1,
+  "melee_damage": { "bash": 1 },
   "charges_per_use": 1,
   "ammo": "battery",
   "use_action": {

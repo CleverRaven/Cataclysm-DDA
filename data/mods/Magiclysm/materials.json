@@ -8,17 +8,12 @@
     "specific_heat_solid": 0.45,
     "latent_heat": 273,
     "soft": true,
-    "bash_resist": 14,
-    "cut_resist": 18,
-    "bullet_resist": 14,
-    "acid_resist": 4,
-    "fire_resist": 20,
-    "elec_resist": 2,
     "chip_resist": 15,
     "breathability": "SECOND_SKIN",
     "dmg_adj": [ "scratched", "cut", "shredded", "tattered" ],
     "bash_dmg_verb": "ripped",
-    "cut_dmg_verb": "sliced"
+    "cut_dmg_verb": "sliced",
+    "resist": { "bash": 14, "cut": 18, "acid": 4, "heat": 20, "bullet": 14, "electric": 2 }
   },
   {
     "type": "material",
@@ -26,12 +21,6 @@
     "name": "Black Dragon Hide",
     "density": 9,
     "latent_heat": 333,
-    "bash_resist": 3,
-    "cut_resist": 7,
-    "bullet_resist": 6,
-    "acid_resist": 40,
-    "fire_resist": 1,
-    "elec_resist": 2,
     "chip_resist": 20,
     "soft": true,
     "breathability": "POOR",
@@ -43,7 +32,8 @@
       { "fuel": 0, "smoke": 0, "burn": 0 },
       { "fuel": 1, "smoke": 1, "burn": 1, "volume_per_turn": "100 ml" },
       { "fuel": 2, "smoke": 4, "burn": 2 }
-    ]
+    ],
+    "resist": { "bash": 3, "cut": 7, "acid": 40, "heat": 1, "bullet": 6, "electric": 2 }
   },
   {
     "type": "material",
@@ -51,12 +41,6 @@
     "name": "Black Dragon Scale",
     "density": 15,
     "latent_heat": 533,
-    "bash_resist": 8,
-    "cut_resist": 9,
-    "bullet_resist": 8,
-    "acid_resist": 40,
-    "fire_resist": 4,
-    "elec_resist": 3,
     "chip_resist": 35,
     "breathability": "AVERAGE",
     "repaired_with": "dragon_black_scale",
@@ -67,7 +51,8 @@
       { "fuel": 0, "smoke": 0, "burn": 0 },
       { "fuel": 0, "smoke": 0, "burn": 0 },
       { "fuel": 1, "smoke": 1, "burn": 1, "volume_per_turn": "100 ml" }
-    ]
+    ],
+    "resist": { "bash": 8, "cut": 9, "acid": 40, "heat": 4, "bullet": 8, "electric": 3 }
   },
   {
     "type": "material",
@@ -78,12 +63,6 @@
     "specific_heat_solid": 0.02,
     "soft": true,
     "latent_heat": -50,
-    "bash_resist": 1,
-    "cut_resist": 3,
-    "bullet_resist": 10,
-    "acid_resist": 5,
-    "fire_resist": 0,
-    "elec_resist": 3,
     "chip_resist": 12,
     "breathability": "MOISTURE_WICKING",
     "repaired_with": "parabolan_felt_patch",
@@ -95,7 +74,8 @@
       { "fuel": 1, "smoke": 1, "burn": 1, "volume_per_turn": "1250 ml" },
       { "fuel": 1, "smoke": 1, "burn": 2 },
       { "fuel": 1, "smoke": 1, "burn": 5 }
-    ]
+    ],
+    "resist": { "bash": 1, "cut": 3, "acid": 5, "heat": 0, "bullet": 10, "electric": 3 }
   },
   {
     "type": "material",
@@ -105,12 +85,6 @@
     "specific_heat_liquid": 4.186,
     "specific_heat_solid": 2.108,
     "latent_heat": 333,
-    "bash_resist": 1,
-    "cut_resist": 10,
-    "bullet_resist": 8,
-    "acid_resist": 3,
-    "fire_resist": 18,
-    "elec_resist": 2,
     "chip_resist": 10,
     "breathability": "POOR",
     "repaired_with": "demon_chitin_piece",
@@ -122,48 +96,39 @@
       { "fuel": 0, "smoke": 1, "burn": 1, "volume_per_turn": "1250 ml" },
       { "fuel": 1, "smoke": 3, "burn": 1 },
       { "fuel": 1, "smoke": 5, "burn": 5 }
-    ]
+    ],
+    "resist": { "bash": 1, "cut": 10, "acid": 3, "heat": 18, "bullet": 8, "electric": 2 }
   },
   {
     "type": "material",
     "id": "orichalcum_metal",
     "name": "Orichalcum",
     "density": 40,
-    "bash_resist": 13,
     "specific_heat_liquid": 0.82,
     "specific_heat_solid": 0.45,
     "latent_heat": 273,
-    "cut_resist": 20,
-    "bullet_resist": 16,
-    "acid_resist": 7,
-    "fire_resist": 3,
-    "elec_resist": 0,
     "chip_resist": 40,
     "repaired_with": "orichalcum_ingot",
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
-    "burn_products": [ [ "scrap_bronze", 1 ] ]
+    "burn_products": [ [ "scrap_bronze", 1 ] ],
+    "resist": { "bash": 13, "cut": 20, "acid": 7, "heat": 3, "bullet": 16, "electric": 0 }
   },
   {
     "type": "material",
     "id": "mithril_metal",
     "name": "Mithril",
     "density": 13,
-    "bash_resist": 13,
     "specific_heat_liquid": 0.82,
     "specific_heat_solid": 0.45,
     "latent_heat": 273,
-    "cut_resist": 20,
-    "bullet_resist": 16,
-    "acid_resist": 10,
-    "fire_resist": 10,
-    "elec_resist": 10,
     "chip_resist": 40,
     "repaired_with": "mithril_ingot",
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
-    "cut_dmg_verb": "scratched"
+    "cut_dmg_verb": "scratched",
+    "resist": { "bash": 13, "cut": 20, "acid": 10, "heat": 10, "bullet": 16, "electric": 10 }
   },
   {
     "type": "material",
@@ -173,23 +138,19 @@
     "specific_heat_liquid": 0.82,
     "specific_heat_solid": 0.45,
     "latent_heat": 273,
-    "bash_resist": 10,
-    "cut_resist": 6,
-    "bullet_resist": 19,
-    "acid_resist": 6,
-    "fire_resist": 0,
-    "elec_resist": 10,
     "chip_resist": 30,
     "repaired_with": "scrap",
     "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
     "bash_dmg_verb": "cracked",
-    "cut_dmg_verb": "scratched"
+    "cut_dmg_verb": "scratched",
+    "resist": { "bash": 10, "cut": 6, "acid": 6, "heat": 0, "bullet": 19, "electric": 10 }
   },
   {
     "type": "material",
     "id": "magical_material",
     "name": "Magical Material",
-    "copy-from": "cotton"
+    "copy-from": "cotton",
+    "repaired_with": "null"
   },
   {
     "type": "material",
@@ -199,12 +160,6 @@
     "specific_heat_liquid": 0.5,
     "specific_heat_solid": 0.5,
     "latent_heat": 518,
-    "bash_resist": 0,
-    "cut_resist": 0,
-    "bullet_resist": 0,
-    "acid_resist": 0,
-    "fire_resist": 0,
-    "elec_resist": 0,
     "chip_resist": 0,
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
     "bash_dmg_verb": "damaged",
@@ -217,7 +172,8 @@
     "fuel_data": {
       "energy": "50000 kJ",
       "explosion_data": { "chance_hot": 20, "chance_cold": 1000, "factor": 0.2, "fiery": true, "size_factor": 0.1 }
-    }
+    },
+    "resist": { "bash": 0, "cut": 0, "acid": 0, "heat": 0, "bullet": 0, "electric": 0 }
   },
   {
     "type": "material",
@@ -267,15 +223,10 @@
     "name": "Concentrated Mana",
     "density": 2,
     "soft": true,
-    "bash_resist": 8,
-    "cut_resist": 13,
-    "bullet_resist": 7,
-    "acid_resist": 12,
-    "fire_resist": 20,
-    "elec_resist": 20,
     "chip_resist": 15,
     "dmg_adj": [ "scratched", "cut", "shredded", "tattered" ],
     "bash_dmg_verb": "ripped",
-    "cut_dmg_verb": "sliced"
+    "cut_dmg_verb": "sliced",
+    "resist": { "bash": 8, "cut": 13, "acid": 12, "heat": 20, "bullet": 7, "electric": 20 }
   }
 ]

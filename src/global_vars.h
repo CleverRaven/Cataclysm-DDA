@@ -11,6 +11,7 @@ enum class var_type : int {
     global,
     faction,
     party,
+    context,
     last
 };
 

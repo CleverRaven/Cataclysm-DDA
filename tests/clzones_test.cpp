@@ -102,7 +102,7 @@ TEST_CASE( "zone unloading ammo belts", "[zones][items][ammo_belt][activities][u
         if( move_act ) {
             dummy.assign_activity( player_activity( ACT_MOVE_LOOT ) );
         } else {
-            dummy.assign_activity( player_activity( unload_loot_activity_actor() ) );
+            dummy.assign_activity( unload_loot_activity_actor() );
         }
         CAPTURE( dummy.activity.id() );
         process_activity( dummy );

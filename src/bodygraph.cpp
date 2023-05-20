@@ -60,7 +60,7 @@ void bodygraph::check_all()
     bodygraph_factory.check();
 }
 
-void bodygraph::load( const JsonObject &jo, const std::string & )
+void bodygraph::load( const JsonObject &jo, const std::string_view )
 {
     optional( jo, was_loaded, "parent_bodypart", parent_bp );
     optional( jo, was_loaded, "fill_sym", fill_sym );
@@ -311,7 +311,7 @@ void bodygraph_display::draw_borders()
     bh_borders.draw_border( w_border, c_white );
 
     const int first_win_width = partlist_width;
-    auto center_txt_start = [&first_win_width]( const std::string & txt ) {
+    auto center_txt_start = [&first_win_width]( const std::string_view txt ) {
         return 2 + first_win_width + ( BPGRAPH_MAXCOLS / 2 - utf8_width( txt, true ) / 2 );
     };
 
@@ -531,7 +531,7 @@ void bodygraph_display::prepare_infotext( bool reset_pos )
     int wavail = clamp( ( info_width - 2 ) - utf8_width( prot_legend, true ), 0, info_width - 2 );
     prot_legend.insert( prot_legend.begin(), wavail > 4 ? 4 : wavail, ' ' );
     info_txt.emplace_back( prot_legend );
-    auto get_res_str = [&]( damage_type dt ) -> std::string {
+    auto get_res_str = [&]( const damage_type_id & dt ) -> std::string {
         const std::string wval = string_format( info_width <= 18 ? "%4.1f" : "%5.2f", info.worst_case.type_resist( dt ) );
         const std::string mval = string_format( info_width <= 18 ? "%4.1f" : "%5.2f", info.median_case.type_resist( dt ) );
         const std::string bval = string_format( info_width <= 18 ? "%4.1f" : "%5.2f", info.best_case.type_resist( dt ) );
@@ -540,29 +540,11 @@ void bodygraph_display::prepare_infotext( bool reset_pos )
         txt.insert( txt.begin(), res_avail > 4 ? 4 : res_avail, ' ' );
         return txt;
     };
-    info_txt.emplace_back( string_format( "  %s:", _( "Bash" ) ) );
-    info_txt.emplace_back( get_res_str( damage_type::BASH ) );
-    info_txt.emplace_back( string_format( "  %s:", _( "Cut" ) ) );
-    info_txt.emplace_back( get_res_str( damage_type::CUT ) );
-    info_txt.emplace_back( string_format( "  %s:", _( "Pierce" ) ) );
-    info_txt.emplace_back( get_res_str( damage_type::STAB ) );
-    info_txt.emplace_back( string_format( "  %s:", _( "Ballistic" ) ) );
-    info_txt.emplace_back( get_res_str( damage_type::BULLET ) );
-    info_txt.emplace_back( string_format( "  %s:", _( "Acid" ) ) );
-    info_txt.emplace_back( get_res_str( damage_type::ACID ) );
-    info_txt.emplace_back( string_format( "  %s:", _( "Fire" ) ) );
-    info_txt.emplace_back( get_res_str( damage_type::HEAT ) );
-    if( info.best_case.type_resist( damage_type::COLD ) > 1 ) {
-        info_txt.emplace_back( string_format( "  %s:", _( "Endothermic" ) ) );
-        info_txt.emplace_back( get_res_str( damage_type::COLD ) );
-    }
-    if( info.best_case.type_resist( damage_type::ELECTRIC ) > 1 ) {
-        info_txt.emplace_back( string_format( "  %s:", _( "Electrical" ) ) );
-        info_txt.emplace_back( get_res_str( damage_type::ELECTRIC ) );
-    }
-    if( info.best_case.type_resist( damage_type::BIOLOGICAL ) > 1 ) {
-        info_txt.emplace_back( string_format( "  %s:", _( "Biological" ) ) );
-        info_txt.emplace_back( get_res_str( damage_type::BIOLOGICAL ) );
+    for( const damage_type &dt : damage_type::get_all() ) {
+        if( info.best_case.type_resist( dt.id ) > 1 ) {
+            info_txt.emplace_back( string_format( "  %s:", uppercase_first_letter( dt.name.translated() ) ) );
+            info_txt.emplace_back( get_res_str( dt.id ) );
+        }
     }
 }
 

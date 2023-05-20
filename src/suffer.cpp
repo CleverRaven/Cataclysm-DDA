@@ -86,7 +86,6 @@ static const efftype_id effect_disabled( "disabled" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_drunk( "drunk" );
 static const efftype_id effect_formication( "formication" );
-static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_hallu( "hallu" );
 static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_iodine( "iodine" );
@@ -120,6 +119,7 @@ static const itype_id itype_smoxygen_tank( "smoxygen_tank" );
 
 static const json_character_flag json_flag_GILLS( "GILLS" );
 static const json_character_flag json_flag_GLARE_RESIST( "GLARE_RESIST" );
+static const json_character_flag json_flag_GRAB( "GRAB" );
 static const json_character_flag json_flag_MEND_ALL( "MEND_ALL" );
 static const json_character_flag json_flag_MEND_LIMB( "MEND_LIMB" );
 static const json_character_flag json_flag_NYCTOPHOBIA( "NYCTOPHOBIA" );
@@ -277,6 +277,16 @@ void suffer::mutation_power( Character &you, const trait_id &mut_id )
                 you.mod_fatigue( mut_id->cost );
             }
         }
+
+        // if you haven't deactivated then run the EOC
+        for( const effect_on_condition_id &eoc : mut_id->processed_eocs ) {
+            dialogue d( get_talker_for( you ), nullptr );
+            if( eoc->type == eoc_type::ACTIVATION ) {
+                eoc->activate( d );
+            } else {
+                debugmsg( "Must use an activation eoc for a mutation process.  If you don't want the effect_on_condition to happen on its own (without the mutation being activated), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this mutation with its condition and effects, then have a recurring one queue it." );
+            }
+        }
     }
 }
 
@@ -306,40 +316,44 @@ void suffer::while_underwater( Character &you )
 
 void suffer::while_grabbed( Character &you )
 {
-    // get the intensity of the current grab
-    int grab_intensity = you.get_effect_int( effect_grabbed, body_part_torso );
-
-    // you should have trouble breathing as you get swarmed by zombies grabbing you
-    // early exit if you aren't grabbed severely
-    if( grab_intensity < 2 ) {
-        return;
-    }
-
-    // make sure something grabbing you actually shoves against you, this is tested with the GROUP_BASH flag
+    // If you're grabbed you can't move around effectively, triggering the check
+    // TODO: crowd crush without grabs
+    // Count the number of monsters who can shove you
+    // TODO: expand the search area - use the same logic as GROUP_BASH?
     map &here = get_map();
     creature_tracker &creatures = get_creature_tracker();
-    bool getting_shoved = false;
+    int crowd = 0;
+    int impassable_ter = 0;
     for( auto&& dest : here.points_in_radius( you.pos(), 1, 0 ) ) { // *NOPAD*
         const monster *const mon = creatures.creature_at<monster>( dest );
         if( mon && mon->has_flag( MF_GROUP_BASH ) ) {
-            getting_shoved = true;
-            break;
+            crowd++;
+            add_msg_debug( debugmode::DF_CHARACTER, "Crowd pressure check: monster %s found, crowd size %d",
+                           mon->name(), crowd );
+        }
+        if( here.impassable( dest ) ) {
+            impassable_ter++;
         }
     }
 
-    // if we aren't near something with GROUP_BASH we won't suffocate
-    if( !getting_shoved ) {
+    // if we aren't near two monsters with GROUP_BASH we won't suffocate
+    if( crowd < 2 ) {
         return;
     }
+    // Getting crushed against the wall counts as a monster
+    if( impassable_ter ) {
+        you.add_msg_if_player( m_bad, _( "You're crushed against the walls!" ) );
+        crowd += impassable_ter;
+    }
 
-    if( grab_intensity == 2 ) {
+    if( crowd == 2 ) {
         // only a chance to lose breath at low grab chance, none with only a single zombie
         you.oxygen -= rng( 0, 1 );
-    } else if( grab_intensity <= 4 ) {
+    } else if( crowd <= 4 ) {
         you.oxygen -= 1;
-    } else if( grab_intensity <= 6 ) {
+    } else if( crowd <= 6 ) {
         you.oxygen -= rng( 1, 2 );
-    } else if( grab_intensity <= 8 ) {
+    } else if( crowd <= 8 ) {
         you.oxygen -= 2;
     }
 
@@ -347,7 +361,8 @@ void suffer::while_grabbed( Character &you )
     if( you.oxygen <= 5 ) {
         you.add_msg_if_player( m_bad, _( "You're suffocating!" ) );
         // your characters chest is being crushed and you are dying
-        you.apply_damage( nullptr, bodypart_id( "torso" ), rng( 1, 4 ) );
+        you.apply_damage( nullptr, you.get_random_body_part_of_type( body_part_type::type::torso ), rng( 1,
+                          4 ) );
     } else if( you.oxygen <= 15 ) {
         you.add_msg_if_player( m_bad, _( "You can't breathe with all this weight!" ) );
     } else if( you.oxygen <= 25 ) {
@@ -1781,11 +1796,11 @@ void suffer::from_artifact_resonance( Character &you, int amt )
                 you.mod_pain( 5 );
             } else if( rng_outcome == 2 ) {
                 you.add_msg_if_player( m_bad,
-                                       _( "Your vision suddenly becomes blurry and hard to decipher." ) );
-                you.add_effect( effect_hallu, 5_minutes );
+                                       _( "Your vision becomes blurry and you suddenly feel like you're falling." ) );
+                you.add_effect( effect_visuals, 5_minutes );
             } else if( rng_outcome == 3 ) {
                 you.add_msg_if_player( m_bad, _( "You suddenly feel very queasy." ) );
-                you.add_effect( effect_nausea, 1_minutes );
+                you.add_effect( effect_nausea, 5_minutes );
             }
         }
     }
@@ -1814,7 +1829,7 @@ void Character::suffer()
         }
     }
 
-    if( has_effect( effect_grabbed, body_part_torso ) ) {
+    if( has_flag( json_flag_GRAB ) ) {
         suffer::while_grabbed( *this );
     }
 

@@ -599,5 +599,5 @@ fs::path cata_path::get_logical_root_path() const
             }
         }
     } )( logical_root_ );
-    return fs::path{ path_value };
+    return fs::u8path( path_value );
 }

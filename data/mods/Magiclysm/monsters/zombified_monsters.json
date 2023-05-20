@@ -22,15 +22,13 @@
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "dodge": 5,
-    "armor_bash": 36,
-    "armor_cut": 24,
-    "armor_bullet": 30,
     "vision_night": 5,
     "harvest": "zombie_fur",
     "special_attacks": [ [ "HOWL", 10 ] ],
     "fear_triggers": [ "FIRE" ],
     "upgrades": { "half_life": 28, "into_group": "GROUP_ZOLF_UPGRADE" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "KEENNOSE", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "KEENNOSE", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ],
+    "armor": { "bash": 36, "cut": 24, "bullet": 30 }
   },
   {
     "id": "mon_zorc",
@@ -55,12 +53,10 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "dodge": 5,
-    "armor_bash": 24,
-    "armor_cut": 31,
-    "armor_bullet": 23,
     "vision_night": 12,
     "harvest": "orc",
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ],
+    "armor": { "bash": 24, "cut": 31, "bullet": 23 }
   },
   {
     "type": "MONSTER",
@@ -85,13 +81,11 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "dodge": 1,
-    "armor_bash": 5,
-    "armor_cut": 2,
-    "armor_bullet": 2,
     "vision_night": 13,
     "path_settings": { "max_dist": 12 },
     "harvest": "zombie_owlbear",
-    "special_attacks": [ { "type": "bite", "cooldown": 10 }, [ "GRAB", 7 ], [ "scratch", 7 ] ],
+    "grab_strength": 50,
+    "special_attacks": [ { "type": "bite", "cooldown": 10 }, { "id": "grab", "cooldown": 7 }, { "id": "scratch_humanoid", "cooldown": 7 } ],
     "flags": [
       "SEES",
       "HEARS",
@@ -107,7 +101,8 @@
       "NO_BREATHE",
       "REVIVES"
     ],
-    "upgrades": { "half_life": 60, "into": "mon_owlbear_zombie_brute" }
+    "upgrades": { "half_life": 60, "into": "mon_owlbear_zombie_brute" },
+    "armor": { "bash": 5, "cut": 2, "bullet": 2 }
   },
   {
     "type": "MONSTER",
@@ -126,10 +121,8 @@
       "melee_dice_sides": 2,
       "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
       "dodge": 3,
-      "armor_bash": 3,
-      "armor_cut": 3,
-      "armor_bullet": 2,
-      "vision_night": 19
+      "vision_night": 19,
+      "armor": { "bash": 3, "cut": 3, "bullet": 2 }
     },
     "delete": { "flags": [ "PATH_AVOID_DANGER_1" ] },
     "extend": { "special_attacks": [ [ "SMASH", 20 ] ] }
@@ -149,12 +142,10 @@
       "melee_dice": 2,
       "melee_dice_sides": -1,
       "melee_damage": -2,
-      "armor_bash": 2,
-      "armor_cut": 2,
-      "armor_bullet": 1,
       "vision_day": -13,
       "vision_night": 3,
-      "regenerates": 3
+      "regenerates": 3,
+      "armor": { "bash": 2, "cut": 2, "bullet": 1 }
     },
     "proportional": { "volume": 1.05, "weight": 1.07 },
     "extend": { "species": [ "ZOMBIE" ], "flags": [ "BASHES", "POISON", "NO_BREATHE", "REVIVES" ] },
@@ -183,16 +174,15 @@
     "melee_dice_sides": 7,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "dodge": 3,
-    "armor_bash": 4,
-    "armor_cut": 1,
-    "armor_bullet": 4,
     "vision_day": 30,
     "vision_night": 10,
     "path_settings": { "max_dist": 3, "avoid_traps": false, "avoid_sharp": false },
     "harvest": "zombie_fur",
-    "special_attacks": [ { "type": "bite", "cooldown": 10 }, [ "GRAB", 8 ], [ "scratch", 6 ] ],
+    "grab_strength": 50,
+    "special_attacks": [ { "id": "bite_grab", "cooldown": 8 }, [ "scratch", 6 ] ],
     "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "WARM", "GRABS", "STUMBLES", "BASHES", "POISON", "NO_BREATHE", "REVIVES" ],
-    "upgrades": { "half_life": 5, "into": "mon_yulecat_zombie_brute" }
+    "upgrades": { "half_life": 5, "into": "mon_yulecat_zombie_brute" },
+    "armor": { "bash": 4, "cut": 1, "bullet": 4 }
   },
   {
     "type": "MONSTER",
@@ -208,12 +198,10 @@
       "melee_dice": 1,
       "melee_dice_sides": 1,
       "melee_damage": -2,
-      "armor_bash": 2,
-      "armor_cut": 1,
-      "armor_bullet": -2,
       "vision_day": -22,
       "vision_night": 20,
-      "regenerates": 3
+      "regenerates": 3,
+      "armor": { "bash": 2, "cut": 1, "bullet": -2 }
     },
     "proportional": { "volume": 1.01, "weight": 0.95 },
     "extend": { "flags": [ "PATH_AVOID_DANGER_1" ], "special_attacks": [ { "type": "leap", "cooldown": 7, "max_range": 2 } ] }

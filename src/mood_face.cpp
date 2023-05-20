@@ -38,7 +38,7 @@ void mood_face::reset()
     mood_face_factory.reset();
 }
 
-void mood_face::load( const JsonObject &jo, const std::string & )
+void mood_face::load( const JsonObject &jo, const std::string_view )
 {
     mandatory( jo, was_loaded, "values", values_ );
     std::sort( values_.begin(), values_.end(),

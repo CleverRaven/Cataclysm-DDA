@@ -184,26 +184,26 @@ std::vector<std::string> foldstring( const std::string &str, int width, const ch
     return lines;
 }
 
-std::vector<std::string> split_by_color( const std::string &s )
+std::vector<std::string> split_by_color( const std::string_view s )
 {
     std::vector<std::string> ret;
     std::vector<size_t> tag_positions = get_tag_positions( s );
     size_t last_pos = 0;
     for( size_t tag_position : tag_positions ) {
-        ret.push_back( s.substr( last_pos, tag_position - last_pos ) );
+        ret.emplace_back( s.substr( last_pos, tag_position - last_pos ) );
         last_pos = tag_position;
     }
     // and the last (or only) one
-    ret.push_back( s.substr( last_pos, std::string::npos ) );
+    ret.emplace_back( s.substr( last_pos, std::string::npos ) );
     return ret;
 }
 
-std::string remove_color_tags( const std::string &s )
+std::string remove_color_tags( const std::string_view s )
 {
     std::string ret;
     std::vector<size_t> tag_positions = get_tag_positions( s );
     if( tag_positions.empty() ) {
-        return s;
+        return std::string( s );
     }
 
     size_t next_pos = 0;
@@ -217,7 +217,7 @@ std::string remove_color_tags( const std::string &s )
 }
 
 color_tag_parse_result::tag_type update_color_stack(
-    std::stack<nc_color> &color_stack, const std::string &seg,
+    std::stack<nc_color> &color_stack, const std::string_view seg,
     const report_color_error color_error )
 {
     color_tag_parse_result tag = get_color_from_tag( seg, color_error );
@@ -238,7 +238,7 @@ color_tag_parse_result::tag_type update_color_stack(
 }
 
 void print_colored_text( const catacurses::window &w, const point &p, nc_color &color,
-                         const nc_color &base_color, const std::string &text,
+                         const nc_color &base_color, const std::string_view text,
                          const report_color_error color_error )
 {
     if( p.y > -1 && p.x > -1 ) {
@@ -492,8 +492,7 @@ void scrollable_text( const std::function<catacurses::window()> &init_window,
 
         action = ctxt.handle_input();
         if( action == "UP" || action == "SCROLL_UP" || action == "DOWN" || action == "SCROLL_DOWN" ) {
-            beg_line = increment_and_clamp( beg_line, action == "DOWN" ||
-                                            action == "SCROLL_DOWN", max_beg_line );
+            beg_line = inc_clamp( beg_line, action == "DOWN" || action == "SCROLL_DOWN", max_beg_line );
         } else if( action == "PAGE_UP" ) {
             beg_line = std::max( beg_line - text_h, 0 );
         } else if( action == "PAGE_DOWN" ) {
@@ -863,7 +862,7 @@ bool query_int( int &result, const std::string &text )
     return true;
 }
 
-std::vector<std::string> get_hotkeys( const std::string &s )
+std::vector<std::string> get_hotkeys( const std::string_view s )
 {
     std::vector<std::string> hotkeys;
     size_t start = s.find_first_of( '<' );
@@ -873,11 +872,11 @@ std::vector<std::string> get_hotkeys( const std::string &s )
         size_t lastsep = start;
         size_t sep = s.find_first_of( '|', start );
         while( sep < end ) {
-            hotkeys.push_back( s.substr( lastsep + 1, sep - lastsep - 1 ) );
+            hotkeys.emplace_back( s.substr( lastsep + 1, sep - lastsep - 1 ) );
             lastsep = sep;
             sep = s.find_first_of( '|', sep + 1 );
         }
-        hotkeys.push_back( s.substr( lastsep + 1, end - lastsep - 1 ) );
+        hotkeys.emplace_back( s.substr( lastsep + 1, end - lastsep - 1 ) );
     }
     return hotkeys;
 }
@@ -1295,20 +1294,17 @@ int special_symbol( char sym )
     return special_symbol( static_cast<uint8_t>( sym ) );
 }
 
-template<typename Prep>
-std::string trim( const std::string &s, Prep prep )
+template<typename Predicate>
+static std::string trim( std::string_view s, Predicate pred )
 {
-    auto wsfront = std::find_if_not( s.begin(), s.end(), [&prep]( int c ) {
-        return prep( c );
-    } );
-    return std::string( wsfront, std::find_if_not( s.rbegin(),
-    std::string::const_reverse_iterator( wsfront ), [&prep]( int c ) {
-        return prep( c );
-    } ).base() );
+    auto wsfront = std::find_if_not( s.begin(), s.end(), pred );
+    std::string_view::const_reverse_iterator wsfront_reverse( wsfront );
+    auto wsend = std::find_if_not( s.crbegin(), wsfront_reverse, pred );
+    return std::string( wsfront, wsend.base() );
 }
 
 template<typename Prep>
-std::string trim_trailing( const std::string &s, Prep prep )
+std::string trim_trailing( const std::string_view s, Prep prep )
 {
     return std::string( s.begin(), std::find_if_not(
     s.rbegin(), s.rend(), [&prep]( int c ) {
@@ -1316,14 +1312,14 @@ std::string trim_trailing( const std::string &s, Prep prep )
     } ).base() );
 }
 
-std::string trim( const std::string &s )
+std::string trim( const std::string_view s )
 {
     return trim( s, []( int c ) {
         return isspace( c );
     } );
 }
 
-std::string trim_trailing_punctuations( const std::string &s )
+std::string trim_trailing_punctuations( const std::string_view s )
 {
     return trim_trailing( s, []( int c ) {
         // '<' and '>' are used for tags and should not be removed
@@ -1331,7 +1327,7 @@ std::string trim_trailing_punctuations( const std::string &s )
     } );
 }
 
-std::string remove_punctuations( const std::string &s )
+std::string remove_punctuations( const std::string_view s )
 {
     std::string result;
     std::remove_copy_if( s.begin(), s.end(), std::back_inserter( result ),
@@ -1351,7 +1347,7 @@ std::string to_upper_case( const std::string &s )
 }
 
 // find the position of each non-printing tag in a string
-std::vector<size_t> get_tag_positions( const std::string &s )
+std::vector<size_t> get_tag_positions( const std::string_view s )
 {
     std::vector<size_t> ret;
     size_t pos = s.find( "<color_", 0, 7 );
@@ -1448,7 +1444,8 @@ std::string word_rewrap( const std::string &in, int width, const uint32_t split 
     return o;
 }
 
-void draw_tab( const catacurses::window &w, int iOffsetX, const std::string &sText, bool bSelected )
+void draw_tab( const catacurses::window &w, int iOffsetX, const std::string_view sText,
+               bool bSelected )
 {
     int iOffsetXRight = iOffsetX + utf8_width( sText, true ) + 1;
 
@@ -3184,9 +3181,11 @@ std::string wildcard_trim_rule( const std::string &pattern_in )
 }
 
 // find substring (case insensitive)
-int ci_find_substr( const std::string &str1, const std::string &str2, const std::locale &loc )
+int ci_find_substr( const std::string_view str1, const std::string_view str2,
+                    const std::locale &loc )
 {
-    std::string::const_iterator it = std::search( str1.begin(), str1.end(), str2.begin(), str2.end(),
+    std::string_view::const_iterator it =
+        std::search( str1.begin(), str1.end(), str2.begin(), str2.end(),
     [&]( const char str1_in, const char str2_in ) {
         return std::toupper( str1_in, loc ) == std::toupper( str2_in, loc );
     } );

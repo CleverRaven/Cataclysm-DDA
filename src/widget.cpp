@@ -380,7 +380,7 @@ nc_color widget_clause::get_color_for_id( const std::string &clause_id, const wi
     return wp == nullptr ? c_white : wp->color;
 }
 
-void widget::load( const JsonObject &jo, const std::string & )
+void widget::load( const JsonObject &jo, const std::string_view )
 {
     optional( jo, was_loaded, "width", _width, 0 );
     optional( jo, was_loaded, "height", _height_max, 1 );
@@ -705,7 +705,11 @@ void widget::set_default_var_range( const avatar &ava )
         case widget_var::bp_hp:
             // HP for body part
             _var_min = 0;
-            _var_max = ava.get_part_hp_max( only_bp() );
+            if( ava.has_part( only_bp() ) ) {
+                _var_max = ava.get_part_hp_max( only_bp() );
+            } else {
+                _var_max = 0;
+            }
             break;
         case widget_var::bp_encumb:
             _var_min = 0;

@@ -14,7 +14,7 @@
     ],
     "parts": [
       { "x": 0, "y": 0, "parts": [ "frame_orichalcum_cross", "seat", "seatbelt", "hdroof", "controls" ] },
-      { "x": 0, "y": 0, "parts": [ "stereo", "dashboard", "vehicle_alarm", "vehicle_clock" ] },
+      { "x": 0, "y": 0, "parts": [ "stereo", "dashboard", "vehicle_alarm" ] },
       { "x": 0, "y": 0, "part": "horn_car" },
       { "x": 0, "y": -1, "parts": [ "frame_orichalcum_vertical", "hddoor_left", "hdroof" ] },
       { "x": 0, "y": -1, "part": "plating_steel" },

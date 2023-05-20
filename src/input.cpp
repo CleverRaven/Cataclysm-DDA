@@ -664,6 +664,14 @@ void input_manager::init_keycode_mapping()
                             translate_marker_context( "key name", "SCROLL_DOWN" ) );
     add_mouse_keycode_pair( MouseInput::Move,
                             translate_marker_context( "key name", "MOUSE_MOVE" ) );
+    add_mouse_keycode_pair( MouseInput::X1ButtonPressed,
+                            translate_marker_context( "key name", "MOUSE_BACK_PRESSED" ) );
+    add_mouse_keycode_pair( MouseInput::X1ButtonReleased,
+                            translate_marker_context( "key name", "MOUSE_BACK" ) );
+    add_mouse_keycode_pair( MouseInput::X2ButtonPressed,
+                            translate_marker_context( "key name", "MOUSE_FORWARD_PRESSED" ) );
+    add_mouse_keycode_pair( MouseInput::X2ButtonReleased,
+                            translate_marker_context( "key name", "MOUSE_FORWARD" ) );
 
 }
 
@@ -1189,6 +1197,7 @@ const std::string &input_context::handle_input( const int timeout )
     next_action.type = input_event_t::error;
     const std::string *result = &CATA_ERROR;
     while( true ) {
+
         next_action = inp_mngr.get_input_event( preferred_keyboard_mode );
         if( next_action.type == input_event_t::timeout ) {
             result = &TIMEOUT;
@@ -1196,6 +1205,13 @@ const std::string &input_context::handle_input( const int timeout )
         }
 
         const std::string &action = input_to_action( next_action );
+
+        //Special global key to toggle language to english and back
+        if( action == "toggle_language_to_en" ) {
+            g->toggle_language_to_en();
+            ui_manager::invalidate_all_ui_adaptors();
+            ui_manager::redraw_invalidated();
+        }
 
         // Special help action
         if( action == "HELP_KEYBINDINGS" ) {
@@ -1927,7 +1943,7 @@ void input_context::set_iso( bool mode )
 }
 
 std::vector<std::string> input_context::filter_strings_by_phrase(
-    const std::vector<std::string> &strings, const std::string &phrase ) const
+    const std::vector<std::string> &strings, const std::string_view phrase ) const
 {
     std::vector<std::string> filtered_strings;
 

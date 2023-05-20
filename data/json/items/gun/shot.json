@@ -13,7 +13,6 @@
     "price": 100000,
     "price_postapoc": 500,
     "to_hit": -2,
-    "bashing": 6,
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "brown",
@@ -24,7 +23,6 @@
     "clip_size": 1,
     "reload": 80,
     "valid_mod_locations": [
-      [ "accessories", 1 ],
       [ "grip", 1 ],
       [ "stock mount", 1 ],
       [ "mechanism", 4 ],
@@ -34,7 +32,8 @@
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 1 } } ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "bigun",
@@ -49,16 +48,16 @@
     "price": 180000,
     "price_postapoc": 1750,
     "to_hit": -2,
-    "bashing": 9,
     "material": [ "steel" ],
     "dispersion": 855,
     "durability": 8,
     "modes": [ [ "DEFAULT", "burst", 6 ] ],
     "energy_drain": "1 kJ",
     "reload": 200,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "sights", 1 ], [ "rail mount", 1 ] ],
+    "valid_mod_locations": [ [ "sights", 1 ], [ "rail mount", 1 ] ],
     "flags": [ "MOUNTED_GUN", "USE_UPS" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "shotbelt_20" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "shotbelt_20" ] } ],
+    "melee_damage": { "bash": 9 }
   },
   {
     "id": "lever_shotgun",
@@ -73,14 +72,12 @@
     "price": 10000,
     "price_postapoc": 2250,
     "to_hit": -1,
-    "bashing": 10,
     "material": [ "steel", "wood" ],
     "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "dispersion": 550,
     "durability": 6,
     "barrel_volume": "500 ml",
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -95,7 +92,8 @@
     ],
     "clip_size": 6,
     "extend": { "flags": [ "RELOAD_ONE" ] },
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 6 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 6 } } ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "ksg",
@@ -120,7 +118,6 @@
     "price": 99000,
     "price_postapoc": 2250,
     "to_hit": -1,
-    "bashing": 9,
     "material": [ "steel", "plastic" ],
     "dispersion": 425,
     "sight_dispersion": 500,
@@ -128,7 +125,6 @@
     "clip_size": 7,
     "built_in_mods": [ "ksg_aux_shotgun" ],
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -140,7 +136,8 @@
       [ "sling", 1 ],
       [ "underbarrel", 2 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 7 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 7 } } ],
+    "melee_damage": { "bash": 9 }
   },
   {
     "id": "ksg-25",
@@ -165,7 +162,6 @@
     "price": 140000,
     "price_postapoc": 4000,
     "to_hit": -1,
-    "bashing": 9,
     "material": [ "steel", "plastic" ],
     "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "dispersion": 425,
@@ -174,7 +170,6 @@
     "clip_size": 12,
     "built_in_mods": [ "ksg25_aux_shotgun" ],
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -186,7 +181,8 @@
       [ "sling", 1 ],
       [ "underbarrel", 2 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 12 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 12 } } ],
+    "melee_damage": { "bash": 9 }
   },
   {
     "id": "mossberg_500",
@@ -218,14 +214,14 @@
     "price": 53800,
     "price_postapoc": 2250,
     "to_hit": -1,
-    "bashing": 13,
     "barrel_volume": "186 ml",
     "material": [ "steel", "aluminum", "plastic" ],
     "dispersion": 325,
     "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "durability": 9,
     "clip_size": 6,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 6 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 6 } } ],
+    "melee_damage": { "bash": 13 }
   },
   {
     "id": "mossberg_590",
@@ -287,14 +283,12 @@
     "price": 60000,
     "price_postapoc": 2250,
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "steel", "aluminum", "plastic" ],
     "dispersion": 345,
     "durability": 7,
     "clip_size": 8,
     "built_in_mods": [ "wire_stock" ],
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "sling", 1 ],
       [ "barrel", 1 ],
       [ "grip mount", 1 ],
@@ -307,7 +301,8 @@
       [ "underbarrel mount", 1 ]
     ],
     "extend": { "flags": [ "RELOAD_ONE" ] },
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 8 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 8 } } ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "pipe_double_shotgun",
@@ -322,7 +317,6 @@
     "relative": { "weight": "625 g", "volume": "360 ml", "price": 5000 },
     "barrel_volume": "720 ml",
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "sling", 1 ],
       [ "stock mount", 1 ],
       [ "barrel", 1 ],
@@ -348,7 +342,6 @@
     "price": 20000,
     "price_postapoc": 500,
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "steel", "wood" ],
     "dispersion": 855,
     "durability": 6,
@@ -356,7 +349,6 @@
     "reload": 200,
     "barrel_volume": "360 ml",
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "sling", 1 ],
       [ "stock mount", 1 ],
       [ "barrel", 1 ],
@@ -367,7 +359,8 @@
       [ "underbarrel mount", 1 ]
     ],
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 1 } } ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "remington_870",
@@ -403,14 +396,14 @@
     "price": 58700,
     "price_postapoc": 2500,
     "to_hit": -1,
-    "bashing": 13,
     "material": [ "steel", "plastic" ],
     "dispersion": 305,
     "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "durability": 8,
     "clip_size": 5,
     "barrel_volume": "229 ml",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 5 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 5 } } ],
+    "melee_damage": { "bash": 13 }
   },
   {
     "id": "remington_870_breacher",
@@ -443,7 +436,6 @@
     "barrel_volume": "0 ml",
     "built_in_mods": [ "breacher_grip" ],
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -499,7 +491,6 @@
     "price": 75000,
     "price_postapoc": 1250,
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "steel", "wood" ],
     "dispersion": 855,
     "durability": 6,
@@ -507,7 +498,6 @@
     "reload": 200,
     "barrel_volume": "360 ml",
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "sling", 1 ],
       [ "stock mount", 1 ],
       [ "barrel", 1 ],
@@ -517,7 +507,8 @@
       [ "underbarrel mount", 1 ]
     ],
     "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 6 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 6 } } ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "saiga_12",
@@ -541,14 +532,12 @@
     "price": 189000,
     "price_postapoc": 4500,
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "steel", "plastic" ],
     "dispersion": 395,
     "durability": 7,
     "min_cycle_recoil": 1250,
     "barrel_volume": "81 ml",
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "sling", 1 ],
       [ "stock mount", 1 ],
       [ "mechanism", 4 ],
@@ -559,7 +548,8 @@
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "saiga10mag", "saiga30mag" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "saiga10mag", "saiga30mag" ] } ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "shotgun_d",
@@ -576,7 +566,6 @@
     "price_postapoc": 2000,
     "barrel_volume": "980 ml",
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "sights mount", 1 ],
@@ -603,14 +592,12 @@
     "price": 10000,
     "price_postapoc": 1500,
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "steel", "wood" ],
     "dispersion": 210,
     "durability": 9,
     "clip_size": 1,
     "barrel_volume": "670 ml",
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "muzzle", 1 ],
@@ -623,7 +610,8 @@
       [ "underbarrel mount", 1 ]
     ],
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 1 } } ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "streetsweeper",
@@ -647,7 +635,6 @@
     "price": 120000,
     "price_postapoc": 3500,
     "to_hit": -1,
-    "bashing": 8,
     "material": [ "steel", "wood" ],
     "dispersion": 855,
     "durability": 6,
@@ -658,7 +645,6 @@
     "built_in_mods": [ "wire_stock" ],
     "modes": [ [ "DEFAULT", "single", 1 ], [ "AUTO", "3 rd.", 3 ] ],
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -671,7 +657,8 @@
       [ "underbarrel mount", 1 ]
     ],
     "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 12 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 12 } } ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "tavor_12",
@@ -695,7 +682,6 @@
     "price": 180000,
     "price_postapoc": 5500,
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "steel", "plastic" ],
     "dispersion": 320,
     "durability": 6,
@@ -704,7 +690,6 @@
     "sight_dispersion": 500,
     "built_in_mods": [ "ts12_aux_shotgun", "ts12_aux_shotgun2" ],
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
       [ "grip mount", 1 ],
@@ -716,7 +701,8 @@
       [ "sling", 1 ]
     ],
     "flags": [ "RELOAD_ONE" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 5 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 5 } } ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "winchester_1887",
@@ -740,7 +726,6 @@
     "price": 100800,
     "price_postapoc": 2250,
     "to_hit": -1,
-    "bashing": 8,
     "material": [ "steel", "wood" ],
     "ranged_damage": { "damage_type": "bullet", "amount": -2 },
     "dispersion": 860,
@@ -750,7 +735,6 @@
     "skill": "pistol",
     "modes": [ [ "DEFAULT", "single", 1 ] ],
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "stock mount", 1 ],
       [ "mechanism", 2 ],
       [ "barrel", 1 ],
@@ -761,7 +745,8 @@
       [ "underbarrel mount", 1 ]
     ],
     "flags": [ "RELOAD_ONE" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 6 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 6 } } ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "winchester_1897",
@@ -784,13 +769,11 @@
     "looks_like": "remington_870_express",
     "price": 850000,
     "price_postapoc": 2500,
-    "bashing": 11,
     "material": [ "steel", "wood" ],
     "dispersion": 360,
     "durability": 8,
     "clip_size": 6,
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "stock mount", 1 ],
       [ "mechanism", 2 ],
       [ "barrel", 1 ],
@@ -804,7 +787,8 @@
     ],
     "default_mods": [ "sword_bayonet" ],
     "flags": [ "RELOAD_ONE" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 6 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 6 } } ],
+    "melee_damage": { "bash": 11 }
   },
   {
     "id": "slamfire_shotgun",
@@ -819,7 +803,6 @@
     "looks_like": "pipe",
     "price": 8500,
     "price_postapoc": 1000,
-    "bashing": 8,
     "material": [ "steel" ],
     "ranged_damage": { "damage_type": "bullet", "amount": -3 },
     "dispersion": 960,
@@ -829,7 +812,8 @@
     "modes": [ [ "DEFAULT", "single", 1 ] ],
     "valid_mod_locations": [ [ "sling", 1 ], [ "sights mount", 1 ], [ "underbarrel mount", 1 ] ],
     "flags": [ "RELOAD_EJECT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 1 } } ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "slamfire_shotgun_d",
@@ -859,7 +843,6 @@
     "price": 189000,
     "price_postapoc": 4500,
     "to_hit": -2,
-    "bashing": 3,
     "material": [ "steel", "plastic" ],
     "dispersion": 395,
     "durability": 7,
@@ -867,6 +850,7 @@
     "barrel_volume": "252 ml",
     "valid_mod_locations": [ [ "sling", 1 ], [ "sights mount", 1 ], [ "stock", 1 ] ],
     "built_in_mods": [ "m26_mass_stock" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m26_mass_mag_3", "m26_mass_mag_5" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m26_mass_mag_3", "m26_mass_mag_5" ] } ],
+    "melee_damage": { "bash": 3 }
   }
 ]

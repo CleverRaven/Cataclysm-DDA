@@ -9,6 +9,7 @@
 #include "game.h"
 #include "inventory.h"
 #include "itype.h"
+#include "make_static.h"
 #include "melee.h"
 #include "memorial_logger.h"
 #include "messages.h"
@@ -722,7 +723,7 @@ bool Character::is_wearing_active_optcloak() const
 }
 
 static void layer_item( std::map<bodypart_id, encumbrance_data> &vals, const item &it,
-                        std::map<bodypart_id, layer_level> &highest_layer_so_far, const Character &c )
+                        std::map<sub_bodypart_id, layer_level> &highest_layer_so_far, const Character &c )
 {
     body_part_set covered_parts = it.get_covered_body_parts();
     for( const bodypart_id &bp : c.get_all_body_parts() ) {
@@ -751,22 +752,39 @@ static void layer_item( std::map<bodypart_id, encumbrance_data> &vals, const ite
             // do the sublayers of this armor conflict
             bool conflicts = false;
 
+            // check if we've already added conflict for the layer and body part since each sbp is check individually
+            std::map<layer_level, bool> bpcovered;
+
             // add the sublocations to the overall body part layer and update if we are conflicting
-            if( !bp->sub_parts.empty() && item_layer >= highest_layer_so_far[bp] ) {
-                conflicts = vals[bp].add_sub_locations( item_layer, it.get_covered_sub_body_parts() );
-            } else {
-                // the body part doesn't have sublocations it for sure conflicts
-                // if its on the wrong layer it for sure conflicts
-                conflicts = true;
-            }
+            for( sub_bodypart_id &sbp : it.get_covered_sub_body_parts() ) {
+                // bit hacky but needed since we are doing one layer at a time
+                std::vector<layer_level> ll;
+                ll.push_back( item_layer );
+                if( !it.has_layer( ll, sbp ) ) {
+                    // skip this layer and sbp if it doesn't cover it
+                    continue;
+                }
 
-            highest_layer_so_far[bp] = std::max( highest_layer_so_far[bp], item_layer );
+                if( item_layer >= highest_layer_so_far[sbp] ) {
+                    conflicts = vals[bp].add_sub_location( item_layer, sbp );
+                } else {
+                    // if it is on a lower layer it conflicts for sure
+                    conflicts = true;
+                }
 
-            // Apply layering penalty to this layer, as well as any layer worn
-            // within it that would normally be worn outside of it.
-            for( layer_level penalty_layer = item_layer;
-                 penalty_layer <= highest_layer_so_far[bp]; ++penalty_layer ) {
-                vals[bp].layer( penalty_layer, layering_encumbrance, conflicts );
+                highest_layer_so_far[sbp] = std::max( highest_layer_so_far[sbp], item_layer );
+
+                // Apply layering penalty to this layer, as well as any layer worn
+                // within it that would normally be worn outside of it.
+                for( layer_level penalty_layer = item_layer;
+                     penalty_layer <= highest_layer_so_far[sbp]; ++penalty_layer ) {
+
+                    // make sure we haven't already found a subpart that covers and would cause penalty
+                    if( !bpcovered[penalty_layer] ) {
+                        vals[bp].layer( penalty_layer, layering_encumbrance, conflicts );
+                        bpcovered[penalty_layer] = true;
+                    }
+                }
             }
         }
         vals[bp].armor_encumbrance += encumber_val;
@@ -808,7 +826,7 @@ void outfit::item_encumb( std::map<bodypart_id, encumbrance_data> &vals,
 
     // Track highest layer observed so far so we can penalize out-of-order
     // items
-    std::map<bodypart_id, layer_level> highest_layer_so_far;
+    std::map<sub_bodypart_id, layer_level> highest_layer_so_far;
 
     for( auto w_it = worn.begin(); w_it != worn.end(); ++w_it ) {
         if( w_it == new_item_position ) {
@@ -1707,36 +1725,25 @@ item &outfit::front()
 
 static void item_armor_enchantment_adjust( Character &guy, damage_unit &du, item &armor )
 {
-    switch( du.type ) {
-        case damage_type::ACID:
-            du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_ACID );
-            break;
-        case damage_type::BASH:
-            du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_BASH );
-            break;
-        case damage_type::BIOLOGICAL:
-            du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_BIO );
-            break;
-        case damage_type::COLD:
-            du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_COLD );
-            break;
-        case damage_type::CUT:
-            du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_CUT );
-            break;
-        case damage_type::ELECTRIC:
-            du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_ELEC );
-            break;
-        case damage_type::HEAT:
-            du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_HEAT );
-            break;
-        case damage_type::STAB:
-            du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_STAB );
-            break;
-        case damage_type::BULLET:
-            du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_BULLET );
-            break;
-        default:
-            return;
+    // FIXME: hardcoded damage types -> enchantments
+    if( du.type == STATIC( damage_type_id( "acid" ) ) ) {
+        du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_ACID );
+    } else if( du.type == STATIC( damage_type_id( "bash" ) ) ) {
+        du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_BASH );
+    } else if( du.type == STATIC( damage_type_id( "biological" ) ) ) {
+        du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_BIO );
+    } else if( du.type == STATIC( damage_type_id( "cold" ) ) ) {
+        du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_COLD );
+    } else if( du.type == STATIC( damage_type_id( "cut" ) ) ) {
+        du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_CUT );
+    } else if( du.type == STATIC( damage_type_id( "electric" ) ) ) {
+        du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_ELEC );
+    } else if( du.type == STATIC( damage_type_id( "heat" ) ) ) {
+        du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_HEAT );
+    } else if( du.type == STATIC( damage_type_id( "stab" ) ) ) {
+        du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_STAB );
+    } else if( du.type == STATIC( damage_type_id( "bullet" ) ) ) {
+        du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_BULLET );
     }
     du.amount = std::max( 0.0f, du.amount );
 }
@@ -1774,7 +1781,8 @@ void outfit::absorb_damage( Character &guy, damage_unit &elem, bodypart_id bp,
         item_armor_enchantment_adjust( guy, elem, armor );
         // Heat damage can set armor on fire
         // Even though it doesn't cause direct physical damage to it
-        if( outermost && elem.type == damage_type::HEAT && elem.amount >= 1.0f ) {
+        // FIXME: Hardcoded damage type
+        if( outermost && elem.type == STATIC( damage_type_id( "heat" ) ) && elem.amount >= 1.0f ) {
             // TODO: Different fire intensity values based on damage
             fire_data frd{ 2 };
             destroy = !armor.has_flag( flag_INTEGRATED ) && armor.burn( frd );
@@ -1823,13 +1831,13 @@ void outfit::absorb_damage( Character &guy, damage_unit &elem, bodypart_id bp,
     }
 }
 
-float outfit::damage_resist( const damage_type dmg_type, const bodypart_id &bp,
+float outfit::damage_resist( const damage_type_id &dt, const bodypart_id &bp,
                              const bool to_self ) const
 {
     float ret = 0.0f;
     for( const item &i : worn ) {
         if( i.covers( bp ) ) {
-            ret += i.resist( dmg_type, to_self, bp );
+            ret += i.resist( dt, to_self, bp );
         }
     }
     return ret;
@@ -1914,8 +1922,7 @@ void outfit::fire_options( Character &guy, std::vector<std::string> &options,
             return it.is_gun();
         } );
 
-        if( !guns.empty() && clothing.type->can_use( "holster" ) &&
-            !clothing.has_flag( flag_NO_QUICKDRAW ) ) {
+        if( !guns.empty() && clothing.type->can_use( "holster" ) ) {
             //~ draw (first) gun contained in holster
             //~ %1$s: weapon name, %2$s: container name, %3$d: remaining ammo count
             options.push_back( string_format( pgettext( "holster", "%1$s from %2$s (%3$d)" ),
@@ -1985,10 +1992,10 @@ void outfit::best_pocket( Character &guy, const item &it, const item *avoid,
     }
 }
 
-void outfit::overflow( const tripoint &pos )
+void outfit::overflow( Character &guy )
 {
-    for( item &clothing : worn ) {
-        clothing.overflow( pos );
+    for( item_location &clothing : top_items_loc( guy ) ) {
+        clothing.overflow();
     }
 }
 
@@ -2367,24 +2374,18 @@ void outfit::add_stash( Character &guy, const item &newit, int &remaining_charge
             if( pocke == nullptr ) {
                 continue;
             }
-            if( pocke->rigid() ) {
-                // Rigid container allow to fill unconditionally till volume limit
-                // because do not depend on the capacity of the parent's pocket.
-                filled_count = pocke->fill_with( newit, guy, remaining_charges, false, false );
-            } else {
-                int max_contain_value = pocke->remaining_capacity_for_item( newit );
-                const item_location parent_data = pocket_data_ptr.parent;
+            int max_contain_value = pocke->remaining_capacity_for_item( newit );
+            const item_location parent_data = pocket_data_ptr.parent;
 
-                if( parent_data.has_parent() ) {
-                    if( parent_data.parents_can_contain_recursive( &temp_it ) ) {
-                        max_contain_value = parent_data.max_charges_by_parent_recursive( temp_it );
-                    } else {
-                        max_contain_value = 0;
-                    }
+            if( parent_data.has_parent() ) {
+                if( parent_data.parents_can_contain_recursive( &temp_it ) ) {
+                    max_contain_value = parent_data.max_charges_by_parent_recursive( temp_it );
+                } else {
+                    max_contain_value = 0;
                 }
-                const int charges = std::min( max_contain_value, remaining_charges ) ;
-                filled_count = pocke->fill_with( newit, guy, charges, false, false );
             }
+            const int charges = std::min( max_contain_value, remaining_charges ) ;
+            filled_count = pocke->fill_with( newit, guy, charges, false, false );
             num_contained += filled_count;
             remaining_charges -= filled_count;
         }
@@ -2517,7 +2518,25 @@ std::vector<item_pocket *> outfit::grab_drop_pockets()
 {
     std::vector<item_pocket *> pd;
     for( item &i : worn ) {
-        // if the item has ripoff pockets we should itterate on them also grabs only effect the torso
+        if( i.has_ripoff_pockets() ) {
+            for( item_pocket *pocket : i.get_all_contained_pockets() ) {
+                if( pocket->get_pocket_data()->ripoff > 0 && !pocket->empty() ) {
+                    pd.push_back( pocket );
+                }
+            }
+        }
+    }
+    return pd;
+}
+
+std::vector<item_pocket *> outfit::grab_drop_pockets( const bodypart_id &bp )
+{
+    std::vector<item_pocket *> pd;
+    for( item &i : worn ) {
+        // Check if we wear it on the grabbed limb in the first place
+        if( !is_wearing_on_bp( i.typeId(), bp ) ) {
+            continue;
+        }
         if( i.has_ripoff_pockets() ) {
             for( item_pocket *pocket : i.get_all_contained_pockets() ) {
                 if( pocket->get_pocket_data()->ripoff > 0 && !pocket->empty() ) {

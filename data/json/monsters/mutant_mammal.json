@@ -23,9 +23,6 @@
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 8 } ],
     "dodge": 3,
-    "armor_bash": 8,
-    "armor_cut": 12,
-    "armor_elec": 1,
     "bleed_rate": 80,
     "vision_day": 30,
     "vision_night": 10,
@@ -43,7 +40,8 @@
     "dissect": "dissect_ursine_sample_small",
     "families": [ "prof_intro_biology" ],
     "zombify_into": "mon_meat_cocoon_med",
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "BASHES", "PUSH_MON", "STUMBLES", "KEENNOSE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "BASHES", "PUSH_MON", "STUMBLES", "KEENNOSE" ],
+    "armor": { "bash": 8, "cut": 12, "electric": 1 }
   },
   {
     "id": "mon_beaver_mutant_huge",
@@ -69,14 +67,14 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "dodge": 2,
-    "armor_cut": 4,
     "harvest": "mutant_mammal_fur",
     "dissect": "dissect_mouse_sample_large",
     "families": [ "prof_intro_biology" ],
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "SOUND" ],
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "SWIMS", "WARM" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "SWIMS", "WARM" ],
+    "armor": { "cut": 4 }
   },
   {
     "id": "mon_beaver_mutant_avian",
@@ -134,7 +132,6 @@
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 8 } ],
     "dodge": 6,
-    "armor_bash": 1,
     "vision_night": 5,
     "special_attacks": [
       {
@@ -151,7 +148,8 @@
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK" ],
     "fear_triggers": [ "SOUND" ],
     "zombify_into": "mon_meat_cocoon_tiny",
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "GROUP_MORALE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "GROUP_MORALE" ],
+    "armor": { "bash": 1 }
   },
   {
     "id": "mon_coyote_mutant_venom",
@@ -177,7 +175,6 @@
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "dodge": 3,
-    "armor_bash": 1,
     "vision_night": 5,
     "path_settings": { "max_dist": 7 },
     "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "PLAYER_WEAK", "HURT" ],
@@ -197,7 +194,8 @@
       "KEENNOSE",
       "BADVENOM",
       "GROUP_MORALE"
-    ]
+    ],
+    "armor": { "bash": 1 }
   },
   {
     "id": "mon_wolf_mutant_huge",
@@ -223,9 +221,6 @@
     "melee_dice_sides": 12,
     "melee_damage": [ { "damage_type": "cut", "amount": 12 } ],
     "dodge": 2,
-    "armor_bash": 8,
-    "armor_cut": 10,
-    "armor_elec": 1,
     "bleed_rate": 60,
     "vision_day": 50,
     "vision_night": 5,
@@ -242,7 +237,8 @@
     ],
     "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "zombify_into": "mon_meat_cocoon_large",
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE" ],
+    "armor": { "bash": 8, "cut": 10, "electric": 1 }
   },
   {
     "id": "mon_deer_mutant_spider",

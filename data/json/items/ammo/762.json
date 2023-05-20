@@ -6,6 +6,7 @@
     "description": "7.62x39mm 57-N-231 ammunition with a 121.9gr steel core FMJ bullet.  Developed in World War 2 by the Soviet Union, the 7.62x39mm round rapidly became extremely popular all over the world.  The bullet has poor wounding potential due to its stability, only beginning to yaw after 26cm.",
     "weight": "16 g",
     "volume": "113 ml",
+    "longest_side": "56 mm",
     "price": 120,
     "price_postapoc": 900,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],

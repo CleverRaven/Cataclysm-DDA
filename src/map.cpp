@@ -109,6 +109,8 @@
 
 static const ammotype ammo_battery( "battery" );
 
+static const damage_type_id damage_bash( "bash" );
+
 static const diseasetype_id disease_bad_food( "bad_food" );
 
 static const efftype_id effect_boomered( "boomered" );
@@ -740,11 +742,11 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
             // don't try to deal damage to invalid part (probably removed or destroyed)
             if( part_num != -1 ) {
                 if( veh.part_info( part_num ).rotor_diameter() > 0 ) {
-                    veh.damage( *this, part_num, coll_dmg, damage_type::BASH, true );
+                    veh.damage( *this, part_num, coll_dmg, damage_bash, true );
                 } else {
                     impulse += coll_dmg;
-                    veh.damage( *this, part_num, coll_dmg, damage_type::BASH );
-                    veh.damage_all( coll_dmg / 2, coll_dmg, damage_type::BASH, collision_point );
+                    veh.damage( *this, part_num, coll_dmg, damage_bash );
+                    veh.damage_all( coll_dmg / 2, coll_dmg, damage_bash, collision_point );
                 }
             }
         }
@@ -1047,10 +1049,10 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
         }
 
         epicenter1 += veh.part( coll_parm ).mount;
-        veh.damage( *this, coll_parm, dmg1_part, damage_type::BASH );
+        veh.damage( *this, coll_parm, dmg1_part, damage_bash );
 
         epicenter2 += veh2.part( target_parm ).mount;
-        veh2.damage( *this, target_parm, dmg2_part, damage_type::BASH );
+        veh2.damage( *this, target_parm, dmg2_part, damage_bash );
     }
 
     epicenter2.x /= coll_parts_cnt;
@@ -1058,7 +1060,7 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
 
     if( dmg2_part > 100 ) {
         // Shake vehicle because of collision
-        veh2.damage_all( dmg2_part / 2, dmg2_part, damage_type::BASH, epicenter2 );
+        veh2.damage_all( dmg2_part / 2, dmg2_part, damage_bash, epicenter2 );
     }
 
     if( dmg_veh1 > 800 ) {
@@ -2690,24 +2692,19 @@ void map::drop_furniture( const tripoint &p )
         Character *pl = critter->as_character();
         monster *mon = critter->as_monster();
         if( pl != nullptr ) {
-            pl->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_type::BASH, rng( dmg / 3,
-                             dmg ), 0,
-                             0.5f ) );
-            pl->deal_damage( nullptr, bodypart_id( "head" ),  damage_instance( damage_type::BASH, rng( dmg / 3,
-                             dmg ), 0,
-                             0.5f ) );
-            pl->deal_damage( nullptr, bodypart_id( "leg_l" ), damage_instance( damage_type::BASH, rng( dmg / 2,
-                             dmg ), 0,
-                             0.4f ) );
-            pl->deal_damage( nullptr, bodypart_id( "leg_r" ), damage_instance( damage_type::BASH, rng( dmg / 2,
-                             dmg ), 0,
-                             0.4f ) );
-            pl->deal_damage( nullptr, bodypart_id( "arm_l" ), damage_instance( damage_type::BASH, rng( dmg / 2,
-                             dmg ), 0,
-                             0.4f ) );
-            pl->deal_damage( nullptr, bodypart_id( "arm_r" ), damage_instance( damage_type::BASH, rng( dmg / 2,
-                             dmg ), 0,
-                             0.4f ) );
+            // FIXME: Hardcoded damage types
+            pl->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_bash, rng( dmg / 3, dmg ),
+                             0, 0.5f ) );
+            pl->deal_damage( nullptr, bodypart_id( "head" ),  damage_instance( damage_bash, rng( dmg / 3, dmg ),
+                             0, 0.5f ) );
+            pl->deal_damage( nullptr, bodypart_id( "leg_l" ), damage_instance( damage_bash, rng( dmg / 2, dmg ),
+                             0, 0.4f ) );
+            pl->deal_damage( nullptr, bodypart_id( "leg_r" ), damage_instance( damage_bash, rng( dmg / 2, dmg ),
+                             0, 0.4f ) );
+            pl->deal_damage( nullptr, bodypart_id( "arm_l" ), damage_instance( damage_bash, rng( dmg / 2, dmg ),
+                             0, 0.4f ) );
+            pl->deal_damage( nullptr, bodypart_id( "arm_r" ), damage_instance( damage_bash, rng( dmg / 2, dmg ),
+                             0, 0.4f ) );
         } else if( mon != nullptr ) {
             // TODO: Monster's armor and size - don't crush hulks with chairs
             mon->apply_damage( nullptr, bodypart_id( "torso" ), rng( dmg, dmg * 2 ) );
@@ -4080,7 +4077,7 @@ void map::bash_vehicle( const tripoint &p, bash_params &params )
 {
     // Smash vehicle if present
     if( const optional_vpart_position vp = veh_at( p ) ) {
-        vp->vehicle().damage( *this, vp->part_index(), params.strength, damage_type::BASH );
+        vp->vehicle().damage( *this, vp->part_index(), params.strength, damage_bash );
         if( !params.silent ) {
             sounds::sound( p, 18, sounds::sound_t::combat, _( "crash!" ), false,
                            "smash_success", "hit_vehicle" );
@@ -4151,6 +4148,7 @@ void map::crush( const tripoint &p )
             const optional_vpart_position vp = veh_at( p );
             player_inside = vp && vp->is_inside();
         }
+        // FIXME: Hardcoded damage types
         if( !player_inside ) { //If there's a player at p and he's not in a covered vehicle...
             //This is the roof coming down on top of us, no chance to dodge
             crushed_player->add_msg_player_or_npc( m_bad, _( "You are crushed by the falling debris!" ),
@@ -4158,19 +4156,19 @@ void map::crush( const tripoint &p )
             // TODO: Make this depend on the ceiling material
             const int dam = rng( 0, 40 );
             // Torso and head take the brunt of the blow
-            crushed_player->deal_damage( nullptr, bodypart_id( "head" ), damage_instance( damage_type::BASH,
+            crushed_player->deal_damage( nullptr, bodypart_id( "head" ), damage_instance( damage_bash,
                                          dam * .25 ) );
-            crushed_player->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_type::BASH,
+            crushed_player->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_bash,
                                          dam * .45 ) );
             // Legs take the next most through transferred force
-            crushed_player->deal_damage( nullptr, bodypart_id( "leg_l" ), damage_instance( damage_type::BASH,
+            crushed_player->deal_damage( nullptr, bodypart_id( "leg_l" ), damage_instance( damage_bash,
                                          dam * .10 ) );
-            crushed_player->deal_damage( nullptr, bodypart_id( "leg_r" ), damage_instance( damage_type::BASH,
+            crushed_player->deal_damage( nullptr, bodypart_id( "leg_r" ), damage_instance( damage_bash,
                                          dam * .10 ) );
             // Arms take the least
-            crushed_player->deal_damage( nullptr, bodypart_id( "arm_l" ), damage_instance( damage_type::BASH,
+            crushed_player->deal_damage( nullptr, bodypart_id( "arm_l" ), damage_instance( damage_bash,
                                          dam * .05 ) );
-            crushed_player->deal_damage( nullptr, bodypart_id( "arm_r" ), damage_instance( damage_type::BASH,
+            crushed_player->deal_damage( nullptr, bodypart_id( "arm_r" ), damage_instance( damage_bash,
                                          dam * .05 ) );
 
             // Pin whoever got hit
@@ -4181,7 +4179,7 @@ void map::crush( const tripoint &p )
 
     if( monster *const monhit = creatures.creature_at<monster>( p ) ) {
         // 25 ~= 60 * .45 (torso)
-        monhit->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_type::BASH, rng( 0,
+        monhit->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_bash, rng( 0,
                              25 ) ) );
 
         // Pin whoever got hit
@@ -4191,26 +4189,32 @@ void map::crush( const tripoint &p )
 
     if( const optional_vpart_position vp = veh_at( p ) ) {
         // Arbitrary number is better than collapsing house roof crushing APCs
-        vp->vehicle().damage( *this, vp->part_index(), rng( 100, 1000 ), damage_type::BASH, false );
+        vp->vehicle().damage( *this, vp->part_index(), rng( 100, 1000 ), damage_bash, false );
     }
 }
 
 void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
 {
     // TODO: make bashing better a destroying, worse at penetrating
-    std::array<float, static_cast<int>( damage_type::NUM )> dmg_by_type {};
+    std::map<damage_type_id, float> dmg_by_type {};
     for( const damage_unit &dam : proj.impact ) {
-        dmg_by_type[static_cast<int>( dam.type )] +=
+        dmg_by_type[dam.type] +=
             dam.amount * dam.damage_multiplier * dam.unconditional_damage_mult +
             dam.res_pen * dam.res_mult * dam.unconditional_res_mult;
     }
-    const float initial_damage = std::accumulate( dmg_by_type.begin(), dmg_by_type.end(), 0.0f );
+    const float initial_damage = std::accumulate( dmg_by_type.begin(), dmg_by_type.end(), 0.0f,
+    []( float acc, const std::pair<const damage_type_id, float> &dmg ) {
+        return acc + dmg.second;
+    } );
     if( initial_damage < 0 ) {
         return;
     }
     // TODO: use this for more than just vehicle parts
-    const damage_type main_damage_type = static_cast<damage_type>(
-            std::max_element( dmg_by_type.begin(), dmg_by_type.end() ) - dmg_by_type.begin() );
+    const damage_type_id &main_damage_type = std::max_element( dmg_by_type.begin(), dmg_by_type.end(),
+            []( const std::pair<const damage_type_id, float> &a,
+    const std::pair<const damage_type_id, float> &b ) {
+        return a.second < b.second;
+    } )->first;
 
     // damage value that may be reduced by vehicles, furniture, terrain or fields
     float dam = initial_damage;
@@ -4641,22 +4645,22 @@ void map::adjust_radiation( const tripoint &p, const int delta )
     current_submap->set_radiation( l, current_radiation + delta );
 }
 
-units::temperature map::get_temperature_mod( const tripoint &p ) const
+units::temperature_delta map::get_temperature_mod( const tripoint &p ) const
 {
     if( !inbounds( p ) ) {
-        return 0_K;
+        return units::from_kelvin_delta( 0 );
     }
 
     const submap *const current_submap = unsafe_get_submap_at( p );
     if( current_submap == nullptr ) {
         debugmsg( "Tried to get temperature at (%d,%d,%d) but the submap is not loaded", p.x, p.y, p.z );
-        return 0_K;
+        return units::from_kelvin_delta( 0 );
     }
 
-    return current_submap->get_temperature();
+    return current_submap->get_temperature_mod();
 }
 
-void map::set_temperature_mod( const tripoint &p, units::temperature new_temperature_mod )
+void map::set_temperature_mod( const tripoint &p, units::temperature_delta new_temperature_mod )
 {
     if( !inbounds( p ) ) {
         return;
@@ -4803,7 +4807,7 @@ void map::spawn_item( const tripoint &p, const itype_id &type_id, const unsigned
         //let's fail silently if we specify charges for an item that doesn't support it
         new_item.charges = charges;
     }
-    new_item = new_item.in_its_container( new_item.count() );
+    new_item = new_item.in_its_container();
     new_item.set_owner( faction_id( faction ) ); // Set faction to the container as well
     if( ( new_item.made_of( phase_id::LIQUID ) && has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) ) ||
         has_flag( ter_furn_flag::TFLAG_DESTROY_ITEM, p ) ) {
@@ -5762,7 +5766,6 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
 units::energy map::consume_ups( const tripoint &origin, const int range, units::energy qty )
 {
     const units::energy wanted_qty = qty;
-    int qty_kj = units::to_kilojoule( qty );
 
     // populate a grid of spots that can be reached
     std::vector<tripoint> reachable_pts;
@@ -5774,8 +5777,8 @@ units::energy map::consume_ups( const tripoint &origin, const int range, units::
             map_stack items = i_at( p );
             for( item &elem : items ) {
                 if( elem.has_flag( flag_IS_UPS ) ) {
-                    qty_kj -=  elem.ammo_consume( qty_kj, p, nullptr );
-                    if( qty_kj == 0 ) {
+                    qty -=  elem.energy_consume( qty, p, nullptr );
+                    if( qty <= 0_J ) {
                         break;
                     }
                 }
@@ -5783,7 +5786,7 @@ units::energy map::consume_ups( const tripoint &origin, const int range, units::
         }
     }
 
-    return wanted_qty - units::from_kilojoule( qty_kj );
+    return wanted_qty - qty;
 }
 
 std::list<std::pair<tripoint, item *> > map::get_rc_items( const tripoint &p )
@@ -7812,7 +7815,7 @@ void map::fill_funnels( const tripoint &p, const time_point &since )
         }
     }
     if( biggest_container != items.end() ) {
-        retroactively_fill_from_funnel( *biggest_container, tr, since, calendar::turn, getabs( p ) );
+        retroactively_fill_from_funnel( *biggest_container, tr, since, calendar::turn, getglobal( p ) );
     }
 }
 
@@ -8339,12 +8342,12 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
     group.clear();
 }
 
-void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight )
+void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight, bool spawn_nonlocal )
 {
     // TODO: fix point types
     const tripoint_abs_sm submap_pos( gp + abs_sub.xy() );
     // Load unloaded monsters
-    overmap_buffer.spawn_monster( submap_pos );
+    overmap_buffer.spawn_monster( submap_pos, spawn_nonlocal );
     // Only spawn new monsters after existing monsters are loaded.
     std::vector<mongroup *> groups = overmap_buffer.groups_at( submap_pos );
     for( mongroup *&mgp : groups ) {
@@ -8415,7 +8418,7 @@ void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight )
     current_submap->spawns.clear();
 }
 
-void map::spawn_monsters( bool ignore_sight )
+void map::spawn_monsters( bool ignore_sight, bool spawn_nonlocal )
 {
     const int zmin = zlevels ? -OVERMAP_DEPTH : abs_sub.z();
     const int zmax = zlevels ? OVERMAP_HEIGHT : abs_sub.z();
@@ -8426,7 +8429,7 @@ void map::spawn_monsters( bool ignore_sight )
     for( gz = zmin; gz <= zmax; gz++ ) {
         for( gx = 0; gx < my_MAPSIZE; gx++ ) {
             for( gy = 0; gy < my_MAPSIZE; gy++ ) {
-                spawn_monsters_submap( gp, ignore_sight );
+                spawn_monsters_submap( gp, ignore_sight, spawn_nonlocal );
             }
         }
     }

@@ -805,9 +805,7 @@ void talk_function::drop_items_in_place( npc &p )
     }
     if( !to_drop.empty() ) {
         // spawn a activity for the npc to drop the specified items
-        p.assign_activity( player_activity( drop_activity_actor(
-                                                to_drop, tripoint_zero, false
-                                            ) ) );
+        p.assign_activity( drop_activity_actor( to_drop, tripoint_zero, false ) );
         p.say( "<acknowledged>" );
     } else {
         p.say( _( "I don't have anything to drop off." ) );
@@ -1161,11 +1159,10 @@ void talk_function::start_training_gen( Character &teacher, std::vector<Characte
             return;
         }
     }
-    player_activity tact = player_activity( ACT_TRAIN_TEACHER, to_moves<int>( time ),
-                                            teacher.getID().get_value(), 0, name );
+    const int teacher_id = teacher.getID().get_value();
+    player_activity tact( ACT_TRAIN_TEACHER, to_moves<int>( time ), teacher_id, 0, name );
     for( Character *student : students ) {
-        player_activity act = player_activity( ACT_TRAIN, to_moves<int>( time ),
-                                               teacher.getID().get_value(), 0, name );
+        player_activity act( ACT_TRAIN, to_moves<int>( time ), teacher_id, 0, name );
         act.values.push_back( expert_multiplier );
         student->assign_activity( act );
         tact.values.push_back( student->getID().get_value() );

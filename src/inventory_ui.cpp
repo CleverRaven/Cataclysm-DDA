@@ -833,8 +833,7 @@ bool inventory_holster_preset::is_shown( const item_location &contained ) const
     if( contained->is_bucket_nonempty() ) {
         return false;
     }
-    if( !holster->all_pockets_rigid() &&
-        !holster.parents_can_contain_recursive( &item_copy ) ) {
+    if( !holster.parents_can_contain_recursive( &item_copy ) ) {
         return false;
     }
     return true;
@@ -986,11 +985,13 @@ void inventory_entry::reset_entry_cell_cache() const
 const inventory_entry::entry_cell_cache_t &inventory_entry::get_entry_cell_cache(
     inventory_selector_preset const &preset ) const
 {
-
-    if( !entry_cell_cache ) {
+    //lang check here is needed to rebuild cache when using "Toggle language to English" option
+    if( !entry_cell_cache ||
+        entry_cell_cache->lang_version != detail::get_current_language_version() ) {
         make_entry_cell_cache( preset, false );
         cache_denial( preset );
         cata_assert( entry_cell_cache.has_value() );
+        entry_cell_cache->lang_version = detail::get_current_language_version();
     }
 
     return *entry_cell_cache;
@@ -1574,7 +1575,7 @@ int inventory_column::reassign_custom_invlets( const Character &p, int min_invle
     return cur_invlet;
 }
 
-int inventory_column::reassign_custom_invlets( int cur_idx, const std::string &pickup_chars )
+int inventory_column::reassign_custom_invlets( int cur_idx, const std::string_view pickup_chars )
 {
     for( inventory_entry &elem : entries ) {
         // Only items on map/in vehicles: those that the player does not possess.
@@ -3953,7 +3954,7 @@ bool pickup_selector::wield( int &count )
     if( u.can_wield( *it ).success() ) {
         remove_from_to_use( it );
         add_reopen_activity();
-        u.assign_activity( player_activity( wield_activity_actor( it, charges ) ) );
+        u.assign_activity( wield_activity_actor( it, charges ) );
         return true;
     } else {
         popup_getkey( _( "You can't wield the %s." ), it->display_name() );
@@ -3975,7 +3976,7 @@ bool pickup_selector::wear()
     if( u.can_wear( *items.front() ).success() ) {
         remove_from_to_use( items.front() );
         add_reopen_activity();
-        u.assign_activity( player_activity( wear_activity_actor( items, quantities ) ) );
+        u.assign_activity( wear_activity_actor( items, quantities ) );
         return true;
     } else {
         popup_getkey( _( "You can't wear the %s." ), items.front()->display_name() );
@@ -3986,7 +3987,7 @@ bool pickup_selector::wear()
 
 void pickup_selector::add_reopen_activity()
 {
-    u.assign_activity( player_activity( pickup_menu_activity_actor( where, to_use ) ) );
+    u.assign_activity( pickup_menu_activity_actor( where, to_use ) );
     u.activity.auto_resume = true;
 }
 

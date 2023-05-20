@@ -277,6 +277,17 @@
   },
   {
     "type": "mutation_category",
+    "id": "CRUSTACEAN",
+    "name": "Crustacean",
+    "threshold_mut": "THRESH_CRUSTACEAN",
+    "mutagen_message": "You suddenly want to burrow under some sand or find some nice rocky alcove to hide behind.",
+    "memorial_message": "Dreamed of walking along the sea floor",
+    "vitamin": "mutagen_crustacean",
+    "base_removal_chance": 33,
+    "base_removal_cost_mul": 2.5
+  },
+  {
+    "type": "mutation_category",
     "id": "MYCUS",
     "//": "Mycus has special logic and doesn't function like a normal mutation category, so some of the vars here only exist to prevent errors",
     "name": "Mycus",

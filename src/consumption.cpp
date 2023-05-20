@@ -1147,10 +1147,10 @@ void Character::modify_stimulation( const islot_comestible &comest )
                 -1 ) );
     }
     if( has_trait( trait_STIMBOOST ) && ( current_stim > 30 ) &&
-        ( comest.add == STATIC( addiction_id( "caffeine" ) ) ||
-          comest.add == STATIC( addiction_id( "amphetamine" ) ) ||
-          comest.add == STATIC( addiction_id( "cocaine" ) ) ||
-          comest.add == STATIC( addiction_id( "crack" ) ) ) ) {
+        ( comest.addictions.count( STATIC( addiction_id( "caffeine" ) ) ) ||
+          comest.addictions.count( STATIC( addiction_id( "amphetamine" ) ) ) ||
+          comest.addictions.count( STATIC( addiction_id( "cocaine" ) ) ) ||
+          comest.addictions.count( STATIC( addiction_id( "crack" ) ) ) ) ) {
         int hallu_duration = ( current_stim - comest.stim < 30 ) ? current_stim - 30 : comest.stim;
         add_effect( effect_visuals, hallu_duration * 30_minutes );
         add_msg_if_player( m_bad, SNIPPET.random_from_category( "comest_stimulant" ).value_or(
@@ -1165,9 +1165,11 @@ void Character::modify_fatigue( const islot_comestible &comest )
 
 void Character::modify_addiction( const islot_comestible &comest )
 {
-    add_addiction( comest.add, comest.addict );
-    if( !comest.add.is_null() && comest.add->get_craving_morale() != MORALE_NULL ) {
-        rem_morale( comest.add->get_craving_morale() );
+    for( const std::pair<const addiction_id, int> &add : comest.addictions ) {
+        add_addiction( add.first, add.second );
+        if( !add.first.is_null() && add.first->get_craving_morale() != MORALE_NULL ) {
+            rem_morale( add.first->get_craving_morale() );
+        }
     }
 }
 

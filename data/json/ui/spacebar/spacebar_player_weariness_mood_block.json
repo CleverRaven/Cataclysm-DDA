@@ -12,7 +12,7 @@
     "id": "player_weariness_mood_block_tmp",
     "type": "widget",
     "style": "layout",
-    "label": "mood/focus/weariness",
+    "label": "Mood/Focus/Weariness",
     "arrange": "minimum_columns",
     "width": 56,
     "widgets": [ "spacebar_mood_focus_activity_layout", "spacebar_all_weariness_layout" ]
@@ -41,7 +41,7 @@
     "id": "spacebar_mood_focus_activity_layout",
     "type": "widget",
     "style": "layout",
-    "label": "Mood/Focus/activity",
+    "label": "Mood/Focus/Activity",
     "arrange": "rows",
     "width": 28,
     "widgets": [ "mood_desc_label", "spacebar_focus_graph", "activity_desc" ]

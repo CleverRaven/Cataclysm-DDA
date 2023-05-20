@@ -12,7 +12,6 @@
     "price": 290000,
     "price_postapoc": 4000,
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "steel", "wood" ],
     "color": "brown",
     "ammo": [ "762" ],
@@ -21,7 +20,6 @@
     "min_cycle_recoil": 1832,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -35,7 +33,8 @@
       [ "stock accessory", 2 ],
       [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "akmag30", "akmag10", "akmag20", "akmag40", "akdrum75" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "akmag30", "akmag10", "akmag20", "akmag40", "akdrum75" ] } ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "arx160",
@@ -51,7 +50,6 @@
     "price": 450000,
     "price_postapoc": 4500,
     "to_hit": -1,
-    "bashing": 11,
     "material": [ "steel" ],
     "color": "blue",
     "ammo": [ "762" ],
@@ -62,7 +60,6 @@
     "barrel_volume": "250 ml",
     "default_mods": [ "folding_stock" ],
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -76,7 +73,8 @@
       [ "stock accessory", 2 ],
       [ "underbarrel", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "akmag30", "akmag10", "akmag20", "akmag40" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "akmag30", "akmag10", "akmag20", "akmag40" ] } ],
+    "melee_damage": { "bash": 11 }
   },
   {
     "id": "sks",
@@ -92,7 +90,6 @@
     "price": 38000,
     "price_postapoc": 3500,
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "steel", "wood" ],
     "color": "brown",
     "ammo": [ "762" ],
@@ -104,7 +101,6 @@
     "barrel_volume": "500 ml",
     "built_in_mods": [ "inter_bayonet" ],
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -127,7 +123,8 @@
         "ammo_restriction": { "762": 10 },
         "allowed_speedloaders": [ "762x39_clip" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "aksemi",
@@ -142,7 +139,6 @@
     "price": 79500,
     "price_postapoc": 3000,
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "steel", "wood" ],
     "color": "brown",
     "ammo": [ "762" ],
@@ -150,7 +146,6 @@
     "durability": 8,
     "min_cycle_recoil": 1832,
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -164,7 +159,8 @@
       [ "stock accessory", 2 ],
       [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "akmag30", "akmag10", "akmag20", "akmag40", "akdrum75" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "akmag30", "akmag10", "akmag20", "akmag40", "akdrum75" ] } ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "draco",
@@ -179,7 +175,6 @@
     "price": 72500,
     "price_postapoc": 2500,
     "to_hit": -5,
-    "bashing": 8,
     "material": [ "steel", "wood" ],
     "color": "brown",
     "ammo": [ "762" ],
@@ -188,7 +183,6 @@
     "durability": 7,
     "min_cycle_recoil": 1832,
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -201,7 +195,8 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "akmag30", "akmag10", "akmag20", "akmag40", "akdrum75" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "akmag30", "akmag10", "akmag20", "akmag40", "akdrum75" ] } ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "mk47",
@@ -215,7 +210,6 @@
     "price": 170000,
     "price_postapoc": 4000,
     "to_hit": { "balance": "neutral", "grip": "solid", "length": "long", "surface": "point" },
-    "bashing": 12,
     "material": [ "plastic", "steel" ],
     "looks_like": "ar15",
     "ammo": [ "762" ],
@@ -235,7 +229,8 @@
       [ "stock accessory", 2 ],
       [ "underbarrel", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "akmag10", "akmag20", "akmag30", "akmag40", "akdrum75" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "akmag10", "akmag20", "akmag30", "akmag40", "akdrum75" ] } ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "vz58_p",
@@ -265,7 +260,6 @@
       }
     ],
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "steel", "plastic", "wood" ],
     "color": "brown",
     "ammo": [ "762" ],
@@ -274,7 +268,6 @@
     "min_cycle_recoil": 1950,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -288,7 +281,8 @@
       [ "stock accessory", 2 ],
       [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "vz58mag30", "vz58mag10" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "vz58mag30", "vz58mag10" ] } ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "vz58ts",

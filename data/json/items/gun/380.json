@@ -11,11 +11,11 @@
     "longest_side": "253 mm",
     "price": 160000,
     "price_postapoc": 2500,
-    "bashing": 5,
     "ammo": [ "380" ],
     "min_cycle_recoil": 270,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 6 ] ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "mac11mag" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "mac11mag" ] } ],
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "kp3at",
@@ -46,7 +46,6 @@
     "price": 75000,
     "price_postapoc": 1250,
     "to_hit": -3,
-    "bashing": 1,
     "material": [ "steel" ],
     "color": "dark_gray",
     "ammo": [ "380" ],
@@ -55,7 +54,8 @@
     "min_cycle_recoil": 270,
     "flags": [ "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
-    "pocket_data": [ { "magazine_well": "60 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "fn1910mag" ] } ]
+    "pocket_data": [ { "magazine_well": "60 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "fn1910mag" ] } ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "rugerlcp",
@@ -71,14 +71,14 @@
     "price": 21000,
     "price_postapoc": 1250,
     "to_hit": -3,
-    "bashing": 1,
     "material": [ "steel", "plastic" ],
     "color": "dark_gray",
     "ammo": [ "380" ],
     "dispersion": 480,
     "durability": 8,
     "min_cycle_recoil": 270,
-    "pocket_data": [ { "magazine_well": "60 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "rugerlcpmag" ] } ]
+    "pocket_data": [ { "magazine_well": "60 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "rugerlcpmag" ] } ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "hptcf380",
@@ -93,7 +93,6 @@
     "price": 7500,
     "price_postapoc": 1750,
     "to_hit": -2,
-    "bashing": 8,
     "material": [ "plastic", "steel", "zinc" ],
     "color": "dark_gray",
     "ammo": [ "380" ],
@@ -106,7 +105,8 @@
         "pocket_type": "MAGAZINE_WELL",
         "item_restriction": [ "hptcf380mag_8rd", "hptcf380mag_10rd" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "taurus_spectrum",
@@ -121,7 +121,6 @@
     "price": 64000,
     "price_postapoc": 1250,
     "to_hit": -2,
-    "bashing": 8,
     "material": [ "steel", "aluminum" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -129,6 +128,7 @@
     "dispersion": 480,
     "durability": 7,
     "min_cycle_recoil": 225,
-    "pocket_data": [ { "magazine_well": "74 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "taurus_spectrum_mag" ] } ]
+    "pocket_data": [ { "magazine_well": "74 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "taurus_spectrum_mag" ] } ],
+    "melee_damage": { "bash": 8 }
   }
 ]

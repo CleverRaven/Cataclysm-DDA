@@ -408,7 +408,7 @@ void mission_type::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "invisible_on_complete", invisible_on_complete, false );
 }
 
-bool mission_type::test_goal_condition( const struct dialogue &d ) const
+bool mission_type::test_goal_condition( struct dialogue &d ) const
 {
     if( goal_condition ) {
         return goal_condition( d );

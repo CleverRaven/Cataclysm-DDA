@@ -284,7 +284,7 @@
     "//": "Adding spell learning items to standard itemgroups",
     "copy-from": "costume_misc_items",
     "subtype": "distribution",
-    "extend": { "items": [ [ "wolf_mask", 5 ], [ "magicians_hat", 5 ], [ "syringe_artifact", 5 ], [ "foil_hat", 1 ] ] }
+    "extend": { "items": [ [ "magicians_hat", 5 ] ] }
   },
   {
     "id": "homebooks",
@@ -292,15 +292,7 @@
     "//": "Adding spell learning items to standard itemgroups",
     "copy-from": "homebooks",
     "subtype": "distribution",
-    "extend": {
-      "entries": [
-        { "item": "book_inventor", "prob": 1 },
-        { "item": "money_strap_magic", "prob": 1 },
-        { "item": "firmament_driver_book", "prob": 1 },
-        { "item": "ray_diagrams", "prob": 1 },
-        { "item": "eater_book_artifact", "prob": 1 }
-      ]
-    }
+    "extend": { "entries": [ { "item": "firmament_driver_book", "prob": 1 }, { "item": "eater_book_artifact", "prob": 1 } ] }
   },
   {
     "id": "renfield_glock_mags",
@@ -332,7 +324,9 @@
       { "item": "blood", "prob": 20, "container-item": "bottle_plastic_small" },
       { "item": "blood", "prob": 20, "container-item": "camelbak" },
       { "item": "blood", "prob": 20, "container-item": "canteen" },
-      { "item": "blood", "prob": 10, "container-item": "thermos" }
+      { "item": "blood", "prob": 10, "container-item": "thermos" },
+      { "item": "blood", "prob": 5, "container-item": "blood_camel" },
+      { "item": "blood", "prob": 1, "container-item": "blood_bank" }
     ]
   }
 ]

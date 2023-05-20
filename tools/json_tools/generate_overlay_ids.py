@@ -31,6 +31,8 @@ CPP_IDS = (
     'animation_hit', 'player_male', 'player_female', 'npc_male', 'npc_female',
     'animation_line', 'line_target', 'line_trail',
     'infrared_creature',
+    'run_nw', 'run_n', 'run_ne', 'run_w', 'run_e', 'run_sw', 'run_s', 'run_se',
+    'bash_complete', 'bash_effective', 'bash_ineffective',
 )
 VP_STANDARD_SYMBOLS = {
     "cover": "^", "cross": "c", "horizontal": "h", "horizontal_2": "=",

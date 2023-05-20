@@ -91,7 +91,7 @@ const std::string id = "FACTION_CAMP";
 const int prefix_len = 13;
 std::string faction_encode_short( const std::string &type );
 std::string faction_encode_abs( const expansion_data &e, int number );
-std::string faction_decode( const std::string &full_type );
+std::string faction_decode( std::string_view full_type );
 time_duration to_workdays( const time_duration &work_time );
 int max_upgrade_by_type( const std::string &type );
 } // namespace base_camps
@@ -182,7 +182,7 @@ class basecamp
         void add_expansion( const std::string &terrain, const tripoint_abs_omt &new_pos );
         void add_expansion( const std::string &bldg, const tripoint_abs_omt &new_pos,
                             const point &dir );
-        void define_camp( const tripoint_abs_omt &p, const std::string &camp_type = "default" );
+        void define_camp( const tripoint_abs_omt &p, std::string_view camp_type );
 
         std::string expansion_tab( const point &dir ) const;
         // check whether the point is the part of camp
@@ -207,7 +207,7 @@ class basecamp
         // confirm there is at least 1 loot destination and 1 unsorted loot zone in the camp
         bool validate_sort_points();
         // Validates the expansion data
-        expansion_data parse_expansion( const std::string &terrain,
+        expansion_data parse_expansion( std::string_view terrain,
                                         const tripoint_abs_omt &new_pos );
         /**
          * Invokes the zone manager and validates that the necessary sort zones exist.

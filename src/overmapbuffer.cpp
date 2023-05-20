@@ -1590,7 +1590,7 @@ std::string overmapbuffer::get_description_at( const tripoint_abs_sm &where )
     return string_format( format_string, ter_name, dir_name, closest_city_name );
 }
 
-void overmapbuffer::spawn_monster( const tripoint_abs_sm &p )
+void overmapbuffer::spawn_monster( const tripoint_abs_sm &p, bool spawn_nonlocal )
 {
     point_abs_om omp;
     tripoint_om_sm current_submap_loc;
@@ -1603,7 +1603,9 @@ void overmapbuffer::spawn_monster( const tripoint_abs_sm &p )
         const map &here = get_map();
         const tripoint local = here.getlocal( this_monster.get_location().raw() );
         // The monster position must be local to the main map when added to the game
-        cata_assert( here.inbounds( local ) );
+        if( !spawn_nonlocal ) {
+            cata_assert( here.inbounds( local ) );
+        }
         monster *const placed = g->place_critter_around( make_shared_fast<monster>( this_monster ),
                                 local, 0, true );
         if( placed ) {
@@ -1630,7 +1632,7 @@ void overmapbuffer::despawn_monster( const monster &critter )
     }
 }
 
-overmapbuffer::t_notes_vector overmapbuffer::get_notes( int z, const std::string *pattern )
+overmapbuffer::t_notes_vector overmapbuffer::get_notes( int z, const std::string_view pattern )
 {
     t_notes_vector result;
     for( auto &it : overmaps ) {
@@ -1642,7 +1644,7 @@ overmapbuffer::t_notes_vector overmapbuffer::get_notes( int z, const std::string
                 if( note.empty() ) {
                     continue;
                 }
-                if( pattern != nullptr && lcmatch( note, *pattern ) ) {
+                if( !lcmatch( note, pattern ) ) {
                     // pattern not found in note text
                     continue;
                 }
@@ -1656,7 +1658,7 @@ overmapbuffer::t_notes_vector overmapbuffer::get_notes( int z, const std::string
     return result;
 }
 
-overmapbuffer::t_extras_vector overmapbuffer::get_extras( int z, const std::string *pattern )
+overmapbuffer::t_extras_vector overmapbuffer::get_extras( int z, const std::string_view pattern )
 {
     overmapbuffer::t_extras_vector result;
     for( auto &it : overmaps ) {
@@ -1669,7 +1671,7 @@ overmapbuffer::t_extras_vector overmapbuffer::get_extras( int z, const std::stri
                     continue;
                 }
                 const std::string &extra_text = extra.c_str();
-                if( pattern != nullptr && lcmatch( extra_text, *pattern ) ) {
+                if( !lcmatch( extra_text, pattern ) ) {
                     // pattern not found in note text
                     continue;
                 }

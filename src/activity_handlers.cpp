@@ -171,6 +171,11 @@ static const ammotype ammo_battery( "battery" );
 
 static const bionic_id bio_painkiller( "bio_painkiller" );
 
+static const damage_type_id damage_acid( "acid" );
+static const damage_type_id damage_bash( "bash" );
+static const damage_type_id damage_cut( "cut" );
+static const damage_type_id damage_stab( "stab" );
+
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_controlled( "controlled" );
@@ -194,6 +199,7 @@ static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const json_character_flag json_flag_PSYCHOPATH( "PSYCHOPATH" );
 static const json_character_flag json_flag_SAPIOVORE( "SAPIOVORE" );
+static const json_character_flag json_flag_SILENT_SPELL( "SILENT_SPELL" );
 
 static const mongroup_id GROUP_FISH( "GROUP_FISH" );
 
@@ -1572,9 +1578,10 @@ void activity_handlers::pulp_do_turn( player_activity *act, Character *you )
     int mess_radius = 1;
 
     if( weapon ) {
-        weap_cut = weapon->damage_melee( damage_type::CUT );
-        weap_stab = weapon->damage_melee( damage_type::STAB );
-        weap_bash = weapon->damage_melee( damage_type::BASH );
+        // FIXME: Hardcoded damage types
+        weap_cut = weapon->damage_melee( damage_cut );
+        weap_stab = weapon->damage_melee( damage_stab );
+        weap_bash = weapon->damage_melee( damage_bash );
         if( weapon->has_flag( flag_MESSY ) ) {
             mess_radius = 2;
         }
@@ -1586,6 +1593,7 @@ void activity_handlers::pulp_do_turn( player_activity *act, Character *you )
     ///\EFFECT_STR increases pulping power, with diminishing returns
     float pulp_power = std::sqrt( ( you->get_arm_str() + weap_bash ) * ( cut_power + 1.0f ) );
     float pulp_effort = you->str_cur + weap_bash;
+
     // Multiplier to get the chance right + some bonus for survival skill
     pulp_power *= 40 + you->get_skill_level( skill_survival ) * 5;
 
@@ -1595,7 +1603,7 @@ void activity_handlers::pulp_do_turn( player_activity *act, Character *you )
     map_stack corpse_pile = here.i_at( pos );
     for( item &corpse : corpse_pile ) {
         const mtype *corpse_mtype = corpse.get_mtype();
-        const bool acid_immune = you->is_immune_damage( damage_type::ACID ) ||
+        const bool acid_immune = you->is_immune_damage( damage_acid ) ||
                                  you->is_immune_field( fd_acid );
         if( !corpse.is_corpse() || !corpse.can_revive() ||
             ( ( std::find( act->str_values.begin(), act->str_values.end(), "auto_pulp_no_acid" ) !=
@@ -2431,30 +2439,30 @@ void activity_handlers::mend_item_finish( player_activity *act, Character *you )
         debugmsg( "invalid arguments to ACT_MEND_ITEM" );
         return;
     }
-
-    item_location &target = act->targets[ 0 ];
-    const fault_id fault( act->name );
-
-    if( target->faults.count( fault ) == 0 ) {
-        debugmsg( "item %s does not have fault %s", target->tname(), fault.str() );
+    if( !act->targets[0] ) {
+        debugmsg( "lost targets[0] item location for ACT_MEND_ITEM" );
         return;
     }
-
+    item &target = *act->targets[0];
+    const fault_id fault_id( act->name );
+    if( target.faults.count( fault_id ) == 0 ) {
+        debugmsg( "item %s does not have fault %s", target.tname(), fault_id.str() );
+        return;
+    }
     if( act->str_values.empty() ) {
-        debugmsg( "missing mending_method id for ACT_MEND_ITEM." );
+        debugmsg( "missing fault_fix_id for ACT_MEND_ITEM." );
         return;
     }
-
-    const mending_method *method = fault->find_mending_method( act->str_values[0] );
-    if( !method ) {
-        debugmsg( "invalid mending_method id for ACT_MEND_ITEM." );
+    const fault_fix_id fix_id( act->str_values[0] );
+    if( !fix_id.is_valid() ) {
+        debugmsg( "invalid fault_fix_id '%s' for ACT_MEND_ITEM.", fix_id.str() );
         return;
     }
-
+    const fault_fix &fix = *fix_id;
+    const requirement_data &reqs = fix.get_requirements();
     const inventory &inv = you->crafting_inventory();
-    const requirement_data reqs = method->get_requirements();
     if( !reqs.can_make_with_inventory( inv, is_crafting_component ) ) {
-        add_msg( m_info, _( "You are currently unable to mend the %s." ), target->tname() );
+        add_msg( m_info, _( "You are currently unable to mend the %s." ), target.tname() );
         return;
     }
     for( const auto &e : reqs.get_components() ) {
@@ -2465,31 +2473,31 @@ void activity_handlers::mend_item_finish( player_activity *act, Character *you )
     }
     you->invalidate_crafting_inventory();
 
-    target->faults.erase( fault );
-    if( method->turns_into ) {
-        target->faults.emplace( *method->turns_into );
+    for( const ::fault_id &id : fix.faults_removed ) {
+        target.faults.erase( id );
     }
-    // also_mends removes not just the fault picked to be mended, but this as well.
-    if( method->also_mends ) {
-        target->faults.erase( *method->also_mends );
+    for( const ::fault_id &id : fix.faults_added ) {
+        target.faults.insert( id );
     }
-    for( const std::pair<const std::string, std::string> &pair : method->set_variables ) {
-        target->set_var( pair.first, pair.second );
+    for( const auto &[var_name, var_value] : fix.set_variables ) {
+        target.set_var( var_name, var_value );
     }
 
-    const std::string start_durability = target->durability_indicator( true );
-    item &fix = *target.get_item();
-    for( int i = 0; i < method->heal_stages.value_or( 0 ); i++ ) {
-        fix.mod_damage( -itype::damage_scale );
+    const std::string start_durability = target.durability_indicator( true );
+
+    if( fix.mod_damage ) {
+        target.mod_damage( fix.mod_damage );
+    }
+    if( fix.mod_degradation ) {
+        target.set_degradation( target.degradation() + fix.mod_degradation );
     }
 
-    //get skill list from mending method, iterate through and give xp
-    for( const std::pair<const skill_id, int> &e : method->skills ) {
-        you->practice( e.first, 10, static_cast<int>( e.second * 1.25 ) );
+    for( const auto &[skill_id, level] : fix.skills ) {
+        you->practice( skill_id, 10, static_cast<int>( level * 1.25 ) );
     }
 
-    add_msg( m_good, method->success_msg.translated(), target->tname( 1, false ),
-             start_durability, target->durability_indicator( true ) );
+    add_msg( m_good, fix.success_msg.translated(), target.tname( 1, false ),
+             start_durability, target.durability_indicator( true ) );
 }
 
 void activity_handlers::toolmod_add_finish( player_activity *act, Character *you )
@@ -2505,12 +2513,20 @@ void activity_handlers::toolmod_add_finish( player_activity *act, Character *you
                             mod.tname(), tool.tname() );
     mod.set_flag( flag_IRREMOVABLE );
     tool.put_in( mod, item_pocket::pocket_type::MOD );
+    tool.on_contents_changed();
     act->targets[1].remove_item();
 }
 
 // This activity opens the menu (it's not meant to queue consumption of items)
-void activity_handlers::eat_menu_do_turn( player_activity *, Character * )
+void activity_handlers::eat_menu_do_turn( player_activity *, Character *you )
 {
+    if( !you->is_avatar() ) {
+        debugmsg( "Character %s somehow opened the eat menu!  Cancelling their activity to prevent infinite loop",
+                  you->name );
+        you->cancel_activity();
+        return;
+    }
+
     avatar &player_character = get_avatar();
     avatar_action::eat_or_use( player_character, game_menus::inv::consume( player_character ) );
 }
@@ -3566,7 +3582,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
                 return;
             }
 
-            if( spell_being_cast.has_flag( spell_flag::VERBAL ) ) {
+            if( spell_being_cast.has_flag( spell_flag::VERBAL ) && !you->has_flag( json_flag_SILENT_SPELL ) ) {
                 sounds::sound( you->pos(), you->get_shout_volume() / 2, sounds::sound_t::speech,
                                _( "cast a spell" ),
                                false );

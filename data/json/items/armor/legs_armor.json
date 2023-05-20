@@ -10,7 +10,6 @@
     "price": 500,
     "price_postapoc": 50,
     "to_hit": -1,
-    "bashing": 8,
     "material": [ "wood" ],
     "symbol": "[",
     "looks_like": "leg_splint",
@@ -26,6 +25,77 @@
         "cover_melee": 80,
         "cover_ranged": 80,
         "cover_vitals": 0,
+        "specifically_covers": [ "leg_lower_r", "leg_lower_l" ]
+      }
+    ],
+    "melee_damage": { "bash": 8 }
+  },
+  {
+    "id": "carpet_legguards",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of carpet leg guards", "str_pl": "pairs of carpet leg guards" },
+    "description": "Small squares of carpet rolled around your shins and thighs.  Perfect for wading through the local furniture store.",
+    "weight": "2040 g",
+    "//": "The weight assumes four squares of carpet of about 25cm x 30cm.",
+    "volume": "3 L",
+    "price": 20,
+    "price_postapoc": 10,
+    "to_hit": 1,
+    "material": [ "plastic", "carpet_pilling" ],
+    "symbol": "[",
+    "looks_like": "leg_warmers",
+    "color": "red",
+    "warmth": 10,
+    "material_thickness": 4,
+    "environmental_protection": 1,
+    "flags": [ "OUTER", "NO_REPAIR" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "carpet_pilling", "covered_by_mat": 100, "thickness": 3.0 }
+        ],
+        "covers": [ "leg_l", "leg_r" ],
+        "encumbrance": 5,
+        "coverage": 90,
+        "cover_ranged": 95,
+        "cover_vitals": 70,
+        "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_upper_r", "leg_upper_l" ]
+      }
+    ]
+  },
+  {
+    "id": "carpet_greaves",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of carpet greaves", "str_pl": "pairs of carpet greaves" },
+    "description": "Small squares of carpet rolled around your shins.  These might protect you from the corner of a table.",
+    "weight": "1020 g",
+    "//": "The weight assumes two squares of carpet of about 25cm x 30cm.",
+    "volume": "2 L",
+    "price": 20,
+    "price_postapoc": 10,
+    "to_hit": 1,
+    "material": [ "plastic", "carpet_pilling" ],
+    "symbol": "[",
+    "looks_like": "leg_warmers",
+    "color": "red",
+    "warmth": 10,
+    "material_thickness": 4,
+    "environmental_protection": 1,
+    "flags": [ "OUTER", "NO_REPAIR" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "carpet_pilling", "covered_by_mat": 100, "thickness": 3.0 }
+        ],
+        "covers": [ "leg_l", "leg_r" ],
+        "encumbrance": 3,
+        "coverage": 90,
+        "cover_ranged": 95,
+        "cover_vitals": 70,
         "specifically_covers": [ "leg_lower_r", "leg_lower_l" ]
       }
     ]
@@ -92,8 +162,7 @@
     "description": "A pair of leg guards crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant but brittle.",
     "material": [ "acidchitin" ],
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
-    "material_thickness": 5,
-    "extend": { "flags": [ "NO_REPAIR" ] }
+    "material_thickness": 5
   },
   {
     "id": "xl_legguard_acidchitin",
@@ -939,8 +1008,6 @@
     "price": 20000,
     "price_postapoc": 50,
     "to_hit": -1,
-    "bashing": 1,
-    "cutting": 1,
     "material": [ "budget_steel", "cotton" ],
     "symbol": "[",
     "looks_like": "legguard_metal",
@@ -957,7 +1024,8 @@
         "coverage": 95,
         "encumbrance": 15
       }
-    ]
+    ],
+    "melee_damage": { "bash": 1, "cut": 1 }
   },
   {
     "id": "xl_legguard_scrap",
@@ -1149,7 +1217,6 @@
     "price": 60000,
     "price_postapoc": 12000,
     "to_hit": -5,
-    "bashing": 8,
     "material": [ "lc_steel", "lc_steel_chain" ],
     "symbol": "[",
     "looks_like": "legguard_lightplate",
@@ -1170,7 +1237,8 @@
         "coverage": 100,
         "encumbrance": 10
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "xl_armor_lc_light_leg_guard",
@@ -1307,7 +1375,6 @@
     "price": 60000,
     "price_postapoc": 12000,
     "to_hit": -5,
-    "bashing": 8,
     "material": [ "lc_steel", "lc_steel_chain" ],
     "symbol": "[",
     "looks_like": "armor_larmor",
@@ -1329,7 +1396,8 @@
         "coverage": 100,
         "encumbrance": 15
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "xl_armor_lc_leg_guard",
@@ -1466,7 +1534,6 @@
     "price": 60000,
     "price_postapoc": 12000,
     "to_hit": -5,
-    "bashing": 8,
     "material": [ "lc_steel", "lc_steel_chain" ],
     "symbol": "[",
     "looks_like": "armor_larmor",
@@ -1488,7 +1555,8 @@
         "coverage": 100,
         "encumbrance": 20
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "xl_armor_lc_heavy_leg_guard",

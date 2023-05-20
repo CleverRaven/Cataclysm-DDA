@@ -266,6 +266,16 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "cheesemaking",
+    "name": "Cheesemaking",
+    "description": "The art of producing the finest quality cheeses has been passed down through your family for generations.  How useful these skills will be in the apocalypse remains to *brie* seen.",
+    "points": 2,
+    "proficiencies": [ "prof_food_prep", "prof_cheesemaking_1", "prof_cheesemaking_2" ],
+    "skills": [ { "level": 3, "name": "cooking" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "paintball",
     "name": "Paintball",
     "description": "Pretending to shoot at your friends has always been fun.  Now you can do it for real.",
@@ -616,6 +626,16 @@
     "description": "With enough time and materials, you could make a boat from scratch.  These undead can't swim, right?",
     "skills": [ { "level": 3, "name": "fabrication" } ],
     "proficiencies": [ "prof_carving", "prof_carpentry_basic" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "home_improvement",
+    "name": "Home Improvement",
+    "points": 2,
+    "description": "You'd fix up any holes and appliances in your own home with nothing but your two hands and some elbow grease.  You did it to save money on repairmen, but now it seems you'll do it to save your life.",
+    "skills": [ { "level": 2, "name": "fabrication" }, { "level": 1, "name": "mechanics" }, { "level": 1, "name": "electronics" } ],
+    "proficiencies": [ "prof_carpentry_basic", "prof_appliance_repair" ]
   },
   {
     "type": "profession",

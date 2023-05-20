@@ -504,6 +504,131 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_GIVE_RANDOM_MISSION",
+    "condition": { "or": [ { "u_has_trait": "GETS_RANDOM_MISSION" }, { "u_has_trait": "GETS_RANDOM_MISSION_NOMOVE" } ] },
+    "effect": [
+      {
+        "weighted_list_eocs": [
+          [
+            {
+              "id": "give_MISSION_GET_RELIC",
+              "condition": { "or": [ { "u_has_trait": "GETS_RANDOM_MISSION" }, { "u_has_trait": "GETS_RANDOM_MISSION_NOMOVE" } ] },
+              "effect": { "offer_mission": "MISSION_GET_RELIC" }
+            },
+            { "const": 1 }
+          ],
+          [
+            {
+              "id": "give_MISSION_GET_RECORD_ACCOUNTING",
+              "condition": { "u_has_trait": "GETS_RANDOM_MISSION" },
+              "effect": { "offer_mission": "MISSION_GET_RECORD_ACCOUNTING" }
+            },
+            { "const": 1 }
+          ],
+          [
+            {
+              "id": "give_MISSION_GET_INHALER",
+              "condition": { "or": [ { "u_has_trait": "GETS_RANDOM_MISSION" }, { "u_has_trait": "GETS_RANDOM_MISSION_NOMOVE" } ] },
+              "effect": { "offer_mission": "MISSION_GET_INHALER" }
+            },
+            { "const": 1 }
+          ],
+          [
+            {
+              "id": "give_MISSION_GET_ANTIBIOTICS",
+              "condition": { "or": [ { "u_has_trait": "GETS_RANDOM_MISSION" }, { "u_has_trait": "GETS_RANDOM_MISSION_NOMOVE" } ] },
+              "effect": { "offer_mission": "MISSION_GET_ANTIBIOTICS" }
+            },
+            { "const": 1 }
+          ],
+          [
+            {
+              "id": "give_MISSION_GET_FLAG",
+              "condition": { "or": [ { "u_has_trait": "GETS_RANDOM_MISSION" }, { "u_has_trait": "GETS_RANDOM_MISSION_NOMOVE" } ] },
+              "effect": { "offer_mission": "MISSION_GET_FLAG" }
+            },
+            { "const": 1 }
+          ],
+          [
+            {
+              "id": "give_MISSION_GET_RECORD_WEATHER",
+              "condition": { "or": [ { "u_has_trait": "GETS_RANDOM_MISSION" }, { "u_has_trait": "GETS_RANDOM_MISSION_NOMOVE" } ] },
+              "effect": { "offer_mission": "MISSION_GET_RECORD_WEATHER" }
+            },
+            { "const": 1 }
+          ],
+          [
+            {
+              "id": "give_MISSION_GET_SOFTWARE",
+              "condition": { "or": [ { "u_has_trait": "GETS_RANDOM_MISSION" }, { "u_has_trait": "GETS_RANDOM_MISSION_NOMOVE" } ] },
+              "effect": { "offer_mission": "MISSION_GET_SOFTWARE" }
+            },
+            { "const": 1 }
+          ],
+          [
+            {
+              "id": "give_MISSION_GET_RECORD_PATIENT",
+              "condition": { "u_has_trait": "GETS_RANDOM_MISSION" },
+              "effect": { "offer_mission": "MISSION_GET_RECORD_PATIENT" }
+            },
+            { "const": 1 }
+          ],
+          [
+            {
+              "id": "give_MISSION_KILL_JABBERWOCK",
+              "condition": { "or": [ { "u_has_trait": "GETS_RANDOM_MISSION" }, { "u_has_trait": "GETS_RANDOM_MISSION_NOMOVE" } ] },
+              "effect": { "offer_mission": "MISSION_KILL_JABBERWOCK" }
+            },
+            { "const": 1 }
+          ],
+          [
+            {
+              "id": "give_MISSION_KILL_ZOMBIE_MOM",
+              "condition": { "or": [ { "u_has_trait": "GETS_RANDOM_MISSION" }, { "u_has_trait": "GETS_RANDOM_MISSION_NOMOVE" } ] },
+              "effect": { "offer_mission": "MISSION_KILL_ZOMBIE_MOM" }
+            },
+            { "const": 1 }
+          ],
+          [
+            {
+              "id": "give_MISSION_RESCUE_DOG",
+              "condition": { "or": [ { "u_has_trait": "GETS_RANDOM_MISSION" }, { "u_has_trait": "GETS_RANDOM_MISSION_NOMOVE" } ] },
+              "effect": { "offer_mission": "MISSION_RESCUE_DOG" }
+            },
+            { "const": 1 }
+          ],
+          [
+            {
+              "id": "give_MISSION_PROVE_YOU_ARE_A_SURVIVOR",
+              "condition": { "u_has_trait": "GETS_RANDOM_MISSION" },
+              "effect": { "offer_mission": "MISSION_PROVE_YOU_ARE_A_SURVIVOR" }
+            },
+            { "const": 1 }
+          ],
+          [
+            {
+              "id": "give_MISSION_LEARN_ABOUT_CATTAIL_JELLY",
+              "condition": { "or": [ { "u_has_trait": "GETS_RANDOM_MISSION" }, { "u_has_trait": "GETS_RANDOM_MISSION_NOMOVE" } ] },
+              "effect": { "offer_mission": "MISSION_LEARN_ABOUT_CATTAIL_JELLY" }
+            },
+            { "const": 1 }
+          ],
+          [
+            {
+              "id": "give_MISSION_PYROMANIAC",
+              "condition": { "u_has_trait": "GETS_RANDOM_MISSION" },
+              "effect": { "offer_mission": "MISSION_PYROMANIAC" }
+            },
+            { "const": 1 }
+          ]
+        ]
+      },
+      { "u_lose_trait": "GETS_RANDOM_MISSION" },
+      { "u_lose_trait": "GETS_RANDOM_MISSION_NOMOVE" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_PLAY_PIANO",
     "effect": [
       { "u_add_morale": "morale_music", "bonus": 5, "max_bonus": 10 },
@@ -717,7 +842,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_READ_LOCAL_FILES",
-    "condition": { "and": [ { "u_has_skill": { "skill": "computer", "level": 2 } }, { "one_in_chance": 15 } ] },
+    "condition": { "and": [ { "math": [ "u_skill('computer')", ">=", "2" ] }, { "one_in_chance": 15 } ] },
     "effect": [ { "u_message": "local_files_simple", "snippet": true, "same_snippet": true, "popup": true } ],
     "false_effect": [ { "u_message": "You found nothing interesting in the local files." } ]
   },
@@ -819,5 +944,61 @@
     "update_mapgen_id": "SCENARIO_SMOKE",
     "method": "json",
     "object": { "place_fields": [ { "field": "fd_smoke", "x": [ 3, 20 ], "y": [ 3, 20 ], "intensity": [ 1, 3 ], "repeat": 60 } ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_REFUGEE_CENTER_NPC_MOVEMENT",
+    "//": "Runs once an hour and moves refugee center npcs around based on what hour it is.",
+    "global": true,
+    "recurrence": "1 hours",
+    "effect": [
+      {
+        "switch": "hour",
+        "cases": [
+          { "case": 0, "effect": { "run_eocs": "EOC_REFUGEE_CENTER_GUARD_FIRST_POSITION" } },
+          { "case": 2, "effect": { "run_eocs": "EOC_REFUGEE_CENTER_GUARD_SECOND_POSITION" } },
+          { "case": 4, "effect": { "run_eocs": "EOC_REFUGEE_CENTER_GUARD_FIRST_POSITION" } },
+          { "case": 6, "effect": { "run_eocs": "EOC_REFUGEE_CENTER_GUARD_SECOND_POSITION" } },
+          { "case": 8, "effect": { "run_eocs": "EOC_REFUGEE_CENTER_GUARD_FIRST_POSITION" } },
+          { "case": 10, "effect": { "run_eocs": "EOC_REFUGEE_CENTER_GUARD_SECOND_POSITION" } },
+          { "case": 12, "effect": { "run_eocs": "EOC_REFUGEE_CENTER_GUARD_FIRST_POSITION" } },
+          { "case": 14, "effect": { "run_eocs": "EOC_REFUGEE_CENTER_GUARD_SECOND_POSITION" } },
+          { "case": 16, "effect": { "run_eocs": "EOC_REFUGEE_CENTER_GUARD_FIRST_POSITION" } },
+          { "case": 18, "effect": { "run_eocs": "EOC_REFUGEE_CENTER_GUARD_SECOND_POSITION" } },
+          { "case": 20, "effect": { "run_eocs": "EOC_REFUGEE_CENTER_GUARD_FIRST_POSITION" } },
+          { "case": 22, "effect": { "run_eocs": "EOC_REFUGEE_CENTER_GUARD_SECOND_POSITION" } }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_REFUGEE_CENTER_GUARD_FIRST_POSITION",
+    "effect": [
+      {
+        "u_run_npc_eocs": [
+          {
+            "id": "EOC_REFUGEE_CENTER_GUARD_FIRST_SHIFT",
+            "effect": { "u_set_guard_pos": { "global_val": "_First" }, "unique_id": true }
+          }
+        ],
+        "unique_ids": [ "GUARD1", "GUARD2", "GUARD3", "GUARD4", "GUARD5", "GUARD6", "GUARD7" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_REFUGEE_CENTER_GUARD_SECOND_POSITION",
+    "effect": [
+      {
+        "u_run_npc_eocs": [
+          {
+            "id": "EOC_REFUGEE_CENTER_GUARD_SECOND_SHIFT",
+            "effect": { "u_set_guard_pos": { "global_val": "_Second" }, "unique_id": true }
+          }
+        ],
+        "unique_ids": [ "GUARD1", "GUARD2", "GUARD3", "GUARD4", "GUARD5", "GUARD6", "GUARD7" ]
+      }
+    ]
   }
 ]

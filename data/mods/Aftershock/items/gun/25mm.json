@@ -11,7 +11,6 @@
     "longest_side": "736 mm",
     "price": 550000,
     "to_hit": -3,
-    "bashing": 10,
     "material": [ "superalloy", "plastic" ],
     "symbol": "(",
     "color": "brown",
@@ -34,7 +33,6 @@
     ],
     "reload": 400,
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "barrel", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
@@ -42,7 +40,8 @@
       [ "rail mount", 1 ],
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
-    ]
+    ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "afs_25mm_goa",
@@ -57,7 +56,6 @@
     "barrel_volume": "1170 ml",
     "price": "1500 USD",
     "to_hit": -3,
-    "bashing": 10,
     "material": [ "superalloy", "wood" ],
     "symbol": "(",
     "color": "brown",
@@ -70,7 +68,6 @@
     "clip_size": 1,
     "reload": 400,
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "barrel", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
@@ -80,7 +77,8 @@
       [ "underbarrel mount", 1 ]
     ],
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "afs_25mm": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "afs_25mm": 1 } } ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "afs_wa2519",
@@ -95,7 +93,6 @@
     "barrel_volume": "1170 ml",
     "price": "1500 USD",
     "to_hit": -3,
-    "bashing": 10,
     "material": [ "superalloy", "wood" ],
     "built_in_mods": [ "afs_smart_scope" ],
     "symbol": "(",
@@ -110,6 +107,7 @@
     "valid_mod_locations": [ [ "sights", 1 ], [ "sling", 1 ] ],
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT", "MUNDANE", "WONT_TRAIN_MARKSMANSHIP" ],
     "relic_data": { "passive_effects": [ { "id": "ench_smart_gun" } ] },
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "afs_25mm_smart": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "afs_25mm_smart": 1 } } ],
+    "melee_damage": { "bash": 10 }
   }
 ]

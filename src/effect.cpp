@@ -640,11 +640,11 @@ bool effect_type::is_show_in_info() const
 {
     return show_in_info;
 }
-bool effect_type::load_miss_msgs( const JsonObject &jo, const std::string &member )
+bool effect_type::load_miss_msgs( const JsonObject &jo, const std::string_view member )
 {
     return jo.read( member, miss_msgs );
 }
-bool effect_type::load_decay_msgs( const JsonObject &jo, const std::string &member )
+bool effect_type::load_decay_msgs( const JsonObject &jo, const std::string_view member )
 {
     if( jo.has_array( member ) ) {
         for( JsonArray inner : jo.get_array( member ) ) {

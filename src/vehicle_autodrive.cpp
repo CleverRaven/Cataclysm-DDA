@@ -43,7 +43,7 @@
  * The main entry point is do_autodrive(), which is intended to be called from the do_turn() of
  * a long-running activity. This will cause the driver character to perform one or more driving
  * actions (as long as they have enough moves), which could be steering and/or changing the
- * cruise control speed. The driver may also do nothing if the vehicle is going in the right
+ * desired speed. The driver may also do nothing if the vehicle is going in the right
  * direction.
  *
  * Most of the logic is inside the private implementation class autodrive_controller, which is
@@ -1260,7 +1260,6 @@ autodrive_result vehicle::do_autodrive( Character &driver )
         stop_autodriving( false );
         return autodrive_result::finished;
     }
-    cruise_on = true;
     cruise_velocity = next_step->target_speed_tps * VMIPH_PER_TPS;
 
     // check for collisions before we steer, since steering may end our turn
@@ -1308,7 +1307,6 @@ void vehicle::stop_autodriving( bool apply_brakes )
     }
     if( apply_brakes ) {
         cruise_velocity = 0;
-        cruise_on = true;
     }
     is_autodriving = false;
     is_patrolling = false;

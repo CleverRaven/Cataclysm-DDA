@@ -101,13 +101,13 @@ uint32_t UTF8_getch( const char **src, int *srclen )
 //Calculate width of a Unicode string
 //Latin characters have a width of 1
 //CJK characters have a width of 2, etc
-int utf8_width( const char *s, const bool ignore_tags )
+int utf8_width( const std::string_view s, const bool ignore_tags )
 {
     if( ignore_tags ) {
         return utf8_width( remove_color_tags( s ) );
     }
-    int len = strlen( s );
-    const char *ptr = s;
+    int len = s.size();
+    const char *ptr = s.data();
     int w = 0;
     while( len > 0 ) {
         uint32_t ch = UTF8_getch( &ptr, &len );
@@ -117,11 +117,6 @@ int utf8_width( const char *s, const bool ignore_tags )
         w += mk_wcwidth( ch );
     }
     return w;
-}
-
-int utf8_width( const std::string &str, const bool ignore_tags )
-{
-    return utf8_width( str.c_str(), ignore_tags );
 }
 
 int utf8_width( const utf8_wrapper &str, const bool ignore_tags )
@@ -390,17 +385,17 @@ std::string wstr_to_native( const std::wstring &wstr )
 #endif
 }
 
-std::string utf32_to_utf8( const std::u32string &str )
+std::string utf32_to_utf8( const std::u32string_view str )
 {
     std::string ret;
     ret.reserve( str.length() );
-    for( auto it = str.begin(); it < str.end(); ++it ) {
-        ret += utf32_to_utf8( *it );
+    for( const char32_t c : str ) {
+        ret += utf32_to_utf8( c );
     }
     return ret;
 }
 
-std::u32string utf8_to_utf32( const std::string &str )
+std::u32string utf8_to_utf32( const std::string_view str )
 {
     int len = str.length();
     const char *dat = str.data();

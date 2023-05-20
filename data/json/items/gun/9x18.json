@@ -22,7 +22,6 @@
     "price": 25000,
     "price_postapoc": 2000,
     "to_hit": -2,
-    "bashing": 9,
     "material": [ "steel", "plastic" ],
     "color": "dark_gray",
     "ammo": [ "9x18" ],
@@ -31,7 +30,6 @@
     "min_cycle_recoil": 270,
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -43,7 +41,8 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "makarovmag" ] } ]
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "makarovmag" ] } ],
+    "melee_damage": { "bash": 9 }
   },
   {
     "id": "skorpion_82",

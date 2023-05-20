@@ -10,10 +10,10 @@
     "price": 0,
     "price_postapoc": 0,
     "to_hit": -1,
-    "bashing": 4,
     "material": [ "steel" ],
     "symbol": ";",
-    "color": "light_gray"
+    "color": "light_gray",
+    "melee_damage": { "bash": 4 }
   },
   {
     "type": "TOOL",
@@ -27,11 +27,11 @@
     "material": [ "superalloy", "ceramic" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "plutonium": 10000 }, "rigid": true } ],
     "volume": "100 L",
-    "bashing": 7,
     "category": "veh_parts",
     "price": 90000,
     "price_postapoc": 5000,
-    "ammo": [ "plutonium" ]
+    "ammo": [ "plutonium" ],
+    "melee_damage": { "bash": 7 }
   },
   {
     "type": "GENERIC",
@@ -44,10 +44,10 @@
     "symbol": "C",
     "material": [ "steel" ],
     "volume": "7500 ml",
-    "bashing": 12,
     "category": "veh_parts",
     "price": 20000,
-    "price_postapoc": 1500
+    "price_postapoc": 1500,
+    "melee_damage": { "bash": 12 }
   },
   {
     "type": "GENERIC",
@@ -60,10 +60,10 @@
     "symbol": ";",
     "material": [ "steel" ],
     "volume": "7500 ml",
-    "bashing": 12,
     "category": "veh_parts",
     "price": 20000,
-    "price_postapoc": 1500
+    "price_postapoc": 1500,
+    "melee_damage": { "bash": 12 }
   },
   {
     "type": "GENERIC",
@@ -72,10 +72,10 @@
     "name": { "str": "small vehicle heater" },
     "description": "A small vehicle-mounted area heater.",
     "weight": "6000 g",
-    "bashing": 3,
     "volume": "3750 ml",
     "price": 10000,
-    "price_postapoc": 750
+    "price_postapoc": 750,
+    "melee_damage": { "bash": 3 }
   },
   {
     "type": "GENERIC",
@@ -88,10 +88,10 @@
     "symbol": "-",
     "material": [ "wood" ],
     "volume": "2500 ml",
-    "bashing": 4,
     "category": "veh_parts",
     "price": 3000,
-    "price_postapoc": 10
+    "price_postapoc": 10,
+    "melee_damage": { "bash": 4 }
   },
   {
     "type": "GENERIC",
@@ -104,10 +104,10 @@
     "symbol": "-",
     "material": [ "steel", "plastic" ],
     "volume": "5 L",
-    "bashing": 5,
     "category": "veh_parts",
     "price": 90000,
-    "price_postapoc": 1000
+    "price_postapoc": 1000,
+    "melee_damage": { "bash": 5 }
   },
   {
     "type": "GENERIC",
@@ -117,11 +117,11 @@
     "weight": "100 g",
     "volume": "250 ml",
     "to_hit": -1,
-    "bashing": 4,
     "price": 1500,
     "price_postapoc": 100,
     "looks_like": "cable",
-    "copy-from": "recharge_station"
+    "copy-from": "recharge_station",
+    "melee_damage": { "bash": 4 }
   },
   {
     "type": "GENERIC",
@@ -134,10 +134,10 @@
     "symbol": "{",
     "material": [ "steel" ],
     "volume": "20 L",
-    "bashing": 8,
     "category": "veh_parts",
     "price": 60000,
-    "price_postapoc": 500
+    "price_postapoc": 500,
+    "melee_damage": { "bash": 8 }
   },
   {
     "type": "GENERIC",
@@ -150,10 +150,10 @@
     "symbol": "A",
     "material": [ "steel" ],
     "volume": "10 L",
-    "bashing": 3,
     "category": "veh_parts",
     "price": 90000,
-    "price_postapoc": 2500
+    "price_postapoc": 2500,
+    "melee_damage": { "bash": 3 }
   },
   {
     "type": "GENERIC",
@@ -231,10 +231,10 @@
     "symbol": ";",
     "material": [ "steel" ],
     "volume": "750 ml",
-    "bashing": 2,
     "category": "veh_parts",
     "price": 3000,
-    "price_postapoc": 50
+    "price_postapoc": 50,
+    "melee_damage": { "bash": 2 }
   },
   {
     "type": "TOOL",

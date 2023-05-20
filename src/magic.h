@@ -332,7 +332,7 @@ class spell_type
         // what energy do you use to cast this spell
         magic_energy_type energy_source = magic_energy_type::none;
 
-        damage_type dmg_type = damage_type::NONE;
+        damage_type_id dmg_type = damage_type_id::NULL_ID();
 
         // list of valid targets enum
         enum_bitset<spell_target> valid_targets;
@@ -347,7 +347,7 @@ class spell_type
         enum_bitset<spell_flag> spell_tags;
 
         static void load_spell( const JsonObject &jo, const std::string &src );
-        void load( const JsonObject &jo, const std::string & );
+        void load( const JsonObject &jo, std::string_view );
         void serialize( JsonOut &json ) const;
         /**
          * All spells in the game.
@@ -399,7 +399,7 @@ class spell_type
         static const float energy_increment_default;
         static const trait_id spell_class_default;
         static const magic_energy_type energy_source_default;
-        static const damage_type dmg_type_default;
+        static const damage_type_id dmg_type_default;
         static const int difficulty_default;
         static const int max_level_default;
         static const int base_casting_time_default;
@@ -424,7 +424,7 @@ class spell
         // once you accumulate enough exp you level the spell
         int experience = 0;
         // returns damage type for the spell
-        damage_type dmg_type() const;
+        const damage_type_id &dmg_type() const;
 
         // alternative cast message
         translation alt_message;

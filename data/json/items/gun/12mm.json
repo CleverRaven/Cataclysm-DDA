@@ -12,7 +12,6 @@
     "price": 1920000,
     "price_postapoc": 12000,
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "steel" ],
     "ammo": [ "12mm" ],
     "skill": "rifle",
@@ -21,7 +20,6 @@
     "durability": 8,
     "energy_drain": "5 kJ",
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "rail", 1 ],
@@ -32,6 +30,7 @@
       [ "underbarrel", 1 ]
     ],
     "flags": [ "NEVER_JAMS", "USE_UPS" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "magazine_well": "250 ml", "item_restriction": [ "hk_g80mag" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "magazine_well": "250 ml", "item_restriction": [ "hk_g80mag" ] } ],
+    "melee_damage": { "bash": 12 }
   }
 ]

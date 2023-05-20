@@ -1068,7 +1068,7 @@ bool talk_function::display_and_choose_opts(
         const int recmax = static_cast<int>( cur_key_list.size() );
         const int scroll_rate = recmax > 20 ? 10 : 3;
         if( action == "UP" || action == "SCROLL_UP" || action == "DOWN" || action == "SCROLL_DOWN" ) {
-            sel = increment_and_wrap( sel, action == "DOWN" || action == "SCROLL_DOWN", cur_key_list.size() );
+            sel = inc_clamp_wrap( sel, action == "DOWN" || action == "SCROLL_DOWN", cur_key_list.size() );
             info_offset = 0;
         } else if( action == "SCROLL_MISSION_INFO_UP" ) {
             if( info_offset > 0 ) {
@@ -1077,8 +1077,7 @@ bool talk_function::display_and_choose_opts(
         } else if( action == "SCROLL_MISSION_INFO_DOWN" ) {
             info_offset++;
         } else if( action == "PAGE_UP" || action == "PAGE_DOWN" ) {
-            sel = increment_and_wrap( sel, action == "PAGE_UP" ? -scroll_rate : scroll_rate,
-                                      cur_key_list.size() );
+            sel = inc_clamp_wrap( sel, action == "PAGE_UP" ? -scroll_rate : scroll_rate, cur_key_list.size() );
             info_offset = 0;
 
         } else if( action == "NEXT_TAB" && role_id == role_id_faction_camp ) {

@@ -12,7 +12,6 @@
     "price": 100000,
     "price_postapoc": 3000,
     "to_hit": -2,
-    "bashing": 5,
     "material": [ "plastic", "aluminum", "lead", "steel" ],
     "qualities": [ [ "BOIL", 1 ] ],
     "ammo": [ "battery" ],
@@ -28,7 +27,8 @@
         "flag_restriction": [ "BATTERY_MEDIUM" ],
         "default_magazine": "medium_plus_battery_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "butchering_kit",
@@ -55,12 +55,12 @@
     "price": 20000,
     "price_postapoc": 100,
     "to_hit": -2,
-    "bashing": 9,
     "material": [ "wood" ],
     "qualities": [ [ "CHURN", 1 ] ],
     "symbol": "H",
     "color": "light_cyan",
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "melee_damage": { "bash": 9 }
   },
   {
     "id": "screw_press",
@@ -72,10 +72,10 @@
     "price": 20000,
     "price_postapoc": 100,
     "to_hit": -2,
-    "bashing": 9,
     "material": [ "wood" ],
     "symbol": "T",
-    "color": "red"
+    "color": "red",
+    "melee_damage": { "bash": 9 }
   },
   {
     "id": "can_sealer",
@@ -88,10 +88,10 @@
     "price": 52500,
     "price_postapoc": 2500,
     "to_hit": -2,
-    "bashing": 8,
     "material": [ "steel" ],
     "symbol": ";",
-    "color": "light_gray"
+    "color": "light_gray",
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "carver_off",
@@ -103,8 +103,6 @@
     "longest_side": "30 cm",
     "price": 2000,
     "price_postapoc": 50,
-    "bashing": 2,
-    "cutting": 8,
     "to_hit": -2,
     "material": [ "steel", "plastic" ],
     "symbol": "/",
@@ -120,7 +118,8 @@
         "flag_restriction": [ "BATTERY_MEDIUM" ],
         "default_magazine": "medium_battery_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 2, "cut": 8 }
   },
   {
     "id": "carver_on",
@@ -128,14 +127,14 @@
     "type": "TOOL",
     "name": { "str": "electric carver (on)", "str_pl": "electric carvers (on)" },
     "description": "This carver is on and the blades are buzzing.  Use it to turn it off.",
-    "cutting": 30,
     "to_hit": 1,
     "power_draw": "150 W",
     "charges_per_use": 0,
     "revert_to": "carver_off",
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 25 ] ],
     "use_action": [ "CARVER_ON" ],
-    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ]
+    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ],
+    "melee_damage": { "bash": 2, "cut": 30 }
   },
   {
     "id": "char_purifier",
@@ -148,7 +147,6 @@
     "price": 4000,
     "price_postapoc": 2000,
     "to_hit": -3,
-    "bashing": 3,
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "light_gray",
@@ -158,7 +156,8 @@
     "//2": "50g of charcoal for 1 liter of water = 12.5g of charcoal per u of water.  1u charcoal weighs 1.04g, so making it 12:1",
     "charges_per_use": 12,
     "use_action": [ "WATER_PURIFIER" ],
-    "flags": [ "ALLOWS_REMOTE_USE", "NO_UNLOAD", "NO_RELOAD" ]
+    "flags": [ "ALLOWS_REMOTE_USE", "NO_UNLOAD", "NO_RELOAD" ],
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "char_purifier_clay",
@@ -172,7 +171,6 @@
     "price": 4000,
     "price_postapoc": 2000,
     "to_hit": -1,
-    "bashing": 1,
     "material": [ "clay" ],
     "symbol": ";",
     "color": "light_gray",
@@ -182,7 +180,8 @@
     "//2": "50g of charcoal for 1 liter of water = 12.5g of charcoal per u of water.  1u charcoal weighs 1.04g, so making it 12:1",
     "charges_per_use": 12,
     "use_action": [ "WATER_PURIFIER" ],
-    "flags": [ "ALLOWS_REMOTE_USE", "NO_UNLOAD", "NO_RELOAD" ]
+    "flags": [ "ALLOWS_REMOTE_USE", "NO_UNLOAD", "NO_RELOAD" ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "char_smoker",
@@ -195,7 +194,6 @@
     "price": 10000,
     "price_postapoc": 1500,
     "to_hit": -2,
-    "bashing": 9,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
@@ -204,7 +202,8 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 2000 } } ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "charges_per_use": 5,
-    "use_action": [ "HOTPLATE" ]
+    "use_action": [ "HOTPLATE" ],
+    "melee_damage": { "bash": 9 }
   },
   {
     "id": "charcoal_cooker",
@@ -217,7 +216,6 @@
     "price": 5000,
     "price_postapoc": 250,
     "to_hit": -1,
-    "bashing": 4,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "green",
@@ -225,7 +223,8 @@
     "//": "contains up to 1 liter of charcoal. Or the same amount of coal by weight, 1u coal weighs about as much as 1u of charcoal and has the same energy although it is 5x smaller.",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 200 } } ],
     "charges_per_use": 5,
-    "use_action": [ "HOTPLATE" ]
+    "use_action": [ "HOTPLATE" ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "clay_pot",
@@ -237,14 +236,14 @@
     "volume": "2100 ml",
     "price": 2500,
     "price_postapoc": 10,
-    "bashing": 1,
     "material": [ "clay" ],
     "symbol": ")",
     "color": "brown",
     "pocket_data": [ { "max_contains_volume": "2 L", "max_contains_weight": "2100 g", "watertight": true, "rigid": true } ],
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
     "use_action": [ "HEAT_FOOD" ],
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "clay_quern",
@@ -271,12 +270,12 @@
     "price": 2000,
     "price_postapoc": 10,
     "to_hit": 1,
-    "bashing": 1,
     "material": [ "clay" ],
     "symbol": ")",
     "color": "brown",
     "pocket_data": [ { "max_contains_volume": "750 ml", "max_contains_weight": "2 kg", "watertight": true, "rigid": true } ],
-    "qualities": [ [ "BOIL", 1 ] ]
+    "qualities": [ [ "BOIL", 1 ] ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "coffeemaker",
@@ -289,7 +288,6 @@
     "price": 2000,
     "price_postapoc": 50,
     "to_hit": -5,
-    "bashing": 2,
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "light_gray",
@@ -305,7 +303,8 @@
         "flag_restriction": [ "BATTERY_MEDIUM" ],
         "default_magazine": "medium_battery_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "dehydrator",
@@ -317,7 +316,6 @@
     "price": 6000,
     "price_postapoc": 2000,
     "to_hit": -2,
-    "bashing": 8,
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "blue",
@@ -330,7 +328,8 @@
         "flag_restriction": [ "BATTERY_MEDIUM" ],
         "default_magazine": "medium_battery_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "eggs_ferment",
@@ -343,7 +342,6 @@
     "longest_side": "132 mm",
     "price": 10,
     "price_postapoc": 10,
-    "bashing": 8,
     "material": [ "glass", "egg" ],
     "symbol": "%",
     "color": "white",
@@ -356,7 +354,8 @@
       "type": "delayed_transform",
       "transform_age": 201600,
       "not_ready_msg": "The eggs are not done yet."
-    }
+    },
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "esbit_stove",
@@ -368,14 +367,14 @@
     "price": 2000,
     "price_postapoc": 100,
     "to_hit": -1,
-    "bashing": 2,
     "material": [ "aluminum" ],
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "esbit" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "esbit": 100 } } ],
     "charges_per_use": 2,
-    "use_action": [ "HOTPLATE", "HEAT_FOOD" ]
+    "use_action": [ "HOTPLATE", "HEAT_FOOD" ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "flask_yeast",
@@ -388,7 +387,6 @@
     "longest_side": "132 mm",
     "price": 10,
     "price_postapoc": 10,
-    "bashing": 8,
     "material": [ "glass", "powder" ],
     "symbol": "%",
     "color": "white",
@@ -403,7 +401,8 @@
       "not_ready_msg": "The yeast isn't done culturing yet.",
       "//": "12 hours"
     },
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID" ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "food_processor",
@@ -417,7 +416,6 @@
     "price": 12000,
     "price_postapoc": 700,
     "to_hit": -1,
-    "bashing": 10,
     "material": [ "plastic", "steel" ],
     "symbol": "%",
     "color": "white",
@@ -430,7 +428,8 @@
         "flag_restriction": [ "BATTERY_MEDIUM" ],
         "default_magazine": "medium_battery_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "gasoline_cooker",
@@ -442,14 +441,14 @@
     "price": 5000,
     "price_postapoc": 250,
     "to_hit": -1,
-    "bashing": 4,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "green",
     "ammo": [ "gasoline" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "gasoline": 500 }, "watertight": true, "rigid": true } ],
     "charges_per_use": 2,
-    "use_action": [ "HOTPLATE" ]
+    "use_action": [ "HOTPLATE" ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "heatpack",
@@ -461,12 +460,11 @@
     "price": 100,
     "price_postapoc": 50,
     "to_hit": 1,
-    "bashing": 1,
-    "cutting": 1,
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "use_action": [ "HEATPACK" ]
+    "use_action": [ "HEATPACK" ],
+    "melee_damage": { "bash": 1, "cut": 1 }
   },
   {
     "id": "heatpack_used",
@@ -479,11 +477,10 @@
     "price": 0,
     "price_postapoc": 0,
     "to_hit": 1,
-    "bashing": 1,
-    "cutting": 1,
     "material": [ "plastic" ],
     "symbol": ";",
-    "color": "light_gray"
+    "color": "light_gray",
+    "melee_damage": { "bash": 1, "cut": 1 }
   },
   {
     "id": "hotplate",
@@ -496,7 +493,6 @@
     "price": 2500,
     "price_postapoc": 250,
     "to_hit": -1,
-    "bashing": 4,
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "green",
@@ -511,7 +507,8 @@
         "flag_restriction": [ "BATTERY_MEDIUM" ],
         "default_magazine": "medium_battery_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "hotplate_induction",
@@ -525,7 +522,6 @@
     "price": 60000,
     "price_postapoc": 1000,
     "to_hit": -1,
-    "bashing": 4,
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "green",
@@ -540,7 +536,8 @@
         "flag_restriction": [ "BATTERY_MEDIUM" ],
         "default_magazine": "medium_plus_battery_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "makeshift_sealer",
@@ -553,7 +550,6 @@
     "price": 1000,
     "price_postapoc": 250,
     "to_hit": -1,
-    "bashing": 8,
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "white",
@@ -566,7 +562,8 @@
         "flag_restriction": [ "BATTERY_MEDIUM" ],
         "default_magazine": "medium_battery_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "mess_kit",
@@ -579,12 +576,12 @@
     "price": 3000,
     "price_postapoc": 100,
     "to_hit": -1,
-    "bashing": 4,
     "material": [ "aluminum" ],
     "symbol": ";",
     "color": "green",
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "pocket_data": [ { "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "watertight": true, "rigid": true } ]
+    "pocket_data": [ { "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "watertight": true, "rigid": true } ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "milk_cream_jar",
@@ -598,10 +595,10 @@
     "longest_side": "298 mm",
     "price": 10,
     "price_postapoc": 10,
-    "bashing": 8,
     "material": [ "glass" ],
     "symbol": "%",
-    "color": "white"
+    "color": "white",
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "milk_cream_rising",
@@ -614,7 +611,6 @@
     "longest_side": "298 mm",
     "price": 10,
     "price_postapoc": 10,
-    "bashing": 8,
     "material": [ "glass" ],
     "symbol": "%",
     "looks_like": "jar_glass_sealed",
@@ -626,7 +622,8 @@
       "type": "delayed_transform",
       "transform_age": 21600,
       "not_ready_msg": "The cream has not risen yet."
-    }
+    },
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "mortar_pestle",
@@ -639,11 +636,11 @@
     "price": 0,
     "price_postapoc": 10,
     "to_hit": -4,
-    "bashing": 3,
     "material": [ "stone" ],
     "symbol": ":",
     "color": "light_gray",
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "FINE_GRIND", 1 ], [ "HAMMER", 1 ] ]
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "FINE_GRIND", 1 ], [ "HAMMER", 1 ] ],
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "multi_cooker",
@@ -699,14 +696,14 @@
     "price": 5000,
     "price_postapoc": 250,
     "to_hit": -1,
-    "bashing": 4,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "green",
     "ammo": [ "lamp_oil" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "lamp_oil": 800 }, "watertight": true, "rigid": true } ],
     "charges_per_use": 2,
-    "use_action": [ "HOTPLATE" ]
+    "use_action": [ "HOTPLATE" ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "oil_press_manual",
@@ -719,7 +716,6 @@
     "price": 12000,
     "price_postapoc": 1000,
     "to_hit": -2,
-    "bashing": 7,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "green",
@@ -731,7 +727,8 @@
         "flag_restriction": [ "BATTERY_MEDIUM" ],
         "default_magazine": "medium_battery_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 7 }
   },
   {
     "id": "oil_press_primitive",
@@ -744,12 +741,12 @@
     "price": 12000,
     "price_postapoc": 1000,
     "to_hit": -2,
-    "bashing": 7,
     "material": [ "wood" ],
     "symbol": ";",
     "color": "green",
     "ammo": [ "lamp_oil" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "lamp_oil": 800 }, "watertight": true, "rigid": true } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "lamp_oil": 800 }, "watertight": true, "rigid": true } ],
+    "melee_damage": { "bash": 7 }
   },
   {
     "id": "pastaextruder",
@@ -762,10 +759,10 @@
     "price": 2000,
     "price_postapoc": 100,
     "to_hit": 2,
-    "bashing": 10,
     "material": [ "iron" ],
     "symbol": ")",
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "pickles_ferment",
@@ -778,7 +775,6 @@
     "longest_side": "132 mm",
     "price": 10,
     "price_postapoc": 10,
-    "bashing": 8,
     "material": [ "glass", "veggy" ],
     "symbol": "%",
     "color": "white",
@@ -792,7 +788,8 @@
       "transform_age": 201600,
       "not_ready_msg": "The pickles are not done fermenting yet.",
       "//": "2 1/3 days, from the suggested recipe of 1 rl week"
-    }
+    },
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "popcan_stove",
@@ -804,14 +801,14 @@
     "volume": "750 ml",
     "price": 250,
     "price_postapoc": 10,
-    "bashing": 1,
     "material": [ "aluminum" ],
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "conc_alcohol" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "conc_alcohol": 500 }, "watertight": true, "rigid": true } ],
     "charges_per_use": 3,
-    "use_action": [ "HOTPLATE" ]
+    "use_action": [ "HOTPLATE" ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "pressure_cooker",
@@ -825,7 +822,6 @@
     "price": 6500,
     "price_postapoc": 50,
     "to_hit": 1,
-    "bashing": 6,
     "material": [ "steel" ],
     "symbol": ")",
     "color": "light_gray",
@@ -833,7 +829,8 @@
     "pocket_data": [ { "max_contains_volume": "6 L", "max_contains_weight": "100 kg", "watertight": true, "rigid": true } ],
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
     "use_action": [ "HEAT_FOOD" ],
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "rock_quern",
@@ -845,10 +842,10 @@
     "longest_side": "30 cm",
     "price": 100,
     "to_hit": -4,
-    "bashing": 5,
     "material": [ "stone" ],
     "symbol": ":",
-    "color": "light_gray"
+    "color": "light_gray",
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "sauerkraut_ferment",
@@ -861,7 +858,6 @@
     "longest_side": "132 mm",
     "price": 10,
     "price_postapoc": 10,
-    "bashing": 4,
     "material": [ "glass", "veggy" ],
     "symbol": "%",
     "color": "white",
@@ -875,7 +871,8 @@
       "transform_age": 201600,
       "not_ready_msg": "The sauerkraut isn't done fermenting yet.",
       "//": "2 1/3 days, from the suggested recipe of 1 rl week"
-    }
+    },
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "sieve_primitive",
@@ -887,10 +884,10 @@
     "volume": "500 ml",
     "price": 300,
     "price_postapoc": 10,
-    "bashing": 1,
     "material": [ "paper" ],
     "symbol": ";",
-    "color": "light_gray"
+    "color": "light_gray",
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "sieve_steel",
@@ -902,10 +899,10 @@
     "weight": "318 g",
     "price": 700,
     "price_postapoc": 50,
-    "bashing": 2,
     "material": [ "steel" ],
     "symbol": ";",
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "still",
@@ -917,11 +914,11 @@
     "price": 30000,
     "price_postapoc": 250,
     "to_hit": -6,
-    "bashing": 10,
     "material": [ "copper" ],
     "symbol": "L",
     "color": "white",
-    "qualities": [ [ "DISTILL", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "DISTILL", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "survivor_mess_kit",
@@ -934,7 +931,6 @@
     "price": 2000,
     "price_postapoc": 100,
     "to_hit": -1,
-    "bashing": 6,
     "material": [ "steel", "glass" ],
     "symbol": ";",
     "color": "brown",
@@ -943,7 +939,8 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "lamp_oil": 800 }, "watertight": true, "rigid": true } ],
     "charges_per_use": 2,
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
-    "use_action": [ "HOTPLATE", "HEAT_FOOD" ]
+    "use_action": [ "HOTPLATE", "HEAT_FOOD" ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "teapot",
@@ -957,12 +954,12 @@
     "price": 1000,
     "price_postapoc": 10,
     "to_hit": 2,
-    "bashing": 3,
     "material": [ "steel" ],
     "symbol": ")",
     "color": "dark_gray",
     "pocket_data": [ { "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "watertight": true, "rigid": true } ],
-    "qualities": [ [ "BOIL", 1 ] ]
+    "qualities": [ [ "BOIL", 1 ] ],
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "vac_sealer",
@@ -975,7 +972,6 @@
     "price": 2500,
     "price_postapoc": 2000,
     "to_hit": -1,
-    "bashing": 8,
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "white",
@@ -988,24 +984,27 @@
         "flag_restriction": [ "BATTERY_MEDIUM" ],
         "default_magazine": "medium_battery_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "waffleiron",
     "type": "GENERIC",
     "category": "tools",
     "name": { "str": "waffle iron" },
-    "description": "A waffle iron, generally used for making waffles.  Also not bad for whacking zombies over the head, though it's a bit slow to swing.",
-    "weight": "2628 g",
-    "volume": "5 L",
-    "price": 2000,
+    "description": "A waffle iron, generally used for making waffles.",
+    "weight": "520 g",
+    "volume": "870 ml",
+    "longest_side": "30 cm",
+    "price": "16 USD",
     "price_postapoc": 10,
-    "to_hit": 2,
-    "bashing": 10,
-    "material": [ "iron" ],
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "material": [ "aluminum" ],
     "symbol": ")",
     "color": "dark_gray",
-    "qualities": [ [ "COOK", 1 ] ]
+    "qualities": [ [ "COOK", 1 ] ],
+    "//": "Based on: https://www.amazon.com/Noxious-Additives-Material-Sandwich-Breakfast/dp/B07WWW1S84/ref=sr_1_1?crid=QSRJMOJRQ89G&keywords=manual+waffle+iron&qid=1680812963&sprefix=manualwaffle+iron%2Caps%2C183&sr=8-1",
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "water_purifier",
@@ -1018,7 +1017,6 @@
     "price": 10000,
     "price_postapoc": 1500,
     "to_hit": -3,
-    "bashing": 2,
     "material": [ "plastic", "steel" ],
     "symbol": ";",
     "color": "light_blue",
@@ -1033,7 +1031,8 @@
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
         "default_magazine": "light_battery_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "propane_cooker",
@@ -1045,14 +1044,14 @@
     "price": 5000,
     "price_postapoc": 250,
     "to_hit": -1,
-    "bashing": 4,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "green",
     "ammo": [ "propane" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "GAS_TANK" ], "default_magazine": "small_propane_tank" } ],
     "charges_per_use": 2,
-    "use_action": [ "HOTPLATE", "HEAT_FOOD" ]
+    "use_action": [ "HOTPLATE", "HEAT_FOOD" ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "acetylene_cooker",
@@ -1064,7 +1063,6 @@
     "price": 5000,
     "price_postapoc": 250,
     "to_hit": -1,
-    "bashing": 4,
     "material": [ "brass", "steel" ],
     "symbol": ";",
     "color": "green",
@@ -1077,7 +1075,8 @@
       }
     ],
     "charges_per_use": 1,
-    "use_action": [ "HOTPLATE", "HEAT_FOOD" ]
+    "use_action": [ "HOTPLATE", "HEAT_FOOD" ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "type": "TOOL",

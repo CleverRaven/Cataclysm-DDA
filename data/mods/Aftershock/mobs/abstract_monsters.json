@@ -20,16 +20,12 @@
     "melee_dice": 2,
     "melee_dice_sides": 4,
     "dodge": 4,
-    "armor_bash": 12,
-    "armor_cut": 12,
-    "armor_stab": 6,
-    "armor_fire": 5,
-    "armor_acid": 12,
     "vision_day": 50,
     "path_settings": { "max_dist": 5 },
     "death_drops": { "groups": [ [ "broken_robots", 1 ] ] },
     "death_function": { "corpse_type": "BROKEN" },
-    "flags": [ "SEES", "HEARS", "BASHES", "ELECTRONIC", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_1" ]
+    "flags": [ "SEES", "HEARS", "BASHES", "ELECTRONIC", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_1" ],
+    "armor": { "bash": 12, "cut": 12, "stab": 6, "acid": 12, "heat": 5 }
   },
   {
     "abstract": "mon_defbot_base",
@@ -54,16 +50,12 @@
     "melee_dice": 2,
     "melee_dice_sides": 4,
     "dodge": 4,
-    "armor_bash": 10,
-    "armor_cut": 10,
-    "armor_stab": 5,
-    "armor_fire": 5,
-    "armor_acid": 10,
     "vision_day": 50,
     "path_settings": { "max_dist": 5 },
     "death_drops": { "groups": [ [ "broken_robots", 1 ] ] },
     "death_function": { "corpse_type": "BROKEN" },
-    "flags": [ "SEES", "HEARS", "BASHES", "ELECTRONIC", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_1" ]
+    "flags": [ "SEES", "HEARS", "BASHES", "ELECTRONIC", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_1" ],
+    "armor": { "bash": 10, "cut": 10, "stab": 5, "acid": 10, "heat": 5 }
   },
   {
     "abstract": "mon_advbot_base",
@@ -75,16 +67,12 @@
     "default_faction": "defense_bot",
     "species": [ "ROBOT" ],
     "hp": 100,
-    "armor_bash": 8,
-    "armor_cut": 6,
-    "armor_stab": 6,
-    "armor_fire": 8,
-    "armor_acid": 12,
     "vision_day": 50,
     "speed": 110,
     "color": "white_cyan",
     "aggression": 100,
-    "dodge": 5
+    "dodge": 5,
+    "armor": { "bash": 8, "cut": 6, "stab": 6, "acid": 12, "heat": 8 }
   },
   {
     "abstract": "afs_mon_reaver_abstract",
@@ -108,11 +96,6 @@
     "melee_dice": 2,
     "melee_dice_sides": 4,
     "dodge": 3,
-    "armor_bash": 12,
-    "armor_cut": 12,
-    "armor_stab": 6,
-    "armor_fire": 5,
-    "armor_acid": 12,
     "vision_day": 30,
     "vision_night": 6,
     "path_settings": { "max_dist": 5 },
@@ -129,6 +112,7 @@
       "CAN_OPEN_DOORS",
       "PATH_AVOID_DANGER_1",
       "PRIORITIZE_TARGETS"
-    ]
+    ],
+    "armor": { "bash": 12, "cut": 12, "stab": 6, "acid": 12, "heat": 5 }
   }
 ]

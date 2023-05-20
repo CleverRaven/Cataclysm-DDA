@@ -3111,8 +3111,9 @@
     "skill_used": "tailor",
     "difficulty": 2,
     "time": "48 m",
+    "reversible": { "time": "30 m" },
     "book_learn": [ [ "textbook_tailor", 4 ], [ "manual_tailor", 5 ], [ "tailor_portfolio", 4 ] ],
-    "using": [ [ "sewing_standard", 20 ], [ "tailoring_cotton_patchwork", 20 ] ]
+    "using": [ [ "tailoring_cotton_patchwork", 20 ] ]
   },
   {
     "result": "jumpsuit_xs",

@@ -239,6 +239,102 @@
   },
   {
     "type": "start_location",
+    "id": "sloc_pharm",
+    "name": "Pharmacy",
+    "terrain": [ "s_pharm", "s_pharm_1" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_hardware",
+    "name": "Hardware Store",
+    "terrain": [ "s_hardware", "s_hardware_1", "s_hardware_2", "s_hardware_3" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_dojo",
+    "name": "Dojo",
+    "terrain": [ "dojo", "dojo_1" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_gym",
+    "name": "Gym",
+    "terrain": [ "gym", "gym_fitness", "gym_fitness_1" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_clothes",
+    "name": "Clothe Store",
+    "terrain": [ "s_clothes", "s_clothes_1", "s_clothes_2", "s_clothes_3", "s_clothes_4", "s_clothes_5", "s_clothes_6" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_restaurant",
+    "name": "Restaurant",
+    "terrain": [ "s_restaurant", "s_restaurant_foodplace", "s_restaurant_1", "s_restaurant_2", "s_restaurant_3" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_bar",
+    "name": "Bar",
+    "terrain": [ "bar", "bar_1" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_electronics",
+    "name": "Electronics Store",
+    "terrain": [ "s_electronics", "s_electronics_1", "s_electronicstore" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_arcade",
+    "name": "Arcade",
+    "terrain": [ "s_arcade" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_animalshelter",
+    "name": "Animal Shelter",
+    "terrain": [ "animalshelter" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_laundromat",
+    "name": "Laundromat",
+    "terrain": [ "s_laundromat", "s_laundromat_1" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_stripclub",
+    "name": "Strip Club",
+    "terrain": [ "stripclub", "stripclub_1", "stripclub_2" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_sexshop",
+    "name": "Sex Shop",
+    "terrain": [ "cs_sex_shop" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_candyshop",
+    "name": "Candy Shop",
+    "terrain": [ "candy_shop", "candy_shop_1" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_bikeshop",
+    "name": "Bike Shop",
+    "terrain": [ "s_bike_shop", "s_bike_shop_1" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_petstore",
+    "name": "Pet Store",
+    "terrain": [ "s_petstore", "s_petstore_1", "s_petstore_2" ]
+  },
+  {
+    "type": "start_location",
     "id": "sloc_military_surplus",
     "name": "Military Surplus",
     "terrain": [ "mil_surplus", "mil_surplus_1", "mil_surplus_2" ]

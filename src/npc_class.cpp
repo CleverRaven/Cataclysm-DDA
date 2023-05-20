@@ -214,7 +214,7 @@ static distribution load_distribution( const JsonObject &jo )
     jo.throw_error( "Invalid distribution" );
 }
 
-static distribution load_distribution( const JsonObject &jo, const std::string &name )
+static distribution load_distribution( const JsonObject &jo, const std::string_view name )
 {
     if( !jo.has_member( name ) ) {
         return distribution();
@@ -234,7 +234,7 @@ static distribution load_distribution( const JsonObject &jo, const std::string &
 
 bool shopkeeper_item_group::can_sell( npc const &guy ) const
 {
-    dialogue const temp( get_talker_for( get_avatar() ), get_talker_for( guy ) );
+    dialogue temp( get_talker_for( get_avatar() ), get_talker_for( guy ) );
     faction *const fac = guy.get_faction();
 
     return ( fac == nullptr || trust <= guy.get_faction()->trusts_u ) &&
@@ -267,7 +267,7 @@ void shopkeeper_item_group::deserialize( const JsonObject &jo )
     }
 }
 
-void npc_class::load( const JsonObject &jo, const std::string & )
+void npc_class::load( const JsonObject &jo, const std::string_view )
 {
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "job_description", job_description );

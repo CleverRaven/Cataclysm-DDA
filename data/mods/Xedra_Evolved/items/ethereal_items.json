@@ -40,29 +40,19 @@
     "longest_side": "100 cm",
     "price": 98000,
     "price_postapoc": 2500,
-    "bashing": 2,
-    "cutting": 31,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "material": [ "dreamstuff" ],
     "symbol": "/",
     "color": "light_gray",
     "techniques": [ "RAPID", "WBLOCK_2", "PRECISE" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
-    "flags": [
-      "STAB",
-      "UNBREAKABLE_MELEE",
-      "NONCONDUCTIVE",
-      "NO_REPAIR",
-      "NO_SALVAGE",
-      "MAGIC_FOCUS",
-      "TRADER_AVOID",
-      "SHEATH_SWORD"
-    ],
+    "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS", "TRADER_AVOID", "SHEATH_SWORD" ],
     "weapon_category": [ "FENCING_WEAPONRY" ],
     "relic_data": {
       "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_COLD", "add": 10 } ] } ]
     },
-    "category": "weapons"
+    "category": "weapons",
+    "melee_damage": { "bash": 2, "stab": 31 }
   },
   {
     "id": "dagger_dreamdross",
@@ -75,27 +65,18 @@
     "price": 4000,
     "price_postapoc": 750,
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "good" },
-    "cutting": 16,
     "material": [ "dreamstuff" ],
     "symbol": "/",
     "color": "light_gray",
     "techniques": [ "RAPID", "WBLOCK_1", "PRECISE" ],
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 5 ] ],
-    "flags": [
-      "STAB",
-      "UNBREAKABLE_MELEE",
-      "NONCONDUCTIVE",
-      "NO_REPAIR",
-      "NO_SALVAGE",
-      "MAGIC_FOCUS",
-      "TRADER_AVOID",
-      "SHEATH_KNIFE"
-    ],
+    "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS", "TRADER_AVOID", "SHEATH_KNIFE" ],
     "weapon_category": [ "KNIVES" ],
     "relic_data": {
       "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_COLD", "add": 8 } ] } ]
     },
-    "category": "weapons"
+    "category": "weapons",
+    "melee_damage": { "stab": 16 }
   },
   {
     "id": "armor_dreamdross",
@@ -117,7 +98,7 @@
     ]
   },
   {
-    "type": "GENERIC",
+    "type": "TOOL",
     "id": "xe_oneiric_hammer",
     "name": { "str": "Oneiric Hammer" },
     "description": "The platonic embodiment of a blacksmiths hammer.  This hammer is necessary to forge or repair items made of forged dreamstuff.",
@@ -137,12 +118,13 @@
       "MAGIC_FOCUS"
     ],
     "volume": "1250 ml",
-    "bashing": 30,
     "price": 0,
     "qualities": [ [ "DREAM_HAMMER", 1 ] ],
     "relic_data": {
       "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "multiply": -1 } ] } ]
     },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "moon_tears_fasteners": 100 } } ],
+    "charges_per_use": 1,
     "use_action": [
       {
         "type": "repair_item",
@@ -153,7 +135,8 @@
         "cost_scaling": 0.1,
         "move_cost": 100
       }
-    ]
+    ],
+    "melee_damage": { "bash": 30 }
   },
   {
     "type": "GENERIC",

@@ -20,7 +20,6 @@
 class input_context;
 struct input_event;
 
-enum class damage_type : int;
 class Character;
 class JsonObject;
 class effect;
@@ -33,7 +32,7 @@ class weapon_category
         static void load_weapon_categories( const JsonObject &jo, const std::string &src );
         static void reset();
 
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
 
         static const std::vector<weapon_category> &get_all();
 
@@ -74,9 +73,9 @@ struct ma_requirements {
     std::vector<std::pair<skill_id, int>> min_skill;
 
     /** Minimum amount of given damage type on the weapon
-     *  Note: damage_type::FIRE currently won't work, not even on flaming weapons!
+     *  Note: damage_type_id == "fire" currently won't work, not even on flaming weapons!
      */
-    std::vector<std::pair<damage_type, int>> min_damage;
+    std::vector<std::pair<damage_type_id, int>> min_damage;
 
     std::set<mabuff_id> req_buffs_all; // all listed buffs required to trigger this bonus
     std::set<mabuff_id> req_buffs_any; // any listed buffs required to trigger this bonus
@@ -102,7 +101,7 @@ struct ma_requirements {
     bool is_valid_character( const Character &u ) const;
     bool is_valid_weapon( const item &i ) const;
 
-    void load( const JsonObject &jo, const std::string &src );
+    void load( const JsonObject &jo, std::string_view src );
 };
 
 struct tech_effect_data {
@@ -193,11 +192,11 @@ class ma_technique
 
         std::vector<tech_effect_data> tech_effects;
 
-        float damage_bonus( const Character &u, damage_type type ) const;
-        float damage_multiplier( const Character &u, damage_type type ) const;
+        float damage_bonus( const Character &u, const damage_type_id &type ) const;
+        float damage_multiplier( const Character &u, const damage_type_id &type ) const;
         float move_cost_multiplier( const Character &u ) const;
         float move_cost_penalty( const Character &u ) const;
-        float armor_penetration( const Character &u, damage_type type ) const;
+        float armor_penetration( const Character &u, const damage_type_id &type ) const;
 
         std::vector<effect_on_condition_id> eocs;
 };
@@ -224,17 +223,17 @@ class ma_buff
         int dodge_bonus( const Character &u ) const;
         int speed_bonus( const Character &u ) const;
         int block_bonus( const Character &u ) const;
-        int arpen_bonus( const Character &u, damage_type dt ) const;
+        int arpen_bonus( const Character &u, const damage_type_id &dt ) const;
 
         // returns the armor bonus for various armor stats (equivalent to armor)
-        int armor_bonus( const Character &guy, damage_type dt ) const;
+        int armor_bonus( const Character &guy, const damage_type_id &dt ) const;
 
         // returns the stat bonus for the various damage stats (for rolls)
-        float damage_bonus( const Character &u, damage_type dt ) const;
+        float damage_bonus( const Character &u, const damage_type_id &dt ) const;
 
         // returns damage multipliers for the various damage stats (applied after
         // bonuses)
-        float damage_mult( const Character &u, damage_type dt ) const;
+        float damage_mult( const Character &u, const damage_type_id &dt ) const;
 
         // returns various boolean flags
         bool is_melee_bash_damage_cap_bonus() const;
@@ -277,7 +276,7 @@ class ma_buff
         bool strictly_melee = false; // can we only use it with weapons?
         bool stealthy = false; // do we make less noise when moving?
 
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
 };
 
 class martialart

@@ -85,7 +85,6 @@ struct damage_instance;
 struct damage_unit;
 struct fire_data;
 
-enum class damage_type : int;
 enum clothing_mod_type : int;
 
 struct light_emission {
@@ -354,6 +353,11 @@ class item : public visitable
          * Used for nicer messages only.
          */
         bool is_maybe_melee_weapon() const;
+
+        /**
+         * Returns whether this weapon does any damage type suitable for diamond coating.
+         */
+        bool has_edged_damage() const;
 
         /**
          * Returns a symbol for indicating the current dirt or fouling level for a gun.
@@ -674,7 +678,7 @@ class item : public visitable
         int attack_time( const Character &you ) const;
 
         /** Damage of given type caused when this item is used as melee weapon */
-        int damage_melee( damage_type dt ) const;
+        int damage_melee( const damage_type_id &dt ) const;
 
         /** All damage types this item deals when used in melee (no skill modifiers etc. applied). */
         damage_instance base_damage_melee() const;
@@ -704,7 +708,7 @@ class item : public visitable
         bool is_two_handed( const Character &guy ) const;
 
         /** Is this item an effective melee weapon for the given damage type? */
-        bool is_melee( damage_type dt ) const;
+        bool is_melee( const damage_type_id &dt ) const;
 
         /**
          *  Is this item an effective melee weapon for any damage type?
@@ -917,10 +921,11 @@ class item : public visitable
         /**
          * Returns this item into its default container. If it does not have a default container,
          * returns this. It's intended to be used like \code newitem = newitem.in_its_container();\endcode
+         * qty <= 0 means the current quantity of the item will be used. Any quantity exceeding the capacity
+         * of the container will be ignored.
          */
-        item in_its_container( int qty = INFINITE_CHARGES ) const;
-        item in_container( const itype_id &container_type, int qty = INFINITE_CHARGES,
-                           bool sealed = true ) const;
+        item in_its_container( int qty = 0 ) const;
+        item in_container( const itype_id &container_type, int qty = 0, bool sealed = true ) const;
 
         /**
         * True if item and its contents have any uses.
@@ -1211,23 +1216,13 @@ class item : public visitable
         * @param dmg_type Damage type
         * @return Amount of additional modded resistance
         */
-        float get_clothing_mod_val_for_damage_type( damage_type dmg_type ) const;
-
-        /**
-        * Helper function to perform damage_type::NONE checks for forward-declared damage_type.
-        */
-        bool damage_type_none( damage_type dmg_type ) const;
-
-        /**
-        * Helper function to perform damage_type validity check for forward-declared damage_type.
-        */
-        bool damage_type_invalid( damage_type dmg_type ) const;
+        float get_clothing_mod_val_for_damage_type( const damage_type_id &dmg_type ) const;
 
         /**
         * Helper function to check whether a damage_type can damage items for forward-declared
         * damage_type.
         */
-        bool damage_type_can_damage_items( damage_type dmg_type ) const;
+        bool damage_type_can_damage_items( const damage_type_id &dmg_type ) const;
 
 
 
@@ -1247,12 +1242,12 @@ class item : public visitable
         /*@{*/
 
         template<typename bodypart_target = bodypart_id>
-        float resist( damage_type dmg_type, bool to_self = false,
+        float resist( const damage_type_id &dmg_type, bool to_self = false,
                       const bodypart_target &bp = bodypart_target(),
                       int resist_value = 0 ) const;
 
     private:
-        float _resist( damage_type dmg_type, bool to_self = false, int resist_value = 0,
+        float _resist( const damage_type_id &dmg_type, bool to_self = false, int resist_value = 0,
                        bool bp_null = true,
                        const std::vector<const part_material *> &armor_mats = {},
                        float avg_thickness = 1.0f ) const;
@@ -1266,7 +1261,7 @@ class item : public visitable
          * @param base_env_resist Will override the base environmental
          * resistance (to allow hypothetical calculations for gas masks).
          */
-        float _environmental_resist( damage_type dmg_type, bool to_self = false,
+        float _environmental_resist( const damage_type_id &dmg_type, bool to_self = false,
                                      int base_env_resist = 0,
                                      bool bp_null = true,
                                      const std::vector<const part_material *> &armor_mats = {} ) const;
@@ -1310,6 +1305,13 @@ class item : public visitable
 
         // @see itype::damage_level()
         int damage_level() const;
+
+        // modifies melee weapon damage to account for item's damage
+        float damage_adjusted_melee_weapon_damage( float value ) const;
+        // modifies gun damage to account for item's damage
+        float damage_adjusted_gun_damage( float value ) const;
+        // modifies armor resist to account for item's damage
+        float damage_adjusted_armor_resist( float value ) const;
 
         // @return 0 if item is count_by_charges() or 4000 ( value of itype::damage_max_ )
         int max_damage() const;
@@ -1474,7 +1476,6 @@ class item : public visitable
         bool is_fuel() const;
         bool is_toolmod() const;
 
-        bool is_faulty() const;
         bool is_irremovable() const;
 
         /** Returns true if the item is broken and can't be activated or used in crafting */
@@ -1638,7 +1639,7 @@ class item : public visitable
         bool spill_contents( const tripoint &pos );
         bool spill_open_pockets( Character &guy, const item *avoid = nullptr );
         // spill items that don't fit in the container
-        void overflow( const tripoint &pos );
+        void overflow( const tripoint &pos, const item_location &loc = item_location::nowhere );
 
         /** Checks if item is a holster and currently capable of storing obj
          *  @param obj object that we want to holster
@@ -1748,6 +1749,18 @@ class item : public visitable
         /** Removes all item variables. */
         void clear_vars();
         /*@}*/
+
+        struct extended_photo_def {
+            int quality = 0;
+            std::string name;
+            std::string description;
+
+            void deserialize( const JsonObject &obj );
+            void serialize( JsonOut &jsout ) const;
+        };
+        bool read_extended_photos( std::vector<extended_photo_def> &extended_photos,
+                                   const std::string &var_name, bool insert_at_begin ) const;
+        void write_extended_photos( const std::vector<extended_photo_def> &, const std::string & );
 
         /**
          * @name Item flags
@@ -2016,7 +2029,7 @@ class item : public visitable
             COVER_RANGED,
             COVER_VITALS
         };
-        static cover_type get_cover_type( damage_type type );
+        static cover_type get_cover_type( const damage_type_id &type );
 
         /*
          * Returns the average coverage of each piece of data this item
@@ -2977,10 +2990,10 @@ class item : public visitable
         void update_clothing_mod_val();
 };
 
-extern template float item::resist<bodypart_id>( damage_type dmg_type, bool to_self,
+extern template float item::resist<bodypart_id>( const damage_type_id &dmg_type, bool to_self,
         const bodypart_id &bp,
         int resist_value ) const;
-extern template float item::resist<sub_bodypart_id>( damage_type dmg_type,
+extern template float item::resist<sub_bodypart_id>( const damage_type_id &dmg_type,
         bool to_self,
         const sub_bodypart_id &bp,
         int resist_value ) const;

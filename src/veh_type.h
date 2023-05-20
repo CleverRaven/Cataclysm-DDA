@@ -29,6 +29,16 @@ class JsonObject;
 class Character;
 class vehicle;
 
+template <typename T> class generic_factory;
+
+namespace vehicles
+{
+void load_prototype( const JsonObject &jo, const std::string &src );
+void reset_prototypes();
+void finalize_prototypes();
+const std::vector<vehicle_prototype> &get_all_prototypes();
+} // namespace vehicles
+
 // bitmask backing store of -certain- vpart_info.flags, ones that
 // won't be going away, are involved in core functionality, and are checked frequently
 enum vpart_bitflags : int {
@@ -110,18 +120,16 @@ struct vpslot_engine {
 };
 
 struct veh_ter_mod {
-    /* movecost for moving through this terrain (overrides current terrain movecost)
-                     * if movecost <= 0 ignore this parameter */
-    int movecost;
-    // penalty while not on this terrain (adds to movecost)
-    int penalty;
+    std::string terrain_flag; // terrain flag this mod block applies to
+    int move_override;        // override when on flagged terrain, ignored if 0
+    int move_penalty;         // penalty added when not on flagged terrain, ignored if 0
 };
 
 struct vpslot_wheel {
     float rolling_resistance = 1.0f;
     int contact_area = 1;
-    std::vector<std::pair<std::string, veh_ter_mod>> terrain_mod;
-    float or_rating = 0.0f;
+    std::vector<veh_ter_mod> terrain_mod;
+    float offroad_rating = 0.5f;
 };
 
 struct vpslot_rotor {
@@ -317,8 +325,8 @@ class vpart_info
          */
         float wheel_rolling_resistance() const;
         int wheel_area() const;
-        std::vector<std::pair<std::string, veh_ter_mod>> wheel_terrain_mod() const;
-        float wheel_or_rating() const;
+        const std::vector<veh_ter_mod> &wheel_terrain_modifiers() const;
+        float wheel_offroad_rating() const;
         /** @name rotor specific functions
         */
         int rotor_diameter() const;
@@ -386,7 +394,7 @@ class vpart_info
         item_group_id breaks_into_group = item_group_id( "EMPTY_GROUP" );
 
         /** Flat decrease of damage of a given type. */
-        std::array<float, static_cast<int>( damage_type::NUM )> damage_reduction = {};
+        std::map<damage_type_id, float> damage_reduction = {};
 
         /** Tool qualities this vehicle part can provide when installed */
         std::map<quality_id, int> qualities;
@@ -493,9 +501,6 @@ class vpart_info
         int z_order = 0;
         // Display order in vehicle interact display
         int list_order = 0;
-
-        /** Legacy parts don't specify installation requirements */
-        bool legacy = true;
 };
 
 struct vehicle_item_spawn {
@@ -516,42 +521,38 @@ struct vehicle_item_spawn {
  * is a nullptr. Creating a new vehicle copies the blueprint vehicle.
  */
 struct vehicle_prototype {
-    struct part_def {
-        point pos;
-        vpart_id part;
-        std::string variant;
-        int with_ammo = 0;
-        std::set<itype_id> ammo_types;
-        std::pair<int, int> ammo_qty = { -1, -1 };
-        itype_id fuel = itype_id::NULL_ID();
-        std::vector<itype_id> tools;
-    };
+        struct part_def {
+            point pos;
+            vpart_id part;
+            std::string variant;
+            int with_ammo = 0;
+            std::set<itype_id> ammo_types;
+            std::pair<int, int> ammo_qty = { -1, -1 };
+            itype_id fuel = itype_id::NULL_ID();
+            std::vector<itype_id> tools;
+        };
 
-    struct zone_def {
-        zone_type_id zone_type;
-        std::string name;
-        std::string filter;
-        point pt;
-    };
+        struct zone_def {
+            zone_type_id zone_type;
+            std::string name;
+            std::string filter;
+            point pt;
+        };
 
-    vehicle_prototype();
-    vehicle_prototype( vehicle_prototype && ) noexcept;
-    ~vehicle_prototype();
+        vproto_id id;
+        translation name;
+        std::vector<part_def> parts;
+        std::vector<vehicle_item_spawn> item_spawns;
+        std::vector<zone_def> zone_defs;
 
-    vehicle_prototype &operator=( vehicle_prototype && ) noexcept( string_is_noexcept );
+        shared_ptr_fast<vehicle> blueprint;
 
-    translation name;
-    std::vector<part_def> parts;
-    std::vector<vehicle_item_spawn> item_spawns;
-    std::vector<zone_def> zone_defs;
-
-    std::unique_ptr<vehicle> blueprint;
-
-    static void load( const JsonObject &jo );
-    static void reset();
-    static void finalize();
-
-    static std::vector<vproto_id> get_all();
+        void load( const JsonObject &jo, std::string_view src );
+    private:
+        bool was_loaded = false; // used by generic_factory
+        std::vector<std::pair<vproto_id, mod_id>> src;
+        friend class generic_factory<vehicle_prototype>;
+        friend struct mod_tracker;
 };
 
 /**

@@ -10,7 +10,6 @@
     "material": [ "glass" ],
     "weight": "75 g",
     "volume": "30 ml",
-    "cutting": 6,
     "use_action": {
       "type": "place_trap",
       "trap": "tr_glass",
@@ -19,7 +18,8 @@
       "done_message": "You carefully place the shards on the ground, ready to be cracked by something passing by."
     },
     "flags": [ "HURT_WHEN_WIELDED", "TRADER_AVOID", "SINGLE_USE" ],
-    "to_hit": -1
+    "to_hit": -1,
+    "melee_damage": { "cut": 6 }
   },
   {
     "type": "GENERIC",
@@ -35,7 +35,6 @@
     "weight": "6577 g",
     "volume": "2655 ml",
     "longest_side": "122 cm",
-    "bashing": 4,
     "to_hit": -5,
     "use_action": {
       "type": "place_trap",
@@ -44,7 +43,8 @@
       "practice": 2,
       "done_message": "You break the pane and place the shards on the ground, ready to be cracked by something passing by."
     },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE" ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "type": "GENERIC",
@@ -60,8 +60,8 @@
     "weight": "45900 g",
     "volume": "21200 ml",
     "longest_side": "122 cm",
-    "bashing": 6,
-    "to_hit": -6
+    "to_hit": -6,
+    "melee_damage": { "bash": 6 }
   },
   {
     "type": "GENERIC",
@@ -77,8 +77,8 @@
     "weight": "11475 g",
     "volume": "5300 ml",
     "longest_side": "305 mm",
-    "bashing": 4,
-    "to_hit": -2
+    "to_hit": -2,
+    "melee_damage": { "bash": 4 }
   },
   {
     "type": "GENERIC",
@@ -94,7 +94,7 @@
     "weight": "17514 g",
     "volume": "7070 ml",
     "longest_side": "122 cm",
-    "bashing": 6,
-    "to_hit": -5
+    "to_hit": -5,
+    "melee_damage": { "bash": 6 }
   }
 ]

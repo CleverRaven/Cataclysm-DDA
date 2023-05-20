@@ -17,7 +17,15 @@
   },
   {
     "type": "mutation_type",
+    "id": "ACCLIMATIZATION"
+  },
+  {
+    "type": "mutation_type",
     "id": "ATTRACTIVENESS"
+  },
+  {
+    "type": "mutation_type",
+    "id": "BLOOD"
   },
   {
     "type": "mutation_type",

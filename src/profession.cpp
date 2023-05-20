@@ -149,7 +149,7 @@ class item_reader : public generic_typed_reader<item_reader>
         }
 };
 
-void profession::load( const JsonObject &jo, const std::string & )
+void profession::load( const JsonObject &jo, const std::string_view )
 {
     //If the "name" is an object then we have to deal with gender-specific titles,
     if( jo.has_object( "name" ) ) {
@@ -440,9 +440,7 @@ static void clear_faults( item &it )
     if( it.get_var( "dirt", 0 ) > 0 ) {
         it.set_var( "dirt", 0 );
     }
-    if( it.is_faulty() ) {
-        it.faults.clear();
-    }
+    it.faults.clear();
 }
 
 std::list<item> profession::items( bool male, const std::vector<trait_id> &traits ) const

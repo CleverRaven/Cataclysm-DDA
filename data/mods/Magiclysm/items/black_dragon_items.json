@@ -10,9 +10,9 @@
     "material": [ "black_dragon_scales" ],
     "weight": "380 g",
     "volume": "75 ml",
-    "bashing": 0,
     "to_hit": -4,
-    "description": "A scale from a black dragon.  It still has its magical properties and acid resistance."
+    "description": "A scale from a black dragon.  It still has its magical properties and acid resistance.",
+    "melee_damage": { "bash": 0 }
   },
   {
     "id": "bundle_black_scale",
@@ -100,7 +100,6 @@
     "volume": "3250 ml",
     "price": 75000,
     "to_hit": -2,
-    "bashing": 7,
     "material": [ "black_dragon_hide", "black_dragon_scales" ],
     "symbol": "[",
     "color": "black_white",
@@ -108,7 +107,8 @@
     "material_thickness": 5,
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ],
-    "armor": [ { "encumbrance": 30, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ]
+    "armor": [ { "encumbrance": 30, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ],
+    "melee_damage": { "bash": 7 }
   },
   {
     "id": "boots_black_dragon_hide",
@@ -120,7 +120,6 @@
     "volume": "3250 ml",
     "price": 50000,
     "to_hit": -2,
-    "bashing": 7,
     "material": [ "black_dragon_hide" ],
     "symbol": "[",
     "color": "black_white",
@@ -128,7 +127,8 @@
     "material_thickness": 3,
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ],
-    "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ]
+    "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ],
+    "melee_damage": { "bash": 7 }
   },
   {
     "id": "helmet_black_dragon_scale",
@@ -141,7 +141,6 @@
     "volume": "2500 ml",
     "price": 58000,
     "to_hit": -1,
-    "bashing": 10,
     "material": [ "black_dragon_hide", "black_dragon_scales" ],
     "symbol": "[",
     "color": "black_white",
@@ -153,7 +152,8 @@
     "material_thickness": 5,
     "environmental_protection": 3,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "SUN_GLASSES" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "SUN_GLASSES" ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "helmet_black_dragon_scale_raised",
@@ -179,7 +179,6 @@
     "volume": "2 L",
     "price": 58000,
     "to_hit": -1,
-    "bashing": 10,
     "material": [ "black_dragon_hide" ],
     "symbol": "[",
     "color": "black_white",
@@ -188,7 +187,8 @@
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ],
-    "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "head" ] } ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "suit_black_dragon_scale",
@@ -200,7 +200,6 @@
     "volume": "12 L",
     "price": 2000000,
     "to_hit": -3,
-    "bashing": 6,
     "material": [ "black_dragon_hide", "black_dragon_scales" ],
     "symbol": "[",
     "color": "black_white",
@@ -208,7 +207,8 @@
     "material_thickness": 5,
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY", "OUTER" ],
-    "armor": [ { "encumbrance": 25, "coverage": 100, "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ] } ]
+    "armor": [ { "encumbrance": 25, "coverage": 100, "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ] } ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "suit_black_dragon_hide",
@@ -220,7 +220,6 @@
     "volume": "11 L",
     "price": 2000000,
     "to_hit": -3,
-    "bashing": 6,
     "material": [ "black_dragon_hide" ],
     "symbol": "[",
     "color": "black_white",
@@ -228,7 +227,8 @@
     "material_thickness": 3,
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY", "OUTER" ],
-    "armor": [ { "encumbrance": 18, "coverage": 100, "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ] } ]
+    "armor": [ { "encumbrance": 18, "coverage": 100, "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ] } ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "gauntlets_black_dragon_scale",

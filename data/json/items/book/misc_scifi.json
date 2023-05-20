@@ -165,9 +165,9 @@
     "weight": "517 g",
     "volume": "963 ml",
     "longest_side": "21 cm",
-    "bashing": 1,
     "chapters": 25,
-    "copy-from": "book_fict_hard_scifi_tpl"
+    "copy-from": "book_fict_hard_scifi_tpl",
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "book_fict_hard_scifi_fifth",
@@ -190,11 +190,11 @@
     "weight": "458 g",
     "volume": "756 ml",
     "longest_side": "23 cm",
-    "bashing": 1,
     "chapters": 40,
     "time": "6 m",
     "copy-from": "book_fict_hard_scifi_tpl",
-    "relative": { "intelligence": 1, "fun": -1 }
+    "relative": { "intelligence": 1, "fun": -1 },
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "book_fict_soft_scifi_zamwe",

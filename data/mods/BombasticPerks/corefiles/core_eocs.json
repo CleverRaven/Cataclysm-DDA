@@ -79,7 +79,7 @@
     "type": "effect_on_condition",
     "id": "EOC_bombastic_perks_initialize",
     "eoc_type": "EVENT",
-    "required_event": "game_start",
+    "required_event": "game_begin",
     "condition": { "and": [ { "not": { "u_has_trait": "perk_perk_menu" } } ] },
     "effect": [
       {

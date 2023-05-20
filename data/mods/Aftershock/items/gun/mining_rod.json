@@ -10,7 +10,6 @@
     "volume": "5 L",
     "longest_side": "1500 mm",
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "copper", "qt_steel", "superalloy" ],
     "ammo": [ "metal_rail" ],
     "skill": "rifle",
@@ -22,6 +21,7 @@
     "reload": 2000,
     "clip_size": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "metal_rail": 1 } } ],
-    "flags": [ "USE_UPS" ]
+    "flags": [ "USE_UPS" ],
+    "melee_damage": { "bash": 12 }
   }
 ]

@@ -169,6 +169,30 @@ void build_test_map( const ter_id &terrain )
     here.build_map_cache( 0, true );
 }
 
+void build_water_test_map( const ter_id &surface, const ter_id &mid, const ter_id &bottom )
+{
+    constexpr int z_surface = 0;
+    constexpr int z_bottom = -2;
+
+    clear_map( z_bottom, z_surface );
+
+    map &here = get_map();
+    for( const tripoint &p : here.points_in_rectangle( tripoint_zero,
+            tripoint( MAPSIZE * SEEX, MAPSIZE * SEEY, z_bottom ) ) ) {
+
+        if( p.z == z_surface ) {
+            here.ter_set( p, surface );
+        } else if( p.z < z_surface && p.z > z_bottom ) {
+            here.ter_set( p, mid );
+        } else if( p.z == z_bottom ) {
+            here.ter_set( p, bottom );
+        }
+    }
+
+    here.invalidate_map_cache( 0 );
+    here.build_map_cache( 0, true );
+}
+
 void player_add_headlamp()
 {
     item headlamp( "wearable_light_on" );

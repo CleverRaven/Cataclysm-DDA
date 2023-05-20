@@ -159,6 +159,7 @@ class monster : public Creature
         std::string extended_description() const override;
         // Inverts color if inv==true
         bool has_flag( m_flag f ) const override; // Returns true if f is set (see mtype.h)
+        bool has_flag( flag_id f ) const;
         bool can_see() const;      // MF_SEES and no MF_BLIND
         bool can_hear() const;     // MF_HEARS and no MF_DEAF
         bool can_submerge() const; // MF_AQUATIC or swims() or MF_NO_BREATH, and not MF_ELECTRONIC
@@ -332,7 +333,7 @@ class monster : public Creature
         bool is_dead_state() const override; // check if we should be dead or not
         bool is_elec_immune() const override;
         bool is_immune_effect( const efftype_id & ) const override;
-        bool is_immune_damage( damage_type ) const override;
+        bool is_immune_damage( const damage_type_id & ) const override;
 
         void make_bleed( const effect_source &source, time_duration duration,
                          int intensity = 1, bool permanent = false, bool force = false, bool defferred = false );
@@ -385,11 +386,8 @@ class monster : public Creature
         float power_rating() const override;
         float speed_rating() const override;
 
-        int get_worn_armor_val( damage_type dt ) const;
-        int  get_armor_cut( bodypart_id bp ) const override; // Natural armor, plus any worn armor
-        int  get_armor_bash( bodypart_id bp ) const override; // Natural armor, plus any worn armor
-        int  get_armor_bullet( bodypart_id bp ) const override; // Natural armor, plus any worn armor
-        int  get_armor_type( damage_type dt, bodypart_id bp ) const override;
+        int get_worn_armor_val( const damage_type_id &dt ) const;
+        int  get_armor_type( const damage_type_id &dt, bodypart_id bp ) const override;
 
         float get_hit_base() const override;
         float get_dodge_base() const override;
@@ -431,7 +429,7 @@ class monster : public Creature
         /** Test whether the monster has the specified special regardless of readiness. */
         bool has_special( const std::string &special_name ) const;
         /** Test whether the specified special is ready. */
-        bool special_available( const std::string &special_name ) const;
+        bool special_available( std::string_view special_name ) const;
 
         void process_turn() override;
         /** Resets the value of all bonus fields to 0, clears special effect flags. */
@@ -588,7 +586,7 @@ class monster : public Creature
         void process_trigger( mon_trigger trig, const std::function<int()> &amount_func );
 
         int hp = 0;
-        std::map<std::string, mon_special_attack> special_attacks;
+        std::map<std::string, mon_special_attack, std::less<>> special_attacks;
         std::optional<tripoint_abs_ms> goal;
         bool dead = false;
         /** Normal upgrades **/
