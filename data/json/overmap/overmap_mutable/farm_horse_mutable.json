@@ -88,6 +88,7 @@
       "paddock_v_U_s": { "overmap": "paddock_v_U_south" },
       "paddock_v_U_w": { "overmap": "paddock_v_U_west" },
       "paddock_v_U_e": { "overmap": "paddock_v_U_east" },
+      "paddock_v_e": { "overmap": "paddock_v_east" },
       "paddock_v_D_w": { "overmap": "paddock_v_D_west" },
       "paddock_v_D_e": { "overmap": "paddock_v_D_east" },
       "paddock_L_UL_e": { "overmap": "paddock_L_UL_east" },
@@ -99,16 +100,13 @@
       "paddock_L_DL_w": { "overmap": "paddock_L_DL_west" },
       "paddock_L_DR_e": { "overmap": "paddock_L_DR_east" },
       "paddock_L_DR_w": { "overmap": "paddock_L_DR_west" },
-      "fence_split_nw_e": { "overmap": "fence_split_nw_east" },
-      "fence_split_n_e": { "overmap": "fence_split_n_east" },
-      "fence_split_ne_e": { "overmap": "fence_split_ne_east" },
-      "fence_split_e_e": { "overmap": "fence_split_e_east" },
-      "fence_split_se_e": { "overmap": "fence_split_se_east" },
-      "fence_split_s_e": { "overmap": "fence_split_s_east" },
-      "fence_split_sw_e": { "overmap": "fence_split_sw_east" },
-      "fence_split_w_e": { "overmap": "fence_split_w_east" },
-      "paddock_diagup_w": { "overmap": "paddock_diagup_west" },
-      "paddock_diagup_e": { "overmap": "paddock_diagup_east" },
+      "paddock_d_UL_n": { "overmap": "paddock_d_UL_north" },
+      "paddock_d_DR_e": { "overmap": "paddock_d_DR_east" },
+      "paddock_d_DR_w": { "overmap": "paddock_d_DR_west" },
+      "paddock_special_1_e": { "overmap": "paddock_special_1_east" },
+      "paddock_special_2_e": { "overmap": "paddock_special_2_east" },
+      "paddock_special_3_e": { "overmap": "paddock_special_3_east" },
+      "paddock_special_4_e": { "overmap": "paddock_special_4_east" },
       "paddock_trailhead_1_n": { "overmap": "paddock_trailhead_1_north" },
       "paddock_trailhead_2_n": { "overmap": "paddock_trailhead_2_north" },
       "paddock_trailhead_3_n": { "overmap": "paddock_trailhead_3_north" },
@@ -124,6 +122,14 @@
       "paddock_end_4_n": { "overmap": "paddock_end_4_north" },
       "paddock_end_5_n": { "overmap": "paddock_end_5_north" },
       "paddock_end_6_n": { "overmap": "paddock_end_6_north" },
+      "fence_split_nw_e": { "overmap": "fence_split_nw_east" },
+      "fence_split_n_e": { "overmap": "fence_split_n_east" },
+      "fence_split_ne_e": { "overmap": "fence_split_ne_east" },
+      "fence_split_e_e": { "overmap": "fence_split_e_east" },
+      "fence_split_se_e": { "overmap": "fence_split_se_east" },
+      "fence_split_s_e": { "overmap": "fence_split_s_east" },
+      "fence_split_sw_e": { "overmap": "fence_split_sw_east" },
+      "fence_split_w_e": { "overmap": "fence_split_w_east" },
       "hayfield_L_se": { "overmap": "hayfield_turnL_north" },
       "hayfield_L_sw": { "overmap": "hayfield_turnL_east" },
       "hayfield_L_nw": { "overmap": "hayfield_turnL_south" },
@@ -437,7 +443,7 @@
             { "overmap": "dirt_road_ns", "pos": [ 0, 3, 0 ] },
             { "overmap": "inner_to_outer_s", "pos": [ 0, 3, 10 ] },
             { "overmap": "paddock_v_U_w", "pos": [ 1, 2, 0 ] },
-            { "overmap": "paddock_diagup_w", "pos": [ 2, 2, 0 ] },
+            { "overmap": "paddock_d_DR_w", "pos": [ 2, 2, 0 ] },
             { "overmap": "paddock_v_U_w", "pos": [ 1, 3, 0 ] },
             { "overmap": "paddock_w", "pos": [ 2, 3, 0 ] },
             { "overmap": "paddock_h_L_e", "pos": [ -1, 0, 0 ] },
@@ -463,7 +469,7 @@
             { "overmap": "dirt_road_ns", "pos": [ 0, 3, 0 ] },
             { "overmap": "outer_to_inner_s", "pos": [ 0, 3, 10 ] },
             { "overmap": "paddock_v_U_w", "pos": [ 1, 2, 0 ] },
-            { "overmap": "paddock_diagup_w", "pos": [ 2, 2, 0 ] },
+            { "overmap": "paddock_d_DR_w", "pos": [ 2, 2, 0 ] },
             { "overmap": "paddock_v_U_w", "pos": [ 1, 3, 0 ] },
             { "overmap": "paddock_w", "pos": [ 2, 3, 0 ] },
             { "overmap": "paddock_h_L_e", "pos": [ -1, 0, 0 ] },
@@ -475,12 +481,147 @@
           "weight": 10
         },
         {
+          "name": "paddock_connector_3x1",
+          "chunk": [
+            { "overmap": "dirt_road_ns", "pos": [ 0, 0, 0 ] },
+            { "overmap": "outer_to_inner_n", "pos": [ 0, 0, 10 ] },
+            { "overmap": "dirt_road_ns", "pos": [ 0, 1, 0 ] },
+            { "overmap": "dirt_road_ns", "pos": [ 0, 2, 0 ] },
+            { "overmap": "inner_to_outer_s", "pos": [ 0, 2, 10 ] },
+            { "overmap": "paddock_v_U_e", "pos": [ -1, 0, 0 ] },
+            { "overmap": "paddock_special_2_e", "pos": [ -2, 0, 0 ] },
+            { "overmap": "paddock_special_3_e", "pos": [ -3, 0, 0 ] },
+            { "overmap": "paddock_v_U_e", "pos": [ -1, 1, 0 ] },
+            { "overmap": "paddock_v_e", "pos": [ -2, 1, 0 ] },
+            { "overmap": "paddock_special_4_e", "pos": [ -3, 1, 0 ] },
+            { "overmap": "paddock_v_U_e", "pos": [ -1, 2, 0 ] },
+            { "overmap": "paddock_v_e", "pos": [ -2, 2, 0 ] },
+            { "overmap": "paddock_v_D_e", "pos": [ -3, 2, 0 ] },
+            { "overmap": "paddock_h_R_w", "pos": [ 1, 0, 0 ] },
+            { "overmap": "paddock_h_w", "pos": [ 1, 1, 0 ] },
+            { "overmap": "paddock_h_L_w", "pos": [ 1, 2, 0 ] }
+          ],
+          "max": { "poisson": 2 },
+          "weight": 10
+        },
+        {
+          "name": "paddock_connector_3x1_reversed",
+          "chunk": [
+            { "overmap": "dirt_road_ns", "pos": [ 0, 0, 0 ] },
+            { "overmap": "inner_to_outer_n", "pos": [ 0, 0, 10 ] },
+            { "overmap": "dirt_road_ns", "pos": [ 0, 1, 0 ] },
+            { "overmap": "dirt_road_ns", "pos": [ 0, 2, 0 ] },
+            { "overmap": "outer_to_inner_s", "pos": [ 0, 2, 10 ] },
+            { "overmap": "paddock_v_U_e", "pos": [ -1, 0, 0 ] },
+            { "overmap": "paddock_special_2_e", "pos": [ -2, 0, 0 ] },
+            { "overmap": "paddock_special_3_e", "pos": [ -3, 0, 0 ] },
+            { "overmap": "paddock_v_U_e", "pos": [ -1, 1, 0 ] },
+            { "overmap": "paddock_v_e", "pos": [ -2, 1, 0 ] },
+            { "overmap": "paddock_special_4_e", "pos": [ -3, 1, 0 ] },
+            { "overmap": "paddock_v_U_e", "pos": [ -1, 2, 0 ] },
+            { "overmap": "paddock_v_e", "pos": [ -2, 2, 0 ] },
+            { "overmap": "paddock_d_DR_e", "pos": [ -3, 2, 0 ] },
+            { "overmap": "paddock_h_R_w", "pos": [ 1, 0, 0 ] },
+            { "overmap": "paddock_h_w", "pos": [ 1, 1, 0 ] },
+            { "overmap": "paddock_h_L_w", "pos": [ 1, 2, 0 ] }
+          ],
+          "max": { "poisson": 2 },
+          "weight": 10
+        },
+        {
+          "name": "paddock_connector_2x1",
+          "chunk": [
+            { "overmap": "dirt_road_ns", "pos": [ 0, 0, 0 ] },
+            { "overmap": "outer_to_inner_n", "pos": [ 0, 0, 10 ] },
+            { "overmap": "dirt_road_ns", "pos": [ 0, 1, 0 ] },
+            { "overmap": "dirt_road_ns", "pos": [ 0, 2, 0 ] },
+            { "overmap": "inner_to_outer_s", "pos": [ 0, 2, 10 ] },
+            { "overmap": "paddock_v_U_e", "pos": [ -1, 0, 0 ] },
+            { "overmap": "paddock_special_1_e", "pos": [ -2, 0, 0 ] },
+            { "overmap": "paddock_h_L_e", "pos": [ -1, 1, 0 ] },
+            { "overmap": "paddock_d_UL_n", "pos": [ -2, 1, 0 ] },
+            { "overmap": "paddock_d_UL_n", "pos": [ -1, 2, 0 ] },
+            { "overmap": "paddock_h_R_w", "pos": [ 1, 0, 0 ] },
+            { "overmap": "paddock_h_w", "pos": [ 1, 1, 0 ] },
+            { "overmap": "paddock_h_L_w", "pos": [ 1, 2, 0 ] }
+          ],
+          "max": { "poisson": 2 },
+          "weight": 10
+        },
+        {
+          "name": "paddock_connector_2x1_reversed",
+          "chunk": [
+            { "overmap": "dirt_road_ns", "pos": [ 0, 0, 0 ] },
+            { "overmap": "inner_to_outer_n", "pos": [ 0, 0, 10 ] },
+            { "overmap": "dirt_road_ns", "pos": [ 0, 1, 0 ] },
+            { "overmap": "dirt_road_ns", "pos": [ 0, 2, 0 ] },
+            { "overmap": "outer_to_inner_s", "pos": [ 0, 2, 10 ] },
+            { "overmap": "paddock_v_U_e", "pos": [ -1, 0, 0 ] },
+            { "overmap": "paddock_special_1_e", "pos": [ -2, 0, 0 ] },
+            { "overmap": "paddock_h_L_e", "pos": [ -1, 1, 0 ] },
+            { "overmap": "paddock_d_UL_n", "pos": [ -2, 1, 0 ] },
+            { "overmap": "paddock_d_UL_n", "pos": [ -1, 2, 0 ] },
+            { "overmap": "paddock_h_R_w", "pos": [ 1, 0, 0 ] },
+            { "overmap": "paddock_h_w", "pos": [ 1, 1, 0 ] },
+            { "overmap": "paddock_h_L_w", "pos": [ 1, 2, 0 ] }
+          ],
+          "max": { "poisson": 2 },
+          "weight": 10
+        },
+        {
+          "name": "paddock_connector_turn_e",
+          "chunk": [
+            { "overmap": "dirt_road_ne", "pos": [ 0, 0, 0 ] },
+            { "overmap": "outer_to_inner_n", "pos": [ 0, 0, 10 ] },
+            { "overmap": "dirt_road_ew", "pos": [ 1, 0, 0 ] },
+            { "overmap": "inner_to_outer_e", "pos": [ 1, 0, 10 ] }
+          ],
+          "max": { "poisson": 1 },
+          "weight": 1
+        },
+        {
+          "name": "paddock_connector_turn_w",
+          "chunk": [
+            { "overmap": "dirt_road_ne", "pos": [ 0, 0, 0 ] },
+            { "overmap": "outer_to_inner_n", "pos": [ 0, 0, 10 ] },
+            { "overmap": "dirt_road_ew", "pos": [ -1, 0, 0 ] },
+            { "overmap": "inner_to_outer_w", "pos": [ -1, 0, 10 ] }
+          ],
+          "max": { "poisson": 1 },
+          "weight": 1
+        },
+        {
+          "name": "paddock_connector_turnback",
+          "chunk": [
+            { "overmap": "dirt_road_ne", "pos": [ 0, 0, 0 ] },
+            { "overmap": "outer_to_inner_n", "pos": [ 0, 0, 10 ] },
+            { "overmap": "dirt_road_ew", "pos": [ 1, 0, 0 ] },
+            { "overmap": "dirt_road_nw", "pos": [ 2, 0, 0 ] },
+            { "overmap": "inner_to_outer_n", "pos": [ 2, 0, 10 ] }
+          ],
+          "max": { "poisson": 1 },
+          "weight": 1
+        },
+        {
+          "name": "paddock_connector_turnback_reversed",
+          "chunk": [
+            { "overmap": "dirt_road_ne", "pos": [ 0, 0, 0 ] },
+            { "overmap": "inner_to_outer_n", "pos": [ 0, 0, 10 ] },
+            { "overmap": "dirt_road_ew", "pos": [ 1, 0, 0 ] },
+            { "overmap": "dirt_road_nw", "pos": [ 2, 0, 0 ] },
+            { "overmap": "outer_to_inner_n", "pos": [ 2, 0, 10 ] }
+          ],
+          "max": { "poisson": 1 },
+          "weight": 1
+        },
+        {
           "name": "paddock_connector_oneside",
           "chunk": [
             { "overmap": "dirt_road_ns", "pos": [ 0, 0, 0 ] },
             { "overmap": "outer_to_inner_n", "pos": [ 0, 0, 10 ] },
             { "overmap": "dirt_road_ns", "pos": [ 0, 1, 0 ] },
             { "overmap": "dirt_road_ns", "pos": [ 0, 2, 0 ] },
+            { "overmap": "inner_to_outer_s", "pos": [ 0, 2, 10 ] },
             { "overmap": "paddock_L_UL_e", "pos": [ -1, 0, 0 ] },
             { "overmap": "paddock_h_L_n", "pos": [ -2, 0, 0 ] },
             { "overmap": "fence_split_sw_e", "pos": [ -3, 0, 0 ] },
@@ -489,8 +630,7 @@
             { "overmap": "fence_split_s_e", "pos": [ -3, 1, 0 ] },
             { "overmap": "fence_split_ne_e", "pos": [ -1, 2, 0 ] },
             { "overmap": "fence_split_e_e", "pos": [ -2, 2, 0 ] },
-            { "overmap": "fence_split_se_e", "pos": [ -3, 2, 0 ] },
-            { "overmap": "inner_to_outer_s", "pos": [ 0, 2, 10 ] }
+            { "overmap": "fence_split_se_e", "pos": [ -3, 2, 0 ] }
           ],
           "max": { "poisson": 2 },
           "weight": 1
@@ -502,6 +642,7 @@
             { "overmap": "inner_to_outer_n", "pos": [ 0, 0, 10 ] },
             { "overmap": "dirt_road_ns", "pos": [ 0, 1, 0 ] },
             { "overmap": "dirt_road_ns", "pos": [ 0, 2, 0 ] },
+            { "overmap": "outer_to_inner_s", "pos": [ 0, 2, 10 ] },
             { "overmap": "paddock_L_UL_e", "pos": [ -1, 0, 0 ] },
             { "overmap": "paddock_h_L_n", "pos": [ -2, 0, 0 ] },
             { "overmap": "fence_split_sw_e", "pos": [ -3, 0, 0 ] },
@@ -510,8 +651,7 @@
             { "overmap": "fence_split_s_e", "pos": [ -3, 1, 0 ] },
             { "overmap": "fence_split_ne_e", "pos": [ -1, 2, 0 ] },
             { "overmap": "fence_split_e_e", "pos": [ -2, 2, 0 ] },
-            { "overmap": "fence_split_se_e", "pos": [ -3, 2, 0 ] },
-            { "overmap": "outer_to_inner_s", "pos": [ 0, 2, 10 ] }
+            { "overmap": "fence_split_se_e", "pos": [ -3, 2, 0 ] }
           ],
           "max": { "poisson": 2 },
           "weight": 1
@@ -534,8 +674,8 @@
             { "overmap": "paddock_h_R_w", "pos": [ 2, 1, 0 ] },
             { "overmap": "paddock_h_L_w", "pos": [ 2, 2, 0 ] }
           ],
-          "max": { "poisson": 2 },
-          "weight": 1
+          "max": { "poisson": 1 },
+          "weight": 10
         },
         {
           "name": "paddock_connector_curvy_reversed",
@@ -555,8 +695,8 @@
             { "overmap": "paddock_h_R_w", "pos": [ 2, 1, 0 ] },
             { "overmap": "paddock_h_L_w", "pos": [ 2, 2, 0 ] }
           ],
-          "max": { "poisson": 2 },
-          "weight": 1
+          "max": { "poisson": 1 },
+          "weight": 10
         }
       ],
       [
