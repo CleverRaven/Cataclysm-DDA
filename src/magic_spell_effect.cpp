@@ -273,7 +273,7 @@ static std::set<tripoint> spell_effect_cone_range_override( const spell_effect::
                 } else {
                     break;
                 }
-                if ( !here.passable( tp ) ) {
+                if( !here.passable( tp ) ) {
                     tl = false;
                 }
             }
