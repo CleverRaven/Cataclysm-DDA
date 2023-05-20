@@ -45,9 +45,9 @@ static const oter_type_str_id oter_type_valhallist_henge( "valhallist_henge" );
 static const oter_type_str_id oter_type_valhallist_long_wall( "valhallist_long_wall" );
 static const oter_type_str_id oter_type_valhallist_longhouse( "valhallist_longhouse" );
 static const oter_type_str_id oter_type_valhallist_enter( "valhallist_enter" );
-static const oter_type_str_id oter_type_svalhallist_right_corner_up( "valhallist_right_corner_up" );
+static const oter_type_str_id oter_type_valhallist_right_corner_up( "valhallist_right_corner_up" );
 static const oter_type_str_id oter_type_valhallist_left_corner_up( "valhallist_left_corner_up" );
-static const oter_type_str_id oter_type_svalhallist_right_corner( "valhallist_right_corner" );
+static const oter_type_str_id oter_type_valhallist_right_corner( "valhallist_right_corner" );
 static const oter_type_str_id oter_type_valhallist_left_corner( "valhallist_left_corner" );
 
 static const overmap_special_id overmap_special_Cabin( "Cabin" );
