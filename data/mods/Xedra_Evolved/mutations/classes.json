@@ -44,8 +44,7 @@
     "purifiable": false,
     "valid": false,
     "enchantments": [ "BONUS_DREAMSMITH" ],
-    "cancels": [ "INVENTOR" ],
-    "spells_learned": [ [ "forge_dreamdross", 0 ], [ "research_dreamdross", 0 ] ]
+    "cancels": [ "INVENTOR" ]
   },
   {
     "type": "mutation",

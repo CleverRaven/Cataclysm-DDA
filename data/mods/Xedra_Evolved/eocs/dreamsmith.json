@@ -8,7 +8,17 @@
     "effect": [
       { "math": [ "DREAMSMITH_RECIPE_SCORE", "+=", "u_skill('deduction')" ] },
       { "run_eocs": "EOC_DREAMSMITHS_RECIPES_ENCH" },
-      { "u_roll_remainder": [ "dreamdross_bo", "dreamdross_knife", "dreamdross_club" ], "type": "recipe" }
+      {
+        "u_roll_remainder": [
+          "dreamdross_bo",
+          "dreamdross_knife",
+          "dreamdross_club",
+          "dreamsmith_research",
+          "dreamsmith_lumps",
+          "dreamsmith_ingot"
+        ],
+        "type": "recipe"
+      }
     ]
   },
   {

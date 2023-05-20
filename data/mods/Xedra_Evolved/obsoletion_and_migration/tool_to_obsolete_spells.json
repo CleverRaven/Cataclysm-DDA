@@ -12,7 +12,9 @@
       { "math": [ "u_val('spell_level', 'spell: summon_rip_ticket')", "=", "-1" ] },
       { "math": [ "u_val('spell_level', 'spell: summon_helmet_inventor')", "=", "-1" ] },
       { "math": [ "u_val('spell_level', 'spell: summon_ion_gun')", "=", "-1" ] },
-      { "math": [ "u_val('spell_level', 'spell: spark_of_inspiration')", "=", "-1" ] }
+      { "math": [ "u_val('spell_level', 'spell: spark_of_inspiration')", "=", "-1" ] },
+      { "math": [ "u_val('spell_level', 'spell: research_dreamdross')", "=", "-1" ] },
+      { "math": [ "u_val('spell_level', 'spell: forge_dreamdross')", "=", "-1" ] }
     ]
   }
 ]

@@ -378,7 +378,7 @@
     "type": "effect_type",
     "id": "spell_stamina_eff",
     "name": [ "Circulatory" ],
-    "desc": [ "You can't get tired." ],
+    "desc": [ "You can't get out of breath." ],
     "apply_message": "You feel a deep energy in your muscles, exuberant and coiled.",
     "remove_message": "The energy in your body fades away.",
     "rating": "good",
