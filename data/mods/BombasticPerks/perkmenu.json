@@ -113,6 +113,11 @@
         "topic": "TALK_PERK_MENU_HOBBYIST"
       },
       {
+        "condition": { "not": { "u_has_trait": "perk_troubleseeker" } },
+        "text": "Gain [<trait_name:perk_troubleseeker>]",
+        "topic": "TALK_PERK_MENU_TROUBLESEEKER"
+      },
+      {
         "condition": { "not": { "u_has_trait": "perk_frakenstein" } },
         "text": "Gain [<trait_name:perk_frakenstein>]",
         "topic": "TALK_PERK_MENU_FRANKENSTEIN"
@@ -725,6 +730,27 @@
         "effect": [
           { "u_add_trait": "perk_frakenstein" },
           { "u_learn_recipe": "meat_hunk" },
+          {
+            "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "u_val": "var", "var_name": "num_perks" }, "-", { "const": 1 } ]
+          }
+        ]
+      },
+      { "text": "Go Back.", "topic": "TALK_PERK_MENU_MAIN" },
+      { "text": "Quit.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_PERK_MENU_TROUBLESEEKER",
+    "dynamic_line": "<trait_name:perk_troubleseeker>: \"<trait_description:perk_troubleseeker>\"",
+    "responses": [
+      {
+        "text": "Select Perk.",
+        "topic": "TALK_PERK_MENU_MAIN",
+        "condition": { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+        "failure_topic": "TALK_PERK_MENU_FAIL",
+        "effect": [
+          { "u_add_trait": "perk_troubleseeker" },
           {
             "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "u_val": "var", "var_name": "num_perks" }, "-", { "const": 1 } ]
           }
