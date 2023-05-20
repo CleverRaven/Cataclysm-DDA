@@ -649,7 +649,7 @@
     "type": "GUN",
     "name": { "str": "blocky pistol" },
     "description": "A square abomination resembling the shape of a pistol, but with a collapsible outer magazine under the barrel.  This overengineered piece of metal is able to vary the size of chamber, which makes it able to shoot any round up to shotgun shells.  You spent a really long time to make it fit into a common holster.",
-    "weight": "1890 g",
+    "weight": "1590 g",
     "volume": "970 ml",
     "longest_side": "30 cm",
     "to_hit": -1,
