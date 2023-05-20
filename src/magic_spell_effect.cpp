@@ -140,7 +140,7 @@ static void build_line( spell_detail::line_iterable line, const tripoint &source
         if( sub == true ) {
             break;
         }
-        if ( !test( source + line.get() ) ) {
+        if( !test( source + line.get() ) ) {
             sub = true;
         }
         result.emplace( source + line.get() );
