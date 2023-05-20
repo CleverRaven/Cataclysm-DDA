@@ -697,9 +697,7 @@
           ],
           "max": { "poisson": 1 },
           "weight": 10
-        }
-      ],
-      [
+        },
         {
           "name": "hayfield_end_1",
           "//": "Dead end phase.",
@@ -741,7 +739,8 @@
             { "overmap": "paddock_end_5_n", "pos": [ 0, 1, 0 ] },
             { "overmap": "paddock_end_6_n", "pos": [ 1, 1, 0 ] }
           ],
-          "weight": 30
+          "max": { "poisson": 1 },
+          "weight": 10
         },
         {
           "name": "paddock_end_loop",
@@ -769,12 +768,7 @@
             { "overmap": "paddock_e", "pos": [ -1, 3, 0 ] }
           ],
           "max": 1,
-          "weight": 20
-        },
-        {
-          "name": "paddock_end_tiny",
-          "chunk": [ { "overmap": "paddock_n", "pos": [ 0, 0, 0 ] }, { "overmap": "outer_to_inner_n", "pos": [ 0, 0, 10 ] } ],
-          "weight": 1
+          "weight": 5
         },
         {
           "name": "paddock_end_trailhead",
@@ -794,10 +788,8 @@
             { "overmap": "paddock_trailhead_9_n", "pos": [ 2, 3, 0 ] }
           ],
           "max": 1,
-          "weight": 20
-        }
-      ],
-      [
+          "weight": 10
+        },
         {
           "name": "house_1_yard",
           "//": "Farm houses should be up to 2x2 and connect on the top left when facing north.",
@@ -864,7 +856,7 @@
             { "overmap": "track_large_4_n", "pos": [ 1, 1, 0 ] }
           ],
           "max": 1,
-          "weight": 1
+          "weight": 2
         },
         {
           "name": "silo_1",
@@ -889,13 +881,12 @@
           ],
           "max": 1,
           "weight": 2
-        }
-      ],
-      [
+        },
         {
           "name": "farm_exit",
           "chunk": [ { "overmap": "dirt_road_ns_road_n", "pos": [ 0, 0, 0 ] }, { "overmap": "outer_to_inner_s", "pos": [ 0, 0, 10 ] } ],
-          "max": 1
+          "max": 1,
+          "weight": 10
         }
       ],
       [ { "name": "failsafe", "chunk": [ { "overmap": "outer_to_inner_n", "pos": [ 0, 0, 10 ] } ], "weight": 1 } ],
