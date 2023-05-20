@@ -156,6 +156,9 @@ static const skill_id skill_swimming( "swimming" );
 static const skill_id skill_traps( "traps" );
 static const skill_id skill_unarmed( "unarmed" );
 
+static const std::string var_timer_time_of_last_succession =
+    "npctalk_var_timer_time_of_last_succession";
+
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
 static const update_mapgen_id update_mapgen_faction_wall_level_E_1( "faction_wall_level_E_1" );
@@ -1490,14 +1493,16 @@ void basecamp::get_available_missions( mission_data &mission_key )
 
 void basecamp::choose_new_leader()
 {
-    time_duration time_to_next_succession;
-    if( time_to_next_succession > time_duration::from_turns( 0 ) ) {
-        popup( _( "It's too early for that.  A new leader can be chosen in %s days.",
-                  time_duration::from_days( time_to_next_succession ) ) );
+    // TODO: This is stupid as heck
+    time_point last_succession_time = time_point::from_turn( std::stoi(
+                                          get_player_character().get_value( var_timer_time_of_last_succession ) ) );
+    time_point next_succession_chance = last_succession_time + 90_days;
+    int current_time_int = to_seconds<int>( calendar::turn - calendar::turn_zero );
+    if( next_succession_chance >= calendar::turn ) {
+        popup( _( "It's too early for that.  A new leader can be chosen in %s days." ),
+               to_days<int>( next_succession_chance - calendar::turn ) );
         return;
     }
-    time_to_next_succession = time_duration::from_weeks( 12 );
-    // set_global_var to tick down for 3 months
     std::vector<std::string> choices;
     int choice = 0;
     choices.push_back _( "autocratic" );
@@ -1515,12 +1520,12 @@ void basecamp::choose_new_leader()
     if( choice == 0 ) {
         if( !query_yn(
                 _( "As an experienced leader, only you know what will be required of future leaders.  You will choose.  \n\nIs this acceptable?" ) ) ) {
-            time_to_next_succession = time_duration::from_turns( 0 );
-            //set_global_var NOW;
             return;
         }
-        // Possible to exit menu and not choose a *new* leader. However this doesn't reset global timer. 100% on purpose, since you are "choosing" yourself.
         get_avatar().control_npc_menu( false );
+        // Possible to exit menu and not choose a *new* leader. However this doesn't reset global timer. 100% on purpose, since you are "choosing" yourself.
+        get_player_character().set_value( var_timer_time_of_last_succession,
+                                          std::to_string( current_time_int ) );
     }
 
     // Vector of pairs containing a pointer to an NPC and their modified social score
@@ -1543,13 +1548,14 @@ void basecamp::choose_new_leader()
     if( choice == 1 ) {
         if( !query_yn(
                 _( "You will allow fate to choose the next leader.  Whether it's by dice, drawing straws, or picking names out of a hat, it will be purely random.  \n\nIs this acceptable?" ) ) ) {
-            //set_global_var NOW;
             return;
         }
         int selected = rng( 0, charnum );
         // Vector starts at 0, we inserted 'you' first, 0 will always be 'you' pre-sort (that's why we don't sort unless democracy is called)
         if( selected == 0 ) {
             popup( _( "Fate calls for you to remain in your role as leader... for now." ) );
+            get_player_character().set_value( var_timer_time_of_last_succession,
+                                              std::to_string( current_time_int ) );
             return;
         }
         npc_ptr chosen = followers.at( selected ).first;
@@ -1562,7 +1568,6 @@ void basecamp::choose_new_leader()
     if( choice == 2 ) {
         if( !query_yn(
                 _( "A leader can only lead those willing to follow.  Everyone must get a say in choosing the new leader.  \n\nIs this acceptable?" ) ) ) {
-            //set_global_var NOW;
             return;
         }
         std::sort( followers.begin(), followers.end(), []( const auto & x, const auto & y ) {
@@ -1572,6 +1577,8 @@ void basecamp::choose_new_leader()
         // you == nullptr
         if( elected == nullptr ) {
             popup( _( "You win the election!" ) );
+            get_player_character().set_value( var_timer_time_of_last_succession,
+                                              std::to_string( current_time_int ) );
             return;
         }
         popup( _( "%1$s wins the election with a popularity of %2$s!  The runner-up had a popularity of %3$s." ),
