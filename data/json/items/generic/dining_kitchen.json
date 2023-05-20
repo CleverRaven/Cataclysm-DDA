@@ -590,8 +590,13 @@
     "id": "bottle_opener",
     "name": { "str": "bottle opener" },
     "description": "A simple lever for popping open bottles.",
+    "weight": "64 g",
+    "volume": "93 ml",
+    "longest_side": "18 cm",
+    "price": "4 USD",
     "looks_like": "fork",
     "copy-from": "base_silverware",
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "neutral" },
     "snippet_category": [
       { "id": "bottleopener1", "text": "This bottle opener is shaped like a zombie head, the mouth pops open the bottle." },
       { "id": "bottleopener2", "text": "This bottle opener is shaped like a lightsaber." },
@@ -608,7 +613,8 @@
       { "id": "bottleopener7", "text": "This bottle opener reads 'I'd rather be drinking whiskey'." },
       { "id": "bottleopener8", "text": "This bottle opener is shaped like a phaser." },
       { "id": "bottleopener9", "text": "This novelty bottle opener is designed to look like a hobo clown." }
-    ]
+    ],
+    "//": "Based on https://www.amazon.com/AmazonCommercial-Stainless-Steel-Bottle-Opener/dp/B087QF9SWM/ref=sr_1_27?crid=3FSB1YEYIF4T8&keywords=bottle%2Bopener&qid=1684578611&sprefix=bottle%2Bopener%2Caps%2C229&sr=8-27&th=1"
   },
   {
     "type": "GENERIC",
