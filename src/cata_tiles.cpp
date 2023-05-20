@@ -1377,7 +1377,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             const int &x = pos.x;
             const int &y = pos.y;
 
-            // light level is now used for choosing between grayscale filter and normal lit tiles.
+            // light level is used for choosing between grayscale filter and normal lit tiles.
             lit_level ll;
             // invisible to normal eyes
             std::array<bool, 5> invisible;
