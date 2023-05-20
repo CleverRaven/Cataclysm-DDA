@@ -85,12 +85,7 @@
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "relative": {
-      "weight": "-21500 g",
-      "volume": "-1500 ml",
-      "price": -1210000,
-      "dispersion": 60
-    },
+    "relative": { "weight": "-21500 g", "volume": "-1500 ml", "price": -1210000, "dispersion": 60 },
     "blackpowder_tolerance": 24,
     "barrel_volume": "1000 ml",
     "longest_side": "130 cm",
