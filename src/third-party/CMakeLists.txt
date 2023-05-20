@@ -79,8 +79,8 @@ if (TILES)
                 ${THIRD_PARTY_SOURCE_DIR}/imgui/imgui.cpp
                 ${THIRD_PARTY_SOURCE_DIR}/imgui/imgui_impl_sdl2.cpp
                 ${THIRD_PARTY_SOURCE_DIR}/imgui/imgui_impl_sdl2.h
-                ${THIRD_PARTY_SOURCE_DIR}/imgui/imgui_impl_sdlrenderer.cpp
-                ${THIRD_PARTY_SOURCE_DIR}/imgui/imgui_impl_sdlrenderer.h
+                ${THIRD_PARTY_SOURCE_DIR}/imgui/imgui_impl_sdlrenderer2.cpp
+                ${THIRD_PARTY_SOURCE_DIR}/imgui/imgui_impl_sdlrenderer2.h
                 )
 
         target_include_directories(

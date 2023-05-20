@@ -35,6 +35,7 @@ namespace catacurses
 class window;
 } // namespace catacurses
 
+
 extern std::shared_ptr<cata_tiles> tilecontext;
 extern std::shared_ptr<cata_tiles> closetilecontext;
 extern std::shared_ptr<cata_tiles> fartilecontext;
