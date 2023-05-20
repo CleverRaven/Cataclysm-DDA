@@ -3868,7 +3868,6 @@ void cata_tiles::draw_zlevel_overlay( const tripoint &p, const lit_level ll,
         color_blocks.first = SDL_BLENDMODE_BLEND;
         color_blocks.second.emplace( fog_loc, fog_color );
     }
-    return;
 }
 
 void cata_tiles::draw_entity_with_overlays( const Character &ch, const tripoint &p, lit_level ll,
