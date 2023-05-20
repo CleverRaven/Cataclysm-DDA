@@ -2789,9 +2789,9 @@ static std::pair<int, bool> find_repair_difficulty( const Character &pl, const i
     const itype_id iid = it.get_id();
     bool difficulty_defined = false;
 
-    if( it.made_of() ) {
+    if( it.item().made_of() ) {
         // otherwise determine it based on material
-        for( const auto &material : it.made_of() ) {
+        for( const auto &material : it->made_of() ) {
             if( min < material.first->repair_difficulty() ) {
                 min = material.first->repair_difficulty();
                 difficulty_defined = true;
