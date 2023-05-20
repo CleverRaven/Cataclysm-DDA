@@ -351,9 +351,10 @@
     "id": "mon_zombie_survivor_no_weakpoints",
     "type": "MONSTER",
     "name": { "str": "zombie survivor test only" },
-    "description": "This zombie survivor is for testing purposes only.",
+    "description": "This zombie survivor is for testing purposes only and has the original defense values before #65742.",
     "copy-from": "mon_zombie_survivor",
     "delete": { "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_light_armor", "wps_humanoid_open_helmet" ] }
+    "armor": { "bash": 7, "cut": 7, "stab": 5, "acid": 4, "bullet": 6, "electric": 2 }
   },
   {
     "id": "mon_zombie_soldier_no_weakpoints",
