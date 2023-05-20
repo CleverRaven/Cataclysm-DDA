@@ -903,7 +903,7 @@ void suffer::in_sunlight( Character &you )
     if( you.has_flag( json_flag_DAYFEAR ) ) {
         you.mod_str_bonus( -2 );
         you.mod_dex_bonus( -2 );
-        you.add_miss_reason( _( "You fear the sunlight!" ), 4 );
+        you.add_miss_reason( _( "You fear the sunlight!" ), 2 );
         you.mod_int_bonus( -2 );
         you.mod_per_bonus( -2 );
     }
