@@ -1,5 +1,13 @@
 FROM mcr.microsoft.com/devcontainers/cpp:0-ubuntu-22.04
 
+# NOTE: Uninstall CMake extensions
+# This is not CDDAs prefered method and it's confusing to have both in the editor
+# TODO: Not possible yet, waiting on upstream. 
+# Considered trying to get cheeky and deleting the folder but I believe that is held on the host
+# This would require building out a more full featured container. Easier to wait and see. 
+# RUN code --uninstall-extension ms-vscode.cmake-tools && \
+#    code --uninstall-extensiontwxs.cmake
+
 ARG REINSTALL_CMAKE_VERSION_FROM_SOURCE="3.22.2"
 
 # Optionally install the cmake for vcpkg
