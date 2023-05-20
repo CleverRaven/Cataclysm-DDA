@@ -14,8 +14,8 @@
           "dreamdross_knife",
           "dreamdross_club",
           "dreamsmith_research",
-          "dreamsmith_lumps",
-          "dreamsmith_ingot"
+          "dreamdross_lump",
+          "forged_dreamstuff_ingot"
         ],
         "type": "recipe"
       }

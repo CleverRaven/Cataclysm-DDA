@@ -153,7 +153,7 @@
     "volume": "1 ml",
     "material": [ "dreamstuff" ],
     "symbol": "*",
-    "color": "pink",
+    "color": "dark_gray",
     "flags": [
       "SINGLE_USE",
       "TRADER_AVOID",
