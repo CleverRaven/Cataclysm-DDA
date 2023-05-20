@@ -409,14 +409,6 @@
     "components": [ [ [ "thread", 1 ] ] ]
   },
   {
-    "result": "spatula",
-    "type": "uncraft",
-    "activity_level": "MODERATE_EXERCISE",
-    "time": "2 m",
-    "components": [ [ [ "chunk_rubber", 2 ] ] ],
-    "flags": [ "BLIND_HARD" ]
-  },
-  {
     "result": "sole_rubber",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",

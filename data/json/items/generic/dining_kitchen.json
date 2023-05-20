@@ -471,9 +471,15 @@
     "id": "fork",
     "name": { "str": "fork" },
     "description": "A fork, if you stab something with it, you eat it right away.  Wait… nevermind.",
+    "weight": "43 g",
+    "volume": "45 ml",
+    "longest_side": "21 cm",
+    "price": 75,
     "copy-from": "base_silverware",
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
-    "melee_damage": { "bash": 2, "stab": 1 }
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
+    "melee_damage": { "bash": 2, "stab": 1 },
+    "//": "Based on https://www.amazon.com/Stainless-Silverware-Flatware-Dishwasher-Restaurant/dp/B086D4PV2G/ref=sr_1_6?crid=18H1OA6OULCBH&keywords=fork&qid=1684410017&sprefix=fo%2Caps%2C365&sr=8-6&th=1"
   },
   {
     "type": "GENERIC",
@@ -495,8 +501,14 @@
     "id": "spoon",
     "name": { "str": "spoon" },
     "description": "Do not try to bend the spoon.  That is impossible.",
+    "weight": "43 g",
+    "volume": "70 ml",
+    "longest_side": "19 cm",
+    "price": 69,
     "copy-from": "base_silverware",
-    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ]
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
+    "//": "Based on https://www.amazon.com/dp/B0886HQRD3/ref=emc_b_5_i?th=1"
   },
   {
     "type": "GENERIC",
@@ -536,9 +548,15 @@
     "id": "knife_butter",
     "name": { "str": "butter knife", "str_pl": "butter knives" },
     "description": "A dull knife, absolutely worthless in combat.  Excellent for spreading soft things on bread.",
+    "weight": "71 g",
+    "volume": "75 ml",
+    "longest_side": "21 cm",
+    "price": "4 USD",
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "copy-from": "base_silverware",
-    "melee_damage": { "bash": 2, "stab": 1 }
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
+    "melee_damage": { "bash": 2, "stab": 1 },
+    "//": "Based on https://www.amazon.com/Stainless-Spreader-Multifunctional-Chopping-Serrated/dp/B08NFVGSRJ/ref=sr_1_6?crid=1GUK0X805PBB&keywords=butter%2Bknife&qid=1684409167&sprefix=butter%2Bknife%2Caps%2C274&sr=8-6&th=1"
   },
   {
     "type": "GENERIC",
