@@ -1606,7 +1606,6 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                 }
             }
         } else {
-            // For every point we drew terrain for ...
             for( tile_render_info &p : draw_points ) {
                 // Find lowest z-level to draw
                 tripoint p_draw = p.pos;
