@@ -6443,7 +6443,7 @@
     "description": "Sunlight makes you uncomfortable.  If you are outdoors and the weather is Sunny, you suffer -1 to all stats.",
     "types": [ "SUNLIGHT" ],
     "changes_to": [ "TROGLO2" ],
-    "category": [ "LIZARD", "BEAST", "INSECT", "SLIME", "SPIDER", "BATRACHIAN", "RAT", "TROGLOBITE" ]
+    "category": [ "BEAST", "INSECT", "SLIME", "SPIDER", "BATRACHIAN", "RAT", "TROGLOBITE" ]
   },
   {
     "type": "mutation",
