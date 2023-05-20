@@ -605,7 +605,7 @@ static std::string get_looks_like( const vpart_info &vpi, const itype &it )
             if( !at->default_ammotype() ) {
                 continue;
             }
-            const auto at_weight = at->default_ammotype()->weight;
+            const units::mass at_weight = at->default_ammotype()->weight;
             if( 15_gram > at_weight && at_weight > 3_gram ) {
                 return true; // detects g80 and coil gun
             }
