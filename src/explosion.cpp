@@ -686,7 +686,7 @@ void emp_blast( const tripoint &p )
         monster &critter = *mon_ptr;
         if( critter.has_flag( MF_ELECTRONIC ) ) {
             int deact_chance = 0;
-            const auto mon_item_id = critter.type->revert_to_itype;
+            const itype_id mon_item_id = critter.type->revert_to_itype;
             switch( critter.get_size() ) {
                 case creature_size::tiny:
                     deact_chance = 6;

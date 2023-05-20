@@ -384,16 +384,16 @@ int main( int argc, const char *argv[] )
 
     bool error_during_initialization = debug_has_error_been_observed();
 
-    const auto start = std::chrono::system_clock::now();
+    const std::chrono::system_clock::time_point start = std::chrono::system_clock::now();
     std::time_t start_time = std::chrono::system_clock::to_time_t( start );
     // Leading newline in case there were debug messages during
     // initialization.
     DebugLog( D_INFO, DC_ALL ) << "Starting the actual test at " << std::ctime( &start_time );
     result = session.run();
-    const auto end = std::chrono::system_clock::now();
+    const std::chrono::system_clock::time_point end = std::chrono::system_clock::now();
     std::time_t end_time = std::chrono::system_clock::to_time_t( end );
 
-    auto world_name = world_generator->active_world->world_name;
+    std::string world_name = world_generator->active_world->world_name;
     if( result == 0 || dont_save ) {
         world_generator->delete_world( world_name, true );
     } else {

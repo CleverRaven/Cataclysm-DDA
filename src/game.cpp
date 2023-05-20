@@ -7988,8 +7988,8 @@ bool game::take_screenshot() const
 
     // build file name: <map_dir>/screenshots/[<character_name>]_<date>.png
     // NOLINTNEXTLINE(cata-translate-string-literal)
-    const auto tmp_file_name = string_format( "[%s]_%s.png", get_player_character().get_name(),
-                               timestamp_now() );
+    const std::string tmp_file_name = string_format( "[%s]_%s.png", get_player_character().get_name(),
+                                      timestamp_now() );
 
     std::string file_name = ensure_valid_file_name( tmp_file_name );
     auto current_file_path = map_directory.str() + file_name;

@@ -130,7 +130,7 @@ std::tuple<char, nc_color, size_t> get_note_display_info( const std::string_view
         }
 
         // find the first following delimiter
-        const auto end = note.find_first_of( " :;", pos, 3 );
+        const size_t end = note.find_first_of( " :;", pos, 3 );
         if( end == std::string::npos ) {
             return result;
         }
@@ -237,7 +237,8 @@ weather_type_id get_weather_at_point( const tripoint_abs_omt &pos )
     if( iter == weather_cache.end() ) {
         const tripoint_abs_ms abs_ms_pos = project_to<coords::ms>( pos );
         const weather_generator &wgen = overmap_buffer.get_settings( pos ).weather;
-        const auto weather = wgen.get_weather_conditions( abs_ms_pos, calendar::turn, g->get_seed() );
+        const weather_type_id weather = wgen.get_weather_conditions( abs_ms_pos, calendar::turn,
+                                        g->get_seed() );
         iter = weather_cache.insert( std::make_pair( pos, weather ) ).first;
     }
     return iter->second;

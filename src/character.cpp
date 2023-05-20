@@ -9621,7 +9621,7 @@ std::vector<std::string> Character::short_description_parts() const
         result.push_back( _( "Wearing: " ) + worn_str );
     }
     const int visibility_cap = 0; // no cap
-    const auto trait_str = visible_mutations( visibility_cap );
+    const std::string trait_str = visible_mutations( visibility_cap );
     if( !trait_str.empty() ) {
         result.push_back( _( "Traits: " ) + trait_str );
     }

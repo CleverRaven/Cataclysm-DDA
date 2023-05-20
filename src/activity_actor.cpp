@@ -966,7 +966,7 @@ void data_handling_activity_actor::do_turn( player_activity &act, Character &p )
         }
     }
 
-    const auto monster_photos = mc.get_var( "MC_MONSTER_PHOTOS" );
+    const std::string monster_photos = mc.get_var( "MC_MONSTER_PHOTOS" );
     if( !monster_photos.empty() ) {
         downloaded_monster_photos++;
         std::string photos = eink.get_var( "EINK_MONSTER_PHOTOS" );

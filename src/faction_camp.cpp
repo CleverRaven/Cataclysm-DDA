@@ -4874,7 +4874,7 @@ std::string basecamp::gathering_description()
     // doesn't have perfect knowledge
     std::map<std::string, int> itemnames;
     for( size_t a = 0; a < 6; a++ ) {
-        const auto items = item_group::items_from( itemlist, calendar::turn );
+        const std::vector<item> items = item_group::items_from( itemlist, calendar::turn );
         for( const item &it : items ) {
             itemnames[it.display_name()]++;
         }
