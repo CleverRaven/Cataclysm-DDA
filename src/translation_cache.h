@@ -105,7 +105,7 @@ inline local_translation_cache<const char *> get_local_translation_cache( const 
 }
 
 inline local_translation_cache<std::string> get_local_translation_cache(
-    const std::string & )
+    const std::string_view )
 {
     return local_translation_cache<std::string>();
 }

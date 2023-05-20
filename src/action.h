@@ -229,6 +229,8 @@ enum action_id : int {
     ACTION_TOGGLE_AUTOSAFE,
     /** Toggle permanent attitude to stealing */
     ACTION_TOGGLE_THIEF_MODE,
+    /** Switch current language to English and back */
+    ACTION_TOGGLE_LANGUAGE_TO_EN,
     /** Ignore the enemy that triggered safemode */
     ACTION_IGNORE_ENEMY,
     /** Whitelist the enemy that triggered safemode */

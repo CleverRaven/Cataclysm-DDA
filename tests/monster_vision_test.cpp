@@ -26,7 +26,7 @@ TEST_CASE( "monsters shouldn't see through floors", "[vision]" )
     restore_on_out_of_scope<bool> restore_fov_3d( fov_3d );
     fov_3d = true;
     calendar::turn = midday;
-    clear_map();
+    clear_map( -2, 1 );
     monster &upper = spawn_and_clear( { 5, 5, 0 }, true );
     monster &adjacent = spawn_and_clear( { 5, 6, 0 }, true );
     monster &distant = spawn_and_clear( { 5, 3, 0 }, true );

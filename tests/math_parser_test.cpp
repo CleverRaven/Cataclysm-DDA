@@ -1,6 +1,7 @@
 #include "cata_catch.h"
 
 #include <cmath>
+#include <locale>
 
 #include "avatar.h"
 #include "dialogue.h"
@@ -8,13 +9,14 @@
 #include "math_parser.h"
 #include "math_parser_func.h"
 
+static const skill_id skill_survival( "survival" );
 static const spell_id spell_test_spell_pew( "test_spell_pew" );
 
 // NOLINTNEXTLINE(readability-function-cognitive-complexity): false positive
 TEST_CASE( "math_parser_parsing", "[math_parser]" )
 {
-    dialogue const d( std::make_unique<talker>(), std::make_unique<talker>() );
-    math_exp<dialogue> testexp;
+    dialogue d( std::make_unique<talker>(), std::make_unique<talker>() );
+    math_exp testexp;
 
     CHECK_FALSE( testexp.parse( "" ) );
     CHECK( testexp.eval( d ) == Approx( 0.0 ) );
@@ -58,6 +60,8 @@ TEST_CASE( "math_parser_parsing", "[math_parser]" )
     // functions
     CHECK( testexp.parse( "_test_()" ) ); // nullary test function
     CHECK( testexp.parse( "max()" ) ); // variadic called with zero arguments
+    CHECK( testexp.parse( "clamp( 1, 2, 3 )" ) ); // arguments passed in the right order 🤦
+    CHECK( testexp.eval( d ) == Approx( 2 ) );
     CHECK( testexp.parse( "sin(1)" ) );
     CHECK( testexp.eval( d ) == Approx( std::sin( 1.0 ) ) );
     CHECK( testexp.parse( "sin((1))" ) );
@@ -97,6 +101,20 @@ TEST_CASE( "math_parser_parsing", "[math_parser]" )
     CHECK( testexp.parse( "-1 ^ 0.5" ) );
     CHECK( std::isnan( testexp.eval( d ) ) );
 
+    // locale-independent decimal point
+    std::locale const &oldloc = std::locale();
+    on_out_of_scope reset_loc( [&oldloc]() {
+        std::locale::global( oldloc );
+    } );
+    try {
+        std::locale::global( std::locale( "de_DE.UTF-8" ) );
+    } catch( std::runtime_error &e ) {
+        WARN( "couldn't set locale for math_parser test: " << e.what() );
+    }
+    CAPTURE( std::setlocale( LC_ALL, nullptr ), std::locale().name() );
+    CHECK( testexp.parse( "2 * 1.5" ) );
+    CHECK( testexp.eval( d ) == Approx( 3 ) );
+
     // failed validation
     // NOLINTNEXTLINE(readability-function-cognitive-complexity): false positive
     std::string dmsg = capture_debugmsg_during( [&testexp, &d]() {
@@ -117,8 +135,11 @@ TEST_CASE( "math_parser_parsing", "[math_parser]" )
         CHECK_FALSE( testexp.parse( "sin(+)" ) );
         CHECK_FALSE( testexp.parse( "sin(-)" ) );
         CHECK_FALSE( testexp.parse( "_test_(-)" ) );
+        CHECK_FALSE( testexp.parse( "_test_(1)" ) );
         CHECK_FALSE( testexp.parse( "'string'" ) );
         CHECK_FALSE( testexp.parse( "('wrong')" ) );
+        CHECK_FALSE( testexp.parse( "u_val('wr'ong')" ) ); // stray ' inside string
+        CHECK_FALSE( testexp.parse( "2 2*2" ) ); // stray space inside variable name
         CHECK_FALSE( testexp.parse( "2+++2" ) );
         CHECK( testexp.parse( "2+3" ) );
         testexp.assign( d, 10 ); // assignment called on eval tree should not crash
@@ -129,8 +150,8 @@ TEST_CASE( "math_parser_parsing", "[math_parser]" )
 TEST_CASE( "math_parser_dialogue_integration", "[math_parser]" )
 {
     standard_npc dude;
-    dialogue const d( get_talker_for( get_avatar() ), get_talker_for( &dude ) );
-    math_exp<dialogue> testexp;
+    dialogue d( get_talker_for( get_avatar() ), get_talker_for( &dude ) );
+    math_exp testexp;
     global_variables &globvars = get_globals();
 
     // reading scoped variables
@@ -146,10 +167,18 @@ TEST_CASE( "math_parser_dialogue_integration", "[math_parser]" )
     CHECK( testexp.parse( "x + u_x + n_x" ) );
     CHECK( testexp.eval( d ) == Approx( 213 ) );
 
+    CHECK( testexp.parse( "_ctx" ) );
+    CHECK( testexp.eval( d ) == Approx( 0 ) );
+
+    d.set_value( "npctalk_var_ctx", "14" );
+
+    CHECK( testexp.parse( "_ctx" ) );
+    CHECK( testexp.eval( d ) == Approx( 14 ) );
+
     // reading scoped values with u_val shim
     std::string dmsg = capture_debugmsg_during( [&testexp]() {
-        CHECK_FALSE( testexp.parse( "u_val( 3 )" ) ); // only quoted strings accepted as parameters
-        CHECK_FALSE( testexp.parse( "u_val( stamina )" ) );
+        CHECK_FALSE( testexp.parse( "u_val( 3 )" ) ); // only quoted strings or variables accepted
+        CHECK_FALSE( testexp.parse( "u_val(myval)" ) ); // this function doesn't support variables
         CHECK_FALSE( testexp.parse( "val( 'stamina' )" ) ); // invalid scope for this function
     } );
     CHECK( testexp.parse( "u_val('stamina')" ) );
@@ -162,6 +191,12 @@ TEST_CASE( "math_parser_dialogue_integration", "[math_parser]" )
     CHECK( testexp.parse( "u_val('time: 1 m')" ) ); // test get_member() in shim
     CHECK( testexp.eval( d ) == 60 );
 
+    // evaluating string variables in dialogue functions
+    globvars.set_global_value( "npctalk_var_someskill", "survival" );
+    CHECK( testexp.parse( "u_skill(someskill)" ) );
+    get_avatar().set_skill_level( skill_survival, 3 );
+    CHECK( testexp.eval( d ) == 3 );
+
     // assignment to scoped variables
     CHECK( testexp.parse( "u_testvar", true ) );
     testexp.assign( d, 159 );
@@ -172,6 +207,9 @@ TEST_CASE( "math_parser_dialogue_integration", "[math_parser]" )
     CHECK( testexp.parse( "n_testvar", true ) );
     testexp.assign( d, 359 );
     CHECK( std::stoi( dude.get_value( "npctalk_var_testvar" ) ) == 359 );
+    CHECK( testexp.parse( "_testvar", true ) );
+    testexp.assign( d, 159 );
+    CHECK( std::stoi( d.get_value( "npctalk_var_testvar" ) ) == 159 );
 
     // assignment to scoped values with u_val shim
     CHECK( testexp.parse( "u_val('stamina')", true ) );

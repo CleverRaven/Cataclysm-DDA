@@ -21,9 +21,6 @@
     "melee_dice": 3,
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "electric", "amount": 4 }, { "damage_type": "cut", "amount": 2 } ],
-    "armor_bash": 3,
-    "armor_cut": 8,
-    "armor_bullet": 6,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_natural_armor", "wps_humanoid_head_small" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_electromagnetics" ],
     "bleed_rate": 0,
@@ -47,7 +44,8 @@
       "REVIVES",
       "FILTHY",
       "RANGED_ATTACKER"
-    ]
+    ],
+    "armor": { "bash": 3, "cut": 8, "bullet": 6 }
   },
   {
     "id": "mon_zombie_electric",
@@ -155,6 +153,9 @@
     "melee_dice": 1,
     "melee_dice_sides": 2,
     "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
+    "//grab": "Basic zombie level, the later versions lose grab in favor of lightning",
+    "grab_strength": 20,
+    "special_attacks": [ { "id": "grab" } ],
     "dodge": 2,
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_electromagnetics" ],
@@ -169,6 +170,7 @@
       "SMELLS",
       "STUMBLES",
       "WARM",
+      "GRABS",
       "BASHES",
       "GROUP_BASH",
       "POISON",

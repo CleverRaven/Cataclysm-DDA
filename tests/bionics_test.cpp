@@ -13,6 +13,7 @@
 #include "item_pocket.h"
 #include "map_helpers.h"
 #include "npc.h"
+#include "options_helpers.h"
 #include "pimpl.h"
 #include "player_helpers.h"
 #include "ret_val.h"
@@ -537,6 +538,7 @@ TEST_CASE( "fueled bionics", "[bionics] [item]" )
         // Midday for solar test
         clear_map();
         g->reset_light_level();
+        scoped_weather_override weather_clear( WEATHER_CLEAR );
         calendar::turn = calendar::turn_zero + 12_hours;
         REQUIRE( g->is_in_sunlight( dummy.pos() ) );
 

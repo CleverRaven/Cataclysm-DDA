@@ -19,7 +19,7 @@ struct tripoint;
 /*
  * Talker wrapper class for item.
  */
-class talker_item: public talker
+class talker_item: public talker_cloner<talker_item>
 {
     public:
         explicit talker_item( item_location *new_me ): me_it( new_me ) {

@@ -175,7 +175,7 @@ tripoint_abs_omt mission_util::target_closest_lab_entrance(
 }
 
 static std::optional<tripoint_abs_omt> find_or_create_om_terrain(
-    const tripoint_abs_omt &origin_pos, const mission_target_params<dialogue> &params )
+    const tripoint_abs_omt &origin_pos, const mission_target_params &params )
 {
     tripoint_abs_omt target_pos = overmap::invalid_tripoint;
     dialogue d( get_talker_for( get_avatar() ), nullptr );
@@ -262,7 +262,7 @@ static std::optional<tripoint_abs_omt> find_or_create_om_terrain(
     return target_pos;
 }
 
-static tripoint_abs_omt get_mission_om_origin( const mission_target_params<dialogue> &params )
+static tripoint_abs_omt get_mission_om_origin( const mission_target_params &params )
 {
     // use the player or NPC's current position, adjust for the z value if any
     tripoint_abs_omt origin_pos = get_player_character().global_omt_location();
@@ -286,7 +286,7 @@ static tripoint_abs_omt get_mission_om_origin( const mission_target_params<dialo
 }
 
 std::optional<tripoint_abs_omt> mission_util::assign_mission_target(
-    const mission_target_params<dialogue> &params )
+    const mission_target_params &params )
 {
     // use the player or NPC's current position, adjust for the z value if any
     tripoint_abs_omt origin_pos = get_mission_om_origin( params );
@@ -310,7 +310,7 @@ std::optional<tripoint_abs_omt> mission_util::assign_mission_target(
     return target_pos;
 }
 
-tripoint_abs_omt mission_util::get_om_terrain_pos( const mission_target_params<dialogue> &params )
+tripoint_abs_omt mission_util::get_om_terrain_pos( const mission_target_params &params )
 {
     // use the player or NPC's current position, adjust for the z value if any
     tripoint_abs_omt origin_pos = get_mission_om_origin( params );
@@ -380,11 +380,11 @@ tripoint_abs_omt mission_util::target_om_ter_random( const std::string &omter, i
     return place;
 }
 
-mission_target_params<dialogue> mission_util::parse_mission_om_target( const JsonObject &jo )
+mission_target_params mission_util::parse_mission_om_target( const JsonObject &jo )
 {
-    mission_target_params<dialogue> p;
+    mission_target_params p;
     if( jo.has_member( "om_terrain" ) ) {
-        p.overmap_terrain = get_str_or_var<dialogue>( jo.get_member( "om_terrain" ), "om_terrain", true );
+        p.overmap_terrain = get_str_or_var( jo.get_member( "om_terrain" ), "om_terrain", true );
     }
     if( jo.has_member( "om_terrain_match_type" ) ) {
         p.overmap_terrain_match_type = jo.get_enum_value<ot_match_type>( "om_terrain_match_type" );
@@ -393,14 +393,14 @@ mission_target_params<dialogue> mission_util::parse_mission_om_target( const Jso
         p.origin_u = false;
     }
     if( jo.has_member( "om_terrain_replace" ) ) {
-        p.replaceable_overmap_terrain = get_str_or_var<dialogue>( jo.get_member( "om_terrain_replace" ),
+        p.replaceable_overmap_terrain = get_str_or_var( jo.get_member( "om_terrain_replace" ),
                                         "om_terrain_replace", true );
     }
     if( jo.has_member( "om_special" ) ) {
-        p.overmap_special = get_str_or_var<dialogue>( jo.get_member( "om_special" ), "om_special", true );
+        p.overmap_special = get_str_or_var( jo.get_member( "om_special" ), "om_special", true );
     }
     if( jo.has_member( "reveal_radius" ) ) {
-        p.reveal_radius = get_dbl_or_var<dialogue>( jo, "reveal_radius" );
+        p.reveal_radius = get_dbl_or_var( jo, "reveal_radius" );
     }
     if( jo.has_member( "must_see" ) ) {
         p.must_see = jo.get_bool( "must_see" );
@@ -414,8 +414,8 @@ mission_target_params<dialogue> mission_util::parse_mission_om_target( const Jso
     if( jo.has_member( "random" ) ) {
         p.random = jo.get_bool( "random" );
     }
-    p.search_range  = get_dbl_or_var<dialogue>( jo, "search_range", false, OMAPX );
-    p.min_distance  = get_dbl_or_var<dialogue>( jo, "min_distance", false );
+    p.search_range  = get_dbl_or_var( jo, "search_range", false, OMAPX );
+    p.min_distance  = get_dbl_or_var( jo, "min_distance", false );
 
     if( jo.has_member( "offset_x" ) || jo.has_member( "offset_y" ) || jo.has_member( "offset_z" ) ) {
         tripoint_rel_omt offset;
@@ -431,7 +431,7 @@ mission_target_params<dialogue> mission_util::parse_mission_om_target( const Jso
         p.offset = offset;
     }
     if( jo.has_member( "z" ) ) {
-        p.z = get_dbl_or_var<dialogue>( jo, "z" );
+        p.z = get_dbl_or_var( jo, "z" );
     }
     if( jo.has_member( "var" ) ) {
         p.target_var = read_var_info( jo.get_object( "var" ) );
@@ -464,9 +464,9 @@ void mission_util::set_reveal_any( const JsonArray &ja,
 void mission_util::set_assign_om_target( const JsonObject &jo,
         std::vector<std::function<void( mission *miss )>> &funcs )
 {
-    mission_target_params<dialogue> p = parse_mission_om_target( jo );
+    mission_target_params p = parse_mission_om_target( jo );
     const auto mission_func = [p]( mission * miss ) {
-        mission_target_params<dialogue> mtp = p;
+        mission_target_params mtp = p;
         mtp.mission_pointer = miss;
         assign_mission_target( mtp );
     };
@@ -539,13 +539,13 @@ bool mission_type::parse_funcs( const JsonObject &jo, std::function<void( missio
     /* this is a kind of gross hijack of the dialogue responses effect system, but I don't want to
      * write that code in two places so here it goes.
      */
-    talk_effect_t<::dialogue> talk_effects;
+    talk_effect_t talk_effects;
     talk_effects.load_effect( jo, "effect" );
     phase_func = [ funcs, talk_effects ]( mission * miss ) {
         npc *beta_npc = g->find_npc( miss->get_npc_id() );
         ::dialogue d( get_talker_for( get_avatar() ),
                       beta_npc == nullptr ? nullptr : get_talker_for( beta_npc ) );
-        for( const talk_effect_fun_t<::dialogue> &effect : talk_effects.effects ) {
+        for( const talk_effect_fun_t &effect : talk_effects.effects ) {
             effect( d );
         }
         for( const auto &mission_function : funcs ) {
@@ -553,7 +553,7 @@ bool mission_type::parse_funcs( const JsonObject &jo, std::function<void( missio
         }
     };
 
-    for( talk_effect_fun_t<::dialogue> &effect : talk_effects.effects ) {
+    for( talk_effect_fun_t &effect : talk_effects.effects ) {
         auto rewards = effect.get_likely_rewards();
         if( !rewards.empty() ) {
             likely_rewards.insert( likely_rewards.end(), rewards.begin(), rewards.end() );

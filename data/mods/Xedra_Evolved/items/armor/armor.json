@@ -9,7 +9,36 @@
     "price_postapoc": 1750,
     "material": [ "leather", "fae_fur" ],
     "color": "brown_red",
-    "armor": [ { "encumbrance": 20, "coverage": 90, "covers": [ "foot_l", "foot_r" ] } ]
+    "armor": [
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [
+          "foot_toes_r",
+          "foot_toes_l",
+          "foot_ankle_r",
+          "foot_ankle_l",
+          "foot_heel_r",
+          "foot_heel_l",
+          "foot_arch_r",
+          "foot_arch_l"
+        ],
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "fae_fur", "covered_by_mat": 100, "thickness": 1.5 }
+        ],
+        "encumbrance": 17,
+        "coverage": 100
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 0.1 },
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 4.0 }
+        ],
+        "coverage": 100
+      }
+    ]
   },
   {
     "id": "xl_boots_glimmer_fur",
@@ -25,6 +54,73 @@
     "copy-from": "boots_glimmer_fur",
     "looks_like": "boots_glimmer_fur",
     "name": { "str": "pair of XS glimmer fur boots", "str_pl": "pairs of XS glimmer fur boots" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "pants_glimmer_fur",
+    "type": "ARMOR",
+    "name": { "str_sp": "glimmer fur pants" },
+    "description": "A hefty pair of fae fur-lined pants.",
+    "weight": "920 g",
+    "volume": "4 L",
+    "price": 20000,
+    "price_postapoc": 100,
+    "to_hit": 1,
+    "material": [ "cotton", "fae_fur" ],
+    "symbol": "[",
+    "looks_like": "pants",
+    "color": "brown",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      }
+    ],
+    "warmth": 80,
+    "material_thickness": 1,
+    "environmental_protection": 3,
+    "flags": [ "VARSIZE", "POCKETS" ],
+    "armor": [ { "encumbrance": [ 16, 20 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
+  },
+  {
+    "id": "xl_pants_glimmer_fur",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL glimmer fur pants", "str_pl": "pairs of XL glimmer fur pants" },
+    "copy-from": "pants_glimmer_fur",
+    "proportional": { "weight": 1.15, "volume": 1.15 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_pants_glimmer_fur",
+    "type": "ARMOR",
+    "copy-from": "pants_glimmer_fur",
+    "looks_like": "pants_glimmer_fur",
+    "name": { "str": "pair of XS glimmer fur pants", "str_pl": "pairs of XS glimmer fur pants" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },

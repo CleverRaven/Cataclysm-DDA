@@ -1969,7 +1969,7 @@
     "type": "technique",
     "id": "tec_wingchun_punch_knockback",
     "name": "Straight Punch (Knockback)",
-    "messages": [ "You force %s back with a vertical straight punch", "<npcname> forces %s back with a vertical straight punch" ],
+    "messages": [ "You force %s back with a horizontal straight punch", "<npcname> forces %s back with a horizontal straight punch" ],
     "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
     "unarmed_allowed": true,
     "required_buffs_all": [ "buff_wingchun_onpause" ],

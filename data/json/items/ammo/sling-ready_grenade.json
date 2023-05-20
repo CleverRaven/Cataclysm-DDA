@@ -10,7 +10,6 @@
     "price": 500,
     "price_postapoc": 500,
     "to_hit": 1,
-    "bashing": 5,
     "material": [ "glass", "cotton" ],
     "symbol": "*",
     "color": "light_gray",
@@ -31,7 +30,8 @@
     "//": "Total range with staff sling 21 - 5 more than can be thrown by a player with 10 strength",
     "range": 11,
     "dispersion": 14,
-    "effects": [ "COOKOFF", "NEVER_MISFIRES", "NON_FOULING", "FLAME" ]
+    "effects": [ "COOKOFF", "NEVER_MISFIRES", "NON_FOULING", "FLAME" ],
+    "melee_damage": { "bash": 5 }
   },
   {
     "type": "AMMO",
@@ -43,7 +43,6 @@
     "price": 1500,
     "price_postapoc": 1000,
     "to_hit": -1,
-    "bashing": 6,
     "material": [ "steel", "plastic" ],
     "symbol": "*",
     "color": "green",
@@ -62,7 +61,8 @@
     "//": "Total range with staff sling 35 - 5 more than can be thrown by a player with 10 strength",
     "range": 25,
     "dispersion": 14,
-    "effects": [ "COOKOFF", "NEVER_MISFIRES", "NON_FOULING", "EXPLOSIVE_GRENADE" ]
+    "effects": [ "COOKOFF", "NEVER_MISFIRES", "NON_FOULING", "EXPLOSIVE_GRENADE" ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "sling-ready_small_homemade_grenade",

@@ -42,7 +42,7 @@ struct has_src_member<T, std::void_t<decltype( std::declval<T &>().src.emplace_b
 
     /** Dummy function, for if those conditions are not satisfied */
     template < typename T, typename std::enable_if_t < !has_src_member<T>::value > * = nullptr >
-    static void assign_src( T &, const std::string & ) {
+    static void assign_src( T &, const std::string_view ) {
     }
 
     /** If those conditions are satisfied, keep track of where this item has been modified */

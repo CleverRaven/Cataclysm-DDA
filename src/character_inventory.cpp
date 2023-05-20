@@ -446,13 +446,9 @@ void Character::drop( const drop_locations &what, const tripoint &target,
         }
     }
     if( stash ) {
-        assign_activity( player_activity( stash_activity_actor(
-                                              items, placement
-                                          ) ) );
+        assign_activity( stash_activity_actor( items, placement ) );
     } else {
-        assign_activity( player_activity( drop_activity_actor(
-                                              items, placement, /*force_ground=*/false
-                                          ) ) );
+        assign_activity( drop_activity_actor( items, placement, /* force_ground = */ false ) );
     }
 }
 
@@ -470,7 +466,7 @@ void Character::pick_up( const drop_locations &what )
         quantities.emplace_back( dl.second );
     }
 
-    assign_activity( player_activity( pickup_activity_actor( items, quantities, pos(), false ) ) );
+    assign_activity( pickup_activity_actor( items, quantities, pos(), false ) );
 }
 
 invlets_bitset Character::allocated_invlets() const
@@ -521,8 +517,11 @@ void Character::drop_invalid_inventory()
         add_msg_if_player( m_bad, _( "Liquid from your inventory has leaked onto the ground." ) );
     }
 
-    weapon.overflow( pos() );
-    worn.overflow( pos() );
+    item_location weap = get_wielded_item();
+    if( weap ) {
+        weap.overflow();
+    }
+    worn.overflow( *this );
 
     cache_inventory_is_valid = true;
 }

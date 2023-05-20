@@ -1,4 +1,4 @@
-// RUN: %check_clang_tidy %s cata-serialize %t -- -plugins=%cata_plugin --
+// RUN: %check_clang_tidy %s cata-serialize %t -- --load=%cata_plugin --
 
 struct JsonIn {
     bool read( int & );

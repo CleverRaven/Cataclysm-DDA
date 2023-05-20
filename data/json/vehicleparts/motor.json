@@ -24,8 +24,8 @@
     "item": "motor_tiny",
     "looks_like": "motor_small",
     "durability": 80,
-    "power": "800 W",
-    "energy_consumption": "1 kW",
+    "power": "1600 W",
+    "energy_consumption": "2 kW",
     "damage_modifier": 80,
     "folded_volume": "750 ml",
     "requirements": {

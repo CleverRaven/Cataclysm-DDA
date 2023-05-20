@@ -2,8 +2,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_GIVE_SOUL_PRESSURE_OFF",
-    "//": "Works only once, and give you a SOUL_PRESSURE_OFF mutation. Dont know how to optimise it, so left it as it is.",
-    "recurrence": [ "1 s", "1 s" ],
+    "recurrence": [ "60 s", "60 s" ],
     "condition": {
       "and": [
         { "u_has_trait": "SOULFIRE" },
@@ -45,7 +44,7 @@
     "name": { "str": "Soul Pressure (on)" },
     "points": -1,
     "description": "Your presence is so dangerous you can burn living creatures around you.",
-    "enchantments": [ "SOULFIRE" ],
+    "enchantments": [ "SOULFIRE_PRESSURE" ],
     "transform": { "target": "SOUL_PRESSURE_OFF", "msg_transform": "You suppress your soul pressure.", "active": false, "moves": 10 }
   },
   {
@@ -57,8 +56,8 @@
     "flags": [ "SILENT", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
     "effect": "attack",
     "shape": "blast",
-    "min_damage": 3,
-    "max_damage": 3,
+    "min_damage": 9,
+    "max_damage": 9,
     "min_aoe": 3,
     "max_aoe": 3,
     "damage_type": "heat",
@@ -68,29 +67,20 @@
   },
   {
     "type": "enchantment",
+    "id": "SOULFIRE_PRESSURE",
+    "condition": "ALWAYS",
+    "intermittent_activation": { "effects": [ { "frequency": "5 seconds", "spell_effects": [ { "id": "soul_pressure" } ] } ] }
+  },
+  {
+    "type": "enchantment",
     "id": "SOULFIRE",
+    "name": { "str": "Spirit Flames" },
+    "description": "Your Soulfire abilities grant you good resistance to temperature conditions.  Also your hands emit the purest blazes, which increase your damage in melee for a bit.",
     "condition": "ALWAYS",
     "values": [
       { "value": "ITEM_DAMAGE_PURE", "add": 9 },
       { "value": "CLIMATE_CONTROL_HEAT", "add": 30 },
       { "value": "CLIMATE_CONTROL_CHILL", "add": 10 }
-    ],
-    "intermittent_activation": { "effects": [ { "frequency": "5 seconds", "spell_effects": [ { "id": "soul_pressure" } ] } ] }
-  },
-  {
-    "id": "soul_burn_item",
-    "type": "ARMOR",
-    "name": { "str": "Soul Burn" },
-    "description": "A little of your soul has been burned away, leaving you in a weakened state.  The soul heals quickly, so rest for now.",
-    "flags": [ "PERSONAL", "OVERSIZE", "TRADER_AVOID", "NO_TAKEOFF" ],
-    "material": [ "magical_material" ],
-    "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_HP", "multiply": -0.4 } ] } ]
-    },
-    "symbol": "~",
-    "color": "red",
-    "weight": "1 g",
-    "volume": "1 ml",
-    "armor": [ { "covers": [ "torso" ] } ]
+    ]
   }
 ]

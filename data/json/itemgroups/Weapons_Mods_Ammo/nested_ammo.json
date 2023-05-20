@@ -563,5 +563,22 @@
       { "item": "20x66_slug", "prob": 75, "charges": [ 22, 40 ] },
       { "item": "20x66_slug", "prob": 30, "charges": [ 44, 80 ] }
     ]
+  },
+  {
+    "id": "on_hand_303",
+    "type": "item_group",
+    "//": "a collection of ammo that would be found with a loaded gun.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "303_bthp", "prob": 100, "charges": [ 1, 20 ] },
+      { "item": "303_bthp", "prob": 75, "charges": [ 22, 40 ] },
+      { "item": "303_bthp", "prob": 30, "charges": [ 44, 80 ] },
+      { "item": "303_sp", "prob": 100, "charges": [ 1, 20 ] },
+      { "item": "303_sp", "prob": 75, "charges": [ 22, 40 ] },
+      { "item": "303_sp", "prob": 30, "charges": [ 44, 80 ] },
+      { "item": "303_fmjbt", "prob": 100, "charges": [ 1, 20 ] },
+      { "item": "303_fmjbt", "prob": 75, "charges": [ 22, 40 ] },
+      { "item": "303_fmjbt", "prob": 30, "charges": [ 44, 80 ] }
+    ]
   }
 ]

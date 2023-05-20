@@ -62,7 +62,6 @@
     "price": 780000,
     "price_postapoc": 6000,
     "to_hit": -5,
-    "bashing": 8,
     "material": [ "steel", "leather" ],
     "symbol": "[",
     "looks_like": "armor_lightplate",
@@ -71,7 +70,8 @@
     "longest_side": "60 cm",
     "material_thickness": 5,
     "flags": [ "VARSIZE", "OUTER" ],
-    "armor": [ { "encumbrance": 50, "coverage": 90, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ]
+    "armor": [ { "encumbrance": 50, "coverage": 90, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "armor_lightplate",
@@ -84,7 +84,6 @@
     "price": 60000,
     "price_postapoc": 12000,
     "to_hit": -5,
-    "bashing": 8,
     "material": [ "steel", "leather" ],
     "symbol": "[",
     "looks_like": "armor_larmor",
@@ -93,7 +92,8 @@
     "longest_side": "60 cm",
     "material_thickness": 4,
     "flags": [ "VARSIZE", "OUTER", "STURDY" ],
-    "armor": [ { "encumbrance": 35, "coverage": 95, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ]
+    "armor": [ { "encumbrance": 35, "coverage": 95, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "xl_armor_lightplate",

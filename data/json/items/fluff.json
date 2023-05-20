@@ -101,15 +101,17 @@
     "category": "other",
     "name": { "str": "chess set" },
     "description": "A wooden box containing all the pieces needed to play a game of chess.",
-    "weight": "907 g",
-    "volume": "2 L",
-    "price": 7500,
+    "weight": "550 g",
+    "volume": "2400 ml",
+    "longest_side": "30 cm",
+    "price": "16 USD",
     "price_postapoc": 500,
     "material": [ "wood" ],
     "symbol": "?",
     "color": "brown",
     "flags": [ "NO_REPAIR" ],
-    "use_action": [ "PLAY_GAME" ]
+    "use_action": [ "PLAY_GAME" ],
+    "//": "Based on folded volume of https://www.amazon.co.uk/Big-Game-Hunters-Portable-Wooden/dp/B07XVKG4YY/ref=sr_1_6?crid=1N6NEJ01S0U4V&keywords=chess+set&qid=1684582085&sprefix=chess+se%2Caps%2C117&sr=8-6"
   },
   {
     "id": "checkers",
@@ -598,7 +600,6 @@
     "price": 24000,
     "price_postapoc": 50,
     "to_hit": -4,
-    "bashing": 16,
     "material": [ "steel" ],
     "symbol": "?",
     "looks_like": "briefcase",
@@ -606,7 +607,8 @@
     "sided": true,
     "material_thickness": 2,
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": 45, "coverage": 10, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ]
+    "armor": [ { "encumbrance": 45, "coverage": 10, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ],
+    "melee_damage": { "bash": 16 }
   },
   {
     "type": "GENERIC",
@@ -645,13 +647,13 @@
     "volume": "5 ml",
     "price": 3000,
     "price_postapoc": 50,
-    "bashing": 1,
     "material": [ "paper" ],
     "symbol": "?",
     "looks_like": "mag_glam",
     "color": "light_cyan",
     "intelligence": 5,
-    "time": "10 m"
+    "time": "10 m",
+    "melee_damage": { "bash": 1 }
   },
   {
     "type": "GENERIC",

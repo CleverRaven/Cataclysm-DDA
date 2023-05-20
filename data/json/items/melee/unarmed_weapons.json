@@ -9,7 +9,6 @@
     "material": [ "leather", "steel" ],
     "volume": "100 ml",
     "weight": "300 g",
-    "bashing": 2,
     "price_postapoc": 250,
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ],
     "material_thickness": 1,
@@ -41,7 +40,8 @@
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_lower_l", "arm_lower_r" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "xl_cestus",
@@ -69,7 +69,6 @@
     "material": [ "brass" ],
     "weight": "320 g",
     "volume": "250 ml",
-    "bashing": 4,
     "price_postapoc": 250,
     "flags": [ "DURABLE_MELEE" ],
     "material_thickness": 2,
@@ -80,7 +79,8 @@
         "covers": [ "hand_l", "hand_r" ],
         "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "xl_knuckle_brass",
@@ -108,10 +108,8 @@
     "material": [ "wood" ],
     "volume": "250 ml",
     "weight": "200 g",
-    "bashing": 2,
-    "cutting": 3,
     "price_postapoc": 50,
-    "flags": [ "STAB" ],
+    "flags": [  ],
     "material_thickness": 1,
     "armor": [
       {
@@ -120,7 +118,8 @@
         "covers": [ "hand_l", "hand_r" ],
         "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 2, "stab": 3 }
   },
   {
     "id": "xl_knuckle_nail",
@@ -148,7 +147,6 @@
     "material": [ "steel" ],
     "volume": "250 ml",
     "weight": "430 g",
-    "bashing": 4,
     "price_postapoc": 50,
     "qualities": [ [ "HAMMER", 1 ] ],
     "material_thickness": 1,
@@ -159,7 +157,8 @@
         "covers": [ "hand_l", "hand_r" ],
         "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "xl_knuckle_steel",
@@ -188,7 +187,6 @@
     "material": [ "steel" ],
     "volume": "250 ml",
     "weight": "240 g",
-    "bashing": 4,
     "price_postapoc": 180,
     "qualities": [ [ "HAMMER", 1 ] ],
     "flags": [ "DURABLE_MELEE" ],
@@ -200,7 +198,8 @@
         "covers": [ "hand_l", "hand_r" ],
         "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "xl_knuckle_steel_forged",
@@ -227,16 +226,15 @@
     "volume": "250 ml",
     "price": 1100,
     "price_postapoc": 250,
-    "bashing": 2,
-    "cutting": 1,
     "material": [ "steel", "leather", "cotton" ],
     "symbol": "[",
     "looks_like": "gloves_leather",
     "color": "light_gray",
     "warmth": 5,
     "material_thickness": 2,
-    "flags": [ "WATER_FRIENDLY", "STAB", "DURABLE_MELEE" ],
-    "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
+    "flags": [ "WATER_FRIENDLY", "DURABLE_MELEE" ],
+    "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ],
+    "melee_damage": { "bash": 2, "stab": 1 }
   },
   {
     "id": "xl_gloves_studded",
@@ -263,7 +261,6 @@
     "volume": "300 ml",
     "price": 1100,
     "price_postapoc": 250,
-    "bashing": 5,
     "material": [ "steel" ],
     "symbol": "[",
     "color": "light_gray",
@@ -277,7 +274,8 @@
         "covers": [ "hand_l", "hand_r" ],
         "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "xl_knuckle_impact",
@@ -304,16 +302,15 @@
     "volume": "300 ml",
     "price": 1100,
     "price_postapoc": 250,
-    "bashing": 2,
-    "cutting": 10,
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "any", "balance": "good" },
     "material": [ "steel" ],
     "symbol": "[",
     "color": "light_gray",
     "warmth": 0,
     "material_thickness": 2,
-    "flags": [ "WATER_FRIENDLY", "DURABLE_MELEE", "STAB", "OUTER" ],
-    "armor": [ { "encumbrance": 5, "coverage": 20, "covers": [ "hand_l", "hand_r" ] } ]
+    "flags": [ "WATER_FRIENDLY", "DURABLE_MELEE", "OUTER" ],
+    "armor": [ { "encumbrance": 5, "coverage": 20, "covers": [ "hand_l", "hand_r" ] } ],
+    "melee_damage": { "bash": 2, "stab": 10 }
   },
   {
     "id": "xl_knuckle_skewer",

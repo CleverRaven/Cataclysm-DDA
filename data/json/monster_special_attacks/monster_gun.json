@@ -23,14 +23,14 @@
     "weight": "540 g",
     "volume": "750 ml",
     "longest_side": "25 cm",
-    "bashing": 2,
     "to_hit": 1,
     "reload_noise_volume": 2,
     "loudness": 2,
     "range": 12,
     "dispersion": 100,
     "durability": 8,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "barb": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "barb": 1 } } ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "emp_frond",
@@ -56,13 +56,13 @@
     "weight": "540 g",
     "volume": "750 ml",
     "longest_side": "25 cm",
-    "bashing": 2,
     "to_hit": 1,
     "reload_noise_volume": 2,
     "loudness": 2,
     "range": 12,
     "dispersion": 150,
-    "durability": 8
+    "durability": 8,
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "firework_cannon",
@@ -88,13 +88,13 @@
     "weight": "540 g",
     "volume": "750 ml",
     "longest_side": "25 cm",
-    "bashing": 2,
     "to_hit": 1,
     "reload_noise_volume": 2,
     "loudness": 50,
     "range": 12,
     "dispersion": 400,
-    "durability": 8
+    "durability": 8,
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "feral_human_thrown_rock",
@@ -122,7 +122,6 @@
     "weight": "540 g",
     "volume": "210 ml",
     "longest_side": "75 mm",
-    "bashing": 2,
     "to_hit": 1,
     "loudness": 2,
     "range": 6,
@@ -137,7 +136,8 @@
         "max_item_length": "2000 m",
         "ammo_restriction": { "rock": 5 }
       }
-    ]
+    ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "v29_turret",
@@ -172,11 +172,11 @@
     "longest_side": "83200 cm",
     "weight": "5000 g",
     "volume": "2000 ml",
-    "bashing": 3,
     "dispersion": 3000,
     "range": 100,
     "durability": 8,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 1 } } ],
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "feral_jackboot_gun",
@@ -193,11 +193,11 @@
     "longest_side": "1166 cm",
     "weight": "3402 g",
     "volume": "2450 ml",
-    "bashing": 3,
     "dispersion": 3250,
     "range": 65,
     "durability": 9,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 1 } } ],
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "feral_m9",
@@ -214,7 +214,6 @@
     "price_postapoc": 2500,
     "to_hit": -2,
     "ranged_damage": { "damage_type": "bullet", "amount": -4 },
-    "bashing": 8,
     "material": [ "steel", "aluminum" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -230,7 +229,8 @@
         "pocket_type": "MAGAZINE_WELL",
         "item_restriction": [ "m9mag", "m9mag_10rd", "m9mag_17rd", "m9mag_18rd", "m9mag_20rd", "m9bigmag", "m9mag_32rd", "m9mag_35rd" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "acid_spit",

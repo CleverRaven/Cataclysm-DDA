@@ -76,6 +76,8 @@
       [ "jerrycan_big", 10 ],
       { "item": "polycarbonate_sheet", "prob": 35 },
       [ "metal_tank", 8 ],
+      { "item": "seatbelt", "prob": 8, "count": [ 1, 4 ] },
+      { "item": "five-point_harness", "prob": 2, "count": [ 1, 2 ] },
       [ "metal_tank_little", 8 ],
       { "item": "55gal_drum_aluminum", "prob": 1 },
       { "item": "30gal_drum_aluminum", "prob": 2 },

@@ -60,7 +60,7 @@ class zone_type
 
         static void load_zones( const JsonObject &jo, const std::string &src );
         static void reset();
-        void load( const JsonObject &jo, const std::string & );
+        void load( const JsonObject &jo, std::string_view );
         /**
          * All spells in the game.
          */
@@ -368,7 +368,7 @@ class zone_data
         static std::string make_type_hash( const zone_type_id &_type, const faction_id &_fac ) {
             return _type.c_str() + type_fac_hash_str + _fac.c_str();
         }
-        static zone_type_id unhash_type( const std::string &hash_type ) {
+        static zone_type_id unhash_type( const std::string_view hash_type ) {
             size_t end = hash_type.find( type_fac_hash_str );
             if( end != std::string::npos && end < hash_type.size() ) {
                 return zone_type_id( hash_type.substr( 0, end ) );

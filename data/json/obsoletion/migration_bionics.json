@@ -3,5 +3,15 @@
     "type": "bionic_migration",
     "//": "obsoleted for integrated armor https://github.com/CleverRaven/Cataclysm-DDA/pull/62819",
     "from": "bio_tools_extend"
+  },
+  {
+    "type": "bionic_migration",
+    "//": "obsoleted as part of https://github.com/CleverRaven/Cataclysm-DDA/pull/65077",
+    "from": "bio_power_armor_interface"
+  },
+  {
+    "type": "bionic_migration",
+    "//": "obsoleted as part of https://github.com/CleverRaven/Cataclysm-DDA/pull/65077",
+    "from": "bio_power_armor_interface_mkII"
   }
 ]

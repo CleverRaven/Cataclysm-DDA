@@ -15,7 +15,7 @@ namespace pinyin
  *
  * @returns True if at least one possible pinyin combination of str contains qry
  */
-bool pinyin_match( const std::u32string &str, const std::u32string &qry );
+bool pinyin_match( std::u32string_view str, std::u32string_view qry );
 
 } // namespace pinyin
 #endif // CATA_SRC_PINYIN_H

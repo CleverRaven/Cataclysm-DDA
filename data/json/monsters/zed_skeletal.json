@@ -21,22 +21,19 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "dodge": 2,
-    "armor_cut": 15,
-    "armor_bullet": 24,
-    "armor_stab": 30,
-    "armor_acid": 3,
-    "armor_elec": 3,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_bone_armor" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "bleed_rate": 50,
     "vision_day": 30,
     "vision_night": 3,
     "harvest": "mr_bones",
-    "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 }, [ "GRAB", 21 ] ],
+    "grab_strength": 20,
+    "special_attacks": [ { "id": "grab", "cooldown": 21 }, { "id": "scratch_humanoid" }, { "id": "bite_humanoid", "cooldown": 5 } ],
     "upgrades": { "half_life": 32, "into_group": "GROUP_SKELETON_UPGRADE" },
     "death_drops": "default_zombie_clothes",
     "fungalize_into": "mon_skeleton_fungus",
-    "flags": [ "SEES", "HEARS", "BASHES", "GROUP_BASH", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "POISON", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "GRABS", "BASHES", "GROUP_BASH", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "POISON", "FILTHY" ],
+    "armor": { "cut": 15, "stab": 30, "acid": 3, "bullet": 24, "electric": 3 }
   },
   {
     "//": "Skelly brute gaps the evolution between normal and the juggernaut.",
@@ -61,25 +58,27 @@
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 10 } ],
     "dodge": 1,
-    "armor_cut": 30,
-    "armor_bullet": 30,
-    "armor_bash": 12,
-    "armor_acid": 1,
-    "armor_elec": 4,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_bone_armor", "wps_humanoid_head_small" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "bleed_rate": 0,
     "vision_day": 35,
     "vision_night": 3,
     "harvest": "mr_bones",
+    "grab_strength": 35,
     "special_attacks": [
+      { "id": "grab", "cooldown": 21 },
+      { "id": "bite_humanoid", "cooldown": 5 },
       { "id": "smash", "throw_strength": 56, "cooldown": 45 },
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
+      {
+        "id": "scratch_humanoid",
+        "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ]
+      }
     ],
     "upgrades": { "half_life": 45, "into": "mon_skeleton_hulk" },
     "death_drops": "default_zombie_clothes",
     "fungalize_into": "mon_skeleton_brute_fungus",
-    "flags": [ "SEES", "HEARS", "BASHES", "GROUP_BASH", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "POISON", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "GRABS", "BASHES", "GROUP_BASH", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "POISON", "FILTHY" ],
+    "armor": { "bash": 12, "cut": 30, "acid": 1, "bullet": 30, "electric": 4 }
   },
   {
     "id": "mon_skeleton_electric",
@@ -105,20 +104,24 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
     "dodge": 2,
     "luminance": 8,
-    "armor_cut": 15,
-    "armor_bullet": 30,
-    "armor_stab": 30,
-    "armor_acid": 3,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_bone_armor" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton", "prof_electromagnetics" ],
     "bleed_rate": 0,
     "vision_day": 30,
     "vision_night": 3,
     "harvest": "mr_bones",
-    "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 }, [ "PARROT", 8 ], [ "GRAB", 21 ], [ "SHOCKSTORM", 25 ] ],
+    "grab_strength": 20,
+    "special_attacks": [
+      { "id": "grab", "cooldown": 21 },
+      { "id": "scratch_humanoid" },
+      { "id": "bite_humanoid", "cooldown": 5 },
+      [ "PARROT", 8 ],
+      [ "SHOCKSTORM", 25 ]
+    ],
     "death_drops": "default_zombie_clothes",
     "fungalize_into": "mon_skeleton_fungus",
-    "flags": [ "SEES", "HEARS", "BASHES", "GROUP_BASH", "ELECTRIC", "REVIVES", "NO_BREATHE", "POISON", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "GRABS", "BASHES", "GROUP_BASH", "ELECTRIC", "REVIVES", "NO_BREATHE", "POISON", "FILTHY" ],
+    "armor": { "cut": 15, "stab": 30, "acid": 3, "bullet": 30 }
   },
   {
     "id": "mon_skeleton_hulk",
@@ -142,22 +145,24 @@
     "melee_dice": 3,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 15 } ],
-    "armor_bash": 20,
-    "armor_cut": 45,
-    "armor_bullet": 36,
-    "armor_elec": 8,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_bone_armor", "wps_humanoid_head_small" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton", "prof_wp_hulk" ],
     "bleed_rate": 0,
     "vision_day": 50,
     "vision_night": 4,
     "harvest": "mr_bones",
+    "grab_strength": 50,
     "special_attacks": [
+      { "id": "grab" },
+      { "id": "bite_humanoid" },
       { "id": "smash", "throw_strength": 54 },
       { "id": "stretch_attack" },
       { "id": "longswipe" },
       { "id": "cut_throat" },
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] }
+      {
+        "id": "scratch_humanoid",
+        "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ]
+      }
     ],
     "death_drops": "mon_zombie_hulk_death_drops",
     "burn_into": "mon_zombie_fiend",
@@ -167,6 +172,7 @@
       "HEARS",
       "STUMBLES",
       "WARM",
+      "GRABS",
       "BASHES",
       "DESTROYS",
       "POISON",
@@ -176,6 +182,7 @@
       "PUSH_VEH",
       "HARDTOSHOOT",
       "FILTHY"
-    ]
+    ],
+    "armor": { "bash": 20, "cut": 45, "bullet": 36, "electric": 8 }
   }
 ]

@@ -9,7 +9,6 @@
     "volume": "2750 ml",
     "price": 40000,
     "price_postapoc": 285000,
-    "bashing": 10,
     "material": [ "vacuum_carbide" ],
     "symbol": "[",
     "looks_like": "helmet_barbute",
@@ -23,7 +22,8 @@
     "material_thickness": 5,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "STURDY" ]
+    "flags": [ "VARSIZE", "STURDY" ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "tac_fullhelmet_uicas",
@@ -37,7 +37,6 @@
     "price": 50000,
     "price_postapoc": 150000,
     "to_hit": -1,
-    "bashing": 10,
     "material": [ "nanoprinted_alloy" ],
     "symbol": "[",
     "looks_like": "helmet_motor",
@@ -55,7 +54,8 @@
     "environmental_protection_with_filter": 16,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 100 } } ],
     "ammo": "gasfilter_m",
-    "use_action": [ "GASMASK" ]
+    "use_action": [ "GASMASK" ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "tac_helmet_uicas",
@@ -69,7 +69,6 @@
     "price": 37000,
     "price_postapoc": 75000,
     "to_hit": -1,
-    "bashing": 10,
     "material": [ "nanoprinted_alloy" ],
     "symbol": "[",
     "looks_like": "tac_fullhelmet",
@@ -78,6 +77,7 @@
     "warmth": 10,
     "material_thickness": 4,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "WATER_FRIENDLY", "STURDY" ]
+    "flags": [ "WATER_FRIENDLY", "STURDY" ],
+    "melee_damage": { "bash": 10 }
   }
 ]

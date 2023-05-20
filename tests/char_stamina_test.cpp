@@ -9,6 +9,8 @@
 #include "units.h"
 
 static const character_modifier_id
+character_modifier_move_mode_move_cost_mod( "move_mode_move_cost_mod" );
+static const character_modifier_id
 character_modifier_stamina_move_cost_mod( "stamina_move_cost_mod" );
 static const character_modifier_id
 character_modifier_stamina_recovery_breathing_mod( "stamina_recovery_breathing_mod" );
@@ -69,7 +71,8 @@ static float move_cost_mod( Character &dummy, const move_mode_id &move_mode,
     REQUIRE( dummy.get_stamina() == new_stamina );
 
     // The point of it all: move cost modifier
-    return dummy.get_modifier( character_modifier_stamina_move_cost_mod );
+    return dummy.get_modifier( character_modifier_stamina_move_cost_mod ) * dummy.get_modifier(
+               character_modifier_move_mode_move_cost_mod );
 }
 
 // Return amount of stamina burned per turn by `burn_move_stamina` in the given movement mode.

@@ -22,9 +22,6 @@
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "stab", "amount": 5.0, "armor_penetration": 2 }, { "damage_type": "bash", "amount": 3.0 } ],
     "dodge": 2,
-    "armor_bash": 5,
-    "armor_cut": 7,
-    "armor_stab": 3,
     "starting_ammo": { "milk_raw": 12 },
     "shearing": [ { "result": "wool_staple", "ratio_volume": 0.1 } ],
     "harvest": "pelt_megafauna",
@@ -40,7 +37,8 @@
       "feed": "The %s seems to like you!  It lets you pat its shaggy-haired head and seems friendly.",
       "pet": "The %s lets you pet its shaggy-haired head, mooing loudly in satisfaction."
     },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "MILKABLE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "MILKABLE" ],
+    "armor": { "bash": 5, "cut": 7, "stab": 3 }
   },
   {
     "id": "mon_shrubox_calf",
@@ -98,9 +96,6 @@
       { "damage_type": "bash", "amount": 4.0, "armor_penetration": 2 }
     ],
     "dodge": 2,
-    "armor_bash": 5,
-    "armor_cut": 7,
-    "armor_stab": 3,
     "starting_ammo": { "milk_raw": 8 },
     "shearing": [ { "result": "wool_staple", "ratio_volume": 0.2 } ],
     "harvest": "pelt_megafauna",
@@ -116,7 +111,8 @@
       "feed": "The %s seems to like you!  It lets you pat its shaggy-haired head and seems friendly.",
       "pet": "The %s lets you pet its shaggy-haired head, mooing loudly in satisfaction."
     },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_WONT_FOLLOW", "MILKABLE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_WONT_FOLLOW", "MILKABLE" ],
+    "armor": { "bash": 5, "cut": 7, "stab": 3 }
   },
   {
     "id": "mon_woodox_calf",
@@ -171,9 +167,6 @@
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "stab", "amount": 7.0, "armor_penetration": 2 }, { "damage_type": "bash", "amount": 3.0 } ],
     "dodge": 3,
-    "armor_bash": 3,
-    "armor_cut": 4,
-    "armor_stab": 2,
     "starting_ammo": { "milk_raw": 6 },
     "shearing": [ { "result": "wool_staple", "ratio_volume": 0.1 } ],
     "harvest": "pelt_megafauna",
@@ -189,7 +182,8 @@
       "feed": "The %s seems to tolerate you!  It cocks its head and stares at you with its strange goat-eyes as you approach.",
       "pet": "The %s lets you scratch its big belly, letting of a sonorous bleat in satisfaction."
     },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "MILKABLE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "MILKABLE" ],
+    "armor": { "bash": 3, "cut": 4, "stab": 2 }
   },
   {
     "id": "mon_soergoat_kid",
@@ -243,9 +237,6 @@
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "stab", "amount": 3.0 }, { "damage_type": "bash", "amount": 5.0, "armor_penetration": 2 } ],
     "dodge": 2,
-    "armor_bash": 5,
-    "armor_cut": 7,
-    "armor_stab": 3,
     "starting_ammo": { "milk_raw": 6 },
     "shearing": [ { "result": "wool_staple", "ratio_volume": 0.15 } ],
     "harvest": "pelt_megafauna",
@@ -257,7 +248,8 @@
     "placate_triggers": [ "PLAYER_WEAK" ],
     "special_attacks": [ [ "EAT_CROP", 120 ] ],
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_WONT_FOLLOW", "MILKABLE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_WONT_FOLLOW", "MILKABLE" ],
+    "armor": { "bash": 5, "cut": 7, "stab": 3 }
   },
   {
     "id": "mon_bison_calf",
@@ -312,9 +304,6 @@
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "bash", "amount": 5.0, "armor_penetration": 4 } ],
     "dodge": 2,
-    "armor_bash": 3,
-    "armor_cut": 4,
-    "armor_stab": 3,
     "anger_triggers": [ "FRIEND_ATTACKED" ],
     "fear_triggers": [ "SOUND", "FIRE" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
@@ -326,7 +315,8 @@
     "baby_flags": [ "AUTUMN" ],
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
     "mountable_weight_ratio": 0.35,
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PET_WONT_FOLLOW", "PET_MOUNTABLE", "PATH_AVOID_DANGER_1", "WARM", "MILKABLE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PET_WONT_FOLLOW", "PET_MOUNTABLE", "PATH_AVOID_DANGER_1", "WARM", "MILKABLE" ],
+    "armor": { "bash": 3, "cut": 4, "stab": 3 }
   },
   {
     "id": "mon_scotts_foal",
@@ -388,9 +378,6 @@
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "bash", "amount": 12.0, "armor_penetration": 4 } ],
     "dodge": 2,
-    "armor_bash": 5,
-    "armor_cut": 7,
-    "armor_stab": 3,
     "anger_triggers": [ "FRIEND_ATTACKED" ],
     "fear_triggers": [ "SOUND", "FIRE" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
@@ -402,7 +389,8 @@
     "baby_flags": [ "AUTUMN" ],
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
     "mountable_weight_ratio": 0.35,
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PET_WONT_FOLLOW", "PET_MOUNTABLE", "PATH_AVOID_DANGER_1", "WARM", "MILKABLE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PET_WONT_FOLLOW", "PET_MOUNTABLE", "PATH_AVOID_DANGER_1", "WARM", "MILKABLE" ],
+    "armor": { "bash": 5, "cut": 7, "stab": 3 }
   },
   {
     "id": "mon_giant_foal",
@@ -464,9 +452,6 @@
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "bash", "amount": 5.0, "armor_penetration": 2 } ],
     "dodge": 2,
-    "armor_bash": 6,
-    "armor_cut": 9,
-    "armor_stab": 4,
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FIRE" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
@@ -478,7 +463,8 @@
     "reproduction": { "baby_monster": "mon_camelops_foal", "baby_count": 1, "baby_timer": 360 },
     "baby_flags": [ "SUMMER" ],
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PET_WONT_FOLLOW", "PET_MOUNTABLE", "PATH_AVOID_DANGER_1", "WARM", "MILKABLE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PET_WONT_FOLLOW", "PET_MOUNTABLE", "PATH_AVOID_DANGER_1", "WARM", "MILKABLE" ],
+    "armor": { "bash": 6, "cut": 9, "stab": 4 }
   },
   {
     "id": "mon_camelops_foal",
@@ -532,9 +518,6 @@
     "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 4.0, "armor_penetration": 2 }, { "damage_type": "bash", "amount": 2.0 } ],
     "dodge": 2,
-    "armor_bash": 2,
-    "armor_cut": 3,
-    "armor_stab": 2,
     "harvest": "mammal_small_boar",
     "reproduction": { "baby_monster": "mon_flathead_piglet", "baby_count": 5, "baby_timer": 135 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
@@ -544,7 +527,8 @@
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "HURT", "FIRE" ],
     "special_attacks": [ [ "EAT_FOOD", 20 ] ],
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It squeals happily as you pet it." },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "CANPLAY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "CANPLAY" ],
+    "armor": { "bash": 2, "cut": 3, "stab": 2 }
   },
   {
     "id": "mon_flathead_piglet",
@@ -596,14 +580,12 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 6.0, "armor_penetration": 2 }, { "damage_type": "bash", "amount": 4.0 } ],
     "dodge": 2,
-    "armor_bash": 4,
-    "armor_cut": 6,
-    "armor_stab": 4,
     "special_attacks": [ [ "EAT_FOOD", 20 ], { "id": "slam", "cooldown": 10 } ],
     "anger_triggers": [ "PLAYER_NEAR_BABY", "FRIEND_ATTACKED" ],
     "fear_triggers": [ "SOUND", "FIRE" ],
     "reproduction": { "baby_monster": "mon_longnose_piglet", "baby_count": 1, "baby_timer": 200 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "ANIMAL", "PATH_AVOID_DANGER_1", "PET_MOUNTABLE", "WARM", "CANPLAY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "ANIMAL", "PATH_AVOID_DANGER_1", "PET_MOUNTABLE", "WARM", "CANPLAY" ],
+    "armor": { "bash": 4, "cut": 6, "stab": 4 }
   },
   {
     "id": "mon_longnose_piglet",

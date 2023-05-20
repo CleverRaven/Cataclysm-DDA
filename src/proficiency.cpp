@@ -94,7 +94,7 @@ void proficiency_category::reset()
     proficiency_category_factory.reset();
 }
 
-void proficiency::load( const JsonObject &jo, const std::string & )
+void proficiency::load( const JsonObject &jo, const std::string_view )
 {
     mandatory( jo, was_loaded, "name", _name );
     mandatory( jo, was_loaded, "description", _description );
@@ -119,7 +119,7 @@ void proficiency::load( const JsonObject &jo, const std::string & )
     }
 }
 
-void proficiency_category::load( const JsonObject &jo, const std::string & )
+void proficiency_category::load( const JsonObject &jo, const std::string_view )
 {
     mandatory( jo, was_loaded, "name", _name );
     mandatory( jo, was_loaded, "description", _description );

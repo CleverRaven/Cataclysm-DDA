@@ -13,12 +13,10 @@
     "melee_dice": 2,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "armor_bash": 4,
-    "armor_cut": 4,
-    "armor_bullet": 1,
     "hp": 50,
     "description": "The raggedly flying corpse  of a feathered reptile over three feet long, with short wings and a big colorful beak.",
-    "upgrades": {  }
+    "upgrades": {  },
+    "armor": { "bash": 4, "cut": 4, "bullet": 1 }
   },
   {
     "type": "MONSTER",
@@ -33,10 +31,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": 2,
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "upgrades": {  },
     "special_attacks": [ [ "SMASH", 30 ] ],
@@ -50,7 +46,7 @@
     "copy-from": "mon_zimorphodon",
     "diff": 5,
     "proportional": { "hp": 1.2, "speed": 1.15 },
-    "relative": { "melee_skill": 2, "melee_dice": 1, "dodge": 2, "armor_bash": 3, "armor_cut": 3, "armor_bullet": 3 },
+    "relative": { "melee_skill": 2, "melee_dice": 1, "dodge": 2, "armor": { "bash": 3, "cut": 3, "bullet": 3 } },
     "extend": { "flags": [ "ACIDPROOF", "ELECTRIC" ] },
     "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
     "vision_day": 100,

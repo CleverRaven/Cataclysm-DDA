@@ -17,14 +17,12 @@
     "morale": 100,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 3,
-    "armor_bash": 8,
-    "armor_cut": 10,
-    "armor_bullet": 8,
     "revert_to_itype": "bot_eyebot",
     "special_attacks": [ [ "PHOTOGRAPH", 30 ] ],
     "death_drops": { "groups": [ [ "robots", 4 ], [ "eyebot", 1 ] ] },
     "death_function": { "corpse_type": "BROKEN" },
-    "flags": [ "SEES", "FLIES", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "NOHEAD", "PRIORITIZE_TARGETS", "STUN_IMMUNE" ]
+    "flags": [ "SEES", "FLIES", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "NOHEAD", "PRIORITIZE_TARGETS", "STUN_IMMUNE" ],
+    "armor": { "bash": 8, "cut": 10, "bullet": 8 }
   },
   {
     "id": "mon_grocerybot",
@@ -43,9 +41,6 @@
     "bodytype": "human",
     "morale": 100,
     "dodge": 3,
-    "armor_bash": 10,
-    "armor_cut": 10,
-    "armor_bullet": 8,
     "revert_to_itype": "bot_grocerybot",
     "special_attacks": [ [ "PAID_BOT", 1 ] ],
     "death_drops": { "groups": [ [ "robots", 4 ] ] },
@@ -64,7 +59,8 @@
       "PET_HARNESSABLE",
       "PATH_AVOID_DANGER_1",
       "STUN_IMMUNE"
-    ]
+    ],
+    "armor": { "bash": 10, "cut": 10, "bullet": 8 }
   },
   {
     "id": "mon_grocerybot_busted",
@@ -83,9 +79,6 @@
     "bodytype": "human",
     "morale": 100,
     "dodge": 3,
-    "armor_bash": 4,
-    "armor_cut": 5,
-    "armor_bullet": 4,
     "revert_to_itype": "bot_grocerybot_busted",
     "special_attacks": [ [ "PAID_BOT", 1 ] ],
     "death_drops": { "groups": [ [ "robots", 4 ] ] },
@@ -101,7 +94,8 @@
       "PACIFIST",
       "PAY_BOT",
       "STUN_IMMUNE"
-    ]
+    ],
+    "armor": { "bash": 4, "cut": 5, "bullet": 4 }
   },
   {
     "id": "mon_hazmatbot",
@@ -120,9 +114,6 @@
     "morale": 100,
     "melee_skill": 2,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "armor_bash": 10,
-    "armor_cut": 12,
-    "armor_bullet": 10,
     "vision_day": 50,
     "revert_to_itype": "bot_hazmatbot",
     "death_function": {
@@ -140,7 +131,8 @@
       "PRIORITIZE_TARGETS",
       "PATH_AVOID_DANGER_1",
       "STUN_IMMUNE"
-    ]
+    ],
+    "armor": { "bash": 10, "cut": 12, "bullet": 10 }
   },
   {
     "id": "mon_molebot",
@@ -163,12 +155,11 @@
     "melee_dice": 1,
     "melee_dice_sides": 10,
     "melee_damage": [ { "damage_type": "cut", "amount": 10 } ],
-    "armor_cut": 12,
-    "armor_bullet": 10,
     "revert_to_itype": "bot_molebot",
     "death_drops": { "groups": [ [ "robots", 4 ], [ "molebot", 1 ] ] },
     "death_function": { "corpse_type": "BROKEN" },
-    "flags": [ "HEARS", "GOODHEARING", "DIGS", "NO_BREATHE", "ELECTRONIC", "COLDPROOF", "PATH_AVOID_DANGER_1", "STUN_IMMUNE" ]
+    "flags": [ "HEARS", "GOODHEARING", "DIGS", "NO_BREATHE", "ELECTRONIC", "COLDPROOF", "PATH_AVOID_DANGER_1", "STUN_IMMUNE" ],
+    "armor": { "cut": 12, "bullet": 10 }
   },
   {
     "//": "nurse_bot and nurse_bot_defective look very similar, part of the trick is figuring out which one is the good one.  So the sprites should probably look pretty similar to not give it away immediately",
@@ -188,9 +179,6 @@
     "bodytype": "human",
     "morale": 100,
     "dodge": 3,
-    "armor_bash": 8,
-    "armor_cut": 10,
-    "armor_bullet": 8,
     "melee_skill": 4,
     "melee_dice": 3,
     "melee_dice_sides": 2,
@@ -198,7 +186,8 @@
     "special_attacks": [ [ "ASSIST", 30 ], [ "CHECK_UP", 120 ] ],
     "death_drops": { "groups": [ [ "robots", 4 ] ] },
     "death_function": { "corpse_type": "BROKEN" },
-    "flags": [ "SEES", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "FIREPROOF", "PUSH_MON", "HEARS", "PACIFIST", "STUN_IMMUNE" ]
+    "flags": [ "SEES", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "FIREPROOF", "PUSH_MON", "HEARS", "PACIFIST", "STUN_IMMUNE" ],
+    "armor": { "bash": 8, "cut": 10, "bullet": 8 }
   },
   {
     "//": "nurse_bot and nurse_bot_defective look very similar, part of the trick is figuring out which one is the good one.  So the sprites should probably look pretty similar to not give it away immediately",
@@ -219,13 +208,10 @@
     "bodytype": "human",
     "morale": 100,
     "dodge": 3,
-    "armor_bash": 8,
-    "armor_cut": 10,
-    "armor_bullet": 8,
     "melee_skill": 4,
     "melee_dice": 3,
     "melee_dice_sides": 2,
-    "grab_strength": 5,
+    "grab_strength": 75,
     "starting_ammo": { "anesthetic": 3 },
     "revert_to_itype": "bot_nursebot",
     "special_attacks": [ [ "OPERATE", 30 ], [ "PARROT", 20 ] ],
@@ -243,6 +229,7 @@
       "GRABS",
       "INTERIOR_AMMO",
       "STUN_IMMUNE"
-    ]
+    ],
+    "armor": { "bash": 8, "cut": 10, "bullet": 8 }
   }
 ]

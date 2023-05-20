@@ -424,7 +424,7 @@ void achievement::reset()
     achievement_factory.reset();
 }
 
-void achievement::load( const JsonObject &jo, const std::string & )
+void achievement::load( const JsonObject &jo, const std::string_view )
 {
     mandatory( jo, was_loaded, "name", name_ );
     is_conduct_ = jo.get_string( "type" ) == "conduct";
@@ -798,12 +798,12 @@ void achievements_tracker::report_achievement( const achievement *a, achievement
         tracker_it->second.current_values()
     }
     );
+    trackers_.erase( tracker_it );
     if( comp == achievement_completion::completed ) {
         achievement_attained_callback_( a, is_enabled() );
     } else if( comp == achievement_completion::failed ) {
         achievement_failed_callback_( a, is_enabled() );
     }
-    trackers_.erase( tracker_it );
 }
 
 achievement_completion achievements_tracker::is_completed( const achievement_id &id ) const

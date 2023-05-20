@@ -290,9 +290,10 @@ translation name{ translation::plural_tag() };
 jsobj.read( "name", name );
 ```
 
-If neither "str_pl" nor "str_sp" is specified, the plural form defaults to the
-singular form + "s". However, "str_pl" may still be needed if the unit test cannot
-determine whether the correct plural form can be formed by simply appending "s".
+If neither `"str_pl"` nor `"str_sp"` is specified, the plural form defaults to
+the singular form + "s". However, `"str_pl"` may still be needed if the unit
+test cannot determine whether the correct plural form can be formed by simply
+appending "s".
 
 You can also add comments for translators by writing it like below (the order
 of the entries does not matter):
@@ -348,7 +349,14 @@ See the [gettext manual][6] for more information.
 
 ## Maintainers
 
-Several steps need to be done in the correct order to correctly merge and maintain the translation files.
+### Automated updates
+
+Under normal circumstances the translation files are updated automatically by a
+weekly GitHub workflow called `pull-translations`.
+
+### Manual updates
+
+If for some reason you wish to update the translation files by hand, several steps need to be done in the correct order to correctly merge and maintain them.
 
 There are scripts available for these, so usually the process will be as follows:
 
@@ -372,6 +380,15 @@ If your system locale is different from the one you want to test, the easiest wa
 So for example if your local language is New Zealand English (en_NZ), and you want to test the Russian (ru) translation, the steps would be `lang/compile_mo.sh ru`, `mv lang/mo/ru lang/mo/en_NZ`, `./cataclysm`.
 
 You can also change the language in game options if both are installed.
+
+### Language stats
+
+We also store some statistics for how complete each translation is, in
+`src/lang_stats.inc`.  This can be used for example to show end users some
+information about the translations.
+
+These stats are also normally updated by the GitHub workflow, but can be
+updated by hand via `lang/update_stats.sh`.
 
 [1]: https://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/
 [2]: https://discourse.cataclysmdda.org/c/game-talk/translations-team-discussion

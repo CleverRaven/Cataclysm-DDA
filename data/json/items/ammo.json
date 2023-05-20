@@ -101,10 +101,12 @@
     "name": { "str": "match", "str_pl": "matches" },
     "symbol": "|",
     "description": "A small stick with a red part at the end.  Strike it against a matchbook to light it.",
+    "category": "tools",
     "volume": "4 ml",
     "weight": "1 mg",
     "color": "red",
     "flags": [ "TRADER_AVOID" ],
+    "material": [ "wood" ],
     "ammo_type": "match"
   },
   {
@@ -503,13 +505,13 @@
     "flags": [ "NPC_THROWN", "HURT_WHEN_WIELDED" ],
     "weight": "300 g",
     "volume": "300 ml",
-    "cutting": 9,
     "damage": { "damage_type": "stab", "amount": 9 },
     "range": 12,
     "dispersion": 14,
     "loudness": 0,
     "to_hit": -2,
-    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_80" ]
+    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_80" ],
+    "melee_damage": { "cut": 9 }
   },
   {
     "type": "AMMO",
@@ -524,14 +526,14 @@
     "flags": [ "TRADER_AVOID", "NPC_THROWN" ],
     "weight": "657 g",
     "volume": "250 ml",
-    "bashing": 7,
     "damage": { "damage_type": "bash", "amount": 7 },
     "range": 10,
     "dispersion": 14,
     "loudness": 0,
     "to_hit": -1,
     "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_80", "ALLOWS_BODY_BLOCK" ],
-    "qualities": [ [ "HAMMER", 1 ] ]
+    "qualities": [ [ "HAMMER", 1 ] ],
+    "melee_damage": { "bash": 7 }
   },
   {
     "type": "AMMO",
@@ -984,9 +986,9 @@
     "type": "AMMO",
     "id": "charcoal",
     "category": "spare_parts",
-    "//0": "about a dollar per kg of charcoal commercially. fetches $0.02 per chunk to survivors",
+    "//0": "about a dollar per kg of charcoal commercially. fetches $0.001 per chunk to survivors",
     "price": 4,
-    "price_postapoc": 50,
+    "price_postapoc": 5,
     "name": { "str_sp": "charcoal" },
     "container": "box_small",
     "symbol": "=",
@@ -1020,9 +1022,9 @@
     "type": "AMMO",
     "id": "coal_lump",
     "category": "spare_parts",
-    "//0": "about a $0.15 per kg of coal commercially. fetches $0.02 per chunk to survivors",
+    "//0": "about a $0.15 per kg of coal commercially. fetches $0.001 per chunk to survivors",
     "price": 5,
-    "price_postapoc": 400,
+    "price_postapoc": 20,
     "name": { "str": "coal", "str_pl": "lumps of coal" },
     "symbol": "=",
     "color": "dark_gray",
@@ -1393,14 +1395,14 @@
     "volume": "250 ml",
     "price": 0,
     "price_postapoc": 0,
-    "bashing": 1,
     "material": [ "wood" ],
     "flags": [ "NO_SALVAGE", "TINDER" ],
     "symbol": "=",
     "color": "brown",
     "count": 50,
     "ammo_type": "tinder",
-    "effects": [ "NEVER_MISFIRES" ]
+    "effects": [ "NEVER_MISFIRES" ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "type": "AMMO",
@@ -1458,10 +1460,10 @@
     "price": 169,
     "price_postapoc": 100,
     "to_hit": -2,
-    "bashing": 1,
     "material": [ "bronze" ],
     "symbol": ",",
-    "color": "yellow"
+    "color": "yellow",
+    "melee_damage": { "bash": 1 }
   },
   {
     "type": "AMMO",

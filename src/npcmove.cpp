@@ -121,7 +121,10 @@ static const efftype_id effect_npc_flee_player( "npc_flee_player" );
 static const efftype_id effect_npc_player_still_looking( "npc_player_still_looking" );
 static const efftype_id effect_npc_run_away( "npc_run_away" );
 static const efftype_id effect_onfire( "onfire" );
+static const efftype_id effect_stumbled_into_invisible( "stumbled_into_invisible" );
 static const efftype_id effect_stunned( "stunned" );
+
+static const field_type_str_id field_fd_last_known( "fd_last_known" );
 
 static const itype_id itype_inhaler( "inhaler" );
 static const itype_id itype_lsd( "lsd" );
@@ -508,12 +511,11 @@ void npc::assess_danger()
             ai_cache.hostile_guys.emplace_back( g->shared_from( guy ) );
         }
     }
-    if( sees( player_character.pos() ) ) {
-        if( is_enemy() ) {
-            ai_cache.hostile_guys.emplace_back( g->shared_from( player_character ) );
-        } else if( is_friendly( player_character ) ) {
-            ai_cache.friends.emplace_back( g->shared_from( player_character ) );
-        }
+    if( is_friendly( player_character ) && sees( player_character.pos() ) ) {
+        ai_cache.friends.emplace_back( g->shared_from( player_character ) );
+    } else if( is_enemy() && sees( player_character ) ) {
+        // Unlike allies, hostile npcs should not see invisible players
+        ai_cache.hostile_guys.emplace_back( g->shared_from( player_character ) );
     }
 
     for( const monster &critter : g->all_monsters() ) {
@@ -725,7 +727,7 @@ void npc::regen_ai_cache()
     creature_tracker &creatures = get_creature_tracker();
     if( has_trait( trait_RETURN_TO_START_POS ) ) {
         if( !ai_cache.guard_pos ) {
-            ai_cache.guard_pos = here.getabs( pos() );
+            ai_cache.guard_pos = get_location();
         }
     }
     while( i != std::end( ai_cache.sound_alerts ) ) {
@@ -874,7 +876,7 @@ void npc::move()
     } else if( !ai_cache.sound_alerts.empty() && !is_walking_with() ) {
         tripoint cur_s_abs_pos = ai_cache.s_abs_pos;
         if( !ai_cache.guard_pos ) {
-            ai_cache.guard_pos = here.getabs( pos() );
+            ai_cache.guard_pos = get_location();
         }
         if( ai_cache.sound_alerts.size() > 1 ) {
             std::sort( ai_cache.sound_alerts.begin(), ai_cache.sound_alerts.end(),
@@ -917,9 +919,9 @@ void npc::move()
             print_action( "address_player %s", action );
         }
         if( action == npc_undecided && ai_cache.sound_alerts.empty() && ai_cache.guard_pos ) {
-            tripoint return_guard_pos = *ai_cache.guard_pos;
+            tripoint_abs_ms return_guard_pos = *ai_cache.guard_pos;
             add_msg_debug( debugmode::DF_NPC, "NPC %s: returning to guard spot at x(%d) y(%d)", get_name(),
-                           return_guard_pos.x, return_guard_pos.y );
+                           return_guard_pos.x(), return_guard_pos.y() );
             action = npc_return_to_guard_pos;
         }
     }
@@ -1465,8 +1467,7 @@ void npc::evaluate_best_weapon( const Creature *target )
 
     // punching things is always available
     compare( std::make_shared<npc_attack_melee>( null_item_reference() ) );
-    const units::energy ups_charges = available_ups();
-    visit_items( [&compare, &ups_charges, this]( item * it, item * ) {
+    visit_items( [&compare, this]( item * it, item * ) {
         // you can theoretically melee with anything.
         compare( std::make_shared<npc_attack_melee>( *it ) );
         if( !is_wielding( *it ) || !it->has_flag( flag_NO_UNWIELD ) ) {
@@ -1478,10 +1479,10 @@ void npc::evaluate_best_weapon( const Creature *target )
         if( rules.has_flag( ally_rule::use_guns ) ) {
             for( const std::pair<const gun_mode_id, gun_mode> &mode : it->gun_all_modes() ) {
                 if( !( mode.second.melee() || mode.second.flags.count( "NPC_AVOID" ) ||
-                       !can_use( *mode.second.target ) || mode.second->get_gun_ups_drain() > ups_charges ||
+                       !can_use( *mode.second.target ) ||
                        ( rules.has_flag( ally_rule::use_silent ) && is_player_ally() &&
                          !mode.second->is_silent() ) ) ) {
-                    if( it->ammo_sufficient( this ) || can_reload_current() ) {
+                    if( it->shots_remaining( this ) > 0 || can_reload_current() ) {
                         compare( std::make_shared<npc_attack_gun>( *it, mode.second ) );
                     } else {
                         compare( std::make_shared<npc_attack_melee>( *it ) );
@@ -1837,7 +1838,7 @@ npc_action npc::address_needs( float danger )
         } else {
             deactivate_bionic_by_id( bio_nanobots );
         }
-        if( get_skill_level( skill_firstaid ) > 0 ) {
+        if( static_cast<int>( get_skill_level( skill_firstaid ) ) > 0 ) {
             if( is_player_ally() ) {
                 healing_options try_to_fix_other = patient_assessment( player_character );
                 if( try_to_fix_other.any_true() ) {
@@ -2243,6 +2244,11 @@ bool npc::update_path( const tripoint &p, const bool no_bashing, bool force )
     return false;
 }
 
+void npc::set_guard_pos( const tripoint_abs_ms &p )
+{
+    ai_cache.guard_pos = p;
+}
+
 bool npc::can_open_door( const tripoint &p, const bool inside ) const
 {
     return !is_hallucination() && !rules.has_flag( ally_rule::avoid_doors ) &&
@@ -2329,7 +2335,11 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         }
 
         if( critter->is_avatar() ) {
-            say( chatbin.snip_let_me_pass );
+            if( sees( *critter ) ) {
+                say( chatbin.snip_let_me_pass );
+            } else {
+                stumble_invis( *critter );
+            }
         }
 
         // Let NPCs push each other when non-hostile
@@ -2384,6 +2394,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         }
     }
 
+    Character &player_character = get_player_character();
     if( p.z != posz() ) {
         // Z-level move
         // For now just teleport to the destination
@@ -2394,6 +2405,11 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         }
         moves -= 100;
         moved = true;
+    } else if( has_effect( effect_stumbled_into_invisible ) &&
+               here.has_field_at( p, field_fd_last_known ) && !sees( player_character ) &&
+               attitude_to( player_character ) == Attitude::HOSTILE ) {
+        attack_air( p );
+        move_pause();
     } else if( here.passable( p ) && !here.has_flag( ter_furn_flag::TFLAG_DOOR, p ) ) {
         bool diag = trigdist && posx() != p.x && posy() != p.y;
         if( is_mounted() ) {
@@ -3286,21 +3302,14 @@ bool npc::wield_better_weapon()
     item *best = &weap;
     double best_value = -100.0;
 
-    const units::energy ups_charges = available_ups();
-
     const auto compare_weapon =
-    [this, &best, &best_value, ups_charges, can_use_gun, use_silent]( const item & it ) {
+    [this, &best, &best_value, can_use_gun, use_silent]( const item & it ) {
         bool allowed = can_use_gun && it.is_gun() && ( !use_silent || it.is_silent() );
         double val;
         if( !allowed ) {
             val = weapon_value( it, 0 );
         } else {
-            int ammo_count = it.ammo_remaining();
-            units::energy ups_drain = it.get_gun_ups_drain();
-            if( ups_drain > 0_kJ ) {
-                ammo_count = std::min( ammo_count, static_cast<int>( ups_charges / ups_drain ) );
-            }
-
+            int ammo_count = it.shots_remaining( this );
             val = weapon_value( it, ammo_count );
         }
 
@@ -4154,7 +4163,7 @@ void npc::go_to_omt_destination()
 {
     map &here = get_map();
     if( ai_cache.guard_pos ) {
-        if( here.getabs( pos() ) == *ai_cache.guard_pos ) {
+        if( get_location() == *ai_cache.guard_pos ) {
             path.clear();
             ai_cache.guard_pos = std::nullopt;
             move_pause();

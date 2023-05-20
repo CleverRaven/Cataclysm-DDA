@@ -84,8 +84,7 @@
           { "group": "dissection", "prob": 50 },
           { "group": "electronics", "prob": 40 },
           { "group": "radio", "prob": 15 },
-          { "group": "textbooks", "prob": 25 },
-          { "group": "autodoc_installation_programs", "prob": 5 }
+          { "group": "textbooks", "prob": 25 }
         ]
       },
       { "group": "wallets_science", "damage": [ 1, 4 ], "prob": 5 }

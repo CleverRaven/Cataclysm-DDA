@@ -21,9 +21,9 @@ class string_formatter;
 
 // wrapper to allow calling string_formatter::throw_error before the definition of string_formatter
 [[noreturn]]
-void throw_error( const string_formatter &, const std::string & );
+void throw_error( const string_formatter &, std::string_view );
 // wrapper to access string_formatter::temp_buffer before the definition of string_formatter
-const char *string_formatter_set_temp_buffer( const string_formatter &, const std::string & );
+const char *string_formatter_set_temp_buffer( const string_formatter &, std::string && );
 // Handle currently active exception from string_formatter and return it as string
 std::string handle_string_format_error();
 
@@ -52,88 +52,91 @@ std::string handle_string_format_error();
 /**@{*/
 // Test for arithmetic type, *excluding* bool. printf can not handle bool, so can't we.
 template<typename T>
-using is_numeric = typename std::conditional <
-                   std::is_arithmetic<typename std::decay<T>::type>::value &&
-                   !std::is_same<typename std::decay<T>::type, bool>::value, std::true_type, std::false_type >::type;
+constexpr bool is_numeric =
+    std::is_arithmetic_v<std::decay_t<T>>
+    && !std::is_same_v<std::decay_t<T>, bool>;
 // Test for integer type (not floating point, not bool).
 template<typename T>
-using is_integer = typename std::conditional < is_numeric<T>::value &&
-                   !std::is_floating_point<typename std::decay<T>::type>::value, std::true_type,
-                   std::false_type >::type;
+constexpr bool is_integer =
+    is_numeric<T>
+    && !std::is_floating_point_v<std::decay_t<T>>;
 template<typename T>
-using is_char = typename
-                std::conditional<std::is_same<typename std::decay<T>::type, char>::value, std::true_type, std::false_type>::type;
+constexpr bool is_char = std::is_same_v<std::decay_t<T>, char>;
 // Test for std::string type.
 template<typename T>
-using is_string = typename
-                  std::conditional<std::is_same<typename std::decay<T>::type, std::string>::value, std::true_type, std::false_type>::type;
+constexpr bool is_string = std::is_same_v<std::decay_t<T>, std::string>;
+// Test for std::string_view type.
+template<typename T>
+constexpr bool is_string_view = std::is_same_v<std::decay_t<T>, std::string_view>;
 // Test for c-string type.
 template<typename T>
-using is_cstring = typename std::conditional <
-                   std::is_same<typename std::decay<T>::type, const char *>::value ||
-                   std::is_same<typename std::decay<T>::type, char *>::value, std::true_type, std::false_type >::type;
+constexpr bool is_cstring =
+    std::is_same_v<std::decay_t<T>, const char *> || std::is_same_v<std::decay_t<T>, char *>;
 // Test for class translation
 template<typename T>
-using is_translation = typename std::conditional <
-                       std::is_same<typename std::decay<T>::type, translation>::value, std::true_type,
-                       std::false_type >::type;
+constexpr bool is_translation = std::is_same_v<std::decay_t<T>, translation>;
 
 template<typename RT, typename T>
-inline typename std::enable_if < is_integer<RT>::value &&is_integer<T>::value,
-       RT >::type convert( RT *, const string_formatter &, T &&value, int )
+inline std::enable_if_t < is_integer<RT> &&is_integer<T>, RT >
+convert( RT *, const string_formatter &, T &&value, int )
 {
     return value;
 }
 template<typename RT, typename T>
-inline typename std::enable_if < is_integer<RT>::value
-&&std::is_enum<typename std::decay<T>::type>::value,
-RT >::type convert( RT *, const string_formatter &, T &&value, int )
+inline std::enable_if_t < is_integer<RT> &&std::is_enum_v<std::decay_t<T>>, RT >
+        convert( RT *, const string_formatter &, T &&value, int )
 {
     return static_cast<RT>( value );
 }
 template<typename RT, typename T>
-inline typename std::enable_if < std::is_floating_point<RT>::value &&is_numeric<T>::value
-&&!is_integer<T>::value, RT >::type convert( RT *, const string_formatter &, T &&value, int )
+inline std::enable_if_t < std::is_floating_point_v<RT> &&is_numeric<T>
+&& !is_integer<T>, RT >
+convert( RT *, const string_formatter &, T &&value, int )
 {
     return value;
 }
 template<typename RT, typename T>
-inline typename std::enable_if < std::is_same<RT, void *>::value
-&&std::is_pointer<typename std::decay<T>::type>::value, void * >::type convert( RT *,
-        const string_formatter &, T &&value, int )
+inline std::enable_if_t < std::is_same_v<RT, void *>
+&&std::is_pointer_v<std::decay_t<T>>, void * >
+                                  convert( RT *, const string_formatter &, T &&value, int )
 {
-    return const_cast<typename std::remove_const<typename std::remove_pointer<typename std::decay<T>::type>::type>::type *>
-           ( value );
+    return const_cast<std::remove_const_t<std::remove_pointer_t<std::decay_t<T>>> *>( value );
 }
 template<typename RT, typename T>
-inline typename std::enable_if < std::is_same<RT, const char *>::value &&is_string<T>::value,
-       const char * >::type convert( RT *, const string_formatter &, T &&value, int )
+inline std::enable_if_t < std::is_same_v<RT, const char *> &&is_string<T>, const char * >
+convert( RT *, const string_formatter &, T &&value, int )
 {
     return value.c_str();
 }
 template<typename RT, typename T>
-inline typename std::enable_if < std::is_same<RT, const char *>::value &&is_cstring<T>::value,
-       const char * >::type convert( RT *, const string_formatter &, T &&value, int )
+inline std::enable_if_t < std::is_same_v<RT, const char *> &&is_string_view<T>, const char * >
+convert( RT *, const string_formatter &sf, T &&value, int )
+{
+    return string_formatter_set_temp_buffer( sf, std::string( value ) );
+}
+template<typename RT, typename T>
+inline std::enable_if_t < std::is_same_v<RT, const char *> &&is_cstring<T>, const char * >
+convert( RT *, const string_formatter &, T &&value, int )
 {
     return value;
 }
 template<typename RT, typename T>
-inline typename std::enable_if < std::is_same<RT, const char *>::value &&is_translation<T>::value,
-       const char * >::type convert( RT *, const string_formatter &sf, T &&value, int )
+inline std::enable_if_t < std::is_same_v<RT, const char *> &&is_translation<T>, const char * >
+convert( RT *, const string_formatter &sf, T &&value, int )
 {
     return string_formatter_set_temp_buffer( sf, value.translated() );
 }
 template<typename RT, typename T>
-inline typename std::enable_if < std::is_same<RT, const char *>::value &&is_numeric<T>::value
-&&!is_char<T>::value, const char * >::type convert( RT *, const string_formatter &sf, T &&value,
-        int )
+inline std::enable_if_t <
+std::is_same_v<RT, const char *> &&is_numeric<T> &&
+!is_char<T>, const char * >
+convert( RT *, const string_formatter &sf, T &&value, int )
 {
     return string_formatter_set_temp_buffer( sf, std::to_string( value ) );
 }
 template<typename RT, typename T>
-inline typename std::enable_if < std::is_same<RT, const char *>::value &&is_numeric<T>::value
-&&is_char<T>::value, const char * >::type convert( RT *, const string_formatter &sf, T &&value,
-        int )
+inline std::enable_if_t < std::is_same_v<RT, const char *> &&is_char<T>, const char * >
+convert( RT *, const string_formatter &sf, T &&value, int )
 {
     return string_formatter_set_temp_buffer( sf, std::string( 1, value ) );
 }
@@ -145,10 +148,10 @@ template<typename RT, typename T>
 // NOLINTNEXTLINE(cert-dcl50-cpp)
 inline RT convert( RT *, const string_formatter &sf, T &&, ... )
 {
-    static_assert( std::is_pointer<typename std::decay<T>::type>::value ||
-                   is_numeric<T>::value || is_string<T>::value || is_char<T>::value ||
-                   std::is_enum<typename std::decay<T>::type>::value ||
-                   is_cstring<T>::value || is_translation<T>::value, "Unsupported argument type" );
+    static_assert( std::is_pointer_v<std::decay_t<T>> ||
+                   is_numeric<T> || is_string<T> || is_string_view<T> ||
+                   is_char<T> || std::is_enum_v<std::decay_t<T>> ||
+                   is_cstring<T> || is_translation<T>, "Unsupported argument type" );
     throw_error( sf, "Tried to convert argument of type " +
                  demangle( typeid( T ).name() ) + " to " +
                  demangle( typeid( RT ).name() ) + ", which is not possible" );
@@ -171,7 +174,7 @@ class string_formatter
     private:
         /// Complete format string, including all format specifiers (the string passed
         /// to @ref printf).
-        const std::string format;
+        const std::string_view format;
         /// Used during parsing to denote the *next* character in @ref format to be
         /// parsed.
         size_t current_index_in_format = 0;
@@ -218,8 +221,8 @@ class string_formatter
         std::optional<int> read_number_or_argument_index();
         /// Throws an exception containing the given message and the @ref format.
         [[noreturn]]
-        void throw_error( const std::string &msg ) const;
-        friend void throw_error( const string_formatter &sf, const std::string &msg ) {
+        void throw_error( std::string_view msg ) const;
+        friend void throw_error( const string_formatter &sf, std::string_view msg ) {
             sf.throw_error( msg );
         }
         mutable std::string temp_buffer;
@@ -227,8 +230,8 @@ class string_formatter
         /// for printing non-strings through "%s". It *only* works because this prints each format
         /// specifier separately, so the content of @ref temp_buffer is only used once.
         friend const char *string_formatter_set_temp_buffer( const string_formatter &sf,
-                const std::string &text ) {
-            sf.temp_buffer = text;
+                std::string &&text ) {
+            sf.temp_buffer = std::move( text );
             return sf.temp_buffer.c_str();
         }
         /**
@@ -317,7 +320,7 @@ class string_formatter
 
     public:
         /// @param format The format string as required by `sprintf`.
-        explicit string_formatter( std::string format ) : format( std::move( format ) ) { }
+        explicit string_formatter( std::string_view format ) : format( format ) { }
         /// Does the actual `sprintf`. It uses @ref format and puts the formatted
         /// string into @ref output.
         /// Note: use @ref get_output to get the formatted string after a successful
@@ -411,23 +414,18 @@ class string_formatter
  */
 /**@{*/
 template<typename ...Args>
-inline std::string string_format( std::string format, Args &&...args )
+inline std::string string_format( std::string_view format, Args &&...args )
 {
     try {
-        cata::string_formatter formatter( std::move( format ) );
+        cata::string_formatter formatter( format );
         formatter.parse( std::forward<Args>( args )... );
         return formatter.get_output();
     } catch( ... ) {
         return cata::handle_string_format_error();
     }
 }
-template<typename ...Args>
-inline std::string string_format( const char *format, Args &&...args )
-{
-    return string_format( std::string( format ), std::forward<Args>( args )... );
-}
 template<typename T, typename ...Args>
-inline typename std::enable_if<cata::is_translation<T>::value, std::string>::type
+inline std::enable_if_t<cata::is_translation<T>, std::string>
 string_format( T &&format, Args &&...args )
 {
     return string_format( format.translated(), std::forward<Args>( args )... );

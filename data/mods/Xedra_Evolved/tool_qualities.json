@@ -2,6 +2,12 @@
   {
     "type": "tool_quality",
     "id": "DREAM_HAMMER",
-    "name": { "str": "Hammer of Dreams" }
+    "name": { "str": "hammer of dreams" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "AI_TOOL",
+    "//": "provide a support in organizing huge amount of informations",
+    "name": { "str": "intelligent agent" }
   }
 ]

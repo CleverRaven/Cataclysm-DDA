@@ -47,7 +47,7 @@ void move_mode::load_move_mode( const JsonObject &jo, const std::string &src )
     move_mode_factory.load( jo, src );
 }
 
-void move_mode::load( const JsonObject &jo, const std::string &/*src*/ )
+void move_mode::load( const JsonObject &jo, const std::string_view/*src*/ )
 {
     mandatory( jo, was_loaded, "character", _letter, unicode_codepoint_from_symbol_reader );
     mandatory( jo, was_loaded, "name",  _name );

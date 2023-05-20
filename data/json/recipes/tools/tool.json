@@ -1076,7 +1076,7 @@
       [ [ "jerrycan_big", 1 ], [ "metal_tank_little", 1 ] ],
       [ [ "pipe", 1 ] ],
       [ [ "hose", 3 ] ],
-      [ [ "motor_tiny", 1 ] ],
+      [ [ "motor_micro", 1 ] ],
       [ [ "recovery_pump", 1 ] ],
       [ [ "metal_funnel", 1 ] ]
     ]
@@ -1112,7 +1112,7 @@
       [ [ "30gal_drum", 1 ], [ "metal_tank", 1 ] ],
       [ [ "pipe", 3 ] ],
       [ [ "hose", 10 ] ],
-      [ [ "motor_tiny", 1 ] ],
+      [ [ "motor_micro", 1 ] ],
       [ [ "recovery_pump", 1 ] ],
       [ [ "metal_funnel", 3 ] ]
     ]
@@ -1283,7 +1283,7 @@
       [ [ "metal_tank", 1 ] ],
       [ [ "pipe", 2 ] ],
       [ [ "hose", 2 ] ],
-      [ [ "motor_tiny", 1 ] ],
+      [ [ "motor_micro", 1 ] ],
       [ [ "vac_pump", 1 ] ],
       [ [ "element", 3 ], [ "crude_heating_element", 3 ] ],
       [ [ "sheet_metal", 3 ] ],
@@ -1401,7 +1401,7 @@
     "components": [
       [ [ "plastic_chunk", 6 ] ],
       [ [ "grinder_blade", 1 ] ],
-      [ [ "motor_small", 1 ] ],
+      [ [ "motor_tiny", 1 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "scrap", 1 ] ],
       [ [ "cable", 5 ] ]

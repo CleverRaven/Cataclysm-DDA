@@ -42,7 +42,6 @@
     "price_postapoc": 250,
     "install_time": "30 s",
     "to_hit": 1,
-    "bashing": 3,
     "material": [ "steel" ],
     "symbol": ":",
     "color": "dark_gray",
@@ -54,7 +53,8 @@
     "dispersion_modifier": 40,
     "handling_modifier": 1,
     "loudness_modifier": -30,
-    "flags": [ "DISABLE_SIGHTS", "CONSUMABLE" ]
+    "flags": [ "DISABLE_SIGHTS", "CONSUMABLE" ],
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "filter_suppressor",
@@ -69,7 +69,6 @@
     "price_postapoc": 250,
     "install_time": "1 m",
     "to_hit": 1,
-    "bashing": 3,
     "material": [ "steel" ],
     "symbol": ":",
     "color": "dark_gray",
@@ -80,7 +79,8 @@
     "dispersion_modifier": 10,
     "handling_modifier": 1,
     "loudness_modifier": -20,
-    "flags": [ "DISABLE_SIGHTS", "CONSUMABLE" ]
+    "flags": [ "DISABLE_SIGHTS", "CONSUMABLE" ],
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "bottle_suppressor",
@@ -137,7 +137,6 @@
     "price_postapoc": 2000,
     "install_time": "30 s",
     "to_hit": 1,
-    "bashing": 3,
     "material": [ "steel" ],
     "symbol": ":",
     "color": "dark_gray",
@@ -148,7 +147,8 @@
     "consume_chance": 5000,
     "consume_divisor": 235,
     "loudness_modifier": -30,
-    "flags": [ "CONSUMABLE" ]
+    "flags": [ "CONSUMABLE" ],
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "suppressor",
@@ -163,7 +163,6 @@
     "price": 77000,
     "price_postapoc": 1500,
     "to_hit": 1,
-    "bashing": 3,
     "material": [ "steel" ],
     "symbol": ":",
     "color": "dark_gray",
@@ -173,7 +172,8 @@
     "handling_modifier": 2,
     "consume_divisor": 840,
     "loudness_modifier": -50,
-    "flags": [ "CONSUMABLE" ]
+    "flags": [ "CONSUMABLE" ],
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "mp5sd_suppressor",

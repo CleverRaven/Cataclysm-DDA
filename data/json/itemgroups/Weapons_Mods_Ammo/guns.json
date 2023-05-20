@@ -54,6 +54,58 @@
   {
     "type": "item_group",
     "subtype": "distribution",
+    "id": "guns_pistol_common_everyday_carry",
+    "//": "pistols with ammo loaded and ready for use but no additional magazines.",
+    "items": [
+      { "item": "glock_17", "prob": 35, "charges-min": 0 },
+      { "item": "glock_19", "prob": 50, "charges-min": 0 },
+      { "item": "glock_20", "variant": "glock_20", "prob": 4, "charges-min": 0 },
+      { "item": "glock_21", "prob": 8, "charges-min": 0 },
+      { "item": "glock_22", "prob": 35, "charges-min": 0 },
+      { "item": "glock_29", "prob": 2, "charges-min": 0 },
+      { "item": "glock_31", "prob": 15, "charges-min": 0 },
+      { "item": "glock_20", "variant": "glock_40", "prob": 2, "charges-min": 0 },
+      { "item": "m1911", "prob": 50, "charges-min": 0 },
+      { "item": "m1911_10", "prob": 15, "charges-min": 0 },
+      { "item": "m9", "variant": "m9", "prob": 30, "charges-min": 0 },
+      { "item": "px4", "prob": 24, "charges-min": 0 },
+      { "item": "px4_40", "prob": 20, "charges-min": 0 },
+      { "item": "ruger_lcr_38", "prob": 10, "charges-min": 0 },
+      { "item": "sig_mosquito", "prob": 15, "charges-min": 0 },
+      { "item": "sw_22", "prob": 15, "charges-min": 0 },
+      { "item": "sw_610", "prob": 20, "charges-min": 0 },
+      { "item": "sw_619", "prob": 25, "charges-min": 0 },
+      { "item": "model_10_revolver", "prob": 20, "charges-min": 0 },
+      { "item": "taurus_spectrum", "prob": 15, "charges-min": 0 },
+      { "item": "p220_10", "prob": 1, "charges-min": 0 },
+      { "item": "p50", "prob": 4, "charges-min": 0 },
+      { "item": "ruger_57", "prob": 6, "charges-min": 0 },
+      { "item": "p226_357sig", "prob": 20, "charges-min": 0 },
+      { "item": "p320_357sig", "prob": 10, "charges-min": 0 },
+      { "item": "kp32", "prob": 10, "charges-min": 0 },
+      { "item": "kp3at", "prob": 35, "charges-min": 0 },
+      { "item": "rugerlcp", "prob": 35, "charges-min": 0 },
+      { "item": "kpf9", "prob": 35, "charges-min": 0 },
+      { "item": "hi_power_9mm", "prob": 5, "charges-min": 0 },
+      { "item": "hi_power_40", "prob": 3, "charges-min": 0 },
+      { "item": "walther_ppq_9mm", "prob": 9, "charges-min": 0 },
+      { "item": "walther_ppq_40", "prob": 5, "charges-min": 0 },
+      { "item": "walther_ppq_45", "prob": 3, "charges-min": 0 },
+      { "item": "hptc9", "prob": 3, "charges-min": 0 },
+      { "item": "hptcf380", "prob": 2, "charges-min": 0 },
+      { "item": "hptjcp", "prob": 1, "charges-min": 0 },
+      { "item": "hptjhp", "prob": 1, "charges-min": 0 },
+      { "item": "xd_10", "prob": 3, "charges-min": 0 },
+      { "item": "cz75", "prob": 18, "charges-min": 0 },
+      { "item": "witness_10", "prob": 1, "charges-min": 0 },
+      { "item": "walther_ccp", "prob": 8, "charges-min": 0 },
+      { "item": "walther_p22", "prob": 13, "charges-min": 0 },
+      { "item": "ruger_lcr_22", "prob": 35, "charges-min": 0 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
     "id": "guns_pistol_common_display",
     "//": "Empty and reasonably common pistols found exclusively in gun stores.",
     "items": [
@@ -504,6 +556,8 @@
       { "group": "nested_M24", "prob": 15 },
       { "group": "nested_m4_carbine", "prob": 45 },
       { "group": "nested_m1903", "prob": 15 },
+      { "group": "nested_mk3", "prob": 10 },
+      { "group": "nested_number4", "prob": 10 },
       { "group": "nested_m1918", "prob": 30 },
       { "group": "nested_mosin44_ebr", "prob": 10 },
       { "group": "nested_psl", "prob": 5 },
@@ -528,6 +582,8 @@
       { "item": "henry_big_boy", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "bh_m89", "prob": 15 },
       { "item": "m1903", "prob": 15, "charges-min": 0, "charges-max": 0 },
+      { "item": "smle_mk3", "prob": 10, "charges-min": 0, "charges-max": 0 },
+      { "item": "number4_mki", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "mosin44", "variant": "mosin44_ebr", "contents-group": "mosin_mods", "prob": 1, "charges": [ 0, 0 ] },
       {
         "item": "mosin91_30",
@@ -1119,6 +1175,81 @@
     "//": "guns lost but still have mags",
     "items": [
       { "group": "field_fn57", "prob": 20 },
+      { "group": "field_glock_19", "prob": 15 },
+      { "group": "field_glock_22", "prob": 20 },
+      { "group": "field_m9", "prob": 5 },
+      { "group": "field_sig_40", "prob": 20 },
+      { "group": "field_usp_45", "prob": 10 },
+      { "group": "field_usp_9mm", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "longguns_operator_in_field",
+    "//": "gun plus potential expended magazines for a tacticool operator, should be lots of AR-15s",
+    "items": [
+      {
+        "collection": [
+          { "item": "ar15", "prob": 100, "charges": [ 0, 30 ], "contents-item": "shoulder_strap_front" },
+          { "group": "field_ar15" }
+        ],
+        "prob": 20
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "longguns_operator",
+    "items": [ { "item": "ar15", "prob": 20, "charges": [ 0, 30 ], "contents-item": "shoulder_strap_front" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "sidearms_operator",
+    "items": [
+      { "item": "glock_19", "prob": 15, "charges": [ 0, 15 ] },
+      { "item": "glock_22", "prob": 20, "ammo-item": "40sw", "charges": [ 0, 15 ] },
+      { "item": "m9", "variant": "m9", "prob": 5, "charges": [ 0, 15 ] },
+      { "item": "sig_40", "prob": 20, "charges": [ 0, 12 ] },
+      { "item": "usp_45", "prob": 10, "charges": [ 0, 12 ] },
+      { "item": "usp_9mm", "prob": 10, "charges": [ 0, 15 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "sidearms_operator_in_field",
+    "//": "gun plus potential expended magazines",
+    "items": [
+      {
+        "collection": [ { "item": "glock_19", "prob": 100, "charges": [ 0, 15 ] }, { "group": "field_glock_19" } ],
+        "prob": 15
+      },
+      {
+        "collection": [ { "item": "glock_22", "ammo-item": "40sw", "prob": 100, "charges": [ 0, 15 ] }, { "group": "field_glock_22" } ],
+        "prob": 20
+      },
+      {
+        "collection": [ { "item": "m9", "variant": "m9", "prob": 100, "charges": [ 0, 15 ] }, { "group": "field_m9" } ],
+        "prob": 5
+      },
+      {
+        "collection": [ { "item": "sig_40", "prob": 100, "charges": [ 0, 12 ] }, { "group": "field_sig_40" } ],
+        "prob": 20
+      },
+      {
+        "collection": [ { "item": "usp_45", "prob": 100, "charges": [ 0, 12 ] }, { "group": "field_usp_45" } ],
+        "prob": 10
+      },
+      {
+        "collection": [ { "item": "usp_9mm", "prob": 100, "charges": [ 0, 15 ] }, { "group": "field_usp_9mm" } ],
+        "prob": 10
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "sidearms_operator_in_field_no_gun",
+    "//": "guns lost but still have mags",
+    "items": [
       { "group": "field_glock_19", "prob": 15 },
       { "group": "field_glock_22", "prob": 20 },
       { "group": "field_m9", "prob": 5 },

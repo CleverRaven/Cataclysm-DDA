@@ -18,6 +18,8 @@
     "type": "enchantment",
     "id": "STORM_ELEMENTAL",
     "condition": "ALWAYS",
+    "name": { "str": "Cyclone" },
+    "description": "Your Storm Elemental abilities grant you total electric immunity, and reflective zippers to anyone who tries to attack you.",
     "values": [ { "value": "ARMOR_ELEC", "multiply": -0.4 } ],
     "hit_me_effect": [
       {

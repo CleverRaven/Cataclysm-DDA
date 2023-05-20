@@ -62,7 +62,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_PERK_MENU_WELCOME_REQUIREMENTS",
-    "dynamic_line": "Should some perks be allowed to be locked behind prerequisites?\nCurrently not implemented but may be relevant for the future.",
+    "dynamic_line": "Should some perks be allowed to be locked behind prerequisites?",
     "responses": [
       {
         "text": "Prerequisites (default)",

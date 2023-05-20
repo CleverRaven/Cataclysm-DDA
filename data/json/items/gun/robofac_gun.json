@@ -12,7 +12,6 @@
     "price": 125000,
     "price_postapoc": 2000,
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "blue",
@@ -28,7 +27,6 @@
     "valid_mod_locations": [
       [ "underbarrel", 1 ],
       [ "rail", 1 ],
-      [ "accessories", 2 ],
       [ "sling", 1 ],
       [ "grip", 1 ],
       [ "bore", 1 ],
@@ -52,7 +50,8 @@
           "robofac60_123ln"
         ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "xedra_gun",
@@ -67,7 +66,6 @@
     "price": 125000,
     "price_postapoc": 2000,
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "blue",
@@ -83,7 +81,6 @@
     "valid_mod_locations": [
       [ "underbarrel", 1 ],
       [ "rail", 1 ],
-      [ "accessories", 2 ],
       [ "sling", 1 ],
       [ "grip", 1 ],
       [ "bore", 1 ],
@@ -91,7 +88,8 @@
       [ "stock", 1 ],
       [ "stock accessory", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "xedra40", "xedra10" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "xedra40", "xedra10" ] } ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "robofac_gun_ar",
@@ -505,10 +503,10 @@
     "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": { "str": "HWP 60-round 12.3 magazine" },
-    "description": "A box magazine for use with the Hub 01 Hybrid Weaons Platform, developed for the 12.3 ln round.  Physically speaking, this looks like one of the box magazines that the Exodii use for their own guns, but with a more ergonomic design afforded by the Hub's use of modern materials.",
-    "weight": "600 g",
-    "volume": "1250 ml",
-    "longest_side": "255 mm",
+    "description": "A box magazine for use with the Hub 01 Hybrid Weapons Platform, developed for the 12.3 ln round.  Physically speaking, this diverges from its Exodii counterpart with a more ergonomic design afforded by the Hub's use of modern materials.  It resembles a coffin somewhat in profile, with 4 columns of ammunition tapering down to just 2.",
+    "weight": "500 g",
+    "volume": "1000 ml",
+    "longest_side": "210 mm",
     "price": 10500,
     "price_postapoc": 450,
     "material": [ "plastic", "steel" ],

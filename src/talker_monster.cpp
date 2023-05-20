@@ -3,6 +3,7 @@
 #include "effect.h"
 #include "item.h"
 #include "magic.h"
+#include "messages.h"
 #include "monster.h"
 #include "mtype.h"
 #include "pimpl.h"
@@ -91,6 +92,13 @@ std::string talker_monster_const:: get_value( const std::string &var_name ) cons
     return me_mon_const->get_value( var_name );
 }
 
+bool talker_monster_const::has_flag( const flag_id &f ) const
+{
+    add_msg_debug( debugmode::DF_TALKER, "Monster %s checked for flag %s", me_mon_const->name(),
+                   f.c_str() );
+    return me_mon_const->has_flag( f );
+}
+
 void talker_monster::set_value( const std::string &var_name, const std::string &value )
 {
     me_mon->set_value( var_name, value );
@@ -134,6 +142,11 @@ int talker_monster_const::get_friendly() const
 void talker_monster::set_friendly( int new_val )
 {
     me_mon->friendly = new_val;
+}
+
+void talker_monster::die()
+{
+    me_mon->die( nullptr );
 }
 
 std::vector<std::string> talker_monster_const::get_topics( bool )

@@ -19,6 +19,7 @@ Vehicle prototypes do not currently accept copy-from
     { "x": 0, "y": 0, "part": "frame" },   // Part definition, positive x direction is up,
     { "x": 0, "y": 0, "part": "seat" },    // positive y is to the right
     { "x": 0, "y": 0, "part": "controls"}, // See vehicle_parts.json for part ids
+    { "x": 1, "y": 1, "part": "veh_tools_workshop", "tools": [ "welder" ] },  // spawn attached tools
     { "x": 0, "y": 1, "parts": [ "frame", "seat" ] }, // Arrays of parts on the same space
     { "x": 0, "y": 1, "parts": [ { "part": "tank", "fuel": "gasoline" }, "battery_car" ] },
     { "x": 0, "y": 1, "part": "stereo" },  // parts arrays and part may be mixed on the same space
@@ -55,7 +56,7 @@ with any of the optional keys  "ammo", "ammo_types", "ammo_qty", or "fuel" as ab
 Several different lines can have the same X, Y co-ordinates and each one adds additional parts to that location. Parts must be added in the correct order ie: A wheel hub must be added prior to the wheel, but after the frame.
 
 #### PARTID and variants
-Some parts can be installed with different symbols (and tileset sprites) in different locations.  The different symbols can either be different parts (usually generated with copy-from) or the same part with a `"symbols"` or `"standard_symbols"` entry.  In the latter case, the different symbols are variants of the part.
+Some parts can be installed with different symbols (and tileset sprites) in different locations.  The different symbols can either be different parts (usually generated with copy-from) or the same part with a `"symbols"`.  In the latter case, the different symbols are variants of the part.
 
 If a part has variants, the specific variant can be specified in the vehicle prototype by appending the variant to the part id after a `_` symbol.  Thus, `"frame_cross"` is the `"cross"` variant of the `"frame"` part.
 

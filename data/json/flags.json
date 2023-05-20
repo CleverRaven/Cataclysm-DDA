@@ -306,6 +306,12 @@
     "restriction": "Item must be some kind of back pouch"
   },
   {
+    "id": "HELMET_HEAD_ATTACHMENT",
+    "type": "json_flag",
+    "info": "This item is attachable in <info>tactical helmets</info> as a flashlight.",
+    "restriction": "Item must be some kind of flashlight"
+  },
+  {
     "id": "COLD_IMMUNE",
     "type": "json_flag",
     "info": "This gear <good>completely protects</good> you from <info>low temperatures</info>."
@@ -435,11 +441,6 @@
     "id": "NO_CVD",
     "type": "json_flag",
     "//": "Item can never be used with a CVD machine."
-  },
-  {
-    "id": "NO_QUICKDRAW",
-    "type": "json_flag",
-    "//": "Don't offer to draw items from this holster when the fire key is pressed whilst the player's hands are empty."
   },
   {
     "id": "NO_REPAIR",
@@ -595,35 +596,13 @@
   },
   {
     "id": "MC_MOBILE",
-    "type": "json_flag"
-  },
-  {
-    "id": "MC_RANDOM_STUFF",
-    "type": "json_flag"
-  },
-  {
-    "id": "MC_SCIENCE_STUFF",
-    "type": "json_flag"
-  },
-  {
-    "id": "MC_USED",
-    "type": "json_flag"
+    "type": "json_flag",
+    "info": "Can be used to <info>store data</info> for other devices."
   },
   {
     "id": "MC_HAS_DATA",
-    "type": "json_flag"
-  },
-  {
-    "id": "MC_MAY_BE_ENCRYPTED",
-    "type": "json_flag"
-  },
-  {
-    "id": "MC_ENCRYPTED",
-    "type": "json_flag"
-  },
-  {
-    "id": "MC_TURN_USED",
-    "type": "json_flag"
+    "type": "json_flag",
+    "info": "Some of your data is <info>stored</info> here."
   },
   {
     "id": "NO_PARASITES",
@@ -1726,6 +1705,10 @@
     "type": "json_flag"
   },
   {
+    "id": "PAIN_IMMUNE",
+    "type": "json_flag"
+  },
+  {
     "id": "TOURNIQUET",
     "type": "json_flag"
   },
@@ -2016,7 +1999,7 @@
   {
     "id": "LASER_SIGHT",
     "type": "json_flag",
-    "info": "Invalid when the target position is <bad>too far</bad> or <bad>too bright</bad>.",
+    "info": "Laser sights are invalid when the target position is <bad>too far</bad> or <bad>too bright</bad>.",
     "name": "laser sight"
   },
   {
@@ -2122,6 +2105,11 @@
     "id": "BIONIC_FUEL_SOURCE",
     "type": "json_flag",
     "info": "Contents of this item are used for fueling bionics."
+  },
+  {
+    "id": "BIONIC_WEAPON_MELEE",
+    "type": "json_flag",
+    "//": "This bionic weapon is meant to be used in melee."
   },
   {
     "id": "ELECTRONIC",

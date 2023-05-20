@@ -20,6 +20,7 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
+#include "character_martial_arts.h"
 #include "colony.h"
 #include "color.h"
 #include "coordinates.h"
@@ -1068,7 +1069,8 @@ void spell_effect::spawn_ethereal_item( const spell &sp, Creature &caster, const
 
     std::vector<item> granted;
 
-    for( int i = 0; i < sp.damage( caster ); i++ ) {
+    int count = std::max( 1, sp.damage( caster ) );
+    for( int i = 0; i < count; i++ ) {
         if( sp.has_flag( spell_flag::SPAWN_GROUP ) ) {
             std::vector<item> group_items = item_group::items_from( item_group_id( sp.effect_data() ),
                                             calendar::turn );
@@ -1087,10 +1089,15 @@ void spell_effect::spawn_ethereal_item( const spell &sp, Creature &caster, const
             it.ethereal = true;
         }
 
-        if( player_character.can_wear( it ).success() ) {
+        if( it.ethereal && player_character.is_wearing( it.typeId() ) ) {
+            // Ethereal equipment already exists so just update its duration
+            item *existing_item = player_character.item_worn_with_id( it.typeId() );
+            existing_item->set_var( "ethereal", to_turns<int>( sp.duration_turns( caster ) ) );
+        } else if( player_character.can_wear( it ).success() ) {
             it.set_flag( json_flag_FIT );
             player_character.wear_item( it, false );
         } else if( !player_character.has_wield_conflicts( it ) &&
+                   !player_character.martial_arts_data->keep_hands_free && //No wield if hands free
                    player_character.wield( it, 0 ) ) {
             // nothing to do
         } else {

@@ -22,8 +22,9 @@
     "vision_day": 25,
     "vision_night": 5,
     "harvest": "zombie_meatslug",
+    "grab_strength": 50,
     "special_attacks": [
-      [ "GRAB", 3 ],
+      { "id": "grab", "cooldown": 3 },
       {
         "type": "bite",
         "cooldown": 10,
@@ -37,6 +38,7 @@
       "GOODHEARING",
       "STUMBLES",
       "WARM",
+      "GRABS",
       "BASHES",
       "GROUP_BASH",
       "POISON",
@@ -112,8 +114,6 @@
     "melee_dice": 6,
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "armor_bash": 12,
-    "armor_cut": 16,
     "vision_day": 50,
     "vision_night": 4,
     "harvest": "zombie",
@@ -134,7 +134,8 @@
       "PUSH_MON",
       "PUSH_VEH",
       "FILTHY"
-    ]
+    ],
+    "armor": { "bash": 12, "cut": 16 }
   },
   {
     "id": "mon_zombie_upliftedoctopus",
@@ -203,9 +204,6 @@
     "dodge": 4,
     "vision_day": 25,
     "regenerates": 10,
-    "armor_bullet": 5,
-    "armor_bash": 3,
-    "armor_cut": 5,
     "harvest": "frost_human",
     "death_drops": "default_moxie_human_death_drops",
     "special_attacks": [
@@ -225,7 +223,8 @@
       "REVIVES",
       "PUSH_MON",
       "FILTHY"
-    ]
+    ],
+    "armor": { "bash": 3, "cut": 5, "bullet": 5 }
   },
   {
     "id": "mon_moxie_spartan",
@@ -252,14 +251,12 @@
     "dodge": 4,
     "vision_day": 40,
     "regenerates": 15,
-    "armor_bullet": 30,
-    "armor_bash": 15,
-    "armor_cut": 20,
     "harvest": "frost_human",
     "death_drops": "default_moxie_human_death_drops",
+    "grab_strength": 20,
     "special_attacks": [
       [ "LONGSWIPE", 20 ],
-      [ "GRAB", 20 ],
+      { "id": "grab", "cooldown": 20 },
       {
         "id": "scratch",
         "cooldown": 10,
@@ -276,6 +273,7 @@
       "GOODHEARING",
       "SWIMS",
       "WARM",
+      "GRABS",
       "BASHES",
       "GROUP_BASH",
       "DESTROYS",
@@ -285,7 +283,8 @@
       "PUSH_MON",
       "PUSH_VEH",
       "FILTHY"
-    ]
+    ],
+    "armor": { "bash": 15, "cut": 20, "bullet": 30 }
   },
   {
     "id": "mon_moxie_regenerator",
@@ -312,9 +311,6 @@
     "dodge": 2,
     "vision_day": 40,
     "regenerates": 20,
-    "armor_bullet": 25,
-    "armor_bash": 10,
-    "armor_cut": 20,
     "harvest": "frost_human",
     "death_drops": "default_moxie_human_death_drops",
     "special_attacks": [
@@ -334,7 +330,8 @@
       "REVIVES",
       "PUSH_MON",
       "FILTHY"
-    ]
+    ],
+    "armor": { "bash": 10, "cut": 20, "bullet": 25 }
   },
   {
     "id": "mon_moxie_grabby",
@@ -358,19 +355,20 @@
     "melee_dice": 2,
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
-    "grab_strength": 5,
+    "grab_strength": 100,
     "dodge": 2,
     "vision_day": 25,
     "regenerates": 5,
     "harvest": "frost_human",
     "death_drops": "default_moxie_human_death_drops",
-    "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "GRAB", 20 ] ],
+    "special_attacks": [ { "id": "bite_humanoid", "cooldown": 5 }, { "id": "grab" } ],
     "flags": [
       "SEES",
       "HEARS",
       "GOODHEARING",
       "SWIMS",
       "WARM",
+      "GRABS",
       "BASHES",
       "GROUP_BASH",
       "POISON",
@@ -449,13 +447,11 @@
     "dodge": 4,
     "vision_day": 10,
     "regenerates": 15,
-    "armor_bullet": 30,
-    "armor_bash": 15,
-    "armor_cut": 20,
     "harvest": "alien_moxphore",
+    "grab_strength": 50,
     "special_attacks": [
       [ "LONGSWIPE", 20 ],
-      [ "GRAB", 20 ],
+      { "id": "grab", "cooldown": 20 },
       {
         "id": "scratch",
         "cooldown": 10,
@@ -473,6 +469,7 @@
       "KEENNOSE",
       "SWIMS",
       "WARM",
+      "GRABS",
       "BASHES",
       "GROUP_BASH",
       "DESTROYS",
@@ -482,7 +479,8 @@
       "PUSH_MON",
       "PUSH_VEH",
       "FILTHY"
-    ]
+    ],
+    "armor": { "bash": 15, "cut": 20, "bullet": 30 }
   },
   {
     "id": "mon_moxie_bloodhound",
@@ -509,9 +507,6 @@
     "dodge": 2,
     "vision_day": 2,
     "regenerates": 7,
-    "armor_bullet": 20,
-    "armor_bash": 10,
-    "armor_cut": 10,
     "harvest": "frost_human",
     "special_attacks": [
       { "type": "bite", "cooldown": 5 },
@@ -531,7 +526,8 @@
       "REVIVES",
       "PUSH_MON",
       "FILTHY"
-    ]
+    ],
+    "armor": { "bash": 10, "cut": 10, "bullet": 20 }
   },
   {
     "id": "mon_moxphore_emetic",
@@ -558,9 +554,6 @@
     "dodge": 1,
     "vision_day": 15,
     "regenerates": 10,
-    "armor_bullet": 18,
-    "armor_bash": 3,
-    "armor_cut": 5,
     "harvest": "alien_moxphore",
     "special_attacks": [ [ "ACID", 20 ], { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 6 } ] } ],
     "death_function": { "message": "The %s's body leaks acid.", "effect": { "id": "death_acid", "hit_self": true } },
@@ -579,7 +572,8 @@
       "REVIVES",
       "PUSH_MON",
       "FILTHY"
-    ]
+    ],
+    "armor": { "bash": 3, "cut": 5, "bullet": 18 }
   },
   {
     "id": "mon_zombie_brute_shocker",

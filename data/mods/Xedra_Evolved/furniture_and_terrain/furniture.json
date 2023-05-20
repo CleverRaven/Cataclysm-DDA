@@ -8,9 +8,29 @@
     "symbol": "H",
     "color": "white_yellow",
     "coverage": 60,
-    "description": "A shiny golden monolith covered in shimmering pictograms.  There is a mist condensing near it.",
+    "description": "A shiny golden monolith covered in shimmering pictograms.  There is a mist condensing near it.  A light seems to emanate from it.",
     "light_emitted": 15,
     "emissions": [ "emit_changeling_mist" ],
+    "required_str": -1,
+    "bash": {
+      "str_min": 600,
+      "str_max": 860,
+      "furn_set": "f_broken_golden_monolith",
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "items": [ { "item": "rock", "count": [ 5, 15 ] }, { "item": "sharp_rock", "count": [ 3, 5 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_broken_golden_monolith",
+    "name": "broken golden monolith",
+    "move_cost_mod": -1,
+    "symbol": "H",
+    "color": "white_yellow",
+    "coverage": 60,
+    "description": "A dully glowing golden monolith, the golden pictograms covering it have been scarred by a tremendous force.",
+    "light_emitted": 3,
     "required_str": -1,
     "bash": {
       "str_min": 600,
@@ -64,6 +84,47 @@
         { "item": "plastic_chunk", "count": [ 4, 10 ], "prob": 50 },
         { "item": "scrap", "count": [ 2, 6 ], "prob": 50 }
       ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "xe_f_throne",
+    "name": "throne",
+    "symbol": "#",
+    "description": "An ornate wooden throne, with four legs, a seat, and a back.  It's good to be king, if just for a while.  It appears to have been joined without any nails.",
+    "color": "brown",
+    "move_cost_mod": 1,
+    "coverage": 40,
+    "comfort": 1,
+    "floor_bedding_warmth": -1500,
+    "bonus_fire_warmth_feet": 1000,
+    "required_str": 8,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT", "ALIGN_WORKBENCH" ],
+    "bash": {
+      "str_min": 6,
+      "str_max": 20,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "splinter", "count": [ 15, 30 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "xe_f_balefire",
+    "name": "Balefire",
+    "description": "A giant blue white fire produces a cool light and almost no heat.",
+    "symbol": "O",
+    "required_str": -1,
+    "move_cost_mod": -1,
+    "color": "light_blue",
+    "coverage": 30,
+    "light_emitted": 55,
+    "flags": [ "TRANSPARENT", "NOITEM", "BLOCKSDOOR" ],
+    "bash": {
+      "str_min": 20,
+      "str_max": 30,
+      "sound_fail": "smash!",
+      "items": [ { "item": "glass_shard", "count": [ 8, 12 ] }, { "item": "scrap_dreamdross", "count": [ 2, 10 ] } ]
     }
   },
   {

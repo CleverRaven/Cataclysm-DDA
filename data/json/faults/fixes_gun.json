@@ -1,0 +1,43 @@
+[
+  {
+    "type": "fault_fix",
+    "id": "mend_gun_fouling_clean",
+    "name": "Clean fouling",
+    "success_msg": "You clean your %s.",
+    "time": "50 m",
+    "faults_removed": [ "fault_gun_dirt", "fault_gun_blackpowder" ],
+    "faults_added": [ "fault_gun_unlubricated" ],
+    "skills": { "mechanics": 1 },
+    "set_variables": { "dirt": "0" },
+    "requirements": [ [ "gun_cleaning", 1 ] ]
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_gun_fouling_clean_and_lube",
+    "name": "Clean fouling and lubricate",
+    "success_msg": "You clean and lubricate your %s.",
+    "time": "55 m",
+    "faults_removed": [ "fault_gun_dirt", "fault_gun_blackpowder", "fault_gun_unlubricated" ],
+    "skills": { "mechanics": 1 },
+    "set_variables": { "dirt": "0" },
+    "requirements": [ [ "gun_cleaning", 1 ], [ "gun_lubrication", 1 ] ]
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_fault_gun_chamber_spent_eject",
+    "name": "Eject spent casing",
+    "success_msg": "You eject the spent casing from the %s.",
+    "time": "1 s",
+    "faults_removed": [ "fault_gun_chamber_spent" ]
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_fault_gun_unlubricated",
+    "name": "Lubricate",
+    "time": "50 m",
+    "faults_removed": [ "fault_gun_unlubricated" ],
+    "skills": { "mechanics": 1 },
+    "success_msg": "You lubricate the %s.",
+    "requirements": [ [ "gun_lubrication", 1 ] ]
+  }
+]

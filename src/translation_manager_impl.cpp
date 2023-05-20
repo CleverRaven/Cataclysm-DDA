@@ -36,7 +36,7 @@ std::optional<std::pair<std::size_t, std::size_t>> TranslationManager::Impl::Loo
     return std::nullopt;
 }
 
-std::string TranslationManager::Impl::LanguageCodeOfPath( const std::string &path )
+std::string TranslationManager::Impl::LanguageCodeOfPath( const std::string_view path )
 {
     const std::size_t end = path.rfind( "/LC_MESSAGES" );
     if( end == std::string::npos ) {
@@ -46,7 +46,7 @@ std::string TranslationManager::Impl::LanguageCodeOfPath( const std::string &pat
     if( begin == std::string::npos ) {
         return std::string();
     }
-    return path.substr( begin, end - begin );
+    return std::string( path.substr( begin, end - begin ) );
 }
 
 void TranslationManager::Impl::ScanTranslationDocuments()

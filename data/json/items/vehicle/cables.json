@@ -10,14 +10,15 @@
     "material": [ "steel", "plastic" ],
     "volume": "500 ml",
     "weight": "75 g",
-    "bashing": 2,
     "category": "tools",
     "price": 1,
     "price_postapoc": 100,
     "max_charges": 3,
     "initial_charges": 3,
     "use_action": [ "CABLE_ATTACH" ],
-    "flags": [ "CABLE_SPOOL", "SINGLE_USE" ]
+    "flags": [ "CABLE_SPOOL", "SINGLE_USE" ],
+    "qualities": [ [ "JUMPSTART", 1 ] ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "type": "TOOL",
@@ -25,6 +26,8 @@
     "name": { "str": "extension cord" },
     "description": "A long 30-foot (or about 10 m) orange extension cord for connecting appliances.  Could be used on any appliance or other household electrical system.",
     "copy-from": "jumper_cable",
+    "volume": "1200 ml",
+    "weight": "800 g",
     "max_charges": 10,
     "initial_charges": 10,
     "use_action": [ "CORD_ATTACH" ],
@@ -36,6 +39,8 @@
     "name": { "str": "outdoor extension cord" },
     "description": "An extra-long 100-foot (or about 30 m) orange extension cord for connecting outdoor appliances.  Could be used on any appliance or other household electrical system.",
     "copy-from": "jumper_cable",
+    "volume": "3750 ml",
+    "weight": "2500 g",
     "max_charges": 30,
     "initial_charges": 30,
     "use_action": [ "CORD_ATTACH" ],
@@ -52,7 +57,6 @@
     "material": [ "steel", "plastic" ],
     "volume": "3000 ml",
     "weight": "24000 g",
-    "bashing": 6,
     "category": "tools",
     "price": 80,
     "price_postapoc": 500,
@@ -60,7 +64,8 @@
     "initial_charges": 6,
     "use_action": [ "TOW_ATTACH" ],
     "qualities": [ [ "ROPE", 2 ] ],
-    "flags": [ "CABLE_SPOOL", "TOW_CABLE", "SINGLE_USE" ]
+    "flags": [ "CABLE_SPOOL", "TOW_CABLE", "SINGLE_USE" ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "type": "TOOL",

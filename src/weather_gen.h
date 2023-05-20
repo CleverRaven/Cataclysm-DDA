@@ -7,6 +7,7 @@
 #include <vector>
 
 #include "calendar.h"
+#include "coordinates.h"
 #include "type_id.h"
 #include "units.h"
 
@@ -21,6 +22,7 @@ struct w_point {
     std::string wind_desc;
     int winddirection = 0;
     season_effective_time time;
+    tripoint_abs_ms location;
 };
 
 class weather_generator
@@ -58,8 +60,9 @@ class weather_generator
          * by the @ref map). You can use @ref map::getabs to get an absolute position from a
          * relative position (relative to the map you called getabs on).
          */
-        w_point get_weather( const tripoint &, const time_point &, unsigned ) const;
-        weather_type_id get_weather_conditions( const tripoint &, const time_point &, unsigned seed ) const;
+        w_point get_weather( const tripoint_abs_ms &, const time_point &, unsigned ) const;
+        weather_type_id get_weather_conditions( const tripoint_abs_ms &, const time_point &,
+                                                unsigned seed ) const;
         weather_type_id get_weather_conditions( const w_point & ) const;
         int get_wind_direction( season_type ) const;
         int convert_winddir( int ) const;

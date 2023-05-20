@@ -26,7 +26,6 @@
       }
     ],
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "steel", "wood" ],
     "color": "brown",
     "ammo": [ "762R" ],
@@ -39,7 +38,6 @@
     "barrel_volume": "500 ml",
     "built_in_mods": [ "inter_bayonet" ],
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "brass catcher", 1 ],
       [ "grip mount", 1 ],
@@ -55,7 +53,8 @@
     "flags": [ "RELOAD_ONE" ],
     "pocket_data": [
       { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "762R": 5 }, "allowed_speedloaders": [ "762R_clip" ] }
-    ]
+    ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "mosin91_30",
@@ -84,7 +83,6 @@
       }
     ],
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "steel", "wood" ],
     "color": "brown",
     "ammo": [ "762R" ],
@@ -95,7 +93,6 @@
     "clip_size": 5,
     "barrel_volume": "1000 ml",
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "brass catcher", 1 ],
       [ "grip mount", 1 ],
@@ -111,7 +108,8 @@
     "flags": [ "RELOAD_ONE" ],
     "pocket_data": [
       { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "762R": 5 }, "allowed_speedloaders": [ "762R_clip" ] }
-    ]
+    ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "psl",
@@ -127,7 +125,6 @@
     "price": 290000,
     "price_postapoc": 4000,
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "steel", "wood" ],
     "color": "brown",
     "ammo": [ "762R" ],
@@ -135,7 +132,6 @@
     "durability": 9,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -150,6 +146,7 @@
       [ "underbarrel mount", 1 ]
     ],
     "default_mods": [ "sights_mount" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "pslmag5", "pslmag10" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "pslmag5", "pslmag10" ] } ],
+    "melee_damage": { "bash": 12 }
   }
 ]

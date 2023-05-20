@@ -1326,7 +1326,6 @@
         "starts": "28 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
-      { "monster": "mon_nakedmolerat_giant", "weight": 1, "cost_multiplier": 3, "conditions": [ "DUSK", "NIGHT" ] },
       { "monster": "mon_mutant_experimental", "weight": 3, "cost_multiplier": 0, "conditions": [ "DUSK", "NIGHT" ] },
       { "monster": "mon_mantis_small", "weight": 8, "cost_multiplier": 10 },
       { "monster": "mon_lady_bug_giant", "weight": 5, "starts": "90 days", "cost_multiplier": 10 },
@@ -1713,7 +1712,6 @@
         "conditions": [ "DAWN", "DUSK" ],
         "pack_size": [ 1, 3 ]
       },
-      { "monster": "mon_fish_blinky", "weight": 5, "cost_multiplier": 3, "pack_size": [ 1, 3 ] },
       { "monster": "mon_dragonfly_naiad", "weight": 2, "cost_multiplier": 2, "ends": "7 days" },
       {
         "monster": "mon_dragonfly_naiad",
@@ -2224,7 +2222,6 @@
       { "monster": "mon_bat", "weight": 60, "cost_multiplier": 5, "pack_size": [ 6, 32 ] },
       { "monster": "mon_bear", "weight": 10, "cost_multiplier": 10, "pack_size": [ 1, 3 ] },
       { "monster": "mon_cougar", "weight": 10, "cost_multiplier": 20, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_nakedmolerat_giant", "weight": 6, "cost_multiplier": 3 },
       { "monster": "mon_mole_cricket", "weight": 6, "cost_multiplier": 3 },
       { "monster": "mon_stag_beetle_larva", "freq": 4, "cost_multiplier": 5 },
       { "monster": "mon_direwolf", "weight": 10, "cost_multiplier": 5, "pack_size": [ 1, 4 ] },

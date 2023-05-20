@@ -5,24 +5,20 @@
     "terrain": {
       " ": "t_region_groundcover_urban",
       "*": "t_region_tree_shade",
-      "_": "t_sidewalk",
+      "_": "t_concrete",
+      "@": "t_concrete",
       ".": "t_thconc_floor",
-      "#": "t_wall_w",
-      "-": "t_wall_glass",
-      "|": "t_wall_glass",
-      "+": "t_door_c",
       ":": "t_door_glass_c",
+      "+": "t_door_c",
       ";": "t_door_locked",
-      "@": "t_sidewalk",
+      "-": "t_wall_glass",
+      "#": "t_wall_w",
       "<": "t_ladder_up",
       "4": "t_gutter_downspout"
     },
     "furniture": {
       "c": "f_counter",
-      "D": "f_vending_c",
-      "F": "f_vending_c",
       "S": "f_sink",
-      "T": "f_toilet",
       "h": "f_chair",
       "d": "f_desk",
       "f": "f_fridge",
@@ -37,6 +33,15 @@
       "^": "f_indoor_plant"
     },
     "toilets": { "T": {  } },
-    "items": { "%": { "item": "cash_register_random", "chance": 100 } }
+    "vendingmachines": { "D": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },
+    "items": {
+      "%": { "item": "cash_register_random", "chance": 100 },
+      "&": { "item": "trash", "chance": 70 },
+      "@": { "item": "trash", "chance": 90 },
+      "c": { "item": "bikeshop_for_sale", "chance": 60, "repeat": [ 1, 4 ] },
+      "r": { "item": "bikeshop_tools", "chance": 80, "repeat": [ 1, 4 ] },
+      "f": { "item": "SUS_fridge_breakroom", "chance": 70 },
+      "l": { "item": "jackets", "chance": 60 }
+    }
   }
 ]

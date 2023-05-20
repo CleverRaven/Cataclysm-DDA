@@ -182,7 +182,7 @@ void monfactions::finalize()
     }
 }
 
-void monfaction::load( const JsonObject &jo, const std::string & )
+void monfaction::load( const JsonObject &jo, const std::string_view )
 {
     optional( jo, was_loaded, "base_faction", base_faction, mfaction_str_id() );
     optional( jo, was_loaded, "by_mood", _att_by_mood, string_id_reader<monfaction>() );

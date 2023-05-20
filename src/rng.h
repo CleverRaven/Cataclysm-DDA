@@ -72,6 +72,8 @@ inline double rng_normal( double hi )
 
 double normal_roll( double mean, double stddev );
 
+double chi_squared_roll( double trial_num );
+
 double rng_exponential( double min, double mean );
 
 inline double rng_exponential( double mean )

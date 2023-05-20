@@ -1,6 +1,6 @@
 #include "TranslatorCommentsCheck.h"
 
-#include <ClangTidyDiagnosticConsumer.h>
+#include <clang-tidy/ClangTidyDiagnosticConsumer.h>
 #include <clang/AST/ASTContext.h>
 #include <clang/AST/Expr.h>
 #include <clang/ASTMatchers/ASTMatchers.h>

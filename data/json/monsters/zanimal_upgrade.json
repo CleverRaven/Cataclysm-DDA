@@ -21,21 +21,18 @@
     "melee_dice": 1,
     "melee_dice_sides": 9,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
+    "grab_strength": 20,
     "dodge": 3,
-    "armor_cut": 15,
-    "armor_bullet": 12,
-    "armor_stab": 30,
-    "armor_acid": 3,
-    "armor_elec": 1,
     "weakpoint_sets": [ "wps_bone_armor" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "bleed_rate": 50,
     "vision_night": 3,
     "harvest": "mr_bones",
-    "special_attacks": [ { "type": "bite", "attack_upper": false, "cooldown": 5 } ],
+    "special_attacks": [ { "id": "bite_grab", "attack_upper": false, "cooldown": 5 }, { "id": "scratch_grab_required", "max_mul": 1.5 } ],
     "death_drops": "mon_dog_death_drops",
     "upgrades": { "half_life": 42, "into": "mon_dog_skeleton_brute" },
-    "flags": [ "SEES", "HEARS", "NO_BREATHE", "HARDTOSHOOT", "REVIVES", "POISON", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "NO_BREATHE", "HARDTOSHOOT", "REVIVES", "POISON", "FILTHY" ],
+    "armor": { "cut": 15, "stab": 30, "acid": 3, "bullet": 12, "electric": 1 }
   },
   {
     "id": "mon_dog_zombie_brute",
@@ -50,17 +47,22 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": 2,
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "armor_elec": 1,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5, "electric": 1 }
     },
     "bleed_rate": 50,
     "upgrades": { "half_life": 42, "into": "mon_dog_zombie_hulk" },
+    "grab_strength": 30,
     "special_attacks": [
-      { "id": "smash", "attack_upper": false, "throw_strength": 48, "cooldown": 30 },
-      { "type": "bite", "attack_upper": false, "move_cost": 150, "cooldown": 2, "accuracy": 4, "infection_chance": 8 }
+      { "id": "scratch_grab_required", "max_mul": 1.5 },
+      {
+        "id": "bite_grab",
+        "attack_upper": false,
+        "move_cost": 150,
+        "cooldown": 2,
+        "accuracy": 4,
+        "infection_chance": 8
+      }
     ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_VEH" ] }
   },
@@ -76,17 +78,24 @@
     "color": "white_magenta",
     "proportional": { "hp": 4, "speed": 1.25, "attack_cost": 1.25 },
     "relative": { "melee_skill": 1, "melee_dice": 1, "melee_damage": -2 },
-    "armor_bash": 8,
-    "armor_cut": 12,
-    "armor_bullet": 10,
-    "armor_elec": 4,
     "bleed_rate": 0,
     "upgrades": {  },
+    "grab_strength": 60,
     "special_attacks": [
       { "id": "smash", "throw_strength": 81 },
-      { "type": "bite", "move_cost": 188, "cooldown": 2, "accuracy": 4, "infection_chance": 8 }
+      {
+        "id": "bite_grab",
+        "move_cost": 188,
+        "cooldown": 2,
+        "accuracy": 4,
+        "infection_chance": 8,
+        "min_mul": 1.0,
+        "max_mul": 2.0
+      },
+      { "id": "scratch_grab_required" }
     ],
-    "extend": { "flags": [ "DESTROYS" ] }
+    "extend": { "flags": [ "DESTROYS" ] },
+    "armor": { "bash": 8, "cut": 12, "bullet": 10, "electric": 4 }
   },
   {
     "id": "mon_dog_skeleton_brute",
@@ -98,21 +107,17 @@
     "weight": "60 kg",
     "hp": 70,
     "relative": { "melee_dice": 1, "melee_dice_sides": 2, "melee_damage": 6 },
-    "armor_cut": 30,
-    "armor_bullet": 24,
-    "armor_bash": 12,
-    "armor_acid": 1,
-    "armor_elec": 2,
     "bleed_rate": 0,
     "death_drops": "mon_dog_death_drops",
     "special_attacks": [
-      { "id": "smash", "attack_upper": false, "throw_strength": 66, "cooldown": 45 },
+      { "id": "bite_grab", "attack_upper": false, "cooldown": 5, "max_mul": 1.5 },
       {
-        "id": "scratch",
+        "id": "scratch_grab_required",
         "attack_upper": false,
         "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ]
       }
-    ]
+    ],
+    "armor": { "stab": 30, "bash": 12, "cut": 30, "acid": 1, "bullet": 24, "electric": 2 }
   },
   {
     "id": "mon_zpig_brute",
@@ -128,10 +133,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": 2,
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ], { "id": "impale" } ],
@@ -176,20 +179,17 @@
     "melee_dice": 3,
     "melee_dice_sides": 7,
     "melee_damage": [ { "damage_type": "cut", "amount": 8 } ],
+    "grab_strength": 20,
+    "special_attacks": [ { "id": "bite_grab", "attack_upper": false, "cooldown": 5 }, { "id": "scratch_grab_required" } ],
     "dodge": 4,
-    "armor_cut": 15,
-    "armor_bullet": 12,
-    "armor_stab": 30,
-    "armor_acid": 3,
-    "armor_elec": 3,
     "weakpoint_sets": [ "wps_bone_armor" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "bleed_rate": 50,
     "vision_night": 3,
     "harvest": "mr_bones",
-    "special_attacks": [ { "type": "bite", "cooldown": 5 } ],
     "upgrades": { "half_life": 42, "into": "mon_dog_skeleton_brute" },
-    "flags": [ "SEES", "HEARS", "NO_BREATHE", "HARDTOSHOOT", "REVIVES", "POISON", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "NO_BREATHE", "HARDTOSHOOT", "REVIVES", "POISON", "FILTHY" ],
+    "armor": { "cut": 15, "stab": 30, "acid": 3, "bullet": 12, "electric": 3 }
   },
   {
     "id": "mon_zougar_hunter",
@@ -232,18 +232,18 @@
     "melee_dice_sides": 9,
     "melee_damage": [ { "damage_type": "cut", "amount": 10 } ],
     "dodge": 4,
-    "armor_cut": 17,
-    "armor_bullet": 32,
-    "armor_stab": 30,
-    "armor_acid": 3,
-    "armor_elec": 3,
     "weakpoint_sets": [ "wps_bone_armor" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "bleed_rate": 0,
     "vision_day": 10,
     "harvest": "mr_bones",
-    "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
-    "flags": [ "SEES", "HEARS", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "POISON", "FILTHY" ]
+    "grab_strength": 35,
+    "special_attacks": [
+      { "id": "bite_grab", "move_cost": 150, "cooldown": 5, "min_mul": 1, "max_mul": 1.8 },
+      { "id": "scratch", "cooldown": 10, "min_mul": 1, "max_mul": 1.8 }
+    ],
+    "flags": [ "SEES", "HEARS", "HARDTOSHOOT", "GRABS", "REVIVES", "NO_BREATHE", "POISON", "FILTHY" ],
+    "armor": { "bash": 2, "cut": 17, "stab": 30, "acid": 3, "bullet": 32, "electric": 3 }
   },
   {
     "id": "mon_zougar_shady",
@@ -288,24 +288,13 @@
     "bleed_rate": 50,
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_biochemistry" ],
     "harvest": "zombie_leather_acid",
-    "special_attacks": [ [ "ACID_BARF", 10 ] ],
-    "death_function": { "message": "The %s's body leaks acid.", "effect": { "id": "death_acid", "hit_self": true } },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "STUMBLES",
-      "WARM",
-      "BASHES",
-      "GROUP_BASH",
-      "POISON",
-      "ACIDPROOF",
-      "ACID_BLOOD",
-      "NO_BREATHE",
-      "REVIVES",
-      "PUSH_MON",
-      "FILTHY"
-    ]
+    "special_attacks": [
+      [ "ACID_BARF", 10 ],
+      { "id": "bite_grab", "move_cost": 150, "cooldown": 3, "min_mul": 0.75, "max_mul": 1.5 },
+      { "id": "scratch" }
+    ],
+    "extend": { "flags": [ "ACIDPROOF", "ACID_BLOOD" ] },
+    "death_function": { "message": "The %s's body leaks acid.", "effect": { "id": "death_acid", "hit_self": true } }
   },
   {
     "id": "mon_zombie_horse_white",
@@ -379,15 +368,12 @@
     "color": "white",
     "melee_dice": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 8 } ],
-    "armor_cut": 16,
-    "armor_bullet": 24,
-    "armor_stab": 30,
-    "armor_acid": 2,
     "weakpoint_sets": [ "wps_bone_armor" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "harvest": "mr_bones",
     "special_attacks": [ { "id": "smash", "throw_strength": 91, "cooldown": 30 } ],
-    "flags": [ "SEES", "HEARS", "BASHES", "GROUP_BASH", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "POISON", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "BASHES", "GROUP_BASH", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "POISON", "FILTHY" ],
+    "armor": { "bash": 5, "electric": 2, "cut": 16, "stab": 30, "acid": 2, "bullet": 24 }
   },
   {
     "id": "mon_zoose_brute",
@@ -404,12 +390,11 @@
     "melee_dice": 4,
     "melee_dice_sides": 9,
     "melee_damage": [ { "damage_type": "cut", "amount": 8 } ],
-    "armor_bash": 10,
-    "armor_cut": 10,
-    "armor_bullet": 8,
     "bleed_rate": 50,
     "vision_night": 6,
-    "special_attacks": [ { "id": "smash", "throw_strength": 108, "cooldown": 30 }, [ "GRAB", 7 ] ],
+    "//grab": "Assuming it's grabbing with its mouth a bit grabbier than a zed should be about right",
+    "grab_strength": 30,
+    "special_attacks": [ { "id": "smash", "throw_strength": 108, "cooldown": 30 }, { "id": "grab", "cooldown": 7 } ],
     "flags": [
       "SEES",
       "HEARS",
@@ -418,13 +403,15 @@
       "WARM",
       "BASHES",
       "GROUP_BASH",
+      "GRABS",
       "POISON",
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
       "PUSH_VEH",
       "FILTHY"
-    ]
+    ],
+    "armor": { "electric": 2, "bash": 10, "cut": 10, "bullet": 8 }
   },
   {
     "id": "mon_zoose_thorny",
@@ -439,14 +426,13 @@
     "aggression": 100,
     "melee_skill": 5,
     "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
-    "armor_bash": 8,
-    "armor_cut": 8,
-    "armor_bullet": 6,
     "bleed_rate": 0,
     "vision_night": 7,
     "harvest": "zombie_thorny",
     "attack_effs": [ { "id": "paralyzepoison", "duration": 33 } ],
-    "special_attacks": [ [ "GRAB", 7 ], [ "scratch", 20 ], [ "PARA_STING", 30 ] ],
+    "//grab": "Let's say the thorns make it half again as grabby",
+    "grab_strength": 45,
+    "special_attacks": [ { "id": "scratch" }, { "id": "grab", "cooldown": 7 }, [ "PARA_STING", 30 ] ],
     "flags": [
       "SEES",
       "HEARS",
@@ -460,6 +446,7 @@
       "PUSH_MON",
       "FILTHY",
       "PARALYZEVENOM"
-    ]
+    ],
+    "armor": { "electric": 2, "bash": 8, "cut": 8, "bullet": 6 }
   }
 ]

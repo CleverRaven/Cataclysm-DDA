@@ -286,13 +286,13 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
     }
 }
 
-static void decorate_panel( const std::string &name, const catacurses::window &w )
+static void decorate_panel( const std::string_view name, const catacurses::window &w )
 {
     werase( w );
     draw_border( w );
 
     static const char *title_prefix = " ";
-    const std::string &title = name;
+    const std::string_view title = name;
     static const char *title_suffix = " ";
     static const std::string full_title = string_format( "%s%s%s",
                                           title_prefix, title, title_suffix );
