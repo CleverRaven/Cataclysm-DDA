@@ -2146,7 +2146,7 @@
       [ [ "scrap_aluminum", 1 ] ],
       [ [ "light_plus_battery_cell", 1 ] ],
       [ [ "small_lcd_screen", 1 ] ],
-      [ [ "mobile_memory_card", 1 ] ],
+      [ [ "memory_card", 1 ] ],
       [ [ "processor", 1 ] ]
     ]
   },
@@ -7595,5 +7595,13 @@
     "time": "2 m",
     "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ],
     "components": [ [ [ "sheet_canvas", 3 ] ], [ [ "thread_canvas", 40 ] ] ]
+  },
+  {
+    "result": "steel_lump",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "15 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "steel_chunk", 4 ] ] ]
   }
 ]

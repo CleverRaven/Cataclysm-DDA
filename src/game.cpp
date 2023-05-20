@@ -775,6 +775,7 @@ void game::setup()
     // reset kill counts
     kill_tracker_ptr->clear();
     achievements_tracker_ptr->clear();
+    eoc_events_ptr->clear();
     // reset follower list
     follower_ids.clear();
     scent.reset();
@@ -10405,6 +10406,35 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
 
     if( moving ) {
         cata_event_dispatch::avatar_moves( old_abs_pos, u, m );
+
+        // Add trail animation when sprinting
+        if( get_option<bool>( "ANIMATIONS" ) && u.is_running() ) {
+            std::map<tripoint, nc_color> area_color;
+            area_color[oldpos] = c_black;
+            if( u.posy() < oldpos.y ) {
+                if( u.posx() < oldpos.x ) {
+                    explosion_handler::draw_custom_explosion( oldpos, area_color, "run_nw" );
+                } else if( u.posx() == oldpos.x ) {
+                    explosion_handler::draw_custom_explosion( oldpos, area_color, "run_n" );
+                } else {
+                    explosion_handler::draw_custom_explosion( oldpos, area_color, "run_ne" );
+                }
+            } else if( u.posy() == oldpos.y ) {
+                if( u.posx() < oldpos.x ) {
+                    explosion_handler::draw_custom_explosion( oldpos, area_color, "run_w" );
+                } else {
+                    explosion_handler::draw_custom_explosion( oldpos, area_color, "run_e" );
+                }
+            } else {
+                if( u.posx() < oldpos.x ) {
+                    explosion_handler::draw_custom_explosion( oldpos, area_color, "run_sw" );
+                } else if( u.posx() == oldpos.x ) {
+                    explosion_handler::draw_custom_explosion( oldpos, area_color, "run_s" );
+                } else {
+                    explosion_handler::draw_custom_explosion( oldpos, area_color, "run_se" );
+                }
+            }
+        }
     }
 
     if( furniture_move ) {

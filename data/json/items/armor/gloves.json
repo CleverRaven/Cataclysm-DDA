@@ -1130,7 +1130,7 @@
     ],
     "warmth": 10,
     "material_thickness": 0.2,
-    "flags": [ "VARSIZE", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "FANCY" ]
   },
   {
     "id": "mittens",
@@ -1871,8 +1871,8 @@
     "symbol": "[",
     "looks_like": "gloves_tactical",
     "color": "dark_gray",
-    "warmth": 20,
-    "flags": [ "VARSIZE", "STURDY" ],
+    "warmth": 5,
+    "flags": [ "VARSIZE", "STURDY", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ],
     "armor": [
       {
         "encumbrance": 4,

@@ -1937,6 +1937,14 @@
     "requirements": [ { "event_statistic": "witnessed_portal_storm", "is": ">=", "target": 1, "description": "Survive a portal storm" } ]
   },
   {
+    "id": "escaped_the_cataclysm",
+    "type": "achievement",
+    "name": "True Freedom",
+    "description": "And to think you hesitated.",
+    "manually_given": true,
+    "requirements": [  ]
+  },
+  {
     "id": "achievement_officer_kill",
     "type": "achievement",
     "name": "Killed the XEDRA officer",

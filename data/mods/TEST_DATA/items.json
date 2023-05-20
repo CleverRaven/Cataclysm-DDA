@@ -1137,6 +1137,31 @@
     "armor": [ { "encumbrance": 40, "coverage": 100, "covers": [ "test_tail" ] } ]
   },
   {
+    "id": "test_eoc_armor_suit",
+    "repairs_like": "fsurvivor_suit",
+    "type": "ARMOR",
+    "name": "TEST hazmat suit",
+    "description": "An impermeable whole-body garment worn as protection against hazardous materials.  Though very restrictive and fragile, wearing it will provide complete protection against ambient radiation.  It requires a separate gas mask for full protection.",
+    "weight": "5000 g",
+    "volume": "17 L",
+    "price": 117500,
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "looks_like": "beekeeping_suit",
+    "color": "yellow",
+    "warmth": 40,
+    "material_thickness": 2,
+    "environmental_protection": 20,
+    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "RAD_PROOF", "ELECTRIC_IMMUNE", "OUTER" ],
+    "armor": [
+      {
+        "encumbrance": 37,
+        "coverage": 100,
+        "covers": [ "eyes", "mouth", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ]
+  },
+  {
     "id": "test_hazmat_suit",
     "repairs_like": "fsurvivor_suit",
     "type": "ARMOR",

@@ -6,7 +6,7 @@
     "condition": { "math": [ "u_val('vitamin', 'name:creative_spark_research')", ">=", "base_difficulty_1" ] },
     "effect": [
       { "math": [ "u_val('vitamin', 'name:creative_spark_research')", "-=", "base_difficulty_1" ] },
-      { "math": [ "base_difficulty_1", "+=", "5" ] },
+      { "math": [ "base_difficulty_1", "+=", "2" ] },
       {
         "u_roll_remainder": [
           "inventor_leg_weight",
@@ -36,7 +36,7 @@
     "condition": { "math": [ "u_val('vitamin', 'name:creative_spark_research')", ">=", "base_difficulty_2" ] },
     "effect": [
       { "math": [ "u_val('vitamin', 'name:creative_spark_research')", "-=", "base_difficulty_2" ] },
-      { "math": [ "base_difficulty_2", "+=", "10" ] },
+      { "math": [ "base_difficulty_2", "+=", "3" ] },
       { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
       {
         "u_roll_remainder": [
@@ -70,7 +70,7 @@
     "condition": { "math": [ "u_val('vitamin', 'name:creative_spark_research')", ">=", "base_difficulty_3" ] },
     "effect": [
       { "math": [ "u_val('vitamin', 'name:creative_spark_research')", "-=", "base_difficulty_3" ] },
-      { "math": [ "base_difficulty_3", "+=", "15" ] },
+      { "math": [ "base_difficulty_3", "+=", "4" ] },
       { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
       {
         "u_roll_remainder": [ "inventor_backpack", "vision_halo", "sonic_gun", "inventor_research_energy_1" ],
@@ -91,7 +91,7 @@
     "condition": { "math": [ "u_val('vitamin', 'name:creative_spark_research')", ">=", "energy_difficulty_1" ] },
     "effect": [
       { "math": [ "u_val('vitamin', 'name:creative_spark_research')", "-=", "energy_difficulty_1" ] },
-      { "math": [ "energy_difficulty_1", "+=", "7" ] },
+      { "math": [ "energy_difficulty_1", "+=", "2" ] },
       {
         "u_roll_remainder": [
           "battery_gun",
@@ -121,7 +121,7 @@
     "condition": { "math": [ "u_val('vitamin', 'name:creative_spark_research')", ">=", "energy_difficulty_2" ] },
     "effect": [
       { "math": [ "u_val('vitamin', 'name:creative_spark_research')", "-=", "energy_difficulty_2" ] },
-      { "math": [ "energy_difficulty_2", "+=", "13" ] },
+      { "math": [ "energy_difficulty_2", "+=", "3" ] },
       {
         "u_roll_remainder": [
           "aura_force",
@@ -156,7 +156,7 @@
     "condition": { "math": [ "u_val('vitamin', 'name:creative_spark_research')", ">=", "energy_difficulty_3" ] },
     "effect": [
       { "math": [ "u_val('vitamin', 'name:creative_spark_research')", "-=", "energy_difficulty_3" ] },
-      { "math": [ "energy_difficulty_3", "+=", "20" ] },
+      { "math": [ "energy_difficulty_3", "+=", "4" ] },
       {
         "u_roll_remainder": [
           "inventor_glauncher",
@@ -192,8 +192,8 @@
     "effect": [
       { "math": [ "u_val('vitamin', 'name:creative_spark_research')", "-=", "base_difficulty_3" ] },
       { "math": [ "AI_sparks", "+=", "AI_difficulty_1" ] },
-      { "math": [ "base_difficulty_3", "+=", "10" ] },
-      { "math": [ "AI_difficulty_1", "+=", "10" ] },
+      { "math": [ "base_difficulty_3", "+=", "5" ] },
+      { "math": [ "AI_difficulty_1", "+=", "5" ] },
       { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
       {
         "u_roll_remainder": [ "bot_sniperbot", "bot_shotgunbot", "bot_meleebot" ],
@@ -220,8 +220,8 @@
     "effect": [
       { "math": [ "u_val('vitamin', 'name:creative_spark_research')", "-=", "base_difficulty_3" ] },
       { "math": [ "dimension_sparks", "+=", "dimension_difficulty_1" ] },
-      { "math": [ "base_difficulty_3", "+=", "10" ] },
-      { "math": [ "dimension_difficulty_1", "+=", "10" ] },
+      { "math": [ "base_difficulty_3", "+=", "5" ] },
+      { "math": [ "dimension_difficulty_1", "+=", "5" ] },
       { "run_eocs": "EOC_INVENTOR_PROCESS_SPARKS" },
       {
         "u_roll_remainder": [ "rip_ticket" ],
@@ -241,7 +241,14 @@
     "id": "EOC_INVENTOR_PROCESS_SPARKS",
     "condition": { "math": [ "u_val('vitamin', 'name:creative_spark')", ">", "0" ] },
     "effect": [
-      { "math": [ "u_val('vitamin', 'name:creative_spark_research')", ">", "u_val('vitamin', 'name:creative_spark')" ] },
+      {
+        "math": [
+          "u_val('vitamin', 'name:creative_spark_research')",
+          "+=",
+          "u_val('vitamin', 'name:creative_spark') * floor( (base_difficulty_1 + base_difficulty_2 + base_difficulty_3 + energy_difficulty_1 + energy_difficulty_2 + energy_difficulty_3 + AI_difficulty_1 + dimension_difficulty_1) / 8 )"
+        ]
+      },
+      { "math": [ "u_val('vitamin', 'name:creative_spark')", "=", "0" ] },
       {
         "u_message": "creative_spark_research = <u_val:creative_spark_research>,\n base_difficulty_1 = <u_val:base_difficulty_1>,\n base_difficulty_2 = <u_val:base_difficulty_2>,\n base_difficulty_3 = <u_val:base_difficulty_3>,\n energy_difficulty_1 = <u_val:energy_difficulty_1>,\n energy_difficulty_2 = <u_val:energy_difficulty_2>,\n energy_difficulty_3 = <u_val:energy_difficulty_3>,\n dimension_sparks = <u_val:dimension_sparks>,\n dimension_difficulty_1 = <u_val:dimension_difficulty_1>.",
         "type": "debug"

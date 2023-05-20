@@ -25,6 +25,10 @@
   },
   {
     "type": "mutation_type",
+    "id": "BLOOD"
+  },
+  {
+    "type": "mutation_type",
     "id": "SIZE"
   },
   {

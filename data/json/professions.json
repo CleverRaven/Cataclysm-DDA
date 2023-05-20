@@ -176,6 +176,12 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "charged_penblack",
+    "entries": [ { "item": "pen", "ammo-item": "black_pen_ink", "charges": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "full_rebreather_mask",
     "entries": [ { "item": "rebreather", "ammo-item": "rebreather_filter", "charges": 60 } ]
   },
@@ -1063,7 +1069,6 @@
     "items": {
       "both": {
         "items": [
-          "army_top",
           "combat_shirt",
           "jacket_army_modern",
           "hat_navy",
@@ -1077,6 +1082,7 @@
         "entries": [
           { "group": "charged_two_way_radio" },
           { "group": "military_ballistic_vest_pristine" },
+          { "item": "tank_top", "variant": "tank_top_camo" },
           { "item": "pants_army", "variant": "apants_MARPAT" },
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "legpouch_large", "contents-group": "army_mags_m4" },
@@ -1118,7 +1124,6 @@
     "items": {
       "both": {
         "items": [
-          "army_top",
           "combat_shirt",
           "jacket_army_modern",
           "hat_navy",
@@ -1130,6 +1135,7 @@
         ],
         "entries": [
           { "group": "charged_two_way_radio" },
+          { "item": "tank_top", "variant": "tank_top_camo" },
           { "item": "pants_army", "variant": "mil_pants_navy" },
           { "item": "wrench_large" },
           { "item": "screwdriver" },
@@ -1491,7 +1497,6 @@
     "items": {
       "both": {
         "items": [
-          "army_top",
           "combat_shirt",
           "tac_fullhelmet",
           "mask_ski",
@@ -1506,6 +1511,7 @@
         "entries": [
           { "group": "charged_two_way_radio" },
           { "group": "charged_powered_earmuffs" },
+          { "item": "tank_top", "variant": "tank_top_camo" },
           { "item": "pants_army", "variant": "mil_pants_navy" },
           { "item": "grenade" },
           { "item": "light_battery_cell", "ammo-item": "battery", "charges": 100, "container-item": "goggles_nv" },
@@ -2349,7 +2355,6 @@
     "items": {
       "both": {
         "items": [
-          "army_top",
           "knit_scarf",
           "socks",
           "boots_steel",
@@ -2364,7 +2369,8 @@
           { "group": "charged_smart_phone" },
           { "item": "compbow_low", "custom-flags": [ "no_auto_equip" ] },
           { "item": "quiver", "contents-group": "quiver_bow_hunter" },
-          { "item": "sheath", "contents-item": "knife_hunting" }
+          { "item": "sheath", "contents-item": "knife_hunting" },
+          { "item": "tank_top", "variant": "tank_top_camo" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -2382,17 +2388,7 @@
     "skills": [ { "level": 2, "name": "rifle" }, { "level": 1, "name": "swimming" } ],
     "items": {
       "both": {
-        "items": [
-          "army_top",
-          "knit_scarf",
-          "socks",
-          "boots_steel",
-          "pants_cargo",
-          "jacket_flannel",
-          "hat_hunting",
-          "wristwatch",
-          "single_sling"
-        ],
+        "items": [ "knit_scarf", "socks", "boots_steel", "pants_cargo", "jacket_flannel", "hat_hunting", "wristwatch", "single_sling" ],
         "entries": [
           { "group": "charged_smart_phone" },
           {
@@ -2403,7 +2399,8 @@
             "custom-flags": [ "no_auto_equip" ]
           },
           { "item": "quiver", "contents-group": "quiver_crossbow_hunter" },
-          { "item": "sheath", "contents-item": "knife_hunting" }
+          { "item": "sheath", "contents-item": "knife_hunting" },
+          { "item": "tank_top", "variant": "tank_top_camo" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -2420,17 +2417,7 @@
     "skills": [ { "level": 1, "name": "gun" }, { "level": 1, "name": "shotgun" } ],
     "items": {
       "both": {
-        "items": [
-          "army_top",
-          "knit_scarf",
-          "socks",
-          "boots_steel",
-          "pants_cargo",
-          "jacket_flannel",
-          "hat_hunting",
-          "wristwatch",
-          "back_holster"
-        ],
+        "items": [ "knit_scarf", "socks", "boots_steel", "pants_cargo", "jacket_flannel", "hat_hunting", "wristwatch", "back_holster" ],
         "entries": [
           { "group": "charged_smart_phone" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
@@ -2442,7 +2429,8 @@
             "custom-flags": [ "no_auto_equip" ]
           },
           { "item": "bandolier_shotgun", "contents-group": "bandolier_shotgun_hunter" },
-          { "item": "sheath", "contents-item": "knife_hunting" }
+          { "item": "sheath", "contents-item": "knife_hunting" },
+          { "item": "tank_top", "variant": "tank_top_camo" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -2459,17 +2447,7 @@
     "skills": [ { "level": 1, "name": "gun" }, { "level": 1, "name": "rifle" } ],
     "items": {
       "both": {
-        "items": [
-          "army_top",
-          "knit_scarf",
-          "socks",
-          "boots_steel",
-          "pants_cargo",
-          "jacket_flannel",
-          "hat_hunting",
-          "wristwatch",
-          "back_holster"
-        ],
+        "items": [ "knit_scarf", "socks", "boots_steel", "pants_cargo", "jacket_flannel", "hat_hunting", "wristwatch", "back_holster" ],
         "entries": [
           { "group": "charged_smart_phone" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
@@ -2481,7 +2459,8 @@
             "custom-flags": [ "no_auto_equip" ]
           },
           { "item": "bandolier_rifle", "contents-group": "bandolier_rifle_hunter" },
-          { "item": "sheath", "contents-item": "knife_hunting" }
+          { "item": "sheath", "contents-item": "knife_hunting" },
+          { "item": "tank_top", "variant": "tank_top_camo" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -2836,17 +2815,7 @@
     "skills": [ { "level": 4, "name": "computer" } ],
     "items": {
       "both": {
-        "items": [
-          "pants",
-          "tshirt_text",
-          "socks",
-          "sneakers",
-          "mbag",
-          "caffeine",
-          "caff_gum",
-          "mobile_memory_card_encrypted",
-          "usb_drive"
-        ],
+        "items": [ "pants", "tshirt_text", "socks", "sneakers", "mbag", "caffeine", "caff_gum", "memory_card", "usb_drive" ],
         "entries": [
           { "item": "light_plus_battery_cell", "ammo-item": "battery", "charges": 150, "container-item": "portable_game" },
           { "group": "charged_smart_phone" },
@@ -5391,7 +5360,10 @@
     "points": 2,
     "skills": [ { "level": 2, "name": "dodge" }, { "level": 3, "name": "speech" }, { "level": 3, "name": "swimming" } ],
     "items": {
-      "both": { "items": [ "pom_poms", "cheerleader_top", "socks_ankle", "sneakers" ] },
+      "both": {
+        "items": [ "pom_poms", "socks_ankle", "sneakers" ],
+        "entries": [ { "item": "tank_top", "variant": "tank_top_cheerleader" } ]
+      },
       "male": [ "briefs", "shorts", "tank_top" ],
       "female": [ "sports_bra", "panties", "cheerleader_skirt" ]
     },
@@ -5761,6 +5733,32 @@
       },
       "male": [ "briefs" ],
       "female": [ "boy_shorts", "sports_bra" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "officeworker",
+    "name": "Office Worker",
+    "description": "You felt years of your life being sapped away, slaving at your computer as you subsisted on a daily pot of coffee, microwave burritos and an endless supply of crumpled paper to toss.  Perhaps the Cataclysm is a refreshing change of pace…",
+    "points": 1,
+    "skills": [
+      { "level": 1, "name": "computer" },
+      { "level": 1, "name": "speech" },
+      { "level": 1, "name": "throw" },
+      { "level": 1, "name": "cooking" }
+    ],
+    "addictions": [ { "intensity": 10, "type": "caffeine" } ],
+    "items": {
+      "both": {
+        "items": [ "dress_shirt", "undershirt", "pants", "socks", "tie_clipon", "dress_shoes" ],
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "group": "charged_penblack" },
+          { "item": "coffee", "container-item": "coffeepot" }
+        ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "panties", "bra" ]
     }
   }
 ]

@@ -284,7 +284,7 @@
       {
         "distribution": [
           { "item": "tank_top", "prob": 30 },
-          { "item": "army_top", "prob": 40 },
+          { "item": "tank_top", "variant": "tank_top_camo", "prob": 40 },
           { "item": "tshirt", "prob": 20 },
           { "item": "longshirt", "prob": 10 },
           { "item": "thermal_shirt", "prob": 10 }

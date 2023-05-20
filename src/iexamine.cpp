@@ -173,7 +173,6 @@ static const itype_id itype_petrified_eye( "petrified_eye" );
 static const itype_id itype_sheet( "sheet" );
 static const itype_id itype_stick( "stick" );
 static const itype_id itype_string_36( "string_36" );
-static const itype_id itype_tree_spile( "tree_spile" );
 static const itype_id itype_unfinished_cac2( "unfinished_cac2" );
 static const itype_id itype_unfinished_charcoal( "unfinished_charcoal" );
 
@@ -210,6 +209,7 @@ static const quality_id qual_DRILL( "DRILL" );
 static const quality_id qual_HAMMER( "HAMMER" );
 static const quality_id qual_LOCKPICK( "LOCKPICK" );
 static const quality_id qual_PRY( "PRY" );
+static const quality_id qual_TREE_TAP( "TREE_TAP" );
 
 static const requirement_id requirement_data_anesthetic( "anesthetic" );
 static const requirement_id requirement_data_autoclave( "autoclave" );
@@ -3821,45 +3821,50 @@ static item_location maple_tree_sap_container()
     const item maple_sap = item( "maple_sap", calendar::turn_zero );
     return g->inv_map_splice( [&]( const item & it ) {
         return it.get_remaining_capacity_for_liquid( maple_sap, true ) > 0;
-    }, _( "Use which container to collect sap?" ), PICKUP_RANGE );
+    }, _( "Use which container to collect sap?" ), PICKUP_RANGE,
+    _( "You don't have a container at hand." ) );
 }
 
 void iexamine::tree_maple( Character &you, const tripoint &examp )
 {
-    if( !you.has_quality( qual_DRILL ) ) {
+    const inventory &crafting_inv = you.crafting_inventory();
+    if( !crafting_inv.has_quality( qual_DRILL ) ) {
         add_msg( m_info, _( "You need a tool to drill the crust to tap this maple tree." ) );
         return;
     }
 
-    if( !you.has_quality( qual_HAMMER ) ) {
+    if( !crafting_inv.has_quality( qual_HAMMER ) ) {
         add_msg( m_info,
                  _( "You need a tool to hammer the spile into the crust to tap this maple tree." ) );
         return;
     }
 
-    const inventory &crafting_inv = you.crafting_inventory();
+    map &here = get_map();
+    item_location spile_loc = g->inv_map_splice( [&here]( const item_location & it ) {
+        return it->get_quality_nonrecursive( qual_TREE_TAP ) > 0 &&
+               t_tree_maple_tapped != here.ter( it.position() );
+    }, _( "Use which tapping tool?" ), PICKUP_RANGE, _( "You don't have a tapping tool at hand." ) );
 
-    if( !crafting_inv.has_amount( itype_tree_spile, 1 ) ) {
-        add_msg( m_info, _( "You need a %s to tap this maple tree." ),
-                 item::nname( itype_tree_spile ) );
+    item *spile = spile_loc.get_item();
+    if( !spile ) {
         return;
     }
-
-    std::vector<item_comp> comps;
-    comps.emplace_back( itype_tree_spile, 1 );
-    you.consume_items( comps, 1, is_crafting_component );
+    std::string spile_name = spile->tname();
 
     you.mod_moves( -to_moves<int>( 20_seconds ) );
-    map &here = get_map();
     here.ter_set( examp, t_tree_maple_tapped );
-    add_msg( m_info, _( "You drill the maple tree crust and tap a spile into the prepared hole." ) );
+    here.add_item_or_charges( examp, *spile, false );
+    spile_loc.remove_item();
+    add_msg( m_info, _( "You drill the maple tree crust and tap a %s into the prepared hole." ),
+             spile_name );
 
     item_location cont_loc = maple_tree_sap_container();
 
     item *container = cont_loc.get_item();
     if( container ) {
         here.add_item_or_charges( examp, *container, false );
-        add_msg( m_info, _( "You hang the %s under the spile to collect sap." ), container->tname( 1 ) );
+        add_msg( m_info, _( "You hang the %s under the %s to collect sap." ), container->tname(),
+                 spile_name );
         cont_loc.remove_item();
     } else {
         add_msg( m_info, _( "No container added.  The sap will just spill on the ground." ) );
@@ -3870,14 +3875,14 @@ void iexamine::tree_maple_tapped( Character &you, const tripoint &examp )
 {
     bool has_sap = false;
     item *container = nullptr;
+    item *spile = nullptr;
     int charges = 0;
 
     const std::string maple_sap_name = item::nname( itype_maple_sap );
 
     map &here = get_map();
     map_stack items = here.i_at( examp );
-    if( !items.empty() ) {
-        item &it = items.only_item();
+    for( item &it : items ) {
         if( it.will_spill() || it.is_watertight_container() ) {
             container = &it;
 
@@ -3890,6 +3895,13 @@ void iexamine::tree_maple_tapped( Character &you, const tripoint &examp )
                 return VisitResponse::NEXT;
             } );
         }
+        if( it.get_quality_nonrecursive( qual_TREE_TAP ) > 0 ) {
+            spile = &it;
+        }
+    }
+
+    if( !spile ) {
+        return;
     }
 
     enum options {
@@ -3911,14 +3923,14 @@ void iexamine::tree_maple_tapped( Character &you, const tripoint &examp )
 
     switch( selectmenu.ret ) {
         case REMOVE_TAP: {
-            if( !you.has_quality( qual_HAMMER ) ) {
-                add_msg( m_info, _( "You need a hammering tool to remove the spile from the crust." ) );
+            if( !you.crafting_inventory().has_quality( qual_HAMMER ) ) {
+                add_msg( m_info, _( "You need a hammering tool to remove the %s from the crust." ),
+                         spile->tname() );
                 return;
             }
 
-            item tree_spile( "tree_spile" );
-            add_msg( _( "You remove the %s." ), tree_spile.tname( 1 ) );
-            here.add_item_or_charges( you.pos(), tree_spile );
+            add_msg( _( "You remove the %s." ), spile->tname() );
+            here.add_item_or_charges( you.pos(), *spile );
 
             if( container ) {
                 here.add_item_or_charges( you.pos(), *container );
@@ -3937,7 +3949,8 @@ void iexamine::tree_maple_tapped( Character &you, const tripoint &examp )
             container = cont_loc.get_item();
             if( container ) {
                 here.add_item_or_charges( examp, *container, false );
-                add_msg( m_info, _( "You hang the %s under the spile to collect sap." ), container->tname( 1 ) );
+                you.mod_moves( -you.item_handling_cost( *container ) );
+                add_msg( m_info, _( "You hang the %s under the spile to collect sap." ), container->tname() );
                 cont_loc.remove_item();
             } else {
                 add_msg( m_info, _( "No container added.  The sap will just spill on the ground." ) );
@@ -3952,10 +3965,9 @@ void iexamine::tree_maple_tapped( Character &you, const tripoint &examp )
         }
 
         case REMOVE_CONTAINER: {
-            Character &player_character = get_player_character();
-            const std::vector<item_location> target_items{ item_location( map_cursor( examp ), container ) };
-            const pickup_activity_actor actor( target_items, { 0 }, player_character.pos(), false );
-            player_character.assign_activity( actor );
+            here.add_item_or_charges( you.pos(), *container );
+            you.mod_moves( -you.item_handling_cost( *container ) );
+            here.i_rem( examp, container );
             return;
         }
 
