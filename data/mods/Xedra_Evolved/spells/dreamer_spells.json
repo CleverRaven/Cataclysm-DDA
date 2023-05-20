@@ -26,7 +26,7 @@
     "id": "dream_dagger",
     "type": "SPELL",
     "name": "Dream Dagger",
-    "description": "This ephemeral dagger is powered with your own inner reality connections, and is deadlier the bigger your mana pool.",
+    "description": "This ephemeral dagger is powered with your own inner reality connections, and is deadlier the larger your mana pool.",
     "valid_targets": [ "self" ],
     "flags": [ "VERBAL", "NO_LEGS", "CONCENTRATE" ],
     "min_damage": 1,
