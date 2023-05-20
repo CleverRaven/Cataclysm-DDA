@@ -429,14 +429,16 @@
   },
   {
     "id": "NO_INSTALL_PLAYER",
-    "type": "json_flag"
+    "type": "json_flag",
+    "//": "Part can't be installed by player but visible in install menu (e.g. helicopter rotors)."
+  },
+  {
+    "id": "NO_INSTALL_HIDDEN",
+    "type": "json_flag",
+    "//": "Part can't be installed by player and hidden in install menu (e.g. power cords, inflatable boat parts, summoned vehicle parts)."
   },
   {
     "id": "NO_ROOF_NEEDED",
-    "type": "json_flag"
-  },
-  {
-    "id": "NOINSTALL",
     "type": "json_flag"
   },
   {

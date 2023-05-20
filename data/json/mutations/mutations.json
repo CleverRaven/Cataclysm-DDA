@@ -1896,6 +1896,7 @@
     "starting_trait": true,
     "changes_to": [ "SUNBURN" ],
     "category": [ "TROGLOBITE", "MOUSE", "RABBIT" ],
+    "flags": [ "ALBINO" ],
     "types": [ "skin_tone" ]
   },
   {
@@ -6420,6 +6421,7 @@
     "prereqs": [ "ALBINO" ],
     "prereqs2": [ "TROGLO2", "TROGLO3" ],
     "category": [ "TROGLOBITE" ],
+    "flags": [ "SUNBURN" ],
     "types": [ "skin_tone" ]
   },
   {

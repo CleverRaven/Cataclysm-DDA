@@ -417,7 +417,7 @@ class json_flag
         }
 
         /** Requires this flag to be installed on vehicle */
-        std::string requires_flag() const {
+        const std::string &requires_flag() const {
             return requires_flag_;
         }
 

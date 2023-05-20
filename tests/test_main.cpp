@@ -135,10 +135,11 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
 
     world_generator->set_active_world( nullptr );
     world_generator->init();
+    // Using unicode characters in the world name to test path encoding
 #ifndef _WIN32
-    const std::string test_world_name = "Test World " + std::to_string( getpid() );
+    const std::string test_world_name = "Test World 测试世界 " + std::to_string( getpid() );
 #else
-    const std::string test_world_name = "Test World";
+    const std::string test_world_name = "Test World 测试世界";
 #endif
     WORLD *test_world = world_generator->make_new_world( test_world_name, mods );
     cata_assert( test_world != nullptr );

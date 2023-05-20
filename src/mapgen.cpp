@@ -6785,8 +6785,17 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
                     const point target_point = first_veh_parts.front()->mount;
                     const point source_point = parts_to_move.front()->mount;
                     for( const vehicle_part *vp : parts_to_move ) {
+                        const vpart_info &vpi = vp->info();
                         // TODO: change mount points to be tripoint
-                        first_veh->install_part( target_point, *vp );
+                        const ret_val<void> valid_mount = first_veh->can_mount( target_point, vpi );
+                        if( valid_mount.success() ) {
+                            // make a copy so we don't interfere with veh_to_add->remove_part below
+                            first_veh->install_part( target_point, vehicle_part( *vp ) );
+                        } else {
+                            DebugLog( D_WARNING, DC_ALL )
+                                    << "merging wrecks ignoring part '" << vpi.get_id().str() << "' "
+                                    << "as it would make invalid vehicle: " << valid_mount.str();
+                        }
                     }
 
                     if( !handler_ptr ) {

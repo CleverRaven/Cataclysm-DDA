@@ -91,12 +91,12 @@
         "id": "stretch_attack",
         "cooldown": 5,
         "range": 2,
-        "hit_dmg_u": "The %1$s thrusts a spear at your %2$s, slashing it!",
-        "hit_dmg_npc": "The %1$s thrusts a spear at <npcname>'s %2$s, slashing it!",
-        "no_dmg_msg_u": "The %1$s thrusts a spear at your %2$s, but glances off your armor!",
-        "no_dmg_msg_npc": "The %1$s thrusts a spear at <npcname>'s %2$s, but glances off armor!",
-        "miss_msg_u": "The %s thrusts a spear at you, but you evade it!",
-        "miss_msg_npc": "The %s thrusts a spear at <npcname>, but they evade it!"
+        "hit_dmg_u": "%1$s thrusts a spear at your %2$s, slashing it!",
+        "hit_dmg_npc": "%1$s thrusts a spear at <npcname>'s %2$s, slashing it!",
+        "no_dmg_msg_u": "%1$s thrusts a spear at your %2$s, but glances off your armor!",
+        "no_dmg_msg_npc": "%1$s thrusts a spear at <npcname>'s %2$s, but glances off armor!",
+        "miss_msg_u": "%s thrusts a spear at you, but you evade!",
+        "miss_msg_npc": "%s thrusts a spear at <npcname>, but they evade!"
       }
     ],
     "harvest": "human",
@@ -916,12 +916,12 @@
         "id": "stretch_attack",
         "cooldown": 5,
         "range": 2,
-        "hit_dmg_u": "The %1$s lunges their bayonet at your %2$s, stabbing it!",
-        "hit_dmg_npc": "The %1$s lunges their bayonet at <npcname>'s %2$s, stabbing it!",
-        "no_dmg_msg_u": "The %1$s thrusts their bayonet at your %2$s, but it glances off your armor!",
-        "no_dmg_msg_npc": "The %1$s thrusts their bayonet at <npcname>'s %2$s, but glances off armor!",
-        "miss_msg_u": "The %s thrusts their bayonet at you, but you evade it!",
-        "miss_msg_npc": "The %s thrusts their bayonet at <npcname>, but they evade it!"
+        "hit_dmg_u": "%1$s lunges their bayonet at your %2$s, stabbing it!",
+        "hit_dmg_npc": "%1$s lunges their bayonet at <npcname>'s %2$s, stabbing it!",
+        "no_dmg_msg_u": "%1$s thrusts their bayonet at your %2$s, but it glances off your armor!",
+        "no_dmg_msg_npc": "%1$s thrusts their bayonet at <npcname>'s %2$s, but glances off armor!",
+        "miss_msg_u": "%s thrusts their bayonet at you, but you evade!",
+        "miss_msg_npc": "%s thrusts their bayonet at <npcname>, but they evade!"
       }
     ],
     "harvest": "human",
@@ -956,9 +956,11 @@
     "speed": 90,
     "aggression": 30,
     "morale": 25,
+    "color": "light_blue",
     "melee_dice": 2,
     "melee_dice_sides": 3,
     "dodge": 3,
+    "diff": 4,
     "starting_ammo": { "9mm": 3 },
     "special_attacks": [
       {

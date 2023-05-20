@@ -148,5 +148,17 @@
     "id": "ar15_retool_300blk",
     "type": "MIGRATION",
     "replace": "iwi_tavor_x95_300blk"
+  },
+  {
+    "id": "army_top",
+    "type": "MIGRATION",
+    "replace": "tank_top",
+    "variant": "tank_top_camo"
+  },
+  {
+    "id": "cheerleader_top",
+    "type": "MIGRATION",
+    "replace": "tank_top",
+    "variant": "tank_top_cheerleader"
   }
 ]

@@ -52,7 +52,7 @@
       { "item": "boots_combat" },
       { "item": "socks_wool" },
       { "item": "knife_combat", "container-item": "bootsheath" },
-      { "item": "army_top" },
+      { "item": "tank_top", "variant": "tank_top_camo" },
       { "item": "gloves_fingerless_mod" }
     ]
   },

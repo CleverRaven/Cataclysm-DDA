@@ -260,6 +260,7 @@ static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
+static const efftype_id effect_stumbled_into_invisible( "stumbled_into_invisible" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_tapeworm( "tapeworm" );
 static const efftype_id effect_tied( "tied" );
@@ -3122,9 +3123,10 @@ std::string Character::enumerate_unmet_requirements( const item &it, const item 
 int Character::read_speed() const
 {
     // Stat window shows stat effects on based on current stat
-    const int intel = get_int();
-    /** @EFFECT_INT increases reading speed by 3s per level above 8*/
-    time_duration ret = 1_minutes - 3_seconds * ( intel - 8 );
+    const float intel = 2.0f + get_int() / 8.0f;
+    // 4 int = 72 seconds, 8 int = 60 seconds, 12 int = 51 seconds, 16 int = 45 seconds, 20 int = 40 seconds
+    /** @EFFECT_INT affects reading speed by an decreasing amount the higher intelligence goes, intially about 9% per point at 4 int to lower than 4% at 20+ int */
+    time_duration ret = 180_seconds / intel;
 
     if( has_bionic( afs_bio_linguistic_coprocessor ) ) { // Aftershock
         ret *= .85;
@@ -6134,26 +6136,26 @@ void Character::mend_item( item_location &&obj, bool interactive )
         return;
     }
 
-    inventory inv = crafting_inventory();
+    const inventory &inv = crafting_inventory();
 
     struct mending_option {
         fault_id fault;
-        std::reference_wrapper<const mending_method> method;
+        std::reference_wrapper<const fault_fix> fix;
         bool doable;
     };
 
     std::vector<mending_option> mending_options;
     for( const fault_id &f : obj->faults ) {
-        for( const auto &m : f->mending_methods() ) {
-            mending_option opt{ f, m.second, true };
-            for( const auto &sk : m.second.skills ) {
-                if( get_skill_level( sk.first ) < sk.second ) {
+        for( const fault_fix_id &fix_id : f->get_fixes() ) {
+            const fault_fix &fix = *fix_id;
+            mending_option opt{ f, fix, true };
+            for( const auto &[skill_id, level] : fix.skills ) {
+                if( get_skill_level( skill_id ) < level ) {
                     opt.doable = false;
                     break;
                 }
             }
-            opt.doable = opt.doable &&
-                         m.second.get_requirements().can_make_with_inventory( inv, is_crafting_component );
+            opt.doable &= fix.get_requirements().can_make_with_inventory( inv, is_crafting_component );
             mending_options.emplace_back( opt );
         }
     }
@@ -6190,41 +6192,42 @@ void Character::mend_item( item_location &&obj, bool interactive )
         constexpr int fold_width = 80;
 
         for( const mending_option &opt : mending_options ) {
-            const mending_method &method = opt.method;
+            const fault_fix &fix = opt.fix;
             const nc_color col = opt.doable ? c_white : c_light_gray;
 
-            requirement_data reqs = method.get_requirements();
+            const requirement_data &reqs = fix.get_requirements();
             auto tools = reqs.get_folded_tools_list( fold_width, col, inv );
             auto comps = reqs.get_folded_components_list( fold_width, col, inv, is_crafting_component );
 
-            std::string descr = word_rewrap( method.description.translated(), 80 ) + "\n\n";
-            if( method.heal_stages.value_or( 0 ) > 0 ) {
-                descr += string_format( _( "<color_green>Repairs</color> item damage.\n" ) );
+            std::string descr = word_rewrap( opt.fault->description(), 80 ) + "\n\n";
+            for( const fault_id &fid : fix.faults_removed ) {
+                if( obj->has_fault( fid ) ) {
+                    descr += string_format( _( "Removes fault: <color_green>%s</color>\n" ), fid->name() );
+                } else {
+                    descr += string_format( _( "Removes fault: <color_light_gray>%s</color>\n" ), fid->name() );
+                }
             }
-            if( method.turns_into ) {
-                descr += string_format( _( "Turns into: <color_cyan>%s</color>\n" ),
-                                        method.turns_into->obj().name() );
+            for( const fault_id &fid : fix.faults_added ) {
+                descr += string_format( _( "Adds fault: <color_yellow>%s</color>\n" ), fid->name() );
             }
-            if( method.also_mends ) {
-                descr += string_format( _( "Also mends: <color_cyan>%s</color>\n" ),
-                                        method.also_mends->obj().name() );
+            if( fix.mod_damage > 0 ) {
+                descr += string_format( _( "<color_green>Repairs</color> %d damage.\n" ), fix.mod_damage );
+            } else if( fix.mod_damage < 0 ) {
+                descr += string_format( _( "<color_red>Applies</color> %d damage.\n" ), -fix.mod_damage );
             }
             descr += string_format( _( "Time required: <color_cyan>%s</color>\n" ),
-                                    to_string_approx( method.time ) );
-            if( method.skills.empty() ) {
+                                    to_string_approx( fix.time ) );
+            if( fix.skills.empty() ) {
                 descr += string_format( _( "Skills: <color_cyan>none</color>\n" ) );
             } else {
-                descr += string_format( _( "Skills: %s\n" ),
-                                        enumerate_as_string( method.skills.begin(), method.skills.end(),
-                [this]( const std::pair<skill_id, int> &sk ) -> std::string {
-                    if( get_skill_level( sk.first ) >= sk.second )
-                    {
+                descr += string_format( _( "Skills: %s\n" ), enumerate_as_string(
+                fix.skills.begin(), fix.skills.end(), [this]( const std::pair<skill_id, int> &sk ) {
+                    if( get_skill_level( sk.first ) >= sk.second ) {
                         return string_format( pgettext( "skill requirement",
                                                         //~ %1$s: skill name, %2$s: current skill level, %3$s: required skill level
                                                         "<color_cyan>%1$s</color> <color_green>(%2$d/%3$d)</color>" ),
                                               sk.first->name(), static_cast<int>( get_skill_level( sk.first ) ), sk.second );
-                    } else
-                    {
+                    } else {
                         return string_format( pgettext( "skill requirement",
                                                         //~ %1$s: skill name, %2$s: current skill level, %3$s: required skill level
                                                         "<color_cyan>%1$s</color> <color_red>(%2$d/%3$d)</color>" ),
@@ -6240,7 +6243,7 @@ void Character::mend_item( item_location &&obj, bool interactive )
                 descr += line + "\n";
             }
 
-            menu.addentry_desc( -1, true, -1, method.name.translated(), colorize( descr, col ) );
+            menu.addentry_desc( -1, true, -1, fix.name.translated(), colorize( descr, col ) );
         }
         menu.query();
         if( menu.ret < 0 ) {
@@ -6259,10 +6262,10 @@ void Character::mend_item( item_location &&obj, bool interactive )
             return;
         }
 
-        const mending_method &method = opt.method;
-        assign_activity( ACT_MEND_ITEM, to_moves<int>( method.time ) );
+        const fault_fix &fix = opt.fix;
+        assign_activity( ACT_MEND_ITEM, to_moves<int>( fix.time ) );
         activity.name = opt.fault.str();
-        activity.str_values.emplace_back( method.id );
+        activity.str_values.emplace_back( fix.id_ );
         activity.targets.push_back( std::move( obj ) );
     }
 }
@@ -7431,6 +7434,11 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
     check_dead_state();
     if( source == nullptr || proj != nullptr ) {
         return;
+    }
+
+    // Creature attacking an invisible player will remain aware of their location as long as they keep hitting something
+    if( is_avatar() && source->is_monster() && source->has_effect( effect_stumbled_into_invisible ) ) {
+        source->as_monster()->stumble_invis( *this, false );
     }
 
     if( is_npc() ) {

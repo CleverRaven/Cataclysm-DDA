@@ -632,8 +632,8 @@ void tileset_cache::loader::load( const std::string &tileset_id, const bool prec
     cata_path layering_path = tileset_root / fs::u8path( layering );
 
     dbg( D_INFO ) << "Attempting to Load LAYERING file " << layering_path;
-    cata::ifstream layering_file( layering_path.get_unrelative_path(),
-                                  std::ifstream::in | std::ifstream::binary );
+    std::ifstream layering_file( layering_path.get_unrelative_path(),
+                                 std::ifstream::in | std::ifstream::binary );
 
     if( !layering_file.good() ) {
         has_layering = false;
