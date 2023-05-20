@@ -2082,6 +2082,20 @@
   },
   {
     "type": "keybinding",
+    "id": "SCROLL_TRAIT_INFO_UP",
+    "category": "MUTATIONS",
+    "name": "Scroll mutation info up",
+    "bindings": [ { "input_method": "keyboard_char", "key": "<" }, { "input_method": "keyboard_code", "key": ",", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "SCROLL_TRAIT_INFO_DOWN",
+    "category": "MUTATIONS",
+    "name": "Scroll mutation info down",
+    "bindings": [ { "input_method": "keyboard_char", "key": ">" }, { "input_method": "keyboard_code", "key": ".", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
     "id": "APPLY",
     "category": "MEDICAL",
     "name": "Use item",
