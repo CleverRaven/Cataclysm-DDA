@@ -130,7 +130,6 @@
       }
     },
     "size": "30 L",
-    "standard_symbols": false,
     "symbols": { "vertical": "#", "vertical_left": "#", "vertical_right": "#", "left": "#", "right": "#" },
     "type": "vehicle_part"
   },

@@ -494,6 +494,9 @@ class talker
         virtual int pain_cur() const {
             return 0;
         }
+        virtual double armor_at( damage_type_id &, bodypart_id & ) const {
+            return 0;
+        }
         virtual bool worn_with_flag( const flag_id &, const bodypart_id & ) const {
             return false;
         }

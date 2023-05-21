@@ -1654,6 +1654,11 @@
     "looks_like": "t_dirtmound"
   },
   {
+    "id": "fd_last_known",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "last known position", "dangerous": false } ]
+  },
+  {
     "id": "fd_nm_monster_gas_1",
     "//": "Spores cause players to light up",
     "type": "field_type",

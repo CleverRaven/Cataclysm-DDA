@@ -5801,7 +5801,7 @@ bool npc::item_whitelisted( const item &it )
         return true;
     }
 
-    const auto to_match = it.tname( 1, false );
+    const std::string to_match = it.tname( 1, false );
     return item_name_whitelisted( to_match );
 }
 

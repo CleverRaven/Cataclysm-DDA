@@ -7754,7 +7754,7 @@ std::optional<int> iuse::multicooker( Character *p, item *it, bool t, const trip
 
                 /** @EFFECT_FABRICATION >3 allows multicooker upgrade */
                 if( p->get_skill_level( skill_electronics ) >= 4 && p->get_skill_level( skill_fabrication ) >= 4 ) {
-                    const auto upgr = it->get_var( "MULTI_COOK_UPGRADE" );
+                    const std::string upgr = it->get_var( "MULTI_COOK_UPGRADE" );
                     if( upgr.empty() ) {
                         menu.addentry( mc_upgrade, true, 'u', _( "Upgrade multi-cooker" ) );
                     } else {
@@ -8107,11 +8107,11 @@ std::optional<int> iuse::tow_attach( Character *p, item *it, bool, const tripoin
             }
             const vpart_id vpid( it->typeId().str() );
             point vcoords = source_vp->mount();
-            vehicle_part source_part( vpid, "", vcoords, item( *it ) );
-            source_veh->install_part( vcoords, source_part );
+            vehicle_part source_part( vpid, item( *it ) );
+            source_veh->install_part( vcoords, std::move( source_part ) );
             vcoords = target_vp->mount();
-            vehicle_part target_part( vpid, "", vcoords, item( *it ) );
-            target_veh->install_part( vcoords, target_part );
+            vehicle_part target_part( vpid, item( *it ) );
+            target_veh->install_part( vcoords, std::move( target_part ) );
 
             if( p->has_item( *it ) ) {
                 p->add_msg_if_player( m_good, _( "You link up the %1$s and the %2$s." ),
@@ -8367,19 +8367,19 @@ std::optional<int> iuse::cable_attach( Character *p, item *it, bool, const tripo
             const vpart_id vpid( it->typeId().str() );
 
             point vcoords = source_vp->mount();
-            vehicle_part source_part( vpid, "", vcoords, item( *it ) );
+            vehicle_part source_part( vpid, item( *it ) );
             source_part.target.first = target_global;
             source_part.target.second = target_veh->global_square_location().raw();
-            source_veh->install_part( vcoords, source_part );
+            source_veh->install_part( vcoords, std::move( source_part ) );
 
             vcoords = target_vp->mount();
-            vehicle_part target_part( vpid, "", vcoords, item( *it ) );
+            vehicle_part target_part( vpid, item( *it ) );
             tripoint source_global( it->get_var( "source_x", 0 ),
                                     it->get_var( "source_y", 0 ),
                                     it->get_var( "source_z", 0 ) );
             target_part.target.first = source_global;
             target_part.target.second = source_veh->global_square_location().raw();
-            target_veh->install_part( vcoords, target_part );
+            target_veh->install_part( vcoords, std::move( target_part ) );
 
             if( p != nullptr && p->has_item( *it ) ) {
                 p->add_msg_if_player( m_good, _( "You link up the electric systems of the %1$s and the %2$s." ),
@@ -8493,19 +8493,19 @@ std::optional<int> iuse::cord_attach( Character *p, item *it, bool, const tripoi
             const vpart_id vpid( it->typeId().str() );
 
             point vcoords = source_vp->mount();
-            vehicle_part source_part( vpid, "", vcoords, item( *it ) );
+            vehicle_part source_part( vpid, item( *it ) );
             source_part.target.first = target_global;
             source_part.target.second = target_veh->global_square_location().raw();
-            source_veh->install_part( vcoords, source_part );
+            source_veh->install_part( vcoords, std::move( source_part ) );
 
             vcoords = target_vp->mount();
-            vehicle_part target_part( vpid, "", vcoords, item( *it ) );
+            vehicle_part target_part( vpid, item( *it ) );
             tripoint source_global( it->get_var( "source_x", 0 ),
                                     it->get_var( "source_y", 0 ),
                                     it->get_var( "source_z", 0 ) );
             target_part.target.first = source_global;
             target_part.target.second = source_veh->global_square_location().raw();
-            target_veh->install_part( vcoords, target_part );
+            target_veh->install_part( vcoords, std::move( target_part ) );
 
             if( p != nullptr && p->has_item( *it ) ) {
                 p->add_msg_if_player( m_good, _( "You link up the electric systems of the %1$s and the %2$s." ),

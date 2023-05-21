@@ -315,7 +315,7 @@ advanced_inv_area::itemstack advanced_inv_area::i_stacked( T items )
     std::unordered_map<itype_id, std::set<int>> cache;
     // iterate through and create stacks
     for( item &elem : items ) {
-        const auto id = elem.typeId();
+        const itype_id id = elem.typeId();
         auto iter = cache.find( id );
         bool got_stacked = false;
         // cache entry exists

@@ -2636,6 +2636,8 @@ void debug()
         debug_menu_index::UNLOCK_ALL,
         debug_menu_index::BENCHMARK,
         debug_menu_index::SHOW_MSG,
+        debug_menu_index::QUICKLOAD,
+        debug_menu_index::QUIT_NOSAVE
     };
     const bool should_disable_achievements = action && !is_debug_character() &&
             !non_cheaty_options.count( *action );

@@ -117,6 +117,8 @@ static const itype_id itype_inhaler( "inhaler" );
 static const itype_id itype_oxygen_tank( "oxygen_tank" );
 static const itype_id itype_smoxygen_tank( "smoxygen_tank" );
 
+static const json_character_flag json_flag_ALBINO( "ALBINO" );
+static const json_character_flag json_flag_DAYFEAR( "DAYFEAR" );
 static const json_character_flag json_flag_GILLS( "GILLS" );
 static const json_character_flag json_flag_GLARE_RESIST( "GLARE_RESIST" );
 static const json_character_flag json_flag_GRAB( "GRAB" );
@@ -125,6 +127,7 @@ static const json_character_flag json_flag_MEND_LIMB( "MEND_LIMB" );
 static const json_character_flag json_flag_NYCTOPHOBIA( "NYCTOPHOBIA" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const json_character_flag json_flag_RAD_DETECT( "RAD_DETECT" );
+static const json_character_flag json_flag_SUNBURN( "SUNBURN" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
 static const mtype_id mon_zombie_cop( "mon_zombie_cop" );
@@ -133,7 +136,6 @@ static const mtype_id mon_zombie_fireman( "mon_zombie_fireman" );
 static const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
 
 static const trait_id trait_ADDICTIVE( "ADDICTIVE" );
-static const trait_id trait_ALBINO( "ALBINO" );
 static const trait_id trait_ASTHMA( "ASTHMA" );
 static const trait_id trait_CHAOTIC( "CHAOTIC" );
 static const trait_id trait_CHAOTIC_BAD( "CHAOTIC_BAD" );
@@ -168,7 +170,6 @@ static const trait_id trait_SHOUT2( "SHOUT2" );
 static const trait_id trait_SHOUT3( "SHOUT3" );
 static const trait_id trait_SNAIL_TRAIL( "SNAIL_TRAIL" );
 static const trait_id trait_SORES( "SORES" );
-static const trait_id trait_SUNBURN( "SUNBURN" );
 static const trait_id trait_TROGLO( "TROGLO" );
 static const trait_id trait_TROGLO2( "TROGLO2" );
 static const trait_id trait_TROGLO3( "TROGLO3" );
@@ -873,13 +874,13 @@ void suffer::in_sunlight( Character &you )
         you.vitamin_mod( vitamin_vitC, 1 );
     }
 
-    if( you.has_trait( trait_SUNBURN ) ) {
+    if( you.has_flag( json_flag_SUNBURN ) ) {
         suffer::from_sunburn( you, true );
     }
 
     // Albinism and datura have the same effects and do not stack with each other or sunburn.
-    if( !you.has_trait( trait_SUNBURN ) &&
-        ( you.has_trait( trait_ALBINO ) || you.has_effect( effect_datura ) ) ) {
+    if( !you.has_flag( json_flag_SUNBURN ) &&
+        ( you.has_flag( json_flag_ALBINO ) || you.has_effect( effect_datura ) ) ) {
         suffer::from_sunburn( you, false );
     }
 
@@ -898,6 +899,13 @@ void suffer::in_sunlight( Character &you )
         you.add_miss_reason( _( "The sunlight distracts you." ), 1 );
         you.mod_int_bonus( -1 );
         you.mod_per_bonus( -1 );
+    }
+    if( you.has_flag( json_flag_DAYFEAR ) ) {
+        you.mod_str_bonus( -2 );
+        you.mod_dex_bonus( -2 );
+        you.add_miss_reason( _( "You fear the sunlight!" ), 2 );
+        you.mod_int_bonus( -2 );
+        you.mod_per_bonus( -2 );
     }
     if( you.has_trait( trait_TROGLO3 ) ) {
         you.mod_str_bonus( -4 );

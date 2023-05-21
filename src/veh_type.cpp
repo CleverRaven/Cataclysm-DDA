@@ -391,6 +391,8 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
     assign( jo, "default_ammo", def.default_ammo );
     assign( jo, "folded_volume", def.folded_volume );
     assign( jo, "size", def.size );
+    assign( jo, "symbol", def.symbol_ );
+    assign( jo, "broken_symbol", def.symbol_broken_ );
     assign( jo, "bonus", def.bonus );
     assign( jo, "cargo_weight_modifier", def.cargo_weight_modifier );
     assign( jo, "categories", def.categories );
@@ -433,18 +435,8 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
     }
 
     if( jo.has_string( "symbol" ) ) {
-        int symbol = jo.get_string( "symbol" )[ 0 ];
-        if( variant_id.empty() ) {
-            def.sym = symbol;
-        } else {
-            def.symbols[ variant_id ] = symbol;
-        }
-    }
-    if( jo.has_bool( "standard_symbols" ) && jo.get_bool( "standard_symbols" ) ) {
-        // Fallback symbol for unknown variant
-        def.sym = '=';
-        for( const auto &variant : vpart_variants_standard ) {
-            def.symbols[ variant.first ] = variant.second;
+        if( !variant_id.empty() ) {
+            def.symbols[variant_id] = def.get_symbol();
         }
     }
     if( jo.has_object( "symbols" ) ) {
@@ -455,9 +447,6 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
                 def.symbols[ vp_variant ] = static_cast<uint8_t>( jo_variants.get_string( vp_variant )[ 0 ] );
             }
         }
-    }
-    if( jo.has_string( "broken_symbol" ) ) {
-        def.sym_broken = static_cast<uint8_t>( jo.get_string( "broken_symbol" )[ 0 ] );
     }
     jo.read( "looks_like", def.looks_like );
 
@@ -616,7 +605,7 @@ static std::string get_looks_like( const vpart_info &vpi, const itype &it )
             if( !at->default_ammotype() ) {
                 continue;
             }
-            const auto at_weight = at->default_ammotype()->weight;
+            const units::mass at_weight = at->default_ammotype()->weight;
             if( 15_gram > at_weight && at_weight > 3_gram ) {
                 return true; // detects g80 and coil gun
             }
@@ -655,10 +644,10 @@ void vpart_info::finalize()
         int mechanics_req = 3 + static_cast<int>( item->weight / 10_kilogram );
         int electronics_req = 0; // calculated below
 
-        // mark turrets with migrated-from or blacklisted items obsolete
+        // if turret base item is migrated-from or blacklisted hide it from install menu
         if( item_id != item_controller->migrate_id( item_id ) ||
             item_is_blacklisted( item->get_id() ) ) {
-            new_part.set_flag( "OBSOLETE" );
+            new_part.set_flag( "NO_INSTALL_HIDDEN" );
         }
 
         if( gun_uses_liquid_ammo( *item ) ) {
@@ -866,15 +855,11 @@ void vpart_info::check()
             }
         }
         // Default symbol is always needed in case an unknown variant is encountered
-        if( part.sym == 0 ) {
-            debugmsg( "vehicle part %s does not define a symbol", part.id.c_str() );
-        } else if( mk_wcwidth( part.sym ) != 1 ) {
+        if( mk_wcwidth( part.get_symbol() ) != 1 ) {
             debugmsg( "vehicle part %s defined a symbol that is not 1 console cell wide.",
                       part.id.str() );
         }
-        if( part.sym_broken == 0 ) {
-            debugmsg( "vehicle part %s does not define a broken symbol", part.id.c_str() );
-        } else if( mk_wcwidth( part.sym_broken ) != 1 ) {
+        if( mk_wcwidth( part.get_symbol_broken() ) != 1 ) {
             debugmsg( "vehicle part %s defined a broken symbol that is not 1 console cell wide.",
                       part.id.str() );
         }
@@ -1286,6 +1271,16 @@ time_duration vpart_info::get_unfolding_time() const
     return unfolding_time;
 }
 
+int vpart_info::get_symbol() const
+{
+    return symbol_[0];
+}
+
+int vpart_info::get_symbol_broken() const
+{
+    return symbol_broken_[0];
+}
+
 /** @relates string_id */
 template<>
 const vehicle_prototype &string_id<vehicle_prototype>::obj() const
@@ -1453,13 +1448,14 @@ void vehicles::finalize_prototypes()
                 continue;
             }
 
-            const int part_idx = blueprint.install_part( pt.pos, pt.part, pt.variant );
+            const int part_idx = blueprint.install_part( pt.pos, pt.part );
             if( part_idx < 0 ) {
                 debugmsg( "init_vehicles: '%s' part '%s'(%d) can't be installed to %d,%d",
                           blueprint.name, pt.part.c_str(),
                           blueprint.part_count(), pt.pos.x, pt.pos.y );
             } else {
                 vehicle_part &vp = blueprint.part( part_idx );
+                vp.variant = pt.variant;
                 for( const itype_id &it : pt.tools ) {
                     blueprint.get_tools( vp ).emplace_back( it, calendar::turn );
                 }

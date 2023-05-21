@@ -1396,10 +1396,10 @@ void construct::done_vehicle( const tripoint_bub_ms &p, Character & )
         debugmsg( "constructing failed: add_vehicle returned null" );
         return;
     }
-    item base = components.front();
+    const item &base = components.front();
 
     veh->name = name;
-    veh->install_part( point_zero, vpart_from_item( base.typeId() ), std::move( base ) );
+    veh->install_part( point_zero, vpart_from_item( base.typeId() ), item( base ) );
 
     // Update the vehicle cache immediately,
     // or the vehicle will be invisible for the first couple of turns.

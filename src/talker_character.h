@@ -52,6 +52,7 @@ class talker_character_const: public talker_cloner<talker_character_const>
         int int_cur() const override;
         int per_cur() const override;
         int pain_cur() const override;
+        double armor_at( damage_type_id &dt, bodypart_id &bp ) const override;
         int get_str_max() const override;
         int get_dex_max() const override;
         int get_int_max() const override;
