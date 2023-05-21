@@ -1138,16 +1138,7 @@ int Character::get_spell_resist() const
 
 float Character::get_dodge() const
 {
-    //If we're asleep or busy we can't dodge
-    if( in_sleep_state() || has_effect( effect_narcosis ) ||
-        has_effect( effect_winded ) || is_driving() ) {
-        add_msg_debug( debugmode::DF_MELEE, "Unable to dodge (sleeping, winded, or driving)" );
-        return 0.0f;
-    }
-
-    // Ensure no attempt to dodge without sources of extra dodges, eg martial arts
-    if( get_dodges_left() <= 0 ) {
-        add_msg_debug( debugmode::DF_MELEE, "No remaining dodge attempts" );
+    if( !can_try_doge() ) {
         return 0.0f;
     }
 

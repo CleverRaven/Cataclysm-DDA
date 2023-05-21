@@ -696,7 +696,9 @@ class Character : public Creature, public visitable
         int get_dodges_left() const;
         void set_dodges_left( int dodges );
         void mod_dodges_left( int mod );
+        /** Returns true if an attempt was consumed */
         void consume_dodge_attempts();
+        bool can_try_doge() const;
 
         /** Called after the player has successfully dodged an attack */
         void on_dodge( Creature *source, float difficulty ) override;

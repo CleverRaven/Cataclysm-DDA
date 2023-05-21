@@ -1100,6 +1100,23 @@ void Character::consume_dodge_attempts()
     }
 }
 
+bool Character::can_try_doge() const
+{
+    //If we're asleep or busy we can't dodge
+    if( in_sleep_state() || has_effect( effect_narcosis ) ||
+        has_effect( effect_winded ) || is_driving() ) {
+        add_msg_debug( debugmode::DF_MELEE, "Unable to dodge (sleeping, winded, or driving)" );
+        return false;
+    }
+
+    // Ensure no attempt to dodge without sources of extra dodges, eg martial arts
+    if( get_dodges_left() <= 0 ) {
+        add_msg_debug( debugmode::DF_MELEE, "No remaining dodge attempts" );
+        return false;
+    }
+    return true;
+}
+
 int Character::sight_range( float light_level ) const
 {
     if( light_level == 0 ) {
@@ -1738,6 +1755,10 @@ bool Character::is_dead_state() const
 
 void Character::on_try_dodge()
 {
+    if( !can_try_doge() ) {
+        return;
+    }
+
     // Each attempt consumes an available dodge
     consume_dodge_attempts();
 

@@ -204,7 +204,7 @@ TEST_CASE( "monster_throwing_sanity_test", "[throwing],[balance]" )
     // You got a player
     Character &you = get_player_character();
     clear_avatar();
-    you.dodges_left = 1;
+    you.set_dodges_left( 1 ) ;
     REQUIRE( Approx( you.get_dodge() ) == 4.0 );
     you.setpos( target_location );
     const tripoint_abs_ms abs_target_location = you.get_location();
@@ -232,7 +232,7 @@ TEST_CASE( "monster_throwing_sanity_test", "[throwing],[balance]" )
             you.set_all_parts_hp_to_max();
             // Remove stagger/winded effects
             you.clear_effects();
-            you.dodges_left = 1;
+            you.set_dodges_left( 1 );
             int prev_hp = you.get_hp();
             // monster shoots the player
             REQUIRE( attack->call( test_monster ) == true );
