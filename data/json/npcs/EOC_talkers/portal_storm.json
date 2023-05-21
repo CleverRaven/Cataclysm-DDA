@@ -86,7 +86,7 @@
     "id": "TALK_PORTAL_STORM_I_NEED_TO_DO",
     "dynamic_line": "Will it and it will be.",
     "responses": [
-      { "text": "No ", "topic": "TALK_PORTAL_STORM_DO_FOR_YOU", "effect": { "math": [ "u_ire", "+=", "5" ] } },
+      { "text": "No ", "topic": "TALK_PORTAL_STORM_DO_FOR_ME" },
       {
         "text": "Will it.",
         "topic": "TALK_PORTAL_STORM_WILL_IT",
