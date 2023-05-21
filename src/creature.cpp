@@ -1376,6 +1376,16 @@ bool Creature::attack_air( const tripoint &p )
         explosion_handler::draw_custom_explosion( p, area_color, "animation_hit" );
     }
 
+    // Chance to remove last known location
+    if( one_in( 2 ) ) {
+        get_map().set_field_intensity( p, field_fd_last_known, 0 );
+    }
+
+    add_msg_if_player_sees( *this, _( "%s attacks, but there is nothing there!" ),
+                            disp_name( false, true ) );
+    return true;
+}
+
 bool Creature::dodge_check( float hit_roll, bool force_try )
 {
     // If successfully uncanny dodged, no need to calculate dodge chance
@@ -1432,15 +1442,7 @@ bool Creature::dodge_check( monster *z, bodypart_id bp, damage_instance dam_inst
     return false;
 }
 
-    // Chance to remove last known location
-    if( one_in( 2 ) ) {
-        get_map().set_field_intensity( p, field_fd_last_known, 0 );
-    }
 
-    add_msg_if_player_sees( *this, _( "%s attacks, but there is nothing there!" ),
-                            disp_name( false, true ) );
-    return true;
-}
 /*
  * State check functions
  */
