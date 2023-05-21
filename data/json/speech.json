@@ -2748,5 +2748,27 @@
     "speaker": [ "mon_zombie_brute_shocker", "mon_zombie_electric", "mon_zombie_nullfield", "mon_skeleton_electric" ],
     "sound": "high-pitched hum.",
     "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [
+      "mon_EMP_hack",
+      "mon_c4_hack",
+      "mon_flashbang_hack",
+      "mon_gasbomb_hack",
+      "mon_grenade_hack",
+      "mon_manhack",
+      "mon_mininuke_hack",
+      "mon_tazer_hack"
+    ],
+    "sound": "a high-pitched whirring noise.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "//": "This serves to indicate the stress of the heavy payload, as well as add frequency to the most dangerous manhacks.",
+    "speaker": [ "mon_c4_hack", "mon_grenade_hack", "mon_mininuke_hack" ],
+    "sound": "a mechanical whining noise.",
+    "volume": 25
   }
 ]

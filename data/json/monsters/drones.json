@@ -1,3 +1,8 @@
+Cataclysm: Dark Days Ahead JSON Web Linting Tool
+This is a tool to help modders and editors of the open source game Cataclysm: Dark Days Ahead write JSON in the game's expected format.
+
+Paste some JSON into the field below and click "Lint" to run an autoformatter against it.
+
 [
   {
     "abstract": "base_drone",
@@ -27,7 +32,7 @@
     "color": "cyan",
     "revert_to_itype": "bot_EMP_hack",
     "starting_ammo": { "grenade_emp": 1 },
-    "special_attacks": [ [ "KAMIKAZE", 0 ] ],
+    "special_attacks": [ [ "PARROT", 12 ], [ "KAMIKAZE", 0 ] ],
     "armor": { "cut": 4, "bullet": 3 }
   },
   {
@@ -41,7 +46,7 @@
     "color": "light_gray",
     "revert_to_itype": "bot_c4_hack",
     "starting_ammo": { "c4": 1 },
-    "special_attacks": [ [ "KAMIKAZE", 0 ] ],
+    "special_attacks": [ [ "PARROT", 12 ], [ "KAMIKAZE", 0 ] ],
     "armor": { "cut": 4, "bullet": 3 }
   },
   {
@@ -55,7 +60,7 @@
     "color": "dark_gray",
     "revert_to_itype": "bot_flashbang_hack",
     "starting_ammo": { "flashbang": 1 },
-    "special_attacks": [ [ "KAMIKAZE", 0 ] ],
+    "special_attacks": [ [ "PARROT", 12 ], [ "KAMIKAZE", 0 ] ],
     "armor": { "cut": 4, "bullet": 3 }
   },
   {
@@ -69,7 +74,7 @@
     "color": "dark_gray",
     "revert_to_itype": "bot_gasbomb_hack",
     "starting_ammo": { "tear_gas_payload": 1 },
-    "special_attacks": [ [ "KAMIKAZE", 0 ] ],
+    "special_attacks": [ [ "PARROT", 12 ], [ "KAMIKAZE", 0 ] ],
     "armor": { "cut": 4, "bullet": 3 }
   },
   {
@@ -83,7 +88,7 @@
     "color": "green",
     "revert_to_itype": "bot_grenade_hack",
     "starting_ammo": { "grenade": 1 },
-    "special_attacks": [ [ "KAMIKAZE", 0 ] ],
+    "special_attacks": [ [ "PARROT", 12 ], [ "KAMIKAZE", 0 ] ],
     "armor": { "cut": 4, "bullet": 3 }
   },
   {
@@ -100,6 +105,7 @@
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 12 } ],
     "revert_to_itype": "bot_manhack",
+    "special_attacks": [ [ "PARROT", 12 ] ],
     "death_function": { "corpse_type": "BROKEN" },
     "extend": { "flags": [ "HIT_AND_RUN" ] },
     "delete": { "flags": [ "PACIFIST" ] },
@@ -117,7 +123,7 @@
     "color": "light_green_magenta",
     "revert_to_itype": "bot_mininuke_hack",
     "starting_ammo": { "mininuke": 1 },
-    "special_attacks": [ [ "KAMIKAZE", 0 ] ],
+    "special_attacks": [ [ "PARROT", 12 ], [ "KAMIKAZE", 0 ] ],
     "armor": { "bash": 1, "cut": 6, "bullet": 5 }
   },
   {
@@ -190,7 +196,8 @@
     "color": "cyan",
     "revert_to_itype": "bot_tazer_hack",
     "death_function": { "corpse_type": "BROKEN" },
-    "special_attacks": [ [ "TAZER", 5 ] ],
+    "special_attacks": [ [ "PARROT", 12 ], [ "TAZER", 5 ] ],
     "armor": { "cut": 2, "bullet": 1 }
   }
 ]
+
