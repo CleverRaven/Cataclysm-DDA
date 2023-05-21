@@ -276,7 +276,7 @@
     "type": "MONSTER",
     "name": { "str": "acidic zombear" },
     "copy-from": "mon_zombear",
-    "description": "Most of this bear's fur has burnt off and its body looks to be falling apart, not entirely immune to its own acidic fluids.  Despite its weakened state the strength of a bear hasn't left it.",
+    "description": "Most of this bear's fur has burnt off and its body looks to be falling apart, not entirely immune to its own acidic fluids.  Despite its weakened state, the strength of a bear hasn't left it.",
     "diff": 5,
     "hp": 145,
     "speed": 135,
