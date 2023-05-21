@@ -26,7 +26,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_HELLS_RAIDERS_JOIN",
-    "effect": [       
+    "effect": [
       { "arithmetic": [ { "faction_like": "hells_raiders" }, "=", { "const": 20 } ] },
       { "arithmetic": [ { "faction_like": "free_merchants" }, "=", { "const": -30 } ] },
       { "arithmetic": [ { "faction_like": "old_guard" }, "=", { "const": -30 } ] },
