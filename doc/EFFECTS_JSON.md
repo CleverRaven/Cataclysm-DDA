@@ -359,15 +359,15 @@ For `chance_kill` and `chance_kill_resist`, it accepts an array of arrays in the
 ### Limb score modifiers
 
 ```JSON
-"limb_score_mods": [
-    {
+    "limb_score_mods": [
+      {
         "limb_score": "lift",
         "modifier": 0.5,
         "resist_modifier": 0.75,
         "scaling": -0.1,
         "resist_scaling": -0.05
-    }
-]
+      }
+    ]
 ```
 
 - "limb_score"        Mandatory, string id of the limb score in question

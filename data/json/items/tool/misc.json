@@ -9,7 +9,6 @@
     "price": 500,
     "price_postapoc": 50,
     "to_hit": -4,
-    "bashing": 3,
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "red",
@@ -26,7 +25,8 @@
       "use_message": "You honk your airhorn.",
       "no_charges_message": "You depress the button but no sound comes out.",
       "//": "Use of %s not currently supported."
-    }
+    },
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "alarmclock",
@@ -38,11 +38,11 @@
     "price": 5000,
     "price_postapoc": 100,
     "to_hit": -3,
-    "bashing": 3,
     "material": [ "aluminum", "glass" ],
     "symbol": ",",
     "color": "yellow",
-    "flags": [ "WATCH", "ALARMCLOCK" ]
+    "flags": [ "WATCH", "ALARMCLOCK" ],
+    "melee_damage": { "bash": 3 }
   },
   {
     "type": "TOOL",
@@ -132,17 +132,19 @@
     "id": "cow_bell",
     "type": "TOOL",
     "name": { "str": "cow bell" },
-    "description": "A brass cow bell.  You feel like you need more of it.",
-    "weight": "566 g",
-    "volume": "1 L",
-    "price": 700,
+    "description": "A cow bell.  You feel like you need more of it.",
+    "weight": "330 g",
+    "volume": "300 ml",
+    "longest_side": "20 cm",
+    "price": "10 USD",
     "price_postapoc": 10,
     "to_hit": 1,
-    "bashing": 9,
-    "material": [ "brass", "wood" ],
+    "material": [ { "type": "steel", "portion": 95 }, { "type": "rubber", "portion": 5 } ],
     "symbol": ";",
     "color": "brown",
-    "use_action": [ "BELL" ]
+    "use_action": [ "BELL" ],
+    "//": "Based on: https://www.amazon.com/Cheering-Football-Baseball-Basketball-Graduations/dp/B0B1DJL6XR/ref=sr_1_5?crid=3V6UY5QOC4BPD&keywords=cowbell&qid=1680867018&sprefix=cowbell%2Caps%2C280&sr=8-5&th=1",
+    "melee_damage": { "bash": 9 }
   },
   {
     "id": "crystal_urn",
@@ -177,13 +179,12 @@
     "longest_side": "23 cm",
     "price": 4000,
     "price_postapoc": 500,
-    "bashing": 10,
-    "cutting": 8,
     "material": [ "steel" ],
     "symbol": "/",
     "color": "dark_gray",
     "qualities": [ [ "CUT", 1 ], [ "DIG", 3 ], [ "BUTCHER", -8 ], [ "COOK", 1 ] ],
-    "flags": [ "DURABLE_MELEE", "NEEDS_UNFOLD", "BELT_CLIP" ]
+    "flags": [ "DURABLE_MELEE", "NEEDS_UNFOLD", "BELT_CLIP" ],
+    "melee_damage": { "bash": 10, "cut": 8 }
   },
   {
     "id": "etched_skull",
@@ -194,10 +195,10 @@
     "volume": "750 ml",
     "price": 300000,
     "price_postapoc": 10,
-    "bashing": 6,
     "material": [ "bone" ],
     "symbol": ";",
-    "color": "white"
+    "color": "white",
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "fur_rollmat",
@@ -233,11 +234,11 @@
     "longest_side": "30 cm",
     "price": 600,
     "price_postapoc": 300,
-    "bashing": 5,
     "material": [ "rubber" ],
     "symbol": ",",
     "color": "green",
-    "qualities": [ [ "HOSE", 1 ] ]
+    "qualities": [ [ "HOSE", 1 ] ],
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "grapnel",
@@ -250,15 +251,14 @@
     "copy-from": "rope_30",
     "price_postapoc": 500,
     "to_hit": -2,
-    "bashing": 12,
-    "cutting": 6,
     "material": [ "cotton", "steel" ],
     "symbol": ";",
     "color": "light_gray",
     "techniques": [ "SPIN", "WRAP" ],
     "qualities": [ [ "COOK", 1 ], [ "ROPE", 2 ] ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ],
-    "use_action": { "type": "deploy_furn", "furn_type": "f_rope_up" }
+    "use_action": { "type": "deploy_furn", "furn_type": "f_rope_up" },
+    "melee_damage": { "bash": 12, "cut": 6 }
   },
   {
     "type": "TOOL",
@@ -271,14 +271,13 @@
     "symbol": "?",
     "material": [ "steel" ],
     "techniques": [ "DEF_DISARM", "SWEEP" ],
-    "flags": [ "DURABLE_MELEE", "BELT_CLIP", "STAB" ],
+    "flags": [ "DURABLE_MELEE", "BELT_CLIP" ],
     "volume": "750 ml",
-    "bashing": 2,
-    "cutting": 6,
     "to_hit": -3,
     "price": 2000,
     "price_postapoc": 250,
-    "qualities": [ [ "HAMMER", 1 ], [ "BUTCHER", -5 ] ]
+    "qualities": [ [ "HAMMER", 1 ], [ "BUTCHER", -5 ] ],
+    "melee_damage": { "bash": 2, "stab": 6 }
   },
   {
     "id": "hand_pump",
@@ -292,9 +291,9 @@
     "material": [ "aluminum", "plastic" ],
     "weight": "113 g",
     "volume": "500 ml",
-    "bashing": 4,
     "to_hit": -1,
-    "qualities": [ [ "PRESSURIZATION", 1 ] ]
+    "qualities": [ [ "PRESSURIZATION", 1 ] ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "horn_bicycle",
@@ -307,7 +306,6 @@
     "price": 400,
     "price_postapoc": 10,
     "to_hit": -1,
-    "bashing": 1,
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "light_gray",
@@ -321,7 +319,8 @@
       "use_message": "You honk the bicycle horn.",
       "no_charges_message": "Seeing this is an error.",
       "//": "Use of %s not currently supported."
-    }
+    },
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "horn_big",
@@ -334,10 +333,10 @@
     "price": 12000,
     "price_postapoc": 10,
     "to_hit": -1,
-    "bashing": 3,
     "material": [ "steel", "plastic" ],
     "symbol": ";",
-    "color": "light_gray"
+    "color": "light_gray",
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "horn_car",
@@ -350,10 +349,10 @@
     "price": 9000,
     "price_postapoc": 10,
     "to_hit": -1,
-    "bashing": 2,
     "material": [ "steel", "plastic" ],
     "symbol": ";",
-    "color": "light_gray"
+    "color": "light_gray",
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "large_space_heater",
@@ -365,7 +364,6 @@
     "price": 20000,
     "price_postapoc": 500,
     "to_hit": -3,
-    "bashing": 12,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "brown",
@@ -387,7 +385,8 @@
         "flag_restriction": [ "BATTERY_HEAVY" ],
         "default_magazine": "heavy_battery_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "large_space_heater_on",
@@ -417,7 +416,6 @@
     "price": 4000,
     "price_postapoc": 1000,
     "to_hit": -3,
-    "bashing": 1,
     "material": [ "cotton", "plastic" ],
     "symbol": "i",
     "looks_like": "advanced_ecig",
@@ -425,7 +423,8 @@
     "initial_charges": 4000,
     "max_charges": 4000,
     "charges_per_use": 1,
-    "use_action": [ "WATER_PURIFIER" ]
+    "use_action": [ "WATER_PURIFIER" ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "type": "TOOL",
@@ -441,8 +440,8 @@
     "price": 150,
     "price_postapoc": 50,
     "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "neutral" },
-    "bashing": 1,
-    "material": [ "plastic" ]
+    "material": [ "plastic" ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "permanent_marker",
@@ -533,12 +532,12 @@
     "price": 8000,
     "price_postapoc": 10,
     "to_hit": -2,
-    "bashing": 10,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "HAMMER", 1 ] ],
-    "flags": [ "DURABLE_MELEE" ]
+    "flags": [ "DURABLE_MELEE" ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "sarcophagus_access_code",
@@ -550,10 +549,10 @@
     "price": 0,
     "price_postapoc": 0,
     "to_hit": -1,
-    "bashing": 1,
     "material": [ "paper" ],
     "symbol": ";",
-    "color": "white"
+    "color": "white",
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "small_space_heater",
@@ -565,7 +564,6 @@
     "price": 5000,
     "price_postapoc": 1500,
     "to_hit": -3,
-    "bashing": 8,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "brown",
@@ -587,7 +585,8 @@
         "flag_restriction": [ "BATTERY_MEDIUM" ],
         "default_magazine": "medium_battery_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "small_space_heater_on",
@@ -634,11 +633,11 @@
     "price": 2000,
     "price_postapoc": 100,
     "to_hit": -3,
-    "bashing": 12,
     "material": [ "wood" ],
     "symbol": "H",
     "color": "brown",
-    "use_action": { "type": "deploy_furn", "furn_type": "f_ladder" }
+    "use_action": { "type": "deploy_furn", "furn_type": "f_ladder" },
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "survival_marker",
@@ -726,7 +725,6 @@
     "price": 12000,
     "price_postapoc": 100,
     "to_hit": -2,
-    "bashing": 3,
     "material": [ "plastic", "aluminum" ],
     "symbol": ",",
     "color": "dark_gray",
@@ -744,7 +742,8 @@
         "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 1 } ]
       }
     ],
-    "use_action": { "menu_text": "Extend", "type": "transform", "target": "teleumbrella-extended", "msg": "You open your umbrella." }
+    "use_action": { "menu_text": "Extend", "type": "transform", "target": "teleumbrella-extended", "msg": "You open your umbrella." },
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "teleumbrella-extended",
@@ -758,17 +757,16 @@
     "price": 12000,
     "price_postapoc": 100,
     "to_hit": 1,
-    "bashing": 6,
-    "cutting": 4,
     "material": [ "plastic", "aluminum" ],
     "symbol": ",",
     "ascii_picture": "umbrella",
     "looks_like": "umbrella",
     "color": "dark_gray",
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "STAB", "RAIN_PROTECT", "SHEATH_SWORD", "FRAGILE_MELEE" ],
+    "flags": [ "RAIN_PROTECT", "SHEATH_SWORD", "FRAGILE_MELEE" ],
     "weapon_category": [ "FENCING_WEAPONRY" ],
-    "use_action": { "menu_text": "Collapse", "type": "transform", "target": "teleumbrella", "msg": "You collapse your umbrella." }
+    "use_action": { "menu_text": "Collapse", "type": "transform", "target": "teleumbrella", "msg": "You collapse your umbrella." },
+    "melee_damage": { "bash": 6, "stab": 4 }
   },
   {
     "id": "testflames",
@@ -780,13 +778,12 @@
     "price": 98000,
     "price_postapoc": 100,
     "to_hit": 100,
-    "bashing": 1,
-    "cutting": 1,
     "material": [ "steel" ],
     "symbol": "/",
     "color": "light_gray",
     "techniques": [ "WBLOCK_3", "WIDE" ],
-    "flags": [ "FIRE", "LIGHT_240", "FLAMING", "TRADER_AVOID" ]
+    "flags": [ "FIRE", "LIGHT_240", "FLAMING", "TRADER_AVOID" ],
+    "melee_damage": { "bash": 1, "cut": 1 }
   },
   {
     "id": "tindalos_whistle",
@@ -814,15 +811,14 @@
     "price": 2400,
     "price_postapoc": 50,
     "to_hit": 1,
-    "bashing": 6,
-    "cutting": 4,
     "material": [ "plastic", "aluminum" ],
     "ascii_picture": "umbrella",
     "symbol": "/",
     "color": "magenta",
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "STAB", "RAIN_PROTECT", "SHEATH_SWORD", "FRAGILE_MELEE" ],
-    "weapon_category": [ "FENCING_WEAPONRY" ]
+    "flags": [ "RAIN_PROTECT", "SHEATH_SWORD", "FRAGILE_MELEE" ],
+    "weapon_category": [ "FENCING_WEAPONRY" ],
+    "melee_damage": { "bash": 6, "stab": 4 }
   },
   {
     "id": "vortex_stone",
@@ -833,14 +829,14 @@
     "volume": "250 ml",
     "price": 300000,
     "price_postapoc": 2000,
-    "bashing": 6,
     "material": [ "stone" ],
     "symbol": ";",
     "color": "light_gray",
     "initial_charges": 1,
     "max_charges": 1,
     "charges_per_use": 1,
-    "use_action": [ "VORTEX" ]
+    "use_action": [ "VORTEX" ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "sandbox_kit",
@@ -907,11 +903,11 @@
     "price": 2000,
     "price_postapoc": 100,
     "to_hit": -3,
-    "bashing": 12,
     "material": [ "aluminum" ],
     "symbol": "H",
     "color": "light_gray",
-    "use_action": { "type": "deploy_furn", "furn_type": "f_aluminum_stepladder" }
+    "use_action": { "type": "deploy_furn", "furn_type": "f_aluminum_stepladder" },
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "glass_cutter",
@@ -923,13 +919,12 @@
     "price": 1200,
     "price_postapoc": 500,
     "to_hit": -1,
-    "bashing": 2,
-    "cutting": 2,
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "CUT_GLASS", 1 ] ],
-    "flags": [ "BELT_CLIP" ]
+    "flags": [ "BELT_CLIP" ],
+    "melee_damage": { "bash": 2, "cut": 2 }
   },
   {
     "id": "air_launcher",
@@ -942,10 +937,10 @@
     "price": 1500,
     "price_postapoc": 100,
     "to_hit": -1,
-    "bashing": 4,
     "material": [ "steel", "plastic" ],
     "symbol": "P",
     "color": "blue",
-    "flags": [ "FRAGILE_MELEE" ]
+    "flags": [ "FRAGILE_MELEE" ],
+    "melee_damage": { "bash": 4 }
   }
 ]

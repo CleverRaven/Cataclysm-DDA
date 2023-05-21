@@ -34,8 +34,8 @@
     "price": 1999,
     "price_postapoc": 1500,
     "material": [ "paper", "cardboard" ],
-    "bashing": 2,
-    "copy-from": "book_fict_tpl"
+    "copy-from": "book_fict_tpl",
+    "melee_damage": { "bash": 2 }
   },
   {
     "abstract": "book_fict_soft_tpl",
@@ -48,9 +48,9 @@
     "price": 799,
     "price_postapoc": 1500,
     "material": [ "paper" ],
-    "bashing": 1,
     "flags": [  ],
-    "copy-from": "book_fict_tpl"
+    "copy-from": "book_fict_tpl",
+    "melee_damage": { "bash": 1 }
   },
   {
     "abstract": "book_nonf_hard_tpl",
@@ -62,9 +62,9 @@
     "price": 1450,
     "price_postapoc": 2900,
     "material": [ "paper", "cardboard" ],
-    "bashing": 2,
     "chapters": 18,
-    "copy-from": "book_nonf_tpl"
+    "copy-from": "book_nonf_tpl",
+    "melee_damage": { "bash": 2 }
   },
   {
     "abstract": "book_nonf_soft_tpl",
@@ -76,9 +76,9 @@
     "price": 990,
     "price_postapoc": 2700,
     "material": [ "paper" ],
-    "bashing": 1,
     "chapters": 18,
-    "copy-from": "book_nonf_tpl"
+    "copy-from": "book_nonf_tpl",
+    "melee_damage": { "bash": 1 }
   },
   {
     "abstract": "book_fict_soft_pulp_tpl",
@@ -139,7 +139,7 @@
     "description": "An ordinary book.  Or is it?  It is.",
     "weight": "600 g",
     "price": 1000,
-    "price_postapoc": 5000,
+    "price_postapoc": 200,
     "flags": [ "TINDER" ],
     "skill": "dodge",
     "intelligence": 4,

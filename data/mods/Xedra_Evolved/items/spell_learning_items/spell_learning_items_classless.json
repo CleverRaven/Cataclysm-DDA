@@ -12,7 +12,7 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "0",
     "color": "green",
-    "scannable": false,
+    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "use_action": { "type": "learn_spell", "spells": [ "damage_transfer" ] }
   },
   {
@@ -28,7 +28,7 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "o",
     "color": "red",
-    "scannable": false,
+    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "use_action": { "type": "learn_spell", "spells": [ "fire_teleport" ] }
   }
 ]

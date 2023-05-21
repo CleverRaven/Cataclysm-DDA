@@ -229,6 +229,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "303",
+    "name": ".303 British",
+    "default": "303_bthp"
+  },
+  {
+    "type": "ammunition_type",
     "id": "3006",
     "name": ".30-06",
     "default": "3006"
@@ -490,12 +496,6 @@
     "id": "20x66mm",
     "name": "20x66mm caseless shotgun",
     "default": "20x66_shot"
-  },
-  {
-    "type": "ammunition_type",
-    "id": "5x50",
-    "name": "5x50mm flechette",
-    "default": "5x50dart"
   },
   {
     "type": "ammunition_type",

@@ -44,6 +44,24 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "boann_sidhe_island",
+    "name": "forest?",
+    "sym": "F",
+    "color": "c_light_green",
+    "looks_like": "forest",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "boann_sidhe_z1",
+    "name": "open air",
+    "sym": ".",
+    "color": "blue",
+    "looks_like": "open_air",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "safe_house" ],
     "copy-from": "generic_city_house"
   },

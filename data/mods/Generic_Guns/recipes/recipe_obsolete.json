@@ -271,16 +271,6 @@
   },
   {
     "type": "recipe",
-    "result": "rifle_308",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "rifle_3006",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "rifle_40",
     "obsolete": true
   },
@@ -306,22 +296,7 @@
   },
   {
     "type": "recipe",
-    "result": "rifle_308",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "rifle_223",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "surv_carbine_223",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "rifle_3006",
     "obsolete": true
   },
   {
@@ -837,11 +812,6 @@
   {
     "type": "recipe",
     "result": "reloaded_4570_bp",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "reloaded_5x50dart",
     "obsolete": true
   },
   {
@@ -1527,11 +1497,6 @@
   {
     "type": "recipe",
     "result": "reloaded_4570_bp",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "reloaded_5x50dart",
     "obsolete": true
   },
   {

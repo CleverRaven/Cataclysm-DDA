@@ -98,7 +98,7 @@ void weather_type::check() const
     }
 }
 
-void weather_type::load( const JsonObject &jo, const std::string & )
+void weather_type::load( const JsonObject &jo, const std::string_view )
 {
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "id",  id );
@@ -118,7 +118,6 @@ void weather_type::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "dangerous", dangerous );
     mandatory( jo, was_loaded, "precip", precip );
     mandatory( jo, was_loaded, "rains", rains );
-    optional( jo, was_loaded, "acidic", acidic, false );
     optional( jo, was_loaded, "tiles_animation", tiles_animation, "" );
     optional( jo, was_loaded, "sound_category", sound_category, weather_sound_category::silent );
     optional( jo, was_loaded, "duration_min", duration_min, 5_minutes );
@@ -139,7 +138,7 @@ void weather_type::load( const JsonObject &jo, const std::string & )
                    unicode_codepoint_from_symbol_reader );
     }
     optional( jo, was_loaded, "required_weathers", required_weathers );
-    read_condition<dialogue>( jo, "condition", condition, true );
+    read_condition( jo, "condition", condition, true );
 }
 
 void weather_types::reset()

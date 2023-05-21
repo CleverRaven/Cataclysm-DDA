@@ -165,17 +165,16 @@
     "copy-from": "gasoline_engine",
     "type": "vehicle_part",
     "item": "1cyl_combustion",
-    "//": "10 HP scooter engine",
-    "description": "A small 1-cylinder gasoline engine delivering around 10 horsepower, enough for a scooter or motorized bicycle.",
+    "description": "A 50cc gasoline engine, suitable for a lawnmower, golf cart or moped.",
     "durability": 150,
     "epower": "0 W",
     "power": "7370 W",
     "energy_consumption": "18425 W",
-    "folded_volume": "60 L",
+    "folded_volume": "12 L",
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 5, 10 ] },
-      { "item": "steel_chunk", "count": [ 5, 10 ] },
-      { "item": "scrap", "count": [ 5, 10 ] }
+      { "item": "steel_lump", "count": [ 1, 2 ] },
+      { "item": "steel_chunk", "count": [ 1, 2 ] },
+      { "item": "scrap", "count": [ 1, 2 ] }
     ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -193,17 +192,16 @@
     "copy-from": "gasoline_engine",
     "type": "vehicle_part",
     "item": "1cyl_combustion_large",
-    "//": "55 HP high-performance water-cooled single-cylinder engine",
-    "description": "A hefty 1-cylinder gasoline engine of about 55 horsepower, normally found in a motocross or dirt bike.",
+    "description": "A 200cc engine, suitable for a dirt bike or scooter.",
     "durability": 150,
     "epower": "0 W",
-    "power": "41000 W",
-    "energy_consumption": "124500 W",
-    "folded_volume": "90 L",
+    "power": "21000 W",
+    "energy_consumption": "49800 W",
+    "folded_volume": "42 L",
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 6, 12 ] },
-      { "item": "steel_chunk", "count": [ 6, 12 ] },
-      { "item": "scrap", "count": [ 6, 12 ] }
+      { "item": "steel_lump", "count": [ 4, 8 ] },
+      { "item": "steel_chunk", "count": [ 4, 8 ] },
+      { "item": "scrap", "count": [ 4, 8 ] }
     ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -221,18 +219,17 @@
     "copy-from": "gasoline_engine",
     "type": "vehicle_part",
     "item": "1cyl_combustion_small",
-    "//": "5 HP lawnmower engine - a big pusher or small walk-behind",
-    "description": "A small 1-cylinder gasoline engine with only a few horsepower, suitable for a push lawn mower.",
+    "description": "A small 25cc gasoline engine, suitable for a hedge trimmer or installing on a bicycle.",
     "fuel_type": "gasoline",
     "durability": 120,
     "epower": "0 W",
     "power": "3728 W",
     "energy_consumption": "9320 W",
-    "folded_volume": "629 ml",
+    "folded_volume": "6 L",
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 2, 4 ] },
-      { "item": "steel_chunk", "count": [ 2, 4 ] },
-      { "item": "scrap", "count": [ 2, 4 ] }
+      { "item": "steel_lump", "count": [ 0, 1 ] },
+      { "item": "steel_chunk", "count": [ 1, 2 ] },
+      { "item": "scrap", "count": [ 1, 2 ] }
     ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -275,7 +272,7 @@
     "copy-from": "gasoline_engine",
     "type": "vehicle_part",
     "item": "i4_combustion",
-    "description": "A four-cylinder gasoline engine, commonly found in small passenger cars and light trucks.",
+    "description": "A 1600cc four-cylinder gasoline engine, commonly found in small passenger cars.",
     "durability": 300,
     "epower": "-150 W",
     "power": "93250 W",
@@ -405,16 +402,15 @@
     "copy-from": "gasoline_engine",
     "type": "vehicle_part",
     "item": "v2_combustion",
-    "description": "A 2-cylinder gasoline engine appropriate for a motorcycle or quad bike.",
+    "description": "A 600cc, two-cylinder, gas engine for a fast motorcycle or very small car.",
     "durability": 200,
     "epower": "-50 W",
     "power": "37300 W",
     "energy_consumption": "124500 W",
-    "folded_volume": "109 L",
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 10, 20 ] },
-      { "item": "steel_chunk", "count": [ 10, 20 ] },
-      { "item": "scrap", "count": [ 10, 20 ] }
+      { "item": "steel_lump", "count": [ 7, 15 ] },
+      { "item": "steel_chunk", "count": [ 7, 15 ] },
+      { "item": "scrap", "count": [ 7, 15 ] }
     ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },

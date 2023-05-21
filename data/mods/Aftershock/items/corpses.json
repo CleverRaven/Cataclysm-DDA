@@ -23,10 +23,9 @@
     "material": [ "steel", "plastic" ],
     "weight": "140000 g",
     "volume": "62500 ml",
-    "bashing": 6,
-    "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID" ],
+    "melee_damage": { "bash": 6, "cut": 6 }
   },
   {
     "type": "GENERIC",
@@ -40,10 +39,9 @@
     "material": [ "steel", "plastic" ],
     "weight": "31520 g",
     "volume": "15 L",
-    "bashing": 6,
-    "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
+    "melee_damage": { "bash": 6, "cut": 6 }
   },
   {
     "type": "GENERIC",
@@ -57,10 +55,9 @@
     "material": [ "steel", "plastic" ],
     "weight": "140 kg",
     "volume": "62500 ml",
-    "bashing": 6,
-    "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "LEAK_DAM", "RADIOACTIVE" ]
+    "flags": [ "TRADER_AVOID", "LEAK_DAM", "RADIOACTIVE" ],
+    "melee_damage": { "bash": 6, "cut": 6 }
   },
   {
     "type": "GENERIC",
@@ -194,10 +191,9 @@
     "material": [ "superalloy", "plastic" ],
     "weight": "140 kg",
     "volume": "62500 ml",
-    "bashing": 6,
-    "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "LEAK_DAM", "RADIOACTIVE" ]
+    "flags": [ "TRADER_AVOID", "LEAK_DAM", "RADIOACTIVE" ],
+    "melee_damage": { "bash": 6, "cut": 6 }
   },
   {
     "type": "GENERIC",
@@ -253,10 +249,9 @@
     "material": [ "steel", "plastic" ],
     "weight": "140 kg",
     "volume": "62500 ml",
-    "bashing": 6,
-    "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "LEAK_DAM", "RADIOACTIVE" ]
+    "flags": [ "TRADER_AVOID", "LEAK_DAM", "RADIOACTIVE" ],
+    "melee_damage": { "bash": 6, "cut": 6 }
   },
   {
     "type": "GENERIC",
@@ -272,10 +267,9 @@
     "material": [ "steel", "plastic" ],
     "weight": "140 kg",
     "volume": "62500 ml",
-    "bashing": 6,
-    "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "LEAK_DAM", "RADIOACTIVE" ]
+    "flags": [ "TRADER_AVOID", "LEAK_DAM", "RADIOACTIVE" ],
+    "melee_damage": { "bash": 6, "cut": 6 }
   },
   {
     "type": "GENERIC",
@@ -291,9 +285,8 @@
     "material": [ "steel", "plastic" ],
     "weight": "140 kg",
     "volume": "62500 ml",
-    "bashing": 6,
-    "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "LEAK_DAM", "RADIOACTIVE" ]
+    "flags": [ "TRADER_AVOID", "LEAK_DAM", "RADIOACTIVE" ],
+    "melee_damage": { "bash": 6, "cut": 6 }
   }
 ]

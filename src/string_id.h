@@ -9,8 +9,8 @@
 #include <string>
 #include <type_traits>
 
-static constexpr int64_t INVALID_VERSION = -1;
-static constexpr int INVALID_CID = -1;
+constexpr int64_t INVALID_VERSION = -1;
+constexpr int INVALID_CID = -1;
 
 template<typename T>
 class generic_factory;
@@ -30,7 +30,7 @@ struct lexicographic;
  * if( critter.type->id == mtype_id("mon_cat") ) { ...
  * \endcode
  * This allows to find all ids that are initialized from static literals (and not
- * through the json loading). The can than easily be checked against the json
+ * through the json loading). That can then easily be checked against the json
  * definition to see whether they are actually defined there (or whether they are
  * defined only in a mod).
  *
@@ -214,6 +214,10 @@ class string_id
         // a std::string, otherwise a "no matching function to call..." error is generated.
         template<typename S, class = std::enable_if_t<std::is_convertible<S, std::string>::value>>
         explicit string_id( S && id ) : _id( std::forward<S>( id ) ) {}
+
+        // string_view is not implicitly convertible to std::string, so need a
+        // separate constructor for that
+        explicit string_id( const std::string_view id ) : string_id( std::string( id ) ) {}
         /**
          * Default constructor constructs an empty id string.
          * Note that this id class does not enforce empty id strings (or any specific string at all)

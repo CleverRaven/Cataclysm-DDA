@@ -208,7 +208,7 @@ TEST_CASE( "Having all pre-threshold mutations gives a sensible threshold breach
 {
     const int BREACH_POWER_MIN = 55;
 
-    for( const std::pair<mutation_category_id, mutation_category_trait> cat :
+    for( const std::pair<const mutation_category_id, mutation_category_trait> &cat :
          mutation_category_trait::get_all() ) {
         const mutation_category_trait &cur_cat = cat.second;
         const mutation_category_id &cat_id = cur_cat.id;
@@ -581,8 +581,7 @@ TEST_CASE( "Chance of bad mutations vs instability", "[mutations][instability]" 
         {4000, 0.598f},
         {5000, 0.649f},
         {6000, 0.686f},
-        {8000, 0.737f},
-        {10000, 0.770f}
+        {8000, 0.737f}
     };
 
     const int tries = 1000;

@@ -128,6 +128,25 @@ bool Character::has_trait_variant( const trait_and_var &test ) const
     return false;
 }
 
+bool Character::has_trait_flag( const json_character_flag &b ) const
+{
+    // UGLY, SLOW, should be cached as my_mutation_flags or something
+    for( const trait_id &mut : get_mutations() ) {
+        const mutation_branch &mut_data = mut.obj();
+        if( mut_data.flags.count( b ) > 0 ) {
+            return true;
+        } else if( mut_data.activated ) {
+            Character &player = get_player_character();
+            if( ( mut_data.active_flags.count( b ) > 0 && player.has_active_mutation( mut ) ) ||
+                ( mut_data.inactive_flags.count( b ) > 0 && !player.has_active_mutation( mut ) ) ) {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
 int Character::count_trait_flag( const json_character_flag &b ) const
 {
     int ret = 0;
@@ -775,7 +794,8 @@ void Character::activate_mutation( const trait_id &mut )
                 debugmsg( "Must use an activation eoc for a mutation activation.  If you don't want the effect_on_condition to happen on its own (without the mutation being activated), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this mutation with its condition and effects, then have a recurring one queue it." );
             }
         }
-        tdata.powered = false;
+        // if the activation EOCs are not just setup for processing then turn the mutation off
+        tdata.powered = mut->activated_is_setup;
     }
 
     if( mdata.transform ) {

@@ -52,7 +52,7 @@ struct shopkeeper_item_group {
     int trust = 0;
     bool strict = false;
     std::string refusal;
-    std::function<bool( const dialogue & )> condition;
+    std::function<bool( dialogue & )> condition;
 
     // Rigid shopkeeper groups will be processed a single time. Default groups are not rigid, and will be processed until the shopkeeper has no more room or remaining value to populate goods with.
     bool rigid = false;
@@ -128,7 +128,7 @@ class npc_class
         const time_duration &get_shop_restock_interval() const;
         faction_price_rule const *get_price_rules( item const &it, npc const &guy ) const;
 
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
 
         static const npc_class_id &from_legacy_int( int i );
 

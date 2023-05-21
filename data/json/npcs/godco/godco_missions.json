@@ -257,11 +257,20 @@
     "type": "mission_definition",
     "name": { "str": "Trophy Hunt II" },
     "description": "Continue the quest for trophies by finding an unhatched spider egg.",
-    "goal": "MGOAL_FIND_ITEM",
+    "goal": "MGOAL_CONDITION",
     "difficulty": 1,
     "value": 0,
-    "item": "spider_egg",
     "count": 1,
+    "goal_condition": {
+      "or": [
+        { "u_has_items": { "item": "egg_spider_cellar", "count": 1 } },
+        { "u_has_items": { "item": "egg_spider_jumping", "count": 1 } },
+        { "u_has_items": { "item": "egg_spider_trapdoor", "count": 1 } },
+        { "u_has_items": { "item": "egg_spider_web", "count": 1 } },
+        { "u_has_items": { "item": "egg_spider_widow", "count": 1 } },
+        { "u_has_items": { "item": "egg_spider_wolf", "count": 1 } }
+      ]
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "followup": "MISSION_GODCO_RUSSELL_TROPHY3",
@@ -276,7 +285,13 @@
       "success_lie": "You liar!",
       "failure": "You give up?  This country fell apart because no one could find a good man to rely on… might as well give up, I guess."
     },
-    "end": { "effect": [ { "u_spawn_item": "270win_jsp", "count": 4 }, { "u_spawn_item": "icon", "count": 5 } ] }
+    "end": {
+      "effect": [
+        { "u_spawn_item": "270win_jsp", "count": 4 },
+        { "u_spawn_item": "icon", "count": 5 },
+        { "run_eocs": "EOC_MISSION_GODCO_TROPHY2_done" }
+      ]
+    }
   },
   {
     "id": "MISSION_GODCO_RUSSELL_TROPHY3",
@@ -1167,7 +1182,7 @@
     "end": {
       "effect": [
         { "u_spawn_item": "icon", "count": 350 },
-        { "u_spawn_item": "pickled_egg", "count": 10, "container": "jar_glass_sealed", "sealed": true }
+        { "u_spawn_item": "pickled_egg", "count": 10, "container": "jar_glass_sealed" }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],

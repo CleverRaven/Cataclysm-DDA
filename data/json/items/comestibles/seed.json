@@ -487,7 +487,7 @@
     "copy-from": "seed_fruit",
     "name": { "str_sp": "watermelon seeds" },
     "description": "Some watermelon seeds.",
-    "seed_data": { "plant_name": "watermelon", "fruit": "watermelon", "fruit_div": 3, "byproducts": [ "withered" ], "grow": "91 days" }
+    "seed_data": { "plant_name": "watermelon", "fruit": "watermelon", "byproducts": [ "withered" ], "grow": "91 days" }
   },
   {
     "type": "COMESTIBLE",
@@ -612,6 +612,17 @@
       "byproducts": [ "withered" ],
       "grow": "91 days"
     }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "seed_wild_rice",
+    "copy-from": "seed",
+    "name": { "str_sp": "wild rice seeds" },
+    "description": "Some wild rice seeds, prepared for planting.",
+    "primary_material": "dried_vegetable",
+    "weight": "5 g",
+    "stack_size": 10,
+    "seed_data": { "plant_name": "wild rice", "fruit": "wild_rice", "byproducts": [ "withered" ], "grow": "91 days" }
   },
   {
     "type": "COMESTIBLE",
@@ -909,5 +920,14 @@
     "name": { "str_sp": "bell pepper seeds" },
     "description": "Some bell pepper seeds.",
     "seed_data": { "plant_name": "bell pepper", "fruit": "bell_pepper", "byproducts": [ "withered" ], "grow": "70 days" }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "seed_bottle_gourd",
+    "copy-from": "seed",
+    "price": 50,
+    "name": { "str_sp": "bottle gourd seeds" },
+    "description": "Some bottle gourd seeds.",
+    "seed_data": { "plant_name": "bottle gourd", "fruit": "raw_bottle_gourd", "byproducts": [ "withered" ], "grow": "60 days" }
   }
 ]

@@ -129,6 +129,52 @@
   },
   {
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "mozzarella_cheese",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "35 m",
+    "charges": 8,
+    "book_learn": [ [ "dairy_book", 1 ] ],
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "proficiencies": [
+      { "proficiency": "prof_food_prep" },
+      { "proficiency": "prof_cheesemaking_1" },
+      { "proficiency": "prof_cheesemaking_2" }
+    ],
+    "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ], [ [ "colander_steel", -1 ] ], [ [ "cotton_patchwork", -1 ] ] ],
+    "components": [
+      [ [ "milk", 5 ], [ "milk_raw", 5 ] ],
+      [ [ "vinegar", 1 ], [ "chem_citric_acid", 1 ] ],
+      [ [ "salt", 1 ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "fried_mozzarella_sticks",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "25 m",
+    "charges": 10,
+    "book_learn": [ [ "dairy_book", 1 ] ],
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ], [ [ "frying_oil", 1, "LIST" ] ] ],
+    "components": [
+      [ [ "mozzarella_cheese", 8 ] ],
+      [ [ "flour", 4 ], [ "flour_wheat_free", 4 ] ],
+      [ [ "milk", 1 ] ],
+      [ [ "garlic_powder", 1 ] ],
+      [ [ "eggs_any_shape", 1, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "ghee",
     "category": "CC_FOOD",

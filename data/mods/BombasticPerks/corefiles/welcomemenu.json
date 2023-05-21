@@ -1,0 +1,116 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "TALK_PERK_MENU_WELCOME",
+    "dynamic_line": "Welcome to Bombastic Perks.  Once you complete this configuration, your character should receive a \"perk menu\" trait which you can use to check your EXP, level, and browse available perks.\nPlease configure the mod with the settings below.",
+    "responses": [
+      { "text": "Use Default Settings", "effect": [ { "run_eocs": "EOC_give_perk_menu" } ], "topic": "TALK_DONE" },
+      { "text": "Customize Settings", "topic": "TALK_PERK_MENU_WELCOME_FIRST_LEVEL" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_PERK_MENU_WELCOME_FIRST_LEVEL",
+    "dynamic_line": "How much experience should be required to get to the first level?",
+    "responses": [
+      {
+        "text": "Small (10 exp)",
+        "effect": [ { "arithmetic": [ { "u_val": "var", "var_name": "exp_to_perk" }, "=", { "const": 10 } ] } ],
+        "topic": "TALK_PERK_MENU_WELCOME_EXP_INCREMENT"
+      },
+      {
+        "text": "Normal (100 exp)",
+        "effect": [ { "arithmetic": [ { "u_val": "var", "var_name": "exp_to_perk" }, "=", { "const": 100 } ] } ],
+        "topic": "TALK_PERK_MENU_WELCOME_EXP_INCREMENT"
+      },
+      {
+        "text": "Large (1000 exp)",
+        "effect": [ { "arithmetic": [ { "u_val": "var", "var_name": "exp_to_perk" }, "=", { "const": 1000 } ] } ],
+        "topic": "TALK_PERK_MENU_WELCOME_EXP_INCREMENT"
+      },
+      { "text": "Back", "topic": "TALK_PERK_MENU_WELCOME" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_PERK_MENU_WELCOME_EXP_INCREMENT",
+    "dynamic_line": "How much more experience should be required to get to each additional level?",
+    "responses": [
+      {
+        "text": "None (0 exp)",
+        "effect": [ { "arithmetic": [ { "u_val": "var", "var_name": "exp_per_level" }, "=", { "const": 0 } ] } ],
+        "topic": "TALK_PERK_MENU_WELCOME_REQUIREMENTS"
+      },
+      {
+        "text": "Normal (300 xp)",
+        "effect": [ { "arithmetic": [ { "u_val": "var", "var_name": "exp_per_level" }, "=", { "const": 300 } ] } ],
+        "topic": "TALK_PERK_MENU_WELCOME_REQUIREMENTS"
+      },
+      {
+        "text": "Large (1000 xp)",
+        "effect": [ { "arithmetic": [ { "u_val": "var", "var_name": "exp_per_level" }, "=", { "const": 1000 } ] } ],
+        "topic": "TALK_PERK_MENU_WELCOME_REQUIREMENTS"
+      },
+      {
+        "text": "Very Large (10000 xp)",
+        "effect": [ { "arithmetic": [ { "u_val": "var", "var_name": "exp_per_level" }, "=", { "const": 10000 } ] } ],
+        "topic": "TALK_PERK_MENU_WELCOME_REQUIREMENTS"
+      },
+      { "text": "Back", "topic": "TALK_PERK_MENU_WELCOME_FIRST_LEVEL" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_PERK_MENU_WELCOME_REQUIREMENTS",
+    "dynamic_line": "Should some perks be allowed to be locked behind prerequisites?",
+    "responses": [
+      {
+        "text": "Prerequisites (default)",
+        "effect": [ { "arithmetic": [ { "u_val": "var", "var_name": "no_prerecs" }, "=", { "const": 0 } ] } ],
+        "topic": "TALK_PERK_MENU_WELCOME_CONFIRM_YES"
+      },
+      {
+        "text": "No Prerequisites",
+        "effect": [ { "arithmetic": [ { "u_val": "var", "var_name": "no_prerecs" }, "=", { "const": 1 } ] } ],
+        "topic": "TALK_PERK_MENU_WELCOME_CONFIRM_NO"
+      },
+      { "text": "Back", "topic": "TALK_PERK_MENU_WELCOME_EXP_INCREMENT" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_PERK_MENU_WELCOME_CONFIRM_YES",
+    "dynamic_line": "You are about to enable the mod with:\nFirst perk at: <u_val:exp_to_perk> exp.\nAdditional exp required per level: <u_val:exp_per_level>.\nPerks will have requirements.",
+    "responses": [
+      {
+        "text": "Confirm",
+        "effect": [
+          { "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "const": 0 } ] },
+          { "arithmetic": [ { "u_val": "var", "var_name": "available_exp" }, "=", { "const": 0 } ] },
+          { "arithmetic": [ { "u_val": "var", "var_name": "current_level" }, "=", { "const": 0 } ] },
+          { "u_add_trait": "perk_perk_menu" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      { "text": "Back", "topic": "TALK_PERK_MENU_WELCOME_REQUIREMENTS" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_PERK_MENU_WELCOME_CONFIRM_NO",
+    "dynamic_line": "You are about to enable the mod with:\nFirst perk at: <u_val:exp_to_perk> exp.\nAdditional exp required per level: <u_val:exp_per_level>.\nPerks will not have requirements.",
+    "responses": [
+      {
+        "text": "Confirm",
+        "effect": [
+          { "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "const": 0 } ] },
+          { "arithmetic": [ { "u_val": "var", "var_name": "available_exp" }, "=", { "const": 0 } ] },
+          { "arithmetic": [ { "u_val": "var", "var_name": "current_level" }, "=", { "const": 0 } ] },
+          { "u_add_trait": "perk_perk_menu" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      { "text": "Back", "topic": "TALK_PERK_MENU_WELCOME_REQUIREMENTS" }
+    ]
+  }
+]

@@ -27,7 +27,7 @@ struct add_type {
         static void load_add_types( const JsonObject &jo, const std::string &src );
         static void reset();
         static void check_add_types();
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
         static const std::vector<add_type> &get_all();
 
         const translation &get_name() const {

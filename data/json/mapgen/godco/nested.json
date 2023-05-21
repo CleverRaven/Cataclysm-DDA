@@ -371,7 +371,6 @@
     "object": {
       "mapgensize": [ 5, 5 ],
       "faction_owner": [ { "id": "free_merchants", "x": [ 0, 5 ], "y": [ 0, 5 ] } ],
-      "fill_ter": "t_dirtfloor_thatchroof",
       "rows": [
         "#####",
         "#CCC#",
@@ -398,7 +397,13 @@
           "y": 3
         }
       ],
-      "furniture": { "C": "f_crate_o", "b": "f_chair", "#": "f_canvas_wall", "+": "f_large_canvas_door" }
+      "furniture": { "C": "f_crate_o", "b": "f_chair", "#": "f_canvas_wall", "+": "f_large_canvas_door" },
+      "terrain": {
+        "C": "t_dirtfloor_thatchroof",
+        "b": "t_dirtfloor_thatchroof",
+        "#": "t_dirtfloor_thatchroof",
+        "+": "t_dirtfloor_thatchroof"
+      }
     }
   }
 ]

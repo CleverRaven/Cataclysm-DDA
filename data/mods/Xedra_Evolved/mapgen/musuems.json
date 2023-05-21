@@ -1,0 +1,147 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "museum" ],
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_marble_floor",
+      "rows": [
+        ".R*f*R*ff*RssR*ff*R*f*R.",
+        ".||||||||||LL||||||||||.",
+        ".|d5                  |.",
+        ".||R            555   |.",
+        ".|d5  DD   DD   5#5   |.",
+        ".||R  DD   DD   5#5   |.",
+        ".|d5            555  P|.",
+        ".||R                 P|.",
+        ".|d5            555  P|.",
+        ".||R  DD   DD   5#5   |.",
+        ".|d5  DD   DD   5#5   |.",
+        ".||R            555  Y|.",
+        ".|j5                 Y|.",
+        ".|j5       UtU  555  Y|.",
+        ".|||555|y       5#5   |.",
+        ".|GGGGG5   UtU  5#5  P|.",
+        ".|Gc   L        555  P|.",
+        ".|G UyU5 DDD          |.",
+        ".||||||||||||L||||||L||.",
+        ".| d  a   |       P| y|.",
+        ".|Y      a|  aaaa D|&S|.",
+        ".|P   *   +  tttt  ||||.",
+        ".|y       |y aaaa  L l|4",
+        ".||||||||||||||||||||||."
+      ],
+      "terrain": {
+        "f": "t_region_groundcover_urban",
+        "*": "t_region_shrub_decorative",
+        " ": "t_marble_floor",
+        "+": "t_door_c",
+        "R": "t_column",
+        "s": "t_concrete",
+        ".": "t_region_groundcover_urban",
+        "5": "t_wall_glass_alarm",
+        "L": "t_door_locked_alarm",
+        "4": "t_gutter_downspout",
+        "|": "t_brick_wall"
+      },
+      "nested": { "d": { "chunks": [ "1x1_museum_display_mannequin" ] }, "#": { "chunks": [ "1x1_museum_displaycase" ] } },
+      "toilets": { "&": {  } },
+      "furniture": {
+        "f": "f_region_flower_decorative",
+        "a": "f_stool",
+        "y": [ "f_indoor_plant_y", "f_indoor_plant" ],
+        "U": "f_armchair",
+        "#": "f_counter",
+        "D": "f_displaycase",
+        "Y": "f_displaycase",
+        "G": "f_desk",
+        "c": "f_chair",
+        "t": "f_table",
+        "j": "f_table",
+        "S": "f_sink",
+        "l": "f_locker",
+        "P": "f_glass_cabinet",
+        "*": [ "f_golden_monolith", "f_broken_golden_monolith", "f_broken_golden_monolith" ]
+      },
+      "items": {
+        "G": { "item": "museum_security", "chance": 80 },
+        "l": { "item": "cleaning", "chance": 30 },
+        "j": { "item": "museum_armor_pet", "chance": 80 },
+        "S": { "item": "softdrugs", "chance": 30, "repeat": [ 1, 2 ] },
+        "P": { "item": "museum_primitive", "chance": 90, "repeat": [ 2, 4 ] },
+        "Y": { "item": "museum_melee", "chance": 80 }
+      },
+      "place_signs": [ { "signage": "Museum of Curiosities", "x": 9, "y": 0 } ],
+      "place_items": [
+        { "item": "museum_primitive", "x": [ 6, 7 ], "y": [ 4, 5 ], "chance": 85 },
+        { "item": "museum_primitive", "x": [ 6, 7 ], "y": [ 9, 10 ], "chance": 85 },
+        { "item": "museum_melee", "x": [ 11, 12 ], "y": [ 4, 5 ], "chance": 70 },
+        { "item": "museum_melee", "x": [ 11, 12 ], "y": [ 9, 10 ], "chance": 70 },
+        { "item": "museum_guns", "x": 17, "y": [ 4, 5 ], "chance": 75 },
+        { "item": "museum_guns", "x": 17, "y": [ 9, 10 ], "chance": 75 },
+        { "item": "museum_misc", "x": 17, "y": [ 14, 15 ], "chance": 95 },
+        { "item": "museum_misc", "x": [ 11, 12 ], "y": [ 9, 10 ], "chance": 95 },
+        { "item": "museum_guns", "x": [ 9, 11 ], "y": 17, "chance": 75 },
+        { "item": "museum_armor", "x": [ 4, 7 ], "y": [ 20, 21 ], "chance": 70 },
+        { "item": "museum_melee", "x": [ 4, 7 ], "y": [ 20, 21 ], "chance": 70 },
+        { "item": "museum_guns", "x": [ 4, 7 ], "y": [ 20, 21 ], "chance": 70 },
+        { "item": "museum_misc", "x": [ 4, 7 ], "y": [ 20, 21 ], "chance": 80 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "museum_roof",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        " R   R    R  R    R   R ",
+        " |222222222222222222223 ",
+        " |....................3 ",
+        " |........U........M..3 ",
+        " |....................3 ",
+        " |....ooo..oo..ooo....3 ",
+        " |....ooo..oo..ooo....3 ",
+        " |....ooo..oo..ooo....3 ",
+        " |.Z..................3 ",
+        " |....................3 ",
+        " |....ooo..oo..ooo....3 ",
+        " |....ooo..oo..ooo....3 ",
+        " |....ooo..oo..ooo....3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................5 ",
+        " |--------------------3 "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { "R": "t_column" },
+      "nested": {
+        "U": { "chunks": [ "roof_2x2_infrastructure" ] },
+        "M": { "chunks": [ "roof_2x2_infrastructure_1" ] },
+        "Z": { "chunks": [ "roof_2x2_infrastructure_2" ] }
+      },
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_2x2_utilities_b", 15 ],
+            [ "roof_2x2_utilities_c", 5 ],
+            [ "roof_2x2_utilities_d", 40 ],
+            [ "roof_2x2_utilities", 50 ]
+          ],
+          "x": [ 4, 17 ],
+          "y": [ 14, 19 ]
+        }
+      ]
+    }
+  }
+]

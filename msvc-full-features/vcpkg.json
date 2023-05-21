@@ -9,7 +9,7 @@
         },
         {
           "name": "sdl2-mixer",
-          "features": [ "libflac", "mpg123", "libmodplug", "libvorbis" ]
+          "features": [ "libflac", "mpg123", "libmodplug" ]
         },
         "sdl2-ttf"
     ],

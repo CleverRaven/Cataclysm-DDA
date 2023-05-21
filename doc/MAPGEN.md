@@ -24,6 +24,8 @@
     * [Set things in a "square"](#set-things-in-a-square)
   * [Spawn a single monster with "place_monster"](#spawn-a-single-monster-with-place_monster)
   * [Spawn an entire group of monsters with "place_monsters"](#spawn-an-entire-group-of-monsters-with-place_monsters)
+  * [Spawn npcs with "place_npcs"](#spawn-npcs-with-place_npcs)
+  * [Set variables with "place_variables"](#set-variables-with-place_variables)
   * [Spawn specific items with a "place_item" array](#spawn-specific-items-with-a-place_item-array)
   * [Extra map features with specials](#extra-map-features-with-specials)
     * [Place smoke, gas, or blood with "fields"](#place-smoke-gas-or-blood-with-fields)
@@ -276,7 +278,7 @@ optional.
 
 Value: `"string"`: Valid terrain id from data/json/terrain.json
 
-Example: `"fill_ter": "t_grass"`
+Example: `"fill_ter": "t_region_groundcover"`
 
 
 ## ASCII map using "rows" array
@@ -312,24 +314,24 @@ Example:
 
 ```json
 "rows": [
-  ",_____ssssssssssss_____,",
-  ",__,__#### ss ####__,__,",
+  ",_____####ssss####_____,",
+  ",__,__#ssssssssss#__,__,",
   ",_,,,_#ssssssssss#__,__,",
-  ",__,__#hthsssshth#__,__,",
+  ",__,__#HTHssssHTH#__,__,",
   ",__,__#ssssssssss#_,,,_,",
-  ",__,__|-555++555-|__,__,",
-  ",_____|.hh....hh.%_____,",
-  ",_____%.tt....tt.%_____,",
-  ",_____%.tt....tt.%_____,",
-  ",_____%.hh....hh.|_____,",
-  ",_____|..........%_____,",
-  ",,,,,,|..........+_____,",
-  ",_____|ccccxcc|..%_____,",
-  ",_____w.......+..|_____,",
-  ",_____|e.ccl.c|+-|_____,",
-  ",_____|O.....S|.S|_____,",
-  ",_____||erle.x|T||_____,",
-  ",_____#|----w-|-|#_____,",
+  ",__,__||---++---||__,__,",
+  ",_____|.HH....HH.-_____,",
+  ",_____-.TT....TT.-_____,",
+  ",_____-.TT....TT.-_____,",
+  ",_____-.HH....HH.|_____,",
+  ",_____|..........-_____,",
+  ",,,,,,|g.........+_____,",
+  ",_____|ccxcxcc|..-_____,",
+  ",_____ow=w=w=w+..|_____,",
+  ",_____|ewccOwc|t||_____,",
+  ",_____|l=w=w=S|=S|_____,",
+  ",_____||eercwx|P||_____,",
+  ",_____#|||||o||||4_____,",
   ",________,_____________,",
   ",________,_____________,",
   ",________,_____________,",
@@ -351,34 +353,23 @@ Example:
 
 ```json
 "terrain": {
-  " ": "t_grass",
-  "d": "t_floor",
-  "5": "t_wall_glass_h",
-  "%": "t_wall_glass_v",
-  "O": "t_floor",
-  ",": "t_pavement_y",
+  " ": "t_region_groundcover_urban",
+  "d": "t_region_groundcover_barren",
+  "#": "t_region_shrub_decorative",
   "_": "t_pavement",
-  "r": "t_floor",
-  "6": "t_console",
-  "x": "t_console_broken",
-  "$": "t_shrub",
-  "^": "t_floor",
-  ".": "t_floor",
-  "-": "t_wall_h",
-  "|": "t_wall_v",
-  "#": "t_shrub",
-  "t": "t_floor",
+  ",": "t_pavement_y",
+  "s": "t_sidewalk",
+  "-": "t_wall_glass",
   "+": "t_door_glass_c",
-  "=": "t_door_locked_alarm",
-  "D": "t_door_locked",
-  "w": "t_window_domestic",
-  "T": "t_floor",
-  "S": "t_floor",
-  "e": "t_floor",
-  "h": "t_floor",
-  "c": "t_floor",
-  "l": "t_floor",
-  "s": "t_sidewalk"
+  "o": "t_window_open",
+  "|": "t_wall_w",
+  "t": [ [ "t_door_c", 2 ], "t_door_c" ],
+  ".": "t_floor",
+  "=": "t_linoleum_gray",
+  "P": "t_linoleum_gray",
+  "r": "t_linoleum_gray",
+  "O": "t_linoleum_white",
+  "4": "t_gutter_downspout"
 },
 ```
 
@@ -392,19 +383,17 @@ Example:
 
 ```json
 "furniture": {
-  "d": "f_dumpster",
-  "5": "f_null",
-  "%": "f_null",
-  "O": "f_oven",
-  "r": "f_rack",
-  "^": "f_indoor_plant",
-  "t": "f_table",
-  "T": "f_toilet",
+  "H": "f_chair",
+  "T": "f_table",
   "S": "f_sink",
-  "e": "f_fridge",
-  "h": "f_chair",
+  "x": "f_counter",
   "c": "f_counter",
-  "l": "f_locker"
+  "l": "f_locker",
+  "e": "f_fridge",
+  "r": "f_oven",
+  "O": "f_oven",
+  "g": "f_trashcan",
+  "d": "f_dumpster"
 },
 ```
 
@@ -625,6 +614,23 @@ Using `place_monsters` to spawn a group of monsters works in a similar fashion t
 | repeat      | The spawning is repeated this many times. Can be a number or a range. Again, this represents the number of times the group will be spawned.
 | density | This number is multiplied by the spawn density of the world the player is in and then probabilistically rounded to determine how many times to spawn the group. This is done for each time the spawn is repeated. For instance, if the final multiplier from this calculation ends up being `2`, and the repeat value is `6`, then the group will be spawned `2 * 6` or 12 times.
 
+## Spawn npcs with "place_npcs"
+Using `place_npcs` to spawn a group of npcs.
+
+|Field|Description  |
+|--|--|
+| x, y        | Spawn coordinates ( specific or area rectangle ). Value: 0-23 or `[ 0-23, 0-23 ]` - random value between `[ a, b ]`.
+| class | The class of the npc that you wish to spawn |
+| add_trait      | A string of array of strings for traits the npc starts with.
+| unique_id      | A string for the unique_id the npc has.
+
+## Set variables with "place_variables"
+Using `place_variables` to set a group of variables.
+
+|Field|Description  |
+|--|--|
+| x, y        | Spawn coordinates ( specific or area rectangle ). Value: 0-23 or `[ 0-23, 0-23 ]` - random value between `[ a, b ]`.
+| name      | The name of the global variable to set with the absolute coordinates of x and y.
 
 ## Spawn specific items with a "place_item" array
 **optional** A list of *specific* things to add. WIP: Monsters and vehicles will be here too
@@ -678,7 +684,7 @@ Example (places grass at 2/3 of all '.' square and dirt at 1/3 of them):
 
 ```json
 "terrain" : {
-    ".": [ "t_grass", "t_grass", "t_dirt" ]
+    ".": [ "t_region_grass", "t_region_grass", "t_region_soil" ]
 }
 ```
 
@@ -687,7 +693,7 @@ useful for rare occurrences (rather than repeating the common value many times):
 
 ```json
 "terrain" : {
-    ".": [ [ "t_grass", 2 ], "t_dirt" ]
+    ".": [ [ "t_region_grass", 2 ], "t_region_soil" ]
 }
 ```
 
@@ -707,7 +713,7 @@ Or define the mappings for one character at once:
         "traps": "tr_beartrap",
         "field": { "field": "fd_blood" },
         "item": { "item": "corpse" },
-        "terrain": { "t_dirt" }
+        "terrain": { "t_region_soil" }
     }
 }
 ```
@@ -1208,7 +1214,7 @@ For example, the default value of a parameter, or a terrain id in the
 * A JSON object containing the key `"distribution"`, whose corresponding value
   is a list of lists, each a pair of a string id and an integer weight.  For
   example:
-```
+```json
 { "distribution": [ [ "t_flat_roof", 2 ], [ "t_tar_flat_roof", 1 ], [ "t_shingle_flat_roof", 1 ] ] }
 ```
 * A JSON object containing the key `"param"`, whose corresponding value is the

@@ -135,7 +135,7 @@
       ],
       "place_items": [
         { "chance": 30, "item": "coffee_trash", "x": 8, "y": 20 },
-        { "chance": 35, "item": "building_rubble", "x": 20, "y": 17 },
+        { "chance": 35, "item": "collapsed_building_rubble", "x": 20, "y": 17 },
         { "chance": 20, "item": "tools_common", "x": 4, "y": 20 },
         { "chance": 10, "item": "tools_common", "x": 6, "y": 8 },
         { "chance": 10, "item": "bar_trash", "x": 19, "y": 18 },

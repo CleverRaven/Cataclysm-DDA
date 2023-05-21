@@ -124,8 +124,8 @@
   {
     "type": "overmap_terrain",
     "id": [ "pump_station_3", "pump_station_4", "pump_station_5" ],
-    "name": "sewer",
-    "sym": "│",
+    "name": "pump station",
+    "sym": "P",
     "color": "green",
     "see_cost": 999,
     "mondensity": 2

@@ -9,7 +9,6 @@
     "price": 1000,
     "price_postapoc": 1000,
     "to_hit": 1,
-    "bashing": 1,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "leather_pouch",
@@ -45,12 +44,12 @@
           "545x39": 60,
           "223": 60,
           "3006": 60,
+          "303": 60,
           "270win": 60,
           "308": 60,
           "12mm": 60,
           "8x40mm": 60,
           "20x66mm": 60,
-          "5x50": 60,
           "stimpack_ammo": 60,
           "ampoule": 60,
           "300": 60,
@@ -62,11 +61,13 @@
           "762R": 60,
           "paintball": 60
         },
-        "moves": 35
+        "moves": 35,
+        "volume_encumber_modifier": 0.3
       }
     ],
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "PALS_LARGE" ],
-    "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
+    "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "ammo_satchel",
@@ -223,7 +224,8 @@
         "max_contains_weight": "2 kg",
         "moves": 60,
         "flag_restriction": [ "JAVELIN" ],
-        "max_item_length": "150 cm"
+        "max_item_length": "150 cm",
+        "volume_encumber_modifier": 0.3
       },
       {
         "pocket_type": "CONTAINER",
@@ -232,7 +234,8 @@
         "max_contains_weight": "2 kg",
         "moves": 60,
         "flag_restriction": [ "JAVELIN" ],
-        "max_item_length": "150 cm"
+        "max_item_length": "150 cm",
+        "volume_encumber_modifier": 0.3
       },
       {
         "pocket_type": "CONTAINER",
@@ -241,7 +244,8 @@
         "max_contains_weight": "2 kg",
         "moves": 60,
         "flag_restriction": [ "JAVELIN" ],
-        "max_item_length": "150 cm"
+        "max_item_length": "150 cm",
+        "volume_encumber_modifier": 0.3
       },
       {
         "pocket_type": "CONTAINER",
@@ -250,7 +254,8 @@
         "max_contains_weight": "2 kg",
         "moves": 60,
         "flag_restriction": [ "JAVELIN" ],
-        "max_item_length": "150 cm"
+        "max_item_length": "150 cm",
+        "volume_encumber_modifier": 0.3
       },
       {
         "pocket_type": "CONTAINER",
@@ -259,12 +264,13 @@
         "max_contains_weight": "2 kg",
         "moves": 60,
         "flag_restriction": [ "JAVELIN" ],
-        "max_item_length": "150 cm"
+        "max_item_length": "150 cm",
+        "volume_encumber_modifier": 0.3
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stash javelins", "holster_msg": "You stash your %s." },
     "flags": [ "WATER_FRIENDLY", "OVERSIZE", "BELTED" ],
-    "armor": [ { "encumbrance": 10, "coverage": 60, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+    "armor": [ { "encumbrance": 5, "coverage": 60, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {
     "id": "legpouch",
@@ -359,7 +365,6 @@
     "volume": "500 ml",
     "price": 6500,
     "price_postapoc": 1000,
-    "bashing": 2,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "bscabbard",
@@ -375,7 +380,8 @@
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_upper_l", "leg_upper_r" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "quiver_birchbark",
@@ -386,7 +392,6 @@
     "volume": "500 ml",
     "price": 6500,
     "price_postapoc": 750,
-    "bashing": 2,
     "material": [ "wood" ],
     "symbol": "[",
     "looks_like": "quiver",
@@ -402,7 +407,8 @@
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_upper_l", "leg_upper_r" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "quiver_large",
@@ -413,7 +419,6 @@
     "volume": "1500 ml",
     "price": 8800,
     "price_postapoc": 1500,
-    "bashing": 4,
     "material": [ "leather", "steel" ],
     "symbol": "[",
     "looks_like": "quiver",
@@ -421,7 +426,8 @@
     "material_thickness": 1,
     "pocket_data": [ { "ammo_restriction": { "arrow": 60, "bolt": 60 }, "moves": 20 } ],
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": 3, "coverage": 30, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+    "armor": [ { "encumbrance": 3, "coverage": 30, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "quiver_large_birchbark",
@@ -432,7 +438,6 @@
     "volume": "1500 ml",
     "price": 8800,
     "price_postapoc": 1250,
-    "bashing": 4,
     "material": [ "wood" ],
     "symbol": "[",
     "looks_like": "quiver_birchbark",
@@ -440,7 +445,8 @@
     "material_thickness": 1,
     "pocket_data": [ { "ammo_restriction": { "arrow": 60, "bolt": 60 }, "moves": 20 } ],
     "flags": [ "BELTED", "VARSIZE", "OVERSIZE", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": 14, "coverage": 30, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+    "armor": [ { "encumbrance": 14, "coverage": 30, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "quiver_takedown_bow",
@@ -452,7 +458,6 @@
     "volume": "1500 ml",
     "price": 8800,
     "price_postapoc": 1500,
-    "bashing": 4,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "quiver",
@@ -488,7 +493,8 @@
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_hanging_back" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "tacvest",
@@ -514,7 +520,8 @@
         "max_contains_volume": "1000 ml",
         "max_contains_weight": "2 kg",
         "max_item_length": "30 cm",
-        "moves": 50
+        "moves": 50,
+        "volume_encumber_modifier": 0.3
       },
       {
         "pocket_type": "CONTAINER",
@@ -523,7 +530,8 @@
         "max_contains_volume": "1 L",
         "max_contains_weight": "2 kg",
         "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
-        "moves": 60
+        "moves": 60,
+        "volume_encumber_modifier": 0.25
       },
       {
         "pocket_type": "CONTAINER",
@@ -532,7 +540,8 @@
         "max_contains_volume": "1 L",
         "max_contains_weight": "2 kg",
         "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
-        "moves": 60
+        "moves": 60,
+        "volume_encumber_modifier": 0.25
       },
       {
         "pocket_type": "CONTAINER",
@@ -541,7 +550,8 @@
         "max_contains_volume": "800 ml",
         "max_contains_weight": "1600 g",
         "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
-        "moves": 60
+        "moves": 60,
+        "volume_encumber_modifier": 0.25
       },
       {
         "pocket_type": "CONTAINER",
@@ -550,7 +560,8 @@
         "max_contains_volume": "800 ml",
         "max_contains_weight": "1600 g",
         "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
-        "moves": 60
+        "moves": 60,
+        "volume_encumber_modifier": 0.25
       },
       {
         "pocket_type": "CONTAINER",
@@ -559,12 +570,17 @@
         "max_contains_volume": "800 ml",
         "max_contains_weight": "1600 g",
         "flag_restriction": [ "MAG_COMPACT", "MAG_BULKY" ],
-        "moves": 60
+        "moves": 60,
+        "volume_encumber_modifier": 0.25
       },
-      { "ammo_restriction": { "410shot": 6, "shot": 6, "20x66mm": 6, "signal_flare": 6 }, "moves": 25 }
+      {
+        "ammo_restriction": { "410shot": 6, "shot": 6, "20x66mm": 6, "signal_flare": 6 },
+        "moves": 25,
+        "volume_encumber_modifier": 0.2
+      }
     ],
     "flags": [ "WATER_FRIENDLY", "BELTED" ],
-    "armor": [ { "encumbrance": [ 2, 14 ], "coverage": 85, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
+    "armor": [ { "encumbrance": 2, "coverage": 85, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
   },
   {
     "id": "xl_tacvest",
@@ -1176,7 +1192,6 @@
     "volume": "8 L",
     "price_postapoc": 2500,
     "to_hit": -3,
-    "bashing": 6,
     "material": [ "kevlar_layered", "nylon" ],
     "symbol": "[",
     "looks_like": "kevlar",
@@ -1208,7 +1223,8 @@
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_lower" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "ammo_satchel_leather",
@@ -1279,7 +1295,6 @@
     "price": 1000,
     "price_postapoc": 100,
     "to_hit": 1,
-    "bashing": 1,
     "material": [ "nylon" ],
     "symbol": "[",
     "looks_like": "leather_pouch",
@@ -1297,7 +1312,8 @@
       }
     ],
     "flags": [ "CANT_WEAR", "WATER_FRIENDLY", "PALS_SMALL" ],
-    "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "torso" ] } ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "belt_loop_medium",
@@ -1310,7 +1326,6 @@
     "price": 1000,
     "price_postapoc": 100,
     "to_hit": 1,
-    "bashing": 1,
     "material": [ "nylon" ],
     "symbol": "[",
     "looks_like": "leather_pouch",
@@ -1328,7 +1343,8 @@
       }
     ],
     "flags": [ "CANT_WEAR", "WATER_FRIENDLY", "PALS_MEDIUM" ],
-    "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "torso" ] } ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "belt_loop_large",
@@ -1341,7 +1357,6 @@
     "price": 1000,
     "price_postapoc": 100,
     "to_hit": 1,
-    "bashing": 1,
     "material": [ "nylon" ],
     "symbol": "[",
     "looks_like": "leather_pouch",
@@ -1359,6 +1374,7 @@
       }
     ],
     "flags": [ "CANT_WEAR", "WATER_FRIENDLY", "PALS_LARGE" ],
-    "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "torso" ] } ],
+    "melee_damage": { "bash": 1 }
   }
 ]

@@ -22,11 +22,10 @@
     "price": 3000,
     "price_postapoc": 50,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "point", "balance": "neutral" },
-    "bashing": 2,
-    "cutting": 14,
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 25 ] ],
-    "flags": [ "STAB", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
-    "weapon_category": [ "KNIVES" ]
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "weapon_category": [ "KNIVES" ],
+    "melee_damage": { "bash": 2, "stab": 14 }
   },
   {
     "id": "knife_steak",
@@ -42,11 +41,10 @@
     "price": 250,
     "price_postapoc": 50,
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "neutral" },
-    "bashing": 2,
-    "cutting": 7,
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 15 ] ],
-    "flags": [ "STAB", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
-    "weapon_category": [ "KNIVES" ]
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "weapon_category": [ "KNIVES" ],
+    "melee_damage": { "bash": 2, "stab": 7 }
   },
   {
     "id": "knife_paring",
@@ -63,10 +61,9 @@
     "price": 250,
     "price_postapoc": 50,
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "neutral" },
-    "bashing": 1,
-    "cutting": 6,
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 10 ] ],
-    "flags": [ "STAB", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ]
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "melee_damage": { "bash": 1, "stab": 6 }
   },
   {
     "id": "knife_chef",
@@ -83,11 +80,10 @@
     "price": 1500,
     "price_postapoc": 100,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "point", "balance": "neutral" },
-    "bashing": 2,
-    "cutting": 16,
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 10 ] ],
-    "flags": [ "STAB", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
-    "weapon_category": [ "KNIVES" ]
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "weapon_category": [ "KNIVES" ],
+    "melee_damage": { "bash": 2, "stab": 16 }
   },
   {
     "id": "knife_carving",
@@ -104,11 +100,10 @@
     "price": 1500,
     "price_postapoc": 50,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "point", "balance": "neutral" },
-    "bashing": 1,
-    "cutting": 18,
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 22 ] ],
-    "flags": [ "STAB", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
-    "weapon_category": [ "KNIVES" ]
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "weapon_category": [ "KNIVES" ],
+    "melee_damage": { "bash": 1, "stab": 18 }
   },
   {
     "id": "knife_bread",
@@ -124,11 +119,10 @@
     "longest_side": "35 cm",
     "price": 500,
     "price_postapoc": 50,
-    "bashing": 4,
-    "cutting": 6,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "neutral" },
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 8 ] ],
-    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ]
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "melee_damage": { "bash": 4, "cut": 6 }
   },
   {
     "id": "knife_vegetable_cleaver",
@@ -145,10 +139,9 @@
     "price": 2500,
     "price_postapoc": 50,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "neutral" },
-    "bashing": 3,
-    "cutting": 17,
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 15 ] ],
-    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ]
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "melee_damage": { "bash": 3, "cut": 17 }
   },
   {
     "id": "knife_meat_cleaver",
@@ -165,9 +158,8 @@
     "price": 3500,
     "price_postapoc": 50,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "neutral" },
-    "bashing": 6,
-    "cutting": 16,
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 25 ] ],
-    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ]
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "melee_damage": { "bash": 6, "cut": 16 }
   }
 ]

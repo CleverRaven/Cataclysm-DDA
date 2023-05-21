@@ -18,7 +18,8 @@
       { "x": 0, "y": 0, "parts": [ "xlframe_cross_unconnected", "wheel_10", "minifridge" ] },
       { "x": 0, "y": 0, "part": "controls_electronic" },
       { "x": -1, "y": 0, "parts": [ "xlframe_cross_unconnected", "wheel_10" ] },
-      { "x": -1, "y": 0, "parts": [ "small_storage_battery", "kitchen_unit" ] }
+      { "x": -1, "y": 0, "parts": [ "small_storage_battery" ] },
+      { "x": -1, "y": 0, "part": "veh_tools_kitchen", "tools": [ "hotplate", "pan", "pot" ] }
     ],
     "items": [
       { "x": -1, "y": 0, "chance": 100, "item_groups": [ "food_vendor_cart_kitchen" ] },
@@ -151,7 +152,7 @@
     "type": "vehicle",
     "name": "Swivel Chair",
     "blueprint": [ "#" ],
-    "parts": [ { "x": 0, "y": 0, "parts": [ "xlframe_vertical_2", "wheel_caster", "seat" ] } ]
+    "parts": [ { "x": 0, "y": 0, "parts": [ "xlframe_vertical_2", "wheel_caster", "seat_swivel_chair" ] } ]
   },
   {
     "id": "water_cart",
@@ -198,8 +199,8 @@
     "name": "Welding Cart",
     "blueprint": [ "&" ],
     "parts": [
-      { "x": 0, "y": 0, "parts": [ "xlframe_vertical_2", "wheel_caster" ] },
-      { "x": 0, "y": 0, "parts": [ "small_storage_battery", "welding_rig" ] }
+      { "x": 0, "y": 0, "parts": [ "xlframe_vertical_2", "wheel_caster", "small_storage_battery" ] },
+      { "x": 0, "y": 0, "part": "veh_tools_workshop", "tools": [ "welder", "soldering_iron" ] }
     ],
     "items": [ { "x": 0, "y": 0, "chance": 30, "items": [ "goggles_welding" ] } ]
   },

@@ -40,9 +40,10 @@
     "difficulty": 1,
     "time": "1 h",
     "autolearn": true,
-    "byproducts": [ [ "splinter", 10 ], [ "2x4", 7 ] ],
+    "byproducts": [ [ "splinter", 10 ] ],
     "qualities": [ { "id": "SAW_W", "level": 2 } ],
     "//": "Hopefully a balanced method of crafting planks without going through interface hoops",
+    "result_mult": 8,
     "components": [ [ [ "log", 1 ] ] ]
   },
   {

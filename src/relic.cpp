@@ -164,7 +164,7 @@ void relic_procgen_data::enchantment_active::deserialize( const JsonObject &jobj
     load( jobj );
 }
 
-void relic_procgen_data::load( const JsonObject &jo, const std::string & )
+void relic_procgen_data::load( const JsonObject &jo, const std::string_view )
 {
     for( const JsonObject jo_inner : jo.get_array( "passive_add_procgen_values" ) ) {
         int weight = 0;
@@ -421,7 +421,7 @@ int relic::activate( Creature &caster, const tripoint &target )
     }
     caster.moves -= moves;
     for( const fake_spell &sp : active_effects ) {
-        spell casting = sp.get_spell( sp.level );
+        spell casting = sp.get_spell( caster, sp.level );
         casting.cast_all_effects( caster, target );
         caster.add_msg_if_player( casting.message(), casting.name() );
     }

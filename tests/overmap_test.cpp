@@ -4,6 +4,7 @@
 #include "all_enum_values.h"
 #include "calendar.h"
 #include "cata_catch.h"
+#include "city.h"
 #include "common_types.h"
 #include "coordinates.h"
 #include "enums.h"

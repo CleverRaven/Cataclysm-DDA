@@ -12,8 +12,8 @@
     "looks_like": "scrap",
     "weight": "450 g",
     "volume": "100 ml",
-    "bashing": 1,
-    "to_hit": -2
+    "to_hit": -2,
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "afs_titanium_small",

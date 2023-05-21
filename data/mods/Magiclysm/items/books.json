@@ -10,7 +10,6 @@
     "longest_side": "22 cm",
     "price": 8200,
     "price_postapoc": 750,
-    "bashing": 5,
     "material": [ "paper" ],
     "symbol": "?",
     "color": "blue",
@@ -19,7 +18,8 @@
     "max_level": 4,
     "intelligence": 12,
     "time": "60 m",
-    "fun": -1
+    "fun": -1,
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "spellcraft_theory_basic",

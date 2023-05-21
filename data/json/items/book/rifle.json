@@ -120,7 +120,6 @@
           "str_pl": "copies of FM 3-22.9: Rifle Marksmanship M16-/M4- Series"
         },
         "description": "Official U.S. Army manual which provides guidance for training with the 5.56-millimeter M16-series rifle and M4 carbine.",
-        "proficiencies": [ { "proficiency": "prof_gunsmithing_basic", "time_factor": 0.8, "fail_factor": 0.8 } ],
         "weight": 1
       },
       {
@@ -130,7 +129,6 @@
           "str_pl": "copies of FM 3-22.68: Crew-Served Machine Guns 5.56-mm And 7.62-mm"
         },
         "description": "An official U.S. Army manual which is a comprehensive guide about using the M240 and M249 crew-served machine guns, with excellent examples and a lot of theory.",
-        "proficiencies": [ { "proficiency": "prof_gunsmithing_basic", "time_factor": 0.8, "fail_factor": 0.8 } ],
         "weight": 1
       },
       {

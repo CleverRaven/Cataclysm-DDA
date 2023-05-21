@@ -88,8 +88,6 @@
         "id": "manual_swimming_3",
         "name": { "str": "Overcoming Gravity", "str_pl": "copies of Overcoming Gravity" },
         "description": "\"A Systematic Approach to Gymnastics and Bodyweight Strength\", this thick book is a gold mine of information about strength-oriented bodyweight workout, including scientific principles, different routines, methods, detail about progression, and a huge variety of exercises and their modifications.",
-        "required_level": 2,
-        "max_level": 5,
         "//": "978-0990873853",
         "weight": 1
       },

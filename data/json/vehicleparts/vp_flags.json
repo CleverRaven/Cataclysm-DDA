@@ -429,14 +429,16 @@
   },
   {
     "id": "NO_INSTALL_PLAYER",
-    "type": "json_flag"
+    "type": "json_flag",
+    "//": "Part can't be installed by player but visible in install menu (e.g. helicopter rotors)."
+  },
+  {
+    "id": "NO_INSTALL_HIDDEN",
+    "type": "json_flag",
+    "//": "Part can't be installed by player and hidden in install menu (e.g. power cords, inflatable boat parts, summoned vehicle parts)."
   },
   {
     "id": "NO_ROOF_NEEDED",
-    "type": "json_flag"
-  },
-  {
-    "id": "NOINSTALL",
     "type": "json_flag"
   },
   {
@@ -571,6 +573,12 @@
   {
     "id": "VARIABLE_SIZE",
     "type": "json_flag"
+  },
+  {
+    "id": "VEH_TOOLS",
+    "type": "json_flag",
+    "//": "Modular tool station allowing to 'hook' tools to vehicle batteries/tanks.",
+    "info": "You can 'e'xamine the tile to <color_cyan>connect tools</color> to the vehicle's batteries and tanks."
   },
   {
     "id": "VISION",

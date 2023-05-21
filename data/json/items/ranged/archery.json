@@ -12,14 +12,14 @@
     "price_postapoc": 50,
     "weight": "30 g",
     "longest_side": "76 cm",
-    "bashing": 3,
     "ammo_type": "arrow",
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 0.75 },
     "dispersion": 250,
     "loudness": 0,
     "count": 10,
     "critical_multiplier": 10,
-    "effects": [ "RECOVER_2" ]
+    "effects": [ "RECOVER_2" ],
+    "melee_damage": { "bash": 3 }
   },
   {
     "type": "AMMO",
@@ -35,14 +35,14 @@
     "price_postapoc": 50,
     "weight": "30 g",
     "longest_side": "76 cm",
-    "bashing": 3,
     "ammo_type": "arrow",
     "damage": { "damage_type": "stab", "armor_penetration": 3 },
     "dispersion": 150,
     "loudness": 0,
     "count": 10,
     "critical_multiplier": 10,
-    "effects": [ "RECOVER_30" ]
+    "effects": [ "RECOVER_30" ],
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "arrow_plastic",
@@ -57,14 +57,13 @@
     "volume": "250 ml",
     "weight": "60 g",
     "longest_side": "76 cm",
-    "bashing": 2,
-    "cutting": 1,
     "ammo_type": "arrow",
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 0.2 },
     "dispersion": 250,
     "loudness": 0,
     "count": 10,
-    "effects": [ "RECOVER_35", "BEANBAG" ]
+    "effects": [ "RECOVER_35", "BEANBAG" ],
+    "melee_damage": { "bash": 2, "cut": 1 }
   },
   {
     "type": "AMMO",
@@ -80,13 +79,13 @@
     "price_postapoc": 50,
     "weight": "30 g",
     "longest_side": "76 cm",
-    "bashing": 4,
     "ammo_type": "arrow",
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 0.5 },
     "dispersion": 150,
     "loudness": 0,
     "count": 10,
-    "effects": [ "RECOVER_10", "NOGIB" ]
+    "effects": [ "RECOVER_10", "NOGIB" ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "type": "AMMO",
@@ -102,15 +101,14 @@
     "price_postapoc": 250,
     "weight": "30 g",
     "longest_side": "76 cm",
-    "bashing": 2,
-    "cutting": 1,
     "ammo_type": "arrow",
     "damage": { "damage_type": "stab", "armor_penetration": 1, "constant_damage_multiplier": 1.5 },
     "dispersion": 110,
     "loudness": 0,
     "count": 10,
     "critical_multiplier": 10,
-    "effects": [ "RECOVER_25" ]
+    "effects": [ "RECOVER_25" ],
+    "melee_damage": { "bash": 2, "cut": 1 }
   },
   {
     "type": "AMMO",
@@ -126,14 +124,14 @@
     "price_postapoc": 50,
     "weight": "30 g",
     "longest_side": "76 cm",
-    "bashing": 4,
     "ammo_type": "arrow",
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 0.75 },
     "dispersion": 150,
     "loudness": 0,
     "count": 10,
     "critical_multiplier": 10,
-    "effects": [ "RECOVER_6" ]
+    "effects": [ "RECOVER_6" ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "type": "AMMO",
@@ -149,14 +147,14 @@
     "price_postapoc": 50,
     "weight": "30 g",
     "longest_side": "76 cm",
-    "bashing": 4,
     "ammo_type": "arrow",
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 0.5 },
     "dispersion": 150,
     "loudness": 0,
     "count": 10,
     "critical_multiplier": 10,
-    "effects": [ "RECOVER_35", "NOGIB" ]
+    "effects": [ "RECOVER_35", "NOGIB" ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "type": "AMMO",
@@ -172,8 +170,6 @@
     "price_postapoc": 100,
     "weight": "30 g",
     "longest_side": "76 cm",
-    "bashing": 6,
-    "cutting": 2,
     "ammo_type": "arrow",
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 1.25 },
     "dispersion": 150,
@@ -181,7 +177,8 @@
     "count": 10,
     "show_stats": true,
     "critical_multiplier": 10,
-    "effects": [ "RECOVER_8" ]
+    "effects": [ "RECOVER_8" ],
+    "melee_damage": { "bash": 6, "cut": 2 }
   },
   {
     "type": "AMMO",
@@ -197,7 +194,6 @@
     "price_postapoc": 250,
     "weight": "30 g",
     "longest_side": "76 cm",
-    "bashing": 2,
     "ammo_type": "arrow",
     "damage": { "damage_type": "stab", "armor_penetration": 1 },
     "dispersion": 100,
@@ -205,7 +201,8 @@
     "count": 10,
     "show_stats": true,
     "critical_multiplier": 10,
-    "effects": [ "RECOVER_20" ]
+    "effects": [ "RECOVER_20" ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "type": "AMMO",
@@ -221,8 +218,6 @@
     "price_postapoc": 500,
     "weight": "30 g",
     "longest_side": "76 cm",
-    "bashing": 3,
-    "cutting": 2,
     "ammo_type": "arrow",
     "damage": { "damage_type": "stab", "armor_penetration": 1, "constant_damage_multiplier": 1.5 },
     "range": 2,
@@ -230,7 +225,8 @@
     "loudness": 0,
     "count": 10,
     "critical_multiplier": 10,
-    "effects": [ "RECOVER_35" ]
+    "effects": [ "RECOVER_35" ],
+    "melee_damage": { "bash": 3, "cut": 2 }
   },
   {
     "type": "AMMO",
@@ -246,8 +242,6 @@
     "price_postapoc": 500,
     "weight": "30 g",
     "longest_side": "76 cm",
-    "bashing": 3,
-    "cutting": 2,
     "ammo_type": "arrow",
     "damage": { "damage_type": "stab", "armor_penetration": 3 },
     "range": 2,
@@ -255,7 +249,8 @@
     "loudness": 0,
     "count": 10,
     "critical_multiplier": 10,
-    "effects": [ "RECOVER_40" ]
+    "effects": [ "RECOVER_40" ],
+    "melee_damage": { "bash": 3, "cut": 2 }
   },
   {
     "type": "AMMO",
@@ -271,8 +266,6 @@
     "price_postapoc": 100,
     "weight": "30 g",
     "longest_side": "76 cm",
-    "bashing": 3,
-    "cutting": 2,
     "ammo_type": "arrow",
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 0.5 },
     "range": 2,
@@ -280,7 +273,8 @@
     "loudness": 0,
     "count": 10,
     "critical_multiplier": 10,
-    "effects": [ "RECOVER_45", "NOGIB" ]
+    "effects": [ "RECOVER_45", "NOGIB" ],
+    "melee_damage": { "bash": 3, "cut": 2 }
   },
   {
     "type": "AMMO",
@@ -296,7 +290,6 @@
     "price_postapoc": 1000,
     "weight": "30 g",
     "longest_side": "76 cm",
-    "bashing": 1,
     "ammo_type": "arrow",
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 1.75 },
     "range": 4,
@@ -305,7 +298,8 @@
     "count": 10,
     "stack_size": 10,
     "critical_multiplier": 10,
-    "effects": [ "RECOVER_30" ]
+    "effects": [ "RECOVER_30" ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "type": "AMMO",
@@ -321,12 +315,12 @@
     "price_postapoc": 400,
     "weight": "633 g",
     "longest_side": "86 cm",
-    "bashing": 2,
     "ammo_type": "arrow",
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 0.1 },
     "dispersion": 285,
     "loudness": 0,
-    "effects": [ "COOKOFF", "EXPLOSIVE_SMALL" ]
+    "effects": [ "COOKOFF", "EXPLOSIVE_SMALL" ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "type": "GENERIC",
@@ -341,8 +335,8 @@
     "material": [ "steel" ],
     "weight": "562 g",
     "volume": "90 ml",
-    "bashing": 10,
-    "to_hit": -1
+    "to_hit": -1,
+    "melee_damage": { "bash": 10 }
   },
   {
     "type": "AMMO",
@@ -354,7 +348,6 @@
     "longest_side": "76 cm",
     "price": 3500,
     "price_postapoc": 10,
-    "bashing": 2,
     "material": [ "wood", "steel", "cotton" ],
     "symbol": "=",
     "color": "brown",
@@ -372,7 +365,8 @@
       "need_fire": 1,
       "menu_text": "Light arrow",
       "type": "transform"
-    }
+    },
+    "melee_damage": { "bash": 2 }
   },
   {
     "type": "AMMO",
@@ -385,7 +379,6 @@
     "longest_side": "76 cm",
     "price": 3500,
     "price_postapoc": 10,
-    "bashing": 2,
     "material": [ "wood", "steel", "cotton" ],
     "symbol": "=",
     "color": "brown",
@@ -399,7 +392,8 @@
     "countdown_interval": 20,
     "countdown_action": { "type": "transform", "target": "arrow_field_point_fletched" },
     "effects": [ "IGNITE", "RECOVER_35" ],
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID" ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "selfbow",
@@ -432,7 +426,6 @@
     "volume": "2500 ml",
     "longest_side": "140 cm",
     "price_postapoc": 50,
-    "bashing": 6,
     "armor_data": {
       "armor": [
         {
@@ -450,9 +443,10 @@
     "sight_dispersion": 3000,
     "durability": 4,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "dampening", 1 ], [ "accessories", 1 ], [ "arrow rest", 1 ] ],
+    "valid_mod_locations": [ [ "dampening", 1 ], [ "arrow rest", 1 ] ],
     "reload": 50,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "shortbow",
@@ -483,7 +477,6 @@
     "volume": "1500 ml",
     "longest_side": "132 cm",
     "price_postapoc": 500,
-    "bashing": 6,
     "armor_data": {
       "armor": [
         {
@@ -503,9 +496,10 @@
     "sight_dispersion": 3000,
     "durability": 6,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "dampening", 1 ], [ "accessories", 1 ], [ "arrow rest", 1 ] ],
+    "valid_mod_locations": [ [ "dampening", 1 ], [ "arrow rest", 1 ] ],
     "reload": 50,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "compbow",
@@ -527,7 +521,6 @@
     "volume": "1500 ml",
     "longest_side": "150 cm",
     "price_postapoc": 3500,
-    "bashing": 8,
     "to_hit": 1,
     "reload_noise_volume": 3,
     "loudness": 10,
@@ -537,14 +530,7 @@
     "sight_dispersion": 3000,
     "durability": 6,
     "clip_size": 1,
-    "valid_mod_locations": [
-      [ "underbarrel", 1 ],
-      [ "sights", 1 ],
-      [ "accessories", 2 ],
-      [ "stabilizer", 1 ],
-      [ "dampening", 1 ],
-      [ "arrow rest", 1 ]
-    ],
+    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "stabilizer", 1 ], [ "dampening", 1 ], [ "arrow rest", 1 ] ],
     "use_action": {
       "menu_text": "Tighten Limbs",
       "type": "transform",
@@ -554,7 +540,8 @@
       "ammo_scale": 0
     },
     "reload": 50,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "compbow_high",
@@ -621,7 +608,6 @@
     "volume": "1750 ml",
     "longest_side": "152 cm",
     "price_postapoc": 3000,
-    "bashing": 8,
     "armor_data": {
       "armor": [
         {
@@ -644,9 +630,10 @@
     "sight_dispersion": 3000,
     "durability": 6,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "dampening", 1 ], [ "accessories", 1 ], [ "arrow rest", 1 ] ],
+    "valid_mod_locations": [ [ "dampening", 1 ], [ "arrow rest", 1 ] ],
     "reload": 50,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "reflexbow",
@@ -677,7 +664,6 @@
     "volume": "1500 ml",
     "longest_side": "183 cm",
     "price_postapoc": 2000,
-    "bashing": 12,
     "armor_data": {
       "armor": [
         {
@@ -697,9 +683,10 @@
     "sight_dispersion": 3000,
     "durability": 6,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "dampening", 1 ], [ "accessories", 1 ], [ "arrow rest", 1 ] ],
+    "valid_mod_locations": [ [ "dampening", 1 ], [ "arrow rest", 1 ] ],
     "reload": 50,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "recurbow",
@@ -730,7 +717,6 @@
     "volume": "2500 ml",
     "longest_side": "152 cm",
     "price_postapoc": 2000,
-    "bashing": 12,
     "armor_data": {
       "armor": [
         {
@@ -753,16 +739,10 @@
     "sight_dispersion": 3000,
     "durability": 6,
     "clip_size": 1,
-    "valid_mod_locations": [
-      [ "underbarrel", 1 ],
-      [ "sights", 1 ],
-      [ "accessories", 2 ],
-      [ "stabilizer", 1 ],
-      [ "dampening", 1 ],
-      [ "arrow rest", 1 ]
-    ],
+    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "stabilizer", 1 ], [ "dampening", 1 ], [ "arrow rest", 1 ] ],
     "reload": 50,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "takedown_recurbow",
@@ -794,7 +774,6 @@
     "longest_side": "152 cm",
     "//2": "When mounted.",
     "price_postapoc": 2200,
-    "bashing": 12,
     "armor_data": {
       "armor": [
         {
@@ -817,14 +796,7 @@
     "sight_dispersion": 3000,
     "durability": 6,
     "clip_size": 1,
-    "valid_mod_locations": [
-      [ "underbarrel", 1 ],
-      [ "sights", 1 ],
-      [ "accessories", 2 ],
-      [ "stabilizer", 1 ],
-      [ "dampening", 1 ],
-      [ "arrow rest", 1 ]
-    ],
+    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "stabilizer", 1 ], [ "dampening", 1 ], [ "arrow rest", 1 ] ],
     "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ],
     "use_action": {
@@ -835,7 +807,8 @@
       "msg": "You disassemble your bow.",
       "ammo_scale": 0,
       "moves": 1500
-    }
+    },
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "takedown_recurbow_folded",
@@ -854,17 +827,9 @@
     "longest_side": "60 cm",
     "//2": "When taken down.",
     "price_postapoc": 2200,
-    "bashing": 12,
     "flags": [ "NO_TURRET" ],
     "modes": [ [ "DEFAULT", "disassembled", 0, [ "MELEE" ] ] ],
-    "valid_mod_locations": [
-      [ "underbarrel", 1 ],
-      [ "sights", 1 ],
-      [ "accessories", 2 ],
-      [ "stabilizer", 1 ],
-      [ "dampening", 1 ],
-      [ "arrow rest", 1 ]
-    ],
+    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "stabilizer", 1 ], [ "dampening", 1 ], [ "arrow rest", 1 ] ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ],
     "use_action": {
       "need_wielding": true,
@@ -873,7 +838,8 @@
       "target": "takedown_recurbow",
       "msg": "You assemble your bow.",
       "moves": 1500
-    }
+    },
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "longbow",
@@ -903,7 +869,6 @@
     "volume": "3500 ml",
     "longest_side": "183 cm",
     "price_postapoc": 3000,
-    "bashing": 10,
     "armor_data": {
       "armor": [
         {
@@ -923,9 +888,10 @@
     "sight_dispersion": 3000,
     "durability": 6,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "dampening", 1 ], [ "accessories", 1 ], [ "arrow rest", 1 ] ],
+    "valid_mod_locations": [ [ "dampening", 1 ], [ "arrow rest", 1 ] ],
     "reload": 50,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "woodgreatbow",
@@ -976,7 +942,6 @@
     "volume": "4 L",
     "longest_side": "198 cm",
     "price_postapoc": 3000,
-    "bashing": 14,
     "reload_noise_volume": 4,
     "loudness": 20,
     "durability": 8,
@@ -985,16 +950,10 @@
     "dispersion": 1000,
     "sight_dispersion": 3000,
     "clip_size": 1,
-    "valid_mod_locations": [
-      [ "underbarrel", 1 ],
-      [ "sights", 1 ],
-      [ "accessories", 2 ],
-      [ "stabilizer", 1 ],
-      [ "dampening", 1 ],
-      [ "arrow rest", 1 ]
-    ],
+    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "stabilizer", 1 ], [ "dampening", 1 ], [ "arrow rest", 1 ] ],
     "reload": 50,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ],
+    "melee_damage": { "bash": 14 }
   },
   {
     "id": "reflexrecurvebow",
@@ -1025,7 +984,6 @@
     "volume": "2 L",
     "longest_side": "150 cm",
     "price_postapoc": 6000,
-    "bashing": 12,
     "armor_data": {
       "armor": [
         {
@@ -1045,8 +1003,9 @@
     "sight_dispersion": 3000,
     "durability": 6,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "sights", 1 ], [ "accessories", 2 ], [ "dampening", 1 ], [ "arrow rest", 1 ] ],
+    "valid_mod_locations": [ [ "sights", 1 ], [ "dampening", 1 ], [ "arrow rest", 1 ] ],
     "reload": 50,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ],
+    "melee_damage": { "bash": 12 }
   }
 ]

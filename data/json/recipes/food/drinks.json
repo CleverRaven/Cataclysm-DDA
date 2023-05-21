@@ -35,7 +35,7 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "cotton_patchwork", -1 ] ] ],
-    "components": [ [ [ "pineapple", 1 ], [ "irradiated_pineapple", 1 ] ] ]
+    "components": [ [ [ "pineapple_chunks", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -80,7 +80,7 @@
     "batch_time_factors": [ 50, 4 ],
     "autolearn": true,
     "flags": [ "BLIND_HARD" ],
-    "components": [ [ [ "lemonlime", 1 ], [ "lemonade", 1 ], [ "oj", 1 ] ], [ [ "grenadine_syrup", 1 ] ] ]
+    "components": [ [ [ "lemonlime", 1 ], [ "lemonade", 1 ], [ "oj", 1 ], [ "oj_fresh", 1 ] ], [ [ "grenadine_syrup", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -261,7 +261,7 @@
     "flags": [ "BLIND_HARD" ],
     "components": [
       [ [ "tequila", 1 ], [ "rum", 1 ], [ "vodka", 1 ] ],
-      [ [ "oj", 1 ], [ "pineapple_juice", 2 ] ],
+      [ [ "oj", 1 ], [ "oj_fresh", 1 ], [ "pineapple_juice", 2 ] ],
       [ [ "grenadine_syrup", 1 ] ]
     ]
   },

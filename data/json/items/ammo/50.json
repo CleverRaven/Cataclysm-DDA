@@ -16,6 +16,7 @@
     "description": ".50 BMG ammunition with a mild steel cored 661gr FMJ bullet.  The .50 BMG is a very powerful rifle round designed for anti-aircraft use, later adapted to anti-vehicular and anti-personnel roles.  Its stupendous energy and armor piercing capabilities make it one of the most deadly rounds available, offset only by its drastic recoil and noise.",
     "weight": "114 g",
     "volume": "451 ml",
+    "longest_side": "138 mm",
     "price": 2200,
     "price_postapoc": 2500,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],

@@ -8,6 +8,7 @@
       [ "40x46mm_m433", 5 ],
       [ "40x46mm_m651", 10 ],
       [ "ammo_satchel", 5 ],
+      [ "ammo_pouch", 5 ],
       [ "bootstrap", 5 ],
       [ "chestpouch", 5 ],
       [ "flashbang", 30 ],
@@ -105,7 +106,6 @@
       { "item": "rx11_stimpack", "prob": 1, "charges-min": 0 },
       [ "flaregun", 5 ],
       [ "signal_flare", 5 ],
-      { "item": "flamethrower", "prob": 1, "charges-min": 0, "charges-max": 500 },
       { "item": "handflare", "prob": 20, "charges": 300 },
       { "item": "heavy_flashlight", "prob": 30, "charges": [ 0, 300 ] },
       { "item": "glowstick", "prob": 10, "charges": 1400 },
@@ -136,7 +136,6 @@
       { "group": "tools_toolbox", "prob": 1 },
       { "item": "smoxygen_tank", "prob": 35, "charges-min": 4 },
       { "item": "watercannon", "prob": 10, "charges-min": 0 },
-      { "item": "l-stick", "prob": 1, "charges": [ 0, 500 ] },
       [ "solarpack", 2 ],
       [ "bag_body_bag", 5 ]
     ]

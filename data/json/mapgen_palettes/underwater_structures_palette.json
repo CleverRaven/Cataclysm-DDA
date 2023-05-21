@@ -20,11 +20,11 @@
       "`": "t_bulkhead_roof",
       "^": "t_lake_bed_concrete",
       "y": "t_lake_bed_concrete_yellow",
-      ";": "t_lake_bed",
-      "2": "t_machinery_electronic"
+      ";": "t_lake_bed"
     },
     "furniture": {
       "1": "f_control_station",
+      "2": "f_machinery_electronic",
       "A": "f_air_compressor",
       "B": "f_sample_freezer",
       "C": "f_workbench",

@@ -2,116 +2,139 @@
   {
     "type": "item_group",
     "id": "NC_OPS_pants_male",
+    "subtype": "distribution",
     "entries": [ { "group": "npc_pants_male" } ]
   },
   {
     "type": "item_group",
     "id": "NC_OPS_pants_female",
+    "subtype": "distribution",
     "entries": [ { "group": "npc_pants_female", "prob": 80 } ]
   },
   {
     "type": "item_group",
     "id": "NC_OPS_shirt_male",
+    "subtype": "distribution",
     "entries": [ { "group": "npc_shirt_male", "prob": 80 } ]
   },
   {
     "type": "item_group",
     "id": "NC_OPS_shirt_female",
+    "subtype": "distribution",
     "entries": [ { "group": "npc_shirt_female", "prob": 80 } ]
   },
   {
     "type": "item_group",
     "id": "NC_OPS_gloves",
+    "subtype": "distribution",
     "entries": [ { "group": "npc_gloves", "prob": 80 } ]
   },
   {
     "type": "item_group",
     "id": "NC_OPS_coat",
+    "subtype": "distribution",
     "entries": [ { "group": "npc_coat", "prob": 80 } ]
   },
   {
     "type": "item_group",
     "id": "NC_OPS_shoes",
+    "subtype": "distribution",
     "entries": [ { "group": "npc_shoes_male", "prob": 100 } ]
   },
   {
     "type": "item_group",
     "id": "NC_OPS_masks",
+    "subtype": "distribution",
     "entries": [ { "item": "null", "prob": 10 } ]
   },
   {
     "type": "item_group",
     "id": "NC_OPS_eyes",
+    "subtype": "distribution",
     "entries": [ { "item": "null", "prob": 60 } ]
   },
   {
     "type": "item_group",
     "id": "NC_OPS_hat",
+    "subtype": "distribution",
     "entries": [ { "group": "npc_hat", "prob": 80 } ]
   },
   {
     "type": "item_group",
     "id": "NC_OPS_extra",
+    "subtype": "distribution",
     "entries": [ { "item": "null", "prob": 30 }, { "item": "wicker_backpack", "prob": 70 } ]
   },
   {
     "type": "item_group",
     "id": "NC_OPS_bashing",
+    "subtype": "distribution",
     "entries": [ { "item": "primitive_hammer", "prob": 20 } ]
   },
   {
     "type": "item_group",
     "id": "NC_OPS_cutting",
+    "subtype": "distribution",
     "entries": [ { "item": "stone_chopper", "prob": 20 } ]
   },
   {
     "type": "item_group",
     "id": "NC_OPS_stabbing",
+    "subtype": "distribution",
     "entries": [ { "item": "pointy_stick", "prob": 50 } ]
   },
   {
     "type": "item_group",
     "id": "NC_OPS_throw",
+    "subtype": "distribution",
     "entries": [ { "item": "rock", "prob": 50 } ]
   },
   {
     "type": "item_group",
     "id": "NC_OPS_archery",
+    "subtype": "distribution",
     "items": [ [ "selfbow", 50 ] ]
   },
   {
     "type": "item_group",
     "id": "NC_OPS_pistols",
+    "subtype": "distribution",
     "items": [ { "group": "guns_pistol_improvised", "prob": 35 } ]
   },
   {
     "type": "item_group",
     "id": "NC_OPS_shotgun",
+    "subtype": "distribution",
     "items": [ { "group": "guns_shotgun_improvised", "prob": 22 } ]
   },
   {
     "type": "item_group",
     "id": "NC_OPS_smg",
+    "subtype": "distribution",
     "items": [ { "group": "guns_shotgun_improvised", "prob": 22 } ]
   },
   {
     "type": "item_group",
     "id": "NC_OPS_rifle",
+    "subtype": "distribution",
     "entries": [ { "group": "guns_rifle_improvised", "prob": 100 } ]
   },
   {
     "type": "item_group",
     "id": "NC_OPS_launcher",
+    "subtype": "distribution",
     "entries": [ { "group": "guns_rifle_improvised", "prob": 10 } ]
   },
   {
     "type": "item_group",
     "id": "NC_OPS_weapon_random",
+    "subtype": "distribution",
     "items": [ [ "q_staff", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "NC_OPS_misc",
+    "subtype": "distribution",
     "entries": [
       { "item": "tobacco", "prob": 2 },
       { "item": "weed", "prob": 50 },

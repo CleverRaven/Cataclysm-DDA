@@ -94,6 +94,12 @@ void character_martial_arts::reset_style()
     style_selected = style_none;
 }
 
+void character_martial_arts::clear_style( const matype_id &id )
+{
+    ma_styles.erase( std::remove( ma_styles.begin(), ma_styles.end(), id ), ma_styles.end() );
+    selected_style_check();
+}
+
 void character_martial_arts::clear_styles()
 {
     keep_hands_free = false;

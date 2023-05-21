@@ -800,7 +800,7 @@
       { "group": "costume_gloves", "prob": 2 },
       { "group": "costume_dresses", "prob": 10 },
       { "group": "costume_cloacks", "prob": 1 },
-      [ "cheerleader_top", 10 ],
+      { "item": "tank_top", "variant": "tank_top_cheerleader", "prob": 10 },
       [ "cheerleader_top_short", 15 ],
       [ "leotard", 5 ],
       [ "cheerleader_skirt", 10 ],
@@ -831,7 +831,7 @@
       [ "shuttlecock", 10 ],
       [ "baseball", 60 ],
       [ "pom_poms", 30 ],
-      [ "cheerleader_top", 15 ],
+      { "item": "tank_top", "variant": "tank_top_cheerleader", "prob": 15 },
       [ "cheerleader_top_short", 15 ],
       [ "cheerleader_skirt", 15 ],
       [ "cheerleader_skirt_short", 15 ],
@@ -913,6 +913,7 @@
       { "item": "coffeemaker", "prob": 10, "charges": [ 0, 500 ] },
       [ "cookbook_daintydishes", 40 ],
       [ "cookbook_indian", 10 ],
+      [ "cookbook_native", 10 ],
       [ "cookbook_foodfashions", 18 ],
       [ "cookbook_mexican", 10 ]
     ]
@@ -1023,6 +1024,7 @@
       [ "towel", 40 ],
       [ "can_drink", 30 ],
       [ "pride_flag", 5 ],
+      [ "national_flag", 3 ],
       [ "state_flag", 3 ],
       [ "shark_plushie", 10 ],
       [ "bottle_plastic", 30 ],
@@ -1241,7 +1243,7 @@
       [ "cheerleader_dress", 5 ],
       [ "cheerleader_skirt", 5 ],
       [ "cheerleader_skirt_short", 5 ],
-      [ "cheerleader_top", 5 ],
+      { "item": "tank_top", "variant": "tank_top_cheerleader", "prob": 5 },
       [ "cheerleader_top_short", 5 ],
       [ "pom_poms", 6 ]
     ]
@@ -1329,7 +1331,7 @@
       [ "glass", 20 ],
       { "group": "tobacco_products", "prob": 75 },
       { "group": "cigar_box_opened", "prob": 50 },
-      [ "money_bundle", 10 ],
+      [ "money_bundle_ten", 10 ],
       [ "pretzels", 5 ],
       [ "chips", 5 ],
       { "group": "wallet_stylish_full", "prob": 1 }
@@ -1585,7 +1587,7 @@
       [ "boots_combat", 10 ],
       [ "pants_army", 10 ],
       [ "jacket_army", 10 ],
-      [ "army_top", 20 ],
+      { "item": "tank_top", "variant": "tank_top_camo", "prob": 20 },
       [ "porkpie", 5 ],
       { "group": "neckties", "prob": 5 },
       [ "jersey", 60 ],

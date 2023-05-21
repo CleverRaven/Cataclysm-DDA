@@ -27,14 +27,7 @@
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "furniture": { "0": "f_brazier", "i": "f_coffin_o", "&": "f_coffin_c" },
       "place_loot": [
-        {
-          "item": "blood_rice_pudding",
-          "x": [ 2, 4 ],
-          "y": [ 1, 3 ],
-          "chance": 60,
-          "repeat": [ 1, 2 ],
-          "container-item": "bowl"
-        },
+        { "item": "blood_rice_pudding", "x": [ 2, 4 ], "y": [ 1, 3 ], "chance": 60, "repeat": [ 1, 2 ] },
         { "item": "charcoal", "x": 2, "y": 1, "chance": 100, "repeat": [ 3, 10 ] },
         { "item": "bucket", "x": 1, "y": 1, "chance": 100 },
         { "item": "water_clean", "x": 3, "y": 1, "chance": 80, "repeat": [ 1, 4 ] }
@@ -81,14 +74,7 @@
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "furniture": { "0": "f_brazier", "i": "f_coffin_o", "&": "f_coffin_c" },
       "place_loot": [
-        {
-          "item": "blood_rice_pudding",
-          "x": [ 2, 4 ],
-          "y": [ 1, 3 ],
-          "chance": 60,
-          "repeat": [ 1, 2 ],
-          "container-item": "bowl"
-        },
+        { "item": "blood_rice_pudding", "x": [ 2, 4 ], "y": [ 1, 3 ], "chance": 60, "repeat": [ 1, 2 ] },
         { "item": "charcoal", "x": 2, "y": 1, "chance": 100, "repeat": [ 3, 10 ] },
         { "item": "bucket", "x": 1, "y": 1, "chance": 100 },
         { "item": "water_clean", "x": 3, "y": 1, "chance": 80, "repeat": [ 1, 4 ] }

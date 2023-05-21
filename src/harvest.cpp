@@ -43,20 +43,23 @@ bool string_id<harvest_drop_type>::is_valid() const
 
 translation harvest_drop_type::field_dress_msg( bool succeeded ) const
 {
-    return SNIPPET.random_from_category( succeeded ? msg_fielddress_success :
-                                         msg_fielddress_fail ).value_or( translation() );
+    // NOLINTNEXTLINE(clang-analyzer-cplusplus.NewDeleteLeaks)
+    return SNIPPET.random_from_category(
+               succeeded ? msg_fielddress_success : msg_fielddress_fail ).value_or( translation() );
 }
 
 translation harvest_drop_type::butcher_msg( bool succeeded ) const
 {
-    return SNIPPET.random_from_category( succeeded ? msg_butcher_success : msg_butcher_fail ).value_or(
-               translation() );
+    // NOLINTNEXTLINE(clang-analyzer-cplusplus.NewDeleteLeaks)
+    return SNIPPET.random_from_category(
+               succeeded ? msg_butcher_success : msg_butcher_fail ).value_or( translation() );
 }
 
 translation harvest_drop_type::dissect_msg( bool succeeded ) const
 {
-    return SNIPPET.random_from_category( succeeded ? msg_dissect_success : msg_dissect_fail ).value_or(
-               translation() );
+    // NOLINTNEXTLINE(clang-analyzer-cplusplus.NewDeleteLeaks)
+    return SNIPPET.random_from_category(
+               succeeded ? msg_dissect_success : msg_dissect_fail ).value_or( translation() );
 }
 
 /** @relates string_id */
@@ -105,7 +108,7 @@ void harvest_drop_type::reset()
     harvest_drop_type_factory.reset();
 }
 
-void harvest_drop_type::load( const JsonObject &jo, const std::string & )
+void harvest_drop_type::load( const JsonObject &jo, const std::string_view )
 {
     harvest_skills.clear();
     optional( jo, was_loaded, "group", is_group_, false );
@@ -166,7 +169,7 @@ void harvest_list::finalize_all()
     }
 }
 
-void harvest_list::load( const JsonObject &obj, const std::string & )
+void harvest_list::load( const JsonObject &obj, const std::string_view )
 {
     mandatory( obj, was_loaded, "id", id );
     mandatory( obj, was_loaded, "entries", entries_ );

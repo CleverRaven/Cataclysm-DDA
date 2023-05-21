@@ -268,14 +268,14 @@
         "♦": "t_ramp_up_high",
         "♣": "t_ramp_up_low",
         "£": "t_thconc_y",
-        "ɱ": "t_console_broken",
         "‡": "t_railroad_track_small_d",
         "Ŧ": "t_railroad_track_small",
         "ȣ": "t_metal_ventilation_shutter",
         "^": "t_grate",
         "`": "t_metal_floor",
         "=": "t_door_metal_locked"
-      }
+      },
+      "furniture": { "ɱ": "f_console_broken" }
     }
   },
   {

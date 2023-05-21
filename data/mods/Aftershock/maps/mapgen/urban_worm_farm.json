@@ -33,13 +33,14 @@
         "                        "
       ],
       "palettes": [ "afs_generic_building" ],
-      "terrain": { "'": "t_door_glass_o", ".": "t_metal_floor_no_roof", ",": "t_sidewalk", "E": "t_machinery_electronic" },
+      "terrain": { "'": "t_door_glass_o", ".": "t_metal_floor_no_roof", ",": "t_sidewalk" },
       "furniture": {
         "0": "f_fvat_empty",
         "/": "f_autodoc_couch",
         "T": "f_table",
         "n": "f_trashcan",
         "R": "f_locker",
+        "E": "f_machinery_electronic",
         "B": "f_monomolecularsaw"
       },
       "items": {

@@ -619,5 +619,15 @@
     "price_postapoc": 500,
     "fun": 15,
     "use_action": [ "WEED_CAKE" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "wild_rice",
+    "name": { "str_sp": "wild rice" },
+    "copy-from": "wheat",
+    "calories": 120,
+    "description": "Raw wild rice, still in its fibrous shell and not very tasty.",
+    "milling": { "into": "dry_wild_rice", "conversion_rate": 5 },
+    "fun": -20
   }
 ]

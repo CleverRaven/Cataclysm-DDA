@@ -226,6 +226,15 @@
     "flags": [ "COLLAPSE_CONTENTS" ],
     "weight": "22 g",
     "volume": "480 ml",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "470 ml", "max_contains_weight": "2000 g" } ]
+    "longest_side": "14 cm",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "470 ml",
+        "max_contains_weight": "2000 g",
+        "max_item_length": "14 cm"
+      }
+    ]
   }
 ]

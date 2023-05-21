@@ -44,7 +44,7 @@
     "id": "KI_STRIKE",
     "name": { "str": "Ki Strike" },
     "points": 2,
-    "description": "Who needs weapons?  You deal more melee damage while unarmed.  This damage improves as your unarmed skill increases.",
+    "description": "Who needs weapons?  You deal more melee damage while fighting barehanded and without gloves.  This damage improves as your unarmed skill increases.",
     "starting_trait": true,
     "valid": false
   },

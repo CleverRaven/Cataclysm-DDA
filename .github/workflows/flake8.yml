@@ -20,10 +20,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: checkout repository
-      uses: actions/checkout@v2
-      with:
-        fetch-depth: 1
+    - uses: actions/checkout@v3
     - name: install dependencies
       run: sudo apt-get install flake8
     - name: Enable flake8 problem matcher

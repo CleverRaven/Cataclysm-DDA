@@ -17,6 +17,7 @@
 #include <map>
 #include <memory>
 #include <new>
+#include <optional>
 #include <regex>
 #include <set>
 #include <sstream>
@@ -35,7 +36,6 @@
 #include "get_version.h"
 #include "input.h"
 #include "mod_manager.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "path_info.h"
@@ -112,8 +112,8 @@ static std::string captured;
 // Get the image base of a module from its PE header
 static uintptr_t get_image_base( const char *const path )
 {
-    HANDLE file = CreateFile( path, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING,
-                              FILE_ATTRIBUTE_NORMAL, NULL );
+    HANDLE file = CreateFile( path, GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING,
+                              FILE_ATTRIBUTE_NORMAL, nullptr );
     if( file == INVALID_HANDLE_VALUE ) {
         return 0;
     }
@@ -121,8 +121,8 @@ static uintptr_t get_image_base( const char *const path )
         CloseHandle( file );
     } );
 
-    HANDLE mapping = CreateFileMapping( file, NULL, PAGE_READONLY, 0, 0, NULL );
-    if( mapping == NULL ) {
+    HANDLE mapping = CreateFileMapping( file, nullptr, PAGE_READONLY, 0, 0, nullptr );
+    if( mapping == nullptr ) {
         return 0;
     }
     on_out_of_scope close_mapping( [mapping]() {
@@ -132,7 +132,7 @@ static uintptr_t get_image_base( const char *const path )
     LONG nt_header_offset = 0;
     {
         LPVOID dos_header_view = MapViewOfFile( mapping, FILE_MAP_READ, 0, 0, sizeof( IMAGE_DOS_HEADER ) );
-        if( dos_header_view == NULL ) {
+        if( dos_header_view == nullptr ) {
             return 0;
         }
         on_out_of_scope close_dos_header_view( [dos_header_view]() {
@@ -148,7 +148,7 @@ static uintptr_t get_image_base( const char *const path )
 
     LPVOID pe_header_view = MapViewOfFile( mapping, FILE_MAP_READ, 0, 0,
                                            nt_header_offset + sizeof( IMAGE_NT_HEADERS ) );
-    if( pe_header_view == NULL ) {
+    if( pe_header_view == nullptr ) {
         return 0;
     }
     on_out_of_scope close_pe_header_view( [pe_header_view]() {
@@ -419,7 +419,7 @@ struct time_info {
         using char_t = typename Stream::char_type;
         using base   = std::basic_ostream<char_t>;
 
-        static_assert( std::is_base_of<base, Stream>::value, "" );
+        static_assert( std::is_base_of<base, Stream>::value );
 
         out << std::setfill( '0' );
         out << std::setw( 2 ) << t.hours << ':' << std::setw( 2 ) << t.minutes << ':' <<
@@ -684,7 +684,7 @@ void DebugFile::init( DebugOutput output_mode, const std::string &filename )
                     rename_failed = !rename_file( filename, oldfile );
                 }
             }
-            file = std::make_shared<cata::ofstream>(
+            file = std::make_shared<std::ofstream>(
                        fs::u8path( filename ), std::ios::out | std::ios::app );
             *file << "\n\n-----------------------------------------\n";
             *file << get_time() << " : Starting log.";
@@ -867,7 +867,7 @@ static std::string debug_resolve_binary( const std::string &binary, std::ostream
     return binary;
 }
 
-static cata::optional<uintptr_t> debug_compute_load_offset(
+static std::optional<uintptr_t> debug_compute_load_offset(
     const std::string &binary, const std::string &symbol,
     const std::string &offset_within_symbol_s, void *address, std::ostream &out )
 {
@@ -894,7 +894,7 @@ static cata::optional<uintptr_t> debug_compute_load_offset(
         FILE *nm = popen( cmd.str().c_str(), "re" );
         if( !nm ) {
             out << "    backtrace: popen(nm) failed: " << strerror( errno ) << "\n";
-            return cata::nullopt;
+            return std::nullopt;
         }
 
         std::array<char, 1024> buf;
@@ -918,7 +918,7 @@ static cata::optional<uintptr_t> debug_compute_load_offset(
         pclose( nm );
     }
 
-    return cata::nullopt;
+    return std::nullopt;
 }
 #endif
 
@@ -1319,7 +1319,7 @@ void debug_write_backtrace( std::ostream &out )
                 std::string symbol_name( symbolNameStart, symbolNameEnd );
                 std::string offset_within_symbol( offsetStart, offsetEnd );
 
-                cata::optional<uintptr_t> offset =
+                std::optional<uintptr_t> offset =
                     debug_compute_load_offset( binary_name, symbol_name, offset_within_symbol,
                                                bt[i], out );
                 if( offset ) {

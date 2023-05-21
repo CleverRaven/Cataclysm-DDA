@@ -24,7 +24,13 @@
           "ballistic_vest_esapi"
         ],
         "entries": [
-          { "item": "m4a1", "ammo-item": "556", "charges": 30, "contents-item": [ "shoulder_strap", "acog_scope", "grip" ] },
+          {
+            "item": "m4_carbine",
+            "variant": "m4a1",
+            "ammo-item": "556",
+            "charges": 30,
+            "contents-item": [ "shoulder_strap", "acog_scope", "grip" ]
+          },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "tacvest", "contents-group": "army_mags_m4" },
           { "item": "knife_combat", "container-item": "sheath" },
@@ -129,7 +135,13 @@
           "ballistic_vest_esapi"
         ],
         "entries": [
-          { "item": "m4a1", "ammo-item": "556", "charges": 30, "contents-item": [ "shoulder_strap", "holo_sight", "m203" ] },
+          {
+            "item": "m4_carbine",
+            "variant": "m4a1",
+            "ammo-item": "556",
+            "charges": 30,
+            "contents-item": [ "shoulder_strap", "holo_sight", "m203" ]
+          },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "tacvest", "contents-group": "army_mags_m4" },
           { "item": "40x46mm_m433", "charges": 4, "container-item": "grenade_pouch" },

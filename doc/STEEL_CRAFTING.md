@@ -66,19 +66,19 @@ Welding and Metallurgy: Assembly and repairs, as well as crafting hardened/tempe
 
 Making steel is an old practice, in place for several hundred years. Recently, it has become extremely industrialized outside of custom tool shops and hobbyist professions. This means that a great deal of information is available about the mass production of steel by the ton, but less about making small batches to produce a single sword. The minimum skill for a mild steel item should be at least 5 points of fabrication, increasing larger, more complicated crafts. Hardening and tempering should also increase the skill requirements.
 
-| Thickness | Skill requirement |
-|---|---|
-| Mild, medium, or high steel up to 2 mm | 5 |
-| Up to 4 mm | +1 |
-| Up to 6 mm | +1 |
-| Any thickness, hardened | +1 |
-| Any thickness, tempered | +2 |
+| Thickness                              | Skill requirement |
+| -------------------------------------- | ----------------- |
+| Mild, medium, or high steel up to 2 mm |                 5 |
+| Up to 4 mm                             |                +1 |
+| Up to 6 mm                             |                +1 |
+| Any thickness, hardened                |                +1 |
+| Any thickness, tempered                |                +2 |
 
-| Item | Thickness | Steel Grade | Skill | Factor |
-|---|---|---|---|---|
-| Chestplate | 2 mm | Mild | 5 |  |
-| Chestplate | 4 mm | Medium | 6 | Increases due to thicker plate |
-| Chestplate | 6 mm | Tempered | 9 | Increases due to both thicker plate and tempering |
+| Item       | Thickness   | Steel Grade | Skill | Factor                                            |
+| ---------- | ----------- | ----------- | ----- | ------------------------------------------------- |
+| Chestplate |    2 mm     | Mild        |     5 |                                                   |
+| Chestplate |    4 mm     | Medium      |     6 | Increases due to thicker plate                    |
+| Chestplate |    6 mm     | Tempered    |     9 | Increases due to both thicker plate and tempering |
 
 ### Time
 

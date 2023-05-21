@@ -1,6 +1,7 @@
 #include "addiction.h"
 #include "cata_catch.h"
 #include "character.h"
+#include "itype.h"
 #include "player_helpers.h"
 
 static const addiction_id addiction_alcohol( "alcohol" );
@@ -715,4 +716,24 @@ TEST_CASE( "check marloss addiction effects", "[addiction]" )
         CHECK( totals.shakes == 0 );
         CHECK( totals.hallu == 0 );
     }
+}
+
+TEST_CASE( "check that items can inflict multiple addictions", "[addiction]" )
+{
+    item addict_itm( "test_whiskey_caffenated" );
+    REQUIRE( addict_itm.is_comestible() );
+    REQUIRE( addict_itm.get_comestible()->addictions.size() == 2 );
+    CHECK( addict_itm.get_comestible()->addictions.at( addiction_alcohol ) == 101 );
+    CHECK( addict_itm.get_comestible()->addictions.at( addiction_caffeine ) == 102 );
+
+    Character &victim = get_player_character();
+    clear_character( victim );
+    REQUIRE( !victim.has_addiction( addiction_alcohol ) );
+    REQUIRE( !victim.has_addiction( addiction_caffeine ) );
+    for( int i = 0; i < MIN_ADDICTION_LEVEL; i++ ) {
+        item addict_itm = item( "test_whiskey_caffenated" );
+        REQUIRE( victim.consume( addict_itm, true ) != trinary::NONE );
+    }
+    CHECK( victim.has_addiction( addiction_alcohol ) );
+    CHECK( victim.has_addiction( addiction_caffeine ) );
 }

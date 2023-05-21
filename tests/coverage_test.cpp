@@ -13,6 +13,8 @@
 #include "projectile.h"
 #include "ranged.h"
 
+static const damage_type_id damage_bullet( "bullet" );
+
 static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_sleep( "sleep" );
 
@@ -61,7 +63,7 @@ static float get_avg_melee_dmg( const std::string &clothing_id, bool infect_risk
         if( zed.melee_attack( dude, 10000.0f ) ) {
             num_hits++;
         }
-        cloth.set_damage( cloth.min_damage() );
+        cloth.set_damage( 0 );
         if( !infect_risk ) {
             dam_acc += dude.get_hp_max() - dude.get_hp();
         } else if( dude.has_effect( effect_bite ) ) {
@@ -96,7 +98,7 @@ static float get_avg_melee_dmg( item cloth, bool infect_risk = false )
         if( zed.melee_attack( dude, 10000.0f ) ) {
             num_hits++;
         }
-        cloth.set_damage( cloth.min_damage() );
+        cloth.set_damage( 0 );
         if( !infect_risk ) {
             dam_acc += dude.get_hp_max() - dude.get_hp();
         } else if( dude.has_effect( effect_bite ) ) {
@@ -124,7 +126,7 @@ static float get_avg_bullet_dmg( const std::string &clothing_id )
     item cloth( clothing_id );
     projectile proj;
     proj.speed = 1000;
-    proj.impact = damage_instance( damage_type::BULLET, 20 );
+    proj.impact = damage_instance( damage_bullet, 20 );
     proj.range = 30;
     proj.proj_effects = std::set<std::string>();
     proj.critical_multiplier = 1;
@@ -142,7 +144,7 @@ static float get_avg_bullet_dmg( const std::string &clothing_id )
         if( atk.missed_by < 1.0 ) {
             num_hits++;
         }
-        cloth.set_damage( cloth.min_damage() );
+        cloth.set_damage( 0 );
         dam_acc += dude->get_hp_max() - dude->get_hp();
         if( dude->is_dead() ) {
             break;

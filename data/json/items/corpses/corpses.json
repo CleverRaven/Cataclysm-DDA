@@ -49,7 +49,7 @@
     "id": "corpse_generic_human",
     "copy-from": "corpse",
     "name": { "str": "corpse" },
-    "description": "A dead human body.",
+    "description": "A lifeless human body.",
     "material": [ "hflesh" ]
   },
   {
@@ -261,6 +261,34 @@
       {
         "id": "generic_gunned_07",
         "text": "The corpse of a tall woman unblemished but for the bloody hole atop her head, her thick black hair intermixed now with brain, viscera and shotgun pellets."
+      }
+    ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "corpse_generic_infected",
+    "//": "Died due to an untreated, infected wound.",
+    "copy-from": "corpse",
+    "name": { "str": "corpse" },
+    "description": "The dead body of a person.  There is a bloody bite wound on their forearm.  Dry filth surrounds it.",
+    "looks_like": "corpse_generic_human",
+    "material": [ "hflesh" ],
+    "snippet_category": [
+      {
+        "id": "generic_infected_01",
+        "text": "The dead body of a person.  There is a bloody bite wound on their forearm.  Dry filth surrounds it but the body seems otherwise unharmed."
+      },
+      {
+        "id": "generic_infected_02",
+        "text": "One of this deceased persons shoulders is disfigured by a deep bite wound with a distinct shape, obviously caused by a human."
+      },
+      {
+        "id": "generic_infected_03",
+        "text": "This unlucky fellow has a deep, straight cut wound on their hand.  The blackened veins suggest it got infected."
+      },
+      {
+        "id": "generic_infected_04",
+        "text": "This lifeless body is covered in myriads of uneven scratches.  Some of them look pretty swollen."
       }
     ]
   }

@@ -130,7 +130,6 @@
       }
     },
     "size": "30 L",
-    "standard_symbols": false,
     "symbols": { "vertical": "#", "vertical_left": "#", "vertical_right": "#", "left": "#", "right": "#" },
     "type": "vehicle_part"
   },
@@ -231,6 +230,12 @@
   {
     "copy-from": "seat_abstract",
     "id": "seat",
+    "symbol": "#",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "seat_abstract",
+    "id": "seat_swivel_chair",
     "symbol": "#",
     "type": "vehicle_part"
   },

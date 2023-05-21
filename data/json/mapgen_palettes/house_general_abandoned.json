@@ -2,7 +2,8 @@
   {
     "type": "palette",
     "id": "standard_domestic_palette_abandoned",
-    "//": "Intended as a palette for abandoned non-nested houses.  Symbols still open for use: 0 ! $ % & _ = ~ ? / , ` and some symbols that conflict with json (like brackets).",
+    "//": "Intended as a palette for non-nested abandoned houses.  Removes most furniture and item spawns, breaks doors and windows, applies bash damage to glass and furniture.",
+    "//2": "Symbols still open for use: 0 ! $ % & _ = ~ ? / , ` and some symbols that conflict with json (like brackets).",
     "parameters": {
       "interior_wall_type": {
         "type": "ter_str_id",
@@ -127,12 +128,14 @@
       "8": "f_cupboard",
       "9": "f_shower",
       "@": "f_bed",
+      "¤": "f_null",
       "₸": "f_null",
       "∞": "f_null",
       "≠": "f_null",
       "Ø": "f_null",
       "Æ": "f_null",
-      "ʭ": "f_ladder"
+      "ʭ": "f_ladder",
+      "é": "f_null"
     },
     "terrain": {
       "Ŧ": { "param": "house_fence_type", "fallback": "t_fence" },
@@ -143,7 +146,7 @@
           "t_chainfence": "t_chaingate_c",
           "t_fence": "t_fencegate_c",
           "t_privacy_fence": "t_privacy_fencegate_c",
-          "t_drystone_wall_half": "t_region_groundcover_urban"
+          "t_drystone_wall_half": "t_chaingate_l"
         }
       },
       "a": "t_thconc_floor",
@@ -202,6 +205,8 @@
       },
       "+": { "chunks": [ [ "destroyed_door_nested", 50 ], [ "null", 50 ] ] },
       "*": { "chunks": [ [ "destroyed_door_nested", 50 ], [ "null", 50 ] ] },
+      "¶": { "chunks": [ [ "1x1_bash", 10 ], [ "null", 90 ] ] },
+      ":": { "chunks": [ [ "1x1_bash", 10 ], [ "null", 90 ] ] },
       "Ŧ": { "chunks": [ [ "1x1_bash", 10 ], [ "null", 90 ] ] },
       "^": { "chunks": [ [ "1x1_bash", 50 ], [ "null", 50 ] ] },
       "H": { "chunks": [ [ "1x1_bash", 50 ], [ "null", 50 ] ] },
@@ -216,7 +221,9 @@
       "O": { "chunks": [ [ "1x1_bash", 50 ], [ "null", 50 ] ] },
       "X": { "chunks": [ [ "1x1_bash", 50 ], [ "null", 50 ] ] },
       "ɤ": { "chunks": [ [ "1x1_bash", 50 ], [ "null", 50 ] ] },
-      "¶": { "chunks": [ [ "1x1_bash", 50 ], [ "null", 50 ] ] }
-    }
+      "!": { "chunks": [ [ "1x1_bash", 50 ], [ "null", 50 ] ] },
+      "%": { "chunks": [ [ "1x1_bash", 50 ], [ "null", 50 ] ] }
+    },
+    "mapping": { "÷": { "item": { "item": "doormat", "chance": 10 } } }
   }
 ]

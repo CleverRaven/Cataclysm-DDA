@@ -50,7 +50,7 @@
     "components": [
       [ [ "plastic_chunk", 4 ] ],
       [ [ "blade", 2 ] ],
-      [ [ "motor_tiny", 1 ] ],
+      [ [ "motor_micro", 1 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "scrap", 1 ] ],
       [ [ "cable", 4 ] ]
@@ -84,7 +84,7 @@
     "components": [
       [ [ "plastic_chunk", 4 ] ],
       [ [ "chain", 1 ] ],
-      [ [ "motor_micro", 1 ] ],
+      [ [ "motor_tiny", 1 ] ],
       [ [ "metal_tank_little", 1 ] ],
       [ [ "scrap", 2 ] ],
       [ [ "cable", 3 ] ],
@@ -102,7 +102,7 @@
     "components": [
       [ [ "plastic_chunk", 4 ] ],
       [ [ "circsaw_blade", 1 ] ],
-      [ [ "motor_small", 1 ] ],
+      [ [ "motor_tiny", 1 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "scrap", 1 ] ],
       [ [ "cable", 4 ] ]
@@ -138,7 +138,6 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "antenna", 1 ] ],
-      [ [ "motor_tiny", 1 ] ],
       [ [ "motor_micro", 2 ] ],
       [ [ "amplifier", 2 ] ],
       [ [ "receiver", 1 ] ],

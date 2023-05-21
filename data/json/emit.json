@@ -454,5 +454,27 @@
     "field": "fd_clairvoyant",
     "intensity": 1,
     "qty": 9
+  },
+  {
+    "id": "emit_bees",
+    "type": "emit",
+    "//": "Periodic swarm of bees",
+    "field": "fd_bee_swarm",
+    "intensity": 3,
+    "chance": 15
+  },
+  {
+    "id": "emit_monster_gas_1",
+    "type": "emit",
+    "field": "fd_nm_monster_gas_1",
+    "intensity": 3,
+    "chance": 10
+  },
+  {
+    "id": "emit_monster_gas_2",
+    "type": "emit",
+    "field": "fd_nm_monster_gas_2",
+    "intensity": 3,
+    "chance": 10
   }
 ]

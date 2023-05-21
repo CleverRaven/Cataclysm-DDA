@@ -319,8 +319,8 @@
         "                                                "
       ],
       "palettes": [ "police_dept" ],
-      "terrain": { "1": "t_ramp_up_high", "2": "t_ramp_up_low", " ": "t_soil", "5": "t_generator_broken" },
-      "furniture": { "4": [ [ "f_barricade_road", 5 ], [ "f_null", 2 ] ], "3": "f_utility_shelf" },
+      "terrain": { "1": "t_ramp_up_high", "2": "t_ramp_up_low", " ": "t_soil" },
+      "furniture": { "4": [ [ "f_barricade_road", 5 ], [ "f_null", 2 ] ], "5": "f_generator_broken", "3": "f_utility_shelf" },
       "items": { "3": [ { "item": "mechanics", "chance": 80 } ] },
       "place_vehicles": [
         { "vehicle": "truck_swat", "x": 33, "y": 10, "chance": 33, "rotation": 90 },

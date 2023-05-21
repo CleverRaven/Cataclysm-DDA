@@ -9,6 +9,7 @@
 #include <iosfwd>
 #include <map>
 #include <new>
+#include <optional>
 #include <set>
 #include <utility>
 #include <vector>
@@ -20,7 +21,6 @@
 #include "creature.h"
 #include "damage.h"
 #include "enums.h"
-#include "optional.h"
 #include "point.h"
 #include "type_id.h"
 #include "units_fwd.h"
@@ -33,6 +33,7 @@ class JsonOut;
 class effect;
 class effect_source;
 class item;
+struct monster_plan;
 namespace catacurses
 {
 class window;
@@ -158,6 +159,7 @@ class monster : public Creature
         std::string extended_description() const override;
         // Inverts color if inv==true
         bool has_flag( m_flag f ) const override; // Returns true if f is set (see mtype.h)
+        bool has_flag( flag_id f ) const;
         bool can_see() const;      // MF_SEES and no MF_BLIND
         bool can_hear() const;     // MF_HEARS and no MF_DEAF
         bool can_submerge() const; // MF_AQUATIC or swims() or MF_NO_BREATH, and not MF_ELECTRONIC
@@ -231,7 +233,13 @@ class monster : public Creature
 
         // How good of a target is given creature (checks for visibility)
         float rate_target( Creature &c, float best, bool smart = false ) const;
+        // is it mating season?
+        bool mating_angry() const;
         void plan();
+        void anger_hostile_seen( const monster_plan &mon_plan );
+        void anger_mating_season( const monster_plan &mon_plan );
+        // will change mon_plan::dist
+        void anger_cub_threatened( monster_plan &mon_plan );
         void move(); // Actual movement
         void footsteps( const tripoint &p ); // noise made by movement
         void shove_vehicle( const tripoint &remote_destination,
@@ -325,7 +333,7 @@ class monster : public Creature
         bool is_dead_state() const override; // check if we should be dead or not
         bool is_elec_immune() const override;
         bool is_immune_effect( const efftype_id & ) const override;
-        bool is_immune_damage( damage_type ) const override;
+        bool is_immune_damage( const damage_type_id & ) const override;
 
         void make_bleed( const effect_source &source, time_duration duration,
                          int intensity = 1, bool permanent = false, bool force = false, bool defferred = false );
@@ -378,11 +386,8 @@ class monster : public Creature
         float power_rating() const override;
         float speed_rating() const override;
 
-        int get_worn_armor_val( damage_type dt ) const;
-        int  get_armor_cut( bodypart_id bp ) const override; // Natural armor, plus any worn armor
-        int  get_armor_bash( bodypart_id bp ) const override; // Natural armor, plus any worn armor
-        int  get_armor_bullet( bodypart_id bp ) const override; // Natural armor, plus any worn armor
-        int  get_armor_type( damage_type dt, bodypart_id bp ) const override;
+        int get_worn_armor_val( const damage_type_id &dt ) const;
+        int  get_armor_type( const damage_type_id &dt, bodypart_id bp ) const override;
 
         float get_hit_base() const override;
         float get_dodge_base() const override;
@@ -424,7 +429,7 @@ class monster : public Creature
         /** Test whether the monster has the specified special regardless of readiness. */
         bool has_special( const std::string &special_name ) const;
         /** Test whether the specified special is ready. */
-        bool special_available( const std::string &special_name ) const;
+        bool special_available( std::string_view special_name ) const;
 
         void process_turn() override;
         /** Resets the value of all bonus fields to 0, clears special effect flags. */
@@ -541,7 +546,7 @@ class monster : public Creature
         short ignoring = 0;
         bool aggro_character = true;
 
-        cata::optional<time_point> lastseen_turn;
+        std::optional<time_point> lastseen_turn;
 
         // Stair data.
         int staircount = 0;
@@ -576,26 +581,22 @@ class monster : public Creature
 
         const pathfinding_settings &get_pathfinding_settings() const override;
         std::set<tripoint> get_path_avoid() const override;
-        // summoned monsters via spells
-        void set_summon_time( const time_duration &length );
-        // handles removing the monster if the timer runs out
-        void decrement_summon_timer();
     private:
         void process_trigger( mon_trigger trig, int amount );
         void process_trigger( mon_trigger trig, const std::function<int()> &amount_func );
 
         int hp = 0;
-        std::map<std::string, mon_special_attack> special_attacks;
-        cata::optional<tripoint_abs_ms> goal;
+        std::map<std::string, mon_special_attack, std::less<>> special_attacks;
+        std::optional<tripoint_abs_ms> goal;
         bool dead = false;
         /** Normal upgrades **/
         int next_upgrade_time();
         bool upgrades = false;
         int upgrade_time = 0;
         bool reproduces = false;
-        cata::optional<time_point> baby_timer;
+        std::optional<time_point> baby_timer;
         bool biosignatures = false;
-        cata::optional<time_point> biosig_timer;
+        std::optional<time_point> biosig_timer;
         time_point udder_timer;
         monster_horde_attraction horde_attraction = MHA_NULL;
         /** Found path. Note: Not used by monsters that don't pathfind! **/
@@ -605,7 +606,6 @@ class monster : public Creature
         int next_patrol_point = -1;
 
         std::bitset<NUM_MEFF> effect_cache;
-        cata::optional<time_point> lifespan_end = cata::nullopt;
         int turns_since_target = 0;
 
         Character *find_dragged_foe();

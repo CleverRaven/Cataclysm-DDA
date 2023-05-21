@@ -117,21 +117,21 @@ Within these are the standard list of JSON objects having "type": "proficiency".
 
 ### JSON fields
 
-| field | mandatory | type | description
-|---    |---        |---   |---
-| `id`  | Mandatory | String | Internal id of the proficiency, used for all JSON and code references to it.
-| `type` | Mandatory | String | Must be `proficiency` for all proficiencies.
-| `category` | Mandatory | String | Internal id of the associated `proficiency_category` object.
-| `name` | Mandatory | String | Name of the proficiency, used for all in-game display.
-| `description` | Mandatory | String | Description of what abilities or special knowledge the proficiency entails
-| `can_learn`   | Mandatory | Bool | Whether or not this proficiency can be learned through normal means during the game.
-| `default_time_multiplier` | Optional | Float | Time multiplier for crafting recipes (see below)
-| `default_skill_penalty` | Optional | Float | Effective skill penalty for crafting recipes (see below)
-| `default_weakpoint_bonus` | Optional | Float | Flat bonus to the attacker's skill
-| `default_weakpoint_penalty` | Optional | Float | Flat penalty to the attacker's skill if they lack the skill
-| `time_to_learn` | Optional | time_duration, as a string | The (optimal) time required to learn this proficiency.
-| `required_proficiencies` | Optional | Array of strings | The proficiencies that must be obtained before this one can.  You cannot gain experience in a proficiency without the necessary prerequisites.
-| `bonuses` | Optional | Object, with an array of object as values | This member is used to apply bonuses to certain activities given the player has a particular proficiency. The bonuses applied must be hardcoded to the activity in question. (see below)
+| field                       | mandatory | type   | description                                                                          |
+| ---                         | ---       | ---    | ---                                                                                  |
+| `id`                        | Mandatory | String | Internal id of the proficiency, used for all JSON and code references to it.         |
+| `type`                      | Mandatory | String | Must be `proficiency` for all proficiencies.                                         |
+| `category`                  | Mandatory | String | Internal id of the associated `proficiency_category` object.                         |
+| `name`                      | Mandatory | String | Name of the proficiency, used for all in-game display.                               |
+| `description`               | Mandatory | String | Description of what abilities or special knowledge the proficiency entails.          |
+| `can_learn`                 | Mandatory | Bool   | Whether or not this proficiency can be learned through normal means during the game. |
+| `default_time_multiplier`   | Optional  | Float  | Time multiplier for crafting recipes (see below).                                    |
+| `default_skill_penalty`     | Optional  | Float  | Effective skill penalty for crafting recipes (see below).                            |
+| `default_weakpoint_bonus`   | Optional  | Float  | Flat bonus to the attacker's skill.                                                  |
+| `default_weakpoint_penalty` | Optional  | Float  | Flat penalty to the attacker's skill if they lack the skill.                         |
+| `time_to_learn`             | Optional  | time_duration, as a string | The (optimal) time required to learn this proficiency.           |
+| `required_proficiencies`    | Optional  | Array of strings | The proficiencies that must be obtained before this one can.  You cannot gain experience in a proficiency without the necessary prerequisites. |
+| `bonuses`                   | Optional  | Object, with an array of object as values | This member is used to apply bonuses to certain activities given the player has a particular proficiency. The bonuses applied must be hardcoded to the activity in question. (see below) |
 
 ### time multiplier and skill penalty
 
@@ -148,7 +148,7 @@ for lacking the proficiency when crafting a recipe that involves it.
 The keys of the `bonuses` object correspond to what bonuses are - e.g. the `archery` key marks
 bonuses used for `archery`.  The general format is:
 
-```
+```json
   "bonuses": {
     "key": [ { "type": "string", "value": float } ]
   }
@@ -164,8 +164,8 @@ Using the example from above:
 
 The values of the keys are an array of objects constructed as so:
 
-| field | mandatory | type | description
-|--- |--- |--- |---
-| `type` | Mandatory | String | Where this bonus applies. Valid values are `"strength"`, `"dexterity"`, `"intelligence"`, `"perception"`.
-| `value` | Mandatory | Float | What the bonus is. This can be any numeric value representable as a floating point number.  Values of the same type from all available proficiencies are summed together to produce the final bonus for a proficiency.
+Field   | Mandatory | Type   | Description
+------- | --------- | ------ | ---
+`type`  | Mandatory | String | Where this bonus applies. Valid values are `"strength"`, `"dexterity"`, `"intelligence"`, `"perception"`.
+`value` | Mandatory | Float  | What the bonus is. This can be any numeric value representable as a floating point number.  Values of the same type from all available proficiencies are summed together to produce the final bonus for a proficiency.
 

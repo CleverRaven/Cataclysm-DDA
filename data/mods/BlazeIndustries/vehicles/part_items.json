@@ -12,9 +12,9 @@
     "looks_like": "xlframe",
     "techniques": [ "DEF_DISARM" ],
     "volume": "7500 ml",
-    "bashing": 15,
     "category": "veh_parts",
-    "price": 4000
+    "price": 4000,
+    "melee_damage": { "bash": 15 }
   },
   {
     "type": "GENERIC",

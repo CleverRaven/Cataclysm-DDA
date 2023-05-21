@@ -16,16 +16,16 @@ Basecamp upgrade paths are defined by several related files:
 ## recipe JSONs
 The recipe JSONs are standard recipe JSONs, with the addition of a few fields.
 
-New field | Description
--- | --
-`"construction_blueprint"` | string, the `"update_mapgen_id"` of the mapgen update JSON that will be performed when the upgrade mission is complete.
-`"construction_name"` | string, a short description/name of the upgrade mission that is displayed in the base camp mission selector.  The recipe's `"description"` field has the extended description that explains why a player might want to have an NPC perform this upgrade mission.
-`"blueprint_provides"` | array of objects, with each object having an `"id"` string and an optional `"amount"` integer.  These are the camp features that are available when the upgrade mission is complete.  Every upgrade mission provides its recipe `"result"` with an amount of 1 automatically and that string does not need to be listed in `"blueprint_provides"`.
-`"blueprint_requires"` | array of objects, with each object having an `"id"` string and an optional `"amount"` integer.  These are the camp features that are required before the upgrade mission can be attempted.
-`"blueprint_excludes"` | array of objects, with each object having an `"id"` string and an optional `"amount"` integer.  These are the camp features that prevent the upgrade mission from being attempted if they exist.
-`"blueprint_resources"` | array of `"itype_id"`s.  Items with those ids will be added to the camp inventory after the upgrade mission is completed and can be used for crafting or additional upgrade missions.
+New field                     | Description
+--                            | --
+`"construction_blueprint"`    | string, the `"update_mapgen_id"` of the mapgen update JSON that will be performed when the upgrade mission is complete.
+`"construction_name"`         | string, a short description/name of the upgrade mission that is displayed in the base camp mission selector.  The recipe's `"description"` field has the extended description that explains why a player might want to have an NPC perform this upgrade mission.
+`"blueprint_provides"`        | array of objects, with each object having an `"id"` string and an optional `"amount"` integer.  These are the camp features that are available when the upgrade mission is complete.  Every upgrade mission provides its recipe `"result"` with an amount of 1 automatically and that string does not need to be listed in `"blueprint_provides"`.
+`"blueprint_requires"`        | array of objects, with each object having an `"id"` string and an optional `"amount"` integer.  These are the camp features that are required before the upgrade mission can be attempted.
+`"blueprint_excludes"`        | array of objects, with each object having an `"id"` string and an optional `"amount"` integer.  These are the camp features that prevent the upgrade mission from being attempted if they exist.
+`"blueprint_resources"`       | array of `"itype_id"`s.  Items with those ids will be added to the camp inventory after the upgrade mission is completed and can be used for crafting or additional upgrade missions.
 `"blueprint_parameter_names"` | defines human-readable names for any parameter values for this recipe, when used with [parametric mapgen](#parametric-mapgen).
-`"blueprint_needs"` | object which defines the requirements to build this blueprint.  If not given, the game will attempt to autocalculate the needs based on the associated mapgen definition, so usually you need not specify `"blueprint_needs"`.
+`"blueprint_needs"`           | object which defines the requirements to build this blueprint.  If not given, the game will attempt to autocalculate the needs based on the associated mapgen definition, so usually you need not specify `"blueprint_needs"`.
 
 ### blueprint requires, provides, and excludes
 blueprint requires, blueprint provides, and blueprint excludes are abstract concepts or flags that an upgrade mission requires to start, or that are provided by a previous upgrade mission to satisfy the blueprint requirements of a current upgrade mission, or that prevent an upgrade mission from being available.  Each one has an `"id"` and an `"amount"`.  Multiple requires, provides, or excludes with the same `"id"` sum their `"amount"` if they're on the same basecamp expansion.
@@ -34,30 +34,30 @@ Every upgrade mission has its recipe `"result"` as a blueprint_provides and a bl
 
 These are arbitrary strings and can be used to control the branching of the upgrade paths.  However, some strings have meaning within the basecamp code:
 
-provides `"id"` | meaning
--- | --
-`"bed"` | every 2 `"amount"`' of `"bed"` allows another expansion in the camp, to a maximum of 8, not include the camp center.
+Provides `"id"`  | Meaning
+--               | --
+`"bed"`          | every 2 `"amount"`' of `"bed"` allows another expansion in the camp, to a maximum of 8, not include the camp center.
 `"tool_storage"` | after this upgrade mission is complete, the Store Tools mission will be available.
-`"radio"` | after this upgrade mission is complete, two way radios communicating to the camp have extended range.
-`"pantry"` | after this upgrade mission is complete, the Distribute Food mission is more efficient when dealing with short term spoilage items.
-`"gathering"` | after this upgrade mission is complete, the Gather Materials, Distribute Food, and Reset Sort Points basecamp missions will be available.
-`"firewood"` | after this upgrade mission is complete, the Gather Firewood basecamp mission will be available.
-`"sorting"` | after this upgrade mission is complete, the Menial Labor basecamp mission will be available.
-`"logging"` | after this upgrade mission is complete, the Cut Logs and Clear a Forest basecamp missions will be available.
-`"relaying"` | after this upgrade mission is complete, the Setup Hide Site and Relay Hide Site basecamp missions will be available.
-`"foraging"` | after this upgrade mission is complete, the Forage for Plants basecamp mission will be available.
-`"trapping"` |  after this upgrade mission is complete, the Trap Small Game basecamp mission will be available.
-`"hunting"` | after this upgrade mission is complete, the Hunt Large Animals basecamp mission will be available.
-`"walls"` | after this upgrade mission is complete, the Construct Map Fortifications basecamp mission will be available.
-`"recruiting"` | after this upgrade mission is complete, the Recruit Companions basecamp mission will be available.
-`"scouting"` | after this upgrade mission is complete, the Scout Mission basecamp mission will be available.
-`"patrolling"` | after this upgrade mission is complete, the Combat Patrol basecamp mission will be available.
-`"dismantling"` | after this upgrade mission is complete, the Chop Shop basecamp mission will be available.
-`"farming"` | after this upgrade mission is complete, the Plow Fields, Plant Fields, Fertilize Fields, and Harvest Fields basecamp missions will be available.
-`"reseeding"` | after this upgrade mission is complete, recipe groups with `"building_type": "FARM"` will become visible.
-`"kitchen"` | after this upgrade mission is complete, recipe groups with `"building_type": "COOK"` will become visible.
-`"blacksmith"` | after this upgrade mission is complete, recipe groups with `"building_type": "SMITH"` will become visible.
-`"water_well"` | after this upgrade mission is complete, the camp will have a permanent water source. This enables your followers at or near the camp to automatically drink from its well when they are thirsty.
+`"radio"`        | after this upgrade mission is complete, two way radios communicating to the camp have extended range.
+`"pantry"`       | after this upgrade mission is complete, the Distribute Food mission is more efficient when dealing with short term spoilage items.
+`"gathering"`    | after this upgrade mission is complete, the Gather Materials, Distribute Food, and Reset Sort Points basecamp missions will be available.
+`"firewood"`     | after this upgrade mission is complete, the Gather Firewood basecamp mission will be available.
+`"sorting"`      | after this upgrade mission is complete, the Menial Labor basecamp mission will be available.
+`"logging"`      | after this upgrade mission is complete, the Cut Logs and Clear a Forest basecamp missions will be available.
+`"relaying"`     | after this upgrade mission is complete, the Setup Hide Site and Relay Hide Site basecamp missions will be available.
+`"foraging"`     | after this upgrade mission is complete, the Forage for Plants basecamp mission will be available.
+`"trapping"`     | after this upgrade mission is complete, the Trap Small Game basecamp mission will be available.
+`"hunting"`      | after this upgrade mission is complete, the Hunt Large Animals basecamp mission will be available.
+`"walls"`        | after this upgrade mission is complete, the Construct Map Fortifications basecamp mission will be available.
+`"recruiting"`   | after this upgrade mission is complete, the Recruit Companions basecamp mission will be available.
+`"scouting"`     | after this upgrade mission is complete, the Scout Mission basecamp mission will be available.
+`"patrolling"`   | after this upgrade mission is complete, the Combat Patrol basecamp mission will be available.
+`"dismantling"`  | after this upgrade mission is complete, the Chop Shop basecamp mission will be available.
+`"farming"`      | after this upgrade mission is complete, the Plow Fields, Plant Fields, Fertilize Fields, and Harvest Fields basecamp missions will be available.
+`"reseeding"`    | after this upgrade mission is complete, recipe groups with `"building_type": "FARM"` will become visible.
+`"kitchen"`      | after this upgrade mission is complete, recipe groups with `"building_type": "COOK"` will become visible.
+`"blacksmith"`   | after this upgrade mission is complete, recipe groups with `"building_type": "SMITH"` will become visible.
+`"water_well"`   | after this upgrade mission is complete, the camp will have a permanent water source. This enables your followers at or near the camp to automatically drink from its well when they are thirsty.
 
 `blueprint_provides` can also be used to name objects from `recipe_group.json`. The recipes will be craftable by NPCs at that expansion, allowing the creation of custom recipes that can be performed exclusively at faction camps.
 
@@ -78,12 +78,10 @@ provides `"id"` | meaning
     "construction_blueprint": "faction_base_field_camp_8",
     "blueprint_name": "basic central kitchen",
     "blueprint_resources": [ "fake_stove" ],
-    "blueprint_provides": [ { "id": "trapping", "amount": 1 }, { "id": "hunting", "amount": 1 }, { "id": "walls", "amount": 1 }, { "id": "recruiting", "amount": 1 }
-    ],
+    "blueprint_provides": [ { "id": "trapping", "amount": 1 }, { "id": "hunting", "amount": 1 }, { "id": "walls", "amount": 1 }, { "id": "recruiting", "amount": 1 } ],
     "blueprint_requires": [ { "id": "faction_base_camp_6", "amount": 1 } ],
     "qualities": [ [ { "id": "DIG", "level": 1 } ], [ { "id": "SAW_M", "level": 1 } ], [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 28 ] ], [ [ "log", 16 ] ], [ [ "nail", 56 ] ], [ [ "stick", 24 ] ], [ [ "metal_tank", 1 ] ], [ [ "pipe", 1 ] ]
-    ]
+    "components": [ [ [ "2x4", 28 ] ], [ [ "log", 16 ] ], [ [ "nail", 56 ] ], [ [ "stick", 24 ] ], [ [ "metal_tank", 1 ] ], [ [ "pipe", 1 ] ] ]
   },
 ```
 
@@ -262,17 +260,17 @@ The modular basecamp is a structure for designing basecamp upgrade paths.  You d
 ### Layout
 A modular camp is laid out on a 24x24 overmap tile.  The outer 3 map squares on each side are reserved for fortifications and movement corridors, and the inner 18x18 map squares are divided into a 3x3 grid of 6x6 areas.
 
-Area | upper left position | lower right position
--- | -- | --
-northwest | 3, 3 | 8, 8
-north | 9, 3 | 14, 8
-northeast | 15, 3 | 20, 8
-west | 3, 9 | 8, 14
-center | 9, 9 | 14, 14
-east | 15, 9, | 20, 14
-southwest | 3, 15 | 8, 20
-south | 9, 15 | 14, 20
-southeast | 15, 15 | 20, 20
+| Area      | upper left position | lower right position |
+| --------- | ------------------- | -------------------- |
+| northwest |                3, 3 |                 8, 8 |
+| north     |                9, 3 |                14, 8 |
+| northeast |               15, 3 |                20, 8 |
+| west      |                3, 9 |                8, 14 |
+| center    |                9, 9 |               14, 14 |
+| east      |              15, 9, |               20, 14 |
+| southwest |               3, 15 |                8, 20 |
+| south     |               9, 15 |               14, 20 |
+| southeast |              15, 15 |               20, 20 |
 
 Ideally, nested mapgen chunks should fit entirely into a 6x6 area.
 

@@ -61,22 +61,6 @@
     ]
   },
   {
-    "id": "gun_repair",
-    "type": "requirement",
-    "//": "Gun repair",
-    "tools": [ [ [ "soldering_iron", 25 ], [ "toolset", 25 ], [ "small_repairkit", 25 ], [ "large_repairkit", 25 ] ] ],
-    "components": [ [ [ "solder_wire", 25 ] ], [ [ "scrap", 1 ] ] ],
-    "qualities": [
-      { "id": "HAMMER_FINE", "level": 1 },
-      { "id": "SAW_M_FINE", "level": 1 },
-      { "id": "WRENCH_FINE", "level": 1 },
-      { "id": "SCREW_FINE", "level": 1 },
-      { "id": "SCREW", "level": 1 },
-      { "id": "CHISEL", "level": 3 },
-      { "id": "CHISEL_WOOD", "level": 3 }
-    ]
-  },
-  {
     "id": "earthenware_firing",
     "type": "requirement",
     "//": "Firing various clay shapes to make earthenware",
@@ -372,7 +356,7 @@
     "id": "ppe_gloves",
     "type": "requirement",
     "//": "Disposable or reusable gloves.",
-    "tools": [ [ [ "gloves_medical", 1 ], [ "gloves_rubber", -1 ], [ "entry_suit", -1 ], [ "hazmat_suit", -1 ] ] ]
+    "tools": [ [ [ "gloves_medical", -1 ], [ "gloves_rubber", -1 ], [ "entry_suit", -1 ], [ "hazmat_suit", -1 ] ] ]
   },
   {
     "id": "ppe_eyes",
@@ -400,8 +384,7 @@
         [ "mask_wsurvivorxs", -1 ],
         [ "mask_wsurvivor_nofur", -1 ],
         [ "mask_wsurvivor_nofur_xs", -1 ],
-        [ "mask_wsurvivorxl_nofur", -1 ],
-        [ "hazmat_suit", -1 ]
+        [ "mask_wsurvivorxl_nofur", -1 ]
       ]
     ]
   },
@@ -411,26 +394,25 @@
     "//": "Gas protection.",
     "tools": [
       [
-        [ "mask_gas", -1 ],
-        [ "mask_gas_xs", -1 ],
-        [ "mask_gas_xl", -1 ],
-        [ "mask_gas_half", -1 ],
-        [ "mask_bunker", -1 ],
-        [ "mask_survivor", -1 ],
-        [ "mask_lsurvivor", -1 ],
-        [ "mask_hsurvivor", -1 ],
-        [ "mask_survivorxl", -1 ],
-        [ "mask_lsurvivorxl", -1 ],
-        [ "mask_survivorxs", -1 ],
-        [ "mask_wsurvivor", -1 ],
-        [ "mask_wsurvivorxl", -1 ],
-        [ "mask_wsurvivorxs", -1 ],
-        [ "mask_wsurvivor_nofur", -1 ],
-        [ "mask_wsurvivor_nofur_xs", -1 ],
-        [ "mask_wsurvivorxl_nofur", -1 ],
-        [ "hazmat_suit", -1 ]
-      ],
-      [ [ "gasfilter_m", 1 ] ]
+        [ "mask_filter", 2 ],
+        [ "mask_gas", 1 ],
+        [ "mask_gas_xs", 1 ],
+        [ "mask_gas_xl", 1 ],
+        [ "mask_gas_half", 1 ],
+        [ "mask_bunker", 1 ],
+        [ "mask_survivor", 1 ],
+        [ "mask_lsurvivor", 1 ],
+        [ "mask_hsurvivor", 1 ],
+        [ "mask_survivorxl", 1 ],
+        [ "mask_lsurvivorxl", 1 ],
+        [ "mask_survivorxs", 1 ],
+        [ "mask_wsurvivor", 1 ],
+        [ "mask_wsurvivorxl", 1 ],
+        [ "mask_wsurvivorxs", 1 ],
+        [ "mask_wsurvivor_nofur", 1 ],
+        [ "mask_wsurvivor_nofur_xs", 1 ],
+        [ "mask_wsurvivorxl_nofur", 1 ]
+      ]
     ]
   },
   {

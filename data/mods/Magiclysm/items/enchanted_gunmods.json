@@ -9,7 +9,6 @@
     "volume": "375 ml",
     "price": 77000,
     "to_hit": 2,
-    "bashing": 3,
     "material": [ "steel" ],
     "symbol": ":",
     "color": "white",
@@ -20,7 +19,8 @@
     "consume_chance": 220,
     "consume_divisor": 242,
     "loudness_modifier": -33,
-    "flags": [ "CONSUMABLE" ]
+    "flags": [ "CONSUMABLE" ],
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "mana_laser_rail",

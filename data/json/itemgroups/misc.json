@@ -177,10 +177,9 @@
       { "item": "magic_8_ball", "prob": 5 },
       { "item": "family_photo", "prob": 5 },
       { "item": "coin_quarter", "prob": 5 },
-      { "item": "mobile_memory_card_used", "count": [ 1, 4 ], "prob": 15 },
       { "item": "RPG_die", "prob": 5 },
       { "item": "metal_RPG_die", "prob": 1 },
-      { "item": "mobile_memory_card_encrypted", "count": [ 1, 2 ], "prob": 15 }
+      { "item": "memory_card_unread", "count": [ 1, 5 ], "prob": 30 }
     ]
   },
   {
@@ -288,6 +287,28 @@
       { "item": "candlestick", "prob": 2 },
       { "item": "chalice", "prob": 1 },
       { "item": "book_ruined", "prob": 1 }
+    ]
+  },
+  {
+    "id": "pencil_case_with_contents",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "pencil_case",
+    "on_overflow": "spill",
+    "entries": [ { "group": "pencil_case_contents" } ]
+  },
+  {
+    "id": "pencil_case_contents",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "group": "pens", "prob": 90 },
+      { "group": "pens", "prob": 30 },
+      { "item": "pencil", "prob": 30, "charges": [ 0, 100 ] },
+      { "item": "scissors_child", "prob": 50 },
+      { "item": "eraser", "prob": 50 },
+      { "item": "sharpener", "prob": 50 },
+      { "item": "ruler", "prob": 50 }
     ]
   }
 ]

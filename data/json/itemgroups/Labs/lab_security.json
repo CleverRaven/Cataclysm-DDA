@@ -51,8 +51,7 @@
     "entries": [
       { "item": "UPS_off", "prob": 70 },
       { "item": "heavy_battery_cell", "prob": 70 },
-      { "item": "heavy_plus_battery_cell", "prob": 40 },
-      { "item": "adv_UPS_off", "prob": 40 }
+      { "item": "heavy_plus_battery_cell", "prob": 40 }
     ]
   },
   {
@@ -128,19 +127,6 @@
           { "item": "rm2000_smg", "prob": 60 }
         ]
       }
-    ]
-  },
-  {
-    "id": "SUS_rivtech_5x50",
-    "type": "item_group",
-    "//": "This group is for rare spawns of rivetech matched sets.",
-    "subtype": "collection",
-    "entries": [
-      {
-        "distribution": [ { "item": "5x50dart", "prob": 80, "count": [ 1, 3 ] }, { "item": "5x50heavy", "prob": 20, "count": [ 1, 3 ] } ]
-      },
-      { "distribution": [ { "item": "needlegun", "prob": 50 }, { "item": "needlepistol", "prob": 50 } ] },
-      { "distribution": [ { "item": "5x50_50_mag", "prob": 80 }, { "item": "5x50_100_mag", "prob": 20 } ] }
     ]
   },
   {

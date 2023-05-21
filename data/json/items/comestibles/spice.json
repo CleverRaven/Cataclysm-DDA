@@ -65,6 +65,7 @@
     "type": "COMESTIBLE",
     "name": { "str_sp": "salt" },
     "description": "Yuck!  You surely wouldn't want to eat this.  It's good for preserving meat and cooking, though.",
+    "material": [ "salt" ],
     "color": "white"
   },
   {
@@ -81,6 +82,7 @@
     "type": "COMESTIBLE",
     "name": { "str_sp": "seasoned salt" },
     "description": "Salt mixed with a fragrant blend of secret herbs and spices.",
+    "material": [ "salt" ],
     "color": "brown"
   },
   {

@@ -64,7 +64,7 @@ This system may be expanded in the future to allow referring to other mission pa
 ### goal
 Must be included, and must be one of these strings:
 
-goal string               | Goal conditions
+Goal string               | Goal conditions
 ---                       | ---
 `MGOAL_GO_TO`             | Reach a specific overmap tile
 `MGOAL_GO_TO_TYPE`        | Reach any instance of a specified overmap tile type
@@ -108,7 +108,7 @@ Optional bool, defaults to false.  If true when this mission is finished it won'
 This is a dictionary of strings.  The NPC says these exact strings in response to the player
 inquiring about the mission or reporting its completion.  All these strings are required, even if they may not be used in the mission.
 
-string ID            | Usage
+String ID            | Usage
 ---                  | ---
 `describe`           | The NPC's overall description of the mission
 `offer`              | The specifics of the mission given when the player selects that mission for consideration
@@ -134,13 +134,13 @@ If any of these optional fields are present they can be objects with the followi
 ### origin
 This determines how the player can be given this mission. There are a number of different options for this as follows.
 
-| string ID             | Usage
-| ---                   | ---
-| `ORIGIN_GAME_START`   | Given when the game starts
-| `ORIGIN_OPENER_NPC`   | NPC comes up to you when the game starts
-| `ORIGIN_ANY_NPC`      | Any NPC
-| `ORIGIN_SECONDARY`    | Given at the end of another mission
-| `ORIGIN_COMPUTER`     | Taken after reading investigation provoking entries in computer terminal
+String ID             | Usage
+---                   | ---
+`ORIGIN_GAME_START`   | Given when the game starts
+`ORIGIN_OPENER_NPC`   | NPC comes up to you when the game starts
+`ORIGIN_ANY_NPC`      | Any NPC
+`ORIGIN_SECONDARY`    | Given at the end of another mission
+`ORIGIN_COMPUTER`     | Taken after reading investigation provoking entries in computer terminal
 
 #### effect
 This is an effects array, exactly as defined in [NPCs.md](./NPCs.md), and can use any of the values from
@@ -159,7 +159,7 @@ necessary) a particular overmap terrain and designating it as the mission target
 allow control over how it is picked and how some effects (such as revealing the surrounding area)
 are applied afterwards. The `om_terrain` is the only required field.
 
- Identifier            | Description
+Identifier             | Description
 ---                    | ---
 `om_terrain`           | ID of overmap terrain which will be selected as the target. Mandatory.  String or or [variable object](#variable-object)
 `om_terrain_match_type`| Matching rule to use with `om_terrain`. Defaults to TYPE. Details below.
@@ -288,20 +288,20 @@ This is an example of how a custom mission inquiry might appear.  This will only
 options if the player has already been assigned a mission.
 ```JSON
 {
-    "type": "talk_topic",
-    "//": "Generic responses for Old Guard Necropolis NPCs that can have missions",
-    "id": [ "TALK_OLD_GUARD_NEC_CPT", "TALK_OLD_GUARD_NEC_COMMO" ],
-    "responses": [
-      {
-        "text": "About the mission...",
-        "topic": "TALK_MISSION_INQUIRE",
-        "condition": { "and": [ "has_assigned_mission", { "u_is_wearing": "badge_marshal" } ] }
-      },
-      {
-        "text": "About one of those missions...",
-        "topic": "TALK_MISSION_LIST_ASSIGNED",
-        "condition": { "and": [ "has_many_assigned_missions", { "u_is_wearing": "badge_marshal" } ] }
-      }
-    ]
+  "type": "talk_topic",
+  "//": "Generic responses for Old Guard Necropolis NPCs that can have missions",
+  "id": [ "TALK_OLD_GUARD_NEC_CPT", "TALK_OLD_GUARD_NEC_COMMO" ],
+  "responses": [
+    {
+      "text": "About the mission...",
+      "topic": "TALK_MISSION_INQUIRE",
+      "condition": { "and": [ "has_assigned_mission", { "u_is_wearing": "badge_marshal" } ] }
+    },
+    {
+      "text": "About one of those missions...",
+      "topic": "TALK_MISSION_LIST_ASSIGNED",
+      "condition": { "and": [ "has_many_assigned_missions", { "u_is_wearing": "badge_marshal" } ] }
+    }
+  ]
 },
 ```

@@ -26,6 +26,8 @@
     "type": "AMMO",
     "name": { "str_sp": "40x46mm M1006 sponge" },
     "description": "A low velocity less-lethal 40x46mm round with a foam and plastic projectile intended to cause pain and disorientation to the target.  May still injure or kill.",
+    "price": 2300,
+    "price_postapoc": 5,
     "weight": "68 g",
     "damage": { "damage_type": "bullet", "amount": 10 },
     "casing": "40x46mm_m212_casing",

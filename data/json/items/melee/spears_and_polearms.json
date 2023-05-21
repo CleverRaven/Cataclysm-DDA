@@ -12,14 +12,13 @@
     "techniques": [ "WBLOCK_1", "DEF_DISARM" ],
     "volume": "1750 ml",
     "longest_side": "140 cm",
-    "bashing": 5,
-    "cutting": 18,
     "to_hit": { "grip": "solid", "length": "long", "surface": "point", "balance": "neutral" },
     "qualities": [ [ "COOK", 1 ] ],
     "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
     "weapon_category": [ "BLADED_FARMING", "POLEARMS", "SPEARS" ],
     "price": 2000,
-    "price_postapoc": 500
+    "price_postapoc": 500,
+    "melee_damage": { "bash": 5, "stab": 18 }
   },
   {
     "type": "GENERIC",
@@ -32,14 +31,13 @@
     "volume": "1250 ml",
     "longest_side": "80 cm",
     "weight": "900 g",
-    "bashing": 5,
-    "cutting": 9,
     "to_hit": { "grip": "solid", "length": "short", "surface": "point", "balance": "neutral" },
     "price_postapoc": 10,
     "flags": [ "SPEAR" ],
     "weapon_category": [ "POLEARMS", "FENCING_WEAPONRY" ],
     "techniques": [ "WBLOCK_1" ],
-    "qualities": [ [ "COOK", 1 ] ]
+    "qualities": [ [ "COOK", 1 ] ],
+    "melee_damage": { "bash": 5, "stab": 9 }
   },
   {
     "type": "GENERIC",
@@ -55,12 +53,11 @@
     "techniques": [ "WBLOCK_1" ],
     "volume": "2500 ml",
     "longest_side": "205 cm",
-    "bashing": 5,
-    "cutting": 9,
     "to_hit": { "grip": "solid", "length": "long", "surface": "point", "balance": "neutral" },
     "flags": [ "SPEAR", "REACH_ATTACK", "NPC_THROWN", "SHEATH_SPEAR" ],
     "weapon_category": [ "POLEARMS", "SPEARS" ],
-    "qualities": [ [ "COOK", 1 ] ]
+    "qualities": [ [ "COOK", 1 ] ],
+    "melee_damage": { "bash": 5, "stab": 9 }
   },
   {
     "type": "GENERIC",
@@ -75,13 +72,12 @@
     "techniques": [ "WBLOCK_1" ],
     "volume": "1750 ml",
     "longest_side": "180 cm",
-    "bashing": 4,
-    "cutting": 18,
     "to_hit": { "grip": "solid", "length": "long", "surface": "point", "balance": "neutral" },
     "flags": [ "SPEAR", "REACH_ATTACK", "NPC_THROWN", "SHEATH_SPEAR" ],
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "price": 400,
-    "qualities": [ [ "COOK", 1 ] ]
+    "qualities": [ [ "COOK", 1 ] ],
+    "melee_damage": { "bash": 4, "stab": 18 }
   },
   {
     "type": "GENERIC",
@@ -104,13 +100,12 @@
     "techniques": [ "WBLOCK_1" ],
     "volume": "1250 ml",
     "longest_side": "180 cm",
-    "bashing": 4,
-    "cutting": 18,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "good" },
     "flags": [ "SPEAR", "REACH_ATTACK", "NPC_THROWN", "SHEATH_SPEAR" ],
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "price": 4000,
-    "qualities": [ [ "COOK", 1 ] ]
+    "qualities": [ [ "COOK", 1 ] ],
+    "melee_damage": { "bash": 4, "stab": 18 }
   },
   {
     "id": "makeshift_scythe_war",
@@ -123,8 +118,6 @@
     "longest_side": "180 cm",
     "price": 16000,
     "price_postapoc": 50,
-    "bashing": 16,
-    "cutting": 40,
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "uneven" },
     "material": [ "steel", "wood" ],
     "symbol": "/",
@@ -132,7 +125,8 @@
     "techniques": [ "WIDE", "BRUTAL" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -22 ] ],
     "flags": [ "FRAGILE_MELEE", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "REACH_ATTACK", "ALWAYS_TWOHAND" ],
-    "weapon_category": [ "BLADED_FARMING", "HOOKING_WEAPONRY", "POLEARMS" ]
+    "weapon_category": [ "BLADED_FARMING", "HOOKING_WEAPONRY", "POLEARMS" ],
+    "melee_damage": { "bash": 16, "cut": 40 }
   },
   {
     "id": "makeshift_halberd",
@@ -145,8 +139,6 @@
     "longest_side": "180 cm",
     "price": 5000,
     "price_postapoc": 250,
-    "bashing": 13,
-    "cutting": 31,
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "uneven" },
     "material": [ "steel", "wood" ],
     "symbol": "/",
@@ -154,7 +146,8 @@
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -42 ] ],
     "flags": [ "REACH_ATTACK", "POLEARM", "NONCONDUCTIVE", "SHEATH_SPEAR", "FRAGILE_MELEE" ],
-    "weapon_category": [ "HOOKING_WEAPONRY", "POLEARMS" ]
+    "weapon_category": [ "HOOKING_WEAPONRY", "POLEARMS" ],
+    "melee_damage": { "bash": 13, "cut": 31 }
   },
   {
     "id": "makeshift_glaive",
@@ -177,8 +170,6 @@
     "longest_side": "180 cm",
     "price": 400,
     "price_postapoc": 50,
-    "bashing": 4,
-    "cutting": 24,
     "to_hit": { "grip": "solid", "length": "long", "surface": "point", "balance": "neutral" },
     "material": [ "wood", "iron" ],
     "symbol": "/",
@@ -187,7 +178,8 @@
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "COOK", 1 ] ],
     "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "FRAGILE_MELEE", "SHEATH_SPEAR" ],
-    "weapon_category": [ "POLEARMS", "SPEARS" ]
+    "weapon_category": [ "POLEARMS", "SPEARS" ],
+    "melee_damage": { "bash": 4, "stab": 24 }
   },
   {
     "id": "spear_knife",
@@ -211,8 +203,6 @@
     "longest_side": "180 cm",
     "price": 12000,
     "price_postapoc": 500,
-    "bashing": 4,
-    "cutting": 26,
     "to_hit": { "grip": "solid", "length": "long", "surface": "point", "balance": "neutral" },
     "material": [ "wood", "iron" ],
     "symbol": "/",
@@ -221,7 +211,8 @@
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ], [ "BUTCHER", -28 ] ],
     "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
-    "weapon_category": [ "POLEARMS", "SPEARS" ]
+    "weapon_category": [ "POLEARMS", "SPEARS" ],
+    "melee_damage": { "bash": 4, "stab": 26 }
   },
   {
     "type": "GENERIC",
@@ -237,13 +228,12 @@
     "techniques": [ "WBLOCK_1" ],
     "volume": "1350 ml",
     "longest_side": "180 cm",
-    "bashing": 4,
-    "cutting": 26,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "good" },
     "flags": [ "DURABLE_MELEE", "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "price": 16000,
-    "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ], [ "BUTCHER", -28 ] ]
+    "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ], [ "BUTCHER", -28 ] ],
+    "melee_damage": { "bash": 4, "stab": 26 }
   },
   {
     "id": "spear_homemade_halfpike",
@@ -256,8 +246,6 @@
     "longest_side": "180 cm",
     "price": 1400,
     "price_postapoc": 750,
-    "bashing": 4,
-    "cutting": 24,
     "to_hit": { "grip": "solid", "length": "long", "surface": "point", "balance": "neutral" },
     "material": [ "wood", "iron" ],
     "symbol": "/",
@@ -266,7 +254,8 @@
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "COOK", 1 ] ],
     "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
-    "weapon_category": [ "POLEARMS", "SPEARS" ]
+    "weapon_category": [ "POLEARMS", "SPEARS" ],
+    "melee_damage": { "bash": 4, "stab": 24 }
   },
   {
     "type": "GENERIC",
@@ -282,13 +271,12 @@
     "techniques": [ "WBLOCK_1" ],
     "volume": "1350 ml",
     "longest_side": "180 cm",
-    "bashing": 4,
-    "cutting": 24,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "good" },
     "flags": [ "DURABLE_MELEE", "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "price": 16000,
-    "qualities": [ [ "COOK", 1 ] ]
+    "qualities": [ [ "COOK", 1 ] ],
+    "melee_damage": { "bash": 4, "stab": 24 }
   },
   {
     "type": "GENERIC",
@@ -304,13 +292,12 @@
     "techniques": [ "WBLOCK_2", "DEF_DISARM" ],
     "volume": "1750 ml",
     "longest_side": "180 cm",
-    "bashing": 6,
-    "cutting": 18,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "neutral" },
     "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "FRAGILE_MELEE", "SHEATH_SPEAR" ],
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "price": 4900,
-    "qualities": [ [ "COOK", 1 ] ]
+    "qualities": [ [ "COOK", 1 ] ],
+    "melee_damage": { "bash": 6, "stab": 18 }
   },
   {
     "type": "GENERIC",
@@ -325,13 +312,12 @@
     "techniques": [ "WBLOCK_1" ],
     "volume": "1350 ml",
     "longest_side": "180 cm",
-    "bashing": 4,
-    "cutting": 28,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "good" },
     "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "price": 1400,
-    "qualities": [ [ "COOK", 1 ] ]
+    "qualities": [ [ "COOK", 1 ] ],
+    "melee_damage": { "bash": 4, "stab": 28 }
   },
   {
     "type": "GENERIC",
@@ -346,13 +332,12 @@
     "techniques": [ "WBLOCK_1" ],
     "volume": "1350 ml",
     "longest_side": "180 cm",
-    "bashing": 6,
-    "cutting": 30,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "good" },
     "flags": [ "DURABLE_MELEE", "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "price": 16000,
-    "qualities": [ [ "COOK", 1 ] ]
+    "qualities": [ [ "COOK", 1 ] ],
+    "melee_damage": { "bash": 6, "stab": 30 }
   },
   {
     "type": "GENERIC",
@@ -365,15 +350,14 @@
     "volume": "365 ml",
     "longest_side": "60 cm",
     "weight": "1240 g",
-    "bashing": 8,
-    "cutting": 13,
     "to_hit": { "grip": "solid", "length": "short", "surface": "point", "balance": "neutral" },
     "price": 200,
     "price_postapoc": 10,
     "flags": [ "SPEAR" ],
     "weapon_category": [ "FENCING_WEAPONRY" ],
     "techniques": [ "WBLOCK_1" ],
-    "qualities": [ [ "COOK", 1 ] ]
+    "qualities": [ [ "COOK", 1 ] ],
+    "melee_damage": { "bash": 8, "stab": 13 }
   },
   {
     "type": "GENERIC",
@@ -389,13 +373,12 @@
     "techniques": [ "WBLOCK_1", "IMPALE" ],
     "volume": "1130 ml",
     "longest_side": "185 cm",
-    "bashing": 6,
-    "cutting": 25,
     "to_hit": { "grip": "solid", "length": "long", "surface": "point", "balance": "neutral" },
     "flags": [ "SPEAR", "REACH_ATTACK", "SHEATH_SPEAR" ],
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "price": 8000,
-    "qualities": [ [ "COOK", 1 ] ]
+    "qualities": [ [ "COOK", 1 ] ],
+    "melee_damage": { "bash": 6, "stab": 25 }
   },
   {
     "type": "GENERIC",
@@ -410,13 +393,12 @@
     "techniques": [ "WBLOCK_1", "IMPALE" ],
     "volume": "1135 ml",
     "longest_side": "184 cm",
-    "bashing": 8,
-    "cutting": 29,
     "to_hit": { "grip": "solid", "length": "long", "surface": "point", "balance": "neutral" },
     "flags": [ "SPEAR", "REACH_ATTACK", "SHEATH_SPEAR" ],
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "price": 8000,
-    "qualities": [ [ "COOK", 1 ] ]
+    "qualities": [ [ "COOK", 1 ] ],
+    "melee_damage": { "bash": 8, "stab": 29 }
   },
   {
     "type": "GENERIC",
@@ -431,13 +413,12 @@
     "weight": "1233 g",
     "volume": "157 ml",
     "longest_side": "80 cm",
-    "bashing": 9,
-    "cutting": 4,
     "to_hit": { "grip": "solid", "length": "long", "surface": "point", "balance": "neutral" },
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "SPEAR", "FRAGILE_MELEE" ],
     "weapon_category": [ "POLEARMS" ],
-    "qualities": [ [ "COOK", 1 ], [ "HAMMER", 1 ] ]
+    "qualities": [ [ "COOK", 1 ], [ "HAMMER", 1 ] ],
+    "melee_damage": { "bash": 9, "stab": 4 }
   },
   {
     "type": "GENERIC",
@@ -452,13 +433,12 @@
     "weight": "1100 g",
     "volume": "150 ml",
     "longest_side": "80 cm",
-    "bashing": 6,
-    "cutting": 13,
     "to_hit": { "grip": "solid", "length": "long", "surface": "point", "balance": "neutral" },
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "SPEAR", "FRAGILE_MELEE" ],
     "weapon_category": [ "POLEARMS" ],
-    "qualities": [ [ "COOK", 1 ], [ "HAMMER", 1 ] ]
+    "qualities": [ [ "COOK", 1 ], [ "HAMMER", 1 ] ],
+    "melee_damage": { "bash": 6, "stab": 13 }
   },
   {
     "type": "GENERIC",
@@ -473,13 +453,12 @@
     "weight": "2600 g",
     "volume": "450 ml",
     "longest_side": "165 cm",
-    "bashing": 5,
-    "cutting": 16,
     "to_hit": { "grip": "solid", "length": "long", "surface": "point", "balance": "neutral" },
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "SPEAR", "REACH_ATTACK", "FRAGILE_MELEE", "SHEATH_SPEAR" ],
     "weapon_category": [ "POLEARMS", "SPEARS" ],
-    "qualities": [ [ "COOK", 1 ], [ "HAMMER", 1 ] ]
+    "qualities": [ [ "COOK", 1 ], [ "HAMMER", 1 ] ],
+    "melee_damage": { "bash": 5, "stab": 16 }
   },
   {
     "type": "GENERIC",
@@ -495,13 +474,12 @@
     "techniques": [ "WBLOCK_1", "IMPALE" ],
     "volume": "3 L",
     "longest_side": "250 cm",
-    "bashing": 8,
-    "cutting": 43,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "neutral" },
     "flags": [ "DURABLE_MELEE", "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "POLEARM" ],
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "price": 80000,
-    "qualities": [ [ "COOK", 1 ] ]
+    "qualities": [ [ "COOK", 1 ] ],
+    "melee_damage": { "bash": 8, "stab": 43 }
   },
   {
     "id": "halberd",
@@ -519,12 +497,11 @@
     "weight": "3175 g",
     "volume": "3750 ml",
     "longest_side": "180 cm",
-    "bashing": 15,
-    "cutting": 49,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
     "price_postapoc": 10000,
     "qualities": [ [ "COOK", 1 ], [ "BUTCHER", -70 ] ],
-    "category": "weapons"
+    "category": "weapons",
+    "melee_damage": { "bash": 15, "cut": 49 }
   },
   {
     "id": "halberd_fake",
@@ -532,7 +509,7 @@
     "type": "GENERIC",
     "name": { "str": "halberd" },
     "description": "A dull, cheaply made replica of a polearm with an axe blade, a spike, and other fun things attached to a thick pole.",
-    "proportional": { "bashing": 1.2, "cutting": 0.1 },
+    "proportional": { "melee_damage": { "bash": 1.2, "cut": 0.1 } },
     "delete": { "flags": [ "DURABLE_MELEE" ] },
     "extend": { "flags": [ "FRAGILE_MELEE" ] },
     "material": [ "aluminum", "wood" ],
@@ -557,10 +534,9 @@
     "weight": "2100 g",
     "volume": "2500 ml",
     "longest_side": "180 cm",
-    "bashing": 10,
-    "cutting": 40,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
-    "price_postapoc": 8000
+    "price_postapoc": 8000,
+    "melee_damage": { "bash": 10, "cut": 40 }
   },
   {
     "type": "GENERIC",
@@ -574,15 +550,14 @@
     "techniques": [ "WIDE", "WBLOCK_1" ],
     "volume": "2500 ml",
     "longest_side": "180 cm",
-    "bashing": 5,
-    "cutting": 41,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -24 ] ],
     "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
     "weapon_category": [ "POLEARMS" ],
     "price": 80000,
     "price_postapoc": 9500,
-    "category": "weapons"
+    "category": "weapons",
+    "melee_damage": { "bash": 5, "cut": 41 }
   },
   {
     "id": "naginata_inferior",
@@ -590,7 +565,7 @@
     "type": "GENERIC",
     "name": { "str_sp": "naginata" },
     "description": "A sturdy polearm with a curved blade, made in the same manner as the katana and other Japanese blades.  This one has a bit of wiggle to its blade and feels a bit shoddily made.",
-    "proportional": { "bashing": 4.14, "cutting": 0.25 },
+    "proportional": { "melee_damage": { "bash": 4.14, "cut": 0.25 } },
     "delete": { "flags": [ "DURABLE_MELEE" ] },
     "material": [ "budget_steel", "wood" ],
     "price": 8000,
@@ -602,7 +577,7 @@
     "type": "GENERIC",
     "name": { "str_sp": "naginata" },
     "description": "A dull, slightly floppy replica of a Japanese polearm with a curved blade.  With a little difficulty, you could use it administer a solid slap from a distance.",
-    "proportional": { "bashing": 1.5, "cutting": 0.05 },
+    "proportional": { "melee_damage": { "bash": 1.5, "cut": 0.05 } },
     "delete": { "flags": [ "DURABLE_MELEE" ] },
     "extend": { "flags": [ "FRAGILE_MELEE" ] },
     "material": [ "aluminum", "wood" ],
@@ -623,15 +598,14 @@
     "techniques": [ "IMPALE", "WIDE", "WBLOCK_1" ],
     "volume": "2250 ml",
     "longest_side": "180 cm",
-    "bashing": 4,
-    "cutting": 36,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
     "flags": [ "POLEARM", "REACH_ATTACK", "SHEATH_SPEAR" ],
     "weapon_category": [ "HOOKING_WEAPONRY", "POLEARMS" ],
     "//": "Description says it can slash. STAB currently doesn't slash, but at least it doesn't give the spear bonus",
     "price": 8000,
     "price_postapoc": 4500,
-    "qualities": [ [ "COOK", 1 ], [ "CUT", 1 ], [ "BUTCHER", -24 ] ]
+    "qualities": [ [ "COOK", 1 ], [ "CUT", 1 ], [ "BUTCHER", -24 ] ],
+    "melee_damage": { "bash": 4, "cut": 36 }
   },
   {
     "type": "GENERIC",
@@ -645,14 +619,14 @@
     "techniques": [ "WBLOCK_1" ],
     "volume": "1 L",
     "longest_side": "140 cm",
-    "cutting": 11,
     "to_hit": { "grip": "solid", "length": "long", "surface": "point", "balance": "neutral" },
     "thrown_damage": [ { "damage_type": "bash", "amount": 5 }, { "damage_type": "stab", "amount": 11 } ],
     "flags": [ "SPEAR", "SHEATH_SPEAR", "JAVELIN" ],
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "price": 4000,
     "price_postapoc": 250,
-    "qualities": [ [ "COOK", 1 ] ]
+    "qualities": [ [ "COOK", 1 ] ],
+    "melee_damage": { "stab": 11 }
   },
   {
     "type": "GENERIC",
@@ -666,15 +640,14 @@
     "techniques": [ "WBLOCK_1" ],
     "volume": "1 L",
     "longest_side": "140 cm",
-    "bashing": 5,
-    "cutting": 19,
     "to_hit": { "grip": "solid", "length": "long", "surface": "point", "balance": "neutral" },
     "thrown_damage": [ { "damage_type": "bash", "amount": 5 }, { "damage_type": "stab", "amount": 17 } ],
     "flags": [ "SPEAR", "NONCONDUCTIVE", "SHEATH_SPEAR", "JAVELIN" ],
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "price": 9000,
     "price_postapoc": 500,
-    "qualities": [ [ "COOK", 1 ] ]
+    "qualities": [ [ "COOK", 1 ] ],
+    "melee_damage": { "bash": 5, "stab": 19 }
   },
   {
     "id": "pike_wood",
@@ -687,8 +660,6 @@
     "longest_side": "300 cm",
     "price": 10000,
     "price_postapoc": 750,
-    "bashing": 9,
-    "cutting": 16,
     "to_hit": { "grip": "solid", "length": "long", "surface": "point", "balance": "neutral" },
     "material": [ "wood" ],
     "symbol": "/",
@@ -697,7 +668,8 @@
     "techniques": [ "IMPALE", "WBLOCK_1" ],
     "qualities": [ [ "COOK", 1 ] ],
     "flags": [ "DURABLE_MELEE", "POLEARM", "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ],
-    "weapon_category": [ "POLEARMS" ]
+    "weapon_category": [ "POLEARMS" ],
+    "melee_damage": { "bash": 9, "stab": 16 }
   },
   {
     "id": "pike_copper",
@@ -710,8 +682,6 @@
     "longest_side": "300 cm",
     "price": 15000,
     "price_postapoc": 1000,
-    "bashing": 9,
-    "cutting": 23,
     "to_hit": { "grip": "solid", "length": "long", "surface": "point", "balance": "neutral" },
     "material": [ "copper", "wood" ],
     "symbol": "/",
@@ -720,7 +690,8 @@
     "techniques": [ "IMPALE", "WBLOCK_1" ],
     "qualities": [ [ "COOK", 1 ] ],
     "flags": [ "DURABLE_MELEE", "POLEARM", "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ],
-    "weapon_category": [ "POLEARMS" ]
+    "weapon_category": [ "POLEARMS" ],
+    "melee_damage": { "bash": 9, "stab": 23 }
   },
   {
     "id": "pike",
@@ -732,8 +703,6 @@
     "longest_side": "300 cm",
     "price": 40000,
     "price_postapoc": 5000,
-    "bashing": 9,
-    "cutting": 32,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "neutral" },
     "material": [ "steel", "wood" ],
     "symbol": "/",
@@ -742,7 +711,8 @@
     "qualities": [ [ "COOK", 1 ] ],
     "flags": [ "DURABLE_MELEE", "POLEARM", "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ],
     "weapon_category": [ "POLEARMS" ],
-    "category": "weapons"
+    "category": "weapons",
+    "melee_damage": { "bash": 9, "stab": 32 }
   },
   {
     "id": "pike_fake",
@@ -750,7 +720,7 @@
     "type": "GENERIC",
     "name": { "str": "pike", "ctxt": "weapon" },
     "description": "A dull, cheaply made replica of a medieval weapon consisting of a very long wooden shaft tipped with an iron spearhead.",
-    "proportional": { "bashing": 1.44, "cutting": 0.06 },
+    "proportional": { "melee_damage": { "bash": 1.44, "stab": 0.06 } },
     "delete": { "flags": [ "DURABLE_MELEE" ] },
     "extend": { "flags": [ "FRAGILE_MELEE" ] },
     "material": [ "aluminum", "wood" ],
@@ -765,7 +735,7 @@
     "type": "GENERIC",
     "name": { "str": "pike", "ctxt": "weapon" },
     "description": "A medieval weapon consisting of a very long wooden shaft tipped with an iron spearhead.  The head seems to be pretty dull, and the whole thing feels poorly made.",
-    "proportional": { "bashing": 2.7, "cutting": 0.25 },
+    "proportional": { "melee_damage": { "bash": 2.7, "stab": 0.25 } },
     "delete": { "flags": [ "DURABLE_MELEE" ] },
     "material": [ "budget_steel", "wood" ],
     "price": 40000,
@@ -781,8 +751,6 @@
     "longest_side": "150 cm",
     "price": 16000,
     "price_postapoc": 2500,
-    "bashing": 17,
-    "cutting": 42,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
     "material": [ "steel", "wood" ],
     "symbol": "/",
@@ -790,7 +758,8 @@
     "techniques": [ "WIDE", "BRUTAL" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -22 ] ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "REACH_ATTACK", "ALWAYS_TWOHAND" ],
-    "weapon_category": [ "BLADED_FARMING", "HOOKING_WEAPONRY", "POLEARMS" ]
+    "weapon_category": [ "BLADED_FARMING", "HOOKING_WEAPONRY", "POLEARMS" ],
+    "melee_damage": { "bash": 17, "cut": 42 }
   },
   {
     "id": "spear_dory",
@@ -802,8 +771,6 @@
     "longest_side": "250 cm",
     "price": 10000,
     "price_postapoc": 3500,
-    "bashing": 8,
-    "cutting": 39,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "neutral" },
     "material": [ "bronze", "wood" ],
     "symbol": "/",
@@ -811,7 +778,8 @@
     "techniques": [ "WBLOCK_1", "IMPALE" ],
     "qualities": [ [ "COOK", 1 ] ],
     "flags": [ "SPEAR", "REACH_ATTACK", "DURABLE_MELEE", "SHEATH_SPEAR", "NONCONDUCTIVE", "POLEARM" ],
-    "weapon_category": [ "POLEARMS", "SPEARS" ]
+    "weapon_category": [ "POLEARMS", "SPEARS" ],
+    "melee_damage": { "bash": 8, "stab": 39 }
   },
   {
     "id": "spear_bronze",
@@ -823,8 +791,6 @@
     "longest_side": "180 cm",
     "price": 9000,
     "price_postapoc": 2500,
-    "bashing": 5,
-    "cutting": 29,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "good" },
     "material": [ "bronze", "wood" ],
     "symbol": "/",
@@ -833,7 +799,8 @@
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "COOK", 1 ] ],
     "flags": [ "SPEAR", "REACH_ATTACK", "DURABLE_MELEE", "SHEATH_SPEAR", "NONCONDUCTIVE" ],
-    "weapon_category": [ "POLEARMS", "SPEARS" ]
+    "weapon_category": [ "POLEARMS", "SPEARS" ],
+    "melee_damage": { "bash": 5, "stab": 29 }
   },
   {
     "id": "poleaxe",
@@ -851,11 +818,10 @@
     "weight": "2200 g",
     "volume": "3000 ml",
     "longest_side": "160 cm",
-    "bashing": 28,
-    "cutting": 31,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
     "price_postapoc": 5000,
-    "qualities": [ [ "COOK", 1 ] ]
+    "qualities": [ [ "COOK", 1 ] ],
+    "melee_damage": { "bash": 28, "cut": 31 }
   },
   {
     "id": "ji",
@@ -868,15 +834,14 @@
     "longest_side": "180 cm",
     "price": 50000,
     "price_postapoc": 3500,
-    "bashing": 9,
-    "cutting": 53,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
     "material": [ "wood", "bronze" ],
     "symbol": "/",
     "color": "yellow",
     "techniques": [ "WBLOCK_1", "DEF_DISARM" ],
     "flags": [ "DURABLE_MELEE", "POLEARM", "REACH_ATTACK", "ALWAYS_TWOHAND", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
-    "weapon_category": [ "HOOKING_WEAPONRY", "POLEARMS" ]
+    "weapon_category": [ "HOOKING_WEAPONRY", "POLEARMS" ],
+    "melee_damage": { "bash": 9, "cut": 53 }
   },
   {
     "id": "spear_stone",
@@ -888,8 +853,6 @@
     "longest_side": "180 cm",
     "price": 1300,
     "price_postapoc": 50,
-    "bashing": 8,
-    "cutting": 20,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "good" },
     "material": [ "wood", "stone" ],
     "ascii_picture": "spear_stone",
@@ -898,7 +861,8 @@
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "COOK", 1 ] ],
     "flags": [ "SPEAR", "REACH_ATTACK", "SHEATH_SPEAR" ],
-    "weapon_category": [ "POLEARMS", "SPEARS" ]
+    "weapon_category": [ "POLEARMS", "SPEARS" ],
+    "melee_damage": { "bash": 8, "stab": 20 }
   },
   {
     "id": "spear_stone_simple",
@@ -910,8 +874,6 @@
     "longest_side": "180 cm",
     "price": 1300,
     "price_postapoc": 50,
-    "bashing": 8,
-    "cutting": 20,
     "to_hit": { "grip": "solid", "length": "long", "surface": "point", "balance": "neutral" },
     "material": [ "wood", "stone" ],
     "ascii_picture": "spear_stone",
@@ -921,6 +883,7 @@
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "COOK", 1 ] ],
     "flags": [ "SPEAR", "REACH_ATTACK", "SHEATH_SPEAR" ],
-    "weapon_category": [ "POLEARMS", "SPEARS" ]
+    "weapon_category": [ "POLEARMS", "SPEARS" ],
+    "melee_damage": { "bash": 8, "stab": 20 }
   }
 ]

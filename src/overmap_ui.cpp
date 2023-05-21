@@ -1,6 +1,5 @@
 #include "overmap_ui.h"
 
-#include <functional>
 #include <algorithm>
 #include <array>
 #include <chrono>
@@ -11,6 +10,7 @@
 #include <map>
 #include <memory>
 #include <new>
+#include <optional>
 #include <ratio>
 #include <set>
 #include <string>
@@ -34,6 +34,7 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
+#include "city.h"
 #include "clzones.h"
 #include "color.h"
 #include "coordinates.h"
@@ -55,7 +56,6 @@
 #include "mongroup.h"
 #include "npc.h"
 #include "omdata.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
@@ -115,7 +115,7 @@ namespace overmap_ui
 static void create_note( const tripoint_abs_omt &curs );
 
 // {note symbol, note color, offset to text}
-std::tuple<char, nc_color, size_t> get_note_display_info( const std::string &note )
+std::tuple<char, nc_color, size_t> get_note_display_info( const std::string_view note )
 {
     std::tuple<char, nc_color, size_t> result {'N', c_yellow, 0};
     bool set_color  = false;
@@ -130,7 +130,7 @@ std::tuple<char, nc_color, size_t> get_note_display_info( const std::string &not
         }
 
         // find the first following delimiter
-        const auto end = note.find_first_of( " :;", pos, 3 );
+        const size_t end = note.find_first_of( " :;", pos, 3 );
         if( end == std::string::npos ) {
             return result;
         }
@@ -179,7 +179,7 @@ static std::array<std::pair<nc_color, std::string>, npm_width *npm_height> get_o
     return map_around;
 }
 
-static void update_note_preview( const std::string &note,
+static void update_note_preview( const std::string_view note,
                                  const std::array<std::pair<nc_color, std::string>, npm_width *npm_height> &map_around,
                                  const std::tuple<catacurses::window *, catacurses::window *, catacurses::window *>
                                  &preview_windows )
@@ -187,7 +187,7 @@ static void update_note_preview( const std::string &note,
     auto om_symbol = get_note_display_info( note );
     const nc_color note_color = std::get<1>( om_symbol );
     const char symbol = std::get<0>( om_symbol );
-    const std::string note_text = note.substr( std::get<2>( om_symbol ), std::string::npos );
+    const std::string_view note_text = note.substr( std::get<2>( om_symbol ), std::string::npos );
 
     catacurses::window *w_preview = std::get<0>( preview_windows );
     catacurses::window *w_preview_title = std::get<1>( preview_windows );
@@ -235,10 +235,10 @@ weather_type_id get_weather_at_point( const tripoint_abs_omt &pos )
     }
     auto iter = weather_cache.find( pos );
     if( iter == weather_cache.end() ) {
-        // TODO: fix point types
-        const tripoint abs_ms_pos = project_to<coords::ms>( pos ).raw();
+        const tripoint_abs_ms abs_ms_pos = project_to<coords::ms>( pos );
         const weather_generator &wgen = overmap_buffer.get_settings( pos ).weather;
-        const auto weather = wgen.get_weather_conditions( abs_ms_pos, calendar::turn, g->get_seed() );
+        const weather_type_id weather = wgen.get_weather_conditions( abs_ms_pos, calendar::turn,
+                                        g->get_seed() );
         iter = weather_cache.insert( std::make_pair( pos, weather ) ).first;
     }
     return iter->second;
@@ -523,7 +523,7 @@ static bool get_and_assign_los( int &los, avatar &player_character, const tripoi
 }
 
 static void draw_ascii(
-    ui_adaptor &ui, const catacurses::window &w, const tripoint_abs_omt &center,
+    const catacurses::window &w, const tripoint_abs_omt &center,
     const tripoint_abs_omt &orig, bool blink, bool show_explored, bool /* fast_scroll */,
     input_context * /* inp_ctxt */, const draw_data_t &data )
 {
@@ -996,12 +996,10 @@ static void draw_ascii(
     }
     // Done with all drawing!
     wnoutrefresh( w );
-    // Set cursor for screen readers
-    ui.set_cursor( w, point( om_half_width, om_half_height ) );
 }
 
 static void draw_om_sidebar(
-    const catacurses::window &wbar, const tripoint_abs_omt &center,
+    ui_adaptor &ui, const catacurses::window &wbar, const tripoint_abs_omt &center,
     const tripoint_abs_omt &orig, bool /* blink */, bool fast_scroll,
     input_context *inp_ctxt, const draw_data_t &data )
 {
@@ -1044,20 +1042,22 @@ static void draw_om_sidebar(
     int lines = 1;
     if( center_seen ) {
         if( !mgroups.empty() ) {
-            int line_number = 6;
+            const point desc_pos( 3, 6 );
+            ui.set_cursor( wbar, desc_pos );
+            int line_number = 0;
             for( mongroup * const &mgroup : mgroups ) {
-                mvwprintz( wbar, point( 3, line_number++ ),
+                mvwprintz( wbar, desc_pos + point( 0, line_number++ ),
                            c_blue, "  Species: %s", mgroup->type.c_str() );
-                mvwprintz( wbar, point( 3, line_number++ ),
+                mvwprintz( wbar, desc_pos + point( 0, line_number++ ),
                            c_blue, "# monsters: %d", mgroup->population + mgroup->monsters.size() );
                 if( !mgroup->horde ) {
                     continue;
                 }
-                mvwprintz( wbar, point( 3, line_number++ ),
+                mvwprintz( wbar, desc_pos + point( 0, line_number++ ),
                            c_blue, "  Interest: %d", mgroup->interest );
-                mvwprintz( wbar, point( 3, line_number ),
+                mvwprintz( wbar, desc_pos + point( 0, line_number++ ),
                            c_blue, "  Target: %s", mgroup->target.to_string() );
-                mvwprintz( wbar, point( 3, line_number++ ),
+                mvwprintz( wbar, desc_pos + point( 0, line_number++ ),
                            c_red, "x" );
             }
         } else {
@@ -1067,13 +1067,22 @@ static void draw_om_sidebar(
             // NOLINTNEXTLINE(cata-use-named-point-constants)
             mvwputch( wbar, point( 1, 1 ), ter.get_color(), ter.get_symbol() );
 
-            lines = fold_and_print( wbar, point( 3, 1 ), getmaxx( wbar ) - 3, c_light_gray,
+            const point desc_pos( 3, 1 );
+            ui.set_cursor( wbar, desc_pos );
+            lines = fold_and_print( wbar, desc_pos, getmaxx( wbar ) - desc_pos.x,
+                                    c_light_gray,
                                     overmap_buffer.get_description_at( sm_pos ) );
         }
     } else {
+        const oter_t &ter = oter_unexplored.obj();
+
         // NOLINTNEXTLINE(cata-use-named-point-constants)
-        mvwprintz( wbar, point( 1, 1 ), oter_unexplored.obj().get_color(), _( "%s %s" ),
-                   oter_unexplored.obj().get_symbol(), oter_unexplored.obj().get_name() );
+        mvwputch( wbar, point( 1, 1 ), ter.get_color(), ter.get_symbol() );
+
+        const point desc_pos( 3, 1 );
+        ui.set_cursor( wbar, desc_pos );
+        lines = fold_and_print( wbar, desc_pos, getmaxx( wbar ) - desc_pos.x,
+                                ter.get_color(), ter.get_name() );
     }
 
     // Describe the weather conditions on the following line, if weather is visible
@@ -1105,7 +1114,7 @@ static void draw_om_sidebar(
                 mvwprintz( wbar, point( 1, ++lines ), c_white, "- %s", pred->id().str() );
             }
         }
-        cata::optional<mapgen_arguments> *args = overmap_buffer.mapgen_args( center );
+        std::optional<mapgen_arguments> *args = overmap_buffer.mapgen_args( center );
         if( args ) {
             if( *args ) {
                 for( const std::pair<const std::string, cata_variant> &arg : ( **args ).map ) {
@@ -1183,6 +1192,8 @@ static void draw_om_sidebar(
         print_hint( "LEVEL_UP" );
         print_hint( "LEVEL_DOWN" );
         print_hint( "CENTER" );
+        print_hint( "CENTER_ON_DESTINATION" );
+        print_hint( "GO_TO_DESTINATION" );
         print_hint( "SEARCH" );
         print_hint( "CREATE_NOTE" );
         print_hint( "DELETE_NOTE" );
@@ -1218,7 +1229,7 @@ static void draw(
     bool blink, bool show_explored, bool fast_scroll,
     input_context *inp_ctxt, const draw_data_t &data )
 {
-    draw_om_sidebar( g->w_omlegend, center, orig, blink, fast_scroll, inp_ctxt, data );
+    draw_om_sidebar( ui, g->w_omlegend, center, orig, blink, fast_scroll, inp_ctxt, data );
 #if defined( TILES )
     if( use_tiles && use_tiles_overmap ) {
         redraw_info = tiles_redraw_info { center, blink };
@@ -1228,7 +1239,7 @@ static void draw(
         return;
     }
 #endif // TILES
-    draw_ascii( ui, g->w_overmap, center, orig, blink, show_explored, fast_scroll, inp_ctxt, data );
+    draw_ascii( g->w_overmap, center, orig, blink, show_explored, fast_scroll, inp_ctxt, data );
 }
 
 static void create_note( const tripoint_abs_omt &curs )
@@ -1568,14 +1579,14 @@ static void place_ter_or_special( const ui_adaptor &om_ui, tripoint_abs_omt &cur
 
             action = ctxt.handle_input( get_option<int>( "BLINK_SPEED" ) );
 
-            if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
+            if( const std::optional<tripoint> vec = ctxt.get_direction( action ) ) {
                 curs += vec->xy();
             } else if( action == "CONFIRM" ) { // Actually modify the overmap
                 if( terrain ) {
                     overmap_buffer.ter_set( curs, uistate.place_terrain->id.id() );
                     overmap_buffer.set_seen( curs, true );
                 } else {
-                    if( cata::optional<std::vector<tripoint_abs_omt>> used_points =
+                    if( std::optional<std::vector<tripoint_abs_omt>> used_points =
                             overmap_buffer.place_special( *uistate.place_special, curs,
                                                           uistate.omedit_rotation, false, true ) ) {
                         for( const tripoint_abs_omt &pos : *used_points ) {
@@ -1602,7 +1613,7 @@ static void place_ter_or_special( const ui_adaptor &om_ui, tripoint_abs_omt &cur
 
 static void set_special_args( tripoint_abs_omt &curs )
 {
-    cata::optional<mapgen_arguments> *maybe_args = overmap_buffer.mapgen_args( curs );
+    std::optional<mapgen_arguments> *maybe_args = overmap_buffer.mapgen_args( curs );
     if( !maybe_args ) {
         popup( _( "No overmap special args at this location." ) );
         return;
@@ -1611,7 +1622,7 @@ static void set_special_args( tripoint_abs_omt &curs )
         popup( _( "Overmap special args at this location have already been set." ) );
         return;
     }
-    cata::optional<overmap_special_id> s = overmap_buffer.overmap_special_at( curs );
+    std::optional<overmap_special_id> s = overmap_buffer.overmap_special_at( curs );
     if( !s ) {
         popup( _( "No overmap special at this location from which to fetch parameters." ) );
         return;
@@ -1669,7 +1680,7 @@ static std::vector<tripoint_abs_omt> get_overmap_path_to( const tripoint_abs_omt
             params = overmap_path_params::for_watercraft();
         } else if( can_drive ) {
             const float offroad_coeff = player_veh->k_traction( player_veh->wheel_area() *
-                                        player_veh->average_or_rating() );
+                                        player_veh->average_offroad_rating() );
             const bool tiny = player_veh->get_points().size() <= 3;
             params = overmap_path_params::for_land_vehicle( offroad_coeff, tiny, can_float );
         } else {
@@ -1694,6 +1705,41 @@ static std::vector<tripoint_abs_omt> get_overmap_path_to( const tripoint_abs_omt
 }
 
 static int overmap_zoom_level = DEFAULT_TILESET_ZOOM;
+
+static bool try_travel_to_destination( avatar &player_character, const tripoint_abs_omt curs,
+                                       const bool driving )
+{
+    std::vector<tripoint_abs_omt> path = get_overmap_path_to( curs, driving );
+    bool same_path_selected = path == player_character.omt_path;
+    std::string confirm_msg;
+    if( !driving && player_character.weight_carried() > player_character.weight_capacity() ) {
+        confirm_msg = _( "You are overburdened, are you sure you want to travel (it may be painful)?" );
+    } else if( !driving && player_character.in_vehicle ) {
+        confirm_msg = _( "You are in a vehicle but not driving.  Are you sure you want to walk?" );
+    } else if( driving ) {
+        if( same_path_selected ) {
+            confirm_msg = _( "Drive to this point?" );
+        } else {
+            confirm_msg = _( "Drive to your destination?" );
+        }
+    } else {
+        if( same_path_selected ) {
+            confirm_msg = _( "Travel to this point?" );
+        } else {
+            confirm_msg = _( "Travel to your destination?" );
+        }
+    }
+    if( query_yn( confirm_msg ) ) {
+        if( driving ) {
+            player_character.assign_activity( autodrive_activity_actor() );
+        } else {
+            player_character.reset_move_mode();
+            player_character.assign_activity( ACT_TRAVELLING );
+        }
+        return true;
+    }
+    return false;
+}
 
 static tripoint_abs_omt display( const tripoint_abs_omt &orig,
                                  const draw_data_t &data = draw_data_t() )
@@ -1748,6 +1794,9 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
     ictxt.register_action( "MOUSE_MOVE" );
     ictxt.register_action( "SELECT" );
     ictxt.register_action( "CHOOSE_DESTINATION" );
+    ictxt.register_action( "CENTER_ON_DESTINATION" );
+    ictxt.register_action( "GO_TO_DESTINATION" );
+
 
     // Actions whose keys we want to display.
     ictxt.register_action( "CENTER" );
@@ -1777,7 +1826,7 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
     bool show_explored = true;
     static bool fast_scroll = false;
     int fast_scroll_offset = get_option<int>( "FAST_SCROLL_OFFSET" );
-    cata::optional<tripoint> mouse_pos;
+    std::optional<tripoint> mouse_pos;
     std::chrono::time_point<std::chrono::steady_clock> last_blink = std::chrono::steady_clock::now();
 
     ui.on_redraw( [&]( ui_adaptor & ui ) {
@@ -1798,7 +1847,7 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
 #else
         action = ictxt.handle_input( get_option<int>( "BLINK_SPEED" ) );
 #endif
-        if( const cata::optional<tripoint> vec = ictxt.get_direction( action ) ) {
+        if( const std::optional<tripoint> vec = ictxt.get_direction( action ) ) {
             int scroll_d = fast_scroll ? fast_scroll_offset : 1;
             curs += vec->xy() * scroll_d;
         } else if( action == "MOUSE_MOVE" || action == "TIMEOUT" ) {
@@ -1840,6 +1889,21 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
                 curs.x() = p.x();
                 curs.y() = p.y();
             }
+        } else if( action == "GO_TO_DESTINATION" ) {
+            avatar &player_character = get_avatar();
+            if( !player_character.omt_path.empty() ) {
+                const bool driving = player_character.in_vehicle && player_character.controlling_vehicle;
+                if( try_travel_to_destination( player_character, curs, driving ) ) {
+                    action = "QUIT";
+                }
+            }
+        } else if( action == "CENTER_ON_DESTINATION" ) {
+            avatar &player_character = get_avatar();
+            if( !player_character.omt_path.empty() ) {
+                tripoint_abs_omt p = player_character.omt_path[0];
+                curs.x() = p.x();
+                curs.y() = p.y();
+            }
         } else if( action == "CHOOSE_DESTINATION" ) {
             avatar &player_character = get_avatar();
             const bool driving = player_character.in_vehicle && player_character.controlling_vehicle;
@@ -1851,23 +1915,7 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
                 player_character.omt_path.swap( path );
             }
             if( same_path_selected && !player_character.omt_path.empty() ) {
-                std::string confirm_msg;
-                if( !driving && player_character.weight_carried() > player_character.weight_capacity() ) {
-                    confirm_msg = _( "You are overburdened, are you sure you want to travel (it may be painful)?" );
-                } else if( !driving && player_character.in_vehicle ) {
-                    confirm_msg = _( "You are in a vehicle but not driving.  Are you sure you want to walk?" );
-                } else if( driving ) {
-                    confirm_msg = _( "Drive to this point?" );
-                } else {
-                    confirm_msg = _( "Travel to this point?" );
-                }
-                if( query_yn( confirm_msg ) ) {
-                    if( driving ) {
-                        player_character.assign_activity( player_activity( autodrive_activity_actor() ) );
-                    } else {
-                        player_character.reset_move_mode();
-                        player_character.assign_activity( ACT_TRAVELLING );
-                    }
+                if( try_travel_to_destination( player_character, curs, driving ) ) {
                     action = "QUIT";
                 }
             }
@@ -2036,10 +2084,10 @@ void ui::omap::setup_cities_menu( uilist &cities_menu, std::vector<city> &cities
     }
 }
 
-cata::optional<city> ui::omap::select_city( uilist &cities_menu,
+std::optional<city> ui::omap::select_city( uilist &cities_menu,
         std::vector<city> &cities_container, bool random )
 {
-    cata::optional<city> ret_val = cata::nullopt;
+    std::optional<city> ret_val = std::nullopt;
     if( random ) {
         ret_val = random_entry( cities_container );
     } else {
@@ -2047,7 +2095,7 @@ cata::optional<city> ui::omap::select_city( uilist &cities_menu,
         if( cities_menu.ret == RANDOM_CITY_ENTRY ) {
             ret_val = random_entry( cities_container );
         } else if( cities_menu.ret == UILIST_CANCEL ) {
-            ret_val = cata::nullopt;
+            ret_val = std::nullopt;
         } else {
             if( cities_menu.entries.size() > 1 ) {
                 ret_val = cities_container[cities_menu.selected - 1];

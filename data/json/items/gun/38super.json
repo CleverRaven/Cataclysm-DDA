@@ -12,7 +12,6 @@
     "price": 479900,
     "price_postapoc": 2000,
     "to_hit": -2,
-    "bashing": 12,
     "material": [ "steel" ],
     "color": "light_gray",
     "ammo": [ "38super" ],
@@ -23,7 +22,6 @@
     "modes": [ [ "DEFAULT", "double", 2 ] ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -37,7 +35,8 @@
     ],
     "flags": [ "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
-    "pocket_data": [ { "magazine_well": "500 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "af2011a1mag" ] } ]
+    "pocket_data": [ { "magazine_well": "500 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "af2011a1mag" ] } ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "m1911a1_38super",
@@ -52,7 +51,6 @@
     "price": 78400,
     "price_postapoc": 2000,
     "to_hit": -2,
-    "bashing": 12,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "light_gray",
@@ -61,6 +59,7 @@
     "durability": 7,
     "flags": [ "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
-    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m1911mag_10rd_38super" ] } ]
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m1911mag_10rd_38super" ] } ],
+    "melee_damage": { "bash": 12 }
   }
 ]

@@ -363,14 +363,14 @@
     "skills_required": [ "bashing", 1 ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_redsmithing" },
       { "proficiency": "prof_toolsmithing" }
     ],
     "difficulty": 3,
     "time": "1 h",
     "autolearn": false,
     "book_learn": [ [ "recipe_melee", 2 ] ],
-    "using": [ [ "blacksmithing_standard", 4 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ], [ "ppe_gas", 1 ] ],
     "tools": [ [ [ "drift", -1 ] ] ],
     "components": [ [ [ "copper", 100 ] ], [ [ "chem_zinc_powder", 500 ] ] ]
   },
@@ -379,7 +379,7 @@
     "type": "recipe",
     "copy-from": "knuckle_brass",
     "time": "1 h",
-    "using": [ [ "blacksmithing_standard", 4 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ], [ "ppe_gas", 1 ] ],
     "tools": [ [ [ "drift", -1 ] ] ],
     "components": [ [ [ "copper", 150 ] ], [ [ "chem_zinc_powder", 600 ] ] ]
   },
@@ -388,7 +388,7 @@
     "type": "recipe",
     "copy-from": "knuckle_brass",
     "time": "1 h",
-    "using": [ [ "blacksmithing_standard", 4 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ], [ "ppe_gas", 1 ] ],
     "tools": [ [ [ "drift", -1 ] ] ],
     "components": [ [ [ "copper", 80 ] ], [ [ "chem_zinc_powder", 400 ] ] ]
   },

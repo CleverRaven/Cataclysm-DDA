@@ -13,6 +13,7 @@
 #include "item_pocket.h"
 #include "map_helpers.h"
 #include "npc.h"
+#include "options_helpers.h"
 #include "pimpl.h"
 #include "player_helpers.h"
 #include "ret_val.h"
@@ -77,7 +78,7 @@ TEST_CASE( "Bionic power capacity", "[bionics] [power]" )
             REQUIRE( dummy.get_power_level() == bio_power_storage->capacity * 2 );
 
             WHEN( "a Power Storage CBM is uninstalled" ) {
-                cata::optional<bionic *> bio = dummy.find_bionic_by_type( bio_power_storage );
+                std::optional<bionic *> bio = dummy.find_bionic_by_type( bio_power_storage );
                 REQUIRE( bio );
                 dummy.remove_bionic( **bio );
                 THEN( "maximum power decreases by the Power Storage capacity without changing current power level" ) {
@@ -92,7 +93,7 @@ TEST_CASE( "Bionic power capacity", "[bionics] [power]" )
             REQUIRE( dummy.is_max_power() );
 
             WHEN( "a Power Storage CBM is uninstalled" ) {
-                cata::optional<bionic *> bio = dummy.find_bionic_by_type( bio_power_storage );
+                std::optional<bionic *> bio = dummy.find_bionic_by_type( bio_power_storage );
                 REQUIRE( bio );
                 dummy.remove_bionic( **bio );
                 THEN( "current power is reduced to fit the new capacity" ) {
@@ -205,7 +206,7 @@ TEST_CASE( "bionic weapons", "[bionics] [weapon] [item]" )
 
                 THEN("current CBM UID is stored and fake weapon is wielded by the character")
                 {
-                    cata::optional<int> cbm_index = dummy.active_bionic_weapon_index();
+                    std::optional<int> cbm_index = dummy.active_bionic_weapon_index();
                     REQUIRE(cbm_index);
                     CHECK(*cbm_index == installed_index);
                     CHECK(dummy.get_wielded_item().typeId() == weapon_bionic->fake_weapon);
@@ -229,7 +230,7 @@ TEST_CASE( "bionic weapons", "[bionics] [weapon] [item]" )
                          json_flag_PSEUDO ) != customizable_weapon_bionic_id->installable_weapon_flags.end() );
 
             WHEN( "character tries uninstalls weapon installed in the customizable bionic" ) {
-                cata::optional<item> removed_weapon = customizable_bionic.uninstall_weapon();
+                std::optional<item> removed_weapon = customizable_bionic.uninstall_weapon();
 
                 THEN( "weapon is uninstalled and retrieved as an item" ) {
                     REQUIRE( removed_weapon );
@@ -537,6 +538,7 @@ TEST_CASE( "fueled bionics", "[bionics] [item]" )
         // Midday for solar test
         clear_map();
         g->reset_light_level();
+        scoped_weather_override weather_clear( WEATHER_CLEAR );
         calendar::turn = calendar::turn_zero + 12_hours;
         REQUIRE( g->is_in_sunlight( dummy.pos() ) );
 
