@@ -1,5 +1,5 @@
 [
-  { 
+  {
     "type": "scenario",
     "id": "extscenario_prethresh",
     "name": "Mutant - Pre Threshold",
