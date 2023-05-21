@@ -135,7 +135,7 @@
     "types": [ "TEETH" ],
     "valid": false,
     "vitamin_rates": [ [ "human_blood_vitamin", 180 ] ],
-    "flags": [ "CANNIBAL" ],
+    "flags": [ "CANNIBAL", "ALBINO" ],
     "attacks": [
       {
         "attack_text_u": "You sink your fangs into %s",
@@ -182,7 +182,7 @@
     "valid": false,
     "vitamins_absorb_multi": [ [ "all", [ [ "human_blood_vitamin", 1.25 ] ] ] ],
     "vitamin_rates": [ [ "human_blood_vitamin", 180 ] ],
-    "flags": [ "CANNIBAL" ],
+    "flags": [ "CANNIBAL", "ALBINO", "DAYFEAR" ],
     "metabolism_modifier": 0.8,
     "stamina_regen_modifier": 0.1
   },
@@ -219,7 +219,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "flags": [ "CANNIBAL" ],
+    "flags": [ "CANNIBAL", "SUNBURN", "DAYFEAR" ],
     "metabolism_modifier": 5,
     "stamina_regen_modifier": 0.1
   },
@@ -232,7 +232,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "flags": [ "CANNIBAL" ],
+    "flags": [ "CANNIBAL", "SUNBURN", "DAYFEAR" ],
     "metabolism_modifier": 5,
     "stamina_regen_modifier": 0.1
   }

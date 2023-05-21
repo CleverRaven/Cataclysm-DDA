@@ -43,6 +43,8 @@ Use the `Home` key to return to the top.
     - [Item Category](#item-category)
     - [Item Properties](#item-properties)
     - [Item Variables](#item-variables)
+    - [Item faults](#item-faults)
+    - [Item fault fixes](#item-fault-fixes)
     - [Materials](#materials)
       - [Fuel data](#fuel-data)
       - [Burn data](#burn-data)
@@ -129,6 +131,7 @@ Use the `Home` key to return to the top.
     - [Comestibles](#comestibles)
     - [Containers](#containers)
     - [Melee](#melee)
+    - [Memory Cards](#memory-cards)
     - [Gun](#gun)
     - [Gunmod](#gunmod)
     - [Batteries](#batteries)
@@ -1343,6 +1346,48 @@ This will make any item instantiated from that prototype get assigned this varia
 the item is spawned the variables set on the prototype no longer affect the item's variables,
 a migration can clear out the item's variables and reassign the prototype ones if reset_item_vars
 flag is set.
+
+### Item faults
+
+Faults can be defined for more specialized damage of an item.
+
+```C++
+{
+  "type": "fault",
+  "id": "fault_gun_chamber_spent", // unique id for the fault
+  "name": { "str": "Spent casing in chamber" }, // fault name for display
+  "description": "This gun currently...", // fault description
+  "item_prefix": "jammed", // optional string, items with this fault will be prefixed with this
+  "flags": [ "JAMMED_GUN" ] // optional flags, see below
+}
+```
+
+`flags` trigger hardcoded C++ chunks that provide effects, see [JSON_FLAGS.md](JSON_FLAGS.md#faults) for a list of possible flags.
+
+### Item fault fixes
+
+Fault fixes are methods to fix faults, the fixes can optionally add other faults, modify damage, degradation and item variables.
+
+```C++
+{
+  "type": "fault_fix",
+  "id": "mend_gun_fouling_clean", // unique id for the fix
+  "name": "Clean fouling", // name for display
+  "success_msg": "You clean your %s.", // message printed when fix is applied
+  "time": "50 m", // time to apply fix
+  "faults_removed": [ "fault_gun_dirt", "fault_gun_blackpowder" ], // faults removed when fix is applied
+  "faults_added": [ "fault_gun_unlubricated" ], // faults added when fix is applied
+  "skills": { "mechanics": 1 }, // skills required to apply fix
+  "set_variables": { "dirt": "0" }, // sets the variables on the item when fix is applied
+  "requirements": [ [ "gun_cleaning", 1 ] ], // requirements array, see below
+  "mod_damage": 1000, // damage to modify on item when fix is applied, can be negative to repair
+  "mod_degradation": 50 // degradation to modify on item when fix is applied, can be negative to reduce degradation
+}
+```
+
+`requirements` is an array of requirements, they can be specified in 2 ways:
+* An array specifying an already defined requirement by it's id and a multiplier, `[ "gun_lubrication", 2 ]` will add `gun_lubrication` requirement and multiply the components and tools ammo required by 2.
+* Inline object specifying the requirement in the same way [recipes define it](#recipe-requirements)
 
 ### Materials
 
@@ -2670,8 +2715,7 @@ Vehicle components when installed on a vehicle.
 "symbol": "0",                // (Optional) ASCII character displayed when part is working
 "symbols": {                  // (Optional) ASCII characters displayed when the part is working,
   "left": "0", "right": "0"   // listed by variant suffix.  See below for more on variants
-"standard_symbols": false,     // (Optional) Use the standard ASCII characters for variants
-                              // must have one of symbol, symbols, or standard_symbols
+                              // must have symbol or symbols
 "looks_like": "small_wheel",  // (Optional) hint to tilesets if this part has no tile,
                               // use the looks_like tile.
 "bonus": 100,                 // Function depends on part type:
@@ -2753,14 +2797,8 @@ Vehicle components when installed on a vehicle.
 
 #### Symbols and Variants
 Vehicle parts can have multiple identical variants that use different symbols (and potentially
-tileset sprites).  They are declared by the `"standard_symbols"` boolean or the "symbols" object.
+tileset sprites).  They are declared by the "symbols" object.
 Variants are used in the vehicle prototype as a suffix following the part id (ie `id_variant`), such as `"frame_nw"` or `"halfboard_cover"`.
-
-setting `"standard_symbols"` to true gives the vehicle the following variants:
-```
-"cover": "^", "cross": "c", "horizontal": "h", "horizontal_2": "=", "vertical": "j",
-"vertical_2": "H", "ne": "u", "nw": "y", "se": "n", "sw": "b"
-```
 
 Otherwise, variants can use any of the following suffices:
 ```
@@ -3565,6 +3603,28 @@ Any Item can be a container. To add the ability to contain things to an item, yo
 },
 "flags" : ["CHOP"],    // Indicates special effects
 "to_hit": 1            // To-hit bonus if using it as a melee weapon
+```
+### Memory Cards
+
+Memory card information can be defined on any GENERIC item by adding an object named `memory_card`, this field does not support `extend`/`remove`, only override.
+
+```C++
+"id": "memory_card_unread",
+"name": "memory card (unread)",
+// ...
+"memory_card": {
+  "data_chance": 0.5,                  // 50% chance to contain data
+  "on_read_convert_to": "memory_card", // converted to this itype_id on read
+  "photos_chance": 0.33,               // 33% chance to contain new photos
+  "photos_amount": 3,                  // contains between 1 and 3 new photos
+  "songs_chance": 0.33,                // 33% chance to contain new songs
+  "songs_amount": 4,                   // contains between 1 and 4 new songs
+  "recipes_chance": 0.33,              // 33% chance to contain new recipes
+  "recipes_amount": 5,                 // contains between 1 and 5 new recipes
+  "recipes_level_min": 4,              // recipes will have at least level 4
+  "recipes_level_max": 8,              // recipes will have at most level 8
+  "recipes_categories": [ "CC_FOOD" ]  // recipes from CC_FOOD category
+}
 ```
 
 ### Gun

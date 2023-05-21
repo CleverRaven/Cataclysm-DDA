@@ -56,8 +56,8 @@ class veh_interact
         static player_activity run( vehicle &veh, const point &p );
 
         /** Prompt for a part matching the selector function */
-        static vehicle_part &select_part( const vehicle &veh, const part_selector &sel,
-                                          const std::string &title = std::string() );
+        static std::optional<vpart_reference> select_part( const vehicle &veh, const part_selector &sel,
+                const std::string &title = std::string() );
 
         static void complete_vehicle( Character &you );
 

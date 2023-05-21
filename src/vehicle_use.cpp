@@ -83,14 +83,17 @@ static const itype_id fuel_type_wind( "wind" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_detergent( "detergent" );
 static const itype_id itype_fungal_seeds( "fungal_seeds" );
+static const itype_id itype_large_repairkit( "large_repairkit" );
 static const itype_id itype_marloss_seed( "marloss_seed" );
 static const itype_id itype_null( "null" );
+static const itype_id itype_small_repairkit( "small_repairkit" );
 static const itype_id itype_soldering_iron( "soldering_iron" );
 static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
 static const itype_id itype_water_faucet( "water_faucet" );
 static const itype_id itype_water_purifier( "water_purifier" );
 static const itype_id itype_welder( "welder" );
+static const itype_id itype_welder_crude( "welder_crude" );
 static const itype_id itype_welding_kit( "welding_kit" );
 
 static const quality_id qual_SCREW( "SCREW" );
@@ -546,19 +549,19 @@ void vehicle::connect( const tripoint &source_pos, const tripoint &target_pos )
     const vpart_id vpid( cord.typeId().str() );
 
     point vcoords = source_vp->mount();
-    vehicle_part source_part( vpid, "", vcoords, item( cord ) );
+    vehicle_part source_part( vpid, item( cord ) );
     source_part.target.first = target_global;
     source_part.target.second = target_veh->global_square_location().raw();
-    source_veh->install_part( vcoords, source_part );
+    source_veh->install_part( vcoords, std::move( source_part ) );
 
     vcoords = target_vp->mount();
-    vehicle_part target_part( vpid, "", vcoords, item( cord ) );
+    vehicle_part target_part( vpid, item( cord ) );
     tripoint source_global( cord.get_var( "source_x", 0 ),
                             cord.get_var( "source_y", 0 ),
                             cord.get_var( "source_z", 0 ) );
     target_part.target.first = here.getabs( source_global );
     target_part.target.second = source_veh->global_square_location().raw();
-    target_veh->install_part( vcoords, target_part );
+    target_veh->install_part( vcoords, std::move( target_part ) );
 }
 
 double vehicle::engine_cold_factor( const vehicle_part &vp ) const
@@ -1480,12 +1483,12 @@ void vehicle::use_monster_capture( int part, const tripoint &pos )
     }
     item base = item( parts[part].get_base() );
     base.type->invoke( get_avatar(), base, pos );
-    parts[part].set_base( base );
     if( base.has_var( "contained_name" ) ) {
         parts[part].set_flag( vp_flag::animal_flag );
     } else {
         parts[part].remove_flag( vp_flag::animal_flag );
     }
+    parts[part].set_base( std::move( base ) );
     invalidate_mass();
 }
 
@@ -1703,8 +1706,11 @@ static bool use_vehicle_tool( vehicle &veh, const tripoint &vp_pos, const itype_
     player_activity &act = get_player_character().activity;
     if( act.id() == ACT_REPAIR_ITEM &&
         ( tool_type == itype_welder ||
+          tool_type == itype_welder_crude ||
           tool_type == itype_welding_kit ||
-          tool_type == itype_soldering_iron
+          tool_type == itype_soldering_iron ||
+          tool_type == itype_small_repairkit ||
+          tool_type == itype_large_repairkit
         ) ) {
         act.index = INT_MIN; // tell activity the item doesn't really exist
         act.coords.push_back( vp_pos ); // tell it to search for the tool on `pos`
@@ -2074,11 +2080,12 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
             };
             std::string title = string_format( _( "Purify <color_%s>water</color> in tank" ),
                                                get_all_colors().get_name( itype_water->color ) );
-            vehicle_part &tank = veh_interact::select_part( *this, sel, title );
-            if( !tank )
+            const std::optional<vpart_reference> vpr = veh_interact::select_part( *this, sel, title );
+            if( !vpr )
             {
                 return;
             }
+            vehicle_part &tank = vpr->part();
             int64_t cost = static_cast<int64_t>( itype_water_purifier->charges_to_use() );
             if( fuel_left( itype_battery ) < tank.ammo_remaining() * cost )
             {

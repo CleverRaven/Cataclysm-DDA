@@ -67,7 +67,7 @@
   {
     "id": "TALK_GODCO_chef_idle_chat",
     "type": "talk_topic",
-    "dynamic_line": [ "Okay, shoot.", "Sure, what's up?", "ALright, lets chat." ],
+    "dynamic_line": [ "Okay, shoot.", "Sure, what's up?", "Alright, lets chat." ],
     "responses": [
       { "text": "What's your story?", "topic": "TALK_GODCO_chef_past" },
       { "text": "How are you holding up?", "topic": "TALK_GODCO_chef_mood" },

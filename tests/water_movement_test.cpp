@@ -942,7 +942,7 @@ TEST_CASE( "export scenario swim move cost and distance values", "[.]" )
 
     avatar &dummy = get_avatar();
 
-    cata::ofstream testfile;
+    std::ofstream testfile;
     testfile.open( fs::u8path( "swim-scenarios.csv" ), std::ofstream::trunc );
     testfile << "scenario, move cost, steps" << std::endl;
 
@@ -967,7 +967,7 @@ TEST_CASE( "export profession swim cost and distance", "[.]" )
 
     avatar &dummy = get_avatar();
 
-    cata::ofstream testfile;
+    std::ofstream testfile;
     testfile.open( fs::u8path( "swim-profession.csv" ), std::ofstream::trunc );
     testfile << "profession, move cost, steps" << std::endl;
 
@@ -1003,7 +1003,7 @@ TEST_CASE( "export swim move cost and distance data", "[.]" )
 
     avatar &dummy = get_avatar();
 
-    cata::ofstream testfile;
+    std::ofstream testfile;
     testfile.open( fs::u8path( "swim-skill.csv" ), std::ofstream::trunc );
     testfile << "athletics, move cost, steps" << std::endl;
     for( int i = 0; i <= 10; i++ ) {

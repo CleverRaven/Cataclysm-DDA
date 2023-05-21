@@ -92,7 +92,7 @@ bool tgz_archiver::add_file( fs::path const &real_path, fs::path const &archived
         return ret;
     }
 
-    cata::ifstream file( real_path, std::ios::binary );
+    std::ifstream file( real_path, std::ios::binary );
     while( !file.eof() && ret ) {
         tar_block_t buf{};
         file.read( buf.data(), buf.size() );

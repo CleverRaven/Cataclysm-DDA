@@ -1804,7 +1804,7 @@ static std::string assemble_profession_details( const avatar &u, const input_con
     }
 
     // Profession skills
-    const auto prof_skills = sorted_profs[cur_id]->skills();
+    const profession::StartingSkillList prof_skills = sorted_profs[cur_id]->skills();
     assembled += "\n" + colorize( _( "Profession skills:" ), COL_HEADER ) + "\n";
     if( prof_skills.empty() ) {
         assembled += pgettext( "set_profession_skill", "None" ) + std::string( "\n" );
@@ -2222,7 +2222,7 @@ static std::string assemble_hobby_details( const avatar &u, const input_context 
     }
 
     // Background skills
-    const auto prof_skills = sorted_hobbies[cur_id]->skills();
+    const profession::StartingSkillList prof_skills = sorted_hobbies[cur_id]->skills();
     assembled += "\n" + colorize( _( "Background skill experience:" ), COL_HEADER ) + "\n";
     if( prof_skills.empty() ) {
         assembled += pgettext( "set_profession_skill", "None" ) + std::string( "\n" );

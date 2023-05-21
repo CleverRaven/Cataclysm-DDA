@@ -487,6 +487,11 @@ class Creature : public viewer
         */
         void longpull( const std::string &name, const tripoint &p );
 
+        // Temporarily reveals an invisible player when a monster tries to enter their location
+        bool stumble_invis( const Creature &player, bool stumblemsg = true );
+        // Attack an empty location
+        bool attack_air( const tripoint &p );
+
         /**
          * This creature just dodged an attack - possibly special/ranged attack - from source.
          * Players should train dodge, monsters may use some special defenses.

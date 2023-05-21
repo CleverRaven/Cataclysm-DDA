@@ -1493,7 +1493,7 @@ std::vector<city_reference> overmapbuffer::get_cities_near( const tripoint_abs_s
         std::transform( om->cities.begin(), om->cities.end(), std::back_inserter( result ),
         [&]( city & element ) {
             const auto rel_pos_city = project_to<coords::sm>( element.pos );
-            const auto abs_pos_city =
+            const tripoint_abs_sm abs_pos_city =
                 tripoint_abs_sm( project_combine( om->pos(), rel_pos_city ), 0 );
             const int distance = rl_dist( abs_pos_city, location );
 
@@ -1538,7 +1538,7 @@ city_reference overmapbuffer::closest_known_city( const tripoint_abs_sm &center 
 
 std::string overmapbuffer::get_description_at( const tripoint_abs_sm &where )
 {
-    const auto oter = ter( project_to<coords::omt>( where ) );
+    const oter_id oter = ter( project_to<coords::omt>( where ) );
     const nc_color ter_color = oter->get_color();
     std::string ter_name = colorize( oter->get_name(), ter_color );
 

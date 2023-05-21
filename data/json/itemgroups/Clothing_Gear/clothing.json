@@ -87,7 +87,7 @@
       { "item": "hat_fur", "prob": 50 },
       { "item": "hat_hunting", "prob": 75 },
       { "item": "hat_knit", "prob": 25 },
-      { "item": "army_top", "prob": 50 },
+      { "item": "tank_top", "variant": "tank_top_camo", "prob": 50 },
       { "item": "long_underpants", "prob": 50 },
       { "item": "long_undertop", "prob": 50 },
       { "item": "gloves_liner", "prob": 50 },
@@ -537,6 +537,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "ammo_satchel", "prob": 40 },
+      { "item": "ammo_pouch", "prob": 40 },
       { "item": "backpack", "prob": 20 },
       { "item": "camelbak", "prob": 40 },
       { "item": "chestpouch", "prob": 40 },
@@ -1326,7 +1327,7 @@
     "entries": [
       { "item": "camisole", "prob": 5 },
       { "item": "halter_top", "prob": 5 },
-      { "item": "cheerleader_top", "prob": 1 },
+      { "item": "tank_top", "variant": "tank_top_cheerleader", "prob": 1 },
       { "item": "cheerleader_top_short", "prob": 1 }
     ]
   },
@@ -1632,7 +1633,7 @@
       [ "cheerleader_skirt_short", 1 ],
       [ "flag_pants", 5 ],
       [ "trousers_ninja", 1 ],
-      [ "cheerleader_top", 5 ],
+      { "item": "tank_top", "variant": "tank_top_cheerleader", "prob": 5 },
       [ "cheerleader_top_short", 1 ],
       [ "flag_jumpsuit", 2 ],
       [ "jumpsuit_skeleton", 1 ],
@@ -2272,7 +2273,7 @@
       { "item": "winter_pants_army", "prob": 10 },
       { "item": "winter_jacket_army", "prob": 10 },
       { "item": "winter_gloves_army", "prob": 10 },
-      { "item": "army_top", "prob": 20 },
+      { "item": "tank_top", "variant": "tank_top_camo", "prob": 20 },
       { "item": "tux", "prob": 1 },
       { "item": "gown", "prob": 1 },
       { "item": "long_glove_white", "prob": 1 },
@@ -2356,7 +2357,7 @@
       { "item": "cheerleader_skirt_short", "prob": 1 },
       { "item": "flag_pants", "prob": 5 },
       { "item": "trousers_ninja", "prob": 1 },
-      { "item": "cheerleader_top", "prob": 5 },
+      { "item": "tank_top", "variant": "tank_top_cheerleader", "prob": 5 },
       { "item": "cheerleader_top_short", "prob": 1 },
       { "item": "flag_jumpsuit", "prob": 2 },
       { "item": "jumpsuit_skeleton", "prob": 1 },
@@ -2438,7 +2439,7 @@
       [ "rashguard", 25 ],
       [ "thermal_shirt", 20 ],
       [ "under_armor", 15 ],
-      [ "army_top", 6 ],
+      { "item": "tank_top", "variant": "tank_top_camo", "prob": 6 },
       [ "tank_top", 6 ],
       [ "halter_top", 6 ],
       [ "tshirt", 6 ],
@@ -2714,7 +2715,7 @@
       [ "winter_pants_army", 30 ],
       [ "winter_jacket_army", 30 ],
       [ "winter_gloves_army", 30 ],
-      [ "army_top", 30 ],
+      { "item": "tank_top", "variant": "tank_top_camo", "prob": 30 },
       [ "kevlar", 10 ],
       { "group": "military_ballistic_vest", "prob": 30 },
       [ "vest", 15 ],
@@ -2796,7 +2797,7 @@
       [ "molle_pack", 8 ],
       [ "under_armor", 20 ],
       [ "power_armor_basic", 5 ],
-      [ "army_top", 30 ],
+      { "item": "tank_top", "variant": "tank_top_camo", "prob": 30 },
       [ "elbow_pads", 20 ]
     ]
   },
@@ -2892,6 +2893,7 @@
       [ "legpouch_large", 6 ],
       [ "chestpouch", 9 ],
       [ "ammo_satchel", 4 ],
+      [ "ammo_pouch", 4 ],
       { "item": "UPS_off", "prob": 8, "charges": [ 0, 1000 ] },
       [ "tacvest", 10 ],
       [ "molle_pack", 8 ],
@@ -3466,7 +3468,7 @@
       [ "corset_waist", 10 ],
       [ "leg_bag", 8 ],
       [ "pants_army", 10 ],
-      [ "army_top", 20 ],
+      { "item": "tank_top", "variant": "tank_top_camo", "prob": 20 },
       [ "tux", 1 ],
       [ "gown", 1 ],
       [ "kasaya", 1 ],
@@ -3523,7 +3525,7 @@
       [ "cheerleader_skirt_short", 1 ],
       [ "flag_pants", 5 ],
       [ "trousers_ninja", 1 ],
-      [ "cheerleader_top", 5 ],
+      { "item": "tank_top", "variant": "tank_top_cheerleader", "prob": 5 },
       [ "cheerleader_top_short", 1 ],
       [ "flag_jumpsuit", 2 ],
       [ "jumpsuit_skeleton", 1 ],
@@ -3747,7 +3749,7 @@
     "subtype": "distribution",
     "items": [
       { "item": "halter_top", "prob": 30 },
-      { "item": "cheerleader_top", "prob": 1 },
+      { "item": "tank_top", "variant": "tank_top_cheerleader", "prob": 1 },
       { "item": "cheerleader_top_short", "prob": 1 }
     ]
   },
@@ -3937,6 +3939,7 @@
           { "item": "quiver_large", "prob": 15 },
           { "item": "solarpack", "prob": 5 },
           { "item": "ammo_satchel", "prob": 10 },
+          { "item": "ammo_pouch", "prob": 10 },
           { "item": "chestrig", "prob": 20 },
           { "item": "dive_bag", "prob": 50 },
           { "item": "petpack", "prob": 50 }
@@ -4133,7 +4136,7 @@
         "distribution": [
           { "item": "vest", "prob": 80 },
           { "item": "vest_leather", "prob": 20 },
-          { "item": "army_top", "prob": 40 },
+          { "item": "tank_top", "variant": "tank_top_camo", "prob": 40 },
           { "item": "blazer", "prob": 70 }
         ],
         "prob": 40

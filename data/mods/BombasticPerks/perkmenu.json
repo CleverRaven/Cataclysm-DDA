@@ -122,6 +122,16 @@
         "text": "Gain [<trait_name:perk_popeye>]",
         "topic": "TALK_PERK_MENU_POPEYE"
       },
+      {
+        "condition": { "not": { "u_has_trait": "perk_crafty_hands" } },
+        "text": "Gain [<trait_name:perk_crafty_hands>]",
+        "topic": "TALK_PERK_MENU_CRAFTY_HANDS"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_chainsmoker" } },
+        "text": "Gain [<trait_name:perk_chainsmoker>]",
+        "topic": "TALK_PERK_MENU_CHAINSMOKER"
+      },
       { "text": "Settings", "topic": "TALK_PERK_MENU_CONFIG" },
       { "text": "Quit.", "topic": "TALK_DONE" }
     ]
@@ -737,6 +747,50 @@
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [
           { "u_add_trait": "perk_popeye" },
+          {
+            "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "u_val": "var", "var_name": "num_perks" }, "-", { "const": 1 } ]
+          }
+        ]
+      },
+      { "text": "Go Back.", "topic": "TALK_PERK_MENU_MAIN" },
+      { "text": "Quit.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_PERK_MENU_CRAFTY_HANDS",
+    "dynamic_line": "<trait_name:perk_crafty_hands>: \"<trait_description:perk_crafty_hands>\"",
+    "responses": [
+      {
+        "text": "Select Perk.",
+        "topic": "TALK_PERK_MENU_MAIN",
+        "condition": { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+        "failure_explanation": "Requirements Not Met",
+        "failure_topic": "TALK_PERK_MENU_FAIL",
+        "effect": [
+          { "u_add_trait": "perk_crafty_hands" },
+          {
+            "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "u_val": "var", "var_name": "num_perks" }, "-", { "const": 1 } ]
+          }
+        ]
+      },
+      { "text": "Go Back.", "topic": "TALK_PERK_MENU_MAIN" },
+      { "text": "Quit.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_PERK_MENU_CHAINSMOKER",
+    "dynamic_line": "<trait_name:perk_chainsmoker>: \"<trait_description:perk_chainsmoker>\"",
+    "responses": [
+      {
+        "text": "Select Perk.",
+        "topic": "TALK_PERK_MENU_MAIN",
+        "condition": { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+        "failure_explanation": "Requirements Not Met",
+        "failure_topic": "TALK_PERK_MENU_FAIL",
+        "effect": [
+          { "u_add_trait": "perk_chainsmoker" },
           {
             "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "u_val": "var", "var_name": "num_perks" }, "-", { "const": 1 } ]
           }
