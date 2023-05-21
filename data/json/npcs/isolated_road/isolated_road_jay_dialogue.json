@@ -45,11 +45,10 @@
           "and": [
             { "u_compare_time_since_var": "u_waiting_on_rounds", "type": "timer", "context": "artisans", "op": "<", "time": "1 d" },
             {
-              "u_compare_var": "gunsmith_ammo_ammount",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 200
+              "or": [
+                { "math": [ "u_number_artisans_gunsmith_ammo_amount", "==", "200" ] },
+                { "math": [ "u_number_artisans_gunsmith_ammo_ammount", "==", "200" ] }
+              ]
             },
             { "u_has_var": "gunsmith_has_rounds_ordered", "type": "dialogue", "context": "artisans", "value": "yes" }
           ]
@@ -62,11 +61,10 @@
           "and": [
             { "u_compare_time_since_var": "u_waiting_on_rounds", "type": "timer", "context": "artisans", "op": "<", "time": "5 d" },
             {
-              "u_compare_var": "gunsmith_ammo_ammount",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 800
+              "or": [
+                { "math": [ "u_number_artisans_gunsmith_ammo_amount", "==", "800" ] },
+                { "math": [ "u_number_artisans_gunsmith_ammo_ammount", "==", "800" ] }
+              ]
             },
             { "u_has_var": "gunsmith_has_rounds_ordered", "type": "dialogue", "context": "artisans", "value": "yes" }
           ]
@@ -79,11 +77,10 @@
           "and": [
             { "u_compare_time_since_var": "u_waiting_on_rounds", "type": "timer", "context": "artisans", "op": ">=", "time": "1 d" },
             {
-              "u_compare_var": "gunsmith_ammo_ammount",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 200
+              "or": [
+                { "math": [ "u_number_artisans_gunsmith_ammo_amount", "==", "200" ] },
+                { "math": [ "u_number_artisans_gunsmith_ammo_ammount", "==", "200" ] }
+              ]
             },
             { "u_has_var": "gunsmith_has_rounds_ordered", "type": "dialogue", "context": "artisans", "value": "yes" }
           ]
@@ -96,11 +93,10 @@
           "and": [
             { "u_compare_time_since_var": "u_waiting_on_rounds", "type": "timer", "context": "artisans", "op": ">=", "time": "5 d" },
             {
-              "u_compare_var": "gunsmith_ammo_ammount",
-              "type": "number",
-              "context": "artisans",
-              "op": "==",
-              "value": 800
+              "or": [
+                { "math": [ "u_number_artisans_gunsmith_ammo_amount", "==", "800" ] },
+                { "math": [ "u_number_artisans_gunsmith_ammo_ammount", "==", "800" ] }
+              ]
             },
             { "u_has_var": "gunsmith_has_rounds_ordered", "type": "dialogue", "context": "artisans", "value": "yes" }
           ]

@@ -418,8 +418,12 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_gunsmith_test",
-    "effect": { "set_string_var": "300blk", "target_var": { "u_val": "artisans_gunsmith_ammo_convert_target" } }
+    "id": "EOC_gunsmith_migration",
+    "condition": { "math": [ "u_number_artisans_gunsmith_ammo_amount", "<", "u_number_artisans_gunsmith_ammo_ammount" ] },
+    "effect": [
+      { "math": [ "u_number_artisans_gunsmith_ammo_amount", "=", "u_number_artisans_gunsmith_ammo_ammount" ] },
+      { "math": [ "u_number_artisans_gunsmith_ammo_ammount", "=", "0" ] }
+    ]
   },
   {
     "id": "TALK_GUNSMITH_BULLET_PICKUP",
@@ -431,6 +435,7 @@
         "effect": [
           { "run_eocs": "EOC_gunsmith_get_convert_coeff" },
           { "run_eocs": "EOC_gunsmith_get_convert_target" },
+          { "run_eocs": "EOC_gunsmith_migration" },
           {
             "math": [
               "u_number_artisans_gunsmith_ammo_convert_result",
