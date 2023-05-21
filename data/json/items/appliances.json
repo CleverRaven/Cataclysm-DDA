@@ -255,7 +255,7 @@
     "type": "GENERIC",
     "id": "standing_lamp",
     "name": { "str": "disconnected standing lamp" },
-    "description": "A tall floor lamp that provides illumination when plugged into a power outlet.",
+    "description": "A tall standing lamp that provides illumination when plugged into a power outlet.",
     "weight": "2500 g",
     "to_hit": -1,
     "material": [ "plastic", "steel" ],

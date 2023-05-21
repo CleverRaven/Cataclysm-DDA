@@ -65,5 +65,29 @@
       [ [ "salt", 2 ] ],
       [ [ "cinnamon", 2 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "result": "baklava",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_SNACK",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "time": "2 hours",
+    "batch_time_factors": [ 80, 1 ],
+    "charges": 7,
+    "book_learn": [ [ "cookbook_turkish", 2 ] ],
+    "qualities": [ { "id": "COOK", "level": 2 }, { "id": "OVEN", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
+    "components": [
+      [ [ "walnut_shelled", 4 ] ],
+      [ [ "honey_bottled", 1 ], [ "syrup", 1 ] ],
+      [ [ "any_butter", 1, "LIST" ] ],
+      [ [ "sugar", 2 ] ],
+      [ [ "flour_any", 10, "LIST" ] ],
+      [ [ "cinnamon", 1 ] ],
+      [ [ "water", 2 ] ]
+    ]
   }
 ]

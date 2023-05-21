@@ -4231,7 +4231,7 @@ void overmap::place_forest_trails()
         if( !inbounds( p, 1 ) ) {
             return false;
         }
-        const auto current_terrain = ter( tripoint_om_omt( p, 0 ) );
+        const oter_id current_terrain = ter( tripoint_om_omt( p, 0 ) );
         return current_terrain == oter_forest || current_terrain == oter_forest_thick ||
                current_terrain == oter_forest_water;
     };
