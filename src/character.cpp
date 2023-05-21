@@ -516,7 +516,7 @@ Character::Character() :
     int_max = 8;
     per_cur = 8;
     per_max = 8;
-    dodges_left = 1;
+    set_dodges_left(1);
     blocks_left = 1;
     str_bonus = 0;
     dex_bonus = 0;
@@ -1076,6 +1076,28 @@ double Character::aim_per_move( const item &gun, double recoil,
 
     // Never improve by more than the currently used sights permit.
     return std::min( aim_speed, recoil - limit );
+}
+
+int Character::get_dodges_left() const
+{
+    return dodges_left;
+}
+
+void Character::set_dodges_left( int dodges )
+{
+    dodges_left = dodges;
+}
+
+void Character::mod_dodges_left( int mod )
+{
+    dodges_left += mod;
+}
+
+void Character::consume_dodge_attempts()
+{
+    if( get_dodges_left() > 0 ) {
+        mod_dodges_left( -1 );
+    }
 }
 
 int Character::sight_range( float light_level ) const
@@ -1717,7 +1739,7 @@ bool Character::is_dead_state() const
 void Character::on_try_dodge()
 {
     // Each attempt consumes an available dodge
-    dodges_left--;
+    consume_dodge_attempts();
 
     const int base_burn_rate = get_option<int>( STATIC( "PLAYER_BASE_STAMINA_BURN_RATE" ) );
     mod_stamina( -base_burn_rate * 6 );
@@ -2151,10 +2173,11 @@ void Character::process_turn()
     // We can dodge again! Assuming we can actually move...
     if( in_sleep_state() ) {
         blocks_left = 0;
-        dodges_left = 0;
+        set_dodges_left( 0 );
     } else if( moves > 0 ) {
         blocks_left = get_num_blocks();
-        dodges_left = get_num_dodges();
+        set_dodges_left( get_num_dodges() );
+
     }
 
     // auto-learning. This is here because skill-increases happens all over the place:

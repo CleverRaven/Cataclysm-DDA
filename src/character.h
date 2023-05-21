@@ -520,6 +520,8 @@ class Character : public Creature, public visitable
         /** Modifiers to character speed, with descriptions */
         std::vector<speed_bonus_effect> speed_bonus_effects;
 
+        int dodges_left;
+
     public:
         std::vector<speed_bonus_effect> get_speed_bonus_effects() const;
         int get_speed() const override;
@@ -691,8 +693,14 @@ class Character : public Creature, public visitable
         double aim_per_move( const item &gun, double recoil,
                              Target_attributes target_attributes = Target_attributes() ) const;
 
+        int get_dodges_left() const;
+        void set_dodges_left( int dodges );
+        void mod_dodges_left( int mod );
+        void consume_dodge_attempts();
+
         /** Called after the player has successfully dodged an attack */
         void on_dodge( Creature *source, float difficulty ) override;
+        /** Called after the player has tryed to dodge an attack */
         void on_try_dodge() override;
 
         /** Combat getters */
@@ -950,7 +958,6 @@ class Character : public Creature, public visitable
         bool natural_attack_restricted_on( const sub_bodypart_id &bp ) const;
 
         int blocks_left;
-        int dodges_left;
 
         double recoil = MAX_RECOIL;
 

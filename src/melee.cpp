@@ -1146,7 +1146,7 @@ float Character::get_dodge() const
     }
 
     // Ensure no attempt to dodge without sources of extra dodges, eg martial arts
-    if( dodges_left <= 0 ) {
+    if( get_dodges_left() <= 0 ) {
         add_msg_debug( debugmode::DF_MELEE, "No remaining dodge attempts" );
         return 0.0f;
     }
