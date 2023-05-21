@@ -2769,6 +2769,6 @@
     "//": "This serves to indicate the stress of the heavy payload, as well as add frequency to the most dangerous manhacks.",
     "speaker": [ "mon_c4_hack", "mon_grenade_hack", "mon_mininuke_hack" ],
     "sound": "a mechanical whining noise.",
-    "volume": 15
+    "volume": 12
   }
 ]

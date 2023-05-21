@@ -27,7 +27,7 @@
     "color": "cyan",
     "revert_to_itype": "bot_EMP_hack",
     "starting_ammo": { "grenade_emp": 1 },
-    "special_attacks": [ [ "PARROT", 12 ], [ "KAMIKAZE", 0 ] ],
+    "special_attacks": [ [ "PARROT", 40 ], [ "KAMIKAZE", 0 ] ],
     "armor": { "cut": 4, "bullet": 3 }
   },
   {
@@ -41,7 +41,7 @@
     "color": "light_gray",
     "revert_to_itype": "bot_c4_hack",
     "starting_ammo": { "c4": 1 },
-    "special_attacks": [ [ "PARROT", 12 ], [ "KAMIKAZE", 0 ] ],
+    "special_attacks": [ [ "PARROT", 40 ], [ "KAMIKAZE", 0 ] ],
     "armor": { "cut": 4, "bullet": 3 }
   },
   {
@@ -55,7 +55,7 @@
     "color": "dark_gray",
     "revert_to_itype": "bot_flashbang_hack",
     "starting_ammo": { "flashbang": 1 },
-    "special_attacks": [ [ "PARROT", 12 ], [ "KAMIKAZE", 0 ] ],
+    "special_attacks": [ [ "PARROT", 40 ], [ "KAMIKAZE", 0 ] ],
     "armor": { "cut": 4, "bullet": 3 }
   },
   {
@@ -69,7 +69,7 @@
     "color": "dark_gray",
     "revert_to_itype": "bot_gasbomb_hack",
     "starting_ammo": { "tear_gas_payload": 1 },
-    "special_attacks": [ [ "PARROT", 12 ], [ "KAMIKAZE", 0 ] ],
+    "special_attacks": [ [ "PARROT", 40 ], [ "KAMIKAZE", 0 ] ],
     "armor": { "cut": 4, "bullet": 3 }
   },
   {
@@ -83,7 +83,7 @@
     "color": "green",
     "revert_to_itype": "bot_grenade_hack",
     "starting_ammo": { "grenade": 1 },
-    "special_attacks": [ [ "PARROT", 12 ], [ "KAMIKAZE", 0 ] ],
+    "special_attacks": [ [ "PARROT", 40 ], [ "KAMIKAZE", 0 ] ],
     "armor": { "cut": 4, "bullet": 3 }
   },
   {
@@ -98,9 +98,9 @@
     "melee_skill": 5,
     "melee_dice": 2,
     "melee_dice_sides": 4,
-    "melee_damage": [ { "damage_type": "cut", "amount": 12 } ],
+    "melee_damage": [ { "damage_type": "cut", "amount": 40 } ],
     "revert_to_itype": "bot_manhack",
-    "special_attacks": [ [ "PARROT", 12 ] ],
+    "special_attacks": [ [ "PARROT", 40 ] ],
     "death_function": { "corpse_type": "BROKEN" },
     "extend": { "flags": [ "HIT_AND_RUN" ] },
     "delete": { "flags": [ "PACIFIST" ] },
@@ -118,7 +118,7 @@
     "color": "light_green_magenta",
     "revert_to_itype": "bot_mininuke_hack",
     "starting_ammo": { "mininuke": 1 },
-    "special_attacks": [ [ "PARROT", 12 ], [ "KAMIKAZE", 0 ] ],
+    "special_attacks": [ [ "PARROT", 40 ], [ "KAMIKAZE", 0 ] ],
     "armor": { "bash": 1, "cut": 6, "bullet": 5 }
   },
   {
@@ -141,7 +141,7 @@
     "aggro_character": false,
     "vision_day": 50,
     "vision_night": 20,
-    "starting_ammo": { "123ln": 10 },
+    "starting_ammo": { "403ln": 10 },
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "special_attacks": [
       {
@@ -149,9 +149,9 @@
         "cooldown": 1,
         "move_cost": 350,
         "gun_type": "pamd71z",
-        "ammo_type": "123ln",
+        "ammo_type": "403ln",
         "fake_skills": [ [ "gun", 6 ], [ "rifle", 9 ] ],
-        "fake_dex": 12,
+        "fake_dex": 40,
         "ranges": [ [ 0, 50, "DEFAULT" ] ],
         "require_targeting_npc": true,
         "require_targeting_monster": true,
@@ -191,7 +191,7 @@
     "color": "cyan",
     "revert_to_itype": "bot_tazer_hack",
     "death_function": { "corpse_type": "BROKEN" },
-    "special_attacks": [ [ "PARROT", 12 ], [ "TAZER", 5 ] ],
+    "special_attacks": [ [ "PARROT", 40 ], [ "TAZER", 5 ] ],
     "armor": { "cut": 2, "bullet": 1 }
   }
 ]
