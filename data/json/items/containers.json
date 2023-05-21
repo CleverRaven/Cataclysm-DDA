@@ -552,7 +552,7 @@
     "name": { "str": "large plastic bottle" },
     "looks_like": "bottle_plastic",
     "description": "A two-liter plastic bottle that can hold a lot of soda, or, nowadays, boiled water.",
-    "weight": "13 g",
+    "weight": "53 g",
     "volume": "2040 ml",
     "price": 25,
     "price_postapoc": 10,
