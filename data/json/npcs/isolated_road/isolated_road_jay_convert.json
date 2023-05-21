@@ -73,7 +73,8 @@
           {
             "u_sell_item": "556",
             "count": { "u_val": "number_artisans_gunsmith_ammo_amount" },
-            "true_eocs": [ "EOC_gunsmith_556_value", "EOC_gunsmith_get_source_name" ]
+            "true_eocs": [ "EOC_gunsmith_556_value", "EOC_gunsmith_get_source_name" ],
+            "false_eocs": "EOC_gunsmith_failed_to_provide"
           }
         ],
         "topic": "TALK_GUNSMITH_CONVERT_TO_TYPE"
@@ -85,7 +86,8 @@
           {
             "u_sell_item": "762_51",
             "count": { "u_val": "number_artisans_gunsmith_ammo_amount" },
-            "true_eocs": [ "EOC_gunsmith_76251_value", "EOC_gunsmith_get_source_name" ]
+            "true_eocs": [ "EOC_gunsmith_76251_value", "EOC_gunsmith_get_source_name" ],
+            "false_eocs": "EOC_gunsmith_failed_to_provide"
           }
         ],
         "topic": "TALK_GUNSMITH_CONVERT_TO_TYPE"
@@ -97,7 +99,8 @@
           {
             "u_sell_item": "762_m87",
             "count": { "u_val": "number_artisans_gunsmith_ammo_amount" },
-            "true_eocs": [ "EOC_gunsmith_76239_value", "EOC_gunsmith_get_source_name" ]
+            "true_eocs": [ "EOC_gunsmith_76239_value", "EOC_gunsmith_get_source_name" ],
+            "false_eocs": "EOC_gunsmith_failed_to_provide"
           }
         ],
         "topic": "TALK_GUNSMITH_CONVERT_TO_TYPE"
@@ -109,7 +112,8 @@
           {
             "u_sell_item": "545",
             "count": { "u_val": "number_artisans_gunsmith_ammo_amount" },
-            "true_eocs": [ "EOC_gunsmith_545_value", "EOC_gunsmith_get_source_name" ]
+            "true_eocs": [ "EOC_gunsmith_545_value", "EOC_gunsmith_get_source_name" ],
+            "false_eocs": "EOC_gunsmith_failed_to_provide"
           }
         ],
         "topic": "TALK_GUNSMITH_CONVERT_TO_TYPE"
@@ -121,7 +125,8 @@
           {
             "u_sell_item": "300blk",
             "count": { "u_val": "number_artisans_gunsmith_ammo_amount" },
-            "true_eocs": [ "EOC_gunsmith_300_value", "EOC_gunsmith_get_source_name" ]
+            "true_eocs": [ "EOC_gunsmith_300_value", "EOC_gunsmith_get_source_name" ],
+            "false_eocs": "EOC_gunsmith_failed_to_provide"
           }
         ],
         "topic": "TALK_GUNSMITH_CONVERT_TO_TYPE"
@@ -132,31 +137,39 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_gunsmith_get_source_name",
-    "effect": {
-      "switch": { "math": [ "u_number_artisans_gunsmith_ammo_from" ] },
-      "cases": [
-        {
-          "case": 300,
-          "effect": { "set_string_var": "300 BLK", "target_var": { "u_val": "artisans_gunsmith_ammo_source_name" } }
-        },
-        {
-          "case": 545,
-          "effect": { "set_string_var": "5.45x39", "target_var": { "u_val": "artisans_gunsmith_ammo_source_name" } }
-        },
-        {
-          "case": 556,
-          "effect": { "set_string_var": "5.56x45", "target_var": { "u_val": "artisans_gunsmith_ammo_source_name" } }
-        },
-        {
-          "case": 76239,
-          "effect": { "set_string_var": "7.62x39", "target_var": { "u_val": "artisans_gunsmith_ammo_source_name" } }
-        },
-        {
-          "case": 76251,
-          "effect": { "set_string_var": "7.62x51", "target_var": { "u_val": "artisans_gunsmith_ammo_source_name" } }
-        }
-      ]
-    }
+    "effect": [
+      { "math": [ "u_number_artisans_failed_to_convert_ammo", "=", "0" ] },
+      {
+        "switch": { "math": [ "u_number_artisans_gunsmith_ammo_from" ] },
+        "cases": [
+          {
+            "case": 300,
+            "effect": { "set_string_var": "300 BLK", "target_var": { "u_val": "artisans_gunsmith_ammo_source_name" } }
+          },
+          {
+            "case": 545,
+            "effect": { "set_string_var": "5.45x39", "target_var": { "u_val": "artisans_gunsmith_ammo_source_name" } }
+          },
+          {
+            "case": 556,
+            "effect": { "set_string_var": "5.56x45", "target_var": { "u_val": "artisans_gunsmith_ammo_source_name" } }
+          },
+          {
+            "case": 76239,
+            "effect": { "set_string_var": "7.62x39", "target_var": { "u_val": "artisans_gunsmith_ammo_source_name" } }
+          },
+          {
+            "case": 76251,
+            "effect": { "set_string_var": "7.62x51", "target_var": { "u_val": "artisans_gunsmith_ammo_source_name" } }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_gunsmith_failed_to_provide",
+    "effect": { "math": [ "u_number_artisans_failed_to_convert_ammo", "=", "1" ] }
   },
   {
     "id": "TALK_GUNSMITH_CONVERT_TO_TYPE",
@@ -165,7 +178,18 @@
     "responses": [
       {
         "text": "5.56x45.",
-        "condition": { "not": { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 556 } },
+        "condition": {
+          "and": [
+            { "not": { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 556 } },
+            {
+              "u_compare_var": "failed_to_convert_ammo",
+              "type": "number",
+              "context": "artisans",
+              "op": "==",
+              "value": 0
+            }
+          ]
+        },
         "effect": [
           { "u_add_var": "gunsmith_ammo_to", "type": "number", "context": "artisans", "value": "556" },
           { "u_add_var": "gunsmith_has_rounds_ordered", "type": "dialogue", "context": "artisans", "value": "yes" },
@@ -176,7 +200,18 @@
       {
         "text": "7.62x51.",
         "condition": {
-          "not": { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 76251 }
+          "and": [
+            {
+              "not": { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 76251 }
+            },
+            {
+              "u_compare_var": "failed_to_convert_ammo",
+              "type": "number",
+              "context": "artisans",
+              "op": "==",
+              "value": 0
+            }
+          ]
         },
         "effect": [
           { "u_add_var": "gunsmith_ammo_to", "type": "number", "context": "artisans", "value": "76251" },
@@ -188,7 +223,18 @@
       {
         "text": "7.62x39.",
         "condition": {
-          "not": { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 76239 }
+          "and": [
+            {
+              "not": { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 76239 }
+            },
+            {
+              "u_compare_var": "failed_to_convert_ammo",
+              "type": "number",
+              "context": "artisans",
+              "op": "==",
+              "value": 0
+            }
+          ]
         },
         "effect": [
           { "u_add_var": "gunsmith_ammo_to", "type": "number", "context": "artisans", "value": "76239" },
@@ -199,7 +245,18 @@
       },
       {
         "text": "5.45x39.",
-        "condition": { "not": { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 545 } },
+        "condition": {
+          "and": [
+            { "not": { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 545 } },
+            {
+              "u_compare_var": "failed_to_convert_ammo",
+              "type": "number",
+              "context": "artisans",
+              "op": "==",
+              "value": 0
+            }
+          ]
+        },
         "effect": [
           { "u_add_var": "gunsmith_ammo_to", "type": "number", "context": "artisans", "value": "545" },
           { "u_add_var": "gunsmith_has_rounds_ordered", "type": "dialogue", "context": "artisans", "value": "yes" },
@@ -209,13 +266,29 @@
       },
       {
         "text": ".300 AAC.",
-        "condition": { "not": { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 300 } },
+        "condition": {
+          "and": [
+            { "not": { "u_compare_var": "gunsmith_ammo_from", "type": "number", "context": "artisans", "op": "==", "value": 300 } },
+            {
+              "u_compare_var": "failed_to_convert_ammo",
+              "type": "number",
+              "context": "artisans",
+              "op": "==",
+              "value": 0
+            }
+          ]
+        },
         "effect": [
           { "u_add_var": "gunsmith_ammo_to", "type": "number", "context": "artisans", "value": "300" },
           { "u_add_var": "gunsmith_has_rounds_ordered", "type": "dialogue", "context": "artisans", "value": "yes" },
           { "u_add_var": "u_waiting_on_rounds", "type": "timer", "context": "artisans", "time": true }
         ],
         "topic": "TALK_GUNSMITH_CONVERT_CONFIRM"
+      },
+      {
+        "text": "See you then.",
+        "topic": "TALK_DONE",
+        "condition": { "u_compare_var": "failed_to_convert_ammo", "type": "number", "context": "artisans", "op": "==", "value": 1 }
       }
     ]
   },
