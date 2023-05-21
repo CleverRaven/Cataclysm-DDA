@@ -65,6 +65,12 @@ json_formatter
 Directory.Build.props
 Directory.Build.targets
 
+# Visual Studio Code
+.vscode/
+.vscode/**
+!.vscode/settings.json
+!.vscode/extensions.json
+
 # Visual Studio project files
 /msvc-full-features/**/
 
