@@ -34,19 +34,7 @@
     "death_drops": "mon_zombie_scientist_death_drops",
     "burn_into": "mon_zombie_scorched",
     "upgrades": { "half_life": 32, "into_group": "GROUP_ZOMBIE_UPGRADE" },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "STUMBLES",
-      "WARM",
-      "GRABS",
-      "BASHES",
-      "POISON",
-      "NO_BREATHE",
-      "REVIVES",
-      "PUSH_MON",
-      "FILTHY"
-    ],
+    "flags": [ "SEES", "HEARS", "STUMBLES", "WARM", "GRABS", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ],
     "armor": { "electric": 1 }
   },
   {
