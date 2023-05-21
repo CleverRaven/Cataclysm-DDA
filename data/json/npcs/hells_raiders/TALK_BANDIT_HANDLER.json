@@ -17,10 +17,24 @@
     "speaker_effect": { "effect": { "npc_first_topic": "TALK_STRANGER_NEUTRAL" } },
     "responses": [
       {
-        "text": "\"Tell about yourself.\"",
-        "effect": [ { "u_faction_rep": 25 }, { "finish_mission": "MISSION_JOIN_RAIDERS", "success": true } ],
+        "text": "\"&Tell about yourself.\"",
+        "effect": [ { "run_eocs": [ "EOC_HELLS_RAIDERS_JOIN" ] }, { "finish_mission": "MISSION_JOIN_RAIDERS", "success": true } ],
         "topic": "TALK_DONE"
       }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HELLS_RAIDERS_JOIN",
+    "effect": [       
+      { "arithmetic": [ { "faction_like": "hells_raiders" }, "=", { "const": 20 } ] },
+      { "arithmetic": [ { "faction_like": "free_merchants" }, "=", { "const": -30 } ] },
+      { "arithmetic": [ { "faction_like": "old_guard" }, "=", { "const": -30 } ] },
+      { "arithmetic": [ { "faction_like": "robofac_auxiliaries" }, "=", { "const": -30 } ] },
+      { "arithmetic": [ { "faction_like": "tacoma_commune" }, "=", { "const": -30 } ] },
+      { "arithmetic": [ { "faction_like": "wasteland_scavengers" }, "=", { "const": -30 } ] },
+      { "arithmetic": [ { "faction_like": "valhallists" }, "=", { "const": -30 } ] },
+      { "arithmetic": [ { "faction_like": "gods_community" }, "=", { "const": -30 } ] }
     ]
   }
 ]
