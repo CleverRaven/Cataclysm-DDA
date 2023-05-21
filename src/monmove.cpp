@@ -786,6 +786,8 @@ bool monster::die_if_drowning( const tripoint &at_pos, const int chance )
 // 4) Sound-based tracking
 void monster::move()
 {
+    add_msg_debug( debugmode::DF_MONMOVE, "Monster %s starting monmove::move, remaining moves %d",
+                   name(), moves );
     // We decrement wandf no matter what.  We'll save our wander_to plans until
     // after we finish out set_dest plans, UNLESS they time out first.
     if( wandf > 0 ) {
@@ -2071,6 +2073,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
  */
 void monster::stumble()
 {
+    add_msg_debug( debugmode::DF_MONMOVE, "%s starting monmove::stumble", name() );
     // Only move every 10 turns.
     if( !one_in( 10 ) ) {
         return;

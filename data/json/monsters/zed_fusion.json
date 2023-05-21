@@ -107,7 +107,8 @@
     "special_attacks": [
       { "id": "longswipe", "min_mul": 1, "max_mul": 2, "cooldown": 5 },
       { "id": "slam", "min_mul": 2, "max_mul": 3, "cooldown": 5 },
-      [ "GRAB_DRAG", 15 ],
+      { "id": "grab_drag", "cooldown": 15 },
+      { "id": "drag_followup" },
       [ "ZOMBIE_FUSE", 25 ],
       [ "SHRIEK_ALERT", 50 ],
       {

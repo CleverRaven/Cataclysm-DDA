@@ -236,9 +236,16 @@ The attack's behavior is determined by the `grab_data` array, using the below va
 | field                       | description
 | ---                         | ---
 | `grab_strength`             | Optional integer.  The strength of the grab effect applied on a successful grab, defaults to the monster's own `grab_strength`.
-| `grab_effect`               | Optional string.  ID of the effect to apply on a successful grab (defaults to `grabbed`).  The effect id `null` will apply a null effect without a bug message, allowing for e.g. pull attacks without grab effects.
-| `pull_chance`               | Optional integer.  Percent chance for a connecting attack to initiate a pull, moving the target adjacent.  Pulls are prevented by seatbelts, and existing grabs on the target will be attempted to be removed one-by-one ( on a `puller grab_strength / 2 in effect intensity` roll).
-| `pull_weight_ratio`         | Optional float.  Ratio of weight the monster can successfully pull when succeeding the `pull_chance` roll.  Default 0.75.
+| `grab_effect`               | Optional string.  ID of the effect to apply on a successful grab (defaults to `grabbed`).  The effect id `null` will apply a null effect without a bug message, allowing for e.g. pull attacks without grab effects and is exempt from the usual retargeting/grab_filter application rules.
+| `exclusive_grab`            | Optional bool, default `false`.  If true the attack will attempt to break all `GRAB`-flagged effect one by one ( on a `puller grab_strength / 2 in effect intensity` roll), and fail if it can't remove all - used for ranged pulls and grabbing.
+| `drag_distance`             | optional int, default 0.  If higher the monster will attempt to drag on a successful attack - moving away and moving their target to its previous position as many times as the defined distance with it. This will be disabled by seatbelts unless `respect_seatbelts` is false.  Drag movement costs the same amount of move points as it would as normal movement, but happens in the same turn as part of the attack.
+| `drag_deviation`            | optional int, default 0. Deviation of the monster's pathing from their target's opposite tile - 0 always drags directly opposite, 1 chooses randomly from the monster's and opposite tile's common neighbors, 2 lets the monster drag towards any of its neighboring tiles not occupied by itself or its target. Dragging direction is randomized every drag step.
+| `drag_grab_break_distance`  | optional int, default 0. Drag steps after which the dragged character gets a chance to break the grab using the normal grab break calculations.
+| `drag_movecost_mod`         | optional float, default 1.0. Move cost modifier for every step of dragging - per default the monster spends moves for each drag step, but will still complete the drag, leading to them "catching up" on their move debt afterwards. Internally a move cost of 0.0 will *prevent* movement, so use a slightly larger value.
+| `` |
+| `respect_seatbelts`         | Optional bool, default true.  When false drags/pulls can tear you out of your seatbelt, damaging the part in question.
+| `pull_chance`               | Optional integer.  Percent chance for a connecting attack to initiate a pull, moving the target adjacent.  Pulls are prevented by seatbelts.
+| `pull_weight_ratio`         | Optional float.  Ratio of weight the monster can successfully pull when succeeding the `pull_chance` roll or when dragging (requires a non-zero `drag_distance` ).  Default 0.75.
 | `pull_msg_u/npc`            | Optional strings.  Message to print on a successful pull.
 | `pull_fail_msg_u/npc`       | Optional strings.  Message to print on a failed pull attempt - either because of too high target weight or because of other grabs holding them back.
 
