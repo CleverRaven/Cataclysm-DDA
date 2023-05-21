@@ -20,6 +20,7 @@
 #include "activity_type.h"
 #include "ballistics.h"
 #include "bionics.h"
+#include "bodypart.h"
 #include "calendar.h"
 #include "cata_assert.h"
 #include "character.h"

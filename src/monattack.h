@@ -2,7 +2,6 @@
 #ifndef CATA_SRC_MONATTACK_H
 #define CATA_SRC_MONATTACK_H
 
-#include "bodypart.h"
 
 class monster;
 class Creature;
