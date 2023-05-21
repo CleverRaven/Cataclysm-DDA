@@ -2762,13 +2762,13 @@
       "mon_tazer_hack"
     ],
     "sound": "a high-pitched whirring noise.",
-    "volume": 20
+    "volume": 10
   },
   {
     "type": "speech",
     "//": "This serves to indicate the stress of the heavy payload, as well as add frequency to the most dangerous manhacks.",
     "speaker": [ "mon_c4_hack", "mon_grenade_hack", "mon_mininuke_hack" ],
     "sound": "a mechanical whining noise.",
-    "volume": 25
+    "volume": 15
   }
 ]
