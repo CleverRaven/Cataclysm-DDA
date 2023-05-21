@@ -220,6 +220,7 @@
     "volume": "5427 ml",
     "longest_side": "1678 mm",
     "barrel_length": "1236 mm",
+    "barrel_volume": "250 ml",
     "ammo": [ "308" ],
     "ranged_damage": { "damage_type": "bullet", "amount": 6 },
     "min_cycle_recoil": 2700,
