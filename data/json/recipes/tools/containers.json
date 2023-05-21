@@ -1267,5 +1267,48 @@
     "proficiencies": [ { "proficiency": "prof_carving" } ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "dry_bottle_gourd", 1 ] ], [ [ "cordage_short", 2, "LIST" ], [ "filament", 100, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "stock_pot",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_CONTAINERS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "1 h",
+    "autolearn": true,
+    "using": [ [ "welding_standard", 30 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 },
+      { "proficiency": "prof_welding" }
+    ],
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "sheet_metal", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "makeshift_pressure_cooker",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_CONTAINERS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "1 h",
+    "autolearn": true,
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 },
+      { "proficiency": "prof_welding" }
+    ],
+    "qualities": [ { "id": "DRILL", "level": 2 }, { "id": "FILE", "level": 1 } ],
+    "components": [
+      [ [ "stock_pot", 1 ] ],
+      [ [ "chunk_rubber", 2 ] ],
+      [ [ "cu_pipe", 1 ] ],
+      [ [ "thermometer", 1 ] ],
+      [ [ "clamp", 3 ], [ "pliers_locking", 3 ] ]
+    ]
   }
 ]
