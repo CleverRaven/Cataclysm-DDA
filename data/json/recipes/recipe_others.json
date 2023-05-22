@@ -556,11 +556,15 @@
       { "proficiency": "prof_closures", "required": false, "time_multiplier": 1.5 },
       { "proficiency": "prof_closures_waterproofing" }
     ],
+<<<<<<< HEAD
     "components": [
       [ [ "stick", 10 ] ],
       [ [ "sheet_leather_patchwork", 24 ], [ "sheet_leather", 24 ], [ "tanned_hide", 24 ] ],
       [ [ "filament", 500, "LIST" ] ]
     ]
+=======
+    "components": [ [ [ "stick", 10 ] ], [ [ "sheet_leather_patchwork", 24 ], [ [ "sheet_leather", 24 ] ], [ "tanned_hide", 24 ] ], [ [ "filament", 500, "LIST" ] ] ]
+>>>>>>> 55dcdcf8aa1156585ca9558c5fa32d0100d622ad
   },
   {
     "type": "recipe",
@@ -607,7 +611,11 @@
     ],
     "components": [
       [ [ "stick", 6 ] ],
+<<<<<<< HEAD
       [ [ "leather", 16 ], [ "sheet_leather", 4 ], [ "sheet_leather_patchwork", 4 ], [ "tanned_hide", 4 ] ],
+=======
+      [ [ "leather", 16 ], [ "sheet_leather", 4], [ "sheet_leather_patchwork", 4 ], [ "tanned_hide", 4 ] ],
+>>>>>>> 55dcdcf8aa1156585ca9558c5fa32d0100d622ad
       [ [ "large_damaged_shelter_kit", 1 ] ],
       [ [ "filament", 100, "LIST" ] ]
     ]
