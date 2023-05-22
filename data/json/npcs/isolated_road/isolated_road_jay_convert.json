@@ -162,32 +162,7 @@
     "effect": [
       { "math": [ "u_number_artisans_gunsmith_ammo_to", "=", "_key1" ] },
       { "u_add_var": "gunsmith_has_rounds_ordered", "type": "dialogue", "context": "artisans", "value": "yes" },
-      { "u_add_var": "u_waiting_on_rounds", "type": "timer", "context": "artisans", "time": true },
-      {
-        "switch": { "math": [ "_key1" ] },
-        "cases": [
-          {
-            "case": 300,
-            "effect": { "set_string_var": "300blk", "target_var": { "u_val": "artisans_gunsmith_ammo_convert_target" } }
-          },
-          {
-            "case": 545,
-            "effect": { "set_string_var": "545", "target_var": { "u_val": "artisans_gunsmith_ammo_convert_target" } }
-          },
-          {
-            "case": 556,
-            "effect": { "set_string_var": "556", "target_var": { "u_val": "artisans_gunsmith_ammo_convert_target" } }
-          },
-          {
-            "case": 76239,
-            "effect": { "set_string_var": "762_m87", "target_var": { "u_val": "artisans_gunsmith_ammo_convert_target" } }
-          },
-          {
-            "case": 76251,
-            "effect": { "set_string_var": "762_51", "target_var": { "u_val": "artisans_gunsmith_ammo_convert_target" } }
-          }
-        ]
-      }
+      { "u_add_var": "u_waiting_on_rounds", "type": "timer", "context": "artisans", "time": true }
     ]
   },
   {
@@ -358,8 +333,7 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_gunsmith_migration_get_convert_target",
-    "//": "Used for making old saves' unfinished conversion working",
+    "id": "EOC_gunsmith_get_convert_target_item",
     "effect": {
       "switch": { "math": [ "u_number_artisans_gunsmith_ammo_to" ] },
       "cases": [
@@ -394,7 +368,7 @@
       {
         "text": "[Take your new ammo.] Thanks.",
         "effect": [
-          { "run_eocs": [ "EOC_gunsmith_get_convert_coeff", "EOC_gunsmith_migration_get_convert_target" ] },
+          { "run_eocs": [ "EOC_gunsmith_get_convert_coeff", "EOC_gunsmith_get_convert_target_item" ] },
           {
             "math": [
               "u_number_artisans_gunsmith_ammo_convert_result",
