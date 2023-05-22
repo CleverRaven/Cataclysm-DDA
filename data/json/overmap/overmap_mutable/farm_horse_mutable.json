@@ -43,12 +43,16 @@
       "dirt_road_nes": { "overmap": "dirt_road_3way_west" },
       "dirt_road_nesw": { "overmap": "dirt_road_4way_north" },
       "farm_house_1_n": { "overmap": "farm_horse_house_1_north", "locations": [ "special_field" ] },
-      "farm_house_2_n": { "overmap": "farm_horse_house_2_north", "locations": [ "special_field" ] },
+      "farm_house_1_2ndfloor_n": { "overmap": "farm_horse_house_1_2ndfloor_north" },
+      "farm_house_1_roof_n": { "overmap": "farm_horse_house_1_roof_north" },
       "yard_n": { "overmap": "yard_north", "locations": [ "special_field" ] },
       "greenhouse_n": { "overmap": "farm_horse_greenhouse_north", "locations": [ "special_field" ] },
       "greenhouse_roof_n": { "overmap": "farm_horse_greenhouse_roof_north" },
       "stables_1_n": { "overmap": "farm_horse_stable_1_north", "locations": [ "special_field" ] },
-      "stables_2_n": { "overmap": "farm_horse_stable_2_north", "locations": [ "special_field" ] },
+      "stables_1_hayloft_n": { "overmap": "farm_horse_stable_1_hayloft_north" },
+      "stables_1_roof_n": { "overmap": "farm_horse_stable_1_roof_north" },
+      "carriage_house_1_e": { "overmap": "farm_horse_carriage_house_1_east", "locations": [ "special_field" ] },
+      "carriage_house_1_roof_e": { "overmap": "farm_horse_carriage_house_1_roof_east" },
       "track_1_n": { "overmap": "farm_horse_track_1_north", "locations": [ "special_field" ] },
       "track_2_n": { "overmap": "farm_horse_track_2_north", "locations": [ "special_field" ] },
       "track_large_1_n": { "overmap": "farm_horse_track_large_1_north", "locations": [ "special_field" ] },
@@ -117,7 +121,7 @@
       "paddock_trailhead_8_n": { "overmap": "paddock_trailhead_8_north" },
       "paddock_trailhead_9_n": { "overmap": "paddock_trailhead_9_north" },
       "paddock_end_1_n": { "overmap": "paddock_end_1_north" },
-      "paddock_end_2_n": { "overmap": "paddock_end_2_north" },
+      "dirt_road_turnback_n": { "overmap": "dirt_road_turnback_north", "locations": [ "special_field", "land" ] },
       "paddock_end_3_n": { "overmap": "paddock_end_3_north" },
       "paddock_end_4_n": { "overmap": "paddock_end_4_north" },
       "paddock_end_5_n": { "overmap": "paddock_end_5_north" },
@@ -731,7 +735,7 @@
         {
           "name": "paddock_end",
           "chunk": [
-            { "overmap": "paddock_end_2_n", "pos": [ 0, 0, 0 ] },
+            { "overmap": "dirt_road_turnback_n", "pos": [ 0, 0, 0 ] },
             { "overmap": "outer_to_inner_n", "pos": [ 0, 0, 10 ] },
             { "overmap": "paddock_end_1_n", "pos": [ -1, 0, 0 ] },
             { "overmap": "paddock_end_3_n", "pos": [ 1, 0, 0 ] },
@@ -794,9 +798,11 @@
           "name": "house_1_yard",
           "//": "Farm houses should be up to 2x2 and connect on the top left when facing north.",
           "chunk": [
-            { "overmap": "farm_house_1_n", "pos": [ 0, 0, 0 ] },
+            { "overmap": "dirt_road_turnback_n", "pos": [ 0, 0, 0 ] },
             { "overmap": "house_to_road_n", "pos": [ 0, 0, 10 ] },
-            { "overmap": "farm_house_2_n", "pos": [ 1, 0, 0 ] },
+            { "overmap": "farm_house_1_n", "pos": [ 1, 0, 0 ] },
+            { "overmap": "farm_house_1_2ndfloor_n", "pos": [ 1, 0, 1 ] },
+            { "overmap": "farm_house_1_roof_n", "pos": [ 1, 0, 2 ] },
             { "overmap": "yard_n", "pos": [ 0, 1, 0 ] }
           ],
           "weight": 5
@@ -804,23 +810,41 @@
         {
           "name": "house_1_greenhouse",
           "chunk": [
-            { "overmap": "farm_house_1_n", "pos": [ 0, 0, 0 ] },
+            { "overmap": "dirt_road_turnback_n", "pos": [ 0, 0, 0 ] },
             { "overmap": "house_to_road_n", "pos": [ 0, 0, 10 ] },
-            { "overmap": "farm_house_2_n", "pos": [ 1, 0, 0 ] },
+            { "overmap": "farm_house_1_n", "pos": [ 1, 0, 0 ] },
+            { "overmap": "farm_house_1_2ndfloor_n", "pos": [ 1, 0, 1 ] },
+            { "overmap": "farm_house_1_roof_n", "pos": [ 1, 0, 2 ] },
             { "overmap": "greenhouse_n", "pos": [ 0, 1, 0 ] },
             { "overmap": "greenhouse_roof_n", "pos": [ 0, 1, 1 ] }
           ],
           "weight": 10
         },
         {
-          "name": "stables_1",
+          "name": "stables_1_paddock",
           "//": "Stables should be up to 2x2 and connect on the top right when facing north.",
           "chunk": [
-            { "overmap": "stables_1_n", "pos": [ 0, 0, 0 ] },
+            { "overmap": "dirt_road_turnback_n", "pos": [ 0, 0, 0 ] },
             { "overmap": "stable_to_road_n", "pos": [ 0, 0, 10 ] },
-            { "overmap": "stables_2_n", "pos": [ 0, 1, 0 ] }
+            { "overmap": "stables_1_n", "pos": [ 0, 1, 0 ] },
+            { "overmap": "stables_1_hayloft_n", "pos": [ 0, 1, 1 ] },
+            { "overmap": "stables_1_roof_n", "pos": [ 0, 1, 2 ] },
+            { "overmap": "paddock_e", "pos": [ -1, 0, 0 ] }
           ],
           "weight": 10
+        },
+        {
+          "name": "stables_1_carriage_house_1",
+          "chunk": [
+            { "overmap": "dirt_road_turnback_n", "pos": [ 0, 0, 0 ] },
+            { "overmap": "stable_to_road_n", "pos": [ 0, 0, 10 ] },
+            { "overmap": "stables_1_n", "pos": [ 0, 1, 0 ] },
+            { "overmap": "stables_1_hayloft_n", "pos": [ 0, 1, 1 ] },
+            { "overmap": "stables_1_roof_n", "pos": [ 0, 1, 2 ] },
+            { "overmap": "carriage_house_1_e", "pos": [ -1, 0, 0 ] },
+            { "overmap": "carriage_house_1_roof_e", "pos": [ -1, 0, 1 ] }
+			],
+          "weight": 3
         },
         {
           "name": "ring_1",

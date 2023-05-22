@@ -65,7 +65,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "dirt_road", "dirt_road_forest", "paddock_end_2" ],
+    "id": [ "dirt_road", "dirt_road_forest", "dirt_road_turnback" ],
     "copy-from": "generic_dirt_road",
     "sym": "│"
   },
@@ -224,7 +224,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "farm_2_roof", "farm_isherwood_2_roof", "horse_farm_isherwood_13_roof" ],
+    "id": [ "farm_2_roof", "farm_isherwood_2_roof", "farm_horse_house_1_roof", "horse_farm_isherwood_13_roof" ],
     "copy-from": "generic_rural_building",
     "name": "farm house roof",
     "sym": "^"
@@ -253,7 +253,6 @@
       "farm_2",
       "horse_farm_isherwood_13",
       "farm_horse_house_1",
-      "farm_horse_house_2",
       "farm_isherwood_2",
       "2farm_11",
       "farm_stills_3",
@@ -446,7 +445,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "fence_split_n", "fence_split_s", "fence_split" ],
+    "id": [ "fence_split_n", "fence_split_s" ],
     "copy-from": "fence",
     "sym": "─"
   },
@@ -608,35 +607,35 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "horse_farm_isherwood_4" ],
+    "id": [ "farm_horse_carriage_house_1", "horse_farm_isherwood_4" ],
     "copy-from": "generic_rural_building",
     "name": "carriage house",
     "sym": "o"
   },
   {
     "type": "overmap_terrain",
-    "id": [ "horse_farm_isherwood_4_roof" ],
+    "id": [ "farm_horse_carriage_house_1_roof", "horse_farm_isherwood_4_roof" ],
     "copy-from": "generic_rural_building",
     "name": "carriage house roof",
     "sym": "o"
   },
   {
     "type": "overmap_terrain",
-    "id": [ "horse_farm_isherwood_7", "farm_horse_stable_1", "farm_horse_stable_2" ],
+    "id": [ "horse_farm_isherwood_7", "farm_horse_stable_1" ],
     "copy-from": "generic_rural_building",
     "name": "horse stable",
     "sym": "&"
   },
   {
     "type": "overmap_terrain",
-    "id": [ "horse_farm_isherwood_7_hayloft" ],
+    "id": [ "farm_horse_stable_1_hayloft", "horse_farm_isherwood_7_hayloft" ],
     "copy-from": "generic_rural_building",
     "name": "horse stable hayloft",
     "sym": "&"
   },
   {
     "type": "overmap_terrain",
-    "id": [ "horse_farm_isherwood_7_roof" ],
+    "id": [ "farm_horse_stable_1_roof", "horse_farm_isherwood_7_roof" ],
     "copy-from": "generic_rural_building",
     "name": "horse stable roof",
     "sym": "&"
@@ -771,7 +770,12 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "horse_farm_isherwood_13_2ndfloor", "farm_dairy_twd_second_floor_3", "farm_dairy_twd_second_floor_4" ],
+    "id": [
+      "horse_farm_isherwood_13_2ndfloor",
+      "farm_horse_house_1_2ndfloor",
+      "farm_dairy_twd_second_floor_3",
+      "farm_dairy_twd_second_floor_4"
+    ],
     "copy-from": "generic_rural_building",
     "name": "farm house 2nd floor",
     "sym": "^"
