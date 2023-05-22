@@ -83,13 +83,13 @@ if (TILES)
     endif ()
 
     if (NOT DYNAMIC_LINKING)
-        target_link_libraries(cataclysm-tiles-common PUBLIC 
+        target_link_libraries(cataclysm-tiles-common PUBLIC
             SDL2::SDL2-static
             SDL2_image::SDL2_image-static
             SDL2_ttf::SDL2_ttf-static
         )
     else()
-        target_link_libraries(cataclysm-tiles-common PUBLIC 
+        target_link_libraries(cataclysm-tiles-common PUBLIC
             SDL2::SDL2
             SDL2_image::SDL2_image
             SDL2_ttf::SDL2_ttf
@@ -98,10 +98,12 @@ if (TILES)
     if (SOUND)
         if (NOT DYNAMIC_LINKING)
             target_link_libraries(cataclysm-tiles-common PUBLIC
-                SDL2_mixer::SDL2_mixer-static 
+                SDL2_mixer::SDL2_mixer-static
             )
         else()
-            # TODO
+            target_link_libraries(cataclysm-tiles-common PUBLIC
+                SDL2_mixer::SDL2_mixer
+            )
         endif()
     endif ()
 

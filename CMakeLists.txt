@@ -20,7 +20,8 @@ option(BACKTRACE "Support for printing stack backtraces on crash" "ON")
 option(LIBBACKTRACE "Print backtrace with libbacktrace." "OFF")
 option(USE_XDG_DIR "Use XDG directories for save and config files." "OFF")
 option(USE_HOME_DIR "Use user's home directory for save and config files." "ON")
-cmake_dependent_option(USE_PREFIX_DATA_DIR "Use UNIX system directories for game data in release build." ON
+cmake_dependent_option(USE_PREFIX_DATA_DIR
+    "Use UNIX system directories for game data in release build." OFF
     "UNIX" OFF
 )
 option(LOCALIZE "Support for language localizations. Also enable UTF support." "ON")
@@ -260,7 +261,8 @@ if (TILES)
     # Find SDL, SDL_ttf & SDL_image for graphical install
     message(STATUS "Searching for SDL2 library --")
     if (NOT CMAKE_FIND_PACKAGE_PREFER_CONFIG)
-        set(CMAKE_FIND_PACKAGE_PREFER_CONFIG ON) # Use sdl2-config.cmake provided by the system or VCPKG
+        set(CMAKE_FIND_PACKAGE_PREFER_CONFIG ON)
+        # ^^ Use sdl2-config.cmake provided by the system or VCPKG
         find_package(SDL2)
         if(NOT SDL2_FOUND)
             # Use our CMakeModules/Find/FindSDL2.cmake
@@ -329,7 +331,8 @@ if (SOUND)
     # Sound requires SDL_mixer library
     message(STATUS "Searching for SDL2_mixer library --")
     find_package(SDL2_mixer)
-    if (NOT (SDL2_MIXER_FOUND OR TARGET SDL2_mixer::SDL2_mixer OR TARGET SDL2_mixer::SDL2_mixer-static))
+    if (NOT (SDL2_MIXER_FOUND OR TARGET SDL2_mixer::SDL2_mixer
+                              OR TARGET SDL2_mixer::SDL2_mixer-static))
         message(FATAL_ERROR
                 "You need the SDL2_mixer development library \
                     to be able to compile with sound enabled. \
