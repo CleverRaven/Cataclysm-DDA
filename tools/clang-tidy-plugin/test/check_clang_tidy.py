@@ -120,7 +120,8 @@ class CheckRunner:
 
     # Tests should not rely on STL being available, and instead provide mock
     # implementations of relevant APIs.
-    self.clang_extra_args.append('-nostdinc++')
+    if not args.allow_stdinc:
+      self.clang_extra_args.append('-nostdinc++')
 
     if self.resource_dir is not None:
       self.clang_extra_args.append('-resource-dir=%s' % self.resource_dir)
@@ -249,6 +250,7 @@ def parse_arguments():
     type=csv,
     help='comma-separated list of FileCheck suffixes')
   parser.add_argument('-std', type=csv, default=['c++11-or-later'])
+  parser.add_argument('-allow-stdinc', action='store_true')
   return parser.parse_known_args()
 
 
