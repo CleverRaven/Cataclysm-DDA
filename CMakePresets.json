@@ -11,7 +11,7 @@
       "binaryDir": "${sourceDir}/out/build/${presetName}",
       "displayName": "Windows Tiles Sounds x64 MSVC",
       "description": "Target Windows (64-bit) with the Visual Studio development environment.",
-      "generator": "Ninja Multi-Config",
+      "generator": "Visual Studio 16 2019",
       "environment": {
         "VCPKG_ROOT": "C:/vcpkg"
       },
