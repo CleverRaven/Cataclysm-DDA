@@ -250,5 +250,26 @@
       "no_fail": true,
       "level": 1
     }
+  },
+  {
+    "id": "potion_dex",
+    "type": "COMESTIBLE",
+    "name": { "str": "potion of wicked quick hands", "str_pl": "potions of wicked quick hands" },
+    "description": "This is a potion of wicked quick hands.  It will increase your dexterity for 50 minutes.",
+    "copy-from": "life_extension_potion",
+    "calories": 25,
+    "use_action": { "type": "cast_spell", "spell_id": "potion_dex", "no_fail": true, "level": 25 },
+    "color": "yellow",
+    "price": 3000
+  },
+  {
+    "id": "potion_strength",
+    "name": { "str": "potion of terrible strength", "str_pl": "potions of terrible strength" },
+    "description": "This is a potion of terrible strength.  It will increase your strength for 50 minutes.",
+    "use_action": { "type": "cast_spell", "spell_id": "potion_strength", "no_fail": true, "level": 25 },
+    "type": "COMESTIBLE",
+    "color": "yellow",
+    "calories": 50,
+    "copy-from": "life_extension_potion"
   }
 ]

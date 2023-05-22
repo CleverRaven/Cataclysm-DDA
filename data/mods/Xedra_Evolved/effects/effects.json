@@ -566,5 +566,27 @@
     "description": "Nothing can move you from your path.",
     "enchantments": [ { "values": [ { "value": "PAIN", "multiply": -1 } ] } ],
     "flags": [ "STEADY" ]
+  },
+    {
+    "type": "effect_type",
+    "id": "wicked_quick_hands",
+    "name": [ "Wicked Quick Hands" ],
+    "desc": [ "Your hands move wicked quick!" ],
+    "apply_message": "Your reflexes are heightened!",
+    "remove_message": "Your reflexes return to normal.",
+    "rating": "good",
+    "removes_effects": [ "terrible_strength" ],
+    "base_mods": { "dex_mod": [ 4 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "terrible_strength",
+    "name": [ "terrible strength" ],
+    "desc": [ "You have a terrible strength!" ],
+    "apply_message": "You feel strong!",
+    "remove_message": "Your strength deflates.",
+    "rating": "good",
+    "removes_effects": [ "wicked_quick_hands" ],
+    "base_mods": { "str_mod": [ 4 ] }
   }
 ]
