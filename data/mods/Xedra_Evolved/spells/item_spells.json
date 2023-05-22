@@ -236,5 +236,27 @@
     "shape": "blast",
     "effect": "attack",
     "effect_str": "terrible_strength"
+  },
+  {
+    "type": "SPELL",
+    "id": "spell_hare_leap",
+    "name": "Hare Leap",
+    "description": "You squat down, build up tension in your legs and release.  Launching yourself quite a distance.",
+    "valid_targets": [ "ground" ],
+    "flags": [ "SILENT", "NO_LEGS", "NO_HANDS", "MUST_HAVE_CLASS_TO_LEARN", "NO_EXPLOSION_SFX" ],
+    "effect": "dash",
+    "shape": "cone",
+    "min_damage": 0,
+    "max_damage": 0,
+    "damage_increment": 0,
+    "damage_type": "bash",
+    "min_range": 8,
+    "max_range": 8,
+    "spell_class": "NONE",
+    "difficulty": -20,
+    "base_casting_time": 200,
+    "base_energy_cost": 200,
+    "max_level": 1,
+    "energy_source": "MANA"
   }
 ]

@@ -259,7 +259,7 @@
     "copy-from": "life_extension_potion",
     "calories": 25,
     "use_action": { "type": "cast_spell", "spell_id": "potion_dex", "no_fail": true, "level": 25 },
-    "color": "yellow",
+    "color": "green",
     "price": 3000
   },
   {
@@ -268,7 +268,17 @@
     "description": "This is a potion of terrible strength.  It will increase your strength for 50 minutes.",
     "use_action": { "type": "cast_spell", "spell_id": "potion_strength", "no_fail": true, "level": 25 },
     "type": "COMESTIBLE",
-    "color": "yellow",
+    "color": "red",
+    "calories": 50,
+    "copy-from": "life_extension_potion"
+  },
+  {
+    "id": "potion_strength",
+    "name": { "str": "potion of terrible strength", "str_pl": "potions of terrible strength" },
+    "description": "This is a potion of terrible strength.  It will increase your strength for 50 minutes.",
+    "use_action": { "type": "cast_spell", "spell_id": "spell_hare_leap", "no_fail": true, "level": 25 },
+    "type": "COMESTIBLE",
+    "color": "green_yellow",
     "calories": 50,
     "copy-from": "life_extension_potion"
   }

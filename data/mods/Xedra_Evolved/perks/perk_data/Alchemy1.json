@@ -75,7 +75,7 @@
     "condition": { "and": [ { "u_has_trait": "perk_ALCHEMY4" }, { "not": { "u_has_effect": "mental_exhaustion" } } ] },
     "effect": [
       {
-        "u_roll_remainder": [ "life_extension_potion", "potion_strength", "potion_dex", "hare_leap", "potion_fish" ],
+        "u_roll_remainder": [ "life_extension_potion", "potion_strength", "potion_dex", "hares_leap_potion", "fish_potion" ],
         "type": "recipe"
       },
       { "u_add_effect": "mental_exhaustion", "intensity": 1, "duration": "192 hours" }
