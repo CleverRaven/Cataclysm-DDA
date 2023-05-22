@@ -446,7 +446,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "fence_split_n", "fence_split_s" ],
+    "id": [ "fence_split_n", "fence_split_s", "fence_split" ],
     "copy-from": "fence",
     "sym": "─"
   },

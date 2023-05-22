@@ -1173,6 +1173,27 @@
   {
     "type": "mapgen",
     "method": "json",
+    "om_terrain": "fence_split",
+    "weight": 250,
+    "object": {
+      "predecessor_mapgen": "field",
+      "place_nested": [
+        { "chunks": [ "24x24_fence_split_n" ], "x": 0, "y": 0, "neighbors": { "north": [ "fence_split", "paddock" ] } },
+        { "chunks": [ "24x24_fence_split_e" ], "x": 0, "y": 0, "neighbors": { "east": [ "fence_split", "paddock" ] } },
+        {
+          "chunks": [ "24x24_fence_split_s" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": { "south": [ "fence_split", "paddock" ] }
+        },
+        { "chunks": [ "24x24_fence_split_w" ], "x": 0, "y": 0, "neighbors": { "west": [ "fence_split", "paddock" ] } }
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "om_terrain": "fence_split_nw",
     "weight": 250,
     "object": {
