@@ -60,7 +60,7 @@
     "description": "The edges of your form seem to blur and distort, increasing the amount of attacks you might dodge in a given turn.",
     "valid_targets": [ "self" ],
     "effect": "spawn_item",
-    "effect_str": "obfuscating_aura",
+    "effect_str": "blurred_aura",
     "skill": "deduction",
     "shape": "blast",
     "energy_source": "MANA",
