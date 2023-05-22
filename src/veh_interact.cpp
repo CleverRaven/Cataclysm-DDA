@@ -1054,7 +1054,7 @@ void veh_interact::do_install()
                         string_format( "%s (%s)", shapes[i]->name(), shapes[i]->get_id().str() );
                     uilist_entry entry( i, true, 0, vpname );
                     entry.extratxt.left = 1;
-                    entry.extratxt.sym = special_symbol( shapes[i]->sym );
+                    entry.extratxt.sym = special_symbol( shapes[i]->get_symbol() );
                     entry.extratxt.color = shapes[i]->color;
                     shape_ui_entries.push_back( entry );
                 }
@@ -2090,7 +2090,7 @@ void veh_interact::do_change_shape()
                 uilist_entry entry( vpname );
                 entry.retval = ret_code++;
                 entry.extratxt.left = 1;
-                entry.extratxt.sym = special_symbol( shape->sym );
+                entry.extratxt.sym = special_symbol( shape->get_symbol() );
                 entry.extratxt.color = shape->color;
                 variants.emplace_back( std::string() );
                 smenu.entries.emplace_back( entry );
@@ -2919,7 +2919,7 @@ void veh_interact::display_list( size_t pos, const std::vector<const vpart_info 
     for( size_t i = page * lines_per_page; i < ( page + 1 ) * lines_per_page && i < list.size(); i++ ) {
         const vpart_info &info = *list[i];
         int y = i - page * lines_per_page + header;
-        mvwputch( w_list, point( 1, y ), info.color, special_symbol( info.sym ) );
+        mvwputch( w_list, point( 1, y ), info.color, special_symbol( info.get_symbol() ) );
         nc_color col = can_potentially_install( info ) ? c_white : c_dark_gray;
         trim_and_print( w_list, point( 3, y ), getmaxx( w_list ) - 3, pos == i ? hilite( col ) : col,
                         info.name() );

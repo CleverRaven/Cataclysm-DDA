@@ -9559,7 +9559,7 @@
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
     "skill_used": "cooking",
-    "difficulty": 5,
+    "difficulty": 3,
     "time": "10 m",
     "//": "Making the very first starter is a lot more finnicky than splitting it once it's mature.",
     "autolearn": true,

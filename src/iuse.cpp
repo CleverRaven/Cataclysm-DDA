@@ -7754,7 +7754,7 @@ std::optional<int> iuse::multicooker( Character *p, item *it, bool t, const trip
 
                 /** @EFFECT_FABRICATION >3 allows multicooker upgrade */
                 if( p->get_skill_level( skill_electronics ) >= 4 && p->get_skill_level( skill_fabrication ) >= 4 ) {
-                    const auto upgr = it->get_var( "MULTI_COOK_UPGRADE" );
+                    const std::string upgr = it->get_var( "MULTI_COOK_UPGRADE" );
                     if( upgr.empty() ) {
                         menu.addentry( mc_upgrade, true, 'u', _( "Upgrade multi-cooker" ) );
                     } else {

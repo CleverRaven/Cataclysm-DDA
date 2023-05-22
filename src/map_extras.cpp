@@ -379,7 +379,7 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
 
     units::angle dir1 = random_direction();
 
-    auto crashed_hull = VehicleGroup_crashed_helicopters->pick();
+    vproto_id crashed_hull = VehicleGroup_crashed_helicopters->pick();
 
     // Create the vehicle so we can rotate it and calculate its bounding box, but don't place it on the map.
     auto veh = std::make_unique<vehicle>( m, crashed_hull, rng( 1, 33 ), 1 );
@@ -2201,7 +2201,8 @@ static bool mx_mayhem( map &m, const tripoint &abs_sub )
 
 static bool mx_casings( map &m, const tripoint &abs_sub )
 {
-    const auto items = item_group::items_from( Item_spawn_data_ammo_casings, calendar::turn );
+    const std::vector<item> items = item_group::items_from( Item_spawn_data_ammo_casings,
+                                    calendar::turn );
 
     switch( rng( 1, 4 ) ) {
         //Pile of random casings in random place
@@ -2215,7 +2216,7 @@ static bool mx_casings( map &m, const tripoint &abs_sub )
             }
             //Spawn random trash in random place
             for( int i = 0; i < rng( 1, 3 ); i++ ) {
-                const auto trash =
+                const std::vector<item> trash =
                     item_group::items_from( Item_spawn_data_map_extra_casings, calendar::turn );
                 const tripoint trash_loc = random_entry( m.points_in_radius( tripoint{ SEEX, SEEY, abs_sub.z },
                                            10 ) );
@@ -2249,7 +2250,7 @@ static bool mx_casings( map &m, const tripoint &abs_sub )
             const tripoint location = { SEEX, SEEY, abs_sub.z };
             //Spawn random trash in random place
             for( int i = 0; i < rng( 1, 3 ); i++ ) {
-                const auto trash =
+                const std::vector<item> trash =
                     item_group::items_from( Item_spawn_data_map_extra_casings, calendar::turn );
                 const tripoint trash_loc = random_entry( m.points_in_radius( location, 10 ) );
                 m.spawn_items( trash_loc, trash );
@@ -2281,7 +2282,7 @@ static bool mx_casings( map &m, const tripoint &abs_sub )
             }
             //Spawn random trash in random place
             for( int i = 0; i < rng( 1, 3 ); i++ ) {
-                const auto trash =
+                const std::vector<item> trash =
                     item_group::items_from( Item_spawn_data_map_extra_casings, calendar::turn );
                 const tripoint trash_loc =
                     random_entry( m.points_in_radius( tripoint{ SEEX, SEEY, abs_sub.z }, 10 ) );
@@ -2301,9 +2302,9 @@ static bool mx_casings( map &m, const tripoint &abs_sub )
         case 4: {
             const tripoint first_loc = { rng( 1, SEEX - 2 ), rng( 1, SEEY - 2 ), abs_sub.z };
             const tripoint second_loc = { rng( 1, SEEX * 2 - 2 ), rng( 1, SEEY * 2 - 2 ), abs_sub.z };
-            const auto first_items =
+            const std::vector<item> first_items =
                 item_group::items_from( Item_spawn_data_ammo_casings, calendar::turn );
-            const auto second_items =
+            const std::vector<item> second_items =
                 item_group::items_from( Item_spawn_data_ammo_casings, calendar::turn );
 
             for( const tripoint &loc : m.points_in_radius( first_loc, rng( 1, 2 ) ) ) {
@@ -2318,7 +2319,7 @@ static bool mx_casings( map &m, const tripoint &abs_sub )
             }
             //Spawn random trash in random place
             for( int i = 0; i < rng( 1, 3 ); i++ ) {
-                const auto trash =
+                const std::vector<item> trash =
                     item_group::items_from( Item_spawn_data_map_extra_casings, calendar::turn );
                 const tripoint trash_loc =
                     random_entry( m.points_in_radius( tripoint{ SEEX, SEEY, abs_sub.z }, 10 ) );

@@ -4064,7 +4064,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         def.min_skills.clear();
     }
     for( JsonArray cur : jarr ) {
-        const auto sk = skill_id( cur.get_string( 0 ) );
+        const skill_id sk = skill_id( cur.get_string( 0 ) );
         if( !sk.is_valid() ) {
             jo.throw_error_at( "min_skills", string_format( "invalid skill: %s", sk.c_str() ) );
         }
@@ -5027,7 +5027,7 @@ void item_group::debug_spawn()
         // Spawn items from the group 100 times
         std::map<std::string, int> itemnames;
         for( size_t a = 0; a < 100; a++ ) {
-            const auto items = items_from( groups[index], calendar::turn );
+            const ItemList items = items_from( groups[index], calendar::turn );
             for( const item &it : items ) {
                 itemnames[it.display_name()]++;
             }
