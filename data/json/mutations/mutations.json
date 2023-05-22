@@ -1047,7 +1047,8 @@
     "cancels": [ "NONADDICTIVE" ],
     "points": 2,
     "mixed_effect": true,
-    "description": "You have a unique history with stimulants (like coffee or amphetamines).  You can tolerate a lot more of them without overdosing, but if you indulge too much, you start seeing things…"
+    "description": "You have a unique history with stimulants (like coffee or amphetamines).  You can tolerate a lot more of them without overdosing, but if you indulge too much, you start seeing things…",
+    "category": [ "MEDICAL" ]
   },
   {
     "type": "mutation",
@@ -3456,17 +3457,13 @@
     "points": 2,
     "visibility": 4,
     "ugliness": 3,
-    "cut_dmg_bonus": 3,
-    "butchering_quality": 4,
+    "integrated_armor": [ "integrated_talons" ],
     "flags": [ "UNARMED_BONUS" ],
     "mixed_effect": true,
-    "restricts_gear": [ "hand_fingers_l", "hand_fingers_r" ],
-    "destroys_gear": true,
     "description": "Your index fingers have grown into huge talons.  After a bit of practice, you find that this does not affect your dexterity, but allows for a deadly unarmed attack.  They also prevent wearing gloves.",
     "types": [ "CLAWS" ],
     "prereqs": [ "NAILS" ],
-    "category": [ "LIZARD", "BIRD", "CHIMERA" ],
-    "allowed_items": [ "ALLOWS_TALONS" ]
+    "category": [ "LIZARD", "BIRD", "CHIMERA" ]
   },
   {
     "type": "mutation",
@@ -6443,7 +6440,7 @@
     "description": "Sunlight makes you uncomfortable.  If you are outdoors and the weather is Sunny, you suffer -1 to all stats.",
     "types": [ "SUNLIGHT" ],
     "changes_to": [ "TROGLO2" ],
-    "category": [ "LIZARD", "BEAST", "INSECT", "SLIME", "SPIDER", "BATRACHIAN", "RAT", "TROGLOBITE" ]
+    "category": [ "BEAST", "INSECT", "SLIME", "SPIDER", "BATRACHIAN", "RAT", "TROGLOBITE" ]
   },
   {
     "type": "mutation",

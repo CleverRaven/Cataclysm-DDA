@@ -1816,7 +1816,7 @@ int worldfactory::show_worldgen_basic( WORLD *world )
         } else if( action == "PICK_MODS" ) {
             show_worldgen_tab_modselection( w_confirmation, world, false );
         } else if( action == "ADVANCED_SETTINGS" ) {
-            auto WOPTIONS_OLD = world->WORLD_OPTIONS;
+            options_manager::options_container WOPTIONS_OLD = world->WORLD_OPTIONS;
             show_worldgen_tab_options( w_confirmation, world, false );
             for( auto &iter : WOPTIONS_OLD ) {
                 if( iter.second != world->WORLD_OPTIONS[iter.first] ) {

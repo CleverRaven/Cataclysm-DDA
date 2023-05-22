@@ -158,7 +158,7 @@ class string_identity_static
         friend class string_id;
 
         template<typename T>
-        friend struct std::hash;
+        friend struct std::hash; // NOLINT(cert-dcl58-cpp)
 };
 
 /**
@@ -190,7 +190,7 @@ class string_identity_dynamic
         friend class string_id;
 
         template<typename T>
-        friend struct std::hash;
+        friend struct std::hash; // NOLINT(cert-dcl58-cpp)
 };
 
 template<typename T>
@@ -362,16 +362,14 @@ class string_id
 };
 
 // Support hashing of string based ids by forwarding the hash of the string.
-namespace std
-{
 template<typename T>
-struct hash<string_id<T>> {
+// NOLINTNEXTLINE(cert-dcl58-cpp)
+struct std::hash<string_id<T>> {
     std::size_t operator()( const string_id<T> &v ) const noexcept {
         using IdType = decltype( v._id._id );
         return std::hash<IdType>()( v._id._id );
     }
 };
-} // namespace std
 
 /** Lexicographic order comparator for string_ids */
 template<typename T>

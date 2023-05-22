@@ -1995,7 +1995,7 @@ uint8_t map::get_known_rotates_to_f( const tripoint &p,
  */
 const harvest_id &map::get_harvest( const tripoint &pos ) const
 {
-    const auto furn_here = furn( pos );
+    const furn_id furn_here = furn( pos );
     if( !furn_here->has_flag( ter_furn_flag::TFLAG_HARVESTED ) ) {
         const harvest_id &harvest = furn_here->get_harvest();
         if( ! harvest.is_null() ) {
@@ -2003,7 +2003,7 @@ const harvest_id &map::get_harvest( const tripoint &pos ) const
         }
     }
 
-    const auto ter_here = ter( pos );
+    const ter_id ter_here = ter( pos );
     if( ter_here->has_flag( ter_furn_flag::TFLAG_HARVESTED ) ) {
         return harvest_id::NULL_ID();
     }
@@ -2014,7 +2014,7 @@ const harvest_id &map::get_harvest( const tripoint &pos ) const
 const std::set<std::string> &map::get_harvest_names( const tripoint &pos ) const
 {
     static const std::set<std::string> null_harvest_names = {};
-    const auto furn_here = furn( pos );
+    const furn_id furn_here = furn( pos );
     if( furn_here->can_examine( pos ) ) {
         if( furn_here->has_flag( ter_furn_flag::TFLAG_HARVESTED ) ) {
             return null_harvest_names;
@@ -2023,7 +2023,7 @@ const std::set<std::string> &map::get_harvest_names( const tripoint &pos ) const
         return furn_here->get_harvest_names();
     }
 
-    const auto ter_here = ter( pos );
+    const ter_id ter_here = ter( pos );
     if( ter_here->has_flag( ter_furn_flag::TFLAG_HARVESTED ) ) {
         return null_harvest_names;
     }
@@ -3763,7 +3763,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
             // HACK: A hack for destroy && !bash_floor
             // We have to check what would we create and cancel if it is what we have now
             tripoint below( p.xy(), p.z - 1 );
-            const auto roof = get_roof( below, false );
+            const ter_id roof = get_roof( below, false );
             if( roof == ter( p ) ) {
                 smash_ter = false;
                 bash = nullptr;
@@ -3921,7 +3921,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
             // Take the tent down
             const int rad = tentp->second.obj().bash.collapse_radius;
             for( const tripoint &pt : points_in_radius( tentp->first, rad ) ) {
-                const auto frn = furn( pt );
+                const furn_id frn = furn( pt );
                 if( frn == f_null ) {
                     continue;
                 }
@@ -3981,7 +3981,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
 
     if( smash_ter && ter( p ) == t_open_air && zlevels ) {
         tripoint below( p.xy(), p.z - 1 );
-        const auto roof = get_roof( below, params.bash_floor && ter( below ).obj().movecost != 0 );
+        const ter_id roof = get_roof( below, params.bash_floor && ter( below ).obj().movecost != 0 );
         ter_set( p, roof );
     }
 
@@ -6711,7 +6711,7 @@ bool map::draw_maptile( const catacurses::window &w, const tripoint &p,
     if( curr_field.field_count() > 0 ) {
         const field_type_id &fid = curr_field.displayed_field_type();
         const field_entry *fe = curr_field.find_field( fid );
-        const auto field_symbol = fid->get_symbol();
+        const std::string field_symbol = fid->get_symbol();
         if( field_symbol == "&" || fe == nullptr ) {
             // Do nothing, a '&' indicates invisible fields.
         } else if( field_symbol == "*" ) {
@@ -7010,7 +7010,7 @@ int map::obstacle_coverage( const tripoint &loc1, const tripoint &loc2 ) const
         obstaclepos = new_point;
         return false;
     } );
-    if( const auto obstacle_f = furn( obstaclepos ) ) {
+    if( const furn_id obstacle_f = furn( obstaclepos ) ) {
         return obstacle_f->coverage;
     }
     if( const optional_vpart_position vp = veh_at( obstaclepos ) ) {
@@ -7025,7 +7025,7 @@ int map::obstacle_coverage( const tripoint &loc1, const tripoint &loc2 ) const
 
 int map::coverage( const tripoint &p ) const
 {
-    if( const auto obstacle_f = furn( p ) ) {
+    if( const furn_id obstacle_f = furn( p ) ) {
         return obstacle_f->coverage;
     }
     if( const optional_vpart_position vp = veh_at( p ) ) {
@@ -8109,7 +8109,7 @@ void map::actualize( const tripoint &grid )
                 field_ter_locs.push_back( pnt );
             }
 
-            const auto trap_here = tmpsub->get_trap( p );
+            const trap_id trap_here = tmpsub->get_trap( p );
             if( trap_here != tr_null ) {
                 traplocs[trap_here.to_i()].push_back( pnt );
             }
