@@ -158,7 +158,7 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_gunsmith_get_convert_target",
+    "id": "EOC_gunsmith_set_convert_target",
     "effect": [
       { "math": [ "u_number_artisans_gunsmith_ammo_to", "=", "_key1" ] },
       { "u_add_var": "gunsmith_has_rounds_ordered", "type": "dialogue", "context": "artisans", "value": "yes" },
@@ -203,7 +203,7 @@
             { "math": [ "u_number_artisans_failed_to_convert_ammo", "==", "0" ] }
           ]
         },
-        "effect": { "run_eoc_with": "EOC_gunsmith_get_convert_target", "variables": { "key1": "556" } },
+        "effect": { "run_eoc_with": "EOC_gunsmith_set_convert_target", "variables": { "key1": "556" } },
         "topic": "TALK_GUNSMITH_CONVERT_CONFIRM"
       },
       {
@@ -216,7 +216,7 @@
             { "math": [ "u_number_artisans_failed_to_convert_ammo", "==", "0" ] }
           ]
         },
-        "effect": { "run_eoc_with": "EOC_gunsmith_get_convert_target", "variables": { "key1": "76251" } },
+        "effect": { "run_eoc_with": "EOC_gunsmith_set_convert_target", "variables": { "key1": "76251" } },
         "topic": "TALK_GUNSMITH_CONVERT_CONFIRM"
       },
       {
@@ -229,7 +229,7 @@
             { "math": [ "u_number_artisans_failed_to_convert_ammo", "==", "0" ] }
           ]
         },
-        "effect": { "run_eoc_with": "EOC_gunsmith_get_convert_target", "variables": { "key1": "76239" } },
+        "effect": { "run_eoc_with": "EOC_gunsmith_set_convert_target", "variables": { "key1": "76239" } },
         "topic": "TALK_GUNSMITH_CONVERT_CONFIRM"
       },
       {
@@ -240,7 +240,7 @@
             { "math": [ "u_number_artisans_failed_to_convert_ammo", "==", "0" ] }
           ]
         },
-        "effect": { "run_eoc_with": "EOC_gunsmith_get_convert_target", "variables": { "key1": "545" } },
+        "effect": { "run_eoc_with": "EOC_gunsmith_set_convert_target", "variables": { "key1": "545" } },
         "topic": "TALK_GUNSMITH_CONVERT_CONFIRM"
       },
       {
@@ -251,7 +251,7 @@
             { "math": [ "u_number_artisans_failed_to_convert_ammo", "==", "0" ] }
           ]
         },
-        "effect": { "run_eoc_with": "EOC_gunsmith_get_convert_target", "variables": { "key1": "300" } },
+        "effect": { "run_eoc_with": "EOC_gunsmith_set_convert_target", "variables": { "key1": "300" } },
         "topic": "TALK_GUNSMITH_CONVERT_CONFIRM"
       },
       {
