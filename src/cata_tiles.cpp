@@ -1623,7 +1623,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                 // Keep going up and drawing until current position
                 while( p_draw.z < p.pos.z ) {
                     // Draws fog overlay to give the impression of distance
-                    draw_zlevel_overlay( p_draw, p.ll, color_blocks );
+                    draw_zlevel_overlay( p_draw, p.ll, p.invisible, color_blocks );
                     p_draw.z += 1;
                     cur_height_3d += 1;
                     for( auto f : drawing_layers ) {
@@ -3840,6 +3840,7 @@ bool cata_tiles::draw_zombie_revival_indicators( const tripoint &pos, const lit_
 }
 
 void cata_tiles::draw_zlevel_overlay( const tripoint &p, const lit_level ll,
+                                      const std::array<bool, 5> &invisible,
                                       color_block_overlay_container &color_blocks )
 {
     if( is_isometric() ) {
@@ -3847,7 +3848,21 @@ void cata_tiles::draw_zlevel_overlay( const tripoint &p, const lit_level ll,
     }
     // Draw tileset fog sprite if exists
     if( tileset_ptr->find_tile_type( "zlevel_fog" ) ) {
-        draw_from_id_string( "zlevel_fog", TILE_CATEGORY::NONE, empty_string, p, 0, 0, ll, false );
+        // Multitile support
+        const ter_id &t = get_map().ter( p );
+        int subtile = 0;
+        int rotation = 0;
+        const std::bitset<NUM_TERCONN> &connect_group = t.obj().connect_to_groups;
+        const std::bitset<NUM_TERCONN> &rotate_group = t.obj().rotate_to_groups;
+        if( connect_group.any() ) {
+            get_connect_values( p, subtile, rotation, connect_group, rotate_group, {} );
+        } else {
+            get_terrain_orientation( p, rotation, subtile, {}, invisible, rotate_group );
+        }
+
+        // TILE_CATEGORY::NONE does not support variants
+        draw_from_id_string( "zlevel_fog", TILE_CATEGORY::TERRAIN, empty_string, p, subtile, rotation, ll,
+                             false );
     } else {
         // Tileset fog not found, use solid color overlay
         // Set position for overlay
