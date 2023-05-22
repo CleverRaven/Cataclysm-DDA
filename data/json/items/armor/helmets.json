@@ -1304,6 +1304,16 @@
         "encumbrance_modifiers": [ "NONE" ]
       }
     ],
+    "variants": [
+      {
+        "id": "morion",
+        "name": { "str": "morion" },
+        "description": "The tall crested helmet of a spanish conquistador.  Heavy rusting implies it might be that many years old.",
+        "color": "dark_gray",
+        "weight": 0,
+        "append": false
+      }
+    ],
     "warmth": 5,
     "material_thickness": 4,
     "environmental_protection": 1,
