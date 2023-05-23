@@ -2748,5 +2748,77 @@
     "speaker": [ "mon_zombie_brute_shocker", "mon_zombie_electric", "mon_zombie_nullfield", "mon_skeleton_electric" ],
     "sound": "high-pitched hum.",
     "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_civilian_panic" ],
+    "sound": "wailing in fear.",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_civilian_panic" ],
+    "sound": "howling in terror.",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_civilian_panic" ],
+    "sound": "an anguished shriek.",
+    "volume": 32
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_civilian_panic" ],
+    "sound": "faint, almost inhuman, whimpering.",
+    "volume": 8
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_civilian_panic" ],
+    "sound": "agonized crying.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_civilian_zombiefighter" ],
+    "sound": "\"Die!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_civilian_zombiefighter" ],
+    "sound": "\"Die, zombie scum!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_civilian_zombiefighter" ],
+    "sound": "\"You'll get what's coming to you!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_civilian_zombiefighter" ],
+    "sound": "\"Kick the bucket, filthy dead!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_civilian_zombiefighter" ],
+    "sound": "\"Come get some!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_civilian_zombiefighter" ],
+    "sound": "\"Will you die already?!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_civilian_zombiefighter" ],
+    "sound": "an unrestrained warcry.",
+    "volume": 35
   }
 ]

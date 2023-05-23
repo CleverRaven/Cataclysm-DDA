@@ -1,4 +1,4 @@
-// RUN: %check_clang_tidy %s cata-use-named-point-constants %t -- -plugins=%cata_plugin -- -isystem %cata_include
+// RUN: %check_clang_tidy %s cata-use-named-point-constants %t -- --load=%cata_plugin -- -isystem %cata_include
 
 #define CATA_NO_STL
 #include "point.h"

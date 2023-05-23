@@ -202,6 +202,7 @@ class inventory_entry
         struct entry_cell_cache_t {
             nc_color color = c_unset;
             std::vector<std::string> text;
+            int lang_version = 0;
         };
 
         const entry_cell_cache_t &get_entry_cell_cache( inventory_selector_preset const &preset ) const;

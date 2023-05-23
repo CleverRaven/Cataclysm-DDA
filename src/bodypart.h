@@ -19,6 +19,7 @@
 #include "mod_tracker.h"
 #include "string_id.h"
 #include "translations.h"
+#include "type_id.h"
 #include "subbodypart.h"
 #include "localized_comparator.h"
 #include "type_id.h"
@@ -240,6 +241,9 @@ struct body_part_type {
         // Effects to trigger on getting hit
         std::vector<bp_onhit_effect> effects_on_hit;
 
+        // Monster effect added to mobs grabbing this limb (for dedicated removal)
+        efftype_id grabbing_effect;
+
         // Those are stored untranslated
         translation name;
         translation name_multiple;
@@ -406,9 +410,9 @@ struct encumbrance_data {
     std::array<layer_details, static_cast<size_t>( layer_level::NUM_LAYER_LEVELS )>
     layer_penalty_details;
 
-    bool add_sub_locations( layer_level level, const std::vector<sub_bodypart_id> &sub_parts );
+    bool add_sub_location( layer_level level, sub_bodypart_id sbp );
 
-    bool add_sub_locations( layer_level level, const std::vector<sub_bodypart_str_id> &sub_parts );
+    bool add_sub_location( layer_level level, sub_bodypart_str_id sbp );
 
     void layer( const layer_level level, const int encumbrance, bool conflicts ) {
         layer_penalty_details[static_cast<size_t>( level )].layer( encumbrance, conflicts );

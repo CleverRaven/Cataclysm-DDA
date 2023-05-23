@@ -5,6 +5,7 @@
 #include "damage.h"
 #include "item.h"
 #include "type_id.h"
+#include "units.h"
 
 static const ammotype ammo_762( "762" );
 static const ammotype ammo_9mm( "9mm" );
@@ -218,5 +219,49 @@ TEST_CASE( "barrel test", "[ammo][weapon]" )
         item base_gun( "test_glock_super_long" );
         CHECK( base_gun.gun_damage( itype_test_100mm_ammo_relative ).total_damage() == 66 );
     }
+}
+
+TEST_CASE( "battery energy test", "[ammo][energy][item]" )
+{
+    item test_battery( "medium_battery_cell" );
+    test_battery.ammo_set( test_battery.ammo_default(), 300 );
+
+    SECTION( "Integer drain from battery" ) {
+        REQUIRE( test_battery.energy_remaining( nullptr ) == 300_kJ );
+        units::energy consumed = test_battery.energy_consume( 200_kJ, tripoint_zero, nullptr );
+        CHECK( test_battery.energy_remaining( nullptr ) == 100_kJ );
+        CHECK( consumed == 200_kJ );
+    }
+
+    SECTION( "Integer over-drain from battery" ) {
+        REQUIRE( test_battery.energy_remaining( nullptr ) == 300_kJ );
+        units::energy consumed = test_battery.energy_consume( 400_kJ, tripoint_zero, nullptr );
+        CHECK( test_battery.energy_remaining( nullptr ) == 0_kJ );
+        CHECK( consumed == 300_kJ );
+    }
+
+    SECTION( "Non-integer drain from battery" ) {
+        // Battery charge is in chunks of kj. Non integer kj drain is rounded up.
+        // 4.5 kJ drain becomes 5 kJ drain
+        REQUIRE( test_battery.energy_remaining( nullptr ) == 300_kJ );
+        units::energy consumed = test_battery.energy_consume( 4500_J, tripoint_zero, nullptr );
+        CHECK( test_battery.energy_remaining( nullptr ) == 295_kJ );
+        CHECK( consumed == 5_kJ );
+    }
+
+    SECTION( "Non-integer over-drain from battery" ) {
+        REQUIRE( test_battery.energy_remaining( nullptr ) == 300_kJ );
+        units::energy consumed = test_battery.energy_consume( 500500_J, tripoint_zero, nullptr );
+        CHECK( test_battery.energy_remaining( nullptr ) == 0_kJ );
+        CHECK( consumed == 300_kJ );
+    }
+
+    SECTION( "zero drain from battery" ) {
+        REQUIRE( test_battery.energy_remaining( nullptr ) == 300_kJ );
+        units::energy consumed = test_battery.energy_consume( 0_J, tripoint_zero, nullptr );
+        CHECK( test_battery.energy_remaining( nullptr ) == 300_kJ );
+        CHECK( consumed == 0_kJ );
+    }
+
 }
 

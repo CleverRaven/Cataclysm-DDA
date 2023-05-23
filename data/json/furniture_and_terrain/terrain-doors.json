@@ -895,7 +895,7 @@
     "looks_like": "t_door_frame",
     "color": "brown",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAT", "CONNECT_WITH_WALL", "ROAD", "SUPPORTS_ROOF" ],
+    "flags": [ "FLAMMABLE_ASH", "TRANSPARENT", "FLAT", "CONNECT_WITH_WALL", "ROAD", "SUPPORTS_ROOF" ],
     "bash": {
       "str_min": 6,
       "str_max": 25,
@@ -919,7 +919,7 @@
     "looks_like": "t_door_frame",
     "color": "brown",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAT", "CONNECT_WITH_WALL", "ROAD", "SUPPORTS_ROOF" ],
+    "flags": [ "FLAMMABLE_ASH", "TRANSPARENT", "FLAT", "CONNECT_WITH_WALL", "ROAD", "SUPPORTS_ROOF" ],
     "bash": {
       "str_min": 6,
       "str_max": 25,
@@ -943,7 +943,7 @@
     "looks_like": "t_door_frame",
     "color": "brown",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAT", "CONNECT_WITH_WALL", "ROAD", "SUPPORTS_ROOF" ],
+    "flags": [ "FLAMMABLE_ASH", "TRANSPARENT", "FLAT", "CONNECT_WITH_WALL", "ROAD", "SUPPORTS_ROOF" ],
     "bash": {
       "str_min": 6,
       "str_max": 25,
@@ -967,7 +967,7 @@
     "looks_like": "t_door_frame",
     "color": "brown",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAT", "CONNECT_WITH_WALL", "ROAD", "SUPPORTS_ROOF" ],
+    "flags": [ "FLAMMABLE_ASH", "TRANSPARENT", "FLAT", "CONNECT_WITH_WALL", "ROAD", "SUPPORTS_ROOF" ],
     "bash": {
       "str_min": 6,
       "str_max": 25,
@@ -1959,7 +1959,7 @@
     "looks_like": "t_floor",
     "color": "brown",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAT", "CONNECT_WITH_WALL", "ROAD", "SUPPORTS_ROOF" ],
+    "flags": [ "FLAMMABLE_ASH", "TRANSPARENT", "FLAT", "CONNECT_WITH_WALL", "ROAD", "SUPPORTS_ROOF" ],
     "bash": {
       "str_min": 6,
       "str_max": 25,
@@ -1983,7 +1983,7 @@
     "looks_like": "t_door_frame",
     "color": "brown",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAT", "CONNECT_WITH_WALL", "ROAD", "SUPPORTS_ROOF" ],
+    "flags": [ "FLAMMABLE_ASH", "TRANSPARENT", "FLAT", "CONNECT_WITH_WALL", "ROAD", "SUPPORTS_ROOF" ],
     "bash": {
       "str_min": 6,
       "str_max": 25,

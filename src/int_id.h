@@ -119,14 +119,12 @@ class int_id
 };
 
 // Support hashing of int based ids by forwarding the hash of the int.
-namespace std
-{
 template<typename T>
-struct hash< int_id<T> > {
+// NOLINTNEXTLINE(cert-dcl58-cpp)
+struct std::hash<int_id<T>> {
     std::size_t operator()( const int_id<T> &v ) const noexcept {
         return hash<int>()( v.to_i() );
     }
 };
-} // namespace std
 
 #endif // CATA_SRC_INT_ID_H

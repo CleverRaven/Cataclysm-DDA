@@ -615,7 +615,7 @@
     "id": "hack_recipes_general",
     "building_type": "BASE",
     "recipes": [
-      { "id": "mobile_memory_card_npc_hack", "description": " Hack & Download: random data, SD-Memory card" },
+      { "id": "memory_card_unread_npc_hack", "description": " Hack & Download: random data, SD-Memory card" },
       { "id": "software_useless_npc_hack", "description": " Hack & Download: misc software, USB drive" },
       { "id": "software_math_npc_hack", "description": " Hack & Download: MatheMAX, USB drive" }
     ]
@@ -637,7 +637,7 @@
     "id": "hack_recipes_science",
     "building_type": "BASE",
     "recipes": [
-      { "id": "mobile_memory_card_science_npc_hack", "description": " Hack & Download: science data, SD-Memory card" },
+      { "id": "memory_card_science_npc_hack", "description": " Hack & Download: science data, SD-Memory card" },
       { "id": "software_medical_npc_hack", "description": " Hack & Download: MediSoft, USB drive" },
       {
         "id": "software_electronics_reference_npc_hack",

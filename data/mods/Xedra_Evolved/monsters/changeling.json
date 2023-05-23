@@ -163,9 +163,23 @@
     "vision_day": 30,
     "vision_night": 3,
     "harvest": "zombie",
-    "special_attacks": [ [ "GRAB", 7 ], [ "scratch", 20 ] ],
+    "grab_strength": 20,
+    "special_attacks": [ { "id": "grab", "cooldown": 7 }, { "id": "scratch_humanoid" } ],
     "death_drops": "changeling_death_drops",
-    "flags": [ "SEES", "HEARS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "STUMBLES",
+      "WARM",
+      "GRABS",
+      "BASHES",
+      "GROUP_BASH",
+      "POISON",
+      "NO_BREATHE",
+      "REVIVES",
+      "PUSH_MON",
+      "FILTHY"
+    ],
     "armor": { "bash": 6, "cut": 6, "stab": 9, "bullet": 6, "electric": 2 }
   },
   {
@@ -193,7 +207,8 @@
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "zombie",
-    "special_attacks": [ [ "FUNGUS", 200 ], { "type": "bite", "cooldown": 5 } ],
+    "grab_strength": 20,
+    "special_attacks": [ [ "FUNGUS", 200 ], { "id": "bite_humanoid", "cooldown": 5 }, { "id": "grab" } ],
     "death_drops": "changeling_death_drops",
     "flags": [ "SEES", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "PUSH_MON", "FILTHY" ],
     "armor": { "bash": 2, "cut": 9, "stab": 16, "bullet": 12, "electric": 20 }
@@ -428,15 +443,15 @@
     "melee_dice": 2,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
-    "grab_strength": 5,
+    "grab_strength": 100,
     "dodge": 5,
     "luminance": 0,
     "harvest": "demihuman",
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "families": [ "prof_wp_demihuman" ],
-    "special_attacks": [ [ "RANGED_PULL", 10 ], [ "GRAB_DRAG", 3 ] ],
+    "special_attacks": [ { "id": "ranged_pull", "cooldown": 10 }, [ "GRAB_DRAG", 3 ] ],
     "path_settings": { "max_dist": 50, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
-    "flags": [ "SEES", "HEARS", "SMELLS", "SWIMS", "AQUATIC", "GRABS" ]
+    "flags": [ "SEES", "HEARS", "GRABS", "SMELLS", "SWIMS", "AQUATIC", "GRABS" ]
   },
   {
     "id": "mon_melian_mantis_mount",

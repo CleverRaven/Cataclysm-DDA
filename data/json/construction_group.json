@@ -751,6 +751,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_storage_tank",
+    "name": "Build Storage Tank"
+  },
+  {
+    "type": "construction_group",
     "id": "build_stone_fireplace",
     "name": "Build Stone Fireplace"
   },
@@ -1227,7 +1232,7 @@
   {
     "type": "construction_group",
     "id": "place_router",
-    "name": "Place Router"
+    "name": "Place Router Table"
   },
   {
     "type": "construction_group",
@@ -1728,5 +1733,10 @@
     "type": "construction_group",
     "id": "obstacle_rock",
     "name": "Build a Rocky Obstacle"
+  },
+  {
+    "type": "construction_group",
+    "id": "constr_excavate_forestfloor",
+    "name": "Turn forest floor into dirt"
   }
 ]

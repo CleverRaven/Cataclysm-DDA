@@ -1044,12 +1044,6 @@ void starting_inv( npc &who, const npc_class_id &type )
         return;
     }
 
-    item lighter( "lighter" );
-    // Set lighter ammo
-    if( !lighter.ammo_default().is_null() ) {
-        lighter.ammo_set( lighter.ammo_default(), rng( 10, 100 ) );
-    }
-    res.emplace_back( lighter );
     // If wielding a gun, get some additional ammo for it
     const item_location weapon = who.get_wielded_item();
     if( weapon && weapon->is_gun() ) {

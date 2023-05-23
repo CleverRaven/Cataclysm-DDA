@@ -39,6 +39,9 @@ std::string read_var_value( const var_info &info, const dialogue &d )
 
 std::string str_or_var::evaluate( dialogue const &d ) const
 {
+    if( function.has_value() ) {
+        return function.value()( d );
+    }
     if( str_val.has_value() ) {
         return str_val.value();
     }

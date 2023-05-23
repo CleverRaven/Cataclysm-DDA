@@ -1,4 +1,4 @@
-// RUN: %check_clang_tidy %s cata-translator-comments %t -- -plugins=%cata_plugin -- -I %test_include
+// RUN: %check_clang_tidy %s cata-translator-comments %t -- --load=%cata_plugin -- -I %test_include
 
 #include "mock-translation.h"
 

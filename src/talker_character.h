@@ -25,7 +25,7 @@ struct tripoint;
  * Talker wrapper class for const Character access.
  * Should never be invoked directly.  Only talker_avatar and talker_npc are really valid.
  */
-class talker_character_const: public talker
+class talker_character_const: public talker_cloner<talker_character_const>
 {
     public:
         explicit talker_character_const( const Character *new_me ): me_chr_const( new_me ) {
@@ -52,6 +52,7 @@ class talker_character_const: public talker
         int int_cur() const override;
         int per_cur() const override;
         int pain_cur() const override;
+        double armor_at( damage_type_id &dt, bodypart_id &bp ) const override;
         int get_str_max() const override;
         int get_dex_max() const override;
         int get_int_max() const override;
@@ -151,7 +152,7 @@ class talker_character_const: public talker
  * Talker wrapper class for mutable Character access.
  * Should never be invoked directly.  Only talker_avatar and talker_npc are really valid.
  */
-class talker_character: public talker_character_const
+class talker_character: public talker_cloner<talker_character, talker_character_const>
 {
     public:
         explicit talker_character( Character *new_me );
@@ -239,6 +240,7 @@ class talker_character: public talker_character_const
         int get_part_hp_cur( const bodypart_id &id ) const override;
         int get_part_hp_max( const bodypart_id &id ) const override;
         void set_part_hp_cur( const bodypart_id &id, int set ) const override;
+        void die() override;
         void learn_martial_art( const matype_id &id ) const override;
         void forget_martial_art( const matype_id &id ) const override;
     protected:

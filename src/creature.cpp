@@ -47,6 +47,7 @@
 #include "morale_types.h"
 #include "mtype.h"
 #include "npc.h"
+#include "options.h"
 #include "output.h"
 #include "point.h"
 #include "projectile.h"
@@ -86,9 +87,12 @@ static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_sap( "sap" );
 static const efftype_id effect_sensor_stun( "sensor_stun" );
 static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_stumbled_into_invisible( "stumbled_into_invisible" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_zapped( "zapped" );
+
+static const field_type_str_id field_fd_last_known( "fd_last_known" );
 
 static const json_character_flag json_flag_IGNORE_TEMP( "IGNORE_TEMP" );
 static const json_character_flag json_flag_LIMB_LOWER( "LIMB_LOWER" );
@@ -360,6 +364,12 @@ bool Creature::sees( const Creature &critter ) const
 
     if( !fov_3d && posz() != critter.posz() ) {
         return false;
+    }
+
+    // Creature has stumbled into an invisible player and is now aware of them
+    if( has_effect( effect_stumbled_into_invisible ) &&
+        here.has_field_at( critter.pos(), field_fd_last_known ) && critter.is_avatar() ) {
+        return true;
     }
 
     // This check is ridiculously expensive so defer it to after everything else.
@@ -1318,6 +1328,59 @@ void Creature::longpull( const std::string &name, const tripoint &p )
     }
 }
 
+bool Creature::stumble_invis( const Creature &player, const bool stumblemsg )
+{
+    if( !fov_3d && posz() != player.posz() ) {
+        return false;
+    }
+    if( stumblemsg ) {
+        const bool player_sees = player.sees( *this );
+        add_msg( m_bad, _( "%s stumbles into you!" ), player_sees ? this->disp_name( false,
+                 true ) : _( "Something" ) );
+    }
+    add_effect( effect_stumbled_into_invisible, 6_seconds );
+    map &here = get_map();
+    // Mark last known location, or extend duration if exists
+    if( here.has_field_at( player.pos(), field_fd_last_known ) ) {
+        here.set_field_age( player.pos(), field_fd_last_known, 0_seconds );
+    } else {
+        here.add_field( player.pos(), field_fd_last_known );
+    }
+    moves = 0;
+    return true;
+}
+
+bool Creature::attack_air( const tripoint &p )
+{
+    // Calculate move cost differently for monsters and npcs
+    int move_cost = 100;
+    if( is_monster() ) {
+        move_cost = as_monster()->type->attack_cost;
+    } else if( is_npc() ) {
+        // Simplified moves calculation from Character::melee_attack_abstract
+        item_location cur_weapon = as_character()->used_weapon();
+        item cur_weap = cur_weapon ? *cur_weapon : null_item_reference();
+        move_cost = as_character()->attack_speed( cur_weap ) * ( 1 /
+                    as_character()->exertion_adjusted_move_multiplier( EXTRA_EXERCISE ) );
+    }
+    mod_moves( -move_cost );
+
+    // Attack animation
+    if( get_option<bool>( "ANIMATIONS" ) ) {
+        std::map<tripoint, nc_color> area_color;
+        area_color[p] = c_black;
+        explosion_handler::draw_custom_explosion( p, area_color, "animation_hit" );
+    }
+
+    // Chance to remove last known location
+    if( one_in( 2 ) ) {
+        get_map().set_field_intensity( p, field_fd_last_known, 0 );
+    }
+
+    add_msg_if_player_sees( *this, _( "%s attacks, but there is nothing there!" ),
+                            disp_name( false, true ) );
+    return true;
+}
 /*
  * State check functions
  */
@@ -1992,7 +2055,7 @@ bool Creature::has_part( const bodypart_id &id ) const
 
 bodypart *Creature::get_part( const bodypart_id &id )
 {
-    auto found = body.find( id.id() );
+    auto found = body.find( get_part_id( id ).id() );
     if( found == body.end() ) {
         debugmsg( "Could not find bodypart %s in %s's body", id.id().c_str(), get_name() );
         return nullptr;
@@ -2002,7 +2065,7 @@ bodypart *Creature::get_part( const bodypart_id &id )
 
 const bodypart *Creature::get_part( const bodypart_id &id ) const
 {
-    auto found = body.find( id.id() );
+    auto found = body.find( get_part_id( id ).id() );
     if( found == body.end() ) {
         debugmsg( "Could not find bodypart %s in %s's body", id.id().c_str(), get_name() );
         return nullptr;
@@ -2043,6 +2106,40 @@ static void set_part_helper( Creature &c, const bodypart_id &id,
     if( part ) {
         ( part->*set )( val );
     }
+}
+
+bodypart_id Creature::get_part_id( const bodypart_id &id ) const
+{
+    auto found = body.find( id.id() );
+    if( found == body.end() ) {
+        // try to find an equivalent part in the body map
+        for( const std::pair<const bodypart_str_id, bodypart> &bp : body ) {
+            if( id->part_side == bp.first->part_side &&
+                id->primary_limb_type() == bp.first->primary_limb_type() ) {
+                return bp.first;
+            }
+        }
+
+        // try to find the next best thing
+        std::pair<bodypart_id, float> best = { body_part_bp_null, 0.0f };
+        for( const std::pair<const bodypart_str_id, bodypart> &bp : body ) {
+            for( const std::pair<const body_part_type::type, float> &mp : bp.first->limbtypes ) {
+                // if the secondary limb type matches and is better than the current
+                if( mp.first == id->primary_limb_type() && mp.second > best.second ) {
+                    // give an inflated bonus if the part sides match
+                    float bonus = id->part_side == bp.first->part_side ? 1.0f : 0.0f;
+                    best = { bp.first, mp.second + bonus };
+                }
+            }
+        }
+
+        if( best.first == body_part_bp_null ) {
+            debugmsg( "Could not find equivalent bodypart id %s in %s's body", id.id().c_str(), get_name() );
+        }
+
+        return best.first;
+    }
+    return found->first;
 }
 
 int Creature::get_part_hp_cur( const bodypart_id &id ) const
@@ -2281,7 +2378,7 @@ bodypart_id Creature::get_random_body_part( bool main ) const
     return main ? part->main_part.id() : part;
 }
 
-static void sort_body_parts( std::vector<bodypart_id> &bps )
+static void sort_body_parts( std::vector<bodypart_id> &bps, const Creature *c )
 {
     // We want to dynamically sort the parts based on their connections as
     // defined in json.
@@ -2293,7 +2390,7 @@ static void sort_body_parts( std::vector<bodypart_id> &bps )
     std::unordered_map<bodypart_id, cata::flat_set<bodypart_id>> parts_connected_to;
     bodypart_id root_part;
     for( const bodypart_id &bp : bps ) {
-        bodypart_id conn = bp->connected_to;
+        bodypart_id conn = c->get_part_id( bp->connected_to );
         if( conn == bp ) {
             root_part = bp;
         } else {
@@ -2326,7 +2423,7 @@ static void sort_body_parts( std::vector<bodypart_id> &bps )
         parts_with_no_connections.erase( last );
         unaccounted_parts.erase( bp );
         topo_sorted_parts.push_back( bp );
-        bodypart_id conn = bp->connected_to;
+        bodypart_id conn = c->get_part_id( bp->connected_to );
         if( conn == bp ) {
             break;
         }
@@ -2410,7 +2507,7 @@ std::vector<bodypart_id> Creature::get_all_body_parts( get_body_part_flags flags
     }
 
     if( flags & get_body_part_flags::sorted ) {
-        sort_body_parts( all_bps );
+        sort_body_parts( all_bps, this );
     }
 
     return  all_bps;
@@ -2448,7 +2545,7 @@ std::vector<bodypart_id> Creature::get_all_body_parts_of_type(
     }
 
     if( flags & get_body_part_flags::sorted ) {
-        sort_body_parts( bodyparts );
+        sort_body_parts( bodyparts, this );
     }
 
     return bodyparts;
@@ -2797,6 +2894,12 @@ bodypart_id Creature::random_body_part( bool main_parts_only ) const
 {
     const bodypart_id &bp = get_anatomy()->random_body_part();
     return  main_parts_only ? bp->main_part : bp ;
+}
+
+std::vector<bodypart_id> Creature::get_all_eligable_parts( int min_hit, int max_hit,
+        bool can_attack_high ) const
+{
+    return anatomy( get_all_body_parts() ).get_all_eligable_parts( min_hit, max_hit, can_attack_high );
 }
 
 void Creature::add_damage_over_time( const damage_over_time_data &DoT )

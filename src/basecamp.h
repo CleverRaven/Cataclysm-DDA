@@ -290,17 +290,17 @@ class basecamp
         npc_ptr start_mission( const mission_id &miss_id, time_duration duration,
                                bool must_feed, const std::string &desc, bool group,
                                const std::vector<item *> &equipment,
-                               const skill_id &skill_tested, int skill_level );
+                               const skill_id &skill_tested, int skill_level, float exertion_level );
         npc_ptr start_mission( const mission_id &miss_id, time_duration duration,
                                bool must_feed, const std::string &desc, bool group,
-                               const std::vector<item *> &equipment,
+                               const std::vector<item *> &equipment, float exertion_level,
                                const std::map<skill_id, int> &required_skills = {} );
         comp_list start_multi_mission( const mission_id &miss_id,
-                                       bool must_feed, const std::string &desc,
+                                       bool must_feed, const std::string &desc, float exertion_level,
                                        // const std::vector<item*>& equipment, //  No support for extracting equipment from recipes currently..
                                        const skill_id &skill_tested, int skill_level );
         comp_list start_multi_mission( const mission_id &miss_id,
-                                       bool must_feed, const std::string &desc,
+                                       bool must_feed, const std::string &desc, float exertion_level,
                                        //  const std::vector<item*>& equipment, //  No support for extracting equipment from recipes currently..
                                        const std::map<skill_id, int> &required_skills = {} );
         void start_upgrade( const mission_id &miss_id );
@@ -309,23 +309,24 @@ class basecamp
         void start_menial_labor();
         void worker_assignment_ui();
         void job_assignment_ui();
-        void start_crafting( const std::string &type, const mission_id &miss_id );
+        void start_crafting( const std::string &type, const mission_id &miss_id, float exertion_level );
 
         /// Called when a companion is sent to cut logs
-        void start_cut_logs( const mission_id &miss_id );
-        void start_clearcut( const mission_id &miss_id );
-        void start_setup_hide_site( const mission_id &miss_id );
-        void start_relay_hide_site( const mission_id &miss_id );
+        void start_cut_logs( const mission_id &miss_id, float exertion_level );
+        void start_clearcut( const mission_id &miss_id, float exertion_level );
+        void start_setup_hide_site( const mission_id &miss_id, float exertion_level );
+        void start_relay_hide_site( const mission_id &miss_id, float exertion_level );
         /// Called when a companion is sent to start fortifications
-        void start_fortifications( const mission_id &miss_id );
+        void start_fortifications( const mission_id &miss_id, float exertion_level );
         /// Called when a companion is sent to start digging down salt water pipes
         bool common_salt_water_pipe_construction( const mission_id &miss_id,
                 expansion_salt_water_pipe *pipe,
                 int segment_number ); //  Code factored out from the two following operation, not intended to be used elsewhere.
         void start_salt_water_pipe( const mission_id &miss_id );
         void continue_salt_water_pipe( const mission_id &miss_id );
-        void start_combat_mission( const mission_id &miss_id );
-        void start_farm_op( const tripoint_abs_omt &omt_tgt, const mission_id &miss_id );
+        void start_combat_mission( const mission_id &miss_id, float exertion_level );
+        void start_farm_op( const tripoint_abs_omt &omt_tgt, const mission_id &miss_id,
+                            float exertion_level );
         ///Display items listed in @ref equipment to let the player pick what to give the departing
         ///NPC, loops until quit or empty.
         std::vector<item *> give_equipment( std::vector<item *> equipment, const std::string &msg );

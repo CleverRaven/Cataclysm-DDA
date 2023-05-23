@@ -289,8 +289,8 @@ class math_exp::math_exp_impl
         void maybe_first_argument();
         void error( std::string_view str, std::string_view what );
         void validate_string( std::string_view str, std::string_view label, std::string_view badlist );
-        std::vector<std::string> _get_strings( std::vector<thingie> const &params,
-                                               size_t nparams ) const;
+        std::vector<diag_value> _get_diag_vals( std::vector<thingie> &params,
+                                                size_t nparams ) const;
 };
 
 void math_exp::math_exp_impl::maybe_first_argument()
@@ -474,12 +474,12 @@ void math_exp::math_exp_impl::new_func()
         std::visit( overloaded{
             [&params, nparams, this]( scoped_diag_eval const & v )
             {
-                std::vector<std::string> const strings = _get_strings( params, nparams );
+                std::vector<diag_value> const strings = _get_diag_vals( params, nparams );
                 output.emplace( std::in_place_type_t<func_diag_eval>(), v.df->f( v.scope, strings ) );
             },
             [&params, nparams, this]( scoped_diag_ass const & v )
             {
-                std::vector<std::string> const strings = _get_strings( params, nparams );
+                std::vector<diag_value> const strings = _get_diag_vals( params, nparams );
                 output.emplace( std::in_place_type_t<func_diag_ass>(), v.df->f( v.scope, strings ) );
             },
             [&params, this]( pmath_func v )
@@ -500,20 +500,30 @@ void math_exp::math_exp_impl::new_func()
     }
 }
 
-std::vector<std::string> math_exp::math_exp_impl::_get_strings( std::vector<thingie> const
-        &params, size_t nparams ) const
+std::vector<diag_value> math_exp::math_exp_impl::_get_diag_vals( std::vector<thingie> &params,
+        size_t nparams ) const
 {
-    std::vector<std::string> strings( nparams );
-    std::transform( params.begin(), params.end(), strings.begin(), [this]( thingie const & e ) {
-        if( std::holds_alternative<std::string>( e.data ) ) {
-            return std::get<std::string>( e.data );
-        }
-        throw std::invalid_argument( string_format(
-                                         "Parameters for %s() must be strings contained in single quotes",
-                                         arity.top().sym.data() ) );
-        return std::string{};
-    } );
-    return strings;
+    std::vector<diag_value> vals( nparams );
+    for( decltype( vals )::size_type i = 0; i < params.size(); i++ ) {
+        std::visit( overloaded{
+            [&vals, i]( std::string & v )
+            {
+                vals[i].data.emplace<std::string>( std::move( v ) );
+            },
+            [&vals, i]( var & v )
+            {
+                vals[i].data.emplace<var_info>( std::move( v.varinfo ) );
+            },
+            [this]( auto const &/* v */ )
+            {
+                throw std::invalid_argument(
+                    string_format( "Parameters for %s() must be variables or strings contained in single quotes",
+                                   arity.top().sym ) );
+            },
+        },
+        params[i].data );
+    }
+    return vals;
 }
 
 void math_exp::math_exp_impl::new_oper()

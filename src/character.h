@@ -290,6 +290,7 @@ struct queued_eoc {
     public:
         effect_on_condition_id eoc;
         time_point time;
+        std::unordered_map<std::string, std::string> context;
 };
 
 struct eoc_compare {
@@ -2462,7 +2463,6 @@ class Character : public Creature, public visitable
         stomach_contents stomach;
         stomach_contents guts;
         std::list<consumption_event> consumption_history;
-
         ///\EFFECT_STR increases breath-holding capacity while sinking or suffocating
         int get_oxygen_max() const;
         // Whether the character can recover their oxygen level

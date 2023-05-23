@@ -143,10 +143,11 @@
     "speed": 105,
     "melee_skill": 10,
     "melee_dice": 3,
+    "grab_strength": 50,
     "special_attacks": [
       { "id": "mutant_stinger" },
       { "id": "mutant_spinneret" },
-      [ "GRAB", 10 ],
+      { "id": "grab" },
       {
         "type": "bite",
         "cooldown": 10,
@@ -272,11 +273,13 @@
     "morale": 80,
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "bash", "amount": 4 } ],
+    "grab_strength": 75,
     "special_attacks": [
+      { "id": "grab", "cooldown": 15 },
+      { "id": "grab_2", "cooldown": 15 },
+      { "id": "ranged_pull", "cooldown": 10 },
       { "id": "tentacle", "move_cost": 60, "range": 4, "no_adjacent": true },
-      [ "RANGED_PULL", 10 ],
-      [ "GRAB_DRAG", 15 ],
-      [ "GRAB", 15 ]
+      [ "GRAB_DRAG", 15 ]
     ],
     "dodge": 1,
     "harvest": "mutant_human",
