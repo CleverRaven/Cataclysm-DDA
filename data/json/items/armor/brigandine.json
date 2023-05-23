@@ -11,7 +11,7 @@
     "price_postapoc": 12000,
     "to_hit": -5,
     "material": [ "lc_steel", "canvas" ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 6 },
     "symbol": "[",
     "looks_like": "armor_larmor",
     "color": "light_gray",
@@ -57,7 +57,7 @@
     "price_postapoc": 12000,
     "to_hit": -5,
     "material": [ "lc_steel", "canvas" ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 6 },
     "symbol": "[",
     "looks_like": "armor_larmor",
     "color": "light_gray",
@@ -111,7 +111,7 @@
     "price_postapoc": 12000,
     "to_hit": -5,
     "material": [ "lc_steel", "canvas" ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 6 },
     "symbol": "[",
     "looks_like": "armor_larmor",
     "color": "light_gray",
@@ -171,7 +171,7 @@
     "price_postapoc": 12000,
     "to_hit": -5,
     "material": [ "lc_steel", "canvas" ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 6 },
     "symbol": "[",
     "looks_like": "armor_larmor",
     "color": "light_gray",
@@ -1409,7 +1409,7 @@
     "price": 5012,
     "price_postapoc": 2500,
     "to_hit": -1,
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 6 },
     "material": [ "canvas", "lc_steel" ],
     "symbol": "[",
     "color": "light_gray",
