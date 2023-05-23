@@ -1154,6 +1154,7 @@ gesticulates
 getups
 ghast
 gibbous
+giganotosaurus
 github
 gladius
 glaive
