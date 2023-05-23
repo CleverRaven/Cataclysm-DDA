@@ -1500,6 +1500,9 @@ bool Character::check_mount_is_spooked()
         const bool saddled = mounted_creature->has_effect( effect_monster_saddled );
         const bool combat_mount = mounted_creature->has_flag( MF_COMBAT_MOUNT );
         for( const monster &critter : g->all_monsters() ) {
+            if( critter.is_hallucination() ) {
+                return false;
+            }
             double chance = 1.0;
             Attitude att = critter.attitude_to( *this );
             // actually too close now - horse might spook.
