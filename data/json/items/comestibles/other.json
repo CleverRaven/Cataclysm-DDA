@@ -1106,6 +1106,22 @@
     "flags": [ "NUTRIENT_OVERRIDE" ]
   },
   {
+    "id": "swarm_bees",
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "name": { "str": "swarm of bees", "str_pl": "swarms of bees" },
+    "description": "A swarm of honey bees, displaced from the hive.  Without support and nutrients, or taking root somewhere, they will die in a few days.",
+    "//": "While bees have mass and volume, it is easier to round to zero for the purposes of the game.",
+    "price": 0,
+    "price_postapoc": 0,
+    "spoils_in": "2 days",
+    "flags": [ "ZERO_WEIGHT", "INEDIBLE" ],
+    "volume": "500 ml",
+    "symbol": "B",
+    "color": "yellow",
+    "calories": 0
+  },
+  {
     "type": "COMESTIBLE",
     "id": "dry_bottle_gourd",
     "name": { "str": "dried bottle gourd" },

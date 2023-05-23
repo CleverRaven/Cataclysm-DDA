@@ -576,7 +576,7 @@
     "type": "martial_art",
     "id": "style_medievalpole",
     "name": { "str": "Fior Di Battaglia" },
-    "description": "Medieval Europe's martial techniques for fighting with polearms.  The \"Flower of Battle\" places great focus on countering one's opponent and knocking them down before landing a killing blow.",
+    "description": "Medieval Europe's martial techniques for fighting with hooked weapons.  The \"Flower of Battle\" places great focus on countering one's opponent and knocking them down before landing a killing blow.",
     "initiate": [ "You hold your weapon in a firm grip, ready to block any attack.", "%s grips their weapon tightly." ],
     "learn_difficulty": 6,
     "primary_skill": "bashing",

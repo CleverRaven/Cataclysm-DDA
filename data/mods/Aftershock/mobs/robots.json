@@ -16,8 +16,6 @@
     "color": "green",
     "aggression": 50,
     "morale": 100,
-    "armor_bash": 14,
-    "armor_cut": 16,
     "vision_day": 50,
     "starting_ammo": { "acidic_bore": 500 },
     "revert_to_itype": "bot_migoturret",
@@ -33,7 +31,8 @@
     ],
     "death_drops": {  },
     "death_function": { "corpse_type": "BROKEN" },
-    "flags": [ "SEES", "ELECTRONIC", "IMMOBILE", "NO_BREATHE" ]
+    "flags": [ "SEES", "ELECTRONIC", "IMMOBILE", "NO_BREATHE" ],
+    "armor": { "bash": 14, "cut": 16 }
   },
   {
     "id": "mon_migoturret_whately",
@@ -65,9 +64,6 @@
     "melee_dice": 3,
     "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "armor_bash": 18,
-    "armor_cut": 14,
-    "armor_bullet": 11,
     "vision_day": 50,
     "vision_night": 35,
     "revert_to_itype": "bot_chickenbot",
@@ -75,7 +71,8 @@
     "path_settings": { "max_dist": 10 },
     "special_attacks": [ [ "CHICKENBOT", 4 ] ],
     "death_function": { "corpse_type": "BROKEN" },
-    "flags": [ "SEES", "HEARS", "BASHES", "NO_BREATHE", "ELECTRONIC", "PRIORITIZE_TARGETS", "DROPS_AMMO" ]
+    "flags": [ "SEES", "HEARS", "BASHES", "NO_BREATHE", "ELECTRONIC", "PRIORITIZE_TARGETS", "DROPS_AMMO" ],
+    "armor": { "bash": 18, "cut": 14, "bullet": 11 }
   },
   {
     "id": "mon_tankbot",
@@ -98,9 +95,6 @@
     "melee_dice": 5,
     "melee_dice_sides": 5,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "armor_bash": 90,
-    "armor_cut": 90,
-    "armor_bullet": 72,
     "vision_day": 50,
     "revert_to_itype": "bot_tankbot",
     "starting_ammo": { "40x46mm_m433": 200, "556": 3000 },
@@ -118,7 +112,8 @@
       "ELECTRONIC",
       "PRIORITIZE_TARGETS",
       "DROPS_AMMO"
-    ]
+    ],
+    "armor": { "bash": 90, "cut": 90, "bullet": 72 }
   },
   {
     "id": "mon_tripod",
@@ -142,9 +137,6 @@
     "melee_dice": 3,
     "melee_dice_sides": 12,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-    "armor_bash": 12,
-    "armor_cut": 8,
-    "armor_bullet": 6,
     "path_settings": { "max_dist": 5 },
     "revert_to_itype": "bot_tripod",
     "starting_ammo": { "napalm": 10000 },
@@ -169,7 +161,8 @@
     ],
     "death_drops": { "groups": [ [ "robots", 4 ], [ "tripod", 1 ] ] },
     "death_function": { "corpse_type": "BROKEN" },
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "BASHES", "NO_BREATHE", "ELECTRONIC", "CLIMBS", "PRIORITIZE_TARGETS", "FIREPROOF" ]
+    "flags": [ "SEES", "HEARS", "GOODHEARING", "BASHES", "NO_BREATHE", "ELECTRONIC", "CLIMBS", "PRIORITIZE_TARGETS", "FIREPROOF" ],
+    "armor": { "bash": 12, "cut": 8, "bullet": 6 }
   },
   {
     "id": "afs_mon_sentinel_lx",
@@ -193,9 +186,6 @@
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
     "dodge": 8,
-    "armor_bash": 10,
-    "armor_cut": 20,
-    "armor_bullet": 16,
     "vision_day": 6,
     "vision_night": 6,
     "path_settings": { "max_dist": 6, "avoid_traps": true, "avoid_sharp": true },
@@ -223,7 +213,8 @@
       "GOODHEARING",
       "PATH_AVOID_DANGER_1",
       "HIT_AND_RUN"
-    ]
+    ],
+    "armor": { "bash": 10, "cut": 20, "bullet": 16 }
   },
   {
     "id": "mon_bloodhound_drone",
@@ -243,14 +234,12 @@
     "special_attacks": [ [ "SEARCHLIGHT", 1 ] ],
     "luminance": 60,
     "melee_damage": [ { "damage_type": "cut", "amount": 12 } ],
-    "armor_bash": 2,
-    "armor_cut": 8,
-    "armor_bullet": 6,
     "revert_to_itype": "bot_bloodhound_drone",
     "death_drops": { "groups": [ [ "robots", 4 ], [ "manhack", 1 ], [ "turret_searchlight", 1 ] ] },
     "death_function": { "corpse_type": "BROKEN" },
     "extend": { "flags": [ "HIT_AND_RUN", "SMELLS" ] },
-    "delete": { "flags": [ "PACIFIST" ] }
+    "delete": { "flags": [ "PACIFIST" ] },
+    "armor": { "bash": 2, "cut": 8, "bullet": 6 }
   },
   {
     "id": "mon_utilibot",
@@ -270,14 +259,11 @@
     "morale": 80,
     "aggression": 0,
     "anger_triggers": [ "HURT" ],
-    "armor_bash": 8,
-    "armor_cut": 8,
-    "armor_fire": 4,
-    "armor_acid": 6,
     "vision_day": 50,
     "death_function": { "corpse_type": "BROKEN" },
     "death_drops": { "groups": [ [ "broken_robots", 3 ] ] },
-    "flags": [ "SEES", "HEARS", "ELECTRONIC", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_1" ]
+    "flags": [ "SEES", "HEARS", "ELECTRONIC", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_1" ],
+    "armor": { "bash": 8, "cut": 8, "acid": 6, "heat": 4 }
   },
   {
     "id": "mon_hazmatbot",
@@ -359,10 +345,6 @@
     "material": [ "steel", "plastic" ],
     "symbol": "R",
     "color": "white",
-    "armor_bash": 6,
-    "armor_cut": 6,
-    "armor_fire": 2,
-    "armor_acid": 6,
     "morale": 100,
     "melee_skill": 8,
     "melee_dice": 1,
@@ -374,7 +356,8 @@
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE" ],
     "death_function": { "corpse_type": "BROKEN" },
     "death_drops": { "groups": [ [ "broken_robots", 3 ] ] },
-    "flags": [ "SEES", "HEARS", "ELECTRONIC", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_1" ]
+    "flags": [ "SEES", "HEARS", "ELECTRONIC", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_1" ],
+    "armor": { "bash": 6, "cut": 6, "acid": 6, "heat": 2 }
   },
   {
     "id": "mon_skitterbot_rat",
@@ -389,15 +372,14 @@
     "speed": 100,
     "attack_cost": 500,
     "hp": 10,
-    "armor_bash": 4,
-    "armor_cut": 4,
     "vision_night": 10,
     "revert_to_itype": "bot_skitterbot_rat",
     "melee_skill": 3,
     "melee_dice": 2,
     "melee_dice_sides": 2,
     "special_attacks": [ { "type": "leap", "cooldown": 2, "move_cost": 0, "max_range": 2, "min_consider_range": 3 }, [ "TAZER", 10 ] ],
-    "extend": { "flags": [ "CLIMBS", "HIT_AND_RUN", "SMELLS" ] }
+    "extend": { "flags": [ "CLIMBS", "HIT_AND_RUN", "SMELLS" ] },
+    "armor": { "bullet": 10, "electric": 5, "bash": 4, "cut": 4 }
   },
   {
     "id": "mon_skitterbot_grab",
@@ -410,16 +392,16 @@
     "scents_tracked": [ "sc_human" ],
     "speed": 200,
     "hp": 30,
-    "armor_bash": 8,
-    "armor_cut": 8,
     "vision_day": 20,
     "revert_to_itype": "bot_skitterbot_grab",
     "melee_skill": 3,
     "melee_dice": 4,
     "melee_dice_sides": 2,
     "attack_effs": [ { "id": "downed", "chance": 20, "duration": 5 } ],
-    "special_attacks": [ [ "GRAB", 1 ] ],
-    "extend": { "flags": [ "SWARMS", "GRABS", "GROUP_BASH", "SMELLS" ] }
+    "grab_strength": 50,
+    "special_attacks": [ { "id": "grab", "cooldown": 2 } ],
+    "extend": { "flags": [ "SWARMS", "GRABS", "GROUP_BASH", "SMELLS" ] },
+    "armor": { "bullet": 10, "electric": 5, "bash": 8, "cut": 8 }
   },
   {
     "id": "mon_skitterbot_hunter",
@@ -432,8 +414,6 @@
     "aggression": 50,
     "speed": 200,
     "hp": 30,
-    "armor_bash": 8,
-    "armor_cut": 8,
     "vision_day": 20,
     "revert_to_itype": "bot_skitterbot_hunter",
     "starting_ammo": { "8mm_caseless": 120 },
@@ -449,7 +429,8 @@
         "no_ammo_sound": "click!",
         "ranges": [ [ 0, 10, "DEFAULT" ] ]
       }
-    ]
+    ],
+    "armor": { "bullet": 10, "electric": 5, "bash": 8, "cut": 8 }
   },
   {
     "id": "mon_defbot_shot",
@@ -606,10 +587,6 @@
     "diff": 40,
     "speed": 150,
     "color": "pink",
-    "armor_bash": 20,
-    "armor_cut": 30,
-    "armor_fire": 15,
-    "armor_bullet": 35,
     "luminance": 20,
     "extend": { "flags": [ "FIREPROOF" ] },
     "starting_ammo": { "plasma": 100 },
@@ -634,7 +611,8 @@
         "targeting_volume": 50
       },
       { "type": "leap", "cooldown": 10, "max_range": 8 }
-    ]
+    ],
+    "armor": { "stab": 6, "acid": 12, "bash": 20, "cut": 30, "heat": 15, "bullet": 35 }
   },
   {
     "id": "mon_wraitheon_isohypsa",
@@ -647,10 +625,6 @@
     "diff": 20,
     "speed": 100,
     "color": "light_red",
-    "armor_bash": 20,
-    "armor_cut": 30,
-    "armor_fire": 15,
-    "armor_bullet": 35,
     "morale": 20,
     "luminance": 20,
     "tracking_distance": 20,
@@ -662,7 +636,8 @@
         "cooldown": 5,
         "monster_message": "The Isohypsa emits a rapid sequence of sibilant tones!"
       }
-    ]
+    ],
+    "armor": { "stab": 6, "acid": 12, "bash": 20, "cut": 30, "heat": 15, "bullet": 35 }
   },
   {
     "id": "mon_wraitheon_kaburaya",
@@ -674,11 +649,10 @@
     "diff": 10,
     "speed": 250,
     "color": "green",
-    "armor_cut": 4,
-    "armor_bullet": 3,
     "revert_to_itype": "bot_wraitheon_kaburaya",
     "starting_ammo": { "afs_kaburaya_bomb": 1 },
-    "special_attacks": [ [ "KAMIKAZE", 0 ] ]
+    "special_attacks": [ [ "KAMIKAZE", 0 ] ],
+    "armor": { "cut": 4, "bullet": 3 }
   },
   {
     "id": "mon_advbot_emp",

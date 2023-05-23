@@ -2429,5 +2429,55 @@
       { "item": "papm77mag_10rd", "prob": 50 },
       { "group": "on_hand_308" }
     ]
+  },
+  {
+    "id": "nested_mk3",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      {
+        "distribution": [
+          { "item": "smle_mk3", "charges-min": 0, "charges-max": 10, "prob": 70 },
+          {
+            "item": "smle_mk3",
+            "charges-min": 0,
+            "charges-max": 10,
+            "contents-item": [ "sword_bayonet" ],
+            "prob": 30
+          }
+        ]
+      },
+      { "item": "clip303_5rd" },
+      { "item": "clip303_5rd", "prob": 50 },
+      { "item": "enfield_303mag", "prob": 5 },
+      { "group": "on_hand_303" }
+    ]
+  },
+  {
+    "id": "nested_number4",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      {
+        "distribution": [
+          { "item": "number4_mki", "charges-min": 0, "charges-max": 10, "prob": 70 },
+          {
+            "item": "number4_mki",
+            "charges-min": 0,
+            "charges-max": 10,
+            "contents-item": [ "enfield_bayonet" ],
+            "prob": 30
+          }
+        ]
+      },
+      { "item": "clip303_5rd" },
+      { "item": "clip303_5rd", "prob": 50 },
+      { "item": "enfield_303mag", "prob": 5 },
+      { "group": "on_hand_303" }
+    ]
   }
 ]

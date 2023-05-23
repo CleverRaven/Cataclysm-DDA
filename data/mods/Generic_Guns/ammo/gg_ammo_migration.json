@@ -187,6 +187,8 @@
       "3006",
       "300blk",
       "300blk_ss",
+      "303_bthp",
+      "303_sp",
       "308",
       "4570_low",
       "4570_sp",
@@ -228,6 +230,8 @@
       "reloaded_4570_low",
       "reloaded_4570_sp",
       "reloaded_545",
+      "reloaded_303",
+      "reloaded_303sp",
       "reloaded_762_54R",
       "reloaded_762_m87",
       "reloaded_30carbine"
@@ -244,6 +248,8 @@
       "bp_300blk",
       "bp_308",
       "bp_545",
+      "bp_303",
+      "bp_303sp",
       "bp_762_54R",
       "bp_762_m87",
       "bp_30carbine"
@@ -255,6 +261,7 @@
     "id": [
       "3006_incendiary",
       "3006fmj",
+      "303_fmjbt",
       "4570_pen",
       "545_ap",
       "556",
@@ -277,6 +284,7 @@
     "id": [
       "reloaded_3006_incendiary",
       "reloaded_3006fmj",
+      "reloaded_303fmj",
       "reloaded_4570_pen",
       "reloaded_545_ap",
       "reloaded_556",
@@ -292,6 +300,7 @@
     "id": [
       "bp_3006_incendiary",
       "bp_3006fmj",
+      "bp_303fmj",
       "bp_545_ap",
       "bp_556",
       "bp_556_incendiary",

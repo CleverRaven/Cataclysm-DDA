@@ -35,6 +35,7 @@
       { "monster": "mon_feral_swimmer_kickboard", "weight": 1, "cost_multiplier": 5 },
       { "monster": "mon_feral_diver_knife", "weight": 1, "cost_multiplier": 5 },
       { "monster": "mon_zombie_static", "weight": 10, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_paramilitary", "weight": 1, "cost_multiplier": 25 },
       { "monster": "mon_zombie_survivor", "weight": 1, "cost_multiplier": 25 },
       { "monster": "mon_zombie_survivor_elite", "weight": 1, "cost_multiplier": 25, "starts": "60 days" },
       { "monster": "mon_beekeeper", "weight": 1, "cost_multiplier": 5 },
@@ -409,6 +410,7 @@
       { "monster": "mon_zombie_runner", "weight": 150, "cost_multiplier": 3 },
       { "monster": "mon_zombie_fat", "weight": 200 },
       { "monster": "mon_zombie_child", "weight": 200, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zombie_paramilitary", "weight": 100, "cost_multiplier": 2 },
       { "monster": "mon_zombie_survivor", "weight": 200, "cost_multiplier": 2, "starts": "30 days" }
     ]
   },

@@ -1,4 +1,4 @@
-// RUN: %check_clang_tidy %s cata-avoid-alternative-tokens %t -- -plugins=%cata_plugin --
+// RUN: %check_clang_tidy %s cata-avoid-alternative-tokens %t -- --load=%cata_plugin --
 
 void f0()
 {

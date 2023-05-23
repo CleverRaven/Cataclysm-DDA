@@ -15,9 +15,6 @@
     "color": "white",
     "aggression": 100,
     "morale": 100,
-    "armor_bash": 2,
-    "armor_cut": 5,
-    "armor_bullet": 2,
     "vision_day": 50,
     "special_attacks": [
       {
@@ -32,7 +29,8 @@
     "special_when_hit": [ "RETURN_FIRE", 100 ],
     "death_drops": {  },
     "death_function": { "corpse_type": "BROKEN" },
-    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "COLDPROOF", "IMMOBILE", "NO_BREATHE", "STUN_IMMUNE" ]
+    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "COLDPROOF", "IMMOBILE", "NO_BREATHE", "STUN_IMMUNE" ],
+    "armor": { "bash": 2, "cut": 5, "bullet": 2 }
   },
   {
     "id": "mon_robofac_camspy",

@@ -442,7 +442,9 @@ TEST_CASE( "synthetic_range_test", "[.]" )
 
 static void shoot_monster( const std::string &gun_type, const std::vector<std::string> &mods,
                            const std::string &ammo_type, int range,
-                           int expected_damage, const std::string &monster_type )
+                           int expected_damage, const std::string &monster_type,
+                           const std::function<bool ( const standard_npc &, const monster & )> &other_checks = nullptr,
+                           const Approx &expected_other_checks = Approx( 0 ) )
 {
     clear_map();
     statistics<int> damage;
@@ -450,6 +452,7 @@ static void shoot_monster( const std::string &gun_type, const std::vector<std::s
     const tripoint monster_pos = shooter_pos + ( point_east * range );
     std::unique_ptr<standard_npc> shooter = std::make_unique<standard_npc>( "Shooter", shooter_pos,
                                             std::vector<std::string>(), 5, 10, 10, 10, 10 );
+    int other_check_success = 0;
     do {
         shooter->set_body();
         arm_shooter( *shooter, gun_type, mods, ammo_type );
@@ -461,6 +464,9 @@ static void shoot_monster( const std::string &gun_type, const std::vector<std::s
         if( damage.margin_of_error() < 0.05 && damage.n() > 100 ) {
             break;
         }
+        if( other_checks ) {
+            other_check_success += other_checks( *shooter, mon );
+        }
         mon.die( nullptr );
     } while( damage.n() < 200 ); // In fact, stable results can only be obtained when n reaches 10000
     const double avg = damage.avg();
@@ -471,6 +477,9 @@ static void shoot_monster( const std::string &gun_type, const std::vector<std::s
     CAPTURE( monster_type );
     CAPTURE( avg );
     CHECK( avg == Approx( expected_damage ).margin( 10 ) );
+    if( other_checks ) {
+        CHECK( other_check_success == expected_other_checks );
+    }
 }
 
 TEST_CASE( "shot_features", "[gun]" "[slow]" )
@@ -569,6 +578,24 @@ TEST_CASE( "shot_features_with_choke", "[gun]" "[slow]" )
     shoot_monster( "shotgun_s", { "choke" }, "shot_00", 12, 26, "mon_smoker_brute" );
     shoot_monster( "shotgun_s", { "choke" }, "shot_00", 5, 81, "mon_smoker_brute" );
     shoot_monster( "shotgun_s", { "choke" }, "shot_00", 1, 71, "mon_smoker_brute" );
+}
+
+TEST_CASE( "shot_custom_damage_type", "[gun]" "[slow]" )
+{
+    clear_map();
+    auto check_eocs = []( const standard_npc & src, const monster & tgt ) {
+        return src.get_value( "npctalk_var_general_dmg_type_test_test_fire" ) == "source" &&
+               tgt.get_value( "npctalk_var_general_dmg_type_test_test_fire" ) == "target";
+    };
+    // Check that ballistics damage processes weird damage types and on-hit EOCs
+    shoot_monster( "shotgun_s", {}, "test_shot_00_fire_damage", 1, 80,
+                   "mon_test_zombie", check_eocs, Approx( 200 ).margin( 100 ) );
+    shoot_monster( "shotgun_s", {}, "test_shot_00_fire_damage", 1, 80,
+                   "mon_test_fire_resist", check_eocs, Approx( 200 ).margin( 100 ) );
+    shoot_monster( "shotgun_s", {}, "test_shot_00_fire_damage", 1, 18,
+                   "mon_test_fire_vresist", check_eocs, Approx( 200 ).margin( 100 ) );
+    shoot_monster( "shotgun_s", {}, "test_shot_00_fire_damage", 1, 0,
+                   "mon_test_fire_immune", check_eocs, Approx( 200 ).margin( 100 ) );
 }
 
 // Targeting graph tests

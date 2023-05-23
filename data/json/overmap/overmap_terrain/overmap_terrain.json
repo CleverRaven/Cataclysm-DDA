@@ -349,7 +349,12 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "lodge_basement_residential1", "lodge_basement_residential2" ],
+    "id": [
+      "lodge_basement_residential1",
+      "lodge_basement_residential2",
+      "lodge_basement_residential3",
+      "lodge_basement_residential4"
+    ],
     "name": "hunting lodge basement",
     "copy-from": "generic_forest",
     "sym": "L",
@@ -604,6 +609,15 @@
     "color": "i_cyan",
     "see_cost": 5,
     "flags": [ "SOURCE_SAFETY", "SOURCE_FOOD" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "survivor_forest_camp" ],
+    "name": "survivor forest camp",
+    "sym": "+",
+    "color": "green",
+    "see_cost": 5,
+    "flags": [ "REQUIRES_PREDECESSOR" ]
   },
   {
     "type": "overmap_terrain",

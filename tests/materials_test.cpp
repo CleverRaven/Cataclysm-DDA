@@ -6,6 +6,13 @@
 #include "npc.h"
 #include "projectile.h"
 
+static const damage_type_id damage_acid( "acid" );
+static const damage_type_id damage_bash( "bash" );
+static const damage_type_id damage_bullet( "bullet" );
+static const damage_type_id damage_cut( "cut" );
+static const damage_type_id damage_heat( "heat" );
+static const damage_type_id damage_stab( "stab" );
+
 static const material_id material_glass( "glass" );
 static const material_id material_plastic( "plastic" );
 static const material_id material_steel( "steel" );
@@ -34,12 +41,12 @@ TEST_CASE( "Resistance vs. material portions", "[material]" )
     REQUIRE( mostly_steel.get_base_material().id == material_steel );
     REQUIRE( mostly_plastic.get_base_material().id == material_plastic );
 
-    CHECK( mostly_steel.resist( damage_type::CUT ) > mostly_plastic.resist( damage_type::CUT ) );
-    CHECK( mostly_steel.resist( damage_type::ACID ) == mostly_plastic.resist( damage_type::ACID ) );
-    CHECK( mostly_steel.resist( damage_type::BASH ) > mostly_plastic.resist( damage_type::BASH ) );
-    CHECK( mostly_steel.resist( damage_type::HEAT ) == mostly_plastic.resist( damage_type::HEAT ) );
-    CHECK( mostly_steel.resist( damage_type::STAB ) > mostly_plastic.resist( damage_type::STAB ) );
-    CHECK( mostly_steel.resist( damage_type::BULLET ) > mostly_plastic.resist( damage_type::BULLET ) );
+    CHECK( mostly_steel.resist( damage_cut ) > mostly_plastic.resist( damage_cut ) );
+    CHECK( mostly_steel.resist( damage_acid ) == mostly_plastic.resist( damage_acid ) );
+    CHECK( mostly_steel.resist( damage_bash ) > mostly_plastic.resist( damage_bash ) );
+    CHECK( mostly_steel.resist( damage_heat ) == mostly_plastic.resist( damage_heat ) );
+    CHECK( mostly_steel.resist( damage_stab ) > mostly_plastic.resist( damage_stab ) );
+    CHECK( mostly_steel.resist( damage_bullet ) > mostly_plastic.resist( damage_bullet ) );
     CHECK( mostly_steel.chip_resistance() > mostly_plastic.chip_resistance() );
 }
 

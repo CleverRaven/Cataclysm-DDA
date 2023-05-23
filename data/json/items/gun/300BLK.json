@@ -12,7 +12,6 @@
     "price": 234300,
     "price_postapoc": 5500,
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -47,7 +46,8 @@
           "survivor223mag"
         ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "iwi_tavor_x95_300blk",
@@ -62,7 +62,6 @@
     "price": 490000,
     "price_postapoc": 4500,
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "light_gray",
@@ -72,7 +71,6 @@
     "min_cycle_recoil": 1700,
     "built_in_mods": [ "grip" ],
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -108,7 +106,8 @@
           "survivor223mag"
         ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "ar15_retool_300blk",
@@ -138,7 +137,6 @@
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "built_in_mods": [ "folding_stock" ],
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "brass catcher", 1 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],

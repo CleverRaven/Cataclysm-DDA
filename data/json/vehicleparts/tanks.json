@@ -162,7 +162,11 @@
     "categories": [ "movement" ],
     "damage_modifier": 80,
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
+      "install": {
+        "skills": [ [ "mechanics", 1 ] ],
+        "time": "60 m",
+        "using": [ [ "welding_standard", 5 ], [ "drilling_standard", 50 ] ]
+      },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 3 ] ] }
     },
@@ -258,7 +262,7 @@
       { "item": "steel_chunk", "count": [ 2, 4 ] },
       { "item": "scrap", "count": [ 2, 10 ] }
     ],
-    "flags": [ "FLUIDTANK", "OPAQUE", "OBSTACLE", "AIRCRAFT_REPAIRABLE_NOPROF" ],
+    "flags": [ "FLUIDTANK", "OBSTACLE", "AIRCRAFT_REPAIRABLE_NOPROF" ],
     "damage_reduction": { "all": 30, "stab": 12 }
   },
   {

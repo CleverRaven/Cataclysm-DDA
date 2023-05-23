@@ -422,7 +422,6 @@ static std::string submap_vehicle_ss(
     "      \"flying\": false,\n"
     "      \"cruise_velocity\": 0,\n"
     "      \"vertical_velocity\": 0,\n"
-    "      \"cruise_on\": true,\n"
     "      \"engine_on\": false,\n"
     "      \"tracking_on\": false,\n"
     "      \"skidding\": false,\n"

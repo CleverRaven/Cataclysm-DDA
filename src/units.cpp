@@ -185,4 +185,25 @@ time_duration operator/( const units::energy &energy, const units::power &power 
     return time_duration::from_seconds( mj / mw );
 }
 
+units::temperature_delta operator-( const units::temperature &T1, const units::temperature &T2 )
+{
+    return from_kelvin_delta( to_kelvin( T1 ) - to_kelvin( T2 ) );
+}
+
+units::temperature operator+( const units::temperature &T, const units::temperature_delta &T_delta )
+{
+    return from_kelvin( to_kelvin( T ) + to_kelvin_delta( T_delta ) );
+}
+
+units::temperature operator+( const units::temperature_delta &T_delta, const units::temperature &T )
+{
+    return from_kelvin( to_kelvin( T ) + to_kelvin_delta( T_delta ) );
+}
+
+units::temperature &operator+=( units::temperature &T, const units::temperature_delta &T_delta )
+{
+    T = T + T_delta;
+    return T;
+}
+
 } // namespace units

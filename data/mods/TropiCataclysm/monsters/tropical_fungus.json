@@ -14,12 +14,11 @@
     "melee_skill": 4,
     "melee_dice": 2,
     "melee_dice_sides": 3,
-    "armor_bash": 3,
-    "armor_cut": 1,
     "death_function": { "corpse_type": "NO_CORPSE", "effect": { "id": "death_fungus", "hit_self": true } },
     "special_attacks": [ [ "FUNGUS", 200 ], [ "SMASH", 15 ], [ "FUNGUS_BRISTLE", 20 ], [ "FUNGUS_BIG_BLOSSOM", 30 ] ],
     "extend": { "flags": [ "POISON", "NO_BREATHE" ] },
-    "delete": { "flags": [ "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "GROUP_MORALE", "GOODHEARING", "SWARMS" ] }
+    "delete": { "flags": [ "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "GROUP_MORALE", "GOODHEARING", "SWARMS" ] },
+    "armor": { "bash": 3, "cut": 1 }
   },
   {
     "id": "mon_termite_fungus",
@@ -43,10 +42,6 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "dodge": 1,
-    "armor_bash": 3,
-    "armor_cut": 5,
-    "armor_bullet": 4,
-    "armor_elec": 1,
     "weakpoint_sets": [ "wps_arthropod" ],
     "families": [ "prof_intro_biology", "prof_wp_basic_bug" ],
     "vision_day": 3,
@@ -54,7 +49,8 @@
     "harvest": "arachnid",
     "special_attacks": [ [ "FUNGUS", 200 ] ],
     "death_function": { "effect": { "id": "death_fungus", "hit_self": true } },
-    "flags": [ "SEES", "SMELLS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
+    "flags": [ "SEES", "SMELLS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ],
+    "armor": { "bash": 3, "cut": 5, "bullet": 4, "electric": 1 }
   },
   {
     "id": "mon_scorpion_fungus",
@@ -78,14 +74,13 @@
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "dodge": 1,
-    "armor_bash": 4,
-    "armor_cut": 10,
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "arachnid",
     "special_attacks": [ [ "FUNGUS_INJECT", 10 ] ],
     "death_function": { "effect": { "id": "death_fungus", "hit_self": true } },
-    "flags": [ "SEES", "SMELLS", "HEARS", "BADVENOM", "PARALYZEVENOM", "GRABS", "INSECTICIDEPROOF" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "BADVENOM", "PARALYZEVENOM", "GRABS", "INSECTICIDEPROOF" ],
+    "armor": { "bash": 4, "cut": 10 }
   },
   {
     "id": "mon_fungaloid_cultivator",
@@ -108,14 +103,11 @@
     "melee_dice": 1,
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
-    "armor_bash": 12,
-    "armor_cut": 16,
-    "armor_bullet": 13,
-    "armor_elec": 7,
     "harvest": "fungaloid",
     "special_attacks": [ [ "FUNGUS", 30 ] ],
     "reproduction": { "baby_egg": "fungal_pod", "baby_count": 6, "baby_timer": 3 },
-    "flags": [ "HEARS", "SMELLS", "NOHEAD", "QUEEN" ]
+    "flags": [ "HEARS", "SMELLS", "NOHEAD", "QUEEN" ],
+    "armor": { "bash": 12, "cut": 16, "bullet": 13, "electric": 7 }
   },
   {
     "id": "mon_fungaloid_ganglion",
@@ -134,15 +126,12 @@
     "aggression": 100,
     "morale": 100,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "armor_bash": 12,
-    "armor_cut": 16,
-    "armor_bullet": 13,
-    "armor_elec": 7,
     "harvest": "fungaloid_mass",
     "special_attacks": [ [ "FUNGUS", 30 ] ],
     "reproduction": { "baby_monster": "mon_fungaloid_saproling", "baby_count": 1, "baby_timer": 1 },
     "death_function": { "effect": { "id": "death_fungus", "hit_self": true } },
-    "flags": [ "HEARS", "SMELLS", "NOHEAD", "QUEEN", "IMMOBILE" ]
+    "flags": [ "HEARS", "SMELLS", "NOHEAD", "QUEEN", "IMMOBILE" ],
+    "armor": { "bash": 12, "cut": 16, "bullet": 13, "electric": 7 }
   },
   {
     "id": "mon_fungaloid_saproling",
@@ -164,10 +153,10 @@
     "melee_dice": 1,
     "melee_dice_sides": 1,
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
-    "armor_elec": 1,
     "harvest": "fungaloid",
     "upgrades": { "age_grow": 14, "into": "mon_fungaloid_caretaker" },
-    "flags": [ "HEARS", "SMELLS", "NOHEAD", "STUMBLES" ]
+    "flags": [ "HEARS", "SMELLS", "NOHEAD", "STUMBLES" ],
+    "armor": { "electric": 1 }
   },
   {
     "id": "mon_fungaloid_caretaker",
@@ -188,12 +177,12 @@
     "melee_dice": 1,
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
-    "armor_elec": 2,
     "bleed_rate": 75,
     "harvest": "fungaloid",
     "upgrades": { "age_grow": 14, "into_group": "GROUP_FUNGAL_CARETAKER" },
     "special_attacks": [ [ "FUNGUS_GROWTH", 10000 ] ],
-    "flags": [ "HEARS", "SMELLS", "NOHEAD" ]
+    "flags": [ "HEARS", "SMELLS", "NOHEAD" ],
+    "armor": { "electric": 2 }
   },
   {
     "id": "mon_fungaloid_lasher",
@@ -216,15 +205,12 @@
     "melee_dice": 2,
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-    "armor_bash": 10,
-    "armor_cut": 4,
-    "armor_bullet": 3,
-    "armor_elec": 2,
     "bleed_rate": 60,
     "harvest": "fungaloid",
     "special_attacks": [ [ "FUNGUS_INJECT", 10 ] ],
     "death_function": { "effect": { "id": "death_fungus", "hit_self": true } },
-    "flags": [ "STUMBLES", "POISON", "NO_BREATHE", "NOHEAD" ]
+    "flags": [ "STUMBLES", "POISON", "NO_BREATHE", "NOHEAD" ],
+    "armor": { "bash": 10, "cut": 4, "bullet": 3, "electric": 2 }
   },
   {
     "id": "mon_fungaloid_thorny",
@@ -246,15 +232,12 @@
     "melee_dice": 2,
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-    "armor_bash": 10,
-    "armor_cut": 4,
-    "armor_bullet": 3,
-    "armor_elec": 2,
     "bleed_rate": 60,
     "harvest": "fungaloid",
     "special_attacks": [ [ "FUNGUS_BRISTLE", 10 ] ],
     "death_function": { "effect": { "id": "death_fungus", "hit_self": true } },
-    "flags": [ "STUMBLES", "POISON", "NO_BREATHE", "NOHEAD" ]
+    "flags": [ "STUMBLES", "POISON", "NO_BREATHE", "NOHEAD" ],
+    "armor": { "bash": 10, "cut": 4, "bullet": 3, "electric": 2 }
   },
   {
     "id": "mon_fungaloid_slimy",
@@ -277,15 +260,12 @@
     "melee_dice": 2,
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-    "armor_bash": 10,
-    "armor_cut": 4,
-    "armor_bullet": 3,
-    "armor_elec": 2,
     "bleed_rate": 60,
     "harvest": "fungaloid",
     "special_attacks": [ [ "FUNGAL_TRAIL", 3 ] ],
     "death_function": { "effect": { "id": "death_fungus", "hit_self": true } },
-    "flags": [ "STUMBLES", "POISON", "NO_BREATHE", "NOHEAD" ]
+    "flags": [ "STUMBLES", "POISON", "NO_BREATHE", "NOHEAD" ],
+    "armor": { "bash": 10, "cut": 4, "bullet": 3, "electric": 2 }
   },
   {
     "id": "mon_fungaloid_breather",
@@ -307,14 +287,11 @@
     "melee_dice": 2,
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-    "armor_bash": 10,
-    "armor_cut": 4,
-    "armor_bullet": 3,
-    "armor_elec": 2,
     "bleed_rate": 60,
     "harvest": "fungaloid",
     "special_attacks": [ [ "FUNGUS_HAZE", 25 ] ],
     "death_function": { "effect": { "id": "death_fungus", "hit_self": true } },
-    "flags": [ "STUMBLES", "POISON", "NO_BREATHE", "NOHEAD" ]
+    "flags": [ "STUMBLES", "POISON", "NO_BREATHE", "NOHEAD" ],
+    "armor": { "bash": 10, "cut": 4, "bullet": 3, "electric": 2 }
   }
 ]

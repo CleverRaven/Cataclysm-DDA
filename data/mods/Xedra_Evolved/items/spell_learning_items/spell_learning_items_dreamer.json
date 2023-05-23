@@ -63,10 +63,10 @@
     "material": [ "forged_dreamstuff" ],
     "weight": "300 g",
     "volume": "750 ml",
-    "bashing": 2,
     "to_hit": -3,
     "//scannable": [ false, "not a book, but shouldn't be scannable" ],
-    "use_action": { "type": "learn_spell", "spells": [ "spell_summon_twin" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "spell_summon_twin" ] },
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "artifact_dreamer_clairvoyance",
@@ -87,6 +87,22 @@
     "armor": [ { "coverage": 75, "covers": [ "eyes" ], "rigid_layer_only": true } ],
     "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "use_action": { "type": "learn_spell", "spells": [ "spell_dreamer_clairvoyance" ] }
+  },
+  {
+    "id": "artifact_dreamer_clairvoyance_eff",
+    "looks_like": "family_photo",
+    "type": "GENERIC",
+    "category": "artifacts",
+    "name": { "str": "family photo" },
+    "description": "A photo of a smiling family on a camping trip.  The background is always the same, but people are not.  Do you recall them?",
+    "weight": "1 g",
+    "volume": "5 ml",
+    "price": 2000,
+    "price_postapoc": 10,
+    "material": [ "forged_dreamstuff" ],
+    "symbol": "*",
+    "color": "light_gray",
+    "use_action": { "type": "learn_spell", "spells": [ "spell_dreamer_clairvoyance_eff" ] }
   },
   {
     "id": "artifact_shifter",

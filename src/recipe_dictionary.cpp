@@ -168,7 +168,7 @@ std::vector<const recipe *> recipe_subset::recent() const
 }
 
 std::vector<const recipe *> recipe_subset::search(
-    const std::string &txt, const search_type key,
+    const std::string_view txt, const search_type key,
     const std::function<void( size_t, size_t )> &progress_callback ) const
 {
     auto predicate = [&]( const recipe * r ) {
@@ -304,7 +304,7 @@ recipe_subset::recipe_subset( const recipe_subset &src, const std::vector<const 
 }
 
 recipe_subset recipe_subset::reduce(
-    const std::string &txt, const search_type key,
+    const std::string_view txt, const search_type key,
     const std::function<void( size_t, size_t )> &progress_callback ) const
 {
     return recipe_subset( *this, search( txt, key, progress_callback ) );

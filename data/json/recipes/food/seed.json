@@ -29,6 +29,13 @@
     "charges": 12
   },
   {
+    "result": "seed_watermelon",
+    "type": "recipe",
+    "copy-from": "seed_extraction_cutting",
+    "components": [ [ [ "watermelon", 1 ] ] ],
+    "charges": 12
+  },
+  {
     "result": "seed_cucumber",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",

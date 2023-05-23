@@ -280,6 +280,7 @@
       "palettes": [ "roof_palette" ],
       "terrain": {
         ".": "t_floor",
+        "f": "t_floor",
         "x": "t_rock_wall_half",
         "w": "t_rock_wall",
         "+": "t_door_locked",

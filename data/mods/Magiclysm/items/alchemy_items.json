@@ -7,14 +7,14 @@
     "weight": "2 kg",
     "volume": "750 ml",
     "price": 3100,
-    "bashing": 9,
     "to_hit": -1,
     "material": [ "stone" ],
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "HAMMER", 2 ] ],
     "use_action": [ "CROWBAR" ],
-    "//": "In terms of alchemy the gastrolith could serve to combie different effects, such as safely mixing together potions, or it could be used as an element of change, such as for shapechanging potions."
+    "//": "In terms of alchemy the gastrolith could serve to combie different effects, such as safely mixing together potions, or it could be used as an element of change, such as for shapechanging potions.",
+    "melee_damage": { "bash": 9 }
   },
   {
     "id": "stone_shell",
@@ -26,11 +26,10 @@
     "material": [ "stone" ],
     "weight": "250 g",
     "volume": "150 ml",
-    "bashing": 5,
-    "cutting": 3,
     "to_hit": -2,
     "qualities": [ [ "BUTCHER", -50 ] ],
-    "//": "Potion recipes that require a full owlbear egg could also instead require larger amounts of stone shell.  Since 1 egg gives 3 shells, you could perhaps have 1 egg be equivalent to 5 or more shells when making potions."
+    "//": "Potion recipes that require a full owlbear egg could also instead require larger amounts of stone shell.  Since 1 egg gives 3 shells, you could perhaps have 1 egg be equivalent to 5 or more shells when making potions.",
+    "melee_damage": { "bash": 5, "cut": 3 }
   },
   {
     "id": "copper_infuser",
@@ -190,9 +189,9 @@
     "color": "red",
     "to_hit": -1,
     "material": [ "flesh" ],
-    "cutting": 7,
     "weapon_category": [ "SHIVS" ],
-    "flags": [ "SPEAR", "SHEATH_KNIFE" ]
+    "flags": [ "SPEAR", "SHEATH_KNIFE" ],
+    "melee_damage": { "stab": 7 }
   },
   {
     "type": "GENERIC",
@@ -206,9 +205,9 @@
     "material": [ "demon_chitin" ],
     "weight": "89 g",
     "volume": "250 ml",
-    "bashing": 1,
     "flags": [ "TRADER_AVOID" ],
-    "to_hit": -2
+    "to_hit": -2,
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "bundle_demon_chitin_piece",
@@ -230,9 +229,9 @@
     "material": [ "demon_chitin" ],
     "weight": "10 kg",
     "volume": "4 L",
-    "bashing": 12,
     "to_hit": -4,
-    "description": "A large piece of demon spider exoskeleton, painstakingly cut from the corpse of an adult demon spider.  A plate of this size can be used to create armor plating."
+    "description": "A large piece of demon spider exoskeleton, painstakingly cut from the corpse of an adult demon spider.  A plate of this size can be used to create armor plating.",
+    "melee_damage": { "bash": 12 }
   },
   {
     "type": "GENERIC",
@@ -245,10 +244,10 @@
     "symbol": ",",
     "material": [ "flesh" ],
     "volume": "250 ml",
-    "cutting": 8,
     "weapon_category": [ "SHIVS" ],
     "flags": [ "SPEAR", "SHEATH_KNIFE" ],
-    "price": 1500
+    "price": 1500,
+    "melee_damage": { "stab": 8 }
   },
   {
     "type": "AMMO",
@@ -302,9 +301,9 @@
     "weight": "1500 g",
     "volume": "2500 ml",
     "longest_side": "130 cm",
-    "bashing": 10,
     "to_hit": 1,
-    "category": "spare_parts"
+    "category": "spare_parts",
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "alchemist_bomb",
@@ -317,7 +316,6 @@
     "price": 2000,
     "price_postapoc": 550,
     "to_hit": -1,
-    "bashing": 14,
     "material": [ "crystallized_mana", "concentrated_mana" ],
     "symbol": "*",
     "color": "green",
@@ -330,7 +328,8 @@
       "menu_text": "Mix liquid",
       "type": "transform"
     },
-    "flags": [ "BOMB", "GRENADE" ]
+    "flags": [ "BOMB", "GRENADE" ],
+    "melee_damage": { "bash": 14 }
   },
   {
     "id": "alchemist_bomb_act",
@@ -343,7 +342,6 @@
     "price": 0,
     "price_postapoc": 0,
     "to_hit": -3,
-    "bashing": 14,
     "material": [ "concentrated_mana", "crystallized_mana" ],
     "symbol": "*",
     "color": "red",
@@ -359,7 +357,8 @@
       "no_deactivate_msg": "The reaction has already started - all you can do is get it away from you!",
       "explosion": { "power": 200 }
     },
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID" ],
+    "melee_damage": { "bash": 14 }
   },
   {
     "id": "alchemist_mine",
@@ -369,7 +368,6 @@
     "weight": "860 g",
     "volume": "400 ml",
     "to_hit": -1,
-    "bashing": 5,
     "material": [ "crystallized_mana", "concentrated_mana" ],
     "symbol": ";",
     "flags": [ "TRADER_AVOID" ],
@@ -380,7 +378,8 @@
       "moves": 120,
       "practice": 3,
       "done_message": "You set the alchemic mine."
-    }
+    },
+    "melee_damage": { "bash": 5 }
   },
   {
     "type": "trap",

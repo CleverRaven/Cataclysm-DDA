@@ -61,6 +61,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "strange_arrow",
+    "name": "strange arrows",
+    "default": "arrow_meteor"
+  },
+  {
+    "type": "ammunition_type",
     "id": "pebble",
     "name": "pebbles",
     "default": "pebble"
@@ -226,6 +232,12 @@
     "id": "223",
     "name": ".223",
     "default": "556"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "303",
+    "name": ".303 British",
+    "default": "303_bthp"
   },
   {
     "type": "ammunition_type",

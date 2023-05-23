@@ -18,9 +18,9 @@ In the following condensed example ```556``` ammo is derived from ```223``` ammo
     "extend": { "effects": [ "NEVER_MISFIRES" ] }
   }
 ```
-In monsters it would look slightly different and has two options while still using ```copy-from```:
+In monsters it would look slightly different and has a few options while still using ```copy-from```:
 ```
-"relative": { "melee_dice": 1, "melee_dice_sides": 5, "armor_bash": 4, "melee_damage": 2, "armor_cut": 6, "armor_bullet": 5 },
+"relative": { "melee_dice": 1, "melee_dice_sides": 5, "melee_damage": 2 },
 
 
 "//": "Relative usage",

@@ -21,9 +21,6 @@
     "melee_dice_sides": 2,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 8,
-    "armor_bash": 12,
-    "armor_cut": 8,
-    "armor_bullet": 6,
     "vision_day": 50,
     "path_settings": { "max_dist": 5 },
     "revert_to_itype": "bot_copbot",
@@ -40,7 +37,8 @@
       "PRIORITIZE_TARGETS",
       "PATH_AVOID_DANGER_1",
       "STUN_IMMUNE"
-    ]
+    ],
+    "armor": { "bash": 12, "cut": 8, "bullet": 6 }
   },
   {
     "id": "mon_riotbot",
@@ -61,9 +59,6 @@
     "morale": 100,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 8,
-    "armor_bash": 12,
-    "armor_cut": 8,
-    "armor_bullet": 6,
     "vision_day": 50,
     "path_settings": { "max_dist": 5 },
     "revert_to_itype": "bot_riotbot",
@@ -81,7 +76,8 @@
       "PRIORITIZE_TARGETS",
       "PATH_AVOID_DANGER_1",
       "STUN_IMMUNE"
-    ]
+    ],
+    "armor": { "bash": 12, "cut": 8, "bullet": 6 }
   },
   {
     "id": "mon_secubot",
@@ -100,9 +96,6 @@
     "color": "dark_gray",
     "aggression": 100,
     "morale": 100,
-    "armor_bash": 14,
-    "armor_cut": 14,
-    "armor_bullet": 11,
     "vision_day": 50,
     "revert_to_itype": "bot_secubot",
     "starting_ammo": { "556": 30 },
@@ -139,7 +132,8 @@
       "LOUDMOVES",
       "DROPS_AMMO",
       "STUN_IMMUNE"
-    ]
+    ],
+    "armor": { "bash": 14, "cut": 14, "bullet": 11 }
   },
   {
     "id": "mon_talon_m202a1",
@@ -158,9 +152,6 @@
     "color": "dark_gray",
     "aggression": 100,
     "morale": 100,
-    "armor_bash": 14,
-    "armor_cut": 14,
-    "armor_bullet": 11,
     "vision_day": 50,
     "revert_to_itype": "bot_talon_m202a1",
     "starting_ammo": { "m235tpa": 4 },
@@ -197,7 +188,8 @@
       "LOUDMOVES",
       "DROPS_AMMO",
       "STUN_IMMUNE"
-    ]
+    ],
+    "armor": { "bash": 14, "cut": 14, "bullet": 11 }
   },
   {
     "id": "mon_secubot_america",
@@ -216,9 +208,6 @@
     "color": "dark_gray",
     "aggression": 100,
     "morale": 100,
-    "armor_bash": 14,
-    "armor_cut": 14,
-    "armor_bullet": 11,
     "vision_day": 50,
     "revert_to_itype": "bot_secubot",
     "special_attacks": [
@@ -241,7 +230,8 @@
       "message": "Loud rock music blares as the %s explodes!",
       "corpse_type": "NO_CORPSE"
     },
-    "flags": [ "SEES", "HEARS", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "PATH_AVOID_DANGER_1", "LOUDMOVES", "STUN_IMMUNE" ]
+    "flags": [ "SEES", "HEARS", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "PATH_AVOID_DANGER_1", "LOUDMOVES", "STUN_IMMUNE" ],
+    "armor": { "bash": 14, "cut": 14, "bullet": 11 }
   },
   {
     "id": "mon_skitterbot",
@@ -261,17 +251,14 @@
     "aggression": 100,
     "morale": 100,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "armor_bash": 12,
-    "armor_cut": 12,
-    "armor_bullet": 10,
-    "armor_elec": 5,
     "vision_day": 50,
     "revert_to_itype": "bot_skitterbot",
     "path_settings": { "max_dist": 5 },
     "special_attacks": [ [ "TAZER", 5 ] ],
     "death_drops": { "groups": [ [ "robots", 4 ], [ "skitterbot", 1 ] ] },
     "death_function": { "corpse_type": "BROKEN" },
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "PATH_AVOID_DANGER_1", "STUN_IMMUNE" ]
+    "flags": [ "SEES", "HEARS", "GOODHEARING", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "PATH_AVOID_DANGER_1", "STUN_IMMUNE" ],
+    "armor": { "bash": 12, "cut": 12, "bullet": 10, "electric": 5 }
   },
   {
     "id": "mon_science_bot",
@@ -295,9 +282,6 @@
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "dodge": 2,
-    "armor_bash": 12,
-    "armor_cut": 12,
-    "armor_bullet": 10,
     "vision_day": 50,
     "vision_night": 10,
     "revert_to_itype": "bot_science_bot",
@@ -318,7 +302,8 @@
       "PATH_AVOID_DANGER_1",
       "DROPS_AMMO",
       "STUN_IMMUNE"
-    ]
+    ],
+    "armor": { "bash": 12, "cut": 12, "bullet": 10 }
   },
   {
     "id": "mon_robofac_prototype",
@@ -340,9 +325,6 @@
     "melee_dice": 3,
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 10 } ],
-    "armor_bash": 15,
-    "armor_cut": 50,
-    "armor_bullet": 40,
     "vision_night": 5,
     "path_settings": { "max_dist": 5, "avoid_traps": true, "avoid_sharp": true },
     "special_attacks": [ { "id": "smash", "throw_strength": 72 }, [ "BIO_OP_TAKEDOWN", 20 ] ],
@@ -360,7 +342,8 @@
       "PATH_AVOID_DANGER_1",
       "LOUDMOVES",
       "STUN_IMMUNE"
-    ]
+    ],
+    "armor": { "bash": 15, "cut": 50, "bullet": 40 }
   },
   {
     "id": "mon_dispatch",
@@ -384,9 +367,6 @@
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "dodge": 2,
-    "armor_bash": 8,
-    "armor_cut": 8,
-    "armor_bullet": 6,
     "vision_day": 30,
     "vision_night": 10,
     "path_settings": { "avoid_traps": true, "avoid_sharp": true },
@@ -406,7 +386,8 @@
       "LOUDMOVES",
       "DROPS_AMMO",
       "STUN_IMMUNE"
-    ]
+    ],
+    "armor": { "bash": 8, "cut": 8, "bullet": 6 }
   },
   {
     "id": "mon_dispatch_military",
@@ -430,9 +411,6 @@
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
     "dodge": 2,
-    "armor_bash": 12,
-    "armor_cut": 12,
-    "armor_bullet": 10,
     "vision_day": 30,
     "vision_night": 10,
     "path_settings": { "avoid_traps": true, "avoid_sharp": true },
@@ -452,6 +430,7 @@
       "LOUDMOVES",
       "DROPS_AMMO",
       "STUN_IMMUNE"
-    ]
+    ],
+    "armor": { "bash": 12, "cut": 12, "bullet": 10 }
   }
 ]

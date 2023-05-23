@@ -13,7 +13,6 @@
     "price": 1483300,
     "price_postapoc": 12000,
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "steel" ],
     "ammo": [ "50" ],
     "range": 100,
@@ -23,7 +22,8 @@
     "min_cycle_recoil": 23625,
     "default_mods": [ "bipod", "rifle_scope", "muzzle_brake" ],
     "flags": [ "NEVER_JAMS" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m107a1mag" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m107a1mag" ] } ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "m2browning",
@@ -38,7 +38,6 @@
     "price": 1800000,
     "price_postapoc": 10000,
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "steel" ],
     "ammo": [ "50" ],
     "range": 110,
@@ -48,7 +47,6 @@
     "reload": 400,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 3 ] ],
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -60,7 +58,8 @@
       [ "underbarrel mount", 1 ]
     ],
     "flags": [ "MOUNTED_GUN" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "belt50" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "belt50" ] } ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "m2browning_sawn",
@@ -73,7 +72,6 @@
     "price_postapoc": 6000,
     "modes": [ [ "DEFAULT", "manual", 1 ] ],
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "sights", 1 ],
@@ -112,7 +110,6 @@
     "price": 1500000,
     "price_postapoc": 12000,
     "to_hit": -1,
-    "bashing": 13,
     "material": [ "steel" ],
     "ammo": [ "50" ],
     "range": 115,
@@ -124,7 +121,8 @@
     "barrel_volume": "1250 ml",
     "default_mods": [ "bipod", "rifle_scope", "muzzle_brake" ],
     "flags": [ "NEVER_JAMS" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "as50mag" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "as50mag" ] } ],
+    "melee_damage": { "bash": 13 }
   },
   {
     "id": "tac50",
@@ -139,7 +137,6 @@
     "price": 870000,
     "price_postapoc": 12000,
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "steel" ],
     "ammo": [ "50" ],
     "range": 45,
@@ -151,7 +148,8 @@
     "barrel_volume": "1250 ml",
     "default_mods": [ "recoil_stock", "bipod", "rifle_scope", "muzzle_brake" ],
     "flags": [ "NEVER_JAMS" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "tac50mag" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "tac50mag" ] } ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "bfg50",
@@ -166,7 +164,6 @@
     "price": 239500,
     "price_postapoc": 9000,
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "steel" ],
     "ammo": [ "50" ],
     "range": 45,
@@ -176,7 +173,6 @@
     "blackpowder_tolerance": 48,
     "barrel_volume": "1250 ml",
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "grip", 1 ],
@@ -192,6 +188,7 @@
     "default_mods": [ "bipod", "rifle_scope", "muzzle_brake" ],
     "clip_size": 1,
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "50": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "50": 1 } } ],
+    "melee_damage": { "bash": 12 }
   }
 ]

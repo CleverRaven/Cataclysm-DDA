@@ -10,12 +10,12 @@
     "price": 175000,
     "price_postapoc": 4000,
     "to_hit": -2,
-    "bashing": 8,
     "material": [ "plastic", "aluminum" ],
     "symbol": ",",
     "color": "light_green",
     "use_action": { "target": "atomic_lamp_off", "msg": "You close the lamp's cover.", "menu_text": "Close cover", "type": "transform" },
-    "flags": [ "LIGHT_15", "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE", "ALLOWS_REMOTE_USE", "SPAWN_ACTIVE" ]
+    "flags": [ "LIGHT_15", "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE", "ALLOWS_REMOTE_USE", "SPAWN_ACTIVE" ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "atomic_lamp_off",
@@ -28,7 +28,6 @@
     "price": 175000,
     "price_postapoc": 4000,
     "to_hit": -2,
-    "bashing": 8,
     "material": [ "plastic", "aluminum" ],
     "symbol": ",",
     "color": "light_green",
@@ -39,7 +38,8 @@
       "menu_text": "Open cover",
       "type": "transform"
     },
-    "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE", "ALLOWS_REMOTE_USE" ]
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE", "ALLOWS_REMOTE_USE" ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "atomic_light",
@@ -52,7 +52,6 @@
     "price": 125000,
     "price_postapoc": 4000,
     "to_hit": -2,
-    "bashing": 4,
     "material": [ "plastic", "aluminum" ],
     "symbol": ",",
     "color": "light_green",
@@ -62,7 +61,8 @@
       "menu_text": "Close cover",
       "type": "transform"
     },
-    "flags": [ "LIGHT_10", "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE", "ALLOWS_REMOTE_USE", "SPAWN_ACTIVE" ]
+    "flags": [ "LIGHT_10", "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE", "ALLOWS_REMOTE_USE", "SPAWN_ACTIVE" ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "atomic_light_off",
@@ -75,7 +75,6 @@
     "price": 125000,
     "price_postapoc": 4000,
     "to_hit": -2,
-    "bashing": 4,
     "material": [ "plastic", "aluminum" ],
     "symbol": ",",
     "color": "light_green",
@@ -86,7 +85,8 @@
       "menu_text": "Open cover",
       "type": "transform"
     },
-    "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE", "ALLOWS_REMOTE_USE" ]
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE", "ALLOWS_REMOTE_USE" ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "candle",
@@ -141,7 +141,6 @@
     "volume": "1 L",
     "price": 1000,
     "price_postapoc": 100,
-    "bashing": 1,
     "to_hit": 2,
     "material": [ "plastic" ],
     "symbol": ";",
@@ -164,7 +163,8 @@
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
         "default_magazine": "light_minus_battery_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "electric_lantern_on",
@@ -235,7 +235,6 @@
     "price": 3000,
     "price_postapoc": 100,
     "to_hit": 2,
-    "bashing": 1,
     "material": [ "glass", "steel" ],
     "symbol": ";",
     "color": "yellow",
@@ -251,7 +250,8 @@
       "need_charges_msg": "The lamp is empty.",
       "type": "transform"
     },
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "gasoline_lantern_on",
@@ -308,11 +308,11 @@
     "price": 0,
     "price_postapoc": 0,
     "to_hit": -1,
-    "bashing": 2,
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID" ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "glowstick_lit",
@@ -377,7 +377,6 @@
     "longest_side": "37 cm",
     "price": 950,
     "price_postapoc": 200,
-    "bashing": 8,
     "material": [ "aluminum" ],
     "symbol": ";",
     "color": "blue",
@@ -399,7 +398,8 @@
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
         "default_magazine": "light_disposable_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "heavy_flashlight_on",
@@ -426,9 +426,9 @@
     "price": 500,
     "price_postapoc": 25,
     "to_hit": 2,
-    "bashing": 1,
     "material": [ "plastic", "aluminum" ],
-    "symbol": ";"
+    "symbol": ";",
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "lightstrip",
@@ -485,7 +485,6 @@
     "price": 1000,
     "price_postapoc": 100,
     "to_hit": 2,
-    "bashing": 1,
     "material": [ "glass", "iron" ],
     "symbol": ";",
     "color": "yellow",
@@ -501,7 +500,8 @@
       "need_charges_msg": "The lamp is empty.",
       "type": "transform"
     },
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "oil_lamp_on",
@@ -532,7 +532,6 @@
     "volume": "300 ml",
     "price": 800,
     "price_postapoc": 100,
-    "bashing": 1,
     "material": [ "clay" ],
     "symbol": ";",
     "color": "brown",
@@ -548,7 +547,8 @@
       "need_charges_msg": "The lamp is empty.",
       "type": "transform"
     },
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "oil_lamp_clay_on",
@@ -668,7 +668,6 @@
     "price": 500,
     "price_postapoc": 100,
     "to_hit": -1,
-    "bashing": 1,
     "material": [ "plastic", "aluminum" ],
     "symbol": "&",
     "color": "blue",
@@ -690,7 +689,8 @@
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
         "default_magazine": "light_battery_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "smart_lamp_on",
@@ -727,7 +727,6 @@
     "price": 0,
     "price_postapoc": 50,
     "to_hit": 1,
-    "bashing": 8,
     "material": [ "wood" ],
     "symbol": "/",
     "color": "brown",
@@ -742,7 +741,8 @@
       "menu_text": "Light torch",
       "type": "transform"
     },
-    "flags": [ "BURNOUT" ]
+    "flags": [ "BURNOUT" ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "torch_lit",
@@ -754,7 +754,6 @@
     "price": 0,
     "price_postapoc": 0,
     "to_hit": 1,
-    "bashing": 8,
     "material": [ "wood" ],
     "symbol": "/",
     "color": "brown",
@@ -774,7 +773,8 @@
       }
     ],
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "FIRE", "LIGHT_60", "CHARGEDIM", "FLAMING", "TRADER_AVOID", "WATER_EXTINGUISH", "BURNOUT" ]
+    "flags": [ "FIRE", "LIGHT_60", "CHARGEDIM", "FLAMING", "TRADER_AVOID", "WATER_EXTINGUISH", "BURNOUT" ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "propane_lantern",
@@ -786,7 +786,6 @@
     "price": 3000,
     "price_postapoc": 100,
     "to_hit": 2,
-    "bashing": 1,
     "material": [ "glass", "steel" ],
     "symbol": ";",
     "color": "yellow",
@@ -801,7 +800,8 @@
       "need_charges_msg": "The lamp is empty.",
       "type": "transform"
     },
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "propane_lantern_on",

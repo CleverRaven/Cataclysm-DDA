@@ -20,10 +20,6 @@
     "melee_skill": 6,
     "melee_dice": 2,
     "melee_dice_sides": 3,
-    "armor_bash": 4,
-    "armor_cut": 6,
-    "armor_bullet": 4,
-    "armor_stab": 4,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor" ],
     "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_syn_armored" ],
     "dodge": 1,
@@ -64,6 +60,7 @@
       "PUSH_MON",
       "PATH_AVOID_DANGER_1",
       "DROPS_AMMO"
-    ]
+    ],
+    "armor": { "bash": 4, "cut": 6, "stab": 4, "bullet": 4 }
   }
 ]

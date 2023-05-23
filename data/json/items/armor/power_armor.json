@@ -11,7 +11,6 @@
     "price": 70000,
     "price_postapoc": 15000,
     "to_hit": 1,
-    "bashing": 1,
     "material": [ "steel" ],
     "symbol": "[",
     "looks_like": "power_armor_basic",
@@ -98,7 +97,8 @@
         "coverage": 95,
         "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "depowered_helmet",
@@ -111,7 +111,6 @@
     "price": 30000,
     "price_postapoc": 5000,
     "to_hit": 1,
-    "bashing": 1,
     "material": [ "steel" ],
     "symbol": "[",
     "looks_like": "power_armor_helmet_basic",
@@ -121,7 +120,8 @@
     "environmental_protection": 6,
     "qualities": [ [ "GLARE", 1 ] ],
     "flags": [ "WATERPROOF", "STURDY", "SUN_GLASSES" ],
-    "armor": [ { "encumbrance": 40, "coverage": 95, "covers": [ "head", "eyes", "mouth" ] } ]
+    "armor": [ { "encumbrance": 40, "coverage": 95, "covers": [ "head", "eyes", "mouth" ] } ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "power_armor_basic",
@@ -134,7 +134,6 @@
     "price": 7000000,
     "price_postapoc": 30000,
     "to_hit": 1,
-    "bashing": 1,
     "material": [ "qt_steel", "hyperweave_off", "kevlar_rigid" ],
     "symbol": "[",
     "looks_like": "depowered_armor",
@@ -225,7 +224,8 @@
         "coverage": 100,
         "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "power_armor_basic_on",
@@ -258,7 +258,6 @@
     "price": 1000000,
     "price_postapoc": 10000,
     "to_hit": 1,
-    "bashing": 1,
     "material": [ "steel" ],
     "symbol": "[",
     "looks_like": "backpack_tactical_large",
@@ -277,7 +276,8 @@
     "material_thickness": 10,
     "flags": [ "WATERPROOF", "STURDY", "BELTED" ],
     "//": "this should be moved to an accessory like aftershock suits when someone gets around to overhauling power armor.",
-    "//2": "If this item covers anything, it becomes impossible to wear it with power armor because power armor is hardcoded."
+    "//2": "If this item covers anything, it becomes impossible to wear it with power armor because power armor is hardcoded.",
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "power_armor_generator",
@@ -290,7 +290,6 @@
     "price": 1000000,
     "price_postapoc": 10000,
     "to_hit": 1,
-    "bashing": 1,
     "material": [ "steel" ],
     "symbol": "[",
     "looks_like": "backpack_tactical_large",
@@ -309,7 +308,8 @@
     ],
     "power_armor": true,
     "material_thickness": 10,
-    "flags": [ "WATERPROOF", "STURDY", "BELTED", "IS_UPS" ]
+    "flags": [ "WATERPROOF", "STURDY", "BELTED", "IS_UPS" ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "power_armor_heavy",
@@ -323,7 +323,6 @@
     "price": 11500000,
     "price_postapoc": 40000,
     "to_hit": 1,
-    "bashing": 1,
     "material": [ "qt_steel", "hyperweave_off", "kevlar_rigid" ],
     "symbol": "[",
     "looks_like": "power_armor_basic",
@@ -414,7 +413,8 @@
         "coverage": 100,
         "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "power_armor_heavy_on",
@@ -447,7 +447,6 @@
     "price": 2500000,
     "price_postapoc": 7500,
     "to_hit": 1,
-    "bashing": 1,
     "material": [ "qt_steel", "hyperweave_off", "kevlar_rigid" ],
     "symbol": "[",
     "looks_like": "depowered_helmet",
@@ -466,7 +465,8 @@
     "environmental_protection": 16,
     "qualities": [ [ "GLARE", 1 ] ],
     "flags": [ "WATCH", "WATERPROOF", "STURDY", "PARTIAL_DEAF", "THERMOMETER", "SUN_GLASSES", "COMBAT_TOGGLEABLE" ],
-    "armor": [ { "encumbrance": 50, "coverage": 100, "covers": [ "head", "eyes", "mouth" ] } ]
+    "armor": [ { "encumbrance": 50, "coverage": 100, "covers": [ "head", "eyes", "mouth" ] } ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "power_armor_helmet_basic_on",
@@ -493,7 +493,6 @@
     "price": 3750000,
     "price_postapoc": 10000,
     "to_hit": 1,
-    "bashing": 1,
     "material": [ "qt_steel", "hyperweave_off", "kevlar_rigid" ],
     "symbol": "[",
     "looks_like": "power_armor_helmet_basic",
@@ -512,7 +511,8 @@
       "active": true
     },
     "flags": [ "WATCH", "WATERPROOF", "STURDY", "PARTIAL_DEAF", "THERMOMETER", "SUN_GLASSES", "COMBAT_TOGGLEABLE" ],
-    "armor": [ { "encumbrance": 60, "coverage": 100, "covers": [ "head", "eyes", "mouth" ] } ]
+    "armor": [ { "encumbrance": 60, "coverage": 100, "covers": [ "head", "eyes", "mouth" ] } ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "power_armor_helmet_heavy_on",
@@ -539,7 +539,6 @@
     "price": 3750000,
     "price_postapoc": 10000,
     "to_hit": 1,
-    "bashing": 1,
     "material": [ "qt_steel", "kevlar", "kevlar_rigid" ],
     "symbol": "[",
     "looks_like": "power_armor_helmet_basic",
@@ -557,7 +556,8 @@
     "material_thickness": 8,
     "environmental_protection": 16,
     "flags": [ "WATCH", "WATERPROOF", "STURDY", "THERMOMETER", "SUN_GLASSES", "SWIM_GOGGLES", "COMBAT_TOGGLEABLE" ],
-    "armor": [ { "encumbrance": 40, "coverage": 100, "covers": [ "head", "eyes", "mouth" ] } ]
+    "armor": [ { "encumbrance": 40, "coverage": 100, "covers": [ "head", "eyes", "mouth" ] } ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "power_armor_helmet_light_on",
@@ -584,7 +584,6 @@
     "price": 11500000,
     "price_postapoc": 40000,
     "to_hit": 1,
-    "bashing": 1,
     "material": [ "qt_steel", "kevlar", "kevlar_rigid" ],
     "symbol": "[",
     "looks_like": "depowered_armor",
@@ -675,7 +674,8 @@
         "coverage": 100,
         "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "power_armor_light_on",

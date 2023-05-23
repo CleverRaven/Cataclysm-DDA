@@ -878,7 +878,6 @@
       "both": {
         "items": [
           "winter_pants_army",
-          "army_top",
           "winter_jacket_army",
           "gloves_tactical",
           "molle_pack",
@@ -895,6 +894,7 @@
         ],
         "entries": [
           { "item": "emer_blanket", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "tank_top", "variant": "tank_top_camo" },
           { "group": "charged_two_way_radio" },
           {
             "item": "boreal_mosin",

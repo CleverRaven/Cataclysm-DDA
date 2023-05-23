@@ -34,6 +34,7 @@
     },
     "terrain": {
       "/": "t_null",
+      ".": "t_open_air",
       "*": [ [ "t_door_locked_peep", 2 ], "t_door_locked_alarm", [ "t_door_locked_interior", 10 ], "t_door_c" ],
       "=": { "param": "railing_type", "fallback": "t_concrete_railing" },
       "#": { "param": "wall_type", "fallback": "t_brick_wall" },
@@ -84,6 +85,7 @@
       }
     },
     "terrain": {
+      ".": "t_region_groundcover_urban",
       "Ŧ": { "param": "fencing_type", "fallback": "t_region_groundcover_urban" },
       "-": { "param": "walkway_type", "fallback": "t_concrete" },
       "%": { "param": "shrubbery_type", "fallback": "t_region_groundcover_urban" }
@@ -110,6 +112,24 @@
           "t_region_groundcover": "f_region_flower_decorative"
         }
       }
+    }
+  },
+  {
+    "type": "palette",
+    "id": "apt_complex_garage",
+    "terrain": {
+      "~": "t_pavement",
+      "*": "t_door_metal_c",
+      "=": "t_door_metal_locked",
+      "0": "t_gates_mech_control_lab",
+      "[": "t_thconc_y",
+      "'": "t_linoleum_white"
+    },
+    "vehicles": {
+      "N": { "vehicle": "parking_garage", "chance": 33, "rotation": 270 },
+      "E": { "vehicle": "parking_garage", "chance": 33, "rotation": 0 },
+      "S": { "vehicle": "parking_garage", "chance": 33, "rotation": 90 },
+      "W": { "vehicle": "parking_garage", "chance": 33, "rotation": 180 }
     }
   }
 ]

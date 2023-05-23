@@ -177,6 +177,7 @@ enum m_flag : int {
     MF_ALL_SEEING,          // This monster can see everything within its vision range regardless of light or obstacles
     MF_NEVER_WANDER,        // This monster will never join wandering hordes.
     MF_CONVERSATION,        // This monster can engage in conversation.  Will need to have chat_topics as well.
+    MF_SILENT_DISAPPEAR,    // This monster will disappear without printing any message.
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 
@@ -353,17 +354,9 @@ struct mtype {
         std::set<scenttype_id> scents_tracked; /**Types of scent tracked by this mtype*/
         std::set<scenttype_id> scents_ignored; /**Types of scent ignored by this mtype*/
 
-        /** If unset (-1) then values are calculated automatically from other properties */
-        int armor_bash = -1;    /** innate armor vs. bash */
-        int armor_cut  = -1;    /** innate armor vs. cut */
-        int armor_stab = -1;    /** innate armor vs. stabbing */
-        int armor_bullet = -1;  /** innate armor vs. bullet */
-        int armor_acid = -1;    /** innate armor vs. acid */
-        int armor_fire = -1;    /** innate armor vs. fire */
-        int armor_elec = -1;    /** innate armor vs. electricity */
-        int armor_cold = -1;    /** innate armor vs. cold **/
-        int armor_pure = -1;    /** innate armor vs. pure **/
-        int armor_biological = -1; /** innate armor vs. biological **/
+        resistances armor;
+        std::optional<resistances> armor_proportional; /**load-time only*/
+        std::optional<resistances> armor_relative; /**load-time only*/
         ::weakpoints weakpoints;
         weakpoint_families families;
 

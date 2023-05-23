@@ -9,42 +9,280 @@
 
 #include "bodypart.h"
 #include "cata_utility.h"
+#include "creature.h"
+#include "effect_on_condition.h"
 #include "debug.h"
 #include "generic_factory.h"
 #include "item.h"
 #include "json.h"
+#include "make_static.h"
 #include "monster.h"
 #include "mtype.h"
 #include "translations.h"
 #include "units.h"
 
-namespace io
+static std::map<damage_info_order::info_type, std::vector<damage_info_order>> sorted_order_lists;
+
+namespace
 {
 
+generic_factory<damage_type> damage_type_factory( "damage type" );
+generic_factory<damage_info_order> damage_info_order_factory( "damage info order" );
+
+} // namespace
+
+/** @relates string_id */
 template<>
-std::string enum_to_string<damage_type>( damage_type data )
+const damage_type &string_id<damage_type>::obj() const
 {
-    switch( data ) {
-            // *INDENT-OFF*
-        case damage_type::NONE: return "none";
-        case damage_type::PURE: return "pure";
-        case damage_type::BIOLOGICAL: return "biological";
-        case damage_type::BASH: return "bash";
-        case damage_type::CUT: return "cut";
-        case damage_type::ACID: return "acid";
-        case damage_type::STAB: return "stab";
-        case damage_type::HEAT: return "heat";
-        case damage_type::COLD: return "cold";
-        case damage_type::ELECTRIC: return "electric";
-        case damage_type::BULLET: return "bullet";
-            // *INDENT-ON*
-        case damage_type::NUM:
-            break;
-    }
-    cata_fatal( "Invalid damage_type" );
+    return damage_type_factory.obj( *this );
 }
 
-} // namespace io
+/** @relates string_id */
+template<>
+bool string_id<damage_type>::is_valid() const
+{
+    return damage_type_factory.is_valid( *this );
+}
+
+/** @relates string_id */
+template<>
+const damage_info_order &string_id<damage_info_order>::obj() const
+{
+    return damage_info_order_factory.obj( *this );
+}
+
+/** @relates string_id */
+template<>
+bool string_id<damage_info_order>::is_valid() const
+{
+    return damage_info_order_factory.is_valid( *this );
+}
+
+void damage_type::load_damage_types( const JsonObject &jo, const std::string &src )
+{
+    damage_type_factory.load( jo, src );
+}
+
+void damage_type::reset()
+{
+    damage_type_factory.reset();
+}
+
+const std::vector<damage_type> &damage_type::get_all()
+{
+    return damage_type_factory.get_all();
+}
+
+void damage_info_order::load_damage_info_orders( const JsonObject &jo, const std::string &src )
+{
+    damage_info_order_factory.load( jo, src );
+}
+
+void damage_info_order::reset()
+{
+    damage_info_order_factory.reset();
+    sorted_order_lists.clear();
+}
+
+const std::vector<damage_info_order> &damage_info_order::get_all()
+{
+    return damage_info_order_factory.get_all();
+}
+
+const std::vector<damage_info_order> &damage_info_order::get_all( info_type sort_by )
+{
+    return sorted_order_lists.at( sort_by );
+}
+
+static damage_info_order::info_disp read_info_disp( const std::string &s )
+{
+    if( s == "detailed" ) {
+        return damage_info_order::info_disp::DETAILED;
+    } else if( s == "basic" ) {
+        return damage_info_order::info_disp::BASIC;
+    } else {
+        return damage_info_order::info_disp::NONE;
+    }
+}
+
+void damage_type::load( const JsonObject &jo, std::string_view )
+{
+    mandatory( jo, was_loaded, "name", name );
+    optional( jo, was_loaded, "skill", skill, skill_id::NULL_ID() );
+    optional( jo, was_loaded, "physical", physical );
+    optional( jo, was_loaded, "melee_only", melee_only );
+    optional( jo, was_loaded, "edged", edged );
+    optional( jo, was_loaded, "environmental", env );
+    optional( jo, was_loaded, "material_required", material_required );
+    optional( jo, was_loaded, "mon_difficulty", mon_difficulty );
+    optional( jo, was_loaded, "no_resist", no_resist );
+    if( jo.has_object( "immune_flags" ) ) {
+        JsonObject jsobj = jo.get_object( "immune_flags" );
+        if( jsobj.has_array( "monster" ) ) {
+            mon_immune_flags.clear();
+            for( const std::string flg : jsobj.get_array( "monster" ) ) {
+                mon_immune_flags.insert( io::string_to_enum<m_flag>( flg ) );
+            }
+        }
+        if( jsobj.has_array( "character" ) ) {
+            immune_flags.clear();
+            for( const std::string flg : jsobj.get_array( "character" ) ) {
+                immune_flags.insert( flg );
+            }
+        }
+    }
+
+    if( !was_loaded || jo.has_string( "magic_color" ) ) {
+        std::string color_str;
+        optional( jo, was_loaded, "magic_color", color_str, "black" );
+        magic_color = color_from_string( color_str );
+    }
+
+    if( jo.has_array( "derived_from" ) ) {
+        JsonArray ja = jo.get_array( "derived_from" );
+        derived_from = { damage_type_id( ja.get_string( 0 ) ), static_cast<float>( ja.get_float( 1 ) ) };
+    }
+
+    for( JsonValue jv : jo.get_array( "onhit_eocs" ) ) {
+        onhit_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+    }
+}
+
+void damage_type::check()
+{
+    for( const damage_type &dt : damage_type::get_all() ) {
+        const std::vector<damage_info_order> &dio_list = damage_info_order::get_all();
+        auto iter = std::find_if( dio_list.begin(), dio_list.end(),
+        [&dt]( const damage_info_order & dio ) {
+            return dt.id == dio.dmg_type;
+        } );
+        if( iter == dio_list.end() ) {
+            debugmsg( "damage type %s has no associated damage_info_order type." );
+        }
+    }
+}
+
+void damage_info_order::damage_info_order_entry::load( const JsonObject &jo,
+        std::string_view member )
+{
+    if( jo.has_object( member ) || jo.has_int( member ) ) {
+        if( jo.has_int( member ) ) {
+            show_type = true;
+            order = jo.get_int( member );
+        } else {
+            JsonObject jsobj = jo.get_object( member );
+            mandatory( jsobj, false, "order", order );
+            optional( jsobj, false, "show_type", show_type, true );
+        }
+    }
+}
+
+void damage_info_order::load( const JsonObject &jo, std::string_view )
+{
+    dmg_type = damage_type_id( id.c_str() );
+    bionic_info.load( jo, "bionic_info" );
+    protection_info.load( jo, "protection_info" );
+    pet_prot_info.load( jo, "pet_prot_info" );
+    melee_combat_info.load( jo, "melee_combat_info" );
+    ablative_info.load( jo, "ablative_info" );
+    optional( jo, was_loaded, "verb", verb );
+
+    if( !was_loaded || jo.has_string( "info_display" ) ) {
+        std::string info_str = info_display == info_disp::DETAILED ? "detailed" :
+                               info_display == info_disp::BASIC ? "basic" : "none";
+        optional( jo, was_loaded, "info_display", info_str, "none" );
+        info_display = read_info_disp( info_str );
+    }
+}
+
+static void prepare_sorted_lists( std::vector<damage_info_order> &list,
+                                  damage_info_order::info_type sb )
+{
+    for( auto iter = list.begin(); iter != list.end(); ) {
+        bool erase = false;
+        switch( sb ) {
+            case damage_info_order::info_type::BIO:
+                if( !iter->bionic_info.show_type ) {
+                    erase = true;
+                }
+                break;
+            case damage_info_order::info_type::PROT:
+                if( !iter->protection_info.show_type ) {
+                    erase = true;
+                }
+                break;
+            case damage_info_order::info_type::PET:
+                if( !iter->pet_prot_info.show_type ) {
+                    erase = true;
+                }
+                break;
+            case damage_info_order::info_type::MELEE:
+                if( !iter->melee_combat_info.show_type ) {
+                    erase = true;
+                }
+                break;
+            case damage_info_order::info_type::ABLATE:
+                if( !iter->ablative_info.show_type ) {
+                    erase = true;
+                }
+                break;
+            case damage_info_order::info_type::NONE:
+            default:
+                break;
+        }
+        if( erase ) {
+            iter = list.erase( iter );
+        } else {
+            iter++;
+        }
+    }
+    if( sb == damage_info_order::info_type::NONE ) {
+        return;
+    }
+    std::sort( list.begin(), list.end(),
+    [sb]( const damage_info_order & a, const damage_info_order & b ) {
+        switch( sb ) {
+            case damage_info_order::info_type::BIO:
+                return a.bionic_info.order < b.bionic_info.order;
+            case damage_info_order::info_type::PROT:
+                return a.protection_info.order < b.protection_info.order;
+            case damage_info_order::info_type::PET:
+                return a.pet_prot_info.order < b.pet_prot_info.order;
+            case damage_info_order::info_type::MELEE:
+                return a.melee_combat_info.order < b.melee_combat_info.order;
+            case damage_info_order::info_type::ABLATE:
+                return a.ablative_info.order < b.ablative_info.order;
+            case damage_info_order::info_type::NONE:
+            default:
+                return false;
+        }
+    } );
+}
+
+void damage_info_order::finalize_all()
+{
+    damage_info_order_factory.finalize();
+    sorted_order_lists.emplace( info_type::NONE, damage_info_order_factory.get_all() );
+    sorted_order_lists.emplace( info_type::BIO, damage_info_order_factory.get_all() );
+    sorted_order_lists.emplace( info_type::PROT, damage_info_order_factory.get_all() );
+    sorted_order_lists.emplace( info_type::PET, damage_info_order_factory.get_all() );
+    sorted_order_lists.emplace( info_type::MELEE, damage_info_order_factory.get_all() );
+    sorted_order_lists.emplace( info_type::ABLATE, damage_info_order_factory.get_all() );
+    prepare_sorted_lists( sorted_order_lists[info_type::NONE], info_type::NONE );
+    prepare_sorted_lists( sorted_order_lists[info_type::BIO], info_type::BIO );
+    prepare_sorted_lists( sorted_order_lists[info_type::PROT], info_type::PROT );
+    prepare_sorted_lists( sorted_order_lists[info_type::PET], info_type::PET );
+    prepare_sorted_lists( sorted_order_lists[info_type::MELEE], info_type::MELEE );
+    prepare_sorted_lists( sorted_order_lists[info_type::ABLATE], info_type::ABLATE );
+}
+
+void damage_info_order::finalize()
+{
+    if( verb.empty() ) {
+        verb = dmg_type->name;
+    }
+}
 
 bool damage_unit::operator==( const damage_unit &other ) const
 {
@@ -58,22 +296,15 @@ bool damage_unit::operator==( const damage_unit &other ) const
 }
 
 damage_instance::damage_instance() = default;
-damage_instance damage_instance::physical( float bash, float cut, float stab, float arpen )
-{
-    damage_instance d;
-    d.add_damage( damage_type::BASH, bash, arpen );
-    d.add_damage( damage_type::CUT, cut, arpen );
-    d.add_damage( damage_type::STAB, stab, arpen );
-    return d;
-}
-damage_instance::damage_instance( damage_type dt, float amt, float arpen, float arpen_mult,
-                                  float dmg_mult, float unc_arpen_mult, float unc_dmg_mult )
+
+damage_instance::damage_instance( const damage_type_id &dt, float amt, float arpen,
+                                  float arpen_mult, float dmg_mult, float unc_arpen_mult, float unc_dmg_mult )
 {
     add_damage( dt, amt, arpen, arpen_mult, dmg_mult, unc_arpen_mult, unc_dmg_mult );
 }
 
-void damage_instance::add_damage( damage_type dt, float amt, float arpen, float arpen_mult,
-                                  float dmg_mult, float unc_arpen_mult, float unc_dmg_mult )
+void damage_instance::add_damage( const damage_type_id &dt, float amt, float arpen,
+                                  float arpen_mult, float dmg_mult, float unc_arpen_mult, float unc_dmg_mult )
 {
     damage_unit du( dt, amt, arpen, arpen_mult, dmg_mult, unc_arpen_mult, unc_dmg_mult );
     add( du );
@@ -96,7 +327,7 @@ void damage_instance::mult_damage( double multiplier, bool pre_armor )
     }
 }
 
-void damage_instance::mult_type_damage( double multiplier, damage_type dt )
+void damage_instance::mult_type_damage( double multiplier, const damage_type_id &dt )
 {
     for( damage_unit &elem : damage_units ) {
         if( elem.type == dt ) {
@@ -105,7 +336,7 @@ void damage_instance::mult_type_damage( double multiplier, damage_type dt )
     }
 }
 
-float damage_instance::type_damage( damage_type dt ) const
+float damage_instance::type_damage( const damage_type_id &dt ) const
 {
     float ret = 0.0f;
     for( const damage_unit &elem : damage_units ) {
@@ -116,7 +347,7 @@ float damage_instance::type_damage( damage_type dt ) const
     return ret;
 }
 
-float damage_instance::type_arpen( damage_type dt ) const
+float damage_instance::type_arpen( const damage_type_id &dt ) const
 {
     float ret = 0.0f;
     for( const damage_unit &elem : damage_units ) {
@@ -135,6 +366,31 @@ float damage_instance::total_damage() const
         ret += elem.amount * elem.damage_multiplier * elem.unconditional_damage_mult;
     }
     return ret;
+}
+
+void damage_instance::onhit_effects( Creature *source, Creature *target ) const
+{
+    std::set<damage_type_id> used_types;
+    for( const damage_unit &du : damage_units ) {
+        if( used_types.count( du.type ) > 0 ) {
+            continue;
+        }
+        used_types.emplace( du.type );
+        du.type->onhit_effects( source, target );
+    }
+}
+
+void damage_type::onhit_effects( Creature *source, Creature *target ) const
+{
+    for( const effect_on_condition_id &eoc : onhit_eocs ) {
+        dialogue d( source == nullptr ? nullptr : get_talker_for( source ),
+                    target == nullptr ? nullptr : get_talker_for( target ) );
+        if( eoc->type == eoc_type::ACTIVATION ) {
+            eoc->activate( d );
+        } else {
+            debugmsg( "Must use an activation eoc for a damage type effect.  If you don't want the effect_on_condition to happen on its own (without the damage type effect being activated), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this damage type with its condition and effects, then have a recurring one queue it." );
+        }
+    }
 }
 
 //This returns the damage from this damage_instance. The damage done to the target will be reduced by their armor.
@@ -245,44 +501,53 @@ void damage_instance::deserialize( const JsonValue &jsin )
 
 dealt_damage_instance::dealt_damage_instance()
 {
-    dealt_dams.fill( 0 );
+    dealt_dams.clear();
+    for( const damage_type &dt : damage_type::get_all() ) {
+        dealt_dams.emplace( dt.id, 0 );
+    }
     bp_hit  = bodypart_id( "torso" );
 }
 
-void dealt_damage_instance::set_damage( damage_type dt, int amount )
+void dealt_damage_instance::set_damage( const damage_type_id &dt, int amount )
 {
-    if( static_cast<int>( dt ) < 0 || dt >= damage_type::NUM ) {
-        debugmsg( "Tried to set invalid damage type %d. damage_type::NUM is %d", dt, damage_type::NUM );
+    if( !dt.is_valid() ) {
+        debugmsg( "Tried to set invalid damage type %s.", dt.c_str() );
         return;
     }
 
-    dealt_dams[static_cast<int>( dt )] = amount;
+    dealt_dams[dt] = amount;
 }
-int dealt_damage_instance::type_damage( damage_type dt ) const
+int dealt_damage_instance::type_damage( const damage_type_id &dt ) const
 {
-    if( static_cast<size_t>( dt ) < dealt_dams.size() ) {
-        return dealt_dams[static_cast<int>( dt )];
+    auto iter = dealt_dams.find( dt );
+    if( iter != dealt_dams.end() ) {
+        return iter->second;
     }
 
     return 0;
 }
 int dealt_damage_instance::total_damage() const
 {
-    return std::accumulate( dealt_dams.begin(), dealt_dams.end(), 0 );
+    return std::accumulate( dealt_dams.begin(), dealt_dams.end(), 0,
+    []( int acc, const std::pair<const damage_type_id, int> &dmg ) {
+        return acc + dmg.second;
+    } );
 }
 
 resistances::resistances()
 {
-    resist_vals.fill( 0 );
+    resist_vals.clear();
+    for( const damage_type &dam : damage_type::get_all() ) {
+        resist_vals.emplace( dam.id, 0.0f );
+    }
 }
 
 resistances::resistances( const item &armor, bool to_self, int roll, const bodypart_id &bp )
 {
     // Armors protect, but all items can resist
     if( to_self || armor.is_armor() || armor.is_pet_armor() ) {
-        for( int i = 0; i < static_cast<int>( damage_type::NUM ); i++ ) {
-            damage_type dt = static_cast<damage_type>( i );
-            set_resist( dt, armor.resist( dt, to_self, bp, roll ) );
+        for( const damage_type &dam : damage_type::get_all() ) {
+            set_resist( dam.id, armor.resist( dam.id, to_self, bp, roll ) );
         }
     }
 }
@@ -291,33 +556,24 @@ resistances::resistances( const item &armor, bool to_self, int roll, const sub_b
 {
     // Armors protect, but all items can resist
     if( to_self || armor.is_armor() ) {
-        for( int i = 0; i < static_cast<int>( damage_type::NUM ); i++ ) {
-            damage_type dt = static_cast<damage_type>( i );
-            set_resist( dt, armor.resist( dt, to_self, bp, roll ) );
+        for( const damage_type &dam : damage_type::get_all() ) {
+            set_resist( dam.id, armor.resist( dam.id, to_self, bp, roll ) );
         }
     }
 }
 
-resistances::resistances( monster &monster ) : resistances()
+resistances::resistances( monster &monster ) : resistances( monster.type->armor )
 {
-    set_resist( damage_type::BASH, monster.type->armor_bash );
-    set_resist( damage_type::CUT,  monster.type->armor_cut );
-    set_resist( damage_type::STAB, monster.type->armor_stab );
-    set_resist( damage_type::BULLET, monster.type->armor_bullet );
-    set_resist( damage_type::ACID, monster.type->armor_acid );
-    set_resist( damage_type::HEAT, monster.type->armor_fire );
-    set_resist( damage_type::COLD, monster.type->armor_cold );
-    set_resist( damage_type::PURE, monster.type->armor_pure );
-    set_resist( damage_type::BIOLOGICAL, monster.type->armor_biological );
-    set_resist( damage_type::ELECTRIC, monster.type->armor_elec );
+
 }
-void resistances::set_resist( damage_type dt, float amount )
+void resistances::set_resist( const damage_type_id &dt, float amount )
 {
-    resist_vals[static_cast<int>( dt )] = amount;
+    resist_vals[dt] = amount;
 }
-float resistances::type_resist( damage_type dt ) const
+float resistances::type_resist( const damage_type_id &dt ) const
 {
-    return resist_vals[static_cast<int>( dt )];
+    auto iter = resist_vals.find( dt );
+    return ( iter == resist_vals.end() || iter->first->no_resist ) ? 0.0f : iter->second;
 }
 float resistances::get_effective_resist( const damage_unit &du ) const
 {
@@ -327,8 +583,11 @@ float resistances::get_effective_resist( const damage_unit &du ) const
 
 resistances &resistances::operator+=( const resistances &other )
 {
-    for( size_t i = 0; i < static_cast<int>( damage_type::NUM ); i++ ) {
-        resist_vals[ i ] += other.resist_vals[ i ];
+    for( const auto &dam : other.resist_vals ) {
+        if( resist_vals.count( dam.first ) <= 0 ) {
+            resist_vals[dam.first] = 0.0f;
+        }
+        resist_vals[dam.first] += dam.second;
     }
 
     return *this;
@@ -336,8 +595,8 @@ resistances &resistances::operator+=( const resistances &other )
 
 bool resistances::operator==( const resistances &other )
 {
-    for( size_t i = 0; i < static_cast<int>( damage_type::NUM ); i++ ) {
-        if( resist_vals[i] != other.resist_vals[i] ) {
+    for( const auto &dam : other.resist_vals ) {
+        if( resist_vals.count( dam.first ) <= 0 || resist_vals[dam.first] != dam.second ) {
             return false;
         }
     }
@@ -348,8 +607,8 @@ bool resistances::operator==( const resistances &other )
 resistances resistances::operator*( float mod ) const
 {
     resistances ret;
-    for( size_t i = 0; i < static_cast<int>( damage_type::NUM ); i++ ) {
-        ret.resist_vals[ i ] = this->resist_vals[ i ] * mod;
+    for( const auto &dam : resist_vals ) {
+        ret.resist_vals[dam.first] = dam.second * mod;
     }
     return ret;
 }
@@ -357,80 +616,15 @@ resistances resistances::operator*( float mod ) const
 resistances resistances::operator/( float mod ) const
 {
     resistances ret;
-    for( size_t i = 0; i < static_cast<int>( damage_type::NUM ); i++ ) {
-        ret.resist_vals[i] = this->resist_vals[i] / mod;
+    for( const auto &dam : resist_vals ) {
+        ret.resist_vals[dam.first] = dam.second / mod;
     }
     return ret;
 }
 
-static const std::map<std::string, damage_type> dt_map = {
-    { translate_marker_context( "damage type", "pure" ), damage_type::PURE },
-    { translate_marker_context( "damage type", "biological" ), damage_type::BIOLOGICAL },
-    { translate_marker_context( "damage type", "bash" ), damage_type::BASH },
-    { translate_marker_context( "damage type", "cut" ), damage_type::CUT },
-    { translate_marker_context( "damage type", "acid" ), damage_type::ACID },
-    { translate_marker_context( "damage type", "stab" ), damage_type::STAB },
-    { translate_marker_context( "damage_type", "bullet" ), damage_type::BULLET },
-    { translate_marker_context( "damage type", "heat" ), damage_type::HEAT },
-    { translate_marker_context( "damage type", "cold" ), damage_type::COLD },
-    { translate_marker_context( "damage type", "electric" ), damage_type::ELECTRIC }
-};
-
-const std::map<std::string, damage_type> &get_dt_map()
-{
-    return dt_map;
-}
-
-damage_type dt_by_name( const std::string &name )
-{
-    const auto &iter = dt_map.find( name );
-    if( iter == dt_map.end() ) {
-        return damage_type::NONE;
-    }
-
-    return iter->second;
-}
-
-std::string name_by_dt( const damage_type &dt )
-{
-    auto iter = dt_map.cbegin();
-    while( iter != dt_map.cend() ) {
-        if( iter->second == dt ) {
-            return pgettext( "damage type", iter->first.c_str() );
-        }
-        iter++;
-    }
-    static const std::string err_msg( "dt_not_found" );
-    return err_msg;
-}
-
-const skill_id &skill_by_dt( damage_type dt )
-{
-    static skill_id skill_bashing( "bashing" );
-    static skill_id skill_cutting( "cutting" );
-    static skill_id skill_stabbing( "stabbing" );
-
-    switch( dt ) {
-        case damage_type::BASH:
-            return skill_bashing;
-
-        case damage_type::CUT:
-            return skill_cutting;
-
-        case damage_type::STAB:
-            return skill_stabbing;
-
-        default:
-            return skill_id::NULL_ID();
-    }
-}
-
 static damage_unit load_damage_unit( const JsonObject &curr )
 {
-    damage_type dt = dt_by_name( curr.get_string( "damage_type" ) );
-    if( dt == damage_type::NONE ) {
-        curr.throw_error( "Invalid damage type" );
-    }
+    damage_type_id dt( curr.get_string( "damage_type" ) );
 
     float amount = curr.get_float( "amount", 0 );
     float arpen = curr.get_float( "armor_penetration", 0 );
@@ -493,8 +687,8 @@ static damage_instance blank_damage_instance()
 {
     damage_instance ret;
 
-    for( int i = 0; i < static_cast<int>( damage_type::NUM ); ++i ) {
-        ret.add_damage( static_cast<damage_type>( i ), 0.0f );
+    for( const damage_type &dam : damage_type::get_all() ) {
+        ret.add_damage( dam.id, 0.0f );
     }
 
     return ret;
@@ -534,42 +728,72 @@ damage_instance load_damage_instance_inherit( const JsonArray &jarr, const damag
     return di;
 }
 
-std::array<float, static_cast<int>( damage_type::NUM )> load_damage_array( const JsonObject &jo,
-        float default_value )
+std::map<damage_type_id, float> load_damage_map( const JsonObject &jo,
+        const std::set<std::string> &ignored_keys )
 {
-    std::array<float, static_cast<int>( damage_type::NUM )> ret;
-    float init_val = jo.get_float( "all", default_value );
-
-    float phys = jo.get_float( "physical", init_val );
-    ret[ static_cast<int>( damage_type::BASH ) ] = jo.get_float( "bash", phys );
-    ret[ static_cast<int>( damage_type::CUT )] = jo.get_float( "cut", phys );
-    ret[ static_cast<int>( damage_type::STAB ) ] = jo.get_float( "stab", phys );
-    ret[ static_cast<int>( damage_type::BULLET ) ] = jo.get_float( "bullet", phys );
-
-    float non_phys = jo.get_float( "non_physical", init_val );
-    ret[ static_cast<int>( damage_type::BIOLOGICAL ) ] = jo.get_float( "biological", non_phys );
-    ret[ static_cast<int>( damage_type::ACID ) ] = jo.get_float( "acid", non_phys );
-    ret[ static_cast<int>( damage_type::HEAT ) ] = jo.get_float( "heat", non_phys );
-    ret[ static_cast<int>( damage_type::COLD ) ] = jo.get_float( "cold", non_phys );
-    ret[ static_cast<int>( damage_type::ELECTRIC ) ] = jo.get_float( "electric", non_phys );
-
-    // damage_type::PURE should never be resisted
-    ret[ static_cast<int>( damage_type::PURE ) ] = 0.0f;
+    std::map<damage_type_id, float> ret;
+    for( const JsonMember &jmemb : jo ) {
+        if( !ignored_keys.empty() && ignored_keys.count( jmemb.name() ) > 0 ) {
+            continue;
+        }
+        ret[damage_type_id( jmemb.name() )] = jmemb.get_float();
+    }
     return ret;
 }
 
-resistances load_resistances_instance( const JsonObject &jo )
+void finalize_damage_map( std::map<damage_type_id, float> &damage_map, bool force_derive,
+                          float default_value )
+{
+    const std::vector<damage_type> &dams = damage_type::get_all();
+    if( dams.empty() ) {
+        debugmsg( "called before damage_types have been loaded." );
+        return;
+    }
+
+    auto get_and_erase = [&damage_map]( const damage_type_id & did, float def_val ) {
+        auto iter = damage_map.find( did );
+        if( iter == damage_map.end() ) {
+            return def_val;
+        }
+        float val = iter->second;
+        damage_map.erase( iter );
+        return val;
+    };
+
+    const float all = get_and_erase( STATIC( damage_type_id( "all" ) ), default_value );
+    const float physical = get_and_erase( STATIC( damage_type_id( "physical" ) ), all );
+    const float non_phys = get_and_erase( STATIC( damage_type_id( "non_physical" ) ), all );
+
+    std::vector<damage_type_id> to_derive;
+    for( const damage_type &dam : dams ) {
+        float val = dam.physical ? physical : non_phys;
+        if( damage_map.count( dam.id ) > 0 ) {
+            val = damage_map.at( dam.id );
+        } else if( force_derive && !dam.derived_from.first.is_null() ) {
+            to_derive.emplace_back( dam.id );
+            continue;
+        }
+        damage_map[dam.id] = val;
+    }
+
+    for( auto &td : to_derive ) {
+        auto iter = damage_map.find( td->derived_from.first );
+        damage_map[td] = iter == damage_map.end() ? ( td->physical ? physical : non_phys ) :
+                         iter->second * td->derived_from.second;
+    }
+}
+
+resistances load_resistances_instance( const JsonObject &jo,
+                                       const std::set<std::string> &ignored_keys )
 {
     resistances ret;
-    ret.resist_vals = load_damage_array( jo );
+    ret.resist_vals = load_damage_map( jo, ignored_keys );
     return ret;
 }
 
 void damage_over_time_data::load( const JsonObject &obj )
 {
-    std::string tmp_string;
-    mandatory( obj, was_loaded, "damage_type", tmp_string );
-    type = dt_by_name( tmp_string );
+    mandatory( obj, was_loaded, "damage_type", type );
     mandatory( obj, was_loaded, "amount", amount );
     mandatory( obj, was_loaded, "bodyparts", bps );
 
@@ -584,7 +808,7 @@ void damage_over_time_data::load( const JsonObject &obj )
 void damage_over_time_data::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
-    jsout.member( "damage_type", name_by_dt( type ) );
+    jsout.member( "damage_type", type );
     jsout.member( "duration", duration );
     jsout.member( "amount", amount );
     jsout.member( "bodyparts", bps );
@@ -598,7 +822,7 @@ void damage_over_time_data::deserialize( const JsonObject &jo )
     if( tmp_string == "true" ) {
         tmp_string = "pure";
     }
-    type = dt_by_name( tmp_string );
+    type = damage_type_id( tmp_string );
     jo.read( "amount", amount );
     jo.read( "duration", duration );
     jo.read( "bodyparts", bps );

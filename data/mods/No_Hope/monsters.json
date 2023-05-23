@@ -16,9 +16,6 @@
     "color": "white",
     "aggression": 100,
     "morale": 100,
-    "armor_bash": 14,
-    "armor_cut": 16,
-    "armor_bullet": 13,
     "vision_day": 50,
     "revert_to_itype": "bot_laserturret",
     "special_attacks": [
@@ -33,7 +30,8 @@
     "special_when_hit": [ "RETURN_FIRE", 100 ],
     "death_drops": {  },
     "death_function": { "corpse_type": "BROKEN" },
-    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "COLDPROOF", "IMMOBILE", "NO_BREATHE" ]
+    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "COLDPROOF", "IMMOBILE", "NO_BREATHE" ],
+    "armor": { "bash": 14, "cut": 16, "bullet": 13 }
   },
   {
     "id": "mon_turret",
@@ -52,9 +50,6 @@
     "color": "light_gray",
     "aggression": 100,
     "morale": 100,
-    "armor_bash": 14,
-    "armor_cut": 16,
-    "armor_bullet": 13,
     "vision_night": 3,
     "revert_to_itype": "bot_turret",
     "starting_ammo": { "9mm": 30 },
@@ -81,7 +76,8 @@
     "special_when_hit": [ "RETURN_FIRE", 100 ],
     "death_drops": {  },
     "death_function": { "corpse_type": "BROKEN" },
-    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "COLDPROOF", "IMMOBILE", "NO_BREATHE", "DROPS_AMMO" ]
+    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "COLDPROOF", "IMMOBILE", "NO_BREATHE", "DROPS_AMMO" ],
+    "armor": { "bash": 14, "cut": 16, "bullet": 13 }
   },
   {
     "id": "mon_turret_bmg",
@@ -100,9 +96,6 @@
     "color": "green",
     "aggression": 100,
     "morale": 100,
-    "armor_bash": 14,
-    "armor_cut": 16,
-    "armor_bullet": 13,
     "vision_day": 50,
     "vision_night": 3,
     "revert_to_itype": "bot_antimateriel",
@@ -140,7 +133,8 @@
       "DROPS_AMMO",
       "CONSOLE_DESPAWN",
       "ID_CARD_DESPAWN"
-    ]
+    ],
+    "armor": { "bash": 14, "cut": 16, "bullet": 13 }
   },
   {
     "id": "mon_turret_rifle",
@@ -159,9 +153,6 @@
     "color": "green",
     "aggression": 100,
     "morale": 100,
-    "armor_bash": 14,
-    "armor_cut": 16,
-    "armor_bullet": 13,
     "vision_day": 50,
     "vision_night": 3,
     "revert_to_itype": "bot_rifleturret",
@@ -199,7 +190,8 @@
       "DROPS_AMMO",
       "ID_CARD_DESPAWN",
       "CONSOLE_DESPAWN"
-    ]
+    ],
+    "armor": { "bash": 14, "cut": 16, "bullet": 13 }
   },
   {
     "id": "mon_crows_m240",
@@ -218,9 +210,6 @@
     "color": "green",
     "aggression": 100,
     "morale": 100,
-    "armor_bash": 14,
-    "armor_cut": 16,
-    "armor_bullet": 13,
     "vision_day": 50,
     "vision_night": 3,
     "revert_to_itype": "bot_crows_m240",
@@ -258,7 +247,8 @@
       "DROPS_AMMO",
       "ID_CARD_DESPAWN",
       "CONSOLE_DESPAWN"
-    ]
+    ],
+    "armor": { "bash": 14, "cut": 16, "bullet": 13 }
   },
   {
     "id": "mon_tripod",
@@ -281,14 +271,13 @@
     "melee_dice": 3,
     "melee_dice_sides": 12,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-    "armor_bash": 12,
-    "armor_cut": 8,
     "path_settings": { "max_dist": 5 },
     "revert_to_itype": "bot_tripod",
     "special_attacks": [ [ "FLAMETHROWER", 10 ] ],
     "death_drops": { "groups": [ [ "robots", 4 ], [ "tripod", 1 ] ] },
     "death_function": { "corpse_type": "BROKEN" },
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "BASHES", "NO_BREATHE", "ELECTRONIC", "CLIMBS", "PRIORITIZE_TARGETS" ]
+    "flags": [ "SEES", "HEARS", "GOODHEARING", "BASHES", "NO_BREATHE", "ELECTRONIC", "CLIMBS", "PRIORITIZE_TARGETS" ],
+    "armor": { "bash": 12, "cut": 8 }
   },
   {
     "id": "mon_tankbot",
@@ -311,8 +300,6 @@
     "melee_dice": 5,
     "melee_dice_sides": 5,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "armor_bash": 90,
-    "armor_cut": 90,
     "vision_day": 50,
     "revert_to_itype": "bot_tankbot",
     "starting_ammo": { "40x46mm_m433": 200, "556": 3000 },
@@ -330,7 +317,8 @@
       "ELECTRONIC",
       "PRIORITIZE_TARGETS",
       "DROPS_AMMO"
-    ]
+    ],
+    "armor": { "bash": 90, "cut": 90 }
   },
   {
     "id": "mon_chickenbot",
@@ -353,8 +341,6 @@
     "melee_dice": 3,
     "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "armor_bash": 18,
-    "armor_cut": 14,
     "vision_day": 50,
     "vision_night": 35,
     "revert_to_itype": "bot_chickenbot",
@@ -362,7 +348,8 @@
     "path_settings": { "max_dist": 10 },
     "special_attacks": [ [ "CHICKENBOT", 4 ] ],
     "death_function": { "corpse_type": "BROKEN" },
-    "flags": [ "SEES", "HEARS", "BASHES", "NO_BREATHE", "ELECTRONIC", "PRIORITIZE_TARGETS", "DROPS_AMMO" ]
+    "flags": [ "SEES", "HEARS", "BASHES", "NO_BREATHE", "ELECTRONIC", "PRIORITIZE_TARGETS", "DROPS_AMMO" ],
+    "armor": { "bash": 18, "cut": 14 }
   },
   {
     "id": "mon_secubot",
@@ -381,9 +368,6 @@
     "color": "dark_gray",
     "aggression": 100,
     "morale": 100,
-    "armor_bash": 14,
-    "armor_cut": 14,
-    "armor_bullet": 11,
     "vision_day": 50,
     "revert_to_itype": "bot_secubot",
     "starting_ammo": { "556": 30 },
@@ -409,7 +393,8 @@
     ],
     "death_drops": {  },
     "death_function": { "corpse_type": "BROKEN" },
-    "flags": [ "SEES", "HEARS", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "PATH_AVOID_DANGER_1", "LOUDMOVES", "DROPS_AMMO" ]
+    "flags": [ "SEES", "HEARS", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "PATH_AVOID_DANGER_1", "LOUDMOVES", "DROPS_AMMO" ],
+    "armor": { "bash": 14, "cut": 14, "bullet": 11 }
   },
   {
     "id": "mon_moose",
@@ -434,9 +419,6 @@
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 1,
-    "armor_bash": 4,
-    "armor_cut": 1,
-    "armor_bullet": 1,
     "vision_night": 7,
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "HURT", "MATING_SEASON", "PLAYER_CLOSE" ],
@@ -446,7 +428,8 @@
     "harvest": "mammal_large_leather",
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 8 },
     "special_attacks": [ [ "EAT_CROP", 60 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "ATTACKMON" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "ATTACKMON" ],
+    "armor": { "bash": 4, "cut": 1, "bullet": 1 }
   },
   {
     "id": "mon_flaming_eye",
@@ -467,7 +450,6 @@
     "morale": 100,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 1,
-    "armor_bash": 4,
     "vision_day": 50,
     "vision_night": 40,
     "luminance": 25,
@@ -481,7 +463,8 @@
         "monster_message": "A piercing beam of light bursts forth!"
       }
     ],
-    "flags": [ "SEES", "WARM", "FLIES", "FIREY", "NO_BREATHE", "NOHEAD" ]
+    "flags": [ "SEES", "WARM", "FLIES", "FIREY", "NO_BREATHE", "NOHEAD" ],
+    "armor": { "bash": 4 }
   },
   {
     "id": "mon_staring_eye",
@@ -501,13 +484,13 @@
     "morale": 100,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 1,
-    "armor_bash": 4,
     "vision_day": 50,
     "vision_night": 40,
     "luminance": 25,
     "harvest": "zombie_meatslug",
     "special_attacks": [ [ "STARE", 12 ] ],
-    "flags": [ "SEES", "WARM", "FLIES", "FIREY", "NO_BREATHE", "NOHEAD" ]
+    "flags": [ "SEES", "WARM", "FLIES", "FIREY", "NO_BREATHE", "NOHEAD" ],
+    "armor": { "bash": 4 }
   },
   {
     "id": "mon_zombie_soldier",
@@ -548,10 +531,6 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 1,
-    "armor_bash": 12,
-    "armor_cut": 25,
-    "armor_bullet": 20,
-    "armor_elec": 4,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet", "wps_humanoid_gasmask" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_syn_armored" ],
     "vision_day": 30,
@@ -579,7 +558,8 @@
       "PUSH_MON",
       "DRIPS_NAPALM",
       "FILTHY"
-    ]
+    ],
+    "armor": { "bash": 12, "cut": 25, "bullet": 20, "electric": 4 }
   },
   {
     "id": "mon_mech_recon",
@@ -602,9 +582,6 @@
     "melee_dice": 3,
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
-    "armor_bash": 15,
-    "armor_cut": 25,
-    "armor_bullet": 20,
     "vision_night": 100,
     "mech_str_bonus": 5,
     "mech_battery": "huge_atomic_battery_cell",
@@ -628,7 +605,8 @@
       "PATH_AVOID_DANGER_1",
       "STUN_IMMUNE",
       "MECH_DEFENSIVE"
-    ]
+    ],
+    "armor": { "bash": 15, "cut": 25, "bullet": 20 }
   },
   {
     "id": "mon_mech_combat",
@@ -651,9 +629,6 @@
     "melee_dice": 2,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "armor_bash": 25,
-    "armor_cut": 45,
-    "armor_bullet": 36,
     "vision_night": 50,
     "mech_str_bonus": 10,
     "mech_battery": "huge_atomic_battery_cell",
@@ -677,7 +652,8 @@
       "LOUDMOVES",
       "STUN_IMMUNE",
       "MECH_DEFENSIVE"
-    ]
+    ],
+    "armor": { "bash": 25, "cut": 45, "bullet": 36 }
   },
   {
     "id": "mon_mech_lifter",
@@ -700,9 +676,6 @@
     "melee_dice": 4,
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "armor_bash": 22,
-    "armor_cut": 30,
-    "armor_bullet": 24,
     "vision_night": 50,
     "mech_str_bonus": 30,
     "mech_battery": "huge_atomic_battery_cell",
@@ -728,7 +701,8 @@
       "LOUDMOVES",
       "STUN_IMMUNE",
       "MECH_DEFENSIVE"
-    ]
+    ],
+    "armor": { "bash": 22, "cut": 30, "bullet": 24 }
   },
   {
     "id": "mon_zombie_technician",
@@ -736,6 +710,12 @@
     "name": { "str": "zombie technician" },
     "description": "Still wearing its work clothes and hardhat, this zombie likely used to work on power lines or other electrical equipment.  As it approaches, everything metal you're carrying shifts very slightly in the zombie's direction, as if attracted by a strong magnetic force.",
     "copy-from": "mon_zombie_technician",
-    "special_attacks": [ [ "PULL_METAL_WEAPON", 25 ], { "type": "bite", "cooldown": 20 }, [ "GRAB", 7 ], [ "scratch", 20 ] ]
+    "grab_strength": 20,
+    "special_attacks": [
+      [ "PULL_METAL_WEAPON", 25 ],
+      { "id": "grab", "cooldown": 7 },
+      { "id": "scratch_humanoid" },
+      { "id": "bite_humanoid", "cooldown": 5 }
+    ]
   }
 ]

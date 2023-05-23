@@ -13,7 +13,6 @@
     "price": 390000,
     "price_postapoc": 4000,
     "to_hit": -1,
-    "bashing": 11,
     "material": [ "steel", "wood" ],
     "color": "brown",
     "ammo": [ "545x39" ],
@@ -23,7 +22,6 @@
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "barrel_volume": "250 ml",
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -38,7 +36,8 @@
       [ "underbarrel", 1 ]
     ],
     "flags": [ "NEVER_JAMS" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ak74mag", "rpk74mag", "casket74mag" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ak74mag", "rpk74mag", "casket74mag" ] } ],
+    "melee_damage": { "bash": 11 }
   },
   {
     "id": "kord",
@@ -54,7 +53,6 @@
     "price": 390000,
     "price_postapoc": 4000,
     "to_hit": -1,
-    "bashing": 11,
     "material": [ "steel", "plastic" ],
     "color": "brown",
     "ammo": [ "545x39" ],
@@ -65,7 +63,6 @@
     "barrel_volume": "250 ml",
     "default_mods": [ "bars", "wire_stock" ],
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
@@ -80,6 +77,7 @@
     ],
     "flags": [ "NEVER_JAMS", "MISSION_ITEM" ],
     "weapon_category": [ "AUTOMATIC_RIFLES" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ak74mag", "rpk74mag", "casket74mag" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ak74mag", "rpk74mag", "casket74mag" ] } ],
+    "melee_damage": { "bash": 11 }
   }
 ]

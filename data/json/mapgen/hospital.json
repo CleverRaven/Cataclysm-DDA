@@ -1,5 +1,71 @@
 [
   {
+    "id": "pickup_corpses",
+    "type": "vehicle",
+    "name": "Pickup Truck",
+    "blueprint": [
+      [ "-o--+o-" ],
+      [ "==='#'|" ],
+      [ "==='#'|" ],
+      [ "-o--+o-" ]
+    ],
+    "parts": [
+      { "x": 0, "y": 0, "parts": [ "frame_cross", "seat_windshield", "seatbelt", "controls", "stereo" ] },
+      { "x": 0, "y": 0, "parts": [ "dashboard", "vehicle_clock", "vehicle_alarm", "horn_car" ] },
+      { "x": 0, "y": 0, "part": "roof" },
+      { "x": 0, "y": -1, "parts": [ "frame_vertical_left", "door_nw" ] },
+      { "x": 0, "y": 1, "parts": [ "frame_cross", "seat_windshield", "seatbelt", "roof" ] },
+      { "x": 0, "y": 2, "parts": [ "frame_vertical_right", "door_ne" ] },
+      { "x": 1, "y": -1, "parts": [ "frame_vertical_T_left", "windshield_wheel_left" ] },
+      { "x": 1, "y": -1, "parts": [ "wheel_mount_medium_steerable", "wheel" ] },
+      { "x": 1, "y": 0, "parts": [ "frame_horizontal_2", "windshield_cover_left" ] },
+      { "x": 1, "y": 1, "parts": [ "frame_horizontal_2", "windshield_cover_right" ] },
+      { "x": 1, "y": 2, "parts": [ "frame_vertical_T_right", "windshield_wheel_right" ] },
+      { "x": 1, "y": 2, "parts": [ "wheel_mount_medium_steerable", "wheel" ] },
+      { "x": 2, "y": -1, "parts": [ "frame_nw", "halfboard_nw", "headlight" ] },
+      { "x": 2, "y": 0, "parts": [ "frame_horizontal_front", "halfboard_cover_left" ] },
+      { "x": 2, "y": 0, "parts": [ "engine_v6", "alternator_truck", "battery_car" ] },
+      { "x": 2, "y": 1, "parts": [ "frame_horizontal_front", "halfboard_cover_right" ] },
+      { "x": 2, "y": 2, "parts": [ "frame_ne", "halfboard_ne", "headlight" ] },
+      { "x": -1, "y": -1, "parts": [ "frame_vertical_left", "windshield_sw" ] },
+      { "x": -1, "y": 0, "parts": [ "frame_cross", "windshield_horizontal_rear", "roof" ] },
+      { "x": -1, "y": 1, "parts": [ "frame_cross", "windshield_horizontal_rear", "roof" ] },
+      { "x": -1, "y": 2, "parts": [ "frame_vertical_right", "windshield_se" ] },
+      { "x": -2, "y": -1, "parts": [ "frame_vertical_left", "halfboard_vertical_left" ] },
+      { "x": -2, "y": -1, "part": "tank", "fuel": "gasoline" },
+      { "x": -2, "y": 0, "parts": [ "frame_cross", "cargo_space", "muffler" ] },
+      { "x": -2, "y": 1, "parts": [ "frame_cross", "cargo_space" ] },
+      { "x": -2, "y": 2, "parts": [ "frame_vertical_right", "halfboard_vertical_right" ] },
+      { "x": -3, "y": -1, "parts": [ "frame_vertical_left", "halfboard_wheel_left" ] },
+      { "x": -3, "y": -1, "parts": [ "wheel_mount_medium", "wheel" ] },
+      { "x": -3, "y": 0, "parts": [ "frame_cross", "cargo_space" ] },
+      { "x": -3, "y": 1, "parts": [ "frame_cross", "cargo_space" ] },
+      { "x": -3, "y": 2, "parts": [ "frame_vertical_right", "halfboard_wheel_right" ] },
+      { "x": -3, "y": 2, "parts": [ "wheel_mount_medium", "wheel" ] },
+      { "x": -4, "y": -1, "parts": [ "frame_sw", "halfboard_sw" ] },
+      { "x": -4, "y": 0, "parts": [ "frame_horizontal_rear", "cargo_space" ] },
+      { "x": -4, "y": 1, "parts": [ "frame_horizontal_rear", "cargo_space" ] },
+      { "x": -4, "y": 2, "parts": [ "frame_se", "halfboard_se" ] }
+    ],
+    "items": [
+      { "x": -2, "y": 0, "chance": 90, "item_groups": [ "corpses_bodybag" ] },
+      { "x": -2, "y": 1, "chance": 90, "item_groups": [ "corpses_bodybag" ] },
+      { "x": -3, "y": 0, "chance": 90, "item_groups": [ "corpses_bodybag" ] },
+      { "x": -3, "y": 1, "chance": 90, "item_groups": [ "corpses_bodybag" ] },
+      { "x": -4, "y": 0, "chance": 90, "item_groups": [ "corpses_bodybag" ] },
+      { "x": -4, "y": 1, "chance": 90, "item_groups": [ "corpses_bodybag" ] }
+    ]
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "pile_bodybag_corpses",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "place_items": [ { "item": "corpses_bodybag", "x": [ 0, 2 ], "y": [ 0, 2 ], "chance": 100, "repeat": [ 20, 40 ] } ]
+    }
+  },
+  {
     "type": "mapgen",
     "method": "json",
     "om_terrain": [
@@ -13,7 +79,7 @@
       "rows": [
         "_______________________________________________________########;########",
         "_______________________________________________________#...cT#...#Tc...#",
-        "_:____:____:____:_________:____:____:____:____:____:___#BB...+...+...BB#",
+        "_:__=_:__=_:__=_:____=____:__=_:__=_:__=_:__=_:__=_:___#BB...+...+...BB#",
         "_:____:____:____:_________:____:____:____:____:____:___#BB...+...+...BB#",
         "_:____:____:____:_________:____:____:____:____:____:___#....l#...#l....#",
         "_:____:____:____:_________:____:____:____:____:____:___#######...#######",
@@ -85,7 +151,7 @@
         "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx#######################;;#################"
       ],
       "palettes": [ "hospital" ],
-      "terrain": { "5": "t_floor", "H": "t_floor", "X": [ "t_door_metal_locked", "t_door_metal_elocked" ] },
+      "terrain": { "5": "t_floor", "H": "t_floor", "X": [ "t_door_metal_locked", "t_door_metal_elocked" ], "=": "t_pavement" },
       "furniture": { "H": "f_locker" },
       "vendingmachines": { "D": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },
       "computers": {
@@ -101,6 +167,8 @@
           "failures": [ { "action": "destroy_blood" } ]
         }
       },
+      "vehicles": { "=": { "vehicle": "pickup_corpses", "chance": 10, "rotation": 270, "status": 1 } },
+      "nested": { "=": { "chunks": [ [ "null", 70 ], [ "pile_bodybag_corpses", 30 ] ] } },
       "items": {
         "b": { "item": "magazines", "chance": 50 },
         "B": { "item": "hospital_bed", "chance": 80 },
@@ -126,7 +194,6 @@
           { "item": "surgery", "chance": 60 }
         ]
       },
-      "place_loot": [ { "group": "autodoc_installation_programs", "x": 1, "y": [ 34, 37 ], "chance": 75, "repeat": 4 } ],
       "place_monster": [
         { "group": "GROUP_HOSPITAL", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 15, 20 ] },
         { "group": "GROUP_HOSPITAL", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 15, 20 ] },

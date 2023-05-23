@@ -21,12 +21,6 @@
     "melee_dice": 1,
     "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
-    "armor_bash": 6,
-    "armor_cut": 6,
-    "armor_bullet": 6,
-    "armor_stab": 6,
-    "armor_fire": 6,
-    "armor_elec": 2,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
     "families": [ "prof_wp_demihuman" ],
     "dodge": 2,
@@ -54,7 +48,8 @@
     "zombify_into": "mon_draugr",
     "fungalize_into": "mon_cracked_mirror",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
-    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER_1", "DROPS_AMMO" ]
+    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER_1", "DROPS_AMMO" ],
+    "armor": { "bash": 6, "cut": 6, "stab": 6, "heat": 6, "bullet": 6, "electric": 2 }
   },
   {
     "id": "mon_changeling_bannerman",
@@ -68,11 +63,8 @@
     "melee_dice": 2,
     "melee_dice_sides": 5,
     "melee_damage": [ { "damage_type": "cut", "amount": 8 } ],
-    "armor_bash": 8,
-    "armor_cut": 8,
-    "armor_bullet": 8,
-    "armor_pure": 8,
-    "death_drops": "changeling_bannerman_death_drops"
+    "death_drops": "changeling_bannerman_death_drops",
+    "armor": { "stab": 6, "heat": 6, "electric": 2, "bash": 8, "cut": 8, "bullet": 8, "pure": 8 }
   },
   {
     "id": "mon_redcap_aspirant",
@@ -89,12 +81,9 @@
     "melee_dice_sides": 5,
     "dodge": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 12 } ],
-    "armor_bash": 12,
-    "armor_cut": 12,
-    "armor_bullet": 24,
-    "armor_pure": 16,
     "special_attacks": [ { "id": "impale" } ],
-    "death_drops": "changeling_redcap_aspirant_death_drops"
+    "death_drops": "changeling_redcap_aspirant_death_drops",
+    "armor": { "stab": 6, "heat": 6, "electric": 2, "bash": 12, "cut": 12, "bullet": 24, "pure": 16 }
   },
   {
     "id": "mon_pooka_aspirant",
@@ -111,12 +100,9 @@
     "melee_dice_sides": 5,
     "dodge": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 12 } ],
-    "armor_bash": 12,
-    "armor_cut": 12,
-    "armor_bullet": 24,
-    "armor_pure": 16,
     "special_attacks": [ [ "BIO_OP_TAKEDOWN", 20 ] ],
-    "death_drops": "changeling_pooka_aspirant_death_drops"
+    "death_drops": "changeling_pooka_aspirant_death_drops",
+    "armor": { "stab": 6, "heat": 6, "electric": 2, "bash": 12, "cut": 12, "bullet": 24, "pure": 16 }
   },
   {
     "id": "mon_march_lord",
@@ -139,13 +125,6 @@
     "melee_dice": 8,
     "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 12 } ],
-    "armor_bash": 22,
-    "armor_cut": 36,
-    "armor_bullet": 36,
-    "armor_stab": 16,
-    "armor_fire": 90,
-    "armor_pure": 160,
-    "armor_elec": 2,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
     "dodge": 5,
     "harvest": "demihuman",
@@ -156,7 +135,8 @@
     "special_attacks": [ { "type": "spell", "spell_data": { "id": "hoary_blast", "min_level": 5 }, "cooldown": 10 } ],
     "death_drops": "changeling_lord_death_drops",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
-    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER_1", "DROPS_AMMO" ]
+    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER_1", "DROPS_AMMO" ],
+    "armor": { "bash": 22, "cut": 36, "stab": 16, "heat": 90, "bullet": 36, "electric": 2, "pure": 160 }
   },
   {
     "id": "mon_draugr",
@@ -179,18 +159,28 @@
     "melee_dice": 2,
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-    "armor_bash": 6,
-    "armor_cut": 6,
-    "armor_bullet": 6,
-    "armor_stab": 9,
-    "armor_elec": 2,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
     "vision_day": 30,
     "vision_night": 3,
     "harvest": "zombie",
-    "special_attacks": [ [ "GRAB", 7 ], [ "scratch", 20 ] ],
+    "grab_strength": 20,
+    "special_attacks": [ { "id": "grab", "cooldown": 7 }, { "id": "scratch_humanoid" } ],
     "death_drops": "changeling_death_drops",
-    "flags": [ "SEES", "HEARS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "STUMBLES",
+      "WARM",
+      "GRABS",
+      "BASHES",
+      "GROUP_BASH",
+      "POISON",
+      "NO_BREATHE",
+      "REVIVES",
+      "PUSH_MON",
+      "FILTHY"
+    ],
+    "armor": { "bash": 6, "cut": 6, "stab": 9, "bullet": 6, "electric": 2 }
   },
   {
     "id": "mon_cracked_mirror",
@@ -213,18 +203,15 @@
     "melee_skill": 3,
     "melee_dice": 1,
     "melee_dice_sides": 6,
-    "armor_bash": 2,
-    "armor_cut": 9,
-    "armor_bullet": 12,
-    "armor_stab": 16,
-    "armor_elec": 20,
     "bleed_rate": 0,
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "zombie",
-    "special_attacks": [ [ "FUNGUS", 200 ], { "type": "bite", "cooldown": 5 } ],
+    "grab_strength": 20,
+    "special_attacks": [ [ "FUNGUS", 200 ], { "id": "bite_humanoid", "cooldown": 5 }, { "id": "grab" } ],
     "death_drops": "changeling_death_drops",
-    "flags": [ "SEES", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "PUSH_MON", "FILTHY" ]
+    "flags": [ "SEES", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "PUSH_MON", "FILTHY" ],
+    "armor": { "bash": 2, "cut": 9, "stab": 16, "bullet": 12, "electric": 20 }
   },
   {
     "id": "mon_fetch_child",
@@ -247,8 +234,6 @@
     "melee_dice": 2,
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
-    "armor_elec": 1,
-    "armor_bullet": 4,
     "dodge": 2,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_child_body", "wps_humanoid_head_big" ],
     "vision_day": 30,
@@ -257,7 +242,8 @@
     "special_attacks": [ { "type": "melee", "id": "sharp_objects", "attack_upper": false, "cooldown": 15 }, [ "PARROT_AT_DANGER", 800 ] ],
     "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_children_clothes", 100 ], [ "child_items", 65 ] ] },
     "death_function": { "effect": { "id": "death_guilt", "min_level": 9 } },
-    "flags": [ "SEES", "HEARS", "WARM", "BASHES" ]
+    "flags": [ "SEES", "HEARS", "WARM", "BASHES" ],
+    "armor": { "bullet": 4, "electric": 1 }
   },
   {
     "id": "mon_fetch_daffodil_warrior",
@@ -279,14 +265,13 @@
     "melee_skill": 4,
     "melee_dice": 2,
     "melee_dice_sides": 9,
-    "armor_cut": 4,
-    "armor_bullet": 4,
     "dodge": 2,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
     "vision_day": 30,
     "vision_night": 3,
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s bursts into a rain of pollen!" },
-    "flags": [ "SEES", "HEARS", "WARM", "BASHES" ]
+    "flags": [ "SEES", "HEARS", "WARM", "BASHES" ],
+    "armor": { "cut": 4, "bullet": 4 }
   },
   {
     "id": "mon_fae_wolf",
@@ -312,15 +297,14 @@
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
     "dodge": 5,
-    "armor_cut": 5,
-    "armor_bullet": 15,
     "bleed_rate": 40,
     "vision_day": 50,
     "//": "need to add the harvest",
     "harvest": "fae_furred",
     "path_settings": { "max_dist": 10 },
     "special_attacks": [ { "type": "bite", "cooldown": 6 } ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "BASHES", "HIT_AND_RUN" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "BASHES", "HIT_AND_RUN" ],
+    "armor": { "cut": 5, "bullet": 15 }
   },
   {
     "id": "mon_goblin_spider",
@@ -348,15 +332,13 @@
     "attack_effs": [ { "id": "venom_dmg", "duration": 400, "affect_hit_bp": true } ],
     "//": "5 hits to max intensity, 6 hits to max duration",
     "dodge": 2,
-    "armor_bash": 2,
-    "armor_cut": 6,
-    "armor_bullet": 8,
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "demihuman",
     "weakpoint_sets": [ "wps_humanoid_head_small", "wps_arthropod_spider" ],
     "families": [ "prof_wp_demihuman" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "WEBWALK", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL", "NIGHT_INVISIBILITY" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "WEBWALK", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL", "NIGHT_INVISIBILITY" ],
+    "armor": { "bash": 2, "cut": 6, "bullet": 8 }
   },
   {
     "id": "mon_xe_unicorn",
@@ -380,12 +362,6 @@
     "melee_dice": 3,
     "melee_dice_sides": 12,
     "melee_damage": [ { "damage_type": "stab", "amount": 5 } ],
-    "armor_bash": 8,
-    "armor_cut": 6,
-    "armor_bullet": 18,
-    "armor_elec": 9,
-    "armor_cold": 20,
-    "armor_pure": 10,
     "dodge": 3,
     "anger_triggers": [ "FRIEND_ATTACKED" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
@@ -406,7 +382,8 @@
       "PATH_AVOID_DANGER_1",
       "WARM",
       "HIT_AND_RUN"
-    ]
+    ],
+    "armor": { "bash": 8, "cut": 6, "bullet": 18, "electric": 9, "cold": 20, "pure": 10 }
   },
   {
     "id": "mon_xe_unicorn_foal",
@@ -432,9 +409,7 @@
     "melee_skill": 3,
     "melee_dice": 2,
     "melee_dice_sides": 6,
-    "armor_elec": 1,
     "dodge": 3,
-    "armor_bash": 2,
     "anger_triggers": [ "FRIEND_ATTACKED" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
@@ -443,7 +418,8 @@
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 10 },
     "special_attacks": [ [ "EAT_CROP", 100 ] ],
     "petfood": { "food": [ "UNICORNFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PET_WONT_FOLLOW", "PATH_AVOID_DANGER_1", "WARM", "NO_BREED" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PET_WONT_FOLLOW", "PATH_AVOID_DANGER_1", "WARM", "NO_BREED" ],
+    "armor": { "bash": 2, "electric": 1 }
   },
   {
     "id": "mon_xe_mavka",
@@ -467,15 +443,15 @@
     "melee_dice": 2,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
-    "grab_strength": 5,
+    "grab_strength": 100,
     "dodge": 5,
     "luminance": 0,
     "harvest": "demihuman",
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "families": [ "prof_wp_demihuman" ],
-    "special_attacks": [ [ "RANGED_PULL", 10 ], [ "GRAB_DRAG", 3 ] ],
+    "special_attacks": [ { "id": "ranged_pull", "cooldown": 10 }, [ "GRAB_DRAG", 3 ] ],
     "path_settings": { "max_dist": 50, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
-    "flags": [ "SEES", "HEARS", "SMELLS", "SWIMS", "AQUATIC", "GRABS" ]
+    "flags": [ "SEES", "HEARS", "GRABS", "SMELLS", "SWIMS", "AQUATIC", "GRABS" ]
   },
   {
     "id": "mon_melian_mantis_mount",
@@ -499,10 +475,6 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 10.0, "armor_penetration": 12 } ],
     "dodge": 3,
-    "armor_bash": 10,
-    "armor_cut": 16,
-    "armor_bullet": 13,
-    "armor_elec": 2,
     "weakpoint_sets": [ "wps_arthropod" ],
     "families": [ "prof_wp_basic_bug" ],
     "vision_day": 8,
@@ -518,7 +490,7 @@
         "cooldown": 8,
         "max_range": 5,
         "allow_no_target": false,
-        "forbidden_effects_any": [ "maimed_leg" ]
+        "condition": { "not": { "u_has_effect": "maimed_leg" } }
       }
     ],
     "flags": [
@@ -531,6 +503,7 @@
       "PATH_AVOID_FALL",
       "COMBAT_MOUNT",
       "INSECTICIDEPROOF"
-    ]
+    ],
+    "armor": { "bash": 10, "cut": 16, "bullet": 13, "electric": 2 }
   }
 ]

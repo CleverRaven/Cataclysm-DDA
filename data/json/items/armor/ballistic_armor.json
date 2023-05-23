@@ -1079,7 +1079,6 @@
     "price": "5000 USD",
     "price_postapoc": "60 USD",
     "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "uneven" },
-    "bashing": 6,
     "material": [ "ceramic", "nylon" ],
     "symbol": "[",
     "looks_like": "kevlar",
@@ -1101,6 +1100,7 @@
         "cover_vitals": 90,
         "covers": [ "torso" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 6 }
   }
 ]

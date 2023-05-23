@@ -345,8 +345,7 @@ void play_with( monster &z )
     std::string pet_name = z.get_name();
     Character &player_character = get_player_character();
     const std::string &petstr = z.type->petfood.pet;
-    player_character.assign_activity(
-        player_activity( play_with_pet_activity_actor( pet_name, petstr ) ) );
+    player_character.assign_activity( play_with_pet_activity_actor( pet_name, petstr ) );
 }
 
 void cull( monster &z )
@@ -475,8 +474,7 @@ void milk_source( monster &source_mon )
             source_mon.add_effect( effect_tied, 1_turns, true );
             str_values.emplace_back( "temp_tie" );
         }
-        player_character.assign_activity( player_activity( milk_activity_actor( moves, coords,
-                                          str_values ) ) );
+        player_character.assign_activity( milk_activity_actor( moves, coords, str_values ) );
 
         add_msg( _( "You milk the %s." ), source_mon.get_name() );
     } else {
@@ -499,7 +497,7 @@ void shear_animal( monster &z )
         z.add_effect( effect_tied, 1_turns, true );
     }
 
-    guy.assign_activity( player_activity( shearing_activity_actor( z.pos(), !monster_tied ) ) );
+    guy.assign_activity( shearing_activity_actor( z.pos(), !monster_tied ) );
 }
 
 void remove_battery( monster &z )

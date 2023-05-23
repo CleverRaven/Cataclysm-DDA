@@ -65,7 +65,22 @@ Sprites can be referenced across tilesheet directories, but they must be stored 
 
 #### Hardcoded IDs
 
-The special ID `unknown` provides a sprite that is displayed when an entity has no other sprite. Other hardcoded IDs also exist, and most of them are referenced in [`src/cata_tiles.cpp`](/src/cata_tiles.cpp). A full list of hardcoded IDs _may_ be present in [`tools/json_tools/generate_overlay_ids.py`](/tools/json_tools/generate_overlay_ids.py) stored as `CPP_IDS` but it's updated manually and may lag behind.
+The special ID `unknown` provides a sprite that is displayed when an entity has no other sprite. Other hardcoded IDs also exist, and most of them are referenced in [`src/cata_tiles.cpp`](/src/cata_tiles.cpp). A full list of hardcoded IDs _may_ be present in [`tools/json_tools/generate_overlay_ids.py`](/tools/json_tools/generate_overlay_ids.py) stored as `CPP_IDS` but it's updated manually and may lag behind. Other IDs may be found below.
+
+Running trail animations (game.cpp):
+`run_nw` Player running towards north-west.
+`run_n`
+`run_ne`
+`run_w`
+`run_e`
+`run_sw`
+`run_s`
+`run_se`
+
+Bashing animations (handle_action.cpp):
+`bash_complete` Bash results in destruction of target.
+`bash_effective` Bash effective but target not yet destroyed.
+`bash_ineffective` Bash not effective.
 
 #### Complex IDs
 

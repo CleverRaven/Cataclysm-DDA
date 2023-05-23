@@ -15,9 +15,9 @@
     "techniques": [ "WBLOCK_1" ],
     "weapon_category": [ "BATONS", "FENCING_WEAPONRY" ],
     "volume": "370 ml",
-    "bashing": 12,
     "price": 7500,
-    "price_postapoc": 10
+    "price_postapoc": 10,
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "scrap",
@@ -50,11 +50,10 @@
     "symbol": ";",
     "material": [ "steel" ],
     "volume": "250 ml",
-    "bashing": 2,
-    "cutting": 6,
-    "flags": [ "STAB" ],
+    "flags": [  ],
     "qualities": [ [ "BUTCHER", -42 ] ],
-    "price_postapoc": 10
+    "price_postapoc": 10,
+    "melee_damage": { "bash": 2, "stab": 6 }
   },
   {
     "type": "GENERIC",
@@ -71,9 +70,9 @@
     "techniques": [ "WBLOCK_1" ],
     "weapon_category": [ "BATONS" ],
     "volume": "370 ml",
-    "bashing": 5,
     "price": 7500,
-    "price_postapoc": 10
+    "price_postapoc": 10,
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "material_aluminium_ingot",
@@ -231,13 +230,13 @@
     "//": "Roughly in the 15cm×15cm to 20cm×20cm range. Compact and stacks well, so equally dense as a solid block.",
     "price": 2000,
     "price_postapoc": 10,
-    "bashing": 5,
     "to_hit": -3,
     "stack_size": 8,
     "material": [ "steel" ],
     "symbol": "]",
     "color": "light_cyan",
-    "ammo_type": "components"
+    "ammo_type": "components",
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "steel_chunk",
@@ -251,14 +250,14 @@
     "//1": "250ml × 8.0 = 2kg -> 500g/unit @ stack 4; but mishapen so weight is only 50% of this",
     "price": 1000,
     "price_postapoc": 10,
-    "bashing": 8,
     "to_hit": -2,
     "stack_size": 4,
     "material": [ "steel" ],
     "symbol": ",",
     "color": "light_gray",
     "ammo_type": "components",
-    "qualities": [ [ "HAMMER", 1 ] ]
+    "qualities": [ [ "HAMMER", 1 ] ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "steel_lump",
@@ -272,14 +271,14 @@
     "//1": "250ml × 8.0 = 2kg -> 1000g/unit @ stack 2; formed as a solid ingot so weight is 100% of this",
     "price": 2000,
     "price_postapoc": 50,
-    "bashing": 12,
     "to_hit": -4,
     "stack_size": 2,
     "material": [ "steel" ],
     "symbol": ",",
     "color": "light_gray",
     "ammo_type": "components",
-    "qualities": [ [ "HAMMER", 1 ] ]
+    "qualities": [ [ "HAMMER", 1 ] ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "lc_steel_lump",
@@ -331,14 +330,14 @@
     "volume": "250 ml",
     "price": 3000,
     "price_postapoc": 10,
-    "bashing": 5,
     "to_hit": -3,
     "stack_size": 6,
     "//": "Roughly in the 8cm×8cm to 10cm×10cm range. Compact and stacks well",
     "material": [ "steel" ],
     "symbol": "%",
     "color": "light_cyan",
-    "ammo_type": "components"
+    "ammo_type": "components",
+    "melee_damage": { "bash": 5 }
   },
   {
     "type": "GENERIC",
@@ -353,8 +352,8 @@
     "material": [ "copper" ],
     "volume": "30 ml",
     "weight": "250 g",
-    "bashing": 1,
-    "to_hit": -2
+    "to_hit": -2,
+    "melee_damage": { "bash": 1 }
   },
   {
     "type": "GENERIC",
@@ -370,8 +369,8 @@
     "//": "Density of 7.265g/cm³ = 363.25g/50ml ~ 363g",
     "volume": "50 ml",
     "weight": "363 g",
-    "bashing": 1,
-    "to_hit": -2
+    "to_hit": -2,
+    "melee_damage": { "bash": 1 }
   },
   {
     "type": "AMMO",
@@ -405,7 +404,8 @@
     "weight": "2 g",
     "//": "Density ~ 8g/cm³ ~ 2000kg/250ml @ stack 1000 = 2g/unit",
     "ammo_type": "components",
-    "count": 200
+    "count": 200,
+    "flags": [ "UNRECOVERABLE" ]
   },
   {
     "type": "AMMO",
@@ -1008,9 +1008,9 @@
     "material": [ "slag" ],
     "volume": "25 ml",
     "weight": "10 g",
-    "bashing": 1,
     "ammo_type": "components",
-    "count": 10
+    "count": 10,
+    "melee_damage": { "bash": 1 }
   },
   {
     "type": "GENERIC",
@@ -1025,7 +1025,7 @@
     "material": [ "aluminum" ],
     "volume": "20 ml",
     "weight": "50 g",
-    "bashing": 1,
-    "to_hit": -2
+    "to_hit": -2,
+    "melee_damage": { "bash": 1 }
   }
 ]

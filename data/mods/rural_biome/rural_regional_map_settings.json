@@ -499,7 +499,8 @@
         "chance": 75,
         "extras": {
           "mx_helicopter": 25,
-          "mx_roadblock": 20,
+          "mx_roadblock": 15,
+          "mx_roadblock_mil": 5,
           "mx_bandits_block": 80,
           "mx_supplydrop": 1,
           "mx_portal": 5,

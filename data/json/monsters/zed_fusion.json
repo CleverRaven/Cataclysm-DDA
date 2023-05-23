@@ -20,12 +20,11 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 1,
-    "armor_bash": 8,
-    "armor_elec": 2,
     "families": [ "prof_intro_biology" ],
     "harvest": "zombie_leather",
     "fear_triggers": [ "HURT", "FIRE" ],
-    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "POISON", "HUMAN" ]
+    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "POISON", "HUMAN" ],
+    "armor": { "bash": 8, "electric": 2 }
   },
   {
     "id": "mon_devourer",
@@ -50,14 +49,12 @@
     "melee_dice": 3,
     "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "armor_bash": 5,
-    "armor_cut": 5,
-    "armor_bullet": 4,
-    "armor_elec": 3,
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "vision_night": 3,
     "harvest": "zombie",
-    "special_attacks": [ [ "GRAB", 7 ], [ "scratch", 20 ], [ "ZOMBIE_FUSE", 80 ] ],
+    "//grab": "All these arms to grab you with",
+    "grab_strength": 50,
+    "special_attacks": [ { "id": "grab", "cooldown": 7 }, { "id": "scratch" }, [ "ZOMBIE_FUSE", 80 ] ],
     "death_drops": {
       "subtype": "collection",
       "groups": [ "default_zombie_death_drops", "default_zombie_death_drops", "default_zombie_death_drops" ]
@@ -78,7 +75,8 @@
       "PUSH_MON",
       "PATH_AVOID_DANGER_1",
       "FILTHY"
-    ]
+    ],
+    "armor": { "bash": 5, "cut": 5, "bullet": 4, "electric": 3 }
   },
   {
     "id": "mon_devourer_lab_sec",
@@ -102,15 +100,10 @@
     "melee_dice": 9,
     "melee_dice_sides": 5,
     "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
-    "armor_bash": 26,
-    "armor_cut": 35,
-    "armor_stab": 30,
-    "armor_bullet": 40,
-    "armor_fire": 80,
-    "armor_elec": 6,
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_syn_armored" ],
     "bleed_rate": 0,
     "vision_night": 10,
+    "grab_strength": 75,
     "special_attacks": [
       { "id": "longswipe", "min_mul": 1, "max_mul": 2, "cooldown": 5 },
       { "id": "slam", "min_mul": 2, "max_mul": 3, "cooldown": 5 },
@@ -148,7 +141,8 @@
       "CAN_OPEN_DOORS",
       "HARDTOSHOOT",
       "FILTHY"
-    ]
+    ],
+    "armor": { "bash": 26, "cut": 35, "stab": 30, "heat": 80, "bullet": 40, "electric": 6 }
   },
   {
     "id": "mon_zombie_crushed_giant",
@@ -174,16 +168,13 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 10 } ],
     "vision_day": 60,
     "vision_night": 60,
-    "armor_bash": 10,
-    "armor_cut": 20,
-    "armor_bullet": 16,
-    "armor_elec": 5,
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "bleed_rate": 0,
     "harvest": "exempt",
     "special_attacks": [ [ "FLESH_TENDRIL", 1 ] ],
     "death_function": { "message": "A %s explodes!", "effect": { "id": "death_gas", "hit_self": true }, "corpse_type": "NO_CORPSE" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "IMMOBILE", "WARM", "POISON", "IMMOBILE", "NO_BREATHE", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "IMMOBILE", "WARM", "POISON", "IMMOBILE", "NO_BREATHE", "FILTHY" ],
+    "armor": { "bash": 10, "cut": 20, "bullet": 16, "electric": 5 }
   },
   {
     "id": "mon_zombie_gasbag_immobile",
@@ -207,7 +198,6 @@
     "melee_dice": 2,
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "armor_elec": 1,
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "vision_night": 3,
     "harvest": "exempt",
@@ -215,7 +205,8 @@
     "death_drops": "default_zombie_items",
     "upgrades": { "half_life": 24, "into": "mon_zombie_gasbag_crawler" },
     "death_function": { "message": "A %s explodes!", "effect": { "id": "death_gas", "hit_self": true }, "corpse_type": "NO_CORPSE" },
-    "flags": [ "SEES", "HEARS", "IMMOBILE", "WARM", "POISON", "NO_BREATHE", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "IMMOBILE", "WARM", "POISON", "NO_BREATHE", "FILTHY" ],
+    "armor": { "electric": 1 }
   },
   {
     "id": "mon_zombie_gasbag_crawler",
@@ -240,17 +231,14 @@
     "melee_dice": 2,
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
-    "armor_bash": 6,
-    "armor_cut": 6,
-    "armor_bullet": 5,
-    "armor_elec": 1,
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "bleed_rate": 50,
     "vision_night": 50,
     "harvest": "exempt",
     "special_attacks": [ { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true }, [ "scratch", 5 ] ],
     "death_function": { "message": "A %s explodes!", "effect": { "id": "death_gas", "hit_self": true }, "corpse_type": "NO_CORPSE" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "POISON", "CLIMBS", "NO_BREATHE", "CLIMBS", "HARDTOSHOOT", "NEVER_WANDER" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "POISON", "CLIMBS", "NO_BREATHE", "CLIMBS", "HARDTOSHOOT", "NEVER_WANDER" ],
+    "armor": { "bash": 6, "cut": 6, "bullet": 5, "electric": 1 }
   },
   {
     "id": "mon_zombie_gasbag_impaler",
@@ -276,10 +264,6 @@
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "vision_night": 30,
-    "armor_bash": 6,
-    "armor_cut": 6,
-    "armor_bullet": 5,
-    "armor_elec": 1,
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "bleed_rate": 50,
     "harvest": "exempt",
@@ -296,7 +280,8 @@
       [ "scratch", 5 ]
     ],
     "death_function": { "message": "A %s explodes!", "effect": { "id": "death_gas", "hit_self": true }, "corpse_type": "NO_CORPSE" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "POISON", "CLIMBS", "NO_BREATHE", "CLIMBS", "HARDTOSHOOT" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "POISON", "CLIMBS", "NO_BREATHE", "CLIMBS", "HARDTOSHOOT" ],
+    "armor": { "bash": 6, "cut": 6, "bullet": 5, "electric": 1 }
   },
   {
     "id": "mon_zombie_scissorlimbs",
@@ -320,16 +305,13 @@
     "melee_dice": 5,
     "melee_dice_sides": 2,
     "melee_damage": [ { "damage_type": "cut", "amount": 12 } ],
-    "armor_bash": 2,
-    "armor_cut": 10,
-    "armor_bullet": 10,
-    "armor_elec": 2,
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "bleed_rate": 50,
     "vision_day": 1,
     "special_attacks": [ { "type": "leap", "cooldown": 5, "max_range": 3, "allow_no_target": true }, [ "scratch", 5 ] ],
     "death_function": { "message": "A %s explodes!", "effect": { "id": "death_gas", "hit_self": true }, "corpse_type": "NO_CORPSE" },
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "WARM", "POISON", "CLIMBS", "NO_BREATHE", "CLIMBS", "HARDTOSHOOT", "NEVER_WANDER" ]
+    "flags": [ "SEES", "HEARS", "GOODHEARING", "WARM", "POISON", "CLIMBS", "NO_BREATHE", "CLIMBS", "HARDTOSHOOT", "NEVER_WANDER" ],
+    "armor": { "bash": 2, "cut": 10, "bullet": 10, "electric": 2 }
   },
   {
     "id": "mon_zombie_hanging_innards",
@@ -353,18 +335,20 @@
     "melee_skill": 5,
     "melee_dice": 5,
     "melee_dice_sides": 2,
-    "armor_bash": 6,
-    "armor_cut": 10,
-    "armor_bullet": 6,
-    "armor_elec": 2,
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "bleed_rate": 50,
     "vision_day": 2,
     "vision_night": 2,
     "harvest": "exempt",
     "death_function": { "message": "A %s explodes!", "effect": { "id": "death_gas", "hit_self": true }, "corpse_type": "NO_CORPSE" },
-    "special_attacks": [ [ "RANGED_PULL", 20 ], { "id": "smash", "throw_strength": 30 } ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "POISON", "CLIMBS", "NO_BREATHE", "IMMOBILE", "RANGED_ATTACKER" ]
+    "//grab": "High weight ratio since it's not *really* 81kg",
+    "grab_strength": 35,
+    "special_attacks": [
+      { "id": "ranged_pull", "cooldown": 20, "grab_data": { "pull_weight_ratio": 3.0 } },
+      { "id": "smash", "throw_strength": 30 }
+    ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "POISON", "CLIMBS", "NO_BREATHE", "IMMOBILE", "RANGED_ATTACKER" ],
+    "armor": { "bash": 6, "cut": 10, "bullet": 6, "electric": 2 }
   },
   {
     "id": "mon_zombie_giant_heart",
@@ -384,14 +368,11 @@
     "morale": 10,
     "vision_day": 60,
     "vision_night": 60,
-    "armor_bash": 25,
-    "armor_cut": 25,
-    "armor_bullet": 20,
-    "armor_elec": 5,
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "bleed_rate": 50,
     "harvest": "exempt",
-    "flags": [ "SEES", "HEARS", "IMMOBILE", "WARM", "POISON", "IMMOBILE", "NO_BREATHE", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "IMMOBILE", "WARM", "POISON", "IMMOBILE", "NO_BREATHE", "FILTHY" ],
+    "armor": { "bash": 25, "cut": 25, "bullet": 20, "electric": 5 }
   },
   {
     "id": "mon_zombie_living_wall",
@@ -411,13 +392,10 @@
     "morale": 10,
     "vision_day": 60,
     "vision_night": 60,
-    "armor_bash": 15,
-    "armor_cut": 15,
-    "armor_bullet": 10,
-    "armor_elec": 6,
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "bleed_rate": 0,
     "harvest": "exempt",
-    "flags": [ "SEES", "HEARS", "IMMOBILE", "WARM", "POISON", "IMMOBILE", "NO_BREATHE", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "IMMOBILE", "WARM", "POISON", "IMMOBILE", "NO_BREATHE", "FILTHY" ],
+    "armor": { "bash": 15, "cut": 15, "bullet": 10, "electric": 6 }
   }
 ]

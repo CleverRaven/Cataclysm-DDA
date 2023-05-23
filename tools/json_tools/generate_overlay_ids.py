@@ -31,12 +31,9 @@ CPP_IDS = (
     'animation_hit', 'player_male', 'player_female', 'npc_male', 'npc_female',
     'animation_line', 'line_target', 'line_trail',
     'infrared_creature',
+    'run_nw', 'run_n', 'run_ne', 'run_w', 'run_e', 'run_sw', 'run_s', 'run_se',
+    'bash_complete', 'bash_effective', 'bash_ineffective',
 )
-VP_STANDARD_SYMBOLS = {
-    "cover": "^", "cross": "c", "horizontal": "h", "horizontal_2": "=",
-    "vertical": "j",
-    "vertical_2": "H", "ne": "u", "nw": "y", "se": "n", "sw": "b"
-}  # vpart_variants_standard in src/veh_type.h
 ATTITUDES = ('hostile', 'neutral', 'friendly', 'other')
 
 TILESET_OVERLAY_TYPES = {
@@ -117,8 +114,6 @@ if __name__ == '__main__':
             variable_prefix = ('corpse_', 'overlay_wielded_corpse_')
         if datum_type == 'vehicle_part':
             variable_suffix = datum.get('symbols', {}).keys()
-            if datum.get('standard_symbols', False):
-                variable_suffix = ['', ] + list(VP_STANDARD_SYMBOLS.keys())
             if variable_suffix:
                 variable_suffix = ['', ] + [f'_{s}' for s in variable_suffix]
             else:

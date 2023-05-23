@@ -1,4 +1,4 @@
-// RUN: %check_clang_tidy %s cata-json-translation-input %t -- -plugins=%cata_plugin -- -I %test_include
+// RUN: %check_clang_tidy %s cata-json-translation-input %t -- --load=%cata_plugin -- -I %test_include
 
 #include "mock-translation.h"
 

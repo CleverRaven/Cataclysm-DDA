@@ -23,6 +23,8 @@
 
 class Creature;
 
+static const damage_type_id damage_cut( "cut" );
+
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_debugged( "debugged" );
 static const efftype_id effect_grabbed( "grabbed" );
@@ -614,7 +616,7 @@ TEST_CASE( "bleed_effect_attribution", "[effect][bleed][monster]" )
     clear_map();
     clear_avatar();
     Character &player = get_player_character();
-    const damage_instance cut_damage = damage_instance( damage_type::CUT, 50, 50 );
+    const damage_instance cut_damage = damage_instance( damage_cut, 50, 50 );
 
     GIVEN( "player and monster" ) {
         clear_npcs();

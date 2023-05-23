@@ -12,6 +12,9 @@ std::string read_var_value( const var_info &info, const dialogue &d )
         case var_type::global:
             ret_val = globvars.get_global_value( info.name );
             break;
+        case var_type::context:
+            ret_val = d.get_value( info.name );
+            break;
         case var_type::u:
             ret_val = d.actor( false )->get_value( info.name );
             break;
@@ -36,6 +39,9 @@ std::string read_var_value( const var_info &info, const dialogue &d )
 
 std::string str_or_var::evaluate( dialogue const &d ) const
 {
+    if( function.has_value() ) {
+        return function.value()( d );
+    }
     if( str_val.has_value() ) {
         return str_val.value();
     }
@@ -60,7 +66,7 @@ std::string str_or_var::evaluate( dialogue const &d ) const
     return "";
 }
 
-double dbl_or_var_part::evaluate( dialogue const &d ) const
+double dbl_or_var_part::evaluate( dialogue &d ) const
 {
     if( dbl_val.has_value() ) {
         return dbl_val.value();
@@ -99,7 +105,7 @@ double dbl_or_var_part::evaluate( dialogue const &d ) const
     return 0;
 }
 
-double dbl_or_var::evaluate( dialogue const &d ) const
+double dbl_or_var::evaluate( dialogue &d ) const
 {
     if( pair ) {
         return rng( min.evaluate( d ), max.evaluate( d ) );
@@ -107,7 +113,7 @@ double dbl_or_var::evaluate( dialogue const &d ) const
     return min.evaluate( d );
 }
 
-time_duration duration_or_var_part::evaluate( dialogue const &d ) const
+time_duration duration_or_var_part::evaluate( dialogue &d ) const
 {
     if( dur_val.has_value() ) {
         return dur_val.value();
@@ -150,7 +156,7 @@ time_duration duration_or_var_part::evaluate( dialogue const &d ) const
     return 0_seconds;
 }
 
-time_duration duration_or_var::evaluate( dialogue const &d ) const
+time_duration duration_or_var::evaluate( dialogue &d ) const
 {
     if( pair ) {
         return rng( min.evaluate( d ), max.evaluate( d ) );

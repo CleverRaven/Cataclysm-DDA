@@ -75,6 +75,16 @@
     "volume": "10ml"
   },
   {
+    "id": "303_casing",
+    "copy-from": "casing",
+    "looks_like": "223_casing",
+    "type": "GENERIC",
+    "name": { "str": ".303 casing" },
+    "description": "An empty casing from a .303 round.",
+    "weight": "7 g",
+    "volume": "10ml"
+  },
+  {
     "id": "300_casing",
     "copy-from": "casing",
     "looks_like": "223_casing",

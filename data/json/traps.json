@@ -163,6 +163,17 @@
   },
   {
     "type": "trap",
+    "id": "tr_light_snare",
+    "name": "light snare trap",
+    "color": "brown",
+    "symbol": "^",
+    "visibility": 1,
+    "avoidance": 8,
+    "difficulty": 0,
+    "action": "snare_light"
+  },
+  {
+    "type": "trap",
     "id": "tr_beartrap",
     "trigger_weight": "200 g",
     "name": "bear trap",
