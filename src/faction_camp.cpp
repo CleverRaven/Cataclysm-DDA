@@ -1519,7 +1519,7 @@ void basecamp::choose_new_leader()
     // Autocratic
     if( choice == 0 ) {
         if( !query_yn(
-                _( "As an experienced leader, only you know what will be required of future leaders.  You will choose.  \n\nIs this acceptable?" ) ) ) {
+                _( "As an experienced leader, only you know what will be required of future leaders.  You will choose.\n\nIs this acceptable?" ) ) ) {
             return;
         }
         get_avatar().control_npc_menu( false );
@@ -1547,13 +1547,13 @@ void basecamp::choose_new_leader()
     // Sortition
     if( choice == 1 ) {
         if( !query_yn(
-                _( "You will allow fate to choose the next leader.  Whether it's by dice, drawing straws, or picking names out of a hat, it will be purely random.  \n\nIs this acceptable?" ) ) ) {
+                _( "You will allow fate to choose the next leader.  Whether it's by dice, drawing straws, or picking names out of a hat, it will be purely random.\n\nIs this acceptable?" ) ) ) {
             return;
         }
         int selected = rng( 0, charnum );
         // Vector starts at 0, we inserted 'you' first, 0 will always be 'you' pre-sort (that's why we don't sort unless democracy is called)
         if( selected == 0 ) {
-            popup( _( "Fate calls for you to remain in your role as leader... for now." ) );
+            popup( _( "Fate calls for you to remain in your role as leader… for now." ) );
             get_player_character().set_value( var_timer_time_of_last_succession,
                                               std::to_string( current_time_int ) );
             return;
@@ -1567,7 +1567,7 @@ void basecamp::choose_new_leader()
     // Democratic
     if( choice == 2 ) {
         if( !query_yn(
-                _( "A leader can only lead those willing to follow.  Everyone must get a say in choosing the new leader.  \n\nIs this acceptable?" ) ) ) {
+                _( "A leader can only lead those willing to follow.  Everyone must get a say in choosing the new leader.\n\nIs this acceptable?" ) ) ) {
             return;
         }
         std::sort( followers.begin(), followers.end(), []( const auto & x, const auto & y ) {
