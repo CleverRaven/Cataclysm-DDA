@@ -172,8 +172,8 @@ void material_type::check() const
                   id.str() );
     }
 
-    if( _repair_difficulty && ( *_repair_difficulty > 10 || *_repair_difficulty < 0 ) ) {
-        debugmsg( "Repair difficulty (0 to 10, is %d) for %s.", *_repair_difficulty,
+    if( _repair_difficulty && ( &_repair_difficulty > 10 || &_repair_difficulty < 0 ) ) {
+        debugmsg( "Repair difficulty (0 to 10, is %d) for %s.", &_repair_difficulty,
                   id.str() );
     }
 
