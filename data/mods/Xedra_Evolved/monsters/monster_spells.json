@@ -11,9 +11,9 @@
     "valid_targets": [ "self", "ally", "hostile", "ground" ],
     "flags": [ "SOMATIC", "VERBAL", "NO_LEGS" ],
     "max_level": 20,
-    "min_damage": 24,
-    "max_damage": 68,
-    "damage_increment": 2.2,
+    "min_damage": 12,
+    "max_damage": 36,
+    "damage_increment": 2,
     "min_aoe": 3,
     "max_aoe": 5,
     "aoe_increment": 0.1,
@@ -25,6 +25,10 @@
     "base_energy_cost": 350,
     "energy_source": "MANA",
     "difficulty": 4,
+    "field_id": "fd_cold_air4",
+    "field_chance": 100,
+    "min_field_intensity": 3,
+    "max_field_intensity": 3,
     "damage_type": "cold"
   }
 ]

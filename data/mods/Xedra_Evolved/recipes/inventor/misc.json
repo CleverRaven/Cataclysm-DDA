@@ -35,7 +35,7 @@
     "proficiencies": [ { "proficiency": "prof_plasticworking", "time_multiplier": 2, "skill_penalty": -100 } ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
-      [ [ "light_minus_disposable_cell", 1 ] ],
+      [ [ "light_disposable_cell", 1 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "scrap", 3 ] ],
       [ [ "cable", 40 ] ],
@@ -57,7 +57,7 @@
     "proficiencies": [ { "proficiency": "prof_plasticworking", "time_multiplier": 2, "skill_penalty": -100 } ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
-      [ [ "light_minus_disposable_cell", 1 ] ],
+      [ [ "medium_disposable_cell", 1 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "scrap", 3 ] ],
       [ [ "cable", 60 ] ],
@@ -79,7 +79,7 @@
     "proficiencies": [ { "proficiency": "prof_plasticworking", "time_multiplier": 2, "skill_penalty": -100 } ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
-      [ [ "light_minus_disposable_cell", 1 ] ],
+      [ [ "heavy_disposable_cell", 1 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "scrap", 3 ] ],
       [ [ "cable", 80 ] ],

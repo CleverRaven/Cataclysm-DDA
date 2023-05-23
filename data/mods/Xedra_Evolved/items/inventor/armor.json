@@ -459,11 +459,11 @@
     "material_thickness": 0.4,
     "environmental_protection": 4,
     "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "REGEN_STAMINA", "multiply": 0.3 } ] } ]
+      "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "REGEN_STAMINA", "multiply": 0.6 } ] } ]
     },
     "armor": [
-      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 4 },
-      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 15 }
+      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 3 },
+      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 7 }
     ],
     "pocket_data": [
       {
@@ -495,6 +495,7 @@
     "copy-from": "wolf_mask",
     "name": { "str": "wolf's mask (on)", "str_pl": "a few wolf's mask (on)" },
     "power_draw": "5 W",
+    "environmental_protection": 25,
     "use_action": [ { "ammo_scale": 0, "target": "wolf_mask", "msg": "The mask stops working.", "type": "transform" } ]
   },
   {

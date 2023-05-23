@@ -274,6 +274,7 @@
     "price": 39500,
     "price_postapoc": 250,
     "//": "todo: replace with some better rubber material",
+    "use_action": { "type": "deploy_furn", "furn_type": "f_432gal_drum_rubber" },
     "material": [ { "type": "rubber", "portion": 9 }, { "type": "steel", "portion": 1 } ],
     "symbol": "0"
   }
