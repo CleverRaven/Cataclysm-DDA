@@ -361,6 +361,11 @@
     }
   },
   {
+    "type": "var_migration",
+    "from": "npctalk_var_number_artisans_gunsmith_ammo_ammount",
+    "to": "npctalk_var_number_artisans_gunsmith_ammo_amount"
+  },
+  {
     "id": "TALK_GUNSMITH_BULLET_PICKUP",
     "type": "talk_topic",
     "dynamic_line": "The transaction is complete, here are your items.",
