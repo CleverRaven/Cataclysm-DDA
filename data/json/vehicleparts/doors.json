@@ -183,5 +183,104 @@
     "extend": { "flags": [ "OPAQUE" ] },
     "delete": { "flags": [ "WINDOW" ] },
     "type": "vehicle_part"
+  },
+  {
+    "type": "vehicle_part",
+    "id": "door_wood",
+    "copy-from": "door",
+    "name": { "str": "wooden door" },
+    "looks_like": "t_door_c",
+    "color": "brown",
+    "broken_color": "brown",
+    "damage_modifier": 75,
+    "durability": 160,
+    "size": "0 ml",
+    "description": "A door.  Has a window so you can see out of it, even when closed.",
+    "item": "frame_wood",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
+    },
+    "breaks_into": [ { "item": "splinter", "count": [ 7, 9 ] } ],
+    "extend": { "flags": [ "SIMPLE_PART" ] },
+    "delete": { "flags": [ "CARGO" ] },
+    "damage_reduction": { "all": 8 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "door_wood_opaque",
+    "copy-from": "door_wood",
+    "name": { "str": "opaque wooden door" },
+    "durability": 170,
+    "description": "A door.  Solid construction means you can't see through it when closed.",
+    "size": "0 ml",
+    "extend": { "flags": [ "OPAQUE" ] },
+    "delete": { "flags": [ "WINDOW" ] },
+    "damage_reduction": { "all": 12 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "door_trunk",
+    "copy-from": "hatch",
+    "name": { "str": "trunk door" },
+    "durability": 150,
+    "size": "0 ml",
+    "description": "A short door.  You can always see over it, open or closed.",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 2 ] ] }
+    },
+    "extend": { "flags": [ "LOW_FINAL_AIR_DRAG", "SIMPLE_PART", "NO_ROOF_NEEDED" ] },
+    "delete": { "flags": [ "CARGO", "COVERED", "LOCKABLE_CARGO" ] }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "hddoor_trunk",
+    "copy-from": "door_trunk",
+    "name": { "str": "heavy-duty trunk door" },
+    "durability": 750,
+    "description": "A strong, short door.  You can always see over it, open or closed.",
+    "item": "hdframe",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 4 ] ] }
+    },
+    "breaks_into": "ig_vp_hdframe",
+    "delete": { "flags": [ "NO_ROOF_NEEDED" ] },
+    "damage_reduction": { "all": 30 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "door_shutter",
+    "copy-from": "hatch",
+    "name": { "str": "shutter door" },
+    "size": "0 ml",
+    "durability": 95,
+    "description": "A strong door.  Solid construction means you can't see through it when closed.",
+    "item": "sheet_metal",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 2 ] ] }
+    },
+    "breaks_into": "ig_vp_sheet_metal",
+    "extend": { "flags": [ "OPAQUE", "SIMPLE_PART" ] },
+    "delete": { "flags": [ "CARGO", "COVERED", "LOCKABLE_CARGO", "WINDOW" ] },
+    "damage_reduction": { "all": 7 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "door_sliding",
+    "copy-from": "door_trunk",
+    "name": { "str": "sliding door" },
+    "looks_like": "door",
+    "durability": 150,
+    "description": "A door.  A window lets you see through it when closed.",
+    "item": "frame",
+    "breaks_into": "ig_vp_frame",
+    "delete": { "flags": [ "LOW_FINAL_AIR_DRAG", "NO_ROOF_NEEDED", "WINDOW" ] }
   }
 ]
