@@ -1597,7 +1597,7 @@
     "copy-from": "lc_brigandine_hands",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-	"time": "7 h",
+    "time": "7 h",
     "using": [
       [ "tailoring_canvas_patchwork", 2 ],
       [ "blacksmithing_standard", 8 ],
@@ -1613,7 +1613,7 @@
     "copy-from": "lc_brigandine_hands",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-	"time": "5 h",
+    "time": "5 h",
     "using": [
       [ "tailoring_canvas_patchwork", 2 ],
       [ "blacksmithing_standard", 8 ],
@@ -1654,7 +1654,7 @@
     "copy-from": "mc_brigandine_hands",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-	"time": "7 h",
+    "time": "7 h",
     "using": [
       [ "tailoring_canvas_patchwork", 2 ],
       [ "blacksmithing_standard", 8 ],
@@ -1670,7 +1670,7 @@
     "copy-from": "mc_brigandine_hands",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-	"time": "5 h",
+    "time": "5 h",
     "using": [
       [ "tailoring_canvas_patchwork", 2 ],
       [ "blacksmithing_standard", 8 ],
@@ -1711,7 +1711,7 @@
     "copy-from": "hc_brigandine_hands",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-	"time": "7 h",
+    "time": "7 h",
     "using": [
       [ "tailoring_canvas_patchwork", 2 ],
       [ "blacksmithing_standard", 8 ],
@@ -1727,7 +1727,7 @@
     "copy-from": "hc_brigandine_hands",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-	"time": "5 h",
+    "time": "5 h",
     "using": [
       [ "tailoring_canvas_patchwork", 2 ],
       [ "blacksmithing_standard", 8 ],
@@ -1770,7 +1770,7 @@
     "copy-from": "ch_brigandine_hands",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-	"time": "15 h",
+    "time": "15 h",
     "using": [
       [ "tailoring_canvas_patchwork", 2 ],
       [ "blacksmithing_standard", 8 ],
@@ -1787,7 +1787,7 @@
     "copy-from": "ch_brigandine_hands",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-	"time": "13 h",
+    "time": "13 h",
     "using": [
       [ "tailoring_canvas_patchwork", 2 ],
       [ "blacksmithing_standard", 8 ],
@@ -1830,7 +1830,7 @@
     "copy-from": "qt_brigandine_hands",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-	"time": "19 h",
+    "time": "19 h",
     "using": [
       [ "tailoring_canvas_patchwork", 2 ],
       [ "blacksmithing_standard", 8 ],
@@ -1846,7 +1846,7 @@
     "copy-from": "qt_brigandine_hands",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-	"time": "17 h",
+    "time": "17 h",
     "using": [
       [ "tailoring_canvas_patchwork", 2 ],
       [ "blacksmithing_standard", 8 ],
