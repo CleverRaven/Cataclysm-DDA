@@ -1375,6 +1375,12 @@
         "description": "A jet-black bag that can be worn on the thighs and hips using adjustable buckled straps, with skulls and spikes all over it.  Perfect for a rider of the apocalypse.",
         "symbol": "S",
         "weight": 2
+      },
+      {
+        "id": "flag_leg_bag",
+        "name": { "str": "founders' leg bag" },
+        "description": "A garishly colored red, white, and blue bag that can be worn on the thighs and hips using adjustable buckled straps, with the stylized depiction of George Washington’s face gazing sternly from the side.  Perfect for carrying the dreams of the founding fathers wherever you go.",
+        "weight": 50
       }
     ]
   },

@@ -41,6 +41,7 @@ static const skill_id skill_unarmed( "unarmed" );
 static const trait_id trait_TOUGH_FEET( "TOUGH_FEET" );
 
 static constexpr tripoint attacker_location{ 65, 65, 0 };
+static constexpr int test_margin = 75; // 7.5% margin on test outcomes
 
 static void reset_caches( int a_zlev, int t_zlev )
 {
@@ -458,7 +459,7 @@ TEST_CASE( "Grab breaks against weak grabber(s)", "[mattack][grab]" )
         // Single zombie grabbing a starting survivor has about 50% chance to release on a turn
         // Actually higher for non-arm/torso grabs, but bundled works well enough
         INFO( "You should have about 40% chance to break a weak grab every turn as a starting character" );
-        CHECK( success == Approx( 400 ).margin( 50 ) );
+        CHECK( success == Approx( 400 ).margin( test_margin ) );
     }
     SECTION( "Starter character vs 3 weak grabs at the same time" ) {
         // Setup 3v1 test
@@ -489,7 +490,7 @@ TEST_CASE( "Grab breaks against weak grabber(s)", "[mattack][grab]" )
         }
         Messages::clear_messages();
         INFO( "You have about 5% chance to break three weak grabs on a single turn" );
-        CHECK( success == Approx( 50 ).margin( 50 ) );
+        CHECK( success == Approx( 50 ).margin( test_margin ) );
     }
     // Setup lategame character
     you.set_skill_level( skill_unarmed, 8 );
@@ -516,7 +517,7 @@ TEST_CASE( "Grab breaks against weak grabber(s)", "[mattack][grab]" )
         }
         Messages::clear_messages();
         INFO( "100% chance to break a weak grab as a lategame character with grab breaks" );
-        CHECK( success == Approx( 1000 ).margin( 50 ) );
+        CHECK( success == Approx( 1000 ).margin( test_margin ) );
     }
     SECTION( "Lategame character vs 3 weak grabs at the same time" ) {
         // Setup 3v1 test
@@ -547,7 +548,7 @@ TEST_CASE( "Grab breaks against weak grabber(s)", "[mattack][grab]" )
         }
         Messages::clear_messages();
         INFO( "99% chance to break three weak grabs on a single turn" );
-        CHECK( success == Approx( 990 ).margin( 50 ) );
+        CHECK( success == Approx( 990 ).margin( test_margin ) );
     }
 }
 
@@ -596,7 +597,7 @@ TEST_CASE( "Grab breaks against midline grabbers", "[mattack][grab]" )
         }
         Messages::clear_messages();
         INFO( "You should have about 15% chance to break a mid-strength grab every turn as a starting character" );
-        CHECK( success == Approx( 150 ).margin( 50 ) );
+        CHECK( success == Approx( 150 ).margin( test_margin ) );
     }
     SECTION( "Starter character vs 3 mid grabs at the same time" ) {
         // Setup 3v1 test
@@ -627,7 +628,7 @@ TEST_CASE( "Grab breaks against midline grabbers", "[mattack][grab]" )
         }
         Messages::clear_messages();
         INFO( "You have about 5% chance to break three midline grabs on a single turn" );
-        CHECK( success == Approx( 50 ).margin( 50 ) );
+        CHECK( success == Approx( 50 ).margin( test_margin ) );
     }
     // Setup lategame character
     you.set_skill_level( skill_unarmed, 8 );
@@ -654,7 +655,7 @@ TEST_CASE( "Grab breaks against midline grabbers", "[mattack][grab]" )
         }
         Messages::clear_messages();
         INFO( "80% chance to break a midline grab as a lategame character with grab breaks" );
-        CHECK( success == Approx( 800 ).margin( 50 ) );
+        CHECK( success == Approx( 800 ).margin( test_margin ) );
     }
     SECTION( "Lategame character vs 3 mid grabs at the same time" ) {
         // Setup 3v1 test
@@ -685,7 +686,7 @@ TEST_CASE( "Grab breaks against midline grabbers", "[mattack][grab]" )
         }
         Messages::clear_messages();
         INFO( "25% chance to break three mid grabs on a single turn" );
-        CHECK( success == Approx( 250 ).margin( 50 ) );
+        CHECK( success == Approx( 250 ).margin( test_margin ) );
     }
 }
 
@@ -733,7 +734,7 @@ TEST_CASE( "Grab breaks against strong grabbers", "[mattack][grab]" )
         }
         Messages::clear_messages();
         INFO( "You should have about 7,5% chance to break a max-strength grab every turn as a starting character" );
-        CHECK( success == Approx( 75 ).margin( 50 ) );
+        CHECK( success == Approx( 75 ).margin( test_margin ) );
     }
     SECTION( "Starter character vs 3 max-strength grabs at the same time" ) {
         you.clear_effects();
@@ -761,7 +762,7 @@ TEST_CASE( "Grab breaks against strong grabbers", "[mattack][grab]" )
         }
         Messages::clear_messages();
         INFO( "You have about 0% chance to break three max-strength grabs on a single turn" );
-        CHECK( success == Approx( 0 ).margin( 25 ) );
+        CHECK( success == Approx( 0 ).margin( test_margin / 2 ) );
     }
 
     you.set_skill_level( skill_unarmed, 8 );
@@ -787,7 +788,7 @@ TEST_CASE( "Grab breaks against strong grabbers", "[mattack][grab]" )
         }
         Messages::clear_messages();
         INFO( "40% chance to break a max-strength grab as a lategame character with grab breaks" );
-        CHECK( success == Approx( 400 ).margin( 50 ) );
+        CHECK( success == Approx( 400 ).margin( test_margin ) );
     }
     SECTION( "Lategame character vs 3 max-strength grabs at the same time" ) {
         you.clear_effects();
@@ -814,6 +815,6 @@ TEST_CASE( "Grab breaks against strong grabbers", "[mattack][grab]" )
         }
         Messages::clear_messages();
         INFO( "5% chance to break three max-strength grabs on a single turn" );
-        CHECK( success == Approx( 50 ).margin( 50 ) );
+        CHECK( success == Approx( 50 ).margin( test_margin ) );
     }
 }

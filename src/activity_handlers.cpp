@@ -203,6 +203,8 @@ static const json_character_flag json_flag_SILENT_SPELL( "SILENT_SPELL" );
 
 static const mongroup_id GROUP_FISH( "GROUP_FISH" );
 
+static const proficiency_id proficiency_prof_dissect_humans( "prof_dissect_humans" );
+
 static const quality_id qual_BUTCHER( "BUTCHER" );
 static const quality_id qual_CUT_FINE( "CUT_FINE" );
 static const quality_id qual_FISHING_ROD( "FISHING_ROD" );
@@ -507,38 +509,126 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
         }
     }
 
-    // applies to all butchery actions
     const bool is_human = corpse.id == mtype_id::NULL_ID() || ( corpse.in_species( species_HUMAN ) &&
                           !corpse.in_species( species_ZOMBIE ) );
-    if( is_human && !( you.has_flag( json_flag_CANNIBAL ) ||
-                       you.has_flag( json_flag_PSYCHOPATH ) ||
-                       you.has_flag( json_flag_SAPIOVORE ) ) ) {
 
-        if( you.is_avatar() ) {
-            if( query_yn( _( "Would you dare desecrate the mortal remains of a fellow human being?" ) ) ) {
-                switch( rng( 1, 3 ) ) {
-                    case 1:
-                        you.add_msg_if_player( m_bad, _( "You clench your teeth at the prospect of this gruesome job." ) );
-                        break;
-                    case 2:
-                        you.add_msg_if_player( m_bad, _( "This will haunt you in your dreams." ) );
-                        break;
-                    case 3:
-                        you.add_msg_if_player( m_bad,
-                                               _( "You try to look away, but this gruesome image will stay on your mind for some time." ) );
-                        break;
+    // applies to all butchery actions except for dissections
+    if( is_human && action != butcher_type::DISSECT && !( you.has_flag( json_flag_CANNIBAL ) ||
+            you.has_flag( json_flag_PSYCHOPATH ) || you.has_flag( json_flag_SAPIOVORE ) ) ) {
+        //first determine if the butcherer has the dissect_humans proficiency.
+        if( you.has_proficiency( proficiency_prof_dissect_humans ) ) {
+            //if it's player doing the butchery, ask them first.
+            if( you.is_avatar() ) {
+                if( query_yn(
+                        _( "Really desecrate the mortal remains of a fellow human being by butchering them for meat?" ) ) ) {
+                    //give the player a random message showing their disgust and cause morale penalty.
+                    switch( rng( 1, 3 ) ) {
+                        case 1:
+                            you.add_msg_if_player( m_bad, _( "You clench your teeth at the prospect of this gruesome job." ) );
+                            break;
+                        case 2:
+                            you.add_msg_if_player( m_bad, _( "This will haunt you in your dreams." ) );
+                            break;
+                        case 3:
+                            you.add_msg_if_player( m_bad,
+                                                   _( "You try to look away, but this gruesome image will stay on your mind for some time." ) );
+                            break;
+                    }
+                    get_player_character().add_morale( MORALE_BUTCHER, -50, 0, 2_days, 3_hours );
+                } else {
+                    //player has the dissect_humans prof, so they're familiar with dissection. reference this in their refusal to butcher
+                    you.add_msg_if_player( m_good, _( "You were trained for autopsies, not butchery." ) );
+                    act.targets.pop_back();
+                    return;
                 }
-                get_player_character().add_morale( MORALE_BUTCHER, -50, 0, 2_days, 3_hours );
             } else {
-                you.add_msg_if_player( m_good, _( "It needs a coffin, not a knife." ) );
-                act.targets.pop_back();
-                return;
+                //if not the avatar, don't ask, just do it and suffer without comment
+                you.add_morale( MORALE_BUTCHER, -50, 0, 2_days, 3_hours );
             }
         } else {
-            you.add_morale( MORALE_BUTCHER, -50, 0, 2_days, 3_hours );
+            //this runs if the butcherer does NOT have prof_dissect_humans
+            if( you.is_avatar() ) {
+                if( query_yn( _( "Would you dare desecrate the mortal remains of a fellow human being?" ) ) ) {
+                    //random message and morale penalty
+                    switch( rng( 1, 3 ) ) {
+                        case 1:
+                            you.add_msg_if_player( m_bad, _( "You clench your teeth at the prospect of this gruesome job." ) );
+                            break;
+                        case 2:
+                            you.add_msg_if_player( m_bad, _( "This will haunt you in your dreams." ) );
+                            break;
+                        case 3:
+                            you.add_msg_if_player( m_bad,
+                                                   _( "You try to look away, but this gruesome image will stay on your mind for some time." ) );
+                            break;
+                    }
+                    get_player_character().add_morale( MORALE_BUTCHER, -50, 0, 2_days, 3_hours );
+                } else {
+                    //player doesn't have dissect_humans, so just give a regular refusal to mess with the corpse
+                    you.add_msg_if_player( m_good, _( "It needs a coffin, not a knife." ) );
+                    act.targets.pop_back();
+                    return;
+                }
+            } else {
+                //again, don't complain about it, or inform about it, just do it
+                you.add_morale( MORALE_BUTCHER, -50, 0, 2_days, 3_hours );
+            }
         }
     }
 
+    // applies to only dissections, so that dissect_humans training makes a difference.
+    if( is_human && action == butcher_type::DISSECT && !( you.has_flag( json_flag_CANNIBAL ) ||
+            you.has_flag( json_flag_PSYCHOPATH ) || you.has_flag( json_flag_SAPIOVORE ) ) ) {
+        if( you.has_proficiency( proficiency_prof_dissect_humans ) ) {
+            //you're either trained for this, densensitized, or both. doesn't bother you.
+            if( you.is_avatar() ) {
+                //this is a dissection, and we are trained for dissection, so no morale penalty, and lighter flavor text.
+                switch( rng( 1, 3 ) ) {
+                    case 1:
+                        you.add_msg_if_player( m_good, _( "You grit your teeth and get to work." ) );
+                        break;
+                    case 2:
+                        you.add_msg_if_player( m_good,
+                                               _( "The task at hand is unpleasant, but you steel your nerves regardless." ) );
+                        break;
+                    case 3:
+                        you.add_msg_if_player( m_good,
+                                               _( "Hopefully whatever you can glean from this autopsy is worth the effort." ) );
+                        break;
+                }
+            }
+            //if we're not the avatar, we aren't getting a morale penalty as usual, and no message, so nothing happens
+        } else {
+            //we don't have dissect_humans but are trying to dissect anyways.
+            if( you.is_avatar() ) {
+                if( query_yn( _( "Really dissect the remains of a fellow human being?" ) ) ) {
+                    //give us a message indicating we are dissecting without the stomach for it, but not actually butchering. lower morale penalty.
+                    switch( rng( 1, 3 ) ) {
+                        case 1:
+                            you.add_msg_if_player( m_bad,
+                                                   _( "This is nothing like dissecting a frog in biology class.  You feel sick inside." ) );
+                            break;
+                        case 2:
+                            you.add_msg_if_player( m_bad, _( "You wonder how anyone manages to do this ghastly work." ) );
+                            break;
+                        case 3:
+                            you.add_msg_if_player( m_bad,
+                                                   _( "The grim nature of your task deeply upsets you, leaving you feeling disgusted with yourself." ) );
+                            break;
+                    }
+                    get_player_character().add_morale( MORALE_BUTCHER, -40, 0, 1_days, 2_hours );
+                } else {
+                    //standard refusal to butcher
+                    you.add_msg_if_player( m_good, _( "It needs a coffin, not a knife." ) );
+                    act.targets.pop_back();
+                    return;
+                }
+            } else {
+                //if we're not player and don't have dissect_humans, just add morale penalty.
+                you.add_morale( MORALE_BUTCHER, -40, 0, 1_days, 2_hours );
+            }
+        }
+    }
     act.moves_left = butcher_time_to_cut( you, corpse_item, action ) * butchery_requirements.first;
 
     // We have a valid target, so preform the full finish function
@@ -2320,7 +2410,10 @@ void repair_item_finish( player_activity *act, Character *you, bool no_menu )
                                            fix.tname() );
         ammotype current_ammo;
         std::string ammo_name;
-        if( used_tool->has_flag( flag_USES_BIONIC_POWER ) ) {
+        if( used_tool->has_flag( flag_USE_UPS ) ) {
+            ammo_name = _( "battery" );
+            current_ammo = ammo_battery;
+        } else if( used_tool->has_flag( flag_USES_BIONIC_POWER ) ) {
             ammo_name = _( "bionic power" );
 
         } else {
@@ -2329,7 +2422,6 @@ void repair_item_finish( player_activity *act, Character *you, bool no_menu )
             } else {
                 current_ammo = item_controller->find_template( used_tool->ammo_current() )->ammo->type;
             }
-
             ammo_name = item::nname( used_tool->ammo_current() );
         }
 

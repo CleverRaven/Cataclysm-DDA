@@ -44,6 +44,9 @@
           "545x39": 60,
           "223": 60,
           "3006": 60,
+          "50beowulf": 60,
+          "450": 60,
+          "338lapua": 60,
           "303": 60,
           "270win": 60,
           "308": 60,
@@ -132,6 +135,21 @@
     "type": "ARMOR",
     "name": { "str_sp": "chest rig" },
     "description": "Popularized during the Vietnam War, chest rigs like these are typically plain, barebones affairs consisting of three or more pouches in a row, with straps to secure them on your chest.  This one can hold four magazines in its pouches.",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "generic_chestrig",
+        "name": { "str_sp": "chest rig" },
+        "description": "Popularized during the Vietnam War, chest rigs like these are typically plain, barebones affairs consisting of three or more pouches in a row, with straps to secure them on your chest.  This one can hold four magazines in its pouches.",
+        "weight": 30
+      },
+      {
+        "id": "flag_chestrig",
+        "name": { "str_sp": "patriot’s chest rig" },
+        "description": "An American flag is proudly embroidered across the front of each pouch, with a tiny, eagle-winged .50-caliber bullet crowning each banner.",
+        "append": true
+      }
+    ],
     "weight": "425 g",
     "volume": "500 ml",
     "price": 3900,
