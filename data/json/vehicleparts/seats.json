@@ -81,7 +81,6 @@
     "id": "reclining_seat",
     "copy-from": "seat",
     "comfort": 3,
-    "damage_reduction": { "all": 3, "bash": 5 },
     "description": "A place to sit, and the backrest reclines to make it an uncomfortable bed.",
     "durability": 100,
     "floor_bedding_warmth": 350,
@@ -113,8 +112,6 @@
     "id": "seat_back",
     "copy-from": "seat",
     "comfort": 4,
-    "damage_modifier": 60,
-    "damage_reduction": { "all": 3, "bash": 5 },
     "description": "A benchlike seat.  Mostly found in the second row, also known as the back or rear seat.",
     "floor_bedding_warmth": 500,
     "name": { "str": "back seat" },
@@ -136,8 +133,6 @@
     "id": "saddle",
     "copy-from": "seat",
     "name": { "str": "saddle" },
-    "damage_modifier": 20,
-    "damage_reduction": { "all": 3, "bash": 5 },
     "durability": 80,
     "description": "A padded wedge that you straddle, like a bicycle or motorcycle.",
     "folded_volume": "1250 ml",
@@ -177,7 +172,6 @@
     "id": "folding_seat",
     "copy-from": "saddle",
     "name": { "str": "foldable seat" },
-    "damage_modifier": 10,
     "comfort": 0,
     "floor_bedding_warmth": 0,
     "durability": 20,
@@ -185,15 +179,6 @@
     "item": "sheet",
     "folded_volume": "2500 ml",
     "location": "anywhere",
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "200 s", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "200 s", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": {
-        "skills": [ [ "mechanics", 3 ] ],
-        "time": "20 s",
-        "using": [ [ "repair_welding_standard", 1 ], [ "sewing_standard", 3 ] ]
-      }
-    },
     "breaks_into": [ { "item": "cotton_patchwork", "count": [ 1, 6 ] } ]
   },
   {
@@ -202,8 +187,6 @@
     "breaks_into": "ig_vp_prison_bench",
     "comfort": 0,
     "floor_bedding_warmth": 0,
-    "damage_modifier": 60,
-    "damage_reduction": { "all": 3, "bash": 5 },
     "description": "A steel bench with ankle and wrist restraints built in.  It looks very uncomfortable.",
     "durability": 450,
     "item": "steel_plate",
