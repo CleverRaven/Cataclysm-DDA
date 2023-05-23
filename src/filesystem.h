@@ -34,7 +34,8 @@ bool file_exist( const fs::path &path );
 bool file_exist( const cata_path &path );
 
 // Force 'path' to be a normalized directory
-template<typename T> std::string as_norm_dir(const T& path); 
+std::string as_norm_dir( const std::string &path );
+std::string as_norm_dir( const fs::path &path );
 
 // Remove a file, does not remove folders,
 // returns true on success
