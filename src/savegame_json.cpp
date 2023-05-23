@@ -4325,6 +4325,14 @@ void basecamp::serialize( JsonOut &json ) const
         json.member( "pos", omt_pos );
         json.member( "bb_pos", bb_pos );
         json.member( "dumping_spot", dumping_spot );
+        json.member("storage_zone");
+        json.start_array();
+        for (const tripoint_abs_ms& tile : storage_zones) {
+            json.start_object();
+            json.member("tile", tile);
+            json.end_object();
+        }
+        json.end_array();
         json.member( "hidden_missions" );
         json.start_array();
         for( const std::vector<ui_mission_id> &list : hidden_missions ) {
@@ -4409,6 +4417,11 @@ void basecamp::deserialize( const JsonObject &data )
     data.read( "pos", omt_pos );
     data.read( "bb_pos", bb_pos );
     data.read( "dumping_spot", dumping_spot );
+    for (JsonObject tile : data.get_array("storage_zone")) {
+        tripoint_abs_ms temp;
+        tile.read("tile", temp);
+        storage_zones.push_back(temp);
+    }
     for( int tab_num = base_camps::TAB_MAIN; tab_num <= base_camps::TAB_NW; tab_num++ ) {
         std::vector<ui_mission_id> temp;
         hidden_missions.push_back( temp );

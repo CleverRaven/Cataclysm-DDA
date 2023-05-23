@@ -736,6 +736,7 @@ void talk_function::basecamp_mission( npc &p )
             // Find the nearest unsorted zone to dump objects at
             if( !src_sorted.empty() ) {
                 src_loc = here.getlocal( src_sorted.front() );
+                bcp->set_storage_zone(src_sorted);
             }
         }
         bcp->set_dumping_spot( here.getglobal( src_loc ) );
@@ -4716,6 +4717,7 @@ bool basecamp::validate_sort_points()
         // Find the nearest unsorted zone to dump objects at
         if( !src_sorted.empty() ) {
             src_loc = here.getlocal( src_sorted.front() );
+            set_storage_zone(src_sorted);
         }
     }
     set_dumping_spot( here.getglobal( src_loc ) );
