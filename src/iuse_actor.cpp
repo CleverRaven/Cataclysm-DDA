@@ -2780,7 +2780,8 @@ bool repair_item_actor::handle_components( Character &pl, const item &fix,
 }
 
 // Find the difficulty of the recipe for the item type.
-// All that matters is the repair difficulty of the hardest thing to repair it is made of.
+// Base difficulty is the repair difficulty of the hardest thing to repair it is made of.
+// Then add +1, unless we are training or we know the recipe and have the skill for it
 static std::pair<int, bool> find_repair_difficulty( const Character &pl, const itype &it,
         bool training )
 {
@@ -2788,13 +2789,33 @@ static std::pair<int, bool> find_repair_difficulty( const Character &pl, const i
     const int def_diff = 5;
     const itype_id iid = it.get_id();
     bool difficulty_defined = false;
+    bool found_recipe = false;
 
-    if( it.item().made_of() ) {
-        // otherwise determine it based on material
-        for( const auto &material : it->made_of() ) {
-            if( min < material.first->repair_difficulty() ) {
-                min = material.first->repair_difficulty();
+    if( !it.materials.empty() ) {
+        for( const auto &mats : it.materials ) {
+            if( min < mats.first->repair_difficulty() ) {
+                min = mats.first->repair_difficulty();
                 difficulty_defined = true;
+            }
+        }
+    }
+
+    // add +1 to difficulty
+    if( difficulty_defined && !training ) {
+        min = std::min( 10, min++ );
+    }
+
+    // then check if it has a recipe and give a -1 to difficulty if it does
+    if( difficulty_defined && recipes.empty() ) {
+        for( const recipe_id &rid : it.recipes ) {
+            const recipe &r = recipe_id( rid ).obj();
+            if( !r ) {
+                continue;
+            }
+            // If we know the recipe and are skilled enough
+            if( !found_recipe && pl.knows_recipe( &r ) && pl.has_recipe_requirements( r ) ) {
+                min = std::max( 0, min--);
+                found = true;
             }
         }
     }
@@ -2812,7 +2833,7 @@ int repair_item_actor::repair_recipe_difficulty( const Character &pl,
     int diff = ret.first;
     bool defined = ret.second;
 
-    // See if there's a repairs_like that has a recipe
+    // See if there's a repairs_like that has a defined difficulty
     if( !defined && !fix.type->repairs_like.is_empty() ) {
         ret = find_repair_difficulty( pl, fix.type->repairs_like.obj(), training );
         if( ret.second ) {
@@ -2822,7 +2843,7 @@ int repair_item_actor::repair_recipe_difficulty( const Character &pl,
         }
     }
 
-    // If we still don't find a recipe, difficulty is 10
+    // If we still don't find a difficulty, difficulty is 10
     if( diff == -1 ) {
         diff = 10;
     }
@@ -2912,7 +2933,7 @@ std::pair<float, float> repair_item_actor::repair_chance(
             break;
         case RT_PRACTICE:
             // Skill gain scales with recipe difficulty, so practice difficulty should too
-            action_difficulty = recipe_difficulty;
+            action_difficulty = material_difficulty;
             break;
         default:
             // 5 is obsoleted reinforcing, remove after 0.H
