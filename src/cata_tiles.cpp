@@ -1610,7 +1610,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                 // Find lowest z-level to draw
                 tripoint p_draw = p.pos;
                 int cur_height_3d = p.height_3d;
-                while( !here.dont_draw_lower_floor( p_draw ) && p_draw.z > -OVERMAP_DEPTH) {
+                while( !here.dont_draw_lower_floor( p_draw ) && p_draw.z > -OVERMAP_DEPTH ) {
                     p_draw.z -= 1;
                     cur_height_3d -= 1;
                 }
