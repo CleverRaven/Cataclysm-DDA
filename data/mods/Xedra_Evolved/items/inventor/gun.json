@@ -211,7 +211,7 @@
   },
   {
     "id": "inventor_sniper",
-    "copy-from": "m27_assault_rifle",
+    "copy-from": "modular_m27_assault_rifle",
     "looks_like": "ar15",
     "type": "GUN",
     "name": { "str_sp": "\"Repeater\"" },
