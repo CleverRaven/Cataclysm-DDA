@@ -42,8 +42,7 @@ foreach ( $probe in @( 'master/data/json', 'master/data/mods', 'origin/master/da
 	}
 	$gitChanged = ( @( $gitChanged ) + @( git diff --name-only $mergebase '*.json' ) ) | Select-Object -Unique
 	if ( -not( $? ) ) {
-#		ExitWithError( "Linting JSON skipped: git diff command failed." )
-    Exit 0 # No point spamming "error" messages because a no remote version of a file exists
+    Exit 0 # No point spamming "error" messages because no remote version of a file exists
 	}
 }
 
