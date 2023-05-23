@@ -45,6 +45,10 @@ class global_variables
         }
         void unserialize( JsonObject &jo );
         void serialize( JsonOut &jsout ) const;
+
+        std::map<std::string, std::string> migrations;
+        static void load_migrations( const JsonObject &jo, const std::string &src );
+
     private:
         std::unordered_map<std::string, std::string> global_values;
 };
