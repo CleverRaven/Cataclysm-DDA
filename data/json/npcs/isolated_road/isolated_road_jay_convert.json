@@ -118,7 +118,7 @@
         "topic": "TALK_GUNSMITH_CONVERT_TO_TYPE"
       },
       {
-        "text": "7.62x51",
+        "text": "7.62x51.",
         "condition": { "u_has_items": { "item": "762_51", "count": { "u_val": "number_artisans_gunsmith_ammo_amount" } } },
         "effect": [
           { "run_eoc_with": "EOC_gunsmith_set_source_type", "variables": { "key1": "76251" } },
