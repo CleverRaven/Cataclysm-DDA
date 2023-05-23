@@ -1,0 +1,21 @@
+[
+  {
+    "type": "jmath_function",
+    "id": "dreamer_level",
+    "num_args": 1,
+    "return": "(u_val('intelligence') + u_val('perception')) * (_0)"
+  },
+  {
+    "type": "jmath_function",
+    "id": "eater_level",
+    "num_args": 1,
+    "return": "(u_val('strength') + u_val('dexterity')) * (_0)"
+  },
+  {
+    "type": "jmath_function",
+    "id": "spell_time",
+    "num_args": 1,
+    "//": "used to transform the variable time (the smallest measure is 1 second) to the spell time (the smallest measure is 1 move, 1 second = 100 moves)",
+    "return": "_0 * 100"
+  }
+]

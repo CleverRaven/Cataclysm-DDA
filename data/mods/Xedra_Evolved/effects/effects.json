@@ -378,19 +378,14 @@
     "type": "effect_type",
     "id": "spell_stamina_eff",
     "name": [ "Circulatory" ],
-    "desc": [ "You can't get tired." ],
+    "desc": [ "You can't get out of breath." ],
     "apply_message": "You feel a deep energy in your muscles, exuberant and coiled.",
     "remove_message": "The energy in your body fades away.",
     "rating": "good",
     "//": "+0.1x smamina regen for each level",
     "enchantments": [
       {
-        "values": [
-          {
-            "value": "REGEN_STAMINA",
-            "multiply": { "arithmetic": [ { "u_val": "spell_level", "spell": "spell_stamina_wonder" }, "/", { "const": 10 } ] }
-          }
-        ]
+        "values": [ { "value": "REGEN_STAMINA", "multiply": { "math": [ "u_val('spell_level', 'spell: spell_stamina_wonder') / 10" ] } } ]
       }
     ]
   },
@@ -403,7 +398,12 @@
     "remove_message": "Your reaction speed turns back to normal.",
     "rating": "good",
     "show_intensity": false,
-    "enchantments": [ { "values": [ { "value": "BONUS_DODGE", "add": 2 } ] } ]
+    "//": "+1 dodge initially, +1 each 6 levels",
+    "enchantments": [
+      {
+        "values": [ { "value": "BONUS_DODGE", "add": { "math": [ "(u_val('spell_level', 'spell: spell_dodge') / 6 ) + 1" ] } } ]
+      }
+    ]
   },
   {
     "id": "effect_endurance",
@@ -414,9 +414,18 @@
     "remove_message": "The sturdy feeling is gone.",
     "rating": "good",
     "show_intensity": false,
+    "//": "+1 armor for each 2 lvls",
     "enchantments": [
       {
-        "values": [ { "value": "ARMOR_BASH", "add": -12 }, { "value": "ARMOR_CUT", "add": -12 }, { "value": "ARMOR_STAB", "add": -12 } ]
+        "values": [
+          { "value": "ARMOR_BASH", "add": { "math": [ "-1 * u_val('spell_level', 'spell: spell_endurance') / 2" ] } },
+          { "value": "ARMOR_CUT", "add": { "math": [ "-1 * u_val('spell_level', 'spell: spell_endurance') / 2" ] } },
+          { "value": "ARMOR_STAB", "add": { "math": [ "-1 * u_val('spell_level', 'spell: spell_endurance') / 2" ] } },
+          {
+            "value": "ARMOR_BULLET",
+            "add": { "math": [ "-1 * u_val('spell_level', 'spell: spell_endurance') / 2" ] }
+          }
+        ]
       }
     ]
   },
@@ -429,12 +438,16 @@
     "remove_message": "The feelings in your muscles subside.",
     "rating": "good",
     "show_intensity": false,
+    "//": "+1 atk speed for each level, +1 dodge each 10 levels, +10% melee damage every 4 levels",
     "enchantments": [
       {
         "values": [
-          { "value": "ATTACK_SPEED", "add": 20 },
-          { "value": "BONUS_DODGE", "add": 2 },
-          { "value": "MELEE_DAMAGE", "multiply": 0.5 }
+          { "value": "ATTACK_SPEED", "add": { "math": [ "u_val('spell_level', 'spell: spell_melee_damage')" ] } },
+          { "value": "BONUS_DODGE", "add": { "math": [ "u_val('spell_level', 'spell: spell_melee_damage') / 10" ] } },
+          {
+            "value": "MELEE_DAMAGE",
+            "multiply": { "math": [ "u_val('spell_level', 'spell: spell_melee_damage') / 40" ] }
+          }
         ]
       }
     ]
@@ -450,14 +463,7 @@
     "show_intensity": false,
     "//": "+3 speed for each level",
     "enchantments": [
-      {
-        "values": [
-          {
-            "value": "SPEED",
-            "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "spell_speed_wonder" }, "*", { "const": 3 } ] }
-          }
-        ]
-      }
+      { "values": [ { "value": "SPEED", "add": { "math": [ "u_val('spell_level', 'spell: spell_speed_wonder') * 3" ] } } ] }
     ]
   },
   {
@@ -492,7 +498,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": "Nothing can move you from your path.",
+    "description": "Nothing can slow you down, and your pain sensations are dull.",
     "enchantments": [ { "values": [ { "value": "PAIN", "multiply": -1 } ] } ],
     "flags": [ "STEADY" ]
   }

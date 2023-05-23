@@ -303,7 +303,7 @@
     "symbol": "7",
     "color": "yellow_cyan",
     "categories": [ "utility" ],
-    "description": "A power saw with long, toothed blade stretched between wheels.  Plugged in and ready to go.",
+    "description": "A ribbonlike sawblade runs in a single direction in this tool, allowing precise cuts at almost any angle.  Plugged in and ready to go.",
     "broken_color": "yellow_cyan",
     "broken_symbol": "x",
     "damage_modifier": 10,
@@ -596,7 +596,7 @@
     "durability": 120,
     "description": "A power cord sticking out of an appliance.  You need to plug it into a powered grid for the appliance to work properly.",
     "item": "power_cord",
-    "flags": [ "NOINSTALL", "NO_UNINSTALL", "UNMOUNT_ON_DAMAGE", "UNMOUNT_ON_MOVE", "POWER_TRANSFER" ]
+    "flags": [ "NO_INSTALL_HIDDEN", "NO_UNINSTALL", "UNMOUNT_ON_DAMAGE", "UNMOUNT_ON_MOVE", "POWER_TRANSFER" ]
   },
   {
     "id": "ap_standing_lamp",
@@ -841,7 +841,7 @@
     "symbol": "D",
     "color": "light_blue",
     "flags": [ "OBSTACLE", "APPLIANCE", "AUTOCLAVE", "CARGO", "COVERED", "ENABLED_DRAINS_EPOWER" ],
-    "description": "An autoclave that can steam its contents at high enough temperatures to completely sterilize them, killing any possible contaminants.  This one is plugged into a power grid and running off internal water tanks",
+    "description": "An autoclave that can steam its contents at high enough temperatures to completely sterilize them, killing any possible contaminants.  This one is plugged into a power grid and running off internal water tanks.",
     "copy-from": "autoclave",
     "item": "autoclave",
     "requirements": { "removal": { "time": "6 m" } }

@@ -285,7 +285,7 @@ void mission::on_talk_with_npc( const character_id &npc_id )
 mission *mission::reserve_random( const mission_origin origin, const tripoint_abs_omt &p,
                                   const character_id &npc_id )
 {
-    const auto type = mission_type::get_random_id( origin, p );
+    const mission_type_id type = mission_type::get_random_id( origin, p );
     if( type.is_null() ) {
         return nullptr;
     }
@@ -472,7 +472,7 @@ bool mission::is_complete( const character_id &_npc_id ) const
         }
 
         case MGOAL_GO_TO_TYPE: {
-            const auto cur_ter = overmap_buffer.ter( player_character.global_omt_location() );
+            const oter_id cur_ter = overmap_buffer.ter( player_character.global_omt_location() );
             return ( cur_ter->get_type_id() == oter_type_str_id( type->target_id.str() ) );
         }
 

@@ -109,7 +109,7 @@
     "flags": [ "EASY_DECONSTRUCT", "TRANSPARENT", "MOUNTABLE" ],
     "deconstruct": {
       "items": [
-        { "item": "m4_carbine", "count": 1, "charges": 0, "variant": "m4a1" },
+        { "item": "modular_m4_carbine", "count": 1, "charges": 0, "variant": "modular_m4a1" },
         { "item": "helmet_army", "count": 1, "damage": [ 0, 3 ] },
         { "item": "boots_combat", "count": [ 0, 1 ], "damage": [ 0, 3 ] }
       ]
@@ -120,7 +120,7 @@
       "sound": "thump.",
       "sound_fail": "whack.",
       "items": [
-        { "item": "m4_carbine", "count": 1, "charges": 0, "variant": "m4a1" },
+        { "item": "modular_m4_carbine", "count": 1, "charges": 0, "variant": "modular_m4a1" },
         { "item": "helmet_army", "count": 1, "damage": [ 0, 3 ] },
         { "item": "boots_combat", "count": [ 0, 1 ], "damage": [ 0, 3 ] }
       ]

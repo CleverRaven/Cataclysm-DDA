@@ -142,8 +142,12 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who, const std::str
         vpart_id replacement_id = pt.info().get_id();
         get_map().spawn_items( who.pos(), pt.pieces_for_broken_part() );
         veh.remove_part( part_index );
-        const int partnum = veh.install_part( loc, replacement_id, std::move( base ), variant );
-        veh.part( partnum ).direction = dir;
+        const int partnum = veh.install_part( loc, replacement_id, std::move( base ) );
+        if( partnum >= 0 ) {
+            vehicle_part &vp = veh.part( partnum );
+            vp.direction = dir;
+            vp.variant = variant;
+        }
         veh.part_removal_cleanup();
     } else {
         veh.set_hp( pt, pt.info().durability, true );

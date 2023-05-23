@@ -5,7 +5,7 @@
     "looks_like": "ar15",
     "type": "GUN",
     "name": { "str": "H&K G80 railgun" },
-    "description": "Developed by Heckler & Koch, this railgun magnetically propels a ferromagnetic projectile using an alternating current.  Powered by UPS.",
+    "description": "A highly advanced infantry weapon that magnetically propels a ferromagnetic projectile using an alternating current.  Markings and serials imply it was manufactured by Heckler & Koch, but the maturity of the implemented technologies makes such a claim suspect.  Powered by UPS.",
     "weight": "3914 g",
     "volume": "4958 ml",
     "longest_side": "1005 mm",
