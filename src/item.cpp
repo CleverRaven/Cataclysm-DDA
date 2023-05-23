@@ -216,7 +216,6 @@ static const std::string flag_NO_DISPLAY( "NO_DISPLAY" );
 
 // fault flags
 static const std::string flag_BLACKPOWDER_FOULING_DAMAGE( "BLACKPOWDER_FOULING_DAMAGE" );
-static const std::string flag_SILENT( "SILENT" );
 
 // item pricing
 static const int PRICE_FILTHY_MALUS = 100;  // cents
@@ -839,6 +838,30 @@ int item::damage_level() const
     return type->damage_level( damage_ );
 }
 
+float item::damage_adjusted_melee_weapon_damage( float value ) const
+{
+    if( type->count_by_charges() ) {
+        return value; // count by charges items don't have partial damage
+    }
+    return value * ( 1.0f - 0.1f * std::max( 0, damage_level() - 1 ) );
+}
+
+float item::damage_adjusted_gun_damage( float value ) const
+{
+    if( type->count_by_charges() ) {
+        return value; // count by charges items don't have partial damage
+    }
+    return value - 2 * std::max( 0, damage_level() - 1 );
+}
+
+float item::damage_adjusted_armor_resist( float value ) const
+{
+    if( type->count_by_charges() ) {
+        return value; // count by charges items don't have partial damage
+    }
+    return value * ( 1.0f - std::max( 0, damage_level() - 1 ) * 0.125f );
+}
+
 void item::set_damage( int qty )
 {
     damage_ = std::clamp( qty, degradation_, max_damage() );
@@ -847,7 +870,7 @@ void item::set_damage( int qty )
 void item::set_degradation( int qty )
 {
     degradation_ = std::clamp( qty, 0, max_damage() );
-    damage_ = std::clamp( damage_, degradation_, max_damage() );
+    set_damage( damage_ );
 }
 
 item item::split( int qty )
@@ -2858,16 +2881,22 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
             }
         }
 
-        if( damage_level() > 0 ) {
-            int dmg_penalty = damage_level() * -2;
-            info.emplace_back( "GUN", "damaged_weapon_penalty", "",
-                               iteminfo::no_newline | iteminfo::no_name, dmg_penalty );
+        const int gun_damage = loaded_mod->gun_damage( true ).total_damage();
+        if( damage() > 0 ) {
+            item intact_mod( *loaded_mod );
+            intact_mod.set_degradation( 0 );
+            intact_mod.set_damage( 0 );
+            const int intact_damage = intact_mod.gun_damage( true ).total_damage();
+            if( intact_damage != gun_damage ) {
+                const int dmg_penalty = gun_damage - intact_damage;
+                info.emplace_back( "GUN", "damaged_weapon_penalty", "",
+                                   iteminfo::no_newline | iteminfo::no_name, dmg_penalty );
+            }
         }
 
         if( parts->test( iteminfo_parts::GUN_DAMAGE_TOTAL ) ) {
             info.emplace_back( "GUN", "sum_of_damage", _( " = <num>" ),
-                               iteminfo::no_newline | iteminfo::no_name,
-                               loaded_mod->gun_damage( true ).total_damage() );
+                               iteminfo::no_newline | iteminfo::no_name, gun_damage );
         }
     }
     info.back().bNewLine = true;
@@ -5510,8 +5539,8 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                        ? string_format( "<good>%s</good>", e->nname( 1 ) )
                                        : e->nname( 1 ) );
         }
-        info.emplace_back( "DESCRIPTION",
-                           _( "<bold>Can be stored in</bold>: " ) + enumerate_lcsorted_with_limit( holsters_str ) );
+        info.emplace_back( "DESCRIPTION", _( "<bold>Can be stored in</bold>: " ) +
+                           enumerate_lcsorted_with_limit( holsters_str, 30 ) );
         info.back().sName += ".";
     }
 
@@ -5599,7 +5628,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 const std::string name = r->result_name( /* decorated = */ true );
                 crafts.emplace_back( can_make ? name : string_format( "<dark>%s</dark>", name ) );
             }
-            const std::string recipes = enumerate_lcsorted_with_limit( crafts, 12 );
+            const std::string recipes = enumerate_lcsorted_with_limit( crafts, 15 );
             info.emplace_back( " DESCRIPTION", string_format( _( "You could use it to craft: %s" ), recipes ) );
         }
     }
@@ -5651,10 +5680,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 return;
             }
 
-            // Sort according to the user's locale
-            std::sort( result_parts.begin(), result_parts.end(), localized_compare );
-
-            const std::string installable_parts = enumerate_lcsorted_with_limit( result_parts, 12 );
+            const std::string installable_parts = enumerate_lcsorted_with_limit( result_parts, 15 );
 
             insert_separation_line( info );
             info.emplace_back( " DESCRIPTION", string_format( install_where, installable_parts ) );
@@ -6240,36 +6266,19 @@ void item::on_contents_changed()
 
 std::string item::dirt_symbol() const
 {
-    const int dirt_level = get_var( "dirt", 0 ) / 2000;
-    std::string dirt_symbol;
-    // TODO: MATERIALS put this in json
-
     // these symbols are unicode square characters of different heights, representing a rough
-    // estimation of fouling in a gun. This appears instead of "faulty"
-    // since most guns will have some level of fouling in them, and usually it is not a big deal.
-    switch( dirt_level ) {
-        case 0:
-            dirt_symbol.clear();
-            break;
-        case 1:
-            dirt_symbol = "<color_white>\u2581</color>";
-            break;
-        case 2:
-            dirt_symbol = "<color_light_gray>\u2583</color>";
-            break;
-        case 3:
-            dirt_symbol = "<color_light_gray>\u2585</color>";
-            break;
-        case 4:
-            dirt_symbol = "<color_dark_gray>\u2587</color>";
-            break;
-        case 5:
-            dirt_symbol = "<color_brown>\u2588</color>";
-            break;
-        default:
-            dirt_symbol.clear();
+    // estimation of fouling in a gun. This appears instead of "faulty" since most guns will
+    // have some level of fouling in them, and usually it is not a big deal.
+    switch( static_cast<int>( get_var( "dirt", 0 ) / 2000 ) ) {
+        // *INDENT-OFF*
+        case 1:  return "<color_white>\u2581</color>";
+        case 2:  return "<color_light_gray>\u2583</color>";
+        case 3:  return "<color_light_gray>\u2585</color>";
+        case 4:  return "<color_dark_gray>\u2587</color>";
+        case 5:  return "<color_brown>\u2588</color>";
+        default: return "";
+        // *INDENT-ON*
     }
-    return dirt_symbol;
 }
 
 std::string item::degradation_symbol() const
@@ -6304,9 +6313,19 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     // item damage and/or fouling level
     std::string damtext;
 
+    // add first prefix if item has a fault that defines a prefix (prioritize?)
+    for( const fault_id &f : faults ) {
+        const std::string prefix = f->item_prefix();
+        if( !prefix.empty() ) {
+            damtext = prefix + " ";
+            break;
+        }
+    }
+    damtext += dirt_symbol();
+
     if( get_option<std::string>( "ASTERISK_POSITION" ) == "prefix" && with_prefix ) {
         if( is_favorite ) {
-            damtext = _( "* " ); // Display asterisk for favorite items, before item's name
+            damtext += _( "* " ); // Display asterisk for favorite items, before item's name
         }
     }
 
@@ -6319,20 +6338,6 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         if( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
             // get the utf8 width of the tags
             truncate_override = utf8_width( damtext, false ) - utf8_width( damtext, true );
-        }
-    }
-    if( !faults.empty() ) {
-        bool silent = true;
-        for( const auto &fault : faults ) {
-            if( !fault->has_flag( flag_SILENT ) ) {
-                silent = false;
-                break;
-            }
-        }
-        if( silent ) {
-            damtext.insert( 0, dirt_symbol() );
-        } else {
-            damtext.insert( 0, _( "faulty " ) + dirt_symbol() );
         }
     }
 
@@ -6798,8 +6803,8 @@ int item::price_no_contents( bool practical, std::optional<int> price_override )
     int price = price_override ? *price_override
                 : units::to_cent( practical ? type->price_post : type->price );
     if( damage() > 0 ) {
-        // maximal damage level is 4, maximal reduction is 80% of the value.
-        price -= price * static_cast< double >( damage_level() ) / 5;
+        // maximal damage level is 5, maximal reduction is 80% of the value.
+        price -= price * static_cast<double>( std::max( 0, damage_level() - 1 ) ) / 5;
     }
 
     if( count_by_charges() || made_of( phase_id::LIQUID ) ) {
@@ -7197,7 +7202,7 @@ int item::damage_melee( const damage_type_id &dt ) const
     if( type->melee.count( dt ) > 0 ) {
         res = type->melee.at( dt );
     }
-    res -= res * damage_level() * 0.1;
+    res = damage_adjusted_melee_weapon_damage( res );
 
     // apply type specific flags
     // FIXME: Hardcoded damage types
@@ -8372,7 +8377,7 @@ float item::_resist( const damage_type_id &dmg_type, bool to_self, int resist_va
     float resist = 0.0f;
     float mod = get_clothing_mod_val_for_damage_type( dmg_type );
 
-    const float damage_scale = 1.0f - damage_level() * 0.125f;
+    const float damage_scale = damage_adjusted_armor_resist( 1.0f );
 
     if( !bp_null ) {
         // If we have armour portion materials for this body part, use that instead
@@ -9335,11 +9340,6 @@ bool item::is_toolmod() const
     return !is_gunmod() && type->mod;
 }
 
-bool item::is_faulty() const
-{
-    return is_engine() ? !faults.empty() : false;
-}
-
 bool item::is_irremovable() const
 {
     return has_flag( flag_IRREMOVABLE );
@@ -10056,14 +10056,13 @@ damage_instance item::gun_damage( bool with_ammo, bool shot ) const
         }
     }
 
-    int item_damage = damage_level();
-    if( item_damage > 0 ) {
+    if( damage() > 0 ) {
         // TODO: This isn't a good solution for multi-damage guns/ammos
         for( damage_unit &du : ret ) {
             if( du.amount <= 1.0 ) {
                 continue;
             }
-            du.amount = std::max<float>( 1.0f, du.amount - item_damage * 2 );
+            du.amount = std::max<float>( 1.0f, damage_adjusted_gun_damage( du.amount ) );
         }
     }
 
@@ -10086,14 +10085,13 @@ damage_instance item::gun_damage( itype_id ammo ) const
     ret.add( ammo->ammo->damage.di_considering_length( bl ) );
 
 
-    int item_damage = damage_level();
-    if( item_damage > 0 ) {
+    if( damage() > 0 ) {
         // TODO: This isn't a good solution for multi-damage guns/ammos
         for( damage_unit &du : ret ) {
             if( du.amount <= 1.0 ) {
                 continue;
             }
-            du.amount = std::max<float>( 1.0f, du.amount - item_damage * 2 );
+            du.amount = std::max<float>( 1.0f, damage_adjusted_gun_damage( du.amount ) );
         }
     }
 

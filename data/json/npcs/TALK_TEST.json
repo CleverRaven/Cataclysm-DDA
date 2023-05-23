@@ -1144,22 +1144,22 @@
       {
         "text": "Temperature is 21.",
         "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "weather": "temperature" }, "=", { "const": 21 } ] }
+        "condition": { "math": [ "fahrenheit( weather('temperature') )", "==", "21" ] }
       },
       {
         "text": "Windpower is 15.",
         "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "weather": "windpower" }, "=", { "const": 15 } ] }
+        "condition": { "math": [ "weather('windpower')", "==", "15" ] }
       },
       {
         "text": "Humidity is 16.",
         "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "weather": "humidity" }, "=", { "const": 16 } ] }
+        "condition": { "math": [ "weather('humidity')", "==", "16" ] }
       },
       {
         "text": "Pressure is 17.",
         "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "weather": "pressure" }, "=", { "const": 17 } ] }
+        "condition": { "math": [ "weather('pressure')", "==", "17" ] }
       },
       {
         "text": "Pos_x is 18.",
@@ -1404,22 +1404,22 @@
       {
         "text": "Sets temperature to 2.",
         "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "weather": "temperature" }, "=", { "const": 2 } ] }
+        "effect": { "math": [ "weather('temperature')", "=", "from_fahrenheit( 2 )" ] }
       },
       {
         "text": "Sets windpower to 3.",
         "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "weather": "windpower" }, "=", { "const": 3 } ] }
+        "effect": { "math": [ "weather('windpower')", "=", "3" ] }
       },
       {
         "text": "Sets humidity to 4.",
         "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "weather": "humidity" }, "=", { "const": 4 } ] }
+        "effect": { "math": [ "weather('humidity')", "=", "4" ] }
       },
       {
         "text": "Sets pressure to 5.",
         "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "weather": "pressure" }, "=", { "const": 5 } ] }
+        "effect": { "math": [ "weather('pressure')", "=", "5" ] }
       },
       {
         "text": "Sets base strength to 6.",

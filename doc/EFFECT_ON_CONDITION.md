@@ -1,4 +1,4 @@
-### effect_on_condition
+# effect_on_condition
 An effect_on_condition is an object allowing the combination of dialog conditions and effects with their usage outside of a dialog.  When invoked, they will test their condition; on a pass, they will cause their effect. They can be activated automatically with any given frequency.  (Note: effect_on_conditions use the npc dialog conditions and effects syntax, which allows checking related to, or targeting an effect at, an npc (for example: `npc_has_trait`).  Using these commands in an effect_on_condition is not supported.)
 
 ## Fields
@@ -16,6 +16,9 @@ Identifier            | Type      | Description |
 `EOC_TYPE`            | string     | The effect_on_condition is automatically invoked once on scenario start.
 
  Can be any of:ACTIVATION, RECURRING, SCENARIO_SPECIFIC, AVATAR_DEATH, NPC_DEATH, OM_MOVE, PREVENT_DEATH, EVENT. It defaults to ACTIVATION unless `recurrence` is provided in which case it defaults to RECURRING.  If it is SCENARIO_SPECIFIC it is automatically invoked once on scenario start. If it is PREVENT_DEATH whenever the current avatar dies it will be run with the avatar as u, if after it the player is no longer dead they will not die, if there are multiple they all be run until the player is not dead. If it is AVATAR_DEATH whenever the current avatar dies it will be run with the avatar as u and the killer as npc. NPC_DEATH eocs can only be assigned to run on the death of an npc, in which case u will be the dying npc and npc will be the killer. OM_MOVE EOCs trigger when the player moves overmap tiles. EVENT EOCs trigger when a specific event given by "required_event" takes place.
+
+ ### Reactivation Support
+Important to remember that **reactivated EOCs currently lose all context variables and conditions**. Fixing this is a desired feature.
 
 ## Examples:
 ```JSON
@@ -36,6 +39,12 @@ Identifier            | Type      | Description |
   }
 ```
 
+# Reusable EOCs:
+The code base supports the use of reusable EOCs, you can use these to get guaranteed effects by passing in specific variables. The codebase supports the following:
+
+EOC Name | Description | Variables |
+--------------------- | --------- | ----------- |
+EOC_RandEnc | Spawns a random encounter at the specified `omt` with mapgen update `map_update` that is later removed with `map_removal`. It has a 1 in `chance` chance of happening and can only occur after `days_till_spawn`. Can optionally only happen if `random_enc_condition` is true | `map_update`: a mapgen update ID <br/> `omt`: overmap tile ID where this happens <br/> `map_removal`: a mapgen update ID <br/> `chance`: an integer <br/> `days_till_spawn`: an integer <br/> `random_enc_condition`: a set condition
 # EVENT EOCs:
 EVENT EOCs trigger on in game events specified in the event_type enum in `event.h`. When an EVENT EOC triggers it tries to perform the EOC on the NPC that is the focus of the event and if it cannot determine one, triggers on the avatar. So any cata_event that has a field for "avatar_id", "character", "attacker", "killer", "npc" will potentially resolve to another npc rather than the avatar, based on who the event triggers for.
 
@@ -136,3 +145,4 @@ triggers_alarm | | { "character", `character_id` } |
 uses_debug_menu | | { "debug_menu_option", `debug_menu_index` }, | 
 u_var_changed | | { "var", `string` }, { "value", `string` }, |
 vehicle_moves | | { "avatar_on_board", `bool` }, { "avatar_is_driving", `bool` }, { "avatar_remote_control", `bool` }, { "is_flying_aircraft", `bool` }, { "is_floating_watercraft", `bool` }, { "is_on_rails", `bool` }, { "is_falling", `bool` }, { "is_sinking", `bool` }, { "is_skidding", `bool` }, { "velocity", `int` }, // vehicle current velocity, mph * 100 { "z", `int` }, |
+

@@ -785,6 +785,7 @@ Character status value  | Description
 `BONUS_BLOCK`           | Affects the number of blocks you can perform.
 `BONUS_DODGE`           | Affects the number of dodges you can perform.
 `CARRY_WEIGHT`          | Affect the summary weight player can carry. `"add": 1000` adds 1 kg of weight to carry.
+`COMBAT_CATCHUP`        | Affects the rate at which you relearn combat skills (multiplier)
 `CLIMATE_CONTROL_HEAT`  | Moves body temperature up towards comfortable by number of warmth units up to value.
 `CLIMATE_CONTROL_CHILL` | Moves body temperature down towards comfortable by number of warmth units up to value.
 `DEXTERITY`             | Affects the dexterity stat.

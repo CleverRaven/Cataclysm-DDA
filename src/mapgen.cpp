@@ -5650,7 +5650,7 @@ void map::draw_lab( mapgendata &dat )
                         // liquid floors.
                         break;
                     }
-                    auto fluid_type = one_in( 3 ) ? t_sewage : t_water_sh;
+                    ter_id fluid_type = one_in( 3 ) ? t_sewage : t_water_sh;
                     for( int i = 0; i < EAST_EDGE; i++ ) {
                         for( int j = 0; j < SOUTH_EDGE; j++ ) {
                             // We spare some terrain to make it look better visually.
@@ -5677,7 +5677,7 @@ void map::draw_lab( mapgendata &dat )
                         // liquid floors.
                         break;
                     }
-                    auto fluid_type = one_in( 3 ) ? t_sewage : t_water_sh;
+                    ter_id fluid_type = one_in( 3 ) ? t_sewage : t_water_sh;
                     for( int i = 0; i < 2; ++i ) {
                         draw_rough_circle( [this, fluid_type]( const point & p ) {
                             if( t_thconc_floor == ter( p ) || t_strconc_floor == ter( p ) ||
@@ -6574,7 +6574,8 @@ std::vector<item *> map::place_items(
 std::vector<item *> map::put_items_from_loc( const item_group_id &group_id, const tripoint &p,
         const time_point &turn )
 {
-    const auto items = item_group::items_from( group_id, turn, spawn_flags::use_spawn_rate );
+    const std::vector<item> items =
+        item_group::items_from( group_id, turn, spawn_flags::use_spawn_rate );
     return spawn_items( p, items );
 }
 
@@ -6785,8 +6786,14 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
                     const point target_point = first_veh_parts.front()->mount;
                     const point source_point = parts_to_move.front()->mount;
                     for( const vehicle_part *vp : parts_to_move ) {
+                        const vpart_info &vpi = vp->info();
                         // TODO: change mount points to be tripoint
-                        first_veh->install_part( target_point, *vp );
+                        const ret_val<void> valid_mount = first_veh->can_mount( target_point, vpi );
+                        if( valid_mount.success() ) {
+                            // make a copy so we don't interfere with veh_to_add->remove_part below
+                            first_veh->install_part( target_point, vehicle_part( *vp ) );
+                        }
+                        // ignore parts that would make invalid vehicle configuration
                     }
 
                     if( !handler_ptr ) {

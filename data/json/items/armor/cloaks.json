@@ -17,7 +17,7 @@
     "warmth": 20,
     "material_thickness": 0.3,
     "environmental_protection": 1,
-    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS" ],
+    "flags": [ "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS" ],
     "armor": [
       {
         "encumbrance": 50,
@@ -511,6 +511,37 @@
     "armor": [ { "encumbrance": 4, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {
+    "id": "cape_sci_fi",
+    "repairs_like": "sheet",
+    "type": "ARMOR",
+    "copy-from": "cape_fp",
+    "name": { "str": "heraldic cape" },
+    "looks_like": "holo_cloak",
+    "description": "Sable and argent fields retreat diagonally from a full-moon sigil.  Its metallic fibers reveal holographic motifs in accordance with ambient light.",
+    "weight": "5900 g",
+    "price_postapoc": "750 USD",
+    "sided": true,
+    "//": "It is worn as a half-cape.",
+    "armor": [
+      {
+        "encumbrance": 2,
+        "coverage": 100,
+        "covers": [ "torso", "arm_l", "arm_r" ],
+        "specifically_covers": [ "torso_hanging_back", "arm_shoulder_l", "arm_upper_l", "arm_shoulder_r", "arm_upper_r" ]
+      },
+      {
+        "encumbrance": 1,
+        "coverage": 80,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_elbow_l", "arm_lower_l", "arm_elbow_r", "arm_lower_r" ]
+      }
+    ],
+    "flags": [ "OVERSIZE", "BELTED", "POWERARMOR_COMPATIBLE", "UNBREAKABLE" ],
+    "material": [ "nanotubes" ],
+    "material_thickness": 2.5,
+    "color": "blue"
+  },
+  {
     "id": "grass_cloak",
     "type": "ARMOR",
     "name": { "str": "grass cloak" },
@@ -526,7 +557,7 @@
     "color": "yellow",
     "warmth": 10,
     "material_thickness": 0.4,
-    "flags": [ "OVERSIZE", "OUTER" ],
+    "flags": [ "OVERSIZE", "BELTED" ],
     "armor": [ { "encumbrance": 4, "coverage": 65, "covers": [ "torso", "leg_l", "leg_r" ] } ]
   },
   {
@@ -546,7 +577,7 @@
     "warmth": 30,
     "material_thickness": 0.4,
     "environmental_protection": 3,
-    "flags": [ "OVERSIZE", "HOOD", "OUTER" ],
+    "flags": [ "OVERSIZE", "HOOD", "BELTED" ],
     "armor": [ { "encumbrance": 4, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
   },
   {
@@ -567,7 +598,7 @@
     "warmth": 10,
     "material_thickness": 0.2,
     "environmental_protection": 1,
-    "flags": [ "OVERSIZE", "HOOD", "OUTER", "FANCY" ],
+    "flags": [ "OVERSIZE", "HOOD", "BELTED", "FANCY" ],
     "armor": [ { "encumbrance": 2, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ],
     "use_action": {
       "type": "transform",
@@ -608,7 +639,7 @@
     "color": "dark_gray",
     "warmth": 8,
     "material_thickness": 0.1,
-    "flags": [ "OVERSIZE", "OUTER" ],
+    "flags": [ "OVERSIZE", "BELTED" ],
     "armor": [ { "encumbrance": 2, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
   },
   {
@@ -628,7 +659,7 @@
     "warmth": 60,
     "material_thickness": 0.6,
     "environmental_protection": 3,
-    "flags": [ "OVERSIZE", "HOOD", "OUTER", "WATERPROOF", "RAINPROOF" ],
+    "flags": [ "OVERSIZE", "HOOD", "BELTED", "WATERPROOF", "RAINPROOF" ],
     "armor": [ { "encumbrance": 6, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
   },
   {
@@ -648,7 +679,7 @@
     "warmth": 40,
     "material_thickness": 1.5,
     "environmental_protection": 3,
-    "flags": [ "OVERSIZE", "HOOD", "OUTER", "WATERPROOF", "RAINPROOF" ],
+    "flags": [ "OVERSIZE", "HOOD", "BELTED", "WATERPROOF", "RAINPROOF" ],
     "armor": [ { "encumbrance": 6, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
   },
   {
@@ -668,7 +699,7 @@
     "warmth": 50,
     "material_thickness": 0.5,
     "environmental_protection": 3,
-    "flags": [ "OVERSIZE", "HOOD", "OUTER" ],
+    "flags": [ "OVERSIZE", "HOOD", "BELTED" ],
     "armor": [ { "encumbrance": 5, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
   },
   {
@@ -689,7 +720,7 @@
     "warmth": 5,
     "material_thickness": 0.3,
     "environmental_protection": 5,
-    "flags": [ "OVERSIZE", "OUTER" ],
+    "flags": [ "OVERSIZE", "BELTED" ],
     "armor": [
       {
         "encumbrance": 3,
@@ -724,7 +755,7 @@
       "need_charges": 20,
       "need_charges_msg": "You don't have enough UPS charges to turn on the %s"
     },
-    "flags": [ "USE_UPS", "OVERSIZE", "HOOD", "WATERPROOF", "OUTER", "VARSIZE", "SOFT" ],
+    "flags": [ "USE_UPS", "OVERSIZE", "HOOD", "WATERPROOF", "BELTED", "VARSIZE", "SOFT" ],
     "armor": [ { "encumbrance": 50, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
   },
   {

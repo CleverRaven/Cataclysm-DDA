@@ -2234,7 +2234,7 @@ void item_pocket::delete_preset( const std::vector<item_pocket::favorite_setting
 
 void item_pocket::load_presets()
 {
-    cata::ifstream fin;
+    std::ifstream fin;
     cata_path file = PATH_INFO::pocket_presets();
 
     fs::path file_path = file.get_unrelative_path();

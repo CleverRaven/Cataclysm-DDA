@@ -202,11 +202,6 @@ const std::vector<std::pair<std::string, translation>> vpart_variants = {
     { "right", to_translation( "vpart_variants", "Right" ) }
 };
 
-const std::map<std::string, int> vpart_variants_standard = {
-    { "cover", '^' }, { "cross", 'c' },
-    { "horizontal", 'h' }, { "horizontal_2", '=' }, { "vertical", 'j' }, { "vertical_2", 'H' },
-    { "ne", 'u' }, { "nw", 'y' }, { "se", 'n' }, { "sw", 'b' }
-};
 std::pair<std::string, std::string> get_vpart_str_variant( const std::string &vpid );
 std::pair<vpart_id, std::string> get_vpart_id_variant( const vpart_id &vpid );
 std::pair<vpart_id, std::string> get_vpart_id_variant( const std::string &vpid );
@@ -346,6 +341,11 @@ class vpart_info
         time_duration get_folding_time() const;
         // @returns time required for unfolding this part
         time_duration get_unfolding_time() const;
+        // @returns symbol for non-broken part
+        int get_symbol() const;
+        // @returns symbol for broken part
+        int get_symbol_broken() const;
+
     private:
         std::set<std::string> flags;
         // category list for installation ui breakdown
@@ -380,6 +380,14 @@ class vpart_info
 
         /** Name from vehicle part definition which if set overrides the base item name */
         translation name_;
+
+        /**
+         * Symbol of part which will be translated as follows:
+         * y, u, n, b to NW, NE, SE, SW lines correspondingly
+         * h, j, c to horizontal, vertical, cross correspondingly
+         */
+        std::string symbol_ = "h";
+        std::string symbol_broken_ = "#";
 
     public:
         /* map of standard variant names to symbols */
@@ -440,14 +448,6 @@ class vpart_info
 
         /** What slot of the vehicle tile does this part occupy? */
         std::string location;
-
-        /**
-         * Symbol of part which will be translated as follows:
-         * y, u, n, b to NW, NE, SE, SW lines correspondingly
-         * h, j, c to horizontal, vertical, cross correspondingly
-         */
-        int sym = 0;
-        int sym_broken = '#';
 
         /** Maximum damage part can sustain before being destroyed */
         int durability = 0;

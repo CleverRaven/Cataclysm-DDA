@@ -80,10 +80,11 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "green",
-    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
+    "flags": [ "WATER_BREAK", "ELECTRONIC", "ALLOWS_REMOTE_USE" ],
     "ammo": [ "battery" ],
     "charges_per_use": 20,
-    "use_action": [ "HOTPLATE" ],
+    "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ] ],
+    "use_action": [ "HOTPLATE", "HEAT_FOOD" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",

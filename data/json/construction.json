@@ -2473,6 +2473,20 @@
   },
   {
     "type": "construction",
+    "id": "constr_storage_tank",
+    "group": "build_storage_tank",
+    "//": "a huge metal tank, useful for holding very large volumes of liquids",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 6 ] ],
+    "time": "300 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ] ],
+    "using": [ [ "welding_standard", 16 ] ],
+    "components": [ [ [ "sheet_metal", 24 ], [ "sheet_metal_small", 576 ] ], [ [ "water_faucet", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_storage_tank"
+  },
+  {
+    "type": "construction",
     "id": "constr_anvil",
     "group": "place_anvil",
     "category": "FURN",

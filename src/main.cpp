@@ -608,7 +608,9 @@ int main( int argc, const char *argv[] )
     ordered_static_globals();
     init_crash_handlers();
     reset_floating_point_mode();
+#if defined(FLATBUFFERS_LOCALE_INDEPENDENT) && (FLATBUFFERS_LOCALE_INDEPENDENT > 0)
     flatbuffers::ClassicLocale::Get();
+#endif
 
     on_out_of_scope json_member_reporting_guard{ [] {
             // Disable reporting unvisited members if stack unwinding leaves main early.
@@ -745,7 +747,7 @@ int main( int argc, const char *argv[] )
         get_options().load();
     }
 
-    set_language();
+    set_language_from_options();
 
     rng_set_engine_seed( cli.seed );
 
@@ -783,9 +785,13 @@ int main( int argc, const char *argv[] )
 
     // Now we do the actual game.
 
+#if defined(DEBUG_CURSES_CURSOR)
+    catacurses::curs_set( 2 );
+#else
     // I have no clue what this comment is on about
     // Any value works well enough for debugging at least
     catacurses::curs_set( 0 ); // Invisible cursor here, because MAPBUFFER.load() is crash-prone
+#endif
 
 #if !defined(_WIN32)
     struct sigaction sigIntHandler;
@@ -798,7 +804,7 @@ int main( int argc, const char *argv[] )
 #if defined(LOCALIZE)
     if( get_option<std::string>( "USE_LANG" ).empty() && !SystemLocale::Language().has_value() ) {
         select_language();
-        set_language();
+        set_language_from_options();
     }
 #endif
     replay_buffered_debugmsg_prompts();

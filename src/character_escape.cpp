@@ -25,7 +25,6 @@ static const flag_id json_flag_GRAB( "GRAB" );
 
 static const itype_id itype_rope_6( "rope_6" );
 static const itype_id itype_snare_trigger( "snare_trigger" );
-static const itype_id itype_string_36( "string_36" );
 
 static const json_character_flag json_flag_DOWNED_RECOVERY( "DOWNED_RECOVERY" );
 
@@ -97,14 +96,11 @@ void Character::try_remove_bear_trap()
 
 void Character::try_remove_lightsnare()
 {
-    map &here = get_map();
     if( is_mounted() ) {
         auto *mon = mounted_creature.get();
         if( x_in_y( mon->type->melee_dice * mon->type->melee_sides, 12 ) ) {
             mon->remove_effect( effect_lightsnare );
             remove_effect( effect_lightsnare );
-            here.spawn_item( pos(), itype_string_36 );
-            here.spawn_item( pos(), itype_snare_trigger );
             add_msg( _( "The %s escapes the light snare!" ), mon->get_name() );
         }
     } else {
@@ -112,10 +108,6 @@ void Character::try_remove_lightsnare()
             remove_effect( effect_lightsnare );
             add_msg_player_or_npc( m_good, _( "You free yourself from the light snare!" ),
                                    _( "<npcname> frees themselves from the light snare!" ) );
-            item string( "string_36", calendar::turn );
-            item snare( "snare_trigger", calendar::turn );
-            here.add_item_or_charges( pos(), string );
-            here.add_item_or_charges( pos(), snare );
         } else {
             add_msg_if_player( m_bad,
                                _( "You try to free yourself from the light snare, but can't get loose!" ) );

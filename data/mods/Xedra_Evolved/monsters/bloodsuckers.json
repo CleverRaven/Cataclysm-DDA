@@ -117,7 +117,7 @@
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "dodge": 1,
-    "special_attacks": [ [ "PARROT", 800 ] ],
+    "special_attacks": [ [ "PARROT", 100 ] ],
     "harvest": "human",
     "dissect": "dissect_human_sample_single",
     "vision_day": 30,
@@ -163,7 +163,7 @@
     "diff": 5,
     "starting_ammo": { "9mm": 5 },
     "special_attacks": [
-      [ "PARROT", 800 ],
+      [ "PARROT", 100 ],
       {
         "type": "gun",
         "cooldown": 10,
@@ -227,7 +227,7 @@
     "harvest": "human",
     "starting_ammo": { "shot_00": 5 },
     "special_attacks": [
-      [ "PARROT", 800 ],
+      [ "PARROT", 100 ],
       {
         "type": "gun",
         "cooldown": 10,
@@ -291,7 +291,7 @@
     "harvest": "human",
     "starting_ammo": { "shot_00": 5 },
     "special_attacks": [
-      [ "PARROT", 800 ],
+      [ "PARROT", 100 ],
       {
         "type": "gun",
         "cooldown": 10,
@@ -402,7 +402,7 @@
     "bleed_rate": 50,
     "path_settings": { "avoid_traps": true, "avoid_sharp": false },
     "revert_to_itype": "bot_prototype_cyborg",
-    "special_attacks": [ [ "PARROT", 800 ], { "id": "impale", "cooldown": 5, "min_mul": 1, "max_mul": 3 }, [ "BIO_OP_TAKEDOWN", 20 ] ],
+    "special_attacks": [ [ "PARROT", 100 ], { "id": "impale", "cooldown": 5, "min_mul": 1, "max_mul": 3 }, [ "BIO_OP_TAKEDOWN", 20 ] ],
     "weakpoint_sets": [ "wps_cyborg_body" ],
     "families": [ "prof_wp_cyborg" ],
     "harvest": "mon_broken_cyborg",
@@ -446,7 +446,7 @@
     "dissect": "dissect_human_sample_large",
     "special_attacks": [
       { "id": "scratch", "move_cost": 90, "cooldown": 3, "min_mul": 1.5, "max_mul": 3.5 },
-      [ "PARROT", 800 ],
+      [ "PARROT", 100 ],
       { "id": "cut_throat", "move_cost": 130, "cooldown": 4, "min_mul": 1.5, "max_mul": 3.5 },
       { "id": "smash", "move_cost": 100, "cooldown": 8, "min_mul": 0.8, "throw_strength": 50 },
       { "id": "longswipe", "move_cost": 120, "cooldown": 12, "min_mul": 1.5, "max_mul": 3 }
