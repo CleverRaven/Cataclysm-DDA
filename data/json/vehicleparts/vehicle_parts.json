@@ -1212,7 +1212,7 @@
       "removal": { "skills": [ [ "fabrication", 2 ] ], "time": "60 m" },
       "repair": { "skills": [ [ "tailor", 1 ] ], "time": "150 s", "using": [ [ "sewing_standard", 50 ], [ "fabric_standard", 1 ] ] }
     },
-    "flags": [ "ENGINE", "CONTROLS", "PROTRUSION", "E_STARTS_INSTANTLY", "WIND_POWERED", "OVER", "STABLE", "UNMOUNT_ON_DAMAGE" ],
+    "flags": [ "ENGINE", "CONTROLS", "PROTRUSION", "E_STARTS_INSTANTLY", "WIND_POWERED", "STABLE", "UNMOUNT_ON_DAMAGE" ],
     "breaks_into": [ { "item": "splinter", "count": [ 2, 4 ] }, { "item": "cotton_patchwork", "count": [ 5, 10 ] } ]
   },
   {

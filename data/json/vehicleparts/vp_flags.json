@@ -466,10 +466,6 @@
     "type": "json_flag"
   },
   {
-    "id": "OVER",
-    "type": "json_flag"
-  },
-  {
     "id": "PLANTER",
     "type": "json_flag"
   },
