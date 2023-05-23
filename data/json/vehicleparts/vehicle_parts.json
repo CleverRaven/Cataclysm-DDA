@@ -284,24 +284,17 @@
   {
     "type": "vehicle_part",
     "id": "wooden_aisle",
+    "copy-from": "aisle",
     "name": { "str": "wooden aisle" },
-    "symbol": "H",
-    "symbols": { "horizontal": "H", "vertical": "=" },
-    "looks_like": "t_floor",
-    "categories": [ "hull", "passengers" ],
     "color": "brown",
-    "broken_symbol": "#",
     "broken_color": "brown",
     "durability": 200,
-    "description": "An aisle.",
     "item": "frame_wood",
-    "location": "center",
     "requirements": {
       "install": { "skills": [ [ "fabrication", 1 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
       "removal": { "skills": [ [ "fabrication", 2 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
       "repair": { "skills": [ [ "fabrication", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
     },
-    "flags": [ "AISLE", "BOARDABLE" ],
     "breaks_into": [ { "item": "splinter", "count": [ 7, 9 ] }, { "item": "nail", "charges": [ 5, 10 ] } ],
     "damage_reduction": { "all": 16 }
   },
