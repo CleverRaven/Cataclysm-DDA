@@ -28,46 +28,33 @@
     "id": "BERSERKER_STR",
     "has": "WORN",
     "condition": "ALWAYS",
-    "values": [
-      {
-        "value": "STRENGTH",
-        "add": { "arithmetic": [ { "global_val": "var", "var_name": "BERSERKER" }, "/", { "const": 3 } ] }
-      }
-    ]
+    "values": [ { "value": "STRENGTH", "add": { "math": [ "BERSERKER / 3" ] } } ]
   },
   {
     "type": "enchantment",
     "id": "BERSERKER_SPEED",
     "has": "WORN",
     "condition": "ALWAYS",
-    "values": [ { "value": "SPEED", "add": { "arithmetic": [ { "global_val": "var", "var_name": "BERSERKER" } ] } } ]
+    "values": [ { "value": "SPEED", "add": { "math": [ "BERSERKER" ] } } ]
   },
   {
     "type": "enchantment",
     "id": "BERSERKER_REGEN_STAMINA",
     "has": "WORN",
     "condition": "ALWAYS",
-    "values": [
-      {
-        "value": "REGEN_STAMINA",
-        "multiply": { "arithmetic": [ { "global_val": "var", "var_name": "BERSERKER" }, "/", { "const": 5 } ] }
-      }
-    ]
+    "values": [ { "value": "REGEN_STAMINA", "multiply": { "math": [ "BERSERKER / 5" ] } } ]
   },
   {
     "type": "effect_on_condition",
     "id": "INCREASE_BERSERKER",
     "condition": { "u_has_items": { "item": "dreamforged_knuckle_berserk", "count": 1 } },
     "deactivate_condition": { "not": { "u_has_items": { "item": "dreamforged_knuckle_berserk", "count": 1 } } },
-    "effect": [
-      { "u_message": "BERSERK +1.", "type": "debug" },
-      { "arithmetic": [ { "global_val": "var", "var_name": "BERSERKER" }, "++" ] }
-    ]
+    "effect": [ { "u_message": "BERSERK +1.", "type": "debug" }, { "math": [ "BERSERKER", "++" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "DECREASE_BERSERKER",
     "recurrence": "25 s",
-    "effect": [ { "arithmetic": [ { "global_val": "var", "var_name": "BERSERKER" }, "--" ], "min": 0 } ]
+    "effect": [ { "math": [ "BERSERKER", "=", "max( 0, BERSERKER - 1)" ] } ]
   }
 ]
