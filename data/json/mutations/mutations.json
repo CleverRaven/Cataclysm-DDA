@@ -7703,16 +7703,6 @@
   },
   {
     "type": "mutation",
-    "id": "BLOOD_OF_SAINTS",
-    "name": { "str": "Saint's blood" },
-    "points": 0,
-    "description": "Through a complicated ritual utilizing a saint's relic, you have transubstantiated your own blood with the holy blood of the saints.  It'll prevent you from becoming infected with vampirism while you live, effects postmortem unknown.",
-    "valid": false,
-    "purifiable": false,
-    "types": [ "BLOOD" ]
-  },
-  {
-    "type": "mutation",
     "id": "PYROMANIA",
     "name": { "str": "Pyromaniac" },
     "points": -2,
