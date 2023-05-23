@@ -567,7 +567,7 @@
     "enchantments": [ { "values": [ { "value": "PAIN", "multiply": -1 } ] } ],
     "flags": [ "STEADY" ]
   },
-    {
+  {
     "type": "effect_type",
     "id": "wicked_quick_hands",
     "name": [ "Wicked Quick Hands" ],
