@@ -580,7 +580,7 @@
     "symbol": ";",
     "color": "green",
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
-    "pocket_data": [ { "max_contains_volume": "1000 ml", "max_contains_weight": "2 kg", "watertight": true, "rigid": true } ],
+    "pocket_data": [ { "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "watertight": true, "rigid": true } ],
     "melee_damage": { "bash": 4 }
   },
   {
