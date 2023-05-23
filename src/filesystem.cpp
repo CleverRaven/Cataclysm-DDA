@@ -71,6 +71,16 @@ bool file_exist( const cata_path &path )
     return fs::exists( unrelative_path ) && !fs::is_directory( unrelative_path );
 }
 
+template<typename T> std::string as_norm_dir(const T& path)
+{
+        auto dir = fs::path(path) / fs::path{};
+        auto norm = dir.lexically_normal();
+        return norm.generic_u8string();
+}
+
+template std::string as_norm_dir<fs::path>(const fs::path&);
+template std::string as_norm_dir<std::string>(const std::string&);
+
 bool remove_file( const std::string &path )
 {
     return remove_file( fs::u8path( path ) );
