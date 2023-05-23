@@ -1497,7 +1497,7 @@ void global_variables::load_migrations( const JsonObject &jo, const std::string 
     const std::string from( jo.get_string( "from" ) );
     const std::string to = jo.has_string( "to" )
                            ? jo.get_string( "to" )
-                           : "";
+                           : "NULL_VALUE";
     get_globals().migrations.emplace( from, to );
 }
 
