@@ -3050,7 +3050,7 @@ void options_manager::add_options_android()
 
     add_empty_line();
 
-    add_option_group( "android", Group( "shortcut_android_opts",
+    add_option_group( "android", Group( "shortcut_android_in_game_opts",
                                         to_translation( "Android Shortcut Options" ),
                                         to_translation( "Options regarding In-game shortcut." ) ),
     [&]( const std::string & page_id ) {

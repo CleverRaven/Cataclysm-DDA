@@ -14,7 +14,7 @@
     "mod_targets": [ "pistol", "shotgun", "smg", "rifle" ],
     "damage_modifier": { "damage_type": "bullet", "amount": 5 },
     "dispersion_modifier": 5,
-    "loudness_modifier": 10,
+    "loudness_modifier": 40,
     "min_skills": [ [ "weapon", 6 ], [ "deduction", 5 ] ]
   },
   {
@@ -48,9 +48,9 @@
     "color": "brown",
     "location": "barrel",
     "mod_targets": [ "pistol", "shotgun", "smg", "rifle" ],
-    "loudness_modifier": -100,
-    "damage_modifier": { "damage_type": "bullet", "amount": -3 },
-    "range_modifier": -4,
+    "loudness_modifier": -150,
+    "damage_modifier": { "damage_type": "bullet", "amount": -4 },
+    "range_modifier": -2,
     "min_skills": [ [ "weapon", 6 ], [ "deduction", 5 ] ]
   },
   {
