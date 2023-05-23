@@ -608,7 +608,6 @@
     "components": [
       [ [ "stick", 6 ] ],
       [ [ "leather", 16 ], [ "sheet_leather", 4 ], [ "sheet_leather_patchwork", 4 ], [ "tanned_hide", 4 ] ],
-      [ [ "leather", 16 ], [ "sheet_leather", 4 ], [ "sheet_leather_patchwork", 4 ], [ "tanned_hide", 4 ] ],
       [ [ "large_damaged_shelter_kit", 1 ] ],
       [ [ "filament", 100, "LIST" ] ]
     ]
