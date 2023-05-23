@@ -3875,10 +3875,10 @@ void cata_tiles::draw_zlevel_overlay( const tripoint &p, const lit_level ll,
         } else if( ll == lit_level::LOW ) {
             fog_color = curses_color_to_SDL( c_dark_gray );
         }
-        // Setting for fog transparancy
+        // Setting for fog transparency
         fog_color.a = 100;
 
-        // Transparancy will only work in blend mode
+        // Transparency will only work in blend mode
         color_blocks.first = SDL_BLENDMODE_BLEND;
         color_blocks.second.emplace( fog_loc, fog_color );
     }
