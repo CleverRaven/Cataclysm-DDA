@@ -958,14 +958,13 @@
     "id": "EOC_FACTION_SUCCESSION_CHANGE_INIT",
     "eoc_type": "EVENT",
     "required_event": "game_begin",
-    "effect": [ { "assign_mission": "MISSION_CAMP_LEADERSHIP_CHANGE" } ]
+    "effect": [ { "clear_mission": "MISSION_CAMP_LEADERSHIP_CHANGE" }, { "assign_mission": "MISSION_CAMP_LEADERSHIP_CHANGE" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_FACTION_SUCCESSION_CHANGE_REINIT",
     "eoc_type": "EVENT",
     "required_event": "game_avatar_new",
-    "condition": { "not": { "u_has_mission": "MISSION_CAMP_LEADERSHIP_CHANGE" } },
-    "effect": [ { "assign_mission": "MISSION_CAMP_LEADERSHIP_CHANGE" } ]
+    "effect": [ { "clear_mission": "MISSION_CAMP_LEADERSHIP_CHANGE" }, { "assign_mission": "MISSION_CAMP_LEADERSHIP_CHANGE" } ]
   }
 ]
