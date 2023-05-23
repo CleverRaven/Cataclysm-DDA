@@ -536,7 +536,7 @@
         "text": "It's a deal.",
         "topic": "TALK_DONE",
         "condition": { "u_has_item": "denarius" },
-        "effect": [ { "assign_mission": "MISSION_FORGE_SWAMP_DRAGON" }, { "u_consume_item": "denarius" } ]
+        "effect": [ { "assign_mission": "MISSION_FORGE_DIVINER_SWAMP_DRAGON" }, { "u_consume_item": "denarius" } ]
       },
       {
         "text": "I can't afford that right now.",

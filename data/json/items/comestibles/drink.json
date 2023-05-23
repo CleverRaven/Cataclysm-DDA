@@ -1558,5 +1558,25 @@
     "flags": [ "EATEN_COLD" ],
     "vitamins": [ [ "vitC", 120 ], [ "calcium", 2 ], [ "iron", 2 ] ],
     "fun": 2
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "ayran",
+    "name": { "str": "ayran" },
+    "weight": "240 g",
+    "color": "white",
+    "spoils_in": "3 days",
+    "container": "bottle_plastic",
+    "comestible_type": "DRINK",
+    "symbol": "~",
+    "quench": 40,
+    "calories": 126,
+    "description": "A cold savory yogurt-based beverage popular across Western Asia, Central Asia, Southeastern Europe, North Asia and Eastern Europe.",
+    "price": 90,
+    "price_postapoc": 40,
+    "volume": "236 ml",
+    "phase": "liquid",
+    "flags": [ "EATEN_COLD" ],
+    "fun": 6
   }
 ]

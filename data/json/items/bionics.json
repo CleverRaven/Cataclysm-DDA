@@ -70,6 +70,17 @@
     "difficulty": 1
   },
   {
+    "id": "bio_ar",
+    "copy-from": "bionic_general_npc_usable",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Integrated AR System CBM" },
+    "looks_like": "bio_int_enhancer",
+    "description": "This bionic module integrates augmented reality interface into user's eyes.",
+    "price": 500000,
+    "weight": "100 g",
+    "difficulty": 6
+  },
+  {
     "id": "bio_armor_arms",
     "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
@@ -755,6 +766,18 @@
     "description": "An advanced filtration system that is implanted in the user's trachea.  If toxins or airborne diseases find their way into the windpipe, the filter will attempt to remove them.",
     "price": 450000,
     "price_postapoc": 6000,
+    "weight": "100 g",
+    "difficulty": 4
+  },
+  {
+    "id": "bio_radio",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Infolink CBM" },
+    "looks_like": "bio_int_enhancer",
+    "description": "A wireless communications device that integrates with the ear canal to enable hands-free communication over radio waves.",
+    "price": 50000,
+    "price_postapoc": 1000,
     "weight": "100 g",
     "difficulty": 4
   },

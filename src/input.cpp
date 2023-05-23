@@ -1197,6 +1197,7 @@ const std::string &input_context::handle_input( const int timeout )
     next_action.type = input_event_t::error;
     const std::string *result = &CATA_ERROR;
     while( true ) {
+
         next_action = inp_mngr.get_input_event( preferred_keyboard_mode );
         if( next_action.type == input_event_t::timeout ) {
             result = &TIMEOUT;
@@ -1204,6 +1205,13 @@ const std::string &input_context::handle_input( const int timeout )
         }
 
         const std::string &action = input_to_action( next_action );
+
+        //Special global key to toggle language to english and back
+        if( action == "toggle_language_to_en" ) {
+            g->toggle_language_to_en();
+            ui_manager::invalidate_all_ui_adaptors();
+            ui_manager::redraw_invalidated();
+        }
 
         // Special help action
         if( action == "HELP_KEYBINDINGS" ) {

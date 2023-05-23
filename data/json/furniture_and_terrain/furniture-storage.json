@@ -1149,6 +1149,29 @@
   },
   {
     "type": "furniture",
+    "id": "f_storage_tank",
+    "name": "bulk storage tank",
+    "description": "A 2 meters high tank that can store up to 1500 liters of liquid.  That's a lot.",
+    "symbol": "O",
+    "looks_like": "f_standing_tank",
+    "color": "light_gray",
+    "move_cost_mod": -1,
+    "coverage": 95,
+    "required_str": -1,
+    "flags": [ "CONTAINER", "LIQUIDCONT", "NOITEM", "SEALED" ],
+    "deconstruct": { "items": [ { "item": "sheet_metal", "count": 24 }, { "item": "water_faucet", "count": 1 } ] },
+    "examine_action": "keg",
+    "keg_capacity": 6000,
+    "bash": {
+      "str_min": 16,
+      "str_max": 32,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [ { "item": "scrap", "count": [ 40, 160 ] }, { "item": "water_faucet", "prob": 50 } ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_gas_tank",
     "name": "fuel tank",
     "description": "A tank filled with gasoline.",
@@ -1437,6 +1460,86 @@
         { "item": "lock", "count": [ 0, 1 ] },
         { "item": "scrap", "count": [ 2, 6 ] },
         { "item": "hinge", "charges": 2 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_432gal_drum_rubber",
+    "name": "big collapsible drum",
+    "looks_like": "f_standing_tank",
+    "description": "A black collapsible drum with a valve and D-Rings.  Yellow text on its top clearly says \"FLAMMABLE\".",
+    "symbol": "0",
+    "bgcolor": "white",
+    "move_cost_mod": -1,
+    "coverage": 100,
+    "required_str": -1,
+    "flags": [ "CONTAINER", "PLACE_ITEM", "LIQUIDCONT", "NOITEM", "SEALED", "EASY_DECONSTRUCT" ],
+    "examine_action": "keg",
+    "keg_capacity": 6540,
+    "deconstruct": { "items": [ { "item": "432gal_drum_rubber", "count": 1 } ] },
+    "bash": {
+      "str_min": 90,
+      "str_max": 150,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "rubber_tire_chunk", "count": [ 40, 60 ] },
+        { "item": "scrap", "count": [ 50, 80 ] },
+        { "item": "water_faucet", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_pallet_belted",
+    "name": "packed pallet",
+    "description": "A wooden pallet loaded with cargo, wrapped with a watertight cover, and belted to secure the contents.",
+    "symbol": "X",
+    "bgcolor": "brown",
+    "move_cost_mod": -1,
+    "coverage": 60,
+    "required_str": 40,
+    "max_volume": "1000 L",
+    "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "ALLOW_FIELD_EFFECT", "FLAMMABLE", "PLACE_ITEM", "MOUNTABLE", "SHORT" ],
+    "examine_action": "locked_object",
+    "//": "probably should remove locked_object, because it mention you can pry it when actually you can't",
+    "deconstruct": {
+      "items": [ { "item": "rope_6", "count": 6 }, { "item": "plastic_sheet", "count": 5 }, { "item": "pallet", "count": 1 } ]
+    },
+    "bash": {
+      "str_min": 9,
+      "str_max": 50,
+      "sound": "rip!",
+      "sound_fail": "wham!",
+      "furn_set": "f_pallet_belted_open",
+      "items": [ { "item": "rope_6", "count": [ 1, 2 ] }, { "item": "plastic_sheet", "charges": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_pallet_belted_open",
+    "name": "damaged pallet",
+    "description": "A wooden pallet, containing cargo and possessing a torn cover.  You can reach the contents, but it’s awfully hard due to the belts still being in place.",
+    "symbol": "O",
+    "bgcolor": "brown",
+    "move_cost_mod": -1,
+    "coverage": 60,
+    "required_str": 40,
+    "max_volume": "1000 L",
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "MOUNTABLE", "SHORT" ],
+    "deconstruct": {
+      "items": [ { "item": "rope_6", "count": 4 }, { "item": "plastic_sheet", "count": 3 }, { "item": "pallet", "count": 1 } ]
+    },
+    "bash": {
+      "str_min": 9,
+      "str_max": 50,
+      "sound": "rip!",
+      "sound_fail": "wham!",
+      "items": [
+        { "item": "rope_6", "count": [ 2, 4 ] },
+        { "item": "plastic_sheet", "count": [ 1, 3 ] },
+        { "item": "pallet", "count": 1 }
       ]
     }
   }

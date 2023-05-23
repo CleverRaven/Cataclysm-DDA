@@ -24,10 +24,10 @@
 #include "viewer.h"
 #include "map_iterator.h"
 
-static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_teleglow( "teleglow" );
 
 static const flag_id json_flag_DIMENSIONAL_ANCHOR( "DIMENSIONAL_ANCHOR" );
+static const flag_id json_flag_GRAB( "GRAB" );
 
 bool teleport::teleport( Creature &critter, int min_distance, int max_distance, bool safe,
                          bool add_teleglow )
@@ -169,7 +169,9 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
                 //spawn a mostly cosmetic explosion for flair.
                 explosion_handler::explosion( &critter, target, 10 );
                 //if it was grabbed, it isn't anymore.
-                poor_soul->remove_effect( effect_grabbed );
+                for( const effect &grab : poor_soul->get_effects_with_flag( json_flag_GRAB ) ) {
+                    poor_soul->remove_effect( grab.get_id() );
+                }
                 //apply a bunch of damage to it, similar to a tear in reality
                 poor_soul->apply_damage( nullptr, bodypart_id( "arm_l" ), rng( 5, 10 ) );
                 poor_soul->apply_damage( nullptr, bodypart_id( "arm_r" ), rng( 5, 10 ) );
@@ -205,6 +207,8 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
     if( c_is_u ) {
         g->update_map( *p );
     }
-    critter.remove_effect( effect_grabbed );
+    for( const effect &grab : critter.get_effects_with_flag( json_flag_GRAB ) ) {
+        critter.remove_effect( grab.get_id() );
+    }
     return true;
 }

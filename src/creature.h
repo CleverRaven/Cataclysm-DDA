@@ -487,6 +487,11 @@ class Creature : public viewer
         */
         void longpull( const std::string &name, const tripoint &p );
 
+        // Temporarily reveals an invisible player when a monster tries to enter their location
+        bool stumble_invis( const Creature &player, bool stumblemsg = true );
+        // Attack an empty location
+        bool attack_air( const tripoint &p );
+
         /**
          * This creature just dodged an attack - possibly special/ranged attack - from source.
          * Players should train dodge, monsters may use some special defenses.
@@ -765,6 +770,9 @@ class Creature : public viewer
         // Check with has_part first if a part may not exist.
         bodypart *get_part( const bodypart_id &id );
         const bodypart *get_part( const bodypart_id &id ) const;
+
+        // get the body part id that matches for the character
+        bodypart_id get_part_id( const bodypart_id &id ) const;
 
         int get_part_hp_cur( const bodypart_id &id ) const;
         int get_part_hp_max( const bodypart_id &id ) const;
@@ -1255,6 +1263,8 @@ class Creature : public viewer
         bodypart_id select_body_part( int min_hit, int max_hit, bool can_attack_high, int hit_roll ) const;
         bodypart_id select_blocking_part( bool arm, bool leg, bool nonstandard ) const;
         bodypart_id random_body_part( bool main_parts_only = false ) const;
+        std::vector<bodypart_id> get_all_eligable_parts( int min_hit, int max_hit,
+                bool can_attack_high ) const;
 
         void add_damage_over_time( const damage_over_time_data &DoT );
         void process_damage_over_time();

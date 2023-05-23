@@ -37,10 +37,11 @@
       }
     ],
     "harvest": "zombie",
+    "grab_strength": 20,
     "special_attacks": [
-      { "type": "bite", "cooldown": 5 },
-      [ "GRAB", 12 ],
-      [ "scratch", 20 ],
+      { "id": "bite_humanoid", "cooldown": 5 },
+      { "id": "grab", "cooldown": 12 },
+      { "id": "scratch_humanoid" },
       { "type": "leap", "cooldown": 10, "max_range": 5 }
     ],
     "death_drops": "default_zombie_death_drops",
@@ -52,6 +53,7 @@
       "SMELLS",
       "STUMBLES",
       "WARM",
+      "GRABS",
       "BASHES",
       "GROUP_BASH",
       "POISON",
@@ -102,13 +104,12 @@
       }
     ],
     "harvest": "zombie",
+    "grab_strength": 30,
     "special_attacks": [
-      { "type": "leap", "cooldown": 2, "max_range": 8 },
-      {
-        "type": "bite",
-        "cooldown": 10,
-        "damage_max_instance": [ { "damage_type": "stab", "amount": 12, "armor_multiplier": 0.7 } ]
-      }
+      { "id": "bite_humanoid", "damage_max_instance": [ { "damage_type": "stab", "amount": 12, "armor_multiplier": 0.7 } ] },
+      { "id": "grab", "cooldown": 12 },
+      { "id": "scratch_humanoid" },
+      { "type": "leap", "cooldown": 2, "max_range": 8 }
     ],
     "death_drops": "default_zombie_death_drops",
     "burn_into": "mon_zombie_fiend",
@@ -118,6 +119,7 @@
       "SMELLS",
       "STUMBLES",
       "WARM",
+      "GRABS",
       "BASHES",
       "GROUP_BASH",
       "POISON",

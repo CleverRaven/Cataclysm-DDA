@@ -181,6 +181,7 @@ class outfit
          * that are hanging off your character
          */
         std::vector<item_pocket *> grab_drop_pockets();
+        std::vector<item_pocket *> grab_drop_pockets( const bodypart_id &bp );
         std::vector<layering_item_info> items_cover_bp( const Character &c, const bodypart_id &bp );
         item_penalties get_item_penalties( std::list<item>::const_iterator worn_item_it,
                                            const Character &c, const bodypart_id &_bp );
@@ -194,7 +195,7 @@ class outfit
         void best_pocket( Character &guy, const item &it, const item *avoid,
                           std::pair<item_location, item_pocket *> &current_best,
                           bool ignore_settings = false );
-        void overflow( const tripoint &pos );
+        void overflow( Character &guy );
         void holster_opts( std::vector<dispose_option> &opts, item_location obj, Character &guy );
         void get_eligible_containers_for_crafting( std::vector<const item *> &conts ) const;
         // convenient way to call on_takeoff for all clothing. does not actually delete them, call clear() to do that

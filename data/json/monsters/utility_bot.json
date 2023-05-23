@@ -211,7 +211,7 @@
     "melee_skill": 4,
     "melee_dice": 3,
     "melee_dice_sides": 2,
-    "grab_strength": 5,
+    "grab_strength": 75,
     "starting_ammo": { "anesthetic": 3 },
     "revert_to_itype": "bot_nursebot",
     "special_attacks": [ [ "OPERATE", 30 ], [ "PARROT", 20 ] ],

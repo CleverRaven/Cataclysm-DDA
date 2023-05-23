@@ -299,7 +299,7 @@
     "//": "shirts for costumes, cosplay and costume parties",
     "subtype": "distribution",
     "entries": [
-      { "item": "cheerleader_top", "prob": 25 },
+      { "item": "tank_top", "variant": "tank_top_cheerleader", "prob": 25 },
       { "item": "cheerleader_top_short", "prob": 35 },
       { "item": "rashguard", "variant": "lifeguard_rashguard_shirt", "prob": 10 },
       { "item": "rashguard", "variant": "skull_rashguard_shirt", "prob": 10 },
@@ -408,7 +408,7 @@
     "id": "costume_cheerleader_set",
     "//": "clothing set for a normal cheerleader outfit",
     "subtype": "collection",
-    "entries": [ { "item": "cheerleader_top", "prob": 100 }, { "item": "cheerleader_skirt", "prob": 100 } ]
+    "entries": [ { "item": "tank_top", "variant": "tank_top_cheerleader", "prob": 100 }, { "item": "cheerleader_skirt", "prob": 100 } ]
   },
   {
     "type": "item_group",

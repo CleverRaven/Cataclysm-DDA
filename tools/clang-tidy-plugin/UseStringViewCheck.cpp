@@ -14,6 +14,7 @@
 #include <clang/Basic/Diagnostic.h>
 #include <clang/Basic/DiagnosticIDs.h>
 #include <clang/Basic/LLVM.h>
+#include <clang/Basic/OperatorKinds.h>
 #include <clang/Basic/SourceLocation.h>
 #include <clang/Lex/Lexer.h>
 #include <climits>
@@ -22,7 +23,6 @@
 #include <string>
 
 #include "Utils.h"
-#include "clang/Basic/OperatorKinds.h"
 
 using namespace clang::ast_matchers;
 

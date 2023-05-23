@@ -1004,10 +1004,12 @@ void faction_manager::display() const
         lore.clear();
         for( const auto &elem : player_character.get_snippets() ) {
             std::optional<translation> name = SNIPPET.get_name_by_id( elem );
-            if( !name->empty() ) {
-                lore.emplace_back( elem, name->translated() );
-            } else {
-                lore.emplace_back( elem, elem.str() );
+            if( name.has_value() ) {
+                if( !name->empty() ) {
+                    lore.emplace_back( elem, name->translated() );
+                } else {
+                    lore.emplace_back( elem, elem.str() );
+                }
             }
         }
         auto compare_second =

@@ -296,9 +296,10 @@
     "melee_skill": 8,
     "melee_dice": 4,
     "melee_dice_sides": 4,
+    "grab_strength": 100,
     "special_attacks": [
       {
-        "type": "bite",
+        "id": "bite_grab",
         "cooldown": 10,
         "move_cost": 120,
         "damage_max_instance": [ { "damage_type": "cut", "amount": 18, "armor_penetration": 22 } ],
@@ -323,6 +324,7 @@
       "weakpoint_sets": [ "wps_amalgamation_armor", "wps_amalgamation_mandible", "wps_amalgamation_tail" ],
       "families": [ "prof_wp_nat_armored" ]
     },
-    "armor": { "bash": 20, "cut": 25, "stab": 30, "acid": 12, "bullet": 40, "electric": 12 }
+    "armor": { "bash": 20, "cut": 25, "stab": 30, "acid": 12, "bullet": 40, "electric": 12 },
+    "flags": [ "GRABS" ]
   }
 ]

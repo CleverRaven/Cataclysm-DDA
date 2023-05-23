@@ -71,9 +71,9 @@
     "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
     "vision_day": 100,
     "luminance": 4,
+    "grab_strength": 100,
     "special_attacks": [
-      [ "GRAB", 7 ],
-      { "type": "bite", "cooldown": 5 },
+      { "id": "bite_grab", "cooldown": 5 },
       [ "LUNGE", 10 ],
       { "id": "bio_op_takedown", "cooldown": 15 },
       { "type": "spell", "spell_data": { "id": "CBM_TRex_recording" }, "cooldown": 1600 }

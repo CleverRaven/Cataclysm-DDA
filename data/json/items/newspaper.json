@@ -412,35 +412,6 @@
   },
   {
     "type": "GENERIC",
-    "id": "bookmark_note_catalytic",
-    "category": "books",
-    "symbol": ",",
-    "color": "white",
-    "name": { "str": "note" },
-    "description": "A scrap of paper stuffed in a book.  It mentions some locations you might be able to find a reactor like one described on this page.",
-    "use_action": {
-      "type": "reveal_map",
-      "radius": 185,
-      "terrain": [
-        "lab_surface_brick_blockC3",
-        "lab_surface_brick_block2A0",
-        "lab_surface_brick_block2B0",
-        "lab_surface_brick_block2C0",
-        "lab_surface_brick_block2D0",
-        "lab_surface_brick_block2E0"
-      ],
-      "message": "You add the locations to your map."
-    },
-    "price": 0,
-    "price_postapoc": 0,
-    "looks_like": "survnote",
-    "material": [ "paper" ],
-    "flags": [ "TRADER_AVOID" ],
-    "weight": "3 g",
-    "volume": "10 ml"
-  },
-  {
-    "type": "GENERIC",
     "id": "evac_pamphlet",
     "category": "books",
     "name": { "str": "FEMA evacuation pamphlet" },

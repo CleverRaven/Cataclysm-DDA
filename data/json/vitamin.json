@@ -107,7 +107,7 @@
       [ "mutagen_spider", -1 ],
       [ "mutagen_troglobite", -1 ],
       [ "mutagen_ursine", -1 ],
-      [ "mutagen_crustacean", 1 ]
+      [ "mutagen_crustacean", -1 ]
     ]
   },
   {

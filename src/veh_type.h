@@ -120,18 +120,16 @@ struct vpslot_engine {
 };
 
 struct veh_ter_mod {
-    /* movecost for moving through this terrain (overrides current terrain movecost)
-                     * if movecost <= 0 ignore this parameter */
-    int movecost;
-    // penalty while not on this terrain (adds to movecost)
-    int penalty;
+    std::string terrain_flag; // terrain flag this mod block applies to
+    int move_override;        // override when on flagged terrain, ignored if 0
+    int move_penalty;         // penalty added when not on flagged terrain, ignored if 0
 };
 
 struct vpslot_wheel {
     float rolling_resistance = 1.0f;
     int contact_area = 1;
-    std::vector<std::pair<std::string, veh_ter_mod>> terrain_mod;
-    float or_rating = 0.0f;
+    std::vector<veh_ter_mod> terrain_mod;
+    float offroad_rating = 0.5f;
 };
 
 struct vpslot_rotor {
@@ -204,11 +202,6 @@ const std::vector<std::pair<std::string, translation>> vpart_variants = {
     { "right", to_translation( "vpart_variants", "Right" ) }
 };
 
-const std::map<std::string, int> vpart_variants_standard = {
-    { "cover", '^' }, { "cross", 'c' },
-    { "horizontal", 'h' }, { "horizontal_2", '=' }, { "vertical", 'j' }, { "vertical_2", 'H' },
-    { "ne", 'u' }, { "nw", 'y' }, { "se", 'n' }, { "sw", 'b' }
-};
 std::pair<std::string, std::string> get_vpart_str_variant( const std::string &vpid );
 std::pair<vpart_id, std::string> get_vpart_id_variant( const vpart_id &vpid );
 std::pair<vpart_id, std::string> get_vpart_id_variant( const std::string &vpid );
@@ -327,8 +320,8 @@ class vpart_info
          */
         float wheel_rolling_resistance() const;
         int wheel_area() const;
-        std::vector<std::pair<std::string, veh_ter_mod>> wheel_terrain_mod() const;
-        float wheel_or_rating() const;
+        const std::vector<veh_ter_mod> &wheel_terrain_modifiers() const;
+        float wheel_offroad_rating() const;
         /** @name rotor specific functions
         */
         int rotor_diameter() const;
@@ -348,6 +341,11 @@ class vpart_info
         time_duration get_folding_time() const;
         // @returns time required for unfolding this part
         time_duration get_unfolding_time() const;
+        // @returns symbol for non-broken part
+        int get_symbol() const;
+        // @returns symbol for broken part
+        int get_symbol_broken() const;
+
     private:
         std::set<std::string> flags;
         // category list for installation ui breakdown
@@ -382,6 +380,14 @@ class vpart_info
 
         /** Name from vehicle part definition which if set overrides the base item name */
         translation name_;
+
+        /**
+         * Symbol of part which will be translated as follows:
+         * y, u, n, b to NW, NE, SE, SW lines correspondingly
+         * h, j, c to horizontal, vertical, cross correspondingly
+         */
+        std::string symbol_ = "h";
+        std::string symbol_broken_ = "#";
 
     public:
         /* map of standard variant names to symbols */
@@ -442,14 +448,6 @@ class vpart_info
 
         /** What slot of the vehicle tile does this part occupy? */
         std::string location;
-
-        /**
-         * Symbol of part which will be translated as follows:
-         * y, u, n, b to NW, NE, SE, SW lines correspondingly
-         * h, j, c to horizontal, vertical, cross correspondingly
-         */
-        int sym = 0;
-        int sym_broken = '#';
 
         /** Maximum damage part can sustain before being destroyed */
         int durability = 0;
@@ -552,7 +550,9 @@ struct vehicle_prototype {
         void load( const JsonObject &jo, std::string_view src );
     private:
         bool was_loaded = false; // used by generic_factory
+        std::vector<std::pair<vproto_id, mod_id>> src;
         friend class generic_factory<vehicle_prototype>;
+        friend struct mod_tracker;
 };
 
 /**
