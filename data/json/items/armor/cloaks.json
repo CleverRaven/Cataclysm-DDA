@@ -1020,7 +1020,7 @@
         "append": true
       },
       {
-        "id": "Nigeria_flag",
+        "id": "nigerian_flag",
         "name": { "str": "Nigerian flag" },
         "description": "A flag that features a vertical bicolour triband of green, white and green.",
         "weight": 10,
