@@ -3087,8 +3087,9 @@ bool generic_multi_activity_handler( player_activity &act, Character &you, bool 
         // this can create infinite loops
         // and we can't check player.pos() for darkness before they've traveled to where they are going to be.
         // but now we are here, we check
-        if( you.is_avatar() && // otherwise NPCs stop activity on different Z-lvl (lack of light calculation)
-			activity_to_restore != ACT_TIDY_UP &&
+        if( you.is_avatar() &&
+            // otherwise NPCs stop activity on different Z-lvl (lack of light calculation)
+            activity_to_restore != ACT_TIDY_UP &&
             activity_to_restore != ACT_MULTIPLE_MOP &&
             activity_to_restore != ACT_MOVE_LOOT &&
             activity_to_restore != ACT_FETCH_REQUIRED &&
