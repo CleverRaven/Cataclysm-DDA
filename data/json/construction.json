@@ -6373,32 +6373,6 @@
   },
   {
     "type": "construction",
-    "id": "constr_showjump_empty",
-    "group": "build_showjump",
-    "//": "Step 1: Build show jump",
-    "category": "CONSTRUCT",
-    "required_skills": [ [ "fabrication", 2 ], [ "survival", 1 ] ],
-    "time": "30 m",
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
-    "components": [ [ [ "pointy_stick", 4 ], [ "spear_wood", 4 ], [ "pointy_stick_long", 4 ] ], [ [ "2x4", 4 ] ], [ [ "nail", 20 ] ] ],
-    "pre_flags": "DIGGABLE",
-    "pre_special": "check_empty",
-    "post_terrain": "t_showjump_empty"
-  },
-  {
-    "type": "construction",
-    "id": "constr_showjump",
-    "group": "build_showjump",
-    "//": "Step 2: Place pole onto constructed jump",
-    "category": "CONSTRUCT",
-    "difficulty": 0,
-    "time": "10 s",
-    "components": [ [ [ "long_pole", 1 ] ] ],
-    "pre_terrain": "t_showjump_empty",
-    "post_terrain": "t_showjump"
-  },
-  {
-    "type": "construction",
     "id": "constr_privacy_fence",
     "group": "build_privacy_fence",
     "//": "Step 1: Build privacy fence",

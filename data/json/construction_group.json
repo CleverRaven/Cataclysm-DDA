@@ -746,11 +746,6 @@
   },
   {
     "type": "construction_group",
-    "id": "build_showjump",
-    "name": "Build Show Jump"
-  },
-  {
-    "type": "construction_group",
     "id": "build_standing_tank",
     "name": "Build Standing Tank"
   },
