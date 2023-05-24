@@ -1442,7 +1442,7 @@
       {
         "id": "united_kingdom_flag",
         "name": { "str": "United Kingdom flag" },
-        "description": "A flag with white fimbriated symmetric red cross on a blue field with a white fimbriated counterchanged saltire of red and white. Also known as the union jack.",
+        "description": "A flag with white fimbriated symmetric red cross on a blue field with a white fimbriated counterchanged saltire of red and white. Also known as the Union Jack.",
         "weight": 10,
         "append": true
       },
