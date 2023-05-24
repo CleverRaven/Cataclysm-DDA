@@ -1388,7 +1388,7 @@
     "id": "mon_carrion_grub",
     "type": "MONSTER",
     "name": { "str": "carrion grub", "str_pl": "carrion grubs" },
-    "description": "A wriggling brown grub of unnatural origin, slithering along the ground and unnaturally pulsating.  As it moves along, it chews through any available flesh with suprising speed.",
+    "description": "A wriggling brown grub of unnatural origin, slithering along the ground and unnaturally pulsating.  As it moves along, it chews through any available flesh with surprising speed.",
     "copy-from": "mon_larva_abstract",
     "default_faction": "nether",
     "bodytype": "snake",
