@@ -196,7 +196,7 @@ void init_crash_handlers()
 #endif
          } ) {
 
-        sighandler_t previous_handler = std::signal( sig, signal_handler );
+        void ( *previous_handler )( int sig ) = std::signal( sig, signal_handler );
         if( previous_handler == SIG_ERR ) {
             std::cerr << "Failed to set signal handler for signal " << sig << "\n";
         }
