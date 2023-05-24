@@ -846,7 +846,7 @@
       },
       {
         "id": "lithuanian_flag",
-        "name": { "str": "Lithuania flag" },
+        "name": { "str": "Lithuanian flag" },
         "description": "A flag that features a horizontal triband of yellow, green and red.",
         "weight": 10,
         "append": true
