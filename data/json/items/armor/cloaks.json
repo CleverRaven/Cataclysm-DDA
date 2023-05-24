@@ -504,7 +504,7 @@
       {
         "id": "ecuadorian_flag",
         "name": { "str": "Ecuadorian flag" },
-        "description": "A horizontal tricolor flag of yellow, blue, and red with it's coat of arms in the center.",
+        "description": "A horizontal tricolor flag of yellow, blue, and red with its coat of arms in the center.",
         "weight": 10,
         "append": true
       },
