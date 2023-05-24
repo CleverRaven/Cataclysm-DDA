@@ -2580,8 +2580,8 @@ static std::unordered_set<tripoint_abs_ms> generic_multi_activity_locations(
             }
         }
         // remove tiles in darkness, if we aren't lit-up ourselves
-		// First condition (avatar) allows NPCs to continue task on different Z-lvl;
-		// Otherwise they would stop due to lack of light (not calculated for Z-lvls other than players)
+        // First condition (avatar) allows NPCs to continue task on different Z-lvl;
+        // Otherwise they would stop due to lack of light (not calculated for Z-lvls other than players)
         if( you.is_avatar() && !dark_capable && you.fine_detail_vision_mod( set_pt ) > 4.0 ) {
             it2 = src_set.erase( it2 );
             continue;
