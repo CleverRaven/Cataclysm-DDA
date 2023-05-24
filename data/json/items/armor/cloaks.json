@@ -441,7 +441,7 @@
       {
         "id": "croatian_flag",
         "name": { "str": "Croatian flag" },
-        "description": "A flag of three horizontal strips of red, white, and blue with a checkered red and white coat of arms shield, above the shield stands a crown of a dark and light blue pattern.",
+        "description": "A flag of three horizontal stripes of red, white, and blue and a checkered red and white coat of arms shield, above which stands a crown of a dark and light blue pattern.",
         "weight": 10,
         "append": true
       },
