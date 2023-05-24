@@ -1856,8 +1856,9 @@ class repair_inventory_preset: public inventory_selector_preset
             _( "DAMAGE CHANCE" ) );
 
             append_cell( [actor, &you]( const item_location & loc ) {
-				const int difficulty = actor->repair_recipe_difficulty( you, *loc, false );
-                return colorize( string_format( "%d", difficulty ), difficulty > you.get_skill_level( actor->used_skill ) ? c_red : c_unset );
+                const int difficulty = actor->repair_recipe_difficulty( you, *loc, false );
+                return colorize( string_format( "%d", difficulty ),
+                                 difficulty > you.get_skill_level( actor->used_skill ) ? c_red : c_unset );
             },
             _( "SKILL NEEDED" ) );
         }
