@@ -168,12 +168,12 @@ float Character::lighting_craft_speed_multiplier( const recipe &rec ) const
             return 0.5f;
         }
     }
-	// Light is calculated for player's z-level only; 
-	// Next check allows NPC actions on different Z-level; 
-	if( !this->is_avatar() ) {
-		return 0.5f; // return arbitrary (slower) craft speed for NPC
-		
-	}
+    // Light is calculated for player's z-level only;
+    // Next check allows NPC actions on different Z-level;
+    if( !this->is_avatar() ) {
+        return 0.5f; // return arbitrary (slower) craft speed for NPC
+
+    }
     return 0.0f; // it's dark and you could craft this if you had more skill
 }
 
