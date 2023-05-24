@@ -308,7 +308,7 @@
     "damage_reduction": { "bash": 10 }
   },
   {
-    "abstract": "wheel_bicycle_abstract",
+    "id": "wheel_bicycle",
     "type": "vehicle_part",
     "name": { "str": "bicycle wheel" },
     "item": "wheel_bicycle",
@@ -335,37 +335,18 @@
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "adhesive_rubber", 1 ], [ "tire_rubber", 1 ] ] }
     },
     "flags": [ "WHEEL", "UNSTABLE_WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_LIGHT" ],
+    "symbols": { "rear": "|" },
     "damage_reduction": { "bash": 6 }
   },
   {
-    "copy-from": "wheel_bicycle_abstract",
-    "id": "wheel_bicycle",
-    "looks_like": "wheel",
-    "symbol": "|",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "wheel_bicycle_abstract",
-    "id": "wheel_bicycle_rear",
-    "looks_like": "wheel_bicycle",
-    "symbol": "|",
-    "type": "vehicle_part"
-  },
-  {
     "id": "wheel_bicycle_or",
-    "copy-from": "wheel_bicycle_abstract",
+    "copy-from": "wheel_bicycle",
     "type": "vehicle_part",
     "name": { "str": "off-road bicycle wheel" },
     "item": "wheel_bicycle_or",
     "contact_area": 36,
     "wheel_offroad_rating": 0.7,
     "wheel_terrain_modifiers": { "FLAT": [ 0, 3 ], "ROAD": [ 0, 1 ] }
-  },
-  {
-    "id": "wheel_bicycle_or_rear",
-    "copy-from": "wheel_bicycle_or",
-    "type": "vehicle_part",
-    "looks_like": "wheel_bicycle_rear"
   },
   {
     "id": "wheel_caster",
@@ -428,7 +409,7 @@
     "flags": [ "WHEEL", "NEEDS_JACKING", "STABLE", "STEERABLE" ]
   },
   {
-    "abstract": "wheel_motorbike_abstract",
+    "id": "wheel_motorbike",
     "type": "vehicle_part",
     "name": { "str": "motorbike wheel" },
     "item": "wheel_motorbike",
@@ -455,25 +436,12 @@
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "adhesive_rubber", 1 ], [ "tire_rubber", 1 ] ] }
     },
     "flags": [ "WHEEL", "UNSTABLE_WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_LIGHT" ],
+    "symbols": { "rear": "o" },
     "damage_reduction": { "bash": 10 }
   },
   {
-    "copy-from": "wheel_motorbike_abstract",
-    "id": "wheel_motorbike",
-    "looks_like": "wheel",
-    "symbol": "o",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "wheel_motorbike_abstract",
-    "id": "wheel_motorbike_rear",
-    "looks_like": "wheel",
-    "symbol": "o",
-    "type": "vehicle_part"
-  },
-  {
     "id": "wheel_motorbike_or",
-    "copy-from": "wheel_motorbike_abstract",
+    "copy-from": "wheel_motorbike",
     "type": "vehicle_part",
     "name": { "str": "off-road motorbike wheel" },
     "item": "wheel_motorbike_or",
@@ -481,11 +449,6 @@
     "wheel_offroad_rating": 0.7,
     "wheel_terrain_modifiers": { "FLAT": [ 0, 3 ], "ROAD": [ 0, 1 ] },
     "damage_reduction": { "bash": 10, "cut": 8, "stab": 4 }
-  },
-  {
-    "id": "wheel_motorbike_or_rear",
-    "copy-from": "wheel_motorbike_or",
-    "type": "vehicle_part"
   },
   {
     "abstract": "wheel_small_abstract",
@@ -522,11 +485,7 @@
   {
     "copy-from": "wheel_small_abstract",
     "id": "wheel_small_scooter",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "wheel_small_abstract",
-    "id": "wheel_small_scooter_rear",
+    "symbols": { "rear": "o" },
     "type": "vehicle_part"
   },
   {
