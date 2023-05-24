@@ -453,8 +453,8 @@
         "append": true
       },
       {
-        "id": "cyprus_flag",
-        "name": { "str": "Cyprus flag" },
+        "id": "cypriot_flag",
+        "name": { "str": "Cypriot flag" },
         "description": "A white flag with a yellow emblem of the island stands in the center, two green olive branches stand below it.",
         "weight": 10,
         "append": true
@@ -481,8 +481,8 @@
         "append": true
       },
       {
-        "id": "djibouti_flag",
-        "name": { "str": "Djibouti flag" },
+        "id": "djiboutian_flag",
+        "name": { "str": "Djiboutian flag" },
         "description": "A flag that has a white triangle in the left portion with light blue and green color running horizontally.",
         "weight": 10,
         "append": true
@@ -523,8 +523,8 @@
         "append": true
       },
       {
-        "id": "equatorial_guinea_flag",
-        "name": { "str": "Equatorial Guinea flag" },
+        "id": "equatorial_guinean_flag",
+        "name": { "str": "Equatorial Guinean flag" },
         "description": "A horizontal tricolor flag, with green, white and red stripes and a blue triangle at the hoist with a coat of arms in the center.",
         "weight": 10,
         "append": true
@@ -537,8 +537,8 @@
         "append": true
       },
       {
-        "id": "estonia_flag",
-        "name": { "str": "Estonia flag" },
+        "id": "estonian_flag",
+        "name": { "str": "Estonian flag" },
         "description": "A horizontal tricolor flag of blue, black, and white.",
         "weight": 10,
         "append": true
@@ -558,8 +558,8 @@
         "append": true
       },
       {
-        "id": "fiji_flag",
-        "name": { "str": "Fiji flag" },
+        "id": "fijian_flag",
+        "name": { "str": "Fijian flag" },
         "description": "A sky blue flag with a union jack in the hoist and a shield centered in the outer half of it with the cross of saint george within it.",
         "weight": 10,
         "append": true
@@ -817,8 +817,8 @@
         "append": true
       },
       {
-        "id": "lesotho_flag",
-        "name": { "str": "Lesotho flag" },
+        "id": "basotho_flag",
+        "name": { "str": "Basotho flag" },
         "description": "A horizontal triband of blue, white and green charged with a black mokorotlo centered on the white band.",
         "weight": 10,
         "append": true
@@ -1013,8 +1013,8 @@
         "append": true
       },
       {
-        "id": "niger_flag",
-        "name": { "str": "Niger flag" },
+        "id": "nigerien_flag",
+        "name": { "str": "Nigerien flag" },
         "description": "A flag that features a horizontal triband of orange, white and green; charged with an orange circle in the center.",
         "weight": 10,
         "append": true
@@ -1048,8 +1048,8 @@
         "append": true
       },
       {
-        "id": "oman_flag",
-        "name": { "str": "Oman flag" },
+        "id": "omani_flag",
+        "name": { "str": "Omani flag" },
         "description": "A flag that features a horizontal tricolor of white, red and green with a vertical red stripe at the hoist, charged with the national emblem in the canton.",
         "weight": 10,
         "append": true
@@ -1104,8 +1104,8 @@
         "append": true
       },
       {
-        "id": "philippines_flag",
-        "name": { "str": "Philippines flag" },
+        "id": "filipino_flag",
+        "name": { "str": "Filipino flag" },
         "description": "A flag that features a horizontal bicolor of blue and red with a white equilateral triangle based at the hoist containing three, five pointed gold stars at its vertices, and an eight rayed gold sun at its center.",
         "weight": 10,
         "append": true
@@ -1160,8 +1160,8 @@
         "append": true
       },
       {
-        "id": "saint_lucia_flag",
-        "name": { "str": "Saint Lucia flag" },
+        "id": "saint_lucian_flag",
+        "name": { "str": "Saint Lucian flag" },
         "description": "A flag with a light blue field with a small golden isosceles triangle in front of a large white-edged black isosceles triangle in the center.",
         "weight": 10,
         "append": true
@@ -1188,8 +1188,8 @@
         "append": true
       },
       {
-        "id": "sao_tome_and_principe_flag",
-        "name": { "str": "Sao Tome and Principe flag" },
+        "id": "sao_tomean_flag",
+        "name": { "str": "Sao Tomean flag" },
         "description": "A horizontal tricolour flag of green, yellow and green with a red triangle based at the hoist and two five pointed black stars of in the yellow stripe.",
         "weight": 10,
         "append": true
@@ -1216,15 +1216,15 @@
         "append": true
       },
       {
-        "id": "seychelles_flag",
-        "name": { "str": "Seychelles flag" },
+        "id": "seychellois_flag",
+        "name": { "str": "Seychellois flag" },
         "description": "A flag that features five oblique bands of blue, yellow, red, white, and green radiating from the bottom of the hoist side.",
         "weight": 10,
         "append": true
       },
       {
-        "id": "sierra_leone_flag",
-        "name": { "str": "Sierra Leone flag" },
+        "id": "sierra_leonean_flag",
+        "name": { "str": "Sierra Leonean flag" },
         "description": "A flag that features a horizontal tricolour of light green, white and light blue",
         "weight": 10,
         "append": true
@@ -1258,8 +1258,8 @@
         "append": true
       },
       {
-        "id": "somalian_flag",
-        "name": { "str": "Somalian flag" },
+        "id": "somali_flag",
+        "name": { "str": "Somali flag" },
         "description": "A flag that has a single white five pointed star centered on a cyan field.",
         "weight": 10,
         "append": true
@@ -1293,8 +1293,8 @@
         "append": true
       },
       {
-        "id": "sri_lanka_flag",
-        "name": { "str": "Sri Lanka flag" },
+        "id": "sri_lankan_flag",
+        "name": { "str": "Sri Lankan flag" },
         "description": "A flag of a golden field with two panels the smaller hoist side panel has only two vertical bands of teal and orange and the larger fly side panel is the maroon field depicting the golden lion holding the kastane sword.",
         "weight": 10,
         "append": true
@@ -1363,8 +1363,8 @@
         "append": true
       },
       {
-        "id": "east_timor_flag",
-        "name": { "str": "East Timor flag" },
+        "id": "timorese_flag",
+        "name": { "str": "Timorese flag" },
         "description": "A flag of a red field with the black isosceles triangle based on the hoist side bearing a white five pointed star in the center superimposed on the larger yellow triangle, also based on the hoist-side, that extends to the center of the flag.",
         "weight": 10,
         "append": true
@@ -1377,8 +1377,8 @@
         "append": true
       },
       {
-        "id": "tonga_flag",
-        "name": { "str": "Tonga flag" },
+        "id": "tongan_flag",
+        "name": { "str": "Tongan flag" },
         "description": "A flag of a red field with the white rectangle on the upper hoist side corner bearing the red greek cross in the center.",
         "weight": 10,
         "append": true
@@ -1405,8 +1405,8 @@
         "append": true
       },
       {
-        "id": "turkmenistan_flag",
-        "name": { "str": "Turkmenistan flag" },
+        "id": "turkmen_flag",
+        "name": { "str": "Turkmen flag" },
         "description": "A flag of a green field with a vertical red stripe near the hoist side, containing five carpet guls stacked above two crossed olive branches; a white waxing crescent moon and five white five pointed stars appear in the upper field, to the fly side of the red stripe.",
         "weight": 10,
         "append": true
@@ -1433,8 +1433,8 @@
         "append": true
       },
       {
-        "id": "united_arab_emirates_flag",
-        "name": { "str": "United Arab Emirates flag" },
+        "id": "emirati_flag",
+        "name": { "str": "Emirati flag" },
         "description": "A horizontal tricolour flag of green, white and black with a vertical red bar at the hoist",
         "weight": 10,
         "append": true
