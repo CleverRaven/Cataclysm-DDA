@@ -138,13 +138,13 @@ float Character::lighting_craft_speed_multiplier( const recipe &rec ) const
     if( darkness <= 0.0f ) {
         return 1.0f; // it's bright, go for it
     }
-	if( this->is_avatar() ) {
-    // Light is calculated for player's z-level; check would stop NPC actions on different Z-level
-		bool rec_blind = rec.has_flag( flag_BLIND_HARD ) || rec.has_flag( flag_BLIND_EASY );
-		if( darkness > 0 && !rec_blind ) {
-			return 0.0f; // it's dark and this recipe can't be crafted in the dark
-		}
-	}
+    if( this->is_avatar() ) {
+        // Light is calculated for player's z-level; check would stop NPC actions on different Z-level
+        bool rec_blind = rec.has_flag( flag_BLIND_HARD ) || rec.has_flag( flag_BLIND_EASY );
+        if( darkness > 0 && !rec_blind ) {
+            return 0.0f; // it's dark and this recipe can't be crafted in the dark
+        }
+    }
     if( rec.has_flag( flag_BLIND_EASY ) ) {
         // 100% speed in well lit area at skill+0
         // 25% speed in pitch black at skill+0
