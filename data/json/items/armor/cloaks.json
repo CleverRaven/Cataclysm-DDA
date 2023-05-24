@@ -1379,7 +1379,7 @@
       {
         "id": "tongan_flag",
         "name": { "str": "Tongan flag" },
-        "description": "A flag of a red field with the white rectangle on the upper hoist side corner bearing the red greek cross in the center.",
+        "description": "A flag of a red field with the white rectangle on the upper hoist side corner bearing the red Greek Cross in the center.",
         "weight": 10,
         "append": true
       },
