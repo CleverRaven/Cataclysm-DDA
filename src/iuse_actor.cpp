@@ -2812,7 +2812,7 @@ static std::pair<int, bool> find_repair_difficulty( const Character &pl, const i
             }
             // If we know the recipe and are skilled enough
             if( !found_recipe && pl.knows_recipe( &r ) && pl.has_recipe_requirements( r ) ) {
-                difficulty = std::max( 0, difficulty -  1);
+                difficulty = std::max( 0, difficulty -  1 );
                 found_recipe = true;
             }
         }
