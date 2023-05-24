@@ -1454,7 +1454,7 @@
         "append": true
       },
       {
-        "id": "Uzbek_flag",
+        "id": "uzbek_flag",
         "name": { "str": "Uzbek flag" },
         "description": "A horizontal triband flag of azure, white and green, separated by two narrow red stripes. A white crescent and three rows of twelve white five pointed stars are situated on the left side of the upper azure stripe.",
         "weight": 10,
