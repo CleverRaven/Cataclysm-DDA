@@ -51,7 +51,7 @@
     },
     "size": "25 L",
     "symbol": "#",
-    "symbols": { "vertical": "#", "vertical_left": "#", "vertical_right": "#", "left": "#", "right": "#" },
+    "symbols": { "vertical": "#", "vertical_left": "#", "vertical_right": "#", "left": "#", "right": "#", "rear": "#" },
     "type": "vehicle_part"
   },
   {

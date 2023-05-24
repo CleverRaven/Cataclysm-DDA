@@ -32,7 +32,14 @@
       "front": "+",
       "front_left": "+",
       "front_right": "+",
-      "rear": "+"
+      "horizontal_front": "+",
+      "horizontal_2": "+",
+      "horizontal_rear": "+",
+      "left": "+",
+      "right": "+",
+      "rear": "+",
+      "wheel_left": "+",
+      "wheel_right": "+"
     },
     "type": "vehicle_part"
   },
