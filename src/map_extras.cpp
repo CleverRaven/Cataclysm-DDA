@@ -530,9 +530,9 @@ static bool mx_roadblock( map &m, const tripoint &abs_sub )
 
     // 66% chance of live turrets and assorted corpses
     // 33% chance of dead turrets and roaming zombies
-    bool live = false;
-    if( one_in( 2 ) ) {
-        live = true;
+    bool live = true;
+    if( one_in( 3 ) ) {
+        live = false;
     }
 
     auto turret_t = mon_turret_rifle;
@@ -551,7 +551,7 @@ static bool mx_roadblock( map &m, const tripoint &abs_sub )
     };
 
 
-    if( one_in( 2 ) ) { // Military doesn't joke around with their barricades!
+    if( one_in( 6 ) ) { // Military doesn't joke around with their barricades!
 
         if( one_in( 2 ) ) {
             if( road_at_north ) {
