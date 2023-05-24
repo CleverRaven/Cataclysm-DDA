@@ -546,7 +546,7 @@
       {
         "id": "swazi_flag",
         "name": { "str": "Swazi flag" },
-        "description": "A triband flag of blue with a yellow outline and red in the middle, in the center is a nguni shield and two spears.",
+        "description": "A triband flag of blue with a yellow outline and red in the middle, in the center is a Nguni shield and two spears.",
         "weight": 10,
         "append": true
       },
