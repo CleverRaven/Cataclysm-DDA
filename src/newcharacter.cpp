@@ -1778,7 +1778,7 @@ static std::string assemble_profession_details( const avatar &u, const input_con
     //Profession story
     assembled += "\n" + colorize( _( "Profession story:" ), COL_HEADER ) + "\n";
     if( !sorted_profs[cur_id]->can_pick().success() ) {
-        assembled += colorize( sorted_profs[cur_id]->can_pick().str(), c_red ) + "'n";
+        assembled += colorize( sorted_profs[cur_id]->can_pick().str(), c_red ) + "\n";
     }
     assembled += colorize( sorted_profs[cur_id]->description( u.male ), c_green ) + "\n";
 

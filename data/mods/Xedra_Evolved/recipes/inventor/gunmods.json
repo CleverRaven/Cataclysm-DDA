@@ -20,7 +20,7 @@
         "learning_time_multiplier": 0.3
       }
     ],
-    "components": [ [ [ "pipe", 35 ] ], [ [ "scrap", 28 ] ], [ [ "amplifier", 1 ] ], [ [ "cable", 100 ] ], [ [ "nuts_bolts", 60 ] ] ],
+    "components": [ [ [ "pipe", 1 ] ], [ [ "scrap", 1 ] ], [ [ "amplifier", 1 ] ], [ [ "cable", 100 ] ], [ [ "circuit", 1 ] ] ],
     "time": "18 h",
     "skill_used": "deduction",
     "difficulty": 7,
@@ -49,7 +49,7 @@
         "learning_time_multiplier": 0.3
       }
     ],
-    "components": [ [ [ "pipe", 35 ] ], [ [ "scrap", 28 ] ], [ [ "amplifier", 1 ] ], [ [ "cable", 100 ] ], [ [ "nuts_bolts", 60 ] ] ],
+    "components": [ [ [ "pipe", 1 ] ], [ [ "scrap", 1 ] ], [ [ "amplifier", 1 ] ], [ [ "cable", 100 ] ], [ [ "circuit", 1 ] ] ],
     "time": "18 h",
     "skill_used": "deduction",
     "difficulty": 7,
@@ -78,7 +78,7 @@
         "learning_time_multiplier": 0.3
       }
     ],
-    "components": [ [ [ "pipe", 35 ] ], [ [ "scrap", 28 ] ], [ [ "amplifier", 1 ] ], [ [ "cable", 100 ] ], [ [ "nuts_bolts", 60 ] ] ],
+    "components": [ [ [ "pipe", 1 ] ], [ [ "scrap", 1 ] ], [ [ "amplifier", 1 ] ], [ [ "cable", 100 ] ], [ [ "circuit", 1 ] ] ],
     "time": "18 h",
     "skill_used": "deduction",
     "difficulty": 7,

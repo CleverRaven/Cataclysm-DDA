@@ -1955,6 +1955,21 @@
   },
   {
     "type": "material",
+    "id": "monolith_heavy",
+    "name": "Monolith",
+    "density": 400,
+    "specific_heat_liquid": 0.52,
+    "specific_heat_solid": 0.52,
+    "latent_heat": 5200,
+    "chip_resist": 100,
+    "dmg_adj": [ "resonating", "cascading", "unravelling", "fractal" ],
+    "bash_dmg_verb": "agitated",
+    "cut_dmg_verb": "agitated",
+    "burn_products": [ [ "pebble", 1 ] ],
+    "resist": { "bash": 160, "cut": 200, "acid": 100, "heat": 100, "bullet": 160 }
+  },
+  {
+    "type": "material",
     "id": "superalloy",
     "name": "Superalloy",
     "//": "Density based on superalloy sheet",

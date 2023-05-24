@@ -248,6 +248,7 @@ void DynamicDataLoader::initialize()
     add( "option_slider", &option_slider::load_option_sliders );
     add( "json_flag", &json_flag::load_all );
     add( "jmath_function", &jmath_func::load_func );
+    add( "var_migration", &global_variables::load_migrations );
     add( "connect_group", &connect_group::load );
     add( "fault", &fault::load );
     add( "fault_fix", &fault_fix::load );

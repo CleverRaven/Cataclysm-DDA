@@ -5,13 +5,13 @@
     "om_terrain": [ "s_sports" ],
     "weight": 30000,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_thconc_floor",
       "rows": [
-        ".`''''`''''`''''`''''`..",
-        ".`''''`''''`''''`''''`..",
-        ".`''''`''''`''''`''''`..",
-        ".`''''`''''`''''`''''`..",
-        ".`''''`''''`''''`''''`..",
+        ".`''''`''''ss''''`''''`.",
+        ".`''''`''''ss''''`''''`.",
+        ".`''''`''''ss''''`''''`.",
+        ".`''''`''''ss''''`''''`.",
+        ".`''''`''''ss''''`''''`.",
         ".--~~~~~~--++--~~~~~~--.",
         ".|   @@          @@   |.",
         ".|                    |.",
@@ -24,7 +24,7 @@
         ".|        }}}}        |.",
         ".|######  }}}}  |/|/|/|.",
         ".|   h #        | | | |.",
-        ".|        ttteee|^|^|^|.",
+        ".|     C  ttteee|^|^|^|.",
         ".|----+---------------|.",
         ".|& |   }}}}}}}}} OOOO|.",
         ".|  +                O|.",
@@ -33,9 +33,10 @@
         "........4..............."
       ],
       "terrain": {
-        ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
-        " ": "t_floor",
+        ".": "t_region_groundcover_urban",
+        " ": "t_thconc_floor",
         "'": "t_pavement",
+        "s": "t_sidewalk",
         "`": "t_pavement_y",
         "+": "t_door_c",
         "*": "t_door_locked",
@@ -47,6 +48,7 @@
       },
       "furniture": {
         "#": "f_counter",
+        "C": "f_counter_gate_c",
         "h": "f_stool",
         "t": [ "f_treadmill", "f_treadmill_mechanical" ],
         "e": [ "f_ergometer", "f_ergometer_mechanical" ],
@@ -57,10 +59,10 @@
         "^": [ "f_bigmirror", "f_bigmirror", "f_bigmirror", "f_bigmirror_b" ],
         "{": "f_rack",
         "}": "f_rack",
-        "O": [ "f_crate_c", "f_crate_c", "f_crate_c", "f_crate_o" ]
+        "O": [ "f_crate_c", "f_cardboard_box", "f_crate_o" ]
       },
       "toilets": { "&": {  } },
-      "items": { "O": { "item": "allsporting", "chance": 20 } },
+      "items": { "O": { "item": "allsporting", "chance": 50 } },
       "place_loot": [
         { "group": "clothing_sport", "x": [ 5, 6 ], "y": 6, "chance": 20 },
         { "group": "clothing_sport", "x": [ 17, 18 ], "y": 6, "chance": 20 },

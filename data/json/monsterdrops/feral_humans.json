@@ -640,7 +640,7 @@
     "magazine": 100,
     "ammo": 10,
     "id": "feral_autogun",
-    "items": [ [ "m4_carbine", 500 ], [ "ar15", 500 ] ]
+    "items": [ [ "modular_m4_carbine", 500 ], [ "modular_ar15", 500 ] ]
   },
   {
     "type": "item_group",
