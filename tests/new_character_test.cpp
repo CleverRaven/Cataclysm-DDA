@@ -16,6 +16,7 @@
 #include "iuse.h"
 #include "mutation.h"
 #include "pimpl.h"
+#include "player_helpers.h"
 #include "profession.h"
 #include "scenario.h"
 #include "string_formatter.h"
@@ -204,6 +205,9 @@ TEST_CASE( "Generated character with category mutations", "[mutation]" )
 {
     REQUIRE( !trait_TAIL_FLUFFY.obj().category.empty() );
     avatar &u = get_avatar();
+    clear_avatar();
+    u.clear_mutations();
+    u.mutation_category_level.clear();
     REQUIRE( u.get_mutations().empty() );
     REQUIRE( u.get_base_traits().empty() );
     REQUIRE( u.mutation_category_level.empty() );
