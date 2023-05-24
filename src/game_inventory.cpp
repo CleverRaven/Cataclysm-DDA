@@ -1854,6 +1854,12 @@ class repair_inventory_preset: public inventory_selector_preset
                                          chance.first > 0 ? c_light_green : c_unset ) );
             },
             _( "DAMAGE CHANCE" ) );
+
+            append_cell( [actor, &you]( const item_location & loc ) {
+				const int difficulty = actor->repair_recipe_difficulty( you, *loc, false );
+                return colorize( string_format( "%d", difficulty ), difficulty > you.get_skill_level( actor->used_skill ) ? c_red : c_unset );
+            },
+            _( "SKILL NEEDED" ) );
         }
 
         bool is_shown( const item_location &loc ) const override {
@@ -1874,9 +1880,6 @@ static std::string get_repair_hint( const Character &you, const repair_item_acto
     hint.append( string_format( " | " ) );
     hint.append( string_format( _( "Skill used: <color_cyan>%s (%d)</color>" ),
                                 actor->used_skill.obj().name(), static_cast<int>( you.get_skill_level( actor->used_skill ) ) ) );
-    hint.append( string_format( " | " ) );
-    hint.append( string_format( _( "Skill needed: <color_cyan>%d</color>" ),
-                                actor->repair_recipe_difficulty( you, *main_tool, false ) ) );
     return hint;
 }
 
