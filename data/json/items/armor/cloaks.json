@@ -1435,7 +1435,7 @@
       {
         "id": "emirati_flag",
         "name": { "str": "Emirati flag" },
-        "description": "A horizontal tricolor flag of green, white and black with a vertical red bar at the hoist",
+        "description": "A horizontal tricolor flag of green, white and black with a vertical red bar at the hoist.",
         "weight": 10,
         "append": true
       },
