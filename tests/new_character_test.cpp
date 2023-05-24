@@ -76,19 +76,6 @@ static bool try_set_traits( const std::vector<trait_id> &traits )
     return true;
 }
 
-static avatar get_sanitized_player()
-{
-    // You'd think that this hp stuff would be in the c'tor...
-    avatar ret = avatar();
-    ret.set_body();
-    ret.recalc_hp();
-
-    // Set these insanely high so can_eat doesn't return TOO_FULL
-    ret.set_hunger( 10000 );
-    ret.set_thirst( 10000 );
-    return ret;
-}
-
 static int get_item_count( const std::set<const item *> &items )
 {
     int sum = 0;
@@ -154,9 +141,6 @@ TEST_CASE( "starting_items", "[slow]" )
     std::set<failure> failures;
 
     avatar &player_character = get_avatar();
-    player_character = get_sanitized_player();
-    // Avoid false positives from ingredients like salt and cornmeal.
-    const avatar control = get_sanitized_player();
 
     std::vector<trait_id> traits = next_subset( mutations );
     for( ; !traits.empty(); traits = next_subset( mutations ) ) {
@@ -219,7 +203,7 @@ TEST_CASE( "starting_items", "[slow]" )
 TEST_CASE( "Generated character with category mutations", "[mutation]" )
 {
     REQUIRE( !trait_TAIL_FLUFFY.obj().category.empty() );
-    avatar u = get_sanitized_player();
+    avatar &u = get_avatar();
     REQUIRE( u.get_mutations().empty() );
     REQUIRE( u.get_base_traits().empty() );
     REQUIRE( u.mutation_category_level.empty() );
