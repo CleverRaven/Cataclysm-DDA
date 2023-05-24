@@ -476,7 +476,7 @@
       {
         "id": "danish_flag",
         "name": { "str": "Danish flag" },
-        "description": "A flag of a red field with a white nordic cross over it.",
+        "description": "A flag of a red field with a white Nordic cross over it.",
         "weight": 10,
         "append": true
       },
