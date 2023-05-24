@@ -108,4 +108,10 @@ if(NOT DYNAMIC_LINKING AND PKGCONFIG_FOUND)
   target_link_libraries(SDL2_mixer::SDL2_mixer-static INTERFACE
     PkgConfig::FLAC
   )
+elseif(NOT TARGET SDL2_mixer::SDL2_mixer)
+    add_library(SDL2_mixer::SDL2_mixer STATIC IMPORTED)
+    set_property(TARGET SDL2_mixer::SDL2_mixer
+      PROPERTY IMPORTED_LOCATION ${SDL2_MIXER_LIBRARY}
+    )
+
 endif()

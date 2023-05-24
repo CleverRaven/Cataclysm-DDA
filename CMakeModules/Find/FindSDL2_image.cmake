@@ -127,4 +127,9 @@ if(NOT DYNAMIC_LINKING AND PKGCONFIG_FOUND)
       PkgConfig::ZSTD
       PkgConfig::DEFLATE
     )
+elseif(NOT TARGET SDL2_image::SDL2_image)
+      add_library(SDL2_image::SDL2_image UNKNOWN IMPORTED)
+      set_property(TARGET SDL2_image::SDL2_image
+        PROPERTY IMPORTED_LOCATION ${SDL2_IMAGE_LIBRARY}
+      )
 endif()

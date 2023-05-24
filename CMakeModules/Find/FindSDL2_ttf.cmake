@@ -113,4 +113,9 @@ if (NOT DYNAMIC_LINKING AND PKGCONFIG_FOUND)
   target_link_libraries(Freetype::Freetype INTERFACE
     PkgConfig::BROTLI
   )
+elseif(NOT TARGET SDL2_ttf::SDL2_ttf)
+    add_library(SDL2_ttf::SDL2_ttf UNKNOWN IMPORTED)
+    set_property(TARGET SDL2_ttf::SDL2_ttf
+      PROPERTY IMPORTED_LOCATION ${SDL2_TTF_LIBRARY}
+    )
 endif()
