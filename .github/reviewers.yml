@@ -46,3 +46,5 @@ files:
   'src/widget.h':
     - wapcaplet
     - dseguin
+  'src/ui_manager.*':
+    - Qrox
