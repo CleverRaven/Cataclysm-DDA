@@ -132,4 +132,9 @@ elseif(NOT TARGET SDL2_image::SDL2_image)
       set_property(TARGET SDL2_image::SDL2_image
         PROPERTY IMPORTED_LOCATION ${SDL2_IMAGE_LIBRARY}
       )
+    pkg_check_modules(ZIP REQUIRED IMPORTED_TARGET libzip)
+    target_link_libraries(SDL2_image::SDL2_image INTERFACE
+      PkgConfig::ZIP
+      z
+    )
 endif()
