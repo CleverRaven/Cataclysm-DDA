@@ -1351,7 +1351,7 @@
       {
         "id": "tanzanian_flag",
         "name": { "str": "Tanzanian flag" },
-        "description": "A flag that features a Yellow edged black diagonal band divided diagonally from the lower hoist side corner, the upper triangle is green and the lower triangle is light blue.",
+        "description": "A flag that features a yellow edged black diagonal band divided diagonally from the lower hoist side corner, the upper triangle is green and the lower triangle is light blue.",
         "weight": 10,
         "append": true
       },
