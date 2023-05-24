@@ -203,7 +203,7 @@
       "terrain": { " ": [ [ "t_nm_floor_flesh", 25 ], [ "t_nm_ichor_sh", 10 ] ] },
       "place_monsters": [
         {
-          "monster": "GROUP_MONSTER_TENTACLES",
+          "monster": "GROUP_NETHER_CORPSE_TENTACLES",
           "x": [ 7, 18 ],
           "y": [ 1, 23 ],
           "chance": 70,
@@ -287,7 +287,7 @@
       "terrain": { " ": [ [ "t_nm_floor_flesh", 25 ], [ "t_nm_ichor_sh", 10 ] ] },
       "place_monsters": [
         {
-          "monster": "GROUP_MONSTER_TENTACLES",
+          "monster": "GROUP_NETHER_CORPSE_TENTACLES",
           "x": [ 7, 18 ],
           "y": [ 8, 23 ],
           "chance": 70,
@@ -359,7 +359,7 @@
       "terrain": { " ": [ [ "t_nm_floor_flesh", 25 ], [ "t_nm_ichor_sh", 10 ] ] },
       "place_monsters": [
         {
-          "monster": "GROUP_MONSTER_TENTACLES",
+          "monster": "GROUP_NETHER_CORPSE_TENTACLES",
           "x": [ 7, 18 ],
           "y": [ 8, 23 ],
           "chance": 70,
@@ -453,7 +453,7 @@
       "terrain": { " ": [ [ "t_nm_floor_flesh", 25 ], [ "t_nm_ichor_sh", 10 ] ] },
       "place_monsters": [
         {
-          "monster": "GROUP_MONSTER_TENTACLES",
+          "monster": "GROUP_NETHER_CORPSE_TENTACLES",
           "x": [ 7, 18 ],
           "y": [ 8, 23 ],
           "chance": 70,
@@ -544,7 +544,7 @@
       "terrain": { " ": [ [ "t_nm_floor_flesh", 25 ], [ "t_nm_ichor_sh", 10 ] ] },
       "place_monsters": [
         {
-          "monster": "GROUP_MONSTER_TENTACLES",
+          "monster": "GROUP_NETHER_CORPSE_TENTACLES",
           "x": [ 7, 18 ],
           "y": [ 1, 23 ],
           "chance": 70,
