@@ -241,6 +241,45 @@
   {
     "type": "mapgen",
     "method": "json",
+    "om_terrain": [ "isolated_road_ns_warning" ],
+    "object": {
+      "predecessor_mapgen": "road_ns",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "    ================    ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "furniture": { "=": "f_barricade_road" },
+      "place_signs": [
+        { "signage": "WARNING: Turrets will shoot at vehicles!", "x": 1, "y": 1 },
+        { "signage": "WARNING: Turrets will shoot at vehicles!", "x": 22, "y": 1 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "om_terrain": "isolated_house_farm_roof_blacksmith",
     "object": {
       "fill_ter": "t_floor",

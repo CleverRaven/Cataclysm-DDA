@@ -9,6 +9,17 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "isolated_road_ns_warning",
+    "name": "road",
+    "//": "LINE_XOXO_S",
+    "sym": "│",
+    "copy-from": "generic_transportation",
+    "color": "dark_gray",
+    "see_cost": 2,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "isolated_house_farm_gunsmith", "isolated_house_farm_roof_gunsmith" ],
     "name": "gunsmith's home",
     "sym": "v",
