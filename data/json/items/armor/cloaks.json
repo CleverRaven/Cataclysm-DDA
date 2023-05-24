@@ -679,7 +679,7 @@
       {
         "id": "hungarian_flag",
         "name": { "str": "Hungarian flag" },
-        "description": "A tricolour flag consisting of horizontal red, white and green.",
+        "description": "A tricolor flag consisting of horizontal red, white and green.",
         "weight": 10,
         "append": true
       },
@@ -770,14 +770,14 @@
       {
         "id": "kenyan_flag",
         "name": { "str": "Kenyan flag" },
-        "description": "A flag that features a horizontal tricolour of black, white-edged red, and green with two crossed white spears behind a red, white, and black Maasai shield.",
+        "description": "A flag that features a horizontal tricolor of black, white-edged red, and green with two crossed white spears behind a red, white, and black Maasai shield.",
         "weight": 10,
         "append": true
       },
       {
         "id": "kiribati_flag",
         "name": { "str": "Kiribati flag" },
-        "description": "A flag that features a horizontal bicolour of red and blue with the yellow frigate bird flying over the rising sun with seventeen rays centered on the upper half and three white wavy horizontal stripes on the lower half.",
+        "description": "A flag that features a horizontal bicolor of red and blue with the yellow frigate bird flying over the rising sun with seventeen rays centered on the upper half and three white wavy horizontal stripes on the lower half.",
         "weight": 10,
         "append": true
       },
@@ -840,7 +840,7 @@
       {
         "id": "liechtensteiner_flag",
         "name": { "str": "Liechtensteiner flag" },
-        "description": "A flag that features a horizontal bicolour of blue and red, charged with a gold crown in the canton.",
+        "description": "A flag that features a horizontal bicolor of blue and red, charged with a gold crown in the canton.",
         "weight": 10,
         "append": true
       },
@@ -889,14 +889,14 @@
       {
         "id": "malian_flag",
         "name": { "str": "Malian flag" },
-        "description": "A flag that features a vertical tricolour of green, gold and red.",
+        "description": "A flag that features a vertical tricolor of green, gold and red.",
         "weight": 10,
         "append": true
       },
       {
         "id": "maltese_flag",
         "name": { "str": "Maltese flag" },
-        "description": "A flag that features a vertical bicolour of white and red with the representation of the George Cross edged in red on the upper hoist-side corner of the white band.",
+        "description": "A flag that features a vertical bicolor of white and red with the representation of the George Cross edged in red on the upper hoist-side corner of the white band.",
         "weight": 10,
         "append": true
       },
@@ -931,14 +931,14 @@
       {
         "id": "moldovan_flag",
         "name": { "str": "Moldovan flag" },
-        "description": "A vertical tricolour of blue, yellow and red charged with the coat of arms centered on the yellow band.",
+        "description": "A vertical tricolor of blue, yellow and red charged with the coat of arms centered on the yellow band.",
         "weight": 10,
         "append": true
       },
       {
         "id": "monegasque_flag",
         "name": { "str": "Monegasque flag" },
-        "description": "A horizontal bicolour flag of red and white.",
+        "description": "A horizontal bicolor flag of red and white.",
         "weight": 10,
         "append": true
       },
@@ -987,7 +987,7 @@
       {
         "id": "nepali_flag",
         "name": { "str": "Nepali flag" },
-        "description": "A unique looking flag of two juxtaposed triangular figures with a blue coloured base and deep blue borders, there being a white emblem of the crescent moon with eight rays visible out of sixteen in the upper part and a white emblem of a twelve rayed sun in the lower part.",
+        "description": "A unique looking flag of two juxtaposed triangular figures with a blue colored base and deep blue borders, there being a white emblem of the crescent moon with eight rays visible out of sixteen in the upper part and a white emblem of a twelve rayed sun in the lower part.",
         "weight": 10,
         "append": true
       },
@@ -1022,7 +1022,7 @@
       {
         "id": "nigerian_flag",
         "name": { "str": "Nigerian flag" },
-        "description": "A flag that features a vertical bicolour triband of green, white and green.",
+        "description": "A flag that features a vertical bicolor triband of green, white and green.",
         "weight": 10,
         "append": true
       },
@@ -1071,7 +1071,7 @@
       {
         "id": "palestinian_flag",
         "name": { "str": "Palestinian flag" },
-        "description": "A flag that features a horizontal tricolour of black, white, and green with a red triangle based at the hoist.",
+        "description": "A flag that features a horizontal tricolor of black, white, and green with a red triangle based at the hoist.",
         "weight": 10,
         "append": true
       },
@@ -1113,14 +1113,14 @@
       {
         "id": "polish_flag",
         "name": { "str": "Polish flag" },
-        "description": "A flag that features a horizontal bicolour of white and red.",
+        "description": "A flag that features a horizontal bicolor of white and red.",
         "weight": 10,
         "append": true
       },
       {
         "id": "portugese_flag",
         "name": { "str": "Portugese flag" },
-        "description": "A flag that features a vertically striped bicolour of green and red, with the lesser coat of arms of centered over the colour boundary.",
+        "description": "A flag that features a vertically striped bicolor of green and red, with the lesser coat of arms of centered over the color boundary.",
         "weight": 10,
         "append": true
       },
@@ -1141,14 +1141,14 @@
       {
         "id": "russian_flag",
         "name": { "str": "Russian flag" },
-        "description": "A simple horizontal tricolour flag of white, blue and red",
+        "description": "A simple horizontal tricolor flag of white, blue and red",
         "weight": 10,
         "append": true
       },
       {
         "id": "rwandan_flag",
         "name": { "str": "Rwandan flag" },
-        "description": "A horizontal tricolour flag of light blue, yellow and green charged with a sun-yellow sun in the upper fly side corner.",
+        "description": "A horizontal tricolor flag of light blue, yellow and green charged with a sun-yellow sun in the upper fly side corner.",
         "weight": 10,
         "append": true
       },
@@ -1183,14 +1183,14 @@
       {
         "id": "san_marino_flag",
         "name": { "str": "San Marino flag" },
-        "description": "A flag that features a horizontal bicolour of white and light blue; charged with the national coat of arms in the center.",
+        "description": "A flag that features a horizontal bicolor of white and light blue; charged with the national coat of arms in the center.",
         "weight": 10,
         "append": true
       },
       {
         "id": "sao_tomean_flag",
         "name": { "str": "Sao Tomean flag" },
-        "description": "A horizontal tricolour flag of green, yellow and green with a red triangle based at the hoist and two five pointed black stars of in the yellow stripe.",
+        "description": "A horizontal tricolor flag of green, yellow and green with a red triangle based at the hoist and two five pointed black stars of in the yellow stripe.",
         "weight": 10,
         "append": true
       },
@@ -1204,14 +1204,14 @@
       {
         "id": "senegalese_flag",
         "name": { "str": "Senegalese flag" },
-        "description": "A flag that features a vertical tricolour of green, yellow and red; charged with a green five pointed star at the center.",
+        "description": "A flag that features a vertical tricolor of green, yellow and red; charged with a green five pointed star at the center.",
         "weight": 10,
         "append": true
       },
       {
         "id": "serbian_flag",
         "name": { "str": "Serbian flag" },
-        "description": "A flag that features a horizontal tricolour of red, blue, and white charged with the lesser coat of arms left of center.",
+        "description": "A flag that features a horizontal tricolor of red, blue, and white charged with the lesser coat of arms left of center.",
         "weight": 10,
         "append": true
       },
@@ -1225,14 +1225,14 @@
       {
         "id": "sierra_leonean_flag",
         "name": { "str": "Sierra Leonean flag" },
-        "description": "A flag that features a horizontal tricolour of light green, white and light blue",
+        "description": "A flag that features a horizontal tricolor of light green, white and light blue",
         "weight": 10,
         "append": true
       },
       {
         "id": "singaporean_flag",
         "name": { "str": "Singaporean flag" },
-        "description": "A flag that features A horizontal bicolour of red and white, in the canton is a crescent facing the fly and a pentagon of five stars.",
+        "description": "A flag that features A horizontal bicolor of red and white, in the canton is a crescent facing the fly and a pentagon of five stars.",
         "weight": 10,
         "append": true
       },
@@ -1267,7 +1267,7 @@
       {
         "id": "south_africa_flag",
         "name": { "str": "South African flag" },
-        "description": "A horizontal bicolour flag of red and blue with a black isosceles triangle based on the hoist side and a green pall, a central green band that splits into a horizontal Y, centered over the partition lines and was edged in both white against the red and the blue bands and yellow against the triangle, in which the arms of the Y ends at the corners of the hoist and embraces the triangle on the hoist side.",
+        "description": "A horizontal bicolor flag of red and blue with a black isosceles triangle based on the hoist side and a green pall, a central green band that splits into a horizontal Y, centered over the partition lines and was edged in both white against the red and the blue bands and yellow against the triangle, in which the arms of the Y ends at the corners of the hoist and embraces the triangle on the hoist side.",
         "weight": 10,
         "append": true
       },
@@ -1281,7 +1281,7 @@
       {
         "id": "south_sudan_flag",
         "name": { "str": "South Sudan flag" },
-        "description": "A horizontal tricolour flag of black, red, and green, fimbriated with white stripes with a blue equilateral triangle based on the hoist side bearing a gold star.",
+        "description": "A horizontal tricolor flag of black, red, and green, fimbriated with white stripes with a blue equilateral triangle based on the hoist side bearing a gold star.",
         "weight": 10,
         "append": true
       },
@@ -1302,7 +1302,7 @@
       {
         "id": "sudanese_flag",
         "name": { "str": "Sudanese flag" },
-        "description": "A flag that has a horizontal tricolour of red, white, and black with a green triangle based at the hoist.",
+        "description": "A flag that has a horizontal tricolor of red, white, and black with a green triangle based at the hoist.",
         "weight": 10,
         "append": true
       },
@@ -1330,7 +1330,7 @@
       {
         "id": "syrian_flag",
         "name": { "str": "Syrian flag" },
-        "description": "A flag that features a horizontal tricolour of red, white, and black charged with two green stars at the center.",
+        "description": "A flag that features a horizontal tricolor of red, white, and black charged with two green stars at the center.",
         "weight": 10,
         "append": true
       },
@@ -1344,7 +1344,7 @@
       {
         "id": "tajikistani_flag",
         "name": { "str": "Tajikistani flag" },
-        "description": "A horizontal tricolour flag of red, white, and green, with a yellow crown surmounted by an arc of seven stars at the center.",
+        "description": "A horizontal tricolor flag of red, white, and green, with a yellow crown surmounted by an arc of seven stars at the center.",
         "weight": 10,
         "append": true
       },
@@ -1428,14 +1428,14 @@
       {
         "id": "ukrainian_flag",
         "name": { "str": "Ukrainian flag" },
-        "description": "A horizontal bicolour flag of blue and yellow.",
+        "description": "A horizontal bicolor flag of blue and yellow.",
         "weight": 10,
         "append": true
       },
       {
         "id": "emirati_flag",
         "name": { "str": "Emirati flag" },
-        "description": "A horizontal tricolour flag of green, white and black with a vertical red bar at the hoist",
+        "description": "A horizontal tricolor flag of green, white and black with a vertical red bar at the hoist",
         "weight": 10,
         "append": true
       },
@@ -1470,7 +1470,7 @@
       {
         "id": "venezuelan_flag",
         "name": { "str": "Venezuelan flag" },
-        "description": "A horizontal tricolour flag of yellow, blue and red with an arc of eight white five pointed stars centered on the blue band.",
+        "description": "A horizontal tricolor flag of yellow, blue and red with an arc of eight white five pointed stars centered on the blue band.",
         "weight": 10,
         "append": true
       },
@@ -1484,14 +1484,14 @@
       {
         "id": "yemenis_flag",
         "name": { "str": "Yemenis flag" },
-        "description": "A horizontal tricolour flag of red, white and black.",
+        "description": "A horizontal tricolor flag of red, white and black.",
         "weight": 10,
         "append": true
       },
       {
         "id": "zambian_flag",
         "name": { "str": "Zambian flag" },
-        "description": "It features green field with an orange coloured eagle in flight over a rectangular block of three vertical stripes coloured from left to right in red, black and orange.",
+        "description": "It features green field with an orange colored eagle in flight over a rectangular block of three vertical stripes colored from left to right in red, black and orange.",
         "weight": 10,
         "append": true
       },
