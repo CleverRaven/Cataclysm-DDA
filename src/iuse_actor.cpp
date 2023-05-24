@@ -2785,14 +2785,14 @@ bool repair_item_actor::handle_components( Character &pl, const item &fix,
 static std::pair<int, bool> find_repair_difficulty( const Character &pl, const itype &it,
         bool training )
 {
-    int diff = -1;
+    int difficulty = -1;
     bool difficulty_defined = false;
     bool found_recipe = false;
 
     if( !it.materials.empty() ) {
         for( const auto &mats : it.materials ) {
-            if( diff < mats.first->repair_difficulty() ) {
-                diff = mats.first->repair_difficulty();
+            if( mats.first->repair_difficulty() && difficulty < mats.first->repair_difficulty() ) {
+                difficulty = mats.first->repair_difficulty();
                 difficulty_defined = true;
             }
         }
@@ -2800,7 +2800,7 @@ static std::pair<int, bool> find_repair_difficulty( const Character &pl, const i
 
     // add +1 to difficulty
     if( difficulty_defined && !training ) {
-        diff = std::min( 10, diff++ );
+        difficulty = std::min( 10, difficulty + 1 );
     }
 
     // then check if it has a recipe and give a -1 to difficulty if it does
@@ -2812,12 +2812,12 @@ static std::pair<int, bool> find_repair_difficulty( const Character &pl, const i
             }
             // If we know the recipe and are skilled enough
             if( !found_recipe && pl.knows_recipe( &r ) && pl.has_recipe_requirements( r ) ) {
-                diff = std::max( 0, diff-- );
+                difficulty = std::max( 0, difficulty -  1);
                 found_recipe = true;
             }
         }
     }
-    return { diff, difficulty_defined };
+    return { difficulty, difficulty_defined };
 }
 
 // Returns the level of the most difficult material to repair in the item
