@@ -1491,7 +1491,7 @@
       {
         "id": "zambian_flag",
         "name": { "str": "Zambian flag" },
-        "description": "It features green field with an orange colored eagle in flight over a rectangular block of three vertical stripes colored from left to right in red, black and orange.",
+        "description": "A flag featuring green field with an orange fish eagle in flight over a rectangular block of three vertical stripes colored from left to right in red, black and orange.",
         "weight": 10,
         "append": true
       },
