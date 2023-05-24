@@ -300,5 +300,22 @@
     "price_postapoc": 50,
     "name": { "str": "AR-10 5-round makeshift magazine" },
     "description": "An improvised 5-round straight single-stack box magazine consisting of little more than a bent sheet of steel held together by duct tape and hope, for use with the AR-10 rifle."
+  },
+  {
+    "id": "ai_308mag_10",
+    "looks_like": "stanag30",
+    "type": "MAGAZINE",
+    "name": { "str": "AI .308 10-round magazine" },
+    "description": "A single-stack, 10-round steel box magazine, produced by the British precision rifle company, Accuracy International.  Magazines such as this one have been regarded as the gold standard for marksman rifle magazines, with this particular one being compatible with the .308 Winchester cartridge.",
+    "weight": "110 g",
+    "volume": "250 ml",
+    "price": 9253,
+    "price_postapoc": 100,
+    "material": [ "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "308" ],
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "308": 10 } } ]
   }
 ]

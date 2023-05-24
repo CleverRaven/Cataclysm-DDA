@@ -1295,14 +1295,7 @@ void game::calc_driving_offset( vehicle *veh )
         offset = veh->face_vec();
         velocity = veh->cruise_velocity;
     }
-    float rel_offset;
-    if( std::fabs( velocity ) < min_offset_vel ) {
-        rel_offset = 0;
-    } else if( std::fabs( velocity ) > max_offset_vel ) {
-        rel_offset = ( velocity > 0 ) ? 1 : -1;
-    } else {
-        rel_offset = ( velocity - min_offset_vel ) / ( max_offset_vel - min_offset_vel );
-    }
+    const float rel_offset = inverse_lerp( min_offset_vel, max_offset_vel, velocity );
     // Squeeze into the corners, by making the offset vector longer,
     // the PC is still in view as long as both offset.x and
     // offset.y are <= 1

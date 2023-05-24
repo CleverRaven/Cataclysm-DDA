@@ -103,7 +103,7 @@
         { "item": "fire_ax", "x": 11, "y": 10, "chance": 100 },
         { "item": "shillelagh", "x": 12, "y": 10, "chance": 100 },
         { "item": "knife_combat", "x": 13, "y": 10, "chance": 100 },
-        { "item": "ar15", "x": 14, "y": 10, "ammo": 100, "magazine": 100, "chance": 100 },
+        { "item": "modular_ar15", "x": 14, "y": 10, "ammo": 100, "magazine": 100, "chance": 100 },
         { "item": "stanag30", "x": 14, "y": 10, "ammo": 100, "chance": 100 }
       ]
     }

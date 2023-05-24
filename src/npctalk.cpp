@@ -2663,11 +2663,13 @@ void talk_effect_fun_t::set_u_sell_item( const JsonObject &jo, const std::string
         itype_id current_item_name = itype_id( item_name.evaluate( d ) );
         if( item::count_by_charges( current_item_name ) &&
             d.actor( false )->has_charges( current_item_name, current_count ) ) {
-            for( const item &it : d.actor( false )->use_charges( current_item_name, current_count ) ) {
+            for( item &it : d.actor( false )->use_charges( current_item_name, current_count ) ) {
+                it.set_owner( d.actor( true )->get_faction()->id );
                 d.actor( true )->i_add( it );
             }
         } else if( d.actor( false )->has_amount( current_item_name, current_count ) ) {
-            for( const item &it : d.actor( false )->use_amount( current_item_name, current_count ) ) {
+            for( item &it : d.actor( false )->use_amount( current_item_name, current_count ) ) {
+                it.set_owner( d.actor( true )->get_faction()->id );
                 d.actor( true )->i_add( it );
             }
         } else {

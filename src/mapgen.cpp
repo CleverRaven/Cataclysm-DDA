@@ -6792,11 +6792,8 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
                         if( valid_mount.success() ) {
                             // make a copy so we don't interfere with veh_to_add->remove_part below
                             first_veh->install_part( target_point, vehicle_part( *vp ) );
-                        } else {
-                            DebugLog( D_WARNING, DC_ALL )
-                                    << "merging wrecks ignoring part '" << vpi.get_id().str() << "' "
-                                    << "as it would make invalid vehicle: " << valid_mount.str();
                         }
+                        // ignore parts that would make invalid vehicle configuration
                     }
 
                     if( !handler_ptr ) {
