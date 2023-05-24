@@ -1382,14 +1382,7 @@
     "harvest": "mutant_mammal_leather",
     "reproduction": { "baby_monster": "mon_carrion_grub", "baby_count": 1, "baby_timer": 330 },
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
-    "flags": [
-      "SEES",
-      "SMELLS",
-      "HEARS",
-      "WARM",
-      "IMMOBILE",
-      "ANIMAL"
-    ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "IMMOBILE", "ANIMAL" ]
   },
   {
     "id": "mon_carrion_grub",
@@ -1430,7 +1423,7 @@
     "morale": 10,
     "melee_skill": 3,
     "melee_dice": 2,
-    "melee_dice_sides": 6, 
+    "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "stab", "amount": 8 } ],
     "anger_triggers": [ "FRIEND_ATTACKED" ],
     "harvest": "mutant_animal_large_noskin",
