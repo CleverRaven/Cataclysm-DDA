@@ -732,6 +732,7 @@
         "weight": 10,
         "append": true
       },
+      {
         "id": "italian_flag",
         "name": { "str": "Italian flag" },
         "description": "A flag that has a tricolor vertical stripes of green, white, and red.",
