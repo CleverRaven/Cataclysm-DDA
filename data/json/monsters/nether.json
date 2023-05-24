@@ -1378,7 +1378,6 @@
     "melee_dice_sides": 12,
     "melee_damage": [ { "damage_type": "stab", "amount": 6 } ],
     "special_attacks": [ [ "RANGED_PULL", 3 ], [ "GRAB", 4 ], { "type": "bite", "cooldown": 2 } ],
-    "dodge": 0,
     "harvest": "mutant_mammal_leather",
     "reproduction": { "baby_monster": "mon_carrion_grub", "baby_count": 1, "baby_timer": 330 },
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
@@ -1387,7 +1386,7 @@
   {
     "id": "mon_carrion_grub",
     "type": "MONSTER",
-    "name": { "str": "carrion grub", "str_pl": "carrion grubs" },
+    "name": { "str": "carrion grub" },
     "description": "A wriggling brown grub of unnatural origin, slithering along the ground and unnaturally pulsating.  As it moves along, it chews through any available flesh with surprising speed.",
     "copy-from": "mon_larva_abstract",
     "default_faction": "nether",
@@ -1409,7 +1408,7 @@
   {
     "id": "mon_nether_spearfisher",
     "type": "MONSTER",
-    "name": { "str": "spearfisher", "str_pl": "spearfishers" },
+    "name": { "str": "spearfisher" },
     "description": "A strange quadrupedal creature with long, lanky limbs and a gaping maw.  A long sharp spike protrudes from it's back, which occasionally launches from its' joint to stab prey before slinking back in.",
     "default_faction": "spearfisher",
     "bodytype": "dog",
