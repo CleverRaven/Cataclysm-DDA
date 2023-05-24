@@ -299,6 +299,42 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "dirtroad_to_farm_parking",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "/ii//.iiiiiiiiiiii../ii/",
+        "//ii/..iiiiiiiiii../ii//",
+        "//......................",
+        "........................",
+        "........................",
+        ".../ii...iiiiii...ii///.",
+        "..////i.../ii....i////..",
+        "....///ii.//...ii///....",
+        ".....///ii.//.ii///.....",
+        "......//.i.//.i.//......",
+        "......//.i.//.i.//......",
+        "......./...//.../.......",
+        "......./...//.../......."
+      ],
+      "palettes": [ "farm_lots" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "dirtroad_to_farm_twd",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -426,6 +462,93 @@
       ],
       "palettes": [ "paddock" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "3x3_tree_benches",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "___",
+        "_t_",
+        "___"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "t": "t_region_tree_forest" },
+      "furniture": { "_": "f_bench" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "3x3_trunks",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "s s",
+        "   ",
+        " s "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "s": "t_stump" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "3x3_firering",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "s s",
+        " f ",
+        " s "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "s": "t_stump" },
+      "furniture": { "f": "f_firering" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "3x3_horseposts",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "% %",
+        "   ",
+        "%  "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "%": "t_splitrail_fence" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "3x3_shed_trail_supplies_N",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "|+|",
+        "|t|",
+        "|||"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "|": "t_wall_wood", "+": "t_door_c", "t": "t_floor" },
+      "furniture": { "t": "f_table" },
+      "items": { "t": { "item": "softdrinks_bottled", "chance": 50, "repeat": [ 1, 3 ] } },
+      "item": {
+        "t": [
+          { "item": "pockknife", "chance": 50 },
+          { "item": "deck_of_cards", "chance": 50 },
+          { "item": "ref_matches", "chance": 50, "charges": [ 1, 32 ] },
+          { "item": "marshmallow", "chance": 20 }
+        ]
+      }
     }
   },
   {
@@ -749,6 +872,266 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "24x24_dirt_road_turnback_paddock",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        ".                      .",
+        "...                 ....",
+        "_.....           ......_",
+        "__.....        .......__",
+        "___..................___"
+      ],
+      "palettes": [ "paddock" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_dirt_road_turnback_house",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                ...     ",
+        "                __......",
+        "                 _______",
+        "                  _.....",
+        "                   .    ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "paddock" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_dirt_road_turnback_greenhouse",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "         .____.         "
+      ],
+      "palettes": [ "paddock" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_dirt_road_turnback_yard",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "    /             /     ",
+        "     /           /      ",
+        "      /        //       ",
+        "       ////////         "
+      ],
+      "palettes": [ "paddock" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "14x14_trail_intersection_north",
+    "object": {
+      "mapgensize": [ 14, 14 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        ".??////////??.",
+        "???////////???",
+        "??//////////??",
+        "??//////////??",
+        "?.///....///.?",
+        "../......../..",
+        "..............",
+        "..............",
+        "..............",
+        "..............",
+        "..............",
+        "..............",
+        "..............",
+        ".............."
+      ],
+      "palettes": [ "farm_lots" ],
+      "terrain": { "?": [ [ "t_region_grass", 6 ], [ "t_region_soil", 6 ], [ "t_grass_dead", 3 ] ] },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "14x14_trail_intersection_east",
+    "object": {
+      "mapgensize": [ 14, 14 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        ".........????.",
+        "..........????",
+        "........////??",
+        "........./////",
+        "........./////",
+        "..........////",
+        "..........////",
+        "..........////",
+        "..........////",
+        "........./////",
+        "........./////",
+        "........////??",
+        "..........????",
+        ".........????."
+      ],
+      "palettes": [ "farm_lots" ],
+      "terrain": { "?": [ [ "t_region_grass", 6 ], [ "t_region_soil", 6 ], [ "t_grass_dead", 3 ] ] },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "14x14_trail_intersection_south",
+    "object": {
+      "mapgensize": [ 14, 14 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "..............",
+        "..............",
+        "..............",
+        "..............",
+        "..............",
+        "..............",
+        "..............",
+        "..............",
+        "../......../..",
+        "?.///....///.?",
+        "??//////////??",
+        "??//////////??",
+        "???////////???",
+        ".??////////??."
+      ],
+      "palettes": [ "farm_lots" ],
+      "terrain": { "?": [ [ "t_region_grass", 6 ], [ "t_region_soil", 6 ], [ "t_grass_dead", 3 ] ] },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "14x14_trail_intersection_west",
+    "object": {
+      "mapgensize": [ 14, 14 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        ".????.........",
+        "????..........",
+        "??////........",
+        "/////.........",
+        "/////.........",
+        "////..........",
+        "////..........",
+        "////..........",
+        "////..........",
+        "/////.........",
+        "/////.........",
+        "??////........",
+        "????..........",
+        ".????........."
+      ],
+      "palettes": [ "farm_lots" ],
+      "terrain": { "?": [ [ "t_region_grass", 6 ], [ "t_region_soil", 6 ], [ "t_grass_dead", 3 ] ] },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "paddock_24x24_showjumps",
     "//": "Spawns jumps in a clockwise 19x19 circle from [ 2, 2 ]. Rarely has a central jump.",
     "object": {
@@ -806,6 +1189,36 @@
         { "chunks": [ "showjump_3x3_NS" ], "x": 2, "y": 7 },
         { "chunks": [ [ "null", 80 ], [ "showjump_3x3_NS", 20 ] ], "x": 9, "y": 9 }
       ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "8x8_horses",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
+      "place_monster": [ { "monster": "mon_horse", "x": [ 0, 7 ], "y": [ 0, 7 ], "repeat": [ 1, 3 ], "chance": 5 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "1x1_farm_vehicles",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0, 3 ],
+      "place_vehicles": [ { "vehicle": "farm_horse_vehicles", "x": 2, "y": 3, "rotation": 270, "status": 0, "chance": 100 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "1x1_farm_house_parking",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0, 3 ],
+      "place_vehicles": [ { "vehicle": "cars_only", "x": 1, "y": 3, "rotation": 270, "status": 0, "chance": 100 } ]
     }
   }
 ]

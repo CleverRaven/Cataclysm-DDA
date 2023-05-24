@@ -444,7 +444,13 @@
       "palettes": [ "farm_lots" ],
       "place_nested": [
         { "chunks": [ "dirtroad_to_farm_stills" ], "x": 0, "y": 0, "neighbors": { "north": "farm_stills_3" } },
-        { "chunks": [ "dirtroad_to_farm_2side" ], "x": 0, "y": 0, "neighbors": { "north": "2farm_11" } }
+        { "chunks": [ "dirtroad_to_farm_2side" ], "x": 0, "y": 0, "neighbors": { "north": "2farm_11" } },
+        {
+          "chunks": [ "dirtroad_to_farm_parking" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": { "south": "dirt_road_farm_parking" }
+        }
       ]
     }
   },
@@ -675,6 +681,55 @@
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "farm_lots" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "dirt_road_farm_parking" ],
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_region_soil",
+      "predecessor_mapgen": "field",
+      "rows": [
+        ".......//////////.......",
+        ".......//////////.......",
+        ".......//////////.......",
+        ".......//////////.......",
+        ".......//////////.......",
+        ".......//////////.......",
+        ".......//////////.......",
+        ".......//////////.......",
+        ".......//////////.......",
+        ".......//////////.......",
+        ".......//////////.......",
+        ".......//////////.......",
+        ".......//////////.......",
+        ".......///////i//.......",
+        ".......//i///////.......",
+        ".......///////i//.......",
+        ".......//i////i//.......",
+        "........////////........",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "farm_lots" ],
+      "place_vehicles": [
+        { "vehicle": "farm_horse_vehicles", "x": [ 8, 9 ], "y": [ 9, 14 ], "rotation": 270, "status": 0, "chance": 25 },
+        {
+          "vehicle": "farm_horse_vehicles",
+          "x": [ 14, 15 ],
+          "y": [ 9, 14 ],
+          "rotation": 270,
+          "status": 0,
+          "chance": 25
+        }
+      ]
     }
   },
   {
