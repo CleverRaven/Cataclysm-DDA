@@ -2806,7 +2806,7 @@ static std::pair<int, bool> find_repair_difficulty( const Character &pl, const i
     }
 
     // then check if it has a recipe and give a -1 to difficulty if it does
-    if( difficulty_defined && recipes.empty() ) {
+    if( difficulty_defined && !it.recipes.empty() ) {
         for( const recipe_id &rid : it.recipes ) {
             const recipe &r = recipe_id( rid ).obj();
             if( !r ) {
@@ -2814,8 +2814,8 @@ static std::pair<int, bool> find_repair_difficulty( const Character &pl, const i
             }
             // If we know the recipe and are skilled enough
             if( !found_recipe && pl.knows_recipe( &r ) && pl.has_recipe_requirements( r ) ) {
-                min = std::max( 0, min--);
-                found = true;
+                min = std::max( 0, min-- );
+                found_recipe = true;
             }
         }
     }
