@@ -91,7 +91,10 @@ Item_spawn_data_mon_zombie_soldier_death_drops( "mon_zombie_soldier_death_drops"
 static const item_group_id Item_spawn_data_remains_human_generic( "remains_human_generic" );
 static const item_group_id Item_spawn_data_trash_cart( "trash_cart" );
 
+static const itype_id itype_broken_turret_rifle( "broken_turret_rifle" );
 static const itype_id itype_223_casing( "223_casing" );
+static const itype_id itype_broken_riotbot( "broken_riotbot" );
+static const itype_id itype_40x46mm_m212_casing( "40x46mm_m212_casing" );
 static const itype_id itype_762_51_casing( "762_51_casing" );
 static const itype_id itype_9mm_casing( "9mm_casing" );
 static const itype_id itype_acoustic_guitar( "acoustic_guitar" );
@@ -148,6 +151,7 @@ static const mongroup_id GROUP_JABBERWOCK( "GROUP_JABBERWOCK" );
 static const mongroup_id GROUP_MIL_PASSENGER( "GROUP_MIL_PASSENGER" );
 static const mongroup_id GROUP_MIL_PILOT( "GROUP_MIL_PILOT" );
 static const mongroup_id GROUP_MIL_WEAK( "GROUP_MIL_WEAK" );
+static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
 static const mongroup_id GROUP_NETHER_PORTAL( "GROUP_NETHER_PORTAL" );
 static const mongroup_id GROUP_STRAY_DOGS( "GROUP_STRAY_DOGS" );
 static const mongroup_id GROUP_TURRET_SPEAKER( "GROUP_TURRET_SPEAKER" );
@@ -155,10 +159,12 @@ static const mongroup_id GROUP_WASP_GUARD( "GROUP_WASP_GUARD" );
 static const mongroup_id GROUP_WASP_QUEEN( "GROUP_WASP_QUEEN" );
 
 static const mtype_id mon_turret_riot( "mon_turret_riot" );
+static const mtype_id mon_turret_rifle( "mon_turret_rifle" );
 static const mtype_id mon_turret_searchlight( "mon_turret_searchlight" );
+static const mtype_id mil_turret_speaker( "mil_turret_speaker" );
 static const mtype_id mon_wolf( "mon_wolf" );
 static const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
-
+static const mtype_id mon_zombie_cop( "mon_zombie_cop" );
 static const oter_type_str_id oter_type_bridge( "bridge" );
 static const oter_type_str_id oter_type_bridgehead_ground( "bridgehead_ground" );
 static const oter_type_str_id oter_type_road( "road" );
@@ -522,11 +528,30 @@ static bool mx_roadblock( map &m, const tripoint &abs_sub )
     const bool road_at_west = west->get_type_id() == oter_type_road;
     const bool road_at_east = east->get_type_id() == oter_type_road;
 
+    // 66% chance of live turrets and assorted corpses
+    // 33% chance of dead turrets and roaming zombies
+    bool live = false;
+    if( one_in( 2 ) ) {
+        live = true;
+    }
+
+    auto turret_t = mon_turret_rifle;
+    auto broken_t = itype_broken_turret_rifle;
+    auto casing_t = itype_223_casing;
+
     const auto spawn_turret = [&]( const point & p ) {
-        m.add_spawn( mon_turret_riot, 1, { p, abs_sub.z } );
+        if( live ) {
+            m.add_spawn( turret_t, 1, { p, abs_sub.z } );
+        } else {
+            m.spawn_item( p, broken_t );
+            for( const tripoint &loc : m.points_in_radius( { p, abs_sub.z }, 1 ) ) {
+                m.spawn_item( loc, casing_t, rng( 0, 2 ) );
+            }
+        }
     };
 
-    if( one_in( 6 ) ) { //Military doesn't joke around with their barricades!
+
+    if( one_in( 2 ) ) { // Military doesn't joke around with their barricades!
 
         if( one_in( 2 ) ) {
             if( road_at_north ) {
@@ -597,17 +622,27 @@ static bool mx_roadblock( map &m, const tripoint &abs_sub )
             }
         }
 
-        line_furn( &m, f_sandbag_half, point( 12, 7 ), point( 15, 7 ) );
+        line_furn( &m, f_sandbag_half, point( 11, 7 ), point( 15, 7 ) );
         m.add_spawn( mon_turret_searchlight, 1, { 13, 8, abs_sub.z } );
         m.furn_set( point( 14, 8 ), furn_f_active_backup_generator );
-        line_furn( &m, f_sandbag_half, point( 12, 9 ), point( 15, 9 ) );
+        m.add_spawn( mil_turret_speaker, 1, { 12, 8, abs_sub.z } );
+        line_furn( &m, f_sandbag_half, point( 11, 9 ), point( 15, 9 ) );
 
-        int num_bodies = dice( 2, 5 );
+        int num_bodies = dice( 2, 2 );
         for( int i = 0; i < num_bodies; i++ ) {
             if( const auto p = random_point( m, [&m]( const tripoint & n ) {
             return m.passable( n );
             } ) ) {
-                m.add_spawn( mon_zombie_soldier, 1, *p );
+                // dead barricade (live zombies)
+                if( !live ) {
+                    m.add_spawn( mon_zombie_soldier, 1, *p );
+                }
+                // live barricade (dead zombies)
+                else if( live ) {
+                    item body = item::make_corpse();
+                    m.add_item_or_charges( *p, body );
+                    m.put_items_from_loc( Item_spawn_data_mon_zombie_soldier_death_drops, *p );
+                }
                 // 10% chance of zombie carrying weapon so 90% chance of it being on the ground
                 if( !one_in( 10 ) ) {
                     item_group_id group;
@@ -623,57 +658,82 @@ static bool mx_roadblock( map &m, const tripoint &abs_sub )
                     }
                     m.place_items( group, 100, *p, *p, true, calendar::start_of_cataclysm );
                 }
-
+                // add blood
                 int splatter_range = rng( 1, 3 );
                 for( int j = 0; j <= splatter_range; j++ ) {
                     m.add_field( *p + point( -j * 1, j * 1 ), fd_blood, 1, 0_turns );
                 }
             }
+
         }
+        // dead barricade has extra zombies attracted
+        if( !live ) {
+            m.place_spawns( GROUP_ZOMBIE, 1, { 5, 5 }, { 19, 19 }, 0.2f );
+        }
+
     } else { // Police roadblock
+
+        turret_t = mon_turret_riot;
+        broken_t = itype_broken_riotbot;
+        casing_t = itype_40x46mm_m212_casing;
 
         if( road_at_north ) {
             line_furn( &m, f_barricade_road, point( 4, 3 ), point( 10, 3 ) );
             line_furn( &m, f_barricade_road, point( 13, 3 ), point( 19, 3 ) );
-            m.add_spawn( mon_turret_riot, 1, { 12, 1, abs_sub.z } );
+            spawn_turret( point( 12, 1 ) );
         }
         if( road_at_east ) {
             line_furn( &m, f_barricade_road, point( SEEX * 2 - 3, 4 ), point( SEEX * 2 - 3, 10 ) );
             line_furn( &m, f_barricade_road, point( SEEX * 2 - 3, 13 ), point( SEEX * 2 - 3, 19 ) );
-            m.add_spawn( mon_turret_riot, 1, { SEEX * 2 - 1, 12, abs_sub.z } );
+            spawn_turret( point( SEEX * 2 - 1, 12 ) );
         }
         if( road_at_south ) {
             line_furn( &m, f_barricade_road, point( 4, SEEY * 2 - 3 ), point( 10, SEEY * 2 - 3 ) );
             line_furn( &m, f_barricade_road, point( 13, SEEY * 2 - 3 ), point( 19, SEEY * 2 - 3 ) );
-            m.add_spawn( mon_turret_riot, 1, { 12, SEEY * 2 - 1, abs_sub.z } );
+            spawn_turret( point( 12, SEEY * 2 - 1 ) );
         }
         if( road_at_west ) {
             line_furn( &m, f_barricade_road, point( 3, 4 ), point( 3, 10 ) );
             line_furn( &m, f_barricade_road, point( 3, 13 ), point( 3, 19 ) );
-            m.add_spawn( mon_turret_riot, 1, { 1, 12, abs_sub.z } );
+            spawn_turret( point( 1, 12 ) );
         }
 
-        m.add_vehicle( vehicle_prototype_policecar, point( 8, 6 ), 20_degrees );
-        m.add_vehicle( vehicle_prototype_policecar, point( 16, SEEY * 2 - 6 ), 145_degrees );
+        // police cars may or may not be present
+        if( one_in( 2 ) ) {
+            m.add_vehicle( vehicle_prototype_policecar, point( 8, 6 ), 20_degrees );
+        }
+        if( one_in( 2 ) ) {
+            m.add_vehicle( vehicle_prototype_policecar, point( 16, SEEY * 2 - 6 ), 145_degrees );
+        }
 
         line_furn( &m, f_sandbag_half, point( 6, 10 ), point( 9, 10 ) );
         m.add_spawn( mon_turret_searchlight, 1, { 7, 11, abs_sub.z } );
         m.furn_set( point( 8, 11 ), furn_f_active_backup_generator );
         line_furn( &m, f_sandbag_half, point( 6, 12 ), point( 9, 12 ) );
 
-        int num_bodies = dice( 1, 6 );
+        int num_bodies = dice( 1, 3 );
         for( int i = 0; i < num_bodies; i++ ) {
             if( const auto p = random_point( m, [&m]( const tripoint & n ) {
             return m.passable( n );
             } ) ) {
-                m.place_items( Item_spawn_data_map_extra_police, 100, *p, *p, true,
-                               calendar::start_of_cataclysm );
-
-                int splatter_range = rng( 1, 3 );
-                for( int j = 0; j <= splatter_range; j++ ) {
-                    m.add_field( *p + point( j * 1, -j * 1 ), fd_blood, 1, 0_turns );
+                // dead barricade (live zombies)
+                if( !live ) {
+                    m.add_spawn( mon_zombie_cop, 1, *p );
                 }
+                // live barricade (dead zombies)
+                else if( live ) {
+                    item body = item::make_corpse();
+                    m.add_item_or_charges( *p, body );
+                    m.put_items_from_loc( Item_spawn_data_map_extra_police, *p );
+                    // m.place_items( Item_spawn_data_map_extra_police, 100, *p, *p, true, calendar::start_of_cataclysm );
+                    m.add_field( *p, fd_blood, 1, 0_turns );
+                }
+
             }
+        }
+        // dead barricade has extra zombies attracted
+        if( !live ) {
+            m.place_spawns( GROUP_ZOMBIE, 1, { 5, 5 }, { 19, 19 }, 0.05f );
         }
     }
 

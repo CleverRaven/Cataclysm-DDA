@@ -6011,6 +6011,13 @@ bool mattack::speaker( monster *z )
     return true;
 }
 
+bool mattack::milspeaker( monster *z )
+{
+    sounds::sound( z->pos(), 60, sounds::sound_t::order,
+                   SNIPPET.random_from_category( "milspeaker_warning" ).value_or( translation() ) );
+    return true;
+}
+
 bool mattack::dsa_drone_scan( monster *z )
 {
     z->moves -= 100;
