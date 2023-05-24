@@ -2786,7 +2786,6 @@ static std::pair<int, bool> find_repair_difficulty( const Character &pl, const i
         bool training )
 {
     int min = -1;
-    const itype_id iid = it.get_id();
     bool difficulty_defined = false;
     bool found_recipe = false;
 
