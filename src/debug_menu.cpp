@@ -3148,7 +3148,7 @@ void debug()
             debugmsg( "Test debugmsg" );
             break;
         case debug_menu_index::CRASH_GAME:
-            raise( SIGSEGV );
+            static_cast<void>( raise( SIGSEGV ) );
             break;
         case debug_menu_index::ACTIVATE_EOC: {
             const std::vector<effect_on_condition> &eocs = effect_on_conditions::get_all();

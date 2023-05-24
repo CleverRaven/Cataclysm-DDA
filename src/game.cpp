@@ -3463,7 +3463,10 @@ void game::write_memorial_file( std::string sLastWords )
     std::time_t t = std::time( nullptr );
     tm current_time;
     localtime_r( &t, &current_time );
-    std::strftime( buffer, suffix_len, "%Y-%m-%d-%H-%M-%S", &current_time );
+    size_t result = std::strftime( buffer, suffix_len, "%Y-%m-%d-%H-%M-%S", &current_time );
+    if( result == 0 ) {
+        cata_fatal( "Could not construct filename" );
+    }
     memorial_file_path << buffer;
 #endif
 
