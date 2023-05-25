@@ -501,11 +501,11 @@
       "paddock_trailhead_6",
       "paddock_trailhead_7",
       "paddock_trailhead_9",
-      "paddock_end_1",
-      "paddock_end_3",
-      "paddock_end_4",
-      "paddock_end_5",
-      "paddock_end_6"
+      "paddock_end_UL",
+      "paddock_end_UR",
+      "paddock_end_DL",
+      "paddock_end_DC",
+      "paddock_end_DR"
     ],
     "copy-from": "generic_rural_building",
     "name": "paddock",
