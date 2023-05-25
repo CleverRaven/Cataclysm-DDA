@@ -805,10 +805,9 @@ class repair_item_actor : public iuse_actor
         /**
          * Calculates the difficulty to repair an item based on its materials.
          * Normally the difficulty to repair is that of the most difficult material.
-         * If `training` is true, the least difficult material is what matters instead.
-         * Training should usually be false unless you're just practicing.
+         * If the item has a repairs_like, use the materials of that item instead.
          */
-        int repair_recipe_difficulty( const Character &pl, const item &fix, bool training = false ) const;
+        int repair_recipe_difficulty( const item &fix ) const;
         /** Describes members of `repair_type` enum */
         static std::string action_description( repair_type );
 
