@@ -126,9 +126,9 @@
     "looks_like": "armor_larmor",
     "color": "brown",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 21, 25 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 85, "encumbrance": [ 21, 21 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 21, 21 ] }
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 17, 17 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 85, "encumbrance": [ 17, 17 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 17, 17 ] }
     ],
     "pocket_data": [
       {
