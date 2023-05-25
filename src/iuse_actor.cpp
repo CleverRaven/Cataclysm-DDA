@@ -2783,24 +2783,14 @@ bool repair_item_actor::handle_components( Character &pl, const item &fix,
 // Base difficulty is the repair difficulty of the hardest thing to repair it is made of.
 // if the training variable is true, then we're just repairing the easiest part of the thing.
 // so instead take the easiest thing to repair it is made of.
-static std::pair<int, bool> find_repair_difficulty( const itype &it, bool training )
+static std::pair<int, bool> find_repair_difficulty( const itype &it )
 {
     int difficulty = -1;
     bool difficulty_defined = false;
-    
 
-    if( !training && !it.materials.empty() ) {
+    if( !it.materials.empty() ) {
         for( const auto &mats : it.materials ) {
             if( mats.first->repair_difficulty() && difficulty < mats.first->repair_difficulty() ) {
-                difficulty = mats.first->repair_difficulty();
-                difficulty_defined = true;
-            }
-        }
-    }
-
-    if( training && !it.materials.empty() ) {
-        for( const auto &mats : it.materials ) {
-            if( mats.first->repair_difficulty() && difficulty > mats.first->repair_difficulty() ) {
                 difficulty = mats.first->repair_difficulty();
                 difficulty_defined = true;
             }
@@ -2813,26 +2803,24 @@ static std::pair<int, bool> find_repair_difficulty( const itype &it, bool traini
 // Returns the level of the most difficult material to repair in the item
 // Or if it has a repairs_like, the lowest level recipe that results in that.
 // If none exist the difficulty is 10
-int repair_item_actor::repair_recipe_difficulty( const Character &pl,
-        const item &fix, bool training ) const
+int repair_item_actor::repair_recipe_difficulty( const item &fix ) const
 {
     std::pair<int, bool> ret;
-    ret = find_repair_difficulty( *fix.type, training );
+    ret = find_repair_difficulty( *fix.type );
     int diff = ret.first;
     bool defined = ret.second;
 
     // See if there's a repairs_like that has a defined difficulty
     if( !defined && !fix.type->repairs_like.is_empty() ) {
-        ret = find_repair_difficulty( fix.type->repairs_like.obj(), training );
+        ret = find_repair_difficulty( fix.type->repairs_like.obj() );
         if( ret.second ) {
             diff = ret.first;
-        } else {
-            diff = std::min( std::max( 0, diff ), ret.first );
+			defined = true;
         }
     }
 
     // If we still don't find a difficulty, difficulty is 10
-    if( diff == -1 ) {
+    if( !defined ) {
         diff = 10;
     }
 
@@ -2905,7 +2893,7 @@ std::pair<float, float> repair_item_actor::repair_chance(
     /** @EFFECT_TAILOR randomly improves clothing repair efforts */
     /** @EFFECT_MECHANICS randomly improves metal repair efforts */
     const float skill = pl.get_skill_level( used_skill );
-    const int material_difficulty = repair_recipe_difficulty( pl, fix );
+    const int material_difficulty = repair_recipe_difficulty( fix );
     int action_difficulty = 0;
     switch( action_type ) {
         case RT_NOTHING: /* fallthrough */
@@ -3050,7 +3038,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( Character &pl, item &
         action = default_action( *fix, current_skill_level );
     }
     const auto chance = repair_chance( pl, *fix, action );
-    int practice_amount = repair_recipe_difficulty( pl, *fix, true ) / 2 + 1;
+    int practice_amount = repair_recipe_difficulty( *fix ) / 2 + 1;
     float roll_value = rng_float( 0.0, 1.0 );
     enum roll_result {
         SUCCESS,
