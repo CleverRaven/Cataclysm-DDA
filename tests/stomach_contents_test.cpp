@@ -112,6 +112,7 @@ TEST_CASE( "starve_test", "[starve][slow]" )
     calendar::turn += 1_seconds;
     dummy.update_body( calendar::turn, calendar::turn );
     dummy.set_activity_level( 1.0 );
+    calendar::turn += 1_seconds;
 
     CAPTURE( dummy.metabolic_rate_base() );
     CAPTURE( dummy.activity_level_str() );
@@ -121,6 +122,8 @@ TEST_CASE( "starve_test", "[starve][slow]" )
     CAPTURE( dummy.get_bmi() );
     CAPTURE( dummy.bodyweight() );
     CAPTURE( dummy.age() );
+    CAPTURE( dummy.base_bmr() );
+    CAPTURE( dummy.activity_history.average_activity() );
     CAPTURE( dummy.get_bmr() );
 
     // A specific BMR isn't the real target of this test, the number of days
