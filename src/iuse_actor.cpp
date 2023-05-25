@@ -2781,7 +2781,8 @@ bool repair_item_actor::handle_components( Character &pl, const item &fix,
 
 // Find the difficulty of the recipe for the item type.
 // Base difficulty is the repair difficulty of the hardest thing to repair it is made of.
-// Then add +1, unless we are training or we know the recipe and have the skill for it
+// if the training variable is true, then we're just repairing the easiest part of the thing.
+// so instead take the easiest thing to repair it is made of.
 static std::pair<int, bool> find_repair_difficulty( const Character &pl, const itype &it,
         bool training )
 {
@@ -2789,7 +2790,7 @@ static std::pair<int, bool> find_repair_difficulty( const Character &pl, const i
     bool difficulty_defined = false;
     bool found_recipe = false;
 
-    if( !it.materials.empty() ) {
+    if( !training && !it.materials.empty() ) {
         for( const auto &mats : it.materials ) {
             if( mats.first->repair_difficulty() && difficulty < mats.first->repair_difficulty() ) {
                 difficulty = mats.first->repair_difficulty();
@@ -2798,25 +2799,15 @@ static std::pair<int, bool> find_repair_difficulty( const Character &pl, const i
         }
     }
 
-    // add +1 to difficulty
-    if( difficulty_defined && !training ) {
-        difficulty = std::min( 10, difficulty + 1 );
-    }
-
-    // then check if it has a recipe and give a -1 to difficulty if it does
-    if( difficulty_defined && !it.recipes.empty() ) {
-        for( const recipe_id &rid : it.recipes ) {
-            const recipe &r = recipe_id( rid ).obj();
-            if( !r ) {
-                continue;
-            }
-            // If we know the recipe and are skilled enough
-            if( !found_recipe && pl.knows_recipe( &r ) && pl.has_recipe_requirements( r ) ) {
-                difficulty = std::max( 0, difficulty -  1 );
-                found_recipe = true;
+    if( training && !it.materials.empty() ) {
+        for( const auto &mats : it.materials ) {
+            if( mats.first->repair_difficulty() && difficulty > mats.first->repair_difficulty() ) {
+                difficulty = mats.first->repair_difficulty();
+                difficulty_defined = true;
             }
         }
     }
+
     return { difficulty, difficulty_defined };
 }
 
@@ -2941,21 +2932,21 @@ std::pair<float, float> repair_item_actor::repair_chance(
 
     const int difficulty = material_difficulty + action_difficulty;
     // Sample numbers - cotton and wool have diff 1, plastic diff 3 and kevlar diff 4:
-    // Note that +1 is added to difficulty if you don't know a recipe to make it
+    // This assumes that training is false, and under almost all circumstances that should be the case
     // Item     | Damage | Skill | Dex | Success | Failure
-    // Hoodie   |   1    |   1   |  8  |  4.0%   |  1.4%
-    // Hoodie   | Refit  |   1   |  8  |  2.0%   |  2.4%
-    // Hoodie   | Refit  |   3   |  8  |  6.0%   |  0.4%
-    // Hoodie   | Refit  |   3   |  12 |  6.0%   |  0.0%
-    // Hoodie   | Refit  |   5   |  8  |  10.0%  |  0.0%
-    // Socks    |   3    |   1   |  8  |  2.0%   |  2.4%
-    // Boots    |   1    |   1   |  8  |  0.0%   |  3.4%
-    // Raincoat | Refit  |   3   |  8  |  2.0%   |  2.4%
-    // Raincoat | Refit  |   3   |  12 |  2.0%   |  1.6%
-    // Ski mask | Refit  |   3   |  8  |  4.0%   |  1.4%
-    // Raincoat | Refit  |   3   |  8  |  4.0%   |  1.4%
-    // Turnout  | Refit  |   3   |  8  |  0.0%   |  4.4%
-    // Turnout  | Refit  |   5   |  8  |  2.0%   |  2.4%
+    // Hoodie   |   1    |   0   |  8  |  4.0%   |  1.4%
+    // Hoodie   | Refit  |   0   |  8  |  2.0%   |  2.4%
+    // Hoodie   | Refit  |   2   |  8  |  6.0%   |  0.4%
+    // Hoodie   | Refit  |   2   |  12 |  6.0%   |  0.0%
+    // Hoodie   | Refit  |   4   |  8  |  10.0%  |  0.0%
+    // Socks    |   3    |   0   |  8  |  2.0%   |  2.4%
+    // Boots    |   1    |   0   |  8  |  0.0%   |  3.4%
+    // Raincoat | Refit  |   2   |  8  |  2.0%   |  2.4%
+    // Raincoat | Refit  |   2   |  12 |  2.0%   |  1.6%
+    // Ski mask | Refit  |   2   |  8  |  4.0%   |  1.4%
+    // Raincoat | Refit  |   2   |  8  |  4.0%   |  1.4%
+    // Turnout  | Refit  |   2   |  8  |  0.0%   |  4.4%
+    // Turnout  | Refit  |   4   |  8  |  2.0%   |  2.4%
 
     float success_chance = ( 10 + 2 * skill - 2 * difficulty + tool_quality / 5.0f ) / 100.0f;
     /** @EFFECT_DEX reduces the chances of damaging an item when repairing */
