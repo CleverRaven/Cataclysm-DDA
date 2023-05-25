@@ -3299,7 +3299,7 @@ void vehicle_part::deserialize( const JsonObject &data )
 
     if( migration != nullptr ) {
         for( const itype_id &it : migration->add_veh_tools ) {
-            tools.emplace_back( item( it, calendar::turn ) );
+            tools.emplace_back( it, calendar::turn );
         }
     }
 }

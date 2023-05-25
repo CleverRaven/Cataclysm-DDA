@@ -426,8 +426,8 @@ static int player_uilist()
         { uilist_entry( debug_menu_index::CONTROL_NPC, true, 'x', _( "Control NPC follower" ) ) },
     };
     if( !spell_type::get_all().empty() ) {
-        uilist_initializer.emplace_back( uilist_entry( debug_menu_index::CHANGE_SPELLS, true, 'S',
-                                         _( "Change spells" ) ) );
+        uilist_initializer.emplace_back( debug_menu_index::CHANGE_SPELLS, true, 'S',
+                                         _( "Change spells" ) );
     }
 
     return uilist( _( "Player…" ), uilist_initializer );
@@ -516,8 +516,8 @@ static int teleport_uilist()
     };
 
     const bool teleport_city_enabled = get_option<bool>( "SELECT_STARTING_CITY" );
-    uilist_initializer.emplace_back( uilist_entry( debug_menu_index::OM_TELEPORT_CITY,
-                                     teleport_city_enabled, 'c', _( "Teleport - specific city" ) ) );
+    uilist_initializer.emplace_back( debug_menu_index::OM_TELEPORT_CITY,
+                                     teleport_city_enabled, 'c', _( "Teleport - specific city" ) );
 
     return uilist( _( "Teleport…" ), uilist_initializer );
 }
