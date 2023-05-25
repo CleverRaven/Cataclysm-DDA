@@ -302,7 +302,7 @@
     "id": "perk_empath",
     "name": { "str": "Empath" },
     "points": 0,
-    "description": "You've always had a pashion for people, and a deep understanding of their thoughts and feelings.  Now that almost everyone's dead that has to extend to other things too!  When you kill a creature gain some of it's ability temporarily.",
+    "description": "You've always had a passion for people, and a deep understanding of their thoughts and feelings.  Now that almost everyone's dead that has to extend to other things too!  When you kill a creature gain some of its abilities temporarily.",
     "category": [ "perk" ]
   },
   {
