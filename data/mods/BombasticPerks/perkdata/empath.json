@@ -101,7 +101,7 @@
     "id": "effect_nether",
     "name": [ "Nether Empathy" ],
     "desc": [
-      "You are really feeling for the last demon you killed.  Must be hard to die when you don't truly exist.  Though you are feeling rejuvinated."
+      "You are really feeling for the last demon you killed.  Must be hard to die when you don't truly exist.  Though you are feeling rejuvenated."
     ],
     "apply_message": "You feel your wounds begin to seal.",
     "decay_messages": [ [ "Your regeneration ceases.", "bad" ] ],
