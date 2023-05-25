@@ -1147,8 +1147,6 @@
     "starting_trait": true,
     "valid": false,
     "social_modifiers": { "intimidate": 10 },
-    "types": [ "HUMAN_EMPATHY" ],
-    "prereqs": [ "PSYCHOPATH" ],
     "flags": [ "CANNIBAL" ]
   },
   {
