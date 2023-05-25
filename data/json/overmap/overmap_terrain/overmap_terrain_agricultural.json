@@ -439,37 +439,37 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "fence_split_nw",
+    "id": "splitrail_fence_nw",
     "copy-from": "fence",
     "sym": "┌"
   },
   {
     "type": "overmap_terrain",
-    "id": [ "fence_split_n", "fence_split_s" ],
+    "id": [ "splitrail_fence_n", "splitrail_fence_s" ],
     "copy-from": "fence",
     "sym": "─"
   },
   {
     "type": "overmap_terrain",
-    "id": "fence_split_ne",
+    "id": "splitrail_fence_ne",
     "copy-from": "fence",
     "sym": "┐"
   },
   {
     "type": "overmap_terrain",
-    "id": [ "fence_split_e", "fence_split_w" ],
+    "id": [ "splitrail_fence_e", "splitrail_fence_w" ],
     "copy-from": "fence",
     "sym": "│"
   },
   {
     "type": "overmap_terrain",
-    "id": "fence_split_se",
+    "id": "splitrail_fence_se",
     "copy-from": "fence",
     "sym": "┘"
   },
   {
     "type": "overmap_terrain",
-    "id": "fence_split_sw",
+    "id": "splitrail_fence_sw",
     "copy-from": "fence",
     "sym": "└"
   },

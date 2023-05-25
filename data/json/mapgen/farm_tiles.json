@@ -783,18 +783,18 @@
           "neighbors": { "east": [ "farm_horse_house_1" ] }
         },
         {
-          "chunks": [ "24x24_dirt_road_turnback_house" ],
-          "x": 0,
-          "y": 0,
+          "chunks": [ "8x8_dirt_road_turnback_house" ],
+          "x": 16,
+          "y": 4,
           "neighbors": { "east": [ "farm_horse_house_1" ] }
         },
         {
-          "chunks": [ "24x24_dirt_road_turnback_greenhouse" ],
-          "x": 0,
-          "y": 0,
+          "chunks": [ "6x6_dirt_road_turnback_greenhouse" ],
+          "x": 9,
+          "y": 18,
           "neighbors": { "south": [ "farm_horse_greenhouse" ] }
         },
-        { "chunks": [ "24x24_dirt_road_turnback_yard" ], "x": 0, "y": 0, "neighbors": { "south": [ "yard" ] } }
+        { "chunks": [ "15x15_dirt_road_turnback_yard" ], "x": 4, "y": 9, "neighbors": { "south": [ "yard" ] } }
       ]
     }
   },

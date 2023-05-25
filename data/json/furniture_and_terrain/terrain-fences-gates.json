@@ -1300,65 +1300,30 @@
   },
   {
     "type": "terrain",
-    "id": "t_showjump",
-    "alias": [ "t_showjump_h", "t_showjump_v" ],
-    "name": "show jump",
-    "description": "A show jump made of planks and a long pole, suitable for showing off your equestrian skills.",
+    "id": "t_cattle_feeder",
+    "alias": [ "t_cattle_feeder_h", "t_cattle_feeder_v" ],
+    "name": "cattle feeder",
+    "description": "A section of tall steel with a solid base and feed spaces above to allow livestock to reach the contained food.",
     "symbol": "LINE_OXOX",
-    "color": "white",
-    "looks_like": "t_fence",
+    "color": "dark_gray",
+    "looks_like": "t_metal_railing",
     "move_cost": 0,
     "examine_action": "chainfence",
-    "flags": [
-      "TRANSPARENT",
-      "NOITEM",
-      "THIN_OBSTACLE",
-      "PERMEABLE",
-      "FLAMMABLE_ASH",
-      "CLIMBABLE",
-      "AUTO_WALL_SYMBOL",
-      "BURROWABLE",
-      "EASY_DECONSTRUCT"
-    ],
-    "deconstruct": { "ter_set": "t_showjump_empty", "items": [ { "item": "long_pole", "count": 1 } ] },
+    "flags": [ "TRANSPARENT", "THIN_OBSTACLE", "MOUNTABLE", "CLIMBABLE", "AUTO_WALL_SYMBOL", "BURROWABLE" ],
+    "connect_groups": "RAILING",
+    "connects_to": "RAILING",
+    "deconstruct": { "ter_set": "t_dirt", "items": [ { "item": "sheet_metal", "count": 4 }, { "item": "pipe", "count": 2 } ] },
     "bash": {
-      "str_min": 5,
-      "str_max": 12,
-      "sound": "whump!",
-      "sound_fail": "whack!",
+      "str_min": 20,
+      "str_max": 80,
+      "sound": "clang!",
+      "sound_fail": "whump.",
       "ter_set": "t_dirt",
-      "items": [ { "item": "2x4", "count": [ 2, 4 ] }, { "item": "long_pole", "count": [ 0, 1 ] } ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_showjump_empty",
-    "alias": [ "t_showjump_empty_h", "t_showjump_empty_v" ],
-    "name": "empty show jump",
-    "description": "A show jump lacking a pole.",
-    "symbol": "LINE_OXOX",
-    "color": "white",
-    "looks_like": "t_showjump",
-    "move_cost": 0,
-    "examine_action": "chainfence",
-    "flags": [
-      "TRANSPARENT",
-      "NOITEM",
-      "THIN_OBSTACLE",
-      "PERMEABLE",
-      "FLAMMABLE_ASH",
-      "CLIMBABLE",
-      "AUTO_WALL_SYMBOL",
-      "BURROWABLE"
-    ],
-    "deconstruct": { "ter_set": "t_dirt", "items": [ { "item": "2x4", "count": 4 }, { "item": "nail", "charges": 10 } ] },
-    "bash": {
-      "str_min": 5,
-      "str_max": 12,
-      "sound": "whump!",
-      "sound_fail": "whack!",
-      "ter_set": "t_dirt",
-      "items": [ { "item": "2x4", "count": [ 2, 4 ] } ]
+      "items": [
+        { "item": "pipe", "count": [ 0, 1 ] },
+        { "item": "sheet_metal_small", "charges": [ 1, 8 ] },
+        { "item": "scrap", "count": [ 1, 5 ] }
+      ]
     }
   }
 ]

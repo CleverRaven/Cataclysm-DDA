@@ -89,7 +89,8 @@
       "o": "t_splitrail_fencegate_o",
       "c": "t_splitrail_fencegate_c",
       "%": "t_splitrail_fence",
-      "j": "t_showjump",
+      "e": "t_null",
+      "j": "t_null",
       "s": "t_region_shrub",
       "w": "t_water_sh",
       "2": [
@@ -102,6 +103,7 @@
       "9": [ "t_region_tree", "t_region_tree_fruit", "t_region_tree_nut" ],
       "/": [ [ "t_region_soil", 200 ], [ "t_region_groundcover", 5 ] ]
     },
-    "item": { ".": { "item": "feces_manure", "chance": 1 } }
+    "item": { ".": { "item": "feces_manure", "chance": 1 } },
+	"furniture": { "e": "f_showjump_end", "j": "f_showjump" }
   }
 ]

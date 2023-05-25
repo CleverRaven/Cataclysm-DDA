@@ -579,7 +579,7 @@
       ],
       "palettes": [ "paddock" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": { "r": "t_metal_railing" },
+      "terrain": { "r": "t_cattle_feeder" },
       "place_nested": [ { "chunks": [ [ "null", 30 ], [ "2x2_haybale", 40 ], [ "2x2_feed", 40 ] ], "x": 1, "y": 1 } ]
     }
   },
@@ -591,9 +591,9 @@
       "mapgensize": [ 3, 3 ],
       "rotation": [ 0, 3 ],
       "rows": [
-        "?j?",
+        "?e?",
         "_j_",
-        "?j?"
+        "?e?"
       ],
       "palettes": [ "paddock" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
@@ -608,7 +608,7 @@
       "rotation": [ 0, 3 ],
       "rows": [
         "?_?",
-        "jjj",
+        "eje",
         "?_?"
       ],
       "palettes": [ "paddock" ],
@@ -625,7 +625,7 @@
       "rows": [
         "     ",
         " ?_? ",
-        "sjjjs",
+        "sejes",
         " ?_? ",
         "     "
       ],
@@ -642,9 +642,9 @@
       "rotation": [ 0, 3 ],
       "rows": [
         "  s  ",
-        " ?j? ",
+        " ?e? ",
         "?_j_?",
-        " ?j? ",
+        " ?e? ",
         "  s  "
       ],
       "palettes": [ "paddock" ],
@@ -660,7 +660,7 @@
       "rotation": [ 0, 3 ],
       "rows": [
         "www",
-        "jjj",
+        "eje",
         "?_?"
       ],
       "palettes": [ "paddock" ],
@@ -675,9 +675,9 @@
       "mapgensize": [ 3, 3 ],
       "rotation": [ 0, 3 ],
       "rows": [
-        "wj?",
+        "we?",
         "wj_",
-        "wj?"
+        "we?"
       ],
       "palettes": [ "paddock" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
@@ -693,7 +693,7 @@
       "rows": [
         "     ",
         " ?_? ",
-        "sjjjs",
+        "sejes",
         " www ",
         "     "
       ],
@@ -710,9 +710,9 @@
       "rotation": [ 0, 3 ],
       "rows": [
         "  s  ",
-        " ?jw ",
+        " ?ew ",
         " _jw ",
-        " ?jw ",
+        " ?ew ",
         "  s  "
       ],
       "palettes": [ "paddock" ],
@@ -909,35 +909,19 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "24x24_dirt_road_turnback_house",
+    "nested_mapgen_id": "8x8_dirt_road_turnback_house",
     "object": {
-      "mapgensize": [ 24, 24 ],
+      "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 3 ],
       "rows": [
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                ...     ",
-        "                __......",
-        "                 _______",
-        "                  _.....",
-        "                   .    ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        "
+        "...     ",
+        "__......",
+        " _______",
+        "  _.....",
+        "   .    ",
+        "        ",
+        "        ",
+        "        "
       ],
       "palettes": [ "paddock" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
@@ -946,35 +930,17 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "24x24_dirt_road_turnback_greenhouse",
+    "nested_mapgen_id": "6x6_dirt_road_turnback_greenhouse",
     "object": {
-      "mapgensize": [ 24, 24 ],
+      "mapgensize": [ 6, 6 ],
       "rotation": [ 0, 3 ],
       "rows": [
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "         .____.         "
+        "      ",
+        "      ",
+        "      ",
+        "      ",
+        "      ",
+        ".____."
       ],
       "palettes": [ "paddock" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
@@ -983,35 +949,26 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "24x24_dirt_road_turnback_yard",
+    "nested_mapgen_id": "15x15_dirt_road_turnback_yard",
     "object": {
-      "mapgensize": [ 24, 24 ],
+      "mapgensize": [ 15, 15 ],
       "rotation": [ 0, 3 ],
       "rows": [
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "    /             /     ",
-        "     /           /      ",
-        "      /        //       ",
-        "       ////////         "
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "               ",
+        "/             /",
+        " /           / ",
+        "  /        //  ",
+        "   ////////    "
       ],
       "palettes": [ "paddock" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]

@@ -1466,7 +1466,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": "fence_split_nw",
+    "om_terrain": "splitrail_fence_nw",
     "weight": 250,
     "object": {
       "predecessor_mapgen": "field",
@@ -1503,7 +1503,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": "fence_split_n",
+    "om_terrain": "splitrail_fence_n",
     "weight": 250,
     "object": {
       "predecessor_mapgen": "field",
@@ -1540,7 +1540,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": "fence_split_ne",
+    "om_terrain": "splitrail_fence_ne",
     "weight": 250,
     "object": {
       "predecessor_mapgen": "field",
@@ -1577,7 +1577,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": "fence_split_e",
+    "om_terrain": "splitrail_fence_e",
     "weight": 250,
     "object": {
       "predecessor_mapgen": "field",
@@ -1614,7 +1614,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": "fence_split_se",
+    "om_terrain": "splitrail_fence_se",
     "weight": 250,
     "object": {
       "predecessor_mapgen": "field",
@@ -1651,7 +1651,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": "fence_split_s",
+    "om_terrain": "splitrail_fence_s",
     "weight": 250,
     "object": {
       "predecessor_mapgen": "field",
@@ -1688,7 +1688,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": "fence_split_sw",
+    "om_terrain": "splitrail_fence_sw",
     "weight": 250,
     "object": {
       "predecessor_mapgen": "field",
@@ -1725,7 +1725,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": "fence_split_w",
+    "om_terrain": "splitrail_fence_w",
     "weight": 250,
     "object": {
       "predecessor_mapgen": "field",
