@@ -44,7 +44,8 @@
         "D": { "item": "trash", "chance": 20, "repeat": [ 2, 4 ] },
         "7": { "item": "horse_gear", "chance": 20 },
         "^": { "item": "horse_gear", "chance": 30 }
-      }
+      },
+      "place_loot": [ { "item": "television", "x": 21, "y": 6, "chance": 100 } ]
     }
   },
   {
@@ -163,6 +164,7 @@
       ],
       "palettes": [ "farm_horse" ],
       "sealed_item": { "Q": { "item": { "item": "seed_rose" }, "furniture": "f_planter_mature" } },
+      "place_loot": [ { "group": "farming_seeds", "x": [ 13, 21 ], "y": [ 17, 21 ], "chance": 80, "repeat": [ 2, 4 ] } ],
       "place_nested": [ { "chunks": [ [ "null", 50 ], [ "shed_5x5_garden_E", 50 ] ], "x": 11, "y": [ 6, 9 ] } ]
     }
   },
@@ -242,7 +244,15 @@
         "7": { "item": "horse_gear", "chance": 20 },
         "^": { "item": "horse_gear", "chance": 30 }
       },
-      "item": { "Ы": { "item": "salt_lick", "chance": 80, "repeat": [ 1, 4 ] } }
+      "item": { "Ы": { "item": "salt_lick", "chance": 80, "repeat": [ 1, 4 ] } },
+      "place_loot": [
+        { "item": "stepladder", "x": 18, "y": 8, "chance": 100 },
+        { "group": "farming_tools", "x": [ 74, 77 ], "y": 15, "chance": 40, "repeat": [ 2, 4 ] },
+        { "group": "farming_tools", "x": [ 79, 81 ], "y": 15, "chance": 40, "repeat": [ 2, 4 ] },
+        { "group": "farming_tools", "x": [ 75, 81 ], "y": [ 17, 22 ], "chance": 50, "repeat": [ 2, 4 ] },
+        { "item": "bucket", "x": [ 3, 19 ], "y": [ 10, 20 ], "chance": 20, "repeat": 4 },
+        { "item": "cattlefodder", "x": [ 3, 19 ], "y": [ 10, 20 ], "chance": 80, "repeat": [ 6, 10 ] }
+      ]
     }
   },
   {
@@ -351,6 +361,11 @@
       ],
       "palettes": [ "farm_horse" ],
       "items": { "7": { "item": "horse_gear", "chance": 20 } },
+      "place_loot": [
+        { "group": "farming_tools", "x": 9, "y": [ 4, 7 ], "chance": 40, "repeat": [ 2, 4 ] },
+        { "group": "farming_tools", "x": 9, "y": [ 9, 11 ], "chance": 40, "repeat": [ 2, 4 ] },
+        { "group": "farming_tools", "x": [ 11, 13 ], "y": [ 4, 11 ], "chance": 50, "repeat": [ 2, 4 ] }
+      ],
       "place_vehicles": [ { "vehicle": "wagons_all", "x": 10, "y": [ 5, 11 ], "chance": 30, "status": 0 } ]
     }
   },
@@ -1023,9 +1038,7 @@
         ",%...................%__"
       ],
       "palettes": [ "paddock" ],
-      "place_nested": [
-        { "chunks": [ "paddock_gate_5x5_e" ], "x": 19, "y": [ 1, 14 ] }
-      ]
+      "place_nested": [ { "chunks": [ "paddock_gate_5x5_e" ], "x": 19, "y": [ 1, 14 ] } ]
     }
   },
   {
@@ -1062,9 +1075,7 @@
         "__%...................%,"
       ],
       "palettes": [ "paddock" ],
-      "place_nested": [
-        { "chunks": [ "paddock_gate_5x5_w" ], "x": 0, "y": [ 2, 14 ] }
-      ]
+      "place_nested": [ { "chunks": [ "paddock_gate_5x5_w" ], "x": 0, "y": [ 2, 14 ] } ]
     }
   },
   {

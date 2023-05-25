@@ -104,6 +104,6 @@
       "/": [ [ "t_region_soil", 200 ], [ "t_region_groundcover", 5 ] ]
     },
     "item": { ".": { "item": "feces_manure", "chance": 1 } },
-	"furniture": { "e": "f_showjump_end", "j": "f_showjump" }
+    "furniture": { "e": "f_showjump_end", "j": "f_showjump" }
   }
 ]

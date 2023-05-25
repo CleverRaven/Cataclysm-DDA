@@ -209,15 +209,7 @@
     "description": "A show jump made of a long pole, suitable for showing off your equestrian skills.",
     "required_str": -1,
     "examine_action": "chainfence",
-    "flags": [
-      "TRANSPARENT",
-      "NOITEM",
-      "THIN_OBSTACLE",
-      "PERMEABLE",
-      "FLAMMABLE_ASH",
-      "CLIMBABLE",
-      "EASY_DECONSTRUCT"
-    ],
+    "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "PERMEABLE", "FLAMMABLE_ASH", "CLIMBABLE", "EASY_DECONSTRUCT" ],
     "deconstruct": { "items": [ { "item": "long_pole", "count": 1 } ] },
     "bash": {
       "str_min": 5,
