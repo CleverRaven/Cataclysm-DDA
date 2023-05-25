@@ -2940,15 +2940,23 @@ std::pair<float, float> repair_item_actor::repair_chance(
     }
 
     const int difficulty = material_difficulty + action_difficulty;
-    // Sample numbers:
-    // Item   | Damage | Skill | Dex | Success | Failure
-    // Hoodie |    2   |   3   |  10 |   6%    |   0%
-    // Hazmat |    1   |   10  |  10 |   8%    |   0%
-    // Hazmat |    1   |   5   |  20 |   0%    |   2%
-    // t-shirt|    4   |   1   |  5  |   2%    |   3%
-    // Duster |    2   |   5   |  5  |   10%   |   0%
-    // Duster |    2   |   2   |  10 |   4%    |   1%
-    // Duster | Refit  |   2   |  10 |   0%    |   N/A
+    // Sample numbers - cotton and wool have diff 1, plastic diff 3 and kevlar diff 4:
+    // Note that +1 is added to difficulty if you don't know a recipe to make it
+    // Item     | Damage | Skill | Dex | Success | Failure
+    // Hoodie   |   1    |   1   |  8  |  4.0%   |  1.4%
+    // Hoodie   | Refit  |   1   |  8  |  2.0%   |  2.4%
+    // Hoodie   | Refit  |   3   |  8  |  6.0%   |  0.4%
+    // Hoodie   | Refit  |   3   |  12 |  6.0%   |  0.0%
+    // Hoodie   | Refit  |   5   |  8  |  10.0%  |  0.0%
+    // Socks    |   3    |   1   |  8  |  2.0%   |  2.4%
+    // Boots    |   1    |   1   |  8  |  0.0%   |  3.4%
+    // Raincoat | Refit  |   3   |  8  |  2.0%   |  2.4%
+    // Raincoat | Refit  |   3   |  12 |  2.0%   |  1.6%
+    // Ski mask | Refit  |   3   |  8  |  4.0%   |  1.4%
+    // Raincoat | Refit  |   3   |  8  |  4.0%   |  1.4%
+    // Turnout  | Refit  |   3   |  8  |  0.0%   |  4.4%
+    // Turnout  | Refit  |   5   |  8  |  2.0%   |  2.4%
+
     float success_chance = ( 10 + 2 * skill - 2 * difficulty + tool_quality / 5.0f ) / 100.0f;
     /** @EFFECT_DEX reduces the chances of damaging an item when repairing */
     float damage_chance = ( difficulty - skill - ( tool_quality + pl.dex_cur ) / 5.0f ) / 100.0f;
