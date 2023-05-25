@@ -63,7 +63,7 @@
   {
     "type": "GENERIC",
     "id": "elder_ginseng",
-    "name": { "str": "elder ginseng" },
+    "name": { "str": "elder ginseng", "str_pl": "several elder ginseng" },
     "//": "magical poisons, 'death' and 'bio' related",
     "color": "white",
     "symbol": "*",

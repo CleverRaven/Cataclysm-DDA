@@ -194,6 +194,20 @@
     "valid_targets": [ "self", "ally" ]
   },
   {
+    "type": "SPELL",
+    "id": "hyde_formula",
+    "name": { "str": "Hyde Formula" },
+    "effect": "mutate",
+    "shape": "blast",
+    "effect_str": "HYDE",
+    "description": "This grants a specific mutation.",
+    "message": "You imbibed the concoction and you feel your inner self unleashed.",
+    "min_damage": 10000,
+    "max_damage": 10000,
+    "flags": [ "SILENT", "MUTATE_TRAIT" ],
+    "valid_targets": [ "self", "ally" ]
+  },
+  {
     "id": "wicked_quick_hands",
     "type": "SPELL",
     "name": "Wicked Quick Hands",

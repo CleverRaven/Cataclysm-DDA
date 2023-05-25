@@ -281,5 +281,15 @@
     "color": "green_yellow",
     "calories": 50,
     "copy-from": "life_extension_potion"
+  },
+  {
+    "id": "hyde_formula",
+    "name": { "str": "Hyde Formula", "str_pl": "Hyde Formulae" },
+    "description": "This is a transmutation potion that will bring your best attributes to the forefront.",
+    "use_action": { "type": "cast_spell", "spell_id": "spell_hyde_formula", "no_fail": true, "level": 1 },
+    "type": "COMESTIBLE",
+    "color": "green_yellow",
+    "calories": 50,
+    "copy-from": "life_extension_potion"
   }
 ]
