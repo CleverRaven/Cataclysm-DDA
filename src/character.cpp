@@ -1467,6 +1467,9 @@ bool Character::check_mount_will_move( const tripoint &dest_loc )
     }
     if( mounted_creature && mounted_creature->type->has_fear_trigger( mon_trigger::HOSTILE_CLOSE ) ) {
         for( const monster &critter : g->all_monsters() ) {
+            if( critter.is_hallucination() ) {
+                continue;
+            }
             Attitude att = critter.attitude_to( *this );
             if( att == Attitude::HOSTILE && sees( critter ) && rl_dist( pos(), critter.pos() ) <= 15 &&
                 rl_dist( dest_loc, critter.pos() ) < rl_dist( pos(), critter.pos() ) ) {
@@ -1497,6 +1500,9 @@ bool Character::check_mount_is_spooked()
         const bool saddled = mounted_creature->has_effect( effect_monster_saddled );
         const bool combat_mount = mounted_creature->has_flag( MF_COMBAT_MOUNT );
         for( const monster &critter : g->all_monsters() ) {
+            if( critter.is_hallucination() ) {
+                continue;
+            }
             double chance = 1.0;
             Attitude att = critter.attitude_to( *this );
             // actually too close now - horse might spook.
@@ -9621,7 +9627,7 @@ std::vector<std::string> Character::short_description_parts() const
         result.push_back( _( "Wearing: " ) + worn_str );
     }
     const int visibility_cap = 0; // no cap
-    const auto trait_str = visible_mutations( visibility_cap );
+    const std::string trait_str = visible_mutations( visibility_cap );
     if( !trait_str.empty() ) {
         result.push_back( _( "Traits: " ) + trait_str );
     }
@@ -11496,10 +11502,10 @@ void Character::process_items()
         set_check_encumbrance( false );
     }
 
-    // Load all items that use the UPS to their minimal functional charge,
+    // Load all items that use the UPS and have their own battery to their minimal functional charge,
     // The tool is not really useful if its charges are below charges_to_use
     const auto inv_use_ups = items_with( []( const item & itm ) {
-        return itm.has_flag( flag_USE_UPS );
+        return itm.has_flag( flag_USE_UPS ) && itm.ammo_data();
     } );
     if( !inv_use_ups.empty() ) {
         const units::energy available_charges = available_ups();

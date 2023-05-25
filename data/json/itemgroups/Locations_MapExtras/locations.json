@@ -990,8 +990,8 @@
     "type": "item_group",
     "id": "sewer",
     "items": [
-      [ "mutagen", 8 ],
-      [ "fetus", 1 ],
+      [ "crack", 8 ],
+      { "group": "book_mag_tech", "prob": 20 },
       [ "joint", 20 ],
       [ "mag_porn", 20 ],
       [ "cotton_patchwork", 1 ],
@@ -1005,7 +1005,7 @@
       [ "55gal_drum", 10 ],
       [ "30gal_drum", 15 ],
       { "group": "tools_toolbox", "prob": 1 },
-      [ "recipe_elfa", 2 ]
+      [ "decoy_elfa", 2 ]
     ]
   },
   {

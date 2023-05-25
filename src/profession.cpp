@@ -137,7 +137,7 @@ class item_reader : public generic_typed_reader<item_reader>
                 return profession::itypedec( jv.get_string() );
             }
             JsonArray jarr = jv.get_array();
-            const auto id = jarr.get_string( 0 );
+            const std::string id = jarr.get_string( 0 );
             const snippet_id snippet( jarr.get_string( 1 ) );
             return profession::itypedec( id, snippet );
         }

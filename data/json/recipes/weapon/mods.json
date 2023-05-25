@@ -1016,14 +1016,26 @@
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "DRILL", "level": 1 } ],
     "tools": [
       [
-        [ "ar15", -1 ],
-        [ "ar15_retool_300blk", -1 ],
+        [ "ar15_223long", -1 ],
+        [ "modular_ar15", -1 ],
+        [ "ar15_223medium", -1 ],
+        [ "ar15_223short", -1 ],
+        [ "ar15_300", -1 ],
+        [ "ar15_300medium", -1 ],
+        [ "ar15_300short", -1 ],
+        [ "ar15_50", -1 ],
+        [ "ar15_50medium", -1 ],
+        [ "ar15_50short", -1 ],
+        [ "ar15_450", -1 ],
+        [ "ar15_450medium", -1 ],
+        [ "ar15_450short", -1 ],
+        [ "ar15_762", -1 ],
         [ "ar_pistol", -1 ],
         [ "oa93", -1 ],
-        [ "m27_assault_rifle", -1 ],
-        [ "m16_auto_rifle", -1 ],
-        [ "m4_carbine", -1 ],
-        [ "m16a4", -1 ]
+        [ "modular_m27_assault_rifle", -1 ],
+        [ "modular_m16_auto_rifle", -1 ],
+        [ "modular_m4_carbine", -1 ],
+        [ "modular_m16a4", -1 ]
       ],
       [ [ "small_repairkit", 40 ], [ "large_repairkit", 40 ] ]
     ],
@@ -1044,7 +1056,24 @@
     "book_learn": [ [ "manual_rifle", 6 ], [ "textbook_anarch", 3 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "tools": [
-      [ [ "ar15", -1 ], [ "ar15_retool_300blk", -1 ], [ "ar_pistol", -1 ], [ "oa93", -1 ] ],
+      [
+        [ "ar15_223long", -1 ],
+        [ "modular_ar15", -1 ],
+        [ "ar15_223medium", -1 ],
+        [ "ar15_223short", -1 ],
+        [ "ar15_300", -1 ],
+        [ "ar15_300medium", -1 ],
+        [ "ar15_300short", -1 ],
+        [ "ar15_50", -1 ],
+        [ "ar15_50medium", -1 ],
+        [ "ar15_50short", -1 ],
+        [ "ar15_450", -1 ],
+        [ "ar15_450medium", -1 ],
+        [ "ar15_450short", -1 ],
+        [ "ar15_762", -1 ],
+        [ "ar_pistol", -1 ],
+        [ "oa93", -1 ]
+      ],
       [ [ "small_repairkit", 40 ], [ "large_repairkit", 40 ] ]
     ],
     "components": [ [ [ "sheet_metal_small", 2 ] ] ]

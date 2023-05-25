@@ -160,7 +160,7 @@ std::vector<std::string> foldstring( const std::string &str, int width, const ch
                             tags.pop_back();
                         }
                     } else {
-                        auto tag_end = rawwline.find( '>', tag_pos );
+                        size_t tag_end = rawwline.find( '>', tag_pos );
                         if( tag_end != std::string::npos ) {
                             tags.emplace_back( rawwline.substr( tag_pos, tag_end + 1 - tag_pos ) );
                         }

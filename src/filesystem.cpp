@@ -252,7 +252,7 @@ std::vector<std::string> find_file_if_bfs( const std::string &root_path,
 
         // We could use fs::recursive_directory_iterator maybe
         for_each_dir_entry( path, [&]( const fs::directory_entry & entry ) {
-            const auto full_path = entry.path().generic_u8string();
+            const std::string full_path = entry.path().generic_u8string();
 
             // don't add files ending in '~'.
             if( full_path.back() == '~' ) {
