@@ -560,14 +560,14 @@
       {
         "id": "fijian_flag",
         "name": { "str": "Fijian flag" },
-        "description": "A sky blue flag with a union jack in the hoist and a shield centered in the outer half of it with the cross of saint george within it.",
+        "description": "A sky blue flag with a Union Jack in the hoist and a shield centered in the outer half of it with the cross of Saint George within it.",
         "weight": 10,
         "append": true
       },
       {
         "id": "finnish_flag",
         "name": { "str": "Finnish flag" },
-        "description": "A white flag with a blue nordic cross over it.",
+        "description": "A white flag with a blue Nordic cross over it.",
         "weight": 10,
         "append": true
       },
@@ -588,14 +588,14 @@
       {
         "id": "gambian_flag",
         "name": { "str": "Gambian flag" },
-        "description": "It is a flag that consists of a horizontal with red, blue, and green sepearted by two thin stripes of white.",
+        "description": "A flag consisting of horizontal red, blue, and green stripes separated by two thin stripes of white.",
         "weight": 10,
         "append": true
       },
       {
         "id": "georgian_flag",
         "name": { "str": "Georgian flag" },
-        "description": "It is a white field flag with a red cross of saint george and four equilateral crosses.",
+        "description": "It is a white field flag with a red cross of Saint George and four equilateral crosses.",
         "weight": 10,
         "append": true
       },
@@ -686,7 +686,7 @@
       {
         "id": "icelandic_flag",
         "name": { "str": "Icelandic flag" },
-        "description": "A flag of a blue field with the white edged red nordic cross that extends to the edges, the vertical part of the cross is shifted to the hoist side.",
+        "description": "A flag of a blue field with the white edged red Nordic cross that extends to the edges, the vertical part of the cross is shifted to the hoist side.",
         "weight": 10,
         "append": true
       },
@@ -707,7 +707,7 @@
       {
         "id": "iranian_flag",
         "name": { "str": "Iranian flag" },
-        "description": "A flag that has a horizontal tricolor of green, white and red with the National Emblem in red centered on the white band.",
+        "description": "A flag that has a horizontal tricolor of green, white and red with the national emblem in red centered on the white band.",
         "weight": 10,
         "append": true
       },
@@ -973,7 +973,7 @@
       {
         "id": "namibian_flag",
         "name": { "str": "Namibian flag" },
-        "description": "A flag that features a white edged red diagonal band radiating from the lower hoist side corner. The upper triangle is blue, charged with a gold sun with rays and the lower triangle is green.",
+        "description": "A flag that features a white edged red diagonal band radiating from the lower hoist side corner.  The upper triangle is blue, charged with a gold sun with rays and the lower triangle is green.",
         "weight": 10,
         "append": true
       },
@@ -1001,14 +1001,14 @@
       {
         "id": "new_zealand_flag",
         "name": { "str": "New Zealand flag" },
-        "description": "A flag that features a blue ensign with a union jack in the first quarter and four five-pointed red stars with white borders on the fly.",
+        "description": "A flag that features a blue ensign with a Union Jack in the first quarter and four five-pointed red stars with white borders on the fly.",
         "weight": 10,
         "append": true
       },
       {
         "id": "nicaraguan_flag",
         "name": { "str": "Nicaraguan flag" },
-        "description": "A flag that features a horizontal triband of Azure and white with the coat of arms centered on the white band.",
+        "description": "A flag that features a horizontal triband of azure and white with the coat of arms centered on the white band.",
         "weight": 10,
         "append": true
       },
@@ -1029,7 +1029,7 @@
       {
         "id": "north_korean_flag",
         "name": { "str": "North Korean flag" },
-        "description": "A flag that features a wide red stripe at the center, bordered by a narrow white stripe both above and below, followed by a blue stripe. The central red stripe carries a five pointed red star within a white circle near the hoist.",
+        "description": "A flag that features a wide red stripe at the center, bordered by a narrow white stripe both above and below, followed by a blue stripe.  The central red stripe carries a five pointed red star within a white circle near the hoist.",
         "weight": 10,
         "append": true
       },
@@ -1043,7 +1043,7 @@
       {
         "id": "norwegian_flag",
         "name": { "str": "Norwegian flag" },
-        "description": "A flag of a red field charged with a white fimbriated dark blue nordic cross that extends to the edges, the vertical part of the cross is shifted to the hoist side.",
+        "description": "A flag of a red field charged with a white fimbriated dark blue Nordic cross that extends to the edges, the vertical part of the cross is shifted to the hoist side.",
         "weight": 10,
         "append": true
       },
@@ -1176,7 +1176,7 @@
       {
         "id": "samoan_flag",
         "name": { "str": "Samoan flag" },
-        "description": "A flag with a red field and a blue rectangle on the upper hoist side quadrant bearing the southern Cross of four white larger five pointed stars and the smaller star in the center.",
+        "description": "A flag with a red field and a blue rectangle on the upper hoist side quadrant bearing the Southern Cross of four white larger five pointed stars and the smaller star in the center.",
         "weight": 10,
         "append": true
       },
@@ -1197,7 +1197,7 @@
       {
         "id": "saudi_arabian_flag",
         "name": { "str": "Saudi Arabian flag" },
-        "description": "A flag that features a green field with the shahada or muslim creed written in the thuluth script in white above a horizontal sword, having its tip pointed to the left.",
+        "description": "A flag that features a green field with the shahada or Muslim creed written in the Thuluth script in white above a horizontal sword, having its tip pointed to the left.",
         "weight": 10,
         "append": true
       },
