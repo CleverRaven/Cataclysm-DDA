@@ -2815,7 +2815,7 @@ int repair_item_actor::repair_recipe_difficulty( const item &fix ) const
         ret = find_repair_difficulty( fix.type->repairs_like.obj() );
         if( ret.second ) {
             diff = ret.first;
-			defined = true;
+            defined = true;
         }
     }
 
