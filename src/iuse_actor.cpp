@@ -2788,7 +2788,6 @@ static std::pair<int, bool> find_repair_difficulty( const Character &pl, const i
 {
     int difficulty = -1;
     bool difficulty_defined = false;
-    bool found_recipe = false;
 
     if( !training && !it.materials.empty() ) {
         for( const auto &mats : it.materials ) {
