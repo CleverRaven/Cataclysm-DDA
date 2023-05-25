@@ -2783,11 +2783,11 @@ bool repair_item_actor::handle_components( Character &pl, const item &fix,
 // Base difficulty is the repair difficulty of the hardest thing to repair it is made of.
 // if the training variable is true, then we're just repairing the easiest part of the thing.
 // so instead take the easiest thing to repair it is made of.
-static std::pair<int, bool> find_repair_difficulty( const Character &pl, const itype &it,
-        bool training )
+static std::pair<int, bool> find_repair_difficulty( const itype &it, bool training )
 {
     int difficulty = -1;
     bool difficulty_defined = false;
+    
 
     if( !training && !it.materials.empty() ) {
         for( const auto &mats : it.materials ) {
@@ -2817,13 +2817,13 @@ int repair_item_actor::repair_recipe_difficulty( const Character &pl,
         const item &fix, bool training ) const
 {
     std::pair<int, bool> ret;
-    ret = find_repair_difficulty( pl, *fix.type, training );
+    ret = find_repair_difficulty( *fix.type, training );
     int diff = ret.first;
     bool defined = ret.second;
 
     // See if there's a repairs_like that has a defined difficulty
     if( !defined && !fix.type->repairs_like.is_empty() ) {
-        ret = find_repair_difficulty( pl, fix.type->repairs_like.obj(), training );
+        ret = find_repair_difficulty( fix.type->repairs_like.obj(), training );
         if( ret.second ) {
             diff = ret.first;
         } else {
