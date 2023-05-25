@@ -803,9 +803,10 @@ class repair_item_actor : public iuse_actor
         /** What are we most likely trying to do with this item? */
         repair_type default_action( const item &fix, int current_skill_level ) const;
         /**
-         * Calculates the difficulty to repair an item
-         * based on recipes to craft it and player's knowledge of them.
-         * If `training` is true, player's lacking knowledge and skills are not used to increase difficulty.
+         * Calculates the difficulty to repair an item based on its materials.
+         * Normally the difficulty to repair is that of the most difficult material.
+         * If `training` is true, the least difficult material is what matters instead.
+         * Training should usually be false unless you're just practicing.
          */
         int repair_recipe_difficulty( const Character &pl, const item &fix, bool training = false ) const;
         /** Describes members of `repair_type` enum */
