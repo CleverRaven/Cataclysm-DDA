@@ -146,7 +146,8 @@ TEST_CASE( "point_to_from_string", "[point]" )
             // On platforms where we can't set the locale, don't worry about it
             return;
         }
-        setlocale( LC_ALL, nullptr );
+        char *result = setlocale( LC_ALL, "" );
+        REQUIRE( result );
     }
     CAPTURE( std::locale().name() );
 

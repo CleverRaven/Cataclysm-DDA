@@ -213,7 +213,9 @@ static void InitSDL()
     //SDL2 has no functionality for INPUT_DELAY, we would have to query it manually, which is expensive
     //SDL2 instead uses the OS's Input Delay.
 
-    atexit( SDL_Quit );
+    if( atexit( SDL_Quit ) ) {
+        debugmsg( "atexit failed to register SDL_Quit" );
+    }
 }
 
 static bool SetupRenderTarget()
