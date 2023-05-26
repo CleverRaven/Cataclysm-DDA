@@ -669,8 +669,8 @@ void basecamp::form_crafting_inventory( map &target_map )
         mgr.cache_vzones();
     }
     if( mgr.has_near( zone_type_CAMP_STORAGE, dump_spot, 60 ) ) {
-        std::unordered_set<tripoint_abs_ms> src_set(std::make_move_iterator(storage_zones.begin()),
-            std::make_move_iterator(storage_zones.end()));
+        std::unordered_set<tripoint_abs_ms> src_set( std::make_move_iterator( storage_zones.begin() ),
+                std::make_move_iterator( storage_zones.end() ) );
         _inv.form_from_zone( target_map, src_set, nullptr, false );
     }
     /*
@@ -851,25 +851,25 @@ void basecamp_action_components::consume_components()
         map_->load( project_to<coords::sm>( base_.camp_omt_pos() ), false );
         target_map = map_.get();
     }
-    avatar& player_character = get_avatar();
-    const std::vector<zone_data>& storage_zones = base_.get_storage_zone();
-    for (const zone_data& zone : storage_zones) {
+    avatar &player_character = get_avatar();
+    const std::vector<zone_data> &storage_zones = base_.get_storage_zone();
+    for( const zone_data &zone : storage_zones ) {
         const tripoint_abs_ms &center = zone.get_center_point();
-        const int radius = rl_dist( zone.get_start_point(), zone.get_end_point() )/2;
-        const tripoint& origin = target_map->getlocal(center);
-        for (const comp_selection<item_comp>& sel : item_selections_) {
-            player_character.consume_items(*target_map, sel, batch_size_, is_crafting_component, origin,
-                radius);
+        const int radius = rl_dist( zone.get_start_point(), zone.get_end_point() ) / 2;
+        const tripoint &origin = target_map->getlocal( center );
+        for( const comp_selection<item_comp> &sel : item_selections_ ) {
+            player_character.consume_items( *target_map, sel, batch_size_, is_crafting_component, origin,
+                                            radius );
         }
         // this may consume pseudo-resources from fake items
-        for (const comp_selection<tool_comp>& sel : tool_selections_) {
-            player_character.consume_tools(*target_map, sel, batch_size_, origin, radius,
-                &base_);
+        for( const comp_selection<tool_comp> &sel : tool_selections_ ) {
+            player_character.consume_tools( *target_map, sel, batch_size_, origin, radius,
+                                            &base_ );
         }
         // go back and consume the actual resources
-        for (basecamp_resource& bcp_r : base_.resources) {
-            if (bcp_r.consumed > 0) {
-                target_map->use_charges(origin, 0, bcp_r.ammo_id, bcp_r.consumed);
+        for( basecamp_resource &bcp_r : base_.resources ) {
+            if( bcp_r.consumed > 0 ) {
+                target_map->use_charges( origin, 0, bcp_r.ammo_id, bcp_r.consumed );
                 bcp_r.consumed = 0;
             }
         }
