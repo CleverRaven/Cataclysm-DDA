@@ -34,7 +34,7 @@ bool assure_dir_exist( const fs::path &path )
     std::error_code ec;
     bool exists{false};
     bool created{false};
-    const fs::path p{ as_norm_dir( path ) };
+    const fs::path p = fs::u8path( as_norm_dir( path ) );
     bool is_dir{ fs::is_directory( p, ec ) };
     if( !is_dir ) {
         exists = fs::exists( p, ec );
