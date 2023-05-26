@@ -1232,7 +1232,7 @@
       {
         "id": "singaporean_flag",
         "name": { "str": "Singaporean flag" },
-        "description": "A flag that features A horizontal bicolor of red and white, in the canton is a crescent facing the fly and a pentagon of five stars.",
+        "description": "A flag that features a horizontal bicolor of red and white, in the canton is a crescent facing the fly and a pentagon of five stars.",
         "weight": 10,
         "append": true
       },
