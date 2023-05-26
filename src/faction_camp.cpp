@@ -729,14 +729,13 @@ void talk_function::basecamp_mission( npc &p )
         tripoint src_loc;
         const tripoint_abs_ms abspos = p.get_location();
         if( mgr.has_near( zone_type_CAMP_STORAGE, abspos, 60 ) ) {
-            const std::unordered_set<tripoint_abs_ms> &src_set =
-                mgr.get_near( zone_type_CAMP_STORAGE, abspos );
-            const std::vector<tripoint_abs_ms> &src_sorted =
-                get_sorted_tiles_by_distance( abspos, src_set );
+            const std::optional<tripoint_abs_ms> dump_pt =
+                mgr.get_nearest( zone_type_CAMP_STORAGE, abspos );
+            std::vector<zone_data> zones = mgr.get_zones( zone_type_CAMP_STORAGE, abspos );
             // Find the nearest unsorted zone to dump objects at
-            if( !src_sorted.empty() ) {
-                src_loc = here.getlocal( src_sorted.front() );
-                bcp->set_storage_zone(src_sorted);
+            if( dump_pt.has_value() ) {
+                src_loc = here.getlocal( dump_pt.value() );
+                bcp->set_storage_zone( zones );
             }
         }
         bcp->set_dumping_spot( here.getglobal( src_loc ) );
@@ -4710,14 +4709,13 @@ bool basecamp::validate_sort_points()
             return false;
         }
     } else {
-        const std::unordered_set<tripoint_abs_ms> &src_set =
-            mgr.get_near( zone_type_CAMP_STORAGE, abspos );
-        const std::vector<tripoint_abs_ms> &src_sorted =
-            get_sorted_tiles_by_distance( abspos, src_set );
+        const std::optional<tripoint_abs_ms> dump_pt =
+            mgr.get_nearest( zone_type_CAMP_STORAGE, abspos );
+        std::vector<zone_data> zones = mgr.get_zones( zone_type_CAMP_STORAGE, abspos );
         // Find the nearest unsorted zone to dump objects at
-        if( !src_sorted.empty() ) {
-            src_loc = here.getlocal( src_sorted.front() );
-            set_storage_zone(src_sorted);
+        if( dump_pt.has_value() ) {
+            src_loc = here.getlocal( dump_pt.value() );
+            set_storage_zone( zones );
         }
     }
     set_dumping_spot( here.getglobal( src_loc ) );
