@@ -7867,5 +7867,62 @@
     "components": [ [ [ "rock_large", 22 ] ] ],
     "pre_terrain": "t_dirt",
     "post_terrain": "t_rockyobstacle"
+  },
+  {
+    "type": "construction",
+    "id": "constr_brick_oven_prep",
+    "group": "build_brick_oven",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": "2 h",
+    "tools": [ [ [ "shovel", -1 ], [ "primitive_shovel", -1 ] ] ],
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [ [ [ "fire_brick", 30 ] ], [ [ "clay_lump", 5 ] ], [ [ "any_fresh_water", 2, "LIST" ] ] ],
+    "pre_flags": "DIGGABLE",
+    "pre_special": "check_empty",
+    "post_terrain": "t_brick_oven_base",
+    "activity_level": "ACTIVE_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_brick_oven_struct",
+    "group": "build_brick_oven",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 5 ] ],
+    "time": "5 h",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [ [ [ "fire_brick", 60 ] ], [ [ "clay_lump", 30 ] ], [ [ "any_fresh_water", 15, "LIST" ] ] ],
+    "pre_terrain": "t_brick_oven_base",
+    "post_terrain": "t_brick_oven_struct",
+    "activity_level": "BRISK_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_brick_oven_finisher",
+    "group": "build_brick_oven",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "3 h",
+    "pre_note": "Carve a thick wooden door for the brick oven.",
+    "qualities": [ [ { "id": "AXE", "level": 2 } ], [ { "id": "CHISEL_WOOD", "level": 1 } ] ],
+    "components": [ [ [ "log", 1 ] ] ],
+    "pre_terrain": "t_brick_oven_struct",
+    "post_terrain": "t_brick_oven",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_brick_oven_finisher_metal",
+    "group": "build_brick_oven",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 4 ] ],
+    "time": "15 m",
+    "pre_note": "Weld together a metal door for the brick oven.",
+    "qualities": [ [ { "id": "SAW_M", "level": 2 } ] ],
+    "using": [ [ "welding_standard", 6 ] ],
+    "components": [ [ [ "sheet_metal", 1 ] ], [ [ "scrap", 5 ] ] ],
+    "pre_terrain": "t_brick_oven_struct",
+    "post_terrain": "t_brick_oven",
+    "activity_level": "MODERATE_EXERCISE"
   }
 ]
