@@ -2936,7 +2936,7 @@ void talk_effect_fun_t::set_location_variable( const JsonObject &jo, const std::
         tripoint talker_pos = get_map().getabs( target->pos() );
         tripoint target_pos = talker_pos;
         if( target_params.has_value() ) {
-            const tripoint_abs_omt omt_pos = mission_util::get_om_terrain_pos( target_params.value() );
+            const tripoint_abs_omt omt_pos = mission_util::get_om_terrain_pos( target_params.value(), d );
             target_pos = tripoint( project_to<coords::ms>( omt_pos ).x(), project_to<coords::ms>( omt_pos ).y(),
                                    project_to<coords::ms>( omt_pos ).z() );
         }
@@ -3200,7 +3200,7 @@ void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, const std::stri
             if( d.has_beta ) {
                 update_params.guy = d.actor( true )->get_npc();
             }
-            omt_pos = mission_util::get_om_terrain_pos( update_params );
+            omt_pos = mission_util::get_om_terrain_pos( update_params, d );
         }
         time_duration future = dov_time_in_future.evaluate( d );
         if( future > 0_seconds ) {
@@ -3274,10 +3274,10 @@ void talk_effect_fun_t::set_npc_goal( const JsonObject &jo, const std::string_vi
                                             member ) );
     std::vector<effect_on_condition_id> true_eocs = load_eoc_vector( jo, "true_eocs" );
     std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );
-    function = [dest_params, true_eocs, false_eocs, is_npc]( dialogue const & d ) {
+    function = [dest_params, true_eocs, false_eocs, is_npc]( dialogue & d ) {
         npc *guy = d.actor( is_npc )->get_npc();
         if( guy ) {
-            tripoint_abs_omt destination = mission_util::get_om_terrain_pos( dest_params );
+            tripoint_abs_omt destination = mission_util::get_om_terrain_pos( dest_params, d );
             guy->goal = destination;
             guy->omt_path = overmap_buffer.get_travel_path( guy->global_omt_location(), guy->goal,
                             overmap_path_params::for_npc() );
