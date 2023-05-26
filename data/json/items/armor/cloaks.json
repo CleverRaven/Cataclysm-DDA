@@ -1181,8 +1181,8 @@
         "append": true
       },
       {
-        "id": "san_marino_flag",
-        "name": { "str": "San Marino flag" },
+        "id": "sammarinese_flag",
+        "name": { "str": "Sammarinese flag" },
         "description": "A flag that features a horizontal bicolor of white and light blue; charged with the national coat of arms in the center.",
         "weight": 10,
         "append": true
