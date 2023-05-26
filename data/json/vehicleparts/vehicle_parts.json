@@ -602,7 +602,7 @@
     "damage_modifier": 80,
     "durability": 100,
     "description": "A small fridge.  When turned on, it will cool the food inside, extending the time until the food spoils.",
-    "//": "Use average consumption, not the max on the appliance rating plate. 30W ~ 260kWh per annum",
+    "//": "Use average consumption, not the max on the appliance rating plate. For big fridge 30W ~ 260kWh per annum is good, but for mini variant with decrased volume by ~ 6 time, surface area ~ 3-4 times and insulation thickness only by 2 time 5W is quite good ",
     "epower": "-5 W",
     "size": "75 L",
     "item": "minifridge",
