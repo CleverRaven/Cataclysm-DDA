@@ -1153,8 +1153,8 @@
         "append": true
       },
       {
-        "id": "saint_kittis_and_nevis_flag",
-        "name": { "str": "Saint Kittis and Nevis flag" },
+        "id": "saint_kitts_and_nevis_flag",
+        "name": { "str": "Saint Kitts and Nevis flag" },
         "description": "It is a flag that features a yellow edged black diagonal band bearing two white five pointed stars divided diagonally from the lower hoist side corner to the upper fly side corner, the upper triangle is green and the lower triangle is red.",
         "weight": 10,
         "append": true
