@@ -1239,7 +1239,7 @@
       {
         "id": "slovakian_flag",
         "name": { "str": "Slovakian flag" },
-        "description": "It is a horizontal tricolor flag of white, blue, and red; charged with coat of arms at the hoist side.",
+        "description": "A flag that features a horizontal tricolor flag of white, blue, and red; charged with coat of arms at the hoist side.",
         "weight": 10,
         "append": true
       },
