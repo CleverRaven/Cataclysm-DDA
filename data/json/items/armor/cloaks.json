@@ -1246,7 +1246,7 @@
       {
         "id": "slovenian_flag",
         "name": { "str": "Slovenian flag" },
-        "description": "It is a horizontal tricolor flag of white, blue, and red charged with a small coat of arms at the hoist side.",
+        "description": "A flag that features a horizontal tricolor flag of white, blue, and red charged with a small coat of arms at the hoist side.",
         "weight": 10,
         "append": true
       },
