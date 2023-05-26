@@ -1225,7 +1225,7 @@
       {
         "id": "sierra_leonean_flag",
         "name": { "str": "Sierra Leonean flag" },
-        "description": "A flag that features a horizontal tricolor of light green, white and light blue",
+        "description": "A flag that features a horizontal tricolor of light green, white and light blue.",
         "weight": 10,
         "append": true
       },
