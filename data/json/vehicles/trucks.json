@@ -633,12 +633,12 @@
       { "x": -4, "y": 2, "parts": [ "hdframe_cross", "cargo_space", "roof_cloth" ] },
       { "x": -4, "y": 3, "parts": [ "hdframe_vertical_right", "clothboard_wheel_right" ] },
       { "x": -4, "y": 3, "parts": [ "roof_cloth", "wheel_mount_medium", "wheel_wide" ] },
-      { "x": -5, "y": -1, "parts": [ "hdframe_sw", "clothboard_sw_edge", "roof_cloth" ] },
+      { "x": -5, "y": -1, "parts": [ "hdframe_sw", "clothboard_sw", "roof_cloth" ] },
       { "x": -5, "y": 0, "parts": [ "hdframe_horizontal_rear", "cargo_space", "roof_cloth" ] },
       { "x": -5, "y": 1, "parts": [ "hdframe_horizontal_rear", "wooden_aisle_vertical" ] },
       { "x": -5, "y": 1, "part": "roof_cloth" },
       { "x": -5, "y": 2, "parts": [ "hdframe_horizontal_rear", "cargo_space", "roof_cloth" ] },
-      { "x": -5, "y": 3, "parts": [ "hdframe_se", "clothboard_se_edge", "roof_cloth" ] }
+      { "x": -5, "y": 3, "parts": [ "hdframe_se", "clothboard_se", "roof_cloth" ] }
     ],
     "items": [
       { "x": 0, "y": 0, "chance": 6, "items": [ "vodka" ] },

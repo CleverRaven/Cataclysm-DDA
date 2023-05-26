@@ -4,26 +4,36 @@
     "category": "schizo_self_talk",
     "text": [
       "Hey, can you hear me?",
+      "I think I know what I'm doing.",
       "Don't touch me.",
       "What's your name?",
       "I thought you were my friend.",
       "How are you today?",
       "Shut up!  Don't lie to me.",
+      "How do I bring you back?",
+      "They're all gone…",
+      "Why did you leave me?",
+      "Oh, there you are.",
+      "…and just where have you been?",
+      "You hungry?  I've got plenty of food.",
+      "You thirsty?  I've got water.",
       "Why would you do that?",
-      "Please, don't go.",
+      "Please don't go.",
       "Don't leave me alone!",
       "Yeah, sure.",
-      "No way, man.",
+      "No way man.",
       "Do you really think so?",
       "Is it really time for that?",
       "Sorry, I can't hear you.",
       "You've told me already.",
       "I know!",
+      "Where the hell am I?",
       "Why are you following me?",
-      "This place is dangerous, you shouldn't be here.",
+      "This place is dangerous, we shouldn't be here.",
       "What are you doing out here?",
       "That's not true, is it?",
-      "Are you hurt?"
+      "Are you hurt?",
+      "Tell me where it hurts."
     ]
   },
   {
@@ -31,14 +41,24 @@
     "category": "schizo_weapon_talk_monster",
     "text": [
       "Hey, let's go kill that %1$s!",
-      "Did you see that %1$s!?",
+      "Did you see that %1$s!?  Be careful.",
+      "Look out!  That %1$s is dangerous!",
       "I want to kill that %1$s!",
-      "Let me kill that %1$s!",
-      "Hey, I need to kill that %1$s!",
+      "That %1$s looks like it wants to party.",
+      "I think that %1$s wants to talk to you.",
+      "That %1$s wants to be your friend!",
+      "Arrest that %1$s!",
+      "That %1$s hasn't met it's quota.",
+      "That %1$s deserves a raise!",
+      "We should give that %1$s a stern talking to.",
+      "Maybe we can reason with that %1$s!",
+      "That %1$s must be pulling the strings…",
+      "Let me kill that %1$s!  Please?",
+      "I need to kill that %1$s!",
       "I want to watch that %1$s bleed!",
       "Wait, that %1$s needs to die!",
-      "Go kill that %1$s!",
-      "Look at that %1$s!",
+      "Go kill that %1$s!  NOW!",
+      "Stop!  Look at that %1$s.",
       "That %1$s doesn't deserve to live!"
     ]
   },
@@ -49,28 +69,38 @@
       "Hey, you're bleeding.",
       "Your wound looks pretty bad.",
       "Shouldn't you put a bandage on that?",
+      "You look hurt; did I do that?  I'm sorry.",
       "Please don't die!  No one else lets me kill things!",
-      "You look hurt; did I do that?",
       "Are you supposed to be bleeding?",
-      "You're not going to die, are you?",
-      "You're bleeding, you know.",
-      "Kill a few more before you bleed out!"
+      "You're not going to die are you?",
+      "You're bleeding you know.",
+      "That's not jelly on your coat lad, that's blood!",
+      "Take out a few more before you bleed to death!",
+      "Oh God; Please don't die.  Not now!",
+      "'Tis but a flesh wound.",
+      "Gross, you're bleeding all over me.",
+      "Hold fast, you can do this.",
+      "When's your next doctor's appointment?"
     ]
   },
   {
     "type": "snippet",
     "category": "schizo_weapon_talk_damaged",
     "text": [
-      "Hey fix me up.",
+      "Hey, fix me up will ya?",
       "I need healing!",
-      "I hurt all over…",
+      "It hurts all over…",
       "You can put me back together, right?",
       "I… I can't move my legs!",
       "Medic!",
+      "You gonna let me die too?!",
+      "No!  I can't die now!",
       "I can still fight, don't replace me!",
       "They got me!",
+      "You're nothing without me, NOTHING!",
       "*cough cough* Go on without me…",
-      "Am I gonna die?"
+      "Am I gonna die?",
+      "Is anybody here a doctor!?"
     ]
   },
   {
@@ -78,14 +108,34 @@
     "category": "schizo_weapon_talk_misc",
     "text": [
       "Let me kill something already!",
+      "I'm bored.",
+      "What's for dinner?",
+      "Wow!  Everything looks so… nevermind.",
+      "You seriously need friends.",
+      "So, got any hobbies?",
+      "I spy with my little eye… oh right, I don't have eyes.",
+      "Lovely weather we're having, huh?",
+      "So what if everyone you know is dead, you've still got me, right?",
+      "Best friends forever!",
+      "Come on!  What're we doing here?!",
+      "This trip was pointless.",
+      "You're gonna die out here.",
+      "You're in charge?  We're screwed.",
+      "Dang, you look terrible.",
+      "You should take a shower.",
+      "We should go home, it's not safe here.",
+      "We're in over our heads!",
+      "There's something following us, I can feel it.",
       "I'm your best friend, right?",
-      "I love you!",
       "How are you today?",
-      "Do you think it will rain today?",
+      "Sorry about earlier, can you forgive me?",
+      "Do you think it'll rain today?",
+      "I love you!",
+      "Shhh… I think I heard something.",
       "Did you hear that?",
       "Try not to drop me.",
       "How many do you think we've killed?",
-      "I'll keep you safe!"
+      "I'll keep you safe."
     ]
   },
   {
@@ -97,7 +147,10 @@
       "You gain the sudden realization that you must have been responsible for the Cataclysm.",
       "You get the odd feeling that your thoughts are not your own.",
       "You feel as if everyone in the world must be playing a sick prank on you.",
-      "You are being watched… by THEM."
+      "You are being watched… by THEM.",
+      "You feel like you should get back home.",
+      "You can feel your heart racing, something is watching you.",
+      "You feel lost.  Painfully and irrevocably lost."
     ]
   },
   {
@@ -129,7 +182,7 @@
     "type": "snippet",
     "category": "schizo_self_shout",
     "text": [
-      "\"Get away from there!\"",
+      "\"Get away from here!\"",
       "\"What do you think you're doing?\"",
       "\"Stop laughing at me!\"",
       "\"Don't point that thing at me!\"",
@@ -153,10 +206,9 @@
       "%1$s starts burning your hands!",
       "%1$s feels freezing cold!",
       "An electric shock shoots into your hand from %1$s!",
-      "%1$s lied to you.",
       "%1$s was working for… THEM",
-      "%1$s said something stupid.",
-      "%1$s is running away!"
+      "%1$s is running away!",
+      "%1$s is a dirty traitor!"
     ]
   },
   {

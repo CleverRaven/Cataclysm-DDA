@@ -1,19 +1,10 @@
-// RUN: %check_clang_tidy %s cata-ot-match %t -- --load=%cata_plugin -- -isystem %cata_include
+// RUN: %check_clang_tidy -allow-stdinc %s cata-ot-match %t -- --load=%cata_plugin -- -isystem %cata_include -isystem %cata_include/third-party
 
-struct oter_id;
+#include "enums.h"
+#include "overmap.h"
+#include "type_id.h"
 
 const oter_id &ter();
-
-enum class ot_match_type : int {
-    exact,
-    type,
-    prefix,
-    contains,
-    num_ot_match_type
-};
-
-bool is_ot_match( const char *name, const oter_id &oter,
-                  const ot_match_type match_type );
 
 void f0()
 {

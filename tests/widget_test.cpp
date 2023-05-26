@@ -2825,7 +2825,8 @@ TEST_CASE( "W_NO_PADDING widget flag", "[widget]" )
     ava.movecounter = 0;
 
     // workaround for mbstowcs to process multibyte utf-8 chars
-    setlocale( LC_ALL, "" );
+    char *result = setlocale( LC_ALL, "" );
+    REQUIRE( result );
 
     SECTION( "without flag" ) {
         const widget_id &wgt = widget_test_layout_nopad_noflag;
@@ -2899,5 +2900,6 @@ TEST_CASE( "W_NO_PADDING widget flag", "[widget]" )
         }
     }
 
-    setlocale( LC_ALL, "C" );
+    result = setlocale( LC_ALL, "C" );
+    REQUIRE( result );
 }
