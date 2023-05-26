@@ -644,7 +644,7 @@
       {
         "id": "bissau_guinean_flag",
         "name": { "str": "Bissau Guinean flag" },
-        "description": "A flag of vertical color with red with gold and green running horiztonally, a black star stands in the center of the red band.",
+        "description": "A flag that features two horizontal bands of gold and green with a red vertical band charged with a black star on the hoist side.",
         "weight": 10,
         "append": true
       },
