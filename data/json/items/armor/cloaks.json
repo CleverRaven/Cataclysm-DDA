@@ -861,7 +861,7 @@
       {
         "id": "madagascan_flag",
         "name": { "str": "Madagascan flag" },
-        "description": "A flag features two horizontal bands of red and green with a white vertical band on the hoist side",
+        "description": "A flag that features two horizontal bands of red and green with a white vertical band on the hoist side.",
         "weight": 10,
         "append": true
       },
