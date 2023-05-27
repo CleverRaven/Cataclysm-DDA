@@ -468,7 +468,7 @@
       },
       {
         "id": "democratic_congo_flag",
-        "name": { "str": "Democratic Congo flag" },
+        "name": { "str": "Democratic Republic Congo flag" },
         "description": "A sky blue flag with a yellow star in the upper left canton, diagonally running across the flag is a red strip and yellow fimbriation.",
         "weight": 10,
         "append": true
