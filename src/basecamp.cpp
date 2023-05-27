@@ -852,7 +852,7 @@ void basecamp_action_components::consume_components()
         target_map = map_.get();
     }
     avatar &player_character = get_avatar();
-    const std::vector<const zone_data*> &storage_zones = base_.get_storage_zone();
+    const std::vector<const zone_data *> &storage_zones = base_.get_storage_zone();
     for( const zone_data *zone : storage_zones ) {
         const tripoint_abs_ms &center = zone->get_center_point();
         const int radius = rl_dist( zone->get_start_point(), zone->get_end_point() ) / 2;

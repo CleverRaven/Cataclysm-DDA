@@ -729,9 +729,10 @@ void talk_function::basecamp_mission( npc &p )
         tripoint src_loc;
         const tripoint_abs_ms abspos = p.get_location();
         if( mgr.has_near( zone_type_CAMP_STORAGE, abspos, 60 ) ) {
-           const std::optional<tripoint_abs_ms> dump_pt =
+            const std::optional<tripoint_abs_ms> dump_pt =
                 mgr.get_nearest( zone_type_CAMP_STORAGE, abspos );
-            const std::vector<const zone_data*> zones = mgr.get_near_zones( zone_type_CAMP_STORAGE,abspos, 60 );
+            const std::vector<const zone_data *> zones = mgr.get_near_zones( zone_type_CAMP_STORAGE, abspos,
+                    60 );
             // Find the nearest unsorted zone to dump objects at
             if( dump_pt.has_value() ) {
                 src_loc = here.getlocal( dump_pt.value() );
@@ -4711,7 +4712,8 @@ bool basecamp::validate_sort_points()
     } else {
         const std::optional<tripoint_abs_ms> dump_pt =
             mgr.get_nearest( zone_type_CAMP_STORAGE, abspos );
-        const std::vector<const zone_data*> zones = mgr.get_near_zones( zone_type_CAMP_STORAGE,abspos, 60 );
+        const std::vector<const zone_data *> zones = mgr.get_near_zones( zone_type_CAMP_STORAGE, abspos,
+                60 );
         // Find the nearest unsorted zone to dump objects at
         if( dump_pt.has_value() ) {
             src_loc = here.getlocal( dump_pt.value() );
