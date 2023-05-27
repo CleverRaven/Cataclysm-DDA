@@ -8883,5 +8883,18 @@
     "category": [ "CEPHALOPOD" ],
     "prereqs": [ "INT_UP_4" ],
     "threshreq": [ "THRESH_CEPHALOPOD" ]
+  },
+  {
+    "type": "mutation",
+    "id": "RESISTCHILL_RESISTWARM",
+    "name": { "str": "Temperature Tolerance" },
+    "points": 5,
+    "valid": true,
+    "description": "You are now not at all bothered by the heat and it is harder for you to overheat or freeze at all.  When you do though, it'll hit just as hard as it did before.",
+    "prereqs": [ "RESISTWARM" ],
+    "types": [ "ACCLIMATIZATION" ],
+    "category": [ "PLANT" ],
+    "threshreq": [ "THRESH_PLANT" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 25 } ] }, { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 25 } ] } ]
   }
 ]
