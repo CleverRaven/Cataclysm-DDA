@@ -2536,17 +2536,16 @@ float Character::fine_detail_vision_mod( const tripoint &p ) const
     float own_light = std::max( 1.0f, LIGHT_AMBIENT_LIT - active_light() - 2.0f );
 
     // Same calculation as above, but with a result 3 lower.
-     float ambient_light;
-	// Light is calculated for player's z-level; NPC actions on different Z-level would stop
-	// Check if NPC is on the same z-level - if not overwrite light level for it
-	// Additional check for "last_pc_zlev" value - solve edge case on first turn after changing player z-level
-	if ( (p.z == get_player_character().pos().z) && (p.z == get_player_character().last_pc_zlev )) { 
-		ambient_light = std::max( 1.0f,
-                                    LIGHT_AMBIENT_LIT - get_map().ambient_light_at( p == tripoint_zero ? pos() : p ) + 1.0f );
-	}
-	else {
-		ambient_light = 1.0f;
-	}
+    float ambient_light;
+    // Light is calculated for player's z-level; NPC actions on different Z-level would stop
+    // Check if NPC is on the same z-level - if not overwrite light level for it
+    // Additional check for "last_pc_zlev" value - solve edge case on first turn after changing player z-level
+    if( ( p.z == get_player_character().pos().z ) && ( p.z == get_player_character().last_pc_zlev ) ) {
+        ambient_light = std::max( 1.0f,
+                                  LIGHT_AMBIENT_LIT - get_map().ambient_light_at( p == tripoint_zero ? pos() : p ) + 1.0f );
+    } else {
+        ambient_light = 1.0f;
+    }
 
     return std::min( own_light, ambient_light );
 }
