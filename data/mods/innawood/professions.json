@@ -27,15 +27,13 @@
     "pets": [ { "name": "mon_goat", "amount": 2 } ],
     "items": {
       "both": {
-        "items": [ "jeans", "leather_belt", "socks", "boots", "pockknife", "diving_watch" ],
+        "items": [ "loincloth_leather", "leather_belt", "socks", "mocassins", "shirt_straw" ],
         "entries": [
-          { "item": "rope_6", "count": 2 },
-          { "group": "charged_smart_phone" },
-          { "item": "tshirt", "variant": "generic_tshirt" }
+          { "item": "rope_makeshift_6", "count": 2 },
+          { "item": "sheath_birchbark", "contents-item": "primitive_knife" },
+          { "item": "bucket_wood", "custom-flags": [ "auto_wield" ] }
         ]
-      },
-      "male": [ "boxer_shorts" ],
-      "female": [ "bra", "panties" ]
+      }
     }
   },
   {
