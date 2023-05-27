@@ -6383,7 +6383,7 @@ void iexamine::workbench_internal( Character &you, const tripoint &examp,
 
         for( item &it : items_at_part ) {
             if( it.is_craft() ) {
-                crafts.emplace_back( item_location( vehicle_cursor( part->vehicle(), part->part_index() ), &it ) );
+                crafts.emplace_back( vehicle_cursor( part->vehicle(), part->part_index() ), &it );
             }
         }
     } else {
@@ -6397,7 +6397,7 @@ void iexamine::workbench_internal( Character &you, const tripoint &examp,
 
         for( item &it : items_at_furn ) {
             if( it.is_craft() ) {
-                crafts.emplace_back( item_location( map_cursor( examp ), &it ) );
+                crafts.emplace_back( map_cursor( examp ), &it );
             }
         }
     }

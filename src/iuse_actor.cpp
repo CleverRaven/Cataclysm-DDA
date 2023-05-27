@@ -874,7 +874,7 @@ void place_monster_iuse::load( const JsonObject &obj )
     if( obj.has_array( "skills" ) ) {
         JsonArray skills_ja = obj.get_array( "skills" );
         for( JsonValue s : skills_ja ) {
-            skills.emplace( skill_id( s.get_string() ) );
+            skills.emplace( s.get_string() );
         }
     }
 }
@@ -2381,7 +2381,7 @@ std::optional<int> cast_spell_actor::use( Character &p, item &it, bool, const tr
         cast_spell.values.emplace_back( 0 );
     }
     p.assign_activity( cast_spell );
-    p.activity.targets.emplace_back( item_location( p, &it ) );
+    p.activity.targets.emplace_back( p, &it );
     // Actual handling of charges_to_use is in activity_handlers::spellcasting_finish
     return 0;
 }

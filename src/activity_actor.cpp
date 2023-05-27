@@ -876,7 +876,7 @@ void bookbinder_copy_activity_actor::finish( player_activity &act, Character &p 
         std::vector<tool_comp> writing_tools;
         writing_tools.reserve( writing_tools_filter.size() );
         for( const item *tool : writing_tools_filter ) {
-            writing_tools.emplace_back( tool_comp( tool->typeId(), 1 ) );
+            writing_tools.emplace_back( tool->typeId(), 1 );
         }
 
         p.consume_tools( writing_tools, pages );
@@ -6475,7 +6475,7 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
         // TODO: fix point types
         std::vector<tripoint_abs_ms> src_set;
         for( const tripoint &p : coord_set ) {
-            src_set.emplace_back( tripoint_abs_ms( p ) );
+            src_set.emplace_back( p );
         }
         // sort source tiles by distance
         const auto &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );

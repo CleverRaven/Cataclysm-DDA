@@ -2092,7 +2092,7 @@ void veh_interact::do_change_shape()
                 entry.extratxt.left = 1;
                 entry.extratxt.sym = special_symbol( shape->get_symbol() );
                 entry.extratxt.color = shape->color;
-                variants.emplace_back( std::string() );
+                variants.emplace_back( );
                 smenu.entries.emplace_back( entry );
             }
 

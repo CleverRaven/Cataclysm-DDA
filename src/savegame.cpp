@@ -710,10 +710,10 @@ void overmap::unserialize_omap( const JsonValue &jsin, const cata_path &json_pat
                     count--;
                     layer[z + OVERMAP_DEPTH].terrain[i][j] = tmp_otid;
                     if( tmp_otid == oter_lake_shore || tmp_otid == oter_lake_surface ) {
-                        lake_points.emplace_back( tripoint_om_omt( i, j, z ) );
+                        lake_points.emplace_back( i, j, z );
                     }
                     if( tmp_otid == oter_forest || tmp_otid == oter_forest_thick ) {
-                        forest_points.emplace_back( tripoint_om_omt( i, j, z ) );
+                        forest_points.emplace_back( i, j, z );
                     }
                 }
             }
