@@ -45,6 +45,7 @@
         "f": { "item": "office_paper", "chance": 20, "repeat": [ 1, 3 ] }
       },
       "place_items": [ { "item": "record_patient", "x": 7, "y": 6, "chance": 50 } ],
+      "place_loot": [ { "item": "anesthetic_kit", "x": 16, "y": [ 14, 17 ], "chance": 75, "ammo": 100 } ],
       "computers": {
         "5": {
           "name": "Medical Supply Access",
@@ -110,7 +111,8 @@
         { "group": "doctors_books", "x": 7, "y": 20, "chance": 20 },
         { "group": "gear_medical", "x": [ 4, 5 ], "y": 10, "chance": 20, "repeat": [ 2, 5 ] },
         { "group": "drugs_analgesic", "x": [ 4, 5 ], "y": 12, "chance": 20, "repeat": [ 1, 3 ] },
-        { "group": "drugs_rare", "x": [ 4, 5 ], "y": 14, "chance": 20 }
+        { "group": "drugs_rare", "x": [ 4, 5 ], "y": 14, "chance": 20 },
+        { "item": "anesthetic_kit", "x": [ 4, 5 ], "y": 14, "chance": 20, "ammo": 100 }
       ]
     }
   },
@@ -149,7 +151,7 @@
       ],
       "palettes": [ "office_doctor" ],
       "terrain": { "?": "t_floor", "/": "t_floor", "Y": "t_floor", "A": "t_floor", "R": "t_floor", "'": "t_door_glass_o" },
-      "furniture": { "?": "f_bed", "/": "f_bed", "Y": "f_sofa", "T": "f_table", "A": "f_armchair", "R": "f_trashcan" },
+      "furniture": { "?": "f_autodoc", "/": "f_autodoc_couch", "Y": "f_sofa", "T": "f_table", "A": "f_armchair", "R": "f_trashcan" },
       "computers": {
         "5": {
           "name": "Medical Supply Access",
@@ -164,6 +166,7 @@
         "o": { "item": "doctors_books", "chance": 20 },
         "e": { "item": "SUS_fridge_breakroom", "chance": 20 },
         "C": { "item": "dresser", "chance": 20 },
+        "O": { "item": "bionics", "chance": 20 },
         "T": { "item": "office_breakroom", "chance": 30 },
         "f": { "item": "office_paper", "chance": 90 },
         "H": [
@@ -172,7 +175,8 @@
           { "item": "drugs_analgesic", "chance": 20, "repeat": [ 1, 3 ] },
           { "item": "drugs_rare", "chance": 20 },
           { "item": "surgery", "chance": 20 }
-        ]
+        ],
+        "?": { "item": "autodoc_supplies", "chance": 100 }
       },
       "place_loot": [
         { "group": "waitingroom", "x": 12, "y": 3, "chance": 70, "repeat": [ 1, 3 ] },
@@ -187,7 +191,8 @@
         { "item": "microwave", "x": 21, "y": 4, "chance": 85 },
         { "item": "laptop", "x": 4, "y": 4, "chance": 85 },
         { "item": "television", "x": 15, "y": 6, "chance": 95 },
-        { "item": "soap", "x": 5, "y": 18, "chance": 95 }
+        { "item": "soap", "x": 5, "y": 18, "chance": 95 },
+        { "item": "anesthetic_kit", "x": 13, "y": 18, "chance": 75, "ammo": 100 }
       ],
       "vehicles": { "W": { "vehicle": "swivel_chair", "chance": 50, "status": 1 } }
     }
@@ -250,9 +255,9 @@
         "t": "f_table",
         "c": "f_armchair",
         "f": "f_filing_cabinet",
-        "?": "f_bed",
+        "?": "f_autodoc",
         "L": "f_locker",
-        "/": "f_bed",
+        "/": "f_autodoc_couch",
         "y": [ "f_indoor_plant_y", "f_indoor_plant" ],
         "A": "f_air_conditioner"
       },
@@ -265,7 +270,8 @@
           { "item": "drugs_analgesic", "chance": 20, "repeat": [ 1, 3 ] },
           { "item": "drugs_rare", "chance": 20 },
           { "item": "surgery", "chance": 20 }
-        ]
+        ],
+        "?": { "item": "autodoc_supplies", "chance": 100 }
       }
     }
   }
