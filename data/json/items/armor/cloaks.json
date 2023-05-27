@@ -425,8 +425,8 @@
         "append": true
       },
       {
-        "id": "congolese_flag",
-        "name": { "str": "Congolese flag" },
+        "id": "congo_flag",
+        "name": { "str": "Congo flag" },
         "description": "It has a diagonal tricolour of green, yellow and red radiating from the lower hoist side corner.",
         "weight": 10,
         "append": true
