@@ -702,7 +702,7 @@
       [ [ "pressure_gauge", 3 ] ],
       [ [ "sheet_metal_small", 4 ] ],
       [ [ "steel_grille", 16 ] ],
-      [ [ "element", 16 ] ],
+      [ [ "element", 16 ], [ "crude_heating_element", 16 ] ],
       [ [ "cable", 50 ] ]
     ]
   },

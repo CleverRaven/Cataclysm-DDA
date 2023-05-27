@@ -1233,7 +1233,7 @@
     ],
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
     "components": [
-      [ [ "element", 8 ] ],
+      [ [ "element", 8 ], [ "crude_heating_element", 8 ] ],
       [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 12 ] ],
       [ [ "cable", 4 ] ],
       [ [ "power_supply", 1 ] ]
