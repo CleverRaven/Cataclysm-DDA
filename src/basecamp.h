@@ -413,7 +413,7 @@ class basecamp
         std::map<point, expansion_data> expansions;
         comp_list camp_workers; // NOLINT(cata-serialize)
         tripoint_abs_ms dumping_spot;
-        std::vector<const zone_data *> storage_zones;
+        std::vector<const zone_data *> storage_zones; // NOLINT(cata-serialize)
         std::set<itype_id> fuel_types; // NOLINT(cata-serialize)
         std::vector<basecamp_fuel> fuels; // NOLINT(cata-serialize)
         std::vector<basecamp_resource> resources; // NOLINT(cata-serialize)
