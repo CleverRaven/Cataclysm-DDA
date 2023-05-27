@@ -1463,7 +1463,7 @@
       {
         "id": "vanuatuan_flag",
         "name": { "str": "Vanuatuan flag" },
-        "description": "A horizontal bicolor flag of red and green with a golden pall, fimbriated in black, with a black chevron filling the lefthand space and two gold crossed namele cycad fronds encircled in a gold boar tusk centered on the chevron.",
+        "description": "A horizontal bicolor flag of red and green with a golden pall, fimbriated in black, with a black chevron filling the left hand space and two gold crossed namele cycad fronds encircled in a gold boar tusk centered on the chevron.",
         "weight": 10,
         "append": true
       },
