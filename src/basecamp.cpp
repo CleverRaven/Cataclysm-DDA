@@ -851,22 +851,27 @@ void basecamp_action_components::consume_components()
         map_->load( project_to<coords::sm>( base_.camp_omt_pos() ), false );
         target_map = map_.get();
     }
-    const tripoint &origin = target_map->getlocal( base_.get_dumping_spot() );
     avatar &player_character = get_avatar();
-    for( const comp_selection<item_comp> &sel : item_selections_ ) {
-        player_character.consume_items( *target_map, sel, batch_size_, is_crafting_component, origin,
-                                        basecamp::inv_range );
-    }
-    // this may consume pseudo-resources from fake items
-    for( const comp_selection<tool_comp> &sel : tool_selections_ ) {
-        player_character.consume_tools( *target_map, sel, batch_size_, origin, basecamp::inv_range,
-                                        &base_ );
-    }
-    // go back and consume the actual resources
-    for( basecamp_resource &bcp_r : base_.resources ) {
-        if( bcp_r.consumed > 0 ) {
-            target_map->use_charges( origin, basecamp::inv_range, bcp_r.ammo_id, bcp_r.consumed );
-            bcp_r.consumed = 0;
+    const std::vector<const zone_data*> &storage_zones = base_.get_storage_zone();
+    for( const zone_data *zone : storage_zones ) {
+        const tripoint_abs_ms &center = zone->get_center_point();
+        const int radius = rl_dist( zone->get_start_point(), zone->get_end_point() ) / 2;
+        const tripoint &origin = target_map->getlocal( center );
+        for( const comp_selection<item_comp> &sel : item_selections_ ) {
+            player_character.consume_items( *target_map, sel, batch_size_, is_crafting_component, origin,
+                                            radius );
+        }
+        // this may consume pseudo-resources from fake items
+        for( const comp_selection<tool_comp> &sel : tool_selections_ ) {
+            player_character.consume_tools( *target_map, sel, batch_size_, origin, radius,
+                                            &base_ );
+        }
+        // go back and consume the actual resources
+        for( basecamp_resource &bcp_r : base_.resources ) {
+            if( bcp_r.consumed > 0 ) {
+                target_map->use_charges( origin, 0, bcp_r.ammo_id, bcp_r.consumed );
+                bcp_r.consumed = 0;
+            }
         }
     }
     if( map_ ) {

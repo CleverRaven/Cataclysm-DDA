@@ -13,6 +13,7 @@
 #include <vector>
 
 #include "coordinates.h"
+#include "clzones.h"
 #include "craft_command.h"
 #include "game_inventory.h"
 #include "inventory.h"
@@ -390,7 +391,13 @@ class basecamp
         void serialize( JsonOut &json ) const;
         void deserialize( const JsonObject &data );
         void load_data( const std::string &data );
-
+        inline const std::vector<const zone_data* > &get_storage_zone() const {
+            return storage_zones;
+        }
+        // dumping spot in absolute co-ords
+        inline void set_storage_zone( const std::vector<const zone_data*> &zones ) {
+            storage_zones = zones;
+        }
         static constexpr int inv_range = 20;
     private:
         friend class basecamp_action_components;
@@ -406,7 +413,7 @@ class basecamp
         std::map<point, expansion_data> expansions;
         comp_list camp_workers; // NOLINT(cata-serialize)
         tripoint_abs_ms dumping_spot;
-
+        std::vector<const zone_data*> storage_zones;
         std::set<itype_id> fuel_types; // NOLINT(cata-serialize)
         std::vector<basecamp_fuel> fuels; // NOLINT(cata-serialize)
         std::vector<basecamp_resource> resources; // NOLINT(cata-serialize)
