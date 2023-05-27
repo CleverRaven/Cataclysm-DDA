@@ -274,6 +274,17 @@
   },
   {
     "type": "mutation",
+    "id": "HUMAN_ACCLIMATIZATION",
+    "name": { "str": "Human ACCLIMATIZATION" },
+    "points": 0,
+    "player_display": false,
+    "dummy": true,
+    "category": [ "HUMAN" ],
+    "cancels": [ "STRONGER_RESISTCHILL", "STRONGER_RESISTWARM" ],
+    "description": "Your temperature tolerance is more or less normal for a human."
+  },,
+  {
+    "type": "mutation",
     "id": "FLEET",
     "name": { "str": "Fleet-Footed" },
     "points": 2,
@@ -8791,6 +8802,7 @@
     "valid": true,
     "description": "You are now even less bothered by the cold and it is harder for you to freeze or to even get chilly.  When you do though, it'll hit just as hard as it did before.",
     "prereqs": [ "RESISTCHILL" ],
+    "types": [ "ACCLIMATIZATION" ],
     "category": [ "LUPINE", "URSINE", "CATTLE", "FELINE", "RABBIT", "MOUSE", "BEAST", "PLANT" ],
     "threshreq": [
       "THRESH_LUPINE",
@@ -8823,6 +8835,7 @@
     "valid": true,
     "description": "You are now even less bothered by the heat and it is harder for you to overheat or even sweat.  When you do though, it'll hit just as hard as it did before.",
     "prereqs": [ "RESISTWARM" ],
+    "types": [ "ACCLIMATIZATION" ],
     "category": [ "FISH", "CEPHALOPOD", "GASTROPOD", "LIZARD", "BATRACHIAN", "PLANT" ],
     "threshreq": [ "THRESH_FISH", "THRESH_CEPHALOPOD", "THRESH_GASTROPOD", "THRESH_LIZARD", "THRESH_BATRACHIAN", "THRESH_PLANT" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 25 } ] } ]
