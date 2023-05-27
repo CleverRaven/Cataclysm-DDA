@@ -8824,7 +8824,7 @@
     "description": "You fare better than most in warmer climates and are less bothered by hotter temperatures.  Note that while you'll sweat a little less in close proximity to a fire as a result, burns will still hurt just as much.",
     "starting_trait": true,
     "changes_to": [ "STRONGER_RESISTWARM" ],
-    "category": [ "FISH", "CEPHALOPOD", "GASTROPOD", "LIZARD", "BATRACHIAN", "PLANT" ],
+    "category": [ "FISH", "CEPHALOPOD", "GASTROPOD", "LIZARD", "BATRACHIAN" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 10 } ] } ]
   },
   {
@@ -8837,7 +8837,7 @@
     "prereqs": [ "RESISTWARM" ],
     "types": [ "ACCLIMATIZATION" ],
     "category": [ "FISH", "CEPHALOPOD", "GASTROPOD", "LIZARD", "BATRACHIAN", "PLANT" ],
-    "threshreq": [ "THRESH_FISH", "THRESH_CEPHALOPOD", "THRESH_GASTROPOD", "THRESH_LIZARD", "THRESH_BATRACHIAN", "THRESH_PLANT" ],
+    "threshreq": [ "THRESH_FISH", "THRESH_CEPHALOPOD", "THRESH_GASTROPOD", "THRESH_LIZARD", "THRESH_BATRACHIAN" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 25 } ] } ]
   },
   {
