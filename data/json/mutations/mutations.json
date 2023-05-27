@@ -282,7 +282,7 @@
     "category": [ "HUMAN" ],
     "cancels": [ "STRONGER_RESISTCHILL", "STRONGER_RESISTWARM" ],
     "description": "Your temperature tolerance is more or less normal for a human."
-  },,
+  },
   {
     "type": "mutation",
     "id": "FLEET",
