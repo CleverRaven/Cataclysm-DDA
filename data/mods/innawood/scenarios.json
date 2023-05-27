@@ -71,8 +71,7 @@
       "clown",
       "lost_sub",
       "spouse",
-      "musician",
-      "true_foodperson"
+      "musician"
     ],
     "eoc": [ "scenario_infected", "scenario_bad_day" ],
     "flags": [ "FIRE_START", "CHALLENGE", "LONE_START" ]
@@ -97,9 +96,7 @@
     "start_name": "Outside Town",
     "surround_groups": [ [ "GROUP_BLACK_ROAD", 70.0 ] ],
     "flags": [ "LONE_START" ],
-    "custom_initial_date": { "season": "winter" },
-    "add_professions": true,
-    "professions": [ "sheltered_survivor", "sheltered_militia", "winter_scavenger", "winter_army" ]
+    "custom_initial_date": { "season": "winter" }
   },
   {
     "type": "scenario",
@@ -110,15 +107,13 @@
     "allowed_locs": [ "sloc_field", "sloc_forest", "sloc_desert_island", "sloc_river" ],
     "start_name": "Outside Town",
     "flags": [ "LONE_START" ],
-    "custom_initial_date": { "season": "summer", "year": 2 },
-    "add_professions": true,
-    "professions": [ "sheltered_survivor", "sheltered_militia", "winter_scavenger", "winter_army" ]
+    "custom_initial_date": { "season": "summer", "year": 2 }
   },
   {
     "type": "scenario",
     "id": "last_flight",
     "name": "Last Flight",
-    "//": "Doesn't seem to spawn the helicopter without a road nearby.  Dissabeled until this can be fixed.",
+    "//": "Doesn't seem to spawn the helicopter without a road nearby.  Disabled until this can be fixed.",
     "points": 2,
     "description": "Once it became clear that the world was ending you took to the skies, hoping that your flying skills could lead you to safety.  During your flight you got lost and had to land on an empty field.",
     "start_name": "Emergency Landing Site",
@@ -143,10 +138,25 @@
     "name": "Car Crash",
     "points": -2,
     "description": "You decided the open road would be a better prospect than the zombie-filled cities.  While en route to your destination, you were involved in a wreck.  When you look around, you can no longer spot the road you were driving on.  Just how hard did you hit your head?",
+    "//": "Came from a portal storm, so future tech/professions are allowed",
     "allowed_locs": [ "sloc_field" ],
     "start_name": "Crash Site",
     "map_extra": "mx_mayhem",
     "flags": [ "CHALLENGE", "HELI_CRASH", "LONE_START" ]
+  },
+  {
+    "type": "scenario",
+    "id": "portal_dependent",
+    "name": "Challenge - Portal Dependent",
+    "points": -8,
+    "description": "You were caught in a huge and unstable portal storm, and were utterly unprotected from the full force of its effects.  You're on the tail end of the storm now, and while you've survived, you feel… different.",
+    "forced_traits": [ "PORTAL_DEPENDENT" ],
+    "flags": [ "CHALLENGE", "LONE_START" ],
+    "start_name": "Field",
+    "allowed_locs": [ "sloc_field", "sloc_forest", "sloc_desert_island" ],
+    "eoc": [ "scenario_strong_portal_storm" ],
+    "requirement": "achievement_witnessed_portal_storm",
+    "professions": [ "portal_traveler", "churl", "true_foodperson", "unemployed", "naked" ]
   },
   {
     "type": "scenario",
