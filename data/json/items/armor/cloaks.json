@@ -1288,7 +1288,7 @@
       {
         "id": "spanish_flag",
         "name": { "str": "Spanish flag" },
-        "description": "A flag that has a horizontal triband flag of red, yellow and red charged with the spanish coat of arms offcentered toward the hoist.",
+        "description": "A flag that has a horizontal triband flag of red, yellow and red charged with the spanish coat of arms off centered toward the hoist.",
         "weight": 10,
         "append": true
       },
