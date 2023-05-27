@@ -451,7 +451,7 @@
     "damage_reduction": { "bash": 10, "cut": 8, "stab": 4 }
   },
   {
-    "abstract": "wheel_small_abstract",
+    "id": "wheel_small",
     "type": "vehicle_part",
     "name": { "str": "small wheel" },
     "looks_like": "wheel",
@@ -475,17 +475,12 @@
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_1", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "adhesive_rubber", 1 ], [ "tire_rubber", 1 ] ] }
     },
+    "symbols": { "front": "o", "rear": "o" },
     "flags": [ "WHEEL", "UNSTABLE_WHEEL", "NEEDS_WHEEL_MOUNT_LIGHT" ]
   },
   {
-    "copy-from": "wheel_small_abstract",
-    "id": "wheel_small",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "wheel_small_abstract",
+    "copy-from": "wheel_small",
     "id": "wheel_small_scooter",
-    "symbols": { "front": "o", "rear": "o" },
     "type": "vehicle_part"
   },
   {
