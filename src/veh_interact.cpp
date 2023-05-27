@@ -223,13 +223,12 @@ std::optional<vpart_reference> veh_interact::select_part( const vehicle &veh,
 veh_interact::veh_interact( vehicle &veh, const point &p )
     : dd( p ), veh( &veh ), main_context( "VEH_INTERACT", keyboard_mode::keycode )
 {
-    // Only build the shapes map and the wheel list once
-    for( const auto &e : vpart_info::all() ) {
-        const vpart_info &vp = e.second;
-        vpart_shapes[ vp.name() + vp.base_item.str() ].push_back( &vp );
-        if( vp.has_flag( "WHEEL" ) ) {
-            wheel_types.push_back( &vp );
+    // Only build the shapes map once
+    for( const auto &[vpid, vpi] : vpart_info::all() ) {
+        if( vpi.has_flag( VPFLAG_APPLIANCE ) ) {
+            continue;
         }
+        vpart_shapes[ vpi.name() + vpi.base_item.str() ].push_back( &vpi );
     }
 
     main_context.register_directions();
@@ -1049,13 +1048,13 @@ void veh_interact::do_install()
             if( num_vpart_shapes > 1 ) {
                 std::vector<uilist_entry> shape_ui_entries;
                 for( size_t i = 0; i < shapes.size(); i++ ) {
+                    const vpart_info &vpi = *shapes[i];
                     // use the id to distinguish between them
-                    std::string vpname =
-                        string_format( "%s (%s)", shapes[i]->name(), shapes[i]->get_id().str() );
+                    std::string vpname = string_format( "%s (%s)", vpi.name(), vpi.get_id().str() );
                     uilist_entry entry( i, true, 0, vpname );
                     entry.extratxt.left = 1;
-                    entry.extratxt.sym = special_symbol( shapes[i]->get_symbol() );
-                    entry.extratxt.color = shapes[i]->color;
+                    entry.extratxt.sym = utf32_to_ncurses_ACS( vpi.variants.at( vpi.variant_default ).symbols[0] );
+                    entry.extratxt.color = vpi.color;
                     shape_ui_entries.push_back( entry );
                 }
                 sort_uilist_entries_by_line_drawing( shape_ui_entries );
@@ -1082,32 +1081,19 @@ void veh_interact::do_install()
                 sel_vpart_variant.clear();
                 selected_shape = 0;
                 // more than one shape available, display selection
-                size_t num_shapes_total = sel_vpart_info->symbols.size();
+                size_t num_shapes_total = sel_vpart_info->variants.size();
                 if( num_shapes_total > 0 ) {
                     std::vector<uilist_entry> shape_ui_entries;
                     size_t j = 1;
-                    for( const auto &vp_variant : sel_vpart_info->symbols ) {
-                        std::string disp_name = sel_vpart_info->name();
-                        for( const auto &vp_variant_pair : vpart_variants ) {
-                            if( vp_variant_pair.first == vp_variant.first ) {
-                                disp_name += " " + vp_variant_pair.second;
-                                break;
-                            }
-                        }
-                        uilist_entry entry( j, true, 0, disp_name );
+                    for( const auto &[variant_id, vv] : sel_vpart_info->variants ) {
+                        uilist_entry entry( j, true, 0, sel_vpart_info->name() + " " + vv.get_label() );
                         entry.extratxt.left = 1;
-                        entry.extratxt.sym = special_symbol( vp_variant.second );
+                        entry.extratxt.sym = utf32_to_ncurses_ACS( vv.symbols[0] );
                         entry.extratxt.color = sel_vpart_info->color;
                         shape_ui_entries.push_back( entry );
                         j += 1;
                     }
                     sort_uilist_entries_by_line_drawing( shape_ui_entries );
-                    //~ Option to select the default vehicle part, no variant
-                    uilist_entry def_entry( 0, true, 0, _( "No variant (use default)" ) );
-                    def_entry.extratxt.left = 1;
-                    def_entry.extratxt.sym = ' ';
-                    def_entry.extratxt.color = c_white;
-                    shape_ui_entries.push_back( def_entry );
                     uilist smenu;
                     //~ Choose a variant shape for a vehicle part
                     smenu.settext( _( "Choose shape:" ) );
@@ -1124,14 +1110,14 @@ void veh_interact::do_install()
                     smenu.query();
                     selected_shape = smenu.ret;
                 }
-                if( selected_shape >= 0 && ( num_shapes_total == 0 ||
-                                             static_cast<size_t>( selected_shape ) <= num_shapes_total ) ) {
+                if( selected_shape >= 0 &&
+                    ( num_shapes_total == 0 || static_cast<size_t>( selected_shape ) <= num_shapes_total ) ) {
                     int offset = selected_shape - 1;
                     if( offset >= 0 ) {
                         int j = 0;
-                        for( const auto &vp_variant : sel_vpart_info->symbols ) {
+                        for( const auto &[vp_variant_id, vp_variant] : sel_vpart_info->variants ) {
                             if( j == offset ) {
-                                sel_vpart_variant = vp_variant.first;
+                                sel_vpart_variant = vp_variant_id;
                                 break;
                             } else {
                                 j += 1;
@@ -2090,30 +2076,23 @@ void veh_interact::do_change_shape()
                 uilist_entry entry( vpname );
                 entry.retval = ret_code++;
                 entry.extratxt.left = 1;
-                entry.extratxt.sym = special_symbol( shape->get_symbol() );
+                entry.extratxt.sym = utf32_to_ncurses_ACS( shape->variants.at( shape->variant_default )
+                                     .symbols[0] );
                 entry.extratxt.color = shape->color;
                 variants.emplace_back( );
                 smenu.entries.emplace_back( entry );
             }
 
-            for( const std::pair<const std::string, int> &vp_variant : sel_vpart_info->symbols ) {
-                std::string disp_name = sel_vpart_info->name();
-                // getting all the available shape variants from vpart_variants
-                for( const std::pair<std::string, translation> &vp_variant_pair : vpart_variants ) {
-                    if( vp_variant_pair.first == vp_variant.first ) {
-                        disp_name += " " + vp_variant_pair.second;
-                        variants.emplace_back( vp_variant.first );
-                        if( vp_variant.first == part.variant ) {
-                            default_selection = ret_code;
-                        }
-                        break;
-                    }
+            for( const auto&[variant_id, vv] : sel_vpart_info->variants ) {
+                if( variant_id == part.variant ) {
+                    default_selection = ret_code;
                 }
-                uilist_entry entry( disp_name );
+                uilist_entry entry( sel_vpart_info->name() + " " + vv.get_label() );
                 entry.retval = ret_code++;
                 entry.extratxt.left = 1;
-                entry.extratxt.sym = special_symbol( vp_variant.second );
+                entry.extratxt.sym = utf32_to_ncurses_ACS( vv.symbols[0] );
                 entry.extratxt.color = sel_vpart_info->color;
+                variants.emplace_back( variant_id );
                 smenu.entries.emplace_back( entry );
             }
             sort_uilist_entries_by_line_drawing( smenu.entries );
@@ -2510,36 +2489,31 @@ void veh_interact::display_veh()
     }
 
     //Iterate over structural parts so we only hit each square once
-    std::vector<int> structural_parts = veh->all_parts_at_location( "structure" );
-    for( int &structural_part : structural_parts ) {
-        const int p = structural_part;
-        char sym = veh->part_sym( p, false, false );
-        nc_color col = veh->part_color( p, false, false );
-
-        const point q = ( veh->part( p ).mount + dd ).rotate( 3 );
+    for( const int structural_part_idx : veh->all_parts_at_location( "structure" ) ) {
+        const vehicle_part &vp = veh->part( structural_part_idx );
+        vpart_display vd = veh->get_display_of_tile( vp.mount, false, false );
+        const point q = ( vp.mount + dd ).rotate( 3 );
 
         if( q == point_zero ) {
-            col = hilite( col );
-            cpart = p;
+            vd.color = hilite( vd.color );
+            cpart = structural_part_idx;
         }
-        mvwputch( w_disp, h_size + q, col, special_symbol( sym ) );
+        mvwputch( w_disp, h_size + q, vd.color, vd.get_curses_symbol() );
     }
 
-    const int hw = getmaxx( w_disp ) / 2;
-    const int hh = getmaxy( w_disp ) / 2;
-    const point vd = -dd;
-    const point q = veh->coord_translate( vd );
-    const tripoint vehp = veh->global_pos3() + q;
+    const point pt_disp( getmaxx( w_disp ) / 2, getmaxy( w_disp ) / 2 );
+    const tripoint vehp = veh->global_pos3() + veh->coord_translate( -dd );
     map &here = get_map();
-    bool obstruct = here.impassable_ter_furn( vehp );
-    const optional_vpart_position ovp = here.veh_at( vehp );
-    if( ovp && &ovp->vehicle() != veh ) {
-        obstruct = true;
+    vpart_display vd;
+    if( cpart >= 0 ) {
+        vd = veh->get_display_of_tile( veh->part( cpart ).mount, false, false );
     }
-    nc_color col = cpart >= 0 ? veh->part_color( cpart, false, false ) : c_black;
-    char sym = cpart >= 0 ? veh->part_sym( cpart, false, false ) : ' ';
-    mvwputch( w_disp, point( hw, hh ), obstruct ? red_background( col ) : hilite( col ),
-              special_symbol( sym ) );
+    vd.color = hilite( vd.color );
+    const optional_vpart_position ovp = here.veh_at( vehp );
+    if( here.impassable_ter_furn( vehp ) || ( ovp && &ovp->vehicle() != veh ) ) {
+        vd.color = red_background( vd.color );
+    }
+    mvwputch( w_disp, pt_disp, vd.color, vd.get_curses_symbol() );
     wnoutrefresh( w_disp );
 }
 
@@ -2918,8 +2892,9 @@ void veh_interact::display_list( size_t pos, const std::vector<const vpart_info 
     size_t page = pos / lines_per_page;
     for( size_t i = page * lines_per_page; i < ( page + 1 ) * lines_per_page && i < list.size(); i++ ) {
         const vpart_info &info = *list[i];
+        const vpart_variant &vv = info.variants.at( info.variant_default );
         int y = i - page * lines_per_page + header;
-        mvwputch( w_list, point( 1, y ), info.color, special_symbol( info.get_symbol() ) );
+        mvwputch( w_list, point( 1, y ), info.color, utf32_to_ncurses_ACS( vv.symbols[0] ) );
         nc_color col = can_potentially_install( info ) ? c_white : c_dark_gray;
         trim_and_print( w_list, point( 3, y ), getmaxx( w_list ) - 3, pos == i ? hilite( col ) : col,
                         info.name() );

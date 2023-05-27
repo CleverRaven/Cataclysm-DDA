@@ -573,7 +573,12 @@ std::string item_filter_rule_string( item_filter_type type );
 
 char rand_char();
 int special_symbol( int sym );
+int special_symbol( char32_t sym );
 int special_symbol( char sym );
+
+// if \p is a one of the unicode block drawing symbols this returns the corresponding
+// curses ACS block drawing symbol else returns the value cast to int
+int utf32_to_ncurses_ACS( char32_t sym );
 
 // Remove spaces from the start and the end of a string.
 std::string trim( std::string_view s );

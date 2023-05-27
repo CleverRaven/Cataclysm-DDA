@@ -269,10 +269,6 @@ class veh_interact
          * Used to slim down installable parts list. Only built once. */
         std::map< std::string, std::vector<const vpart_info *> > vpart_shapes;
 
-        /* Vector of all wheel types. Used for changing wheels, so it only needs
-         * to be built once. */
-        std::vector<const vpart_info *> wheel_types;
-
         /* Vector of vparts in the current square that can be repaired. Strictly a
          * subset of parts_here.
          * Can probably be removed entirely, otherwise is a vector<vehicle_part>.

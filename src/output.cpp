@@ -1289,9 +1289,32 @@ int special_symbol( int sym )
     }
 }
 
+int special_symbol( char32_t sym )
+{
+    return special_symbol( static_cast<int>( sym ) );
+}
+
 int special_symbol( char sym )
 {
     return special_symbol( static_cast<uint8_t>( sym ) );
+}
+
+int utf32_to_ncurses_ACS( char32_t sym )
+{
+    switch( sym ) {
+        // *INDENT-OFF*
+        case 0x2500: return LINE_OXOX; // horizontal line
+        case 0x2501: return '=';       // horizontal line (heavy) no acs equivalent
+        case 0x2502: return LINE_XOXO; // vertical line
+        case 0x2503: return 'H';       // vertical line (heavy) no acs equivalent
+        case 0x253C: return LINE_XXXX; // cross/plus
+        case 0x250C: return LINE_OXXO; // upper left corner
+        case 0x2510: return LINE_OOXX; // upper right corner
+        case 0x2518: return LINE_XOOX; // lower right corner
+        case 0x2514: return LINE_XXOO; // lower left corner
+        default:     return static_cast<int>( sym );
+        // *INDENT-ON*
+    }
 }
 
 template<typename Predicate>

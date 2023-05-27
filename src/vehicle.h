@@ -679,6 +679,22 @@ enum class autodrive_result : int {
 
 class RemovePartHandler;
 
+class vpart_display
+{
+    public:
+        std::string id;
+        std::string variant;
+        nc_color color = c_black;
+        char32_t symbol = ' ';
+        bool is_broken = false;
+        bool is_open = false;
+        bool has_cargo = false;
+        // @returns string for tileset: "vp_{id}_{variant}" or "vp_{id}" for non-variant part
+        std::string get_tileset_id() const;
+        // @returns \p symbol, if it is a box-drawing character it is converted to curses ACS code
+        int get_curses_symbol() const;
+};
+
 /**
  * A vehicle as a whole with all its components.
  *
@@ -883,7 +899,10 @@ class vehicle
                     float percent_of_parts_to_affect = 1.0f, point damage_origin = point_zero, float damage_size = 0 );
 
         void serialize( JsonOut &json ) const;
+        // deserializes vehicle from json (including parts)
         void deserialize( const JsonObject &data );
+        // deserializes parts from json to parts vector (clearing it first)
+        void deserialize_parts( const JsonArray &data );
         // Vehicle parts list - all the parts on a single tile
         int print_part_list( const catacurses::window &win, int y1, int max_y, int width, int p,
                              int hl = -1, bool detail = false, bool include_fakes = true ) const;
@@ -1115,6 +1134,15 @@ class vehicle
         */
         int part_with_feature( const point &pt, const std::string &f, bool unbroken ) const;
         /**
+        *  Returns part index at mount point \p pt which has given \p f flag
+        *  @note uses relative_parts cache
+        *  @param pt only returns parts from this mount point
+        *  @param f required flag in part's vpart_info flags collection
+        *  @param unbroken if true also requires the part to be !is_broken()
+        *  @returns part index or -1
+        */
+        int part_with_feature( const point &pt, vpart_bitflags f, bool unbroken ) const;
+        /**
         *  Returns \p p or part index at mount point \p pt which has given \p f flag
         *  @note uses relative_parts cache
         *  @param p index of part to start searching from
@@ -1233,12 +1261,14 @@ class vehicle
         // @return index or -1 if part is nullptr, not found or removed and include_removed is false.
         int index_of_part( const vehicle_part *part, bool include_removed = false ) const;
 
-        // get symbol for map
-        char part_sym( int p, bool exact = false, bool include_fake = true ) const;
-        std::string part_id_string( int p, char &part_mod, bool below_roof = true, bool roof = true ) const;
-
-        // get color for map
-        nc_color part_color( int p, bool exact = false, bool include_fake = true ) const;
+        // @param dp mount point to check
+        // @param rotate symbol is rotated using vehicle facing, or north facing if false
+        // @param include_fake if true fake parts are included
+        // @param below_roof if true parts below roof are included
+        // @param roof if true roof parts are included
+        // @returns filled vpart_display struct or default constructed if no part displayed
+        vpart_display get_display_of_tile( const point &dp, bool rotate = true, bool include_fake = true,
+                                           bool below_roof = true, bool roof = true ) const;
 
         // Get all printable fuel types
         std::vector<itype_id> get_printable_fuel_types() const;

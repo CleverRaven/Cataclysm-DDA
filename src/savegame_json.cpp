@@ -3272,30 +3272,34 @@ void vehicle_part::deserialize( const JsonObject &data )
     data.allow_omitted_members();
     vpart_id pid;
     data.read( "id", pid );
+    data.read( "variant", variant );
 
     const vpart_migration *migration = vpart_migration::find_migration( pid );
     if( migration != nullptr ) {
-        DebugLog( D_WARNING, D_MAIN ) << "vehicle_part::deserialize migrating '" << pid.str()
-                                      << "' to '" << migration->part_id_new.str() << "'";
+        const std::string &new_variant = migration->variant
+                                         ? migration->variant.value()
+                                         : migration->part_id_new->variant_default;
+        DebugLog( D_WARNING, D_MAIN ) << "vehicle_part::deserialize migrating " <<
+                                      "vpid '" << pid.str() << "' to '" << migration->part_id_new.str() << "' "
+                                      "variant '" << variant << "' to '" << new_variant << "'";
         pid = migration->part_id_new;
+        variant = new_variant;
     }
 
-    std::tie( pid, variant ) = get_vpart_id_variant( pid );
-
-    // if we don't know what type of part it is, it'll cause problems later.
     if( !pid.is_valid() ) {
         data.throw_error_at( "id", "bad vehicle part" );
     }
     info_ = &pid.obj();
-    if( variant.empty() ) {
-        data.read( "variant", variant );
-    }
 
     if( migration != nullptr ) { // migration overrides the base item
         data.get_member( "base" ); // mark member as visited
         base = item( migration->part_id_new->base_item, calendar::turn );
     } else {
         data.read( "base", base );
+    }
+
+    if( info().variants.count( variant ) <= 0 ) {
+        variant = info().variant_default;
     }
 
     data.read( "mount_dx", mount.x );
@@ -3444,9 +3448,6 @@ void smart_controller_config::serialize( JsonOut &json ) const
     json.end_object();
 }
 
-/*
- * Load vehicle from a json blob that might just exceed player in size.
- */
 void vehicle::deserialize( const JsonObject &data )
 {
     data.allow_omitted_members();
@@ -3498,16 +3499,7 @@ void vehicle::deserialize( const JsonObject &data )
     old_owner = faction_id( temp_old_id );
     data.read( "theft_time", theft_time );
 
-    parts.clear();
-    for( const JsonValue val : data.get_array( "parts" ) ) {
-        vehicle_part part;
-        try {
-            val.read( part, /* throw_on_error = */ true );
-            parts.emplace_back( std::move( part ) );
-        } catch( const JsonError &err ) {
-            debugmsg( err.what() );
-        }
-    }
+    deserialize_parts( data.get_array( "parts" ) );
 
     // we persist the pivot anchor so that if the rules for finding
     // the pivot change, existing vehicles do not shift around.
@@ -3560,6 +3552,20 @@ void vehicle::deserialize( const JsonObject &data )
     // that can't be used as it currently stands because it would also
     // make it instantly fire all its turrets upon load.
     of_turn = 0;
+}
+
+void vehicle::deserialize_parts( const JsonArray &data )
+{
+    parts.clear();
+    for( const JsonValue jv : data ) {
+        try {
+            vehicle_part part;
+            jv.read( part, /* throw_on_error = */ true );
+            parts.emplace_back( std::move( part ) );
+        } catch( const JsonError &err ) {
+            debugmsg( err.what() );
+        }
+    }
 }
 
 void vehicle::serialize( JsonOut &json ) const
