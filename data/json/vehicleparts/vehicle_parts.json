@@ -401,54 +401,6 @@
   },
   {
     "type": "vehicle_part",
-    "id": "blade",
-    "name": { "str": "blade" },
-    "symbol": "-",
-    "symbols": { "horizontal": "-", "vertical": "|" },
-    "categories": [ "warfare" ],
-    "color": "white",
-    "broken_symbol": "x",
-    "broken_color": "white",
-    "damage_modifier": 250,
-    "durability": 200,
-    "description": "A blade, welded to the vehicle, for cutting up zombies.",
-    "item": "blade",
-    "folded_volume": "750 ml",
-    "location": "structure",
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 2 ] ] }
-    },
-    "flags": [ "SHARP", "PROTRUSION" ],
-    "breaks_into": [ { "item": "steel_chunk", "prob": 50 } ]
-  },
-  {
-    "type": "vehicle_part",
-    "id": "spike",
-    "name": { "str": "spike" },
-    "symbol": ".",
-    "categories": [ "warfare" ],
-    "color": "white",
-    "broken_symbol": "x",
-    "broken_color": "white",
-    "damage_modifier": 300,
-    "durability": 250,
-    "description": "A metal spike, welded to the vehicle, to increase injury when crashing into things.",
-    "item": "spike",
-    "folded_volume": "250 ml",
-    "location": "structure",
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 2 ] ] }
-    },
-    "flags": [ "SHARP", "PROTRUSION" ],
-    "breaks_into": [ { "item": "steel_chunk", "count": [ 1, 2 ] } ],
-    "damage_reduction": { "all": 12 }
-  },
-  {
-    "type": "vehicle_part",
     "id": "programmable_autopilot",
     "name": { "str": "programmable autopilot" },
     "symbol": "A",
@@ -2498,29 +2450,6 @@
     "looks_like": "seat_wood",
     "durability": 150,
     "description": "A benchlike place to sit."
-  },
-  {
-    "type": "vehicle_part",
-    "id": "spike_wood",
-    "name": { "str": "wooden spike" },
-    "symbol": ".",
-    "categories": [ "warfare" ],
-    "color": "brown",
-    "broken_symbol": "x",
-    "broken_color": "brown",
-    "damage_modifier": 115,
-    "durability": 150,
-    "description": "A wooden spike, attached to the vehicle, to increase injury when crashing into things.",
-    "item": "pointy_stick",
-    "folded_volume": "1250 ml",
-    "location": "structure",
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
-    },
-    "flags": [ "SHARP", "PROTRUSION" ],
-    "breaks_into": [ { "item": "splinter", "count": [ 3, 7 ] } ]
   },
   {
     "type": "vehicle_part",
