@@ -10,8 +10,6 @@
     "symbol": "h",
     "broken_symbol": "#",
     "symbols": {
-      "cover": "^",
-      "cross": "c",
       "horizontal": "h",
       "horizontal_front": "h",
       "horizontal_rear": "h",
@@ -25,6 +23,8 @@
       "vertical_2": "H",
       "vertical_2_left": "H",
       "vertical_2_right": "H",
+      "cover": "^",
+      "cross": "c",
       "ne": "u",
       "nw": "y",
       "se": "n",

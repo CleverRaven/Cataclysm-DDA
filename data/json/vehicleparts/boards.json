@@ -5,8 +5,6 @@
     "location": "center",
     "categories": [ "hull" ],
     "symbols": {
-      "cover": "^",
-      "cross": "c",
       "horizontal": "h",
       "horizontal_2": "=",
       "vertical": "j",
@@ -15,6 +13,8 @@
       "nw": "y",
       "se": "n",
       "sw": "b",
+      "cross": "c",
+      "cover": "^",
       "cover_left": "h",
       "cover_right": "h",
       "horizontal_front": "h",

@@ -335,7 +335,7 @@
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "adhesive_rubber", 1 ], [ "tire_rubber", 1 ] ] }
     },
     "flags": [ "WHEEL", "UNSTABLE_WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_LIGHT" ],
-    "symbols": { "rear": "|" },
+    "symbols": { "front": "|", "rear": "|" },
     "damage_reduction": { "bash": 6 }
   },
   {
@@ -436,7 +436,7 @@
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "adhesive_rubber", 1 ], [ "tire_rubber", 1 ] ] }
     },
     "flags": [ "WHEEL", "UNSTABLE_WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_LIGHT" ],
-    "symbols": { "rear": "o" },
+    "symbols": { "front": "o", "rear": "o" },
     "damage_reduction": { "bash": 10 }
   },
   {
@@ -485,7 +485,7 @@
   {
     "copy-from": "wheel_small_abstract",
     "id": "wheel_small_scooter",
-    "symbols": { "rear": "o" },
+    "symbols": { "front": "o", "rear": "o" },
     "type": "vehicle_part"
   },
   {

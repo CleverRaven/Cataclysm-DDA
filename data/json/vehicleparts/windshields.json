@@ -5,6 +5,7 @@
     "breaks_into": [ { "count": [ 25, 50 ], "item": "glass_shard" } ],
     "symbol": "\"",
     "symbols": {
+      "horizontal": "\"",
       "cover_left": "h",
       "cover_right": "h",
       "nw": "y",
