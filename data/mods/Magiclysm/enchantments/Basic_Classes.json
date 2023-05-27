@@ -2,13 +2,7 @@
   {
     "type": "enchantment",
     "id": "KELVINIST",
-    "values": [
-          {
-            "value": "ARMOR_HEAT",
-            "add": { "math": [ "u_val('spell_level', 'school: KELVINIST') / -6" ] }
-			
-          }
-        ]
+    "values": [ { "value": "ARMOR_HEAT", "add": { "math": [ "u_val('spell_level', 'school: KELVINIST') / -6" ] } } ]
   },
   {
     "type": "enchantment",
