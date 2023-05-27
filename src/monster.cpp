@@ -1013,7 +1013,7 @@ std::string monster::extended_description() const
 
         if( !special_attacks.empty() ) {
             ss += string_format( _( "%d special attack(s): " ), special_attacks.size() );
-            for( const auto attack : special_attacks ) {
+            for( const auto &attack : special_attacks ) {
                 ss += string_format( _( "%s, cooldown %d; " ), attack.first.c_str(), attack.second.cooldown );
             }
             ss += "\n";

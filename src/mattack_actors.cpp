@@ -510,7 +510,6 @@ int melee_actor::do_grab( monster &z, Creature *target, bodypart_id bp_id ) cons
     // Let's see if we manage to pull if we are a pull in the first place
     if( grab_data.pull_chance > -1 && x_in_y( grab_data.pull_chance, 100 ) ) {
         add_msg_debug( debugmode::DF_MATTACK, "Pull chance roll succeeded" );
-        bool seen = get_player_view().sees( z );
 
         int pull_range = std::min( range, rl_dist( z.pos(), target->pos() ) + 1 );
         tripoint pt = target->pos();
@@ -751,8 +750,11 @@ bool melee_actor::call( monster &z ) const
                 for( const tripoint loc : surrounding ) {
                     monster *mon = creatures.creature_at<monster>( loc );
                     if( mon && mon->has_effect_with_flag( json_flag_GRAB_FILTER ) && mon->attack_target() == target ) {
-                        grabber = mon;
-                        break;
+                        if( target->is_monster() || !target->is_monster() &&
+                            mon->has_effect( eff.get_bp()->grabbing_effect ) ) {
+                            grabber = mon;
+                            break;
+                        }
                     }
                 }
                 // Ignore our own grab
