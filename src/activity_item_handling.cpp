@@ -2580,9 +2580,7 @@ static std::unordered_set<tripoint_abs_ms> generic_multi_activity_locations(
             }
         }
         // remove tiles in darkness, if we aren't lit-up ourselves
-        // First condition (avatar) allows NPCs to continue task on different Z-lvl;
-        // Otherwise they would stop due to lack of light (not calculated for Z-lvls other than players)
-        if( you.is_avatar() && !dark_capable && you.fine_detail_vision_mod( set_pt ) > 4.0 ) {
+        if( !dark_capable && you.fine_detail_vision_mod( set_pt ) > 4.0 ) {
             it2 = src_set.erase( it2 );
             continue;
         }
@@ -3087,9 +3085,7 @@ bool generic_multi_activity_handler( player_activity &act, Character &you, bool 
         // this can create infinite loops
         // and we can't check player.pos() for darkness before they've traveled to where they are going to be.
         // but now we are here, we check
-        if( you.is_avatar() &&
-            // otherwise NPCs stop activity on different Z-lvl (lack of light calculation)
-            activity_to_restore != ACT_TIDY_UP &&
+        if( activity_to_restore != ACT_TIDY_UP &&
             activity_to_restore != ACT_MULTIPLE_MOP &&
             activity_to_restore != ACT_MOVE_LOOT &&
             activity_to_restore != ACT_FETCH_REQUIRED &&
