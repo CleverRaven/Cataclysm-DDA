@@ -174,6 +174,27 @@ ifndef LINTJSON
   LINTJSON = 1
 endif
 
+# We don't want to have both 'check' and 'tests' as targets, because that will
+# result in make trying to build the tests twice in parallel, wasting time
+# (The tests target will be launched parallel to the check target, and both
+#  will build the tests executable)
+# There are three possible outcomes we expect:
+#   a. Tests are built and run (check)
+#   b. Tests are built (tests)
+#   c. Tests are not built
+#
+# This table defines the expected behavior for the possible values of TESTS and
+# RUNTESTS.
+# TESTS defaults to 1, RUNTESTS defaults to 0.
+#
+#   RUNTESTS
+# T # | 0 | 1
+# E ----------
+# S 0 | c | c
+# T ----------
+# S 1 | b | a
+#
+
 # Enable building tests by default
 ifndef TESTS
   TESTS = 1
@@ -185,17 +206,14 @@ ifndef RUNTESTS
 endif
 
 # Can't run tests if we aren't going to build them
-ifeq ($(TESTS), 0)
-  RUNTESTS = 0
-endif
-
-ifeq ($(RUNTESTS), 1)
-  TESTS = 1
-  RUNTESTSTARGET = check
-endif
-
 ifeq ($(TESTS), 1)
-  TESTSTARGET = tests
+  ifeq ($(RUNTESTS), 1)
+    # Build and run the tests
+    TESTSTARGET = check
+  else
+    # Only build the tests
+    TESTSTARGET = tests
+  endif
 endif
 
 ifndef PCH
@@ -927,7 +945,7 @@ endif
 
 LDFLAGS += -lz
 
-all: version prefix $(CHECKS) $(TARGET) $(L10N) $(TESTSTARGET) $(RUNTESTSTARGET)
+all: version prefix $(CHECKS) $(TARGET) $(L10N) $(TESTSTARGET)
 	@
 
 $(TARGET): $(OBJS)
