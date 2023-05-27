@@ -201,9 +201,19 @@ class vpart_variant
         std::array<char32_t, 8> symbols;
         std::array<char32_t, 8> symbols_broken;
 
-        std::string get_label() const {
-            return to_translation( "vpart_variants", label_ ).translated();
-        }
+        std::string get_label() const;
+
+        // @param direction facing angle, 0 = north, 90 = east...
+        // @param is_broken if true returns the broken symbol else
+        // @returns unicode symbol for this variant given a direction and broken status
+        char32_t get_symbol( units::angle direction, bool is_broken ) const;
+
+        // @param direction facing angle, 0 = north, 90 = east...
+        // @param is_broken whether to return the broken symbol
+        // @returns ncurses ACS code for this variant given a direction and broken status
+        int get_symbol_curses( units::angle direction, bool is_broken ) const;
+        // @returns ncurses ACS code for a unicode \p sym symbol
+        static int get_symbol_curses( char32_t sym );
 
     private:
         std::string label_;
@@ -230,11 +240,9 @@ class vpart_info
         /** Translated name of a part */
         std::string name() const;
 
-        vpart_id get_id() const {
+        const vpart_id &get_id() const {
             return id;
         }
-
-        char32_t get_symbol( const std::string &variant, bool is_broken, units::angle dir ) const;
 
         const std::set<std::string> &get_flags() const {
             return flags;

@@ -2222,18 +2222,23 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
         } else if( category == TILE_CATEGORY::VEHICLE_PART ) {
             const vpart_id vpid( string_starts_with( found_id, "vp_" ) ? found_id.substr( 3 ) : found_id );
             if( vpid.is_valid() ) {
-                const units::angle rotation = units::from_degrees( rota );
                 const vpart_info &vpi = *vpid;
-                sym = '\'';
-                if( subtile != open_ ) {
-                    sym = vpi.get_symbol( variant, subtile == broken, rotation );
-                    sym = utf32_to_ncurses_ACS( sym );
+                if( vpi.variants.count( variant ) ) {
+                    const vpart_variant &vv = vpi.variants.at( variant );
+                    if( subtile == open_ ) {
+                        sym = '\'';
+                    } else {
+                        const units::angle direction = units::from_degrees( rota ) + 90_degrees;
+                        sym = vv.get_symbol_curses( direction, subtile == broken );
+                    }
+                    col = vpi.color;
+                    subtile = -1;
+                    rota = 0;
+                } else if( ll != lit_level::MEMORIZED ) {
+                    debugmsg( "invalid variant '%s' on vpart_id '%s'", variant, vpid.str() );
                 }
-                col = vpi.color;
-                subtile = -1;
-                rota = 0;
             } else if( ll != lit_level::MEMORIZED ) {
-                debugmsg( "invalid vpid '%s'", vpid.str() );
+                debugmsg( "invalid vpart_id '%s'", vpid.str() );
             }
         } else if( category == TILE_CATEGORY::FIELD ) {
             const field_type_id fid = field_type_id( found_id );
@@ -2429,9 +2434,7 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
 
             // convert vehicle 360-degree direction (0=E,45=SE, etc) to 4-way tile
             // rotation (0=N,1=W,etc)
-            tileray face = tileray( units::from_degrees( rota ) );
-            rota = 3 - face.dir4();
-
+            rota = 3 - units::angle_to_dir4( units::from_degrees( rota ) );
         }
         break;
         case TILE_CATEGORY::FURNITURE: {
@@ -3561,7 +3564,7 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
     if( ovp && !invisible[0] ) {
         const vehicle &veh = ovp->vehicle();
         const vpart_display vd = veh.get_display_of_tile( ovp->mount() );
-        if( !vd.id.empty() ) {
+        if( !vd.id.is_null() ) {
             const int subtile = vd.is_open ? open_ : vd.is_broken ? broken : 0;
             const int rotation = std::round( to_degrees( veh.face.dir() ) );
             avatar &you = get_avatar();
@@ -3573,8 +3576,9 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
             }
             if( !overridden ) {
                 int height_3d_temp = 0;
-                const bool ret = draw_from_id_string( "vp_" + vd.id, TILE_CATEGORY::VEHICLE_PART, empty_string, p,
-                                                      subtile, rotation, ll, nv_goggles_activated, height_3d_temp, 0, vd.variant );
+                const bool ret = draw_from_id_string( "vp_" + vd.id.str(), TILE_CATEGORY::VEHICLE_PART,
+                                                      empty_string, p, subtile, rotation, ll,
+                                                      nv_goggles_activated, height_3d_temp, 0, vd.variant.id );
                 if( !roof ) {
                     height_3d = height_3d_temp;
                 }

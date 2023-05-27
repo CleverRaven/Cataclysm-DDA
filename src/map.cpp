@@ -6786,7 +6786,7 @@ bool map::draw_maptile( const catacurses::window &w, const tripoint &p,
     const vehicle *veh = veh_at_internal( p, veh_part );
     if( veh != nullptr ) {
         const vpart_display vd = veh->get_display_of_tile( veh->part( veh_part ).mount );
-        sym = vd.get_curses_symbol();
+        sym = vd.symbol_curses;
         tercol = vd.color;
         item_sym.clear(); // clear the item symbol so `sym` is used instead.
 
@@ -6865,7 +6865,7 @@ void map::draw_from_above( const catacurses::window &w, const tripoint &p,
         const vpart_position vpp( const_cast<vehicle &>( *veh ), part_below );
         const vpart_display vd = veh->get_display_of_tile( vpp.mount(), true, true, false );
         const int roof = veh->roof_at_part( part_below );
-        sym = vd.get_curses_symbol();
+        sym = vd.symbol_curses;
         tercol = roof >= 0 || vpp.obstacle_at_part() ? c_light_gray : c_light_gray_cyan;
     } else if( curr_ter.has_flag( ter_furn_flag::TFLAG_SEEN_FROM_ABOVE ) ) {
         if( curr_ter.has_flag( ter_furn_flag::TFLAG_AUTO_WALL_SYMBOL ) ) {

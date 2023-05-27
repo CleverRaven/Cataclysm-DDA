@@ -34,22 +34,26 @@ std::string vehicle::disp_name() const
     return string_format( _( "the %s" ), name );
 }
 
+vpart_display::vpart_display()
+    : id( vpart_id::NULL_ID() )
+    , variant( vpart_id::NULL_ID()->variants.begin()->second ) {}
+
+vpart_display::vpart_display( const vehicle_part &vp )
+    : id( vp.info().get_id() )
+    , variant( vp.info().variants.at( vp.variant ) ) {}
+
 std::string vpart_display::get_tileset_id() const
 {
     std::string res;
-    res.reserve( 4 + id.size() + variant.size() );
+    const size_t variant_size = variant.id.size();
+    res.reserve( 4 + id.str().size() + variant_size );
     res.append( "vp_" );
-    res.append( id );
-    if( !variant.empty() ) {
+    res.append( id.str() );
+    if( variant_size > 0 ) {
         res.append( 1, vehicles::variant_separator );
-        res.append( variant );
+        res.append( variant.id );
     }
     return res;
-}
-
-int vpart_display::get_curses_symbol() const
-{
-    return utf32_to_ncurses_ACS( symbol );
 }
 
 vpart_display vehicle::get_display_of_tile( const point &dp, bool rotate, bool include_fake,
@@ -57,10 +61,11 @@ vpart_display vehicle::get_display_of_tile( const point &dp, bool rotate, bool i
 {
     const int part_idx = part_displayed_at( dp, include_fake, below_roof, roof );
     if( part_idx == -1 ) {
+        debugmsg( "no display part at mount (%d, %d)", dp.x, dp.y );
         return {};
     }
 
-    const vehicle_part &vp = parts[part_idx];
+    const vehicle_part &vp = part( part_idx );
     const vpart_info &vpi = vp.info();
 
     auto variant_it = vpi.variants.find( vp.variant );
@@ -75,20 +80,18 @@ vpart_display vehicle::get_display_of_tile( const point &dp, bool rotate, bool i
     }
     const vpart_variant &vv = variant_it->second;
 
-    vpart_display ret;
-    ret.id = vpi.get_id().str();
-    ret.variant = vp.variant;
+    vpart_display ret( vp );
     ret.is_broken = vp.is_broken();
     ret.is_open = vp.open && vpi.has_flag( VPFLAG_OPENABLE );
     ret.color = ret.is_broken ? vpi.color_broken : vpi.color;
 
-    if( ret.is_open ) {
-        ret.symbol = '\''; // open door
+    if( ret.is_open ) { // open door (or similar OPENABLE part)
+        ret.symbol = '\'';
+        ret.symbol_curses = '\'';
     } else {
-        const std::array<char32_t, 8> &symbols = ret.is_broken ? vv.symbols_broken : vv.symbols;
-        constexpr int dir_north = 6; // rotated north used for vehicle interaction menus
-        const int idx = rotate ? face.dir8() : dir_north;
-        ret.symbol = symbols[( idx + 2 ) % 8];
+        const units::angle direction = rotate ? face.dir() + 90_degrees : 0_degrees;
+        ret.symbol = vv.get_symbol( direction, ret.is_broken );
+        ret.symbol_curses = vpart_variant::get_symbol_curses( ret.symbol );
     }
 
     // curtain color override
@@ -125,7 +128,6 @@ vpart_display vehicle::get_display_of_tile( const point &dp, bool rotate, bool i
 
     return ret;
 }
-
 
 /**
  * Prints a list of all parts to the screen inside of a boxed window, possibly

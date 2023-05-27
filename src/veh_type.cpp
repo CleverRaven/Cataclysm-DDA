@@ -495,19 +495,6 @@ void vpart_info::set_flag( const std::string &flag )
     }
 }
 
-char32_t vpart_info::get_symbol( const std::string &variant, bool is_broken,
-                                 units::angle dir ) const
-{
-    std::map<std::string, vpart_variant>::const_iterator variant_it = variants.find( variant );
-    if( variant_it == variants.end() ) {
-        debugmsg( "vpart '%s' has no variant '%s'", get_id().str(), variant );
-        variant_it = variants.begin(); // fallback to first
-    }
-    const vpart_variant &vv = variant_it->second;
-    const int dir8 = tileray( dir ).dir8();
-    return is_broken ? vv.symbols_broken[dir8] : vv.symbols[dir8];
-}
-
 const std::set<std::string> &vpart_info::get_categories() const
 {
     return this->categories;
@@ -765,6 +752,9 @@ void vpart_info::finalize()
         }
         for( const vpart_variant &vv : new_variants ) {
             vpi.variants[vv.id] = vv;
+        }
+        if( vpi.variants.count( vpi.variant_default ) == 0 ) {
+            vpi.variant_default = vpi.variants.begin()->first;
         }
     }
 }
@@ -1268,6 +1258,46 @@ time_duration vpart_info::get_folding_time() const
 time_duration vpart_info::get_unfolding_time() const
 {
     return unfolding_time;
+}
+
+std::string vpart_variant::get_label() const
+{
+    return to_translation( "vpart_variants", label_ ).translated();
+}
+
+char32_t vpart_variant::get_symbol( units::angle direction, bool is_broken ) const
+{
+    // offset by 90 degrees to match vehicle facing zeroed to the east
+    const int dir8 = units::angle_to_dir8( direction );
+    return is_broken ? symbols_broken[dir8] : symbols[dir8];
+}
+
+static int utf32_to_ncurses_ACS( char32_t sym )
+{
+    switch( sym ) {
+        // *INDENT-OFF*
+        case 0x2500: return LINE_OXOX; // horizontal line
+        case 0x2501: return '=';       // horizontal line (heavy) no acs equivalent
+        case 0x2502: return LINE_XOXO; // vertical line
+        case 0x2503: return 'H';       // vertical line (heavy) no acs equivalent
+        case 0x253C: return LINE_XXXX; // cross/plus
+        case 0x250C: return LINE_OXXO; // upper left corner
+        case 0x2510: return LINE_OOXX; // upper right corner
+        case 0x2518: return LINE_XOOX; // lower right corner
+        case 0x2514: return LINE_XXOO; // lower left corner
+        default:     return static_cast<int>(sym);
+        // *INDENT-ON*
+    }
+}
+
+int vpart_variant::get_symbol_curses( units::angle direction, bool is_broken ) const
+{
+    return utf32_to_ncurses_ACS( get_symbol( direction, is_broken ) );
+}
+
+int vpart_variant::get_symbol_curses( char32_t sym )
+{
+    return utf32_to_ncurses_ACS( sym );
 }
 
 void vpart_variant::load( const JsonObject &jo, bool was_loaded )

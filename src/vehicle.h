@@ -51,6 +51,7 @@ class vehicle_part_range;
 class veh_menu;
 class vpart_info;
 class vpart_position;
+class vpart_variant;
 class zone_data;
 struct input_event;
 struct itype;
@@ -682,17 +683,19 @@ class RemovePartHandler;
 class vpart_display
 {
     public:
-        std::string id;
-        std::string variant;
+        vpart_display();
+        explicit vpart_display( const vehicle_part &vp );
+
+        const vpart_id &id;
+        const vpart_variant &variant;
         nc_color color = c_black;
-        char32_t symbol = ' ';
+        char32_t symbol = ' '; // symbol in unicode
+        int symbol_curses = ' '; // symbol converted to curses ACS encoding if needed
         bool is_broken = false;
         bool is_open = false;
         bool has_cargo = false;
-        // @returns string for tileset: "vp_{id}_{variant}" or "vp_{id}" for non-variant part
+        // @returns string for tileset: "vp_{id}_{variant}" or "vp_{id}" if variant is empty
         std::string get_tileset_id() const;
-        // @returns \p symbol, if it is a box-drawing character it is converted to curses ACS code
-        int get_curses_symbol() const;
 };
 
 /**
