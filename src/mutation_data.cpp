@@ -503,7 +503,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string &src )
     }
 
     for( const std::string s : jo.get_array( "no_cbm_on_bp" ) ) {
-        no_cbm_on_bp.emplace( bodypart_str_id( s ) );
+        no_cbm_on_bp.emplace( s );
     }
 
     optional( jo, was_loaded, "category", category, string_id_reader<mutation_category_trait> {} );
@@ -600,7 +600,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string &src )
     }
 
     for( const JsonValue jv : jo.get_array( "integrated_armor" ) ) {
-        integrated_armor.emplace_back( itype_id( jv ) );
+        integrated_armor.emplace_back( jv );
     }
 
     for( JsonMember member : jo.get_object( "bionic_slot_bonuses" ) ) {
@@ -980,12 +980,12 @@ void mutation_branch::finalize_all()
     trait_factory.finalize();
     for( const mutation_branch &branch : get_all() ) {
         for( const mutation_category_id &cat : branch.category ) {
-            mutations_category[cat].push_back( trait_id( branch.id ) );
+            mutations_category[cat].emplace_back( branch.id );
         }
         // Don't include dummy mutations for the ANY category, since they have a very specific use case
         // Otherwise, the system will prioritize them
         if( !branch.dummy ) {
-            mutations_category[mutation_category_ANY].push_back( trait_id( branch.id ) );
+            mutations_category[mutation_category_ANY].emplace_back( branch.id );
         }
     }
     finalize_trait_blacklist();

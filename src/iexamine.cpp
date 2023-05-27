@@ -4054,7 +4054,10 @@ void trap::examine( const tripoint &examp ) const
     }
 
     // Some traps are not actual traps. Those should get a different query, no skill checks, and the option to grab it right away.
-    if( easy_take_down() ) { // Separated so saying no doesn't trigger the other query.
+    // If there is a telepad and we are anchored, there is no risk involved in disarming it also.
+    if( easy_take_down() || ( id == tr_telepad &&
+                              player_character.worn_with_flag(
+                                  flag_DIMENSIONAL_ANCHOR ) ) ) { // Separated so saying no doesn't trigger the other query.
         if( !query_yn( _( "There is a %s there.  Take down?" ), name() ) ) {
             return;
         }
@@ -6383,7 +6386,7 @@ void iexamine::workbench_internal( Character &you, const tripoint &examp,
 
         for( item &it : items_at_part ) {
             if( it.is_craft() ) {
-                crafts.emplace_back( item_location( vehicle_cursor( part->vehicle(), part->part_index() ), &it ) );
+                crafts.emplace_back( vehicle_cursor( part->vehicle(), part->part_index() ), &it );
             }
         }
     } else {
@@ -6397,7 +6400,7 @@ void iexamine::workbench_internal( Character &you, const tripoint &examp,
 
         for( item &it : items_at_furn ) {
             if( it.is_craft() ) {
-                crafts.emplace_back( item_location( map_cursor( examp ), &it ) );
+                crafts.emplace_back( map_cursor( examp ), &it );
             }
         }
     }

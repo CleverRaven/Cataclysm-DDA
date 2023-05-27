@@ -78,7 +78,8 @@
         { "item": "pipe_fittings", "count": [ 2, 6 ] },
         { "item": "pipe", "count": [ 4, 8 ] },
         { "item": "steel_chunk", "count": [ 1, 4 ] },
-        { "item": "scrap", "count": [ 3, 7 ] }
+        { "item": "scrap", "count": [ 3, 7 ] },
+        { "item": "hose", "count": 1 }
       ]
     }
   },
@@ -148,7 +149,8 @@
         { "item": "steel_chunk", "count": [ 1, 4 ] },
         { "item": "pipe_fittings", "count": [ 2, 6 ] },
         { "item": "pipe", "count": [ 4, 8 ] },
-        { "item": "scrap", "count": [ 3, 7 ] }
+        { "item": "scrap", "count": [ 3, 7 ] },
+        { "item": "hose", "count": 1 }
       ]
     }
   },
@@ -196,7 +198,8 @@
         { "item": "steel_chunk", "count": [ 1, 4 ] },
         { "item": "pipe_fittings", "count": [ 2, 6 ] },
         { "item": "pipe", "count": [ 4, 8 ] },
-        { "item": "scrap", "count": [ 3, 7 ] }
+        { "item": "scrap", "count": [ 3, 7 ] },
+        { "item": "hose", "count": 1 }
       ]
     }
   },
@@ -244,7 +247,8 @@
         { "item": "steel_chunk", "count": [ 1, 4 ] },
         { "item": "pipe_fittings", "count": [ 2, 6 ] },
         { "item": "pipe", "count": [ 4, 8 ] },
-        { "item": "scrap", "count": [ 3, 7 ] }
+        { "item": "scrap", "count": [ 3, 7 ] },
+        { "item": "hose", "count": 1 }
       ]
     }
   },

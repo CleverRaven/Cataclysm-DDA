@@ -3796,7 +3796,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     if( parts->test( iteminfo_parts::ARMOR_COVERAGE ) && covers_anything ) {
         std::map<int, std::vector<bodypart_id>> limb_groups;
         for( const bodypart_str_id &bp : get_covered_body_parts() ) {
-            limb_groups[portion_for_bodypart( bp )->coverage].push_back( bp );
+            limb_groups[portion_for_bodypart( bp )->coverage].emplace_back( bp );
         }
         // keep on one line if only 1 entry
         if( limb_groups.size() == 1 ) {
@@ -3825,7 +3825,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             armor_encumb_data encumbrance( get_encumber( c, bp, item::encumber_flags::assume_empty ),
                                            get_encumber( c, bp ), get_encumber( c, bp, item::encumber_flags::assume_full ) );
 
-            limb_groups[encumbrance].push_back( bp );
+            limb_groups[encumbrance].emplace_back( bp );
         }
         // keep on one line if only 1 entry
         if( limb_groups.size() == 1 ) {
@@ -3868,7 +3868,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         // TODO: Make this less inflexible on anatomy
         std::map<int, std::vector<bodypart_id>> limb_groups;
         for( const bodypart_str_id &bp : get_covered_body_parts() ) {
-            limb_groups[get_warmth( bp )].push_back( bp );
+            limb_groups[get_warmth( bp )].emplace_back( bp );
         }
         // keep on one line if only 1 entry
         if( limb_groups.size() == 1 ) {
@@ -3891,7 +3891,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
         std::map<int, std::vector<bodypart_id>> limb_groups;
         for( const bodypart_str_id &bp : get_covered_body_parts() ) {
-            limb_groups[portion_for_bodypart( bp )->breathability].push_back( bp );
+            limb_groups[portion_for_bodypart( bp )->breathability].emplace_back( bp );
         }
         // keep on one line if only 1 entry
         if( limb_groups.size() == 1 ) {
@@ -4542,7 +4542,7 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                                           total_recipes ), total_recipes );
 
             insert_separation_line( info );
-            info.emplace_back( iteminfo( "DESCRIPTION", recipe_line ) );
+            info.emplace_back( "DESCRIPTION", recipe_line );
 
             if( !known_recipe_list.empty() ) {
                 const std::string recipe_line =
@@ -4551,7 +4551,7 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                                               known_recipe_list.size() ),
                                    known_recipe_list.size(), enumerate_lcsorted_with_limit( known_recipe_list ) );
 
-                info.emplace_back( iteminfo( "DESCRIPTION", recipe_line ) );
+                info.emplace_back( "DESCRIPTION", recipe_line );
             }
 
             if( !learnable_recipe_list.empty() ) {
@@ -4561,7 +4561,7 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                                               learnable_recipe_list.size() ),
                                    learnable_recipe_list.size(), enumerate_lcsorted_with_limit( learnable_recipe_list ) );
 
-                info.emplace_back( iteminfo( "DESCRIPTION", recipe_line ) );
+                info.emplace_back( "DESCRIPTION", recipe_line );
             }
 
             if( !unlearnable_recipe_list.empty() ) {
@@ -4571,7 +4571,7 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                                               unlearnable_recipe_list.size() ),
                                    unlearnable_recipe_list.size(), enumerate_lcsorted_with_limit( unlearnable_recipe_list ) );
 
-                info.emplace_back( iteminfo( "DESCRIPTION", recipe_line ) );
+                info.emplace_back( "DESCRIPTION", recipe_line );
             }
         }
     }
@@ -4637,8 +4637,8 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                                           total_ebooks ), total_ebooks );
 
             insert_separation_line( info );
-            info.emplace_back( iteminfo( "DESCRIPTION", recipe_line ) );
-            info.emplace_back( iteminfo( "DESCRIPTION", source_line ) );
+            info.emplace_back( "DESCRIPTION", recipe_line );
+            info.emplace_back( "DESCRIPTION", source_line );
 
             if( !known_recipe_list.empty() ) {
                 const std::string recipe_line =
@@ -4647,7 +4647,7 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                                               known_recipe_list.size() ),
                                    known_recipe_list.size(), enumerate_lcsorted_with_limit( known_recipe_list ) );
 
-                info.emplace_back( iteminfo( "DESCRIPTION", recipe_line ) );
+                info.emplace_back( "DESCRIPTION", recipe_line );
             }
 
             if( !learnable_recipe_list.empty() ) {
@@ -4657,7 +4657,7 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                                               learnable_recipe_list.size() ),
                                    learnable_recipe_list.size(), enumerate_lcsorted_with_limit( learnable_recipe_list ) );
 
-                info.emplace_back( iteminfo( "DESCRIPTION", recipe_line ) );
+                info.emplace_back( "DESCRIPTION", recipe_line );
             }
 
             if( !unlearnable_recipe_list.empty() ) {
@@ -4667,7 +4667,7 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                                               unlearnable_recipe_list.size() ),
                                    unlearnable_recipe_list.size(), enumerate_lcsorted_with_limit( unlearnable_recipe_list ) );
 
-                info.emplace_back( iteminfo( "DESCRIPTION", recipe_line ) );
+                info.emplace_back( "DESCRIPTION", recipe_line );
             }
         }
     }

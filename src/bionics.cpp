@@ -1033,7 +1033,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
             for( auto it = stack.begin(); it != stack.end(); it++ ) {
                 if( it->weight() < weight_cap &&
                     it->made_of_any( affected_materials ) ) {
-                    affected.emplace_back( std::make_pair( *it, p ) );
+                    affected.emplace_back( *it, p );
                     stack.erase( it );
                     break;
                 }

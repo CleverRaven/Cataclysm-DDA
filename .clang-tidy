@@ -79,7 +79,6 @@ readability-*,\
 -modernize-pass-by-value,\
 -modernize-return-braced-init-list,\
 -modernize-use-default-member-init,\
--modernize-use-emplace,\
 -modernize-use-nodiscard,\
 -performance-inefficient-vector-operation,\
 -performance-unnecessary-copy-initialization,\
