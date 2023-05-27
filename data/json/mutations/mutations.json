@@ -8895,6 +8895,9 @@
     "types": [ "ACCLIMATIZATION" ],
     "category": [ "PLANT" ],
     "threshreq": [ "THRESH_PLANT" ],
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 25 } ] }, { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 25 } ] } ]
+    "enchantments": [
+      { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 25 } ] },
+      { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 25 } ] }
+    ]
   }
 ]
