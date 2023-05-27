@@ -3299,7 +3299,7 @@ void vehicle_part::deserialize( const JsonObject &data )
 
     if( migration != nullptr ) {
         for( const itype_id &it : migration->add_veh_tools ) {
-            tools.emplace_back( item( it, calendar::turn ) );
+            tools.emplace_back( it, calendar::turn );
         }
     }
 }
@@ -3848,6 +3848,14 @@ void Creature::load( const JsonObject &jsin )
     }
 
     jsin.read( "values", values );
+    // potentially migrate some values
+    for( std::pair<std::string, std::string> migration : get_globals().migrations ) {
+        if( values.count( migration.first ) != 0 ) {
+            auto extracted = values.extract( migration.first );
+            extracted.key() = migration.second;
+            values.insert( std::move( extracted ) );
+        }
+    }
 
     jsin.read( "damage_over_time_map", damage_over_time_map );
 

@@ -1,31 +1,6 @@
-// RUN: %check_clang_tidy %s cata-static-string_id-constants %t -- --load=%cata_plugin -- -isystem %cata_include
+// RUN: %check_clang_tidy -allow-stdinc %s cata-static-string_id-constants %t -- --load=%cata_plugin -- -isystem %cata_include
 
-template<typename T>
-class string_id
-{
-    public:
-        template<typename S>
-        explicit string_id( S &&, int cid = -1 ) {
-        }
-};
-
-class activity_type;
-using activity_id = string_id<activity_type>;
-
-struct bionic_data;
-using bionic_id = string_id<bionic_data>;
-
-struct construction_category;
-using construction_category_id = string_id<construction_category>;
-
-class effect_type;
-using efftype_id = string_id<effect_type>;
-
-struct MonsterGroup;
-using mongroup_id = string_id<MonsterGroup>;
-
-class scent_type;
-using scenttype_id = string_id<scent_type>;
+#include "type_id.h"
 
 static const construction_category_id construction_cat_FILTER( "FILTER" );
 // CHECK-MESSAGES: warning: Declaration of string_id 'construction_cat_FILTER' should be named 'construction_category_FILTER'. [cata-static-string_id-constants]

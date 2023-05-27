@@ -5383,6 +5383,16 @@ For overmap specials add an entry to `data/json/obsoletion/migration_overmap_spe
   },
 ```
 
+For EOC/dialogue variables you can use `var_migration`. This currently only migrates **Character**, and **Global** vars. If "to" isn't provided the variable will be migrated to a key of "NULL_VALUE".
+
+```json
+{
+    "type": "var_migration",
+    "from": "temp_var",
+    "to": "new_temp_var"
+}
+```
+
 For recipes, deleting the recipe is enough.
 
 For mods, you need to add an `"obsolete": true,` boolean into MOD_INFO, which prevent the mod from showing into the mod list.

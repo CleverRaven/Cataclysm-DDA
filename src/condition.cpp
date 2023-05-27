@@ -588,8 +588,8 @@ void conditional_t::set_has_items( const JsonObject &jo, const std::string_view 
                                    bool is_npc )
 {
     JsonObject has_items = jo.get_object( member );
-    if( !has_items.has_string( "item" ) || ( !has_items.has_int( "count" ) &&
-            !has_items.has_int( "charges" ) ) ) {
+    if( !has_items.has_member( "item" ) || ( !has_items.has_member( "count" ) &&
+            !has_items.has_member( "charges" ) ) ) {
         condition = []( dialogue const & ) {
             return false;
         };

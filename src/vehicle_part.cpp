@@ -122,6 +122,9 @@ std::string vehicle_part::name( bool with_prefix ) const
     if( is_leaking() ) {
         res += _( " (draining)" );
     }
+    if( debug_mode ) {
+        res += "{" + variant + "}";
+    }
     return res;
 }
 

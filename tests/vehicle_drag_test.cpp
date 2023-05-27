@@ -121,7 +121,7 @@ static bool test_drag(
     if( !valid ) {
         printf( "    { \"%s\": [ %f, %f, %f, %d, %d ] },\n",
                 veh_id.c_str(), c_air, c_rolling, c_water, safe_v, max_v );
-        fflush( stdout );
+        static_cast<void>( fflush( stdout ) );
     }
     return valid;
 }
@@ -129,7 +129,7 @@ static bool test_drag(
 static void print_drag_test_strings( const vproto_id &veh )
 {
     test_drag( veh );
-    fflush( stdout );
+    static_cast<void>( fflush( stdout ) );
 }
 
 static void test_vehicle_drag( std::pair<const vproto_id, std::vector<double>> &veh_drag )

@@ -150,7 +150,7 @@ avatar::avatar()
     show_map_memory = true;
     active_mission = nullptr;
     grab_type = object_type::NONE;
-    calorie_diary.push_front( daily_calories{} );
+    calorie_diary.emplace_front( );
     a_diary = nullptr;
 }
 
@@ -1520,7 +1520,7 @@ void avatar::update_cardio_acc()
 
 void avatar::advance_daily_calories()
 {
-    calorie_diary.push_front( daily_calories{} );
+    calorie_diary.emplace_front( );
     if( calorie_diary.size() > 30 ) {
         calorie_diary.pop_back();
     }

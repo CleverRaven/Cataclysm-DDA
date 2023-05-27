@@ -1738,5 +1738,10 @@
     "type": "construction_group",
     "id": "constr_excavate_forestfloor",
     "name": "Turn forest floor into dirt"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_brick_oven",
+    "name": "Build Brick Oven"
   }
 ]
