@@ -1585,6 +1585,12 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                 &cata_tiles::draw_zombie_revival_indicators
             }
         };
+        
+        const std::array<decltype( &cata_tiles::draw_furniture ), 3> drawing_layers_below = {{
+                &cata_tiles::draw_vpart_below, &cata_tiles::draw_critter_at_below, &cata_tiles::draw_terrain_below
+            }
+        };
+        
         // Legacy code for isometric tilesets until they are ready
         const std::array<decltype( &cata_tiles::draw_furniture ), 14> drawing_layers_legacy = {{
                 &cata_tiles::draw_terrain, &cata_tiles::draw_furniture, &cata_tiles::draw_graffiti, &cata_tiles::draw_trap, &cata_tiles::draw_part_con,
@@ -1616,6 +1622,13 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                 while( !here.dont_draw_lower_floor( p_draw ) && p_draw.z > -OVERMAP_DEPTH && p.pos.z - p_draw.z < max_draw_depth ) {
                     p_draw.z -= 1;
                     cur_height_3d -= 1;
+                }
+                
+                // If draw depth is zero, use legacy drawing method
+                if( max_draw_depth <= 0 ){
+                    for( auto f : drawing_layers_below ) {
+                        ( this->*f )( p_draw, p.ll, cur_height_3d, p.invisible );
+                    }
                 }
 
                 // Draw all layers for the bottom z-level
