@@ -66,7 +66,7 @@
     "proficiencies": [ { "proficiency": "prof_elec_soldering" } ],
     "components": [
       [ [ "plastic_chunk", 4 ] ],
-      [ [ "element", 8 ], [ "crude_heating_element", 8 ] ],
+      [ [ "element", 8 ], [ "crude_heating_element", 12 ] ],
       [ [ "cable", 10 ] ],
       [ [ "amplifier", 1 ] ]
     ],
