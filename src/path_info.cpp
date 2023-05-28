@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include <string>
 
+#include "debug.h"
 #include "enums.h"
 #include "filesystem.h" // IWYU pragma: keep
 #include "make_static.h"
@@ -57,6 +58,16 @@ static cata_path options_path_value;
 static cata_path savedir_path_value;
 static cata_path user_dir_path_value;
 
+// Get the given env var, or abort the program if it is not set
+static const char *getenv_or_abort( const char *name )
+{
+    const char *result = getenv( name );
+    if( !result ) {
+        cata_fatal( "Required environment variable %s was not set", name );
+    }
+    return result;
+}
+
 void PATH_INFO::init_base_path( std::string path )
 {
     if( !path.empty() ) {
@@ -75,21 +86,21 @@ void PATH_INFO::init_user_dir( std::string dir )
     if( dir.empty() ) {
         const char *user_dir;
 #if defined(_WIN32)
-        user_dir = getenv( "LOCALAPPDATA" );
+        user_dir = getenv_or_abort( "LOCALAPPDATA" );
         // On Windows userdir without dot
         dir = std::string( user_dir ) + "/cataclysm-dda/";
 #elif defined(MACOSX)
-        user_dir = getenv( "HOME" );
+        user_dir = getenv_or_abort( "HOME" );
         dir = std::string( user_dir ) + "/Library/Application Support/Cataclysm/";
 #elif defined(USE_XDG_DIR)
         if( ( user_dir = getenv( "XDG_DATA_HOME" ) ) ) {
             dir = std::string( user_dir ) + "/cataclysm-dda/";
         } else {
-            user_dir = getenv( "HOME" );
+            user_dir = getenv_or_abort( "HOME" );
             dir = std::string( user_dir ) + "/.local/share/cataclysm-dda/";
         }
 #else
-        user_dir = getenv( "HOME" );
+        user_dir = getenv_or_abort( "HOME" );
         dir = std::string( user_dir ) + "/.cataclysm-dda/";
 #endif
     }
@@ -145,7 +156,7 @@ void PATH_INFO::set_standard_filenames()
     if( ( user_dir = getenv( "XDG_CONFIG_HOME" ) ) ) {
         dir = std::string( user_dir ) + "/cataclysm-dda/";
     } else {
-        user_dir = getenv( "HOME" );
+        user_dir = getenv_or_abort( "HOME" );
         dir = std::string( user_dir ) + "/.config/cataclysm-dda/";
     }
     config_dir_value = dir;

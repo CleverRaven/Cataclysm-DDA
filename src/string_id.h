@@ -223,7 +223,7 @@ class string_id
          * Note that this id class does not enforce empty id strings (or any specific string at all)
          * to be special. Every string (including the empty one) may be a valid id.
          */
-        string_id() : _id() {}
+        string_id() : _id() {} // NOLINT(clang-analyzer-optin.cplusplus.UninitializedObject)
         /**
          * Comparison, only useful when the id is used in std::map or std::set as key.
          * Guarantees total order, but DOESN'T guarantee the same order after process restart!

@@ -66,9 +66,6 @@ readability-*,\
 -bugprone-throw-keyword-missing,\
 -bugprone-unchecked-optional-access,\
 -bugprone-unhandled-exception-at-new,\
--clang-analyzer-cplusplus.NewDeleteLeaks,\
--clang-analyzer-cplusplus.StringChecker,\
--clang-analyzer-optin.cplusplus.UninitializedObject,\
 -misc-confusable-identifiers,\
 -misc-const-correctness,\
 -misc-no-recursion,\
