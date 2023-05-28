@@ -508,5 +508,10 @@
       { "group": "afs_exo_basic_accessories", "prob": 75 },
       { "group": "afs_power_tools", "prob": 75 }
     ]
+  },
+  {
+    "id": "afs_set_us_up_the_bomb",
+    "type": "item_group",
+    "items": [ { "item": "mininuke_act", "prob": 100, "charges": [ 10, 15 ] } ]
   }
 ]
