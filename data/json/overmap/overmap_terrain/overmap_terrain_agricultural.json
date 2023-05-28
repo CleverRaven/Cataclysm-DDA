@@ -432,44 +432,38 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "fence",
+    "abstract": "fence",
     "copy-from": "generic_rural_building",
     "name": "fence",
     "color": "brown"
   },
   {
     "type": "overmap_terrain",
-    "id": "splitrail_fence_nw",
+    "id": "splitrail_fence_UL",
     "copy-from": "fence",
     "sym": "┌"
   },
   {
     "type": "overmap_terrain",
-    "id": [ "splitrail_fence_n", "splitrail_fence_s" ],
+    "id": [ "splitrail_fence_edge_butt", "splitrail_fence_edge_gap" ],
     "copy-from": "fence",
-    "sym": "─"
+    "sym": "."
   },
   {
     "type": "overmap_terrain",
-    "id": "splitrail_fence_ne",
+    "id": "splitrail_fence_UR",
     "copy-from": "fence",
     "sym": "┐"
   },
   {
     "type": "overmap_terrain",
-    "id": [ "splitrail_fence_e", "splitrail_fence_w" ],
-    "copy-from": "fence",
-    "sym": "│"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "splitrail_fence_se",
+    "id": "splitrail_fence_DR",
     "copy-from": "fence",
     "sym": "┘"
   },
   {
     "type": "overmap_terrain",
-    "id": "splitrail_fence_sw",
+    "id": "splitrail_fence_DL",
     "copy-from": "fence",
     "sym": "└"
   },

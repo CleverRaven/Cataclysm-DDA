@@ -7,7 +7,7 @@
     "city_distance": [ 5, 40 ],
     "city_sizes": [ 1, -1 ],
     "occurrences": [ 0, 2 ],
-    "flags": [ "WILDERNESS" ],
+    "flags": [ "CLASSIC", "MAN_MADE", "FARM" ],
     "check_for_locations_area": [ { "type": [ "land" ], "from": [ -4, -2, 0 ], "to": [ 4, 22, 0 ] } ],
     "joins": [
       "root_to_road",
@@ -87,6 +87,7 @@
       "paddock_h_s": { "overmap": "paddock_h_south" },
       "paddock_h_e": { "overmap": "paddock_h_east" },
       "paddock_h_w": { "overmap": "paddock_h_west" },
+      "paddock_h_R_n": { "overmap": "paddock_h_R_north" },
       "paddock_h_R_e": { "overmap": "paddock_h_R_east" },
       "paddock_h_R_s": { "overmap": "paddock_h_R_south" },
       "paddock_h_R_w": { "overmap": "paddock_h_R_west" },
@@ -104,6 +105,7 @@
       "paddock_L_DL_e": { "overmap": "paddock_L_DL_east" },
       "paddock_L_DL_s": { "overmap": "paddock_L_DL_south" },
       "paddock_L_DL_w": { "overmap": "paddock_L_DL_west" },
+      "paddock_L_DR_n": { "overmap": "paddock_L_DR_north" },
       "paddock_L_DR_e": { "overmap": "paddock_L_DR_east" },
       "paddock_L_DR_w": { "overmap": "paddock_L_DR_west" },
       "paddock_d_UL_n": { "overmap": "paddock_d_UL_north" },
@@ -127,14 +129,18 @@
       "paddock_end_DL_n": { "overmap": "paddock_end_DL_north" },
       "paddock_end_DC_n": { "overmap": "paddock_end_DC_north" },
       "paddock_end_DR_n": { "overmap": "paddock_end_DR_north" },
-      "fence_nw_e": { "overmap": "splitrail_fence_nw_east" },
-      "fence_n_e": { "overmap": "splitrail_fence_n_east" },
-      "fence_ne_e": { "overmap": "splitrail_fence_ne_east" },
-      "fence_e_e": { "overmap": "splitrail_fence_e_east" },
-      "fence_se_e": { "overmap": "splitrail_fence_se_east" },
-      "fence_s_e": { "overmap": "splitrail_fence_s_east" },
-      "fence_sw_e": { "overmap": "splitrail_fence_sw_east" },
-      "fence_w_e": { "overmap": "splitrail_fence_w_east" },
+      "fence_UL_e": { "overmap": "splitrail_fence_UL_east" },
+      "fence_UR_e": { "overmap": "splitrail_fence_UR_east" },
+      "fence_DL_e": { "overmap": "splitrail_fence_DL_east" },
+      "fence_DR_e": { "overmap": "splitrail_fence_DR_east" },
+      "fence_edge_butt_n": { "overmap": "splitrail_fence_edge_butt_north" },
+      "fence_edge_butt_e": { "overmap": "splitrail_fence_edge_butt_east" },
+      "fence_edge_butt_s": { "overmap": "splitrail_fence_edge_butt_south" },
+      "fence_edge_butt_w": { "overmap": "splitrail_fence_edge_butt_west" },
+      "fence_edge_gap_n": { "overmap": "splitrail_fence_edge_gap_north" },
+      "fence_edge_gap_e": { "overmap": "splitrail_fence_edge_gap_east" },
+      "fence_edge_gap_s": { "overmap": "splitrail_fence_edge_gap_south" },
+      "fence_edge_gap_w": { "overmap": "splitrail_fence_edge_gap_west" },
       "hayfield_L_se": { "overmap": "hayfield_turnL_north" },
       "hayfield_L_sw": { "overmap": "hayfield_turnL_east" },
       "hayfield_L_nw": { "overmap": "hayfield_turnL_south" },
@@ -212,10 +218,6 @@
         "south": { "id": "forest_to_forest", "alternatives": [ "forest_to_edge" ], "type": "available" },
         "west": { "id": "forest_to_forest", "alternatives": [ "forest_to_edge" ], "type": "available" }
       },
-      "forest_edge_n": { "overmap": "open_air", "north": "edge_to_forest" },
-      "forest_edge_e": { "overmap": "open_air", "east": "edge_to_forest" },
-      "forest_edge_s": { "overmap": "open_air", "south": "edge_to_forest" },
-      "forest_edge_w": { "overmap": "open_air", "west": "edge_to_forest" },
       "forest_connection": {
         "overmap": "open_air",
         "north": { "id": "forest_to_forest", "alternatives": [ "forest_to_edge" ] },
@@ -579,7 +581,11 @@
             { "overmap": "dirt_road_ne", "pos": [ 0, 0, 0 ] },
             { "overmap": "outer_to_inner_n", "pos": [ 0, 0, 10 ] },
             { "overmap": "dirt_road_ew", "pos": [ 1, 0, 0 ] },
-            { "overmap": "inner_to_outer_e", "pos": [ 1, 0, 10 ] }
+            { "overmap": "inner_to_outer_e", "pos": [ 1, 0, 10 ] },
+            { "overmap": "paddock_h_L_e", "pos": [ -1, 0, 0 ] },
+            { "overmap": "paddock_L_DR_e", "pos": [ -1, 1, 0 ] },
+            { "overmap": "paddock_h_R_n", "pos": [ 0, 1, 0 ] },
+            { "overmap": "paddock_n", "pos": [ 1, 1, 0 ] }
           ],
           "max": { "poisson": 1 },
           "weight": 1
@@ -590,7 +596,42 @@
             { "overmap": "dirt_road_nw", "pos": [ 0, 0, 0 ] },
             { "overmap": "outer_to_inner_n", "pos": [ 0, 0, 10 ] },
             { "overmap": "dirt_road_ew", "pos": [ -1, 0, 0 ] },
-            { "overmap": "inner_to_outer_w", "pos": [ -1, 0, 10 ] }
+            { "overmap": "inner_to_outer_w", "pos": [ -1, 0, 10 ] },
+            { "overmap": "paddock_h_R_w", "pos": [ 1, 0, 0 ] },
+            { "overmap": "paddock_L_DR_n", "pos": [ 1, 1, 0 ] },
+            { "overmap": "paddock_h_L_n", "pos": [ 0, 1, 0 ] },
+            { "overmap": "paddock_n", "pos": [ -1, 1, 0 ] }
+          ],
+          "max": { "poisson": 1 },
+          "weight": 1
+        },
+        {
+          "name": "paddock_connector_uturn_e",
+          "chunk": [
+            { "overmap": "dirt_road_ne", "pos": [ 0, 0, 0 ] },
+            { "overmap": "outer_to_inner_n", "pos": [ 0, 0, 10 ] },
+            { "overmap": "dirt_road_ew", "pos": [ 1, 0, 0 ] },
+            { "overmap": "dirt_road_ew", "pos": [ 2, 0, 0 ] },
+            { "overmap": "dirt_road_ew", "pos": [ 3, 0, 0 ] },
+            { "overmap": "dirt_road_nw", "pos": [ 4, 0, 0 ] },
+            { "overmap": "dirt_road_ns", "pos": [ 4, -1, 0 ] },
+            { "overmap": "inner_to_outer_n", "pos": [ 4, -1, 10 ] }
+          ],
+          "max": { "poisson": 1 },
+          "weight": 1
+        },
+        {
+          "name": "paddock_connector_uturn_w",
+          "chunk": [
+            { "overmap": "dirt_road_nsw", "pos": [ 0, 0, 0 ] },
+            { "overmap": "outer_to_inner_n", "pos": [ 0, 0, 10 ] },
+            { "overmap": "dirt_road_ew", "pos": [ -1, 0, 0 ] },
+            { "overmap": "dirt_road_ew", "pos": [ -2, 0, 0 ] },
+            { "overmap": "dirt_road_ew", "pos": [ -3, 0, 0 ] },
+            { "overmap": "dirt_road_ne", "pos": [ -4, 0, 0 ] },
+            { "overmap": "dirt_road_ns", "pos": [ -4, -1, 0 ] },
+            { "overmap": "inner_to_outer_n", "pos": [ -4, -1, 10 ] },
+            { "overmap": "dirt_road_turnback_n", "pos": [ 0, 1, 0 ] }
           ],
           "max": { "poisson": 1 },
           "weight": 1
@@ -605,13 +646,13 @@
             { "overmap": "inner_to_outer_s", "pos": [ 0, 2, 10 ] },
             { "overmap": "paddock_L_UL_e", "pos": [ -1, 0, 0 ] },
             { "overmap": "paddock_h_L_n", "pos": [ -2, 0, 0 ] },
-            { "overmap": "fence_sw_e", "pos": [ -3, 0, 0 ] },
+            { "overmap": "fence_DR_e", "pos": [ -3, 0, 0 ] },
             { "overmap": "paddock_v_U_s", "pos": [ -1, 1, 0 ] },
             { "overmap": "field_fill", "pos": [ -2, 1, 0 ] },
-            { "overmap": "fence_s_e", "pos": [ -3, 1, 0 ] },
-            { "overmap": "fence_ne_e", "pos": [ -1, 2, 0 ] },
-            { "overmap": "fence_e_e", "pos": [ -2, 2, 0 ] },
-            { "overmap": "fence_se_e", "pos": [ -3, 2, 0 ] }
+            { "overmap": "fence_edge_gap_w", "pos": [ -3, 1, 0 ] },
+            { "overmap": "fence_UR_e", "pos": [ -1, 2, 0 ] },
+            { "overmap": "fence_edge_gap_s", "pos": [ -2, 2, 0 ] },
+            { "overmap": "fence_DL_e", "pos": [ -3, 2, 0 ] }
           ],
           "max": { "poisson": 2 },
           "weight": 1
@@ -626,13 +667,13 @@
             { "overmap": "outer_to_inner_s", "pos": [ 0, 2, 10 ] },
             { "overmap": "paddock_L_UL_e", "pos": [ -1, 0, 0 ] },
             { "overmap": "paddock_h_L_n", "pos": [ -2, 0, 0 ] },
-            { "overmap": "fence_sw_e", "pos": [ -3, 0, 0 ] },
+            { "overmap": "fence_DL_e", "pos": [ -3, 0, 0 ] },
             { "overmap": "paddock_v_U_s", "pos": [ -1, 1, 0 ] },
             { "overmap": "field_fill", "pos": [ -2, 1, 0 ] },
-            { "overmap": "fence_s_e", "pos": [ -3, 1, 0 ] },
-            { "overmap": "fence_ne_e", "pos": [ -1, 2, 0 ] },
-            { "overmap": "fence_e_e", "pos": [ -2, 2, 0 ] },
-            { "overmap": "fence_se_e", "pos": [ -3, 2, 0 ] }
+            { "overmap": "fence_edge_gap_w", "pos": [ -3, 1, 0 ] },
+            { "overmap": "fence_UR_e", "pos": [ -1, 2, 0 ] },
+            { "overmap": "fence_edge_gap_s", "pos": [ -2, 2, 0 ] },
+            { "overmap": "fence_DR_e", "pos": [ -3, 2, 0 ] }
           ],
           "max": { "poisson": 2 },
           "weight": 1
@@ -766,6 +807,7 @@
             { "overmap": "paddock_trailhead_6_n", "pos": [ 2, 2, 0 ] },
             { "overmap": "paddock_trailhead_7_n", "pos": [ 0, 3, 0 ] },
             { "overmap": "paddock_trailhead_8_n", "pos": [ 1, 3, 0 ] },
+            { "overmap": "trail_to_trail_s", "pos": [ 1, 3, 10 ] },
             { "overmap": "paddock_trailhead_9_n", "pos": [ 2, 3, 0 ] }
           ],
           "max": 1,
@@ -892,31 +934,29 @@
           "weight": 10
         }
       ],
-      [ { "name": "failsafe", "chunk": [ { "overmap": "outer_to_inner_n", "pos": [ 0, 0, 10 ] } ], "weight": 1 } ],
+      [ { "name": "road_cleanup", "chunk": [ { "overmap": "outer_to_inner_n", "pos": [ 0, 0, 10 ] } ], "weight": 1 } ],
       [
         {
           "name": "trail_ns",
-          "//": "Trail phase, spawns a trail from paddock_trailhead_8 that ends if it runs out of pieces or if it hits an existing mapgen trail, currently not set to spawn",
+          "//": "Trail phase, spawns a trail from paddock_trailhead_8 that ends if it runs out of pieces or if it hits an existing mapgen trail",
           "chunk": [ { "overmap": "trail_ns", "pos": [ 0, 0, 0 ] }, { "overmap": "trail_to_trail_ns", "pos": [ 0, 0, 10 ] } ],
           "weight": 1,
           "max": 10
         },
         {
           "name": "trail_ne",
-          "//": "Trail phase, spawns a trail from paddock_trailhead_8 that ends if it runs out of pieces or if it hits an existing mapgen trail, currently not set to spawn",
           "chunk": [ { "overmap": "trail_ne", "pos": [ 0, 0, 0 ] }, { "overmap": "trail_to_trail_ne", "pos": [ 0, 0, 10 ] } ],
           "weight": 1,
-          "max": 10
+          "max": 3
         },
         {
           "name": "trail_nw",
-          "//": "Trail phase, spawns a trail from paddock_trailhead_8 that ends if it runs out of pieces or if it hits an existing mapgen trail, currently not set to spawn",
           "chunk": [ { "overmap": "trail_nw", "pos": [ 0, 0, 0 ] }, { "overmap": "trail_to_trail_nw", "pos": [ 0, 0, 10 ] } ],
           "weight": 1,
-          "max": 10
+          "max": 3
         },
         {
-          "name": "trail_interset",
+          "name": "trail_intersect",
           "chunk": [ { "overmap": "trail_intersect", "pos": [ 0, 0, 0 ] }, { "overmap": "trail_end_n", "pos": [ 0, 0, 10 ] } ],
           "weight": 100
         }
@@ -924,21 +964,19 @@
       [
         {
           "name": "forest_sparse",
-          "//": "Forest phase, spawns forest around endpoints, currently not set to spawn",
+          "//": "Forest phase, spawns forest around the trail if it spawned",
           "chunk": [ { "overmap": "forest", "pos": [ 0, 0, 0 ] }, { "overmap": "forest_connection", "pos": [ 0, 0, 10 ] } ],
-          "max": 20,
-          "weight": 3
+          "max": { "poisson": 15 }
         },
         {
           "name": "forest_dense",
           "chunk": [ { "overmap": "forest_thick", "pos": [ 0, 0, 0 ] }, { "overmap": "forest_connection", "pos": [ 0, 0, 10 ] } ],
-          "max": 20,
-          "weight": 3
+          "max": { "poisson": 10 }
         }
       ],
       [
-        { "name": "trail_end", "chunk": [ { "overmap": "trail_end_n", "pos": [ 0, 0, 10 ] } ], "weight": 1 },
-        { "name": "forest_end", "chunk": [ { "overmap": "forest_end", "pos": [ 0, 0, 10 ] } ], "weight": 1 }
+        { "name": "trail_cleanup", "chunk": [ { "overmap": "trail_end_n", "pos": [ 0, 0, 10 ] } ], "weight": 1 },
+        { "name": "forest_cleanup", "chunk": [ { "overmap": "forest_end", "pos": [ 0, 0, 10 ] } ], "weight": 1 }
       ]
     ]
   }
