@@ -70,12 +70,7 @@ static const furn_str_id furn_f_sign_warning( "f_sign_warning" );
 static const item_group_id Item_spawn_data_ammo_casings( "ammo_casings" );
 static const item_group_id Item_spawn_data_army_bed( "army_bed" );
 static const item_group_id Item_spawn_data_everyday_corpse( "everyday_corpse" );
-static const item_group_id Item_spawn_data_grenades( "grenades" );
-static const item_group_id Item_spawn_data_guns_rifle_milspec( "guns_rifle_milspec" );
 static const item_group_id Item_spawn_data_map_extra_casings( "map_extra_casings" );
-static const item_group_id Item_spawn_data_mil_armor( "mil_armor" );
-static const item_group_id Item_spawn_data_mil_bulk( "mil_bulk" );
-static const item_group_id Item_spawn_data_mil_food( "mil_food" );
 static const item_group_id Item_spawn_data_mine_equipment( "mine_equipment" );
 static const item_group_id
 Item_spawn_data_mon_zombie_soldier_death_drops( "mon_zombie_soldier_death_drops" );
