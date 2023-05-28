@@ -1098,6 +1098,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     const bool u_see_this = player_view.sees( *this );
 
     const double goodhit = accuracy_projectile_attack( attack );
+    on_try_dodge(); // There's a doge roll in accuracy_projectile_attack()
 
     if( goodhit >= 1.0 && !magic ) {
         attack.missed_by = 1.0; // Arbitrary value
@@ -1401,6 +1402,8 @@ bool Creature::dodge_check( float hit_roll, bool force_try )
         float attack_roll = hit_roll + rng_normal( 0, 5 );
         return dodge_ability > attack_roll;
     }
+    add_msg_if_player( m_warning,
+                       _( "You don't think you could dodge this attack, and decide to conserve stamina." ) );
 
     return false;
 }

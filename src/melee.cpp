@@ -1138,7 +1138,7 @@ int Character::get_spell_resist() const
 
 float Character::get_dodge() const
 {
-    if( !can_try_doge() ) {
+    if( !can_try_doge().success() ) {
         return 0.0f;
     }
 

@@ -1100,25 +1100,28 @@ void Character::consume_dodge_attempts()
     }
 }
 
-bool Character::can_try_doge() const
+ret_val<void> Character::can_try_doge() const
 {
     //If we're asleep or busy we can't dodge
     if( in_sleep_state() || has_effect( effect_narcosis ) ||
         has_effect( effect_winded ) || is_driving() ) {
         add_msg_debug( debugmode::DF_MELEE, "Unable to dodge (sleeping, winded, or driving)" );
-        return false;
+        return ret_val<void>::make_failure();
     }
     //If stamina is too low we can't dodge
     if( get_stamina_dodge_modifier() <= 0.11 ) {
-        return false;
+        add_msg_debug( debugmode::DF_MELEE, "Stamina too low to doge. Stamina: %d", get_stamina() );
+        add_msg_debug( debugmode::DF_MELEE, "Stamina dodge modifier: %f", get_stamina_dodge_modifier() );
+        return ret_val<void>::make_failure( !is_npc() ? _( "Your stamina is too low to attempt to dodge." )
+                                            :
+                                            _( "<npcname>'s stamina is too low to attempt to dodge." ) );;
     }
-
     // Ensure no attempt to dodge without sources of extra dodges, eg martial arts
     if( get_dodges_left() <= 0 ) {
         add_msg_debug( debugmode::DF_MELEE, "No remaining dodge attempts" );
-        return false;
+        return ret_val<void>::make_failure();
     }
-    return true;
+    return ret_val<void>::make_success();
 }
 
 float Character::get_stamina_dodge_modifier() const
@@ -1768,7 +1771,9 @@ bool Character::is_dead_state() const
 
 void Character::on_try_dodge()
 {
-    if( !can_try_doge() ) {
+    ret_val<void> can_dodge = can_try_doge();
+    if( !can_dodge.success() ) {
+        add_msg( m_bad, can_dodge.c_str() );
         return;
     }
 
