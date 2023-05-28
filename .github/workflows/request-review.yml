@@ -3,7 +3,7 @@ name: Auto request review
 
 on:
   pull_request_target:
-    types: [opened, ready_for_review, reopened]
+    types: [opened, synchronize, ready_for_review, reopened]
 
 
 jobs:
@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Request review
-        uses: necojackarc/auto-request-review@v0.11.0
+        uses: qrox/auto-request-review@481e6cd2f5d57b6e914d81ca731211384a76798f
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           config: .github/reviewers.yml
