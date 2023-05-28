@@ -225,10 +225,7 @@
     "autolearn": true,
     "reversible": true,
     "tools": [ [ [ "fake_tire_changer", -1 ] ] ],
-    "components": [
-      [ [ "tire_motorbike", 1 ] ],
-      [ [ "wheel_rim_motorbike", 1 ] ]
-    ]
+    "components": [ [ [ "tire_motorbike", 1 ] ], [ [ "wheel_rim_motorbike", 1 ] ] ]
   },
   {
     "type": "recipe",
