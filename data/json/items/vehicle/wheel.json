@@ -50,10 +50,7 @@
     "id": "wheel_mount_heavy",
     "type": "GENERIC",
     "category": "veh_parts",
-    "name": {
-      "str": "heavy wheel hub assembly",
-      "str_pl": "heavy wheel hub assemblies"
-    },
+    "name": { "str": "heavy wheel hub assembly", "str_pl": "heavy wheel hub assemblies" },
     "description": "A heavy metal assembly that allows bolting a wheel onto a car.  Fit for a large car wheel.",
     "weight": "6 kg",
     "volume": "7 L",
