@@ -177,12 +177,7 @@
     "subcategory": "CSC_*_NESTED",
     "time": "5 m",
     "autolearn": true,
-    "qualities": [
-      {
-        "id": "PRESSURIZATION",
-        "level": 1
-      }
-    ],
+    "qualities": [ { "id": "PRESSURIZATION", "level": 1 } ],
     "components": [ [ [ "deflated_wheel_bicycle", 1 ] ] ]
   },
   {
