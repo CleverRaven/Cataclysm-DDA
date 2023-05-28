@@ -19,8 +19,6 @@
       { "id": "extra_to_road", "opposite": "road_to_extra" },
       { "id": "inner_to_outer", "opposite": "outer_to_inner" },
       { "id": "outer_to_inner", "opposite": "inner_to_outer" },
-      { "id": "edge_to_forest", "opposite": "forest_to_edge" },
-      { "id": "forest_to_edge", "opposite": "edge_to_forest" },
       "trail_to_trail",
       "forest_to_forest"
     ],
@@ -192,45 +190,45 @@
       "trail_to_trail_ns": {
         "overmap": "open_air",
         "north": "trail_to_trail",
-        "east": { "id": "edge_to_forest", "alternatives": [ "forest_to_forest" ] },
+        "east": { "id": "forest_to_forest" },
         "south": "trail_to_trail",
-        "west": { "id": "edge_to_forest", "alternatives": [ "forest_to_forest" ] }
+        "west": { "id": "forest_to_forest" }
       },
       "trail_to_trail_ne": {
         "overmap": "open_air",
         "north": "trail_to_trail",
         "east": "trail_to_trail",
-        "south": { "id": "edge_to_forest", "alternatives": [ "forest_to_forest" ] },
-        "west": { "id": "edge_to_forest", "alternatives": [ "forest_to_forest" ] }
+        "south": { "id": "forest_to_forest" },
+        "west": { "id": "forest_to_forest" }
       },
       "trail_to_trail_nw": {
         "overmap": "open_air",
         "north": "trail_to_trail",
-        "east": { "id": "edge_to_forest", "alternatives": [ "forest_to_forest" ] },
-        "south": { "id": "edge_to_forest", "alternatives": [ "forest_to_forest" ] },
+        "east": { "id": "forest_to_forest" },
+        "south": { "id": "forest_to_forest" },
         "west": "trail_to_trail"
       },
       "trail_to_trail_s": { "overmap": "open_air", "south": "trail_to_trail" },
       "trail_end_n": {
         "overmap": "open_air",
         "north": "trail_to_trail",
-        "east": { "id": "forest_to_forest", "alternatives": [ "forest_to_edge" ], "type": "available" },
-        "south": { "id": "forest_to_forest", "alternatives": [ "forest_to_edge" ], "type": "available" },
-        "west": { "id": "forest_to_forest", "alternatives": [ "forest_to_edge" ], "type": "available" }
+        "east": { "id": "forest_to_forest", "type": "available" },
+        "south": { "id": "forest_to_forest",  "type": "available" },
+        "west": { "id": "forest_to_forest",  "type": "available" }
       },
       "forest_connection": {
         "overmap": "open_air",
-        "north": { "id": "forest_to_forest", "alternatives": [ "forest_to_edge" ] },
-        "east": { "id": "forest_to_forest", "alternatives": [ "forest_to_edge" ] },
-        "south": { "id": "forest_to_forest", "alternatives": [ "forest_to_edge" ] },
-        "west": { "id": "forest_to_forest", "alternatives": [ "forest_to_edge" ] }
+        "north": { "id": "forest_to_forest" },
+        "east": { "id": "forest_to_forest" },
+        "south": { "id": "forest_to_forest" },
+        "west": { "id": "forest_to_forest" }
       },
       "forest_end_n": {
         "overmap": "open_air",
-        "north": { "id": "forest_to_forest", "alternatives": [ "forest_to_edge" ] },
-        "east": { "id": "forest_to_forest", "alternatives": [ "forest_to_edge" ], "type": "available" },
-        "south": { "id": "forest_to_forest", "alternatives": [ "forest_to_edge" ], "type": "available" },
-        "west": { "id": "forest_to_forest", "alternatives": [ "forest_to_edge" ], "type": "available" }
+        "north": { "id": "forest_to_forest" },
+        "east": { "id": "forest_to_forest", "type": "available" },
+        "south": { "id": "forest_to_forest", "type": "available" },
+        "west": { "id": "forest_to_forest", "type": "available" }
       }
     },
     "root": "dirt_road_ns_root_s",
