@@ -401,5 +401,11 @@
     "method": "json",
     "om_terrain": "special_forest_thick",
     "object": { "predecessor_mapgen": "forest_thick" }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "special_air",
+    "object": { "predecessor_mapgen": "open_air" }
   }
 ]
