@@ -3010,6 +3010,7 @@ std::optional<item> bionic::uninstall_weapon()
 std::vector<const item *> bionic::get_available_pseudo_items( bool include_weapon ) const
 {
     std::vector<const item *> ret;
+    ret.reserve( passive_pseudo_items.size() );
     for( const item &pseudo : passive_pseudo_items ) {
         ret.push_back( &pseudo );
     }

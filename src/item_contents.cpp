@@ -1890,6 +1890,7 @@ std::vector<const item *> item_contents::get_added_pockets() const
 {
     std::vector<const item *> items_added;
 
+    items_added.reserve( additional_pockets.size() );
     for( const item &it : additional_pockets ) {
         items_added.push_back( &it );
     }

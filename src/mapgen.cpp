@@ -1403,6 +1403,7 @@ class mapgen_value
 
             std::vector<StringId> all_possible_results( const mapgen_parameters & ) const override {
                 std::vector<StringId> result;
+                result.reserve( cases.size() );
                 for( const std::pair<const std::string, StringId> &p : cases ) {
                     result.push_back( p.second );
                 }

@@ -5382,6 +5382,7 @@ void map::process_items_in_vehicles( submap &current_submap )
     // vehicle got destroyed by a bomb (an active item!), this list
     // won't change, but veh_in_nonant will change.
     std::vector<vehicle *> vehicles;
+    vehicles.reserve( current_submap.vehicles.size() );
     for( const auto &veh : current_submap.vehicles ) {
         vehicles.push_back( veh.get() );
     }

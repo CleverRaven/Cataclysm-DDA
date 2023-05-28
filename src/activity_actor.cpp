@@ -6474,6 +6474,7 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
         num_processed = 0;
         // TODO: fix point types
         std::vector<tripoint_abs_ms> src_set;
+        src_set.reserve( coord_set.size() );
         for( const tripoint &p : coord_set ) {
             src_set.emplace_back( p );
         }
