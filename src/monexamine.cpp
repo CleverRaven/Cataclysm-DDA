@@ -182,8 +182,8 @@ void attach_bag_to( monster &z )
     }
 
     item &it = *loc;
-    if ( it.weight() > z.weight_capacity() ) {
-        add_msg( _("The %1$s is too heavy for the %2$s to carry."), it.tname(), pet_name );
+    if( it.weight() > z.weight_capacity() ) {
+        add_msg( _( "The %1$s is too heavy for the %2$s to carry." ), it.tname(), pet_name );
         return;
     }
     z.storage_item = cata::make_value<item>( it );
