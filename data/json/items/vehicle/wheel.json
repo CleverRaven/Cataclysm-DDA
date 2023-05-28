@@ -725,26 +725,14 @@
     "description": "A handmade wooden cart wheel with metal bands for durability.",
     "price": 1350,
     "price_postapoc": 210,
-    "material": [
-      {
-        "type": "wood",
-        "portion": 9
-      },
-      {
-        "type": "steel",
-        "portion": 1
-      }
-    ],
+    "material": [ { "type": "wood", "portion": 9 }, { "type": "steel", "portion": 1 } ],
     "weight": "5000 g"
   },
   {
     "id": "wheel_wood_stable",
     "copy-from": "wheel_wood",
     "type": "WHEEL",
-    "name": {
-      "str": "pair of wooden cart wheels",
-      "str_pl": "pairs of wooden cart wheels"
-    },
+    "name": { "str": "pair of wooden cart wheels", "str_pl": "pairs of wooden cart wheels" },
     "description": "A pair of handmade wooden cart wheel, used on small wooden carts.",
     "weight": "9000 g",
     "volume": "17500 ml",
@@ -755,21 +743,9 @@
     "id": "wheel_wood_b_stable",
     "copy-from": "wheel_wood",
     "type": "WHEEL",
-    "name": {
-      "str": "pair of banded wooden cart wheels",
-      "str_pl": "pairs of banded wooden cart wheels"
-    },
+    "name": { "str": "pair of banded wooden cart wheels", "str_pl": "pairs of banded wooden cart wheels" },
     "description": "A pair of handmade wooden cart wheel with metal bands for durability, used on small wooden carts.",
-    "material": [
-      {
-        "type": "wood",
-        "portion": 9
-      },
-      {
-        "type": "steel",
-        "portion": 1
-      }
-    ],
+    "material": [ { "type": "wood", "portion": 9 }, { "type": "steel", "portion": 1 } ],
     "weight": "10000 g",
     "volume": "17500 ml",
     "price": 2600,
@@ -779,26 +755,14 @@
     "id": "chaintrack_makeshift_stable",
     "type": "WHEEL",
     "category": "veh_parts",
-    "name": {
-      "str": "pair of small makeshift chain tracks",
-      "str_pl": "pairs of small makeshift chain tracks"
-    },
+    "name": { "str": "pair of small makeshift chain tracks", "str_pl": "pairs of small makeshift chain tracks" },
     "description": "A pair of small makeshift chain tracks made for off-road heavy-duty carts and mobile turrets, also known as 'continuous tracks' or 'caterpillar treads'. Each chain track is made of two small rims, each made of two welded together wheels of a scooter or similar, located on each end, and one moving cut in half rebar between them acting as a return roller. The track itself is made of a dozen and a half of crudely-shaped small metal sheets padded with rubber chunks, connected with each other via hinges. They are marvelous when off-road, while having low top speed and acceleration. This one is handmade, thus having a lower durability than factory-made.",
     "weight": "22868 g",
     "volume": "27320 ml",
     "longest_side": "1000 mm",
     "price": 6000,
     "price_postapoc": 1400,
-    "material": [
-      {
-        "type": "steel",
-        "portion": 19
-      },
-      {
-        "type": "rubber",
-        "portion": 1
-      }
-    ],
+    "material": [ { "type": "steel", "portion": 19 }, { "type": "rubber", "portion": 1 } ],
     "diameter": 11,
     "width": 10,
     "symbol": "]",
